@@ -1,0 +1,25 @@
+{
+  "result_id": "cyber-ui-local-01",
+  "started_at": "2026-10-13T02:31:38.705135+09:00",
+  "finished_at": "2026-10-13T02:32:11.416317+09:00",
+  "command": [
+    "node",
+    "--test",
+    "tests/hello-valis.test.cjs",
+    "tests/cyber-ui.spec.cjs"
+  ],
+  "cwd": "/workspace/VAL",
+  "exit_code": 1,
+  "node_version": "v24.19.0",
+  "browser": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)",
+  "os": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "sha256": {
+    "src/Code.gs": "e44f145ce5405b0a13dcecbd0032adb61348f2362a5e5ef48ea3fbb3c5fb5fe7",
+    "src/Index.html": "c519ec1190b5c5d4eebab843f83c8ba004415d264f9e383e56bc2f60eed7c04f",
+    "tests/hello-valis.test.cjs": "41a4af4b355b2ccbeada66937417866d5cf309e2f6ec8c258fd53fccdcccab22",
+    "tests/cyber-ui.spec.cjs": "cde2cbf53d694050de1f01ad3184fa95f665b9ce9b04e352f5058232be029e5b",
+    "valis/nodes/D/D1.md": "c923bf64b6cb29e65316aeceb90d304b9c7812b732c6e484b429c50093ec9606"
+  },
+  "log": "operations/logs/cyber-ui-local.txt",
+  "scope": "D1-L and D1-B; GAS hosting and authorization not executed"
+}
