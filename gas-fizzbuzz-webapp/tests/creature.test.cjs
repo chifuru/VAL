@@ -23,7 +23,25 @@ function harness(options={}) {
     const e={id,value:'',textContent:'',disabled:false,hidden:id==='final-card',style:{},width:256,height:256,scrollTop:0,scrollHeight:100,attrs:{},handlers:{},scrollIntoView(){this.scrolled=true;},focus(){this.focused=true;},
       addEventListener(type,handler){this.handlers[type]=handler;},
       setAttribute(k,v){this.attrs[k]=v;},
-      getContext(){let color='';return {fillRect(...a){pixels.push({id,args:a,color});},clearRect(){},set fillStyle(x){color=x;},set imageSmoothingEnabled(x){}};}
+      getContext(){
+        let color='',stroke='',linewidth=1;
+        const record=(op,args=[])=>pixels.push({id,op,args,color:typeof color==='string'?color:'gradient',stroke});
+        const gradient=()=>({addColorStop(){}});
+        return {
+          fillRect(...a){record('fillRect',a);},clearRect(){},
+          beginPath(){record('beginPath');},moveTo(...a){record('moveTo',a);},
+          lineTo(...a){record('lineTo',a);},bezierCurveTo(...a){record('bezierCurveTo',a);},
+          quadraticCurveTo(...a){record('quadraticCurveTo',a);},
+          closePath(){record('closePath');},ellipse(...a){record('ellipse',a);},
+          arc(...a){record('arc',a);},fill(){record('fill');},stroke(){record('stroke');},
+          save(){record('save');},restore(){record('restore');},
+          translate(...a){record('translate',a);},scale(...a){record('scale',a);},
+          createRadialGradient:gradient,createLinearGradient:gradient,
+          set fillStyle(v){color=v;},set strokeStyle(v){stroke=v;},
+          set lineWidth(v){linewidth=v;},get lineWidth(){return linewidth;},
+          set lineCap(v){},set lineJoin(v){},set imageSmoothingEnabled(v){}
+        };
+      }
     };
     nodes.set(id,e);
   }
@@ -446,7 +464,7 @@ test('result includes full concrete fish-land-space lineage and clear growth pha
   assert.equal(h.get('final-lineage').textContent.split(' → ').length,c.stage+1);
   assert.match(h.get('final-lineage').textContent,/進化の系譜/);
   assert.match(h.get('growth-form').textContent,/成長形態 4 \/ 4/);
-  assert.equal(h.get('final-species').textContent,c.appearance.species);
+  assert.equal(h.get('final-species').textContent,c.appearance.mark+' '+c.appearance.species);
   assert.equal(h.get('result').value,fizzBuzz(400).join('\n'));
 });
 
@@ -477,7 +495,7 @@ test('growth HUD explicitly labels morphology tier and current family',()=>{
   h.fire('fizzbuzz-form','submit');
   assert.match(h.get('growth-form').textContent,/個体 #5/);
   assert.match(h.get('growth-form').textContent,/成長形態 [1-4] \/ 4/);
-  assert.match(h.get('growth-form').textContent,/(流線系|装甲系|知性系)/);
+  assert.match(h.get('growth-form').textContent,/(深淵触手|神鳥|再帰知性)/);
 });
 
 
@@ -486,4 +504,79 @@ test('initial screen previews the DNA for the default numeric input',()=>{
   assert.match(h.get('growth-form').textContent,/個体 #17/);
   assert.equal(h.get('result').value,'');
   assert.equal(h.get('final-card').hidden,true);
+});
+
+
+test('exactly three illustrated pilot lineages expose stable emblems and nine stage names',()=>{
+  const q=harness().logic;
+  assert.equal(q.pilotLineages.length,3);
+  const marks=q.pilotLineages.map(x=>x.mark);
+  assert.deepEqual(Array.from(marks),['〰','☼','λ']);
+  q.pilotLineages.forEach(lineage=>{
+    assert.equal(lineage.names.length,3);
+    assert.ok(lineage.names.every(x=>typeof x==='string'&&x.length>0));
+  });
+});
+
+test('all three pilot lineages can occur for initial DNA seeds',()=>{
+  const q=harness().logic,found=new Set();
+  for(let n=1;n<=240;n++)found.add(q.initialCreature(n).appearance.lineage);
+  assert.deepEqual([...found].sort(),['abyss','myth','recursive']);
+});
+
+test('organ specialization is reproducible, locked, and gains strength with growth',()=>{
+  const q=harness().logic;
+  let c=q.initialCreature(530);
+  const born={...c.specialization};
+  const start=c.appearance.organ.levels[born.primary];
+  for(const line of fizzBuzz(80))c=q.stepGrowth(c,line);
+  assert.deepEqual(JSON.parse(JSON.stringify(c.specialization)),born);
+  assert.ok(c.appearance.organ.levels[born.primary]>start);
+  assert.ok(Object.keys(c.appearance.organ.levels).length===8);
+  assert.deepEqual(Object.keys(c.dna).sort(),['body','appendage','senses','skin','aptitude','sensitivity'].sort());
+});
+
+test('every new stage locks a specific organic lineage, with visible final lineage',()=>{
+  const q=harness().logic;
+  let c=q.initialCreature(430),last=c.lineages[0],stage=0;
+  for(const line of fizzBuzz(430)){
+    c=q.stepGrowth(c,line);
+    if(c.stage===stage)assert.equal(c.lineages[stage],last);
+    else {stage=c.stage;last=c.lineages[stage];}
+  }
+  assert.equal(c.stage,2);
+  assert.ok(c.lineages.every(i=>Number.isInteger(i)&&i>=0&&i<3));
+  assert.equal(c.appearance.species,q.pilotLineages[c.lineages[2]].names[2]);
+});
+
+test('organic Canvas actually uses bezier curves, gradients, wings and tentacle variants',()=>{
+  const q=harness().logic,h=harness();
+  const original=q.initialCreature(224).appearance;
+  const variants=[];
+  for(const lineage of q.pilotLineages){
+    for(let stage=0;stage<3;stage++){
+      const a=Object.assign({},original,{lineage:lineage.id,stage:stage,growthTier:2});
+      const begin=h.pixels.length;
+      assert.equal(q.renderSmooth(h.get('creature').getContext(),a,420,false),true);
+      const operations=h.pixels.slice(begin);
+      assert.ok(operations.some(op=>op.op==='bezierCurveTo'));
+      assert.ok(operations.some(op=>op.op==='fill'));
+      assert.ok(operations.some(op=>op.op==='stroke'));
+      assert.ok(operations.length>35);
+      variants.push(operations.filter(op=>op.op==='bezierCurveTo'||op.op==='ellipse').map(op=>op.op+':'+op.args.join(',')).join('|'));
+    }
+  }
+  assert.equal(new Set(variants).size,9,'three lineages in three stages need distinct path geometry');
+});
+
+test('portrait UI includes lineage symbol and organ strengths without changing the result text',()=>{
+  const h=harness({limit:400,reducedMotion:true});
+  h.fire('fizzbuzz-form','submit');
+  const c=h.logic.tally(fizzBuzz(400),400);
+  assert.ok(h.get('final-species').textContent.startsWith(c.appearance.mark));
+  assert.match(h.get('final-lineage').textContent,/主特化：/);
+  assert.match(h.get('final-lineage').textContent,/副特化：/);
+  assert.match(h.get('growth-form').textContent,/特化/);
+  assert.equal(h.get('result').value,fizzBuzz(400).join('\n'));
+  assert.equal(h.get('app-shell').attrs['data-mode'],'result');
 });
