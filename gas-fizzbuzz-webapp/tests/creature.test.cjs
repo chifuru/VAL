@@ -848,3 +848,55 @@ test('within-phase growth uses a shorter crisp pixel dissolve',()=>{
   assert.ok(morph.every(p=>p.op==='fillRect'));
   assert.ok(morph.length>settled.length);
 });
+
+
+test('all twelve pixel evolution destinations can win under their own environmental mixture',()=>{
+  const q=harness().logic,keys=['tide','heat','signal','void'],winners=new Set();
+  for(const l of q.pilotLineages){
+    const exposure=Object.fromEntries(keys.map((k,i)=>[k,Math.round(l.niche[i]*100)]));
+    const total=Object.values(exposure).reduce((a,b)=>a+b,0);
+    const recents=keys.flatMap((k,i)=>Array(Math.round(l.niche[i]*12)).fill(k));
+    const c={situation:{exposure,steps:total,recentEnvs:recents,recentFoods:Array(12).fill('number')}};
+    const selected=q.pilotLineages[q.lineageFor(c,1)].id;
+    winners.add(selected);
+    assert.equal(selected,l.id,l.id);
+  }
+  assert.equal(winners.size,12);
+});
+
+test('twelve codex buttons show actual generated pixel drawings without selecting gameplay evolutions',()=>{
+  const h=harness(),q=h.logic;
+  for(const l of q.pilotLineages){
+    const at=h.pixels.length;
+    h.fire('codex-'+l.id,'click');
+    const pixels=h.pixels.slice(at);
+    assert.ok(pixels.length>150,l.id);
+    assert.equal(h.get('codex-'+l.id).attrs['aria-pressed'],'true');
+    assert.match(h.get('codex-name').textContent,new RegExp(l.names[2]));
+    assert.match(h.get('codex-description').textContent,/第4相は未実装/);
+    assert.ok(pixels.every(op=>op.op==='fillRect'));
+  }
+  assert.equal(h.get('result').value,'');
+  assert.equal(h.get('final-card').hidden,true);
+});
+
+test('all twelve species have inherited pixel organs with distinguishable labels',()=>{
+  const h=harness(),q=h.logic,base=q.tally(fizzBuzz(400),400,'signal').appearance;
+  for(const l of q.pilotLineages){
+    const old=Object.assign({},base.heritage[1],{lineage:l.id,color:'#6688bb'});
+    assert.notEqual(q.imprintName(old),'背びれ',l.id);
+    const appearance=Object.assign({},base,{heritage:[old]});
+    const at=h.pixels.length;
+    q.renderPixel(h.get('creature').getContext(),appearance,0,true);
+    assert.ok(h.pixels.length>at+125,l.id);
+  }
+});
+
+test('fourth-form names are reserved as candidates, not secretly unlocked by N=1000',()=>{
+  const q=harness().logic,c=q.tally(fizzBuzz(1000),1000,'void');
+  assert.equal(c.stage,2);
+  assert.equal(c.lineages.length,3);
+  assert.equal(c.history.length,2);
+  assert.equal(q.pilotLineages.length,12);
+  assert.ok(q.pilotLineages.every(l=>l.finalName&&!l.names.includes(l.finalName)));
+});
