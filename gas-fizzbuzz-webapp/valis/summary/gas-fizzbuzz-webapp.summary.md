@@ -5,15 +5,15 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: A/B層にDNA・4種餌・3段階進化・完全成熟上限の設計反映済み（草案）、C/D/Eは旧実装版
+current_status: B/C/D承認済み分割案の草案ノード作成・A/B新仕様をC層へ実装準備中（検証待ち）
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous_split: A1.1, A1.2, A1.3, A1.4, A1.5, B1.1, B1.2, B1.3, B1.4, B1.5, C1.1, C1.2, C1.3, C1.4, C1.5
 initial_registration_previous_DNA: A1.6, B1.6
-initial_registration_this_change: なし（今回は既存A/B Node Fileのみ差分更新）
+initial_registration_this_change: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4
 manifest_reflection_previous_split: A1, B1, C1, D1
 manifest_reflection_previous_DNA: A1, A1.1, A1.3, A1.4, A1.5, B1, B1.1, B1.3, B1.4, B1.5
-manifest_reflection_this_change: A1, A1.2, A1.3, A1.4, A1.5, A1.6, B1, B1.2, B1.3, B1.4, B1.5, B1.6
-last_reflected_flow: FLOW-05 草案仕様・機能差分更新（既存A/B層、今回新規ノードなし）
+manifest_reflection_this_change: B1, B1.4, C1, C1.4, C1.5, D1
+last_reflected_flow: FLOW-05 承認済み分割案を反映（C/D実装・検証へ移行中）
 unresolved_summary: 4種餌の促進/抑制強度・持続・DNA生成式・成長P算式・形態分岐・色/体積式・ピクセル造形未確定 / 10・35・100は調整用仮値 / C/D/E新仕様未対応 / GAS実機未検証 / npm test未実行 / 承認済み化なし
 
 ## Node構造・参照要約
@@ -21,6 +21,51 @@ unresolved_summary: 4種餌の促進/抑制強度・持続・DNA生成式・成�
 親子関係: 同一層のID階層による。A1.x→A1、B1.x→B1、C1.x→C1。
 層間関係: 括弧内参照元 / derived_from / implements / verifies / evidence_for。層間parent_idは禁止。
 従来の15子ノードとA1.6/B1.6の2子ノードは初期登録済み。今回は新規ノードを作成せず、既存A/B層の設計差分を反映した。全ノード草案。意味参照による層間接続は親子関係としない。
+
+## 今回の新規ノード初期登録（実装・検証単位）
+下記はすべて［草案］。parent_idは同一層の親のみ。意味接続はderived_from/implements/verifiesによる。B1.4とC1.4は統合索引となり、A層の既存6件は変更せず再利用する。
+
+B1.4.1:（B1.4 / 調節因子・成長ポイントP。強度/持続の暫定規則を検証）［草案］
+	Node File: valis/nodes/B/B1.4.1.md。主所属: B層。parent_id: B1.4。
+	derived_from: A1.3/A1.4; implements側: C1.4.2。状態: 草案。次FLOW候補: FLOW-07/08。
+
+B1.4.2:（B1.4 / 三段階進化・形態分岐・完全成熟の決定）［草案］
+	Node File: valis/nodes/B/B1.4.2.md。主所属: B層。parent_id: B1.4。
+	derived_from: A1.4; implements側: C1.4.3。状態: 草案。次FLOW候補: FLOW-07/08。
+
+C1.4.1:（C1.4 / 四種類の餌の分類・計数）［草案］
+	Node File: valis/nodes/C/C1.4.1.md。主所属: C層。parent_id: C1.4。
+	implements: B1.3。状態: 草案。次FLOW候補: FLOW-07/08。
+
+C1.4.2:（C1.4 / 数字餌の調節と成長P）［草案］
+	Node File: valis/nodes/C/C1.4.2.md。主所属: C層。parent_id: C1.4。
+	implements: B1.4.1。状態: 草案。次FLOW候補: FLOW-07/08。
+
+C1.4.3:（C1.4 / 形態/成熟外見固定）［草案］
+	Node File: valis/nodes/C/C1.4.3.md。主所属: C層。parent_id: C1.4。
+	implements: B1.4.2。状態: 草案。次FLOW候補: FLOW-07/08。
+
+C1.6:（C1 / 決定的DNAの生成）［草案］
+	Node File: valis/nodes/C/C1.6.md。主所属: C層。parent_id: C1。
+	implements: B1.6。状態: 草案。次FLOW候補: FLOW-07/08。
+
+D1.1:（D1 / FizzBuzz出力不変の回帰）［草案］
+	Node File: valis/nodes/D/D1.1.md。主所属: D層。parent_id: D1。
+	verifies: A1.1/A1.2/B1.1/B1.2/C1.1/C1.3。状態: 草案。次FLOW候補: FLOW-07/08。
+
+D1.2:（D1 / DNA/4種餌/調節/進化/成熟の単体）［草案］
+	Node File: valis/nodes/D/D1.2.md。主所属: D層。parent_id: D1。
+	verifies: A1.3/A1.4/A1.6/B1.3/B1.4.1/B1.4.2/B1.6/C1.4.1/C1.4.2/C1.4.3/C1.6。状態: 草案。次FLOW候補: FLOW-07/08。
+
+D1.3:（D1 / 再生操作とモックCanvas）［草案］
+	Node File: valis/nodes/D/D1.3.md。主所属: D層。parent_id: D1。
+	verifies: A1.2/A1.5/B1.2/B1.5/C1.3/C1.5。状態: 草案。次FLOW候補: FLOW-07/08。
+
+D1.4:（D1 / GAS/実ブラウザ環境確認（未検証））［草案］
+	Node File: valis/nodes/D/D1.4.md。主所属: D層。parent_id: D1。
+	verifies: C1.1/C1.2/C1.3/C1.5/C1.6。状態: 草案。次FLOW候補: FLOW-07/08。
+
+今回の前提: 4種餌（Fizz青/Buzz黄/FizzBuzz紫/数字調節）、N全体から決定的6軸DNA、魚→陸生→宇宙、P=10/35/100の仮閾値、完全成熟時は外見を固定、FizzBuzzは常にN件・同じ出力形式。数字餌は3/5剰余の促進/抑制（次の栄養1回に1.25/0.75を適用）の暫定実装。
 
 ## A: 仕様
 
@@ -216,6 +261,7 @@ E1:（D1, C1 / FizzBuzzとレトロ生き物のローカル検証証跡）［草
 - 以前のManifest初期登録: A1.6 / B1.6 の2子ノードを登録済み。今回は新規Node Fileがないため初期登録なし。
 - 今回のManifest反映: 既存 A1 / A1.2 / A1.3 / A1.4 / A1.5 / A1.6、B1 / B1.2 / B1.3 / B1.4 / B1.5 / B1.6 の責務・処理フラグ・次FLOWを更新。
 - 既存証跡: E1は旧src・旧testsへの限定的なV8モック検証であり、新しいDNA/3段階の検証証跡ではない。
+- 前提更新: B/C/Dのノード階層を分割・登録した。ただしsrc/tests未反映の段階では検証済みを主張しない。
 - 未反映の影響: C1/C1.4/C1.5は4形態（LV.0～3）・旧閾値・通常数字は餌なし、D1は旧閾値のテスト計画。新DNA機能に対応するC層ノードも未作成。次FLOWでC/Dを更新する。
 - src/・tests/: 今回は変更なし。Core Definition 3ファイルは不変。
 - 状態変更: 全Node Fileは草案。承認済み化・デプロイ・公開は行わない。
