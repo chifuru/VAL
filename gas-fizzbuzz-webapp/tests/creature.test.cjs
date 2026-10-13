@@ -825,3 +825,18 @@ test('fully matured phenotype freezes its inherited body imprints even if more f
   assert.equal(later.appearance.heritage,original.heritage);
   assert.equal(JSON.stringify(later.appearance.heritage),JSON.stringify(original.heritage));
 });
+
+
+test('within-phase developmental changes also morph instead of popping instantly',()=>{
+  const h=harness({limit:45});
+  h.fire('fizzbuzz-form','submit');
+  while(!h.get('growth-form').textContent.includes('発達 2 / 4')){
+    assert.equal(h.next(),true);
+  }
+  const start=h.pixels.length;h.frame(170);
+  const during=h.pixels.slice(start);
+  assert.equal(during.filter(p=>p.op==='translate').length,2,
+    'the former developmental tier and new tier should blend');
+  const end=h.pixels.length;h.frame(1000);
+  assert.equal(h.pixels.slice(end).filter(p=>p.op==='translate').length,1);
+});
