@@ -5,19 +5,19 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 元の承認済み基準36ノードを維持。次期試作は64×64ドット描画、12系統の状況分岐・24進化形態と進化先図鑑へ拡張。新規E9は草案（V8モック74件成功、実ブラウザ未検証）
+current_status: 承認済み36ノードの基準版を維持。現行未承認試作は14系統（∅反記銘・⌁VALIS異化を追加）、12ソケット、不変個体コア、11種類の蓄積Lv1〜3パーツを導入。E10は草案（V8互換モック80件成功、実ブラウザ未検証）。
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
 initial_registration_previous_evidence: E3, E4
-initial_registration_this_change: E9（12系統/64×64ドット描画の最新独立証跡、草案）
-manifest_reflection_this_change: A1.4/A1.5/A1.6, B1.4.2/B1.5, C1.3/C1.4.3/C1.5, D1.2/D1.3の次期未承認追記、src/Index.html, tests/creature.test.cjs, README.md, E9
-last_reflected_flow: FLOW-06 基準版と旧有機描画との差分確認 → FLOW-07/08 64×64ドット/12分岐/図鑑実装・V8モック74件 → FLOW-05 E9/Manifest登録（承認済み状態の変更なし）
-unresolved_summary: 既存36ノードは承認済み。E6/E7/E8/E9は草案で各々対象版別の証跡。現在の未承認次期試作は64×64ドット・12系統×第二/第三相24形態と図鑑。検証はV8モック74件成功のみ。実Node npm test・GAS実機・実ブラウザ見た目/FPS/スマートフォン操作/アクセシビリティは未検証。第4相は名称候補のみで解放条件/本体描画未実装。
+initial_registration_this_change: E10（不変コア＋パーツ蓄積＋異化2系統の最新独立証跡、草案）
+manifest_reflection_this_change: A1.4/A1.5、B1.4.2/B1.5、C1.4.3/C1.5/C1.6、D1.2/D1.3の未承認追記、src/Index.html、tests/creature.test.cjs、README、design/part-composition-v1.md、design/mockups/core-9-20261013.md、E10
+last_reflected_flow: FLOW-06 既存中核と承認済み基準を確認 → FLOW-07/08 14系統/12アンカー/11パーツの蓄積試作と80件V8モック → FLOW-05 E10とManifest登録（承認済み36件の状態変更なし）
+unresolved_summary: 既存36ノード承認済み、E6〜E10の5ノードは草案。現行ソースは14系統と不変コア＋パーツLv1〜3の第1実装便、64×64ドット描画。V8互換モック80/80のみ検証。実Node npm test、GAS実機/ブラウザ画質/FPS、128×128画像アトラス統合、全14系統へのパーツ方式展開、第4相は未完了。中核参照モックはユーザー指定の9枚、GitHubには画像目録のみ。
 
 ## Node構造・参照要約
 
-親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6/E7/E8/E9は検証版ごとに独立した起点。
+親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6/E7/E8/E9/E10は検証版ごとに独立した起点。
 層間関係: derived_from / implements / verifies / evidence_for による意味接続のみ（層間parent_idは禁止）。
 A/B/C/D/Eを機械的に同数へ揃えず、実装・検証・証跡の独立単位に応じて分割する。
 
@@ -351,6 +351,14 @@ E9:（外部参照 / 64×64ドット・12系統への環境分岐・図鑑のV8�
 	実態:
 		状態: 草案。実Node npm test/GAS/ブラウザのピクセル造形品質・FPS/アクセシビリティ未検証。E1～E8は旧版の証跡。次FLOW候補: FLOW-08。
 
+E10:（外部参照 / 不変個体コア・パーツLv蓄積・反記銘/VALIS異化のV8モック証跡）［草案］
+	構成（要素・関係）:
+		Node File: valis/nodes/E/E10.md。主所属: E層。独立起点、parent_idなし。evidence_for: D1.1/D1.2/D1.3、C1.4.3/C1.5/C1.6。
+	ロジック:
+		GitHub src/tests対象blobのV8互換モック80件成功/0失敗。14系統の到達性、12ソケットの不変座標、11パーツと1/6/16閾値のLv成長、継承器官の保持、2新系統の専用ドット描画/図鑑、FizzBuzz原文N行不変を確認。
+	実態:
+		状態: 草案。実Node CLI/npm test、GAS/ブラウザ実描画、128x128モック品質・FPSは未検証。E1〜E9は過去版の証跡。次FLOW候補: FLOW-08。
+
 ## FLOW-09 状態変更決定 / FLOW-05 正式反映（2026-10-13）
 
 - **対象範囲**: A層7、B層9、C層10、D層5、E層5、計36件。いずれも既存Node Fileの「草案→承認済み」。承認済みへの直接遷移はFLOW-09の遷移表で許容され、必要なユーザーの明示承認は今回の「すべて一旦、承認で」で確認。
@@ -361,6 +369,19 @@ E9:（外部参照 / 64×64ドット・12系統への環境分岐・図鑑のV8�
 - **残存処理フラグ**: Node.jsでの実 `npm test`、GAS HtmlService/実通信、ブラウザのピクセル表示/モバイル/アクセシビリティ、進化造形の人間目視評価は未実施で継続。承認を理由に自動解消しない。
 - **将来案の切り分け**: ユーザーは「段階ごとに大きな変化と分岐」および「終了時に数値が条件を超えた場合、第4段階を最終結果画面だけで提示して終了」を**承認後に詰める方針**。条件値・N/Pのどちらを判定するか・第4段階の外見・枝の数などは未確定。今回のNode状態変更に新仕様を混入させない。
 - **状態遷移決定**: FLOW-09 確定、FLOW-05 反映。全36ノードは正式状態「承認済み」。次FLOW候補は必要な時点でFLOW-04（別途仕様検討）/FLOW-06（承認済み核の影響探索）/FLOW-08（実機検証）。承認済み≠凍結。
+
+## 今回の差分と処理区別（第1実装便：ソケットと反記銘・VALIS異化）
+
+- **承認済み基準の維持**: 承認済みA/B/C/D/E1〜E5の36ノードは承認済みのまま、FLOW-09状態変更なし。今回の追記は承認済みの元仕様と区別して『第1実装便…（未承認）』と表記。
+- **Manifest初期登録**: E10を14系統の現行ソース/test blob向けの独立証跡（草案）として登録。E6/E7/E8/E9は旧版履歴証跡のまま。総41ノード（36承認済み/5草案）。
+- **A/B/C/Dへの反映**: A1.4/A1.5、B1.4.2/B1.5、C1.4.3/C1.5/C1.6、D1.2/D1.3の今回の未承認設計/機能/実装/検証差分を記録。新たなNode File分割は行わない。
+- **2系統追加**: ∅反記銘生命（第二相ノル＝メム / 第三相レテグラフ）と⌁VALIS異化通信生命（第二相ノオフィラ / 第三相アイオ＝レイ）。前12系統の到達性を守る環境ニッチ/餌加点の係数調整を含む。
+- **部位合成の第一実装**: coreForの固定頭/眼/胴/尾/色傾向、socketsForの12ソケット、PARTSの新2系統計11器官、環境+餌の経験値蓄積、LV1=1/LV2=6/LV3=16、外見継承（heritage.parts）、ドット描画関数drawEvolvedPart64、HUDと図鑑のLv表示。
+- **モック保持対象の訂正**: 先に13枚全体を中核扱いした説明を改め、ユーザー指定の3枚＋4枚＋VALIS異化2枚＝9枚を中核参照群として `design/mockups/core-9-20261013.md` に明記。他画像の旧目録は廃棄せず参考履歴として残す。元PNGのGitHub格納は未実施、会話ZIPが原本配布物。
+- **ソース/テスト契約**: `src/Index.html` と `tests/creature.test.cjs` を更新、`src/Code.gs` と `tests/fizzbuzz.test.cjs` は変更なし。FizzBuzzのN件原文/15/3/5優先/成熟後完走/スキップの契約を維持。
+- **E10限定証跡**: V8互換DOM/Canvasモック80件成功（サーバー9＋クライアント71）。実Node/npm test/GAS実機/ブラウザ画質/FPS/アクセシビリティは未実施。
+- **完了していないもの**: 128×128画像由来の高精細アトラス、画像パーツの実ファイル/合成、14系統全部へのLvパーツ共通化、第4相の解放条件と本描画。現行試作は64×64ドットの構造検証で、参照モックと同等画質を保証しない。
+- **NEXT**: FLOW-08で実ブラウザ確認とNode CLI検証を行い、FLOW-04で128×128の部位画像アトラス化と他系統への共通化を別の試作差分として実施する。
 
 ## 今回の差分と処理区別（64×64ドットと12系統への拡張）
 
