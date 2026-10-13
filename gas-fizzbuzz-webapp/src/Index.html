@@ -80,24 +80,86 @@
     @media(max-width:810px) { .final-layout { grid-template-columns:1fr; } .workspace { grid-template-columns:1fr; } .mast { flex-direction:column; } .pet-screen { min-height:274px; } textarea { height:300px; } }
     @media(max-width:410px) { .form-row { flex-direction:column; } .form-row button { width:100%; } .transport label { margin-left:0; } .panel-header { padding:11px 13px; } }
     @media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none !important; animation:none !important; } }
+
+    /* Arcade presentation: the result is a full-width game scene, not an appended info card. */
+    .shell { display:flex; flex-direction:column; }
+    .mast { order:0; }
+    .workspace { order:1; grid-template-columns:minmax(0,1.3fr) minmax(280px,.7fr); }
+    .final-card { order:2; }
+    footer { order:3; }
+    .shell[data-mode="result"] .final-card { order:1; margin-top:0; }
+    .shell[data-mode="result"] .workspace { order:2; grid-template-columns:minmax(0,1fr); margin-top:18px; }
+    .shell[data-mode="result"] .room-panel,
+    .shell[data-mode="result"] .output-panel { display:none; }
+    .shell[data-mode="result"][data-log-open="true"] .output-panel { display:block; }
+    .shell[data-mode="result"] .tag { color:#ffe09b; border-color:#bd9453; background:#332633; }
+    .panel { border-color:#334565; box-shadow:0 9px 0 #080f20,0 22px 50px #0005; }
+    .panel-header { background:#121c35; }
+    .room-panel { border-color:#6a92bd; }
+    .room-label { letter-spacing:.15em; }
+    .pet-screen { min-height:410px; background:radial-gradient(ellipse at 50% 55%,#364a85 0%,#162243 52%,#081329 100%); }
+    .pet-screen::after { left:21%; right:21%; bottom:35px; box-shadow:0 7px 0 #12264b; }
+    #creature { width:min(100%,390px); filter:drop-shadow(0 10px 0 #030a1780); }
+    .arena-overlay { position:absolute; top:16px; left:18px; z-index:2; color:#9fc5e8; font-size:.64rem; font-weight:800; letter-spacing:.13em; }
+    .food-tip { bottom:12px; color:#9db8db; }
+    .evolution-box { background:#111a32; }
+    .evo-top { flex-wrap:wrap; }
+    .stage-name { font-size:.92rem; }
+    .foods { gap:6px; }
+    .food { padding:8px 5px; }
+    .food b { font-size:1.03rem; }
+    .controls { border-top:1px solid #334769; background:#111b34; }
+    .output-panel { background:#101931; border-color:#293d5e; }
+    .output-panel textarea { background:#080f1f; border-color:#324461; font-size:.86rem; }
+    /* Full-width result stage */
+    .final-card { border:2px solid #af8d53; background:radial-gradient(circle at 23% 25%,#364679,transparent 35%),linear-gradient(145deg,#1a2b51,#11172d 80%); }
+    .result-header { background:#2a2942; border-color:#705a49; }
+    .result-header strong { color:#ffdb90; }
+    .result-header span { color:#ffe3ad; }
+    .result-marquee { color:#f8ce7c; opacity:.75; letter-spacing:1rem; font-size:.9rem; text-align:center; padding:13px 0 0; }
+    .final-layout { grid-template-columns:minmax(285px,1.15fr) minmax(290px,.85fr); gap:clamp(22px,5vw,64px); padding:clamp(20px,4vw,44px); }
+    .final-portrait { position:relative; background:radial-gradient(ellipse at 50% 38%,#3b5690,#172444 57%,#0a1329 86%); min-height:390px; overflow:hidden; border:2px solid #a2add0; box-shadow:inset 0 0 0 7px #131f3b,0 13px 0 #0c1427; isolation:isolate; }
+    .final-portrait::before { content:""; position:absolute; inset:0; z-index:1; pointer-events:none; background:repeating-linear-gradient(transparent 0 7px,#050b210e 8px 9px); }
+    .portrait-halo { position:absolute; width:74%; aspect-ratio:1; border:2px dashed #f6d99888; border-radius:50%; background:radial-gradient(circle,#fff5c018,transparent 62%); z-index:0; }
+    .portrait-podium { position:absolute; bottom:11%; width:68%; height:11px; background:#b4b8d4; box-shadow:0 8px 0 #4a5c88,0 16px 0 #22345b; z-index:0; }
+    #final-creature { position:relative; z-index:2; width:min(100%,385px); filter:drop-shadow(0 9px 0 #05091560); }
+    .final-kicker { color:#b8d4ef; font-size:.85rem; }
+    .result-rank { display:inline-block; background:#e8c479; color:#24213a; font-size:.75rem; font-weight:900; letter-spacing:.08em; padding:7px 13px; margin:2px 0 14px; clip-path:polygon(0 0,100% 0,97% 50%,100% 100%,0 100%,3% 50%); }
+    .final-species { color:#ffefcc; font-size:clamp(1.8rem,3.8vw,3rem); letter-spacing:-.04em; text-shadow:0 3px 0 #5b3f4d; }
+    .final-status { color:#cce5ff; font-size:.96rem; }
+    .final-summary { color:#c3cdea; line-height:1.75; }
+    .result-dna-line { color:#7186ab; letter-spacing:1.1rem; margin:14px 0; }
+    .final-stats { gap:9px; }
+    .final-stats div { background:#0d1934; border-color:#364c70; padding:12px; }
+    .final-stats dt { color:#9fb6d8; }
+    .final-stats dd { font-size:1.04rem; }
+    .result-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+    .result-actions button { flex:1 1 155px; min-height:50px; }
+    #log-button { background:#23375a; border:1px solid #6a81b4; color:#e1eeff; box-shadow:0 4px 0 #11213e; }
+    .shell[data-mode="result"][data-log-open="true"] .output-panel { border-color:#788eae; }
+    @media(max-width:900px) { .final-layout { grid-template-columns:1fr; } .final-portrait { min-height:310px; } }
+    @media(max-width:810px) { .workspace { grid-template-columns:1fr; } .pet-screen { min-height:300px; } }
+    @media(max-width:410px) { .final-layout { padding:15px; } .final-portrait { min-height:270px; } .result-marquee { letter-spacing:.4rem; } .final-stats { grid-template-columns:1fr 1fr; } }
+    @media(prefers-reduced-motion:reduce) { .final-portrait, .final-card, .portrait-halo { animation:none !important; } }
   </style>
 </head>
 <body>
-  <main class="shell">
+  <main class="shell" id="app-shell" data-mode="nursery" data-log-open="false">
     <header class="mast">
       <div>
         <div class="eyebrow">PIXEL PET // FIZZBUZZ LAB</div>
         <h1>FizzBuzz Creature</h1>
         <p class="intro">数字を入れてスタート。1行ずつ進むFizzBuzzに合わせて、4種類の餌を食べ、初期DNAと餌の蓄積に応じて魚から宇宙生物まで進化します。</p>
       </div>
-      <div class="tag">RETRO / 8-BIT STYLE</div>
+      <div class="tag" id="mode-chip">● CREATURE LAB / READY</div>
     </header>
-    <div class="workspace">
-      <section class="panel" aria-label="生き物の成長と再生操作">
-        <div class="panel-header"><strong>CREATURE ROOM</strong><span>えさをたべて進化！</span></div>
+    <div class="workspace" id="workspace">
+      <section class="panel room-panel" aria-label="生き物の成長と再生操作">
+        <div class="panel-header"><strong>◉ CREATURE ARENA</strong><span class="room-label">DNA × FOUR FOODS</span></div>
         <div class="pet-screen">
           <canvas id="creature" width="256" height="256" role="img" aria-label="餌に反応して成長するピクセル生き物"></canvas>
-          <span class="food-tip">FIZZ + BUZZ + FIZZBUZZ + NUMBER</span>
+          <span class="arena-overlay" aria-hidden="true">PIXEL EVOLUTION · LIVE FEED</span>
+          <span class="food-tip">FIZZ · BUZZ · FIZZBUZZ · NUMBER</span>
         </div>
         <div class="evolution-box">
           <div class="evo-top"><div class="stage-name" id="stage-name">STAGE 1 魚</div><div id="food-total">たべたえさ 0</div></div>
@@ -132,7 +194,7 @@
           <div id="error" role="alert" aria-live="assertive"></div>
         </div>
       </section>
-      <section class="panel" aria-label="FizzBuzz結果">
+      <section class="panel output-panel" aria-label="FizzBuzz結果">
         <div class="panel-header">
           <strong>OUTPUT LOG</strong>
           <div class="output-meta"><span id="status">未実行</span><span id="current-line">—</span></div>
@@ -146,15 +208,20 @@
       </section>
     </div>
     <section class="panel final-card" id="final-card" hidden aria-label="今回の生き物の最終形態" aria-live="polite">
-      <div class="panel-header"><strong>FINAL FORM / 今回の最終形態</strong><span>育成結果</span></div>
+      <div class="panel-header result-header"><strong>★ RESULT SCREEN</strong><span id="result-header-state">RUN COMPLETE</span></div>
+      <div class="result-marquee" aria-hidden="true">★　★　★　★　★</div>
       <div class="final-layout">
         <div class="final-portrait">
+          <div class="portrait-halo" aria-hidden="true"></div>
+          <div class="portrait-podium" aria-hidden="true"></div>
           <canvas id="final-creature" width="256" height="256" role="img" aria-label="育成終了時の生き物のピクセル肖像"></canvas>
         </div>
         <div>
           <p class="final-kicker" id="final-seed">個体 #—</p>
+          <p class="result-rank" id="result-rank">★ RUN COMPLETE</p>
           <h2 class="final-species" id="final-species">—</h2>
           <p class="final-status" id="final-status">—</p>
+          <div class="result-dna-line" aria-hidden="true"><span>◇</span><span>◆</span><span>◇</span><span>◆</span><span>◇</span></div>
           <p class="final-summary" id="final-summary"></p>
           <dl class="final-stats">
             <div><dt>到達段階</dt><dd id="final-stage">—</dd></div>
@@ -162,6 +229,10 @@
             <div><dt>体色</dt><dd><span class="final-swatch" id="final-color"></span><span id="final-color-code">—</span></dd></div>
             <div><dt>餌の内訳（青/黄/紫/数字）</dt><dd id="final-foods">—</dd></div>
           </dl>
+          <div class="result-actions">
+            <button type="button" id="retry-button">↻ もう一度 育てる</button>
+            <button type="button" id="log-button" aria-pressed="false" aria-controls="workspace">▤ FizzBuzzログを見る</button>
+          </div>
         </div>
       </div>
     </section>
@@ -261,6 +332,21 @@
         classify:classify,modifierFor:modifierFor,dnaFor:dnaFor,stageFor:stageFor,
         appearanceFor:appearanceFor,initialCreature:initialCreature,stepGrowth:stepGrowth,tally:tally
       });
+      var appShell=document.getElementById('app-shell');
+      var modeChip=document.getElementById('mode-chip');
+      var retryButton=document.getElementById('retry-button');
+      var logButton=document.getElementById('log-button');
+      var logOpen=false;
+      function setMode(mode){
+        appShell.setAttribute('data-mode',mode);
+        modeChip.textContent=mode==='result'?'★ RUN COMPLETE':'● CREATURE LAB / LIVE';
+      }
+      function setLogOpen(open){
+        logOpen=Boolean(open);
+        appShell.setAttribute('data-log-open',String(logOpen));
+        logButton.setAttribute('aria-pressed',String(logOpen));
+        logButton.textContent=logOpen?'▤ ログを閉じる':'▤ FizzBuzzログを見る';
+      }
       var form=document.getElementById('fizzbuzz-form');
       var limitInput=document.getElementById('limit');
       var runButton=document.getElementById('run-button');
@@ -284,6 +370,8 @@
       var finalCard=document.getElementById('final-card');
       var finalCanvas=document.getElementById('final-creature');
       var finalCtx=finalCanvas.getContext('2d');
+      var resultHeaderState=document.getElementById('result-header-state');
+      var resultRank=document.getElementById('result-rank');
       var finalSeed=document.getElementById('final-seed');
       var finalSpecies=document.getElementById('final-species');
       var finalStatus=document.getElementById('final-status');
@@ -323,6 +411,7 @@
         state.lines=[];state.index=0;state.active=false;state.paused=false;state.busy=false;
         state.creature=initialCreature(seed||1);effect=null;evolvedAt=-10000;
         result.value='';currentLine.textContent='—';statusBox.textContent='準備中';finalCard.hidden=true;
+        setLogOpen(false);setMode('nursery');
         updateGrowth();updateButtons();
       }
       function feed(line){
@@ -352,6 +441,11 @@
           '完全成熟した個体の姿です。成熟後もFizzBuzzは最後まで出力しました。':
           'N行の出力を終えた時点の姿です。途中段階でも失敗ではなく、今回の最終形態として記録します。';
         finalCard.hidden=false;
+        finalCard.setAttribute('data-stage',String(c.stage));
+        finalCard.setAttribute('data-mature',String(c.matured));
+        resultHeaderState.textContent=c.matured?'EVOLUTION COMPLETE':'RUN COMPLETE';
+        resultRank.textContent=c.matured?'★★★ FULL EVOLUTION':'★ STAGE '+(c.stage+1)+' REACHED';
+        setLogOpen(false);setMode('result');
         renderScene(finalCtx,a,0,true);
         if(finalCard.scrollIntoView)finalCard.scrollIntoView({behavior:
           window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
@@ -416,6 +510,12 @@
         updateButtons();
       });
       skipButton.addEventListener('click',function(){if(state.active)showFinalResult();});
+      logButton.addEventListener('click',function(){setLogOpen(!logOpen);});
+      retryButton.addEventListener('click',function(){
+        if(state.active||state.busy)return;
+        resetState(Number(limitInput.value)||1);
+        if(limitInput.focus)limitInput.focus();
+      });
       speed.addEventListener('change',function(){
         if(state.active&&!state.paused){clearPlaybackTimer();timer=setTimeout(nextLine,Number(speed.value));}
       });
