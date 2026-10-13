@@ -5,15 +5,18 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 既存36ノード承認済みを維持。GitHub実行Index.htmlはv4.1（14系統画像合成）のまま。v4.2ではGitHub編集ソースsrc/composite/app.jsに旧12系統の二重ボディ防止を反映し、ローカルZIPで旧12系統24画像を再抽出/テスト済み。E13は草案の限定証跡（ローカルNode34/34、Chromium14系統・Canvasレイヤー照合成功）。実行HTMLと派生PNGはGitHub未同期。
+current_status: 工程2の新規C層3件・D層3件を草案で初期登録し計50ノード（既存36承認済み・既存E6〜E13草案8・新規C/D草案6）。工程3以降の実装・検証は未実施。既存36ノード承認済みを維持。GitHub実行Index.htmlはv4.1（14系統画像合成）のまま。v4.2ではGitHub編集ソースsrc/composite/app.jsに旧12系統の二重ボディ防止を反映し、ローカルZIPで旧12系統24画像を再抽出/テスト済み。E13は草案の限定証跡（ローカルNode34/34、Chromium14系統・Canvasレイヤー照合成功）。実行HTMLと派生PNGはGitHub未同期。
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
 initial_registration_previous_evidence: E3, E4
 initial_registration_this_change: E13（14系統肖像分離・24派生画像のマスク品質とCanvas実描画の独立証跡、草案）
 manifest_reflection_this_change: C1.5/D1.3の未承認v4.2追記、src/composite/app.jsの二重描画防止、tests/composite-v42-render-source.test.cjs、design/image-composite-v42-quality-pass.md、E13の初期登録。GitHub実行Index.htmlの旧v4.1継続を明記。
+initial_registration_stage2: C1.5.1, C1.5.2, C1.5.3, D1.3.1, D1.3.2, D1.3.3（すべて草案。新規Node FileをProject Summary Manifestへ初登録）。
+manifest_reflection_stage2: 既存Project Summary Manifestの総数44→50・ノード階層・参照・残存処理フラグの要約を更新。既存ノード自体の承認状態、src、tests、E層の版・証跡有効性は変更なし。
+last_structural_flow: 工程2 FLOW-04（責務分割案）→ FLOW-07（D検証観点）→ FLOW-05（新規Node初期登録と概要反映）。
 last_reflected_flow: FLOW-06 v4.1画像合成と9モック原本を確認 → FLOW-04 旧12系統の派生24画像再抽出/描画重複修正 → FLOW-08 ローカルNode34件、画像24点、Chromium14図鑑/500行/6系統Canvas呼出し → FLOW-05 GitHub編集ソース・D/C追記・E13/Manifest登録。大容量実行HTMLは更新ブロックで未反映。
-unresolved_summary: 44ノード（36承認済み・E6〜E13の8草案）。GitHub実行Index.htmlは画像合成v4.1で、編集ソースsrc/composite/app.jsのみv4.2修正済み。v4.2実行HTML＋原本モック9点＋派生肖像24点＋透明器官35点はローカル配布ZIPにあり、実Node34/34・Chromium/画像検証成功。実行HTML・画像24点のGitHub同期、旧12系統の真の器官ごとLV画像、実GAS配信/実端末FPS、第四相は未完了。
+unresolved_summary: 50ノード（36承認済み・E6〜E13の8草案・C1.5.1〜3/D1.3.1〜3の6草案）。工程2のNode分割・初期登録のみ実施。GitHub実行Index.htmlは画像合成v4.1で、編集ソースsrc/composite/app.jsのみv4.2修正済み。v4.2実行HTML＋原本モック9点＋派生肖像24点＋透明器官35点はローカル配布ZIPにあり、実Node34/34・Chromium/画像検証成功。実行HTML・画像24点のGitHub同期、旧12系統の真の器官ごとLV画像、実GAS配信/実端末FPS、第四相は未完了。
 
 ## 画像合成v3ローカル限定反映（2026-10-14、未承認）
 
@@ -39,6 +42,13 @@ unresolved_summary: 44ノード（36承認済み・E6〜E13の8草案）。GitHu
 - 未解決: GAS実機配備と性能測定/ブラウザ固有の制限、残る12系統の独立器官アトラス、元モック由来の文字/パネル罫線の残滓、第4相の発現/本画像。
 - 構造総数: **43ノード**。36承認済み維持、E6〜E12の7草案。CORE3定義は不変。
 
+## 工程2 Node File分割・Project Summary Manifest初期登録（2026-10-14）
+
+- 新規C1.5.1/2/3・D1.3.1/2/3を1ノード1ファイルの草案として定義し、それぞれ同一層の既存親C1.5・D1.3に所属。A/Bは既存の仕様/機能を利用し増設しない。
+- 新規6件をこのProject Summary Manifestへ**初期登録**。既存概要の件数・親子/層間参照/処理フラグ要約は**Manifest反映**として更新（両者を区別）。新証跡Eは未作成。
+- v4.2編集srcとv4.1実行HTMLの版差、全モックの原本照合/独立器官画質、ブラウザ/GAS実機の検証は未完了。ユーザーの工程進行承認によって新規草案や既存36承認済みの状態を変更しない。
+- 次FLOW候補: FLOW-04（工程3のHTML同期、工程4の素材/UI）、FLOW-08（D層に基づく実結果）、FLOW-05（実装/検証後の反映）。
+
 ## 画像合成v4.2の限定反映（2026-10-14）
 
 - ユーザーの工程継続承認に基づき14系統の画像表示を追加改善。ただし形式的ノード状態は承認済み36/草案8を維持。
@@ -50,7 +60,7 @@ unresolved_summary: 44ノード（36承認済み・E6〜E13の8草案）。GitHu
 
 ## Node構造・参照要約
 
-親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6/E7/E8/E9/E10/E11/E12/E13は検証版ごとに独立した起点。
+親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.5.1/2/3はC1.5の子。C1.6はC1の子。D1.3.1/2/3はD1.3の子、D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6/E7/E8/E9/E10/E11/E12/E13は検証版ごとに独立した起点。
 層間関係: derived_from / implements / verifies / evidence_for による意味接続のみ（層間parent_idは禁止）。
 A/B/C/D/Eを機械的に同数へ揃えず、実装・検証・証跡の独立単位に応じて分割する。
 
@@ -260,6 +270,30 @@ C1:（外部参照 / GAS HTMLサービスと生物実装統合）［承認済み
 		実態:
 			状態: 承認済み。処理フラグ: 本物の見た目は未検証。次FLOW候補: FLOW-08。
 
+		C1.5.1:（C1.5, B1.5 / 編集ソースとGAS実行HTMLの再生成・版同期実装）［草案］
+			構成（要素・関係）:
+				Node File: valis/nodes/C/C1.5.1.md。主所属: C層。parent_id: C1.5。implements: B1.5。related_to: C1.2/C1.3/C1.4.3/C1.5.2/C1.5.3。
+			ロジック:
+				src/compositeから自己完結HTML2本を同内容で再生成し、v4.2編集コードと実行版の一致を成立させる。
+			実態:
+				状態: 草案（工程2の責務/検証観点定義のみ）。処理フラグ: 実行HTML未同期、生成ツール/画像元入力未確定。未確定事項: 再生成に必要な原本画像とビルド工程の再現性。次FLOW候補: FLOW-04（工程3）/ FLOW-08。
+
+		C1.5.2:（C1.5, B1.5 / 全14系統の画像器官・原本保全・レイヤー合成アセット実装）［草案］
+			構成（要素・関係）:
+				Node File: valis/nodes/C/C1.5.2.md。主所属: C層。parent_id: C1.5。implements: B1.5。related_to: C1.4.3/C1.5.1。
+			ロジック:
+				C01〜C09と追加モックを原本保全し、14系統の器官・画像・継承レイヤーを生成。旧12系統の暫定肖像と真のLv器官を区別する。
+			実態:
+				状態: 草案（工程2の責務/検証観点定義のみ）。処理フラグ: 旧12系統のLv器官・原本SHA照合・画質が未完成。未確定事項: 原画の一致性と画像切り出し品質。次FLOW候補: FLOW-04（工程4）/ FLOW-08。
+
+		C1.5.3:（C1.5, B1.5 / 全モック参照の観測UI・画像描画統合実装）［草案］
+			構成（要素・関係）:
+				Node File: valis/nodes/C/C1.5.3.md。主所属: C層。parent_id: C1.5。implements: B1.5。related_to: C1.3/C1.5.1/C1.5.2。
+			ロジック:
+				観測UI、育成/図鑑/履歴/器官LvとPC・モバイル表示を独立変更単位で統合する。
+			実態:
+				状態: 草案（工程2の責務/検証観点定義のみ）。処理フラグ: モック一致・操作性・小画面の品質確認が必要。未確定事項: UI参照の差異がある場合の造形評価。次FLOW候補: FLOW-04（工程4）/ FLOW-08。
+
 	C1.6:（C1 / 入力Nから決定的6軸DNA）［承認済み］
 		構成（要素・関係）:
 			Node File: valis/nodes/C/C1.6.md。主所属: C層。parent_id: C1。 implements: B1.6。
@@ -301,6 +335,30 @@ D1:（外部参照 / 生物育成と出力不変の検証計画）［承認済�
 			次期3系統×3段階のCanvas曲線命令の差、記号/特化HUD・系譜、低モーション/結果画面/FizzBuzz出力不変を検証。
 		実態:
 			状態: 承認済み。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
+
+		D1.3.1:（D1.3, C1.5.1 / 編集ソース・実行HTML版一致とGAS受渡しの検証計画）［草案］
+			構成（要素・関係）:
+				Node File: valis/nodes/D/D1.3.1.md。主所属: D層。parent_id: D1.3。verifies: C1.5.1/C1.2/C1.3。related_to: D1.1/D1.2/D1.4。
+			ロジック:
+				2HTMLと編集コードの版・画像内包・v4.2二重描画修正の一致性とFizzBuzz契約回帰を検証する。実GASはD1.4。
+			実態:
+				状態: 草案（工程2の責務/検証観点定義のみ）。処理フラグ: ビルド差分・配布版Node回帰が未実施。未確定事項: 配布用HTMLの再生成・実体取得。次FLOW候補: FLOW-07 / FLOW-08（工程3・5）。
+
+		D1.3.2:（D1.3, C1.5.2 / 全系統透過器官・原本保全・視覚品質検証計画）［草案］
+			構成（要素・関係）:
+				Node File: valis/nodes/D/D1.3.2.md。主所属: D層。parent_id: D1.3。verifies: C1.5.2/C1.4.3/A1.5/B1.5。
+			ロジック:
+				原本SHA、14系統/相/Lvの画素・透過・二重描画・過去相継承と人間目視評価を分離して検証する。
+			実態:
+				状態: 草案（工程2の責務/検証観点定義のみ）。処理フラグ: 画像原本のSHA一致・画質・Lv器官の検証が未実施。未確定事項: 元ZIP/原本PNG未取得。次FLOW候補: FLOW-07 / FLOW-08（工程4・5）。
+
+		D1.3.3:（D1.3, C1.5.3 / PC・モバイル観測UIと操作・表示履歴検証計画）［草案］
+			構成（要素・関係）:
+				Node File: valis/nodes/D/D1.3.3.md。主所属: D層。parent_id: D1.3。verifies: C1.5.3/C1.3/A1.2/A1.5/B1.2/B1.5。
+			ロジック:
+				14系統図鑑、ガイド/実個体分離、N件ログ、相履歴、低モーション・420px操作を実ブラウザで確認する。
+			実態:
+				状態: 草案（工程2の責務/検証観点定義のみ）。処理フラグ: ブラウザ操作・モック一致性が未検証。未確定事項: ブラウザ実行環境と人間の見た目評価。次FLOW候補: FLOW-07 / FLOW-08（工程4・5）。
 
 	D1.4:（D1 / GAS実環境・画面品質）［承認済み］
 		構成（要素・関係）:
