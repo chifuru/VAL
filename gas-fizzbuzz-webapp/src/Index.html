@@ -586,8 +586,9 @@
       function feed(line){
         var kind=classify(line), old=state.creature;
         var fresh=stepGrowth(old,line,state.environment);
-        if(old.stage!==fresh.stage){
-          morphTransition={from:old.appearance,started:performance.now()};
+        if(old.stage!==fresh.stage||old.appearance.growthTier!==fresh.appearance.growthTier){
+          morphTransition={from:old.appearance,started:performance.now(),
+            duration:old.stage!==fresh.stage?1100:560};
         }
         if(old.stage!==fresh.stage||old.appearance.growthTier!==fresh.appearance.growthTier||(!old.matured&&fresh.matured))evolvedAt=performance.now();
         state.creature=fresh;
@@ -1191,7 +1192,7 @@
         var still=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         var transition=null;
         if(!still&&morphTransition){
-          var progress=clamp((time-morphTransition.started)/1100,0,1);
+          var progress=clamp((time-morphTransition.started)/morphTransition.duration,0,1);
           if(progress>=1)morphTransition=null;
           else transition={from:morphTransition.from,progress:progress};
         }
