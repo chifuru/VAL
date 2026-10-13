@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FizzBuzz Pet | Pixel Lab</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0a1024; --panel:#151e3a; --stroke:#43577c; --ink:#f1f5ff; --muted:#a9b8dc; --lime:#afff9b; --blue:#66caff; --yellow:#ffd16d; --violet:#e19aff; }
+    * { box-sizing: border-box; }
+    body { margin:0; color:var(--ink); background:radial-gradient(circle at 18% 18%,#273468 0,transparent 35%),radial-gradient(circle at 82% 80%,#351d50 0,transparent 38%),var(--bg); font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.13; background-image:linear-gradient(transparent 95%,#9bb5ff 95%),linear-gradient(90deg,transparent 95%,#9bb5ff 95%); background-size:28px 28px; }
+    .shell { max-width:1130px; margin:0 auto; padding:32px 18px 70px; position:relative; }
+    .mast { display:flex; align-items:start; justify-content:space-between; gap:16px; margin-bottom:24px; }
+    .eyebrow { font-size:.74rem; letter-spacing:.16em; color:var(--lime); font-weight:800; }
+    h1 { font-size:clamp(1.8rem,5vw,3.4rem); letter-spacing:-.05em; line-height:1.16; margin:8px 0 8px; }
+    .intro { margin:0; color:var(--muted); font-size:.9rem; line-height:1.75; max-width:710px; }
+    .tag { white-space:nowrap; padding:9px 12px; border:1px solid var(--stroke); border-radius:8px; font-size:.73rem; color:var(--yellow); }
+    .workspace { display:grid; grid-template-columns:minmax(0,1.12fr) minmax(300px,.88fr); gap:18px; align-items:start; }
+    .panel { background:linear-gradient(155deg,#1b2648,#121b34); border:2px solid var(--stroke); border-radius:16px; box-shadow:0 9px 0 #070c1c,0 24px 65px #0006; overflow:hidden; }
+    .panel-header { border-bottom:1px solid var(--stroke); padding:13px 18px; display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:.8rem; letter-spacing:.05em; }
+    .panel-header strong { color:var(--lime); }
+    .panel-header span { color:var(--muted); font-size:.72rem; }
+    .pet-screen { position:relative; background:radial-gradient(circle at 50% 58%,#304079,#151b38 64%,#10172f); display:flex; justify-content:center; align-items:center; min-height:326px; overflow:hidden; }
+    .pet-screen::before { content:""; position:absolute; inset:0; pointer-events:none; opacity:.24; background:repeating-linear-gradient(transparent 0 5px,#070c1e 6px 7px); }
+    .pet-screen::after { content:""; position:absolute; left:14%; right:14%; bottom:30px; height:4px; background:#657bb5; box-shadow:0 6px 0 #263560; }
+    #creature { width:min(100%,310px); aspect-ratio:1; height:auto; z-index:1; image-rendering:pixelated; }
+    .final-card { margin-top:22px; }
+    .final-card[hidden] { display:none; }
+    .final-layout { display:grid; grid-template-columns:minmax(220px,.9fr) minmax(260px,1.1fr); gap:20px; align-items:center; padding:20px; }
+    .final-portrait { display:flex; align-items:center; justify-content:center; min-height:270px; border:2px solid #5c72a4; border-radius:12px; background:radial-gradient(circle at 50% 42%,#3b4c82,#101831 74%); }
+    #final-creature { width:min(100%,280px); aspect-ratio:1; height:auto; image-rendering:pixelated; }
+    .final-kicker { margin:0 0 8px; color:var(--lime); font-size:.76rem; letter-spacing:.1em; }
+    .final-species { font-size:clamp(1.35rem,3vw,2rem); font-weight:900; margin:0 0 7px; line-height:1.3; }
+    .final-status { color:var(--yellow); font-size:.83rem; font-weight:800; margin:0 0 14px; }
+    .final-summary { color:var(--muted); font-size:.79rem; line-height:1.7; }
+    .final-stats { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:16px 0 0; }
+    .final-stats div { padding:9px 10px; border:1px solid #4c6090; border-radius:8px; background:#0e1730; }
+    .final-stats dt { font-size:.69rem; color:var(--muted); margin-bottom:5px; }
+    .final-stats dd { margin:0; font-size:.92rem; font-weight:800; overflow-wrap:anywhere; }
+    .final-swatch { display:inline-block; width:13px; height:13px; border:1px solid #fff8; margin-right:6px; vertical-align:-1px; }
+    .food-tip { position:absolute; bottom:8px; font-size:.67rem; color:#bbcaf0; z-index:1; }
+    .evolution-box { padding:16px 18px 20px; }
+    .evo-top { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:9px; }
+    .stage-name { font-size:.85rem; font-weight:800; color:var(--lime); }
+    #food-total { color:var(--muted); font-size:.76rem; }
+    .progress { height:14px; background:#090f22; border:2px solid #50638f; border-radius:4px; overflow:hidden; }
+    #growth-bar { width:0%; height:100%; background:repeating-linear-gradient(90deg,#7de2b0 0 14px,#b0ffda 14px 18px); transition:width .24s ease; }
+    #next-stage { color:var(--muted); font-size:.72rem; margin:8px 0 15px; }
+    .foods { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:9px; }
+    .food { border:1px solid var(--stroke); border-radius:9px; padding:12px 8px; text-align:center; background:#0c1530; }
+    .food b { display:block; font-size:1.3rem; margin-top:5px; font-variant-numeric:tabular-nums; }
+    .food .name { font-size:.72rem; font-weight:800; }
+    .fizz .name { color:var(--blue); } .buzz .name { color:var(--yellow); } .fizzbuzz .name { color:var(--violet); } .number .name { color:#b9f1b5; }
+    .controls { padding:18px; }
+    label { display:block; font-size:.82rem; margin:0 0 10px; font-weight:800; }
+    .form-row { display:flex; gap:10px; }
+    input,button,select,textarea { font:inherit; }
+    input,select { color:var(--ink); background:#0a122a; border:2px solid #5f739f; padding:12px; border-radius:7px; }
+    input { width:100%; min-width:0; flex:1; font-size:1.04rem; }
+    input:focus-visible,button:focus-visible,select:focus-visible,textarea:focus-visible { outline:3px solid var(--lime); outline-offset:2px; }
+    button { border:2px solid #abffd7; border-radius:7px; color:#091629; background:var(--lime); padding:12px 15px; font-size:.82rem; font-weight:900; cursor:pointer; box-shadow:0 4px 0 #4e8367; }
+    button:active:not(:disabled) { transform:translateY(3px); box-shadow:0 1px 0 #4e8367; }
+    button:disabled { opacity:.5; cursor:not-allowed; }
+    .helper { color:var(--muted); margin:10px 0 0; font-size:.72rem; line-height:1.55; }
+    .transport { display:flex; align-items:center; flex-wrap:wrap; gap:9px; margin-top:18px; }
+    .transport button { background:#23365d; color:var(--ink); border:1px solid #657bb1; box-shadow:none; padding:9px 11px; }
+    .transport label { margin:0 0 0 auto; font-weight:500; font-size:.73rem; }
+    .transport select { padding:7px 8px; font-size:.78rem; }
+    #error { color:#ffacb5; min-height:1.5em; margin-top:12px; font-size:.82rem; }
+    .output-meta { display:flex; flex-direction:column; align-items:flex-end; gap:3px; min-width:0; }
+    #status,#current-line { font-size:.73rem; color:var(--muted); }
+    #current-line { color:var(--yellow); }
+    .output-body { padding:16px; }
+    textarea { display:block; width:100%; height:390px; resize:vertical; background:#080f24; color:#e8f0ff; border:2px solid #465b86; border-radius:8px; font-size:1rem; line-height:1.6; padding:16px; }
+    .output-note { font-size:.7rem; color:var(--muted); line-height:1.65; margin:12px 0 0; }
+    .legend { display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); font-size:.72rem; margin-top:15px; }
+    .legend b { color:var(--ink); }
+    footer { color:#8295bf; font-size:.7rem; margin-top:29px; text-align:center; }
+    @media(max-width:810px) { .final-layout { grid-template-columns:1fr; } .workspace { grid-template-columns:1fr; } .mast { flex-direction:column; } .pet-screen { min-height:274px; } textarea { height:300px; } }
+    @media(max-width:410px) { .form-row { flex-direction:column; } .form-row button { width:100%; } .transport label { margin-left:0; } .panel-header { padding:11px 13px; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none !important; animation:none !important; } }
+
+    .morphology-status { color:#a9edc4; font-size:.77rem; font-weight:800; letter-spacing:.03em; margin:6px 0 14px; }
+    .final-lineage { padding:10px 12px; background:#10213c; border-left:3px solid #f7ce7a; border-radius:3px; color:#e2d8bf; line-height:1.8; font-size:.78rem; }
+    /* Arcade presentation: the result is a full-width game scene, not an appended info card. */
+    .shell { display:flex; flex-direction:column; }
+    .mast { order:0; }
+    .workspace { order:1; grid-template-columns:minmax(0,1.3fr) minmax(280px,.7fr); }
+    .final-card { order:2; }
+    footer { order:3; }
+    .shell[data-mode="result"] .final-card { order:1; margin-top:0; }
+    .shell[data-mode="result"] .workspace { order:2; grid-template-columns:minmax(0,1fr); margin-top:18px; }
+    .shell[data-mode="result"] .room-panel,
+    .shell[data-mode="result"] .output-panel { display:none; }
+    .shell[data-mode="result"][data-log-open="true"] .output-panel { display:block; }
+    .shell[data-mode="result"] .tag { color:#ffe09b; border-color:#bd9453; background:#332633; }
+    .panel { border-color:#334565; box-shadow:0 9px 0 #080f20,0 22px 50px #0005; }
+    .panel-header { background:#121c35; }
+    .room-panel { border-color:#6a92bd; }
+    .room-label { letter-spacing:.15em; }
+    .pet-screen { min-height:410px; background:radial-gradient(ellipse at 50% 55%,#364a85 0%,#162243 52%,#081329 100%); }
+    .pet-screen::after { left:21%; right:21%; bottom:35px; box-shadow:0 7px 0 #12264b; }
+    #creature { width:min(100%,390px); filter:drop-shadow(0 10px 0 #030a1780); }
+    .arena-overlay { position:absolute; top:16px; left:18px; z-index:2; color:#9fc5e8; font-size:.64rem; font-weight:800; letter-spacing:.13em; }
+    .food-tip { bottom:12px; color:#9db8db; }
+    .evolution-box { background:#111a32; }
+    .evo-top { flex-wrap:wrap; }
+    .stage-name { font-size:.92rem; }
+    .foods { gap:6px; }
+    .food { padding:8px 5px; }
+    .food b { font-size:1.03rem; }
+    .controls { border-top:1px solid #334769; background:#111b34; }
+    .environment-panel { margin-top:17px; padding:13px; background:#0c1932; border:1px solid #435f81; border-radius:11px; }
+    .environment-title { display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; color:#e3d6ff; font-weight:800; font-size:.86rem; }
+    .environment-title span { color:#9db6cf; font-size:.70rem; font-weight:500; }
+    .environment-choices { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; margin-top:10px; }
+    .environment-choices button { padding:8px 3px; font-size:.75rem; background:#192b49; border:1px solid #425a7d; color:#bdd7ed; box-shadow:none; }
+    .environment-choices button[aria-pressed="true"] { border-color:#f6d591; background:#594369; color:#fff4d5; box-shadow:inset 0 0 0 1px #ffefae55; }
+    .environment-choices button:focus-visible { outline:3px solid #b5e4f9; outline-offset:2px; }
+    .environment-status { font-size:.73rem; color:#aad8d2; line-height:1.55; margin-top:8px; }
+    @media(max-width:480px) { .environment-choices { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    .output-panel { background:#101931; border-color:#293d5e; }
+    .pixel-codex { grid-column:1/-1; background:#0f1930; border:1px solid #506991; margin-top:12px; padding:14px; }
+    .pixel-codex summary { cursor:pointer; color:#ffe3a2; font-weight:800; }
+    .codex-hint { color:#adc5db; font-size:.78rem; padding:10px 0; }
+    .codex-layout { display:grid; grid-template-columns:minmax(0,1fr) minmax(145px,210px); gap:15px; }
+    .codex-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; align-content:start; }
+    .codex-grid button { padding:9px 5px; font-size:.76rem; color:#e0e9f7; background:#1b2946; border:1px solid #4d6386; box-shadow:none; }
+    .codex-grid button[aria-pressed="true"] { color:#fff0c5; border:2px solid #ffda85; background:#474064; }
+    .codex-preview { display:flex; align-items:center; text-align:center; flex-direction:column; gap:6px; color:#d9e3f4; }
+    .codex-preview canvas { width:min(100%,196px); aspect-ratio:1; height:auto; image-rendering:pixelated; border:2px solid #415a81; }
+    .codex-preview strong { color:#ffe4a1; }
+    .codex-preview span { font-size:.72rem; line-height:1.5; }
+    @media(max-width:650px) { .codex-layout {grid-template-columns:1fr;} .codex-grid {grid-template-columns:repeat(2,minmax(0,1fr));} }
+    .output-panel textarea { background:#080f1f; border-color:#324461; font-size:.86rem; }
+    /* Full-width result stage */
+    .final-card { border:2px solid #af8d53; background:radial-gradient(circle at 23% 25%,#364679,transparent 35%),linear-gradient(145deg,#1a2b51,#11172d 80%); }
+    .result-header { background:#2a2942; border-color:#705a49; }
+    .result-header strong { color:#ffdb90; }
+    .result-header span { color:#ffe3ad; }
+    .result-marquee { color:#f8ce7c; opacity:.75; letter-spacing:1rem; font-size:.9rem; text-align:center; padding:13px 0 0; }
+    .final-layout { grid-template-columns:minmax(285px,1.15fr) minmax(290px,.85fr); gap:clamp(22px,5vw,64px); padding:clamp(20px,4vw,44px); }
+    .final-portrait { position:relative; background:radial-gradient(ellipse at 50% 38%,#3b5690,#172444 57%,#0a1329 86%); min-height:390px; overflow:hidden; border:2px solid #a2add0; box-shadow:inset 0 0 0 7px #131f3b,0 13px 0 #0c1427; isolation:isolate; }
+    .final-portrait::before { content:""; position:absolute; inset:0; z-index:1; pointer-events:none; background:repeating-linear-gradient(transparent 0 7px,#050b210e 8px 9px); }
+    .portrait-halo { position:absolute; width:74%; aspect-ratio:1; border:2px dashed #f6d99888; border-radius:50%; background:radial-gradient(circle,#fff5c018,transparent 62%); z-index:0; }
+    .portrait-podium { position:absolute; bottom:11%; width:68%; height:11px; background:#b4b8d4; box-shadow:0 8px 0 #4a5c88,0 16px 0 #22345b; z-index:0; }
+    #final-creature { position:relative; z-index:2; width:min(100%,385px); filter:drop-shadow(0 9px 0 #05091560); }
+    .final-kicker { color:#b8d4ef; font-size:.85rem; }
+    .result-rank { display:inline-block; background:#e8c479; color:#24213a; font-size:.75rem; font-weight:900; letter-spacing:.08em; padding:7px 13px; margin:2px 0 14px; clip-path:polygon(0 0,100% 0,97% 50%,100% 100%,0 100%,3% 50%); }
+    .final-species { color:#ffefcc; font-size:clamp(1.8rem,3.8vw,3rem); letter-spacing:-.04em; text-shadow:0 3px 0 #5b3f4d; }
+    .final-status { color:#cce5ff; font-size:.96rem; }
+    .final-summary { color:#c3cdea; line-height:1.75; }
+    .result-dna-line { color:#7186ab; letter-spacing:1.1rem; margin:14px 0; }
+    .final-stats { gap:9px; }
+    .final-stats div { background:#0d1934; border-color:#364c70; padding:12px; }
+    .final-stats dt { color:#9fb6d8; }
+    .final-stats dd { font-size:1.04rem; }
+    .result-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+    .result-actions button { flex:1 1 155px; min-height:50px; }
+    #log-button { background:#23375a; border:1px solid #6a81b4; color:#e1eeff; box-shadow:0 4px 0 #11213e; }
+    .shell[data-mode="result"][data-log-open="true"] .output-panel { border-color:#788eae; }
+    .shell[data-mode="result"] .pixel-codex { display:none; }
+    @media(max-width:900px) { .final-layout { grid-template-columns:1fr; } .final-portrait { min-height:310px; } }
+    @media(max-width:810px) { .workspace { grid-template-columns:1fr; } .pet-screen { min-height:300px; } }
+    @media(max-width:410px) { .final-layout { padding:15px; } .final-portrait { min-height:270px; } .result-marquee { letter-spacing:.4rem; } .final-stats { grid-template-columns:1fr 1fr; } }
+    @media(prefers-reduced-motion:reduce) { .final-portrait, .final-card, .portrait-halo { animation:none !important; } }
+  </style>
+</head>
+<body>
+  <main class="shell" id="app-shell" data-mode="nursery" data-log-open="false">
+    <header class="mast">
+      <div>
+        <div class="eyebrow">PIXEL MUTATION // FIZZBUZZ LAB</div>
+        <h1>FizzBuzz Creature</h1>
+        <p class="intro">入力値は個体の素質。進化先は育成中の環境刺激と直近の餌が決めます。いつ環境を変えるかで、同じ個体から違う生命が生まれます。</p>
+      </div>
+      <div class="tag" id="mode-chip">● CREATURE LAB / READY</div>
+    </header>
+    <div class="workspace" id="workspace">
+      <section class="panel room-panel" aria-label="生き物の成長と再生操作">
+        <div class="panel-header"><strong>◉ CREATURE ARENA</strong><span class="room-label">DNA × FOUR FOODS</span></div>
+        <div class="pet-screen">
+          <canvas id="creature" width="256" height="256" role="img" aria-label="環境刺激と餌に反応してドットで成長する生き物"></canvas>
+          <span class="arena-overlay" aria-hidden="true">64 × 64 PIXEL MUTATION · LIVE</span>
+          <span class="food-tip">FIZZ · BUZZ · FIZZBUZZ · NUMBER</span>
+        </div>
+        <div class="evolution-box">
+          <div class="evo-top"><div class="stage-name" id="stage-name">第一相・萌生</div><div id="food-total">たべたえさ 0</div></div>
+          <div class="progress" role="progressbar" aria-label="次の進化までの進捗" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="growth-progress"><div id="growth-bar"></div></div>
+          <p id="next-stage">成長ポイント10で最初の変容が確定</p>
+          <p class="morphology-status" id="growth-form">発達 1 / 4</p>
+          <div class="foods">
+            <div class="food fizz"><span class="name">● FIZZ</span><b id="fizz-count">0</b></div>
+            <div class="food buzz"><span class="name">◆ BUZZ</span><b id="buzz-count">0</b></div>
+            <div class="food fizzbuzz"><span class="name">★ FIZZBUZZ</span><b id="special-count">0</b></div>
+            <div class="food number"><span class="name">◇ 数字</span><b id="number-count">0</b></div>
+          </div>
+        </div>
+        <div class="controls">
+          <form id="fizzbuzz-form" novalidate>
+            <label for="limit">どこまで計算しますか？</label>
+            <div class="form-row">
+              <input id="limit" name="limit" type="number" min="1" max="1000" step="1" value="30" inputmode="numeric" required aria-describedby="limit-help">
+              <button id="run-button" type="submit">▶ スタート</button>
+            </div>
+            <p class="helper" id="limit-help">1〜1000の整数を入力してください。結果は従来と同じ文字列で出力します。</p>
+          </form>
+          <div class="transport">
+            <button id="pause-button" type="button" disabled>Ⅱ 一時停止</button>
+            <button id="skip-button" type="button" disabled>≫ スキップ</button>
+            <label for="speed">速度</label>
+            <select id="speed" aria-label="自動再生速度">
+              <option value="480">1×</option>
+              <option value="240">2×</option>
+              <option value="100">4×</option>
+            </select>
+          </div>
+          <section class="environment-panel" aria-label="進化する環境刺激">
+            <p class="environment-title">◈ 環境刺激を変える <span>育成中いつでも変更可能</span></p>
+            <div class="environment-choices" role="group" aria-label="環境刺激の選択">
+              <button type="button" id="env-tide" aria-pressed="true">〰 潮流</button>
+              <button type="button" id="env-heat" aria-pressed="false">🜂 熱波</button>
+              <button type="button" id="env-signal" aria-pressed="false">λ 電磁波</button>
+              <button type="button" id="env-void" aria-pressed="false">◌ 虚空</button>
+            </div>
+            <p id="environment-status" class="environment-status" aria-live="polite">現在の刺激：潮流。餌を食べるたび環境が記録されます。</p>
+          </section>
+          <div id="error" role="alert" aria-live="assertive"></div>
+        </div>
+      </section>
+      <section class="panel output-panel" aria-label="FizzBuzz結果">
+        <div class="panel-header">
+          <strong>OUTPUT LOG</strong>
+          <div class="output-meta"><span id="status">未実行</span><span id="current-line">—</span></div>
+        </div>
+        <div class="output-body">
+          <label for="result">FizzBuzz 出力（1行に1件）</label>
+          <textarea id="result" readonly spellcheck="false" placeholder="再生すると出力がここに蓄積されます。"></textarea>
+          <p class="output-note">出力内容と順序はこれまでと同じ。生き物の演出や餌カウントは出力テキストには混ざりません。終了後は選択してコピーできます。</p>
+          <div class="legend"><span><b>3の倍数</b> Fizz</span><span><b>5の倍数</b> Buzz</span><span><b>15の倍数</b> FizzBuzz</span></div>
+        </div>
+      </section>
+      <details class="panel pixel-codex" id="pixel-codex">
+        <summary>◇ 進化先図鑑　12系統のドット絵を見る</summary>
+        <p class="codex-hint">育成中の環境と餌で分岐します。表示は第三相の見本で、進化結果を固定するボタンではありません。</p>
+        <div class="codex-layout">
+          <div class="codex-grid">
+            <button type="button" id="codex-abyss">〰 深淵触手</button>
+            <button type="button" id="codex-myth">🜂 神鳥</button>
+            <button type="button" id="codex-recursive">λ 再帰知性</button>
+            <button type="button" id="codex-sail">✦ 光帆</button>
+            <button type="button" id="codex-gravity">◎ 重力環</button>
+            <button type="button" id="codex-crystal">◇ 星晶</button>
+            <button type="button" id="codex-manyeyes">◉ 多眼知覚</button>
+            <button type="button" id="codex-abyssshell">▣ 深殻</button>
+            <button type="button" id="codex-parallel">∥ 並列生命</button>
+            <button type="button" id="codex-memory">⛨ 記憶殻</button>
+            <button type="button" id="codex-serpent">Ϟ 多頭蛇</button>
+            <button type="button" id="codex-solar">☼ 日輪</button>
+            <button type="button" id="codex-antimeme">∅ 反記銘生命</button>
+            <button type="button" id="codex-valis">⌁ 異化通信生命</button>
+          </div>
+          <div class="codex-preview">
+            <canvas id="codex-canvas" width="256" height="256" role="img" aria-label="進化系統のドット絵見本"></canvas>
+            <strong id="codex-name">12の変異先</strong>
+            <span id="codex-description">進化先を選ぶと、生成ドット絵を表示します。</span>
+          </div>
+        </div>
+      </details>
+    </div>
+    <section class="panel final-card" id="final-card" hidden aria-label="今回の生き物の最終形態" aria-live="polite">
+      <div class="panel-header result-header"><strong>★ RESULT SCREEN</strong><span id="result-header-state">RUN COMPLETE</span></div>
+      <div class="result-marquee" aria-hidden="true">★　★　★　★　★</div>
+      <div class="final-layout">
+        <div class="final-portrait">
+          <div class="portrait-halo" aria-hidden="true"></div>
+          <div class="portrait-podium" aria-hidden="true"></div>
+          <canvas id="final-creature" width="256" height="256" role="img" aria-label="育成終了時の生き物のドット肖像"></canvas>
+        </div>
+        <div>
+          <p class="final-kicker" id="final-seed">個体 #—</p>
+          <p class="result-rank" id="result-rank">★ RUN COMPLETE</p>
+          <h2 class="final-species" id="final-species">—</h2>
+          <p class="final-status" id="final-status">—</p>
+          <div class="result-dna-line" aria-hidden="true"><span>◇</span><span>◆</span><span>◇</span><span>◆</span><span>◇</span></div>
+          <p class="final-summary" id="final-summary"></p>
+          <p class="final-lineage" id="final-lineage"></p>
+          <dl class="final-stats">
+            <div><dt>到達段階</dt><dd id="final-stage">—</dd></div>
+            <div><dt>成長ポイント</dt><dd id="final-points">—</dd></div>
+            <div><dt>体色</dt><dd><span class="final-swatch" id="final-color"></span><span id="final-color-code">—</span></dd></div>
+            <div><dt>餌の内訳（青/黄/紫/数字）</dt><dd id="final-foods">—</dd></div>
+          </dl>
+          <div class="result-actions">
+            <button type="button" id="retry-button">↻ もう一度 育てる</button>
+            <button type="button" id="log-button" aria-pressed="false" aria-controls="workspace">▤ FizzBuzzログを見る</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer>GAS HTML SERVICE · NO EXTERNAL ASSETS · NO DEPLOYMENT FROM SOURCE REPOSITORY</footer>
+  </main>
+  <script>
+    (function () {
+      'use strict';
+      // The server's FizzBuzz strings are authoritative; the creature consumes copies only.
+      var STAGES = ['第一相・萌生', '第二相・変容', '第三相・異相'];
+      var COLORS = { fizz: '#61ceff', buzz: '#ffd477', fizzbuzz: '#e6a1ff', number: '#bbefb5' };
+      var PALETTES = [[97,206,255],[255,209,109],[225,154,255]];
+      // Twelve possible, situationally selected, pixel-art lineages. Phase I is uncommitted.
+      // The fourth name is a catalog candidate ONLY; result-only evolution is not unlocked.
+      var PILOT_LINEAGES = Object.freeze([
+        Object.freeze({id:'abyss',mark:'〰',group:'深淵触手',names:['ネムラピ','ウロネクト','ノクトラケル'],finalName:'ネフ＝エルド',primary:'tentacles',niche:[1,0,0,0]}),
+        Object.freeze({id:'myth',mark:'🜂',group:'神鳥',names:['ヤタヒル','ミツアシハヤ','カラスヴァ'],finalName:'天導ヤタリス',primary:'wings',niche:[0,1,0,0]}),
+        Object.freeze({id:'recursive',mark:'λ',group:'再帰知性',names:['パレピオン','ラムダイル','リスプラトス'],finalName:'ゼータ＝パレン',primary:'heads',niche:[0,0,1,0]}),
+        Object.freeze({id:'sail',mark:'✦',group:'光帆',names:['ルミノイル','セイルルガ','アストレイヴ'],finalName:'ヘリオ＝ヴェルカ',primary:'wings',niche:[.5,0,.5,0]}),
+        Object.freeze({id:'gravity',mark:'◎',group:'重力環',names:['グラヴィフィ','トリグラノ','オルビレグス'],finalName:'ゼロ＝ケプレア',primary:'orbit',niche:[0,.45,0,.55]}),
+        Object.freeze({id:'crystal',mark:'◇',group:'星晶',names:['クォーツィ','プリズメル','ネビュラティス'],finalName:'セレス＝グラシア',primary:'shell',niche:[0,0,0,1]}),
+        Object.freeze({id:'manyeyes',mark:'◉',group:'多眼知覚',names:['ミオロプ','マガノーヴ','パノプセラ'],finalName:'オムニ＝ノクティス',primary:'eyes',niche:[.2,0,.25,.55]}),
+        Object.freeze({id:'abyssshell',mark:'▣',group:'深殻',names:['シャルグミ','カルカシェル','アビサルド'],finalName:'ウル＝ダルシェル',primary:'shell',niche:[.55,0,0,.45]}),
+        Object.freeze({id:'parallel',mark:'∥',group:'並列生命',names:['ゴロピン','コンカリオ','パラレギオン'],finalName:'ゴル＝コンカレス',primary:'limbs',niche:[0,.5,.5,0]}),
+        Object.freeze({id:'memory',mark:'⛨',group:'記憶殻',names:['ビトクラ','スタックラ','ボロウ＝フェラク'],finalName:'メモル＝クラスト',primary:'shell',niche:[0,0,.5,.5]}),
+        Object.freeze({id:'serpent',mark:'Ϟ',group:'多頭蛇',names:['オロチル','ミダレクビ','ヤツマガノ'],finalName:'八星蛇オロマグナ',primary:'heads',niche:[.5,.5,0,0]}),
+        Object.freeze({id:'solar',mark:'☼',group:'日輪',names:['ヒノシズク','カガミノア','アマツリンカ'],finalName:'日輪神アマ＝ゼル',primary:'glow',niche:[0,.75,.25,0]}),
+        Object.freeze({id:'antimeme',mark:'∅',group:'反記銘生命',names:['ミナモルフ','ノル＝メム','レテグラフ'],finalName:'アネムネシス',primary:'orbit',niche:[0,0,.25,.75]}),
+        Object.freeze({id:'valis',mark:'⌁',group:'異化通信生命',names:['ミナモルフ','ノオフィラ','アイオ＝レイ'],finalName:'ヴェイル＝シオン',primary:'glow',niche:[0,.16,.72,.12]})
+      ]);
+      var ORGAN_NAMES = Object.freeze({eyes:'眼',tentacles:'触手',wings:'翼・ひれ',shell:'甲殻',limbs:'脚・腕',glow:'発光',heads:'頭部',orbit:'浮遊器官'});
+      var ENVIRONMENTS=Object.freeze({tide:'潮流',heat:'熱波',signal:'電磁波',void:'虚空'});
+      var UNFORMED=Object.freeze({id:'proto',mark:'◌',group:'未分化',names:['ミナモルフ','ミナモルフ','ミナモルフ']});
+      function newSituation(){return {exposure:{tide:0,heat:0,signal:0,void:0},recentFoods:[],recentEnvs:[],steps:0};}
+
+      // Stable individual body identity; independent of the situational destination.
+      var SOCKET_NAMES=Object.freeze(['head','eye','mouth','dorsal','shoulder','flank',
+        'chest','forelimb','hindlimb','tailBase','tailTip','outerOrbit']);
+      var PARTS=Object.freeze({
+        antimeme:Object.freeze([
+          Object.freeze({id:'absenceMask',label:'忘却面',anchor:'head',food:'number',environment:'void',variants:['顔の暗斑','非連続の額紋','欠落を縁取る面'],thresholds:[1,6,16]}),
+          Object.freeze({id:'unseenEye',label:'不在眼',anchor:'eye',food:'fizzbuzz',environment:'signal',variants:['二重瞳','観測欠線','断絶する側眼'],thresholds:[1,6,16]}),
+          Object.freeze({id:'erasureCrown',label:'抹消冠',anchor:'dorsal',food:'number',environment:'void',variants:['背びれ切れ目','断続冠','外部消失環'],thresholds:[1,6,16]}),
+          Object.freeze({id:'memoryFilament',label:'記憶吸糸',anchor:'flank',food:'fizzbuzz',environment:'void',variants:['短い触索','枝分かれする吸糸','断片状の長い吸糸'],thresholds:[1,6,16]}),
+          Object.freeze({id:'brokenTail',label:'欠章尾',anchor:'tailTip',food:'number',environment:'signal',variants:['尾端斑','欠節尾','遠位に分離した尾片'],thresholds:[1,6,16]})
+        ]),
+        valis:Object.freeze([
+          Object.freeze({id:'receiverCrown',label:'受信冠',anchor:'head',food:'fizz',environment:'signal',variants:['片側受信角','非対称の開冠','外部衛片への分岐'],thresholds:[1,6,16]}),
+          Object.freeze({id:'observingEye',label:'観測焦点',anchor:'eye',food:'fizzbuzz',environment:'signal',variants:['二重観測眼','外縁に観測点','体外にずれる眼群'],thresholds:[1,6,16]}),
+          Object.freeze({id:'revelationMembrane',label:'受信膜',anchor:'dorsal',food:'fizz',environment:'heat',variants:['背部の光膜','片側に裂けた受信面','符号模様の不均衡な大膜'],thresholds:[1,6,16]}),
+          Object.freeze({id:'lightKernel',label:'偏在光核',anchor:'chest',food:'fizzbuzz',environment:'signal',variants:['胸部の微小核','偏在した双核','生体から浮く第三核'],thresholds:[1,6,16]}),
+          Object.freeze({id:'detachedNode',label:'漂遊衛片',anchor:'outerOrbit',food:'number',environment:'void',variants:['離れた光片','接続索を持つ衛片','複数の異常衛片'],thresholds:[1,6,16]}),
+          Object.freeze({id:'signalTail',label:'符号尾',anchor:'tailTip',food:'fizzbuzz',environment:'signal',variants:['尾端信号斑','分岐したデータ尾','断続する伝送束'],thresholds:[1,6,16]})
+        ])
+      });
+      var PART_LOOKUP=Object.freeze(Object.keys(PARTS).reduce(function(out,k){
+        PARTS[k].forEach(function(def){out[k+':'+def.id]=def;});return out;
+      },{}));
+      function coreFor(dna){
+        return Object.freeze({
+          headRatio:.82+dna.senses*.34,
+          eyeSpacing:4+Math.round(dna.senses*3),
+          torsoRatio:.87+dna.body*.32,
+          tailRatio:.78+dna.appendage*.44,
+          hueBias:dna.skin
+        });
+      }
+      function socketsFor(core){
+        var width=core.torsoRatio,tail=core.tailRatio,eyes=core.eyeSpacing;
+        var slots={
+          head:[40,26],eye:[40+eyes/2,23],mouth:[48,30],
+          dorsal:[31,18],shoulder:[38,30],flank:[21,35],
+          chest:[37,40],forelimb:[38,43],hindlimb:[24,46],
+          tailBase:[18,37],tailTip:[Math.round(8-3*(tail-1)),38],
+          outerOrbit:[53,17]
+        };
+        return Object.freeze(Object.keys(slots).reduce(function(out,key){
+          var pos=slots[key],x=32+(pos[0]-32)*width;
+          out[key]=Object.freeze([Math.round(x),pos[1]]);
+          return out;
+        },{}));
+      }
+      function levelFor(xp,def){
+        if(xp>=def.thresholds[2])return 3;
+        if(xp>=def.thresholds[1])return 2;
+        return xp>=def.thresholds[0]?1:0;
+      }
+      function partsFor(c){
+        var id=c.lineages[c.stage],lineage=id===null?null:PILOT_LINEAGES[id];
+        var defs=lineage&&PARTS[lineage.id]||[];
+        return Object.freeze(defs.map(function(def){
+          var xp=c.partXp[lineage.id+':'+def.id]||0;
+          var level=levelFor(xp,def);
+          return Object.freeze({id:def.id,label:def.label,anchor:def.anchor,level:level,
+            variant:level?def.variants[level-1]:null,points:xp});
+        }));
+      }
+      function applyPartXp(c,environment,food){
+        if(c.matured||c.stage===0)return;
+        var lineage=PILOT_LINEAGES[c.lineages[c.stage]];
+        if(!lineage||!PARTS[lineage.id])return;
+        PARTS[lineage.id].forEach(function(def){
+          // Each part progresses independently; branching does not remove past XP.
+          var inc=(environment===def.environment?1:0)+(food===def.food?1:0);
+          if(inc)c.partXp[lineage.id+':'+def.id]=(c.partXp[lineage.id+':'+def.id]||0)+inc;
+        });
+      }
+
+      function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
+      function classify(line) {
+        if (line === 'Fizz') return 'fizz';
+        if (line === 'Buzz') return 'buzz';
+        if (line === 'FizzBuzz') return 'fizzbuzz';
+        if (/^[1-9]\d*$/.test(line)) return 'number';
+        return null;
+      }
+      function modifierFor(n) {
+        if (!Number.isSafeInteger(n) || n < 1 || n % 3 === 0 || n % 5 === 0) return 0;
+        var a = n % 3, b = n % 5;
+        return ((a === 1 && b <= 2) || (a === 2 && b >= 3)) ? 1 : -1;
+      }
+      function dnaFor(n) {
+        if (!Number.isSafeInteger(n) || n < 1 || n > 1000) throw new Error('DNAには有効な入力数値が必要です。');
+        // Avalanche-mix the entire N first: nearby seeds no longer produce near-identical traits.
+        var x = (n ^ 0x9e3779b9) >>> 0;
+        x = Math.imul(x ^ (x >>> 16), 0x85ebca6b) >>> 0;
+        x = Math.imul(x ^ (x >>> 13), 0xc2b2ae35) >>> 0;
+        x = ((x ^ (x >>> 16)) >>> 0) || 1;
+        function next() { x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return (x >>> 0) / 4294967296; }
+        return Object.freeze({ body:next(), appendage:next(), senses:next(), skin:next(), aptitude:next(), sensitivity:next() });
+      }
+      function stageFor(points) { return points >= 35 ? 2 : points >= 10 ? 1 : 0; }
+      function rgb(r,g,b) { return '#' + [r,g,b].map(function(v){return clamp(Math.round(v),0,255).toString(16).padStart(2,'0');}).join(''); }
+      var STAGE_STARTS = [0,10,35], STAGE_ENDS = [10,35,100];
+      // Evolution is NOT fixed by the initial DNA or a named linear family.
+      // Only what happened DURING THE CURRENT PHASE contributes to the next branch.
+      function lineageFor(c,stage){
+        if(stage<1)return null;
+        var local=c.situation,ex=local.exposure,steps=Math.max(1,local.steps);
+        var recent=local.recentEnvs,rc=Math.max(1,recent.length);
+        var count={tide:0,heat:0,signal:0,void:0};
+        recent.forEach(function(k){count[k]++;});
+        var keys=['tide','heat','signal','void'];
+        // The cumulative climate and the most recent 12 exposures both matter.
+        var pressure=keys.map(function(k){return .65*ex[k]/steps+.35*count[k]/rc;});
+        var foods=local.recentFoods,fc=Math.max(1,foods.length);
+        var recentFood={fizz:0,buzz:0,fizzbuzz:0,number:0};
+        foods.forEach(function(k){recentFood[k]++;});
+        var favor={tentacles:'fizzbuzz',wings:'fizz',heads:'fizz',
+          orbit:'number',shell:'buzz',eyes:'fizzbuzz',limbs:'number',glow:'fizzbuzz'};
+        var best=0,bestScore=-Infinity;
+        PILOT_LINEAGES.forEach(function(l,i){
+          var distance=0;
+          for(var k=0;k<4;k++)distance+=Math.pow(pressure[k]-l.niche[k],2);
+          // Newly-added special branches may not steal older branches at their own niche.
+          var nutritionWeight=(l.id==='antimeme'||l.id==='valis')?.035:.085;
+          var foodBonus=(recentFood[favor[l.primary]]/fc)*nutritionWeight;
+          var score=-distance+foodBonus;
+          if(score>bestScore){bestScore=score;best=i;}
+        });
+        return best;
+      }
+      function branchFor(c,stage){return lineageFor(c,stage);}
+      function organFor(c){
+        var d=c.dna,f=c.foods,total=f.total||1;
+        var scores={
+          eyes:.16+.70*d.senses+.10*f.fizz/total,
+          tentacles:.12+.72*d.appendage+.15*f.fizzbuzz/total,
+          wings:.12+.63*d.body+.20*f.fizz/total,
+          shell:.13+.67*d.skin+.18*f.buzz/total,
+          limbs:.13+.52*d.body+.26*d.aptitude,
+          glow:.10+.65*d.sensitivity+.15*f.fizzbuzz/total,
+          heads:.10+.55*d.aptitude+.25*d.senses,
+          orbit:.10+.47*d.aptitude+.30*d.sensitivity
+        };
+        var names=Object.keys(scores).sort(function(a,b){return scores[b]-scores[a];});
+        var primary=c.specialization?c.specialization.primary:names[0];
+        var secondary=c.specialization?c.specialization.secondary:names[1];
+        var progress=growthFor(c.points,c.stage).local;
+        var multiplier=.64+Math.min(1,progress)*.85+.21*c.stage;
+        var result={};
+        Object.keys(scores).forEach(function(name){
+          var emphasis=name===primary?1.8:name===secondary?1.33:1;
+          result[name]=clamp(scores[name]*multiplier*emphasis,.08,2.4);
+        });
+        return Object.freeze({primary:primary,secondary:secondary,levels:Object.freeze(result)});
+      }
+      function growthFor(points,stage){
+        var start=STAGE_STARTS[stage],end=STAGE_ENDS[stage];
+        var local=clamp((points-start)/(end-start),0,1);
+        return {local:local,tier:Math.min(3,Math.floor(local*4))};
+      }
+      function imprintFor(a){
+        // Persist the actual preceding phenotype, not just its species name or DNA.
+        return Object.freeze({
+          stage:a.stage,lineage:a.lineage,mark:a.mark,color:a.color,
+          body:a.body,appendage:a.appendage,senses:a.senses,skin:a.skin,
+          organs:Object.freeze(Object.assign({},a.organ.levels)),
+          parts:Object.freeze((a.parts||[]).filter(function(p){return p.level>0;}).map(function(p){
+            return Object.freeze({id:p.id,label:p.label,anchor:p.anchor,level:p.level});
+          }))
+        });
+      }
+      function imprintName(imprint){
+        var names={abyss:'触肢',myth:'翼紋',recursive:'枝角',
+          sail:'光帆',gravity:'重力環',crystal:'結晶棘',manyeyes:'側眼',
+          abyssshell:'深殻',parallel:'多腕',memory:'記憶甲',serpent:'蛇頭',solar:'日輪'};
+        names.antimeme='欠章尾';names.valis='信号冠';
+        return names[imprint.lineage]||'背びれ';
+      }
+
+      function appearanceFor(c) {
+        var f=c.foods,total=f.total;
+        var color = total ? rgb(
+          (f.fizz*97+f.buzz*255+f.fizzbuzz*225)/total,
+          (f.fizz*206+f.buzz*209+f.fizzbuzz*154)/total,
+          (f.fizz*255+f.buzz*109+f.fizzbuzz*255)/total
+        ) : '#9cceb6';
+        var growth=growthFor(c.points,c.stage);
+        var family=c.branches[c.stage]===null?0:c.branches[c.stage],
+          lineageId=c.lineages[c.stage],pilot=lineageId===null?UNFORMED:PILOT_LINEAGES[lineageId];
+        var organ=organFor(c);
+        var inherited=c.heritage.slice();
+        var intensity=Object.assign({},organ.levels);
+        // Previous organs cannot collapse to zero when the evolutionary phase resets.
+        inherited.forEach(function(imprint,i){
+          var retention=i===inherited.length-1?.72:.35;
+          Object.keys(imprint.organs).forEach(function(key){
+            intensity[key]=Math.max(intensity[key],imprint.organs[key]*retention);
+          });
+        });
+        organ=Object.freeze({primary:organ.primary,secondary:organ.secondary,levels:Object.freeze(intensity)});
+        return Object.freeze({
+          stage:c.stage, family:family, species:pilot.names[c.stage],
+          lineage:pilot.id, lineageIndex:lineageId, mark:pilot.mark, group:pilot.group,
+          organ:organ,heritage:Object.freeze(inherited),
+          core:c.core,sockets:socketsFor(c.core),parts:partsFor(c),
+          growthTier:growth.tier, progress:growth.local,
+          color:color, volume:1+.28*c.stage+.24*growth.tier+.11*growth.local,
+          body:c.dna.body, appendage:c.dna.appendage, senses:c.dna.senses, skin:c.dna.skin,
+          detail:clamp((.18*growth.tier+c.points/100*.35)*(.75+c.dna.sensitivity*.5),0,1)
+        });
+      }
+      function initialCreature(seed) {
+        var dna=dnaFor(seed);
+        var c={seed:seed,dna:dna,foods:{fizz:0,buzz:0,fizzbuzz:0,number:0,total:0,boost:0,brake:0},
+          modifier:0,points:0,expression:0,stage:0,branches:[null,null,null],
+          lineages:[null,null,null],specialization:null,
+          core:coreFor(dna),partXp:{},
+          situation:newSituation(),history:[],heritage:[],matured:false,appearance:null};
+        var born=organFor(c);
+        c.specialization=Object.freeze({primary:born.primary,secondary:born.secondary});
+        // All newborns are uncommitted: genotype may vary, evolution destination cannot.
+        c.branches[0]=null;
+        c.lineages[0]=null;
+        c.appearance=appearanceFor(c);
+        return c;
+      }
+      function stepGrowth(previous,line,environment) {
+        var kind=classify(line),env=environment||'tide';
+        if (!kind) throw new Error('不正なFizzBuzz出力です。');
+        if(!Object.prototype.hasOwnProperty.call(ENVIRONMENTS,env))throw new Error('不正な環境刺激です。');
+        var prior=previous.situation;
+        var situation={
+          exposure:Object.assign({},prior.exposure),recentFoods:prior.recentFoods.slice(),
+          recentEnvs:prior.recentEnvs.slice(),steps:prior.steps+1
+        };
+        situation.exposure[env]++;
+        situation.recentFoods.push(kind);situation.recentEnvs.push(env);
+        if(situation.recentFoods.length>12)situation.recentFoods.shift();
+        if(situation.recentEnvs.length>12)situation.recentEnvs.shift();
+        var c={seed:previous.seed,dna:previous.dna,foods:Object.assign({},previous.foods),
+          modifier:previous.modifier,points:previous.points,expression:previous.expression,
+          stage:previous.stage,branches:previous.branches.slice(),
+          lineages:previous.lineages.slice(),specialization:previous.specialization,
+          core:previous.core,partXp:Object.assign({},previous.partXp),
+          situation:situation,history:previous.history.slice(),heritage:previous.heritage.slice(),
+          matured:previous.matured,appearance:previous.appearance};
+        c.foods[kind]++;
+        if (kind==='number') {
+          c.modifier=modifierFor(Number(line));
+          if(c.modifier>0)c.foods.boost++;else if(c.modifier<0)c.foods.brake++;
+        } else {
+          c.foods.total++;
+          if(!c.matured) {
+            var previousStage=c.stage;
+            var gain=1+.25*c.modifier;
+            c.points=clamp(c.points+gain,0,100);
+            c.expression+=c.modifier*(.5+c.dna.sensitivity)*.15;
+            c.stage=stageFor(c.points);
+            if(c.stage!==previousStage) {
+              // The old body is still part of the individual after the transition.
+              c.heritage.push(imprintFor(previous.appearance));
+              for(var newStage=previousStage+1;newStage<=c.stage;newStage++){
+                var chosen=lineageFor(c,newStage);
+                c.branches[newStage]=chosen;
+                c.lineages[newStage]=chosen;
+                c.history.push(Object.freeze({phase:newStage,lineage:chosen,
+                  exposure:Object.freeze(Object.assign({},c.situation.exposure))}));
+                c.situation=newSituation();
+              }
+            }
+          }
+          c.modifier=0;
+        }
+        if(!c.matured) {
+          applyPartXp(c,env,kind);
+          c.appearance=appearanceFor(c);
+          if(c.points>=100)c.matured=true; // freeze morphology and color at maturity
+        }
+        return c;
+      }
+      function tally(lines,seed,environment) {
+        var c=initialCreature(seed || lines.length || 1);
+        lines.forEach(function(line,index){
+          var env=typeof environment==='function'?environment(index,line,c):(environment||'tide');
+          c=stepGrowth(c,line,env);
+        });
+        return c;
+      }
+      window.FizzBuzzCreatureLogic=Object.freeze({
+        classify:classify,modifierFor:modifierFor,dnaFor:dnaFor,stageFor:stageFor,
+        appearanceFor:appearanceFor,branchFor:branchFor,lineageFor:lineageFor,organFor:organFor,
+        pilotLineages:PILOT_LINEAGES,environments:ENVIRONMENTS,
+        growthFor:growthFor,imprintFor:imprintFor,imprintName:imprintName,
+        coreFor:coreFor,socketsFor:socketsFor,partsFor:partsFor,levelFor:levelFor,
+        socketNames:SOCKET_NAMES,partSets:PARTS,
+        initialCreature:initialCreature,stepGrowth:stepGrowth,tally:tally,
+        renderPixel:function(context,a,time,still){
+          if(!context)return false;
+          var prev=paintCtx;paintCtx=context;dotMask=1;
+          dotCreature64(a,time,still);paintCtx=prev;return true;
+        }
+      });
+      var appShell=document.getElementById('app-shell');
+      var modeChip=document.getElementById('mode-chip');
+      var retryButton=document.getElementById('retry-button');
+      var logButton=document.getElementById('log-button');
+      var logOpen=false;
+      function setMode(mode){
+        appShell.setAttribute('data-mode',mode);
+        modeChip.textContent=mode==='result'?'★ RUN COMPLETE':'● CREATURE LAB / LIVE';
+      }
+      function setLogOpen(open){
+        logOpen=Boolean(open);
+        appShell.setAttribute('data-log-open',String(logOpen));
+        logButton.setAttribute('aria-pressed',String(logOpen));
+        logButton.textContent=logOpen?'▤ ログを閉じる':'▤ FizzBuzzログを見る';
+      }
+      var form=document.getElementById('fizzbuzz-form');
+      var limitInput=document.getElementById('limit');
+      var runButton=document.getElementById('run-button');
+      var pauseButton=document.getElementById('pause-button');
+      var skipButton=document.getElementById('skip-button');
+      var speed=document.getElementById('speed');
+      var result=document.getElementById('result');
+      var errorBox=document.getElementById('error');
+      var statusBox=document.getElementById('status');
+      var currentLine=document.getElementById('current-line');
+      var stageName=document.getElementById('stage-name');
+      var foodTotal=document.getElementById('food-total');
+      var nextStage=document.getElementById('next-stage');
+      var growthForm=document.getElementById('growth-form');
+      var growthBar=document.getElementById('growth-bar');
+      var growthProgress=document.getElementById('growth-progress');
+      var fizzCount=document.getElementById('fizz-count');
+      var buzzCount=document.getElementById('buzz-count');
+      var specialCount=document.getElementById('special-count');
+      var numberCount=document.getElementById('number-count');
+      var canvas=document.getElementById('creature'),ctx=canvas.getContext('2d');
+      var finalCard=document.getElementById('final-card');
+      var finalCanvas=document.getElementById('final-creature');
+      var finalCtx=finalCanvas.getContext('2d');
+      var resultHeaderState=document.getElementById('result-header-state');
+      var resultRank=document.getElementById('result-rank');
+      var finalSeed=document.getElementById('final-seed');
+      var finalSpecies=document.getElementById('final-species');
+      var finalStatus=document.getElementById('final-status');
+      var finalSummary=document.getElementById('final-summary');
+      var finalLineage=document.getElementById('final-lineage');
+      var finalStage=document.getElementById('final-stage');
+      var finalPoints=document.getElementById('final-points');
+      var finalColor=document.getElementById('final-color');
+      var finalColorCode=document.getElementById('final-color-code');
+      var finalFoods=document.getElementById('final-foods');
+      var state={lines:[],index:0,creature:initialCreature(Number(limitInput.value)||1),
+        environment:'tide',active:false,busy:false,paused:false};
+      var environmentStatus=document.getElementById('environment-status');
+      var environmentButtons={
+        tide:document.getElementById('env-tide'),heat:document.getElementById('env-heat'),
+        signal:document.getElementById('env-signal'),void:document.getElementById('env-void')
+      };
+      function setEnvironment(name){
+        if(!Object.prototype.hasOwnProperty.call(ENVIRONMENTS,name))return;
+        state.environment=name;
+        Object.keys(environmentButtons).forEach(function(k){
+          environmentButtons[k].setAttribute('aria-pressed',String(k===name));
+        });
+        environmentStatus.textContent='現在の刺激：'+ENVIRONMENTS[name]+'。変更後の餌から進化判定に反映されます。';
+      }
+      Object.keys(environmentButtons).forEach(function(name){
+        environmentButtons[name].addEventListener('click',function(){setEnvironment(name);});
+      });
+      var timer=null,nonce=0,effect=null,evolvedAt=-10000,morphTransition=null;
+      function clearPlaybackTimer(){if(timer!==null){clearTimeout(timer);timer=null;}}
+      function updateButtons(){
+        runButton.disabled=state.busy||state.active;
+        runButton.textContent=state.busy?'読み込み中…':'▶ スタート';
+        pauseButton.disabled=!state.active;skipButton.disabled=!state.active;
+        pauseButton.textContent=state.paused?'▶ 再開':'Ⅱ 一時停止';
+      }
+      function updateGrowth(){
+        var c=state.creature, f=c.foods;
+        stageName.textContent=c.appearance.mark+' '+STAGES[c.stage]+(c.matured?' · 完全成熟':'')+' / '+c.appearance.species;
+        foodTotal.textContent='たべたえさ '+(f.total+f.number)+'（栄養 '+f.total+'）';
+        fizzCount.textContent=String(f.fizz);
+        buzzCount.textContent=String(f.buzz);
+        specialCount.textContent=String(f.fizzbuzz);
+        numberCount.textContent=String(f.number);
+        var start=c.stage===0?0:c.stage===1?10:35;
+        var end=c.stage===0?10:c.stage===1?35:100;
+        var percent=c.matured?100:clamp(Math.floor((c.points-start)/(end-start)*100),0,100);
+        growthBar.style.width=percent+'%';
+        growthProgress.setAttribute('aria-valuenow',String(percent));
+        growthForm.textContent='個体 #'+c.seed+' ・ 発達 '+(c.appearance.growthTier+1)+' / 4 ・ '+['萌芽','伸長','分化','充実'][c.appearance.growthTier]+' ・ '+c.appearance.mark+' '+c.appearance.group+' ・ 特化 '+ORGAN_NAMES[c.appearance.organ.primary]+' / '+ORGAN_NAMES[c.appearance.organ.secondary]+
+          (c.appearance.heritage.length?' ・ 継承：'+c.appearance.heritage.map(imprintName).join('・'):'')+
+          ((c.appearance.parts||[]).some(function(part){return part.level>0;})?' ・ 拡張：'+
+            c.appearance.parts.filter(function(part){return part.level>0;}).map(function(part){
+              return part.label+'Lv'+part.level;
+            }).join('・'):'');
+        nextStage.textContent=c.matured?'完全成熟！ 外見はここで固定（結果の再生は継続）':
+          '成長 '+c.points.toFixed(2)+' P / 次の変容 '+end+' P';
+      }
+      function resetState(seed){
+        clearPlaybackTimer();
+        state.lines=[];state.index=0;state.active=false;state.paused=false;state.busy=false;
+        state.creature=initialCreature(seed||1);effect=null;evolvedAt=-10000;morphTransition=null;
+        result.value='';currentLine.textContent='—';statusBox.textContent='準備中';finalCard.hidden=true;
+        setLogOpen(false);setMode('nursery');
+        updateGrowth();updateButtons();
+      }
+      function feed(line){
+        var kind=classify(line), old=state.creature;
+        var fresh=stepGrowth(old,line,state.environment);
+        if(old.stage!==fresh.stage||old.appearance.growthTier!==fresh.appearance.growthTier){
+          morphTransition={from:old.appearance,started:performance.now(),
+            duration:old.stage!==fresh.stage?1100:560};
+        }
+        if(old.stage!==fresh.stage||old.appearance.growthTier!==fresh.appearance.growthTier||(!old.matured&&fresh.matured))evolvedAt=performance.now();
+        state.creature=fresh;
+        effect={kind:kind,modifier:fresh.modifier,started:performance.now()};
+      }
+      function finish(){
+        clearPlaybackTimer();state.active=false;state.paused=false;
+        statusBox.textContent=state.lines.length+' 行 再生完了';
+        updateButtons();updateGrowth();
+        presentFinal();
+      }
+      function presentFinal(){
+        var c=state.creature,f=c.foods,a=c.appearance;
+        finalSeed.textContent='個体 #'+c.seed;
+        finalSpecies.textContent=a.mark+' '+a.species;
+        finalStage.textContent=STAGES[c.stage];
+        finalPoints.textContent=c.points.toFixed(2)+' / 100 P';
+        finalColor.style.backgroundColor=a.color;
+        finalColorCode.textContent=a.color.toUpperCase();
+        finalFoods.textContent=[f.fizz,f.buzz,f.fizzbuzz,f.number].join(' / ');
+        finalStatus.textContent=c.matured?'完全成熟 · 形態確定':'今回の育成を完了 · 進化途中';
+        finalLineage.textContent='変容記録：'+c.lineages.slice(0,c.stage+1).map(function(branch,phase){
+          var type=branch===null?UNFORMED:PILOT_LINEAGES[branch];
+          var decision=c.history.filter(function(x){return x.phase===phase;})[0];
+          var note='';
+          if(decision){
+            var dominant=Object.keys(decision.exposure).sort(function(x,y){return decision.exposure[y]-decision.exposure[x];})[0];
+            note='〔'+ENVIRONMENTS[dominant]+'優勢〕';
+          }
+          return STAGES[phase]+' '+type.mark+' '+type.names[phase]+note;
+        }).join(' → ')+' ／ 主特化：'+ORGAN_NAMES[a.organ.primary]+' ／ 副特化：'+ORGAN_NAMES[a.organ.secondary]+
+          (a.heritage.length?' ／ 継承器官：'+a.heritage.map(imprintName).join('・'):'');
+        finalSummary.textContent=c.matured?
+          '完全成熟した個体の姿です。成熟後もFizzBuzzは最後まで出力しました。':
+          'N行の出力を終えた時点の姿です。途中段階でも失敗ではなく、今回の最終形態として記録します。';
+        finalCard.hidden=false;
+        finalCard.setAttribute('data-stage',String(c.stage));
+        finalCard.setAttribute('data-mature',String(c.matured));
+        resultHeaderState.textContent=c.matured?'EVOLUTION COMPLETE':'RUN COMPLETE';
+        resultRank.textContent=c.matured?'★★★ FULL EVOLUTION':'★ 第'+(c.stage+1)+'相 到達';
+        setLogOpen(false);setMode('result');
+        renderScene(finalCtx,a,0,true);
+        if(finalCard.scrollIntoView)finalCard.scrollIntoView({behavior:
+          window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+      }
+      function nextLine(){
+        timer=null;if(!state.active||state.paused)return;
+        if(state.index>=state.lines.length){finish();return;}
+        var line=state.lines[state.index];
+        result.value+=(state.index===0?'':'\n')+line;
+        state.index++;result.scrollTop=result.scrollHeight;
+        currentLine.textContent=state.index+' / '+state.lines.length+' : '+line;
+        statusBox.textContent='自動再生中';
+        feed(line);updateGrowth();
+        if(state.index===state.lines.length){finish();return;}
+        timer=setTimeout(nextLine,Number(speed.value));
+      }
+      function showFinalResult(){
+        clearPlaybackTimer();
+        // Continue the actual played history: never recompute from the initial N.
+        for(var i=state.index;i<state.lines.length;i++){
+          state.creature=stepGrowth(state.creature,state.lines[i],state.environment);
+        }
+        state.index=state.lines.length;
+        result.value=state.lines.join('\n');
+        result.scrollTop=result.scrollHeight;
+        currentLine.textContent=state.lines.length+' / '+state.lines.length+' : '+state.lines[state.lines.length-1];
+        effect=null;morphTransition=null;finish();
+      }
+      function begin(lines){
+        state.lines=lines.slice();state.busy=false;state.active=true;state.paused=false;
+        errorBox.textContent='';updateButtons();
+        if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)showFinalResult();
+        else nextLine();
+      }
+      limitInput.addEventListener('input',function(){
+        if(state.busy||state.active||!finalCard.hidden)return;
+        var raw=limitInput.value.trim(),n=Number(raw);
+        if(!/^\d+$/.test(raw)||!Number.isSafeInteger(n)||n<1||n>1000)return;
+        // DNA preview: editing N reveals the genetically different newborn before playback.
+        state.creature=initialCreature(n);
+        effect=null;
+        updateGrowth();
+      });
+      form.addEventListener('submit',function(event){
+        event.preventDefault();
+        if(state.busy||state.active)return;
+        var raw=limitInput.value.trim(),limit=Number(raw);
+        if(!/^\d+$/.test(raw)||!Number.isSafeInteger(limit)||limit<1||limit>1000){
+          errorBox.textContent='1から1000までの整数を入力してください。';
+          statusBox.textContent='入力エラー';return;
+        }
+        nonce++;var requestId=nonce;
+        resetState(limit);state.busy=true;statusBox.textContent='GASで計算中';errorBox.textContent='';
+        updateButtons();
+        google.script.run.withSuccessHandler(function(lines){
+          if(requestId!==nonce)return;
+          if(!Array.isArray(lines)||lines.length!==limit||!lines.every(function(x){return typeof x==='string';})){
+            state.busy=false;errorBox.textContent='サーバーの応答形式が正しくありません。';
+            statusBox.textContent='通信エラー';updateButtons();return;
+          }
+          begin(lines);
+        }).withFailureHandler(function(error){
+          if(requestId!==nonce)return;
+          state.busy=false;state.active=false;
+          errorBox.textContent=error&&error.message?error.message:'計算に失敗しました。';
+          statusBox.textContent='通信エラー';updateButtons();
+        }).calculateFizzBuzz(limit);
+      });
+      pauseButton.addEventListener('click',function(){
+        if(!state.active)return;
+        state.paused=!state.paused;clearPlaybackTimer();
+        if(state.paused)statusBox.textContent='一時停止中';
+        else {statusBox.textContent='自動再生中';timer=setTimeout(nextLine,Number(speed.value));}
+        updateButtons();
+      });
+      skipButton.addEventListener('click',function(){if(state.active)showFinalResult();});
+      logButton.addEventListener('click',function(){setLogOpen(!logOpen);});
+      retryButton.addEventListener('click',function(){
+        if(state.active||state.busy)return;
+        resetState(Number(limitInput.value)||1);
+        if(limitInput.focus)limitInput.focus();
+      });
+      speed.addEventListener('change',function(){
+        if(state.active&&!state.paused){clearPlaybackTimer();timer=setTimeout(nextLine,Number(speed.value));}
+      });
+      // Dynamic organisms use organic paths with a pixel fallback for limited contexts.
+      var paintCtx=ctx;
+      function pixel(x,y,color){
+        x=Math.round(x);y=Math.round(y);
+        if(x<0||y<0||x>=32||y>=32)return;
+        paintCtx.fillStyle=color;paintCtx.fillRect(x*8,y*8,8,8);
+      }
+      function block(x,y,w,h,color){
+        for(var yy=0;yy<h;yy++)for(var xx=0;xx<w;xx++)pixel(x+xx,y+yy,color);
+      }
+      function ellipse(cx,cy,rx,ry,color){
+        for(var y=Math.floor(cy-ry);y<=Math.ceil(cy+ry);y++){
+          for(var x=Math.floor(cx-rx);x<=Math.ceil(cx+rx);x++){
+            if(Math.pow((x-cx)/rx,2)+Math.pow((y-cy)/ry,2)<=1)pixel(x,y,color);
+          }
+        }
+      }
+      function polygon(vertices,color){
+        for(var y=0;y<32;y++)for(var x=0;x<32;x++){
+          var inside=false;
+          for(var i=0,j=vertices.length-1;i<vertices.length;j=i++){
+            var a=vertices[i],b=vertices[j],yy=y+.5,xx=x+.5;
+            if((a[1]>yy)!==(b[1]>yy)&&xx<(b[0]-a[0])*(yy-a[1])/(b[1]-a[1])+a[0])inside=!inside;
+          }
+          if(inside)pixel(x,y,color);
+        }
+      }
+      function shade(color,target,amount){
+        var a=[1,3,5].map(function(i){return parseInt(color.slice(i,i+2),16);});
+        var b=[1,3,5].map(function(i){return parseInt(target.slice(i,i+2),16);});
+        return rgb(a[0]+(b[0]-a[0])*amount,a[1]+(b[1]-a[1])*amount,a[2]+(b[2]-a[2])*amount);
+      }
+      function eye(x,y,size){
+        block(x-1,y-1,size+2,size+2,'#19233e');
+        block(x,y,size,size,'#effaff');
+        pixel(x+size-1,y+size-1,'#18223c');
+        pixel(x,y,'#ffffff');
+      }
+      function marks(cx,cy,rx,ry,a,light){
+        var dots=2+a.growthTier*5+Math.floor(a.skin*4),seed=Math.floor(a.skin*103)+a.family*17;
+        for(var i=0;i<dots;i++){
+          var xx=((i*7+seed*3)%23-11)/12,yy=((i*11+seed)%17-8)/10;
+          if(xx*xx+yy*yy<.75)pixel(cx+xx*rx,cy+yy*ry,light);
+        }
+        if(a.growthTier>=2&&a.skin>.55){
+          for(var stripe=0;stripe<3;stripe++)block(cx-3+stripe*3,cy-1,1,1+a.growthTier,light);
+        }
+      }
+      function sprite(a,time,still){
+        var ink='#17223c',lit=shade(a.color,'#ffffff',.32),shadow=shade(a.color,'#1b2550',.35);
+        var growth=a.volume-1; // bounded by mature P=100
+        var tier=a.growthTier; // 0..3: observable development within each evolutionary stage
+        var bob=still?0:Math.round(Math.sin(time/430)*.65);
+        var trait=a.appendage,wide=a.body;
+        if(a.stage===0){
+          // Side-facing fish: readable forked tail, dorsal fin, gill and one forward-facing eye.
+          var cx=18,cy=16+bob,rx=5+Math.round(wide*4)+tier,ry=3+Math.round((1-wide)*3)+Math.floor(tier/2);
+          var tail=clamp(2+Math.round(trait*3)+(a.family===0?4:a.family===1?-1:1)+Math.floor(tier/2),2,9);
+          polygon([[cx-rx+2,cy],[cx-rx-tail,cy-5],[cx-rx-tail+1,cy],[cx-rx-tail,cy+6]],ink);
+          polygon([[cx-rx+1,cy],[cx-rx-tail+1,cy-4],[cx-rx-tail+2,cy],[cx-rx-tail+1,cy+5]],shadow);
+          polygon([[cx-4,cy-ry+1],[cx-1,cy-ry-5],[cx+3,cy-ry+1]],ink);
+          polygon([[cx-3,cy-ry+1],[cx-1,cy-ry-3],[cx+1,cy-ry+1]],a.color);
+          if(a.family===0){
+            polygon([[cx-4,cy+ry-1],[cx-7-tier,cy+ry+4+Math.floor(tier/2)],[cx+1,cy+ry]],lit);
+            if(tier>=2)polygon([[cx-6,cy-ry+1],[cx-9,cy-ry-3],[cx,cy-ry]],lit);
+          }
+          if(a.family===1){
+            polygon([[cx-4,cy-ry+1],[cx-7,cy-ry-4],[cx+4,cy-ry+1]],ink);
+            for(var sp=0;sp<3+tier;sp++)block(cx-6+sp*3,cy-ry-2,2,3,lit);
+            block(cx-rx-tail,cy,3,3,ink);
+          }
+          if(a.family===2){
+            polygon([[cx+2,cy-ry],[cx+4,cy-ry-5-tier],[cx+6,cy-ry]],'#b6f1fa');
+            block(cx+4,cy-ry-5-tier,2,2,'#eef6ff');
+          }
+          ellipse(cx,cy,rx+1,ry+1,ink);
+          ellipse(cx,cy,rx,ry,a.color);
+          ellipse(cx+1,cy-1,rx-2,Math.max(1,ry-2),lit);
+          ellipse(cx,cy+Math.max(1,ry-2),rx-2,2,shadow);
+          if(a.family===1){
+            ellipse(cx-1,cy-2,Math.max(3,rx-3),Math.max(2,ry-2),shade(a.color,'#25314a',.46));
+            for(var sc=0;sc<2+tier;sc++)block(cx-rx+3+sc*3,cy-ry+1,2,2,lit);
+          }
+          if(a.family===2){
+            ellipse(cx+rx-2,cy-1,3+Math.floor(tier/2),ry,lit);
+            if(tier>=2)block(cx-rx+1,cy-ry-4,2,5,'#a6e6fb');
+          }
+          polygon([[cx-4,cy+1],[cx-1,cy+1],[cx-3,cy+ry+2],[cx-7,cy+ry+3]],ink);
+          polygon([[cx-4,cy+1],[cx-1,cy+2],[cx-4,cy+ry+1]],lit);
+          marks(cx-1,cy,rx-3,ry-1,a,shadow);
+          var ex=cx+Math.round(rx*.48),ey=cy-2;
+          eye(ex,ey,a.family===2?3+Math.floor(a.senses*2):1+Math.floor(a.senses*2));
+          if(tier>=1)block(cx-rx+1,cy+ry-1,3+tier,1,lit);
+          if(tier>=3)block(cx+2,cy-ry,3,1,'#f6f5e0');
+          block(cx+rx-1,cy+2,3,1,ink);pixel(cx+rx,cy+1,lit);
+          block(cx+rx-3,cy-1,1,3,shadow); // gill
+        } else if(a.stage===1){
+          // Four-legged creature: recognizable raised head, tapering tail and feet.
+          var cx=15,cy=15+bob;
+          var rx=a.family===2?4+Math.floor(tier/2):6+Math.round(wide*3)+tier;
+          var ry=a.family===2?6+tier:3+Math.round((1-wide)*3)+Math.floor(tier/2);
+          var footY=26;
+          if(a.family!==2){
+            polygon([[cx-rx+2,cy],[cx-rx-5-Math.round(trait*3),cy-3],[cx-rx-4,cy+3],[cx-rx+3,cy+ry]],ink);
+            polygon([[cx-rx+2,cy],[cx-rx-4-Math.round(trait*2),cy-2],[cx-rx+1,cy+ry]],shadow);
+          }else if(tier>=1){
+            block(cx-5,cy+2,2+tier,4,shadow);block(cx+4,cy+2,2+tier,4,shadow);
+          }
+          for(var leg=0;leg<2;leg++){
+            var lx=cx+(leg===0?-4:4);
+            block(lx-2,cy+2,5,footY-cy-1,ink);
+            block(lx-1,cy+3,3,footY-cy-3,shadow);
+            block(lx-3,footY-1,6,2,ink);
+            block(lx-2,footY-1,4,1,lit);
+          }
+          ellipse(cx,cy,rx+1,ry+1,ink);
+          ellipse(cx,cy,rx,ry,a.color);
+          ellipse(cx+1,cy-1,rx-2,Math.max(2,ry-2),lit);
+          if(a.family===1){
+            // Armored branch: domed shell and thick short legs.
+            ellipse(cx,cy-ry+2,Math.max(3,rx-1),Math.max(3,ry),ink);
+            ellipse(cx,cy-ry+1,Math.max(2,rx-2),Math.max(2,ry-1),shadow);
+            for(var plate=0;plate<2+tier;plate++){
+              ellipse(cx-rx+3+plate*3,cy-ry,2,2,lit);
+            }
+            block(cx-4,footY-4,6,3,ink);
+            block(cx+3,footY-4,6,3,ink);
+          }else if(a.family===0){
+            // Streamlined branch: visible wing membranes grow every two substages.
+            polygon([[cx-5,cy-ry],[cx-8-tier,cy-ry-5-tier],[cx+3,cy-ry]],ink);
+            polygon([[cx-4,cy-ry],[cx-7-tier,cy-ry-3-tier],[cx+2,cy-ry]],lit);
+            if(tier>=2)polygon([[cx+2,cy-ry],[cx+7,cy-ry-4],[cx+rx,cy-1]],lit);
+          }else{
+            // Intelligent branch: vertical biped with conspicuous arms and head crest.
+            block(cx-5-tier,cy-1,3+tier,7,ink);
+            block(cx+3,cy-1,3+tier,7,ink);
+            block(cx-3,cy-ry-5,3,5,ink);block(cx+2,cy-ry-5,3,5,ink);
+            pixel(cx-2,cy-ry-5,lit);pixel(cx+3,cy-ry-5,lit);
+          }
+          var hx=a.family===2?cx:cx+rx-1,hy=a.family===2?cy-ry-3:cy-ry+2;
+          ellipse(hx,hy,a.family===2?5:4,a.family===2?5:4,ink);
+          ellipse(hx,hy,a.family===2?4:3,a.family===2?4:3,a.color);
+          if(a.family!==2){
+            block(hx+2,hy+1,4,3,ink);
+            block(hx+2,hy+1,3,2,lit);
+            eye(hx,hy-2,1+Math.floor(a.senses*1.7));
+            pixel(hx+5,hy+2,'#ee92a5');
+          }else{
+            eye(hx-3,hy-2,2+Math.floor(a.senses*2));
+            eye(hx+2,hy-2,2+Math.floor(a.senses*2));
+            block(hx-1,hy+3,3,1,ink);
+          }
+          if(tier>=1)block(cx-3,cy+ry-1,3+tier,1,lit);
+          if(tier>=3)pixel(cx,cy-ry-4,'#e7f7ff');
+          marks(cx-2,cy,Math.max(1,rx-3),Math.max(1,ry-2),a,shadow);
+        } else {
+          // Upright space creature: large cranial capsule, limbs and inherited appendages.
+          var cx=16,cy=13+bob;
+          var rx=a.family===2?7+Math.floor(tier/2):a.family===1?6+Math.floor(tier/2):5+Math.floor(tier/2);
+          var ry=a.family===2?7+Math.floor(tier/2):a.family===1?6+Math.floor(tier/2):5+Math.floor(tier/2);
+          var torsoY=22+bob;
+          for(var tent=0;tent<3;tent++){
+            var tx=10+tent*6;
+            polygon([[tx-1,torsoY],[tx+3,torsoY],[tx+2+(tent-1)*2,30],[tx+(tent-1)*2,30]],ink);
+            block(tx,torsoY+1,2,5,shade(a.color,'#1b2550',.28));
+            pixel(tx+(tent-1)*2,29,lit);
+          }
+          for(var arm=0;arm<2;arm++){
+            var dir=arm===0?-1:1,ax=cx+dir*6;
+            polygon([[ax,torsoY-4],[ax+dir*4,torsoY-1],[ax+dir*5,torsoY+5],[ax+dir*3,torsoY+6],[ax+dir*1,torsoY]],ink);
+            block(ax+dir*3,torsoY+1,2,3,a.color);
+            pixel(ax+dir*5,torsoY+5,lit);
+          }
+          ellipse(cx,torsoY,5+growth,5,ink);
+          ellipse(cx,torsoY-1,4+growth,4,a.color);
+          if(a.family===0){
+            polygon([[cx-4,cy+2],[cx-12-tier,cy-5],[cx-10,cy+9+tier],[cx-3,cy+8]],ink);
+            polygon([[cx+4,cy+2],[cx+12+tier,cy-5],[cx+10,cy+9+tier],[cx+3,cy+8]],ink);
+            polygon([[cx-5,cy+1],[cx-10-tier,cy-3],[cx-8,cy+7],[cx-3,cy+7]],'#b4f9fa');
+            polygon([[cx+5,cy+1],[cx+10+tier,cy-3],[cx+8,cy+7],[cx+3,cy+7]],'#b4f9fa');
+          }
+          if(a.family===1){
+            ellipse(cx,torsoY,7+Math.floor(tier/2),7+Math.floor(tier/2),ink);
+            ellipse(cx,torsoY-1,6+Math.floor(tier/2),6+Math.floor(tier/2),shadow);
+            for(var sh=0;sh<2;sh++)block(cx+(sh===0?-8:5),torsoY-5,4,7,'#d1e6e1');
+            for(var chest=0;chest<3;chest++)block(cx-4+chest*3,torsoY-1,2,4,lit);
+          }
+          if(a.family===2){
+            block(cx-4-tier,torsoY-3,3+tier,8,lit);
+            block(cx+2,torsoY-3,3+tier,8,lit);
+          }
+          // Antennae vary with inherited appendage DNA.
+          var antenna=3+Math.round(trait*4);
+          block(cx-4,cy-ry-antenna+1,2,antenna+1,ink);
+          block(cx+3,cy-ry-antenna+1,2,antenna+1,ink);
+          pixel(cx-4,cy-ry-antenna,'#b4f7ff');
+          pixel(cx+4,cy-ry-antenna,'#b4f7ff');
+          ellipse(cx,cy,rx+1,ry+1,ink);
+          ellipse(cx,cy,rx,ry,a.color);
+          ellipse(cx,cy-2,rx-2,ry-2,lit);
+          if(a.family===1){
+            ellipse(cx,cy-2,Math.max(3,rx-1),Math.max(2,ry-2),shade(a.color,'#203045',.35));
+            for(var armor=0;armor<2+tier;armor++)block(cx-5+armor*3,cy-ry,3,2,'#d4dce9');
+          }
+          var eSize=a.family===2?3+Math.floor(a.senses*2):2+Math.floor(a.senses);
+          eye(cx-4,cy-1,eSize);eye(cx+2,cy-1,eSize);
+          if(tier>=1)block(cx-2,torsoY+1,4+tier,2,lit);
+          if(tier>=3)block(cx-3,cy-ry-1,6,1,'#e8f5ff');
+          block(cx-2,cy+4,4,1,shadow);
+          if(a.family===2){
+            // Parenthetical cheeks identify the Lisp alien lineage.
+            block(cx-rx,cy+1,1,5,'#d9c4ff');
+            block(cx+rx,cy+1,1,5,'#d9c4ff');
+            pixel(cx-rx+1,cy,'#d9c4ff');pixel(cx+rx-1,cy,'#d9c4ff');
+          }
+          marks(cx,cy+1,rx-2,ry-3,a,shadow);
+        }
+        if(!still&&effect&&time-effect.started>200&&time-effect.started<450)
+          pixel(a.stage===0?23:16,a.stage===0?21:23,'#ffb2c7');
+      }
+      function drawFood(time){
+        if(!effect)return;
+        var dt=time-effect.started;
+        if(dt<0||dt>690){if(dt>690)effect=null;return;}
+        var part=Math.min(1,dt/330),x=Math.round(31-15*part),y=Math.round(6+10*part);
+        var color=COLORS[effect.kind]||'#bbefb5';
+        if(dt<360){pixel(x,y,color);pixel(x-1,y,color);pixel(x,y-1,'#ffffff');}
+        else {var radius=1+Math.floor((dt-360)/100);
+          pixel(16-radius,12,color);pixel(16+radius,12,color);
+          pixel(16,12-radius,color);pixel(16,12+radius,color);}
+      }
+      // The three prototype families are composed procedurally: no static creature sprites.
+      // Drawing is pure with respect to appearance; frame time changes pose, never the genome.
+      // 64x64 handcrafted procedural PIXEL ART. One logical dot is 4x4 physical pixels.
+      // An indexed-color palette, irregular silhouette and pixel-precise inheritance
+      // are kept on screen after every situational evolution.
+      var PIXEL_SIZE=4, PIXELS=64, dotMask=1;
+      var BAYER4=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
+      function dot64(x,y,color){
+        x=Math.round(x);y=Math.round(y);
+        if(x<0||y<0||x>=PIXELS||y>=PIXELS)return;
+        if(dotMask<1 && (BAYER4[(y&3)*4+(x&3)]+.5)/16>=dotMask)return;
+        paintCtx.fillStyle=color;
+        paintCtx.fillRect(x*PIXEL_SIZE,y*PIXEL_SIZE,PIXEL_SIZE,PIXEL_SIZE);
+      }
+      function rect64(x,y,w,h,color){
+        for(var yy=Math.round(y);yy<Math.round(y+h);yy++)
+          for(var xx=Math.round(x);xx<Math.round(x+w);xx++)dot64(xx,yy,color);
+      }
+      function line64(x0,y0,x1,y1,color,width){
+        var dx=x1-x0,dy=y1-y0,steps=Math.max(1,Math.ceil(Math.max(Math.abs(dx),Math.abs(dy))));
+        var r=Math.max(1,Math.round(width||1));
+        for(var i=0;i<=steps;i++){
+          var x=Math.round(x0+dx*i/steps),y=Math.round(y0+dy*i/steps);
+          rect64(x-Math.floor(r/2),y-Math.floor(r/2),r,r,color);
+        }
+      }
+      function disk64(x,y,rx,ry,fill,edge){
+        rx=Math.max(1,rx);ry=Math.max(1,ry);
+        for(var yy=Math.ceil(y-ry);yy<=Math.floor(y+ry);yy++){
+          var dy=(yy-y)/ry;
+          var span=rx*Math.sqrt(Math.max(0,1-dy*dy));
+          for(var xx=Math.ceil(x-span);xx<=Math.floor(x+span);xx++){
+            var r=Math.pow((xx-x)/rx,2)+dy*dy;
+            dot64(xx,yy,edge&&r>.79?edge:fill);
+          }
+        }
+      }
+      function poly64(pts,fill,edge){
+        var ys=pts.map(function(p){return p[1];}),xs=pts.map(function(p){return p[0];});
+        var ymin=Math.max(0,Math.floor(Math.min.apply(null,ys))),ymax=Math.min(63,Math.ceil(Math.max.apply(null,ys)));
+        var xmin=Math.max(0,Math.floor(Math.min.apply(null,xs))),xmax=Math.min(63,Math.ceil(Math.max.apply(null,xs)));
+        for(var y=ymin;y<=ymax;y++)for(var x=xmin;x<=xmax;x++){
+          var inside=false;
+          for(var i=0,j=pts.length-1;i<pts.length;j=i++){
+            var a=pts[i],b=pts[j];
+            if((a[1]>y+.5)!==(b[1]>y+.5)&&
+              x+.5<(b[0]-a[0])*(y+.5-a[1])/(b[1]-a[1])+a[0])inside=!inside;
+          }
+          if(inside)dot64(x,y,fill);
+        }
+        if(edge)for(var k=0;k<pts.length;k++){
+          var p=pts[k],next=pts[(k+1)%pts.length];
+          line64(p[0],p[1],next[0],next[1],edge,1);
+        }
+      }
+      function ring64(x,y,rx,ry,color,thickness,phase){
+        for(var i=0;i<116;i++){
+          var a=Math.PI*2*i/116+(phase||0);
+          var px=x+Math.cos(a)*rx,py=y+Math.sin(a)*ry;
+          rect64(Math.round(px),Math.round(py),thickness||1,thickness||1,color);
+        }
+      }
+      function eye64(x,y,r,accent){
+        disk64(x,y,r+1,r+1,'#eef7ee','#23304b');
+        disk64(x+r*.25,y,r*.57,r*.72,accent,'#0c1933');
+        dot64(x-r*.3,y-r*.38,'#ffffff');
+      }
+      function dotBackground64(a){
+        var top=a.stage===0?'#102b3c':a.stage===1?'#151e3d':'#0c132b';
+        var deep='#080d21';
+        for(var y=0;y<64;y++){
+          paintCtx.fillStyle=y<17?top:y<47?'#101b35':deep;
+          paintCtx.fillRect(0,y*PIXEL_SIZE,256,PIXEL_SIZE);
+        }
+        for(var j=0;j<35;j++){
+          var sx=(j*19+7)%64,sy=(j*29+3)%59;
+          dot64(sx,sy,j%4===0?'#a4c7ee':'#3e6387');
+        }
+        line64(5,57,58,57,'#293b5d',1);
+      }
+      function drawEvolvedPart64(part,sockets,colors,time,still){
+        if(part.level<1)return;
+        var spot=sockets[part.anchor],x=spot[0],y=spot[1],
+          n=part.level,ink=colors.ink,light=colors.light,
+          glow=colors.glow,dim=colors.shade1;
+        var flicker=still?0:Math.round(Math.sin(time/420)*2);
+        function arm(x2,y2,color,width){line64(x,y,x2,y2,ink,(width||2)+1);line64(x,y,x2,y2,color,width||2);}
+        switch(part.id){
+          case 'absenceMask':
+            disk64(x-2,y-1,5+n,3+n,ink,dim);
+            rect64(x-2-n,y-1,2+n,1,glow);
+            for(var m=0;m<n;m++)rect64(x-5+m*4,y+3,2,1,dim);
+            break;
+          case 'unseenEye':
+            eye64(x,y,2+n,glow);
+            for(var e=0;e<n;e++)rect64(x-5+e*4,y-6,2,2,e%2?ink:glow);
+            break;
+          case 'erasureCrown':
+            arm(x-6,y-7-n*3,dim,2);
+            for(var c=0;c<n+1;c++)rect64(x-10+c*5,y-10-n*2+(c%2)*3,3,2,c%2?ink:light);
+            if(n===3)ring64(x,y-5,13,7,dim,1);
+            break;
+          case 'memoryFilament':
+            for(var f=0;f<n+1;f++){
+              var xx=x-9-n*3-f*3,yy=y+2+f*4;
+              arm(xx,yy,dim,2);
+              if(n>1)line64(xx,yy,xx-3,yy+3,glow,1);
+            }
+            break;
+          case 'brokenTail':
+            for(var t=0;t<n+2;t++)
+              rect64(x-t*4,y+(t%2)*2,2,2,t%2?dim:light);
+            if(n>=2)rect64(x-8,y,3,1,ink);
+            break;
+          case 'receiverCrown':
+            arm(x+4,y-8-n*3,light,2);
+            arm(x-3,y-6-n,glow,1);
+            for(var r=0;r<n;r++)rect64(x+7+r*3,y-11-r*2,2,2,glow);
+            break;
+          case 'observingEye':
+            eye64(x,y,2+n,glow);
+            for(var z=0;z<n;z++){
+              eye64(x+6+z*4,y-5+z*3,1.2,dim);
+            }
+            break;
+          case 'revelationMembrane':
+            poly64([[x-4,y+5],[x-5-n*3,y-6-n*5],
+              [x+8+n*2,y-4-n*3],[x+3,y+6]],dim,ink);
+            line64(x-2,y+3,x,y-7-n*3,glow,1);
+            if(n===3)for(var b=0;b<5;b++)dot64(x-4+b*2,y-7-b%3,light);
+            break;
+          case 'lightKernel':
+            disk64(x+n,y-1,2+n,2+n,glow,ink);
+            rect64(x+n,y-1,2,2,'#ffffff');
+            if(n>=2)disk64(x-6,y+3,2,2,light,ink);
+            if(n===3)disk64(x+11,y-7,2,2,light,ink);
+            break;
+          case 'detachedNode':
+            for(var node=0;node<n;node++){
+              var nx=x+Math.round((node-1)*6),ny=y-7-node*4+flicker;
+              rect64(nx,ny,4,4,node%2?light:glow);
+              dot64(nx+1,ny+1,'#ffffff');
+              if(node===0)line64(x,y,nx,ny,dim,1);
+            }
+            break;
+          case 'signalTail':
+            arm(x-8-n*4,y+6+n*2,dim,2);
+            for(var tail=0;tail<n*3;tail++)
+              rect64(x-4-tail*2,y+3+(tail%3)*2,2,1,
+                tail%2?glow:light);
+            break;
+        }
+      }
+      function dotCreature64(a,time,still){
+        var cx=32,cy=34,stage=a.stage,kind=a.lineage,lv=a.organ.levels,
+          tier=a.growthTier,wave=still?0:Math.round(Math.sin(time/560)*1.4),
+          bounce=still?0:Math.round(Math.sin(time/820)*1.1),
+          size=11+tier*2+stage*3+Math.round(a.body*3);
+        cy+=bounce;
+        var ink='#0c1630',deep=shade(a.color,ink,.55),
+          shade1=shade(a.color,ink,.30),light=shade(a.color,'#f4f4e7',.38),
+          bright=shade(a.color,'#ffffff',.63),glow=shade(a.color,'#c8fbff',.73),
+          accent=shade(a.color,'#ffdc7f',.55);
+        function rib(x,y,x2,y2,c,thick){line64(x,y,x2,y2,c,thick||2);}
+        function petal(pts,c){poly64(pts,c,ink);}
+        function tentacle(x,y,dx,dy,c,offset){
+          var midx=x+dx*.38+Math.sin((offset||0)+time/600)*(still?0:2);
+          var midy=y+dy*.35;
+          rib(x,y,midx,midy,ink,4);
+          rib(midx,midy,x+dx,y+dy+wave,ink,3);
+          rib(x,y,midx,midy,c,2);
+          rib(midx,midy,x+dx,y+dy+wave,c,2);
+          dot64(x+dx,y+dy+wave,bright);
+        }
+        function wingspan(sign,width,rise,c){
+          var pts=[[cx+sign*6,cy-5],[cx+sign*(width*.52),cy-rise],
+            [cx+sign*width,cy-rise*.57],[cx+sign*(width*.84),cy+5],[cx+sign*8,cy+11]];
+          petal(pts,c);
+          rib(cx+sign*7,cy-2,cx+sign*(width*.73),cy-rise*.55,light,1);
+        }
+        // Behind-body organs choose an actual anatomy for each of the 12 families.
+        if(stage===0){
+          petal([[cx-10,cy],[cx-28,cy-10],[cx-20,cy],[cx-28,cy+10],[cx-10,cy+3]],shade1);
+          petal([[cx-3,cy+3],[cx-16,cy+18],[cx+7,cy+9]],light);
+        }else if(kind==='abyss'){
+          for(var a1=0;a1<5+stage+tier;a1++){
+            var t=(a1/(5+stage+tier)-.5)*Math.PI*1.6;
+            tentacle(cx+Math.cos(t)*8,cy+Math.sin(t)*8,
+              Math.cos(t)*(19+lv.tentacles*7),Math.sin(t)*(21+lv.tentacles*6),
+              a1%2?shade1:light,a1);
+          }
+        }else if(kind==='myth'){
+          wingspan(-1,22+stage*6+tier*3,20+stage*6,light);
+          wingspan(1,22+stage*6+tier*3,20+stage*6,shade1);
+          rib(cx-4,cy+10,cx-13,cy+25,ink,3);
+          rib(cx+4,cy+10,cx+9,cy+27,ink,3);
+          rib(cx+7,cy+12,cx+18,cy+25,ink,3);
+        }else if(kind==='recursive'){
+          for(var rr=0;rr<3+stage;rr++){
+            var xx=cx+(rr-2)*6,ey=cy-18-rr*4-stage*2;
+            tentacle(xx,cy-7,(rr-2)*3,-23-stage*4,light,rr);
+            rib(xx+(rr-2)*3,ey,xx+(rr-2)*3+7,ey-7,accent,1);
+          }
+        }else if(kind==='sail'){
+          wingspan(-1,25+stage*6,21+stage*6,glow);
+          wingspan(1,25+stage*6,21+stage*6,light);
+          rib(cx,cy+7,cx,cy-29-stage*7,bright,2);
+        }else if(kind==='gravity'){
+          ring64(cx,cy,23+stage*5,10+stage*3,glow,1,time/6000);
+          for(var lg=0;lg<3;lg++)
+            rib(cx-8+lg*8,cy+7,cx-15+lg*14,cy+19+stage*2,accent,3);
+        }else if(kind==='crystal'){
+          for(var crystal=0;crystal<7;crystal++){
+            var angle=crystal*Math.PI*2/7;
+            var x=cx+Math.cos(angle)*14,y=cy+Math.sin(angle)*14;
+            petal([[x-5,y],[x+Math.cos(angle)*17,y+Math.sin(angle)*17],[x+5,y+4]],crystal%2?glow:light);
+          }
+        }else if(kind==='manyeyes'){
+          for(var e=0;e<5+stage*2;e++){
+            var theta=e*Math.PI*2/(5+stage*2);
+            var ix=cx+Math.cos(theta)*(22+stage*3),iy=cy+Math.sin(theta)*(21+stage*2);
+            rib(cx,cy,ix,iy,shade1,2);
+            eye64(ix,iy,2+(e%2),accent);
+          }
+        }else if(kind==='abyssshell'){
+          for(var sp=0;sp<6;sp++){
+            var theta=sp*Math.PI*2/6;
+            petal([[cx+Math.cos(theta)*11,cy+Math.sin(theta)*11],
+              [cx+Math.cos(theta)*26,cy+Math.sin(theta)*24],
+              [cx+Math.cos(theta+.18)*10,cy+Math.sin(theta+.18)*11]],shade1);
+          }
+          tentacle(cx-9,cy+7,-16,14,light,0);tentacle(cx+9,cy+7,17,15,light,1);
+        }else if(kind==='parallel'){
+          for(var arm=0;arm<4+stage*2;arm++){
+            var side=arm%2?-1:1,level=Math.floor(arm/2);
+            tentacle(cx+side*10,cy-10+level*8,side*(16+stage*4),
+              (level-1)*17,arm%2?glow:light,arm);
+          }
+        }else if(kind==='memory'){
+          for(var plate=0;plate<5;plate++){
+            var yy=cy-18+plate*8;
+            rect64(cx-20+plate%2*3,yy,40-plate%2*6,4,plate%2?light:shade1);
+            rect64(cx+4,yy,5,2,glow);
+          }
+          for(var a2=0;a2<4;a2++)rib(cx-6+a2*4,cy+8,cx-16+a2*9,cy+23,ink,3);
+        }else if(kind==='serpent'){
+          for(var seg=0;seg<8+stage*2;seg++){
+            var py=cy+17-seg*5,px=cx+Math.sin(seg*.8+time/1200)*(still?8:10);
+            disk64(px,py,7+stage,5,seg%2?shade1:light,ink);
+          }
+          for(var head=0;head<2+stage*2;head++){
+            var hx=cx+(head-(1+stage*2)/2)*9,hy=cy-24-Math.abs(head-2)*3;
+            rib(cx,cy-5,hx,hy,shade1,3);
+            disk64(hx,hy,4,4,light,ink);dot64(hx+1,hy-1,'#ffffff');
+          }
+        }else if(kind==='solar'){
+          ring64(cx,cy-5,23+stage*4,23+stage*4,accent,2);
+          for(var ray=0;ray<12;ray++){
+            var a3=ray*Math.PI/6;
+            rib(cx+Math.cos(a3)*25,cy-5+Math.sin(a3)*25,
+              cx+Math.cos(a3)*(31+stage*3),cy-5+Math.sin(a3)*(31+stage*3),glow,2);
+          }
+        }else if(kind==='antimeme'){
+          // Recognizable void-mask and interrupted dorsal bands before any unlock.
+          for(var absence=0;absence<5;absence++){
+            var nx=cx-25+absence*10;
+            rect64(nx,cy-18-absence%2*2,6,2,shade1);
+            rect64(nx+2,cy-18-absence%2*2,2,2,ink);
+          }
+          ring64(cx+5,cy+2,26,16,deep,1);
+        }else if(kind==='valis'){
+          // Intrusive external signal node and a tilted single-sided receiving field.
+          poly64([[cx-7,cy-11],[cx-28,cy-29],[cx-22,cy+2],[cx-12,cy+9]],shade1,ink);
+          line64(cx+10,cy-6,cx+23,cy-26,glow,2);
+          disk64(cx+23,cy-26,4,4,accent,ink);
+          ring64(cx+5,cy-4,21,12,glow,1);
+        }
+        // Body: a black 1px border, two edge shades, then irregular pixel clusters.
+        var identity=a.core||{headRatio:1,eyeSpacing:5,torsoRatio:1,tailRatio:1,hueBias:.5};
+        var bodyRx=(stage===0?size+3:kind==='serpent'?size*.67:size*.8)*identity.torsoRatio,
+          bodyRy=(stage===0?size*.62:kind==='sail'?size*.7:size)*identity.headRatio;
+        disk64(cx,cy,bodyRx+2,bodyRy+2,ink,ink);
+        disk64(cx,cy,bodyRx,bodyRy,a.color,shade1);
+        disk64(cx-bodyRx*.22,cy-bodyRy*.20,bodyRx*.68,bodyRy*.63,light,shade1);
+        disk64(cx+bodyRx*.36,cy+bodyRy*.36,bodyRx*.36,bodyRy*.3,shade1,deep);
+        // Specular pixel clusters and hereditary color markings are deterministic.
+        for(var speck=0;speck<10+tier*5;speck++){
+          var theta=(speck*2.399+a.skin*9),r=.23+((speck*7)%9)/15;
+          dot64(cx+Math.cos(theta)*bodyRx*r,
+            cy+Math.sin(theta)*bodyRy*r,speck%4===0?bright:shade1);
+        }
+        eye64(cx+bodyRx*.35,cy-bodyRy*.28,
+          2+lv.eyes*1.35+(identity.eyeSpacing-5)*.08,deep);
+        if(stage>0 && lv.eyes>1.2)eye64(cx-bodyRx*.34,cy-bodyRy*.24,2+lv.eyes,accent);
+        if(kind==='manyeyes' && stage>0)
+          for(var me=0;me<4+stage;me++)eye64(cx-12+(me%3)*11,cy-9+Math.floor(me/3)*12,2.4,accent);
+        if(kind==='solar'){
+          disk64(cx,cy,5+stage,5+stage,accent,light);
+          rect64(cx-2,cy-2,3,3,'#ffffff');
+        }
+        if(kind==='crystal'){
+          for(var facet=0;facet<5;facet++)
+            rib(cx-10+facet*5,cy-8,cx-7+facet*5,cy+6,facet%2?bright:glow,2);
+        }
+        if(kind==='memory'||kind==='abyssshell'){
+          for(var armor=0;armor<4+stage;armor++)
+            rect64(cx-bodyRx*.62,cy-bodyRy*.6+armor*6,
+              Math.max(4,bodyRx*1.3-armor%2*5),2,armor%2?light:deep);
+        }
+        if(kind==='gravity'){
+          ring64(cx,cy,bodyRx+6,bodyRy*.7,glow,1);
+          rect64(cx-2,cy-3,5,5,accent);
+        }
+        if(kind==='parallel'){
+          for(var processors=0;processors<3;processors++)
+            rect64(cx-8+processors*7,cy+6,3,3,processors%2?glow:accent);
+        }
+        if(kind==='antimeme'||kind==='valis'){
+          // Part records are independent growth units attached to inherited core sockets.
+          var sockets=a.sockets||socketsFor(identity);
+          var colors={ink:ink,light:light,glow:glow,shade1:shade1};
+          (a.parts||[]).forEach(function(part){
+            drawEvolvedPart64(part,sockets,colors,time,still);
+          });
+          // Identity cue remains even as satellites and missing-information organs grow.
+          disk64(cx+7,cy-6,3+identity.headRatio,3,ink,light);
+          dot64(cx+8,cy-7,glow);
+        }
+        // Carry old body PARTS into the next organism permanently.
+        (a.heritage||[]).forEach(function(h,i){
+          var remembered=shade(h.color,a.color,i===a.heritage.length-1?.25:.60);
+          var oldReach=4+Math.round((h.organs.tentacles||.3)*5);
+          var oldWing=8+Math.round((h.organs.wings||.3)*4);
+          if(h.lineage==='myth'||h.lineage==='sail'){
+            petal([[cx-8,cy+4],[cx-oldWing-10,cy-12],[cx-oldWing-4,cy+5]],remembered);
+            rib(cx-8,cy+3,cx-oldWing-8,cy-6,bright,1);
+          }else if(h.lineage==='abyss'||h.lineage==='abyssshell'){
+            for(var j=0;j<3;j++)tentacle(cx-8+j*4,cy+6,-oldReach-j*3,12+j*3,remembered,j);
+          }else if(h.lineage==='recursive'||h.lineage==='parallel'){
+            for(var fork=0;fork<2;fork++){
+              rib(cx+(fork?8:-8),cy-9,cx+(fork?15:-15),cy-18-oldReach,remembered,2);
+              rib(cx+(fork?15:-15),cy-18-oldReach,cx+(fork?21:-9),cy-22-oldReach,bright,1);
+            }
+          }else if(h.lineage==='serpent'){
+            for(var neck=0;neck<2;neck++){
+              rib(cx+neck*6,cy+10,cx+neck*12-6,cy+19,remembered,3);
+              disk64(cx+neck*12-6,cy+19,3,3,light,ink);
+            }
+          }else if(h.lineage==='gravity'||h.lineage==='solar'){
+            ring64(cx,cy,bodyRx+6+i*4,bodyRy+5+i*3,remembered,1);
+          }else if(h.lineage==='crystal'||h.lineage==='memory'){
+            petal([[cx-7,cy-12],[cx-2,cy-23-oldReach],[cx+2,cy-11]],remembered);
+          }else if(h.lineage==='manyeyes'){
+            eye64(cx-8,cy-6,2+Math.min(2,h.senses*2),remembered);
+          }else if(h.lineage==='antimeme'||h.lineage==='valis'){
+            // The inherited organs must survive a cross-lineage phase change.
+            (h.parts||[]).forEach(function(part){
+              var sockets=a.sockets||socketsFor(a.core||coreFor({senses:.5,body:.5,appendage:.5,skin:.5}));
+              var colors={ink:ink,light:remembered,glow:bright,shade1:remembered};
+              drawEvolvedPart64(part,sockets,colors,time,true);
+            });
+          }else {
+            // The uncommitted juvenile keeps its tiny dorsal fin and an eye-speck.
+            petal([[cx-10,cy+4],[cx-17,cy-4-oldReach],[cx-14,cy+9]],remembered);
+          }
+          dot64(cx-7+i*4,cy+8,remembered);
+          dot64(cx-6+i*4,cy+7,bright);
+        });
+        // Final selective sparkle reads as luminous LIFE rather than smooth blur.
+        if(lv.glow>1.15){
+          var ring=15+stage*5;
+          for(var star=0;star<8;star++){
+            var theta=star*Math.PI/4;
+            dot64(cx+Math.cos(theta)*ring,cy+Math.sin(theta)*ring,star%2?glow:accent);
+          }
+        }
+      }
+      function renderScene(context,appearance,time,still,transition){
+        if(!context)return;
+        var previous=paintCtx;paintCtx=context;
+        context.imageSmoothingEnabled=false;
+        context.clearRect(0,0,256,256);
+        dotMask=1;
+        dotBackground64(appearance);
+        if(!still && transition && transition.from && transition.progress<1){
+          // Bayer 4x4 dissolve retains crisp integer pixels instead of antialiasing.
+          dotCreature64(transition.from,time,false);
+          dotMask=clamp(transition.progress,0,1);
+          dotCreature64(appearance,time,false);
+          dotMask=1;
+        }else{
+          dotCreature64(appearance,time,still);
+        }
+        if(!still)drawFood(time);
+        paintCtx=previous;
+      }
+      // Optional field guide uses exactly the same 64px painter as live gameplay.
+      // It previews anatomy only; no fourth-phase trigger or output mutation.
+      var codexCanvas=document.getElementById('codex-canvas');
+      var codexName=document.getElementById('codex-name');
+      var codexDescription=document.getElementById('codex-description');
+      function showCodex(id){
+        var index=PILOT_LINEAGES.findIndex(function(l){return l.id===id;});
+        if(index<0||!codexCanvas)return;
+        var lineage=PILOT_LINEAGES[index],a=initialCreature(500).appearance;
+        var organ=Object.assign({},a.organ.levels);
+        organ[lineage.primary]=Math.max(1.5,organ[lineage.primary]);
+        var previewParts=(PARTS[id]||[]).map(function(def){
+          return Object.freeze({id:def.id,label:def.label,anchor:def.anchor,level:3,
+            variant:def.variants[2],points:def.thresholds[2]});
+        });
+        var preview=Object.assign({},a,{stage:2,growthTier:3,lineage:id,
+          group:lineage.group,mark:lineage.mark,species:lineage.names[2],
+          parts:Object.freeze(previewParts),
+          organ:Object.freeze({primary:lineage.primary,secondary:a.organ.secondary,levels:Object.freeze(organ)})});
+        renderScene(codexCanvas.getContext('2d'),preview,0,true);
+        codexName.textContent=lineage.mark+' '+lineage.names[2];
+        var keys=['tide','heat','signal','void'];
+        var conditions=keys.map(function(k,i){
+          return lineage.niche[i]>0?ENVIRONMENTS[k]+Math.round(lineage.niche[i]*100)+'%':null;
+        }).filter(Boolean).join('＋');
+        var organSet=(PARTS[id]||[]).map(function(def){return def.label+' LV1→3';}).join('・');
+        codexDescription.textContent='環境傾向：'+conditions+'（直近の餌も影響）／ 第二相：'+
+          lineage.names[1]+(organSet?' ／ 拡張：'+organSet:'')+
+          ' ／ 第4相候補：'+lineage.finalName+'（第4相は未実装）';
+        PILOT_LINEAGES.forEach(function(item){
+          var button=document.getElementById('codex-'+item.id);
+          if(button)button.setAttribute('aria-pressed',String(item.id===id));
+        });
+      }
+      PILOT_LINEAGES.forEach(function(l){
+        var button=document.getElementById('codex-'+l.id);
+        if(button)button.addEventListener('click',function(){showCodex(l.id);});
+      });
+      var codex=document.getElementById('pixel-codex');
+      if(codex)codex.addEventListener('toggle',function(){if(codex.open)showCodex('abyss');});
+      function draw(time){
+        var still=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var transition=null;
+        if(!still&&morphTransition){
+          var progress=clamp((time-morphTransition.started)/morphTransition.duration,0,1);
+          if(progress>=1)morphTransition=null;
+          else transition={from:morphTransition.from,progress:progress};
+        }
+        renderScene(ctx,state.creature.appearance,still?0:time,still,transition);
+      }
+      function frame(time){draw(time);window.requestAnimationFrame(frame);}
+      updateGrowth();updateButtons();
+      if(ctx&&window.requestAnimationFrame)window.requestAnimationFrame(frame);
+    }());
+  </script>
+</body>
+</html>
