@@ -1,0 +1,163 @@
+{
+  "version": "v4.1",
+  "artwork_mode": "mock-based layered alpha images",
+  "notes": "Image binaries and original 9 mocks are distributed in v4.1 ZIP, not duplicated into GitHub. All 68 optimized assets are already embedded into src/Index.html as data URI.",
+  "core": {
+    "marin": "assets/composite/core-marin.png",
+    "astral": "assets/composite/core-astral.png"
+  },
+  "partImages": {
+    "antimeme:absenceMask": [
+      "assets/composite/antimeme-absenceMask-lv1.png",
+      "assets/composite/antimeme-absenceMask-lv2.png",
+      "assets/composite/antimeme-absenceMask-lv3.png"
+    ],
+    "antimeme:unseenEye": [
+      "assets/composite/antimeme-unseenEye-lv1.png",
+      "assets/composite/antimeme-unseenEye-lv2.png",
+      "assets/composite/antimeme-unseenEye-lv3.png"
+    ],
+    "antimeme:erasureCrown": [
+      "assets/composite/antimeme-erasureCrown-lv1.png",
+      "assets/composite/antimeme-erasureCrown-lv2.png",
+      "assets/composite/antimeme-erasureCrown-lv3.png"
+    ],
+    "antimeme:memoryFilament": [
+      "assets/composite/antimeme-memoryFilament-lv1.png",
+      "assets/composite/antimeme-memoryFilament-lv2.png",
+      "assets/composite/antimeme-memoryFilament-lv3.png"
+    ],
+    "antimeme:brokenTail": [
+      "assets/composite/antimeme-brokenTail-lv1.png",
+      "assets/composite/antimeme-brokenTail-lv2.png",
+      "assets/composite/antimeme-brokenTail-lv3.png"
+    ],
+    "valis:observingEye": [
+      "assets/composite/valis-observingEye-lv1.png",
+      "assets/composite/valis-observingEye-lv2.png",
+      "assets/composite/valis-observingEye-lv3.png"
+    ],
+    "valis:revelationMembrane": [
+      "assets/composite/valis-revelationMembrane-lv1.png",
+      "assets/composite/valis-revelationMembrane-lv2.png",
+      "assets/composite/valis-revelationMembrane-lv3.png"
+    ],
+    "valis:detachedNode": [
+      "assets/composite/valis-detachedNode-lv1.png",
+      "assets/composite/valis-detachedNode-lv2.png",
+      "assets/composite/valis-detachedNode-lv3.png"
+    ],
+    "valis:receiverCrown": [
+      "assets/composite/valis-receiverCrown-lv1.png",
+      "assets/composite/valis-receiverCrown-lv2.png",
+      "assets/composite/valis-receiverCrown-lv3.png"
+    ],
+    "valis:signalTail": [
+      "assets/composite/valis-signalTail-lv1.png",
+      "assets/composite/valis-signalTail-lv2.png",
+      "assets/composite/valis-signalTail-lv3.png"
+    ],
+    "valis:lightKernel": [
+      "assets/composite/valis-lightKernel-lv1.png",
+      "assets/composite/valis-lightKernel-lv2.png",
+      "assets/composite/valis-lightKernel-lv3.png"
+    ]
+  },
+  "lineageImages": {
+    "abyss": [
+      "assets/lineage-webp/abyss-phase2.webp",
+      "assets/lineage-webp/abyss-phase3.webp"
+    ],
+    "myth": [
+      "assets/lineage-webp/myth-phase2.webp",
+      "assets/lineage-webp/myth-phase3.webp"
+    ],
+    "recursive": [
+      "assets/lineage-webp/recursive-phase2.webp",
+      "assets/lineage-webp/recursive-phase3.webp"
+    ],
+    "sail": [
+      "assets/lineage-webp/sail-phase2.webp",
+      "assets/lineage-webp/sail-phase3.webp"
+    ],
+    "gravity": [
+      "assets/lineage-webp/gravity-phase2.webp",
+      "assets/lineage-webp/gravity-phase3.webp"
+    ],
+    "crystal": [
+      "assets/lineage-webp/crystal-phase2.webp",
+      "assets/lineage-webp/crystal-phase3.webp"
+    ],
+    "manyeyes": [
+      "assets/lineage-webp/manyeyes-phase2.webp",
+      "assets/lineage-webp/manyeyes-phase3.webp"
+    ],
+    "abyssshell": [
+      "assets/lineage-webp/abyssshell-phase2.webp",
+      "assets/lineage-webp/abyssshell-phase3.webp"
+    ],
+    "parallel": [
+      "assets/lineage-webp/parallel-phase2.webp",
+      "assets/lineage-webp/parallel-phase3.webp"
+    ],
+    "memory": [
+      "assets/lineage-webp/memory-phase2.webp",
+      "assets/lineage-webp/memory-phase3.webp"
+    ],
+    "serpent": [
+      "assets/lineage-webp/serpent-phase2.webp",
+      "assets/lineage-webp/serpent-phase3.webp"
+    ],
+    "solar": [
+      "assets/lineage-webp/solar-phase2.webp",
+      "assets/lineage-webp/solar-phase3.webp"
+    ]
+  },
+  "references": [
+    {
+      "id": "C01_deepsea",
+      "file": "assets/reference-thumbs/C01_deepsea.jpg",
+      "label": "深海 deepsea"
+    },
+    {
+      "id": "C02_bird_dragon",
+      "file": "assets/reference-thumbs/C02_bird_dragon.jpg",
+      "label": "C02 bird dragon"
+    },
+    {
+      "id": "C03_crystal_alien",
+      "file": "assets/reference-thumbs/C03_crystal_alien.jpg",
+      "label": "C03 crystal alien"
+    },
+    {
+      "id": "C04_alien_three",
+      "file": "assets/reference-thumbs/C04_alien_three.jpg",
+      "label": "C04 alien three"
+    },
+    {
+      "id": "C05_abyssal_codex",
+      "file": "assets/reference-thumbs/C05_abyssal_codex.jpg",
+      "label": "C05 abyssal codex"
+    },
+    {
+      "id": "C06_evolution_atlas",
+      "file": "assets/reference-thumbs/C06_evolution_atlas.jpg",
+      "label": "C06 evolution atlas"
+    },
+    {
+      "id": "C07_aquatic_atlas",
+      "file": "assets/reference-thumbs/C07_aquatic_atlas.jpg",
+      "label": "C07 aquatic atlas"
+    },
+    {
+      "id": "C08_valis_revelation",
+      "file": "assets/reference-thumbs/C08_valis_revelation.jpg",
+      "label": "VALIS 啓示 valis revelation"
+    },
+    {
+      "id": "C09_valis_signal",
+      "file": "assets/reference-thumbs/C09_valis_signal.jpg",
+      "label": "VALIS 通信 valis signal"
+    }
+  ]
+}
