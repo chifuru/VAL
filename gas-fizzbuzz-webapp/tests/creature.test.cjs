@@ -50,7 +50,8 @@ function harness(options={}) {
    'fizz-count','buzz-count','special-count','number-count','creature',
    'final-card','final-creature','final-seed','final-species','final-status','final-summary',
    'final-stage','final-points','final-color','final-color-code','final-foods','final-lineage',
-   'app-shell','mode-chip','retry-button','log-button','result-rank','result-header-state'].forEach(element);
+   'app-shell','mode-chip','retry-button','log-button','result-rank','result-header-state',
+   'env-tide','env-heat','env-signal','env-void','environment-status'].forEach(element);
   nodes.get('limit').value=String(options.limit||15);
   nodes.get('speed').value='480';
   let timerId=0,now=50,raf=null,calls=0;
