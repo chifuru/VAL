@@ -619,8 +619,8 @@ test('recent food can tip a mixed-environment branch without changing DNA',()=>{
     return q.lineageFor({situation:{exposure:exposures,steps:19,
       recentEnvs:recentEnvs,recentFoods:Array(12).fill(food)}},1);
   }
-  assert.equal(choice('FizzBuzz'),0);
-  assert.equal(choice('Buzz'),1);
+  assert.equal(choice('fizzbuzz'),0);
+  assert.equal(choice('buzz'),1);
 });
 test('the environment selector is actionable and accessible during a running replay',()=>{
   const h=harness({limit:400});
