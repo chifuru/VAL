@@ -1,5 +1,15 @@
 # FizzBuzz Creature — GAS × 決定的DNAと64×64ドット変異生物
 
+## 画像合成 v4.2（2026-10-14：編集ソース更新／実行HTML未同期）
+
+ユーザー承認に基づき、旧12系統を暫定肖像単位で再抽出し、旧進化系統の完成画像の上に初期幼体の全身を二重表示する描画を修正しました。
+
+- **GitHubで更新済み**: `src/composite/app.js`（旧12系統肖像の二重描画防止）、`tests/composite-v42-render-source.test.cjs`（ソース回帰）、`design/image-composite-v42-quality-pass.md`（実行状況と検証境界）、E13（草案）。
+- **GitHubでは未同期**: `src/Index.html` と `src/Index.composite-v4.html`（約3MB画像内包のため更新ブロック）、旧12系統の新規派生24画像。GitHub本流の実行HTMLはv4.1のままです。
+- **ローカルv4.2配布ZIP**: `fizzbuzz_image_composite_v42.zip`（チャットで配布）。HTMLを開けば14系統の図鑑や画像を表示できます。実Node34件成功、Chromium14系統・500行/420pxなどを検証。9枚の中核モックは原本保持。
+- **未完成**: 旧12系統の本当のLv別器官画像、元モックのラベル混入の完全除去、GAS実配信/実端末FPS、第4相。
+
+
 ## 最新承認工程：画像レイヤー合成 v4（2026-10-14）
 
 既定の `src/Index.html` は、ユーザー承認に基づき従来の64×64ドット直描画版から、**保存モック由来の透過画像レイヤー合成版**に切り替えた。従来版は `src/Index.pixel-legacy.html` に退避、旧テストは `tests/archive/creature.pixel-legacy.cjs` に退避した。Code.gsとcore定義は変更していない。
