@@ -1,0 +1,43 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const {chromium}=require('playwright');
+(async()=>{
+ const browser=await chromium.launch({headless:true});
+ try {
+  const page=await browser.newPage({viewport:{width:1280,height:800}});
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.setContent(fs.readFileSync(path.join(__dirname,'../src/Index.html'),'utf8'));
+  assert.equal(await page.locator('h1').getAttribute('aria-label'),'Hello, VALIS');
+  await page.mouse.click(150,200);
+  assert.ok(await page.evaluate(()=>state.energy>0&&state.pending!==null));
+  await page.waitForTimeout(3200);
+  assert.equal(await page.evaluate(()=>state.echoes),1);
+  await page.locator('#pause').click();
+  const time=await page.evaluate(()=>state.time);
+  await page.waitForTimeout(150);
+  assert.equal(await page.evaluate(()=>state.time),time);
+  assert.equal(await page.locator('#pause').getAttribute('aria-pressed'),'true');
+  await page.locator('#reset').click();
+  assert.deepEqual(await page.evaluate(()=>[state.particles.length,state.signals.length,state.energy,state.pending,state.phase]),[36,0,0,null,0]);
+  await page.locator('#pause').click();
+  await page.locator('#contact').focus();await page.keyboard.press('Enter');
+  assert.ok(await page.evaluate(()=>state.energy>0));
+  await page.evaluate(()=>{for(let i=0;i<500;i++)stimulate(100,100);});
+  assert.ok(await page.evaluate(()=>state.particles.length<=100&&state.signals.length<=24));
+  const phases=await page.evaluate(()=>{state.energy=0;return [0,19,37,55,73,91].map(t=>{state.time=t;setPhase();return state.phase;});});
+  assert.deepEqual(phases,[0,1,2,3,4,0]);
+  await page.locator('#reset').click();await page.waitForTimeout(4000);
+  if(process.env.VALIS_SCREENSHOTS) await page.screenshot({path:path.join(process.env.VALIS_SCREENSHOTS,'design-desktop.png')});
+  await page.setViewportSize({width:375,height:812});
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  const box=await page.locator('#contact').boundingBox();assert.ok(box.x>=0&&box.x+box.width<=375);
+  if(process.env.VALIS_SCREENSHOTS) await page.screenshot({path:path.join(process.env.VALIS_SCREENSHOTS,'design-mobile.png')});
+  await page.emulateMedia({reducedMotion:'reduce'});
+  const reducedTime=await page.evaluate(()=>state.time);await page.waitForTimeout(150);
+  assert.equal(await page.evaluate(()=>state.time),reducedTime);
+  await page.locator('#contact').click();assert.equal(await page.evaluate(()=>state.pending),null);
+  assert.deepEqual(errors,[]);
+  console.log('PASS: Chromium interaction, delayed echo, pause, reset, keyboard, bounds, phase cycle, mobile layout, reduced motion; no page errors.');
+ } finally {await browser.close();}
+})().catch(e=>{console.error(e);process.exit(1);});

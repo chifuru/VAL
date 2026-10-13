@@ -1,17 +1,46 @@
-# Hello, VALIS — GAS Webアプリ
-ブラウザに `Hello, VALIS` を表示する最小のGoogle Apps Script Webアプリです。
+# Hello, VALIS — Living Field
+静かな電子空間に知性が宿るような、自己完結型のGAS Webアプリ。
+深い黒、青緑の神経回路状の粒子、まれなピンクの信号。外部AIサービスへの接続はなく、すべてブラウザ内の演出です。
 
-- 実装: `src/Code.gs`（GASエディタの Code.gs にコピー）
-- 導入・公開手順: `operations/plans/hello-valis.md`
-- VALIS構造: `valis/summary/hello-valis.summary.md`
-- ローカル確認: `node tests/hello-valis.test.cjs`
+## 体験
+- 空間をクリック／タップすると波紋が生まれ、密度に応じて種の生成・引き寄せ・分裂・遠隔反応がランダムに起こります。
+- 操作をやめて3秒後、一度だけ中央の文字に光の返答が届きます。
+- Hello, VALIS は出現→同調→侵食→交信→再構成を緩やかに循環します。18秒単位を基準に、操作の活性度で変化します。
+- 文字の核は読めるまま、文字間隔・色・揺れ・輪郭から伸びる回路が変化します。
+- 「動きを止める」「初期化」、中央文字のEnter/Space操作に対応。
+- reduced-motion設定時は自動運動と遅延応答を抑え、クリックによる静的変化を表示します。
+- 粒子最大100、信号最大24。バックグラウンドでは描画を停止。音・外部アセット・データ保存なし。
 
-GASへの配置・デプロイと実ブラウザでの確認は未実施です。ローカル確認はHtmlServiceスタブを使用し、実環境の動作保証ではありません。
-全Nodeは草案です。3中核定義は変更していません。
+## GASへの配置
+1. 新規GASプロジェクトの Code.gs に `src/Code.gs` をコピー。
+2. HTMLファイルを **Index** という名前で追加し、`src/Index.html` をコピー。
+3. 保存してWebアプリとして確認。GASの実行・アクセス制御確認はユーザー担当です。
 
-## 配置とアクセス範囲
-VAL リポジトリの `hello-valis/` がプロジェクトルートです。文書内の相対パスはこのディレクトリを基準にします。
-GAS は新規プロジェクトとし、閲覧は依頼者と指定メンバーに限定します。
-現在の Code.gs は表示処理のみです。アクセス制御はまだ設定されていません。全員公開やURLだけによる制限は採用しません。
-限定メンバーを特定し、Googleアカウントと利用環境に合うアクセス制御を決めてからデプロイしてください。
-GitHub上のソース公開とGASアプリの閲覧権限は別です。リポジトリの公開設定は変更していません。
+閲覧範囲は依頼者と指定メンバーのみ。認証は画面のJavaScriptでは実装していません。GAS側でアクセス制御を設定し、許可外アカウントでの拒否も確認してください。
+リポジトリ公開とGAS閲覧権限は別です。
+
+## ローカル確認
+プロジェクトルート `hello-valis/` で実行:
+
+```sh
+node tests/hello-valis.test.cjs
+node tests/state.test.cjs
+```
+
+ブラウザテスト（Node.jsとPlaywright/Chromiumが必要）:
+
+```sh
+npm install
+npx playwright install chromium
+npm run test:browser
+```
+
+今回の結果: 配信スタブと状態シミュレーションは成功。実ブラウザテストはChromium未配置で未実施。GAS実行は未確認。
+`src/Index.html` は単体でブラウザ表示でき、GASとは切り離してデザインを確認できます。
+
+## VALIS
+仕様・機能・実装・検証計画: `valis/nodes/A`〜`D`
+検証証跡: `valis/nodes/E/E1.md`
+構造正本: `valis/summary/hello-valis.summary.md`
+手順: `operations/plans/hello-valis.md`
+全Nodeは草案。中核定義3件は本文不変です。

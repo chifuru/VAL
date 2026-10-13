@@ -1,29 +1,34 @@
-# Hello VALIS 作業・実行契約
-主FLOW: FLOW-01。新規作成要求に基づく同一作業単位内のB/C/D草案具体化・ローカル確認。
-入力: ユーザーの「ブラウザに Hello, VALIS と表示するGASアプリ」。
-読み込み: valis/core/ の3定義の通常作業条件、初期生成、構造展開、記録分担。
-作成: A1/B1/C1/D1、src/Code.gs、tests/hello-valis.test.cjs、結果取得後E1、Project Summary Manifest。
+# Hello VALIS — デザイン適用契約
+主FLOW: FLOW-05。ユーザーの「この内容を各ファイルに適用」に基づく世界観・インタラクションの実装反映。
+対象: A1/B1/C1/D1/E1、src、tests、README、Project Summary Manifest。
+変更禁止: valis/core/ の3中核定義。全ノードは草案を維持。
+配置: VAL/hello-valis/。文書内の参照はこのプロジェクトルートからの相対パス。
 正本: valis/summary/hello-valis.summary.md。
-変更禁止: 3中核定義。既存ノード・既存コードなし。全ノードは草案。
-ローカル終了条件: 実装・テスト・証跡・初期登録の実体が一致する。
-外部終了条件: GAS WebアプリURLで文字列が表示されること。現段階では未実施。
-停止条件: デプロイ、公開範囲変更、GitHub公開コミットには明示承認が必要。
-ユーザー指定: 新規GASプロジェクト、VAL/hello-valis/ 配置、依頼者と指定メンバーのみ閲覧、全ファイルのGitHubコミット。
-仮定: スタンドアロンGAS、1ページ、固定文字列、データ保存なし。
 
-## GASへの導入手順（未実施）
-1. https://script.google.com/ で新しいプロジェクトを作成する。
-2. Code.gs に src/Code.gs の内容を貼り付け、保存する。
-3. 「デプロイ」→「テストデプロイ」→「ウェブアプリ」のURLで表示を確認する。テストURLは編集権限者向け。
-4. 許可メンバーとGoogle環境に応じたアクセス制御を確定し、許可外の閲覧を禁止できることを確認してから、「デプロイ」→「新しいデプロイ」→「ウェブアプリ」。実行者とアクセス範囲を設定する。
-5. 発行された /exec URLで Hello, VALIS の表示を確認する。アカウント・組織設定によって選択肢が異なる。
-公式資料: https://developers.google.com/apps-script/guides/web
+## 実装条件
+電子空間に知性が宿るような静謐な生態系。回路と細胞の中間の粒子。
+Hello, VALISの文言と可読性を維持し、出現・同調・侵食・交信・再構成の姿を変える。
+クリックに即時反応し、状態依存のランダム挙動と3秒の無操作後の一度だけの返答を実装。
+停止、初期化、モバイル、キーボード、reduced-motion、オブジェクト上限を設ける。
+外部アセット、音、永続保存、実AI接続なし。
 
-## 配置変更・コミット契約
-主FLOW: FLOW-05。ユーザー指示により全プロジェクトファイルを hello-valis/ に配置する。
-中核定義3件は本文不変。相対パス基準をプロジェクトルートに統一する。
-Nodeの草案状態は維持し、新規GAS・限定閲覧の条件をNodeおよびProject Summary Manifestへ反映する。
-既存のローカルテストを新しいルートで再実行し、実装ハッシュ不変を確認する。
-GitHub mainへのコミットは明示承認済み。既存リモート履歴を保持し、ブランチ先端の一致を条件に追加する。
-GAS作成・共有・デプロイは今回のコミット作業には含めない。
-終了条件: 専用ディレクトリ配下の全13ファイルがリモートmainに登録されること。
+## 確認
+node tests/hello-valis.test.cjs: GAS配信スタブ・HTML関連付け・構文。
+node tests/state.test.cjs: 状態遷移・遅延・上限・停止・初期化。
+npm run test:browser: Chromiumで実インタラクションと画面幅を確認（今回Chromium未配置のため未実施）。
+GAS実行と閲覧制限確認はユーザー担当。実施済みとは報告しない。
+E1を現在実装のハッシュに更新し、Project Summary Manifestに既存A1〜E1の変更を反映。
+新規NodeはないためManifest初期登録は今回追加なし。
+
+## GASへの導入（ユーザー実施）
+1. 新規GASプロジェクトのCode.gsにsrc/Code.gsをコピー。
+2. HTMLファイルをIndexとして追加し、src/Index.htmlをコピー。
+3. 保存し、テストデプロイで表示、クリック、3秒後の応答、90秒前後の文字変化、停止・リセットを確認。
+4. 限定メンバー向けのアクセス制御をGAS側で設定し、許可外アカウント・未ログインで拒否されることを確認。
+5. Webアプリ公開版へ適用する場合、更新したバージョンでデプロイを更新する。
+資料: https://developers.google.com/apps-script/guides/html
+資料: https://developers.google.com/apps-script/guides/web
+
+## 終了条件
+実装・資料・テスト・証跡・Manifestが整合し、ユーザー承認済みのGitHubコミットに含まれること。
+GitHub先端が変わった場合は上書きせず差分を確認。GAS作成・共有・デプロイは行わない。

@@ -1,0 +1,13 @@
+{
+  "name": "hello-valis",
+  "version": "0.2.0",
+  "private": true,
+  "description": "GAS-hosted electronic ecosystem",
+  "scripts": {
+    "test": "node tests/hello-valis.test.cjs && node tests/state.test.cjs",
+    "test:browser": "node tests/experience.test.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}
