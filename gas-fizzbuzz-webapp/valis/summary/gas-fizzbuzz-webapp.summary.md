@@ -5,15 +5,15 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 既存36ノード承認状態を維持。GitHub既定src/Index.htmlは画像合成v4.1へ統合済み（14系統、35枚Lv画像＋旧12系統24暫定肖像、9中核モック縮小参照）。図鑑選択系統への環境誘導を追加。E12は草案で、ローカルNode31/31・Chromium14系統表示/500行育成・GitHub正本V8互換22/22の限定証跡。GAS実機未確認。
+current_status: 既存36ノード承認済みを維持。GitHub実行Index.htmlはv4.1（14系統画像合成）のまま。v4.2ではGitHub編集ソースsrc/composite/app.jsに旧12系統の二重ボディ防止を反映し、ローカルZIPで旧12系統24画像を再抽出/テスト済み。E13は草案の限定証跡（ローカルNode34/34、Chromium14系統・Canvasレイヤー照合成功）。実行HTMLと派生PNGはGitHub未同期。
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
 initial_registration_previous_evidence: E3, E4
-initial_registration_this_change: E12（14系統画像合成本流統合と環境誘導の独立E層限定証跡、草案）
-manifest_reflection_this_change: C1.4.3/C1.5、D1.2/D1.3の画像合成v4未承認差分追記、src/Index.htmlとtests/creature.test.cjs置換、tests/fizzbuzz.test.cjsのUI参照修正、旧版ソース/テストのアーカイブ、READMEとdesign/image-composite-v41-integration.md、E12の草案証跡。ビルド済みHTMLから抽出したsrc/composite/の編集用engine/app/CSS/templateとdesign/image-composite-v41-assets.jsonも追加（実行HTMLのBlobは不変）。
-last_reflected_flow: FLOW-06 承認済み基準・v3成果確認 → FLOW-04 新版14系統画像合成/14系統図鑑と環境誘導・旧版アーカイブ → FLOW-07/08 ローカルNode31件/Chromium14系統と環境誘導・GitHub正本V8互換22件 → FLOW-05 E12とManifest反映。
-unresolved_summary: 登録43ノード（36承認済み・E6〜E12の7草案）。GitHub本流Index.htmlは35LV画像パーツと24旧系統暫定肖像を使う画像合成v4.1。サーバーCode.gsとCORE3定義は不変。実Node31/31はローカル成果物、正本GitHub取得後V8互換22/22、Chromium表示/環境誘導の限定テスト成功。実GAS HtmlService配信/速度・14系統完全な器官アトラス・旧モック背景残留の完全除去・第四相は未検証／未実装。ユーザーは工程を承認したが限定E証跡の状態は草案。
+initial_registration_this_change: E13（14系統肖像分離・24派生画像のマスク品質とCanvas実描画の独立証跡、草案）
+manifest_reflection_this_change: C1.5/D1.3の未承認v4.2追記、src/composite/app.jsの二重描画防止、tests/composite-v42-render-source.test.cjs、design/image-composite-v42-quality-pass.md、E13の初期登録。GitHub実行Index.htmlの旧v4.1継続を明記。
+last_reflected_flow: FLOW-06 v4.1画像合成と9モック原本を確認 → FLOW-04 旧12系統の派生24画像再抽出/描画重複修正 → FLOW-08 ローカルNode34件、画像24点、Chromium14図鑑/500行/6系統Canvas呼出し → FLOW-05 GitHub編集ソース・D/C追記・E13/Manifest登録。大容量実行HTMLは更新ブロックで未反映。
+unresolved_summary: 44ノード（36承認済み・E6〜E13の8草案）。GitHub実行Index.htmlは画像合成v4.1で、編集ソースsrc/composite/app.jsのみv4.2修正済み。v4.2実行HTML＋原本モック9点＋派生肖像24点＋透明器官35点はローカル配布ZIPにあり、実Node34/34・Chromium/画像検証成功。実行HTML・画像24点のGitHub同期、旧12系統の真の器官ごとLV画像、実GAS配信/実端末FPS、第四相は未完了。
 
 ## 画像合成v3ローカル限定反映（2026-10-14、未承認）
 
@@ -39,9 +39,18 @@ unresolved_summary: 登録43ノード（36承認済み・E6〜E12の7草案）�
 - 未解決: GAS実機配備と性能測定/ブラウザ固有の制限、残る12系統の独立器官アトラス、元モック由来の文字/パネル罫線の残滓、第4相の発現/本画像。
 - 構造総数: **43ノード**。36承認済み維持、E6〜E12の7草案。CORE3定義は不変。
 
+## 画像合成v4.2の限定反映（2026-10-14）
+
+- ユーザーの工程継続承認に基づき14系統の画像表示を追加改善。ただし形式的ノード状態は承認済み36/草案8を維持。
+- 旧12系統の相II/III暫定肖像24点を既定モック原本から再抽出し、余計な生物と図鑑区切りの混入を減らす。原本9点のSHA256をローカル証跡内で記録。
+- 完成肖像を表示するときは不変幼体全身を重ね描画しない。VALIS/反記銘の不変コア+LV画像部位11×3は今までどおり合成。
+- 編集用のGitHub `src/composite/app.js`は更新済み。しかし約3MBのGitHub実行`src/Index.html`の更新はブロックされたため、**v4.2コードがGitHubの実行画面で動いていると誤報しない**。
+- ローカルv4.2 ZIP `fizzbuzz_image_composite_v42.zip` SHA256 `7d33c1735da6ff9ec4d03165361eec9aa4020213ba6145531602ef7345571930`。テスト: Node34/34、ブラウザ14系統図鑑と6系統レイヤー照合、各500行育成、420px画面。
+- E13の登録は証跡の初期登録であり、旧E12を上書きしない。実GAS・FPS・旧12系統のLv素材・第四相は未検証。NEXTはGitHub実行HTMLの同期。
+
 ## Node構造・参照要約
 
-親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6/E7/E8/E9/E10/E11/E12は検証版ごとに独立した起点。
+親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6/E7/E8/E9/E10/E11/E12/E13は検証版ごとに独立した起点。
 層間関係: derived_from / implements / verifies / evidence_for による意味接続のみ（層間parent_idは禁止）。
 A/B/C/D/Eを機械的に同数へ揃えず、実装・検証・証跡の独立単位に応じて分割する。
 
@@ -398,6 +407,14 @@ E12:（D1.2, D1.3, C1.4.3, C1.5 / 14系統画像合成v4.1本流統合と環境�
 		GitHub版Index Blob 66f338fcd253df87fda46166b5e97389271f49e3、client tests Blob d38143d7554c83cd018aed4108ff863ff5e7d0c2、server tests Blob f243f69e30fb03fcb197dd627db396d26657f148を対象。Nodeローカル31成功、Chromium14系統/500行誘導成功、GitHub正本V8互換22成功を限定検証。
 	実態:
 		状態: 草案。35枚器官/身体PNG＋旧12系統24暫定透過肖像、9原本モック保存。旧Indexと旧テストを退避し、3COREとCode.gsを未変更。実GAS実機/FPS、旧12系統の器官素材完成、第4相未検証/未実装。次FLOW候補: FLOW-04/FLOW-08。
+
+E13:（D1.3, C1.5 / v4.2肖像分離・二重描画防止と画像24点の限定検証）［草案］
+	構成（要素・関係）:
+		Node File: valis/nodes/E/E13.md。E層独立起点。GitHub編集ソースsrc/composite/app.js／ローカル配布v4.2をそれぞれ対象にする。
+	ロジック:
+		実Node34/34成功。派生画像24/24と原本9枚の保全を確認。Chromiumの14系統図鑑、4系統各500行、6系統の描画呼出しで、旧完全肖像の二重全身コア描画がなく、VALIS/反記銘の器官レイヤー合成が維持されることを確認。
+	実態:
+		状態: 草案。GitHub実行Index.htmlと派生PNGは未同期（v4.1）。新画質の確認は配布ZIPローカルv4.2限定。GAS実配信・旧12系統のLv器官独立素材は未実装。次FLOW候補: FLOW-04/FLOW-08。
 
 ## FLOW-09 状態変更決定 / FLOW-05 正式反映（2026-10-13）
 
