@@ -5,7 +5,7 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 工程5の草案としてGitHub Actions Node 35/35、68画像byte一致、両実行HTML再生成一致、Chromium全104画像デコード・14系統Lv差・420px/再生/不正GAS応答拒否が実検証PASS。E15を草案登録（52ノード：36承認済み・16草案）。旧12系統の36SVGと24暫定肖像は完成原画ではなく、高解像度原本9PNG、v4.2改善24画像、目視画質、実GAS配信、第四相は未完。工程6の最終整合は別途実施。
+current_status: 工程6で既存E15草案をE層構造索引へ反映し、52 Node File（A7/B9/C13/D8/E15）とManifest登録52件・36承認済み/16草案を照合。工程5最終HEAD224802aaのNode/Chromium CIは成功済み、PR #1はmainへ統合（merge 1ded76c）。旧12の36 SVGは原画切出しではない仮器官。原本9高解像PNG、v4.2改善24肖像、真のLv器官、画質目視、実GAS/端末、第四相は未完成。
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
@@ -14,14 +14,16 @@ initial_registration_this_change: E13（14系統肖像分離・24派生画像の
 manifest_reflection_this_change: C1.5/D1.3の未承認v4.2追記、src/composite/app.jsの二重描画防止、tests/composite-v42-render-source.test.cjs、design/image-composite-v42-quality-pass.md、E13の初期登録。GitHub実行Index.htmlの旧v4.1継続を明記。
 initial_registration_stage2: C1.5.1, C1.5.2, C1.5.3, D1.3.1, D1.3.2, D1.3.3（すべて草案。新規Node FileをProject Summary Manifestへ初登録）。
 manifest_reflection_stage2: 既存Project Summary Manifestの総数44→50・ノード階層・参照・残存処理フラグの要約を更新。既存ノード自体の承認状態、src、tests、E層の版・証跡有効性は変更なし。
-last_structural_flow: 工程2 FLOW-04（責務分割案）→ FLOW-07（D検証観点）→ FLOW-05（新規Node初期登録と概要反映）。
+last_structural_flow: 工程5 FLOW-05（E15草案初期登録）→ 工程6 FLOW-06/05（実体52と索引51の差を確認、E15構造索引追補。新規Node ID・状態遷移なし）。
 initial_registration_stage3: E14（D1.3.1/C1.5.1 GitHub実行HTML同期・V8限定検証の独立証跡、草案）。
 initial_registration_stage5: E15（GitHub実装コミット c37e107 のNode/Chromium実検証の独立E層証跡、草案。`operations/evidence/stage5-ci-node-chromium.md`参照）。
 manifest_reflection_stage5: `npm test` 35/35、68バイナリ・2HTML一致、実Chromium104画像ロードと14系統Lv0/Lv3差、FizzBuzz N15/1000、420pxと不正応答拒否。スクリーンショット3点/JSON artifact保存。D1.3.1〜3の限定ゲートは実行済み、GASと原画画質は未認定。E15初期登録により51→52ノード。core3定義と36承認済み状態不変。工程6最終差分照合はまだ行わない。
+initial_registration_stage6: なし（E15は工程5でNode Fileと上部初期登録済み。工程6は構造索引の反映漏れを修正、新規Node IDなし）。
+manifest_reflection_stage6: 52 Node Fileと構造索引の突合、E15索引追加、C1.5.1〜3/D1.3.1〜3の実検証済み範囲と残存ゲート、E14歴史版の区別、工程5最終CI/PR #1 main統合を反映。Manifest自動整合テスト追加。core3定義と承認状態不変。
 manifest_reflection_stage4: C1.5.2/D1.3.2の工程4仮素材実装・品質未検証を草案反映。src/composite/draft-organ-sprites.jsとapp.js、ビルダー、両HTML、tests/draft-organ-sprites.test.cjsとbundle同期テスト、design/image-composite-stage4-draft.mdの追加更新。さらに既存の68データURIをassets/の独立バイナリへ完全一致で復元し台帳登録。tools/verify-composite-assets.cjs、tests/recovered-image-assets.test.cjs、design/stage4-asset-review.htmlを追加。GitHub読戻し限定検証はoperations/evidence/stage4-github-asset-inventory.mdを参照。Node増減0、承認/公開状態変更なし。
 manifest_reflection_stage3: C1.5.1とD1.3.1の実態・フラグ要約を更新。GitHub実行HTML2本同一blob 58143d97c89e00d8158b1ec0e18d83c1921a0843、再構築ツール/テスト作成、旧68画像保全、改善24画像未同期、Node CLI/ブラウザ/GAS未実施を明記。E14初期登録、総数50→51。承認状態変更なし。
-last_reflected_flow: FLOW-06 v4.1画像合成と9モック原本を確認 → FLOW-04 旧12系統の派生24画像再抽出/描画重複修正 → FLOW-08 ローカルNode34件、画像24点、Chromium14図鑑/500行/6系統Canvas呼出し → FLOW-05 GitHub編集ソース・D/C追記・E13/Manifest登録。大容量実行HTMLは更新ブロックで未反映。
-unresolved_summary: 52ノード（既存36承認済み、E6〜E15の10草案、C1.5.1〜3/D1.3.1〜3の6草案）。v4.2編集ソースと実行HTMLは同期。GitHub ActionsでNode35/35、68資産byte一致、Chromium104/104デコード・14系統Lv差・420pxがPASS（証跡E15）。ただし旧12SVG36は非原画の仮器官、v4.2改善肖像24と元9高解像PNGは未同期、画質の人間検証・元ZIP SHA・実GAS・実端末FPS/第四相は未完。main統合は最終HEADのCI結果に基づく別判定。
+last_reflected_flow: 工程6 FLOW-06（main 1ded76cとNode/証跡/CI実体監査）→ FLOW-05（既存E15構造項目、C/D実態と保留フラグ、最終HEAD CI結果を要約反映）。
+unresolved_summary: 計52ノード（36承認済み、16草案＝E6〜E15の10とC1.5.1〜3/D1.3.1〜3の6）。工程5はmainに草案統合済み。最終HEAD224802aaでNode/Chromium成功、HTML2本のGit Blobは6199ddba、GAS未配信。旧12系統のSVG36は仮造形、v4.2改善肖像24と元9高解像PNG/元SHAは未同期。真正器官・人間の画質判断・実GAS/実端末FPS・第四相は未完。
 
 ## 画像合成v3ローカル限定反映（2026-10-14、未承認）
 
@@ -73,7 +75,7 @@ unresolved_summary: 52ノード（既存36承認済み、E6〜E15の10草案、C
 
 ## Node構造・参照要約
 
-親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.5.1/2/3はC1.5の子。C1.6はC1の子。D1.3.1/2/3はD1.3の子、D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6/E7/E8/E9/E10/E11/E12/E13は検証版ごとに独立した起点。
+親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.5.1/2/3はC1.5の子。C1.6はC1の子。D1.3.1/2/3はD1.3の子、D1.1〜4はD1の子。E1〜E15は検証版ごとに独立した起点。E15は工程5の実Node/Chromium検証であり、歴史版E14の証跡を置換しない。
 層間関係: derived_from / implements / verifies / evidence_for による意味接続のみ（層間parent_idは禁止）。
 A/B/C/D/Eを機械的に同数へ揃えず、実装・検証・証跡の独立単位に応じて分割する。
 
@@ -289,7 +291,7 @@ C1:（外部参照 / GAS HTMLサービスと生物実装統合）［承認済み
 			ロジック:
 				src/compositeから自己完結HTML2本を同内容で再生成し、v4.2編集コードと実行版の一致を成立させる。
 			実態:
-				状態: 草案。作業ブランチの実行HTML2本はv4.2コードで同一blob 58143d97c89e00d8158b1ec0e18d83c1921a0843。原画はv4.1内包68点で改善24画像は未同期。E14限定証跡あり。処理フラグ: 版差=解消候補、Node CLI/ブラウザ/GAS=未実施。次FLOW候補: FLOW-08 / FLOW-04（画像更新）。
+				状態: 草案。mainで両実行HTMLは同一Git Blob 6199ddba84ed51505aa2a5270f9c4e5a7223eefc。最終HEAD224802aaのNode/asset/bundle確認はPASS。元工程3のBlob58143d97は履歴。改善WebP24画像の素材置換、実GASは保留。
 
 		C1.5.2:（C1.5, B1.5 / 全14系統の画像器官・原本保全・レイヤー合成アセット実装）［草案］
 			構成（要素・関係）:
@@ -297,7 +299,7 @@ C1:（外部参照 / GAS HTMLサービスと生物実装統合）［承認済み
 			ロジック:
 				C01〜C09と追加モックを原本保全し、14系統の器官・画像・継承レイヤーを生成。旧12系統の暫定肖像と真のLv器官を区別する。
 			実態:
-				状態: 草案（工程4仮器官SVG36点を二HTMLへ統合、v4.1画像68点をGitHub内へバイト同一で復元）。処理フラグ: 旧12の本物の画像切出しと原本9PNG SHA照合・画質は未完成。未確定事項: 原画の一致性と完成画質。次FLOW候補: FLOW-04（実画像切出し）/ FLOW-08。
+				状態: 草案。既存68画像をbyte/Git SHA一致で復元（PNG35/WebP24/JPEG9）。先行2系統33器官PNGは保持、旧12系統は36点の非原画SVG仮器官。Chromium実decode104/104、14系統Lv0/Lv3差を限定確認。真正器官PNG・元原画照合と画質は未認定。
 
 		C1.5.3:（C1.5, B1.5 / 全モック参照の観測UI・画像描画統合実装）［草案］
 			構成（要素・関係）:
@@ -305,7 +307,7 @@ C1:（外部参照 / GAS HTMLサービスと生物実装統合）［承認済み
 			ロジック:
 				観測UI、育成/図鑑/履歴/器官LvとPC・モバイル表示を独立変更単位で統合する。
 			実態:
-				状態: 草案（工程2の責務/検証観点定義のみ）。処理フラグ: モック一致・操作性・小画面の品質確認が必要。未確定事項: UI参照の差異がある場合の造形評価。次FLOW候補: FLOW-04（工程4）/ FLOW-08。
+				状態: 草案。Chromiumで14系統図鑑とLv0/Lv3差、PC1440px/420px疑似モバイル、N15/1000ローカル再生、不正GAS stub拒否を検証。原画UIとの目視照合・実モバイル/全アクセシビリティ・GAS実配信は保留。
 
 	C1.6:（C1 / 入力Nから決定的6軸DNA）［承認済み］
 		構成（要素・関係）:
@@ -355,7 +357,7 @@ D1:（外部参照 / 生物育成と出力不変の検証計画）［承認済�
 			ロジック:
 				2HTMLと編集コードの版・画像内包・v4.2二重描画修正の一致性とFizzBuzz契約回帰を検証する。実GASはD1.4。
 			実態:
-				状態: 草案。GitHub blobとモジュール文字単位の版一致・68画像維持・V8の98項目成功はE14で限定確認済み。処理フラグ: Node CLIのnpm test/check:compositeとブラウザ/GAS実配信は未実施。次FLOW候補: FLOW-08 / FLOW-04。
+				状態: 草案。最終HEAD224802aaのNode35/35、check:assets、check:compositeと保護ファイル差分チェックPASS（証跡E15）。GAS実配信D1.4は未実施。
 
 		D1.3.2:（D1.3, C1.5.2 / 全系統透過器官・原本保全・視覚品質検証計画）［草案］
 			構成（要素・関係）:
@@ -363,7 +365,7 @@ D1:（外部参照 / 生物育成と出力不変の検証計画）［承認済�
 			ロジック:
 				原本SHA、14系統/相/Lvの画素・透過・二重描画・過去相継承と人間目視評価を分離して検証する。
 			実態:
-				状態: 草案（工程4で元HTML画像68点のbyte数・Git blob一致をGitHub読戻しで限定確認。Node形式検査スクリプトを追加）。処理フラグ: 中核9PNGの元ZIP SHA一致、真の器官分解品質、画像アルファ実画素、Node/Chromium/GAS実検証は未実施。未確定事項: 元ZIP/原本PNG未取得。次FLOW候補: FLOW-07 / FLOW-08（工程5）。
+				状態: 草案。実68画像byte一致、Chromium104/104 decodeと14系統Lv0/Lv3主Canvas差をE15で確認。元9 PNG SHA、改善24肖像、透明画素率・継ぎ目/文字残滓・人間の原画品質評価、旧12真正器官化は未実施。
 
 		D1.3.3:（D1.3, C1.5.3 / PC・モバイル観測UIと操作・表示履歴検証計画）［草案］
 			構成（要素・関係）:
@@ -371,7 +373,7 @@ D1:（外部参照 / 生物育成と出力不変の検証計画）［承認済�
 			ロジック:
 				14系統図鑑、ガイド/実個体分離、N件ログ、相履歴、低モーション・420px操作を実ブラウザで確認する。
 			実態:
-				状態: 草案（工程2の責務/検証観点定義のみ）。処理フラグ: ブラウザ操作・モック一致性が未検証。未確定事項: ブラウザ実行環境と人間の見た目評価。次FLOW候補: FLOW-07 / FLOW-08（工程4・5）。
+				状態: 草案。Chromium14系統図鑑、PC/420pxのローカル再生N15/1000、不正GAS応答拒否、JS例外0をE15で確認。GAS実通信/端末、完全なキーボード・読み上げとUI原画一致、FPSは未検証。
 
 	D1.4:（D1 / GAS実環境・画面品質）［承認済み］
 		構成（要素・関係）:
@@ -493,8 +495,16 @@ E14:（D1.3.1, C1.5.1 / v4.2実行HTML同期とV8限定動作照合の証跡）�
 	ロジック:
 		作業ブランチの2配布HTMLを同一Blob 58143d97c89e00d8158b1ec0e18d83c1921a0843へ同期し、68旧画像の保全と編集ソースとの文字単位一致、作業ツールV8の98項目を限定確認。
 	実態:
-		状態: 草案。Node CLIのnpm test、Chromium/GASの実行、改善24画像の画質は未検証。mainには未マージ。次FLOW候補: FLOW-08（再検証）/ FLOW-04（画像改善）。
+		状態: 草案。E14のv4.2当時のGit Blob/V8結果は履歴限定。後続E15で最終HEAD224802aaのNode/Chromium実検証済み。草案はmain統合済み、実GASと画質原画一致の合格ではない。
 
+
+E15:（D1.3.1/D1.3.2/D1.3.3 / GitHub版実Node・Chromium検証の限定証跡）［草案］
+	構成（要素・関係）:
+		Node File: valis/nodes/E/E15.md。E層独立起点、parent_idなし。evidence_for: D1.3.1/D1.3.2/D1.3.3。related_to: C1.5.1/C1.5.2/C1.5.3。一次記録: operations/evidence/stage5-ci-node-chromium.md。
+	ロジック:
+		最終HEAD224802aaのNode35/35、画像68/68 byte一致、2配布HTML一致、Chromium画像decode104/104・14系統Lv差、N15/1000再生、420px表示。push/PR両CI成功。
+	実態:
+		状態: 草案。工程5初期登録済み、工程6はManifest構造索引へ反映。PR #1はmain統合済み（merge 1ded76c）。原本9 PNG/改善24肖像・旧12真正器官・実GAS・画質目視/端末は未検証、第四相未実装。次FLOW候補: FLOW-08（残ゲート）。
 
 ## FLOW-09 状態変更決定 / FLOW-05 正式反映（2026-10-13）
 
@@ -572,3 +582,11 @@ E14:（D1.3.1, C1.5.1 / v4.2実行HTML同期とV8限定動作照合の証跡）�
 - 検証対象実装commit `c37e1077506ad619556abb894d9a7233d6e99bc3` のCI成功run: https://github.com/chifuru/VAL/actions/runs/38485929954 。自動テストPASSと完成画質認定を混同しない。
 - 新規E15は**草案の初期登録**。総数52（36承認済み、草案16）。既存E14とその他36承認済みの状態は変更なし。
 - 残存ゲート: 元PNG/ZIP SHAとローカルv4.2改善24肖像、旧12真正器官化、目視レビュー、実GAS配信、端末FPS、工程6最終照合。
+
+## 工程6 — E15構造索引反映と現行main整合（2026-10-14）
+
+- **初期登録と反映の区別:** E15は工程5初期登録済み。工程6で構造一覧にE15を追記しただけで、新規Node IDはなし。
+- **実Node対Manifest:** A7/B9/C13/D8/E15＝52。既存36承認済み・16草案は維持。core3定義/Code.gs/旧HTMLは不変更。
+- **最終実装基準:** PR #1 HEAD `224802aa7511d26bd5036c2b600021ed556f7b85`、push CI https://github.com/chifuru/VAL/actions/runs/38486209105 とPR CI https://github.com/chifuru/VAL/actions/runs/38486213825 ともにsuccess。main merge `1ded76c1109e6b0f59fd70fe04f3429294d20b9a`。工程6追加テストは別途検証。
+- **回帰防止:** `tests/manifest-consistency.test.cjs` で登録件数・ID/status/親子・core等保護blob SHA・証跡参照をチェック。
+- **残作業:** 原画9高解像PNG、改善24 WebP、旧12真正器官、画質の人間目視、実GAS/実端末FPS、第四相。自動CIがPASSでも完成と呼ばない。
