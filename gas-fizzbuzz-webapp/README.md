@@ -1,5 +1,14 @@
 # FizzBuzz Creature — GAS × 決定的DNAと64×64ドット変異生物
 
+## 画像合成 v4.2 実行基盤同期（2026-10-14：工程3 / 動作ロジック同期）
+
+- **GitHub作業ブランチで実行HTML同期**: `src/Index.html` と `src/Index.composite-v4.html` が同じGit blob `58143d97c89e00d8158b1ec0e18d83c1921a0843` を参照。編集用 `src/composite/app.js` v4.2 の旧12系統・二重全身描画防止を実行HTMLにも反映。
+- **素材の境界**: 画像68点は既存v4.1組込版をそのまま保全。以前のv4.2 ZIPで改善された旧12系統の派生肖像24点は今回GitHubへ追加していない。**v4.2実行ロジック同期**であり、**v4.2完成画質への更新ではない**。
+- **再現可能ビルド**: `tools/build-composite-html.cjs` が既存HTMLから元の埋込データURIを保持し、テンプレート/CSS/エンジン/appから2HTMLを再生成。 `npm run build:composite`、`npm run check:composite`。
+- **回帰試験コード追加**: `tests/composite-bundle-sync.test.cjs`、`npm test`の対象に既存v4.2ソース試験も追加。ただし**この工程ではNode CLIのテストは未実行**。
+- **限定検証**: 作業ツールのV8実行環境で98項目の構造・ソース/HTML・埋込画像/14系統・基本FizzBuzz契約を確認。ローカルNode、Chromium、実GAS/スマートフォンFPSと画像品質は未検証。既存36承認済みノードの状態は変更していない。
+- 詳細: `src/composite/README.md`、`valis/nodes/C/C1.5.1.md`、`valis/nodes/D/D1.3.1.md`、工程3のE14限定証跡。**mainにはPRをマージするまで未反映**。
+
 ## 画像合成 v4.2（2026-10-14：編集ソース更新／実行HTML未同期）
 
 ユーザー承認に基づき、旧12系統を暫定肖像単位で再抽出し、旧進化系統の完成画像の上に初期幼体の全身を二重表示する描画を修正しました。

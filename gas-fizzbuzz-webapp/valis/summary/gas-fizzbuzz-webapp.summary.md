@@ -5,15 +5,23 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 既存36ノード承認済みを維持。GitHub実行Index.htmlはv4.1（14系統画像合成）のまま。v4.2ではGitHub編集ソースsrc/composite/app.jsに旧12系統の二重ボディ防止を反映し、ローカルZIPで旧12系統24画像を再抽出/テスト済み。E13は草案の限定証跡（ローカルNode34/34、Chromium14系統・Canvasレイヤー照合成功）。実行HTMLと派生PNGはGitHub未同期。
+current_status: 工程5の草案としてGitHub Actions Node 35/35、68画像byte一致、両実行HTML再生成一致、Chromium全104画像デコード・14系統Lv差・420px/再生/不正GAS応答拒否が実検証PASS。E15を草案登録（52ノード：36承認済み・16草案）。旧12系統の36SVGと24暫定肖像は完成原画ではなく、高解像度原本9PNG、v4.2改善24画像、目視画質、実GAS配信、第四相は未完。工程6の最終整合は別途実施。
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
 initial_registration_previous_evidence: E3, E4
 initial_registration_this_change: E13（14系統肖像分離・24派生画像のマスク品質とCanvas実描画の独立証跡、草案）
 manifest_reflection_this_change: C1.5/D1.3の未承認v4.2追記、src/composite/app.jsの二重描画防止、tests/composite-v42-render-source.test.cjs、design/image-composite-v42-quality-pass.md、E13の初期登録。GitHub実行Index.htmlの旧v4.1継続を明記。
+initial_registration_stage2: C1.5.1, C1.5.2, C1.5.3, D1.3.1, D1.3.2, D1.3.3（すべて草案。新規Node FileをProject Summary Manifestへ初登録）。
+manifest_reflection_stage2: 既存Project Summary Manifestの総数44→50・ノード階層・参照・残存処理フラグの要約を更新。既存ノード自体の承認状態、src、tests、E層の版・証跡有効性は変更なし。
+last_structural_flow: 工程2 FLOW-04（責務分割案）→ FLOW-07（D検証観点）→ FLOW-05（新規Node初期登録と概要反映）。
+initial_registration_stage3: E14（D1.3.1/C1.5.1 GitHub実行HTML同期・V8限定検証の独立証跡、草案）。
+initial_registration_stage5: E15（GitHub実装コミット c37e107 のNode/Chromium実検証の独立E層証跡、草案。`operations/evidence/stage5-ci-node-chromium.md`参照）。
+manifest_reflection_stage5: `npm test` 35/35、68バイナリ・2HTML一致、実Chromium104画像ロードと14系統Lv0/Lv3差、FizzBuzz N15/1000、420pxと不正応答拒否。スクリーンショット3点/JSON artifact保存。D1.3.1〜3の限定ゲートは実行済み、GASと原画画質は未認定。E15初期登録により51→52ノード。core3定義と36承認済み状態不変。工程6最終差分照合はまだ行わない。
+manifest_reflection_stage4: C1.5.2/D1.3.2の工程4仮素材実装・品質未検証を草案反映。src/composite/draft-organ-sprites.jsとapp.js、ビルダー、両HTML、tests/draft-organ-sprites.test.cjsとbundle同期テスト、design/image-composite-stage4-draft.mdの追加更新。さらに既存の68データURIをassets/の独立バイナリへ完全一致で復元し台帳登録。tools/verify-composite-assets.cjs、tests/recovered-image-assets.test.cjs、design/stage4-asset-review.htmlを追加。GitHub読戻し限定検証はoperations/evidence/stage4-github-asset-inventory.mdを参照。Node増減0、承認/公開状態変更なし。
+manifest_reflection_stage3: C1.5.1とD1.3.1の実態・フラグ要約を更新。GitHub実行HTML2本同一blob 58143d97c89e00d8158b1ec0e18d83c1921a0843、再構築ツール/テスト作成、旧68画像保全、改善24画像未同期、Node CLI/ブラウザ/GAS未実施を明記。E14初期登録、総数50→51。承認状態変更なし。
 last_reflected_flow: FLOW-06 v4.1画像合成と9モック原本を確認 → FLOW-04 旧12系統の派生24画像再抽出/描画重複修正 → FLOW-08 ローカルNode34件、画像24点、Chromium14図鑑/500行/6系統Canvas呼出し → FLOW-05 GitHub編集ソース・D/C追記・E13/Manifest登録。大容量実行HTMLは更新ブロックで未反映。
-unresolved_summary: 44ノード（36承認済み・E6〜E13の8草案）。GitHub実行Index.htmlは画像合成v4.1で、編集ソースsrc/composite/app.jsのみv4.2修正済み。v4.2実行HTML＋原本モック9点＋派生肖像24点＋透明器官35点はローカル配布ZIPにあり、実Node34/34・Chromium/画像検証成功。実行HTML・画像24点のGitHub同期、旧12系統の真の器官ごとLV画像、実GAS配信/実端末FPS、第四相は未完了。
+unresolved_summary: 52ノード（既存36承認済み、E6〜E15の10草案、C1.5.1〜3/D1.3.1〜3の6草案）。v4.2編集ソースと実行HTMLは同期。GitHub ActionsでNode35/35、68資産byte一致、Chromium104/104デコード・14系統Lv差・420pxがPASS（証跡E15）。ただし旧12SVG36は非原画の仮器官、v4.2改善肖像24と元9高解像PNGは未同期、画質の人間検証・元ZIP SHA・実GAS・実端末FPS/第四相は未完。main統合は最終HEADのCI結果に基づく別判定。
 
 ## 画像合成v3ローカル限定反映（2026-10-14、未承認）
 
@@ -39,6 +47,21 @@ unresolved_summary: 44ノード（36承認済み・E6〜E13の8草案）。GitHu
 - 未解決: GAS実機配備と性能測定/ブラウザ固有の制限、残る12系統の独立器官アトラス、元モック由来の文字/パネル罫線の残滓、第4相の発現/本画像。
 - 構造総数: **43ノード**。36承認済み維持、E6〜E12の7草案。CORE3定義は不変。
 
+## 工程2 Node File分割・Project Summary Manifest初期登録（2026-10-14）
+
+- 新規C1.5.1/2/3・D1.3.1/2/3を1ノード1ファイルの草案として定義し、それぞれ同一層の既存親C1.5・D1.3に所属。A/Bは既存の仕様/機能を利用し増設しない。
+- 新規6件をこのProject Summary Manifestへ**初期登録**。既存概要の件数・親子/層間参照/処理フラグ要約は**Manifest反映**として更新（両者を区別）。新証跡Eは未作成。
+- v4.2編集srcとv4.1実行HTMLの版差、全モックの原本照合/独立器官画質、ブラウザ/GAS実機の検証は未完了。ユーザーの工程進行承認によって新規草案や既存36承認済みの状態を変更しない。
+- 次FLOW候補: FLOW-04（工程3のHTML同期、工程4の素材/UI）、FLOW-08（D層に基づく実結果）、FLOW-05（実装/検証後の反映）。
+
+## 工程3：v4.2実行HTML同期と限定検証（2026-10-14）
+
+- ブランチ `work/valis-full-mock-baseline-20261014` の `src/Index.html`／`src/Index.composite-v4.html` をGit Blob `58143d97c89e00d8158b1ec0e18d83c1921a0843` に同期。旧12系統の未分化全身二重描画を防ぐv4.2編集`src/composite/app.js`と同内容になった。
+- 画像68点（コア2＋透過器官33＋暫定肖像24＋参照9）はv4.1埋込資産のまま**ピクセルを置換せず維持**。v4.2旧12系統の改善済み派生肖像24点は未同期。旧12の真のLv器官は未完成。
+- `tools/build-composite-html.cjs`（再構築CLI）と`tests/composite-bundle-sync.test.cjs`、`package.json`の全回帰対象を追加。`src/composite/README.md`とプロジェクトREADMEに実施境界を記載。
+- E14（草案）の対象はGitHub HTMLのBlob同一性・編集モジュールとの実体照合・作業ツールV8での98項目成功。**Nodeのnpm test、ChromiumのCanvas実描画、GAS実配信、原本の画質保証ではない**。一次ログは `operations/evidence/stage3-v42-bundle-verification.md`。
+- FLOW-04実装→ FLOW-08限定証跡記録→ FLOW-05既存C1.5.1/D1.3.1要約反映・E14初期登録。既存36承認済みノードの状態不変、Project Summary Manifestの現在総数51。mainはPR未マージ。
+
 ## 画像合成v4.2の限定反映（2026-10-14）
 
 - ユーザーの工程継続承認に基づき14系統の画像表示を追加改善。ただし形式的ノード状態は承認済み36/草案8を維持。
@@ -50,7 +73,7 @@ unresolved_summary: 44ノード（36承認済み・E6〜E13の8草案）。GitHu
 
 ## Node構造・参照要約
 
-親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6/E7/E8/E9/E10/E11/E12/E13は検証版ごとに独立した起点。
+親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.5.1/2/3はC1.5の子。C1.6はC1の子。D1.3.1/2/3はD1.3の子、D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6/E7/E8/E9/E10/E11/E12/E13は検証版ごとに独立した起点。
 層間関係: derived_from / implements / verifies / evidence_for による意味接続のみ（層間parent_idは禁止）。
 A/B/C/D/Eを機械的に同数へ揃えず、実装・検証・証跡の独立単位に応じて分割する。
 
@@ -260,6 +283,30 @@ C1:（外部参照 / GAS HTMLサービスと生物実装統合）［承認済み
 		実態:
 			状態: 承認済み。処理フラグ: 本物の見た目は未検証。次FLOW候補: FLOW-08。
 
+		C1.5.1:（C1.5, B1.5 / 編集ソースとGAS実行HTMLの再生成・版同期実装）［草案］
+			構成（要素・関係）:
+				Node File: valis/nodes/C/C1.5.1.md。主所属: C層。parent_id: C1.5。implements: B1.5。related_to: C1.2/C1.3/C1.4.3/C1.5.2/C1.5.3。
+			ロジック:
+				src/compositeから自己完結HTML2本を同内容で再生成し、v4.2編集コードと実行版の一致を成立させる。
+			実態:
+				状態: 草案。作業ブランチの実行HTML2本はv4.2コードで同一blob 58143d97c89e00d8158b1ec0e18d83c1921a0843。原画はv4.1内包68点で改善24画像は未同期。E14限定証跡あり。処理フラグ: 版差=解消候補、Node CLI/ブラウザ/GAS=未実施。次FLOW候補: FLOW-08 / FLOW-04（画像更新）。
+
+		C1.5.2:（C1.5, B1.5 / 全14系統の画像器官・原本保全・レイヤー合成アセット実装）［草案］
+			構成（要素・関係）:
+				Node File: valis/nodes/C/C1.5.2.md。主所属: C層。parent_id: C1.5。implements: B1.5。related_to: C1.4.3/C1.5.1。
+			ロジック:
+				C01〜C09と追加モックを原本保全し、14系統の器官・画像・継承レイヤーを生成。旧12系統の暫定肖像と真のLv器官を区別する。
+			実態:
+				状態: 草案（工程4仮器官SVG36点を二HTMLへ統合、v4.1画像68点をGitHub内へバイト同一で復元）。処理フラグ: 旧12の本物の画像切出しと原本9PNG SHA照合・画質は未完成。未確定事項: 原画の一致性と完成画質。次FLOW候補: FLOW-04（実画像切出し）/ FLOW-08。
+
+		C1.5.3:（C1.5, B1.5 / 全モック参照の観測UI・画像描画統合実装）［草案］
+			構成（要素・関係）:
+				Node File: valis/nodes/C/C1.5.3.md。主所属: C層。parent_id: C1.5。implements: B1.5。related_to: C1.3/C1.5.1/C1.5.2。
+			ロジック:
+				観測UI、育成/図鑑/履歴/器官LvとPC・モバイル表示を独立変更単位で統合する。
+			実態:
+				状態: 草案（工程2の責務/検証観点定義のみ）。処理フラグ: モック一致・操作性・小画面の品質確認が必要。未確定事項: UI参照の差異がある場合の造形評価。次FLOW候補: FLOW-04（工程4）/ FLOW-08。
+
 	C1.6:（C1 / 入力Nから決定的6軸DNA）［承認済み］
 		構成（要素・関係）:
 			Node File: valis/nodes/C/C1.6.md。主所属: C層。parent_id: C1。 implements: B1.6。
@@ -301,6 +348,30 @@ D1:（外部参照 / 生物育成と出力不変の検証計画）［承認済�
 			次期3系統×3段階のCanvas曲線命令の差、記号/特化HUD・系譜、低モーション/結果画面/FizzBuzz出力不変を検証。
 		実態:
 			状態: 承認済み。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
+
+		D1.3.1:（D1.3, C1.5.1 / 編集ソース・実行HTML版一致とGAS受渡しの検証計画）［草案］
+			構成（要素・関係）:
+				Node File: valis/nodes/D/D1.3.1.md。主所属: D層。parent_id: D1.3。verifies: C1.5.1/C1.2/C1.3。related_to: D1.1/D1.2/D1.4。
+			ロジック:
+				2HTMLと編集コードの版・画像内包・v4.2二重描画修正の一致性とFizzBuzz契約回帰を検証する。実GASはD1.4。
+			実態:
+				状態: 草案。GitHub blobとモジュール文字単位の版一致・68画像維持・V8の98項目成功はE14で限定確認済み。処理フラグ: Node CLIのnpm test/check:compositeとブラウザ/GAS実配信は未実施。次FLOW候補: FLOW-08 / FLOW-04。
+
+		D1.3.2:（D1.3, C1.5.2 / 全系統透過器官・原本保全・視覚品質検証計画）［草案］
+			構成（要素・関係）:
+				Node File: valis/nodes/D/D1.3.2.md。主所属: D層。parent_id: D1.3。verifies: C1.5.2/C1.4.3/A1.5/B1.5。
+			ロジック:
+				原本SHA、14系統/相/Lvの画素・透過・二重描画・過去相継承と人間目視評価を分離して検証する。
+			実態:
+				状態: 草案（工程4で元HTML画像68点のbyte数・Git blob一致をGitHub読戻しで限定確認。Node形式検査スクリプトを追加）。処理フラグ: 中核9PNGの元ZIP SHA一致、真の器官分解品質、画像アルファ実画素、Node/Chromium/GAS実検証は未実施。未確定事項: 元ZIP/原本PNG未取得。次FLOW候補: FLOW-07 / FLOW-08（工程5）。
+
+		D1.3.3:（D1.3, C1.5.3 / PC・モバイル観測UIと操作・表示履歴検証計画）［草案］
+			構成（要素・関係）:
+				Node File: valis/nodes/D/D1.3.3.md。主所属: D層。parent_id: D1.3。verifies: C1.5.3/C1.3/A1.2/A1.5/B1.2/B1.5。
+			ロジック:
+				14系統図鑑、ガイド/実個体分離、N件ログ、相履歴、低モーション・420px操作を実ブラウザで確認する。
+			実態:
+				状態: 草案（工程2の責務/検証観点定義のみ）。処理フラグ: ブラウザ操作・モック一致性が未検証。未確定事項: ブラウザ実行環境と人間の見た目評価。次FLOW候補: FLOW-07 / FLOW-08（工程4・5）。
 
 	D1.4:（D1 / GAS実環境・画面品質）［承認済み］
 		構成（要素・関係）:
@@ -416,6 +487,15 @@ E13:（D1.3, C1.5 / v4.2肖像分離・二重描画防止と画像24点の限定
 	実態:
 		状態: 草案。GitHub実行Index.htmlと派生PNGは未同期（v4.1）。新画質の確認は配布ZIPローカルv4.2限定。GAS実配信・旧12系統のLv器官独立素材は未実装。次FLOW候補: FLOW-04/FLOW-08。
 
+E14:（D1.3.1, C1.5.1 / v4.2実行HTML同期とV8限定動作照合の証跡）［草案］
+	構成（要素・関係）:
+		Node File: valis/nodes/E/E14.md。主所属: E層。独立証跡起点でparent_idなし。evidence_for: D1.3.1/C1.5.1。証跡ログ: operations/evidence/stage3-v42-bundle-verification.md。
+	ロジック:
+		作業ブランチの2配布HTMLを同一Blob 58143d97c89e00d8158b1ec0e18d83c1921a0843へ同期し、68旧画像の保全と編集ソースとの文字単位一致、作業ツールV8の98項目を限定確認。
+	実態:
+		状態: 草案。Node CLIのnpm test、Chromium/GASの実行、改善24画像の画質は未検証。mainには未マージ。次FLOW候補: FLOW-08（再検証）/ FLOW-04（画像改善）。
+
+
 ## FLOW-09 状態変更決定 / FLOW-05 正式反映（2026-10-13）
 
 - **対象範囲**: A層7、B層9、C層10、D層5、E層5、計36件。いずれも既存Node Fileの「草案→承認済み」。承認済みへの直接遷移はFLOW-09の遷移表で許容され、必要なユーザーの明示承認は今回の「すべて一旦、承認で」で確認。
@@ -485,3 +565,10 @@ E13:（D1.3, C1.5 / v4.2肖像分離・二重描画防止と画像24点の限定
 - **未実装の設計案**: 12全系統のうち9系統、結果画面限定の第4進化段階と解放閾値は実装していない。実装済みと称さない。
 - **限定検証**: E6に該当blobのV8互換モック53件成功を記録。実Node npm test、GAS実通信、ブラウザ実画質・FPS・アクセシビリティ・モバイルは未実施。
 - **NEXT**: FLOW-08で実Node/ブラウザ/GASの描画・操作を確認。造形評価後に必要なら次のFLOW-04で他9系統と第4段階条件を設計する。試作を承認済みに変更するには別途FLOW-09判断が必要。
+
+## 工程5 — CIの実行証跡・E15登録（2026-10-14、草案）
+
+- 新しい`tests/composite-runtime-contract.test.cjs`と`tests/browser-smoke.cjs`、GitHub Actions `.github/workflows/gas-fizzbuzz-stage5.yml` を追加。Node/Chromiumの詳細結果は `operations/evidence/stage5-ci-node-chromium.md` と E15を参照。
+- 検証対象実装commit `c37e1077506ad619556abb894d9a7233d6e99bc3` のCI成功run: https://github.com/chifuru/VAL/actions/runs/38485929954 。自動テストPASSと完成画質認定を混同しない。
+- 新規E15は**草案の初期登録**。総数52（36承認済み、草案16）。既存E14とその他36承認済みの状態は変更なし。
+- 残存ゲート: 元PNG/ZIP SHAとローカルv4.2改善24肖像、旧12真正器官化、目視レビュー、実GAS配信、端末FPS、工程6最終照合。

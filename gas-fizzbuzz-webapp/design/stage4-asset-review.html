@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VALIS / Stage 4 — Image Asset Review (Draft)</title>
+<style>
+:root{color-scheme:dark;font:15px/1.6 system-ui,-apple-system,sans-serif;background:#080e1d;color:#d7e9f9}
+*{box-sizing:border-box}body{margin:0 auto;padding:26px 22px 80px;max-width:1340px}
+h1{font-size:clamp(24px,3vw,38px);line-height:1.2;margin:10px 0}h2{font-size:20px;margin:30px 0 12px}
+small,p,figcaption{color:#8faac4}.kicker{letter-spacing:.16em;color:#9cbfe2;font:700 12px/1.5 ui-monospace,monospace}
+.notice{padding:13px 16px;border:1px solid #435b7b;background:#14233b;border-radius:8px;margin:18px 0}
+.collection{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px}
+.lineage{border-top:1px solid #29415a;padding:20px 0}
+.lineage-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 10px}
+.lineage-head h3{font-size:17px;margin:0}.state{font:11px ui-monospace,monospace;color:#a2b8d4}
+.art{margin:0;border:1px solid #2c4361;background:radial-gradient(circle at 55% 40%,#203652,#0b172a 70%);
+border-radius:8px;overflow:hidden;min-width:0}
+.art img{display:block;max-width:100%;height:160px;width:100%;object-fit:contain;image-rendering:auto}
+.art figcaption{font:12px ui-monospace,monospace;padding:7px 10px;border-top:1px solid #263c54}
+.refs .art img{height:135px}.layer img{height:150px}
+.jump{display:flex;gap:8px;flex-wrap:wrap}.jump a{color:#a3caff;text-decoration:none;border:1px solid #38516f;padding:4px 9px;border-radius:4px}
+code{font-size:12px}footer{margin-top:40px;border-top:1px solid #38516f;padding-top:12px}
+</style></head><body>
+<div class="kicker">VALIS OBSERVATION ARCHIVE / C1.5.2 / DRAFT ONLY</div>
+<h1>工程4 — 全14系統・画像パーツ照合盤</h1>
+<p>GitHubに復元した68点の元バンドル画像と、旧12系統の仮器官SVG36点を並べて評価する作業用ギャラリー。GAS・実機の画質認定ではありません。</p>
+<div class="notice"><strong>保留:</strong> 9枚の原本PNGおよび改善済みv4.2肖像24枚は未取得です。下段の旧12系統の器官は、元モックから切り抜いたPNGではなく作図したSVG草案です。原画や成熟後の部位と混同しないでください。</div>
+<nav class="jump"><a href="#sources">参照モック縮小見本</a><a href="#all">14系統</a><a href="#core">祖先コア</a></nav>
+<h2 id="sources">C01–C09 / 参照見本 (JPEG)</h2><div id="references" class="collection refs"></div>
+<h2 id="all">14系統の相別肖像・器官レベル</h2><div id="lineages"></div>
+<h2 id="core">不変祖先コア / オリジナルPNG 2点</h2><div id="coreGallery" class="collection"></div>
+<footer>保管元: <code>assets/composite/</code>、<code>assets/lineage-webp/</code>、<code>assets/reference-thumbs/</code>。台帳: <code>assets/composite-asset-ledger.v42-draft.json</code>。ブラウザによる画像表示の品質判定は別途実施してください。</footer>
+<script src="../src/composite/draft-organ-sprites.js"></script>
+<script>
+'use strict';
+const legacy=['abyss','myth','recursive','sail','gravity','crystal','manyeyes','abyssshell','parallel','memory','serpent','solar'];
+const modern={antimeme:['absenceMask','unseenEye','erasureCrown','memoryFilament','brokenTail'],
+valis:['observingEye','revelationMembrane','detachedNode','receiverCrown','signalTail','lightKernel']};
+const refs=['C01_deepsea','C02_bird_dragon','C03_crystal_alien','C04_alien_three',
+'C05_abyssal_codex','C06_evolution_atlas','C07_aquatic_atlas','C08_valis_revelation','C09_valis_signal'];
+const asset=(p)=>'../assets/'+p;
+function makeArt(url,label,parent,css='') {
+ const fig=document.createElement('figure');fig.className='art '+css;
+ const img=document.createElement('img');img.src=url;img.alt=label;img.loading='lazy';
+ const cap=document.createElement('figcaption');cap.textContent=label;
+ fig.append(img,cap);parent.append(fig);
+}
+for(const id of refs)makeArt(asset('reference-thumbs/'+id+'.jpg'),id+' / JPEG見本',document.getElementById('references'));
+const main=document.getElementById('lineages');
+for(const id of [...legacy,...Object.keys(modern)]) {
+ const sec=document.createElement('section');sec.className='lineage';sec.id='lineage-'+id;
+ const head=document.createElement('div');head.className='lineage-head';
+ const title=document.createElement('h3');title.textContent=id;
+ const state=document.createElement('span');state.className='state';
+ state.textContent=modern[id]?'MODULAR PNG · 既存Lv器官':'FULL PORTRAIT + DRAFT SVG';
+ head.append(title,state);sec.append(head);
+ const gallery=document.createElement('div');gallery.className='collection';
+ if(legacy.includes(id)) {
+  for(const phase of [2,3])makeArt(asset('lineage-webp/'+id+'-phase'+phase+'.webp'),
+   '相'+phase+' / 全身暫定肖像',gallery);
+  for(const lv of [1,2,3]) {
+   const uri='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(window.CompositeDraftOrgans.svg(id,lv));
+   makeArt(uri,'仮器官 Lv'+lv+' / VECTOR DRAFT',gallery,'layer');
+  }
+ } else for(const organ of modern[id])for(const lv of [1,2,3])
+  makeArt(asset('composite/'+id+'-'+organ+'-lv'+lv+'.png'),organ+' · Lv'+lv,gallery,'layer');
+ sec.append(gallery);main.append(sec);
+}
+for(const id of ['marin','astral'])makeArt(asset('composite/core-'+id+'.png'),'core-'+id,document.getElementById('coreGallery'));
+</script></body></html>
