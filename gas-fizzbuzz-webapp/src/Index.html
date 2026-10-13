@@ -1087,6 +1087,41 @@
           if(org.eyes>1.05)iris(0,-13,4+org.eyes*2);
           markings(0,-18,22,22);
         }
+        // Inheritance is attached to the NEW body. It is not a translucent copy
+        // of an old animal, and remains visible after the transition animation ends.
+        (a.heritage||[]).forEach(function(old,i){
+          var weight=i===a.heritage.length-1?.84:.56;
+          var faded=shade(old.color,a.color,1-weight*.80);
+          var reach=old.organs.tentacles||.4,wing=old.organs.wings||.4;
+          g.save();g.globalAlpha=weight;
+          if(old.lineage==='abyss'){
+            for(var tip=0;tip<2+Math.min(2,Math.floor(reach));tip++){
+              tendril(-size*.55,4+tip*7,-size-16-reach*13,-11+tip*19+wave*3,
+                2.8+reach*.85,tip+.65,faded);
+            }
+          }else if(old.lineage==='myth'){
+            membrane([[-size*.25,-7],[-size*.56,-30-wing*13],[-size*.95,-15],
+              [-size*.77,11]],faded,.93);
+            membrane([[size*.25,-7],[size*.56,-30-wing*13],[size*.95,-15],
+              [size*.77,11]],faded,.93);
+          }else if(old.lineage==='recursive'){
+            for(var fork=0;fork<2;fork++){
+              tendril((fork?1:-1)*12,-size*.6,(fork?1:-1)*(24+old.appendage*12),
+                -size-16-(old.organs.orbit||.3)*10,2.8,fork+3,faded);
+            }
+            if(st>1)ring(0,-15,32+(old.organs.orbit||.2)*5,14+old.senses*7);
+          }else {
+            // The original juvenile tail/fin survives as a small dorsal organ.
+            membrane([[-size*.58,6],[-size*.97,-14-old.appendage*10],
+              [-size-16,9],[-size*.70,17]],faded,.88);
+          }
+          // A colored eye/skin rosette preserves the former face and pigment.
+          g.fillStyle=faded;
+          g.beginPath();g.arc(-size*.32,3+i*8,
+            2.5+old.senses*3.4,0,Math.PI*2);g.fill();
+          g.strokeStyle=dark;g.lineWidth=1.8;g.stroke();
+          g.restore();
+        });
         // Specialized inherited organs: additive but capped to avoid unreadable overlap.
         if(org.shell>.95){
           for(var plate=0;plate<Math.min(5,2+tier);plate++){
@@ -1100,7 +1135,7 @@
         g.restore();
         return true;
       }
-      function renderScene(context,appearance,time,still){
+      function renderScene(context,appearance,time,still,transition){
         if(!context)return;
         var previous=paintCtx;paintCtx=context;
         context.clearRect(0,0,256,256);
@@ -1109,7 +1144,21 @@
           var sky=context.createLinearGradient(0,0,0,256);
           sky.addColorStop(0,appearance.stage===0?'#122f45':appearance.stage===1?'#253647':'#0a1235');
           sky.addColorStop(1,'#080f25');context.fillStyle=sky;context.fillRect(0,0,256,256);
-          var success=smoothOrganism(context,appearance,time,still);
+          var success;
+          if(!still&&transition&&transition.from&&transition.progress<1){
+            // Cross-dissolve old anatomy into the new anatomy for 1.1 seconds.
+            // At completion, the new body's inherited organs remain permanently.
+            var factor=clamp(transition.progress,0,1);
+            factor=factor*factor*(3-2*factor);
+            context.save();context.globalAlpha=1-factor;
+            smoothOrganism(context,transition.from,time,false);
+            context.restore();
+            context.save();context.globalAlpha=factor;
+            success=smoothOrganism(context,appearance,time,false);
+            context.restore();
+          }else{
+            success=smoothOrganism(context,appearance,time,still);
+          }
           if(success){
             if(!still){drawFood(time);}
             paintCtx=previous;
@@ -1138,7 +1187,16 @@
         }
         paintCtx=previous;
       }
-      function draw(time){var still=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;renderScene(ctx,state.creature.appearance,still?0:time,still);}
+      function draw(time){
+        var still=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var transition=null;
+        if(!still&&morphTransition){
+          var progress=clamp((time-morphTransition.started)/1100,0,1);
+          if(progress>=1)morphTransition=null;
+          else transition={from:morphTransition.from,progress:progress};
+        }
+        renderScene(ctx,state.creature.appearance,still?0:time,still,transition);
+      }
       function frame(time){draw(time);window.requestAnimationFrame(frame);}
       updateGrowth();updateButtons();
       if(ctx&&window.requestAnimationFrame)window.requestAnimationFrame(frame);
