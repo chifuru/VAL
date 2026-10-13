@@ -34,3 +34,6 @@
 ZIP SHA-256: `3197a205fd8671edcd7ff94c9b6f478af218d025878c9fddabea0faeaf43373e`。
 
 配布ZIPをGitHub本流のソース全体へ同期済みと主張しない。GitHubは画像内包HTMLとテスト、本記録までを反映。アセットの編集元PNGはZIP内で保存している。
+
+## 追加：編集用ソースの抽出（動作変更なし）
+GitHubの自己完結 `src/Index.html` から、`src/composite/creature-engine.js` / `app.js` / `styles.css` / `Index.template.html` を原文のまま抽出し、同階層のREADMEおよび `design/image-composite-v41-assets.json` を追加（コミット `9777e6cfb6113543ad7c3776552af66248b2c8da`）。別ファイルは編集用であり、公開画面は引き続きバンドルされたIndex.htmlを正とする。PNG原本と画像ビルドはローカルZIPの `assets/` と `build.py` を使用。E12が参照する本番HTML blob SHAは変更なし。
