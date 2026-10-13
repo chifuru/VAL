@@ -372,11 +372,17 @@
           var tail=3+Math.floor(a.appendage*4);
           for(var fy=-4;fy<=4;fy++)block(left-tail+Math.abs(fy),top+Math.floor(h/2)+fy,Math.max(1,tail-Math.abs(fy)),1,a.color);
           for(var fi=0;fi<4;fi++)block(left+3+fi,top-1-fi,Math.max(1,4-fi),1,a.color);
+          if(a.family===0)block(left-tail-2,top+Math.floor(h/2)-1,2,3,a.color);
+          if(a.family===1)for(var spike=0;spike<4;spike++)pixel(left+2+spike*3,top-2,'#d4f2e4');
+          if(a.family===2)block(left+Math.floor(w/2),top-4,2,4,'#b1cfff');
         } else if(stage===1){
           // Terrestrial legs and inherited tail.
           for(var leg=0;leg<2;leg++)block(left+Math.floor(w*(.2+leg*.5)),top+h-2,3,5,shade);
           block(left-3-Math.floor(a.appendage*3),top+Math.floor(h*.65),5,2,a.color);
           block(left+2,top-3,3,4,a.color);block(left+w-5,top-3,3,4,a.color);
+          if(a.family===0){block(left-5,top+3,5,3,a.color);block(left+w,top+3,5,3,a.color);}
+          if(a.family===1){for(var shell=0;shell<3;shell++)block(left+2+shell*4,top-2,3,2,'#e6dfb9');}
+          if(a.family===2){block(left-2,top+Math.floor(h/2),3,3,a.color);block(left+w-1,top+Math.floor(h/2),3,3,a.color);}
         } else {
           // Space life with branching feelers; intellectual line becomes Lisp alien.
           for(var arm=0;arm<2;arm++){
@@ -386,6 +392,8 @@
           }
           block(left+3,top-5,2,6,shade);block(left+w-5,top-5,2,6,shade);
           pixel(left+4,top-5,'#bbf7ff');pixel(left+w-4,top-5,'#bbf7ff');
+          if(a.family===0)for(var fin=0;fin<4;fin++){pixel(left-4-fin,top+5+fin,'#a7f6ff');pixel(left+w+3+fin,top+5+fin,'#a7f6ff');}
+          if(a.family===1)for(var plate=0;plate<4;plate++){block(left+plate*3,top-1,2,2,'#deedc7');}
         }
         for(var y=0;y<h;y++)for(var x=0;x<w;x++){
           var nx=(x-(w-1)/2)/(w/2),ny=(y-(h-1)/2)/(h/2),d=nx*nx+ny*ny;
