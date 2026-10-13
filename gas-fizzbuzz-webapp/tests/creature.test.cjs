@@ -580,3 +580,9 @@ test('portrait UI includes lineage symbol and organ strengths without changing t
   assert.equal(h.get('result').value,fizzBuzz(400).join('\n'));
   assert.equal(h.get('app-shell').attrs['data-mode'],'result');
 });
+
+
+test('organic Canvas portraits scale smoothly rather than nearest-neighbor pixels',()=>{
+  assert.ok(!html.includes('image-rendering:pixelated'));
+  assert.ok(html.includes('image-rendering:auto'));
+});
