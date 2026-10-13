@@ -24,12 +24,12 @@
     .pet-screen { position:relative; background:radial-gradient(circle at 50% 58%,#304079,#151b38 64%,#10172f); display:flex; justify-content:center; align-items:center; min-height:326px; overflow:hidden; }
     .pet-screen::before { content:""; position:absolute; inset:0; pointer-events:none; opacity:.24; background:repeating-linear-gradient(transparent 0 5px,#070c1e 6px 7px); }
     .pet-screen::after { content:""; position:absolute; left:14%; right:14%; bottom:30px; height:4px; background:#657bb5; box-shadow:0 6px 0 #263560; }
-    #creature { width:min(100%,310px); aspect-ratio:1; height:auto; z-index:1; image-rendering:auto; }
+    #creature { width:min(100%,310px); aspect-ratio:1; height:auto; z-index:1; image-rendering:pixelated; }
     .final-card { margin-top:22px; }
     .final-card[hidden] { display:none; }
     .final-layout { display:grid; grid-template-columns:minmax(220px,.9fr) minmax(260px,1.1fr); gap:20px; align-items:center; padding:20px; }
     .final-portrait { display:flex; align-items:center; justify-content:center; min-height:270px; border:2px solid #5c72a4; border-radius:12px; background:radial-gradient(circle at 50% 42%,#3b4c82,#101831 74%); }
-    #final-creature { width:min(100%,280px); aspect-ratio:1; height:auto; image-rendering:auto; }
+    #final-creature { width:min(100%,280px); aspect-ratio:1; height:auto; image-rendering:pixelated; }
     .final-kicker { margin:0 0 8px; color:var(--lime); font-size:.76rem; letter-spacing:.1em; }
     .final-species { font-size:clamp(1.35rem,3vw,2rem); font-weight:900; margin:0 0 7px; line-height:1.3; }
     .final-status { color:var(--yellow); font-size:.83rem; font-weight:800; margin:0 0 14px; }
@@ -495,7 +495,11 @@
         pilotLineages:PILOT_LINEAGES,environments:ENVIRONMENTS,
         growthFor:growthFor,imprintFor:imprintFor,imprintName:imprintName,
         initialCreature:initialCreature,stepGrowth:stepGrowth,tally:tally,
-        renderSmooth:smoothOrganism
+        renderPixel:function(context,a,time,still){
+          if(!context)return false;
+          var prev=paintCtx;paintCtx=context;dotMask=1;
+          dotCreature64(a,time,still);paintCtx=prev;return true;
+        }
       });
       var appShell=document.getElementById('app-shell');
       var modeChip=document.getElementById('mode-chip');
@@ -965,244 +969,288 @@
       }
       // The three prototype families are composed procedurally: no static creature sprites.
       // Drawing is pure with respect to appearance; frame time changes pose, never the genome.
-      function smoothOrganism(context,a,time,still){
-        if(!context || typeof context.bezierCurveTo!=='function' ||
-           typeof context.createRadialGradient!=='function')return false;
-        var g=context,st=a.stage,org=a.organ.levels;
-        var wave=still?0:Math.sin(time/540),breath=still?0:Math.sin(time/760)*2.2;
-        var phase=still?0:time/420,scale=st===0?.82:st===1?.92:1.05;
-        var main=shade(a.color,'#ffffff',.30),dark=shade(a.color,'#091731',.48);
-        var aura=shade(a.color,'#b6fbff',.60),bark=shade(a.color,'#243257',.25);
-        var tier=a.growthTier,lon=a.lineage;
-        function outline(cx,cy,rx,ry){
-          g.beginPath();g.moveTo(cx+rx,cy);
-          g.bezierCurveTo(cx+rx,cy-ry*.66,cx+rx*.45,cy-ry,cx,cy-ry);
-          g.bezierCurveTo(cx-rx*.55,cy-ry,cx-rx,cy-ry*.55,cx-rx,cy);
-          g.bezierCurveTo(cx-rx,cy+ry*.7,cx-rx*.45,cy+ry,cx,cy+ry);
-          g.bezierCurveTo(cx+rx*.65,cy+ry,cx+rx,cy+ry*.66,cx+rx,cy);
-          g.closePath();
+      // 64x64 handcrafted procedural PIXEL ART. One logical dot is 4x4 physical pixels.
+      // An indexed-color palette, irregular silhouette and pixel-precise inheritance
+      // are kept on screen after every situational evolution.
+      var PIXEL_SIZE=4, PIXELS=64, dotMask=1;
+      var BAYER4=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
+      function dot64(x,y,color){
+        x=Math.round(x);y=Math.round(y);
+        if(x<0||y<0||x>=PIXELS||y>=PIXELS)return;
+        if(dotMask<1 && (BAYER4[(y&3)*4+(x&3)]+.5)/16>=dotMask)return;
+        paintCtx.fillStyle=color;
+        paintCtx.fillRect(x*PIXEL_SIZE,y*PIXEL_SIZE,PIXEL_SIZE,PIXEL_SIZE);
+      }
+      function rect64(x,y,w,h,color){
+        for(var yy=Math.round(y);yy<Math.round(y+h);yy++)
+          for(var xx=Math.round(x);xx<Math.round(x+w);xx++)dot64(xx,yy,color);
+      }
+      function line64(x0,y0,x1,y1,color,width){
+        var dx=x1-x0,dy=y1-y0,steps=Math.max(1,Math.ceil(Math.max(Math.abs(dx),Math.abs(dy))));
+        var r=Math.max(1,Math.round(width||1));
+        for(var i=0;i<=steps;i++){
+          var x=Math.round(x0+dx*i/steps),y=Math.round(y0+dy*i/steps);
+          rect64(x-Math.floor(r/2),y-Math.floor(r/2),r,r,color);
         }
-        function mass(x,y,rx,ry,base,edge){
-          outline(x,y,rx,ry);
-          var light=g.createRadialGradient(x-rx*.30,y-ry*.36,1,x,y,Math.max(rx,ry)*1.3);
-          light.addColorStop(0,shade(base,'#ffffff',.43));
-          light.addColorStop(.62,base);light.addColorStop(1,edge||dark);
-          g.fillStyle=light;g.fill();
-          g.strokeStyle=shade(base,'#081023',.72);g.lineWidth=2.7;g.stroke();
-        }
-        function tendril(x,y,endX,endY,width,seed,color){
-          var pulse=still?0:Math.sin(phase+seed)*4;
-          g.beginPath();g.moveTo(x,y);
-          g.bezierCurveTo(x+(endX-x)*.18+Math.sin(seed)*13,
-            y+(endY-y)*.25-pulse,
-            x+(endX-x)*.73+Math.cos(seed)*15,
-            y+(endY-y)*.65+pulse,endX,endY);
-          g.lineCap='round';g.lineJoin='round';g.lineWidth=width+3;
-          g.strokeStyle=dark;g.stroke();
-          g.lineWidth=width;g.strokeStyle=color||a.color;g.stroke();
-          g.lineWidth=Math.max(1,width*.21);g.strokeStyle=main;g.stroke();
-        }
-        function membrane(points,color,opacity){
-          g.save();g.globalAlpha=opacity;
-          g.beginPath();g.moveTo(points[0][0],points[0][1]);
-          for(var i=1;i<points.length;i++)g.quadraticCurveTo(points[i][0],points[i][1],(points[i][0]+points[(i+1)%points.length][0])*.5,(points[i][1]+points[(i+1)%points.length][1])*.5);
-          g.closePath();
-          var tint=g.createLinearGradient(-88,-65,82,65);
-          tint.addColorStop(0,main);tint.addColorStop(.65,color);tint.addColorStop(1,dark);
-          g.fillStyle=tint;g.fill();
-          g.lineWidth=3;g.strokeStyle=main;g.stroke();g.restore();
-        }
-        function ring(x,y,rx,ry){
-          g.beginPath();g.ellipse(x,y,rx,ry,-.30,0,Math.PI*2);
-          g.lineWidth=3;g.strokeStyle=aura;g.stroke();
-        }
-        function iris(x,y,r){
-          mass(x,y,r*1.2,r*1.18,'#f1f7ee','#70899a');
-          mass(x+r*.18,y,r*.65,r*.79,'#193b59','#061c31');
-          g.fillStyle='#ffffff';g.beginPath();g.arc(x-r*.24,y-r*.33,Math.max(1,r*.22),0,Math.PI*2);g.fill();
-        }
-        function markings(cx,cy,rx,ry){
-          var count=4+tier*3;
-          g.fillStyle=shade(a.color,'#d3e8ff',.54);
-          for(var i=0;i<count;i++){
-            var angle=i*2.4+a.skin*12;
-            var px=cx+Math.cos(angle)*rx*.67,py=cy+Math.sin(angle)*ry*.61;
-            g.beginPath();g.arc(px,py,1.4+(i%3)*.55,0,Math.PI*2);g.fill();
+      }
+      function disk64(x,y,rx,ry,fill,edge){
+        rx=Math.max(1,rx);ry=Math.max(1,ry);
+        for(var yy=Math.ceil(y-ry);yy<=Math.floor(y+ry);yy++){
+          var dy=(yy-y)/ry;
+          var span=rx*Math.sqrt(Math.max(0,1-dy*dy));
+          for(var xx=Math.ceil(x-span);xx<=Math.floor(x+span);xx++){
+            var r=Math.pow((xx-x)/rx,2)+dy*dy;
+            dot64(xx,yy,edge&&r>.79?edge:fill);
           }
         }
-        g.save();
-        g.translate(128,132+breath);
-        g.scale(scale,scale);
-        // Ambient emission is behind the body; it responds to the growth of the light organ.
-        if(org.glow>.5){
-          g.save();g.globalAlpha=Math.min(.24,org.glow*.12);
-          var bloom=g.createRadialGradient(0,0,5,0,0,110);
-          bloom.addColorStop(0,aura);bloom.addColorStop(1,'rgba(0,0,0,0)');
-          g.fillStyle=bloom;g.beginPath();g.arc(0,0,110,0,Math.PI*2);g.fill();g.restore();
+      }
+      function poly64(pts,fill,edge){
+        var ys=pts.map(function(p){return p[1];}),xs=pts.map(function(p){return p[0];});
+        var ymin=Math.max(0,Math.floor(Math.min.apply(null,ys))),ymax=Math.min(63,Math.ceil(Math.max.apply(null,ys)));
+        var xmin=Math.max(0,Math.floor(Math.min.apply(null,xs))),xmax=Math.min(63,Math.ceil(Math.max.apply(null,xs)));
+        for(var y=ymin;y<=ymax;y++)for(var x=xmin;x<=xmax;x++){
+          var inside=false;
+          for(var i=0,j=pts.length-1;i<pts.length;j=i++){
+            var a=pts[i],b=pts[j];
+            if((a[1]>y+.5)!==(b[1]>y+.5)&&
+              x+.5<(b[0]-a[0])*(y+.5-a[1])/(b[1]-a[1])+a[0])inside=!inside;
+          }
+          if(inside)dot64(x,y,fill);
         }
-        var size=22+9*tier+8*a.body;
-        var arm=Math.min(70,30+org.tentacles*18+tier*5);
-        if(st===0){
-          // Water form: elongated fish, bilateral fins and a forked tail.
-          var tail=-size-15;
-          membrane([[tail+4,0],[tail-28,-28-tier*2],[tail-9,2],[tail-28,27+tier*2],[tail+4,0]],a.color,.86);
-          if(lon==='myth'){
-            membrane([[-12,-size*.55],[-36,-52-org.wings*14],[-2,-34],[30,-42],[21,-9]],aura,.80);
-          }else if(lon==='abyss'){
-            for(var i=0;i<3+tier;i++)tendril(-size+5,-12+i*8,-arm-(i%3)*7,(-2+i*13)+wave*6,2.2+org.tentacles*2,i,main);
-          }else if(lon==='recursive'){
-            for(var recur=0;recur<2+tier;recur++)tendril(-size*.5,-size*.3,-size-18-recur*6,-31-recur*6,2.3,recur*.8,aura);
-          }
-          mass(0,0,size*1.18,size*.69,a.color,dark);
-          membrane([[-12,7],[-26,33+org.wings*10],[9,19],[26,8]],main,.72);
-          markings(0,0,size*.95,size*.5);
-          iris(size*.55,-size*.21,5+org.eyes*3);
-          g.strokeStyle=dark;g.lineWidth=2;g.beginPath();g.moveTo(size*.86,8);g.quadraticCurveTo(size+7,12,size+10,4);g.stroke();
-        }else if(st===1){
-          // Ground form: a true weight-bearing body with limbs.
-          var limbs=Math.min(6,4+Math.floor(org.limbs));
-          for(var leg=0;leg<limbs;leg++){
-            var lx=(leg/(limbs-1)-.5)*size*1.8;
-            tendril(lx,14,lx+Math.sin(leg)*9,57+Math.min(14,org.limbs*8),8+org.limbs*3,leg*.7,bark);
-          }
-          if(lon==='abyss'){
-            for(var t=0;t<4+tier;t++)tendril(-25+t*12,-size*.20,-arm+12*t,-47-Math.sin(t)*22,3+org.tentacles*3,t,main);
-          }else if(lon==='myth'){
-            for(var side of [-1,1])membrane([[side*12,-10],[side*(42+org.wings*13),-65-tier*4],[side*(71+org.wings*8),-11],[side*27,22]],aura,.92);
-          }else {
-            for(var j=0;j<3+tier;j++)tendril(j*8-14,-17,j*11-25,-54-j*4,3.5,j*.9,aura);
-          }
-          mass(0,7,size*1.0,size*.66,a.color,dark);
-          mass(size*.55,-size*.34,21+org.heads*5,21+org.heads*4,main,dark);
-          iris(size*.65,-size*.53,5+org.eyes*3);
-          if(lon==='recursive')iris(size*.20,-size*.52,3+org.eyes*2);
-          markings(0,7,size*.80,size*.45);
-        }else{
-          // Space form: floating asymmetric alien skeleton, with dominant archetype organs.
-          if(lon==='abyss'){
-            for(var j=0;j<7+tier;j++){
-              var theta=Math.PI*.13+j*Math.PI*.28;
-              tendril(Math.cos(theta)*24,Math.sin(theta)*23,Math.cos(theta)*(arm+34),Math.sin(theta)*(arm+36),4+org.tentacles*2,j*.77,main);
-            }
-          }else if(lon==='myth'){
-            for(var side of [-1,1]){
-              membrane([[side*9,-11],[side*(35+org.wings*12),-94],[side*(97+org.wings*11),-47],[side*61,13],[side*31,43]],aura,.94);
-              for(var feather=0;feather<4+tier;feather++){
-                tendril(side*37,-16+feather*6,side*(76+feather*3),-65+feather*18,1.5,feather*.7,main);
-              }
-            }
-          }else{
-            for(var recurse=0;recurse<3+tier;recurse++){
-              var bend=recurse-2;
-              tendril(bend*9,-30,bend*20,-92-recurse*2,4+org.orbit*2,recurse,aura);
-              if(recurse%2===0)tendril(bend*20,-92-recurse*2,bend*23+21,-102-recurse*3,2,recurse+8,main);
-            }
-            for(var orb=0;orb<2+tier;orb++)ring(0,0,38+orb*13,22+orb*8);
-          }
-          mass(0,12,size*.74,36+org.heads*4,a.color,dark);
-          mass(0,-26,27+org.heads*9,27+org.heads*10,main,dark);
-          iris(-13,-34,6+org.eyes*3);iris(15,-34,6+org.eyes*3);
-          if(org.eyes>1.05)iris(0,-13,4+org.eyes*2);
-          markings(0,-18,22,22);
+        if(edge)for(var k=0;k<pts.length;k++){
+          var p=pts[k],next=pts[(k+1)%pts.length];
+          line64(p[0],p[1],next[0],next[1],edge,1);
         }
-        // Inheritance is attached to the NEW body. It is not a translucent copy
-        // of an old animal, and remains visible after the transition animation ends.
-        (a.heritage||[]).forEach(function(old,i){
-          var weight=i===a.heritage.length-1?.84:.56;
-          var faded=shade(old.color,a.color,1-weight*.80);
-          var reach=old.organs.tentacles||.4,wing=old.organs.wings||.4;
-          g.save();g.globalAlpha=weight;
-          if(old.lineage==='abyss'){
-            for(var tip=0;tip<2+Math.min(2,Math.floor(reach));tip++){
-              tendril(-size*.55,4+tip*7,-size-16-reach*13,-11+tip*19+wave*3,
-                2.8+reach*.85,tip+.65,faded);
-            }
-          }else if(old.lineage==='myth'){
-            membrane([[-size*.25,-7],[-size*.56,-30-wing*13],[-size*.95,-15],
-              [-size*.77,11]],faded,.93);
-            membrane([[size*.25,-7],[size*.56,-30-wing*13],[size*.95,-15],
-              [size*.77,11]],faded,.93);
-          }else if(old.lineage==='recursive'){
+      }
+      function ring64(x,y,rx,ry,color,thickness,phase){
+        for(var i=0;i<116;i++){
+          var a=Math.PI*2*i/116+(phase||0);
+          var px=x+Math.cos(a)*rx,py=y+Math.sin(a)*ry;
+          rect64(Math.round(px),Math.round(py),thickness||1,thickness||1,color);
+        }
+      }
+      function eye64(x,y,r,accent){
+        disk64(x,y,r+1,r+1,'#eef7ee','#23304b');
+        disk64(x+r*.25,y,r*.57,r*.72,accent,'#0c1933');
+        dot64(x-r*.3,y-r*.38,'#ffffff');
+      }
+      function dotBackground64(a){
+        var top=a.stage===0?'#102b3c':a.stage===1?'#151e3d':'#0c132b';
+        var deep='#080d21';
+        for(var y=0;y<64;y++)rect64(0,y,64,1,y<17?top:y<47?'#101b35':deep);
+        for(var j=0;j<35;j++){
+          var sx=(j*19+7)%64,sy=(j*29+3)%59;
+          dot64(sx,sy,j%4===0?'#a4c7ee':'#3e6387');
+        }
+        line64(5,57,58,57,'#293b5d',1);
+      }
+      function dotCreature64(a,time,still){
+        var cx=32,cy=34,stage=a.stage,kind=a.lineage,lv=a.organ.levels,
+          tier=a.growthTier,wave=still?0:Math.round(Math.sin(time/560)*1.4),
+          bounce=still?0:Math.round(Math.sin(time/820)*1.1),
+          size=11+tier*2+stage*3+Math.round(a.body*3);
+        cy+=bounce;
+        var ink='#0c1630',deep=shade(a.color,ink,.55),
+          shade1=shade(a.color,ink,.30),light=shade(a.color,'#f4f4e7',.38),
+          bright=shade(a.color,'#ffffff',.63),glow=shade(a.color,'#c8fbff',.73),
+          accent=shade(a.color,'#ffdc7f',.55);
+        function rib(x,y,x2,y2,c,thick){line64(x,y,x2,y2,c,thick||2);}
+        function petal(pts,c){poly64(pts,c,ink);}
+        function tentacle(x,y,dx,dy,c,offset){
+          var midx=x+dx*.38+Math.sin((offset||0)+time/600)*(still?0:2);
+          var midy=y+dy*.35;
+          rib(x,y,midx,midy,ink,4);
+          rib(midx,midy,x+dx,y+dy+wave,ink,3);
+          rib(x,y,midx,midy,c,2);
+          rib(midx,midy,x+dx,y+dy+wave,c,2);
+          dot64(x+dx,y+dy+wave,bright);
+        }
+        function wingspan(sign,width,rise,c){
+          var pts=[[cx+sign*6,cy-5],[cx+sign*(width*.52),cy-rise],
+            [cx+sign*width,cy-rise*.57],[cx+sign*(width*.84),cy+5],[cx+sign*8,cy+11]];
+          petal(pts,c);
+          rib(cx+sign*7,cy-2,cx+sign*(width*.73),cy-rise*.55,light,1);
+        }
+        // Behind-body organs choose an actual anatomy for each of the 12 families.
+        if(stage===0){
+          petal([[cx-10,cy],[cx-28,cy-10],[cx-20,cy],[cx-28,cy+10],[cx-10,cy+3]],shade1);
+          petal([[cx-3,cy+3],[cx-16,cy+18],[cx+7,cy+9]],light);
+        }else if(kind==='abyss'){
+          for(var a1=0;a1<5+stage+tier;a1++){
+            var t=(a1/(5+stage+tier)-.5)*Math.PI*1.6;
+            tentacle(cx+Math.cos(t)*8,cy+Math.sin(t)*8,
+              Math.cos(t)*(19+lv.tentacles*7),Math.sin(t)*(21+lv.tentacles*6),
+              a1%2?shade1:light,a1);
+          }
+        }else if(kind==='myth'){
+          wingspan(-1,22+stage*6+tier*3,20+stage*6,light);
+          wingspan(1,22+stage*6+tier*3,20+stage*6,shade1);
+          rib(cx-4,cy+10,cx-13,cy+25,ink,3);
+          rib(cx+4,cy+10,cx+9,cy+27,ink,3);
+          rib(cx+7,cy+12,cx+18,cy+25,ink,3);
+        }else if(kind==='recursive'){
+          for(var rr=0;rr<3+stage;rr++){
+            var xx=cx+(rr-2)*6,ey=cy-18-rr*4-stage*2;
+            tentacle(xx,cy-7,(rr-2)*3,-23-stage*4,light,rr);
+            rib(xx+(rr-2)*3,ey,xx+(rr-2)*3+7,ey-7,accent,1);
+          }
+        }else if(kind==='sail'){
+          wingspan(-1,25+stage*6,21+stage*6,glow);
+          wingspan(1,25+stage*6,21+stage*6,light);
+          rib(cx,cy+7,cx,cy-29-stage*7,bright,2);
+        }else if(kind==='gravity'){
+          ring64(cx,cy,23+stage*5,10+stage*3,glow,1,time/6000);
+          for(var lg=0;lg<3;lg++)
+            rib(cx-8+lg*8,cy+7,cx-15+lg*14,cy+19+stage*2,accent,3);
+        }else if(kind==='crystal'){
+          for(var crystal=0;crystal<7;crystal++){
+            var angle=crystal*Math.PI*2/7;
+            var x=cx+Math.cos(angle)*14,y=cy+Math.sin(angle)*14;
+            petal([[x-5,y],[x+Math.cos(angle)*17,y+Math.sin(angle)*17],[x+5,y+4]],crystal%2?glow:light);
+          }
+        }else if(kind==='manyeyes'){
+          for(var e=0;e<5+stage*2;e++){
+            var theta=e*Math.PI*2/(5+stage*2);
+            var ix=cx+Math.cos(theta)*(22+stage*3),iy=cy+Math.sin(theta)*(21+stage*2);
+            rib(cx,cy,ix,iy,shade1,2);
+            eye64(ix,iy,2+(e%2),accent);
+          }
+        }else if(kind==='abyssshell'){
+          for(var sp=0;sp<6;sp++){
+            var theta=sp*Math.PI*2/6;
+            petal([[cx+Math.cos(theta)*11,cy+Math.sin(theta)*11],
+              [cx+Math.cos(theta)*26,cy+Math.sin(theta)*24],
+              [cx+Math.cos(theta+.18)*10,cy+Math.sin(theta+.18)*11]],shade1);
+          }
+          tentacle(cx-9,cy+7,-16,14,light,0);tentacle(cx+9,cy+7,17,15,light,1);
+        }else if(kind==='parallel'){
+          for(var arm=0;arm<4+stage*2;arm++){
+            var side=arm%2?-1:1,level=Math.floor(arm/2);
+            tentacle(cx+side*10,cy-10+level*8,side*(16+stage*4),
+              (level-1)*17,arm%2?glow:light,arm);
+          }
+        }else if(kind==='memory'){
+          for(var plate=0;plate<5;plate++){
+            var yy=cy-18+plate*8;
+            rect64(cx-20+plate%2*3,yy,40-plate%2*6,4,plate%2?light:shade1);
+            rect64(cx+4,yy,5,2,glow);
+          }
+          for(var a2=0;a2<4;a2++)rib(cx-6+a2*4,cy+8,cx-16+a2*9,cy+23,ink,3);
+        }else if(kind==='serpent'){
+          for(var seg=0;seg<8+stage*2;seg++){
+            var py=cy+17-seg*5,px=cx+Math.sin(seg*.8+time/1200)*(still?8:10);
+            disk64(px,py,7+stage,5,seg%2?shade1:light,ink);
+          }
+          for(var head=0;head<2+stage*2;head++){
+            var hx=cx+(head-(1+stage*2)/2)*9,hy=cy-24-Math.abs(head-2)*3;
+            rib(cx,cy-5,hx,hy,shade1,3);
+            disk64(hx,hy,4,4,light,ink);dot64(hx+1,hy-1,'#ffffff');
+          }
+        }else if(kind==='solar'){
+          ring64(cx,cy-5,23+stage*4,23+stage*4,accent,2);
+          for(var ray=0;ray<12;ray++){
+            var a3=ray*Math.PI/6;
+            rib(cx+Math.cos(a3)*25,cy-5+Math.sin(a3)*25,
+              cx+Math.cos(a3)*(31+stage*3),cy-5+Math.sin(a3)*(31+stage*3),glow,2);
+          }
+        }
+        // Body: a black 1px border, two edge shades, then irregular pixel clusters.
+        var bodyRx=stage===0?size+3:kind==='serpent'?size*.67:size*.8,
+          bodyRy=stage===0?size*.62:kind==='sail'?size*.7:size;
+        disk64(cx,cy,bodyRx+2,bodyRy+2,ink,ink);
+        disk64(cx,cy,bodyRx,bodyRy,a.color,shade1);
+        disk64(cx-bodyRx*.22,cy-bodyRy*.20,bodyRx*.68,bodyRy*.63,light,shade1);
+        disk64(cx+bodyRx*.36,cy+bodyRy*.36,bodyRx*.36,bodyRy*.3,shade1,deep);
+        // Specular pixel clusters and hereditary color markings are deterministic.
+        for(var speck=0;speck<10+tier*5;speck++){
+          var theta=(speck*2.399+a.skin*9),r=.23+((speck*7)%9)/15;
+          dot64(cx+Math.cos(theta)*bodyRx*r,
+            cy+Math.sin(theta)*bodyRy*r,speck%4===0?bright:shade1);
+        }
+        eye64(cx+bodyRx*.35,cy-bodyRy*.28,2+lv.eyes*1.35,deep);
+        if(stage>0 && lv.eyes>1.2)eye64(cx-bodyRx*.34,cy-bodyRy*.24,2+lv.eyes,accent);
+        if(kind==='manyeyes' && stage>0)
+          for(var me=0;me<4+stage;me++)eye64(cx-12+(me%3)*11,cy-9+Math.floor(me/3)*12,2.4,accent);
+        if(kind==='solar'){
+          disk64(cx,cy,5+stage,5+stage,accent,light);
+          rect64(cx-2,cy-2,3,3,'#ffffff');
+        }
+        if(kind==='crystal'){
+          for(var facet=0;facet<5;facet++)
+            rib(cx-10+facet*5,cy-8,cx-7+facet*5,cy+6,facet%2?bright:glow,2);
+        }
+        if(kind==='memory'||kind==='abyssshell'){
+          for(var armor=0;armor<4+stage;armor++)
+            rect64(cx-bodyRx*.62,cy-bodyRy*.6+armor*6,
+              Math.max(4,bodyRx*1.3-armor%2*5),2,armor%2?light:deep);
+        }
+        if(kind==='gravity'){
+          ring64(cx,cy,bodyRx+6,bodyRy*.7,glow,1);
+          rect64(cx-2,cy-3,5,5,accent);
+        }
+        if(kind==='parallel'){
+          for(var processors=0;processors<3;processors++)
+            rect64(cx-8+processors*7,cy+6,3,3,processors%2?glow:accent);
+        }
+        // Carry old body PARTS into the next organism permanently.
+        (a.heritage||[]).forEach(function(h,i){
+          var remembered=shade(h.color,a.color,i===a.heritage.length-1?.25:.60);
+          var oldReach=4+Math.round((h.organs.tentacles||.3)*5);
+          var oldWing=8+Math.round((h.organs.wings||.3)*4);
+          if(h.lineage==='myth'||h.lineage==='sail'){
+            petal([[cx-8,cy+4],[cx-oldWing-10,cy-12],[cx-oldWing-4,cy+5]],remembered);
+            rib(cx-8,cy+3,cx-oldWing-8,cy-6,bright,1);
+          }else if(h.lineage==='abyss'||h.lineage==='abyssshell'){
+            for(var j=0;j<3;j++)tentacle(cx-8+j*4,cy+6,-oldReach-j*3,12+j*3,remembered,j);
+          }else if(h.lineage==='recursive'||h.lineage==='parallel'){
             for(var fork=0;fork<2;fork++){
-              tendril((fork?1:-1)*12,-size*.6,(fork?1:-1)*(24+old.appendage*12),
-                -size-16-(old.organs.orbit||.3)*10,2.8,fork+3,faded);
+              rib(cx+(fork?8:-8),cy-9,cx+(fork?15:-15),cy-18-oldReach,remembered,2);
+              rib(cx+(fork?15:-15),cy-18-oldReach,cx+(fork?21:-9),cy-22-oldReach,bright,1);
             }
-            if(st>1)ring(0,-15,32+(old.organs.orbit||.2)*5,14+old.senses*7);
+          }else if(h.lineage==='serpent'){
+            for(var neck=0;neck<2;neck++){
+              rib(cx+neck*6,cy+10,cx+neck*12-6,cy+19,remembered,3);
+              disk64(cx+neck*12-6,cy+19,3,3,light,ink);
+            }
+          }else if(h.lineage==='gravity'||h.lineage==='solar'){
+            ring64(cx,cy,bodyRx+6+i*4,bodyRy+5+i*3,remembered,1);
+          }else if(h.lineage==='crystal'||h.lineage==='memory'){
+            petal([[cx-7,cy-12],[cx-2,cy-23-oldReach],[cx+2,cy-11]],remembered);
+          }else if(h.lineage==='manyeyes'){
+            eye64(cx-8,cy-6,2+Math.min(2,h.senses*2),remembered);
           }else {
-            // The original juvenile tail/fin survives as a small dorsal organ.
-            membrane([[-size*.58,6],[-size*.97,-14-old.appendage*10],
-              [-size-16,9],[-size*.70,17]],faded,.88);
+            // The uncommitted juvenile keeps its tiny dorsal fin and an eye-speck.
+            petal([[cx-10,cy+4],[cx-17,cy-4-oldReach],[cx-14,cy+9]],remembered);
           }
-          // A colored eye/skin rosette preserves the former face and pigment.
-          g.fillStyle=faded;
-          g.beginPath();g.arc(-size*.32,3+i*8,
-            2.5+old.senses*3.4,0,Math.PI*2);g.fill();
-          g.strokeStyle=dark;g.lineWidth=1.8;g.stroke();
-          g.restore();
+          dot64(cx-7+i*4,cy+8,remembered);
+          dot64(cx-6+i*4,cy+7,bright);
         });
-        // Specialized inherited organs: additive but capped to avoid unreadable overlap.
-        if(org.shell>.95){
-          for(var plate=0;plate<Math.min(5,2+tier);plate++){
-            var px=-16+plate*8;
-            g.beginPath();g.moveTo(px,-3);
-            g.quadraticCurveTo(px+2,-22-org.shell*5,px+10,-6);
-            g.strokeStyle=shade(a.color,'#e5e2bf',.62);g.lineWidth=3+org.shell;g.stroke();
+        // Final selective sparkle reads as luminous LIFE rather than smooth blur.
+        if(lv.glow>1.15){
+          var ring=15+stage*5;
+          for(var star=0;star<8;star++){
+            var theta=star*Math.PI/4;
+            dot64(cx+Math.cos(theta)*ring,cy+Math.sin(theta)*ring,star%2?glow:accent);
           }
         }
-        if(org.orbit>1.15&&st>0){g.save();g.globalAlpha=.6;ring(0,-10,63+org.orbit*7,31+org.orbit*5);g.restore();}
-        g.restore();
-        return true;
       }
       function renderScene(context,appearance,time,still,transition){
         if(!context)return;
         var previous=paintCtx;paintCtx=context;
-        context.clearRect(0,0,256,256);
-        if(typeof context.createLinearGradient==='function' && typeof context.bezierCurveTo==='function'){
-          context.imageSmoothingEnabled=true;
-          var sky=context.createLinearGradient(0,0,0,256);
-          sky.addColorStop(0,appearance.stage===0?'#122f45':appearance.stage===1?'#253647':'#0a1235');
-          sky.addColorStop(1,'#080f25');context.fillStyle=sky;context.fillRect(0,0,256,256);
-          var success;
-          if(!still&&transition&&transition.from&&transition.progress<1){
-            // Cross-dissolve old anatomy into the new anatomy for 1.1 seconds.
-            // At completion, the new body's inherited organs remain permanently.
-            var factor=clamp(transition.progress,0,1);
-            factor=factor*factor*(3-2*factor);
-            context.save();context.globalAlpha=1-factor;
-            smoothOrganism(context,transition.from,time,false);
-            context.restore();
-            context.save();context.globalAlpha=factor;
-            success=smoothOrganism(context,appearance,time,false);
-            context.restore();
-          }else{
-            success=smoothOrganism(context,appearance,time,still);
-          }
-          if(success){
-            if(!still){drawFood(time);}
-            paintCtx=previous;
-            return;
-          }
-        }
         context.imageSmoothingEnabled=false;
-        for(var i=0;i<12;i++)pixel((3+i*11)%32,(2+i*7)%29,i%2?'#35456f':'#495b8d');
-        if(appearance.stage===0){
-          for(var b=0;b<3;b++)block(4+b*10,6+b*5,1,2,'#7899c2');
-          block(4,28,24,1,'#314b68');
-        }else if(appearance.stage===1){
-          block(3,28,26,1,'#364b68');
-          for(var gr=0;gr<6;gr++)pixel(4+gr*4,27,'#5d9b85');
-        }else {
-          for(var st=0;st<6;st++)pixel(3+st*5,4+st%3*7,'#bbd8ff');
+        context.clearRect(0,0,256,256);
+        dotMask=1;
+        dotBackground64(appearance);
+        if(!still && transition && transition.from && transition.progress<1){
+          // Bayer 4x4 dissolve retains crisp integer pixels instead of antialiasing.
+          dotCreature64(transition.from,time,false);
+          dotMask=clamp(transition.progress,0,1);
+          dotCreature64(appearance,time,false);
+          dotMask=1;
+        }else{
+          dotCreature64(appearance,time,still);
         }
-        sprite(appearance,time,still);
-        if(!still){
-          drawFood(time);
-          if(time-evolvedAt<820)for(var j=0;j<8;j++){
-            var rad=Math.max(2,Math.floor((time-evolvedAt)/90));
-            var angle=j*Math.PI/4;
-            pixel(16+Math.round(Math.cos(angle)*rad),16+Math.round(Math.sin(angle)*rad),j%2?'#ffffff':'#ffe38e');
-          }
-        }
+        if(!still)drawFood(time);
         paintCtx=previous;
       }
       function draw(time){
