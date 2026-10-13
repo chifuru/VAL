@@ -336,7 +336,8 @@
           orbit:.10+.47*d.aptitude+.30*d.sensitivity
         };
         var names=Object.keys(scores).sort(function(a,b){return scores[b]-scores[a];});
-        var primary=names[0],secondary=names[1];
+        var primary=c.specialization?c.specialization.primary:names[0];
+        var secondary=c.specialization?c.specialization.secondary:names[1];
         var progress=growthFor(c.points,c.stage).local;
         var multiplier=.64+Math.min(1,progress)*.85+.21*c.stage;
         var result={};
@@ -375,7 +376,9 @@
         var dna=dnaFor(seed);
         var c={seed:seed,dna:dna,foods:{fizz:0,buzz:0,fizzbuzz:0,number:0,total:0,boost:0,brake:0},
           modifier:0,points:0,expression:0,stage:0,branches:[null,null,null],
-          lineages:[null,null,null],matured:false,appearance:null};
+          lineages:[null,null,null],specialization:null,matured:false,appearance:null};
+        var born=organFor(c);
+        c.specialization=Object.freeze({primary:born.primary,secondary:born.secondary});
         c.branches[0]=branchFor(c,0);
         c.lineages[0]=lineageFor(c,0);
         c.appearance=appearanceFor(c);
@@ -387,7 +390,7 @@
         var c={seed:previous.seed,dna:previous.dna,foods:Object.assign({},previous.foods),
           modifier:previous.modifier,points:previous.points,expression:previous.expression,
           stage:previous.stage,branches:previous.branches.slice(),
-          lineages:previous.lineages.slice(),
+          lineages:previous.lineages.slice(),specialization:previous.specialization,
           matured:previous.matured,appearance:previous.appearance};
         c.foods[kind]++;
         if (kind==='number') {
@@ -424,7 +427,8 @@
       window.FizzBuzzCreatureLogic=Object.freeze({
         classify:classify,modifierFor:modifierFor,dnaFor:dnaFor,stageFor:stageFor,
         appearanceFor:appearanceFor,branchFor:branchFor,lineageFor:lineageFor,organFor:organFor,
-        pilotLineages:PILOT_LINEAGES,growthFor:growthFor,initialCreature:initialCreature,stepGrowth:stepGrowth,tally:tally
+        pilotLineages:PILOT_LINEAGES,growthFor:growthFor,initialCreature:initialCreature,stepGrowth:stepGrowth,tally:tally,
+        renderSmooth:smoothOrganism
       });
       var appShell=document.getElementById('app-shell');
       var modeChip=document.getElementById('mode-chip');
