@@ -79,6 +79,7 @@ test('HTML includes client-server call and failure handling', () => {
   assert.match(html, /google\.script\.run/);
   assert.match(html, /withSuccessHandler/);
   assert.match(html, /withFailureHandler/);
-  assert.match(html, /calculateFizzBuzz\(limit\)/);
-  assert.match(html, /id="result"/);
+  assert.match(html, /calculateFizzBuzz\(n\)/);
+  assert.match(html, /function validateLines\(/);
+  assert.match(html, /id="fizzbuzzLog"/);
 });
