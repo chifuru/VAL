@@ -33,11 +33,11 @@
     .progress { height:14px; background:#090f22; border:2px solid #50638f; border-radius:4px; overflow:hidden; }
     #growth-bar { width:0%; height:100%; background:repeating-linear-gradient(90deg,#7de2b0 0 14px,#b0ffda 14px 18px); transition:width .24s ease; }
     #next-stage { color:var(--muted); font-size:.72rem; margin:8px 0 15px; }
-    .foods { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; }
+    .foods { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:9px; }
     .food { border:1px solid var(--stroke); border-radius:9px; padding:12px 8px; text-align:center; background:#0c1530; }
     .food b { display:block; font-size:1.3rem; margin-top:5px; font-variant-numeric:tabular-nums; }
     .food .name { font-size:.72rem; font-weight:800; }
-    .fizz .name { color:var(--blue); } .buzz .name { color:var(--yellow); } .fizzbuzz .name { color:var(--violet); }
+    .fizz .name { color:var(--blue); } .buzz .name { color:var(--yellow); } .fizzbuzz .name { color:var(--violet); } .number .name { color:#b9f1b5; }
     .controls { padding:18px; }
     label { display:block; font-size:.82rem; margin:0 0 10px; font-weight:800; }
     .form-row { display:flex; gap:10px; }
@@ -74,7 +74,7 @@
       <div>
         <div class="eyebrow">PIXEL PET // FIZZBUZZ LAB</div>
         <h1>FizzBuzz Creature</h1>
-        <p class="intro">数字を入れてスタート。1行ずつ進むFizzBuzzに合わせて、中央の生き物が3種類の餌を食べ、少しずつ進化します。</p>
+        <p class="intro">数字を入れてスタート。1行ずつ進むFizzBuzzに合わせて、4種類の餌を食べ、初期DNAと餌の蓄積に応じて魚から宇宙生物まで進化します。</p>
       </div>
       <div class="tag">RETRO / 8-BIT STYLE</div>
     </header>
@@ -83,16 +83,17 @@
         <div class="panel-header"><strong>CREATURE ROOM</strong><span>えさをたべて進化！</span></div>
         <div class="pet-screen">
           <canvas id="creature" width="256" height="256" role="img" aria-label="餌に反応して成長するピクセル生き物"></canvas>
-          <span class="food-tip">FIZZ + BUZZ + FIZZBUZZ = GROWTH</span>
+          <span class="food-tip">FIZZ + BUZZ + FIZZBUZZ + NUMBER</span>
         </div>
         <div class="evolution-box">
-          <div class="evo-top"><div class="stage-name" id="stage-name">LV.0 ちび</div><div id="food-total">たべたえさ 0</div></div>
+          <div class="evo-top"><div class="stage-name" id="stage-name">STAGE 1 魚</div><div id="food-total">たべたえさ 0</div></div>
           <div class="progress" role="progressbar" aria-label="次の進化までの進捗" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="growth-progress"><div id="growth-bar"></div></div>
-          <p id="next-stage">あと3個のえさで進化</p>
+          <p id="next-stage">成長ポイント10で陸生動物に進化</p>
           <div class="foods">
             <div class="food fizz"><span class="name">● FIZZ</span><b id="fizz-count">0</b></div>
             <div class="food buzz"><span class="name">◆ BUZZ</span><b id="buzz-count">0</b></div>
             <div class="food fizzbuzz"><span class="name">★ FIZZBUZZ</span><b id="special-count">0</b></div>
+            <div class="food number"><span class="name">◇ 数字</span><b id="number-count">0</b></div>
           </div>
         </div>
         <div class="controls">
@@ -135,324 +136,304 @@
   <script>
     (function () {
       'use strict';
-      var STAGES = ['LV.0 ちび', 'LV.1 こども', 'LV.2 おとな', 'LV.3 レジェンド'];
-      var THRESHOLDS = [3, 7, 15];
-      var COLORS = { fizz: '#61ceff', buzz: '#ffd477', fizzbuzz: '#e6a1ff' };
+      // The server's FizzBuzz strings are authoritative; the creature consumes copies only.
+      var STAGES = ['STAGE 1 魚', 'STAGE 2 陸生動物', 'STAGE 3 宇宙生物'];
+      var COLORS = { fizz: '#61ceff', buzz: '#ffd477', fizzbuzz: '#e6a1ff', number: '#bbefb5' };
+      var PALETTES = [[97,206,255],[255,209,109],[225,154,255]];
+      var SPECIES = [
+        ['流線型の魚','装甲魚','知性魚'],
+        ['滑空する陸生動物','甲殻の陸生動物','二足歩行の陸生動物'],
+        ['星雲遊泳体','軌道装甲体','Lispエイリアン']
+      ];
+      function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
       function classify(line) {
         if (line === 'Fizz') return 'fizz';
         if (line === 'Buzz') return 'buzz';
         if (line === 'FizzBuzz') return 'fizzbuzz';
+        if (/^[1-9]\d*$/.test(line)) return 'number';
         return null;
       }
-      function stageFor(foodCount) {
-        if (foodCount >= 15) return 3;
-        if (foodCount >= 7) return 2;
-        if (foodCount >= 3) return 1;
-        return 0;
+      function modifierFor(n) {
+        if (!Number.isSafeInteger(n) || n < 1 || n % 3 === 0 || n % 5 === 0) return 0;
+        var a = n % 3, b = n % 5;
+        return ((a === 1 && b <= 2) || (a === 2 && b >= 3)) ? 1 : -1;
       }
-      function tally(lines) {
-        var foods = { fizz: 0, buzz: 0, fizzbuzz: 0 };
-        lines.forEach(function (line) {
-          var kind = classify(line);
-          if (kind) foods[kind] += 1;
+      function dnaFor(n) {
+        if (!Number.isSafeInteger(n) || n < 1 || n > 1000) throw new Error('DNAには有効な入力数値が必要です。');
+        // xorshift32 seeded by the entire input integer; never Math.random().
+        var x = ((n ^ 0x9e3779b9) >>> 0) || 1;
+        function next() { x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return (x >>> 0) / 4294967296; }
+        return Object.freeze({ body:next(), appendage:next(), senses:next(), skin:next(), aptitude:next(), sensitivity:next() });
+      }
+      function stageFor(points) { return points >= 35 ? 2 : points >= 10 ? 1 : 0; }
+      function rgb(r,g,b) { return '#' + [r,g,b].map(function(v){return clamp(Math.round(v),0,255).toString(16).padStart(2,'0');}).join(''); }
+      function appearanceFor(c) {
+        var f=c.foods, total=f.total;
+        var color = total ? rgb(
+          (f.fizz*97+f.buzz*255+f.fizzbuzz*225)/total,
+          (f.fizz*206+f.buzz*209+f.fizzbuzz*154)/total,
+          (f.fizz*255+f.buzz*109+f.fizzbuzz*255)/total
+        ) : '#9cceb6';
+        var ratio = total ? (f.fizz - f.buzz + f.fizzbuzz*.35)/total : 0;
+        var aptitude = c.dna.aptitude;
+        var tilt = (ratio*.14 + clamp(c.expression, -4, 4)*.008);
+        var family = clamp(Math.floor(clamp(aptitude+tilt,0,.999999)*3),0,2);
+        return Object.freeze({
+          stage:c.stage, family:family, species:SPECIES[c.stage][family],
+          color:color, volume:1+1.1*Math.sqrt(c.points/100),
+          body:c.dna.body, appendage:c.dna.appendage, senses:c.dna.senses, skin:c.dna.skin,
+          detail:clamp(c.points/100*(.75+c.dna.sensitivity*.5),0,1)
         });
-        foods.total = foods.fizz + foods.buzz + foods.fizzbuzz;
-        foods.stage = stageFor(foods.total);
-        return foods;
       }
-      // Pure functions for regression tests. These never modify the GAS output.
-      window.FizzBuzzCreatureLogic = Object.freeze({ classify: classify, stageFor: stageFor, tally: tally });
-
-      var form = document.getElementById('fizzbuzz-form');
-      var limitInput = document.getElementById('limit');
-      var runButton = document.getElementById('run-button');
-      var pauseButton = document.getElementById('pause-button');
-      var skipButton = document.getElementById('skip-button');
-      var speed = document.getElementById('speed');
-      var result = document.getElementById('result');
-      var errorBox = document.getElementById('error');
-      var statusBox = document.getElementById('status');
-      var currentLine = document.getElementById('current-line');
-      var stageName = document.getElementById('stage-name');
-      var foodTotal = document.getElementById('food-total');
-      var nextStage = document.getElementById('next-stage');
-      var growthBar = document.getElementById('growth-bar');
-      var growthProgress = document.getElementById('growth-progress');
-      var fizzCount = document.getElementById('fizz-count');
-      var buzzCount = document.getElementById('buzz-count');
-      var specialCount = document.getElementById('special-count');
-      var canvas = document.getElementById('creature');
-      var ctx = canvas.getContext('2d');
-
-      var state = { lines: [], index: 0, fizz: 0, buzz: 0, fizzbuzz: 0, total: 0, stage: 0, active: false, busy: false, paused: false };
-      var timer = null;
-      var nonce = 0;
-      var effect = null;
-      var evolvedAt = -10000;
-      function clearPlaybackTimer() { if (timer !== null) { clearTimeout(timer); timer = null; } }
-      function updateButtons() {
-        runButton.disabled = state.busy || state.active;
-        runButton.textContent = state.busy ? '読み込み中…' : '▶ スタート';
-        pauseButton.disabled = !state.active;
-        skipButton.disabled = !state.active;
-        pauseButton.textContent = state.paused ? '▶ 再開' : 'Ⅱ 一時停止';
+      function initialCreature(seed) {
+        var dna=dnaFor(seed);
+        var c={seed:seed,dna:dna,foods:{fizz:0,buzz:0,fizzbuzz:0,number:0,total:0,boost:0,brake:0},
+          modifier:0,points:0,expression:0,stage:0,matured:false,appearance:null};
+        c.appearance=appearanceFor(c);
+        return c;
       }
-      function updateGrowth() {
-        stageName.textContent = STAGES[state.stage];
-        foodTotal.textContent = 'たべたえさ ' + state.total;
-        fizzCount.textContent = String(state.fizz);
-        buzzCount.textContent = String(state.buzz);
-        specialCount.textContent = String(state.fizzbuzz);
-        var start = state.stage === 0 ? 0 : THRESHOLDS[state.stage - 1];
-        var end = state.stage === 3 ? start : THRESHOLDS[state.stage];
-        var percent = state.stage === 3 ? 100 : Math.floor((state.total - start) / (end - start) * 100);
-        percent = Math.min(100, Math.max(0, percent));
-        growthBar.style.width = percent + '%';
-        growthProgress.setAttribute('aria-valuenow', String(percent));
-        nextStage.textContent = state.stage === 3 ? 'さいしゅう進化！ えさは引き続きたべられる' : 'あと' + (end - state.total) + '個のえさで進化';
-      }
-      function resetState() {
-        clearPlaybackTimer();
-        state.lines = []; state.index = 0; state.fizz = 0; state.buzz = 0;
-        state.fizzbuzz = 0; state.total = 0; state.stage = 0;
-        state.active = false; state.paused = false; state.busy = false;
-        effect = null; evolvedAt = -10000;
-        result.value = ''; currentLine.textContent = '—'; statusBox.textContent = '準備中';
-        updateGrowth(); updateButtons();
-      }
-      function applyFood(kind) {
-        if (!kind) return;
-        state[kind] += 1;
-        state.total += 1;
-        var newStage = stageFor(state.total);
-        if (newStage !== state.stage) {
-          state.stage = newStage;
-          evolvedAt = performance.now();
-        }
-        effect = { kind: kind, started: performance.now() };
-      }
-      function finish() {
-        clearPlaybackTimer();
-        state.active = false;
-        state.paused = false;
-        statusBox.textContent = state.lines.length + ' 行 再生完了';
-        updateButtons(); updateGrowth();
-      }
-      function nextLine() {
-        timer = null;
-        if (!state.active || state.paused) return;
-        if (state.index >= state.lines.length) { finish(); return; }
-        var line = state.lines[state.index];
-        result.value += (state.index === 0 ? '' : '\n') + line;
-        state.index += 1;
-        result.scrollTop = result.scrollHeight;
-        currentLine.textContent = state.index + ' / ' + state.lines.length + ' : ' + line;
-        statusBox.textContent = '自動再生中';
-        applyFood(classify(line));
-        updateGrowth();
-        if (state.index === state.lines.length) { finish(); return; }
-        timer = setTimeout(nextLine, Number(speed.value));
-      }
-      function showFinalResult() {
-        clearPlaybackTimer();
-        var stats = tally(state.lines);
-        state.fizz = stats.fizz; state.buzz = stats.buzz;
-        state.fizzbuzz = stats.fizzbuzz; state.total = stats.total;
-        state.stage = stats.stage;
-        state.index = state.lines.length;
-        result.value = state.lines.join('\n');
-        result.scrollTop = result.scrollHeight;
-        currentLine.textContent = state.lines.length + ' / ' + state.lines.length + ' : ' + state.lines[state.lines.length - 1];
-        effect = null;
-        finish();
-      }
-      function begin(lines) {
-        state.lines = lines.slice();
-        state.busy = false;
-        state.active = true;
-        state.paused = false;
-        errorBox.textContent = '';
-        updateButtons();
-        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          showFinalResult();
+      function stepGrowth(previous,line) {
+        var kind=classify(line);
+        if (!kind) throw new Error('不正なFizzBuzz出力です。');
+        var c={seed:previous.seed,dna:previous.dna,foods:Object.assign({},previous.foods),
+          modifier:previous.modifier,points:previous.points,expression:previous.expression,
+          stage:previous.stage,matured:previous.matured,appearance:previous.appearance};
+        c.foods[kind]++;
+        if (kind==='number') {
+          c.modifier=modifierFor(Number(line));
+          if(c.modifier>0)c.foods.boost++;else if(c.modifier<0)c.foods.brake++;
         } else {
-          nextLine();
+          c.foods.total++;
+          if(!c.matured) {
+            var gain=1+.25*c.modifier;
+            c.points=clamp(c.points+gain,0,100);
+            c.expression+=c.modifier*(.5+c.dna.sensitivity)*.15;
+            c.stage=stageFor(c.points);
+          }
+          c.modifier=0; // the most recent number food affects the next nutrient once
         }
+        if(!c.matured) {
+          c.appearance=appearanceFor(c);
+          if(c.points>=100)c.matured=true; // immutable visual snapshot from this point
+        }
+        return c;
       }
-      form.addEventListener('submit', function (event) {
+      function tally(lines,seed) {
+        var c=initialCreature(seed || lines.length || 1);
+        lines.forEach(function(line){c=stepGrowth(c,line);});
+        return c;
+      }
+      window.FizzBuzzCreatureLogic=Object.freeze({
+        classify:classify,modifierFor:modifierFor,dnaFor:dnaFor,stageFor:stageFor,
+        appearanceFor:appearanceFor,initialCreature:initialCreature,stepGrowth:stepGrowth,tally:tally
+      });
+      var form=document.getElementById('fizzbuzz-form');
+      var limitInput=document.getElementById('limit');
+      var runButton=document.getElementById('run-button');
+      var pauseButton=document.getElementById('pause-button');
+      var skipButton=document.getElementById('skip-button');
+      var speed=document.getElementById('speed');
+      var result=document.getElementById('result');
+      var errorBox=document.getElementById('error');
+      var statusBox=document.getElementById('status');
+      var currentLine=document.getElementById('current-line');
+      var stageName=document.getElementById('stage-name');
+      var foodTotal=document.getElementById('food-total');
+      var nextStage=document.getElementById('next-stage');
+      var growthBar=document.getElementById('growth-bar');
+      var growthProgress=document.getElementById('growth-progress');
+      var fizzCount=document.getElementById('fizz-count');
+      var buzzCount=document.getElementById('buzz-count');
+      var specialCount=document.getElementById('special-count');
+      var numberCount=document.getElementById('number-count');
+      var canvas=document.getElementById('creature'),ctx=canvas.getContext('2d');
+      var state={lines:[],index:0,creature:initialCreature(1),active:false,busy:false,paused:false};
+      var timer=null,nonce=0,effect=null,evolvedAt=-10000;
+      function clearPlaybackTimer(){if(timer!==null){clearTimeout(timer);timer=null;}}
+      function updateButtons(){
+        runButton.disabled=state.busy||state.active;
+        runButton.textContent=state.busy?'読み込み中…':'▶ スタート';
+        pauseButton.disabled=!state.active;skipButton.disabled=!state.active;
+        pauseButton.textContent=state.paused?'▶ 再開':'Ⅱ 一時停止';
+      }
+      function updateGrowth(){
+        var c=state.creature, f=c.foods;
+        stageName.textContent=STAGES[c.stage]+(c.matured?' · 完全成熟':'')+' / '+c.appearance.species;
+        foodTotal.textContent='たべたえさ '+(f.total+f.number)+'（栄養 '+f.total+'）';
+        fizzCount.textContent=String(f.fizz);
+        buzzCount.textContent=String(f.buzz);
+        specialCount.textContent=String(f.fizzbuzz);
+        numberCount.textContent=String(f.number);
+        var start=c.stage===0?0:c.stage===1?10:35;
+        var end=c.stage===0?10:c.stage===1?35:100;
+        var percent=c.matured?100:clamp(Math.floor((c.points-start)/(end-start)*100),0,100);
+        growthBar.style.width=percent+'%';
+        growthProgress.setAttribute('aria-valuenow',String(percent));
+        nextStage.textContent=c.matured?'完全成熟！ 外見はここで固定（結果の再生は継続）':
+          '成長 '+c.points.toFixed(2)+' P / 次の目標 '+end+' P';
+      }
+      function resetState(seed){
+        clearPlaybackTimer();
+        state.lines=[];state.index=0;state.active=false;state.paused=false;state.busy=false;
+        state.creature=initialCreature(seed||1);effect=null;evolvedAt=-10000;
+        result.value='';currentLine.textContent='—';statusBox.textContent='準備中';
+        updateGrowth();updateButtons();
+      }
+      function feed(line){
+        var kind=classify(line), old=state.creature;
+        var fresh=stepGrowth(old,line);
+        if(old.stage!==fresh.stage||(!old.matured&&fresh.matured))evolvedAt=performance.now();
+        state.creature=fresh;
+        effect={kind:kind,modifier:fresh.modifier,started:performance.now()};
+      }
+      function finish(){
+        clearPlaybackTimer();state.active=false;state.paused=false;
+        statusBox.textContent=state.lines.length+' 行 再生完了';
+        updateButtons();updateGrowth();
+      }
+      function nextLine(){
+        timer=null;if(!state.active||state.paused)return;
+        if(state.index>=state.lines.length){finish();return;}
+        var line=state.lines[state.index];
+        result.value+=(state.index===0?'':'\n')+line;
+        state.index++;result.scrollTop=result.scrollHeight;
+        currentLine.textContent=state.index+' / '+state.lines.length+' : '+line;
+        statusBox.textContent='自動再生中';
+        feed(line);updateGrowth();
+        if(state.index===state.lines.length){finish();return;}
+        timer=setTimeout(nextLine,Number(speed.value));
+      }
+      function showFinalResult(){
+        clearPlaybackTimer();
+        state.creature=tally(state.lines,state.creature.seed);
+        state.index=state.lines.length;
+        result.value=state.lines.join('\n');
+        result.scrollTop=result.scrollHeight;
+        currentLine.textContent=state.lines.length+' / '+state.lines.length+' : '+state.lines[state.lines.length-1];
+        effect=null;finish();
+      }
+      function begin(lines){
+        state.lines=lines.slice();state.busy=false;state.active=true;state.paused=false;
+        errorBox.textContent='';updateButtons();
+        if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)showFinalResult();
+        else nextLine();
+      }
+      form.addEventListener('submit',function(event){
         event.preventDefault();
-        if (state.busy || state.active) return;
-        var raw = limitInput.value.trim();
-        var limit = Number(raw);
-        if (!/^\d+$/.test(raw) || !Number.isSafeInteger(limit) || limit < 1 || limit > 1000) {
-          errorBox.textContent = '1から1000までの整数を入力してください。';
-          statusBox.textContent = '入力エラー';
-          return;
+        if(state.busy||state.active)return;
+        var raw=limitInput.value.trim(),limit=Number(raw);
+        if(!/^\d+$/.test(raw)||!Number.isSafeInteger(limit)||limit<1||limit>1000){
+          errorBox.textContent='1から1000までの整数を入力してください。';
+          statusBox.textContent='入力エラー';return;
         }
-        nonce += 1;
-        var requestId = nonce;
-        resetState();
-        state.busy = true;
-        statusBox.textContent = 'GASで計算中';
-        errorBox.textContent = '';
+        nonce++;var requestId=nonce;
+        resetState(limit);state.busy=true;statusBox.textContent='GASで計算中';errorBox.textContent='';
         updateButtons();
-        google.script.run
-          .withSuccessHandler(function (lines) {
-            if (requestId !== nonce) return;
-            if (!Array.isArray(lines) || lines.length !== limit || !lines.every(function (x) { return typeof x === 'string'; })) {
-              state.busy = false;
-              errorBox.textContent = 'サーバーの応答形式が正しくありません。';
-              statusBox.textContent = '通信エラー';
-              updateButtons();
-              return;
-            }
-            begin(lines);
-          })
-          .withFailureHandler(function (error) {
-            if (requestId !== nonce) return;
-            state.busy = false;
-            state.active = false;
-            errorBox.textContent = error && error.message ? error.message : '計算に失敗しました。';
-            statusBox.textContent = '通信エラー';
-            updateButtons();
-          })
-          .calculateFizzBuzz(limit);
+        google.script.run.withSuccessHandler(function(lines){
+          if(requestId!==nonce)return;
+          if(!Array.isArray(lines)||lines.length!==limit||!lines.every(function(x){return typeof x==='string';})){
+            state.busy=false;errorBox.textContent='サーバーの応答形式が正しくありません。';
+            statusBox.textContent='通信エラー';updateButtons();return;
+          }
+          begin(lines);
+        }).withFailureHandler(function(error){
+          if(requestId!==nonce)return;
+          state.busy=false;state.active=false;
+          errorBox.textContent=error&&error.message?error.message:'計算に失敗しました。';
+          statusBox.textContent='通信エラー';updateButtons();
+        }).calculateFizzBuzz(limit);
       });
-      pauseButton.addEventListener('click', function () {
-        if (!state.active) return;
-        state.paused = !state.paused;
-        clearPlaybackTimer();
-        if (state.paused) {
-          statusBox.textContent = '一時停止中';
-        } else {
-          statusBox.textContent = '自動再生中';
-          timer = setTimeout(nextLine, Number(speed.value));
-        }
+      pauseButton.addEventListener('click',function(){
+        if(!state.active)return;
+        state.paused=!state.paused;clearPlaybackTimer();
+        if(state.paused)statusBox.textContent='一時停止中';
+        else {statusBox.textContent='自動再生中';timer=setTimeout(nextLine,Number(speed.value));}
         updateButtons();
       });
-      skipButton.addEventListener('click', function () {
-        if (state.active) showFinalResult();
+      skipButton.addEventListener('click',function(){if(state.active)showFinalResult();});
+      speed.addEventListener('change',function(){
+        if(state.active&&!state.paused){clearPlaybackTimer();timer=setTimeout(nextLine,Number(speed.value));}
       });
-      speed.addEventListener('change', function () {
-        if (state.active && !state.paused) {
-          clearPlaybackTimer();
-          timer = setTimeout(nextLine, Number(speed.value));
-        }
-      });
-
-      function pixel(x, y, color) {
-        ctx.fillStyle = color;
-        ctx.fillRect(Math.round(x) * 8, Math.round(y) * 8, 8, 8);
+      function pixel(x,y,color){
+        if(x<0||y<0||x>=32||y>=32)return;
+        ctx.fillStyle=color;ctx.fillRect(Math.round(x)*8,Math.round(y)*8,8,8);
       }
-      function block(x, y, w, h, color) {
-        ctx.fillStyle = color;
-        ctx.fillRect(Math.round(x) * 8, Math.round(y) * 8, w * 8, h * 8);
+      function block(x,y,w,h,color){
+        for(var yy=0;yy<h;yy++)for(var xx=0;xx<w;xx++)pixel(x+xx,y+yy,color);
       }
-      function sprite(time) {
-        var stage = state.stage;
-        var w = 11 + stage * 2;
-        var h = 9 + stage * 2;
-        var left = Math.floor((32 - w) / 2);
-        var top = 12 - stage * 2 + Math.round(Math.sin(time / 430) * .6);
-        var main = ['#7de4a9', '#73d8d3', '#7ba8ff', '#c49bff'][stage];
-        var shadow = ['#378d78', '#347f99', '#4d5cb0', '#7653a5'][stage];
-        var contour = '#202545';
-        if (stage >= 2) {
-          for (var wy = 3; wy < 10; wy++) {
-            var reach = 2 + Math.floor((wy - 3) * .6);
-            block(left - reach, top + wy, reach + 1, 2, '#5971cd');
-            block(left + w - 1, top + wy, reach + 1, 2, '#5971cd');
-          }
-        }
-        if (stage >= 1) {
-          block(left + 2, top - 2, 3, 4, shadow);
-          block(left + w - 5, top - 2, 3, 4, shadow);
-          pixel(left + 3, top - 3, main);
-          pixel(left + w - 4, top - 3, main);
-        }
-        if (stage === 3) {
-          block(left + 5, top - 4, w - 10, 3, '#ffcb66');
-          pixel(left + 5, top - 5, '#ffcb66');
-          pixel(left + w - 6, top - 5, '#ffcb66');
-          pixel(left + Math.floor(w / 2), top - 6, '#ffea9b');
-        }
-        for (var y = 0; y < h; y++) {
-          for (var x = 0; x < w; x++) {
-            var nx = (x - (w - 1) / 2) / (w / 2);
-            var ny = (y - (h - 1) / 2) / (h / 2);
-            var d = nx * nx + ny * ny;
-            if (d < 1.01) pixel(left + x, top + y, d > .75 ? contour : ((x < w / 2 && y < h / 2) ? main : shadow));
-          }
-        }
-        var ey = top + Math.floor(h * .44);
-        var ex1 = left + Math.floor(w * .3);
-        var ex2 = left + Math.floor(w * .68);
-        block(ex1, ey, 2, 2, '#151c39');
-        block(ex2, ey, 2, 2, '#151c39');
-        pixel(ex1, ey, '#ffffff');
-        pixel(ex2, ey, '#ffffff');
-        var open = effect && time - effect.started < 490 && time - effect.started > 260;
-        if (open) {
-          block(left + Math.floor(w / 2) - 1, top + Math.floor(h * .65), 3, 3, '#342447');
-          pixel(left + Math.floor(w / 2), top + Math.floor(h * .65) + 2, '#ff799d');
+      function sprite(time){
+        var a=state.creature.appearance,stage=a.stage;
+        var w=clamp(Math.round((9+a.body*3)*a.volume),8,23);
+        var h=clamp(Math.round((7+(1-a.body)*4)*a.volume),8,21);
+        var left=Math.floor((32-w)/2),top=clamp(15-Math.floor(h/2)+Math.round(Math.sin(time/430)*.35),3,19);
+        var shade='#26365c',outline='#1a2544';
+        if(stage===0){
+          // Fish tail and dorsal fin; DNA determines tail length and size.
+          var tail=3+Math.floor(a.appendage*4);
+          for(var fy=-4;fy<=4;fy++)block(left-tail+Math.abs(fy),top+Math.floor(h/2)+fy,Math.max(1,tail-Math.abs(fy)),1,a.color);
+          for(var fi=0;fi<4;fi++)block(left+3+fi,top-1-fi,Math.max(1,4-fi),1,a.color);
+        } else if(stage===1){
+          // Terrestrial legs and inherited tail.
+          for(var leg=0;leg<2;leg++)block(left+Math.floor(w*(.2+leg*.5)),top+h-2,3,5,shade);
+          block(left-3-Math.floor(a.appendage*3),top+Math.floor(h*.65),5,2,a.color);
+          block(left+2,top-3,3,4,a.color);block(left+w-5,top-3,3,4,a.color);
         } else {
-          block(left + Math.floor(w / 2) - 1, top + Math.floor(h * .69), 3, 1, '#37274a');
-        }
-        if (stage >= 1) {
-          pixel(left + 1, ey + 2, '#ffa5be');
-          pixel(left + w - 2, ey + 2, '#ffa5be');
-        }
-      }
-      function drawFood(time) {
-        if (!effect) return;
-        var dt = time - effect.started;
-        if (dt < 0 || dt > 690) { if (dt > 690) effect = null; return; }
-        var part = Math.min(1, dt / 330);
-        var x = Math.round(31 + (16 - 31) * part);
-        var y = Math.round(6 + (16 - 6) * part);
-        var color = COLORS[effect.kind];
-        if (dt < 360) {
-          pixel(x, y, color); pixel(x - 1, y, color);
-          pixel(x, y - 1, color); pixel(x, y + 1, '#ffffff');
-          if (effect.kind === 'fizzbuzz') {
-            pixel(x + 1, y - 1, '#ffffff'); pixel(x - 1, y + 1, '#ffffff');
+          // Space life with branching feelers; intellectual line becomes Lisp alien.
+          for(var arm=0;arm<2;arm++){
+            var ax=arm===0?left-2:left+w+1;
+            for(var ty=0;ty<7;ty++)pixel(ax+(arm===0?-1:1)*Math.floor(ty/3),top+ty,a.color);
+            pixel(ax+(arm===0?-1:1)*4,top+8,'#cde8ff');
           }
-        } else {
-          var radius = 1 + Math.floor((dt - 360) / 100);
-          pixel(16 - radius, 12, color);
-          pixel(16 + radius, 12, color);
-          pixel(16, 12 - radius, color);
-          pixel(16, 12 + radius, color);
+          block(left+3,top-5,2,6,shade);block(left+w-5,top-5,2,6,shade);
+          pixel(left+4,top-5,'#bbf7ff');pixel(left+w-4,top-5,'#bbf7ff');
         }
-      }
-      function draw(time) {
-        if (!ctx) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.imageSmoothingEnabled = false;
-        for (var i = 0; i < 9; i++) {
-          var sx = (3 + i * 11) % 32;
-          var sy = (2 + i * 7) % 24;
-          pixel(sx, sy, i % 2 ? '#35456f' : '#495b8d');
-        }
-        block(5, 26, 22, 1, '#293c67');
-        block(8, 25, 16, 1, '#364d7f');
-        sprite(time);
-        drawFood(time);
-        if (time - evolvedAt < 820) {
-          for (var j = 0; j < 8; j++) {
-            var rad = Math.max(2,Math.floor((time - evolvedAt) / 90));
-            var angle = (j / 8) * Math.PI * 2;
-            pixel(16 + Math.round(Math.cos(angle) * rad), 16 + Math.round(Math.sin(angle) * rad), j % 2 ? '#ffffff' : '#ffe38e');
+        for(var y=0;y<h;y++)for(var x=0;x<w;x++){
+          var nx=(x-(w-1)/2)/(w/2),ny=(y-(h-1)/2)/(h/2),d=nx*nx+ny*ny;
+          if(d<=1.04){
+            var rim=d>.79;
+            var pattern=(x*7+y*11+Math.floor(a.skin*19))%13;
+            pixel(left+x,top+y,rim?outline:pattern<Math.floor(a.detail*4)?'#eef5cf':a.color);
           }
         }
+        var eye=2+Math.floor(a.senses*2), ey=top+Math.floor(h*.42);
+        for(var j=0;j<2;j++){
+          var ex=left+Math.floor(w*(j===0?.28:.7));
+          block(ex,ey,eye,eye,'#101933');pixel(ex,ey,'#ffffff');
+        }
+        if(effect&&time-effect.started>200&&time-effect.started<500)
+          block(left+Math.floor(w/2),top+Math.floor(h*.72),2,2,'#562943');
+        else block(left+Math.floor(w/2),top+Math.floor(h*.74),3,1,'#562943');
+        if(stage===2&&a.family===2){ // parenthesis-shaped Lisp-alien signal
+          block(left-2,top+2,1,Math.max(3,h-3),'#cfb7ff');
+          block(left+w+1,top+2,1,Math.max(3,h-3),'#cfb7ff');
+        }
       }
-      function frame(time) {
-        draw(time);
-        window.requestAnimationFrame(frame);
+      function drawFood(time){
+        if(!effect)return;
+        var dt=time-effect.started;
+        if(dt<0||dt>690){if(dt>690)effect=null;return;}
+        var part=Math.min(1,dt/330),x=Math.round(31-15*part),y=Math.round(6+10*part);
+        var color=COLORS[effect.kind]||'#bbefb5';
+        if(dt<360){pixel(x,y,color);pixel(x-1,y,color);pixel(x,y-1,'#ffffff');}
+        else {var radius=1+Math.floor((dt-360)/100);
+          pixel(16-radius,12,color);pixel(16+radius,12,color);
+          pixel(16,12-radius,color);pixel(16,12+radius,color);}
       }
-      updateGrowth();
-      updateButtons();
-      if (ctx && window.requestAnimationFrame) window.requestAnimationFrame(frame);
+      function draw(time){
+        if(!ctx)return;
+        ctx.clearRect(0,0,canvas.width,canvas.height);ctx.imageSmoothingEnabled=false;
+        for(var i=0;i<9;i++)pixel((3+i*11)%32,(2+i*7)%24,i%2?'#35456f':'#495b8d');
+        block(5,26,22,1,'#293c67');block(8,25,16,1,'#364d7f');
+        sprite(time);drawFood(time);
+        if(time-evolvedAt<820)for(var j=0;j<8;j++){
+          var rad=Math.max(2,Math.floor((time-evolvedAt)/90));
+          var angle=j*Math.PI/4;
+          pixel(16+Math.round(Math.cos(angle)*rad),16+Math.round(Math.sin(angle)*rad),j%2?'#ffffff':'#ffe38e');
+        }
+      }
+      function frame(time){draw(time);window.requestAnimationFrame(frame);}
+      updateGrowth();updateButtons();
+      if(ctx&&window.requestAnimationFrame)window.requestAnimationFrame(frame);
     }());
   </script>
 </body>
