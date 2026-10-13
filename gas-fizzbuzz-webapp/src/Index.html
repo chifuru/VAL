@@ -254,6 +254,13 @@
         ['滑空する陸生動物','甲殻の陸生動物','二足歩行の陸生動物'],
         ['星雲遊泳体','軌道装甲体','Lispエイリアン']
       ];
+      // Three fully-rendered pilot lineages; the remaining nine are proposals, not shipped forms.
+      var PILOT_LINEAGES = Object.freeze([
+        Object.freeze({id:'abyss',mark:'〰',group:'深淵触手',names:['ネムラピ','ウロネクト','ノクトラケル'],primary:'tentacles'}),
+        Object.freeze({id:'myth',mark:'☼',group:'神鳥',names:['ヤタヒル','ミツアシハヤ','カラスヴァ'],primary:'wings'}),
+        Object.freeze({id:'recursive',mark:'λ',group:'再帰知性',names:['パレピオン','ラムダイル','リスプラトス'],primary:'senses'})
+      ]);
+      var ORGAN_NAMES = Object.freeze({eyes:'眼',tentacles:'触手',wings:'翼・ひれ',shell:'甲殻',limbs:'脚・腕',glow:'発光',heads:'頭部',orbit:'浮遊器官'});
       function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
       function classify(line) {
         if (line === 'Fizz') return 'fizz';
@@ -300,6 +307,45 @@
         for(var i=1;i<3;i++)if(scores[i]>scores[winner])winner=i;
         return winner;
       }
+      function lineageFor(c,stage){
+        var d=c.dna,f=c.foods,prev=stage>0?c.lineages[stage-1]:-1;
+        var count=f.total||1;
+        var scores=[
+          d.appendage*.49+d.sensitivity*.29+d.skin*.12+(f.fizzbuzz/count)*.23,
+          d.body*.35+d.skin*.25+(1-d.sensitivity)*.22+(f.buzz/count)*.28,
+          d.senses*.45+d.aptitude*.37+(f.fizz/count)*.28
+        ];
+        // Food and past identity affect the NEXT stage, not a branch already entered.
+        scores[0]+=Math.max(0,c.expression)*.035;
+        scores[2]+=Math.max(0,-c.expression)*.03;
+        if(prev>=0)scores[prev]+=.13;
+        var best=0;
+        for(var i=1;i<scores.length;i++)if(scores[i]>scores[best])best=i;
+        return best;
+      }
+      function organFor(c){
+        var d=c.dna,f=c.foods,total=f.total||1;
+        var scores={
+          eyes:.16+.70*d.senses+.10*f.fizz/total,
+          tentacles:.12+.72*d.appendage+.15*f.fizzbuzz/total,
+          wings:.12+.63*d.body+.20*f.fizz/total,
+          shell:.13+.67*d.skin+.18*f.buzz/total,
+          limbs:.13+.52*d.body+.26*d.aptitude,
+          glow:.10+.65*d.sensitivity+.15*f.fizzbuzz/total,
+          heads:.10+.55*d.aptitude+.25*d.senses,
+          orbit:.10+.47*d.aptitude+.30*d.sensitivity
+        };
+        var names=Object.keys(scores).sort(function(a,b){return scores[b]-scores[a];});
+        var primary=names[0],secondary=names[1];
+        var progress=growthFor(c.points,c.stage).local;
+        var multiplier=.64+Math.min(1,progress)*.85+.21*c.stage;
+        var result={};
+        Object.keys(scores).forEach(function(name){
+          var emphasis=name===primary?1.8:name===secondary?1.33:1;
+          result[name]=clamp(scores[name]*multiplier*emphasis,.08,2.4);
+        });
+        return Object.freeze({primary:primary,secondary:secondary,levels:Object.freeze(result)});
+      }
       function growthFor(points,stage){
         var start=STAGE_STARTS[stage],end=STAGE_ENDS[stage];
         var local=clamp((points-start)/(end-start),0,1);
@@ -313,9 +359,12 @@
           (f.fizz*255+f.buzz*109+f.fizzbuzz*255)/total
         ) : '#9cceb6';
         var growth=growthFor(c.points,c.stage);
-        var family=c.branches[c.stage];
+        var family=c.branches[c.stage],lineageId=c.lineages[c.stage],pilot=PILOT_LINEAGES[lineageId];
+        var organ=organFor(c);
         return Object.freeze({
-          stage:c.stage, family:family, species:SPECIES[c.stage][family],
+          stage:c.stage, family:family, species:pilot.names[c.stage],
+          lineage:pilot.id, lineageIndex:lineageId, mark:pilot.mark, group:pilot.group,
+          organ:organ,
           growthTier:growth.tier, progress:growth.local,
           color:color, volume:1+.28*c.stage+.24*growth.tier+.11*growth.local,
           body:c.dna.body, appendage:c.dna.appendage, senses:c.dna.senses, skin:c.dna.skin,
@@ -325,8 +374,10 @@
       function initialCreature(seed) {
         var dna=dnaFor(seed);
         var c={seed:seed,dna:dna,foods:{fizz:0,buzz:0,fizzbuzz:0,number:0,total:0,boost:0,brake:0},
-          modifier:0,points:0,expression:0,stage:0,branches:[null,null,null],matured:false,appearance:null};
+          modifier:0,points:0,expression:0,stage:0,branches:[null,null,null],
+          lineages:[null,null,null],matured:false,appearance:null};
         c.branches[0]=branchFor(c,0);
+        c.lineages[0]=lineageFor(c,0);
         c.appearance=appearanceFor(c);
         return c;
       }
@@ -336,6 +387,7 @@
         var c={seed:previous.seed,dna:previous.dna,foods:Object.assign({},previous.foods),
           modifier:previous.modifier,points:previous.points,expression:previous.expression,
           stage:previous.stage,branches:previous.branches.slice(),
+          lineages:previous.lineages.slice(),
           matured:previous.matured,appearance:previous.appearance};
         c.foods[kind]++;
         if (kind==='number') {
@@ -352,6 +404,7 @@
             if(c.stage!==previousStage) {
               for(var newStage=previousStage+1;newStage<=c.stage;newStage++){
                 c.branches[newStage]=branchFor(c,newStage);
+                c.lineages[newStage]=lineageFor(c,newStage);
               }
             }
           }
@@ -370,7 +423,8 @@
       }
       window.FizzBuzzCreatureLogic=Object.freeze({
         classify:classify,modifierFor:modifierFor,dnaFor:dnaFor,stageFor:stageFor,
-        appearanceFor:appearanceFor,branchFor:branchFor,growthFor:growthFor,initialCreature:initialCreature,stepGrowth:stepGrowth,tally:tally
+        appearanceFor:appearanceFor,branchFor:branchFor,lineageFor:lineageFor,organFor:organFor,
+        pilotLineages:PILOT_LINEAGES,growthFor:growthFor,initialCreature:initialCreature,stepGrowth:stepGrowth,tally:tally
       });
       var appShell=document.getElementById('app-shell');
       var modeChip=document.getElementById('mode-chip');
@@ -434,7 +488,7 @@
       }
       function updateGrowth(){
         var c=state.creature, f=c.foods;
-        stageName.textContent=STAGES[c.stage]+(c.matured?' · 完全成熟':'')+' / '+c.appearance.species;
+        stageName.textContent=c.appearance.mark+' '+STAGES[c.stage]+(c.matured?' · 完全成熟':'')+' / '+c.appearance.species;
         foodTotal.textContent='たべたえさ '+(f.total+f.number)+'（栄養 '+f.total+'）';
         fizzCount.textContent=String(f.fizz);
         buzzCount.textContent=String(f.buzz);
@@ -445,7 +499,7 @@
         var percent=c.matured?100:clamp(Math.floor((c.points-start)/(end-start)*100),0,100);
         growthBar.style.width=percent+'%';
         growthProgress.setAttribute('aria-valuenow',String(percent));
-        growthForm.textContent='個体 #'+c.seed+' ・ 成長形態 '+(c.appearance.growthTier+1)+' / 4 ・ '+['稚体','幼体','成長体','発達体'][c.appearance.growthTier]+' ・ '+['流線系','装甲系','知性系'][c.appearance.family];
+        growthForm.textContent='個体 #'+c.seed+' ・ 成長形態 '+(c.appearance.growthTier+1)+' / 4 ・ '+['稚体','幼体','成長体','発達体'][c.appearance.growthTier]+' ・ '+c.appearance.mark+' '+c.appearance.group+' ・ 特化 '+ORGAN_NAMES[c.appearance.organ.primary]+' / '+ORGAN_NAMES[c.appearance.organ.secondary];
         nextStage.textContent=c.matured?'完全成熟！ 外見はここで固定（結果の再生は継続）':
           '成長 '+c.points.toFixed(2)+' P / 次の目標 '+end+' P';
       }
@@ -473,14 +527,14 @@
       function presentFinal(){
         var c=state.creature,f=c.foods,a=c.appearance;
         finalSeed.textContent='個体 #'+c.seed;
-        finalSpecies.textContent=a.species;
+        finalSpecies.textContent=a.mark+' '+a.species;
         finalStage.textContent=STAGES[c.stage];
         finalPoints.textContent=c.points.toFixed(2)+' / 100 P';
         finalColor.style.backgroundColor=a.color;
         finalColorCode.textContent=a.color.toUpperCase();
         finalFoods.textContent=[f.fizz,f.buzz,f.fizzbuzz,f.number].join(' / ');
         finalStatus.textContent=c.matured?'完全成熟 · 形態確定':'今回の育成を完了 · 進化途中';
-        finalLineage.textContent='進化の系譜：'+c.branches.slice(0,c.stage+1).map(function(branch,stage){return SPECIES[stage][branch];}).join(' → ');
+        finalLineage.textContent='進化の系譜：'+c.lineages.slice(0,c.stage+1).map(function(branch,stage){return PILOT_LINEAGES[branch].mark+' '+PILOT_LINEAGES[branch].names[stage];}).join(' → ')+' ／ 主特化：'+ORGAN_NAMES[a.organ.primary]+' ／ 副特化：'+ORGAN_NAMES[a.organ.secondary];
         finalSummary.textContent=c.matured?
           '完全成熟した個体の姿です。成熟後もFizzBuzzは最後まで出力しました。':
           'N行の出力を終えた時点の姿です。途中段階でも失敗ではなく、今回の最終形態として記録します。';
