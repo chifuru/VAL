@@ -5,19 +5,19 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 承認済み基準36ノードを保持し、〰深淵触手/🜂神鳥/λ再帰知性の有機Canvas次期試作をsrc/testsへ実装。新規E6は草案（V8モック53件成功、実ブラウザ未検証）
+current_status: 既存36ノードは承認済みを維持。次期試作では状況依存の進化選択・中立的3相名・環境4ボタン・交差変容を実装。E7は草案（V8モック61件成功、GAS実機未検証）
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
 initial_registration_previous_evidence: E3, E4
-initial_registration_this_change: E6（新しい試作版の独立証跡・草案）
-manifest_reflection_this_change: A1.4/A1.5、B1.4.2/B1.5、C1.4.3/C1.5/C1.6、D1.2/D1.3の次期未承認追記、src/Index.html、tests/creature.test.cjs、README.md、E6
-last_reflected_flow: FLOW-06 差分対象と承認済み基準を確認 → FLOW-07/08 次期プロトタイプ実装・V8検証 → FLOW-05 E6初期登録と関連ノード・Manifestの未承認差分反映
-unresolved_summary: 既存36ノードの正式状態は承認済みを保持。今回の有機Canvas3系統試作は未承認で、E6は草案。53件のV8モック検証のみ成功。実Node npm test・GAS/ブラウザ実機・描画品質/FPS/スマートフォン/アクセシビリティは未検証。12全系統・終了時限定第4段階と解放条件は未実装。
+initial_registration_this_change: E7（新しい局所環境・交差変容の独立証跡、草案）
+manifest_reflection_this_change: A1.2/A1.4/A1.5/A1.6, B1.2/B1.4.2/B1.5, C1.3/C1.4.3/C1.5, D1.2/D1.3の次期未承認追記、src/Index.html, tests/creature.test.cjs, README.md, E7
+last_reflected_flow: FLOW-06 既存承認版の差分探索 → FLOW-07/08 環境依存の進化実装・V8モック61件検証 → FLOW-05 E7とManifest反映（正式承認状態は不変）
+unresolved_summary: 既存36ノードは承認済みのまま、E6/E7は草案。局所環境による進化分岐・中立的な3相名は今回の未承認試作。V8モック61件成功に限る。実Node npm test・GAS実機/ブラウザ描画/操作/FPS・モバイル・アクセシビリティは未検証。12全系統と第4相は未実装。
 
 ## Node構造・参照要約
 
-親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6は検証版ごとに独立した起点。
+親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6/E7は検証版ごとに独立した起点。
 層間関係: derived_from / implements / verifies / evidence_for による意味接続のみ（層間parent_idは禁止）。
 A/B/C/D/Eを機械的に同数へ揃えず、実装・検証・証跡の独立単位に応じて分割する。
 
@@ -327,6 +327,14 @@ E6:（外部参照 / 有機Canvas・3系統・器官特化のV8モック証跡�
 	実態:
 		状態: 草案。次期試作の限定証跡。実Node/GAS/ブラウザ視覚品質・FPS・モバイル・アクセシビリティは未検証。次FLOW候補: FLOW-08。
 
+E7:（外部参照 / 状況依存分岐・交差変容・中立的3相のV8モック証跡）［草案］
+	構成（要素・関係）:
+		Node File: valis/nodes/E/E7.md。主所属: E層。独立起点、parent_idなし。evidence_for: D1.1/D1.2/D1.3, C1.3/C1.4.3/C1.5。
+	ロジック:
+		現行GitHub src/test blobを対象にV8互換モック61件成功/0件失敗。同じDNAでも環境変更による異なる進化先・交差変容・局所餌の影響・履歴付きスキップ/低モーション・中立相名・FizzBuzz本文維持を検証。
+	実態:
+		状態: 草案。実Node/GAS/ブラウザ実機・視覚品質/FPS/アクセシビリティ未検証。旧E1～E6は対象版別の記録。次FLOW候補: FLOW-08。
+
 ## FLOW-09 状態変更決定 / FLOW-05 正式反映（2026-10-13）
 
 - **対象範囲**: A層7、B層9、C層10、D層5、E層5、計36件。いずれも既存Node Fileの「草案→承認済み」。承認済みへの直接遷移はFLOW-09の遷移表で許容され、必要なユーザーの明示承認は今回の「すべて一旦、承認で」で確認。
@@ -337,6 +345,17 @@ E6:（外部参照 / 有機Canvas・3系統・器官特化のV8モック証跡�
 - **残存処理フラグ**: Node.jsでの実 `npm test`、GAS HtmlService/実通信、ブラウザのピクセル表示/モバイル/アクセシビリティ、進化造形の人間目視評価は未実施で継続。承認を理由に自動解消しない。
 - **将来案の切り分け**: ユーザーは「段階ごとに大きな変化と分岐」および「終了時に数値が条件を超えた場合、第4段階を最終結果画面だけで提示して終了」を**承認後に詰める方針**。条件値・N/Pのどちらを判定するか・第4段階の外見・枝の数などは未確定。今回のNode状態変更に新仕様を混入させない。
 - **状態遷移決定**: FLOW-09 確定、FLOW-05 反映。全36ノードは正式状態「承認済み」。次FLOW候補は必要な時点でFLOW-04（別途仕様検討）/FLOW-06（承認済み核の影響探索）/FLOW-08（実機検証）。承認済み≠凍結。
+
+## 今回の差分と処理区別（局所環境による交差変容）
+
+- **承認済み基準版**: A/B/C/D/E1～E5の36ノードは承認済み。今回のA/B/C/Dへの追記は「次期状況分岐試作・未承認」と明示し、元の承認状態を変更しない。
+- **Manifest初期登録**: E7（草案）を独立証跡として追加。E6（草案）は直前の有機描画試作の旧版証跡で、新しいsrc/testの検証済み判定には用いない。総38ノード。
+- **Manifest反映**: A1.2/A1.4/A1.5/A1.6、B1.2/B1.4.2/B1.5、C1.3/C1.4.3/C1.5、D1.2/D1.3の差分、E7/README/src/testsを同期。既存のノード責務に収まるため新規A/B/C/D分割なし。
+- **新しい動作**: 第一相・萌生の◌未分化体は進化先未確定。第二相・変容/第三相・異相の入口で、相内の環境刺激（65%累積・35%直近12行）と最近12行の餌によって〰深淵触手/🜂神鳥/λ再帰知性から系統を選ぶ。前相系統で次相を縛らず、別の系統への交差変容を許可。
+- **ユーザー操作**: 育成前/途中/一時停止中に潮流/熱波/電磁波/虚空を切り替え可能（aria-pressed）。反映は次の入力行から。スキップは初期Nへ再計算せず、経過済み状況を保持して残りの行のみ実行。結果画面の「変容記録」で系統と優勢刺激を表示。
+- **守る契約**: Code.gsとserver testsは未変更。FizzBuzzの文字列配列N行、15/3/5優先順位、3相のP=10/35/100、完全成熟後の姿固定、スキップ/低モーションの入力・環境が等しいときの同一最終結果は維持。第4相と残り9系統は未実装。
+- **検証**: E7は指定blobを使ったV8互換モック61件成功/0失敗（FizzBuzz9 + creature/UI52）。実Node npm test/GAS実機/ブラウザ視覚品質やFPSは未実施。
+- **状態/NEXT**: E7草案、現行ベースライン承認済み、デプロイ・公開・追加の承認状態変更なし。次FLOW-08で手元GAS/ブラウザでの表示・操作・成長分岐を実測し、必要ならFLOW-04でさらに分岐の面白さと第4相を検討する。
 
 ## 今回の差分と処理区別（次期有機描画試作）
 
