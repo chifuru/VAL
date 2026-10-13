@@ -790,7 +790,25 @@ test('major evolution dissolves old and new bodies as integer pixel clusters',()
   assert.ok(morph.length>300);
   assert.ok(settled.length>300);
   assert.ok(morph.every(p=>p.op==='fillRect'));
-  assert.ok(morph.length>settled.length,'two silhouettes should be rasterized during transformation');
+  // The previous juvenile appears in full, then dithered pixels of the new body are added.
+  let organism=h.logic.initialCreature(150),previous;
+  for(const line of fizzBuzz(150)){
+    previous=organism;organism=h.logic.stepGrowth(organism,line,'heat');
+    if(organism.stage===1)break;
+  }
+  const startOld=h.pixels.length;
+  h.logic.renderPixel(h.get('creature').getContext(),previous.appearance,220,false);
+  const oldPixels=h.pixels.slice(startOld);
+  const key=p=>p.args.join(',')+':'+p.color;
+  const oldKeys=oldPixels.map(key);
+  const morphKeys=morph.map(key);
+  const offset=morphKeys.indexOf(oldKeys[0]);
+  assert.ok(offset>=0);
+  assert.deepEqual(morphKeys.slice(offset,offset+oldKeys.length),oldKeys,
+    'old shape is completely painted before the dithered next stage');
+  assert.ok(morph.length>offset+oldPixels.length,
+    'some visible pixels from the successor are painted over the old form');
+  assert.ok(settled.every(p=>p.op==='fillRect'));
 });
 test('skip and reduced motion preserve the same inherited terminal morphology',()=>{
   const n=400,played=harness({limit:n}),reduced=harness({limit:n,reducedMotion:true});
