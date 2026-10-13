@@ -52,7 +52,11 @@ function harness(options={}) {
    'final-card','final-creature','final-seed','final-species','final-status','final-summary',
    'final-stage','final-points','final-color','final-color-code','final-foods','final-lineage',
    'app-shell','mode-chip','retry-button','log-button','result-rank','result-header-state',
-   'env-tide','env-heat','env-signal','env-void','environment-status'].forEach(element);
+   'env-tide','env-heat','env-signal','env-void','environment-status',
+   'pixel-codex','codex-canvas','codex-name','codex-description',
+   'codex-abyss','codex-myth','codex-recursive','codex-sail','codex-gravity',
+   'codex-crystal','codex-manyeyes','codex-abyssshell','codex-parallel',
+   'codex-memory','codex-serpent','codex-solar'].forEach(element);
   nodes.get('limit').value=String(options.limit||15);
   nodes.get('speed').value='480';
   let timerId=0,now=50,raf=null,calls=0;
@@ -504,17 +508,19 @@ test('initial screen previews the DNA for the default numeric input',()=>{
 });
 
 
-test('exactly three illustrated pilot lineages expose stable emblems and nine stage names',()=>{
+test('all twelve evolution lines have distinct sigils, phase forms and candidate final forms',()=>{
   const q=harness().logic;
-  assert.equal(q.pilotLineages.length,3);
-  const marks=q.pilotLineages.map(x=>x.mark);
-  assert.deepEqual(Array.from(marks),['〰','🜂','λ']);
+  assert.equal(q.pilotLineages.length,12);
+  assert.deepEqual(Array.from(q.pilotLineages.slice(0,3).map(l=>l.mark)),['〰','🜂','λ']);
+  assert.equal(new Set(q.pilotLineages.map(l=>l.id)).size,12);
+  assert.equal(new Set(q.pilotLineages.map(l=>l.mark)).size,12);
   q.pilotLineages.forEach(lineage=>{
     assert.equal(lineage.names.length,3);
     assert.ok(lineage.names.every(x=>typeof x==='string'&&x.length>0));
+    assert.ok(lineage.finalName&&lineage.finalName.length>2);
+    assert.equal(lineage.niche.length,4);
   });
 });
-
 test('no seed selects an evolution lineage before experiencing its first phase',()=>{
   const q=harness().logic;
   for(let n=1;n<=240;n++){
@@ -549,26 +555,25 @@ test('every new stage locks a specific organic lineage, with visible final linea
   assert.equal(c.appearance.species,q.pilotLineages[c.lineages[2]].names[2]);
 });
 
-test('organic Canvas actually uses bezier curves, gradients, wings and tentacle variants',()=>{
-  const q=harness().logic,h=harness();
-  const original=q.initialCreature(224).appearance;
-  const variants=[];
+test('all twelve lines have genuinely different 64px pixel silhouettes in both evolved phases',()=>{
+  const h=harness(),q=h.logic,base=q.initialCreature(400).appearance,signatures=new Set();
   for(const lineage of q.pilotLineages){
-    for(let stage=0;stage<3;stage++){
-      const a=Object.assign({},original,{lineage:lineage.id,stage:stage,growthTier:2});
-      const begin=h.pixels.length;
-      assert.equal(q.renderSmooth(h.get('creature').getContext(),a,420,false),true);
-      const operations=h.pixels.slice(begin);
-      assert.ok(operations.some(op=>op.op==='bezierCurveTo'));
-      assert.ok(operations.some(op=>op.op==='fill'));
-      assert.ok(operations.some(op=>op.op==='stroke'));
-      assert.ok(operations.length>35);
-      variants.push(operations.filter(op=>op.op==='bezierCurveTo'||op.op==='ellipse').map(op=>op.op+':'+op.args.join(',')).join('|'));
+    for(const stage of [1,2]){
+      const a=Object.assign({},base,{stage,lineage:lineage.id,growthTier:3,heritage:[]});
+      const at=h.pixels.length;
+      assert.equal(q.renderPixel(h.get('creature').getContext(),a,0,true),true);
+      const ops=h.pixels.slice(at);
+      assert.ok(ops.length>120,lineage.id+' '+stage);
+      assert.ok(ops.every(p=>p.op==='fillRect'));
+      assert.ok(ops.every(p=>p.args.every(Number.isInteger)));
+      assert.ok(ops.every(p=>p.args[0]%4===0&&p.args[1]%4===0));
+      const sig=ops.map(p=>p.args.join(':')+':'+p.color).join('|');
+      assert.ok(!signatures.has(sig),lineage.id+' / '+stage+' must have different anatomy');
+      signatures.add(sig);
     }
   }
-  assert.equal(new Set(variants).size,9,'three lineages in three stages need distinct path geometry');
+  assert.equal(signatures.size,24);
 });
-
 test('portrait UI includes lineage symbol and organ strengths without changing the result text',()=>{
   const h=harness({limit:400,reducedMotion:true});
   h.fire('fizzbuzz-form','submit');
@@ -582,12 +587,12 @@ test('portrait UI includes lineage symbol and organ strengths without changing t
 });
 
 
-test('organic Canvas portraits scale smoothly rather than nearest-neighbor pixels',()=>{
-  assert.ok(!html.includes('image-rendering:pixelated'));
-  assert.ok(html.includes('image-rendering:auto'));
+test('live, result and codex portraits retain intentional nearest-neighbor pixel art',()=>{
+  assert.ok(html.includes('image-rendering:pixelated'));
+  assert.ok(!html.includes('image-rendering:auto'));
+  assert.ok(html.includes('64 × 64 PIXEL MUTATION'));
+  assert.ok(!html.includes('function smoothOrganism'));
 });
-
-
 test('environment switches change a run without changing the initial DNA or N',()=>{
   const q=harness().logic,n=400,lines=fizzBuzz(n);
   const a=q.tally(lines,n,'tide'),b=q.tally(lines,n,'heat');
@@ -612,16 +617,15 @@ test('cross-evolution can switch lineages in a later phase regardless of the ear
   assert.equal(c.appearance.lineage,'recursive');
 });
 
-test('recent food can tip a mixed-environment branch without changing DNA',()=>{
-  const q=harness().logic;
-  const exposures={tide:9,heat:10,signal:0,void:0};
-  const recentEnvs=['tide','tide','tide','tide','tide','heat','heat','heat','heat','heat','heat','heat'];
+test('recent food can influence a choice near a mixed environmental niche',()=>{
+  const q=harness().logic,exposure={tide:72,heat:28,signal:0,void:0};
   function choice(food){
-    return q.lineageFor({situation:{exposure:exposures,steps:19,
-      recentEnvs:recentEnvs,recentFoods:Array(12).fill(food)}},1);
+    return q.lineageFor({situation:{exposure,steps:100,
+      recentEnvs:Array(9).fill('tide').concat(Array(3).fill('heat')),
+      recentFoods:Array(12).fill(food)}},1);
   }
   assert.equal(choice('fizzbuzz'),0);
-  assert.equal(choice('buzz'),1);
+  assert.notEqual(choice('fizzbuzz'),choice('buzz'));
 });
 test('the environment selector is actionable and accessible during a running replay',()=>{
   const h=harness({limit:400});
