@@ -375,5 +375,5 @@ test('game UI keeps result text in textarea and uses separated dedicated result 
   assert.match(html,/id="retry-button"/);
   assert.match(html,/id="log-button"/);
   assert.match(html,/data-log-open="true"/);
-  assert.match(html,/\\.shell\\[data-mode="result"\\] \\.room-panel/);
+  assert.ok(html.includes('.shell[data-mode="result"] .room-panel'));
 });
