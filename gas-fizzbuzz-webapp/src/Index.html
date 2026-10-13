@@ -1311,7 +1311,12 @@
           organ:Object.freeze({primary:lineage.primary,secondary:a.organ.secondary,levels:Object.freeze(organ)})});
         renderScene(codexCanvas.getContext('2d'),preview,0,true);
         codexName.textContent=lineage.mark+' '+lineage.names[2];
-        codexDescription.textContent='第二相：'+lineage.names[1]+' ／ 最終変容候補：'+lineage.finalName+'（第4相は未実装）';
+        var keys=['tide','heat','signal','void'];
+        var conditions=keys.map(function(k,i){
+          return lineage.niche[i]>0?ENVIRONMENTS[k]+Math.round(lineage.niche[i]*100)+'%':null;
+        }).filter(Boolean).join('＋');
+        codexDescription.textContent='環境傾向：'+conditions+'（直近の餌も影響）／ 第二相：'+
+          lineage.names[1]+' ／ 第4相候補：'+lineage.finalName+'（第4相は未実装）';
         PILOT_LINEAGES.forEach(function(item){
           var button=document.getElementById('codex-'+item.id);
           if(button)button.setAttribute('aria-pressed',String(item.id===id));
