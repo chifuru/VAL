@@ -5,14 +5,14 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: DNA初期差・各段階3系統分岐・4つの発達形態・系譜表示・入力時プレビュー実装、E5 V8モック45件成功（GAS実機未検証）
+current_status: 初回入力値Nの新生魚プレビュー・DNA初期差・各段階3系統分岐・4つの発達形態・系譜表示・入力時プレビュー実装、E5 V8モック46件成功（GAS実機未検証）
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
 initial_registration_previous_evidence: E3, E4
 initial_registration_this_change: E5
 manifest_reflection_this_change: A1.4, A1.5, A1.6, B1.4.2, B1.5, C1.4.3, C1.5, C1.6, D1.2, D1.3, E5, src/Index.html, tests/creature.test.cjs, README.md
-last_reflected_flow: FLOW-05 DNA/分岐/4発達の差分反映、FLOW-08 V8互換モック45件成功の証跡E5
+last_reflected_flow: FLOW-05 DNA/分岐/4発達の差分反映、FLOW-08 V8互換モック46件成功の証跡E5
 unresolved_summary: 実Node npm test・GAS実機/ブラウザ描画・視覚的な差分の人間評価/モバイル/アクセシビリティは未実施。仮閾値と分岐造形は調整対象、全ノード草案
 
 ## Node構造・参照要約
@@ -315,7 +315,7 @@ E5:（外部参照 / DNA初期差・形態分岐・発達tier改善のV8モッ�
 	構成（要素・関係）:
 		Node File: valis/nodes/E/E5.md。主所属: E層。起点ノード、parent_idなし。evidence_for: D1.1/D1.2/D1.3, C1.4.3/C1.5/C1.6。
 	ロジック:
-		現在のGitHub src/test blobに対してV8モック45件成功・失敗0。DNA近傍Nでの差、各進化段階の3系統分岐、4発達tier、系譜・プレビュー、FizzBuzz出力不変を検証。
+		現在のGitHub src/test blobに対してV8モック46件成功・失敗0。DNA近傍Nでの差、各進化段階の3系統分岐、4発達tier、系譜・プレビュー、FizzBuzz出力不変を検証。
 	実態:
 		状態: 草案。実Node npm test、GAS・ブラウザの目視品質/アクセシビリティは未検証。次FLOW候補: FLOW-08。
 
@@ -323,7 +323,7 @@ E5:（外部参照 / DNA初期差・形態分岐・発達tier改善のV8モッ�
 
 - **Manifest初期登録（今回）**: E5をE1～E4とは異なるソース版の新規証跡として登録。A/B/C/Dの既存責務・検証単位で対応可能なため、新規ノード分割なし。
 - **Manifest反映（今回）**: A1.4/A1.5/A1.6、B1.4.2/B1.5、C1.4.3/C1.5/C1.6、D1.2/D1.3、E5へ新実装・検証差分を反映。
-- **src/tests/README更新**: src/Index.htmlに入力NのDNAプレビュー、6軸の拡散混合、各進化段階の3系統確定・継承、段階内4発達tier・目に見える輪郭/器官/模様の成長、最終リザルトの進化系譜を実装。tests/creature.test.cjsは36件（今回9件追加）、READMEも記録更新。Code.gs・tests/fizzbuzz.test.cjsと中核定義3ファイルは変更なし。
+- **src/tests/README更新**: src/Index.htmlに入力NのDNAプレビュー、6軸の拡散混合、各進化段階の3系統確定・継承、段階内4発達tier・目に見える輪郭/器官/模様の成長、最終リザルトの進化系譜を実装。tests/creature.test.cjsは37件（今回9件追加）、READMEも記録更新。Code.gs・tests/fizzbuzz.test.cjsと中核定義3ファイルは変更なし。
 - **仕様維持**: 正式な進化段階は魚/陸生動物/宇宙生物の3段階。4発達tierは第4進化段階ではない。閾値10/35/100は仮値。完全成熟で外見を固定し、FizzBuzzは常にN行完走、ログの文字列や順序は不変。
-- **E5証跡**: GitHubの指定ソース/test blobを使ったV8互換モック45件成功/0件失敗。実Node npm test・GAS実機・ブラウザでの造形や見え方の目視検証は未実施。
+- **E5証跡**: GitHubの指定ソース/test blobを使ったV8互換モック46件成功/0件失敗。実Node npm test・GAS実機・ブラウザでの造形や見え方の目視検証は未実施。
 - **状態とNEXT**: 全ノード草案。承認済み化・公開・デプロイ・権限変更なし。次FLOW-08で実Node・GAS/ブラウザ検証を行い、必要ならFLOW-04で体格・分岐式を調整。
