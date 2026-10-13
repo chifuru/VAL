@@ -258,6 +258,8 @@
             <button type="button" id="codex-memory">⛨ 記憶殻</button>
             <button type="button" id="codex-serpent">Ϟ 多頭蛇</button>
             <button type="button" id="codex-solar">☼ 日輪</button>
+            <button type="button" id="codex-antimeme">∅ 反記銘生命</button>
+            <button type="button" id="codex-valis">⌁ 異化通信生命</button>
           </div>
           <div class="codex-preview">
             <canvas id="codex-canvas" width="256" height="256" role="img" aria-label="進化系統のドット絵見本"></canvas>
@@ -499,6 +501,7 @@
         var names={abyss:'触肢',myth:'翼紋',recursive:'枝角',
           sail:'光帆',gravity:'重力環',crystal:'結晶棘',manyeyes:'側眼',
           abyssshell:'深殻',parallel:'多腕',memory:'記憶甲',serpent:'蛇頭',solar:'日輪'};
+        names.antimeme='欠章尾';names.valis='信号冠';
         return names[imprint.lineage]||'背びれ';
       }
 
@@ -716,7 +719,11 @@
         growthBar.style.width=percent+'%';
         growthProgress.setAttribute('aria-valuenow',String(percent));
         growthForm.textContent='個体 #'+c.seed+' ・ 発達 '+(c.appearance.growthTier+1)+' / 4 ・ '+['萌芽','伸長','分化','充実'][c.appearance.growthTier]+' ・ '+c.appearance.mark+' '+c.appearance.group+' ・ 特化 '+ORGAN_NAMES[c.appearance.organ.primary]+' / '+ORGAN_NAMES[c.appearance.organ.secondary]+
-          (c.appearance.heritage.length?' ・ 継承：'+c.appearance.heritage.map(imprintName).join('・'):'');
+          (c.appearance.heritage.length?' ・ 継承：'+c.appearance.heritage.map(imprintName).join('・'):'')+
+          ((c.appearance.parts||[]).some(function(part){return part.level>0;})?' ・ 拡張：'+
+            c.appearance.parts.filter(function(part){return part.level>0;}).map(function(part){
+              return part.label+'Lv'+part.level;
+            }).join('・'):'');
         nextStage.textContent=c.matured?'完全成熟！ 外見はここで固定（結果の再生は継続）':
           '成長 '+c.points.toFixed(2)+' P / 次の変容 '+end+' P';
       }
@@ -1391,8 +1398,13 @@
         var lineage=PILOT_LINEAGES[index],a=initialCreature(500).appearance;
         var organ=Object.assign({},a.organ.levels);
         organ[lineage.primary]=Math.max(1.5,organ[lineage.primary]);
+        var previewParts=(PARTS[id]||[]).map(function(def){
+          return Object.freeze({id:def.id,label:def.label,anchor:def.anchor,level:3,
+            variant:def.variants[2],points:def.thresholds[2]});
+        });
         var preview=Object.assign({},a,{stage:2,growthTier:3,lineage:id,
           group:lineage.group,mark:lineage.mark,species:lineage.names[2],
+          parts:Object.freeze(previewParts),
           organ:Object.freeze({primary:lineage.primary,secondary:a.organ.secondary,levels:Object.freeze(organ)})});
         renderScene(codexCanvas.getContext('2d'),preview,0,true);
         codexName.textContent=lineage.mark+' '+lineage.names[2];
@@ -1400,8 +1412,10 @@
         var conditions=keys.map(function(k,i){
           return lineage.niche[i]>0?ENVIRONMENTS[k]+Math.round(lineage.niche[i]*100)+'%':null;
         }).filter(Boolean).join('＋');
+        var organSet=(PARTS[id]||[]).map(function(def){return def.label+' LV1→3';}).join('・');
         codexDescription.textContent='環境傾向：'+conditions+'（直近の餌も影響）／ 第二相：'+
-          lineage.names[1]+' ／ 第4相候補：'+lineage.finalName+'（第4相は未実装）';
+          lineage.names[1]+(organSet?' ／ 拡張：'+organSet:'')+
+          ' ／ 第4相候補：'+lineage.finalName+'（第4相は未実装）';
         PILOT_LINEAGES.forEach(function(item){
           var button=document.getElementById('codex-'+item.id);
           if(button)button.setAttribute('aria-pressed',String(item.id===id));
