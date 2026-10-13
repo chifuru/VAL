@@ -611,21 +611,17 @@ test('cross-evolution can switch lineages in a later phase regardless of the ear
   assert.equal(c.appearance.lineage,'recursive');
 });
 
-test('food type influences situational branch at mixed environmental pressure',()=>{
+test('recent food can tip a mixed-environment branch without changing DNA',()=>{
   const q=harness().logic;
-  function grow(food){
-    let c=q.initialCreature(80);
-    for(let i=0;i<20;i++)c=q.stepGrowth(c,food,i%2===0?'tide':'heat');
-    return c;
+  const exposures={tide:9,heat:10,signal:0,void:0};
+  const recentEnvs=['tide','tide','tide','tide','tide','heat','heat','heat','heat','heat','heat','heat'];
+  function choice(food){
+    return q.lineageFor({situation:{exposure:exposures,steps:19,
+      recentEnvs:recentEnvs,recentFoods:Array(12).fill(food)}},1);
   }
-  const fizz=grow('Fizz'),buzz=grow('Buzz');
-  assert.equal(fizz.stage,1);assert.equal(buzz.stage,1);
-  assert.ok(fizz.situation);
-  assert.ok(buzz.situation);
-  assert.equal(fizz.history.length,1);
-  assert.equal(buzz.history.length,1);
+  assert.equal(choice('FizzBuzz'),0);
+  assert.equal(choice('Buzz'),1);
 });
-
 test('the environment selector is actionable and accessible during a running replay',()=>{
   const h=harness({limit:400});
   assert.equal(h.get('env-tide').attrs['aria-pressed'],undefined);
@@ -644,16 +640,15 @@ test('skipping after a live environment change preserves the already-played cont
   const n=400,h=harness({limit:n});
   h.fire('env-heat','click');
   h.fire('fizzbuzz-form','submit');
-  while(h.logic.stageFor(h.logic.tally(fizzBuzz(h.get('result').value.split('\n').length||1),n).points)===0&&h.next()){}
-  // The actual stage is observable via the HUD, and environment can change mid-run.
+  for(let i=0;i<29;i++)assert.equal(h.next(),true);
   h.fire('env-signal','click');
   const played=h.get('result').value.split('\n').length;
   h.fire('skip-button','click');
   const expected=h.logic.tally(fizzBuzz(n),n,(i)=>i<played?'heat':'signal');
   assert.equal(h.get('final-species').textContent,expected.appearance.mark+' '+expected.appearance.species);
+  assert.equal(h.get('final-lineage').textContent.includes(expected.appearance.species),true);
   assert.equal(h.get('result').value,fizzBuzz(n).join('\n'));
 });
-
 test('neutral phase names and on-demand branches replace predetermined fish-to-space route',()=>{
   assert.ok(html.includes('第一相・萌生'));
   assert.ok(html.includes('第二相・変容'));
