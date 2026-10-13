@@ -405,8 +405,8 @@ test('all three families exist within each stage, rather than only variant label
 
 test('stage entry fixes that branch; it never oscillates while feeding that stage',()=>{
   const q=harness().logic;
-  let c=q.initialCreature(200),lastStage=0,lastBranch=c.branches[0];
-  for(const line of fizzBuzz(200)){
+  let c=q.initialCreature(400),lastStage=0,lastBranch=c.branches[0];
+  for(const line of fizzBuzz(400)){
     c=q.stepGrowth(c,line);
     if(c.stage===lastStage)assert.equal(c.branches[lastStage],lastBranch);
     else {
