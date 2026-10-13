@@ -2,9 +2,9 @@
   "name": "gas-fizzbuzz-webapp",
   "private": true,
   "version": "0.1.0",
-  "description": "VALIS-structured Google Apps Script FizzBuzz web app",
+  "description": "Retro pixel creature FizzBuzz GAS web app with automatic food and growth playback",
   "scripts": {
-    "test": "node --test tests/fizzbuzz.test.cjs"
+    "test": "node --test tests/fizzbuzz.test.cjs tests/creature.test.cjs"
   },
   "engines": {
     "node": ">=18"
