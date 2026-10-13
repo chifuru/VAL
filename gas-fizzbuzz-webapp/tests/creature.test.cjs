@@ -20,16 +20,18 @@ function fizzBuzz(n) {
 function harness(options={}) {
   const nodes=new Map(), pixels=[];
   function element(id) {
-    const e={id,value:'',textContent:'',disabled:false,style:{},scrollTop:0,scrollHeight:100,attrs:{},handlers:{},
+    const e={id,value:'',textContent:'',disabled:false,hidden:id==='final-card',style:{},width:256,height:256,scrollTop:0,scrollHeight:100,attrs:{},handlers:{},scrollIntoView(){this.scrolled=true;},
       addEventListener(type,handler){this.handlers[type]=handler;},
       setAttribute(k,v){this.attrs[k]=v;},
-      getContext(){return {fillRect(...a){pixels.push(a);},clearRect(){},set fillStyle(x){},set imageSmoothingEnabled(x){}};}
+      getContext(){let color='';return {fillRect(...a){pixels.push({id,args:a,color});},clearRect(){},set fillStyle(x){color=x;},set imageSmoothingEnabled(x){}};}
     };
     nodes.set(id,e);
   }
   ['fizzbuzz-form','limit','run-button','pause-button','skip-button','speed','result','error','status',
    'current-line','stage-name','food-total','next-stage','growth-bar','growth-progress',
-   'fizz-count','buzz-count','special-count','number-count','creature'].forEach(element);
+   'fizz-count','buzz-count','special-count','number-count','creature',
+   'final-card','final-creature','final-seed','final-species','final-status','final-summary',
+   'final-stage','final-points','final-color','final-color-code','final-foods'].forEach(element);
   nodes.get('limit').value=String(options.limit||15);
   nodes.get('speed').value='480';
   let timerId=0,now=50,raf=null,calls=0;
@@ -177,6 +179,11 @@ test('auto replay preserves unchanged FizzBuzz text, counters and short-stage re
   assert.equal(h.get('number-count').textContent,'8');
   assert.equal(h.pending(),0);
   assert.equal(h.get('run-button').disabled,false);
+  assert.equal(h.get('final-card').hidden,false);
+  assert.match(h.get('final-status').textContent,/進化途中/);
+  assert.equal(h.get('final-seed').textContent,'個体 #15');
+  assert.equal(h.get('final-foods').textContent,'4 / 2 / 1 / 8');
+  assert.ok(h.pixels.some(p=>p.id==='final-creature'));
 });
 
 test('pause/resume/skip preserves complete text and final creature state',()=>{
@@ -231,4 +238,65 @@ test('new calculation clears the previous result and uses the new seed',()=>{
 test('canvas frame renders for DNA-based fish without browser APIs beyond Canvas',()=>{
   const h=harness();h.frame();
   assert.ok(h.pixels.length>20);
+});
+
+
+test('final panel remains hidden during replay and appears after the last line',()=>{
+  const h=harness({limit:30});
+  assert.equal(h.get('final-card').hidden,true);
+  h.fire('fizzbuzz-form','submit');
+  assert.equal(h.get('final-card').hidden,true);
+  while(h.next()){}
+  assert.equal(h.get('final-card').hidden,false);
+  assert.equal(h.get('final-seed').textContent,'個体 #30');
+  assert.match(h.get('final-stage').textContent,/陸生動物/);
+  assert.ok(h.get('final-species').textContent.length>0);
+});
+
+test('matured individual has static completed portrait and full 400-line result',()=>{
+  const h=harness({limit:400});
+  h.fire('fizzbuzz-form','submit');
+  while(h.next()){}
+  assert.match(h.get('final-status').textContent,/完全成熟/);
+  assert.equal(h.get('final-points').textContent,'100.00 / 100 P');
+  assert.equal(h.get('result').value,fizzBuzz(400).join('\n'));
+  assert.ok(h.pixels.filter(p=>p.id==='final-creature').length>40);
+});
+
+test('skip and reduced motion present the identical terminal portrait data',()=>{
+  const n=150;
+  const skipped=harness({limit:n});
+  skipped.fire('fizzbuzz-form','submit');
+  skipped.fire('skip-button','click');
+  const reduced=harness({limit:n,reducedMotion:true});
+  reduced.fire('fizzbuzz-form','submit');
+  for(const id of ['final-seed','final-species','final-status','final-stage','final-points','final-color-code','final-foods'])
+    assert.equal(skipped.get(id).textContent,reduced.get(id).textContent,id);
+  assert.equal(skipped.get('result').value,reduced.get('result').value);
+});
+
+test('new calculation resets final-panel visibility before the next playback ends',()=>{
+  const h=harness();
+  h.fire('fizzbuzz-form','submit');
+  h.fire('skip-button','click');
+  assert.equal(h.get('final-card').hidden,false);
+  h.get('limit').value='3';
+  h.fire('fizzbuzz-form','submit');
+  assert.equal(h.get('final-card').hidden,true);
+  while(h.next()){}
+  assert.equal(h.get('final-card').hidden,false);
+  assert.equal(h.get('final-seed').textContent,'個体 #3');
+});
+
+test('fish, land creature and alien use distinct deterministic pixel silhouettes',()=>{
+  const pixels=[];
+  for(const n of [5,30,100]){
+    const h=harness({limit:n,reducedMotion:true});
+    h.fire('fizzbuzz-form','submit');
+    const pic=h.pixels.filter(p=>p.id==='final-creature').map(p=>p.args.slice(0,2).join(':')+':'+p.color).join(',');
+    assert.ok(pic.length>0);
+    pixels.push(pic);
+  }
+  assert.notEqual(pixels[0],pixels[1]);
+  assert.notEqual(pixels[1],pixels[2]);
 });
