@@ -268,11 +268,21 @@
       var STAGES = ['第一相・萌生', '第二相・変容', '第三相・異相'];
       var COLORS = { fizz: '#61ceff', buzz: '#ffd477', fizzbuzz: '#e6a1ff', number: '#bbefb5' };
       var PALETTES = [[97,206,255],[255,209,109],[225,154,255]];
-      // Three fully-rendered pilot lineages; the remaining nine are proposals, not shipped forms.
+      // Twelve possible, situationally selected, pixel-art lineages. Phase I is uncommitted.
+      // The fourth name is a catalog candidate ONLY; result-only evolution is not unlocked.
       var PILOT_LINEAGES = Object.freeze([
-        Object.freeze({id:'abyss',mark:'〰',group:'深淵触手',names:['ネムラピ','ウロネクト','ノクトラケル'],primary:'tentacles'}),
-        Object.freeze({id:'myth',mark:'🜂',group:'神鳥',names:['ヤタヒル','ミツアシハヤ','カラスヴァ'],primary:'wings'}),
-        Object.freeze({id:'recursive',mark:'λ',group:'再帰知性',names:['パレピオン','ラムダイル','リスプラトス'],primary:'senses'})
+        Object.freeze({id:'abyss',mark:'〰',group:'深淵触手',names:['ネムラピ','ウロネクト','ノクトラケル'],finalName:'ネフ＝エルド',primary:'tentacles',niche:[1,0,0,0]}),
+        Object.freeze({id:'myth',mark:'🜂',group:'神鳥',names:['ヤタヒル','ミツアシハヤ','カラスヴァ'],finalName:'天導ヤタリス',primary:'wings',niche:[0,1,0,0]}),
+        Object.freeze({id:'recursive',mark:'λ',group:'再帰知性',names:['パレピオン','ラムダイル','リスプラトス'],finalName:'ゼータ＝パレン',primary:'heads',niche:[0,0,1,0]}),
+        Object.freeze({id:'sail',mark:'✦',group:'光帆',names:['ルミノイル','セイルルガ','アストレイヴ'],finalName:'ヘリオ＝ヴェルカ',primary:'wings',niche:[.5,0,.5,0]}),
+        Object.freeze({id:'gravity',mark:'◎',group:'重力環',names:['グラヴィフィ','トリグラノ','オルビレグス'],finalName:'ゼロ＝ケプレア',primary:'orbit',niche:[0,.45,0,.55]}),
+        Object.freeze({id:'crystal',mark:'◇',group:'星晶',names:['クォーツィ','プリズメル','ネビュラティス'],finalName:'セレス＝グラシア',primary:'shell',niche:[0,0,0,1]}),
+        Object.freeze({id:'manyeyes',mark:'◉',group:'多眼知覚',names:['ミオロプ','マガノーヴ','パノプセラ'],finalName:'オムニ＝ノクティス',primary:'eyes',niche:[.2,0,.25,.55]}),
+        Object.freeze({id:'abyssshell',mark:'▣',group:'深殻',names:['シャルグミ','カルカシェル','アビサルド'],finalName:'ウル＝ダルシェル',primary:'shell',niche:[.55,0,0,.45]}),
+        Object.freeze({id:'parallel',mark:'∥',group:'並列生命',names:['ゴロピン','コンカリオ','パラレギオン'],finalName:'ゴル＝コンカレス',primary:'limbs',niche:[0,.5,.5,0]}),
+        Object.freeze({id:'memory',mark:'⛨',group:'記憶殻',names:['ビトクラ','スタックラ','ボロウ＝フェラク'],finalName:'メモル＝クラスト',primary:'shell',niche:[0,0,.5,.5]}),
+        Object.freeze({id:'serpent',mark:'Ϟ',group:'多頭蛇',names:['オロチル','ミダレクビ','ヤツマガノ'],finalName:'八星蛇オロマグナ',primary:'heads',niche:[.5,.5,0,0]}),
+        Object.freeze({id:'solar',mark:'☼',group:'日輪',names:['ヒノシズク','カガミノア','アマツリンカ'],finalName:'日輪神アマ＝ゼル',primary:'glow',niche:[0,.75,.25,0]})
       ]);
       var ORGAN_NAMES = Object.freeze({eyes:'眼',tentacles:'触手',wings:'翼・ひれ',shell:'甲殻',limbs:'脚・腕',glow:'発光',heads:'頭部',orbit:'浮遊器官'});
       var ENVIRONMENTS=Object.freeze({tide:'潮流',heat:'熱波',signal:'電磁波',void:'虚空'});
@@ -307,21 +317,28 @@
       // Evolution is NOT fixed by the initial DNA or a named linear family.
       // Only what happened DURING THE CURRENT PHASE contributes to the next branch.
       function lineageFor(c,stage){
-        if(stage<1)return null; // a newly born creature has no committed lineage
+        if(stage<1)return null;
         var local=c.situation,ex=local.exposure,steps=Math.max(1,local.steps);
-        var recent=local.recentEnvs,recentCount=Math.max(1,recent.length);
-        var counts={tide:0,heat:0,signal:0,void:0};
-        recent.forEach(function(k){counts[k]++;});
-        function pressure(k){return .65*ex[k]/steps+.35*counts[k]/recentCount;}
-        var foods=local.recentFoods,fCount=Math.max(1,foods.length);
-        function nutrition(k){return foods.filter(function(x){return x===k;}).length/fCount;}
-        var score=[
-          1.30*(pressure('tide')+.66*pressure('void'))+.24*nutrition('fizzbuzz')+.08*nutrition('number'),
-          1.30*(pressure('heat')+.15*pressure('tide'))+.24*nutrition('buzz'),
-          1.30*(pressure('signal')+.38*pressure('void'))+.24*nutrition('fizz')
-        ];
-        var winner=0;for(var i=1;i<score.length;i++)if(score[i]>score[winner])winner=i;
-        return winner;
+        var recent=local.recentEnvs,rc=Math.max(1,recent.length);
+        var count={tide:0,heat:0,signal:0,void:0};
+        recent.forEach(function(k){count[k]++;});
+        var keys=['tide','heat','signal','void'];
+        // The cumulative climate and the most recent 12 exposures both matter.
+        var pressure=keys.map(function(k){return .65*ex[k]/steps+.35*count[k]/rc;});
+        var foods=local.recentFoods,fc=Math.max(1,foods.length);
+        var recentFood={fizz:0,buzz:0,fizzbuzz:0,number:0};
+        foods.forEach(function(k){recentFood[k]++;});
+        var favor={tentacles:'fizzbuzz',wings:'fizz',heads:'fizz',
+          orbit:'number',shell:'buzz',eyes:'fizzbuzz',limbs:'number',glow:'fizzbuzz'};
+        var best=0,bestScore=-Infinity;
+        PILOT_LINEAGES.forEach(function(l,i){
+          var distance=0;
+          for(var k=0;k<4;k++)distance+=Math.pow(pressure[k]-l.niche[k],2);
+          var foodBonus=(recentFood[favor[l.primary]]/fc)*.085;
+          var score=-distance+foodBonus;
+          if(score>bestScore){bestScore=score;best=i;}
+        });
+        return best;
       }
       function branchFor(c,stage){return lineageFor(c,stage);}
       function organFor(c){
