@@ -257,7 +257,7 @@
       // Three fully-rendered pilot lineages; the remaining nine are proposals, not shipped forms.
       var PILOT_LINEAGES = Object.freeze([
         Object.freeze({id:'abyss',mark:'〰',group:'深淵触手',names:['ネムラピ','ウロネクト','ノクトラケル'],primary:'tentacles'}),
-        Object.freeze({id:'myth',mark:'☼',group:'神鳥',names:['ヤタヒル','ミツアシハヤ','カラスヴァ'],primary:'wings'}),
+        Object.freeze({id:'myth',mark:'🜂',group:'神鳥',names:['ヤタヒル','ミツアシハヤ','カラスヴァ'],primary:'wings'}),
         Object.freeze({id:'recursive',mark:'λ',group:'再帰知性',names:['パレピオン','ラムダイル','リスプラトス'],primary:'senses'})
       ]);
       var ORGAN_NAMES = Object.freeze({eyes:'眼',tentacles:'触手',wings:'翼・ひれ',shell:'甲殻',limbs:'脚・腕',glow:'発光',heads:'頭部',orbit:'浮遊器官'});
@@ -1054,7 +1054,7 @@
         }
         paintCtx=previous;
       }
-      function draw(time){renderScene(ctx,state.creature.appearance,time,false);}
+      function draw(time){var still=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;renderScene(ctx,state.creature.appearance,still?0:time,still);}
       function frame(time){draw(time);window.requestAnimationFrame(frame);}
       updateGrowth();updateButtons();
       if(ctx&&window.requestAnimationFrame)window.requestAnimationFrame(frame);
