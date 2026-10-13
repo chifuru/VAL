@@ -31,14 +31,18 @@ test('all 68 embedded images and nine reference thumbnails survive without subst
   assert.equal(Object.keys(cfg.partImages).length, 11);
   assert.equal(Object.keys(cfg.lineageImages).length, 12);
   assert.equal(cfg.references.length, 9);
-  for (const src of Object.values(cfg.core)) assert.match(src, /^data:image\//);
-  for (const variants of Object.values(cfg.partImages)) {
-    assert.equal(variants.length, 3);
-    for (const src of variants) assert.match(src, /^data:image\//);
-  }
-  for (const variants of Object.values(cfg.lineageImages)) {
-    assert.equal(variants.length, 2);
-    for (const src of variants) assert.match(src, /^data:image\//);
+  const filePaths = [
+    ...Object.values(cfg.core),
+    ...Object.values(cfg.partImages).flat(),
+    ...Object.values(cfg.lineageImages).flat(),
+    ...cfg.references.map(ref => ref.file),
+  ];
+  assert.equal(filePaths.length, 68);
+  assert.equal(new Set(filePaths).size, 68);
+  assert.equal(Object.keys(cfg.sources).length, 68);
+  for (const file of filePaths) {
+    assert.ok(file in cfg.sources, 'missing asset source: ' + file);
+    assert.match(cfg.sources[file], /^data:image\//);
   }
 });
 
