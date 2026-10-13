@@ -423,7 +423,7 @@
       var finalColor=document.getElementById('final-color');
       var finalColorCode=document.getElementById('final-color-code');
       var finalFoods=document.getElementById('final-foods');
-      var state={lines:[],index:0,creature:initialCreature(1),active:false,busy:false,paused:false};
+      var state={lines:[],index:0,creature:initialCreature(Number(limitInput.value)||1),active:false,busy:false,paused:false};
       var timer=null,nonce=0,effect=null,evolvedAt=-10000;
       function clearPlaybackTimer(){if(timer!==null){clearTimeout(timer);timer=null;}}
       function updateButtons(){
