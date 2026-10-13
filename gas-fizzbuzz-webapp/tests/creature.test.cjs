@@ -658,3 +658,27 @@ test('neutral phase names and on-demand branches replace predetermined fish-to-s
   assert.ok(!html.includes('STAGE 1 魚'));
   assert.ok(!html.includes('魚から宇宙生物まで進化'));
 });
+
+
+test('heat chosen before submit survives reset and drives both later phases',()=>{
+  const n=400,h=harness({limit:n,reducedMotion:true});
+  h.fire('env-heat','click');h.fire('fizzbuzz-form','submit');
+  const wanted=h.logic.tally(fizzBuzz(n),n,'heat');
+  assert.equal(wanted.lineages[1],1);
+  assert.equal(wanted.lineages[2],1);
+  assert.equal(h.get('final-species').textContent,wanted.appearance.mark+' '+wanted.appearance.species);
+  assert.match(h.get('final-lineage').textContent,/熱波優勢/);
+  assert.equal(h.get('result').value,fizzBuzz(n).join('\n'));
+});
+
+test('changing pressure creates independently selected phases shown with causal annotations',()=>{
+  const h=harness({limit:400});
+  h.fire('env-heat','click');h.fire('fizzbuzz-form','submit');
+  for(let i=0;i<30;i++)h.next();
+  h.fire('env-signal','click');h.fire('skip-button','click');
+  assert.match(h.get('final-lineage').textContent,/第二相・変容 🜂 ミツアシハヤ/);
+  assert.match(h.get('final-lineage').textContent,/第三相・異相 λ リスプラトス/);
+  assert.match(h.get('final-lineage').textContent,/熱波優勢/);
+  assert.match(h.get('final-lineage').textContent,/電磁波優勢/);
+  assert.equal(h.get('app-shell').attrs['data-mode'],'result');
+});
