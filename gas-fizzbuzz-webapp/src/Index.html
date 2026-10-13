@@ -81,6 +81,8 @@
     @media(max-width:410px) { .form-row { flex-direction:column; } .form-row button { width:100%; } .transport label { margin-left:0; } .panel-header { padding:11px 13px; } }
     @media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none !important; animation:none !important; } }
 
+    .morphology-status { color:#a9edc4; font-size:.77rem; font-weight:800; letter-spacing:.03em; margin:6px 0 14px; }
+    .final-lineage { padding:10px 12px; background:#10213c; border-left:3px solid #f7ce7a; border-radius:3px; color:#e2d8bf; line-height:1.8; font-size:.78rem; }
     /* Arcade presentation: the result is a full-width game scene, not an appended info card. */
     .shell { display:flex; flex-direction:column; }
     .mast { order:0; }
@@ -165,6 +167,7 @@
           <div class="evo-top"><div class="stage-name" id="stage-name">STAGE 1 魚</div><div id="food-total">たべたえさ 0</div></div>
           <div class="progress" role="progressbar" aria-label="次の進化までの進捗" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="growth-progress"><div id="growth-bar"></div></div>
           <p id="next-stage">成長ポイント10で陸生動物に進化</p>
+          <p class="morphology-status" id="growth-form">成長形態 1 / 4</p>
           <div class="foods">
             <div class="food fizz"><span class="name">● FIZZ</span><b id="fizz-count">0</b></div>
             <div class="food buzz"><span class="name">◆ BUZZ</span><b id="buzz-count">0</b></div>
@@ -223,6 +226,7 @@
           <p class="final-status" id="final-status">—</p>
           <div class="result-dna-line" aria-hidden="true"><span>◇</span><span>◆</span><span>◇</span><span>◆</span><span>◇</span></div>
           <p class="final-summary" id="final-summary"></p>
+          <p class="final-lineage" id="final-lineage"></p>
           <dl class="final-stats">
             <div><dt>到達段階</dt><dd id="final-stage">—</dd></div>
             <div><dt>成長ポイント</dt><dd id="final-points">—</dd></div>
@@ -265,35 +269,64 @@
       }
       function dnaFor(n) {
         if (!Number.isSafeInteger(n) || n < 1 || n > 1000) throw new Error('DNAには有効な入力数値が必要です。');
-        // xorshift32 seeded by the entire input integer; never Math.random().
-        var x = ((n ^ 0x9e3779b9) >>> 0) || 1;
+        // Avalanche-mix the entire N first: nearby seeds no longer produce near-identical traits.
+        var x = (n ^ 0x9e3779b9) >>> 0;
+        x = Math.imul(x ^ (x >>> 16), 0x85ebca6b) >>> 0;
+        x = Math.imul(x ^ (x >>> 13), 0xc2b2ae35) >>> 0;
+        x = ((x ^ (x >>> 16)) >>> 0) || 1;
         function next() { x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return (x >>> 0) / 4294967296; }
         return Object.freeze({ body:next(), appendage:next(), senses:next(), skin:next(), aptitude:next(), sensitivity:next() });
       }
       function stageFor(points) { return points >= 35 ? 2 : points >= 10 ? 1 : 0; }
       function rgb(r,g,b) { return '#' + [r,g,b].map(function(v){return clamp(Math.round(v),0,255).toString(16).padStart(2,'0');}).join(''); }
+      var STAGE_STARTS = [0,10,35], STAGE_ENDS = [10,35,100];
+      function branchFor(c,stage){
+        var d=c.dna, f=c.foods;
+        // Different inherited trait combinations matter at each evolutionary transition.
+        var affinities = stage===0 ?
+          [.62*d.appendage+.38*d.body, .6*d.skin+.4*(1-d.senses), .55*d.senses+.45*d.aptitude] :
+          stage===1 ?
+          [.45*d.appendage+.3*d.body+.25*d.sensitivity, .45*d.skin+.3*d.body+.25*(1-d.sensitivity), .55*d.aptitude+.45*d.senses] :
+          [.45*d.appendage+.55*d.sensitivity, .55*d.skin+.45*d.body, .5*d.senses+.5*d.aptitude];
+        var expected=[4/7,2/7,1/7], counts=[f.fizz,f.buzz,f.fizzbuzz];
+        var previous=stage>0?c.branches[stage-1]:null;
+        var scores=affinities.map(function(gene,i){
+          var balance=f.total ? ((counts[i]/f.total)-expected[i])*.45 : 0;
+          var inherited=previous===i?.12:0;
+          var expression=i===2?c.expression*.025:i===1?-c.expression*.015:0;
+          return gene+balance+inherited+expression;
+        });
+        var winner=0;
+        for(var i=1;i<3;i++)if(scores[i]>scores[winner])winner=i;
+        return winner;
+      }
+      function growthFor(points,stage){
+        var start=STAGE_STARTS[stage],end=STAGE_ENDS[stage];
+        var local=clamp((points-start)/(end-start),0,1);
+        return {local:local,tier:Math.min(3,Math.floor(local*4))};
+      }
       function appearanceFor(c) {
-        var f=c.foods, total=f.total;
+        var f=c.foods,total=f.total;
         var color = total ? rgb(
           (f.fizz*97+f.buzz*255+f.fizzbuzz*225)/total,
           (f.fizz*206+f.buzz*209+f.fizzbuzz*154)/total,
           (f.fizz*255+f.buzz*109+f.fizzbuzz*255)/total
         ) : '#9cceb6';
-        var ratio = total ? (f.fizz - f.buzz + f.fizzbuzz*.35)/total : 0;
-        var aptitude = c.dna.aptitude;
-        var tilt = (ratio*.14 + clamp(c.expression, -4, 4)*.008);
-        var family = clamp(Math.floor(clamp(aptitude+tilt,0,.999999)*3),0,2);
+        var growth=growthFor(c.points,c.stage);
+        var family=c.branches[c.stage];
         return Object.freeze({
           stage:c.stage, family:family, species:SPECIES[c.stage][family],
-          color:color, volume:1+1.1*Math.sqrt(c.points/100),
+          growthTier:growth.tier, progress:growth.local,
+          color:color, volume:1+.28*c.stage+.24*growth.tier+.11*growth.local,
           body:c.dna.body, appendage:c.dna.appendage, senses:c.dna.senses, skin:c.dna.skin,
-          detail:clamp(c.points/100*(.75+c.dna.sensitivity*.5),0,1)
+          detail:clamp((.18*growth.tier+c.points/100*.35)*(.75+c.dna.sensitivity*.5),0,1)
         });
       }
       function initialCreature(seed) {
         var dna=dnaFor(seed);
         var c={seed:seed,dna:dna,foods:{fizz:0,buzz:0,fizzbuzz:0,number:0,total:0,boost:0,brake:0},
-          modifier:0,points:0,expression:0,stage:0,matured:false,appearance:null};
+          modifier:0,points:0,expression:0,stage:0,branches:[null,null,null],matured:false,appearance:null};
+        c.branches[0]=branchFor(c,0);
         c.appearance=appearanceFor(c);
         return c;
       }
@@ -302,7 +335,8 @@
         if (!kind) throw new Error('不正なFizzBuzz出力です。');
         var c={seed:previous.seed,dna:previous.dna,foods:Object.assign({},previous.foods),
           modifier:previous.modifier,points:previous.points,expression:previous.expression,
-          stage:previous.stage,matured:previous.matured,appearance:previous.appearance};
+          stage:previous.stage,branches:previous.branches.slice(),
+          matured:previous.matured,appearance:previous.appearance};
         c.foods[kind]++;
         if (kind==='number') {
           c.modifier=modifierFor(Number(line));
@@ -310,16 +344,22 @@
         } else {
           c.foods.total++;
           if(!c.matured) {
+            var previousStage=c.stage;
             var gain=1+.25*c.modifier;
             c.points=clamp(c.points+gain,0,100);
             c.expression+=c.modifier*(.5+c.dna.sensitivity)*.15;
             c.stage=stageFor(c.points);
+            if(c.stage!==previousStage) {
+              for(var newStage=previousStage+1;newStage<=c.stage;newStage++){
+                c.branches[newStage]=branchFor(c,newStage);
+              }
+            }
           }
-          c.modifier=0; // the most recent number food affects the next nutrient once
+          c.modifier=0;
         }
         if(!c.matured) {
           c.appearance=appearanceFor(c);
-          if(c.points>=100)c.matured=true; // immutable visual snapshot from this point
+          if(c.points>=100)c.matured=true; // freeze morphology and color at maturity
         }
         return c;
       }
@@ -330,7 +370,7 @@
       }
       window.FizzBuzzCreatureLogic=Object.freeze({
         classify:classify,modifierFor:modifierFor,dnaFor:dnaFor,stageFor:stageFor,
-        appearanceFor:appearanceFor,initialCreature:initialCreature,stepGrowth:stepGrowth,tally:tally
+        appearanceFor:appearanceFor,branchFor:branchFor,growthFor:growthFor,initialCreature:initialCreature,stepGrowth:stepGrowth,tally:tally
       });
       var appShell=document.getElementById('app-shell');
       var modeChip=document.getElementById('mode-chip');
@@ -360,6 +400,7 @@
       var stageName=document.getElementById('stage-name');
       var foodTotal=document.getElementById('food-total');
       var nextStage=document.getElementById('next-stage');
+      var growthForm=document.getElementById('growth-form');
       var growthBar=document.getElementById('growth-bar');
       var growthProgress=document.getElementById('growth-progress');
       var fizzCount=document.getElementById('fizz-count');
@@ -376,6 +417,7 @@
       var finalSpecies=document.getElementById('final-species');
       var finalStatus=document.getElementById('final-status');
       var finalSummary=document.getElementById('final-summary');
+      var finalLineage=document.getElementById('final-lineage');
       var finalStage=document.getElementById('final-stage');
       var finalPoints=document.getElementById('final-points');
       var finalColor=document.getElementById('final-color');
@@ -403,6 +445,7 @@
         var percent=c.matured?100:clamp(Math.floor((c.points-start)/(end-start)*100),0,100);
         growthBar.style.width=percent+'%';
         growthProgress.setAttribute('aria-valuenow',String(percent));
+        growthForm.textContent='成長形態 '+(c.appearance.growthTier+1)+' / 4 ・ '+['稚体','幼体','成長体','発達体'][c.appearance.growthTier]+' ・ '+['流線系','装甲系','知性系'][c.appearance.family];
         nextStage.textContent=c.matured?'完全成熟！ 外見はここで固定（結果の再生は継続）':
           '成長 '+c.points.toFixed(2)+' P / 次の目標 '+end+' P';
       }
@@ -437,6 +480,7 @@
         finalColorCode.textContent=a.color.toUpperCase();
         finalFoods.textContent=[f.fizz,f.buzz,f.fizzbuzz,f.number].join(' / ');
         finalStatus.textContent=c.matured?'完全成熟 · 形態確定':'今回の育成を完了 · 進化途中';
+        finalLineage.textContent='進化の系譜：'+c.branches.slice(0,c.stage+1).map(function(branch,stage){return SPECIES[stage][branch];}).join(' → ');
         finalSummary.textContent=c.matured?
           '完全成熟した個体の姿です。成熟後もFizzBuzzは最後まで出力しました。':
           'N行の出力を終えた時点の姿です。途中段階でも失敗ではなく、今回の最終形態として記録します。';
