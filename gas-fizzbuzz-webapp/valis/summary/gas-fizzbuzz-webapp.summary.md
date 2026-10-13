@@ -5,18 +5,19 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: ピクセル描画の3段階識別性強化と再生後の最終形態肖像カードを実装しE3で30件V8モック検証（GAS実機未検証）
+current_status: ゲームリザルト二画面UI（最終肖像・称号・ログ開閉・再育成）を実装しE4で36件V8モック検証（GAS実機未検証）
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
-initial_registration_this_change: E3
-manifest_reflection_this_change: A1.2, A1.5, B1.2, B1.5, C1.3, C1.5, D1.3, E3, src/Index.html, tests/creature.test.cjs, README.md
-last_reflected_flow: FLOW-05 描画・終了時UIの差分反映、FLOW-08 30件V8モック限定証跡E3
-unresolved_summary: 実Node npm test未実施、GAS実機・Canvas視覚品質・自動スクロール・モバイル・アクセシビリティ未検証、造形の人間評価・仮係数の調整は必要、全ノード草案
+initial_registration_previous_evidence: E3
+initial_registration_this_change: E4
+manifest_reflection_this_change: A1.2, A1.5, B1.2, B1.5, C1.3, C1.5, D1.3, E4, src/Index.html, tests/creature.test.cjs, README.md
+last_reflected_flow: FLOW-05 ゲームリザルト画面の差分反映、FLOW-08 36件V8モック限定証跡E4
+unresolved_summary: 実Node npm test未実施、GAS実機・ブラウザ表示・スクロール/ログ開閉・モバイル・アクセシビリティ未検証、造形の人間評価は必要、全ノード草案
 
 ## Node構造・参照要約
 
-親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3は検証版ごとに独立した起点。
+親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4は検証版ごとに独立した起点。
 層間関係: derived_from / implements / verifies / evidence_for による意味接続のみ（層間parent_idは禁止）。
 A/B/C/D/Eを機械的に同数へ揃えず、実装・検証・証跡の独立単位に応じて分割する。
 
@@ -42,7 +43,7 @@ A1:（外部参照 / FizzBuzz GASアプリ統合仕様）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/A/A1.2.md。主所属: A層。parent_id: A1。 B1.2 / C1.3。
 		ロジック:
-			1行1件再生、スキップ全文一致、成熟後もNまで再生。終了後に別領域へ今回の最終形態カードを表示。
+			1行1件再生、スキップ全文一致、成熟後もNまで再生。再生終了時にゲームリザルトモードへ移り、元ログは開閉可能。
 		実態:
 			状態: 草案。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
 
@@ -66,7 +67,7 @@ A1:（外部参照 / FizzBuzz GASアプリ統合仕様）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/A/A1.5.md。主所属: A層。parent_id: A1。 B1.5 / C1.5。
 		ロジック:
-			DNA特徴の継承、餌の色・体積・模様、3段階の器官を見分けられるドット描画と再生完了時の静止肖像。
+			DNA特徴の継承、餌の色・体積・模様、3段階のドット造形とゲーム結果画面の大型静止肖像・表彰台演出。
 		実態:
 			状態: 草案。処理フラグ: 実ブラウザの視覚評価未実施。次FLOW候補: FLOW-08。
 
@@ -100,7 +101,7 @@ B1:（外部参照 / FizzBuzz算出・再生・育成の機能索引）［草案
 		構成（要素・関係）:
 			Node File: valis/nodes/B/B1.2.md。主所属: B層。parent_id: B1。 derived_from: A1.2; implements側: C1.3。
 		ロジック:
-			逐次出力・停止/再開/スキップ・低モーション。終了時の結果カードを同一処理で提示。
+			逐次出力・停止/再開/スキップ・低モーション。終了時のゲーム結果モードとログ開閉/再育成を提供。
 		実態:
 			状態: 草案。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
 
@@ -182,7 +183,7 @@ C1:（外部参照 / GAS HTMLサービスと生物実装統合）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/C/C1.3.md。主所属: C層。parent_id: C1。 implements: B1.2。
 		ロジック:
-			逐次処理・速度/停止/再開/スキップ・低モーション、finish→presentFinalの終了時UI表示。
+			逐次処理・スキップ・低モーション、finish→presentFinal→setMode('result')、ログ開閉・再育成時の初期化。
 		実態:
 			状態: 草案。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
 
@@ -222,7 +223,7 @@ C1:（外部参照 / GAS HTMLサービスと生物実装統合）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/C/C1.5.md。主所属: C層。parent_id: C1。 implements: B1.5。
 		ロジック:
-			32格子ピクセル・ellipse/polygonによる魚/陸生/宇宙の特徴的な器官・系統差・終了時静止肖像。
+			32格子の魚/陸生/宇宙の造形、結果画面の光輪/表彰台/静止肖像。
 		実態:
 			状態: 草案。処理フラグ: 本物の見た目は未検証。次FLOW候補: FLOW-08。
 
@@ -264,7 +265,7 @@ D1:（外部参照 / 生物育成と出力不変の検証計画）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/D/D1.3.md。主所属: D層。parent_id: D1。 verifies: A1.2/A1.5/B1.2/B1.5/C1.3/C1.5。
 		ロジック:
-			一時停止/再開/スキップ/低モーション、段階別のドット描画差分、終了時の最終形態カード表示とリセット。
+			停止/再開/スキップ/低モーション、ゲーム結果モード/成熟称号/ログ開閉/再育成と出力不変。
 		実態:
 			状態: 草案。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
 
@@ -302,12 +303,20 @@ E3:（外部参照 / 改良ピクセル描画・最終形態カードのV8モッ
 	実態:
 		状態: 草案。Node.js実ランナー・GAS/実ブラウザ表示・目視品質は未検証。次FLOW候補: FLOW-08。
 
+E4:（外部参照 / ゲームリザルト二画面UI・FizzBuzz回帰V8モック証跡）［草案］
+	構成（要素・関係）:
+		Node File: valis/nodes/E/E4.md。主所属: E層。起点ノード、parent_idなし。evidence_for: D1.1/D1.2/D1.3, C1.3/C1.5。
+	ロジック:
+		ゲーム結果画面版のGitHub src/test blobを対象にV8互換モック36件成功・0件失敗。モード切替/成熟限定称号/ログ開閉/再育成/スキップ/低モーションと出力維持を検証。
+	実態:
+		状態: 草案。実Node npm test・GAS/ブラウザ実機・目視デザイン品質は未検証。次FLOW候補: FLOW-08。
+
 ## 今回の差分と処理区別
 
-- **Manifest初期登録（今回）**: E3をE1/E2と独立した新しい証跡Node Fileとして登録。今回のA/B/C/D対象ノードは既存ファイルへの差分反映であり、新規分割は不要。
-- **Manifest反映（今回）**: A1.2/A1.5（結果提示と造形要件）、B1.2/B1.5（完了イベントと静止肖像）、C1.3/C1.5（実装）、D1.3（追加テスト計画）、E3（V8検証証跡）を要約。
-- **src/tests/README変更**: src/Index.html（魚の尾/えら・陸生の四肢・宇宙の触角などのドットパーツ描画と結果カード）、tests/creature.test.cjs（追加5件を含む21件）、README.md（仕様記録）を更新。src/Code.gs・tests/fizzbuzz.test.cjs・Core Definitionは不変。
-- **出力形式維持**: 出力は常に従来のN件の文字列配列の改行結合。最終形態カードには種族/段階/P/成熟状態/餌数/色/個体番号を表示し、FizzBuzz結果欄には混入しない。成熟未達もその段階で「今回の最終形態」として提示。
-- **証跡区別**: E1・E2は以前のソース版の検証、E3は今回の描画と終了カードを含むsrc/test blobを対象としたV8互換モック30件成功・失敗0。実Node npm test/GAS/ブラウザ視覚品質は未実施。
-- **設計変数**: 初期DNA/4種餌/進化閾値10/35/100/完全成熟の論理は変更なし。ピクセル造形・スクロール挙動・スマートフォン表示は実機評価後に調整可能。
-- **状態・次FLOW**: 全ノード草案。承認済み化/デプロイ/公開は未実施。次はFLOW-08の実Node・GAS・ブラウザ検証。
+- **Manifest初期登録（今回）**: E4を旧E1/E2/E3とは独立した証跡として新規登録。A/B/C/DのUI関連ノードは既存責務に属し、追加の分割は不要。
+- **Manifest反映（今回）**: A1.2/A1.5（画面遷移と外見）、B1.2/B1.5（機能）、C1.3/C1.5（実装）、D1.3（計画）、E4（検証実体）。
+- **src/tests/README変更**: src/Index.htmlは育成/結果の二画面モード・ゲーム風表彰台・成熟別称号・ログ開閉・再育成ボタンを追加。tests/creature.test.cjsは27件（今回6件追加）、README.mdは使い方を追記。Code.gs・tests/fizzbuzz.test.cjs・VALIS Core 3件は不変。
+- **FizzBuzz出力形式を維持**: N件の文字列と順番は不変、完全成熟後もNまで再生を続ける。ログの非表示は視覚的な切替のみでtextareaの値は保持する。称号・個体・餌の情報はログに混入しない。
+- **成長ロジックに変更なし**: DNA、4種餌、進化の3段階、仮閾値10/35/100、成熟時の外見固定を維持。未成熟はRUN COMPLETE、完全成熟はEVOLUTION COMPLETE。
+- **検証**: E4の指定GitHub src/test blobに対するV8互換モック36件成功/0件失敗。E1/E2/E3は異なる過去のコード版の証跡。実Node npm test、GAS/実ブラウザ描画・レスポンシブ・スクロール動作・アクセシビリティは未検証。
+- **状態/NEXT**: 全Node草案。承認済みへの遷移・デプロイ・公開・権限変更なし。FLOW-08 実Node・GAS・ブラウザ検証、ユーザーの画面評価を次工程とする。
