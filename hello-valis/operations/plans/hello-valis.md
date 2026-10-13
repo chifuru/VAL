@@ -17,8 +17,7 @@ node tests/hello-valis.test.cjs: GAS配信スタブ・HTML関連付け・構文�
 node tests/state.test.cjs: 状態遷移・遅延・上限・停止・初期化。
 npm run test:browser: Chromiumで実インタラクションと画面幅を確認（今回Chromium未配置のため未実施）。
 GAS実行と閲覧制限確認はユーザー担当。実施済みとは報告しない。
-E1を現在実装のハッシュに更新し、Project Summary Manifestに既存A1〜E1の変更を反映。
-新規NodeはないためManifest初期登録は今回追加なし。
+現在の検証対応はD1/D2/D3、取得済みスタブ結果はE1/E2を正とする。
 
 ## GASへの導入（ユーザー実施）
 1. 新規GASプロジェクトのCode.gsにsrc/Code.gsをコピー。
@@ -32,3 +31,13 @@ E1を現在実装のハッシュに更新し、Project Summary Manifestに既存
 ## 終了条件
 実装・資料・テスト・証跡・Manifestが整合し、ユーザー承認済みのGitHubコミットに含まれること。
 GitHub先端が変わった場合は上書きせず差分を確認。GAS作成・共有・デプロイは行わない。
+
+## 現在の作業単位：最小ノード分割
+ユーザー指示: 最小限必要な程度に分割。FLOW-05で反映。
+作成: B2/C2/D2/D3/E2。
+更新: B1/C1/D1/E1、Project Summary Manifest、README、この計画。
+維持: A1、3中核定義、src、tests、package.json。
+機能・配信境界・実行環境が独立する単位を兄弟として分割。停止・初期化は生態系と文字に共通する制御としてB1/B2接続条件に記載し、独立ノードは増やさない。
+既存結果を対象ハッシュ照合のうえE1/E2へ移管。新規テスト・再実行は行わない。
+Chromium起動不能の事実はD2に残し、GAS未実施はD3に残す。未実施の成功証跡は作らない。
+終了条件: 10ノードの参照先が存在し、各新規ノードが初期登録され、既存責務と証跡がManifestに反映されること。

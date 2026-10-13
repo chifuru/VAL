@@ -40,7 +40,16 @@ npm run test:browser
 
 ## VALIS
 仕様・機能・実装・検証計画: `valis/nodes/A`〜`D`
-検証証跡: `valis/nodes/E/E1.md`
+検証証跡: `valis/nodes/E/E1.md`（配信スタブ）、`valis/nodes/E/E2.md`（状態スタブ）
 構造正本: `valis/summary/hello-valis.summary.md`
 手順: `operations/plans/hello-valis.md`
 全Nodeは草案。中核定義3件は本文不変です。
+
+## ノードの最小分割
+A1: 上位仕様（維持）。
+B1: 生態系と刺激応答 / B2: 文字表現。
+C1: GAS配信 / C2: ブラウザ側の体験。
+D1: ローカル機能確認 / D2: ブラウザ体験確認 / D3: GAS実行・限定閲覧確認。
+E1: 配信スタブ証跡 / E2: 状態スタブ証跡。
+全10ノード。兄弟ノードとして分割し、層間はderived_from/implements/verifies/evidence_forで接続します。
+コードとテストの物理ファイルは変更していません。D2/D3の成功証跡はまだありません。
