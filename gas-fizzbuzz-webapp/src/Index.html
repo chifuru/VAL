@@ -857,10 +857,178 @@
           pixel(16-radius,12,color);pixel(16+radius,12,color);
           pixel(16,12-radius,color);pixel(16,12+radius,color);}
       }
+      // The three prototype families are composed procedurally: no static creature sprites.
+      // Drawing is pure with respect to appearance; frame time changes pose, never the genome.
+      function smoothOrganism(context,a,time,still){
+        if(!context || typeof context.bezierCurveTo!=='function' ||
+           typeof context.createRadialGradient!=='function')return false;
+        var g=context,st=a.stage,org=a.organ.levels;
+        var wave=still?0:Math.sin(time/540),breath=still?0:Math.sin(time/760)*2.2;
+        var phase=still?0:time/420,scale=st===0?.82:st===1?.92:1.05;
+        var main=shade(a.color,'#ffffff',.30),dark=shade(a.color,'#091731',.48);
+        var aura=shade(a.color,'#b6fbff',.60),bark=shade(a.color,'#243257',.25);
+        var tier=a.growthTier,lon=a.lineage;
+        function outline(cx,cy,rx,ry){
+          g.beginPath();g.moveTo(cx+rx,cy);
+          g.bezierCurveTo(cx+rx,cy-ry*.66,cx+rx*.45,cy-ry,cx,cy-ry);
+          g.bezierCurveTo(cx-rx*.55,cy-ry,cx-rx,cy-ry*.55,cx-rx,cy);
+          g.bezierCurveTo(cx-rx,cy+ry*.7,cx-rx*.45,cy+ry,cx,cy+ry);
+          g.bezierCurveTo(cx+rx*.65,cy+ry,cx+rx,cy+ry*.66,cx+rx,cy);
+          g.closePath();
+        }
+        function mass(x,y,rx,ry,base,edge){
+          outline(x,y,rx,ry);
+          var light=g.createRadialGradient(x-rx*.30,y-ry*.36,1,x,y,Math.max(rx,ry)*1.3);
+          light.addColorStop(0,shade(base,'#ffffff',.43));
+          light.addColorStop(.62,base);light.addColorStop(1,edge||dark);
+          g.fillStyle=light;g.fill();
+          g.strokeStyle=shade(base,'#081023',.72);g.lineWidth=2.7;g.stroke();
+        }
+        function tendril(x,y,endX,endY,width,seed,color){
+          var pulse=still?0:Math.sin(phase+seed)*4;
+          g.beginPath();g.moveTo(x,y);
+          g.bezierCurveTo(x+(endX-x)*.18+Math.sin(seed)*13,
+            y+(endY-y)*.25-pulse,
+            x+(endX-x)*.73+Math.cos(seed)*15,
+            y+(endY-y)*.65+pulse,endX,endY);
+          g.lineCap='round';g.lineJoin='round';g.lineWidth=width+3;
+          g.strokeStyle=dark;g.stroke();
+          g.lineWidth=width;g.strokeStyle=color||a.color;g.stroke();
+          g.lineWidth=Math.max(1,width*.21);g.strokeStyle=main;g.stroke();
+        }
+        function membrane(points,color,opacity){
+          g.save();g.globalAlpha=opacity;
+          g.beginPath();g.moveTo(points[0][0],points[0][1]);
+          for(var i=1;i<points.length;i++)g.quadraticCurveTo(points[i][0],points[i][1],(points[i][0]+points[(i+1)%points.length][0])*.5,(points[i][1]+points[(i+1)%points.length][1])*.5);
+          g.closePath();
+          var tint=g.createLinearGradient(-88,-65,82,65);
+          tint.addColorStop(0,main);tint.addColorStop(.65,color);tint.addColorStop(1,dark);
+          g.fillStyle=tint;g.fill();
+          g.lineWidth=3;g.strokeStyle=main;g.stroke();g.restore();
+        }
+        function ring(x,y,rx,ry){
+          g.beginPath();g.ellipse(x,y,rx,ry,-.30,0,Math.PI*2);
+          g.lineWidth=3;g.strokeStyle=aura;g.stroke();
+        }
+        function iris(x,y,r){
+          mass(x,y,r*1.2,r*1.18,'#f1f7ee','#70899a');
+          mass(x+r*.18,y,r*.65,r*.79,'#193b59','#061c31');
+          g.fillStyle='#ffffff';g.beginPath();g.arc(x-r*.24,y-r*.33,Math.max(1,r*.22),0,Math.PI*2);g.fill();
+        }
+        function markings(cx,cy,rx,ry){
+          var count=4+tier*3;
+          g.fillStyle=shade(a.color,'#d3e8ff',.54);
+          for(var i=0;i<count;i++){
+            var angle=i*2.4+a.skin*12;
+            var px=cx+Math.cos(angle)*rx*.67,py=cy+Math.sin(angle)*ry*.61;
+            g.beginPath();g.arc(px,py,1.4+(i%3)*.55,0,Math.PI*2);g.fill();
+          }
+        }
+        g.save();
+        g.translate(128,132+breath);
+        g.scale(scale,scale);
+        // Ambient emission is behind the body; it responds to the growth of the light organ.
+        if(org.glow>.5){
+          g.save();g.globalAlpha=Math.min(.24,org.glow*.12);
+          var bloom=g.createRadialGradient(0,0,5,0,0,110);
+          bloom.addColorStop(0,aura);bloom.addColorStop(1,'rgba(0,0,0,0)');
+          g.fillStyle=bloom;g.beginPath();g.arc(0,0,110,0,Math.PI*2);g.fill();g.restore();
+        }
+        var size=22+9*tier+8*a.body;
+        var arm=Math.min(70,30+org.tentacles*18+tier*5);
+        if(st===0){
+          // Water form: elongated fish, bilateral fins and a forked tail.
+          var tail=-size-15;
+          membrane([[tail+4,0],[tail-28,-28-tier*2],[tail-9,2],[tail-28,27+tier*2],[tail+4,0]],a.color,.86);
+          if(lon==='myth'){
+            membrane([[-12,-size*.55],[-36,-52-org.wings*14],[-2,-34],[30,-42],[21,-9]],aura,.80);
+          }else if(lon==='abyss'){
+            for(var i=0;i<3+tier;i++)tendril(-size+5,-12+i*8,-arm-(i%3)*7,(-2+i*13)+wave*6,2.2+org.tentacles*2,i,main);
+          }else{
+            for(var recur=0;recur<2+tier;recur++)tendril(-size*.5,-size*.3,-size-18-recur*6,-31-recur*6,2.3,recur*.8,aura);
+          }
+          mass(0,0,size*1.18,size*.69,a.color,dark);
+          membrane([[-12,7],[-26,33+org.wings*10],[9,19],[26,8]],main,.72);
+          markings(0,0,size*.95,size*.5);
+          iris(size*.55,-size*.21,5+org.eyes*3);
+          g.strokeStyle=dark;g.lineWidth=2;g.beginPath();g.moveTo(size*.86,8);g.quadraticCurveTo(size+7,12,size+10,4);g.stroke();
+        }else if(st===1){
+          // Ground form: a true weight-bearing body with limbs.
+          var limbs=Math.min(6,4+Math.floor(org.limbs));
+          for(var leg=0;leg<limbs;leg++){
+            var lx=(leg/(limbs-1)-.5)*size*1.8;
+            tendril(lx,14,lx+Math.sin(leg)*9,57+Math.min(14,org.limbs*8),8+org.limbs*3,leg*.7,bark);
+          }
+          if(lon==='abyss'){
+            for(var t=0;t<4+tier;t++)tendril(-25+t*12,-size*.20,-arm+12*t,-47-Math.sin(t)*22,3+org.tentacles*3,t,main);
+          }else if(lon==='myth'){
+            for(var side of [-1,1])membrane([[side*12,-10],[side*(42+org.wings*13),-65-tier*4],[side*(71+org.wings*8),-11],[side*27,22]],aura,.92);
+          }else {
+            for(var j=0;j<3+tier;j++)tendril(j*8-14,-17,j*11-25,-54-j*4,3.5,j*.9,aura);
+          }
+          mass(0,7,size*1.0,size*.66,a.color,dark);
+          mass(size*.55,-size*.34,21+org.heads*5,21+org.heads*4,main,dark);
+          iris(size*.65,-size*.53,5+org.eyes*3);
+          if(lon==='recursive')iris(size*.20,-size*.52,3+org.eyes*2);
+          markings(0,7,size*.80,size*.45);
+        }else{
+          // Space form: floating asymmetric alien skeleton, with dominant archetype organs.
+          if(lon==='abyss'){
+            for(var j=0;j<7+tier;j++){
+              var theta=Math.PI*.13+j*Math.PI*.28;
+              tendril(Math.cos(theta)*24,Math.sin(theta)*23,Math.cos(theta)*(arm+34),Math.sin(theta)*(arm+36),4+org.tentacles*2,j*.77,main);
+            }
+          }else if(lon==='myth'){
+            for(var side of [-1,1]){
+              membrane([[side*9,-11],[side*(35+org.wings*12),-94],[side*(97+org.wings*11),-47],[side*61,13],[side*31,43]],aura,.94);
+              for(var feather=0;feather<4+tier;feather++){
+                tendril(side*37,-16+feather*6,side*(76+feather*3),-65+feather*18,1.5,feather*.7,main);
+              }
+            }
+          }else{
+            for(var recurse=0;recurse<3+tier;recurse++){
+              var bend=recurse-2;
+              tendril(bend*9,-30,bend*20,-92-recurse*2,4+org.orbit*2,recurse,aura);
+              if(recurse%2===0)tendril(bend*20,-92-recurse*2,bend*23+21,-102-recurse*3,2,recurse+8,main);
+            }
+            for(var orb=0;orb<2+tier;orb++)ring(0,0,38+orb*13,22+orb*8);
+          }
+          mass(0,12,size*.74,36+org.heads*4,a.color,dark);
+          mass(0,-26,27+org.heads*9,27+org.heads*10,main,dark);
+          iris(-13,-34,6+org.eyes*3);iris(15,-34,6+org.eyes*3);
+          if(org.eyes>1.05)iris(0,-13,4+org.eyes*2);
+          markings(0,-18,22,22);
+        }
+        // Specialized inherited organs: additive but capped to avoid unreadable overlap.
+        if(org.shell>.95){
+          for(var plate=0;plate<Math.min(5,2+tier);plate++){
+            var px=-16+plate*8;
+            g.beginPath();g.moveTo(px,-3);
+            g.quadraticCurveTo(px+2,-22-org.shell*5,px+10,-6);
+            g.strokeStyle=shade(a.color,'#e5e2bf',.62);g.lineWidth=3+org.shell;g.stroke();
+          }
+        }
+        if(org.orbit>1.15&&st>0){g.save();g.globalAlpha=.6;ring(0,-10,63+org.orbit*7,31+org.orbit*5);g.restore();}
+        g.restore();
+        return true;
+      }
       function renderScene(context,appearance,time,still){
         if(!context)return;
         var previous=paintCtx;paintCtx=context;
-        context.clearRect(0,0,256,256);context.imageSmoothingEnabled=false;
+        context.clearRect(0,0,256,256);
+        if(typeof context.createLinearGradient==='function' && typeof context.bezierCurveTo==='function'){
+          context.imageSmoothingEnabled=true;
+          var sky=context.createLinearGradient(0,0,0,256);
+          sky.addColorStop(0,appearance.stage===0?'#122f45':appearance.stage===1?'#253647':'#0a1235');
+          sky.addColorStop(1,'#080f25');context.fillStyle=sky;context.fillRect(0,0,256,256);
+          var success=smoothOrganism(context,appearance,time,still);
+          if(success){
+            if(!still){drawFood(time);}
+            paintCtx=previous;
+            return;
+          }
+        }
+        context.imageSmoothingEnabled=false;
         for(var i=0;i<12;i++)pixel((3+i*11)%32,(2+i*7)%29,i%2?'#35456f':'#495b8d');
         if(appearance.stage===0){
           for(var b=0;b<3;b++)block(4+b*10,6+b*5,1,2,'#7899c2');
