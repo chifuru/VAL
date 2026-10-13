@@ -5,15 +5,15 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 36ノード承認済み基準とGitHub現行14系統/64x64ドット描画を維持。ローカル別試作v3で反記銘・VALIS異化2系統の透過PNG35枚と画像合成UI・サーバー文字列配列検証を実装。E11は草案のローカルNode11件＋Chromium限定証跡（本流14系統と未統合）。
+current_status: 既存36ノード承認状態を維持。GitHub既定src/Index.htmlは画像合成v4.1へ統合済み（14系統、35枚Lv画像＋旧12系統24暫定肖像、9中核モック縮小参照）。図鑑選択系統への環境誘導を追加。E12は草案で、ローカルNode31/31・Chromium14系統表示/500行育成・GitHub正本V8互換22/22の限定証跡。GAS実機未確認。
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
 initial_registration_previous_evidence: E3, E4
-initial_registration_this_change: E11（ローカル画像合成v3・元画像9枚保持・実Node11/11＋Chromiumの独立限定証跡、草案）
-manifest_reflection_this_change: C1.5、D1.2、D1.3に画像合成v3の未承認追記、design/image-composite-v3-local-validation.mdおよびE11を登録。GitHub本流src/Index.html・Code.gsと3中核定義は今回未変更。
-last_reflected_flow: FLOW-06 先行v2と承認済み基準確認 → FLOW-07/08 ローカルv3画像補正・3相履歴・サーバー契約修正、Node11件＋Chromium成功 → FLOW-05 E11草案/Manifest反映（GitHub本流コードは変更なし）
-unresolved_summary: 36ノード承認済み、E6〜E11計6件草案。GitHub現行アプリは14系統/64x64ドット版のまま。別配布ZIPのv3は先行2系統の画像パーツ35枚の合成、透過補正、歴史スナップショット、GASサーバーのN行契約用インターフェースをローカルで実装。実Node11/11、Chromiumモック成功。GitHub正本14系統への統合・画像アセット登録・実GAS/実機画質とFPS・第四相は未完了。ユーザー指定モック9枚はZIP内保持、GitHubには目録のみ。
+initial_registration_this_change: E12（14系統画像合成本流統合と環境誘導の独立E層限定証跡、草案）
+manifest_reflection_this_change: C1.4.3/C1.5、D1.2/D1.3の画像合成v4未承認差分追記、src/Index.htmlとtests/creature.test.cjs置換、tests/fizzbuzz.test.cjsのUI参照修正、旧版ソース/テストのアーカイブ、READMEとdesign/image-composite-v41-integration.md、E12の草案証跡。
+last_reflected_flow: FLOW-06 承認済み基準・v3成果確認 → FLOW-04 新版14系統画像合成/14系統図鑑と環境誘導・旧版アーカイブ → FLOW-07/08 ローカルNode31件/Chromium14系統と環境誘導・GitHub正本V8互換22件 → FLOW-05 E12とManifest反映。
+unresolved_summary: 登録43ノード（36承認済み・E6〜E12の7草案）。GitHub本流Index.htmlは35LV画像パーツと24旧系統暫定肖像を使う画像合成v4.1。サーバーCode.gsとCORE3定義は不変。実Node31/31はローカル成果物、正本GitHub取得後V8互換22/22、Chromium表示/環境誘導の限定テスト成功。実GAS HtmlService配信/速度・14系統完全な器官アトラス・旧モック背景残留の完全除去・第四相は未検証／未実装。ユーザーは工程を承認したが限定E証跡の状態は草案。
 
 ## 画像合成v3ローカル限定反映（2026-10-14、未承認）
 
@@ -27,9 +27,21 @@ unresolved_summary: 36ノード承認済み、E6〜E11計6件草案。GitHub現�
 - ノード状態: 既存36承認済みのまま、E6〜E11の独立草案6件、計42ノード。COREファイル不変。
 - NEXT: 14系統本流へのパーツ画像レイヤー統合と、反記銘/VALISの継ぎ目補修後の実ブラウザ・GAS HtmlService再検証。
 
+## v4.1画像レイヤー合成本流統合と工程承認（2026-10-14）
+
+- ユーザー承認: 「各工程を承認します 更に続けてください」。工程の実行許可に基づき移行したが、実GAS検証済みを意味せずE12は草案。
+- GitHub本流 `src/Index.html` を画像合成HTMLへ切替え。旧ドット版 `src/Index.pixel-legacy.html` と旧テスト `tests/archive/creature.pixel-legacy.cjs` を履歴として保存。Code.gsとcore定義3ファイルは変更なし。
+- 14系統分岐: 12既存＋反記銘/VALISの独自環境ニッチ、出生時未分化、DNA6軸、各相の環境65/直近12件35＋餌加点を維持。
+- 画像: 先行2系統の35枚のLv器官/共通身体と、旧12系統の第二・第三相24枚の暫定肖像を多層合成。68画像をdata URIでHTML内包、外部画像サービス不要。保持対象の9モック原本は別配布ZIPに保管。
+- 環境誘導: 図鑑で選んだ14系統に対応する環境パターンを育成時に自動切替し、lineageFor相当の通常選択判定を通す。系統強制や進化条件の削除なし。
+- UI: 暗紺3カラム・成長器官・相ごとの画像履歴・14系統図鑑・餌/環境・N行FizzBuzzログを備え、420px幅までChromium確認。
+- テスト: ローカルNode31/31とブラウザ14系統切替/4代表種500行完走。GitHub取得した正本コード/テストによるV8互換22/22（client13＋server9）をE12に収録。
+- 未解決: GAS実機配備と性能測定/ブラウザ固有の制限、残る12系統の独立器官アトラス、元モック由来の文字/パネル罫線の残滓、第4相の発現/本画像。
+- 構造総数: **43ノード**。36承認済み維持、E6〜E12の7草案。CORE3定義は不変。
+
 ## Node構造・参照要約
 
-親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6/E7/E8/E9/E10/E11は検証版ごとに独立した起点。
+親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6/E7/E8/E9/E10/E11/E12は検証版ごとに独立した起点。
 層間関係: derived_from / implements / verifies / evidence_for による意味接続のみ（層間parent_idは禁止）。
 A/B/C/D/Eを機械的に同数へ揃えず、実装・検証・証跡の独立単位に応じて分割する。
 
@@ -378,6 +390,14 @@ E11:（D1.2, D1.3, C1.5 / ローカルv3の実Node・Chromium画像合成証跡�
 		SHA-256で識別したv3配布ZIPを対象にNode11件成功、Chromiumで35透過PNG画像の合成・Lv差分・歴史別画像・500行FizzBuzz・サーバーモック契約・420px UIが通過。
 	実態:
 		状態: 草案。GitHub本流14系統のsrc/Index.htmlとCode.gsは未変更。GAS実配信/実機FPS/完成アセット品質/第四相は未確認。次FLOW候補: FLOW-04/FLOW-08。
+
+E12:（D1.2, D1.3, C1.4.3, C1.5 / 14系統画像合成v4.1本流統合と環境誘導の限定証跡）［草案］
+	構成（要素・関係）:
+		Node File: valis/nodes/E/E12.md。E層独立起点、parent_idなし。ユーザーの工程実行承認あり。
+	ロジック:
+		GitHub版Index Blob 66f338fcd253df87fda46166b5e97389271f49e3、client tests Blob d38143d7554c83cd018aed4108ff863ff5e7d0c2、server tests Blob f243f69e30fb03fcb197dd627db396d26657f148を対象。Nodeローカル31成功、Chromium14系統/500行誘導成功、GitHub正本V8互換22成功を限定検証。
+	実態:
+		状態: 草案。35枚器官/身体PNG＋旧12系統24暫定透過肖像、9原本モック保存。旧Indexと旧テストを退避し、3COREとCode.gsを未変更。実GAS実機/FPS、旧12系統の器官素材完成、第4相未検証/未実装。次FLOW候補: FLOW-04/FLOW-08。
 
 ## FLOW-09 状態変更決定 / FLOW-05 正式反映（2026-10-13）
 
