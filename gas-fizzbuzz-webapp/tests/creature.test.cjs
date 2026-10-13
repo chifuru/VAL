@@ -458,3 +458,24 @@ test('nutrition histories and DNA choose different shape lineages deterministica
   assert.equal(q1.appearance.species,q2.appearance.species);
   assert.deepEqual(JSON.parse(JSON.stringify(q1.appearance)),JSON.parse(JSON.stringify(q2.appearance)));
 });
+
+
+test('editing input N previews a genetically different newborn before the run starts',()=>{
+  const h=harness({limit:10});
+  const prior=h.get('growth-form').textContent;
+  h.get('limit').value='124';h.fire('limit','input');
+  assert.match(h.get('growth-form').textContent,/個体 #124/);
+  assert.equal(h.get('result').value,'');
+  assert.equal(h.get('final-card').hidden,true);
+  assert.notEqual(h.get('growth-form').textContent,prior);
+  h.fire('fizzbuzz-form','submit');
+  assert.equal(h.get('result').value,'1');
+});
+
+test('growth HUD explicitly labels morphology tier and current family',()=>{
+  const h=harness({limit:5,reducedMotion:true});
+  h.fire('fizzbuzz-form','submit');
+  assert.match(h.get('growth-form').textContent,/個体 #5/);
+  assert.match(h.get('growth-form').textContent,/成長形態 [1-4] \/ 4/);
+  assert.match(h.get('growth-form').textContent,/(流線系|装甲系|知性系)/);
+});
