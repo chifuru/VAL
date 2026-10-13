@@ -43,7 +43,7 @@ npm run test:browser
 検証証跡: `valis/nodes/E/E1.md`（配信スタブ）、`valis/nodes/E/E2.md`（状態スタブ）
 構造正本: `valis/summary/hello-valis.summary.md`
 手順: `operations/plans/hello-valis.md`
-全Nodeは草案。中核定義3件は本文不変です。
+全10ノードはユーザーの明示承認により承認済みです。ブラウザ・GASの検証完了を意味しません。中核定義3件は本文不変です。
 
 ## ノードの最小分割
 A1: 上位仕様（維持）。
