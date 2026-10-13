@@ -450,7 +450,9 @@
         PILOT_LINEAGES.forEach(function(l,i){
           var distance=0;
           for(var k=0;k<4;k++)distance+=Math.pow(pressure[k]-l.niche[k],2);
-          var foodBonus=(recentFood[favor[l.primary]]/fc)*.085;
+          // Newly-added special branches may not steal older branches at their own niche.
+          var nutritionWeight=(l.id==='antimeme'||l.id==='valis')?.035:.085;
+          var foodBonus=(recentFood[favor[l.primary]]/fc)*nutritionWeight;
           var score=-distance+foodBonus;
           if(score>bestScore){bestScore=score;best=i;}
         });
@@ -1360,6 +1362,20 @@
             rib(cx+Math.cos(a3)*25,cy-5+Math.sin(a3)*25,
               cx+Math.cos(a3)*(31+stage*3),cy-5+Math.sin(a3)*(31+stage*3),glow,2);
           }
+        }else if(kind==='antimeme'){
+          // Recognizable void-mask and interrupted dorsal bands before any unlock.
+          for(var absence=0;absence<5;absence++){
+            var nx=cx-25+absence*10;
+            rect64(nx,cy-18-absence%2*2,6,2,shade1);
+            rect64(nx+2,cy-18-absence%2*2,2,2,ink);
+          }
+          ring64(cx+5,cy+2,26,16,deep,1);
+        }else if(kind==='valis'){
+          // Intrusive external signal node and a tilted single-sided receiving field.
+          poly64([[cx-7,cy-11],[cx-28,cy-29],[cx-22,cy+2],[cx-12,cy+9]],shade1,ink);
+          line64(cx+10,cy-6,cx+23,cy-26,glow,2);
+          disk64(cx+23,cy-26,4,4,accent,ink);
+          ring64(cx+5,cy-4,21,12,glow,1);
         }
         // Body: a black 1px border, two edge shades, then irregular pixel clusters.
         var identity=a.core||{headRatio:1,eyeSpacing:5,torsoRatio:1,tailRatio:1,hueBias:.5};
