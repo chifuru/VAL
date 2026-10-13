@@ -43,3 +43,9 @@ This stage did **not** execute local `npm test`, a Chromium browser run, actual 
 Legacy 64×64 version is preserved separately as `../Index.pixel-legacy.html`. The three canonical VALIS core definitions are unchanged.
 
 Stage 4 adds `tests/draft-organ-sprites.test.cjs` (asset cardinality, distinct level images, SVG alpha, and missing-only fallback). Until Node/Chromium/GAS runs and an independent mock comparison are recorded for this GitHub head, no runtime or finished-art quality PASS is claimed.
+
+## Recovered standalone source images (Stage 4 draft)
+
+The **original 68 embedded** optimized images have additionally been restored byte-for-byte into `../../assets/composite/`, `../../assets/lineage-webp/`, and `../../assets/reference-thumbs/` and indexed in `../../assets/composite-asset-ledger.v42-draft.json`. They are not v4.2 ZIP's improved images or the nine original high-resolution mock PNGs. The GAS HTML still carries the exact same 68 inlined source URI values for self-contained execution; the restoration does not change the runtime.
+
+Run `npm run check:assets` to assert all 68 physical image files are byte-equal to those URIs, with image format and Git blob checks. Open `../../design/stage4-asset-review.html` from a local checkout to review the two ancestor assets, nine reference thumbnails, twelve phase II/III portraits and the 36 provisional vector organs beside the new-lineage PNGs. Browser fidelity / mock matching remains unverified.

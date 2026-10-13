@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node --test tests/*.test.cjs",
     "build:composite": "node tools/build-composite-html.cjs",
-    "check:composite": "node tools/build-composite-html.cjs --check"
+    "check:composite": "node tools/build-composite-html.cjs --check",
+    "check:assets": "node tools/verify-composite-assets.cjs"
   },
   "engines": {
     "node": ">=18"
