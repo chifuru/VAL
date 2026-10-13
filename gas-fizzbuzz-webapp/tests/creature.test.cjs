@@ -766,44 +766,32 @@ test('ancestral imprints persist unchanged while the new organ traits continue t
   assert.ok(c.appearance.organ.levels[c.specialization.primary]>=start.appearance.organ.levels[c.specialization.primary]);
 });
 
-test('previous lineage renders recognizable additional organs on the new active body',()=>{
-  const h=harness(),q=h.logic;
-  const baseline=q.tally(fizzBuzz(400),400,'signal');
-  const withHeritage=baseline.appearance;
-  assert.equal(withHeritage.heritage.length,2);
-  const naked=Object.assign({},withHeritage,{heritage:[]});
-  const g=h.get('creature').getContext();
-  let begin=h.pixels.length;
-  q.renderSmooth(g,naked,0,true);
+test('ancestral markings add crisp pixel clusters to the new descendant body',()=>{
+  const h=harness(),q=h.logic,a=q.tally(fizzBuzz(400),400,'signal').appearance;
+  const naked=Object.assign({},a,{heritage:[]}),g=h.get('creature').getContext();
+  const begin=h.pixels.length;q.renderPixel(g,naked,0,true);
   const nakedOps=h.pixels.slice(begin);
-  begin=h.pixels.length;
-  q.renderSmooth(g,withHeritage,0,true);
-  const inheritedOps=h.pixels.slice(begin);
+  const next=h.pixels.length;q.renderPixel(g,a,0,true);
+  const inheritedOps=h.pixels.slice(next);
   assert.ok(inheritedOps.length>nakedOps.length+10);
-  assert.ok(inheritedOps.some(p=>p.op==='alpha'&&p.args[0]>.5));
-  assert.ok(inheritedOps.some(p=>p.op==='bezierCurveTo'));
+  assert.ok(inheritedOps.every(p=>p.op==='fillRect'));
+  assert.notDeepEqual(inheritedOps.map(p=>p.args.join(',')+p.color),
+    nakedOps.map(p=>p.args.join(',')+p.color));
 });
-
-test('evolution transition draws both prior and successor bodies before finishing',()=>{
+test('major evolution dissolves old and new bodies as integer pixel clusters',()=>{
   const h=harness({limit:150});
   h.fire('env-heat','click');h.fire('fizzbuzz-form','submit');
   while(h.get('stage-name').textContent.includes('第一相')&&h.next()){}
   assert.match(h.get('stage-name').textContent,/第二相/);
-  const before=h.pixels.length;
-  h.frame(220);
-  const blending=h.pixels.slice(before);
-  assert.ok(blending.some(p=>p.op==='alpha'&&p.args[0]>0&&p.args[0]<1));
-  assert.equal(blending.filter(p=>p.op==='translate').length,2,
-    'previous and successor skeletons must both draw during morphing');
-  assert.ok(blending.filter(p=>p.op==='beginPath').length>10);
-  const endStart=h.pixels.length;
-  h.frame(3000);
-  const finished=h.pixels.slice(endStart);
-  assert.ok(finished.length>20);
-  assert.equal(finished.filter(p=>p.op==='translate').length,1,
-    'after the transition only the new inherited body should draw');
+  const a=h.pixels.length;h.frame(220);
+  const morph=h.pixels.slice(a);
+  const b=h.pixels.length;h.frame(3000);
+  const settled=h.pixels.slice(b);
+  assert.ok(morph.length>300);
+  assert.ok(settled.length>300);
+  assert.ok(morph.every(p=>p.op==='fillRect'));
+  assert.ok(morph.length>settled.length,'two silhouettes should be rasterized during transformation');
 });
-
 test('skip and reduced motion preserve the same inherited terminal morphology',()=>{
   const n=400,played=harness({limit:n}),reduced=harness({limit:n,reducedMotion:true});
   played.fire('env-heat','click');
@@ -831,16 +819,14 @@ test('fully matured phenotype freezes its inherited body imprints even if more f
 });
 
 
-test('within-phase developmental changes also morph instead of popping instantly',()=>{
+test('within-phase growth uses a shorter crisp pixel dissolve',()=>{
   const h=harness({limit:45});
   h.fire('fizzbuzz-form','submit');
-  while(!h.get('growth-form').textContent.includes('発達 2 / 4')){
-    assert.equal(h.next(),true);
-  }
-  const start=h.pixels.length;h.frame(170);
-  const during=h.pixels.slice(start);
-  assert.equal(during.filter(p=>p.op==='translate').length,2,
-    'the former developmental tier and new tier should blend');
-  const end=h.pixels.length;h.frame(1000);
-  assert.equal(h.pixels.slice(end).filter(p=>p.op==='translate').length,1);
+  while(!h.get('growth-form').textContent.includes('発達 2 / 4'))assert.equal(h.next(),true);
+  const a=h.pixels.length;h.frame(170);
+  const morph=h.pixels.slice(a);
+  const b=h.pixels.length;h.frame(1000);
+  const settled=h.pixels.slice(b);
+  assert.ok(morph.every(p=>p.op==='fillRect'));
+  assert.ok(morph.length>settled.length);
 });
