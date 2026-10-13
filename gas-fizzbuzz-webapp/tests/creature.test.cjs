@@ -28,10 +28,10 @@ function harness(options={}) {
     nodes.set(id,e);
   }
   ['fizzbuzz-form','limit','run-button','pause-button','skip-button','speed','result','error','status',
-   'current-line','stage-name','food-total','next-stage','growth-bar','growth-progress',
+   'current-line','stage-name','food-total','next-stage','growth-form','growth-bar','growth-progress',
    'fizz-count','buzz-count','special-count','number-count','creature',
    'final-card','final-creature','final-seed','final-species','final-status','final-summary',
-   'final-stage','final-points','final-color','final-color-code','final-foods',
+   'final-stage','final-points','final-color','final-color-code','final-foods','final-lineage',
    'app-shell','mode-chip','retry-button','log-button','result-rank','result-header-state'].forEach(element);
   nodes.get('limit').value=String(options.limit||15);
   nodes.get('speed').value='480';
@@ -376,4 +376,85 @@ test('game UI keeps result text in textarea and uses separated dedicated result 
   assert.match(html,/id="log-button"/);
   assert.match(html,/data-log-open="true"/);
   assert.ok(html.includes('.shell[data-mode="result"] .room-panel'));
+});
+
+
+test('nearby seeds yield conspicuously distinct initial morphology across a sample',()=>{
+  const q=harness().logic;
+  const a=q.initialCreature(123),b=q.initialCreature(124);
+  const keys=['body','appendage','senses','skin','aptitude','sensitivity'];
+  const differences=keys.filter(key=>Math.abs(a.dna[key]-b.dna[key])>.15);
+  assert.ok(differences.length>=2,'two nearby N seeds must no longer share nearly every DNA axis');
+  assert.equal(a.appearance.volume,1);
+  assert.equal(b.appearance.volume,1);
+  assert.equal(a.stage,0);assert.equal(b.stage,0);
+});
+
+test('all three families exist within each stage, rather than only variant labels',()=>{
+  const q=harness().logic;
+  const observed=[new Set(),new Set(),new Set()];
+  for(let n=1;n<=120;n++){
+    const c=q.tally(fizzBuzz(Math.max(n,90)),n);
+    const earlier=q.tally(fizzBuzz(Math.max(n,35)),n);
+    observed[0].add(c.branches[0]);
+    observed[1].add(earlier.branches[1]);
+    observed[2].add(c.branches[2]);
+  }
+  observed.forEach((set,stage)=>assert.equal(set.size,3,'all branches should occur at stage '+stage));
+});
+
+test('stage entry fixes that branch; it never oscillates while feeding that stage',()=>{
+  const q=harness().logic;
+  let c=q.initialCreature(200),lastStage=0,lastBranch=c.branches[0];
+  for(const line of fizzBuzz(200)){
+    c=q.stepGrowth(c,line);
+    if(c.stage===lastStage)assert.equal(c.branches[lastStage],lastBranch);
+    else {
+      assert.equal(c.stage,lastStage+1);
+      lastStage=c.stage;lastBranch=c.branches[lastStage];
+      assert.ok(lastBranch>=0&&lastBranch<=2);
+    }
+  }
+  assert.deepEqual(Array.from(c.branches).every(x=>Number.isInteger(x)),true);
+  assert.equal(c.matured,true);
+});
+
+test('every stage develops four visible substages without adding a fourth evolution',()=>{
+  const q=harness().logic;
+  for(const [stage,points] of [[0,[0,2.5,5,7.5]],[1,[10,16.25,22.5,28.75]],[2,[35,51.25,67.5,83.75]]]){
+    const tiers=points.map(n=>q.growthFor(n,stage).tier);
+    assert.deepEqual(Array.from(tiers),[0,1,2,3]);
+  }
+  assert.equal(q.stageFor(100),2);
+});
+
+test('progress and morphology within one stage create different pixel portraits',()=>{
+  const h=harness().logic;
+  const original=h.initialCreature(91);
+  let mid=original,end=original;
+  for(let i=0;i<9;i++){end=h.stepGrowth(end,'Fizz');if(i===3)mid=end;}
+  assert.equal(mid.stage,0);assert.equal(end.stage,0);
+  assert.ok(end.appearance.growthTier>mid.appearance.growthTier);
+  assert.ok(end.appearance.volume>mid.appearance.volume);
+  assert.equal(end.appearance.family,mid.appearance.family);
+});
+
+test('result includes full concrete fish-land-space lineage and clear growth phase',()=>{
+  const h=harness({limit:400,reducedMotion:true});
+  h.fire('fizzbuzz-form','submit');
+  const c=h.logic.tally(fizzBuzz(400),400);
+  assert.equal(h.get('final-lineage').textContent.split(' → ').length,c.stage+1);
+  assert.match(h.get('final-lineage').textContent,/進化の系譜/);
+  assert.match(h.get('growth-form').textContent,/成長形態 4 \/ 4/);
+  assert.equal(h.get('final-species').textContent,c.appearance.species);
+  assert.equal(h.get('result').value,fizzBuzz(400).join('\n'));
+});
+
+test('nutrition histories and DNA choose different shape lineages deterministically',()=>{
+  const q=harness().logic;
+  const seed=271;
+  const q1=q.tally(fizzBuzz(80),seed),q2=q.tally(fizzBuzz(80),seed);
+  assert.deepEqual(JSON.parse(JSON.stringify(q1.branches)),JSON.parse(JSON.stringify(q2.branches)));
+  assert.equal(q1.appearance.species,q2.appearance.species);
+  assert.deepEqual(JSON.parse(JSON.stringify(q1.appearance)),JSON.parse(JSON.stringify(q2.appearance)));
 });
