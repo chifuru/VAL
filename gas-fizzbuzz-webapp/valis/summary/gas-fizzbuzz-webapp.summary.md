@@ -5,7 +5,7 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 工程4の草案として旧12系統の1器官×3Lv＝36枚の透明SVG仮素材を追加し、既存の暫定24肖像と先行2系統33器官PNG/2コア/9縮小見本を保持。真の元モック由来Lv器官化、v4.2改善肖像24点、原本9PNGの復元とSHA照合、人間の画質判定は未完。2つの実行HTMLを同一内容へ更新する作業ブランチDraft PR。既存36承認済み状態は変更しない。51ノードのまま、E14は旧工程3の証跡。Node/Chromium/GAS検証は工程5待ち、main未変更。
+current_status: 工程4の草案として旧12系統の1器官×3Lv＝36枚の透明SVG仮素材を追加。既存の暫定24肖像、先行2系統33器官PNG、2コアPNG、9縮小JPEG見本の計68画像を無改変で個別Gitバイナリにも復元して台帳管理。真の元モック由来Lv器官化、v4.2改善肖像24点、原本9PNGの復元とSHA照合、人間の画質判定は未完。2つの実行HTMLを同一内容へ更新する作業ブランチDraft PR。既存36承認済み状態は変更しない。51ノードのまま、E14は旧工程3の証跡。Node/Chromium/GAS検証は工程5待ち、main未変更。
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
@@ -16,7 +16,7 @@ initial_registration_stage2: C1.5.1, C1.5.2, C1.5.3, D1.3.1, D1.3.2, D1.3.3（�
 manifest_reflection_stage2: 既存Project Summary Manifestの総数44→50・ノード階層・参照・残存処理フラグの要約を更新。既存ノード自体の承認状態、src、tests、E層の版・証跡有効性は変更なし。
 last_structural_flow: 工程2 FLOW-04（責務分割案）→ FLOW-07（D検証観点）→ FLOW-05（新規Node初期登録と概要反映）。
 initial_registration_stage3: E14（D1.3.1/C1.5.1 GitHub実行HTML同期・V8限定検証の独立証跡、草案）。
-manifest_reflection_stage4: C1.5.2/D1.3.2の工程4仮素材実装・品質未検証を草案反映。src/composite/draft-organ-sprites.jsとapp.js、ビルダー、両HTML、tests/draft-organ-sprites.test.cjsとbundle同期テスト、design/image-composite-stage4-draft.mdの追加更新。Node増減0、承認/公開状態変更なし。
+manifest_reflection_stage4: C1.5.2/D1.3.2の工程4仮素材実装・品質未検証を草案反映。src/composite/draft-organ-sprites.jsとapp.js、ビルダー、両HTML、tests/draft-organ-sprites.test.cjsとbundle同期テスト、design/image-composite-stage4-draft.mdの追加更新。さらに既存の68データURIをassets/の独立バイナリへ完全一致で復元し台帳登録。tools/verify-composite-assets.cjs、tests/recovered-image-assets.test.cjs、design/stage4-asset-review.htmlを追加。GitHub読戻し限定検証はoperations/evidence/stage4-github-asset-inventory.mdを参照。Node増減0、承認/公開状態変更なし。
 manifest_reflection_stage3: C1.5.1とD1.3.1の実態・フラグ要約を更新。GitHub実行HTML2本同一blob 58143d97c89e00d8158b1ec0e18d83c1921a0843、再構築ツール/テスト作成、旧68画像保全、改善24画像未同期、Node CLI/ブラウザ/GAS未実施を明記。E14初期登録、総数50→51。承認状態変更なし。
 last_reflected_flow: FLOW-06 v4.1画像合成と9モック原本を確認 → FLOW-04 旧12系統の派生24画像再抽出/描画重複修正 → FLOW-08 ローカルNode34件、画像24点、Chromium14図鑑/500行/6系統Canvas呼出し → FLOW-05 GitHub編集ソース・D/C追記・E13/Manifest登録。大容量実行HTMLは更新ブロックで未反映。
 unresolved_summary: 51ノード（36承認済み、E6〜E14の9草案、C1.5.1〜3/D1.3.1〜3の6草案）。v4.2描画ロジックとGitHub作業ブランチの実行HTML2本は同期、画像はまだv4.1の68点。元ZIPの改善24画像と中核9原本SHA照合、旧12系統の独立Lv器官、Node実npm test/ブラウザ描画/GAS実配信/実端末FPS/第四相は未完了。main未マージ。
@@ -295,7 +295,7 @@ C1:（外部参照 / GAS HTMLサービスと生物実装統合）［承認済み
 			ロジック:
 				C01〜C09と追加モックを原本保全し、14系統の器官・画像・継承レイヤーを生成。旧12系統の暫定肖像と真のLv器官を区別する。
 			実態:
-				状態: 草案（工程2の責務/検証観点定義のみ）。処理フラグ: 旧12系統のLv器官・原本SHA照合・画質が未完成。未確定事項: 原画の一致性と画像切り出し品質。次FLOW候補: FLOW-04（工程4）/ FLOW-08。
+				状態: 草案（工程4仮器官SVG36点を二HTMLへ統合、v4.1画像68点をGitHub内へバイト同一で復元）。処理フラグ: 旧12の本物の画像切出しと原本9PNG SHA照合・画質は未完成。未確定事項: 原画の一致性と完成画質。次FLOW候補: FLOW-04（実画像切出し）/ FLOW-08。
 
 		C1.5.3:（C1.5, B1.5 / 全モック参照の観測UI・画像描画統合実装）［草案］
 			構成（要素・関係）:
@@ -361,7 +361,7 @@ D1:（外部参照 / 生物育成と出力不変の検証計画）［承認済�
 			ロジック:
 				原本SHA、14系統/相/Lvの画素・透過・二重描画・過去相継承と人間目視評価を分離して検証する。
 			実態:
-				状態: 草案（工程2の責務/検証観点定義のみ）。処理フラグ: 画像原本のSHA一致・画質・Lv器官の検証が未実施。未確定事項: 元ZIP/原本PNG未取得。次FLOW候補: FLOW-07 / FLOW-08（工程4・5）。
+				状態: 草案（工程4で元HTML画像68点のbyte数・Git blob一致をGitHub読戻しで限定確認。Node形式検査スクリプトを追加）。処理フラグ: 中核9PNGの元ZIP SHA一致、真の器官分解品質、画像アルファ実画素、Node/Chromium/GAS実検証は未実施。未確定事項: 元ZIP/原本PNG未取得。次FLOW候補: FLOW-07 / FLOW-08（工程5）。
 
 		D1.3.3:（D1.3, C1.5.3 / PC・モバイル観測UIと操作・表示履歴検証計画）［草案］
 			構成（要素・関係）:
