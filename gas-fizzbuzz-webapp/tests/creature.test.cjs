@@ -332,7 +332,7 @@ test('arcade result screen replaces nursery layout after the last line',()=>{
   assert.equal(h.get('final-card').hidden,false);
   assert.equal(h.get('app-shell').attrs['data-mode'],'result');
   assert.equal(h.get('app-shell').attrs['data-log-open'],'false');
-  assert.match(h.get('result-rank').textContent,/STAGE 2 REACHED/);
+  assert.match(h.get('result-rank').textContent,/第2相 到達/);
   assert.equal(h.get('result-header-state').textContent,'RUN COMPLETE');
   assert.equal(h.get('result').value,fizzBuzz(30).join('\n'));
 });
