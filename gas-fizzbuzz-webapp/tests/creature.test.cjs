@@ -511,7 +511,7 @@ test('exactly three illustrated pilot lineages expose stable emblems and nine st
   const q=harness().logic;
   assert.equal(q.pilotLineages.length,3);
   const marks=q.pilotLineages.map(x=>x.mark);
-  assert.deepEqual(Array.from(marks),['〰','☼','λ']);
+  assert.deepEqual(Array.from(marks),['〰','🜂','λ']);
   q.pilotLineages.forEach(lineage=>{
     assert.equal(lineage.names.length,3);
     assert.ok(lineage.names.every(x=>typeof x==='string'&&x.length>0));
