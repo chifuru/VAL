@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FizzBuzz · GAS</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; color: #172234; background: #f3f5f9; }
+    .shell { max-width: 760px; padding: 54px 22px 80px; margin: auto; }
+    .eyebrow { color: #54698a; font-size: .8rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { margin: 10px 0 8px; font-size: clamp(2.3rem, 7vw, 3.6rem); line-height: 1.15; letter-spacing: -.04em; }
+    .lead { margin: 0 0 28px; color: #546175; line-height: 1.7; }
+    .card { background: white; border: 1px solid #e1e7ef; border-radius: 22px; box-shadow: 0 15px 50px rgba(24, 46, 79, .06); padding: 28px; }
+    label { display: block; font-weight: 700; margin-bottom: 9px; }
+    .row { display: flex; gap: 12px; align-items: stretch; }
+    input { flex: 1; width: 100%; min-width: 0; padding: 14px 16px; font: inherit; font-size: 1.1rem; border-radius: 12px; border: 1px solid #aab8ca; }
+    input:focus-visible, button:focus-visible, textarea:focus-visible { outline: 3px solid #92b9fc; outline-offset: 2px; }
+    button { padding: 13px 24px; min-width: 140px; border-radius: 12px; border: 0; background: #184cc9; color: white; font: inherit; font-weight: 750; cursor: pointer; }
+    button:hover { background: #153fa5; }
+    button:disabled { background: #8b9cba; cursor: wait; }
+    .hint { margin: 10px 0 0; font-size: .88rem; color: #64748b; }
+    .error { min-height: 1.45em; margin-top: 14px; color: #ae2131; font-weight: 600; }
+    .resultHeader { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 32px 0 10px; }
+    h2 { margin: 0; font-size: 1.05rem; }
+    #status { color: #64748b; font-size: .86rem; }
+    textarea { display: block; width: 100%; min-height: 310px; resize: vertical; border: 1px solid #d6deea; background: #f8faff; padding: 16px; border-radius: 14px; line-height: 1.55; font: 15px/1.6 ui-monospace, SFMono-Regular, Consolas, monospace; color: #1e3154; }
+    .key { display: inline-block; margin-top: 20px; color: #64748b; font-size: .86rem; line-height: 1.7; }
+    @media (max-width: 480px) { .card { padding: 20px; } .row { flex-direction: column; } button { width: 100%; } .shell { padding-top: 32px; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <p class="eyebrow">Google Apps Script Web App</p>
+    <h1>FizzBuzz</h1>
+    <p class="lead">数字を入力すると、1 からその数字までの FizzBuzz を計算して表示します。</p>
+    <section class="card" aria-labelledby="input-title">
+      <form id="fizzbuzz-form" novalidate>
+        <label id="input-title" for="limit">どこまで計算しますか？</label>
+        <div class="row">
+          <input id="limit" name="limit" type="number" min="1" max="1000" step="1" value="30" required aria-describedby="limit-help" inputmode="numeric">
+          <button id="run-button" type="submit">計算する</button>
+        </div>
+        <p class="hint" id="limit-help">1〜1000 の整数を入力してください。</p>
+        <div id="error" class="error" role="alert" aria-live="assertive"></div>
+      </form>
+      <div class="resultHeader">
+        <h2>計算結果</h2>
+        <span id="status" aria-live="polite">未実行</span>
+      </div>
+      <textarea id="result" aria-label="FizzBuzz 計算結果" readonly placeholder="結果はここに表示されます。"></textarea>
+      <span class="key">3の倍数 → Fizz ／ 5の倍数 → Buzz ／ 両方の倍数 → FizzBuzz</span>
+    </section>
+  </main>
+  <script>
+    (function () {
+      'use strict';
+      var form = document.getElementById('fizzbuzz-form');
+      var input = document.getElementById('limit');
+      var button = document.getElementById('run-button');
+      var errorBox = document.getElementById('error');
+      var result = document.getElementById('result');
+      var status = document.getElementById('status');
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        errorBox.textContent = '';
+        var raw = input.value.trim();
+        var limit = Number(raw);
+        if (!/^\d+$/.test(raw) || !Number.isSafeInteger(limit) || limit < 1 || limit > 1000) {
+          result.value = '';
+          status.textContent = '入力エラー';
+          errorBox.textContent = '1から1000までの整数を入力してください。';
+          return;
+        }
+        button.disabled = true;
+        button.textContent = '計算中…';
+        result.value = '';
+        status.textContent = '計算中';
+        google.script.run
+          .withSuccessHandler(function (lines) {
+            result.value = lines.join('\n');
+            status.textContent = lines.length + ' 件表示';
+            button.disabled = false;
+            button.textContent = '計算する';
+          })
+          .withFailureHandler(function (error) {
+            result.value = '';
+            status.textContent = 'エラー';
+            errorBox.textContent = error && error.message ? error.message : '計算に失敗しました。';
+            button.disabled = false;
+            button.textContent = '計算する';
+          })
+          .calculateFizzBuzz(limit);
+      });
+    }());
+  </script>
+</body>
+</html>
