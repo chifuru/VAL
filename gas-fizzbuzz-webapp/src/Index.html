@@ -682,27 +682,47 @@
           ellipse(cx,cy,rx,ry,a.color);
           ellipse(cx+1,cy-1,rx-2,Math.max(2,ry-2),lit);
           if(a.family===1){
-            for(var plate=0;plate<3;plate++){
-              ellipse(cx-4+plate*4,cy-ry+1,3,2,'#203150');
-              ellipse(cx-4+plate*4,cy-ry,2,1,lit);
+            // Armored branch: domed shell and thick short legs.
+            ellipse(cx,cy-ry+2,Math.max(3,rx-1),Math.max(3,ry),ink);
+            ellipse(cx,cy-ry+1,Math.max(2,rx-2),Math.max(2,ry-1),shadow);
+            for(var plate=0;plate<2+tier;plate++){
+              ellipse(cx-rx+3+plate*3,cy-ry,2,2,lit);
             }
+            block(cx-4,footY-4,6,3,ink);
+            block(cx+3,footY-4,6,3,ink);
           }else if(a.family===0){
-            polygon([[cx-5,cy-ry],[cx-8,cy-ry-4],[cx+2,cy-ry]],ink);
-            polygon([[cx-4,cy-ry],[cx-7,cy-ry-3],[cx+1,cy-ry]],lit);
+            // Streamlined branch: visible wing membranes grow every two substages.
+            polygon([[cx-5,cy-ry],[cx-8-tier,cy-ry-5-tier],[cx+3,cy-ry]],ink);
+            polygon([[cx-4,cy-ry],[cx-7-tier,cy-ry-3-tier],[cx+2,cy-ry]],lit);
+            if(tier>=2)polygon([[cx+2,cy-ry],[cx+7,cy-ry-4],[cx+rx,cy-1]],lit);
           }else{
-            block(cx-4,cy-ry-3,3,4,ink);block(cx+2,cy-ry-3,3,4,ink);
-            pixel(cx-3,cy-ry-3,lit);pixel(cx+3,cy-ry-3,lit);
+            // Intelligent branch: vertical biped with conspicuous arms and head crest.
+            block(cx-5-tier,cy-1,3+tier,7,ink);
+            block(cx+3,cy-1,3+tier,7,ink);
+            block(cx-3,cy-ry-5,3,5,ink);block(cx+2,cy-ry-5,3,5,ink);
+            pixel(cx-2,cy-ry-5,lit);pixel(cx+3,cy-ry-5,lit);
           }
-          var hx=cx+rx-1,hy=cy-ry+2;
-          ellipse(hx,hy,4,4,ink);ellipse(hx,hy,3,3,a.color);
-          block(hx+2,hy+1,4,3,ink);
-          block(hx+2,hy+1,3,2,lit);
-          eye(hx,hy-2,1+Math.floor(a.senses*1.7));
-          pixel(hx+5,hy+2,'#ee92a5');
-          marks(cx-2,cy,rx-3,ry-2,a,shadow);
+          var hx=a.family===2?cx:cx+rx-1,hy=a.family===2?cy-ry-3:cy-ry+2;
+          ellipse(hx,hy,a.family===2?5:4,a.family===2?5:4,ink);
+          ellipse(hx,hy,a.family===2?4:3,a.family===2?4:3,a.color);
+          if(a.family!==2){
+            block(hx+2,hy+1,4,3,ink);
+            block(hx+2,hy+1,3,2,lit);
+            eye(hx,hy-2,1+Math.floor(a.senses*1.7));
+            pixel(hx+5,hy+2,'#ee92a5');
+          }else{
+            eye(hx-3,hy-2,2+Math.floor(a.senses*2));
+            eye(hx+2,hy-2,2+Math.floor(a.senses*2));
+            block(hx-1,hy+3,3,1,ink);
+          }
+          if(tier>=1)block(cx-3,cy+ry-1,3+tier,1,lit);
+          if(tier>=3)pixel(cx,cy-ry-4,'#e7f7ff');
+          marks(cx-2,cy,Math.max(1,rx-3),Math.max(1,ry-2),a,shadow);
         } else {
           // Upright space creature: large cranial capsule, limbs and inherited appendages.
-          var cx=16,cy=13+bob,rx=6+Math.round(wide*2+growth),ry=6+Math.round((1-wide)*1.5+growth*.5);
+          var cx=16,cy=13+bob;
+          var rx=a.family===2?7+Math.floor(tier/2):a.family===1?6+Math.floor(tier/2):5+Math.floor(tier/2);
+          var ry=a.family===2?7+Math.floor(tier/2):a.family===1?6+Math.floor(tier/2):5+Math.floor(tier/2);
           var torsoY=22+bob;
           for(var tent=0;tent<3;tent++){
             var tx=10+tent*6;
@@ -719,13 +739,20 @@
           ellipse(cx,torsoY,5+growth,5,ink);
           ellipse(cx,torsoY-1,4+growth,4,a.color);
           if(a.family===0){
-            for(var fin=0;fin<4;fin++){
-              pixel(cx-10-fin/2,cy+1+fin*2,'#b4f9fa');
-              pixel(cx+10+fin/2,cy+1+fin*2,'#b4f9fa');
-            }
+            polygon([[cx-4,cy+2],[cx-12-tier,cy-5],[cx-10,cy+9+tier],[cx-3,cy+8]],ink);
+            polygon([[cx+4,cy+2],[cx+12+tier,cy-5],[cx+10,cy+9+tier],[cx+3,cy+8]],ink);
+            polygon([[cx-5,cy+1],[cx-10-tier,cy-3],[cx-8,cy+7],[cx-3,cy+7]],'#b4f9fa');
+            polygon([[cx+5,cy+1],[cx+10+tier,cy-3],[cx+8,cy+7],[cx+3,cy+7]],'#b4f9fa');
           }
           if(a.family===1){
-            for(var sh=0;sh<2;sh++)block(cx+(sh===0?-6:4),torsoY-3,3,5,'#d1e6e1');
+            ellipse(cx,torsoY,7+Math.floor(tier/2),7+Math.floor(tier/2),ink);
+            ellipse(cx,torsoY-1,6+Math.floor(tier/2),6+Math.floor(tier/2),shadow);
+            for(var sh=0;sh<2;sh++)block(cx+(sh===0?-8:5),torsoY-5,4,7,'#d1e6e1');
+            for(var chest=0;chest<3;chest++)block(cx-4+chest*3,torsoY-1,2,4,lit);
+          }
+          if(a.family===2){
+            block(cx-4-tier,torsoY-3,3+tier,8,lit);
+            block(cx+2,torsoY-3,3+tier,8,lit);
           }
           // Antennae vary with inherited appendage DNA.
           var antenna=3+Math.round(trait*4);
@@ -737,10 +764,13 @@
           ellipse(cx,cy,rx,ry,a.color);
           ellipse(cx,cy-2,rx-2,ry-2,lit);
           if(a.family===1){
-            for(var armor=0;armor<3;armor++)block(cx-4+armor*4,cy-ry,3,2,'#d4dce9');
+            ellipse(cx,cy-2,Math.max(3,rx-1),Math.max(2,ry-2),shade(a.color,'#203045',.35));
+            for(var armor=0;armor<2+tier;armor++)block(cx-5+armor*3,cy-ry,3,2,'#d4dce9');
           }
-          var eSize=2+Math.floor(a.senses*2);
+          var eSize=a.family===2?3+Math.floor(a.senses*2):2+Math.floor(a.senses);
           eye(cx-4,cy-1,eSize);eye(cx+2,cy-1,eSize);
+          if(tier>=1)block(cx-2,torsoY+1,4+tier,2,lit);
+          if(tier>=3)block(cx-3,cy-ry-1,6,1,'#e8f5ff');
           block(cx-2,cy+4,4,1,shadow);
           if(a.family===2){
             // Parenthetical cheeks identify the Lisp alien lineage.
