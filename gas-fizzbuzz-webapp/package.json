@@ -4,7 +4,9 @@
   "version": "0.1.0",
   "description": "Retro pixel creature FizzBuzz GAS web app with automatic food and growth playback",
   "scripts": {
-    "test": "node --test tests/fizzbuzz.test.cjs tests/creature.test.cjs"
+    "test": "node --test tests/*.test.cjs",
+    "build:composite": "node tools/build-composite-html.cjs",
+    "check:composite": "node tools/build-composite-html.cjs --check"
   },
   "engines": {
     "node": ">=18"
