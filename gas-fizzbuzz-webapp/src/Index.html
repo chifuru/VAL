@@ -160,6 +160,7 @@
     .result-actions button { flex:1 1 155px; min-height:50px; }
     #log-button { background:#23375a; border:1px solid #6a81b4; color:#e1eeff; box-shadow:0 4px 0 #11213e; }
     .shell[data-mode="result"][data-log-open="true"] .output-panel { border-color:#788eae; }
+    .shell[data-mode="result"] .pixel-codex { display:none; }
     @media(max-width:900px) { .final-layout { grid-template-columns:1fr; } .final-portrait { min-height:310px; } }
     @media(max-width:810px) { .workspace { grid-template-columns:1fr; } .pet-screen { min-height:300px; } }
     @media(max-width:410px) { .final-layout { padding:15px; } .final-portrait { min-height:270px; } .result-marquee { letter-spacing:.4rem; } .final-stats { grid-template-columns:1fr 1fr; } }
@@ -180,7 +181,7 @@
       <section class="panel room-panel" aria-label="生き物の成長と再生操作">
         <div class="panel-header"><strong>◉ CREATURE ARENA</strong><span class="room-label">DNA × FOUR FOODS</span></div>
         <div class="pet-screen">
-          <canvas id="creature" width="256" height="256" role="img" aria-label="環境刺激と餌に反応して成長する有機的な生き物"></canvas>
+          <canvas id="creature" width="256" height="256" role="img" aria-label="環境刺激と餌に反応してドットで成長する生き物"></canvas>
           <span class="arena-overlay" aria-hidden="true">64 × 64 PIXEL MUTATION · LIVE</span>
           <span class="food-tip">FIZZ · BUZZ · FIZZBUZZ · NUMBER</span>
         </div>
@@ -188,7 +189,7 @@
           <div class="evo-top"><div class="stage-name" id="stage-name">第一相・萌生</div><div id="food-total">たべたえさ 0</div></div>
           <div class="progress" role="progressbar" aria-label="次の進化までの進捗" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="growth-progress"><div id="growth-bar"></div></div>
           <p id="next-stage">成長ポイント10で最初の変容が確定</p>
-          <p class="morphology-status" id="growth-form">成長形態 1 / 4</p>
+          <p class="morphology-status" id="growth-form">発達 1 / 4</p>
           <div class="foods">
             <div class="food fizz"><span class="name">● FIZZ</span><b id="fizz-count">0</b></div>
             <div class="food buzz"><span class="name">◆ BUZZ</span><b id="buzz-count">0</b></div>
@@ -228,6 +229,18 @@
           <div id="error" role="alert" aria-live="assertive"></div>
         </div>
       </section>
+      <section class="panel output-panel" aria-label="FizzBuzz結果">
+        <div class="panel-header">
+          <strong>OUTPUT LOG</strong>
+          <div class="output-meta"><span id="status">未実行</span><span id="current-line">—</span></div>
+        </div>
+        <div class="output-body">
+          <label for="result">FizzBuzz 出力（1行に1件）</label>
+          <textarea id="result" readonly spellcheck="false" placeholder="再生すると出力がここに蓄積されます。"></textarea>
+          <p class="output-note">出力内容と順序はこれまでと同じ。生き物の演出や餌カウントは出力テキストには混ざりません。終了後は選択してコピーできます。</p>
+          <div class="legend"><span><b>3の倍数</b> Fizz</span><span><b>5の倍数</b> Buzz</span><span><b>15の倍数</b> FizzBuzz</span></div>
+        </div>
+      </section>
       <details class="panel pixel-codex" id="pixel-codex">
         <summary>◇ 進化先図鑑　12系統のドット絵を見る</summary>
         <p class="codex-hint">育成中の環境と餌で分岐します。表示は第三相の見本で、進化結果を固定するボタンではありません。</p>
@@ -253,18 +266,6 @@
           </div>
         </div>
       </details>
-      <section class="panel output-panel" aria-label="FizzBuzz結果">
-        <div class="panel-header">
-          <strong>OUTPUT LOG</strong>
-          <div class="output-meta"><span id="status">未実行</span><span id="current-line">—</span></div>
-        </div>
-        <div class="output-body">
-          <label for="result">FizzBuzz 出力（1行に1件）</label>
-          <textarea id="result" readonly spellcheck="false" placeholder="再生すると出力がここに蓄積されます。"></textarea>
-          <p class="output-note">出力内容と順序はこれまでと同じ。生き物の演出や餌カウントは出力テキストには混ざりません。終了後は選択してコピーできます。</p>
-          <div class="legend"><span><b>3の倍数</b> Fizz</span><span><b>5の倍数</b> Buzz</span><span><b>15の倍数</b> FizzBuzz</span></div>
-        </div>
-      </section>
     </div>
     <section class="panel final-card" id="final-card" hidden aria-label="今回の生き物の最終形態" aria-live="polite">
       <div class="panel-header result-header"><strong>★ RESULT SCREEN</strong><span id="result-header-state">RUN COMPLETE</span></div>
@@ -273,7 +274,7 @@
         <div class="final-portrait">
           <div class="portrait-halo" aria-hidden="true"></div>
           <div class="portrait-podium" aria-hidden="true"></div>
-          <canvas id="final-creature" width="256" height="256" role="img" aria-label="育成終了時の生き物の有機描画肖像"></canvas>
+          <canvas id="final-creature" width="256" height="256" role="img" aria-label="育成終了時の生き物のドット肖像"></canvas>
         </div>
         <div>
           <p class="final-kicker" id="final-seed">個体 #—</p>
