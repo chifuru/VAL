@@ -320,12 +320,88 @@
         Object.freeze({id:'parallel',mark:'∥',group:'並列生命',names:['ゴロピン','コンカリオ','パラレギオン'],finalName:'ゴル＝コンカレス',primary:'limbs',niche:[0,.5,.5,0]}),
         Object.freeze({id:'memory',mark:'⛨',group:'記憶殻',names:['ビトクラ','スタックラ','ボロウ＝フェラク'],finalName:'メモル＝クラスト',primary:'shell',niche:[0,0,.5,.5]}),
         Object.freeze({id:'serpent',mark:'Ϟ',group:'多頭蛇',names:['オロチル','ミダレクビ','ヤツマガノ'],finalName:'八星蛇オロマグナ',primary:'heads',niche:[.5,.5,0,0]}),
-        Object.freeze({id:'solar',mark:'☼',group:'日輪',names:['ヒノシズク','カガミノア','アマツリンカ'],finalName:'日輪神アマ＝ゼル',primary:'glow',niche:[0,.75,.25,0]})
+        Object.freeze({id:'solar',mark:'☼',group:'日輪',names:['ヒノシズク','カガミノア','アマツリンカ'],finalName:'日輪神アマ＝ゼル',primary:'glow',niche:[0,.75,.25,0]}),
+        Object.freeze({id:'antimeme',mark:'∅',group:'反記銘生命',names:['ミナモルフ','ノル＝メム','レテグラフ'],finalName:'アネムネシス',primary:'orbit',niche:[0,0,.25,.75]}),
+        Object.freeze({id:'valis',mark:'⌁',group:'異化通信生命',names:['ミナモルフ','ノオフィラ','アイオ＝レイ'],finalName:'ヴェイル＝シオン',primary:'glow',niche:[0,.16,.72,.12]})
       ]);
       var ORGAN_NAMES = Object.freeze({eyes:'眼',tentacles:'触手',wings:'翼・ひれ',shell:'甲殻',limbs:'脚・腕',glow:'発光',heads:'頭部',orbit:'浮遊器官'});
       var ENVIRONMENTS=Object.freeze({tide:'潮流',heat:'熱波',signal:'電磁波',void:'虚空'});
       var UNFORMED=Object.freeze({id:'proto',mark:'◌',group:'未分化',names:['ミナモルフ','ミナモルフ','ミナモルフ']});
       function newSituation(){return {exposure:{tide:0,heat:0,signal:0,void:0},recentFoods:[],recentEnvs:[],steps:0};}
+
+      // Stable individual body identity; independent of the situational destination.
+      var SOCKET_NAMES=Object.freeze(['head','eye','mouth','dorsal','shoulder','flank',
+        'chest','forelimb','hindlimb','tailBase','tailTip','outerOrbit']);
+      var PARTS=Object.freeze({
+        antimeme:Object.freeze([
+          Object.freeze({id:'absenceMask',label:'忘却面',anchor:'head',food:'number',environment:'void',variants:['顔の暗斑','非連続の額紋','欠落を縁取る面'],thresholds:[1,6,16]}),
+          Object.freeze({id:'unseenEye',label:'不在眼',anchor:'eye',food:'fizzbuzz',environment:'signal',variants:['二重瞳','観測欠線','断絶する側眼'],thresholds:[1,6,16]}),
+          Object.freeze({id:'erasureCrown',label:'抹消冠',anchor:'dorsal',food:'number',environment:'void',variants:['背びれ切れ目','断続冠','外部消失環'],thresholds:[1,6,16]}),
+          Object.freeze({id:'memoryFilament',label:'記憶吸糸',anchor:'flank',food:'fizzbuzz',environment:'void',variants:['短い触索','枝分かれする吸糸','断片状の長い吸糸'],thresholds:[1,6,16]}),
+          Object.freeze({id:'brokenTail',label:'欠章尾',anchor:'tailTip',food:'number',environment:'signal',variants:['尾端斑','欠節尾','遠位に分離した尾片'],thresholds:[1,6,16]})
+        ]),
+        valis:Object.freeze([
+          Object.freeze({id:'receiverCrown',label:'受信冠',anchor:'head',food:'fizz',environment:'signal',variants:['片側受信角','非対称の開冠','外部衛片への分岐'],thresholds:[1,6,16]}),
+          Object.freeze({id:'observingEye',label:'観測焦点',anchor:'eye',food:'fizzbuzz',environment:'signal',variants:['二重観測眼','外縁に観測点','体外にずれる眼群'],thresholds:[1,6,16]}),
+          Object.freeze({id:'revelationMembrane',label:'受信膜',anchor:'dorsal',food:'fizz',environment:'heat',variants:['背部の光膜','片側に裂けた受信面','符号模様の不均衡な大膜'],thresholds:[1,6,16]}),
+          Object.freeze({id:'lightKernel',label:'偏在光核',anchor:'chest',food:'fizzbuzz',environment:'signal',variants:['胸部の微小核','偏在した双核','生体から浮く第三核'],thresholds:[1,6,16]}),
+          Object.freeze({id:'detachedNode',label:'漂遊衛片',anchor:'outerOrbit',food:'number',environment:'void',variants:['離れた光片','接続索を持つ衛片','複数の異常衛片'],thresholds:[1,6,16]}),
+          Object.freeze({id:'signalTail',label:'符号尾',anchor:'tailTip',food:'fizzbuzz',environment:'signal',variants:['尾端信号斑','分岐したデータ尾','断続する伝送束'],thresholds:[1,6,16]})
+        ])
+      });
+      var PART_LOOKUP=Object.freeze(Object.keys(PARTS).reduce(function(out,k){
+        PARTS[k].forEach(function(def){out[k+':'+def.id]=def;});return out;
+      },{}));
+      function coreFor(dna){
+        return Object.freeze({
+          headRatio:.82+dna.senses*.34,
+          eyeSpacing:4+Math.round(dna.senses*3),
+          torsoRatio:.87+dna.body*.32,
+          tailRatio:.78+dna.appendage*.44,
+          hueBias:dna.skin
+        });
+      }
+      function socketsFor(core){
+        var width=core.torsoRatio,tail=core.tailRatio,eyes=core.eyeSpacing;
+        var slots={
+          head:[40,26],eye:[40+eyes/2,23],mouth:[48,30],
+          dorsal:[31,18],shoulder:[38,30],flank:[21,35],
+          chest:[37,40],forelimb:[38,43],hindlimb:[24,46],
+          tailBase:[18,37],tailTip:[Math.round(8-3*(tail-1)),38],
+          outerOrbit:[53,17]
+        };
+        return Object.freeze(Object.keys(slots).reduce(function(out,key){
+          var pos=slots[key],x=32+(pos[0]-32)*width;
+          out[key]=Object.freeze([Math.round(x),pos[1]]);
+          return out;
+        },{}));
+      }
+      function levelFor(xp,def){
+        if(xp>=def.thresholds[2])return 3;
+        if(xp>=def.thresholds[1])return 2;
+        return xp>=def.thresholds[0]?1:0;
+      }
+      function partsFor(c){
+        var id=c.lineages[c.stage],lineage=id===null?null:PILOT_LINEAGES[id];
+        var defs=lineage&&PARTS[lineage.id]||[];
+        return Object.freeze(defs.map(function(def){
+          var xp=c.partXp[lineage.id+':'+def.id]||0;
+          var level=levelFor(xp,def);
+          return Object.freeze({id:def.id,label:def.label,anchor:def.anchor,level:level,
+            variant:level?def.variants[level-1]:null,points:xp});
+        }));
+      }
+      function applyPartXp(c,environment,food){
+        if(c.matured||c.stage===0)return;
+        var lineage=PILOT_LINEAGES[c.lineages[c.stage]];
+        if(!lineage||!PARTS[lineage.id])return;
+        PARTS[lineage.id].forEach(function(def){
+          // Each part progresses independently; branching does not remove past XP.
+          var inc=(environment===def.environment?1:0)+(food===def.food?1:0);
+          if(inc)c.partXp[lineage.id+':'+def.id]=(c.partXp[lineage.id+':'+def.id]||0)+inc;
+        });
+      }
+
       function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
       function classify(line) {
         if (line === 'Fizz') return 'fizz';
@@ -413,7 +489,10 @@
         return Object.freeze({
           stage:a.stage,lineage:a.lineage,mark:a.mark,color:a.color,
           body:a.body,appendage:a.appendage,senses:a.senses,skin:a.skin,
-          organs:Object.freeze(Object.assign({},a.organ.levels))
+          organs:Object.freeze(Object.assign({},a.organ.levels)),
+          parts:Object.freeze((a.parts||[]).filter(function(p){return p.level>0;}).map(function(p){
+            return Object.freeze({id:p.id,label:p.label,anchor:p.anchor,level:p.level});
+          }))
         });
       }
       function imprintName(imprint){
@@ -448,6 +527,7 @@
           stage:c.stage, family:family, species:pilot.names[c.stage],
           lineage:pilot.id, lineageIndex:lineageId, mark:pilot.mark, group:pilot.group,
           organ:organ,heritage:Object.freeze(inherited),
+          core:c.core,sockets:socketsFor(c.core),parts:partsFor(c),
           growthTier:growth.tier, progress:growth.local,
           color:color, volume:1+.28*c.stage+.24*growth.tier+.11*growth.local,
           body:c.dna.body, appendage:c.dna.appendage, senses:c.dna.senses, skin:c.dna.skin,
@@ -459,6 +539,7 @@
         var c={seed:seed,dna:dna,foods:{fizz:0,buzz:0,fizzbuzz:0,number:0,total:0,boost:0,brake:0},
           modifier:0,points:0,expression:0,stage:0,branches:[null,null,null],
           lineages:[null,null,null],specialization:null,
+          core:coreFor(dna),partXp:{},
           situation:newSituation(),history:[],heritage:[],matured:false,appearance:null};
         var born=organFor(c);
         c.specialization=Object.freeze({primary:born.primary,secondary:born.secondary});
@@ -485,6 +566,7 @@
           modifier:previous.modifier,points:previous.points,expression:previous.expression,
           stage:previous.stage,branches:previous.branches.slice(),
           lineages:previous.lineages.slice(),specialization:previous.specialization,
+          core:previous.core,partXp:Object.assign({},previous.partXp),
           situation:situation,history:previous.history.slice(),heritage:previous.heritage.slice(),
           matured:previous.matured,appearance:previous.appearance};
         c.foods[kind]++;
@@ -515,6 +597,7 @@
           c.modifier=0;
         }
         if(!c.matured) {
+          applyPartXp(c,env,kind);
           c.appearance=appearanceFor(c);
           if(c.points>=100)c.matured=true; // freeze morphology and color at maturity
         }
@@ -533,6 +616,8 @@
         appearanceFor:appearanceFor,branchFor:branchFor,lineageFor:lineageFor,organFor:organFor,
         pilotLineages:PILOT_LINEAGES,environments:ENVIRONMENTS,
         growthFor:growthFor,imprintFor:imprintFor,imprintName:imprintName,
+        coreFor:coreFor,socketsFor:socketsFor,partsFor:partsFor,levelFor:levelFor,
+        socketNames:SOCKET_NAMES,partSets:PARTS,
         initialCreature:initialCreature,stepGrowth:stepGrowth,tally:tally,
         renderPixel:function(context,a,time,still){
           if(!context)return false;
