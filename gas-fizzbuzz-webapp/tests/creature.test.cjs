@@ -789,13 +789,15 @@ test('evolution transition draws both prior and successor bodies before finishin
   h.frame(220);
   const blending=h.pixels.slice(before);
   assert.ok(blending.some(p=>p.op==='alpha'&&p.args[0]>0&&p.args[0]<1));
+  assert.equal(blending.filter(p=>p.op==='translate').length,2,
+    'previous and successor skeletons must both draw during morphing');
   assert.ok(blending.filter(p=>p.op==='beginPath').length>10);
   const endStart=h.pixels.length;
   h.frame(3000);
   const finished=h.pixels.slice(endStart);
   assert.ok(finished.length>20);
-  assert.ok(!finished.some(p=>p.op==='alpha'&&p.args[0]>.85&&p.args[0]<.99),
-    'transition alpha should be gone; ordinary organ opacity still allowed');
+  assert.equal(finished.filter(p=>p.op==='translate').length,1,
+    'after the transition only the new inherited body should draw');
 });
 
 test('skip and reduced motion preserve the same inherited terminal morphology',()=>{
