@@ -445,7 +445,7 @@
         var percent=c.matured?100:clamp(Math.floor((c.points-start)/(end-start)*100),0,100);
         growthBar.style.width=percent+'%';
         growthProgress.setAttribute('aria-valuenow',String(percent));
-        growthForm.textContent='成長形態 '+(c.appearance.growthTier+1)+' / 4 ・ '+['稚体','幼体','成長体','発達体'][c.appearance.growthTier]+' ・ '+['流線系','装甲系','知性系'][c.appearance.family];
+        growthForm.textContent='個体 #'+c.seed+' ・ 成長形態 '+(c.appearance.growthTier+1)+' / 4 ・ '+['稚体','幼体','成長体','発達体'][c.appearance.growthTier]+' ・ '+['流線系','装甲系','知性系'][c.appearance.family];
         nextStage.textContent=c.matured?'完全成熟！ 外見はここで固定（結果の再生は継続）':
           '成長 '+c.points.toFixed(2)+' P / 次の目標 '+end+' P';
       }
@@ -460,7 +460,7 @@
       function feed(line){
         var kind=classify(line), old=state.creature;
         var fresh=stepGrowth(old,line);
-        if(old.stage!==fresh.stage||(!old.matured&&fresh.matured))evolvedAt=performance.now();
+        if(old.stage!==fresh.stage||old.appearance.growthTier!==fresh.appearance.growthTier||(!old.matured&&fresh.matured))evolvedAt=performance.now();
         state.creature=fresh;
         effect={kind:kind,modifier:fresh.modifier,started:performance.now()};
       }
@@ -521,6 +521,15 @@
         if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)showFinalResult();
         else nextLine();
       }
+      limitInput.addEventListener('input',function(){
+        if(state.busy||state.active||!finalCard.hidden)return;
+        var raw=limitInput.value.trim(),n=Number(raw);
+        if(!/^\d+$/.test(raw)||!Number.isSafeInteger(n)||n<1||n>1000)return;
+        // DNA preview: editing N reveals the genetically different newborn before playback.
+        state.creature=initialCreature(n);
+        effect=null;
+        updateGrowth();
+      });
       form.addEventListener('submit',function(event){
         event.preventDefault();
         if(state.busy||state.active)return;
