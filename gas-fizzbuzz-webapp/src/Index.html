@@ -353,6 +353,20 @@
         var local=clamp((points-start)/(end-start),0,1);
         return {local:local,tier:Math.min(3,Math.floor(local*4))};
       }
+      function imprintFor(a){
+        // Persist the actual preceding phenotype, not just its species name or DNA.
+        return Object.freeze({
+          stage:a.stage,lineage:a.lineage,mark:a.mark,color:a.color,
+          body:a.body,appendage:a.appendage,senses:a.senses,skin:a.skin,
+          organs:Object.freeze(Object.assign({},a.organ.levels))
+        });
+      }
+      function imprintName(imprint){
+        return imprint.lineage==='abyss'?'触肢':
+          imprint.lineage==='myth'?'翼紋':
+          imprint.lineage==='recursive'?'枝角':'背びれ';
+      }
+
       function appearanceFor(c) {
         var f=c.foods,total=f.total;
         var color = total ? rgb(
@@ -364,10 +378,20 @@
         var family=c.branches[c.stage]===null?0:c.branches[c.stage],
           lineageId=c.lineages[c.stage],pilot=lineageId===null?UNFORMED:PILOT_LINEAGES[lineageId];
         var organ=organFor(c);
+        var inherited=c.heritage.slice();
+        var intensity=Object.assign({},organ.levels);
+        // Previous organs cannot collapse to zero when the evolutionary phase resets.
+        inherited.forEach(function(imprint,i){
+          var retention=i===inherited.length-1?.72:.35;
+          Object.keys(imprint.organs).forEach(function(key){
+            intensity[key]=Math.max(intensity[key],imprint.organs[key]*retention);
+          });
+        });
+        organ=Object.freeze({primary:organ.primary,secondary:organ.secondary,levels:Object.freeze(intensity)});
         return Object.freeze({
           stage:c.stage, family:family, species:pilot.names[c.stage],
           lineage:pilot.id, lineageIndex:lineageId, mark:pilot.mark, group:pilot.group,
-          organ:organ,
+          organ:organ,heritage:Object.freeze(inherited),
           growthTier:growth.tier, progress:growth.local,
           color:color, volume:1+.28*c.stage+.24*growth.tier+.11*growth.local,
           body:c.dna.body, appendage:c.dna.appendage, senses:c.dna.senses, skin:c.dna.skin,
@@ -379,7 +403,7 @@
         var c={seed:seed,dna:dna,foods:{fizz:0,buzz:0,fizzbuzz:0,number:0,total:0,boost:0,brake:0},
           modifier:0,points:0,expression:0,stage:0,branches:[null,null,null],
           lineages:[null,null,null],specialization:null,
-          situation:newSituation(),history:[],matured:false,appearance:null};
+          situation:newSituation(),history:[],heritage:[],matured:false,appearance:null};
         var born=organFor(c);
         c.specialization=Object.freeze({primary:born.primary,secondary:born.secondary});
         // All newborns are uncommitted: genotype may vary, evolution destination cannot.
@@ -405,7 +429,7 @@
           modifier:previous.modifier,points:previous.points,expression:previous.expression,
           stage:previous.stage,branches:previous.branches.slice(),
           lineages:previous.lineages.slice(),specialization:previous.specialization,
-          situation:situation,history:previous.history.slice(),
+          situation:situation,history:previous.history.slice(),heritage:previous.heritage.slice(),
           matured:previous.matured,appearance:previous.appearance};
         c.foods[kind]++;
         if (kind==='number') {
@@ -420,6 +444,8 @@
             c.expression+=c.modifier*(.5+c.dna.sensitivity)*.15;
             c.stage=stageFor(c.points);
             if(c.stage!==previousStage) {
+              // The old body is still part of the individual after the transition.
+              c.heritage.push(imprintFor(previous.appearance));
               for(var newStage=previousStage+1;newStage<=c.stage;newStage++){
                 var chosen=lineageFor(c,newStage);
                 c.branches[newStage]=chosen;
@@ -450,7 +476,8 @@
         classify:classify,modifierFor:modifierFor,dnaFor:dnaFor,stageFor:stageFor,
         appearanceFor:appearanceFor,branchFor:branchFor,lineageFor:lineageFor,organFor:organFor,
         pilotLineages:PILOT_LINEAGES,environments:ENVIRONMENTS,
-        growthFor:growthFor,initialCreature:initialCreature,stepGrowth:stepGrowth,tally:tally,
+        growthFor:growthFor,imprintFor:imprintFor,imprintName:imprintName,
+        initialCreature:initialCreature,stepGrowth:stepGrowth,tally:tally,
         renderSmooth:smoothOrganism
       });
       var appShell=document.getElementById('app-shell');
@@ -522,7 +549,7 @@
       Object.keys(environmentButtons).forEach(function(name){
         environmentButtons[name].addEventListener('click',function(){setEnvironment(name);});
       });
-      var timer=null,nonce=0,effect=null,evolvedAt=-10000;
+      var timer=null,nonce=0,effect=null,evolvedAt=-10000,morphTransition=null;
       function clearPlaybackTimer(){if(timer!==null){clearTimeout(timer);timer=null;}}
       function updateButtons(){
         runButton.disabled=state.busy||state.active;
@@ -543,14 +570,15 @@
         var percent=c.matured?100:clamp(Math.floor((c.points-start)/(end-start)*100),0,100);
         growthBar.style.width=percent+'%';
         growthProgress.setAttribute('aria-valuenow',String(percent));
-        growthForm.textContent='個体 #'+c.seed+' ・ 発達 '+(c.appearance.growthTier+1)+' / 4 ・ '+['萌芽','伸長','分化','充実'][c.appearance.growthTier]+' ・ '+c.appearance.mark+' '+c.appearance.group+' ・ 特化 '+ORGAN_NAMES[c.appearance.organ.primary]+' / '+ORGAN_NAMES[c.appearance.organ.secondary];
+        growthForm.textContent='個体 #'+c.seed+' ・ 発達 '+(c.appearance.growthTier+1)+' / 4 ・ '+['萌芽','伸長','分化','充実'][c.appearance.growthTier]+' ・ '+c.appearance.mark+' '+c.appearance.group+' ・ 特化 '+ORGAN_NAMES[c.appearance.organ.primary]+' / '+ORGAN_NAMES[c.appearance.organ.secondary]+
+          (c.appearance.heritage.length?' ・ 継承：'+c.appearance.heritage.map(imprintName).join('・'):'');
         nextStage.textContent=c.matured?'完全成熟！ 外見はここで固定（結果の再生は継続）':
           '成長 '+c.points.toFixed(2)+' P / 次の変容 '+end+' P';
       }
       function resetState(seed){
         clearPlaybackTimer();
         state.lines=[];state.index=0;state.active=false;state.paused=false;state.busy=false;
-        state.creature=initialCreature(seed||1);effect=null;evolvedAt=-10000;
+        state.creature=initialCreature(seed||1);effect=null;evolvedAt=-10000;morphTransition=null;
         result.value='';currentLine.textContent='—';statusBox.textContent='準備中';finalCard.hidden=true;
         setLogOpen(false);setMode('nursery');
         updateGrowth();updateButtons();
@@ -558,6 +586,9 @@
       function feed(line){
         var kind=classify(line), old=state.creature;
         var fresh=stepGrowth(old,line,state.environment);
+        if(old.stage!==fresh.stage){
+          morphTransition={from:old.appearance,started:performance.now()};
+        }
         if(old.stage!==fresh.stage||old.appearance.growthTier!==fresh.appearance.growthTier||(!old.matured&&fresh.matured))evolvedAt=performance.now();
         state.creature=fresh;
         effect={kind:kind,modifier:fresh.modifier,started:performance.now()};
@@ -587,7 +618,8 @@
             note='〔'+ENVIRONMENTS[dominant]+'優勢〕';
           }
           return STAGES[phase]+' '+type.mark+' '+type.names[phase]+note;
-        }).join(' → ')+' ／ 主特化：'+ORGAN_NAMES[a.organ.primary]+' ／ 副特化：'+ORGAN_NAMES[a.organ.secondary];
+        }).join(' → ')+' ／ 主特化：'+ORGAN_NAMES[a.organ.primary]+' ／ 副特化：'+ORGAN_NAMES[a.organ.secondary]+
+          (a.heritage.length?' ／ 継承器官：'+a.heritage.map(imprintName).join('・'):'');
         finalSummary.textContent=c.matured?
           '完全成熟した個体の姿です。成熟後もFizzBuzzは最後まで出力しました。':
           'N行の出力を終えた時点の姿です。途中段階でも失敗ではなく、今回の最終形態として記録します。';
@@ -623,7 +655,7 @@
         result.value=state.lines.join('\n');
         result.scrollTop=result.scrollHeight;
         currentLine.textContent=state.lines.length+' / '+state.lines.length+' : '+state.lines[state.lines.length-1];
-        effect=null;finish();
+        effect=null;morphTransition=null;finish();
       }
       function begin(lines){
         state.lines=lines.slice();state.busy=false;state.active=true;state.paused=false;
