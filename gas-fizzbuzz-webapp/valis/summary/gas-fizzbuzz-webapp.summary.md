@@ -5,19 +5,19 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: ゲームリザルト二画面UI（最終肖像・称号・ログ開閉・再育成）を実装しE4で36件V8モック検証（GAS実機未検証）
+current_status: DNA初期差・各段階3系統分岐・4つの発達形態・系譜表示・入力時プレビュー実装、E5 V8モック45件成功（GAS実機未検証）
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
-initial_registration_previous_evidence: E3
-initial_registration_this_change: E4
-manifest_reflection_this_change: A1.2, A1.5, B1.2, B1.5, C1.3, C1.5, D1.3, E4, src/Index.html, tests/creature.test.cjs, README.md
-last_reflected_flow: FLOW-05 ゲームリザルト画面の差分反映、FLOW-08 36件V8モック限定証跡E4
-unresolved_summary: 実Node npm test未実施、GAS実機・ブラウザ表示・スクロール/ログ開閉・モバイル・アクセシビリティ未検証、造形の人間評価は必要、全ノード草案
+initial_registration_previous_evidence: E3, E4
+initial_registration_this_change: E5
+manifest_reflection_this_change: A1.4, A1.5, A1.6, B1.4.2, B1.5, C1.4.3, C1.5, C1.6, D1.2, D1.3, E5, src/Index.html, tests/creature.test.cjs, README.md
+last_reflected_flow: FLOW-05 DNA/分岐/4発達の差分反映、FLOW-08 V8互換モック45件成功の証跡E5
+unresolved_summary: 実Node npm test・GAS実機/ブラウザ描画・視覚的な差分の人間評価/モバイル/アクセシビリティは未実施。仮閾値と分岐造形は調整対象、全ノード草案
 
 ## Node構造・参照要約
 
-親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4は検証版ごとに独立した起点。
+親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4/E5は検証版ごとに独立した起点。
 層間関係: derived_from / implements / verifies / evidence_for による意味接続のみ（層間parent_idは禁止）。
 A/B/C/D/Eを機械的に同数へ揃えず、実装・検証・証跡の独立単位に応じて分割する。
 
@@ -59,7 +59,7 @@ A1:（外部参照 / FizzBuzz GASアプリ統合仕様）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/A/A1.4.md。主所属: A層。parent_id: A1。 B1.4.2 / C1.4.3。
 		ロジック:
-			魚→陸生動物→宇宙生物、P=10/35/100の仮閾値、成熟後は外見固定。
+			魚→陸生→宇宙の3進化段階、それぞれ3分岐と内部4発達tierを持ち、P=10/35/100で成熟後の姿を固定。
 		実態:
 			状態: 草案。処理フラグ: 分岐/閾値は調整対象。次FLOW候補: FLOW-08。
 
@@ -67,7 +67,7 @@ A1:（外部参照 / FizzBuzz GASアプリ統合仕様）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/A/A1.5.md。主所属: A層。parent_id: A1。 B1.5 / C1.5。
 		ロジック:
-			DNA特徴の継承、餌の色・体積・模様、3段階のドット造形とゲーム結果画面の大型静止肖像・表彰台演出。
+			DNA特徴の継承、餌の色・体積・模様、初期DNAの輪郭・尾/目の変化、段階別3系統の大きな形態差、4発達tierの身体成長と結果画面の静止肖像。
 		実態:
 			状態: 草案。処理フラグ: 実ブラウザの視覚評価未実施。次FLOW候補: FLOW-08。
 
@@ -75,7 +75,7 @@ A1:（外部参照 / FizzBuzz GASアプリ統合仕様）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/A/A1.6.md。主所属: A層。parent_id: A1。 B1.6 / C1.6。
 		ロジック:
-			決定的6軸DNA、同一N同一外見、初期は魚/中立色/体積1。
+			入力N全体の拡散混合+xorshift32の決定的6軸DNA。近いNでも違いを出し、入力時に新生魚をプレビュー。
 		実態:
 			状態: 草案。処理フラグ: DNA分布の評価対象。次FLOW候補: FLOW-08。
 
@@ -215,7 +215,7 @@ C1:（外部参照 / GAS HTMLサービスと生物実装統合）［草案］
 			構成（要素・関係）:
 				Node File: valis/nodes/C/C1.4.3.md。主所属: C層。parent_id: C1.4。 implements: B1.4.2。
 			ロジック:
-				stageFor/appearanceFor/stepGrowthの決定的形態処理。
+				branchFor/growthFor/appearanceFor/stepGrowthで系統を段階遷移時に決定・固定し、発達tier0..3と成熟固定を実装。
 			実態:
 				状態: 草案。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
 
@@ -223,7 +223,7 @@ C1:（外部参照 / GAS HTMLサービスと生物実装統合）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/C/C1.5.md。主所属: C層。parent_id: C1。 implements: B1.5。
 		ロジック:
-			32格子の魚/陸生/宇宙の造形、結果画面の光輪/表彰台/静止肖像。
+			32格子のDNA初期造形差と魚/陸生/宇宙各3系統の輪郭・器官、4発達tierの体格・模様、ゲーム結果肖像。
 		実態:
 			状態: 草案。処理フラグ: 本物の見た目は未検証。次FLOW候補: FLOW-08。
 
@@ -231,7 +231,7 @@ C1:（外部参照 / GAS HTMLサービスと生物実装統合）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/C/C1.6.md。主所属: C層。parent_id: C1。 implements: B1.6。
 		ロジック:
-			dnaForのxorshift32・6軸DNA。
+			dnaForのMurmur型32bit拡散混合+xorshift32・6軸DNA、N入力編集時の魚プレビュー。
 		実態:
 			状態: 草案。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
 
@@ -257,7 +257,7 @@ D1:（外部参照 / 生物育成と出力不変の検証計画）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/D/D1.2.md。主所属: D層。parent_id: D1。 verifies: A1.3/A1.4/A1.6/B1.3/B1.4/C1.4/C1.6。
 		ロジック:
-			決定的DNA・4種餌・数論・成長P・完全成熟の境界。
+			近いNでのDNA差、3段階それぞれの3系統の出現、各段階に入る際の分岐確定・継承、4発達tier、完全成熟境界。
 		実態:
 			状態: 草案。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
 
@@ -265,7 +265,7 @@ D1:（外部参照 / 生物育成と出力不変の検証計画）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/D/D1.3.md。主所属: D層。parent_id: D1。 verifies: A1.2/A1.5/B1.2/B1.5/C1.3/C1.5。
 		ロジック:
-			停止/再開/スキップ/低モーション、ゲーム結果モード/成熟称号/ログ開閉/再育成と出力不変。
+			停止/再開/スキップ/低モーション、入力Nプレビュー・成長形態HUD・進化の系譜、結果画面と出力テキストの不変。
 		実態:
 			状態: 草案。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
 
@@ -311,12 +311,19 @@ E4:（外部参照 / ゲームリザルト二画面UI・FizzBuzz回帰V8モッ�
 	実態:
 		状態: 草案。実Node npm test・GAS/ブラウザ実機・目視デザイン品質は未検証。次FLOW候補: FLOW-08。
 
+E5:（外部参照 / DNA初期差・形態分岐・発達tier改善のV8モック検証証跡）［草案］
+	構成（要素・関係）:
+		Node File: valis/nodes/E/E5.md。主所属: E層。起点ノード、parent_idなし。evidence_for: D1.1/D1.2/D1.3, C1.4.3/C1.5/C1.6。
+	ロジック:
+		現在のGitHub src/test blobに対してV8モック45件成功・失敗0。DNA近傍Nでの差、各進化段階の3系統分岐、4発達tier、系譜・プレビュー、FizzBuzz出力不変を検証。
+	実態:
+		状態: 草案。実Node npm test、GAS・ブラウザの目視品質/アクセシビリティは未検証。次FLOW候補: FLOW-08。
+
 ## 今回の差分と処理区別
 
-- **Manifest初期登録（今回）**: E4を旧E1/E2/E3とは独立した証跡として新規登録。A/B/C/DのUI関連ノードは既存責務に属し、追加の分割は不要。
-- **Manifest反映（今回）**: A1.2/A1.5（画面遷移と外見）、B1.2/B1.5（機能）、C1.3/C1.5（実装）、D1.3（計画）、E4（検証実体）。
-- **src/tests/README変更**: src/Index.htmlは育成/結果の二画面モード・ゲーム風表彰台・成熟別称号・ログ開閉・再育成ボタンを追加。tests/creature.test.cjsは27件（今回6件追加）、README.mdは使い方を追記。Code.gs・tests/fizzbuzz.test.cjs・VALIS Core 3件は不変。
-- **FizzBuzz出力形式を維持**: N件の文字列と順番は不変、完全成熟後もNまで再生を続ける。ログの非表示は視覚的な切替のみでtextareaの値は保持する。称号・個体・餌の情報はログに混入しない。
-- **成長ロジックに変更なし**: DNA、4種餌、進化の3段階、仮閾値10/35/100、成熟時の外見固定を維持。未成熟はRUN COMPLETE、完全成熟はEVOLUTION COMPLETE。
-- **検証**: E4の指定GitHub src/test blobに対するV8互換モック36件成功/0件失敗。E1/E2/E3は異なる過去のコード版の証跡。実Node npm test、GAS/実ブラウザ描画・レスポンシブ・スクロール動作・アクセシビリティは未検証。
-- **状態/NEXT**: 全Node草案。承認済みへの遷移・デプロイ・公開・権限変更なし。FLOW-08 実Node・GAS・ブラウザ検証、ユーザーの画面評価を次工程とする。
+- **Manifest初期登録（今回）**: E5をE1～E4とは異なるソース版の新規証跡として登録。A/B/C/Dの既存責務・検証単位で対応可能なため、新規ノード分割なし。
+- **Manifest反映（今回）**: A1.4/A1.5/A1.6、B1.4.2/B1.5、C1.4.3/C1.5/C1.6、D1.2/D1.3、E5へ新実装・検証差分を反映。
+- **src/tests/README更新**: src/Index.htmlに入力NのDNAプレビュー、6軸の拡散混合、各進化段階の3系統確定・継承、段階内4発達tier・目に見える輪郭/器官/模様の成長、最終リザルトの進化系譜を実装。tests/creature.test.cjsは36件（今回9件追加）、READMEも記録更新。Code.gs・tests/fizzbuzz.test.cjsと中核定義3ファイルは変更なし。
+- **仕様維持**: 正式な進化段階は魚/陸生動物/宇宙生物の3段階。4発達tierは第4進化段階ではない。閾値10/35/100は仮値。完全成熟で外見を固定し、FizzBuzzは常にN行完走、ログの文字列や順序は不変。
+- **E5証跡**: GitHubの指定ソース/test blobを使ったV8互換モック45件成功/0件失敗。実Node npm test・GAS実機・ブラウザでの造形や見え方の目視検証は未実施。
+- **状態とNEXT**: 全ノード草案。承認済み化・公開・デプロイ・権限変更なし。次FLOW-08で実Node・GAS/ブラウザ検証を行い、必要ならFLOW-04で体格・分岐式を調整。
