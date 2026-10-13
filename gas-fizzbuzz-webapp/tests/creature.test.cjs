@@ -56,7 +56,7 @@ function harness(options={}) {
    'pixel-codex','codex-canvas','codex-name','codex-description',
    'codex-abyss','codex-myth','codex-recursive','codex-sail','codex-gravity',
    'codex-crystal','codex-manyeyes','codex-abyssshell','codex-parallel',
-   'codex-memory','codex-serpent','codex-solar'].forEach(element);
+   'codex-memory','codex-serpent','codex-solar','codex-antimeme','codex-valis'].forEach(element);
   nodes.get('limit').value=String(options.limit||15);
   nodes.get('speed').value='480';
   let timerId=0,now=50,raf=null,calls=0;
@@ -508,12 +508,12 @@ test('initial screen previews the DNA for the default numeric input',()=>{
 });
 
 
-test('all twelve evolution lines have distinct sigils, phase forms and candidate final forms',()=>{
+test('all fourteen evolution lines have distinct sigils, phase forms and candidate final forms',()=>{
   const q=harness().logic;
-  assert.equal(q.pilotLineages.length,12);
+  assert.equal(q.pilotLineages.length,14);
   assert.deepEqual(Array.from(q.pilotLineages.slice(0,3).map(l=>l.mark)),['〰','🜂','λ']);
-  assert.equal(new Set(q.pilotLineages.map(l=>l.id)).size,12);
-  assert.equal(new Set(q.pilotLineages.map(l=>l.mark)).size,12);
+  assert.equal(new Set(q.pilotLineages.map(l=>l.id)).size,14);
+  assert.equal(new Set(q.pilotLineages.map(l=>l.mark)).size,14);
   q.pilotLineages.forEach(lineage=>{
     assert.equal(lineage.names.length,3);
     assert.ok(lineage.names.every(x=>typeof x==='string'&&x.length>0));
@@ -555,7 +555,7 @@ test('every new stage locks a specific organic lineage, with visible final linea
   assert.equal(c.appearance.species,q.pilotLineages[c.lineages[2]].names[2]);
 });
 
-test('all twelve lines have genuinely different 64px pixel silhouettes in both evolved phases',()=>{
+test('all fourteen lines have genuinely different 64px pixel silhouettes in both evolved phases',()=>{
   const h=harness(),q=h.logic,base=q.initialCreature(400).appearance,signatures=new Set();
   for(const lineage of q.pilotLineages){
     for(const stage of [1,2]){
@@ -572,7 +572,7 @@ test('all twelve lines have genuinely different 64px pixel silhouettes in both e
       signatures.add(sig);
     }
   }
-  assert.equal(signatures.size,24);
+  assert.equal(signatures.size,28);
 });
 test('portrait UI includes lineage symbol and organ strengths without changing the result text',()=>{
   const h=harness({limit:400,reducedMotion:true});
@@ -850,7 +850,7 @@ test('within-phase growth uses a shorter crisp pixel dissolve',()=>{
 });
 
 
-test('all twelve pixel evolution destinations can win under their own environmental mixture',()=>{
+test('all fourteen pixel evolution destinations can win under their own environmental mixture',()=>{
   const q=harness().logic,keys=['tide','heat','signal','void'],winners=new Set();
   for(const l of q.pilotLineages){
     const exposure=Object.fromEntries(keys.map((k,i)=>[k,Math.round(l.niche[i]*100)]));
@@ -861,10 +861,10 @@ test('all twelve pixel evolution destinations can win under their own environmen
     winners.add(selected);
     assert.equal(selected,l.id,l.id);
   }
-  assert.equal(winners.size,12);
+  assert.equal(winners.size,14);
 });
 
-test('twelve codex buttons show actual generated pixel drawings without selecting gameplay evolutions',()=>{
+test('fourteen codex buttons show actual generated pixel drawings without selecting gameplay evolutions',()=>{
   const h=harness(),q=h.logic;
   for(const l of q.pilotLineages){
     const at=h.pixels.length;
@@ -880,7 +880,7 @@ test('twelve codex buttons show actual generated pixel drawings without selectin
   assert.equal(h.get('final-card').hidden,true);
 });
 
-test('all twelve species have inherited pixel organs with distinguishable labels',()=>{
+test('all fourteen species have inherited pixel organs with distinguishable labels',()=>{
   const h=harness(),q=h.logic,base=q.tally(fizzBuzz(400),400,'signal').appearance;
   for(const l of q.pilotLineages){
     const old=Object.assign({},base.heritage[1],{lineage:l.id,color:'#6688bb'});
@@ -897,6 +897,97 @@ test('fourth-form names are reserved as candidates, not secretly unlocked by N=1
   assert.equal(c.stage,2);
   assert.equal(c.lineages.length,3);
   assert.equal(c.history.length,2);
-  assert.equal(q.pilotLineages.length,12);
+  assert.equal(q.pilotLineages.length,14);
   assert.ok(q.pilotLineages.every(l=>l.finalName&&!l.names.includes(l.finalName)));
+});
+
+
+test('individual core identity and all twelve named sockets survive branch changes',()=>{
+  const q=harness().logic,a=q.initialCreature(600);
+  assert.equal(q.socketNames.length,12);
+  assert.equal(new Set(q.socketNames).size,12);
+  const slots=a.appearance.sockets,core=a.core;
+  assert.ok(Object.isFrozen(core));
+  assert.ok(Object.isFrozen(slots));
+  assert.ok(Object.values(slots).every(p=>Object.isFrozen(p)&&p.length===2&&p.every(Number.isInteger)));
+  const heat=q.tally(fizzBuzz(150),600,'heat'),signal=q.tally(fizzBuzz(150),600,'signal');
+  assert.deepEqual(JSON.parse(JSON.stringify(heat.core)),JSON.parse(JSON.stringify(signal.core)));
+  assert.deepEqual(JSON.parse(JSON.stringify(heat.appearance.sockets)),
+    JSON.parse(JSON.stringify(signal.appearance.sockets)));
+  assert.equal(heat.core,heat.appearance.core);
+});
+
+test('both special lines provide validated socket-bound LV1/LV2/LV3 parts',()=>{
+  const q=harness().logic;
+  assert.equal(q.partSets.antimeme.length,5);
+  assert.equal(q.partSets.valis.length,6);
+  for(const id of ['antimeme','valis']){
+    const names=new Set();
+    for(const part of q.partSets[id]){
+      assert.ok(q.socketNames.includes(part.anchor),part.id);
+      assert.equal(part.variants.length,3);
+      assert.deepEqual(Array.from(part.thresholds),[1,6,16]);
+      assert.ok(!names.has(part.id));
+      names.add(part.id);
+      assert.equal(q.levelFor(0,part),0);
+      assert.equal(q.levelFor(1,part),1);
+      assert.equal(q.levelFor(6,part),2);
+      assert.equal(q.levelFor(16,part),3);
+      assert.ok(Object.isFrozen(part));
+    }
+  }
+});
+
+test('VALIS progression is an accumulation of independent socket organs, not a phase-only costume',()=>{
+  const q=harness().logic,env=i=>i%6===0?'heat':i%6===5?'void':'signal';
+  const c=q.tally(fizzBuzz(500),500,env);
+  assert.equal(c.appearance.lineage,'valis');
+  assert.equal(c.appearance.parts.length,6);
+  assert.ok(c.appearance.parts.some(part=>part.level===3));
+  assert.ok(c.appearance.parts.every(part=>part.level>=0&&part.level<=3));
+  assert.ok(c.appearance.parts.some(part=>part.anchor==='outerOrbit'));
+  assert.match(c.appearance.group,/異化通信/);
+});
+
+test('antimeme lineage can grow missing organs and leaves immutable marks in descendants',()=>{
+  const q=harness().logic;
+  const env=(i,line,c)=>c.stage<=1?(i%4===0?'signal':'void'):'heat';
+  const c=q.tally(fizzBuzz(500),500,env);
+  assert.equal(c.lineages[1],q.pilotLineages.findIndex(l=>l.id==='antimeme'));
+  assert.equal(c.appearance.heritage.length,2);
+  const previous=c.appearance.heritage[1];
+  assert.equal(previous.lineage,'antimeme');
+  assert.ok(previous.parts.some(x=>x.level>0));
+  assert.ok(Object.isFrozen(previous.parts));
+  assert.ok(previous.parts.every(x=>Object.isFrozen(x)));
+  assert.ok(previous.parts.some(x=>x.anchor==='flank'||x.anchor==='head'));
+});
+
+test('LV3 VALIS, LV1 VALIS, LV3 antimeme render distinct socket-bound dot art',()=>{
+  const h=harness(),q=h.logic,core=q.initialCreature(450).appearance,ink=h.get('creature').getContext();
+  function paint(lineage,level){
+    const parts=q.partSets[lineage].map(def=>({id:def.id,anchor:def.anchor,label:def.label,level}));
+    const a=Object.assign({},core,{stage:2,lineage,parts,heritage:[]});
+    const at=h.pixels.length;
+    q.renderPixel(ink,a,0,true);
+    return h.pixels.slice(at).map(p=>p.args.join(',')+p.color);
+  }
+  const v1=paint('valis',1),v3=paint('valis',3),anti=paint('antimeme',3);
+  assert.notDeepEqual(v1,v3);
+  assert.notDeepEqual(v3,anti);
+  assert.ok(v3.length>v1.length);
+  assert.ok([v1,v3,anti].every(ops=>ops.length>400));
+});
+
+test('the codex presents two new unusual designs without altering a live run',()=>{
+  const h=harness({limit:150}),q=h.logic;
+  for(const id of ['antimeme','valis']){
+    h.fire('codex-'+id,'click');
+    assert.equal(h.get('codex-'+id).attrs['aria-pressed'],'true');
+    assert.match(h.get('codex-description').textContent,/LV1→3/);
+    assert.match(h.get('codex-description').textContent,/第4相は未実装/);
+  }
+  const first=q.initialCreature(150);
+  assert.equal(first.lineages[0],null);
+  assert.equal(h.get('result').value,'');
 });
