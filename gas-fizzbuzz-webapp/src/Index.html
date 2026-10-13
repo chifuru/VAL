@@ -121,6 +121,18 @@
     .environment-status { font-size:.73rem; color:#aad8d2; line-height:1.55; margin-top:8px; }
     @media(max-width:480px) { .environment-choices { grid-template-columns:repeat(2,minmax(0,1fr)); } }
     .output-panel { background:#101931; border-color:#293d5e; }
+    .pixel-codex { grid-column:1/-1; background:#0f1930; border:1px solid #506991; margin-top:12px; padding:14px; }
+    .pixel-codex summary { cursor:pointer; color:#ffe3a2; font-weight:800; }
+    .codex-hint { color:#adc5db; font-size:.78rem; padding:10px 0; }
+    .codex-layout { display:grid; grid-template-columns:minmax(0,1fr) minmax(145px,210px); gap:15px; }
+    .codex-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; align-content:start; }
+    .codex-grid button { padding:9px 5px; font-size:.76rem; color:#e0e9f7; background:#1b2946; border:1px solid #4d6386; box-shadow:none; }
+    .codex-grid button[aria-pressed="true"] { color:#fff0c5; border:2px solid #ffda85; background:#474064; }
+    .codex-preview { display:flex; align-items:center; text-align:center; flex-direction:column; gap:6px; color:#d9e3f4; }
+    .codex-preview canvas { width:min(100%,196px); aspect-ratio:1; height:auto; image-rendering:pixelated; border:2px solid #415a81; }
+    .codex-preview strong { color:#ffe4a1; }
+    .codex-preview span { font-size:.72rem; line-height:1.5; }
+    @media(max-width:650px) { .codex-layout {grid-template-columns:1fr;} .codex-grid {grid-template-columns:repeat(2,minmax(0,1fr));} }
     .output-panel textarea { background:#080f1f; border-color:#324461; font-size:.86rem; }
     /* Full-width result stage */
     .final-card { border:2px solid #af8d53; background:radial-gradient(circle at 23% 25%,#364679,transparent 35%),linear-gradient(145deg,#1a2b51,#11172d 80%); }
@@ -158,7 +170,7 @@
   <main class="shell" id="app-shell" data-mode="nursery" data-log-open="false">
     <header class="mast">
       <div>
-        <div class="eyebrow">PIXEL PET // FIZZBUZZ LAB</div>
+        <div class="eyebrow">PIXEL MUTATION // FIZZBUZZ LAB</div>
         <h1>FizzBuzz Creature</h1>
         <p class="intro">入力値は個体の素質。進化先は育成中の環境刺激と直近の餌が決めます。いつ環境を変えるかで、同じ個体から違う生命が生まれます。</p>
       </div>
@@ -169,7 +181,7 @@
         <div class="panel-header"><strong>◉ CREATURE ARENA</strong><span class="room-label">DNA × FOUR FOODS</span></div>
         <div class="pet-screen">
           <canvas id="creature" width="256" height="256" role="img" aria-label="環境刺激と餌に反応して成長する有機的な生き物"></canvas>
-          <span class="arena-overlay" aria-hidden="true">MUTATION LAB · LIVE ECOLOGY</span>
+          <span class="arena-overlay" aria-hidden="true">64 × 64 PIXEL MUTATION · LIVE</span>
           <span class="food-tip">FIZZ · BUZZ · FIZZBUZZ · NUMBER</span>
         </div>
         <div class="evolution-box">
@@ -216,6 +228,31 @@
           <div id="error" role="alert" aria-live="assertive"></div>
         </div>
       </section>
+      <details class="panel pixel-codex" id="pixel-codex">
+        <summary>◇ 進化先図鑑　12系統のドット絵を見る</summary>
+        <p class="codex-hint">育成中の環境と餌で分岐します。表示は第三相の見本で、進化結果を固定するボタンではありません。</p>
+        <div class="codex-layout">
+          <div class="codex-grid">
+            <button type="button" id="codex-abyss">〰 深淵触手</button>
+            <button type="button" id="codex-myth">🜂 神鳥</button>
+            <button type="button" id="codex-recursive">λ 再帰知性</button>
+            <button type="button" id="codex-sail">✦ 光帆</button>
+            <button type="button" id="codex-gravity">◎ 重力環</button>
+            <button type="button" id="codex-crystal">◇ 星晶</button>
+            <button type="button" id="codex-manyeyes">◉ 多眼知覚</button>
+            <button type="button" id="codex-abyssshell">▣ 深殻</button>
+            <button type="button" id="codex-parallel">∥ 並列生命</button>
+            <button type="button" id="codex-memory">⛨ 記憶殻</button>
+            <button type="button" id="codex-serpent">Ϟ 多頭蛇</button>
+            <button type="button" id="codex-solar">☼ 日輪</button>
+          </div>
+          <div class="codex-preview">
+            <canvas id="codex-canvas" width="256" height="256" role="img" aria-label="進化系統のドット絵見本"></canvas>
+            <strong id="codex-name">12の変異先</strong>
+            <span id="codex-description">進化先を選ぶと、生成ドット絵を表示します。</span>
+          </div>
+        </div>
+      </details>
       <section class="panel output-panel" aria-label="FizzBuzz結果">
         <div class="panel-header">
           <strong>OUTPUT LOG</strong>
@@ -1037,7 +1074,10 @@
       function dotBackground64(a){
         var top=a.stage===0?'#102b3c':a.stage===1?'#151e3d':'#0c132b';
         var deep='#080d21';
-        for(var y=0;y<64;y++)rect64(0,y,64,1,y<17?top:y<47?'#101b35':deep);
+        for(var y=0;y<64;y++){
+          paintCtx.fillStyle=y<17?top:y<47?'#101b35':deep;
+          paintCtx.fillRect(0,y*PIXEL_SIZE,256,PIXEL_SIZE);
+        }
         for(var j=0;j<35;j++){
           var sx=(j*19+7)%64,sy=(j*29+3)%59;
           dot64(sx,sy,j%4===0?'#a4c7ee':'#3e6387');
@@ -1253,6 +1293,34 @@
         if(!still)drawFood(time);
         paintCtx=previous;
       }
+      // Optional field guide uses exactly the same 64px painter as live gameplay.
+      // It previews anatomy only; no fourth-phase trigger or output mutation.
+      var codexCanvas=document.getElementById('codex-canvas');
+      var codexName=document.getElementById('codex-name');
+      var codexDescription=document.getElementById('codex-description');
+      function showCodex(id){
+        var index=PILOT_LINEAGES.findIndex(function(l){return l.id===id;});
+        if(index<0||!codexCanvas)return;
+        var lineage=PILOT_LINEAGES[index],a=initialCreature(500).appearance;
+        var organ=Object.assign({},a.organ.levels);
+        organ[lineage.primary]=Math.max(1.5,organ[lineage.primary]);
+        var preview=Object.assign({},a,{stage:2,growthTier:3,lineage:id,
+          group:lineage.group,mark:lineage.mark,species:lineage.names[2],
+          organ:Object.freeze({primary:lineage.primary,secondary:a.organ.secondary,levels:Object.freeze(organ)})});
+        renderScene(codexCanvas.getContext('2d'),preview,0,true);
+        codexName.textContent=lineage.mark+' '+lineage.names[2];
+        codexDescription.textContent='第二相：'+lineage.names[1]+' ／ 最終変容候補：'+lineage.finalName+'（第4相は未実装）';
+        PILOT_LINEAGES.forEach(function(item){
+          var button=document.getElementById('codex-'+item.id);
+          if(button)button.setAttribute('aria-pressed',String(item.id===id));
+        });
+      }
+      PILOT_LINEAGES.forEach(function(l){
+        var button=document.getElementById('codex-'+l.id);
+        if(button)button.addEventListener('click',function(){showCodex(l.id);});
+      });
+      var codex=document.getElementById('pixel-codex');
+      if(codex)codex.addEventListener('toggle',function(){if(codex.open)showCodex('abyss');});
       function draw(time){
         var still=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         var transition=null;
