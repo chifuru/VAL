@@ -160,7 +160,7 @@ test('color follows nutrition balance and body volume follows nonnegative growth
   assert.ok(c.appearance.volume>b.appearance.volume);
 });
 
-test('short input ends at fish; input N and playback yield reproducible final result',()=>{
+test('short input ends in origin phase; N and playback yield reproducible final result',()=>{
   const q=harness().logic;
   const a=q.tally(fizzBuzz(15),15);
   assert.equal(a.stage,0);
@@ -194,7 +194,7 @@ test('auto replay preserves unchanged FizzBuzz text, counters and short-stage re
   assert.equal(h.get('number-count').textContent,'3');
   while(h.next()){}
   assert.equal(h.get('result').value,fizzBuzz(15).join('\n'));
-  assert.match(h.get('stage-name').textContent,/STAGE 1 魚/);
+  assert.match(h.get('stage-name').textContent,/第一相・萌生/);
   assert.equal(h.get('special-count').textContent,'1');
   assert.equal(h.get('number-count').textContent,'8');
   assert.equal(h.pending(),0);
@@ -252,10 +252,10 @@ test('new calculation clears the previous result and uses the new seed',()=>{
   h.next();
   assert.equal(h.get('result').value,'1\n2');
   assert.equal(h.get('number-count').textContent,'2');
-  assert.match(h.get('stage-name').textContent,/STAGE 1 魚/);
+  assert.match(h.get('stage-name').textContent,/第一相・萌生/);
 });
 
-test('canvas frame renders for DNA-based fish without browser APIs beyond Canvas',()=>{
+test('canvas frame renders for DNA-based origin organism without browser APIs beyond Canvas',()=>{
   const h=harness();h.frame();
   assert.ok(h.pixels.length>20);
 });
@@ -269,7 +269,7 @@ test('final panel remains hidden during replay and appears after the last line',
   while(h.next()){}
   assert.equal(h.get('final-card').hidden,false);
   assert.equal(h.get('final-seed').textContent,'個体 #30');
-  assert.match(h.get('final-stage').textContent,/陸生動物/);
+  assert.match(h.get('final-stage').textContent,/第二相・変容/);
   assert.ok(h.get('final-species').textContent.length>0);
 });
 
@@ -308,7 +308,7 @@ test('new calculation resets final-panel visibility before the next playback end
   assert.equal(h.get('final-seed').textContent,'個体 #3');
 });
 
-test('fish, land creature and alien use distinct deterministic pixel silhouettes',()=>{
+test('three phases use distinct deterministic fallback silhouettes',()=>{
   const pixels=[];
   for(const n of [5,30,100]){
     const h=harness({limit:n,reducedMotion:true});
@@ -409,19 +409,14 @@ test('nearby seeds yield conspicuously distinct initial morphology across a samp
   assert.equal(a.stage,0);assert.equal(b.stage,0);
 });
 
-test('all three families exist within each stage, rather than only variant labels',()=>{
-  const q=harness().logic;
-  const observed=[new Set(),new Set(),new Set()];
-  for(let n=1;n<=120;n++){
-    const c=q.tally(fizzBuzz(Math.max(n,90)),n);
-    const earlier=q.tally(fizzBuzz(Math.max(n,35)),n);
-    observed[0].add(c.branches[0]);
-    observed[1].add(earlier.branches[1]);
-    observed[2].add(c.branches[2]);
-  }
-  observed.forEach((set,stage)=>assert.equal(set.size,3,'all branches should occur at stage '+stage));
+test('same seed reaches all three situational lineages by varying environmental exposure',()=>{
+  const q=harness().logic,n=400,rows=fizzBuzz(n);
+  const tide=q.tally(rows,n,'tide'),heat=q.tally(rows,n,'heat'),signal=q.tally(rows,n,'signal');
+  assert.equal(new Set([tide.lineages[1],heat.lineages[1],signal.lineages[1]]).size,3);
+  assert.equal(new Set([tide.lineages[2],heat.lineages[2],signal.lineages[2]]).size,3);
+  assert.equal(q.initialCreature(n).lineages[0],null);
+  assert.equal(q.initialCreature(n).appearance.lineage,'proto');
 });
-
 test('stage entry fixes that branch; it never oscillates while feeding that stage',()=>{
   const q=harness().logic;
   let c=q.initialCreature(400),lastStage=0,lastBranch=c.branches[0];
@@ -434,7 +429,7 @@ test('stage entry fixes that branch; it never oscillates while feeding that stag
       assert.ok(lastBranch>=0&&lastBranch<=2);
     }
   }
-  assert.deepEqual(Array.from(c.branches).every(x=>Number.isInteger(x)),true);
+  assert.equal(c.branches[0],null);assert.ok(c.branches.slice(1).every(x=>Number.isInteger(x)));
   assert.equal(c.matured,true);
 });
 
@@ -458,13 +453,13 @@ test('progress and morphology within one stage create different pixel portraits'
   assert.equal(end.appearance.family,mid.appearance.family);
 });
 
-test('result includes full concrete fish-land-space lineage and clear growth phase',()=>{
+test('result includes situation-dependent phase history and clear growth phase',()=>{
   const h=harness({limit:400,reducedMotion:true});
   h.fire('fizzbuzz-form','submit');
   const c=h.logic.tally(fizzBuzz(400),400);
   assert.equal(h.get('final-lineage').textContent.split(' → ').length,c.stage+1);
-  assert.match(h.get('final-lineage').textContent,/進化の系譜/);
-  assert.match(h.get('growth-form').textContent,/成長形態 4 \/ 4/);
+  assert.match(h.get('final-lineage').textContent,/変容記録/);
+  assert.match(h.get('growth-form').textContent,/発達 4 \/ 4/);
   assert.equal(h.get('final-species').textContent,c.appearance.mark+' '+c.appearance.species);
   assert.equal(h.get('result').value,fizzBuzz(400).join('\n'));
 });
@@ -495,8 +490,8 @@ test('growth HUD explicitly labels morphology tier and current family',()=>{
   const h=harness({limit:5,reducedMotion:true});
   h.fire('fizzbuzz-form','submit');
   assert.match(h.get('growth-form').textContent,/個体 #5/);
-  assert.match(h.get('growth-form').textContent,/成長形態 [1-4] \/ 4/);
-  assert.match(h.get('growth-form').textContent,/(深淵触手|神鳥|再帰知性)/);
+  assert.match(h.get('growth-form').textContent,/発達 [1-4] \/ 4/);
+  assert.match(h.get('growth-form').textContent,/(未分化|深淵触手|神鳥|再帰知性)/);
 });
 
 
@@ -519,12 +514,15 @@ test('exactly three illustrated pilot lineages expose stable emblems and nine st
   });
 });
 
-test('all three pilot lineages can occur for initial DNA seeds',()=>{
-  const q=harness().logic,found=new Set();
-  for(let n=1;n<=240;n++)found.add(q.initialCreature(n).appearance.lineage);
-  assert.deepEqual([...found].sort(),['abyss','myth','recursive']);
+test('no seed selects an evolution lineage before experiencing its first phase',()=>{
+  const q=harness().logic;
+  for(let n=1;n<=240;n++){
+    const c=q.initialCreature(n);
+    assert.equal(c.appearance.lineage,'proto');
+    assert.equal(c.lineages[0],null);
+    assert.equal(c.branches[0],null);
+  }
 });
-
 test('organ specialization is reproducible, locked, and gains strength with growth',()=>{
   const q=harness().logic;
   let c=q.initialCreature(530);
@@ -546,7 +544,7 @@ test('every new stage locks a specific organic lineage, with visible final linea
     else {stage=c.stage;last=c.lineages[stage];}
   }
   assert.equal(c.stage,2);
-  assert.ok(c.lineages.every(i=>Number.isInteger(i)&&i>=0&&i<3));
+  assert.equal(c.lineages[0],null);assert.ok(c.lineages.slice(1).every(i=>Number.isInteger(i)&&i>=0&&i<3));
   assert.equal(c.appearance.species,q.pilotLineages[c.lineages[2]].names[2]);
 });
 
@@ -586,4 +584,82 @@ test('portrait UI includes lineage symbol and organ strengths without changing t
 test('organic Canvas portraits scale smoothly rather than nearest-neighbor pixels',()=>{
   assert.ok(!html.includes('image-rendering:pixelated'));
   assert.ok(html.includes('image-rendering:auto'));
+});
+
+
+test('environment switches change a run without changing the initial DNA or N',()=>{
+  const q=harness().logic,n=400,lines=fizzBuzz(n);
+  const a=q.tally(lines,n,'tide'),b=q.tally(lines,n,'heat');
+  assert.deepEqual(JSON.parse(JSON.stringify(a.dna)),JSON.parse(JSON.stringify(b.dna)));
+  assert.notDeepEqual(JSON.parse(JSON.stringify(a.lineages)),JSON.parse(JSON.stringify(b.lineages)));
+  assert.equal(a.foods.fizz,b.foods.fizz);
+  assert.equal(a.points,b.points);
+});
+
+test('cross-evolution can switch lineages in a later phase regardless of the earlier choice',()=>{
+  const q=harness().logic,lines=fizzBuzz(400),first=[];
+  let c=q.initialCreature(400);
+  for(const line of lines){
+    const env=c.stage<1?'heat':'signal';
+    c=q.stepGrowth(c,line,env);
+  }
+  assert.equal(c.lineages[0],null);
+  assert.equal(c.lineages[1],1);
+  assert.equal(c.lineages[2],2);
+  assert.equal(c.history.length,2);
+  assert.ok(c.history.every(x=>x.exposure&&Number.isInteger(x.lineage)));
+  assert.equal(c.appearance.lineage,'recursive');
+});
+
+test('food type influences situational branch at mixed environmental pressure',()=>{
+  const q=harness().logic;
+  function grow(food){
+    let c=q.initialCreature(80);
+    for(let i=0;i<20;i++)c=q.stepGrowth(c,food,i%2===0?'tide':'heat');
+    return c;
+  }
+  const fizz=grow('Fizz'),buzz=grow('Buzz');
+  assert.equal(fizz.stage,1);assert.equal(buzz.stage,1);
+  assert.ok(fizz.situation);
+  assert.ok(buzz.situation);
+  assert.equal(fizz.history.length,1);
+  assert.equal(buzz.history.length,1);
+});
+
+test('the environment selector is actionable and accessible during a running replay',()=>{
+  const h=harness({limit:400});
+  assert.equal(h.get('env-tide').attrs['aria-pressed'],undefined);
+  h.fire('env-heat','click');
+  assert.equal(h.get('env-heat').attrs['aria-pressed'],'true');
+  assert.match(h.get('environment-status').textContent,/熱波/);
+  h.fire('fizzbuzz-form','submit');
+  for(let i=0;i<4;i++)h.next();
+  h.fire('env-signal','click');
+  assert.equal(h.get('env-signal').attrs['aria-pressed'],'true');
+  assert.equal(h.get('env-heat').attrs['aria-pressed'],'false');
+  assert.equal(h.get('result').value,fizzBuzz(5).join('\n'));
+});
+
+test('skipping after a live environment change preserves the already-played context',()=>{
+  const n=400,h=harness({limit:n});
+  h.fire('env-heat','click');
+  h.fire('fizzbuzz-form','submit');
+  while(h.logic.stageFor(h.logic.tally(fizzBuzz(h.get('result').value.split('\n').length||1),n).points)===0&&h.next()){}
+  // The actual stage is observable via the HUD, and environment can change mid-run.
+  h.fire('env-signal','click');
+  const played=h.get('result').value.split('\n').length;
+  h.fire('skip-button','click');
+  const expected=h.logic.tally(fizzBuzz(n),n,(i)=>i<played?'heat':'signal');
+  assert.equal(h.get('final-species').textContent,expected.appearance.mark+' '+expected.appearance.species);
+  assert.equal(h.get('result').value,fizzBuzz(n).join('\n'));
+});
+
+test('neutral phase names and on-demand branches replace predetermined fish-to-space route',()=>{
+  assert.ok(html.includes('第一相・萌生'));
+  assert.ok(html.includes('第二相・変容'));
+  assert.ok(html.includes('第三相・異相'));
+  assert.ok(html.includes('id="env-heat"'));
+  assert.ok(html.includes('id="env-signal"'));
+  assert.ok(!html.includes('STAGE 1 魚'));
+  assert.ok(!html.includes('魚から宇宙生物まで進化'));
 });
