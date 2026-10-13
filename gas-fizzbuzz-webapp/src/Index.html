@@ -585,7 +585,13 @@
         finalStatus.textContent=c.matured?'完全成熟 · 形態確定':'今回の育成を完了 · 進化途中';
         finalLineage.textContent='変容記録：'+c.lineages.slice(0,c.stage+1).map(function(branch,phase){
           var type=branch===null?UNFORMED:PILOT_LINEAGES[branch];
-          return STAGES[phase]+' '+type.mark+' '+type.names[phase];
+          var decision=c.history.filter(function(x){return x.phase===phase;})[0];
+          var note='';
+          if(decision){
+            var dominant=Object.keys(decision.exposure).sort(function(x,y){return decision.exposure[y]-decision.exposure[x];})[0];
+            note='〔'+ENVIRONMENTS[dominant]+'優勢〕';
+          }
+          return STAGES[phase]+' '+type.mark+' '+type.names[phase]+note;
         }).join(' → ')+' ／ 主特化：'+ORGAN_NAMES[a.organ.primary]+' ／ 副特化：'+ORGAN_NAMES[a.organ.secondary];
         finalSummary.textContent=c.matured?
           '完全成熟した個体の姿です。成熟後もFizzBuzzは最後まで出力しました。':
@@ -594,7 +600,7 @@
         finalCard.setAttribute('data-stage',String(c.stage));
         finalCard.setAttribute('data-mature',String(c.matured));
         resultHeaderState.textContent=c.matured?'EVOLUTION COMPLETE':'RUN COMPLETE';
-        resultRank.textContent=c.matured?'★★★ FULL EVOLUTION':'★ STAGE '+(c.stage+1)+' REACHED';
+        resultRank.textContent=c.matured?'★★★ FULL EVOLUTION':'★ 第'+(c.stage+1)+'相 到達';
         setLogOpen(false);setMode('result');
         renderScene(finalCtx,a,0,true);
         if(finalCard.scrollIntoView)finalCard.scrollIntoView({behavior:
