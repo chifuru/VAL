@@ -416,9 +416,10 @@
         });
       }
       function imprintName(imprint){
-        return imprint.lineage==='abyss'?'触肢':
-          imprint.lineage==='myth'?'翼紋':
-          imprint.lineage==='recursive'?'枝角':'背びれ';
+        var names={abyss:'触肢',myth:'翼紋',recursive:'枝角',
+          sail:'光帆',gravity:'重力環',crystal:'結晶棘',manyeyes:'側眼',
+          abyssshell:'深殻',parallel:'多腕',memory:'記憶甲',serpent:'蛇頭',solar:'日輪'};
+        return names[imprint.lineage]||'背びれ';
       }
 
       function appearanceFor(c) {
