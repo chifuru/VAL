@@ -111,6 +111,15 @@
     .food { padding:8px 5px; }
     .food b { font-size:1.03rem; }
     .controls { border-top:1px solid #334769; background:#111b34; }
+    .environment-panel { margin-top:17px; padding:13px; background:#0c1932; border:1px solid #435f81; border-radius:11px; }
+    .environment-title { display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; color:#e3d6ff; font-weight:800; font-size:.86rem; }
+    .environment-title span { color:#9db6cf; font-size:.70rem; font-weight:500; }
+    .environment-choices { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; margin-top:10px; }
+    .environment-choices button { padding:8px 3px; font-size:.75rem; background:#192b49; border:1px solid #425a7d; color:#bdd7ed; box-shadow:none; }
+    .environment-choices button[aria-pressed="true"] { border-color:#f6d591; background:#594369; color:#fff4d5; box-shadow:inset 0 0 0 1px #ffefae55; }
+    .environment-choices button:focus-visible { outline:3px solid #b5e4f9; outline-offset:2px; }
+    .environment-status { font-size:.73rem; color:#aad8d2; line-height:1.55; margin-top:8px; }
+    @media(max-width:480px) { .environment-choices { grid-template-columns:repeat(2,minmax(0,1fr)); } }
     .output-panel { background:#101931; border-color:#293d5e; }
     .output-panel textarea { background:#080f1f; border-color:#324461; font-size:.86rem; }
     /* Full-width result stage */
@@ -151,7 +160,7 @@
       <div>
         <div class="eyebrow">PIXEL PET // FIZZBUZZ LAB</div>
         <h1>FizzBuzz Creature</h1>
-        <p class="intro">数字を入れてスタート。1行ずつ進むFizzBuzzに合わせて、4種類の餌を食べ、初期DNAと餌の蓄積に応じて魚から宇宙生物まで進化します。</p>
+        <p class="intro">入力値は個体の素質。進化先は育成中の環境刺激と直近の餌が決めます。いつ環境を変えるかで、同じ個体から違う生命が生まれます。</p>
       </div>
       <div class="tag" id="mode-chip">● CREATURE LAB / READY</div>
     </header>
@@ -159,14 +168,14 @@
       <section class="panel room-panel" aria-label="生き物の成長と再生操作">
         <div class="panel-header"><strong>◉ CREATURE ARENA</strong><span class="room-label">DNA × FOUR FOODS</span></div>
         <div class="pet-screen">
-          <canvas id="creature" width="256" height="256" role="img" aria-label="餌に反応して成長するピクセル生き物"></canvas>
-          <span class="arena-overlay" aria-hidden="true">PIXEL EVOLUTION · LIVE FEED</span>
+          <canvas id="creature" width="256" height="256" role="img" aria-label="環境刺激と餌に反応して成長する有機的な生き物"></canvas>
+          <span class="arena-overlay" aria-hidden="true">MUTATION LAB · LIVE ECOLOGY</span>
           <span class="food-tip">FIZZ · BUZZ · FIZZBUZZ · NUMBER</span>
         </div>
         <div class="evolution-box">
-          <div class="evo-top"><div class="stage-name" id="stage-name">STAGE 1 魚</div><div id="food-total">たべたえさ 0</div></div>
+          <div class="evo-top"><div class="stage-name" id="stage-name">第一相・萌生</div><div id="food-total">たべたえさ 0</div></div>
           <div class="progress" role="progressbar" aria-label="次の進化までの進捗" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="growth-progress"><div id="growth-bar"></div></div>
-          <p id="next-stage">成長ポイント10で陸生動物に進化</p>
+          <p id="next-stage">成長ポイント10で最初の変容が確定</p>
           <p class="morphology-status" id="growth-form">成長形態 1 / 4</p>
           <div class="foods">
             <div class="food fizz"><span class="name">● FIZZ</span><b id="fizz-count">0</b></div>
@@ -194,6 +203,16 @@
               <option value="100">4×</option>
             </select>
           </div>
+          <section class="environment-panel" aria-label="進化する環境刺激">
+            <p class="environment-title">◈ 環境刺激を変える <span>育成中いつでも変更可能</span></p>
+            <div class="environment-choices" role="group" aria-label="環境刺激の選択">
+              <button type="button" id="env-tide" aria-pressed="true">〰 潮流</button>
+              <button type="button" id="env-heat" aria-pressed="false">🜂 熱波</button>
+              <button type="button" id="env-signal" aria-pressed="false">λ 電磁波</button>
+              <button type="button" id="env-void" aria-pressed="false">◌ 虚空</button>
+            </div>
+            <p id="environment-status" class="environment-status" aria-live="polite">現在の刺激：潮流。餌を食べるたび環境が記録されます。</p>
+          </section>
           <div id="error" role="alert" aria-live="assertive"></div>
         </div>
       </section>
@@ -217,7 +236,7 @@
         <div class="final-portrait">
           <div class="portrait-halo" aria-hidden="true"></div>
           <div class="portrait-podium" aria-hidden="true"></div>
-          <canvas id="final-creature" width="256" height="256" role="img" aria-label="育成終了時の生き物のピクセル肖像"></canvas>
+          <canvas id="final-creature" width="256" height="256" role="img" aria-label="育成終了時の生き物の有機描画肖像"></canvas>
         </div>
         <div>
           <p class="final-kicker" id="final-seed">個体 #—</p>
@@ -492,6 +511,22 @@
       var finalFoods=document.getElementById('final-foods');
       var state={lines:[],index:0,creature:initialCreature(Number(limitInput.value)||1),
         environment:'tide',active:false,busy:false,paused:false};
+      var environmentStatus=document.getElementById('environment-status');
+      var environmentButtons={
+        tide:document.getElementById('env-tide'),heat:document.getElementById('env-heat'),
+        signal:document.getElementById('env-signal'),void:document.getElementById('env-void')
+      };
+      function setEnvironment(name){
+        if(!Object.prototype.hasOwnProperty.call(ENVIRONMENTS,name))return;
+        state.environment=name;
+        Object.keys(environmentButtons).forEach(function(k){
+          environmentButtons[k].setAttribute('aria-pressed',String(k===name));
+        });
+        environmentStatus.textContent='現在の刺激：'+ENVIRONMENTS[name]+'。変更後の餌から進化判定に反映されます。';
+      }
+      Object.keys(environmentButtons).forEach(function(name){
+        environmentButtons[name].addEventListener('click',function(){setEnvironment(name);});
+      });
       var timer=null,nonce=0,effect=null,evolvedAt=-10000;
       function clearPlaybackTimer(){if(timer!==null){clearTimeout(timer);timer=null;}}
       function updateButtons(){
@@ -646,7 +681,7 @@
       speed.addEventListener('change',function(){
         if(state.active&&!state.paused){clearPlaybackTimer();timer=setTimeout(nextLine,Number(speed.value));}
       });
-      // All creatures and portraits use the same deterministic 32×32 pixel parts.
+      // Dynamic organisms use organic paths with a pixel fallback for limited contexts.
       var paintCtx=ctx;
       function pixel(x,y,color){
         x=Math.round(x);y=Math.round(y);
@@ -964,7 +999,7 @@
             membrane([[-12,-size*.55],[-36,-52-org.wings*14],[-2,-34],[30,-42],[21,-9]],aura,.80);
           }else if(lon==='abyss'){
             for(var i=0;i<3+tier;i++)tendril(-size+5,-12+i*8,-arm-(i%3)*7,(-2+i*13)+wave*6,2.2+org.tentacles*2,i,main);
-          }else{
+          }else if(lon==='recursive'){
             for(var recur=0;recur<2+tier;recur++)tendril(-size*.5,-size*.3,-size-18-recur*6,-31-recur*6,2.3,recur*.8,aura);
           }
           mass(0,0,size*1.18,size*.69,a.color,dark);
