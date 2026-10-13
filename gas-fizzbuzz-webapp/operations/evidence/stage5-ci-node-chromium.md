@@ -45,3 +45,9 @@
 5. 本記録は最初の全検証PASS対象の**実装コミット c37e107**に紐付く。これ以降の文書反映コミットの最新runを別途確認してからmainへ統合する。
 
 D1.3.1〜D1.3.3の該当検証フラグは、実行済みゲートだけ限定して解消候補。GAS D1.4、原画/完成画質は保留。次: 工程6のManifest最終突合と残存ゲート管理。
+
+## 最終PR HEAD・mainマージ追補（2026-10-14）
+
+- PR #1最終HEAD `224802aa7511d26bd5036c2b600021ed556f7b85` に対し、push run https://github.com/chifuru/VAL/actions/runs/38486209105 とPR run https://github.com/chifuru/VAL/actions/runs/38486213825 のGitHub Actions結論はともに **success**。実装テスト/Chromiumを再実行した最終HEADの証跡である。
+- PR #1はmergeコミット `1ded76c1109e6b0f59fd70fe04f3429294d20b9a` でmainに統合済み。初回c37e107への検証だけで最終HEADが通過したと主張しない。
+- この統合は草案ベースラインの保存であり、元9PNG/改善24WebP/旧12真正器官の画質認定や実GASの公開・実通信を意味しない。工程6は既存E15をManifest構造索引に反映。
