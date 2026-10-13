@@ -479,3 +479,11 @@ test('growth HUD explicitly labels morphology tier and current family',()=>{
   assert.match(h.get('growth-form').textContent,/成長形態 [1-4] \/ 4/);
   assert.match(h.get('growth-form').textContent,/(流線系|装甲系|知性系)/);
 });
+
+
+test('initial screen previews the DNA for the default numeric input',()=>{
+  const h=harness({limit:17});
+  assert.match(h.get('growth-form').textContent,/個体 #17/);
+  assert.equal(h.get('result').value,'');
+  assert.equal(h.get('final-card').hidden,true);
+});
