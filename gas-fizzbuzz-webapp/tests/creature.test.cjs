@@ -85,3 +85,12 @@ test('independent organs support LV0->LV1->LV2->LV3 at XP 0/1/6/16',()=>{
   assert.deepEqual([0,1,5,6,15,16,17].map(e.levelFor),[0,1,1,2,2,3,3]);
   assert.equal(e.PART_DEFINITIONS.valis.length,6);assert.equal(e.PART_DEFINITIONS.antimeme.length,5);
 });
+
+test('guided environment preset reaches all fourteen branches by ordinary niche scoring',()=>{
+  for(const family of e.LINEAGES){
+    let state=e.initial(500);
+    for(const line of e.linesFor(500))state=e.step(state,line,e.plannedEnvironment(state,family.id));
+    assert.equal(state.history[0].lineage,family.id);
+    assert.equal(state.history[1].lineage,family.id);
+  }
+});

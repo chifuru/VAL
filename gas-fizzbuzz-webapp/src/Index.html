@@ -25,6 +25,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
 .phase-portrait{display:block;width:100%;height:112px;object-fit:contain;border:1px solid #233b59;border-radius:6px;margin:7px 0;background:#061225}
 
 .guide-switch{max-height:350px;overflow:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.guide-switch button{min-width:0;text-align:left;font-size:11px}.guide-switch #showLiveBtn{grid-column:span 2}
+
+#growSelectedGuideBtn{grid-column:span 2;background:linear-gradient(90deg,#274670,#17243d);border-color:#6c8abe;text-align:center}
 </style></head>
 <body><div class="layout">
 <header class="topbar"><div class="brand"><div class="brand-mark">⌁</div><div><h1>VALIS</h1><small>異界の生物観測記録 · LIFE OBSERVATION</small></div></div><nav class="top-links" aria-label="ページ内リンク"><a class="active" href="#creatureLab">育成 / RAISE</a><a href="#specimens">図鑑 / ARCHIVE</a><a href="#history">進化系統 / EVOLUTION</a></nav><div class="date">IMAGE COMPOSITE · PROTOTYPE 4 / 14 LINEAGES</div></header>
@@ -41,7 +43,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
 <section class="panel history" id="history"><div class="panel-header">◇ 進化の履歴 / EVOLUTION HISTORY <span class="en">LIVE LINEAGE</span></div><div class="phase-deck" id="evolutionHistory"></div><div class="hint">系統は出生時に固定されません。進化した時の環境と餌によって変わり、既存パーツの画像は継承されます。</div></section>
 </main>
 <aside class="stack" id="specimens"><section class="panel"><div class="panel-header">◈ PARTS / 発達器官 <span class="en" id="foodTotal">0</span></div><div class="content"><div class="phenotype-list" id="partList"></div><div class="env-note">成長Lv：1 / 6 / 16 XP。透過画像はLv別に差し替わります。</div></div></section>
-<section class="panel"><div class="panel-header">⌁ SPECIES CODEX / 標本見本</div><div class="content"><div class="guide-switch" id="guideSwitch"><button class="guide-option" data-guide="valis">⌁ VALIS異化通信生命</button><button class="guide-option" data-guide="antimeme">∅ 反記銘生命</button><button class="secondary" id="showLiveBtn">● 育成中の個体へ戻る</button></div><div class="sub-label" style="margin-top:15px">パーツ画像の成長レベル（図鑑見本のみ）</div><input id="levelPicker" class="range" type="range" min="0" max="3" value="3" step="1"><p class="small">異化2系統はLv0〜3の器官画像を個別合成。旧12系統はモック原画から抽出した肖像レイヤーによる暫定描画です。</p></div></section>
+<section class="panel"><div class="panel-header">⌁ SPECIES CODEX / 標本見本</div><div class="content"><div class="guide-switch" id="guideSwitch"><button class="guide-option" data-guide="valis">⌁ VALIS異化通信生命</button><button class="guide-option" data-guide="antimeme">∅ 反記銘生命</button><button class="secondary" id="showLiveBtn">● 育成中の個体へ戻る</button><button class="primary" id="growSelectedGuideBtn">✧ 選択系統の環境で育成</button></div><div class="sub-label" style="margin-top:15px">パーツ画像の成長レベル（図鑑見本のみ）</div><input id="levelPicker" class="range" type="range" min="0" max="3" value="3" step="1"><p class="small">異化2系統はLv0〜3の器官画像を個別合成。旧12系統はモック原画から抽出した肖像レイヤーによる暫定描画です。</p></div></section>
 <section class="panel"><div class="panel-header">◇ FOURTH PHASE / 未解放</div><div class="content"><div class="codex-card"><span class="wide">第四相の候補</span><span id="finalName">ヴェイル＝シオン</span><br><small>名称候補のみ。解放条件・実装は未確定。</small></div></div></section>
 <section class="panel"><div class="panel-header">◌ OBSERVATION / 設定</div><div class="content"><label class="small"><input id="motionToggle" type="checkbox" checked> 呼吸・微光・衛片の待機アニメ</label><p class="small">低モーション設定を尊重します。進化変形は毎フレーム行いません。</p></div></section></aside>
 </div>
@@ -163,6 +165,16 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
     });
     return best.id;
   }
+  function plannedEnvironment(state,targetId){
+    var target=LINEAGE_BY_ID[targetId];if(!target)throw Error('存在しない系統');
+    var keys=['tide','heat','signal','void'],t=state.situation.steps+1,ex=state.situation.exposure;
+    var best=keys[0],deficit=-Infinity;
+    keys.forEach(function(k,i){
+      var gap=t*target.niche[i]-(ex[k]||0);
+      if(gap>deficit){deficit=gap;best=k;}
+    });
+    return best;
+  }
   function step(previous, line, env){
     if(!ENV.includes(env))throw Error('不正な環境');
     var kind=kindFor(line);
@@ -207,7 +219,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
     return state;
   }
   return{PHASES,PART_DEFINITIONS,LINEAGES,LINEAGE_BY_ID,THRESHOLDS,ENV,fmtFizzBuzz,linesFor,kindFor,modifierFor,stageFor,
-    dnaFor,initial,levelFor,phenotype,chooseLineage,step,runAll};
+    dnaFor,initial,levelFor,phenotype,chooseLineage,plannedEnvironment,step,runAll};
 });
 </script><script>(function(){
 'use strict';
@@ -217,7 +229,7 @@ var canvas=$('creatureCanvas'),ctx=canvas.getContext('2d');
 var mediaReduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var cache=new Map(),loaded=false,stars=[],ticker=null,rafHandle=null,preview=null,activeLineage='valis';
 var specimen=E.initial(480),seed=480,lines=E.linesFor(seed),playing=false,paused=false,complete=false,index=0,busy=false,requestToken=0;
-var environment='signal',tempo=50,showFlicker=true,phaseSnapshots=[];
+var environment='signal',autoClimate=null,tempo=50,showFlicker=true,phaseSnapshots=[];
 var palettes={valis:['#96e3ff','#efd6ff','#ffcf79'],antimeme:['#86cfff','#b6a6df','#e4edfa']};
 var anchors={head:[255,353],eye:[247,390],mouth:[280,421],dorsal:[493,280],shoulder:[405,355],flank:[484,460],chest:[442,439],forelimb:[419,504],hindlimb:[558,509],tailBase:[692,425],tailTip:[796,415],outerOrbit:[793,210]};
 var dims={
@@ -253,7 +265,7 @@ function reset(n){
  updateUI();scheduleFrame();
 }
 function stop(){if(ticker){clearInterval(ticker);ticker=null;}playing=false;paused=false;}
-function selectEnvironment(env){environment=env;document.querySelectorAll('[data-env]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.env===env)));
+function selectEnvironment(env,keepAuto){if(!keepAuto)autoClimate=null;environment=env;document.querySelectorAll('[data-env]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.env===env)));
  $('environmentName').textContent={signal:'電磁波',void:'虚空',heat:'熱波',tide:'潮流'}[env];}
 function appendLine(line){
  const el=$('fizzbuzzLog');
@@ -261,7 +273,9 @@ function appendLine(line){
  if(index%4===0)el.scrollTop=el.scrollHeight;
 }
 function advance(line){
-   var previous=specimen;specimen=E.step(previous,line,environment);
+   var previous=specimen;
+   if(autoClimate)selectEnvironment(E.plannedEnvironment(previous,autoClimate),true);
+   specimen=E.step(previous,line,environment);
    if(specimen.stage!==previous.stage)phaseSnapshots[previous.stage]=previous;
    phaseSnapshots[specimen.stage]=specimen;
  }
@@ -274,7 +288,7 @@ function feedOne(){
 }
 function startPlayback(rows){
   lines=rows;busy=false;playing=true;paused=false;complete=false;
-  $('notice').textContent='受信したFizzBuzz原文をそのまま再生します。環境の履歴は次に食べる餌に適用されます。';
+  $('notice').textContent=autoClimate?'系統環境プリセット：環境刺激の比率を自動調整します。進化先の選択そのものは従来の環境履歴判定です。':'受信したFizzBuzz原文をそのまま再生します。環境の履歴は次に食べる餌に適用されます。';
   ticker=setInterval(()=>{if(!paused)feedOne();},tempo);
   updateUI();
 }
@@ -310,7 +324,7 @@ function run(){
  }else{
    // Explicit local preview mode; no false assertion that GAS was contacted.
    startPlayback(E.linesFor(n));
-   $('notice').textContent='ローカルプレビュー：GASサーバーには接続していません。';
+   $('notice').textContent='ローカルプレビュー：GASサーバーには接続していません。'+(autoClimate?' 選択系統の環境比率で育成中。':'');
  }
 }
 
@@ -519,8 +533,11 @@ function setup(){
  document.querySelectorAll('[data-env]').forEach(b=>b.addEventListener('click',()=>selectEnvironment(b.dataset.env)));
  document.querySelectorAll('[data-guide]').forEach(b=>b.addEventListener('click',()=>showGuide(b.dataset.guide)));
  $('showLiveBtn').addEventListener('click',showLive);
+ $('growSelectedGuideBtn').addEventListener('click',function(){
+   if(!preview)return;autoClimate=preview;run();
+ });
  $('levelPicker').addEventListener('input',()=>{if(preview){updateUI();render();}});
- $('runButton').addEventListener('click',run);
+ $('runButton').addEventListener('click',function(){autoClimate=null;run();});
  $('pauseButton').addEventListener('click',()=>{paused=!paused;updateUI();});
  $('skipButton').addEventListener('click',skip);
  $('resetButton').addEventListener('click',()=>reset(Math.floor(Number($('seedInput').value)||480)));
