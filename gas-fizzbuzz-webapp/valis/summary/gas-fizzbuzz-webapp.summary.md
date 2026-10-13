@@ -5,19 +5,19 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 既存36ノードは承認済みを維持。次期試作では状況依存の進化選択・中立的3相名・環境4ボタン・交差変容を実装。E7は草案（V8モック61件成功、GAS実機未検証）
+current_status: 承認済みの基準36ノードを維持。次期試作で旧相の特徴・器官成長量を継承し、変容/相内発達を時間補間。新規E8は草案（V8モック70件成功・0失敗、実GAS未検証）
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
 initial_registration_previous_evidence: E3, E4
-initial_registration_this_change: E7（新しい局所環境・交差変容の独立証跡、草案）
-manifest_reflection_this_change: A1.2/A1.4/A1.5/A1.6, B1.2/B1.4.2/B1.5, C1.3/C1.4.3/C1.5, D1.2/D1.3の次期未承認追記、src/Index.html, tests/creature.test.cjs, README.md, E7
-last_reflected_flow: FLOW-06 既存承認版の差分探索 → FLOW-07/08 環境依存の進化実装・V8モック61件検証 → FLOW-05 E7とManifest反映（正式承認状態は不変）
-unresolved_summary: 既存36ノードは承認済みのまま、E6/E7は草案。局所環境による進化分岐・中立的な3相名は今回の未承認試作。V8モック61件成功に限る。実Node npm test・GAS実機/ブラウザ描画/操作/FPS・モバイル・アクセシビリティは未検証。12全系統と第4相は未実装。
+initial_registration_this_change: E8（器官継承と旧/新形態の滑らかな変容に対する独立証跡、草案）
+manifest_reflection_this_change: A1.4/A1.5/A1.6, B1.4.2/B1.5, C1.3/C1.4.3/C1.5, D1.2/D1.3の次期未承認追記、src/Index.html, tests/creature.test.cjs, README.md, E8
+last_reflected_flow: FLOW-06 承認済み基準との差分探索 → FLOW-07/08 器官継承・旧新形態クロスフェード実装、V8モック70件 → FLOW-05 E8/Manifest反映（正式承認状態不変）
+unresolved_summary: 既存36ノードは承認済み、E6/E7/E8は草案。最新試作は器官の造形継承と1100msの相移行/560msの相内発達補間を追加。V8モック70件成功に限る。実Node npm test・GAS実機・ブラウザ実描画/FPS/アクセシビリティ・モバイル未検証。12全系統と第4相は未実装。
 
 ## Node構造・参照要約
 
-親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6/E7は検証版ごとに独立した起点。
+親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3/E4/E5/E6/E7/E8は検証版ごとに独立した起点。
 層間関係: derived_from / implements / verifies / evidence_for による意味接続のみ（層間parent_idは禁止）。
 A/B/C/D/Eを機械的に同数へ揃えず、実装・検証・証跡の独立単位に応じて分割する。
 
@@ -335,6 +335,14 @@ E7:（外部参照 / 状況依存分岐・交差変容・中立的3相のV8モ�
 	実態:
 		状態: 草案。実Node/GAS/ブラウザ実機・視覚品質/FPS/アクセシビリティ未検証。旧E1～E6は対象版別の記録。次FLOW候補: FLOW-08。
 
+E8:（外部参照 / 継承器官の維持と段階的変容のV8モック証跡）［草案］
+	構成（要素・関係）:
+		Node File: valis/nodes/E/E8.md。主所属: E層。独立起点、parent_idなし。evidence_for: D1.1/D1.2/D1.3, C1.3/C1.4.3/C1.5。
+	ロジック:
+		GitHub src/test blobを対象にV8互換モック70件成功/0失敗。過去2相の造形記憶、器官強度の最低継承、継承器官のCanvas描画、旧新形態約1100ms/相内約560ms補間、成熟固定・出力N件不変を確認。
+	実態:
+		状態: 草案。実Node/GAS/ブラウザ実描画・FPS・アクセシビリティ未検証。E1～E7はそれぞれ旧対象版の証跡。次FLOW候補: FLOW-08。
+
 ## FLOW-09 状態変更決定 / FLOW-05 正式反映（2026-10-13）
 
 - **対象範囲**: A層7、B層9、C層10、D層5、E層5、計36件。いずれも既存Node Fileの「草案→承認済み」。承認済みへの直接遷移はFLOW-09の遷移表で許容され、必要なユーザーの明示承認は今回の「すべて一旦、承認で」で確認。
@@ -345,6 +353,18 @@ E7:（外部参照 / 状況依存分岐・交差変容・中立的3相のV8モ�
 - **残存処理フラグ**: Node.jsでの実 `npm test`、GAS HtmlService/実通信、ブラウザのピクセル表示/モバイル/アクセシビリティ、進化造形の人間目視評価は未実施で継続。承認を理由に自動解消しない。
 - **将来案の切り分け**: ユーザーは「段階ごとに大きな変化と分岐」および「終了時に数値が条件を超えた場合、第4段階を最終結果画面だけで提示して終了」を**承認後に詰める方針**。条件値・N/Pのどちらを判定するか・第4段階の外見・枝の数などは未確定。今回のNode状態変更に新仕様を混入させない。
 - **状態遷移決定**: FLOW-09 確定、FLOW-05 反映。全36ノードは正式状態「承認済み」。次FLOW候補は必要な時点でFLOW-04（別途仕様検討）/FLOW-06（承認済み核の影響探索）/FLOW-08（実機検証）。承認済み≠凍結。
+
+## 今回の差分と処理区別（造形の記憶・変容の連続性）
+
+- **既存承認状態**: A/B/C/D/E1～E5の36ノードは承認済みを維持。今回変更した関連A/B/C/D Node Fileには『次期進化の造形連続性（未承認）』を追加しただけであり、承認済みの旧ベースラインと意味を区別する。
+- **Manifest初期登録**: E8を最新ソース/test版に対応する独立した草案証跡として登録。E6/E7は旧試作版の記録、E1～E5は各過去版の承認済み証跡。合計39ノード（36承認済み/3草案）。
+- **主な変更理由**: 相が変わるたびに古い外見の要素が消え、別個体に突然見える問題を修正。状況から進化先を自由に選ぶロジックと、器官/色/姿の個体継承を独立した責務として扱う。
+- **A/B反映**: A1.4/A1.5/A1.6、B1.4.2/B1.5に『進化先は状況決定、旧相の身体特徴は引き継ぐ』『前相の背びれ/触肢/翼紋/枝角/体色を描画』『相の移行や発達tierを時間補間』を追記。
+- **C反映**: C1.3/C1.4.3/C1.5へimprintFor・heritage（最大2相）、前相の器官量の最低72%/さらに古い相35%、器官を現身体へ接続したCanvas描画、変容1100ms・発達tier560msのクロスフェード、最終画面/低モーション時は継承後の姿のみ表示する旨を追記。
+- **src/tests/README**: src/Index.htmlにhereditary imprint、形態の中間描画、過去器官の新体への接続を実装。tests/creature.test.cjsを61件に増やし、tests/fizzbuzz.test.cjs 9件と合わせて70件をV8互換モックで試験。READMEに仕様上の限界を記録。
+- **守る条件**: Code.gsやサーバーテストを変更せず、FizzBuzzのN行文字列と順序/15・3・5の優先順位を維持。育成中の環境刺激による交差進化は継続。完全成熟で外見を固定。第4相と他9系統は未実装。
+- **検証境界**: E8は指定GitHub blobへのV8モック70件成功/失敗0であり、実Node CLI/npm test、GAS/ブラウザ実画面、滑らかな造形継承の体感品質、FPS/モバイル/アクセシビリティの根拠ではない。
+- **NEXT**: FLOW-08で実Node/実ブラウザ/GASの見た目を評価。必要なら真の骨格・メッシュ変形をFLOW-04で検討する。今回の次期試作を承認済みにするFLOW-09は実行しない。
 
 ## 今回の差分と処理区別（局所環境による交差変容）
 
