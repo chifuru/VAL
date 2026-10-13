@@ -11,7 +11,7 @@ initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
 initial_registration_previous_evidence: E3, E4
 initial_registration_this_change: E12（14系統画像合成本流統合と環境誘導の独立E層限定証跡、草案）
-manifest_reflection_this_change: C1.4.3/C1.5、D1.2/D1.3の画像合成v4未承認差分追記、src/Index.htmlとtests/creature.test.cjs置換、tests/fizzbuzz.test.cjsのUI参照修正、旧版ソース/テストのアーカイブ、READMEとdesign/image-composite-v41-integration.md、E12の草案証跡。
+manifest_reflection_this_change: C1.4.3/C1.5、D1.2/D1.3の画像合成v4未承認差分追記、src/Index.htmlとtests/creature.test.cjs置換、tests/fizzbuzz.test.cjsのUI参照修正、旧版ソース/テストのアーカイブ、READMEとdesign/image-composite-v41-integration.md、E12の草案証跡。ビルド済みHTMLから抽出したsrc/composite/の編集用engine/app/CSS/templateとdesign/image-composite-v41-assets.jsonも追加（実行HTMLのBlobは不変）。
 last_reflected_flow: FLOW-06 承認済み基準・v3成果確認 → FLOW-04 新版14系統画像合成/14系統図鑑と環境誘導・旧版アーカイブ → FLOW-07/08 ローカルNode31件/Chromium14系統と環境誘導・GitHub正本V8互換22件 → FLOW-05 E12とManifest反映。
 unresolved_summary: 登録43ノード（36承認済み・E6〜E12の7草案）。GitHub本流Index.htmlは35LV画像パーツと24旧系統暫定肖像を使う画像合成v4.1。サーバーCode.gsとCORE3定義は不変。実Node31/31はローカル成果物、正本GitHub取得後V8互換22/22、Chromium表示/環境誘導の限定テスト成功。実GAS HtmlService配信/速度・14系統完全な器官アトラス・旧モック背景残留の完全除去・第四相は未検証／未実装。ユーザーは工程を承認したが限定E証跡の状態は草案。
 
