@@ -25,6 +25,20 @@
     .pet-screen::before { content:""; position:absolute; inset:0; pointer-events:none; opacity:.24; background:repeating-linear-gradient(transparent 0 5px,#070c1e 6px 7px); }
     .pet-screen::after { content:""; position:absolute; left:14%; right:14%; bottom:30px; height:4px; background:#657bb5; box-shadow:0 6px 0 #263560; }
     #creature { width:min(100%,310px); aspect-ratio:1; height:auto; z-index:1; image-rendering:pixelated; }
+    .final-card { margin-top:22px; }
+    .final-card[hidden] { display:none; }
+    .final-layout { display:grid; grid-template-columns:minmax(220px,.9fr) minmax(260px,1.1fr); gap:20px; align-items:center; padding:20px; }
+    .final-portrait { display:flex; align-items:center; justify-content:center; min-height:270px; border:2px solid #5c72a4; border-radius:12px; background:radial-gradient(circle at 50% 42%,#3b4c82,#101831 74%); }
+    #final-creature { width:min(100%,280px); aspect-ratio:1; height:auto; image-rendering:pixelated; }
+    .final-kicker { margin:0 0 8px; color:var(--lime); font-size:.76rem; letter-spacing:.1em; }
+    .final-species { font-size:clamp(1.35rem,3vw,2rem); font-weight:900; margin:0 0 7px; line-height:1.3; }
+    .final-status { color:var(--yellow); font-size:.83rem; font-weight:800; margin:0 0 14px; }
+    .final-summary { color:var(--muted); font-size:.79rem; line-height:1.7; }
+    .final-stats { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:16px 0 0; }
+    .final-stats div { padding:9px 10px; border:1px solid #4c6090; border-radius:8px; background:#0e1730; }
+    .final-stats dt { font-size:.69rem; color:var(--muted); margin-bottom:5px; }
+    .final-stats dd { margin:0; font-size:.92rem; font-weight:800; overflow-wrap:anywhere; }
+    .final-swatch { display:inline-block; width:13px; height:13px; border:1px solid #fff8; margin-right:6px; vertical-align:-1px; }
     .food-tip { position:absolute; bottom:8px; font-size:.67rem; color:#bbcaf0; z-index:1; }
     .evolution-box { padding:16px 18px 20px; }
     .evo-top { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:9px; }
@@ -63,7 +77,7 @@
     .legend { display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); font-size:.72rem; margin-top:15px; }
     .legend b { color:var(--ink); }
     footer { color:#8295bf; font-size:.7rem; margin-top:29px; text-align:center; }
-    @media(max-width:810px) { .workspace { grid-template-columns:1fr; } .mast { flex-direction:column; } .pet-screen { min-height:274px; } textarea { height:300px; } }
+    @media(max-width:810px) { .final-layout { grid-template-columns:1fr; } .workspace { grid-template-columns:1fr; } .mast { flex-direction:column; } .pet-screen { min-height:274px; } textarea { height:300px; } }
     @media(max-width:410px) { .form-row { flex-direction:column; } .form-row button { width:100%; } .transport label { margin-left:0; } .panel-header { padding:11px 13px; } }
     @media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none !important; animation:none !important; } }
   </style>
@@ -131,6 +145,26 @@
         </div>
       </section>
     </div>
+    <section class="panel final-card" id="final-card" hidden aria-label="今回の生き物の最終形態" aria-live="polite">
+      <div class="panel-header"><strong>FINAL FORM / 今回の最終形態</strong><span>育成結果</span></div>
+      <div class="final-layout">
+        <div class="final-portrait">
+          <canvas id="final-creature" width="256" height="256" role="img" aria-label="育成終了時の生き物のピクセル肖像"></canvas>
+        </div>
+        <div>
+          <p class="final-kicker" id="final-seed">個体 #—</p>
+          <h2 class="final-species" id="final-species">—</h2>
+          <p class="final-status" id="final-status">—</p>
+          <p class="final-summary" id="final-summary"></p>
+          <dl class="final-stats">
+            <div><dt>到達段階</dt><dd id="final-stage">—</dd></div>
+            <div><dt>成長ポイント</dt><dd id="final-points">—</dd></div>
+            <div><dt>体色</dt><dd><span class="final-swatch" id="final-color"></span><span id="final-color-code">—</span></dd></div>
+            <div><dt>餌の内訳（青/黄/紫/数字）</dt><dd id="final-foods">—</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
     <footer>GAS HTML SERVICE · NO EXTERNAL ASSETS · NO DEPLOYMENT FROM SOURCE REPOSITORY</footer>
   </main>
   <script>
@@ -247,6 +281,18 @@
       var specialCount=document.getElementById('special-count');
       var numberCount=document.getElementById('number-count');
       var canvas=document.getElementById('creature'),ctx=canvas.getContext('2d');
+      var finalCard=document.getElementById('final-card');
+      var finalCanvas=document.getElementById('final-creature');
+      var finalCtx=finalCanvas.getContext('2d');
+      var finalSeed=document.getElementById('final-seed');
+      var finalSpecies=document.getElementById('final-species');
+      var finalStatus=document.getElementById('final-status');
+      var finalSummary=document.getElementById('final-summary');
+      var finalStage=document.getElementById('final-stage');
+      var finalPoints=document.getElementById('final-points');
+      var finalColor=document.getElementById('final-color');
+      var finalColorCode=document.getElementById('final-color-code');
+      var finalFoods=document.getElementById('final-foods');
       var state={lines:[],index:0,creature:initialCreature(1),active:false,busy:false,paused:false};
       var timer=null,nonce=0,effect=null,evolvedAt=-10000;
       function clearPlaybackTimer(){if(timer!==null){clearTimeout(timer);timer=null;}}
@@ -276,7 +322,7 @@
         clearPlaybackTimer();
         state.lines=[];state.index=0;state.active=false;state.paused=false;state.busy=false;
         state.creature=initialCreature(seed||1);effect=null;evolvedAt=-10000;
-        result.value='';currentLine.textContent='—';statusBox.textContent='準備中';
+        result.value='';currentLine.textContent='—';statusBox.textContent='準備中';finalCard.hidden=true;
         updateGrowth();updateButtons();
       }
       function feed(line){
@@ -290,6 +336,25 @@
         clearPlaybackTimer();state.active=false;state.paused=false;
         statusBox.textContent=state.lines.length+' 行 再生完了';
         updateButtons();updateGrowth();
+        presentFinal();
+      }
+      function presentFinal(){
+        var c=state.creature,f=c.foods,a=c.appearance;
+        finalSeed.textContent='個体 #'+c.seed;
+        finalSpecies.textContent=a.species;
+        finalStage.textContent=STAGES[c.stage];
+        finalPoints.textContent=c.points.toFixed(2)+' / 100 P';
+        finalColor.style.backgroundColor=a.color;
+        finalColorCode.textContent=a.color.toUpperCase();
+        finalFoods.textContent=[f.fizz,f.buzz,f.fizzbuzz,f.number].join(' / ');
+        finalStatus.textContent=c.matured?'完全成熟 · 形態確定':'今回の育成を完了 · 進化途中';
+        finalSummary.textContent=c.matured?
+          '完全成熟した個体の姿です。成熟後もFizzBuzzは最後まで出力しました。':
+          'N行の出力を終えた時点の姿です。途中段階でも失敗ではなく、今回の最終形態として記録します。';
+        finalCard.hidden=false;
+        renderScene(finalCtx,a,0,true);
+        if(finalCard.scrollIntoView)finalCard.scrollIntoView({behavior:
+          window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
       }
       function nextLine(){
         timer=null;if(!state.active||state.paused)return;
@@ -354,67 +419,165 @@
       speed.addEventListener('change',function(){
         if(state.active&&!state.paused){clearPlaybackTimer();timer=setTimeout(nextLine,Number(speed.value));}
       });
+      // All creatures and portraits use the same deterministic 32×32 pixel parts.
+      var paintCtx=ctx;
       function pixel(x,y,color){
+        x=Math.round(x);y=Math.round(y);
         if(x<0||y<0||x>=32||y>=32)return;
-        ctx.fillStyle=color;ctx.fillRect(Math.round(x)*8,Math.round(y)*8,8,8);
+        paintCtx.fillStyle=color;paintCtx.fillRect(x*8,y*8,8,8);
       }
       function block(x,y,w,h,color){
         for(var yy=0;yy<h;yy++)for(var xx=0;xx<w;xx++)pixel(x+xx,y+yy,color);
       }
-      function sprite(time){
-        var a=state.creature.appearance,stage=a.stage;
-        var w=clamp(Math.round((9+a.body*3)*a.volume),8,23);
-        var h=clamp(Math.round((7+(1-a.body)*4)*a.volume),8,21);
-        var left=Math.floor((32-w)/2),top=clamp(15-Math.floor(h/2)+Math.round(Math.sin(time/430)*.35),3,19);
-        var shade='#26365c',outline='#1a2544';
-        if(stage===0){
-          // Fish tail and dorsal fin; DNA determines tail length and size.
-          var tail=3+Math.floor(a.appendage*4);
-          for(var fy=-4;fy<=4;fy++)block(left-tail+Math.abs(fy),top+Math.floor(h/2)+fy,Math.max(1,tail-Math.abs(fy)),1,a.color);
-          for(var fi=0;fi<4;fi++)block(left+3+fi,top-1-fi,Math.max(1,4-fi),1,a.color);
-          if(a.family===0)block(left-tail-2,top+Math.floor(h/2)-1,2,3,a.color);
-          if(a.family===1)for(var spike=0;spike<4;spike++)pixel(left+2+spike*3,top-2,'#d4f2e4');
-          if(a.family===2)block(left+Math.floor(w/2),top-4,2,4,'#b1cfff');
-        } else if(stage===1){
-          // Terrestrial legs and inherited tail.
-          for(var leg=0;leg<2;leg++)block(left+Math.floor(w*(.2+leg*.5)),top+h-2,3,5,shade);
-          block(left-3-Math.floor(a.appendage*3),top+Math.floor(h*.65),5,2,a.color);
-          block(left+2,top-3,3,4,a.color);block(left+w-5,top-3,3,4,a.color);
-          if(a.family===0){block(left-5,top+3,5,3,a.color);block(left+w,top+3,5,3,a.color);}
-          if(a.family===1){for(var shell=0;shell<3;shell++)block(left+2+shell*4,top-2,3,2,'#e6dfb9');}
-          if(a.family===2){block(left-2,top+Math.floor(h/2),3,3,a.color);block(left+w-1,top+Math.floor(h/2),3,3,a.color);}
+      function ellipse(cx,cy,rx,ry,color){
+        for(var y=Math.floor(cy-ry);y<=Math.ceil(cy+ry);y++){
+          for(var x=Math.floor(cx-rx);x<=Math.ceil(cx+rx);x++){
+            if(Math.pow((x-cx)/rx,2)+Math.pow((y-cy)/ry,2)<=1)pixel(x,y,color);
+          }
+        }
+      }
+      function polygon(vertices,color){
+        for(var y=0;y<32;y++)for(var x=0;x<32;x++){
+          var inside=false;
+          for(var i=0,j=vertices.length-1;i<vertices.length;j=i++){
+            var a=vertices[i],b=vertices[j],yy=y+.5,xx=x+.5;
+            if((a[1]>yy)!==(b[1]>yy)&&xx<(b[0]-a[0])*(yy-a[1])/(b[1]-a[1])+a[0])inside=!inside;
+          }
+          if(inside)pixel(x,y,color);
+        }
+      }
+      function shade(color,target,amount){
+        var a=[1,3,5].map(function(i){return parseInt(color.slice(i,i+2),16);});
+        var b=[1,3,5].map(function(i){return parseInt(target.slice(i,i+2),16);});
+        return rgb(a[0]+(b[0]-a[0])*amount,a[1]+(b[1]-a[1])*amount,a[2]+(b[2]-a[2])*amount);
+      }
+      function eye(x,y,size){
+        block(x-1,y-1,size+2,size+2,'#19233e');
+        block(x,y,size,size,'#effaff');
+        pixel(x+size-1,y+size-1,'#18223c');
+        pixel(x,y,'#ffffff');
+      }
+      function marks(cx,cy,rx,ry,a,light){
+        var dots=1+Math.floor(a.detail*13),seed=Math.floor(a.skin*103)+a.family*17;
+        for(var i=0;i<dots;i++){
+          var xx=((i*7+seed*3)%23-11)/12,yy=((i*11+seed)%17-8)/10;
+          if(xx*xx+yy*yy<.75)pixel(cx+xx*rx,cy+yy*ry,light);
+        }
+      }
+      function sprite(a,time,still){
+        var ink='#17223c',lit=shade(a.color,'#ffffff',.32),shadow=shade(a.color,'#1b2550',.35);
+        var growth=a.volume-1; // bounded by mature P=100
+        var bob=still?0:Math.round(Math.sin(time/430)*.65);
+        var trait=a.appendage,wide=a.body;
+        if(a.stage===0){
+          // Side-facing fish: readable forked tail, dorsal fin, gill and one forward-facing eye.
+          var cx=17,cy=16+bob,rx=7+Math.round(wide*2+growth*1.5),ry=4+Math.round((1-wide)*2+growth*.6);
+          var tail=4+Math.round(trait*3);
+          polygon([[cx-rx+2,cy],[cx-rx-tail,cy-5],[cx-rx-tail+1,cy],[cx-rx-tail,cy+6]],ink);
+          polygon([[cx-rx+1,cy],[cx-rx-tail+1,cy-4],[cx-rx-tail+2,cy],[cx-rx-tail+1,cy+5]],shadow);
+          polygon([[cx-4,cy-ry+1],[cx-1,cy-ry-5],[cx+3,cy-ry+1]],ink);
+          polygon([[cx-3,cy-ry+1],[cx-1,cy-ry-3],[cx+1,cy-ry+1]],a.color);
+          if(a.family===0)polygon([[cx-3,cy+ry-1],[cx-6,cy+ry+4],[cx+1,cy+ry]],lit);
+          if(a.family===1)for(var sp=0;sp<3;sp++)block(cx-4+sp*4,cy-ry-2,2,3,lit);
+          if(a.family===2)block(cx-1,cy-ry-4,2,4,'#b6f1fa');
+          ellipse(cx,cy,rx+1,ry+1,ink);
+          ellipse(cx,cy,rx,ry,a.color);
+          ellipse(cx+1,cy-1,rx-2,Math.max(1,ry-2),lit);
+          ellipse(cx,cy+Math.max(1,ry-2),rx-2,2,shadow);
+          polygon([[cx-4,cy+1],[cx-1,cy+1],[cx-3,cy+ry+2],[cx-7,cy+ry+3]],ink);
+          polygon([[cx-4,cy+1],[cx-1,cy+2],[cx-4,cy+ry+1]],lit);
+          marks(cx-1,cy,rx-3,ry-1,a,shadow);
+          var ex=cx+Math.round(rx*.48),ey=cy-2;
+          eye(ex,ey,1+Math.floor(a.senses*2));
+          block(cx+rx-1,cy+2,3,1,ink);pixel(cx+rx,cy+1,lit);
+          block(cx+rx-3,cy-1,1,3,shadow); // gill
+        } else if(a.stage===1){
+          // Four-legged creature: recognizable raised head, tapering tail and feet.
+          var cx=15,cy=15+bob,rx=7+Math.round(wide*2+growth),ry=4+Math.round((1-wide)+growth);
+          var footY=26;
+          polygon([[cx-rx+2,cy],[cx-rx-5-Math.round(trait*3),cy-3],[cx-rx-4,cy+3],[cx-rx+3,cy+ry]],ink);
+          polygon([[cx-rx+2,cy],[cx-rx-4-Math.round(trait*2),cy-2],[cx-rx+1,cy+ry]],shadow);
+          for(var leg=0;leg<2;leg++){
+            var lx=cx+(leg===0?-4:4);
+            block(lx-2,cy+2,5,footY-cy-1,ink);
+            block(lx-1,cy+3,3,footY-cy-3,shadow);
+            block(lx-3,footY-1,6,2,ink);
+            block(lx-2,footY-1,4,1,lit);
+          }
+          ellipse(cx,cy,rx+1,ry+1,ink);
+          ellipse(cx,cy,rx,ry,a.color);
+          ellipse(cx+1,cy-1,rx-2,Math.max(2,ry-2),lit);
+          if(a.family===1){
+            for(var plate=0;plate<3;plate++){
+              ellipse(cx-4+plate*4,cy-ry+1,3,2,'#203150');
+              ellipse(cx-4+plate*4,cy-ry,2,1,lit);
+            }
+          }else if(a.family===0){
+            polygon([[cx-5,cy-ry],[cx-8,cy-ry-4],[cx+2,cy-ry]],ink);
+            polygon([[cx-4,cy-ry],[cx-7,cy-ry-3],[cx+1,cy-ry]],lit);
+          }else{
+            block(cx-4,cy-ry-3,3,4,ink);block(cx+2,cy-ry-3,3,4,ink);
+            pixel(cx-3,cy-ry-3,lit);pixel(cx+3,cy-ry-3,lit);
+          }
+          var hx=cx+rx-1,hy=cy-ry+2;
+          ellipse(hx,hy,4,4,ink);ellipse(hx,hy,3,3,a.color);
+          block(hx+2,hy+1,4,3,ink);
+          block(hx+2,hy+1,3,2,lit);
+          eye(hx,hy-2,1+Math.floor(a.senses*1.7));
+          pixel(hx+5,hy+2,'#ee92a5');
+          marks(cx-2,cy,rx-3,ry-2,a,shadow);
         } else {
-          // Space life with branching feelers; intellectual line becomes Lisp alien.
+          // Upright space creature: large cranial capsule, limbs and inherited appendages.
+          var cx=16,cy=13+bob,rx=6+Math.round(wide*2+growth),ry=6+Math.round((1-wide)*1.5+growth*.5);
+          var torsoY=22+bob;
+          for(var tent=0;tent<3;tent++){
+            var tx=10+tent*6;
+            polygon([[tx-1,torsoY],[tx+3,torsoY],[tx+2+(tent-1)*2,30],[tx+(tent-1)*2,30]],ink);
+            block(tx,torsoY+1,2,5,shade(a.color,'#1b2550',.28));
+            pixel(tx+(tent-1)*2,29,lit);
+          }
           for(var arm=0;arm<2;arm++){
-            var ax=arm===0?left-2:left+w+1;
-            for(var ty=0;ty<7;ty++)pixel(ax+(arm===0?-1:1)*Math.floor(ty/3),top+ty,a.color);
-            pixel(ax+(arm===0?-1:1)*4,top+8,'#cde8ff');
+            var dir=arm===0?-1:1,ax=cx+dir*6;
+            polygon([[ax,torsoY-4],[ax+dir*4,torsoY-1],[ax+dir*5,torsoY+5],[ax+dir*3,torsoY+6],[ax+dir*1,torsoY]],ink);
+            block(ax+dir*3,torsoY+1,2,3,a.color);
+            pixel(ax+dir*5,torsoY+5,lit);
           }
-          block(left+3,top-5,2,6,shade);block(left+w-5,top-5,2,6,shade);
-          pixel(left+4,top-5,'#bbf7ff');pixel(left+w-4,top-5,'#bbf7ff');
-          if(a.family===0)for(var fin=0;fin<4;fin++){pixel(left-4-fin,top+5+fin,'#a7f6ff');pixel(left+w+3+fin,top+5+fin,'#a7f6ff');}
-          if(a.family===1)for(var plate=0;plate<4;plate++){block(left+plate*3,top-1,2,2,'#deedc7');}
-        }
-        for(var y=0;y<h;y++)for(var x=0;x<w;x++){
-          var nx=(x-(w-1)/2)/(w/2),ny=(y-(h-1)/2)/(h/2),d=nx*nx+ny*ny;
-          if(d<=1.04){
-            var rim=d>.79;
-            var pattern=(x*7+y*11+Math.floor(a.skin*19))%13;
-            pixel(left+x,top+y,rim?outline:pattern<Math.floor(a.detail*4)?'#eef5cf':a.color);
+          ellipse(cx,torsoY,5+growth,5,ink);
+          ellipse(cx,torsoY-1,4+growth,4,a.color);
+          if(a.family===0){
+            for(var fin=0;fin<4;fin++){
+              pixel(cx-10-fin/2,cy+1+fin*2,'#b4f9fa');
+              pixel(cx+10+fin/2,cy+1+fin*2,'#b4f9fa');
+            }
           }
+          if(a.family===1){
+            for(var sh=0;sh<2;sh++)block(cx+(sh===0?-6:4),torsoY-3,3,5,'#d1e6e1');
+          }
+          // Antennae vary with inherited appendage DNA.
+          var antenna=3+Math.round(trait*4);
+          block(cx-4,cy-ry-antenna+1,2,antenna+1,ink);
+          block(cx+3,cy-ry-antenna+1,2,antenna+1,ink);
+          pixel(cx-4,cy-ry-antenna,'#b4f7ff');
+          pixel(cx+4,cy-ry-antenna,'#b4f7ff');
+          ellipse(cx,cy,rx+1,ry+1,ink);
+          ellipse(cx,cy,rx,ry,a.color);
+          ellipse(cx,cy-2,rx-2,ry-2,lit);
+          if(a.family===1){
+            for(var armor=0;armor<3;armor++)block(cx-4+armor*4,cy-ry,3,2,'#d4dce9');
+          }
+          var eSize=2+Math.floor(a.senses*2);
+          eye(cx-4,cy-1,eSize);eye(cx+2,cy-1,eSize);
+          block(cx-2,cy+4,4,1,shadow);
+          if(a.family===2){
+            // Parenthetical cheeks identify the Lisp alien lineage.
+            block(cx-rx,cy+1,1,5,'#d9c4ff');
+            block(cx+rx,cy+1,1,5,'#d9c4ff');
+            pixel(cx-rx+1,cy,'#d9c4ff');pixel(cx+rx-1,cy,'#d9c4ff');
+          }
+          marks(cx,cy+1,rx-2,ry-3,a,shadow);
         }
-        var eye=2+Math.floor(a.senses*2), ey=top+Math.floor(h*.42);
-        for(var j=0;j<2;j++){
-          var ex=left+Math.floor(w*(j===0?.28:.7));
-          block(ex,ey,eye,eye,'#101933');pixel(ex,ey,'#ffffff');
-        }
-        if(effect&&time-effect.started>200&&time-effect.started<500)
-          block(left+Math.floor(w/2),top+Math.floor(h*.72),2,2,'#562943');
-        else block(left+Math.floor(w/2),top+Math.floor(h*.74),3,1,'#562943');
-        if(stage===2&&a.family===2){ // parenthesis-shaped Lisp-alien signal
-          block(left-2,top+2,1,Math.max(3,h-3),'#cfb7ff');
-          block(left+w+1,top+2,1,Math.max(3,h-3),'#cfb7ff');
-        }
+        if(!still&&effect&&time-effect.started>200&&time-effect.started<450)
+          pixel(a.stage===0?23:16,a.stage===0?21:23,'#ffb2c7');
       }
       function drawFood(time){
         if(!effect)return;
@@ -427,18 +590,32 @@
           pixel(16-radius,12,color);pixel(16+radius,12,color);
           pixel(16,12-radius,color);pixel(16,12+radius,color);}
       }
-      function draw(time){
-        if(!ctx)return;
-        ctx.clearRect(0,0,canvas.width,canvas.height);ctx.imageSmoothingEnabled=false;
-        for(var i=0;i<9;i++)pixel((3+i*11)%32,(2+i*7)%24,i%2?'#35456f':'#495b8d');
-        block(5,26,22,1,'#293c67');block(8,25,16,1,'#364d7f');
-        sprite(time);drawFood(time);
-        if(time-evolvedAt<820)for(var j=0;j<8;j++){
-          var rad=Math.max(2,Math.floor((time-evolvedAt)/90));
-          var angle=j*Math.PI/4;
-          pixel(16+Math.round(Math.cos(angle)*rad),16+Math.round(Math.sin(angle)*rad),j%2?'#ffffff':'#ffe38e');
+      function renderScene(context,appearance,time,still){
+        if(!context)return;
+        var previous=paintCtx;paintCtx=context;
+        context.clearRect(0,0,256,256);context.imageSmoothingEnabled=false;
+        for(var i=0;i<12;i++)pixel((3+i*11)%32,(2+i*7)%29,i%2?'#35456f':'#495b8d');
+        if(appearance.stage===0){
+          for(var b=0;b<3;b++)block(4+b*10,6+b*5,1,2,'#7899c2');
+          block(4,28,24,1,'#314b68');
+        }else if(appearance.stage===1){
+          block(3,28,26,1,'#364b68');
+          for(var gr=0;gr<6;gr++)pixel(4+gr*4,27,'#5d9b85');
+        }else {
+          for(var st=0;st<6;st++)pixel(3+st*5,4+st%3*7,'#bbd8ff');
         }
+        sprite(appearance,time,still);
+        if(!still){
+          drawFood(time);
+          if(time-evolvedAt<820)for(var j=0;j<8;j++){
+            var rad=Math.max(2,Math.floor((time-evolvedAt)/90));
+            var angle=j*Math.PI/4;
+            pixel(16+Math.round(Math.cos(angle)*rad),16+Math.round(Math.sin(angle)*rad),j%2?'#ffffff':'#ffe38e');
+          }
+        }
+        paintCtx=previous;
       }
+      function draw(time){renderScene(ctx,state.creature.appearance,time,false);}
       function frame(time){draw(time);window.requestAnimationFrame(frame);}
       updateGrowth();updateButtons();
       if(ctx&&window.requestAnimationFrame)window.requestAnimationFrame(frame);
