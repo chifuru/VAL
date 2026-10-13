@@ -20,7 +20,7 @@ function fizzBuzz(n) {
 function harness(options={}) {
   const nodes=new Map(), pixels=[];
   function element(id) {
-    const e={id,value:'',textContent:'',disabled:false,hidden:id==='final-card',style:{},width:256,height:256,scrollTop:0,scrollHeight:100,attrs:{},handlers:{},scrollIntoView(){this.scrolled=true;},
+    const e={id,value:'',textContent:'',disabled:false,hidden:id==='final-card',style:{},width:256,height:256,scrollTop:0,scrollHeight:100,attrs:{},handlers:{},scrollIntoView(){this.scrolled=true;},focus(){this.focused=true;},
       addEventListener(type,handler){this.handlers[type]=handler;},
       setAttribute(k,v){this.attrs[k]=v;},
       getContext(){let color='';return {fillRect(...a){pixels.push({id,args:a,color});},clearRect(){},set fillStyle(x){color=x;},set imageSmoothingEnabled(x){}};}
@@ -31,7 +31,8 @@ function harness(options={}) {
    'current-line','stage-name','food-total','next-stage','growth-bar','growth-progress',
    'fizz-count','buzz-count','special-count','number-count','creature',
    'final-card','final-creature','final-seed','final-species','final-status','final-summary',
-   'final-stage','final-points','final-color','final-color-code','final-foods'].forEach(element);
+   'final-stage','final-points','final-color','final-color-code','final-foods',
+   'app-shell','mode-chip','retry-button','log-button','result-rank','result-header-state'].forEach(element);
   nodes.get('limit').value=String(options.limit||15);
   nodes.get('speed').value='480';
   let timerId=0,now=50,raf=null,calls=0;
@@ -299,4 +300,80 @@ test('fish, land creature and alien use distinct deterministic pixel silhouettes
   }
   assert.notEqual(pixels[0],pixels[1]);
   assert.notEqual(pixels[1],pixels[2]);
+});
+
+
+test('arcade result screen replaces nursery layout after the last line',()=>{
+  const h=harness({limit:30});
+  assert.equal(h.get('app-shell').attrs['data-mode'],undefined);
+  h.fire('fizzbuzz-form','submit');
+  assert.equal(h.get('app-shell').attrs['data-mode'],'nursery');
+  assert.equal(h.get('final-card').hidden,true);
+  while(h.next()){}
+  assert.equal(h.get('final-card').hidden,false);
+  assert.equal(h.get('app-shell').attrs['data-mode'],'result');
+  assert.equal(h.get('app-shell').attrs['data-log-open'],'false');
+  assert.match(h.get('result-rank').textContent,/STAGE 2 REACHED/);
+  assert.equal(h.get('result-header-state').textContent,'RUN COMPLETE');
+  assert.equal(h.get('result').value,fizzBuzz(30).join('\n'));
+});
+
+test('full evolution has distinct game-clear heading without changing output',()=>{
+  const h=harness({limit:400,reducedMotion:true});
+  h.fire('fizzbuzz-form','submit');
+  assert.equal(h.get('result-header-state').textContent,'EVOLUTION COMPLETE');
+  assert.match(h.get('result-rank').textContent,/FULL EVOLUTION/);
+  assert.equal(h.get('final-card').attrs['data-mature'],'true');
+  assert.equal(h.get('result').value,fizzBuzz(400).join('\n'));
+});
+
+test('arcade result log can be toggled without mutating the FizzBuzz log',()=>{
+  const h=harness({limit:15,reducedMotion:true});
+  h.fire('fizzbuzz-form','submit');
+  const value=h.get('result').value;
+  assert.equal(h.get('app-shell').attrs['data-log-open'],'false');
+  h.fire('log-button','click');
+  assert.equal(h.get('app-shell').attrs['data-log-open'],'true');
+  assert.equal(h.get('log-button').attrs['aria-pressed'],'true');
+  assert.equal(h.get('result').value,value);
+  h.fire('log-button','click');
+  assert.equal(h.get('app-shell').attrs['data-log-open'],'false');
+  assert.equal(h.get('result').value,value);
+});
+
+test('retry leaves the arcade game-clear view, clears old data and focuses input',()=>{
+  const h=harness({limit:100,reducedMotion:true});
+  h.fire('fizzbuzz-form','submit');
+  assert.equal(h.get('app-shell').attrs['data-mode'],'result');
+  h.fire('retry-button','click');
+  assert.equal(h.get('app-shell').attrs['data-mode'],'nursery');
+  assert.equal(h.get('final-card').hidden,true);
+  assert.equal(h.get('result').value,'');
+  assert.equal(h.get('limit').focused,true);
+  h.get('limit').value='5';
+  h.fire('fizzbuzz-form','submit');
+  assert.equal(h.get('final-seed').textContent,'個体 #5');
+  assert.equal(h.get('result').value,fizzBuzz(5).join('\n'));
+});
+
+test('skip and low-motion runs reach the same arcade mode, stage and status',()=>{
+  const skipped=harness({limit:150});
+  skipped.fire('fizzbuzz-form','submit');
+  skipped.fire('skip-button','click');
+  const reduced=harness({limit:150,reducedMotion:true});
+  reduced.fire('fizzbuzz-form','submit');
+  assert.equal(skipped.get('app-shell').attrs['data-mode'],'result');
+  assert.equal(reduced.get('app-shell').attrs['data-mode'],'result');
+  for(const id of ['result-rank','result-header-state','final-species','final-points','final-foods'])
+    assert.equal(skipped.get(id).textContent,reduced.get(id).textContent);
+  assert.equal(skipped.get('result').value,reduced.get('result').value);
+});
+
+test('game UI keeps result text in textarea and uses separated dedicated result scene',()=>{
+  assert.match(html,/data-mode="nursery"/);
+  assert.match(html,/id="result-rank"/);
+  assert.match(html,/id="retry-button"/);
+  assert.match(html,/id="log-button"/);
+  assert.match(html,/data-log-open="true"/);
+  assert.match(html,/\\.shell\\[data-mode="result"\\] \\.room-panel/);
 });
