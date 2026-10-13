@@ -13,7 +13,10 @@ Both now contain the v4.2 `app.js` compositor's **no-duplicate-juvenile-body** f
 - `styles.css`: dark responsive observation UI.
 - `creature-engine.js`: deterministic 14-lineage evolution and FizzBuzz growth contract.
 - `app.js`: canvas compositor, playback/codex/history and v4.2 portrait rendering fix.
+- `draft-organ-sprites.js`: provisional 12-lineage × 3-level transparent vector sprite generator. **Not** the original mock-derived PNGs.
 - `../../design/image-composite-v41-assets.json`: original relative file-name lookup manifest (not image binaries).
+
+**Stage 4 draft:** At startup, `draft-organ-sprites.js` installs 36 standalone SVG `data:` images for 12 older lineages, keyed by each existing `lineage:lineageHeritage` organ (Lv1/Lv2/Lv3), only if no real replacement exists. The existing 33 modular PNGs for `antimeme`/`valis` and the 24 older portraits remain byte-for-byte unchanged. These drafts are transparent and have distinct silhouettes, but have **not** been extracted or pixel-compared against the nine original PNGs. The legacy phase portraits are still full-body artwork; an extra organ is a provisional front overlay, not full decomposition. See `../../design/image-composite-stage4-draft.md`.
 
 The 68 original optimized image `data:` URI values currently live in `window.ASSET_CONFIG.sources` in the bundled `../Index.html`. Their names are referenced by `core`, `partImages`, `lineageImages`, and `references`. We preserve those exact URI bytes without re-encoding or substituting images.
 
@@ -27,7 +30,7 @@ npm run check:composite
 npm test
 ```
 
-`tools/build-composite-html.cjs` rebuilds **both** HTML files by extracting the existing embedded asset config and combining it with the editable template, CSS, engine and app. `--check` fails if either HTML differs from the expected bundle. It refuses missing image data, unknown script layouts, or missing placeholders; the deliberate output is deterministic for the same editable inputs and packed assets. Do **not** replace existing HTML with a blank bundle before using the builder: currently the HTML is the canonical packed image source.
+`tools/build-composite-html.cjs` rebuilds **both** HTML files by extracting the existing embedded asset config and combining it with the editable template, CSS, engine, draft-organ module and app. `--check` fails if either HTML differs from the expected bundle. It refuses missing image data, unknown script layouts, or missing placeholders; the deliberate output is deterministic for the same editable inputs and packed assets. Do **not** replace existing HTML with a blank bundle before using the builder: currently the HTML is the canonical packed image source.
 
 `tests/composite-bundle-sync.test.cjs` checks the actual shipped HTML (not only `app.js`). `npm test` now includes that test and the pre-existing `tests/composite-v42-render-source.test.cjs` alongside the FizzBuzz and evolution tests.
 
@@ -38,3 +41,5 @@ GitHub distribution verification for this stage: the two HTML files have **the s
 This stage did **not** execute local `npm test`, a Chromium browser run, actual GAS HtmlService deployment, mobile device benchmarks, or a quality review of the improved portrait/organ PNGs. These are separate D1.3.1, D1.3.2, D1.3.3 and D1.4 verification gates. Refer to the independent stage-3 E14 limited evidence and subsequent test records, not the older v4.2 ZIP-only E13 evidence.
 
 Legacy 64×64 version is preserved separately as `../Index.pixel-legacy.html`. The three canonical VALIS core definitions are unchanged.
+
+Stage 4 adds `tests/draft-organ-sprites.test.cjs` (asset cardinality, distinct level images, SVG alpha, and missing-only fallback). Until Node/Chromium/GAS runs and an independent mock comparison are recorded for this GitHub head, no runtime or finished-art quality PASS is claimed.

@@ -5,7 +5,7 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 工程3で作業ブランチ内のsrc/Index.htmlとsrc/Index.composite-v4.htmlを同一Git Blob 58143d97c89e00d8158b1ec0e18d83c1921a0843へ更新。編集app.jsのv4.2二重全身描画防止を実行HTMLへ同期。素材68画像は既存v4.1版、改善済みv4.2の24派生肖像は未反映。E14はGitHub Blob読戻しとV8の98項目確認に限定。Node/Chromium/GAS実機未実施。計51ノード（36既存承認済み・E6〜E14草案9・C/D新規草案6）。mainはPR未マージで未変更。
+current_status: 工程4の草案として旧12系統の1器官×3Lv＝36枚の透明SVG仮素材を追加し、既存の暫定24肖像と先行2系統33器官PNG/2コア/9縮小見本を保持。真の元モック由来Lv器官化、v4.2改善肖像24点、原本9PNGの復元とSHA照合、人間の画質判定は未完。2つの実行HTMLを同一内容へ更新する作業ブランチDraft PR。既存36承認済み状態は変更しない。51ノードのまま、E14は旧工程3の証跡。Node/Chromium/GAS検証は工程5待ち、main未変更。
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
@@ -16,6 +16,7 @@ initial_registration_stage2: C1.5.1, C1.5.2, C1.5.3, D1.3.1, D1.3.2, D1.3.3（�
 manifest_reflection_stage2: 既存Project Summary Manifestの総数44→50・ノード階層・参照・残存処理フラグの要約を更新。既存ノード自体の承認状態、src、tests、E層の版・証跡有効性は変更なし。
 last_structural_flow: 工程2 FLOW-04（責務分割案）→ FLOW-07（D検証観点）→ FLOW-05（新規Node初期登録と概要反映）。
 initial_registration_stage3: E14（D1.3.1/C1.5.1 GitHub実行HTML同期・V8限定検証の独立証跡、草案）。
+manifest_reflection_stage4: C1.5.2/D1.3.2の工程4仮素材実装・品質未検証を草案反映。src/composite/draft-organ-sprites.jsとapp.js、ビルダー、両HTML、tests/draft-organ-sprites.test.cjsとbundle同期テスト、design/image-composite-stage4-draft.mdの追加更新。Node増減0、承認/公開状態変更なし。
 manifest_reflection_stage3: C1.5.1とD1.3.1の実態・フラグ要約を更新。GitHub実行HTML2本同一blob 58143d97c89e00d8158b1ec0e18d83c1921a0843、再構築ツール/テスト作成、旧68画像保全、改善24画像未同期、Node CLI/ブラウザ/GAS未実施を明記。E14初期登録、総数50→51。承認状態変更なし。
 last_reflected_flow: FLOW-06 v4.1画像合成と9モック原本を確認 → FLOW-04 旧12系統の派生24画像再抽出/描画重複修正 → FLOW-08 ローカルNode34件、画像24点、Chromium14図鑑/500行/6系統Canvas呼出し → FLOW-05 GitHub編集ソース・D/C追記・E13/Manifest登録。大容量実行HTMLは更新ブロックで未反映。
 unresolved_summary: 51ノード（36承認済み、E6〜E14の9草案、C1.5.1〜3/D1.3.1〜3の6草案）。v4.2描画ロジックとGitHub作業ブランチの実行HTML2本は同期、画像はまだv4.1の68点。元ZIPの改善24画像と中核9原本SHA照合、旧12系統の独立Lv器官、Node実npm test/ブラウザ描画/GAS実配信/実端末FPS/第四相は未完了。main未マージ。

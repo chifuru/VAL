@@ -1,6 +1,8 @@
 (function(){
 'use strict';
 var E=window.CreatureEngine, C=window.ASSET_CONFIG;
+// Stage-4 provisional assets: add only missing legacy organ sprite entries.
+if(window.CompositeDraftOrgans)window.CompositeDraftOrgans.install(C);
 var $=id=>document.getElementById(id);
 var canvas=$('creatureCanvas'),ctx=canvas.getContext('2d');
 var mediaReduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -14,6 +16,14 @@ var dims={
  absenceMask:[151,112],unseenEye:[129,109],erasureCrown:[207,167],memoryFilament:[190,150],brokenTail:[173,125]
 };
 var backLayer=new Set(['revelationMembrane','memoryFilament','erasureCrown','signalTail','brokenTail','detachedNode']);
+// Provisional 12-lineage SVG organs. These are NOT high-fidelity extracted mock pixels.
+Object.assign(dims,{
+ abyssHeritage:[340,215],mythHeritage:[290,225],recursiveHeritage:[225,220],
+ sailHeritage:[290,230],gravityHeritage:[260,225],crystalHeritage:[235,215],
+ manyeyesHeritage:[195,155],abyssshellHeritage:[255,215],
+ parallelHeritage:[290,225],memoryHeritage:[225,190],
+ serpentHeritage:[270,225],solarHeritage:[275,235]
+});
 var phaseNames=E.PHASES;
 var names=Object.fromEntries(E.LINEAGES.map(l=>[l.id,l.names]));
 var finalNames=Object.fromEntries(E.LINEAGES.map(l=>[l.id,l.finalName]));
@@ -216,7 +226,7 @@ function paintSpecimen(s,t,reduced,mini){
  }
  if(!mini){
    font(s.dna.seed+' / '+(s.lineage?(names[lineage]||[])[s.stage]||lineage:'ミナモルフ'),26,37,20,'#cde3fc');
-   font(s.lineage?(portrait?'MOCK PORTRAIT · ':'LAYER COMPOSITE · ')+lineage.toUpperCase():'UNCOMMITTED / ORIGIN',26,61,12,'#7296bd');
+   font(s.lineage?(portrait?(C.draftOrganLineages&&C.draftOrganLineages.includes(lineage)?'MOCK PORTRAIT + DRAFT Lv ORGAN · ':'MOCK PORTRAIT · '):'LAYER COMPOSITE · ')+lineage.toUpperCase():'UNCOMMITTED / ORIGIN',26,61,12,'#7296bd');
    if(preview) font('図鑑サンプル · 実際の育成個体ではありません',985,640,17,'#d9c9ff','right');
  }
 }
@@ -239,7 +249,7 @@ function updateUI(){
  $('specimenMode').textContent=isDemo?'図鑑見本':'LIVE · '+(complete?'完走':playing?'育成中':'待機');
  $('maturityStatus').textContent=s.matured?'完全成熟・外見固定':(s.stage===0?'未分化':'発達中');
  $('coreLabel').textContent=s.dna.bodyVariant?'星原型':'深海原型';
- $('mainNote').textContent=isDemo?(lineage==='valis'||lineage==='antimeme'?'図鑑見本：Lvごとの透過パーツを合成しています。':'図鑑見本：現在の12系統はモック由来の肖像レイヤーです。器官の完全分解は次段階。'):
+ $('mainNote').textContent=isDemo?(lineage==='valis'||lineage==='antimeme'?'図鑑見本：Lvごとの透過パーツを合成しています。':'図鑑見本：旧12系統はモック由来の暫定肖像＋1器官×3Lvの草案SVGです。原本由来の完成透過パーツではありません。'):
     '初期DNAの顔・眼・胴・尾は維持。環境と餌で増えたパーツ画像を重ねます。';
  $('partList').replaceChildren();
  part.forEach(function(p){

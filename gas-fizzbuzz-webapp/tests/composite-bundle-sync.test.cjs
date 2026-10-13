@@ -48,7 +48,7 @@ test('all 68 embedded images and nine reference thumbnails survive without subst
 
 test('bundled v4.2 compositor matches app.js and keeps the two rendering modes distinct', () => {
   const source = read('src/composite/app.js');
-  assert.equal(scripts[2], source, 'GAS HTML is still running older app.js code');
+  assert.equal(scripts[2], read('src/composite/draft-organ-sprites.js') + '\n' + source, 'GAS HTML is missing draft organ generator or running older app.js code');
   assert.match(source, /if\(portrait\)\s*\{/);
   assert.match(source, /\}else\s*\{\s*\/\/ Phase I/);
   assert.match(source, /MOCK PORTRAIT/);
