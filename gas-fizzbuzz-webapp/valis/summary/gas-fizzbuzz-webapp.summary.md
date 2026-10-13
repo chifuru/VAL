@@ -5,17 +5,18 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: A/B設計に基づくC層実装・D層検証計画・E2モック証跡まで草案として反映（実GAS環境は未検証）
+current_status: ピクセル描画の3段階識別性強化と再生後の最終形態肖像カードを実装しE3で30件V8モック検証（GAS実機未検証）
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
-initial_registration_this_change: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
-manifest_reflection_this_change: B1, B1.4, C1, C1.4, C1.4.1, C1.4.2, C1.4.3, C1.5, C1.6, D1, src/Index.html, tests/creature.test.cjs, README.md
-last_reflected_flow: FLOW-05 承認された分割案と実装/検証の差分反映、FLOW-08 限定的V8モック証跡記録
-unresolved_summary: 実Node npm test未実施、GAS HtmlService/実通信/Canvas/モバイル/アクセシビリティ未検証、仮係数・DNA分布・種族造形は要評価、全ノード草案
+initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
+initial_registration_this_change: E3
+manifest_reflection_this_change: A1.2, A1.5, B1.2, B1.5, C1.3, C1.5, D1.3, E3, src/Index.html, tests/creature.test.cjs, README.md
+last_reflected_flow: FLOW-05 描画・終了時UIの差分反映、FLOW-08 30件V8モック限定証跡E3
+unresolved_summary: 実Node npm test未実施、GAS実機・Canvas視覚品質・自動スクロール・モバイル・アクセシビリティ未検証、造形の人間評価・仮係数の調整は必要、全ノード草案
 
 ## Node構造・参照要約
 
-親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1とE2は別系列の起点。
+親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.6はC1の子。D1.1〜4はD1の子。E1/E2/E3は検証版ごとに独立した起点。
 層間関係: derived_from / implements / verifies / evidence_for による意味接続のみ（層間parent_idは禁止）。
 A/B/C/D/Eを機械的に同数へ揃えず、実装・検証・証跡の独立単位に応じて分割する。
 
@@ -41,7 +42,7 @@ A1:（外部参照 / FizzBuzz GASアプリ統合仕様）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/A/A1.2.md。主所属: A層。parent_id: A1。 B1.2 / C1.3。
 		ロジック:
-			1行1件再生、スキップ全文一致、成熟後もNまで再生。
+			1行1件再生、スキップ全文一致、成熟後もNまで再生。終了後に別領域へ今回の最終形態カードを表示。
 		実態:
 			状態: 草案。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
 
@@ -65,7 +66,7 @@ A1:（外部参照 / FizzBuzz GASアプリ統合仕様）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/A/A1.5.md。主所属: A層。parent_id: A1。 B1.5 / C1.5。
 		ロジック:
-			DNA特徴の継承、餌の色・体積・模様、3段階のシルエット。
+			DNA特徴の継承、餌の色・体積・模様、3段階の器官を見分けられるドット描画と再生完了時の静止肖像。
 		実態:
 			状態: 草案。処理フラグ: 実ブラウザの視覚評価未実施。次FLOW候補: FLOW-08。
 
@@ -99,7 +100,7 @@ B1:（外部参照 / FizzBuzz算出・再生・育成の機能索引）［草案
 		構成（要素・関係）:
 			Node File: valis/nodes/B/B1.2.md。主所属: B層。parent_id: B1。 derived_from: A1.2; implements側: C1.3。
 		ロジック:
-			逐次出力・停止/再開/スキップ・低モーション。
+			逐次出力・停止/再開/スキップ・低モーション。終了時の結果カードを同一処理で提示。
 		実態:
 			状態: 草案。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
 
@@ -139,7 +140,7 @@ B1:（外部参照 / FizzBuzz算出・再生・育成の機能索引）［草案
 		構成（要素・関係）:
 			Node File: valis/nodes/B/B1.5.md。主所属: B層。parent_id: B1。 derived_from: A1.5; implements側: C1.5。
 		ロジック:
-			魚/陸生/宇宙、4種餌、色/体積変化と成熟後固定。
+			魚の尾・ひれ、陸生の四肢、宇宙の触角などのドット部品、4種餌、成熟後固定と最終肖像表示。
 		実態:
 			状態: 草案。処理フラグ: 実機視覚品質未評価。次FLOW候補: FLOW-08。
 
@@ -181,7 +182,7 @@ C1:（外部参照 / GAS HTMLサービスと生物実装統合）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/C/C1.3.md。主所属: C層。parent_id: C1。 implements: B1.2。
 		ロジック:
-			逐次処理・速度/停止/再開/スキップ・低モーション。
+			逐次処理・速度/停止/再開/スキップ・低モーション、finish→presentFinalの終了時UI表示。
 		実態:
 			状態: 草案。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
 
@@ -221,7 +222,7 @@ C1:（外部参照 / GAS HTMLサービスと生物実装統合）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/C/C1.5.md。主所属: C層。parent_id: C1。 implements: B1.5。
 		ロジック:
-			32格子ピクセル・3段階形状・4種餌・色/体積・成熟後の姿。
+			32格子ピクセル・ellipse/polygonによる魚/陸生/宇宙の特徴的な器官・系統差・終了時静止肖像。
 		実態:
 			状態: 草案。処理フラグ: 本物の見た目は未検証。次FLOW候補: FLOW-08。
 
@@ -263,7 +264,7 @@ D1:（外部参照 / 生物育成と出力不変の検証計画）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/D/D1.3.md。主所属: D層。parent_id: D1。 verifies: A1.2/A1.5/B1.2/B1.5/C1.3/C1.5。
 		ロジック:
-			一時停止/再開/スキップ/低モーション、描画例外なし。
+			一時停止/再開/スキップ/低モーション、段階別のドット描画差分、終了時の最終形態カード表示とリセット。
 		実態:
 			状態: 草案。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
 
@@ -285,7 +286,7 @@ E1:（外部参照 / 旧実装に対するV8モック証跡）［草案］
 	実態:
 		状態: 草案。処理フラグ: 対象旧版に限定。次FLOW候補: FLOW-08。
 
-E2:（外部参照 / 新版DNA・4種餌・成熟のV8モック証跡）［草案］
+E2:（外部参照 / 前版DNA・4種餌・成熟のV8モック証跡）［草案］
 	構成（要素・関係）:
 		Node File: valis/nodes/E/E2.md。主所属: E層。起点ノード、parent_idなし。 evidence_for: D1.1/D1.2/D1.3（新版）。
 	ロジック:
@@ -293,14 +294,20 @@ E2:（外部参照 / 新版DNA・4種餌・成熟のV8モック証跡）［草�
 	実態:
 		状態: 草案。処理フラグ: 実npm test/GAS実機未実施。次FLOW候補: FLOW-08。
 
+E3:（外部参照 / 改良ピクセル描画・最終形態カードのV8モック証跡）［草案］
+	構成（要素・関係）:
+		Node File: valis/nodes/E/E3.md。主所属: E層。起点ノード、parent_idなし。evidence_for: D1.1/D1.2/D1.3, C1.3/C1.5。
+	ロジック:
+		最終描画版のGitHub src/test blobを対象に30件のモックV8テストを実行し、成功30・失敗0。終了時のカード表示・未成熟/成熟の区別、スキップ/低モーション一致、3形態の描画差を検証。
+	実態:
+		状態: 草案。Node.js実ランナー・GAS/実ブラウザ表示・目視品質は未検証。次FLOW候補: FLOW-08。
+
 ## 今回の差分と処理区別
 
-- **Manifest初期登録（過去）**: A1/B1/C1/D1/E1、A1.1～A1.6、B1.1～B1.6、C1.1～C1.5は既に登録済み。
-- **Manifest初期登録（今回）**: B1.4.1/B1.4.2、C1.4.1/C1.4.2/C1.4.3/C1.6、D1.1/D1.2/D1.3/D1.4、E2の11件。
-- **Manifest反映（今回）**: 分割された親B1.4/C1.4、上位索引B1/C1/D1と関連子ノードの新実装・テスト・証跡への接続。
-- **src/tests**: src/Index.html（4種餌・DNA・成長・3段階進化・成熟時外見固定）およびtests/creature.test.cjs（16件）を更新。src/Code.gs、src/appsscript.json、tests/fizzbuzz.test.cjs（9件）は不変。README.mdを更新。Core Definition 3ファイルは不変。
-- **仕様上の優先契約**: FizzBuzzのN件の文字列配列と画面の1行1結果の書式は変えず、成熟後もN行まで出力する。生き物の情報は出力テキストへ混ぜない。
-- **今回の暫定実装**: 数字餌は3/5剰余で促進/抑制、直近の数字餌の効果を次の栄養1回に0.75/1.25として適用。P=10/35/100の閾値、6軸xorshift32 DNA、流線/装甲/知性系統、Lispエイリアンは宇宙知性系の一候補。
-- **検証・証跡**: E1は旧版の限定的検証。E2は新コード・テストの指定blobに対するV8モック互換実行で25件成功、失敗0。**Node.jsの実際のnpm test、GAS実機、画面の視覚品質は未検証**。E2はこの範囲外への有効性を主張しない。
-- **状態変更**: 全ノード草案。承認済み化・デプロイ・公開・権限変更は行っていない。
-- **NEXT**: FLOW-08 実Node/実GAS/ブラウザ検証。必要ならFLOW-04で暫定閾値や表現を調整した後、FLOW-05/08で証跡を更新。
+- **Manifest初期登録（今回）**: E3をE1/E2と独立した新しい証跡Node Fileとして登録。今回のA/B/C/D対象ノードは既存ファイルへの差分反映であり、新規分割は不要。
+- **Manifest反映（今回）**: A1.2/A1.5（結果提示と造形要件）、B1.2/B1.5（完了イベントと静止肖像）、C1.3/C1.5（実装）、D1.3（追加テスト計画）、E3（V8検証証跡）を要約。
+- **src/tests/README変更**: src/Index.html（魚の尾/えら・陸生の四肢・宇宙の触角などのドットパーツ描画と結果カード）、tests/creature.test.cjs（追加5件を含む21件）、README.md（仕様記録）を更新。src/Code.gs・tests/fizzbuzz.test.cjs・Core Definitionは不変。
+- **出力形式維持**: 出力は常に従来のN件の文字列配列の改行結合。最終形態カードには種族/段階/P/成熟状態/餌数/色/個体番号を表示し、FizzBuzz結果欄には混入しない。成熟未達もその段階で「今回の最終形態」として提示。
+- **証跡区別**: E1・E2は以前のソース版の検証、E3は今回の描画と終了カードを含むsrc/test blobを対象としたV8互換モック30件成功・失敗0。実Node npm test/GAS/ブラウザ視覚品質は未実施。
+- **設計変数**: 初期DNA/4種餌/進化閾値10/35/100/完全成熟の論理は変更なし。ピクセル造形・スクロール挙動・スマートフォン表示は実機評価後に調整可能。
+- **状態・次FLOW**: 全ノード草案。承認済み化/デプロイ/公開は未実施。次はFLOW-08の実Node・GAS・ブラウザ検証。
