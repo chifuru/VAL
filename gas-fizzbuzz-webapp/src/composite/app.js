@@ -192,17 +192,18 @@ function paintSpecimen(s,t,reduced,mini){
  // 12 heritage-lineage portraits are independently extracted illustration layers.
  // Their true anatomy-part atlas is a later step; never mislabel them as LV sprites.
  var lineageLayers=C.lineageImages&&C.lineageImages[lineage];
- if(lineageLayers&&s.stage>0){
-   var portrait=img(lineageLayers[Math.min(1,s.stage-1)]);
-   if(portrait)layerImage(portrait,610,376+heartbeat,690,445,.79,0);
+ var portrait=lineageLayers&&s.stage>0?img(lineageLayers[Math.min(1,s.stage-1)]):null;
+ // Transitional lineage paintings already contain the ancestral head/eye/tail.
+ // Never superimpose a second full juvenile body on this complete morphology.
+ if(portrait){
+   ctx.save();ctx.filter='drop-shadow(0 0 22px rgba(133,203,255,.22))';
+   layerImage(portrait,513,372+heartbeat,775,465,.98,0);ctx.restore();
+ }else{
+   // Phase I and the two truly modular lineages retain the stable common core.
+   const core=img(C.core[stageCore(s)]);
+   if(core){ctx.save();ctx.filter='drop-shadow(0 0 23px rgba(129,210,255,.12))';
+     layerImage(core,520,404+heartbeat,780*s.dna.torsoRatio,432*s.dna.headRatio,1,0);ctx.restore();}
  }
- // Identity remains visually stable across evolution: do not replace this sprite.
- const core=img(C.core[stageCore(s)]);
- if(core){ctx.save();ctx.filter='drop-shadow(0 0 23px rgba(129,210,255,.12))';
-   // For unfinished 12-family art, keep the original head/torso translucent and
-   // use the family's atlas cutout as a second layer, not a full background image.
-   layerImage(core,520,404+heartbeat,780*s.dna.torsoRatio,432*s.dna.headRatio,
-     lineageLayers&&s.stage>0?.60:1,0);ctx.restore();}
  if(s.heritage) s.heritage.forEach((entry,i)=>{
    entry.parts.slice(0,3).forEach(p=>drawPart(p,.60-i*.08,.52));
  });
@@ -215,7 +216,7 @@ function paintSpecimen(s,t,reduced,mini){
  }
  if(!mini){
    font(s.dna.seed+' / '+(s.lineage?(names[lineage]||[])[s.stage]||lineage:'ミナモルフ'),26,37,20,'#cde3fc');
-   font(s.lineage?'IMAGE COMPOSITE · '+lineage.toUpperCase():'UNCOMMITTED / ORIGIN',26,61,12,'#7296bd');
+   font(s.lineage?(portrait?'MOCK PORTRAIT · ':'LAYER COMPOSITE · ')+lineage.toUpperCase():'UNCOMMITTED / ORIGIN',26,61,12,'#7296bd');
    if(preview) font('図鑑サンプル · 実際の育成個体ではありません',985,640,17,'#d9c9ff','right');
  }
 }
