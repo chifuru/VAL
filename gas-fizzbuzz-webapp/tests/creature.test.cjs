@@ -39,7 +39,8 @@ function harness(options={}) {
           createRadialGradient:gradient,createLinearGradient:gradient,
           set fillStyle(v){color=v;},set strokeStyle(v){stroke=v;},
           set lineWidth(v){linewidth=v;},get lineWidth(){return linewidth;},
-          set lineCap(v){},set lineJoin(v){},set imageSmoothingEnabled(v){}
+          set lineCap(v){},set lineJoin(v){},set imageSmoothingEnabled(v){},
+          set globalAlpha(v){record('alpha',[v]);}
         };
       }
     };
@@ -81,7 +82,7 @@ function harness(options={}) {
     get(id){return nodes.get(id);},
     fire(id,event){nodes.get(id).handlers[event]({preventDefault(){}});},
     next(){const item=timers.entries().next();if(item.done)return false;timers.delete(item.value[0]);item.value[1].fn();return true;},
-    frame(){assert.ok(raf);raf(200);}
+    frame(time=200){assert.ok(raf);raf(time);}
   };
   return h;
 }
@@ -681,4 +682,144 @@ test('changing pressure creates independently selected phases shown with causal 
   assert.match(h.get('final-lineage').textContent,/熱波優勢/);
   assert.match(h.get('final-lineage').textContent,/電磁波優勢/);
   assert.equal(h.get('app-shell').attrs['data-mode'],'result');
+});
+
+
+test('newborn has no inherited anatomy, and first metamorphosis stores its actual prior phenotype',()=>{
+  const q=harness().logic;
+  let c=q.initialCreature(143);
+  assert.equal(c.heritage.length,0);
+  assert.equal(c.appearance.heritage.length,0);
+  let before=null;
+  for(const line of fizzBuzz(55)){
+    if(c.stage===0)before=c.appearance;
+    c=q.stepGrowth(c,line,'heat');
+    if(c.stage===1)break;
+  }
+  assert.equal(c.stage,1);
+  assert.equal(c.heritage.length,1);
+  const inherited=c.heritage[0];
+  assert.equal(inherited.stage,0);
+  assert.equal(inherited.lineage,'proto');
+  assert.equal(inherited.color,before.color);
+  assert.equal(inherited.appendage,before.appendage);
+  assert.equal(inherited.organs.eyes,before.organ.levels.eyes);
+  assert.equal(q.imprintName(inherited),'背びれ');
+  assert.equal(c.appearance.heritage[0],inherited);
+  assert.ok(Object.isFrozen(inherited));
+  assert.ok(Object.isFrozen(inherited.organs));
+  assert.ok(Object.isFrozen(c.appearance.heritage));
+});
+
+test('cross-branch evolution retains ancestral form features from BOTH previous phases',()=>{
+  const q=harness().logic,lines=fizzBuzz(400);
+  let c=q.initialCreature(400),lastPhase=0;
+  for(const line of lines){
+    const env=c.stage===0?'heat':'signal';
+    c=q.stepGrowth(c,line,env);
+    lastPhase=c.stage;
+    if(lastPhase===2)break;
+  }
+  assert.equal(c.stage,2);
+  assert.deepEqual(Array.from(c.lineages),[null,1,2]);
+  assert.equal(c.appearance.lineage,'recursive');
+  assert.equal(c.appearance.heritage.length,2);
+  assert.deepEqual(Array.from(c.appearance.heritage.map(x=>x.lineage)),['proto','myth']);
+  assert.deepEqual(Array.from(c.appearance.heritage.map(q.imprintName)),['背びれ','翼紋']);
+  assert.equal(c.appearance.heritage[0].stage,0);
+  assert.equal(c.appearance.heritage[1].stage,1);
+});
+
+test('an inherited organ cannot abruptly shrink to newborn-stage intensity when evolving',()=>{
+  const q=harness().logic,n=400;
+  let c=q.initialCreature(n),first=null,second=null;
+  for(const line of fizzBuzz(n)){
+    const old=c;c=q.stepGrowth(c,line,'tide');
+    if(old.stage===0&&c.stage===1)first=c;
+    if(old.stage===1&&c.stage===2){second=c;break;}
+  }
+  assert.ok(first&&second);
+  for(const emerged of [first,second]){
+    const last=emerged.appearance.heritage.slice(-1)[0];
+    for(const organ of Object.keys(last.organs)){
+      assert.ok(emerged.appearance.organ.levels[organ]+1e-10>=last.organs[organ]*.72,organ);
+    }
+  }
+});
+
+test('ancestral imprints persist unchanged while the new organ traits continue to develop',()=>{
+  const q=harness().logic;
+  let c=q.initialCreature(400),start;
+  for(const line of fizzBuzz(400)){
+    c=q.stepGrowth(c,line,'signal');
+    if(c.stage===1){start=c;break;}
+  }
+  const ancestral=start.appearance.heritage[0],saved=JSON.stringify(ancestral);
+  for(let i=0;i<15;i++)c=q.stepGrowth(c,'Fizz','heat');
+  assert.equal(c.stage,1);
+  assert.equal(c.appearance.heritage[0],ancestral);
+  assert.equal(JSON.stringify(c.appearance.heritage[0]),saved);
+  assert.ok(c.appearance.organ.levels[c.specialization.primary]>=start.appearance.organ.levels[c.specialization.primary]);
+});
+
+test('previous lineage renders recognizable additional organs on the new active body',()=>{
+  const h=harness(),q=h.logic;
+  const baseline=q.tally(fizzBuzz(400),400,'signal');
+  const withHeritage=baseline.appearance;
+  assert.equal(withHeritage.heritage.length,2);
+  const naked=Object.assign({},withHeritage,{heritage:[]});
+  const g=h.get('creature').getContext();
+  let begin=h.pixels.length;
+  q.renderSmooth(g,naked,0,true);
+  const nakedOps=h.pixels.slice(begin);
+  begin=h.pixels.length;
+  q.renderSmooth(g,withHeritage,0,true);
+  const inheritedOps=h.pixels.slice(begin);
+  assert.ok(inheritedOps.length>nakedOps.length+10);
+  assert.ok(inheritedOps.some(p=>p.op==='alpha'&&p.args[0]>.5));
+  assert.ok(inheritedOps.some(p=>p.op==='bezierCurveTo'));
+});
+
+test('evolution transition draws both prior and successor bodies before finishing',()=>{
+  const h=harness({limit:150});
+  h.fire('env-heat','click');h.fire('fizzbuzz-form','submit');
+  while(h.get('stage-name').textContent.includes('第一相')&&h.next()){}
+  assert.match(h.get('stage-name').textContent,/第二相/);
+  const before=h.pixels.length;
+  h.frame(220);
+  const blending=h.pixels.slice(before);
+  assert.ok(blending.some(p=>p.op==='alpha'&&p.args[0]>0&&p.args[0]<1));
+  assert.ok(blending.filter(p=>p.op==='beginPath').length>10);
+  const endStart=h.pixels.length;
+  h.frame(3000);
+  const finished=h.pixels.slice(endStart);
+  assert.ok(finished.length>20);
+  assert.ok(!finished.some(p=>p.op==='alpha'&&p.args[0]>.85&&p.args[0]<.99),
+    'transition alpha should be gone; ordinary organ opacity still allowed');
+});
+
+test('skip and reduced motion preserve the same inherited terminal morphology',()=>{
+  const n=400,played=harness({limit:n}),reduced=harness({limit:n,reducedMotion:true});
+  played.fire('env-heat','click');
+  reduced.fire('env-heat','click');
+  played.fire('fizzbuzz-form','submit');
+  played.fire('skip-button','click');
+  reduced.fire('fizzbuzz-form','submit');
+  assert.equal(played.get('final-lineage').textContent,reduced.get('final-lineage').textContent);
+  assert.match(played.get('final-lineage').textContent,/継承器官：背びれ・翼紋/);
+  assert.match(reduced.get('growth-form').textContent,/継承：背びれ・翼紋/);
+  assert.equal(played.get('result').value,fizzBuzz(n).join('\n'));
+  assert.equal(reduced.get('result').value,fizzBuzz(n).join('\n'));
+});
+
+test('fully matured phenotype freezes its inherited body imprints even if more food is served',()=>{
+  const q=harness().logic,n=400;
+  const end=q.tally(fizzBuzz(n),n,'heat');
+  assert.equal(end.matured,true);
+  const original=end.appearance;
+  let later=end;
+  for(const line of ['Fizz','Buzz','FizzBuzz','31','32'])later=q.stepGrowth(later,line,'signal');
+  assert.equal(later.appearance,original);
+  assert.equal(later.appearance.heritage,original.heritage);
+  assert.equal(JSON.stringify(later.appearance.heritage),JSON.stringify(original.heritage));
 });
