@@ -5,7 +5,7 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 工程4の草案として旧12系統の1器官×3Lv＝36枚の透明SVG仮素材を追加。既存の暫定24肖像、先行2系統33器官PNG、2コアPNG、9縮小JPEG見本の計68画像を無改変で個別Gitバイナリにも復元して台帳管理。真の元モック由来Lv器官化、v4.2改善肖像24点、原本9PNGの復元とSHA照合、人間の画質判定は未完。2つの実行HTMLを同一内容へ更新する作業ブランチDraft PR。既存36承認済み状態は変更しない。51ノードのまま、E14は旧工程3の証跡。Node/Chromium/GAS検証は工程5待ち、main未変更。
+current_status: 工程5の草案としてGitHub Actions Node 35/35、68画像byte一致、両実行HTML再生成一致、Chromium全104画像デコード・14系統Lv差・420px/再生/不正GAS応答拒否が実検証PASS。E15を草案登録（52ノード：36承認済み・16草案）。旧12系統の36SVGと24暫定肖像は完成原画ではなく、高解像度原本9PNG、v4.2改善24画像、目視画質、実GAS配信、第四相は未完。工程6の最終整合は別途実施。
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
@@ -16,10 +16,12 @@ initial_registration_stage2: C1.5.1, C1.5.2, C1.5.3, D1.3.1, D1.3.2, D1.3.3（�
 manifest_reflection_stage2: 既存Project Summary Manifestの総数44→50・ノード階層・参照・残存処理フラグの要約を更新。既存ノード自体の承認状態、src、tests、E層の版・証跡有効性は変更なし。
 last_structural_flow: 工程2 FLOW-04（責務分割案）→ FLOW-07（D検証観点）→ FLOW-05（新規Node初期登録と概要反映）。
 initial_registration_stage3: E14（D1.3.1/C1.5.1 GitHub実行HTML同期・V8限定検証の独立証跡、草案）。
+initial_registration_stage5: E15（GitHub実装コミット c37e107 のNode/Chromium実検証の独立E層証跡、草案。`operations/evidence/stage5-ci-node-chromium.md`参照）。
+manifest_reflection_stage5: `npm test` 35/35、68バイナリ・2HTML一致、実Chromium104画像ロードと14系統Lv0/Lv3差、FizzBuzz N15/1000、420pxと不正応答拒否。スクリーンショット3点/JSON artifact保存。D1.3.1〜3の限定ゲートは実行済み、GASと原画画質は未認定。E15初期登録により51→52ノード。core3定義と36承認済み状態不変。工程6最終差分照合はまだ行わない。
 manifest_reflection_stage4: C1.5.2/D1.3.2の工程4仮素材実装・品質未検証を草案反映。src/composite/draft-organ-sprites.jsとapp.js、ビルダー、両HTML、tests/draft-organ-sprites.test.cjsとbundle同期テスト、design/image-composite-stage4-draft.mdの追加更新。さらに既存の68データURIをassets/の独立バイナリへ完全一致で復元し台帳登録。tools/verify-composite-assets.cjs、tests/recovered-image-assets.test.cjs、design/stage4-asset-review.htmlを追加。GitHub読戻し限定検証はoperations/evidence/stage4-github-asset-inventory.mdを参照。Node増減0、承認/公開状態変更なし。
 manifest_reflection_stage3: C1.5.1とD1.3.1の実態・フラグ要約を更新。GitHub実行HTML2本同一blob 58143d97c89e00d8158b1ec0e18d83c1921a0843、再構築ツール/テスト作成、旧68画像保全、改善24画像未同期、Node CLI/ブラウザ/GAS未実施を明記。E14初期登録、総数50→51。承認状態変更なし。
 last_reflected_flow: FLOW-06 v4.1画像合成と9モック原本を確認 → FLOW-04 旧12系統の派生24画像再抽出/描画重複修正 → FLOW-08 ローカルNode34件、画像24点、Chromium14図鑑/500行/6系統Canvas呼出し → FLOW-05 GitHub編集ソース・D/C追記・E13/Manifest登録。大容量実行HTMLは更新ブロックで未反映。
-unresolved_summary: 51ノード（36承認済み、E6〜E14の9草案、C1.5.1〜3/D1.3.1〜3の6草案）。v4.2描画ロジックとGitHub作業ブランチの実行HTML2本は同期、画像はまだv4.1の68点。元ZIPの改善24画像と中核9原本SHA照合、旧12系統の独立Lv器官、Node実npm test/ブラウザ描画/GAS実配信/実端末FPS/第四相は未完了。main未マージ。
+unresolved_summary: 52ノード（既存36承認済み、E6〜E15の10草案、C1.5.1〜3/D1.3.1〜3の6草案）。v4.2編集ソースと実行HTMLは同期。GitHub ActionsでNode35/35、68資産byte一致、Chromium104/104デコード・14系統Lv差・420pxがPASS（証跡E15）。ただし旧12SVG36は非原画の仮器官、v4.2改善肖像24と元9高解像PNGは未同期、画質の人間検証・元ZIP SHA・実GAS・実端末FPS/第四相は未完。main統合は最終HEADのCI結果に基づく別判定。
 
 ## 画像合成v3ローカル限定反映（2026-10-14、未承認）
 
@@ -563,3 +565,10 @@ E14:（D1.3.1, C1.5.1 / v4.2実行HTML同期とV8限定動作照合の証跡）�
 - **未実装の設計案**: 12全系統のうち9系統、結果画面限定の第4進化段階と解放閾値は実装していない。実装済みと称さない。
 - **限定検証**: E6に該当blobのV8互換モック53件成功を記録。実Node npm test、GAS実通信、ブラウザ実画質・FPS・アクセシビリティ・モバイルは未実施。
 - **NEXT**: FLOW-08で実Node/ブラウザ/GASの描画・操作を確認。造形評価後に必要なら次のFLOW-04で他9系統と第4段階条件を設計する。試作を承認済みに変更するには別途FLOW-09判断が必要。
+
+## 工程5 — CIの実行証跡・E15登録（2026-10-14、草案）
+
+- 新しい`tests/composite-runtime-contract.test.cjs`と`tests/browser-smoke.cjs`、GitHub Actions `.github/workflows/gas-fizzbuzz-stage5.yml` を追加。Node/Chromiumの詳細結果は `operations/evidence/stage5-ci-node-chromium.md` と E15を参照。
+- 検証対象実装commit `c37e1077506ad619556abb894d9a7233d6e99bc3` のCI成功run: https://github.com/chifuru/VAL/actions/runs/38485929954 。自動テストPASSと完成画質認定を混同しない。
+- 新規E15は**草案の初期登録**。総数52（36承認済み、草案16）。既存E14とその他36承認済みの状態は変更なし。
+- 残存ゲート: 元PNG/ZIP SHAとローカルv4.2改善24肖像、旧12真正器官化、目視レビュー、実GAS配信、端末FPS、工程6最終照合。
