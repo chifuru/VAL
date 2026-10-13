@@ -1178,6 +1178,79 @@
         }
         line64(5,57,58,57,'#293b5d',1);
       }
+      function drawEvolvedPart64(part,sockets,colors,time,still){
+        if(part.level<1)return;
+        var spot=sockets[part.anchor],x=spot[0],y=spot[1],
+          n=part.level,ink=colors.ink,light=colors.light,
+          glow=colors.glow,dim=colors.shade1;
+        var flicker=still?0:Math.round(Math.sin(time/420)*2);
+        function arm(x2,y2,color,width){line64(x,y,x2,y2,ink,(width||2)+1);line64(x,y,x2,y2,color,width||2);}
+        switch(part.id){
+          case 'absenceMask':
+            disk64(x-2,y-1,5+n,3+n,ink,dim);
+            rect64(x-2-n,y-1,2+n,1,glow);
+            for(var m=0;m<n;m++)rect64(x-5+m*4,y+3,2,1,dim);
+            break;
+          case 'unseenEye':
+            eye64(x,y,2+n,glow);
+            for(var e=0;e<n;e++)rect64(x-5+e*4,y-6,2,2,e%2?ink:glow);
+            break;
+          case 'erasureCrown':
+            arm(x-6,y-7-n*3,dim,2);
+            for(var c=0;c<n+1;c++)rect64(x-10+c*5,y-10-n*2+(c%2)*3,3,2,c%2?ink:light);
+            if(n===3)ring64(x,y-5,13,7,dim,1);
+            break;
+          case 'memoryFilament':
+            for(var f=0;f<n+1;f++){
+              var xx=x-9-n*3-f*3,yy=y+2+f*4;
+              arm(xx,yy,dim,2);
+              if(n>1)line64(xx,yy,xx-3,yy+3,glow,1);
+            }
+            break;
+          case 'brokenTail':
+            for(var t=0;t<n+2;t++)
+              rect64(x-t*4,y+(t%2)*2,2,2,t%2?dim:light);
+            if(n>=2)rect64(x-8,y,3,1,ink);
+            break;
+          case 'receiverCrown':
+            arm(x+4,y-8-n*3,light,2);
+            arm(x-3,y-6-n,glow,1);
+            for(var r=0;r<n;r++)rect64(x+7+r*3,y-11-r*2,2,2,glow);
+            break;
+          case 'observingEye':
+            eye64(x,y,2+n,glow);
+            for(var z=0;z<n;z++){
+              eye64(x+6+z*4,y-5+z*3,1.2,dim);
+            }
+            break;
+          case 'revelationMembrane':
+            poly64([[x-4,y+5],[x-5-n*3,y-6-n*5],
+              [x+8+n*2,y-4-n*3],[x+3,y+6]],dim,ink);
+            line64(x-2,y+3,x,y-7-n*3,glow,1);
+            if(n===3)for(var b=0;b<5;b++)dot64(x-4+b*2,y-7-b%3,light);
+            break;
+          case 'lightKernel':
+            disk64(x+n,y-1,2+n,2+n,glow,ink);
+            rect64(x+n,y-1,2,2,'#ffffff');
+            if(n>=2)disk64(x-6,y+3,2,2,light,ink);
+            if(n===3)disk64(x+11,y-7,2,2,light,ink);
+            break;
+          case 'detachedNode':
+            for(var node=0;node<n;node++){
+              var nx=x+Math.round((node-1)*6),ny=y-7-node*4+flicker;
+              rect64(nx,ny,4,4,node%2?light:glow);
+              dot64(nx+1,ny+1,'#ffffff');
+              if(node===0)line64(x,y,nx,ny,dim,1);
+            }
+            break;
+          case 'signalTail':
+            arm(x-8-n*4,y+6+n*2,dim,2);
+            for(var tail=0;tail<n*3;tail++)
+              rect64(x-4-tail*2,y+3+(tail%3)*2,2,1,
+                tail%2?glow:light);
+            break;
+        }
+      }
       function dotCreature64(a,time,still){
         var cx=32,cy=34,stage=a.stage,kind=a.lineage,lv=a.organ.levels,
           tier=a.growthTier,wave=still?0:Math.round(Math.sin(time/560)*1.4),
@@ -1289,8 +1362,9 @@
           }
         }
         // Body: a black 1px border, two edge shades, then irregular pixel clusters.
-        var bodyRx=stage===0?size+3:kind==='serpent'?size*.67:size*.8,
-          bodyRy=stage===0?size*.62:kind==='sail'?size*.7:size;
+        var identity=a.core||{headRatio:1,eyeSpacing:5,torsoRatio:1,tailRatio:1,hueBias:.5};
+        var bodyRx=(stage===0?size+3:kind==='serpent'?size*.67:size*.8)*identity.torsoRatio,
+          bodyRy=(stage===0?size*.62:kind==='sail'?size*.7:size)*identity.headRatio;
         disk64(cx,cy,bodyRx+2,bodyRy+2,ink,ink);
         disk64(cx,cy,bodyRx,bodyRy,a.color,shade1);
         disk64(cx-bodyRx*.22,cy-bodyRy*.20,bodyRx*.68,bodyRy*.63,light,shade1);
@@ -1301,7 +1375,8 @@
           dot64(cx+Math.cos(theta)*bodyRx*r,
             cy+Math.sin(theta)*bodyRy*r,speck%4===0?bright:shade1);
         }
-        eye64(cx+bodyRx*.35,cy-bodyRy*.28,2+lv.eyes*1.35,deep);
+        eye64(cx+bodyRx*.35,cy-bodyRy*.28,
+          2+lv.eyes*1.35+(identity.eyeSpacing-5)*.08,deep);
         if(stage>0 && lv.eyes>1.2)eye64(cx-bodyRx*.34,cy-bodyRy*.24,2+lv.eyes,accent);
         if(kind==='manyeyes' && stage>0)
           for(var me=0;me<4+stage;me++)eye64(cx-12+(me%3)*11,cy-9+Math.floor(me/3)*12,2.4,accent);
@@ -1325,6 +1400,17 @@
         if(kind==='parallel'){
           for(var processors=0;processors<3;processors++)
             rect64(cx-8+processors*7,cy+6,3,3,processors%2?glow:accent);
+        }
+        if(kind==='antimeme'||kind==='valis'){
+          // Part records are independent growth units attached to inherited core sockets.
+          var sockets=a.sockets||socketsFor(identity);
+          var colors={ink:ink,light:light,glow:glow,shade1:shade1};
+          (a.parts||[]).forEach(function(part){
+            drawEvolvedPart64(part,sockets,colors,time,still);
+          });
+          // Identity cue remains even as satellites and missing-information organs grow.
+          disk64(cx+7,cy-6,3+identity.headRatio,3,ink,light);
+          dot64(cx+8,cy-7,glow);
         }
         // Carry old body PARTS into the next organism permanently.
         (a.heritage||[]).forEach(function(h,i){
@@ -1352,6 +1438,13 @@
             petal([[cx-7,cy-12],[cx-2,cy-23-oldReach],[cx+2,cy-11]],remembered);
           }else if(h.lineage==='manyeyes'){
             eye64(cx-8,cy-6,2+Math.min(2,h.senses*2),remembered);
+          }else if(h.lineage==='antimeme'||h.lineage==='valis'){
+            // The inherited organs must survive a cross-lineage phase change.
+            (h.parts||[]).forEach(function(part){
+              var sockets=a.sockets||socketsFor(a.core||coreFor({senses:.5,body:.5,appendage:.5,skin:.5}));
+              var colors={ink:ink,light:remembered,glow:bright,shade1:remembered};
+              drawEvolvedPart64(part,sockets,colors,time,true);
+            });
           }else {
             // The uncommitted juvenile keeps its tiny dorsal fin and an eye-speck.
             petal([[cx-10,cy+4],[cx-17,cy-4-oldReach],[cx-14,cy+9]],remembered);
