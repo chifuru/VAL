@@ -81,7 +81,7 @@ Node.js 18以降で:
 npm test
 ```
 
-`tests/fizzbuzz.test.cjs` はサーバーのFizzBuzz出力契約（9件）、`tests/creature.test.cjs` はDNA/4種餌/促進抑制/3段階/成熟後固定/再生/スキップ/エラー/低モーション/Canvasモック/ゲームリザルト/ログ開閉/再育成（27件）を検証する構成です。これらはGAS本番や視覚品質の検証にはなりません。
+`tests/fizzbuzz.test.cjs` はサーバーのFizzBuzz出力契約（9件）、`tests/creature.test.cjs` はDNA/4種餌/促進抑制/正式3段階/段階ごと3分岐/4発達形態/初期DNAプレビュー/成熟固定/再生・スキップ・ゲーム結果/ログ開閉・再育成（36件）を検証する構成です。これらはGAS本番や視覚品質の検証にはなりません。
 
 ## GASへの手動導入（未デプロイ）
 
