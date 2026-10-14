@@ -97,7 +97,7 @@
   function emptySituation() { return {exposure:{signal:0, void:0, heat:0, tide:0}, foods:[], envs:[], steps:0}; }
   function initial(seed) {
     seed = validateSeed(seed);
-    return {engineVersion:4, environmentPlan:environmentPlanFor(seed), seed:seed, dna:dnaFor(seed), current:0, energyQuarters:0, energy:0, points:0,
+    return {engineVersion:4, appearanceRevision:2, environmentPlan:environmentPlanFor(seed), seed:seed, dna:dnaFor(seed), current:0, energyQuarters:0, energy:0, points:0,
       rawPoints:0, currentEnvironment:null, modifier:0, stage:0, lineage:null, history:[], heritage:[], partXp:{}, partImprints:{},
       tissueEnergy:Object.fromEntries(BODY_PARTS.map(function (id) { return [id, 0]; })),
       foods:{number:0, fizz:0, buzz:0, fizzbuzz:0}, regulation:{promote:0, inhibit:0},
@@ -234,7 +234,7 @@
     state.heritage.forEach(function (entry) {
       phenotype(state,entry.lineage).filter(function(p){return p.level>0;}).forEach(function(part){inherited.push({...part});});
     });
-    return freeze({version:ENGINE_VERSION, seed:state.seed, dna:{...state.dna}, stage:state.stage,
+    return freeze({version:ENGINE_VERSION, appearanceRevision:state.appearanceRevision || 1, seed:state.seed, dna:{...state.dna}, stage:state.stage,
       points:state.points, progress:progress, tier:Math.min(4, 1 + Math.floor(phaseProgress * 4)),
       bodyFamily:state.lineage?LINEAGE_BY_ID[state.lineage].bodyFamily:'aquatic',
       bodyPlan:state.lineage?LINEAGE_BY_ID[state.lineage].bodyPlan:definitions.CORE_PLANS[state.dna.bodyVariant],

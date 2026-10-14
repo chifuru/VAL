@@ -37,6 +37,11 @@ function stateData(value, seed, processed) {
   if (!object(value) || value.seed !== seed || value.current !== processed) invalid('Nと再生位置が一致しません');
   if (!Number.isFinite(value.points) || value.points < 0 || value.points > 100 || !integer(value.stage, 0, value.engineVersion>=3?3:2)) invalid('成長値が不正です');
   if (value.dna && value.dna.seed !== undefined && value.dna.seed !== seed) invalid('DNAのNが一致しません');
+  if(value.engineVersion===4){
+    if(value.appearanceRevision!==undefined&&![1,2].includes(value.appearanceRevision))invalid('外見版が不正です');
+    if(value.finalAppearance?.appearanceRevision!==undefined&&![1,2].includes(value.finalAppearance.appearanceRevision))invalid('成熟外見版が不正です');
+    if(value.finalAppearance&&(value.finalAppearance.appearanceRevision||1)!==(value.appearanceRevision||1))invalid('成熟外見版が一致しません');
+  }
 }
 function validateRecord(input) {
   if (!object(input) || FIELDS.some(k => !Object.hasOwn(input, k)) || Object.keys(input).some(k => !FIELDS.includes(k))) invalid('必須項目が一致しません');
@@ -60,6 +65,7 @@ function validateRecord(input) {
     if (!object(item) || Object.keys(item).sort().join(',') !== 'portrait,processed,stage,state' || !integer(item.stage,0,input.engineVersion>=3?3:2) || !integer(item.processed,0,input.processed) || stages.has(item.stage)) invalid('相の記録が不正です');
     stages.add(item.stage);
     if ((item.state?.engineVersion||1)!==input.engineVersion) invalid('相の成長版が一致しません');
+    if(input.engineVersion===4&&(item.state.appearanceRevision||1)!==(input.state.appearanceRevision||1))invalid('相の外見版が一致しません');
     stateData(item.state,input.seed,item.processed);
     if (item.state.stage !== item.stage) invalid('相の記録が一致しません');
     portrait(item.portrait);
@@ -116,7 +122,7 @@ class HistoryStore {
       await this.load();
       if (this.blocked) throw new HistoryError('HISTORY_CORRUPT',this.warning);
       const current = this.records.find(r => r.runId === record.runId);
-      if (current && (current.seed !== record.seed || current.createdAt !== record.createdAt || current.engineVersion !== record.engineVersion)) invalid('出生記録は変更できません');
+      if (current && (current.seed !== record.seed || current.createdAt !== record.createdAt || current.engineVersion !== record.engineVersion || (current.state.appearanceRevision||1)!==(record.state.appearanceRevision||1))) invalid('出生記録は変更できません');
       if (current && (Date.parse(record.updatedAt) < Date.parse(current.updatedAt) || record.processed < current.processed)) invalid('古い更新で上書きできません');
       let disk = null;
       try { disk = await this.fs.readFile(this.file,'utf8'); }

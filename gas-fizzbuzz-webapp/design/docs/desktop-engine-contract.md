@@ -1,6 +1,8 @@
 # ENGINE 2 — 数値入力と進化の契約
 
-実装: src/composite/creature-engine.js / lineage-definitions.js。検証: tests/desktop-growth.test.cjs。全VALISノードは草案。
+これは旧ENGINE2の歴史的契約です。現版の操作・成長契約はREADMEとVALISの現在A/Bノード、外見revision2はmorphology-polish-contract.mdを参照してください。旧版実装はsrc/composite/legacy-engine-v2.jsです。
+
+当時の実装: creature-engine.js / lineage-definitions.js。検証: tests/desktop-growth.test.cjs。全VALISノードは草案。
 
 N=1..1000、出力は元の1..N。inputイベント中に出生前DNA/姿/体色を変え、600ms安定後に自動出生する。入力途中は保存しない。育成中の切替は前runを保存し、保存失敗は通知して出生を止める。
 

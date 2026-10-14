@@ -129,7 +129,7 @@ let lastFrame=0;function animate(time){if(ready&&runStatus==='growing'&&!busy&&r
 async function init(){
  if(!bridge)throw Error('VALIS.exeから起動してください。デスクトップの個体記録機能に接続できません。');
  await R.prepare();await reloadRecords();bridge.onPrepareClose(shutdown);ready=true;updateUI(true);requestAnimationFrame(animate);
- if(bridge.testMode)window.__VALIS_TEST__={snapshot:()=>clone({state,preview,preparedSeed,archiveOpen,busy,runStatus,activeRun,selectedRecordId,records,log:logLines.join('\n'),ready,environment:state.currentEnvironment||state.environmentPlan?.rows[0]}),run,load,startLoaded,skip,pause,reset,selectRecord,backToLive,reloadRecords,persist,renderHash:()=>R.portrait(viewState()),renderedKeys:()=>R.renderedKeys(),renderedSources:()=>R.renderedSources(),renderState:s=>{R.draw(s,{still:true});return $('creature').toDataURL();},missingAssets:()=>R.missingAssets()};
+ if(bridge.testMode)window.__VALIS_TEST__={snapshot:()=>clone({state,preview,preparedSeed,archiveOpen,busy,runStatus,activeRun,selectedRecordId,records,log:logLines.join('\n'),ready,environment:state.currentEnvironment||state.environmentPlan?.rows[0]}),run,load,startLoaded,skip,pause,reset,selectRecord,backToLive,reloadRecords,persist,renderHash:()=>R.portrait(viewState()),renderedKeys:()=>R.renderedKeys(),renderedSources:()=>R.renderedSources(),attachments:()=>R.attachments(),renderState:s=>{R.draw(s,{still:true});return $('creature').toDataURL();},missingAssets:()=>R.missingAssets()};
 }
 init().catch(error=>{notice(error.message);$('session-status').textContent='起動できません';});
 })();

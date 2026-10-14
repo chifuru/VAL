@@ -2,6 +2,14 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const E=require('../src/composite/creature-engine'),L=require('../src/composite/legacy-engine'),L2=require('../src/composite/legacy-engine-v2'),L3=require('../src/composite/legacy-engine-v3'),D=require('../src/composite/lineage-definitions');
 const clone=x=>JSON.parse(JSON.stringify(x));
+test('appearance revision preserves every input outcome of frozen engine4',()=>{
+ const old=require('./archive/engine-v4.cjs');
+ const plain=s=>JSON.parse(JSON.stringify(s,(k,v)=>k==='appearanceRevision'?undefined:v));
+ for(let n=1;n<=1000;n++)assert.deepEqual(plain(E.runAll(n)),old.runAll(n),'calculation changed at N='+n);
+ const fresh=E.runAll(927);assert.equal(fresh.appearanceRevision,2);assert.equal(E.appearanceFor(fresh).appearanceRevision,2);
+ const historical=old.runAll(927);assert.equal(E.appearanceFor(historical).appearanceRevision,undefined);
+ const young=old.runAll(100);assert.equal(E.appearanceFor(young).appearanceRevision,1);
+});
 function states(n){let s=E.initial(n),list=[s];for(const line of E.linesFor(n)){s=E.step(s,line);list.push(s);}return list;}
 test('1000-row original output and exact food/quarter calibration remain intact',()=>{const s=E.runAll(1000);assert.equal(s.energyQuarters,1801);assert.equal(s.points,100);assert.equal(s.current,1000);assert.deepEqual(s.foods,{number:533,fizz:267,buzz:134,fizzbuzz:66});for(const n of [1,15,120,1000])assert.deepEqual(E.linesFor(n),Array.from({length:n},(_,i)=>{let k=i+1;return k%15===0?'FizzBuzz':k%3===0?'Fizz':k%5===0?'Buzz':String(k);}));});
 test('second phase enters at201 and third phase at580 independent of N duration',()=>{for(const n of [600,927,1000]){const a=states(n);assert.equal(a[200].stage,0);assert.equal(a[201].stage,1);assert.equal(a[579].stage,1);assert.equal(a[580].stage,2);assert.deepEqual(a[n].history.map(h=>h.step),[201,580,...(a[n].matured?[a[n].maturedAt]:[])]);}for(const n of [1,15,120])assert.equal(E.runAll(n).stage,0);});

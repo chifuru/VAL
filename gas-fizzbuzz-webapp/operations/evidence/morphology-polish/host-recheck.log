@@ -1,0 +1,21 @@
+✔ separate runs of the same N survive process-style store reload and list newest first (17.205483ms)
+✔ queued updates keep latest progress and reject older or changed birth records (5.385533ms)
+✔ corrupt primary keeps original and backup untouched and prevents automatic overwrite (5.140062ms)
+✔ atomic write failure preserves previous primary, warns and blocks flush until retry succeeds (11.837438ms)
+✔ external history change is not overwritten by cached state (2.924891ms)
+✔ record validator rejects unsafe N, progress, IDs, malformed images and mismatched snapshots (1.812537ms)
+✔ IPC accepts only local top frame; arbitrary frame/path and remote navigation cannot use host (1.738886ms)
+✔ close waits for renderer preparation and successful flush; failed flush keeps window open (0.897931ms)
+✔ sandbox preload exposes fixed IPC methods and unsubscribes close callbacks (1.753718ms)
+✔ engine1 and engine4 records coexist without rewriting legacy state or portraits (34.111096ms)
+✔ legacy2 final portraits coexist with new4 fourth-phase snapshots (23.95606ms)
+✔ legacy3 saved final result coexists with new4 and cannot change edition in place (23.490229ms)
+✔ old4 and revised4 retain their appearance revision across storage and snapshots (25.017716ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 210.854298

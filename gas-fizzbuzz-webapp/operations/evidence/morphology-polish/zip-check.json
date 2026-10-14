@@ -1,0 +1,6 @@
+{
+  "scope": "Read every SHA256SUMS member from the final Windows ZIP, including CRC validation",
+  "checkedFiles": 74,
+  "zipSha256": "22cc81eba5c0ee8c5d6d0dcdaaef6227fed3ccfbe26d4ae90387395cec25a2f8",
+  "passed": true
+}

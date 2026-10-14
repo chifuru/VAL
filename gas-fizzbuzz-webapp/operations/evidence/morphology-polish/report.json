@@ -1,0 +1,78 @@
+{
+  "scope": "app1.3.1/ENGINE4/appearanceRevision2/desktop-art-v4.1; all VALIS nodes draft",
+  "generatedAt": "2026-10-14T23:14:31.696989+00:00",
+  "unit": {
+    "passed": 44,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "passed": 373,
+    "browser": "154.0.8037.57",
+    "errors": [],
+    "remote": [],
+    "actualThirdAndFourthLineages": 20,
+    "realTissueConnections": 20,
+    "old3PhasesPixelEqual": 4,
+    "old4PhasesPixelEqual": 4,
+    "sameDNAPair": [
+      "solar",
+      "serpent"
+    ],
+    "sameLineageReentryKeepsPrimary": true
+  },
+  "native": {
+    "platform": "linux",
+    "createChecks": 17,
+    "restoreChecks": 11,
+    "separateProcesses": true,
+    "appearanceRevisionPersisted": 2,
+    "testOnlyFlags": "Xvfb --no-sandbox --disable-gpu; product sandbox unchanged"
+  },
+  "calculation": {
+    "allInputsComparedToFrozen4": 1000,
+    "changedFieldsOnly": [
+      "appearanceRevision",
+      "finalAppearance.appearanceRevision"
+    ],
+    "secondAt": 201,
+    "thirdAt": 580,
+    "fourthMinimum": 900,
+    "N927FourthAt": 909
+  },
+  "windowsPackage": {
+    "scope": "Windows x64 package integrity; actual Windows execution is a separate smoke gate",
+    "electronVersion": "44.7.2",
+    "packagerVersion": "20.3.0",
+    "officialRuntimeSha256": "10a89447ef64ac5cb9f782af48ffd83734a40ae91681259d1048ca3c9e6c5da4",
+    "exe": "VALIS.exe",
+    "machine": "x86-64",
+    "asarEntries": 60,
+    "pngCount": 38,
+    "sourceBytesMatch": true,
+    "zip": "VALIS-Windows-x64.zip",
+    "zipBytes": 225731794,
+    "zipSha256": "22cc81eba5c0ee8c5d6d0dcdaaef6227fed3ccfbe26d4ae90387395cec25a2f8",
+    "generatedAt": "2026-10-14T23:12:38.402Z"
+  },
+  "zipCheck": {
+    "scope": "Read every SHA256SUMS member from the final Windows ZIP, including CRC validation",
+    "checkedFiles": 74,
+    "zipSha256": "22cc81eba5c0ee8c5d6d0dcdaaef6227fed3ccfbe26d4ae90387395cec25a2f8",
+    "passed": true
+  },
+  "visualAssessment": {
+    "observer": "Codex actual PNG and original-mock comparison",
+    "improvements": [
+      "solar radial ring vs serpent elongated multi-neck silhouette",
+      "body-surface projected organ roots",
+      "skin-shaded eye sockets and tissue-colored joints",
+      "current organ emphasis on same-lineage reentry"
+    ],
+    "userAcceptance": "not performed"
+  },
+  "unperformed": [
+    "Windows10/11 user hardware DPI/FPS and visual acceptance"
+  ],
+  "hostedWindows": "Independent execution required; E28 is not reused"
+}

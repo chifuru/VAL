@@ -3,7 +3,7 @@ const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypt
 const {PNG}=require('pngjs');
 const root=path.resolve(__dirname,'..'),D=require('../src/composite/lineage-definitions');
 function build(){
- const config={version:'desktop-art-v4',sprites:{},files:[]};
+ const config={version:'desktop-art-v4.1',sprites:{},files:[]};
  const rasters=new Map();
  function attachmentRoot(file,bytes,region,pivot){
   if(!rasters.has(file))rasters.set(file,PNG.sync.read(bytes));
