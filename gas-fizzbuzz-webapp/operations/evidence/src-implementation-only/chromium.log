@@ -1,0 +1,19 @@
+
+> gas-fizzbuzz-webapp@0.1.0 test:browser
+> node tests/browser-smoke.cjs
+
+PASS: 44 active original images + 12 PNG organ atlases decode; no archived images or SVG fallback — 56 / 56
+PASS: 14 illustrated codex cards load actual images
+PASS: all 36 PNG organ regions contain transparent background and visible anatomy — [{"id":"abyss","level":1,"clear":328281,"visible":106810,"total":454672},{"id":"abyss","level":2,"clear":316168,"visible":167512,"total":524176},{"id":"abyss","level":3,"clear":254170,"visible":266134,"total":593680},{"id":"myth","level":1,"clear":357132,"visible":71013,"total":440192},{"id":"myth","level":2,"clear":348723,"visible":165501,"total":541552},{"id":"myth","level":3,"clear":309051,"visible":234251,"total":590784},{"id":"recursive","level":1,"clear":292823,"visible":52411,"total":380100},{"id":"recursive","level":2,"clear":330829,"visible":130006,"total":539380},{"id":"recursive","level":3,"clear":251484,"visible":248587,"total":653048},{"id":"sail","level":1,"clear":371096,"visible":42917,"total":430056},{"id":"sail","level":2,"clear":390816,"visible":105148,"total":533588},{"id":"sail","level":3,"clear":326463,"visible":225019,"total":608884},{"id":"gravity","level":1,"clear":340007,"visible":40707,"total":413404},{"id":"gravity","level":2,"clear":316478,"visible":115452,"total":502456},{"id":"gravity","level":3,"clear":275948,"visible":238011,"total":656668},{"id":"crystal","level":1,"clear":345649,"visible":54770,"total":414128},{"id":"crystal","level":2,"clear":370453,"visible":118519,"total":510420},{"id":"crystal","level":3,"clear":335034,"visible":263360,"total":647980},{"id":"manyeyes","level":1,"clear":259161,"visible":66361,"total":346796},{"id":"manyeyes","level":2,"clear":355226,"visible":150819,"total":553860},{"id":"manyeyes","level":3,"clear":325513,"visible":260046,"total":671872},{"id":"abyssshell","level":1,"clear":313298,"visible":64926,"total":389512},{"id":"abyssshell","level":2,"clear":336277,"visible":157452,"total":514764},{"id":"abyssshell","level":3,"clear":328692,"visible":304315,"total":668252},{"id":"parallel","level":1,"clear":351923,"visible":60303,"total":435124},{"id":"parallel","level":2,"clear":329711,"visible":145436,"total":524900},{"id":"parallel","level":3,"clear":272841,"visible":257235,"total":612504},{"id":"memory","level":1,"clear":349507,"visible":56161,"total":414852},{"id":"memory","level":2,"clear":335995,"visible":134021,"total":486528},{"id":"memory","level":3,"clear":330020,"visible":314029,"total":671148},{"id":"serpent","level":1,"clear":294375,"visible":65350,"total":392408},{"id":"serpent","level":2,"clear":315699,"visible":150299,"total":535036},{"id":"serpent","level":3,"clear":277158,"visible":245308,"total":645084},{"id":"solar","level":1,"clear":355257,"visible":36175,"total":422092},{"id":"solar","level":2,"clear":370344,"visible":91758,"total":532864},{"id":"solar","level":3,"clear":263932,"visible":200044,"total":617572}]
+PASS: all twelve organ/main Lv0/1/2/3 differences; one body + PNG organ, no poster contamination
+PASS: 14 lineage codex interactions + Lv0/Lv3 actual Canvas changes — 14 / 14
+PASS: all twelve guided real growth runs render their PNG organ and complete N=480
+PASS: local preview: server-independent N=15/1000, skip, complete maturation — 1000/1000 records
+PASS: mock GAS invalid response is rejected without local fallback
+PASS: 420px mobile layout, guided preview and playback — {"window":420,"scroll":420,"canvas":402}
+PASS: uncaught page errors — 0
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

@@ -27,7 +27,7 @@ code{font-size:12px}footer{margin-top:40px;border-top:1px solid #38516f;padding-
 <h2 id="sources">C01–C09 / 参照見本 (JPEG)</h2><div id="references" class="collection refs"></div>
 <h2 id="all">14系統の相別肖像・器官レベル</h2><div id="lineages"></div>
 <h2 id="core">不変祖先コア / オリジナルPNG 2点</h2><div id="coreGallery" class="collection"></div>
-<footer>保管元: <code>src/assets/composite/</code>、<code>src/assets/lineage-webp/</code>、<code>src/assets/reference-thumbs/</code>。台帳: <code>src/assets/composite-asset-ledger.v42-draft.json</code>。ブラウザによる画像表示の品質判定は別途実施してください。</footer>
+<footer>保管元: <code>src/assets/composite/</code>、<code>design/archive/lineage-webp/</code>、<code>src/assets/reference-thumbs/</code>。台帳: <code>design/assets/composite-asset-ledger.v42-draft.json</code>。ブラウザによる画像表示の品質判定は別途実施してください。</footer>
 <script src="../src/composite/draft-organ-sprites.js"></script>
 <script>
 'use strict';
@@ -36,7 +36,7 @@ const modern={antimeme:['absenceMask','unseenEye','erasureCrown','memoryFilament
 valis:['observingEye','revelationMembrane','detachedNode','receiverCrown','signalTail','lightKernel']};
 const refs=['C01_deepsea','C02_bird_dragon','C03_crystal_alien','C04_alien_three',
 'C05_abyssal_codex','C06_evolution_atlas','C07_aquatic_atlas','C08_valis_revelation','C09_valis_signal'];
-const asset=(p)=>'../src/assets/'+p;
+const asset=(p)=>p.startsWith('lineage-webp/')?'archive/'+p:'../src/assets/'+p;
 function makeArt(url,label,parent,css='') {
  const fig=document.createElement('figure');fig.className='art '+css;
  const img=document.createElement('img');img.src=url;img.alt=label;img.loading='lazy';

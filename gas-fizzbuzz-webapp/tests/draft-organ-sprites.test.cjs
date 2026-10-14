@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
-const source = fs.readFileSync(path.join(__dirname, '../src/composite/draft-organ-sprites.js'), 'utf8');
+const source = fs.readFileSync(path.join(__dirname, '../design/archive/draft-organ-sprites.js'), 'utf8');
 const sandbox = {window: {}};
 vm.runInNewContext(source, sandbox, {timeout: 10000});
 const generator = sandbox.window.CompositeDraftOrgans;

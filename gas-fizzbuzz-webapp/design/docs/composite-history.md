@@ -1,3 +1,7 @@
+# 2026-10-14 配置整理
+
+この資料はsrc外へ移動。現行実装はsrc/Index.html、Code.gs、appsscript.json、compositeの編集コード、使用画像とorgans/config.json。比較一覧はdesign/organ-catalog.html、出所台帳はdesign/assets、旧版はdesign/archive、配布previewはdesign/previews。以下の旧配置記述は履歴。
+
 # 2026-10-14 完成資産のsrc配置更新
 
 現在の実行資産はsrc/assetsに統一。旧12系統は各3LvのPNGアトラスを使用し、実行時に仮SVGを導入しない。src/assets/organs/ledger.jsonが各画像の出所/領域/根元/レイヤーを管理する。元68画像はバイト保持。以下の旧段階記述は履歴として残す。

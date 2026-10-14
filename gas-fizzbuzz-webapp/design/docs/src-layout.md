@@ -1,3 +1,7 @@
+# 2026-10-14 配置整理
+
+この資料はsrc外へ移動。現行実装はsrc/Index.html、Code.gs、appsscript.json、compositeの編集コード、使用画像とorgans/config.json。比較一覧はdesign/organ-catalog.html、出所台帳はdesign/assets、旧版はdesign/archive、配布previewはdesign/previews。以下の旧配置記述は履歴。
+
 # FizzBuzz Creature — 実行・画像ファイル
 
 完成した実行ファイルと画像はこのsrcディレクトリに配置する。

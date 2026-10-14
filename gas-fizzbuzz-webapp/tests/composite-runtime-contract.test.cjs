@@ -12,9 +12,7 @@ const blocks=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>m[1]);
 const sandbox={window:{},module:{exports:{}},console};
 vm.runInNewContext(blocks[0],sandbox,{timeout:10000});
 vm.runInNewContext(blocks[1],sandbox,{timeout:10000});
-vm.runInNewContext(fs.readFileSync(path.join(root,'src/composite/draft-organ-sprites.js'),'utf8'),sandbox,{timeout:10000});
 const engine=sandbox.module.exports,assets=sandbox.window.ASSET_CONFIG;
-sandbox.window.CompositeDraftOrgans.install(assets);
 
 test('every lineage has an image for every declared organ level (without provisional SVG fallback)',()=>{
  assert.equal(engine.LINEAGES.length,14);
@@ -40,16 +38,12 @@ test('every lineage has an image for every declared organ level (without provisi
     }
    }
   }
-  if(!['valis','antimeme'].includes(lineage.id)){
-   const portraits=assets.lineageImages[lineage.id];
-   assert.equal(portraits?.length,2,'phase II/III portrait gap: '+lineage.id);
-   portraits.forEach(p=>assert.ok(assets.sources[p]?.startsWith('data:image/webp;base64,'),'missing portrait: '+p));
-  }
+
  }
  assert.equal(organs,23);
  assert.equal(tiers,69);
  assert.equal(drafts,0);
- assert.equal(assets.draftOrganLineages.length,0);
+ assert.equal(assets.draftOrganLineages,undefined);
 });
 
 test('N contract and lineage-crossing use the real bundled evolution engine',()=>{

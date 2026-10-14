@@ -4,10 +4,10 @@
 (async()=>{
  const names={abyss:'深淵触手',myth:'神鳥',recursive:'再帰知性',sail:'光帆',gravity:'重力環',crystal:'星晶',manyeyes:'多眼知覚',abyssshell:'深殻',parallel:'並列生命',memory:'記憶殻',serpent:'多頭蛇',solar:'日輪'};
  try{
-  const response=await fetch('./assets/organs/ledger.json');if(!response.ok)throw Error('台帳を読み込めません');
+  const response=await fetch('../src/assets/organs/config.json');if(!response.ok)throw Error('台帳を読み込めません');
   const ledger=await response.json();let rendered=0;
   for(const [id,row] of Object.entries(ledger)){
-   const im=new Image();im.src='./'+row.path.replace(/^src\//,'');await im.decode();
+   const im=new Image();im.src='../'+row.path;await im.decode();
    const section=document.createElement('section');section.className='family';section.dataset.lineage=id;
    const heading=document.createElement('h2');heading.textContent=names[id]+' / '+id;section.append(heading);
    const levels=document.createElement('div');levels.className='levels';

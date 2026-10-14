@@ -14,13 +14,13 @@ test('embedded game has three script blocks and interactive creature UI',()=>{
   for(const id of ['creatureCanvas','fizzbuzzLog','runButton','evolutionHistory','partList','references'])
     assert.ok(html.includes('id="'+id+'"'),id);
 });
-test('asset archive includes nine refs, 35 body/part PNGs and 24 lineage images',()=>{
+test('active assets include nine displayed refs, 35 body/part PNGs and twelve organ atlases',()=>{
   assert.equal(C.references.length,9);
   assert.equal(Object.keys(C.core).length,2);
   assert.equal(Object.keys(C.partImages).length,11);
-  assert.equal(Object.keys(C.lineageImages).length,12);
-  assert.equal(Object.values(C.lineageImages).flat().length,24);
-  assert.ok(Object.values(C.sources).length>=68);
+  assert.equal(C.lineageImages,undefined);
+  assert.equal(Object.keys(C.authoredOrgans).length,12);
+  assert.equal(Object.values(C.sources).length,44);
   assert.ok(Object.values(C.sources).every(v=>v.startsWith('data:image/')));
 });
 test('original FizzBuzz strings 1..N and priority remain unchanged',()=>{

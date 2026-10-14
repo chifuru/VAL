@@ -1,0 +1,341 @@
+{
+  "base_commit": "b702e2daaf7926adc94f62cf1e0ae45da4fe767a",
+  "files": [
+    {
+      "path": "src/Code.gs",
+      "sha256": "3dd051cb13a90f88d031e6a1d2e50fd80e8f290a819348baff8a51a29fcddf7b"
+    },
+    {
+      "path": "src/Index.html",
+      "sha256": "93bddd1882d3d81b945e806044e045187cf36f7ced0c8cdc2d5043a7b100ca4e"
+    },
+    {
+      "path": "src/appsscript.json",
+      "sha256": "dd56d3765a5c2da94842744070792b13502ae27966747c0e7769a32b0232c400"
+    },
+    {
+      "path": "src/assets/composite/antimeme-absenceMask-lv1.png",
+      "sha256": "35ef8ef558a806fb39d483b6bb6b5b06f672a1bf3a70eb1e2339eb592fa6cee4"
+    },
+    {
+      "path": "src/assets/composite/antimeme-absenceMask-lv2.png",
+      "sha256": "d203a9a7490005b99ceb1a1a3afda4b9ac47c75a31e89398a72773bcd0f6ccd3"
+    },
+    {
+      "path": "src/assets/composite/antimeme-absenceMask-lv3.png",
+      "sha256": "cfe375a050fa90010534a17163aea0c1a0fdfc725865457c52e1fe73e969e729"
+    },
+    {
+      "path": "src/assets/composite/antimeme-brokenTail-lv1.png",
+      "sha256": "beabfba11cf9b1934b3fa3c3d5d731c94a7fd2a8d640466aa5355e91472459ea"
+    },
+    {
+      "path": "src/assets/composite/antimeme-brokenTail-lv2.png",
+      "sha256": "47ea1d75af38aa9a54a3a3a28033fd2d39d438cad55cf262ed242b7620a8bcd6"
+    },
+    {
+      "path": "src/assets/composite/antimeme-brokenTail-lv3.png",
+      "sha256": "0b79f3aea4905306b1cd85726512a4380b54fe7bbafe271d1c9f64213b5c2e05"
+    },
+    {
+      "path": "src/assets/composite/antimeme-erasureCrown-lv1.png",
+      "sha256": "a51a910e4ddb30ac4db86cddc750b882132726f71193df61d676d91b4f12d5f5"
+    },
+    {
+      "path": "src/assets/composite/antimeme-erasureCrown-lv2.png",
+      "sha256": "af844f818036055ab9c5252d9f16efef765c3c1b874489bbe3c356b536e0ed7d"
+    },
+    {
+      "path": "src/assets/composite/antimeme-erasureCrown-lv3.png",
+      "sha256": "7bf89af5a11d9b8d52819c3637b07fbd664366e24d752f8cb4eabefd60994227"
+    },
+    {
+      "path": "src/assets/composite/antimeme-memoryFilament-lv1.png",
+      "sha256": "b0762131eecd37a4471f6d0bdcc50626cf2052acf621edd845735f71815a07fe"
+    },
+    {
+      "path": "src/assets/composite/antimeme-memoryFilament-lv2.png",
+      "sha256": "fd1fa48f7b1b5ada73e32ee41494ca0e07e238964d17efb49aa3eb58363687fa"
+    },
+    {
+      "path": "src/assets/composite/antimeme-memoryFilament-lv3.png",
+      "sha256": "b8f8d64a8e97bd9b8ef417df86dfb097cd2cf3ea46180002883fdfef3c9db6ef"
+    },
+    {
+      "path": "src/assets/composite/antimeme-unseenEye-lv1.png",
+      "sha256": "1915c9537dbe2239f9a15ce78dd3b20e2c5210ec309ac988a74dd08d0e50d083"
+    },
+    {
+      "path": "src/assets/composite/antimeme-unseenEye-lv2.png",
+      "sha256": "352abf3044b70dd5dc6130848c25499723041e10af7dd2b627ba29bdce7cde0c"
+    },
+    {
+      "path": "src/assets/composite/antimeme-unseenEye-lv3.png",
+      "sha256": "a83fd2891dfd17bf99e6e3a0dc9b33307015229ff5dcc0d88f6fd3a7a8e748b1"
+    },
+    {
+      "path": "src/assets/composite/core-astral.png",
+      "sha256": "2b3975c0fc6aa63f5eb3986692eeb1d050df6842e8bf188c13d600feee00ff49"
+    },
+    {
+      "path": "src/assets/composite/core-marin.png",
+      "sha256": "5d77bff22e527dfe6f31e8ce8b0dc1d97be09ef54c3bab6373cb175f7571d41d"
+    },
+    {
+      "path": "src/assets/composite/valis-detachedNode-lv1.png",
+      "sha256": "fae6ceca22ede16df447323a3c0558a0ee2c3de271811c5bae2e353da36dbacd"
+    },
+    {
+      "path": "src/assets/composite/valis-detachedNode-lv2.png",
+      "sha256": "75b6af2aa496363d2765f294941fae7e0926a385b3b52eb3c722d37c77feae5d"
+    },
+    {
+      "path": "src/assets/composite/valis-detachedNode-lv3.png",
+      "sha256": "bc5071721886e3c91f0329359ade9dfc819cab61812498ea042c0400cfe9c9de"
+    },
+    {
+      "path": "src/assets/composite/valis-lightKernel-lv1.png",
+      "sha256": "f7f057275b99e3e816b29662aef5fae7bbc3f655d2942bfc08b5b8e23dab2ad1"
+    },
+    {
+      "path": "src/assets/composite/valis-lightKernel-lv2.png",
+      "sha256": "450363c04bcf39c683afe647d315c32cd0f0b01da72a1261dea7a08272905711"
+    },
+    {
+      "path": "src/assets/composite/valis-lightKernel-lv3.png",
+      "sha256": "bd15d163cf07489a6897279ef065d3a15bbbb2d6642f972f4a6bb75d36f1e5ba"
+    },
+    {
+      "path": "src/assets/composite/valis-observingEye-lv1.png",
+      "sha256": "61915bec13a16bab60598aa61d6cd627666ccb4f70f0d192da485f1f230ad4a2"
+    },
+    {
+      "path": "src/assets/composite/valis-observingEye-lv2.png",
+      "sha256": "7b6d23ab1f497343e140b7b62be214351f1f5bb15cddbe6bdd0747b642d2765c"
+    },
+    {
+      "path": "src/assets/composite/valis-observingEye-lv3.png",
+      "sha256": "527697c46073fd9725cc3dd669aa90068a5913a408b825fe4be9fbb61d317302"
+    },
+    {
+      "path": "src/assets/composite/valis-receiverCrown-lv1.png",
+      "sha256": "bc42a8beaccfc99a832fdacb81a3f79de128bbdfd987fd65dabbe43efeba0080"
+    },
+    {
+      "path": "src/assets/composite/valis-receiverCrown-lv2.png",
+      "sha256": "06dfd25e5b7ac103ec8dbe8ef1468a9f6e1f123f408e5d8dd1f11d88ccb95ff1"
+    },
+    {
+      "path": "src/assets/composite/valis-receiverCrown-lv3.png",
+      "sha256": "40bd94636a72a0d19160b64fbcebe1da2ac08ef763c60c33bf69201c9d06e631"
+    },
+    {
+      "path": "src/assets/composite/valis-revelationMembrane-lv1.png",
+      "sha256": "af33d4cebbcc9989ee217258f52e46e37bfc4d40ea8553d22fe1db1f4a0dc03e"
+    },
+    {
+      "path": "src/assets/composite/valis-revelationMembrane-lv2.png",
+      "sha256": "69027b9de4c03db650c987039a8778e6a0d9e00ed9cbb00b1b393ddec6a842b8"
+    },
+    {
+      "path": "src/assets/composite/valis-revelationMembrane-lv3.png",
+      "sha256": "cfa32022e78215f6a8acb8cf3c8711e50d25020dcdf73844da8734acdc1ec179"
+    },
+    {
+      "path": "src/assets/composite/valis-signalTail-lv1.png",
+      "sha256": "c92dca5f2b1df386d0f227c39861a50c9db46b27791b831aa53e47da6cb47cbb"
+    },
+    {
+      "path": "src/assets/composite/valis-signalTail-lv2.png",
+      "sha256": "1b442a1dc310795de51f59b61f4a3bfa80baa5ec079ffd4d6f89f8f3ffe4a85d"
+    },
+    {
+      "path": "src/assets/composite/valis-signalTail-lv3.png",
+      "sha256": "f789a38da5bba31afe910c4d872d7a4bf8a9c47c0d89cdf04851f500c042e834"
+    },
+    {
+      "path": "src/assets/organs/abyss-lv-atlas.png",
+      "sha256": "fcf01c251f9c1fa7e554f5d4ef885f80b7b2068d412292cd1a7fd682d199d6f2"
+    },
+    {
+      "path": "src/assets/organs/abyssshell-lv-atlas.png",
+      "sha256": "14883fbbf903e599d3ccc5e41de34d13d1d6a632acd37591d8c2d0c530e91090"
+    },
+    {
+      "path": "src/assets/organs/config.json",
+      "sha256": "9c2c8f52a9c928fb06c0f6d6d3d124ec4fcc8ac43cb0ad877993c21b5e7a94c8"
+    },
+    {
+      "path": "src/assets/organs/crystal-lv-atlas.png",
+      "sha256": "56fc8f87e6dec5ffec9a6393b75223d51d91ae54afa1fdd3c47173442e05334f"
+    },
+    {
+      "path": "src/assets/organs/gravity-lv-atlas.png",
+      "sha256": "6cf1ff986a22e075018faa7d6d353e608a7d2a3ce4c3f46c8f39abe53af8d00c"
+    },
+    {
+      "path": "src/assets/organs/manyeyes-lv-atlas.png",
+      "sha256": "cb4606b772ab63cfa890a2a5069329e3b2445ed71a46a0b1c59e8f01d414432a"
+    },
+    {
+      "path": "src/assets/organs/memory-lv-atlas.png",
+      "sha256": "e537183f7c8c00de71f91da24067d04749f850a59c82f01cf67cb2e8430bf260"
+    },
+    {
+      "path": "src/assets/organs/myth-lv-atlas.png",
+      "sha256": "03c9748166e01fb0b61cbeae1176074b75d0cf1088c30bfa6f0148445ae6c9bb"
+    },
+    {
+      "path": "src/assets/organs/parallel-lv-atlas.png",
+      "sha256": "ee8d1096ca391bafb1272e85da86cfb72bed162fa6c4a95f549039cb2246d50e"
+    },
+    {
+      "path": "src/assets/organs/recursive-lv-atlas.png",
+      "sha256": "91161197d3bc2414dd0f32c09cf508cd5fb1a0065c00d35786e0ecb4cc84fd8f"
+    },
+    {
+      "path": "src/assets/organs/sail-lv-atlas.png",
+      "sha256": "c66b33633956b7e187458243259c60bad7b28073d0f988c91e216ddc18413073"
+    },
+    {
+      "path": "src/assets/organs/serpent-lv-atlas.png",
+      "sha256": "f0847293cc1face62e9e1e792f7b2abf3c14441dfa85d6c106fbaf6fd15e1806"
+    },
+    {
+      "path": "src/assets/organs/solar-lv-atlas.png",
+      "sha256": "177367705a899fdb8538b09a4732c42bcaaa5c3d80c4902e3e269e4aab24fae4"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C01_deepsea.jpg",
+      "sha256": "016c424b613bf692050585c88411ad68992a6bfb0a026a336f718cc32f3a7bd6"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C02_bird_dragon.jpg",
+      "sha256": "eb6fdb39da29007853b082a682ba8d10fe02df3460a715359019900d034df0f9"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C03_crystal_alien.jpg",
+      "sha256": "237e8640608471acee9cf50e5498d95bc9c3d4ff9255407840e69b98e5b1400c"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C04_alien_three.jpg",
+      "sha256": "e18d6b949bc989734d3762a4debc15a493df2c86e176c1086a1615350f00dfa0"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C05_abyssal_codex.jpg",
+      "sha256": "1bf71d7e2a148abb5ebc740b440135ff8bfd352044a9ac572d835442c46a7696"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C06_evolution_atlas.jpg",
+      "sha256": "998bd95b9548c01d5ebf606bb355412dfad6a4c65efa300ce984ceb2e65d482f"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C07_aquatic_atlas.jpg",
+      "sha256": "f83c099a91d368abf092097dcd05228c579b2d174e32e0964a5291306f49fe1d"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C08_valis_revelation.jpg",
+      "sha256": "fa06752f3e8bf7ca860650cb69c2d7f521b3b15e084871a97dc571a0dc25b8a3"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C09_valis_signal.jpg",
+      "sha256": "ff28b0e7cf43f363dc1c0a782f0c0047c25b2d27e693e94a71d1db6ab513d69a"
+    },
+    {
+      "path": "src/composite/Index.template.html",
+      "sha256": "a23871335a225b330bdd49212cf25bc7ab8ba5f9589ca18b2f01b03ea032e957"
+    },
+    {
+      "path": "src/composite/app.js",
+      "sha256": "cfe2b7a820db7dfe36bc1b74a0f9f7473d9e069d38df08e3fffd1b9cc922c7b2"
+    },
+    {
+      "path": "src/composite/creature-engine.js",
+      "sha256": "a59241c42898cd35af328c7557af3fea2bf6b7aa553a64b9341caee6c6e8ed66"
+    },
+    {
+      "path": "src/composite/styles.css",
+      "sha256": "42e0cf1db7479f9e6a81dd6a20efc0816467920f4dfd2baf88834ae1af7e767d"
+    },
+    {
+      "path": "design/assets/organ-provenance.json",
+      "sha256": "df285ab7fc274f1ccc402b30449dea450fed8529522eff344502d3a6b2836833"
+    },
+    {
+      "path": "design/assets/composite-asset-ledger.v42-draft.json",
+      "sha256": "09e8ae52bd796a357c8e10ec7e540ba7e20646ffe17ccf15d6cd2cf104a499ca"
+    },
+    {
+      "path": "design/archive/Index.pixel-legacy.html",
+      "sha256": "bf21abab821873083856bcbcd9fd04cf1d1de986b792e34b3d0f07d23e1250bd"
+    },
+    {
+      "path": "design/previews/Index.composite-v4.html",
+      "sha256": "93bddd1882d3d81b945e806044e045187cf36f7ced0c8cdc2d5043a7b100ca4e"
+    },
+    {
+      "path": "design/organ-catalog.html",
+      "sha256": "cac19fed7d827cc2c53354f4aa308cb0bc9ff32abfb2e020f2d61d146671f615"
+    },
+    {
+      "path": "tools/build-composite-html.cjs",
+      "sha256": "69883e983afe0c6ff83ba5f3e01835e34b475fc77a4d9223c0aa6b9e429b5a99"
+    },
+    {
+      "path": "tools/verify-composite-assets.cjs",
+      "sha256": "9502c7276bcf983575aaae647b06e9cd7b6adc16d209e3cadf883a2a5666df9b"
+    },
+    {
+      "path": "tests/authored-organ-atlases.test.cjs",
+      "sha256": "19dde109b50f45eec4e545c3a4f579a032f5e1ff811e108665f46eee6da2825e"
+    },
+    {
+      "path": "tests/browser-smoke.cjs",
+      "sha256": "f825b737d87c621964b57adf037a99f875a27584cdee140a46f14037ecf8d57a"
+    },
+    {
+      "path": "tests/catalog-smoke.cjs",
+      "sha256": "c4c786dac791d9d8b6a1eacf446a94534ccd92d8204126b8ad25baadb0b17c49"
+    },
+    {
+      "path": "tests/composite-bundle-sync.test.cjs",
+      "sha256": "0c1d0baad5d8bf88a6c67ed0569efee0ec93efdce6d8af16c8d4bd6e7a9d9ee0"
+    },
+    {
+      "path": "tests/composite-runtime-contract.test.cjs",
+      "sha256": "d8be2e4dfc69c4c4c81c1d75ea83a9b7e5fd473e5f85e7aa29439daef9db6503"
+    },
+    {
+      "path": "tests/creature.test.cjs",
+      "sha256": "4ff8b1841b73d5a4be9fa08aa953a9b5f5541af7c244b54ba8c6e8af4a780e54"
+    },
+    {
+      "path": "tests/draft-organ-sprites.test.cjs",
+      "sha256": "34fa39faad869f99b03022431c49f8ddecfe92d9cad76acec24f89890b717edf"
+    },
+    {
+      "path": "tests/fizzbuzz.test.cjs",
+      "sha256": "3d03ba877c39baadabd174e5a2d5f337c08650fbd6cf818ca623dc48411f894d"
+    },
+    {
+      "path": "tests/manifest-consistency.test.cjs",
+      "sha256": "82822ba866967ed21b6d6cd2c4e065b7df6ecfbbcc79ba502c3c47e95911e388"
+    },
+    {
+      "path": "tests/mock-inventory.test.cjs",
+      "sha256": "0cbae02fe3898fbe38f0967cf74ce889a496c0ea7728e355f5f624c70b127cc6"
+    },
+    {
+      "path": "tests/recovered-image-assets.test.cjs",
+      "sha256": "52565103d2cf0f1fb1dc0b8fed63576f5bdf32c6b450362e260de900c294eb9a"
+    },
+    {
+      "path": "valis/nodes/E/E19.md",
+      "sha256": "7ab15d756a1731a8661b9076887a33fceeb06dfcc5a1903558a7f755da33fd02"
+    },
+    {
+      "path": "valis/summary/gas-fizzbuzz-webapp.summary.md",
+      "sha256": "286181a7b27062146b6834bc5a2fae65c194acaeab13d0e1a006cd1d1ae4969b"
+    }
+  ]
+}

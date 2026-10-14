@@ -1,3 +1,7 @@
+# 2026-10-14 配置整理
+
+この資料はsrc外へ移動。現行実装はsrc/Index.html、Code.gs、appsscript.json、compositeの編集コード、使用画像とorgans/config.json。比較一覧はdesign/organ-catalog.html、出所台帳はdesign/assets、旧版はdesign/archive、配布previewはdesign/previews。以下の旧配置記述は履歴。
+
 # 旧12系統の透明器官アトラス
 
 このディレクトリに深淵・神鳥・再帰・光帆・重力・星晶・多眼・深殻・並列・記憶・蛇・日輪の各Lv1/2/3アトラス12PNGを保存する。`ledger.json`は配置済み参照モックのSHA、出力SHA、領域・根元・表示アンカー・前後レイヤーを記録する。

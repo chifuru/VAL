@@ -1,0 +1,470 @@
+{
+  "abyss": {
+    "path": "src/assets/organs/abyss-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        628,
+        724
+      ],
+      [
+        628,
+        0,
+        724,
+        724
+      ],
+      [
+        1352,
+        0,
+        820,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        274,
+        709
+      ],
+      [
+        278,
+        709
+      ],
+      [
+        236,
+        709
+      ]
+    ],
+    "display_anchor": "dorsal",
+    "display_layer": "rear"
+  },
+  "myth": {
+    "path": "src/assets/organs/myth-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        608,
+        724
+      ],
+      [
+        608,
+        0,
+        748,
+        724
+      ],
+      [
+        1356,
+        0,
+        816,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        195,
+        665
+      ],
+      [
+        365,
+        673
+      ],
+      [
+        340,
+        689
+      ]
+    ],
+    "display_anchor": "shoulder",
+    "display_layer": "rear"
+  },
+  "recursive": {
+    "path": "src/assets/organs/recursive-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        525,
+        724
+      ],
+      [
+        525,
+        0,
+        745,
+        724
+      ],
+      [
+        1270,
+        0,
+        902,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        252,
+        701
+      ],
+      [
+        372,
+        702
+      ],
+      [
+        473,
+        705
+      ]
+    ],
+    "display_anchor": "head",
+    "display_layer": "rear"
+  },
+  "sail": {
+    "path": "src/assets/organs/sail-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        594,
+        724
+      ],
+      [
+        594,
+        0,
+        737,
+        724
+      ],
+      [
+        1331,
+        0,
+        841,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        169,
+        628
+      ],
+      [
+        255,
+        639
+      ],
+      [
+        219,
+        637
+      ]
+    ],
+    "display_anchor": "dorsal",
+    "display_layer": "rear"
+  },
+  "gravity": {
+    "path": "src/assets/organs/gravity-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        571,
+        724
+      ],
+      [
+        571,
+        0,
+        694,
+        724
+      ],
+      [
+        1265,
+        0,
+        907,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        298,
+        417
+      ],
+      [
+        370,
+        392
+      ],
+      [
+        481,
+        361
+      ]
+    ],
+    "display_anchor": "outerOrbit",
+    "display_layer": "front"
+  },
+  "crystal": {
+    "path": "src/assets/organs/crystal-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        572,
+        724
+      ],
+      [
+        572,
+        0,
+        705,
+        724
+      ],
+      [
+        1277,
+        0,
+        895,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        285,
+        644
+      ],
+      [
+        376,
+        660
+      ],
+      [
+        466,
+        680
+      ]
+    ],
+    "display_anchor": "dorsal",
+    "display_layer": "rear"
+  },
+  "manyeyes": {
+    "path": "src/assets/organs/manyeyes-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        479,
+        724
+      ],
+      [
+        479,
+        0,
+        765,
+        724
+      ],
+      [
+        1244,
+        0,
+        928,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        220,
+        493
+      ],
+      [
+        414,
+        413
+      ],
+      [
+        464,
+        362
+      ]
+    ],
+    "display_anchor": "eye",
+    "display_layer": "front"
+  },
+  "abyssshell": {
+    "path": "src/assets/organs/abyssshell-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        538,
+        724
+      ],
+      [
+        538,
+        0,
+        711,
+        724
+      ],
+      [
+        1249,
+        0,
+        923,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        269,
+        512
+      ],
+      [
+        371,
+        446
+      ],
+      [
+        476,
+        364
+      ]
+    ],
+    "display_anchor": "chest",
+    "display_layer": "front"
+  },
+  "parallel": {
+    "path": "src/assets/organs/parallel-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        601,
+        724
+      ],
+      [
+        601,
+        0,
+        725,
+        724
+      ],
+      [
+        1326,
+        0,
+        846,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        308,
+        646
+      ],
+      [
+        367,
+        654
+      ],
+      [
+        436,
+        655
+      ]
+    ],
+    "display_anchor": "forelimb",
+    "display_layer": "front"
+  },
+  "memory": {
+    "path": "src/assets/organs/memory-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        573,
+        724
+      ],
+      [
+        573,
+        0,
+        672,
+        724
+      ],
+      [
+        1245,
+        0,
+        927,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        322,
+        474
+      ],
+      [
+        351,
+        418
+      ],
+      [
+        470,
+        367
+      ]
+    ],
+    "display_anchor": "chest",
+    "display_layer": "front"
+  },
+  "serpent": {
+    "path": "src/assets/organs/serpent-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        542,
+        724
+      ],
+      [
+        542,
+        0,
+        739,
+        724
+      ],
+      [
+        1281,
+        0,
+        891,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        287,
+        691
+      ],
+      [
+        396,
+        694
+      ],
+      [
+        439,
+        694
+      ]
+    ],
+    "display_anchor": "head",
+    "display_layer": "front"
+  },
+  "solar": {
+    "path": "src/assets/organs/solar-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        583,
+        724
+      ],
+      [
+        583,
+        0,
+        736,
+        724
+      ],
+      [
+        1319,
+        0,
+        853,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        290,
+        425
+      ],
+      [
+        388,
+        400
+      ],
+      [
+        442,
+        363
+      ]
+    ],
+    "display_anchor": "outerOrbit",
+    "display_layer": "front"
+  }
+}

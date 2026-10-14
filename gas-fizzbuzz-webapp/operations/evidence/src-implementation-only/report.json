@@ -1,0 +1,159 @@
+{
+  "scope": "self-contained HTML Chromium preview (file or local HTTP), NOT actual GAS service",
+  "commit": "local",
+  "node": "v24.19.0",
+  "checks": [
+    {
+      "name": "44 active original images + 12 PNG organ atlases decode; no archived images or SVG fallback",
+      "status": "PASS",
+      "details": "56 / 56"
+    },
+    {
+      "name": "14 illustrated codex cards load actual images",
+      "status": "PASS"
+    },
+    {
+      "name": "all 36 PNG organ regions contain transparent background and visible anatomy",
+      "status": "PASS",
+      "details": "[{\"id\":\"abyss\",\"level\":1,\"clear\":328281,\"visible\":106810,\"total\":454672},{\"id\":\"abyss\",\"level\":2,\"clear\":316168,\"visible\":167512,\"total\":524176},{\"id\":\"abyss\",\"level\":3,\"clear\":254170,\"visible\":266134,\"total\":593680},{\"id\":\"myth\",\"level\":1,\"clear\":357132,\"visible\":71013,\"total\":440192},{\"id\":\"myth\",\"level\":2,\"clear\":348723,\"visible\":165501,\"total\":541552},{\"id\":\"myth\",\"level\":3,\"clear\":309051,\"visible\":234251,\"total\":590784},{\"id\":\"recursive\",\"level\":1,\"clear\":292823,\"visible\":52411,\"total\":380100},{\"id\":\"recursive\",\"level\":2,\"clear\":330829,\"visible\":130006,\"total\":539380},{\"id\":\"recursive\",\"level\":3,\"clear\":251484,\"visible\":248587,\"total\":653048},{\"id\":\"sail\",\"level\":1,\"clear\":371096,\"visible\":42917,\"total\":430056},{\"id\":\"sail\",\"level\":2,\"clear\":390816,\"visible\":105148,\"total\":533588},{\"id\":\"sail\",\"level\":3,\"clear\":326463,\"visible\":225019,\"total\":608884},{\"id\":\"gravity\",\"level\":1,\"clear\":340007,\"visible\":40707,\"total\":413404},{\"id\":\"gravity\",\"level\":2,\"clear\":316478,\"visible\":115452,\"total\":502456},{\"id\":\"gravity\",\"level\":3,\"clear\":275948,\"visible\":238011,\"total\":656668},{\"id\":\"crystal\",\"level\":1,\"clear\":345649,\"visible\":54770,\"total\":414128},{\"id\":\"crystal\",\"level\":2,\"clear\":370453,\"visible\":118519,\"total\":510420},{\"id\":\"crystal\",\"level\":3,\"clear\":335034,\"visible\":263360,\"total\":647980},{\"id\":\"manyeyes\",\"level\":1,\"clear\":259161,\"visible\":66361,\"total\":346796},{\"id\":\"manyeyes\",\"level\":2,\"clear\":355226,\"visible\":150819,\"total\":553860},{\"id\":\"manyeyes\",\"level\":3,\"clear\":325513,\"visible\":260046,\"total\":671872},{\"id\":\"abyssshell\",\"level\":1,\"clear\":313298,\"visible\":64926,\"total\":389512},{\"id\":\"abyssshell\",\"level\":2,\"clear\":336277,\"visible\":157452,\"total\":514764},{\"id\":\"abyssshell\",\"level\":3,\"clear\":328692,\"visible\":304315,\"total\":668252},{\"id\":\"parallel\",\"level\":1,\"clear\":351923,\"visible\":60303,\"total\":435124},{\"id\":\"parallel\",\"level\":2,\"clear\":329711,\"visible\":145436,\"total\":524900},{\"id\":\"parallel\",\"level\":3,\"clear\":272841,\"visible\":257235,\"total\":612504},{\"id\":\"memory\",\"level\":1,\"clear\":349507,\"visible\":56161,\"total\":414852},{\"id\":\"memory\",\"level\":2,\"clear\":335995,\"visible\":134021,\"total\":486528},{\"id\":\"memory\",\"level\":3,\"clear\":330020,\"visible\":314029,\"total\":671148},{\"id\":\"serpent\",\"level\":1,\"clear\":294375,\"visible\":65350,\"total\":392408},{\"id\":\"serpent\",\"level\":2,\"clear\":315699,\"visible\":150299,\"total\":535036},{\"id\":\"serpent\",\"level\":3,\"clear\":277158,\"visible\":245308,\"total\":645084},{\"id\":\"solar\",\"level\":1,\"clear\":355257,\"visible\":36175,\"total\":422092},{\"id\":\"solar\",\"level\":2,\"clear\":370344,\"visible\":91758,\"total\":532864},{\"id\":\"solar\",\"level\":3,\"clear\":263932,\"visible\":200044,\"total\":617572}]"
+    },
+    {
+      "name": "all twelve organ/main Lv0/1/2/3 differences; one body + PNG organ, no poster contamination",
+      "status": "PASS"
+    },
+    {
+      "name": "14 lineage codex interactions + Lv0/Lv3 actual Canvas changes",
+      "status": "PASS",
+      "details": "14 / 14"
+    },
+    {
+      "name": "all twelve guided real growth runs render their PNG organ and complete N=480",
+      "status": "PASS"
+    },
+    {
+      "name": "local preview: server-independent N=15/1000, skip, complete maturation",
+      "status": "PASS",
+      "details": "1000/1000 records"
+    },
+    {
+      "name": "mock GAS invalid response is rejected without local fallback",
+      "status": "PASS"
+    },
+    {
+      "name": "420px mobile layout, guided preview and playback",
+      "status": "PASS",
+      "details": "{\"window\":420,\"scroll\":420,\"canvas\":402}"
+    },
+    {
+      "name": "uncaught page errors",
+      "status": "PASS",
+      "details": "0"
+    }
+  ],
+  "lineages": [
+    {
+      "id": "abyss",
+      "lv0": "5019fe29d594bc5397d26ee34576acd48c4839bcf4145e675b17c48dabfad9cc",
+      "lv3": "3297e3f726190bb570b23cc17f78e893a05776a88cea82c01a7cf95249a3e514",
+      "distinct": true
+    },
+    {
+      "id": "myth",
+      "lv0": "1f5baa9f49c13bd2c5b8bb845e3006476eb78a973ad6f312cf931231802b4a18",
+      "lv3": "e61f4ec9c8cc77c7186500f77f54336a99522944849f1c92ddd62e31099b4478",
+      "distinct": true
+    },
+    {
+      "id": "recursive",
+      "lv0": "5599971c8b331896799d12de901e3b4988c194dddf66cf010d7be6d10d2e2a38",
+      "lv3": "d2d450534541a48da1f3bca82bb5931f77713a893fc2ca7b362becd4f7392592",
+      "distinct": true
+    },
+    {
+      "id": "sail",
+      "lv0": "793bc620c0cbd5fff61df50e7242994f330f7710d06fba33eabf3c2fe2c1fc2f",
+      "lv3": "24395820b4ef29a9dd4277eb71f36b7425225e559508aa395538df5df8ce1409",
+      "distinct": true
+    },
+    {
+      "id": "gravity",
+      "lv0": "a70303539e8dc497272e0084f5da97aa2d4ca90569fb74fa5ba5028c5b18bcc3",
+      "lv3": "ac4c5c70d24baf23b8465b2d7f1111a0857458067c94b9d85c8b7ebb8698a50d",
+      "distinct": true
+    },
+    {
+      "id": "crystal",
+      "lv0": "956443960413e226a3ec90f6921936b9ddd0d93d58f0cc3c8765e648ab818a9e",
+      "lv3": "a6fa82f856c047ae23a7faf99891e57fe740be0894c4a3de45b957de694a7da6",
+      "distinct": true
+    },
+    {
+      "id": "manyeyes",
+      "lv0": "037aaa58b784e29a487e8f660b50d4252d985eceac8f4ab1d294e384efcc270f",
+      "lv3": "c4dd9c2f404e65882376c66dac5da7ffa69c15090d90fb061120e1e9526071f3",
+      "distinct": true
+    },
+    {
+      "id": "abyssshell",
+      "lv0": "7dd65d88c8ad8c3fcbc19fee9e4c903ebcc542dea1608b2642b66626f35b9d29",
+      "lv3": "d3eeeb36d55930c765e1070b6f783754eb22703804e8f269b03b447ed12e899b",
+      "distinct": true
+    },
+    {
+      "id": "parallel",
+      "lv0": "6239c1154d44e4fbbda3aa6c1b654c946e7e7f232d9de60936c0aee27934d694",
+      "lv3": "904b743d06e8b2cc39be6295d73a28bd66f053fba1a50f2d67045e987ea1296c",
+      "distinct": true
+    },
+    {
+      "id": "memory",
+      "lv0": "20deef971df1890c3881763bcaf7e3b5d219789afee92c9f836c2d7d606c71c0",
+      "lv3": "70297eca6ebf286212abd319c8bb7cd283a45ee73b311d4c735acf6849c24326",
+      "distinct": true
+    },
+    {
+      "id": "serpent",
+      "lv0": "d64001aacd9a17ad8e9570ea6df1f5df34a9fbfba0a124252e65dfd31dc79f24",
+      "lv3": "1d09d3473476958fb99b9f598991277c9495fcbd1e26d72181148b9d71527468",
+      "distinct": true
+    },
+    {
+      "id": "solar",
+      "lv0": "672b1a8e3da2af64b9b60b5416d069482e1c027f1e717b6c9f2c22df03047cb8",
+      "lv3": "e2bc48125fc170b92e44dbd40a4a2e76bfc345ddcb856468007e1f24371ddd6d",
+      "distinct": true
+    },
+    {
+      "id": "antimeme",
+      "lv0": "82109ffac8f15e7798ebbb03000dcaca31ae295f5056b60f16c4ac6ad6142841",
+      "lv3": "baf68eb05f7935289a11113956496d72099774747f28b77215bd791238e841d4",
+      "distinct": true
+    },
+    {
+      "id": "valis",
+      "lv0": "7d998525477e6724f040701bca93ce481f80c1a4a6ee852e459381a7b778bbb3",
+      "lv3": "e756e4e5d28745f1cb9ad8741049f97aa85403441ec6f6809112a688e95ecb11",
+      "distinct": true
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    "desktop-abyss-authored-lv3.png",
+    "desktop-myth-authored-lv3.png",
+    "desktop-recursive-authored-lv3.png",
+    "desktop-sail-authored-lv3.png",
+    "desktop-gravity-authored-lv3.png",
+    "desktop-crystal-authored-lv3.png",
+    "desktop-manyeyes-authored-lv3.png",
+    "desktop-abyssshell-authored-lv3.png",
+    "desktop-parallel-authored-lv3.png",
+    "desktop-memory-authored-lv3.png",
+    "desktop-serpent-authored-lv3.png",
+    "desktop-solar-authored-lv3.png",
+    "desktop-valis-lv3.png",
+    "desktop-abyss-draft-lv3.png",
+    "mobile-antimeme-lv3.png"
+  ],
+  "generatedAt": "2026-10-14T02:53:48.953Z",
+  "browserVersion": "154.0.8037.57"
+}

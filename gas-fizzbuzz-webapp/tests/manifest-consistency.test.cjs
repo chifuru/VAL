@@ -27,23 +27,23 @@ function nodeFiles(){
 }
 const inventory=nodeFiles();
 const entries=[...manifest.matchAll(/^[ \t]*([A-E]\d+(?:\.\d+)*):（[^\r\n]*［(承認済み|草案)］/gm)].map(m=>({id:m[1],status:m[2]}));
-test('all 55 Node Files occur once in the Manifest structural index',()=>{
- assert.equal(inventory.length,55);
- assert.equal(entries.length,55);
- assert.equal(new Set(entries.map(x=>x.id)).size,55,'duplicate Manifest IDs');
+test('all 56 Node Files occur once in the Manifest structural index',()=>{
+ assert.equal(inventory.length,56);
+ assert.equal(entries.length,56);
+ assert.equal(new Set(entries.map(x=>x.id)).size,56,'duplicate Manifest IDs');
  assert.deepEqual(entries.map(x=>x.id).sort(),inventory.map(x=>x.id).sort(),'missing/orphan Node IDs');
  const counts=Object.fromEntries(['A','B','C','D','E'].map(l=>[l,inventory.filter(x=>x.id.startsWith(l)).length]));
- assert.deepEqual(counts,{A:7,B:9,C:13,D:8,E:18});
+ assert.deepEqual(counts,{A:7,B:9,C:13,D:8,E:19});
 });
-test('all 55 Node Files and Manifest entries match the user-requested draft state',()=>{
+test('all 56 Node Files and Manifest entries match the user-requested draft state',()=>{
  const m=new Map(entries.map(x=>[x.id,x.status]));
  for(const node of inventory){
   assert.equal(m.get(node.id),node.status,'status mismatch '+node.id);
   assert.equal(node.status,'草案','draft reset missing '+node.id);
  }
  assert.equal(inventory.filter(x=>x.status==='承認済み').length,0);
- assert.equal(inventory.filter(x=>x.status==='草案').length,55);
- assert.match(manifest,/現在状態: 全55ノード草案/);
+ assert.equal(inventory.filter(x=>x.status==='草案').length,56);
+ assert.match(manifest,/現在状態: 全56ノード草案/);
 });
 test('A/B/C/D hierarchy retains same-layer parent_id',()=>{
  for(const node of inventory){
@@ -66,10 +66,10 @@ test('E15 is structurally indexed, not newly registered or promoted in stage 6',
   'operations/plans/2026-10-14-stage5-verification-plan.md',
   'operations/plans/2026-10-14-stage6-manifest-reconciliation.md',
   'operations/evidence/stage5-ci-node-chromium.md',
-  'src/composite/draft-organ-sprites.js',
+  'design/archive/draft-organ-sprites.js',
   'tests/browser-smoke.cjs',
   'tests/composite-runtime-contract.test.cjs',
-  'src/assets/composite-asset-ledger.v42-draft.json'
+  'design/assets/composite-asset-ledger.v42-draft.json'
  ]) assert.ok(fs.existsSync(path.join(root,rel)),'documented artifact absent: '+rel);
  assert.match(read('valis/nodes/E/E15.md'),/224802aa7511d26bd5036c2b600021ed556f7b85/);
 });
@@ -79,7 +79,7 @@ test('three core definitions, Code.gs and pixel legacy HTML match protected Git 
   'valis/core/VALIS Operation Definition.md':'735bd9e9f90a84f980c935520ffba2ee08335452',
   'valis/core/VALIS Summary Manifest.md':'10de55a462abcc254ce4579abf6337517eb0a94c',
   'src/Code.gs':'8741bbbb690082fa60c82a2a2bbc38fc8811882d',
-  'src/Index.pixel-legacy.html':'ef7cd1222b469c2c3c24a2953adaea30a7bed1b5'
+  'design/archive/Index.pixel-legacy.html':'ef7cd1222b469c2c3c24a2953adaea30a7bed1b5'
  };
  for(const [rel,expected] of Object.entries(locked)){
   const b=fs.readFileSync(path.join(root,rel));

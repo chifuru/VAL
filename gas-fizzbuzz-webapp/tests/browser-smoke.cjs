@@ -41,16 +41,16 @@ async function main(){
   // Test the actual 68 packed images, then 36 SVG candidates as rendered by Chromium.
   const decoded=await page.evaluate(async()=>{
    const C=window.ASSET_CONFIG;
-   const paths=[...Object.values(C.core),...Object.values(C.partImages).flat(),...Object.values(C.lineageImages).flat(),...C.references.map(r=>r.file),...Object.values(C.authoredOrgans||{}).map(a=>a.uri)];
+   const paths=[...Object.values(C.core),...Object.values(C.partImages).flat(),...Object.values(C.lineageImages||{}).flat(),...C.references.map(r=>r.file),...Object.values(C.authoredOrgans||{}).map(a=>a.uri)];
    const uris=paths.map(p=>(C.sources&&C.sources[p])||p);
    return await Promise.all(uris.map(async(uri,i)=>{
     try{const im=new Image();im.src=uri;await im.decode();return {index:i,ok:im.naturalWidth>0&&im.naturalHeight>0};}
     catch(err){return {index:i,ok:false,message:String(err)};}
    }));
   });
-  assert.equal(decoded.length,80);
+  assert.equal(decoded.length,56);
   assert.deepEqual(decoded.filter(x=>!x.ok),[],'Chromium image decoding failed');
-  check('68 original images + 12 PNG organ atlases decode; no SVG fallback','80 / 80');
+  check('44 active original images + 12 PNG organ atlases decode; no archived images or SVG fallback','56 / 56');
   assert.equal(await page.locator('#guideSwitch .guide-thumbnail').count(),14);
   assert.ok(await page.locator('#guideSwitch .guide-thumbnail').evaluateAll(images=>images.every(im=>im.complete&&im.naturalWidth>0)));
   check('14 illustrated codex cards load actual images');
@@ -99,7 +99,7 @@ async function main(){
    assert.equal(new Set(hashes).size,4,'organ Lv0/1/2/3 thumbnail is not distinct: '+id);
    const renderSources=await page.evaluate(id=>{
     const C=window.ASSET_CONFIG,sources=window.observedMainImageSources;
-    const posters=new Set(Object.values(C.lineageImages).flat().map(p=>C.sources[p]));
+    const posters=new Set(Object.values(C.lineageImages||{}).flat().map(p=>C.sources[p]));
     const cores=new Set(Object.values(C.core).map(p=>C.sources[p]));
     return {posterCount:sources.filter(p=>posters.has(p)).length,coreCount:sources.filter(p=>cores.has(p)).length,atlasCount:sources.filter(p=>p===C.authoredOrgans[id].uri).length};
    },id);

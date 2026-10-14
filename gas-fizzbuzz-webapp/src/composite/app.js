@@ -1,8 +1,6 @@
 (function(){
 'use strict';
 var E=window.CreatureEngine, C=window.ASSET_CONFIG;
-// Stage-4 provisional assets: add only missing legacy organ sprite entries.
-if(window.CompositeDraftOrgans)window.CompositeDraftOrgans.install(C);
 var $=id=>document.getElementById(id);
 var canvas=$('creatureCanvas'),ctx=canvas.getContext('2d');
 var mediaReduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -66,8 +64,7 @@ function ensureImage(rel){
 async function preload(){
  var paths=Object.values(C.core);
  Object.values(C.partImages).forEach(arr=>arr.forEach(rel=>paths.push(rel)));
- Object.values(C.lineageImages||{}).forEach(arr=>arr.forEach(rel=>paths.push(rel)));
- paths=paths.concat(C.references.map(r=>r.file));
+  paths=paths.concat(C.references.map(r=>r.file));
  Object.values(C.authoredOrgans||{}).forEach(atlas=>paths.push(atlas.uri));
  await Promise.all(paths.map(ensureImage));loaded=true;refreshGuideThumbnails();updateUI();scheduleFrame();
 }
@@ -228,21 +225,10 @@ function paintSpecimen(s,t,reduced,mini){
  const isRear=p=>{const atlas=organAtlas(p);return atlas?atlas.displayLayer==='rear':backLayer.has(p.id);};
  const rear=tiers.filter(isRear),front=tiers.filter(p=>!isRear(p));
  rear.forEach(p=>drawPart(p));
- // 12 heritage-lineage portraits are independently extracted illustration layers.
- // Their true anatomy-part atlas is a later step; never mislabel them as LV sprites.
- var lineageLayers=C.lineageImages&&C.lineageImages[lineage];
- var portrait=lineageLayers&&s.stage>0&&!(C.authoredOrgans&&C.authoredOrgans[lineage])?img(lineageLayers[Math.min(1,s.stage-1)]):null;
- // Transitional lineage paintings already contain the ancestral head/eye/tail.
- // Never superimpose a second full juvenile body on this complete morphology.
- if(portrait){
-   ctx.save();ctx.filter='drop-shadow(0 0 22px rgba(133,203,255,.22))';
-   layerImage(portrait,513,372+heartbeat,775,465,.98,0);ctx.restore();
- }else{
-   // Phase I and the two truly modular lineages retain the stable common core.
-   const core=img(C.core[stageCore(s)]);
-   if(core){ctx.save();ctx.filter='drop-shadow(0 0 23px rgba(129,210,255,.12))';
-     layerImage(core,520,404+heartbeat,780*s.dna.torsoRatio,432*s.dna.headRatio,1,0);ctx.restore();}
- }
+ // Every lineage uses the stable DNA body; its organs provide the phenotype.
+ const core=img(C.core[stageCore(s)]);
+ if(core){ctx.save();ctx.filter='drop-shadow(0 0 23px rgba(129,210,255,.12))';
+   layerImage(core,520,404+heartbeat,780*s.dna.torsoRatio,432*s.dna.headRatio,1,0);ctx.restore();}
  if(s.heritage) s.heritage.forEach((entry,i)=>{
    entry.parts.slice(0,3).forEach(p=>drawPart(p,.60-i*.08,.52));
  });
@@ -255,8 +241,7 @@ function paintSpecimen(s,t,reduced,mini){
  }
  if(!mini){
    font(s.dna.seed+' / '+(s.lineage?(names[lineage]||[])[s.stage]||lineage:'ミナモルフ'),26,37,20,'#cde3fc');
-   // Provenance categories: MOCK PORTRAIT / LAYER COMPOSITE.
-   font(s.lineage?(C.authoredOrgans&&C.authoredOrgans[lineage]?'試作器官 · ':'観測形態 · ')+lineage.toUpperCase():'ORIGIN / 未分化',26,61,12,'#7296bd');
+     font(s.lineage?(C.authoredOrgans&&C.authoredOrgans[lineage]?'試作器官 · ':'観測形態 · ')+lineage.toUpperCase():'ORIGIN / 未分化',26,61,12,'#7296bd');
    if(preview) font('図鑑サンプル · 実際の育成個体ではありません',985,640,17,'#d9c9ff','right');
  }
 }
@@ -390,7 +375,7 @@ function setup(){
   const button=guides.querySelector('[data-guide="'+l.id+'"]');
   const title=document.createElement('span');title.className='guide-title';title.textContent=l.mark+' '+l.group;
   const image=document.createElement('img');image.className='guide-thumbnail';image.alt='';
-  const portraits=C.lineageImages&&C.lineageImages[l.id];image.src=srcFor(portraits?portraits[1]:C.core[l.id==='antimeme'?'astral':'marin']);
+  image.src=srcFor(C.core[l.id==='antimeme'?'astral':'marin']);
   button.replaceChildren(image,title);
  });
  guides.append($('showLiveBtn'),$('growSelectedGuideBtn'));
