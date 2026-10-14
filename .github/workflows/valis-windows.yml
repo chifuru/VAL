@@ -38,7 +38,14 @@ jobs:
           npm run check:assets
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Create Windows executable and portable ZIP
-        run: node tools/package-windows.cjs
+        run: |
+          node tools/package-windows.cjs 2>&1 | Tee-Object -FilePath artifacts/windows-native/package.log
+          $packageExit = $LASTEXITCODE
+          if ($packageExit -ne 0) {
+            $failures = (Select-String -Path artifacts/windows-native/package.log -Pattern 'Error:|TypeError|expected|missing|mismatch').Line -join ' | '
+            Write-Output "::error::$failures"
+            exit $packageExit
+          }
       - name: Verify ZIP expansion matches executable checksums
         run: |
           Expand-Archive -LiteralPath dist/VALIS-Windows-x64.zip -DestinationPath dist/zip-check -Force
