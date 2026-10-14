@@ -38,6 +38,18 @@ async function main(){
   const page=await desktop.newPage();
   page.on('pageerror',e=>report.errors.push('desktop: '+e.message));
   await ready(page);
+  // Full preview uses 68 packed images + 30 provisional SVG + 6 C01/C02 cropped PNG.
+  await page.waitForFunction(()=>window.ASSET_CONFIG.mockAtlasLineages!==undefined,null,{timeout:60000});
+  const drafts=await page.evaluate(()=>{
+   const C=window.ASSET_CONFIG;
+   return {mock:Array.from(C.mockAtlasLineages||[]),svg:Array.from(C.draftOrganLineages||[]),
+    origins:Array.from(C.mockAtlasProvenance||[]),warnings:Array.from(C.mockAtlasWarnings||[])};
+  });
+  assert.deepEqual(drafts.mock,['abyss','myth'],'two genuine reference-JPEG-derived organ families should be installed');
+  assert.equal(drafts.svg.length,10,'remaining provisional SVG lineages must remain clearly marked');
+  assert.equal(drafts.origins.length,2);
+  assert.deepEqual(drafts.warnings,[]);
+  check('C01/C02 screenshot pixel cutouts (thumbnail-derived, not original hi-res)','6 PNG / 30 SVG fallback; no warnings');
   // Test the actual 68 packed images, then 36 SVG candidates as rendered by Chromium.
   const decoded=await page.evaluate(async()=>{
    const C=window.ASSET_CONFIG;
@@ -50,7 +62,7 @@ async function main(){
   });
   assert.equal(decoded.length,104);
   assert.deepEqual(decoded.filter(x=>!x.ok),[],'Chromium image decoding failed');
-  check('68 packed PNG/WebP/JPEG + 36 draft SVG actual decode','104 / 104');
+  check('68 packed images + 6 reference cutouts + 30 draft SVG actual decode','104 / 104');
 
   for(const id of lineages){
    await page.locator('#guideSwitch [data-guide="'+id+'"]').click();
