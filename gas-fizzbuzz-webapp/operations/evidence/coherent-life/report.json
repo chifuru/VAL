@@ -49,5 +49,15 @@
     "Windows10/11 user hardware/FPS/display scaling acceptance",
     "User art acceptance"
   ],
-  "windowsCi": "E26 pending actual hosted result, separate from local cross-build"
+  "windowsCi": {
+    "evidence": "E26",
+    "targetCommit": "3b6326a5a9af0a243b441d30c0b6e9cbc3582826",
+    "run": 38644132909,
+    "nativeExecutableAndRestart": "success",
+    "artifactId": 11931846387
+  },
+  "hostedBrowserCi": {
+    "run": 38644132948,
+    "conclusion": "success"
+  }
 }

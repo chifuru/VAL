@@ -1,0 +1,12 @@
+--- /tmp/valis-before-engine2.js	2026-10-14 21:58:13.722106030 +0000
++++ src/composite/legacy-engine-v2.js	2026-10-14 20:05:31.468303251 +0000
+@@ -1,7 +1,7 @@
+ /* Deterministic feeding and whole-body growth. Assets and playback clocks belong to the renderer. */
+ (function (root, factory) {
+-  if (typeof module === 'object' && module.exports) module.exports = factory(require('./lineage-definitions.js'), require('./legacy-engine.js'));
+-  else root.CreatureEngine = factory(root.LineageDefinitions, root.LegacyCreatureEngine);
++  if (typeof module === 'object' && module.exports) module.exports = factory(require('./legacy-lineages.js'), require('./legacy-engine.js'));
++  else root.LegacyCreatureEngineV2 = factory(root.LegacyLineageDefinitions, root.LegacyCreatureEngine);
+ })(typeof globalThis !== 'undefined' ? globalThis : this, function (definitions, legacy) {
+   'use strict';
+   if (!definitions || !definitions.LINEAGES || !definitions.PART_DEFINITIONS) throw Error('系統定義を先に読み込んでください');

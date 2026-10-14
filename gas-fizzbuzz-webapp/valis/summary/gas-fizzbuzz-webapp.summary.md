@@ -10,7 +10,7 @@ definition_baseline: coherent-life-2026-10-15。operations/plans/2026-10-15-cohe
 initial_registration_this_change: E25, E26。旧E23/E24は旧版に限定。
 manifest_reflection_this_change: 今回A/B/C/Dの責務・草案状態、一体化生体/20分岐/手動開始/第四相/最終結果図鑑とE25/E26への読解経路を反映。
 approval_basis: ユーザーが全FizzBuzzノードを草案と指定。旧承認は現在無効、アーカイブは旧版の識別にのみ使用。
-unresolved_summary: 今回版のローカル検証はE25へ記録。E26のhosted Windows実結果を取得中。利用者実機/美術受入は未認定。旧E23/E24は旧版に限定。
+unresolved_summary: 今回版のローカル検証はE25へ記録。hosted Windowsの実exe起動/再起動復元はE26へ記録。利用者実機/美術受入は未認定。旧E23/E24は旧版に限定。
 evidence_scope: E1〜E24は各指定旧対象版に限定。今回版のローカル照合はE25、hosted WindowsはE26。検証による自動承認は行わない。
 
 ## 読解経路と責務
@@ -313,10 +313,10 @@ E24:（D1.5, D1.6, C1.7, C1.8 / 数字入力進化版Windows配布・実exe起�
 	Node File: valis/nodes/E/E24.md。独立証跡、parent_idなし。参照種別: evidence_for。
 	要約: run38623374271、Windows package/ZIP照合/native input→出生→保存→再起動がsuccess。生ログ/native JSONは未取得。利用者実機/美術受入は未認定。
 
-E25:（D1.5, D1.6, C1 / 一体化生体・手動開始・第四相版のローカル検証証跡）［草案］
-	Node File: valis/nodes/E/E25.md。起点、parent_idなし。参照種別: evidence_for/D1.5/D1.6。
-	要約: 今回対象版の独立証跡。処理フラグ: 詳細結果・対象版と有効条件はNode本文を参照。利用者実機/美術受入は未認定。次FLOW: FLOW-08。
+E25:（D1.1, D1.2, D1.3.2, D1.3.3, D1.5, D1.6, C1 / 一体化生体・手動開始・第四相版のローカル検証証跡）［草案］
+	Node File: valis/nodes/E/E25.md。起点、parent_idなし。参照種別: evidence_for/D1.1/D1.2/D1.3.2/D1.3.3/D1.5/D1.6。
+	要約: 今回対象版の独立証跡。実結果・対象版と有効条件はNode本文を参照。処理フラグ: 利用者実機/美術受入は未認定。次FLOW: FLOW-08。
 
 E26:（D1.5, D1.6, C1 / 一体化生体版Windows配布・実exe起動と復元証跡）［草案］
 	Node File: valis/nodes/E/E26.md。起点、parent_idなし。参照種別: evidence_for/D1.5/D1.6。
-	要約: 今回対象版の独立証跡。処理フラグ: 詳細結果・対象版と有効条件はNode本文を参照。利用者実機/美術受入は未認定。次FLOW: FLOW-08。
+	要約: 今回対象版の独立証跡。実結果・対象版と有効条件はNode本文を参照。処理フラグ: 利用者実機/美術受入は未認定。次FLOW: FLOW-08。

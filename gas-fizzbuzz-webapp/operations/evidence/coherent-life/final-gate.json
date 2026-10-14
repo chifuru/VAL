@@ -1,0 +1,65 @@
+{
+  "generatedAt": "2026-10-14T22:00:51.616091+00:00",
+  "valis": "VALIS Operation Definition v2.0; fully booted; FLOW-04/07/08/05; prerequisites/output gate matched",
+  "appVersion": "1.2.0",
+  "readCore": [
+    "valis/core/VALIS Operation Definition.md",
+    "valis/core/VALIS Summary Manifest.md",
+    "valis/core/VALIS Flow Definition.md"
+  ],
+  "coreAndOriginalMocksUnchanged": 23,
+  "targetShaFilesVerified": 133,
+  "manifest": {
+    "nodeCounts": {
+      "A": 9,
+      "B": 11,
+      "C": 17,
+      "D": 10,
+      "E": 26
+    },
+    "total": 73,
+    "allDraft": true,
+    "initialRegistered": [
+      "E25",
+      "E26"
+    ],
+    "reflection": "A/B/C/D current responsibility and E25/E26 real evidence read paths indexed"
+  },
+  "localTests": {
+    "unit": 38,
+    "browser": 277,
+    "nativeCreate": 16,
+    "nativeRestore": 10,
+    "manifest": 3
+  },
+  "windows": {
+    "targetCommit": "3b6326a5a9af0a243b441d30c0b6e9cbc3582826",
+    "run": 38644132909,
+    "nativeExecutableAndProcessRestart": "success",
+    "artifact": {
+      "id": 11931846387,
+      "name": "VALIS-Windows-x64",
+      "displaySize": "195 MB",
+      "digest": "sha256:18f9768d1add67398ae80695731c5ff20d70b1f4abc500c2d87a548fe27832d2",
+      "retentionDays": 30
+    },
+    "runtimeAndValidationSameAsCurrentFiles": true
+  },
+  "sourceContents": "Runtime HTML/CSS/JS/host/local PNG and generated geometry only; evidence/plans/mock provenance outside src",
+  "verifiedBehavior": [
+    "typing/load do not start",
+    "explicit start births and consumes",
+    "20 automatic lineages and12 connected anatomy plans",
+    "third stage580; independent fourth only900+ and qualifying DNA",
+    "N900 third-phase completion; N927 fourth at909",
+    "meaningful intake/maturity/phase result",
+    "creature/food/history/environment in standard one-screen layouts",
+    "archive only completed final result and prominent live-return",
+    "legacy1/2 data and appearance remain versioned"
+  ],
+  "remaining": [
+    "Windows10/11 user hardware/FPS/scaling acceptance",
+    "User visual acceptance"
+  ],
+  "nextFlow": "FLOW-08 user acceptance results / FLOW-04 concrete defects"
+}
