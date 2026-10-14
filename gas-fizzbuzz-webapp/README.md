@@ -19,6 +19,8 @@ Windows 10 / 11 x64向け。入力した数値N（1〜1000）から不変の初�
 
 保存先はElectronのWindowsユーザーデータ領域（通常 `%APPDATA%/VALIS/specimens/history.json`）。実形態・DNA・相履歴・PNG肖像を保存します。保存失敗や破損は画面に表示し、元記録とバックアップを保全します。通常再生中は25行ごと、相遷移・一時停止・完走・通常終了時にも保存します。電源断など通常終了できない場合は最後の保存位置までになります。
 
+系統ごとの遊泳・傘の収縮・翼・触腕・葉・関節の動きと、エネルギー摂取への反応を追加しています（v1.3.2）。低モーションや読み込みプレビュー、図鑑と保存肖像は静止します。静止の姿と成長条件は保持しています。
+
 ## 開発・検証
 
 Node.js 22.12以上（CIは24）。リポジトリ内で実行します。
@@ -32,7 +34,7 @@ npm start
 npm run package:windows
 ```
 
-画像は `src/assets/creatures/*.png` のローカルファイルです。設定変更時は `npm run build:assets`。画面検証は `src/` をローカルHTTPの8766で配信し `npm run test:browser`。Electron検証は `npm run test:desktop`、パッケージ検証は `node tests/electron-smoke.cjs --exe ./dist/VALIS-Windows-x64/VALIS.exe`。各スモークは専用の一時保存領域を使用します。
+画像は `src/assets/creatures/*.png` のローカルファイルです。設定変更時は `npm run build:assets`。画面検証は `src/` をローカルHTTPの8766で配信し `npm run test:browser`。運動検証は `npm run test:motion`。Electron検証は `npm run test:desktop`、パッケージ検証は `node tests/electron-smoke.cjs --exe ./dist/VALIS-Windows-x64/VALIS.exe`。各スモークは専用の一時保存領域を使用します。
 
 ## 配置
 

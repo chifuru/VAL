@@ -1,0 +1,105 @@
+{
+  "scope": "app1.3.2/ENGINE4/appearanceRevision2/art-v4.1; living body motion, real ingestion reactions and immutable still portraits; all definitions draft",
+  "generatedAt": "2026-10-14T23:36:03.754472+00:00",
+  "unit": {
+    "passed": 44,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "passed": 373,
+    "browser": "154.0.8037.57",
+    "errors": [],
+    "remote": []
+  },
+  "motion": {
+    "passed": 129,
+    "errors": [],
+    "lineages": 20,
+    "samplesPerLineage": 4,
+    "bodyMeshAndOrganRoots": true,
+    "staticPriorEditionPixelEqual": 20,
+    "stateNotMutated": true,
+    "nutrientResponseAndFutureExpiredFiltering": true,
+    "loadedPreviewAndLowMotionStill": true,
+    "videos": {
+      "serpent.webm": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp8",
+            "width": 932,
+            "height": 465,
+            "nb_read_frames": "41"
+          }
+        ],
+        "decodedFrameSpanSeconds": 3.277
+      },
+      "jelly.webm": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp8",
+            "width": 932,
+            "height": 465,
+            "nb_read_frames": "41"
+          }
+        ],
+        "decodedFrameSpanSeconds": 3.332
+      },
+      "myth.webm": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp8",
+            "width": 932,
+            "height": 465,
+            "nb_read_frames": "41"
+          }
+        ],
+        "decodedFrameSpanSeconds": 3.263
+      }
+    }
+  },
+  "native": {
+    "platform": "linux",
+    "createChecks": 19,
+    "restoreChecks": 13,
+    "separateProcesses": true,
+    "animationAndStillTimeAssertions": true,
+    "testOnlyFlags": "Xvfb --no-sandbox --disable-gpu; product sandbox unchanged"
+  },
+  "windowsPackage": {
+    "scope": "Windows x64 package integrity; actual Windows execution is a separate smoke gate",
+    "electronVersion": "44.7.2",
+    "packagerVersion": "20.3.0",
+    "officialRuntimeSha256": "10a89447ef64ac5cb9f782af48ffd83734a40ae91681259d1048ca3c9e6c5da4",
+    "exe": "VALIS.exe",
+    "machine": "x86-64",
+    "asarEntries": 60,
+    "pngCount": 38,
+    "sourceBytesMatch": true,
+    "zip": "VALIS-Windows-x64.zip",
+    "zipBytes": 225732828,
+    "zipSha256": "922da1051de25e3756767f399dcbee784c1595653afc72159fef1a33981e56c9",
+    "generatedAt": "2026-10-14T23:33:07.027Z"
+  },
+  "zipCheck": {
+    "scope": "Every checksum member read from portable ZIP; CRC validated while decoding",
+    "files": 74,
+    "passed": true,
+    "zipSha256": "922da1051de25e3756767f399dcbee784c1595653afc72159fef1a33981e56c9"
+  },
+  "hostedWindows": "Independent execution required; E30 not reused",
+  "visualAssessment": {
+    "observer": "Codex rendered frame comparison and verified decoded videos",
+    "userAcceptance": "unperformed"
+  },
+  "remaining": [
+    "Windows10/11 user-device visual/DPI/FPS acceptance",
+    "User motion preference acceptance"
+  ]
+}

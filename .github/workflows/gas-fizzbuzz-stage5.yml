@@ -32,10 +32,13 @@ jobs:
           for attempt in $(seq 1 20); do curl --fail --silent http://127.0.0.1:8766/Index.html -o /tmp/valis-ui.html && break; sleep 1; done
           cmp /tmp/valis-ui.html src/Index.html
           npm run test:browser
+          npm run test:motion
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: valis-desktop-browser-evidence
-          path: gas-fizzbuzz-webapp/artifacts/desktop-browser/
+          path: |
+            gas-fizzbuzz-webapp/artifacts/desktop-browser/
+            gas-fizzbuzz-webapp/artifacts/desktop-motion/
           if-no-files-found: warn
           retention-days: 30
