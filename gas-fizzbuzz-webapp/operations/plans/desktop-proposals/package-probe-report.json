@@ -1,0 +1,51 @@
+{
+  "scope": "Packaging capability probe only; no VALIS gameplay included; no Windows execution",
+  "verified_at_utc": "2026-10-14T06:06:44.239458+00:00",
+  "host": "Linux x86_64",
+  "node": "v24.19.0",
+  "npm": "11.9.0",
+  "electron_version": "44.7.2",
+  "packager_version": "20.3.0",
+  "asar_version": "4.3.1",
+  "TLS_validation_disabled": false,
+  "wine_installed": false,
+  "runtime_zip": {
+    "path": "/workspace/val-desktop-setup/downloads/electron-v44.7.2-win32-x64.zip",
+    "bytes": 157867015,
+    "sha256": "10a89447ef64ac5cb9f782af48ffd83734a40ae91681259d1048ca3c9e6c5da4",
+    "official_shasums_matched": true
+  },
+  "probe_zip": {
+    "path": "/workspace/val-desktop-setup/VALIS-Capability-Probe-win32-x64.zip",
+    "bytes": 157939990,
+    "sha256": "bd3dd81c9c5bf427a94d914dd8ab50fba0615d827c442a2161b90bd2423d1ca0",
+    "entries": 76,
+    "crc_check": "PASS"
+  },
+  "unpacked": {
+    "path": "/workspace/val-desktop-setup/probe-out/VALIS-Capability-Probe-win32-x64",
+    "files": 73,
+    "bytes": 384693783,
+    "exe_format": "PE32+ Windows10 GUI x86-64",
+    "asar_files": [
+      "index.html",
+      "main.cjs",
+      "package.json"
+    ],
+    "licenses": [
+      "LICENSE",
+      "LICENSES.chromium.html"
+    ],
+    "signing": "Not signed"
+  },
+  "not_verified": [
+    "Windows10 execution",
+    "Windows11 execution",
+    "offline game operation",
+    "durable creature history",
+    "food-energy growth / 1000-row calibration",
+    "screen-reader / scaling / GPU behavior",
+    "desktop shortcut creation",
+    "Windows download reputation / organizational launch policy"
+  ]
+}

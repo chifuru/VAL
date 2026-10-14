@@ -1,0 +1,98 @@
+{
+  "scope": "read-only calibration proposal, not migrated game implementation",
+  "input": "FizzBuzz 1..1000 with current remainder regulation and next-nutrient-only modifier",
+  "counts": {
+    "fizz": 267,
+    "buzz": 134,
+    "fizzbuzz": 66,
+    "number": 533
+  },
+  "modifiers": {
+    "promote": 267,
+    "inhibit": 266
+  },
+  "energyQuarters1000": 1801,
+  "rawEnergy1000": 450.25,
+  "oldCrossings": {
+    "10": 24,
+    "35": 80,
+    "100": 222
+  },
+  "proposedCrossings": {
+    "28": 280,
+    "62": 621,
+    "100": 1000
+  },
+  "milestones": [
+    {
+      "n": 1,
+      "energyQuarters": 0,
+      "energy": 0,
+      "P": 0,
+      "phase": 1
+    },
+    {
+      "n": 15,
+      "energyQuarters": 27,
+      "energy": 6.75,
+      "P": 1.4991671293725708,
+      "phase": 1
+    },
+    {
+      "n": 100,
+      "energyQuarters": 181,
+      "energy": 45.25,
+      "P": 10.049972237645752,
+      "phase": 1
+    },
+    {
+      "n": 250,
+      "energyQuarters": 451,
+      "energy": 112.75,
+      "P": 25.04164353137146,
+      "phase": 1
+    },
+    {
+      "n": 280,
+      "energyQuarters": 505,
+      "energy": 126.25,
+      "P": 28.039977790116602,
+      "phase": 2
+    },
+    {
+      "n": 500,
+      "energyQuarters": 897,
+      "energy": 224.25,
+      "P": 49.80566352026652,
+      "phase": 2
+    },
+    {
+      "n": 621,
+      "energyQuarters": 1117,
+      "energy": 279.25,
+      "P": 62.021099389228205,
+      "phase": 3
+    },
+    {
+      "n": 750,
+      "energyQuarters": 1350,
+      "energy": 337.5,
+      "P": 74.95835646862854,
+      "phase": 3
+    },
+    {
+      "n": 850,
+      "energyQuarters": 1531,
+      "energy": 382.75,
+      "P": 85.0083287062743,
+      "phase": 3
+    },
+    {
+      "n": 1000,
+      "energyQuarters": 1801,
+      "energy": 450.25,
+      "P": 100,
+      "phase": 3
+    }
+  ]
+}
