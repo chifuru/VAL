@@ -27,21 +27,21 @@ function nodeFiles(){
 }
 const inventory=nodeFiles();
 const entries=[...manifest.matchAll(/^[ \t]*([A-E]\d+(?:\.\d+)*):（[^\r\n]*［(承認済み|草案)］/gm)].map(m=>({id:m[1],status:m[2]}));
-test('all 52 Node Files occur once in the Manifest structural index',()=>{
- assert.equal(inventory.length,52);
- assert.equal(entries.length,52);
- assert.equal(new Set(entries.map(x=>x.id)).size,52,'duplicate Manifest IDs');
+test('all 53 Node Files occur once in the Manifest structural index',()=>{
+ assert.equal(inventory.length,53);
+ assert.equal(entries.length,53);
+ assert.equal(new Set(entries.map(x=>x.id)).size,53,'duplicate Manifest IDs');
  assert.deepEqual(entries.map(x=>x.id).sort(),inventory.map(x=>x.id).sort(),'missing/orphan Node IDs');
  const counts=Object.fromEntries(['A','B','C','D','E'].map(l=>[l,inventory.filter(x=>x.id.startsWith(l)).length]));
- assert.deepEqual(counts,{A:7,B:9,C:13,D:8,E:15});
+ assert.deepEqual(counts,{A:7,B:9,C:13,D:8,E:16});
 });
 test('all statuses match and the 36 approved Node Files stay approved',()=>{
  const m=new Map(entries.map(x=>[x.id,x.status]));
  for(const node of inventory)assert.equal(m.get(node.id),node.status,'status mismatch '+node.id);
- const draft=new Set(['C1.5.1','C1.5.2','C1.5.3','D1.3.1','D1.3.2','D1.3.3',...Array.from({length:10},(_,i)=>'E'+(i+6))]);
+ const draft=new Set(['C1.5.1','C1.5.2','C1.5.3','D1.3.1','D1.3.2','D1.3.3',...Array.from({length:11},(_,i)=>'E'+(i+6))]);
  assert.deepEqual(new Set(inventory.filter(x=>x.status==='草案').map(x=>x.id)),draft);
  assert.equal(inventory.filter(x=>x.status==='承認済み').length,36);
- assert.equal(inventory.filter(x=>x.status==='草案').length,16);
+ assert.equal(inventory.filter(x=>x.status==='草案').length,17);
 });
 test('A/B/C/D hierarchy retains same-layer parent_id',()=>{
  for(const node of inventory){
@@ -89,6 +89,15 @@ test('E15 evidence names both successful final-head CI runs and actual main merg
  const evidence=read('operations/evidence/stage5-ci-node-chromium.md');
  for(const needle of ['38486209105','38486213825','1ded76c1109e6b0f59fd70fe04f3429294d20b9a'])assert.ok(evidence.includes(needle),needle);
  assert.match(manifest,/36承認済み/);
- assert.match(manifest,/16草案/);
+ assert.match(manifest,/17草案/);
  assert.match(manifest,/未完/);
+});
+
+test('E16 is a separate draft record of C01/C02 browser PNG cutouts',()=>{
+ assert.match(manifest,/^initial_registration_stage7:\s*E16/m);
+ assert.match(manifest,/^E16:（.*［草案］$/m);
+ assert.match(read('valis/nodes/E/E16.md'),/parent_idなし/);
+ assert.match(read('valis/nodes/E/E16.md'),/38491952107/);
+ assert.match(read('operations/evidence/stage7-mock-cutout-browser.md'),/45\/45/);
+ assert.ok(fs.existsSync(path.join(root,'src/composite/mock-atlas-sprites.js')));
 });
