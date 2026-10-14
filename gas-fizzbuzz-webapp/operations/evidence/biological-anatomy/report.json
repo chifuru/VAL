@@ -19,7 +19,8 @@
     "packaged": false,
     "createChecks": 17,
     "restoreChecks": 11,
-    "separateProcesses": true
+    "separateProcesses": true,
+    "launcher": "Test-only Xvfb with --no-sandbox/--disable-gpu; Windows product source keeps normal sandbox settings"
   },
   "windowsPackage": {
     "scope": "Windows x64 package integrity; actual Windows execution is a separate smoke gate",
@@ -78,9 +79,19 @@
     "original organ pivots in transparent space: opaque attachment pivots for new4, old pivots for legacy",
     "only18 prior final forms attainable: environmental mixing calibrated without DNA/maturity exceptions"
   ],
-  "windowsCi": "E28 pending actual hosted result",
+  "windowsCi": {
+    "evidence": "E28",
+    "run": 38649134502,
+    "targetCommit": "0a7890dc593ecf072ca99be5a1d8bfee97dc5d75",
+    "nativeExecutableAndRestart": "success",
+    "artifactId": 11933831262
+  },
   "unperformed": [
     "Windows10/11 user hardware/FPS/scaling acceptance",
     "User visual acceptance"
-  ]
+  ],
+  "hostedChromiumCi": {
+    "run": 38649134302,
+    "conclusion": "success"
+  }
 }

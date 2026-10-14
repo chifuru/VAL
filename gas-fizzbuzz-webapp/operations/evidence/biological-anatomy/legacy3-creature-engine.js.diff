@@ -1,0 +1,12 @@
+--- /tmp/valis-before-biology-creature-engine.js	2026-10-14 22:42:31.017171391 +0000
++++ gas-fizzbuzz-webapp/src/composite/legacy-engine-v3.js	2026-10-14 22:10:38.562993485 +0000
+@@ -1,7 +1,7 @@
+ /* Deterministic feeding and whole-body growth. Assets and playback clocks belong to the renderer. */
+ (function (root, factory) {
+-  if (typeof module === 'object' && module.exports) module.exports = factory(require('./lineage-definitions.js'), require('./legacy-engine-v2.js'));
+-  else root.CreatureEngine = factory(root.LineageDefinitions, root.LegacyCreatureEngineV2);
++  if (typeof module === 'object' && module.exports) module.exports = factory(require('./legacy-lineages-v3.js'), require('./legacy-engine-v2.js'));
++  else root.LegacyCreatureEngineV3 = factory(root.LegacyLineageDefinitionsV3, root.LegacyCreatureEngineV2);
+ })(typeof globalThis !== 'undefined' ? globalThis : this, function (definitions, legacy) {
+   'use strict';
+   if (!definitions || !definitions.LINEAGES || !definitions.PART_DEFINITIONS) throw Error('系統定義を先に読み込んでください');

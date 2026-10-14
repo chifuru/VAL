@@ -1,0 +1,160 @@
+{
+  "generatedAt": "2026-10-14T22:43:34.677106+00:00",
+  "valis": "VALIS Operation Definition v2.0; fully booted; FLOW-04/07/08/05 and output/prerequisite gates matched",
+  "appVersion": "1.3.0",
+  "readCore": [
+    "valis/core/VALIS Operation Definition.md",
+    "valis/core/VALIS Summary Manifest.md",
+    "valis/core/VALIS Flow Definition.md"
+  ],
+  "manifest": {
+    "counts": {
+      "A": 9,
+      "B": 11,
+      "C": 17,
+      "D": 10,
+      "E": 28
+    },
+    "total": 75,
+    "allDraft": true,
+    "initialRegistered": [
+      "E27",
+      "E28"
+    ],
+    "reflection": "A/B/C/D anatomy, fourth reachability, old3 preservation and actual E27/E28 evidence indexed"
+  },
+  "targetHashesVerified": 159,
+  "protectedCoreAndOriginalMocks": 23,
+  "localTests": {
+    "unit": 42,
+    "browser": 345,
+    "nativeCreate": 17,
+    "nativeRestore": 11
+  },
+  "anatomy": {
+    "plans": 12,
+    "bodyStagesEach": 4,
+    "actualFinalLineagesWithin1000": 20,
+    "old3PhasesPixelEqual": 4,
+    "physicalPngs": 38,
+    "spriteGroups": 207,
+    "sourceReferences": 657,
+    "uniquePhysicalRegions": 585,
+    "sourceBoundaryWarnings": 0
+  },
+  "windows": {
+    "observedAt": "2026-10-14T22:43:34.540688+00:00",
+    "source": "Public GitHub run/job HTML, actual unconditional step conclusions; authenticated raw logs and artifact contents were not read",
+    "targetCommit": "0a7890dc593ecf072ca99be5a1d8bfee97dc5d75",
+    "runUrl": "https://github.com/chifuru/VAL/actions/runs/38649134502",
+    "jobUrl": "https://github.com/chifuru/VAL/actions/runs/38649134502/job/116143311515",
+    "jobConclusion": "success",
+    "steps": [
+      {
+        "data-name": "Set up job",
+        "data-number": "1",
+        "data-conclusion": "success",
+        "data-started-at": "2026-10-14T22:39:37Z",
+        "data-completed-at": "2026-10-14T22:39:38Z"
+      },
+      {
+        "data-name": "Run actions/checkout@v4",
+        "data-number": "2",
+        "data-conclusion": "success",
+        "data-started-at": "2026-10-14T22:39:38Z",
+        "data-completed-at": "2026-10-14T22:40:09Z"
+      },
+      {
+        "data-name": "Run actions/setup-node@v4",
+        "data-number": "3",
+        "data-conclusion": "success",
+        "data-started-at": "2026-10-14T22:40:09Z",
+        "data-completed-at": "2026-10-14T22:40:15Z"
+      },
+      {
+        "data-name": "Install pinned packaging tools",
+        "data-number": "4",
+        "data-conclusion": "success",
+        "data-started-at": "2026-10-14T22:40:15Z",
+        "data-completed-at": "2026-10-14T22:40:22Z"
+      },
+      {
+        "data-name": "Node source and history checks",
+        "data-number": "5",
+        "data-conclusion": "success",
+        "data-started-at": "2026-10-14T22:40:22Z",
+        "data-completed-at": "2026-10-14T22:40:35Z"
+      },
+      {
+        "data-name": "Create Windows executable and portable ZIP",
+        "data-number": "6",
+        "data-conclusion": "success",
+        "data-started-at": "2026-10-14T22:40:35Z",
+        "data-completed-at": "2026-10-14T22:41:12Z"
+      },
+      {
+        "data-name": "Verify ZIP expansion matches executable checksums",
+        "data-number": "7",
+        "data-conclusion": "success",
+        "data-started-at": "2026-10-14T22:41:12Z",
+        "data-completed-at": "2026-10-14T22:41:15Z"
+      },
+      {
+        "data-name": "Native Windows executable and restart smoke",
+        "data-number": "8",
+        "data-conclusion": "success",
+        "data-started-at": "2026-10-14T22:41:15Z",
+        "data-completed-at": "2026-10-14T22:41:21Z"
+      },
+      {
+        "data-name": "Run actions/upload-artifact@v4",
+        "data-number": "9",
+        "data-conclusion": "success",
+        "data-started-at": "2026-10-14T22:41:21Z",
+        "data-completed-at": "2026-10-14T22:41:29Z"
+      },
+      {
+        "data-name": "Post Run actions/setup-node@v4",
+        "data-number": "17",
+        "data-conclusion": "success",
+        "data-started-at": "2026-10-14T22:41:29Z",
+        "data-completed-at": "2026-10-14T22:41:32Z"
+      },
+      {
+        "data-name": "Post Run actions/checkout@v4",
+        "data-number": "18",
+        "data-conclusion": "success",
+        "data-started-at": "2026-10-14T22:41:32Z",
+        "data-completed-at": "2026-10-14T22:41:34Z"
+      },
+      {
+        "data-name": "Complete job",
+        "data-number": "19",
+        "data-conclusion": "success",
+        "data-started-at": "2026-10-14T22:41:34Z",
+        "data-completed-at": "2026-10-14T22:41:34Z"
+      }
+    ],
+    "limits": [
+      "Authenticated hosted raw logs/native JSON/screenshots were not read",
+      "Windows10/11 user hardware/FPS/scaling acceptance and user art acceptance unperformed"
+    ],
+    "evidence": "E28",
+    "runner": "GitHub-hosted windows-latest; exact OS image was not obtained from authenticated raw logs",
+    "scope": "Actual packaged Windows executable input/load/start, N15/N1000 completion, current4 dedicated-fourth edition and four snapshots, saving and separate-process restoration; ZIP full-file checksum verification",
+    "artifact": {
+      "id": 11933831262,
+      "name": "VALIS-Windows-x64",
+      "displaySize": "216 MB",
+      "digest": "sha256:eecc092ddce53f8dc2428719d48214d114ac3bc0dafede600ceba30550be97ec",
+      "retentionDays": 30
+    },
+    "runtimeShaIndex": "target-sha256.json"
+  },
+  "sourceContents": "Only runtime source/local assets/config; source art generation ledger, candidates, evidence and plans outside src",
+  "remaining": [
+    "User visual acceptance",
+    "Windows10/11 user hardware/FPS/scaling acceptance"
+  ],
+  "nextFlow": "FLOW-08 user acceptance evidence / FLOW-04 concrete visual feedback"
+}

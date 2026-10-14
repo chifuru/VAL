@@ -10,7 +10,7 @@ definition_baseline: biological-anatomy-2026-10-14。operations/plans/2026-10-14
 initial_registration_this_change: E27, E28。旧証跡は各旧対象版に限定。
 manifest_reflection_this_change: 今回のA/B→C/Dの解剖別四段階・20系統最終到達・旧3保全とE27/E28への読解経路を反映。
 approval_basis: ユーザーが全FizzBuzzノードを草案と指定。旧承認は現在無効、アーカイブは旧版の識別にのみ使用。
-unresolved_summary: 今回造形版のローカル実結果はE27へ。E28のhosted Windows実結果を取得中。全ノード草案、利用者実機/美術受入は未認定。
+unresolved_summary: 今回造形版のローカル実結果はE27へ。hosted Windowsの実exe起動・保存・再起動復元はE28へ記録。全ノード草案、利用者実機/美術受入は未認定。
 evidence_scope: E1〜E26は各指定旧対象版に限定。今回版ローカルはE27、hosted WindowsはE28。検証による自動承認は行わない。
 
 ## 読解経路と責務

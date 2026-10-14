@@ -1,0 +1,11 @@
+--- /tmp/valis-before-biology-lineage-definitions.js	2026-10-14 22:42:31.021106020 +0000
++++ gas-fizzbuzz-webapp/src/composite/legacy-lineages-v3.js	2026-10-14 22:10:38.562826303 +0000
+@@ -2,7 +2,7 @@
+ (function (root, factory) {
+   var definitions = factory();
+   if (typeof module === 'object' && module.exports) module.exports = definitions;
+-  else root.LineageDefinitions = definitions;
++  else root.LegacyLineageDefinitionsV3 = definitions;
+ })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+   'use strict';
+   function freeze(value) {
