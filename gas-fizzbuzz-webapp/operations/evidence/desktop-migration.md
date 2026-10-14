@@ -22,3 +22,5 @@ Windows10/11利用者実機、実利用FPS/表示倍率、美術の利用者受�
 有効条件: SHA台帳と記載環境/条件の一致。無効化条件: 対象runtime/画像/設定/係数/保存/ホスト/検査条件の変更。残存FLOWはWindows/利用者受入のFLOW-08、具体的反例のFLOW-04、結果反映のFLOW-05。C/D/Eの自動承認は行わない。
 
 配布照合のOS対応: ASAR APIへ渡すアーカイブ内パスはpath.relativeのネイティブ区切りを保持する。移行前のスラッシュ正規化は報告/チェックサム表示だけに限定する。Windows CI 38609225140で前版のPNGパス検索失敗を取得し修正、Linux配布の全srcバイト照合を再実行済み。修正版Windows結果は未取得。
+
+取得したWindows結果は独立E22へ初期登録。run38610389383のpackage/ZIP checksum/native exe create→restoreがsuccess、artifact11917253151を取得。公開GitHub step結論/digestを照合した証拠であり、認証が必要な生ログ/native JSONは未読。Windows10/11利用者実機と美術受入は未実施のまま。

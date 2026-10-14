@@ -5,12 +5,12 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 全68ノード（A9/B11/C17/D10/E21）。A/B20は採用したdesktop定義版の承認済み、C/D/E48は草案。製品実装/画質/Windows実機成功の承認とは区別する。
+current_status: 全69ノード（A9/B11/C17/D10/E22）。A/B20は採用したdesktop定義版の承認済み、C/D/E49は草案。製品実装/画質/Windows実機成功の承認とは区別する。
 definition_baseline: desktop-contract-proposal-2026-10-14。採用計画 operations/plans/2026-10-14-desktop-migration.md。
-initial_registration_this_change: A1.7, A1.8, B1.7, B1.8, C1.7, C1.8, C1.5.2.1, C1.5.2.2, D1.5, D1.6, E21。
-manifest_reflection_this_change: A/B20の承認状態、C17の実装可変係数/部位/画面/ホスト/保存対応、D10の現在テスト、E21の対象SHA/限定結果と残存受入を反映。旧定義/工程履歴はGitおよびoperations/archive/pre-desktop-valisへ保存。
+initial_registration_this_change: A1.7, A1.8, B1.7, B1.8, C1.7, C1.8, C1.5.2.1, C1.5.2.2, D1.5, D1.6, E21, E22。
+manifest_reflection_this_change: A/B20の承認状態、C17の実装可変係数/部位/画面/ホスト/保存対応、D10の現在テスト、E21/E22の対象SHA/限定結果と残存受入を反映。旧定義/工程履歴はGitおよびoperations/archive/pre-desktop-valisへ保存。
 approval_basis: operations/evidence/desktop-ab-approval.md。FLOW-09状態決定→FLOW-05正式反映。
-unresolved_summary: 成長/DNA/七身体部位/75器官/実run永続化を実装し、ローカル単体・Chromium・Linux Electron・Windows配布整合をE21へ接続。Windows10/11利用者実機、表示倍率/FPS、美術受入は未実施。第四相解放は対象外。
+unresolved_summary: 成長/DNA/七身体部位/75器官/実run永続化を実装し、ローカル単体・Chromium・Linux Electron・Windows配布整合をE21へ、hosted Windows実exe起動/再起動をE22へ接続。Windows10/11利用者実機、表示倍率/FPS、美術受入は未実施。第四相解放は対象外。
 evidence_scope: E1〜E19は指定された移行前対象版だけの証跡。E20は移行前の適合監査でdesktop成功ではない。E21はtarget-sha256.jsonで識別する移行版の限定検証。A/B本文内の未実施表示は仕様承認時の対象状態であり、現在の実装/検証はC/D/E21とこの索引を参照する。A/B採用本文は承認時の正確な版を保持する。
 
 ## 読解経路と責務
@@ -300,3 +300,7 @@ E20:（D1.1, D1.2, D1.3, D1.3.1, D1.3.2, D1.3.3, A1, B1, C1 / モック・ノー
 E21:（D1.1, D1.2, D1.3.1, D1.3.2, D1.3.3, D1.5, D1.6, C1 / Windows移行版の計算・画像・実履歴・配布照合証跡）［草案］
 	Node File: valis/nodes/E/E21.md。独立証跡、parent_idなし。参照種別: evidence_for。
 	要約: ENGINE1/desktop-art-v1の単体・Chromium・Linux実起動/復元・Windows配布整合をtarget-sha256.jsonで識別。Windows10/11利用者実機/美術受入は未実施。無効化条件: 対象src/画像/係数/保存/ホスト/検査条件変更。次FLOW: FLOW-08/04/05。
+
+E22:（D1.5, D1.6, C1.7, C1.8 / GitHub Windows配布・実exe起動と再起動の証跡）［草案］
+	Node File: valis/nodes/E/E22.md。独立証跡、parent_idなし。参照種別: evidence_for。
+	要約: commit f6be4c8 / run38610389383、Windows package/ZIP整合/native exe create→restoreがsuccess。runtime SHAはE21台帳。生ログ/native JSONは未取得。Windows10/11利用者実機/美術受入は未実施。変更時に影響観点を再実行。次FLOW: FLOW-08/04/05。

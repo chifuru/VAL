@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-14T17:40:45.060999+00:00",
+  "generatedAt": "2026-10-14T17:58:25.416843+00:00",
   "flow": [
     "FLOW-04",
     "FLOW-03",
@@ -11,14 +11,14 @@
   "targetShaFilesVerified": 36,
   "coreAndOriginalPngVerified": 23,
   "manifest": {
-    "nodes": 68,
+    "nodes": 69,
     "A": 9,
     "B": 11,
     "C": 17,
     "D": 10,
-    "E": 21,
+    "E": 22,
     "approvedAB": 20,
-    "draftCDE": 48,
+    "draftCDE": 49,
     "initialRegistration": [
       "A1.7",
       "A1.8",
@@ -30,7 +30,8 @@
       "C1.5.2.2",
       "D1.5",
       "D1.6",
-      "E21"
+      "E21",
+      "E22"
     ],
     "reflection": "C17 implementation/coefficients; D10 actual test mapping; E21 limited current results and unperformed acceptance"
   },
@@ -55,7 +56,11 @@
     "change": "LF checkout attributes and readable failure annotations",
     "diagnosticRun": 38609225140,
     "diagnosticError": "src/assets/creatures/abyss.png was not found in this archive",
-    "correction": "Use native path.relative result for ASAR API; local package source-byte validation rerun passed"
+    "correction": "Use native path.relative result for ASAR API; local package source-byte validation rerun passed",
+    "correctedRun": 38610389383,
+    "correctedResult": "success: package, ZIP checksums, native Windows executable and process restart",
+    "artifactId": 11917253151,
+    "artifactDigest": "sha256:f31ccf6c2c66927b381afcbe7983508dc96f418f29c70068458d34ee9552c181"
   },
   "limits": [
     "Windows10/11 user-device acceptance",
