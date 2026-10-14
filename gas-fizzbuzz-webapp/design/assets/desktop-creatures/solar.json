@@ -1,0 +1,363 @@
+{
+  "family": "solar",
+  "file": "src/assets/creatures/solar.png",
+  "rows": [
+    "solarRing",
+    "luminousCrown",
+    "fireMembrane",
+    "radiatingWhisker",
+    "solarTail"
+  ],
+  "columns": 3,
+  "regions": [
+    [
+      89,
+      130,
+      181,
+      165
+    ],
+    [
+      398,
+      84,
+      218,
+      216
+    ],
+    [
+      706,
+      69,
+      266,
+      237
+    ],
+    [
+      130,
+      437,
+      117,
+      145
+    ],
+    [
+      409,
+      399,
+      194,
+      190
+    ],
+    [
+      733,
+      361,
+      227,
+      228
+    ],
+    [
+      118,
+      717,
+      139,
+      163
+    ],
+    [
+      430,
+      693,
+      184,
+      190
+    ],
+    [
+      728,
+      652,
+      248,
+      246
+    ],
+    [
+      137,
+      1000,
+      69,
+      174
+    ],
+    [
+      454,
+      961,
+      130,
+      216
+    ],
+    [
+      771,
+      940,
+      187,
+      241
+    ],
+    [
+      106,
+      1300,
+      144,
+      154
+    ],
+    [
+      410,
+      1245,
+      189,
+      218
+    ],
+    [
+      725,
+      1218,
+      248,
+      253
+    ]
+  ],
+  "roots": [
+    [
+      90,
+      158
+    ],
+    [
+      109,
+      207
+    ],
+    [
+      133,
+      228
+    ],
+    [
+      47,
+      139
+    ],
+    [
+      78,
+      182
+    ],
+    [
+      91,
+      219
+    ],
+    [
+      35,
+      156
+    ],
+    [
+      46,
+      182
+    ],
+    [
+      62,
+      236
+    ],
+    [
+      10,
+      167
+    ],
+    [
+      20,
+      207
+    ],
+    [
+      28,
+      231
+    ],
+    [
+      7,
+      131
+    ],
+    [
+      9,
+      185
+    ],
+    [
+      12,
+      215
+    ]
+  ],
+  "width": 1024,
+  "height": 1536,
+  "sha256": "3bebf4823d4ebaf8dfb56a8e8721c95b2dda9547e3d130a60005aa4acc920cb8",
+  "generationFile": "exec-6271acf4-d87c-4071-96ae-4b48d5ed1437.png",
+  "method": "image_gen anatomical derivative, original PNG bytes unchanged; metadata measured from alpha >32, anatomical pivots visually reviewed",
+  "referenceDirection": "design/3cdebf40-9477-4475-83bb-9374dc52254a.png",
+  "checks": [
+    {
+      "row": 0,
+      "level": 1,
+      "occupied": 7863,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        89,
+        130,
+        270,
+        295
+      ]
+    },
+    {
+      "row": 1,
+      "level": 1,
+      "occupied": 9419,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        130,
+        130,
+        247,
+        275
+      ]
+    },
+    {
+      "row": 2,
+      "level": 1,
+      "occupied": 10799,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        118,
+        103,
+        257,
+        266
+      ]
+    },
+    {
+      "row": 3,
+      "level": 1,
+      "occupied": 4266,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        137,
+        78,
+        206,
+        252
+      ]
+    },
+    {
+      "row": 4,
+      "level": 1,
+      "occupied": 7828,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        106,
+        71,
+        250,
+        225
+      ]
+    },
+    {
+      "row": 0,
+      "level": 2,
+      "occupied": 14389,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        57,
+        84,
+        275,
+        300
+      ]
+    },
+    {
+      "row": 1,
+      "level": 2,
+      "occupied": 17888,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        68,
+        92,
+        262,
+        282
+      ]
+    },
+    {
+      "row": 2,
+      "level": 2,
+      "occupied": 17720,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        89,
+        79,
+        273,
+        269
+      ]
+    },
+    {
+      "row": 3,
+      "level": 2,
+      "occupied": 10244,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        113,
+        39,
+        243,
+        255
+      ]
+    },
+    {
+      "row": 4,
+      "level": 2,
+      "occupied": 16178,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        69,
+        16,
+        258,
+        234
+      ]
+    },
+    {
+      "row": 0,
+      "level": 3,
+      "occupied": 24586,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        23,
+        69,
+        289,
+        306
+      ]
+    },
+    {
+      "row": 1,
+      "level": 3,
+      "occupied": 26361,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        50,
+        54,
+        277,
+        282
+      ]
+    },
+    {
+      "row": 2,
+      "level": 3,
+      "occupied": 34023,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        45,
+        38,
+        293,
+        284
+      ]
+    },
+    {
+      "row": 3,
+      "level": 3,
+      "occupied": 19238,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        88,
+        18,
+        275,
+        259
+      ]
+    },
+    {
+      "row": 4,
+      "level": 3,
+      "occupied": 31572,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        42,
+        1,
+        290,
+        254
+      ]
+    }
+  ],
+  "boundaryWarnings": [],
+  "visualStatus": "Atlas alpha/cell isolation and composed desktop views reviewed; user artwork acceptance remains pending",
+  "generationPrompt": "Edit this organ atlas. Preserve the EXACT ordered rows, all existing named organ designs and the 3 distinct development levels. Fix the current parts touching neighboring rows: redraw EVERY organ at about 55% of current size, placed precisely in the center of its own cell. Use 5 equal-height rows by 3 equal-width columns on a transparent 1024x1536 canvas. Each sprite must fit wholly within the center 60% of its cell, maximum 120 pixels high and 180 pixels wide INCLUDING flame/glow/branches. A very wide continuous empty transparent corridor between ALL rows and ALL columns is mandatory. Keep all attached membranes and branches connected to their own organ. No detached flecks, no background, no text, no lines, no frames. Do not enlarge the last column. Preserve detailed blue cream pixel-art shading and orange or violet accents. Never a complete creature. All row and column counts must stay exactly the same.",
+  "generationReferenceFiles": [
+    "design/archive/desktop-art-inputs/solar.png"
+  ],
+  "generationReferenceSha256": {
+    "design/archive/desktop-art-inputs/solar.png": "3b5322fdd824b6a70cbd6049786f9068e03f7585e75f8139430c19472f54c2fd"
+  }
+}

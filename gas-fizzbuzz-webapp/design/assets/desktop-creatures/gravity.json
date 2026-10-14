@@ -1,0 +1,363 @@
+{
+  "family": "gravity",
+  "file": "src/assets/creatures/gravity.png",
+  "rows": [
+    "orbitRing",
+    "orbitalNode",
+    "stabilizerFin",
+    "gravityCore",
+    "orbitTail"
+  ],
+  "columns": 3,
+  "regions": [
+    [
+      90,
+      146,
+      182,
+      118
+    ],
+    [
+      430,
+      133,
+      174,
+      137
+    ],
+    [
+      745,
+      78,
+      204,
+      192
+    ],
+    [
+      132,
+      422,
+      91,
+      109
+    ],
+    [
+      451,
+      401,
+      127,
+      149
+    ],
+    [
+      753,
+      365,
+      184,
+      199
+    ],
+    [
+      138,
+      703,
+      84,
+      135
+    ],
+    [
+      443,
+      650,
+      172,
+      196
+    ],
+    [
+      746,
+      622,
+      210,
+      224
+    ],
+    [
+      114,
+      978,
+      121,
+      126
+    ],
+    [
+      428,
+      950,
+      161,
+      173
+    ],
+    [
+      730,
+      905,
+      229,
+      236
+    ],
+    [
+      115,
+      1271,
+      125,
+      159
+    ],
+    [
+      422,
+      1223,
+      176,
+      211
+    ],
+    [
+      739,
+      1199,
+      216,
+      237
+    ]
+  ],
+  "roots": [
+    [
+      91,
+      114
+    ],
+    [
+      87,
+      133
+    ],
+    [
+      102,
+      186
+    ],
+    [
+      46,
+      106
+    ],
+    [
+      64,
+      145
+    ],
+    [
+      92,
+      193
+    ],
+    [
+      17,
+      128
+    ],
+    [
+      34,
+      186
+    ],
+    [
+      42,
+      213
+    ],
+    [
+      60,
+      122
+    ],
+    [
+      80,
+      168
+    ],
+    [
+      114,
+      229
+    ],
+    [
+      19,
+      146
+    ],
+    [
+      26,
+      194
+    ],
+    [
+      32,
+      218
+    ]
+  ],
+  "width": 1024,
+  "height": 1536,
+  "sha256": "8678a8f6902a8a6775d0fab49dc6e4bb1e838a3163e44b1439c55b4aaed18cd4",
+  "generationFile": "exec-7e20ed6e-55a3-451d-9760-1dbe06eda59c.png",
+  "method": "image_gen anatomical derivative, original PNG bytes unchanged; metadata measured from alpha >32, anatomical pivots visually reviewed",
+  "referenceDirection": "design/VALIS異界生物観測UI-1.png",
+  "checks": [
+    {
+      "row": 0,
+      "level": 1,
+      "occupied": 5473,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        90,
+        146,
+        272,
+        264
+      ]
+    },
+    {
+      "row": 1,
+      "level": 1,
+      "occupied": 6611,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        132,
+        115,
+        223,
+        224
+      ]
+    },
+    {
+      "row": 2,
+      "level": 1,
+      "occupied": 6127,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        138,
+        89,
+        222,
+        224
+      ]
+    },
+    {
+      "row": 3,
+      "level": 1,
+      "occupied": 7684,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        114,
+        56,
+        235,
+        182
+      ]
+    },
+    {
+      "row": 4,
+      "level": 1,
+      "occupied": 7588,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        115,
+        42,
+        240,
+        201
+      ]
+    },
+    {
+      "row": 0,
+      "level": 2,
+      "occupied": 9674,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        89,
+        133,
+        263,
+        270
+      ]
+    },
+    {
+      "row": 1,
+      "level": 2,
+      "occupied": 12560,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        110,
+        94,
+        237,
+        243
+      ]
+    },
+    {
+      "row": 2,
+      "level": 2,
+      "occupied": 14194,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        102,
+        36,
+        274,
+        232
+      ]
+    },
+    {
+      "row": 3,
+      "level": 2,
+      "occupied": 14453,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        87,
+        28,
+        248,
+        201
+      ]
+    },
+    {
+      "row": 4,
+      "level": 2,
+      "occupied": 13126,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        81,
+        1,
+        257,
+        212
+      ]
+    },
+    {
+      "row": 0,
+      "level": 3,
+      "occupied": 15193,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        62,
+        78,
+        266,
+        270
+      ]
+    },
+    {
+      "row": 1,
+      "level": 3,
+      "occupied": 19723,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        70,
+        58,
+        254,
+        257
+      ]
+    },
+    {
+      "row": 2,
+      "level": 3,
+      "occupied": 22293,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        63,
+        8,
+        273,
+        232
+      ]
+    },
+    {
+      "row": 3,
+      "level": 3,
+      "occupied": 28391,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        47,
+        1,
+        276,
+        237
+      ]
+    },
+    {
+      "row": 4,
+      "level": 3,
+      "occupied": 19292,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        56,
+        1,
+        272,
+        238
+      ]
+    }
+  ],
+  "boundaryWarnings": [],
+  "visualStatus": "Atlas alpha/cell isolation and composed desktop views reviewed; user artwork acceptance remains pending",
+  "generationPrompt": "Edit this organ atlas. Preserve the EXACT ordered rows, all existing named organ designs and the 3 distinct development levels. Fix the current parts touching neighboring rows: redraw EVERY organ at about 55% of current size, placed precisely in the center of its own cell. Use 5 equal-height rows by 3 equal-width columns on a transparent 1024x1536 canvas. Each sprite must fit wholly within the center 60% of its cell, maximum 120 pixels high and 180 pixels wide INCLUDING flame/glow/branches. A very wide continuous empty transparent corridor between ALL rows and ALL columns is mandatory. Keep all attached membranes and branches connected to their own organ. No detached flecks, no background, no text, no lines, no frames. Do not enlarge the last column. Preserve detailed blue cream pixel-art shading and orange or violet accents. Never a complete creature. All row and column counts must stay exactly the same.",
+  "generationReferenceFiles": [
+    "design/archive/desktop-art-inputs/gravity.png"
+  ],
+  "generationReferenceSha256": {
+    "design/archive/desktop-art-inputs/gravity.png": "f064bd4fda2d88d0cdd49bdaf1fad0233e7b48ff2555f8a170908c9918d9b8fe"
+  }
+}

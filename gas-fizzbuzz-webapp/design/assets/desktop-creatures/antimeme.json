@@ -1,0 +1,363 @@
+{
+  "family": "antimeme",
+  "file": "src/assets/creatures/antimeme.png",
+  "rows": [
+    "absenceMask",
+    "unseenEye",
+    "erasureCrown",
+    "memoryFilament",
+    "brokenTail"
+  ],
+  "columns": 3,
+  "regions": [
+    [
+      89,
+      146,
+      142,
+      157
+    ],
+    [
+      383,
+      135,
+      191,
+      179
+    ],
+    [
+      690,
+      94,
+      263,
+      240
+    ],
+    [
+      100,
+      427,
+      143,
+      127
+    ],
+    [
+      405,
+      414,
+      181,
+      150
+    ],
+    [
+      719,
+      399,
+      256,
+      181
+    ],
+    [
+      89,
+      704,
+      158,
+      166
+    ],
+    [
+      387,
+      677,
+      201,
+      201
+    ],
+    [
+      700,
+      645,
+      273,
+      250
+    ],
+    [
+      110,
+      1019,
+      145,
+      166
+    ],
+    [
+      410,
+      1003,
+      172,
+      194
+    ],
+    [
+      726,
+      973,
+      247,
+      233
+    ],
+    [
+      95,
+      1305,
+      144,
+      154
+    ],
+    [
+      393,
+      1287,
+      198,
+      180
+    ],
+    [
+      701,
+      1265,
+      256,
+      214
+    ]
+  ],
+  "roots": [
+    [
+      21,
+      110
+    ],
+    [
+      29,
+      125
+    ],
+    [
+      39,
+      168
+    ],
+    [
+      64,
+      102
+    ],
+    [
+      81,
+      120
+    ],
+    [
+      115,
+      145
+    ],
+    [
+      24,
+      158
+    ],
+    [
+      30,
+      191
+    ],
+    [
+      41,
+      238
+    ],
+    [
+      22,
+      159
+    ],
+    [
+      26,
+      186
+    ],
+    [
+      37,
+      224
+    ],
+    [
+      14,
+      128
+    ],
+    [
+      20,
+      149
+    ],
+    [
+      26,
+      178
+    ]
+  ],
+  "width": 1024,
+  "height": 1536,
+  "sha256": "0b992e5618c86823d6f08ddab49fb56cd049e1b92f7591fae216aa0a5f1ff41b",
+  "generationFile": "exec-8f7882ae-c3b9-429f-93ea-d0f7540ff069.png",
+  "method": "image_gen anatomical derivative, original PNG bytes unchanged; metadata measured from alpha >32, anatomical pivots visually reviewed",
+  "referenceDirection": "design/VALIS異界生物観測UI-1.png",
+  "checks": [
+    {
+      "row": 0,
+      "level": 1,
+      "occupied": 8940,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        89,
+        146,
+        231,
+        303
+      ]
+    },
+    {
+      "row": 1,
+      "level": 1,
+      "occupied": 12211,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        100,
+        120,
+        243,
+        247
+      ]
+    },
+    {
+      "row": 2,
+      "level": 1,
+      "occupied": 12841,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        89,
+        90,
+        247,
+        256
+      ]
+    },
+    {
+      "row": 3,
+      "level": 1,
+      "occupied": 6880,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        110,
+        97,
+        255,
+        263
+      ]
+    },
+    {
+      "row": 4,
+      "level": 1,
+      "occupied": 9806,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        95,
+        76,
+        239,
+        230
+      ]
+    },
+    {
+      "row": 0,
+      "level": 2,
+      "occupied": 14716,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        42,
+        135,
+        233,
+        314
+      ]
+    },
+    {
+      "row": 1,
+      "level": 2,
+      "occupied": 17412,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        64,
+        100,
+        245,
+        250
+      ]
+    },
+    {
+      "row": 2,
+      "level": 2,
+      "occupied": 18972,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        46,
+        63,
+        247,
+        264
+      ]
+    },
+    {
+      "row": 3,
+      "level": 2,
+      "occupied": 12799,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        69,
+        81,
+        241,
+        275
+      ]
+    },
+    {
+      "row": 4,
+      "level": 2,
+      "occupied": 15383,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        52,
+        58,
+        250,
+        238
+      ]
+    },
+    {
+      "row": 0,
+      "level": 3,
+      "occupied": 23500,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        7,
+        94,
+        270,
+        334
+      ]
+    },
+    {
+      "row": 1,
+      "level": 3,
+      "occupied": 26922,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        36,
+        65,
+        292,
+        246
+      ]
+    },
+    {
+      "row": 2,
+      "level": 3,
+      "occupied": 36412,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        17,
+        31,
+        290,
+        281
+      ]
+    },
+    {
+      "row": 3,
+      "level": 3,
+      "occupied": 22980,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        43,
+        51,
+        290,
+        284
+      ]
+    },
+    {
+      "row": 4,
+      "level": 3,
+      "occupied": 26250,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        18,
+        36,
+        274,
+        250
+      ]
+    }
+  ],
+  "boundaryWarnings": [],
+  "visualStatus": "Atlas alpha/cell isolation and composed desktop views reviewed; user artwork acceptance remains pending",
+  "generationPrompt": "Edit this organ atlas. Preserve the EXACT ordered rows, all existing named organ designs and the 3 distinct development levels. Fix the current parts touching neighboring rows: redraw EVERY organ at about 55% of current size, placed precisely in the center of its own cell. Use 5 equal-height rows by 3 equal-width columns on a transparent 1024x1536 canvas. Each sprite must fit wholly within the center 60% of its cell, maximum 120 pixels high and 180 pixels wide INCLUDING flame/glow/branches. A very wide continuous empty transparent corridor between ALL rows and ALL columns is mandatory. Keep all attached membranes and branches connected to their own organ. No detached flecks, no background, no text, no lines, no frames. Do not enlarge the last column. Preserve detailed blue cream pixel-art shading and orange or violet accents. Never a complete creature. All row and column counts must stay exactly the same.",
+  "generationReferenceFiles": [
+    "design/archive/desktop-art-inputs/antimeme.png"
+  ],
+  "generationReferenceSha256": {
+    "design/archive/desktop-art-inputs/antimeme.png": "24ba3ce0709b30ebc8de90a410b408329fd5908f6bbf4dc137867329a1e9edb1"
+  }
+}

@@ -1,16 +1,25 @@
 {
-  "name": "gas-fizzbuzz-webapp",
+  "name": "valis-fizzbuzz-desktop",
   "private": true,
-  "version": "0.1.0",
-  "description": "Retro pixel creature FizzBuzz GAS web app with automatic food and growth playback",
+  "version": "1.0.0",
+  "description": "Local Windows creature evolution desktop app driven by FizzBuzz energy and immutable DNA",
+  "main": "src/desktop/main.cjs",
   "scripts": {
     "test": "node --test tests/*.test.cjs",
-    "build:composite": "node tools/build-composite-html.cjs",
-    "check:composite": "node tools/build-composite-html.cjs --check",
-    "check:assets": "node tools/verify-composite-assets.cjs",
-    "test:browser": "node tests/browser-smoke.cjs"
+    "start": "electron .",
+    "build:assets": "node tools/build-assets.cjs",
+    "check:assets": "node tools/build-assets.cjs --check",
+    "test:browser": "node tests/browser-smoke.cjs",
+    "test:desktop": "node tests/electron-smoke.cjs",
+    "package:windows": "node tools/package-windows.cjs"
   },
-  "engines": {
-    "node": ">=18"
-  }
+  "devDependencies": {
+    "@electron/packager": "20.3.0",
+    "@electron/get": "5.0.0",
+    "@electron/asar": "4.3.1",
+    "electron": "44.7.2",
+    "playwright": "1.56.1",
+    "pngjs": "7.0.0"
+  },
+  "engines": { "node": ">=22.12.0" }
 }

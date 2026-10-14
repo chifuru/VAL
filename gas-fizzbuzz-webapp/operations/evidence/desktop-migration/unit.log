@@ -1,0 +1,47 @@
+
+> valis-fizzbuzz-desktop@1.0.0 test
+> node --test tests/*.test.cjs
+
+✔ every anatomical organ and body tier resolves to a checked local PNG with a usable socket (1436.6069ms)
+✔ atlas provenance covers exactly the runtime files and separates originals from derivative art (2.08687ms)
+✔ desktop entry contains no GAS, embedded atlas bytes, source previews or remote asset dependency (0.879453ms)
+✔ 1000-row energy calibration uses exact integer phase boundaries and finishes every row (13.238068ms)
+✔ small N finishes at its actual partial development; N does not rescale maturity (24.942678ms)
+✔ FizzBuzz output is unchanged and invalid seeds, foods and environments are rejected (0.865932ms)
+✔ latest numeric modifier applies once to the next nutrient; lastMeal describes that exact ingestion (0.413803ms)
+✔ 14 species and all 75 anatomical groups retain qualified IDs, anchors and repetition counts (0.495024ms)
+✔ all fourteen branches remain reachable by actual environment histories at both phase entries (53.330736ms)
+✔ cross-evolution preserves every acquired organ including the final meal before transformation (4.232959ms)
+✔ organ XP remains independent, matures over hundreds of rows and keeps growing within a level (4.943608ms)
+✔ all seven basic body regions continuously develop and react to actual consumed energy (15.581814ms)
+✔ each species expresses a distinct whole-body profile while retaining the same birth DNA (3.789021ms)
+✔ all six DNA axes cause real anatomy, pigment or organ differences without changing energy timing (40.892857ms)
+✔ nutrition proportions affect color; numbers remain regulators rather than a fourth pigment (0.359501ms)
+✔ maturation snapshots include the last meal and stay immutable while later meals and counters continue (3.72195ms)
+✔ JSON resume and chunked playback preserve exact outcomes through changed environments and skipping (8.805529ms)
+✔ browser and Node UMD load the same definitions and deterministic growth engine (37.095043ms)
+✔ separate runs of the same N survive process-style store reload and list newest first (31.497851ms)
+✔ queued updates keep latest progress and reject older or changed birth records (12.481198ms)
+✔ corrupt primary keeps original and backup untouched and prevents automatic overwrite (8.289593ms)
+✔ atomic write failure preserves previous primary, warns and blocks flush until retry succeeds (16.695771ms)
+✔ external history change is not overwritten by cached state (3.063169ms)
+✔ record validator rejects unsafe N, progress, IDs, malformed images and mismatched snapshots (2.283826ms)
+✔ IPC accepts only local top frame; arbitrary frame/path and remote navigation cannot use host (2.110886ms)
+✔ close waits for renderer preparation and successful flush; failed flush keeps window open (1.01037ms)
+✔ sandbox preload exposes fixed IPC methods and unsubscribes close callbacks (2.454263ms)
+✔ Manifest uniquely registers every Node, keeps parent IDs in its layer and maintains specification approval boundaries (17.239509ms)
+✔ approved A/B definitions match exactly the reviewed adoption; verification does not approve C/D/E (1.44902ms)
+✔ all core definitions and original root PNG mocks remain byte-identical to the pre-migration baseline (56.060738ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1522.440399
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

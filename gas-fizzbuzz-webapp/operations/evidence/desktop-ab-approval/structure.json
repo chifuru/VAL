@@ -1,0 +1,22 @@
+{
+  "nodes": 67,
+  "counts": {
+    "A": 9,
+    "B": 11,
+    "C": 17,
+    "D": 10,
+    "E": 20
+  },
+  "states": {
+    "承認済み": 20,
+    "草案": 47
+  },
+  "manifest_entries": 67,
+  "registered_paths": 67,
+  "approved_AB_exact_sha_verified": 20,
+  "archive_sha_verified": 38,
+  "core_protected": true,
+  "structural_checks_pass": true,
+  "issues": [],
+  "limits": "Node/Manifest preparation and exact specification approval only. src/PNG/desktop tests and Windows execution are pending."
+}

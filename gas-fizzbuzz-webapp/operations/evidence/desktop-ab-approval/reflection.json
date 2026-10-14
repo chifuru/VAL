@@ -1,0 +1,211 @@
+{
+  "baseline_commit": "51e1fd5df367d6b6019c1a8f7fa2621ca5dfa45c",
+  "approved_plan": "operations/plans/2026-10-14-desktop-migration.md",
+  "approval_input": "この仕様・分割を承認して進める",
+  "approved_nodes": [
+    {
+      "id": "A1",
+      "source": "operations/plans/desktop-proposals/ab-texts/A/A1.md",
+      "source_sha256": "6d63535c8c5e2c4879210832cc833658bea91faf9ad37528886f0c5b6e2902db",
+      "approved_sha256": "277c818b85ce359642ca86191920e93ac56674f6305d9ae9d5eb447b6701a223",
+      "canonical_path": "valis/nodes/A/A1.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "A1.1",
+      "source": "operations/plans/desktop-proposals/ab-texts/A/A1.1.md",
+      "source_sha256": "ed19dc95f5601ce328239fbf31e6a1834d43eb695c17a4e1d0fe98ce6146154f",
+      "approved_sha256": "d9a11360257bdf069b4c8f7dfd8784dab8fe4925dd32133cf2920ee55866c65b",
+      "canonical_path": "valis/nodes/A/A1.1.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "A1.2",
+      "source": "operations/plans/desktop-proposals/ab-texts/A/A1.2.md",
+      "source_sha256": "f3fe063e0e13801aa2b09ad0566cd74d17b4cc0f8bbaeac7f60f728574329b7d",
+      "approved_sha256": "e482c03ffbf1c69379cb14775fca59a7ed2a2ff6b60392eab99ff402f6371853",
+      "canonical_path": "valis/nodes/A/A1.2.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "A1.3",
+      "source": "operations/plans/desktop-proposals/ab-texts/A/A1.3.md",
+      "source_sha256": "1d1d61f57138d49ef087a2affae17f4a2bc7f5c2d020bd7b9fb68788c817a214",
+      "approved_sha256": "6db45a6c96cc9853dee093122262de71dc910a52b734ffff2d55a62744a3bf0e",
+      "canonical_path": "valis/nodes/A/A1.3.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "A1.4",
+      "source": "operations/plans/desktop-proposals/ab-texts/A/A1.4.md",
+      "source_sha256": "97421489f10b3cf05dfd9c9dd3b60fa281a75c10025af6b214faecdd248cf9b5",
+      "approved_sha256": "4ddfe10d8fc8e819106659e72e63d254df4b1431a15895d00c3e6e020f7124a3",
+      "canonical_path": "valis/nodes/A/A1.4.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "A1.5",
+      "source": "operations/plans/desktop-proposals/ab-texts/A/A1.5.md",
+      "source_sha256": "70d1a65f2890cbe33480fd96d9a9179229aef7fa8b53b5a196dd919706aab0bd",
+      "approved_sha256": "a93d2bc4d18babda213799e7a6c58706435efd8f7475a186470077c4a121551b",
+      "canonical_path": "valis/nodes/A/A1.5.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "A1.6",
+      "source": "operations/plans/desktop-proposals/ab-texts/A/A1.6.md",
+      "source_sha256": "25f7c4d52133c7d364e56539e5a028a9ecbeb8badce374bfe495afb61d40a66c",
+      "approved_sha256": "855130d5ee08da4c335bba9eafbe1cf99e29e888168d32cad895cb04bfbd36c4",
+      "canonical_path": "valis/nodes/A/A1.6.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "A1.7",
+      "source": "operations/plans/desktop-proposals/ab-texts/A/A1.7.md",
+      "source_sha256": "620c67e06282cdcc077161b4ee1ea9429e8aa4e6b15ad3d26f1b3daf904f13a5",
+      "approved_sha256": "df56a6ff1efd34e4b91810285547ed618ecc016a943df32588cb52fd1c282771",
+      "canonical_path": "valis/nodes/A/A1.7.md",
+      "registration": "initial_registration",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "A1.8",
+      "source": "operations/plans/desktop-proposals/ab-texts/A/A1.8.md",
+      "source_sha256": "fa3f5c41c92ffa02aa518dde1c149f467d2936d3f638d5aba12dd2a9a6d446d1",
+      "approved_sha256": "4e581b3535bba7740e435df4b6bb67a1d39313beebd0f01d46629f39ce0dc77b",
+      "canonical_path": "valis/nodes/A/A1.8.md",
+      "registration": "initial_registration",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "B1",
+      "source": "operations/plans/desktop-proposals/ab-texts/B/B1.md",
+      "source_sha256": "10f540e3218ccd3f321e28f491ad9141445846858783e9c88a5eca28cdc09835",
+      "approved_sha256": "47d695e9d5117f842401ddde56b6f06064086795b76ed2556158c5631de2fc6a",
+      "canonical_path": "valis/nodes/B/B1.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "B1.1",
+      "source": "operations/plans/desktop-proposals/ab-texts/B/B1.1.md",
+      "source_sha256": "af1d59142e0a2a0210f71a56123b973c7521a6544a8cec632142038b4ba4f7f5",
+      "approved_sha256": "9b6528cf2cb1d25b840b211d5442ebdae85c0bb9259e004c4e8a51df8188283d",
+      "canonical_path": "valis/nodes/B/B1.1.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "B1.2",
+      "source": "operations/plans/desktop-proposals/ab-texts/B/B1.2.md",
+      "source_sha256": "e94fb2f41f00a00aacd117f07252ab162dbfad055fd76a336c4f7ea09e3bc363",
+      "approved_sha256": "4b22baa55636a5fddb7b6c09c9f4dabe3500c2b0408da74240e552d2c30e99af",
+      "canonical_path": "valis/nodes/B/B1.2.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "B1.3",
+      "source": "operations/plans/desktop-proposals/ab-texts/B/B1.3.md",
+      "source_sha256": "d59b15bf302c09c4a21ebc4f364e8df26502810e3fbdc23e564d8f1099b126ed",
+      "approved_sha256": "5c6a6ed2766c9688d3f39aa2605ba3f5b7c0b80fb3bb35ea1c9c403bdac643fe",
+      "canonical_path": "valis/nodes/B/B1.3.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "B1.4",
+      "source": "operations/plans/desktop-proposals/ab-texts/B/B1.4.md",
+      "source_sha256": "2e1a1d8f867a7107d0db484725a885404c06b4b82a840062f59dd6df552c6b5c",
+      "approved_sha256": "7185a76a71548eebbecd101ebb904f2e2420525a9d6cbe06627dee2ca0591dbd",
+      "canonical_path": "valis/nodes/B/B1.4.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "B1.4.1",
+      "source": "operations/plans/desktop-proposals/ab-texts/B/B1.4.1.md",
+      "source_sha256": "ff5ded77c5aa3db26a917e91dce87c1351d58eca58c50ebc63b0941f665a0db1",
+      "approved_sha256": "f2e86c04b49bd726b28c954ce2f7357c6dbf982fa4605198b071d0af3e4ab079",
+      "canonical_path": "valis/nodes/B/B1.4.1.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "B1.4.2",
+      "source": "operations/plans/desktop-proposals/ab-texts/B/B1.4.2.md",
+      "source_sha256": "a34d0719ca4fce831d9904c3d4f4583b64106a7b6ea0c6d156bf9aaff4fef666",
+      "approved_sha256": "9ce48554cff9ae2b5faa35c862744d1ce25e0dd9927c8d7784b623027705dbef",
+      "canonical_path": "valis/nodes/B/B1.4.2.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "B1.5",
+      "source": "operations/plans/desktop-proposals/ab-texts/B/B1.5.md",
+      "source_sha256": "0f03022db4ea212e7ebee48f1118aaecb2d78b2b296ef7dfdefe79597ba7c4bb",
+      "approved_sha256": "c66bf50daa69f309864a2082a3647fdf322dde4f7f7b596b2d8c48ea034aef6e",
+      "canonical_path": "valis/nodes/B/B1.5.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "B1.6",
+      "source": "operations/plans/desktop-proposals/ab-texts/B/B1.6.md",
+      "source_sha256": "17c8c0526a1a91aa66126641a62aece2d8ddc053869452c33e2fe4923340d439",
+      "approved_sha256": "3f9e5972bc6232a99e5d7eeef83cdc0bd4eb6a62eb06b639c940b90a4e8bbd4c",
+      "canonical_path": "valis/nodes/B/B1.6.md",
+      "registration": "reflection",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "B1.7",
+      "source": "operations/plans/desktop-proposals/ab-texts/B/B1.7.md",
+      "source_sha256": "8022e66914f905adba878e987147b9df0c5ad3c20ad4cc46bdbbd9f9878e9134",
+      "approved_sha256": "dbfd362ceed7a05318b7920d1a99a27a12563716a701dd09906f5d2cb814ab8b",
+      "canonical_path": "valis/nodes/B/B1.7.md",
+      "registration": "initial_registration",
+      "only_state_tokens_changed": true
+    },
+    {
+      "id": "B1.8",
+      "source": "operations/plans/desktop-proposals/ab-texts/B/B1.8.md",
+      "source_sha256": "77345dc72c071c48455d2c62becdc4292017e8938f80fc81e3735905140f6361",
+      "approved_sha256": "fa4a59675ec81ef8a4bc8c858e4b93377428be38a9bc2b078174964982100fbc",
+      "canonical_path": "valis/nodes/B/B1.8.md",
+      "registration": "initial_registration",
+      "only_state_tokens_changed": true
+    }
+  ],
+  "initial_registration": [
+    "A1.7",
+    "A1.8",
+    "B1.7",
+    "B1.8",
+    "C1.7",
+    "C1.8",
+    "C1.5.2.1",
+    "C1.5.2.2",
+    "D1.5",
+    "D1.6"
+  ],
+  "counts": {
+    "A": 9,
+    "B": 11,
+    "C": 17,
+    "D": 10,
+    "E": 20
+  },
+  "total": 67,
+  "approved": 20,
+  "draft": 47,
+  "preserved_text_index": "operations/archive/pre-desktop-valis/index.json",
+  "limits": "A/B definition approval and structural registration only; no desktop runtime, PNG art acceptance or Windows execution success is asserted."
+}

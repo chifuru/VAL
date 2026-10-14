@@ -1,0 +1,197 @@
+{
+  "baseline_commit": "51e1fd5df367d6b6019c1a8f7fa2621ca5dfa45c",
+  "canonical": false,
+  "purpose": "Pre-desktop Node and Manifest text retained outside canonical VALIS structure; current definitions live only under valis/.",
+  "files": [
+    {
+      "original_path": "valis/nodes/A/A1.1.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/A/A1.1.md",
+      "sha256": "d7798334ff015665f891490816d2b0876ca0b06f9023484d3452aaaa3ea840b4"
+    },
+    {
+      "original_path": "valis/nodes/A/A1.2.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/A/A1.2.md",
+      "sha256": "0bb45ee3ea0c0398bdcf92b9cb116241d855f0d8df3a3719ec1cb3f7450b8968"
+    },
+    {
+      "original_path": "valis/nodes/A/A1.3.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/A/A1.3.md",
+      "sha256": "ed75b71bc636530f775b4f77c5cc84f0110376c904af7f14611372f20fcca447"
+    },
+    {
+      "original_path": "valis/nodes/A/A1.4.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/A/A1.4.md",
+      "sha256": "ff4754355073c8b564299b9fb094921efc1ae507e0007099394586ef49425c30"
+    },
+    {
+      "original_path": "valis/nodes/A/A1.5.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/A/A1.5.md",
+      "sha256": "dec4e7316e434cf915b2c92be4ee45a3e4bf54ce95bb3bf5c2858727623954cc"
+    },
+    {
+      "original_path": "valis/nodes/A/A1.6.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/A/A1.6.md",
+      "sha256": "592d0fd45ec7676df3bb7dac7442c97804d33acac065603282efeaf2ddc12361"
+    },
+    {
+      "original_path": "valis/nodes/A/A1.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/A/A1.md",
+      "sha256": "0336c1930568524ef419bc00235d6fc08595ac3cb31ed69cbd0257310f4974ea"
+    },
+    {
+      "original_path": "valis/nodes/B/B1.1.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/B/B1.1.md",
+      "sha256": "9d26f6286705ba7df5567452bfd471b6221ee566ea54e6576693c9efba369768"
+    },
+    {
+      "original_path": "valis/nodes/B/B1.2.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/B/B1.2.md",
+      "sha256": "2ef997afa2df5f33230f0815fbee1e83f34e3ee9b845d7403fa1a4ae3aeecbc8"
+    },
+    {
+      "original_path": "valis/nodes/B/B1.3.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/B/B1.3.md",
+      "sha256": "2e58d9c238639daae57c0c8936bf0201cf9185fd495ea13b55bfd1cb0e74fc35"
+    },
+    {
+      "original_path": "valis/nodes/B/B1.4.1.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/B/B1.4.1.md",
+      "sha256": "42699daa91b3f9aeb78bc36e76ad1df6b713486ef453ff239341c9952c668bf8"
+    },
+    {
+      "original_path": "valis/nodes/B/B1.4.2.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/B/B1.4.2.md",
+      "sha256": "45bdfc799e1a8cf0700c883a36b0199bc64df94cdf9b880a26f939fbf60914bb"
+    },
+    {
+      "original_path": "valis/nodes/B/B1.4.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/B/B1.4.md",
+      "sha256": "5057d1ffc477346b5a89ceb939ff81d4ef069c1bd2532f072046da9c049fc740"
+    },
+    {
+      "original_path": "valis/nodes/B/B1.5.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/B/B1.5.md",
+      "sha256": "376bf18ee890f129beb9e42c5cb5bde5707ff8e5a635b9af64973783d92357c7"
+    },
+    {
+      "original_path": "valis/nodes/B/B1.6.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/B/B1.6.md",
+      "sha256": "e0428c204cab4ee5c73b9ca8d79940adc7e8bbd63a14f41d6de140d03220ef3d"
+    },
+    {
+      "original_path": "valis/nodes/B/B1.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/B/B1.md",
+      "sha256": "554487e02dcbe1620742b14cdf737cb278a4290fbd50b96efe21469c8d301961"
+    },
+    {
+      "original_path": "valis/nodes/C/C1.1.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/C/C1.1.md",
+      "sha256": "c701a5cfc3563e14f78907da9df48034614169b114cc971674e443f32de836a0"
+    },
+    {
+      "original_path": "valis/nodes/C/C1.2.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/C/C1.2.md",
+      "sha256": "01d8ab2ad5d37f56b5767dc51ab7e1fbb567484f555c070159a048383f80052e"
+    },
+    {
+      "original_path": "valis/nodes/C/C1.3.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/C/C1.3.md",
+      "sha256": "10446657147b8042fef78a9145784e629b7ca7b3fc0a09240176af55a888b919"
+    },
+    {
+      "original_path": "valis/nodes/C/C1.4.1.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/C/C1.4.1.md",
+      "sha256": "8a11fdbf05459ceefd1f77d8f568274b2bb66557fcea94826eabbc199d937a63"
+    },
+    {
+      "original_path": "valis/nodes/C/C1.4.2.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/C/C1.4.2.md",
+      "sha256": "573a131f612aa3d2ea1154b00c1749b363392eb44975caebd4a82b763f02abc4"
+    },
+    {
+      "original_path": "valis/nodes/C/C1.4.3.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/C/C1.4.3.md",
+      "sha256": "fcd25a9dd1aaafcdb68d4e87bd45a55a613685591537655a63645b1ee24415ad"
+    },
+    {
+      "original_path": "valis/nodes/C/C1.4.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/C/C1.4.md",
+      "sha256": "72e03e6137f661ad22f888bc6e40b756d9cf7c23276e6b73c7cea8ed648a11fc"
+    },
+    {
+      "original_path": "valis/nodes/C/C1.5.1.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/C/C1.5.1.md",
+      "sha256": "9099e8c825fdf6100af3bbb38c0fd389848cfb501c4cb00e7d43b60d2b9657e3"
+    },
+    {
+      "original_path": "valis/nodes/C/C1.5.2.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/C/C1.5.2.md",
+      "sha256": "eb980f1be26277889fd9ccef68f905c3d0e5194bda39ddbb76c11c6170f36bc6"
+    },
+    {
+      "original_path": "valis/nodes/C/C1.5.3.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/C/C1.5.3.md",
+      "sha256": "49035ee9f3675675bb030a395e0d192a58d20547414e258e176d259ea27b1614"
+    },
+    {
+      "original_path": "valis/nodes/C/C1.5.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/C/C1.5.md",
+      "sha256": "270932cb510d30e419b06c4da593419fc91a845423ac16a93f0413c686a0a601"
+    },
+    {
+      "original_path": "valis/nodes/C/C1.6.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/C/C1.6.md",
+      "sha256": "f777cbb9a144e309b772234811b51bfb94409a9a6f5f35c0efad3a8effbe1a1f"
+    },
+    {
+      "original_path": "valis/nodes/C/C1.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/C/C1.md",
+      "sha256": "dd92407dcf39e63aa7a2d71d92e8116e5c93edd4f3de3abbf276ad9ffa3e4f64"
+    },
+    {
+      "original_path": "valis/nodes/D/D1.1.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/D/D1.1.md",
+      "sha256": "0383423f8995f5a9f477efe23e0156244891ed5ddc3c1a91b2b5ab6f373235ef"
+    },
+    {
+      "original_path": "valis/nodes/D/D1.2.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/D/D1.2.md",
+      "sha256": "2757a8963a68658279f29bb8606e987dffbd8126865a381ac84eca4fa8afdeec"
+    },
+    {
+      "original_path": "valis/nodes/D/D1.3.1.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/D/D1.3.1.md",
+      "sha256": "ab09f40959201866b58b83afaa8e41737d9b2d44ec40d7ad836fa18b8fe45680"
+    },
+    {
+      "original_path": "valis/nodes/D/D1.3.2.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/D/D1.3.2.md",
+      "sha256": "9c2935c7069fe5a7f18cfd0ade6730bbe02b59652ededeafb00cc0160e99f18d"
+    },
+    {
+      "original_path": "valis/nodes/D/D1.3.3.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/D/D1.3.3.md",
+      "sha256": "ff51448dad61b29c00b73884ba874e2498b1650f459820d7a34a9c4a207f68da"
+    },
+    {
+      "original_path": "valis/nodes/D/D1.3.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/D/D1.3.md",
+      "sha256": "c9b6e70e7c27b15045c4a8a4fb9c7eb923f055224f6b9fce99dba714dcc70d30"
+    },
+    {
+      "original_path": "valis/nodes/D/D1.4.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/D/D1.4.md",
+      "sha256": "b8a9b0ff50aa11006247706bbf55a91595e76eeae4d52ed25a832d272d31fc21"
+    },
+    {
+      "original_path": "valis/nodes/D/D1.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/nodes/D/D1.md",
+      "sha256": "7cbed1064916355bf6aed6ca569a268c6f6d9850e645edd0b2ef81e5a03f6944"
+    },
+    {
+      "original_path": "valis/summary/gas-fizzbuzz-webapp.summary.md",
+      "preserved_path": "operations/archive/pre-desktop-valis/valis/summary/gas-fizzbuzz-webapp.summary.md",
+      "sha256": "56effcf50cee56be95e6af9f7dd78fcce9d55c2288195cd6ab9ce1f4fe2c18a7"
+    }
+  ]
+}

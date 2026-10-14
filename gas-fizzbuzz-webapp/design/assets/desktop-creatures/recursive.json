@@ -1,0 +1,356 @@
+{
+  "family": "recursive",
+  "file": "src/assets/creatures/recursive.png",
+  "rows": [
+    "branchHorn",
+    "senseNode",
+    "jointArm",
+    "dorsalMembrane",
+    "nerveTail"
+  ],
+  "columns": 3,
+  "regions": [
+    [
+      111,
+      120,
+      138,
+      199
+    ],
+    [
+      382,
+      60,
+      250,
+      260
+    ],
+    [
+      673,
+      19,
+      338,
+      302
+    ],
+    [
+      89,
+      401,
+      159,
+      178
+    ],
+    [
+      380,
+      355,
+      223,
+      233
+    ],
+    [
+      697,
+      338,
+      279,
+      249
+    ],
+    [
+      85,
+      681,
+      159,
+      208
+    ],
+    [
+      406,
+      624,
+      212,
+      266
+    ],
+    [
+      707,
+      601,
+      260,
+      302
+    ],
+    [
+      117,
+      993,
+      156,
+      194
+    ],
+    [
+      375,
+      934,
+      265,
+      253
+    ],
+    [
+      691,
+      907,
+      316,
+      280
+    ],
+    [
+      113,
+      1272,
+      122,
+      239
+    ],
+    [
+      447,
+      1221,
+      146,
+      291
+    ],
+    [
+      778,
+      1191,
+      220,
+      323
+    ]
+  ],
+  "roots": [
+    [
+      69,
+      191
+    ],
+    [
+      125,
+      250
+    ],
+    [
+      169,
+      290
+    ],
+    [
+      80,
+      171
+    ],
+    [
+      112,
+      224
+    ],
+    [
+      140,
+      239
+    ],
+    [
+      72,
+      200
+    ],
+    [
+      95,
+      255
+    ],
+    [
+      117,
+      290
+    ],
+    [
+      55,
+      186
+    ],
+    [
+      93,
+      243
+    ],
+    [
+      111,
+      269
+    ],
+    [
+      37,
+      229
+    ],
+    [
+      44,
+      279
+    ],
+    [
+      66,
+      310
+    ]
+  ],
+  "width": 1024,
+  "height": 1536,
+  "sha256": "ca284551977992be6d7864c277cbda83fb446b3d48f513a082be7a4f6115b6eb",
+  "generationFile": "exec-5762a930-4717-44fb-83f8-2510aeaef3da.png",
+  "method": "image_gen anatomical derivative, original PNG bytes unchanged; metadata measured from alpha >32, anatomical pivots visually reviewed",
+  "referenceDirection": "design/VALIS異界生物観測UI-1.png",
+  "checks": [
+    {
+      "row": 0,
+      "level": 1,
+      "occupied": 10053,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        111,
+        120,
+        249,
+        319
+      ]
+    },
+    {
+      "row": 1,
+      "level": 1,
+      "occupied": 18958,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        89,
+        82,
+        248,
+        260
+      ]
+    },
+    {
+      "row": 2,
+      "level": 1,
+      "occupied": 14969,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        85,
+        67,
+        244,
+        275
+      ]
+    },
+    {
+      "row": 3,
+      "level": 1,
+      "occupied": 15410,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        117,
+        71,
+        273,
+        265
+      ]
+    },
+    {
+      "row": 4,
+      "level": 1,
+      "occupied": 11502,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        113,
+        43,
+        235,
+        282
+      ]
+    },
+    {
+      "row": 0,
+      "level": 2,
+      "occupied": 22481,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        41,
+        60,
+        291,
+        320
+      ]
+    },
+    {
+      "row": 1,
+      "level": 2,
+      "occupied": 33080,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        39,
+        35,
+        262,
+        268
+      ]
+    },
+    {
+      "row": 2,
+      "level": 2,
+      "occupied": 24609,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        65,
+        10,
+        277,
+        276
+      ]
+    },
+    {
+      "row": 3,
+      "level": 2,
+      "occupied": 32174,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        34,
+        12,
+        299,
+        265
+      ]
+    },
+    {
+      "row": 4,
+      "level": 2,
+      "occupied": 20004,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        106,
+        1,
+        252,
+        292
+      ]
+    },
+    {
+      "row": 0,
+      "level": 3,
+      "occupied": 42232,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        1,
+        19,
+        339,
+        321
+      ]
+    },
+    {
+      "row": 1,
+      "level": 3,
+      "occupied": 47216,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        25,
+        17,
+        304,
+        266
+      ]
+    },
+    {
+      "row": 2,
+      "level": 3,
+      "occupied": 41161,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        35,
+        1,
+        295,
+        303
+      ]
+    },
+    {
+      "row": 3,
+      "level": 3,
+      "occupied": 52203,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        19,
+        1,
+        335,
+        281
+      ]
+    },
+    {
+      "row": 4,
+      "level": 3,
+      "occupied": 40136,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        106,
+        1,
+        326,
+        324
+      ]
+    }
+  ],
+  "boundaryWarnings": [],
+  "visualStatus": "Atlas alpha/cell isolation and composed desktop views reviewed; user artwork acceptance remains pending"
+}

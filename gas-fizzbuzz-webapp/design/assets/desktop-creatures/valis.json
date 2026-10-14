@@ -1,0 +1,430 @@
+{
+  "family": "valis",
+  "file": "src/assets/creatures/valis.png",
+  "rows": [
+    "receiverCrown",
+    "observingEye",
+    "revelationMembrane",
+    "lightKernel",
+    "detachedNode",
+    "signalTail"
+  ],
+  "columns": 3,
+  "regions": [
+    [
+      120,
+      122,
+      128,
+      157
+    ],
+    [
+      409,
+      108,
+      175,
+      175
+    ],
+    [
+      719,
+      64,
+      208,
+      222
+    ],
+    [
+      135,
+      389,
+      111,
+      87
+    ],
+    [
+      423,
+      367,
+      159,
+      120
+    ],
+    [
+      722,
+      354,
+      225,
+      142
+    ],
+    [
+      120,
+      604,
+      130,
+      121
+    ],
+    [
+      422,
+      553,
+      163,
+      198
+    ],
+    [
+      722,
+      529,
+      229,
+      246
+    ],
+    [
+      139,
+      857,
+      97,
+      101
+    ],
+    [
+      433,
+      836,
+      131,
+      138
+    ],
+    [
+      739,
+      815,
+      183,
+      173
+    ],
+    [
+      125,
+      1054,
+      144,
+      145
+    ],
+    [
+      412,
+      1046,
+      180,
+      156
+    ],
+    [
+      722,
+      1025,
+      235,
+      201
+    ],
+    [
+      122,
+      1300,
+      140,
+      157
+    ],
+    [
+      376,
+      1301,
+      204,
+      163
+    ],
+    [
+      684,
+      1271,
+      282,
+      207
+    ]
+  ],
+  "roots": [
+    [
+      51,
+      149
+    ],
+    [
+      70,
+      166
+    ],
+    [
+      83,
+      211
+    ],
+    [
+      56,
+      44
+    ],
+    [
+      80,
+      60
+    ],
+    [
+      112,
+      71
+    ],
+    [
+      10,
+      91
+    ],
+    [
+      13,
+      148
+    ],
+    [
+      18,
+      184
+    ],
+    [
+      48,
+      50
+    ],
+    [
+      66,
+      69
+    ],
+    [
+      92,
+      86
+    ],
+    [
+      72,
+      72
+    ],
+    [
+      90,
+      78
+    ],
+    [
+      118,
+      100
+    ],
+    [
+      11,
+      133
+    ],
+    [
+      16,
+      139
+    ],
+    [
+      23,
+      176
+    ]
+  ],
+  "width": 1024,
+  "height": 1536,
+  "sha256": "6feb35bcce6374ca744587f69ea43621b8ec1f74396834df476b330b2710bfb8",
+  "generationFile": "exec-f12c161a-030a-4575-81d6-fd6a0bea6618.png",
+  "method": "image_gen anatomical derivative, original PNG bytes unchanged; metadata measured from alpha >32, anatomical pivots visually reviewed",
+  "referenceDirection": "design/VALIS異界生物観測UI-1.png",
+  "checks": [
+    {
+      "row": 0,
+      "level": 1,
+      "occupied": 6082,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        120,
+        122,
+        248,
+        279
+      ]
+    },
+    {
+      "row": 1,
+      "level": 1,
+      "occupied": 7110,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        135,
+        110,
+        246,
+        197
+      ]
+    },
+    {
+      "row": 2,
+      "level": 1,
+      "occupied": 8393,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        120,
+        92,
+        250,
+        213
+      ]
+    },
+    {
+      "row": 3,
+      "level": 1,
+      "occupied": 6588,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        139,
+        89,
+        236,
+        190
+      ]
+    },
+    {
+      "row": 4,
+      "level": 1,
+      "occupied": 7793,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        125,
+        30,
+        269,
+        175
+      ]
+    },
+    {
+      "row": 5,
+      "level": 1,
+      "occupied": 8067,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        122,
+        20,
+        262,
+        177
+      ]
+    },
+    {
+      "row": 0,
+      "level": 2,
+      "occupied": 10553,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        68,
+        108,
+        243,
+        283
+      ]
+    },
+    {
+      "row": 1,
+      "level": 2,
+      "occupied": 12764,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        82,
+        84,
+        241,
+        204
+      ]
+    },
+    {
+      "row": 2,
+      "level": 2,
+      "occupied": 16788,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        81,
+        41,
+        244,
+        239
+      ]
+    },
+    {
+      "row": 3,
+      "level": 2,
+      "occupied": 11817,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        92,
+        68,
+        223,
+        206
+      ]
+    },
+    {
+      "row": 4,
+      "level": 2,
+      "occupied": 14099,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        71,
+        22,
+        251,
+        178
+      ]
+    },
+    {
+      "row": 5,
+      "level": 2,
+      "occupied": 13279,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        35,
+        21,
+        239,
+        184
+      ]
+    },
+    {
+      "row": 0,
+      "level": 3,
+      "occupied": 21978,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        36,
+        64,
+        244,
+        286
+      ]
+    },
+    {
+      "row": 1,
+      "level": 3,
+      "occupied": 19796,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        39,
+        68,
+        264,
+        210
+      ]
+    },
+    {
+      "row": 2,
+      "level": 3,
+      "occupied": 25400,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        39,
+        17,
+        268,
+        263
+      ]
+    },
+    {
+      "row": 3,
+      "level": 3,
+      "occupied": 21617,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        56,
+        40,
+        239,
+        213
+      ]
+    },
+    {
+      "row": 4,
+      "level": 3,
+      "occupied": 20413,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        39,
+        1,
+        274,
+        202
+      ]
+    },
+    {
+      "row": 5,
+      "level": 3,
+      "occupied": 25787,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        1,
+        1,
+        283,
+        208
+      ]
+    }
+  ],
+  "boundaryWarnings": [],
+  "visualStatus": "Atlas alpha/cell isolation and composed desktop views reviewed; user artwork acceptance remains pending",
+  "generationPrompt": "Edit this organ atlas. Preserve the EXACT ordered rows, all existing named organ designs and the 3 distinct development levels. Fix the current parts touching neighboring rows: redraw EVERY organ at about 55% of current size, placed precisely in the center of its own cell. Use 6 equal-height rows by 3 equal-width columns on a transparent 1024x1536 canvas. Each sprite must fit wholly within the center 60% of its cell, maximum 120 pixels high and 180 pixels wide INCLUDING flame/glow/branches. A very wide continuous empty transparent corridor between ALL rows and ALL columns is mandatory. Keep all attached membranes and branches connected to their own organ. No detached flecks, no background, no text, no lines, no frames. Do not enlarge the last column. Preserve detailed blue cream pixel-art shading and orange or violet accents. Never a complete creature. All row and column counts must stay exactly the same.",
+  "generationReferenceFiles": [
+    "design/archive/desktop-art-inputs/valis.png"
+  ],
+  "generationReferenceSha256": {
+    "design/archive/desktop-art-inputs/valis.png": "eb12a44d7c6fe3ce4790c48972c351b3b95c5a78527f2e59dbd0b6af34673329"
+  }
+}

@@ -1,190 +1,42 @@
-#!/usr/bin/env node
 'use strict';
-// D1.3.2/D1.3.3 real Chromium smoke. CI screenshots are evidence of execution,
-// not an automatic certification of source-mock fidelity or GAS deployment.
-const assert=require('node:assert/strict');
-const crypto=require('node:crypto');
-const fs=require('node:fs');
-const path=require('node:path');
-const {pathToFileURL}=require('node:url');
-const {chromium}=require('playwright');
-
-const root=path.resolve(__dirname,'..');
-const out=path.join(root,'artifacts/stage5');
-fs.mkdirSync(out,{recursive:true});
-const url=process.env.VALIS_PREVIEW_URL||pathToFileURL(path.join(root,'src/Index.html')).href;
-const lineages=['abyss','myth','recursive','sail','gravity','crystal','manyeyes','abyssshell','parallel','memory','serpent','solar','antimeme','valis'];
-const report={scope:'self-contained HTML Chromium preview (file or local HTTP), NOT actual GAS service',commit:process.env.GITHUB_SHA||'local',node:process.version,
- checks:[],lineages:[],errors:[],screenshots:[],generatedAt:new Date().toISOString()};
-const check=(name,details)=>{report.checks.push({name,status:'PASS',details});console.log('PASS: '+name+(details?' — '+details:''));};
-const sha=s=>crypto.createHash('sha256').update(s).digest('hex');
-
-async function ready(page){
- await page.goto(url,{waitUntil:'load',timeout:60000});
- await page.waitForFunction(()=>document.querySelectorAll('#guideSwitch [data-guide]').length===14&&document.querySelectorAll('#evolutionHistory .phase-card').length===4,null,{timeout:60000});
-}
-async function canvasHash(page){
- return sha(await page.locator('#creatureCanvas').evaluate(el=>el.toDataURL('image/png')));
-}
-async function tier(page,n){
- await page.locator('#levelPicker').evaluate((el,v)=>{el.value=String(v);el.dispatchEvent(new Event('input',{bubbles:true}));},n);
-}
+const assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path');
+const {chromium}=require('playwright'),E=require('../src/composite/creature-engine'),D=require('../src/composite/lineage-definitions');
+const root=path.resolve(__dirname,'..'),out=path.join(root,'artifacts/desktop-browser'),checks=[];
 async function main(){
- let browser;
+ await fs.mkdir(out,{recursive:true});const browser=await chromium.launch({executablePath:process.env.VALIS_CHROMIUM||undefined});
+ const context=await browser.newContext({viewport:{width:1440,height:960}});const page=await context.newPage(),errors=[],remote=[];
+ page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(!r.url().startsWith('http://127.0.0.1')&&!r.url().startsWith('data:'))remote.push(r.url());});
+ await context.addInitScript(()=>{window.valis={testMode:true,listSpecimens:async()=>({records:JSON.parse(localStorage.getItem('records')||'[]').sort((a,b)=>Date.parse(b.updatedAt)-Date.parse(a.updatedAt)||b.runId.localeCompare(a.runId)),warning:null}),saveSpecimen:async r=>{const list=JSON.parse(localStorage.getItem('records')||'[]'),i=list.findIndex(x=>x.runId===r.runId);if(i<0)list.push(r);else list[i]=r;localStorage.setItem('records',JSON.stringify(list));return r;},onPrepareClose:()=>()=>{},closeReady:async()=>true};});
  try{
-  browser=await chromium.launch({headless:true,args:['--disable-dev-shm-usage']});
-  report.browserVersion=browser.version();
-  const desktop=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'reduce',deviceScaleFactor:1});
-  const page=await desktop.newPage();
-  page.on('pageerror',e=>report.errors.push('desktop: '+e.message));
-  await ready(page);
-  // Test the actual 68 packed images, then 36 SVG candidates as rendered by Chromium.
-  const decoded=await page.evaluate(async()=>{
-   const C=window.ASSET_CONFIG;
-   const paths=[...Object.values(C.core),...Object.values(C.partImages).flat(),...Object.values(C.lineageImages||{}).flat(),...C.references.map(r=>r.file),...Object.values(C.authoredOrgans||{}).map(a=>a.uri)];
-   const uris=paths.map(p=>(C.sources&&C.sources[p])||p);
-   return await Promise.all(uris.map(async(uri,i)=>{
-    try{const im=new Image();im.src=uri;await im.decode();return {index:i,ok:im.naturalWidth>0&&im.naturalHeight>0};}
-    catch(err){return {index:i,ok:false,message:String(err)};}
-   }));
-  });
-  assert.equal(decoded.length,56);
-  assert.deepEqual(decoded.filter(x=>!x.ok),[],'Chromium image decoding failed');
-  check('44 active original images + 12 PNG organ atlases decode; no archived images or SVG fallback','56 / 56');
-  assert.equal(await page.locator('#guideSwitch .guide-thumbnail').count(),14);
-  assert.ok(await page.locator('#guideSwitch .guide-thumbnail').evaluateAll(images=>images.every(im=>im.complete&&im.naturalWidth>0)));
-  check('14 illustrated codex cards load actual images');
-  await page.evaluate(()=>{
-   const prototype=CanvasRenderingContext2D.prototype;
-   const draw=prototype.drawImage,clear=prototype.clearRect;
-   window.observedMainImageSources=[];
-   prototype.clearRect=function(...args){if(this.canvas.id==='creatureCanvas')window.observedMainImageSources=[];return clear.apply(this,args);};
-   prototype.drawImage=function(image,...args){if(this.canvas.id==='creatureCanvas')window.observedMainImageSources.push(image.src);return draw.call(this,image,...args);};
-  });
-  const alpha=await page.evaluate(async()=>{
-   const results=[];
-   for(const [id,atlas] of Object.entries(window.ASSET_CONFIG.authoredOrgans)){
-    const im=new Image();im.src=atlas.uri;await im.decode();
-    for(const [level,r] of atlas.regions.entries()){
-     const c=document.createElement('canvas');c.width=r[2];c.height=r[3];const g=c.getContext('2d');
-     g.drawImage(im,...r,0,0,r[2],r[3]);const bytes=g.getImageData(0,0,c.width,c.height).data;
-     let clear=0,visible=0;for(let i=3;i<bytes.length;i+=4){if(bytes[i]===0)clear++;if(bytes[i]>128)visible++;}
-     results.push({id,level:level+1,clear,visible,total:c.width*c.height});
-    }
-   }return results;
-  });
-  assert.equal(alpha.length,36);
-  assert.ok(alpha.every(row=>row.clear>row.total*.1&&row.visible>row.total*.05));
-  check('all 36 PNG organ regions contain transparent background and visible anatomy',JSON.stringify(alpha));
-
-  for(const id of lineages){
-   await page.locator('#guideSwitch [data-guide="'+id+'"]').click();
-   assert.equal(await page.locator('#guideSwitch [data-guide="'+id+'"]').getAttribute('aria-pressed'),'true');
-   const expectedPhase2=await page.evaluate(id=>window.CreatureEngine.LINEAGE_BY_ID[id].names[1],id);
-   assert.equal(await page.locator('#evolutionHistory .phase-name').nth(1).textContent(),expectedPhase2,'codex history uses another lineage');
-   await tier(page,0);
-   const level0=await canvasHash(page);
-   await tier(page,3);
-   const level3=await canvasHash(page);
-   assert.notEqual(level0,level3,'no visible Lv0 -> Lv3 Canvas change: '+id);
-   report.lineages.push({id,lv0:level0,lv3:level3,distinct:true});
+ await page.goto(process.env.VALIS_PREVIEW_URL||'http://127.0.0.1:8766/Index.html');await page.waitForFunction(()=>window.__VALIS_TEST__?.snapshot().ready);
+ const call=(method,...args)=>page.evaluate(({method,args})=>window.__VALIS_TEST__[method](...args),{method,args});
+ const snapshot=()=>call('snapshot'),check=(condition,name)=>{assert.ok(condition,name);checks.push(name);};
+  check((await snapshot()).records.length===0,'preview creates no specimen');
+  const before=await call('renderHash');await call('reset',83);const after=await call('renderHash');check(before!==after,'input DNA visibly changes initial anatomy');
+  await page.locator('#random').click();await page.waitForFunction(()=>document.getElementById('seed').value==String(window.__VALIS_TEST__.snapshot().state.seed));check((await snapshot()).records.length===0,'random preview keeps N and DNA synchronized without birth');
+  await call('run',15,{env:'signal',reduced:false});await call('pause');const paused=await snapshot();await page.waitForTimeout(240);assert.deepEqual((await snapshot()).state,paused.state);checks.push('pause prevents ingestion');
+  await call('pause');await page.waitForFunction(()=>window.__VALIS_TEST__.snapshot().runStatus==='complete',{},{timeout:15000});let s=await snapshot();assert.deepEqual(s.state,E.runAll(15,()=> 'signal'));check(s.log===E.linesFor(15).join('\n'),'normal playback keeps original FizzBuzz rows and exact growth');
+  const recordId=s.records[0].runId;await call('run',15,{env:'signal',reduced:true});s=await snapshot();check(s.records.length===2&&s.records[0].runId!==recordId,'same N gets separate real run IDs');assert.deepEqual(s.state,E.runAll(15,()=> 'signal'));checks.push('reduced motion equals normal ending');
+  await call('run',1000,{env:'signal',reduced:false});await call('skip');s=await snapshot();assert.deepEqual(s.state,E.runAll(1000,()=> 'signal'));check(s.state.points===100&&s.state.matured&&s.log.split('\n').length===1000,'skip reaches maturity at row1000 without truncating log');
+  check(s.records.find(r=>r.runId===s.activeRun.runId).snapshots.length===3,'phase cards contain only actual reached states');
+  await page.screenshot({path:path.join(out,'observation-mature.png'),fullPage:true});
+  const live=await snapshot();await call('selectRecord',recordId);await call('setEnvironment','heat');const viewed=await snapshot();assert.deepEqual(viewed.state,live.state);check(viewed.log===live.log&&viewed.environment===live.environment&&await page.locator('#past-banner').isVisible(),'past record viewing preserves live genome, environment and original log');
+  await page.screenshot({path:path.join(out,'past-record.png'),fullPage:true});await call('backToLive');
+  const preserved=await snapshot();for(const bad of ['',0,1001,1.5,'NaN']){await assert.rejects(()=>call('reset',bad));assert.deepEqual((await snapshot()).state,preserved.state);}checks.push('invalid resets reject before mutating live individual');
+  await call('run',1000,{env:'tide',reduced:false});await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>window.__VALIS_TEST__.snapshot().runStatus==='complete',{},{timeout:15000});await call('persist');check((await snapshot()).state.current===1000,'dynamic OS reduced motion completes current run');await page.emulateMedia({reducedMotion:'no-preference'});
+  const expectedRecords=(await snapshot()).records;await page.reload();await page.waitForFunction(()=>window.__VALIS_TEST__?.snapshot().ready);assert.deepEqual((await snapshot()).records,expectedRecords);checks.push('UI restores persisted real records without making preview record');
+  check(await page.locator('#records .record').count()===expectedRecords.length,'record panel contains precisely actual runs');check(await page.locator('input[type=range]').count()===0,'no sample level slider or species demonstration controls');
+  const hashes=[];
+  for(const lineage of D.LINEAGES){
+   const states=[];let state=E.initial(1000);for(let i=1;i<=1000;i++){state=E.step(state,E.fmtFizzBuzz(i),E.plannedEnvironment(state,lineage.id));if([0,279,280,620,621,1000].includes(i))states.push(state);}assert.equal(state.lineage,lineage.id);
+   const rendered=await page.evaluate(s=>({png:window.__VALIS_TEST__.renderState(s),keys:window.__VALIS_TEST__.renderedKeys()}),state),png=rendered.png;hashes.push(png);await fs.writeFile(path.join(out,lineage.id+'-mature.png'),Buffer.from(png.split(',')[1],'base64'));
+   const keys=rendered.keys;for(const part of E.appearanceFor(state).organs.filter(p=>p.level))check(keys.includes(lineage.id+':'+part.id),lineage.id+' renders acquired '+part.id);
+   for(const part of E.appearanceFor(state).inheritedOrgans.filter(p=>p.level))assert.ok(keys.includes(part.lineage+':'+part.id),'lost inherited '+part.id);
   }
-  for(const id of lineages.filter(id=>!['valis','antimeme'].includes(id))){
-   await page.locator('#guideSwitch [data-guide="'+id+'"]').click();
-   const hashes=[],mainHashes=[];
-   for(let level=0;level<=3;level++){
-    await tier(page,level);mainHashes.push(await canvasHash(page));hashes.push(sha(await page.locator('#partList .part-thumbnail').first().evaluate(c=>c.toDataURL())));
-   }
-   assert.equal(new Set(mainHashes).size,4,'main Canvas Lv0/1/2/3 is not distinct: '+id);
-   assert.equal(new Set(hashes).size,4,'organ Lv0/1/2/3 thumbnail is not distinct: '+id);
-   const renderSources=await page.evaluate(id=>{
-    const C=window.ASSET_CONFIG,sources=window.observedMainImageSources;
-    const posters=new Set(Object.values(C.lineageImages||{}).flat().map(p=>C.sources[p]));
-    const cores=new Set(Object.values(C.core).map(p=>C.sources[p]));
-    return {posterCount:sources.filter(p=>posters.has(p)).length,coreCount:sources.filter(p=>cores.has(p)).length,atlasCount:sources.filter(p=>p===C.authoredOrgans[id].uri).length};
-   },id);
-   assert.deepEqual(renderSources,{posterCount:0,coreCount:1,atlasCount:1},'authored lineage must use one stable body and its PNG organ: '+id);
-   await page.screenshot({path:path.join(out,'desktop-'+id+'-authored-lv3.png'),fullPage:true});
-   report.screenshots.push('desktop-'+id+'-authored-lv3.png');
-  }
-  check('all twelve organ/main Lv0/1/2/3 differences; one body + PNG organ, no poster contamination');
-  check('14 lineage codex interactions + Lv0/Lv3 actual Canvas changes','14 / 14');
-
-  await page.locator('#guideSwitch [data-guide="valis"]').click();
-  await tier(page,3);
-  await page.screenshot({path:path.join(out,'desktop-valis-lv3.png'),fullPage:true});
-  report.screenshots.push('desktop-valis-lv3.png');
-  await page.locator('#guideSwitch [data-guide="abyss"]').click();
-  await page.screenshot({path:path.join(out,'desktop-abyss-draft-lv3.png'),fullPage:true});
-  report.screenshots.push('desktop-abyss-draft-lv3.png');
-
-  for(const id of lineages.filter(id=>!['valis','antimeme'].includes(id))){
-   await page.locator('#guideSwitch [data-guide="'+id+'"]').click();
-   await page.locator('#seedInput').fill('480');
-   await page.locator('#growSelectedGuideBtn').click();
-   await page.locator('#skipButton').click();
-   const expected=await page.evaluate(id=>window.CreatureEngine.LINEAGE_BY_ID[id].group,id);
-   assert.equal(await page.locator('#lineageName').textContent(),expected,'guided real playback does not reach lineage '+id);
-   assert.equal((await page.locator('#fizzbuzzLog').inputValue()).split('\n').length,480);
-   const hasOrgan=await page.evaluate(id=>window.observedMainImageSources.includes(window.ASSET_CONFIG.authoredOrgans[id].uri),id);
-   assert.ok(hasOrgan,'real playback did not render PNG organ '+id);
-   assert.match(await page.locator('#specimenMode').textContent(),/LIVE/);
-  }
-  check('all twelve guided real growth runs render their PNG organ and complete N=480');
-  await page.locator('#showLiveBtn').click();
-  await page.locator('#seedInput').fill('15');
-  await page.locator('#runButton').click();
-  await page.locator('#skipButton').click();
-  const fifteen=(await page.locator('#fizzbuzzLog').inputValue()).split('\n');
-  assert.equal(fifteen.length,15);
-  assert.equal(fifteen[14],'FizzBuzz');
-  await page.locator('#seedInput').fill('1000');
-  await page.locator('#runButton').click();
-  await page.locator('#skipButton').click();
-  const thousand=(await page.locator('#fizzbuzzLog').inputValue()).split('\n');
-  assert.equal(thousand.length,1000);
-  assert.equal(thousand[999],'Buzz');
-  assert.match(await page.locator('#maturityStatus').textContent(),/完全成熟/);
-  check('local preview: server-independent N=15/1000, skip, complete maturation','1000/1000 records');
-
-  await page.evaluate(()=>{
-   window.google={script:{run:{
-    withSuccessHandler(fn){this.success=fn;return this;},
-    withFailureHandler(fn){this.failure=fn;return this;},
-    calculateFizzBuzz(){this.success(['invalid response']);}
-   }}};
-  });
-  await page.locator('#seedInput').fill('15');
-  await page.locator('#runButton').click();
-  assert.match(await page.locator('#notice').textContent(),/サーバー応答の形式が一致しません/);
-  assert.equal(await page.locator('#fizzbuzzLog').inputValue(),'');
-  check('mock GAS invalid response is rejected without local fallback');
-
-  const mobile=await browser.newContext({viewport:{width:420,height:860},deviceScaleFactor:1,reducedMotion:'reduce',isMobile:true,hasTouch:true});
-  const mp=await mobile.newPage();
-  mp.on('pageerror',e=>report.errors.push('mobile: '+e.message));
-  await ready(mp);
-  const dims=await mp.evaluate(()=>({window:innerWidth,scroll:document.documentElement.scrollWidth,canvas:document.querySelector('#creatureCanvas').getBoundingClientRect().width}));
-  assert.ok(dims.scroll<=dims.window+2,'420px horizontal overflow: '+JSON.stringify(dims));
-  assert.ok(dims.canvas>150&&dims.canvas<=dims.window+2,'mobile canvas out of bounds');
-  await mp.locator('#guideSwitch [data-guide="antimeme"]').click();
-  await tier(mp,3);
-  await mp.screenshot({path:path.join(out,'mobile-antimeme-lv3.png'),fullPage:true});
-  report.screenshots.push('mobile-antimeme-lv3.png');
-  await mp.locator('#showLiveBtn').click();
-  await mp.locator('#seedInput').fill('15');
-  await mp.locator('#runButton').click();
-  await mp.locator('#skipButton').click();
-  assert.equal((await mp.locator('#fizzbuzzLog').inputValue()).split('\n').length,15);
-  check('420px mobile layout, guided preview and playback',JSON.stringify(dims));
-  assert.deepEqual(report.errors,[],'browser uncaught exceptions');
-  check('uncaught page errors','0');
- }catch(err){
-  report.failed={message:err.message,stack:err.stack};
-  throw err;
- }finally{
-  if(browser)await browser.close();
-  fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');
- }
+  check(new Set(hashes).size===14,'all fourteen branches produce distinct actual full-body images');check((await call('missingAssets')).length===0,'every required body and acquired organ resolves locally');
+  await page.setViewportSize({width:760,height:620});check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'minimum window width has no horizontal clipping');await page.screenshot({path:path.join(out,'minimum-window.png'),fullPage:true});
+  assert.deepEqual(errors,[]);assert.deepEqual(remote,[]);checks.push('no browser exceptions or external image/network dependencies');
+  await fs.writeFile(path.join(out,'report.json'),JSON.stringify({platform:process.platform,browser:browser.version(),scope:'Chromium UI with injected test persistence; native persistence tested separately',generatedAt:new Date().toISOString(),checks,errors,remote},null,2)+'\n');console.log(JSON.stringify({passed:checks.length,checks},null,2));
+ }catch(error){console.error('UI FAILURE',await page.locator('#notice').textContent(),await page.evaluate(()=>{const s=window.__VALIS_TEST__?.snapshot();return s?{status:s.runStatus,current:s.state.current,records:s.records.length}:null;}));throw error;}finally{await browser.close();}
 }
-main().catch(err=>{console.error(err);process.exitCode=1;});
+main().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,0 +1,423 @@
+{
+  "family": "crystal",
+  "file": "src/assets/creatures/crystal.png",
+  "rows": [
+    "crystalCrown",
+    "bodyCrystalShell",
+    "sensoryLens",
+    "crystalClaw",
+    "crystalAntler",
+    "crystalTail"
+  ],
+  "columns": 3,
+  "regions": [
+    [
+      88,
+      86,
+      182,
+      158
+    ],
+    [
+      406,
+      55,
+      210,
+      189
+    ],
+    [
+      696,
+      22,
+      300,
+      225
+    ],
+    [
+      68,
+      334,
+      205,
+      134
+    ],
+    [
+      383,
+      327,
+      254,
+      143
+    ],
+    [
+      719,
+      292,
+      275,
+      180
+    ],
+    [
+      105,
+      548,
+      134,
+      138
+    ],
+    [
+      410,
+      515,
+      187,
+      182
+    ],
+    [
+      723,
+      494,
+      248,
+      216
+    ],
+    [
+      96,
+      751,
+      163,
+      217
+    ],
+    [
+      419,
+      734,
+      204,
+      230
+    ],
+    [
+      723,
+      734,
+      269,
+      256
+    ],
+    [
+      73,
+      1053,
+      198,
+      169
+    ],
+    [
+      388,
+      996,
+      229,
+      233
+    ],
+    [
+      698,
+      998,
+      296,
+      230
+    ],
+    [
+      80,
+      1301,
+      165,
+      184
+    ],
+    [
+      392,
+      1267,
+      202,
+      220
+    ],
+    [
+      710,
+      1244,
+      293,
+      265
+    ]
+  ],
+  "roots": [
+    [
+      91,
+      152
+    ],
+    [
+      105,
+      181
+    ],
+    [
+      150,
+      216
+    ],
+    [
+      102,
+      129
+    ],
+    [
+      127,
+      137
+    ],
+    [
+      138,
+      173
+    ],
+    [
+      67,
+      132
+    ],
+    [
+      94,
+      175
+    ],
+    [
+      124,
+      207
+    ],
+    [
+      82,
+      208
+    ],
+    [
+      102,
+      221
+    ],
+    [
+      134,
+      246
+    ],
+    [
+      99,
+      162
+    ],
+    [
+      114,
+      224
+    ],
+    [
+      148,
+      221
+    ],
+    [
+      82,
+      177
+    ],
+    [
+      101,
+      211
+    ],
+    [
+      146,
+      254
+    ]
+  ],
+  "width": 1024,
+  "height": 1536,
+  "sha256": "b932045a52ec46df737f8ba438464184fc64048d504be54c0a23b3e920271774",
+  "generationFile": "exec-3741d35e-5fc6-4f53-8e2d-19c8292cca97.png",
+  "method": "image_gen anatomical derivative, original PNG bytes unchanged; metadata measured from alpha >32, anatomical pivots visually reviewed",
+  "referenceDirection": "design/3cdebf40-9477-4475-83bb-9374dc52254a.png",
+  "checks": [
+    {
+      "row": 0,
+      "level": 1,
+      "occupied": 13279,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        88,
+        86,
+        270,
+        244
+      ]
+    },
+    {
+      "row": 1,
+      "level": 1,
+      "occupied": 15106,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        68,
+        78,
+        273,
+        212
+      ]
+    },
+    {
+      "row": 2,
+      "level": 1,
+      "occupied": 12830,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        105,
+        36,
+        239,
+        174
+      ]
+    },
+    {
+      "row": 3,
+      "level": 1,
+      "occupied": 12428,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        96,
+        1,
+        259,
+        218
+      ]
+    },
+    {
+      "row": 4,
+      "level": 1,
+      "occupied": 14017,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        73,
+        29,
+        271,
+        198
+      ]
+    },
+    {
+      "row": 5,
+      "level": 1,
+      "occupied": 11239,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        80,
+        21,
+        245,
+        205
+      ]
+    },
+    {
+      "row": 0,
+      "level": 2,
+      "occupied": 19871,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        65,
+        55,
+        275,
+        244
+      ]
+    },
+    {
+      "row": 1,
+      "level": 2,
+      "occupied": 21479,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        42,
+        71,
+        296,
+        214
+      ]
+    },
+    {
+      "row": 2,
+      "level": 2,
+      "occupied": 22296,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        69,
+        3,
+        256,
+        185
+      ]
+    },
+    {
+      "row": 3,
+      "level": 2,
+      "occupied": 21032,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        78,
+        1,
+        282,
+        231
+      ]
+    },
+    {
+      "row": 4,
+      "level": 2,
+      "occupied": 21362,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        47,
+        1,
+        276,
+        234
+      ]
+    },
+    {
+      "row": 5,
+      "level": 2,
+      "occupied": 15019,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        51,
+        1,
+        253,
+        221
+      ]
+    },
+    {
+      "row": 0,
+      "level": 3,
+      "occupied": 34312,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        13,
+        22,
+        313,
+        247
+      ]
+    },
+    {
+      "row": 1,
+      "level": 3,
+      "occupied": 30907,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        36,
+        36,
+        311,
+        216
+      ]
+    },
+    {
+      "row": 2,
+      "level": 3,
+      "occupied": 36145,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        40,
+        1,
+        288,
+        217
+      ]
+    },
+    {
+      "row": 3,
+      "level": 3,
+      "occupied": 29852,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        40,
+        1,
+        309,
+        257
+      ]
+    },
+    {
+      "row": 4,
+      "level": 3,
+      "occupied": 32830,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        15,
+        1,
+        311,
+        231
+      ]
+    },
+    {
+      "row": 5,
+      "level": 3,
+      "occupied": 23276,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        27,
+        1,
+        320,
+        266
+      ]
+    }
+  ],
+  "boundaryWarnings": [],
+  "visualStatus": "Atlas alpha/cell isolation and composed desktop views reviewed; user artwork acceptance remains pending"
+}

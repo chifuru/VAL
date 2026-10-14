@@ -1,0 +1,55 @@
+name: VALIS Windows x64 package
+on:
+  push:
+    branches: [main, 'work/valis-*']
+    paths: ['gas-fizzbuzz-webapp/**', '.github/workflows/valis-windows.yml']
+  pull_request:
+    paths: ['gas-fizzbuzz-webapp/**', '.github/workflows/valis-windows.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows-package:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: gas-fizzbuzz-webapp
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: gas-fizzbuzz-webapp/package-lock.json
+      - name: Install pinned packaging tools
+        run: npm ci --ignore-scripts
+      - name: Node source and history checks
+        run: |
+          npm test
+          npm run check:assets
+      - name: Create Windows executable and portable ZIP
+        run: node tools/package-windows.cjs
+      - name: Verify ZIP expansion matches executable checksums
+        run: |
+          Expand-Archive -LiteralPath dist/VALIS-Windows-x64.zip -DestinationPath dist/zip-check -Force
+          $folder = Resolve-Path dist/zip-check/VALIS-Windows-x64
+          Get-Content "$folder/SHA256SUMS.txt" | ForEach-Object {
+            $expected, $relative = $_ -split '  ', 2
+            $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $folder $relative)).Hash.ToLower()
+            if ($actual -ne $expected) { throw "ZIP checksum mismatch: $relative" }
+          }
+      - name: Native Windows executable and restart smoke
+        run: node tests/electron-smoke.cjs --exe ./dist/VALIS-Windows-x64/VALIS.exe --out ./artifacts/windows-native
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: VALIS-Windows-x64
+          path: |
+            gas-fizzbuzz-webapp/dist/VALIS-Windows-x64.zip
+            gas-fizzbuzz-webapp/dist/VALIS-Windows-x64.zip.sha256
+            gas-fizzbuzz-webapp/dist/windows-package-report.json
+            gas-fizzbuzz-webapp/artifacts/windows-native/
+          if-no-files-found: warn
+          retention-days: 30

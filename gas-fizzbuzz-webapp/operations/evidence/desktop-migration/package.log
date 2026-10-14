@@ -1,0 +1,25 @@
+
+> valis-fizzbuzz-desktop@1.0.0 package:windows
+> node tools/package-windows.cjs
+
+Packaging app for platform win32 x64 using electron v44.7.2
+{
+  "scope": "Windows x64 package integrity; actual Windows execution is a separate smoke gate",
+  "electronVersion": "44.7.2",
+  "packagerVersion": "20.3.0",
+  "officialRuntimeSha256": "10a89447ef64ac5cb9f782af48ffd83734a40ae91681259d1048ca3c9e6c5da4",
+  "exe": "VALIS.exe",
+  "machine": "x86-64",
+  "asarEntries": 32,
+  "pngCount": 15,
+  "sourceBytesMatch": true,
+  "zip": "VALIS-Windows-x64.zip",
+  "zipBytes": 188473369,
+  "zipSha256": "7b1f6379d76122cb0a2a6c09a293f65890a35800b853efc36e8e017a860050f1",
+  "generatedAt": "2026-10-14T17:28:42.052Z"
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

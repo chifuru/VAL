@@ -1,0 +1,430 @@
+{
+  "family": "serpent",
+  "file": "src/assets/creatures/serpent.png",
+  "rows": [
+    "additionalNeck",
+    "neckScales",
+    "flameCrown",
+    "hookedFin",
+    "serpentTail",
+    "headHalo"
+  ],
+  "columns": 3,
+  "regions": [
+    [
+      111,
+      98,
+      131,
+      167
+    ],
+    [
+      424,
+      86,
+      161,
+      177
+    ],
+    [
+      734,
+      64,
+      214,
+      198
+    ],
+    [
+      112,
+      361,
+      147,
+      105
+    ],
+    [
+      425,
+      346,
+      173,
+      121
+    ],
+    [
+      737,
+      326,
+      212,
+      148
+    ],
+    [
+      104,
+      569,
+      167,
+      129
+    ],
+    [
+      403,
+      552,
+      215,
+      146
+    ],
+    [
+      714,
+      545,
+      254,
+      155
+    ],
+    [
+      122,
+      810,
+      134,
+      123
+    ],
+    [
+      420,
+      779,
+      168,
+      156
+    ],
+    [
+      736,
+      764,
+      224,
+      173
+    ],
+    [
+      118,
+      1035,
+      152,
+      134
+    ],
+    [
+      409,
+      1003,
+      208,
+      171
+    ],
+    [
+      739,
+      989,
+      223,
+      189
+    ],
+    [
+      112,
+      1256,
+      146,
+      169
+    ],
+    [
+      411,
+      1236,
+      197,
+      201
+    ],
+    [
+      709,
+      1217,
+      253,
+      235
+    ]
+  ],
+  "roots": [
+    [
+      66,
+      162
+    ],
+    [
+      80,
+      172
+    ],
+    [
+      107,
+      192
+    ],
+    [
+      74,
+      101
+    ],
+    [
+      86,
+      116
+    ],
+    [
+      106,
+      142
+    ],
+    [
+      84,
+      124
+    ],
+    [
+      108,
+      140
+    ],
+    [
+      127,
+      149
+    ],
+    [
+      100,
+      118
+    ],
+    [
+      126,
+      150
+    ],
+    [
+      168,
+      166
+    ],
+    [
+      8,
+      114
+    ],
+    [
+      10,
+      145
+    ],
+    [
+      11,
+      161
+    ],
+    [
+      73,
+      162
+    ],
+    [
+      98,
+      193
+    ],
+    [
+      126,
+      226
+    ]
+  ],
+  "width": 1024,
+  "height": 1536,
+  "sha256": "a38ca67bca74065bb4e61d4c8f1723c8c5ec4660106635b56bd604254572b433",
+  "generationFile": "exec-3ccbc0c0-ae75-448c-8db2-4781feb1f979.png",
+  "method": "image_gen anatomical derivative, original PNG bytes unchanged; metadata measured from alpha >32, anatomical pivots visually reviewed",
+  "referenceDirection": "design/3cdebf40-9477-4475-83bb-9374dc52254a.png",
+  "checks": [
+    {
+      "row": 0,
+      "level": 1,
+      "occupied": 10901,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        111,
+        98,
+        242,
+        265
+      ]
+    },
+    {
+      "row": 1,
+      "level": 1,
+      "occupied": 7107,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        112,
+        96,
+        259,
+        201
+      ]
+    },
+    {
+      "row": 2,
+      "level": 1,
+      "occupied": 8794,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        104,
+        57,
+        271,
+        186
+      ]
+    },
+    {
+      "row": 3,
+      "level": 1,
+      "occupied": 7032,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        122,
+        42,
+        256,
+        165
+      ]
+    },
+    {
+      "row": 4,
+      "level": 1,
+      "occupied": 8121,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        118,
+        11,
+        270,
+        145
+      ]
+    },
+    {
+      "row": 5,
+      "level": 1,
+      "occupied": 6509,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        112,
+        1,
+        258,
+        170
+      ]
+    },
+    {
+      "row": 0,
+      "level": 2,
+      "occupied": 13736,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        83,
+        86,
+        244,
+        263
+      ]
+    },
+    {
+      "row": 1,
+      "level": 2,
+      "occupied": 9991,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        84,
+        83,
+        257,
+        204
+      ]
+    },
+    {
+      "row": 2,
+      "level": 2,
+      "occupied": 14796,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        62,
+        40,
+        277,
+        186
+      ]
+    },
+    {
+      "row": 3,
+      "level": 2,
+      "occupied": 13541,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        79,
+        11,
+        247,
+        167
+      ]
+    },
+    {
+      "row": 4,
+      "level": 2,
+      "occupied": 15051,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        68,
+        1,
+        276,
+        172
+      ]
+    },
+    {
+      "row": 5,
+      "level": 2,
+      "occupied": 12075,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        70,
+        1,
+        267,
+        202
+      ]
+    },
+    {
+      "row": 0,
+      "level": 3,
+      "occupied": 22262,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        51,
+        64,
+        265,
+        262
+      ]
+    },
+    {
+      "row": 1,
+      "level": 3,
+      "occupied": 16096,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        54,
+        64,
+        266,
+        212
+      ]
+    },
+    {
+      "row": 2,
+      "level": 3,
+      "occupied": 19336,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        31,
+        33,
+        285,
+        188
+      ]
+    },
+    {
+      "row": 3,
+      "level": 3,
+      "occupied": 20782,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        53,
+        1,
+        277,
+        174
+      ]
+    },
+    {
+      "row": 4,
+      "level": 3,
+      "occupied": 20673,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        56,
+        1,
+        279,
+        190
+      ]
+    },
+    {
+      "row": 5,
+      "level": 3,
+      "occupied": 21405,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        26,
+        1,
+        279,
+        236
+      ]
+    }
+  ],
+  "boundaryWarnings": [],
+  "visualStatus": "Atlas alpha/cell isolation and composed desktop views reviewed; user artwork acceptance remains pending",
+  "generationPrompt": "Edit this organ atlas. Preserve the EXACT ordered rows, all existing named organ designs and the 3 distinct development levels. Fix the current parts touching neighboring rows: redraw EVERY organ at about 55% of current size, placed precisely in the center of its own cell. Use 6 equal-height rows by 3 equal-width columns on a transparent 1024x1536 canvas. Each sprite must fit wholly within the center 60% of its cell, maximum 120 pixels high and 180 pixels wide INCLUDING flame/glow/branches. A very wide continuous empty transparent corridor between ALL rows and ALL columns is mandatory. Keep all attached membranes and branches connected to their own organ. No detached flecks, no background, no text, no lines, no frames. Do not enlarge the last column. Preserve detailed blue cream pixel-art shading and orange or violet accents. Never a complete creature. All row and column counts must stay exactly the same.",
+  "generationReferenceFiles": [
+    "design/archive/desktop-art-inputs/serpent.png"
+  ],
+  "generationReferenceSha256": {
+    "design/archive/desktop-art-inputs/serpent.png": "b5d0e73833ae90c2ac3121bbeecddb7ce62717047dc625d62c8511a52132ed28"
+  }
+}

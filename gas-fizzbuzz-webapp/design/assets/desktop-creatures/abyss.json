@@ -1,0 +1,356 @@
+{
+  "family": "abyss",
+  "file": "src/assets/creatures/abyss.png",
+  "rows": [
+    "frontTentacle",
+    "sensingWhisker",
+    "shoulderShell",
+    "tentacleMembrane",
+    "luminousTail"
+  ],
+  "columns": 3,
+  "regions": [
+    [
+      62,
+      131,
+      192,
+      173
+    ],
+    [
+      354,
+      61,
+      247,
+      243
+    ],
+    [
+      691,
+      21,
+      316,
+      304
+    ],
+    [
+      71,
+      408,
+      185,
+      158
+    ],
+    [
+      353,
+      377,
+      305,
+      196
+    ],
+    [
+      658,
+      337,
+      347,
+      260
+    ],
+    [
+      62,
+      701,
+      194,
+      163
+    ],
+    [
+      329,
+      662,
+      329,
+      224
+    ],
+    [
+      658,
+      612,
+      346,
+      305
+    ],
+    [
+      88,
+      1016,
+      163,
+      193
+    ],
+    [
+      357,
+      943,
+      262,
+      265
+    ],
+    [
+      674,
+      925,
+      321,
+      300
+    ],
+    [
+      69,
+      1297,
+      186,
+      171
+    ],
+    [
+      335,
+      1251,
+      279,
+      229
+    ],
+    [
+      658,
+      1253,
+      335,
+      260
+    ]
+  ],
+  "roots": [
+    [
+      8,
+      138
+    ],
+    [
+      10,
+      194
+    ],
+    [
+      13,
+      243
+    ],
+    [
+      15,
+      144
+    ],
+    [
+      24,
+      178
+    ],
+    [
+      28,
+      237
+    ],
+    [
+      78,
+      98
+    ],
+    [
+      132,
+      134
+    ],
+    [
+      138,
+      183
+    ],
+    [
+      13,
+      181
+    ],
+    [
+      21,
+      249
+    ],
+    [
+      26,
+      282
+    ],
+    [
+      13,
+      145
+    ],
+    [
+      20,
+      195
+    ],
+    [
+      23,
+      221
+    ]
+  ],
+  "width": 1024,
+  "height": 1536,
+  "sha256": "d7a5025718eb23b07c513c6c2331e83d39813a0a0daf81290db72b07fd4b95cb",
+  "generationFile": "exec-ede63d94-98ec-4c44-8ed6-6e18f1f55134.png",
+  "method": "image_gen anatomical derivative, original PNG bytes unchanged; metadata measured from alpha >32, anatomical pivots visually reviewed",
+  "referenceDirection": "design/aaf4d324-1275-47b3-8408-eb0fdc4d613f.png",
+  "checks": [
+    {
+      "row": 0,
+      "level": 1,
+      "occupied": 15404,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        62,
+        131,
+        254,
+        304
+      ]
+    },
+    {
+      "row": 1,
+      "level": 1,
+      "occupied": 8019,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        71,
+        101,
+        256,
+        259
+      ]
+    },
+    {
+      "row": 2,
+      "level": 1,
+      "occupied": 18360,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        62,
+        87,
+        256,
+        250
+      ]
+    },
+    {
+      "row": 3,
+      "level": 1,
+      "occupied": 17319,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        88,
+        94,
+        251,
+        287
+      ]
+    },
+    {
+      "row": 4,
+      "level": 1,
+      "occupied": 13186,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        69,
+        68,
+        255,
+        239
+      ]
+    },
+    {
+      "row": 0,
+      "level": 2,
+      "occupied": 23750,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        26,
+        61,
+        273,
+        304
+      ]
+    },
+    {
+      "row": 1,
+      "level": 2,
+      "occupied": 9710,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        25,
+        70,
+        330,
+        266
+      ]
+    },
+    {
+      "row": 2,
+      "level": 2,
+      "occupied": 32190,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        1,
+        48,
+        330,
+        272
+      ]
+    },
+    {
+      "row": 3,
+      "level": 2,
+      "occupied": 28634,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        29,
+        21,
+        291,
+        286
+      ]
+    },
+    {
+      "row": 4,
+      "level": 2,
+      "occupied": 26155,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        7,
+        22,
+        286,
+        251
+      ]
+    },
+    {
+      "row": 0,
+      "level": 3,
+      "occupied": 41709,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        33,
+        21,
+        349,
+        325
+      ]
+    },
+    {
+      "row": 1,
+      "level": 3,
+      "occupied": 29922,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        0,
+        12,
+        347,
+        272
+      ]
+    },
+    {
+      "row": 2,
+      "level": 3,
+      "occupied": 59485,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        0,
+        1,
+        346,
+        306
+      ]
+    },
+    {
+      "row": 3,
+      "level": 3,
+      "occupied": 55237,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        16,
+        3,
+        337,
+        303
+      ]
+    },
+    {
+      "row": 4,
+      "level": 3,
+      "occupied": 43615,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        0,
+        24,
+        335,
+        284
+      ]
+    }
+  ],
+  "boundaryWarnings": [],
+  "visualStatus": "Atlas alpha/cell isolation and composed desktop views reviewed; user artwork acceptance remains pending"
+}

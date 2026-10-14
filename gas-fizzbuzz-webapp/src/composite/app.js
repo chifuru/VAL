@@ -1,391 +1,114 @@
 (function(){
 'use strict';
-var E=window.CreatureEngine, C=window.ASSET_CONFIG;
-var $=id=>document.getElementById(id);
-var canvas=$('creatureCanvas'),ctx=canvas.getContext('2d');
-var mediaReduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-var cache=new Map(),loaded=false,stars=[],ticker=null,rafHandle=null,preview=null,activeLineage='valis';
-var specimen=E.initial(480),seed=480,lines=E.linesFor(seed),playing=false,paused=false,complete=false,index=0,busy=false,requestToken=0;
-var environment='signal',autoClimate=null,tempo=50,showFlicker=true,phaseSnapshots=[];
-var palettes={valis:['#96e3ff','#efd6ff','#ffcf79'],antimeme:['#86cfff','#b6a6df','#e4edfa']};
-var anchors={head:[255,353],eye:[247,390],mouth:[280,421],dorsal:[493,280],shoulder:[405,355],flank:[484,460],chest:[442,439],forelimb:[419,504],hindlimb:[558,509],tailBase:[692,425],tailTip:[796,415],outerOrbit:[793,210]};
-var dims={
- receiverCrown:[178,135],observingEye:[118,103],revelationMembrane:[278,245],lightKernel:[143,145],detachedNode:[180,160],signalTail:[231,145],
- absenceMask:[151,112],unseenEye:[129,109],erasureCrown:[207,167],memoryFilament:[190,150],brokenTail:[173,125]
-};
-var backLayer=new Set(['revelationMembrane','memoryFilament','erasureCrown','signalTail','brokenTail','detachedNode']);
-// Display dimensions for the twelve reference-derived PNG organ families.
-Object.assign(dims,{
- abyssHeritage:[340,215],mythHeritage:[290,225],recursiveHeritage:[225,220],
- sailHeritage:[290,230],gravityHeritage:[260,225],crystalHeritage:[235,215],
- manyeyesHeritage:[195,155],abyssshellHeritage:[255,215],
- parallelHeritage:[290,225],memoryHeritage:[225,190],
- serpentHeritage:[270,225],solarHeritage:[275,235]
-});
-var phaseNames=E.PHASES;
-var names=Object.fromEntries(E.LINEAGES.map(l=>[l.id,l.names]));
-var finalNames=Object.fromEntries(E.LINEAGES.map(l=>[l.id,l.finalName]));
-var lineageById=E.LINEAGE_BY_ID;
-function svgGlyph(lineage){return lineageById[lineage]?lineageById[lineage].mark:'◌';}
-function srcFor(rel){return (C.sources&&C.sources[rel])||rel;}
-function organAtlas(part){return C.authoredOrgans&&C.authoredOrgans[part.lineage]&&part.id===part.lineage+'Heritage'?C.authoredOrgans[part.lineage]:null;}
-function organSprite(part){
- if(!part.level)return null;
- const atlas=organAtlas(part);
- if(atlas)return {image:img(atlas.uri),region:atlas.regions[part.level-1],root:atlas.roots[part.level-1]};
- const assets=C.partImages[part.lineage+':'+part.id];
- return assets?{image:img(assets[part.level-1]),region:null}:null;
+const E=window.CreatureEngine,D=window.LineageDefinitions,bridge=window.valis;
+const $=id=>document.getElementById(id),clone=v=>JSON.parse(JSON.stringify(v));
+const R=window.CreatureRenderer.create($('creature'),window.VALIS_ASSETS),media=window.matchMedia('(prefers-reduced-motion: reduce)');
+const foodLabels={fizz:'Fizz・生命',buzz:'Buzz・鉱物',fizzbuzz:'FizzBuzz・情報',number:'数字・調節'};
+const bodyLabels={torso:'胴体',head:'頭部',eyes:'眼',tail:'尾',fin:'ひれ',limb:'付属肢',shell:'表皮・甲殻'};
+const dnaLabels={body:'体格',appendage:'付属肢',senses:'感覚',skin:'表皮',aptitude:'適性',sensitivity:'感受性'};
+let state=E.initial(1000),runStatus='ready',environment='signal',activeRun=null,records=[],phaseSnapshots=[],selectedRecordId=null;
+let ready=false,busy=false,timer=null,logLines=[],energyEvents=[],queue=Promise.resolve(),lastSaveError=null,historyBlocked=false,renderPartsKey='';
+const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches||$('reduced').checked;
+function notice(message){$('notice').textContent=message||'';$('notice').hidden=!message;}
+function parseSeed(value){const text=String(value).trim(),n=Number(text);if(!text||!Number.isSafeInteger(n)||n<1||n>1000)throw Error('1〜1000の整数を入力してください。');return n;}
+function lineageFor(s){return D.LINEAGE_BY_ID[s.lineage];}
+function nameFor(s){const l=lineageFor(s);return s.matured&&l?l.finalName:l?l.names[s.stage]:'ミナモルフ';}
+function selectedRecord(){return records.find(r=>r.runId===selectedRecordId)||null;}
+function viewState(){return selectedRecord()?.state||state;}
+function makeImage(url,alt){const im=document.createElement('img');im.src=url;im.alt=alt;return im;}
+function currentSnapshot(){return {stage:state.stage,processed:state.current,state:clone(state),portrait:R.portrait(state)};}
+function recordSnapshot(){return {...activeRun,updatedAt:new Date().toISOString(),status:runStatus==='ready'?'stopped':runStatus,processed:state.current,state:clone(state),snapshots:[...clone(phaseSnapshots),currentSnapshot()],portrait:R.portrait(state)};}
+function persist(){
+ if(!activeRun)return queue;const record=recordSnapshot();
+ const task=queue.catch(()=>{}).then(()=>bridge.saveSpecimen(record)).then(()=>{
+  lastSaveError=null;const old=records.findIndex(r=>r.runId===record.runId);if(old>=0)records[old]=record;else records.push(record);
+  records.sort((a,b)=>Date.parse(b.updatedAt)-Date.parse(a.updatedAt));renderRecords();return record;
+ }).catch(error=>{lastSaveError=error;notice('個体記録を保存できません。'+error.message);throw error;});queue=task;return task;
 }
-function paintOrgan(target,part,x,y,w,h,anchored){
- const sprite=organSprite(part);if(!sprite||!sprite.image)return;
- const im=sprite.image,r=sprite.region;
- if(r){
-  const scale=Math.min(w/r[2],h/r[3]);
-  const width=r[2]*scale,height=r[3]*scale;
-  const dx=anchored?x-sprite.root[0]*scale:x+(w-width)/2;
-  const dy=anchored?y-sprite.root[1]*scale:y+(h-height)/2;
-  target.drawImage(im,r[0],r[1],r[2],r[3],dx,dy,width,height);
- }else target.drawImage(im,x,y,w,h);
-}
-function organThumbnail(part){
- const art=document.createElement('canvas');art.width=120;art.height=96;art.className='part-thumbnail';
- art.setAttribute('aria-label',part.label+' Lv.'+part.level);
- const g=art.getContext('2d');g.imageSmoothingEnabled=false;paintOrgan(g,part,0,0,120,96);return art;
-}
-
-function ensureImage(rel){
- rel=srcFor(rel);
- if(!cache.has(rel)){
-  var im=new Image();var promise=new Promise(resolve=>{im.onload=()=>resolve(im);im.onerror=()=>resolve(null);});
-  im.src=rel;cache.set(rel,{im,promise});
- }
- return cache.get(rel).promise;
-}
-async function preload(){
- var paths=Object.values(C.core);
- Object.values(C.partImages).forEach(arr=>arr.forEach(rel=>paths.push(rel)));
-  paths=paths.concat(C.references.map(r=>r.file));
- Object.values(C.authoredOrgans||{}).forEach(atlas=>paths.push(atlas.uri));
- await Promise.all(paths.map(ensureImage));loaded=true;refreshGuideThumbnails();updateUI();scheduleFrame();
-}
-function img(rel){var c=cache.get(srcFor(rel));return c&&c.im.complete&&c.im.naturalWidth?c.im:null;}
-function reset(n){
- requestToken++;busy=false;stop();seed=n;specimen=E.initial(seed);lines=E.linesFor(seed);index=0;complete=false;playing=false;paused=false;
- phaseSnapshots=[specimen,null,null];$('fizzbuzzLog').value='';preview=null;
- updateUI();scheduleFrame();
-}
-function stop(){if(ticker){clearInterval(ticker);ticker=null;}playing=false;paused=false;}
-function selectEnvironment(env,keepAuto){if(!keepAuto)autoClimate=null;environment=env;document.querySelectorAll('[data-env]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.env===env)));
- $('environmentName').textContent={signal:'電磁波',void:'虚空',heat:'熱波',tide:'潮流'}[env];}
-function appendLine(line){
- const el=$('fizzbuzzLog');
- el.value+=(el.value?'\n':'')+line;
- if(index%4===0)el.scrollTop=el.scrollHeight;
-}
-function advance(line){
-   var previous=specimen;
-   if(autoClimate)selectEnvironment(E.plannedEnvironment(previous,autoClimate),true);
-   specimen=E.step(previous,line,environment);
-   if(specimen.stage!==previous.stage)phaseSnapshots[previous.stage]=previous;
-   phaseSnapshots[specimen.stage]=specimen;
- }
-function feedOne(){
- if(index>=lines.length){finish();return;}
- var line=lines[index];advance(line);index++;
- appendLine(line);
- if(index>=lines.length)finish();
- updateUI();
-}
-function startPlayback(rows){
-  lines=rows;busy=false;playing=true;paused=false;complete=false;
-  $('notice').textContent=autoClimate?'系統環境プリセット：環境刺激の比率を自動調整します。進化先の選択そのものは従来の環境履歴判定です。':'受信したFizzBuzz原文をそのまま再生します。環境の履歴は次に食べる餌に適用されます。';
-  ticker=setInterval(()=>{if(!paused)feedOne();},tempo);
-  updateUI();
-}
-function validateLines(rows,n){
-  if(!Array.isArray(rows)||rows.length!==n||rows.some(x=>typeof x!=='string'))
-    return false;
-  // The server is the only output authority in GAS. Detect transport/API mismatch
-  // instead of silently synthesizing a different set of rows.
-  var expected=E.linesFor(n);
-  return rows.every((x,i)=>x===expected[i]);
-}
-function run(){
- var n=Number($('seedInput').value);
- if(!Number.isSafeInteger(n)||n<1||n>1000){$('notice').textContent='Nは1〜1000の整数にしてください。';return;}
- reset(n);
- busy=true;var token=++requestToken;
- if(window.google&&google.script&&google.script.run){
-   $('notice').textContent='GASサーバーからFizzBuzz原文を取得中…';
-   updateUI();
-   google.script.run
-     .withSuccessHandler(function(rows){
-       if(token!==requestToken)return;
-       if(!validateLines(rows,n)){
-         busy=false;$('notice').textContent='サーバー応答の形式が一致しません。再生は開始できません。';updateUI();return;
-       }
-       startPlayback(rows);
-     })
-     .withFailureHandler(function(err){
-       if(token!==requestToken)return;
-       busy=false;$('notice').textContent='GAS通信失敗: '+((err&&err.message)||'不明なエラー');updateUI();
-     })
-     .calculateFizzBuzz(n);
- }else{
-   // Explicit local preview mode; no false assertion that GAS was contacted.
-   startPlayback(E.linesFor(n));
-   $('notice').textContent='ローカルプレビュー：GASサーバーには接続していません。'+(autoClimate?' 選択系統の環境比率で育成中。':'');
+async function reloadRecords(){const result=await bridge.listSpecimens();records=result.records;historyBlocked=!!result.warning;if(result.warning)notice(result.warning);renderRecords();return result;}
+function renderRecords(){
+ const container=$('records');container.replaceChildren();$('record-count').textContent=String(records.length);
+ if(!records.length){const p=document.createElement('p');p.className='empty';p.textContent='まだ個体の記録がありません。育成を開始すると出生した個体が登録されます。';container.append(p);return;}
+ for(const record of records){
+  const button=document.createElement('button');button.className='record'+(record.runId===selectedRecordId?' selected':'');button.dataset.runId=record.runId;
+  button.append(makeImage(record.portrait,nameFor(record.state)));const name=document.createElement('strong');name.textContent=nameFor(record.state);button.append(name);
+  const detail=document.createElement('small');detail.textContent='N='+record.seed+' · '+record.processed+'行 / '+({growing:'育成中',paused:'停止中',stopped:'途中停止',complete:record.state.matured?'成熟':'途中の姿'}[record.status]);button.append(detail);
+  button.addEventListener('click',()=>selectRecord(record.runId));container.append(button);
  }
 }
-
-function finish(){stop();complete=true;$('notice').textContent='完走：'+seed+'行。進化履歴と継承器官を記録しました。';updateUI();render();}
-function skip(){if(!playing && !paused && !complete)return;
- if(complete)return;
- if(ticker){clearInterval(ticker);ticker=null;}
- while(index<lines.length){advance(lines[index]);index++;}
- $('fizzbuzzLog').value=lines.join('\n');finish();
+function drawDNA(s){
+ const container=$('dna');container.replaceChildren();
+ for(const [key,label] of Object.entries(dnaLabels)){const row=document.createElement('div');row.className='dna-row';const name=document.createElement('span');name.textContent=label;const progress=document.createElement('progress');progress.max=1;progress.value=s.dna[key];progress.setAttribute('aria-label',label);const value=document.createElement('span');value.textContent=(s.dna[key]*100).toFixed(0);row.append(name,progress,value);container.append(row);}
 }
-function showGuide(id){if(!lineageById[id])return;activeLineage=id;preview=id;
- document.querySelectorAll('[data-guide]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.guide===id)));
- updateUI();scheduleFrame();}
-function showLive(){preview=null;
- document.querySelectorAll('[data-guide]').forEach(b=>b.setAttribute('aria-pressed','false'));
- updateUI();scheduleFrame();}
-function demoFor(id,tier){
- var n=480,st=E.runAll(n,id==='valis'?'signal':id==='antimeme'?'void':'tide');
- st.lineage=id;st.stage=2;st.matured=true;
- // A codex illustration shows this lineage alone; real playback retains inherited organs.
- st.heritage=[];st.history=st.history.map(entry=>({...entry,lineage:entry.stage===0?null:id}));
- st.partXp={...st.partXp};
- E.PART_DEFINITIONS[id].forEach(def=>{st.partXp[id+':'+def[0]]=[0,1,7,18][tier];});
- return st;
+function drawParts(s){
+ const a=E.appearanceFor(s),key=JSON.stringify([s.seed,s.current,s.lineage]);if(key===renderPartsKey)return;renderPartsKey=key;const container=$('parts');container.replaceChildren();
+ function add(label,level,growth,part){const row=document.createElement('div');row.className='part';const picture=R.organPortrait(part);picture.setAttribute('aria-hidden','true');const info=document.createElement('div'),title=document.createElement('div');title.className='part-label';const text=document.createElement('span');text.textContent=label;const lv=document.createElement('span');lv.textContent='Lv.'+level;title.append(text,lv);const meter=document.createElement('progress');meter.max=1;meter.value=growth;meter.setAttribute('aria-label',label+'の発達');info.append(title,meter);row.append(picture,info);container.append(row);}
+ for(const [id,label] of Object.entries(bodyLabels)){const n=a.anatomy[id];add(label,n.level,n.growth,{lineage:'common',id:id==='eyes'?'eye':id==='shell'?'torso':id,level:Math.min(3,Math.ceil(n.level*.75))});}
+ const merged=new Map();for(const part of [...a.inheritedOrgans,...a.organs]){const key=part.lineage+':'+part.id,old=merged.get(key);if(!old||part.xp>old.xp)merged.set(key,part);}
+ if(merged.size){const title=document.createElement('div');title.className='parts-divider';title.textContent='系統器官・継承器官';container.append(title);}
+ for(const part of merged.values())add(part.label,part.level,part.growth,part);
 }
-function selected(){return preview?demoFor(preview,Number($('levelPicker').value)):specimen;}
-function mainLineage(s){return s.lineage||(preview||activeLineage);}
-function activeParts(s){
- const id=mainLineage(s);return preview?E.phenotype(s,id):E.phenotype(s);
-}
-function font(str,x,y,size,color,align){ctx.fillStyle=color||'#b8d9ff';ctx.textAlign=align||'left';ctx.font='600 '+size+'px system-ui';ctx.fillText(str,x,y);ctx.textAlign='left';}
-function layerImage(image,x,y,w,h,alpha,angle){
- if(!image)return;
- ctx.save();ctx.globalAlpha=alpha==null?1:alpha;
- ctx.translate(x,y);ctx.rotate(angle||0);ctx.drawImage(image,-w/2,-h/2,w,h);
- ctx.restore();
-}
-function stageCore(s){return s.dna.bodyVariant===0?'marin':'astral';}
-function sceneBackground(s,t){
- ctx.clearRect(0,0,1024,680);
- const grad=ctx.createRadialGradient(540,300,25,510,310,730);
- if(mainLineage(s)==='valis'){grad.addColorStop(0,'#151935');grad.addColorStop(.52,'#08152b');grad.addColorStop(1,'#050c1b');}
- else {grad.addColorStop(0,'#181529');grad.addColorStop(.52,'#091323');grad.addColorStop(1,'#070a15');}
- ctx.fillStyle=grad;ctx.fillRect(0,0,1024,680);
- ctx.strokeStyle='rgba(91,137,195,.09)';ctx.lineWidth=1;
- for(let x=0;x<1024;x+=45){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,680);ctx.stroke();}
- for(let y=0;y<680;y+=45){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(1024,y);ctx.stroke();}
- stars.forEach((s,i)=>{var a=.3+.36*Math.sin(t/900+i*1.3);ctx.fillStyle='rgba(154,209,252,'+a.toFixed(2)+')';ctx.fillRect(s.x,s.y,s.r,s.r);});
- const spot=ctx.createRadialGradient(505,500,40,505,500,410);
- spot.addColorStop(0,'rgba(38,83,152,.15)');spot.addColorStop(1,'rgba(1,10,22,0)');ctx.fillStyle=spot;ctx.fillRect(0,0,1024,680);
- ctx.fillStyle='rgba(6,14,27,.65)';ctx.beginPath();ctx.ellipse(510,574,310,26,0,0,Math.PI*2);ctx.fill();
- ctx.strokeStyle='rgba(98,162,223,.14)';ctx.beginPath();ctx.moveTo(40,585);ctx.lineTo(989,585);ctx.stroke();
-}
-function scheduleFrame(){
-  if(!loaded)return;
-  if(rafHandle!==null)return;
-  if(mediaReduced||!showFlicker){render(0);return;}
-  rafHandle=requestAnimationFrame(function tick(t){
-    rafHandle=null;render(t);
-    if(!mediaReduced&&showFlicker)rafHandle=requestAnimationFrame(tick);
-  });
-}
-function paintSpecimen(s,t,reduced,mini){
- var lineage=mainLineage(s),tiers=E.phenotype(s,lineage),
-   heartbeat=reduced?0:Math.sin(t/1150)*2.4;
- if(!mini)sceneBackground(s,t);
- if(lineage==='valis'){
-   ctx.strokeStyle='rgba(153,184,253,.14)';ctx.lineWidth=2;
-   ctx.beginPath();ctx.ellipse(740,268,205,85,-.42,0,Math.PI*2);ctx.stroke();
- }
- var drawPart=(part,scaleFactor=1,dim=.96)=>{
-    if(!part.level)return;
-    var sprite=organSprite(part);if(!sprite||!sprite.image)return;
-    var atlas=organAtlas(part),anchor=atlas?atlas.displayAnchor:part.anchor;
-    var pos=anchors[anchor]||[500,400];
-    var size=dims[part.id]||[160,120];
-    var sf=(.80+.13*part.level)*scaleFactor;
-    var move=(!reduced&&(part.anchor==='outerOrbit'||part.anchor==='tailTip'))?Math.sin(t/900+part.level)*7:0;
-    var angle=(part.anchor==='dorsal'?-0.25:part.anchor==='flank'?.15:0)+
-      (!reduced&&part.anchor==='outerOrbit'?Math.sin(t/1450)*.11:0);
-    ctx.save();
-    if(part.id==='absenceMask'||part.id==='unseenEye'||part.id==='observingEye'||part.id==='receiverCrown')
-      ctx.globalCompositeOperation='screen';
-    ctx.translate(pos[0]+move,pos[1]-heartbeat);ctx.rotate(angle);ctx.globalAlpha*=dim;
-    paintOrgan(ctx,part,organAtlas(part)?0:-size[0]*sf/2,organAtlas(part)?0:-size[1]*sf/2,size[0]*sf,size[1]*sf,Boolean(organAtlas(part)));
-    ctx.restore();
- };
- const isRear=p=>{const atlas=organAtlas(p);return atlas?atlas.displayLayer==='rear':backLayer.has(p.id);};
- const rear=tiers.filter(isRear),front=tiers.filter(p=>!isRear(p));
- rear.forEach(p=>drawPart(p));
- // Every lineage uses the stable DNA body; its organs provide the phenotype.
- const core=img(C.core[stageCore(s)]);
- if(core){ctx.save();ctx.filter='drop-shadow(0 0 23px rgba(129,210,255,.12))';
-   layerImage(core,520,404+heartbeat,780*s.dna.torsoRatio,432*s.dna.headRatio,1,0);ctx.restore();}
- if(s.heritage) s.heritage.forEach((entry,i)=>{
-   entry.parts.slice(0,3).forEach(p=>drawPart(p,.60-i*.08,.52));
- });
- front.forEach(p=>drawPart(p));
- // Tiny alive motions use small light sweeps, not anatomy replacement.
- if(!reduced){
-   const a=Math.max(0,.5+.5*Math.sin(t/450));
-   ctx.fillStyle='rgba(170,227,255,'+(.14*a).toFixed(2)+')';
-   ctx.beginPath();ctx.arc(245,389,12+a*4,0,Math.PI*2);ctx.fill();
- }
- if(!mini){
-   font(s.dna.seed+' / '+(s.lineage?(names[lineage]||[])[s.stage]||lineage:'ミナモルフ'),26,37,20,'#cde3fc');
-     font(s.lineage?(C.authoredOrgans&&C.authoredOrgans[lineage]?'試作器官 · ':'観測形態 · ')+lineage.toUpperCase():'ORIGIN / 未分化',26,61,12,'#7296bd');
-   if(preview) font('図鑑サンプル · 実際の育成個体ではありません',985,640,17,'#d9c9ff','right');
+function drawPhases(){
+ const record=selectedRecord(),snapshots=record?record.snapshots:[...phaseSnapshots,currentSnapshot()],s=viewState(),container=$('phase-cards');container.replaceChildren();
+ for(let phase=0;phase<4;phase++){
+  const card=document.createElement('div');card.className='phase-card'+(phase===s.stage?' current':'');const title=document.createElement('h3');title.textContent=phase<3?E.PHASES[phase]:'第四相候補';card.append(title);const shot=snapshots.find(x=>x.stage===phase);
+  if(shot){card.append(makeImage(shot.portrait,nameFor(shot.state)));const p=document.createElement('p');p.textContent=nameFor(shot.state)+' · '+shot.processed+'行';card.append(p);}
+  else{const blank=document.createElement('div');blank.className='unreached';blank.textContent=phase===3?'?':'—';card.append(blank);const p=document.createElement('p');p.textContent=phase===3?'未解放':'未到達';card.append(p);}container.append(card);
  }
 }
-function refreshGuideThumbnails(){
- E.LINEAGES.forEach(function(l){
-  const target=document.createElement('canvas');target.width=300;target.height=200;
-  const g=target.getContext('2d'),old=ctx;ctx=g;
-  g.save();g.scale(300/1024,200/680);
-  try{paintSpecimen(demoFor(l.id,3),0,true,true);}finally{g.restore();ctx=old;}
-  const picture=document.querySelector('#guideSwitch [data-guide="'+l.id+'"] .guide-thumbnail');
-  if(picture)picture.src=target.toDataURL('image/png');
- });
+function updateUI(phases=false){
+ const s=viewState(),past=selectedRecord(),lineage=lineageFor(s);$('phase').textContent=E.PHASES[s.stage];$('creature-name').textContent=nameFor(s);$('lineage').textContent='系統：'+(lineage?lineage.group:'未分化');$('run-id').textContent=past?'個体ID：'+past.runId:activeRun?'個体ID：'+activeRun.runId:'出生前の遺伝子プレビュー';
+ $('progress-text').textContent=s.current+' / '+s.seed+'行';$('growth').value=s.points;$('growth-text').textContent=s.points.toFixed(2)+' P';const status=past?past.status:runStatus;
+ $('result').textContent=status==='complete'?(s.matured?'成熟しました。全1000行のエネルギーから生まれた最終形態です。':'全'+s.seed+'行を摂取しました。未成熟の途中の姿として記録しています。'):status==='ready'?'まだ生まれていません。数値から初期遺伝子が決まります。':status==='paused'?'一時停止中。再開すると続きのエネルギーを摂取します。':status==='stopped'?'途中停止した個体の記録です。':'エネルギーを摂取して成長しています。';
+ $('session-status').textContent=busy?'保存中':({ready:'出生前',growing:'観測中',paused:'一時停止',complete:'育成結果',stopped:'途中停止'}[runStatus]);
+ $('past-banner').hidden=!past;$('creature').hidden=!!past;$('saved-portrait').hidden=!past;if(past)$('saved-portrait').src=past.portrait;
+ $('start').disabled=!ready||busy||runStatus==='growing'||runStatus==='paused'||historyBlocked||!!past;$('seed').disabled=busy||runStatus==='growing'||runStatus==='paused'||!!past;
+ $('pause').disabled=busy||!['growing','paused'].includes(runStatus)||!!past;$('pause').textContent=runStatus==='paused'?'再開':'一時停止';$('skip').disabled=busy||!['growing','paused'].includes(runStatus)||!!past;
+ $('reset').disabled=busy||!!past;$('random').disabled=busy||!!past;$('speed').disabled=!!past;$('reduced').disabled=!!past;
+ for(const button of document.querySelectorAll('[data-env]')){button.setAttribute('aria-pressed',String(button.dataset.env===environment));button.disabled=!!past||busy;}
+ drawDNA(s);drawParts(s);
+ for(const kind of Object.keys(foodLabels)){const tile=document.querySelector('[data-food="'+kind+'"]');tile.querySelector('b').textContent=s.foods[kind];tile.classList.toggle('eaten',s.lastMeal?.kind===kind);}
+ $('meal').textContent=s.lastMeal?'直近の摂取：'+foodLabels[s.lastMeal.kind]+'（'+s.current+'行目）':'摂取前';$('regulation').textContent='数字の調節：促進 '+s.regulation.promote+' / 抑制 '+s.regulation.inhibit;
+ $('line-count').textContent=logLines.length+'行';$('log').textContent=logLines.join('\n');if(!past&&!reduced())$('log').scrollTop=$('log').scrollHeight;
+ if(phases)drawPhases();if(!past)R.draw(state,{still:true});
 }
-
-function render(t=0){
- if(!loaded)return;
- var s=selected();paintSpecimen(s,t,mediaReduced||!showFlicker,false);
+function cancelTimer(){clearTimeout(timer);timer=null;}
+function schedule(){cancelTimer();if(runStatus==='growing'){if(reduced())skip().catch(handleFailure);else timer=setTimeout(()=>{tick().catch(handleFailure);},Number($('speed').value));}}
+function handleFailure(error){cancelTimer();if(runStatus==='growing')runStatus='paused';notice(error.message);updateUI(true);}
+function advance(){
+ const previous=state,line=E.fmtFizzBuzz(state.current+1);state=E.step(previous,line,environment);logLines.push(line);
+ if(state.stage!==previous.stage)phaseSnapshots.push({stage:previous.stage,processed:previous.current,state:clone(previous),portrait:R.portrait(previous)});
+ energyEvents.push({kind:state.lastMeal.kind,time:performance.now()});energyEvents=energyEvents.slice(-12);return state.stage!==previous.stage;
 }
-
-function updateUI(){
- const s=selected(),lineage=mainLineage(s),part=activeParts(s),isDemo=Boolean(preview);
- $('subjectName').textContent=s.lineage?names[lineage][s.stage]:'ミナモルフ';
- $('subjectMark').textContent=svgGlyph(lineage);
- $('phaseName').textContent=phaseNames[s.stage];
- $('lineageName').textContent=s.lineage?(lineageById[lineage]||{}).group:'未分化';
- $('creatureId').textContent='#'+String(seed).padStart(4,'0');
- $('pointsLabel').textContent=s.points.toFixed(2)+' / 100 P';
- $('pointBar').style.width=s.points+'%';
- $('runCount').textContent=index+' / '+seed;
- $('foodTotal').textContent=Object.values(s.foods).reduce((a,b)=>a+b,0);
- $('specimenMode').textContent=isDemo?'図鑑見本':'LIVE · '+(complete?'完走':playing?'育成中':'待機');
- $('maturityStatus').textContent=s.matured?'完全成熟・外見固定':(s.stage===0?'未分化':'発達中');
- $('coreLabel').textContent=s.dna.bodyVariant?'星原型':'深海原型';
- $('mainNote').textContent=isDemo?(lineage==='valis'||lineage==='antimeme'?'図鑑見本：Lvごとの透過パーツを合成しています。':(C.authoredOrgans&&C.authoredOrgans[lineage]?'図鑑見本：新しい試作器官の成長を観察できます。':'図鑑見本：暫定肖像と試作器官を表示しています。')):
-    '初期DNAの顔・眼・胴・尾は維持。環境と餌で増えたパーツ画像を重ねます。';
- $('partList').replaceChildren();
- part.forEach(function(p){
-  const node=document.createElement('div');node.className='part-item';
-  const b=document.createElement('div');b.className='part-line';
-  const name=document.createElement('strong');name.textContent=p.label;
-  const level=document.createElement('span');level.textContent='Lv.'+p.level;
-  b.append(name,level);
-  const slot=document.createElement('div');slot.className='part-sub';slot.textContent=p.xp+' XP';
-  const meter=document.createElement('div');meter.className='part-meter';
-  const fill=document.createElement('i');fill.style.width=(p.level===3?100:p.level===2?66:p.level===1?33:3)+'%';meter.appendChild(fill);
-  const info=document.createElement('div');info.className='part-details';info.append(b,slot,meter);
-  node.append(organThumbnail(p),info);$('partList').appendChild(node);
- });
- $('heritageLabel').textContent=s.heritage&&s.heritage.length?s.heritage.map(x=>x.parts.map(p=>p.label).join('・')||((lineageById[x.lineage]||{}).group||'旧形態')).join(' → '):'不変コアを維持';
- $('finalName').textContent=finalNames[lineage]+' ／ 第四相候補（未実装）';
- $('runButton').disabled=busy||playing&&!complete;
- $('pauseButton').disabled=!playing;
- $('pauseButton').textContent=paused?'再開':'一時停止';
- $('skipButton').disabled=!playing;
- renderHistory(s);
- scheduleFrame();
+async function tick(){
+ if(runStatus!=='growing')return;const phaseChanged=advance();if(state.current===state.seed){runStatus='complete';await persist();updateUI(true);return;}
+ if(phaseChanged||state.current%25===0)await persist();updateUI(phaseChanged||state.current%25===0);schedule();
 }
-function phaseModel(stage,s,lineage){
-  if(preview){
-    if(stage===0)return E.initial(seed);
-    const demo=demoFor(lineage,Math.max(1,Math.min(3,Number($('levelPicker').value)-(2-stage))));
-    demo.stage=stage;demo.heritage=stage===1?[]:demo.heritage;
-    return demo;
-  }
-  return phaseSnapshots[stage]||(stage===s.stage?s:null);
+async function skip(){cancelTimer();if(!['growing','paused'].includes(runStatus))return;busy=true;updateUI();try{while(state.current<state.seed)advance();runStatus='complete';energyEvents=[];await persist();updateUI(true);}finally{busy=false;updateUI();}}
+async function pause(){if(busy)return;cancelTimer();if(runStatus==='growing'){runStatus='paused';await persist();updateUI(true);}else if(runStatus==='paused'){runStatus='growing';await persist();updateUI();if(reduced())await skip();else schedule();}}
+async function stopActive(){cancelTimer();await queue.catch(()=>{});if(activeRun&&['growing','paused'].includes(runStatus)){runStatus='stopped';await persist();}}
+async function reset(value=$('seed').value){const n=parseSeed(value);await stopActive();$('seed').value=String(n);state=E.initial(n);activeRun=null;phaseSnapshots=[];logLines=[];energyEvents=[];runStatus='ready';selectedRecordId=null;renderPartsKey='';notice('');updateUI(true);}
+async function run(value=$('seed').value,options={}){
+ const n=parseSeed(value);if(!ready||busy||historyBlocked)throw Error('起動準備または履歴の保存状態を確認してください。');
+ if(options.env){if(!E.ENV.includes(options.env))throw Error('環境が不正です');environment=options.env;}if(options.reduced!==undefined)$('reduced').checked=!!options.reduced;
+ await reset(n);busy=true;runStatus='growing';const createdAt=new Date().toISOString();activeRun={schemaVersion:1,runId:crypto.randomUUID(),createdAt,updatedAt:createdAt,status:'growing',seed:n,processed:0,engineVersion:E.ENGINE_VERSION,assetVersion:R.assetVersion,state:null,snapshots:[],portrait:''};updateUI(true);
+ try{await persist();}catch(error){activeRun=null;runStatus='ready';throw error;}finally{busy=false;updateUI();}if(reduced())await skip();else schedule();
 }
-function drawPhasePortrait(target,stage,lineage,state){
- const g=target.getContext('2d'),w=target.width,h=target.height;
- g.clearRect(0,0,w,h);
- if(stage===3){
-  g.fillStyle='#0b1a2e';g.fillRect(0,0,w,h);
-  g.fillStyle='#6b81a4';g.font='40px Georgia';g.textAlign='center';g.fillText('?',w/2,h*.55);return;
- }
- const model=phaseModel(stage,state,lineage);
- if(!model){g.fillStyle='#0b1a2e';g.fillRect(0,0,w,h);return;}
- // Use the exact main portrait compositor and part levels at the *historical*
- // stage, rather than borrowing present-day part XP or a cropped full mock.
- const old=ctx;ctx=g;
- g.save();g.scale(w/1024,h/680);
- try{paintSpecimen(model,0,true,true);}finally{g.restore();ctx=old;}
+function setEnvironment(env){if(!E.ENV.includes(env)||selectedRecordId||busy)return;environment=env;updateUI();}
+function selectRecord(id){if(!records.some(r=>r.runId===id))throw Error('個体記録がありません');selectedRecordId=id;renderPartsKey='';renderRecords();updateUI(true);}
+function backToLive(){selectedRecordId=null;renderPartsKey='';renderRecords();updateUI(true);}
+async function shutdown(){busy=true;cancelTimer();updateUI();try{await stopActive();if(activeRun)await persist();await queue;if(lastSaveError)throw lastSaveError;await bridge.closeReady();}catch(error){busy=false;notice('終了前の保存に失敗しました。'+error.message);updateUI(true);}}
+function action(fn){return ()=>Promise.resolve().then(fn).catch(handleFailure);}
+$('start').addEventListener('click',action(()=>run()));$('pause').addEventListener('click',action(pause));$('skip').addEventListener('click',action(skip));$('reset').addEventListener('click',action(()=>reset()));$('random').addEventListener('click',action(()=>reset(1+crypto.getRandomValues(new Uint32Array(1))[0]%1000)));
+$('seed').addEventListener('change',action(()=>{if(runStatus==='ready')return reset();}));$('speed').addEventListener('change',()=>schedule());$('back-live').addEventListener('click',backToLive);
+for(const button of document.querySelectorAll('[data-env]'))button.addEventListener('click',()=>setEnvironment(button.dataset.env));
+const finishOnReduce=action(()=>{if(reduced()&&runStatus==='growing')return skip();});media.addEventListener('change',finishOnReduce);$('reduced').addEventListener('change',finishOnReduce);
+for(const [kind,label] of Object.entries(foodLabels)){const tile=document.createElement('div');tile.className='food '+kind;tile.dataset.food=kind;const orb=document.createElement('span');orb.className='orb';orb.textContent='◈';const name=document.createElement('strong');name.textContent=label;const count=document.createElement('b');count.textContent='0';tile.append(orb,name,count);$('foods').append(tile);}
+let lastFrame=0;function animate(time){if(ready&&runStatus==='growing'&&!busy&&reduced())finishOnReduce();if(ready&&!selectedRecordId&&!reduced()&&time-lastFrame>=40){R.draw(state,{time,still:false,energyEvents});lastFrame=time;}requestAnimationFrame(animate);}
+async function init(){
+ if(!bridge)throw Error('VALIS.exeから起動してください。デスクトップの個体記録機能に接続できません。');
+ await R.prepare();await reloadRecords();bridge.onPrepareClose(shutdown);ready=true;updateUI(true);requestAnimationFrame(animate);
+ if(bridge.testMode)window.__VALIS_TEST__={snapshot:()=>clone({state,runStatus,activeRun,selectedRecordId,records,log:logLines.join('\n'),ready,environment}),run,skip,pause,reset,setEnvironment,selectRecord,backToLive,reloadRecords,persist,renderHash:()=>R.portrait(viewState()),renderedKeys:()=>R.renderedKeys(),renderState:s=>{R.draw(s,{still:true});return $('creature').toDataURL();},missingAssets:()=>R.missingAssets()};
 }
-
-function renderHistory(s){
- const root=$('evolutionHistory');root.replaceChildren();
- [0,1,2,3].forEach(i=>{
-  const entry=s.history.find(x=>x.stage===i);
-  const lineage=i===0?null:entry?entry.lineage:(i<=s.stage?mainLineage(s):null);
-  const name=i===3?finalNames[mainLineage(s)]:(names[lineage||mainLineage(s)]||[])[i]||'未到達';
-  const node=document.createElement('div');node.className='phase-card'+(i===s.stage?' current':'');
-  const head=document.createElement('div');head.className='phase-head';head.textContent=i===3?'第四相候補':phaseNames[i];
-  const art=document.createElement('canvas');art.className='phase-portrait';art.width=300;art.height=170;
-  art.setAttribute('aria-label',i===3?'未解放の進化候補':name+'の合成画像');
-  const text=document.createElement('div');text.className='phase-name';text.textContent=name;
-  const desc=document.createElement('p');desc.textContent=i===3?'未解放':i>s.stage?'未到達':i===s.stage?'現在の形態':'継承済み';
-  node.append(head,art,text,desc);root.appendChild(node);
-  if(loaded)drawPhasePortrait(art,i,lineage,s);
- });
-}
-
-function setup(){
- for(let i=0;i<100;i++)stars.push({x:(i*139+39)%1024,y:(i*97+11)%680,r:i%13===0?3:1});
- const n=480;seed=n;lines=E.linesFor(n);specimen=E.initial(n);phaseSnapshots=[specimen,null,null];
- $('seedInput').value=n;
- document.querySelectorAll('[data-env]').forEach(b=>b.addEventListener('click',()=>selectEnvironment(b.dataset.env)));
- document.querySelectorAll('[data-guide]').forEach(b=>b.addEventListener('click',()=>showGuide(b.dataset.guide)));
- $('showLiveBtn').addEventListener('click',showLive);
- $('growSelectedGuideBtn').addEventListener('click',function(){
-   if(!preview)return;autoClimate=preview;run();
- });
- $('levelPicker').addEventListener('input',()=>{if(preview){updateUI();render();}});
- $('runButton').addEventListener('click',function(){autoClimate=null;run();});
- $('pauseButton').addEventListener('click',()=>{paused=!paused;updateUI();});
- $('skipButton').addEventListener('click',skip);
- $('resetButton').addEventListener('click',()=>reset(Math.floor(Number($('seedInput').value)||480)));
- $('randomButton').addEventListener('click',()=>reset(1+Math.floor(Math.random()*1000)));
- $('copyButton').addEventListener('click',()=>navigator.clipboard&&navigator.clipboard.writeText($('fizzbuzzLog').value));
- $('motionToggle').addEventListener('change',e=>{showFlicker=e.target.checked;
-    if(rafHandle!==null){cancelAnimationFrame(rafHandle);rafHandle=null;}scheduleFrame();});
- $('speedSelect').addEventListener('change',e=>{tempo=Number(e.target.value);if(ticker){clearInterval(ticker);ticker=setInterval(()=>{if(!paused)feedOne()},tempo);}});
- $('coreReference').textContent='9 CORE ART REFERENCES · preserved / 14 lineages';
- // Each lineage has an actual selectable codex entry. Two use fully modular Lv
- // sprites; the other twelve use alpha-matted source illustrations until authored.
- var guides=$('guideSwitch');
- E.LINEAGES.forEach(function(l){
-   if(guides.querySelector('[data-guide="'+l.id+'"]'))return;
-   var b=document.createElement('button');b.className='guide-option';
-   b.dataset.guide=l.id;b.textContent=l.mark+' '+l.group;
-   b.addEventListener('click',()=>showGuide(l.id));guides.appendChild(b);
- });
- E.LINEAGES.forEach(function(l){
-  const button=guides.querySelector('[data-guide="'+l.id+'"]');
-  const title=document.createElement('span');title.className='guide-title';title.textContent=l.mark+' '+l.group;
-  const image=document.createElement('img');image.className='guide-thumbnail';image.alt='';
-  image.src=srcFor(C.core[l.id==='antimeme'?'astral':'marin']);
-  button.replaceChildren(image,title);
- });
- guides.append($('showLiveBtn'),$('growSelectedGuideBtn'));
- C.references.forEach(function(r){
-  var figure=document.createElement('figure');figure.className='reference';
-  var image=document.createElement('img');image.src=srcFor(r.file);image.alt=r.label;
-  var cap=document.createElement('figcaption');cap.textContent=r.label;
-  figure.append(image,cap);$('references').appendChild(figure);
- });
- selectEnvironment('signal');showGuide('valis');preload();
-}
-setup();
+init().catch(error=>{notice(error.message);$('session-status').textContent='起動できません';});
 })();

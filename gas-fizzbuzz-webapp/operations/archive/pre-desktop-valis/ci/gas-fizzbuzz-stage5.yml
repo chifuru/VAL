@@ -1,0 +1,62 @@
+name: FizzBuzz composite stage-5 checks
+on:
+  push:
+    branches:
+      - main
+      - 'work/valis-*'
+  pull_request:
+    paths:
+      - "gas-fizzbuzz-webapp/**"
+      - ".github/workflows/gas-fizzbuzz-stage5.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  node-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Assert protected source is not modified by this PR
+        run: |
+          git fetch origin main --depth=1 || true
+          git diff --name-only origin/main...HEAD > /tmp/stage5-files.txt
+          if grep -E '^gas-fizzbuzz-webapp/valis/core/|^gas-fizzbuzz-webapp/src/Code\.gs$|^gas-fizzbuzz-webapp/design/archive/Index\.pixel-legacy\.html$' /tmp/stage5-files.txt; then
+            echo 'Protected file changed' >&2
+            exit 1
+          fi
+      - name: Node unit and asset tests
+        working-directory: gas-fizzbuzz-webapp
+        run: |
+          npm test
+          npm run check:assets
+          npm run check:composite
+  chromium-smoke:
+    needs: node-contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned browser runner
+        working-directory: gas-fizzbuzz-webapp
+        run: |
+          npm install --no-save --ignore-scripts playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Browser UI and actual image decode
+        working-directory: gas-fizzbuzz-webapp
+        run: npm run test:browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage5-chromium-evidence
+          path: gas-fizzbuzz-webapp/artifacts/stage5/
+          if-no-files-found: warn
+          retention-days: 30

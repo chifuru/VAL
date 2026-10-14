@@ -1,0 +1,289 @@
+{
+  "family": "sail",
+  "file": "src/assets/creatures/sail.png",
+  "rows": [
+    "photonSail",
+    "pectoralWing",
+    "forkTail",
+    "lateralGlow"
+  ],
+  "columns": 3,
+  "regions": [
+    [
+      65,
+      198,
+      176,
+      169
+    ],
+    [
+      362,
+      162,
+      252,
+      206
+    ],
+    [
+      670,
+      64,
+      340,
+      304
+    ],
+    [
+      82,
+      535,
+      198,
+      202
+    ],
+    [
+      378,
+      450,
+      227,
+      315
+    ],
+    [
+      680,
+      404,
+      317,
+      368
+    ],
+    [
+      41,
+      942,
+      218,
+      185
+    ],
+    [
+      342,
+      885,
+      286,
+      235
+    ],
+    [
+      664,
+      818,
+      339,
+      310
+    ],
+    [
+      114,
+      1287,
+      118,
+      179
+    ],
+    [
+      389,
+      1237,
+      158,
+      244
+    ],
+    [
+      707,
+      1162,
+      251,
+      329
+    ]
+  ],
+  "roots": [
+    [
+      42,
+      155
+    ],
+    [
+      60,
+      190
+    ],
+    [
+      82,
+      280
+    ],
+    [
+      30,
+      162
+    ],
+    [
+      34,
+      252
+    ],
+    [
+      48,
+      294
+    ],
+    [
+      109,
+      178
+    ],
+    [
+      143,
+      226
+    ],
+    [
+      170,
+      298
+    ],
+    [
+      18,
+      168
+    ],
+    [
+      24,
+      229
+    ],
+    [
+      38,
+      309
+    ]
+  ],
+  "width": 1024,
+  "height": 1536,
+  "sha256": "c640f991546c1045925621b8fd1f682cb31a78c9ba0b3fe76a7163efe82e4186",
+  "generationFile": "exec-f99b95c2-78c5-4616-946a-6d96455dbabb.png",
+  "method": "image_gen anatomical derivative, original PNG bytes unchanged; metadata measured from alpha >32, anatomical pivots visually reviewed",
+  "referenceDirection": "design/VALIS異界生物観測UI-1.png",
+  "checks": [
+    {
+      "row": 0,
+      "level": 1,
+      "occupied": 16402,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        65,
+        198,
+        241,
+        367
+      ]
+    },
+    {
+      "row": 1,
+      "level": 1,
+      "occupied": 16149,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        82,
+        151,
+        280,
+        353
+      ]
+    },
+    {
+      "row": 2,
+      "level": 1,
+      "occupied": 17095,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        41,
+        174,
+        259,
+        359
+      ]
+    },
+    {
+      "row": 3,
+      "level": 1,
+      "occupied": 10497,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        114,
+        135,
+        232,
+        314
+      ]
+    },
+    {
+      "row": 0,
+      "level": 2,
+      "occupied": 32957,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        21,
+        162,
+        273,
+        368
+      ]
+    },
+    {
+      "row": 1,
+      "level": 2,
+      "occupied": 32107,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        37,
+        66,
+        264,
+        381
+      ]
+    },
+    {
+      "row": 2,
+      "level": 2,
+      "occupied": 30875,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        1,
+        117,
+        287,
+        352
+      ]
+    },
+    {
+      "row": 3,
+      "level": 2,
+      "occupied": 18339,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        48,
+        85,
+        206,
+        329
+      ]
+    },
+    {
+      "row": 0,
+      "level": 3,
+      "occupied": 69607,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        7,
+        64,
+        347,
+        368
+      ]
+    },
+    {
+      "row": 1,
+      "level": 3,
+      "occupied": 51013,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        17,
+        20,
+        334,
+        388
+      ]
+    },
+    {
+      "row": 2,
+      "level": 3,
+      "occupied": 37202,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        1,
+        46,
+        340,
+        356
+      ]
+    },
+    {
+      "row": 3,
+      "level": 3,
+      "occupied": 35726,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        44,
+        10,
+        295,
+        339
+      ]
+    }
+  ],
+  "boundaryWarnings": [],
+  "visualStatus": "Atlas alpha/cell isolation and composed desktop views reviewed; user artwork acceptance remains pending"
+}

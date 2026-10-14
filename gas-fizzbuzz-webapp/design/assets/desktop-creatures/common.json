@@ -1,0 +1,474 @@
+{
+  "file": "src/assets/creatures/common.png",
+  "rows": [
+    "head",
+    "torso",
+    "eye",
+    "tail",
+    "fin",
+    "limb"
+  ],
+  "columns": 3,
+  "regions": [
+    [
+      49,
+      91,
+      203,
+      175
+    ],
+    [
+      364,
+      64,
+      229,
+      208
+    ],
+    [
+      686,
+      26,
+      310,
+      252
+    ],
+    [
+      49,
+      360,
+      220,
+      134
+    ],
+    [
+      355,
+      344,
+      260,
+      158
+    ],
+    [
+      654,
+      308,
+      340,
+      193
+    ],
+    [
+      96,
+      596,
+      110,
+      99
+    ],
+    [
+      420,
+      575,
+      148,
+      137
+    ],
+    [
+      750,
+      550,
+      191,
+      169
+    ],
+    [
+      85,
+      845,
+      165,
+      152
+    ],
+    [
+      394,
+      796,
+      235,
+      202
+    ],
+    [
+      696,
+      745,
+      292,
+      263
+    ],
+    [
+      78,
+      1126,
+      165,
+      117
+    ],
+    [
+      384,
+      1083,
+      219,
+      163
+    ],
+    [
+      707,
+      1024,
+      281,
+      222
+    ],
+    [
+      107,
+      1312,
+      108,
+      162
+    ],
+    [
+      396,
+      1276,
+      150,
+      225
+    ],
+    [
+      752,
+      1266,
+      169,
+      253
+    ]
+  ],
+  "roots": [
+    [
+      146,
+      162
+    ],
+    [
+      162,
+      197
+    ],
+    [
+      174,
+      237
+    ],
+    [
+      111,
+      69
+    ],
+    [
+      132,
+      81
+    ],
+    [
+      172,
+      99
+    ],
+    [
+      54,
+      49
+    ],
+    [
+      73,
+      68
+    ],
+    [
+      95,
+      85
+    ],
+    [
+      18,
+      124
+    ],
+    [
+      20,
+      153
+    ],
+    [
+      20,
+      206
+    ],
+    [
+      88,
+      112
+    ],
+    [
+      108,
+      153
+    ],
+    [
+      129,
+      213
+    ],
+    [
+      56,
+      14
+    ],
+    [
+      77,
+      27
+    ],
+    [
+      66,
+      28
+    ]
+  ],
+  "sha256": "c663591bd0286a4169b90f180310694f41e3fb50310e46060e38db812df5b04c",
+  "width": 1024,
+  "height": 1536,
+  "sourceFiles": [
+    "/workspace/VAL/gas-fizzbuzz-webapp/design/aaf4d324-1275-47b3-8408-eb0fdc4d613f.png",
+    "/workspace/VAL/gas-fizzbuzz-webapp/design/3d2d37d8-f39c-4f35-8069-d69311aaf221.png"
+  ],
+  "sourceSha": [
+    "ce9b52573daef4690bedc448ce25bc890153eeffc1d0a270422f54747b667271",
+    "1d887e8d584d4c834644fbf9e55fe060c2d3ede93941c045a356810d7ea3c40a"
+  ],
+  "method": "image_gen reference-based anatomical derivative; not byte-identical crop",
+  "prompt": "Use the attached pixel-art evolution reference ONLY for the biological design language: pale blue-grey, purple-silver scales, restrained cyan highlights, crisp high-density pixel art. Create a production TRANSPARENT PNG sprite atlas of separated anatomical components for a modular creature renderer, NOT a full animal and NOT a mockup poster.\nExact layout: 3 equal columns × 6 equal rows, a tall canvas, each cell completely isolated by VERY WIDE fully transparent gutters. Columns are juvenile / developing / adult in that order; show a clear increase in biological development but preserve recognisable identity. Every component is left-facing profile where appropriate. Put the attachment/root near bottom center of its cell and make growth extend upwards. Keep ALL visible pixels comfortably inside the cell; no component touches a neighbouring cell or canvas edge. NO text, numbers, labels, arrows, panel borders, grids, backgrounds, bubbles, scenery, shadow floor, glow cloud or complete creatures.\nRow 1: HEAD ONLY, same kind-eyed aquatic reptile skull silhouette from the reference but NO EYES, no eyeball, no iris, no limbs, no trunk, no tail, no crown or huge dorsal fin. A softly sculpted blue-silver rounded snout and cheek volume; root at bottom-center neck. Anatomical head shapes from small juvenile to robust adult, left facing; leave cheek surface empty so independent eye sprites can be attached.\nRow 2: TORSO ONLY, headless oval-to-elongated reptile-fish trunk, lightly blue-grey scales, purple-silver belly, small scale pattern, gentle back curvature, absolutely no head, eye, limb, fin or tail. Grow from compact juvenile to a stronger long adult trunk. Root centered at the underside.\nRow 3: ONE ISOLATED EYEBALL / IRIS only in each cell, blue/cyan luminous iris with dark pupil, silver thin eyelid rim. No head or face, no tentacles. Juvenile / developing / adult eye grows and gains restrained detail. Pivot in anatomical centre.\nRow 4: ONE TAIL ONLY, blue-purple scaled curved tail stalk flowing up toward a soft silver tip from an obvious bottom-center attachment stump; small juvenile taper, developing elongated taper, adult gently curled longer taper. NO body/head/eye/legs. Root at bottom centre.\nRow 5: ONE BASIC FIN ONLY, blue-silver translucent ribbed fish fin rooted bottom center, small rounded juvenile, medium articulated developing, larger adult fan. No limb/body/head/eye or unrelated graphics.\nRow 6: ONE LIMB ONLY, a blue-grey reptile-fish forelimb with a clear bottom-center upper-arm stump, one jointed arm curving upward to 3 slender claw fingers, increasingly strong juvenile/developing/adult. Not a pair, no wing or full animal. All versions cleanly separated.\nMake the separated components consistently shaded and same pixel density so they will compose together. Explicit handcrafted pixel edges, nuanced clustered pixels, no soft vector curves or airbrushed illustration. Real alpha transparency outside the anatomy. This is a reference-based derivative; preserve reference files untouched. Save output if possible as /tmp/valis-desktop-art/common.png.\n",
+  "checks": [
+    {
+      "row": 0,
+      "column": 0,
+      "bbox": [
+        49,
+        91,
+        252,
+        266
+      ],
+      "clear": 60789,
+      "visible": 22125,
+      "total": 91104,
+      "pivotAlpha": 250
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "bbox": [
+        52,
+        64,
+        281,
+        272
+      ],
+      "clear": 56851,
+      "visible": 30339,
+      "total": 96360,
+      "pivotAlpha": 246
+    },
+    {
+      "row": 0,
+      "column": 2,
+      "bbox": [
+        43,
+        26,
+        355,
+        278
+      ],
+      "clear": 50136,
+      "visible": 46455,
+      "total": 111544,
+      "pivotAlpha": 251
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "bbox": [
+        49,
+        68,
+        269,
+        202
+      ],
+      "clear": 44772,
+      "visible": 20124,
+      "total": 73008,
+      "pivotAlpha": 252
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "bbox": [
+        43,
+        52,
+        303,
+        210
+      ],
+      "clear": 37684,
+      "visible": 28535,
+      "total": 75816,
+      "pivotAlpha": 253
+    },
+    {
+      "row": 1,
+      "column": 2,
+      "bbox": [
+        18,
+        15,
+        358,
+        210
+      ],
+      "clear": 33788,
+      "visible": 46190,
+      "total": 90792,
+      "pivotAlpha": 252
+    },
+    {
+      "row": 2,
+      "column": 0,
+      "bbox": [
+        96,
+        70,
+        206,
+        169
+      ],
+      "clear": 50634,
+      "visible": 8326,
+      "total": 64584,
+      "pivotAlpha": 252
+    },
+    {
+      "row": 2,
+      "column": 1,
+      "bbox": [
+        108,
+        49,
+        256,
+        186
+      ],
+      "clear": 49742,
+      "visible": 15689,
+      "total": 71622,
+      "pivotAlpha": 252
+    },
+    {
+      "row": 2,
+      "column": 2,
+      "bbox": [
+        92,
+        24,
+        283,
+        194
+      ],
+      "clear": 40987,
+      "visible": 25177,
+      "total": 75762,
+      "pivotAlpha": 252
+    },
+    {
+      "row": 3,
+      "column": 0,
+      "bbox": [
+        85,
+        112,
+        250,
+        264
+      ],
+      "clear": 72798,
+      "visible": 9285,
+      "total": 91126,
+      "pivotAlpha": 252
+    },
+    {
+      "row": 3,
+      "column": 1,
+      "bbox": [
+        72,
+        63,
+        307,
+        266
+      ],
+      "clear": 62650,
+      "visible": 18853,
+      "total": 97069,
+      "pivotAlpha": 252
+    },
+    {
+      "row": 3,
+      "column": 2,
+      "bbox": [
+        31,
+        11,
+        323,
+        275
+      ],
+      "clear": 49619,
+      "visible": 38820,
+      "total": 101597,
+      "pivotAlpha": 252
+    },
+    {
+      "row": 4,
+      "column": 0,
+      "bbox": [
+        78,
+        109,
+        243,
+        228
+      ],
+      "clear": 55969,
+      "visible": 11778,
+      "total": 75120,
+      "pivotAlpha": 246
+    },
+    {
+      "row": 4,
+      "column": 1,
+      "bbox": [
+        71,
+        67,
+        290,
+        230
+      ],
+      "clear": 49059,
+      "visible": 22996,
+      "total": 82080,
+      "pivotAlpha": 251
+    },
+    {
+      "row": 4,
+      "column": 2,
+      "bbox": [
+        52,
+        7,
+        333,
+        230
+      ],
+      "clear": 35480,
+      "visible": 41950,
+      "total": 88560,
+      "pivotAlpha": 250
+    },
+    {
+      "row": 5,
+      "column": 0,
+      "bbox": [
+        107,
+        56,
+        215,
+        218
+      ],
+      "clear": 70475,
+      "visible": 8088,
+      "total": 86800,
+      "pivotAlpha": 251
+    },
+    {
+      "row": 5,
+      "column": 1,
+      "bbox": [
+        85,
+        20,
+        236,
+        245
+      ],
+      "clear": 69927,
+      "visible": 13996,
+      "total": 95200,
+      "pivotAlpha": 251
+    },
+    {
+      "row": 5,
+      "column": 2,
+      "bbox": [
+        102,
+        10,
+        271,
+        263
+      ],
+      "clear": 71677,
+      "visible": 20328,
+      "total": 104720,
+      "pivotAlpha": 252
+    }
+  ],
+  "rootNotes": {
+    "head": "neck attachment",
+    "torso": "body anatomical centre; internal pivot, not a socket to another sprite",
+    "eye": "iris centre",
+    "tail": "proximal stump lower-left",
+    "fin": "ventral midrib",
+    "limb": "proximal shoulder stump upper-left"
+  },
+  "visualReview": "18 independent anatomy sprites; head without eye, torso without head/limbs, one eye/tail/fin/limb per cell. No text, panel borders or whole animal. Sparse low-alpha edge pixels measured; alpha>16 visible anatomy has margins in every region.",
+  "family": "common",
+  "visualStatus": "Atlas alpha/cell isolation and composed desktop views reviewed; user artwork acceptance remains pending"
+}

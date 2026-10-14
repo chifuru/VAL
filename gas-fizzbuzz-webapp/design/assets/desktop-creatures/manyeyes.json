@@ -1,0 +1,356 @@
+{
+  "family": "manyeyes",
+  "file": "src/assets/creatures/manyeyes.png",
+  "rows": [
+    "lateralEye",
+    "oralTentacle",
+    "sideTentacle",
+    "sensoryMembrane",
+    "sensoryTail"
+  ],
+  "columns": 3,
+  "regions": [
+    [
+      145,
+      185,
+      102,
+      138
+    ],
+    [
+      439,
+      158,
+      138,
+      171
+    ],
+    [
+      727,
+      139,
+      175,
+      193
+    ],
+    [
+      172,
+      463,
+      75,
+      140
+    ],
+    [
+      465,
+      417,
+      96,
+      186
+    ],
+    [
+      747,
+      370,
+      141,
+      232
+    ],
+    [
+      135,
+      743,
+      134,
+      183
+    ],
+    [
+      426,
+      701,
+      162,
+      226
+    ],
+    [
+      722,
+      638,
+      212,
+      290
+    ],
+    [
+      133,
+      1066,
+      144,
+      118
+    ],
+    [
+      425,
+      1031,
+      167,
+      153
+    ],
+    [
+      724,
+      981,
+      207,
+      203
+    ],
+    [
+      132,
+      1293,
+      149,
+      175
+    ],
+    [
+      412,
+      1248,
+      201,
+      220
+    ],
+    [
+      723,
+      1225,
+      240,
+      241
+    ]
+  ],
+  "roots": [
+    [
+      51,
+      134
+    ],
+    [
+      69,
+      166
+    ],
+    [
+      88,
+      187
+    ],
+    [
+      22,
+      136
+    ],
+    [
+      29,
+      180
+    ],
+    [
+      42,
+      225
+    ],
+    [
+      32,
+      174
+    ],
+    [
+      39,
+      215
+    ],
+    [
+      51,
+      276
+    ],
+    [
+      20,
+      112
+    ],
+    [
+      23,
+      145
+    ],
+    [
+      29,
+      193
+    ],
+    [
+      12,
+      158
+    ],
+    [
+      16,
+      198
+    ],
+    [
+      19,
+      217
+    ]
+  ],
+  "width": 1024,
+  "height": 1536,
+  "sha256": "55a525cae1ac3f3b8c3f839b887d47ed4aaf081538e5dbe789dcc32e1457f84f",
+  "generationFile": "exec-5974c4d6-2334-43ec-9626-93a55a92ed9e.png",
+  "method": "image_gen anatomical derivative, original PNG bytes unchanged; metadata measured from alpha >32, anatomical pivots visually reviewed",
+  "referenceDirection": "design/3cdebf40-9477-4475-83bb-9374dc52254a.png",
+  "checks": [
+    {
+      "row": 0,
+      "level": 1,
+      "occupied": 8865,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        145,
+        185,
+        247,
+        323
+      ]
+    },
+    {
+      "row": 1,
+      "level": 1,
+      "occupied": 6659,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        172,
+        140,
+        247,
+        280
+      ]
+    },
+    {
+      "row": 2,
+      "level": 1,
+      "occupied": 10700,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        135,
+        129,
+        269,
+        312
+      ]
+    },
+    {
+      "row": 3,
+      "level": 1,
+      "occupied": 10698,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        133,
+        140,
+        277,
+        258
+      ]
+    },
+    {
+      "row": 4,
+      "level": 1,
+      "occupied": 11827,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        132,
+        64,
+        281,
+        239
+      ]
+    },
+    {
+      "row": 0,
+      "level": 2,
+      "occupied": 16554,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        98,
+        158,
+        236,
+        329
+      ]
+    },
+    {
+      "row": 1,
+      "level": 2,
+      "occupied": 11116,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        124,
+        88,
+        220,
+        274
+      ]
+    },
+    {
+      "row": 2,
+      "level": 2,
+      "occupied": 16977,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        85,
+        87,
+        247,
+        313
+      ]
+    },
+    {
+      "row": 3,
+      "level": 2,
+      "occupied": 16936,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        84,
+        104,
+        251,
+        257
+      ]
+    },
+    {
+      "row": 4,
+      "level": 2,
+      "occupied": 20620,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        71,
+        19,
+        272,
+        239
+      ]
+    },
+    {
+      "row": 0,
+      "level": 3,
+      "occupied": 25829,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        44,
+        139,
+        219,
+        332
+      ]
+    },
+    {
+      "row": 1,
+      "level": 3,
+      "occupied": 19628,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        64,
+        38,
+        205,
+        270
+      ]
+    },
+    {
+      "row": 2,
+      "level": 3,
+      "occupied": 27480,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        39,
+        24,
+        251,
+        314
+      ]
+    },
+    {
+      "row": 3,
+      "level": 3,
+      "occupied": 29637,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        41,
+        53,
+        248,
+        256
+      ]
+    },
+    {
+      "row": 4,
+      "level": 3,
+      "occupied": 28397,
+      "rowBoundaryPixels": 0,
+      "bbox": [
+        40,
+        1,
+        280,
+        242
+      ]
+    }
+  ],
+  "boundaryWarnings": [],
+  "visualStatus": "Atlas alpha/cell isolation and composed desktop views reviewed; user artwork acceptance remains pending"
+}
