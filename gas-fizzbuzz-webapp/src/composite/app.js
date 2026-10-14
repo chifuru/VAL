@@ -30,6 +30,31 @@ var finalNames=Object.fromEntries(E.LINEAGES.map(l=>[l.id,l.finalName]));
 var lineageById=E.LINEAGE_BY_ID;
 function svgGlyph(lineage){return lineageById[lineage]?lineageById[lineage].mark:'◌';}
 function srcFor(rel){return (C.sources&&C.sources[rel])||rel;}
+function organAtlas(part){return C.authoredOrgans&&C.authoredOrgans[part.lineage]&&part.id===part.lineage+'Heritage'?C.authoredOrgans[part.lineage]:null;}
+function organSprite(part){
+ if(!part.level)return null;
+ const atlas=organAtlas(part);
+ if(atlas)return {image:img(atlas.uri),region:atlas.regions[part.level-1],root:atlas.roots[part.level-1]};
+ const assets=C.partImages[part.lineage+':'+part.id];
+ return assets?{image:img(assets[part.level-1]),region:null}:null;
+}
+function paintOrgan(target,part,x,y,w,h,anchored){
+ const sprite=organSprite(part);if(!sprite||!sprite.image)return;
+ const im=sprite.image,r=sprite.region;
+ if(r){
+  const scale=Math.min(w/r[2],h/r[3]);
+  const width=r[2]*scale,height=r[3]*scale;
+  const dx=anchored?x-sprite.root[0]*scale:x+(w-width)/2;
+  const dy=anchored?y-sprite.root[1]*scale:y+(h-height)/2;
+  target.drawImage(im,r[0],r[1],r[2],r[3],dx,dy,width,height);
+ }else target.drawImage(im,x,y,w,h);
+}
+function organThumbnail(part){
+ const art=document.createElement('canvas');art.width=120;art.height=96;art.className='part-thumbnail';
+ art.setAttribute('aria-label',part.label+' Lv.'+part.level);
+ const g=art.getContext('2d');g.imageSmoothingEnabled=false;paintOrgan(g,part,0,0,120,96);return art;
+}
+
 function ensureImage(rel){
  rel=srcFor(rel);
  if(!cache.has(rel)){
@@ -43,6 +68,7 @@ async function preload(){
  Object.values(C.partImages).forEach(arr=>arr.forEach(rel=>paths.push(rel)));
  Object.values(C.lineageImages||{}).forEach(arr=>arr.forEach(rel=>paths.push(rel)));
  paths=paths.concat(C.references.map(r=>r.file));
+ Object.values(C.authoredOrgans||{}).forEach(atlas=>paths.push(atlas.uri));
  await Promise.all(paths.map(ensureImage));loaded=true;updateUI();scheduleFrame();
 }
 function img(rel){var c=cache.get(srcFor(rel));return c&&c.im.complete&&c.im.naturalWidth?c.im:null;}
@@ -131,6 +157,8 @@ function showLive(){preview=null;
 function demoFor(id,tier){
  var n=480,st=E.runAll(n,id==='valis'?'signal':id==='antimeme'?'void':'tide');
  st.lineage=id;st.stage=2;st.matured=true;
+ // A codex illustration shows this lineage alone; real playback retains inherited organs.
+ st.heritage=[];st.history=st.history.map(entry=>({...entry,lineage:entry.stage===0?null:id}));
  st.partXp={...st.partXp};
  E.PART_DEFINITIONS[id].forEach(def=>{st.partXp[id+':'+def[0]]=[0,1,7,18][tier];});
  return st;
@@ -182,10 +210,9 @@ function paintSpecimen(s,t,reduced,mini){
  }
  var drawPart=(part,scaleFactor=1,dim=.96)=>{
     if(!part.level)return;
-    var key=part.lineage+':'+part.id,assets=C.partImages[key];
-    if(!assets)return;
-    var image=img(assets[part.level-1]);if(!image)return;
-    var pos=anchors[part.anchor]||[500,400];
+    var sprite=organSprite(part);if(!sprite||!sprite.image)return;
+    var atlas=organAtlas(part),anchor=atlas?atlas.displayAnchor:part.anchor;
+    var pos=anchors[anchor]||[500,400];
     var size=dims[part.id]||[160,120];
     var sf=(.80+.13*part.level)*scaleFactor;
     var move=(!reduced&&(part.anchor==='outerOrbit'||part.anchor==='tailTip'))?Math.sin(t/900+part.level)*7:0;
@@ -194,10 +221,11 @@ function paintSpecimen(s,t,reduced,mini){
     ctx.save();
     if(part.id==='absenceMask'||part.id==='unseenEye'||part.id==='observingEye'||part.id==='receiverCrown')
       ctx.globalCompositeOperation='screen';
-    layerImage(image,pos[0]+move,pos[1]-heartbeat,size[0]*sf,size[1]*sf,dim,angle);
+    ctx.translate(pos[0]+move,pos[1]-heartbeat);ctx.rotate(angle);ctx.globalAlpha*=dim;
+    paintOrgan(ctx,part,organAtlas(part)?0:-size[0]*sf/2,organAtlas(part)?0:-size[1]*sf/2,size[0]*sf,size[1]*sf,Boolean(organAtlas(part)));
     ctx.restore();
  };
- const rear=tiers.filter(p=>backLayer.has(p.id)),front=tiers.filter(p=>!backLayer.has(p.id));
+ const rear=tiers.filter(p=>backLayer.has(p.id)||organAtlas(p)),front=tiers.filter(p=>!backLayer.has(p.id)&&!organAtlas(p));
  rear.forEach(p=>drawPart(p));
  // 12 heritage-lineage portraits are independently extracted illustration layers.
  // Their true anatomy-part atlas is a later step; never mislabel them as LV sprites.
@@ -226,7 +254,8 @@ function paintSpecimen(s,t,reduced,mini){
  }
  if(!mini){
    font(s.dna.seed+' / '+(s.lineage?(names[lineage]||[])[s.stage]||lineage:'ミナモルフ'),26,37,20,'#cde3fc');
-   font(s.lineage?(portrait?(C.draftOrganLineages&&C.draftOrganLineages.includes(lineage)?'MOCK PORTRAIT + DRAFT Lv ORGAN · ':'MOCK PORTRAIT · '):'LAYER COMPOSITE · ')+lineage.toUpperCase():'UNCOMMITTED / ORIGIN',26,61,12,'#7296bd');
+   // Provenance categories: MOCK PORTRAIT / LAYER COMPOSITE.
+   font(s.lineage?(C.authoredOrgans&&C.authoredOrgans[lineage]?'試作器官 · ':'観測形態 · ')+lineage.toUpperCase():'ORIGIN / 未分化',26,61,12,'#7296bd');
    if(preview) font('図鑑サンプル · 実際の育成個体ではありません',985,640,17,'#d9c9ff','right');
  }
 }
@@ -249,7 +278,7 @@ function updateUI(){
  $('specimenMode').textContent=isDemo?'図鑑見本':'LIVE · '+(complete?'完走':playing?'育成中':'待機');
  $('maturityStatus').textContent=s.matured?'完全成熟・外見固定':(s.stage===0?'未分化':'発達中');
  $('coreLabel').textContent=s.dna.bodyVariant?'星原型':'深海原型';
- $('mainNote').textContent=isDemo?(lineage==='valis'||lineage==='antimeme'?'図鑑見本：Lvごとの透過パーツを合成しています。':'図鑑見本：旧12系統はモック由来の暫定肖像＋1器官×3Lvの草案SVGです。原本由来の完成透過パーツではありません。'):
+ $('mainNote').textContent=isDemo?(lineage==='valis'||lineage==='antimeme'?'図鑑見本：Lvごとの透過パーツを合成しています。':(C.authoredOrgans&&C.authoredOrgans[lineage]?'図鑑見本：新しい試作器官の成長を観察できます。':'図鑑見本：暫定肖像と試作器官を表示しています。')):
     '初期DNAの顔・眼・胴・尾は維持。環境と餌で増えたパーツ画像を重ねます。';
  $('partList').replaceChildren();
  part.forEach(function(p){
@@ -258,10 +287,11 @@ function updateUI(){
   const name=document.createElement('strong');name.textContent=p.label;
   const level=document.createElement('span');level.textContent='Lv.'+p.level;
   b.append(name,level);
-  const slot=document.createElement('div');slot.className='part-sub';slot.textContent=p.anchor+' · '+p.xp+' XP';
+  const slot=document.createElement('div');slot.className='part-sub';slot.textContent=p.xp+' XP';
   const meter=document.createElement('div');meter.className='part-meter';
   const fill=document.createElement('i');fill.style.width=(p.level===3?100:p.level===2?66:p.level===1?33:3)+'%';meter.appendChild(fill);
-  node.append(b,slot,meter);$('partList').appendChild(node);
+  const info=document.createElement('div');info.className='part-details';info.append(b,slot,meter);
+  node.append(organThumbnail(p),info);$('partList').appendChild(node);
  });
  $('heritageLabel').textContent=s.heritage&&s.heritage.length?s.heritage.map(x=>x.parts.map(p=>p.label).join('・')||((lineageById[x.lineage]||{}).group||'旧形態')).join(' → '):'不変コアを維持';
  $('finalName').textContent=finalNames[lineage]+' ／ 第四相候補（未実装）';
@@ -344,6 +374,14 @@ function setup(){
    b.dataset.guide=l.id;b.textContent=l.mark+' '+l.group;
    b.addEventListener('click',()=>showGuide(l.id));guides.appendChild(b);
  });
+ E.LINEAGES.forEach(function(l){
+  const button=guides.querySelector('[data-guide="'+l.id+'"]');
+  const title=document.createElement('span');title.className='guide-title';title.textContent=l.mark+' '+l.group;
+  const image=document.createElement('img');image.className='guide-thumbnail';image.alt='';
+  const portraits=C.lineageImages&&C.lineageImages[l.id];image.src=srcFor(portraits?portraits[1]:C.core[l.id==='antimeme'?'astral':'marin']);
+  button.replaceChildren(image,title);
+ });
+ guides.append($('showLiveBtn'),$('growSelectedGuideBtn'));
  C.references.forEach(function(r){
   var figure=document.createElement('figure');figure.className='reference';
   var image=document.createElement('img');image.src=srcFor(r.file);image.alt=r.label;

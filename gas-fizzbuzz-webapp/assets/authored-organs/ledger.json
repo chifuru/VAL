@@ -1,0 +1,96 @@
+{
+  "abyss": {
+    "source": "design/aaf4d324-1275-47b3-8408-eb0fdc4d613f.png",
+    "path": "assets/authored-organs/abyss-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        628,
+        724
+      ],
+      [
+        628,
+        0,
+        724,
+        724
+      ],
+      [
+        1352,
+        0,
+        820,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        274,
+        709
+      ],
+      [
+        278,
+        709
+      ],
+      [
+        236,
+        709
+      ]
+    ],
+    "source_sha256": "ce9b52573daef4690bedc448ce25bc890153eeffc1d0a270422f54747b667271",
+    "sha256": "fcf01c251f9c1fa7e554f5d4ef885f80b7b2068d412292cd1a7fd682d199d6f2",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "derivation": "image_gen reference-based derivative, not byte-identical crop",
+    "status": "draft",
+    "display_anchor": "dorsal"
+  },
+  "myth": {
+    "source": "design/fde20a45-7cc1-4cf3-a06b-4911b0eed716.png",
+    "path": "assets/authored-organs/myth-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        608,
+        724
+      ],
+      [
+        608,
+        0,
+        748,
+        724
+      ],
+      [
+        1356,
+        0,
+        816,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        195,
+        665
+      ],
+      [
+        365,
+        673
+      ],
+      [
+        340,
+        689
+      ]
+    ],
+    "source_sha256": "299e89784eeea5569fd29aced4df68d83b438178f9bdc7e3dff73b5c2c1f33e1",
+    "sha256": "03c9748166e01fb0b61cbeae1176074b75d0cf1088c30bfa6f0148445ae6c9bb",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "derivation": "image_gen reference-based derivative, not byte-identical crop",
+    "status": "draft",
+    "display_anchor": "shoulder"
+  }
+}

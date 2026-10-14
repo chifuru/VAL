@@ -27,23 +27,23 @@ function nodeFiles(){
 }
 const inventory=nodeFiles();
 const entries=[...manifest.matchAll(/^[ \t]*([A-E]\d+(?:\.\d+)*):（[^\r\n]*［(承認済み|草案)］/gm)].map(m=>({id:m[1],status:m[2]}));
-test('all 53 Node Files occur once in the Manifest structural index',()=>{
- assert.equal(inventory.length,53);
- assert.equal(entries.length,53);
- assert.equal(new Set(entries.map(x=>x.id)).size,53,'duplicate Manifest IDs');
+test('all 54 Node Files occur once in the Manifest structural index',()=>{
+ assert.equal(inventory.length,54);
+ assert.equal(entries.length,54);
+ assert.equal(new Set(entries.map(x=>x.id)).size,54,'duplicate Manifest IDs');
  assert.deepEqual(entries.map(x=>x.id).sort(),inventory.map(x=>x.id).sort(),'missing/orphan Node IDs');
  const counts=Object.fromEntries(['A','B','C','D','E'].map(l=>[l,inventory.filter(x=>x.id.startsWith(l)).length]));
- assert.deepEqual(counts,{A:7,B:9,C:13,D:8,E:16});
+ assert.deepEqual(counts,{A:7,B:9,C:13,D:8,E:17});
 });
-test('all 53 Node Files and Manifest entries match the user-requested draft state',()=>{
+test('all 54 Node Files and Manifest entries match the user-requested draft state',()=>{
  const m=new Map(entries.map(x=>[x.id,x.status]));
  for(const node of inventory){
   assert.equal(m.get(node.id),node.status,'status mismatch '+node.id);
   assert.equal(node.status,'草案','draft reset missing '+node.id);
  }
  assert.equal(inventory.filter(x=>x.status==='承認済み').length,0);
- assert.equal(inventory.filter(x=>x.status==='草案').length,53);
- assert.match(manifest,/現在状態: 全53ノード草案/);
+ assert.equal(inventory.filter(x=>x.status==='草案').length,54);
+ assert.match(manifest,/現在状態: 全54ノード草案/);
 });
 test('A/B/C/D hierarchy retains same-layer parent_id',()=>{
  for(const node of inventory){

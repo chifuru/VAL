@@ -1,0 +1,93 @@
+{
+  "base_commit": "10b5fb18d6dd39732b96cf231a7aab00e1469e84",
+  "files": [
+    {
+      "path": "src/Index.html",
+      "sha256": "c9be0a601782380d5500c03272719ab5e7f37a11fa6b54e5c7a6942a3d64352b"
+    },
+    {
+      "path": "src/Index.composite-v4.html",
+      "sha256": "c9be0a601782380d5500c03272719ab5e7f37a11fa6b54e5c7a6942a3d64352b"
+    },
+    {
+      "path": "src/composite/Index.template.html",
+      "sha256": "a23871335a225b330bdd49212cf25bc7ab8ba5f9589ca18b2f01b03ea032e957"
+    },
+    {
+      "path": "src/composite/README.md",
+      "sha256": "8d5b097014e3833694419c0a8e3f4d84e85153ef6bf4dbc01306c30b71ce0c2e"
+    },
+    {
+      "path": "src/composite/app.js",
+      "sha256": "c47108481c938813731992c713fbd029a53c85922378b8f66ac11a6fd62abfb5"
+    },
+    {
+      "path": "src/composite/creature-engine.js",
+      "sha256": "a59241c42898cd35af328c7557af3fea2bf6b7aa553a64b9341caee6c6e8ed66"
+    },
+    {
+      "path": "src/composite/draft-organ-sprites.js",
+      "sha256": "fadbf0d91b1ad0d134706d12e3c715e57fb1670017bcd73b6b80b6f379948b14"
+    },
+    {
+      "path": "src/composite/styles.css",
+      "sha256": "42e0cf1db7479f9e6a81dd6a20efc0816467920f4dfd2baf88834ae1af7e767d"
+    },
+    {
+      "path": "assets/authored-organs/abyss-lv-atlas.png",
+      "sha256": "fcf01c251f9c1fa7e554f5d4ef885f80b7b2068d412292cd1a7fd682d199d6f2"
+    },
+    {
+      "path": "assets/authored-organs/ledger.json",
+      "sha256": "59565aedef5413fd0b6c83ed28e54a474d8116c000165e9063cf0ccf92feb6c9"
+    },
+    {
+      "path": "assets/authored-organs/myth-lv-atlas.png",
+      "sha256": "03c9748166e01fb0b61cbeae1176074b75d0cf1088c30bfa6f0148445ae6c9bb"
+    },
+    {
+      "path": "tools/build-composite-html.cjs",
+      "sha256": "557017bf0fa66162505dcbd5f4f3af73dbcb5788516a44634db003cefa026006"
+    },
+    {
+      "path": "tests/browser-smoke.cjs",
+      "sha256": "0036a8e7aa7eb22da0bdf8bbaab8d50ce16016ce4ded7b44d431f781a7832b18"
+    },
+    {
+      "path": "tests/authored-organ-atlases.test.cjs",
+      "sha256": "2dd5e5ea08eacf1418c7a2970da13c7b0f9f8af5985fa557aa34f184d432ff98"
+    },
+    {
+      "path": "tests/manifest-consistency.test.cjs",
+      "sha256": "02695ffaf6609c16f9f1b68627856823334dda14fb1fd7bcb4ccf5097af1f4e8"
+    },
+    {
+      "path": "tests/composite-bundle-sync.test.cjs",
+      "sha256": "88e3ec8eb3a941b36f741eef2eb4754dee3e5f9920006ba11ff60eb9297689ff"
+    },
+    {
+      "path": "valis/summary/gas-fizzbuzz-webapp.summary.md",
+      "sha256": "56b542ec12b54fb1d72204f45b73bad502bfce0a0bed37c94df556ff9f95eace"
+    },
+    {
+      "path": "valis/nodes/E/E17.md",
+      "sha256": "4b14bfb2a4c92ba53e29efd6cf8a7e662f8dba116609738df960ffce1d90d02f"
+    },
+    {
+      "path": "valis/nodes/C/C1.5.2.md",
+      "sha256": "eb39daaba39ce8ba9c6adf8e28e6ba910d0fa1326c5b78c12a4c57b2c7382b83"
+    },
+    {
+      "path": "valis/nodes/C/C1.5.3.md",
+      "sha256": "3b691d45eba6f616bf5e7023283aec55e5848f8dfe0ebc3387cf8ad567ec7b0d"
+    },
+    {
+      "path": "valis/nodes/D/D1.3.2.md",
+      "sha256": "dc89ab9adf881a7df391f1f096a6e7541282a35f7264362ed056be789e0d81a7"
+    },
+    {
+      "path": "valis/nodes/D/D1.3.3.md",
+      "sha256": "91f5889c9b9b093cafff1c62f8735be810c9eaeadde84cfcf72fb792097de17a"
+    }
+  ]
+}

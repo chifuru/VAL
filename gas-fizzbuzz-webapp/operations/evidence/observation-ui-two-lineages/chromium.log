@@ -1,0 +1,18 @@
+
+> gas-fizzbuzz-webapp@0.1.0 test:browser
+> node tests/browser-smoke.cjs
+
+PASS: 68 original images + 36 fallback SVG + 2 authored draft atlases decode — 106 / 106
+PASS: 14 illustrated codex cards load actual images
+PASS: six draft PNG organ regions contain transparent background and visible anatomy — [{"id":"abyss","level":1,"clear":328281,"visible":106810,"total":454672},{"id":"abyss","level":2,"clear":316168,"visible":167512,"total":524176},{"id":"abyss","level":3,"clear":254170,"visible":266134,"total":593680},{"id":"myth","level":1,"clear":357132,"visible":71013,"total":440192},{"id":"myth","level":2,"clear":348723,"visible":165501,"total":541552},{"id":"myth","level":3,"clear":309051,"visible":234251,"total":590784}]
+PASS: abyss/myth authored organ thumbnail Lv0/1/2/3 differences
+PASS: 14 lineage codex interactions + Lv0/Lv3 actual Canvas changes — 14 / 14
+PASS: local preview: server-independent N=15/1000, skip, complete maturation — 1000/1000 records
+PASS: mock GAS invalid response is rejected without local fallback
+PASS: 420px mobile layout, guided preview and playback — {"window":420,"scroll":420,"canvas":402}
+PASS: uncaught page errors — 0
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

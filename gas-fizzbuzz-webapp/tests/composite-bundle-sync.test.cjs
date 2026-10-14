@@ -23,7 +23,7 @@ test('both distributable HTML files are identical and reproducible from editable
 });
 
 test('all 68 embedded images and nine reference thumbnails survive without substitution', () => {
-  assert.equal((main.match(/data:image\//g) || []).length, 68);
+  assert.equal((main.match(/data:image\//g) || []).length, 70);
   const context = vm.createContext({ window: {} });
   vm.runInContext(scripts[0], context, { timeout: 10000 });
   const cfg = context.window.ASSET_CONFIG;

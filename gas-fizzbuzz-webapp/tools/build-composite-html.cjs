@@ -24,14 +24,22 @@ function embeddedConfig(html) {
   if (!cfg.startsWith('window.ASSET_CONFIG=')) throw new Error('First script must be bundled asset config');
   if (!scripts[1][1].includes('CreatureEngine')) throw new Error('Second script must be engine');
   if (!scripts[2][1].includes('var E=window.CreatureEngine')) throw new Error('Third script must be app');
-  const pixels = (cfg.match(/data:image\//g) || []).length;
-  if (pixels !== 68) throw new Error('Expected all 68 original embedded images; got ' + pixels);
+  const parsed = JSON.parse(cfg.slice('window.ASSET_CONFIG='.length, -1));
+  if (Object.keys(parsed.sources).length !== 68) throw new Error('Expected all 68 original embedded images');
   return cfg;
 }
 
 function sourceBundle(existingHtml) {
   const template = read(path.join(modules, 'Index.template.html'));
-  const config = embeddedConfig(existingHtml);
+  const originalConfig = embeddedConfig(existingHtml);
+  const packed = JSON.parse(originalConfig.slice('window.ASSET_CONFIG='.length, -1));
+  const ledger = JSON.parse(read(path.join(root, 'assets/authored-organs/ledger.json')));
+  packed.authoredOrgans = Object.fromEntries(Object.entries(ledger).map(([id, item]) => {
+    const bytes = fs.readFileSync(path.join(root, item.path));
+    if (crypto.createHash('sha256').update(bytes).digest('hex') !== item.sha256) throw new Error('Atlas checksum mismatch: '+id);
+    return [id, { uri: 'data:image/png;base64,'+bytes.toString('base64'), regions: item.regions, roots: item.roots, displayAnchor: item.display_anchor, status: item.status }];
+  }));
+  const config = 'window.ASSET_CONFIG='+JSON.stringify(packed)+';';
   const values = {
     __STYLES__: read(path.join(modules, 'styles.css')),
     __CONFIG__: config,
@@ -45,7 +53,7 @@ function sourceBundle(existingHtml) {
   }
   if (/__(?:STYLES|CONFIG|ENGINE|APP)__/.test(output)) throw new Error('Unexpanded template marker');
   if ((output.match(/<script>/g) || []).length !== 3) throw new Error('Unexpected script count');
-  if ((output.match(/data:image\//g) || []).length !== 68) throw new Error('Missing original images');
+  if ((output.match(/data:image\//g) || []).length !== 68 + Object.keys(ledger).length) throw new Error('Missing original images');
   return output;
 }
 
@@ -57,12 +65,12 @@ function run() {
   if (process.argv.includes('--check')) {
     if (input !== expected) throw new Error('Index.html differs from the canonical editable modules');
     if (read(variant) !== expected) throw new Error('Index.composite-v4.html differs from Index.html');
-    process.stdout.write('PASS: two synchronized HTML files / 68 original images / SHA-256 ' + sha256(expected) + '\n');
+    process.stdout.write('PASS: two synchronized HTML files / 68 original images + 2 draft organ atlases / SHA-256 ' + sha256(expected) + '\n');
     return;
   }
   fs.writeFileSync(target, expected, 'utf8');
   fs.writeFileSync(variant, expected, 'utf8');
-  process.stdout.write('Updated both HTML entrypoints: 68 images preserved / SHA-256 ' + sha256(expected) + '\n');
+  process.stdout.write('Updated both HTML entrypoints: 68 originals + 2 draft organ atlases / SHA-256 ' + sha256(expected) + '\n');
 }
 
 if (require.main === module) run();

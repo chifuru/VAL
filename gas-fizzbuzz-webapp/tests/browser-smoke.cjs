@@ -14,7 +14,7 @@ const out=path.join(root,'artifacts/stage5');
 fs.mkdirSync(out,{recursive:true});
 const url=pathToFileURL(path.join(root,'src/Index.html')).href;
 const lineages=['abyss','myth','recursive','sail','gravity','crystal','manyeyes','abyssshell','parallel','memory','serpent','solar','antimeme','valis'];
-const report={scope:'file:// Chromium preview, NOT actual GAS service',commit:process.env.GITHUB_SHA||'local',node:process.version,
+const report={scope:'self-contained HTML Chromium preview (file or local HTTP), NOT actual GAS service',commit:process.env.GITHUB_SHA||'local',node:process.version,
  checks:[],lineages:[],errors:[],screenshots:[],generatedAt:new Date().toISOString()};
 const check=(name,details)=>{report.checks.push({name,status:'PASS',details});console.log('PASS: '+name+(details?' — '+details:''));};
 const sha=s=>crypto.createHash('sha256').update(s).digest('hex');
@@ -41,20 +41,40 @@ async function main(){
   // Test the actual 68 packed images, then 36 SVG candidates as rendered by Chromium.
   const decoded=await page.evaluate(async()=>{
    const C=window.ASSET_CONFIG;
-   const paths=[...Object.values(C.core),...Object.values(C.partImages).flat(),...Object.values(C.lineageImages).flat(),...C.references.map(r=>r.file)];
+   const paths=[...Object.values(C.core),...Object.values(C.partImages).flat(),...Object.values(C.lineageImages).flat(),...C.references.map(r=>r.file),...Object.values(C.authoredOrgans||{}).map(a=>a.uri)];
    const uris=paths.map(p=>(C.sources&&C.sources[p])||p);
    return await Promise.all(uris.map(async(uri,i)=>{
     try{const im=new Image();im.src=uri;await im.decode();return {index:i,ok:im.naturalWidth>0&&im.naturalHeight>0};}
     catch(err){return {index:i,ok:false,message:String(err)};}
    }));
   });
-  assert.equal(decoded.length,104);
+  assert.equal(decoded.length,106);
   assert.deepEqual(decoded.filter(x=>!x.ok),[],'Chromium image decoding failed');
-  check('68 packed PNG/WebP/JPEG + 36 draft SVG actual decode','104 / 104');
+  check('68 original images + 36 fallback SVG + 2 authored draft atlases decode','106 / 106');
+  assert.equal(await page.locator('#guideSwitch .guide-thumbnail').count(),14);
+  assert.ok(await page.locator('#guideSwitch .guide-thumbnail').evaluateAll(images=>images.every(im=>im.complete&&im.naturalWidth>0)));
+  check('14 illustrated codex cards load actual images');
+  const alpha=await page.evaluate(async()=>{
+   const results=[];
+   for(const [id,atlas] of Object.entries(window.ASSET_CONFIG.authoredOrgans)){
+    const im=new Image();im.src=atlas.uri;await im.decode();
+    for(const [level,r] of atlas.regions.entries()){
+     const c=document.createElement('canvas');c.width=r[2];c.height=r[3];const g=c.getContext('2d');
+     g.drawImage(im,...r,0,0,r[2],r[3]);const bytes=g.getImageData(0,0,c.width,c.height).data;
+     let clear=0,visible=0;for(let i=3;i<bytes.length;i+=4){if(bytes[i]===0)clear++;if(bytes[i]>128)visible++;}
+     results.push({id,level:level+1,clear,visible,total:c.width*c.height});
+    }
+   }return results;
+  });
+  assert.equal(alpha.length,6);
+  assert.ok(alpha.every(row=>row.clear>row.total*.1&&row.visible>row.total*.05));
+  check('six draft PNG organ regions contain transparent background and visible anatomy',JSON.stringify(alpha));
 
   for(const id of lineages){
    await page.locator('#guideSwitch [data-guide="'+id+'"]').click();
    assert.equal(await page.locator('#guideSwitch [data-guide="'+id+'"]').getAttribute('aria-pressed'),'true');
+   const expectedPhase2=await page.evaluate(id=>window.CreatureEngine.LINEAGE_BY_ID[id].names[1],id);
+   assert.equal(await page.locator('#evolutionHistory .phase-name').nth(1).textContent(),expectedPhase2,'codex history uses another lineage');
    await tier(page,0);
    const level0=await canvasHash(page);
    await tier(page,3);
@@ -62,6 +82,17 @@ async function main(){
    assert.notEqual(level0,level3,'no visible Lv0 -> Lv3 Canvas change: '+id);
    report.lineages.push({id,lv0:level0,lv3:level3,distinct:true});
   }
+  for(const id of ['abyss','myth']){
+   await page.locator('#guideSwitch [data-guide="'+id+'"]').click();
+   const hashes=[];
+   for(let level=0;level<=3;level++){
+    await tier(page,level);hashes.push(sha(await page.locator('#partList .part-thumbnail').first().evaluate(c=>c.toDataURL())));
+   }
+   assert.equal(new Set(hashes).size,4,'organ Lv0/1/2/3 thumbnail is not distinct: '+id);
+   await page.screenshot({path:path.join(out,'desktop-'+id+'-authored-lv3.png'),fullPage:true});
+   report.screenshots.push('desktop-'+id+'-authored-lv3.png');
+  }
+  check('abyss/myth authored organ thumbnail Lv0/1/2/3 differences');
   check('14 lineage codex interactions + Lv0/Lv3 actual Canvas changes','14 / 14');
 
   await page.locator('#guideSwitch [data-guide="valis"]').click();
