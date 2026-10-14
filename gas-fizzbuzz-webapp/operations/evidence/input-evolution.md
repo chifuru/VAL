@@ -2,7 +2,7 @@
 
 対象版: input-evolution-2026-10-15 / app1.1.0 / ENGINE2 / desktop-art-v2。正確なコード/テスト/資産/設定/定義SHAはinput-evolution/target-sha256.json。
 
-34単体項目、202Chromium画面項目、実Linux Electronの数字input→自動出生→N15/1000完走→保存→別プロセス復元、公式runtime SHAとWindows PE/ASAR全srcバイト/20PNG/ZIP整合が成功。対象条件・件数・限定はreport.json、各ログと実画面はbrowser/native-linux。Windows実行の成功は別CIの実結論を取得するまで未確認。
+34単体項目、202Chromium画面項目、実Linux Electronの数字input→自動出生→N15/1000完走→保存→別プロセス復元、公式runtime SHAとWindows PE/ASAR全srcバイト/20PNG/ZIP整合が成功。対象条件・件数・限定はreport.json、各ログと実画面はbrowser/native-linux。hosted Windows実exeのinput→自動出生→保存→別プロセス復元はrun38623374271の無条件stepでsuccess。公開結論の証跡はwindows-ci-public-summary.json。認証付き生ログ/CI native JSONは未取得。
 
 第二相201行/第三相580行、N927は888行で成熟。N期間による強制成熟はしない。N880..1000の121個体では36個体が自身の入力期間中に成熟し、14系統すべてに自動分岐する例がある。数字入力直後はプレビューだけ、600ms安定後に出生登録する。入力連打/遅延保存/保存失敗の競合と旧runの保全を検査した。
 

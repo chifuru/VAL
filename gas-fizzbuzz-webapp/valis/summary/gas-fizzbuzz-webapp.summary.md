@@ -5,12 +5,12 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 全70ノード（A9/B11/C17/D10/E23）を草案に統一。旧版承認は現在無効。ユーザー指示でFizzBuzz範囲を書換可能。
+current_status: 全71ノード（A9/B11/C17/D10/E24）を草案に統一。旧版承認は現在無効。ユーザー指示でFizzBuzz範囲を書換可能。
 definition_baseline: input-evolution-2026-10-15。operations/plans/2026-10-15-evolution-direction.md。
-initial_registration_this_change: E23。
+initial_registration_this_change: E23, E24。
 manifest_reflection_this_change: 今回変更A/B/C/Dの責務・草案状態と入力自動化/環境事前決定/進化速度/身体表現の読解経路を反映。
 approval_basis: ユーザーが全FizzBuzzノードを草案と指定。旧承認は現在無効、アーカイブは旧版の識別にのみ使用。
-unresolved_summary: 今回入力/環境/成長/画像の34単体・202画面項目・Linux実起動/復元・Windows配布整合はE23。Windows10/11利用者実機、美術受入は未実施。
+unresolved_summary: 今回入力/環境/成長/画像の34単体・202画面項目・Linux実起動/復元・Windows配布整合はE23。hosted Windows実exe起動/復元はE24。Windows10/11利用者実機、美術受入は未実施。
 evidence_scope: E1〜E22は各指定旧対象版に限定。今回ENGINE2の最終照合はE23。旧承認は撤回済み。
 
 ## 読解経路と責務
@@ -308,3 +308,7 @@ E22:（D1.5, D1.6, C1.7, C1.8 / GitHub Windows配布・実exe起動と再起動�
 E23:（D1.1, D1.2, D1.3.1, D1.3.2, D1.3.3, D1.5, D1.6, C1 / 数字入力進化版の限定検証証跡）［草案］
 	Node File: valis/nodes/E/E23.md。独立証跡、parent_idなし。参照種別: evidence_for。
 	要約: ENGINE2/desktop-art-v2の対象SHA、34単体/202画面項目、Linux実起動/復元、Windows配布整合を登録。利用者実機/美術受入は未認定。
+
+E24:（D1.5, D1.6, C1.7, C1.8 / 数字入力進化版Windows配布・実exe起動と再起動証跡）［草案］
+	Node File: valis/nodes/E/E24.md。独立証跡、parent_idなし。参照種別: evidence_for。
+	要約: run38623374271、Windows package/ZIP照合/native input→出生→保存→再起動がsuccess。生ログ/native JSONは未取得。利用者実機/美術受入は未認定。

@@ -2,11 +2,12 @@
   "result": "passed-local-scoped",
   "coreAndOriginalMocksPreserved": true,
   "allFizzBuzzNodesDraft": true,
-  "manifestRegistered": "E23",
+  "manifestRegistered": "E23/E24",
   "sourceMatchesPackage": true,
   "unit34": true,
   "browser202": true,
   "nativeLinuxCreateAndRestore": true,
-  "windowsActualExecution": "pending-independent-CI-evidence",
-  "targetLedger": "target-sha256.json"
+  "windowsActualExecution": "hosted Windows native executable and process restore passed; E24",
+  "targetLedger": "target-sha256.json",
+  "all71NodesDraft": true
 }

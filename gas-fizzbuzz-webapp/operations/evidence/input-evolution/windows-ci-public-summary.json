@@ -1,0 +1,142 @@
+{
+  "scope": "Public GitHub Windows runner step conclusions; raw logs/artifact native JSON not retrieved",
+  "runId": "38623374271",
+  "jobId": "116056286149",
+  "runUrl": "https://github.com/chifuru/VAL/actions/runs/38623374271",
+  "jobUrl": "https://github.com/chifuru/VAL/actions/runs/38623374271/job/116056286149",
+  "targetCommit": "c0f389db6d8eb454ed890855aacc415dd54f600c",
+  "generatedAt": "2026-10-14T19:27:59.227650+00:00",
+  "jobConclusion": "success",
+  "steps": [
+    {
+      "name": "Set up job",
+      "conclusion": "success",
+      "started-at": "2026-10-14T19:24:22Z",
+      "completed-at": "2026-10-14T19:24:23Z"
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "conclusion": "success",
+      "started-at": "2026-10-14T19:24:23Z",
+      "completed-at": "2026-10-14T19:24:34Z"
+    },
+    {
+      "name": "Run actions/setup-node@v4",
+      "conclusion": "success",
+      "started-at": "2026-10-14T19:24:34Z",
+      "completed-at": "2026-10-14T19:24:39Z"
+    },
+    {
+      "name": "Install pinned packaging tools",
+      "conclusion": "success",
+      "started-at": "2026-10-14T19:24:39Z",
+      "completed-at": "2026-10-14T19:24:45Z"
+    },
+    {
+      "name": "Node source and history checks",
+      "conclusion": "success",
+      "started-at": "2026-10-14T19:24:45Z",
+      "completed-at": "2026-10-14T19:24:48Z"
+    },
+    {
+      "name": "Create Windows executable and portable ZIP",
+      "conclusion": "success",
+      "started-at": "2026-10-14T19:24:48Z",
+      "completed-at": "2026-10-14T19:25:19Z"
+    },
+    {
+      "name": "Verify ZIP expansion matches executable checksums",
+      "conclusion": "success",
+      "started-at": "2026-10-14T19:25:19Z",
+      "completed-at": "2026-10-14T19:25:21Z"
+    },
+    {
+      "name": "Native Windows executable and restart smoke",
+      "conclusion": "success",
+      "started-at": "2026-10-14T19:25:21Z",
+      "completed-at": "2026-10-14T19:25:25Z"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "conclusion": "success",
+      "started-at": "2026-10-14T19:25:25Z",
+      "completed-at": "2026-10-14T19:25:30Z"
+    },
+    {
+      "name": "Post Run actions/setup-node@v4",
+      "conclusion": "success",
+      "started-at": "2026-10-14T19:25:30Z",
+      "completed-at": "2026-10-14T19:25:31Z"
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "conclusion": "success",
+      "started-at": "2026-10-14T19:25:31Z",
+      "completed-at": "2026-10-14T19:25:32Z"
+    },
+    {
+      "name": "Complete job",
+      "conclusion": "success",
+      "started-at": "2026-10-14T19:25:32Z",
+      "completed-at": "2026-10-14T19:25:32Z"
+    }
+  ],
+  "artifact": {
+    "name": "VALIS-Windows-x64",
+    "id": "11922807081",
+    "outerDigest": "sha256:df3836ac59ef7d7594ac2ef9dad11b2330bb1530e8947e8d63200a39584885ab",
+    "sizeDisplay": "188 MB",
+    "retentionDays": 30
+  },
+  "currentRuntimeAndWindowsTestFilesMatchTarget": {
+    "src/Index.html": "f96020e8fb1624506e75892f697ef98e81a86c982a23c98f9dc55ef1be9b84f7",
+    "src/assets/creatures/abyss.png": "d7a5025718eb23b07c513c6c2331e83d39813a0a0daf81290db72b07fd4b95cb",
+    "src/assets/creatures/abyssshell.png": "4db7749fb2b134bc859363401d9ac0db5b1d65818a694e5424ed4d1db7814766",
+    "src/assets/creatures/antimeme.png": "0b992e5618c86823d6f08ddab49fb56cd049e1b92f7591fae216aa0a5f1ff41b",
+    "src/assets/creatures/body-aquatic.png": "fac7a3abcb464646c1b0b5ef7990fde11323d8b65a5010bda31578f670fa7865",
+    "src/assets/creatures/body-avian.png": "8ada5fb64fb8217fbebc6b7077e2c9117eee33eefbaae6c243ce2c0a66c5662b",
+    "src/assets/creatures/body-crystal.png": "5452b43e527e313df8b6f4205706dcc39aa4e87541d8a4bf41b235ff9e0a2908",
+    "src/assets/creatures/body-ethereal.png": "5498852f7d93755a74d421d4005f6b96d1e2317b07be05159cb7763e025d5386",
+    "src/assets/creatures/body-serpent.png": "8492a6afb95ed8bcfe32edc2aa9e9bce89b5aae57c64f8c08210b42edcc294d7",
+    "src/assets/creatures/common.png": "c663591bd0286a4169b90f180310694f41e3fb50310e46060e38db812df5b04c",
+    "src/assets/creatures/config.json": "cce206cd9931e995965cc7f3260ea03ae65f247e5b43290513e98f33eae35f14",
+    "src/assets/creatures/crystal.png": "b932045a52ec46df737f8ba438464184fc64048d504be54c0a23b3e920271774",
+    "src/assets/creatures/gravity.png": "8678a8f6902a8a6775d0fab49dc6e4bb1e838a3163e44b1439c55b4aaed18cd4",
+    "src/assets/creatures/manyeyes.png": "55a525cae1ac3f3b8c3f839b887d47ed4aaf081538e5dbe789dcc32e1457f84f",
+    "src/assets/creatures/memory.png": "9ce368e4c28f1a43bc88547595d714378a7e81f887585a0037affb72dff832d0",
+    "src/assets/creatures/myth.png": "c538741da2d42936c67a03d8e9e6258c64fb11bcd43f897ad98bdd538ac9db83",
+    "src/assets/creatures/parallel.png": "e563992d0c8665f777cefed44b6f33e57ec2efcf0b6b86df33112e46b6877b55",
+    "src/assets/creatures/recursive.png": "ca284551977992be6d7864c277cbda83fb446b3d48f513a082be7a4f6115b6eb",
+    "src/assets/creatures/sail.png": "c640f991546c1045925621b8fd1f682cb31a78c9ba0b3fe76a7163efe82e4186",
+    "src/assets/creatures/serpent.png": "a38ca67bca74065bb4e61d4c8f1723c8c5ec4660106635b56bd604254572b433",
+    "src/assets/creatures/solar.png": "3bebf4823d4ebaf8dfb56a8e8721c95b2dda9547e3d130a60005aa4acc920cb8",
+    "src/assets/creatures/valis.png": "6feb35bcce6374ca744587f69ea43621b8ec1f74396834df476b330b2710bfb8",
+    "src/composite/app.js": "96cc6b039f68f10182afad1b52c064b0fbdaded981ba4b473e37b24826403e67",
+    "src/composite/asset-config.js": "417a7decffbe37cc5fca8f5ae3632f76c0c5f4375e3e0110dfc66332a4c63d2d",
+    "src/composite/creature-engine.js": "e4b78ff68768a6ebbbe43445c9c27dda88259f0625a559954132a458ddb7df75",
+    "src/composite/legacy-engine.js": "c7b11c916b6abbc731c90bd7aba84aeb4efb1b205d4a25183a485f507a746c90",
+    "src/composite/lineage-definitions.js": "e30b0aa8aa1fb7b047005789112a990e8e02143cb12bff5b2fbd8f166ee72b1b",
+    "src/composite/renderer.js": "5a4bc6ae96842200a5282c31bdf2a6085bda6b9290f4a6d4b432ba0be47bec07",
+    "src/composite/styles.css": "dfe456f4f049fcd2c32d92fb88283051b14e0ab47b91b0492d89d1155eff2d90",
+    "src/desktop/history-store.cjs": "81d52915a199e9732b6ba268d07de26db244526366a89952b104a6bba05ff04d",
+    "src/desktop/main.cjs": "5944f437e4a97d2e33d6d7cf76ca403f42c4446c58fb35237589961b39b5e56c",
+    "src/desktop/preload.cjs": "ceb0877fb209f4fbd5c4a8c598896446cd6f0a21938d55312fe91e69015346f5",
+    "tools/build-assets.cjs": "a70a21d77e5f11d56d3eee0906e1584ff55cbb8a4260072c5a009f169ad3a61b",
+    "tools/package-windows.cjs": "09fd126880e9c4478939b44fed9c2a242f13b091dd64cb5135b7cde146621ef1",
+    "tests/desktop-assets.test.cjs": "5f3d88422f49078271c59eca1deddc4595196ad53a17e37c17aff015b6b2d05c",
+    "tests/desktop-growth.test.cjs": "37af73de859966631a562f1571f548767610e958e16ebc20665a836a8e5cd1b8",
+    "tests/desktop-host.test.cjs": "6955eb5169ab4395cad9436c15a6a6a811231a8160a47b7e9549cac787b11ee6",
+    "tests/electron-smoke.cjs": "ec306f38b5649c3a75a559498510b03a7f3829a7f817276506e1206a6133d7f1",
+    "package.json": "51107f75c7fa7eb9ac8df9971f4edb60b351407fad4e6e3e9157e40fcad238d8",
+    "package-lock.json": "fbe89095d50965aede72e4ff065b3972b80627faead467aa58133286252c796f"
+  },
+  "notRetrieved": [
+    "authenticated raw logs",
+    "native smoke JSON/screenshots within artifact",
+    "precise runner image version"
+  ],
+  "unperformed": [
+    "Windows10/11 user device display/FPS",
+    "user art acceptance"
+  ]
+}
