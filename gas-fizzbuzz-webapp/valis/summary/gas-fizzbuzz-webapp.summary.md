@@ -589,4 +589,5 @@ E15:（D1.3.1/D1.3.2/D1.3.3 / GitHub版実Node・Chromium検証の限定証跡�
 - **実Node対Manifest:** A7/B9/C13/D8/E15＝52。既存36承認済み・16草案は維持。core3定義/Code.gs/旧HTMLは不変更。
 - **最終実装基準:** PR #1 HEAD `224802aa7511d26bd5036c2b600021ed556f7b85`、push CI https://github.com/chifuru/VAL/actions/runs/38486209105 とPR CI https://github.com/chifuru/VAL/actions/runs/38486213825 ともにsuccess。main merge `1ded76c1109e6b0f59fd70fe04f3429294d20b9a`。工程6追加テストは別途検証。
 - **回帰防止:** `tests/manifest-consistency.test.cjs` で登録件数・ID/status/親子・core等保護blob SHA・証跡参照をチェック。
+- **実行証跡:** `operations/evidence/stage6-manifest-reconciliation.md`（工程6監査、Node41/41・Chromium104/104、最終前HEAD fe801b88のGitHub Actions push/PR成功）。
 - **残作業:** 原画9高解像PNG、改善24 WebP、旧12真正器官、画質の人間目視、実GAS/実端末FPS、第四相。自動CIがPASSでも完成と呼ばない。
