@@ -2,7 +2,8 @@ name: FizzBuzz composite stage-5 checks
 on:
   push:
     branches:
-      - work/valis-full-mock-baseline-20261014
+      - main
+      - 'work/valis-*'
   pull_request:
     paths:
       - "gas-fizzbuzz-webapp/**"
