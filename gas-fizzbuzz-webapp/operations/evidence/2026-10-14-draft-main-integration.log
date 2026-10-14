@@ -1,0 +1,69 @@
+
+> gas-fizzbuzz-webapp@0.1.0 test
+> node --test tests/*.test.cjs
+
+✔ both distributable HTML files are identical and reproducible from editable source (34.013222ms)
+✔ all 68 embedded images and nine reference thumbnails survive without substitution (10.697259ms)
+✔ bundled v4.2 compositor matches app.js and keeps the two rendering modes distinct (0.44726ms)
+✔ bundled evolution engine, style, FizzBuzz UI, and legacy archive stay consistent (0.397767ms)
+✔ every lineage has an image for every declared organ level (including honest SVG drafts) (1.68128ms)
+✔ N contract and lineage-crossing use the real bundled evolution engine (3.358134ms)
+✔ v4.2 legacy-lineage portrait excludes a duplicate full juvenile body (1.023149ms)
+✔ v4.2 VALIS and antimeme retain the common body and independent organ sprites (0.178714ms)
+✔ legacy images are truthfully marked transitional mock portraits (0.1214ms)
+✔ embedded game has three script blocks and interactive creature UI (1.110918ms)
+✔ asset archive includes nine refs, 35 body/part PNGs and 24 lineage images (0.198453ms)
+✔ original FizzBuzz strings 1..N and priority remain unchanged (1.853594ms)
+✔ invalid seeds, inputs and malformed food are rejected (0.709547ms)
+✔ all fourteen lineages remain independently reachable at their niches (1.063509ms)
+✔ DNA has six immutable axes and birth is uncommitted (0.245212ms)
+✔ revelation lineage selects six LV organ images (1.689793ms)
+✔ anti-memory lineage selects five LV organ images (1.965329ms)
+✔ phase changes allow crossing without discarding acquired organs (2.597842ms)
+✔ phase thresholds remain 10 and 35, maturation 100; phase IV is not unlocked (1.941754ms)
+✔ maturation freezes the external part structure while N-row replay finishes (2.314545ms)
+✔ independent organs support LV0->LV1->LV2->LV3 at XP 0/1/6/16 (0.619935ms)
+✔ guided environment preset reaches all fourteen branches by ordinary niche scoring (17.356031ms)
+✔ exactly twelve older lineage draft organ families; no modern PNG replacement (3.490519ms)
+✔ all 36 provisional organ images decode to transparent SVG with different level geometry (1.6609ms)
+✔ draft fallback never overwrites an authored replacement (1.458161ms)
+✔ doGet returns Index HTML output and sets title (1.399064ms)
+✔ N=1 yields one numeric output (0.894629ms)
+✔ Fizz and Buzz are produced for 3 and 5 (0.124944ms)
+✔ N=15 emits FizzBuzz on the fifteenth value (0.182219ms)
+✔ N=16 has correct inclusive sequence (0.23671ms)
+✔ N=30 uses correct 15/3/5 priority (0.943252ms)
+✔ N=1000 is permitted and includes last number (3.048147ms)
+✔ invalid input is rejected on the server (1.482657ms)
+✔ HTML includes client-server call and failure handling (11.425473ms)
+✔ all 53 Node Files occur once in the Manifest structural index (1.69488ms)
+✔ all 53 Node Files and Manifest entries match the user-requested draft state (0.391578ms)
+✔ A/B/C/D hierarchy retains same-layer parent_id (0.502741ms)
+✔ E15 is structurally indexed, not newly registered or promoted in stage 6 (0.42721ms)
+✔ three core definitions, Code.gs and pixel legacy HTML match protected Git blob SHA-1 (1.758133ms)
+✔ E15 evidence names both successful final-head CI runs and actual main merge (0.294133ms)
+✔ Git mock inventory retains each PNG and reports provenance from actual source hashes (61.941762ms)
+✔ 68 recovered standalone image sources match the exact GAS inline bytes (29.316992ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 42
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 285.300726
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+
+> gas-fizzbuzz-webapp@0.1.0 check:assets
+> node tools/verify-composite-assets.cjs
+
+PASS: 68 byte-identical standalone assets (35 RGBA PNG, 24 WebP, 9 reference JPEG), total 2178777 bytes. Original C01-C09 PNGs and the improved v4.2 portraits are NOT verified.
+
+> gas-fizzbuzz-webapp@0.1.0 check:composite
+> node tools/build-composite-html.cjs --check
+
+PASS: two synchronized HTML files / 68 original images / SHA-256 8e6b0f7ee7a33b43cbb1c01b1477bc18ab4231f0baf9a65493c43fb0dc74d324

@@ -1,0 +1,384 @@
+{
+  "status": "draft",
+  "upstream_main": "822e6ea6015708bf887c9896fde8eb7d6288590d",
+  "files": [
+    {
+      "path": "design/26ed071b-5b13-4fdd-a1dd-222254579476.png",
+      "bytes": 2967906,
+      "sha256": "11c6a3f6e8dd20859e0e3454f253c59c97cac63360f21a7e10cbfb9f1208367c",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "design/3cdebf40-9477-4475-83bb-9374dc52254a.png",
+      "bytes": 2882796,
+      "sha256": "67c2d393c69bb23d18859061f8b59da4bfc0008b597ab1b6a325c0565a153697",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "design/3d2d37d8-f39c-4f35-8069-d69311aaf221.png",
+      "bytes": 2192808,
+      "sha256": "1d887e8d584d4c834644fbf9e55fe060c2d3ede93941c045a356810d7ea3c40a",
+      "dimensions": [
+        1672,
+        941
+      ]
+    },
+    {
+      "path": "design/53d97d03-72cf-4ff2-ae34-0657fac18699.png",
+      "bytes": 3041799,
+      "sha256": "c54ffdd201f81c2339099aabb02750fda6f6628dc3252e6fbe8838138f08096b",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "design/734b52df-1b8f-4f54-bb0d-1661937a0be7.png",
+      "bytes": 3068306,
+      "sha256": "8f46de42476648fc7ab282317f14edce78d874b52523d5c8c948d7fb92c417c1",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "design/753dd527-b3d6-4d52-8c78-158312898b0c.png",
+      "bytes": 2865506,
+      "sha256": "b15744a906fcbe84fd587b03be33bd6625aef83e7f5d79d9df101cf53e9284a9",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "design/9c24cc84-2786-4d6e-abbe-9cf9ffcb8c7e (1).png",
+      "bytes": 2965214,
+      "sha256": "4cded5b68cc3e2efeac53134054efe4e00e894f03bb6154962b3118d22807d82",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "design/9c24cc84-2786-4d6e-abbe-9cf9ffcb8c7e.png",
+      "bytes": 2965214,
+      "sha256": "4cded5b68cc3e2efeac53134054efe4e00e894f03bb6154962b3118d22807d82",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "design/VALIS異界生物観測UI-1.png",
+      "bytes": 2845973,
+      "sha256": "02e2feb3b8b4735759cb25f474d627044b1feb8ed1c742b46475fe453c6cf492",
+      "dimensions": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "path": "design/aaf4d324-1275-47b3-8408-eb0fdc4d613f.png",
+      "bytes": 2572043,
+      "sha256": "ce9b52573daef4690bedc448ce25bc890153eeffc1d0a270422f54747b667271",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "design/dcacae87-23c4-4b80-935d-6368128538f4 (1).png",
+      "bytes": 3021434,
+      "sha256": "b3ee595a6cd56b3bc9c4c347f69fa1af4b78e3e59f596867471d159d008a3508",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "design/dcacae87-23c4-4b80-935d-6368128538f4.png",
+      "bytes": 3021434,
+      "sha256": "b3ee595a6cd56b3bc9c4c347f69fa1af4b78e3e59f596867471d159d008a3508",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "design/e8593b9c-8284-4656-aa5f-bbd8a2f65809.png",
+      "bytes": 2853124,
+      "sha256": "96e0da84bbf011fb701f81483f693afae68803fce2c730c925e1f0a7d0a493b5",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "design/f06253ed-f13e-40b1-be35-2b931a028e0d.png",
+      "bytes": 3026136,
+      "sha256": "b30bf7c58554e24ce75c54365eefed85531caf6b5e56281a7aa2599150e05c6c",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "design/fde20a45-7cc1-4cf3-a06b-4911b0eed716.png",
+      "bytes": 2684728,
+      "sha256": "299e89784eeea5569fd29aced4df68d83b438178f9bdc7e3dff73b5c2c1f33e1",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    {
+      "path": "design/fizzbuzz_composite_parts_contact_sheet.png",
+      "bytes": 357669,
+      "sha256": "45cffc9779f1c4d856d9a1833c62e567e135effc0dafc0d8351542dee16c05cc",
+      "dimensions": [
+        1100,
+        912
+      ]
+    },
+    {
+      "path": "design/fizzbuzz_image_composite_antimeme_preview.png",
+      "bytes": 858832,
+      "sha256": "4f2bd573b1384fc8474245455589f430344e40fa6584a3a607f4d1878d0a0270",
+      "dimensions": [
+        1500,
+        1345
+      ]
+    },
+    {
+      "path": "design/fizzbuzz_image_composite_browser_preview.png",
+      "bytes": 894347,
+      "sha256": "9800fa0187c42535c21a278228a898080a05bcbe9660aa8599f41e74fc588d30",
+      "dimensions": [
+        1500,
+        1433
+      ]
+    },
+    {
+      "path": "design/fizzbuzz_image_composite_mobile_preview.png",
+      "bytes": 584103,
+      "sha256": "84abd37d3b865b2b92f2cec0e8f5029df599a671822d1575474e0552cc1573be",
+      "dimensions": [
+        420,
+        3549
+      ]
+    },
+    {
+      "path": "design/mock-stage7-parts-draft/assets/mock-origin/abyss-heritage-lv1.png",
+      "bytes": 6150,
+      "sha256": "8ced1b5f625408456e688d9cdfc5755e58c8a0cd5ba9b5502caff94291c2b1e5",
+      "dimensions": [
+        85,
+        52
+      ]
+    },
+    {
+      "path": "design/mock-stage7-parts-draft/assets/mock-origin/abyss-heritage-lv2.png",
+      "bytes": 10314,
+      "sha256": "47edf92a21e8b30353293ed4098388605351bbeee13d45da9acbd5a53b8e3ab1",
+      "dimensions": [
+        100,
+        61
+      ]
+    },
+    {
+      "path": "design/mock-stage7-parts-draft/assets/mock-origin/abyss-heritage-lv3.png",
+      "bytes": 9688,
+      "sha256": "655aa7b2e5b81aa338aee315e26fe89ebf6acd9b33f6252fc12044ec1ec6634a",
+      "dimensions": [
+        100,
+        64
+      ]
+    },
+    {
+      "path": "design/mock-stage7-parts-draft/assets/mock-origin/myth-heritage-lv1.png",
+      "bytes": 5157,
+      "sha256": "61cc1b645a35ab276919e290abe9563603058e30084af52e966d054abf231839",
+      "dimensions": [
+        100,
+        36
+      ]
+    },
+    {
+      "path": "design/mock-stage7-parts-draft/assets/mock-origin/myth-heritage-lv2.png",
+      "bytes": 6358,
+      "sha256": "25d76994c921edac02a34e445113e9af12f8feb0fc82f5e6ae84203ce289ebca",
+      "dimensions": [
+        100,
+        38
+      ]
+    },
+    {
+      "path": "design/mock-stage7-parts-draft/assets/mock-origin/myth-heritage-lv3.png",
+      "bytes": 6903,
+      "sha256": "91a59bd6d9cb12a3e626b161d344695b5b50537658d4d28a0140e4d522ad82ad",
+      "dimensions": [
+        100,
+        33
+      ]
+    },
+    {
+      "path": "design/mock-stage7-parts-draft/preview.png",
+      "bytes": 38037,
+      "sha256": "d923c09bdec17898b074831521bdf7988a5d13eb3c2dc4abca832fd980e32c24",
+      "dimensions": [
+        520,
+        500
+      ]
+    },
+    {
+      "path": "design/異形生命進化シミュレーション画面-2.png",
+      "bytes": 2668917,
+      "sha256": "5acbc4e1d42c74b2dd3970eeaf26519694bcb26ed1ad23d969c9079cfabda76a",
+      "dimensions": [
+        1536,
+        1024
+      ]
+    }
+  ],
+  "cutout_provenance": [
+    {
+      "lineage": "abyss",
+      "level": 1,
+      "path": "abyss-heritage-lv1.png",
+      "source": "aaf4d324-1275-47b3-8408-eb0fdc4d613f(1).png",
+      "source_sha256": "1c9bf89fc396a9a6b38b840a1acd4fc9c3801f8122138a2be0df3af0ef3eeb7f",
+      "crop_px": [
+        806,
+        833,
+        891,
+        885
+      ],
+      "image_px": [
+        85,
+        52
+      ],
+      "bytes": 6150,
+      "sha256": "8ced1b5f625408456e688d9cdfc5755e58c8a0cd5ba9b5502caff94291c2b1e5",
+      "alpha_coverage": 0.461,
+      "matching_uploaded_sources": [],
+      "source_verification": "unresolved: recorded source hash not present in design"
+    },
+    {
+      "lineage": "abyss",
+      "level": 2,
+      "path": "abyss-heritage-lv2.png",
+      "source": "aaf4d324-1275-47b3-8408-eb0fdc4d613f(1).png",
+      "source_sha256": "1c9bf89fc396a9a6b38b840a1acd4fc9c3801f8122138a2be0df3af0ef3eeb7f",
+      "crop_px": [
+        902,
+        819,
+        1012,
+        886
+      ],
+      "image_px": [
+        100,
+        61
+      ],
+      "bytes": 10314,
+      "sha256": "47edf92a21e8b30353293ed4098388605351bbeee13d45da9acbd5a53b8e3ab1",
+      "alpha_coverage": 0.652,
+      "matching_uploaded_sources": [],
+      "source_verification": "unresolved: recorded source hash not present in design"
+    },
+    {
+      "lineage": "abyss",
+      "level": 3,
+      "path": "abyss-heritage-lv3.png",
+      "source": "aaf4d324-1275-47b3-8408-eb0fdc4d613f(1).png",
+      "source_sha256": "1c9bf89fc396a9a6b38b840a1acd4fc9c3801f8122138a2be0df3af0ef3eeb7f",
+      "crop_px": [
+        1027,
+        806,
+        1152,
+        886
+      ],
+      "image_px": [
+        100,
+        64
+      ],
+      "bytes": 9688,
+      "sha256": "655aa7b2e5b81aa338aee315e26fe89ebf6acd9b33f6252fc12044ec1ec6634a",
+      "alpha_coverage": 0.574,
+      "matching_uploaded_sources": [],
+      "source_verification": "unresolved: recorded source hash not present in design"
+    },
+    {
+      "lineage": "myth",
+      "level": 1,
+      "path": "myth-heritage-lv1.png",
+      "source": "fde20a45-7cc1-4cf3-a06b-4911b0eed716(1).png",
+      "source_sha256": "e75bf8c1feeaf749b651e1deae9d527acab4dee3925fbf9203d9fcb5a2e6a12f",
+      "crop_px": [
+        155,
+        615,
+        335,
+        679
+      ],
+      "image_px": [
+        100,
+        36
+      ],
+      "bytes": 5157,
+      "sha256": "61cc1b645a35ab276919e290abe9563603058e30084af52e966d054abf231839",
+      "alpha_coverage": 0.437,
+      "matching_uploaded_sources": [],
+      "source_verification": "unresolved: recorded source hash not present in design"
+    },
+    {
+      "lineage": "myth",
+      "level": 2,
+      "path": "myth-heritage-lv2.png",
+      "source": "fde20a45-7cc1-4cf3-a06b-4911b0eed716(1).png",
+      "source_sha256": "e75bf8c1feeaf749b651e1deae9d527acab4dee3925fbf9203d9fcb5a2e6a12f",
+      "crop_px": [
+        372,
+        611,
+        553,
+        680
+      ],
+      "image_px": [
+        100,
+        38
+      ],
+      "bytes": 6358,
+      "sha256": "25d76994c921edac02a34e445113e9af12f8feb0fc82f5e6ae84203ce289ebca",
+      "alpha_coverage": 0.487,
+      "matching_uploaded_sources": [],
+      "source_verification": "unresolved: recorded source hash not present in design"
+    },
+    {
+      "lineage": "myth",
+      "level": 3,
+      "path": "myth-heritage-lv3.png",
+      "source": "fde20a45-7cc1-4cf3-a06b-4911b0eed716(1).png",
+      "source_sha256": "e75bf8c1feeaf749b651e1deae9d527acab4dee3925fbf9203d9fcb5a2e6a12f",
+      "crop_px": [
+        585,
+        610,
+        789,
+        678
+      ],
+      "image_px": [
+        100,
+        33
+      ],
+      "bytes": 6903,
+      "sha256": "91a59bd6d9cb12a3e626b161d344695b5b50537658d4d28a0140e4d522ad82ad",
+      "alpha_coverage": 0.665,
+      "matching_uploaded_sources": [],
+      "source_verification": "unresolved: recorded source hash not present in design"
+    }
+  ],
+  "note": "Inventory proves retained file identity, not visual quality or core C01-C09 mapping."
+}

@@ -1,0 +1,233 @@
+{
+  "base_commit": "822e6ea6015708bf887c9896fde8eb7d6288590d",
+  "files": [
+    {
+      "path": "gas-fizzbuzz-webapp/design/mockups/git-assets-inventory.json",
+      "sha256": "fc98915b7218cdc181f0a4e505350cc46f69c714756d755fb79726fbaf457289"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/tests/manifest-consistency.test.cjs",
+      "sha256": "6e3643b2cd7b19e4bbc470f32a77a20ca739cbae901296dd8b83b5c85f715da4"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/tests/mock-inventory.test.cjs",
+      "sha256": "0cbae02fe3898fbe38f0967cf74ce889a496c0ea7728e355f5f624c70b127cc6"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/A/A1.1.md",
+      "sha256": "d7798334ff015665f891490816d2b0876ca0b06f9023484d3452aaaa3ea840b4"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/A/A1.2.md",
+      "sha256": "0bb45ee3ea0c0398bdcf92b9cb116241d855f0d8df3a3719ec1cb3f7450b8968"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/A/A1.3.md",
+      "sha256": "ed75b71bc636530f775b4f77c5cc84f0110376c904af7f14611372f20fcca447"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/A/A1.4.md",
+      "sha256": "ff4754355073c8b564299b9fb094921efc1ae507e0007099394586ef49425c30"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/A/A1.5.md",
+      "sha256": "dec4e7316e434cf915b2c92be4ee45a3e4bf54ce95bb3bf5c2858727623954cc"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/A/A1.6.md",
+      "sha256": "592d0fd45ec7676df3bb7dac7442c97804d33acac065603282efeaf2ddc12361"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/A/A1.md",
+      "sha256": "0336c1930568524ef419bc00235d6fc08595ac3cb31ed69cbd0257310f4974ea"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/B/B1.1.md",
+      "sha256": "9d26f6286705ba7df5567452bfd471b6221ee566ea54e6576693c9efba369768"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/B/B1.2.md",
+      "sha256": "2ef997afa2df5f33230f0815fbee1e83f34e3ee9b845d7403fa1a4ae3aeecbc8"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/B/B1.3.md",
+      "sha256": "2e58d9c238639daae57c0c8936bf0201cf9185fd495ea13b55bfd1cb0e74fc35"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/B/B1.4.1.md",
+      "sha256": "42699daa91b3f9aeb78bc36e76ad1df6b713486ef453ff239341c9952c668bf8"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/B/B1.4.2.md",
+      "sha256": "45bdfc799e1a8cf0700c883a36b0199bc64df94cdf9b880a26f939fbf60914bb"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/B/B1.4.md",
+      "sha256": "5057d1ffc477346b5a89ceb939ff81d4ef069c1bd2532f072046da9c049fc740"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/B/B1.5.md",
+      "sha256": "376bf18ee890f129beb9e42c5cb5bde5707ff8e5a635b9af64973783d92357c7"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/B/B1.6.md",
+      "sha256": "e0428c204cab4ee5c73b9ca8d79940adc7e8bbd63a14f41d6de140d03220ef3d"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/B/B1.md",
+      "sha256": "554487e02dcbe1620742b14cdf737cb278a4290fbd50b96efe21469c8d301961"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/C/C1.1.md",
+      "sha256": "c701a5cfc3563e14f78907da9df48034614169b114cc971674e443f32de836a0"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/C/C1.2.md",
+      "sha256": "01d8ab2ad5d37f56b5767dc51ab7e1fbb567484f555c070159a048383f80052e"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/C/C1.3.md",
+      "sha256": "10446657147b8042fef78a9145784e629b7ca7b3fc0a09240176af55a888b919"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/C/C1.4.1.md",
+      "sha256": "8a11fdbf05459ceefd1f77d8f568274b2bb66557fcea94826eabbc199d937a63"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/C/C1.4.2.md",
+      "sha256": "573a131f612aa3d2ea1154b00c1749b363392eb44975caebd4a82b763f02abc4"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/C/C1.4.3.md",
+      "sha256": "fcd25a9dd1aaafcdb68d4e87bd45a55a613685591537655a63645b1ee24415ad"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/C/C1.4.md",
+      "sha256": "72e03e6137f661ad22f888bc6e40b756d9cf7c23276e6b73c7cea8ed648a11fc"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/C/C1.5.1.md",
+      "sha256": "fdfe8c6f352ed4b446a4554ff9fc06f384e282ef5b15b5968784d743395d0dbb"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/C/C1.5.2.md",
+      "sha256": "bef5c47e592574675702760556318c204461a5f1ae9b2e92bbbc9ea25d9c7be0"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/C/C1.5.3.md",
+      "sha256": "5fed0f2216c1a873dc67d663b5ac2ebb8daf78a5ff32bc6e9895a3d8558a0dec"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/C/C1.5.md",
+      "sha256": "270932cb510d30e419b06c4da593419fc91a845423ac16a93f0413c686a0a601"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/C/C1.6.md",
+      "sha256": "f777cbb9a144e309b772234811b51bfb94409a9a6f5f35c0efad3a8effbe1a1f"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/C/C1.md",
+      "sha256": "dd92407dcf39e63aa7a2d71d92e8116e5c93edd4f3de3abbf276ad9ffa3e4f64"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/D/D1.1.md",
+      "sha256": "0383423f8995f5a9f477efe23e0156244891ed5ddc3c1a91b2b5ab6f373235ef"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/D/D1.2.md",
+      "sha256": "2757a8963a68658279f29bb8606e987dffbd8126865a381ac84eca4fa8afdeec"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/D/D1.3.1.md",
+      "sha256": "ab09f40959201866b58b83afaa8e41737d9b2d44ec40d7ad836fa18b8fe45680"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/D/D1.3.2.md",
+      "sha256": "356de877fd6c1865e66d59a8c89996ef1506b39badd37f4a28a65531ba6d196f"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/D/D1.3.3.md",
+      "sha256": "d375a1462874b8f7e5879b06a204d6fb9eaa9a0151ed3b5712d7a02c28e43d79"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/D/D1.3.md",
+      "sha256": "c9b6e70e7c27b15045c4a8a4fb9c7eb923f055224f6b9fce99dba714dcc70d30"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/D/D1.4.md",
+      "sha256": "b8a9b0ff50aa11006247706bbf55a91595e76eeae4d52ed25a832d272d31fc21"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/D/D1.md",
+      "sha256": "7cbed1064916355bf6aed6ca569a268c6f6d9850e645edd0b2ef81e5a03f6944"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E1.md",
+      "sha256": "42736db9af56a29e01a6df5e736f65bc590b6f89c4bb0b048577bf598af43901"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E10.md",
+      "sha256": "010b1c8748879b8ac5334d2523e3bc4bc9078eb7c92b1556aca0f09b37445ca3"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E11.md",
+      "sha256": "c23eb0669bbcb3f846d41237f4b405e5a425488a6c6a9efd92b59c870177a455"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E12.md",
+      "sha256": "9d89e95abc80e8e31c7866d4451cf1f779b52bfbb0106ac09395c04b0de3bb64"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E13.md",
+      "sha256": "18d63ca597ffa2f82815e64c3081514e246dc67047ec01af13df638b77355c4c"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E14.md",
+      "sha256": "a547362d45399dd093f165fbcd9c28b8ec3d72fec26d51e441a9e97f11f8fd6e"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E15.md",
+      "sha256": "1eb482d438b94650e6382433c36739a4ffde8648ffe726863a12e605329a73d8"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E16.md",
+      "sha256": "c2a6756560493394b7c8eb62e5787dad5e7c2211ccc6f9766d4f5df799d26e16"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E2.md",
+      "sha256": "9f2ba13dcf1ce19ef46100a82ff93770deea916ff4e525f2ddb89dca6b559c7d"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E3.md",
+      "sha256": "b589a95bb0f50866729b126ed25ef5d96cb21adaae8e01592381b698ac1749df"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E4.md",
+      "sha256": "62e5f23369377f2848ffbd32718d9d07aa512c2af34f99726012c833cfde766e"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E5.md",
+      "sha256": "d7eb69e43762f7a2098ae9d31ce1469b0e3c634744fa3558cccbee3912238e6b"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E6.md",
+      "sha256": "0a785daca1a2ad536e7342c75f50eae4a1c67a94c353ec9c468e323fa09958b8"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E7.md",
+      "sha256": "61a29c72e7c878e0e06835f144bdb905bbb0f5717f814a116725891915974688"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E8.md",
+      "sha256": "dcad8bfd1a2dc0be97bc5d5b77709f2f0e8cac28a3fda21faa6dee547b80367d"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/nodes/E/E9.md",
+      "sha256": "8d1e164d48990ebb2b25a8d916551b3ea89a80b3f1d11fd259a3d29d57a7be36"
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/valis/summary/gas-fizzbuzz-webapp.summary.md",
+      "sha256": "55317c8f45c74a4752a305a61a534fc3aad67534d0e9c0220bf1f9c7c25a4080"
+    }
+  ]
+}

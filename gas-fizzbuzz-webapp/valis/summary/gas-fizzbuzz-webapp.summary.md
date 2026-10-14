@@ -5,7 +5,7 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 工程6で既存E15草案をE層構造索引へ反映し、52 Node File（A7/B9/C13/D8/E15）とManifest登録52件・36承認済み/16草案を照合。工程5最終HEAD224802aaのNode/Chromium CIは成功済み、PR #1はmainへ統合（merge 1ded76c）。旧12の36 SVGは原画切出しではない仮器官。原本9高解像PNG、v4.2改善24肖像、真のLv器官、画質目視、実GAS/端末、第四相は未完成。
+current_status: 全53ノードが草案（A7/B9/C13/D8/E16、承認済み0）。2026-10-14のユーザー指示による再設定。mainのdesign原画像20ファイルと切り出し草案6枚を保持。素材元SHA不一致、真正器官・画質・GAS・第四相は保留。過去の承認・検証記録は履歴として保持。
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
@@ -23,7 +23,7 @@ manifest_reflection_stage6: 52 Node Fileと構造索引の突合、E15索引追�
 manifest_reflection_stage4: C1.5.2/D1.3.2の工程4仮素材実装・品質未検証を草案反映。src/composite/draft-organ-sprites.jsとapp.js、ビルダー、両HTML、tests/draft-organ-sprites.test.cjsとbundle同期テスト、design/image-composite-stage4-draft.mdの追加更新。さらに既存の68データURIをassets/の独立バイナリへ完全一致で復元し台帳登録。tools/verify-composite-assets.cjs、tests/recovered-image-assets.test.cjs、design/stage4-asset-review.htmlを追加。GitHub読戻し限定検証はoperations/evidence/stage4-github-asset-inventory.mdを参照。Node増減0、承認/公開状態変更なし。
 manifest_reflection_stage3: C1.5.1とD1.3.1の実態・フラグ要約を更新。GitHub実行HTML2本同一blob 58143d97c89e00d8158b1ec0e18d83c1921a0843、再構築ツール/テスト作成、旧68画像保全、改善24画像未同期、Node CLI/ブラウザ/GAS未実施を明記。E14初期登録、総数50→51。承認状態変更なし。
 last_reflected_flow: 工程6 FLOW-06（main 1ded76cとNode/証跡/CI実体監査）→ FLOW-05（既存E15構造項目、C/D実態と保留フラグ、最終HEAD CI結果を要約反映）。
-unresolved_summary: 計52ノード（36承認済み、16草案＝E6〜E15の10とC1.5.1〜3/D1.3.1〜3の6）。工程5はmainに草案統合済み。最終HEAD224802aaでNode/Chromium成功、HTML2本のGit Blobは6199ddba、GAS未配信。旧12系統のSVG36は仮造形、v4.2改善肖像24と元9高解像PNG/元SHAは未同期。真正器官・人間の画質判断・実GAS/実端末FPS・第四相は未完。
+unresolved_summary: 全53ノードが草案（A7/B9/C13/D8/E16、承認済み0）。2026-10-14のユーザー指示による再設定。mainのdesign原画像20ファイルと切り出し草案6枚を保持。素材元SHA不一致、真正器官・画質・GAS・第四相は保留。過去の承認・検証記録は履歴として保持。
 
 ## 画像合成v3ローカル限定反映（2026-10-14、未承認）
 
@@ -81,209 +81,209 @@ A/B/C/D/Eを機械的に同数へ揃えず、実装・検証・証跡の独立�
 
 ## A: 仕様
 
-A1:（外部参照 / FizzBuzz GASアプリ統合仕様）［承認済み］
+A1:（外部参照 / FizzBuzz GASアプリ統合仕様）［草案］
 	構成（要素・関係）:
 		Node File: valis/nodes/A/A1.md。主所属: A層。起点ノード、parent_idなし。 。
 	ロジック:
 		出力不変・DNA・4種餌・3段階・成熟の仕様索引。
 	実態:
-		状態: 承認済み。処理フラグ: 実機評価/係数調整。次FLOW候補: FLOW-08。
+		状態: 草案。処理フラグ: 実機評価/係数調整。次FLOW候補: FLOW-08。
 
-	A1.1:（A1 / FizzBuzz入力と出力契約）［承認済み］
+	A1.1:（A1 / FizzBuzz入力と出力契約）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/A/A1.1.md。主所属: A層。parent_id: A1。 B1.1 / C1.1/C1.2。
 		ロジック:
 			N=1..1000の整数、返却は1..Nの文字列配列N件・出力形式不変。
 		実態:
-			状態: 承認済み。処理フラグ: GAS実機未検証。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: GAS実機未検証。次FLOW候補: FLOW-08。
 
-	A1.2:（A1 / 出力同期の自動再生仕様）［承認済み］
+	A1.2:（A1 / 出力同期の自動再生仕様）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/A/A1.2.md。主所属: A層。parent_id: A1。 B1.2 / C1.3。
 		ロジック:
 			1行1件再生、スキップ全文一致、成熟後もNまで再生。再生終了時にゲームリザルトモードへ移り、元ログは開閉可能。
 		実態:
-			状態: 承認済み。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
 
-	A1.3:（A1 / 4種餌の蓄積・調節・色彩と体積）［承認済み］
+	A1.3:（A1 / 4種餌の蓄積・調節・色彩と体積）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/A/A1.3.md。主所属: A層。parent_id: A1。 B1.3/B1.4.1 / C1.4.1/C1.4.2。
 		ロジック:
 			青/黄/紫の栄養餌と数字調節餌、色=栄養比率、体積=有効P。
 		実態:
-			状態: 承認済み。処理フラグ: 倍率と調節持続は暫定。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 倍率と調節持続は暫定。次FLOW候補: FLOW-08。
 
-	A1.4:（A1 / DNAと餌による3段階進化・分岐・成熟）［承認済み］
+	A1.4:（A1 / DNAと餌による3段階進化・分岐・成熟）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/A/A1.4.md。主所属: A層。parent_id: A1。 B1.4.2 / C1.4.3。
 		ロジック:
 			承認済みの3段階/4発達tier/P=10/35/100を保持。次期試作では各段階で〰/🜂/λの確定分岐を導入（試作未承認）。
 		実態:
-			状態: 承認済み。処理フラグ: 分岐/閾値は調整対象。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 分岐/閾値は調整対象。次FLOW候補: FLOW-08。
 
-	A1.5:（A1 / ピクセル生物の外見・演出）［承認済み］
+	A1.5:（A1 / ピクセル生物の外見・演出）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/A/A1.5.md。主所属: A層。parent_id: A1。 B1.5 / C1.5。
 		ロジック:
 			DNA特徴の継承、餌の色・体積・模様、承認済みのDNA/進化仕様。次期試作は有機的な滑らかCanvas 2D、系統マーク、触手/翼/枝状器官と8器官の特化成長を描画（未承認）。
 		実態:
-			状態: 承認済み。処理フラグ: 実ブラウザの視覚評価未実施。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 実ブラウザの視覚評価未実施。次FLOW候補: FLOW-08。
 
-	A1.6:（A1 / 入力数値N全体によるDNA生成）［承認済み］
+	A1.6:（A1 / 入力数値N全体によるDNA生成）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/A/A1.6.md。主所属: A層。parent_id: A1。 B1.6 / C1.6。
 		ロジック:
 			入力N全体の拡散混合+xorshift32の決定的6軸DNA。近いNでも違いを出し、入力時に新生魚をプレビュー。
 		実態:
-			状態: 承認済み。処理フラグ: DNA分布の評価対象。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: DNA分布の評価対象。次FLOW候補: FLOW-08。
 
 ## B: 機能
 
-B1:（外部参照 / FizzBuzz算出・再生・育成の機能索引）［承認済み］
+B1:（外部参照 / FizzBuzz算出・再生・育成の機能索引）［草案］
 	構成（要素・関係）:
 		Node File: valis/nodes/B/B1.md。主所属: B層。起点ノード、parent_idなし。 derived_from: A1。
 	ロジック:
 		入力/再生/4種餌/成長・進化/ピクセル/DNAの6機能群。
 	実態:
-		状態: 承認済み。処理フラグ: 暫定パラメータの評価。次FLOW候補: FLOW-08。
+		状態: 草案。処理フラグ: 暫定パラメータの評価。次FLOW候補: FLOW-08。
 
-	B1.1:（B1 / 入力検証とGAS計算通信）［承認済み］
+	B1.1:（B1 / 入力検証とGAS計算通信）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/B/B1.1.md。主所属: B層。parent_id: B1。 derived_from: A1.1; implements側: C1.1/C1.2。
 		ロジック:
 			Nの検証とFizzBuzz算出要求・エラー処理。
 		実態:
-			状態: 承認済み。処理フラグ: 実機通信未検証。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 実機通信未検証。次FLOW候補: FLOW-08。
 
-	B1.2:（B1 / 出力行再生と操作）［承認済み］
+	B1.2:（B1 / 出力行再生と操作）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/B/B1.2.md。主所属: B層。parent_id: B1。 derived_from: A1.2; implements側: C1.3。
 		ロジック:
 			逐次出力・停止/再開/スキップ・低モーション。終了時のゲーム結果モードとログ開閉/再育成を提供。
 		実態:
-			状態: 承認済み。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
 
-	B1.3:（B1 / 4種餌の分類と調節履歴）［承認済み］
+	B1.3:（B1 / 4種餌の分類と調節履歴）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/B/B1.3.md。主所属: B層。parent_id: B1。 derived_from: A1.3; implements側: C1.4.1。
 		ロジック:
 			3種栄養と数字餌を排他的に集計。
 		実態:
-			状態: 承認済み。処理フラグ: 数学的バランスの調整。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 数学的バランスの調整。次FLOW候補: FLOW-08。
 
-	B1.4:（B1 / 成長・進化・成熟判定の機能索引）［承認済み］
+	B1.4:（B1 / 成長・進化・成熟判定の機能索引）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/B/B1.4.md。主所属: B層。parent_id: B1。 derived_from: A1.4; implements側: C1.4。
 		ロジック:
 			成長演算と進化・成熟判定を子機能に分割。
 		実態:
-			状態: 承認済み。処理フラグ: 閾値・重みは暫定。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 閾値・重みは暫定。次FLOW候補: FLOW-08。
 
-		B1.4.1:（B1.4 / 調節を反映した有効成長P）［承認済み］
+		B1.4.1:（B1.4 / 調節を反映した有効成長P）［草案］
 			構成（要素・関係）:
 				Node File: valis/nodes/B/B1.4.1.md。主所属: B層。parent_id: B1.4。 derived_from: A1.3/A1.4; implements側: C1.4.2。
 			ロジック:
 				数字餌の剰余・次の栄養1回・倍率0.75/1.25。
 			実態:
-				状態: 承認済み。処理フラグ: 持続・効率は暫定。次FLOW候補: FLOW-08。
+				状態: 草案。処理フラグ: 持続・効率は暫定。次FLOW候補: FLOW-08。
 
-		B1.4.2:（B1.4 / 段階進化・分岐・完全成熟）［承認済み］
+		B1.4.2:（B1.4 / 段階進化・分岐・完全成熟）［草案］
 			構成（要素・関係）:
 				Node File: valis/nodes/B/B1.4.2.md。主所属: B層。parent_id: B1.4。 derived_from: A1.4; implements側: C1.4.3。
 			ロジック:
 				3段階・成熟100P・Lispエイリアン等への種族分岐。
 			実態:
-				状態: 承認済み。処理フラグ: 造形と閾値は暫定。次FLOW候補: FLOW-08。
+				状態: 草案。処理フラグ: 造形と閾値は暫定。次FLOW候補: FLOW-08。
 
-	B1.5:（B1 / 生き物のピクセル描画）［承認済み］
+	B1.5:（B1 / 生き物のピクセル描画）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/B/B1.5.md。主所属: B層。parent_id: B1。 derived_from: A1.5; implements側: C1.5。
 		ロジック:
 			魚の尾・ひれ、陸生の四肢、宇宙の触角などのドット部品、4種餌、成熟後固定と最終肖像表示。
 		実態:
-			状態: 承認済み。処理フラグ: 実機視覚品質未評価。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 実機視覚品質未評価。次FLOW候補: FLOW-08。
 
-	B1.6:（B1 / 数値シードによるDNA構築）［承認済み］
+	B1.6:（B1 / 数値シードによるDNA構築）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/B/B1.6.md。主所属: B層。parent_id: B1。 derived_from: A1.6; implements側: C1.6。
 		ロジック:
 			N全体から6軸DNAを決定的生成。
 		実態:
-			状態: 承認済み。処理フラグ: 分布を評価。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 分布を評価。次FLOW候補: FLOW-08。
 
 ## C: 実装
 
-C1:（外部参照 / GAS HTMLサービスと生物実装統合）［承認済み］
+C1:（外部参照 / GAS HTMLサービスと生物実装統合）［草案］
 	構成（要素・関係）:
 		Node File: valis/nodes/C/C1.md。主所属: C層。起点ノード、parent_idなし。 implements: B1。
 	ロジック:
 		Code.gsとIndex.htmlの実装索引。Code.gsの出力契約維持。
 	実態:
-		状態: 承認済み。処理フラグ: GAS実機未検証。次FLOW候補: FLOW-08。
+		状態: 草案。処理フラグ: GAS実機未検証。次FLOW候補: FLOW-08。
 
-	C1.1:（C1 / GASサーバーFizzBuzz算出）［承認済み］
+	C1.1:（C1 / GASサーバーFizzBuzz算出）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/C/C1.1.md。主所属: C層。parent_id: C1。 implements: B1.1。
 		ロジック:
 			src/Code.gsは旧版から変更せず、N件の文字列配列を返す。
 		実態:
-			状態: 承認済み。処理フラグ: GAS実機未検証。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: GAS実機未検証。次FLOW候補: FLOW-08。
 
-	C1.2:（C1 / 入力・GAS通信・エラー処理）［承認済み］
+	C1.2:（C1 / 入力・GAS通信・エラー処理）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/C/C1.2.md。主所属: C層。parent_id: C1。 implements: B1.1。
 		ロジック:
 			src/Index.htmlの入力検証・google.script.run。
 		実態:
-			状態: 承認済み。処理フラグ: 実機未検証。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 実機未検証。次FLOW候補: FLOW-08。
 
-	C1.3:（C1 / 自動再生状態機械）［承認済み］
+	C1.3:（C1 / 自動再生状態機械）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/C/C1.3.md。主所属: C層。parent_id: C1。 implements: B1.2。
 		ロジック:
 			逐次処理・スキップ・低モーション、finish→presentFinal→setMode('result')、ログ開閉・再育成時の初期化。
 		実態:
-			状態: 承認済み。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
 
-	C1.4:（C1 / 餌・調節・成長・進化の実装群）［承認済み］
+	C1.4:（C1 / 餌・調節・成長・進化の実装群）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/C/C1.4.md。主所属: C層。parent_id: C1。 implements: B1.3/B1.4。
 		ロジック:
 			C1.4.1～C1.4.3の統合索引、src/Index.html。
 		実態:
-			状態: 承認済み。処理フラグ: 係数・種族造形は暫定。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 係数・種族造形は暫定。次FLOW候補: FLOW-08。
 
-		C1.4.1:（C1.4 / 4種餌排他的分類・集計）［承認済み］
+		C1.4.1:（C1.4 / 4種餌排他的分類・集計）［草案］
 			構成（要素・関係）:
 				Node File: valis/nodes/C/C1.4.1.md。主所属: C層。parent_id: C1.4。 implements: B1.3。
 			ロジック:
 				classify/stepGrowthで3栄養＋数字調節を分類。
 			実態:
-				状態: 承認済み。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
+				状態: 草案。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
 
-		C1.4.2:（C1.4 / 数論的調節・成長ポイント演算）［承認済み］
+		C1.4.2:（C1.4 / 数論的調節・成長ポイント演算）［草案］
 			構成（要素・関係）:
 				Node File: valis/nodes/C/C1.4.2.md。主所属: C層。parent_id: C1.4。 implements: B1.4.1。
 			ロジック:
 				modifierFor/stepGrowthで最新数字の効果を次の栄養1回に適用。
 			実態:
-				状態: 承認済み。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
+				状態: 草案。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
 
-		C1.4.3:（C1.4 / 3段階・形態選択・成熟時外見固定）［承認済み］
+		C1.4.3:（C1.4 / 3段階・形態選択・成熟時外見固定）［草案］
 			構成（要素・関係）:
 				Node File: valis/nodes/C/C1.4.3.md。主所属: C層。parent_id: C1.4。 implements: B1.4.2。
 			ロジック:
 				既存branchFor/growthForに加え、次期試作lineageForで〰/🜂/λの段階入場時の系統を確定。成熟時のappearance固定を維持。
 			実態:
-				状態: 承認済み。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
+				状態: 草案。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
 
-	C1.5:（C1 / Canvasピクセル生物・餌演出）［承認済み］
+	C1.5:（C1 / Canvasピクセル生物・餌演出）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/C/C1.5.md。主所属: C層。parent_id: C1。 implements: B1.5。
 		ロジック:
 			次期試作のsmoothOrganismは256×256 Canvasにベジェ曲線・グラデーション・触手/翼膜/再帰枝を描画する。旧32格子はフォールバック用。
 		実態:
-			状態: 承認済み。処理フラグ: 本物の見た目は未検証。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 本物の見た目は未検証。次FLOW候補: FLOW-08。
 
 		C1.5.1:（C1.5, B1.5 / 編集ソースとGAS実行HTMLの再生成・版同期実装）［草案］
 			構成（要素・関係）:
@@ -309,47 +309,47 @@ C1:（外部参照 / GAS HTMLサービスと生物実装統合）［承認済み
 			実態:
 				状態: 草案。Chromiumで14系統図鑑とLv0/Lv3差、PC1440px/420px疑似モバイル、N15/1000ローカル再生、不正GAS stub拒否を検証。原画UIとの目視照合・実モバイル/全アクセシビリティ・GAS実配信は保留。
 
-	C1.6:（C1 / 入力Nから決定的6軸DNA）［承認済み］
+	C1.6:（C1 / 入力Nから決定的6軸DNA）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/C/C1.6.md。主所属: C層。parent_id: C1。 implements: B1.6。
 		ロジック:
 			DNAの6軸/Nシードは維持。次期試作organForで8器官量と出生時固定の主・副特化を生成する。
 		実態:
-			状態: 承認済み。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
 
 ## D: 検証計画
 
-D1:（外部参照 / 生物育成と出力不変の検証計画）［承認済み］
+D1:（外部参照 / 生物育成と出力不変の検証計画）［草案］
 	構成（要素・関係）:
 		Node File: valis/nodes/D/D1.md。主所属: D層。起点ノード、parent_idなし。 verifies: A/B/C。
 	ロジック:
 		D1.1～D1.4へ独立した検証観点を委譲。
 	実態:
-		状態: 承認済み。処理フラグ: GAS実機未検証。次FLOW候補: FLOW-08。
+		状態: 草案。処理フラグ: GAS実機未検証。次FLOW候補: FLOW-08。
 
-	D1.1:（D1 / FizzBuzz出力契約回帰）［承認済み］
+	D1.1:（D1 / FizzBuzz出力契約回帰）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/D/D1.1.md。主所属: D層。parent_id: D1。 verifies: A1.1/A1.2/B1.1/B1.2/C1.1/C1.3。
 		ロジック:
 			出力不変・成熟してもN行完走・エラー系。
 		実態:
-			状態: 承認済み。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
 
-	D1.2:（D1 / DNA・餌・進化・成熟ロジック）［承認済み］
+	D1.2:（D1 / DNA・餌・進化・成熟ロジック）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/D/D1.2.md。主所属: D層。parent_id: D1。 verifies: A1.3/A1.4/A1.6/B1.3/B1.4/C1.4/C1.6。
 		ロジック:
 			旧検証計画に次期3系統の到達性/系統固定、8器官の主副特化と成長量、成熟後外見固定の観点を追記。
 		実態:
-			状態: 承認済み。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: モックテスト対象。次FLOW候補: FLOW-08。
 
-	D1.3:（D1 / 再生・Canvasモック・操作）［承認済み］
+	D1.3:（D1 / 再生・Canvasモック・操作）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/D/D1.3.md。主所属: D層。parent_id: D1。 verifies: A1.2/A1.5/B1.2/B1.5/C1.3/C1.5。
 		ロジック:
 			次期3系統×3段階のCanvas曲線命令の差、記号/特化HUD・系譜、低モーション/結果画面/FizzBuzz出力不変を検証。
 		実態:
-			状態: 承認済み。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 実ブラウザ未検証。次FLOW候補: FLOW-08。
 
 		D1.3.1:（D1.3, C1.5.1 / 編集ソース・実行HTML版一致とGAS受渡しの検証計画）［草案］
 			構成（要素・関係）:
@@ -375,55 +375,55 @@ D1:（外部参照 / 生物育成と出力不変の検証計画）［承認済�
 			実態:
 				状態: 草案。Chromium14系統図鑑、PC/420pxのローカル再生N15/1000、不正GAS応答拒否、JS例外0をE15で確認。GAS実通信/端末、完全なキーボード・読み上げとUI原画一致、FPSは未検証。
 
-	D1.4:（D1 / GAS実環境・画面品質）［承認済み］
+	D1.4:（D1 / GAS実環境・画面品質）［草案］
 		構成（要素・関係）:
 			Node File: valis/nodes/D/D1.4.md。主所属: D層。parent_id: D1。 verifies: C1.1/C1.2/C1.3/C1.5/C1.6。
 		ロジック:
 			GAS HtmlServiceと実通信・Canvas画面の確認計画。
 		実態:
-			状態: 承認済み。処理フラグ: 未実施。次FLOW候補: FLOW-08。
+			状態: 草案。処理フラグ: 未実施。次FLOW候補: FLOW-08。
 
 ## E: 検証証跡
 
-E1:（外部参照 / 旧実装に対するV8モック証跡）［承認済み］
+E1:（外部参照 / 旧実装に対するV8モック証跡）［草案］
 	構成（要素・関係）:
 		Node File: valis/nodes/E/E1.md。主所属: E層。起点ノード、parent_idなし。 evidence_for: D1/C1（旧版）。
 	ロジック:
 		旧ソースの15テスト成功記録、新実装版の証明には使用しない。
 	実態:
-		状態: 承認済み。処理フラグ: 対象旧版に限定。次FLOW候補: FLOW-08。
+		状態: 草案。処理フラグ: 対象旧版に限定。次FLOW候補: FLOW-08。
 
-E2:（外部参照 / 前版DNA・4種餌・成熟のV8モック証跡）［承認済み］
+E2:（外部参照 / 前版DNA・4種餌・成熟のV8モック証跡）［草案］
 	構成（要素・関係）:
 		Node File: valis/nodes/E/E2.md。主所属: E層。起点ノード、parent_idなし。 evidence_for: D1.1/D1.2/D1.3（新版）。
 	ロジック:
 		指定GitHub blobのテスト25件がV8互換モックで成功、失敗0。
 	実態:
-		状態: 承認済み。処理フラグ: 実npm test/GAS実機未実施。次FLOW候補: FLOW-08。
+		状態: 草案。処理フラグ: 実npm test/GAS実機未実施。次FLOW候補: FLOW-08。
 
-E3:（外部参照 / 改良ピクセル描画・最終形態カードのV8モック証跡）［承認済み］
+E3:（外部参照 / 改良ピクセル描画・最終形態カードのV8モック証跡）［草案］
 	構成（要素・関係）:
 		Node File: valis/nodes/E/E3.md。主所属: E層。起点ノード、parent_idなし。evidence_for: D1.1/D1.2/D1.3, C1.3/C1.5。
 	ロジック:
 		最終描画版のGitHub src/test blobを対象に30件のモックV8テストを実行し、成功30・失敗0。終了時のカード表示・未成熟/成熟の区別、スキップ/低モーション一致、3形態の描画差を検証。
 	実態:
-		状態: 承認済み。Node.js実ランナー・GAS/実ブラウザ表示・目視品質は未検証。次FLOW候補: FLOW-08。
+		状態: 草案。Node.js実ランナー・GAS/実ブラウザ表示・目視品質は未検証。次FLOW候補: FLOW-08。
 
-E4:（外部参照 / ゲームリザルト二画面UI・FizzBuzz回帰V8モック証跡）［承認済み］
+E4:（外部参照 / ゲームリザルト二画面UI・FizzBuzz回帰V8モック証跡）［草案］
 	構成（要素・関係）:
 		Node File: valis/nodes/E/E4.md。主所属: E層。起点ノード、parent_idなし。evidence_for: D1.1/D1.2/D1.3, C1.3/C1.5。
 	ロジック:
 		ゲーム結果画面版のGitHub src/test blobを対象にV8互換モック36件成功・0件失敗。モード切替/成熟限定称号/ログ開閉/再育成/スキップ/低モーションと出力維持を検証。
 	実態:
-		状態: 承認済み。実Node npm test・GAS/ブラウザ実機・目視デザイン品質は未検証。次FLOW候補: FLOW-08。
+		状態: 草案。実Node npm test・GAS/ブラウザ実機・目視デザイン品質は未検証。次FLOW候補: FLOW-08。
 
-E5:（外部参照 / DNA初期差・形態分岐・発達tier改善のV8モック検証証跡）［承認済み］
+E5:（外部参照 / DNA初期差・形態分岐・発達tier改善のV8モック検証証跡）［草案］
 	構成（要素・関係）:
 		Node File: valis/nodes/E/E5.md。主所属: E層。起点ノード、parent_idなし。evidence_for: D1.1/D1.2/D1.3, C1.4.3/C1.5/C1.6。
 	ロジック:
 		現在のGitHub src/test blobに対してV8モック46件成功・失敗0。DNA近傍Nでの差、各進化段階の3系統分岐、4発達tier、系譜・プレビュー、FizzBuzz出力不変を検証。
 	実態:
-		状態: 承認済み。実Node npm test、GAS・ブラウザの目視品質/アクセシビリティは未検証。次FLOW候補: FLOW-08。
+		状態: 草案。実Node npm test、GAS・ブラウザの目視品質/アクセシビリティは未検証。次FLOW候補: FLOW-08。
 
 E6:（外部参照 / 有機Canvas・3系統・器官特化のV8モック証跡）［草案］
 	構成（要素・関係）:
@@ -591,3 +591,25 @@ E15:（D1.3.1/D1.3.2/D1.3.3 / GitHub版実Node・Chromium検証の限定証跡�
 - **回帰防止:** `tests/manifest-consistency.test.cjs` で登録件数・ID/status/親子・core等保護blob SHA・証跡参照をチェック。
 - **実行証跡:** `operations/evidence/stage6-manifest-reconciliation.md`（工程6監査、Node41/41・Chromium104/104、最終前HEAD fe801b88のGitHub Actions push/PR成功）。
 - **残作業:** 原画9高解像PNG、改善24 WebP、旧12真正器官、画質の人間目視、実GAS/実端末FPS、第四相。自動CIがPASSでも完成と呼ばない。
+
+
+## 2026-10-14 現在状態と統合方針
+
+- 現在状態: 全53ノード草案、承認済み0。既存16草案は維持、既存36承認済みを今回の明示指示により草案へ戻す。過去の承認記録は現在状態ではない。
+- FLOW-09状態変更決定→FLOW-05正式反映。承認済み→草案は今回だけの明示指示による例外で、core定義は変更しない。
+- Manifest初期登録: なし（新規ノードなし）。Manifest反映: 36既存ノードの状態および現在状態要約。
+- 統合先: Git main / gas-fizzbuzz-webapp/。design/ が提示済みモックの配置先。外側のmock-stage7-parts-draftは全9ファイルがdesign内コピーと同一で、正本を残して重複配置を解消。
+- モック資産台帳: design/mockups/git-assets-inventory.json。新しいモック・派生画像も原本と出所を区別してこのプロジェクト内のGitに保存する。
+- 切り出し6枚は元画像SHAが現在配置と不一致。草案として保全し、完成素材・出所確認済みとは扱わない。
+- 状態変更によるA/B/C/D/Eの新規分割: 不要。責務・ID・層間参照・実装動作は不変更。画像実装変更の粒度は別途確認する。
+
+
+## 2026-10-14 E16初期登録
+
+E16:（D1.3.2, C1.5.2 / 草案状態とGitモック配置整合の検証証跡）［草案］
+	構成（要素・関係）:
+		Node File: valis/nodes/E/E16.md。E層独立起点、parent_idなし。evidence_for: D1.3.2。related_to: C1.5.2。証跡: operations/evidence/2026-10-14-draft-main-integration.md。
+	ロジック:
+		提示PNGの実体と台帳、草案状態と構造索引、保護ファイルの整合を確認する。
+	実態:
+		草案。原本SHA不一致・画質・GASは保留。現在総数53（全草案）。初期登録: E16。反映: 36状態変更とC1.5.2/D1.3.2。次FLOW候補: FLOW-04/08（素材照合後）。
