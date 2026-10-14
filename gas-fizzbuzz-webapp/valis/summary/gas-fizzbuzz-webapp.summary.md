@@ -5,7 +5,7 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 工程6で既存E15草案をE層構造索引へ反映し、52 Node File（A7/B9/C13/D8/E15）とManifest登録52件・36承認済み/16草案を照合。工程5最終HEAD224802aaのNode/Chromium CIは成功済み、PR #1はmainへ統合（merge 1ded76c）。旧12の36 SVGは原画切出しではない仮器官。原本9高解像PNG、v4.2改善24肖像、真のLv器官、画質目視、実GAS/端末、第四相は未完成。
+current_status: 工程7便1の草案実装：既存C01/C02の縮小参考JPEGからレベル別の実画素透過PNG6点をブラウザで生成し、深淵・神鳥の仮SVG6点を限定置換。残10系統の30 SVG仮器官、VALIS/反記銘の33 PNG、既存68画像は維持。GitHub Actions Node45/45・Chromium104/104・14系統Lv差は検証成功（E16）。計53 Node（A7/B9/C13/D8/E16、36承認済み/17草案）。添付原寸PNGの本流バイナリ反映・真の全器官分解・元9原本PNG/改善24・目視/GAS/第四相は未完。
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
@@ -14,16 +14,18 @@ initial_registration_this_change: E13（14系統肖像分離・24派生画像の
 manifest_reflection_this_change: C1.5/D1.3の未承認v4.2追記、src/composite/app.jsの二重描画防止、tests/composite-v42-render-source.test.cjs、design/image-composite-v42-quality-pass.md、E13の初期登録。GitHub実行Index.htmlの旧v4.1継続を明記。
 initial_registration_stage2: C1.5.1, C1.5.2, C1.5.3, D1.3.1, D1.3.2, D1.3.3（すべて草案。新規Node FileをProject Summary Manifestへ初登録）。
 manifest_reflection_stage2: 既存Project Summary Manifestの総数44→50・ノード階層・参照・残存処理フラグの要約を更新。既存ノード自体の承認状態、src、tests、E層の版・証跡有効性は変更なし。
-last_structural_flow: 工程5 FLOW-05（E15草案初期登録）→ 工程6 FLOW-06/05（実体52と索引51の差を確認、E15構造索引追補。新規Node ID・状態遷移なし）。
+last_structural_flow: 工程6 FLOW-06/05（52実Node/E15索引一致）→ 工程7便1 FLOW-04/08（C01/C02の6点切出し、Node45/45・Chromium）→ FLOW-05（E16草案初期登録、Manifest53件へ反映）。
 initial_registration_stage3: E14（D1.3.1/C1.5.1 GitHub実行HTML同期・V8限定検証の独立証跡、草案）。
 initial_registration_stage5: E15（GitHub実装コミット c37e107 のNode/Chromium実検証の独立E層証跡、草案。`operations/evidence/stage5-ci-node-chromium.md`参照）。
 manifest_reflection_stage5: `npm test` 35/35、68バイナリ・2HTML一致、実Chromium104画像ロードと14系統Lv0/Lv3差、FizzBuzz N15/1000、420pxと不正応答拒否。スクリーンショット3点/JSON artifact保存。D1.3.1〜3の限定ゲートは実行済み、GASと原画画質は未認定。E15初期登録により51→52ノード。core3定義と36承認済み状態不変。工程6最終差分照合はまだ行わない。
 initial_registration_stage6: なし（E15は工程5でNode Fileと上部初期登録済み。工程6は構造索引の反映漏れを修正、新規Node IDなし）。
 manifest_reflection_stage6: 52 Node Fileと構造索引の突合、E15索引追加、C1.5.1〜3/D1.3.1〜3の実検証済み範囲と残存ゲート、E14歴史版の区別、工程5最終CI/PR #1 main統合を反映。Manifest自動整合テスト追加。core3定義と承認状態不変。
+initial_registration_stage7: E16（C01/C02 JPEG切出し6画像＋実Chromium/Node45 PASSの草案・独立E層Node。初期登録であり既存E15の状態は変更なし）。
+manifest_reflection_stage7: C1.5.1〜3/D1.3.1〜3 のモック切出しを草案反映。src/composite/mock-atlas-sprites.jsとapp.js/ビルダー/2HTML/test/plan/evidenceに紐づき、52→53 Node、36承認済み/17草案。元68バイナリとcore3定義・Code.gsは維持。
 manifest_reflection_stage4: C1.5.2/D1.3.2の工程4仮素材実装・品質未検証を草案反映。src/composite/draft-organ-sprites.jsとapp.js、ビルダー、両HTML、tests/draft-organ-sprites.test.cjsとbundle同期テスト、design/image-composite-stage4-draft.mdの追加更新。さらに既存の68データURIをassets/の独立バイナリへ完全一致で復元し台帳登録。tools/verify-composite-assets.cjs、tests/recovered-image-assets.test.cjs、design/stage4-asset-review.htmlを追加。GitHub読戻し限定検証はoperations/evidence/stage4-github-asset-inventory.mdを参照。Node増減0、承認/公開状態変更なし。
 manifest_reflection_stage3: C1.5.1とD1.3.1の実態・フラグ要約を更新。GitHub実行HTML2本同一blob 58143d97c89e00d8158b1ec0e18d83c1921a0843、再構築ツール/テスト作成、旧68画像保全、改善24画像未同期、Node CLI/ブラウザ/GAS未実施を明記。E14初期登録、総数50→51。承認状態変更なし。
-last_reflected_flow: 工程6 FLOW-06（main 1ded76cとNode/証跡/CI実体監査）→ FLOW-05（既存E15構造項目、C/D実態と保留フラグ、最終HEAD CI結果を要約反映）。
-unresolved_summary: 計52ノード（36承認済み、16草案＝E6〜E15の10とC1.5.1〜3/D1.3.1〜3の6）。工程5はmainに草案統合済み。最終HEAD224802aaでNode/Chromium成功、HTML2本のGit Blobは6199ddba、GAS未配信。旧12系統のSVG36は仮造形、v4.2改善肖像24と元9高解像PNG/元SHAは未同期。真正器官・人間の画質判断・実GAS/実端末FPS・第四相は未完。
+last_reflected_flow: 工程7便1 FLOW-06（ユーザー添付モック/縮小JPEG出所の区別）→ FLOW-04（2系統×3Lv切出しアプリ実装）→ FLOW-08（CI45件/Chromium104画像）→ FLOW-05（E16証跡、C/D/M実態反映）。
+unresolved_summary: 計53ノード：既存36承認済み、17草案（C1.5.1〜3/D1.3.1〜3とE6〜E16の11）。旧12系統のうち2系統の6 PNGは中核JPEG縮小見本から実ブラウザCanvas生成、残10系統30 SVG仮器官。既存68ソース画像と新2系統33PNGは不変。ユーザー添付の原寸1448pxモックからの6切出しは会話側ZIPにのみ保存しておりGitHub未同期。旧12の真正部位分解、原本9高解像PNG・改良24WebP、完全画質評価、実GAS/実端末FPS/第四相は未完。
 
 ## 画像合成v3ローカル限定反映（2026-10-14、未承認）
 
@@ -75,7 +77,7 @@ unresolved_summary: 計52ノード（36承認済み、16草案＝E6〜E15の10�
 
 ## Node構造・参照要約
 
-親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.5.1/2/3はC1.5の子。C1.6はC1の子。D1.3.1/2/3はD1.3の子、D1.1〜4はD1の子。E1〜E15は検証版ごとに独立した起点。E15は工程5の実Node/Chromium検証であり、歴史版E14の証跡を置換しない。
+親子関係: 同一層のID階層に従い、B1.4.1/2はB1.4の子、C1.4.1/2/3はC1.4の子。C1.5.1/2/3はC1.5の子。C1.6はC1の子。D1.3.1/2/3はD1.3の子、D1.1〜4はD1の子。E1〜E16は検証版ごとに独立した起点。E15は工程5の実Node/Chromium検証であり、歴史版E14の証跡を置換しない。
 層間関係: derived_from / implements / verifies / evidence_for による意味接続のみ（層間parent_idは禁止）。
 A/B/C/D/Eを機械的に同数へ揃えず、実装・検証・証跡の独立単位に応じて分割する。
 
@@ -506,6 +508,14 @@ E15:（D1.3.1/D1.3.2/D1.3.3 / GitHub版実Node・Chromium検証の限定証跡�
 	実態:
 		状態: 草案。工程5初期登録済み、工程6はManifest構造索引へ反映。PR #1はmain統合済み（merge 1ded76c）。原本9 PNG/改善24肖像・旧12真正器官・実GAS・画質目視/端末は未検証、第四相未実装。次FLOW候補: FLOW-08（残ゲート）。
 
+E16:（D1.3.1/D1.3.2/D1.3.3 / C01/C02参考JPEGの透過Lv器官化と実Chromium限定証跡）［草案］
+	構成（要素・関係）:
+		Node File: valis/nodes/E/E16.md。主所属: E層、parent_idなし。evidence_for: D1.3.1/D1.3.2/D1.3.3。対象版: PR #3 のHEAD 944e44084016a5d7f967140f58b891b601419790。
+	ロジック:
+		Node45/45と既存68画像一致、配布2HTMLの再生成、ChromiumのC01/C02縮小JPEG由来6 PNG切出し・残30 SVG、全104画像decode・14系統Lv差、N15/1000・420pxを実検証。一次記録: operations/evidence/stage7-mock-cutout-browser.md。
+	実態:
+		状態: 草案。元9高解像PNGや今回ユーザー添付1448pxのPNGそのものはGitHubに未搭載。二つの系統は低解像のJPEG見本由来であり真の部位分解完成ではない。既存33PNG・core定義と36承認済み状態を維持。NEXT: 原寸資産の保全/再抽出・画質/実GAS。
+
 ## FLOW-09 状態変更決定 / FLOW-05 正式反映（2026-10-13）
 
 - **対象範囲**: A層7、B層9、C層10、D層5、E層5、計36件。いずれも既存Node Fileの「草案→承認済み」。承認済みへの直接遷移はFLOW-09の遷移表で許容され、必要なユーザーの明示承認は今回の「すべて一旦、承認で」で確認。
@@ -591,3 +601,11 @@ E15:（D1.3.1/D1.3.2/D1.3.3 / GitHub版実Node・Chromium検証の限定証跡�
 - **回帰防止:** `tests/manifest-consistency.test.cjs` で登録件数・ID/status/親子・core等保護blob SHA・証跡参照をチェック。
 - **実行証跡:** `operations/evidence/stage6-manifest-reconciliation.md`（工程6監査、Node41/41・Chromium104/104、最終前HEAD fe801b88のGitHub Actions push/PR成功）。
 - **残作業:** 原画9高解像PNG、改善24 WebP、旧12真正器官、画質の人間目視、実GAS/実端末FPS、第四相。自動CIがPASSでも完成と呼ばない。
+
+## 工程7便1 — 参考モックからの器官ラスタ切出し（2026-10-14、草案）
+
+- **指示**: ユーザー提示モック画像を出所追跡しながら実装する。旧12系統のC01深海・C02神鳥から着手。
+- **工程分離**: 今回GitHub配布HTMLに組込んだのは従来内包の縮小JPEGのCanvas crop。元1448px添付スクリーンショットから切り出した6 PNGは会話ZIPにのみ存在し、GitHubの原寸PNG保全・ソースSHA反映は別作業。画質承認を前倒ししない。
+- **実装**: `src/composite/mock-atlas-sprites.js` と app.js、ビルダー、配布HTML2本。`abyss:abyssHeritage`と`myth:mythHeritage`で各Lv1〜3 PNG画像を使用。旧残10系統は30SVG fallback、先行VALIS/反記銘33 PNGは非上書き。
+- **検証**: 実GitHub Actions push/PR `38491952107` / `38491956437`、実Node45/45とChromium画像104/104+14系統Lv差、UI420px/N15/1000。証跡は`operations/evidence/stage7-mock-cutout-browser.md` と E16草案。
+- **操作**: E16を草案として初期登録、C/D実態と総数52→53はManifest反映。core3不変、36承認済み維持、GAS未配信。高解像原画・改善24枚・旧12真正器官・人間の画質評価・第四相は未完。
