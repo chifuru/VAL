@@ -4,6 +4,8 @@
 
 正案はこのファイル。`desktop-proposals/`の担当別提案は素材・計算・配布の補助検討資料であり、追加B子3件など正案と異なる増設案は今回採用しない。承認対象は下記のA/B20ノードと新規10ノードの責務構造に限定する。
 
+A/B20件の具体本文案は `desktop-proposals/ab-texts/A/` と `desktop-proposals/ab-texts/B/`、識別SHA・構造検査は同ディレクトリのdraft-index.json / draft-validation.json、状態反映根拠は `desktop-proposals/ab-approval-basis.md`。これは確認用のPlan付属原稿であり、正本Node・Manifest登録・承認済み状態への反映ではない。
+
 ## 実装する内容
 
 1. Windows10/11 x64のデスクトップアプリ。ElectronとJavaScriptで既存の決定的エンジン・HTML/Canvasを活かす。ZIPを展開しVALIS.exeをクリックして起動。Node、ブラウザ、GAS、開発コマンドの利用をユーザーに求めない。

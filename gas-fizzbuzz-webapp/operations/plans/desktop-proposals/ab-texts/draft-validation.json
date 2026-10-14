@@ -1,0 +1,38 @@
+{
+  "nodes": 20,
+  "counts": {
+    "A": 9,
+    "B": 11
+  },
+  "state": "草案",
+  "checks_pass": true,
+  "issues": [],
+  "planned_not_existing_refs": [
+    "C1.5.2.1",
+    "C1.5.2.2",
+    "C1.7",
+    "C1.8",
+    "D1.5",
+    "D1.6"
+  ],
+  "canonical_nodes_modified": false,
+  "numeric_reference": {
+    "totalEnergyQuarters": 1801,
+    "rawEnergy": 450.25,
+    "crossings": {
+      "28": {
+        "row": 280,
+        "quarters": 505
+      },
+      "62": {
+        "row": 621,
+        "quarters": 1117
+      },
+      "100": {
+        "row": 1000,
+        "quarters": 1801
+      }
+    }
+  },
+  "limits": "Draft structure and independent reference arithmetic only. No user adoption, canonical registration, product implementation, art acceptance or Windows execution is asserted."
+}
