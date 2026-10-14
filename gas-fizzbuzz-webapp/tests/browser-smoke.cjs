@@ -3,7 +3,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=r
 const {chromium}=require('playwright'),E=require('../src/composite/creature-engine'),D=require('../src/composite/lineage-definitions'),{PNG}=require('pngjs');
 const out=path.join(__dirname,'../artifacts/desktop-browser'),checks=[];
 async function main(){
- await fs.mkdir(out,{recursive:true});const browser=await chromium.launch({executablePath:process.env.VALIS_CHROMIUM||undefined}),context=await browser.newContext({viewport:{width:1440,height:960}}),page=await context.newPage(),errors=[],remote=[];
+ await fs.rm(out,{recursive:true,force:true});await fs.mkdir(out,{recursive:true});const browser=await chromium.launch({executablePath:process.env.VALIS_CHROMIUM||undefined}),context=await browser.newContext({viewport:{width:1440,height:960}}),page=await context.newPage(),errors=[],remote=[];
  page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(!r.url().startsWith('http://127.0.0.1')&&!r.url().startsWith('data:'))remote.push(r.url());});
  await context.addInitScript(()=>{window.valis={testMode:true,listSpecimens:async()=>({records:JSON.parse(localStorage.getItem('records')||'[]'),warning:null}),saveSpecimen:async r=>{if(window.FAIL_SAVE)throw Error('Injected save failure');if(window.SLOW_SAVE)await new Promise(x=>setTimeout(x,350));const list=JSON.parse(localStorage.getItem('records')||'[]'),i=list.findIndex(x=>x.runId===r.runId);if(i<0)list.push(r);else list[i]=r;localStorage.setItem('records',JSON.stringify(list));return r;},onPrepareClose:()=>()=>{},closeReady:async()=>true};});
  try{

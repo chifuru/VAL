@@ -107,7 +107,7 @@
     "design/assets/desktop-creatures/serpent.json": "fac7751a0ff6cc00e4aca2ad0cf5fbba62e7033f345391f0072e8ab6989dc88c",
     "design/assets/desktop-creatures/solar.json": "e685f434ec2ef8f0601d1fdfcfbf5d99e350e51150be2b1d397b8ef021c50798",
     "design/assets/desktop-creatures/valis.json": "da11ede12aa22060fdf2d46d751bde353b7a02997a1038b62716ad68fa8cbb15",
-    "tests/browser-smoke.cjs": "9a7239fcf75070da2a91b620ffa0a8593a9b4a9c72bef061fce684fa3c371748",
+    "tests/browser-smoke.cjs": "e2a77116dddf351868167acc2c5c0d596ea6af243857b244cb5d0b15adbc2c2e",
     "tests/desktop-assets.test.cjs": "5f3d88422f49078271c59eca1deddc4595196ad53a17e37c17aff015b6b2d05c",
     "tests/desktop-growth.test.cjs": "37af73de859966631a562f1571f548767610e958e16ebc20665a836a8e5cd1b8",
     "tests/desktop-host.test.cjs": "6955eb5169ab4395cad9436c15a6a6a811231a8160a47b7e9549cac787b11ee6",

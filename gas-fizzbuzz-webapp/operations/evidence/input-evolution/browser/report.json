@@ -2,7 +2,7 @@
   "scope": "Chromium UI with test persistence bridge; native store verified separately",
   "browser": "154.0.8037.57",
   "platform": "linux",
-  "generatedAt": "2026-10-14T19:17:12.831Z",
+  "generatedAt": "2026-10-14T19:23:19.872Z",
   "checks": [
     "default preview creates no specimen",
     "no required start or environment selection buttons",
