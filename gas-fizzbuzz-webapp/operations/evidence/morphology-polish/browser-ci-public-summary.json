@@ -1,0 +1,99 @@
+{
+  "observedAt": "2026-10-14T23:21:08.608816+00:00",
+  "source": "Public GitHub run/job HTML; unconditional step conclusions. Authenticated raw logs and artifact contents were not read",
+  "targetCommit": "f5464122f556ac365c40d404a8e6d5e9c12daa6b",
+  "runUrl": "https://github.com/chifuru/VAL/actions/runs/38652911195",
+  "jobUrl": "https://github.com/chifuru/VAL/actions/runs/38652911195/job/116155748335",
+  "jobConclusion": "success",
+  "steps": [
+    {
+      "data-name": "Set up job",
+      "data-number": "1",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-14T23:15:12Z",
+      "data-completed-at": "2026-10-14T23:15:13Z"
+    },
+    {
+      "data-name": "Run actions/checkout@v4",
+      "data-number": "2",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-14T23:15:13Z",
+      "data-completed-at": "2026-10-14T23:15:31Z"
+    },
+    {
+      "data-name": "Run actions/setup-node@v4",
+      "data-number": "3",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-14T23:15:31Z",
+      "data-completed-at": "2026-10-14T23:15:34Z"
+    },
+    {
+      "data-name": "Run npm ci --ignore-scripts",
+      "data-number": "4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-14T23:15:34Z",
+      "data-completed-at": "2026-10-14T23:15:37Z"
+    },
+    {
+      "data-name": "Run npm test",
+      "data-number": "5",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-14T23:15:37Z",
+      "data-completed-at": "2026-10-14T23:15:41Z"
+    },
+    {
+      "data-name": "Run npm run check:assets",
+      "data-number": "6",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-14T23:15:41Z",
+      "data-completed-at": "2026-10-14T23:15:43Z"
+    },
+    {
+      "data-name": "Run npx playwright install --with-deps chromium",
+      "data-number": "7",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-14T23:15:43Z",
+      "data-completed-at": "2026-10-14T23:16:07Z"
+    },
+    {
+      "data-name": "Observation UI and actual PNG drawing",
+      "data-number": "8",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-14T23:16:07Z",
+      "data-completed-at": "2026-10-14T23:16:23Z"
+    },
+    {
+      "data-name": "Run actions/upload-artifact@v4",
+      "data-number": "9",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-14T23:16:23Z",
+      "data-completed-at": "2026-10-14T23:16:25Z"
+    },
+    {
+      "data-name": "Post Run actions/setup-node@v4",
+      "data-number": "17",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-14T23:16:25Z",
+      "data-completed-at": "2026-10-14T23:16:27Z"
+    },
+    {
+      "data-name": "Post Run actions/checkout@v4",
+      "data-number": "18",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-14T23:16:27Z",
+      "data-completed-at": "2026-10-14T23:16:27Z"
+    },
+    {
+      "data-name": "Complete job",
+      "data-number": "19",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-14T23:16:27Z",
+      "data-completed-at": "2026-10-14T23:16:27Z"
+    }
+  ],
+  "limits": [
+    "Hosted raw logs/native JSON/screenshots not read",
+    "Windows10/11 user hardware DPI/FPS and user visual acceptance unperformed"
+  ],
+  "scope": "Hosted Chromium source/assets/actual drawing checks, including legacy3/legacy4 pixel equality and tissue attachments; local counts/images recorded separately"
+}

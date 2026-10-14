@@ -74,5 +74,17 @@
   "unperformed": [
     "Windows10/11 user hardware DPI/FPS and visual acceptance"
   ],
-  "hostedWindows": "Independent execution required; E28 is not reused"
+  "hostedWindows": {
+    "run": 38652911222,
+    "job": 116155748539,
+    "evidence": "E30",
+    "targetCommit": "f5464122f556ac365c40d404a8e6d5e9c12daa6b",
+    "conclusion": "success",
+    "observed": "Public unconditional step conclusions, not authenticated raw logs"
+  },
+  "hostedBrowser": {
+    "run": 38652911195,
+    "job": 116155748335,
+    "conclusion": "success"
+  }
 }
