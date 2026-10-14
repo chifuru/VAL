@@ -1,0 +1,14 @@
+# Keep canonical definitions, generated geometry and packaged source byte-identical
+# on Windows and Linux. PNGs and other binary images are never text-normalized.
+*.md text eol=lf
+*.js text eol=lf
+*.cjs text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.log text eol=lf
+*.gs text eol=lf
+*.png binary
+*.jpg binary
+*.webp binary

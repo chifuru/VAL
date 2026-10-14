@@ -27,8 +27,16 @@ jobs:
         run: npm ci --ignore-scripts
       - name: Node source and history checks
         run: |
-          npm test
+          New-Item -ItemType Directory -Force artifacts/windows-native | Out-Null
+          npm test 2>&1 | Tee-Object -FilePath artifacts/windows-native/unit.log
+          $testExit = $LASTEXITCODE
+          if ($testExit -ne 0) {
+            $failures = (Select-String -Path artifacts/windows-native/unit.log -Pattern 'not ok|✖|AssertionError|Error:').Line -join ' | '
+            Write-Output "::error::$failures"
+            exit $testExit
+          }
           npm run check:assets
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Create Windows executable and portable ZIP
         run: node tools/package-windows.cjs
       - name: Verify ZIP expansion matches executable checksums
