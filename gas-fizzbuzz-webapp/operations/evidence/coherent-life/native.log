@@ -62,7 +62,7 @@
       ],
       "records": [
         {
-          "runId": "7da46821-94ff-4927-bd6c-acc597135377",
+          "runId": "2925b9ff-c128-41ea-ab74-907696f70e19",
           "seed": 1000,
           "processed": 1000,
           "status": "complete",
@@ -70,7 +70,7 @@
           "stage": 3
         },
         {
-          "runId": "d489422b-f716-4fa6-a118-c0305ff9592b",
+          "runId": "7ccd375d-16dd-42f4-a039-a847e530fe31",
           "seed": 15,
           "processed": 15,
           "status": "complete",
@@ -79,7 +79,7 @@
         }
       ],
       "rendererReady": true,
-      "generatedAt": "2026-10-14T21:53:00.348Z",
+      "generatedAt": "2026-10-14T21:56:30.069Z",
       "network": "Remote requests disabled by desktop host"
     },
     {
@@ -134,7 +134,7 @@
       ],
       "records": [
         {
-          "runId": "7da46821-94ff-4927-bd6c-acc597135377",
+          "runId": "2925b9ff-c128-41ea-ab74-907696f70e19",
           "seed": 1000,
           "processed": 1000,
           "status": "complete",
@@ -142,7 +142,7 @@
           "stage": 3
         },
         {
-          "runId": "d489422b-f716-4fa6-a118-c0305ff9592b",
+          "runId": "7ccd375d-16dd-42f4-a039-a847e530fe31",
           "seed": 15,
           "processed": 15,
           "status": "complete",
@@ -151,7 +151,7 @@
         }
       ],
       "rendererReady": true,
-      "generatedAt": "2026-10-14T21:53:01.729Z",
+      "generatedAt": "2026-10-14T21:56:31.364Z",
       "network": "Remote requests disabled by desktop host"
     }
   ],
@@ -163,5 +163,5 @@
     "prepare-close save/flush",
     "process restart preserves state, phase snapshots and portraits"
   ],
-  "generatedAt": "2026-10-14T21:53:01.817Z"
+  "generatedAt": "2026-10-14T21:56:31.441Z"
 }

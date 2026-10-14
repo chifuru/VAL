@@ -14,9 +14,9 @@ Packaging app for platform win32 x64 using electron v44.7.2
   "pngCount": 26,
   "sourceBytesMatch": true,
   "zip": "VALIS-Windows-x64.zip",
-  "zipBytes": 203866179,
-  "zipSha256": "849d4abf998994ced3a79ca9ba2bc94fc021a588c7f19d0f327a49d69a7324a7",
-  "generatedAt": "2026-10-14T21:53:22.171Z"
+  "zipBytes": 203866176,
+  "zipSha256": "7a894c4710b547493f0bbc898343c1e48ed19bd93f3cd52dc6a58629e51b4229",
+  "generatedAt": "2026-10-14T21:56:51.102Z"
 }
 npm notice
 npm notice New major version of npm available! 11.9.0 -> 12.2.0

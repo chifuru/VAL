@@ -77,7 +77,7 @@ function updateUI(phases=false){
  const plan=s.environmentPlan;const displayedEnvironment=s.currentEnvironment||plan?.rows[0]||'signal';
  const envLabels={tide:'深海',heat:'熱圏',signal:'情報域',void:'虚空'},weights=plan?.weights[s.stage===0?0:1]||[0,0,1,0];
  for(const [i,key]of ['tide','heat','signal','void'].entries()){const tile=document.querySelector('[data-environment="'+key+'"]');tile.classList.toggle('active',key===displayedEnvironment);tile.querySelector('b').textContent=Math.round(weights[i]*100)+'%';}
- $('environment-note').textContent='N%3='+s.seed%3+' / N%5='+s.seed%5+' / N%15='+s.seed%15+' · '+(s.current?'現在：'+envLabels[displayedEnvironment]:'出生前に環境の推移を決定');
+ $('environment-note').textContent='この段階の環境配分 · '+(s.current?'現在：'+envLabels[displayedEnvironment]:'読み込み時に環境の推移を決定');
  drawDNA(s);drawParts(s);
  for(const kind of Object.keys(foodLabels)){const tile=document.querySelector('[data-food="'+kind+'"]');tile.querySelector('b').textContent=s.foods[kind];tile.classList.toggle('eaten',s.lastMeal?.kind===kind);}
  $('meal').textContent=s.lastMeal?'直近の摂取：'+foodLabels[s.lastMeal.kind]+'（'+s.current+'行目）':'摂取前';$('regulation').textContent='数字の調節：促進 '+s.regulation.promote+' / 抑制 '+s.regulation.inhibit;
