@@ -64,8 +64,11 @@ async function validateOutput(folder,source,asar) {
   if (entries.some(item => !(item === '/package.json' || item === '/src' || item.startsWith('/src/')) || item.includes('/node_modules/'))) throw new Error('Development-only files leaked into ASAR');
   let pngCount = 0;
   for (const file of await walk(path.join(source,'src'))) {
-    const rel = path.relative(source,file).split(path.sep).join('/');
-    const packed = asar.extractFile(archive,rel);
+    const nativeMember = path.relative(source,file);
+    const rel = nativeMember.split(path.sep).join('/');
+    // ASAR's filesystem traverses path.sep; preserve native Windows separators
+    // for its API, and use portable '/' only for reports and checksums.
+    const packed = asar.extractFile(archive,nativeMember);
     const actual = await fs.readFile(file);
     if (!packed.equals(actual)) throw new Error('ASAR differs from source: ' + rel);
     if (/\.png$/i.test(file)) {

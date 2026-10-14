@@ -1,0 +1,66 @@
+{
+  "generatedAt": "2026-10-14T17:40:45.060999+00:00",
+  "flow": [
+    "FLOW-04",
+    "FLOW-03",
+    "FLOW-07",
+    "FLOW-08",
+    "FLOW-05"
+  ],
+  "prerequisites": "Approved desktop migration split and A/B20, standard core3 actual related sections read, C17/D10 mapped before implementation/tests",
+  "targetShaFilesVerified": 36,
+  "coreAndOriginalPngVerified": 23,
+  "manifest": {
+    "nodes": 68,
+    "A": 9,
+    "B": 11,
+    "C": 17,
+    "D": 10,
+    "E": 21,
+    "approvedAB": 20,
+    "draftCDE": 48,
+    "initialRegistration": [
+      "A1.7",
+      "A1.8",
+      "B1.7",
+      "B1.8",
+      "C1.7",
+      "C1.8",
+      "C1.5.2.1",
+      "C1.5.2.2",
+      "D1.5",
+      "D1.6",
+      "E21"
+    ],
+    "reflection": "C17 implementation/coefficients; D10 actual test mapping; E21 limited current results and unperformed acceptance"
+  },
+  "currentGitHead": "dcd6c359e30ad94e84f2c804c60f79c5fa21df59",
+  "mainPushConfirmed": true,
+  "unit": {
+    "pass": 30,
+    "fail": 0,
+    "skip": 0
+  },
+  "browser": {
+    "checks": 94,
+    "scope": "Chromium154, injected history bridge"
+  },
+  "nativeLinux": "actual Electron start and separate process restore successful",
+  "windowsPackage": "official SHA, PE x64 and all source/PNG bytes verified; ZIP present",
+  "windowsCi": {
+    "firstRun": 38607733822,
+    "firstResult": "failed before package at Node source/history check; detailed logs require login; not used as success",
+    "retryRun": 38608467026,
+    "retryResult": "Unit and canonical SHA checks passed; package failed at portable slash ASAR member lookup",
+    "change": "LF checkout attributes and readable failure annotations",
+    "diagnosticRun": 38609225140,
+    "diagnosticError": "src/assets/creatures/abyss.png was not found in this archive",
+    "correction": "Use native path.relative result for ASAR API; local package source-byte validation rerun passed"
+  },
+  "limits": [
+    "Windows10/11 user-device acceptance",
+    "user artwork acceptance",
+    "real user-device FPS and display scaling",
+    "environment draft saved; review/save/publish still owned by user"
+  ]
+}

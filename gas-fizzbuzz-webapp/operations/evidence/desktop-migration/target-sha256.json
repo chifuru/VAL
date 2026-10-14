@@ -1,7 +1,7 @@
 {
   "engineVersion": 1,
   "assetVersion": "desktop-art-v1",
-  "generatedAt": "2026-10-14T17:32:55.374456+00:00",
+  "generatedAt": "2026-10-14T17:52:13.859872+00:00",
   "files": {
     "package-lock.json": "37add5450bbd764299937821a1fdcff474bd3ae765238263f95d585dcd0bab3c",
     "package.json": "403e6bce44d19fbdb870beda75ef7df821dd4b5c988eda2fe0ad5e6326eca2db",
@@ -38,6 +38,6 @@
     "tests/electron-smoke.cjs": "ec306f38b5649c3a75a559498510b03a7f3829a7f817276506e1206a6133d7f1",
     "tests/manifest-consistency.test.cjs": "ebff49da1f950f0c40ac69bfb1e4bbdda190e4d9a4ec4ecc8242894e459425c6",
     "tools/build-assets.cjs": "21ff0b9bdf2b76bb765c8ee63f1d33c3f2410b203febd896fb01a80ff7a5a398",
-    "tools/package-windows.cjs": "88cc50fe8e75f9b5f140654ea2e0b3bdf0cd3564c1d170899381a7b1b62cf87f"
+    "tools/package-windows.cjs": "09fd126880e9c4478939b44fed9c2a242f13b091dd64cb5135b7cde146621ef1"
   }
 }
