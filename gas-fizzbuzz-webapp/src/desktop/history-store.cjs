@@ -35,12 +35,12 @@ function portrait(value) {
 }
 function stateData(value, seed, processed) {
   if (!object(value) || value.seed !== seed || value.current !== processed) invalid('Nと再生位置が一致しません');
-  if (!Number.isFinite(value.points) || value.points < 0 || value.points > 100 || !integer(value.stage, 0, value.engineVersion===3?3:2)) invalid('成長値が不正です');
+  if (!Number.isFinite(value.points) || value.points < 0 || value.points > 100 || !integer(value.stage, 0, value.engineVersion>=3?3:2)) invalid('成長値が不正です');
   if (value.dna && value.dna.seed !== undefined && value.dna.seed !== seed) invalid('DNAのNが一致しません');
 }
 function validateRecord(input) {
   if (!object(input) || FIELDS.some(k => !Object.hasOwn(input, k)) || Object.keys(input).some(k => !FIELDS.includes(k))) invalid('必須項目が一致しません');
-  if (input.schemaVersion !== 1 || ![1,2,3].includes(input.engineVersion)) invalid('対応していない記録版です');
+  if (input.schemaVersion !== 1 || ![1,2,3,4].includes(input.engineVersion)) invalid('対応していない記録版です');
   if (typeof input.runId !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/.test(input.runId)) invalid('実行IDが不正です');
   if (!integer(input.seed,1,1000) || !integer(input.processed,0,input.seed)) invalid('Nまたは再生位置が不正です');
   if (!STATUSES.has(input.status) || input.status === 'complete' && input.processed !== input.seed) invalid('再生状態が不正です');
@@ -54,10 +54,10 @@ function validateRecord(input) {
   if((input.state.engineVersion||1)!==input.engineVersion)invalid('成長版が一致しません');
   stateData(input.state,input.seed,input.processed);
   portrait(input.portrait);
-  if (!Array.isArray(input.snapshots) || input.snapshots.length > (input.engineVersion===3?4:3)) invalid('相の記録が不正です');
+  if (!Array.isArray(input.snapshots) || input.snapshots.length > (input.engineVersion>=3?4:3)) invalid('相の記録が不正です');
   const stages = new Set();
   for (const item of input.snapshots) {
-    if (!object(item) || Object.keys(item).sort().join(',') !== 'portrait,processed,stage,state' || !integer(item.stage,0,input.engineVersion===3?3:2) || !integer(item.processed,0,input.processed) || stages.has(item.stage)) invalid('相の記録が不正です');
+    if (!object(item) || Object.keys(item).sort().join(',') !== 'portrait,processed,stage,state' || !integer(item.stage,0,input.engineVersion>=3?3:2) || !integer(item.processed,0,input.processed) || stages.has(item.stage)) invalid('相の記録が不正です');
     stages.add(item.stage);
     if ((item.state?.engineVersion||1)!==input.engineVersion) invalid('相の成長版が一致しません');
     stateData(item.state,input.seed,item.processed);

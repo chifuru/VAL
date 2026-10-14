@@ -1,0 +1,112 @@
+{
+  "version": "desktop-art-v4",
+  "method": "image_gen original-mock grounded anatomy, followed by image_gen transparent atlas-spacing edits where necessary; generated PNG bytes copied unchanged",
+  "references": [
+    "design/3cdebf40-9477-4475-83bb-9374dc52254a.png",
+    "design/734b52df-1b8f-4f54-bb0d-1661937a0be7.png",
+    "design/e8593b9c-8284-4656-aa5f-bbd8a2f65809.png",
+    "design/f06253ed-f13e-40b1-be35-2b931a028e0d.png"
+  ],
+  "sourceSheets": {
+    "bio-ethereal": {
+      "file": "src/assets/creatures/bio-ethereal.png",
+      "sha256": "943d0a3dd56429565e4baee1725a62ad355bb5e178c5ba9d4d8bf815695059c3",
+      "width": 1536,
+      "height": 1024,
+      "generatedSource": "/workspace/generated_images/exec-40ac1eda-5f3c-4d43-b820-9b29480b5b36.png",
+      "boundaryWarnings": []
+    },
+    "bio-serpent": {
+      "file": "src/assets/creatures/bio-serpent.png",
+      "sha256": "b600061a02b6c934241aa6ec09f9104cb3053d02906302c75b92ca620d89d641",
+      "width": 1448,
+      "height": 1086,
+      "generatedSource": "/workspace/generated_images/exec-b824d030-c885-4e80-9fba-c3b1301348ee.png",
+      "boundaryWarnings": []
+    },
+    "bio-jelly": {
+      "file": "src/assets/creatures/bio-jelly.png",
+      "sha256": "be95250dc618b39b7ad9cc7358eba38eb6edbf4bbe810454840bc5e249a6a5f2",
+      "width": 1448,
+      "height": 1086,
+      "generatedSource": "/workspace/generated_images/exec-46460346-6b3f-4c9a-a76c-fc52e991d118.png",
+      "boundaryWarnings": []
+    },
+    "bio-whale": {
+      "file": "src/assets/creatures/bio-whale.png",
+      "sha256": "3c653841839c1f0e3b98262aa893250fa51c9de641c87c7ce4b4297a5960bca9",
+      "width": 1448,
+      "height": 1086,
+      "generatedSource": "/workspace/generated_images/exec-b0e6b922-df8d-4f23-9d3c-c49016215c92.png",
+      "boundaryWarnings": []
+    },
+    "bio-aquatic": {
+      "file": "src/assets/creatures/bio-aquatic.png",
+      "sha256": "b485aeafb5dc5c53176109bc427106149eed35030aa5f399027beedb0aa35755",
+      "width": 1536,
+      "height": 1024,
+      "generatedSource": "/workspace/generated_images/exec-5355231e-0e39-4216-9d8a-cbb1315c258e.png",
+      "boundaryWarnings": []
+    },
+    "bio-cephalopod": {
+      "file": "src/assets/creatures/bio-cephalopod.png",
+      "sha256": "4ea8de81941083e9f15cb5fa03a57460cf4b5020365d437516b63516ced16bbb",
+      "width": 1536,
+      "height": 1024,
+      "generatedSource": "/workspace/generated_images/exec-d7b69f21-9ebc-44c1-a4e2-8b071f3ec349.png",
+      "boundaryWarnings": []
+    },
+    "bio-botanical": {
+      "file": "src/assets/creatures/bio-botanical.png",
+      "sha256": "6000a38115df41e45edeb61b15165258bf66bbe6bd0fc3954a021c68acd9cbec",
+      "width": 1448,
+      "height": 1086,
+      "generatedSource": "/workspace/generated_images/exec-8c001a41-292b-4684-a60c-8226f86573f2.png",
+      "boundaryWarnings": []
+    },
+    "bio-mechanical": {
+      "file": "src/assets/creatures/bio-mechanical.png",
+      "sha256": "15967a5a95093bad2724a2672f27670aca88e8db3a4b67899e194f2649c1f583",
+      "width": 1536,
+      "height": 1024,
+      "generatedSource": "/workspace/generated_images/exec-238611ac-cadd-4d03-9d26-140cf3b45abc.png",
+      "boundaryWarnings": []
+    },
+    "bio-amphibian": {
+      "file": "src/assets/creatures/bio-amphibian.png",
+      "sha256": "507a02ac200d81fb6f3465550308d9ede6370c7fafdca39dfe62f481b3b7c619",
+      "width": 1448,
+      "height": 1086,
+      "generatedSource": "/workspace/generated_images/exec-30bc7df2-65d7-471f-887e-efbe0a316d60.png",
+      "boundaryWarnings": []
+    },
+    "bio-crystal": {
+      "file": "src/assets/creatures/bio-crystal.png",
+      "sha256": "ed0c3f83bbf1cc4bbd8a40d7aa7208bc4e8c3ba7db36f6bfc84e5b80f31157dd",
+      "width": 1448,
+      "height": 1086,
+      "generatedSource": "/workspace/generated_images/exec-b2c9e222-8f5b-4595-bd38-89e39cf22b39.png",
+      "boundaryWarnings": []
+    },
+    "bio-avian": {
+      "file": "src/assets/creatures/bio-avian.png",
+      "sha256": "45c5a83a8dde2b7b0b77e3d646a160dc652bd109c50f2df1829bfcc6b349bc2d",
+      "width": 1448,
+      "height": 1086,
+      "generatedSource": "/workspace/generated_images/exec-9ce707d6-93f3-491e-8ad1-421d9b896344.png",
+      "boundaryWarnings": []
+    },
+    "bio-arthropod": {
+      "file": "src/assets/creatures/bio-arthropod.png",
+      "sha256": "dad2913a1422e9e54b7d4d91d1e49b1c453d93e44cae8ccb546cf782cce58f13",
+      "width": 1536,
+      "height": 1024,
+      "generatedSource": "/workspace/generated_images/exec-411a414f-25f2-4d32-96e3-267ac2491066.png",
+      "boundaryWarnings": []
+    }
+  },
+  "anatomy": "12 plans, 4 whole-body phases each, 4 fin/leaf/membrane and4 limb/root/arm stages each; source alpha socket metadata projected onto actual tissue",
+  "organReuse": "99 existing qualified groups including24 documented aliases retained; no claim of99 new organ sheets",
+  "legacy": "All26 physical source PNGs and old source-region/pivot metadata remain available. Engine3 and20 definitions are fixed in edition-specific modules; new4 selects bio keys, old3 retains core keys.",
+  "runtime": "657 source references/585 unique physical regions in38 PNGs; source pixels are deformed/recolored/masked in Canvas at runtime; evidence/plans/provenance outside src"
+}

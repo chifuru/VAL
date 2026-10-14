@@ -45,7 +45,7 @@ function drawParts(s){
  function add(label,level,growth,part){const row=document.createElement('div');row.className='part';const picture=R.organPortrait(part);picture.setAttribute('aria-hidden','true');const info=document.createElement('div'),title=document.createElement('div');title.className='part-label';const text=document.createElement('span');text.textContent=label;const lv=document.createElement('span');lv.textContent='Lv.'+level;title.append(text,lv);const meter=document.createElement('progress');meter.max=1;meter.value=growth;meter.setAttribute('aria-label',label+'の発達');info.append(title,meter);row.append(picture,info);container.append(row);}
  for(const [id,label] of Object.entries(bodyLabels)){const n=a.anatomy[id],core=a.bodyPlan&&id!=='eyes',body=['head','torso','tail','shell'].includes(id);
   const crops={head:[0,.12,.35,.65],torso:[.20,.15,.58,.72],tail:[.60,.22,.4,.75],shell:[.20,.15,.58,.72]};
-  add(label+(id==='eyes'?' · '+(n.sense||'光'):''),n.level,n.growth,{lineage:core?'core-'+a.bodyPlan:a.bodyFamily?'body-'+a.bodyFamily:'common',id:core?(body?'body':id):id==='eyes'?'eye':id==='shell'?'torso':id,level:core?Math.min(3,s.stage+1):Math.min(3,Math.ceil(n.level*.75)),crop:core&&body?crops[id]:null});}
+  add(label+(id==='eyes'?' · '+(n.sense||'光'):''),n.level,n.growth,{lineage:core?(a.version>=4?'bio-':'core-')+a.bodyPlan:a.bodyFamily?'body-'+a.bodyFamily:'common',id:core?(body?'body':id):id==='eyes'?'eye':id==='shell'?'torso':id,level:core?Math.min(a.version>=4?4:3,s.stage+1):Math.min(3,Math.ceil(n.level*.75)),bodyPart:id,crop:core&&body?crops[id]:null});}
  const merged=new Map();for(const part of [...a.inheritedOrgans,...a.organs]){const key=part.lineage+':'+part.id,old=merged.get(key);if(!old||part.xp>old.xp)merged.set(key,part);}
  if(merged.size){const title=document.createElement('div');title.className='parts-divider';title.textContent='系統器官・継承器官';container.append(title);}
  for(const part of merged.values())add(part.label+(part.count>1?' ×'+part.count:'')+(part.sense?' · '+part.sense:''),part.level,part.growth,part);
@@ -63,7 +63,7 @@ function updateUI(phases=false){
  const a=E.appearanceFor(s),target=a.maturityTarget||100,maturity=Math.min(100,Math.round((s.rawPoints??s.points)/target*100));
  $('progress-text').textContent='摂取 '+s.current+' / '+s.seed+'回';$('growth').value=maturity;$('growth-text').textContent='成熟度 '+maturity+'%';
  const status=past?past.status:runStatus;
- $('result').textContent=status==='complete'?(s.matured?(s.engineVersion===3?'育成終了 · 第四段階の最終形態に到達':'育成終了 · 旧版の成熟結果'):'育成終了 · '+E.PHASES[s.stage]+'（最終形態は未到達）'):status==='ready'?(preparedSeed?'読み込み完了。スタートで育成を始めます。':'数値を読み込んで、生物を観測してください。'):status==='paused'?'一時停止中 · 再開すると摂取を続けます。':status==='stopped'?'途中停止 · この個体は図鑑へ掲載されません。':'育成中 · エネルギーを摂取しています。';
+ $('result').textContent=status==='complete'?(s.matured?(s.engineVersion>=3?'育成終了 · 第四段階の最終形態に到達':'育成終了 · 旧版の成熟結果'):'育成終了 · '+E.PHASES[s.stage]+'（最終形態は未到達）'):status==='ready'?(preparedSeed?'読み込み完了。スタートで育成を始めます。':'数値を読み込んで、生物を観測してください。'):status==='paused'?'一時停止中 · 再開すると摂取を続けます。':status==='stopped'?'途中停止 · この個体は図鑑へ掲載されません。':'育成中 · エネルギーを摂取しています。';
  $('session-status').textContent=busy?'保存中':past?'図鑑の最終結果':({ready:preparedSeed?'開始待ち':'未読み込み',growing:'育成中',paused:'一時停止',complete:'育成終了',stopped:'途中停止'}[runStatus]);
  $('past-banner').hidden=!past;$('creature').hidden=!!past||(!preparedSeed&&!activeRun);$('empty-observation').hidden=!!past||!!preparedSeed||!!activeRun;$('saved-portrait').hidden=!past;if(past)$('saved-portrait').src=past.portrait;
  $('back-live').hidden=!archiveOpen&&!past;$('nav-live').setAttribute('aria-selected',String(!archiveOpen));$('nav-archive').setAttribute('aria-selected',String(archiveOpen));$('parts-panel').hidden=archiveOpen;$('archive-panel').hidden=!archiveOpen;
@@ -129,7 +129,7 @@ let lastFrame=0;function animate(time){if(ready&&runStatus==='growing'&&!busy&&r
 async function init(){
  if(!bridge)throw Error('VALIS.exeから起動してください。デスクトップの個体記録機能に接続できません。');
  await R.prepare();await reloadRecords();bridge.onPrepareClose(shutdown);ready=true;updateUI(true);requestAnimationFrame(animate);
- if(bridge.testMode)window.__VALIS_TEST__={snapshot:()=>clone({state,preview,preparedSeed,archiveOpen,busy,runStatus,activeRun,selectedRecordId,records,log:logLines.join('\n'),ready,environment:state.currentEnvironment||state.environmentPlan?.rows[0]}),run,load,startLoaded,skip,pause,reset,selectRecord,backToLive,reloadRecords,persist,renderHash:()=>R.portrait(viewState()),renderedKeys:()=>R.renderedKeys(),renderState:s=>{R.draw(s,{still:true});return $('creature').toDataURL();},missingAssets:()=>R.missingAssets()};
+ if(bridge.testMode)window.__VALIS_TEST__={snapshot:()=>clone({state,preview,preparedSeed,archiveOpen,busy,runStatus,activeRun,selectedRecordId,records,log:logLines.join('\n'),ready,environment:state.currentEnvironment||state.environmentPlan?.rows[0]}),run,load,startLoaded,skip,pause,reset,selectRecord,backToLive,reloadRecords,persist,renderHash:()=>R.portrait(viewState()),renderedKeys:()=>R.renderedKeys(),renderedSources:()=>R.renderedSources(),renderState:s=>{R.draw(s,{still:true});return $('creature').toDataURL();},missingAssets:()=>R.missingAssets()};
 }
 init().catch(error=>{notice(error.message);$('session-status').textContent='起動できません';});
 })();

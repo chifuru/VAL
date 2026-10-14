@@ -1,0 +1,275 @@
+{
+  "serpent": {
+    "file": "design/assets/biological-anatomy-candidates/serpent-spacing-rejected.png",
+    "sha256": "7c962c9d70a81f3e57011f72086ab115f0b135f5a89560913e88a81fd1b2e8eb",
+    "reason": "Sprite spacing/rectangular source boundaries insufficient; superseded via image_gen layout edit",
+    "measuredWarnings": [
+      {
+        "row": 0,
+        "column": 1,
+        "edgeAlpha": 109,
+        "region": [
+          366,
+          143,
+          312,
+          344
+        ]
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "edgeAlpha": 153,
+        "region": [
+          1040,
+          31,
+          386,
+          456
+        ]
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "edgeAlpha": 78,
+        "region": [
+          1100,
+          504,
+          312,
+          300
+        ]
+      }
+    ],
+    "source": "/workspace/generated_images/exec-3279db82-28d1-4845-a8be-25d86787f081.png"
+  },
+  "jelly": {
+    "file": "design/assets/biological-anatomy-candidates/jelly-spacing-rejected.png",
+    "sha256": "f05578f1876b0d9e6dcc0420dfc5ecaf01453c60e86890b3f9abb95444b45df3",
+    "reason": "Sprite spacing/rectangular source boundaries insufficient; superseded via image_gen layout edit",
+    "measuredWarnings": [
+      {
+        "row": 1,
+        "column": 3,
+        "edgeAlpha": 59,
+        "region": [
+          1085,
+          490,
+          340,
+          307
+        ]
+      }
+    ],
+    "source": "/workspace/generated_images/exec-d1f2e8c0-bb6a-4905-8242-a3f34c5f6a2a.png"
+  },
+  "whale": {
+    "file": "design/assets/biological-anatomy-candidates/whale-spacing-rejected.png",
+    "sha256": "c225c3a0f226d5f77623509260cd353803360e7a7f4c12bc4481e710cf900ff8",
+    "reason": "Sprite spacing/rectangular source boundaries insufficient; superseded via image_gen layout edit",
+    "measuredWarnings": [
+      {
+        "row": 0,
+        "column": 2,
+        "edgeAlpha": 242,
+        "region": [
+          602,
+          155,
+          382,
+          269
+        ]
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "edgeAlpha": 239,
+        "region": [
+          984,
+          70,
+          451,
+          352
+        ]
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "edgeAlpha": 242,
+        "region": [
+          1034,
+          444,
+          388,
+          302
+        ]
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "edgeAlpha": 239,
+        "region": [
+          1040,
+          746,
+          384,
+          293
+        ]
+      }
+    ],
+    "source": "/workspace/generated_images/exec-1d524eef-7df0-4378-8ef0-dcbbcf293d10.png"
+  },
+  "aquatic": {
+    "file": "design/assets/biological-anatomy-candidates/aquatic-spacing-rejected.png",
+    "sha256": "b6d0c6eff3a698c467ae46b374f3bab8864129532b652ead54ed6d718ac6dfdf",
+    "reason": "Sprite spacing/rectangular source boundaries insufficient; superseded via image_gen layout edit",
+    "measuredWarnings": [
+      {
+        "row": 0,
+        "column": 1,
+        "edgeAlpha": 248,
+        "region": [
+          281,
+          151,
+          390,
+          229
+        ]
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "edgeAlpha": 249,
+        "region": [
+          671,
+          38,
+          418,
+          349
+        ]
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "edgeAlpha": 250,
+        "region": [
+          1089,
+          20,
+          438,
+          384
+        ]
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "edgeAlpha": 84,
+        "region": [
+          1140,
+          414,
+          376,
+          343
+        ]
+      }
+    ],
+    "source": "/workspace/generated_images/exec-79340bc6-beb6-4ca6-8b3a-21deccd0c0eb.png"
+  },
+  "botanical": {
+    "file": "design/assets/biological-anatomy-candidates/botanical-spacing-rejected.png",
+    "sha256": "acf38af23f56085a887f0a8ab714c3c94a7fe41fe60677852d5740984047a002",
+    "reason": "Sprite spacing/rectangular source boundaries insufficient; superseded via image_gen layout edit",
+    "measuredWarnings": [
+      {
+        "row": 1,
+        "column": 3,
+        "edgeAlpha": 247,
+        "region": [
+          1105,
+          481,
+          319,
+          305
+        ]
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "edgeAlpha": 247,
+        "region": [
+          1067,
+          786,
+          352,
+          276
+        ]
+      }
+    ],
+    "source": "/workspace/generated_images/exec-c9bb8b35-62bf-437b-96fa-b12bef67ed08.png"
+  },
+  "mechanical": {
+    "file": "design/assets/biological-anatomy-candidates/mechanical-spacing-rejected.png",
+    "sha256": "5da6c932f93eebd7177ff5bed5de0da74d0e5a0b923d9caba3b99b45dc96e509",
+    "reason": "Sprite spacing/rectangular source boundaries insufficient; superseded via image_gen layout edit",
+    "measuredWarnings": [
+      {
+        "row": 1,
+        "column": 3,
+        "edgeAlpha": 242,
+        "region": [
+          1168,
+          448,
+          354,
+          294
+        ]
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "edgeAlpha": 239,
+        "region": [
+          1184,
+          742,
+          295,
+          263
+        ]
+      }
+    ],
+    "source": "/workspace/generated_images/exec-a00ede00-7652-44a5-8e3f-00f4914bc0e2.png"
+  },
+  "crystal": {
+    "file": "design/assets/biological-anatomy-candidates/crystal-spacing-rejected.png",
+    "sha256": "71d46eac83c8c723f0f422f66d49d043e4a450e4f9e9c41f1285745bb521e4dc",
+    "reason": "Sprite spacing/rectangular source boundaries insufficient; superseded via image_gen layout edit",
+    "measuredWarnings": [
+      {
+        "row": 1,
+        "column": 3,
+        "edgeAlpha": 71,
+        "region": [
+          1087,
+          470,
+          334,
+          342
+        ]
+      }
+    ],
+    "source": "/workspace/generated_images/exec-4a7b960a-2ba7-418a-a237-a9ef7dcc93a8.png"
+  },
+  "avian": {
+    "file": "design/assets/biological-anatomy-candidates/avian-spacing-rejected.png",
+    "sha256": "215c8e025aded68c59b67d80e3569adca52061b3488d4a7a38da0f70be483dc2",
+    "reason": "Sprite spacing/rectangular source boundaries insufficient; superseded via image_gen layout edit",
+    "measuredWarnings": [
+      {
+        "row": 0,
+        "column": 3,
+        "edgeAlpha": 43,
+        "region": [
+          1017,
+          13,
+          421,
+          471
+        ]
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "edgeAlpha": 102,
+        "region": [
+          1045,
+          486,
+          369,
+          311
+        ]
+      }
+    ],
+    "source": "/workspace/generated_images/exec-178b8955-38a9-4527-8fc0-72022935bfa7.png"
+  }
+}

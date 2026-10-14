@@ -1,12 +1,12 @@
 /* Deterministic feeding and whole-body growth. Assets and playback clocks belong to the renderer. */
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory(require('./lineage-definitions.js'), require('./legacy-engine-v2.js'));
-  else root.CreatureEngine = factory(root.LineageDefinitions, root.LegacyCreatureEngineV2);
+  if (typeof module === 'object' && module.exports) module.exports = factory(require('./lineage-definitions.js'), require('./legacy-engine-v3.js'));
+  else root.CreatureEngine = factory(root.LineageDefinitions, root.LegacyCreatureEngineV3);
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (definitions, legacy) {
   'use strict';
   if (!definitions || !definitions.LINEAGES || !definitions.PART_DEFINITIONS) throw Error('系統定義を先に読み込んでください');
 
-  var ENGINE_VERSION = 3;
+  var ENGINE_VERSION = 4;
   var PHASES = Object.freeze(['第一相・萌生', '第二相・変容', '第三相・異相', '第四相・覚醒']);
   var ENV = Object.freeze(['signal', 'void', 'heat', 'tide']);
   var THRESHOLDS = Object.freeze([1, 55, 160]);
@@ -97,7 +97,7 @@
   function emptySituation() { return {exposure:{signal:0, void:0, heat:0, tide:0}, foods:[], envs:[], steps:0}; }
   function initial(seed) {
     seed = validateSeed(seed);
-    return {engineVersion:3, environmentPlan:environmentPlanFor(seed), seed:seed, dna:dnaFor(seed), current:0, energyQuarters:0, energy:0, points:0,
+    return {engineVersion:4, environmentPlan:environmentPlanFor(seed), seed:seed, dna:dnaFor(seed), current:0, energyQuarters:0, energy:0, points:0,
       rawPoints:0, currentEnvironment:null, modifier:0, stage:0, lineage:null, history:[], heritage:[], partXp:{}, partImprints:{},
       tissueEnergy:Object.fromEntries(BODY_PARTS.map(function (id) { return [id, 0]; })),
       foods:{number:0, fizz:0, buzz:0, fizzbuzz:0}, regulation:{promote:0, inhibit:0},
@@ -122,7 +122,7 @@
   function environmentPlanFor(seed) {
     seed=validateSeed(seed);
     var first=(seed%15+Math.floor(seed/15))%PROGRAMS.length;
-    var programs=[first,(first+(seed%3)*5+(seed%5)*3+Math.floor(seed/15))%PROGRAMS.length],rows=[],exposure=[0,0,0,0],age=0,segment=0,quarters=0,modifier=0;
+    var programs=[first,(first+(seed%3)*19+(seed%5)*12+Math.floor(seed/15))%PROGRAMS.length],rows=[],exposure=[0,0,0,0],age=0,segment=0,quarters=0,modifier=0;
     for(var i=1;i<=seed;i++) {
       var line=fmtFizzBuzz(i),kind=kindFor(line),target=PROGRAMS[programs[segment]],best=0,bestScore=-Infinity;
       var favored={fizz:2,buzz:0,fizzbuzz:3,number:1}[kind];
@@ -243,11 +243,11 @@
       anatomy:anatomyFor(state, progress), organs:phenotype(state), inheritedOrgans:inherited});
   }
   function appearanceFor(state) {
-    if(state.engineVersion!==3) return legacy.appearanceFor(state);
+    if(state.engineVersion!==4) return legacy.appearanceFor(state);
     return state.matured && state.finalAppearance ? freeze(state.finalAppearance) : calculateAppearance(state);
   }
   function step(previous, line, environment) {
-    if(previous.engineVersion!==3)throw Error('旧個体は保存済み状態で閲覧してください');
+    if(previous.engineVersion!==4)throw Error('旧個体は保存済み状態で閲覧してください');
     if(previous.current>=previous.seed)throw Error('入力行数を超える摂取');
     var expected=fmtFizzBuzz(previous.current+1);if(line!==expected)throw Error('元列の行順が不正です');
     environment=previous.environmentPlan.rows[previous.current];

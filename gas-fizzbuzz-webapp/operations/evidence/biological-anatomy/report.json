@@ -1,0 +1,86 @@
+{
+  "scope": "app1.3.0/ENGINE4/desktop-art-v4 local automated evidence and Codex visual comparison; all definitions draft",
+  "generatedAt": "2026-10-14T22:38:48.631801+00:00",
+  "unit": {
+    "passed": 42,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "passed": 345,
+    "browser": "154.0.8037.57",
+    "errors": [],
+    "remote": [],
+    "actualFourthForms": 20,
+    "oldEngine3PhasesPixelEqual": 4
+  },
+  "native": {
+    "platform": "linux",
+    "packaged": false,
+    "createChecks": 17,
+    "restoreChecks": 11,
+    "separateProcesses": true
+  },
+  "windowsPackage": {
+    "scope": "Windows x64 package integrity; actual Windows execution is a separate smoke gate",
+    "electronVersion": "44.7.2",
+    "packagerVersion": "20.3.0",
+    "officialRuntimeSha256": "10a89447ef64ac5cb9f782af48ffd83734a40ae91681259d1048ca3c9e6c5da4",
+    "exe": "VALIS.exe",
+    "machine": "x86-64",
+    "asarEntries": 60,
+    "pngCount": 38,
+    "sourceBytesMatch": true,
+    "zip": "VALIS-Windows-x64.zip",
+    "zipBytes": 225729703,
+    "zipSha256": "d0dd183406ab6643a0807b2d7843fb6f6d606114a06403548eccf6110d6c9291",
+    "generatedAt": "2026-10-14T22:35:42.078Z"
+  },
+  "evolution": {
+    "secondAt": 201,
+    "thirdAt": 580,
+    "fourthRequiresMinimumRow": 900,
+    "N927FourthAt": 909,
+    "finalFormsReachableWithin1000": 20,
+    "unfavorableIndividualsCanRemainThird": true,
+    "newEnvironmentMix": [
+      19,
+      12,
+      1
+    ],
+    "oldEngine3EnvironmentPreserved": true
+  },
+  "visualInspection": {
+    "references": [
+      "design/3cdebf40-9477-4475-83bb-9374dc52254a.png",
+      "design/734b52df-1b8f-4f54-bb0d-1661937a0be7.png",
+      "design/e8593b9c-8284-4656-aa5f-bbd8a2f65809.png",
+      "design/f06253ed-f13e-40b1-be35-2b931a028e0d.png"
+    ],
+    "actualFiles": "browser/*-actual.png, *-final.png, N927-stage*.png and standard layouts; source PNGs viewed before deriving metadata",
+    "observed": [
+      "flower/root anatomy rather than a green dragon",
+      "avian feathers and feet",
+      "segmented arthropod and round crystal-shell silhouettes",
+      "whale torso/baleen/tail",
+      "jelly bell and cephalopod mantle/connected arms",
+      "living mechanical joints and translucent signal mantles",
+      "dedicated fourth-stage source art",
+      "current-lineage organs emphasized while inherited organs remain present and grow",
+      "surface-socket attachment and source-limited tissue skin",
+      "no bright clipping in all20 fourth forms",
+      "legacy3 image pixels match all4 prior phase captures"
+    ],
+    "scope": "Codex image inspection; user art acceptance unperformed"
+  },
+  "resolvedFailures": [
+    "opaque sprite edges at atlas separators: image_gen spacing edits and include actual transparent cut line in rectangles",
+    "original organ pivots in transparent space: opaque attachment pivots for new4, old pivots for legacy",
+    "only18 prior final forms attainable: environmental mixing calibrated without DNA/maturity exceptions"
+  ],
+  "windowsCi": "E28 pending actual hosted result",
+  "unperformed": [
+    "Windows10/11 user hardware/FPS/scaling acceptance",
+    "User visual acceptance"
+  ]
+}
