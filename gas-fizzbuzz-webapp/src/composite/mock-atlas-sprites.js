@@ -65,7 +65,7 @@ async function install(config,options){
    var key=spec.id+':'+spec.organ;
    // Only replace the known provisional fallback, not authored PNG replacements.
    var existing=config.partImages[key];
-   if(!existing||existing.some(function(u){return !u.startsWith('data:image/svg+xml;');})){
+   if(!existing||existing.some(function(u){return !u.startsWith('data:'+'image/svg+xml;');})){
     config.mockAtlasWarnings.push(spec.id+': authored replacement retained');continue;
    }
    config.partImages[key]=images.map(function(result){return result.src;});
