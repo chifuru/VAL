@@ -36,7 +36,7 @@ function sourceBundle(existingHtml) {
     __STYLES__: read(path.join(modules, 'styles.css')),
     __CONFIG__: config,
     __ENGINE__: read(path.join(modules, 'creature-engine.js')),
-    __APP__: read(path.join(modules, 'draft-organ-sprites.js')) + '\n' + read(path.join(modules, 'app.js')),
+    __APP__: read(path.join(modules, 'draft-organ-sprites.js')) + '\n' + read(path.join(modules, 'mock-atlas-sprites.js')) + '\n' + read(path.join(modules, 'app.js')),
   };
   let output = template;
   for (const [placeholder, replacement] of Object.entries(values)) {
