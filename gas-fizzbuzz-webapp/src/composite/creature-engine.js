@@ -1,13 +1,13 @@
 /* Deterministic feeding and whole-body growth. Assets and playback clocks belong to the renderer. */
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory(require('./lineage-definitions.js'), require('./legacy-engine.js'));
-  else root.CreatureEngine = factory(root.LineageDefinitions, root.LegacyCreatureEngine);
+  if (typeof module === 'object' && module.exports) module.exports = factory(require('./lineage-definitions.js'), require('./legacy-engine-v2.js'));
+  else root.CreatureEngine = factory(root.LineageDefinitions, root.LegacyCreatureEngineV2);
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (definitions, legacy) {
   'use strict';
   if (!definitions || !definitions.LINEAGES || !definitions.PART_DEFINITIONS) throw Error('系統定義を先に読み込んでください');
 
-  var ENGINE_VERSION = 2;
-  var PHASES = Object.freeze(['第一相・萌生', '第二相・変容', '第三相・異相']);
+  var ENGINE_VERSION = 3;
+  var PHASES = Object.freeze(['第一相・萌生', '第二相・変容', '第三相・異相', '第四相・覚醒']);
   var ENV = Object.freeze(['signal', 'void', 'heat', 'tide']);
   var THRESHOLDS = Object.freeze([1, 55, 160]);
   var ENERGY_QUARTERS_AT_MATURITY = 1801;
@@ -31,6 +31,12 @@
     serpent:   [[1.14,.92],[1.16,1.10],[1.02,1.04],[1.22,.96],[1.03,1.05],[1.08,1.06],[1.06,1.03]],
     solar:     [[1.04,1.05],[1.10,1.08],[1.06,1.04],[1.12,1.07],[1.18,1.12],[1.02,1.06],[1.06,1.04]],
     antimeme:  [[1.03,.97],[1.07,1.01],[1.13,1.05],[1.08,.98],[1.02,.99],[1.04,1.01],[1.00,1.02]],
+    jelly:[[.85,1.2],[.85,.9],[1.1,1.1],[.8,1.3],[1.25,1.2],[.8,1.25],[.9,1.1]],
+    kelp:[[.8,1.3],[.9,1.1],[.9,1],[1,1.25],[1.3,1.3],[.9,1.25],[1,1.1]],
+    whale:[[1.35,.9],[1.25,1.1],[.8,.9],[1.25,.8],[1.2,.8],[.9,.8],[1.2,.95]],
+    swarm:[[1.1,.8],[.8,.8],[1.2,1.2],[1.1,.8],[1.1,.9],[1.3,.9],[1.2,1]],
+    plasma:[[.9,1.15],[.9,1.1],[1.2,1.1],[1.2,1.1],[1.3,1.2],[.85,.95],[.8,.9]],
+    cephalopod:[[.9,1.15],[1.15,1.1],[1.1,1.1],[.95,1.2],[1.1,1.1],[1.2,1.3],[1.1,1.1]],
     valis:     [[1.07,1.01],[1.10,1.04],[1.16,1.08],[1.12,1.02],[1.15,1.10],[1.07,1.05],[1.03,1.06]]
   });
 
@@ -84,21 +90,21 @@
     function next() { x ^= x << 13; x ^= x >>> 17; x ^= x << 5; return (x >>> 0) / 4294967296; }
     var body = next(), appendage = next(), senses = next(), skin = next(), aptitude = next(), sensitivity = next();
     return freeze({seed:seed, body:body, appendage:appendage, senses:senses, skin:skin,
-      aptitude:aptitude, sensitivity:sensitivity, bodyVariant:Math.floor(body * 5),
+      aptitude:aptitude, sensitivity:sensitivity, bodyVariant:Math.floor(body * 12),
       headRatio:.88 + senses * .24, eyeSpacing:4 + Math.round(senses * 5),
       torsoRatio:.82 + body * .36, tailRatio:.75 + appendage * .5, hue:Math.floor(skin * 360)});
   }
   function emptySituation() { return {exposure:{signal:0, void:0, heat:0, tide:0}, foods:[], envs:[], steps:0}; }
   function initial(seed) {
     seed = validateSeed(seed);
-    return {engineVersion:2, environmentPlan:environmentPlanFor(seed), seed:seed, dna:dnaFor(seed), current:0, energyQuarters:0, energy:0, points:0,
+    return {engineVersion:3, environmentPlan:environmentPlanFor(seed), seed:seed, dna:dnaFor(seed), current:0, energyQuarters:0, energy:0, points:0,
       rawPoints:0, currentEnvironment:null, modifier:0, stage:0, lineage:null, history:[], heritage:[], partXp:{}, partImprints:{},
       tissueEnergy:Object.fromEntries(BODY_PARTS.map(function (id) { return [id, 0]; })),
       foods:{number:0, fizz:0, buzz:0, fizzbuzz:0}, regulation:{promote:0, inhibit:0},
       situation:emptySituation(), matured:false, lastMeal:null, finalAppearance:null};
   }
   function levelFor(xp) { return xp >= THRESHOLDS[2] ? 3 : xp >= THRESHOLDS[1] ? 2 : xp >= THRESHOLDS[0] ? 1 : 0; }
-  function maturityThreshold(dna) { return 88 + 12 * (1-dna.aptitude) + 8 * (1-dna.sensitivity); }
+  function maturityThreshold(dna) { return 90 + 10 * (1-dna.aptitude) + 8 * (1-dna.sensitivity); }
   function organGrowth(xp) { return clamp(.10 + .90 * (1-Math.exp(-xp/110)), 0, 1); }
   function phenotype(state, id) {
     id = id || state.lineage;
@@ -115,7 +121,8 @@
   var ENV_KEYS = ['tide','heat','signal','void'];
   function environmentPlanFor(seed) {
     seed=validateSeed(seed);
-    var programs=[seed%15,(seed%15+Math.floor(seed/15)%15)%15],rows=[],exposure=[0,0,0,0],age=0,segment=0,quarters=0,modifier=0;
+    var first=(seed%15+Math.floor(seed/15))%PROGRAMS.length;
+    var programs=[first,(first+(seed%3)*5+(seed%5)*3+Math.floor(seed/15))%PROGRAMS.length],rows=[],exposure=[0,0,0,0],age=0,segment=0,quarters=0,modifier=0;
     for(var i=1;i<=seed;i++) {
       var line=fmtFizzBuzz(i),kind=kindFor(line),target=PROGRAMS[programs[segment]],best=0,bestScore=-Infinity;
       var favored={fizz:2,buzz:0,fizzbuzz:3,number:1}[kind];
@@ -182,7 +189,7 @@
     var base=dna.skin*360,target=profile?profile.hue:base+70;
     var delta=((target-base+540)%360)-180;
     var foodShift=Math.sin((state.foods.fizz*.11+state.foods.buzz*.18+state.foods.fizzbuzz*.31))*14*p;
-    return hsl(base+delta*clamp(p*.8+state.stage*.13,0,1)+foodShift,60+22*dna.sensitivity,58-12*p+9*dna.body);
+    return hsl(base+delta*clamp(p*.8+state.stage*.13,0,1)+foodShift+(state.matured?18:0),60+22*dna.sensitivity,58-12*p+9*dna.body);
   }
   function anatomyFor(state, progress) {
     var dna = state.dna, anatomy = {}, stage = state.stage;
@@ -213,6 +220,7 @@
     anatomy.eyes.scaleY=round(anatomy.eyes.scaleY*(1+.55*anatomy.eyes.growth));
     anatomy.eyes.count=state.lineage==='manyeyes'?Math.min(6,2+stage*2+Math.floor(dna.senses*2)):1+(dna.senses>.5?1:0);
     anatomy.eyes.sense=sensoryFor(state);
+    if(state.matured){anatomy.head.scaleX=round(anatomy.head.scaleX*1.12);anatomy.tail.scaleX=round(anatomy.tail.scaleX*1.18);anatomy.fin.scaleX=round(anatomy.fin.scaleX*1.24);anatomy.fin.scaleY=round(anatomy.fin.scaleY*1.24);anatomy.fin.count=4;anatomy.eyes.scaleX=round(anatomy.eyes.scaleX*1.16);anatomy.eyes.scaleY=round(anatomy.eyes.scaleY*1.16);}
     anatomy.eyes.spacing = round(.1 + .1 * dna.senses + .03 * anatomy.eyes.growth);
     anatomy.limb.visibility = round(clamp(.1 + .7 * progress + .1 * stage, 0, 1));
     anatomy.shell.visibility = round(clamp(.1 + .7 * progress + (primary === 'shell' ? .2 : 0), 0, 1));
@@ -220,7 +228,7 @@
   }
   function calculateAppearance(state) {
     var progress = clamp(state.points / 100, 0, 1);
-    var phaseStart = [0, 20, 58][state.stage], phaseEnd = [20, 58, 100][state.stage];
+    var phaseStart = [0, 20, 58, 90][state.stage], phaseEnd = [20, 58, 100, 108][state.stage];
     var phaseProgress = clamp((state.points - phaseStart) / (phaseEnd - phaseStart), 0, 1);
     var inherited = [];
     state.heritage.forEach(function (entry) {
@@ -228,17 +236,18 @@
     });
     return freeze({version:ENGINE_VERSION, seed:state.seed, dna:{...state.dna}, stage:state.stage,
       points:state.points, progress:progress, tier:Math.min(4, 1 + Math.floor(phaseProgress * 4)),
-      bodyFamily:state.lineage?LINEAGE_BY_ID[state.lineage].bodyFamily:['aquatic','avian','crystal','serpent','ethereal'][state.dna.bodyVariant],
+      bodyFamily:state.lineage?LINEAGE_BY_ID[state.lineage].bodyFamily:'aquatic',
+      bodyPlan:state.lineage?LINEAGE_BY_ID[state.lineage].bodyPlan:definitions.CORE_PLANS[state.dna.bodyVariant],
       signature:state.lineage?LINEAGE_BY_ID[state.lineage].signature:'遺伝子から生まれる未知の幼体',sense:sensoryFor(state),maturityTarget:round(maturityThreshold(state.dna)),
       matured:state.matured, lineage:state.lineage, color:colorFor(state), volume:round(1 + 2 * progress),
       anatomy:anatomyFor(state, progress), organs:phenotype(state), inheritedOrgans:inherited});
   }
   function appearanceFor(state) {
-    if(state.engineVersion!==2) return legacy.appearanceFor(state);
+    if(state.engineVersion!==3) return legacy.appearanceFor(state);
     return state.matured && state.finalAppearance ? freeze(state.finalAppearance) : calculateAppearance(state);
   }
   function step(previous, line, environment) {
-    if(previous.engineVersion!==2)throw Error('旧個体は保存済み状態で閲覧してください');
+    if(previous.engineVersion!==3)throw Error('旧個体は保存済み状態で閲覧してください');
     if(previous.current>=previous.seed)throw Error('入力行数を超える摂取');
     var expected=fmtFizzBuzz(previous.current+1);if(line!==expected)throw Error('元列の行順が不正です');
     environment=previous.environmentPlan.rows[previous.current];
@@ -296,8 +305,9 @@
           points:state.points, energy:state.energy, environment:environment}));
         state.situation = emptySituation();
       }
-      if (state.rawPoints >= maturityThreshold(state.dna)) {
-        state.matured = true;state.maturedAt=state.current;
+      if (state.current>=900 && state.rawPoints >= maturityThreshold(state.dna)) {
+        state.stage=3;state.matured = true;state.maturedAt=state.current;
+        state.history.push(freeze({stage:3,lineage:state.lineage,step:state.current,points:state.points,energy:state.energy,environment:environment}));
         state.finalAppearance = calculateAppearance(state);
       }
     }

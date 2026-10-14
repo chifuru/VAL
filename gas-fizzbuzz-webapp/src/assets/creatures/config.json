@@ -1,5 +1,5 @@
 {
-  "version": "desktop-art-v2",
+  "version": "desktop-art-v3",
   "sprites": {
     "common:head": [
       {
@@ -4551,6 +4551,2466 @@
           31.32
         ]
       }
+    ],
+    "core-aquatic:body": [
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          57,
+          210,
+          187,
+          117
+        ],
+        "root": [
+          93.5,
+          58.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          298,
+          184,
+          246,
+          135
+        ],
+        "root": [
+          123,
+          67.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          566,
+          159,
+          311,
+          180
+        ],
+        "root": [
+          155.5,
+          90
+        ]
+      }
+    ],
+    "core-aquatic:fin": [
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          84,
+          455,
+          141,
+          101
+        ],
+        "root": [
+          11.28,
+          84.84
+        ]
+      },
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          332,
+          427,
+          210,
+          134
+        ],
+        "root": [
+          16.8,
+          112.56
+        ]
+      },
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          607,
+          404,
+          251,
+          174
+        ],
+        "root": [
+          20.08,
+          146.16
+        ]
+      }
+    ],
+    "core-aquatic:limb": [
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          111,
+          688,
+          91,
+          73
+        ],
+        "root": [
+          14.56,
+          10.22
+        ]
+      },
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          354,
+          677,
+          127,
+          103
+        ],
+        "root": [
+          20.32,
+          14.42
+        ]
+      },
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          631,
+          661,
+          201,
+          127
+        ],
+        "root": [
+          32.16,
+          17.78
+        ]
+      }
+    ],
+    "core-amphibian:body": [
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          911,
+          220,
+          227,
+          111
+        ],
+        "root": [
+          113.5,
+          55.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          1169,
+          186,
+          256,
+          147
+        ],
+        "root": [
+          128,
+          73.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          1443,
+          148,
+          307,
+          191
+        ],
+        "root": [
+          153.5,
+          95.5
+        ]
+      }
+    ],
+    "core-amphibian:fin": [
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          956,
+          454,
+          127,
+          98
+        ],
+        "root": [
+          10.16,
+          82.32
+        ]
+      },
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          1220,
+          423,
+          165,
+          143
+        ],
+        "root": [
+          13.2,
+          120.12
+        ]
+      },
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          1498,
+          404,
+          226,
+          168
+        ],
+        "root": [
+          18.08,
+          141.12
+        ]
+      }
+    ],
+    "core-amphibian:limb": [
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          985,
+          689,
+          73,
+          81
+        ],
+        "root": [
+          11.68,
+          11.34
+        ]
+      },
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          1229,
+          663,
+          127,
+          123
+        ],
+        "root": [
+          20.32,
+          17.22
+        ]
+      },
+      {
+        "file": "assets/creatures/core-marine.png",
+        "region": [
+          1513,
+          656,
+          146,
+          143
+        ],
+        "root": [
+          23.36,
+          20.02
+        ]
+      }
+    ],
+    "core-avian:body": [
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          39,
+          234,
+          163,
+          152
+        ],
+        "root": [
+          81.5,
+          76
+        ]
+      },
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          261,
+          185,
+          260,
+          203
+        ],
+        "root": [
+          130,
+          101.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          553,
+          110,
+          319,
+          280
+        ],
+        "root": [
+          159.5,
+          140
+        ]
+      }
+    ],
+    "core-avian:fin": [
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          56,
+          483,
+          104,
+          130
+        ],
+        "root": [
+          8.32,
+          109.2
+        ]
+      },
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          306,
+          451,
+          142,
+          164
+        ],
+        "root": [
+          11.36,
+          137.76
+        ]
+      },
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          605,
+          426,
+          217,
+          209
+        ],
+        "root": [
+          17.36,
+          175.56
+        ]
+      }
+    ],
+    "core-avian:limb": [
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          75,
+          718,
+          88,
+          105
+        ],
+        "root": [
+          14.08,
+          14.7
+        ]
+      },
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          326,
+          703,
+          111,
+          134
+        ],
+        "root": [
+          17.76,
+          18.76
+        ]
+      },
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          600,
+          680,
+          162,
+          170
+        ],
+        "root": [
+          25.92,
+          23.8
+        ]
+      }
+    ],
+    "core-serpent:body": [
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          911,
+          238,
+          201,
+          146
+        ],
+        "root": [
+          100.5,
+          73
+        ]
+      },
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          1138,
+          183,
+          268,
+          201
+        ],
+        "root": [
+          134,
+          100.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          1438,
+          119,
+          312,
+          266
+        ],
+        "root": [
+          156,
+          133
+        ]
+      }
+    ],
+    "core-serpent:fin": [
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          935,
+          497,
+          145,
+          121
+        ],
+        "root": [
+          11.6,
+          101.64
+        ]
+      },
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          1182,
+          448,
+          179,
+          185
+        ],
+        "root": [
+          14.32,
+          155.4
+        ]
+      },
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          1468,
+          426,
+          251,
+          209
+        ],
+        "root": [
+          20.08,
+          175.56
+        ]
+      }
+    ],
+    "core-serpent:limb": [
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          949,
+          723,
+          140,
+          108
+        ],
+        "root": [
+          22.4,
+          15.12
+        ]
+      },
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          1196,
+          707,
+          187,
+          135
+        ],
+        "root": [
+          29.92,
+          18.9
+        ]
+      },
+      {
+        "file": "assets/creatures/core-mythic.png",
+        "region": [
+          1499,
+          684,
+          211,
+          168
+        ],
+        "root": [
+          33.76,
+          23.52
+        ]
+      }
+    ],
+    "core-crystal:body": [
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          74,
+          218,
+          166,
+          141
+        ],
+        "root": [
+          83,
+          70.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          322,
+          181,
+          211,
+          178
+        ],
+        "root": [
+          105.5,
+          89
+        ]
+      },
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          593,
+          144,
+          266,
+          215
+        ],
+        "root": [
+          133,
+          107.5
+        ]
+      }
+    ],
+    "core-crystal:fin": [
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          91,
+          475,
+          121,
+          108
+        ],
+        "root": [
+          9.68,
+          90.72
+        ]
+      },
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          351,
+          447,
+          138,
+          136
+        ],
+        "root": [
+          11.04,
+          114.24
+        ]
+      },
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          630,
+          422,
+          196,
+          161
+        ],
+        "root": [
+          15.68,
+          135.24
+        ]
+      }
+    ],
+    "core-crystal:limb": [
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          97,
+          678,
+          85,
+          120
+        ],
+        "root": [
+          13.6,
+          16.8
+        ]
+      },
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          370,
+          662,
+          103,
+          146
+        ],
+        "root": [
+          16.48,
+          20.44
+        ]
+      },
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          663,
+          642,
+          133,
+          201
+        ],
+        "root": [
+          21.28,
+          28.14
+        ]
+      }
+    ],
+    "core-arthropod:body": [
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          948,
+          189,
+          164,
+          169
+        ],
+        "root": [
+          82,
+          84.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          1195,
+          167,
+          207,
+          191
+        ],
+        "root": [
+          103.5,
+          95.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          1476,
+          112,
+          253,
+          246
+        ],
+        "root": [
+          126.5,
+          123
+        ]
+      }
+    ],
+    "core-arthropod:fin": [
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          966,
+          463,
+          109,
+          114
+        ],
+        "root": [
+          8.72,
+          95.76
+        ]
+      },
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          1225,
+          435,
+          148,
+          145
+        ],
+        "root": [
+          11.84,
+          121.8
+        ]
+      },
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          1499,
+          408,
+          206,
+          175
+        ],
+        "root": [
+          16.48,
+          147
+        ]
+      }
+    ],
+    "core-arthropod:limb": [
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          986,
+          668,
+          88,
+          128
+        ],
+        "root": [
+          14.08,
+          17.92
+        ]
+      },
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          1239,
+          646,
+          151,
+          182
+        ],
+        "root": [
+          24.16,
+          25.48
+        ]
+      },
+      {
+        "file": "assets/creatures/core-armor.png",
+        "region": [
+          1522,
+          642,
+          174,
+          199
+        ],
+        "root": [
+          27.84,
+          27.86
+        ]
+      }
+    ],
+    "core-jelly:body": [
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          54,
+          239,
+          155,
+          185
+        ],
+        "root": [
+          77.5,
+          92.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          256,
+          190,
+          200,
+          239
+        ],
+        "root": [
+          100,
+          119.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          481,
+          139,
+          270,
+          316
+        ],
+        "root": [
+          135,
+          158
+        ]
+      }
+    ],
+    "core-jelly:fin": [
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          64,
+          593,
+          126,
+          119
+        ],
+        "root": [
+          10.08,
+          99.96
+        ]
+      },
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          268,
+          559,
+          182,
+          160
+        ],
+        "root": [
+          14.56,
+          134.4
+        ]
+      },
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          512,
+          530,
+          211,
+          203
+        ],
+        "root": [
+          16.88,
+          170.52
+        ]
+      }
+    ],
+    "core-jelly:limb": [
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          64,
+          817,
+          135,
+          126
+        ],
+        "root": [
+          21.6,
+          17.64
+        ]
+      },
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          265,
+          816,
+          198,
+          141
+        ],
+        "root": [
+          31.68,
+          19.74
+        ]
+      },
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          519,
+          791,
+          207,
+          187
+        ],
+        "root": [
+          33.12,
+          26.18
+        ]
+      }
+    ],
+    "core-cephalopod:body": [
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          797,
+          249,
+          153,
+          167
+        ],
+        "root": [
+          76.5,
+          83.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          985,
+          169,
+          230,
+          260
+        ],
+        "root": [
+          115,
+          130
+        ]
+      },
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          1236,
+          145,
+          275,
+          310
+        ],
+        "root": [
+          137.5,
+          155
+        ]
+      }
+    ],
+    "core-cephalopod:fin": [
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          815,
+          571,
+          127,
+          124
+        ],
+        "root": [
+          10.16,
+          104.16
+        ]
+      },
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          1024,
+          542,
+          177,
+          181
+        ],
+        "root": [
+          14.16,
+          152.04
+        ]
+      },
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          1262,
+          516,
+          217,
+          200
+        ],
+        "root": [
+          17.36,
+          168
+        ]
+      }
+    ],
+    "core-cephalopod:limb": [
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          816,
+          825,
+          126,
+          104
+        ],
+        "root": [
+          20.16,
+          14.56
+        ]
+      },
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          1024,
+          811,
+          156,
+          135
+        ],
+        "root": [
+          24.96,
+          18.9
+        ]
+      },
+      {
+        "file": "assets/creatures/core-abyssal.png",
+        "region": [
+          1261,
+          806,
+          221,
+          147
+        ],
+        "root": [
+          35.36,
+          20.58
+        ]
+      }
+    ],
+    "core-botanical:body": [
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          68,
+          195,
+          200,
+          135
+        ],
+        "root": [
+          100,
+          67.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          317,
+          162,
+          239,
+          169
+        ],
+        "root": [
+          119.5,
+          84.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          581,
+          116,
+          275,
+          215
+        ],
+        "root": [
+          137.5,
+          107.5
+        ]
+      }
+    ],
+    "core-botanical:fin": [
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          100,
+          459,
+          141,
+          112
+        ],
+        "root": [
+          11.28,
+          94.08
+        ]
+      },
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          335,
+          449,
+          178,
+          122
+        ],
+        "root": [
+          14.24,
+          102.48
+        ]
+      },
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          604,
+          408,
+          242,
+          172
+        ],
+        "root": [
+          19.36,
+          144.48
+        ]
+      }
+    ],
+    "core-botanical:limb": [
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          110,
+          682,
+          118,
+          102
+        ],
+        "root": [
+          18.88,
+          14.28
+        ]
+      },
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          351,
+          681,
+          151,
+          120
+        ],
+        "root": [
+          24.16,
+          16.8
+        ]
+      },
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          620,
+          653,
+          198,
+          156
+        ],
+        "root": [
+          31.68,
+          21.84
+        ]
+      }
+    ],
+    "core-whale:body": [
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          916,
+          230,
+          200,
+          101
+        ],
+        "root": [
+          100,
+          50.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          1144,
+          163,
+          249,
+          169
+        ],
+        "root": [
+          124.5,
+          84.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          1419,
+          138,
+          304,
+          197
+        ],
+        "root": [
+          152,
+          98.5
+        ]
+      }
+    ],
+    "core-whale:fin": [
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          929,
+          475,
+          153,
+          95
+        ],
+        "root": [
+          12.24,
+          79.8
+        ]
+      },
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          1166,
+          435,
+          196,
+          135
+        ],
+        "root": [
+          15.68,
+          113.4
+        ]
+      },
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          1439,
+          408,
+          249,
+          167
+        ],
+        "root": [
+          19.92,
+          140.28
+        ]
+      }
+    ],
+    "core-whale:limb": [
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          942,
+          678,
+          139,
+          102
+        ],
+        "root": [
+          22.24,
+          14.28
+        ]
+      },
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          1184,
+          667,
+          192,
+          130
+        ],
+        "root": [
+          30.72,
+          18.2
+        ]
+      },
+      {
+        "file": "assets/creatures/core-living.png",
+        "region": [
+          1452,
+          646,
+          257,
+          158
+        ],
+        "root": [
+          41.12,
+          22.12
+        ]
+      }
+    ],
+    "core-mechanical:body": [
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          48,
+          274,
+          199,
+          134
+        ],
+        "root": [
+          99.5,
+          67
+        ]
+      },
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          289,
+          240,
+          244,
+          174
+        ],
+        "root": [
+          122,
+          87
+        ]
+      },
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          567,
+          186,
+          302,
+          245
+        ],
+        "root": [
+          151,
+          122.5
+        ]
+      }
+    ],
+    "core-mechanical:fin": [
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          99,
+          527,
+          89,
+          88
+        ],
+        "root": [
+          7.12,
+          73.92
+        ]
+      },
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          341,
+          510,
+          128,
+          105
+        ],
+        "root": [
+          10.24,
+          88.2
+        ]
+      },
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          611,
+          450,
+          172,
+          191
+        ],
+        "root": [
+          13.76,
+          160.44
+        ]
+      }
+    ],
+    "core-mechanical:limb": [
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          102,
+          709,
+          96,
+          133
+        ],
+        "root": [
+          15.36,
+          18.62
+        ]
+      },
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          353,
+          708,
+          103,
+          142
+        ],
+        "root": [
+          16.48,
+          19.88
+        ]
+      },
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          641,
+          683,
+          138,
+          185
+        ],
+        "root": [
+          22.08,
+          25.9
+        ]
+      }
+    ],
+    "core-ethereal:body": [
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          905,
+          280,
+          195,
+          141
+        ],
+        "root": [
+          97.5,
+          70.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          1129,
+          220,
+          276,
+          201
+        ],
+        "root": [
+          138,
+          100.5
+        ]
+      },
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          1409,
+          162,
+          338,
+          269
+        ],
+        "root": [
+          169,
+          134.5
+        ]
+      }
+    ],
+    "core-ethereal:fin": [
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          945,
+          527,
+          114,
+          87
+        ],
+        "root": [
+          9.12,
+          73.08
+        ]
+      },
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          1183,
+          481,
+          159,
+          160
+        ],
+        "root": [
+          12.72,
+          134.4
+        ]
+      },
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          1463,
+          453,
+          252,
+          189
+        ],
+        "root": [
+          20.16,
+          158.76
+        ]
+      }
+    ],
+    "core-ethereal:limb": [
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          958,
+          718,
+          113,
+          113
+        ],
+        "root": [
+          18.08,
+          15.82
+        ]
+      },
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          1195,
+          707,
+          174,
+          148
+        ],
+        "root": [
+          27.84,
+          20.72
+        ]
+      },
+      {
+        "file": "assets/creatures/core-signal.png",
+        "region": [
+          1486,
+          700,
+          234,
+          165
+        ],
+        "root": [
+          37.44,
+          23.1
+        ]
+      }
+    ],
+    "jelly:frontTentacle_1": [
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          62,
+          131,
+          192,
+          173
+        ],
+        "root": [
+          8,
+          138
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          354,
+          61,
+          247,
+          243
+        ],
+        "root": [
+          10,
+          194
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          691,
+          21,
+          316,
+          304
+        ],
+        "root": [
+          13,
+          243
+        ]
+      }
+    ],
+    "jelly:photonSail_2": [
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          65,
+          198,
+          176,
+          169
+        ],
+        "root": [
+          42,
+          155
+        ]
+      },
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          362,
+          162,
+          252,
+          206
+        ],
+        "root": [
+          60,
+          190
+        ]
+      },
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          670,
+          64,
+          340,
+          304
+        ],
+        "root": [
+          82,
+          280
+        ]
+      }
+    ],
+    "jelly:orbitalNode_3": [
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          132,
+          422,
+          91,
+          109
+        ],
+        "root": [
+          46,
+          106
+        ]
+      },
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          451,
+          401,
+          127,
+          149
+        ],
+        "root": [
+          64,
+          145
+        ]
+      },
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          753,
+          365,
+          184,
+          199
+        ],
+        "root": [
+          92,
+          193
+        ]
+      }
+    ],
+    "jelly:lightKernel_4": [
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          139,
+          857,
+          97,
+          101
+        ],
+        "root": [
+          48,
+          50
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          433,
+          836,
+          131,
+          138
+        ],
+        "root": [
+          66,
+          69
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          739,
+          815,
+          183,
+          173
+        ],
+        "root": [
+          92,
+          86
+        ]
+      }
+    ],
+    "kelp:wing_1": [
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          91,
+          351,
+          164,
+          119
+        ],
+        "root": [
+          15,
+          60
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          365,
+          322,
+          235,
+          174
+        ],
+        "root": [
+          21,
+          87
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          695,
+          293,
+          261,
+          218
+        ],
+        "root": [
+          23,
+          109
+        ]
+      }
+    ],
+    "kelp:frontTentacle_2": [
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          62,
+          131,
+          192,
+          173
+        ],
+        "root": [
+          8,
+          138
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          354,
+          61,
+          247,
+          243
+        ],
+        "root": [
+          10,
+          194
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          691,
+          21,
+          316,
+          304
+        ],
+        "root": [
+          13,
+          243
+        ]
+      }
+    ],
+    "kelp:tailFeathers_3": [
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          80,
+          1088,
+          162,
+          110
+        ],
+        "root": [
+          16,
+          94
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          361,
+          1036,
+          207,
+          187
+        ],
+        "root": [
+          21,
+          159
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          673,
+          1027,
+          292,
+          208
+        ],
+        "root": [
+          29,
+          177
+        ]
+      }
+    ],
+    "kelp:lightKernel_4": [
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          139,
+          857,
+          97,
+          101
+        ],
+        "root": [
+          48,
+          50
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          433,
+          836,
+          131,
+          138
+        ],
+        "root": [
+          66,
+          69
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          739,
+          815,
+          183,
+          173
+        ],
+        "root": [
+          92,
+          86
+        ]
+      }
+    ],
+    "whale:segmentedArmor_1": [
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          102,
+          375,
+          183,
+          125
+        ],
+        "root": [
+          92,
+          121
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          381,
+          361,
+          224,
+          148
+        ],
+        "root": [
+          112,
+          144
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          665,
+          346,
+          298,
+          172
+        ],
+        "root": [
+          149,
+          167
+        ]
+      }
+    ],
+    "whale:pectoralWing_2": [
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          82,
+          535,
+          198,
+          202
+        ],
+        "root": [
+          30,
+          162
+        ]
+      },
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          378,
+          450,
+          227,
+          315
+        ],
+        "root": [
+          34,
+          252
+        ]
+      },
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          680,
+          404,
+          317,
+          368
+        ],
+        "root": [
+          48,
+          294
+        ]
+      }
+    ],
+    "whale:forkTail_3": [
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          41,
+          942,
+          218,
+          185
+        ],
+        "root": [
+          109,
+          178
+        ]
+      },
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          342,
+          885,
+          286,
+          235
+        ],
+        "root": [
+          143,
+          226
+        ]
+      },
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          664,
+          818,
+          339,
+          310
+        ],
+        "root": [
+          170,
+          298
+        ]
+      }
+    ],
+    "whale:sensingWhisker_4": [
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          71,
+          408,
+          185,
+          158
+        ],
+        "root": [
+          15,
+          144
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          353,
+          377,
+          305,
+          196
+        ],
+        "root": [
+          24,
+          178
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          658,
+          337,
+          347,
+          260
+        ],
+        "root": [
+          28,
+          237
+        ]
+      }
+    ],
+    "swarm:primaryArm_1": [
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          88,
+          118,
+          155,
+          193
+        ],
+        "root": [
+          78,
+          185
+        ]
+      },
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          425,
+          73,
+          200,
+          243
+        ],
+        "root": [
+          100,
+          233
+        ]
+      },
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          721,
+          36,
+          229,
+          284
+        ],
+        "root": [
+          114,
+          273
+        ]
+      }
+    ],
+    "swarm:gripLeg_2": [
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          108,
+          711,
+          138,
+          200
+        ],
+        "root": [
+          62,
+          24
+        ]
+      },
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          430,
+          667,
+          162,
+          252
+        ],
+        "root": [
+          73,
+          30
+        ]
+      },
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          747,
+          644,
+          195,
+          279
+        ],
+        "root": [
+          88,
+          33
+        ]
+      }
+    ],
+    "swarm:bodyCrystalShell_3": [
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          68,
+          334,
+          205,
+          134
+        ],
+        "root": [
+          102,
+          129
+        ]
+      },
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          383,
+          327,
+          254,
+          143
+        ],
+        "root": [
+          127,
+          137
+        ]
+      },
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          719,
+          292,
+          275,
+          180
+        ],
+        "root": [
+          138,
+          173
+        ]
+      }
+    ],
+    "swarm:lateralEye_4": [
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          145,
+          185,
+          102,
+          138
+        ],
+        "root": [
+          51,
+          134
+        ]
+      },
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          439,
+          158,
+          138,
+          171
+        ],
+        "root": [
+          69,
+          166
+        ]
+      },
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          727,
+          139,
+          175,
+          193
+        ],
+        "root": [
+          88,
+          187
+        ]
+      }
+    ],
+    "plasma:solarRing_1": [
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          89,
+          130,
+          181,
+          165
+        ],
+        "root": [
+          90,
+          158
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          398,
+          84,
+          218,
+          216
+        ],
+        "root": [
+          109,
+          207
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          706,
+          69,
+          266,
+          237
+        ],
+        "root": [
+          133,
+          228
+        ]
+      }
+    ],
+    "plasma:fireMembrane_2": [
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          118,
+          717,
+          139,
+          163
+        ],
+        "root": [
+          35,
+          156
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          430,
+          693,
+          184,
+          190
+        ],
+        "root": [
+          46,
+          182
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          728,
+          652,
+          248,
+          246
+        ],
+        "root": [
+          62,
+          236
+        ]
+      }
+    ],
+    "plasma:lightKernel_3": [
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          139,
+          857,
+          97,
+          101
+        ],
+        "root": [
+          48,
+          50
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          433,
+          836,
+          131,
+          138
+        ],
+        "root": [
+          66,
+          69
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          739,
+          815,
+          183,
+          173
+        ],
+        "root": [
+          92,
+          86
+        ]
+      }
+    ],
+    "plasma:radiatingWhisker_4": [
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          137,
+          1000,
+          69,
+          174
+        ],
+        "root": [
+          10,
+          167
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          454,
+          961,
+          130,
+          216
+        ],
+        "root": [
+          20,
+          207
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          771,
+          940,
+          187,
+          241
+        ],
+        "root": [
+          28,
+          231
+        ]
+      }
+    ],
+    "cephalopod:frontTentacle_1": [
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          62,
+          131,
+          192,
+          173
+        ],
+        "root": [
+          8,
+          138
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          354,
+          61,
+          247,
+          243
+        ],
+        "root": [
+          10,
+          194
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          691,
+          21,
+          316,
+          304
+        ],
+        "root": [
+          13,
+          243
+        ]
+      }
+    ],
+    "cephalopod:tentacleMembrane_2": [
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          88,
+          1016,
+          163,
+          193
+        ],
+        "root": [
+          13,
+          181
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          357,
+          943,
+          262,
+          265
+        ],
+        "root": [
+          21,
+          249
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          674,
+          925,
+          321,
+          300
+        ],
+        "root": [
+          26,
+          282
+        ]
+      }
+    ],
+    "cephalopod:lateralEye_3": [
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          145,
+          185,
+          102,
+          138
+        ],
+        "root": [
+          51,
+          134
+        ]
+      },
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          439,
+          158,
+          138,
+          171
+        ],
+        "root": [
+          69,
+          166
+        ]
+      },
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          727,
+          139,
+          175,
+          193
+        ],
+        "root": [
+          88,
+          187
+        ]
+      }
+    ],
+    "cephalopod:spiralShell_4": [
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          116,
+          143,
+          138,
+          151
+        ],
+        "root": [
+          69,
+          146
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          392,
+          110,
+          194,
+          186
+        ],
+        "root": [
+          97,
+          180
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          697,
+          70,
+          250,
+          233
+        ],
+        "root": [
+          125,
+          226
+        ]
+      }
     ]
   },
   "files": [
@@ -4671,6 +7131,42 @@
     {
       "file": "assets/creatures/body-ethereal.png",
       "sha256": "5498852f7d93755a74d421d4005f6b96d1e2317b07be05159cb7763e025d5386",
+      "width": 1774,
+      "height": 887
+    },
+    {
+      "file": "assets/creatures/core-marine.png",
+      "sha256": "cf096315ba9e728f1a9a8bd58975c0b8e0499d1543afb7c4627f4d8f92b21f07",
+      "width": 1774,
+      "height": 887
+    },
+    {
+      "file": "assets/creatures/core-mythic.png",
+      "sha256": "417bf9d4296342e9b14ec21d808632fb3c7b81dcdbe3e3a9996f4e4fd43fb9b6",
+      "width": 1774,
+      "height": 887
+    },
+    {
+      "file": "assets/creatures/core-armor.png",
+      "sha256": "4e6bc49d82f69d61bc211722f46790cd7f9158dac3bdd85c5d3e636ad5776ef9",
+      "width": 1774,
+      "height": 887
+    },
+    {
+      "file": "assets/creatures/core-abyssal.png",
+      "sha256": "4b520e097a9e67cc14e85b15ceedc247ceb07f6c02e29d6a97ca5e50b900d1ca",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "assets/creatures/core-living.png",
+      "sha256": "91416dbc0a34b9540a352c8d59ea101e345fb7bcbd8656256ae2fcef85c4d2d9",
+      "width": 1774,
+      "height": 887
+    },
+    {
+      "file": "assets/creatures/core-signal.png",
+      "sha256": "679a62ef9c90604e9551b9c9694b84face95a8ab54b6aac70349cb7e0615e0ca",
       "width": 1774,
       "height": 887
     }

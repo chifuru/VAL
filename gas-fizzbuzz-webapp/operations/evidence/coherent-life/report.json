@@ -1,0 +1,53 @@
+{
+  "scope": "ENGINE3 coherent-life; local automated evidence and Codex visual review; all nodes remain draft",
+  "generatedAt": "2026-10-14T21:54:29.415188+00:00",
+  "unit": {
+    "passed": 38,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "passed": 277,
+    "browser": "154.0.8037.57",
+    "errors": [],
+    "remote": []
+  },
+  "native": {
+    "platform": "linux",
+    "packaged": false,
+    "createChecks": 16,
+    "restoreChecks": 10,
+    "separateProcesses": true
+  },
+  "windowsPackage": {
+    "scope": "Windows x64 package integrity; actual Windows execution is a separate smoke gate",
+    "electronVersion": "44.7.2",
+    "packagerVersion": "20.3.0",
+    "officialRuntimeSha256": "10a89447ef64ac5cb9f782af48ffd83734a40ae91681259d1048ca3c9e6c5da4",
+    "exe": "VALIS.exe",
+    "machine": "x86-64",
+    "asarEntries": 46,
+    "pngCount": 26,
+    "sourceBytesMatch": true,
+    "zip": "VALIS-Windows-x64.zip",
+    "zipBytes": 203866179,
+    "zipSha256": "849d4abf998994ced3a79ca9ba2bc94fc021a588c7f19d0f327a49d69a7324a7",
+    "generatedAt": "2026-10-14T21:53:22.171Z"
+  },
+  "visualInspection": {
+    "references": "design/assets/coherent-life-provenance.json",
+    "observed": "all20 actual lineage PNGs; N927 stages0/1/2/3; 1440x960/1366x768/760x620 layouts; archive final-result UI",
+    "finding": "Continuous body tissue, surface-rooted inherited organs, bell/flora/whale/mantle/arthropod/signal anatomy and separate fourth-stage shape/pigment. Standard layouts show food, environment, history and creature together; narrow layout uses compressed text/internal scroll.",
+    "scope": "Codex image inspection; not user art acceptance"
+  },
+  "fixedDuringValidation": [
+    "food/environment text panel overflow",
+    "ring organs clipped when body height was smaller than ring diameter: include ring bounds in fit",
+    "legacy/new-state version mismatch validation now precedes stage bound and also checks snapshot versions"
+  ],
+  "unperformed": [
+    "Windows10/11 user hardware/FPS/display scaling acceptance",
+    "User art acceptance"
+  ],
+  "windowsCi": "E26 pending actual hosted result, separate from local cross-build"
+}

@@ -1,7 +1,7 @@
 /* Deterministic feeding and whole-body growth. Assets and playback clocks belong to the renderer. */
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory(require('./lineage-definitions.js'));
-  else root.LegacyCreatureEngine = factory(root.LineageDefinitions);
+  if (typeof module === 'object' && module.exports) module.exports = factory(require('./legacy-lineages.js'));
+  else root.LegacyCreatureEngine = factory(root.LegacyLineageDefinitions);
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (definitions) {
   'use strict';
   if (!definitions || !definitions.LINEAGES || !definitions.PART_DEFINITIONS) throw Error('系統定義を先に読み込んでください');

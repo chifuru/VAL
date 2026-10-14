@@ -46,7 +46,41 @@
       g.drawImage(painted,currentPalette?0:sx,currentPalette?0:sy,sw,sh,-pivot[0]*scale,-pivot[1]*scale,sw*scale,sh*scale);
       g.restore();lastDraw.push(key);
     }
+    const eyeSites={aquatic:[.15,.48],amphibian:[.14,.44],avian:[.14,.36],serpent:[.19,.35],crystal:[.16,.48],arthropod:[.18,.51],jelly:[.43,.46],cephalopod:[.17,.40],botanical:[.17,.44],whale:[.21,.47],mechanical:[.15,.44],ethereal:[.15,.43]};
+    function integratedSkeleton(a){
+      const level=Math.min(3,a.stage+1),key='core-'+a.bodyPlan+':body',s=sprite(key,level),n=a.anatomy;
+      const sw=s.region[2],sh=s.region[3],baseScale=Math.min(480*n.torso.scaleX/sw,300*n.torso.scaleY/sh);
+      const slices=72,dx=sw/slices,positions=[0],sx=[],sy=[];
+      function smooth(t){t=clamp(t,0,1);return t*t*(3-2*t);}
+      for(let i=0;i<slices;i++){const u=(i+.5)/slices,h=1-smooth((u-.16)/.30),tail=smooth((u-.58)/.30);
+        const vx=1+h*(clamp(n.head.scaleX/n.torso.scaleX,.65,1.5)-1)+tail*(clamp(n.tail.scaleX/n.torso.scaleX,.65,1.6)-1),vy=1+h*(clamp(n.head.scaleY/n.torso.scaleY,.7,1.4)-1)+tail*(clamp(n.tail.scaleY/n.torso.scaleY,.65,1.5)-1);
+        sx.push(vx);sy.push(vy);positions.push(positions[i]+dx*baseScale*vx);}
+      const width=positions[slices],height=sh*baseScale*Math.max(...sy);
+      function point(u,v){const slot=clamp(Math.floor(u*slices),0,slices-1),fraction=u*slices-slot;return [positions[slot]+fraction*dx*baseScale*sx[slot]-width*.5,(v-.5)*sh*baseScale*sy[slot]];}
+      const bell=a.bodyPlan==='jelly',flower=a.bodyPlan==='botanical',eye=bell&&a.stage===0?[.20,.38]:eyeSites[a.bodyPlan],vertical=bell||flower;
+      const sockets={eye:point(...eye),head:point(eye[0]+.07,eye[1]-.13),mouth:point(Math.max(.03,eye[0]-.1),eye[1]+.09),
+        dorsal:point(vertical?.5:.48,vertical?.20:.28),shoulder:point(vertical?.32:.35,vertical?.48:.43),flank:point(.53,.57),chest:point(.40,.57),
+        forelimb:point(vertical?.35:.31,.66),hindlimb:point(.65,.68),tailBase:point(.78,.57),tailTip:point(vertical?.58:.91,vertical?.82:.53),outerOrbit:point(.52,.46)};
+      return {integrated:true,key,level,s,sw,sh,baseScale,slices,dx,positions,sx,sy,bw:width,bh:height,volume:1,head:sockets.head,hw:width*.27,hh:height*.3,posture:0,sockets};
+    }
+    function coherentAnatomy(g,a,b){
+      const n=a.anatomy,finKey='core-'+a.bodyPlan+':fin',limbKey='core-'+a.bodyPlan+':limb';
+      // Far appendages grow from real source-body sockets; they remain behind its skin.
+      const aquatic=['aquatic','whale','jelly','cephalopod','ethereal'].includes(a.bodyPlan),finCount=n.fin.count||2;
+      for(let i=0;i<finCount;i++){const side=i%2?-1:1,root=i>=2?b.sockets.flank:b.sockets.shoulder;
+        paint(g,finKey,bodyTier(n.fin),root[0]+side*5,root[1]+side*5,100*n.fin.scaleX,110*n.fin.scaleY,side*(aquatic?.45:.25),side<0?.82:1,side<0);}
+      const source=images.get(b.s.file),im=currentPalette?recolored(b.s,source,currentPalette):source;
+      g.save();for(let i=0;i<b.slices;i++){const yscale=b.baseScale*b.sy[i],x=b.positions[i]-b.bw*.5;
+        g.drawImage(im,(currentPalette?0:b.s.region[0])+i*b.dx,currentPalette?0:b.s.region[1],b.dx,b.sh,x,-b.sh*.5*yscale,b.dx*b.baseScale*b.sx[i]+.6,b.sh*yscale);}
+      g.restore();lastDraw.push(b.key);
+      // Actual tissue pattern follows the alpha of the entire integrated core.
+      if(a.stage===3){g.save();g.globalAlpha=.18;g.shadowColor='rgb('+a.color.join(',')+')';g.shadowBlur=15;
+        for(let i=0;i<2;i++)paint(g,finKey,3,b.sockets.dorsal[0]+i*15,b.sockets.dorsal[1],100*n.fin.scaleX,115*n.fin.scaleY,(i-.5)*.35,.65,i===1);g.restore();}
+      for(let side of [-1,1]){const joint=a.bodyPlan==='jelly'||a.bodyPlan==='cephalopod'?b.sockets.flank:b.sockets.forelimb;
+        paint(g,limbKey,bodyTier(n.limb),joint[0]+side*7,joint[1],70*n.limb.scaleX,95*n.limb.scaleY,side*.16,.35+.6*n.limb.visibility,side<0);}
+    }
     function skeleton(a){
+      if(a.bodyPlan)return integratedSkeleton(a);
       const n=a.anatomy,d=a.dna,p=a.progress;
       // Engine anatomy already contains the cube-root volume scale.
       const volume=1,trunkShape=n.torso;
@@ -87,7 +121,7 @@
     }
     function organ(g,part,a,b,t,reduced){
       const base=b.sockets[part.anchor]||b.sockets.flank;
-      const size=defaults[part.anchor]||[160,160],scale=(.45+.25*part.level+.15*part.growth)*(1+((part.form||1)-1)*.09);
+      const size=defaults[part.anchor]||[160,160],scale=(b.integrated?.50:1)*(.45+.25*part.level+.15*part.growth)*(1+((part.form||1)-1)*.09);
       const tint=(a.color[0]-a.color[2])*.22+a.dna.skin*24-12;
       const count=clamp(part.count||1,1,6);
       for(let i=0;i<count;i++){
@@ -97,20 +131,21 @@
         if(part.anchor==='outerOrbit'){
           const isRing=/ring|halo/i.test(part.id);
           if(isRing){x=0;y=-10;angle=-.16;flip=false;center=true;width=height=Math.max(b.bw,b.bh)*1.35;}
-          else{const theta=-Math.PI*.85+i*Math.PI*1.85/count+(reduced?0:t/7000);x=Math.cos(theta)*(b.bw*.6+90);y=Math.sin(theta)*(b.bh*.7+105);}
+          else{const theta=-Math.PI*.85+i*Math.PI*1.85/count+(reduced?0:t/7000);x=Math.cos(theta)*(b.bw*(b.integrated?.43:.6)+(b.integrated?30:90));y=Math.sin(theta)*(b.bh*(b.integrated?.38:.7)+(b.integrated?35:105));if(b.integrated){width*=.55;height*=.55;g.save();g.strokeStyle='rgba('+a.color.join(',')+',.55)';g.lineWidth=2;g.beginPath();g.moveTo(base[0],base[1]);g.bezierCurveTo(base[0]+(x-base[0])*.25,base[1]-35,x-10,y+20,x,y);g.stroke();g.restore();}}
         }else if(part.anchor==='tailTip'){angle=-.12;}
         else if(part.anchor==='flank'){x+=(i-(count-1)/2)*32;y+=i%2*19;angle=far?Math.PI*.65:Math.PI*.25;}
-        else if(part.anchor==='forelimb'||part.anchor==='hindlimb'){x+=i*25;y+=far?-14:15;angle=Math.PI+(far?.3:-.25);}
+        else if(part.anchor==='forelimb'||part.anchor==='hindlimb'){x+=i*(b.integrated?9:25);y+=far?-7:7;angle=Math.PI+(far?.3:-.25);}
         else if(part.anchor==='shoulder'){x+=far?35:-10;y+=far?-24:15;angle=far?-.65:.5;
-          if(part.id==='additionalNeck'){x=base[0]+60+i*75;y=base[1]-b.bh*.18;angle=(i-.5)*.12;width=220*scale;height=280*scale;flip=false;}}
+          if(part.id==='additionalNeck'){x=base[0]+(b.integrated?10+i*24:60+i*75);y=base[1]-(b.integrated?0:b.bh*.18);angle=(i-.5)*.12;width=220*scale;height=280*scale;flip=false;}}
         else if(part.anchor==='eye'){x+=i*28;y+=i%2*17;angle=Math.PI;}
         else if(part.anchor==='mouth'){x-=i*12;y+=i*11;angle=-Math.PI*.55;}
         else if(part.anchor==='head'){x+=i*30;angle=(i-(count-1)/2)*.28;}
-        const opacity=part.inherited?.78:(far?.84:1);
+        const opacity=part.inherited?.86:(far?.84:1);
         paint(g,part.lineage+':'+part.id,part.level,x,y,width,height,angle+((part.form||1)-1)*.06,opacity,flip,tint,center);
       }
     }
     function anatomy(g,a,b){
+      if(b.integrated){coherentAnatomy(g,a,b);return;}
       const n=a.anatomy,tint=(a.color[0]-a.color[2])*.22+a.dna.skin*24-12;
       const tail=b.sockets.tailBase;
       paint(g,bodyKey(a,'tail'),bodyTier(n.tail),tail[0],tail[1],220*n.tail.scaleX*b.volume,190*n.tail.scaleY*b.volume,-.17,1,false,tint);
@@ -155,9 +190,10 @@
       const modes=n.sense||'',accent=/熱|赤外|紫外/.test(modes)?[255,154,61]:/位相|信号/.test(modes)?[209,128,255]:/電位|磁場/.test(modes)?[103,255,213]:[92,204,255];
       if(a.bodyFamily)currentPalette=accent;
       for(let i=count-1;i>=0;i--){
+        const eyeScale=b.integrated?(a.bodyPlan==='whale'?.34:a.bodyPlan==='arthropod'?.48:.45):1;
         const extra=i>=2,x=base[0]+(i%2)*12+(extra?(i-1)*25:0),y=base[1]-(i%2)*9-(extra?18:0),factor=extra?.62:1;
         g.save();if(a.stage>0){g.shadowColor='rgb('+accent.join(',')+')';g.shadowBlur=6+a.stage*3;}
-        paint(g,bodyKey(a,'eye'),bodyTier(n),x,y,48*n.scaleX*factor,48*n.scaleY*factor,0,i===1?.78:1,false,0);g.restore();
+        paint(g,bodyKey(a,'eye'),bodyTier(n),x,y,48*n.scaleX*factor*eyeScale,48*n.scaleY*factor*eyeScale,0,i===1?.78:1,false,0);g.restore();
       }
       currentPalette=saved;
     }
@@ -178,11 +214,12 @@
       const a=E.appearanceFor(state);currentPalette=a.bodyFamily?a.color:null;const b=skeleton(a),w=target.width,h=target.height,mini=!!options.mini;
       const time=options.time||0,reduced=options.still!==false;
       g.clearRect(0,0,w,h);if(!mini)background(g,w,h,time);
-      const density=mergeOrgans(a).length,extentX=Math.max(1100,b.bw*2.5+450),extentY=Math.max(900,b.bh*2.8+430);
-      const fit=Math.min(w/extentX,h/extentY)*(mini?.86:density>9?.86:1);
-      g.save();g.translate(w*.50,h*.61);g.scale(fit,fit);g.rotate(b.posture);
-      if(!reduced)g.translate(0,Math.sin(time/1250)*2.3);
       const organs=mergeOrgans(a);
+      const ringExtent=organs.some(p=>p.anchor==='outerOrbit'&&/ring|halo/i.test(p.id))?Math.max(b.bw,b.bh)*1.35+100:0;
+      const extentX=b.integrated?Math.max(b.bw+230,ringExtent):Math.max(1100,b.bw*2.5+450),extentY=b.integrated?Math.max(b.bh+220,ringExtent):Math.max(900,b.bh*2.8+430);
+      const fit=Math.min(w*.90/extentX,h*.86/extentY)*(mini?.92:1);
+      g.save();g.translate(w*(b.integrated?.58:.50),h*(b.integrated?.56:.61));g.scale(fit,fit);g.rotate(b.posture);
+      if(!reduced){const breath=Math.sin(time/1250);g.translate(0,breath*2.3);g.scale(1+breath*.008,1-breath*.012);}
       const isFront=p=>frontAnchors.has(p.anchor)||p.id==='additionalNeck';
       organs.filter(p=>!isFront(p)).sort((a,b)=>Number(!/ring|halo/i.test(a.id))-Number(!/ring|halo/i.test(b.id))).forEach(p=>organ(g,p,a,b,time,reduced));
       anatomy(g,a,b);
@@ -201,7 +238,7 @@
       }
       g.restore();currentPalette=null;
     }
-    function draw(state,options){drawTo(ctx,canvas,state,options);}
+    function draw(state,options){const w=Math.round(canvas.clientWidth*(window.devicePixelRatio||1)),h=Math.round(canvas.clientHeight*(window.devicePixelRatio||1));if(w>0&&h>0&&(canvas.width!==w||canvas.height!==h)){canvas.width=w;canvas.height=h;}drawTo(ctx,canvas,state,options);}
     function portrait(state,width=300,height=200){
       const target=document.createElement('canvas');target.width=width;target.height=height;
       drawTo(target.getContext('2d'),target,state,{mini:true,still:true});return target.toDataURL('image/png');
@@ -209,7 +246,7 @@
     function organPortrait(part,width=100,height=80){
       const target=document.createElement('canvas');target.width=width;target.height=height;
       const g=target.getContext('2d'),s=sprite(part.lineage+':'+part.id,Math.max(1,part.level));
-      if(s&&images.get(s.file))g.drawImage(images.get(s.file),...s.region,0,0,width,height);
+      if(s&&images.get(s.file)){let [x,y,w,h]=s.region;if(part.crop){const c=part.crop;x+=w*c[0];y+=h*c[1];w*=c[2];h*=c[3];}const scale=Math.min(width/w,height/h);g.drawImage(images.get(s.file),x,y,w,h,(width-w*scale)/2,(height-h*scale)/2,w*scale,h*scale);}
       return target;
     }
     return {prepare,draw,portrait,organPortrait,missingAssets:()=>[...missing],renderedKeys:()=>lastDraw.slice(),assetVersion:config.version};

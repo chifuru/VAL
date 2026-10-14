@@ -915,6 +915,29 @@
     valis:['ethereal',195,'受信膜・偏在光核と漂遊衛片','信号']
   };
   data.LINEAGES.forEach(function(l){var s=signatures[l.id];l.bodyFamily=s[0];l.hue=s[1];l.signature=s[2];l.sense=s[3];});
+  data.CORE_PLANS=['aquatic','amphibian','avian','serpent','crystal','arthropod','jelly','cephalopod','botanical','whale','mechanical','ethereal'];
+  var plans={abyss:'cephalopod',myth:'avian',recursive:'amphibian',sail:'aquatic',gravity:'ethereal',crystal:'crystal',manyeyes:'arthropod',abyssshell:'cephalopod',parallel:'mechanical',memory:'mechanical',serpent:'serpent',solar:'serpent',antimeme:'jelly',valis:'ethereal'};
+  data.LINEAGES.forEach(function(l){l.bodyPlan=plans[l.id];});
+  var extra=[
+    ['jelly','◉','浮遊傘',['シェルム','ルミクラ','エアロネマ'],'ルミナ＝アンブラ','tentacles',[.65,0,.35,0],'jelly','ethereal',205,'傘と触糸が一体となり漂う浮遊生命','水流'],
+    ['kelp','❧','植物共生',['ハナモル','フィトリア','花冠樹'],'フロラ＝ヴァイン','glow',[.2,.65,.15,0],'botanical','aquatic',135,'花冠・種子核・根がつながる光合成生命','化学'],
+    ['whale','≈','星海鯨',['ウミモル','ホエリア','星海鯨'],'オルカ＝エオン','shell',[.8,0,0,.2],'whale','aquatic',215,'厚い胴と濾過器官・大きな尾びれ','音響'],
+    ['swarm','⋈','群体節足',['コロニル','アラクネア','群星殻'],'ミリオ＝コロニー','limbs',[.25,.15,.5,.1],'arthropod','crystal',280,'節足・分節殻・群体感覚が連携する生命','振動'],
+    ['plasma','☉','プラズマ生命',['ヒカリル','プラズミア','放射生命'],'イグニス＝ルーメン','glow',[.1,.4,.15,.35],'ethereal','ethereal',25,'流れる膜と光核が循環する高熱生命','電磁'],
+    ['cephalopod','≋','深淵頭足',['マントル','セファリア','深淵頭足'],'クトラ＝マントル','tentacles',[.35,.05,.15,.45],'cephalopod','aquatic',310,'柔らかい外套と腕がつながる深海生命','圧力']
+  ];
+  data.ASSET_ALIASES={};
+  var reused={
+    jelly:[['abyss','frontTentacle','触糸','flank'],['sail','photonSail','傘膜','dorsal'],['gravity','orbitalNode','浮遊嚢','outerOrbit'],['valis','lightKernel','発光核','chest']],
+    kelp:[['myth','wing','葉冠','dorsal'],['abyss','frontTentacle','根腕','forelimb'],['myth','tailFeathers','蔓尾','tailTip'],['valis','lightKernel','種子核','chest']],
+    whale:[['abyssshell','segmentedArmor','濾過板','chest'],['sail','pectoralWing','胸びれ','shoulder'],['sail','forkTail','大尾びれ','tailTip'],['abyss','sensingWhisker','音響ひげ','mouth']],
+    swarm:[['parallel','primaryArm','主節肢','forelimb'],['parallel','gripLeg','把持脚','hindlimb'],['crystal','bodyCrystalShell','分節殻','chest'],['manyeyes','lateralEye','群体眼','eye']],
+    plasma:[['solar','solarRing','エネルギー環','outerOrbit'],['solar','fireMembrane','放電膜','shoulder'],['valis','lightKernel','放射核','chest'],['solar','radiatingWhisker','放電枝','flank']],
+    cephalopod:[['abyss','frontTentacle','主触腕','mouth'],['abyss','tentacleMembrane','外套膜','shoulder'],['manyeyes','lateralEye','側眼','eye'],['abyssshell','spiralShell','外套殻','chest']]
+  };
+  extra.forEach(function(x){var l={id:x[0],mark:x[1],group:x[2],names:x[3],finalName:x[4],primary:x[5],niche:x[6],bodyPlan:x[7],bodyFamily:x[8],hue:x[9],signature:x[10],sense:x[11]};data.LINEAGES.push(l);
+    data.PART_DEFINITIONS[l.id]=reused[l.id].map(function(a,i){var source=data.PART_DEFINITIONS[a[0]].find(function(p){return p[0]===a[1];}),id=a[1]+'_'+(i+1);data.ASSET_ALIASES[l.id+':'+id]=a[0]+':'+a[1];return [id,a[2],a[3],source[3],source[4],source[5]];});
+  });
   data.LINEAGE_BY_ID = Object.fromEntries(data.LINEAGES.map(function (lineage) { return [lineage.id, lineage]; }));
   data.PART_GROUP_COUNT = Object.values(data.PART_DEFINITIONS).reduce(function (total, parts) { return total + parts.length; }, 0);
   return freeze(data);

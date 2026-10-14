@@ -1,0 +1,109 @@
+{
+  "file": "src/assets/creatures/core-abyssal.png",
+  "sha256": "4b520e097a9e67cc14e85b15ceedc247ceb07f6c02e29d6a97ca5e50b900d1ca",
+  "width": 1536,
+  "height": 1024,
+  "rows": [
+    "body",
+    "fin",
+    "limb"
+  ],
+  "regions": [
+    [
+      797,
+      249,
+      153,
+      167
+    ],
+    [
+      985,
+      169,
+      230,
+      260
+    ],
+    [
+      1236,
+      145,
+      275,
+      310
+    ],
+    [
+      815,
+      571,
+      127,
+      124
+    ],
+    [
+      1024,
+      542,
+      177,
+      181
+    ],
+    [
+      1262,
+      516,
+      217,
+      200
+    ],
+    [
+      816,
+      825,
+      126,
+      104
+    ],
+    [
+      1024,
+      811,
+      156,
+      135
+    ],
+    [
+      1261,
+      806,
+      221,
+      147
+    ]
+  ],
+  "roots": [
+    [
+      76.5,
+      83.5
+    ],
+    [
+      115.0,
+      130.0
+    ],
+    [
+      137.5,
+      155.0
+    ],
+    [
+      10.16,
+      104.16
+    ],
+    [
+      14.16,
+      152.04
+    ],
+    [
+      17.36,
+      168.0
+    ],
+    [
+      20.16,
+      14.56
+    ],
+    [
+      24.96,
+      18.9
+    ],
+    [
+      35.36,
+      20.58
+    ]
+  ],
+  "method": "image_gen coherent living core and independent appendages; original generated PNG bytes; alpha geometry measured read-only",
+  "source": "/workspace/generated_images/exec-4248047f-07e5-490a-99a6-c942763b2a86.png",
+  "layout": "6 columns: two anatomies x3 tiers; rows body/fin/limb",
+  "boundaryWarnings": []
+}

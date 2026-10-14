@@ -1,0 +1,109 @@
+{
+  "file": "src/assets/creatures/core-signal.png",
+  "sha256": "679a62ef9c90604e9551b9c9694b84face95a8ab54b6aac70349cb7e0615e0ca",
+  "width": 1774,
+  "height": 887,
+  "rows": [
+    "body",
+    "fin",
+    "limb"
+  ],
+  "regions": [
+    [
+      48,
+      274,
+      199,
+      134
+    ],
+    [
+      289,
+      240,
+      244,
+      174
+    ],
+    [
+      567,
+      186,
+      302,
+      245
+    ],
+    [
+      99,
+      527,
+      89,
+      88
+    ],
+    [
+      341,
+      510,
+      128,
+      105
+    ],
+    [
+      611,
+      450,
+      172,
+      191
+    ],
+    [
+      102,
+      709,
+      96,
+      133
+    ],
+    [
+      353,
+      708,
+      103,
+      142
+    ],
+    [
+      641,
+      683,
+      138,
+      185
+    ]
+  ],
+  "roots": [
+    [
+      99.5,
+      67.0
+    ],
+    [
+      122.0,
+      87.0
+    ],
+    [
+      151.0,
+      122.5
+    ],
+    [
+      7.12,
+      73.92
+    ],
+    [
+      10.24,
+      88.2
+    ],
+    [
+      13.76,
+      160.44
+    ],
+    [
+      15.36,
+      18.62
+    ],
+    [
+      16.48,
+      19.88
+    ],
+    [
+      22.08,
+      25.9
+    ]
+  ],
+  "method": "image_gen coherent living core and independent appendages; original generated PNG bytes; alpha geometry measured read-only",
+  "source": "/workspace/generated_images/exec-44f5a4c4-c360-4810-affe-e1f64a8ab927.png",
+  "layout": "6 columns: two anatomies x3 tiers; rows body/fin/limb",
+  "boundaryWarnings": []
+}

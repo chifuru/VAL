@@ -1,0 +1,109 @@
+{
+  "file": "src/assets/creatures/core-marine.png",
+  "sha256": "cf096315ba9e728f1a9a8bd58975c0b8e0499d1543afb7c4627f4d8f92b21f07",
+  "width": 1774,
+  "height": 887,
+  "rows": [
+    "body",
+    "fin",
+    "limb"
+  ],
+  "regions": [
+    [
+      57,
+      210,
+      187,
+      117
+    ],
+    [
+      298,
+      184,
+      246,
+      135
+    ],
+    [
+      566,
+      159,
+      311,
+      180
+    ],
+    [
+      84,
+      455,
+      141,
+      101
+    ],
+    [
+      332,
+      427,
+      210,
+      134
+    ],
+    [
+      607,
+      404,
+      251,
+      174
+    ],
+    [
+      111,
+      688,
+      91,
+      73
+    ],
+    [
+      354,
+      677,
+      127,
+      103
+    ],
+    [
+      631,
+      661,
+      201,
+      127
+    ]
+  ],
+  "roots": [
+    [
+      93.5,
+      58.5
+    ],
+    [
+      123.0,
+      67.5
+    ],
+    [
+      155.5,
+      90.0
+    ],
+    [
+      11.28,
+      84.84
+    ],
+    [
+      16.8,
+      112.56
+    ],
+    [
+      20.08,
+      146.16
+    ],
+    [
+      14.56,
+      10.22
+    ],
+    [
+      20.32,
+      14.42
+    ],
+    [
+      32.16,
+      17.78
+    ]
+  ],
+  "method": "image_gen coherent living core and independent appendages; original generated PNG bytes; alpha geometry measured read-only",
+  "source": "/workspace/generated_images/exec-fdb1573b-bb90-45af-959b-70ae396f9352.png",
+  "layout": "6 columns: two anatomies x3 tiers; rows body/fin/limb",
+  "boundaryWarnings": []
+}

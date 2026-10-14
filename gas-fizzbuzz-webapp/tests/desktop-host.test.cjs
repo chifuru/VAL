@@ -98,9 +98,11 @@ test('sandbox preload exposes fixed IPC methods and unsubscribes close callbacks
   let prepared=0;const unsubscribe=api.onPrepareClose(()=>prepared++);listeners.get('valis:prepare-close')();unsubscribe();assert.equal(prepared,1);assert.equal(listeners.size,0);assert.equal(api.readFile,undefined);
 });
 
-test('engine1 and engine2 records coexist without rewriting legacy state or portraits',async t=>{
+test('engine1 and engine3 records coexist without rewriting legacy state or portraits',async t=>{
  const E=require('../src/composite/creature-engine'),L=require('../src/composite/legacy-engine'),store=new HistoryStore(await directory(t)),legacy=record('old'),current=record('new',927);
- legacy.seed=1000;legacy.processed=1000;legacy.state=JSON.parse(JSON.stringify(L.runAll(1000,'signal')));current.engineVersion=2;current.assetVersion='desktop-art-v2';current.state=JSON.parse(JSON.stringify(E.runAll(927)));
+ legacy.seed=1000;legacy.processed=1000;legacy.state=JSON.parse(JSON.stringify(L.runAll(1000,'signal')));current.engineVersion=3;current.assetVersion='desktop-art-v3';current.state=JSON.parse(JSON.stringify(E.runAll(927)));
  await store.save(legacy);await store.save(current);const loaded=(await new HistoryStore(store.directory).list()).records;assert.deepEqual(loaded.find(r=>r.runId==='old'),legacy);assert.deepEqual(loaded.find(r=>r.runId==='new'),current);
- for(const version of [0,3,99])assert.throws(()=>validateRecord({...current,engineVersion:version}),/対応していない/);assert.throws(()=>validateRecord({...current,state:{...current.state,engineVersion:1}}),/成長版/);
+ for(const version of [0,4,99])assert.throws(()=>validateRecord({...current,engineVersion:version}),/対応していない/);assert.throws(()=>validateRecord({...current,state:{...current.state,engineVersion:1}}),/成長版/);
 });
+
+test('legacy2 final portraits coexist with new3 fourth-phase snapshots',async t=>{const E=require('../src/composite/creature-engine'),L2=require('../src/composite/legacy-engine-v2'),store=new HistoryStore(await directory(t)),old=record('legacy2',927),fresh=record('fresh3',927);old.engineVersion=2;old.state=JSON.parse(JSON.stringify(L2.runAll(927)));fresh.engineVersion=3;fresh.state=JSON.parse(JSON.stringify(E.runAll(927)));fresh.snapshots=[{stage:3,processed:927,state:fresh.state,portrait:PNG}];await store.save(old);await store.save(fresh);const list=(await new HistoryStore(store.directory).list()).records;assert.deepEqual(list.find(r=>r.runId==='legacy2'),old);assert.deepEqual(list.find(r=>r.runId==='fresh3'),fresh);});

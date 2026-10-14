@@ -1,0 +1,109 @@
+{
+  "file": "src/assets/creatures/core-living.png",
+  "sha256": "91416dbc0a34b9540a352c8d59ea101e345fb7bcbd8656256ae2fcef85c4d2d9",
+  "width": 1774,
+  "height": 887,
+  "rows": [
+    "body",
+    "fin",
+    "limb"
+  ],
+  "regions": [
+    [
+      916,
+      230,
+      200,
+      101
+    ],
+    [
+      1144,
+      163,
+      249,
+      169
+    ],
+    [
+      1419,
+      138,
+      304,
+      197
+    ],
+    [
+      929,
+      475,
+      153,
+      95
+    ],
+    [
+      1166,
+      435,
+      196,
+      135
+    ],
+    [
+      1439,
+      408,
+      249,
+      167
+    ],
+    [
+      942,
+      678,
+      139,
+      102
+    ],
+    [
+      1184,
+      667,
+      192,
+      130
+    ],
+    [
+      1452,
+      646,
+      257,
+      158
+    ]
+  ],
+  "roots": [
+    [
+      100.0,
+      50.5
+    ],
+    [
+      124.5,
+      84.5
+    ],
+    [
+      152.0,
+      98.5
+    ],
+    [
+      12.24,
+      79.8
+    ],
+    [
+      15.68,
+      113.4
+    ],
+    [
+      19.92,
+      140.28
+    ],
+    [
+      22.24,
+      14.28
+    ],
+    [
+      30.72,
+      18.2
+    ],
+    [
+      41.12,
+      22.12
+    ]
+  ],
+  "method": "image_gen coherent living core and independent appendages; original generated PNG bytes; alpha geometry measured read-only",
+  "source": "/workspace/generated_images/exec-b0fb1552-8237-4696-8e65-1c32e41adb0c.png",
+  "layout": "6 columns: two anatomies x3 tiers; rows body/fin/limb",
+  "boundaryWarnings": []
+}

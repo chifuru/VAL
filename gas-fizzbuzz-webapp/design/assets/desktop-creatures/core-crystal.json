@@ -1,0 +1,109 @@
+{
+  "file": "src/assets/creatures/core-armor.png",
+  "sha256": "4e6bc49d82f69d61bc211722f46790cd7f9158dac3bdd85c5d3e636ad5776ef9",
+  "width": 1774,
+  "height": 887,
+  "rows": [
+    "body",
+    "fin",
+    "limb"
+  ],
+  "regions": [
+    [
+      74,
+      218,
+      166,
+      141
+    ],
+    [
+      322,
+      181,
+      211,
+      178
+    ],
+    [
+      593,
+      144,
+      266,
+      215
+    ],
+    [
+      91,
+      475,
+      121,
+      108
+    ],
+    [
+      351,
+      447,
+      138,
+      136
+    ],
+    [
+      630,
+      422,
+      196,
+      161
+    ],
+    [
+      97,
+      678,
+      85,
+      120
+    ],
+    [
+      370,
+      662,
+      103,
+      146
+    ],
+    [
+      663,
+      642,
+      133,
+      201
+    ]
+  ],
+  "roots": [
+    [
+      83.0,
+      70.5
+    ],
+    [
+      105.5,
+      89.0
+    ],
+    [
+      133.0,
+      107.5
+    ],
+    [
+      9.68,
+      90.72
+    ],
+    [
+      11.04,
+      114.24
+    ],
+    [
+      15.68,
+      135.24
+    ],
+    [
+      13.6,
+      16.8
+    ],
+    [
+      16.48,
+      20.44
+    ],
+    [
+      21.28,
+      28.14
+    ]
+  ],
+  "method": "image_gen coherent living core and independent appendages; original generated PNG bytes; alpha geometry measured read-only",
+  "source": "/workspace/generated_images/exec-8906397e-570e-4e46-a0b3-31326d1ee1d1.png",
+  "layout": "6 columns: two anatomies x3 tiers; rows body/fin/limb",
+  "boundaryWarnings": []
+}

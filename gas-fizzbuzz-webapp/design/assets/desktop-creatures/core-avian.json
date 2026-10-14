@@ -1,0 +1,109 @@
+{
+  "file": "src/assets/creatures/core-mythic.png",
+  "sha256": "417bf9d4296342e9b14ec21d808632fb3c7b81dcdbe3e3a9996f4e4fd43fb9b6",
+  "width": 1774,
+  "height": 887,
+  "rows": [
+    "body",
+    "fin",
+    "limb"
+  ],
+  "regions": [
+    [
+      39,
+      234,
+      163,
+      152
+    ],
+    [
+      261,
+      185,
+      260,
+      203
+    ],
+    [
+      553,
+      110,
+      319,
+      280
+    ],
+    [
+      56,
+      483,
+      104,
+      130
+    ],
+    [
+      306,
+      451,
+      142,
+      164
+    ],
+    [
+      605,
+      426,
+      217,
+      209
+    ],
+    [
+      75,
+      718,
+      88,
+      105
+    ],
+    [
+      326,
+      703,
+      111,
+      134
+    ],
+    [
+      600,
+      680,
+      162,
+      170
+    ]
+  ],
+  "roots": [
+    [
+      81.5,
+      76.0
+    ],
+    [
+      130.0,
+      101.5
+    ],
+    [
+      159.5,
+      140.0
+    ],
+    [
+      8.32,
+      109.2
+    ],
+    [
+      11.36,
+      137.76
+    ],
+    [
+      17.36,
+      175.56
+    ],
+    [
+      14.08,
+      14.7
+    ],
+    [
+      17.76,
+      18.76
+    ],
+    [
+      25.92,
+      23.8
+    ]
+  ],
+  "method": "image_gen coherent living core and independent appendages; original generated PNG bytes; alpha geometry measured read-only",
+  "source": "/workspace/generated_images/exec-3d32949c-1172-4dd3-896b-c47816171709.png",
+  "layout": "6 columns: two anatomies x3 tiers; rows body/fin/limb",
+  "boundaryWarnings": []
+}

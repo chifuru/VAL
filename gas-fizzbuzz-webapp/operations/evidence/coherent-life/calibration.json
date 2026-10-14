@@ -1,0 +1,153 @@
+[
+  {
+    "N": 120,
+    "current": 120,
+    "stage": 0,
+    "matured": false,
+    "history": [],
+    "rawPoints": 11.993337034980566
+  },
+  {
+    "N": 580,
+    "current": 580,
+    "stage": 2,
+    "matured": false,
+    "history": [
+      {
+        "stage": 1,
+        "lineage": "manyeyes",
+        "step": 201,
+        "points": 20.044419766796224,
+        "energy": 90.25,
+        "environment": "void"
+      },
+      {
+        "stage": 2,
+        "lineage": "abyssshell",
+        "step": 580,
+        "points": 58.02332037756802,
+        "energy": 261.25,
+        "environment": "tide"
+      }
+    ],
+    "rawPoints": 58.02332037756802
+  },
+  {
+    "N": 600,
+    "current": 600,
+    "stage": 2,
+    "matured": false,
+    "history": [
+      {
+        "stage": 1,
+        "lineage": "cephalopod",
+        "step": 201,
+        "points": 20.044419766796224,
+        "energy": 90.25,
+        "environment": "void"
+      },
+      {
+        "stage": 2,
+        "lineage": "swarm",
+        "step": 580,
+        "points": 58.02332037756802,
+        "energy": 261.25,
+        "environment": "tide"
+      }
+    ],
+    "rawPoints": 59.96668517490283
+  },
+  {
+    "N": 900,
+    "current": 900,
+    "stage": 2,
+    "matured": false,
+    "history": [
+      {
+        "stage": 1,
+        "lineage": "plasma",
+        "step": 201,
+        "points": 20.044419766796224,
+        "energy": 90.25,
+        "environment": "heat"
+      },
+      {
+        "stage": 2,
+        "lineage": "kelp",
+        "step": 580,
+        "points": 58.02332037756802,
+        "energy": 261.25,
+        "environment": "tide"
+      }
+    ],
+    "rawPoints": 89.95002776235425
+  },
+  {
+    "N": 927,
+    "current": 927,
+    "stage": 3,
+    "matured": true,
+    "maturedAt": 909,
+    "history": [
+      {
+        "stage": 1,
+        "lineage": "serpent",
+        "step": 201,
+        "points": 20.044419766796224,
+        "energy": 90.25,
+        "environment": "tide"
+      },
+      {
+        "stage": 2,
+        "lineage": "jelly",
+        "step": 580,
+        "points": 58.02332037756802,
+        "energy": 261.25,
+        "environment": "signal"
+      },
+      {
+        "stage": 3,
+        "lineage": "jelly",
+        "step": 909,
+        "points": 90.78289838978345,
+        "energy": 408.75,
+        "environment": "signal"
+      }
+    ],
+    "rawPoints": 92.670738478623
+  },
+  {
+    "N": 1000,
+    "current": 1000,
+    "stage": 3,
+    "matured": true,
+    "maturedAt": 990,
+    "history": [
+      {
+        "stage": 1,
+        "lineage": "valis",
+        "step": 201,
+        "points": 20.044419766796224,
+        "energy": 90.25,
+        "environment": "signal"
+      },
+      {
+        "stage": 2,
+        "lineage": "abyss",
+        "step": 580,
+        "points": 58.02332037756802,
+        "energy": 261.25,
+        "environment": "tide"
+      },
+      {
+        "stage": 3,
+        "lineage": "abyss",
+        "step": 990,
+        "points": 98.94503053858968,
+        "energy": 445.5,
+        "environment": "tide"
+      }
+    ],
+    "rawPoints": 100
+  }
+]
