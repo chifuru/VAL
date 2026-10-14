@@ -5,7 +5,7 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 全54ノード草案（A7/B9/C13/D8/E17）。観測UI-1に沿った画像図鑑/器官一覧と深海・神鳥のAI加工透明アトラスを実装。旧68画像は保持。今回の実検証はE17を参照。元ZIP一致/残10旧系統器官/画質受入/GAS/第四相は保留。
+current_status: 全55ノード草案（A7/B9/C13/D8/E18）。旧12系統は各3LvのPNG器官を共通身体へ合成、runtime仮SVG0。完成資産80画像をsrc/assetsへ統一し、両自己完結HTMLと器官一覧をsrcから単独配布。実検証はE18。画質受入/実GAS/全部位分解/第四相は保留。
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
@@ -23,7 +23,7 @@ manifest_reflection_stage6: 52 Node Fileと構造索引の突合、E15索引追�
 manifest_reflection_stage4: C1.5.2/D1.3.2の工程4仮素材実装・品質未検証を草案反映。src/composite/draft-organ-sprites.jsとapp.js、ビルダー、両HTML、tests/draft-organ-sprites.test.cjsとbundle同期テスト、design/image-composite-stage4-draft.mdの追加更新。さらに既存の68データURIをassets/の独立バイナリへ完全一致で復元し台帳登録。tools/verify-composite-assets.cjs、tests/recovered-image-assets.test.cjs、design/stage4-asset-review.htmlを追加。GitHub読戻し限定検証はoperations/evidence/stage4-github-asset-inventory.mdを参照。Node増減0、承認/公開状態変更なし。
 manifest_reflection_stage3: C1.5.1とD1.3.1の実態・フラグ要約を更新。GitHub実行HTML2本同一blob 58143d97c89e00d8158b1ec0e18d83c1921a0843、再構築ツール/テスト作成、旧68画像保全、改善24画像未同期、Node CLI/ブラウザ/GAS未実施を明記。E14初期登録、総数50→51。承認状態変更なし。
 last_reflected_flow: 工程6 FLOW-06（main 1ded76cとNode/証跡/CI実体監査）→ FLOW-05（既存E15構造項目、C/D実態と保留フラグ、最終HEAD CI結果を要約反映）。
-unresolved_summary: 全54ノード草案。新2系統は1器官×3LvのAI加工派生で全身解剖分解ではない。元ZIP一致・旧6切出し出所・残10旧系統・完成画質・GAS・第四相は未完。
+unresolved_summary: 全55草案。旧12のPNGアトラス実装接続済み、旧24肖像は参照資産へ退避して無変更保存。1旧系統1器官の既存粒度は維持。原画同等品質/旧ZIP一致/全部位分解/実GAS/第四相は未完。
 
 ## 画像合成v3ローカル限定反映（2026-10-14、未承認）
 
@@ -617,7 +617,7 @@ E16:（D1.3.2, C1.5.2 / 草案状態とGitモック配置整合の検証証跡�
 
 ## 2026-10-14 観測UI・2系統先行実装（現在状態）
 
-- 現在状態: 全54ノード草案。A/Bの意味変更なし。既存C1.5.2/3とD1.3.2/3の責務を利用し、新規A/B/C/D分割なし。
+- 当時の状態: 全54ノード草案。A/Bの意味変更なし。既存C1.5.2/3とD1.3.2/3の責務を利用し、新規A/B/C/D分割なし。
 - 初期登録: E17（今回版の独立実検証証跡）。Manifest反映: C1.5.2/3の画像/画面実態、D1.3.2/3の検証観点、E17への接続と残課題要約。
 - 原画像2枚をimage_genへ参照し、深海/神鳥各3Lvの透明PNGアトラスをassets/authored-organsへ保存。AI加工派生であり原画切出しではない。レジストリ/出所はledger.json。
 - UI: 大きい主個体、画像付き14図鑑と器官Lv、コンパクトなログ、履歴。図鑑見本の履歴は選択系統へ統一、実育成の環境判定/相間継承/FizzBuzz出力は維持。
@@ -630,3 +630,20 @@ E17:（D1.3.2, D1.3.3, C1.5.2, C1.5.3 / 観測UIと深海・神鳥アトラス�
 		43 Nodeテスト、68元画像、2HTML一致とChromium106decode/6透明Lv領域/14図鑑/2系統Lv差/履歴名/N15/1000/420px/エラー0を確認する。
 	実態:
 		草案。今回版SHAに限定した証跡。画質受入・元ZIP・GASは未実施。次FLOW候補: FLOW-04/08。
+
+
+## 2026-10-14 残10系統とsrc配置（現在状態）
+
+- 現在状態: 全55ノード草案。既存C1.5.1/2/3とD1.3.2/3の責務を使用し、新規A/B/C/D分割なし。初期登録E18、C/D実態・配置・検証・残課題を反映。
+- 完成資産: src/assets/organsに12系統×3LvのPNGアトラスと台帳、元68資産もsrc/assetsへ移動してbyte保持。実行HTML2本、編集モジュール、器官一覧src/organ-catalog.htmlもsrc。原モックdesignと検証資料operationsは実行依存ではない。
+- 実描画: 全旧12系統はPNG器官。仮SVG導入0。旧ポスターの文字/枠線/複数個体を避けるため、共通DNA身体と器官を主画面/図鑑/履歴へ共通描画。旧24肖像のバイトは参照用として保持。
+- 検証: 44 Node、80画像decode/HTTPbyte一致、36Lv領域alphaと可視差、12系統各Lv0/1/2/3主Canvas/サムネイル差、身体1/器官1/ポスター0の描画、14図鑑/履歴・N15/1000・420px。詳細はE18。
+- 残課題: 1系統1器官からの全部位展開、原画画質の人間受入、旧ZIP一致、実GAS/端末FPS、第四相。系統判定/XP/成熟/原文は維持。
+
+E18:（D1.3.2, D1.3.3, C1.5.1, C1.5.2, C1.5.3 / 全12器官PNGとsrc単独配布の実検証証跡）［草案］
+	構成（要素・関係）:
+		Node File: valis/nodes/E/E18.md。E層独立起点、parent_idなし。evidence_for: D1.3.2/3。related_to: C1.5.1/2/3。一次記録: operations/evidence/2026-10-14-ten-lineages-src.md。
+	ロジック:
+		元68byte保存・新12PNG/36領域/実描画・src単独実行を確認し、画質の人間認定と区別する。
+	実態:
+		草案。今回版の対象SHAと実行条件に限定。完成素材の実装接続を確認。人間画質・実GAS・全部位は未認定。次FLOW候補: FLOW-08/04。

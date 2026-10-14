@@ -1,3 +1,7 @@
+# 2026-10-14 完成資産のsrc配置更新
+
+現在の実行資産はsrc/assetsに統一。旧12系統は各3LvのPNGアトラスを使用し、実行時に仮SVGを導入しない。src/assets/organs/ledger.jsonが各画像の出所/領域/根元/レイヤーを管理する。元68画像はバイト保持。以下の旧段階記述は履歴として残す。
+
 # Image Composite v4.2 — Editable Source & GAS Bundles
 
 The project has **two synchronized self-contained HTML entrypoints**:
@@ -46,6 +50,6 @@ Stage 4 adds `tests/draft-organ-sprites.test.cjs` (asset cardinality, distinct l
 
 ## Recovered standalone source images (Stage 4 draft)
 
-The **original 68 embedded** optimized images have additionally been restored byte-for-byte into `../../assets/composite/`, `../../assets/lineage-webp/`, and `../../assets/reference-thumbs/` and indexed in `../../assets/composite-asset-ledger.v42-draft.json`. They are not v4.2 ZIP's improved images or the nine original high-resolution mock PNGs. The GAS HTML still carries the exact same 68 inlined source URI values for self-contained execution; the restoration does not change the runtime.
+The **original 68 embedded** optimized images have additionally been restored byte-for-byte into `../assets/composite/`, `../assets/lineage-webp/`, and `../assets/reference-thumbs/` and indexed in `../assets/composite-asset-ledger.v42-draft.json`. They are not v4.2 ZIP's improved images or the nine original high-resolution mock PNGs. The GAS HTML still carries the exact same 68 inlined source URI values for self-contained execution; the restoration does not change the runtime.
 
 Run `npm run check:assets` to assert all 68 physical image files are byte-equal to those URIs, with image format and Git blob checks. Open `../../design/stage4-asset-review.html` from a local checkout to review the two ancestor assets, nine reference thumbnails, twelve phase II/III portraits and the 36 provisional vector organs beside the new-lineage PNGs. Browser fidelity / mock matching remains unverified.

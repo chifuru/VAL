@@ -12,7 +12,7 @@ const backup = fs.readFileSync(path.join(root, 'src/Index.composite-v4.html'), '
 const script = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)][0]?.[1];
 assert.ok(script?.startsWith('window.ASSET_CONFIG='), 'Missing embedded source registry');
 const config = JSON.parse(script.slice('window.ASSET_CONFIG='.length, -1));
-const ledger = JSON.parse(fs.readFileSync(path.join(root, 'assets/composite-asset-ledger.v42-draft.json'), 'utf8'));
+const ledger = JSON.parse(fs.readFileSync(path.join(root, 'src/assets/composite-asset-ledger.v42-draft.json'), 'utf8'));
 const byPath = new Map(ledger.assets.map(item => [item.path, item]));
 assert.equal(ledger.assets.length, 68, 'Recovered 68-item ledger incomplete');
 assert.equal(byPath.size, 68, 'Duplicate ledger path');
@@ -32,7 +32,7 @@ for (const rel of expected) {
  assert.ok(item, 'Ledger missing ' + rel);
  assert.equal(config.sources[rel]?.startsWith('data:' + item.mime + ';base64,'), true, 'MIME/source mismatch ' + rel);
  const packed = Buffer.from(config.sources[rel].split(',')[1], 'base64');
- const extracted = fs.readFileSync(path.join(root, rel));
+ const extracted = fs.readFileSync(path.join(root, ledger.path_base, rel));
  assert.deepEqual(extracted, packed, 'Byte mismatch (never re-encode source art): ' + rel);
  assert.equal(extracted.length, item.bytes, 'Length mismatch ' + rel);
  const blobSha = crypto.createHash('sha1').update('blob ' + extracted.length + '\0').update(extracted).digest('hex');

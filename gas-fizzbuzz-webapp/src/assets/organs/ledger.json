@@ -1,0 +1,779 @@
+{
+  "abyss": {
+    "source": "design/aaf4d324-1275-47b3-8408-eb0fdc4d613f.png",
+    "path": "src/assets/organs/abyss-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        628,
+        724
+      ],
+      [
+        628,
+        0,
+        724,
+        724
+      ],
+      [
+        1352,
+        0,
+        820,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        274,
+        709
+      ],
+      [
+        278,
+        709
+      ],
+      [
+        236,
+        709
+      ]
+    ],
+    "source_sha256": "ce9b52573daef4690bedc448ce25bc890153eeffc1d0a270422f54747b667271",
+    "sha256": "fcf01c251f9c1fa7e554f5d4ef885f80b7b2068d412292cd1a7fd682d199d6f2",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "derivation": "image_gen reference-based derivative, not byte-identical crop",
+    "status": "draft",
+    "display_anchor": "dorsal",
+    "display_layer": "rear"
+  },
+  "myth": {
+    "source": "design/fde20a45-7cc1-4cf3-a06b-4911b0eed716.png",
+    "path": "src/assets/organs/myth-lv-atlas.png",
+    "regions": [
+      [
+        0,
+        0,
+        608,
+        724
+      ],
+      [
+        608,
+        0,
+        748,
+        724
+      ],
+      [
+        1356,
+        0,
+        816,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        195,
+        665
+      ],
+      [
+        365,
+        673
+      ],
+      [
+        340,
+        689
+      ]
+    ],
+    "source_sha256": "299e89784eeea5569fd29aced4df68d83b438178f9bdc7e3dff73b5c2c1f33e1",
+    "sha256": "03c9748166e01fb0b61cbeae1176074b75d0cf1088c30bfa6f0148445ae6c9bb",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "derivation": "image_gen reference-based derivative, not byte-identical crop",
+    "status": "draft",
+    "display_anchor": "shoulder",
+    "display_layer": "rear"
+  },
+  "recursive": {
+    "source": "design/e8593b9c-8284-4656-aa5f-bbd8a2f65809.png",
+    "source_sha256": "96e0da84bbf011fb701f81483f693afae68803fce2c730c925e1f0a7d0a493b5",
+    "path": "src/assets/organs/recursive-lv-atlas.png",
+    "sha256": "91161197d3bc2414dd0f32c09cf508cd5fb1a0065c00d35786e0ecb4cc84fd8f",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "regions": [
+      [
+        0,
+        0,
+        525,
+        724
+      ],
+      [
+        525,
+        0,
+        745,
+        724
+      ],
+      [
+        1270,
+        0,
+        902,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        252,
+        701
+      ],
+      [
+        372,
+        702
+      ],
+      [
+        473,
+        705
+      ]
+    ],
+    "visible_bounds": [
+      [
+        30,
+        335,
+        482,
+        701
+      ],
+      [
+        44,
+        184,
+        695,
+        702
+      ],
+      [
+        50,
+        18,
+        901,
+        705
+      ]
+    ],
+    "display_anchor": "head",
+    "display_layer": "rear",
+    "derivation": "image_gen reference-based derivative, not byte-identical crop",
+    "status": "draft"
+  },
+  "sail": {
+    "source": "design/f06253ed-f13e-40b1-be35-2b931a028e0d.png",
+    "source_sha256": "b30bf7c58554e24ce75c54365eefed85531caf6b5e56281a7aa2599150e05c6c",
+    "path": "src/assets/organs/sail-lv-atlas.png",
+    "sha256": "c66b33633956b7e187458243259c60bad7b28073d0f988c91e216ddc18413073",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "regions": [
+      [
+        0,
+        0,
+        594,
+        724
+      ],
+      [
+        594,
+        0,
+        737,
+        724
+      ],
+      [
+        1331,
+        0,
+        841,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        169,
+        628
+      ],
+      [
+        255,
+        639
+      ],
+      [
+        219,
+        637
+      ]
+    ],
+    "visible_bounds": [
+      [
+        144,
+        312,
+        448,
+        628
+      ],
+      [
+        147,
+        205,
+        637,
+        648
+      ],
+      [
+        100,
+        24,
+        783,
+        672
+      ]
+    ],
+    "display_anchor": "dorsal",
+    "display_layer": "rear",
+    "derivation": "image_gen reference-based derivative, not byte-identical crop",
+    "status": "draft",
+    "attachment_note": "Manually reviewed membrane stem; trailing tip is not the attachment root."
+  },
+  "gravity": {
+    "source": "design/26ed071b-5b13-4fdd-a1dd-222254579476.png",
+    "source_sha256": "11c6a3f6e8dd20859e0e3454f253c59c97cac63360f21a7e10cbfb9f1208367c",
+    "path": "src/assets/organs/gravity-lv-atlas.png",
+    "sha256": "6cf1ff986a22e075018faa7d6d353e608a7d2a3ce4c3f46c8f39abe53af8d00c",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "regions": [
+      [
+        0,
+        0,
+        571,
+        724
+      ],
+      [
+        571,
+        0,
+        694,
+        724
+      ],
+      [
+        1265,
+        0,
+        907,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        298,
+        417
+      ],
+      [
+        370,
+        392
+      ],
+      [
+        481,
+        361
+      ]
+    ],
+    "visible_bounds": [
+      [
+        146,
+        219,
+        450,
+        615
+      ],
+      [
+        121,
+        115,
+        620,
+        670
+      ],
+      [
+        75,
+        9,
+        887,
+        713
+      ]
+    ],
+    "display_anchor": "outerOrbit",
+    "display_layer": "front",
+    "derivation": "image_gen reference-based derivative, not byte-identical crop",
+    "status": "draft"
+  },
+  "crystal": {
+    "source": "design/3cdebf40-9477-4475-83bb-9374dc52254a.png",
+    "source_sha256": "67c2d393c69bb23d18859061f8b59da4bfc0008b597ab1b6a325c0565a153697",
+    "path": "src/assets/organs/crystal-lv-atlas.png",
+    "sha256": "56fc8f87e6dec5ffec9a6393b75223d51d91ae54afa1fdd3c47173442e05334f",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "regions": [
+      [
+        0,
+        0,
+        572,
+        724
+      ],
+      [
+        572,
+        0,
+        705,
+        724
+      ],
+      [
+        1277,
+        0,
+        895,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        285,
+        644
+      ],
+      [
+        376,
+        660
+      ],
+      [
+        466,
+        680
+      ]
+    ],
+    "visible_bounds": [
+      [
+        114,
+        343,
+        463,
+        644
+      ],
+      [
+        109,
+        212,
+        644,
+        660
+      ],
+      [
+        61,
+        54,
+        876,
+        680
+      ]
+    ],
+    "display_anchor": "dorsal",
+    "display_layer": "rear",
+    "derivation": "image_gen reference-based derivative, not byte-identical crop",
+    "status": "draft"
+  },
+  "manyeyes": {
+    "source": "design/734b52df-1b8f-4f54-bb0d-1661937a0be7.png",
+    "source_sha256": "8f46de42476648fc7ab282317f14edce78d874b52523d5c8c948d7fb92c417c1",
+    "path": "src/assets/organs/manyeyes-lv-atlas.png",
+    "sha256": "cb4606b772ab63cfa890a2a5069329e3b2445ed71a46a0b1c59e8f01d414432a",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "regions": [
+      [
+        0,
+        0,
+        479,
+        724
+      ],
+      [
+        479,
+        0,
+        765,
+        724
+      ],
+      [
+        1244,
+        0,
+        928,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        220,
+        493
+      ],
+      [
+        414,
+        413
+      ],
+      [
+        464,
+        362
+      ]
+    ],
+    "visible_bounds": [
+      [
+        70,
+        291,
+        371,
+        696
+      ],
+      [
+        109,
+        118,
+        719,
+        708
+      ],
+      [
+        46,
+        16,
+        882,
+        708
+      ]
+    ],
+    "display_anchor": "eye",
+    "display_layer": "front",
+    "derivation": "image_gen reference-based derivative, not byte-identical crop",
+    "status": "draft"
+  },
+  "abyssshell": {
+    "source": "design/3cdebf40-9477-4475-83bb-9374dc52254a.png",
+    "source_sha256": "67c2d393c69bb23d18859061f8b59da4bfc0008b597ab1b6a325c0565a153697",
+    "path": "src/assets/organs/abyssshell-lv-atlas.png",
+    "sha256": "14883fbbf903e599d3ccc5e41de34d13d1d6a632acd37591d8c2d0c530e91090",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "regions": [
+      [
+        0,
+        0,
+        538,
+        724
+      ],
+      [
+        538,
+        0,
+        711,
+        724
+      ],
+      [
+        1249,
+        0,
+        923,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        269,
+        512
+      ],
+      [
+        371,
+        446
+      ],
+      [
+        476,
+        364
+      ]
+    ],
+    "visible_bounds": [
+      [
+        110,
+        347,
+        428,
+        678
+      ],
+      [
+        110,
+        202,
+        633,
+        691
+      ],
+      [
+        78,
+        35,
+        875,
+        694
+      ]
+    ],
+    "display_anchor": "chest",
+    "display_layer": "front",
+    "derivation": "image_gen reference-based derivative, not byte-identical crop",
+    "status": "draft"
+  },
+  "parallel": {
+    "source": "design/753dd527-b3d6-4d52-8c78-158312898b0c.png",
+    "source_sha256": "b15744a906fcbe84fd587b03be33bd6625aef83e7f5d79d9df101cf53e9284a9",
+    "path": "src/assets/organs/parallel-lv-atlas.png",
+    "sha256": "ee8d1096ca391bafb1272e85da86cfb72bed162fa6c4a95f549039cb2246d50e",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "regions": [
+      [
+        0,
+        0,
+        601,
+        724
+      ],
+      [
+        601,
+        0,
+        725,
+        724
+      ],
+      [
+        1326,
+        0,
+        846,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        308,
+        646
+      ],
+      [
+        367,
+        654
+      ],
+      [
+        436,
+        655
+      ]
+    ],
+    "visible_bounds": [
+      [
+        45,
+        417,
+        572,
+        646
+      ],
+      [
+        30,
+        204,
+        705,
+        654
+      ],
+      [
+        20,
+        58,
+        846,
+        655
+      ]
+    ],
+    "display_anchor": "forelimb",
+    "display_layer": "front",
+    "derivation": "image_gen reference-based derivative, not byte-identical crop",
+    "status": "draft"
+  },
+  "memory": {
+    "source": "design/e8593b9c-8284-4656-aa5f-bbd8a2f65809.png",
+    "source_sha256": "96e0da84bbf011fb701f81483f693afae68803fce2c730c925e1f0a7d0a493b5",
+    "path": "src/assets/organs/memory-lv-atlas.png",
+    "sha256": "e537183f7c8c00de71f91da24067d04749f850a59c82f01cf67cb2e8430bf260",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "regions": [
+      [
+        0,
+        0,
+        573,
+        724
+      ],
+      [
+        573,
+        0,
+        672,
+        724
+      ],
+      [
+        1245,
+        0,
+        927,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        322,
+        474
+      ],
+      [
+        351,
+        418
+      ],
+      [
+        470,
+        367
+      ]
+    ],
+    "visible_bounds": [
+      [
+        183,
+        305,
+        462,
+        643
+      ],
+      [
+        112,
+        182,
+        591,
+        655
+      ],
+      [
+        81,
+        45,
+        860,
+        690
+      ]
+    ],
+    "display_anchor": "chest",
+    "display_layer": "front",
+    "derivation": "image_gen reference-based derivative, not byte-identical crop",
+    "status": "draft"
+  },
+  "serpent": {
+    "source": "design/3cdebf40-9477-4475-83bb-9374dc52254a.png",
+    "source_sha256": "67c2d393c69bb23d18859061f8b59da4bfc0008b597ab1b6a325c0565a153697",
+    "path": "src/assets/organs/serpent-lv-atlas.png",
+    "sha256": "f0847293cc1face62e9e1e792f7b2abf3c14441dfa85d6c106fbaf6fd15e1806",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "regions": [
+      [
+        0,
+        0,
+        542,
+        724
+      ],
+      [
+        542,
+        0,
+        739,
+        724
+      ],
+      [
+        1281,
+        0,
+        891,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        287,
+        691
+      ],
+      [
+        396,
+        694
+      ],
+      [
+        439,
+        694
+      ]
+    ],
+    "visible_bounds": [
+      [
+        73,
+        309,
+        472,
+        691
+      ],
+      [
+        70,
+        159,
+        708,
+        694
+      ],
+      [
+        32,
+        45,
+        851,
+        694
+      ]
+    ],
+    "display_anchor": "head",
+    "display_layer": "front",
+    "derivation": "image_gen reference-based derivative, not byte-identical crop",
+    "status": "draft"
+  },
+  "solar": {
+    "source": "design/3cdebf40-9477-4475-83bb-9374dc52254a.png",
+    "source_sha256": "67c2d393c69bb23d18859061f8b59da4bfc0008b597ab1b6a325c0565a153697",
+    "path": "src/assets/organs/solar-lv-atlas.png",
+    "sha256": "177367705a899fdb8538b09a4732c42bcaaa5c3d80c4902e3e269e4aab24fae4",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "regions": [
+      [
+        0,
+        0,
+        583,
+        724
+      ],
+      [
+        583,
+        0,
+        736,
+        724
+      ],
+      [
+        1319,
+        0,
+        853,
+        724
+      ]
+    ],
+    "roots": [
+      [
+        290,
+        425
+      ],
+      [
+        388,
+        400
+      ],
+      [
+        442,
+        363
+      ]
+    ],
+    "visible_bounds": [
+      [
+        95,
+        232,
+        485,
+        619
+      ],
+      [
+        99,
+        125,
+        677,
+        676
+      ],
+      [
+        60,
+        16,
+        824,
+        710
+      ]
+    ],
+    "display_anchor": "outerOrbit",
+    "display_layer": "front",
+    "derivation": "image_gen reference-based derivative, not byte-identical crop",
+    "status": "draft"
+  }
+}

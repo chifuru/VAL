@@ -16,7 +16,7 @@ vm.runInNewContext(fs.readFileSync(path.join(root,'src/composite/draft-organ-spr
 const engine=sandbox.module.exports,assets=sandbox.window.ASSET_CONFIG;
 sandbox.window.CompositeDraftOrgans.install(assets);
 
-test('every lineage has an image for every declared organ level (including honest SVG drafts)',()=>{
+test('every lineage has an image for every declared organ level (without provisional SVG fallback)',()=>{
  assert.equal(engine.LINEAGES.length,14);
  let organs=0,tiers=0,drafts=0;
  for(const lineage of engine.LINEAGES){
@@ -24,19 +24,19 @@ test('every lineage has an image for every declared organ level (including hones
   assert.ok(definitions?.length,'no organs for '+lineage.id);
   for(const def of definitions){
    organs++;
-   const key=lineage.id+':'+def[0],urls=assets.partImages[key];
-   assert.equal(urls?.length,3,'missing Lv1–Lv3 '+key);
-   assert.equal(new Set(urls).size,3,'duplicated tier '+key);
-   for(const url of urls){
-    tiers++;
-    if(lineage.id==='valis'||lineage.id==='antimeme'){
+   const key=lineage.id+':'+def[0],atlas=assets.authoredOrgans&&assets.authoredOrgans[lineage.id];
+   if(atlas){
+    assert.equal(atlas.regions.length,3,'missing PNG Lv regions '+key);
+    assert.ok(atlas.uri.startsWith('data:image/png;base64,'));
+    assert.equal(assets.partImages[key],undefined,'authored lineage still installs fallback SVG');
+    tiers+=3;
+   }else{
+    const urls=assets.partImages[key];
+    assert.equal(urls?.length,3,'missing Lv1–Lv3 '+key);
+    assert.equal(new Set(urls).size,3,'duplicated tier '+key);
+    for(const url of urls){
+     tiers++;
      assert.ok(assets.sources[url]?.startsWith('data:image/png;base64,'),'original PNG lost: '+key);
-    }else{
-     drafts++;
-     assert.ok(url.startsWith('data:image/svg+xml;charset=utf-8,'),'draft must not impersonate source PNG: '+key);
-     const svg=decodeURIComponent(url.slice(url.indexOf(',')+1));
-     assert.match(svg,/^<svg /);
-     assert.match(svg,/<\/svg>$/);
     }
    }
   }
@@ -48,7 +48,8 @@ test('every lineage has an image for every declared organ level (including hones
  }
  assert.equal(organs,23);
  assert.equal(tiers,69);
- assert.equal(drafts,36);
+ assert.equal(drafts,0);
+ assert.equal(assets.draftOrganLineages.length,0);
 });
 
 test('N contract and lineage-crossing use the real bundled evolution engine',()=>{

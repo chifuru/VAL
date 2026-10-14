@@ -16,7 +16,7 @@ var dims={
  absenceMask:[151,112],unseenEye:[129,109],erasureCrown:[207,167],memoryFilament:[190,150],brokenTail:[173,125]
 };
 var backLayer=new Set(['revelationMembrane','memoryFilament','erasureCrown','signalTail','brokenTail','detachedNode']);
-// Provisional 12-lineage SVG organs. These are NOT high-fidelity extracted mock pixels.
+// Display dimensions for the twelve reference-derived PNG organ families.
 Object.assign(dims,{
  abyssHeritage:[340,215],mythHeritage:[290,225],recursiveHeritage:[225,220],
  sailHeritage:[290,230],gravityHeritage:[260,225],crystalHeritage:[235,215],
@@ -69,7 +69,7 @@ async function preload(){
  Object.values(C.lineageImages||{}).forEach(arr=>arr.forEach(rel=>paths.push(rel)));
  paths=paths.concat(C.references.map(r=>r.file));
  Object.values(C.authoredOrgans||{}).forEach(atlas=>paths.push(atlas.uri));
- await Promise.all(paths.map(ensureImage));loaded=true;updateUI();scheduleFrame();
+ await Promise.all(paths.map(ensureImage));loaded=true;refreshGuideThumbnails();updateUI();scheduleFrame();
 }
 function img(rel){var c=cache.get(srcFor(rel));return c&&c.im.complete&&c.im.naturalWidth?c.im:null;}
 function reset(n){
@@ -225,12 +225,13 @@ function paintSpecimen(s,t,reduced,mini){
     paintOrgan(ctx,part,organAtlas(part)?0:-size[0]*sf/2,organAtlas(part)?0:-size[1]*sf/2,size[0]*sf,size[1]*sf,Boolean(organAtlas(part)));
     ctx.restore();
  };
- const rear=tiers.filter(p=>backLayer.has(p.id)||organAtlas(p)),front=tiers.filter(p=>!backLayer.has(p.id)&&!organAtlas(p));
+ const isRear=p=>{const atlas=organAtlas(p);return atlas?atlas.displayLayer==='rear':backLayer.has(p.id);};
+ const rear=tiers.filter(isRear),front=tiers.filter(p=>!isRear(p));
  rear.forEach(p=>drawPart(p));
  // 12 heritage-lineage portraits are independently extracted illustration layers.
  // Their true anatomy-part atlas is a later step; never mislabel them as LV sprites.
  var lineageLayers=C.lineageImages&&C.lineageImages[lineage];
- var portrait=lineageLayers&&s.stage>0?img(lineageLayers[Math.min(1,s.stage-1)]):null;
+ var portrait=lineageLayers&&s.stage>0&&!(C.authoredOrgans&&C.authoredOrgans[lineage])?img(lineageLayers[Math.min(1,s.stage-1)]):null;
  // Transitional lineage paintings already contain the ancestral head/eye/tail.
  // Never superimpose a second full juvenile body on this complete morphology.
  if(portrait){
@@ -259,6 +260,17 @@ function paintSpecimen(s,t,reduced,mini){
    if(preview) font('図鑑サンプル · 実際の育成個体ではありません',985,640,17,'#d9c9ff','right');
  }
 }
+function refreshGuideThumbnails(){
+ E.LINEAGES.forEach(function(l){
+  const target=document.createElement('canvas');target.width=300;target.height=200;
+  const g=target.getContext('2d'),old=ctx;ctx=g;
+  g.save();g.scale(300/1024,200/680);
+  try{paintSpecimen(demoFor(l.id,3),0,true,true);}finally{g.restore();ctx=old;}
+  const picture=document.querySelector('#guideSwitch [data-guide="'+l.id+'"] .guide-thumbnail');
+  if(picture)picture.src=target.toDataURL('image/png');
+ });
+}
+
 function render(t=0){
  if(!loaded)return;
  var s=selected();paintSpecimen(s,t,mediaReduced||!showFlicker,false);

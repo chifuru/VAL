@@ -12,7 +12,7 @@ const {chromium}=require('playwright');
 const root=path.resolve(__dirname,'..');
 const out=path.join(root,'artifacts/stage5');
 fs.mkdirSync(out,{recursive:true});
-const url=pathToFileURL(path.join(root,'src/Index.html')).href;
+const url=process.env.VALIS_PREVIEW_URL||pathToFileURL(path.join(root,'src/Index.html')).href;
 const lineages=['abyss','myth','recursive','sail','gravity','crystal','manyeyes','abyssshell','parallel','memory','serpent','solar','antimeme','valis'];
 const report={scope:'self-contained HTML Chromium preview (file or local HTTP), NOT actual GAS service',commit:process.env.GITHUB_SHA||'local',node:process.version,
  checks:[],lineages:[],errors:[],screenshots:[],generatedAt:new Date().toISOString()};
@@ -48,12 +48,19 @@ async function main(){
     catch(err){return {index:i,ok:false,message:String(err)};}
    }));
   });
-  assert.equal(decoded.length,106);
+  assert.equal(decoded.length,80);
   assert.deepEqual(decoded.filter(x=>!x.ok),[],'Chromium image decoding failed');
-  check('68 original images + 36 fallback SVG + 2 authored draft atlases decode','106 / 106');
+  check('68 original images + 12 PNG organ atlases decode; no SVG fallback','80 / 80');
   assert.equal(await page.locator('#guideSwitch .guide-thumbnail').count(),14);
   assert.ok(await page.locator('#guideSwitch .guide-thumbnail').evaluateAll(images=>images.every(im=>im.complete&&im.naturalWidth>0)));
   check('14 illustrated codex cards load actual images');
+  await page.evaluate(()=>{
+   const prototype=CanvasRenderingContext2D.prototype;
+   const draw=prototype.drawImage,clear=prototype.clearRect;
+   window.observedMainImageSources=[];
+   prototype.clearRect=function(...args){if(this.canvas.id==='creatureCanvas')window.observedMainImageSources=[];return clear.apply(this,args);};
+   prototype.drawImage=function(image,...args){if(this.canvas.id==='creatureCanvas')window.observedMainImageSources.push(image.src);return draw.call(this,image,...args);};
+  });
   const alpha=await page.evaluate(async()=>{
    const results=[];
    for(const [id,atlas] of Object.entries(window.ASSET_CONFIG.authoredOrgans)){
@@ -66,9 +73,9 @@ async function main(){
     }
    }return results;
   });
-  assert.equal(alpha.length,6);
+  assert.equal(alpha.length,36);
   assert.ok(alpha.every(row=>row.clear>row.total*.1&&row.visible>row.total*.05));
-  check('six draft PNG organ regions contain transparent background and visible anatomy',JSON.stringify(alpha));
+  check('all 36 PNG organ regions contain transparent background and visible anatomy',JSON.stringify(alpha));
 
   for(const id of lineages){
    await page.locator('#guideSwitch [data-guide="'+id+'"]').click();
@@ -82,17 +89,25 @@ async function main(){
    assert.notEqual(level0,level3,'no visible Lv0 -> Lv3 Canvas change: '+id);
    report.lineages.push({id,lv0:level0,lv3:level3,distinct:true});
   }
-  for(const id of ['abyss','myth']){
+  for(const id of lineages.filter(id=>!['valis','antimeme'].includes(id))){
    await page.locator('#guideSwitch [data-guide="'+id+'"]').click();
-   const hashes=[];
+   const hashes=[],mainHashes=[];
    for(let level=0;level<=3;level++){
-    await tier(page,level);hashes.push(sha(await page.locator('#partList .part-thumbnail').first().evaluate(c=>c.toDataURL())));
+    await tier(page,level);mainHashes.push(await canvasHash(page));hashes.push(sha(await page.locator('#partList .part-thumbnail').first().evaluate(c=>c.toDataURL())));
    }
+   assert.equal(new Set(mainHashes).size,4,'main Canvas Lv0/1/2/3 is not distinct: '+id);
    assert.equal(new Set(hashes).size,4,'organ Lv0/1/2/3 thumbnail is not distinct: '+id);
+   const renderSources=await page.evaluate(id=>{
+    const C=window.ASSET_CONFIG,sources=window.observedMainImageSources;
+    const posters=new Set(Object.values(C.lineageImages).flat().map(p=>C.sources[p]));
+    const cores=new Set(Object.values(C.core).map(p=>C.sources[p]));
+    return {posterCount:sources.filter(p=>posters.has(p)).length,coreCount:sources.filter(p=>cores.has(p)).length,atlasCount:sources.filter(p=>p===C.authoredOrgans[id].uri).length};
+   },id);
+   assert.deepEqual(renderSources,{posterCount:0,coreCount:1,atlasCount:1},'authored lineage must use one stable body and its PNG organ: '+id);
    await page.screenshot({path:path.join(out,'desktop-'+id+'-authored-lv3.png'),fullPage:true});
    report.screenshots.push('desktop-'+id+'-authored-lv3.png');
   }
-  check('abyss/myth authored organ thumbnail Lv0/1/2/3 differences');
+  check('all twelve organ/main Lv0/1/2/3 differences; one body + PNG organ, no poster contamination');
   check('14 lineage codex interactions + Lv0/Lv3 actual Canvas changes','14 / 14');
 
   await page.locator('#guideSwitch [data-guide="valis"]').click();
@@ -103,6 +118,19 @@ async function main(){
   await page.screenshot({path:path.join(out,'desktop-abyss-draft-lv3.png'),fullPage:true});
   report.screenshots.push('desktop-abyss-draft-lv3.png');
 
+  for(const id of lineages.filter(id=>!['valis','antimeme'].includes(id))){
+   await page.locator('#guideSwitch [data-guide="'+id+'"]').click();
+   await page.locator('#seedInput').fill('480');
+   await page.locator('#growSelectedGuideBtn').click();
+   await page.locator('#skipButton').click();
+   const expected=await page.evaluate(id=>window.CreatureEngine.LINEAGE_BY_ID[id].group,id);
+   assert.equal(await page.locator('#lineageName').textContent(),expected,'guided real playback does not reach lineage '+id);
+   assert.equal((await page.locator('#fizzbuzzLog').inputValue()).split('\n').length,480);
+   const hasOrgan=await page.evaluate(id=>window.observedMainImageSources.includes(window.ASSET_CONFIG.authoredOrgans[id].uri),id);
+   assert.ok(hasOrgan,'real playback did not render PNG organ '+id);
+   assert.match(await page.locator('#specimenMode').textContent(),/LIVE/);
+  }
+  check('all twelve guided real growth runs render their PNG organ and complete N=480');
   await page.locator('#showLiveBtn').click();
   await page.locator('#seedInput').fill('15');
   await page.locator('#runButton').click();

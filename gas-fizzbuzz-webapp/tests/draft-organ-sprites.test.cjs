@@ -48,3 +48,10 @@ test('draft fallback never overwrites an authored replacement', () => {
  generator.install(cfg);
  assert.deepEqual(Array.from(cfg.partImages[key]), ['real-1','real-2','real-3']);
 });
+
+test('authored PNG atlas families do not install provisional SVG fallback', () => {
+ const cfg={partImages:{},authoredOrgans:Object.fromEntries(ids.map(id=>[id,{uri:'retained-png-atlas'}]))};
+ generator.install(cfg);
+ assert.equal(Object.keys(cfg.partImages).length,0);
+ assert.equal(cfg.draftOrganLineages.length,0);
+});

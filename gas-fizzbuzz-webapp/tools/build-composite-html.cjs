@@ -33,11 +33,11 @@ function sourceBundle(existingHtml) {
   const template = read(path.join(modules, 'Index.template.html'));
   const originalConfig = embeddedConfig(existingHtml);
   const packed = JSON.parse(originalConfig.slice('window.ASSET_CONFIG='.length, -1));
-  const ledger = JSON.parse(read(path.join(root, 'assets/authored-organs/ledger.json')));
+  const ledger = JSON.parse(read(path.join(root, 'src/assets/organs/ledger.json')));
   packed.authoredOrgans = Object.fromEntries(Object.entries(ledger).map(([id, item]) => {
     const bytes = fs.readFileSync(path.join(root, item.path));
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== item.sha256) throw new Error('Atlas checksum mismatch: '+id);
-    return [id, { uri: 'data:image/png;base64,'+bytes.toString('base64'), regions: item.regions, roots: item.roots, displayAnchor: item.display_anchor, status: item.status }];
+    return [id, { uri: 'data:image/png;base64,'+bytes.toString('base64'), regions: item.regions, roots: item.roots, displayAnchor: item.display_anchor, displayLayer: item.display_layer, status: item.status }];
   }));
   const config = 'window.ASSET_CONFIG='+JSON.stringify(packed)+';';
   const values = {
@@ -65,12 +65,12 @@ function run() {
   if (process.argv.includes('--check')) {
     if (input !== expected) throw new Error('Index.html differs from the canonical editable modules');
     if (read(variant) !== expected) throw new Error('Index.composite-v4.html differs from Index.html');
-    process.stdout.write('PASS: two synchronized HTML files / 68 original images + 2 draft organ atlases / SHA-256 ' + sha256(expected) + '\n');
+    process.stdout.write('PASS: two synchronized HTML files / 68 original images + ' + Object.keys(JSON.parse(read(path.join(root,'src/assets/organs/ledger.json')))).length + ' draft organ atlases / SHA-256 ' + sha256(expected) + '\n');
     return;
   }
   fs.writeFileSync(target, expected, 'utf8');
   fs.writeFileSync(variant, expected, 'utf8');
-  process.stdout.write('Updated both HTML entrypoints: 68 originals + 2 draft organ atlases / SHA-256 ' + sha256(expected) + '\n');
+  process.stdout.write('Updated both HTML entrypoints: 68 originals + ' + Object.keys(JSON.parse(read(path.join(root,'src/assets/organs/ledger.json')))).length + ' draft organ atlases / SHA-256 ' + sha256(expected) + '\n');
 }
 
 if (require.main === module) run();

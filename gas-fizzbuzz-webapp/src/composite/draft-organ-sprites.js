@@ -99,11 +99,12 @@ function imageUrl(id,level) {return 'data:'+'image/svg+xml;charset=utf-8,'+encod
 function install(config) {
  if(!config||!config.partImages)throw Error('Missing asset config');
  IDS.forEach(function(id){
+  if(config.authoredOrgans&&config.authoredOrgans[id])return;
   var key=id+':'+id+'Heritage';
   // Respect future real PNG replacements; draft fallback is installed only when absent.
   if(!config.partImages[key])config.partImages[key]=[1,2,3].map(function(level){return imageUrl(id,level);});
  });
- config.draftOrganLineages=IDS.slice();
+ config.draftOrganLineages=IDS.filter(function(id){return !(config.authoredOrgans&&config.authoredOrgans[id]);});
  return config;
 }
 root.CompositeDraftOrgans=Object.freeze({ids:IDS.slice(),install:install,svg:svg});
