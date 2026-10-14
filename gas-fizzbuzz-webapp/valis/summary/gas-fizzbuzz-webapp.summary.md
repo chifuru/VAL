@@ -5,7 +5,9 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 全56ノード草案（A7/B9/C13/D8/E19）。srcは現行GAS/編集コード/56使用画像/純粋な器官設定に限定。説明/出所/比較/旧版/24未使用肖像はdesignへ保存。描画ハッシュは全14系統で整理前同一。実検証E19。モック形状調整/画質/実GASは保留。
+current_status: 全57ノード草案（A7/B9/C13/D8/E20）。現行実装の適合監査E20は部分成功・反例あり。画像部品/モック造形、継承表示、色/体格、N操作、低モーション、Node/Manifest/READMEの現在記述に未達。src配布/保全/版一致は限定確認済み。実GASは未確認。
+initial_registration_current_audit: E20。
+manifest_reflection_current_audit: 現在の受入判定・未解消フラグ・E20への読解接続のみ。既存Node/構造索引の旧記述は修復未実施。
 initial_registration_existing: A1, B1, C1, D1, E1
 initial_registration_previous: A1.1〜A1.5, B1.1〜B1.5, C1.1〜C1.5, A1.6, B1.6
 initial_registration_previous_split_and_evidence: B1.4.1, B1.4.2, C1.4.1, C1.4.2, C1.4.3, C1.6, D1.1, D1.2, D1.3, D1.4, E2
@@ -23,7 +25,14 @@ manifest_reflection_stage6: 52 Node Fileと構造索引の突合、E15索引追�
 manifest_reflection_stage4: C1.5.2/D1.3.2の工程4仮素材実装・品質未検証を草案反映。src/composite/draft-organ-sprites.jsとapp.js、ビルダー、両HTML、tests/draft-organ-sprites.test.cjsとbundle同期テスト、design/image-composite-stage4-draft.mdの追加更新。さらに既存の68データURIをassets/の独立バイナリへ完全一致で復元し台帳登録。tools/verify-composite-assets.cjs、tests/recovered-image-assets.test.cjs、design/stage4-asset-review.htmlを追加。GitHub読戻し限定検証はoperations/evidence/stage4-github-asset-inventory.mdを参照。Node増減0、承認/公開状態変更なし。
 manifest_reflection_stage3: C1.5.1とD1.3.1の実態・フラグ要約を更新。GitHub実行HTML2本同一blob 58143d97c89e00d8158b1ec0e18d83c1921a0843、再構築ツール/テスト作成、旧68画像保全、改善24画像未同期、Node CLI/ブラウザ/GAS未実施を明記。E14初期登録、総数50→51。承認状態変更なし。
 last_reflected_flow: 工程6 FLOW-06（main 1ded76cとNode/証跡/CI実体監査）→ FLOW-05（既存E15構造項目、C/D実態と保留フラグ、最終HEAD CI結果を要約反映）。
-unresolved_summary: 全56草案。src整理・実装配布と従来描画維持を確認。モックの全身形状一致、全部位分解、画質の人間受入、旧ZIP一致、実GAS/端末FPS、第四相は未完。
+unresolved_summary: 全57草案。E20に要求/画像/操作/記録の反例。現在契約・索引整理とC/D修正・再検証が必要。モック形状/全部位/画質受入/旧ZIP一致/実GAS/端末FPS/第四相は未完。
+
+## 現在の適合監査・読解注意
+
+- 現在状態: 全57ノード草案。E20初期登録。受入結果は部分成功・反例あり。
+- C1.3/C1.6のN操作、C1.5.1の画像ビルド入力、C1.5.2の部品内容・継承・色/体格、C1.5.3の画面差、関連Dの検証不足は修正/再検証が必要。詳細はE20と一次記録へ。
+- 以下の旧工程記述と構造索引には現行と一致しない実装・パス・実態が残る。現在の承認や受入成功の根拠にせず、該当NodeとE20を照合する。意味整理・履歴分離は未実施。
+- 次FLOW候補: FLOW-04/07/08。core不変更、承認状態不変更。実GASはD1.4で別検証。
 
 ## 画像合成v3ローカル限定反映（2026-10-14、未承認）
 
@@ -663,3 +672,11 @@ E19:（D1.3.2, D1.3.3, C1.5.1, C1.5.2 / src実装専用化と描画同一性の�
 		原68保全/現行56埋込/srcの非実装情報分離/全14描画同一性を確認する。
 	実態:
 		草案。今回版と条件に限定。モック形状一致/画質認定/実GASは未実施。次FLOW候補: FLOW-04/08。
+
+E20:（D1.1, D1.2, D1.3, D1.3.1, D1.3.2, D1.3.3, A1, B1, C1 / モック・ノード・現行実装の適合監査証跡）［草案］
+	構成（要素・関係）:
+		Node File: valis/nodes/E/E20.md。E層独立起点、parent_idなし。evidence_for: D1.1/D1.2/D1.3/D1.3.1/2/3。verifies: A1/B1/C1。related_to: D1.4/E19。一次記録: operations/evidence/2026-10-14-current-content-audit.md。
+	ロジック:
+		現行版の要求・画像・操作・記録を照合し、既存回帰成功と反例・未確認を分離する。
+	実態:
+		草案。部分成功・反例あり。修正/影響範囲探索/再検証が必要。モック適合・全要求・実GASの成功ではない。次FLOW候補: FLOW-04/07/08。

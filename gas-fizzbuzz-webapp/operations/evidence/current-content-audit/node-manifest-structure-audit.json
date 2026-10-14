@@ -1,0 +1,38 @@
+{
+  "project": "/workspace/VAL/gas-fizzbuzz-webapp",
+  "git_head": "b93e6c4158e344fa745ea87d9ea1815356b5c644",
+  "node_files": 56,
+  "counts": {
+    "A": 7,
+    "B": 9,
+    "C": 13,
+    "D": 8,
+    "E": 19
+  },
+  "manifest_entries": 56,
+  "unique_registered_ids": 56,
+  "node_file_paths": 56,
+  "draft_nodes": 56,
+  "structural_checks_pass": true,
+  "structural_issues": [],
+  "ci_protected_path_pattern": "^gas-fizzbuzz-webapp/valis/core/|^gas-fizzbuzz-webapp/src/Code\\.gs$|^gas-fizzbuzz-webapp/design/archive/Index\\.pixel-legacy\\.html$",
+  "ci_protected_path_cases": [
+    {
+      "path": "gas-fizzbuzz-webapp/valis/core/VALIS Summary Manifest.md",
+      "matched": true,
+      "exit_code": 0
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/src/Code.gs",
+      "matched": true,
+      "exit_code": 0
+    },
+    {
+      "path": "gas-fizzbuzz-webapp/design/archive/Index.pixel-legacy.html",
+      "matched": true,
+      "exit_code": 0
+    }
+  ],
+  "ci_protected_path_guard_pass": true,
+  "limits": "Structural checks do not attest Node meaning, historical/current-version consistency, mock fidelity, GAS execution, or test coverage. Independent protected Git-blob checks exist in tests/manifest-consistency.test.cjs."
+}

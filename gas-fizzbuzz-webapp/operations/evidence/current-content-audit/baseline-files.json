@@ -1,0 +1,696 @@
+{
+  "commit": "b93e6c4158e344fa745ea87d9ea1815356b5c644",
+  "recorded_at": "2026-10-14T03:12:45.815032+00:00",
+  "files": [
+    {
+      "path": "src/Code.gs",
+      "bytes": 759,
+      "sha256": "3dd051cb13a90f88d031e6a1d2e50fd80e8f290a819348baff8a51a29fcddf7b"
+    },
+    {
+      "path": "src/Index.html",
+      "bytes": 23885543,
+      "sha256": "93bddd1882d3d81b945e806044e045187cf36f7ced0c8cdc2d5043a7b100ca4e"
+    },
+    {
+      "path": "src/appsscript.json",
+      "bytes": 94,
+      "sha256": "dd56d3765a5c2da94842744070792b13502ae27966747c0e7769a32b0232c400"
+    },
+    {
+      "path": "src/composite/Index.template.html",
+      "bytes": 7493,
+      "sha256": "a23871335a225b330bdd49212cf25bc7ab8ba5f9589ca18b2f01b03ea032e957"
+    },
+    {
+      "path": "src/composite/app.js",
+      "bytes": 22135,
+      "sha256": "cfe2b7a820db7dfe36bc1b74a0f9f7473d9e069d38df08e3fffd1b9cc922c7b2"
+    },
+    {
+      "path": "src/composite/creature-engine.js",
+      "bytes": 10828,
+      "sha256": "a59241c42898cd35af328c7557af3fea2bf6b7aa553a64b9341caee6c6e8ed66"
+    },
+    {
+      "path": "src/composite/styles.css",
+      "bytes": 13613,
+      "sha256": "42e0cf1db7479f9e6a81dd6a20efc0816467920f4dfd2baf88834ae1af7e767d"
+    },
+    {
+      "path": "src/assets/composite/antimeme-absenceMask-lv1.png",
+      "bytes": 11508,
+      "sha256": "35ef8ef558a806fb39d483b6bb6b5b06f672a1bf3a70eb1e2339eb592fa6cee4"
+    },
+    {
+      "path": "src/assets/composite/antimeme-absenceMask-lv2.png",
+      "bytes": 11423,
+      "sha256": "d203a9a7490005b99ceb1a1a3afda4b9ac47c75a31e89398a72773bcd0f6ccd3"
+    },
+    {
+      "path": "src/assets/composite/antimeme-absenceMask-lv3.png",
+      "bytes": 13052,
+      "sha256": "cfe375a050fa90010534a17163aea0c1a0fdfc725865457c52e1fe73e969e729"
+    },
+    {
+      "path": "src/assets/composite/antimeme-brokenTail-lv1.png",
+      "bytes": 11651,
+      "sha256": "beabfba11cf9b1934b3fa3c3d5d731c94a7fd2a8d640466aa5355e91472459ea"
+    },
+    {
+      "path": "src/assets/composite/antimeme-brokenTail-lv2.png",
+      "bytes": 11160,
+      "sha256": "47ea1d75af38aa9a54a3a3a28033fd2d39d438cad55cf262ed242b7620a8bcd6"
+    },
+    {
+      "path": "src/assets/composite/antimeme-brokenTail-lv3.png",
+      "bytes": 12599,
+      "sha256": "0b79f3aea4905306b1cd85726512a4380b54fe7bbafe271d1c9f64213b5c2e05"
+    },
+    {
+      "path": "src/assets/composite/antimeme-erasureCrown-lv1.png",
+      "bytes": 9919,
+      "sha256": "a51a910e4ddb30ac4db86cddc750b882132726f71193df61d676d91b4f12d5f5"
+    },
+    {
+      "path": "src/assets/composite/antimeme-erasureCrown-lv2.png",
+      "bytes": 10840,
+      "sha256": "af844f818036055ab9c5252d9f16efef765c3c1b874489bbe3c356b536e0ed7d"
+    },
+    {
+      "path": "src/assets/composite/antimeme-erasureCrown-lv3.png",
+      "bytes": 11563,
+      "sha256": "7bf89af5a11d9b8d52819c3637b07fbd664366e24d752f8cb4eabefd60994227"
+    },
+    {
+      "path": "src/assets/composite/antimeme-memoryFilament-lv1.png",
+      "bytes": 12212,
+      "sha256": "b0762131eecd37a4471f6d0bdcc50626cf2052acf621edd845735f71815a07fe"
+    },
+    {
+      "path": "src/assets/composite/antimeme-memoryFilament-lv2.png",
+      "bytes": 11718,
+      "sha256": "fd1fa48f7b1b5ada73e32ee41494ca0e07e238964d17efb49aa3eb58363687fa"
+    },
+    {
+      "path": "src/assets/composite/antimeme-memoryFilament-lv3.png",
+      "bytes": 11796,
+      "sha256": "b8f8d64a8e97bd9b8ef417df86dfb097cd2cf3ea46180002883fdfef3c9db6ef"
+    },
+    {
+      "path": "src/assets/composite/antimeme-unseenEye-lv1.png",
+      "bytes": 11023,
+      "sha256": "1915c9537dbe2239f9a15ce78dd3b20e2c5210ec309ac988a74dd08d0e50d083"
+    },
+    {
+      "path": "src/assets/composite/antimeme-unseenEye-lv2.png",
+      "bytes": 12592,
+      "sha256": "352abf3044b70dd5dc6130848c25499723041e10af7dd2b627ba29bdce7cde0c"
+    },
+    {
+      "path": "src/assets/composite/antimeme-unseenEye-lv3.png",
+      "bytes": 12478,
+      "sha256": "a83fd2891dfd17bf99e6e3a0dc9b33307015229ff5dcc0d88f6fd3a7a8e748b1"
+    },
+    {
+      "path": "src/assets/composite/core-astral.png",
+      "bytes": 146744,
+      "sha256": "2b3975c0fc6aa63f5eb3986692eeb1d050df6842e8bf188c13d600feee00ff49"
+    },
+    {
+      "path": "src/assets/composite/core-marin.png",
+      "bytes": 123859,
+      "sha256": "5d77bff22e527dfe6f31e8ce8b0dc1d97be09ef54c3bab6373cb175f7571d41d"
+    },
+    {
+      "path": "src/assets/composite/valis-detachedNode-lv1.png",
+      "bytes": 14805,
+      "sha256": "fae6ceca22ede16df447323a3c0558a0ee2c3de271811c5bae2e353da36dbacd"
+    },
+    {
+      "path": "src/assets/composite/valis-detachedNode-lv2.png",
+      "bytes": 16240,
+      "sha256": "75b6af2aa496363d2765f294941fae7e0926a385b3b52eb3c722d37c77feae5d"
+    },
+    {
+      "path": "src/assets/composite/valis-detachedNode-lv3.png",
+      "bytes": 11071,
+      "sha256": "bc5071721886e3c91f0329359ade9dfc819cab61812498ea042c0400cfe9c9de"
+    },
+    {
+      "path": "src/assets/composite/valis-lightKernel-lv1.png",
+      "bytes": 16031,
+      "sha256": "f7f057275b99e3e816b29662aef5fae7bbc3f655d2942bfc08b5b8e23dab2ad1"
+    },
+    {
+      "path": "src/assets/composite/valis-lightKernel-lv2.png",
+      "bytes": 15765,
+      "sha256": "450363c04bcf39c683afe647d315c32cd0f0b01da72a1261dea7a08272905711"
+    },
+    {
+      "path": "src/assets/composite/valis-lightKernel-lv3.png",
+      "bytes": 16514,
+      "sha256": "bd15d163cf07489a6897279ef065d3a15bbbb2d6642f972f4a6bb75d36f1e5ba"
+    },
+    {
+      "path": "src/assets/composite/valis-observingEye-lv1.png",
+      "bytes": 16059,
+      "sha256": "61915bec13a16bab60598aa61d6cd627666ccb4f70f0d192da485f1f230ad4a2"
+    },
+    {
+      "path": "src/assets/composite/valis-observingEye-lv2.png",
+      "bytes": 16749,
+      "sha256": "7b6d23ab1f497343e140b7b62be214351f1f5bb15cddbe6bdd0747b642d2765c"
+    },
+    {
+      "path": "src/assets/composite/valis-observingEye-lv3.png",
+      "bytes": 14562,
+      "sha256": "527697c46073fd9725cc3dd669aa90068a5913a408b825fe4be9fbb61d317302"
+    },
+    {
+      "path": "src/assets/composite/valis-receiverCrown-lv1.png",
+      "bytes": 15741,
+      "sha256": "bc42a8beaccfc99a832fdacb81a3f79de128bbdfd987fd65dabbe43efeba0080"
+    },
+    {
+      "path": "src/assets/composite/valis-receiverCrown-lv2.png",
+      "bytes": 17082,
+      "sha256": "06dfd25e5b7ac103ec8dbe8ef1468a9f6e1f123f408e5d8dd1f11d88ccb95ff1"
+    },
+    {
+      "path": "src/assets/composite/valis-receiverCrown-lv3.png",
+      "bytes": 15029,
+      "sha256": "40bd94636a72a0d19160b64fbcebe1da2ac08ef763c60c33bf69201c9d06e631"
+    },
+    {
+      "path": "src/assets/composite/valis-revelationMembrane-lv1.png",
+      "bytes": 14386,
+      "sha256": "af33d4cebbcc9989ee217258f52e46e37bfc4d40ea8553d22fe1db1f4a0dc03e"
+    },
+    {
+      "path": "src/assets/composite/valis-revelationMembrane-lv2.png",
+      "bytes": 14729,
+      "sha256": "69027b9de4c03db650c987039a8778e6a0d9e00ed9cbb00b1b393ddec6a842b8"
+    },
+    {
+      "path": "src/assets/composite/valis-revelationMembrane-lv3.png",
+      "bytes": 13569,
+      "sha256": "cfa32022e78215f6a8acb8cf3c8711e50d25020dcdf73844da8734acdc1ec179"
+    },
+    {
+      "path": "src/assets/composite/valis-signalTail-lv1.png",
+      "bytes": 13120,
+      "sha256": "c92dca5f2b1df386d0f227c39861a50c9db46b27791b831aa53e47da6cb47cbb"
+    },
+    {
+      "path": "src/assets/composite/valis-signalTail-lv2.png",
+      "bytes": 14154,
+      "sha256": "1b442a1dc310795de51f59b61f4a3bfa80baa5ec079ffd4d6f89f8f3ffe4a85d"
+    },
+    {
+      "path": "src/assets/composite/valis-signalTail-lv3.png",
+      "bytes": 14726,
+      "sha256": "f789a38da5bba31afe910c4d872d7a4bf8a9c47c0d89cdf04851f500c042e834"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C01_deepsea.jpg",
+      "bytes": 33229,
+      "sha256": "016c424b613bf692050585c88411ad68992a6bfb0a026a336f718cc32f3a7bd6"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C02_bird_dragon.jpg",
+      "bytes": 35156,
+      "sha256": "eb6fdb39da29007853b082a682ba8d10fe02df3460a715359019900d034df0f9"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C03_crystal_alien.jpg",
+      "bytes": 34503,
+      "sha256": "237e8640608471acee9cf50e5498d95bc9c3d4ff9255407840e69b98e5b1400c"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C04_alien_three.jpg",
+      "bytes": 34225,
+      "sha256": "e18d6b949bc989734d3762a4debc15a493df2c86e176c1086a1615350f00dfa0"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C05_abyssal_codex.jpg",
+      "bytes": 37525,
+      "sha256": "1bf71d7e2a148abb5ebc740b440135ff8bfd352044a9ac572d835442c46a7696"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C06_evolution_atlas.jpg",
+      "bytes": 35598,
+      "sha256": "998bd95b9548c01d5ebf606bb355412dfad6a4c65efa300ce984ceb2e65d482f"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C07_aquatic_atlas.jpg",
+      "bytes": 36895,
+      "sha256": "f83c099a91d368abf092097dcd05228c579b2d174e32e0964a5291306f49fe1d"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C08_valis_revelation.jpg",
+      "bytes": 38347,
+      "sha256": "fa06752f3e8bf7ca860650cb69c2d7f521b3b15e084871a97dc571a0dc25b8a3"
+    },
+    {
+      "path": "src/assets/reference-thumbs/C09_valis_signal.jpg",
+      "bytes": 38236,
+      "sha256": "ff28b0e7cf43f363dc1c0a782f0c0047c25b2d27e693e94a71d1db6ab513d69a"
+    },
+    {
+      "path": "src/assets/organs/abyss-lv-atlas.png",
+      "bytes": 1497721,
+      "sha256": "fcf01c251f9c1fa7e554f5d4ef885f80b7b2068d412292cd1a7fd682d199d6f2"
+    },
+    {
+      "path": "src/assets/organs/myth-lv-atlas.png",
+      "bytes": 1223207,
+      "sha256": "03c9748166e01fb0b61cbeae1176074b75d0cf1088c30bfa6f0148445ae6c9bb"
+    },
+    {
+      "path": "src/assets/organs/config.json",
+      "bytes": 6017,
+      "sha256": "9c2c8f52a9c928fb06c0f6d6d3d124ec4fcc8ac43cb0ad877993c21b5e7a94c8"
+    },
+    {
+      "path": "src/assets/organs/parallel-lv-atlas.png",
+      "bytes": 1533342,
+      "sha256": "ee8d1096ca391bafb1272e85da86cfb72bed162fa6c4a95f549039cb2246d50e"
+    },
+    {
+      "path": "src/assets/organs/manyeyes-lv-atlas.png",
+      "bytes": 1551158,
+      "sha256": "cb4606b772ab63cfa890a2a5069329e3b2445ed71a46a0b1c59e8f01d414432a"
+    },
+    {
+      "path": "src/assets/organs/abyssshell-lv-atlas.png",
+      "bytes": 1213525,
+      "sha256": "14883fbbf903e599d3ccc5e41de34d13d1d6a632acd37591d8c2d0c530e91090"
+    },
+    {
+      "path": "src/assets/organs/crystal-lv-atlas.png",
+      "bytes": 1173624,
+      "sha256": "56fc8f87e6dec5ffec9a6393b75223d51d91ae54afa1fdd3c47173442e05334f"
+    },
+    {
+      "path": "src/assets/organs/solar-lv-atlas.png",
+      "bytes": 1154894,
+      "sha256": "177367705a899fdb8538b09a4732c42bcaaa5c3d80c4902e3e269e4aab24fae4"
+    },
+    {
+      "path": "src/assets/organs/sail-lv-atlas.png",
+      "bytes": 1151204,
+      "sha256": "c66b33633956b7e187458243259c60bad7b28073d0f988c91e216ddc18413073"
+    },
+    {
+      "path": "src/assets/organs/recursive-lv-atlas.png",
+      "bytes": 1780798,
+      "sha256": "91161197d3bc2414dd0f32c09cf508cd5fb1a0065c00d35786e0ecb4cc84fd8f"
+    },
+    {
+      "path": "src/assets/organs/gravity-lv-atlas.png",
+      "bytes": 1701450,
+      "sha256": "6cf1ff986a22e075018faa7d6d353e608a7d2a3ce4c3f46c8f39abe53af8d00c"
+    },
+    {
+      "path": "src/assets/organs/serpent-lv-atlas.png",
+      "bytes": 1571135,
+      "sha256": "f0847293cc1face62e9e1e792f7b2abf3c14441dfa85d6c106fbaf6fd15e1806"
+    },
+    {
+      "path": "src/assets/organs/memory-lv-atlas.png",
+      "bytes": 1275002,
+      "sha256": "e537183f7c8c00de71f91da24067d04749f850a59c82f01cf67cb2e8430bf260"
+    },
+    {
+      "path": "valis/core/VALIS Flow Definition.md",
+      "bytes": 453473,
+      "sha256": "911ae9f4a09ebfc6a886970eb73a1f72789047f04a28f2e83e2ea1cc584637da"
+    },
+    {
+      "path": "valis/core/VALIS Operation Definition.md",
+      "bytes": 201417,
+      "sha256": "30174a1cf1a4c2d46911db0be7a975651390d6f0bc51d64eb7391560f6ca3b50"
+    },
+    {
+      "path": "valis/core/VALIS Summary Manifest.md",
+      "bytes": 116519,
+      "sha256": "8d786bfe106c1a479ae03d7da4c44e1df593d41794bc9315e91a181889f6271f"
+    },
+    {
+      "path": "tests/authored-organ-atlases.test.cjs",
+      "bytes": 2298,
+      "sha256": "19dde109b50f45eec4e545c3a4f579a032f5e1ff811e108665f46eee6da2825e"
+    },
+    {
+      "path": "tests/browser-smoke.cjs",
+      "bytes": 11516,
+      "sha256": "f825b737d87c621964b57adf037a99f875a27584cdee140a46f14037ecf8d57a"
+    },
+    {
+      "path": "tests/composite-bundle-sync.test.cjs",
+      "bytes": 2887,
+      "sha256": "0c1d0baad5d8bf88a6c67ed0569efee0ec93efdce6d8af16c8d4bd6e7a9d9ee0"
+    },
+    {
+      "path": "tests/composite-runtime-contract.test.cjs",
+      "bytes": 2401,
+      "sha256": "d8be2e4dfc69c4c4c81c1d75ea83a9b7e5fd473e5f85e7aa29439daef9db6503"
+    },
+    {
+      "path": "tests/creature.test.cjs",
+      "bytes": 5184,
+      "sha256": "4ff8b1841b73d5a4be9fa08aa953a9b5f5541af7c244b54ba8c6e8af4a780e54"
+    },
+    {
+      "path": "tests/draft-organ-sprites.test.cjs",
+      "bytes": 2699,
+      "sha256": "34fa39faad869f99b03022431c49f8ddecfe92d9cad76acec24f89890b717edf"
+    },
+    {
+      "path": "tests/fizzbuzz.test.cjs",
+      "bytes": 2606,
+      "sha256": "3d03ba877c39baadabd174e5a2d5f337c08650fbd6cf818ca623dc48411f894d"
+    },
+    {
+      "path": "tests/manifest-consistency.test.cjs",
+      "bytes": 4956,
+      "sha256": "82822ba866967ed21b6d6cd2c4e065b7df6ecfbbcc79ba502c3c47e95911e388"
+    },
+    {
+      "path": "tests/mock-inventory.test.cjs",
+      "bytes": 1680,
+      "sha256": "0cbae02fe3898fbe38f0967cf74ce889a496c0ea7728e355f5f624c70b127cc6"
+    },
+    {
+      "path": "tests/recovered-image-assets.test.cjs",
+      "bytes": 510,
+      "sha256": "52565103d2cf0f1fb1dc0b8fed63576f5bdf32c6b450362e260de900c294eb9a"
+    },
+    {
+      "path": "tests/catalog-smoke.cjs",
+      "bytes": 933,
+      "sha256": "c4c786dac791d9d8b6a1eacf446a94534ccd92d8204126b8ad25baadb0b17c49"
+    },
+    {
+      "path": "tests/archive/creature.pixel-legacy.cjs",
+      "bytes": 45715,
+      "sha256": "afa431769690e7e029574aada975fc2a39eaaba626cfbee35b31b00bd14f300e"
+    },
+    {
+      "path": "tests/archive/composite-v42-render-source.cjs",
+      "bytes": 848,
+      "sha256": "e3a53efee1a093898e9c26231190718898c9bee4859e2445e5f2d54464b6a1b3"
+    },
+    {
+      "path": "tools/build-composite-html.cjs",
+      "bytes": 4849,
+      "sha256": "69883e983afe0c6ff83ba5f3e01835e34b475fc77a4d9223c0aa6b9e429b5a99"
+    },
+    {
+      "path": "tools/verify-composite-assets.cjs",
+      "bytes": 3968,
+      "sha256": "9502c7276bcf983575aaae647b06e9cd7b6adc16d209e3cadf883a2a5666df9b"
+    },
+    {
+      "path": "valis/nodes/A/A1.1.md",
+      "bytes": 3058,
+      "sha256": "d7798334ff015665f891490816d2b0876ca0b06f9023484d3452aaaa3ea840b4"
+    },
+    {
+      "path": "valis/nodes/A/A1.2.md",
+      "bytes": 4469,
+      "sha256": "0bb45ee3ea0c0398bdcf92b9cb116241d855f0d8df3a3719ec1cb3f7450b8968"
+    },
+    {
+      "path": "valis/nodes/A/A1.3.md",
+      "bytes": 4862,
+      "sha256": "ed75b71bc636530f775b4f77c5cc84f0110376c904af7f14611372f20fcca447"
+    },
+    {
+      "path": "valis/nodes/A/A1.4.md",
+      "bytes": 9253,
+      "sha256": "ff4754355073c8b564299b9fb094921efc1ae507e0007099394586ef49425c30"
+    },
+    {
+      "path": "valis/nodes/A/A1.5.md",
+      "bytes": 9503,
+      "sha256": "dec4e7316e434cf915b2c92be4ee45a3e4bf54ce95bb3bf5c2858727623954cc"
+    },
+    {
+      "path": "valis/nodes/A/A1.6.md",
+      "bytes": 6044,
+      "sha256": "592d0fd45ec7676df3bb7dac7442c97804d33acac065603282efeaf2ddc12361"
+    },
+    {
+      "path": "valis/nodes/A/A1.md",
+      "bytes": 5012,
+      "sha256": "0336c1930568524ef419bc00235d6fc08595ac3cb31ed69cbd0257310f4974ea"
+    },
+    {
+      "path": "valis/nodes/B/B1.1.md",
+      "bytes": 2794,
+      "sha256": "9d26f6286705ba7df5567452bfd471b6221ee566ea54e6576693c9efba369768"
+    },
+    {
+      "path": "valis/nodes/B/B1.2.md",
+      "bytes": 4023,
+      "sha256": "2ef997afa2df5f33230f0815fbee1e83f34e3ee9b845d7403fa1a4ae3aeecbc8"
+    },
+    {
+      "path": "valis/nodes/B/B1.3.md",
+      "bytes": 3859,
+      "sha256": "2e58d9c238639daae57c0c8936bf0201cf9185fd495ea13b55bfd1cb0e74fc35"
+    },
+    {
+      "path": "valis/nodes/B/B1.4.1.md",
+      "bytes": 2614,
+      "sha256": "42699daa91b3f9aeb78bc36e76ad1df6b713486ef453ff239341c9952c668bf8"
+    },
+    {
+      "path": "valis/nodes/B/B1.4.2.md",
+      "bytes": 5893,
+      "sha256": "45bdfc799e1a8cf0700c883a36b0199bc64df94cdf9b880a26f939fbf60914bb"
+    },
+    {
+      "path": "valis/nodes/B/B1.4.md",
+      "bytes": 4561,
+      "sha256": "5057d1ffc477346b5a89ceb939ff81d4ef069c1bd2532f072046da9c049fc740"
+    },
+    {
+      "path": "valis/nodes/B/B1.5.md",
+      "bytes": 8272,
+      "sha256": "376bf18ee890f129beb9e42c5cb5bde5707ff8e5a635b9af64973783d92357c7"
+    },
+    {
+      "path": "valis/nodes/B/B1.6.md",
+      "bytes": 3739,
+      "sha256": "e0428c204cab4ee5c73b9ca8d79940adc7e8bbd63a14f41d6de140d03220ef3d"
+    },
+    {
+      "path": "valis/nodes/B/B1.md",
+      "bytes": 4364,
+      "sha256": "554487e02dcbe1620742b14cdf737cb278a4290fbd50b96efe21469c8d301961"
+    },
+    {
+      "path": "valis/nodes/C/C1.1.md",
+      "bytes": 2581,
+      "sha256": "c701a5cfc3563e14f78907da9df48034614169b114cc971674e443f32de836a0"
+    },
+    {
+      "path": "valis/nodes/C/C1.2.md",
+      "bytes": 2643,
+      "sha256": "01d8ab2ad5d37f56b5767dc51ab7e1fbb567484f555c070159a048383f80052e"
+    },
+    {
+      "path": "valis/nodes/C/C1.3.md",
+      "bytes": 5151,
+      "sha256": "10446657147b8042fef78a9145784e629b7ca7b3fc0a09240176af55a888b919"
+    },
+    {
+      "path": "valis/nodes/C/C1.4.1.md",
+      "bytes": 2187,
+      "sha256": "8a11fdbf05459ceefd1f77d8f568274b2bb66557fcea94826eabbc199d937a63"
+    },
+    {
+      "path": "valis/nodes/C/C1.4.2.md",
+      "bytes": 2335,
+      "sha256": "573a131f612aa3d2ea1154b00c1749b363392eb44975caebd4a82b763f02abc4"
+    },
+    {
+      "path": "valis/nodes/C/C1.4.3.md",
+      "bytes": 5584,
+      "sha256": "fcd25a9dd1aaafcdb68d4e87bd45a55a613685591537655a63645b1ee24415ad"
+    },
+    {
+      "path": "valis/nodes/C/C1.4.md",
+      "bytes": 2287,
+      "sha256": "72e03e6137f661ad22f888bc6e40b756d9cf7c23276e6b73c7cea8ed648a11fc"
+    },
+    {
+      "path": "valis/nodes/C/C1.5.1.md",
+      "bytes": 5029,
+      "sha256": "9099e8c825fdf6100af3bbb38c0fd389848cfb501c4cb00e7d43b60d2b9657e3"
+    },
+    {
+      "path": "valis/nodes/C/C1.5.2.md",
+      "bytes": 7110,
+      "sha256": "eb980f1be26277889fd9ccef68f905c3d0e5194bda39ddbb76c11c6170f36bc6"
+    },
+    {
+      "path": "valis/nodes/C/C1.5.3.md",
+      "bytes": 4183,
+      "sha256": "49035ee9f3675675bb030a395e0d192a58d20547414e258e176d259ea27b1614"
+    },
+    {
+      "path": "valis/nodes/C/C1.5.md",
+      "bytes": 9680,
+      "sha256": "270932cb510d30e419b06c4da593419fc91a845423ac16a93f0413c686a0a601"
+    },
+    {
+      "path": "valis/nodes/C/C1.6.md",
+      "bytes": 3513,
+      "sha256": "f777cbb9a144e309b772234811b51bfb94409a9a6f5f35c0efad3a8effbe1a1f"
+    },
+    {
+      "path": "valis/nodes/C/C1.md",
+      "bytes": 3506,
+      "sha256": "dd92407dcf39e63aa7a2d71d92e8116e5c93edd4f3de3abbf276ad9ffa3e4f64"
+    },
+    {
+      "path": "valis/nodes/D/D1.1.md",
+      "bytes": 2237,
+      "sha256": "0383423f8995f5a9f477efe23e0156244891ed5ddc3c1a91b2b5ab6f373235ef"
+    },
+    {
+      "path": "valis/nodes/D/D1.2.md",
+      "bytes": 6122,
+      "sha256": "2757a8963a68658279f29bb8606e987dffbd8126865a381ac84eca4fa8afdeec"
+    },
+    {
+      "path": "valis/nodes/D/D1.3.1.md",
+      "bytes": 4057,
+      "sha256": "ab09f40959201866b58b83afaa8e41737d9b2d44ec40d7ad836fa18b8fe45680"
+    },
+    {
+      "path": "valis/nodes/D/D1.3.2.md",
+      "bytes": 5307,
+      "sha256": "9c2935c7069fe5a7f18cfd0ade6730bbe02b59652ededeafb00cc0160e99f18d"
+    },
+    {
+      "path": "valis/nodes/D/D1.3.3.md",
+      "bytes": 3724,
+      "sha256": "ff51448dad61b29c00b73884ba874e2498b1650f459820d7a34a9c4a207f68da"
+    },
+    {
+      "path": "valis/nodes/D/D1.3.md",
+      "bytes": 7603,
+      "sha256": "c9b6e70e7c27b15045c4a8a4fb9c7eb923f055224f6b9fce99dba714dcc70d30"
+    },
+    {
+      "path": "valis/nodes/D/D1.4.md",
+      "bytes": 2244,
+      "sha256": "b8a9b0ff50aa11006247706bbf55a91595e76eeae4d52ed25a832d272d31fc21"
+    },
+    {
+      "path": "valis/nodes/D/D1.md",
+      "bytes": 2742,
+      "sha256": "7cbed1064916355bf6aed6ca569a268c6f6d9850e645edd0b2ef81e5a03f6944"
+    },
+    {
+      "path": "valis/nodes/E/E1.md",
+      "bytes": 3977,
+      "sha256": "42736db9af56a29e01a6df5e736f65bc590b6f89c4bb0b048577bf598af43901"
+    },
+    {
+      "path": "valis/nodes/E/E10.md",
+      "bytes": 3910,
+      "sha256": "010b1c8748879b8ac5334d2523e3bc4bc9078eb7c92b1556aca0f09b37445ca3"
+    },
+    {
+      "path": "valis/nodes/E/E11.md",
+      "bytes": 2518,
+      "sha256": "c23eb0669bbcb3f846d41237f4b405e5a425488a6c6a9efd92b59c870177a455"
+    },
+    {
+      "path": "valis/nodes/E/E12.md",
+      "bytes": 2688,
+      "sha256": "9d89e95abc80e8e31c7866d4451cf1f779b52bfbb0106ac09395c04b0de3bb64"
+    },
+    {
+      "path": "valis/nodes/E/E13.md",
+      "bytes": 3372,
+      "sha256": "18d63ca597ffa2f82815e64c3081514e246dc67047ec01af13df638b77355c4c"
+    },
+    {
+      "path": "valis/nodes/E/E14.md",
+      "bytes": 3417,
+      "sha256": "a547362d45399dd093f165fbcd9c28b8ec3d72fec26d51e441a9e97f11f8fd6e"
+    },
+    {
+      "path": "valis/nodes/E/E15.md",
+      "bytes": 2853,
+      "sha256": "1eb482d438b94650e6382433c36739a4ffde8648ffe726863a12e605329a73d8"
+    },
+    {
+      "path": "valis/nodes/E/E16.md",
+      "bytes": 1200,
+      "sha256": "c2a6756560493394b7c8eb62e5787dad5e7c2211ccc6f9766d4f5df799d26e16"
+    },
+    {
+      "path": "valis/nodes/E/E17.md",
+      "bytes": 1431,
+      "sha256": "4b14bfb2a4c92ba53e29efd6cf8a7e662f8dba116609738df960ffce1d90d02f"
+    },
+    {
+      "path": "valis/nodes/E/E2.md",
+      "bytes": 5090,
+      "sha256": "9f2ba13dcf1ce19ef46100a82ff93770deea916ff4e525f2ddb89dca6b559c7d"
+    },
+    {
+      "path": "valis/nodes/E/E3.md",
+      "bytes": 4251,
+      "sha256": "b589a95bb0f50866729b126ed25ef5d96cb21adaae8e01592381b698ac1749df"
+    },
+    {
+      "path": "valis/nodes/E/E4.md",
+      "bytes": 4261,
+      "sha256": "62e5f23369377f2848ffbd32718d9d07aa512c2af34f99726012c833cfde766e"
+    },
+    {
+      "path": "valis/nodes/E/E5.md",
+      "bytes": 4556,
+      "sha256": "d7eb69e43762f7a2098ae9d31ce1469b0e3c634744fa3558cccbee3912238e6b"
+    },
+    {
+      "path": "valis/nodes/E/E6.md",
+      "bytes": 3415,
+      "sha256": "0a785daca1a2ad536e7342c75f50eae4a1c67a94c353ec9c468e323fa09958b8"
+    },
+    {
+      "path": "valis/nodes/E/E7.md",
+      "bytes": 3316,
+      "sha256": "61a29c72e7c878e0e06835f144bdb905bbb0f5717f814a116725891915974688"
+    },
+    {
+      "path": "valis/nodes/E/E8.md",
+      "bytes": 3935,
+      "sha256": "dcad8bfd1a2dc0be97bc5d5b77709f2f0e8cac28a3fda21faa6dee547b80367d"
+    },
+    {
+      "path": "valis/nodes/E/E9.md",
+      "bytes": 3954,
+      "sha256": "8d1e164d48990ebb2b25a8d916551b3ea89a80b3f1d11fd259a3d29d57a7be36"
+    },
+    {
+      "path": "valis/nodes/E/E18.md",
+      "bytes": 1443,
+      "sha256": "9c4fe50ebd955b563ef7e1ce3aa2f755a062b01943c7f2a257f6b28fa863e7c8"
+    },
+    {
+      "path": "valis/nodes/E/E19.md",
+      "bytes": 1268,
+      "sha256": "7ab15d756a1731a8661b9076887a33fceeb06dfcc5a1903558a7f755da33fd02"
+    }
+  ]
+}

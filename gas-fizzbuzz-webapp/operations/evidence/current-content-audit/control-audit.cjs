@@ -1,0 +1,22 @@
+const {chromium}=require('/workspace/val-setup/fizzbuzz/node_modules/playwright');
+const fs=require('node:fs');
+(async()=>{
+ const b=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--disable-dev-shm-usage']});
+ const results=[];
+ async function page(reducedMotion='reduce'){
+  const c=await b.newContext({viewport:{width:1440,height:900},reducedMotion});const p=await c.newPage();p._errors=[];p.on('pageerror',e=>p._errors.push(e.message));await p.goto('http://127.0.0.1:8766/Index.html');await p.waitForFunction(()=>document.querySelector('#partList .part-item canvas'));return p;
+ }
+ const random=await page();
+ await random.evaluate(()=>Math.random=()=>0);
+ await random.locator('#randomButton').click();
+ const randomReset=await random.evaluate(()=>({input:document.querySelector('#seedInput').value,id:document.querySelector('#creatureId').textContent,count:document.querySelector('#runCount').textContent}));
+ await random.locator('#runButton').click();await random.locator('#pauseButton').click();
+ results.push({case:'random-selected-N-vs-started-N',afterRandom:randomReset,afterStart:await random.evaluate(()=>({input:document.querySelector('#seedInput').value,id:document.querySelector('#creatureId').textContent,count:document.querySelector('#runCount').textContent}))});
+ const low=await page();await low.locator('#seedInput').fill('1000');await low.locator('#runButton').click();await low.waitForTimeout(150);results.push({case:'reduced-motion-does-not-finish-directly',count:await low.locator('#runCount').textContent(),mode:await low.locator('#specimenMode').textContent(),notice:await low.locator('#notice').textContent()});
+ const reset=await page();await reset.locator('#runButton').click();await reset.locator('#seedInput').fill('1001');await reset.locator('#resetButton').click();results.push({case:'invalid-reset-breaks-UI-state',errors:reset._errors,runDisabled:await reset.locator('#runButton').isDisabled(),pauseDisabled:await reset.locator('#pauseButton').isDisabled(),count:await reset.locator('#runCount').textContent()});
+ const fraction=await page();await fraction.locator('#seedInput').fill('15.9');await fraction.locator('#resetButton').click();results.push({case:'fractional-reset-quietly-floors',input:await fraction.locator('#seedInput').inputValue(),id:await fraction.locator('#creatureId').textContent(),notice:await fraction.locator('#notice').textContent(),errors:fraction._errors});
+ const change=await page('no-preference');await change.evaluate(()=>{const p=CanvasRenderingContext2D.prototype;const f=p.clearRect;window.framesAudit=0;p.clearRect=function(...args){if(this.canvas.id==='creatureCanvas')window.framesAudit++;return f.apply(this,args);};});await change.emulateMedia({reducedMotion:'reduce'});await change.waitForTimeout(200);const f1=await change.evaluate(()=>window.framesAudit);await change.waitForTimeout(200);const f2=await change.evaluate(()=>window.framesAudit);results.push({case:'OS-reduced-motion-change-ignored',framesAfterPreferenceReduce:f2-f1});
+ const pause=await page();await pause.locator('#seedInput').fill('100');await pause.locator('#runButton').click();await pause.waitForFunction(()=>Number(document.querySelector('#runCount').textContent.split(' / ')[0])>=3);await pause.locator('#pauseButton').click();const c1=await pause.locator('#runCount').textContent();await pause.waitForTimeout(200);const c2=await pause.locator('#runCount').textContent();await pause.locator('[data-env="void"]').click();await pause.locator('#skipButton').click();results.push({case:'pause-and-skip-confirmation',before:c1,afterWait:c2,finished:await pause.locator('#runCount').textContent(),rows:(await pause.locator('#fizzbuzzLog').inputValue()).split('\n').length});
+ const failure=await page();await failure.evaluate(()=>{window.google={script:{run:{withSuccessHandler(fn){this.s=fn;return this;},withFailureHandler(fn){this.f=fn;return this;},calculateFizzBuzz(){this.f({message:'audit failure'});}}}};});await failure.locator('#runButton').click();results.push({case:'server-failure-confirmation',notice:await failure.locator('#notice').textContent(),runDisabled:await failure.locator('#runButton').isDisabled(),rows:await failure.locator('#fizzbuzzLog').inputValue()});
+ fs.writeFileSync('/tmp/valis-control-audit.json',JSON.stringify(results,null,2));console.log(JSON.stringify(results,null,2));await b.close();
+})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,0 +1,38 @@
+[
+  {
+    "case": "pending-controls",
+    "runDisabled": true,
+    "pauseDisabled": true,
+    "skipDisabled": true,
+    "notice": "GASサーバーからFizzBuzz原文を取得中…"
+  },
+  {
+    "case": "reset-discards-stale-success",
+    "rows": "",
+    "runDisabled": false,
+    "mode": "LIVE · 待機",
+    "notice": "GASサーバーからFizzBuzz原文を取得中…"
+  },
+  {
+    "case": "second-request-ignores-stale-failure",
+    "notice": "GASサーバーからFizzBuzz原文を取得中…",
+    "runDisabled": true
+  },
+  {
+    "case": "latest-success-completes",
+    "rows": "1\n2\nFizz\n4\nBuzz",
+    "notice": "完走：5行。進化履歴と継承器官を記録しました。"
+  },
+  {
+    "case": "normal-playback-and-skip-same",
+    "normalRows": 30,
+    "skipRows": 30,
+    "equal": true,
+    "normalHash": "1069b2ffd86776c118f3c4995607fe370eda606360fad353456a16515b66fe07",
+    "skipHash": "1069b2ffd86776c118f3c4995607fe370eda606360fad353456a16515b66fe07"
+  },
+  {
+    "case": "uncaught-errors",
+    "errors": []
+  }
+]

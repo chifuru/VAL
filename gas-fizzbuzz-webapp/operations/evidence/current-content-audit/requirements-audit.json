@@ -1,0 +1,90 @@
+{
+  "noPreview": {
+    "beforeId": "#0480",
+    "afterInput": "481",
+    "afterId": "#0480",
+    "sameCanvas": true
+  },
+  "randomMismatch": {
+    "input": "481",
+    "id": "#0002",
+    "run": "0 / 2"
+  },
+  "lowMotion": {
+    "mode": "LIVE · 育成中",
+    "run": "2 / 1000",
+    "rows": 2
+  },
+  "finish": {
+    "mode": "LIVE · 完走",
+    "notice": "完走：1000行。進化履歴と継承器官を記録しました。",
+    "logVisible": true,
+    "resultModeElements": 0,
+    "bodyData": null
+  },
+  "resetInvalid": {
+    "errors": [
+      "個体Nは1〜1000"
+    ],
+    "input": "1001",
+    "run": "1000 / 1000",
+    "mode": "LIVE · 完走",
+    "notice": "完走：1000行。進化履歴と継承器官を記録しました。"
+  },
+  "renderComparison": {
+    "sameFoodColorAndVolume": true,
+    "samePhaseSilhouette": true,
+    "renderHashes": {
+      "fizz30_P24": "38ea3cd27370e53991131aed283c2d9de393c8ed8daccc0d34dd12cef2376b5b",
+      "buzz30_P0": "38ea3cd27370e53991131aed283c2d9de393c8ed8daccc0d34dd12cef2376b5b",
+      "buzz30_P0_stage2": "38ea3cd27370e53991131aed283c2d9de393c8ed8daccc0d34dd12cef2376b5b"
+    },
+    "heritageCount": 6,
+    "heritageDrawn": [
+      {
+        "id": "receiverCrown",
+        "level": 3,
+        "drawn": true
+      },
+      {
+        "id": "observingEye",
+        "level": 3,
+        "drawn": true
+      },
+      {
+        "id": "revelationMembrane",
+        "level": 2,
+        "drawn": true
+      },
+      {
+        "id": "lightKernel",
+        "level": 3,
+        "drawn": false
+      },
+      {
+        "id": "detachedNode",
+        "level": 3,
+        "drawn": false
+      },
+      {
+        "id": "signalTail",
+        "level": 3,
+        "drawn": false
+      }
+    ],
+    "history": [
+      {
+        "stage": 1,
+        "lineage": "valis",
+        "step": 24,
+        "points": 10.5
+      },
+      {
+        "stage": 2,
+        "lineage": "antimeme",
+        "step": 80,
+        "points": 35.25
+      }
+    ]
+  }
+}

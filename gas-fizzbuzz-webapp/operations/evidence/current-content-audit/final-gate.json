@@ -1,0 +1,18 @@
+{
+  "checked_at": "2026-10-14T03:21:16.928705+00:00",
+  "implementation_commit": "b93e6c4158e344fa745ea87d9ea1815356b5c644",
+  "final_node_exit_code": 0,
+  "source_core_existing_nodes_tools_unchanged": true,
+  "changed_baseline_files": [
+    "tests/manifest-consistency.test.cjs"
+  ],
+  "all_57_nodes_draft": true,
+  "structural_checks_pass": true,
+  "ci_protected_path_guard_pass": true,
+  "index_sha256": "93bddd1882d3d81b945e806044e045187cf36f7ced0c8cdc2d5043a7b100ca4e",
+  "initial_registration": "E20",
+  "manifest_reflection": "audit verdict and unresolved flags only",
+  "product_acceptance": "PARTIAL / COUNTEREXAMPLES",
+  "actual_GAS": "UNVERIFIED",
+  "old_node_manifest_meaning_corrections": "NOT PERFORMED"
+}

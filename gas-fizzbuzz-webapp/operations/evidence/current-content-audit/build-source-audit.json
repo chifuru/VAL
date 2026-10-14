@@ -1,0 +1,28 @@
+{
+  "commit": "b93e6c4158e344fa745ea87d9ea1815356b5c644",
+  "readPaths": [
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/composite/Index.template.html",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/assets/organs/config.json",
+    "/workspace/VAL/gas-fizzbuzz-webapp/design/assets/organ-provenance.json",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/assets/organs/abyss-lv-atlas.png",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/assets/organs/myth-lv-atlas.png",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/assets/organs/recursive-lv-atlas.png",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/assets/organs/sail-lv-atlas.png",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/assets/organs/gravity-lv-atlas.png",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/assets/organs/crystal-lv-atlas.png",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/assets/organs/manyeyes-lv-atlas.png",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/assets/organs/abyssshell-lv-atlas.png",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/assets/organs/parallel-lv-atlas.png",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/assets/organs/memory-lv-atlas.png",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/assets/organs/serpent-lv-atlas.png",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/assets/organs/solar-lv-atlas.png",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/composite/styles.css",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/composite/creature-engine.js",
+    "/workspace/VAL/gas-fizzbuzz-webapp/src/composite/app.js"
+  ],
+  "compositeAndReferenceFileReads": 0,
+  "atlasFileReads": 12,
+  "rebuiltMatchesCurrent": true,
+  "indexBytes": 23885543,
+  "indexSha256": "93bddd1882d3d81b945e806044e045187cf36f7ced0c8cdc2d5043a7b100ca4e"
+}

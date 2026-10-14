@@ -1,0 +1,54 @@
+[
+  {
+    "case": "random-selected-N-vs-started-N",
+    "afterRandom": {
+      "input": "480",
+      "id": "#0001",
+      "count": "0 / 1"
+    },
+    "afterStart": {
+      "input": "480",
+      "id": "#0480",
+      "count": "1 / 480"
+    }
+  },
+  {
+    "case": "reduced-motion-does-not-finish-directly",
+    "count": "3 / 1000",
+    "mode": "LIVE · 育成中",
+    "notice": "ローカルプレビュー：GASサーバーには接続していません。"
+  },
+  {
+    "case": "invalid-reset-breaks-UI-state",
+    "errors": [
+      "個体Nは1〜1000"
+    ],
+    "runDisabled": true,
+    "pauseDisabled": false,
+    "count": "1 / 480"
+  },
+  {
+    "case": "fractional-reset-quietly-floors",
+    "input": "15.9",
+    "id": "#0015",
+    "notice": "図鑑見本を表示中。育成開始後は、状況による実際の分岐を表示します。",
+    "errors": []
+  },
+  {
+    "case": "OS-reduced-motion-change-ignored",
+    "framesAfterPreferenceReduce": 11
+  },
+  {
+    "case": "pause-and-skip-confirmation",
+    "before": "4 / 100",
+    "afterWait": "4 / 100",
+    "finished": "100 / 100",
+    "rows": 100
+  },
+  {
+    "case": "server-failure-confirmation",
+    "notice": "GAS通信失敗: audit failure",
+    "runDisabled": false,
+    "rows": ""
+  }
+]

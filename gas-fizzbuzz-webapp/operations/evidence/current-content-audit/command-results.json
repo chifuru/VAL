@@ -1,0 +1,31 @@
+[
+  {
+    "name": "node",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "started_at": "2026-10-14T03:09:17.534200+00:00",
+    "exit_code": 0
+  },
+  {
+    "name": "assets",
+    "command": [
+      "npm",
+      "run",
+      "check:assets"
+    ],
+    "started_at": "2026-10-14T03:09:18.733468+00:00",
+    "exit_code": 0
+  },
+  {
+    "name": "bundle",
+    "command": [
+      "npm",
+      "run",
+      "check:composite"
+    ],
+    "started_at": "2026-10-14T03:09:19.268100+00:00",
+    "exit_code": 0
+  }
+]
