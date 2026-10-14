@@ -8,7 +8,7 @@
 
   function create(canvas,config){
     const images=new Map(),missing=new Set(),ctx=canvas.getContext('2d');
-    let prepared=false,lastDraw=[],surfaceCache=null;
+    let prepared=false,lastDraw=[],surfaceCache=null,currentPalette=null;const paletteCache=new Map();
     const resolve=file=>new URL(file,document.baseURI).href;
     async function prepare(){
       const files=[...new Set(Object.values(config.sprites).flat().map(s=>s.file))];
@@ -24,6 +24,16 @@
       if(!list||!list.length){missing.add(key);return null;}
       return list[clamp(Math.floor(level)-1,0,list.length-1)];
     }
+    function bodyKey(a,id){return (a.bodyFamily?'body-'+a.bodyFamily:'common')+':'+id;}
+    function recolored(s,im,color){
+      const key=[s.file,s.region.join(','),color.map(v=>Math.round(v/12)*12).join(',')].join(':');
+      if(paletteCache.has(key))return paletteCache.get(key);
+      const [, ,w,h]=s.region,c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');g.drawImage(im,...s.region,0,0,w,h);
+      const data=g.getImageData(0,0,w,h),p=data.data;
+      for(let i=0;i<p.length;i+=4){if(!p[i+3])continue;const l=(p[i]*.22+p[i+1]*.65+p[i+2]*.13)/255;const amount=l<.12?.12:l>.8?.28:.72;
+        for(let j=0;j<3;j++){const target=color[j]*(.35+.95*l)+(l>.65?(l-.65)*180:0);p[i+j]=Math.round(p[i+j]*(1-amount)+clamp(target,0,255)*amount);}}
+      g.putImageData(data,0,0);if(paletteCache.size>220)paletteCache.clear();paletteCache.set(key,c);return c;
+    }
     function paint(g,key,level,x,y,w,h,angle=0,alpha=1,flip=false,tint=0,center=false){
       const s=sprite(key,level);if(!s)return;
       const im=images.get(s.file);if(!im)return;
@@ -31,18 +41,22 @@
       g.save();g.translate(x,y);g.rotate(angle);if(flip)g.scale(-1,1);
       g.globalAlpha*=alpha;
       // A single palette adjustment applies to body and organs from the same DNA.
-      g.filter='hue-rotate('+tint.toFixed(2)+'deg)';
-      g.drawImage(im,sx,sy,sw,sh,-pivot[0]*scale,-pivot[1]*scale,sw*scale,sh*scale);
+      g.filter=currentPalette?'none':'hue-rotate('+tint.toFixed(2)+'deg)';
+      const painted=currentPalette?recolored(s,im,currentPalette):im;
+      g.drawImage(painted,currentPalette?0:sx,currentPalette?0:sy,sw,sh,-pivot[0]*scale,-pivot[1]*scale,sw*scale,sh*scale);
       g.restore();lastDraw.push(key);
     }
     function skeleton(a){
       const n=a.anatomy,d=a.dna,p=a.progress;
       // Engine anatomy already contains the cube-root volume scale.
       const volume=1,trunkShape=n.torso;
-      const bw=260*trunkShape.scaleX*volume,bh=130*trunkShape.scaleY*volume;
+      const long=a.bodyFamily==='serpent'?1.55:1,armored=a.bodyFamily==='crystal'?1.2:1;
+      const targetBW=260*trunkShape.scaleX*volume*long,targetBH=130*trunkShape.scaleY*volume*armored;
+      const trunkSprite=sprite(bodyKey(a,'torso'),bodyTier(n.torso)),tw=trunkSprite.region[2],th=trunkSprite.region[3],trunkScale=Math.min(targetBW/tw,targetBH/th);
+      const bw=tw*trunkScale,bh=th*trunkScale;
       const hw=160*n.head.scaleX*volume,hh=140*n.head.scaleY*volume;
-      const head=[-bw*.37,-bh*.18];
-      const posture=legged.has(a.lineage)?p*.12:-p*.04;
+      const head=a.bodyFamily?[-bw*.43,-bh*.02]:[-bw*.37,-bh*.18];
+      const posture=legged.has(a.lineage)?-p*.08:-p*.03;
       const body={bw,bh,hw,hh,volume,head,posture,
         sockets:{head:[head[0],head[1]-hh*.35],eye:[head[0]-hw*.25,head[1]-hh*.29],mouth:[head[0]-hw*.49,head[1]+hh*.04],
           dorsal:[bw*.02,-bh*.38],shoulder:[-bw*.22,-bh*.03],flank:[bw*.05,bh*.13],chest:[-bw*.12,bh*.10],
@@ -54,9 +68,11 @@
         const x=(nx*sw-s.root[0])*scale,y=(ny*sh-s.root[1])*scale;
         return [base[0]+x*Math.cos(angle)-y*Math.sin(angle),base[1]+x*Math.sin(angle)+y*Math.cos(angle)];
       }
-      body.sockets.mouth=project('common:head',bodyTier(n.head),head,hw,hh,.035,.57);
-      body.sockets.head=project('common:head',bodyTier(n.head),head,hw,hh,.52,.16);
-      body.sockets.tailTip=project('common:tail',bodyTier(n.tail),body.sockets.tailBase,220*n.tail.scaleX,190*n.tail.scaleY,.78,.54,-.17);
+      if(a.bodyFamily){body.head=project(bodyKey(a,'torso'),bodyTier(n.torso),[0,0],bw,bh,.08,.48);head[0]=body.head[0];head[1]=body.head[1];body.sockets.tailBase=project(bodyKey(a,'torso'),bodyTier(n.torso),[0,0],bw,bh,.92,.52);}
+      body.sockets.eye=project(bodyKey(a,'head'),bodyTier(n.head),head,hw,hh,.28,.53);
+      body.sockets.mouth=project(bodyKey(a,'head'),bodyTier(n.head),head,hw,hh,.035,.57);
+      body.sockets.head=project(bodyKey(a,'head'),bodyTier(n.head),head,hw,hh,.52,.16);
+      body.sockets.tailTip=project(bodyKey(a,'tail'),bodyTier(n.tail),body.sockets.tailBase,220*n.tail.scaleX,190*n.tail.scaleY,.78,.54,-.17);
       return body;
     }
     function bodyTier(n){return clamp(Math.ceil(n.level*.75),1,3);}
@@ -71,7 +87,7 @@
     }
     function organ(g,part,a,b,t,reduced){
       const base=b.sockets[part.anchor]||b.sockets.flank;
-      const size=defaults[part.anchor]||[160,160],scale=.45+.25*part.level+.15*part.growth;
+      const size=defaults[part.anchor]||[160,160],scale=(.45+.25*part.level+.15*part.growth)*(1+((part.form||1)-1)*.09);
       const tint=(a.color[0]-a.color[2])*.22+a.dna.skin*24-12;
       const count=clamp(part.count||1,1,6);
       for(let i=0;i<count;i++){
@@ -90,33 +106,33 @@
         else if(part.anchor==='eye'){x+=i*28;y+=i%2*17;angle=Math.PI;}
         else if(part.anchor==='mouth'){x-=i*12;y+=i*11;angle=-Math.PI*.55;}
         else if(part.anchor==='head'){x+=i*30;angle=(i-(count-1)/2)*.28;}
-        const opacity=part.inherited?.68:(far?.78:1);
-        paint(g,part.lineage+':'+part.id,part.level,x,y,width,height,angle,opacity,flip,tint,center);
+        const opacity=part.inherited?.78:(far?.84:1);
+        paint(g,part.lineage+':'+part.id,part.level,x,y,width,height,angle+((part.form||1)-1)*.06,opacity,flip,tint,center);
       }
     }
     function anatomy(g,a,b){
       const n=a.anatomy,tint=(a.color[0]-a.color[2])*.22+a.dna.skin*24-12;
       const tail=b.sockets.tailBase;
-      paint(g,'common:tail',bodyTier(n.tail),tail[0],tail[1],220*n.tail.scaleX*b.volume,190*n.tail.scaleY*b.volume,-.17,1,false,tint);
+      paint(g,bodyKey(a,'tail'),bodyTier(n.tail),tail[0],tail[1],220*n.tail.scaleX*b.volume,190*n.tail.scaleY*b.volume,-.17,1,false,tint);
       const leg=legged.has(a.lineage),limb=n.limb;
       for(const side of [-1,1]){
         const anchor=b.sockets.hindlimb;
         if((limb.visibility||0)>.02){
-          paint(g,leg?'common:limb':'common:fin',bodyTier(limb),anchor[0]+side*22,anchor[1]+side*8,
+          paint(g,leg?bodyKey(a,'limb'):bodyKey(a,'fin'),bodyTier(limb),anchor[0]+side*22,anchor[1]+side*8,
             120*limb.scaleX*b.volume,145*limb.scaleY*b.volume,leg?.15:Math.PI*.62,(limb.visibility||0)*(side<0?.68:1),side<0,tint);
         }
       }
-      paint(g,'common:fin',bodyTier(n.fin),b.bw*.10,-b.bh*.30,150*n.fin.scaleX*b.volume,155*n.fin.scaleY*b.volume,-.1,.88,false,tint);
-      paint(g,'common:torso',bodyTier(n.torso),0,0,b.bw,b.bh,0,1,false,tint);
+      paint(g,bodyKey(a,'fin'),bodyTier(n.fin),b.bw*.10,-b.bh*.30,150*n.fin.scaleX*b.volume,155*n.fin.scaleY*b.volume,-.1,.88,false,tint);
+      paint(g,bodyKey(a,'torso'),bodyTier(n.torso),0,0,b.bw,b.bh,0,1,false,tint);
       // Deterministic surface marks are clipped to the trunk's own PNG alpha.
       const surfaceKey=[a.seed,bodyTier(n.torso),a.color.map(x=>Math.round(x/8)).join(','),Math.round(n.shell.growth*10)].join(':');
       const marks=surfaceCache&&surfaceCache.key===surfaceKey?surfaceCache.canvas:document.createElement('canvas');
-      const trunk=sprite('common:torso',bodyTier(n.torso)),image=trunk&&images.get(trunk.file);
+      const trunk=sprite(bodyKey(a,'torso'),bodyTier(n.torso)),image=trunk&&images.get(trunk.file);
       if(image){
         if(!surfaceCache||surfaceCache.key!==surfaceKey){
         marks.width=360;marks.height=220;
         const mg=marks.getContext('2d');
-        mg.drawImage(image,...trunk.region,0,0,360,220);mg.globalCompositeOperation='source-in';
+        mg.drawImage(currentPalette?recolored(trunk,image,currentPalette):image,...(currentPalette?[0,0,trunk.region[2],trunk.region[3]]:trunk.region),0,0,360,220);mg.globalCompositeOperation='source-in';
         mg.fillStyle='rgba('+a.color.join(',')+',.24)';mg.fillRect(0,0,360,220);
         mg.globalCompositeOperation='source-atop';
         mg.fillStyle='rgba(201,230,255,'+(.08+.12*n.shell.growth)+')';
@@ -130,16 +146,20 @@
         g.save();g.drawImage(marks,-trunk.root[0]*scale,-trunk.root[1]*scale,sw*scale,sh*scale);g.restore();
       }
       const fin=b.sockets.forelimb;
-      paint(g,'common:fin',bodyTier(n.fin),fin[0],fin[1],125*n.fin.scaleX*b.volume,125*n.fin.scaleY*b.volume,Math.PI*.64,.9,false,tint);
-      paint(g,'common:head',bodyTier(n.head),b.head[0],b.head[1],b.hw,b.hh,0,1,false,tint);
+      paint(g,bodyKey(a,'fin'),bodyTier(n.fin),fin[0],fin[1],125*n.fin.scaleX*b.volume,125*n.fin.scaleY*b.volume,Math.PI*.64,.9,false,tint);
+      paint(g,bodyKey(a,'head'),bodyTier(n.head),b.head[0],b.head[1],b.hw,b.hh,0,1,false,tint);
     }
     function eyes(g,a,b){
-      const n=a.anatomy.eyes;
-      const x=b.head[0]-b.hw*.20,y=b.head[1]-b.hh*.45;
-      const spacing=n.spacing||(.4+a.dna.senses*.6),count=clamp(n.count||1,1,2);
+      const n=a.anatomy.eyes,base=b.sockets.eye;
+      const count=clamp(n.count||1,1,6),saved=currentPalette;
+      const modes=n.sense||'',accent=/熱|赤外|紫外/.test(modes)?[255,154,61]:/位相|信号/.test(modes)?[209,128,255]:/電位|磁場/.test(modes)?[103,255,213]:[92,204,255];
+      if(a.bodyFamily)currentPalette=accent;
       for(let i=count-1;i>=0;i--){
-        paint(g,'common:eye',bodyTier(n),x+i*spacing*110,y-i*spacing*45,52*n.scaleX*b.volume,52*n.scaleY*b.volume,0,i?.70:1,false,(a.color[2]-a.color[0])*.1);
+        const extra=i>=2,x=base[0]+(i%2)*12+(extra?(i-1)*25:0),y=base[1]-(i%2)*9-(extra?18:0),factor=extra?.62:1;
+        g.save();if(a.stage>0){g.shadowColor='rgb('+accent.join(',')+')';g.shadowBlur=6+a.stage*3;}
+        paint(g,bodyKey(a,'eye'),bodyTier(n),x,y,48*n.scaleX*factor,48*n.scaleY*factor,0,i===1?.78:1,false,0);g.restore();
       }
+      currentPalette=saved;
     }
     function background(g,w,h,time){
       const grad=g.createRadialGradient(w*.5,h*.45,10,w*.5,h*.45,w*.66);
@@ -155,11 +175,12 @@
     function drawTo(g,target,state,options={}){
       if(!prepared)return;
       lastDraw=[];
-      const a=E.appearanceFor(state),b=skeleton(a),w=target.width,h=target.height,mini=!!options.mini;
+      const a=E.appearanceFor(state);currentPalette=a.bodyFamily?a.color:null;const b=skeleton(a),w=target.width,h=target.height,mini=!!options.mini;
       const time=options.time||0,reduced=options.still!==false;
       g.clearRect(0,0,w,h);if(!mini)background(g,w,h,time);
-      const fit=Math.min(w/1400,h/920)*(mini?.95:1);
-      g.save();g.translate(w*.49,h*.53);g.scale(fit,fit);g.rotate(b.posture);
+      const density=mergeOrgans(a).length,extentX=Math.max(1100,b.bw*2.5+450),extentY=Math.max(900,b.bh*2.8+430);
+      const fit=Math.min(w/extentX,h/extentY)*(mini?.86:density>9?.86:1);
+      g.save();g.translate(w*.50,h*.61);g.scale(fit,fit);g.rotate(b.posture);
       if(!reduced)g.translate(0,Math.sin(time/1250)*2.3);
       const organs=mergeOrgans(a);
       const isFront=p=>frontAnchors.has(p.anchor)||p.id==='additionalNeck';
@@ -178,7 +199,7 @@
           g.beginPath();g.arc(x,y,6+(1-f)*3,0,Math.PI*2);g.fill();g.restore();
         });
       }
-      g.restore();
+      g.restore();currentPalette=null;
     }
     function draw(state,options){drawTo(ctx,canvas,state,options);}
     function portrait(state,width=300,height=200){

@@ -1,0 +1,61 @@
+{
+  "scope": "ENGINE2 numeric-input evolution; local automated results and Codex visual inspection; no user art acceptance",
+  "generatedAt": "2026-10-14T19:21:17.866849+00:00",
+  "unit": {
+    "passed": 34,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "passed": 202,
+    "errors": [],
+    "remote": [],
+    "browser": "154.0.8037.57"
+  },
+  "native": {
+    "platform": "linux",
+    "packaged": false,
+    "createChecks": 12,
+    "restoreChecks": 7,
+    "separateProcesses": true
+  },
+  "windowsPackage": {
+    "scope": "Windows x64 package integrity; actual Windows execution is a separate smoke gate",
+    "electronVersion": "44.7.2",
+    "packagerVersion": "20.3.0",
+    "officialRuntimeSha256": "10a89447ef64ac5cb9f782af48ffd83734a40ae91681259d1048ca3c9e6c5da4",
+    "exe": "VALIS.exe",
+    "machine": "x86-64",
+    "asarEntries": 38,
+    "pngCount": 20,
+    "sourceBytesMatch": true,
+    "zip": "VALIS-Windows-x64.zip",
+    "zipBytes": 196202495,
+    "zipSha256": "78f03746c6b9f5c4d80817957dae8c3e6476f63b043b28a80b4629da3bf368cf",
+    "generatedAt": "2026-10-14T19:18:19.629Z"
+  },
+  "visualInspection": {
+    "originalReference": "design/3cdebf40-9477-4475-83bb-9374dc52254a.png",
+    "anomalyReference": "design/53d97d03-72cf-4ff2-ae34-0657fac18699.png",
+    "actualImages": "browser/*-actual.png and N*-row*.png",
+    "checked": [
+      "newborn DNA shapes/color",
+      "head-torso and tail roots follow actual sprite bounds",
+      "14 automatic lineage images",
+      "75 independent organ groups plus inherited groups",
+      "eye size/lens/count/sensing accents",
+      "no bright creature silhouette at screen boundary",
+      "no sample creatures in normal UI"
+    ],
+    "limitations": [
+      "user final art acceptance unperformed",
+      "Windows10/11 user device display/FPS unperformed"
+    ]
+  },
+  "priorFailuresResolved": [
+    "body atlas neighbor overlap: regenerate art with wider transparent gutters and measure clear cuts",
+    "head-torso gap: use actual source dimensions and projected joints",
+    "native automatic-birth smoke raced completion save: await completed and not busy",
+    "completion save failure discarded old individual on switch: retry old snapshot before reset"
+  ]
+}

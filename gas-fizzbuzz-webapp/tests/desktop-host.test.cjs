@@ -97,3 +97,10 @@ test('sandbox preload exposes fixed IPC methods and unsubscribes close callbacks
   assert.equal(api.testMode,true);await api.listSpecimens();await api.saveSpecimen(record());await api.closeReady();assert.deepEqual(calls.map(c=>c[0]),['valis:list','valis:save','valis:close-ready']);
   let prepared=0;const unsubscribe=api.onPrepareClose(()=>prepared++);listeners.get('valis:prepare-close')();unsubscribe();assert.equal(prepared,1);assert.equal(listeners.size,0);assert.equal(api.readFile,undefined);
 });
+
+test('engine1 and engine2 records coexist without rewriting legacy state or portraits',async t=>{
+ const E=require('../src/composite/creature-engine'),L=require('../src/composite/legacy-engine'),store=new HistoryStore(await directory(t)),legacy=record('old'),current=record('new',927);
+ legacy.seed=1000;legacy.processed=1000;legacy.state=JSON.parse(JSON.stringify(L.runAll(1000,'signal')));current.engineVersion=2;current.assetVersion='desktop-art-v2';current.state=JSON.parse(JSON.stringify(E.runAll(927)));
+ await store.save(legacy);await store.save(current);const loaded=(await new HistoryStore(store.directory).list()).records;assert.deepEqual(loaded.find(r=>r.runId==='old'),legacy);assert.deepEqual(loaded.find(r=>r.runId==='new'),current);
+ for(const version of [0,3,99])assert.throws(()=>validateRecord({...current,engineVersion:version}),/対応していない/);assert.throws(()=>validateRecord({...current,state:{...current.state,engineVersion:1}}),/成長版/);
+});

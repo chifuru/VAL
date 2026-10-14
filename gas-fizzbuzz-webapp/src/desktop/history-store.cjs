@@ -40,7 +40,7 @@ function stateData(value, seed, processed) {
 }
 function validateRecord(input) {
   if (!object(input) || FIELDS.some(k => !Object.hasOwn(input, k)) || Object.keys(input).some(k => !FIELDS.includes(k))) invalid('必須項目が一致しません');
-  if (input.schemaVersion !== 1 || input.engineVersion !== 1) invalid('対応していない記録版です');
+  if (input.schemaVersion !== 1 || ![1,2].includes(input.engineVersion)) invalid('対応していない記録版です');
   if (typeof input.runId !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/.test(input.runId)) invalid('実行IDが不正です');
   if (!integer(input.seed,1,1000) || !integer(input.processed,0,input.seed)) invalid('Nまたは再生位置が不正です');
   if (!STATUSES.has(input.status) || input.status === 'complete' && input.processed !== input.seed) invalid('再生状態が不正です');
@@ -51,6 +51,7 @@ function validateRecord(input) {
   if (Date.parse(input.updatedAt) < Date.parse(input.createdAt)) invalid('更新日時が出生より前です');
   jsonData(input);
   stateData(input.state,input.seed,input.processed);
+  if((input.state.engineVersion||1)!==input.engineVersion)invalid('成長版が一致しません');
   portrait(input.portrait);
   if (!Array.isArray(input.snapshots) || input.snapshots.length > 3) invalid('相の記録が不正です');
   const stages = new Set();
@@ -113,7 +114,7 @@ class HistoryStore {
       await this.load();
       if (this.blocked) throw new HistoryError('HISTORY_CORRUPT',this.warning);
       const current = this.records.find(r => r.runId === record.runId);
-      if (current && (current.seed !== record.seed || current.createdAt !== record.createdAt)) invalid('出生記録は変更できません');
+      if (current && (current.seed !== record.seed || current.createdAt !== record.createdAt || current.engineVersion !== record.engineVersion)) invalid('出生記録は変更できません');
       if (current && (Date.parse(record.updatedAt) < Date.parse(current.updatedAt) || record.processed < current.processed)) invalid('古い更新で上書きできません');
       let disk = null;
       try { disk = await this.fs.readFile(this.file,'utf8'); }

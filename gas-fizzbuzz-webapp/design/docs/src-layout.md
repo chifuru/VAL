@@ -1,30 +1,10 @@
-# 2026-10-14 配置整理
+# 現行src配置
 
-この資料はsrc外へ移動。現行実装はsrc/Index.html、Code.gs、appsscript.json、compositeの編集コード、使用画像とorgans/config.json。比較一覧はdesign/organ-catalog.html、出所台帳はdesign/assets、旧版はdesign/archive、配布previewはdesign/previews。以下の旧配置記述は履歴。
+srcにはWindowsアプリの実行に必要なファイルだけを配置する。
 
-# FizzBuzz Creature — 実行・画像ファイル
+- Index.html: 数字入力と観測画面。
+- composite/: 計算、旧保存版解釈、描画、UI、CSS、生成済みPNG領域設定。
+- desktop/: Electronホスト、固定IPC、実個体の原子的保存。
+- assets/creatures/: 20ローカルPNGとconfig.json。
 
-完成した実行ファイルと画像はこのsrcディレクトリに配置する。
-
-- `Index.html`: GASへ配置する自己完結HTML。`Index.composite-v4.html`は同じ内容の独立表示版。
-- `Code.gs` / `appsscript.json`: 既存GASサーバーと設定。
-- `composite/`: 編集用テンプレート・CSS・ゲームエンジン・画像描画。
-- `assets/organs/`: 旧12系統（先行2＋追加10）の各Lv1/2/3透明PNGアトラス、領域・根元・表示レイヤー・出所SHAの台帳。
-- `assets/composite/`, `assets/lineage-webp/`, `assets/reference-thumbs/`: 既存68画像。バイト内容は保持。
-
-HTMLは全画像を埋め込むため、src外のdesign/やtools/がなくても実行できる。ローカルの内部確認にはsrcをHTTP配信し、`Index.html`を読む。実際のGAS配置ではHTMLをIndexとして登録し、既存Code.gsを使う。外部へのデプロイ・権限変更は別の作業。
-
-アトラスは配置済みモックを参照したAI加工派生であり、原画のバイト同一切り出しではない。全12系統をPNG器官で表示するが、既存の暫定全身肖像や「1旧系統1器官」のエンジン粒度は維持している。完成画質の人間受入・全部位分解・第四相実装は別の確認項目。
-
-リポジトリから更新する場合:
-
-```sh
-npm run build:composite
-npm test
-npm run check:assets
-npm run check:composite
-```
-
-`tests/browser-smoke.cjs`の`VALIS_PREVIEW_URL`で、src単独配信に対するブラウザ回帰を実行できる。原モックと検証記録はsrcの実行に必要なファイルではなく、design/とoperations/evidence/に保持する。
-
-器官一覧: `organ-catalog.html`。旧12系統の主表示と図鑑は、枠線/文字/複数個体が混入した旧暫定肖像を使わず、共通身体＋器官を合成する。旧24肖像のファイル自体は参照資産として保持する。
+説明/原モック/画像出典/生成入力はdesign、VALIS定義はvalis、試験はtests、証跡はoperations。package:windowsはsrcとpackageだけをASARへ同梱する。GAS歴史資料はdesign/archive/gas-runtime。

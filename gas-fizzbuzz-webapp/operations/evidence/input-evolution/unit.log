@@ -1,0 +1,51 @@
+
+> valis-fizzbuzz-desktop@1.1.0 test
+> node --test tests/*.test.cjs
+
+✔ every anatomical organ and body tier resolves to a checked local PNG with a usable socket (2137.450654ms)
+✔ atlas provenance covers exactly the runtime files and separates originals from derivative art (2.176665ms)
+✔ desktop entry contains no GAS, embedded atlas bytes, source previews or remote asset dependency (0.688997ms)
+✔ 1000-row original output and exact food/quarter calibration remain intact (21.099699ms)
+✔ second phase enters at201 and third phase at580 independent of N duration (28.895309ms)
+✔ favorable DNA matures around900 while unfavorable DNA may finish without final form (27.990548ms)
+✔ maturity freezes actual anatomy and color but all remaining rows are consumed (8.948475ms)
+✔ invalid numbers, wrong row order and feeding beyond N fail without mutating old state (1.928898ms)
+✔ latest numeric regulator is overwritten and consumed exactly once by next nutrient (1.244723ms)
+✔ precomputed environment is wholly determined by N and original FizzBuzz rows (20.639692ms)
+✔ all fourteen branches are reachable through automatic schedules and no species UI override (653.107914ms)
+✔ lineage remains fixed inside its phase and chosen from actual exposure (10.800192ms)
+✔ every acquired organ is inherited, continues development and retains its historical snapshot (6.501933ms)
+✔ all75 organ groups have baseline development with three usable image levels (8.110514ms)
+✔ eyes grow in size, lens level, count and functional sensing beyond only duplicate eyes (4.986774ms)
+✔ six DNA traits remain immutable and near numbers produce broad birth anatomy and hue changes (14.412567ms)
+✔ all seven basic parts independently grow and color changes with actual development (6.582004ms)
+✔ lineages have distinct underlying anatomy, pigment, signature and senses (5.891215ms)
+✔ JSON resume and chunked playback preserve deterministic outcomes (23.299529ms)
+✔ legacy engine1 saved DNA, geometry and final portrait interpretation remain versioned (9.178922ms)
+✔ Node and browser UMD use identical current and legacy engines (53.178249ms)
+✔ separate runs of the same N survive process-style store reload and list newest first (54.870685ms)
+✔ queued updates keep latest progress and reject older or changed birth records (7.856137ms)
+✔ corrupt primary keeps original and backup untouched and prevents automatic overwrite (15.306447ms)
+✔ atomic write failure preserves previous primary, warns and blocks flush until retry succeeds (24.644373ms)
+✔ external history change is not overwritten by cached state (3.294307ms)
+✔ record validator rejects unsafe N, progress, IDs, malformed images and mismatched snapshots (2.593032ms)
+✔ IPC accepts only local top frame; arbitrary frame/path and remote navigation cannot use host (2.224097ms)
+✔ close waits for renderer preparation and successful flush; failed flush keeps window open (1.34276ms)
+✔ sandbox preload exposes fixed IPC methods and unsubscribes close callbacks (9.718454ms)
+✔ engine1 and engine2 records coexist without rewriting legacy state or portraits (37.695236ms)
+✔ Manifest uniquely registers every Node, keeps parent IDs in its layer and maintains specification approval boundaries (24.993358ms)
+✔ historical A/B version remains archived exactly; current definitions are all drafts (1.968482ms)
+✔ all core definitions and original root PNG mocks remain byte-identical to the pre-migration baseline (66.837332ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2234.884209
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

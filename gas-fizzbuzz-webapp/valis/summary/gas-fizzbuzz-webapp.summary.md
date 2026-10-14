@@ -5,102 +5,102 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 全69ノード（A9/B11/C17/D10/E22）。A/B20は採用したdesktop定義版の承認済み、C/D/E49は草案。製品実装/画質/Windows実機成功の承認とは区別する。
-definition_baseline: desktop-contract-proposal-2026-10-14。採用計画 operations/plans/2026-10-14-desktop-migration.md。
-initial_registration_this_change: A1.7, A1.8, B1.7, B1.8, C1.7, C1.8, C1.5.2.1, C1.5.2.2, D1.5, D1.6, E21, E22。
-manifest_reflection_this_change: A/B20の承認状態、C17の実装可変係数/部位/画面/ホスト/保存対応、D10の現在テスト、E21/E22の対象SHA/限定結果と残存受入を反映。旧定義/工程履歴はGitおよびoperations/archive/pre-desktop-valisへ保存。
-approval_basis: operations/evidence/desktop-ab-approval.md。FLOW-09状態決定→FLOW-05正式反映。
-unresolved_summary: 成長/DNA/七身体部位/75器官/実run永続化を実装し、ローカル単体・Chromium・Linux Electron・Windows配布整合をE21へ、hosted Windows実exe起動/再起動をE22へ接続。Windows10/11利用者実機、表示倍率/FPS、美術受入は未実施。第四相解放は対象外。
-evidence_scope: E1〜E19は指定された移行前対象版だけの証跡。E20は移行前の適合監査でdesktop成功ではない。E21はtarget-sha256.jsonで識別する移行版の限定検証。A/B本文内の未実施表示は仕様承認時の対象状態であり、現在の実装/検証はC/D/E21とこの索引を参照する。A/B採用本文は承認時の正確な版を保持する。
+current_status: 全70ノード（A9/B11/C17/D10/E23）を草案に統一。旧版承認は現在無効。ユーザー指示でFizzBuzz範囲を書換可能。
+definition_baseline: input-evolution-2026-10-15。operations/plans/2026-10-15-evolution-direction.md。
+initial_registration_this_change: E23。
+manifest_reflection_this_change: 今回変更A/B/C/Dの責務・草案状態と入力自動化/環境事前決定/進化速度/身体表現の読解経路を反映。
+approval_basis: ユーザーが全FizzBuzzノードを草案と指定。旧承認は現在無効、アーカイブは旧版の識別にのみ使用。
+unresolved_summary: 今回入力/環境/成長/画像の34単体・202画面項目・Linux実起動/復元・Windows配布整合はE23。Windows10/11利用者実機、美術受入は未実施。
+evidence_scope: E1〜E22は各指定旧対象版に限定。今回ENGINE2の最終照合はE23。旧承認は撤回済み。
 
 ## 読解経路と責務
 
 ID階層/parent_idは同一層だけ。層間はderived_from/implements/verifies/evidence_for等の意味参照。1ノード1ファイル、A/B/C/D/Eの同数化は行わない。
-仕様・機能は承認済みA/B本文、実装の可変部/対応srcはC本文、検証条件/対応testsはD本文、対象版/有効条件/実結果はE本文を読む。srcには現実装のコード/画像/設定だけを置く。
+仕様・機能は現在A/B本文、実装の可変部/対応srcはC本文、検証条件/対応testsはD本文、対象版/有効条件/実結果はE本文を読む。srcには現実装のコード/画像/設定だけを置く。
 
 ## A
 
-A1:（ / Windows FizzBuzz生物育成アプリ統合仕様）［承認済み］
-	Node File: valis/nodes/A/A1.md。起点、parent_idなし。参照種別: 仕様/制約。状態根拠: desktop具体版の明示採用。
-	要約: Windows FizzBuzz生物育成アプリ統合仕様。処理フラグ: 実装/限定検証はC/D/E21へ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
+A1:（ / Windows FizzBuzz生物育成アプリ統合仕様）［草案］
+	Node File: valis/nodes/A/A1.md。起点、parent_idなし。参照種別: 仕様/制約。状態根拠: Node本文の現在版と状態を参照。
+	要約: Windows FizzBuzz生物育成アプリ統合仕様。処理フラグ: 現在版の実装/検証はC/Dと対象版Eへ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
 
-	A1.1:（A1 / 入力整数とローカルFizzBuzz出力契約）［承認済み］
-		Node File: valis/nodes/A/A1.1.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: desktop具体版の明示採用。
-		要約: 入力整数とローカルFizzBuzz出力契約。処理フラグ: 実装/限定検証はC/D/E21へ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
+	A1.1:（A1 / 入力整数とローカルFizzBuzz出力契約）［草案］
+		Node File: valis/nodes/A/A1.1.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: Node本文の現在版と状態を参照。
+		要約: 入力整数とローカルFizzBuzz出力契約。処理フラグ: 現在版の実装/検証はC/Dと対象版Eへ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
 
-	A1.2:（A1 / 出力・摂取・実個体の同期再生仕様）［承認済み］
-		Node File: valis/nodes/A/A1.2.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: desktop具体版の明示採用。
-		要約: 出力・摂取・実個体の同期再生仕様。処理フラグ: 実装/限定検証はC/D/E21へ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
+	A1.2:（A1 / 出力・摂取・実個体の同期再生仕様）［草案］
+		Node File: valis/nodes/A/A1.2.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: Node本文の現在版と状態を参照。
+		要約: 出力・摂取・実個体の同期再生仕様。処理フラグ: 現在版の実装/検証はC/Dと対象版Eへ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
 
-	A1.3:（A1 / 4種energyの摂取・調節・色彩と体積仕様）［承認済み］
-		Node File: valis/nodes/A/A1.3.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: desktop具体版の明示採用。
-		要約: 4種energyの摂取・調節・色彩と体積仕様。処理フラグ: 実装/限定検証はC/D/E21へ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
+	A1.3:（A1 / 4種energyの摂取・調節・色彩と体積仕様）［草案］
+		Node File: valis/nodes/A/A1.3.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: Node本文の現在版と状態を参照。
+		要約: 4種energyの摂取・調節・色彩と体積仕様。処理フラグ: 現在版の実装/検証はC/Dと対象版Eへ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
 
-	A1.4:（A1 / 1000行較正の三相進化・系統分岐・成熟仕様）［承認済み］
-		Node File: valis/nodes/A/A1.4.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: desktop具体版の明示採用。
-		要約: 1000行較正の三相進化・系統分岐・成熟仕様。処理フラグ: 具体係数と実描画はC/D/E21へ。利用者受入は未認定。次FLOW: FLOW-08。
+	A1.4:（A1 / 1000行較正の三相進化・系統分岐・成熟仕様）［草案］
+		Node File: valis/nodes/A/A1.4.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: Node本文の現在版と状態を参照。
+		要約: 1000行較正の三相進化・系統分岐・成熟仕様。処理フラグ: 具体係数と実描画はC/D/E23へ。利用者受入は未認定。次FLOW: FLOW-08。
 
-	A1.5:（A1 / DNA身体と複数部位成長・観測表示仕様）［承認済み］
-		Node File: valis/nodes/A/A1.5.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: desktop具体版の明示採用。
-		要約: DNA身体と複数部位成長・観測表示仕様。処理フラグ: 具体係数と実描画はC/D/E21へ。利用者受入は未認定。次FLOW: FLOW-08。
+	A1.5:（A1 / DNA身体と複数部位成長・観測表示仕様）［草案］
+		Node File: valis/nodes/A/A1.5.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: Node本文の現在版と状態を参照。
+		要約: DNA身体と複数部位成長・観測表示仕様。処理フラグ: 具体係数と実描画はC/D/E23へ。利用者受入は未認定。次FLOW: FLOW-08。
 
-	A1.6:（A1 / 入力Nからの不変DNAと初期個体仕様）［承認済み］
-		Node File: valis/nodes/A/A1.6.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: desktop具体版の明示採用。
-		要約: 入力Nからの不変DNAと初期個体仕様。処理フラグ: 具体係数と実描画はC/D/E21へ。利用者受入は未認定。次FLOW: FLOW-08。
+	A1.6:（A1 / 入力Nからの不変DNAと初期個体仕様）［草案］
+		Node File: valis/nodes/A/A1.6.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: Node本文の現在版と状態を参照。
+		要約: 入力Nからの不変DNAと初期個体仕様。処理フラグ: 具体係数と実描画はC/D/E23へ。利用者受入は未認定。次FLOW: FLOW-08。
 
-	A1.7:（A1 / Windows即起動配布とローカル画像仕様）［承認済み］
-		Node File: valis/nodes/A/A1.7.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: desktop具体版の明示採用。
-		要約: Windows即起動配布とローカル画像仕様。処理フラグ: 実装/限定検証はC/D/E21へ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
+	A1.7:（A1 / Windows即起動配布とローカル画像仕様）［草案］
+		Node File: valis/nodes/A/A1.7.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: Node本文の現在版と状態を参照。
+		要約: Windows即起動配布とローカル画像仕様。処理フラグ: 現在版の実装/検証はC/Dと対象版Eへ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
 
-	A1.8:（A1 / 出生runからの実個体永続記録仕様）［承認済み］
-		Node File: valis/nodes/A/A1.8.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: desktop具体版の明示採用。
-		要約: 出生runからの実個体永続記録仕様。処理フラグ: 実装/限定検証はC/D/E21へ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
+	A1.8:（A1 / 出生runからの実個体永続記録仕様）［草案］
+		Node File: valis/nodes/A/A1.8.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: Node本文の現在版と状態を参照。
+		要約: 出生runからの実個体永続記録仕様。処理フラグ: 現在版の実装/検証はC/Dと対象版Eへ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
 
 ## B
 
-B1:（A1 / Windows生物育成の機能接合索引）［承認済み］
-	Node File: valis/nodes/B/B1.md。起点、parent_idなし。参照種別: derived_from/機能接合。状態根拠: desktop具体版の明示採用。
-	要約: Windows生物育成の機能接合索引。処理フラグ: 実装/限定検証はC/D/E21へ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
+B1:（A1 / Windows生物育成の機能接合索引）［草案］
+	Node File: valis/nodes/B/B1.md。起点、parent_idなし。参照種別: derived_from/機能接合。状態根拠: Node本文の現在版と状態を参照。
+	要約: Windows生物育成の機能接合索引。処理フラグ: 現在版の実装/検証はC/Dと対象版Eへ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
 
-	B1.1:（A1.1 / 入力検証とローカルFizzBuzz列生成機能）［承認済み］
-		Node File: valis/nodes/B/B1.1.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: desktop具体版の明示採用。
-		要約: 入力検証とローカルFizzBuzz列生成機能。処理フラグ: 実装/限定検証はC/D/E21へ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
+	B1.1:（A1.1 / 入力検証とローカルFizzBuzz列生成機能）［草案］
+		Node File: valis/nodes/B/B1.1.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: Node本文の現在版と状態を参照。
+		要約: 入力検証とローカルFizzBuzz列生成機能。処理フラグ: 現在版の実装/検証はC/Dと対象版Eへ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
 
-	B1.2:（A1.2 / 行・energy同期再生と完走操作機能）［承認済み］
-		Node File: valis/nodes/B/B1.2.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: desktop具体版の明示採用。
-		要約: 行・energy同期再生と完走操作機能。処理フラグ: 実装/限定検証はC/D/E21へ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
+	B1.2:（A1.2 / 行・energy同期再生と完走操作機能）［草案］
+		Node File: valis/nodes/B/B1.2.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: Node本文の現在版と状態を参照。
+		要約: 行・energy同期再生と完走操作機能。処理フラグ: 現在版の実装/検証はC/Dと対象版Eへ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
 
-	B1.3:（A1.3 / 4energy分類・摂取集計・数字調節機能）［承認済み］
-		Node File: valis/nodes/B/B1.3.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: desktop具体版の明示採用。
-		要約: 4energy分類・摂取集計・数字調節機能。処理フラグ: 実装/限定検証はC/D/E21へ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
+	B1.3:（A1.3 / 4energy分類・摂取集計・数字調節機能）［草案］
+		Node File: valis/nodes/B/B1.3.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: Node本文の現在版と状態を参照。
+		要約: 4energy分類・摂取集計・数字調節機能。処理フラグ: 現在版の実装/検証はC/Dと対象版Eへ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
 
-	B1.4:（A1.4, A1.3, A1.6 / 全体成長と部位発現・相遷移の接合機能）［承認済み］
-		Node File: valis/nodes/B/B1.4.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: desktop具体版の明示採用。
-		要約: 全体成長と部位発現・相遷移の接合機能。処理フラグ: 実装/限定検証はC/D/E21へ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
+	B1.4:（A1.4, A1.3, A1.6 / 全体成長と部位発現・相遷移の接合機能）［草案］
+		Node File: valis/nodes/B/B1.4.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: Node本文の現在版と状態を参照。
+		要約: 全体成長と部位発現・相遷移の接合機能。処理フラグ: 現在版の実装/検証はC/Dと対象版Eへ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
 
-		B1.4.1:（B1.4, A1.3, A1.4, A1.6 / 整数energy較正とDNA部位発現機能）［承認済み］
-			Node File: valis/nodes/B/B1.4.1.md。parent_id: B1.4。参照種別: derived_from/機能接合。状態根拠: desktop具体版の明示採用。
-			要約: 整数energy較正とDNA部位発現機能。処理フラグ: 具体係数と実描画はC/D/E21へ。利用者受入は未認定。次FLOW: FLOW-08。
+		B1.4.1:（B1.4, A1.3, A1.4, A1.6 / 整数energy較正とDNA部位発現機能）［草案］
+			Node File: valis/nodes/B/B1.4.1.md。parent_id: B1.4。参照種別: derived_from/機能接合。状態根拠: Node本文の現在版と状態を参照。
+			要約: 整数energy較正とDNA部位発現機能。処理フラグ: 具体係数と実描画はC/D/E23へ。利用者受入は未認定。次FLOW: FLOW-08。
 
-		B1.4.2:（B1.4, A1.4 / 三相入口分岐・全器官継承・成熟固定機能）［承認済み］
-			Node File: valis/nodes/B/B1.4.2.md。parent_id: B1.4。参照種別: derived_from/機能接合。状態根拠: desktop具体版の明示採用。
-			要約: 三相入口分岐・全器官継承・成熟固定機能。処理フラグ: 具体係数と実描画はC/D/E21へ。利用者受入は未認定。次FLOW: FLOW-08。
+		B1.4.2:（B1.4, A1.4 / 三相入口分岐・全器官継承・成熟固定機能）［草案］
+			Node File: valis/nodes/B/B1.4.2.md。parent_id: B1.4。参照種別: derived_from/機能接合。状態根拠: Node本文の現在版と状態を参照。
+			要約: 三相入口分岐・全器官継承・成熟固定機能。処理フラグ: 具体係数と実描画はC/D/E23へ。利用者受入は未認定。次FLOW: FLOW-08。
 
-	B1.5:（A1.5, A1.3, A1.6 / 独立PNG部位の成長描画・摂取観測機能）［承認済み］
-		Node File: valis/nodes/B/B1.5.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: desktop具体版の明示採用。
-		要約: 独立PNG部位の成長描画・摂取観測機能。処理フラグ: 具体係数と実描画はC/D/E21へ。利用者受入は未認定。次FLOW: FLOW-08。
+	B1.5:（A1.5, A1.3, A1.6 / 独立PNG部位の成長描画・摂取観測機能）［草案］
+		Node File: valis/nodes/B/B1.5.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: Node本文の現在版と状態を参照。
+		要約: 独立PNG部位の成長描画・摂取観測機能。処理フラグ: 具体係数と実描画はC/D/E23へ。利用者受入は未認定。次FLOW: FLOW-08。
 
-	B1.6:（A1.6 / N全体のDNA生成と出生前個体構築機能）［承認済み］
-		Node File: valis/nodes/B/B1.6.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: desktop具体版の明示採用。
-		要約: N全体のDNA生成と出生前個体構築機能。処理フラグ: 具体係数と実描画はC/D/E21へ。利用者受入は未認定。次FLOW: FLOW-08。
+	B1.6:（A1.6 / N全体のDNA生成と出生前個体構築機能）［草案］
+		Node File: valis/nodes/B/B1.6.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: Node本文の現在版と状態を参照。
+		要約: N全体のDNA生成と出生前個体構築機能。処理フラグ: 具体係数と実描画はC/D/E23へ。利用者受入は未認定。次FLOW: FLOW-08。
 
-	B1.7:（A1.7 / 同梱desktop起動・画像解決機能）［承認済み］
-		Node File: valis/nodes/B/B1.7.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: desktop具体版の明示採用。
-		要約: 同梱desktop起動・画像解決機能。処理フラグ: 実装/限定検証はC/D/E21へ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
+	B1.7:（A1.7 / 同梱desktop起動・画像解決機能）［草案］
+		Node File: valis/nodes/B/B1.7.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: Node本文の現在版と状態を参照。
+		要約: 同梱desktop起動・画像解決機能。処理フラグ: 現在版の実装/検証はC/Dと対象版Eへ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
 
-	B1.8:（A1.8 / 出生からの実run記録・復元・再閲覧機能）［承認済み］
-		Node File: valis/nodes/B/B1.8.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: desktop具体版の明示採用。
-		要約: 出生からの実run記録・復元・再閲覧機能。処理フラグ: 実装/限定検証はC/D/E21へ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
+	B1.8:（A1.8 / 出生からの実run記録・復元・再閲覧機能）［草案］
+		Node File: valis/nodes/B/B1.8.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: Node本文の現在版と状態を参照。
+		要約: 出生からの実run記録・復元・再閲覧機能。処理フラグ: 現在版の実装/検証はC/Dと対象版Eへ。利用者実機/画質受入は未認定。次FLOW: FLOW-08。
 
 ## C
 
@@ -304,3 +304,7 @@ E21:（D1.1, D1.2, D1.3.1, D1.3.2, D1.3.3, D1.5, D1.6, C1 / Windows移行版の�
 E22:（D1.5, D1.6, C1.7, C1.8 / GitHub Windows配布・実exe起動と再起動の証跡）［草案］
 	Node File: valis/nodes/E/E22.md。独立証跡、parent_idなし。参照種別: evidence_for。
 	要約: commit f6be4c8 / run38610389383、Windows package/ZIP整合/native exe create→restoreがsuccess。runtime SHAはE21台帳。生ログ/native JSONは未取得。Windows10/11利用者実機/美術受入は未実施。変更時に影響観点を再実行。次FLOW: FLOW-08/04/05。
+
+E23:（D1.1, D1.2, D1.3.1, D1.3.2, D1.3.3, D1.5, D1.6, C1 / 数字入力進化版の限定検証証跡）［草案］
+	Node File: valis/nodes/E/E23.md。独立証跡、parent_idなし。参照種別: evidence_for。
+	要約: ENGINE2/desktop-art-v2の対象SHA、34単体/202画面項目、Linux実起動/復元、Windows配布整合を登録。利用者実機/美術受入は未認定。

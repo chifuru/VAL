@@ -1,0 +1,3418 @@
+{
+  "version": "desktop-art-v1",
+  "sprites": {
+    "common:head": [
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          49,
+          91,
+          203,
+          175
+        ],
+        "root": [
+          146,
+          162
+        ]
+      },
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          364,
+          64,
+          229,
+          208
+        ],
+        "root": [
+          162,
+          197
+        ]
+      },
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          686,
+          26,
+          310,
+          252
+        ],
+        "root": [
+          174,
+          237
+        ]
+      }
+    ],
+    "common:torso": [
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          49,
+          360,
+          220,
+          134
+        ],
+        "root": [
+          111,
+          69
+        ]
+      },
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          355,
+          344,
+          260,
+          158
+        ],
+        "root": [
+          132,
+          81
+        ]
+      },
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          654,
+          308,
+          340,
+          193
+        ],
+        "root": [
+          172,
+          99
+        ]
+      }
+    ],
+    "common:eye": [
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          96,
+          596,
+          110,
+          99
+        ],
+        "root": [
+          54,
+          49
+        ]
+      },
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          420,
+          575,
+          148,
+          137
+        ],
+        "root": [
+          73,
+          68
+        ]
+      },
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          750,
+          550,
+          191,
+          169
+        ],
+        "root": [
+          95,
+          85
+        ]
+      }
+    ],
+    "common:tail": [
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          85,
+          845,
+          165,
+          152
+        ],
+        "root": [
+          18,
+          124
+        ]
+      },
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          394,
+          796,
+          235,
+          202
+        ],
+        "root": [
+          20,
+          153
+        ]
+      },
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          696,
+          745,
+          292,
+          263
+        ],
+        "root": [
+          20,
+          206
+        ]
+      }
+    ],
+    "common:fin": [
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          78,
+          1126,
+          165,
+          117
+        ],
+        "root": [
+          88,
+          112
+        ]
+      },
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          384,
+          1083,
+          219,
+          163
+        ],
+        "root": [
+          108,
+          153
+        ]
+      },
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          707,
+          1024,
+          281,
+          222
+        ],
+        "root": [
+          129,
+          213
+        ]
+      }
+    ],
+    "common:limb": [
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          107,
+          1312,
+          108,
+          162
+        ],
+        "root": [
+          56,
+          14
+        ]
+      },
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          396,
+          1276,
+          150,
+          225
+        ],
+        "root": [
+          77,
+          27
+        ]
+      },
+      {
+        "file": "assets/creatures/common.png",
+        "region": [
+          752,
+          1266,
+          169,
+          253
+        ],
+        "root": [
+          66,
+          28
+        ]
+      }
+    ],
+    "abyss:frontTentacle": [
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          62,
+          131,
+          192,
+          173
+        ],
+        "root": [
+          8,
+          138
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          354,
+          61,
+          247,
+          243
+        ],
+        "root": [
+          10,
+          194
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          691,
+          21,
+          316,
+          304
+        ],
+        "root": [
+          13,
+          243
+        ]
+      }
+    ],
+    "abyss:sensingWhisker": [
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          71,
+          408,
+          185,
+          158
+        ],
+        "root": [
+          15,
+          144
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          353,
+          377,
+          305,
+          196
+        ],
+        "root": [
+          24,
+          178
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          658,
+          337,
+          347,
+          260
+        ],
+        "root": [
+          28,
+          237
+        ]
+      }
+    ],
+    "abyss:shoulderShell": [
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          62,
+          701,
+          194,
+          163
+        ],
+        "root": [
+          78,
+          98
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          329,
+          662,
+          329,
+          224
+        ],
+        "root": [
+          132,
+          134
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          658,
+          612,
+          346,
+          305
+        ],
+        "root": [
+          138,
+          183
+        ]
+      }
+    ],
+    "abyss:tentacleMembrane": [
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          88,
+          1016,
+          163,
+          193
+        ],
+        "root": [
+          13,
+          181
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          357,
+          943,
+          262,
+          265
+        ],
+        "root": [
+          21,
+          249
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          674,
+          925,
+          321,
+          300
+        ],
+        "root": [
+          26,
+          282
+        ]
+      }
+    ],
+    "abyss:luminousTail": [
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          69,
+          1297,
+          186,
+          171
+        ],
+        "root": [
+          13,
+          145
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          335,
+          1251,
+          279,
+          229
+        ],
+        "root": [
+          20,
+          195
+        ]
+      },
+      {
+        "file": "assets/creatures/abyss.png",
+        "region": [
+          658,
+          1253,
+          335,
+          260
+        ],
+        "root": [
+          23,
+          221
+        ]
+      }
+    ],
+    "myth:crown": [
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          122,
+          117,
+          117,
+          106
+        ],
+        "root": [
+          12,
+          88
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          382,
+          75,
+          177,
+          157
+        ],
+        "root": [
+          18,
+          130
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          695,
+          52,
+          254,
+          182
+        ],
+        "root": [
+          25,
+          151
+        ]
+      }
+    ],
+    "myth:wing": [
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          91,
+          351,
+          164,
+          119
+        ],
+        "root": [
+          15,
+          60
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          365,
+          322,
+          235,
+          174
+        ],
+        "root": [
+          21,
+          87
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          695,
+          293,
+          261,
+          218
+        ],
+        "root": [
+          23,
+          109
+        ]
+      }
+    ],
+    "myth:chestArmor": [
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          107,
+          592,
+          129,
+          120
+        ],
+        "root": [
+          64,
+          10
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          400,
+          570,
+          164,
+          153
+        ],
+        "root": [
+          82,
+          12
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          713,
+          560,
+          217,
+          170
+        ],
+        "root": [
+          108,
+          14
+        ]
+      }
+    ],
+    "myth:claw": [
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          114,
+          811,
+          93,
+          152
+        ],
+        "root": [
+          42,
+          15
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          399,
+          770,
+          146,
+          213
+        ],
+        "root": [
+          66,
+          21
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          722,
+          756,
+          184,
+          242
+        ],
+        "root": [
+          83,
+          24
+        ]
+      }
+    ],
+    "myth:tailFeathers": [
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          80,
+          1088,
+          162,
+          110
+        ],
+        "root": [
+          16,
+          94
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          361,
+          1036,
+          207,
+          187
+        ],
+        "root": [
+          21,
+          159
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          673,
+          1027,
+          292,
+          208
+        ],
+        "root": [
+          29,
+          177
+        ]
+      }
+    ],
+    "myth:napeFeathers": [
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          80,
+          1343,
+          168,
+          91
+        ],
+        "root": [
+          17,
+          82
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          363,
+          1329,
+          245,
+          130
+        ],
+        "root": [
+          24,
+          117
+        ]
+      },
+      {
+        "file": "assets/creatures/myth.png",
+        "region": [
+          674,
+          1309,
+          300,
+          163
+        ],
+        "root": [
+          30,
+          147
+        ]
+      }
+    ],
+    "recursive:branchHorn": [
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          111,
+          120,
+          138,
+          199
+        ],
+        "root": [
+          69,
+          191
+        ]
+      },
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          382,
+          60,
+          250,
+          260
+        ],
+        "root": [
+          125,
+          250
+        ]
+      },
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          673,
+          19,
+          338,
+          302
+        ],
+        "root": [
+          169,
+          290
+        ]
+      }
+    ],
+    "recursive:senseNode": [
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          89,
+          401,
+          159,
+          178
+        ],
+        "root": [
+          80,
+          171
+        ]
+      },
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          380,
+          355,
+          223,
+          233
+        ],
+        "root": [
+          112,
+          224
+        ]
+      },
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          697,
+          338,
+          279,
+          249
+        ],
+        "root": [
+          140,
+          239
+        ]
+      }
+    ],
+    "recursive:jointArm": [
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          85,
+          681,
+          159,
+          208
+        ],
+        "root": [
+          72,
+          200
+        ]
+      },
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          406,
+          624,
+          212,
+          266
+        ],
+        "root": [
+          95,
+          255
+        ]
+      },
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          707,
+          601,
+          260,
+          302
+        ],
+        "root": [
+          117,
+          290
+        ]
+      }
+    ],
+    "recursive:dorsalMembrane": [
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          117,
+          993,
+          156,
+          194
+        ],
+        "root": [
+          55,
+          186
+        ]
+      },
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          375,
+          934,
+          265,
+          253
+        ],
+        "root": [
+          93,
+          243
+        ]
+      },
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          691,
+          907,
+          316,
+          280
+        ],
+        "root": [
+          111,
+          269
+        ]
+      }
+    ],
+    "recursive:nerveTail": [
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          113,
+          1272,
+          122,
+          239
+        ],
+        "root": [
+          37,
+          229
+        ]
+      },
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          447,
+          1221,
+          146,
+          291
+        ],
+        "root": [
+          44,
+          279
+        ]
+      },
+      {
+        "file": "assets/creatures/recursive.png",
+        "region": [
+          778,
+          1191,
+          220,
+          323
+        ],
+        "root": [
+          66,
+          310
+        ]
+      }
+    ],
+    "sail:photonSail": [
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          65,
+          198,
+          176,
+          169
+        ],
+        "root": [
+          42,
+          155
+        ]
+      },
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          362,
+          162,
+          252,
+          206
+        ],
+        "root": [
+          60,
+          190
+        ]
+      },
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          670,
+          64,
+          340,
+          304
+        ],
+        "root": [
+          82,
+          280
+        ]
+      }
+    ],
+    "sail:pectoralWing": [
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          82,
+          535,
+          198,
+          202
+        ],
+        "root": [
+          30,
+          162
+        ]
+      },
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          378,
+          450,
+          227,
+          315
+        ],
+        "root": [
+          34,
+          252
+        ]
+      },
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          680,
+          404,
+          317,
+          368
+        ],
+        "root": [
+          48,
+          294
+        ]
+      }
+    ],
+    "sail:forkTail": [
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          41,
+          942,
+          218,
+          185
+        ],
+        "root": [
+          109,
+          178
+        ]
+      },
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          342,
+          885,
+          286,
+          235
+        ],
+        "root": [
+          143,
+          226
+        ]
+      },
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          664,
+          818,
+          339,
+          310
+        ],
+        "root": [
+          170,
+          298
+        ]
+      }
+    ],
+    "sail:lateralGlow": [
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          114,
+          1287,
+          118,
+          179
+        ],
+        "root": [
+          18,
+          168
+        ]
+      },
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          389,
+          1237,
+          158,
+          244
+        ],
+        "root": [
+          24,
+          229
+        ]
+      },
+      {
+        "file": "assets/creatures/sail.png",
+        "region": [
+          707,
+          1162,
+          251,
+          329
+        ],
+        "root": [
+          38,
+          309
+        ]
+      }
+    ],
+    "gravity:orbitRing": [
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          90,
+          146,
+          182,
+          118
+        ],
+        "root": [
+          91,
+          114
+        ]
+      },
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          430,
+          133,
+          174,
+          137
+        ],
+        "root": [
+          87,
+          133
+        ]
+      },
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          745,
+          78,
+          204,
+          192
+        ],
+        "root": [
+          102,
+          186
+        ]
+      }
+    ],
+    "gravity:orbitalNode": [
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          132,
+          422,
+          91,
+          109
+        ],
+        "root": [
+          46,
+          106
+        ]
+      },
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          451,
+          401,
+          127,
+          149
+        ],
+        "root": [
+          64,
+          145
+        ]
+      },
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          753,
+          365,
+          184,
+          199
+        ],
+        "root": [
+          92,
+          193
+        ]
+      }
+    ],
+    "gravity:stabilizerFin": [
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          138,
+          703,
+          84,
+          135
+        ],
+        "root": [
+          17,
+          128
+        ]
+      },
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          443,
+          650,
+          172,
+          196
+        ],
+        "root": [
+          34,
+          186
+        ]
+      },
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          746,
+          622,
+          210,
+          224
+        ],
+        "root": [
+          42,
+          213
+        ]
+      }
+    ],
+    "gravity:gravityCore": [
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          114,
+          978,
+          121,
+          126
+        ],
+        "root": [
+          60,
+          122
+        ]
+      },
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          428,
+          950,
+          161,
+          173
+        ],
+        "root": [
+          80,
+          168
+        ]
+      },
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          730,
+          905,
+          229,
+          236
+        ],
+        "root": [
+          114,
+          229
+        ]
+      }
+    ],
+    "gravity:orbitTail": [
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          115,
+          1271,
+          125,
+          159
+        ],
+        "root": [
+          19,
+          146
+        ]
+      },
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          422,
+          1223,
+          176,
+          211
+        ],
+        "root": [
+          26,
+          194
+        ]
+      },
+      {
+        "file": "assets/creatures/gravity.png",
+        "region": [
+          739,
+          1199,
+          216,
+          237
+        ],
+        "root": [
+          32,
+          218
+        ]
+      }
+    ],
+    "crystal:crystalCrown": [
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          88,
+          86,
+          182,
+          158
+        ],
+        "root": [
+          91,
+          152
+        ]
+      },
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          406,
+          55,
+          210,
+          189
+        ],
+        "root": [
+          105,
+          181
+        ]
+      },
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          696,
+          22,
+          300,
+          225
+        ],
+        "root": [
+          150,
+          216
+        ]
+      }
+    ],
+    "crystal:bodyCrystalShell": [
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          68,
+          334,
+          205,
+          134
+        ],
+        "root": [
+          102,
+          129
+        ]
+      },
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          383,
+          327,
+          254,
+          143
+        ],
+        "root": [
+          127,
+          137
+        ]
+      },
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          719,
+          292,
+          275,
+          180
+        ],
+        "root": [
+          138,
+          173
+        ]
+      }
+    ],
+    "crystal:sensoryLens": [
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          105,
+          548,
+          134,
+          138
+        ],
+        "root": [
+          67,
+          132
+        ]
+      },
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          410,
+          515,
+          187,
+          182
+        ],
+        "root": [
+          94,
+          175
+        ]
+      },
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          723,
+          494,
+          248,
+          216
+        ],
+        "root": [
+          124,
+          207
+        ]
+      }
+    ],
+    "crystal:crystalClaw": [
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          96,
+          751,
+          163,
+          217
+        ],
+        "root": [
+          82,
+          208
+        ]
+      },
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          419,
+          734,
+          204,
+          230
+        ],
+        "root": [
+          102,
+          221
+        ]
+      },
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          723,
+          734,
+          269,
+          256
+        ],
+        "root": [
+          134,
+          246
+        ]
+      }
+    ],
+    "crystal:crystalAntler": [
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          73,
+          1053,
+          198,
+          169
+        ],
+        "root": [
+          99,
+          162
+        ]
+      },
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          388,
+          996,
+          229,
+          233
+        ],
+        "root": [
+          114,
+          224
+        ]
+      },
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          698,
+          998,
+          296,
+          230
+        ],
+        "root": [
+          148,
+          221
+        ]
+      }
+    ],
+    "crystal:crystalTail": [
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          80,
+          1301,
+          165,
+          184
+        ],
+        "root": [
+          82,
+          177
+        ]
+      },
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          392,
+          1267,
+          202,
+          220
+        ],
+        "root": [
+          101,
+          211
+        ]
+      },
+      {
+        "file": "assets/creatures/crystal.png",
+        "region": [
+          710,
+          1244,
+          293,
+          265
+        ],
+        "root": [
+          146,
+          254
+        ]
+      }
+    ],
+    "manyeyes:lateralEye": [
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          145,
+          185,
+          102,
+          138
+        ],
+        "root": [
+          51,
+          134
+        ]
+      },
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          439,
+          158,
+          138,
+          171
+        ],
+        "root": [
+          69,
+          166
+        ]
+      },
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          727,
+          139,
+          175,
+          193
+        ],
+        "root": [
+          88,
+          187
+        ]
+      }
+    ],
+    "manyeyes:oralTentacle": [
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          172,
+          463,
+          75,
+          140
+        ],
+        "root": [
+          22,
+          136
+        ]
+      },
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          465,
+          417,
+          96,
+          186
+        ],
+        "root": [
+          29,
+          180
+        ]
+      },
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          747,
+          370,
+          141,
+          232
+        ],
+        "root": [
+          42,
+          225
+        ]
+      }
+    ],
+    "manyeyes:sideTentacle": [
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          135,
+          743,
+          134,
+          183
+        ],
+        "root": [
+          32,
+          174
+        ]
+      },
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          426,
+          701,
+          162,
+          226
+        ],
+        "root": [
+          39,
+          215
+        ]
+      },
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          722,
+          638,
+          212,
+          290
+        ],
+        "root": [
+          51,
+          276
+        ]
+      }
+    ],
+    "manyeyes:sensoryMembrane": [
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          133,
+          1066,
+          144,
+          118
+        ],
+        "root": [
+          20,
+          112
+        ]
+      },
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          425,
+          1031,
+          167,
+          153
+        ],
+        "root": [
+          23,
+          145
+        ]
+      },
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          724,
+          981,
+          207,
+          203
+        ],
+        "root": [
+          29,
+          193
+        ]
+      }
+    ],
+    "manyeyes:sensoryTail": [
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          132,
+          1293,
+          149,
+          175
+        ],
+        "root": [
+          12,
+          158
+        ]
+      },
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          412,
+          1248,
+          201,
+          220
+        ],
+        "root": [
+          16,
+          198
+        ]
+      },
+      {
+        "file": "assets/creatures/manyeyes.png",
+        "region": [
+          723,
+          1225,
+          240,
+          241
+        ],
+        "root": [
+          19,
+          217
+        ]
+      }
+    ],
+    "abyssshell:spiralShell": [
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          116,
+          143,
+          138,
+          151
+        ],
+        "root": [
+          69,
+          146
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          392,
+          110,
+          194,
+          186
+        ],
+        "root": [
+          97,
+          180
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          697,
+          70,
+          250,
+          233
+        ],
+        "root": [
+          125,
+          226
+        ]
+      }
+    ],
+    "abyssshell:segmentedArmor": [
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          102,
+          375,
+          183,
+          125
+        ],
+        "root": [
+          92,
+          121
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          381,
+          361,
+          224,
+          148
+        ],
+        "root": [
+          112,
+          144
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          665,
+          346,
+          298,
+          172
+        ],
+        "root": [
+          149,
+          167
+        ]
+      }
+    ],
+    "abyssshell:sensingAntenna": [
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          160,
+          601,
+          79,
+          156
+        ],
+        "root": [
+          40,
+          151
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          459,
+          570,
+          96,
+          191
+        ],
+        "root": [
+          48,
+          185
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          774,
+          540,
+          144,
+          222
+        ],
+        "root": [
+          72,
+          215
+        ]
+      }
+    ],
+    "abyssshell:shellTentacle": [
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          135,
+          848,
+          131,
+          157
+        ],
+        "root": [
+          55,
+          152
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          409,
+          814,
+          171,
+          197
+        ],
+        "root": [
+          72,
+          191
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          708,
+          785,
+          239,
+          234
+        ],
+        "root": [
+          100,
+          227
+        ]
+      }
+    ],
+    "abyssshell:shellSpines": [
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          120,
+          1120,
+          136,
+          122
+        ],
+        "root": [
+          34,
+          116
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          392,
+          1047,
+          204,
+          196
+        ],
+        "root": [
+          51,
+          186
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          682,
+          1025,
+          287,
+          218
+        ],
+        "root": [
+          72,
+          207
+        ]
+      }
+    ],
+    "abyssshell:armoredTail": [
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          123,
+          1311,
+          142,
+          161
+        ],
+        "root": [
+          7,
+          135
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          404,
+          1287,
+          209,
+          195
+        ],
+        "root": [
+          10,
+          164
+        ]
+      },
+      {
+        "file": "assets/creatures/abyssshell.png",
+        "region": [
+          722,
+          1261,
+          243,
+          227
+        ],
+        "root": [
+          12,
+          191
+        ]
+      }
+    ],
+    "parallel:primaryArm": [
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          88,
+          118,
+          155,
+          193
+        ],
+        "root": [
+          78,
+          185
+        ]
+      },
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          425,
+          73,
+          200,
+          243
+        ],
+        "root": [
+          100,
+          233
+        ]
+      },
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          721,
+          36,
+          229,
+          284
+        ],
+        "root": [
+          114,
+          273
+        ]
+      }
+    ],
+    "parallel:auxiliaryArm": [
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          125,
+          418,
+          126,
+          190
+        ],
+        "root": [
+          63,
+          182
+        ]
+      },
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          429,
+          385,
+          175,
+          223
+        ],
+        "root": [
+          88,
+          214
+        ]
+      },
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          741,
+          355,
+          208,
+          255
+        ],
+        "root": [
+          104,
+          245
+        ]
+      }
+    ],
+    "parallel:gripLeg": [
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          108,
+          711,
+          138,
+          200
+        ],
+        "root": [
+          62,
+          24
+        ]
+      },
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          430,
+          667,
+          162,
+          252
+        ],
+        "root": [
+          73,
+          30
+        ]
+      },
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          747,
+          644,
+          195,
+          279
+        ],
+        "root": [
+          88,
+          33
+        ]
+      }
+    ],
+    "parallel:supportPlate": [
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          102,
+          1047,
+          148,
+          133
+        ],
+        "root": [
+          44,
+          129
+        ]
+      },
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          398,
+          999,
+          210,
+          181
+        ],
+        "root": [
+          63,
+          176
+        ]
+      },
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          709,
+          948,
+          258,
+          234
+        ],
+        "root": [
+          77,
+          227
+        ]
+      }
+    ],
+    "parallel:jointTail": [
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          104,
+          1270,
+          152,
+          210
+        ],
+        "root": [
+          8,
+          176
+        ]
+      },
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          417,
+          1234,
+          179,
+          252
+        ],
+        "root": [
+          9,
+          212
+        ]
+      },
+      {
+        "file": "assets/creatures/parallel.png",
+        "region": [
+          741,
+          1202,
+          234,
+          293
+        ],
+        "root": [
+          12,
+          246
+        ]
+      }
+    ],
+    "memory:memoryPlate": [
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          99,
+          94,
+          162,
+          139
+        ],
+        "root": [
+          81,
+          133
+        ]
+      },
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          394,
+          82,
+          210,
+          152
+        ],
+        "root": [
+          105,
+          146
+        ]
+      },
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          699,
+          59,
+          262,
+          179
+        ],
+        "root": [
+          131,
+          172
+        ]
+      }
+    ],
+    "memory:sidePlate": [
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          100,
+          325,
+          158,
+          137
+        ],
+        "root": [
+          79,
+          132
+        ]
+      },
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          397,
+          314,
+          205,
+          148
+        ],
+        "root": [
+          102,
+          142
+        ]
+      },
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          684,
+          302,
+          278,
+          163
+        ],
+        "root": [
+          139,
+          156
+        ]
+      }
+    ],
+    "memory:receiverPlate": [
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          122,
+          547,
+          92,
+          170
+        ],
+        "root": [
+          46,
+          163
+        ]
+      },
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          405,
+          515,
+          175,
+          203
+        ],
+        "root": [
+          88,
+          195
+        ]
+      },
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          710,
+          503,
+          248,
+          220
+        ],
+        "root": [
+          124,
+          211
+        ]
+      }
+    ],
+    "memory:mechanicalSensor": [
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          114,
+          791,
+          109,
+          124
+        ],
+        "root": [
+          54,
+          119
+        ]
+      },
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          406,
+          760,
+          178,
+          171
+        ],
+        "root": [
+          89,
+          164
+        ]
+      },
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          714,
+          747,
+          227,
+          191
+        ],
+        "root": [
+          114,
+          183
+        ]
+      }
+    ],
+    "memory:articulatedArm": [
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          81,
+          994,
+          174,
+          202
+        ],
+        "root": [
+          87,
+          194
+        ]
+      },
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          381,
+          976,
+          236,
+          223
+        ],
+        "root": [
+          118,
+          214
+        ]
+      },
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          706,
+          963,
+          269,
+          247
+        ],
+        "root": [
+          134,
+          237
+        ]
+      }
+    ],
+    "memory:signalTail": [
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          111,
+          1302,
+          144,
+          163
+        ],
+        "root": [
+          72,
+          156
+        ]
+      },
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          412,
+          1269,
+          179,
+          204
+        ],
+        "root": [
+          90,
+          196
+        ]
+      },
+      {
+        "file": "assets/creatures/memory.png",
+        "region": [
+          726,
+          1220,
+          236,
+          259
+        ],
+        "root": [
+          118,
+          249
+        ]
+      }
+    ],
+    "serpent:additionalNeck": [
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          111,
+          98,
+          131,
+          167
+        ],
+        "root": [
+          66,
+          162
+        ]
+      },
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          424,
+          86,
+          161,
+          177
+        ],
+        "root": [
+          80,
+          172
+        ]
+      },
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          734,
+          64,
+          214,
+          198
+        ],
+        "root": [
+          107,
+          192
+        ]
+      }
+    ],
+    "serpent:neckScales": [
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          112,
+          361,
+          147,
+          105
+        ],
+        "root": [
+          74,
+          101
+        ]
+      },
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          425,
+          346,
+          173,
+          121
+        ],
+        "root": [
+          86,
+          116
+        ]
+      },
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          737,
+          326,
+          212,
+          148
+        ],
+        "root": [
+          106,
+          142
+        ]
+      }
+    ],
+    "serpent:flameCrown": [
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          104,
+          569,
+          167,
+          129
+        ],
+        "root": [
+          84,
+          124
+        ]
+      },
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          403,
+          552,
+          215,
+          146
+        ],
+        "root": [
+          108,
+          140
+        ]
+      },
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          714,
+          545,
+          254,
+          155
+        ],
+        "root": [
+          127,
+          149
+        ]
+      }
+    ],
+    "serpent:hookedFin": [
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          122,
+          810,
+          134,
+          123
+        ],
+        "root": [
+          100,
+          118
+        ]
+      },
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          420,
+          779,
+          168,
+          156
+        ],
+        "root": [
+          126,
+          150
+        ]
+      },
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          736,
+          764,
+          224,
+          173
+        ],
+        "root": [
+          168,
+          166
+        ]
+      }
+    ],
+    "serpent:serpentTail": [
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          118,
+          1035,
+          152,
+          134
+        ],
+        "root": [
+          8,
+          114
+        ]
+      },
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          409,
+          1003,
+          208,
+          171
+        ],
+        "root": [
+          10,
+          145
+        ]
+      },
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          739,
+          989,
+          223,
+          189
+        ],
+        "root": [
+          11,
+          161
+        ]
+      }
+    ],
+    "serpent:headHalo": [
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          112,
+          1256,
+          146,
+          169
+        ],
+        "root": [
+          73,
+          162
+        ]
+      },
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          411,
+          1236,
+          197,
+          201
+        ],
+        "root": [
+          98,
+          193
+        ]
+      },
+      {
+        "file": "assets/creatures/serpent.png",
+        "region": [
+          709,
+          1217,
+          253,
+          235
+        ],
+        "root": [
+          126,
+          226
+        ]
+      }
+    ],
+    "solar:solarRing": [
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          89,
+          130,
+          181,
+          165
+        ],
+        "root": [
+          90,
+          158
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          398,
+          84,
+          218,
+          216
+        ],
+        "root": [
+          109,
+          207
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          706,
+          69,
+          266,
+          237
+        ],
+        "root": [
+          133,
+          228
+        ]
+      }
+    ],
+    "solar:luminousCrown": [
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          130,
+          437,
+          117,
+          145
+        ],
+        "root": [
+          47,
+          139
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          409,
+          399,
+          194,
+          190
+        ],
+        "root": [
+          78,
+          182
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          733,
+          361,
+          227,
+          228
+        ],
+        "root": [
+          91,
+          219
+        ]
+      }
+    ],
+    "solar:fireMembrane": [
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          118,
+          717,
+          139,
+          163
+        ],
+        "root": [
+          35,
+          156
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          430,
+          693,
+          184,
+          190
+        ],
+        "root": [
+          46,
+          182
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          728,
+          652,
+          248,
+          246
+        ],
+        "root": [
+          62,
+          236
+        ]
+      }
+    ],
+    "solar:radiatingWhisker": [
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          137,
+          1000,
+          69,
+          174
+        ],
+        "root": [
+          10,
+          167
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          454,
+          961,
+          130,
+          216
+        ],
+        "root": [
+          20,
+          207
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          771,
+          940,
+          187,
+          241
+        ],
+        "root": [
+          28,
+          231
+        ]
+      }
+    ],
+    "solar:solarTail": [
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          106,
+          1300,
+          144,
+          154
+        ],
+        "root": [
+          7,
+          131
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          410,
+          1245,
+          189,
+          218
+        ],
+        "root": [
+          9,
+          185
+        ]
+      },
+      {
+        "file": "assets/creatures/solar.png",
+        "region": [
+          725,
+          1218,
+          248,
+          253
+        ],
+        "root": [
+          12,
+          215
+        ]
+      }
+    ],
+    "antimeme:absenceMask": [
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          89,
+          146,
+          142,
+          157
+        ],
+        "root": [
+          21,
+          110
+        ]
+      },
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          383,
+          135,
+          191,
+          179
+        ],
+        "root": [
+          29,
+          125
+        ]
+      },
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          690,
+          94,
+          263,
+          240
+        ],
+        "root": [
+          39,
+          168
+        ]
+      }
+    ],
+    "antimeme:unseenEye": [
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          100,
+          427,
+          143,
+          127
+        ],
+        "root": [
+          64,
+          102
+        ]
+      },
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          405,
+          414,
+          181,
+          150
+        ],
+        "root": [
+          81,
+          120
+        ]
+      },
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          719,
+          399,
+          256,
+          181
+        ],
+        "root": [
+          115,
+          145
+        ]
+      }
+    ],
+    "antimeme:erasureCrown": [
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          89,
+          704,
+          158,
+          166
+        ],
+        "root": [
+          24,
+          158
+        ]
+      },
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          387,
+          677,
+          201,
+          201
+        ],
+        "root": [
+          30,
+          191
+        ]
+      },
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          700,
+          645,
+          273,
+          250
+        ],
+        "root": [
+          41,
+          238
+        ]
+      }
+    ],
+    "antimeme:memoryFilament": [
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          110,
+          1019,
+          145,
+          166
+        ],
+        "root": [
+          22,
+          159
+        ]
+      },
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          410,
+          1003,
+          172,
+          194
+        ],
+        "root": [
+          26,
+          186
+        ]
+      },
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          726,
+          973,
+          247,
+          233
+        ],
+        "root": [
+          37,
+          224
+        ]
+      }
+    ],
+    "antimeme:brokenTail": [
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          95,
+          1305,
+          144,
+          154
+        ],
+        "root": [
+          14,
+          128
+        ]
+      },
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          393,
+          1287,
+          198,
+          180
+        ],
+        "root": [
+          20,
+          149
+        ]
+      },
+      {
+        "file": "assets/creatures/antimeme.png",
+        "region": [
+          701,
+          1265,
+          256,
+          214
+        ],
+        "root": [
+          26,
+          178
+        ]
+      }
+    ],
+    "valis:receiverCrown": [
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          120,
+          122,
+          128,
+          157
+        ],
+        "root": [
+          51,
+          149
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          409,
+          108,
+          175,
+          175
+        ],
+        "root": [
+          70,
+          166
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          719,
+          64,
+          208,
+          222
+        ],
+        "root": [
+          83,
+          211
+        ]
+      }
+    ],
+    "valis:observingEye": [
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          135,
+          389,
+          111,
+          87
+        ],
+        "root": [
+          56,
+          44
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          423,
+          367,
+          159,
+          120
+        ],
+        "root": [
+          80,
+          60
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          722,
+          354,
+          225,
+          142
+        ],
+        "root": [
+          112,
+          71
+        ]
+      }
+    ],
+    "valis:revelationMembrane": [
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          120,
+          604,
+          130,
+          121
+        ],
+        "root": [
+          10,
+          91
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          422,
+          553,
+          163,
+          198
+        ],
+        "root": [
+          13,
+          148
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          722,
+          529,
+          229,
+          246
+        ],
+        "root": [
+          18,
+          184
+        ]
+      }
+    ],
+    "valis:lightKernel": [
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          139,
+          857,
+          97,
+          101
+        ],
+        "root": [
+          48,
+          50
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          433,
+          836,
+          131,
+          138
+        ],
+        "root": [
+          66,
+          69
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          739,
+          815,
+          183,
+          173
+        ],
+        "root": [
+          92,
+          86
+        ]
+      }
+    ],
+    "valis:detachedNode": [
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          125,
+          1054,
+          144,
+          145
+        ],
+        "root": [
+          72,
+          72
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          412,
+          1046,
+          180,
+          156
+        ],
+        "root": [
+          90,
+          78
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          722,
+          1025,
+          235,
+          201
+        ],
+        "root": [
+          118,
+          100
+        ]
+      }
+    ],
+    "valis:signalTail": [
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          122,
+          1300,
+          140,
+          157
+        ],
+        "root": [
+          11,
+          133
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          376,
+          1301,
+          204,
+          163
+        ],
+        "root": [
+          16,
+          139
+        ]
+      },
+      {
+        "file": "assets/creatures/valis.png",
+        "region": [
+          684,
+          1271,
+          282,
+          207
+        ],
+        "root": [
+          23,
+          176
+        ]
+      }
+    ]
+  },
+  "files": [
+    {
+      "file": "assets/creatures/common.png",
+      "sha256": "c663591bd0286a4169b90f180310694f41e3fb50310e46060e38db812df5b04c",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "file": "assets/creatures/abyss.png",
+      "sha256": "d7a5025718eb23b07c513c6c2331e83d39813a0a0daf81290db72b07fd4b95cb",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "file": "assets/creatures/myth.png",
+      "sha256": "c538741da2d42936c67a03d8e9e6258c64fb11bcd43f897ad98bdd538ac9db83",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "file": "assets/creatures/recursive.png",
+      "sha256": "ca284551977992be6d7864c277cbda83fb446b3d48f513a082be7a4f6115b6eb",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "file": "assets/creatures/sail.png",
+      "sha256": "c640f991546c1045925621b8fd1f682cb31a78c9ba0b3fe76a7163efe82e4186",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "file": "assets/creatures/gravity.png",
+      "sha256": "8678a8f6902a8a6775d0fab49dc6e4bb1e838a3163e44b1439c55b4aaed18cd4",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "file": "assets/creatures/crystal.png",
+      "sha256": "b932045a52ec46df737f8ba438464184fc64048d504be54c0a23b3e920271774",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "file": "assets/creatures/manyeyes.png",
+      "sha256": "55a525cae1ac3f3b8c3f839b887d47ed4aaf081538e5dbe789dcc32e1457f84f",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "file": "assets/creatures/abyssshell.png",
+      "sha256": "4db7749fb2b134bc859363401d9ac0db5b1d65818a694e5424ed4d1db7814766",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "file": "assets/creatures/parallel.png",
+      "sha256": "e563992d0c8665f777cefed44b6f33e57ec2efcf0b6b86df33112e46b6877b55",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "file": "assets/creatures/memory.png",
+      "sha256": "9ce368e4c28f1a43bc88547595d714378a7e81f887585a0037affb72dff832d0",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "file": "assets/creatures/serpent.png",
+      "sha256": "a38ca67bca74065bb4e61d4c8f1723c8c5ec4660106635b56bd604254572b433",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "file": "assets/creatures/solar.png",
+      "sha256": "3bebf4823d4ebaf8dfb56a8e8721c95b2dda9547e3d130a60005aa4acc920cb8",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "file": "assets/creatures/antimeme.png",
+      "sha256": "0b992e5618c86823d6f08ddab49fb56cd049e1b92f7591fae216aa0a5f1ff41b",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "file": "assets/creatures/valis.png",
+      "sha256": "6feb35bcce6374ca744587f69ea43621b8ec1f74396834df476b330b2710bfb8",
+      "width": 1024,
+      "height": 1536
+    }
+  ]
+}

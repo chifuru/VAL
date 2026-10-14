@@ -1,0 +1,182 @@
+{
+  "sampledSeeds": [
+    880,
+    1000
+  ],
+  "sampledRuns": 121,
+  "maturedRuns": 36,
+  "favorableExample": {
+    "seed": 927,
+    "maturedAt": 888
+  },
+  "examples": {
+    "parallel": {
+      "seed": 880,
+      "lineage": "parallel",
+      "phaseRows": [
+        201,
+        580
+      ],
+      "matured": false,
+      "maturedAt": null,
+      "threshold": 97.23009148519486,
+      "signature": "機械装甲と分岐する多関節肢"
+    },
+    "memory": {
+      "seed": 881,
+      "lineage": "memory",
+      "phaseRows": [
+        201,
+        580
+      ],
+      "matured": false,
+      "maturedAt": null,
+      "threshold": 100.11436542868614,
+      "signature": "記憶殻と符号を刻む感覚塔"
+    },
+    "serpent": {
+      "seed": 882,
+      "lineage": "serpent",
+      "phaseRows": [
+        201,
+        580
+      ],
+      "matured": false,
+      "maturedAt": null,
+      "threshold": 102.67082502227277,
+      "signature": "伸びる蛇体と枝分かれする首"
+    },
+    "solar": {
+      "seed": 883,
+      "lineage": "solar",
+      "phaseRows": [
+        201,
+        580
+      ],
+      "matured": false,
+      "maturedAt": null,
+      "threshold": 95.86790529266,
+      "signature": "太陽環・燃える膜と放射冠"
+    },
+    "antimeme": {
+      "seed": 884,
+      "lineage": "antimeme",
+      "phaseRows": [
+        201,
+        580
+      ],
+      "matured": false,
+      "maturedAt": null,
+      "threshold": 102.48733994271606,
+      "signature": "欠けた輪郭と漂う不在眼"
+    },
+    "manyeyes": {
+      "seed": 885,
+      "lineage": "manyeyes",
+      "phaseRows": [
+        201,
+        580
+      ],
+      "matured": false,
+      "maturedAt": null,
+      "threshold": 101.29962502792478,
+      "signature": "巨大な複眼と漂遊する眼群"
+    },
+    "abyss": {
+      "seed": 886,
+      "lineage": "abyss",
+      "phaseRows": [
+        201,
+        580
+      ],
+      "matured": false,
+      "maturedAt": null,
+      "threshold": 98.96849666535854,
+      "signature": "深海圧に適応する長い触腕と発光鰓"
+    },
+    "myth": {
+      "seed": 887,
+      "lineage": "myth",
+      "phaseRows": [
+        201,
+        580
+      ],
+      "matured": false,
+      "maturedAt": null,
+      "threshold": 96.84661203995347,
+      "signature": "三足と重なる羽翼・黄金の冠"
+    },
+    "recursive": {
+      "seed": 888,
+      "lineage": "recursive",
+      "phaseRows": [
+        201,
+        580
+      ],
+      "matured": false,
+      "maturedAt": null,
+      "threshold": 98.95868656784296,
+      "signature": "多重焦点と再帰する首・思考膜"
+    },
+    "sail": {
+      "seed": 889,
+      "lineage": "sail",
+      "phaseRows": [
+        201,
+        580
+      ],
+      "matured": false,
+      "maturedAt": null,
+      "threshold": 97.77118082437664,
+      "signature": "薄い光帆と広がる翼脈"
+    },
+    "gravity": {
+      "seed": 890,
+      "lineage": "gravity",
+      "phaseRows": [
+        201,
+        580
+      ],
+      "matured": false,
+      "maturedAt": null,
+      "threshold": 94.96047648694366,
+      "signature": "浮遊衛体と湾曲する重力環"
+    },
+    "crystal": {
+      "seed": 891,
+      "lineage": "crystal",
+      "phaseRows": [
+        201,
+        580
+      ],
+      "matured": false,
+      "maturedAt": null,
+      "threshold": 103.56765254680067,
+      "signature": "鋭い結晶鎧と屈折する瞳"
+    },
+    "abyssshell": {
+      "seed": 893,
+      "lineage": "abyssshell",
+      "phaseRows": [
+        201,
+        580
+      ],
+      "matured": false,
+      "maturedAt": null,
+      "threshold": 102.78439368214458,
+      "signature": "重なる貝殻と深海の鉤爪"
+    },
+    "valis": {
+      "seed": 899,
+      "lineage": "valis",
+      "phaseRows": [
+        201,
+        580
+      ],
+      "matured": false,
+      "maturedAt": null,
+      "threshold": 92.53745682444423,
+      "signature": "受信膜・偏在光核と漂遊衛片"
+    }
+  }
+}

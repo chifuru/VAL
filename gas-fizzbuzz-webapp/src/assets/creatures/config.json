@@ -1,5 +1,5 @@
 {
-  "version": "desktop-art-v1",
+  "version": "desktop-art-v2",
   "sprites": {
     "common:head": [
       {
@@ -3321,6 +3321,1236 @@
           176
         ]
       }
+    ],
+    "body-aquatic:head": [
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          99,
+          153,
+          88,
+          80
+        ],
+        "root": [
+          79.2,
+          61.6
+        ]
+      },
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          98,
+          454,
+          122,
+          116
+        ],
+        "root": [
+          109.8,
+          89.32
+        ]
+      },
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          82,
+          761,
+          144,
+          155
+        ],
+        "root": [
+          129.6,
+          119.35
+        ]
+      }
+    ],
+    "body-aquatic:torso": [
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          341,
+          154,
+          101,
+          73
+        ],
+        "root": [
+          50.5,
+          36.5
+        ]
+      },
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          331,
+          461,
+          125,
+          91
+        ],
+        "root": [
+          62.5,
+          45.5
+        ]
+      },
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          329,
+          782,
+          142,
+          112
+        ],
+        "root": [
+          71,
+          56
+        ]
+      }
+    ],
+    "body-aquatic:eye": [
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          619,
+          171,
+          51,
+          49
+        ],
+        "root": [
+          25.5,
+          24.5
+        ]
+      },
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          610,
+          481,
+          69,
+          67
+        ],
+        "root": [
+          34.5,
+          33.5
+        ]
+      },
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          599,
+          795,
+          93,
+          91
+        ],
+        "root": [
+          46.5,
+          45.5
+        ]
+      }
+    ],
+    "body-aquatic:tail": [
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          851,
+          138,
+          85,
+          98
+        ],
+        "root": [
+          4.25,
+          63.7
+        ]
+      },
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          835,
+          440,
+          120,
+          124
+        ],
+        "root": [
+          6,
+          80.6
+        ]
+      },
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          826,
+          751,
+          150,
+          154
+        ],
+        "root": [
+          7.5,
+          100.1
+        ]
+      }
+    ],
+    "body-aquatic:fin": [
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          1108,
+          140,
+          96,
+          100
+        ],
+        "root": [
+          7.68,
+          91
+        ]
+      },
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          1101,
+          439,
+          138,
+          135
+        ],
+        "root": [
+          11.04,
+          122.85
+        ]
+      },
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          1083,
+          746,
+          180,
+          170
+        ],
+        "root": [
+          14.4,
+          154.7
+        ]
+      }
+    ],
+    "body-aquatic:limb": [
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          1372,
+          147,
+          66,
+          97
+        ],
+        "root": [
+          19.8,
+          11.64
+        ]
+      },
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          1362,
+          455,
+          86,
+          119
+        ],
+        "root": [
+          25.8,
+          14.28
+        ]
+      },
+      {
+        "file": "assets/creatures/body-aquatic.png",
+        "region": [
+          1355,
+          764,
+          106,
+          153
+        ],
+        "root": [
+          31.8,
+          18.36
+        ]
+      }
+    ],
+    "body-avian:head": [
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          79,
+          164,
+          111,
+          84
+        ],
+        "root": [
+          99.9,
+          64.68
+        ]
+      },
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          68,
+          444,
+          134,
+          117
+        ],
+        "root": [
+          120.6,
+          90.09
+        ]
+      },
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          63,
+          745,
+          148,
+          160
+        ],
+        "root": [
+          133.2,
+          123.2
+        ]
+      }
+    ],
+    "body-avian:torso": [
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          346,
+          164,
+          89,
+          83
+        ],
+        "root": [
+          44.5,
+          41.5
+        ]
+      },
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          341,
+          456,
+          118,
+          107
+        ],
+        "root": [
+          59,
+          53.5
+        ]
+      },
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          343,
+          767,
+          120,
+          132
+        ],
+        "root": [
+          60,
+          66
+        ]
+      }
+    ],
+    "body-avian:eye": [
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          619,
+          175,
+          45,
+          66
+        ],
+        "root": [
+          22.5,
+          33
+        ]
+      },
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          612,
+          468,
+          57,
+          82
+        ],
+        "root": [
+          28.5,
+          41
+        ]
+      },
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          604,
+          782,
+          67,
+          99
+        ],
+        "root": [
+          33.5,
+          49.5
+        ]
+      }
+    ],
+    "body-avian:tail": [
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          843,
+          163,
+          109,
+          90
+        ],
+        "root": [
+          5.45,
+          58.5
+        ]
+      },
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          824,
+          438,
+          135,
+          138
+        ],
+        "root": [
+          6.75,
+          89.7
+        ]
+      },
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          809,
+          749,
+          152,
+          165
+        ],
+        "root": [
+          7.6,
+          107.25
+        ]
+      }
+    ],
+    "body-avian:fin": [
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          1098,
+          155,
+          114,
+          95
+        ],
+        "root": [
+          9.12,
+          86.45
+        ]
+      },
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          1083,
+          440,
+          137,
+          127
+        ],
+        "root": [
+          10.96,
+          115.57
+        ]
+      },
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          1086,
+          746,
+          149,
+          162
+        ],
+        "root": [
+          11.92,
+          147.42
+        ]
+      }
+    ],
+    "body-avian:limb": [
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          1355,
+          154,
+          83,
+          102
+        ],
+        "root": [
+          24.9,
+          12.24
+        ]
+      },
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          1340,
+          432,
+          116,
+          142
+        ],
+        "root": [
+          34.8,
+          17.04
+        ]
+      },
+      {
+        "file": "assets/creatures/body-avian.png",
+        "region": [
+          1332,
+          752,
+          119,
+          159
+        ],
+        "root": [
+          35.7,
+          19.08
+        ]
+      }
+    ],
+    "body-crystal:head": [
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          109,
+          209,
+          87,
+          65
+        ],
+        "root": [
+          78.3,
+          50.05
+        ]
+      },
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          97,
+          465,
+          110,
+          88
+        ],
+        "root": [
+          99,
+          67.76
+        ]
+      },
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          96,
+          762,
+          112,
+          94
+        ],
+        "root": [
+          100.8,
+          72.38
+        ]
+      }
+    ],
+    "body-crystal:torso": [
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          356,
+          199,
+          91,
+          80
+        ],
+        "root": [
+          45.5,
+          40
+        ]
+      },
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          340,
+          454,
+          126,
+          111
+        ],
+        "root": [
+          63,
+          55.5
+        ]
+      },
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          344,
+          760,
+          118,
+          110
+        ],
+        "root": [
+          59,
+          55
+        ]
+      }
+    ],
+    "body-crystal:eye": [
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          623,
+          209,
+          43,
+          68
+        ],
+        "root": [
+          21.5,
+          34
+        ]
+      },
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          615,
+          475,
+          58,
+          85
+        ],
+        "root": [
+          29,
+          42.5
+        ]
+      },
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          617,
+          782,
+          54,
+          79
+        ],
+        "root": [
+          27,
+          39.5
+        ]
+      }
+    ],
+    "body-crystal:tail": [
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          842,
+          199,
+          103,
+          74
+        ],
+        "root": [
+          5.15,
+          48.1
+        ]
+      },
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          827,
+          454,
+          140,
+          107
+        ],
+        "root": [
+          7,
+          69.55
+        ]
+      },
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          825,
+          760,
+          128,
+          109
+        ],
+        "root": [
+          6.4,
+          70.85
+        ]
+      }
+    ],
+    "body-crystal:fin": [
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          1112,
+          193,
+          77,
+          87
+        ],
+        "root": [
+          6.16,
+          79.17
+        ]
+      },
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          1097,
+          451,
+          112,
+          119
+        ],
+        "root": [
+          8.96,
+          108.29
+        ]
+      },
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          1096,
+          759,
+          110,
+          114
+        ],
+        "root": [
+          8.8,
+          103.74
+        ]
+      }
+    ],
+    "body-crystal:limb": [
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          1361,
+          195,
+          71,
+          84
+        ],
+        "root": [
+          21.3,
+          10.08
+        ]
+      },
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          1362,
+          459,
+          83,
+          116
+        ],
+        "root": [
+          24.9,
+          13.92
+        ]
+      },
+      {
+        "file": "assets/creatures/body-crystal.png",
+        "region": [
+          1366,
+          760,
+          76,
+          114
+        ],
+        "root": [
+          22.8,
+          13.68
+        ]
+      }
+    ],
+    "body-serpent:head": [
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          45,
+          133,
+          157,
+          162
+        ],
+        "root": [
+          141.3,
+          124.74
+        ]
+      },
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          27,
+          415,
+          207,
+          202
+        ],
+        "root": [
+          186.3,
+          155.54
+        ]
+      },
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          21,
+          679,
+          263,
+          288
+        ],
+        "root": [
+          236.7,
+          221.76
+        ]
+      }
+    ],
+    "body-serpent:torso": [
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          326,
+          174,
+          168,
+          113
+        ],
+        "root": [
+          84,
+          56.5
+        ]
+      },
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          295,
+          454,
+          238,
+          158
+        ],
+        "root": [
+          119,
+          79
+        ]
+      },
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          285,
+          766,
+          301,
+          193
+        ],
+        "root": [
+          150.5,
+          96.5
+        ]
+      }
+    ],
+    "body-serpent:eye": [
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          611,
+          189,
+          77,
+          84
+        ],
+        "root": [
+          38.5,
+          42
+        ]
+      },
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          606,
+          478,
+          103,
+          109
+        ],
+        "root": [
+          51.5,
+          54.5
+        ]
+      },
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          609,
+          790,
+          136,
+          150
+        ],
+        "root": [
+          68,
+          75
+        ]
+      }
+    ],
+    "body-serpent:tail": [
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          804,
+          148,
+          182,
+          153
+        ],
+        "root": [
+          9.1,
+          99.45
+        ]
+      },
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          802,
+          422,
+          226,
+          211
+        ],
+        "root": [
+          11.3,
+          137.15
+        ]
+      },
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          789,
+          686,
+          274,
+          301
+        ],
+        "root": [
+          13.7,
+          195.65
+        ]
+      }
+    ],
+    "body-serpent:fin": [
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          1075,
+          127,
+          158,
+          183
+        ],
+        "root": [
+          12.64,
+          166.53
+        ]
+      },
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          1071,
+          388,
+          210,
+          263
+        ],
+        "root": [
+          16.8,
+          239.33
+        ]
+      },
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          1062,
+          681,
+          259,
+          323
+        ],
+        "root": [
+          20.72,
+          293.93
+        ]
+      }
+    ],
+    "body-serpent:limb": [
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          1344,
+          147,
+          130,
+          171
+        ],
+        "root": [
+          39,
+          20.52
+        ]
+      },
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          1340,
+          431,
+          152,
+          218
+        ],
+        "root": [
+          45.6,
+          26.16
+        ]
+      },
+      {
+        "file": "assets/creatures/body-serpent.png",
+        "region": [
+          1333,
+          727,
+          188,
+          259
+        ],
+        "root": [
+          56.4,
+          31.08
+        ]
+      }
+    ],
+    "body-ethereal:head": [
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          91,
+          126,
+          138,
+          112
+        ],
+        "root": [
+          124.2,
+          86.24
+        ]
+      },
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          57,
+          353,
+          209,
+          167
+        ],
+        "root": [
+          188.1,
+          128.59
+        ]
+      },
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          35,
+          595,
+          275,
+          234
+        ],
+        "root": [
+          247.5,
+          180.18
+        ]
+      }
+    ],
+    "body-ethereal:torso": [
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          375,
+          136,
+          162,
+          110
+        ],
+        "root": [
+          81,
+          55
+        ]
+      },
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          349,
+          376,
+          221,
+          144
+        ],
+        "root": [
+          110.5,
+          72
+        ]
+      },
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          327,
+          612,
+          270,
+          217
+        ],
+        "root": [
+          135,
+          108.5
+        ]
+      }
+    ],
+    "body-ethereal:eye": [
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          704,
+          148,
+          85,
+          82
+        ],
+        "root": [
+          42.5,
+          41
+        ]
+      },
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          682,
+          387,
+          130,
+          128
+        ],
+        "root": [
+          65,
+          64
+        ]
+      },
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          664,
+          650,
+          168,
+          167
+        ],
+        "root": [
+          84,
+          83.5
+        ]
+      }
+    ],
+    "body-ethereal:tail": [
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          961,
+          117,
+          164,
+          138
+        ],
+        "root": [
+          8.2,
+          89.7
+        ]
+      },
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          933,
+          354,
+          228,
+          192
+        ],
+        "root": [
+          11.4,
+          124.8
+        ]
+      },
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          911,
+          592,
+          287,
+          267
+        ],
+        "root": [
+          14.35,
+          173.55
+        ]
+      }
+    ],
+    "body-ethereal:fin": [
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          1263,
+          103,
+          121,
+          167
+        ],
+        "root": [
+          9.68,
+          151.97
+        ]
+      },
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          1249,
+          341,
+          196,
+          226
+        ],
+        "root": [
+          15.68,
+          205.66
+        ]
+      },
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          1240,
+          578,
+          267,
+          288
+        ],
+        "root": [
+          21.36,
+          262.08
+        ]
+      }
+    ],
+    "body-ethereal:limb": [
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          1563,
+          104,
+          128,
+          166
+        ],
+        "root": [
+          38.4,
+          19.92
+        ]
+      },
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          1558,
+          348,
+          165,
+          206
+        ],
+        "root": [
+          49.5,
+          24.72
+        ]
+      },
+      {
+        "file": "assets/creatures/body-ethereal.png",
+        "region": [
+          1556,
+          599,
+          196,
+          261
+        ],
+        "root": [
+          58.8,
+          31.32
+        ]
+      }
     ]
   },
   "files": [
@@ -3413,6 +4643,36 @@
       "sha256": "6feb35bcce6374ca744587f69ea43621b8ec1f74396834df476b330b2710bfb8",
       "width": 1024,
       "height": 1536
+    },
+    {
+      "file": "assets/creatures/body-aquatic.png",
+      "sha256": "fac7a3abcb464646c1b0b5ef7990fde11323d8b65a5010bda31578f670fa7865",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "assets/creatures/body-avian.png",
+      "sha256": "8ada5fb64fb8217fbebc6b7077e2c9117eee33eefbaae6c243ce2c0a66c5662b",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "assets/creatures/body-crystal.png",
+      "sha256": "5452b43e527e313df8b6f4205706dcc39aa4e87541d8a4bf41b235ff9e0a2908",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "assets/creatures/body-serpent.png",
+      "sha256": "8492a6afb95ed8bcfe32edc2aa9e9bce89b5aae57c64f8c08210b42edcc294d7",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "assets/creatures/body-ethereal.png",
+      "sha256": "5498852f7d93755a74d421d4005f6b96d1e2317b07be05159cb7763e025d5386",
+      "width": 1774,
+      "height": 887
     }
   ]
 }

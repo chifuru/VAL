@@ -1,13 +1,7 @@
-# 2026-10-14 配置整理
+# 現行ローカルPNG資産
 
-この資料はsrc外へ移動。現行実装はsrc/Index.html、Code.gs、appsscript.json、compositeの編集コード、使用画像とorgans/config.json。比較一覧はdesign/organ-catalog.html、出所台帳はdesign/assets、旧版はdesign/archive、配布previewはdesign/previews。以下の旧配置記述は履歴。
+5解剖族（aquatic/avian/crystal/serpent/ethereal）×6独立身体部位×3素材段階と、14系統75器官×3Lvを合成する。engine1用commonの18素材も保持する。計20PNG、111部位群、333領域。
 
-# 旧12系統の透明器官アトラス
+実ファイルはsrc/assets/creatures、出所/SHA/実測領域/根元はdesign/assets/desktop-creatures。build-assets.cjsで出所SHA・寸法・結合設定を検査し、runtime JSONとasset-config.jsを生成する。PNGバイトはimage_gen出力をそのままコピーし、Pythonは読み取り測定にだけ用いる。原モックは変更しない。
 
-このディレクトリに深淵・神鳥・再帰・光帆・重力・星晶・多眼・深殻・並列・記憶・蛇・日輪の各Lv1/2/3アトラス12PNGを保存する。`ledger.json`は配置済み参照モックのSHA、出力SHA、領域・根元・表示アンカー・前後レイヤーを記録する。
-
-画像はimage_genによるモック参照のAI加工派生であり、元画の実画素切り出しや旧ZIP一致ではない。Nodeの状態と画質の受入は草案のまま。共通身体＋器官を主画面・図鑑・履歴で共通描画する。12系統の仮SVGは実行時に導入しない。反記銘/VALISの既存11器官×3Lvはsrc/assets/composite内のPNGを使用する。
-
-`src/organ-catalog.html`で12系統×3Lvを並べて比較できる。変更時は台帳SHA/領域を更新し、リポジトリルートのbuild:compositeで両HTMLを再生成して、Node/資産/再構築/実ブラウザの検証を実行する。
-
-1旧系統1器官の既存エンジン粒度は維持する。全部位分解・第四相・原画同等の完成画質認定・実GAS動作は別の確認項目。
+本数値/透明境界の検査と、最終美術品質の利用者受入は別に扱う。旧GASアトラスの説明はdesign/archive/gas-runtime/docsへ保存する。

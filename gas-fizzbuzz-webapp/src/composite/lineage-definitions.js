@@ -898,6 +898,23 @@
     ]
   }
 };
+  var signatures={
+    abyss:['aquatic',210,'深海圧に適応する長い触腕と発光鰓','電位'],
+    myth:['avian',38,'三足と重なる羽翼・黄金の冠','熱'],
+    recursive:['ethereal',270,'多重焦点と再帰する首・思考膜','位相'],
+    sail:['avian',185,'薄い光帆と広がる翼脈','偏光'],
+    gravity:['ethereal',305,'浮遊衛体と湾曲する重力環','重力'],
+    crystal:['crystal',265,'鋭い結晶鎧と屈折する瞳','偏光'],
+    manyeyes:['crystal',320,'巨大な複眼と漂遊する眼群','広域電位'],
+    abyssshell:['aquatic',175,'重なる貝殻と深海の鉤爪','圧力'],
+    parallel:['crystal',22,'機械装甲と分岐する多関節肢','磁場'],
+    memory:['crystal',150,'記憶殻と符号を刻む感覚塔','符号'],
+    serpent:['serpent',12,'伸びる蛇体と枝分かれする首','赤外線'],
+    solar:['serpent',45,'太陽環・燃える膜と放射冠','紫外線'],
+    antimeme:['ethereal',245,'欠けた輪郭と漂う不在眼','位相'],
+    valis:['ethereal',195,'受信膜・偏在光核と漂遊衛片','信号']
+  };
+  data.LINEAGES.forEach(function(l){var s=signatures[l.id];l.bodyFamily=s[0];l.hue=s[1];l.signature=s[2];l.sense=s[3];});
   data.LINEAGE_BY_ID = Object.fromEntries(data.LINEAGES.map(function (lineage) { return [lineage.id, lineage]; }));
   data.PART_GROUP_COUNT = Object.values(data.PART_DEFINITIONS).reduce(function (total, parts) { return total + parts.length; }, 0);
   return freeze(data);

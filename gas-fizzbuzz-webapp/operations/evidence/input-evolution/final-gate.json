@@ -1,0 +1,12 @@
+{
+  "result": "passed-local-scoped",
+  "coreAndOriginalMocksPreserved": true,
+  "allFizzBuzzNodesDraft": true,
+  "manifestRegistered": "E23",
+  "sourceMatchesPackage": true,
+  "unit34": true,
+  "browser202": true,
+  "nativeLinuxCreateAndRestore": true,
+  "windowsActualExecution": "pending-independent-CI-evidence",
+  "targetLedger": "target-sha256.json"
+}
