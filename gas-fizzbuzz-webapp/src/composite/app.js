@@ -39,6 +39,8 @@ function ensureImage(rel){
  return cache.get(rel).promise;
 }
 async function preload(){
+ // Opt-in from original reference pixels: atomic fallback to SVG on decode/mask failure.
+ if(window.CompositeMockAtlas)await window.CompositeMockAtlas.install(C);
  var paths=Object.values(C.core);
  Object.values(C.partImages).forEach(arr=>arr.forEach(rel=>paths.push(rel)));
  Object.values(C.lineageImages||{}).forEach(arr=>arr.forEach(rel=>paths.push(rel)));
@@ -226,7 +228,7 @@ function paintSpecimen(s,t,reduced,mini){
  }
  if(!mini){
    font(s.dna.seed+' / '+(s.lineage?(names[lineage]||[])[s.stage]||lineage:'ミナモルフ'),26,37,20,'#cde3fc');
-   font(s.lineage?(portrait?(C.draftOrganLineages&&C.draftOrganLineages.includes(lineage)?'MOCK PORTRAIT + DRAFT Lv ORGAN · ':'MOCK PORTRAIT · '):'LAYER COMPOSITE · ')+lineage.toUpperCase():'UNCOMMITTED / ORIGIN',26,61,12,'#7296bd');
+   font(s.lineage?(portrait?(C.mockAtlasLineages&&C.mockAtlasLineages.includes(lineage)?'MOCK PORTRAIT + JPEG CROP Lv ORGAN (DRAFT) · ':C.draftOrganLineages&&C.draftOrganLineages.includes(lineage)?'MOCK PORTRAIT + DRAFT SVG Lv ORGAN · ':'MOCK PORTRAIT · '):'LAYER COMPOSITE · ')+lineage.toUpperCase():'UNCOMMITTED / ORIGIN',26,61,12,'#7296bd');
    if(preview) font('図鑑サンプル · 実際の育成個体ではありません',985,640,17,'#d9c9ff','right');
  }
 }
@@ -249,7 +251,7 @@ function updateUI(){
  $('specimenMode').textContent=isDemo?'図鑑見本':'LIVE · '+(complete?'完走':playing?'育成中':'待機');
  $('maturityStatus').textContent=s.matured?'完全成熟・外見固定':(s.stage===0?'未分化':'発達中');
  $('coreLabel').textContent=s.dna.bodyVariant?'星原型':'深海原型';
- $('mainNote').textContent=isDemo?(lineage==='valis'||lineage==='antimeme'?'図鑑見本：Lvごとの透過パーツを合成しています。':'図鑑見本：旧12系統はモック由来の暫定肖像＋1器官×3Lvの草案SVGです。原本由来の完成透過パーツではありません。'):
+ $('mainNote').textContent=isDemo?(lineage==='valis'||lineage==='antimeme'?'図鑑見本：Lvごとの透過パーツを合成しています。':(C.mockAtlasLineages&&C.mockAtlasLineages.includes(lineage)?'図鑑見本：C01/C02参考画像の縮小JPEGから実画素を切り出した3Lvの低解像透過草案です。高解像原本・完成器官ではありません。': '図鑑見本：旧12系統は暫定肖像＋SVG仮器官です。原画由来の完成透過パーツではありません。')):
     '初期DNAの顔・眼・胴・尾は維持。環境と餌で増えたパーツ画像を重ねます。';
  $('partList').replaceChildren();
  part.forEach(function(p){
