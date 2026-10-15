@@ -1,0 +1,590 @@
+{
+  "generatedAt": "2026-10-15T13:36:59.831Z",
+  "browser": "154.0.8037.57",
+  "mode": "after",
+  "sourceCommit": "pending execution commit;see sourceHashes",
+  "sourceHashes": {
+    "renderer.js": "1e8f0f4ed1dc40e8e99914d4e7ea60508a870fe26cb10814c2ea4c972b85707e",
+    "environment-scene.js": "eb2e886cc9a786f8daded307f71bab68c8525617a85c7fcc0082223f8c680f37",
+    "food-scene.js": "ebc83afbf1b63690c5287274a11952da2345bb050836a2ea27a13e6e0ef01234",
+    "app.js": "b96ce7eee8d76773b3ae9d9f3600851273f93d4a8d3f67e8b8dcc3c4baee587a"
+  },
+  "scope": "Actual1..260 states and actual nutrition/growth events;warm1..189 thenmeasure190..260;direct CPU draw,not GPU presentation oruser FPS",
+  "rows": [
+    {
+      "row": 190,
+      "ms": 2.5,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 191,
+      "ms": 2.5,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 192,
+      "ms": 1.5999999940395355,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 193,
+      "ms": 1.800000011920929,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 194,
+      "ms": 1.199999988079071,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 195,
+      "ms": 5.5,
+      "canvases": 1,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 196,
+      "ms": 1.9000000059604645,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 197,
+      "ms": 2,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 198,
+      "ms": 4.4000000059604645,
+      "canvases": 2,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 199,
+      "ms": 3.2000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 200,
+      "ms": 4.200000002980232,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 201,
+      "ms": 36.70000000298023,
+      "canvases": 5,
+      "ecologyBuilds": 1,
+      "backdropBuilds": 1,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 202,
+      "ms": 7.799999997019768,
+      "canvases": 1,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 203,
+      "ms": 7.700000002980232,
+      "canvases": 1,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 204,
+      "ms": 6.100000008940697,
+      "canvases": 2,
+      "ecologyBuilds": 2,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 205,
+      "ms": 10.699999988079071,
+      "canvases": 3,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 206,
+      "ms": 2.7999999970197678,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 207,
+      "ms": 2.1000000089406967,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 208,
+      "ms": 2.4000000059604645,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 209,
+      "ms": 2.2000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 210,
+      "ms": 2.2999999970197678,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 211,
+      "ms": 2.5,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 212,
+      "ms": 2.7000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 213,
+      "ms": 1.5999999940395355,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 214,
+      "ms": 2,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 215,
+      "ms": 10.399999991059303,
+      "canvases": 3,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 216,
+      "ms": 10.700000002980232,
+      "canvases": 3,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 217,
+      "ms": 2.4000000059604645,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 218,
+      "ms": 2.2999999970197678,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 219,
+      "ms": 2.2999999970197678,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 220,
+      "ms": 14.5,
+      "canvases": 4,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 221,
+      "ms": 3.199999988079071,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 222,
+      "ms": 2.0999999940395355,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 223,
+      "ms": 1.7999999970197678,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 224,
+      "ms": 1.3999999910593033,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 225,
+      "ms": 5.700000002980232,
+      "canvases": 1,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 226,
+      "ms": 1.2999999970197678,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 227,
+      "ms": 1.2000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 228,
+      "ms": 10.299999997019768,
+      "canvases": 3,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 229,
+      "ms": 2.7999999970197678,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 230,
+      "ms": 10.600000008940697,
+      "canvases": 3,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 231,
+      "ms": 11.400000005960464,
+      "canvases": 3,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 232,
+      "ms": 3,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 233,
+      "ms": 3.5999999940395355,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 234,
+      "ms": 2.6000000089406967,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 235,
+      "ms": 10.899999991059303,
+      "canvases": 3,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 236,
+      "ms": 3.0999999940395355,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 237,
+      "ms": 11.799999997019768,
+      "canvases": 3,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 238,
+      "ms": 1.7000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 239,
+      "ms": 1.2000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 240,
+      "ms": 1.1000000089406967,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 241,
+      "ms": 1.0999999940395355,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 242,
+      "ms": 1.2000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 243,
+      "ms": 5.399999991059303,
+      "canvases": 1,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 244,
+      "ms": 2,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 245,
+      "ms": 2.4000000059604645,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 246,
+      "ms": 7.100000008940697,
+      "canvases": 1,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 247,
+      "ms": 7.100000008940697,
+      "canvases": 1,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 248,
+      "ms": 2.4000000059604645,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 249,
+      "ms": 15.199999988079071,
+      "canvases": 4,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 250,
+      "ms": 7,
+      "canvases": 1,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 251,
+      "ms": 2.3999999910593033,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 252,
+      "ms": 9.900000005960464,
+      "canvases": 3,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 253,
+      "ms": 3.2000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 254,
+      "ms": 1.4000000059604645,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 255,
+      "ms": 1.0999999940395355,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 256,
+      "ms": 1.5999999940395355,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 257,
+      "ms": 1.2000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 258,
+      "ms": 2.1000000089406967,
+      "canvases": 2,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 259,
+      "ms": 2.5,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    },
+    {
+      "row": 260,
+      "ms": 1.9000000059604645,
+      "canvases": 0,
+      "ecologyBuilds": 0,
+      "backdropBuilds": 0,
+      "cacheWithinBounds": true
+    }
+  ],
+  "canvasAllocations": 54,
+  "ecologyBuilds": 3,
+  "backdropBuilds": 1,
+  "medianMs": 2.5,
+  "p95Ms": 11.799999997019768,
+  "maxMs": 36.70000000298023,
+  "resolvedSourceCommit": "9682b76fa305500165828ca6aeb957beee11ba54"
+}

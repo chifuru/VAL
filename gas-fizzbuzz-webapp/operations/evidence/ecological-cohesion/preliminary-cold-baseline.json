@@ -1,0 +1,433 @@
+{
+  "sourceCommit": "0d66454ab017a6f70ae1b4b25a3d5ce46dbd9ff7",
+  "generatedAt": "2026-10-15T13:23:01.084Z",
+  "scope": "Actual states190..260 N1000 before runtime change;CPU direct draw,not GPU/FPS",
+  "rows": [
+    {
+      "row": 190,
+      "ms": 88.19999998807907,
+      "canvases": 29,
+      "ecologyBuilds": 25
+    },
+    {
+      "row": 191,
+      "ms": 1.5,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 192,
+      "ms": 1.2000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 193,
+      "ms": 1.2000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 194,
+      "ms": 0.7999999970197678,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 195,
+      "ms": 3.7000000029802322,
+      "canvases": 1,
+      "ecologyBuilds": 1
+    },
+    {
+      "row": 196,
+      "ms": 1.0999999940395355,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 197,
+      "ms": 0.800000011920929,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 198,
+      "ms": 2,
+      "canvases": 2,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 199,
+      "ms": 0.7999999970197678,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 200,
+      "ms": 3,
+      "canvases": 1,
+      "ecologyBuilds": 1
+    },
+    {
+      "row": 201,
+      "ms": 36.29999999701977,
+      "canvases": 4,
+      "ecologyBuilds": 1
+    },
+    {
+      "row": 202,
+      "ms": 1,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 203,
+      "ms": 1.4000000059604645,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 204,
+      "ms": 61.29999999701977,
+      "canvases": 34,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 205,
+      "ms": 81.29999999701977,
+      "canvases": 37,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 206,
+      "ms": 1.300000011920929,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 207,
+      "ms": 71.3999999910593,
+      "canvases": 34,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 208,
+      "ms": 4.200000002980232,
+      "canvases": 1,
+      "ecologyBuilds": 1
+    },
+    {
+      "row": 209,
+      "ms": 0.7000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 210,
+      "ms": 73.59999999403954,
+      "canvases": 34,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 211,
+      "ms": 2,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 212,
+      "ms": 0.7999999970197678,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 213,
+      "ms": 55.6000000089407,
+      "canvases": 34,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 214,
+      "ms": 0.8999999910593033,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 215,
+      "ms": 67,
+      "canvases": 37,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 216,
+      "ms": 61.5,
+      "canvases": 37,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 217,
+      "ms": 1.0999999940395355,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 218,
+      "ms": 0.7999999970197678,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 219,
+      "ms": 50.30000001192093,
+      "canvases": 34,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 220,
+      "ms": 58.099999994039536,
+      "canvases": 37,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 221,
+      "ms": 1.2000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 222,
+      "ms": 53,
+      "canvases": 34,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 223,
+      "ms": 1.2999999970197678,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 224,
+      "ms": 0.6000000089406967,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 225,
+      "ms": 53.70000000298023,
+      "canvases": 34,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 226,
+      "ms": 1,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 227,
+      "ms": 0.699999988079071,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 228,
+      "ms": 62.70000000298023,
+      "canvases": 37,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 229,
+      "ms": 1.1000000089406967,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 230,
+      "ms": 67.09999999403954,
+      "canvases": 37,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 231,
+      "ms": 68.20000000298023,
+      "canvases": 37,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 232,
+      "ms": 1,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 233,
+      "ms": 1.1000000089406967,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 234,
+      "ms": 52.19999998807907,
+      "canvases": 34,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 235,
+      "ms": 58.1000000089407,
+      "canvases": 37,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 236,
+      "ms": 1.2999999970197678,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 237,
+      "ms": 62.79999999701977,
+      "canvases": 37,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 238,
+      "ms": 1.2999999970197678,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 239,
+      "ms": 0.800000011920929,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 240,
+      "ms": 56,
+      "canvases": 34,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 241,
+      "ms": 3.2999999970197678,
+      "canvases": 1,
+      "ecologyBuilds": 1
+    },
+    {
+      "row": 242,
+      "ms": 0.5999999940395355,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 243,
+      "ms": 9.5,
+      "canvases": 1,
+      "ecologyBuilds": 1
+    },
+    {
+      "row": 244,
+      "ms": 0.5,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 245,
+      "ms": 46.6000000089407,
+      "canvases": 34,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 246,
+      "ms": 46.19999998807907,
+      "canvases": 34,
+      "ecologyBuilds": 34
+    },
+    {
+      "row": 247,
+      "ms": 0.9000000059604645,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 248,
+      "ms": 1.4000000059604645,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 249,
+      "ms": 57.099999994039536,
+      "canvases": 33,
+      "ecologyBuilds": 30
+    },
+    {
+      "row": 250,
+      "ms": 45,
+      "canvases": 30,
+      "ecologyBuilds": 30
+    },
+    {
+      "row": 251,
+      "ms": 1.1000000089406967,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 252,
+      "ms": 10.200000002980232,
+      "canvases": 3,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 253,
+      "ms": 0.699999988079071,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 254,
+      "ms": 0.7000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 255,
+      "ms": 4.0999999940395355,
+      "canvases": 1,
+      "ecologyBuilds": 1
+    },
+    {
+      "row": 256,
+      "ms": 0.5999999940395355,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 257,
+      "ms": 0.7000000029802322,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 258,
+      "ms": 2.1000000089406967,
+      "canvases": 2,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 259,
+      "ms": 1,
+      "canvases": 0,
+      "ecologyBuilds": 0
+    },
+    {
+      "row": 260,
+      "ms": 7,
+      "canvases": 1,
+      "ecologyBuilds": 1
+    }
+  ]
+}

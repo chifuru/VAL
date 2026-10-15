@@ -1,0 +1,9 @@
+{
+  mode: 'after',
+  allocations: 54,
+  sceneryBuilds: 3,
+  backdropBuilds: 1,
+  median: 2.5,
+  p95: 11.799999997019768,
+  max: 36.70000000298023
+}

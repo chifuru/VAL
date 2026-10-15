@@ -1,0 +1,21 @@
+{
+  "scope": "Same Chromium154/viewport/actual1..260 and actual food/growth recipe;warm1..189 thenmeasure190..260;before routes4runtime sources from1.9.0 baseline commit;after4source SHA match execution target;one run each,CPU calls notGPU/userFPS",
+  "beforeCommit": "0d66454ab017a6f70ae1b4b25a3d5ce46dbd9ff7",
+  "afterCommit": "9682b76fa305500165828ca6aeb957beee11ba54",
+  "before": {
+    "canvasAllocations": 799,
+    "ecologyBuilds": 748,
+    "medianMs": 3.4000000059604645,
+    "p95Ms": 66.5,
+    "maxMs": 77.80000001192093
+  },
+  "after": {
+    "canvasAllocations": 54,
+    "ecologyBuilds": 3,
+    "backdropBuilds": 1,
+    "medianMs": 2.5,
+    "p95Ms": 11.799999997019768,
+    "maxMs": 36.70000000298023
+  },
+  "preliminaryColdFixtures": "preliminary-cold-baseline starts atrow190 without prior1..189 oractual reactions and cannot be compared directly with this matched experiment"
+}

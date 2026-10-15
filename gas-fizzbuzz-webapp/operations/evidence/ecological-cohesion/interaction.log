@@ -1,0 +1,10 @@
+
+> valis-fizzbuzz-desktop@1.10.0 test:interaction
+> node tests/browser-interaction.cjs
+
+{"passed":23,"timings":{"firstRows":{"ms":242.59999999403954,"row":2},"feedback":[{"action":"load","ms":8.700000002980232,"text":"読み込み中…","status":"読み込み中","busy":true},{"action":"start","ms":11.200000002980232,"text":"開始しています…","status":"開始しています","busy":true}],"loadWith201RecordsMs":104}}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

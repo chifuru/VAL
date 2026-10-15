@@ -1,0 +1,9 @@
+{
+  mode: 'before',
+  allocations: 799,
+  sceneryBuilds: 748,
+  backdropBuilds: NaN,
+  median: 3.4000000059604645,
+  p95: 66.5,
+  max: 77.80000001192093
+}

@@ -1,0 +1,1077 @@
+{
+  "generatedAt": "2026-10-15T13:34:49.163Z",
+  "browser": "154.0.8037.57",
+  "scope": "Direct Canvas CPU timing/allocation benchmark plus real 50ms playback with completion-only session registration and failures; excludes GPU presentation and user-device FPS",
+  "scenarios": [
+    {
+      "row": 120,
+      "frames": 90,
+      "canvasAllocations": 34,
+      "warmCanvasAllocations": 0,
+      "pixelReads": 2,
+      "firstMs": 126,
+      "medianMs": 2.8999999910593033,
+      "p95Ms": 3.9000000059604645,
+      "maxMs": 126,
+      "times": [
+        126,
+        3.7999999970197678,
+        3.6000000089406967,
+        3.3999999910593033,
+        3.2000000029802322,
+        3.5,
+        3.7000000029802322,
+        3.2000000029802322,
+        3.5999999940395355,
+        4.4000000059604645,
+        2.9000000059604645,
+        3.5,
+        3.2000000029802322,
+        2.7999999970197678,
+        2.9000000059604645,
+        2.7000000029802322,
+        3.2999999970197678,
+        2.8999999910593033,
+        3.300000011920929,
+        2.8999999910593033,
+        3.9000000059604645,
+        3,
+        3.1000000089406967,
+        4,
+        2.5999999940395355,
+        3.2999999970197678,
+        2.5,
+        2.2999999970197678,
+        2.7000000029802322,
+        3,
+        2.5999999940395355,
+        2.9000000059604645,
+        3.199999988079071,
+        4.100000008940697,
+        3.0999999940395355,
+        3,
+        3.6000000089406967,
+        2.5999999940395355,
+        2.9000000059604645,
+        3,
+        2.5999999940395355,
+        3.5999999940395355,
+        3,
+        2.8999999910593033,
+        4.100000008940697,
+        3.7999999970197678,
+        2.6000000089406967,
+        2.5,
+        2.7000000029802322,
+        2.8999999910593033,
+        2.7000000029802322,
+        2.9000000059604645,
+        3.199999988079071,
+        2.800000011920929,
+        3.5,
+        2.7999999970197678,
+        2.7000000029802322,
+        2.5,
+        3,
+        2.5999999940395355,
+        3.2999999970197678,
+        2.9000000059604645,
+        3,
+        2.5,
+        2.3999999910593033,
+        2.4000000059604645,
+        2.2999999970197678,
+        2.7000000029802322,
+        3.0999999940395355,
+        2.5,
+        2.5,
+        3.300000011920929,
+        2.699999988079071,
+        2.6000000089406967,
+        3,
+        2.3999999910593033,
+        3.1000000089406967,
+        3.2000000029802322,
+        2.3999999910593033,
+        2.5,
+        2.7999999970197678,
+        2.5,
+        2.7000000029802322,
+        2.7000000029802322,
+        3.5,
+        3.2000000029802322,
+        3,
+        2.5999999940395355,
+        2.2999999970197678,
+        2.800000011920929
+      ],
+      "cache": {
+        "palette": {
+          "entries": 2,
+          "bytes": 533664,
+          "limit": 25165824
+        },
+        "skin": {
+          "entries": 2,
+          "bytes": 533664,
+          "limit": 16777216
+        },
+        "source": {
+          "entries": 2,
+          "bytes": 533664,
+          "limit": 25165824
+        },
+        "emission": {
+          "entries": 5,
+          "bytes": 1641600,
+          "limit": 8388608
+        },
+        "ecology": {
+          "bytes": 11343532,
+          "limit": 25165824,
+          "backdrops": 2,
+          "backdropBuilds": 2,
+          "colonies": 8,
+          "forests": 7,
+          "decorations": 14,
+          "hits": 4033,
+          "builds": 31
+        }
+      }
+    },
+    {
+      "row": 600,
+      "frames": 90,
+      "canvasAllocations": 14,
+      "warmCanvasAllocations": 0,
+      "pixelReads": 2,
+      "firstMs": 93.5,
+      "medianMs": 3.5999999940395355,
+      "p95Ms": 4.5,
+      "maxMs": 93.5,
+      "times": [
+        93.5,
+        7.799999997019768,
+        5,
+        4.0999999940395355,
+        4.5,
+        4.300000011920929,
+        4.399999991059303,
+        4,
+        4.600000008940697,
+        5.399999991059303,
+        4.200000002980232,
+        5.5999999940395355,
+        3.9000000059604645,
+        4.0999999940395355,
+        3.800000011920929,
+        3.8999999910593033,
+        4.5,
+        3.7999999970197678,
+        4.300000011920929,
+        3.699999988079071,
+        3.4000000059604645,
+        3.5999999940395355,
+        3.800000011920929,
+        3.5,
+        3.3999999910593033,
+        3.7000000029802322,
+        5.299999997019768,
+        4.100000008940697,
+        3.5999999940395355,
+        3.7999999970197678,
+        3.6000000089406967,
+        3.699999988079071,
+        3.5,
+        3.5,
+        3.7000000029802322,
+        3.6000000089406967,
+        3.699999988079071,
+        3.5,
+        3.4000000059604645,
+        3.5,
+        3.7000000029802322,
+        3.3999999910593033,
+        4,
+        3.6000000089406967,
+        3.5,
+        3.3999999910593033,
+        3.300000011920929,
+        3.2999999970197678,
+        3.3999999910593033,
+        3.5,
+        3.4000000059604645,
+        3.5999999940395355,
+        3.5,
+        3.300000011920929,
+        3.5,
+        3.4000000059604645,
+        3.3999999910593033,
+        3.2000000029802322,
+        3.5999999940395355,
+        3.6000000089406967,
+        3.3999999910593033,
+        3.6000000089406967,
+        3.5999999940395355,
+        3.2000000029802322,
+        3.5,
+        3.2000000029802322,
+        3.3999999910593033,
+        3.6000000089406967,
+        3.2999999970197678,
+        3.5,
+        3.5999999940395355,
+        3.800000011920929,
+        3.3999999910593033,
+        3.6000000089406967,
+        3.699999988079071,
+        3.5,
+        4.600000008940697,
+        4.0999999940395355,
+        4.4000000059604645,
+        3.2999999970197678,
+        3.9000000059604645,
+        4.0999999940395355,
+        3.7000000029802322,
+        3.5,
+        3.5,
+        4.5,
+        3.5,
+        3.5,
+        3.4000000059604645,
+        3.2999999970197678
+      ],
+      "cache": {
+        "palette": {
+          "entries": 3,
+          "bytes": 1067520,
+          "limit": 25165824
+        },
+        "skin": {
+          "entries": 3,
+          "bytes": 1067520,
+          "limit": 16777216
+        },
+        "source": {
+          "entries": 3,
+          "bytes": 1067520,
+          "limit": 25165824
+        },
+        "emission": {
+          "entries": 10,
+          "bytes": 4310880,
+          "limit": 8388608
+        },
+        "ecology": {
+          "bytes": 14167196,
+          "limit": 25165824,
+          "backdrops": 3,
+          "backdropBuilds": 3,
+          "colonies": 8,
+          "forests": 9,
+          "decorations": 16,
+          "hits": 8078,
+          "builds": 36
+        }
+      }
+    },
+    {
+      "row": 1000,
+      "frames": 90,
+      "canvasAllocations": 9,
+      "warmCanvasAllocations": 0,
+      "pixelReads": 2,
+      "firstMs": 71.30000001192093,
+      "medianMs": 4.799999997019768,
+      "p95Ms": 5.700000002980232,
+      "maxMs": 71.30000001192093,
+      "times": [
+        71.30000001192093,
+        5.699999988079071,
+        4.800000011920929,
+        4.699999988079071,
+        5.4000000059604645,
+        5.299999997019768,
+        5.9000000059604645,
+        6.700000002980232,
+        4.799999997019768,
+        5.299999997019768,
+        5.700000002980232,
+        5.299999997019768,
+        5.0999999940395355,
+        4.700000002980232,
+        4.799999997019768,
+        4.800000011920929,
+        5,
+        5.199999988079071,
+        5.700000002980232,
+        5,
+        5.100000008940697,
+        4.799999997019768,
+        4.799999997019768,
+        4.700000002980232,
+        4.799999997019768,
+        4.700000002980232,
+        5.399999991059303,
+        4.9000000059604645,
+        4.5999999940395355,
+        4.700000002980232,
+        4.700000002980232,
+        4.799999997019768,
+        4.700000002980232,
+        4.799999997019768,
+        4.700000002980232,
+        4.799999997019768,
+        5,
+        4.699999988079071,
+        4.600000008940697,
+        4.5999999940395355,
+        4.600000008940697,
+        4.699999988079071,
+        4.9000000059604645,
+        4.700000002980232,
+        4.700000002980232,
+        4.899999991059303,
+        4.5,
+        4.700000002980232,
+        4.5999999940395355,
+        4.700000002980232,
+        4.5,
+        5.100000008940697,
+        5.0999999940395355,
+        4.799999997019768,
+        4.5,
+        4.799999997019768,
+        4.9000000059604645,
+        4.700000002980232,
+        4.700000002980232,
+        4.5,
+        5,
+        4.5999999940395355,
+        5,
+        4.9000000059604645,
+        4.699999988079071,
+        4.5,
+        4.700000002980232,
+        4.799999997019768,
+        4.5,
+        4.9000000059604645,
+        4.5999999940395355,
+        4.600000008940697,
+        4.5,
+        6.5,
+        5.200000002980232,
+        4.5,
+        4.5999999940395355,
+        4.700000002980232,
+        5.799999997019768,
+        4.9000000059604645,
+        4.799999997019768,
+        5,
+        4.799999997019768,
+        4.5999999940395355,
+        5,
+        4.5,
+        4.4000000059604645,
+        4.9000000059604645,
+        4.5,
+        4.5
+      ],
+      "cache": {
+        "palette": {
+          "entries": 4,
+          "bytes": 1882164,
+          "limit": 25165824
+        },
+        "skin": {
+          "entries": 4,
+          "bytes": 1882164,
+          "limit": 16777216
+        },
+        "source": {
+          "entries": 4,
+          "bytes": 1882164,
+          "limit": 25165824
+        },
+        "emission": {
+          "entries": 15,
+          "bytes": 8384100,
+          "limit": 8388608
+        },
+        "ecology": {
+          "bytes": 14167196,
+          "limit": 25165824,
+          "backdrops": 3,
+          "backdropBuilds": 3,
+          "colonies": 8,
+          "forests": 9,
+          "decorations": 16,
+          "hits": 11408,
+          "builds": 36
+        }
+      }
+    }
+  ],
+  "continuity": {
+    "scope": "Actual1..260 states and actual nutrition/growth events;warm1..189 thenmeasure190..260;direct CPU draw,not GPU presentation oruser FPS",
+    "rows": [
+      {
+        "row": 190,
+        "ms": 4.200000002980232,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 191,
+        "ms": 3,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 192,
+        "ms": 1.7000000029802322,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 193,
+        "ms": 2.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 194,
+        "ms": 1.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 195,
+        "ms": 5.299999997019768,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 196,
+        "ms": 1.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 197,
+        "ms": 1.2999999970197678,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 198,
+        "ms": 3.300000011920929,
+        "canvases": 2,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 199,
+        "ms": 2.9000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 200,
+        "ms": 2.2000000029802322,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 201,
+        "ms": 22.399999991059303,
+        "canvases": 5,
+        "ecologyBuilds": 1,
+        "backdropBuilds": 1,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 202,
+        "ms": 8,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 203,
+        "ms": 8.400000005960464,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 204,
+        "ms": 6.0999999940395355,
+        "canvases": 2,
+        "ecologyBuilds": 2,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 205,
+        "ms": 11.599999994039536,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 206,
+        "ms": 3.0999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 207,
+        "ms": 3,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 208,
+        "ms": 2,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 209,
+        "ms": 1.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 210,
+        "ms": 2.2999999970197678,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 211,
+        "ms": 1.7000000029802322,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 212,
+        "ms": 2.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 213,
+        "ms": 1.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 214,
+        "ms": 2.2000000029802322,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 215,
+        "ms": 12.100000008940697,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 216,
+        "ms": 10.900000005960464,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 217,
+        "ms": 2.6000000089406967,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 218,
+        "ms": 2.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 219,
+        "ms": 2.3999999910593033,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 220,
+        "ms": 14.700000002980232,
+        "canvases": 4,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 221,
+        "ms": 2.6000000089406967,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 222,
+        "ms": 1.9000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 223,
+        "ms": 1.7999999970197678,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 224,
+        "ms": 1.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 225,
+        "ms": 5.4000000059604645,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 226,
+        "ms": 2.3999999910593033,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 227,
+        "ms": 1.3999999910593033,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 228,
+        "ms": 9.899999991059303,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 229,
+        "ms": 2.2999999970197678,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 230,
+        "ms": 10.400000005960464,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 231,
+        "ms": 10.700000002980232,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 232,
+        "ms": 2.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 233,
+        "ms": 2.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 234,
+        "ms": 2.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 235,
+        "ms": 10.900000005960464,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 236,
+        "ms": 2.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 237,
+        "ms": 10.699999988079071,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 238,
+        "ms": 1.8999999910593033,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 239,
+        "ms": 1.2999999970197678,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 240,
+        "ms": 1.2000000029802322,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 241,
+        "ms": 1.2000000029802322,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 242,
+        "ms": 2.2000000029802322,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 243,
+        "ms": 5.4000000059604645,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 244,
+        "ms": 2.2000000029802322,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 245,
+        "ms": 2.2000000029802322,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 246,
+        "ms": 7.0999999940395355,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 247,
+        "ms": 7.4000000059604645,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 248,
+        "ms": 2.6000000089406967,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 249,
+        "ms": 15.200000002980232,
+        "canvases": 4,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 250,
+        "ms": 7,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 251,
+        "ms": 2.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 252,
+        "ms": 10.099999994039536,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 253,
+        "ms": 1.7000000029802322,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 254,
+        "ms": 1.2999999970197678,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 255,
+        "ms": 1.199999988079071,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 256,
+        "ms": 1.2000000029802322,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 257,
+        "ms": 1.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 258,
+        "ms": 3.4000000059604645,
+        "canvases": 2,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 259,
+        "ms": 2.0999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 260,
+        "ms": 1.9000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      }
+    ],
+    "canvasAllocations": 54,
+    "ecologyBuilds": 3,
+    "backdropBuilds": 1,
+    "medianMs": 2.5,
+    "p95Ms": 12.100000008940697,
+    "maxMs": 22.399999991059303
+  },
+  "highDpi": {
+    "width": 1587,
+    "height": 1260,
+    "cssWidth": 1392,
+    "warmCanvasAllocations": 0,
+    "cache": {
+      "palette": {
+        "entries": 22,
+        "bytes": 6839372,
+        "limit": 25165824
+      },
+      "skin": {
+        "entries": 24,
+        "bytes": 7312768,
+        "limit": 16777216
+      },
+      "source": {
+        "entries": 7,
+        "bytes": 2203544,
+        "limit": 25165824
+      },
+      "emission": {
+        "entries": 22,
+        "bytes": 8367072,
+        "limit": 8388608
+      },
+      "ecology": {
+        "bytes": 22333924,
+        "limit": 25165824,
+        "backdrops": 4,
+        "backdropBuilds": 8,
+        "colonies": 16,
+        "forests": 12,
+        "decorations": 24,
+        "hits": 14716,
+        "builds": 122
+      }
+    }
+  },
+  "checks": [
+    "steady reaction reuses all canvases N120",
+    "cold setup has bounded allocations N120",
+    "cache respects byte bound N120",
+    "cache respects byte bound N120",
+    "cache respects byte bound N120",
+    "cache respects byte bound N120",
+    "cache respects byte bound N120",
+    "steady reaction reuses all canvases N600",
+    "cold setup has bounded allocations N600",
+    "cache respects byte bound N600",
+    "cache respects byte bound N600",
+    "cache respects byte bound N600",
+    "cache respects byte bound N600",
+    "cache respects byte bound N600",
+    "steady reaction reuses all canvases N1000",
+    "cold setup has bounded allocations N1000",
+    "cache respects byte bound N1000",
+    "cache respects byte bound N1000",
+    "cache respects byte bound N1000",
+    "cache respects byte bound N1000",
+    "cache respects byte bound N1000",
+    "every actual environment-transition row is measured",
+    "phase interpolation reuses the two endpoint backdrops",
+    "continuous phase transition bounds new scenery preparations",
+    "actual growing transition avoids per-row full scenery reconstruction",
+    "every continuous transition frame respects cache budgets",
+    "final original row is visible while final registration is pending",
+    "session recording preserves every original row and order",
+    "archive stores one final portrait,not intermediate phase copies",
+    "one write at completion replaces birth and checkpoint writes",
+    "pause stops rows immediately without archive I/O",
+    "replacing an unfinished run creates no archive write",
+    "failed registration does not add a final result",
+    "final registration can be retried",
+    "high DPI observation respects the two-million-pixel rendering budget",
+    "high DPI caches remain within their byte limits",
+    "high DPI multi-layer ecology also reuses every steady canvas",
+    "no page errors"
+  ],
+  "errors": [],
+  "savedRows": [
+    60
+  ]
+}

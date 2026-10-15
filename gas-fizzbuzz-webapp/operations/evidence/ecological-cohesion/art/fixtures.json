@@ -1,0 +1,1042 @@
+[
+  {
+    "lineage": "abyss",
+    "N": 945,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "abyss",
+    "source": [
+      874,
+      429,
+      458,
+      437
+    ]
+  },
+  {
+    "lineage": "abyss",
+    "N": 945,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "abyss",
+    "source": [
+      874,
+      429,
+      458,
+      437
+    ]
+  },
+  {
+    "lineage": "abyss",
+    "N": 945,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "abyss",
+    "source": [
+      874,
+      429,
+      458,
+      437
+    ]
+  },
+  {
+    "lineage": "abyss",
+    "N": 945,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "abyss",
+    "source": [
+      874,
+      429,
+      458,
+      437
+    ]
+  },
+  {
+    "lineage": "myth",
+    "N": 928,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "myth",
+    "source": [
+      861,
+      447,
+      438,
+      405
+    ]
+  },
+  {
+    "lineage": "myth",
+    "N": 928,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "myth",
+    "source": [
+      861,
+      447,
+      438,
+      405
+    ]
+  },
+  {
+    "lineage": "myth",
+    "N": 928,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "myth",
+    "source": [
+      861,
+      447,
+      438,
+      405
+    ]
+  },
+  {
+    "lineage": "myth",
+    "N": 928,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "myth",
+    "source": [
+      861,
+      447,
+      438,
+      405
+    ]
+  },
+  {
+    "lineage": "recursive",
+    "N": 904,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "recursive",
+    "source": [
+      885,
+      457,
+      427,
+      409
+    ]
+  },
+  {
+    "lineage": "recursive",
+    "N": 904,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "recursive",
+    "source": [
+      885,
+      457,
+      427,
+      409
+    ]
+  },
+  {
+    "lineage": "recursive",
+    "N": 904,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "recursive",
+    "source": [
+      885,
+      457,
+      427,
+      409
+    ]
+  },
+  {
+    "lineage": "recursive",
+    "N": 904,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "recursive",
+    "source": [
+      885,
+      457,
+      427,
+      409
+    ]
+  },
+  {
+    "lineage": "sail",
+    "N": 943,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "sail",
+    "source": [
+      1340,
+      473,
+      427,
+      373
+    ]
+  },
+  {
+    "lineage": "sail",
+    "N": 943,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "sail",
+    "source": [
+      1340,
+      473,
+      427,
+      373
+    ]
+  },
+  {
+    "lineage": "sail",
+    "N": 943,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "sail",
+    "source": [
+      1340,
+      473,
+      427,
+      373
+    ]
+  },
+  {
+    "lineage": "sail",
+    "N": 943,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "sail",
+    "source": [
+      1340,
+      473,
+      427,
+      373
+    ]
+  },
+  {
+    "lineage": "gravity",
+    "N": 919,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "gravity",
+    "source": [
+      897,
+      429,
+      430,
+      396
+    ]
+  },
+  {
+    "lineage": "gravity",
+    "N": 919,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "gravity",
+    "source": [
+      897,
+      429,
+      430,
+      396
+    ]
+  },
+  {
+    "lineage": "gravity",
+    "N": 919,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "gravity",
+    "source": [
+      897,
+      429,
+      430,
+      396
+    ]
+  },
+  {
+    "lineage": "gravity",
+    "N": 919,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "gravity",
+    "source": [
+      897,
+      429,
+      430,
+      396
+    ]
+  },
+  {
+    "lineage": "crystal",
+    "N": 901,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "crystal",
+    "source": [
+      1292,
+      454,
+      472,
+      401
+    ]
+  },
+  {
+    "lineage": "crystal",
+    "N": 901,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "crystal",
+    "source": [
+      1292,
+      454,
+      472,
+      401
+    ]
+  },
+  {
+    "lineage": "crystal",
+    "N": 901,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "crystal",
+    "source": [
+      1292,
+      454,
+      472,
+      401
+    ]
+  },
+  {
+    "lineage": "crystal",
+    "N": 901,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "crystal",
+    "source": [
+      1292,
+      454,
+      472,
+      401
+    ]
+  },
+  {
+    "lineage": "manyeyes",
+    "N": 934,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "manyeyes",
+    "source": [
+      1317,
+      411,
+      450,
+      465
+    ]
+  },
+  {
+    "lineage": "manyeyes",
+    "N": 934,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "manyeyes",
+    "source": [
+      1317,
+      411,
+      450,
+      465
+    ]
+  },
+  {
+    "lineage": "manyeyes",
+    "N": 934,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "manyeyes",
+    "source": [
+      1317,
+      411,
+      450,
+      465
+    ]
+  },
+  {
+    "lineage": "manyeyes",
+    "N": 934,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "manyeyes",
+    "source": [
+      1317,
+      411,
+      450,
+      465
+    ]
+  },
+  {
+    "lineage": "abyssshell",
+    "N": 916,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "abyssshell",
+    "source": [
+      872,
+      450,
+      431,
+      421
+    ]
+  },
+  {
+    "lineage": "abyssshell",
+    "N": 916,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "abyssshell",
+    "source": [
+      872,
+      450,
+      431,
+      421
+    ]
+  },
+  {
+    "lineage": "abyssshell",
+    "N": 916,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "abyssshell",
+    "source": [
+      872,
+      450,
+      431,
+      421
+    ]
+  },
+  {
+    "lineage": "abyssshell",
+    "N": 916,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "abyssshell",
+    "source": [
+      872,
+      450,
+      431,
+      421
+    ]
+  },
+  {
+    "lineage": "parallel",
+    "N": 949,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "parallel",
+    "source": [
+      904,
+      530,
+      380,
+      333
+    ]
+  },
+  {
+    "lineage": "parallel",
+    "N": 949,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "parallel",
+    "source": [
+      904,
+      530,
+      380,
+      333
+    ]
+  },
+  {
+    "lineage": "parallel",
+    "N": 949,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "parallel",
+    "source": [
+      904,
+      530,
+      380,
+      333
+    ]
+  },
+  {
+    "lineage": "parallel",
+    "N": 949,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "parallel",
+    "source": [
+      904,
+      530,
+      380,
+      333
+    ]
+  },
+  {
+    "lineage": "memory",
+    "N": 909,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "memory",
+    "source": [
+      1341,
+      458,
+      418,
+      397
+    ]
+  },
+  {
+    "lineage": "memory",
+    "N": 909,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "memory",
+    "source": [
+      1341,
+      458,
+      418,
+      397
+    ]
+  },
+  {
+    "lineage": "memory",
+    "N": 909,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "memory",
+    "source": [
+      1341,
+      458,
+      418,
+      397
+    ]
+  },
+  {
+    "lineage": "memory",
+    "N": 909,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "memory",
+    "source": [
+      1341,
+      458,
+      418,
+      397
+    ]
+  },
+  {
+    "lineage": "serpent",
+    "N": 914,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "serpent",
+    "source": [
+      888,
+      443,
+      437,
+      417
+    ]
+  },
+  {
+    "lineage": "serpent",
+    "N": 914,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "serpent",
+    "source": [
+      888,
+      443,
+      437,
+      417
+    ]
+  },
+  {
+    "lineage": "serpent",
+    "N": 914,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "serpent",
+    "source": [
+      888,
+      443,
+      437,
+      417
+    ]
+  },
+  {
+    "lineage": "serpent",
+    "N": 914,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "serpent",
+    "source": [
+      888,
+      443,
+      437,
+      417
+    ]
+  },
+  {
+    "lineage": "solar",
+    "N": 924,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "solar",
+    "source": [
+      894,
+      450,
+      428,
+      393
+    ]
+  },
+  {
+    "lineage": "solar",
+    "N": 924,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "solar",
+    "source": [
+      894,
+      450,
+      428,
+      393
+    ]
+  },
+  {
+    "lineage": "solar",
+    "N": 924,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "solar",
+    "source": [
+      894,
+      450,
+      428,
+      393
+    ]
+  },
+  {
+    "lineage": "solar",
+    "N": 924,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "solar",
+    "source": [
+      894,
+      450,
+      428,
+      393
+    ]
+  },
+  {
+    "lineage": "antimeme",
+    "N": 903,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "antimeme",
+    "source": [
+      899,
+      455,
+      404,
+      397
+    ]
+  },
+  {
+    "lineage": "antimeme",
+    "N": 903,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "antimeme",
+    "source": [
+      899,
+      455,
+      404,
+      397
+    ]
+  },
+  {
+    "lineage": "antimeme",
+    "N": 903,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "antimeme",
+    "source": [
+      899,
+      455,
+      404,
+      397
+    ]
+  },
+  {
+    "lineage": "antimeme",
+    "N": 903,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "antimeme",
+    "source": [
+      899,
+      455,
+      404,
+      397
+    ]
+  },
+  {
+    "lineage": "valis",
+    "N": 908,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "valis",
+    "source": [
+      1310,
+      483,
+      445,
+      375
+    ]
+  },
+  {
+    "lineage": "valis",
+    "N": 908,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "valis",
+    "source": [
+      1310,
+      483,
+      445,
+      375
+    ]
+  },
+  {
+    "lineage": "valis",
+    "N": 908,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "valis",
+    "source": [
+      1310,
+      483,
+      445,
+      375
+    ]
+  },
+  {
+    "lineage": "valis",
+    "N": 908,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "valis",
+    "source": [
+      1310,
+      483,
+      445,
+      375
+    ]
+  },
+  {
+    "lineage": "jelly",
+    "N": 918,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "jelly",
+    "source": [
+      1129,
+      485,
+      393,
+      518
+    ]
+  },
+  {
+    "lineage": "jelly",
+    "N": 918,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "jelly",
+    "source": [
+      1129,
+      485,
+      393,
+      518
+    ]
+  },
+  {
+    "lineage": "jelly",
+    "N": 918,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "jelly",
+    "source": [
+      1129,
+      485,
+      393,
+      518
+    ]
+  },
+  {
+    "lineage": "jelly",
+    "N": 918,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "jelly",
+    "source": [
+      1129,
+      485,
+      393,
+      518
+    ]
+  },
+  {
+    "lineage": "kelp",
+    "N": 900,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "kelp",
+    "source": [
+      899,
+      463,
+      424,
+      394
+    ]
+  },
+  {
+    "lineage": "kelp",
+    "N": 900,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "kelp",
+    "source": [
+      899,
+      463,
+      424,
+      394
+    ]
+  },
+  {
+    "lineage": "kelp",
+    "N": 900,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "kelp",
+    "source": [
+      899,
+      463,
+      424,
+      394
+    ]
+  },
+  {
+    "lineage": "kelp",
+    "N": 900,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "kelp",
+    "source": [
+      899,
+      463,
+      424,
+      394
+    ]
+  },
+  {
+    "lineage": "whale",
+    "N": 902,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "whale",
+    "source": [
+      1321,
+      461,
+      438,
+      343
+    ]
+  },
+  {
+    "lineage": "whale",
+    "N": 902,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "whale",
+    "source": [
+      1321,
+      461,
+      438,
+      343
+    ]
+  },
+  {
+    "lineage": "whale",
+    "N": 902,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "whale",
+    "source": [
+      1321,
+      461,
+      438,
+      343
+    ]
+  },
+  {
+    "lineage": "whale",
+    "N": 902,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "whale",
+    "source": [
+      1321,
+      461,
+      438,
+      343
+    ]
+  },
+  {
+    "lineage": "swarm",
+    "N": 913,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "swarm",
+    "source": [
+      865,
+      473,
+      434,
+      361
+    ]
+  },
+  {
+    "lineage": "swarm",
+    "N": 913,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "swarm",
+    "source": [
+      865,
+      473,
+      434,
+      361
+    ]
+  },
+  {
+    "lineage": "swarm",
+    "N": 913,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "swarm",
+    "source": [
+      865,
+      473,
+      434,
+      361
+    ]
+  },
+  {
+    "lineage": "swarm",
+    "N": 913,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "swarm",
+    "source": [
+      865,
+      473,
+      434,
+      361
+    ]
+  },
+  {
+    "lineage": "plasma",
+    "N": 917,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "plasma",
+    "source": [
+      1326,
+      445,
+      413,
+      414
+    ]
+  },
+  {
+    "lineage": "plasma",
+    "N": 917,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "plasma",
+    "source": [
+      1326,
+      445,
+      413,
+      414
+    ]
+  },
+  {
+    "lineage": "plasma",
+    "N": 917,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "plasma",
+    "source": [
+      1326,
+      445,
+      413,
+      414
+    ]
+  },
+  {
+    "lineage": "plasma",
+    "N": 917,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "plasma",
+    "source": [
+      1326,
+      445,
+      413,
+      414
+    ]
+  },
+  {
+    "lineage": "cephalopod",
+    "N": 930,
+    "habitat": "tide",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "cephalopod",
+    "source": [
+      1338,
+      468,
+      403,
+      391
+    ]
+  },
+  {
+    "lineage": "cephalopod",
+    "N": 930,
+    "habitat": "heat",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "cephalopod",
+    "source": [
+      1338,
+      468,
+      403,
+      391
+    ]
+  },
+  {
+    "lineage": "cephalopod",
+    "N": 930,
+    "habitat": "signal",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "cephalopod",
+    "source": [
+      1338,
+      468,
+      403,
+      391
+    ]
+  },
+  {
+    "lineage": "cephalopod",
+    "N": 930,
+    "habitat": "void",
+    "mode": "pure habitat lighting fixture on the same actual mature state; not an additional evolutionary trajectory",
+    "material": "cephalopod",
+    "source": [
+      1338,
+      468,
+      403,
+      391
+    ]
+  }
+]

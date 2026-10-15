@@ -1,0 +1,10 @@
+
+> valis-fizzbuzz-desktop@1.10.0 test:performance
+> node tests/browser-performance.cjs
+
+{"passed":38,"continuity":{"canvasAllocations":54,"ecologyBuilds":3,"backdropBuilds":1,"medianMs":2.5,"p95Ms":12.100000008940697},"scenarios":[{"row":120,"frames":90,"canvasAllocations":34,"warmCanvasAllocations":0,"pixelReads":2,"firstMs":126,"medianMs":2.8999999910593033,"p95Ms":3.9000000059604645,"maxMs":126},{"row":600,"frames":90,"canvasAllocations":14,"warmCanvasAllocations":0,"pixelReads":2,"firstMs":93.5,"medianMs":3.5999999940395355,"p95Ms":4.5,"maxMs":93.5},{"row":1000,"frames":90,"canvasAllocations":9,"warmCanvasAllocations":0,"pixelReads":2,"firstMs":71.30000001192093,"medianMs":4.799999997019768,"p95Ms":5.700000002980232,"maxMs":71.30000001192093}]}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

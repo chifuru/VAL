@@ -1,0 +1,1602 @@
+[
+  {
+    "lineage": "abyss",
+    "cell": 0,
+    "point": [
+      375.16082120521844,
+      279.8604901144507
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "abyss",
+    "cell": 1,
+    "point": [
+      403.15249615004717,
+      293.4574664573284
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "abyss",
+    "cell": 2,
+    "point": [
+      433.95268137752765,
+      293.28940673783995
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "abyss",
+    "cell": 3,
+    "point": [
+      435.2290461794907,
+      296.038837981936
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "abyss",
+    "cell": 4,
+    "point": [
+      418.9198016612988,
+      278.57434996862986
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "abyss",
+    "cell": 5,
+    "point": [
+      433.74728424661345,
+      300.0160191979941
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "abyss",
+    "cell": 6,
+    "point": [
+      416.13268071120416,
+      284.66546926365686
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "abyss",
+    "cell": 7,
+    "point": [
+      433.41738472754326,
+      294.45138773968694
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "myth",
+    "cell": 0,
+    "point": [
+      408.92560499995136,
+      257.8306040304005
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "myth",
+    "cell": 1,
+    "point": [
+      420.1425924004022,
+      255.27659438002598
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "myth",
+    "cell": 2,
+    "point": [
+      409.74779556341576,
+      252.58383651102972
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "myth",
+    "cell": 3,
+    "point": [
+      403.0409096652603,
+      252.61703545286105
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "myth",
+    "cell": 4,
+    "point": [
+      419.4011024488757,
+      256.0357753918904
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "myth",
+    "cell": 5,
+    "point": [
+      435.2860813769082,
+      258.29890613247454
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "myth",
+    "cell": 6,
+    "point": [
+      417.166645223058,
+      255.82562258931168
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "myth",
+    "cell": 7,
+    "point": [
+      418.74719395382147,
+      256.33047809176225
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "recursive",
+    "cell": 0,
+    "point": [
+      351.3198644894876,
+      275.5109824025059
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "recursive",
+    "cell": 1,
+    "point": [
+      377.65558965788904,
+      277.0723304875343
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "recursive",
+    "cell": 2,
+    "point": [
+      381.03873137981304,
+      275.47042198240797
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "recursive",
+    "cell": 3,
+    "point": [
+      358.18801647978455,
+      276.1019216113132
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "recursive",
+    "cell": 4,
+    "point": [
+      387.04349669860045,
+      271.2152582541256
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "recursive",
+    "cell": 5,
+    "point": [
+      389.58075420927696,
+      266.76025838662997
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "recursive",
+    "cell": 6,
+    "point": [
+      387.6191680484108,
+      265.82731735587055
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "recursive",
+    "cell": 7,
+    "point": [
+      383.0420649407814,
+      263.4168724662439
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "sail",
+    "cell": 0,
+    "point": [
+      258.9838499741863,
+      264.22917795506396
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "sail",
+    "cell": 1,
+    "point": [
+      337.9969907846761,
+      294.77792562001014
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "sail",
+    "cell": 2,
+    "point": [
+      366.96605580156825,
+      295.2699505524582
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "sail",
+    "cell": 3,
+    "point": [
+      362.47590481896975,
+      298.0889356833281
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "sail",
+    "cell": 4,
+    "point": [
+      360.0212998525839,
+      278.01757453168756
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "sail",
+    "cell": 5,
+    "point": [
+      367.67260877759463,
+      284.39371655919155
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "sail",
+    "cell": 6,
+    "point": [
+      374.15352956447896,
+      290.20521537662785
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "sail",
+    "cell": 7,
+    "point": [
+      370.7826305410955,
+      284.301351402615
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "gravity",
+    "cell": 0,
+    "point": [
+      333.20484022663646,
+      284.2639513575706
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "gravity",
+    "cell": 1,
+    "point": [
+      314.6872127956725,
+      283.73788128429914
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "gravity",
+    "cell": 2,
+    "point": [
+      315.95767731614364,
+      281.9965104127991
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "gravity",
+    "cell": 3,
+    "point": [
+      339.00885086862263,
+      278.2402843366162
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "gravity",
+    "cell": 4,
+    "point": [
+      340.4929024993549,
+      278.992321509823
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "gravity",
+    "cell": 5,
+    "point": [
+      362.04320007642974,
+      283.6232629985526
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "gravity",
+    "cell": 6,
+    "point": [
+      386.4587987195058,
+      292.6207885182736
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "gravity",
+    "cell": 7,
+    "point": [
+      383.9795105276848,
+      293.75290743424654
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "crystal",
+    "cell": 0,
+    "point": [
+      280.78363759049483,
+      272.68284461307485
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "crystal",
+    "cell": 1,
+    "point": [
+      312.4516867553922,
+      266.7050507684385
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "crystal",
+    "cell": 2,
+    "point": [
+      337.49397130822103,
+      265.2358848599927
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "crystal",
+    "cell": 3,
+    "point": [
+      361.366580509148,
+      284.18941482626593
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "crystal",
+    "cell": 4,
+    "point": [
+      356.7505705776046,
+      280.67475605781493
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "crystal",
+    "cell": 5,
+    "point": [
+      384.85657369316493,
+      294.3953110500315
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "crystal",
+    "cell": 6,
+    "point": [
+      392.2174778143186,
+      298.9740826542244
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "crystal",
+    "cell": 7,
+    "point": [
+      372.07918663052936,
+      297.5839872879665
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "manyeyes",
+    "cell": 0,
+    "point": [
+      441.77713720329837,
+      258.70595033377367
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "manyeyes",
+    "cell": 1,
+    "point": [
+      409.3032546379577,
+      246.75652871411543
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "manyeyes",
+    "cell": 2,
+    "point": [
+      414.5330284145843,
+      265.71075588036905
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "manyeyes",
+    "cell": 3,
+    "point": [
+      422.60989508788555,
+      271.04519448241905
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "manyeyes",
+    "cell": 4,
+    "point": [
+      428.3803487768055,
+      273.32131167089244
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "manyeyes",
+    "cell": 5,
+    "point": [
+      426.046072848196,
+      274.8222694868821
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "manyeyes",
+    "cell": 6,
+    "point": [
+      419.0009569099443,
+      279.96876516291366
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "manyeyes",
+    "cell": 7,
+    "point": [
+      421.83131156848265,
+      281.0989054105606
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "abyssshell",
+    "cell": 0,
+    "point": [
+      387.8749951903622,
+      267.0953931606852
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "abyssshell",
+    "cell": 1,
+    "point": [
+      370.8372399100442,
+      275.83861317646733
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "abyssshell",
+    "cell": 2,
+    "point": [
+      375.9655072201341,
+      281.8079017105748
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "abyssshell",
+    "cell": 3,
+    "point": [
+      382.85024900706424,
+      293.5306638547265
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "abyssshell",
+    "cell": 4,
+    "point": [
+      368.03527274723217,
+      276.5204012409656
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "abyssshell",
+    "cell": 5,
+    "point": [
+      374.22215178124145,
+      284.6805954875011
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "abyssshell",
+    "cell": 6,
+    "point": [
+      381.57993102917715,
+      283.3740951709492
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "abyssshell",
+    "cell": 7,
+    "point": [
+      386.001481837773,
+      281.1142443008466
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "parallel",
+    "cell": 0,
+    "point": [
+      397.3081544628682,
+      256.55447051255845
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "parallel",
+    "cell": 1,
+    "point": [
+      400.5415723022684,
+      257.57000309939036
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "parallel",
+    "cell": 2,
+    "point": [
+      410.8549067243549,
+      258.8941560456469
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "parallel",
+    "cell": 3,
+    "point": [
+      427.1138010560993,
+      278.4617575710689
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "parallel",
+    "cell": 4,
+    "point": [
+      422.76805582527817,
+      279.00335366749334
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "parallel",
+    "cell": 5,
+    "point": [
+      416.1778294183921,
+      283.65344582199367
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "parallel",
+    "cell": 6,
+    "point": [
+      437.49260044598134,
+      291.95272756168146
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "parallel",
+    "cell": 7,
+    "point": [
+      444.0812786925942,
+      306.34248857943305
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "memory",
+    "cell": 0,
+    "point": [
+      299.9147488420833,
+      271.738761477538
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "memory",
+    "cell": 1,
+    "point": [
+      310.65395157373985,
+      277.7406550331637
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "memory",
+    "cell": 2,
+    "point": [
+      328.0303692967714,
+      278.070932869905
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "memory",
+    "cell": 3,
+    "point": [
+      331.8641626897968,
+      280.83780463469105
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "memory",
+    "cell": 4,
+    "point": [
+      338.1624762115979,
+      281.4969012681623
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "memory",
+    "cell": 5,
+    "point": [
+      340.94619776098375,
+      287.56953764004373
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "memory",
+    "cell": 6,
+    "point": [
+      346.05300323416463,
+      289.46368013713226
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "memory",
+    "cell": 7,
+    "point": [
+      354.28244055615073,
+      292.3627371720273
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "serpent",
+    "cell": 0,
+    "point": [
+      401.4618633647808,
+      235.8241028921077
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "serpent",
+    "cell": 1,
+    "point": [
+      432.3140720984919,
+      239.8155533931195
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "serpent",
+    "cell": 2,
+    "point": [
+      434.52523766992533,
+      238.12766524452837
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "serpent",
+    "cell": 3,
+    "point": [
+      446.5394850473625,
+      237.67888950559575
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "serpent",
+    "cell": 4,
+    "point": [
+      450.83054234637376,
+      238.2850642053026
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "serpent",
+    "cell": 5,
+    "point": [
+      461.775478388328,
+      238.53953726038915
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "serpent",
+    "cell": 6,
+    "point": [
+      463.6137638982071,
+      237.12993606967336
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "serpent",
+    "cell": 7,
+    "point": [
+      467.7376121368354,
+      243.0693734198943
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "solar",
+    "cell": 0,
+    "point": [
+      420.2090610349304,
+      280.8164839495568
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "solar",
+    "cell": 1,
+    "point": [
+      418.62685049694784,
+      263.73559114450387
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "solar",
+    "cell": 2,
+    "point": [
+      426.7293709299123,
+      253.83526021250887
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "solar",
+    "cell": 3,
+    "point": [
+      425.5573984031904,
+      248.95795586601062
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "solar",
+    "cell": 4,
+    "point": [
+      451.46434597910735,
+      257.2815009759345
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "solar",
+    "cell": 5,
+    "point": [
+      450.6016535146301,
+      254.28563853215746
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "solar",
+    "cell": 6,
+    "point": [
+      458.170951350412,
+      255.89431550782987
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "solar",
+    "cell": 7,
+    "point": [
+      452.7555514302452,
+      251.71808953189893
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "antimeme",
+    "cell": 0,
+    "point": [
+      298.36367476184967,
+      271.1165475979004
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "antimeme",
+    "cell": 1,
+    "point": [
+      293.83911743906197,
+      227.67669047241765
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "antimeme",
+    "cell": 2,
+    "point": [
+      322.0509132287037,
+      219.32374228291096
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "antimeme",
+    "cell": 3,
+    "point": [
+      341.3192601670546,
+      222.65407016090492
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "antimeme",
+    "cell": 4,
+    "point": [
+      314.6221079135861,
+      219.13745839192333
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "antimeme",
+    "cell": 5,
+    "point": [
+      354.7132019532719,
+      238.14354749489175
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "antimeme",
+    "cell": 6,
+    "point": [
+      375.83562152201404,
+      247.77368066222022
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "antimeme",
+    "cell": 7,
+    "point": [
+      383.49987672781754,
+      251.28134124871497
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "valis",
+    "cell": 0,
+    "point": [
+      332.29694721553255,
+      273.2888914442696
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "valis",
+    "cell": 1,
+    "point": [
+      335.4578152524656,
+      280.2802442744451
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "valis",
+    "cell": 2,
+    "point": [
+      342.94582711754003,
+      271.8483843029165
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "valis",
+    "cell": 3,
+    "point": [
+      335.5649595630594,
+      269.6626236718717
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "valis",
+    "cell": 4,
+    "point": [
+      353.4112789669658,
+      273.0572294645226
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "valis",
+    "cell": 5,
+    "point": [
+      352.311716107349,
+      278.74007805584256
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "valis",
+    "cell": 6,
+    "point": [
+      373.8045162159143,
+      272.32062172073756
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "valis",
+    "cell": 7,
+    "point": [
+      346.97185859342295,
+      269.864242501246
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "jelly",
+    "cell": 0,
+    "point": [
+      441.4500104991712,
+      225.7736174124402
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "jelly",
+    "cell": 1,
+    "point": [
+      439.81894437289264,
+      223.87322064431945
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "jelly",
+    "cell": 2,
+    "point": [
+      452.56354981789644,
+      216.45507781897308
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "jelly",
+    "cell": 3,
+    "point": [
+      449.8206446167228,
+      224.28450054189784
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "jelly",
+    "cell": 4,
+    "point": [
+      469.63239817459555,
+      193.45173318365465
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "jelly",
+    "cell": 5,
+    "point": [
+      468.04488631641664,
+      198.82370509078072
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "jelly",
+    "cell": 6,
+    "point": [
+      470.82447311765964,
+      203.023366837498
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "jelly",
+    "cell": 7,
+    "point": [
+      477.40594621191894,
+      205.31386682067586
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "kelp",
+    "cell": 0,
+    "point": [
+      405.8077368214084,
+      300.8355040597286
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "kelp",
+    "cell": 1,
+    "point": [
+      430.15740707808106,
+      282.08332908331556
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "kelp",
+    "cell": 2,
+    "point": [
+      425.5207856163697,
+      282.8760034693212
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "kelp",
+    "cell": 3,
+    "point": [
+      402.1532890185344,
+      293.01395026615444
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "kelp",
+    "cell": 4,
+    "point": [
+      409.8895731420714,
+      280.0134417528001
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "kelp",
+    "cell": 5,
+    "point": [
+      409.627336663389,
+      290.96750924950845
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "kelp",
+    "cell": 6,
+    "point": [
+      409.6090015369301,
+      304.50380219203413
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "kelp",
+    "cell": 7,
+    "point": [
+      397.99637255576954,
+      291.6631425797841
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "whale",
+    "cell": 0,
+    "point": [
+      358.1516086489578,
+      249.48251905408208
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "whale",
+    "cell": 1,
+    "point": [
+      353.03247281413917,
+      247.70658736487238
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "whale",
+    "cell": 2,
+    "point": [
+      381.2209849294498,
+      255.681211402332
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "whale",
+    "cell": 3,
+    "point": [
+      379.39719677588164,
+      269.6038571679558
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "whale",
+    "cell": 4,
+    "point": [
+      361.6746846620264,
+      228.88269015073607
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "whale",
+    "cell": 5,
+    "point": [
+      393.70623300221814,
+      258.14543323067954
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "whale",
+    "cell": 6,
+    "point": [
+      404.171225393453,
+      245.80442042194494
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "whale",
+    "cell": 7,
+    "point": [
+      391.772191121584,
+      248.11537819498832
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "swarm",
+    "cell": 0,
+    "point": [
+      418.18390640887054,
+      285.6780934238612
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "swarm",
+    "cell": 1,
+    "point": [
+      417.094989503838,
+      279.96116206454417
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "swarm",
+    "cell": 2,
+    "point": [
+      425.5829547686578,
+      293.5128083427444
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "swarm",
+    "cell": 3,
+    "point": [
+      425.5780441528191,
+      295.3839852834128
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "swarm",
+    "cell": 4,
+    "point": [
+      432.83740653005077,
+      303.7420953994005
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "swarm",
+    "cell": 5,
+    "point": [
+      430.6299206517315,
+      288.57033710726927
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "swarm",
+    "cell": 6,
+    "point": [
+      436.2218168348363,
+      302.2770289461774
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "swarm",
+    "cell": 7,
+    "point": [
+      420.6295030174451,
+      304.81398671909415
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": 0
+  },
+  {
+    "lineage": "plasma",
+    "cell": 0,
+    "point": [
+      346.2998033031236,
+      274.6298730600397
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "plasma",
+    "cell": 1,
+    "point": [
+      322.3814492564371,
+      277.65110949072584
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "plasma",
+    "cell": 2,
+    "point": [
+      346.1699358999548,
+      276.14027396274827
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "plasma",
+    "cell": 3,
+    "point": [
+      335.01870341290646,
+      281.28892485817187
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "plasma",
+    "cell": 4,
+    "point": [
+      341.3334587120536,
+      259.1388583983082
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "plasma",
+    "cell": 5,
+    "point": [
+      352.64826371645404,
+      268.16621115730317
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "plasma",
+    "cell": 6,
+    "point": [
+      364.52814048129443,
+      273.0217666434442
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "plasma",
+    "cell": 7,
+    "point": [
+      372.8099321437195,
+      285.1165143305875
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "cephalopod",
+    "cell": 0,
+    "point": [
+      446.75284051367635,
+      259.19575774995644
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "cephalopod",
+    "cell": 1,
+    "point": [
+      438.3473924499955,
+      277.84848183954176
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "cephalopod",
+    "cell": 2,
+    "point": [
+      445.3729935040833,
+      284.3462948308755
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "cephalopod",
+    "cell": 3,
+    "point": [
+      434.5579422100934,
+      293.12588810334046
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "cephalopod",
+    "cell": 4,
+    "point": [
+      436.7880567529936,
+      288.95053763091585
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "cephalopod",
+    "cell": 5,
+    "point": [
+      432.61510519908387,
+      286.9312638407648
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "cephalopod",
+    "cell": 6,
+    "point": [
+      446.62648951307574,
+      295.6626409573861
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  },
+  {
+    "lineage": "cephalopod",
+    "cell": 7,
+    "point": [
+      445.5948410645103,
+      289.18470927045513
+    ],
+    "jawOpen": 1,
+    "sourceContactSlip": null
+  }
+]
