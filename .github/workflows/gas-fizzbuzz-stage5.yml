@@ -31,8 +31,20 @@ jobs:
           python3 -m http.server 8766 --bind 127.0.0.1 --directory src > /tmp/valis-http.log 2>&1 &
           for attempt in $(seq 1 20); do curl --fail --silent http://127.0.0.1:8766/Index.html -o /tmp/valis-ui.html && break; sleep 1; done
           cmp /tmp/valis-ui.html src/Index.html
-          npm run test:browser
-          npm run test:motion
+          mkdir -p artifacts/ci-diagnostics
+          for suite in browser motion; do
+            if npm run "test:$suite" > "artifacts/ci-diagnostics/$suite.log" 2>&1; then
+              cat "artifacts/ci-diagnostics/$suite.log"
+            else
+              cat "artifacts/ci-diagnostics/$suite.log"
+              while IFS= read -r line; do
+                line="${line//'%'/'%25'}"
+                line="${line//$'\r'/'%0D'}"
+                echo "::error::$line"
+              done < <(tail -35 "artifacts/ci-diagnostics/$suite.log")
+              exit 1
+            fi
+          done
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -40,5 +52,6 @@ jobs:
           path: |
             gas-fizzbuzz-webapp/artifacts/desktop-browser/
             gas-fizzbuzz-webapp/artifacts/desktop-motion/
+            gas-fizzbuzz-webapp/artifacts/ci-diagnostics/
           if-no-files-found: warn
           retention-days: 30
