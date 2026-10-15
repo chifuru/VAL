@@ -52,8 +52,10 @@
       // Bound network requests and PNG decoding for large local atlases.
       let next=0;
       async function worker(){
-        while(next<files.length){const file=files[next++],im=new Image();im.src=resolve(file);
-          try{await im.decode();images.set(file,im);}catch(error){missing.add(file);}
+        while(next<files.length){const file=files[next++],im=new Image();
+          // Wait for validated image load; let Canvas decode only the images it
+          // uses, rather than retaining every legacy atlas as decoded pixels.
+          try{await new Promise((resolveLoad,reject)=>{im.onload=resolveLoad;im.onerror=reject;im.src=resolve(file);});images.set(file,im);}catch(error){missing.add(file);}
         }
       }
       await Promise.all(Array.from({length:Math.min(4,files.length)},()=>worker()));

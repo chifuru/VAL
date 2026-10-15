@@ -23,9 +23,9 @@ test('neighbor-only exclusion rectangles stay inside their source cell and do no
  let excluded=0;for(const [key,list]of Object.entries(config.sprites)){if(!key.startsWith('eco-'))continue;for(const s of list){const [,,w,h]=s.region;let area=0;for(const [x,y,rw,rh]of s.exclusions){assert.ok(x>=0&&y>=0&&rw>0&&rh>0&&x+rw<=w&&y+rh<=h);area+=rw*rh;}assert.ok(area<w*h*.08,'isolation removes too much body '+key);excluded+=area;}}
  assert.ok(excluded>100,'overlapping neighbor tentacles have explicit source geometry');
 });
-test('all65 atlas requests succeed under a four-decoder resource limit',async()=>{
+test('all65 atlas requests succeed under a four-loader resource limit',async()=>{
  const vm=require('node:vm');let active=0,peak=0,decoded=0;
- class LimitedImage{async decode(){active++;peak=Math.max(peak,active);if(active>4){active--;throw Error('decoder resource limit');}await new Promise(r=>setTimeout(r,1));active--;decoded++;}}
+ class LimitedImage{set src(value){active++;peak=Math.max(peak,active);if(active>4){active--;queueMicrotask(()=>this.onerror(Error('loader resource limit')));return;}setTimeout(()=>{active--;decoded++;this.onload();},1);}}
  const sandbox={window:{CreatureEngine:E},Image:LimitedImage,URL,document:{baseURI:'http://127.0.0.1/Index.html'}};
  vm.runInNewContext(fs.readFileSync(path.join(root,'src/composite/renderer.js'),'utf8'),sandbox);
  const renderer=sandbox.window.CreatureRenderer.create({getContext:()=>({})},{files:Array.from({length:65},(_,i)=>({file:'assets/'+i+'.png'})),sprites:{}});
