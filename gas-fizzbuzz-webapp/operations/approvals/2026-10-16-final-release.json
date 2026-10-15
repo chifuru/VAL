@@ -1,0 +1,943 @@
+{
+  "date": "2026-10-16",
+  "timezone": "Asia/Tokyo",
+  "app_version": "1.13.0",
+  "baseline_commit": "89a706523b17e7ca9dc297ea5495d56adf6bcb71",
+  "user_instruction": "草案の状態にあるすべてを承認にしてください",
+  "scope": "gas-fizzbuzz-webapp/valis/nodes の現行全115ノード。過去版アーカイブ、core、他プロジェクトは対象外。",
+  "flows": [
+    "FLOW-09",
+    "FLOW-05"
+  ],
+  "granularity": "既存責務と変更単位を維持。状態・承認記録のみ、追加分割不要。",
+  "limitations": "承認は検証実施ではない。過去の対象版・未実施・有効条件・無効化条件を保持。src、画像、core、過去証跡、アーカイブは変更しない。",
+  "counts": {
+    "A": 9,
+    "B": 13,
+    "C": 21,
+    "D": 12,
+    "E": 60
+  },
+  "nodes": [
+    {
+      "id": "A1.1",
+      "canonical_path": "valis/nodes/A/A1.1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "f288e31178050273cf1da63b3ec665d006fb801c1ab9888d2d986ff8faa3178e",
+      "approved_sha256": "d4c9faf1e6c774a61d8e21a9d6beb0adc7047687cd5c00614c0b218396c0521c"
+    },
+    {
+      "id": "A1.2",
+      "canonical_path": "valis/nodes/A/A1.2.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "2485cfa3d29621894a4f1e36b852575d0e2c322e7ea0dbc50abc6263be3df279",
+      "approved_sha256": "6a8b7f45032f4504af32bae1f51d2da552184bb824e2f6cac0dc08407898ae79"
+    },
+    {
+      "id": "A1.3",
+      "canonical_path": "valis/nodes/A/A1.3.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "9c2acb3f84d89a476cfa08a81f1246d951c1ae077664ad54474f86c80eb0ec11",
+      "approved_sha256": "f09ea25e1cbfc05765b9974ede4bd6dc6614ebc195a170c923d07ff8e4dee538"
+    },
+    {
+      "id": "A1.4",
+      "canonical_path": "valis/nodes/A/A1.4.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "0fba17ea09f87af81bc6f0102799d08220076cc452c2f5ba85ac3b8544398067",
+      "approved_sha256": "45e920c7bf6dcd5618475333258552e1db1bc5ba14abf845c94122c63c453874"
+    },
+    {
+      "id": "A1.5",
+      "canonical_path": "valis/nodes/A/A1.5.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "55336d9c10d348040906e0bc3484555c31a4f799c497f494a7b2ad5001ab8352",
+      "approved_sha256": "a225d7cc0f413601448e74f2f143f392ccfcb3722e494cb04e7fe0e8799f9e30"
+    },
+    {
+      "id": "A1.6",
+      "canonical_path": "valis/nodes/A/A1.6.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "a3dfc25e1ceba773955f57eddb7d30137be933b7fd35e2b2da4c1ba0847105f9",
+      "approved_sha256": "aaab169752bf9075604264a7bec621f6442845bff8bf48b6584bbe7dc03b776a"
+    },
+    {
+      "id": "A1.7",
+      "canonical_path": "valis/nodes/A/A1.7.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "2f49fb4fa2a721ad04fc3a60854a66cbda94da47a770858dec0ecdba8889c619",
+      "approved_sha256": "ed35a782ebd4df045748632490723abf6280c9615de7f6570f16266f9f7c39ef"
+    },
+    {
+      "id": "A1.8",
+      "canonical_path": "valis/nodes/A/A1.8.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "16a62e568c375125b66dd18f5af52237919cb7eed32a5e3b2ff5a6ded75e30b5",
+      "approved_sha256": "52c92aa9df39cbec2ad038abc546887c4d572e1d7622156e9032ab48eca267cd"
+    },
+    {
+      "id": "A1",
+      "canonical_path": "valis/nodes/A/A1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "8eeca25fc6255bf551d0f900d511277e8337ded810a6ec9a233be22eeba28d07",
+      "approved_sha256": "8f50f606b51b19f3838cc72c86385791c94f07eebb0013a40236111149f4d639"
+    },
+    {
+      "id": "B1.1",
+      "canonical_path": "valis/nodes/B/B1.1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "bc49e4b85b62a4af1a4a199c72a3e711df8ee17fc5327b249469b2f5b8e35f41",
+      "approved_sha256": "b1d44206b159b95e6ace3aa7bbcca8579ee5489de52a1ec3f1e7b05b73774f53"
+    },
+    {
+      "id": "B1.2",
+      "canonical_path": "valis/nodes/B/B1.2.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "74dee1980ccd2d4c89935522aaf8d34cdfcc2c7e0e593332622cf8550de644a6",
+      "approved_sha256": "241c05640bfc3f1f391dd439cfcc8175af61042e3c8c216b520d8e3d88ecf525"
+    },
+    {
+      "id": "B1.3",
+      "canonical_path": "valis/nodes/B/B1.3.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "7c0f728bf50c0779c9b6bec66283fafece8e73fd60b154c9fe671965f2d4f185",
+      "approved_sha256": "a260fd3ce94568027abad8575bf2a37b34c301602e09a7b3385385fd350e4fb3"
+    },
+    {
+      "id": "B1.4.1",
+      "canonical_path": "valis/nodes/B/B1.4.1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "a90d47518bd9733f9c973aba52f76e8ce97b8b68881d26f6173b01184e354dbd",
+      "approved_sha256": "2e9ab2295ef070c46ed85e0631afa166830ad593eac06981389523f4a0de30e1"
+    },
+    {
+      "id": "B1.4.2",
+      "canonical_path": "valis/nodes/B/B1.4.2.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "7135c5fd5fe693a6e31a86a54552a439dedee33160fcb5d695285203493274e9",
+      "approved_sha256": "9f41462d6b492bd7e36911b38bd3b71756f5f1e596ad38fd2408b402f10f5c39"
+    },
+    {
+      "id": "B1.4",
+      "canonical_path": "valis/nodes/B/B1.4.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "aeffc26fc7dc7c755c9100864192b8cbede34b6402887994b3823f10a9f0a4db",
+      "approved_sha256": "f5f0a46e58ab0e34b6b1643c0ce7fc119aab0df9debe26dfe1b83203968b89b3"
+    },
+    {
+      "id": "B1.5.1",
+      "canonical_path": "valis/nodes/B/B1.5.1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "b64cc71cd8f9890539550ee8b8509b77fe0cc6d0bd2b23b71be24e58392aed28",
+      "approved_sha256": "4432e236e7fe3d8df2c44cc00156cf5dd4c6cffe1b86b3f66b1911553ece4a28"
+    },
+    {
+      "id": "B1.5.2",
+      "canonical_path": "valis/nodes/B/B1.5.2.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "8ea3c8fdcad2bb7f660b2654e1db9545ceec5595fd3001a39a47641d7d5c8558",
+      "approved_sha256": "d00f9559944fc71663816e2ee8e5f07d939ad592c360d15b4a821e1ec72b25be"
+    },
+    {
+      "id": "B1.5",
+      "canonical_path": "valis/nodes/B/B1.5.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "512d86a512bdd70687ad510b9c223453ec5d6fe81d559d8e0465eebf6d361679",
+      "approved_sha256": "62d189be9b2e63c966f63fa54c86eb4f0017c41b8bcf8698e963b39a7fbe99b2"
+    },
+    {
+      "id": "B1.6",
+      "canonical_path": "valis/nodes/B/B1.6.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "63497e07a12bb4d6507e89d316da418f34327f1c679f56c23bc13c05609b02a7",
+      "approved_sha256": "a345adb68dcd947633c865cec9cd2e8d89d78f0e03c300fc722f147f716552f6"
+    },
+    {
+      "id": "B1.7",
+      "canonical_path": "valis/nodes/B/B1.7.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "8ee0d2c80172c77a9d3f05c9ec78105497d0e0fa2f147ddd1b20f762097f6ba7",
+      "approved_sha256": "36c9ee0266cf1feb3e92f00c2e4da35c8cc52cc406af1aa32a17a57d795268f0"
+    },
+    {
+      "id": "B1.8",
+      "canonical_path": "valis/nodes/B/B1.8.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "6ae0f54929b40b50055fd31e91e2f83b3db381d9c793b81701e06675838e6e39",
+      "approved_sha256": "ab6f807a8306013dadf36c2160116a226c2b55d5acd40f8cd04c5fdc249693fc"
+    },
+    {
+      "id": "B1",
+      "canonical_path": "valis/nodes/B/B1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "7cf959529315493500c3212b7fc27f516953cb5bf3c155dc187735bc1f1b107c",
+      "approved_sha256": "b3d8d04475ed4fb8bce34bb37e5a8d0810d27e0507c06489e94118651f0bed96"
+    },
+    {
+      "id": "C1.1",
+      "canonical_path": "valis/nodes/C/C1.1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "f1f5cea73be14d26b2f2c2dcfcec2709da2a0c292e37d6f43ce798eddc8ea1ad",
+      "approved_sha256": "b2cb683870276000925c49d1a348742035751e1e970161913f50fce6bfac146e"
+    },
+    {
+      "id": "C1.2",
+      "canonical_path": "valis/nodes/C/C1.2.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "3a375da01439dccfa0987cac95dd37217635e868f3319d75a863d288837d8e46",
+      "approved_sha256": "f57fe042137794d7f819245976af614435957c1e75e7c3ee404c02f0567d3496"
+    },
+    {
+      "id": "C1.3",
+      "canonical_path": "valis/nodes/C/C1.3.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "93cc2e17a271d522942cc900267d0097fda19f95d6979eb0c76b066e9bb93441",
+      "approved_sha256": "39362b11f44bf2e93b1352d6c811010e209bdae3dcb6b063159b589f0aa72131"
+    },
+    {
+      "id": "C1.4.1",
+      "canonical_path": "valis/nodes/C/C1.4.1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "57f1889e663abcf6e2ce094c610afde590895e078faf52c809117a5a60aaa260",
+      "approved_sha256": "da8adf5803f50d4c3bb652f5eb4440d6bca43c303a437ee77b08cb1d554146e6"
+    },
+    {
+      "id": "C1.4.2",
+      "canonical_path": "valis/nodes/C/C1.4.2.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "d82ee70227633de8037a9513b568478071d2a521ab433df252fbef8375f2b6a5",
+      "approved_sha256": "0bdeb9074ac2034875f3147fc080c771a2d26820edbe07c49112dd715581d9a7"
+    },
+    {
+      "id": "C1.4.3",
+      "canonical_path": "valis/nodes/C/C1.4.3.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "93fad85a86600f5e15a54c61f3fc9bbf205d1ae2b5c1a1e61a7878fe78f724fc",
+      "approved_sha256": "aa276fb0579e93d7606e739df5384f4de7b89a5ccc20f84255e3246ddd55f011"
+    },
+    {
+      "id": "C1.4",
+      "canonical_path": "valis/nodes/C/C1.4.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "bf85a6a1584d295b7bbcec38ddfb4d6e97de55dccdffde832dc998cf47b26069",
+      "approved_sha256": "ef654c1375d7770acbd303cd3f193e24ed7c145ab78964a18bc53220e2c3e253"
+    },
+    {
+      "id": "C1.5.1",
+      "canonical_path": "valis/nodes/C/C1.5.1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "1b97ccd97a258c841778b933ac4470186731f5739b984b5580f72607c0f1f1e5",
+      "approved_sha256": "08187a43be1b92d8c0b04277ee9acd17338a4f1e0e608a9dfd0a2460d7f7d990"
+    },
+    {
+      "id": "C1.5.2.1",
+      "canonical_path": "valis/nodes/C/C1.5.2.1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "60b4a2931144cc6bd9b0feca444bcd241ff8598606c536c3c56ac907d257dc71",
+      "approved_sha256": "139dc548284eabc2397b38d5c7145c3f55230a89be0be89b670e5d7c2782d0db"
+    },
+    {
+      "id": "C1.5.2.2",
+      "canonical_path": "valis/nodes/C/C1.5.2.2.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "42fc5397298a4f475be88abe4a861cb7a5c44cefa93a9aeb7c845ac0932cf859",
+      "approved_sha256": "b242b32f2c8aa1e05a3b63632429e4de4afe5e0d1c67996852479635251013ab"
+    },
+    {
+      "id": "C1.5.2.3",
+      "canonical_path": "valis/nodes/C/C1.5.2.3.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "957f11609638217454e856fecb2091d5b44a33dfeff5bfbf02e5911902de77da",
+      "approved_sha256": "80440b2aff77fbd8c4b30ed800bfd21cf3c0b84c71d9a3675bd8b190c866b42c"
+    },
+    {
+      "id": "C1.5.2.4",
+      "canonical_path": "valis/nodes/C/C1.5.2.4.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "ca9493744cd40b53e910ed2c0f32653a2b2b417f66c7239ef92305f9b0606ab1",
+      "approved_sha256": "a4f0eee69e41036254776e53f3a879a96d9526f10eeb181495f33cde133fb71d"
+    },
+    {
+      "id": "C1.5.2",
+      "canonical_path": "valis/nodes/C/C1.5.2.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "e28d01880a5fe10c408eb25f8cc64875b03b23f47b92d794b0a95438855a186b",
+      "approved_sha256": "b9ef0d8adf36098f7f7efe548fb8022ac634acf5a4313899154c26ad91506ac6"
+    },
+    {
+      "id": "C1.5.3",
+      "canonical_path": "valis/nodes/C/C1.5.3.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "cef2d1b1a23fcb6862569d6c582740035add7cfea2ad68cedbd92ec0bbf319d9",
+      "approved_sha256": "de0c5852e87a5e2a0d712ccd009deed3dc0a8c6a79547451571cf8caea4c7f8a"
+    },
+    {
+      "id": "C1.5.4",
+      "canonical_path": "valis/nodes/C/C1.5.4.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "a7bf0e2cea03e530cd23db6b2f4e194351bc9b430f7477939def707588960466",
+      "approved_sha256": "f7fe98263640bdf64eef0e825fc879efd954a58bf00ea52ef852fc0891103578"
+    },
+    {
+      "id": "C1.5.5",
+      "canonical_path": "valis/nodes/C/C1.5.5.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "31bbf4e60a09b9aee81e888eb9208a310193238cd1939ee8fe7ecb09fec6ab67",
+      "approved_sha256": "53b1f6b28ed80120b4104b30b74f7a91fdd671325d474b20b095c459a67f11dd"
+    },
+    {
+      "id": "C1.5",
+      "canonical_path": "valis/nodes/C/C1.5.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "d4373d7f47f5411e5dbc7528b5d115443a3c3b52187eb58aee14d6d306ed0bee",
+      "approved_sha256": "e2e854008e53ddcc4fd70a750fa49a74803c7ba93c3d20f8ff88c2454eb42e56"
+    },
+    {
+      "id": "C1.6",
+      "canonical_path": "valis/nodes/C/C1.6.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "ce3c1e03dc45ff3c059b08d7741ef868e4f76699ac4bf38b79ceb8737922b8fb",
+      "approved_sha256": "cd7fac992e622f0eae06bc283acf8e98ad422e34a75c9cfe8f2ef5e25d0d8e29"
+    },
+    {
+      "id": "C1.7",
+      "canonical_path": "valis/nodes/C/C1.7.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "d35c725f285eca457467715d3340b7ed785587a8f558ea7f1e467b1284b608bb",
+      "approved_sha256": "19de9f0df241a1b4af027dc57be721e5401d5df578251df42acf3855f4aab533"
+    },
+    {
+      "id": "C1.8",
+      "canonical_path": "valis/nodes/C/C1.8.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "a5a4e5d8a46117477a8986060ce00d3fc0e312d2033aa3410fbb4db88083a90a",
+      "approved_sha256": "e2962ab945c436b3fabda0a64f35a447f58ee27ac6e0dbe23712cb26dd74f8b7"
+    },
+    {
+      "id": "C1",
+      "canonical_path": "valis/nodes/C/C1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "b3dbb35a6d20e3dacfeca145ee7b3c4ee0b154fc2814f03ba5f8786f14a10262",
+      "approved_sha256": "aa27946df63f9d67c950d173f1c9ea8132622421b293ed4dfe5d28af0c50c428"
+    },
+    {
+      "id": "D1.1",
+      "canonical_path": "valis/nodes/D/D1.1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "1cbad2bdfd6838a8582eb63d03c46e460031c66fa86409b3d940bcd3c998c0d5",
+      "approved_sha256": "31b8b6eccbc4fce9986f4d9dfc062c7e952d4d99fa73e198182dcf09b0927e4f"
+    },
+    {
+      "id": "D1.2",
+      "canonical_path": "valis/nodes/D/D1.2.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "8a57515912ae442037fe8cb2b4d5ec8cdc51b09f4961fdfef5ca39ba63bf5e77",
+      "approved_sha256": "d4b6c91f51a56e9a22a2961ee36f32b90aa7e23774c196c66c1d7fea2199e816"
+    },
+    {
+      "id": "D1.3.1",
+      "canonical_path": "valis/nodes/D/D1.3.1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "6154d192486e261f5269ba09bd195f18524ffdfa19ea8989d6f3e2f3c889a426",
+      "approved_sha256": "1eb6641aacdbe1b8e36074947c1831e725585ce61388ba7fba6b826744643660"
+    },
+    {
+      "id": "D1.3.2",
+      "canonical_path": "valis/nodes/D/D1.3.2.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "7930a122bc491768aba11072434f735b3d9bad7498e4508d52446def2c060cbb",
+      "approved_sha256": "dfd22449a863828d0238244cf32d274bc0a2a55b93738b326b8c25efd01a89b6"
+    },
+    {
+      "id": "D1.3.3",
+      "canonical_path": "valis/nodes/D/D1.3.3.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "987021a9257e0d832c33afc93e997d76b76763ca7c635b60f7e02fa8908684bf",
+      "approved_sha256": "4865dc3eacd940543ed7e97cd2c8f502ce7ca01077790ad8f43ee01a502c2d8d"
+    },
+    {
+      "id": "D1.3.4",
+      "canonical_path": "valis/nodes/D/D1.3.4.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "042ececa2c94794ed452cf4c0e5138b3cda41487d13df127d74e7c7ed45710e5",
+      "approved_sha256": "db95c98698e044280f262df024c0f2924818457cfc7efc17af1a8addf4d91317"
+    },
+    {
+      "id": "D1.3.5",
+      "canonical_path": "valis/nodes/D/D1.3.5.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "2367491546ca778dd8f68d75e99378ca093d30637863a34dfe9bae49bb0e2132",
+      "approved_sha256": "1813bae20ac21de82470064dd865d06e82c47a40cdeeff4661f792fc1b316117"
+    },
+    {
+      "id": "D1.3",
+      "canonical_path": "valis/nodes/D/D1.3.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "c0dfccaf0c3330af6ed004aab9bf09872d0c81ea263172f250c48a89da9ff67a",
+      "approved_sha256": "93d6a2fbcc5ebfcc09738f0fd386578cafe90c555ae7cd14dbc8fa3c029f7f2d"
+    },
+    {
+      "id": "D1.4",
+      "canonical_path": "valis/nodes/D/D1.4.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "c7b047e06278e7e8df7ea9b2f425ca3fd75722164823e2dd9864bb4ae5eb01e1",
+      "approved_sha256": "c23248234c73ae5bed253580688b971dd396d2aa193ffa5ce903e5ddf744fd20"
+    },
+    {
+      "id": "D1.5",
+      "canonical_path": "valis/nodes/D/D1.5.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "92b0fde11bfcec670a0db337c2946bc62cca917d7960503e213e99acb62a13b8",
+      "approved_sha256": "af6e63c22d080a98b5742380a348a0828d3993dbb6fe58089e3c7b65f96b87c7"
+    },
+    {
+      "id": "D1.6",
+      "canonical_path": "valis/nodes/D/D1.6.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "9bea5e51c2611d02a9694046c3556d84c77cfee91ff3baed76351a62a1dc8101",
+      "approved_sha256": "fcb4f67c080e9eeb1a9dba8623ccb99d0d19f6ec9cace799cc36e831f11bff48"
+    },
+    {
+      "id": "D1",
+      "canonical_path": "valis/nodes/D/D1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "077197ef6da4cd6d8cea82ee86b6643b5b22dfa5183f1c0da312e09f15447aba",
+      "approved_sha256": "3ea5ad0bc2fe11eec9c4d5c57d45e86fcb29211a256ed61b3a65dbd2b09977e2"
+    },
+    {
+      "id": "E1",
+      "canonical_path": "valis/nodes/E/E1.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "42736db9af56a29e01a6df5e736f65bc590b6f89c4bb0b048577bf598af43901",
+      "approved_sha256": "525e80054e2f95ccebb07badff60a842dc5918988b4bbe3b065e71e8400cf9d9"
+    },
+    {
+      "id": "E10",
+      "canonical_path": "valis/nodes/E/E10.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "010b1c8748879b8ac5334d2523e3bc4bc9078eb7c92b1556aca0f09b37445ca3",
+      "approved_sha256": "ea9775673a71a2d108bb5a61de7482db02ea1e06592beeaca9b0d23cab360da5"
+    },
+    {
+      "id": "E11",
+      "canonical_path": "valis/nodes/E/E11.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "c23eb0669bbcb3f846d41237f4b405e5a425488a6c6a9efd92b59c870177a455",
+      "approved_sha256": "eb164a2358d5d8eae282d8be1995bb5bc22e04d8de9eb4d432973122a6707409"
+    },
+    {
+      "id": "E12",
+      "canonical_path": "valis/nodes/E/E12.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "9d89e95abc80e8e31c7866d4451cf1f779b52bfbb0106ac09395c04b0de3bb64",
+      "approved_sha256": "5fa8697adfd8c12a87dd1f7b826308c21cb222db841b0b3da61a9d51b0a56db1"
+    },
+    {
+      "id": "E13",
+      "canonical_path": "valis/nodes/E/E13.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "18d63ca597ffa2f82815e64c3081514e246dc67047ec01af13df638b77355c4c",
+      "approved_sha256": "ee1ef0f493a62052bd545a74882088654d3b9a47168b257ac05ff8df68f3354b"
+    },
+    {
+      "id": "E14",
+      "canonical_path": "valis/nodes/E/E14.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "a547362d45399dd093f165fbcd9c28b8ec3d72fec26d51e441a9e97f11f8fd6e",
+      "approved_sha256": "6368a8837ef9e6029eda192a1b38e5cb5bad8aa0bcae7b1b1ca1c5f027684c70"
+    },
+    {
+      "id": "E15",
+      "canonical_path": "valis/nodes/E/E15.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "1eb482d438b94650e6382433c36739a4ffde8648ffe726863a12e605329a73d8",
+      "approved_sha256": "191197acda40fa191053d4b3cfdb8eefb05be27f02d3fecec529b058b79bbe22"
+    },
+    {
+      "id": "E16",
+      "canonical_path": "valis/nodes/E/E16.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "c2a6756560493394b7c8eb62e5787dad5e7c2211ccc6f9766d4f5df799d26e16",
+      "approved_sha256": "507390c635d08e8e9b367b731fda645078e438d5caf2d4f6d331d8c764fdac6f"
+    },
+    {
+      "id": "E17",
+      "canonical_path": "valis/nodes/E/E17.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "4b14bfb2a4c92ba53e29efd6cf8a7e662f8dba116609738df960ffce1d90d02f",
+      "approved_sha256": "eec818d7d0b7b82c6708912d7a3dead736d3d78618d4ea82efa341421e5db1ab"
+    },
+    {
+      "id": "E18",
+      "canonical_path": "valis/nodes/E/E18.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "9c4fe50ebd955b563ef7e1ce3aa2f755a062b01943c7f2a257f6b28fa863e7c8",
+      "approved_sha256": "1f60f92ff485aec351a25c87c28d7602b245a30329eeb63ddf3ca49eb15c5f74"
+    },
+    {
+      "id": "E19",
+      "canonical_path": "valis/nodes/E/E19.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "7ab15d756a1731a8661b9076887a33fceeb06dfcc5a1903558a7f755da33fd02",
+      "approved_sha256": "d880698714b168986a8f84aae8e7c7f61b4053bf40beab56650cbdafaf52c69b"
+    },
+    {
+      "id": "E2",
+      "canonical_path": "valis/nodes/E/E2.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "9f2ba13dcf1ce19ef46100a82ff93770deea916ff4e525f2ddb89dca6b559c7d",
+      "approved_sha256": "a6799fef078f3c9470417b48ebed18ca9c0139352969ea054c596b603288be89"
+    },
+    {
+      "id": "E20",
+      "canonical_path": "valis/nodes/E/E20.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "ee78998d2340a165949a3159b46bd2880f547f451fdb298d7bd008ff709e3144",
+      "approved_sha256": "465a9bcbe46a2dc58a845e3ac7fc8a871042a35195f398bc3cc751dca17c824f"
+    },
+    {
+      "id": "E21",
+      "canonical_path": "valis/nodes/E/E21.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "519fd987edd20f08a81fff06124d825041548efb9cd56bfaa95b4fd894d871f5",
+      "approved_sha256": "9a073ddc5b54dbafc927239dbcbdf9d9c187b7d3d31e09c26e782aed334cf1ab"
+    },
+    {
+      "id": "E22",
+      "canonical_path": "valis/nodes/E/E22.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "8b972bff543d9f7f280f6de54f526818f961f3c87d04a2a1060b38ed66a6b516",
+      "approved_sha256": "ed7bfd4b70c90e661df9446f6935d598af8c0831c52906d1e16aef05c80b5d7f"
+    },
+    {
+      "id": "E23",
+      "canonical_path": "valis/nodes/E/E23.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "4cce7bc47cf6577f60374685cdb700fe7704fc20d8426f87ecbdbb30e8b3fb1a",
+      "approved_sha256": "4d76c33c61599708620b01b462ed8df62f86ab475708b209c35db84031b0363f"
+    },
+    {
+      "id": "E24",
+      "canonical_path": "valis/nodes/E/E24.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "3e2f13567683565baf4ee5a1126cc85cfc21d4906d8ba40b80fed608abb35e21",
+      "approved_sha256": "e3d81a7b583c05705257b6a73936bdc7de0b06590c52d3621819381f954411f0"
+    },
+    {
+      "id": "E25",
+      "canonical_path": "valis/nodes/E/E25.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "972f464ca6cf2f5384c37b9e722f666b365585cf6d6311becf0b2b44f62689eb",
+      "approved_sha256": "566893d4503d5e2f3d204c15f77393ef2e5266c3403ec9efb75f9c23f8ba8f93"
+    },
+    {
+      "id": "E26",
+      "canonical_path": "valis/nodes/E/E26.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "92a20cb4d6b1d865abcf9a8caa864dc8397fb987a7678e9360976865de25d44d",
+      "approved_sha256": "939bc792549897bbd4ecc890daa6201e306f4a1bb736cdb67b5897cf87c86227"
+    },
+    {
+      "id": "E27",
+      "canonical_path": "valis/nodes/E/E27.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "fa404b2ad4bbc52f204cd1de55623af520d1c7d63f5a769a685149dba9a23a9c",
+      "approved_sha256": "11c64deee5e636e017d95057ac64357b45004ae354d8069a8d27232a1b003906"
+    },
+    {
+      "id": "E28",
+      "canonical_path": "valis/nodes/E/E28.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "6b60c258e38a444e47858a8e1af78092f5a40565f88b1e1ed7daa1b3d792bcd2",
+      "approved_sha256": "1d90fda550c687c4cffc02a1bb59e87f2d7b390e51d9d42fb0ab66dee7372878"
+    },
+    {
+      "id": "E29",
+      "canonical_path": "valis/nodes/E/E29.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "bcb8e7f2a6e540a08234e4ee04b0164f548198e2ad5e4a7c3e708550febe1982",
+      "approved_sha256": "3722925024fcb638e5f37adc5a76113afbe8fb963a621dccb9b420dc0f5d30a4"
+    },
+    {
+      "id": "E3",
+      "canonical_path": "valis/nodes/E/E3.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "b589a95bb0f50866729b126ed25ef5d96cb21adaae8e01592381b698ac1749df",
+      "approved_sha256": "4ea4fea6b0d4a65b61366978ad5400d4f7ef65e1e1330bb09aa74da8f71f831f"
+    },
+    {
+      "id": "E30",
+      "canonical_path": "valis/nodes/E/E30.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "13a2a6153e49da2b5c4da76d6ba183eabe7e36c1f9f77a5eae79080c17339448",
+      "approved_sha256": "a76f4192b404d2ba3c8aef7756358893fa0e71a8d1ec5c433c4458e7578940e2"
+    },
+    {
+      "id": "E31",
+      "canonical_path": "valis/nodes/E/E31.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "4b06cb888f435af6ee1823fe5e9ac7f1e7abac24aa771bad05b69b19127ba40c",
+      "approved_sha256": "5de79f94813ad9459aad0249b39691bf0d8842df7e1d61970f1ffdd2448f3d50"
+    },
+    {
+      "id": "E32",
+      "canonical_path": "valis/nodes/E/E32.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "f83e17e8ce73c5c607b5cecd9e3f05a399145efba960817dadca5f756eb54f67",
+      "approved_sha256": "c9215b42661ade2e11bf0fb6c3a7e22bfb54dac2797caf939208cc70661aecb2"
+    },
+    {
+      "id": "E33",
+      "canonical_path": "valis/nodes/E/E33.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "077fa6b87bcb31293fedea888adcf5af504c6cdbecd0d8e27b93fff26519156c",
+      "approved_sha256": "1c5c320707e57504a8227758d256cf0fffdcefd55bd90050ca9e9a61ce92756a"
+    },
+    {
+      "id": "E34",
+      "canonical_path": "valis/nodes/E/E34.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "58a33a23a31bce30e304ea1afe38d56f2db9b102098ef6210bb010bc133325e5",
+      "approved_sha256": "74f609cf0212a94fb95915e9f18889b9be945e8c1fc9ecbfae25b4b01039dacc"
+    },
+    {
+      "id": "E35",
+      "canonical_path": "valis/nodes/E/E35.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "f48d40af0ccd8f92767141e97d5b341338dec120724674246c91a4f6025ae9c7",
+      "approved_sha256": "4a7b217a7a49985cf8fd1a2c536432fe565d9195872c86a18ec39de4e06de36c"
+    },
+    {
+      "id": "E36",
+      "canonical_path": "valis/nodes/E/E36.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "f44910571428fb23cc837f872f4274ddd3a285199f0102b408f09dca37971a62",
+      "approved_sha256": "a6db0ae70790bc0a45d2772e8e0ce0f71041611dcba699660d7ba66501acd5d6"
+    },
+    {
+      "id": "E37",
+      "canonical_path": "valis/nodes/E/E37.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "07fed9df4adf9454d3ccaff6e299e2754a51d16efa3011767ff00ad51ed4f592",
+      "approved_sha256": "3e3a38fd99dee1f74fc6a75cdef458b744f518e048b2194d6aa61c9029368518"
+    },
+    {
+      "id": "E38",
+      "canonical_path": "valis/nodes/E/E38.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "35de16e996ed584145a540f07634235ae58d250c3e12839acccfe920320f9860",
+      "approved_sha256": "f77b983a7fc071433fd01a3f9a2a1e2233b5d1b5ca7a0bedff6631009c16d426"
+    },
+    {
+      "id": "E39",
+      "canonical_path": "valis/nodes/E/E39.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "f34eea2b1d887da5d595811eb6aff1f897633b53f6b10a527297b473edfd8c3f",
+      "approved_sha256": "e16ed78fb21d55da795cc7a6cea253132849ccc9f357c02d879016c302c6be5c"
+    },
+    {
+      "id": "E4",
+      "canonical_path": "valis/nodes/E/E4.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "62e5f23369377f2848ffbd32718d9d07aa512c2af34f99726012c833cfde766e",
+      "approved_sha256": "a54317a7177b130c09346bfb93988d7256c7ae6820a6643d314bcdd5b183f710"
+    },
+    {
+      "id": "E40",
+      "canonical_path": "valis/nodes/E/E40.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "296556a01ae7fd6400416be35e4724307c0820c9612403b0dcdda1b7528aa5f2",
+      "approved_sha256": "d65896bd2681496ae123191be2ac062cc66e165e881467ffb9b0c9bbcab7fede"
+    },
+    {
+      "id": "E41",
+      "canonical_path": "valis/nodes/E/E41.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "c496241c0dfa1923b04151654577593985f7a6b50c8ed01bdcb1e565eb6ad17e",
+      "approved_sha256": "d8c532fb8c5189d6950535c04f1be7da459261ed1b4c1b6dd0abe4b327687ed0"
+    },
+    {
+      "id": "E42",
+      "canonical_path": "valis/nodes/E/E42.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "f9351f7dc74096684316ec02dc00571a7787fce2e653be53b4984a9917b4abac",
+      "approved_sha256": "7b225818b82a58bbbdf1dc0ab091b63272ee0d6a2a9edec8e715660c93c100c6"
+    },
+    {
+      "id": "E43",
+      "canonical_path": "valis/nodes/E/E43.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "b46b31a7fa8e519bbd602720f75870e51ae91fd07c16287b91238d924c7b3a85",
+      "approved_sha256": "e1073961fa271e355ba0e00196544fb8e143c7c85257999dcf3af3a6fd14762c"
+    },
+    {
+      "id": "E44",
+      "canonical_path": "valis/nodes/E/E44.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "99dbe7eaf0f9920ee2397f317e36d52b1360d1c0d5138d92d452a8631cfebdf7",
+      "approved_sha256": "42e83da8968c00fbd4e822bfa539f5479e1a30e0cb2ccd70c2c864b61d3cc18f"
+    },
+    {
+      "id": "E45",
+      "canonical_path": "valis/nodes/E/E45.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "331207c887c55bd9882a8ef996f900ed06de6dc504b26cdf194fcdcff1037f20",
+      "approved_sha256": "0bb72157a6ffe4d02a5ce76f88c1ca755939fdf2e8bbce80e159621433f098ae"
+    },
+    {
+      "id": "E46",
+      "canonical_path": "valis/nodes/E/E46.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "c4e1d9ed6a5d8dbabc404c8b01774b45cc5c6bf0a6bf780db052ca137f79b818",
+      "approved_sha256": "41ad4781bd2fefc93eb2fa5f015ad5d2258f3e26ae06b740f9e84d31815ecbf0"
+    },
+    {
+      "id": "E47",
+      "canonical_path": "valis/nodes/E/E47.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "2af203b5e1dbbc36471e4ddbf2e50ba41def8a40c6a9fd7f66d9098dfc712775",
+      "approved_sha256": "a7ce5f5c7f60d5880ef75fb3b7d40bcc11f8ac1e198048519f73ed8ac47fc79d"
+    },
+    {
+      "id": "E48",
+      "canonical_path": "valis/nodes/E/E48.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "b00b7a06efc86c8f8cf9526f09c95ee3829f924656efa73dca5ebf2d5408e0fa",
+      "approved_sha256": "61cee0be6a845d923e2bedb539a697605f68578f6f3d6b32524a32016b7d5432"
+    },
+    {
+      "id": "E49",
+      "canonical_path": "valis/nodes/E/E49.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "0635d4a95a05b382b4215c544cf10b2f5ae4b82e8473289fa462cee036259e01",
+      "approved_sha256": "13bc5c06b60921e3443a8231c15c4ce3b514ab41c5510ed6cfc452dd2b3d457a"
+    },
+    {
+      "id": "E5",
+      "canonical_path": "valis/nodes/E/E5.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "d7eb69e43762f7a2098ae9d31ce1469b0e3c634744fa3558cccbee3912238e6b",
+      "approved_sha256": "98019f9de18a05db226de8cfdcc2bc5ca35efbe9eaf8b6549046ae1f31638c19"
+    },
+    {
+      "id": "E50",
+      "canonical_path": "valis/nodes/E/E50.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "a58cf9ac282aea9decfe97ec16b7e04ba7e1d1098166a982557476afa7569946",
+      "approved_sha256": "809de265c77c80bbd0d212d8338c4b9da0cf0bbcf84bd0194f05d6f493d3288d"
+    },
+    {
+      "id": "E51",
+      "canonical_path": "valis/nodes/E/E51.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "9e73c172a219bfba6bbd1952880ae74c83f9e2469bf79dc289b4964b2e470828",
+      "approved_sha256": "bd054f488b2e1899b6f430101d40c1a71f1de0d7afdd7b16376ea77966394587"
+    },
+    {
+      "id": "E52",
+      "canonical_path": "valis/nodes/E/E52.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "f22cb655ed78fbb7ae9e5e28eafc506cc39604a110a3eea2ffb0a677e6a92520",
+      "approved_sha256": "2e3da36e42620017025fb4cc17821aa6c8e7cbf1ab0cb8a3044dae977d9761ac"
+    },
+    {
+      "id": "E53",
+      "canonical_path": "valis/nodes/E/E53.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "1be6218b7caea6988b17a6069fced54cbe6dcebddb6445aa24582255acfba0ae",
+      "approved_sha256": "17c7fb506c6934fec727ae3b9be95d658f14bfed3ff2e2500f21852e59f8d6fa"
+    },
+    {
+      "id": "E54",
+      "canonical_path": "valis/nodes/E/E54.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "a885cf1bec73a82b517473917622d0934b97b65aa846e47f80b30db30579516d",
+      "approved_sha256": "db0bbaf6b3499099804a7555ed6d3fa33b83e6d7b10f9b78b9d7e3ce5e559418"
+    },
+    {
+      "id": "E55",
+      "canonical_path": "valis/nodes/E/E55.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "286f778f0e5bd7ec1405eb1e91c50483e19e9527101f7e361f26ae041979e41a",
+      "approved_sha256": "f1d2fed07d88eb270a628e81934135be765f08d4b6183bc8a9321558d4dc231d"
+    },
+    {
+      "id": "E56",
+      "canonical_path": "valis/nodes/E/E56.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "e7b1db2ab31432cc053c95a8ea422959bd811b6076dee9827984405669521835",
+      "approved_sha256": "1dd55cf4e339d187102137d6aa7dfaa4062fe1529df001e8155c49b05088fd01"
+    },
+    {
+      "id": "E57",
+      "canonical_path": "valis/nodes/E/E57.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "1f8cc554cb94ab4da153acf218b2d304a7fdc135f5a6eba2b80412cccc13db89",
+      "approved_sha256": "3cd27b1c172cb1e9550fd1d09761fc2df6a552fec61566991586a43bdf96431d"
+    },
+    {
+      "id": "E58",
+      "canonical_path": "valis/nodes/E/E58.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "0a44107cec2d650b8b4ba29401dfc7b0aa246137fa31c96d5ef9f3e8f4b20b37",
+      "approved_sha256": "822d42ce27511551b838343220e7bd0e15777616ca47e0d085090f110308886b"
+    },
+    {
+      "id": "E59",
+      "canonical_path": "valis/nodes/E/E59.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "410b04df3160f5d091fbf1d0e957a946d2b7fe723022a25edc27023ba7cce4fe",
+      "approved_sha256": "eb47b53cca52cdcd7b73b0893b378d221838998ea63d733b22ef425c258e2a7f"
+    },
+    {
+      "id": "E6",
+      "canonical_path": "valis/nodes/E/E6.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "0a785daca1a2ad536e7342c75f50eae4a1c67a94c353ec9c468e323fa09958b8",
+      "approved_sha256": "90e21da3fc834e91253f81014f8e66e7c06f6241790b2734d0970bbcd102284f"
+    },
+    {
+      "id": "E60",
+      "canonical_path": "valis/nodes/E/E60.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "ad84ac43896f54811259b556580d822d62d99c48f0a48f17f7ddb4e63b893a3b",
+      "approved_sha256": "dfa40c7173ce7cccee8ec227d306bf9094b5e472b467bbab9ffc573864604656"
+    },
+    {
+      "id": "E7",
+      "canonical_path": "valis/nodes/E/E7.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "61a29c72e7c878e0e06835f144bdb905bbb0f5717f814a116725891915974688",
+      "approved_sha256": "b56130a53001f3e8729ae290f26cd062e8e73ae974626a1acaeb12c09d5a1a7b"
+    },
+    {
+      "id": "E8",
+      "canonical_path": "valis/nodes/E/E8.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "dcad8bfd1a2dc0be97bc5d5b77709f2f0e8cac28a3fda21faa6dee547b80367d",
+      "approved_sha256": "84f8f878a013796555613ef37d001294ddbdc7f3ad068da0825b756c4caaecd5"
+    },
+    {
+      "id": "E9",
+      "canonical_path": "valis/nodes/E/E9.md",
+      "from": "草案",
+      "to": "承認済み",
+      "before_sha256": "8d1e164d48990ebb2b25a8d916551b3ea89a80b3f1d11fd259a3d29d57a7be36",
+      "approved_sha256": "464d62e3ccbcfd5ac3bcca958e486e449eebc075cda1a1e96ef6be0440c1c1de"
+    }
+  ]
+}

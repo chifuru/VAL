@@ -51,9 +51,9 @@ npm run package:windows
 | `src/` | 実装に必要なHTML・CSS・JS・ホスト・PNG・画像設定 |
 | `tests/` | 現行検証と、過去版に限定した回帰用実装 |
 | `tools/` | 画像設定生成、SHA照合付きWindows配布生成 |
-| `valis/` | 不変core、草案Node、Project Summary Manifest |
+| `valis/` | 不変core、承認済みNode、Project Summary Manifest |
 | `design/` | 原モック、画像の出典・領域、描写契約 |
 | `operations/` | 計画・検証証跡・旧定義 |
 | `dist/` | 配布生成物（Git対象外、CIから取得） |
 
-全FizzBuzzノードは草案です。原モック・既存源PNG・旧1..4描画を保全し、旧保存ファイルの肖像を再生成しません。
+全FizzBuzzノード115件は、2026-10-16の利用者明示承認により承認済みです。承認台帳は `operations/approvals/2026-10-16-final-release.json`。原モック・既存源PNG・旧1..4描画を保全し、旧保存ファイルの肖像を再生成しません。

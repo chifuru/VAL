@@ -1,0 +1,11 @@
+✔ Manifest uniquely registers every Node, keeps parent IDs in its layer and maintains specification approval boundaries (21.198325ms)
+✔ historical A/B approval remains archived exactly; current approval has its own explicit instruction and hashes (4.862183ms)
+✔ all core definitions and original root PNG mocks remain byte-identical to the pre-migration baseline (51.188925ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 82.475245
