@@ -94,8 +94,7 @@ function handleFailure(error){cancelTimer();if(runStatus==='growing')runStatus='
 function advance(){
  const previous=state,line=E.fmtFizzBuzz(state.current+1);state=E.step(previous,line);logLines.push(line);
  if(state.stage!==previous.stage)phaseSnapshots.push({stage:previous.stage,processed:previous.current,state:clone(previous),portrait:R.portrait(previous)});
- const now=performance.now(),resourceFrom=window.FoodScene.resourceWeights(energyEvents,now,previous.current);
- energyEvents=[{kind:state.lastMeal.kind,sequence:state.current,value:line,time:now,duration:Math.min(900,Number($('speed').value)*.95),resourceFrom,changed:previous.lastMeal?.kind!==state.lastMeal.kind}];return state.stage!==previous.stage;
+ energyEvents=window.FoodScene.advanceEvents(energyEvents,previous,state,performance.now());return state.stage!==previous.stage;
 }
 async function tick(){
  if(runStatus!=='growing'||preview)return;const generation=activeRun?.runId;const phaseChanged=advance();if(state.current===state.seed){runStatus='complete';await persist();updateUI(true);return;}

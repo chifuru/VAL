@@ -1,14 +1,24 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),{PNG}=require('pngjs');
 const E=require('../src/composite/creature-engine'),F=require('../src/composite/food-scene'),H=require('../src/composite/environment-scene'),config=require('../src/assets/creatures/config.json'),root=path.resolve(__dirname,'..');
-test('only the latest executed output produces one meal; time alone never creates food',()=>{
- const state=E.runAll(750),saved=JSON.stringify(state);for(const time of [0,1000,5000,10000])assert.deepEqual(F.consumption([],time),[]);
- const kinds=['number','fizz','buzz','fizzbuzz'];for(const [i,kind]of kinds.entries()){
-  const sequence=state.current,event={kind,sequence,time:100,duration:650,value:kind==='number'?'749':kind},duplicate={...event,time:101};
-  assert.equal(F.consumption([event,duplicate],300).length,1);assert.equal(F.reaction([event],300,sequence).kind,kind);assert.equal(F.reaction([event],300,sequence-1),null);assert.equal(F.reaction([event],99,sequence),null);assert.equal(F.reaction([event],750,sequence),null);
-  assert.ok(F.reaction([event],600,sequence).strength>0);assert.equal(JSON.stringify(state),saved);
+test('only count milestones trigger gestures; numeric rows never create one',()=>{
+ let previous=E.initial(1000),events=[],created={fizz:[],buzz:[],fizzbuzz:[],number:[]};
+ for(let row=1;row<=1000;row++){
+  const next=E.step(previous,E.fmtFizzBuzz(row)),time=row*200,saved=JSON.stringify(next);events=F.advanceEvents(events,previous,next,time);
+  for(const event of events.filter(e=>e.sequence===row))created[event.kind].push(event.count);
+  assert.ok(events.length<=3);assert.equal(new Set(events.map(e=>e.kind)).size,events.length);assert.deepEqual(F.advanceEvents(events,previous,next,time),events,'same row cannot replay a milestone');assert.equal(JSON.stringify(next),saved);previous=next;
  }
- const sequence=750;assert.equal(F.consumption([{kind:'fizz',sequence,time:100},{kind:'buzz',sequence:751,time:200}],300)[0].kind,'buzz');
+ assert.deepEqual(Object.fromEntries(Object.entries(created).map(([k,v])=>[k,v.length])),{fizz:67,buzz:67,fizzbuzz:66,number:0});
+ assert.deepEqual(created.fizz.slice(0,4),[1,5,9,13]);assert.deepEqual(created.buzz.slice(0,4),[1,3,5,7]);assert.equal(created.fizzbuzz[0],1);
+ assert.deepEqual(F.advanceEvents(events,previous,E.initial(927),200001),[],'new input cannot inherit gestures');
+});
+test('gestures last their fixed duration across following rows and cannot duplicate or anticipate output',()=>{
+ const events=[{kind:'fizz',count:1,sequence:3,time:100},{kind:'buzz',count:1,sequence:5,time:300},{kind:'fizzbuzz',count:1,sequence:15,time:500}];
+ assert.equal(F.reactions([...events,...events],600,16).length,3);assert.equal(F.reactions(events,99,16).length,0);assert.equal(F.reactions(events,600,2).length,0);
+ assert.deepEqual(F.reactions(events,1100,18).map(e=>e.kind),['buzz','fizzbuzz']);assert.equal(F.reactions(events,1900,20).length,0);
+ assert.deepEqual(F.reactions([{kind:'number',count:1,sequence:1,time:100}],300,3),[]);
+ assert.deepEqual(F.reactions([{kind:'fizz',count:2,sequence:6,time:100}],300,6),[]);
+ assert.deepEqual(F.reactions(events,600,99).map(e=>e.duration),[900,1100,1400]);
 });
 test('habitat rendering uses stable precomputed mixture, normalized weights and smooth phase transition',()=>{
  let s=E.initial(1000),maxJump=0,previous=H.weightsFor(s);
@@ -33,22 +43,19 @@ test('all65 atlas requests succeed under a four-loader resource limit',async()=>
  const renderer=sandbox.window.CreatureRenderer.create({getContext:()=>({})},{files:Array.from({length:65},(_,i)=>({file:'assets/'+i+'.png'})),sprites:{}});
  await renderer.prepare();assert.equal(decoded,65);assert.ok(peak<=4);assert.equal(renderer.missingAssets().length,0);
 });
-test('resource transitions remain continuous when a faster row interrupts them, and expire without new input',()=>{
- const zero=[0,0,0,0];assert.deepEqual(F.resourceWeights([],900,3),zero);
- const first={kind:'fizz',sequence:3,time:100,duration:380};
- const from=F.resourceWeights([first],500,3),next={kind:'buzz',sequence:5,time:500,duration:380,resourceFrom:from};
- assert.deepEqual(F.resourceWeights([next],500,5),from);
- assert.ok(F.resourceWeights([next],501,5).every((v,i)=>Math.abs(v-from[i])<.0001));
- assert.deepEqual(F.resourceWeights([next],1600,5),zero);assert.deepEqual(F.resourceWeights([next],600,6),zero);assert.deepEqual(F.resourceWeights([next],499,5),zero);
- let event=first;for(let sequence=4;sequence<20;sequence++){const time=100+(sequence-3)*200,resourceFrom=F.resourceWeights([event],time,event.sequence);event={kind:['fizz','buzz','fizzbuzz','number'][sequence%4],sequence,time,duration:190,resourceFrom};const weights=F.resourceWeights([event],time+100,sequence);assert.ok(weights.every(v=>v>=0&&v<=1));assert.ok(weights.reduce((a,b)=>a+b,0)<=1.00001);}
+test('all four habitat layers accumulate monotonically, survive time and JSON restoration, and have upper bounds',()=>{
+ let s=E.initial(1000),levels=H.levelsFor(s);assert.deepEqual(levels,[0,0,0,0]);
+ for(const line of E.linesFor(1000)){const previous=levels;s=E.step(s,line);levels=H.levelsFor(s);assert.ok(levels.every((v,i)=>v>=previous[i]&&v<=1));}
+ assert.deepEqual(levels,[1,1,1,1]);assert.deepEqual(H.levelsFor(JSON.parse(JSON.stringify(s))),levels);
+ assert.deepEqual(H.levelsFor({...s,foods:{fizz:1e9,buzz:1e9,fizzbuzz:1e9,number:1e9}}),[1,1,1,1]);
+ assert.ok(H.levelsFor(E.step(E.initial(1000),'1'))[3]>0,'first numeric row changes scenery');
 });
-test('anatomical intake distinguishes seven body strategies and four resource targets',()=>{
- const modes=new Set();for(const bodyPlan of [...new Set(E.LINEAGES.map(l=>l.bodyPlan))])for(const kind of ['fizz','buzz','fizzbuzz','number']){const p=F.profileFor(bodyPlan,kind);modes.add(p.mode);assert.ok(['mouth','eye','flank','forelimb','chest'].includes(p.site));if(kind==='number')assert.equal(p.site,'flank');if(kind==='fizzbuzz')assert.equal(p.site,'eye');}
- assert.equal(modes.size,7);
- const event={kind:'fizz',sequence:3,time:0,duration:400};const early=F.reaction([event],60,3),contact=F.reaction([event],280,3),repeat=F.reaction([{...event,changed:false}],280,3);
- assert.ok(early.notice>0&&early.absorb===0,'awareness precedes assimilation');for(const progress of [.2,.4,.6,.64])assert.equal(F.reaction([event],progress*400,3).absorb,0,'no absorption before contact');assert.equal(contact.intake,1);assert.ok(contact.absorb>0);assert.ok(repeat.vigor<contact.vigor);assert.equal(F.reaction([{...event,kind:'number'}],280,3).type,'factor');
-});
-test('factor food never draws numeric glyphs and every resource contacts its real organ before fading',()=>{
- const g=new Proxy({},{get:(_,key)=>key==='fillText'?()=>assert.fail('food must never paint text'):()=>{}}),b={motion:{mode:'aquatic'},sockets:{mouth:[10,20],eye:[12,16],flank:[25,30]},surface:(...point)=>({point})};
- const s={seed:1000,current:3};for(const kind of ['number','fizz','buzz','fizzbuzz']){const result=F.draw(g,b,s,config,new Map(),280,false,[{kind,sequence:3,time:0,duration:400}]);assert.deepEqual(result.foodPoint,result.target);assert.equal(result.contact,true);assert.equal(result.phase,'absorb');}
+test('reaction profiles keep minerals on the ground, information localized, and numbers off the creature',()=>{
+ const sites=new Set();for(const bodyPlan of [...new Set(E.LINEAGES.map(l=>l.bodyPlan))]){
+  assert.equal(F.profileFor(bodyPlan,'fizz').site,'mouth');assert.equal(F.profileFor(bodyPlan,'buzz').site,'ground');const p=F.profileFor(bodyPlan,'fizzbuzz');assert.ok(['head','dorsal'].includes(p.site));sites.add(p.site);assert.equal(F.profileFor(bodyPlan,'number'),null);
+ }
+ assert.equal(sites.size,2);
+ const g=new Proxy({createRadialGradient:()=>({addColorStop:()=>{}})},{get:(o,key)=>o[key]||(key==='drawImage'||key==='fillText'?()=>assert.fail('no food sprite or glyph may travel into the animal'):()=>{})}),b={motion:{mode:'aquatic'},bw:400,bh:200,sockets:{forelimb:[-60,60],hindlimb:[80,60]}};
+ const events=[{kind:'fizz',count:1,sequence:3,time:0},{kind:'buzz',count:1,sequence:5,time:0},{kind:'fizzbuzz',count:1,sequence:15,time:0}];const state={current:20};
+ assert.equal(F.draw(g,b,state,config,new Map(),300,false,events).length,3);assert.deepEqual(F.draw(g,b,state,config,new Map(),300,true,events),[]);assert.deepEqual(F.draw(g,b,state,config,new Map(),300,false,[{kind:'number',count:1,sequence:1,time:0}]),[]);
 });

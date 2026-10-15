@@ -1,0 +1,68 @@
+{
+  "recordedAt": "2026-10-15T06:52:18.146505+00:00",
+  "actor": "Codex cloud environment",
+  "scope": "Local app1.4.3 cumulative habitat layers, count-triggered gestures, no numeric creature response and 200ms playback",
+  "platform": "Linux x64 / Chromium154 / Electron44.7.2; native Xvfb test-only launcher, product sandbox unchanged",
+  "checks": {
+    "unitPassed": 53,
+    "unitFailed": 0,
+    "browserPassed": 145,
+    "motionAndEcologyPassed": 219,
+    "nativeCreatePassed": 21,
+    "nativeRestartPassed": 15,
+    "zipChecksumFiles": 74,
+    "runtimePngs": 65
+  },
+  "observedNormalRowGapsMs": {
+    "min": 182.8999999910593,
+    "max": 332.3999999910593,
+    "mean": 216.2785714279328
+  },
+  "gestureThresholds": {
+    "fizz": "1 then every4",
+    "buzz": "1 then every2",
+    "fizzbuzz": "every1",
+    "number": "no gesture"
+  },
+  "gestureDurationsMs": {
+    "fizz": 900,
+    "buzz": 1100,
+    "fizzbuzz": 1400
+  },
+  "videos": [
+    {
+      "file": "browser/row-feeding.webm",
+      "decoded": true,
+      "frames": 58,
+      "ptsSpanSeconds": 4.79,
+      "events": "Actual N15 output milestones"
+    },
+    {
+      "file": "motion/jelly.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.343,
+      "events": "Controlled milestone events on a real mature state"
+    },
+    {
+      "file": "motion/serpent.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.33,
+      "events": "Controlled milestone events on a real mature state"
+    },
+    {
+      "file": "motion/myth.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.332,
+      "events": "Controlled milestone events on a real mature state"
+    }
+  ],
+  "validWhen": "Execution inputs match target-sha256.json and assertions are retained",
+  "invalidWhen": "Execution code/data/conditions changed or checks omitted",
+  "pending": [
+    "Hosted Windows result",
+    "User Windows10/11 device display/FPS and art acceptance"
+  ]
+}

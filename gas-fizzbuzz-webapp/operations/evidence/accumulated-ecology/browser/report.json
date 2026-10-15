@@ -1,0 +1,237 @@
+{
+  "scope": "Chromium with test persistence bridge; native store verified separately",
+  "browser": "154.0.8037.57",
+  "platform": "linux",
+  "generatedAt": "2026-10-15T06:50:04.454Z",
+  "checks": [
+    "initial preview creates no specimen",
+    "DNA and FizzBuzz stay open without collapse controls",
+    "default output interval is 200ms per row",
+    "start requires loading",
+    "typing waits without auto load, birth or feeding",
+    "loading previews only and never auto-starts",
+    "changing loaded number requires reload",
+    "typing preserves prepared body until load",
+    "loading new number changes visible DNA body and pigment",
+    "unfinished individual is internally protected but never displayed in archive",
+    "pause stops ingestion",
+    "explicit-start run preserves original1..N output",
+    "completed partial result appears once in archive",
+    "normal playback reaches exact endpoint",
+    "every visible original row matches its sequence",
+    "normal output keeps its selected 200ms row interval",
+    "only reached count milestones produce continuing gestures",
+    "first life mineral and information each react",
+    "sameN explicit fast test run creates distinct completed record",
+    "N600 finishes third phase without falsely claiming fourth",
+    "result distinguishes completion from final-form attainment",
+    "meaningful intake and maturity labels",
+    "opaque P scale removed from interface",
+    "condition-qualified individual reaches a distinct fourth stage",
+    "all four actual phase snapshots saved",
+    "return button appears immediately on entering archive",
+    "archive read preserves live genome, input, environment and log",
+    "archive shows the selected specimen original output",
+    "prominent return is always in top navigation",
+    "every archive card is a completed final result",
+    "Escape returns to live raising",
+    "return to raising restores live output",
+    "raising tab clearly restores live view",
+    "editing alone never stops or replaces existing live individual",
+    "load preserves old individual and prepares without birth",
+    "old partial run protected on load",
+    "stopped partial excluded from archive",
+    "double-start produces only one birth",
+    "invalid load never alters current state",
+    "failed old-run save prevents new load and preserves previous individual",
+    "failed birth save never feeds or reports successful registration",
+    "OS reduced motion never auto-completes feeding",
+    "low motion control removed",
+    "obsolete awakening hint removed",
+    "reload preserves final records without creating a new run",
+    "single-screen creature/food/history/environment 1440x960 [{\"selector\":\".stage-panel\",\"top\":80,\"bottom\":620,\"left\":218,\"right\":1152,\"visible\":true},{\"selector\":\"#foods\",\"top\":824,\"bottom\":900,\"left\":231,\"right\":666,\"visible\":true},{\"selector\":\"#phase-cards\",\"top\":680,\"bottom\":767,\"left\":231,\"right\":1139,\"visible\":true},{\"selector\":\"#environment\",\"top\":824,\"bottom\":907,\"left\":704,\"right\":1139,\"visible\":true},{\"selector\":\"#dna\",\"top\":354.59375,\"bottom\":421.59375,\"left\":25,\"right\":193,\"visible\":true},{\"selector\":\"#log\",\"top\":504.59375,\"bottom\":935,\"left\":25,\"right\":193,\"visible\":true},{\"selector\":\"#current-output\",\"top\":461.59375,\"bottom\":498.59375,\"left\":25,\"right\":193,\"visible\":true}]",
+    "no page scrolling 1440x960",
+    "single-screen creature/food/history/environment 1366x768 [{\"selector\":\".stage-panel\",\"top\":68,\"bottom\":482,\"left\":214,\"right\":1082,\"visible\":true},{\"selector\":\"#foods\",\"top\":650,\"bottom\":717.5,\"left\":225,\"right\":632,\"visible\":true},{\"selector\":\"#phase-cards\",\"top\":532,\"bottom\":602,\"left\":225,\"right\":1071,\"visible\":true},{\"selector\":\"#environment\",\"top\":650,\"bottom\":720,\"left\":664,\"right\":1071,\"visible\":true},{\"selector\":\"#dna\",\"top\":338.59375,\"bottom\":405.59375,\"left\":23,\"right\":191,\"visible\":true},{\"selector\":\"#log\",\"top\":488.59375,\"bottom\":745,\"left\":23,\"right\":191,\"visible\":true},{\"selector\":\"#current-output\",\"top\":445.59375,\"bottom\":482.59375,\"left\":23,\"right\":191,\"visible\":true}]",
+    "no page scrolling 1366x768",
+    "single-screen creature/food/history/environment 760x620 [{\"selector\":\".stage-panel\",\"top\":68,\"bottom\":334,\"left\":184,\"right\":533,\"visible\":true},{\"selector\":\"#foods\",\"top\":501,\"bottom\":567,\"left\":192,\"right\":346.5,\"visible\":true},{\"selector\":\"#phase-cards\",\"top\":384,\"bottom\":454,\"left\":195,\"right\":522,\"visible\":true},{\"selector\":\"#environment\",\"top\":501,\"bottom\":589,\"left\":370.5,\"right\":525,\"visible\":true},{\"selector\":\"#dna\",\"top\":314.796875,\"bottom\":370.796875,\"left\":20,\"right\":165,\"visible\":true},{\"selector\":\"#log\",\"top\":452.796875,\"bottom\":600,\"left\":20,\"right\":165,\"visible\":true},{\"selector\":\"#current-output\",\"top\":405.796875,\"bottom\":446.796875,\"left\":20,\"right\":165,\"visible\":true}]",
+    "no page scrolling 760x620",
+    "automatic awakening attainable abyss",
+    "body and main organs are one physical source abyss",
+    "no detached organ sprites pasted onto new body abyss",
+    "full source silhouette remains inside portrait abyss",
+    "automatic awakening attainable myth",
+    "body and main organs are one physical source myth",
+    "no detached organ sprites pasted onto new body myth",
+    "full source silhouette remains inside portrait myth",
+    "automatic awakening attainable recursive",
+    "body and main organs are one physical source recursive",
+    "no detached organ sprites pasted onto new body recursive",
+    "full source silhouette remains inside portrait recursive",
+    "automatic awakening attainable sail",
+    "body and main organs are one physical source sail",
+    "no detached organ sprites pasted onto new body sail",
+    "full source silhouette remains inside portrait sail",
+    "automatic awakening attainable gravity",
+    "body and main organs are one physical source gravity",
+    "no detached organ sprites pasted onto new body gravity",
+    "full source silhouette remains inside portrait gravity",
+    "automatic awakening attainable crystal",
+    "body and main organs are one physical source crystal",
+    "no detached organ sprites pasted onto new body crystal",
+    "full source silhouette remains inside portrait crystal",
+    "automatic awakening attainable manyeyes",
+    "body and main organs are one physical source manyeyes",
+    "no detached organ sprites pasted onto new body manyeyes",
+    "full source silhouette remains inside portrait manyeyes",
+    "automatic awakening attainable abyssshell",
+    "body and main organs are one physical source abyssshell",
+    "no detached organ sprites pasted onto new body abyssshell",
+    "full source silhouette remains inside portrait abyssshell",
+    "automatic awakening attainable parallel",
+    "body and main organs are one physical source parallel",
+    "no detached organ sprites pasted onto new body parallel",
+    "full source silhouette remains inside portrait parallel",
+    "automatic awakening attainable memory",
+    "body and main organs are one physical source memory",
+    "no detached organ sprites pasted onto new body memory",
+    "full source silhouette remains inside portrait memory",
+    "automatic awakening attainable serpent",
+    "body and main organs are one physical source serpent",
+    "no detached organ sprites pasted onto new body serpent",
+    "full source silhouette remains inside portrait serpent",
+    "automatic awakening attainable solar",
+    "body and main organs are one physical source solar",
+    "no detached organ sprites pasted onto new body solar",
+    "full source silhouette remains inside portrait solar",
+    "automatic awakening attainable antimeme",
+    "body and main organs are one physical source antimeme",
+    "no detached organ sprites pasted onto new body antimeme",
+    "full source silhouette remains inside portrait antimeme",
+    "automatic awakening attainable valis",
+    "body and main organs are one physical source valis",
+    "no detached organ sprites pasted onto new body valis",
+    "full source silhouette remains inside portrait valis",
+    "automatic awakening attainable jelly",
+    "body and main organs are one physical source jelly",
+    "no detached organ sprites pasted onto new body jelly",
+    "full source silhouette remains inside portrait jelly",
+    "automatic awakening attainable kelp",
+    "body and main organs are one physical source kelp",
+    "no detached organ sprites pasted onto new body kelp",
+    "full source silhouette remains inside portrait kelp",
+    "automatic awakening attainable whale",
+    "body and main organs are one physical source whale",
+    "no detached organ sprites pasted onto new body whale",
+    "full source silhouette remains inside portrait whale",
+    "automatic awakening attainable swarm",
+    "body and main organs are one physical source swarm",
+    "no detached organ sprites pasted onto new body swarm",
+    "full source silhouette remains inside portrait swarm",
+    "automatic awakening attainable plasma",
+    "body and main organs are one physical source plasma",
+    "no detached organ sprites pasted onto new body plasma",
+    "full source silhouette remains inside portrait plasma",
+    "automatic awakening attainable cephalopod",
+    "body and main organs are one physical source cephalopod",
+    "no detached organ sprites pasted onto new body cephalopod",
+    "full source silhouette remains inside portrait cephalopod",
+    "twenty visibly distinct lineage portraits",
+    "all assets resolve locally",
+    "actual source geometry changes inside all three stages plus awakening",
+    "fourth phase remains separate",
+    "inherited organ development is visibly integrated into living skin",
+    "tissue development changes visible whole-body skin",
+    "legacy3 body pixels unchanged stage0",
+    "legacy3 body pixels unchanged stage1",
+    "legacy3 body pixels unchanged stage2",
+    "legacy3 body pixels unchanged stage3",
+    "legacy4 body pixels unchanged stage0",
+    "legacy4 body pixels unchanged stage1",
+    "legacy4 body pixels unchanged stage2",
+    "legacy4 body pixels unchanged stage3"
+  ],
+  "errors": [],
+  "remote": [],
+  "examples": {
+    "serpent": {
+      "seed": 781,
+      "awakenedAt": 780
+    },
+    "abyss": {
+      "seed": 782,
+      "awakenedAt": 780
+    },
+    "jelly": {
+      "seed": 789,
+      "awakenedAt": 780
+    },
+    "abyssshell": {
+      "seed": 790,
+      "awakenedAt": 790
+    },
+    "myth": {
+      "seed": 795,
+      "awakenedAt": 780
+    },
+    "recursive": {
+      "seed": 797,
+      "awakenedAt": 780
+    },
+    "cephalopod": {
+      "seed": 798,
+      "awakenedAt": 780
+    },
+    "memory": {
+      "seed": 799,
+      "awakenedAt": 790
+    },
+    "swarm": {
+      "seed": 803,
+      "awakenedAt": 790
+    },
+    "whale": {
+      "seed": 804,
+      "awakenedAt": 790
+    },
+    "sail": {
+      "seed": 810,
+      "awakenedAt": 780
+    },
+    "parallel": {
+      "seed": 823,
+      "awakenedAt": 790
+    },
+    "crystal": {
+      "seed": 825,
+      "awakenedAt": 790
+    },
+    "solar": {
+      "seed": 870,
+      "awakenedAt": 870
+    },
+    "manyeyes": {
+      "seed": 884,
+      "awakenedAt": 870
+    },
+    "valis": {
+      "seed": 885,
+      "awakenedAt": 870
+    },
+    "plasma": {
+      "seed": 898,
+      "awakenedAt": 870
+    },
+    "kelp": {
+      "seed": 900,
+      "awakenedAt": 870
+    },
+    "antimeme": {
+      "seed": 903,
+      "awakenedAt": 900
+    },
+    "gravity": {
+      "seed": 919,
+      "awakenedAt": 900
+    }
+  }
+}

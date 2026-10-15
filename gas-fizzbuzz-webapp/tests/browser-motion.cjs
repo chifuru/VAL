@@ -31,36 +31,33 @@ async function main(){
    check(samples.every(f=>f.sources.length===1&&f.roots.length===0),'connected anatomy moves as one mesh '+l.id);
    assert.deepEqual(await frame(s,{time:720,still:false}),samples[2]);check(JSON.stringify(s)===original,'animation leaves calculation state intact '+l.id);
   }
-  const s=examples.jelly,plain=await frame(s,{time:1000,still:false}),fed=await frame(s,{time:1000,still:false,energyEvents:[{time:510,kind:'fizz'}]});check(fed.png!==plain.png&&fed.rig.pulse>.5&&fed.rig.events===1,'actual nutrient produces one body absorption response');
-  for(const time of [1001,-1]){const f=await frame(s,{time:1000,still:false,energyEvents:[{time,kind:'fizz'}]});check(f.rig.pulse===0&&f.rig.events===0&&await call('feeding')===null,'future or expired ingestion produces no ghost meal '+time);if(time>1000)assert.equal(f.png,plain.png);}
-  check((await frame(s,{time:1000,still:false,energyEvents:[{time:-501,kind:'fizz'}]})).png===plain.png,'resource scenery fades completely after its row');
+  const s=examples.jelly,plain=await frame(s,{time:1000,still:false}),F=require('../src/composite/food-scene');
+  for(const l of D.LINEAGES){const body=examples[l.id],base=await frame(body,{time:1000,still:false});
+   for(const kind of ['fizz','buzz','fizzbuzz']){
+    const event={kind,count:1,sequence:body.current,time:1000-F.durations[kind]*.28},before=JSON.stringify(body),f=await frame(body,{time:1000,still:false,energyEvents:[event]}),trace=await call('feeding'),expected=F.profileFor(l.bodyPlan,kind);
+    check(f.png!==base.png&&trace.length===1&&trace[0].site===expected.site&&trace[0].mode===expected.mode,'localized milestone gesture '+l.id+' '+kind);
+    assert.equal(JSON.stringify(body),before);await fs.writeFile(path.join(out,'gesture-'+l.id+'-'+kind+'.png'),Buffer.from(f.png.split(',')[1],'base64'));
+   }
+   const number=await frame(body,{time:1000,still:false,energyEvents:[{kind:'number',count:1,sequence:body.current,time:700}]});check(number.png===base.png&&(await call('feeding')).length===0,'numeric output has no creature gesture '+l.id);
+  }
+  for(const kind of ['fizz','buzz','fizzbuzz']){
+   const samples=[];for(const progress of [.12,.28,.75]){const f=await frame(s,{time:1000,still:false,energyEvents:[{kind,count:1,sequence:s.current,time:1000-F.durations[kind]*progress}]});samples.push(f.png);await fs.writeFile(path.join(out,'phase-'+kind+'-'+progress+'.png'),Buffer.from(f.png.split(',')[1],'base64'));}check(new Set(samples).size===3,'gesture develops at its own pace '+kind);
+  }
+  const simultaneous=['fizz','buzz','fizzbuzz'].map(kind=>({kind,count:1,sequence:s.current-1,time:700}));await frame(s,{time:1000,still:false,energyEvents:simultaneous});check((await call('feeding')).length===3,'three independent gestures survive the next output');
+  for(const time of [1001,-1000]){const f=await frame(s,{time:1000,still:false,energyEvents:[{time,kind:'fizz',count:1,sequence:s.current}]});check(f.png===plain.png&&f.rig.events===0&&(await call('feeding')).length===0,'future or expired gesture is absent '+time);}
+  await frame(s,{time:1000,still:false,energyEvents:[{time:700,kind:'fizz',count:1,sequence:s.current+1}]});check((await call('feeding')).length===0,'future output cannot anticipate a gesture');
+  const still=await frame(s,{time:0,still:true});check((await frame(s,{time:1000000,still:true,energyEvents:simultaneous})).png===still.png,'cumulative habitat persists in still portrait without time-based decay');
+  let growing=E.initial(1000);const levels=[];for(let row=0;row<=1000;row++){if(row)growing=E.step(growing,E.fmtFizzBuzz(row));if([0,15,120,600,1000].includes(row)){const f=await frame(growing,{still:true}),level=require('../src/composite/environment-scene').levelsFor(growing);levels.push({row,foods:growing.foods,levels:level});await fs.writeFile(path.join(out,'accumulation-'+row+'.png'),Buffer.from(f.png.split(',')[1],'base64'));}}
+  check(levels.every((l,i)=>!i||l.levels.every((v,k)=>v>=levels[i-1].levels[k])),'all resource layers accumulate through real cultivation');await fs.writeFile(path.join(out,'accumulation.json'),JSON.stringify(levels,null,2)+'\n');
   await call('run',997,{instant:true});const saved=await call('snapshot');const live0=await page.locator('#creature').evaluate(c=>c.toDataURL());await page.waitForTimeout(250);check(live0!==await page.locator('#creature').evaluate(c=>c.toDataURL()),'completed live creature continues biological movement');assert.deepEqual((await call('snapshot')).records,saved.records);
   await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>window.__VALIS_TEST__.motion()===null);const still0=await page.locator('#creature').evaluate(c=>c.toDataURL());await page.waitForTimeout(250);check(still0===await page.locator('#creature').evaluate(c=>c.toDataURL()),'OS motion preference freezes display without changing stored state');
-  const actualRows={number:new Map(),fizz:new Map(),buzz:new Map(),fizzbuzz:new Map()};let rowState=E.initial(1000);
-  for(let sequence=1;sequence<=60;sequence++){rowState=E.step(rowState,E.fmtFizzBuzz(sequence));const kind=rowState.lastMeal.kind,variant=(sequence+rowState.seed)%4;if(!actualRows[kind].has(variant))actualRows[kind].set(variant,rowState);}
-  for(const [kind,variants]of Object.entries(actualRows)){check(variants.size===4,'four row-derived variants '+kind);for(const [variant,row]of variants){const raw=E.fmtFizzBuzz(row.current),r=await frame(row,{time:400,still:false,energyEvents:[{time:250,sequence:row.current,value:raw,kind,duration:650}]});const trace=await call('feeding');check(trace?.sequence===row.current&&trace.kind===kind&&trace.value===raw&&trace.variant===variant,'actual output determines one visible meal '+kind+' '+variant);await fs.writeFile(path.join(out,'row-'+kind+'-'+variant+'.png'),Buffer.from(r.png.split(',')[1],'base64'));}}
-  await frame(s,{time:1000,still:false,energyEvents:[{time:550,sequence:s.current,kind:'fizz',duration:650}]});const closeMeal=await call('feeding');check(Math.hypot(closeMeal.foodPoint[0]-closeMeal.target[0],closeMeal.foodPoint[1]-closeMeal.target[1])<15,'meal reaches the actual feeding organ before dissolving');
-  const modes=new Map();for(const lineage of D.LINEAGES){const state=examples[lineage.id],mode=require('../src/composite/food-scene').profileFor(lineage.bodyPlan,'fizz').mode;if(!modes.has(mode))modes.set(mode,state);}
-  check(modes.size===7,'seven body-specific intake strategies represented');
-  for(const [mode,body]of modes)for(const kind of ['fizz','buzz','fizzbuzz','number']){
-   const original=JSON.stringify(body),samples=[];for(const progress of [.12,.42,.70]){
-    const event={kind,sequence:body.current,time:1000-progress*650,duration:650,changed:true};const f=await frame(body,{time:1000,still:false,energyEvents:[event]}),trace=await call('feeding');samples.push(f.png);
-    assert.equal(trace.mode,mode);assert.equal(trace.type,kind==='number'?'factor':{fizz:'life',buzz:'mineral',fizzbuzz:'information'}[kind]);
-    if(progress===.70){check(trace.contact&&Math.hypot(trace.foodPoint[0]-trace.target[0],trace.foodPoint[1]-trace.target[1])<.01,'resource contacts anatomy '+mode+' '+kind);await fs.writeFile(path.join(out,'intake-'+mode+'-'+kind+'.png'),Buffer.from(f.png.split(',')[1],'base64'));}
-    if(mode==='envelop')await fs.writeFile(path.join(out,'phase-'+kind+'-'+progress+'.png'),Buffer.from(f.png.split(',')[1],'base64'));
-   }
-   check(new Set(samples).size===3&&JSON.stringify(body)===original,'notice intake and absorption are distinct without state mutation '+mode+' '+kind);
-  }
-  await frame(s,{time:1000,still:false,energyEvents:[]});check(await call('feeding')===null,'idle habitat has no unsolicited food');
-  await frame(s,{time:1000,still:false,energyEvents:[{time:700,sequence:s.current-1,kind:'fizz'}]});check(await call('feeding')===null,'past row cannot feed current creature');
-  for(const kind of ['fizz','buzz','fizzbuzz']){const before=JSON.stringify(s),f=await frame(s,{time:1000,still:false,energyEvents:[{time:650,kind,sequence:s.current}]});check(f.png!==plain.png,'distinct ecological consumption frame '+kind);check(JSON.stringify(s)===before,'food animation never consumes extra rows '+kind);await fs.writeFile(path.join(out,'food-'+kind+'.png'),Buffer.from(f.png.split(',')[1],'base64'));}
   for(const [i,id]of ['tide','heat','signal','void'].entries()){const habitat=JSON.parse(JSON.stringify(s)),weights=[0,0,0,0];weights[i]=1;habitat.environmentPlan.weights=[weights,weights];const f=await frame(habitat,{still:true});await fs.writeFile(path.join(out,'habitat-'+id+'.png'),Buffer.from(f.png.split(',')[1],'base64'));check(f.sources.length===1,'habitat keeps coherent creature '+id);}
   await page.emulateMedia({reducedMotion:'no-preference'});await call('load',927);
   for(const id of ['jelly','serpent','myth']){
    const encoded=await page.evaluate(async state=>{
     const canvas=document.getElementById('creature'),stream=canvas.captureStream(12),recorder=new MediaRecorder(stream,{mimeType:'video/webm',videoBitsPerSecond:700000}),chunks=[];let raf;
     recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};const done=new Promise(resolve=>recorder.onstop=()=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result.split(',')[1]);reader.readAsDataURL(new Blob(chunks,{type:'video/webm'}));});
-    const start=performance.now();function draw(now){window.__VALIS_TEST__.drawFrame(state,{time:now-start,still:false});raf=requestAnimationFrame(draw);}recorder.start(100);raf=requestAnimationFrame(draw);await new Promise(r=>setTimeout(r,3400));cancelAnimationFrame(raf);recorder.stop();stream.getTracks().forEach(t=>t.stop());return done;
+    const start=performance.now();function draw(now){window.__VALIS_TEST__.drawFrame(state,{time:now-start,still:false,energyEvents:[{kind:'fizz',count:1,sequence:state.current,time:250},{kind:'buzz',count:1,sequence:state.current,time:1250},{kind:'fizzbuzz',count:1,sequence:state.current,time:1800}]});raf=requestAnimationFrame(draw);}recorder.start(100);raf=requestAnimationFrame(draw);await new Promise(r=>setTimeout(r,3400));cancelAnimationFrame(raf);recorder.stop();stream.getTracks().forEach(t=>t.stop());return done;
    },examples[id]);const bytes=Buffer.from(encoded,'base64');check(bytes.length>5000,'recorded actual animated canvas '+id);await fs.writeFile(path.join(out,id+'.webm'),bytes);
   }
   assert.deepEqual(errors,[]);await fs.writeFile(path.join(out,'report.json'),JSON.stringify({scope:'Chromium motion and static preservation; state-driven rendering and actual canvas videos; not a user-hardware FPS benchmark',browser:browser.version(),generatedAt:new Date().toISOString(),checks,errors,lineages:20,staticPriorEdition:'legacy4/app1.3.1/appearanceRevision2/art-v4.1',samplesPerLineage:4,videos:['jelly','serpent','myth']},null,2)+'\n');console.log(JSON.stringify({passed:checks.length,errors,videos:3}));
