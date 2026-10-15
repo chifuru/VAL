@@ -1,0 +1,99 @@
+{
+  "observedAt": "2026-10-15T06:56:34.565089+00:00",
+  "source": "Public run/job HTML and unconditional step conclusions; authenticated raw logs/artifact contents not read",
+  "targetCommit": "6e8b99b316a7251640163c82c8bc94ea40b18350",
+  "runUrl": "https://github.com/chifuru/VAL/actions/runs/38695116819",
+  "jobUrl": "https://github.com/chifuru/VAL/actions/runs/38695116819/job/116289767391",
+  "jobConclusion": "success",
+  "steps": [
+    {
+      "data-name": "Set up job",
+      "data-number": "1",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:53:04Z",
+      "data-completed-at": "2026-10-15T06:53:05Z"
+    },
+    {
+      "data-name": "Run actions/checkout@v4",
+      "data-number": "2",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:53:05Z",
+      "data-completed-at": "2026-10-15T06:53:47Z"
+    },
+    {
+      "data-name": "Run actions/setup-node@v4",
+      "data-number": "3",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:53:47Z",
+      "data-completed-at": "2026-10-15T06:53:48Z"
+    },
+    {
+      "data-name": "Run npm ci --ignore-scripts",
+      "data-number": "4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:53:48Z",
+      "data-completed-at": "2026-10-15T06:53:50Z"
+    },
+    {
+      "data-name": "Run npm test",
+      "data-number": "5",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:53:50Z",
+      "data-completed-at": "2026-10-15T06:54:02Z"
+    },
+    {
+      "data-name": "Run npm run check:assets",
+      "data-number": "6",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:54:02Z",
+      "data-completed-at": "2026-10-15T06:54:06Z"
+    },
+    {
+      "data-name": "Run npx playwright install --with-deps chromium",
+      "data-number": "7",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:54:06Z",
+      "data-completed-at": "2026-10-15T06:54:25Z"
+    },
+    {
+      "data-name": "Observation UI and actual PNG drawing",
+      "data-number": "8",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:54:25Z",
+      "data-completed-at": "2026-10-15T06:55:26Z"
+    },
+    {
+      "data-name": "Run actions/upload-artifact@v4",
+      "data-number": "9",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:55:26Z",
+      "data-completed-at": "2026-10-15T06:55:31Z"
+    },
+    {
+      "data-name": "Post Run actions/setup-node@v4",
+      "data-number": "17",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:55:31Z",
+      "data-completed-at": "2026-10-15T06:55:33Z"
+    },
+    {
+      "data-name": "Post Run actions/checkout@v4",
+      "data-number": "18",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:55:33Z",
+      "data-completed-at": "2026-10-15T06:55:33Z"
+    },
+    {
+      "data-name": "Complete job",
+      "data-number": "19",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:55:33Z",
+      "data-completed-at": "2026-10-15T06:55:33Z"
+    }
+  ],
+  "limits": [
+    "CI native JSON/screenshots/raw logs and exact runner image not obtained",
+    "User Windows10/11 device display/FPS and art acceptance unperformed"
+  ],
+  "scope": "Hosted source/assets, actual N15 original-row/count-milestone timeline, DNA/output across three viewports, legacy/static regression, 20 lineage gestures, no numeric creature gesture, cumulative scenery and real canvas videos. Detailed counts/video decode proof are local."
+}
