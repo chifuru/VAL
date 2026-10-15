@@ -50,12 +50,12 @@ test('all four habitat layers accumulate monotonically, survive time and JSON re
  assert.deepEqual(H.levelsFor({...s,foods:{fizz:1e9,buzz:1e9,fizzbuzz:1e9,number:1e9}}),[1,1,1,1]);
  assert.ok(H.levelsFor(E.step(E.initial(1000),'1'))[3]>0,'first numeric row changes scenery');
 });
-test('reaction profiles keep minerals on the ground, information localized, and numbers off the creature',()=>{
+test('reaction profiles keep grounded mineral reflection on the contact plane and floating mineral response inside the body',()=>{
  const sites=new Set();for(const bodyPlan of [...new Set(E.LINEAGES.map(l=>l.bodyPlan))]){
-  assert.equal(F.profileFor(bodyPlan,'fizz').site,'mouth');assert.equal(F.profileFor(bodyPlan,'buzz').site,'ground');const p=F.profileFor(bodyPlan,'fizzbuzz');assert.ok(['head','dorsal'].includes(p.site));sites.add(p.site);assert.equal(F.profileFor(bodyPlan,'number'),null);
+  assert.equal(F.profileFor(bodyPlan,'fizz').site,'mouth');assert.equal(F.profileFor(bodyPlan,'buzz').site,['avian','amphibian','arthropod','crystal','mechanical','botanical'].includes(bodyPlan)?'ground':'flank');const p=F.profileFor(bodyPlan,'fizzbuzz');assert.ok(['head','dorsal'].includes(p.site));sites.add(p.site);assert.equal(F.profileFor(bodyPlan,'number'),null);
  }
  assert.equal(sites.size,2);
- const g=new Proxy({createRadialGradient:()=>({addColorStop:()=>{}})},{get:(o,key)=>o[key]||(key==='fillText'?()=>assert.fail('no food glyph may be painted'):()=>{})}),b={motion:{mode:'aquatic'},bw:400,bh:200,sockets:{forelimb:[-60,60],hindlimb:[80,60],head:[0,-50],dorsal:[20,-50],mouth:[-60,-20]},surface:(...point)=>({point})};
+ const g=new Proxy({createRadialGradient:()=>({addColorStop:()=>{}})},{get:(o,key)=>o[key]||(key==='fillText'?()=>assert.fail('no food glyph may be painted'):()=>{})}),b={motion:{mode:'aquatic'},bw:400,bh:200,sockets:{forelimb:[-60,60],hindlimb:[80,60],head:[0,-50],dorsal:[20,-50],mouth:[-60,-20],flank:[0,0]},surface:(...point)=>({point})};
  const events=[{kind:'fizz',count:1,sequence:3,time:0},{kind:'buzz',count:1,sequence:5,time:0},{kind:'fizzbuzz',count:1,sequence:15,time:0}];const state={seed:1000,current:20};
  assert.equal(F.draw(g,b,state,config,new Map(),300,false,events).length,3);assert.deepEqual(F.draw(g,b,state,config,new Map(),300,true,events),[]);assert.deepEqual(F.draw(g,b,state,config,new Map(),300,false,[{kind:'number',count:1,sequence:1,time:0}]),[]);
 });
@@ -137,4 +137,14 @@ test('habitat wildlife has 24 complete independent source poses and continuous h
 });
 test('ambient loops fade before wrapping and remain deterministic and bounded',()=>{
  const s=E.runAll(1000),saved=JSON.stringify(s);for(let t=0;t<250000;t+=347){const a=H.particlePlan(s,t),b=H.particlePlan(s,t+1);assert.equal(a.length,48);assert.deepEqual(H.particlePlan(JSON.parse(saved),t),a);for(let i=0;i<48;i++){assert.ok(a[i].x>=0&&a[i].x<=1&&a[i].y>=0&&a[i].y<=1);assert.ok(a[i].alpha>=0&&a[i].alpha<=.28);assert.ok(Math.abs(a[i].alpha-b[i].alpha)<.001);if(Math.abs(a[i].y-b[i].y)>.9)assert.ok(a[i].alpha+b[i].alpha<.00001,'wrap occurs invisibly');}}assert.equal(JSON.stringify(s),saved);
+});
+
+test('wildlife heads face actual travel and grounded wildlife keeps a stable foot location',()=>{
+ const s=E.runAll(1000);let moving=0;for(let t=0;t<50000;t+=137){const a=H.lifePlan(s,t),b=H.lifePlan(s,t+1);for(let i=0;i<a.length;i++){if(a[i].grounded){assert.equal(a[i].x,b[i].x);assert.equal(a[i].y,b[i].y);}else{const vx=b[i].x-a[i].x;if(Math.abs(vx)>.000002){assert.ok(vx*(-a[i].yaw)>0,'left-facing source travels backward');moving++;}}const m=H.lifeMotionFor(a[i],.6,t);assert.ok(Math.abs(m.cross-1)<=.12&&Math.abs(m.offset)<=a[i].size*.04);}}assert.ok(moving>1000);const modes=new Set(H.lifePlan(s,0).map(f=>f.mode));assert.equal(modes.size,5);
+});
+test('endpoint scenery interpolation equals the original environment weights without mutating the plan',()=>{
+ const base=E.runAll(1000),saved=JSON.stringify(base);for(let i=0;i<=500;i++){const s={...base,points:20+i/100},p=H.backgroundPlan(s);assert.deepEqual(p.from,base.environmentPlan.weights[0]);for(let k=0;k<4;k++)assert.ok(Math.abs(p.from[k]*(1-p.mix)+p.to[k]*p.mix-H.weightsFor(s)[k])<1e-12);assert.ok(H.sceneryTintFor(s).every(v=>v%16===0));assert.deepEqual(H.sceneryTintFor(s),H.sceneryTintFor(base));}assert.equal(JSON.stringify(base),saved);
+});
+test('nutritional light follows source anatomy or rises from below, with no numeric light plan',()=>{
+ const s=config.sprites['eco-myth:body'][7],before=JSON.stringify(s.anatomy);for(const kind of ['fizz','buzz','fizzbuzz']){const a=F.lightPlanFor('avian',kind,s.anatomy,.1),b=F.lightPlanFor('avian',kind,s.anatomy,.9);if(kind==='buzz'){assert.equal(a.type,'rise');assert.ok(a.position>b.position);}else{assert.equal(a.type,'spread');assert.deepEqual(a.origin,s.anatomy.joints[kind==='fizz'?'mouth':'head']);assert.ok(a.radius<b.radius);}}assert.equal(F.lightPlanFor('avian','number',s.anatomy,.5),null);assert.equal(JSON.stringify(s.anatomy),before);
 });

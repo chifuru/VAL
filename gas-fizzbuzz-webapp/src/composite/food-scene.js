@@ -29,13 +29,19 @@
   });
  }
  function profileFor(bodyPlan,kind){
-  if(kind==='buzz')return {mode:'ground-glow',site:'ground',glow:'whole-body',movement:'settle'};
+  if(kind==='buzz'){const grounded=['avian','amphibian','arthropod','crystal','mechanical','botanical'].includes(bodyPlan);return {mode:grounded?'ground-glow':'body-glow',site:grounded?'ground':'flank',glow:'whole-body',movement:'settle'};}
   if(kind==='fizzbuzz'){const dorsal=['aquatic','whale','serpent','arthropod','cephalopod'].includes(bodyPlan);return {mode:dorsal?'dorsal-glow':'crown-glow',site:dorsal?'dorsal':'head',glow:'whole-body',movement:'wave'};}
   if(kind==='fizz')return {mode:['jelly','cephalopod','botanical','ethereal'].includes(bodyPlan)?'oral-fold':'jaw',site:'mouth',glow:'whole-body',movement:'contract'};
   return null;
  }
  const response={aquatic:[1,.9,1.1],amphibian:[.82,1.1,.7],avian:[.72,.8,.8],serpent:[1.15,.8,1.2],crystal:[.38,.55,.42],arthropod:[.60,.85,.55],jelly:[1.2,.72,1.18],cephalopod:[1.1,.78,1.15],botanical:[.55,.40,.8],whale:[.75,.95,.9],mechanical:[.32,.5,.38],ethereal:[.8,.4,1.1]};
  function motionProfileFor(bodyPlan,kind){const p=response[bodyPlan]||response.aquatic,i={fizz:0,buzz:1,fizzbuzz:2}[kind];if(i===undefined)return null;return {squeeze:(kind==='fizz'?-.025:kind==='buzz'?.018:.014)*p[i],bend:(kind==='fizz'?-.004:kind==='buzz'?.013:.006)*p[i]};}
+ function lightPlanFor(bodyPlan,kind,anatomy,progress){
+  if(!kinds.includes(kind))return null;
+  const joints=anatomy.joints;if(kind==='buzz')return {type:'rise',position:1.2-progress*1.6,width:.46};
+  const site=kind==='fizz'?'mouth':profileFor(bodyPlan,kind).site;
+  return {type:'spread',origin:(joints[site]||joints.flank).slice(),radius:(kind==='fizz'?.18:.12)+progress*1.2};
+ }
  // Presentation-only events come from real stage/level increases, never a timer lottery.
  const growthDurations={evolution:1800,organ:1100};
  function activeGrowth(events,time,sequence){
@@ -69,16 +75,15 @@
   if(still)return [];
   return reactions(events,time,state.current).map(e=>{
    const profile=profileFor(b.motion?.mode,e.kind);
-   if(kinds.includes(e.kind)){
-    const x=(b.sockets.forelimb[0]+b.sockets.hindlimb[0])*.5,y=b.bh*.5+10,r=Math.max(65,Math.min(140,b.bw*.29));
-    // Diffuse reflection belongs to the ground. No geometric burst or appearing crystal.
-    const reflected=colors[e.kind].map((v,i)=>Math.round(v*.60+(b.light?.floor?.[i]||50)*.40)).join(','),gain=e.kind==='buzz'?1:.28;g.save();g.translate(x,y);g.scale(1,.16);g.globalCompositeOperation='screen';
-    for(let i=0;i<3;i++){const xx=(i-1)*r*.34,rr=r*(i===1?.82:.55),light=g.createRadialGradient(xx,0,0,xx,0,rr);light.addColorStop(0,'rgba('+reflected+','+(e.strength*gain*(i===1?.18:.10))+')');light.addColorStop(1,'rgba(120,139,153,0)');g.fillStyle=light;g.fillRect(xx-rr,-rr,rr*2,rr*2);}g.restore();
+   const grounded=Boolean(b.contacts?.length),contact=grounded?[b.contacts.reduce((v,p)=>v+p.point[0],0)/b.contacts.length,b.supportY]:null;
+   if(grounded){
+    const [x,y]=contact,r=Math.max(45,Math.min(120,b.bw*.24)),reflected=colors[e.kind].map((v,i)=>Math.round(v*.60+(b.light?.floor?.[i]||50)*.40)).join(','),gain=e.kind==='buzz'?1:.28;
+    g.save();g.translate(x,y+2);g.scale(1,.13);g.globalCompositeOperation='screen';const light=g.createRadialGradient(0,0,0,0,0,r);light.addColorStop(0,'rgba('+reflected+','+(e.strength*gain*.16)+')');light.addColorStop(.45,'rgba('+reflected+','+(e.strength*gain*.055)+')');light.addColorStop(1,'rgba('+reflected+',0)');g.fillStyle=light;g.fillRect(-r,-r,r*2,r*2);g.restore();
    }
-   const bodyPoint=e.kind==='buzz'?[(b.sockets.forelimb[0]+b.sockets.hindlimb[0])*.5,b.bh*.5+10]:b.surface(...b.sockets[profile.site]).point,matrix=g.getTransform?.();
+   const bodyPoint=e.kind==='buzz'&&grounded?contact:b.surface(...b.sockets[e.kind==='buzz'?'flank':profile.site]).point,matrix=g.getTransform?.();
    const project=p=>matrix?[matrix.a*p[0]+matrix.c*p[1]+matrix.e,matrix.b*p[0]+matrix.d*p[1]+matrix.f]:p,point=project(bodyPoint),eyePoint=b.sockets.eye?project(b.sockets.eye):null;
-   return {kind:e.kind,count:e.count,sequence:e.sequence,progress:e.progress,strength:e.strength,duration:e.duration,jawOpen:e.kind==='fizz'?e.strength:0,oral:e.kind==='fizz'?b.oral:null,eyePoint,point,...profile};
+   return {reflection:grounded,kind:e.kind,count:e.count,sequence:e.sequence,progress:e.progress,strength:e.strength,duration:e.duration,jawOpen:e.kind==='fizz'?e.strength:0,oral:e.kind==='fizz'?b.oral:null,eyePoint,point,...profile};
   });
  }
- return {colors,motionProfileFor,quotas,durations,milestone,advanceEvents,reactions,profileFor,advanceGrowth,growthReactions,seed,draw};
+ return {colors,lightPlanFor,motionProfileFor,quotas,durations,milestone,advanceEvents,reactions,profileFor,advanceGrowth,growthReactions,seed,draw};
 });

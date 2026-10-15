@@ -57,7 +57,7 @@
   }
   function create(canvas,config){
     const images=new Map(),missing=new Set(),ctx=canvas.getContext('2d');
-    let prepared=false,lastDraw=[],lastSources=[],lastAttachments=[],lastMotion=null,lastFeeding=null,surfaceCache=null,currentPalette=null,currentMaterial=null;const paletteCache=boundedCache(24*1024*1024),skinCache=boundedCache(16*1024*1024),surfacePixels=boundedCache(24*1024*1024),rootCache=boundedCache(8*1024*1024),emissionCache=boundedCache(8*1024*1024),appearanceCache=new WeakMap(),oralCache=new WeakMap(),contactCache=new WeakMap(),portraitCache=new WeakMap();
+    let prepared=false,lastDraw=[],lastSources=[],lastAttachments=[],lastMotion=null,lastFeeding=null,lastPlacement=null,surfaceCache=null,currentPalette=null,currentMaterial=null;const paletteCache=boundedCache(24*1024*1024),skinCache=boundedCache(16*1024*1024),surfacePixels=boundedCache(24*1024*1024),rootCache=boundedCache(8*1024*1024),emissionCache=boundedCache(8*1024*1024),appearanceCache=new WeakMap(),oralCache=new WeakMap(),contactCache=new WeakMap(),portraitCache=new WeakMap();
     let oralSurface=null,litSurface=null,paintId=0;const ecology=root.EnvironmentScene?.create?.(config,images);
     function scratch(old,w,h){if(!old)old=document.createElement('canvas');if(old.width!==w||old.height!==h){old.width=w;old.height=h;}const g=old.getContext('2d');g.clearRect(0,0,w,h);return old;}
     function appearance(state){if(!Object.isFrozen(state))return E.appearanceFor(state);let a=appearanceCache.get(state);if(!a){a=E.appearanceFor(state);appearanceCache.set(state,a);}return a;}
@@ -177,7 +177,7 @@
         const vx=1+h*(clamp(n.head.scaleX/n.torso.scaleX,.65,1.5)-1)+tail*(clamp(n.tail.scaleX/n.torso.scaleX,.65,1.6)-1),vy=1+h*(clamp(n.head.scaleY/n.torso.scaleY,.7,1.4)-1)+tail*(clamp(n.tail.scaleY/n.torso.scaleY,.65,1.5)-1);
         sx.push(vx*stretch[0]);sy.push(vy*stretch[1]);positions.push(positions[i]+dx*baseScale*(verticalMesh?vy*stretch[1]:vx*stretch[0]));}
       const width=verticalMesh?sw*baseScale*Math.max(...sx):positions[slices],height=verticalMesh?positions[slices]:sh*baseScale*Math.max(...sy);
-      const support=ecology&&motion?.kinetics.grounded?contactGeometry(s):null,offsets=[],cross=[];
+      const support=ecology&&kineticsFor(a).grounded?contactGeometry(s):null,offsets=[],cross=[];
       for(let i=0;i<slices;i++){
         const u=(i+.5)/slices,tail=smooth((u-.22)/.55);
         offsets.push(motion?Math.sin(motion.cycle*2-u*(a.bodyPlan==='serpent'?7:4))*width*motion.wave*tail:0);
@@ -228,8 +228,8 @@
         }
         return {point:point(found[0]/sw,found[1]/sh),source:found,alpha:pixels.data[(found[1]*sw+found[0])*4+3]};
       }
-      const contacts=support?support.points.map(p=>({source:p,point:point(...p)})):[],supportY=contacts.length?contacts.reduce((v,p)=>v+p.point[1],0)/contacts.length:height*.43;
-      return {contacts,supportY,oral,integrated:true,biological,verticalMesh,prefix,key,level,s,sw,sh,baseScale,slices,dx,positions,sx,sy,offsets,cross,motion,bw:width,bh:height,volume:1,head:sockets.head,hw:width*.27,hh:height*.3,posture:0,sockets,surface};
+      const contacts=support?support.points.map(p=>({source:p,point:point(...p)})):[],supportX=contacts.length?contacts.reduce((v,p)=>v+p.point[0],0)/contacts.length:0,supportY=contacts.length?contacts.reduce((v,p)=>v+p.point[1],0)/contacts.length:height*.43;
+      return {contacts,supportX,supportY,oral,integrated:true,biological,verticalMesh,prefix,key,level,s,sw,sh,baseScale,slices,dx,positions,sx,sy,offsets,cross,motion,bw:width,bh:height,volume:1,head:sockets.head,hw:width*.27,hh:height*.3,posture:0,sockets,surface};
     }
     function oralGeometry(s){
       let geometry=oralCache.get(s);if(geometry)return geometry;
@@ -256,8 +256,8 @@
     function tissueLight(base,b,kind,sites=[]){
       const key=b.s.file+':'+b.s.region+':'+kind+':'+sites.join(',');let mask=emissionCache.get(key);if(mask)return mask;
       mask=document.createElement('canvas');mask.width=b.sw;mask.height=b.sh;const g=mask.getContext('2d'),data=g.createImageData(b.sw,b.sh),p=data.data;p.set(pixelsFor(b.s).data);
-      const color=root.FoodScene.colors[kind]||{evolution:[215,224,242],organ:[151,221,225]}[kind];
-      for(let i=0;i<p.length;i+=4){const l=(p[i]*.22+p[i+1]*.65+p[i+2]*.13)/255,alpha=p[i+3];for(let j=0;j<3;j++)p[i+j]=Math.round(color[j]*(.48+.52*l));let local=1;if(kind==='organ'){const x=(i/4%b.sw)/b.sw,y=Math.floor(i/4/b.sw)/b.sh;local=Math.max(0,...sites.map(site=>{const joint=b.s.anatomy.joints[site]||b.s.anatomy.joints.flank;return Math.max(0,1-((x-joint[0])/.19)**2-((y-joint[1])/.19)**2)**2;}));}p[i+3]=Math.round(alpha*(.20+.66*l)*local);}
+      const color=root.FoodScene.colors[kind]||{evolution:[215,224,242],organ:[151,221,225]}[kind],centers=kind==='organ'?sites.map(site=>b.s.anatomy.joints[site]||b.s.anatomy.joints.flank):null;
+      for(let i=0;i<p.length;i+=4){const l=(p[i]*.22+p[i+1]*.65+p[i+2]*.13)/255,alpha=p[i+3];for(let j=0;j<3;j++)p[i+j]=Math.round(color[j]*(.48+.52*l));let local=1;if(kind==='organ'){const x=(i/4%b.sw)/b.sw,y=Math.floor(i/4/b.sw)/b.sh;local=0;for(const joint of centers){const falloff=1-((x-joint[0])/.19)**2-((y-joint[1])/.19)**2;if(falloff>0)local=Math.max(local,falloff*falloff);}}p[i+3]=Math.round(alpha*(.20+.66*l)*local);}
       g.putImageData(data,0,0);g.globalCompositeOperation='destination-in';g.drawImage(base,0,0);g.globalCompositeOperation='source-over';emissionCache.set(key,mask);return mask;
     }
     function coherentAnatomy(g,a,b){
@@ -277,8 +277,14 @@
         litSurface=scratch(litSurface,b.sw,b.sh);const cg=litSurface.getContext('2d');cg.drawImage(im,0,0);cg.globalCompositeOperation='screen';
         const lightBudget=Math.max(1,lights.reduce((sum,e)=>sum+e.strength,0)/1.35);
         for(const reaction of lights){cg.globalAlpha=reaction.strength*(reaction.kind==='evolution'?.30:reaction.kind==='organ'?.18:.43)/lightBudget;cg.drawImage(tissueLight(base,b,reaction.kind,reaction.sites),0,0);}
-        // Tint and a broad travelling highlight keep the native pattern readable.
-        if(reactions.length){const total=reactions.reduce((n,e)=>n+e.strength,0),color=[0,1,2].map(j=>Math.round(reactions.reduce((n,e)=>n+root.FoodScene.colors[e.kind][j]*e.strength,0)/Math.max(.001,total))).join(','),gain=total/lightBudget,progress=reactions.reduce((n,e)=>n+e.progress*e.strength,0)/Math.max(.001,total);cg.globalCompositeOperation='source-atop';cg.globalAlpha=gain*.055;cg.fillStyle='rgb('+color+')';cg.fillRect(0,0,b.sw,b.sh);const x=(progress*1.6-.3)*b.sw,light=cg.createLinearGradient(x-b.sw*.45,0,x+b.sw*.45,b.sh*.3);light.addColorStop(0,'rgba('+color+',0)');light.addColorStop(.5,'rgba('+color+','+(gain*.10)+')');light.addColorStop(1,'rgba('+color+',0)');cg.globalAlpha=1;cg.fillStyle=light;cg.fillRect(0,0,b.sw,b.sh);}
+        // Each meal spreads from real anatomy inside the same source alpha.
+        if(reactions.length){const total=reactions.reduce((n,e)=>n+e.strength,0),color=[0,1,2].map(j=>Math.round(reactions.reduce((n,e)=>n+root.FoodScene.colors[e.kind][j]*e.strength,0)/Math.max(.001,total))).join(',');cg.globalCompositeOperation='source-atop';cg.globalAlpha=total/lightBudget*.055;cg.fillStyle='rgb('+color+')';cg.fillRect(0,0,b.sw,b.sh);cg.globalAlpha=1;
+          for(const e of reactions){const p=root.FoodScene.lightPlanFor(a.bodyPlan,e.kind,b.s.anatomy,e.progress),rgb=root.FoodScene.colors[e.kind].join(','),gain=e.strength/lightBudget*.08;let light;
+            if(p.type==='rise')light=cg.createLinearGradient(0,(p.position-p.width)*b.sh,0,(p.position+p.width)*b.sh);
+            else{const x=p.origin[0]*b.sw,y=p.origin[1]*b.sh,r=p.radius*Math.max(b.sw,b.sh);light=cg.createRadialGradient(x,y,r*.12,x,y,r);}
+            light.addColorStop(0,'rgba('+rgb+',0)');light.addColorStop(.45,'rgba('+rgb+','+gain+')');light.addColorStop(1,'rgba('+rgb+',0)');cg.fillStyle=light;cg.fillRect(0,0,b.sw,b.sh);
+          }
+        }
         cg.globalAlpha=1;cg.globalCompositeOperation='source-over';im=litSurface;
       }
       g.save();for(let i=0;i<b.slices;i++){
@@ -454,14 +460,14 @@
       const extentX=b.integrated?Math.max(b.bw+230,ringExtent):Math.max(1100,b.bw*2.5+450),extentY=b.integrated?Math.max(b.bh+220+neckRoom,ringExtent):Math.max(900,b.bh*2.8+430);
       const fit=Math.min(w*.90/extentX,h*.86/extentY)*(mini?.92:1);
       g.save();g.translate(w*(b.integrated?.58:.50),h*(b.integrated?.56:.61));g.scale(fit,fit);g.rotate(b.posture);
-      const supported=a.version===5&&motion?.kinetics.grounded;
-      const projectLocal=(x,y)=>{const m=g.getTransform();return [m.a*x+m.c*y+m.e,m.b*x+m.d*y+m.f];};if(lastMotion&&supported)lastMotion.shadowPoint=projectLocal(0,b.supportY);
-      if(a.version===5&&!mini&&supported){g.save();const y=b.supportY,r=b.bw*.31,shadow=g.createRadialGradient(0,0,0,0,0,r);shadow.addColorStop(0,'rgba(1,5,12,.22)');shadow.addColorStop(1,'rgba(1,5,12,0)');g.translate(0,y);g.scale(1,.14);g.fillStyle=shadow;g.fillRect(-r,-r,r*2,r*2);g.restore();}
+      const supported=a.version===5&&kineticsFor(a).grounded;
+      const projectLocal=(x,y)=>{const m=g.getTransform();return [m.a*x+m.c*y+m.e,m.b*x+m.d*y+m.f];};lastPlacement={grounded:supported,shadowPoint:supported?projectLocal(b.supportX,b.supportY):null};if(lastMotion&&supported)lastMotion.shadowPoint=projectLocal(b.supportX,b.supportY);
+      if(a.version===5&&!mini&&supported){g.save();const y=b.supportY,r=b.bw*.31,shadow=g.createRadialGradient(0,0,0,0,0,r);shadow.addColorStop(0,'rgba(1,5,12,.22)');shadow.addColorStop(1,'rgba(1,5,12,0)');g.translate(b.supportX,y);g.scale(1,.14);g.fillStyle=shadow;g.fillRect(-r,-r,r*2,r*2);g.restore();}
       if(!reduced){const breath=motion?Math.sin(motion.cycle)*(motion.mode==='mechanical'?.25:1):Math.sin(time/1250);if(!supported){g.translate(a.version===5?(motion?.flow?.x||0)*.7:0,breath*2.3);g.scale(1+breath*.008,1-breath*.012);}}
-      if(lastMotion&&supported){lastMotion.supportPoint=projectLocal(0,b.supportY);lastMotion.contactPoints=b.contacts.map(p=>({source:p.source,point:projectLocal(...p.point)}));}
+      if(lastMotion&&supported){lastMotion.supportPoint=projectLocal(b.supportX,b.supportY);lastMotion.contactPoints=b.contacts.map(p=>({source:p.source,point:projectLocal(...p.point)}));}
       const isFront=p=>frontAnchors.has(p.anchor)||p.id==='additionalNeck';
       organs.filter(p=>!isFront(p)).sort((a,b)=>Number(!/ring|halo/i.test(a.id))-Number(!/ring|halo/i.test(b.id))).forEach(p=>organ(g,p,a,b,time,reduced));
-      if(a.version===5&&!mini&&reduced&&['avian','amphibian','arthropod','crystal','mechanical'].includes(a.bodyPlan)){g.save();const y=b.bh*.47,r=b.bw*.31,shadow=g.createRadialGradient(0,0,0,0,0,r);shadow.addColorStop(0,'rgba(1,5,12,.22)');shadow.addColorStop(1,'rgba(1,5,12,0)');g.translate(0,y);g.scale(1,.14);g.fillStyle=shadow;g.fillRect(-r,-r,r*2,r*2);g.restore();}
+
       anatomy(g,a,b);
       organs.filter(isFront).forEach(p=>organ(g,p,a,b,time,reduced));
       eyes(g,a,b);
@@ -498,7 +504,7 @@
       if(s&&images.get(s.file)){let [x,y,w,h]=s.region;if(part.crop){const c=s.anatomy?.crops?.[part.bodyPart]||part.crop;x+=w*c[0];y+=h*c[1];w*=c[2];h*=c[3];}const scale=Math.min(width/w,height/h);g.drawImage(images.get(s.file),x,y,w,h,(width-w*scale)/2,(height-h*scale)/2,w*scale,h*scale);}
       return target;
     }
-    return {prepare,draw,portrait,portraitAsync,organPortrait,cacheStats:()=>({palette:paletteCache.stats(),skin:skinCache.stats(),source:surfacePixels.stats(),emission:emissionCache.stats(),ecology:ecology?.stats()}),missingAssets:()=>[...missing],renderedKeys:()=>lastDraw.slice(),renderedSources:()=>lastSources.map(s=>({...s,region:s.region.slice()})),attachments:()=>lastAttachments.map(p=>({...p,source:p.source.slice(),point:p.point.slice()})),motion:()=>lastMotion?JSON.parse(JSON.stringify(lastMotion)):null,feeding:()=>lastFeeding?JSON.parse(JSON.stringify(lastFeeding)):null,assetVersion:config.version};
+    return {prepare,draw,portrait,portraitAsync,organPortrait,cacheStats:()=>({palette:paletteCache.stats(),skin:skinCache.stats(),source:surfacePixels.stats(),emission:emissionCache.stats(),ecology:ecology?.stats()}),missingAssets:()=>[...missing],renderedKeys:()=>lastDraw.slice(),renderedSources:()=>lastSources.map(s=>({...s,region:s.region.slice()})),attachments:()=>lastAttachments.map(p=>({...p,source:p.source.slice(),point:p.point.slice()})),placement:()=>JSON.parse(JSON.stringify(lastPlacement)),motion:()=>lastMotion?JSON.parse(JSON.stringify(lastMotion)):null,feeding:()=>lastFeeding?JSON.parse(JSON.stringify(lastFeeding)):null,assetVersion:config.version};
   }
   root.CreatureRenderer={create,materialFor,kineticsFor};
 })(window);
