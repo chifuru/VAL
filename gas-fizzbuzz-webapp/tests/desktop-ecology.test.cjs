@@ -99,3 +99,17 @@ test('habitat plants and key/fill illumination blend continuously with the plann
 test('twenty source lineages have bounded distinct materials while historical versions bypass the style',()=>{
  const vm=require('node:vm'),sandbox={window:{CreatureEngine:E,FoodScene:F,EnvironmentScene:H}};vm.runInNewContext(fs.readFileSync(path.join(root,'src/composite/renderer.js'),'utf8'),sandbox);const fn=sandbox.window.CreatureRenderer.materialFor,state=E.runAll(1000),styles=new Set();for(const l of E.LINEAGES){const m=fn({version:5,bodyLineage:l.id},state);assert.equal(m.id,l.id);assert.ok(m.contrast>=1&&m.contrast<=1.2&&m.saturation>=1&&m.saturation<=1.2&&m.emission>0&&m.emission<=1&&m.wave>=.6&&m.wave<=1.2);styles.add([m.contrast,m.saturation,m.rim,m.wave,m.lag].join(','));}assert.equal(styles.size,20);for(const version of [1,2,3,4])assert.equal(fn({version},state),null);
 });
+
+test('growth gestures follow actual stage and part level increases and remain bounded/idempotent',()=>{
+ let s=E.initial(1000),events=[],stages=[],organs=0;
+ for(let row=1;row<=1000;row++){const previous=s,before=E.appearanceFor(s);s=E.step(s,E.fmtFizzBuzz(row));const after=E.appearanceFor(s),saved=JSON.stringify(s);events=F.advanceGrowth(events,previous,s,before,after,row*100);assert.ok(events.length<=2);const current=events.filter(e=>e.sequence===row);for(const e of current){if(e.type==='evolution'){assert.ok(s.stage>previous.stage);stages.push(e.to);}else{assert.ok(e.sites.length>0&&e.sites.length<=4);organs++;}}assert.deepEqual(F.advanceGrowth(events,previous,s,before,after,row*100),events);assert.equal(JSON.stringify(s),saved);}
+ assert.deepEqual(stages,[1,2,3]);assert.ok(organs>15);assert.deepEqual(F.advanceGrowth(events,s,E.initial(927),E.appearanceFor(s),E.appearanceFor(E.initial(927)),1e6),[]);
+});
+test('growth presentation rejects future/expired events and has one smooth cycle',()=>{
+ for(const type of ['evolution','organ']){const duration=type==='evolution'?1800:1100,event={type,sites:['dorsal'],sequence:600,time:100};assert.deepEqual(F.growthReactions([event],99,600),[]);assert.deepEqual(F.growthReactions([event],300,599),[]);assert.deepEqual(F.growthReactions([event],100+duration,600),[]);assert.equal(F.growthReactions([event,event],100+duration/2,600).length,1);const peak=F.growthReactions([event],100+duration/2,600)[0];assert.equal(peak.strength,1);assert.equal(peak.duration,duration);}
+ assert.deepEqual(F.growthReactions([{type:'number',sequence:1,time:0}],1,1),[]);
+});
+
+test('overlapping fast food milestones carry the visible light level instead of cutting to black',()=>{
+ let previous=E.initial(1000),events=[],overlaps=0;for(let row=1;row<=1000;row++){const next=E.step(previous,E.fmtFizzBuzz(row)),time=row*50,old=F.reactions(events,time,row),updated=F.advanceEvents(events,previous,next,time);for(const e of updated.filter(e=>e.sequence===row)){const before=old.find(v=>v.kind===e.kind)?.strength||0,after=F.reactions(updated,time,row).find(v=>v.kind===e.kind).strength;assert.ok(Math.abs(before-after)<1e-9);if(before>0)overlaps++;}events=updated;previous=next;}assert.ok(overlaps>10);
+});

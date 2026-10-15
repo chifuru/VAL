@@ -19,20 +19,41 @@
   const retained=active(events,time,next.current),kind=next.lastMeal?.kind,count=next.foods[kind];
   if(next.current!==previous.current+1||!milestone(kind,count)||count!==previous.foods[kind]+1)return retained;
   if(retained.some(e=>e.kind===kind&&e.count>=count))return retained;
-  return active([...retained.filter(e=>e.kind!==kind),{kind,count,sequence:next.current,time,duration:durations[kind]}],time,next.current);
+  return active([...retained.filter(e=>e.kind!==kind),{kind,count,sequence:next.current,time,duration:durations[kind],carry:reactions(retained,time,next.current).find(e=>e.kind===kind)?.strength||0}],time,next.current);
  }
  function reactions(events,time,sequence){
   return active(events,time,sequence).map(e=>{
    const progress=(time-e.time)/e.duration,envelope=Math.sin(progress*Math.PI)**2;
-   const strength=envelope;
+   const strength=envelope+(1-envelope)*(e.carry||0)*(1-progress)**3;
    return {...e,progress,strength,color:colors[e.kind]};
   });
  }
  function profileFor(bodyPlan,kind){
-  if(kind==='buzz')return {mode:'ground-glow',site:'ground'};
-  if(kind==='fizzbuzz'){const dorsal=['aquatic','whale','serpent','arthropod','cephalopod'].includes(bodyPlan);return {mode:dorsal?'dorsal-glow':'crown-glow',site:dorsal?'dorsal':'head'};}
-  if(kind==='fizz')return {mode:['jelly','cephalopod','botanical','ethereal'].includes(bodyPlan)?'oral-fold':'jaw',site:'mouth'};
+  if(kind==='buzz')return {mode:'ground-glow',site:'ground',glow:'whole-body',movement:'settle'};
+  if(kind==='fizzbuzz'){const dorsal=['aquatic','whale','serpent','arthropod','cephalopod'].includes(bodyPlan);return {mode:dorsal?'dorsal-glow':'crown-glow',site:dorsal?'dorsal':'head',glow:'whole-body',movement:'wave'};}
+  if(kind==='fizz')return {mode:['jelly','cephalopod','botanical','ethereal'].includes(bodyPlan)?'oral-fold':'jaw',site:'mouth',glow:'whole-body',movement:'contract'};
   return null;
+ }
+ // Presentation-only events come from real stage/level increases, never a timer lottery.
+ const growthDurations={evolution:1800,organ:1100};
+ function activeGrowth(events,time,sequence){
+  const found=new Map();for(const e of events){if(!Object.hasOwn(growthDurations,e.type)||!Number.isInteger(e.sequence)||e.sequence<1||e.sequence>sequence||!Number.isFinite(e.time)||time<e.time||time-e.time>=growthDurations[e.type])continue;const old=found.get(e.type);if(!old||e.sequence>old.sequence)found.set(e.type,e);}
+  return [...found.values()];
+ }
+ function growthReactions(events,time,sequence){return activeGrowth(events,time,sequence).map(e=>{const duration=growthDurations[e.type],progress=(time-e.time)/duration;return {...e,duration,progress,strength:Math.sin(progress*Math.PI)**2};});}
+ function advanceGrowth(events,previous,next,before,after,time){
+  if(previous.seed!==next.seed)return [];const retained=activeGrowth(events,time,next.current);
+  if(next.current!==previous.current+1)return retained;
+  let event=null;
+  if(next.stage>previous.stage)event={type:'evolution',from:previous.stage,to:next.stage,sites:['torso'],sequence:next.current,time};
+  else{const anchors={torso:'flank',head:'head',eyes:'eye',tail:'tailTip',fin:'shoulder',limb:'forelimb',shell:'dorsal'},sites=[];
+   for(const key of Object.keys(anchors))if(after.anatomy[key].level>before.anatomy[key].level)sites.push(anchors[key]);
+   const prior=new Map([...before.inheritedOrgans,...before.organs].map(p=>[p.lineage+':'+p.id,p.level]));
+   for(const p of [...after.inheritedOrgans,...after.organs])if(p.level>(prior.get(p.lineage+':'+p.id)||0))sites.push(p.anchor||'flank');
+   if(sites.length)event={type:'organ',sites:[...new Set(sites)].slice(0,4),sequence:next.current,time};
+  }
+  if(!event||retained.some(e=>e.type===event.type&&e.sequence>=event.sequence))return retained;
+  return [...retained.filter(e=>e.type!==event.type),event];
  }
  function seed(g,x,y,size,variant,alpha=1){
   g.save();g.translate(x,y);g.globalAlpha*=alpha;g.rotate(variant*.7);g.fillStyle='#c2edf0';g.strokeStyle='#74bdbf';g.lineWidth=.8;
@@ -57,5 +78,5 @@
    return {kind:e.kind,count:e.count,sequence:e.sequence,progress:e.progress,strength:e.strength,duration:e.duration,jawOpen:e.kind==='fizz'?e.strength:0,oral:e.kind==='fizz'?b.oral:null,eyePoint,point,...profile};
   });
  }
- return {quotas,durations,milestone,advanceEvents,reactions,profileFor,seed,draw};
+ return {quotas,durations,milestone,advanceEvents,reactions,profileFor,advanceGrowth,growthReactions,seed,draw};
 });

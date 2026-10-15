@@ -99,7 +99,7 @@ async function packageWindows(options = {}) {
     await fs.rm(destination,{recursive:true,force:true});
     await fs.rename(packaged[0],destination);
     const checks = await validateOutput(destination,staging,asar);
-    await fs.writeFile(path.join(destination,'README.txt'),'VALIS — Windows 10/11 x64\r\n\r\nZIPをすべて展開し、VALIS.exeをダブルクリックしてください。\r\nexeだけを移動せず、DLL・resources・localesを同じフォルダに保ってください。\r\nNode.js、npm、ブラウザ、GASへの接続は不要です。\r\n個体記録はWindowsのユーザーデータ領域に保存されます。\r\nデスクトップへはVALIS.exeのショートカットを作成できます。\r\n\r\nこの配布物は署名されていません。Windowsの起動表示は環境によって異なります。\r\nLICENSEおよびLICENSES.chromium.htmlを同梱しています。\r\n');
+    await fs.writeFile(path.join(destination,'README.txt'),'VALIS — Windows 10/11 x64\r\n\r\nZIPをすべて展開し、VALIS.exeをダブルクリックしてください。\r\nexeだけを移動せず、DLL・resources・localesを同じフォルダに保ってください。\r\nNode.js、npm、ブラウザ、GASへの接続は不要です。\r\n図鑑は今回の起動中だけ記録され、アプリを閉じるとリセットされます。過去の図鑑ファイルは読み書きしません。\r\nデスクトップへはVALIS.exeのショートカットを作成できます。\r\n\r\nこの配布物は署名されていません。Windowsの起動表示は環境によって異なります。\r\nLICENSEおよびLICENSES.chromium.htmlを同梱しています。\r\n');
     const sums = [];
     for (const file of await walk(destination)) sums.push(await digest(file) + '  ' + path.relative(destination,file).split(path.sep).join('/'));
     await fs.writeFile(path.join(destination,'SHA256SUMS.txt'),sums.join('\n') + '\n');

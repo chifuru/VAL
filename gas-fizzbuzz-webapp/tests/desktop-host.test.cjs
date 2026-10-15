@@ -7,7 +7,7 @@ const os = require('node:os');
 const vm = require('node:vm');
 const {EventEmitter} = require('node:events');
 const {pathToFileURL} = require('node:url');
-const {HistoryStore,validateRecord} = require('../src/desktop/history-store.cjs');
+const {HistoryStore,validateRecord} = require('./archive/history-store-v1.6.0.cjs');
 const {createDesktopApp,localEntry,trustedSender} = require('../src/desktop/main.cjs');
 const PNG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aR1kAAAAASUVORK5CYII=';
 function record(id = 'run-a',seed = 15) {
@@ -130,4 +130,12 @@ test('engine5 awakening records and legacy4 coexist, retaining edition boundarie
  await store.save(a);await store.save(b);const list=(await store.list()).records;assert.deepEqual(list.find(r=>r.runId===a.runId),a);assert.deepEqual(list.find(r=>r.runId===b.runId),b);
  assert.throws(()=>validateRecord({...a,state:{...a.state,appearanceRevision:2}}),/生態版/);
  await assert.rejects(()=>store.save({...b,engineVersion:5,state:a.state}),/Nと再生位置|出生記録/);
+});
+
+test('current session archive stores only final results and starts empty in each process',async()=>{
+ const {SessionStore}=require('../src/desktop/history-store.cjs'),a=new SessionStore(),b=new SessionStore();const first=record('first'),second=record('second');await a.save(first);await a.save(second);assert.deepEqual((await a.list()).records.map(r=>r.runId),['second','first']);assert.deepEqual((await b.list()).records,[]);const list=await a.list();list.records[0].state.points=88;assert.equal((await a.list()).records[0].state.points,2);const partial=record('partial');partial.status='paused';partial.processed=1;partial.state.current=1;await assert.rejects(a.save(partial),/完走/);await assert.rejects(a.save({...first,state:{...first.state,points:3}}),/変更/);await a.save(first);assert.equal((await a.list()).records.length,2);a.clear();assert.deepEqual((await a.list()).records,[]);
+});
+
+test('current archive module has no filesystem dependency even with a large corrupt legacy archive',async t=>{
+ const dir=await directory(t),legacy=path.join(dir,'history.json'),bytes='corrupt '+'x'.repeat(4*1024*1024);await fs.writeFile(legacy,bytes);const source=await fs.readFile(path.join(__dirname,'../src/desktop/history-store.cjs'),'utf8'),module={exports:{}};vm.runInNewContext(source,{module,structuredClone,require:name=>{assert.equal(name,'./record-schema.cjs');return require('../src/desktop/record-schema.cjs');}});const store=new module.exports.SessionStore();await store.save(record());await store.flush();assert.equal(await fs.readFile(legacy,'utf8'),bytes);assert.deepEqual(await fs.readdir(dir),['history.json']);assert.equal((await store.list()).warning,null);
 });

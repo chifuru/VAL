@@ -34,15 +34,11 @@ async function nativeSmoke(options = {}) {
     rounds.push(report);return report;
   }
   try {
-    const created = await run('create');
-    const first = JSON.parse(await fs.readFile(path.join(userData,'specimens','history.json'),'utf8'));
-    const restored = await run('restore');
-    assert.deepEqual(restored.records,created.records,'relaunch lost creature records');
-    const second = JSON.parse(await fs.readFile(path.join(userData,'specimens','history.json'),'utf8'));
-    const stable = saved => saved.records.map(r => ({runId:r.runId,seed:r.seed,status:r.status,state:r.state,snapshots:r.snapshots,portrait:r.portrait})).sort((a,b)=>a.runId.localeCompare(b.runId));
-    assert.deepEqual(stable(second),stable(first),'relaunch changed saved DNA, parts, snapshots or portrait');
-    assert.equal(second.records.length,2,'preview or extra demo records were saved');
-    const report = {scope:'Native Electron run and process restart on ' + process.platform,platform:process.platform,arch:process.arch,packaged:Boolean(packaged),rounds,checks:['actual local renderer launch','N15 original output','N1000 full calibration','two independent real runs','prepare-close save/flush','process restart preserves state, phase snapshots and portraits'],generatedAt:new Date().toISOString()};
+    const history=path.join(userData,'specimens');await fs.mkdir(history,{recursive:true});const legacy='old archive is intentionally not parsed\n'+'x'.repeat(4*1024*1024);await fs.writeFile(path.join(history,'history.json'),legacy);await fs.writeFile(path.join(history,'history.backup.json'),'untouched backup');
+    const created=await run('create');assert.equal(created.records.length,2,'current process records both completed results');
+    const restored=await run('restore');assert.deepEqual(restored.records,[],'relaunch must start with empty archive');
+    assert.equal(await fs.readFile(path.join(history,'history.json'),'utf8'),legacy,'legacy archive changed');assert.equal(await fs.readFile(path.join(history,'history.backup.json'),'utf8'),'untouched backup');assert.deepEqual((await fs.readdir(history)).sort(),['history.backup.json','history.json'],'session storage created history files');
+    const report={scope:'Native Electron session archive and process restart on '+process.platform,platform:process.platform,arch:process.arch,packaged:Boolean(packaged),rounds,checks:['actual local renderer launch','N15 original output','N1000 full calibration','two completed session results','whole-body nutritional motions','restart empties the archive','legacy four-MiB history and backup remain byte-identical'],generatedAt:new Date().toISOString()};
     await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2) + '\n');
     console.log(JSON.stringify(report,null,2));return report;
   } finally { await fs.rm(userData,{recursive:true,force:true}); }
