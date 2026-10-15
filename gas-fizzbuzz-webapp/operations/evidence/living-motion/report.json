@@ -93,7 +93,14 @@
     "passed": true,
     "zipSha256": "922da1051de25e3756767f399dcbee784c1595653afc72159fef1a33981e56c9"
   },
-  "hostedWindows": "Independent execution required; E30 not reused",
+  "hostedWindows": {
+    "run": 38655161064,
+    "job": 116163062614,
+    "targetCommit": "9021f18857f3cfe9fcfc8293304a77e388d0c6dd",
+    "conclusion": "success",
+    "evidence": "E32",
+    "observed": "Public unconditional step conclusions, not authenticated raw logs"
+  },
   "visualAssessment": {
     "observer": "Codex rendered frame comparison and verified decoded videos",
     "userAcceptance": "unperformed"
@@ -101,5 +108,10 @@
   "remaining": [
     "Windows10/11 user-device visual/DPI/FPS acceptance",
     "User motion preference acceptance"
-  ]
+  ],
+  "hostedBrowser": {
+    "run": 38655160956,
+    "job": 116163062084,
+    "conclusion": "success"
+  }
 }

@@ -1,0 +1,57 @@
+{
+  "generatedAt": "2026-10-15T04:10:25.573691+00:00",
+  "appVersion": "1.3.2",
+  "engineVersion": 4,
+  "appearanceRevision": 2,
+  "assetVersion": "desktop-art-v4.1",
+  "valis": "Operation v2.0 prerequisite feedback, FLOW-04/08/05, A/B/C/D/E and output gate reconciled",
+  "manifest": {
+    "counts": {
+      "A": 9,
+      "B": 11,
+      "C": 17,
+      "D": 10,
+      "E": 32
+    },
+    "total": 79,
+    "allDraft": true,
+    "initialRegistered": [
+      "E31",
+      "E32"
+    ],
+    "reflected": [
+      "A1.5",
+      "B1.5",
+      "C1.5",
+      "C1.5.3",
+      "C1.7",
+      "D1.3.2",
+      "D1.3.3",
+      "D1.5",
+      "D1.6"
+    ]
+  },
+  "targetCommit": "9021f18857f3cfe9fcfc8293304a77e388d0c6dd",
+  "projectExecutionInputs": 142,
+  "workflowExecutionInputs": 2,
+  "definitionSnapshots": 47,
+  "protectedCoreAndMocks": 23,
+  "results": {
+    "unit": 44,
+    "browser": 373,
+    "motion": 129,
+    "nativeCreate": 19,
+    "nativeRestore": 13,
+    "lineagesAndPriorStillPixelEquality": 20,
+    "motionFramesPerLineage": 4,
+    "canvasVideos": 3,
+    "zipFilesVerified": 74,
+    "hostedWindows": "success",
+    "hostedBrowser": "success"
+  },
+  "remaining": [
+    "User visual/motion acceptance",
+    "Windows10/11 user-device DPI/FPS acceptance"
+  ],
+  "nextFlow": "FLOW-08 user acceptance / FLOW-04 concrete feedback"
+}

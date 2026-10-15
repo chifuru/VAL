@@ -5,14 +5,13 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 全78ノード（A9/B11/C17/D10/E31）を草案に統一。旧版承認は現在無効。ユーザー指示でFizzBuzz範囲を書換可能。
+current_status: 全79ノード（A9/B11/C17/D10/E32）を草案に統一。旧版承認は現在無効。ユーザー指示でFizzBuzz範囲を書換可能。
 definition_baseline: living-motion-2026-10-14。operations/plans/2026-10-14-living-motion.md。
-initial_registration_this_change: E31。旧証跡は各旧対象版に限定。
-manifest_reflection_this_change: A1.5/B1.5/C1.5/C1.5.3/D1.3.2/D1.3.3の生体運動/摂取反応/静止画保全とE31への接続を反映。
-prior_morphology_reflection: A1.5/B1.5、C1.5/C1.5.2.2/C1.4.3/C1.7/C1.8、D1.2/D1.3.2/D1.5/D1.6の系統輪郭/体表接続/外見版保全とE29/E30への読解経路を反映。
+initial_registration_this_change: E31, E32。旧証跡は各旧対象版に限定。
+manifest_reflection_this_change: A1.5/B1.5/C1.5/C1.5.3/D1.3.2/D1.3.3の生体運動/摂取反応/静止画保全とE31/E32への接続、C1.7/D1.5/D1.6の今回結果を反映。
 approval_basis: ユーザーが全FizzBuzzノードを草案と指定。旧承認は現在無効、アーカイブは旧版の識別にのみ使用。
-unresolved_summary: 今回版ローカル実結果はE31。hosted Windowsは今回対象SHAで実行後に独立証跡へ記録する。利用者実機/美術受入は未認定。
-evidence_scope: E1〜E30は各指定旧対象版に限定。今回版ローカルはE31。検証による自動承認は行わない。
+unresolved_summary: 今回版ローカル実結果はE31。hosted Windowsの実exe描画/起動/保存復元はE32。利用者実機/美術受入は未認定。
+evidence_scope: E1〜E30は各指定旧対象版に限定。今回版ローカルはE31、hosted WindowsはE32。検証による自動承認は行わない。
 
 ## 読解経路と責務
 
@@ -43,7 +42,7 @@ A1:（ / Windows FizzBuzz生物育成アプリ統合仕様）［草案］
 
 	A1.5:（A1 / DNA身体と複数部位成長・観測表示仕様）［草案］
 		Node File: valis/nodes/A/A1.5.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: Node本文の現在版と状態を参照。
-		要約: DNA身体と複数部位成長・観測表示仕様。処理フラグ: 今回の生体運動/摂取反応/静止保全はE31へ。利用者受入は未認定。次FLOW: FLOW-08。
+		要約: DNA身体と複数部位成長・観測表示仕様。処理フラグ: 今回の生体運動/摂取反応/静止保全はE31、hosted WindowsはE32へ。利用者受入は未認定。次FLOW: FLOW-08。
 
 	A1.6:（A1 / 入力Nからの不変DNAと初期個体仕様）［草案］
 		Node File: valis/nodes/A/A1.6.md。parent_id: A1。参照種別: 仕様/制約。状態根拠: Node本文の現在版と状態を参照。
@@ -89,7 +88,7 @@ B1:（A1 / Windows生物育成の機能接合索引）［草案］
 
 	B1.5:（A1.5, A1.3, A1.6 / 独立PNG部位の成長描画・摂取観測機能）［草案］
 		Node File: valis/nodes/B/B1.5.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: Node本文の現在版と状態を参照。
-		要約: 独立PNG部位の成長描画・摂取観測機能。処理フラグ: 今回の生体運動/摂取反応/静止保全はE31へ。利用者受入は未認定。次FLOW: FLOW-08。
+		要約: 独立PNG部位の成長描画・摂取観測機能。処理フラグ: 今回の生体運動/摂取反応/静止保全はE31、hosted WindowsはE32へ。利用者受入は未認定。次FLOW: FLOW-08。
 
 	B1.6:（A1.6 / N全体のDNA生成と出生前個体構築機能）［草案］
 		Node File: valis/nodes/B/B1.6.md。parent_id: B1。参照種別: derived_from/機能接合。状態根拠: Node本文の現在版と状態を参照。
@@ -341,3 +340,7 @@ E30:（D1.5, D1.6, C1.5, C1.8, C1.7 / 系統輪郭revision2のWindows実exe配�
 E31:（D1.3.2, D1.3.3, D1.5, D1.6, C1.5, C1.5.3 / 系統別生体運動・摂取反応のローカル検証証跡）［草案］
 	Node File: valis/nodes/E/E31.md。独立証跡、parent_idなし。参照種別: evidence_for。
 	要約: app1.3.2の20系統運動/体表根元/実摂取反応/静止画保全、実Linux起動復元と配布整合。対象SHAはliving-motion/へ。実機/美術受入は未認定。次FLOW: FLOW-08/05。
+
+E32:（D1.5, D1.6, D1.3.2, C1.5, C1.7 / 生体運動版Windows実exe配布・保存復元証跡）［草案］
+	Node File: valis/nodes/E/E32.md。独立証跡、parent_idなし。参照種別: evidence_for。
+	要約: 対象9021f18のhosted Windows生体描画/静止画不変/起動保存復元/全ZIP照合を公開結論で確認。認証付きCI画像/JSONと利用者実機/受入は未認定。次FLOW: FLOW-08/05。

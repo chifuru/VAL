@@ -5,3 +5,5 @@ app1.3.2/ENGINE4/appearanceRevision2/art-v4.1。既存20系統を12身体型の�
 詳細はliving-motion/report.jsonとtarget-sha256.json。単体44件、既存画面373項目、運動129項目、実Linux Electron作成19/再起動13項目。静止の20最終形態は前回版とピクセル一致。旧3/旧4四相と計算も保持。
 
 motion/には各系統の実フレーム、クラゲ・多頭蛇・神鳥の実Canvas動画、Chromium結果とFFprobeによる動画検査。native-linux/には実Electron結果。Codexによるフレーム比較であり利用者美術/FPS受入ではない。全ノードは草案。
+
+Windows実exeはrun38655161064（対象9021f18857f3cfe9fcfc8293304a77e388d0c6dd）の描画/静止時刻不変/明示開始/保存復元と全ZIP照合がsuccessでE32へ記録。hosted Chromiumもrun38655160956がsuccess。公開結論を取得し、認証付き生ログ/CI画像・JSONは未読。artifact11936641631、外側digest sha256:37233b92a7ca3a14cc7e916149473afd4f43b45331c1e1bd14d8001de3056573。
