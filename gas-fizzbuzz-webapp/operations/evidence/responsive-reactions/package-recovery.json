@@ -1,0 +1,8 @@
+{
+  "initialAttempt": "EAI_AGAIN resolving github.com; prior output was rejected as stale",
+  "resolution": "Used existing official cache /workspace/val-desktop-setup/downloads with pinned official runtime SHA validation",
+  "finalCommandExit": 0,
+  "packageGeneratedAt": "2026-10-15T12:05:12.103Z",
+  "versionVerifiedFromAsar": "1.7.0",
+  "allCurrentSourceBytesAndAllZipChecksumsVerified": true
+}

@@ -4,9 +4,9 @@ Windows 10 / 11 x64向け。入力N（1〜1000）からDNAと生息環境を定�
 
 ## ダウンロード・起動
 
-[確認済み v1.6.0 のWindows配布](https://github.com/chifuru/VAL/actions/runs/38727120662)のArtifactsから `VALIS-Windows-x64` を取得してください。外側の成果物ZIPと、中の `VALIS-Windows-x64.zip` をすべて展開し、`VALIS.exe` をダブルクリックします。DLL・resources・localesも同じフォルダに必要です。利用時にNode.js・npm・GAS・インターネット接続は不要です。
+[確認済み v1.7.0 のWindows配布](https://github.com/chifuru/VAL/actions/runs/38731549170)のArtifactsから `VALIS-Windows-x64` を取得してください。外側の成果物ZIPと、中の `VALIS-Windows-x64.zip` をすべて展開し、`VALIS.exe` をダブルクリックします。DLL・resources・localesも同じフォルダに必要です。利用時にNode.js・npm・GAS・インターネット接続は不要です。
 
-ソースの現在版はv1.7.0。上の取得先は実exe検証済み版を指し、新版CIの実結果後に更新します。成果物は30日保存。ソースZIPには実行体を含みません。Windows利用者実機での表示・FPS・美術受入は別確認です。
+v1.7.0の配布/実exe起動/次起動図鑑リセットをCIで照合しています。成果物は30日保存。ソースZIPには実行体を含みません。Windows利用者実機での表示・FPS・美術受入は別確認です。
 
 ## 操作と図鑑
 

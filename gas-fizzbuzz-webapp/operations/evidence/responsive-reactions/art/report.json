@@ -1,0 +1,217 @@
+{
+  "generatedAt": "2026-10-15T12:02:10.149Z",
+  "browser": "154.0.8037.57",
+  "scope": "Actual local PNG rendering: v1.5.1/v1.7.0 source-body material comparison,20 real mature states under four controlled pure-habitat light fixtures,not 80 actual evolution paths or user art acceptance",
+  "checks": [
+    "material changes real source pixels abyss",
+    "material preserves integrated source silhouette abyss",
+    "habitat light changes actual body material abyss",
+    "four integrated habitat scenes remain distinct abyss",
+    "material changes real source pixels myth",
+    "material preserves integrated source silhouette myth",
+    "habitat light changes actual body material myth",
+    "four integrated habitat scenes remain distinct myth",
+    "material changes real source pixels recursive",
+    "material preserves integrated source silhouette recursive",
+    "habitat light changes actual body material recursive",
+    "four integrated habitat scenes remain distinct recursive",
+    "material changes real source pixels sail",
+    "material preserves integrated source silhouette sail",
+    "habitat light changes actual body material sail",
+    "four integrated habitat scenes remain distinct sail",
+    "material changes real source pixels gravity",
+    "material preserves integrated source silhouette gravity",
+    "habitat light changes actual body material gravity",
+    "four integrated habitat scenes remain distinct gravity",
+    "material changes real source pixels crystal",
+    "material preserves integrated source silhouette crystal",
+    "habitat light changes actual body material crystal",
+    "four integrated habitat scenes remain distinct crystal",
+    "material changes real source pixels manyeyes",
+    "material preserves integrated source silhouette manyeyes",
+    "habitat light changes actual body material manyeyes",
+    "four integrated habitat scenes remain distinct manyeyes",
+    "material changes real source pixels abyssshell",
+    "material preserves integrated source silhouette abyssshell",
+    "habitat light changes actual body material abyssshell",
+    "four integrated habitat scenes remain distinct abyssshell",
+    "material changes real source pixels parallel",
+    "material preserves integrated source silhouette parallel",
+    "habitat light changes actual body material parallel",
+    "four integrated habitat scenes remain distinct parallel",
+    "material changes real source pixels memory",
+    "material preserves integrated source silhouette memory",
+    "habitat light changes actual body material memory",
+    "four integrated habitat scenes remain distinct memory",
+    "material changes real source pixels serpent",
+    "material preserves integrated source silhouette serpent",
+    "habitat light changes actual body material serpent",
+    "four integrated habitat scenes remain distinct serpent",
+    "material changes real source pixels solar",
+    "material preserves integrated source silhouette solar",
+    "habitat light changes actual body material solar",
+    "four integrated habitat scenes remain distinct solar",
+    "material changes real source pixels antimeme",
+    "material preserves integrated source silhouette antimeme",
+    "habitat light changes actual body material antimeme",
+    "four integrated habitat scenes remain distinct antimeme",
+    "material changes real source pixels valis",
+    "material preserves integrated source silhouette valis",
+    "habitat light changes actual body material valis",
+    "four integrated habitat scenes remain distinct valis",
+    "material changes real source pixels jelly",
+    "material preserves integrated source silhouette jelly",
+    "habitat light changes actual body material jelly",
+    "four integrated habitat scenes remain distinct jelly",
+    "material changes real source pixels kelp",
+    "material preserves integrated source silhouette kelp",
+    "habitat light changes actual body material kelp",
+    "four integrated habitat scenes remain distinct kelp",
+    "material changes real source pixels whale",
+    "material preserves integrated source silhouette whale",
+    "habitat light changes actual body material whale",
+    "four integrated habitat scenes remain distinct whale",
+    "material changes real source pixels swarm",
+    "material preserves integrated source silhouette swarm",
+    "habitat light changes actual body material swarm",
+    "four integrated habitat scenes remain distinct swarm",
+    "material changes real source pixels plasma",
+    "material preserves integrated source silhouette plasma",
+    "habitat light changes actual body material plasma",
+    "four integrated habitat scenes remain distinct plasma",
+    "material changes real source pixels cephalopod",
+    "material preserves integrated source silhouette cephalopod",
+    "habitat light changes actual body material cephalopod",
+    "four integrated habitat scenes remain distinct cephalopod",
+    "actual habitat gallery saved 0",
+    "actual habitat gallery saved 1",
+    "actual habitat gallery saved 2",
+    "actual habitat gallery saved 3",
+    "no page errors"
+  ],
+  "errors": [],
+  "lineages": 20,
+  "habitatFixtures": 80,
+  "comparisons": [
+    {
+      "id": "abyss",
+      "N": 945,
+      "changedPixels": 19203,
+      "silhouetteOverlap": 0.9998080982536941
+    },
+    {
+      "id": "myth",
+      "N": 928,
+      "changedPixels": 15938,
+      "silhouetteOverlap": 0.9994157016891533
+    },
+    {
+      "id": "recursive",
+      "N": 904,
+      "changedPixels": 22109,
+      "silhouetteOverlap": 0.9994246922103325
+    },
+    {
+      "id": "sail",
+      "N": 943,
+      "changedPixels": 21603,
+      "silhouetteOverlap": 0.9991765480895916
+    },
+    {
+      "id": "gravity",
+      "N": 919,
+      "changedPixels": 19916,
+      "silhouetteOverlap": 0.9995860736788852
+    },
+    {
+      "id": "crystal",
+      "N": 901,
+      "changedPixels": 24780,
+      "silhouetteOverlap": 0.9993915887139706
+    },
+    {
+      "id": "manyeyes",
+      "N": 934,
+      "changedPixels": 23003,
+      "silhouetteOverlap": 0.9995674740484429
+    },
+    {
+      "id": "abyssshell",
+      "N": 916,
+      "changedPixels": 26392,
+      "silhouetteOverlap": 0.9998631121453749
+    },
+    {
+      "id": "parallel",
+      "N": 949,
+      "changedPixels": 14433,
+      "silhouetteOverlap": 0.999934929724102
+    },
+    {
+      "id": "memory",
+      "N": 909,
+      "changedPixels": 23423,
+      "silhouetteOverlap": 0.9993890331449519
+    },
+    {
+      "id": "serpent",
+      "N": 914,
+      "changedPixels": 5862,
+      "silhouetteOverlap": 0.9997541185148758
+    },
+    {
+      "id": "solar",
+      "N": 924,
+      "changedPixels": 15665,
+      "silhouetteOverlap": 0.9999395551257253
+    },
+    {
+      "id": "antimeme",
+      "N": 903,
+      "changedPixels": 20749,
+      "silhouetteOverlap": 0.999591614484073
+    },
+    {
+      "id": "valis",
+      "N": 908,
+      "changedPixels": 23883,
+      "silhouetteOverlap": 0.9976482976482977
+    },
+    {
+      "id": "jelly",
+      "N": 918,
+      "changedPixels": 11394,
+      "silhouetteOverlap": 0.9997679993813317
+    },
+    {
+      "id": "kelp",
+      "N": 900,
+      "changedPixels": 31920,
+      "silhouetteOverlap": 0.9996177482431121
+    },
+    {
+      "id": "whale",
+      "N": 902,
+      "changedPixels": 22955,
+      "silhouetteOverlap": 0.9993542919407563
+    },
+    {
+      "id": "swarm",
+      "N": 913,
+      "changedPixels": 14334,
+      "silhouetteOverlap": 0.9997035807446052
+    },
+    {
+      "id": "plasma",
+      "N": 917,
+      "changedPixels": 24436,
+      "silhouetteOverlap": 0.9980428183415881
+    },
+    {
+      "id": "cephalopod",
+      "N": 930,
+      "changedPixels": 13964,
+      "silhouetteOverlap": 0.9996782703815713
+    }
+  ]
+}

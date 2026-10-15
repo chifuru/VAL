@@ -1,0 +1,14 @@
+startupMs 791
+load 1000 { paintMs: 49.29999999701977, status: '開始待ち', busy: false }
+load 927 { paintMs: 90.90000000596046, status: '開始待ち', busy: false }
+load 945 { paintMs: 55, status: '開始待ち', busy: false }
+load 600 { paintMs: 84.70000000298023, status: '開始待ち', busy: false }
+start100ms {
+  elapsed: 110.30000001192093,
+  status: '保存中',
+  button: '② スタート',
+  row: 0,
+  busy: true
+}
+firstRowMs 731.2000000029802
+pause100ms { elapsed: 104.80000001192093, button: '一時停止', status: '育成中', row: 1 }

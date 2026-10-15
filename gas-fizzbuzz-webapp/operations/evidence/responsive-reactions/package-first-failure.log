@@ -1,0 +1,18 @@
+
+> valis-fizzbuzz-desktop@1.7.0 package:windows
+> node tools/package-windows.cjs
+
+[TypeError: fetch failed] {
+  [cause]: Error: getaddrinfo EAI_AGAIN github.com
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26) {
+    errno: -3001,
+    code: 'EAI_AGAIN',
+    syscall: 'getaddrinfo',
+    hostname: 'github.com'
+  }
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

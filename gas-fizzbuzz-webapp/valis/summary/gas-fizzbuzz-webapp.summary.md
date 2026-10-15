@@ -5,13 +5,13 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 全101ノード（A9/B13/C21/D12/E46）を草案に統一。旧承認は無効、今回の定義変更も自動承認しない。
+current_status: 全103ノード（A9/B13/C21/D12/E48）を草案に統一。旧承認は無効、今回の定義変更も自動承認しない。
 definition_baseline: responsive-reactions-2026-10-15。operations/plans/2026-10-15-responsive-reactions.md。
-initial_registration_this_change: なし（変更後検証前）。
+initial_registration_this_change: E47/E48。機能責務の追加分割なし。
 manifest_reflection_this_change: A1、A1.2、A1.3、A1.5、A1.7、A1.8、B1.2、B1.5、B1.5.1、B1.7、B1.8、C1.3、C1.5、C1.5.3、C1.5.4、C1.7、C1.8、D1、D1.3.3、D1.3.4、D1.5、D1.6の操作応答/食種別全身反応/実相・部位成長/起動中図鑑へ責務と処理フラグを反映。
 approval_basis: 全FizzBuzzノード草案という利用者指示を維持。既存責務/変更単位で今回指示を具体化。
 unresolved_summary: 利用者Windows10/11実機の倍率/FPSと美術受入は未認定。
-evidence_scope: 今回app1.7.0は変更後検証前。E1〜E46は各旧対象版/環境限定。
+evidence_scope: 今回app1.7.0はE47（ローカル）/E48（hosted Windows）。E1〜E46は各旧対象版/環境限定。
 
 ## 読解経路と責務
 
@@ -21,7 +21,7 @@ ID階層/parent_idは同一層だけ。層間はderived_from/implements/verifies
 
 A1:（ / Windows FizzBuzz生物育成アプリ統合仕様）［草案］
 	Node File: valis/nodes/A/A1.md。独立起点、parent_idなし。
-	要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+	要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 	A1.1:（A1 / 入力整数とローカルFizzBuzz出力契約）［草案］
 		Node File: valis/nodes/A/A1.1.md。parent_id: A1（同一層）。
@@ -29,11 +29,11 @@ A1:（ / Windows FizzBuzz生物育成アプリ統合仕様）［草案］
 
 	A1.2:（A1 / 出力・摂取・実個体の同期再生仕様）［草案］
 		Node File: valis/nodes/A/A1.2.md。parent_id: A1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 	A1.3:（A1 / 4種energyの摂取・調節・色彩と体積仕様）［草案］
 		Node File: valis/nodes/A/A1.3.md。parent_id: A1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 	A1.4:（A1 / 三形態の成長・系統分岐と条件覚醒仕様）［草案］
 		Node File: valis/nodes/A/A1.4.md。parent_id: A1（同一層）。
@@ -41,7 +41,7 @@ A1:（ / Windows FizzBuzz生物育成アプリ統合仕様）［草案］
 
 	A1.5:（A1 / DNA身体と複数部位成長・観測表示仕様）［草案］
 		Node File: valis/nodes/A/A1.5.md。parent_id: A1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 	A1.6:（A1 / 入力Nからの不変DNAと初期個体仕様）［草案］
 		Node File: valis/nodes/A/A1.6.md。parent_id: A1（同一層）。
@@ -49,11 +49,11 @@ A1:（ / Windows FizzBuzz生物育成アプリ統合仕様）［草案］
 
 	A1.7:（A1 / Windows即起動配布とローカル画像仕様）［草案］
 		Node File: valis/nodes/A/A1.7.md。parent_id: A1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 	A1.8:（A1 / 起動中だけの最終結果図鑑）［草案］
 		Node File: valis/nodes/A/A1.8.md。parent_id: A1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 
 ## B
@@ -68,7 +68,7 @@ B1:（A1 / Windows生物育成の機能接合索引）［草案］
 
 	B1.2:（A1.2 / 行・energy同期再生と完走操作機能）［草案］
 		Node File: valis/nodes/B/B1.2.md。parent_id: B1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 	B1.3:（A1.3 / 4energy分類・摂取集計・数字調節機能）［草案］
 		Node File: valis/nodes/B/B1.3.md。parent_id: B1（同一層）。
@@ -88,11 +88,11 @@ B1:（A1 / Windows生物育成の機能接合索引）［草案］
 
 	B1.5:（A1.5, A1.3, A1.6 / 独立PNG部位の成長描画・摂取観測機能）［草案］
 		Node File: valis/nodes/B/B1.5.md。parent_id: B1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 		B1.5.1:（A1.3, A1.5 / 摂取数の節目による生体反応機能）［草案］
 			Node File: valis/nodes/B/B1.5.1.md。parent_id: B1.5（同一層）。
-			要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+			要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 		B1.5.2:（A1.5, A1.3 / 事前環境配分による生息背景機能）［草案］
 			Node File: valis/nodes/B/B1.5.2.md。parent_id: B1.5（同一層）。
@@ -104,11 +104,11 @@ B1:（A1 / Windows生物育成の機能接合索引）［草案］
 
 	B1.7:（A1.7 / 同梱desktop起動・画像解決機能）［草案］
 		Node File: valis/nodes/B/B1.7.md。parent_id: B1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 	B1.8:（A1.8 / 起動中だけの最終結果図鑑）［草案］
 		Node File: valis/nodes/B/B1.8.md。parent_id: B1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 
 ## C
@@ -127,7 +127,7 @@ C1:（B1 / desktop実装の接合索引）［草案］
 
 	C1.3:（B1.2, A1.2 / 行消費・摂取同期・再生状態実装）［草案］
 		Node File: valis/nodes/C/C1.3.md。parent_id: C1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 	C1.4:（B1.3, B1.4 / 分類・較正・部位発現・相遷移の実装接合）［草案］
 		Node File: valis/nodes/C/C1.4.md。parent_id: C1（同一層）。
@@ -147,7 +147,7 @@ C1:（B1 / desktop実装の接合索引）［草案］
 
 	C1.5:（B1.5, A1.5 / DNA身体・部位・energyの共通レンダラ実装）［草案］
 		Node File: valis/nodes/C/C1.5.md。parent_id: C1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 		C1.5.1:（B1.5, B1.7 / ローカル画像設定とdesktop表示入口の同期実装）［草案］
 			Node File: valis/nodes/C/C1.5.1.md。parent_id: C1.5（同一層）。
@@ -175,11 +175,11 @@ C1:（B1 / desktop実装の接合索引）［草案］
 
 		C1.5.3:（B1.5, B1.2, B1.8 / 実個体の観測・摂取・結果・履歴UI実装）［草案］
 			Node File: valis/nodes/C/C1.5.3.md。parent_id: C1.5（同一層）。
-			要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+			要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 		C1.5.4:（B1.5.1, A1.3 / 摂取数の節目と口・足元・感覚器反応実装）［草案］
 			Node File: valis/nodes/C/C1.5.4.md。parent_id: C1.5（同一層）。
-			要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+			要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 		C1.5.5:（B1.5.2, A1.5 / 環境背景の合成描画実装）［草案］
 			Node File: valis/nodes/C/C1.5.5.md。parent_id: C1.5（同一層）。
@@ -191,18 +191,18 @@ C1:（B1 / desktop実装の接合索引）［草案］
 
 	C1.7:（B1.7, A1.7 / Electron起動・同梱配布・ローカル資産ホスト実装）［草案］
 		Node File: valis/nodes/C/C1.7.md。parent_id: C1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 	C1.8:（B1.8, A1.8 / 起動中だけの最終結果図鑑）［草案］
 		Node File: valis/nodes/C/C1.8.md。parent_id: C1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 
 ## D
 
 D1:（A1, B1, C1 / desktop育成・配布・記録の検証接合）［草案］
 	Node File: valis/nodes/D/D1.md。独立起点、parent_idなし。
-	要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+	要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 	D1.1:（A1.1, A1.2, B1.1, B1.2, C1.1, C1.3 / ローカル原列・N件出力の回帰計画）［草案］
 		Node File: valis/nodes/D/D1.1.md。parent_id: D1（同一層）。
@@ -226,11 +226,11 @@ D1:（A1, B1, C1 / desktop育成・配布・記録の検証接合）［草案］
 
 		D1.3.3:（A1.2, A1.5, A1.8, B1.2, B1.5, C1.5.3 / 摂取・遺伝表示・実run観測UI検証計画）［草案］
 			Node File: valis/nodes/D/D1.3.3.md。parent_id: D1.3（同一層）。
-			要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+			要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 		D1.3.4:（B1.5.1, C1.5.4, C1.5.2.3 / 摂取の節目・生体反応・非増殖検証計画）［草案］
 			Node File: valis/nodes/D/D1.3.4.md。parent_id: D1.3（同一層）。
-			要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+			要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 		D1.3.5:（B1.5.2, C1.5.5, C1.5.2.4 / 環境背景・配分・遷移・主役可読性検証計画）［草案］
 			Node File: valis/nodes/D/D1.3.5.md。parent_id: D1.3（同一層）。
@@ -242,11 +242,11 @@ D1:（A1, B1, C1 / desktop育成・配布・記録の検証接合）［草案］
 
 	D1.5:（A1.7, B1.7, C1.7 / Windows配布・同梱資産・単独起動検証計画）［草案］
 		Node File: valis/nodes/D/D1.5.md。parent_id: D1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 	D1.6:（A1.8, B1.8, C1.8, C1.5.3 / 起動中だけの最終結果図鑑）［草案］
 		Node File: valis/nodes/D/D1.6.md。parent_id: D1（同一層）。
-		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回app1.7.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 操作応答/反応/起動中図鑑の該当責務はNode本文。今回ローカル実結果E47、hosted Windows実結果E48。利用者受入は未認定。次FLOW: FLOW-08/05。
 
 
 ## E
@@ -434,3 +434,11 @@ E45:（D1.3.2, D1.3.3, D1.3.4, D1.3.5, D1.5, C1.5, C1.5.2.4, C1.5.5 / 生態世�
 E46:（D1.3.3, D1.3.4, D1.3.5, D1.5, D1.6, C1.5, C1.5.4, C1.5.5 / 生態世界美術強化版Windows実exe・配布・保存復元証跡）［草案］
 	Node File: valis/nodes/E/E46.md。独立証跡、parent_idなし。evidence_for: D1.3.3/D1.3.4/D1.3.5/D1.5/D1.6。
 	要約: app1.6.0のrun38727120662/job116395626376でsource/assets/配布/ZIP全照合/実exe作成・再起動の無条件step成功を対象commitと照合。詳細はoperations/evidence/art-direction/windows-ci-public-summary.json。利用者Windows10/11実機と美術受入は未認定。次FLOW: FLOW-08/05。
+
+E47:（D1.3.3, D1.3.4, D1.5, D1.6, C1.3, C1.5, C1.8 / 操作応答・全身摂取と成長反応・起動中図鑑ローカル証跡）［草案］
+	Node File: valis/nodes/E/E47.md。独立証跡、parent_idなし。evidence_for: D1.3.3/D1.3.4/D1.5/D1.6。
+	要約: app1.7.0。単体65、画面148、生体345、性能33、美術85・80制御場面、実操作23、実Electron21/9、67PNG/ZIP74照合に限定成功。詳細はoperations/evidence/responsive-reactions。hosted Windows実exeはE48。利用者受入は未認定。次FLOW: FLOW-08/05。
+
+E48:（D1.3.3, D1.3.4, D1.5, D1.6, C1.7, C1.8 / 全身反応・起動中図鑑版Windows実exe・配布証跡）［草案］
+	Node File: valis/nodes/E/E48.md。独立証跡、parent_idなし。evidence_for: D1.3.3/D1.3.4/D1.5/D1.6。
+	要約: app1.7.0 run38731549170/job116410284660でsource/assets/配布/ZIP全照合/実exe完走2結果と次プロセス図鑑空/旧history不変を対象commitと照合。詳細はoperations/evidence/responsive-reactions/windows-ci-public-summary.json。利用者Windows10/11実機と美術受入は未認定。次FLOW: FLOW-08/05。
