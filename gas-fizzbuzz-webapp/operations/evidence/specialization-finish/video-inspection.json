@@ -1,0 +1,30 @@
+[
+  {
+    "file": "browser/row-feeding.webm",
+    "decoded": true,
+    "frames": 37,
+    "ptsSpanSeconds": 3.001,
+    "scope": "Actual N15 playback"
+  },
+  {
+    "file": "motion/jelly.webm",
+    "decoded": true,
+    "frames": 41,
+    "ptsSpanSeconds": 3.29,
+    "scope": "Actual final specimen with controlled feeding/growth events"
+  },
+  {
+    "file": "motion/serpent.webm",
+    "decoded": true,
+    "frames": 41,
+    "ptsSpanSeconds": 3.24,
+    "scope": "Actual final specimen with controlled feeding/growth events"
+  },
+  {
+    "file": "motion/myth.webm",
+    "decoded": true,
+    "frames": 41,
+    "ptsSpanSeconds": 3.262,
+    "scope": "Actual final specimen with controlled feeding/growth events"
+  }
+]

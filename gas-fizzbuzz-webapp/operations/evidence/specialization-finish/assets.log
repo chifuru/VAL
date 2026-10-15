@@ -1,0 +1,5 @@
+
+> valis-fizzbuzz-desktop@1.12.0 check:assets
+> node tools/build-assets.cjs --check
+
+Local PNG configuration: 68 atlases, 227 body/organ groups, 817 sprites

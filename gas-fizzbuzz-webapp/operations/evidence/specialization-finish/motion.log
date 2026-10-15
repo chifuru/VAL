@@ -1,0 +1,5 @@
+
+> valis-fizzbuzz-desktop@1.12.0 test:motion
+> node tests/browser-motion.cjs
+
+{"passed":345,"errors":[],"videos":3}

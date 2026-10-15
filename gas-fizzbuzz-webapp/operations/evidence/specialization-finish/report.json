@@ -1,0 +1,173 @@
+{
+  "recordedAt": "2026-10-15T15:20:22.923494+00:00",
+  "actor": "Codex cloud environment",
+  "targetCommit": "b5758a4ae1035cc2e0b6a4ae158826c979075bd2",
+  "appVersion": "1.12.0",
+  "appearanceRevision": 4,
+  "scope": "Inherited body source through third andfourth phases,20 restrained specialization profiles in regional anatomy/skin/colour/material/kinetics;habitat-specific soft light/depth/batched wildlife tint;snout recovery andshaded whole-body nutrition light.",
+  "checks": {
+    "unitPassed": 84,
+    "unitFailed": 0,
+    "browserPassed": 148,
+    "motionPassed": 345,
+    "performancePassed": 44,
+    "artPassed": 85,
+    "interactionPassed": 23,
+    "finishPassed": 112,
+    "nativeCreatePassed": 21,
+    "nativeRestartPassed": 9,
+    "zipChecksumFiles": 74,
+    "runtimePngs": 68,
+    "runtimePngsBytePreserved": 68,
+    "designPngsBytePreserved": 1,
+    "sourceCoverageFixtures": 160,
+    "groundedSourceFixtures": 64
+  },
+  "allInputs": {
+    "generatedAt": "2026-10-15T15:09:49.664Z",
+    "examples": {
+      "serpent": {
+        "N": 780,
+        "source": "serpent"
+      },
+      "jelly": {
+        "N": 782,
+        "source": "antimeme"
+      },
+      "cephalopod": {
+        "N": 789,
+        "source": "cephalopod"
+      },
+      "sail": {
+        "N": 794,
+        "source": "sail"
+      },
+      "swarm": {
+        "N": 804,
+        "source": "swarm"
+      },
+      "myth": {
+        "N": 820,
+        "source": "myth"
+      },
+      "crystal": {
+        "N": 824,
+        "source": "crystal"
+      },
+      "recursive": {
+        "N": 835,
+        "source": "recursive"
+      },
+      "whale": {
+        "N": 856,
+        "source": "whale"
+      },
+      "abyssshell": {
+        "N": 868,
+        "source": "abyssshell"
+      },
+      "parallel": {
+        "N": 869,
+        "source": "parallel"
+      },
+      "plasma": {
+        "N": 872,
+        "source": "plasma"
+      },
+      "manyeyes": {
+        "N": 874,
+        "source": "swarm"
+      },
+      "memory": {
+        "N": 884,
+        "source": "memory"
+      },
+      "valis": {
+        "N": 886,
+        "source": "plasma"
+      },
+      "abyss": {
+        "N": 889,
+        "source": "abyss"
+      },
+      "solar": {
+        "N": 899,
+        "source": "serpent"
+      },
+      "antimeme": {
+        "N": 929,
+        "source": "antimeme"
+      },
+      "gravity": {
+        "N": 958,
+        "source": "valis"
+      },
+      "kelp": {
+        "N": 974,
+        "source": "kelp"
+      }
+    },
+    "eligibleInputs": 421,
+    "sourceReplacements": 0,
+    "changedAwakeningTimes": 0,
+    "withinPlanBranches": 145,
+    "maxEntranceRatio": 0.0033379319964728094,
+    "maxEntranceColorDistance": 3.1622776601683795,
+    "distinctInheritedSources": 20
+  },
+  "performance": {
+    "earlyContinuity": {
+      "scope": "Actual1..260 states and actual nutrition/growth events;warm1..189 thenmeasure190..260;direct CPU draw,not GPU presentation oruser FPS",
+      "canvasAllocations": 54,
+      "ecologyBuilds": 3,
+      "backdropBuilds": 1,
+      "medianMs": 2.5,
+      "p95Ms": 12.199999988079071,
+      "maxMs": 26.700000002980232
+    },
+    "specializationContinuity": {
+      "N": 893,
+      "warmRows": 569,
+      "canvasAllocations": 72,
+      "ecologyBuilds": 0,
+      "medianMs": 2.9000000059604645,
+      "p95Ms": 12.900000005960464,
+      "maxMs": 40.099999994039536
+    },
+    "scope": "Direct local Chromium CPU,not GPU/user-device FPS. Cold preparation can exceed one frame;fixed-state warm Canvas allocations remain zero."
+  },
+  "interaction": {
+    "firstRows": {
+      "ms": 287.09999999403954,
+      "row": 2
+    },
+    "feedback": [
+      {
+        "action": "load",
+        "ms": 4.5999999940395355,
+        "text": "読み込み中…",
+        "status": "読み込み中",
+        "busy": true
+      },
+      {
+        "action": "start",
+        "ms": 13.5,
+        "text": "開始しています…",
+        "status": "開始しています",
+        "busy": true
+      }
+    ],
+    "loadWith201RecordsMs": 149
+  },
+  "platform": "Linux x64/Chromium154/Electron44.7.2;Xvfb launcher is test-only",
+  "compatibility": "Branch choice,awakening times,energy andDNA match1.11.0 across421 inputs.Revision3 states retain exact appearance calculations andJSON continuation.Revision4 intentionally uses the inherited source with target traits;20classifications do not mean source replacement.",
+  "visualScope": "5actual third-phase comparisons;N932/893/847 progression579/580/620/700/800;20actual mature specimens and80controlled habitat fixtures.Full160source cells are separately forced source fixtures,not160actual evolution paths.Material-isolation pairs alone disable specialization;actual habitat fixtures keep it.",
+  "validWhen": "Execution inputs match target-sha256.json",
+  "invalidWhen": "Execution inputs changed or required checks omitted",
+  "pending": [
+    "User Windows10/11 device display/FPS and art acceptance"
+  ],
+  "videos": "video-inspection.json",
+  "hostedWindowsEvidence": "E58/windows-ci-public-summary.json",
+  "hostedBrowserProof": "browser-ci-public-summary.json"
+}

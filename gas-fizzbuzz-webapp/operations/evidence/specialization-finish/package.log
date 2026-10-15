@@ -1,0 +1,20 @@
+
+> valis-fizzbuzz-desktop@1.12.0 package:windows
+> node tools/package-windows.cjs
+
+Packaging app for platform win32 x64 using electron v44.7.2
+{
+  "scope": "Windows x64 package integrity; actual Windows execution is a separate smoke gate",
+  "electronVersion": "44.7.2",
+  "packagerVersion": "20.3.0",
+  "officialRuntimeSha256": "10a89447ef64ac5cb9f782af48ffd83734a40ae91681259d1048ca3c9e6c5da4",
+  "exe": "VALIS.exe",
+  "machine": "x86-64",
+  "asarEntries": 97,
+  "pngCount": 68,
+  "sourceBytesMatch": true,
+  "zip": "VALIS-Windows-x64.zip",
+  "zipBytes": 288660609,
+  "zipSha256": "a9cccac9836577a2c360350294528d5bd8b24eed180dfcad494175a9603f84c6",
+  "generatedAt": "2026-10-15T15:17:33.430Z"
+}

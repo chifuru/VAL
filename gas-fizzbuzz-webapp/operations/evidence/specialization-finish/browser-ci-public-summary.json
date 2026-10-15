@@ -1,0 +1,87 @@
+{
+  "observedAt": "2026-10-15T15:28:10.896796+00:00",
+  "source": "Public run/job HTML and all step conclusions;authenticated raw logs/artifact contents not read",
+  "targetCommit": "b5758a4ae1035cc2e0b6a4ae158826c979075bd2",
+  "runUrl": "https://github.com/chifuru/VAL/actions/runs/38758965744",
+  "jobUrl": "https://github.com/chifuru/VAL/actions/runs/38758965744/job/116504826617",
+  "jobConclusion": "success",
+  "steps": [
+    {
+      "data-name": "Set up job",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T15:17:14Z",
+      "data-completed-at": "2026-10-15T15:17:15Z"
+    },
+    {
+      "data-name": "Run actions/checkout@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T15:17:15Z",
+      "data-completed-at": "2026-10-15T15:20:32Z"
+    },
+    {
+      "data-name": "Run actions/setup-node@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T15:20:32Z",
+      "data-completed-at": "2026-10-15T15:20:33Z"
+    },
+    {
+      "data-name": "Run npm ci --ignore-scripts",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T15:20:33Z",
+      "data-completed-at": "2026-10-15T15:20:35Z"
+    },
+    {
+      "data-name": "Run npm test",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T15:20:35Z",
+      "data-completed-at": "2026-10-15T15:20:51Z"
+    },
+    {
+      "data-name": "Run npm run check:assets",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T15:20:51Z",
+      "data-completed-at": "2026-10-15T15:20:56Z"
+    },
+    {
+      "data-name": "Run npx playwright install --with-deps chromium",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T15:20:56Z",
+      "data-completed-at": "2026-10-15T15:21:18Z"
+    },
+    {
+      "data-name": "Observation UI and actual PNG drawing",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T15:21:18Z",
+      "data-completed-at": "2026-10-15T15:24:17Z"
+    },
+    {
+      "data-name": "Run actions/upload-artifact@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T15:24:17Z",
+      "data-completed-at": "2026-10-15T15:24:24Z"
+    },
+    {
+      "data-name": "Post Run actions/setup-node@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T15:24:24Z",
+      "data-completed-at": "2026-10-15T15:24:26Z"
+    },
+    {
+      "data-name": "Post Run actions/checkout@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T15:24:26Z",
+      "data-completed-at": "2026-10-15T15:24:26Z"
+    },
+    {
+      "data-name": "Complete job",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T15:24:26Z",
+      "data-completed-at": "2026-10-15T15:24:26Z"
+    }
+  ],
+  "limits": [
+    "Authenticated CI native JSON/screenshots/raw logs and exact runner OS image not obtained",
+    "User Windows10/11 display/FPS and art acceptance unperformed"
+  ],
+  "scope": "Hosted source/assets and all6 browser suites including phase comparison.All421 numerical checks run in npm test;detailed local112 finish assertions and44performance checks including131 specialization rows and images are E57."
+}

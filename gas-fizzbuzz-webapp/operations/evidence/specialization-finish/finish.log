@@ -1,0 +1,5 @@
+
+> valis-fizzbuzz-desktop@1.12.0 test:finish
+> node tests/browser-finish.cjs
+
+{"passed":112,"contactLineages":["swarm","manyeyes","parallel","memory","crystal","myth","recursive","kelp"]}
