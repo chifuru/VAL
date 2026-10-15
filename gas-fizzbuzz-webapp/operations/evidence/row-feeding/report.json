@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-10-15T05:41:10.572499+00:00",
+  "recordedAt": "2026-10-15T05:45:30.005949+00:00",
   "actor": "Codex cloud environment",
   "scope": "Local app1.4.1 row-aligned feeding, original output visibility, readable pacing and regression",
   "platform": "Linux x64 / Chromium154 / Electron44.7.2; native test-only Xvfb launcher, product sandbox unchanged",
@@ -7,46 +7,48 @@
     "unitPassed": 50,
     "unitFailed": 0,
     "browserPassed": 144,
-    "motionAndFeedingPassed": 161,
+    "motionAndFeedingPassed": 162,
     "nativeCreatePassed": 21,
     "nativeRestartPassed": 15,
     "zipChecksumFiles": 74,
     "runtimePngs": 65
   },
   "observedNormalRowGapsMs": {
-    "min": 791.5999999940395,
-    "max": 822.5999999940395
+    "min": 793.2999999970198,
+    "max": 821.5
   },
   "videos": [
     {
       "file": "browser/row-feeding.webm",
       "decoded": true,
-      "frames": 154,
-      "ptsSpanSeconds": 12.787
+      "frames": 155,
+      "ptsSpanSeconds": 12.842
     },
     {
       "file": "motion/jelly.webm",
       "decoded": true,
       "frames": 41,
-      "ptsSpanSeconds": 3.346
+      "ptsSpanSeconds": 3.347
     },
     {
       "file": "motion/serpent.webm",
       "decoded": true,
       "frames": 41,
-      "ptsSpanSeconds": 3.316
+      "ptsSpanSeconds": 3.334
     },
     {
       "file": "motion/myth.webm",
       "decoded": true,
       "frames": 41,
-      "ptsSpanSeconds": 3.32
+      "ptsSpanSeconds": 3.319
     }
   ],
   "validWhen": "Execution inputs match target-sha256.json and assertions are retained",
   "invalidWhen": "Execution code/data/conditions changed or checks omitted",
   "pending": [
-    "Hosted Windows result",
-    "User device display and art acceptance"
-  ]
+    "User Windows10/11 device display/FPS and art acceptance"
+  ],
+  "targetCommit": "fc44d7aab23364c153b5a6193c78661a18f56433",
+  "hostedWindowsEvidence": "E36/windows-ci-public-summary.json",
+  "hostedBrowserProof": "browser-ci-public-summary.json"
 }

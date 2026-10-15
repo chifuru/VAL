@@ -1,7 +1,7 @@
 {
   "scope": "Chromium motion and static preservation; state-driven rendering and actual canvas videos; not a user-hardware FPS benchmark",
   "browser": "154.0.8037.57",
-  "generatedAt": "2026-10-15T05:37:57.961Z",
+  "generatedAt": "2026-10-15T05:44:37.086Z",
   "checks": [
     "loaded preview remains still before explicit start",
     "still mode has no motion rig abyss",
@@ -149,6 +149,7 @@
     "actual output determines one visible meal fizzbuzz 2",
     "actual output determines one visible meal fizzbuzz 1",
     "actual output determines one visible meal fizzbuzz 0",
+    "meal reaches the actual mouth before dissolving",
     "idle habitat has no unsolicited food",
     "past row cannot feed current creature",
     "distinct ecological consumption frame fizz",

@@ -1,0 +1,44 @@
+{
+  "generatedAt": "2026-10-15T05:48:22.624498+00:00",
+  "appVersion": "1.4.1",
+  "valis": "Operation v2.0 prerequisite feedback, responsibility grain checked (no new split), FLOW-04/08/05 and output gate reconciled",
+  "targetCommit": "fc44d7aab23364c153b5a6193c78661a18f56433",
+  "manifest": {
+    "counts": {
+      "A": 9,
+      "B": 13,
+      "C": 21,
+      "D": 12,
+      "E": 36
+    },
+    "total": 91,
+    "allDraft": true,
+    "initialRegistered": [
+      "E35",
+      "E36"
+    ]
+  },
+  "executionFilesMatchTarget": 191,
+  "workflowFilesMatchTarget": 2,
+  "definitionSnapshotFiles": 55,
+  "protectedCoreAndMocksUnchanged": 23,
+  "checks": {
+    "unitPassed": 50,
+    "unitFailed": 0,
+    "browserPassed": 144,
+    "motionAndFeedingPassed": 162,
+    "nativeCreatePassed": 21,
+    "nativeRestartPassed": 15,
+    "zipChecksumFiles": 74,
+    "runtimePngs": 65
+  },
+  "rowPacing": {
+    "min": 793.2999999970198,
+    "max": 821.5
+  },
+  "windowsRun": 38688378016,
+  "browserRun": 38688378019,
+  "pending": [
+    "User Windows10/11 device display/FPS and art acceptance"
+  ]
+}

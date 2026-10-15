@@ -2,25 +2,25 @@
   {
     "file": "browser/row-feeding.webm",
     "decoded": true,
-    "frames": 154,
-    "ptsSpanSeconds": 12.787
+    "frames": 155,
+    "ptsSpanSeconds": 12.842
   },
   {
     "file": "motion/jelly.webm",
     "decoded": true,
     "frames": 41,
-    "ptsSpanSeconds": 3.346
+    "ptsSpanSeconds": 3.347
   },
   {
     "file": "motion/serpent.webm",
     "decoded": true,
     "frames": 41,
-    "ptsSpanSeconds": 3.316
+    "ptsSpanSeconds": 3.334
   },
   {
     "file": "motion/myth.webm",
     "decoded": true,
     "frames": 41,
-    "ptsSpanSeconds": 3.32
+    "ptsSpanSeconds": 3.319
   }
 ]
