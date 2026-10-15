@@ -20,6 +20,8 @@ DNAとFizzBuzz出力は常時表示です。通常0.1秒/行、ゆっくり0.2�
 
 ## 成長と描写
 
+ソースv1.8.0は仕上げ検証中です。生息地の共有流・根元固定の植生・微小視差、鉱物/情報の各8素材、20系統の運動と接地、模様を残す全身光を調整しています。取得先は検証済み版を示し、新版の実結果後に更新します。
+
 - DNA6軸が胴・頭・眼・尾・ひれ・付属肢・表皮へ作用し、20系統へ分岐します。系統の主器官と身体は一体の源PNGです。
 - Fizz＝生命、Buzz＝鉱物、FizzBuzz＝情報。数字は促進/抑制の調節と背景の変化に使い、生物の発光イベントを起こしません。各出力は元列どおり一回ずつ作用します。
 - 生命は緑系の全身発光と収縮・口先、鉱物は琥珀色と重心が沈む動き、情報は青紫とゆっくりした波動です。元の陰影/輪郭を残し、同時反応の光量を制限します。移動する餌を口へ引き込む演出は行いません。
@@ -42,7 +44,7 @@ npm start
 npm run package:windows
 ```
 
-`src/` をローカルHTTPの8766で配信して、`npm run test:browser`（観測UI）、`test:motion`（摂取/成長/旧画素）、`test:performance`（描画/完走登録）、`test:art`（20系統×4生息地）、`test:interaction`（実クリック/201件図鑑）を実行します。`npm run test:desktop` は実Electronを2プロセスで起動し、図鑑リセットと旧ファイル不変も検査します。配布実体は `node tests/electron-smoke.cjs --exe ./dist/VALIS-Windows-x64/VALIS.exe` で検査します。
+`src/` をローカルHTTPの8766で配信して、`npm run test:browser`（観測UI）、`test:motion`（摂取/成長/旧画素）、`test:performance`（描画/完走登録）、`test:art`（20系統×4生息地）、`test:interaction`（実クリック/201件図鑑）、`test:finish`（接地/環境流/仕上げ実画面）を実行します。`npm run test:desktop` は実Electronを2プロセスで起動し、図鑑リセットと旧ファイル不変も検査します。配布実体は `node tests/electron-smoke.cjs --exe ./dist/VALIS-Windows-x64/VALIS.exe` で検査します。
 
 | パス | 内容 |
 |---|---|

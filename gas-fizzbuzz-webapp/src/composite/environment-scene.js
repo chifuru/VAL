@@ -8,10 +8,16 @@
  function toneFor(state){const weights=weightsFor(state);return [0,1,2].map(c=>Math.round(tones.reduce((v,t,i)=>v+t[c]*weights[i],0)));}
  function lightingFor(state){const weights=weightsFor(state),mix=table=>[0,1,2].map(c=>Math.round(table.reduce((v,t,i)=>v+t[c]*weights[i],0)/8)*8);return {key:mix(keysLight),fill:mix(fillsLight),floor:mix(tones)};}
  function floraPlan(state,growth=levelsFor(state).reduce((a,b)=>a+b,0)/4){const weights=weightsFor(state);return weights.flatMap((weight,kind)=>[0,1].map(row=>({kind,row,region:row*4+kind,weight,x:row?[.10,.91,.28,.73][kind]:[.015,.98,.17,.84][kind],y:row?1.055:1.025,size:row?[.31,.30,.30,.28][kind]:[.15,.17,.10,.11][kind],mirror:(state.seed+kind)%2===0,alpha:smooth(weight*2.4)*(row?.84:.66),growth})));}
- function lifePlan(state,time){const level=levelsFor(state)[0],weights=weightsFor(state),updraft=weights[1]*.018,flow=weights[0]*.018-weights[3]*.012;
+ // One slow current links distant scenery, rooted flora and free organisms.
+ function flowFor(state,time){const w=weightsFor(state),phase=time*.00027+noise(state.seed+41)*6.28;return {x:(w[0]*1.3+w[1]*.5-w[3]*.6)*Math.sin(phase),y:(w[0]*.3-w[1]*.5+w[3]*.25)*Math.cos(phase*.73),wind:(w[0]*.018+w[1]*.011+w[2]*.007+w[3]*.005)*Math.sin(phase),phase};}
+ function floraPoseFor(state,plant,time,still){const flow=flowFor(state,time),phase=flow.phase+plant.kind*.91+plant.row*.68;return {x:plant.x,y:plant.y,angle:still?0:flow.wind*(plant.row?.45:1)+Math.sin(phase*1.3)*.003,stretch:still?1:1+Math.sin(phase*.7)*.002};}
+ function resourcePlan(state,time,still=false){const levels=levelsFor(state),flow=flowFor(state,time);return [1,2].flatMap(kind=>Array.from({length:8},(_,i)=>{const n=state.seed+kind*97+i*23,level=levels[kind],phase=time*.00032+noise(n)*6.28,left=i%2===0;
+  return {kind,region:(state.seed+i)%8,x:kind===1?[.025,.975,.12,.88,.245,.755,.34,.67][i]:(left?.08:.88)+(noise(n+1)-.5)*.09+(still?0:Math.sin(phase)*.007+flow.x*.003),y:kind===1?.96+noise(n+2)*.075:.36+noise(n+2)*.45+(still?0:Math.cos(phase*.8)*.009+flow.y*.003),size:kind===1?24+noise(n+3)*23:8+noise(n+3)*9,angle:kind===1?(noise(n+4)-.5)*.20:still?0:Math.sin(phase*.7)*.12,alpha:smooth((level-i/12)*3)*(kind===1?.42:.38)};
+ }));}
+ function lifePlan(state,time){const level=levelsFor(state)[0],weights=weightsFor(state),updraft=weights[1]*.018,flow=weights[0]*.018-weights[3]*.012,current=flowFor(state,time);
   return Array.from({length:12},(_,i)=>{const n=state.seed+i*11,group=Math.floor(i/4),phase=time*(group===0?.00021:group===1?.00055:.00031)*(.75+noise(n)*.5)+noise(n+5)*6.28,left=i%2===0,depth=.52+noise(n+8)*.48,variant=(state.seed+i)%4,pose=(state.seed+Math.floor(i/4))%2;
    const bands=[.80,.57,.39],yaw=Math.tanh(Math.cos(phase)*4),x=(left?.13:.83)+Math.sin(phase)*(.045+noise(n)*.035)+flow*Math.sin(phase*.7),y=bands[group]+noise(n+2)*.10+Math.sin(phase*(group===0?.6:1.3)+i)*.012-updraft*Math.sin(phase);
-   return {group,variant,pose,region:pose*4+variant,x,y,depth,size:(group===0?13:group===1?20:11)*( .7+noise(n+3)*.7)*(.75+.25*level),yaw,roll:Math.sin(phase*1.6)*(group===1?.09:.04),squeeze:1+Math.sin(phase*2.4)*.025,alpha:smooth((level-i/14)*4)*(.24+.34*level)*depth};
+   return {group,variant,pose,region:pose*4+variant,x:x+current.x*.002,y:y+current.y*.002,depth,size:(group===0?13:group===1?20:11)*( .7+noise(n+3)*.7)*(.75+.25*level),yaw,roll:Math.sin(phase*1.6)*(group===1?.09:.04),squeeze:1+Math.sin(phase*2.4)*.025,alpha:smooth((level-i/14)*4)*(.24+.34*level)*depth};
   });
  }
  function bedPlan(state){
@@ -29,11 +35,11 @@
  }
  function create(config,images){
   // Two display sizes (observation and miniature); bounded pixels also cover high DPI.
-  const beds=new Map(),backdrops=new Map(),colonies=new Map(),forests=new Map();let bytes=0,hits=0,builds=0,clock=0;
+  const beds=new Map(),backdrops=new Map(),colonies=new Map(),forests=new Map(),decorations=new Map();let bytes=0,hits=0,builds=0,clock=0;
   const limit=24*1024*1024;
   function touch(c){c._ecologyUse=++clock;return c;}
-  function evict(only){let oldest=null;for(const map of only?[only]:[beds,backdrops,colonies,forests])for(const [key,c]of map){if(!oldest||(c._ecologyUse||0)<oldest.age)oldest={map,key,c,age:c._ecologyUse||0};}if(!oldest)return false;bytes-=oldest.c.width*oldest.c.height*4;oldest.map.delete(oldest.key);return true;}
-  function cached(map,key,build){if(map.has(key)){hits++;return touch(map.get(key));}const c=build(),size=c.width*c.height*4;builds++;if(size>limit)return c;while(map.size>=2)evict(map);while(bytes+size>limit&&evict()){}map.set(key,touch(c));bytes+=size;return c;}
+  function evict(only){let oldest=null;for(const map of only?[only]:[beds,backdrops,colonies,forests,decorations])for(const [key,c]of map){if(!oldest||(c._ecologyUse||0)<oldest.age)oldest={map,key,c,age:c._ecologyUse||0};}if(!oldest)return false;bytes-=oldest.c.width*oldest.c.height*4;oldest.map.delete(oldest.key);return true;}
+  function cached(map,key,build,capacity=2){if(map.has(key)){hits++;return touch(map.get(key));}const c=build(),size=c.width*c.height*4;builds++;if(size>limit)return c;while(map.size>=capacity)evict(map);while(bytes+size>limit&&evict()){}map.set(key,touch(c));bytes+=size;return c;}
   function canvas(w,h){const c=document.createElement('canvas');c.width=w;c.height=h;return c;}
   function layer(w,h){const q=Math.min(1,Math.sqrt(950000/(w*h))),c=canvas(Math.ceil(w*q),Math.ceil(h*q));c.getContext('2d').scale(c.width/w,c.height/h);return c;}
   function colony(region,kind,state){
@@ -59,21 +65,24 @@
    }
    // A shared low veil embeds roots in the terrain rather than displaying cutout stickers.
    const veil=g.createLinearGradient(0,h*.82,0,h);veil.addColorStop(0,'rgba('+tone.join(',')+',0)');veil.addColorStop(1,'rgba('+tone.join(',')+',.12)');g.fillStyle=veil;g.fillRect(0,h*.82,w,h*.18);return c;});}
-  function forest(w,h,state,front){const light=lightingFor(state),growth=Math.floor(levelsFor(state).reduce((a,b)=>a+b,0)*10)/40,key=[w,h,state.seed,front,growth,...weightsFor(state)].join(':');return cached(forests,key,()=>{const c=layer(w,h),g=c.getContext('2d'),atlas=config.environments['habitat-flora'];
-   for(const f of floraPlan(state,growth)){if(!!f.row!==front||f.alpha<.001)continue;const r=atlas.regions[f.region],width=w*f.size*(.44+.56*growth),height=width*r[3]/r[2];g.save();g.translate(w*f.x,h*f.y);if(f.mirror)g.scale(-1,1);g.globalAlpha=f.alpha;g.filter='brightness(.68) saturate(.86)';g.drawImage(images.get(atlas.file),...r,-width*.5,-height,width,height);g.restore();}
-   const mist=g.createLinearGradient(0,h*.74,0,h);mist.addColorStop(0,'rgba('+light.fill.join(',')+',0)');mist.addColorStop(1,'rgba('+light.fill.join(',')+','+(front?.07:.035)+')');g.fillStyle=mist;g.fillRect(0,h*.74,w,h*.26);return c;
-  });}
-  function resources(g,w,h,state,time){const levels=levelsFor(state);g.drawImage(forest(w,h,state,false),0,0,w,h);g.drawImage(ground(w,h,state),0,0,w,h);g.save();
+  function scenerySprite(item,region,state,native){const tone=toneFor(state),map=native?forests:decorations,key=[item.file,region,...tone].join(':');return cached(map,key,()=>{const q=Math.min(1,(native?512:128)/Math.max(region[2],region[3])),c=canvas(Math.ceil(region[2]*q),Math.ceil(region[3]*q)),g=c.getContext('2d');g.filter=native?'brightness(.68) saturate(.86)':'brightness(.67) saturate(.76)';g.drawImage(images.get(item.file),...region,0,0,c.width,c.height);g.filter='none';g.globalCompositeOperation='source-atop';g.fillStyle='rgba('+tone.join(',')+',.09)';g.fillRect(0,0,c.width,c.height);g.globalCompositeOperation='source-over';return c;},native?12:24);}
+  function forest(g,w,h,state,front,time,still){const light=lightingFor(state),growth=Math.floor(levelsFor(state).reduce((a,b)=>a+b,0)*10)/40,atlas=config.environments['habitat-flora'];
+   for(const f of floraPlan(state,growth)){if(!!f.row!==front||f.alpha<.001)continue;const r=atlas.regions[f.region],width=w*f.size*(.44+.56*growth),height=width*r[3]/r[2],pose=floraPoseFor(state,f,time,still),image=scenerySprite(atlas,r,state,true);g.save();g.translate(w*pose.x,h*pose.y);g.rotate(pose.angle);g.scale(f.mirror?-1:1,pose.stretch);g.globalAlpha=f.alpha;g.drawImage(image,-width*.5,-height,width,height);g.restore();}
+   const mist=g.createLinearGradient(0,h*.74,0,h);mist.addColorStop(0,'rgba('+light.fill.join(',')+',0)');mist.addColorStop(1,'rgba('+light.fill.join(',')+','+(front?.07:.035)+')');g.save();g.fillStyle=mist;g.fillRect(0,h*.74,w,h*.26);g.restore();
+  }
+  function resources(g,w,h,state,time,still=false){const levels=levelsFor(state);forest(g,w,h,state,false,time,still);g.drawImage(ground(w,h,state),0,0,w,h);g.save();
    for(const fish of lifePlan(state,time)){if(fish.alpha<=0)continue;const item=config.food.life,r=item.regions[fish.region],scale=fish.size/Math.max(r[2],r[3]);g.save();g.globalAlpha=fish.alpha;g.translate(fish.x*w,fish.y*h);g.rotate(fish.roll);g.scale(fish.yaw,fish.squeeze);g.drawImage(images.get(item.file),...r,-r[2]*scale/2,-r[3]*scale/2,r[2]*scale,r[3]*scale);g.restore();}
+   // Small native material fragments are rooted or drifting, never pulled into a mouth.
+   for(const material of resourcePlan(state,time,still)){if(material.alpha<.001)continue;const item=config.food[material.kind===1?'mineral':'information'],r=item.regions[material.region],image=scenerySprite(item,r,state,false),scale=material.size/Math.max(r[2],r[3]),height=r[3]*scale,width=r[2]*scale;g.save();g.translate(material.x*w,material.y*h);g.rotate(material.angle);g.globalAlpha=material.alpha;g.drawImage(image,-width*.5,material.kind===1?-height:-height*.5,width,height);g.restore();}
    // Information drifts as small motes around existing branches, not drawn electrical wires.
    if(levels[2])for(let i=0;i<8;i++){const n=state.seed+i*19,x=w*((i%2===0?.08:.80)+noise(n)*.10),y=h*(.49+noise(n+1)*.38),phase=time*.0004+i;g.fillStyle='rgba(175,177,218,'+(levels[2]*(.16+.08*Math.sin(phase)))+')';g.beginPath();g.arc(x+Math.sin(phase)*4,y+Math.cos(phase)*6,1+i%2*.45,0,Math.PI*2);g.fill();}
    if(levels[3]){g.globalAlpha=levels[3];for(let i=0;i<14;i++){const n=state.seed+i*23,x=w*noise(n),y=h*(.72+noise(n+2)*.25),phase=time*.0002+i;F.seed(g,x+Math.sin(phase)*4,y+Math.cos(phase)*2,1+noise(n+3)*1.5,i%4,.23);}}
    g.restore();return levels;
   }
-  function foreground(g,w,h,state){const tone=toneFor(state);g.drawImage(forest(w,h,state,true),0,0,w,h);g.save();g.fillStyle='rgba('+tone.join(',')+',.026)';g.fillRect(0,0,w,h);const vignette=g.createRadialGradient(w*.57,h*.48,w*.18,w*.57,h*.48,w*.74);vignette.addColorStop(0,'rgba(2,7,17,0)');vignette.addColorStop(1,'rgba(2,7,17,.35)');g.fillStyle=vignette;g.fillRect(0,0,w,h);g.restore();}
-  function draw(g,w,h,state,time,still){g.drawImage(backdrop(w,h,state),0,0,w,h);if(!still)weather(g,w,h,state,time,weightsFor(state));resources(g,w,h,state,still?0:time);}
-  return {draw,foreground,resources,stats:()=>({bytes,limit,backdrops:backdrops.size,beds:beds.size,colonies:colonies.size,forests:forests.size,hits,builds})};
+  function foreground(g,w,h,state,time=0,still=true){const tone=toneFor(state);forest(g,w,h,state,true,time,still);g.save();g.fillStyle='rgba('+tone.join(',')+',.026)';g.fillRect(0,0,w,h);const vignette=g.createRadialGradient(w*.57,h*.48,w*.18,w*.57,h*.48,w*.74);vignette.addColorStop(0,'rgba(2,7,17,0)');vignette.addColorStop(1,'rgba(2,7,17,.35)');g.fillStyle=vignette;g.fillRect(0,0,w,h);g.restore();}
+  function draw(g,w,h,state,time,still){const flow=flowFor(state,time),dx=still?0:flow.x*.7,dy=still?0:flow.y*.5;g.drawImage(backdrop(w,h,state),-2+dx,-2+dy,w+4,h+4);if(!still)weather(g,w,h,state,time,weightsFor(state));resources(g,w,h,state,still?0:time,still);}
+  return {draw,foreground,resources,stats:()=>({bytes,limit,backdrops:backdrops.size,beds:beds.size,colonies:colonies.size,forests:forests.size,decorations:decorations.size,hits,builds})};
  }
  // Public pure planning helpers are also used by Node validation.
- return {weightsFor,levelsFor,bedPlan,toneFor,lightingFor,floraPlan,lifePlan,create};
+ return {weightsFor,levelsFor,bedPlan,toneFor,lightingFor,floraPlan,floraPoseFor,flowFor,resourcePlan,lifePlan,create};
 });

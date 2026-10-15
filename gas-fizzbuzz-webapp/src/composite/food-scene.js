@@ -2,7 +2,7 @@
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.FoodScene=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
  'use strict';
  const kinds=['fizz','buzz','fizzbuzz'],quotas=Object.freeze({fizz:4,buzz:2,fizzbuzz:1}),durations=Object.freeze({fizz:900,buzz:1100,fizzbuzz:1400});
- const colors={fizz:[109,223,202],buzz:[245,194,115],fizzbuzz:[176,164,255]};
+ const colors={fizz:[99,224,162],buzz:[244,181,86],fizzbuzz:[141,155,255]};
  function milestone(kind,count){return Object.hasOwn(quotas,kind)&&Number.isInteger(count)&&count>=1&&(count-1)%quotas[kind]===0;}
  function active(events,time,sequence){
   const latest=new Map();
@@ -34,13 +34,15 @@
   if(kind==='fizz')return {mode:['jelly','cephalopod','botanical','ethereal'].includes(bodyPlan)?'oral-fold':'jaw',site:'mouth',glow:'whole-body',movement:'contract'};
   return null;
  }
+ const response={aquatic:[1,.9,1.1],amphibian:[.82,1.1,.7],avian:[.72,.8,.8],serpent:[1.15,.8,1.2],crystal:[.38,.55,.42],arthropod:[.60,.85,.55],jelly:[1.2,.72,1.18],cephalopod:[1.1,.78,1.15],botanical:[.55,.40,.8],whale:[.75,.95,.9],mechanical:[.32,.5,.38],ethereal:[.8,.4,1.1]};
+ function motionProfileFor(bodyPlan,kind){const p=response[bodyPlan]||response.aquatic,i={fizz:0,buzz:1,fizzbuzz:2}[kind];if(i===undefined)return null;return {squeeze:(kind==='fizz'?-.025:kind==='buzz'?.018:.014)*p[i],bend:(kind==='fizz'?-.004:kind==='buzz'?.013:.006)*p[i]};}
  // Presentation-only events come from real stage/level increases, never a timer lottery.
  const growthDurations={evolution:1800,organ:1100};
  function activeGrowth(events,time,sequence){
   const found=new Map();for(const e of events){if(!Object.hasOwn(growthDurations,e.type)||!Number.isInteger(e.sequence)||e.sequence<1||e.sequence>sequence||!Number.isFinite(e.time)||time<e.time||time-e.time>=growthDurations[e.type])continue;const old=found.get(e.type);if(!old||e.sequence>old.sequence)found.set(e.type,e);}
   return [...found.values()];
  }
- function growthReactions(events,time,sequence){return activeGrowth(events,time,sequence).map(e=>{const duration=growthDurations[e.type],progress=(time-e.time)/duration;return {...e,duration,progress,strength:Math.sin(progress*Math.PI)**2};});}
+ function growthReactions(events,time,sequence){return activeGrowth(events,time,sequence).map(e=>{const duration=growthDurations[e.type],progress=(time-e.time)/duration;return {...e,duration,progress,strength:Math.sin(progress*Math.PI)**2+(1-Math.sin(progress*Math.PI)**2)*(e.carry||0)*(1-progress)**3};});}
  function advanceGrowth(events,previous,next,before,after,time){
   if(previous.seed!==next.seed)return [];const retained=activeGrowth(events,time,next.current);
   if(next.current!==previous.current+1)return retained;
@@ -53,7 +55,7 @@
    if(sites.length)event={type:'organ',sites:[...new Set(sites)].slice(0,4),sequence:next.current,time};
   }
   if(!event||retained.some(e=>e.type===event.type&&e.sequence>=event.sequence))return retained;
-  return [...retained.filter(e=>e.type!==event.type),event];
+  const old=growthReactions(retained,time,next.current).find(e=>e.type===event.type);event.carry=old?.strength||0;if(old&&event.type==='organ')event.sites=[...new Set([...old.sites,...event.sites])].slice(-4);return [...retained.filter(e=>e.type!==event.type),event];
  }
  function seed(g,x,y,size,variant,alpha=1){
   g.save();g.translate(x,y);g.globalAlpha*=alpha;g.rotate(variant*.7);g.fillStyle='#c2edf0';g.strokeStyle='#74bdbf';g.lineWidth=.8;
@@ -67,16 +69,16 @@
   if(still)return [];
   return reactions(events,time,state.current).map(e=>{
    const profile=profileFor(b.motion?.mode,e.kind);
-   if(e.kind==='buzz'){
+   if(kinds.includes(e.kind)){
     const x=(b.sockets.forelimb[0]+b.sockets.hindlimb[0])*.5,y=b.bh*.5+10,r=Math.max(65,Math.min(140,b.bw*.29));
     // Diffuse reflection belongs to the ground. No geometric burst or appearing crystal.
-    const reflected=b.light?.key?.map((v,i)=>Math.round(v*.55+[90,80,65][i])).join(',')||'198,173,124';g.save();g.translate(x,y);g.scale(1,.16);g.globalCompositeOperation='screen';
-    for(let i=0;i<3;i++){const xx=(i-1)*r*.34,rr=r*(i===1?.82:.55),light=g.createRadialGradient(xx,0,0,xx,0,rr);light.addColorStop(0,'rgba('+reflected+','+(e.strength*(i===1?.18:.10))+')');light.addColorStop(1,'rgba(120,139,153,0)');g.fillStyle=light;g.fillRect(xx-rr,-rr,rr*2,rr*2);}g.restore();
+    const reflected=colors[e.kind].map((v,i)=>Math.round(v*.60+(b.light?.floor?.[i]||50)*.40)).join(','),gain=e.kind==='buzz'?1:.28;g.save();g.translate(x,y);g.scale(1,.16);g.globalCompositeOperation='screen';
+    for(let i=0;i<3;i++){const xx=(i-1)*r*.34,rr=r*(i===1?.82:.55),light=g.createRadialGradient(xx,0,0,xx,0,rr);light.addColorStop(0,'rgba('+reflected+','+(e.strength*gain*(i===1?.18:.10))+')');light.addColorStop(1,'rgba(120,139,153,0)');g.fillStyle=light;g.fillRect(xx-rr,-rr,rr*2,rr*2);}g.restore();
    }
    const bodyPoint=e.kind==='buzz'?[(b.sockets.forelimb[0]+b.sockets.hindlimb[0])*.5,b.bh*.5+10]:b.surface(...b.sockets[profile.site]).point,matrix=g.getTransform?.();
    const project=p=>matrix?[matrix.a*p[0]+matrix.c*p[1]+matrix.e,matrix.b*p[0]+matrix.d*p[1]+matrix.f]:p,point=project(bodyPoint),eyePoint=b.sockets.eye?project(b.sockets.eye):null;
    return {kind:e.kind,count:e.count,sequence:e.sequence,progress:e.progress,strength:e.strength,duration:e.duration,jawOpen:e.kind==='fizz'?e.strength:0,oral:e.kind==='fizz'?b.oral:null,eyePoint,point,...profile};
   });
  }
- return {quotas,durations,milestone,advanceEvents,reactions,profileFor,advanceGrowth,growthReactions,seed,draw};
+ return {colors,motionProfileFor,quotas,durations,milestone,advanceEvents,reactions,profileFor,advanceGrowth,growthReactions,seed,draw};
 });
