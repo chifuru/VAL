@@ -3,28 +3,28 @@
     "file": "browser/row-feeding.webm",
     "decoded": true,
     "frames": 37,
-    "ptsSpanSeconds": 3.0,
+    "ptsSpanSeconds": 2.999,
     "events": "Actual N15 output milestones"
   },
   {
     "file": "motion/jelly.webm",
     "decoded": true,
     "frames": 41,
-    "ptsSpanSeconds": 3.314,
+    "ptsSpanSeconds": 3.325,
     "events": "Controlled milestone events on real mature state"
   },
   {
     "file": "motion/serpent.webm",
     "decoded": true,
     "frames": 41,
-    "ptsSpanSeconds": 3.304,
+    "ptsSpanSeconds": 3.302,
     "events": "Controlled milestone events on real mature state"
   },
   {
     "file": "motion/myth.webm",
     "decoded": true,
     "frames": 41,
-    "ptsSpanSeconds": 3.309,
+    "ptsSpanSeconds": 3.299,
     "events": "Controlled milestone events on real mature state"
   }
 ]

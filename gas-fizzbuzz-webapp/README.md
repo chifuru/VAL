@@ -4,7 +4,7 @@ Windows 10 / 11 x64向け。入力した数値N（1〜1000）から不変の初�
 
 ## ダウンロード・起動
 
-[確認済み v1.5.0 のWindows配布](https://github.com/chifuru/VAL/actions/runs/38700518068)のArtifactsから `VALIS-Windows-x64` をダウンロードします。外側の成果物ZIP、その中の `VALIS-Windows-x64.zip` をすべて展開し、`VALIS.exe` をダブルクリックしてください。DLL・resources・localesも同じフォルダに必要です。Node.js、npm、GAS、インターネット接続は利用時に不要です。
+[確認済み v1.5.1 のWindows配布](https://github.com/chifuru/VAL/actions/runs/38705531881)のArtifactsから `VALIS-Windows-x64` をダウンロードします。外側の成果物ZIP、その中の `VALIS-Windows-x64.zip` をすべて展開し、`VALIS.exe` をダブルクリックしてください。DLL・resources・localesも同じフォルダに必要です。Node.js、npm、GAS、インターネット接続は利用時に不要です。
 
 成果物は30日保存。ソースZIPにはElectron実行体を含めません。配布物は署名していません。Windows 10/11の利用者実機での表示・操作の受入は別確認です。
 

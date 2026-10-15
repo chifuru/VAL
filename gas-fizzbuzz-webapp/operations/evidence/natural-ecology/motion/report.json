@@ -1,7 +1,7 @@
 {
   "scope": "Chromium motion and static preservation; state-driven rendering and actual canvas videos; not a user-hardware FPS benchmark",
   "browser": "154.0.8037.57",
-  "generatedAt": "2026-10-15T08:16:36.707Z",
+  "generatedAt": "2026-10-15T08:27:25.798Z",
   "checks": [
     "loaded preview remains still before explicit start",
     "still mode has no motion rig abyss",

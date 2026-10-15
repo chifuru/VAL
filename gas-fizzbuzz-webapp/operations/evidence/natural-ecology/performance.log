@@ -2,7 +2,7 @@
 > valis-fizzbuzz-desktop@1.5.1 test:performance
 > node tests/browser-performance.cjs
 
-{"passed":33,"scenarios":[{"row":120,"frames":90,"canvasAllocations":17,"warmCanvasAllocations":0,"pixelReads":2,"firstMs":59.70000000298023,"medianMs":1.1000000089406967,"p95Ms":2.5,"maxMs":59.70000000298023},{"row":600,"frames":90,"canvasAllocations":16,"warmCanvasAllocations":0,"pixelReads":2,"firstMs":87.79999999701977,"medianMs":1.1000000089406967,"p95Ms":2.2000000029802322,"maxMs":87.79999999701977},{"row":1000,"frames":90,"canvasAllocations":7,"warmCanvasAllocations":0,"pixelReads":2,"firstMs":32.099999994039536,"medianMs":1.0999999940395355,"p95Ms":1.9000000059604645,"maxMs":32.099999994039536}]}
+{"passed":34,"scenarios":[{"row":120,"frames":90,"canvasAllocations":17,"warmCanvasAllocations":0,"pixelReads":2,"firstMs":63.20000000298023,"medianMs":0.800000011920929,"p95Ms":1.4000000059604645,"maxMs":63.20000000298023},{"row":600,"frames":90,"canvasAllocations":16,"warmCanvasAllocations":0,"pixelReads":2,"firstMs":75.40000000596046,"medianMs":1,"p95Ms":2,"maxMs":75.40000000596046},{"row":1000,"frames":90,"canvasAllocations":7,"warmCanvasAllocations":0,"pixelReads":2,"firstMs":30.5,"medianMs":1,"p95Ms":1.5999999940395355,"maxMs":30.5}]}
 npm notice
 npm notice New major version of npm available! 11.9.0 -> 12.2.0
 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0

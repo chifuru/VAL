@@ -8,6 +8,12 @@
   "browserStep": "Observation UI and actual PNG drawing",
   "browserConclusion": "failure",
   "publicAnnotation": "AssertionError [ERR_ASSERTION]: first life mineral and information each react",
-  "followup": "Within-row sampling repair, final original row display before awaiting asynchronous save, explicit delayed final-save regression. Full recheck pending.",
-  "source": "Public job HTML; authenticated raw logs/artifact contents not read"
+  "followup": "Within-row sampling repair, final original row display before awaiting asynchronous save, explicit delayed final-save regression. Full recheck completed; see resolution.",
+  "source": "Public job HTML; authenticated raw logs/artifact contents not read",
+  "resolution": {
+    "targetCommit": "3a97cb93d97d81354bf680d7d4201b014b8f31f3",
+    "windowsRun": 38705531881,
+    "browserRun": 38705531876,
+    "conclusion": "Both workflows completed with unconditional success; local browser145/motion319/performance34 and native create21/restart15 rechecked."
+  }
 }

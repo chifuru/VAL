@@ -5,11 +5,11 @@
     "canvasAllocationsAfter": 17,
     "warmAllocationsAfter": 0,
     "medianMsBefore": 13.100000008940697,
-    "medianMsAfter": 1.1000000089406967,
+    "medianMsAfter": 0.800000011920929,
     "p95MsBefore": 16.200000002980232,
-    "p95MsAfter": 2.5,
+    "p95MsAfter": 1.4000000059604645,
     "firstMsBefore": 82.6000000089407,
-    "firstMsAfter": 59.70000000298023,
+    "firstMsAfter": 63.20000000298023,
     "limit": "Cold source preparation can still exceed one frame. Timing is this Linux Chromium CPU path, not Windows hardware FPS."
   },
   {
@@ -18,11 +18,11 @@
     "canvasAllocationsAfter": 16,
     "warmAllocationsAfter": 0,
     "medianMsBefore": 4.4000000059604645,
-    "medianMsAfter": 1.1000000089406967,
+    "medianMsAfter": 1,
     "p95MsBefore": 7.899999991059303,
-    "p95MsAfter": 2.2000000029802322,
+    "p95MsAfter": 2,
     "firstMsBefore": 35.900000005960464,
-    "firstMsAfter": 87.79999999701977,
+    "firstMsAfter": 75.40000000596046,
     "limit": "Cold source preparation can still exceed one frame. Timing is this Linux Chromium CPU path, not Windows hardware FPS."
   },
   {
@@ -31,11 +31,11 @@
     "canvasAllocationsAfter": 7,
     "warmAllocationsAfter": 0,
     "medianMsBefore": 6,
-    "medianMsAfter": 1.0999999940395355,
+    "medianMsAfter": 1,
     "p95MsBefore": 11.700000002980232,
-    "p95MsAfter": 1.9000000059604645,
+    "p95MsAfter": 1.5999999940395355,
     "firstMsBefore": 29.19999998807907,
-    "firstMsAfter": 32.099999994039536,
+    "firstMsAfter": 30.5,
     "limit": "Cold source preparation can still exceed one frame. Timing is this Linux Chromium CPU path, not Windows hardware FPS."
   }
 ]

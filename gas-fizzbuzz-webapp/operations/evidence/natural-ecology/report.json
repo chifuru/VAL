@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-10-15T08:17:47.056028+00:00",
+  "recordedAt": "2026-10-15T08:28:15.020104+00:00",
   "actor": "Codex cloud environment",
   "scope": "Local app1.5.1 natural snout/low emission, habitat integration and bounded renderer/UI/checkpoint optimization",
   "platform": "Linux x64 / Chromium154 / Electron44.7.2; Xvfb test-only launcher, product sandbox unchanged",
@@ -8,7 +8,7 @@
     "unitFailed": 0,
     "browserPassed": 145,
     "motionAndEcologyPassed": 319,
-    "performanceAndSavePassed": 33,
+    "performanceAndSavePassed": 34,
     "allSourceCells": 160,
     "nativeCreatePassed": 21,
     "nativeRestartPassed": 15,
@@ -16,9 +16,9 @@
     "runtimePngs": 66
   },
   "observedNormalRowGapsMs": {
-    "min": 97.5,
-    "max": 136.3999999910593,
-    "mean": 104.2785714279328
+    "min": 88.70000000298023,
+    "max": 128.0,
+    "mean": 106.75714285778147
   },
   "performanceComparison": [
     {
@@ -27,11 +27,11 @@
       "canvasAllocationsAfter": 17,
       "warmAllocationsAfter": 0,
       "medianMsBefore": 13.100000008940697,
-      "medianMsAfter": 1.1000000089406967,
+      "medianMsAfter": 0.800000011920929,
       "p95MsBefore": 16.200000002980232,
-      "p95MsAfter": 2.5,
+      "p95MsAfter": 1.4000000059604645,
       "firstMsBefore": 82.6000000089407,
-      "firstMsAfter": 59.70000000298023,
+      "firstMsAfter": 63.20000000298023,
       "limit": "Cold source preparation can still exceed one frame. Timing is this Linux Chromium CPU path, not Windows hardware FPS."
     },
     {
@@ -40,11 +40,11 @@
       "canvasAllocationsAfter": 16,
       "warmAllocationsAfter": 0,
       "medianMsBefore": 4.4000000059604645,
-      "medianMsAfter": 1.1000000089406967,
+      "medianMsAfter": 1,
       "p95MsBefore": 7.899999991059303,
-      "p95MsAfter": 2.2000000029802322,
+      "p95MsAfter": 2,
       "firstMsBefore": 35.900000005960464,
-      "firstMsAfter": 87.79999999701977,
+      "firstMsAfter": 75.40000000596046,
       "limit": "Cold source preparation can still exceed one frame. Timing is this Linux Chromium CPU path, not Windows hardware FPS."
     },
     {
@@ -53,11 +53,11 @@
       "canvasAllocationsAfter": 7,
       "warmAllocationsAfter": 0,
       "medianMsBefore": 6,
-      "medianMsAfter": 1.0999999940395355,
+      "medianMsAfter": 1,
       "p95MsBefore": 11.700000002980232,
-      "p95MsAfter": 1.9000000059604645,
+      "p95MsAfter": 1.5999999940395355,
       "firstMsBefore": 29.19999998807907,
-      "firstMsAfter": 32.099999994039536,
+      "firstMsAfter": 30.5,
       "limit": "Cold source preparation can still exceed one frame. Timing is this Linux Chromium CPU path, not Windows hardware FPS."
     }
   ],
@@ -66,28 +66,28 @@
       "file": "browser/row-feeding.webm",
       "decoded": true,
       "frames": 37,
-      "ptsSpanSeconds": 3.0,
+      "ptsSpanSeconds": 2.999,
       "events": "Actual N15 output milestones"
     },
     {
       "file": "motion/jelly.webm",
       "decoded": true,
       "frames": 41,
-      "ptsSpanSeconds": 3.314,
+      "ptsSpanSeconds": 3.325,
       "events": "Controlled milestone events on real mature state"
     },
     {
       "file": "motion/serpent.webm",
       "decoded": true,
       "frames": 41,
-      "ptsSpanSeconds": 3.304,
+      "ptsSpanSeconds": 3.302,
       "events": "Controlled milestone events on real mature state"
     },
     {
       "file": "motion/myth.webm",
       "decoded": true,
       "frames": 41,
-      "ptsSpanSeconds": 3.309,
+      "ptsSpanSeconds": 3.299,
       "events": "Controlled milestone events on real mature state"
     }
   ],
@@ -95,9 +95,9 @@
   "validWhen": "Execution inputs match target-sha256.json and assertions retained",
   "invalidWhen": "Execution code/data/conditions changed or checks omitted",
   "pending": [
-    "Recheck final-row display and within-row observation",
-    "Hosted Windows result",
     "User Windows10/11 device display/FPS and art acceptance"
   ],
-  "validity": "Superseded by final-row display/test observation fix; local recheck pending"
+  "targetCommit": "3a97cb93d97d81354bf680d7d4201b014b8f31f3",
+  "hostedWindowsEvidence": "E44/windows-ci-public-summary.json",
+  "hostedBrowserProof": "browser-ci-public-summary.json"
 }

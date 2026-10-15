@@ -2,7 +2,7 @@
   "scope": "Chromium with test persistence bridge; native store verified separately",
   "browser": "154.0.8037.57",
   "platform": "linux",
-  "generatedAt": "2026-10-15T08:15:34.041Z",
+  "generatedAt": "2026-10-15T08:26:22.526Z",
   "checks": [
     "initial preview creates no specimen",
     "DNA and FizzBuzz stay open without collapse controls",
