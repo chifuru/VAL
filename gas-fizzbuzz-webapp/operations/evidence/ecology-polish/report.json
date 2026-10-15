@@ -1,0 +1,60 @@
+{
+  "recordedAt": "2026-10-15T07:38:56.237842+00:00",
+  "actor": "Codex cloud environment",
+  "scope": "Local app1.5.0 oral anatomy and continuous jaw mesh, visible tissue/ground emission, 8 growth colonies, spatial ecology and 100ms output",
+  "platform": "Linux x64 / Chromium154 / Electron44.7.2; native Xvfb test-only launcher, product sandbox unchanged",
+  "checks": {
+    "unitPassed": 55,
+    "unitFailed": 0,
+    "browserPassed": 145,
+    "motionAndEcologyPassed": 299,
+    "allSourceCells": 160,
+    "nativeCreatePassed": 21,
+    "nativeRestartPassed": 15,
+    "zipChecksumFiles": 74,
+    "runtimePngs": 66
+  },
+  "observedNormalRowGapsMs": {
+    "min": 85.20000000298023,
+    "max": 215.09999999403954,
+    "mean": 143.88571428507566
+  },
+  "videos": [
+    {
+      "file": "browser/row-feeding.webm",
+      "decoded": true,
+      "frames": 42,
+      "ptsSpanSeconds": 3.586,
+      "events": "Actual N15 output milestones"
+    },
+    {
+      "file": "motion/jelly.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.345,
+      "events": "Controlled milestone events on a real mature state"
+    },
+    {
+      "file": "motion/serpent.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.317,
+      "events": "Controlled milestone events on a real mature state"
+    },
+    {
+      "file": "motion/myth.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.316,
+      "events": "Controlled milestone events on a real mature state"
+    }
+  ],
+  "comparisonBaseline": "operations/evidence/accumulated-ecology/motion/accumulation-1000.png (app1.4.3); current still is motion/accumulation-1000.png. Same actual N1000 calculation state, revised scenery/renderer.",
+  "facialSourceReview": "5 source-atlas views with markers; source images before runtime neighbor exclusions, not a gameplay screenshot. Metadata review is not user art acceptance.",
+  "validWhen": "Execution inputs match target-sha256.json and assertions are retained",
+  "invalidWhen": "Execution code/data/conditions changed or checks omitted",
+  "pending": [
+    "Hosted Windows result",
+    "User Windows10/11 device display/FPS and art acceptance"
+  ]
+}

@@ -35,13 +35,13 @@ test('neighbor-only exclusion rectangles stay inside their source cell and do no
  let excluded=0;for(const [key,list]of Object.entries(config.sprites)){if(!key.startsWith('eco-'))continue;for(const s of list){const [,,w,h]=s.region;let area=0;for(const [x,y,rw,rh]of s.exclusions){assert.ok(x>=0&&y>=0&&rw>0&&rh>0&&x+rw<=w&&y+rh<=h);area+=rw*rh;}assert.ok(area<w*h*.08,'isolation removes too much body '+key);excluded+=area;}}
  assert.ok(excluded>100,'overlapping neighbor tentacles have explicit source geometry');
 });
-test('all65 atlas requests succeed under a four-loader resource limit',async()=>{
+test('all66 atlas requests succeed under a four-loader resource limit',async()=>{
  const vm=require('node:vm');let active=0,peak=0,decoded=0;
  class LimitedImage{set src(value){active++;peak=Math.max(peak,active);if(active>4){active--;queueMicrotask(()=>this.onerror(Error('loader resource limit')));return;}setTimeout(()=>{active--;decoded++;this.onload();},1);}}
  const sandbox={window:{CreatureEngine:E},Image:LimitedImage,URL,document:{baseURI:'http://127.0.0.1/Index.html'}};
  vm.runInNewContext(fs.readFileSync(path.join(root,'src/composite/renderer.js'),'utf8'),sandbox);
- const renderer=sandbox.window.CreatureRenderer.create({getContext:()=>({})},{files:Array.from({length:65},(_,i)=>({file:'assets/'+i+'.png'})),sprites:{}});
- await renderer.prepare();assert.equal(decoded,65);assert.ok(peak<=4);assert.equal(renderer.missingAssets().length,0);
+ const renderer=sandbox.window.CreatureRenderer.create({getContext:()=>({})},{files:Array.from({length:66},(_,i)=>({file:'assets/'+i+'.png'})),sprites:{}});
+ await renderer.prepare();assert.equal(decoded,66);assert.ok(peak<=4);assert.equal(renderer.missingAssets().length,0);
 });
 test('all four habitat layers accumulate monotonically, survive time and JSON restoration, and have upper bounds',()=>{
  let s=E.initial(1000),levels=H.levelsFor(s);assert.deepEqual(levels,[0,0,0,0]);
@@ -55,7 +55,25 @@ test('reaction profiles keep minerals on the ground, information localized, and 
   assert.equal(F.profileFor(bodyPlan,'fizz').site,'mouth');assert.equal(F.profileFor(bodyPlan,'buzz').site,'ground');const p=F.profileFor(bodyPlan,'fizzbuzz');assert.ok(['head','dorsal'].includes(p.site));sites.add(p.site);assert.equal(F.profileFor(bodyPlan,'number'),null);
  }
  assert.equal(sites.size,2);
- const g=new Proxy({createRadialGradient:()=>({addColorStop:()=>{}})},{get:(o,key)=>o[key]||(key==='drawImage'||key==='fillText'?()=>assert.fail('no food sprite or glyph may travel into the animal'):()=>{})}),b={motion:{mode:'aquatic'},bw:400,bh:200,sockets:{forelimb:[-60,60],hindlimb:[80,60]}};
- const events=[{kind:'fizz',count:1,sequence:3,time:0},{kind:'buzz',count:1,sequence:5,time:0},{kind:'fizzbuzz',count:1,sequence:15,time:0}];const state={current:20};
+ const g=new Proxy({createRadialGradient:()=>({addColorStop:()=>{}})},{get:(o,key)=>o[key]||(key==='fillText'?()=>assert.fail('no food glyph may be painted'):()=>{})}),b={motion:{mode:'aquatic'},bw:400,bh:200,sockets:{forelimb:[-60,60],hindlimb:[80,60],head:[0,-50],dorsal:[20,-50],mouth:[-60,-20]},surface:(...point)=>({point})};
+ const events=[{kind:'fizz',count:1,sequence:3,time:0},{kind:'buzz',count:1,sequence:5,time:0},{kind:'fizzbuzz',count:1,sequence:15,time:0}];const state={seed:1000,current:20};
  assert.equal(F.draw(g,b,state,config,new Map(),300,false,events).length,3);assert.deepEqual(F.draw(g,b,state,config,new Map(),300,true,events),[]);assert.deepEqual(F.draw(g,b,state,config,new Map(),300,false,[{kind:'number',count:1,sequence:1,time:0}]),[]);
+});
+
+test('all160 facial landmarks match their PNG cells and define a lower jaw below the protected eye',()=>{
+ const rasters=new Map();let count=0;for(const l of E.LINEAGES)for(const s of config.sprites['eco-'+l.id+':body']){
+  if(!rasters.has(s.file))rasters.set(s.file,PNG.sync.read(fs.readFileSync(path.join(root,'src',s.file))));const png=rasters.get(s.file),[x,y,w,h]=s.region,a=s.anatomy,[mx,my]=a.joints.mouth,[ex,ey]=a.joints.eye;
+  assert.ok(a.oral&&a.oral.radius.every(v=>v>=.03&&v<=.10));assert.ok(mx<ex&&my>ey,'jaw must sit in front of and below the iris '+l.id);assert.ok(png.data[((y+Math.round(my*h))*png.width+x+Math.round(mx*w))*4+3]>=160,'mouth is off the body '+l.id);count++;
+ }assert.equal(count,160);
+});
+test('young and mature colony atlas has eight isolated transparent regions and retained generator provenance',()=>{
+ const p=JSON.parse(fs.readFileSync(path.join(root,'design/assets/ecology/growth.json'))),bytes=fs.readFileSync(path.join(root,p.file)),png=PNG.sync.read(bytes);assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),p.sha256);assert.ok(p.method.includes('image_gen'));assert.equal(p.regions.length,8);
+ for(const [x,y,w,h]of p.regions){assert.ok(w>100&&h>100);assert.ok(x>=0&&y>=0&&x+w<=png.width&&y+h<=png.height);}
+ let transparent=0;for(let i=3;i<png.data.length;i+=4)if(png.data[i]<8)transparent++;assert.ok(transparent>png.width*png.height*.30,'colony atlas needs real transparent space');
+ // Bilinear sampling needs a clear texel border; eight source pixels leave
+ // ample room around the hand-painted glow without trimming the source art.
+ for(const row of [0,1])for(let col=0;col<3;col++){const a=p.regions[row*4+col],b=p.regions[row*4+col+1];assert.ok(b[0]-a[0]-a[2]>=8,'neighboring colony sampling gutters overlap');}
+ assert.ok(Math.min(...p.regions.slice(4).map(r=>r[1]))-Math.max(...p.regions.slice(0,4).map(r=>r[1]+r[3]))>=20,'growth rows overlap');
+ for(let i=0;i<4;i++)assert.ok(p.regions[i+4][3]>p.regions[i][3]*1.4,'mature colony really grows');
+ const plan=H.bedPlan(E.runAll(1000));assert.equal(plan.length,8);assert.equal(new Set(plan.map(p=>p.x+':'+p.y)).size,8);assert.ok(plan.every(p=>p.y>=.8));
 });

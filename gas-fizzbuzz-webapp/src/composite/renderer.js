@@ -158,8 +158,8 @@
         cross.push(1+bell+(ecology?0:(motion?.pulse||0))*.018*Math.sin(u*Math.PI));
         if(feeding){
           const center=feedingSite[verticalMesh?1:0],local=Math.exp(-(((u-center)/.10)**2));
-          cross[i]+=local*feeding.strength*(feedingProfile.mode==='oral-fold'?-.07:.08);
-          offsets[i]+=local*feeding.strength*1.8;
+          cross[i]+=local*feeding.strength*(feedingProfile.mode==='oral-fold'?-.06:.045);
+          offsets[i]+=local*feeding.strength*4.0;
         }
       }
       function point(u,v){const along=verticalMesh?v:u,slot=clamp(Math.floor(along*slices),0,slices-1),fraction=along*slices-slot;return verticalMesh?[(u-.5)*sw*baseScale*sx[slot]*cross[slot]+offsets[slot],positions[slot]+fraction*dx*baseScale*sy[slot]-height*.5]:[positions[slot]+fraction*dx*baseScale*sx[slot]-width*.5,(v-.5)*sh*baseScale*sy[slot]*cross[slot]+offsets[slot]];}
@@ -193,6 +193,27 @@
       }
       return {integrated:true,biological,verticalMesh,prefix,key,level,s,sw,sh,baseScale,slices,dx,positions,sx,sy,offsets,cross,motion,bw:width,bh:height,volume:1,head:sockets.head,hw:width*.27,hh:height*.3,posture:0,sockets,surface};
     }
+    function oralWarp(im,b,reaction){
+      const oral=b.s.anatomy.oral,center=b.surface(...b.sockets.mouth).source,eye=b.s.anatomy.joints.eye,open=reaction.strength;
+      const rx=(oral?.radius[0]||.045)*b.sw,ry=(oral?.radius[1]||.055)*b.sh,mx=center[0],my=center[1];
+      const marked=document.createElement('canvas');marked.width=b.sw;marked.height=b.sh;const mg=marked.getContext('2d');mg.drawImage(im,0,0);mg.save();mg.globalCompositeOperation='source-atop';
+      // Protect the real iris. The cavity and lip belong to the lower snout.
+      mg.beginPath();mg.rect(0,0,b.sw,b.sh);mg.ellipse(eye[0]*b.sw,eye[1]*b.sh,rx*.48,ry*.43,0,0,Math.PI*2);mg.clip('evenodd');
+      const gape=ry*(.10+.70*open),cavity=mg.createLinearGradient(mx,my-gape*.2,mx,my+gape);cavity.addColorStop(0,'#07101d');cavity.addColorStop(.65,'#271e38');cavity.addColorStop(1,'#896477');mg.fillStyle=cavity;
+      mg.beginPath();mg.moveTo(mx-rx*.75,my);mg.quadraticCurveTo(mx+rx*.1,my-gape*.35,mx+rx*.85,my-gape*.08);mg.quadraticCurveTo(mx+rx*.50,my+gape,mx-rx*.38,my+gape*.75);mg.closePath();mg.fill();
+      mg.strokeStyle='rgba(236,213,191,'+(.35+.5*open)+')';mg.lineWidth=Math.max(1,b.sw*.004);mg.beginPath();mg.moveTo(mx-rx*.62,my+gape*.18);mg.quadraticCurveTo(mx+rx*.1,my+gape*.92,mx+rx*.72,my+gape*.22);mg.stroke();mg.restore();
+      const c=document.createElement('canvas');c.width=b.sw;c.height=b.sh;const g=c.getContext('2d');g.drawImage(marked,0,0);
+      const left=Math.max(0,Math.floor(mx-rx*1.8)),top=Math.max(0,Math.floor(my-ry*.25)),right=Math.min(b.sw,Math.ceil(mx+rx*2.1)),bottom=Math.min(b.sh,Math.ceil(my+ry*2.1)),cols=8,rows=6,cw=(right-left)/cols,ch=(bottom-top)/rows;
+      g.clearRect(left,top,right-left,bottom-top);
+      function warp(x,y){const edge=Math.sin((x-left)/(right-left)*Math.PI)**2,lower=Math.sin(clamp((y-my+ry*.25)/(bottom-my+ry*.25),0,1)*Math.PI),d=edge*lower*open;return [x-rx*.14*d,y+ry*.75*d];}
+      function triangle(src,dst){
+        const [s0,s1,s2]=src,[d0,d1,d2]=dst,xx=s1[0]-s0[0],xy=s1[1]-s0[1],yx=s2[0]-s0[0],yy=s2[1]-s0[1],det=xx*yy-yx*xy;
+        const a=((d1[0]-d0[0])*yy-(d2[0]-d0[0])*xy)/det,c=((d2[0]-d0[0])*xx-(d1[0]-d0[0])*yx)/det,b=((d1[1]-d0[1])*yy-(d2[1]-d0[1])*xy)/det,d=((d2[1]-d0[1])*xx-(d1[1]-d0[1])*yx)/det;
+        const cx=(d0[0]+d1[0]+d2[0])/3,cy=(d0[1]+d1[1]+d2[1])/3;g.save();g.beginPath();dst.forEach((p,i)=>{const length=Math.hypot(p[0]-cx,p[1]-cy)||1,x=p[0]+(p[0]-cx)/length*.16,y=p[1]+(p[1]-cy)/length*.16;i?g.lineTo(x,y):g.moveTo(x,y);});g.closePath();g.clip();g.setTransform(a,b,c,d,d0[0]-a*s0[0]-c*s0[1],d0[1]-b*s0[0]-d*s0[1]);g.drawImage(marked,0,0);g.restore();
+      }
+      for(let row=0;row<rows;row++)for(let col=0;col<cols;col++){const x=left+col*cw,y=top+row*ch,p=[[x,y],[x+cw,y],[x+cw,y+ch],[x,y+ch]],q=p.map(v=>warp(...v));triangle([p[0],p[1],p[2]],[q[0],q[1],q[2]]);triangle([p[0],p[2],p[3]],[q[0],q[2],q[3]]);}
+      return c;
+    }
     function coherentAnatomy(g,a,b){
       const n=a.anatomy,finKey=b.prefix+a.bodyPlan+':fin',limbKey=b.prefix+a.bodyPlan+':limb';
       const tier=part=>b.biological?Math.min(a.stage+1,part.level):bodyTier(part);
@@ -203,16 +224,18 @@
         paint(g,finKey,tier(n.fin),at[0],at[1],(b.biological?75:100)*n.fin.scaleX,(b.biological?90:110)*n.fin.scaleY,side*((aquatic?.45:.25)+(b.motion?.fin||0)),side<0?.82:1,side<0,0,false,polished(a),polished(a)?a.color:null);}
       const source=images.get(b.s.file);let im=currentPalette?recolored(b.s,source,currentPalette):source;
       if(b.biological)im=livingSkin(a,b.s,im);
-      const reactions=a.version===5?(b.motion?.reactions||[]).filter(e=>e.kind!=='buzz'&&e.strength>.001):[];
-      if(reactions.length){
+      const reactions=a.version===5?(b.motion?.reactions||[]).filter(e=>e.strength>.001):[];
+      const meal=reactions.find(e=>e.kind==='fizz');if(meal)im=oralWarp(im,b,meal);
+      const lights=reactions.filter(e=>e.kind!=='fizz');
+      if(lights.length){
         const c=document.createElement('canvas');c.width=b.sw;c.height=b.sh;const cg=c.getContext('2d');cg.drawImage(im,0,0);cg.globalCompositeOperation='source-atop';
-        for(const reaction of reactions){
-          const profile=root.FoodScene.profileFor(a.bodyPlan,reaction.kind),center=b.surface(...b.sockets[profile.site]).source;
-          if(reaction.kind==='fizz'){
-            cg.fillStyle='rgba(5,14,22,'+(.68*reaction.strength)+')';cg.beginPath();cg.ellipse(center[0],center[1],b.sw*.020,b.sh*(.002+.018*reaction.strength),-.12,0,Math.PI*2);cg.fill();
-          }else{
-            const r=Math.min(b.sw,b.sh)*.16,light=cg.createRadialGradient(center[0],center[1],0,center[0],center[1],r),rgb=reaction.color.join(',');
-            light.addColorStop(0,'rgba('+rgb+','+(.48*reaction.strength)+')');light.addColorStop(.45,'rgba('+rgb+','+(.20*reaction.strength)+')');light.addColorStop(1,'rgba('+rgb+',0)');cg.fillStyle=light;cg.fillRect(0,0,b.sw,b.sh);
+        for(const reaction of lights){
+          const profile=root.FoodScene.profileFor(a.bodyPlan,reaction.kind),center=reaction.kind==='buzz'?[b.sw*.5,b.sh*.80]:b.surface(...b.sockets[profile.site]).source;
+          const r=Math.min(b.sw,b.sh)*(reaction.kind==='buzz'?.28:.23),light=cg.createRadialGradient(center[0],center[1],0,center[0],center[1],r),rgb=reaction.color.join(','),power=reaction.kind==='buzz'?.32:.82;
+          light.addColorStop(0,'rgba('+rgb+','+(power*reaction.strength)+')');light.addColorStop(.45,'rgba('+rgb+','+(power*.40*reaction.strength)+')');light.addColorStop(1,'rgba('+rgb+',0)');cg.fillStyle=light;cg.fillRect(0,0,b.sw,b.sh);
+          if(reaction.kind==='fizzbuzz'){
+            cg.strokeStyle='rgba(226,220,255,'+(.85*reaction.strength)+')';cg.lineWidth=Math.max(1.2,b.sw*.004);
+            for(let i=0;i<5;i++){const dx=(i-2)*r*.31,dy=(i%2?1:-1)*r*.5;cg.beginPath();cg.moveTo(center[0],center[1]);cg.bezierCurveTo(center[0]+dx*.3,center[1]-r*.15,center[0]+dx,center[1]+dy*.4,center[0]+dx,center[1]+dy);cg.stroke();}
           }
         }im=c;
       }

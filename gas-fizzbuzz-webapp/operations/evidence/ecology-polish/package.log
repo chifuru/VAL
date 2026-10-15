@@ -1,0 +1,16 @@
+Packaging app for platform win32 x64 using electron v44.7.2
+{
+  "scope": "Windows x64 package integrity; actual Windows execution is a separate smoke gate",
+  "electronVersion": "44.7.2",
+  "packagerVersion": "20.3.0",
+  "officialRuntimeSha256": "10a89447ef64ac5cb9f782af48ffd83734a40ae91681259d1048ca3c9e6c5da4",
+  "exe": "VALIS.exe",
+  "machine": "x86-64",
+  "asarEntries": 94,
+  "pngCount": 66,
+  "sourceBytesMatch": true,
+  "zip": "VALIS-Windows-x64.zip",
+  "zipBytes": 283501694,
+  "zipSha256": "6c75c183cf582b99e275922b55de1577fa7f80461475b967f29fc1c27fc7817b",
+  "generatedAt": "2026-10-15T07:34:58.769Z"
+}

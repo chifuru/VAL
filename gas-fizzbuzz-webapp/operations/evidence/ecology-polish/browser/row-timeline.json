@@ -1,0 +1,418 @@
+[
+  {
+    "sequence": 1,
+    "time": 4788.5,
+    "raw": "1",
+    "feeding": [],
+    "foods": {
+      "number": 1,
+      "fizz": 0,
+      "buzz": 0,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 2,
+    "time": 4940.70000000298,
+    "raw": "2",
+    "feeding": [],
+    "foods": {
+      "number": 2,
+      "fizz": 0,
+      "buzz": 0,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 3,
+    "time": 5045.899999991059,
+    "raw": "Fizz",
+    "feeding": [
+      {
+        "kind": "fizz",
+        "count": 1,
+        "sequence": 3,
+        "progress": 0.010333333330021965,
+        "strength": 0.0003624845308253014,
+        "duration": 900,
+        "jawOpen": 0.0003624845308253014,
+        "point": [
+          399.7727135442318,
+          257.0124639972259
+        ],
+        "mode": "jaw",
+        "site": "mouth"
+      }
+    ],
+    "foods": {
+      "number": 2,
+      "fizz": 1,
+      "buzz": 0,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 4,
+    "time": 5187.20000000298,
+    "raw": "4",
+    "feeding": [
+      {
+        "kind": "fizz",
+        "count": 1,
+        "sequence": 3,
+        "progress": 0.13722222222222222,
+        "strength": 0.576492918142019,
+        "duration": 900,
+        "jawOpen": 0.576492918142019,
+        "point": [
+          399.94124177486367,
+          258.5652832108054
+        ],
+        "mode": "jaw",
+        "site": "mouth"
+      }
+    ],
+    "foods": {
+      "number": 3,
+      "fizz": 1,
+      "buzz": 0,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 5,
+    "time": 5385.70000000298,
+    "raw": "Buzz",
+    "feeding": [
+      {
+        "kind": "fizz",
+        "count": 1,
+        "sequence": 3,
+        "progress": 0.30177777777115505,
+        "strength": 0.8978424811471325,
+        "duration": 900,
+        "jawOpen": 0.8978424811471325,
+        "point": [
+          399.9443524030255,
+          259.35074712290793
+        ],
+        "mode": "jaw",
+        "site": "mouth"
+      },
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.005,
+        "strength": 0.00011115780014076623,
+        "duration": 1100,
+        "jawOpen": 0,
+        "point": [
+          521.3929997599691,
+          378.7317998900626
+        ],
+        "mode": "ground-glow",
+        "site": "ground"
+      }
+    ],
+    "foods": {
+      "number": 3,
+      "fizz": 1,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 6,
+    "time": 5477.20000000298,
+    "raw": "Fizz",
+    "feeding": [
+      {
+        "kind": "fizz",
+        "count": 1,
+        "sequence": 3,
+        "progress": 0.4468888888855771,
+        "strength": 0.10728751441433891,
+        "duration": 900,
+        "jawOpen": 0.10728751441433891,
+        "point": [
+          399.8036317452286,
+          256.7562895726391
+        ],
+        "mode": "jaw",
+        "site": "mouth"
+      },
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.1237272727299817,
+        "strength": 0.10350053115678294,
+        "duration": 1100,
+        "jawOpen": 0,
+        "point": [
+          521.3811175400522,
+          378.8481430059145
+        ],
+        "mode": "ground-glow",
+        "site": "ground"
+      }
+    ],
+    "foods": {
+      "number": 3,
+      "fizz": 2,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 7,
+    "time": 5692.29999999702,
+    "raw": "7",
+    "feeding": [
+      {
+        "kind": "fizz",
+        "count": 1,
+        "sequence": 3,
+        "progress": 0.6831111111077998,
+        "strength": 0.8335263740869114,
+        "duration": 900,
+        "jawOpen": 0.8335263740869114,
+        "point": [
+          399.7098563410225,
+          259.2203769902694
+        ],
+        "mode": "jaw",
+        "site": "mouth"
+      },
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.3170000000027093,
+        "strength": 0.6396346272074568,
+        "duration": 1100,
+        "jawOpen": 0,
+        "point": [
+          521.3683400914758,
+          378.88431300482836
+        ],
+        "mode": "ground-glow",
+        "site": "ground"
+      }
+    ],
+    "foods": {
+      "number": 4,
+      "fizz": 2,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 8,
+    "time": 5880.20000000298,
+    "raw": "8",
+    "feeding": [
+      {
+        "kind": "fizz",
+        "count": 1,
+        "sequence": 3,
+        "progress": 0.8542222222189109,
+        "strength": 0.6290723193424594,
+        "duration": 900,
+        "jawOpen": 0.6290723193424594,
+        "point": [
+          399.5208254915085,
+          258.8812579434198
+        ],
+        "mode": "jaw",
+        "site": "mouth"
+      },
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.4570000000027093,
+        "strength": 0.48030734094081506,
+        "duration": 1100,
+        "jawOpen": 0,
+        "point": [
+          521.3425835300466,
+          378.9572213498732
+        ],
+        "mode": "ground-glow",
+        "site": "ground"
+      }
+    ],
+    "foods": {
+      "number": 5,
+      "fizz": 2,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 9,
+    "time": 6016.70000000298,
+    "raw": "Fizz",
+    "feeding": [
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.6340000000054186,
+        "strength": 0.6297820624716197,
+        "duration": 1100,
+        "jawOpen": 0,
+        "point": [
+          521.2717923569966,
+          379.25813537104864
+        ],
+        "mode": "ground-glow",
+        "site": "ground"
+      }
+    ],
+    "foods": {
+      "number": 5,
+      "fizz": 3,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 10,
+    "time": 6142.70000000298,
+    "raw": "Buzz",
+    "feeding": [
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.7600909090936181,
+        "strength": 0.467285655107264,
+        "duration": 1100,
+        "jawOpen": 0,
+        "point": [
+          521.2125507540943,
+          379.5025806282679
+        ],
+        "mode": "ground-glow",
+        "site": "ground"
+      }
+    ],
+    "foods": {
+      "number": 5,
+      "fizz": 3,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 11,
+    "time": 6249,
+    "raw": "11",
+    "feeding": [
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.8509090909118003,
+        "strength": 0.16446513872705693,
+        "duration": 1100,
+        "jawOpen": 0,
+        "point": [
+          521.1813273997097,
+          379.58872826634683
+        ],
+        "mode": "ground-glow",
+        "site": "ground"
+      }
+    ],
+    "foods": {
+      "number": 6,
+      "fizz": 3,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 12,
+    "time": 6394.70000000298,
+    "raw": "Fizz",
+    "feeding": [
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.9916363636336544,
+        "strength": 0.000311648197178002,
+        "duration": 1100,
+        "jawOpen": 0,
+        "point": [
+          521.1202836856443,
+          379.8146905543366
+        ],
+        "mode": "ground-glow",
+        "site": "ground"
+      }
+    ],
+    "foods": {
+      "number": 6,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 13,
+    "time": 6544.5999999940395,
+    "raw": "13",
+    "feeding": [],
+    "foods": {
+      "number": 7,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 14,
+    "time": 6629.79999999702,
+    "raw": "14",
+    "feeding": [],
+    "foods": {
+      "number": 8,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 15,
+    "time": 6802.899999991059,
+    "raw": "FizzBuzz",
+    "feeding": [
+      {
+        "kind": "fizzbuzz",
+        "count": 1,
+        "sequence": 15,
+        "progress": 0.0015714285692995742,
+        "strength": 0.000024371682194174504,
+        "duration": 1400,
+        "jawOpen": 0,
+        "point": [
+          439.8634264989473,
+          242.81282443350136
+        ],
+        "mode": "crown-glow",
+        "site": "head"
+      }
+    ],
+    "foods": {
+      "number": 8,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 1
+    }
+  }
+]

@@ -8,6 +8,7 @@ async function main(){
  page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(()=>{const records=[];window.valis={testMode:true,listSpecimens:async()=>({records,warning:null}),saveSpecimen:async r=>{const i=records.findIndex(x=>x.runId===r.runId);if(i<0)records.push(r);else records[i]=r;return r;},onPrepareClose:()=>()=>{},closeReady:async()=>true};});
  const check=(v,name)=>{assert.ok(v,name);checks.push(name);};
+ const changedPixels=(a,b,point,rx,ry)=>{const p=PNG.sync.read(Buffer.from(a.split(',')[1],'base64')),q=PNG.sync.read(Buffer.from(b.split(',')[1],'base64'));let n=0;for(let y=Math.max(0,Math.floor(point[1]-ry));y<Math.min(p.height,point[1]+ry);y++)for(let x=Math.max(0,Math.floor(point[0]-rx));x<Math.min(p.width,point[0]+rx);x++){const i=(y*p.width+x)*4;if(Math.abs(p.data[i]-q.data[i])+Math.abs(p.data[i+1]-q.data[i+1])+Math.abs(p.data[i+2]-q.data[i+2])>30)n++;}return n;};
  const call=(name,...args)=>page.evaluate(({name,args})=>window.__VALIS_TEST__[name](...args),{name,args});
  const frame=(s,o)=>page.evaluate(({s,o})=>{const T=window.__VALIS_TEST__,png=T.renderFrame(s,o);return{png,rig:T.motion(),roots:T.attachments(),sources:T.renderedSources()};},{s,o});
  try{
@@ -36,6 +37,7 @@ async function main(){
    for(const kind of ['fizz','buzz','fizzbuzz']){
     const event={kind,count:1,sequence:body.current,time:1000-F.durations[kind]*.28},before=JSON.stringify(body),f=await frame(body,{time:1000,still:false,energyEvents:[event]}),trace=await call('feeding'),expected=F.profileFor(l.bodyPlan,kind);
     check(f.png!==base.png&&trace.length===1&&trace[0].site===expected.site&&trace[0].mode===expected.mode,'localized milestone gesture '+l.id+' '+kind);
+    const visible=changedPixels(f.png,base.png,trace[0].point,kind==='buzz'?140:45,kind==='buzz'?40:40);check(visible>(kind==='fizz'?8:30),'visible pixels at the actual reaction site '+l.id+' '+kind);if(kind==='fizz')assert.ok(trace[0].jawOpen>.9);
     assert.equal(JSON.stringify(body),before);await fs.writeFile(path.join(out,'gesture-'+l.id+'-'+kind+'.png'),Buffer.from(f.png.split(',')[1],'base64'));
    }
    const number=await frame(body,{time:1000,still:false,energyEvents:[{kind:'number',count:1,sequence:body.current,time:700}]});check(number.png===base.png&&(await call('feeding')).length===0,'numeric output has no creature gesture '+l.id);
@@ -43,6 +45,7 @@ async function main(){
   for(const kind of ['fizz','buzz','fizzbuzz']){
    const samples=[];for(const progress of [.12,.28,.75]){const f=await frame(s,{time:1000,still:false,energyEvents:[{kind,count:1,sequence:s.current,time:1000-F.durations[kind]*progress}]});samples.push(f.png);await fs.writeFile(path.join(out,'phase-'+kind+'-'+progress+'.png'),Buffer.from(f.png.split(',')[1],'base64'));}check(new Set(samples).size===3,'gesture develops at its own pace '+kind);
   }
+  const allCells=[];for(const l of D.LINEAGES){const fixture=JSON.parse(JSON.stringify(examples[l.id]));for(let cell=0;cell<8;cell++){fixture.finalAppearance.bodyFrame=cell;const base=await frame(fixture,{time:1000,still:false}),fed=await frame(fixture,{time:1000,still:false,energyEvents:[{kind:'fizz',count:1,sequence:fixture.current,time:775}]}),trace=await call('feeding');assert.equal(fed.sources[0].level,cell+1);assert.ok(trace[0].jawOpen>.99&&fed.png!==base.png,'mouth animation on source cell '+l.id+' '+cell);allCells.push({lineage:l.id,cell,point:trace[0].point,jawOpen:trace[0].jawOpen});}check(true,'all eight source cells animate at the corrected mouth '+l.id);}await fs.writeFile(path.join(out,'all-cells.json'),JSON.stringify(allCells,null,2)+'\n');
   const simultaneous=['fizz','buzz','fizzbuzz'].map(kind=>({kind,count:1,sequence:s.current-1,time:700}));await frame(s,{time:1000,still:false,energyEvents:simultaneous});check((await call('feeding')).length===3,'three independent gestures survive the next output');
   for(const time of [1001,-1000]){const f=await frame(s,{time:1000,still:false,energyEvents:[{time,kind:'fizz',count:1,sequence:s.current}]});check(f.png===plain.png&&f.rig.events===0&&(await call('feeding')).length===0,'future or expired gesture is absent '+time);}
   await frame(s,{time:1000,still:false,energyEvents:[{time:700,kind:'fizz',count:1,sequence:s.current+1}]});check((await call('feeding')).length===0,'future output cannot anticipate a gesture');

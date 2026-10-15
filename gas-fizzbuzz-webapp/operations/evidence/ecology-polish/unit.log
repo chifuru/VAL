@@ -1,0 +1,72 @@
+
+> valis-fizzbuzz-desktop@1.5.0 test
+> node --test tests/*.test.cjs
+
+✔ every anatomical organ and body tier resolves to a checked local PNG with a usable socket (5978.694697ms)
+✔ atlas provenance covers all38 physical runtime PNGs and declares24 reused anatomical aliases (4.494109ms)
+✔ desktop entry contains no GAS, embedded atlas bytes, source previews or remote asset dependency (1.185363ms)
+✔ all12 anatomy plans provide separate fourth-stage source images and surface sockets (3625.253726ms)
+✔ only count milestones trigger gestures; numeric rows never create one (152.957936ms)
+✔ gestures last their fixed duration across following rows and cannot duplicate or anticipate output (0.363657ms)
+✔ habitat rendering uses stable precomputed mixture, normalized weights and smooth phase transition (10.174452ms)
+✔ new integrated lineages have eight distinct real PNG regions, and ecology images retain checked provenance (2074.300238ms)
+✔ neighbor-only exclusion rectangles stay inside their source cell and do not erase the integrated body (0.82482ms)
+✔ all66 atlas requests succeed under a four-loader resource limit (25.552263ms)
+✔ all four habitat layers accumulate monotonically, survive time and JSON restoration, and have upper bounds (8.37711ms)
+✔ reaction profiles keep minerals on the ground, information localized, and numbers off the creature (0.882588ms)
+✔ all160 facial landmarks match their PNG cells and define a lower jaw below the protected eye (1552.331207ms)
+✔ young and mature colony atlas has eight isolated transparent regions and retained generator provenance (78.854496ms)
+✔ frozen engine4 keeps all 1000 original outcomes and old appearances (3355.556546ms)
+✔ 1000-row original output and exact food/quarter calibration remain intact (9.045145ms)
+✔ second phase enters at201 and third phase at580 independent of N duration (15.495758ms)
+✔ awakening requires post-third diet, adaptation and developed organs independently (5.595026ms)
+✔ maturity freezes actual anatomy and color but all remaining rows are consumed (6.29604ms)
+✔ invalid numbers, wrong row order and feeding beyond N fail without mutating old state (0.719412ms)
+✔ latest numeric regulator is overwritten and consumed exactly once by next nutrient (0.201623ms)
+✔ precomputed environment is wholly determined by N and original FizzBuzz rows (13.176649ms)
+✔ all twenty branches are reachable through automatic schedules and no species UI override (1266.713967ms)
+✔ lineage remains fixed inside its phase and chosen from actual exposure (8.788684ms)
+✔ every acquired organ is inherited, continues development and retains its historical snapshot (3.259112ms)
+✔ all99 organ groups have baseline development with three usable image levels (4.40834ms)
+✔ eyes grow in size, lens level, count and functional sensing beyond only duplicate eyes (3.122727ms)
+✔ six DNA traits remain immutable and near numbers produce broad birth anatomy and hue changes (10.915357ms)
+✔ all seven basic parts independently grow and color changes with actual development (3.827057ms)
+✔ lineages have distinct underlying anatomy, pigment, signature and senses (4.260518ms)
+✔ JSON resume and chunked playback preserve deterministic outcomes (15.280463ms)
+✔ legacy engine1 saved DNA, geometry and final portrait interpretation remain versioned (7.136353ms)
+✔ Node and browser UMD use identical current and legacy engines (54.186942ms)
+✔ fourth phase is a conditional transformation, not third-stage completion or age (3.434866ms)
+✔ legacy2 saved non-mature and mature appearances keep exact old definitions (18.029288ms)
+✔ twelve connected body plans include bell, flora, whale, arthropod and mantle anatomy (0.216887ms)
+✔ all20 final forms are attainable automatically, and within-stage actual source frames change (1181.560041ms)
+✔ legacy3 retains its original environment, four stages and frozen appearance (28.578374ms)
+✔ separate runs of the same N survive process-style store reload and list newest first (17.716367ms)
+✔ queued updates keep latest progress and reject older or changed birth records (3.859916ms)
+✔ corrupt primary keeps original and backup untouched and prevents automatic overwrite (3.578553ms)
+✔ atomic write failure preserves previous primary, warns and blocks flush until retry succeeds (10.621206ms)
+✔ external history change is not overwritten by cached state (2.000579ms)
+✔ record validator rejects unsafe N, progress, IDs, malformed images and mismatched snapshots (2.066518ms)
+✔ IPC accepts only local top frame; arbitrary frame/path and remote navigation cannot use host (1.721319ms)
+✔ close waits for renderer preparation and successful flush; failed flush keeps window open (0.671881ms)
+✔ sandbox preload exposes fixed IPC methods and unsubscribes close callbacks (1.900048ms)
+✔ engine1 and engine4 records coexist without rewriting legacy state or portraits (33.752643ms)
+✔ legacy2 final portraits coexist with new4 fourth-phase snapshots (25.18461ms)
+✔ legacy3 saved final result coexists with new4 and cannot change edition in place (25.150553ms)
+✔ old4 and revised4 retain their appearance revision across storage and snapshots (25.209022ms)
+✔ engine5 awakening records and legacy4 coexist, retaining edition boundaries (25.589193ms)
+✔ Manifest uniquely registers every Node, keeps parent IDs in its layer and maintains specification approval boundaries (21.54441ms)
+✔ historical A/B version remains archived exactly; current definitions are all drafts (1.322459ms)
+✔ all core definitions and original root PNG mocks remain byte-identical to the pre-migration baseline (51.720212ms)
+ℹ tests 55
+ℹ suites 0
+ℹ pass 55
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9732.522569
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

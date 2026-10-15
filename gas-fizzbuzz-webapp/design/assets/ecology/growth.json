@@ -1,0 +1,59 @@
+{
+  "file": "src/assets/environments/growth.png",
+  "sha256": "28cae1f6ad0bc5c268e3ceb0acf09a29f1122c8d1320e5fbf9868982ec1736e2",
+  "width": 1983,
+  "height": 793,
+  "method": "image_gen; original transparent generated PNG copied byte-for-byte; alpha analysis only",
+  "generatedSource": "/workspace/generated_images/exec-1bdad2d5-aef1-48b4-8035-29706fe492fc.png",
+  "layout": "four resource columns life/mineral/information/factor; two rows young/mature",
+  "regions": [
+    [
+      70,
+      84,
+      347,
+      225
+    ],
+    [
+      550,
+      96,
+      367,
+      209
+    ],
+    [
+      1051,
+      82,
+      339,
+      227
+    ],
+    [
+      1544,
+      121,
+      384,
+      188
+    ],
+    [
+      22,
+      352,
+      459,
+      421
+    ],
+    [
+      512,
+      350,
+      463,
+      421
+    ],
+    [
+      1002,
+      360,
+      467,
+      414
+    ],
+    [
+      1487,
+      381,
+      478,
+      390
+    ]
+  ]
+}
