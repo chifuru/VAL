@@ -1,0 +1,109 @@
+{
+  "recordedAt": "2026-10-15T11:30:11.922321+00:00",
+  "actor": "Codex cloud environment",
+  "scope": "Local app1.6.0: four-habitat native flora,20 material profiles,body-plan motion,eight life poses/three behaviors,global LRU and high-DPI layer budget",
+  "platform": "Linux x64 / Chromium154 / Electron44.7.2; native Xvfb test-only launcher,product sandbox unchanged",
+  "checks": {
+    "unitPassed": 60,
+    "unitFailed": 0,
+    "browserPassed": 145,
+    "motionAndEcologyPassed": 319,
+    "performanceAndSavePassed": 35,
+    "artPassed": 85,
+    "artHabitatFixtures": 80,
+    "allSourceCells": 160,
+    "nativeCreatePassed": 21,
+    "nativeRestartPassed": 15,
+    "zipChecksumFiles": 74,
+    "runtimePngs": 67
+  },
+  "observedNormalRowGapsMs": {
+    "min": 99.79999999701977,
+    "max": 125.1000000089407,
+    "mean": 104.5428571424314
+  },
+  "performanceComparison": [
+    {
+      "row": 120,
+      "baselineVersion": "1.5.1",
+      "canvasAllocationsBefore": 17,
+      "canvasAllocationsAfter": 19,
+      "warmAllocationsAfter": 0,
+      "medianMsBefore": 0.800000011920929,
+      "medianMsAfter": 1,
+      "p95MsBefore": 1.4000000059604645,
+      "p95MsAfter": 1.7000000029802322,
+      "firstMsBefore": 63.20000000298023,
+      "firstMsAfter": 84.5,
+      "limits": "Separate same-machine Linux Chromium CPU runs, not Windows FPS; cold preparation can still exceed one frame."
+    },
+    {
+      "row": 600,
+      "baselineVersion": "1.5.1",
+      "canvasAllocationsBefore": 16,
+      "canvasAllocationsAfter": 18,
+      "warmAllocationsAfter": 0,
+      "medianMsBefore": 1,
+      "medianMsAfter": 0.9000000059604645,
+      "p95MsBefore": 2,
+      "p95MsAfter": 1.5999999940395355,
+      "firstMsBefore": 75.40000000596046,
+      "firstMsAfter": 108.5,
+      "limits": "Separate same-machine Linux Chromium CPU runs, not Windows FPS; cold preparation can still exceed one frame."
+    },
+    {
+      "row": 1000,
+      "baselineVersion": "1.5.1",
+      "canvasAllocationsBefore": 7,
+      "canvasAllocationsAfter": 9,
+      "warmAllocationsAfter": 0,
+      "medianMsBefore": 1,
+      "medianMsAfter": 1,
+      "p95MsBefore": 1.5999999940395355,
+      "p95MsAfter": 1.7999999970197678,
+      "firstMsBefore": 30.5,
+      "firstMsAfter": 44.70000000298023,
+      "limits": "Separate same-machine Linux Chromium CPU runs, not Windows FPS; cold preparation can still exceed one frame."
+    }
+  ],
+  "videos": [
+    {
+      "file": "browser/row-feeding.webm",
+      "decoded": true,
+      "frames": 37,
+      "ptsSpanSeconds": 2.999,
+      "events": "Actual N15 output milestones"
+    },
+    {
+      "file": "motion/jelly.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.302,
+      "events": "Controlled count-milestone events on actual mature state"
+    },
+    {
+      "file": "motion/serpent.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.276,
+      "events": "Controlled count-milestone events on actual mature state"
+    },
+    {
+      "file": "motion/myth.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.283,
+      "events": "Controlled count-milestone events on actual mature state"
+    }
+  ],
+  "visualScope": "Twenty actual mature states under four controlled pure-habitat lighting fixtures,not80 different evolutionary paths. Source body comparison uses archived exact v1.5.1 renderer. Source silhouettes overlap above0.99. Gallery review is not user art acceptance.",
+  "comparisonBaseline": "operations/evidence/natural-ecology/motion/accumulation-1000.png (app1.5.1); same calculation state now in motion/accumulation-1000.png. Art galleries and material comparisons in art/.",
+  "validWhen": "Execution inputs match target-sha256.json and assertions retained",
+  "invalidWhen": "Execution code/data/conditions changed or checks omitted",
+  "pending": [
+    "User Windows10/11 device display/FPS and art acceptance"
+  ],
+  "targetCommit": "c8207c81d0c1e16f9f690b2dc8153321f0a8909e",
+  "hostedWindowsEvidence": "E46/windows-ci-public-summary.json",
+  "hostedBrowserProof": "browser-ci-public-summary.json"
+}

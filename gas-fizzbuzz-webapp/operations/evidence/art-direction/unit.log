@@ -1,0 +1,77 @@
+
+> valis-fizzbuzz-desktop@1.6.0 test
+> node --test tests/*.test.cjs
+
+✔ every anatomical organ and body tier resolves to a checked local PNG with a usable socket (6152.721074ms)
+✔ atlas provenance covers all38 physical runtime PNGs and declares24 reused anatomical aliases (5.231239ms)
+✔ desktop entry contains no GAS, embedded atlas bytes, source previews or remote asset dependency (1.16349ms)
+✔ all12 anatomy plans provide separate fourth-stage source images and surface sockets (3650.580936ms)
+✔ only count milestones trigger gestures; numeric rows never create one (129.810885ms)
+✔ gestures last their fixed duration across following rows and cannot duplicate or anticipate output (0.286041ms)
+✔ habitat rendering uses stable precomputed mixture, normalized weights and smooth phase transition (8.614248ms)
+✔ new integrated lineages have eight distinct real PNG regions, and ecology images retain checked provenance (1831.204294ms)
+✔ neighbor-only exclusion rectangles stay inside their source cell and do not erase the integrated body (0.804521ms)
+✔ all67 atlas requests succeed under a four-loader resource limit (26.010628ms)
+✔ all four habitat layers accumulate monotonically, survive time and JSON restoration, and have upper bounds (18.26777ms)
+✔ reaction profiles keep minerals on the ground, information localized, and numbers off the creature (1.185673ms)
+✔ all160 facial landmarks match their PNG cells and define a lower jaw below the protected eye (1521.490722ms)
+✔ young and mature colony atlas has eight isolated transparent regions and retained generator provenance (85.021542ms)
+✔ meal reactions rise and settle as one continuous cycle without rapid double flashes (0.712371ms)
+✔ habitat flora preserves generator bytes and provides four different tall and ground silhouettes (119.667017ms)
+✔ life ecology uses all eight source poses, three depth bands and continuous turns (21.03398ms)
+✔ habitat plants and key/fill illumination blend continuously with the planned ecology (10.329108ms)
+✔ twenty source lineages have bounded distinct materials while historical versions bypass the style (11.412227ms)
+✔ frozen engine4 keeps all 1000 original outcomes and old appearances (3303.033728ms)
+✔ 1000-row original output and exact food/quarter calibration remain intact (9.831559ms)
+✔ second phase enters at201 and third phase at580 independent of N duration (14.985952ms)
+✔ awakening requires post-third diet, adaptation and developed organs independently (7.990349ms)
+✔ maturity freezes actual anatomy and color but all remaining rows are consumed (6.08303ms)
+✔ invalid numbers, wrong row order and feeding beyond N fail without mutating old state (0.994035ms)
+✔ latest numeric regulator is overwritten and consumed exactly once by next nutrient (0.234814ms)
+✔ precomputed environment is wholly determined by N and original FizzBuzz rows (14.539711ms)
+✔ all twenty branches are reachable through automatic schedules and no species UI override (1395.827603ms)
+✔ lineage remains fixed inside its phase and chosen from actual exposure (7.156966ms)
+✔ every acquired organ is inherited, continues development and retains its historical snapshot (4.344445ms)
+✔ all99 organ groups have baseline development with three usable image levels (3.05784ms)
+✔ eyes grow in size, lens level, count and functional sensing beyond only duplicate eyes (3.166372ms)
+✔ six DNA traits remain immutable and near numbers produce broad birth anatomy and hue changes (8.917304ms)
+✔ all seven basic parts independently grow and color changes with actual development (3.574927ms)
+✔ lineages have distinct underlying anatomy, pigment, signature and senses (4.747571ms)
+✔ JSON resume and chunked playback preserve deterministic outcomes (12.998373ms)
+✔ legacy engine1 saved DNA, geometry and final portrait interpretation remain versioned (5.78355ms)
+✔ Node and browser UMD use identical current and legacy engines (52.204037ms)
+✔ fourth phase is a conditional transformation, not third-stage completion or age (4.970807ms)
+✔ legacy2 saved non-mature and mature appearances keep exact old definitions (16.001229ms)
+✔ twelve connected body plans include bell, flora, whale, arthropod and mantle anatomy (0.143015ms)
+✔ all20 final forms are attainable automatically, and within-stage actual source frames change (1339.365592ms)
+✔ legacy3 retains its original environment, four stages and frozen appearance (30.337595ms)
+✔ separate runs of the same N survive process-style store reload and list newest first (16.704127ms)
+✔ queued updates keep latest progress and reject older or changed birth records (4.268541ms)
+✔ corrupt primary keeps original and backup untouched and prevents automatic overwrite (5.469317ms)
+✔ atomic write failure preserves previous primary, warns and blocks flush until retry succeeds (19.844581ms)
+✔ external history change is not overwritten by cached state (3.542349ms)
+✔ record validator rejects unsafe N, progress, IDs, malformed images and mismatched snapshots (2.58612ms)
+✔ IPC accepts only local top frame; arbitrary frame/path and remote navigation cannot use host (2.211537ms)
+✔ close waits for renderer preparation and successful flush; failed flush keeps window open (1.006184ms)
+✔ sandbox preload exposes fixed IPC methods and unsubscribes close callbacks (2.389855ms)
+✔ engine1 and engine4 records coexist without rewriting legacy state or portraits (43.506945ms)
+✔ legacy2 final portraits coexist with new4 fourth-phase snapshots (36.396609ms)
+✔ legacy3 saved final result coexists with new4 and cannot change edition in place (38.41814ms)
+✔ old4 and revised4 retain their appearance revision across storage and snapshots (41.101786ms)
+✔ engine5 awakening records and legacy4 coexist, retaining edition boundaries (32.198624ms)
+✔ Manifest uniquely registers every Node, keeps parent IDs in its layer and maintains specification approval boundaries (28.569636ms)
+✔ historical A/B version remains archived exactly; current definitions are all drafts (2.050906ms)
+✔ all core definitions and original root PNG mocks remain byte-identical to the pre-migration baseline (60.106143ms)
+ℹ tests 60
+ℹ suites 0
+ℹ pass 60
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9943.996994
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

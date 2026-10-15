@@ -1,0 +1,44 @@
+[
+  {
+    "row": 120,
+    "baselineVersion": "1.5.1",
+    "canvasAllocationsBefore": 17,
+    "canvasAllocationsAfter": 19,
+    "warmAllocationsAfter": 0,
+    "medianMsBefore": 0.800000011920929,
+    "medianMsAfter": 1,
+    "p95MsBefore": 1.4000000059604645,
+    "p95MsAfter": 1.7000000029802322,
+    "firstMsBefore": 63.20000000298023,
+    "firstMsAfter": 84.5,
+    "limits": "Separate same-machine Linux Chromium CPU runs, not Windows FPS; cold preparation can still exceed one frame."
+  },
+  {
+    "row": 600,
+    "baselineVersion": "1.5.1",
+    "canvasAllocationsBefore": 16,
+    "canvasAllocationsAfter": 18,
+    "warmAllocationsAfter": 0,
+    "medianMsBefore": 1,
+    "medianMsAfter": 0.9000000059604645,
+    "p95MsBefore": 2,
+    "p95MsAfter": 1.5999999940395355,
+    "firstMsBefore": 75.40000000596046,
+    "firstMsAfter": 108.5,
+    "limits": "Separate same-machine Linux Chromium CPU runs, not Windows FPS; cold preparation can still exceed one frame."
+  },
+  {
+    "row": 1000,
+    "baselineVersion": "1.5.1",
+    "canvasAllocationsBefore": 7,
+    "canvasAllocationsAfter": 9,
+    "warmAllocationsAfter": 0,
+    "medianMsBefore": 1,
+    "medianMsAfter": 1,
+    "p95MsBefore": 1.5999999940395355,
+    "p95MsAfter": 1.7999999970197678,
+    "firstMsBefore": 30.5,
+    "firstMsAfter": 44.70000000298023,
+    "limits": "Separate same-machine Linux Chromium CPU runs, not Windows FPS; cold preparation can still exceed one frame."
+  }
+]
