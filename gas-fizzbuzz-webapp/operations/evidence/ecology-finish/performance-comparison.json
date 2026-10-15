@@ -1,0 +1,32 @@
+[
+  {
+    "row": 120,
+    "baseline": "1.7.0",
+    "baselineMedianMs": 1.199999988079071,
+    "currentMedianMs": 1.6000000089406967,
+    "currentP95Ms": 2.1000000089406967,
+    "currentFirstMs": 131.79999999701977,
+    "currentWarmAllocations": 0,
+    "scope": "Local Chromium CPU calls;current includes three whole-body and two growth fixtures;not user device FPS. Cold preparation can exceed a frame."
+  },
+  {
+    "row": 600,
+    "baseline": "1.7.0",
+    "baselineMedianMs": 1.2999999970197678,
+    "currentMedianMs": 2,
+    "currentP95Ms": 2.5999999940395355,
+    "currentFirstMs": 147.1000000089407,
+    "currentWarmAllocations": 0,
+    "scope": "Local Chromium CPU calls;current includes three whole-body and two growth fixtures;not user device FPS. Cold preparation can exceed a frame."
+  },
+  {
+    "row": 1000,
+    "baseline": "1.7.0",
+    "baselineMedianMs": 1.5999999940395355,
+    "currentMedianMs": 2.800000011920929,
+    "currentP95Ms": 4.5,
+    "currentFirstMs": 81.6000000089407,
+    "currentWarmAllocations": 0,
+    "scope": "Local Chromium CPU calls;current includes three whole-body and two growth fixtures;not user device FPS. Cold preparation can exceed a frame."
+  }
+]

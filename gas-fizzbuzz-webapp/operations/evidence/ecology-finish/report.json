@@ -1,0 +1,131 @@
+{
+  "recordedAt": "2026-10-15T12:37:48.967161+00:00",
+  "actor": "Codex cloud environment",
+  "targetCommit": "76d24ff32efaa183367c76f057ba53f67fb63581",
+  "scope": "app1.8.0 shared habitat currents,rooted flora,native mineral/information scenery,20 lineage kinetics,ground support,and shaded whole-body feeding/growth light",
+  "platform": "Linux x64 / Chromium154 / Electron44.7.2; Xvfb test-only launcher;product sandbox unchanged",
+  "checks": {
+    "unitPassed": 70,
+    "unitFailed": 0,
+    "browserPassed": 148,
+    "motionAndEcologyPassed": 345,
+    "performanceAndSessionPassed": 33,
+    "artPassed": 85,
+    "interactionPassed": 23,
+    "finishPassed": 70,
+    "artHabitatFixtures": 80,
+    "allSourceCells": 160,
+    "nativeCreatePassed": 21,
+    "nativeRestartPassed": 9,
+    "zipChecksumFiles": 74,
+    "runtimePngs": 67
+  },
+  "interaction": {
+    "firstRows": {
+      "ms": 251.70000000298023,
+      "row": 2
+    },
+    "feedback": [
+      {
+        "action": "load",
+        "ms": 7.200000002980232,
+        "text": "読み込み中…",
+        "status": "読み込み中",
+        "busy": true
+      },
+      {
+        "action": "start",
+        "ms": 10.800000011920929,
+        "text": "開始しています…",
+        "status": "開始しています",
+        "busy": true
+      }
+    ],
+    "loadWith201RecordsMs": 125
+  },
+  "performance": [
+    {
+      "row": 120,
+      "baseline": "1.7.0",
+      "baselineMedianMs": 1.199999988079071,
+      "currentMedianMs": 1.6000000089406967,
+      "currentP95Ms": 2.1000000089406967,
+      "currentFirstMs": 131.79999999701977,
+      "currentWarmAllocations": 0,
+      "scope": "Local Chromium CPU calls;current includes three whole-body and two growth fixtures;not user device FPS. Cold preparation can exceed a frame."
+    },
+    {
+      "row": 600,
+      "baseline": "1.7.0",
+      "baselineMedianMs": 1.2999999970197678,
+      "currentMedianMs": 2,
+      "currentP95Ms": 2.5999999940395355,
+      "currentFirstMs": 147.1000000089407,
+      "currentWarmAllocations": 0,
+      "scope": "Local Chromium CPU calls;current includes three whole-body and two growth fixtures;not user device FPS. Cold preparation can exceed a frame."
+    },
+    {
+      "row": 1000,
+      "baseline": "1.7.0",
+      "baselineMedianMs": 1.5999999940395355,
+      "currentMedianMs": 2.800000011920929,
+      "currentP95Ms": 4.5,
+      "currentFirstMs": 81.6000000089407,
+      "currentWarmAllocations": 0,
+      "scope": "Local Chromium CPU calls;current includes three whole-body and two growth fixtures;not user device FPS. Cold preparation can exceed a frame."
+    }
+  ],
+  "videos": [
+    {
+      "file": "browser/row-feeding.webm",
+      "decoded": true,
+      "frames": 38,
+      "ptsSpanSeconds": 3.066,
+      "events": "Actual N15 output milestone events"
+    },
+    {
+      "file": "motion/jelly.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.336,
+      "events": "Controlled nutritional and growth-event fixtures on an actual mature state;actual row177/201 integration is interaction proof"
+    },
+    {
+      "file": "motion/serpent.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.291,
+      "events": "Controlled nutritional and growth-event fixtures on an actual mature state;actual row177/201 integration is interaction proof"
+    },
+    {
+      "file": "motion/myth.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.285,
+      "events": "Controlled nutritional and growth-event fixtures on an actual mature state;actual row177/201 integration is interaction proof"
+    }
+  ],
+  "finish": {
+    "lineages": 20,
+    "contactLineages": [
+      "kelp",
+      "crystal",
+      "recursive",
+      "memory",
+      "swarm",
+      "myth",
+      "manyeyes",
+      "parallel"
+    ],
+    "scope": "20 actual mature specimens at three timestamps;fixed support/shadow projection for grounded types;four pure-habitat living/still fixtures;not a user art acceptance"
+  },
+  "archiveContract": "Current-session final results only;no birth/checkpoint writes;new process empty;old4MiB corrupt history/backup untouched. 201-result UI stress is valid fixture repetition,not201 separate full cultivations. Historical disk tests are archived1.6 only.",
+  "visualScope": "20 actual mature states,80 controlled pure habitat fixtures,160 source cells,20 kinetics and8 support/shadow projections at3 timestamps;four living/still habitat fixtures and decoded actual Canvas videos. Actual row177/201 event connection retained. Not80 real evolution paths or user art acceptance.",
+  "validWhen": "Execution inputs match target-sha256.json and checks retained",
+  "invalidWhen": "Execution code/assets/settings changed or checks omitted",
+  "pending": [
+    "User Windows10/11 device display/FPS and art acceptance"
+  ],
+  "hostedWindowsEvidence": "E50/windows-ci-public-summary.json",
+  "hostedBrowserProof": "browser-ci-public-summary.json"
+}

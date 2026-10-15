@@ -1,0 +1,69 @@
+{
+  "generatedAt": "2026-10-15T12:40:25.286291+00:00",
+  "appVersion": "1.8.0",
+  "valis": "Standard Operation prerequisite/Identity/feedback,existing responsibility grain,FLOW04/07/08/05 and output gate reconciled",
+  "targetCommit": "76d24ff32efaa183367c76f057ba53f67fb63581",
+  "manifest": {
+    "canonicalPath": "valis/summary/gas-fizzbuzz-webapp.summary.md",
+    "counts": {
+      "A": 9,
+      "B": 13,
+      "C": 21,
+      "D": 12,
+      "E": 50
+    },
+    "total": 105,
+    "allDraft": true,
+    "initialRegistered": [
+      "E49",
+      "E50"
+    ],
+    "reflectedNodes": [
+      "A1.3",
+      "A1.5",
+      "B1.5.1",
+      "B1.5.2",
+      "C1.5",
+      "C1.5.4",
+      "C1.5.5",
+      "D1.3.2",
+      "D1.3.4",
+      "D1.3.5"
+    ],
+    "updatedSummaryFields": [
+      "shared habitat currents",
+      "rooted flora/native food scenery",
+      "lineage kinetics/ground support",
+      "shaded feeding/growth light",
+      "verification references",
+      "processing flags",
+      "next FLOW"
+    ],
+    "unreflected": []
+  },
+  "executionFilesMatchTarget": 203,
+  "workflowFilesMatchTarget": 2,
+  "definitionSnapshotFiles": 55,
+  "protectedCoreAndMocksUnchanged": 23,
+  "checks": {
+    "unitPassed": 70,
+    "unitFailed": 0,
+    "browserPassed": 148,
+    "motionAndEcologyPassed": 345,
+    "performanceAndSessionPassed": 33,
+    "artPassed": 85,
+    "interactionPassed": 23,
+    "finishPassed": 70,
+    "artHabitatFixtures": 80,
+    "allSourceCells": 160,
+    "nativeCreatePassed": 21,
+    "nativeRestartPassed": 9,
+    "zipChecksumFiles": 74,
+    "runtimePngs": 67
+  },
+  "windowsRun": 38735695711,
+  "browserRun": 38735695833,
+  "pending": [
+    "User Windows10/11 device display/FPS and art acceptance"
+  ]
+}

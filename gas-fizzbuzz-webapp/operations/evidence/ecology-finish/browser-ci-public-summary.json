@@ -1,0 +1,87 @@
+{
+  "observedAt": "2026-10-15T12:40:25.286291+00:00",
+  "source": "Public run/job HTML and unconditional step conclusions;authenticated raw logs/artifact contents not read",
+  "targetCommit": "76d24ff32efaa183367c76f057ba53f67fb63581",
+  "runUrl": "https://github.com/chifuru/VAL/actions/runs/38735695833",
+  "jobUrl": "https://github.com/chifuru/VAL/actions/runs/38735695833/job/116424304297",
+  "jobConclusion": "success",
+  "steps": [
+    {
+      "data-name": "Set up job",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:34:41Z",
+      "data-completed-at": "2026-10-15T12:34:42Z"
+    },
+    {
+      "data-name": "Run actions/checkout@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:34:42Z",
+      "data-completed-at": "2026-10-15T12:36:07Z"
+    },
+    {
+      "data-name": "Run actions/setup-node@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:36:07Z",
+      "data-completed-at": "2026-10-15T12:36:08Z"
+    },
+    {
+      "data-name": "Run npm ci --ignore-scripts",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:36:08Z",
+      "data-completed-at": "2026-10-15T12:36:10Z"
+    },
+    {
+      "data-name": "Run npm test",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:36:10Z",
+      "data-completed-at": "2026-10-15T12:36:23Z"
+    },
+    {
+      "data-name": "Run npm run check:assets",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:36:23Z",
+      "data-completed-at": "2026-10-15T12:36:28Z"
+    },
+    {
+      "data-name": "Run npx playwright install --with-deps chromium",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:36:28Z",
+      "data-completed-at": "2026-10-15T12:36:48Z"
+    },
+    {
+      "data-name": "Observation UI and actual PNG drawing",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:36:48Z",
+      "data-completed-at": "2026-10-15T12:39:19Z"
+    },
+    {
+      "data-name": "Run actions/upload-artifact@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:39:19Z",
+      "data-completed-at": "2026-10-15T12:39:25Z"
+    },
+    {
+      "data-name": "Post Run actions/setup-node@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:39:25Z",
+      "data-completed-at": "2026-10-15T12:39:26Z"
+    },
+    {
+      "data-name": "Post Run actions/checkout@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:39:26Z",
+      "data-completed-at": "2026-10-15T12:39:27Z"
+    },
+    {
+      "data-name": "Complete job",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:39:27Z",
+      "data-completed-at": "2026-10-15T12:39:27Z"
+    }
+  ],
+  "limits": [
+    "Authenticated CI native JSON/screenshots/raw logs and exact runner image not obtained",
+    "User Windows10/11 display/FPS and art acceptance unperformed"
+  ],
+  "scope": "Hosted source/assets and browser/motion/performance/art/interaction workflow:original rows,three viewports,20 lineages/160 cells,whole-body and growth reactions,actual row177/201 integration,completion-only session registration,201-result lazy archive and new-session reset. Workflow also runs final habitat and ground-support fixtures. Detailed counts and video decode are local E49."
+}

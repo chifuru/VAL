@@ -1,0 +1,93 @@
+{
+  "observedAt": "2026-10-15T12:40:25.286291+00:00",
+  "source": "Public run/job HTML and unconditional step conclusions;authenticated raw logs/artifact contents not read",
+  "targetCommit": "76d24ff32efaa183367c76f057ba53f67fb63581",
+  "runUrl": "https://github.com/chifuru/VAL/actions/runs/38735695711",
+  "jobUrl": "https://github.com/chifuru/VAL/actions/runs/38735695711/job/116424304480",
+  "jobConclusion": "success",
+  "steps": [
+    {
+      "data-name": "Set up job",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:34:43Z",
+      "data-completed-at": "2026-10-15T12:34:44Z"
+    },
+    {
+      "data-name": "Run actions/checkout@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:34:44Z",
+      "data-completed-at": "2026-10-15T12:36:42Z"
+    },
+    {
+      "data-name": "Run actions/setup-node@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:36:42Z",
+      "data-completed-at": "2026-10-15T12:36:48Z"
+    },
+    {
+      "data-name": "Install pinned packaging tools",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:36:48Z",
+      "data-completed-at": "2026-10-15T12:36:54Z"
+    },
+    {
+      "data-name": "Node source and history checks",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:36:54Z",
+      "data-completed-at": "2026-10-15T12:37:15Z"
+    },
+    {
+      "data-name": "Create Windows executable and portable ZIP",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:37:15Z",
+      "data-completed-at": "2026-10-15T12:38:02Z"
+    },
+    {
+      "data-name": "Verify ZIP expansion matches executable checksums",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:38:02Z",
+      "data-completed-at": "2026-10-15T12:38:05Z"
+    },
+    {
+      "data-name": "Native Windows executable and restart smoke",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:38:05Z",
+      "data-completed-at": "2026-10-15T12:38:14Z"
+    },
+    {
+      "data-name": "Run actions/upload-artifact@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:38:14Z",
+      "data-completed-at": "2026-10-15T12:38:25Z"
+    },
+    {
+      "data-name": "Post Run actions/setup-node@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:38:25Z",
+      "data-completed-at": "2026-10-15T12:38:28Z"
+    },
+    {
+      "data-name": "Post Run actions/checkout@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:38:28Z",
+      "data-completed-at": "2026-10-15T12:38:30Z"
+    },
+    {
+      "data-name": "Complete job",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T12:38:30Z",
+      "data-completed-at": "2026-10-15T12:38:30Z"
+    }
+  ],
+  "limits": [
+    "Authenticated CI native JSON/screenshots/raw logs and exact runner image not obtained",
+    "User Windows10/11 display/FPS and art acceptance unperformed"
+  ],
+  "artifact": {
+    "id": 11974435849,
+    "name": "VALIS-Windows-x64",
+    "digest": "sha256:823483676b1f65979f4beba9d5486b28f62c475b97c0ad5351f68b46bf75dce1",
+    "retentionDays": 30
+  },
+  "scope": "Hosted Windows source/assets/package/ZIP-all-checksums;actual exe N15/N1000,three nutritional whole-body motion,final-result-only session archive,another process empty,and old4MiB history/backup byte preservation. Shared ecology/20 kinetics/ground support/finish fixtures/source-cell/interaction/CPU detail are local E49 and hosted Chromium."
+}
