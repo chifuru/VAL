@@ -1,0 +1,120 @@
+{
+  "recordedAt": "2026-10-15T13:09:57.047505+00:00",
+  "actor": "Codex cloud environment",
+  "targetCommit": "aef1f107fc399c4f47466673a5771373155ba7ba",
+  "appVersion": "1.9.0",
+  "scope": "Habitat wildlife12species24poses;continuous deterministic24slots;opaque source contact anchoring;four habitat particle shapes with wrap fades;regression of shaded whole-body nutrition/growth and session archive",
+  "platform": "Linux x64 / Chromium154 / Electron44.7.2;Xvfb test-only launcher;product sandbox unchanged",
+  "checks": {
+    "unitPassed": 72,
+    "unitFailed": 0,
+    "browserPassed": 148,
+    "motionAndEcologyPassed": 345,
+    "performanceAndSessionPassed": 33,
+    "artPassed": 85,
+    "interactionPassed": 23,
+    "finishPassed": 78,
+    "nativeCreatePassed": 21,
+    "nativeRestartPassed": 9,
+    "zipChecksumFiles": 74,
+    "runtimePngs": 68,
+    "oldPngsBytePreserved": 67,
+    "allSourceCells": 160,
+    "groundedSourceCells": 64,
+    "contactMaximumSlipPx": 0
+  },
+  "performance": [
+    {
+      "row": 120,
+      "baseline": "1.8.0",
+      "baselineMedianMs": 1.6000000089406967,
+      "currentMedianMs": 1.7999999970197678,
+      "currentP95Ms": 2.5,
+      "currentFirstMs": 128.79999999701977,
+      "currentWarmAllocations": 0,
+      "scope": "Local Chromium CPU calls,not user device FPS;three foods andtwo growth fixtures;cold source preparation can exceed a frame"
+    },
+    {
+      "row": 600,
+      "baseline": "1.8.0",
+      "baselineMedianMs": 2,
+      "currentMedianMs": 2.199999988079071,
+      "currentP95Ms": 2.7000000029802322,
+      "currentFirstMs": 134.59999999403954,
+      "currentWarmAllocations": 0,
+      "scope": "Local Chromium CPU calls,not user device FPS;three foods andtwo growth fixtures;cold source preparation can exceed a frame"
+    },
+    {
+      "row": 1000,
+      "baseline": "1.8.0",
+      "baselineMedianMs": 2.800000011920929,
+      "currentMedianMs": 2.9000000059604645,
+      "currentP95Ms": 3.7999999970197678,
+      "currentFirstMs": 83.30000001192093,
+      "currentWarmAllocations": 0,
+      "scope": "Local Chromium CPU calls,not user device FPS;three foods andtwo growth fixtures;cold source preparation can exceed a frame"
+    }
+  ],
+  "interaction": {
+    "firstRows": {
+      "ms": 234.30000001192093,
+      "row": 2
+    },
+    "feedback": [
+      {
+        "action": "load",
+        "ms": 6.200000002980232,
+        "text": "読み込み中…",
+        "status": "読み込み中",
+        "busy": true
+      },
+      {
+        "action": "start",
+        "ms": 10.399999991059303,
+        "text": "開始しています…",
+        "status": "開始しています",
+        "busy": true
+      }
+    ],
+    "loadWith201RecordsMs": 109
+  },
+  "videos": [
+    {
+      "file": "browser/row-feeding.webm",
+      "decoded": true,
+      "frames": 38,
+      "ptsSpanSeconds": 3.098,
+      "scope": "Actual N15 milestone playback"
+    },
+    {
+      "file": "motion/jelly.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.33,
+      "scope": "Actual mature state;controlled three nutrition/two growth events,not a separate evolution path"
+    },
+    {
+      "file": "motion/serpent.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.299,
+      "scope": "Actual mature state;controlled three nutrition/two growth events,not a separate evolution path"
+    },
+    {
+      "file": "motion/myth.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.273,
+      "scope": "Actual mature state;controlled three nutrition/two growth events,not a separate evolution path"
+    }
+  ],
+  "visualScope": "20 real mature specimens at three timestamps with three nutrition andtwo growth fixtures;8 grounded lineages with opaque contact band <.08px slip;64 grounded source cells with life reaction;all160 cells and80 controlled habitat material fixtures;four habitat screenshots;not user art acceptance or80 actual evolution paths",
+  "archiveContract": "Current process final results only;one final portrait;new process empty;legacy4MiB history/backup untouched;201-record UI stress is valid fixture repetition,not201 full cultivations",
+  "validWhen": "Current execution files match target-sha256.json and checks retained",
+  "invalidWhen": "Execution inputs changed or checks omitted",
+  "pending": [
+    "User Windows10/11 device display/FPS and art acceptance"
+  ],
+  "hostedWindowsEvidence": "E52/windows-ci-public-summary.json",
+  "hostedBrowserProof": "browser-ci-public-summary.json"
+}

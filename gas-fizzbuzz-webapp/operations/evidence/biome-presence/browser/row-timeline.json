@@ -1,0 +1,756 @@
+[
+  {
+    "sequence": 1,
+    "time": 4245.5,
+    "raw": "1",
+    "feeding": [],
+    "foods": {
+      "number": 1,
+      "fizz": 0,
+      "buzz": 0,
+      "fizzbuzz": 0
+    },
+    "lastPaintObservedAt": 4341.5
+  },
+  {
+    "sequence": 2,
+    "time": 4366.5999999940395,
+    "raw": "2",
+    "feeding": [],
+    "foods": {
+      "number": 2,
+      "fizz": 0,
+      "buzz": 0,
+      "fizzbuzz": 0
+    },
+    "lastPaintObservedAt": 4441.5
+  },
+  {
+    "sequence": 3,
+    "time": 4466.70000000298,
+    "raw": "Fizz",
+    "feeding": [
+      {
+        "kind": "fizz",
+        "count": 1,
+        "sequence": 3,
+        "progress": 0.07822222223215654,
+        "strength": 0.05918343004518543,
+        "duration": 900,
+        "jawOpen": 0.05918343004518543,
+        "oral": {
+          "center": [
+            6,
+            109
+          ],
+          "bounds": [
+            4,
+            104,
+            12,
+            13
+          ],
+          "eye": [
+            49.45652173913043,
+            98.98913043478262
+          ],
+          "amplitude": 1.554
+        },
+        "eyePoint": [
+          439.71601024328476,
+          252.10054602898308
+        ],
+        "point": [
+          394.8688915224599,
+          259.005783137582
+        ],
+        "mode": "jaw",
+        "site": "mouth",
+        "glow": "whole-body",
+        "movement": "contract"
+      }
+    ],
+    "foods": {
+      "number": 2,
+      "fizz": 1,
+      "buzz": 0,
+      "fizzbuzz": 0
+    },
+    "lastPaintObservedAt": 4541.899999991059
+  },
+  {
+    "sequence": 4,
+    "time": 4566.79999999702,
+    "raw": "4",
+    "feeding": [
+      {
+        "kind": "fizz",
+        "count": 1,
+        "sequence": 3,
+        "progress": 0.18944444445437814,
+        "strength": 0.31431608225385843,
+        "duration": 900,
+        "jawOpen": 0.31431608225385843,
+        "oral": {
+          "center": [
+            6,
+            109
+          ],
+          "bounds": [
+            4,
+            104,
+            12,
+            13
+          ],
+          "eye": [
+            49.45652173913043,
+            98.98913043478262
+          ],
+          "amplitude": 1.554
+        },
+        "eyePoint": [
+          439.71601024328476,
+          252.17828475577073
+        ],
+        "point": [
+          394.8688915224599,
+          259.00503942400525
+        ],
+        "mode": "jaw",
+        "site": "mouth",
+        "glow": "whole-body",
+        "movement": "contract"
+      }
+    ],
+    "foods": {
+      "number": 3,
+      "fizz": 1,
+      "buzz": 0,
+      "fizzbuzz": 0
+    },
+    "lastPaintObservedAt": 4641.5
+  },
+  {
+    "sequence": 5,
+    "time": 4666.70000000298,
+    "raw": "Buzz",
+    "feeding": [
+      {
+        "kind": "fizz",
+        "count": 1,
+        "sequence": 3,
+        "progress": 0.30055555556548924,
+        "strength": 0.6561674592857625,
+        "duration": 900,
+        "jawOpen": 0.6561674592857625,
+        "oral": {
+          "center": [
+            6,
+            109
+          ],
+          "bounds": [
+            4,
+            104,
+            12,
+            13
+          ],
+          "eye": [
+            49.45652173913043,
+            98.98913043478262
+          ],
+          "amplitude": 1.554
+        },
+        "eyePoint": [
+          439.6197589367867,
+          252.262278818984
+        ],
+        "point": [
+          394.7237458987991,
+          259.002944144534
+        ],
+        "mode": "jaw",
+        "site": "mouth",
+        "glow": "whole-body",
+        "movement": "contract"
+      },
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.05736363636634533,
+        "strength": 0.03212672801563684,
+        "duration": 1100,
+        "jawOpen": 0,
+        "oral": null,
+        "eyePoint": [
+          439.6197589367867,
+          252.262278818984
+        ],
+        "point": [
+          521.2447194637926,
+          379.1563021739094
+        ],
+        "mode": "ground-glow",
+        "site": "ground",
+        "glow": "whole-body",
+        "movement": "settle"
+      }
+    ],
+    "foods": {
+      "number": 3,
+      "fizz": 1,
+      "buzz": 1,
+      "fizzbuzz": 0
+    },
+    "lastPaintObservedAt": 4766.70000000298
+  },
+  {
+    "sequence": 6,
+    "time": 4791.399999991059,
+    "raw": "Fizz",
+    "feeding": [
+      {
+        "kind": "fizz",
+        "count": 1,
+        "sequence": 3,
+        "progress": 0.41155555556548984,
+        "strength": 0.9247623006951172,
+        "duration": 900,
+        "jawOpen": 0.9247623006951172,
+        "oral": {
+          "center": [
+            6,
+            109
+          ],
+          "bounds": [
+            4,
+            104,
+            12,
+            13
+          ],
+          "eye": [
+            49.45652173913043,
+            98.98913043478262
+          ],
+          "amplitude": 1.554
+        },
+        "eyePoint": [
+          439.49126585540046,
+          252.27757846243014
+        ],
+        "point": [
+          394.52996167969764,
+          259.0016802739139
+        ],
+        "mode": "jaw",
+        "site": "mouth",
+        "glow": "whole-body",
+        "movement": "contract"
+      },
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.14818181818452764,
+        "strength": 0.20150555744676743,
+        "duration": 1100,
+        "jawOpen": 0,
+        "oral": null,
+        "eyePoint": [
+          439.49126585540046,
+          252.27757846243014
+        ],
+        "point": [
+          521.226482524991,
+          379.28588858065973
+        ],
+        "mode": "ground-glow",
+        "site": "ground",
+        "glow": "whole-body",
+        "movement": "settle"
+      }
+    ],
+    "foods": {
+      "number": 3,
+      "fizz": 2,
+      "buzz": 1,
+      "fizzbuzz": 0
+    },
+    "lastPaintObservedAt": 4867.0999999940395
+  },
+  {
+    "sequence": 7,
+    "time": 4891.5,
+    "raw": "7",
+    "feeding": [
+      {
+        "kind": "fizz",
+        "count": 1,
+        "sequence": 3,
+        "progress": 0.522666666676601,
+        "strength": 0.9949377817342281,
+        "duration": 900,
+        "jawOpen": 0.9949377817342281,
+        "oral": {
+          "center": [
+            6,
+            109
+          ],
+          "bounds": [
+            4,
+            104,
+            12,
+            13
+          ],
+          "eye": [
+            49.45652173913043,
+            98.98913043478262
+          ],
+          "amplitude": 1.554
+        },
+        "eyePoint": [
+          439.49126585540046,
+          252.20747931147295
+        ],
+        "point": [
+          394.52996167969764,
+          259.00353510150507
+        ],
+        "mode": "jaw",
+        "site": "mouth",
+        "glow": "whole-body",
+        "movement": "contract"
+      },
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.23909090909361855,
+        "strength": 0.46575491023436916,
+        "duration": 1100,
+        "jawOpen": 0,
+        "oral": null,
+        "eyePoint": [
+          439.49126585540046,
+          252.20747931147295
+        ],
+        "point": [
+          521.226482524991,
+          379.28588858065973
+        ],
+        "mode": "ground-glow",
+        "site": "ground",
+        "glow": "whole-body",
+        "movement": "settle"
+      }
+    ],
+    "foods": {
+      "number": 4,
+      "fizz": 2,
+      "buzz": 1,
+      "fizzbuzz": 0
+    },
+    "lastPaintObservedAt": 4966.5999999940395
+  },
+  {
+    "sequence": 8,
+    "time": 4992,
+    "raw": "8",
+    "feeding": [
+      {
+        "kind": "fizz",
+        "count": 1,
+        "sequence": 3,
+        "progress": 0.6893333333432676,
+        "strength": 0.6860079751645213,
+        "duration": 900,
+        "jawOpen": 0.6860079751645213,
+        "oral": {
+          "center": [
+            6,
+            109
+          ],
+          "bounds": [
+            4,
+            104,
+            12,
+            13
+          ],
+          "eye": [
+            49.45652173913043,
+            98.98913043478262
+          ],
+          "amplitude": 1.554
+        },
+        "eyePoint": [
+          439.49126585540046,
+          251.96007620817338
+        ],
+        "point": [
+          394.52996167969764,
+          259.0074638167314
+        ],
+        "mode": "jaw",
+        "site": "mouth",
+        "glow": "whole-body",
+        "movement": "contract"
+      },
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.37545454545725493,
+        "strength": 0.854561693435775,
+        "duration": 1100,
+        "jawOpen": 0,
+        "oral": null,
+        "eyePoint": [
+          439.49126585540046,
+          251.96007620817338
+        ],
+        "point": [
+          521.226482524991,
+          379.28588858065973
+        ],
+        "mode": "ground-glow",
+        "site": "ground",
+        "glow": "whole-body",
+        "movement": "settle"
+      }
+    ],
+    "foods": {
+      "number": 5,
+      "fizz": 2,
+      "buzz": 1,
+      "fizzbuzz": 0
+    },
+    "lastPaintObservedAt": 5091.5
+  },
+  {
+    "sequence": 9,
+    "time": 5117.899999991059,
+    "raw": "Fizz",
+    "feeding": [
+      {
+        "kind": "fizz",
+        "count": 1,
+        "sequence": 3,
+        "progress": 0.8004444444543788,
+        "strength": 0.34416418154637407,
+        "duration": 900,
+        "jawOpen": 0.34416418154637407,
+        "oral": {
+          "center": [
+            6,
+            109
+          ],
+          "bounds": [
+            4,
+            104,
+            12,
+            13
+          ],
+          "eye": [
+            49.45652173913043,
+            98.98913043478262
+          ],
+          "amplitude": 1.554
+        },
+        "eyePoint": [
+          439.33060606475124,
+          251.76675005218632
+        ],
+        "point": [
+          394.28753578171177,
+          259.0072647569044
+        ],
+        "mode": "jaw",
+        "site": "mouth",
+        "glow": "whole-body",
+        "movement": "contract"
+      },
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.4663636363663458,
+        "strength": 0.9888749825268006,
+        "duration": 1100,
+        "jawOpen": 0,
+        "oral": null,
+        "eyePoint": [
+          439.33060606475124,
+          251.76675005218632
+        ],
+        "point": [
+          521.203781694861,
+          379.44793932770153
+        ],
+        "mode": "ground-glow",
+        "site": "ground",
+        "glow": "whole-body",
+        "movement": "settle"
+      }
+    ],
+    "foods": {
+      "number": 5,
+      "fizz": 3,
+      "buzz": 1,
+      "fizzbuzz": 0
+    },
+    "lastPaintObservedAt": 5191.5999999940395
+  },
+  {
+    "sequence": 10,
+    "time": 5216.70000000298,
+    "raw": "Buzz",
+    "feeding": [
+      {
+        "kind": "fizz",
+        "count": 1,
+        "sequence": 3,
+        "progress": 0.9115555555654898,
+        "strength": 0.07523769930488274,
+        "duration": 900,
+        "jawOpen": 0.07523769930488274,
+        "oral": {
+          "center": [
+            6,
+            109
+          ],
+          "bounds": [
+            4,
+            104,
+            12,
+            13
+          ],
+          "eye": [
+            49.45652173913043,
+            98.98913043478262
+          ],
+          "amplitude": 1.554
+        },
+        "eyePoint": [
+          439.20311463011217,
+          251.64110667547678
+        ],
+        "point": [
+          394.0951839393707,
+          259.00610377396134
+        ],
+        "mode": "jaw",
+        "site": "mouth",
+        "glow": "whole-body",
+        "movement": "contract"
+      },
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.5572727272754368,
+        "strength": 0.967973918891131,
+        "duration": 1100,
+        "jawOpen": 0,
+        "oral": null,
+        "eyePoint": [
+          439.20311463011217,
+          251.64110667547678
+        ],
+        "point": [
+          521.1857479559856,
+          379.57653050649765
+        ],
+        "mode": "ground-glow",
+        "site": "ground",
+        "glow": "whole-body",
+        "movement": "settle"
+      }
+    ],
+    "foods": {
+      "number": 5,
+      "fizz": 3,
+      "buzz": 2,
+      "fizzbuzz": 0
+    },
+    "lastPaintObservedAt": 5291.399999991059
+  },
+  {
+    "sequence": 11,
+    "time": 5316.5999999940395,
+    "raw": "11",
+    "feeding": [
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.6481818181845277,
+        "strength": 0.7984944425532325,
+        "duration": 1100,
+        "jawOpen": 0,
+        "oral": null,
+        "eyePoint": [
+          439.20311463011217,
+          251.63182638453765
+        ],
+        "point": [
+          521.1857479559856,
+          379.57653050649765
+        ],
+        "mode": "ground-glow",
+        "site": "ground",
+        "glow": "whole-body",
+        "movement": "settle"
+      }
+    ],
+    "foods": {
+      "number": 6,
+      "fizz": 3,
+      "buzz": 2,
+      "fizzbuzz": 0
+    },
+    "lastPaintObservedAt": 5391.399999991059
+  },
+  {
+    "sequence": 12,
+    "time": 5416.5,
+    "raw": "Fizz",
+    "feeding": [
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.7391818181845271,
+        "strength": 0.5339601555094786,
+        "duration": 1100,
+        "jawOpen": 0,
+        "oral": null,
+        "eyePoint": [
+          439.1080933500954,
+          251.66723803703795
+        ],
+        "point": [
+          521.1723063265807,
+          379.6723710333795
+        ],
+        "mode": "ground-glow",
+        "site": "ground",
+        "glow": "whole-body",
+        "movement": "settle"
+      }
+    ],
+    "foods": {
+      "number": 6,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 0
+    },
+    "lastPaintObservedAt": 5491.5
+  },
+  {
+    "sequence": 13,
+    "time": 5516.5,
+    "raw": "13",
+    "feeding": [
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.8300000000027095,
+        "strength": 0.2591231629416832,
+        "duration": 1100,
+        "jawOpen": 0,
+        "oral": null,
+        "eyePoint": [
+          439.1080933500954,
+          251.71768415643655
+        ],
+        "point": [
+          521.1723063265807,
+          379.6723710333795
+        ],
+        "mode": "ground-glow",
+        "site": "ground",
+        "glow": "whole-body",
+        "movement": "settle"
+      }
+    ],
+    "foods": {
+      "number": 7,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 0
+    },
+    "lastPaintObservedAt": 5591.399999991059
+  },
+  {
+    "sequence": 14,
+    "time": 5616.5999999940395,
+    "raw": "14",
+    "feeding": [
+      {
+        "kind": "buzz",
+        "count": 1,
+        "sequence": 5,
+        "progress": 0.9209090909118004,
+        "strength": 0.06047792992934966,
+        "duration": 1100,
+        "jawOpen": 0,
+        "oral": null,
+        "eyePoint": [
+          439.1080933500954,
+          251.75288994931677
+        ],
+        "point": [
+          521.1723063265807,
+          379.6723710333795
+        ],
+        "mode": "ground-glow",
+        "site": "ground",
+        "glow": "whole-body",
+        "movement": "settle"
+      }
+    ],
+    "foods": {
+      "number": 8,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 0
+    },
+    "lastPaintObservedAt": 5717
+  },
+  {
+    "sequence": 15,
+    "time": 5757.29999999702,
+    "raw": "FizzBuzz",
+    "feeding": [
+      {
+        "kind": "fizzbuzz",
+        "count": 1,
+        "sequence": 15,
+        "progress": 0.03692857143282903,
+        "strength": 0.013399094247793022,
+        "duration": 1400,
+        "jawOpen": 0,
+        "oral": null,
+        "eyePoint": [
+          438.94896308048817,
+          251.74112291091484
+        ],
+        "point": [
+          440.55395228751576,
+          240.83461460307862
+        ],
+        "mode": "crown-glow",
+        "site": "head",
+        "glow": "whole-body",
+        "movement": "wave"
+      }
+    ],
+    "foods": {
+      "number": 8,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 1
+    },
+    "lastPaintObservedAt": 5816.79999999702
+  }
+]

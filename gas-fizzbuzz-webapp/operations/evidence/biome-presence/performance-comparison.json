@@ -1,0 +1,32 @@
+[
+  {
+    "row": 120,
+    "baseline": "1.8.0",
+    "baselineMedianMs": 1.6000000089406967,
+    "currentMedianMs": 1.7999999970197678,
+    "currentP95Ms": 2.5,
+    "currentFirstMs": 128.79999999701977,
+    "currentWarmAllocations": 0,
+    "scope": "Local Chromium CPU calls,not user device FPS;three foods andtwo growth fixtures;cold source preparation can exceed a frame"
+  },
+  {
+    "row": 600,
+    "baseline": "1.8.0",
+    "baselineMedianMs": 2,
+    "currentMedianMs": 2.199999988079071,
+    "currentP95Ms": 2.7000000029802322,
+    "currentFirstMs": 134.59999999403954,
+    "currentWarmAllocations": 0,
+    "scope": "Local Chromium CPU calls,not user device FPS;three foods andtwo growth fixtures;cold source preparation can exceed a frame"
+  },
+  {
+    "row": 1000,
+    "baseline": "1.8.0",
+    "baselineMedianMs": 2.800000011920929,
+    "currentMedianMs": 2.9000000059604645,
+    "currentP95Ms": 3.7999999970197678,
+    "currentFirstMs": 83.30000001192093,
+    "currentWarmAllocations": 0,
+    "scope": "Local Chromium CPU calls,not user device FPS;three foods andtwo growth fixtures;cold source preparation can exceed a frame"
+  }
+]
