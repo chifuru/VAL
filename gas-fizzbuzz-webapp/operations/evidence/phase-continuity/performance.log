@@ -1,0 +1,5 @@
+
+> valis-fizzbuzz-desktop@1.11.0 test:performance
+> node tests/browser-performance.cjs
+
+{"passed":38,"continuity":{"canvasAllocations":54,"ecologyBuilds":3,"backdropBuilds":1,"medianMs":2.5,"p95Ms":12.200000002980232},"scenarios":[{"row":120,"frames":90,"canvasAllocations":34,"warmCanvasAllocations":0,"pixelReads":2,"firstMs":121.5,"medianMs":2.7999999970197678,"p95Ms":3.7000000029802322,"maxMs":121.5},{"row":600,"frames":90,"canvasAllocations":14,"warmCanvasAllocations":0,"pixelReads":2,"firstMs":88.70000000298023,"medianMs":3.7000000029802322,"p95Ms":4.5,"maxMs":88.70000000298023},{"row":1000,"frames":90,"canvasAllocations":9,"warmCanvasAllocations":0,"pixelReads":2,"firstMs":63.6000000089407,"medianMs":4.0999999940395355,"p95Ms":4.799999997019768,"maxMs":63.6000000089407}]}

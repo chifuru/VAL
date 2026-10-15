@@ -1,0 +1,54 @@
+{
+  "generatedAt": "2026-10-15T14:34:33.947Z",
+  "browser": "154.0.8037.57",
+  "scope": "Real command first paint,completion-only session archive,201-record lazy display,and new-session reset;not user-device latency guarantee",
+  "checks": [
+    "load waits for explicit start",
+    "start and growing rows perform no archive calls",
+    "pause changes visible button immediately",
+    "pause immediately stops subsequent rows",
+    "pause performs no archive calls",
+    "first paint acknowledges load before body work",
+    "first paint acknowledges start before body work",
+    "both real buttons have first-paint evidence",
+    "resume and repeated start keep one live individual",
+    "only one completed final result is sent to the session archive",
+    "original FizzBuzz sequence is unchanged",
+    "closed archive has no portrait DOM nodes",
+    "actual row177 part level increase reaches the live motion rig",
+    "actual row201 phase transition reaches the live motion rig",
+    "all 201 current-session results remain counted",
+    "large hidden archive does not allocate any portrait cards",
+    "opening large archive builds only 30 cards",
+    "archive portraits decode lazily",
+    "more results are available in explicit pages",
+    "returning releases all archive image nodes",
+    "large archive leaves load explicit and unstarted",
+    "new session drops the archive",
+    "no page errors"
+  ],
+  "timings": {
+    "firstRows": {
+      "ms": 242.90000000596046,
+      "row": 2
+    },
+    "feedback": [
+      {
+        "action": "load",
+        "ms": 6.299999997019768,
+        "text": "読み込み中…",
+        "status": "読み込み中",
+        "busy": true
+      },
+      {
+        "action": "start",
+        "ms": 11.300000011920929,
+        "text": "開始しています…",
+        "status": "開始しています",
+        "busy": true
+      }
+    ],
+    "loadWith201RecordsMs": 111
+  },
+  "errors": []
+}

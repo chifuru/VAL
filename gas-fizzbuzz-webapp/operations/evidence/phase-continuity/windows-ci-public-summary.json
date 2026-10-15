@@ -1,0 +1,93 @@
+{
+  "observedAt": "2026-10-15T14:40:17.579878+00:00",
+  "source": "Public run/job HTML and all step conclusions;authenticated raw logs/artifact contents not read",
+  "targetCommit": "352ffbea9b41eeccdbbfc86d6d6b5705d20c58bf",
+  "runUrl": "https://github.com/chifuru/VAL/actions/runs/38752527062",
+  "jobUrl": "https://github.com/chifuru/VAL/actions/runs/38752527062/job/116482333322",
+  "jobConclusion": "success",
+  "steps": [
+    {
+      "data-name": "Set up job",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T14:33:59Z",
+      "data-completed-at": "2026-10-15T14:34:00Z"
+    },
+    {
+      "data-name": "Run actions/checkout@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T14:34:00Z",
+      "data-completed-at": "2026-10-15T14:35:35Z"
+    },
+    {
+      "data-name": "Run actions/setup-node@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T14:35:35Z",
+      "data-completed-at": "2026-10-15T14:35:49Z"
+    },
+    {
+      "data-name": "Install pinned packaging tools",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T14:35:49Z",
+      "data-completed-at": "2026-10-15T14:35:57Z"
+    },
+    {
+      "data-name": "Node source and history checks",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T14:35:57Z",
+      "data-completed-at": "2026-10-15T14:36:16Z"
+    },
+    {
+      "data-name": "Create Windows executable and portable ZIP",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T14:36:16Z",
+      "data-completed-at": "2026-10-15T14:37:02Z"
+    },
+    {
+      "data-name": "Verify ZIP expansion matches executable checksums",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T14:37:02Z",
+      "data-completed-at": "2026-10-15T14:37:05Z"
+    },
+    {
+      "data-name": "Native Windows executable and restart smoke",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T14:37:05Z",
+      "data-completed-at": "2026-10-15T14:37:21Z"
+    },
+    {
+      "data-name": "Run actions/upload-artifact@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T14:37:21Z",
+      "data-completed-at": "2026-10-15T14:37:31Z"
+    },
+    {
+      "data-name": "Post Run actions/setup-node@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T14:37:31Z",
+      "data-completed-at": "2026-10-15T14:37:33Z"
+    },
+    {
+      "data-name": "Post Run actions/checkout@v4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T14:37:33Z",
+      "data-completed-at": "2026-10-15T14:37:35Z"
+    },
+    {
+      "data-name": "Complete job",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T14:37:35Z",
+      "data-completed-at": "2026-10-15T14:37:35Z"
+    }
+  ],
+  "limits": [
+    "Authenticated CI native JSON/screenshots/raw logs and exact runner OS image not obtained",
+    "User Windows10/11 display/FPS and art acceptance unperformed"
+  ],
+  "artifact": {
+    "id": 11981154698,
+    "name": "VALIS-Windows-x64",
+    "digest": "sha256:2102151f9e05b5cfb2118d603041d3a2d543d70440fc8f49d06df5de5221d808",
+    "retentionDays": 30
+  },
+  "scope": "Hosted source/assets,Windows package,ZIP-all-checksums,actual exe N15/N1000 load/start/final,another process empty and old history preservation.Local E55 separately verifies421 phase entrances and5 image comparisons."
+}

@@ -1,0 +1,71 @@
+{
+  "generatedAt": "2026-10-15T14:40:17.579878+00:00",
+  "appVersion": "1.11.0",
+  "valis": "Standard Operation prerequisites/Identity/feedback;existing responsibility grain;FLOW04/07 plan/external tests/08/05;structural and output gates reconciled",
+  "targetCommit": "352ffbea9b41eeccdbbfc86d6d6b5705d20c58bf",
+  "manifest": {
+    "canonicalPath": "valis/summary/gas-fizzbuzz-webapp.summary.md",
+    "counts": {
+      "A": 9,
+      "B": 13,
+      "C": 21,
+      "D": 12,
+      "E": 56
+    },
+    "total": 111,
+    "allDraft": true,
+    "initialRegistered": [
+      "E55",
+      "E56"
+    ],
+    "reflectedNodes": [
+      "A1.4",
+      "A1.5",
+      "B1.4.2",
+      "C1.4.3",
+      "D1.2",
+      "D1.3.2"
+    ],
+    "updatedSummaryFields": [
+      "body architecture continuity",
+      "within-plan adaptation",
+      "versioned evolution policy and legacy compatibility",
+      "421 input/20 final reachability",
+      "actual transition images",
+      "verification references",
+      "processing flags",
+      "next FLOW"
+    ],
+    "unreflected": []
+  },
+  "executionAndDesignFilesMatchTarget": 207,
+  "workflowFilesMatchTarget": 2,
+  "definitionSnapshotFiles": 55,
+  "protectedCoreAndMocksUnchanged": 23,
+  "checks": {
+    "unitPassed": 78,
+    "unitFailed": 0,
+    "browserPassed": 148,
+    "motionPassed": 345,
+    "performancePassed": 38,
+    "artPassed": 85,
+    "interactionPassed": 23,
+    "finishPassed": 102,
+    "nativeCreatePassed": 21,
+    "nativeRestartPassed": 9,
+    "zipChecksumFiles": 74,
+    "runtimePngs": 68,
+    "runtimePngsBytePreserved": 68,
+    "designPngsBytePreserved": 1
+  },
+  "windowsRun": 38752527062,
+  "browserRun": 38752527264,
+  "pending": [
+    "User Windows10/11 device display/FPS and art acceptance"
+  ],
+  "postReflectionManifestChecks": {
+    "passed": 3,
+    "failed": 0,
+    "log": "manifest-final.log"
+  }
+}

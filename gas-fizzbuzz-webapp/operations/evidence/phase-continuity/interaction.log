@@ -1,0 +1,5 @@
+
+> valis-fizzbuzz-desktop@1.11.0 test:interaction
+> node tests/browser-interaction.cjs
+
+{"passed":23,"timings":{"firstRows":{"ms":242.90000000596046,"row":2},"feedback":[{"action":"load","ms":6.299999997019768,"text":"読み込み中…","status":"読み込み中","busy":true},{"action":"start","ms":11.300000011920929,"text":"開始しています…","status":"開始しています","busy":true}],"loadWith201RecordsMs":111}}

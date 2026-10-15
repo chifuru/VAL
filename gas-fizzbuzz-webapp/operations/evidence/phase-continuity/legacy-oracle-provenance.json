@@ -1,0 +1,10 @@
+{
+  "generatedAt": "2026-10-15T14:37:46.166631+00:00",
+  "sourceCommit": "fe852a9e07c2e1ca10f50ecee69c017fd84e3e3c",
+  "sourceFile": "src/composite/creature-engine.js",
+  "originalSha256": "8fdd3d5298ce0d9b8b874cde33dac2410e5c056331fb2699b32724c355d8c513",
+  "archiveFile": "tests/archive/engine-v5-unrestricted.cjs",
+  "archiveSha256": "0580bdefa9f87064d933c786d487895ae99e3111c9c9302391548c48c2b15392",
+  "onlyChanges": "Two relative CommonJS require paths;original calculation unchanged.",
+  "scope": "Regression oracle for unmarked ENGINE5 states;not runtime implementation."
+}
