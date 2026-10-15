@@ -1,0 +1,92 @@
+{
+  "file": "src/assets/food/mineral.png",
+  "sha256": "02da2a670f0f9b92a6e6bcb0bec94f9e8f5029f56b8b9855cbce38b4a837ebc5",
+  "width": 1536,
+  "height": 1024,
+  "method": "image_gen; original generated PNG copied byte-for-byte; alpha analysis only",
+  "generatedSource": "/workspace/generated_images/exec-b047caf8-43d2-46d7-a825-2eac3e30c9ec.png",
+  "regions": [
+    [
+      86,
+      169,
+      262,
+      374
+    ],
+    [
+      466,
+      213,
+      250,
+      329
+    ],
+    [
+      825,
+      143,
+      242,
+      402
+    ],
+    [
+      1186,
+      218,
+      275,
+      326
+    ],
+    [
+      112,
+      682,
+      227,
+      247
+    ],
+    [
+      469,
+      703,
+      247,
+      223
+    ],
+    [
+      829,
+      658,
+      236,
+      271
+    ],
+    [
+      1200,
+      716,
+      237,
+      212
+    ]
+  ],
+  "roots": [
+    [
+      131.0,
+      187.0
+    ],
+    [
+      125.0,
+      164.5
+    ],
+    [
+      121.0,
+      201.0
+    ],
+    [
+      137.5,
+      163.0
+    ],
+    [
+      113.5,
+      123.5
+    ],
+    [
+      123.5,
+      111.5
+    ],
+    [
+      118.0,
+      135.5
+    ],
+    [
+      118.5,
+      106.0
+    ]
+  ]
+}

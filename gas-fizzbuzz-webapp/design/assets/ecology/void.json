@@ -1,0 +1,22 @@
+{
+  "file": "src/assets/environments/void.png",
+  "sha256": "403718649a2c4474b76a1b83b205dbfb27518a81a067017132d283def705017b",
+  "width": 1672,
+  "height": 941,
+  "method": "image_gen; original generated PNG copied byte-for-byte; alpha analysis only",
+  "generatedSource": "/workspace/generated_images/exec-0ec9bf2f-32b8-41fe-92b1-288e2e8aa429.png",
+  "regions": [
+    [
+      0,
+      0,
+      1672,
+      941
+    ]
+  ],
+  "roots": [
+    [
+      836.0,
+      470.5
+    ]
+  ]
+}

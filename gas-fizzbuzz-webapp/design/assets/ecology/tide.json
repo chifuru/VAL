@@ -1,0 +1,22 @@
+{
+  "file": "src/assets/environments/tide.png",
+  "sha256": "435b0a03ed4822f9ac8553c6e692ea8e3f07da5322d55ec506fbe92830566e9c",
+  "width": 1672,
+  "height": 941,
+  "method": "image_gen; original generated PNG copied byte-for-byte; alpha analysis only",
+  "generatedSource": "/workspace/generated_images/exec-bccf61a4-10c1-463b-bf42-1c943c46708c.png",
+  "regions": [
+    [
+      0,
+      0,
+      1672,
+      941
+    ]
+  ],
+  "roots": [
+    [
+      836.0,
+      470.5
+    ]
+  ]
+}

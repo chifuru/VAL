@@ -1,12 +1,12 @@
 /* Deterministic feeding and whole-body growth. Assets and playback clocks belong to the renderer. */
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory(require('./lineage-definitions.js'), require('./legacy-engine-v3.js'));
-  else root.CreatureEngine = factory(root.LineageDefinitions, root.LegacyCreatureEngineV3);
+  if (typeof module === 'object' && module.exports) module.exports = factory(require('./lineage-definitions.js'), require('./legacy-engine-v4.js'));
+  else root.CreatureEngine = factory(root.LineageDefinitions, root.LegacyCreatureEngineV4);
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (definitions, legacy) {
   'use strict';
   if (!definitions || !definitions.LINEAGES || !definitions.PART_DEFINITIONS) throw Error('系統定義を先に読み込んでください');
 
-  var ENGINE_VERSION = 4;
+  var ENGINE_VERSION = 5;
   var PHASES = Object.freeze(['第一相・萌生', '第二相・変容', '第三相・異相', '第四相・覚醒']);
   var ENV = Object.freeze(['signal', 'void', 'heat', 'tide']);
   var THRESHOLDS = Object.freeze([1, 55, 160]);
@@ -97,14 +97,30 @@
   function emptySituation() { return {exposure:{signal:0, void:0, heat:0, tide:0}, foods:[], envs:[], steps:0}; }
   function initial(seed) {
     seed = validateSeed(seed);
-    return {engineVersion:4, appearanceRevision:2, environmentPlan:environmentPlanFor(seed), seed:seed, dna:dnaFor(seed), current:0, energyQuarters:0, energy:0, points:0,
+    return {engineVersion:5, appearanceRevision:3, environmentPlan:environmentPlanFor(seed), seed:seed, dna:dnaFor(seed), current:0, energyQuarters:0, energy:0, points:0,
       rawPoints:0, currentEnvironment:null, modifier:0, stage:0, lineage:null, history:[], heritage:[], partXp:{}, partImprints:{},
       tissueEnergy:Object.fromEntries(BODY_PARTS.map(function (id) { return [id, 0]; })),
       foods:{number:0, fizz:0, buzz:0, fizzbuzz:0}, regulation:{promote:0, inhibit:0},
-      situation:emptySituation(), matured:false, lastMeal:null, finalAppearance:null};
+      situation:emptySituation(), awakening:{foods:{fizz:0,buzz:0,fizzbuzz:0},adaptation:0,steps:0}, matured:false, lastMeal:null, finalAppearance:null};
   }
   function levelFor(xp) { return xp >= THRESHOLDS[2] ? 3 : xp >= THRESHOLDS[1] ? 2 : xp >= THRESHOLDS[0] ? 1 : 0; }
-  function maturityThreshold(dna) { return 90 + 10 * (1-dna.aptitude) + 8 * (1-dna.sensitivity); }
+  // Quotas are lineage ecology, never an age or inherited aptitude lottery.
+  var DIETS = freeze({tentacles:[28,14,14],shell:[18,28,12],wings:[36,12,14],eyes:[20,16,20],heads:[34,20,14],orbit:[14,20,22],limbs:[26,28,14],glow:[18,18,20]});
+  function awakeningFor(state) {
+    var l=state.lineage&&LINEAGE_BY_ID[state.lineage], ledger=state.awakening;
+    var quota=l?DIETS[l.primary]:[28,20,18], foodKeys=['fizz','buzz','fizzbuzz'];
+    var food=foodKeys.map(function(k,i){return {kind:k,current:ledger?ledger.foods[k]:0,required:quota[i]};});
+    var parts=phenotype(state), main=parts[0], support=parts.slice(1).filter(function(p){return p.level>=2;}).length;
+    var organ=Math.min(1,(main?main.level:0)/3)*.5+Math.min(1,support/2)*.5;
+    var adaptation=ledger?ledger.adaptation:0, feeding=Math.min.apply(null,food.map(function(f){return Math.min(1,f.current/f.required);}));
+    return {ready:state.stage>=2&&organ>=1&&feeding>=1&&adaptation>=65,food:food,organ:organ,feeding:feeding,adaptation:adaptation,adaptationRequired:65,mainLevel:main?main.level:0,support:support};
+  }
+  function maturityThreshold() { return 100; }
+  function birthLineageFor(state) {
+    var situation=emptySituation();
+    state.environmentPlan.rows.slice(0,201).forEach(function(env,i){situation.steps++;situation.exposure[env]++;situation.envs.push(env);situation.foods.push(kindFor(fmtFizzBuzz(i+1)));});
+    return chooseLineage(situation);
+  }
   function organGrowth(xp) { return clamp(.10 + .90 * (1-Math.exp(-xp/110)), 0, 1); }
   function phenotype(state, id) {
     id = id || state.lineage;
@@ -228,7 +244,7 @@
   }
   function calculateAppearance(state) {
     var progress = clamp(state.points / 100, 0, 1);
-    var phaseStart = [0, 20, 58, 90][state.stage], phaseEnd = [20, 58, 100, 108][state.stage];
+    var phaseStart = [0, 20, 58, 100][state.stage], phaseEnd = [20, 58, 80, 108][state.stage];
     var phaseProgress = clamp((state.points - phaseStart) / (phaseEnd - phaseStart), 0, 1);
     var inherited = [];
     state.heritage.forEach(function (entry) {
@@ -237,17 +253,18 @@
     return freeze({version:ENGINE_VERSION, appearanceRevision:state.appearanceRevision || 1, seed:state.seed, dna:{...state.dna}, stage:state.stage,
       points:state.points, progress:progress, tier:Math.min(4, 1 + Math.floor(phaseProgress * 4)),
       bodyFamily:state.lineage?LINEAGE_BY_ID[state.lineage].bodyFamily:'aquatic',
-      bodyPlan:state.lineage?LINEAGE_BY_ID[state.lineage].bodyPlan:definitions.CORE_PLANS[state.dna.bodyVariant],
+      bodyPlan:LINEAGE_BY_ID[state.lineage||birthLineageFor(state)].bodyPlan,
+      bodyLineage:state.lineage||birthLineageFor(state), bodyFrame:state.matured?(6+(state.dna.skin>.5?1:0)):state.stage===0?(phaseProgress>=.55?1:0):state.stage===1?(phaseProgress>=.68?3:phaseProgress>=.30?2:1):(phaseProgress>=.62?5:phaseProgress>=.25?4:3),awakening:awakeningFor(state),
       signature:state.lineage?LINEAGE_BY_ID[state.lineage].signature:'遺伝子から生まれる未知の幼体',sense:sensoryFor(state),maturityTarget:round(maturityThreshold(state.dna)),
       matured:state.matured, lineage:state.lineage, color:colorFor(state), volume:round(1 + 2 * progress),
       anatomy:anatomyFor(state, progress), organs:phenotype(state), inheritedOrgans:inherited});
   }
   function appearanceFor(state) {
-    if(state.engineVersion!==4) return legacy.appearanceFor(state);
+    if(state.engineVersion!==5) return legacy.appearanceFor(state);
     return state.matured && state.finalAppearance ? freeze(state.finalAppearance) : calculateAppearance(state);
   }
   function step(previous, line, environment) {
-    if(previous.engineVersion!==4)throw Error('旧個体は保存済み状態で閲覧してください');
+    if(previous.engineVersion!==5)throw Error('旧個体は保存済み状態で閲覧してください');
     if(previous.current>=previous.seed)throw Error('入力行数を超える摂取');
     var expected=fmtFizzBuzz(previous.current+1);if(line!==expected)throw Error('元列の行順が不正です');
     environment=previous.environmentPlan.rows[previous.current];
@@ -256,6 +273,7 @@
     var quarters = kind === 'number' ? 0 : 4 + applied;
     var state = {...previous, foods:{...previous.foods}, regulation:{...previous.regulation},
       history:previous.history.slice(), heritage:previous.heritage.slice(), partXp:{...previous.partXp},
+      awakening:{...previous.awakening,foods:{...previous.awakening.foods}},
       tissueEnergy:{...previous.tissueEnergy}, partImprints:{...previous.partImprints},
       situation:{exposure:{...previous.situation.exposure}, foods:previous.situation.foods.slice(),
         envs:previous.situation.envs.slice(), steps:previous.situation.steps + 1}};
@@ -278,6 +296,12 @@
       state.points=Math.min(100,state.rawPoints);
     }
     if (!previous.matured) {
+      if(previous.stage===2){
+        state.awakening.steps++;
+        if(kind!=='number')state.awakening.foods[kind]++;
+        var niche=LINEAGE_BY_ID[state.lineage].niche,idx=ENV_KEYS.indexOf(environment);
+        if(niche[idx]>=.25)state.awakening.adaptation++;
+      }
       var expression = 1 + .18 * previous.dna.sensitivity * applied;
       if (quarters) BODY_PARTS.forEach(function (key) {
         state.tissueEnergy[key] = round((state.tissueEnergy[key] || 0) + quarters * tissueAffinity(state.dna, key) * expression);
@@ -305,7 +329,7 @@
           points:state.points, energy:state.energy, environment:environment}));
         state.situation = emptySituation();
       }
-      if (state.current>=900 && state.rawPoints >= maturityThreshold(state.dna)) {
+      if (state.stage===2 && awakeningFor(state).ready) {
         state.stage=3;state.matured = true;state.maturedAt=state.current;
         state.history.push(freeze({stage:3,lineage:state.lineage,step:state.current,points:state.points,energy:state.energy,environment:environment}));
         state.finalAppearance = calculateAppearance(state);
@@ -325,7 +349,7 @@
     PHASES:PHASES, ENV:ENV, THRESHOLDS:THRESHOLDS, BODY_PARTS:BODY_PARTS, BODY_PROFILES:BODY_PROFILES,
     LINEAGES:LINEAGES, LINEAGE_BY_ID:LINEAGE_BY_ID, PART_DEFINITIONS:PART_DEFINITIONS,
     fmtFizzBuzz:fmtFizzBuzz, linesFor:linesFor, kindFor:kindFor, modifierFor:modifierFor,
-    environmentPlanFor:environmentPlanFor, maturityThreshold:maturityThreshold, sensoryFor:sensoryFor, stageFor:stageFor, stageForQuarters:stageForQuarters, dnaFor:dnaFor, initial:initial,
+    awakeningFor:awakeningFor, DIETS:DIETS, environmentPlanFor:environmentPlanFor, maturityThreshold:maturityThreshold, sensoryFor:sensoryFor, stageFor:stageFor, stageForQuarters:stageForQuarters, dnaFor:dnaFor, initial:initial,
     levelFor:levelFor, phenotype:phenotype, chooseLineage:chooseLineage,
     plannedEnvironment:plannedEnvironment, appearanceFor:appearanceFor, step:step, runAll:runAll};
 });

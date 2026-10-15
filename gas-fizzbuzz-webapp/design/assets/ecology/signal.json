@@ -1,0 +1,22 @@
+{
+  "file": "src/assets/environments/signal.png",
+  "sha256": "f684a6a4626a731a7e7409975b140e4622b9687673c9cade584519a1ffd22c7a",
+  "width": 1672,
+  "height": 941,
+  "method": "image_gen; original generated PNG copied byte-for-byte; alpha analysis only",
+  "generatedSource": "/workspace/generated_images/exec-56bb9849-6efd-4b55-8d67-36de51e0a6f3.png",
+  "regions": [
+    [
+      0,
+      0,
+      1672,
+      941
+    ]
+  ],
+  "roots": [
+    [
+      836.0,
+      470.5
+    ]
+  ]
+}

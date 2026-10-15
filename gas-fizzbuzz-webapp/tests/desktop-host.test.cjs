@@ -99,18 +99,18 @@ test('sandbox preload exposes fixed IPC methods and unsubscribes close callbacks
 });
 
 test('engine1 and engine4 records coexist without rewriting legacy state or portraits',async t=>{
- const E=require('../src/composite/creature-engine'),L=require('../src/composite/legacy-engine'),store=new HistoryStore(await directory(t)),legacy=record('old'),current=record('new',927);
+ const E=require('../src/composite/legacy-engine-v4'),L=require('../src/composite/legacy-engine'),store=new HistoryStore(await directory(t)),legacy=record('old'),current=record('new',927);
  legacy.seed=1000;legacy.processed=1000;legacy.state=JSON.parse(JSON.stringify(L.runAll(1000,'signal')));current.engineVersion=4;current.assetVersion='desktop-art-v4';current.state=JSON.parse(JSON.stringify(E.runAll(927)));
  await store.save(legacy);await store.save(current);const loaded=(await new HistoryStore(store.directory).list()).records;assert.deepEqual(loaded.find(r=>r.runId==='old'),legacy);assert.deepEqual(loaded.find(r=>r.runId==='new'),current);
- for(const version of [0,5,99])assert.throws(()=>validateRecord({...current,engineVersion:version}),/対応していない/);assert.throws(()=>validateRecord({...current,state:{...current.state,engineVersion:1}}),/成長版/);
+ for(const version of [0,6,99])assert.throws(()=>validateRecord({...current,engineVersion:version}),/対応していない/);assert.throws(()=>validateRecord({...current,state:{...current.state,engineVersion:1}}),/成長版/);
 });
 
-test('legacy2 final portraits coexist with new4 fourth-phase snapshots',async t=>{const E=require('../src/composite/creature-engine'),L2=require('../src/composite/legacy-engine-v2'),store=new HistoryStore(await directory(t)),old=record('legacy2',927),fresh=record('fresh4',927);old.engineVersion=2;old.state=JSON.parse(JSON.stringify(L2.runAll(927)));fresh.engineVersion=4;fresh.state=JSON.parse(JSON.stringify(E.runAll(927)));fresh.snapshots=[{stage:3,processed:927,state:fresh.state,portrait:PNG}];await store.save(old);await store.save(fresh);const list=(await new HistoryStore(store.directory).list()).records;assert.deepEqual(list.find(r=>r.runId==='legacy2'),old);assert.deepEqual(list.find(r=>r.runId==='fresh4'),fresh);});
+test('legacy2 final portraits coexist with new4 fourth-phase snapshots',async t=>{const E=require('../src/composite/legacy-engine-v4'),L2=require('../src/composite/legacy-engine-v2'),store=new HistoryStore(await directory(t)),old=record('legacy2',927),fresh=record('fresh4',927);old.engineVersion=2;old.state=JSON.parse(JSON.stringify(L2.runAll(927)));fresh.engineVersion=4;fresh.state=JSON.parse(JSON.stringify(E.runAll(927)));fresh.snapshots=[{stage:3,processed:927,state:fresh.state,portrait:PNG}];await store.save(old);await store.save(fresh);const list=(await new HistoryStore(store.directory).list()).records;assert.deepEqual(list.find(r=>r.runId==='legacy2'),old);assert.deepEqual(list.find(r=>r.runId==='fresh4'),fresh);});
 
-test('legacy3 saved final result coexists with new4 and cannot change edition in place',async t=>{const E=require('../src/composite/creature-engine'),L3=require('../src/composite/legacy-engine-v3'),store=new HistoryStore(await directory(t)),old=record('legacy3',927),fresh=record('fresh4',927);old.engineVersion=3;old.assetVersion='desktop-art-v3';old.state=JSON.parse(JSON.stringify(L3.runAll(927)));fresh.engineVersion=4;fresh.assetVersion='desktop-art-v4';fresh.state=JSON.parse(JSON.stringify(E.runAll(927)));await store.save(old);await store.save(fresh);const list=(await new HistoryStore(store.directory).list()).records;assert.deepEqual(list.find(r=>r.runId==='legacy3'),old);assert.deepEqual(list.find(r=>r.runId==='fresh4'),fresh);await assert.rejects(()=>store.save({...old,engineVersion:4,state:fresh.state}),/出生記録/);});
+test('legacy3 saved final result coexists with new4 and cannot change edition in place',async t=>{const E=require('../src/composite/legacy-engine-v4'),L3=require('../src/composite/legacy-engine-v3'),store=new HistoryStore(await directory(t)),old=record('legacy3',927),fresh=record('fresh4',927);old.engineVersion=3;old.assetVersion='desktop-art-v3';old.state=JSON.parse(JSON.stringify(L3.runAll(927)));fresh.engineVersion=4;fresh.assetVersion='desktop-art-v4';fresh.state=JSON.parse(JSON.stringify(E.runAll(927)));await store.save(old);await store.save(fresh);const list=(await new HistoryStore(store.directory).list()).records;assert.deepEqual(list.find(r=>r.runId==='legacy3'),old);assert.deepEqual(list.find(r=>r.runId==='fresh4'),fresh);await assert.rejects(()=>store.save({...old,engineVersion:4,state:fresh.state}),/出生記録/);});
 
 test('old4 and revised4 retain their appearance revision across storage and snapshots',async t=>{
- const E=require('../src/composite/creature-engine'),Old=require('./archive/engine-v4.cjs'),store=new HistoryStore(await directory(t));
+ const E=require('../src/composite/legacy-engine-v4'),Old=require('./archive/engine-v4.cjs'),store=new HistoryStore(await directory(t));
  const old=record('old4',927),fresh=record('revised4',927);old.engineVersion=fresh.engineVersion=4;
  old.assetVersion='desktop-art-v4';old.state=JSON.parse(JSON.stringify(Old.runAll(927)));
  fresh.assetVersion='desktop-art-v4.1';fresh.state=JSON.parse(JSON.stringify(E.runAll(927)));
@@ -122,4 +122,12 @@ test('old4 and revised4 retain their appearance revision across storage and snap
  assert.throws(()=>validateRecord({...fresh,state:{...fresh.state,finalAppearance:{...fresh.state.finalAppearance,appearanceRevision:1}}}),/成熟外見版/);
  assert.throws(()=>validateRecord({...fresh,snapshots:[{...fresh.snapshots[0],state:old.state}]}),/相の外見版/);
  await assert.rejects(()=>store.save({...old,state:fresh.state,snapshots:fresh.snapshots}),/出生記録/);
+});
+
+test('engine5 awakening records and legacy4 coexist, retaining edition boundaries',async t=>{
+ const E=require('../src/composite/creature-engine'),L4=require('../src/composite/legacy-engine-v4'),store=new HistoryStore(await directory(t));
+ const a=record('ecology5',1000),b=record('living4',927);a.engineVersion=5;a.assetVersion='desktop-art-v5';a.state=JSON.parse(JSON.stringify(E.runAll(1000)));b.engineVersion=4;b.state=JSON.parse(JSON.stringify(L4.runAll(927)));
+ await store.save(a);await store.save(b);const list=(await store.list()).records;assert.deepEqual(list.find(r=>r.runId===a.runId),a);assert.deepEqual(list.find(r=>r.runId===b.runId),b);
+ assert.throws(()=>validateRecord({...a,state:{...a.state,appearanceRevision:2}}),/生態版/);
+ await assert.rejects(()=>store.save({...b,engineVersion:5,state:a.state}),/Nと再生位置|出生記録/);
 });

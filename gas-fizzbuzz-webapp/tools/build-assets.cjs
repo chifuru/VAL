@@ -3,7 +3,7 @@ const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypt
 const {PNG}=require('pngjs');
 const root=path.resolve(__dirname,'..'),D=require('../src/composite/lineage-definitions');
 function build(){
- const config={version:'desktop-art-v4.1',sprites:{},files:[]};
+ const config={version:'desktop-art-v5',food:{},environments:{},sprites:{},files:[]};
  const rasters=new Map();
  function attachmentRoot(file,bytes,region,pivot){
   if(!rasters.has(file))rasters.set(file,PNG.sync.read(bytes));
@@ -24,6 +24,17 @@ function build(){
   rows.forEach((id,row)=>{config.sprites[family+':'+id]=Array.from({length:levels},(_,col)=>{const i=row*levels+col,[x,y,w,h]=meta.regions[i],pivot=meta.roots[i];if(x<0||y<0||w<1||h<1||x+w>meta.width||y+h>meta.height||pivot.some(v=>!Number.isFinite(v)))throw Error('Invalid sprite geometry: '+family+':'+id);return {file:meta.file.replace(/^src\//,''),region:[x,y,w,h],root:pivot,attachmentRoot:attachmentRoot(meta.file,bytes,[x,y,w,h],pivot),...(meta.anatomy&&id==='body'?{anatomy:meta.anatomy[col]}:{})};});});
  }
  for(const [alias,source]of Object.entries(D.ASSET_ALIASES)){if(!config.sprites[source])throw Error('Missing alias '+source);config.sprites[alias]=config.sprites[source];}
+ for(const l of D.LINEAGES){
+  const family='eco-'+l.id,meta=JSON.parse(fs.readFileSync(path.join(root,'design/assets/desktop-creatures',family+'.json'))),bytes=fs.readFileSync(path.join(root,meta.file));
+  if(crypto.createHash('sha256').update(bytes).digest('hex')!==meta.sha256||meta.regions.length!==8)throw Error('Invalid ecology body '+family);
+  config.files.push({file:meta.file.replace(/^src\//,''),sha256:meta.sha256,width:meta.width,height:meta.height});
+  config.sprites[family+':body']=meta.regions.map((region,i)=>({file:meta.file.replace(/^src\//,''),region,root:meta.roots[i],attachmentRoot:attachmentRoot(meta.file,bytes,region,meta.roots[i]),anatomy:meta.anatomy[i],exclusions:meta.exclusions[i]}));
+ }
+ for(const [kind,names]of [['food',['life','mineral','information']],['environments',['tide','heat','signal','void']]])for(const id of names){
+  const meta=JSON.parse(fs.readFileSync(path.join(root,'design/assets/ecology',id+'.json'))),bytes=fs.readFileSync(path.join(root,meta.file));
+  if(crypto.createHash('sha256').update(bytes).digest('hex')!==meta.sha256)throw Error('Ecology SHA '+id);
+  config.files.push({file:meta.file.replace(/^src\//,''),sha256:meta.sha256,width:meta.width,height:meta.height});config[kind][id]={file:meta.file.replace(/^src\//,''),regions:meta.regions};
+ }
  const outputs={'src/assets/creatures/config.json':JSON.stringify(config,null,2)+'\n','src/composite/asset-config.js':'/* Generated local-image geometry. Run npm run build:assets. */\nwindow.VALIS_ASSETS='+JSON.stringify(config)+';\n'};
  for(const [file,text]of Object.entries(outputs)){const full=path.join(root,file);if(process.argv.includes('--check')){if(!fs.existsSync(full)||fs.readFileSync(full,'utf8')!==text)throw Error('Asset configuration out of date: '+file);}else fs.writeFileSync(full,text);}
  console.log('Local PNG configuration: '+config.files.length+' atlases, '+Object.keys(config.sprites).length+' body/organ groups, '+Object.values(config.sprites).reduce((n,s)=>n+s.length,0)+' sprites');return config;

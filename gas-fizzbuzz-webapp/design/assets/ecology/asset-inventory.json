@@ -1,0 +1,164 @@
+[
+  {
+    "id": "abyss",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-abyss.png",
+    "regions": 8
+  },
+  {
+    "id": "myth",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-myth.png",
+    "regions": 8
+  },
+  {
+    "id": "recursive",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-recursive.png",
+    "regions": 8
+  },
+  {
+    "id": "sail",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-sail.png",
+    "regions": 8
+  },
+  {
+    "id": "gravity",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-gravity.png",
+    "regions": 8
+  },
+  {
+    "id": "crystal",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-crystal.png",
+    "regions": 8
+  },
+  {
+    "id": "manyeyes",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-manyeyes.png",
+    "regions": 8
+  },
+  {
+    "id": "abyssshell",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-abyssshell.png",
+    "regions": 8
+  },
+  {
+    "id": "parallel",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-parallel.png",
+    "regions": 8
+  },
+  {
+    "id": "memory",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-memory.png",
+    "regions": 8
+  },
+  {
+    "id": "serpent",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-serpent.png",
+    "regions": 8
+  },
+  {
+    "id": "solar",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-solar.png",
+    "regions": 8
+  },
+  {
+    "id": "antimeme",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-antimeme.png",
+    "regions": 8
+  },
+  {
+    "id": "jelly",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-jelly.png",
+    "regions": 8
+  },
+  {
+    "id": "kelp",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-kelp.png",
+    "regions": 8
+  },
+  {
+    "id": "whale",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-whale.png",
+    "regions": 8
+  },
+  {
+    "id": "swarm",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-swarm.png",
+    "regions": 8
+  },
+  {
+    "id": "plasma",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-plasma.png",
+    "regions": 8
+  },
+  {
+    "id": "cephalopod",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-cephalopod.png",
+    "regions": 8
+  },
+  {
+    "id": "valis",
+    "kind": "body",
+    "file": "src/assets/creatures/eco-valis.png",
+    "regions": 8
+  },
+  {
+    "id": "life",
+    "kind": "food",
+    "file": "src/assets/food/life.png",
+    "regions": 8
+  },
+  {
+    "id": "mineral",
+    "kind": "food",
+    "file": "src/assets/food/mineral.png",
+    "regions": 8
+  },
+  {
+    "id": "information",
+    "kind": "food",
+    "file": "src/assets/food/information.png",
+    "regions": 8
+  },
+  {
+    "id": "tide",
+    "kind": "bg",
+    "file": "src/assets/environments/tide.png",
+    "regions": 1
+  },
+  {
+    "id": "heat",
+    "kind": "bg",
+    "file": "src/assets/environments/heat.png",
+    "regions": 1
+  },
+  {
+    "id": "signal",
+    "kind": "bg",
+    "file": "src/assets/environments/signal.png",
+    "regions": 1
+  },
+  {
+    "id": "void",
+    "kind": "bg",
+    "file": "src/assets/environments/void.png",
+    "regions": 1
+  }
+]

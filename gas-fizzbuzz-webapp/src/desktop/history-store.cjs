@@ -37,6 +37,10 @@ function stateData(value, seed, processed) {
   if (!object(value) || value.seed !== seed || value.current !== processed) invalid('Nと再生位置が一致しません');
   if (!Number.isFinite(value.points) || value.points < 0 || value.points > 100 || !integer(value.stage, 0, value.engineVersion>=3?3:2)) invalid('成長値が不正です');
   if (value.dna && value.dna.seed !== undefined && value.dna.seed !== seed) invalid('DNAのNが一致しません');
+  if(value.engineVersion===5){
+    if(value.appearanceRevision!==3||!object(value.awakening))invalid('生態版が不正です');
+    if(value.finalAppearance&&(value.finalAppearance.version!==5||value.finalAppearance.appearanceRevision!==3))invalid('覚醒版が不正です');
+  }
   if(value.engineVersion===4){
     if(value.appearanceRevision!==undefined&&![1,2].includes(value.appearanceRevision))invalid('外見版が不正です');
     if(value.finalAppearance?.appearanceRevision!==undefined&&![1,2].includes(value.finalAppearance.appearanceRevision))invalid('成熟外見版が不正です');
@@ -45,7 +49,7 @@ function stateData(value, seed, processed) {
 }
 function validateRecord(input) {
   if (!object(input) || FIELDS.some(k => !Object.hasOwn(input, k)) || Object.keys(input).some(k => !FIELDS.includes(k))) invalid('必須項目が一致しません');
-  if (input.schemaVersion !== 1 || ![1,2,3,4].includes(input.engineVersion)) invalid('対応していない記録版です');
+  if (input.schemaVersion !== 1 || ![1,2,3,4,5].includes(input.engineVersion)) invalid('対応していない記録版です');
   if (typeof input.runId !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/.test(input.runId)) invalid('実行IDが不正です');
   if (!integer(input.seed,1,1000) || !integer(input.processed,0,input.seed)) invalid('Nまたは再生位置が不正です');
   if (!STATUSES.has(input.status) || input.status === 'complete' && input.processed !== input.seed) invalid('再生状態が不正です');

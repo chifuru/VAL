@@ -28,7 +28,7 @@
     kelp:{stretch:[.90,1.15],hero:['wing_1','frontTentacle_2']},
     whale:{stretch:[1.25,.80],hero:['forkTail_3','pectoralWing_2']}
   };
-  const polished=a=>a.version===4&&a.appearanceRevision===2;
+  const polished=a=>(a.version===4&&a.appearanceRevision===2)||a.version===5;
   const silhouette=a=>polished(a)&&a.lineage?silhouettes[a.lineage]:null;
   const ringRatio=(part,a,b)=>polished(a)?(part.inherited?.60:silhouette(a)?.ring?1.40:.57):(b.biological&&part.inherited?.92:1.35);
   const rhythms={
@@ -48,7 +48,7 @@
     let prepared=false,lastDraw=[],lastSources=[],lastAttachments=[],lastMotion=null,surfaceCache=null,currentPalette=null;const paletteCache=new Map(),skinCache=new Map(),surfacePixels=new Map(),rootCache=new Map();
     const resolve=file=>new URL(file,document.baseURI).href;
     async function prepare(){
-      const files=[...new Set(Object.values(config.sprites).flat().map(s=>s.file))];
+      const files=[...new Set(config.files.map(s=>s.file))];
       await Promise.all(files.map(async file=>{
         const im=new Image();im.src=resolve(file);
         try{await im.decode();images.set(file,im);}catch(error){missing.add(file);}
@@ -66,9 +66,11 @@
       const key=[s.file,s.region.join(','),color.map(v=>Math.round(v/12)*12).join(',')].join(':');
       if(paletteCache.has(key))return paletteCache.get(key);
       const [, ,w,h]=s.region,c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');g.drawImage(im,...s.region,0,0,w,h);
+      // Source PNG is preserved; geometry excludes pixels belonging to another atlas cell.
+      if(s.exclusions)for(const r of s.exclusions)g.clearRect(...r);
       const data=g.getImageData(0,0,w,h),p=data.data;
       for(let i=0;i<p.length;i+=4){if(!p[i+3])continue;const l=(p[i]*.22+p[i+1]*.65+p[i+2]*.13)/255;const amount=l<.12?.12:l>.8?.28:.72;
-        const blend=s.anatomy?.material==='alloy'?amount*.6:amount;
+        const blend=s.file.includes('/eco-')?amount*.38:s.anatomy?.material==='alloy'?amount*.6:amount;
         for(let j=0;j<3;j++){const target=color[j]*(.35+.95*l)+(l>.65?(l-.65)*180:0);p[i+j]=Math.round(p[i+j]*(1-blend)+clamp(target,0,255)*blend);}}
       g.putImageData(data,0,0);if(paletteCache.size>220)paletteCache.clear();paletteCache.set(key,c);return c;
     }
@@ -101,7 +103,7 @@
       const result={data:g.getImageData(0,0,c.width,c.height).data,width:c.width,height:c.height,points:new Map()};surfacePixels.set(key,result);return result;
     }
     function livingSkin(a,s,base){
-      const tissue=a.anatomy.shell,step=Math.round(tissue.growth*32),key=[s.file,s.region,step,tissue.pattern,a.dna.seed,a.color].join(':');
+      const tissue=a.anatomy.shell,step=Math.round(tissue.growth*32),key=[s.file,s.region,step,tissue.pattern,a.dna.seed,a.color,a.version===5?a.inheritedOrgans.map(p=>p.lineage+':'+p.id+':'+Math.floor(p.growth*4)).join(','):''].join(':');
       if(skinCache.has(key))return skinCache.get(key);
       const [, ,w,h]=s.region,painted=document.createElement('canvas'),marks=document.createElement('canvas');painted.width=marks.width=w;painted.height=marks.height=h;
       const pg=painted.getContext('2d'),mg=marks.getContext('2d');pg.drawImage(base,0,0,w,h);
@@ -113,15 +115,27 @@
         else if(tissue.pattern===2){mg.beginPath();for(let i=0;i<=6;i++){const t=i*Math.PI/3;mg.lineTo(x+Math.cos(t)*gap*.35,y+Math.sin(t)*gap*.35);}mg.stroke();}
         else{mg.beginPath();mg.moveTo(x,y+gap);mg.lineTo(x+gap*.3,y);mg.moveTo(x+gap*.15,y+gap*.5);mg.lineTo(x+gap*.5,y+gap*.25);mg.stroke();}
       }
+      if(a.version===5&&a.inheritedOrgans.length){
+        // Inherited organs express inside the skin as vascular, sensory and armor
+        // tissues. They never become detached copies of an earlier animal.
+        a.inheritedOrgans.forEach((part,i)=>{
+          const site=s.anatomy.joints[part.anchor]||s.anatomy.joints.flank,x=site[0]*w,y=site[1]*h,r=Math.min(w,h)*(.08+.04*part.growth),offset=(i%3-1)*r*.7;
+          mg.save();mg.globalAlpha=.5+.12*part.level;mg.strokeStyle='rgb('+a.color.map((v,j)=>clamp(v+(j===2?100:45),0,255)).join(',')+')';mg.fillStyle=mg.strokeStyle;mg.lineWidth=1+part.level;
+          if(/shell|armor|plate|scale|crystal/i.test(part.id)){for(let k=0;k<3;k++){mg.beginPath();mg.moveTo(x+offset+k*r*.4,y-r*.35);mg.lineTo(x+offset+(k+.5)*r*.4,y-r*.8);mg.lineTo(x+offset+(k+1)*r*.4,y-r*.35);mg.stroke();}}
+          else if(/eye|sensor|sense|node|lens/i.test(part.id)){for(let k=0;k<3;k++){mg.beginPath();mg.ellipse(x+offset+(k-1)*r*.5,y+Math.sin(k)*r*.4,2+part.level,2+part.level,0,0,Math.PI*2);mg.fill();}}
+          else{mg.beginPath();mg.moveTo(x-r,y+offset);mg.bezierCurveTo(x-r*.4,y-r,x+r*.4,y+r,x+r,y+offset);mg.stroke();}
+          mg.restore();
+        });
+      }
       mg.globalCompositeOperation='destination-in';mg.drawImage(base,0,0,w,h);
       pg.globalAlpha=.025+tissue.growth*.13;pg.drawImage(marks,0,0);if(skinCache.size>64)skinCache.clear();skinCache.set(key,painted);return painted;
     }
     const eyeSites={aquatic:[.15,.48],amphibian:[.14,.44],avian:[.14,.36],serpent:[.19,.35],crystal:[.16,.48],arthropod:[.18,.51],jelly:[.43,.46],cephalopod:[.17,.40],botanical:[.17,.44],whale:[.21,.47],mechanical:[.15,.44],ethereal:[.15,.43]};
     function integratedSkeleton(a,motion){
-      const biological=a.version>=4,level=Math.min(biological?4:3,a.stage+1),prefix=biological?'bio-':'core-',key=prefix+a.bodyPlan+':body',s=sprite(key,level),n=a.anatomy;
+      const biological=a.version>=4,ecology=a.version===5,level=ecology?a.bodyFrame+1:Math.min(biological?4:3,a.stage+1),prefix=ecology?'eco-':biological?'bio-':'core-',key=prefix+(ecology?a.bodyLineage:a.bodyPlan)+':body',s=sprite(key,level),n=a.anatomy;
       const verticalMesh=biological&&s.anatomy?.axis==='vertical';
       const sw=s.region[2],sh=s.region[3],baseScale=Math.min(480*n.torso.scaleX/sw,300*n.torso.scaleY/sh);
-      const slices=72,dx=(verticalMesh?sh:sw)/slices,positions=[0],sx=[],sy=[],stretch=silhouette(a)?.stretch||[1,1];
+      const slices=72,dx=(verticalMesh?sh:sw)/slices,positions=[0],sx=[],sy=[],stretch=a.version===5?[1,1]:silhouette(a)?.stretch||[1,1];
       function smooth(t){t=clamp(t,0,1);return t*t*(3-2*t);}
       for(let i=0;i<slices;i++){const u=(i+.5)/slices,h=1-smooth((u-.16)/.30),tail=smooth((u-.58)/.30);
         const vx=1+h*(clamp(n.head.scaleX/n.torso.scaleX,.65,1.5)-1)+tail*(clamp(n.tail.scaleX/n.torso.scaleX,.65,1.6)-1),vy=1+h*(clamp(n.head.scaleY/n.torso.scaleY,.7,1.4)-1)+tail*(clamp(n.tail.scaleY/n.torso.scaleY,.65,1.5)-1);
@@ -170,7 +184,7 @@
       const tier=part=>b.biological?Math.min(a.stage+1,part.level):bodyTier(part);
       // Far appendages grow from real source-body sockets; they remain behind its skin.
       const aquatic=['aquatic','whale','jelly','cephalopod','ethereal'].includes(a.bodyPlan),finCount=n.fin.count||2;
-      for(let i=0;i<finCount;i++){const side=i%2?-1:1,root=i>=2?b.sockets.flank:b.sockets.shoulder;
+      for(let i=0;i<(a.version===5?0:finCount);i++){const side=i%2?-1:1,root=i>=2?b.sockets.flank:b.sockets.shoulder;
         let at=[root[0]+side*5,root[1]+side*5];if(polished(a))at=attachment(b,finKey,...at);
         paint(g,finKey,tier(n.fin),at[0],at[1],(b.biological?75:100)*n.fin.scaleX,(b.biological?90:110)*n.fin.scaleY,side*((aquatic?.45:.25)+(b.motion?.fin||0)),side<0?.82:1,side<0,0,false,polished(a),polished(a)?a.color:null);}
       const source=images.get(b.s.file);let im=currentPalette?recolored(b.s,source,currentPalette):source;
@@ -183,7 +197,7 @@
       // Actual tissue pattern follows the alpha of the entire integrated core.
       if(a.stage===3&&!b.biological){g.save();g.globalAlpha=.18;g.shadowColor='rgb('+a.color.join(',')+')';g.shadowBlur=15;
         for(let i=0;i<2;i++)paint(g,finKey,3,b.sockets.dorsal[0]+i*15,b.sockets.dorsal[1],100*n.fin.scaleX,115*n.fin.scaleY,(i-.5)*.35,.65,i===1);g.restore();}
-      for(let side of [-1,1]){const joint=a.bodyPlan==='jelly'||a.bodyPlan==='cephalopod'?b.sockets.flank:b.sockets.forelimb;
+      for(let side of (a.version===5?[]:[-1,1])){const joint=a.bodyPlan==='jelly'||a.bodyPlan==='cephalopod'?b.sockets.flank:b.sockets.forelimb;
         let at=[joint[0]+side*7,joint[1]];if(polished(a))at=attachment(b,limbKey,...at);
         const stride=b.motion?Math.sin(b.motion.cycle*2+(side<0?Math.PI:0))*b.motion.limb:0;
         paint(g,limbKey,tier(n.limb),at[0],at[1],(b.biological?58:70)*n.limb.scaleX,(b.biological?78:95)*n.limb.scaleY,side*.16+stride,.35+.6*n.limb.visibility,side<0,0,false,polished(a),polished(a)?a.color:null);}
@@ -306,6 +320,7 @@
       paint(g,bodyKey(a,'head'),bodyTier(n.head),b.head[0],b.head[1],b.hw,b.hh,0,1,false,tint);
     }
     function eyes(g,a,b){
+      if(a.version===5)return;
       const n=a.anatomy.eyes,base=b.sockets.eye;
       const count=clamp(n.count||1,1,6),saved=currentPalette;
       const modes=n.sense||'',accent=/熱|赤外|紫外/.test(modes)?[255,154,61]:/位相|信号/.test(modes)?[209,128,255]:/電位|磁場/.test(modes)?[103,255,213]:[92,204,255];
@@ -340,8 +355,8 @@
       const time=options.time||0,reduced=options.still!==false;
       const a=E.appearanceFor(state),motion=motionFor(a,time,reduced,options.energyEvents||[]);currentPalette=a.bodyFamily?a.color:null;const b=skeleton(a,motion),w=target.width,h=target.height,mini=!!options.mini;
       lastMotion=motion?{mode:motion.mode,cycle:motion.cycle,pulse:motion.pulse,events:motion.events.length,offsets:b.offsets.slice(),cross:b.cross.slice()}:null;
-      g.clearRect(0,0,w,h);if(!mini)background(g,w,h,time);
-      const organs=mergeOrgans(a);
+      g.clearRect(0,0,w,h);if(!mini){if(a.version===5)root.EnvironmentScene.draw(g,w,h,state,config,images,time,reduced);else background(g,w,h,time);}
+      const organs=a.version===5?[]:mergeOrgans(a);
       const ringExtent=organs.filter(p=>p.anchor==='outerOrbit'&&/ring|halo/i.test(p.id)).reduce((size,p)=>Math.max(size,Math.max(b.bw,b.bh)*ringRatio(p,a,b)+100),0);
       const neckRoom=polished(a)&&a.lineage==='serpent'?180:0;
       const extentX=b.integrated?Math.max(b.bw+230,ringExtent):Math.max(1100,b.bw*2.5+450),extentY=b.integrated?Math.max(b.bh+220+neckRoom,ringExtent):Math.max(900,b.bh*2.8+430);
@@ -353,7 +368,9 @@
       anatomy(g,a,b);
       organs.filter(isFront).forEach(p=>organ(g,p,a,b,time,reduced));
       eyes(g,a,b);
-      if(!mini&&!reduced){
+      if(a.version===5){
+        if(!mini)root.FoodScene.draw(g,b,state,config,images,time,reduced,options.energyEvents||[]);
+      }else if(!mini&&!reduced){
         const events=motion?motion.events:options.energyEvents||[];
         events.forEach(e=>{
           const f=clamp((time-e.time)/(motion?620:380),0,1);if(f>=1)return;

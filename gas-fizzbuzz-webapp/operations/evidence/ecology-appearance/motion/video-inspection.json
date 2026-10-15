@@ -1,0 +1,20 @@
+[
+  {
+    "file": "motion/jelly.webm",
+    "decoded": true,
+    "frames": 41,
+    "ptsSpanSeconds": 3.336
+  },
+  {
+    "file": "motion/serpent.webm",
+    "decoded": true,
+    "frames": 41,
+    "ptsSpanSeconds": 3.319
+  },
+  {
+    "file": "motion/myth.webm",
+    "decoded": true,
+    "frames": 41,
+    "ptsSpanSeconds": 3.32
+  }
+]

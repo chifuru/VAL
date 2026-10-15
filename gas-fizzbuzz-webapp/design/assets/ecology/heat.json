@@ -1,0 +1,22 @@
+{
+  "file": "src/assets/environments/heat.png",
+  "sha256": "584ed787ec070295ee3d317724439d4f5a0713a1019f19b40713cd189899370d",
+  "width": 1672,
+  "height": 941,
+  "method": "image_gen; original generated PNG copied byte-for-byte; alpha analysis only",
+  "generatedSource": "/workspace/generated_images/exec-d396f264-3da9-4625-a015-5a7f9cc933ec.png",
+  "regions": [
+    [
+      0,
+      0,
+      1672,
+      941
+    ]
+  ],
+  "roots": [
+    [
+      836.0,
+      470.5
+    ]
+  ]
+}
