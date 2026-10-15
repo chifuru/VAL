@@ -35,13 +35,13 @@ test('neighbor-only exclusion rectangles stay inside their source cell and do no
  let excluded=0;for(const [key,list]of Object.entries(config.sprites)){if(!key.startsWith('eco-'))continue;for(const s of list){const [,,w,h]=s.region;let area=0;for(const [x,y,rw,rh]of s.exclusions){assert.ok(x>=0&&y>=0&&rw>0&&rh>0&&x+rw<=w&&y+rh<=h);area+=rw*rh;}assert.ok(area<w*h*.08,'isolation removes too much body '+key);excluded+=area;}}
  assert.ok(excluded>100,'overlapping neighbor tentacles have explicit source geometry');
 });
-test('all67 atlas requests succeed under a four-loader resource limit',async()=>{
+test('all configured atlas requests succeed under a four-loader resource limit',async()=>{
  const vm=require('node:vm');let active=0,peak=0,decoded=0;
  class LimitedImage{set src(value){active++;peak=Math.max(peak,active);if(active>4){active--;queueMicrotask(()=>this.onerror(Error('loader resource limit')));return;}setTimeout(()=>{active--;decoded++;this.onload();},1);}}
  const sandbox={window:{CreatureEngine:E},Image:LimitedImage,URL,document:{baseURI:'http://127.0.0.1/Index.html'}};
  vm.runInNewContext(fs.readFileSync(path.join(root,'src/composite/renderer.js'),'utf8'),sandbox);
- const renderer=sandbox.window.CreatureRenderer.create({getContext:()=>({})},{files:Array.from({length:67},(_,i)=>({file:'assets/'+i+'.png'})),sprites:{}});
- await renderer.prepare();assert.equal(decoded,67);assert.ok(peak<=4);assert.equal(renderer.missingAssets().length,0);
+ const renderer=sandbox.window.CreatureRenderer.create({getContext:()=>({})},{files:Array.from({length:config.files.length},(_,i)=>({file:'assets/'+i+'.png'})),sprites:{}});
+ await renderer.prepare();assert.equal(decoded,config.files.length);assert.ok(peak<=4);assert.equal(renderer.missingAssets().length,0);
 });
 test('all four habitat layers accumulate monotonically, survive time and JSON restoration, and have upper bounds',()=>{
  let s=E.initial(1000),levels=H.levelsFor(s);assert.deepEqual(levels,[0,0,0,0]);
@@ -85,12 +85,12 @@ test('meal reactions rise and settle as one continuous cycle without rapid doubl
 test('habitat flora preserves generator bytes and provides four different tall and ground silhouettes',()=>{
  const meta=JSON.parse(fs.readFileSync(path.join(root,'design/assets/ecology/habitat-flora.json'))),bytes=fs.readFileSync(path.join(root,meta.file)),png=PNG.sync.read(bytes);assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),meta.sha256);assert.ok(meta.method.includes('image_gen'));assert.equal(meta.regions.length,8);const hashes=new Set();let clear=0;for(let i=3;i<png.data.length;i+=4)if(png.data[i]<8)clear++;assert.ok(clear>png.width*png.height*.35);
  for(const [i,[x,y,w,h]]of meta.regions.entries()){assert.ok(x>=0&&y>=0&&x+w<=png.width&&y+h<=png.height);assert.ok(i<4?h>w*1.4:w>h*1.5);const digest=crypto.createHash('sha256');let opaque=0;for(let yy=y;yy<y+h;yy++){digest.update(png.data.subarray((yy*png.width+x)*4,(yy*png.width+x+w)*4));for(let xx=x;xx<x+w;xx++)if(png.data[(yy*png.width+xx)*4+3]>160)opaque++;}assert.ok(opaque>1000);hashes.add(digest.digest('hex'));for(const other of meta.regions.slice(i+1)){assert.ok(x+w<=other[0]||other[0]+other[2]<=x||y+h<=other[1]||other[1]+other[3]<=y,'sampling regions overlap');}}
- assert.equal(hashes.size,8);assert.equal(config.files.length,67);
+ assert.equal(hashes.size,8);assert.equal(config.files.length,68);
 });
-test('life ecology uses all eight source poses, three depth bands and continuous turns',()=>{
- const state=E.runAll(1000),saved=JSON.stringify(state),first=H.lifePlan(state,1000);assert.equal(first.length,12);assert.equal(new Set(first.map(f=>f.region)).size,8);assert.equal(new Set(first.map(f=>f.group)).size,3);
+test('life ecology uses all24 habitat poses and continuous turns',()=>{
+ const state=E.runAll(1000),saved=JSON.stringify(state),first=H.lifePlan(state,1000);assert.equal(first.length,24);assert.equal(new Set(first.map(f=>f.region)).size,24);assert.equal(new Set(first.map(f=>f.group)).size,3);
  for(let t=0;t<=20000;t+=71){const a=H.lifePlan(state,t),b=H.lifePlan(state,t+1);for(let i=0;i<a.length;i++){assert.ok(Math.abs(a[i].yaw-b[i].yaw)<.005,'turn must not flip instantly');assert.ok(Math.hypot(a[i].x-b[i].x,a[i].y-b[i].y)<.001);assert.ok(a[i].x>=0&&a[i].x<=1&&a[i].y>=0&&a[i].y<=1);assert.ok(a[i].alpha>=0&&a[i].alpha<=1);}}
- for(let group=1;group<3;group++)assert.ok(first.filter(f=>f.group===group).every(f=>f.y<first.find(p=>p.group===group-1).y));assert.deepEqual(H.lifePlan(JSON.parse(saved),1000),first);assert.equal(JSON.stringify(state),saved);assert.ok(H.lifePlan(E.initial(1000),1000).every(f=>f.alpha===0));
+ for(let kind=0;kind<4;kind++)assert.equal(first.filter(f=>f.kind===kind).length,6);assert.deepEqual(H.lifePlan(JSON.parse(saved),1000),first);assert.equal(JSON.stringify(state),saved);assert.ok(H.lifePlan(E.initial(1000),1000).every(f=>f.alpha===0));
 });
 test('habitat plants and key/fill illumination blend continuously with the planned ecology',()=>{
  const base=E.runAll(1000),keys=new Set();for(let k=0;k<4;k++){const w=[0,0,0,0];w[k]=1;const state={...base,environmentPlan:{...base.environmentPlan,weights:[w,w]}},plan=H.floraPlan(state),light=H.lightingFor(state);assert.equal(plan.filter(p=>p.alpha>0).length,2);assert.ok(plan.filter(p=>p.alpha>0).every(p=>p.kind===k));assert.notDeepEqual(light.key,light.fill);keys.add(light.key.join(','));}
@@ -128,4 +128,13 @@ test('twenty lineage kinetics and body-specific feeding profiles stay distinct a
 });
 test('overlapping real part-growth events continue the visible envelope without restarting at zero',()=>{
  let s=E.initial(1000),events=[],overlaps=0;for(let row=1;row<=1000;row++){const prev=s;s=E.step(s,E.fmtFizzBuzz(row));const time=row*20,old=F.growthReactions(events,time,row),next=F.advanceGrowth(events,prev,s,E.appearanceFor(prev),E.appearanceFor(s),time);for(const e of next.filter(e=>e.sequence===row)){const before=old.find(v=>v.type===e.type)?.strength||0,after=F.growthReactions(next,time,row).find(v=>v.type===e.type).strength;assert.ok(Math.abs(before-after)<1e-9);if(before>0)overlaps++;}events=next;}assert.ok(overlaps>0);
+});
+
+test('habitat wildlife has 24 complete independent source poses and continuous habitat membership',()=>{
+ const meta=require('../design/assets/ecology/habitat-life.json'),bytes=fs.readFileSync(path.join(root,meta.file)),p=PNG.sync.read(bytes);assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),meta.sha256);assert.equal(meta.regions.length,24);assert.equal(config.food['habitat-life'].regions.length,24);
+ for(let i=0;i<24;i++){const [x,y,w,h]=meta.regions[i];assert.ok(w>100&&h>100&&x>=0&&y>=0&&x+w<=p.width&&y+h<=p.height);assert.ok(meta.solidComponents[i]>10000);for(let j=i+1;j<24;j++){const [a,b,c,d]=meta.regions[j];assert.ok(x+w<=a||a+c<=x||y+h<=b||b+d<=y,'no overlapping wildlife sampling rectangles');}}
+ const base=E.runAll(1000);for(let k=0;k<4;k++){const w=[0,0,0,0];w[k]=1;const s={...base,environmentPlan:{...base.environmentPlan,weights:[w,w]}},visible=H.lifePlan(s,1000).filter(p=>p.alpha>0);assert.equal(visible.length,6);assert.ok(visible.every(p=>p.kind===k));assert.equal(new Set(visible.map(p=>p.region)).size,6);const change=w.map(v=>v*.999);change[(k+1)%4]+=.001;const next=H.lifePlan({...s,environmentPlan:{...s.environmentPlan,weights:[change,change]}},1000),old=H.lifePlan(s,1000);assert.ok(next.every((p,i)=>Math.abs(p.alpha-old[i].alpha)<.001));}
+});
+test('ambient loops fade before wrapping and remain deterministic and bounded',()=>{
+ const s=E.runAll(1000),saved=JSON.stringify(s);for(let t=0;t<250000;t+=347){const a=H.particlePlan(s,t),b=H.particlePlan(s,t+1);assert.equal(a.length,48);assert.deepEqual(H.particlePlan(JSON.parse(saved),t),a);for(let i=0;i<48;i++){assert.ok(a[i].x>=0&&a[i].x<=1&&a[i].y>=0&&a[i].y<=1);assert.ok(a[i].alpha>=0&&a[i].alpha<=.28);assert.ok(Math.abs(a[i].alpha-b[i].alpha)<.001);if(Math.abs(a[i].y-b[i].y)>.9)assert.ok(a[i].alpha+b[i].alpha<.00001,'wrap occurs invisibly');}}assert.equal(JSON.stringify(s),saved);
 });

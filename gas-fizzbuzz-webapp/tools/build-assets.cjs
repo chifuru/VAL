@@ -30,7 +30,7 @@ function build(){
   config.files.push({file:meta.file.replace(/^src\//,''),sha256:meta.sha256,width:meta.width,height:meta.height});
   config.sprites[family+':body']=meta.regions.map((region,i)=>({file:meta.file.replace(/^src\//,''),region,root:meta.roots[i],attachmentRoot:attachmentRoot(meta.file,bytes,region,meta.roots[i]),anatomy:meta.anatomy[i],exclusions:meta.exclusions[i]}));
  }
- for(const [kind,names]of [['food',['life','mineral','information']],['environments',['tide','heat','signal','void','growth','habitat-flora']]])for(const id of names){
+ for(const [kind,names]of [['food',['life','mineral','information','habitat-life']],['environments',['tide','heat','signal','void','growth','habitat-flora']]])for(const id of names){
   const meta=JSON.parse(fs.readFileSync(path.join(root,'design/assets/ecology',id+'.json'))),bytes=fs.readFileSync(path.join(root,meta.file));
   if(crypto.createHash('sha256').update(bytes).digest('hex')!==meta.sha256)throw Error('Ecology SHA '+id);
   config.files.push({file:meta.file.replace(/^src\//,''),sha256:meta.sha256,width:meta.width,height:meta.height});config[kind][id]={file:meta.file.replace(/^src\//,''),regions:meta.regions};

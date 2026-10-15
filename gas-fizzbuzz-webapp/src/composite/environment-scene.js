@@ -14,25 +14,27 @@
  function resourcePlan(state,time,still=false){const levels=levelsFor(state),flow=flowFor(state,time);return [1,2].flatMap(kind=>Array.from({length:8},(_,i)=>{const n=state.seed+kind*97+i*23,level=levels[kind],phase=time*.00032+noise(n)*6.28,left=i%2===0;
   return {kind,region:(state.seed+i)%8,x:kind===1?[.025,.975,.12,.88,.245,.755,.34,.67][i]:(left?.08:.88)+(noise(n+1)-.5)*.09+(still?0:Math.sin(phase)*.007+flow.x*.003),y:kind===1?.96+noise(n+2)*.075:.36+noise(n+2)*.45+(still?0:Math.cos(phase*.8)*.009+flow.y*.003),size:kind===1?24+noise(n+3)*23:8+noise(n+3)*9,angle:kind===1?(noise(n+4)-.5)*.20:still?0:Math.sin(phase*.7)*.12,alpha:smooth((level-i/12)*3)*(kind===1?.42:.38)};
  }));}
- function lifePlan(state,time){const level=levelsFor(state)[0],weights=weightsFor(state),updraft=weights[1]*.018,flow=weights[0]*.018-weights[3]*.012,current=flowFor(state,time);
-  return Array.from({length:12},(_,i)=>{const n=state.seed+i*11,group=Math.floor(i/4),phase=time*(group===0?.00021:group===1?.00055:.00031)*(.75+noise(n)*.5)+noise(n+5)*6.28,left=i%2===0,depth=.52+noise(n+8)*.48,variant=(state.seed+i)%4,pose=(state.seed+Math.floor(i/4))%2;
-   const bands=[.80,.57,.39],yaw=Math.tanh(Math.cos(phase)*4),x=(left?.13:.83)+Math.sin(phase)*(.045+noise(n)*.035)+flow*Math.sin(phase*.7),y=bands[group]+noise(n+2)*.10+Math.sin(phase*(group===0?.6:1.3)+i)*.012-updraft*Math.sin(phase);
-   return {group,variant,pose,region:pose*4+variant,x:x+current.x*.002,y:y+current.y*.002,depth,size:(group===0?13:group===1?20:11)*( .7+noise(n+3)*.7)*(.75+.25*level),yaw,roll:Math.sin(phase*1.6)*(group===1?.09:.04),squeeze:1+Math.sin(phase*2.4)*.025,alpha:smooth((level-i/14)*4)*(.24+.34*level)*depth};
+ // Stable individuals belong to habitats. Mixture changes opacity, never their identity.
+ function lifePlan(state,time){const level=levelsFor(state)[0],weights=weightsFor(state),current=flowFor(state,time);
+  return Array.from({length:24},(_,i)=>{const kind=Math.floor(i/6),species=Math.floor(i%6/2),copy=i%2,n=state.seed+i*31,grounded=(kind===1&&species!==1)||(kind===3&&species===2),phase=time*(grounded?.00019:.00038)*(.75+noise(n)*.5)+noise(n+5)*6.28,pose=(state.seed+copy)%2,depth=.60+noise(n+8)*.35;
+   const x=(copy?.83:.13)+Math.sin(phase)* (grounded?.023:.048)+current.x*.002,bands=kind===0?[.77,.53,.35]:kind===1?[.925,.38,.94]:kind===2?[.39,.61,.76]:[.40,.65,.94],y=bands[species]+noise(n+2)*.035+(grounded?0:Math.sin(phase*1.3+i)*.011+current.y*.002);
+   return {kind,group:species,variant:species,pose,region:kind*6+species*2+pose,grounded,x,y,depth,size:(grounded?29:species===1?27:23)*(.8+noise(n+3)*.4)*(.72+.28*level),yaw:grounded?(copy?-1:1):Math.tanh(Math.cos(phase)*4),roll:grounded?Math.sin(phase)*.012:Math.sin(phase*1.6)*.075,squeeze:1+Math.sin(phase*2.4)*(grounded?.008:.024),alpha:smooth((level-species*.16-copy*.09)*3)*weights[kind]*(.32+.38*level)*depth};
   });
  }
+ // Bounded ambient particles fade before wrapping, so a new cycle cannot flash at an edge.
+ function particlePlan(state,time){const weights=weightsFor(state),flow=flowFor(state,time);return keys.flatMap((_,kind)=>Array.from({length:12},(_,i)=>{const n=state.seed+kind*101+i*7,phase=time*.00035+noise(n+3)*6.28,speed=[.000010,.000024,.000007,.000005][kind]*(.65+noise(n+2)),y=((noise(n+1)-time*speed)%1+1)%1,depth=.4+noise(n+4)*.6;
+  return {kind,x:noise(n)*.26+(i%2?.72:.01)+Math.sin(phase)*.008+flow.x*.002,y,size:(.6+noise(n+5)*1.5)*depth,angle:phase*.28,alpha:weights[kind]*.28*depth*smooth(y/.12)*smooth((1-y)/.12)*(kind===1?.7+.3*Math.sin(phase)**2:1)};
+ }));}
  function bedPlan(state){
   const sites=[[[.055,.95,.18],[.235,1.025,.23]],[[.82,.96,.18],[.99,1.045,.24]],[[.98,.87,.15],[.75,1.025,.20]],[[.04,.85,.18],[.48,1.12,.25]]];
   return sites.flatMap((group,kind)=>group.map(([x,y,size],i)=>({kind,x:x+(noise(state.seed+kind*17+i)-.5)*.025,y,size,threshold:i?.36:0,mirror:(state.seed+kind+i)%2===0,depth:i?'near':'mid'})));
  }
  function glow(g,x,y,r,color,alpha){const light=g.createRadialGradient(x,y,0,x,y,r);light.addColorStop(0,'rgba('+color+','+alpha+')');light.addColorStop(1,'rgba('+color+',0)');g.fillStyle=light;g.fillRect(x-r,y-r,r*2,r*2);}
- function weather(g,w,h,state,time,weights){
-  g.save();for(let kind=0;kind<4;kind++){if(weights[kind]<.01)continue;g.globalAlpha=weights[kind]*.20;
-   for(let i=0;i<12;i++){const n=state.seed+kind*101+i*7,x=w*(noise(n)*.28+(i%2?.70:0)),y=(noise(n+1)*h-time*(kind===1?.009:.002)*(1+i%3)+h*100)%h;
-    if(kind===0){g.strokeStyle='#73b7d2';g.lineWidth=.6;g.beginPath();g.arc(x,y,1+i%3,0,Math.PI*2);g.stroke();}
-    else{g.fillStyle=['','#d9a077','#9b9dc3','#a8bfd6'][kind];g.beginPath();g.ellipse(x,y,kind===1?.7:.6,kind===1?1.8:.6,0,0,Math.PI*2);g.fill();}
-   }
-  }g.restore();
- }
+ function weather(g,w,h,state,time){g.save();for(const p of particlePlan(state,time)){if(p.alpha<.001)continue;g.save();g.globalAlpha=p.alpha;g.translate(p.x*w,p.y*h);g.rotate(p.angle);g.strokeStyle=g.fillStyle=['#73b7d2','#d9a077','#a8b5df','#a8bfd6'][p.kind];g.lineWidth=.6;
+  if(p.kind===0){g.beginPath();g.ellipse(0,0,p.size*.83,p.size,0,.18,Math.PI*1.85);g.stroke();}
+  else if(p.kind===1){g.beginPath();g.ellipse(0,0,p.size*.38,p.size,0,0,Math.PI*2);g.fill();}
+  else if(p.kind===2){g.beginPath();g.moveTo(-p.size,0);g.lineTo(0,-p.size*.7);g.lineTo(p.size,0);g.lineTo(0,p.size*.7);g.closePath();g.stroke();}
+  else{g.beginPath();g.ellipse(0,0,p.size*.75,p.size*.4,0,0,Math.PI*2);g.fill();}g.restore();}g.restore();}
  function create(config,images){
   // Two display sizes (observation and miniature); bounded pixels also cover high DPI.
   const beds=new Map(),backdrops=new Map(),colonies=new Map(),forests=new Map(),decorations=new Map();let bytes=0,hits=0,builds=0,clock=0;
@@ -71,7 +73,7 @@
    const mist=g.createLinearGradient(0,h*.74,0,h);mist.addColorStop(0,'rgba('+light.fill.join(',')+',0)');mist.addColorStop(1,'rgba('+light.fill.join(',')+','+(front?.07:.035)+')');g.save();g.fillStyle=mist;g.fillRect(0,h*.74,w,h*.26);g.restore();
   }
   function resources(g,w,h,state,time,still=false){const levels=levelsFor(state);forest(g,w,h,state,false,time,still);g.drawImage(ground(w,h,state),0,0,w,h);g.save();
-   for(const fish of lifePlan(state,time)){if(fish.alpha<=0)continue;const item=config.food.life,r=item.regions[fish.region],scale=fish.size/Math.max(r[2],r[3]);g.save();g.globalAlpha=fish.alpha;g.translate(fish.x*w,fish.y*h);g.rotate(fish.roll);g.scale(fish.yaw,fish.squeeze);g.drawImage(images.get(item.file),...r,-r[2]*scale/2,-r[3]*scale/2,r[2]*scale,r[3]*scale);g.restore();}
+   for(const fish of lifePlan(state,time)){if(fish.alpha<=0)continue;const item=config.food['habitat-life'],r=item.regions[fish.region],scale=fish.size/Math.max(r[2],r[3]);g.save();g.globalAlpha=fish.alpha;g.translate(fish.x*w,fish.y*h);g.rotate(fish.roll);g.scale(fish.yaw,fish.squeeze);g.drawImage(images.get(item.file),...r,-r[2]*scale/2,-r[3]*scale/2,r[2]*scale,r[3]*scale);g.restore();}
    // Small native material fragments are rooted or drifting, never pulled into a mouth.
    for(const material of resourcePlan(state,time,still)){if(material.alpha<.001)continue;const item=config.food[material.kind===1?'mineral':'information'],r=item.regions[material.region],image=scenerySprite(item,r,state,false),scale=material.size/Math.max(r[2],r[3]),height=r[3]*scale,width=r[2]*scale;g.save();g.translate(material.x*w,material.y*h);g.rotate(material.angle);g.globalAlpha=material.alpha;g.drawImage(image,-width*.5,material.kind===1?-height:-height*.5,width,height);g.restore();}
    // Information drifts as small motes around existing branches, not drawn electrical wires.
@@ -84,5 +86,5 @@
   return {draw,foreground,resources,stats:()=>({bytes,limit,backdrops:backdrops.size,beds:beds.size,colonies:colonies.size,forests:forests.size,decorations:decorations.size,hits,builds})};
  }
  // Public pure planning helpers are also used by Node validation.
- return {weightsFor,levelsFor,bedPlan,toneFor,lightingFor,floraPlan,floraPoseFor,flowFor,resourcePlan,lifePlan,create};
+ return {weightsFor,levelsFor,bedPlan,toneFor,lightingFor,floraPlan,floraPoseFor,flowFor,resourcePlan,lifePlan,particlePlan,create};
 });
