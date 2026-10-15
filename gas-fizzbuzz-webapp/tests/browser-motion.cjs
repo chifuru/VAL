@@ -11,7 +11,7 @@ async function main(){
  const call=(name,...args)=>page.evaluate(({name,args})=>window.__VALIS_TEST__[name](...args),{name,args});
  const frame=(s,o)=>page.evaluate(({s,o})=>{const T=window.__VALIS_TEST__,png=T.renderFrame(s,o);return{png,rig:T.motion(),roots:T.attachments(),sources:T.renderedSources()};},{s,o});
  try{
-  await page.goto(process.env.VALIS_PREVIEW_URL||'http://127.0.0.1:8766/Index.html');await page.waitForFunction(()=>window.__VALIS_TEST__?.snapshot().ready);
+  await page.goto(process.env.VALIS_PREVIEW_URL||'http://127.0.0.1:8766/Index.html');try{await page.waitForFunction(()=>window.__VALIS_TEST__?.snapshot().ready);}catch(error){console.error('Startup diagnostics',JSON.stringify(await page.evaluate(()=>({notice:document.getElementById('notice')?.textContent,status:document.getElementById('session-status')?.textContent,engine:typeof window.CreatureEngine,renderer:typeof window.CreatureRenderer,bridge:typeof window.valis,files:window.VALIS_ASSETS?.files?.length}))),errors);throw error;}
   await call('load',927);const preview=await page.locator('#creature').evaluate(c=>c.toDataURL());await page.waitForTimeout(250);check(preview===await page.locator('#creature').evaluate(c=>c.toDataURL()),'loaded preview remains still before explicit start');
   const examples={},rasters=new Map();for(let n=900;n<=1000;n++){const s=E.runAll(n);if(s.matured&&!examples[s.lineage])examples[s.lineage]=s;}
   for(const l of D.LINEAGES){
