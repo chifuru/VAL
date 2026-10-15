@@ -3,7 +3,7 @@
 const E=window.CreatureEngine,D=window.LineageDefinitions,bridge=window.valis;
 const $=id=>document.getElementById(id),clone=v=>JSON.parse(JSON.stringify(v));
 const R=window.CreatureRenderer.create($('creature'),window.VALIS_ASSETS),media=window.matchMedia('(prefers-reduced-motion: reduce)');
-const foodLabels={fizz:'Fizz・生命',buzz:'Buzz・鉱物',fizzbuzz:'FizzBuzz・情報',number:'数字・調節'};
+const foodLabels={fizz:'Fizz・生命',buzz:'Buzz・鉱物',fizzbuzz:'FizzBuzz・情報',number:'数字由来・因子'};
 const bodyLabels={torso:'胴体',head:'頭部',eyes:'眼',tail:'尾',fin:'ひれ',limb:'付属肢',shell:'表皮・甲殻'};
 const dnaLabels={body:'体格',appendage:'付属肢',senses:'感覚',skin:'表皮',aptitude:'適性',sensitivity:'感受性'};
 let state=E.initial(1000),runStatus='ready',activeRun=null,records=[],phaseSnapshots=[],selectedRecordId=null;
@@ -94,7 +94,8 @@ function handleFailure(error){cancelTimer();if(runStatus==='growing')runStatus='
 function advance(){
  const previous=state,line=E.fmtFizzBuzz(state.current+1);state=E.step(previous,line);logLines.push(line);
  if(state.stage!==previous.stage)phaseSnapshots.push({stage:previous.stage,processed:previous.current,state:clone(previous),portrait:R.portrait(previous)});
- energyEvents=[{kind:state.lastMeal.kind,sequence:state.current,value:line,time:performance.now(),duration:Math.min(1100,Number($('speed').value)*.82)}];return state.stage!==previous.stage;
+ const now=performance.now(),resourceFrom=window.FoodScene.resourceWeights(energyEvents,now,previous.current);
+ energyEvents=[{kind:state.lastMeal.kind,sequence:state.current,value:line,time:now,duration:Math.min(900,Number($('speed').value)*.95),resourceFrom,changed:previous.lastMeal?.kind!==state.lastMeal.kind}];return state.stage!==previous.stage;
 }
 async function tick(){
  if(runStatus!=='growing'||preview)return;const generation=activeRun?.runId;const phaseChanged=advance();if(state.current===state.seed){runStatus='complete';await persist();updateUI(true);return;}
@@ -129,7 +130,7 @@ $('speed').addEventListener('change',()=>schedule());$('back-live').addEventList
 $('nav-archive').addEventListener('click',()=>{archiveOpen=true;updateUI(true);});
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&archiveOpen)backToLive();});
 media.addEventListener('change',()=>updateUI());
-for(const [kind,label] of Object.entries(foodLabels)){const tile=document.createElement('div');tile.className='food '+kind;tile.dataset.food=kind;const orb=document.createElement('span');orb.className='orb';orb.textContent={fizz:'Fizz',buzz:'Buzz',fizzbuzz:'FizzBuzz',number:'1,2,4…'}[kind];const name=document.createElement('strong');name.textContent=label.split('・').pop();tile.title=label;const count=document.createElement('b');count.textContent='0';tile.append(orb,name,count);$('foods').append(tile);}
+for(const [kind,label] of Object.entries(foodLabels)){const tile=document.createElement('div');tile.className='food '+kind;tile.dataset.food=kind;const orb=document.createElement('span');orb.className='orb';orb.textContent={fizz:'Fizz',buzz:'Buzz',fizzbuzz:'FizzBuzz',number:'NUMBER'}[kind];const name=document.createElement('strong');name.textContent=label.split('・').pop();tile.title=label;const count=document.createElement('b');count.textContent='0';tile.append(orb,name,count);$('foods').append(tile);}
 let lastFrame=0,lastReduced=reduced();function animate(time){if(ready&&lastReduced!==reduced()){lastReduced=reduced();updateUI();}if(ready&&!selectedRecordId&&!preview&&runStatus!=='ready'&&!reduced()&&time-lastFrame>=40){R.draw(preview||state,{time,still:!!preview||runStatus==='ready',energyEvents:preview||runStatus==='ready'?[]:energyEvents});lastFrame=time;}requestAnimationFrame(animate);}
 async function init(){
  if(!bridge)throw Error('VALIS.exeから起動してください。デスクトップの個体記録機能に接続できません。');

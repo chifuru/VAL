@@ -1,0 +1,617 @@
+[
+  {
+    "sequence": 1,
+    "time": 5718.300000011921,
+    "raw": "1",
+    "feeding": {
+      "kind": "number",
+      "type": "factor",
+      "sequence": 1,
+      "value": "1",
+      "variant": 0,
+      "progress": 0.011578947384106485,
+      "strength": 0,
+      "vigor": 1,
+      "mode": "bite",
+      "site": "flank",
+      "foodPoint": [
+        211.42944113786695,
+        -39.37165180490265
+      ],
+      "target": [
+        -1.9508374164685733,
+        15.62834819509735
+      ],
+      "origin": [
+        211.42944113786695,
+        -39.37165180490265
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -147.1618079070977,
+        3.4224288556786893
+      ]
+    },
+    "foods": {
+      "number": 1,
+      "fizz": 0,
+      "buzz": 0,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 2,
+    "time": 6145.9000000059605,
+    "raw": "2",
+    "feeding": {
+      "kind": "number",
+      "type": "factor",
+      "sequence": 2,
+      "value": "2",
+      "variant": 1,
+      "progress": 0.03499999996863009,
+      "strength": 0,
+      "vigor": 0.48,
+      "mode": "bite",
+      "site": "flank",
+      "foodPoint": [
+        211.42944113786695,
+        -42.10984895009044
+      ],
+      "target": [
+        -1.9508374164685733,
+        12.890151049909564
+      ],
+      "origin": [
+        211.42944113786695,
+        -42.10984895009044
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -147.1618079070977,
+        3.422428880249479
+      ]
+    },
+    "foods": {
+      "number": 2,
+      "fizz": 0,
+      "buzz": 0,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 3,
+    "time": 6570.20000000298,
+    "raw": "Fizz",
+    "feeding": {
+      "kind": "fizz",
+      "type": "life",
+      "sequence": 3,
+      "value": "Fizz",
+      "variant": 2,
+      "progress": 0.021315789457998776,
+      "strength": 0,
+      "vigor": 1,
+      "mode": "bite",
+      "site": "mouth",
+      "foodPoint": [
+        -267.4822267782074,
+        8.257716248667666
+      ],
+      "target": [
+        -147.4822267782074,
+        3.9513229081770778
+      ],
+      "origin": [
+        -267.4822267782074,
+        3.951322908177076
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -147.4822267782074,
+        3.9513229081770778
+      ]
+    },
+    "foods": {
+      "number": 2,
+      "fizz": 1,
+      "buzz": 0,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 4,
+    "time": 6971.20000000298,
+    "raw": "4",
+    "feeding": {
+      "kind": "number",
+      "type": "factor",
+      "sequence": 4,
+      "value": "4",
+      "variant": 3,
+      "progress": 0.004210526300104041,
+      "strength": 0,
+      "vigor": 1,
+      "mode": "bite",
+      "site": "flank",
+      "foodPoint": [
+        211.8398267782074,
+        -40.26503358072142
+      ],
+      "target": [
+        -1.9487512635370194,
+        14.734966419278578
+      ],
+      "origin": [
+        211.8398267782074,
+        -40.26503358072142
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -147.4822267782074,
+        3.4298466664156497
+      ]
+    },
+    "foods": {
+      "number": 3,
+      "fizz": 1,
+      "buzz": 0,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 5,
+    "time": 7377.4000000059605,
+    "raw": "Buzz",
+    "feeding": {
+      "kind": "buzz",
+      "type": "mineral",
+      "sequence": 5,
+      "value": "Buzz",
+      "variant": 0,
+      "progress": 0.018157894752527538,
+      "strength": 0,
+      "vigor": 1,
+      "mode": "bite",
+      "site": "mouth",
+      "foodPoint": [
+        -247.80266281869186,
+        156.26298523076923
+      ],
+      "target": [
+        -147.80266281869186,
+        3.8818369333475196
+      ],
+      "origin": [
+        -247.80266281869186,
+        156.26298523076923
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -147.80266281869186,
+        3.8818369333475196
+      ]
+    },
+    "foods": {
+      "number": 3,
+      "fizz": 1,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 6,
+    "time": 7775.4000000059605,
+    "raw": "Fizz",
+    "feeding": {
+      "kind": "fizz",
+      "type": "life",
+      "sequence": 6,
+      "value": "Fizz",
+      "variant": 1,
+      "progress": 0.012631578939525705,
+      "strength": 0,
+      "vigor": 1,
+      "mode": "bite",
+      "site": "mouth",
+      "foodPoint": [
+        -268.23162735292533,
+        -0.6464042595636244
+      ],
+      "target": [
+        -148.23162735292533,
+        3.7567964704614765
+      ],
+      "origin": [
+        -268.23162735292533,
+        -6.243203529538523
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -148.23162735292533,
+        3.7567964704614765
+      ]
+    },
+    "foods": {
+      "number": 3,
+      "fizz": 2,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 7,
+    "time": 8216.10000000894,
+    "raw": "7",
+    "feeding": {
+      "kind": "number",
+      "type": "factor",
+      "sequence": 7,
+      "value": "7",
+      "variant": 2,
+      "progress": 0.017368421052632536,
+      "strength": 0,
+      "vigor": 1,
+      "mode": "bite",
+      "site": "flank",
+      "foodPoint": [
+        212.79977935292533,
+        -42.08336021214645
+      ],
+      "target": [
+        -1.9436788837636243,
+        12.91663978785355
+      ],
+      "origin": [
+        212.79977935292533,
+        -42.08336021214645
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -148.23162735292533,
+        3.447194668057423
+      ]
+    },
+    "foods": {
+      "number": 4,
+      "fizz": 2,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 8,
+    "time": 8661.90000000596,
+    "raw": "8",
+    "feeding": {
+      "kind": "number",
+      "type": "factor",
+      "sequence": 8,
+      "value": "8",
+      "variant": 3,
+      "progress": 0.00026315789473779945,
+      "strength": 0,
+      "vigor": 0.48,
+      "mode": "bite",
+      "site": "flank",
+      "foodPoint": [
+        212.79977935292533,
+        -39.660554181232584
+      ],
+      "target": [
+        -1.9436788837636243,
+        15.339445818767414
+      ],
+      "origin": [
+        212.79977935292533,
+        -39.660554181232584
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -148.23162735292533,
+        3.4471945852233574
+      ]
+    },
+    "foods": {
+      "number": 5,
+      "fizz": 2,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 9,
+    "time": 9024.70000000298,
+    "raw": "Fizz",
+    "feeding": {
+      "kind": "fizz",
+      "type": "life",
+      "sequence": 9,
+      "value": "Fizz",
+      "variant": 0,
+      "progress": 0.012368421060474295,
+      "strength": 0,
+      "vigor": 1,
+      "mode": "bite",
+      "site": "mouth",
+      "foodPoint": [
+        -268.7700413166379,
+        -15.057528107962572
+      ],
+      "target": [
+        -148.7700413166379,
+        3.7628383273214174
+      ],
+      "origin": [
+        -268.7700413166379,
+        -16.23716167267858
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -148.7700413166379,
+        3.7628383273214174
+      ]
+    },
+    "foods": {
+      "number": 5,
+      "fizz": 3,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 10,
+    "time": 9448.5,
+    "raw": "Buzz",
+    "feeding": {
+      "kind": "buzz",
+      "type": "mineral",
+      "sequence": 10,
+      "value": "Buzz",
+      "variant": 1,
+      "progress": 0.009736842113105874,
+      "strength": 0,
+      "vigor": 1,
+      "mode": "bite",
+      "site": "mouth",
+      "foodPoint": [
+        -249.1988013710007,
+        157.5441643076923
+      ],
+      "target": [
+        -149.1988013710007,
+        3.708351714759331
+      ],
+      "origin": [
+        -249.1988013710007,
+        157.5441643076923
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -149.1988013710007,
+        3.708351714759331
+      ]
+    },
+    "foods": {
+      "number": 5,
+      "fizz": 3,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 11,
+    "time": 9866.40000000596,
+    "raw": "11",
+    "feeding": {
+      "kind": "number",
+      "type": "factor",
+      "sequence": 11,
+      "value": "11",
+      "variant": 2,
+      "progress": 0.039210526284420524,
+      "strength": 0,
+      "vigor": 1,
+      "mode": "bite",
+      "site": "flank",
+      "foodPoint": [
+        214.0388567556161,
+        -40.546849905127594
+      ],
+      "target": [
+        -1.9368977040482491,
+        14.453150094872404
+      ],
+      "origin": [
+        214.0388567556161,
+        -40.546849905127594
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -149.1988013710007,
+        3.4695827100581598
+      ]
+    },
+    "foods": {
+      "number": 6,
+      "fizz": 3,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 12,
+    "time": 10271.40000000596,
+    "raw": "Fizz",
+    "feeding": {
+      "kind": "fizz",
+      "type": "life",
+      "sequence": 12,
+      "value": "Fizz",
+      "variant": 3,
+      "progress": 0.02421052631579139,
+      "strength": 0,
+      "vigor": 1,
+      "mode": "bite",
+      "site": "mouth",
+      "foodPoint": [
+        -269.51925458086,
+        12.609089694544354
+      ],
+      "target": [
+        -149.51925458085995,
+        4.068942810728035
+      ],
+      "origin": [
+        -269.51925458086,
+        14.068942810728036
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -149.51925458085995,
+        4.068942810728035
+      ]
+    },
+    "foods": {
+      "number": 6,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 13,
+    "time": 10669.20000000298,
+    "raw": "13",
+    "feeding": {
+      "kind": "number",
+      "type": "factor",
+      "sequence": 13,
+      "value": "13",
+      "variant": 0,
+      "progress": 0.011578947344892903,
+      "strength": 0,
+      "vigor": 1,
+      "mode": "bite",
+      "site": "flank",
+      "foodPoint": [
+        214.44939119624456,
+        -41.18309319049957
+      ],
+      "target": [
+        -1.9346627508291192,
+        13.816906809500432
+      ],
+      "origin": [
+        214.44939119624456,
+        -41.18309319049957
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -149.51925458085995,
+        3.4770004249229234
+      ]
+    },
+    "foods": {
+      "number": 7,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 14,
+    "time": 11081.90000000596,
+    "raw": "14",
+    "feeding": {
+      "kind": "number",
+      "type": "factor",
+      "sequence": 14,
+      "value": "14",
+      "variant": 1,
+      "progress": 0.016315789481526927,
+      "strength": 0,
+      "vigor": 0.48,
+      "mode": "bite",
+      "site": "flank",
+      "foodPoint": [
+        214.44939119624456,
+        -43.17289065200426
+      ],
+      "target": [
+        -1.9346627508291192,
+        11.827109347995739
+      ],
+      "origin": [
+        214.44939119624456,
+        -43.17289065200426
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -149.51925458085995,
+        3.4770004068686386
+      ]
+    },
+    "foods": {
+      "number": 8,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 15,
+    "time": 11520.90000000596,
+    "raw": "FizzBuzz",
+    "feeding": {
+      "kind": "fizzbuzz",
+      "type": "information",
+      "sequence": 15,
+      "value": "FizzBuzz",
+      "variant": 2,
+      "progress": 0.10289473683426063,
+      "strength": 0,
+      "vigor": 1,
+      "mode": "bite",
+      "site": "eye",
+      "foodPoint": [
+        -215.1391805445725,
+        -107.80988638478715
+      ],
+      "target": [
+        -116.4664913836495,
+        -17.80988638478715
+      ],
+      "origin": [
+        -215.1391805445725,
+        -107.80988638478715
+      ],
+      "contact": false,
+      "phase": "notice",
+      "mouth": [
+        -150.0576685445725,
+        4.567768527689962
+      ]
+    },
+    "foods": {
+      "number": 8,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 1
+    }
+  }
+]

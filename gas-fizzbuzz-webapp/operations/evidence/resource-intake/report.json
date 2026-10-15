@@ -1,0 +1,52 @@
+{
+  "recordedAt": "2026-10-15T06:25:14.141279+00:00",
+  "actor": "Codex cloud environment",
+  "scope": "Local app1.4.2 four resource types, seven anatomical intake strategies, continuous foreground resource transitions and 400ms row playback",
+  "platform": "Linux x64 / Chromium154 / Electron44.7.2; native Xvfb test-only launcher, product sandbox unchanged",
+  "checks": {
+    "unitPassed": 53,
+    "unitFailed": 0,
+    "browserPassed": 144,
+    "motionAndFeedingPassed": 220,
+    "nativeCreatePassed": 21,
+    "nativeRestartPassed": 15,
+    "zipChecksumFiles": 74,
+    "runtimePngs": 65
+  },
+  "observedNormalRowGapsMs": {
+    "min": 362.79999999701977,
+    "max": 445.79999999701977
+  },
+  "videos": [
+    {
+      "file": "browser/row-feeding.webm",
+      "decoded": true,
+      "frames": 83,
+      "ptsSpanSeconds": 6.835
+    },
+    {
+      "file": "motion/jelly.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.336
+    },
+    {
+      "file": "motion/serpent.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.33
+    },
+    {
+      "file": "motion/myth.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.333
+    }
+  ],
+  "validWhen": "Execution inputs match target-sha256.json and assertions are retained",
+  "invalidWhen": "Execution code/data/conditions changed or checks omitted",
+  "pending": [
+    "Hosted Windows result",
+    "User Windows10/11 device display/FPS and art acceptance"
+  ]
+}

@@ -6,7 +6,7 @@ test('only the latest executed output produces one meal; time alone never create
  const kinds=['number','fizz','buzz','fizzbuzz'];for(const [i,kind]of kinds.entries()){
   const sequence=state.current,event={kind,sequence,time:100,duration:650,value:kind==='number'?'749':kind},duplicate={...event,time:101};
   assert.equal(F.consumption([event,duplicate],300).length,1);assert.equal(F.reaction([event],300,sequence).kind,kind);assert.equal(F.reaction([event],300,sequence-1),null);assert.equal(F.reaction([event],99,sequence),null);assert.equal(F.reaction([event],750,sequence),null);
-  assert.ok(F.reaction([event],450,sequence).strength>0);assert.equal(JSON.stringify(state),saved);
+  assert.ok(F.reaction([event],600,sequence).strength>0);assert.equal(JSON.stringify(state),saved);
  }
  const sequence=750;assert.equal(F.consumption([{kind:'fizz',sequence,time:100},{kind:'buzz',sequence:751,time:200}],300)[0].kind,'buzz');
 });
@@ -32,4 +32,23 @@ test('all65 atlas requests succeed under a four-loader resource limit',async()=>
  vm.runInNewContext(fs.readFileSync(path.join(root,'src/composite/renderer.js'),'utf8'),sandbox);
  const renderer=sandbox.window.CreatureRenderer.create({getContext:()=>({})},{files:Array.from({length:65},(_,i)=>({file:'assets/'+i+'.png'})),sprites:{}});
  await renderer.prepare();assert.equal(decoded,65);assert.ok(peak<=4);assert.equal(renderer.missingAssets().length,0);
+});
+test('resource transitions remain continuous when a faster row interrupts them, and expire without new input',()=>{
+ const zero=[0,0,0,0];assert.deepEqual(F.resourceWeights([],900,3),zero);
+ const first={kind:'fizz',sequence:3,time:100,duration:380};
+ const from=F.resourceWeights([first],500,3),next={kind:'buzz',sequence:5,time:500,duration:380,resourceFrom:from};
+ assert.deepEqual(F.resourceWeights([next],500,5),from);
+ assert.ok(F.resourceWeights([next],501,5).every((v,i)=>Math.abs(v-from[i])<.0001));
+ assert.deepEqual(F.resourceWeights([next],1600,5),zero);assert.deepEqual(F.resourceWeights([next],600,6),zero);assert.deepEqual(F.resourceWeights([next],499,5),zero);
+ let event=first;for(let sequence=4;sequence<20;sequence++){const time=100+(sequence-3)*200,resourceFrom=F.resourceWeights([event],time,event.sequence);event={kind:['fizz','buzz','fizzbuzz','number'][sequence%4],sequence,time,duration:190,resourceFrom};const weights=F.resourceWeights([event],time+100,sequence);assert.ok(weights.every(v=>v>=0&&v<=1));assert.ok(weights.reduce((a,b)=>a+b,0)<=1.00001);}
+});
+test('anatomical intake distinguishes seven body strategies and four resource targets',()=>{
+ const modes=new Set();for(const bodyPlan of [...new Set(E.LINEAGES.map(l=>l.bodyPlan))])for(const kind of ['fizz','buzz','fizzbuzz','number']){const p=F.profileFor(bodyPlan,kind);modes.add(p.mode);assert.ok(['mouth','eye','flank','forelimb','chest'].includes(p.site));if(kind==='number')assert.equal(p.site,'flank');if(kind==='fizzbuzz')assert.equal(p.site,'eye');}
+ assert.equal(modes.size,7);
+ const event={kind:'fizz',sequence:3,time:0,duration:400};const early=F.reaction([event],60,3),contact=F.reaction([event],280,3),repeat=F.reaction([{...event,changed:false}],280,3);
+ assert.ok(early.notice>0&&early.absorb===0,'awareness precedes assimilation');for(const progress of [.2,.4,.6,.64])assert.equal(F.reaction([event],progress*400,3).absorb,0,'no absorption before contact');assert.equal(contact.intake,1);assert.ok(contact.absorb>0);assert.ok(repeat.vigor<contact.vigor);assert.equal(F.reaction([{...event,kind:'number'}],280,3).type,'factor');
+});
+test('factor food never draws numeric glyphs and every resource contacts its real organ before fading',()=>{
+ const g=new Proxy({},{get:(_,key)=>key==='fillText'?()=>assert.fail('food must never paint text'):()=>{}}),b={motion:{mode:'aquatic'},sockets:{mouth:[10,20],eye:[12,16],flank:[25,30]},surface:(...point)=>({point})};
+ const s={seed:1000,current:3};for(const kind of ['number','fizz','buzz','fizzbuzz']){const result=F.draw(g,b,s,config,new Map(),280,false,[{kind,sequence:3,time:0,duration:400}]);assert.deepEqual(result.foodPoint,result.target);assert.equal(result.contact,true);assert.equal(result.phase,'absorb');}
 });

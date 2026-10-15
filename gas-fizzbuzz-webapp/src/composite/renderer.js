@@ -149,11 +149,21 @@
         sx.push(vx*stretch[0]);sy.push(vy*stretch[1]);positions.push(positions[i]+dx*baseScale*(verticalMesh?vy*stretch[1]:vx*stretch[0]));}
       const width=verticalMesh?sw*baseScale*Math.max(...sx):positions[slices],height=verticalMesh?positions[slices]:sh*baseScale*Math.max(...sy);
       const offsets=[],cross=[];
+      const feeding=ecology&&motion?.feeding,feedingProfile=feeding?root.FoodScene.profileFor(a.bodyPlan,feeding.kind):null;
+      const feedingSite=feedingProfile?(s.anatomy.joints[feedingProfile.site]||s.anatomy.joints.mouth):null;
       for(let i=0;i<slices;i++){
         const u=(i+.5)/slices,tail=smooth((u-.22)/.55);
         offsets.push(motion?Math.sin(motion.cycle*2-u*(a.bodyPlan==='serpent'?7:4))*width*motion.wave*tail:0);
         const bell=motion&&['jelly','cephalopod'].includes(a.bodyPlan)?Math.sin(motion.cycle*2)*.05*(1-smooth((u-.4)/.3)):0;
         cross.push(1+bell+(motion?.pulse||0)*.018*Math.sin(u*Math.PI));
+        if(feeding){
+          const center=feedingSite[verticalMesh?1:0],local=Math.exp(-(((u-center)/.115)**2)),notice=feeding.notice*feeding.vigor;
+          // The feeding organ and the attached skin share this deformation.
+          // No detached jaw, pasted eye, or separate limb is introduced.
+          const closing=feedingProfile.gather?-feeding.intake*(1-feeding.absorb)*.075:feedingProfile.jaw?Math.sin(feeding.intake*Math.PI)*.075:.018*feeding.absorb;
+          cross[i]+=local*(closing+notice*.018);
+          offsets[i]+=local*notice*(a.bodyPlan==='crystal'||a.bodyPlan==='mechanical'?1:4);
+        }
       }
       function point(u,v){const along=verticalMesh?v:u,slot=clamp(Math.floor(along*slices),0,slices-1),fraction=along*slices-slot;return verticalMesh?[(u-.5)*sw*baseScale*sx[slot]*cross[slot]+offsets[slot],positions[slot]+fraction*dx*baseScale*sy[slot]-height*.5]:[positions[slot]+fraction*dx*baseScale*sx[slot]-width*.5,(v-.5)*sh*baseScale*sy[slot]*cross[slot]+offsets[slot]];}
       const bell=a.bodyPlan==='jelly',flower=a.bodyPlan==='botanical',eye=bell&&a.stage===0?[.20,.38]:eyeSites[a.bodyPlan],vertical=bell||flower;
@@ -198,9 +208,17 @@
       if(b.biological)im=livingSkin(a,b.s,im);
       if(a.version===5&&b.motion?.feeding?.strength>0){
         const reaction=b.motion.feeding,c=document.createElement('canvas');c.width=b.sw;c.height=b.sh;const cg=c.getContext('2d');cg.drawImage(im,0,0);
-        const center=b.s.anatomy.joints.mouth,px=center[0]*b.sw,py=center[1]*b.sh,r=Math.max(b.sw,b.sh)*(.22+reaction.progress*.2);
-        const light=cg.createRadialGradient(px,py,0,px,py,r),rgb=reaction.color.join(',');light.addColorStop(0,'rgba('+rgb+','+(.65*reaction.strength)+')');light.addColorStop(.4,'rgba('+rgb+','+(.35*reaction.strength)+')');light.addColorStop(1,'rgba('+rgb+',0)');
+        const profile=root.FoodScene.profileFor(a.bodyPlan,reaction.kind),center=b.surface(...(b.sockets[profile.site]||b.sockets.mouth)).source,flank=b.s.anatomy.joints.flank;
+        const travel=clamp((reaction.progress-.64)/.36,0,1),px=center[0]+(flank[0]*b.sw-center[0])*travel*.65,py=center[1]+(flank[1]*b.sh-center[1])*travel*.65,r=Math.min(b.sw,b.sh)*(.09+travel*.10);
+        const light=cg.createRadialGradient(px,py,0,px,py,r),rgb=reaction.color.join(','),strength=reaction.strength*(.65+.35*reaction.vigor);light.addColorStop(0,'rgba('+rgb+','+(.6*strength)+')');light.addColorStop(.4,'rgba('+rgb+','+(.25*strength)+')');light.addColorStop(1,'rgba('+rgb+',0)');
         cg.globalCompositeOperation='source-atop';cg.fillStyle=light;cg.fillRect(0,0,b.sw,b.sh);im=c;
+      }
+      if(a.version===5&&b.motion?.feeding){
+        const reaction=b.motion.feeding,profile=root.FoodScene.profileFor(a.bodyPlan,reaction.kind),open=Math.sin(reaction.intake*Math.PI)*reaction.vigor;
+        if(profile.jaw&&open>.02){
+          const c=document.createElement('canvas');c.width=b.sw;c.height=b.sh;const cg=c.getContext('2d');cg.drawImage(im,0,0);cg.globalCompositeOperation='source-atop';
+          const center=b.surface(...b.sockets.mouth).source;cg.fillStyle='rgba(5,14,22,'+(.55*open)+')';cg.beginPath();cg.ellipse(center[0],center[1],b.sw*.018,b.sh*(.003+.012*open),-.12,0,Math.PI*2);cg.fill();im=c;
+        }
       }
       g.save();for(let i=0;i<b.slices;i++){
         const xscale=b.baseScale*b.sx[i],yscale=b.baseScale*b.sy[i],sx=currentPalette?0:b.s.region[0],sy=currentPalette?0:b.s.region[1];
@@ -368,7 +386,7 @@
       const time=options.time||0,reduced=options.still!==false;
       const a=E.appearanceFor(state),motion=motionFor(a,time,reduced,options.energyEvents||[],state.current);currentPalette=a.bodyFamily?a.color:null;const b=skeleton(a,motion),w=target.width,h=target.height,mini=!!options.mini;
       lastMotion=motion?{mode:motion.mode,cycle:motion.cycle,pulse:motion.pulse,events:motion.events.length,offsets:b.offsets.slice(),cross:b.cross.slice()}:null;
-      g.clearRect(0,0,w,h);if(!mini){if(a.version===5)root.EnvironmentScene.draw(g,w,h,state,config,images,time,reduced);else background(g,w,h,time);}
+      g.clearRect(0,0,w,h);if(!mini){if(a.version===5)root.EnvironmentScene.draw(g,w,h,state,config,images,time,reduced,options.energyEvents||[]);else background(g,w,h,time);}
       const organs=a.version===5?[]:mergeOrgans(a);
       const ringExtent=organs.filter(p=>p.anchor==='outerOrbit'&&/ring|halo/i.test(p.id)).reduce((size,p)=>Math.max(size,Math.max(b.bw,b.bh)*ringRatio(p,a,b)+100),0);
       const neckRoom=polished(a)&&a.lineage==='serpent'?180:0;
