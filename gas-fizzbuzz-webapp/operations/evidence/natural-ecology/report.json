@@ -1,0 +1,101 @@
+{
+  "recordedAt": "2026-10-15T08:17:47.056028+00:00",
+  "actor": "Codex cloud environment",
+  "scope": "Local app1.5.1 natural snout/low emission, habitat integration and bounded renderer/UI/checkpoint optimization",
+  "platform": "Linux x64 / Chromium154 / Electron44.7.2; Xvfb test-only launcher, product sandbox unchanged",
+  "checks": {
+    "unitPassed": 56,
+    "unitFailed": 0,
+    "browserPassed": 145,
+    "motionAndEcologyPassed": 319,
+    "performanceAndSavePassed": 33,
+    "allSourceCells": 160,
+    "nativeCreatePassed": 21,
+    "nativeRestartPassed": 15,
+    "zipChecksumFiles": 74,
+    "runtimePngs": 66
+  },
+  "observedNormalRowGapsMs": {
+    "min": 97.5,
+    "max": 136.3999999910593,
+    "mean": 104.2785714279328
+  },
+  "performanceComparison": [
+    {
+      "row": 120,
+      "canvasAllocationsBefore": 274,
+      "canvasAllocationsAfter": 17,
+      "warmAllocationsAfter": 0,
+      "medianMsBefore": 13.100000008940697,
+      "medianMsAfter": 1.1000000089406967,
+      "p95MsBefore": 16.200000002980232,
+      "p95MsAfter": 2.5,
+      "firstMsBefore": 82.6000000089407,
+      "firstMsAfter": 59.70000000298023,
+      "limit": "Cold source preparation can still exceed one frame. Timing is this Linux Chromium CPU path, not Windows hardware FPS."
+    },
+    {
+      "row": 600,
+      "canvasAllocationsBefore": 274,
+      "canvasAllocationsAfter": 16,
+      "warmAllocationsAfter": 0,
+      "medianMsBefore": 4.4000000059604645,
+      "medianMsAfter": 1.1000000089406967,
+      "p95MsBefore": 7.899999991059303,
+      "p95MsAfter": 2.2000000029802322,
+      "firstMsBefore": 35.900000005960464,
+      "firstMsAfter": 87.79999999701977,
+      "limit": "Cold source preparation can still exceed one frame. Timing is this Linux Chromium CPU path, not Windows hardware FPS."
+    },
+    {
+      "row": 1000,
+      "canvasAllocationsBefore": 274,
+      "canvasAllocationsAfter": 7,
+      "warmAllocationsAfter": 0,
+      "medianMsBefore": 6,
+      "medianMsAfter": 1.0999999940395355,
+      "p95MsBefore": 11.700000002980232,
+      "p95MsAfter": 1.9000000059604645,
+      "firstMsBefore": 29.19999998807907,
+      "firstMsAfter": 32.099999994039536,
+      "limit": "Cold source preparation can still exceed one frame. Timing is this Linux Chromium CPU path, not Windows hardware FPS."
+    }
+  ],
+  "videos": [
+    {
+      "file": "browser/row-feeding.webm",
+      "decoded": true,
+      "frames": 37,
+      "ptsSpanSeconds": 3.0,
+      "events": "Actual N15 output milestones"
+    },
+    {
+      "file": "motion/jelly.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.314,
+      "events": "Controlled milestone events on real mature state"
+    },
+    {
+      "file": "motion/serpent.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.304,
+      "events": "Controlled milestone events on real mature state"
+    },
+    {
+      "file": "motion/myth.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.309,
+      "events": "Controlled milestone events on real mature state"
+    }
+  ],
+  "comparisonBaseline": "operations/evidence/ecology-polish/motion/accumulation-1000.png (app1.5.0), current motion/accumulation-1000.png uses same real state. Four pure habitats also recorded.",
+  "validWhen": "Execution inputs match target-sha256.json and assertions retained",
+  "invalidWhen": "Execution code/data/conditions changed or checks omitted",
+  "pending": [
+    "Hosted Windows result",
+    "User Windows10/11 device display/FPS and art acceptance"
+  ]
+}

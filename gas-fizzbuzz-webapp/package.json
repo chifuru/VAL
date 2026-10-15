@@ -1,7 +1,7 @@
 {
   "name": "valis-fizzbuzz-desktop",
   "private": true,
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Local Windows creature evolution desktop app driven by FizzBuzz energy and immutable DNA",
   "main": "src/desktop/main.cjs",
   "scripts": {
@@ -12,7 +12,8 @@
     "test:browser": "node tests/browser-smoke.cjs",
     "test:motion": "node tests/browser-motion.cjs",
     "test:desktop": "node tests/electron-smoke.cjs",
-    "package:windows": "node tools/package-windows.cjs"
+    "package:windows": "node tools/package-windows.cjs",
+    "test:performance": "node tests/browser-performance.cjs"
   },
   "devDependencies": {
     "@electron/packager": "20.3.0",

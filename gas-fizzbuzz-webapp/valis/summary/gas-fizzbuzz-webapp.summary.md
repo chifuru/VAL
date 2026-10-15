@@ -5,13 +5,13 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 全97ノード（A9/B13/C21/D12/E42）を草案に統一。旧承認は無効、今回の定義変更も自動承認しない。
-definition_baseline: ecology-polish-2026-10-15。operations/plans/2026-10-15-ecology-polish.md。
-initial_registration_this_change: E41/E42。機能責務の追加分割なし。
-manifest_reflection_this_change: A1.2、A1.3、A1.5、B1.2、B1.5、B1.5.1、B1.5.2、C1.3、C1.5、C1.5.2.1、C1.5.2.4、C1.5.3、C1.5.4、C1.5.5、D1.3.2、D1.3.3、D1.3.4、D1.3.5、D1.5の顎/器官発光/群生atlas/生態配置/100ms再生とE41/E42の対象版別実結果を反映。
+current_status: 全98ノード（A9/B13/C21/D12/E43）を草案に統一。旧承認は無効、今回の定義変更も自動承認しない。
+definition_baseline: natural-ecology-2026-10-15。operations/plans/2026-10-15-natural-ecology.md。
+initial_registration_this_change: E43。機能責務の追加分割なし。
+manifest_reflection_this_change: A1.2、A1.3、A1.5、B1.2、B1.5、B1.5.1、B1.5.2、C1.3、C1.5、C1.5.2.1、C1.5.3、C1.5.4、C1.5.5、D1.3.2、D1.3.3、D1.3.4、D1.3.5の自然な口先/既存組織発光/背景統合/有界描画・UI・保存最適化とE43のローカル実結果を反映。
 approval_basis: 全FizzBuzzノード草案という利用者指示を維持。既存責務/変更単位で今回指示を具体化。
 unresolved_summary: 利用者Windows10/11実機の倍率/FPSと美術受入は未認定。
-evidence_scope: 今回app1.5.0はE41（ローカル）/E42（hosted Windows）。E1〜E40は各旧対象版/環境限定。
+evidence_scope: 今回app1.5.1はE43（ローカル）。hosted Windowsは未確認。E1〜E42は各旧対象版/環境限定。
 
 ## 読解経路と責務
 
@@ -29,11 +29,11 @@ A1:（ / Windows FizzBuzz生物育成アプリ統合仕様）［草案］
 
 	A1.2:（A1 / 出力・摂取・実個体の同期再生仕様）［草案］
 		Node File: valis/nodes/A/A1.2.md。parent_id: A1（同一層）。
-		要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+		要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 	A1.3:（A1 / 4種energyの摂取・調節・色彩と体積仕様）［草案］
 		Node File: valis/nodes/A/A1.3.md。parent_id: A1（同一層）。
-		要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+		要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 	A1.4:（A1 / 三形態の成長・系統分岐と条件覚醒仕様）［草案］
 		Node File: valis/nodes/A/A1.4.md。parent_id: A1（同一層）。
@@ -41,7 +41,7 @@ A1:（ / Windows FizzBuzz生物育成アプリ統合仕様）［草案］
 
 	A1.5:（A1 / DNA身体と複数部位成長・観測表示仕様）［草案］
 		Node File: valis/nodes/A/A1.5.md。parent_id: A1（同一層）。
-		要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+		要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 	A1.6:（A1 / 入力Nからの不変DNAと初期個体仕様）［草案］
 		Node File: valis/nodes/A/A1.6.md。parent_id: A1（同一層）。
@@ -68,7 +68,7 @@ B1:（A1 / Windows生物育成の機能接合索引）［草案］
 
 	B1.2:（A1.2 / 行・energy同期再生と完走操作機能）［草案］
 		Node File: valis/nodes/B/B1.2.md。parent_id: B1（同一層）。
-		要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+		要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 	B1.3:（A1.3 / 4energy分類・摂取集計・数字調節機能）［草案］
 		Node File: valis/nodes/B/B1.3.md。parent_id: B1（同一層）。
@@ -88,15 +88,15 @@ B1:（A1 / Windows生物育成の機能接合索引）［草案］
 
 	B1.5:（A1.5, A1.3, A1.6 / 独立PNG部位の成長描画・摂取観測機能）［草案］
 		Node File: valis/nodes/B/B1.5.md。parent_id: B1（同一層）。
-		要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+		要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 		B1.5.1:（A1.3, A1.5 / 摂取数の節目による生体反応機能）［草案］
 			Node File: valis/nodes/B/B1.5.1.md。parent_id: B1.5（同一層）。
-			要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+			要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 		B1.5.2:（A1.5, A1.3 / 事前環境配分による生息背景機能）［草案］
 			Node File: valis/nodes/B/B1.5.2.md。parent_id: B1.5（同一層）。
-			要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+			要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 	B1.6:（A1.6 / N全体のDNA生成と出生前個体構築機能）［草案］
 		Node File: valis/nodes/B/B1.6.md。parent_id: B1（同一層）。
@@ -127,7 +127,7 @@ C1:（B1 / desktop実装の接合索引）［草案］
 
 	C1.3:（B1.2, A1.2 / 行消費・摂取同期・再生状態実装）［草案］
 		Node File: valis/nodes/C/C1.3.md。parent_id: C1（同一層）。
-		要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+		要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 	C1.4:（B1.3, B1.4 / 分類・較正・部位発現・相遷移の実装接合）［草案］
 		Node File: valis/nodes/C/C1.4.md。parent_id: C1（同一層）。
@@ -147,7 +147,7 @@ C1:（B1 / desktop実装の接合索引）［草案］
 
 	C1.5:（B1.5, A1.5 / DNA身体・部位・energyの共通レンダラ実装）［草案］
 		Node File: valis/nodes/C/C1.5.md。parent_id: C1（同一層）。
-		要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+		要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 		C1.5.1:（B1.5, B1.7 / ローカル画像設定とdesktop表示入口の同期実装）［草案］
 			Node File: valis/nodes/C/C1.5.1.md。parent_id: C1.5（同一層）。
@@ -159,7 +159,7 @@ C1:（B1 / desktop実装の接合索引）［草案］
 
 			C1.5.2.1:（C1.5.2, B1.5, B1.6 / DNA共通身体部位PNGと結合metadata実装）［草案］
 				Node File: valis/nodes/C/C1.5.2.1.md。parent_id: C1.5.2（同一層）。
-				要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+				要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 			C1.5.2.2:（C1.5.2, B1.5, B1.4.2 / 20系統の解剖に沿う多部位成長PNG実装）［草案］
 				Node File: valis/nodes/C/C1.5.2.2.md。parent_id: C1.5.2（同一層）。
@@ -175,15 +175,15 @@ C1:（B1 / desktop実装の接合索引）［草案］
 
 		C1.5.3:（B1.5, B1.2, B1.8 / 実個体の観測・摂取・結果・履歴UI実装）［草案］
 			Node File: valis/nodes/C/C1.5.3.md。parent_id: C1.5（同一層）。
-			要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+			要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 		C1.5.4:（B1.5.1, A1.3 / 摂取数の節目と口・足元・感覚器反応実装）［草案］
 			Node File: valis/nodes/C/C1.5.4.md。parent_id: C1.5（同一層）。
-			要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+			要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 		C1.5.5:（B1.5.2, A1.5 / 環境背景の合成描画実装）［草案］
 			Node File: valis/nodes/C/C1.5.5.md。parent_id: C1.5（同一層）。
-			要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+			要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 	C1.6:（B1.6, A1.6 / 不変6DNA生成と身体・部位素質写像実装）［草案］
 		Node File: valis/nodes/C/C1.6.md。parent_id: C1（同一層）。
@@ -222,19 +222,19 @@ D1:（A1, B1, C1 / desktop育成・配布・記録の検証接合）［草案］
 
 		D1.3.2:（A1.5, B1.5, C1.5.2, C1.5 / DNA身体・系統多部位PNG・原モック照合計画）［草案］
 			Node File: valis/nodes/D/D1.3.2.md。parent_id: D1.3（同一層）。
-			要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+			要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 		D1.3.3:（A1.2, A1.5, A1.8, B1.2, B1.5, C1.5.3 / 摂取・遺伝表示・実run観測UI検証計画）［草案］
 			Node File: valis/nodes/D/D1.3.3.md。parent_id: D1.3（同一層）。
-			要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+			要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 		D1.3.4:（B1.5.1, C1.5.4, C1.5.2.3 / 摂取の節目・生体反応・非増殖検証計画）［草案］
 			Node File: valis/nodes/D/D1.3.4.md。parent_id: D1.3（同一層）。
-			要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+			要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 		D1.3.5:（B1.5.2, C1.5.5, C1.5.2.4 / 環境背景・配分・遷移・主役可読性検証計画）［草案］
 			Node File: valis/nodes/D/D1.3.5.md。parent_id: D1.3（同一層）。
-			要約: 顎/発光/群生・生態配置/100msの該当責務はNode本文。今回ローカル実結果E41、hosted Windows実結果E42。利用者受入は未認定。次FLOW: FLOW-08/05。
+			要約: 自然な反応/背景統合/描画・UI・保存最適化の該当責務はNode本文。今回ローカル実結果E43。hosted Windows/利用者受入は未確認。次FLOW: FLOW-08/05。
 
 	D1.4:（A1.5, C1.5, C1.5.3 / 実利用の画質・視認性・性能受入計画）［草案］
 		Node File: valis/nodes/D/D1.4.md。parent_id: D1（同一層）。
@@ -418,3 +418,7 @@ E41:（D1.3.2, D1.3.3, D1.3.4, D1.3.5, D1.5, C1.5, C1.5.2.1, C1.5.2.4 / 顎・�
 E42:（D1.3.3, D1.3.4, D1.3.5, D1.5, D1.6, C1.5, C1.5.4, C1.5.5 / 生態造形版Windows実exe・配布・保存復元証跡）［草案］
 	Node File: valis/nodes/E/E42.md。独立証跡、parent_idなし。evidence_for: D1.3.3/D1.3.4/D1.3.5/D1.5/D1.6。
 	要約: app1.5.0のrun38700518068/job116307305309でsource/assets/配布/ZIP全照合/実exe作成・再起動の無条件step成功を対象commitと照合。詳細はoperations/evidence/ecology-polish/windows-ci-public-summary.json。利用者Windows10/11実機と美術受入は未認定。次FLOW: FLOW-08/05。
+
+E43:（D1.3.2, D1.3.3, D1.3.4, D1.3.5, D1.5, C1.3, C1.5 / 自然な摂取・背景統合・停止対策のローカル検証証跡）［草案］
+	Node File: valis/nodes/E/E43.md。独立証跡、parent_idなし。evidence_for: D1.3.2/D1.3.3/D1.3.4/D1.3.5/D1.5。
+	要約: app1.5.1。単体56、実画面145、生体/生態319、性能/保存33と全160コマ、実Electron21/15、クロス配布/ZIP74照合に限定成功。詳細はoperations/evidence/natural-ecology。初回素材準備に短い負荷が残る。hosted Windows実exeと利用者受入は未確認。次FLOW: FLOW-08/05。

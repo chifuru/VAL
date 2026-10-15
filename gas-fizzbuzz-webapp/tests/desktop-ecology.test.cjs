@@ -77,3 +77,7 @@ test('young and mature colony atlas has eight isolated transparent regions and r
  for(let i=0;i<4;i++)assert.ok(p.regions[i+4][3]>p.regions[i][3]*1.4,'mature colony really grows');
  const plan=H.bedPlan(E.runAll(1000));assert.equal(plan.length,8);assert.equal(new Set(plan.map(p=>p.x+':'+p.y)).size,8);assert.ok(plan.every(p=>p.y>=.8));
 });
+
+test('meal reactions rise and settle as one continuous cycle without rapid double flashes',()=>{
+ for(const kind of ['fizz','buzz','fizzbuzz']){const samples=Array.from({length:101},(_,i)=>F.reactions([{kind,count:1,sequence:1,time:0}],F.durations[kind]*i/100,1)[0]?.strength||0);assert.equal(samples[0],0);assert.equal(samples.at(-1),0);assert.ok(samples[50]>.99);for(let i=1;i<=50;i++)assert.ok(samples[i]>=samples[i-1]);for(let i=51;i<samples.length;i++)assert.ok(samples[i]<=samples[i-1]);assert.ok(Math.max(...samples.slice(1).map((v,i)=>Math.abs(v-samples[i])))<.04);}
+});
