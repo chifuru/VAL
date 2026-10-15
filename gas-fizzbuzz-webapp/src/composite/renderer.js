@@ -49,10 +49,14 @@
     const resolve=file=>new URL(file,document.baseURI).href;
     async function prepare(){
       const files=[...new Set(config.files.map(s=>s.file))];
-      await Promise.all(files.map(async file=>{
-        const im=new Image();im.src=resolve(file);
-        try{await im.decode();images.set(file,im);}catch(error){missing.add(file);}
-      }));
+      // Bound network requests and PNG decoding for large local atlases.
+      let next=0;
+      async function worker(){
+        while(next<files.length){const file=files[next++],im=new Image();im.src=resolve(file);
+          try{await im.decode();images.set(file,im);}catch(error){missing.add(file);}
+        }
+      }
+      await Promise.all(Array.from({length:Math.min(4,files.length)},()=>worker()));
       if(missing.size)throw new Error('画像ファイルを読み込めません: '+[...missing].join(', '));
       prepared=true;
     }
