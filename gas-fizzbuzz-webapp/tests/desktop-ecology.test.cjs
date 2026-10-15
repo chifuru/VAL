@@ -155,3 +155,9 @@ test('habitat light has a fixed budget, smooth time response, static identity an
 test('wildlife depth scales source size and stays within the existing bounded population',()=>{
  for(const n of [120,847,932,1000]){const state=E.runAll(n),fish=H.lifePlan(state,300);assert.equal(fish.length,24);assert.ok(new Set(fish.map(f=>Math.floor(f.depth*10))).size>=3);assert.ok(fish.every(f=>f.depth>=.6&&f.depth<1&&f.size>8&&f.size<36));for(const f of fish)for(const t of [0,1500]){const m=H.lifeMotionFor(f,.5,t);assert.ok(m.cross>.85&&m.cross<1.15&&Math.abs(m.offset)<2);}}
 });
+
+test('secondary tissue flex stays bounded and leaves grounded lower spans and vertical roots fixed',()=>{
+ const vm=require('node:vm'),sandbox={window:{CreatureEngine:E}};vm.runInNewContext(fs.readFileSync(path.join(root,'src/composite/renderer.js'),'utf8'),sandbox);const R=sandbox.window.CreatureRenderer;let active=0;
+ for(const l of E.LINEAGES){const a={bodyPlan:l.bodyPlan,progress:1,dna:{sensitivity:.8}},grounded=['avian','amphibian','arthropod','crystal','mechanical','botanical'].includes(l.bodyPlan);for(const vertical of [false,true])for(let i=0;i<72;i++)for(const cycle of [0,1,3]){const u=(i+.5)/72,p=R.membraneFor(a,cycle,u,vertical,grounded);assert.ok(p.every(v=>v>=.93&&v<=1.07));if(grounded)assert.equal(p[1],1);if(grounded&&vertical&&u>=.5)assert.deepEqual(Array.from(p),[1,1]);if(Math.abs(p[0]-1)>.001)active++;}}
+ assert.ok(active>1000,'secondary tissue must actually move across the source families');
+});

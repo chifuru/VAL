@@ -28,6 +28,7 @@ async function main(){
     if(time===240||time===1200)await fs.writeFile(path.join(out,l.id+'-'+time+'.png'),Buffer.from(f.png.split(',')[1],'base64'));
    }
    check(new Set(samples.map(f=>f.png)).size===4,'four distinct living frames '+l.id);
+   check(samples.every(f=>f.rig.membrane.upper.length===72&&f.rig.membrane.lower.every(v=>v>=.93&&v<=1.07))&&samples.some(f=>f.rig.membrane.upper.some((v,i)=>Math.abs(v-samples[0].rig.membrane.upper[i])>.001)),'connected secondary tissue follows the body without detaching '+l.id);
    check(samples.some(f=>f.rig.offsets.some((v,i)=>Math.abs(v-samples[0].rig.offsets[i])>.1)),'body mesh moves independently of whole-canvas breathing '+l.id);
    check(samples.every(f=>f.sources.length===1&&f.roots.length===0),'connected anatomy moves as one mesh '+l.id);
    assert.deepEqual(await frame(s,{time:720,still:false}),samples[2]);check(JSON.stringify(s)===original,'animation leaves calculation state intact '+l.id);
