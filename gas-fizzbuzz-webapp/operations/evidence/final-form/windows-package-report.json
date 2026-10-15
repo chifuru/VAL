@@ -1,0 +1,15 @@
+{
+  "scope": "Windows x64 package integrity; actual Windows execution is a separate smoke gate",
+  "electronVersion": "44.7.2",
+  "packagerVersion": "20.3.0",
+  "officialRuntimeSha256": "10a89447ef64ac5cb9f782af48ffd83734a40ae91681259d1048ca3c9e6c5da4",
+  "exe": "VALIS.exe",
+  "machine": "x86-64",
+  "asarEntries": 97,
+  "pngCount": 68,
+  "sourceBytesMatch": true,
+  "zip": "VALIS-Windows-x64.zip",
+  "zipBytes": 288661779,
+  "zipSha256": "9829ad8900f2b3b3e4c35904d2db8f5c93ba6449baa122a132b2f3e6c82601d8",
+  "generatedAt": "2026-10-15T15:50:18.800Z"
+}

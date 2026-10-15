@@ -1,0 +1,2146 @@
+{
+  "generatedAt": "2026-10-15T15:51:47.532Z",
+  "browser": "154.0.8037.57",
+  "scope": "Direct Canvas CPU timing/allocation benchmark plus real 50ms playback with completion-only session registration and failures; excludes GPU presentation and user-device FPS",
+  "scenarios": [
+    {
+      "row": 120,
+      "frames": 90,
+      "canvasAllocations": 36,
+      "warmCanvasAllocations": 0,
+      "pixelReads": 2,
+      "firstMs": 161.40000000596046,
+      "medianMs": 3,
+      "p95Ms": 4.800000011920929,
+      "maxMs": 161.40000000596046,
+      "times": [
+        161.40000000596046,
+        5.200000017881393,
+        4.299999982118607,
+        3.5,
+        3.7000000178813934,
+        3.699999988079071,
+        3.5,
+        5.4000000059604645,
+        6,
+        5,
+        4.299999982118607,
+        3.399999976158142,
+        3.300000011920929,
+        3.9000000059604645,
+        4.0999999940395355,
+        3.9000000059604645,
+        3.2999999821186066,
+        3.300000011920929,
+        3.5,
+        3.699999988079071,
+        4.100000023841858,
+        8.199999988079071,
+        3.2000000178813934,
+        4.299999982118607,
+        3.4000000059604645,
+        4.699999988079071,
+        5.4000000059604645,
+        2.9000000059604645,
+        3.699999988079071,
+        4,
+        3.199999988079071,
+        3.5,
+        3.199999988079071,
+        3.100000023841858,
+        3,
+        2.899999976158142,
+        3.7000000178813934,
+        3,
+        3.0999999940395355,
+        3.4000000059604645,
+        2.5999999940395355,
+        2.800000011920929,
+        5.0999999940395355,
+        2.9000000059604645,
+        2.9000000059604645,
+        2.7999999821186066,
+        2.800000011920929,
+        2.5999999940395355,
+        2.800000011920929,
+        2.5999999940395355,
+        3,
+        2.699999988079071,
+        2.800000011920929,
+        3.4000000059604645,
+        2.9000000059604645,
+        2.7999999821186066,
+        2.5999999940395355,
+        2.600000023841858,
+        2.699999988079071,
+        3,
+        2.5999999940395355,
+        2.5999999940395355,
+        3.2000000178813934,
+        2.5999999940395355,
+        2.5,
+        2.5999999940395355,
+        2.800000011920929,
+        2.5999999940395355,
+        2.699999988079071,
+        2.600000023841858,
+        2.4000000059604645,
+        2.899999976158142,
+        2.600000023841858,
+        2.7999999821186066,
+        3,
+        2.800000011920929,
+        2.7999999821186066,
+        3,
+        3,
+        2.9000000059604645,
+        3,
+        2.7000000178813934,
+        2.699999988079071,
+        2.9000000059604645,
+        4.800000011920929,
+        3.0999999940395355,
+        3.5,
+        2.9000000059604645,
+        2.699999988079071,
+        2.9000000059604645
+      ],
+      "cache": {
+        "palette": {
+          "entries": 2,
+          "bytes": 533664,
+          "limit": 25165824
+        },
+        "skin": {
+          "entries": 2,
+          "bytes": 533664,
+          "limit": 16777216
+        },
+        "source": {
+          "entries": 2,
+          "bytes": 533664,
+          "limit": 25165824
+        },
+        "emission": {
+          "entries": 5,
+          "bytes": 1641600,
+          "limit": 8388608
+        },
+        "ecology": {
+          "bytes": 14489260,
+          "limit": 25165824,
+          "backdrops": 2,
+          "backdropBuilds": 2,
+          "colonies": 8,
+          "forests": 7,
+          "decorations": 14,
+          "fauna": 1,
+          "hits": 5652,
+          "builds": 32
+        }
+      }
+    },
+    {
+      "row": 600,
+      "frames": 90,
+      "canvasAllocations": 14,
+      "warmCanvasAllocations": 0,
+      "pixelReads": 2,
+      "firstMs": 100.19999998807907,
+      "medianMs": 4,
+      "p95Ms": 4.700000017881393,
+      "maxMs": 100.19999998807907,
+      "times": [
+        100.19999998807907,
+        4.199999988079071,
+        4.800000011920929,
+        4.4000000059604645,
+        4.5999999940395355,
+        4.4000000059604645,
+        4.699999988079071,
+        4.800000011920929,
+        4.5,
+        4.699999988079071,
+        5.200000017881393,
+        5.199999988079071,
+        3.9000000059604645,
+        3.9000000059604645,
+        4,
+        4.199999988079071,
+        3.9000000059604645,
+        4.199999988079071,
+        4.700000017881393,
+        3.699999988079071,
+        3.4000000059604645,
+        4,
+        4.699999988079071,
+        3.800000011920929,
+        3.699999988079071,
+        4.0999999940395355,
+        4.4000000059604645,
+        3.7000000178813934,
+        4.5999999940395355,
+        3.9000000059604645,
+        4.0999999940395355,
+        3.699999988079071,
+        3.699999988079071,
+        4.0999999940395355,
+        3.5,
+        3.7000000178813934,
+        4.0999999940395355,
+        3.699999988079071,
+        4.300000011920929,
+        3.7999999821186066,
+        3.7000000178813934,
+        4,
+        4,
+        3.9000000059604645,
+        3.5999999940395355,
+        3.4000000059604645,
+        3.899999976158142,
+        4.100000023841858,
+        3.699999988079071,
+        3.699999988079071,
+        3.5,
+        3.7000000178813934,
+        4.0999999940395355,
+        4.199999988079071,
+        3.7000000178813934,
+        4.299999982118607,
+        3.9000000059604645,
+        4,
+        4,
+        4.5,
+        4,
+        4.0999999940395355,
+        3.600000023841858,
+        4.199999988079071,
+        4.199999988079071,
+        4.100000023841858,
+        4.0999999940395355,
+        3.699999988079071,
+        4.200000017881393,
+        4.299999982118607,
+        3.5999999940395355,
+        3.600000023841858,
+        3.899999976158142,
+        4.100000023841858,
+        4.0999999940395355,
+        4.0999999940395355,
+        3.9000000059604645,
+        4.0999999940395355,
+        3.9000000059604645,
+        3.5,
+        3.9000000059604645,
+        3.5,
+        3.7999999821186066,
+        3.5,
+        6.800000011920929,
+        4.299999982118607,
+        4,
+        4.100000023841858,
+        4,
+        3.7999999821186066
+      ],
+      "cache": {
+        "palette": {
+          "entries": 3,
+          "bytes": 1071080,
+          "limit": 25165824
+        },
+        "skin": {
+          "entries": 3,
+          "bytes": 1071080,
+          "limit": 16777216
+        },
+        "source": {
+          "entries": 3,
+          "bytes": 1071080,
+          "limit": 25165824
+        },
+        "emission": {
+          "entries": 10,
+          "bytes": 4328680,
+          "limit": 8388608
+        },
+        "ecology": {
+          "bytes": 17312924,
+          "limit": 25165824,
+          "backdrops": 3,
+          "backdropBuilds": 3,
+          "colonies": 8,
+          "forests": 9,
+          "decorations": 16,
+          "fauna": 1,
+          "hits": 10777,
+          "builds": 37
+        }
+      }
+    },
+    {
+      "row": 1000,
+      "frames": 90,
+      "canvasAllocations": 9,
+      "warmCanvasAllocations": 0,
+      "pixelReads": 2,
+      "firstMs": 114.5,
+      "medianMs": 4.299999982118607,
+      "p95Ms": 5.300000011920929,
+      "maxMs": 114.5,
+      "times": [
+        114.5,
+        5.300000011920929,
+        4.5,
+        4.199999988079071,
+        4.5,
+        4.800000011920929,
+        4.199999988079071,
+        4.5,
+        4.800000011920929,
+        5.9000000059604645,
+        4.5,
+        4.199999988079071,
+        4.0999999940395355,
+        4.300000011920929,
+        4,
+        15.300000011920929,
+        4.5999999940395355,
+        4.5999999940395355,
+        5.5999999940395355,
+        4.5,
+        5.300000011920929,
+        4.5,
+        4.5,
+        4.0999999940395355,
+        4.300000011920929,
+        4.5999999940395355,
+        4.199999988079071,
+        4.200000017881393,
+        4.799999982118607,
+        5.100000023841858,
+        4.399999976158142,
+        4.200000017881393,
+        4.299999982118607,
+        5.9000000059604645,
+        4.9000000059604645,
+        4.9000000059604645,
+        5.0999999940395355,
+        4.4000000059604645,
+        4,
+        4.0999999940395355,
+        4,
+        4.300000011920929,
+        4.0999999940395355,
+        4.0999999940395355,
+        4,
+        4.0999999940395355,
+        4.0999999940395355,
+        4,
+        4.100000023841858,
+        4,
+        4.4000000059604645,
+        4.299999982118607,
+        4.300000011920929,
+        4.699999988079071,
+        4.5,
+        4,
+        3.9000000059604645,
+        4.199999988079071,
+        4,
+        3.800000011920929,
+        4.699999988079071,
+        4.700000017881393,
+        4.299999982118607,
+        4.5,
+        4.4000000059604645,
+        4,
+        4.0999999940395355,
+        4,
+        4.299999982118607,
+        4.0999999940395355,
+        4,
+        4.300000011920929,
+        4.199999988079071,
+        4.200000017881393,
+        4.0999999940395355,
+        4.5,
+        4.300000011920929,
+        4,
+        4.399999976158142,
+        4.4000000059604645,
+        4.300000011920929,
+        3.9000000059604645,
+        4,
+        5.0999999940395355,
+        4.299999982118607,
+        4.100000023841858,
+        4.399999976158142,
+        4,
+        4,
+        4.4000000059604645
+      ],
+      "cache": {
+        "palette": {
+          "entries": 4,
+          "bytes": 1715856,
+          "limit": 25165824
+        },
+        "skin": {
+          "entries": 4,
+          "bytes": 1715856,
+          "limit": 16777216
+        },
+        "source": {
+          "entries": 4,
+          "bytes": 1715856,
+          "limit": 25165824
+        },
+        "emission": {
+          "entries": 15,
+          "bytes": 7552560,
+          "limit": 8388608
+        },
+        "ecology": {
+          "bytes": 17312924,
+          "limit": 25165824,
+          "backdrops": 3,
+          "backdropBuilds": 3,
+          "colonies": 8,
+          "forests": 9,
+          "decorations": 16,
+          "fauna": 1,
+          "hits": 15187,
+          "builds": 37
+        }
+      }
+    }
+  ],
+  "continuity": {
+    "scope": "Actual1..260 states and actual nutrition/growth events;warm1..189 thenmeasure190..260;direct CPU draw,not GPU presentation oruser FPS",
+    "rows": [
+      {
+        "row": 190,
+        "ms": 2.7000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 191,
+        "ms": 2.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 192,
+        "ms": 2,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 193,
+        "ms": 2.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 194,
+        "ms": 1.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 195,
+        "ms": 6.4000000059604645,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 196,
+        "ms": 1.9000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 197,
+        "ms": 2.2999999821186066,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 198,
+        "ms": 5,
+        "canvases": 2,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 199,
+        "ms": 2.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 200,
+        "ms": 2.2000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 201,
+        "ms": 27.099999994039536,
+        "canvases": 5,
+        "ecologyBuilds": 1,
+        "backdropBuilds": 1,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 202,
+        "ms": 9.099999994039536,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 203,
+        "ms": 9.400000005960464,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 204,
+        "ms": 7.5999999940395355,
+        "canvases": 2,
+        "ecologyBuilds": 2,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 205,
+        "ms": 12.899999976158142,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 206,
+        "ms": 3.0999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 207,
+        "ms": 3.199999988079071,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 208,
+        "ms": 2.2999999821186066,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 209,
+        "ms": 1.7000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 210,
+        "ms": 1.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 211,
+        "ms": 1.600000023841858,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 212,
+        "ms": 2.0999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 213,
+        "ms": 2.899999976158142,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 214,
+        "ms": 2.2999999821186066,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 215,
+        "ms": 12.200000017881393,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 216,
+        "ms": 16.69999998807907,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 217,
+        "ms": 2.9000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 218,
+        "ms": 3,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 219,
+        "ms": 2.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 220,
+        "ms": 16.900000005960464,
+        "canvases": 4,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 221,
+        "ms": 2.699999988079071,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 222,
+        "ms": 2,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 223,
+        "ms": 1.7999999821186066,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 224,
+        "ms": 2.100000023841858,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 225,
+        "ms": 7,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 226,
+        "ms": 3,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 227,
+        "ms": 1.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 228,
+        "ms": 10.599999994039536,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 229,
+        "ms": 2.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 230,
+        "ms": 12,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 231,
+        "ms": 12,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 232,
+        "ms": 2.7000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 233,
+        "ms": 2.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 234,
+        "ms": 2.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 235,
+        "ms": 11.800000011920929,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 236,
+        "ms": 2.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 237,
+        "ms": 11,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 238,
+        "ms": 1.7999999821186066,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 239,
+        "ms": 1.300000011920929,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 240,
+        "ms": 1.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 241,
+        "ms": 1.2999999821186066,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 242,
+        "ms": 1.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 243,
+        "ms": 6.4000000059604645,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 244,
+        "ms": 2.2000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 245,
+        "ms": 2.0999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 246,
+        "ms": 8.5,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 247,
+        "ms": 8.099999994039536,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 248,
+        "ms": 2.600000023841858,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 249,
+        "ms": 17.599999994039536,
+        "canvases": 4,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 250,
+        "ms": 8.5,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 251,
+        "ms": 5.700000017881393,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 252,
+        "ms": 21.299999982118607,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 253,
+        "ms": 2.2999999821186066,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 254,
+        "ms": 1.600000023841858,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 255,
+        "ms": 1.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 256,
+        "ms": 1.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 257,
+        "ms": 1.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 258,
+        "ms": 2.5,
+        "canvases": 2,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 259,
+        "ms": 2.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 260,
+        "ms": 2.2000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "backdropBuilds": 0,
+        "cacheWithinBounds": true
+      }
+    ],
+    "canvasAllocations": 54,
+    "ecologyBuilds": 3,
+    "backdropBuilds": 1,
+    "medianMs": 2.5999999940395355,
+    "p95Ms": 16.900000005960464,
+    "maxMs": 27.099999994039536
+  },
+  "specializationContinuity": {
+    "N": 893,
+    "warmRows": 569,
+    "rows": [
+      {
+        "row": 570,
+        "ms": 1.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 571,
+        "ms": 1.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 572,
+        "ms": 2,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 573,
+        "ms": 13.900000005960464,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 574,
+        "ms": 2.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 575,
+        "ms": 2.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 576,
+        "ms": 3,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 577,
+        "ms": 2.9000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 578,
+        "ms": 2.800000011920929,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 579,
+        "ms": 3,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 580,
+        "ms": 21.599999994039536,
+        "canvases": 4,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 581,
+        "ms": 10.200000017881393,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 582,
+        "ms": 9.800000011920929,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 583,
+        "ms": 2.600000023841858,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 584,
+        "ms": 1.7999999821186066,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 585,
+        "ms": 2.0999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 586,
+        "ms": 1.699999988079071,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 587,
+        "ms": 1.9000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 588,
+        "ms": 1.7000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 589,
+        "ms": 2.699999988079071,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 590,
+        "ms": 3.0999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 591,
+        "ms": 3.199999988079071,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 592,
+        "ms": 3.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 593,
+        "ms": 4.0999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 594,
+        "ms": 14.299999982118607,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 595,
+        "ms": 3.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 596,
+        "ms": 4.699999988079071,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 597,
+        "ms": 3.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 598,
+        "ms": 3.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 599,
+        "ms": 1.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 600,
+        "ms": 1.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 601,
+        "ms": 1.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 602,
+        "ms": 1.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 603,
+        "ms": 12.599999994039536,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 604,
+        "ms": 2.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 605,
+        "ms": 2.2999999821186066,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 606,
+        "ms": 13.899999976158142,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 607,
+        "ms": 3.0999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 608,
+        "ms": 3.0999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 609,
+        "ms": 3,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 610,
+        "ms": 4.100000023841858,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 611,
+        "ms": 3.199999988079071,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 612,
+        "ms": 3.600000023841858,
+        "canvases": 2,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 613,
+        "ms": 2.199999988079071,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 614,
+        "ms": 1.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 615,
+        "ms": 7.5999999940395355,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 616,
+        "ms": 1.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 617,
+        "ms": 1.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 618,
+        "ms": 1.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 619,
+        "ms": 2.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 620,
+        "ms": 2.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 621,
+        "ms": 4.100000023841858,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 622,
+        "ms": 3.0999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 623,
+        "ms": 3.0999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 624,
+        "ms": 15,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 625,
+        "ms": 4.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 626,
+        "ms": 4.399999976158142,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 627,
+        "ms": 9.200000017881393,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 628,
+        "ms": 2.2999999821186066,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 629,
+        "ms": 1.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 630,
+        "ms": 8.699999988079071,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 631,
+        "ms": 1.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 632,
+        "ms": 2.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 633,
+        "ms": 2.2000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 634,
+        "ms": 2.9000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 635,
+        "ms": 2.9000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 636,
+        "ms": 44,
+        "canvases": 8,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 637,
+        "ms": 3.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 638,
+        "ms": 3.7000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 639,
+        "ms": 14.599999994039536,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 640,
+        "ms": 4.200000017881393,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 641,
+        "ms": 3.199999988079071,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 642,
+        "ms": 2.2999999821186066,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 643,
+        "ms": 2.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 644,
+        "ms": 2,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 645,
+        "ms": 5,
+        "canvases": 2,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 646,
+        "ms": 1.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 647,
+        "ms": 1.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 648,
+        "ms": 1.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 649,
+        "ms": 2.7000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 650,
+        "ms": 14.099999994039536,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 651,
+        "ms": 15.200000017881393,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 652,
+        "ms": 3.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 653,
+        "ms": 3.2000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 654,
+        "ms": 3.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 655,
+        "ms": 3.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 656,
+        "ms": 3.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 657,
+        "ms": 9.300000011920929,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 658,
+        "ms": 2.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 659,
+        "ms": 1.9000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 660,
+        "ms": 13.699999988079071,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 661,
+        "ms": 1.9000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 662,
+        "ms": 1.7000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 663,
+        "ms": 2.0999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 664,
+        "ms": 2.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 665,
+        "ms": 2.7999999821186066,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 666,
+        "ms": 3.0999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 667,
+        "ms": 3.300000011920929,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 668,
+        "ms": 3.800000011920929,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 669,
+        "ms": 15,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 670,
+        "ms": 3.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 671,
+        "ms": 3.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 672,
+        "ms": 2.2000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 673,
+        "ms": 2.699999988079071,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 674,
+        "ms": 1.7000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 675,
+        "ms": 14.300000011920929,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 676,
+        "ms": 1.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 677,
+        "ms": 1.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 678,
+        "ms": 13.400000005960464,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 679,
+        "ms": 2.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 680,
+        "ms": 9.400000005960464,
+        "canvases": 1,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 681,
+        "ms": 3.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 682,
+        "ms": 3.800000011920929,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 683,
+        "ms": 3.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 684,
+        "ms": 15,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 685,
+        "ms": 3.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 686,
+        "ms": 3.4000000059604645,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 687,
+        "ms": 13.800000011920929,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 688,
+        "ms": 2.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 689,
+        "ms": 1.7000000178813934,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 690,
+        "ms": 1.7999999821186066,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 691,
+        "ms": 1.899999976158142,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 692,
+        "ms": 1.600000023841858,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 693,
+        "ms": 13.599999994039536,
+        "canvases": 3,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 694,
+        "ms": 3,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 695,
+        "ms": 3,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 696,
+        "ms": 22,
+        "canvases": 4,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 697,
+        "ms": 3.5,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 698,
+        "ms": 3.5999999940395355,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 699,
+        "ms": 3.300000011920929,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      },
+      {
+        "row": 700,
+        "ms": 3.2999999821186066,
+        "canvases": 0,
+        "ecologyBuilds": 0,
+        "source": "eco-gravity:body",
+        "cacheWithinBounds": true
+      }
+    ],
+    "canvasAllocations": 72,
+    "ecologyBuilds": 0,
+    "medianMs": 3.0999999940395355,
+    "p95Ms": 15,
+    "maxMs": 44
+  },
+  "highDpi": {
+    "width": 1587,
+    "height": 1260,
+    "cssWidth": 1392,
+    "warmCanvasAllocations": 0,
+    "cache": {
+      "palette": {
+        "entries": 24,
+        "bytes": 10738416,
+        "limit": 25165824
+      },
+      "skin": {
+        "entries": 24,
+        "bytes": 9915540,
+        "limit": 16777216
+      },
+      "source": {
+        "entries": 10,
+        "bytes": 3319164,
+        "limit": 25165824
+      },
+      "emission": {
+        "entries": 20,
+        "bytes": 8005892,
+        "limit": 8388608
+      },
+      "ecology": {
+        "bytes": 23746132,
+        "limit": 25165824,
+        "backdrops": 3,
+        "backdropBuilds": 7,
+        "colonies": 16,
+        "forests": 12,
+        "decorations": 24,
+        "fauna": 1,
+        "hits": 43693,
+        "builds": 130
+      }
+    }
+  },
+  "checks": [
+    "steady reaction reuses all canvases N120",
+    "cold setup has bounded allocations N120",
+    "cache respects byte bound N120",
+    "cache respects byte bound N120",
+    "cache respects byte bound N120",
+    "cache respects byte bound N120",
+    "cache respects byte bound N120",
+    "steady reaction reuses all canvases N600",
+    "cold setup has bounded allocations N600",
+    "cache respects byte bound N600",
+    "cache respects byte bound N600",
+    "cache respects byte bound N600",
+    "cache respects byte bound N600",
+    "cache respects byte bound N600",
+    "steady reaction reuses all canvases N1000",
+    "cold setup has bounded allocations N1000",
+    "cache respects byte bound N1000",
+    "cache respects byte bound N1000",
+    "cache respects byte bound N1000",
+    "cache respects byte bound N1000",
+    "cache respects byte bound N1000",
+    "every actual environment-transition row is measured",
+    "phase interpolation reuses the two endpoint backdrops",
+    "continuous phase transition bounds new scenery preparations",
+    "actual growing transition avoids per-row full scenery reconstruction",
+    "every continuous transition frame respects cache budgets",
+    "every actual third-phase specialization row570..700 is measured",
+    "specialization never replaces its warmed body source",
+    "specialization respects every cache budget",
+    "specialization does not rebuild its ecology every row",
+    "specialization bounds changing tissue preparations",
+    "warm specialization CPU completes within the fastest50ms output interval",
+    "final original row is visible while final registration is pending",
+    "session recording preserves every original row and order",
+    "archive stores one final portrait,not intermediate phase copies",
+    "one write at completion replaces birth and checkpoint writes",
+    "pause stops rows immediately without archive I/O",
+    "replacing an unfinished run creates no archive write",
+    "failed registration does not add a final result",
+    "final registration can be retried",
+    "high DPI observation respects the two-million-pixel rendering budget",
+    "high DPI caches remain within their byte limits",
+    "high DPI multi-layer ecology also reuses every steady canvas",
+    "no page errors"
+  ],
+  "errors": [],
+  "savedRows": [
+    60
+  ]
+}

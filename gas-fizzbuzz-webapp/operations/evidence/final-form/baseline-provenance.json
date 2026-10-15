@@ -1,0 +1,22 @@
+{
+  "generatedAt": "2026-10-15T15:56:50.537926+00:00",
+  "baselineCommit": "abdc27b8245cbda2c737757e250e5eaaeb36425d",
+  "rendererOriginalPath": "gas-fizzbuzz-webapp/src/composite/renderer.js",
+  "rendererArchivedPath": "tests/archive/renderer-v1.12.0.js",
+  "rendererSha256": "86a3cca9a02ee69ad2a36de1916b729fdf1803ebf0f60f90d27b40fdc6ff5138",
+  "archiveIsByteIdentical": true,
+  "studyNormalization": {
+    "file": "tests/render-study-camera.cjs",
+    "sha256": "7933fb5babab6a75db3a4a69abb62d84c99706f9cb5066ab6e30bbdc94910074",
+    "scope": "Only archivedcamera framing is matched when isolating tissue/material alpha. Originalrenderer archive remains byte-identical. Full recorded-scene comparison uses original recorded PNGs."
+  },
+  "recordedSceneAndCatalogueFiles": {
+    "operations/evidence/specialization-finish/all-inputs.json": "3dbfe0161dda22ee1199b5ea94ecfd9db288c6c3589f67542ade196953afc3c2",
+    "operations/evidence/specialization-finish/browser/myth-final.png": "613c3aa85692d14e98e25cdc65c2daf6f4eada826aeed51cb06717f10a9df7a0",
+    "operations/evidence/specialization-finish/browser/serpent-final.png": "9e5b6166b77024fc1d8365f8122d3717a4f941f755bd59cf550344eea361673f",
+    "operations/evidence/specialization-finish/browser/jelly-final.png": "6caf589a2caf0f4709a39e3dc49a244fa20a795f33ee6a7d76daa0bc8553e4b1",
+    "operations/evidence/specialization-finish/browser/cephalopod-final.png": "da0927e96a223c469c57d5d6dc93007f0b4f276e5294aaeede77fa158c890061",
+    "operations/evidence/specialization-finish/browser/crystal-final.png": "43ffc207b8707201c19d1eb070863cb7653a5fe299e5a1c804869ebcf5280584",
+    "operations/evidence/specialization-finish/browser/kelp-final.png": "6e124eea29487a6431e32b05c8d9b04b0ac8eb8acafa1f3deae45b58a4010084"
+  }
+}

@@ -1,0 +1,5 @@
+
+> valis-fizzbuzz-desktop@1.13.0 test:art
+> node tests/browser-art.cjs
+
+{"passed":85,"lineages":20,"habitatFixtures":80}

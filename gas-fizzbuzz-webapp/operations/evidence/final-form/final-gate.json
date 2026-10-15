@@ -1,0 +1,80 @@
+{
+  "generatedAt": "2026-10-15T16:01:53.452514+00:00",
+  "appVersion": "1.13.0",
+  "valis": "Standard Operation prerequisites/Identity/feedback;existing responsibility grain;FLOW04/07 plan/external tests/08/05;structural and output gates reconciled",
+  "targetCommit": "124ab4ce6e89adcf192caf33c4e23f8f1cd3805b",
+  "manifest": {
+    "canonicalPath": "valis/summary/gas-fizzbuzz-webapp.summary.md",
+    "counts": {
+      "A": 9,
+      "B": 13,
+      "C": 21,
+      "D": 12,
+      "E": 60
+    },
+    "total": 115,
+    "allDraft": true,
+    "initialRegistered": [
+      "E59",
+      "E60"
+    ],
+    "reflectedNodes": [
+      "A1.5",
+      "B1.5",
+      "C1.5",
+      "D1.3.2",
+      "D1.3.5",
+      "D1.5"
+    ],
+    "updatedSummaryFields": [
+      "connected two-span wing/fin/membrane motion",
+      "source-derived relief/transmission andcontact patches",
+      "body-proportional completed framing",
+      "402opaque seam/transparent alpha checks",
+      "matched-camera controls and6recorded-scene comparisons",
+      "unchanged calculation engine/revision4 andlegacy pixels",
+      "full365motion/161finish/44performance verification",
+      "verification references",
+      "processing flags",
+      "next FLOW"
+    ],
+    "unreflected": []
+  },
+  "executionAndDesignFilesMatchTarget": 217,
+  "workflowFilesMatchTarget": 2,
+  "definitionSnapshotFiles": 55,
+  "protectedCoreAndMocksUnchanged": 23,
+  "checks": {
+    "unitPassed": 85,
+    "unitFailed": 0,
+    "browserPassed": 148,
+    "motionPassed": 365,
+    "performancePassed": 44,
+    "artPassed": 85,
+    "interactionPassed": 23,
+    "finishPassed": 161,
+    "nativeCreatePassed": 21,
+    "nativeRestartPassed": 9,
+    "zipChecksumFiles": 74,
+    "runtimePngs": 68,
+    "runtimePngsBytePreserved": 68,
+    "designPngsBytePreserved": 1,
+    "sourceCoverageFixtures": 160,
+    "groundedSourceFixtures": 64,
+    "opaqueSeamSamples": 402,
+    "alphaMassRatioRange": [
+      0.9933885621772081,
+      1.0249512366363467
+    ]
+  },
+  "windowsRun": 38764123385,
+  "browserRun": 38764123402,
+  "pending": [
+    "User Windows10/11 device display/FPS and art acceptance"
+  ],
+  "postReflectionManifestChecks": {
+    "passed": 3,
+    "failed": 0,
+    "log": "manifest-final.log"
+  }
+}

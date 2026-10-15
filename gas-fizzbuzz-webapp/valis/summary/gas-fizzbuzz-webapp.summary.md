@@ -5,15 +5,15 @@ summary_manifest_type: Project Summary Manifest
 based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
-current_status: 全113ノード（A9/B13/C21/D12/E58）を草案に統一。旧承認は無効、今回の定義変更も自動承認しない。
+current_status: 全115ノード（A9/B13/C21/D12/E60）を草案に統一。旧承認は無効、今回の定義変更も自動承認しない。
 definition_baseline: final-form-2026-10-16。operations/plans/2026-10-16-final-form.md。
-initial_registration_this_change: なし（変更後検証前）。
+initial_registration_this_change: E59/E60。機能責務の追加分割なし。
 manifest_reflection_this_change: A1.5、B1.5、C1.5、D1.3.2、D1.3.5、D1.5。完成版の生体動作/立体感/接地と検証計画を反映。
 approval_basis: 全FizzBuzzノード草案という利用者指示を維持。既存責務/変更単位で今回指示を具体化。
 unregistered_nodes: なし。
-unreflected_changes: 実装の変更後検証とE登録が未完了。
+unreflected_changes: なし（今回6ノードとE59/E60の要約・参照・処理フラグを反映）。
 unresolved_summary: 利用者Windows10/11実機の倍率/FPSと美術受入は未認定。
-evidence_scope: 今回app1.13.0は変更後検証前。E1〜E58は各旧対象版/環境限定。
+evidence_scope: 今回app1.13.0はE59（ローカル）/E60（hosted Windows）。E1〜E58は各旧対象版/環境限定。
 
 ## 読解経路と責務
 
@@ -43,7 +43,7 @@ A1:（ / Windows FizzBuzz生物育成アプリ統合仕様）［草案］
 
 	A1.5:（A1 / DNA身体と複数部位成長・観測表示仕様）［草案］
 		Node File: valis/nodes/A/A1.5.md。parent_id: A1（同一層）。
-		要約: 完成版の生体動作/立体感/接地の今回責務はNode本文。app1.13.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 完成版の生体動作/立体感/接地の今回責務はNode本文。app1.13.0はE59（ローカル）/E60（hosted Windows）。次FLOW: FLOW-08（利用者実結果）/05（追加差分）。
 
 	A1.6:（A1 / 入力Nからの不変DNAと初期個体仕様）［草案］
 		Node File: valis/nodes/A/A1.6.md。parent_id: A1（同一層）。
@@ -90,7 +90,7 @@ B1:（A1 / Windows生物育成の機能接合索引）［草案］
 
 	B1.5:（A1.5, A1.3, A1.6 / 独立PNG部位の成長描画・摂取観測機能）［草案］
 		Node File: valis/nodes/B/B1.5.md。parent_id: B1（同一層）。
-		要約: 完成版の生体動作/立体感/接地の今回責務はNode本文。app1.13.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 完成版の生体動作/立体感/接地の今回責務はNode本文。app1.13.0はE59（ローカル）/E60（hosted Windows）。次FLOW: FLOW-08（利用者実結果）/05（追加差分）。
 
 		B1.5.1:（A1.3, A1.5 / 摂取数の節目による生体反応機能）［草案］
 			Node File: valis/nodes/B/B1.5.1.md。parent_id: B1.5（同一層）。
@@ -149,7 +149,7 @@ C1:（B1 / desktop実装の接合索引）［草案］
 
 	C1.5:（B1.5, A1.5 / DNA身体・部位・energyの共通レンダラ実装）［草案］
 		Node File: valis/nodes/C/C1.5.md。parent_id: C1（同一層）。
-		要約: 完成版の生体動作/立体感/接地の今回責務はNode本文。app1.13.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 完成版の生体動作/立体感/接地の今回責務はNode本文。app1.13.0はE59（ローカル）/E60（hosted Windows）。次FLOW: FLOW-08（利用者実結果）/05（追加差分）。
 
 		C1.5.1:（B1.5, B1.7 / ローカル画像設定とdesktop表示入口の同期実装）［草案］
 			Node File: valis/nodes/C/C1.5.1.md。parent_id: C1.5（同一層）。
@@ -224,7 +224,7 @@ D1:（A1, B1, C1 / desktop育成・配布・記録の検証接合）［草案］
 
 		D1.3.2:（A1.5, B1.5, C1.5.2, C1.5 / DNA身体・系統多部位PNG・原モック照合計画）［草案］
 			Node File: valis/nodes/D/D1.3.2.md。parent_id: D1.3（同一層）。
-			要約: 完成版の生体動作/立体感/接地の今回責務はNode本文。app1.13.0は変更後検証前。次FLOW: FLOW-07/08/05。
+			要約: 完成版の生体動作/立体感/接地の今回責務はNode本文。app1.13.0はE59（ローカル）/E60（hosted Windows）。次FLOW: FLOW-08（利用者実結果）/05（追加差分）。
 
 		D1.3.3:（A1.2, A1.5, A1.8, B1.2, B1.5, C1.5.3 / 摂取・遺伝表示・実run観測UI検証計画）［草案］
 			Node File: valis/nodes/D/D1.3.3.md。parent_id: D1.3（同一層）。
@@ -236,7 +236,7 @@ D1:（A1, B1, C1 / desktop育成・配布・記録の検証接合）［草案］
 
 		D1.3.5:（B1.5.2, C1.5.5, C1.5.2.4 / 環境背景・配分・遷移・主役可読性検証計画）［草案］
 			Node File: valis/nodes/D/D1.3.5.md。parent_id: D1.3（同一層）。
-			要約: 完成版の生体動作/立体感/接地の今回責務はNode本文。app1.13.0は変更後検証前。次FLOW: FLOW-07/08/05。
+			要約: 完成版の生体動作/立体感/接地の今回責務はNode本文。app1.13.0はE59（ローカル）/E60（hosted Windows）。次FLOW: FLOW-08（利用者実結果）/05（追加差分）。
 
 	D1.4:（A1.5, C1.5, C1.5.3 / 実利用の画質・視認性・性能受入計画）［草案］
 		Node File: valis/nodes/D/D1.4.md。parent_id: D1（同一層）。
@@ -244,7 +244,7 @@ D1:（A1, B1, C1 / desktop育成・配布・記録の検証接合）［草案］
 
 	D1.5:（A1.7, B1.7, C1.7 / Windows配布・同梱資産・単独起動検証計画）［草案］
 		Node File: valis/nodes/D/D1.5.md。parent_id: D1（同一層）。
-		要約: 完成版の生体動作/立体感/接地の今回責務はNode本文。app1.13.0は変更後検証前。次FLOW: FLOW-07/08/05。
+		要約: 完成版の生体動作/立体感/接地の今回責務はNode本文。app1.13.0はE59（ローカル）/E60（hosted Windows）。次FLOW: FLOW-08（利用者実結果）/05（追加差分）。
 
 	D1.6:（A1.8, B1.8, C1.8, C1.5.3 / 起動中だけの最終結果図鑑）［草案］
 		Node File: valis/nodes/D/D1.6.md。parent_id: D1（同一層）。
@@ -484,3 +484,11 @@ E57:（D1.2, D1.3.2, D1.3.3, D1.3.4, D1.3.5, D1.6 / 特化分岐と生態仕上�
 E58:（D1.2, D1.3.2, D1.5, D1.6, C1.4.3 / 特化分岐・生態仕上げ版Windows実exe・配布証跡）［草案］
 	Node File: valis/nodes/E/E58.md。独立証跡、parent_idなし。evidence_for: D1.2/D1.3.2/D1.5/D1.6。
 	要約: app1.12.0 run38758965801/job116504826685でsource/assets/配布/ZIP全照合/実exe完走2結果と次プロセス空/旧history不変を対象commitと照合。詳細はoperations/evidence/specialization-finish/windows-ci-public-summary.json。利用者Windows10/11実機と美術受入は未認定。次FLOW: FLOW-08/05。
+
+E59:（D1.3.2, D1.3.5, D1.5, C1.5 / 完成版の生体動作・表面・構図ローカル証跡）［草案］
+	Node File: valis/nodes/E/E59.md。独立証跡、parent_idなし。evidence_for: D1.3.2/D1.3.5/D1.5。
+	要約: app1.13.0。連結2span/実接地/表面陰影/一体身体の構図、20個体の透明描画402点/6旧新版場面/旧画素。単体85/画面148/生体365/性能44/美術85/操作23/仕上げ161/native21・9/ZIP74。詳細はoperations/evidence/final-form。hosted WindowsはE60。利用者受入は未認定。次FLOW: FLOW-08/05。
+
+E60:（D1.3.2, D1.3.5, D1.5, D1.6, C1.5 / 完成版の生体動作・造形Windows実exe・配布証跡）［草案］
+	Node File: valis/nodes/E/E60.md。独立証跡、parent_idなし。evidence_for: D1.3.2/D1.3.5/D1.5/D1.6。
+	要約: app1.13.0 run38764123385/job116522770186でsource/assets/配布/ZIP全照合/実exe完走2結果と次プロセス空/旧history不変を対象commitと照合。詳細はoperations/evidence/final-form/windows-ci-public-summary.json。利用者Windows10/11実機と美術受入は未認定。次FLOW: FLOW-08/05。

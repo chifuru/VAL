@@ -1,0 +1,5329 @@
+{
+  "seamSamples": 402,
+  "cases": [
+    {
+      "id": "plasma",
+      "N": 900,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.0078571564010452,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                426.2196309681222,
+                261.2932608731372
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                451.02475768017507,
+                261.2932608731372
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                480.5406544506108,
+                261.5143143830751
+              ],
+              "alpha": 252,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                506.92327787423153,
+                262.3717256578562
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                531.3245974520223,
+                263.18265575977597
+              ],
+              "alpha": 250,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                614.994001494641,
+                258.79575855498024
+              ],
+              "alpha": 235,
+              "renderedAlpha": 237
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.0112730069610667,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                426.35843058645975,
+                261.1555582733992
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                451.1327994767166,
+                261.1555582733992
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                480.61209717214854,
+                261.27300794888356
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                506.9620067120954,
+                262.05326056588206
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                531.3330691802221,
+                263.45425636510936
+              ],
+              "alpha": 250,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                614.8987249675226,
+                260.69005403805875
+              ],
+              "alpha": 235,
+              "renderedAlpha": 237
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 1.0145044929633955,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                426.80026535913396,
+                260.7260610921687
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                451.47867747614475,
+                260.7260610921687
+              ],
+              "alpha": 252,
+              "renderedAlpha": 253
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                480.843795137488,
+                260.5996095681634
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                507.0916454764121,
+                260.6005780407012
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                531.3683132689214,
+                261.67624644480196
+              ],
+              "alpha": 250,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                614.6103002387008,
+                263.9415736840661
+              ],
+              "alpha": 235,
+              "renderedAlpha": 237
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cephalopod",
+      "N": 901,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.0134524897622073,
+          "seams": [
+            {
+              "source": [
+                0.5,
+                0.2
+              ],
+              "point": [
+                540.6647662546359,
+                171.85578362483398
+              ],
+              "alpha": 250,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.3
+              ],
+              "point": [
+                540.8452190685094,
+                197.908632428527
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.4
+              ],
+              "point": [
+                542.6913933850045,
+                223.96691225569907
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                547.0052242909255,
+                250.0286263532059
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.6
+              ],
+              "point": [
+                549.9718665286343,
+                276.0986961617795
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.7
+              ],
+              "point": [
+                549.2043663215069,
+                303.4154970166738
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.8
+              ],
+              "point": [
+                544.3541462177125,
+                334.3508312393918
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.0088275546387788,
+          "seams": [
+            {
+              "source": [
+                0.5,
+                0.2
+              ],
+              "point": [
+                540.6472641631982,
+                171.30371490985365
+              ],
+              "alpha": 250,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.3
+              ],
+              "point": [
+                540.4122535735276,
+                197.44123947164138
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.4
+              ],
+              "point": [
+                540.895051379638,
+                223.58421270856817
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                544.3722684341135,
+                249.73063137773553
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.6
+              ],
+              "point": [
+                548.8689125409901,
+                275.88543291531334
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.7
+              ],
+              "point": [
+                551.5039777261045,
+                303.29101756650334
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.8
+              ],
+              "point": [
+                549.8197669903219,
+                334.32689637445884
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 0.9962957276325124,
+          "seams": [
+            {
+              "source": [
+                0.5,
+                0.2
+              ],
+              "point": [
+                540.6119671939268,
+                170.03965238805378
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.3
+              ],
+              "point": [
+                540.0742123559503,
+                196.37079562395428
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.4
+              ],
+              "point": [
+                538.206333401735,
+                222.70742789708913
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                536.9696541405148,
+                249.04753112515783
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.6
+              ],
+              "point": [
+                539.0378629740055,
+                275.3960793193258
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.7
+              ],
+              "point": [
+                543.7926951709441,
+                303.00467604041955
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.8
+              ],
+              "point": [
+                548.254168902533,
+                334.2704590112776
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "swarm",
+      "N": 902,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.0071869404474632,
+          "seams": [
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                426.4362217729665,
+                260.3296041612319
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                454.70955863048476,
+                259.9077816399041
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                486.82396693176736,
+                259.68416676540284
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                521.3672503362623,
+                260.45444304246024
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                556.0977232016864,
+                259.6866323101241
+              ],
+              "alpha": 238,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                668.1359098741037,
+                260.2959697920315
+              ],
+              "alpha": 247,
+              "renderedAlpha": 255
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.0009245479368398,
+          "seams": [
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                426.4362217729665,
+                260.3688426578888
+              ],
+              "alpha": 250,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                454.70955863048476,
+                260.1821635354325
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                486.82396693176736,
+                260.0832019427497
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                521.3672503362623,
+                260.42204860175724
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                556.0977232016864,
+                260.0842930787173
+              ],
+              "alpha": 238,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                668.1359098741037,
+                260.4028003975161
+              ],
+              "alpha": 247,
+              "renderedAlpha": 255
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 0.9976022186080689,
+          "seams": [
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                426.4362217729665,
+                260.46856291877526
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                454.70955863048476,
+                260.8794745064374
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                486.82396693176736,
+                261.09730532025213
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                521.3672503362623,
+                260.5360442561207
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                556.0977232016864,
+                261.0949035497334
+              ],
+              "alpha": 238,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                668.1359098741037,
+                260.41339572082705
+              ],
+              "alpha": 247,
+              "renderedAlpha": 255
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sail",
+      "N": 906,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.0084599856466603,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                457.99901803013233,
+                261.3722533295134
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                473.39518349454056,
+                261.3722533295134
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                493.5084902259325,
+                261.5724814083197
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                515.4466698707469,
+                262.414886507139
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                538.5387953483404,
+                263.48761066376176
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                605.7940525580661,
+                260.28812668121344
+              ],
+              "alpha": 243,
+              "renderedAlpha": 248
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                626.082585390856,
+                258.6388402360833
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 0.9959442417469857,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                458.2539481256304,
+                260.9471763372821
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                473.5995930487637,
+                260.9471763372821
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                493.6469005451352,
+                260.8857417614522
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                515.5130928686388,
+                261.10364650604697
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                538.5294444997498,
+                262.3072394137351
+              ],
+              "alpha": 250,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                605.5640122134012,
+                264.0945154038378
+              ],
+              "alpha": 243,
+              "renderedAlpha": 248
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                625.7859708292045,
+                262.58574455498024
+              ],
+              "alpha": 250,
+              "renderedAlpha": 255
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 0.9941414664667747,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                458.9998145604142,
+                259.72562408015233
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                474.20083339103354,
+                259.72562408015233
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                494.05920365060916,
+                259.7029711820396
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                515.7193165313946,
+                259.170400709675
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                538.5187489638008,
+                257.73457972618576
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                604.921544755167,
+                257.7521158195257
+              ],
+              "alpha": 243,
+              "renderedAlpha": 248
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                624.9529201226135,
+                259.55655370881504
+              ],
+              "alpha": 250,
+              "renderedAlpha": 250
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "valis",
+      "N": 907,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.0172385496524816,
+          "seams": [
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                435.34547707118986,
+                261.05366154471005
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                475.9901554309537,
+                261.0572821718022
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                509.8934344925702,
+                261.4528850375461
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                539.5338360847594,
+                262.7286524144996
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.019138069113115,
+          "seams": [
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                435.49675262972465,
+                260.88846086400673
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                476.0829927968145,
+                260.80187273833263
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                509.9375263292735,
+                260.864877011149
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                539.5353114814003,
+                261.7805871668511
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 1.020096934430115,
+          "seams": [
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                435.8346969895907,
+                260.51941201089403
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                476.2903882576634,
+                260.33935465394796
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                510.03602596579356,
+                259.8387050206563
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                539.5386074664107,
+                259.6827297768767
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "manyeyes",
+      "N": 909,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.006186395873167,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                418.2043265113092,
+                260.3999938964844
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                450.31490713305755,
+                260.2385656340902
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                487.51778252321566,
+                260.4361317271541
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                518.5501222328023,
+                259.689292451444
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                545.6805661543389,
+                259.73177482101164
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                572.5291449631264,
+                260.9206451235438
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                601.1471884427077,
+                259.9889262526021
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                634.9009562417795,
+                260.31077437088703
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.002045388659798,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                418.2043265113092,
+                260.3999938964844
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                450.31490713305755,
+                260.3027532990739
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                487.51778252321566,
+                260.3805994323161
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                518.5501222328023,
+                259.9718840223443
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                545.6805661543389,
+                259.99507947298804
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                572.5291449631264,
+                260.94304308003655
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                601.1471884427077,
+                260.15558080433414
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                634.9009562417795,
+                260.8562864871681
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 0.9943337769627445,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                418.2043265113092,
+                260.3999938964844
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                450.31490713305755,
+                260.5119420818202
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                487.51778252321566,
+                260.4123916644163
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                518.5501222328023,
+                260.89285515824764
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                545.6805661543389,
+                260.86275690146874
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                572.5291449631264,
+                259.74241363915513
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                601.1471884427077,
+                260.6816757906773
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                634.9009562417795,
+                259.96056812787697
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "parallel",
+      "N": 911,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 0.9998076029855236,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                466.2014461346516,
+                260.3072618038928
+              ],
+              "alpha": 253,
+              "renderedAlpha": 253
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                478.3227024081562,
+                260.1431337143837
+              ],
+              "alpha": 253,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                495.2506110590498,
+                259.9741265137124
+              ],
+              "alpha": 253,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                515.912642547534,
+                259.99744181442355
+              ],
+              "alpha": 253,
+              "renderedAlpha": 253
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                538.9359209238585,
+                260.0541860508173
+              ],
+              "alpha": 248,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                562.1286900596145,
+                259.9136015957487
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                602.4488122367167,
+                260.18791031769877
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                617.9346536241882,
+                260.3163428525648
+              ],
+              "alpha": 238,
+              "renderedAlpha": 255
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.0003339097746233,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                466.2014461346516,
+                260.3129682289453
+              ],
+              "alpha": 253,
+              "renderedAlpha": 253
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                478.3227024081562,
+                260.158940037062
+              ],
+              "alpha": 253,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                495.2506110590498,
+                260.0003329783159
+              ],
+              "alpha": 253,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                515.912642547534,
+                260.0217204057121
+              ],
+              "alpha": 253,
+              "renderedAlpha": 253
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                538.9359209238585,
+                260.0741949641422
+              ],
+              "alpha": 248,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                562.1286900596145,
+                259.943532562825
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                602.4488122367167,
+                260.20301394093093
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                617.9346536241882,
+                260.32149046003656
+              ],
+              "alpha": 238,
+              "renderedAlpha": 255
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 1.0012111941412993,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                466.2014461346516,
+                260.3534369733988
+              ],
+              "alpha": 253,
+              "renderedAlpha": 253
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                478.3227024081562,
+                260.2710350926055
+              ],
+              "alpha": 253,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                495.2506110590498,
+                260.1861836132238
+              ],
+              "alpha": 253,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                515.912642547534,
+                260.19639692579955
+              ],
+              "alpha": 253,
+              "renderedAlpha": 253
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                538.9359209238585,
+                260.21961484971047
+              ],
+              "alpha": 248,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                562.1286900596145,
+                260.155796571676
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                602.4488122367167,
+                260.29362645499793
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                617.9346536241882,
+                260.3579961898766
+              ],
+              "alpha": 238,
+              "renderedAlpha": 255
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "memory",
+      "N": 912,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 0.9993658913712413,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                405.85100608883306,
+                260.32270732862025
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                440.12099425904785,
+                260.18236209268224
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                479.82572942211067,
+                259.9508680347022
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                512.9449659525561,
+                259.9550226688018
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                541.8999077269198,
+                259.69324391932497
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                570.5570529881572,
+                259.75428077374573
+              ],
+              "alpha": 243,
+              "renderedAlpha": 248
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                601.5682123389906,
+                260.07082729400435
+              ],
+              "alpha": 246,
+              "renderedAlpha": 255
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 0.9997570758438497,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                405.85100608883306,
+                260.31565139126013
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                440.12099425904785,
+                260.1624932277859
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                479.82572942211067,
+                259.90986473962624
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                512.9449659525561,
+                259.9151759640919
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                541.8999077269198,
+                259.6287206301442
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                570.5570529881572,
+                259.6953298916901
+              ],
+              "alpha": 243,
+              "renderedAlpha": 248
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                601.5682123389906,
+                260.05067966212385
+              ],
+              "alpha": 246,
+              "renderedAlpha": 255
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 1.0003365292763806,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                405.85100608883306,
+                260.33058578373925
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                440.12099425904785,
+                260.20454709126756
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                479.82572942211067,
+                259.9966511253819
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                512.9449659525561,
+                259.9975913292874
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                541.8999077269198,
+                259.7652887536255
+              ],
+              "alpha": 252,
+              "renderedAlpha": 253
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                570.5570529881572,
+                259.8201036197829
+              ],
+              "alpha": 243,
+              "renderedAlpha": 248
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                601.5682123389906,
+                260.12038730879885
+              ],
+              "alpha": 246,
+              "renderedAlpha": 255
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "serpent",
+      "N": 913,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.0094917420688614,
+          "seams": [
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                482.45503173005125,
+                260.8445211349123
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                502.835635765492,
+                261.9629527693676
+              ],
+              "alpha": 250,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                524.1783065261503,
+                264.53404738134805
+              ],
+              "alpha": 236,
+              "renderedAlpha": 241
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                545.6014979220081,
+                264.99287959522366
+              ],
+              "alpha": 245,
+              "renderedAlpha": 246
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                568.2855359741085,
+                261.8351692341162
+              ],
+              "alpha": 241,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                594.629076780061,
+                257.0904994777259
+              ],
+              "alpha": 247,
+              "renderedAlpha": 248
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                623.90630996625,
+                254.1741821474772
+              ],
+              "alpha": 243,
+              "renderedAlpha": 244
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.0073715682319722,
+          "seams": [
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                482.69473722394645,
+                259.94484789099306
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                502.9890716944675,
+                259.7020217568227
+              ],
+              "alpha": 250,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                524.2414005340746,
+                261.7583958728241
+              ],
+              "alpha": 236,
+              "renderedAlpha": 254
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                545.5739091710849,
+                264.86136286405707
+              ],
+              "alpha": 245,
+              "renderedAlpha": 245
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                568.1619273952169,
+                265.8370478289889
+              ],
+              "alpha": 241,
+              "renderedAlpha": 242
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                594.3939579731202,
+                262.82917276137124
+              ],
+              "alpha": 247,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                623.547262831933,
+                257.97055276075633
+              ],
+              "alpha": 243,
+              "renderedAlpha": 255
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 0.9982789032675096,
+          "seams": [
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                483.04345023863146,
+                259.4059376435808
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                503.2125159434036,
+                258.2892130509244
+              ],
+              "alpha": 250,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                524.3336627032586,
+                255.60490427053568
+              ],
+              "alpha": 236,
+              "renderedAlpha": 254
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                545.53449434287,
+                254.9686000816277
+              ],
+              "alpha": 245,
+              "renderedAlpha": 246
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                567.9830858137984,
+                257.85774439469833
+              ],
+              "alpha": 241,
+              "renderedAlpha": 242
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                594.0531966156009,
+                262.2443177702974
+              ],
+              "alpha": 247,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                623.0265498469056,
+                264.7141137976999
+              ],
+              "alpha": 243,
+              "renderedAlpha": 244
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "crystal",
+      "N": 922,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 0.9990244500650525,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                472.8115942362839,
+                260.30478036165283
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                485.9199027196831,
+                260.1501538798407
+              ],
+              "alpha": 250,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                503.28658497374784,
+                259.9502099735894
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                522.7160962575849,
+                259.87354920899776
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                543.4500232873805,
+                259.8883383821427
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                564.2748053795484,
+                259.91485933652854
+              ],
+              "alpha": 249,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                614.3829672757505,
+                260.36403740473725
+              ],
+              "alpha": 248,
+              "renderedAlpha": 250
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 0.9992304329338771,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                472.8115942362839,
+                260.3000131600011
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                485.9199027196831,
+                260.1376447576646
+              ],
+              "alpha": 250,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                503.28658497374784,
+                259.92768995409887
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                522.7160962575849,
+                259.84719089777445
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                543.4500232873805,
+                259.8627345316928
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                564.2748053795484,
+                259.890569362633
+              ],
+              "alpha": 249,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                614.3829672757505,
+                260.371056407219
+              ],
+              "alpha": 248,
+              "renderedAlpha": 250
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 0.9995634584116915,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                472.8115942362839,
+                260.29914815086335
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                485.9199027196831,
+                260.13537497640135
+              ],
+              "alpha": 250,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                503.28658497374784,
+                259.9236036946822
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                522.7160962575849,
+                259.84240818000245
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                543.4500232873805,
+                259.8580784824209
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                564.2748053795484,
+                259.88616194484183
+              ],
+              "alpha": 249,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                614.3829672757505,
+                260.38469256221856
+              ],
+              "alpha": 248,
+              "renderedAlpha": 250
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "solar",
+      "N": 927,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.0117037301488703,
+          "seams": [
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                480.3445955635628,
+                260.7817043822785
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                512.148104318424,
+                260.76484067791733
+              ],
+              "alpha": 250,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                539.9527532381218,
+                261.9006658320834
+              ],
+              "alpha": 236,
+              "renderedAlpha": 241
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                567.4728987446446,
+                263.8857655194331
+              ],
+              "alpha": 245,
+              "renderedAlpha": 245
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                597.4787198593827,
+                265.8456877186241
+              ],
+              "alpha": 241,
+              "renderedAlpha": 241
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                634.6990080850974,
+                266.5621397460972
+              ],
+              "alpha": 247,
+              "renderedAlpha": 248
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                677.7028763801695,
+                266.0872419938142
+              ],
+              "alpha": 243,
+              "renderedAlpha": 244
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.01037915412932,
+          "seams": [
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                480.54383458028417,
+                260.246088697827
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                512.2392791712832,
+                259.37995327986306
+              ],
+              "alpha": 250,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                539.9494515299153,
+                258.7400677628649
+              ],
+              "alpha": 236,
+              "renderedAlpha": 241
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                567.3760871807663,
+                259.3856243763525
+              ],
+              "alpha": 245,
+              "renderedAlpha": 246
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                597.2799524391631,
+                261.19722274396946
+              ],
+              "alpha": 241,
+              "renderedAlpha": 254
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                634.3737709927161,
+                263.2521096659127
+              ],
+              "alpha": 247,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                677.2315177668593,
+                264.76764426130904
+              ],
+              "alpha": 243,
+              "renderedAlpha": 255
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 1.0022738840807282,
+          "seams": [
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                480.91138453096494,
+                259.83330680959614
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                512.4057567807456,
+                259.4159942443825
+              ],
+              "alpha": 250,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                539.9401389176719,
+                257.5913292277629
+              ],
+              "alpha": 236,
+              "renderedAlpha": 241
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                567.1927830718512,
+                255.32768360332042
+              ],
+              "alpha": 245,
+              "renderedAlpha": 254
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                596.9069415671288,
+                253.6947002768372
+              ],
+              "alpha": 241,
+              "renderedAlpha": 242
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                633.76544110126,
+                253.76934318957098
+              ],
+              "alpha": 247,
+              "renderedAlpha": 248
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                676.351303142615,
+                255.04852902428237
+              ],
+              "alpha": 243,
+              "renderedAlpha": 244
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "antimeme",
+      "N": 929,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.0200638994635853,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                407.0706902062471,
+                260.7760423182116
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                440.48205743107917,
+                260.7760423182116
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                479.1920062209296,
+                260.71659281692007
+              ],
+              "alpha": 252,
+              "renderedAlpha": 253
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                511.4814534313764,
+                260.87780025695525
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                539.7109406372609,
+                261.8746367800122
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                567.6517664995987,
+                263.0838374538612
+              ],
+              "alpha": 247,
+              "renderedAlpha": 249
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.013302519278624,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                407.4059132171854,
+                260.48171218870255
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                440.73316457007144,
+                260.48171218870255
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                479.34565787198767,
+                260.3461927599158
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                511.55381373663334,
+                260.109466193069
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                539.7122308807951,
+                260.53076735552867
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                567.5827134101443,
+                261.7023310216378
+              ],
+              "alpha": 247,
+              "renderedAlpha": 249
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 0.9961872436305984,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                408.0381635975949,
+                259.9236903659058
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                441.205699561618,
+                259.9236903659058
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                479.63314881902585,
+                259.8230480128654
+              ],
+              "alpha": 252,
+              "renderedAlpha": 253
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                511.68695237648564,
+                259.244119486403
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                539.7104249224168,
+                258.36033719182217
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                567.4473427329765,
+                258.251349292897
+              ],
+              "alpha": 247,
+              "renderedAlpha": 250
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "myth",
+      "N": 932,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.0058352923685898,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                428.66910909088335,
+                260.3065857302098
+              ],
+              "alpha": 248,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                452.51442958873645,
+                260.12229528056383
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                481.8359344121318,
+                259.90838758202887
+              ],
+              "alpha": 250,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                510.13759183477,
+                260.0396391579738
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                537.7943557694736,
+                259.61385885044865
+              ],
+              "alpha": 251,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                565.4071815790202,
+                260.0398869162828
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                593.7201091992649,
+                260.3513992717416
+              ],
+              "alpha": 246,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                624.0650242079372,
+                260.8000957794795
+              ],
+              "alpha": 229,
+              "renderedAlpha": 230
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.0125096400713747,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                428.66910909088335,
+                260.3177206559694
+              ],
+              "alpha": 248,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                452.51442958873645,
+                260.15539895441964
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                481.8359344121318,
+                259.96669354596776
+              ],
+              "alpha": 250,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                510.13759183477,
+                260.0339152509907
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                537.7943557694736,
+                259.4290396522038
+              ],
+              "alpha": 251,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                565.4071815790202,
+                259.6992212546193
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                593.7201091992649,
+                259.71435745741604
+              ],
+              "alpha": 246,
+              "renderedAlpha": 248
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                624.0650242079372,
+                260.03076248878017
+              ],
+              "alpha": 229,
+              "renderedAlpha": 229
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 0.9933885621772081,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                428.66910909088335,
+                260.43366947827167
+              ],
+              "alpha": 248,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                452.51442958873645,
+                260.50011000865766
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                481.8359344121318,
+                260.5792755486668
+              ],
+              "alpha": 250,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                510.13759183477,
+                260.5508143434275
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                537.7943557694736,
+                260.8042534520234
+              ],
+              "alpha": 251,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                565.4071815790202,
+                260.5292714442755
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                593.7201091992649,
+                260.31916154595467
+              ],
+              "alpha": 246,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                624.0650242079372,
+                259.97495250792724
+              ],
+              "alpha": 229,
+              "renderedAlpha": 229
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jelly",
+      "N": 943,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.0214430270618808,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                422.6341138026568,
+                260.87574875064473
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                443.29645949228853,
+                260.87574875064473
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                469.06846135360104,
+                260.76636033169797
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                494.72288965052394,
+                260.7421134506501
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                520.3029711128402,
+                261.54724159466383
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                545.89264797978,
+                262.97103038510085
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.0141855832051672,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                423.0060882200347,
+                260.56464233808174
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                443.6061937695618,
+                260.56464233808174
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                469.30056393161226,
+                260.36835531927204
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                494.8777146901816,
+                259.7949565273814
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                520.3807425653583,
+                259.48231274338843
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                545.893336941406,
+                260.109868951659
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 0.9935052708154292,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                423.711389142267,
+                259.97112216505576
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                444.1928724946773,
+                259.97112216505576
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                469.73928600500943,
+                259.9549284634389
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                495.1691550998187,
+                259.47355267515206
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                520.5253281352273,
+                258.0502684694196
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                545.8910125844418,
+                256.6167636862795
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "abyss",
+      "N": 945,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.0205014846527651,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                442.98466834982946,
+                261.5328909640216
+              ],
+              "alpha": 252,
+              "renderedAlpha": 253
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                462.72499201855373,
+                261.5328909640216
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                487.08696883513016,
+                261.84529197115916
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                510.7900746554286,
+                263.0946620801915
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                534.0765479338653,
+                264.6977533170462
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                557.3382280788142,
+                264.87335282285034
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.021065343543315,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                443.12877444036235,
+                261.387081833195
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                462.84818574501514,
+                261.387081833195
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                487.18435414338944,
+                261.52879622742506
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                510.86234953556846,
+                262.52135790977303
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                534.1241537551127,
+                264.62976079347027
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                557.3611911063431,
+                266.12463911893065
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 1.0107073410141534,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                443.5785166697229,
+                260.8520703650993
+              ],
+              "alpha": 252,
+              "renderedAlpha": 253
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                463.22056203436017,
+                260.8520703650993
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                487.46125138848566,
+                260.6330063106623
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                511.046349972393,
+                260.3155807384575
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                534.2168902428214,
+                261.0835378963537
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                557.3627608137621,
+                263.01692976340416
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gravity",
+      "N": 958,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.0157338421706874,
+          "seams": [
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                427.26994772963855,
+                261.23723937739146
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                467.1944146706821,
+                261.19524921418974
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                503.76542255135286,
+                261.2209178133547
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                538.2158936649703,
+                261.63788428619284
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                572.5168370197407,
+                262.3409717346028
+              ],
+              "alpha": 243,
+              "renderedAlpha": 246
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.0171212427762713,
+          "seams": [
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                427.36552969443693,
+                261.1062881880497
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                467.2514119033044,
+                261.0279239800477
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                503.7870759797219,
+                260.9004957016355
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                538.2042526675622,
+                261.0613383886587
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                572.4720461066511,
+                261.590092008791
+              ],
+              "alpha": 243,
+              "renderedAlpha": 246
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 1.0184048718032883,
+          "seams": [
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                427.58625175678503,
+                260.8180261540061
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                467.3871198065184,
+                260.7020639813223
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                503.8449104954651,
+                260.3518099054746
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                538.1887292136719,
+                260.02432944924414
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                572.3834830837886,
+                260.0942071429042
+              ],
+              "alpha": 243,
+              "renderedAlpha": 255
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "recursive",
+      "N": 961,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 0.9997508112810228,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                426.11963743896627,
+                260.2958856398696
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                458.3251503935622,
+                260.11562076629167
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                495.6380130739231,
+                259.9109449409807
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                526.7620973843642,
+                259.96836958170854
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                553.9727502676446,
+                259.70903046017787
+              ],
+              "alpha": 247,
+              "renderedAlpha": 248
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                608.657061707749,
+                259.9343908890016
+              ],
+              "alpha": 241,
+              "renderedAlpha": 245
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                671.016821088284,
+                260.32351832940765
+              ],
+              "alpha": 229,
+              "renderedAlpha": 237
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.000904130859758,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                426.11963743896627,
+                260.2943621843134
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                458.3251503935622,
+                260.1114594265546
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                495.6380130739231,
+                259.90378850235885
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                526.7620973843642,
+                259.9647148360316
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                553.9727502676446,
+                259.6989193304715
+              ],
+              "alpha": 247,
+              "renderedAlpha": 248
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                608.657061707749,
+                259.92757754381864
+              ],
+              "alpha": 241,
+              "renderedAlpha": 245
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                671.016821088284,
+                260.322399233465
+              ],
+              "alpha": 229,
+              "renderedAlpha": 237
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 1.0026053041982534,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                426.11963743896627,
+                260.327666440529
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                458.3251503935622,
+                260.2024304589849
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                495.6380130739231,
+                260.0602353803076
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                526.7620973843642,
+                260.0768728176271
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                553.9727502676446,
+                259.91995869916934
+              ],
+              "alpha": 247,
+              "renderedAlpha": 248
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                608.657061707749,
+                260.0765240573823
+              ],
+              "alpha": 241,
+              "renderedAlpha": 245
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                671.016821088284,
+                260.3468637856818
+              ],
+              "alpha": 229,
+              "renderedAlpha": 237
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kelp",
+      "N": 974,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.001779323224567,
+          "seams": [
+            {
+              "source": [
+                0.5,
+                0.2
+              ],
+              "point": [
+                543.8323012374794,
+                167.51107636431158
+              ],
+              "alpha": 240,
+              "renderedAlpha": 245
+            },
+            {
+              "source": [
+                0.5,
+                0.3
+              ],
+              "point": [
+                544.6905758606349,
+                193.43696006126038
+              ],
+              "alpha": 248,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.5,
+                0.4
+              ],
+              "point": [
+                544.7186155945113,
+                221.5601292100318
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                543.8758348303847,
+                251.07273669826617
+              ],
+              "alpha": 249,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.5,
+                0.6
+              ],
+              "point": [
+                542.7232126569239,
+                280.69121500334995
+              ],
+              "alpha": 250,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.5,
+                0.7
+              ],
+              "point": [
+                541.5941697700441,
+                310.5264947584054
+              ],
+              "alpha": 248,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.5,
+                0.8
+              ],
+              "point": [
+                540.8220348870541,
+                340.9910227247972
+              ],
+              "alpha": 248,
+              "renderedAlpha": 248
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.0019245552675005,
+          "seams": [
+            {
+              "source": [
+                0.5,
+                0.2
+              ],
+              "point": [
+                542.6480074732693,
+                167.51107636431158
+              ],
+              "alpha": 240,
+              "renderedAlpha": 244
+            },
+            {
+              "source": [
+                0.5,
+                0.3
+              ],
+              "point": [
+                543.793053680848,
+                193.43696006126038
+              ],
+              "alpha": 248,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.5,
+                0.4
+              ],
+              "point": [
+                544.1631509907902,
+                221.5601292100318
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                543.6627967775489,
+                251.07273669826617
+              ],
+              "alpha": 249,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.5,
+                0.6
+              ],
+              "point": [
+                542.698656602891,
+                280.69121500334995
+              ],
+              "alpha": 250,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.5,
+                0.7
+              ],
+              "point": [
+                541.6384222931013,
+                310.5264947584054
+              ],
+              "alpha": 248,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.5,
+                0.8
+              ],
+              "point": [
+                540.8500644181217,
+                340.9910227247972
+              ],
+              "alpha": 248,
+              "renderedAlpha": 248
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 1.0020183220421985,
+          "seams": [
+            {
+              "source": [
+                0.5,
+                0.2
+              ],
+              "point": [
+                540.2658120324361,
+                167.51107636431158
+              ],
+              "alpha": 240,
+              "renderedAlpha": 244
+            },
+            {
+              "source": [
+                0.5,
+                0.3
+              ],
+              "point": [
+                541.8148364573826,
+                193.43696006126038
+              ],
+              "alpha": 248,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.5,
+                0.4
+              ],
+              "point": [
+                542.7710660946369,
+                221.5601292100318
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                542.9486741252066,
+                251.07273669826617
+              ],
+              "alpha": 249,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.5,
+                0.6
+              ],
+              "point": [
+                542.4298305302632,
+                280.69121500334995
+              ],
+              "alpha": 250,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.5,
+                0.7
+              ],
+              "point": [
+                541.6063299423248,
+                310.5264947584054
+              ],
+              "alpha": 248,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.5,
+                0.8
+              ],
+              "point": [
+                540.8708938029254,
+                340.9910227247972
+              ],
+              "alpha": 248,
+              "renderedAlpha": 248
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "whale",
+      "N": 989,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.005867083168802,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                448.05274574512066,
+                261.0689084148353
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                460.7988799124566,
+                261.0689084148353
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                478.5994601467289,
+                261.03383410784596
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                500.3266656095496,
+                261.23929901413453
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                524.5368455228324,
+                262.19587512712803
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                548.9356834070201,
+                263.352729209874
+              ],
+              "alpha": 247,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                625.524843570605,
+                262.64313281991014
+              ],
+              "alpha": 250,
+              "renderedAlpha": 255
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.0069842664461786,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                448.2180381290765,
+                260.82989836912674
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                460.94224664765517,
+                260.82989836912674
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                478.7122066746734,
+                260.724993205837
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                500.4020374269191,
+                260.6304430576956
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                524.5705714659189,
+                261.18955341116026
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                548.9274389501003,
+                262.30950135269006
+              ],
+              "alpha": 247,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                625.3848519500108,
+                263.3237530478806
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 1.00815139078934,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                448.56705602132456,
+                260.32687846442013
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                461.24511785378087,
+                260.32687846442013
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                478.9506318473522,
+                260.1807000917293
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                500.56180043288555,
+                259.6693949878056
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                524.642682831101,
+                259.23899799269003
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                548.9112156485662,
+                259.59945795753566
+              ],
+              "alpha": 247,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.9,
+                0.5
+              ],
+              "point": [
+                625.0913417559929,
+                262.73782475421274
+              ],
+              "alpha": 250,
+              "renderedAlpha": 251
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "abyssshell",
+      "N": 994,
+      "scope": "Actual mature state against archived1.12.0 renderer at matched1.13 framing;mini transparent canvas at3times;not new evolution trajectories",
+      "comparisons": [
+        {
+          "time": 0,
+          "alphaMassRatio": 1.0151728390180252,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                419.68894476969876,
+                261.2765231401145
+              ],
+              "alpha": 246,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                444.1416963661265,
+                261.2765231401145
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                474.80443093062695,
+                261.4791525122455
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                505.6706428821531,
+                262.1583984285733
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                536.6655223595634,
+                262.992284198159
+              ],
+              "alpha": 250,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                567.6725494768657,
+                263.2373974589021
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                599.0604819915532,
+                262.7665508388878
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                631.5539608022847,
+                261.74529080266205
+              ],
+              "alpha": 249,
+              "renderedAlpha": 255
+            }
+          ]
+        },
+        {
+          "time": 420,
+          "alphaMassRatio": 1.0214864450953312,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                419.6548236370231,
+                261.2860332673205
+              ],
+              "alpha": 246,
+              "renderedAlpha": 249
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                444.1105629829844,
+                261.2860332673205
+              ],
+              "alpha": 252,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                474.777044061268,
+                261.4465377870586
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                505.64702738837934,
+                262.1146683429725
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                536.6456939625642,
+                263.2253488721781
+              ],
+              "alpha": 250,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                567.6565096608955,
+                263.9757645866317
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                599.0482772973835,
+                264.0582149711946
+              ],
+              "alpha": 251,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                631.5457263106412,
+                263.3520420956744
+              ],
+              "alpha": 249,
+              "renderedAlpha": 255
+            }
+          ]
+        },
+        {
+          "time": 1200,
+          "alphaMassRatio": 1.0249512366363467,
+          "seams": [
+            {
+              "source": [
+                0.12,
+                0.5
+              ],
+              "point": [
+                419.7884619961559,
+                261.1146302985619
+              ],
+              "alpha": 246,
+              "renderedAlpha": 255
+            },
+            {
+              "source": [
+                0.2,
+                0.5
+              ],
+              "point": [
+                444.2089788698815,
+                261.1146302985619
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.3,
+                0.5
+              ],
+              "point": [
+                474.83129243136807,
+                261.1055656945483
+              ],
+              "alpha": 251,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.4,
+                0.5
+              ],
+              "point": [
+                505.6568151467893,
+                261.3125198951514
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                536.6108357727447,
+                262.1109868823881
+              ],
+              "alpha": 250,
+              "renderedAlpha": 250
+            },
+            {
+              "source": [
+                0.6,
+                0.5
+              ],
+              "point": [
+                567.5769880250241,
+                263.15496708708486
+              ],
+              "alpha": 252,
+              "renderedAlpha": 252
+            },
+            {
+              "source": [
+                0.7,
+                0.5
+              ],
+              "point": [
+                598.9235435479724,
+                264.0692673676748
+              ],
+              "alpha": 251,
+              "renderedAlpha": 251
+            },
+            {
+              "source": [
+                0.8,
+                0.5
+              ],
+              "point": [
+                631.3741879858537,
+                264.3607634684496
+              ],
+              "alpha": 249,
+              "renderedAlpha": 250
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
