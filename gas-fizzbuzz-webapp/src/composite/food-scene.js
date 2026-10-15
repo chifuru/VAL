@@ -25,7 +25,7 @@
   const e=reaction(events,time,state.current);if(!e)return null;
   const p=e.progress,mouth=b.surface(...b.sockets.mouth).point,variant=((e.sequence||state.current)+state.seed)%4;
   // Materialize in front of the mouth and dissolve as the animal lights up.
-  const intake=clamp((p-.15)/.42),x=mouth[0]-58+intake*25,y=mouth[1]-5;
+  const intake=clamp((p-.15)/.42),x=mouth[0]-58*(1-intake),y=mouth[1]-5;
   const opacity=clamp(p/.12)*(1-clamp((p-.35)/.25));
   g.save();g.globalAlpha=opacity;
   if(e.type){
@@ -37,7 +37,7 @@
    g.font='bold 22px monospace';g.textAlign='center';g.textBaseline='middle';g.fillStyle='rgb('+e.color.join(',')+')';g.fillText(e.value||String(e.sequence||state.current),x,y);
   }
   g.restore();
-  return {kind:e.kind,sequence:e.sequence||state.current,value:e.value||({fizz:'Fizz',buzz:'Buzz',fizzbuzz:'FizzBuzz'}[e.kind]||String(state.current)),variant,progress:p,strength:e.strength,phase:p<.2?'appear':p<.6?'intake':'absorb',mouth:mouth.slice()};
+  return {kind:e.kind,sequence:e.sequence||state.current,value:e.value||({fizz:'Fizz',buzz:'Buzz',fizzbuzz:'FizzBuzz'}[e.kind]||String(state.current)),variant,progress:p,strength:e.strength,foodPoint:[x,y],phase:p<.2?'appear':p<.6?'intake':'absorb',mouth:mouth.slice()};
  }
  return {consumption,reaction,draw};
 });
