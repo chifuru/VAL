@@ -1,0 +1,52 @@
+{
+  "recordedAt": "2026-10-15T05:41:10.572499+00:00",
+  "actor": "Codex cloud environment",
+  "scope": "Local app1.4.1 row-aligned feeding, original output visibility, readable pacing and regression",
+  "platform": "Linux x64 / Chromium154 / Electron44.7.2; native test-only Xvfb launcher, product sandbox unchanged",
+  "checks": {
+    "unitPassed": 50,
+    "unitFailed": 0,
+    "browserPassed": 144,
+    "motionAndFeedingPassed": 161,
+    "nativeCreatePassed": 21,
+    "nativeRestartPassed": 15,
+    "zipChecksumFiles": 74,
+    "runtimePngs": 65
+  },
+  "observedNormalRowGapsMs": {
+    "min": 791.5999999940395,
+    "max": 822.5999999940395
+  },
+  "videos": [
+    {
+      "file": "browser/row-feeding.webm",
+      "decoded": true,
+      "frames": 154,
+      "ptsSpanSeconds": 12.787
+    },
+    {
+      "file": "motion/jelly.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.346
+    },
+    {
+      "file": "motion/serpent.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.316
+    },
+    {
+      "file": "motion/myth.webm",
+      "decoded": true,
+      "frames": 41,
+      "ptsSpanSeconds": 3.32
+    }
+  ],
+  "validWhen": "Execution inputs match target-sha256.json and assertions are retained",
+  "invalidWhen": "Execution code/data/conditions changed or checks omitted",
+  "pending": [
+    "Hosted Windows result",
+    "User device display and art acceptance"
+  ]
+}

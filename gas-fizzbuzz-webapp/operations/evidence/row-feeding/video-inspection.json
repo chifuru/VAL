@@ -1,0 +1,26 @@
+[
+  {
+    "file": "browser/row-feeding.webm",
+    "decoded": true,
+    "frames": 154,
+    "ptsSpanSeconds": 12.787
+  },
+  {
+    "file": "motion/jelly.webm",
+    "decoded": true,
+    "frames": 41,
+    "ptsSpanSeconds": 3.346
+  },
+  {
+    "file": "motion/serpent.webm",
+    "decoded": true,
+    "frames": 41,
+    "ptsSpanSeconds": 3.316
+  },
+  {
+    "file": "motion/myth.webm",
+    "decoded": true,
+    "frames": 41,
+    "ptsSpanSeconds": 3.32
+  }
+]

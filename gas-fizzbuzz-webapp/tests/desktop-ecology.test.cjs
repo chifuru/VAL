@@ -1,12 +1,14 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),{PNG}=require('pngjs');
 const E=require('../src/composite/creature-engine'),F=require('../src/composite/food-scene'),H=require('../src/composite/environment-scene'),config=require('../src/assets/creatures/config.json'),root=path.resolve(__dirname,'..');
-test('ambient encounters cycle through three ecologies and four variants with bounded lifetime, without awarding food',()=>{
- const s=E.runAll(750),before=JSON.stringify(s),variants={life:new Set(),mineral:new Set(),information:new Set()},ids=new Set();
- for(let time=0;time<24000;time+=100){const pool=F.encounters(s.seed,time);assert.ok(pool.length<=9);for(const e of pool){assert.ok(e.age>=0&&e.age<3500);assert.ok(e.opacity>=0&&e.opacity<=1);variants[e.type].add(e.variant);ids.add(e.id);}assert.deepEqual(pool,F.encounters(s.seed,time));}
- for(const v of Object.values(variants))assert.equal(v.size,4);assert.ok(ids.size>9);assert.equal(JSON.stringify(s),before);
- const events=[{kind:'fizz',time:100},{kind:'buzz',time:200},{kind:'fizzbuzz',time:300},{kind:'number',time:400},{kind:'fizz',time:1001},{kind:'fizz',time:-1000}];
- assert.deepEqual(F.consumption(events,500).map(e=>e.type),['life','mineral','information',null]);assert.equal(F.consumption(events,2000).length,0);
+test('only the latest executed output produces one meal; time alone never creates food',()=>{
+ const state=E.runAll(750),saved=JSON.stringify(state);for(const time of [0,1000,5000,10000])assert.deepEqual(F.consumption([],time),[]);
+ const kinds=['number','fizz','buzz','fizzbuzz'];for(const [i,kind]of kinds.entries()){
+  const sequence=state.current,event={kind,sequence,time:100,duration:650,value:kind==='number'?'749':kind},duplicate={...event,time:101};
+  assert.equal(F.consumption([event,duplicate],300).length,1);assert.equal(F.reaction([event],300,sequence).kind,kind);assert.equal(F.reaction([event],300,sequence-1),null);assert.equal(F.reaction([event],99,sequence),null);assert.equal(F.reaction([event],750,sequence),null);
+  assert.ok(F.reaction([event],450,sequence).strength>0);assert.equal(JSON.stringify(state),saved);
+ }
+ const sequence=750;assert.equal(F.consumption([{kind:'fizz',sequence,time:100},{kind:'buzz',sequence:751,time:200}],300)[0].kind,'buzz');
 });
 test('habitat rendering uses stable precomputed mixture, normalized weights and smooth phase transition',()=>{
  let s=E.initial(1000),maxJump=0,previous=H.weightsFor(s);

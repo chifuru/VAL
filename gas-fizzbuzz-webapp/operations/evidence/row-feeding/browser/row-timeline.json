@@ -1,0 +1,362 @@
+[
+  {
+    "sequence": 1,
+    "time": 4645.5999999940395,
+    "raw": "1",
+    "feeding": {
+      "kind": "number",
+      "sequence": 1,
+      "value": "1",
+      "variant": 0,
+      "progress": 0.005487804891677891,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -147.1618079070977,
+        3.4224288000000076
+      ]
+    },
+    "foods": {
+      "number": 1,
+      "fizz": 0,
+      "buzz": 0,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 2,
+    "time": 5450.5999999940395,
+    "raw": "2",
+    "feeding": {
+      "kind": "number",
+      "sequence": 2,
+      "value": "2",
+      "variant": 1,
+      "progress": 0.004878048785030842,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -147.1618079070977,
+        3.4224288000000076
+      ]
+    },
+    "foods": {
+      "number": 2,
+      "fizz": 0,
+      "buzz": 0,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 3,
+    "time": 6259.9000000059605,
+    "raw": "Fizz",
+    "feeding": {
+      "kind": "fizz",
+      "sequence": 3,
+      "value": "Fizz",
+      "variant": 2,
+      "progress": 0.006554878044237451,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -147.4822267782074,
+        3.429846646153853
+      ]
+    },
+    "foods": {
+      "number": 2,
+      "fizz": 1,
+      "buzz": 0,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 4,
+    "time": 7051.5,
+    "raw": "4",
+    "feeding": {
+      "kind": "number",
+      "sequence": 4,
+      "value": "4",
+      "variant": 3,
+      "progress": 0.005945121960305586,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -147.4822267782074,
+        3.429846646153853
+      ]
+    },
+    "foods": {
+      "number": 3,
+      "fizz": 1,
+      "buzz": 0,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 5,
+    "time": 7872.4000000059605,
+    "raw": "Buzz",
+    "feeding": {
+      "kind": "buzz",
+      "sequence": 5,
+      "value": "Buzz",
+      "variant": 0,
+      "progress": 0.005945121960305586,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -147.80266281869186,
+        3.4372644923076994
+      ]
+    },
+    "foods": {
+      "number": 3,
+      "fizz": 1,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 6,
+    "time": 8675.90000000596,
+    "raw": "Fizz",
+    "feeding": {
+      "kind": "fizz",
+      "sequence": 6,
+      "value": "Fizz",
+      "variant": 1,
+      "progress": 0.018597560966524238,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -148.23162735292533,
+        3.4471945846153917
+      ]
+    },
+    "foods": {
+      "number": 3,
+      "fizz": 2,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 7,
+    "time": 9475.90000000596,
+    "raw": "7",
+    "feeding": {
+      "kind": "number",
+      "sequence": 7,
+      "value": "7",
+      "variant": 2,
+      "progress": 0.011128048775944768,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -148.23162735292533,
+        3.4471945846153917
+      ]
+    },
+    "foods": {
+      "number": 4,
+      "fizz": 2,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 8,
+    "time": 10278.59999999404,
+    "raw": "8",
+    "feeding": {
+      "kind": "number",
+      "sequence": 8,
+      "value": "8",
+      "variant": 3,
+      "progress": 0.005335365862745165,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -148.23162735292533,
+        3.4471945846153917
+      ]
+    },
+    "foods": {
+      "number": 5,
+      "fizz": 2,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 9,
+    "time": 11077.90000000596,
+    "raw": "Fizz",
+    "feeding": {
+      "kind": "fizz",
+      "sequence": 9,
+      "value": "Fizz",
+      "variant": 0,
+      "progress": 0.004878048785030842,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -148.7700413166379,
+        3.4596576000000074
+      ]
+    },
+    "foods": {
+      "number": 5,
+      "fizz": 3,
+      "buzz": 1,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 10,
+    "time": 11900.5,
+    "raw": "Buzz",
+    "feeding": {
+      "kind": "buzz",
+      "sequence": 10,
+      "value": "Buzz",
+      "variant": 1,
+      "progress": 0.007164634150884501,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -149.1988013710007,
+        3.4695825230769306
+      ]
+    },
+    "foods": {
+      "number": 5,
+      "fizz": 3,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 11,
+    "time": 12702.09999999404,
+    "raw": "11",
+    "feeding": {
+      "kind": "number",
+      "sequence": 11,
+      "value": "11",
+      "variant": 2,
+      "progress": 0.0064024390289332805,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -149.1988013710007,
+        3.4695825230769306
+      ]
+    },
+    "foods": {
+      "number": 6,
+      "fizz": 3,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 12,
+    "time": 13500.90000000596,
+    "raw": "Fizz",
+    "feeding": {
+      "kind": "fizz",
+      "sequence": 12,
+      "value": "Fizz",
+      "variant": 3,
+      "progress": 0.005182926838354367,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -149.51925458085995,
+        3.477000369230776
+      ]
+    },
+    "foods": {
+      "number": 6,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 13,
+    "time": 14305.5,
+    "raw": "13",
+    "feeding": {
+      "kind": "number",
+      "sequence": 13,
+      "value": "13",
+      "variant": 0,
+      "progress": 0.005487804868962706,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -149.51925458085995,
+        3.477000369230776
+      ]
+    },
+    "foods": {
+      "number": 7,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 14,
+    "time": 15125.5,
+    "raw": "14",
+    "feeding": {
+      "kind": "number",
+      "sequence": 14,
+      "value": "14",
+      "variant": 1,
+      "progress": 0.01859756098469472,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -149.51925458085995,
+        3.477000369230776
+      ]
+    },
+    "foods": {
+      "number": 8,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 0
+    }
+  },
+  {
+    "sequence": 15,
+    "time": 15941.20000000298,
+    "raw": "FizzBuzz",
+    "feeding": {
+      "kind": "fizzbuzz",
+      "sequence": 15,
+      "value": "FizzBuzz",
+      "variant": 2,
+      "progress": 0.013109756093016829,
+      "strength": 0,
+      "phase": "appear",
+      "mouth": [
+        -150.0576685445725,
+        3.4894633846153917
+      ]
+    },
+    "foods": {
+      "number": 8,
+      "fizz": 4,
+      "buzz": 2,
+      "fizzbuzz": 1
+    }
+  }
+]

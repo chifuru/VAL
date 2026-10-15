@@ -82,7 +82,10 @@ function updateUI(phases=false){
  drawDNA(s);drawParts(s);
  for(const kind of Object.keys(foodLabels)){const tile=document.querySelector('[data-food="'+kind+'"]');tile.querySelector('b').textContent=s.foods[kind];tile.classList.toggle('eaten',s.lastMeal?.kind===kind);}
  $('meal').textContent=s.lastMeal?'直近の摂取：'+foodLabels[s.lastMeal.kind]+'（'+s.current+'行目）':'摂取前';$('regulation').textContent='数字の調節：促進 '+s.regulation.promote+' / 抑制 '+s.regulation.inhibit;
- $('line-count').textContent=(preview?0:logLines.length)+'行';$('log').textContent=preview?'':logLines.join('\n');if(!past&&!reduced())$('log').scrollTop=$('log').scrollHeight;
+ const displayedLines=past?E.linesFor(s.seed).slice(0,s.current):preview?[]:logLines;
+ $('line-count').textContent=displayedLines.length+'行';$('log').textContent=displayedLines.join('\n');
+ $('current-row').textContent=displayedLines.length?displayedLines.length+'行目':'出力待ち';$('current-value').textContent=displayedLines.at(-1)||'—';$('current-output').dataset.kind=s.lastMeal?.kind||'';
+ if(!past)$('log').scrollTop=$('log').scrollHeight;
  if(phases)drawPhases();if(!past){const still=!!preview||runStatus==='ready'||reduced();R.draw(preview||state,{still,time:performance.now(),energyEvents:still?[]:energyEvents});}
 }
 function cancelTimer(){clearTimeout(timer);timer=null;}
@@ -91,7 +94,7 @@ function handleFailure(error){cancelTimer();if(runStatus==='growing')runStatus='
 function advance(){
  const previous=state,line=E.fmtFizzBuzz(state.current+1);state=E.step(previous,line);logLines.push(line);
  if(state.stage!==previous.stage)phaseSnapshots.push({stage:previous.stage,processed:previous.current,state:clone(previous),portrait:R.portrait(previous)});
- energyEvents.push({kind:state.lastMeal.kind,sequence:state.current,time:performance.now()});energyEvents=energyEvents.slice(-12);return state.stage!==previous.stage;
+ energyEvents=[{kind:state.lastMeal.kind,sequence:state.current,value:line,time:performance.now(),duration:Math.min(1100,Number($('speed').value)*.82)}];return state.stage!==previous.stage;
 }
 async function tick(){
  if(runStatus!=='growing'||preview)return;const generation=activeRun?.runId;const phaseChanged=advance();if(state.current===state.seed){runStatus='complete';await persist();updateUI(true);return;}
@@ -119,18 +122,19 @@ async function shutdown(){++inputToken;clearTimeout(inputTimer);busy=true;cancel
 function action(fn){return ()=>Promise.resolve().then(fn).catch(handleFailure);}
 function inputChanged(){++inputToken;notice('');updateUI();}
 $('seed').addEventListener('input',inputChanged);
+window.addEventListener('resize',()=>{$('log').scrollTop=$('log').scrollHeight;});
 $('load').addEventListener('click',action(()=>load()));$('start').addEventListener('click',action(()=>startLoaded()));
 $('pause').addEventListener('click',action(pause));$('skip').addEventListener('click',action(skip));
 $('speed').addEventListener('change',()=>schedule());$('back-live').addEventListener('click',backToLive);$('nav-live').addEventListener('click',backToLive);
 $('nav-archive').addEventListener('click',()=>{archiveOpen=true;updateUI(true);});
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&archiveOpen)backToLive();});
 media.addEventListener('change',()=>updateUI());
-for(const [kind,label] of Object.entries(foodLabels)){const tile=document.createElement('div');tile.className='food '+kind;tile.dataset.food=kind;const orb=document.createElement('span');orb.className='orb';orb.textContent='◈';const name=document.createElement('strong');name.textContent=label.split('・').pop();tile.title=label;const count=document.createElement('b');count.textContent='0';tile.append(orb,name,count);$('foods').append(tile);}
+for(const [kind,label] of Object.entries(foodLabels)){const tile=document.createElement('div');tile.className='food '+kind;tile.dataset.food=kind;const orb=document.createElement('span');orb.className='orb';orb.textContent={fizz:'Fizz',buzz:'Buzz',fizzbuzz:'FizzBuzz',number:'1,2,4…'}[kind];const name=document.createElement('strong');name.textContent=label.split('・').pop();tile.title=label;const count=document.createElement('b');count.textContent='0';tile.append(orb,name,count);$('foods').append(tile);}
 let lastFrame=0,lastReduced=reduced();function animate(time){if(ready&&lastReduced!==reduced()){lastReduced=reduced();updateUI();}if(ready&&!selectedRecordId&&!preview&&runStatus!=='ready'&&!reduced()&&time-lastFrame>=40){R.draw(preview||state,{time,still:!!preview||runStatus==='ready',energyEvents:preview||runStatus==='ready'?[]:energyEvents});lastFrame=time;}requestAnimationFrame(animate);}
 async function init(){
  if(!bridge)throw Error('VALIS.exeから起動してください。デスクトップの個体記録機能に接続できません。');
  await R.prepare();await reloadRecords();bridge.onPrepareClose(shutdown);ready=true;updateUI(true);requestAnimationFrame(animate);
- if(bridge.testMode)window.__VALIS_TEST__={snapshot:()=>clone({state,preview,preparedSeed,archiveOpen,busy,runStatus,activeRun,selectedRecordId,records,log:logLines.join('\n'),ready,environment:state.currentEnvironment||state.environmentPlan?.rows[0]}),run,load,startLoaded,skip,pause,reset,selectRecord,backToLive,reloadRecords,persist,renderHash:()=>R.portrait(viewState()),renderedKeys:()=>R.renderedKeys(),renderedSources:()=>R.renderedSources(),attachments:()=>R.attachments(),motion:()=>R.motion(),drawFrame:(s,o)=>R.draw(s,o),renderFrame:(s,o)=>{R.draw(s,o);return $('creature').toDataURL();},renderState:s=>{R.draw(s,{still:true});return $('creature').toDataURL();},missingAssets:()=>R.missingAssets()};
+ if(bridge.testMode)window.__VALIS_TEST__={snapshot:()=>clone({state,preview,preparedSeed,archiveOpen,busy,runStatus,activeRun,selectedRecordId,records,log:logLines.join('\n'),ready,environment:state.currentEnvironment||state.environmentPlan?.rows[0]}),run,load,startLoaded,skip,pause,reset,selectRecord,backToLive,reloadRecords,persist,renderHash:()=>R.portrait(viewState()),renderedKeys:()=>R.renderedKeys(),renderedSources:()=>R.renderedSources(),attachments:()=>R.attachments(),motion:()=>R.motion(),feeding:()=>R.feeding(),drawFrame:(s,o)=>R.draw(s,o),renderFrame:(s,o)=>{R.draw(s,o);return $('creature').toDataURL();},renderState:s=>{R.draw(s,{still:true});return $('creature').toDataURL();},missingAssets:()=>R.missingAssets()};
 }
 init().catch(error=>{notice(error.message);$('session-status').textContent='起動できません';});
 })();
