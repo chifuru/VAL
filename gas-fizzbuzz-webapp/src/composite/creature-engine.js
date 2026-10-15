@@ -7,6 +7,7 @@
   if (!definitions || !definitions.LINEAGES || !definitions.PART_DEFINITIONS) throw Error('系統定義を先に読み込んでください');
 
   var ENGINE_VERSION = 5;
+  var EVOLUTION_POLICY = 'body-continuity-v1';
   var PHASES = Object.freeze(['第一相・萌生', '第二相・変容', '第三相・異相', '第四相・覚醒']);
   var ENV = Object.freeze(['signal', 'void', 'heat', 'tide']);
   var THRESHOLDS = Object.freeze([1, 55, 160]);
@@ -97,7 +98,7 @@
   function emptySituation() { return {exposure:{signal:0, void:0, heat:0, tide:0}, foods:[], envs:[], steps:0}; }
   function initial(seed) {
     seed = validateSeed(seed);
-    return {engineVersion:5, appearanceRevision:3, environmentPlan:environmentPlanFor(seed), seed:seed, dna:dnaFor(seed), current:0, energyQuarters:0, energy:0, points:0,
+    return {engineVersion:5, evolutionPolicy:EVOLUTION_POLICY, appearanceRevision:3, environmentPlan:environmentPlanFor(seed), seed:seed, dna:dnaFor(seed), current:0, energyQuarters:0, energy:0, points:0,
       rawPoints:0, currentEnvironment:null, modifier:0, stage:0, lineage:null, history:[], heritage:[], partXp:{}, partImprints:{},
       tissueEnergy:Object.fromEntries(BODY_PARTS.map(function (id) { return [id, 0]; })),
       foods:{number:0, fizz:0, buzz:0, fizzbuzz:0}, regulation:{promote:0, inhibit:0},
@@ -153,7 +154,7 @@
     var stage=state.stage,senses=state.dna.senses,signature=state.lineage&&LINEAGE_BY_ID[state.lineage].sense;
     return stage===0?(senses>.65?'光・暗視':'光'):stage===1?'光・'+(signature||'熱'): '光・暗視・'+(signature||'電位')+(senses>.5?'・偏光':'・広角');
   }
-  function chooseLineage(situation) {
+  function chooseLineage(situation, previous) {
     var keys = ['tide', 'heat', 'signal', 'void'], steps = Math.max(1, situation.steps);
     var recent = situation.envs.slice(-12), recentCount = Math.max(1, recent.length);
     var food = situation.foods.slice(-12), foodCount = Math.max(1, food.length);
@@ -163,11 +164,13 @@
     });
     var best = LINEAGES[0], bestScore = -Infinity;
     LINEAGES.forEach(function (lineage) {
+      // Continue the existing body architecture; exposure still selects variants within it.
+      if(previous && lineage.bodyPlan!==LINEAGE_BY_ID[previous].bodyPlan)return;
       var distance = 0;
       for (var i = 0; i < 4; i++) distance += Math.pow(pressure[i] - lineage.niche[i], 2);
       var weight = lineage.id === 'antimeme' || lineage.id === 'valis' ? .035 : .085;
       var bonus = weight * food.filter(function (x) { return x === favor[lineage.primary]; }).length / foodCount;
-      var score = -distance + bonus;
+      var score = -distance + bonus + (previous===lineage.id?.08:0);
       if (score > bestScore) { best = lineage; bestScore = score; }
     });
     return best.id;
@@ -324,7 +327,7 @@
             anatomy:oldAppearance.anatomy, color:oldAppearance.color}));
         }
         state.stage = nextStage;
-        state.lineage = chooseLineage(state.situation);
+        state.lineage = chooseLineage(state.situation,state.evolutionPolicy===EVOLUTION_POLICY?state.lineage:null);
         state.history.push(freeze({stage:nextStage, lineage:state.lineage, step:state.current,
           points:state.points, energy:state.energy, environment:environment}));
         state.situation = emptySituation();
@@ -345,7 +348,7 @@
     });
     return state;
   }
-  return {ENGINE_VERSION:ENGINE_VERSION, ENERGY_QUARTERS_AT_MATURITY:ENERGY_QUARTERS_AT_MATURITY,
+  return {ENGINE_VERSION:ENGINE_VERSION, EVOLUTION_POLICY:EVOLUTION_POLICY, ENERGY_QUARTERS_AT_MATURITY:ENERGY_QUARTERS_AT_MATURITY,
     PHASES:PHASES, ENV:ENV, THRESHOLDS:THRESHOLDS, BODY_PARTS:BODY_PARTS, BODY_PROFILES:BODY_PROFILES,
     LINEAGES:LINEAGES, LINEAGE_BY_ID:LINEAGE_BY_ID, PART_DEFINITIONS:PART_DEFINITIONS,
     fmtFizzBuzz:fmtFizzBuzz, linesFor:linesFor, kindFor:kindFor, modifierFor:modifierFor,

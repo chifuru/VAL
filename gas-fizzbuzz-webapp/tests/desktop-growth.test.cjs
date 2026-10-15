@@ -53,3 +53,15 @@ test('all20 final forms are attainable automatically, and within-stage actual so
  const a=states(1000);for(const phase of [0,1,2])assert.ok(new Set(a.filter(s=>s.stage===phase).map(s=>E.appearanceFor(s).bodyFrame)).size>=2);
 });
 test('legacy3 retains its original environment, four stages and frozen appearance',()=>{for(const n of [600,900,927,1000]){const state=clone(L3.runAll(n));assert.deepEqual(E.appearanceFor(state),L3.appearanceFor(state));assert.equal(E.appearanceFor(state).version,3);assert.throws(()=>E.step(state,E.fmtFizzBuzz(state.current+1)),/旧個体/);}assert.equal(L3.runAll(927).lineage,'jelly');assert.equal(L3.runAll(1000).lineage,'abyss');assert.equal(E.ENGINE_VERSION,5);});
+
+test('all421 third-phase entrances retain their preceding body architecture while permitting within-plan branching',()=>{
+ const reached=new Set();let branches=0;for(let n=580;n<=1000;n++){let s=E.initial(n),before;for(let row=1;row<=n;row++){if(row===580)before=E.appearanceFor(s);s=E.step(s,E.fmtFizzBuzz(row));if(row===580){const after=E.appearanceFor(s);assert.equal(after.bodyPlan,before.bodyPlan,'body architecture teleported N'+n);if(after.lineage!==before.lineage)branches++;}}if(s.matured)reached.add(s.lineage);}
+ assert.ok(branches>30,'continuous branching must not erase within-plan variety');assert.deepEqual([...reached].sort(),D.LINEAGES.map(l=>l.id).sort());
+});
+test('N932 carries its bird source and proportions across579 to580 instead of becoming an arthropod',()=>{
+ const a=states(932),before=E.appearanceFor(a[579]),after=E.appearanceFor(a[580]);assert.equal(a[580].evolutionPolicy,'body-continuity-v1');assert.equal(before.lineage,'myth');assert.equal(after.lineage,'myth');assert.equal(after.bodyPlan,'avian');assert.equal(after.bodyFrame,before.bodyFrame);
+ for(const key of E.BODY_PARTS)for(const axis of ['scaleX','scaleY'])assert.ok(Math.abs(after.anatomy[key][axis]/before.anatomy[key][axis]-1)<.06,key+' disproportionate entrance');assert.ok(Math.hypot(...after.color.map((v,i)=>v-before.color[i]))<70);assert.ok(a[932].matured);assert.equal(a[580].awakening.steps,0);
+});
+test('unmarked engine5 states retain their old unrestricted branching and JSON continuation',()=>{
+ const old=require('./archive/engine-v5-unrestricted.cjs');for(const n of [600,932,1000]){let current=old.initial(n),historical=old.initial(n);assert.equal(current.evolutionPolicy,undefined);for(let row=1;row<=n;row++){if(row%31===0)current=clone(current);current=E.step(current,E.fmtFizzBuzz(row));historical=old.step(historical,old.fmtFizzBuzz(row));if([579,580,n].includes(row)){assert.deepEqual(clone(current),clone(historical));assert.deepEqual(E.appearanceFor(current),old.appearanceFor(historical));}}if(n===932)assert.equal(current.history[1].lineage,'swarm');}
+});

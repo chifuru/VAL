@@ -6,12 +6,12 @@ based_on_definition: valis/core/VALIS Summary Manifest.md
 canonical_path: valis/summary/gas-fizzbuzz-webapp.summary.md
 core_definition_mutation: prohibited
 current_status: 全109ノード（A9/B13/C21/D12/E54）を草案に統一。旧承認は無効、今回の定義変更も自動承認しない。
-definition_baseline: ecological-cohesion-2026-10-15。operations/plans/2026-10-15-ecological-cohesion.md。
-initial_registration_this_change: E53/E54。機能責務の追加分割なし。
-manifest_reflection_this_change: A1.3、A1.5、B1.5.1、B1.5.2、C1.5、C1.5.4、C1.5.5、D1.3.2、D1.3.4、D1.3.5。向き/光/接地/連続描画の仕様・検証計画と処理フラグを反映。
+definition_baseline: phase-continuity-2026-10-15。operations/plans/2026-10-15-phase-continuity.md。
+initial_registration_this_change: なし（変更後検証前）。
+manifest_reflection_this_change: A1.4、A1.5、B1.4.2、C1.4.3、D1.2、D1.3.2。第三相の身体連続性/版付き方針/検証計画と処理フラグを反映。
 approval_basis: 全FizzBuzzノード草案という利用者指示を維持。既存責務/変更単位で今回指示を具体化。
 unresolved_summary: 利用者Windows10/11実機の倍率/FPSと美術受入は未認定。
-evidence_scope: 今回app1.10.0はE53（ローカル）/E54（hosted Windows）。E1〜E52は各旧対象版/環境限定。
+evidence_scope: 今回app1.11.0は変更後検証前。E1〜E54は各旧対象版/環境限定。
 
 ## 読解経路と責務
 
@@ -37,11 +37,11 @@ A1:（ / Windows FizzBuzz生物育成アプリ統合仕様）［草案］
 
 	A1.4:（A1 / 三形態の成長・系統分岐と条件覚醒仕様）［草案］
 		Node File: valis/nodes/A/A1.4.md。parent_id: A1（同一層）。
-		要約: 責務/具体仕様/可変部/検証観点はNode本文へ。旧app1.4.1対象の実結果はE35（ローカル）/E36（hosted Windows）。 利用者受入は未認定。次FLOW: FLOW-08/05。
+		要約: 第三相の身体連続性/版付き方針の該当責務はNode本文。今回app1.11.0は変更後検証前。次FLOW: FLOW-07/08/05。
 
 	A1.5:（A1 / DNA身体と複数部位成長・観測表示仕様）［草案］
 		Node File: valis/nodes/A/A1.5.md。parent_id: A1（同一層）。
-		要約: 向き/光/接地/連続描画の該当責務はNode本文。今回ローカル実結果E53、hosted Windows実結果E54。利用者受入は未認定。次FLOW: FLOW-08/05。
+		要約: 第三相の身体連続性/版付き方針の該当責務はNode本文。今回app1.11.0は変更後検証前。次FLOW: FLOW-07/08/05。
 
 	A1.6:（A1 / 入力Nからの不変DNAと初期個体仕様）［草案］
 		Node File: valis/nodes/A/A1.6.md。parent_id: A1（同一層）。
@@ -84,7 +84,7 @@ B1:（A1 / Windows生物育成の機能接合索引）［草案］
 
 		B1.4.2:（B1.4, A1.4 / 相入口分岐・条件覚醒・全器官継承と覚醒後固定機能）［草案］
 			Node File: valis/nodes/B/B1.4.2.md。parent_id: B1.4（同一層）。
-			要約: 責務/具体仕様/可変部/検証観点はNode本文へ。旧app1.4.1対象の実結果はE35（ローカル）/E36（hosted Windows）。 利用者受入は未認定。次FLOW: FLOW-08/05。
+			要約: 第三相の身体連続性/版付き方針の該当責務はNode本文。今回app1.11.0は変更後検証前。次FLOW: FLOW-07/08/05。
 
 	B1.5:（A1.5, A1.3, A1.6 / 独立PNG部位の成長描画・摂取観測機能）［草案］
 		Node File: valis/nodes/B/B1.5.md。parent_id: B1（同一層）。
@@ -143,7 +143,7 @@ C1:（B1 / desktop実装の接合索引）［草案］
 
 		C1.4.3:（B1.4.2, A1.4 / 相入口分岐と第四相覚醒・全器官継承・成熟実装）［草案］
 			Node File: valis/nodes/C/C1.4.3.md。parent_id: C1.4（同一層）。
-			要約: 責務/具体仕様/可変部/検証観点はNode本文へ。旧app1.4.1対象の実結果はE35（ローカル）/E36（hosted Windows）。 利用者受入は未認定。次FLOW: FLOW-08/05。
+			要約: 第三相の身体連続性/版付き方針の該当責務はNode本文。今回app1.11.0は変更後検証前。次FLOW: FLOW-07/08/05。
 
 	C1.5:（B1.5, A1.5 / DNA身体・部位・energyの共通レンダラ実装）［草案］
 		Node File: valis/nodes/C/C1.5.md。parent_id: C1（同一層）。
@@ -210,7 +210,7 @@ D1:（A1, B1, C1 / desktop育成・配布・記録の検証接合）［草案］
 
 	D1.2:（A1.3, A1.4, A1.6, B1.3, B1.4, B1.6, C1.4, C1.6 / DNA・quarters較正・部位発現・全継承の検証計画）［草案］
 		Node File: valis/nodes/D/D1.2.md。parent_id: D1（同一層）。
-		要約: 責務/具体仕様/可変部/検証観点はNode本文へ。旧app1.4.1対象の実結果はE35（ローカル）/E36（hosted Windows）。 利用者受入は未認定。次FLOW: FLOW-08/05。
+		要約: 第三相の身体連続性/版付き方針の該当責務はNode本文。今回app1.11.0は変更後検証前。次FLOW: FLOW-07/08/05。
 
 	D1.3:（A1.2, A1.5, B1.2, B1.5, C1.3, C1.5 / ローカル画像・観測・再生の検証接合）［草案］
 		Node File: valis/nodes/D/D1.3.md。parent_id: D1（同一層）。
@@ -222,7 +222,7 @@ D1:（A1, B1, C1 / desktop育成・配布・記録の検証接合）［草案］
 
 		D1.3.2:（A1.5, B1.5, C1.5.2, C1.5 / DNA身体・系統多部位PNG・原モック照合計画）［草案］
 			Node File: valis/nodes/D/D1.3.2.md。parent_id: D1.3（同一層）。
-			要約: 向き/光/接地/連続描画の該当責務はNode本文。今回ローカル実結果E53、hosted Windows実結果E54。利用者受入は未認定。次FLOW: FLOW-08/05。
+			要約: 第三相の身体連続性/版付き方針の該当責務はNode本文。今回app1.11.0は変更後検証前。次FLOW: FLOW-07/08/05。
 
 		D1.3.3:（A1.2, A1.5, A1.8, B1.2, B1.5, C1.5.3 / 摂取・遺伝表示・実run観測UI検証計画）［草案］
 			Node File: valis/nodes/D/D1.3.3.md。parent_id: D1.3（同一層）。
