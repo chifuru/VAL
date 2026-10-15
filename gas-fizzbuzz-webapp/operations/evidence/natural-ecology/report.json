@@ -95,7 +95,9 @@
   "validWhen": "Execution inputs match target-sha256.json and assertions retained",
   "invalidWhen": "Execution code/data/conditions changed or checks omitted",
   "pending": [
+    "Recheck final-row display and within-row observation",
     "Hosted Windows result",
     "User Windows10/11 device display/FPS and art acceptance"
-  ]
+  ],
+  "validity": "Superseded by final-row display/test observation fix; local recheck pending"
 }

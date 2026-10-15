@@ -11,7 +11,7 @@ initial_registration_this_change: E43。機能責務の追加分割なし。
 manifest_reflection_this_change: A1.2、A1.3、A1.5、B1.2、B1.5、B1.5.1、B1.5.2、C1.3、C1.5、C1.5.2.1、C1.5.3、C1.5.4、C1.5.5、D1.3.2、D1.3.3、D1.3.4、D1.3.5の自然な口先/既存組織発光/背景統合/有界描画・UI・保存最適化とE43のローカル実結果を反映。
 approval_basis: 全FizzBuzzノード草案という利用者指示を維持。既存責務/変更単位で今回指示を具体化。
 unresolved_summary: 利用者Windows10/11実機の倍率/FPSと美術受入は未認定。
-evidence_scope: 今回app1.5.1はE43（ローカル）。hosted Windowsは未確認。E1〜E42は各旧対象版/環境限定。
+evidence_scope: 今回app1.5.1は最終行表示/観測修正後の再検証前。E43は修正前ローカル限定。E1〜E42は各旧対象版/環境限定。
 
 ## 読解経路と責務
 

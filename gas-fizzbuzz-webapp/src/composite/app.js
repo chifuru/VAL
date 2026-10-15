@@ -110,7 +110,7 @@ function advance(){
  energyEvents=window.FoodScene.advanceEvents(energyEvents,previous,state,performance.now());return state.stage!==previous.stage;
 }
 async function tick(){
- if(runStatus!=='growing'||preview)return;const generation=activeRun?.runId;const phaseChanged=advance();if(state.current===state.seed){runStatus='complete';await persist();updateUI(true);return;}
+ if(runStatus!=='growing'||preview)return;const generation=activeRun?.runId;const phaseChanged=advance();if(state.current===state.seed){runStatus='complete';busy=true;updateUI(true);try{await persist();}finally{busy=false;updateUI();}return;}
  if(phaseChanged||state.current%25===0)persist().catch(error=>{if(generation===activeRun?.runId)handleFailure(error);});if(generation!==activeRun?.runId||preview)return;updateUI(phaseChanged);schedule();
 }
 async function skip(){cancelTimer();if(!['growing','paused'].includes(runStatus))return;busy=true;updateUI();try{while(state.current<state.seed)advance();runStatus='complete';energyEvents=[];await persist();updateUI(true);}finally{busy=false;updateUI();}}

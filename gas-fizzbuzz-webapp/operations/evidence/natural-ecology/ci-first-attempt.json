@@ -1,0 +1,13 @@
+{
+  "targetCommit": "ef52b611e1b8085af7e1450557f79b69dce76e0e",
+  "windowsRun": 38704770237,
+  "windowsJob": 116321339907,
+  "windowsConclusion": "success",
+  "browserRun": 38704769944,
+  "browserJob": 116321338621,
+  "browserStep": "Observation UI and actual PNG drawing",
+  "browserConclusion": "failure",
+  "publicAnnotation": "AssertionError [ERR_ASSERTION]: first life mineral and information each react",
+  "followup": "Within-row sampling repair, final original row display before awaiting asynchronous save, explicit delayed final-save regression. Full recheck pending.",
+  "source": "Public job HTML; authenticated raw logs/artifact contents not read"
+}
