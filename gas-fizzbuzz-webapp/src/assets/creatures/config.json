@@ -258,6 +258,59 @@
           390
         ]
       ]
+    },
+    "habitat-flora": {
+      "file": "assets/environments/habitat-flora.png",
+      "regions": [
+        [
+          59,
+          21,
+          339,
+          616
+        ],
+        [
+          525,
+          33,
+          346,
+          605
+        ],
+        [
+          965,
+          24,
+          330,
+          611
+        ],
+        [
+          1417,
+          19,
+          320,
+          618
+        ],
+        [
+          8,
+          645,
+          431,
+          232
+        ],
+        [
+          447,
+          652,
+          436,
+          224
+        ],
+        [
+          891,
+          649,
+          437,
+          228
+        ],
+        [
+          1335,
+          652,
+          433,
+          224
+        ]
+      ]
     }
   },
   "sprites": {
@@ -38275,6 +38328,12 @@
       "sha256": "28cae1f6ad0bc5c268e3ceb0acf09a29f1122c8d1320e5fbf9868982ec1736e2",
       "width": 1983,
       "height": 793
+    },
+    {
+      "file": "assets/environments/habitat-flora.png",
+      "sha256": "5536bbd1b9c41c69a655dbbe7d191d9426ea748e4a7bbe83077a4f71a3b75ce4",
+      "width": 1774,
+      "height": 887
     }
   ]
 }

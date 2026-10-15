@@ -19,6 +19,8 @@ Windows 10 / 11 x64向け。入力した数値N（1〜1000）から不変の初�
 
 保存先はElectronのWindowsユーザーデータ領域（通常 `%APPDATA%/VALIS/specimens/history.json`）。実形態・DNA・相履歴・PNG肖像を保存します。保存失敗や破損は画面に表示し、元記録とバックアップを保全します。通常再生中は25行ごと、相遷移・一時停止・完走・通常終了時にも保存します。電源断など通常終了できない場合は最後の保存位置までになります。
 
+v1.6.0では生態世界の美術を強化しました。深海の珊瑚・海藻、熱圏の玄武岩・赤銅色の植物、情報域の真珠質の扇葉・結晶花、虚空の銀枝・黒曜石の花を追加しています。遠景の柔らかな方向光、中景の累積群生、前景の地形で奥行きを作ります。20系統それぞれの明暗・彩度・縁の反射と身体型ごとの動きを調整し、環境の光を一体の身体に反映します。生命餌は4種×2姿勢の全8領域を使い、底生・群泳・漂泳の行動と、滑らかな旋回・奥行きを持ちます。新しい演出は元の成長・分岐・覚醒計算を変えません。
+
 v1.5.1では停止しやすい処理と演出の違和感を修正しました。反応用Canvasを再利用し、静的背景・皮膚・発光をバイト上限付きキャッシュへ保持します。高倍率でも観測Canvasは最大約200万画素・1.5倍に抑え、文字や操作部は通常の表示倍率を維持します。DNA・器官カードを再利用し、肖像を一度だけ非同期PNG化します。25行ごとの保存は行再生を止めず、停止・完走・終了では保存キューを待ちます。保存失敗は表示し再生を停止します。
 
 口腔や唇を描き足す演出を外し、元画像の口先だけを小さく動かします。生物の型に応じて口先の動きや口元の収縮を分け、実眼を保護します。生命は初回と以後4回ごと（0.9秒）、鉱物は初回と以後2回ごと（1.1秒）、情報は毎回（1.4秒）、一周期でゆっくり立ち上がり落ち着きます。鉱物は地面への拡散反射、情報は元画像の明るい器官の弱い発光です。人工的な光筋・光球・突然出る結晶や直接の取り込みはありません。数字は背景だけを変え、元の調節計算は保持します。
@@ -38,7 +40,7 @@ npm start
 npm run package:windows
 ```
 
-画像は `src/assets/creatures/*.png`・`src/assets/food/*.png`・`src/assets/environments/*.png` のローカルファイルです。設定変更時は `npm run build:assets`。画面検証は `src/` をローカルHTTPの8766で配信し `npm run test:browser`。運動検証は `npm run test:motion`。性能・保存遅延の検証は `npm run test:performance`。Electron検証は `npm run test:desktop`、パッケージ検証は `node tests/electron-smoke.cjs --exe ./dist/VALIS-Windows-x64/VALIS.exe`。各スモークは専用の一時保存領域を使用します。
+画像は `src/assets/creatures/*.png`・`src/assets/food/*.png`・`src/assets/environments/*.png` のローカルファイルです。設定変更時は `npm run build:assets`。画面検証は `src/` をローカルHTTPの8766で配信し `npm run test:browser`。運動検証は `npm run test:motion`。性能・保存遅延の検証は `npm run test:performance`。20系統×4生息地と旧版材質の画像比較は `npm run test:art`。Electron検証は `npm run test:desktop`、パッケージ検証は `node tests/electron-smoke.cjs --exe ./dist/VALIS-Windows-x64/VALIS.exe`。各スモークは専用の一時保存領域を使用します。
 
 ## 配置
 

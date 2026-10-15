@@ -49,8 +49,8 @@
    if(e.kind==='buzz'){
     const x=(b.sockets.forelimb[0]+b.sockets.hindlimb[0])*.5,y=b.bh*.5+10,r=Math.max(65,Math.min(140,b.bw*.29));
     // Diffuse reflection belongs to the ground. No geometric burst or appearing crystal.
-    g.save();g.translate(x,y);g.scale(1,.16);g.globalCompositeOperation='screen';
-    for(let i=0;i<3;i++){const xx=(i-1)*r*.34,rr=r*(i===1?.82:.55),light=g.createRadialGradient(xx,0,0,xx,0,rr);light.addColorStop(0,'rgba(198,173,124,'+(e.strength*(i===1?.18:.10))+')');light.addColorStop(1,'rgba(120,139,153,0)');g.fillStyle=light;g.fillRect(xx-rr,-rr,rr*2,rr*2);}g.restore();
+    const reflected=b.light?.key?.map((v,i)=>Math.round(v*.55+[90,80,65][i])).join(',')||'198,173,124';g.save();g.translate(x,y);g.scale(1,.16);g.globalCompositeOperation='screen';
+    for(let i=0;i<3;i++){const xx=(i-1)*r*.34,rr=r*(i===1?.82:.55),light=g.createRadialGradient(xx,0,0,xx,0,rr);light.addColorStop(0,'rgba('+reflected+','+(e.strength*(i===1?.18:.10))+')');light.addColorStop(1,'rgba(120,139,153,0)');g.fillStyle=light;g.fillRect(xx-rr,-rr,rr*2,rr*2);}g.restore();
    }
    const bodyPoint=e.kind==='buzz'?[(b.sockets.forelimb[0]+b.sockets.hindlimb[0])*.5,b.bh*.5+10]:b.surface(...b.sockets[profile.site]).point,matrix=g.getTransform?.();
    const project=p=>matrix?[matrix.a*p[0]+matrix.c*p[1]+matrix.e,matrix.b*p[0]+matrix.d*p[1]+matrix.f]:p,point=project(bodyPoint),eyePoint=b.sockets.eye?project(b.sockets.eye):null;

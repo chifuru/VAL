@@ -35,13 +35,13 @@ test('neighbor-only exclusion rectangles stay inside their source cell and do no
  let excluded=0;for(const [key,list]of Object.entries(config.sprites)){if(!key.startsWith('eco-'))continue;for(const s of list){const [,,w,h]=s.region;let area=0;for(const [x,y,rw,rh]of s.exclusions){assert.ok(x>=0&&y>=0&&rw>0&&rh>0&&x+rw<=w&&y+rh<=h);area+=rw*rh;}assert.ok(area<w*h*.08,'isolation removes too much body '+key);excluded+=area;}}
  assert.ok(excluded>100,'overlapping neighbor tentacles have explicit source geometry');
 });
-test('all66 atlas requests succeed under a four-loader resource limit',async()=>{
+test('all67 atlas requests succeed under a four-loader resource limit',async()=>{
  const vm=require('node:vm');let active=0,peak=0,decoded=0;
  class LimitedImage{set src(value){active++;peak=Math.max(peak,active);if(active>4){active--;queueMicrotask(()=>this.onerror(Error('loader resource limit')));return;}setTimeout(()=>{active--;decoded++;this.onload();},1);}}
  const sandbox={window:{CreatureEngine:E},Image:LimitedImage,URL,document:{baseURI:'http://127.0.0.1/Index.html'}};
  vm.runInNewContext(fs.readFileSync(path.join(root,'src/composite/renderer.js'),'utf8'),sandbox);
- const renderer=sandbox.window.CreatureRenderer.create({getContext:()=>({})},{files:Array.from({length:66},(_,i)=>({file:'assets/'+i+'.png'})),sprites:{}});
- await renderer.prepare();assert.equal(decoded,66);assert.ok(peak<=4);assert.equal(renderer.missingAssets().length,0);
+ const renderer=sandbox.window.CreatureRenderer.create({getContext:()=>({})},{files:Array.from({length:67},(_,i)=>({file:'assets/'+i+'.png'})),sprites:{}});
+ await renderer.prepare();assert.equal(decoded,67);assert.ok(peak<=4);assert.equal(renderer.missingAssets().length,0);
 });
 test('all four habitat layers accumulate monotonically, survive time and JSON restoration, and have upper bounds',()=>{
  let s=E.initial(1000),levels=H.levelsFor(s);assert.deepEqual(levels,[0,0,0,0]);
@@ -80,4 +80,22 @@ test('young and mature colony atlas has eight isolated transparent regions and r
 
 test('meal reactions rise and settle as one continuous cycle without rapid double flashes',()=>{
  for(const kind of ['fizz','buzz','fizzbuzz']){const samples=Array.from({length:101},(_,i)=>F.reactions([{kind,count:1,sequence:1,time:0}],F.durations[kind]*i/100,1)[0]?.strength||0);assert.equal(samples[0],0);assert.equal(samples.at(-1),0);assert.ok(samples[50]>.99);for(let i=1;i<=50;i++)assert.ok(samples[i]>=samples[i-1]);for(let i=51;i<samples.length;i++)assert.ok(samples[i]<=samples[i-1]);assert.ok(Math.max(...samples.slice(1).map((v,i)=>Math.abs(v-samples[i])))<.04);}
+});
+
+test('habitat flora preserves generator bytes and provides four different tall and ground silhouettes',()=>{
+ const meta=JSON.parse(fs.readFileSync(path.join(root,'design/assets/ecology/habitat-flora.json'))),bytes=fs.readFileSync(path.join(root,meta.file)),png=PNG.sync.read(bytes);assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),meta.sha256);assert.ok(meta.method.includes('image_gen'));assert.equal(meta.regions.length,8);const hashes=new Set();let clear=0;for(let i=3;i<png.data.length;i+=4)if(png.data[i]<8)clear++;assert.ok(clear>png.width*png.height*.35);
+ for(const [i,[x,y,w,h]]of meta.regions.entries()){assert.ok(x>=0&&y>=0&&x+w<=png.width&&y+h<=png.height);assert.ok(i<4?h>w*1.4:w>h*1.5);const digest=crypto.createHash('sha256');let opaque=0;for(let yy=y;yy<y+h;yy++){digest.update(png.data.subarray((yy*png.width+x)*4,(yy*png.width+x+w)*4));for(let xx=x;xx<x+w;xx++)if(png.data[(yy*png.width+xx)*4+3]>160)opaque++;}assert.ok(opaque>1000);hashes.add(digest.digest('hex'));for(const other of meta.regions.slice(i+1)){assert.ok(x+w<=other[0]||other[0]+other[2]<=x||y+h<=other[1]||other[1]+other[3]<=y,'sampling regions overlap');}}
+ assert.equal(hashes.size,8);assert.equal(config.files.length,67);
+});
+test('life ecology uses all eight source poses, three depth bands and continuous turns',()=>{
+ const state=E.runAll(1000),saved=JSON.stringify(state),first=H.lifePlan(state,1000);assert.equal(first.length,12);assert.equal(new Set(first.map(f=>f.region)).size,8);assert.equal(new Set(first.map(f=>f.group)).size,3);
+ for(let t=0;t<=20000;t+=71){const a=H.lifePlan(state,t),b=H.lifePlan(state,t+1);for(let i=0;i<a.length;i++){assert.ok(Math.abs(a[i].yaw-b[i].yaw)<.005,'turn must not flip instantly');assert.ok(Math.hypot(a[i].x-b[i].x,a[i].y-b[i].y)<.001);assert.ok(a[i].x>=0&&a[i].x<=1&&a[i].y>=0&&a[i].y<=1);assert.ok(a[i].alpha>=0&&a[i].alpha<=1);}}
+ for(let group=1;group<3;group++)assert.ok(first.filter(f=>f.group===group).every(f=>f.y<first.find(p=>p.group===group-1).y));assert.deepEqual(H.lifePlan(JSON.parse(saved),1000),first);assert.equal(JSON.stringify(state),saved);assert.ok(H.lifePlan(E.initial(1000),1000).every(f=>f.alpha===0));
+});
+test('habitat plants and key/fill illumination blend continuously with the planned ecology',()=>{
+ const base=E.runAll(1000),keys=new Set();for(let k=0;k<4;k++){const w=[0,0,0,0];w[k]=1;const state={...base,environmentPlan:{...base.environmentPlan,weights:[w,w]}},plan=H.floraPlan(state),light=H.lightingFor(state);assert.equal(plan.filter(p=>p.alpha>0).length,2);assert.ok(plan.filter(p=>p.alpha>0).every(p=>p.kind===k));assert.notDeepEqual(light.key,light.fill);keys.add(light.key.join(','));}
+ assert.equal(keys.size,4);const a=H.floraPlan({...base,environmentPlan:{...base.environmentPlan,weights:[[.6,.4,0,0],[.6,.4,0,0]]}}),b=H.floraPlan({...base,environmentPlan:{...base.environmentPlan,weights:[[.6001,.3999,0,0],[.6001,.3999,0,0]]}});assert.ok(a.every((p,i)=>Math.abs(p.alpha-b[i].alpha)<.001));
+});
+test('twenty source lineages have bounded distinct materials while historical versions bypass the style',()=>{
+ const vm=require('node:vm'),sandbox={window:{CreatureEngine:E,FoodScene:F,EnvironmentScene:H}};vm.runInNewContext(fs.readFileSync(path.join(root,'src/composite/renderer.js'),'utf8'),sandbox);const fn=sandbox.window.CreatureRenderer.materialFor,state=E.runAll(1000),styles=new Set();for(const l of E.LINEAGES){const m=fn({version:5,bodyLineage:l.id},state);assert.equal(m.id,l.id);assert.ok(m.contrast>=1&&m.contrast<=1.2&&m.saturation>=1&&m.saturation<=1.2&&m.emission>0&&m.emission<=1&&m.wave>=.6&&m.wave<=1.2);styles.add([m.contrast,m.saturation,m.rim,m.wave,m.lag].join(','));}assert.equal(styles.size,20);for(const version of [1,2,3,4])assert.equal(fn({version},state),null);
 });

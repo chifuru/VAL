@@ -32,7 +32,7 @@ jobs:
           for attempt in $(seq 1 20); do curl --fail --silent http://127.0.0.1:8766/Index.html -o /tmp/valis-ui.html && break; sleep 1; done
           cmp /tmp/valis-ui.html src/Index.html
           mkdir -p artifacts/ci-diagnostics
-          for suite in browser motion performance; do
+          for suite in browser motion performance art; do
             if npm run "test:$suite" > "artifacts/ci-diagnostics/$suite.log" 2>&1; then
               cat "artifacts/ci-diagnostics/$suite.log"
             else
@@ -53,6 +53,7 @@ jobs:
             gas-fizzbuzz-webapp/artifacts/desktop-browser/
             gas-fizzbuzz-webapp/artifacts/desktop-motion/
             gas-fizzbuzz-webapp/artifacts/desktop-performance/
+            gas-fizzbuzz-webapp/artifacts/desktop-art/
             gas-fizzbuzz-webapp/artifacts/ci-diagnostics/
           if-no-files-found: warn
           retention-days: 30

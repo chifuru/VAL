@@ -36,10 +36,13 @@
     crystal:[.7,.003,.04,.04],arthropod:[2,.008,.08,.24],jelly:[1.1,.012,.20,.14],cephalopod:[.9,.020,.16,.22],
     botanical:[.5,.016,.08,.09],whale:[.8,.020,.12,.08],mechanical:[1.1,.002,.06,.16],ethereal:[.6,.014,.12,.08]
   };
-  function motionFor(a,time,still,events,sequence){
+  // Contrast, saturation, rim response, movement, phase lag and information response.
+  const materials={abyss:[1.10,1.12,.12,1.03,.45,.78],abyssshell:[1.15,1.08,.19,.78,.34,.86],cephalopod:[1.08,1.12,.10,1.12,.72,.76],myth:[1.13,1.13,.16,.88,.38,.85],sail:[1.11,1.10,.18,.96,.52,.91],recursive:[1.14,1.08,.14,.72,.42,.80],gravity:[1.16,1.06,.22,.69,.68,.94],valis:[1.12,1.10,.19,.82,.64,.96],plasma:[1.13,1.17,.18,.94,.59,.90],crystal:[1.18,1.09,.23,.65,.32,1],manyeyes:[1.12,1.12,.16,.86,.54,.93],swarm:[1.16,1.09,.18,.88,.44,.81],parallel:[1.15,1.08,.21,.72,.39,.92],memory:[1.14,1.08,.18,.74,.36,.83],serpent:[1.12,1.14,.15,1.12,.84,.84],solar:[1.14,1.17,.19,.90,.69,.90],antimeme:[1.14,1.05,.13,.79,.79,.76],jelly:[1.07,1.12,.12,1.04,.77,.87],kelp:[1.12,1.16,.12,.89,.61,.66],whale:[1.10,1.09,.13,.82,.74,.80]};
+  function materialFor(a,state){if(a.version!==5)return null;const id=a.bodyLineage||a.lineage||'jelly',p=materials[id]||materials.jelly,light=root.EnvironmentScene.lightingFor(state);return {id,contrast:p[0],saturation:p[1],rim:p[2],wave:p[3],lag:p[4],emission:p[5],light,key:[id,...light.key,...light.fill].join(':')};}
+  function motionFor(a,time,still,events,sequence,material){
     if(!polished(a)||still)return null;
     const rhythm=rhythms[a.bodyPlan],cycle=time/1000*rhythm[0]*(.85+.3*a.dna.appendage),valid=events.filter(e=>time>=e.time&&time-e.time<620);
-    if(a.version===5){const reactions=root.FoodScene.reactions(events,time,sequence);return {mode:a.bodyPlan,cycle,wave:rhythm[1],fin:Math.sin(cycle*2)*rhythm[2],limb:rhythm[3],pulse:Math.max(0,...reactions.map(e=>e.strength)),events:reactions,reactions};}
+    if(a.version===5){const reactions=root.FoodScene.reactions(events,time,sequence);return {material,mode:a.bodyPlan,cycle:cycle+(material?.lag||0)*Math.PI+a.dna.sensitivity*.4,wave:rhythm[1]*(material?.wave||1),fin:Math.sin(cycle*2)*rhythm[2],limb:rhythm[3],pulse:Math.max(0,...reactions.map(e=>e.strength)),events:reactions,reactions};}
     const pulse=valid.reduce((v,e)=>Math.max(v,Math.sin((time-e.time)/620*Math.PI)**2*(e.kind==='number'?.22:1)),0);
     return {mode:a.bodyPlan,cycle,wave:rhythm[1],fin:Math.sin(cycle*2)*rhythm[2],limb:rhythm[3],pulse,events:valid};
   }
@@ -51,7 +54,7 @@
   }
   function create(canvas,config){
     const images=new Map(),missing=new Set(),ctx=canvas.getContext('2d');
-    let prepared=false,lastDraw=[],lastSources=[],lastAttachments=[],lastMotion=null,lastFeeding=null,surfaceCache=null,currentPalette=null;const paletteCache=boundedCache(24*1024*1024),skinCache=boundedCache(16*1024*1024),surfacePixels=boundedCache(24*1024*1024),rootCache=boundedCache(8*1024*1024),emissionCache=boundedCache(8*1024*1024),appearanceCache=new WeakMap(),oralCache=new WeakMap(),portraitCache=new WeakMap();
+    let prepared=false,lastDraw=[],lastSources=[],lastAttachments=[],lastMotion=null,lastFeeding=null,surfaceCache=null,currentPalette=null,currentMaterial=null;const paletteCache=boundedCache(24*1024*1024),skinCache=boundedCache(16*1024*1024),surfacePixels=boundedCache(24*1024*1024),rootCache=boundedCache(8*1024*1024),emissionCache=boundedCache(8*1024*1024),appearanceCache=new WeakMap(),oralCache=new WeakMap(),portraitCache=new WeakMap();
     let oralSurface=null,litSurface=null,paintId=0;const ecology=root.EnvironmentScene?.create?.(config,images);
     function scratch(old,w,h){if(!old)old=document.createElement('canvas');if(old.width!==w||old.height!==h){old.width=w;old.height=h;}const g=old.getContext('2d');g.clearRect(0,0,w,h);return old;}
     function appearance(state){if(!Object.isFrozen(state))return E.appearanceFor(state);let a=appearanceCache.get(state);if(!a){a=E.appearanceFor(state);appearanceCache.set(state,a);}return a;}
@@ -78,7 +81,7 @@
     }
     function bodyKey(a,id){return (a.bodyFamily?'body-'+a.bodyFamily:'common')+':'+id;}
     function recolored(s,im,color){
-      const key=[s.file,s.region.join(','),color.map(v=>Math.round(v/12)*12).join(',')].join(':');
+      const key=[s.file,s.region.join(','),color.map(v=>Math.round(v/12)*12).join(','),currentMaterial?.key||'legacy'].join(':');
       if(paletteCache.has(key))return paletteCache.get(key);
       const [, ,w,h]=s.region,c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(im,...s.region,0,0,w,h);
       // Source PNG is preserved; geometry excludes pixels belonging to another atlas cell.
@@ -86,7 +89,11 @@
       const data=g.getImageData(0,0,w,h),p=data.data;
       for(let i=0;i<p.length;i+=4){if(!p[i+3])continue;const l=(p[i]*.22+p[i+1]*.65+p[i+2]*.13)/255;const amount=l<.12?.12:l>.8?.28:.72;
         const blend=s.file.includes('/eco-')?amount*.38:s.anatomy?.material==='alloy'?amount*.6:amount;
-        for(let j=0;j<3;j++){const target=color[j]*(.35+.95*l)+(l>.65?(l-.65)*180:0);p[i+j]=Math.round(p[i+j]*(1-blend)+clamp(target,0,255)*blend);}}
+        for(let j=0;j<3;j++){const target=color[j]*(.35+.95*l)+(l>.65?(l-.65)*180:0);let v=p[i+j]*(1-blend)+clamp(target,0,255)*blend;
+          if(currentMaterial){const y=Math.floor(i/4/w)/h,x=(i/4%w)/w,m=currentMaterial,grey=l*255,sat=grey+(v-grey)*m.saturation,sculpt=1-.10*y-.035*(1-x),ambient=(m.light.key[j]-150)*.045*(1-y)+(m.light.fill[j]-60)*.045*y;
+            v=((sat-112)*m.contrast+112)*sculpt+ambient;
+            const px=i/4%w,py=Math.floor(i/4/w),edge=(px+1<w&&p[i+7]<64)||(py>0&&p[i-w*4+3]<64);if(edge&&l>.26)v+=(m.light.key[j]/255)*m.rim*35*(.45+.55*(1-y));
+          }p[i+j]=Math.round(clamp(v,0,255));}}
       g.putImageData(data,0,0);paletteCache.set(key,c);return c;
     }
     function paint(g,key,level,x,y,w,h,angle=0,alpha=1,flip=false,tint=0,center=false,attach=false,skin=null){
@@ -118,17 +125,19 @@
       const result={data:g.getImageData(0,0,c.width,c.height).data,width:c.width,height:c.height,points:new Map()};surfacePixels.set(key,result);return result;
     }
     function livingSkin(a,s,base){
-      const tissue=a.anatomy.shell,step=Math.round(tissue.growth*32),color=a.version===5?currentPalette:a.color,key=[s.file,s.region,step,tissue.pattern,a.dna.seed,color,a.version===5?a.inheritedOrgans.map(p=>p.lineage+':'+p.id+':'+Math.floor(p.growth*4)).join(','):''].join(':');
+      const tissue=a.anatomy.shell,step=Math.round(tissue.growth*32),color=a.version===5?currentPalette:a.color,key=[s.file,s.region,step,tissue.pattern,a.dna.seed,color,currentMaterial?.key||'legacy',a.version===5?a.inheritedOrgans.map(p=>p.lineage+':'+p.id+':'+Math.floor(p.growth*4)).join(','):''].join(':');
       if(skinCache.has(key))return skinCache.get(key);
       const [, ,w,h]=s.region,painted=document.createElement('canvas'),marks=document.createElement('canvas');painted.width=marks.width=w;painted.height=marks.height=h;
       const pg=painted.getContext('2d'),mg=marks.getContext('2d');pg.drawImage(base,0,0,w,h);
       mg.strokeStyle=mg.fillStyle='rgb('+color.map(v=>clamp(v+65,0,255)).join(',')+')';mg.lineWidth=1+step/12;
       const gap=Math.max(12,Math.round(Math.min(w,h)/9)),offset=a.dna.seed%gap;
       for(let y=offset;y<h;y+=gap)for(let x=offset;x<w;x+=gap){
+        if(a.version===5){const jitter=Math.sin(x*12.9898+y*78.233+a.dna.seed)*43758.5453,dx=(jitter-Math.floor(jitter)-.5)*gap*.38,dy=Math.sin(x+y+a.dna.seed)*gap*.18;mg.save();mg.translate(dx,dy);}
         if(tissue.pattern===0){mg.beginPath();mg.moveTo(x,y);mg.quadraticCurveTo(x+gap*.4,y-gap*.3,x+gap*.8,y);mg.stroke();}
         else if(tissue.pattern===1){mg.beginPath();mg.ellipse(x,y,1+step/12,2+step/8,0,0,Math.PI*2);mg.fill();}
         else if(tissue.pattern===2){mg.beginPath();for(let i=0;i<=6;i++){const t=i*Math.PI/3;mg.lineTo(x+Math.cos(t)*gap*.35,y+Math.sin(t)*gap*.35);}mg.stroke();}
         else{mg.beginPath();mg.moveTo(x,y+gap);mg.lineTo(x+gap*.3,y);mg.moveTo(x+gap*.15,y+gap*.5);mg.lineTo(x+gap*.5,y+gap*.25);mg.stroke();}
+        if(a.version===5)mg.restore();
       }
       if(a.version===5&&a.inheritedOrgans.length){
         // Inherited organs express inside the skin as vascular, sensory and armor
@@ -160,8 +169,9 @@
       for(let i=0;i<slices;i++){
         const u=(i+.5)/slices,tail=smooth((u-.22)/.55);
         offsets.push(motion?Math.sin(motion.cycle*2-u*(a.bodyPlan==='serpent'?7:4))*width*motion.wave*tail:0);
+        if(ecology&&motion&&a.bodyPlan==='botanical')offsets[i]=Math.sin(motion.cycle*1.4-u*2.7)*width*motion.wave*(1-smooth((u-.12)/.78));
         const bell=motion&&['jelly','cephalopod'].includes(a.bodyPlan)?Math.sin(motion.cycle*2)*.05*(1-smooth((u-.4)/.3)):0;
-        cross.push(1+bell+(ecology?0:(motion?.pulse||0))*.018*Math.sin(u*Math.PI));
+        cross.push(1+bell+(ecology&&motion&&a.bodyPlan==='avian'?Math.sin(motion.cycle*1.6-u*4)*.006*smooth((u-.28)/.5):0)+(ecology?0:(motion?.pulse||0))*.018*Math.sin(u*Math.PI));
 
       }
       function point(u,v){const along=verticalMesh?v:u,slot=clamp(Math.floor(along*slices),0,slices-1),fraction=along*slices-slot;return verticalMesh?[(u-.5)*sw*baseScale*sx[slot]*cross[slot]+offsets[slot],positions[slot]+fraction*dx*baseScale*sy[slot]-height*.5]:[positions[slot]+fraction*dx*baseScale*sx[slot]-width*.5,(v-.5)*sh*baseScale*sy[slot]*cross[slot]+offsets[slot]];}
@@ -240,7 +250,7 @@
       const lights=reactions.filter(e=>e.kind!=='fizz');
       if(lights.length){
         litSurface=scratch(litSurface,b.sw,b.sh);const cg=litSurface.getContext('2d');cg.drawImage(im,0,0);cg.globalCompositeOperation='screen';
-        for(const reaction of lights){cg.globalAlpha=reaction.strength*(reaction.kind==='buzz'?.13:.30);cg.drawImage(tissueLight(base,b,reaction.kind),0,0);}cg.globalAlpha=1;cg.globalCompositeOperation='source-over';im=litSurface;
+        for(const reaction of lights){cg.globalAlpha=reaction.strength*(reaction.kind==='buzz'?.13:.30*(b.motion?.material?.emission||1));cg.drawImage(tissueLight(base,b,reaction.kind),0,0);}cg.globalAlpha=1;cg.globalCompositeOperation='source-over';im=litSurface;
       }
       g.save();for(let i=0;i<b.slices;i++){
         const xscale=b.baseScale*b.sx[i],yscale=b.baseScale*b.sy[i],sx=currentPalette?0:b.s.region[0],sy=currentPalette?0:b.s.region[1];
@@ -406,7 +416,7 @@
       if(!prepared)return;
       lastDraw=[];lastSources=[];lastAttachments=[];lastFeeding=null;
       const time=options.time||0,reduced=options.still!==false;
-      const a=appearance(state),motion=motionFor(a,time,reduced,options.energyEvents||[],state.current);currentPalette=a.bodyFamily?(a.version===5?a.color.map(v=>Math.round(v/12)*12):a.color):null;const b=skeleton(a,motion),w=target.width,h=target.height,mini=!!options.mini;
+      const a=appearance(state);currentMaterial=materialFor(a,state);const motion=motionFor(a,time,reduced,options.energyEvents||[],state.current,currentMaterial);currentPalette=a.bodyFamily?(a.version===5?a.color.map(v=>Math.round(v/12)*12):a.color):null;const b=skeleton(a,motion);b.light=currentMaterial?.light;const w=target.width,h=target.height,mini=!!options.mini;
       lastMotion=motion?{mode:motion.mode,cycle:motion.cycle,pulse:motion.pulse,events:motion.events.length,reactions:motion.reactions?.map(e=>({kind:e.kind,count:e.count,sequence:e.sequence,strength:e.strength})),offsets:b.offsets.slice(),cross:b.cross.slice()}:null;
       g.clearRect(0,0,w,h);if(!mini){if(a.version===5)ecology.draw(g,w,h,state,time,reduced);else background(g,w,h,time);}
       const organs=a.version===5?[]:mergeOrgans(a);
@@ -440,7 +450,7 @@
           }
         });
       }
-      g.restore();if(a.version===5&&!mini)ecology.foreground(g,w,h,state);currentPalette=null;
+      g.restore();if(a.version===5&&!mini)ecology.foreground(g,w,h,state);currentPalette=null;currentMaterial=null;
     }
     function draw(state,options){const ratio=state.engineVersion===5?Math.min(window.devicePixelRatio||1,1.5,Math.sqrt(2000000/Math.max(1,canvas.clientWidth*canvas.clientHeight))):(window.devicePixelRatio||1),w=Math.round(canvas.clientWidth*ratio),h=Math.round(canvas.clientHeight*ratio);if(w>0&&h>0&&(canvas.width!==w||canvas.height!==h)){canvas.width=w;canvas.height=h;}drawTo(ctx,canvas,state,options);}
     function portraitCanvas(state,width=300,height=200){
@@ -457,5 +467,5 @@
     }
     return {prepare,draw,portrait,portraitAsync,organPortrait,cacheStats:()=>({palette:paletteCache.stats(),skin:skinCache.stats(),source:surfacePixels.stats(),emission:emissionCache.stats(),ecology:ecology?.stats()}),missingAssets:()=>[...missing],renderedKeys:()=>lastDraw.slice(),renderedSources:()=>lastSources.map(s=>({...s,region:s.region.slice()})),attachments:()=>lastAttachments.map(p=>({...p,source:p.source.slice(),point:p.point.slice()})),motion:()=>lastMotion?JSON.parse(JSON.stringify(lastMotion)):null,feeding:()=>lastFeeding?JSON.parse(JSON.stringify(lastFeeding)):null,assetVersion:config.version};
   }
-  root.CreatureRenderer={create};
+  root.CreatureRenderer={create,materialFor};
 })(window);

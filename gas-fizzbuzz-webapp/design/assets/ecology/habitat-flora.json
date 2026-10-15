@@ -1,0 +1,59 @@
+{
+  "file": "src/assets/environments/habitat-flora.png",
+  "sha256": "5536bbd1b9c41c69a655dbbe7d191d9426ea748e4a7bbe83077a4f71a3b75ce4",
+  "width": 1774,
+  "height": 887,
+  "method": "image_gen with original mocks as visual references; source PNG copied byte-for-byte, alpha analysis only",
+  "generatedSource": "/workspace/generated_images/exec-e1e1195f-62bf-4569-8775-47ece4880c61.png",
+  "layout": "tide / heat / signal / void columns, side-outcrop row then low-groundcover row; actual unequal row heights; disjoint alpha bounds with sampler padding",
+  "regions": [
+    [
+      59,
+      21,
+      339,
+      616
+    ],
+    [
+      525,
+      33,
+      346,
+      605
+    ],
+    [
+      965,
+      24,
+      330,
+      611
+    ],
+    [
+      1417,
+      19,
+      320,
+      618
+    ],
+    [
+      8,
+      645,
+      431,
+      232
+    ],
+    [
+      447,
+      652,
+      436,
+      224
+    ],
+    [
+      891,
+      649,
+      437,
+      228
+    ],
+    [
+      1335,
+      652,
+      433,
+      224
+    ]
+  ]
+}
