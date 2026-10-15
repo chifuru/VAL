@@ -1,0 +1,106 @@
+{
+  "observedAt": "2026-10-15T06:28:33.939102+00:00",
+  "source": "Public run/job HTML and unconditional step conclusions; authenticated raw logs/artifact contents not read",
+  "targetCommit": "c2e10a2db26f9b6dff4498b34acd0882b927aa69",
+  "runUrl": "https://github.com/chifuru/VAL/actions/runs/38692377848",
+  "jobUrl": "https://github.com/chifuru/VAL/actions/runs/38692377848/job/116281032724",
+  "jobConclusion": "success",
+  "steps": [
+    {
+      "data-name": "Set up job",
+      "data-number": "1",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:26:11Z",
+      "data-completed-at": "2026-10-15T06:26:11Z"
+    },
+    {
+      "data-name": "Run actions/checkout@v4",
+      "data-number": "2",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:26:11Z",
+      "data-completed-at": "2026-10-15T06:26:39Z"
+    },
+    {
+      "data-name": "Run actions/setup-node@v4",
+      "data-number": "3",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:26:39Z",
+      "data-completed-at": "2026-10-15T06:26:44Z"
+    },
+    {
+      "data-name": "Install pinned packaging tools",
+      "data-number": "4",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:26:44Z",
+      "data-completed-at": "2026-10-15T06:26:48Z"
+    },
+    {
+      "data-name": "Node source and history checks",
+      "data-number": "5",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:26:48Z",
+      "data-completed-at": "2026-10-15T06:26:59Z"
+    },
+    {
+      "data-name": "Create Windows executable and portable ZIP",
+      "data-number": "6",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:26:59Z",
+      "data-completed-at": "2026-10-15T06:27:29Z"
+    },
+    {
+      "data-name": "Verify ZIP expansion matches executable checksums",
+      "data-number": "7",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:27:29Z",
+      "data-completed-at": "2026-10-15T06:27:31Z"
+    },
+    {
+      "data-name": "Native Windows executable and restart smoke",
+      "data-number": "8",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:27:31Z",
+      "data-completed-at": "2026-10-15T06:27:41Z"
+    },
+    {
+      "data-name": "Run actions/upload-artifact@v4",
+      "data-number": "9",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:27:41Z",
+      "data-completed-at": "2026-10-15T06:27:48Z"
+    },
+    {
+      "data-name": "Post Run actions/setup-node@v4",
+      "data-number": "17",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:27:48Z",
+      "data-completed-at": "2026-10-15T06:27:49Z"
+    },
+    {
+      "data-name": "Post Run actions/checkout@v4",
+      "data-number": "18",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:27:49Z",
+      "data-completed-at": "2026-10-15T06:27:51Z"
+    },
+    {
+      "data-name": "Complete job",
+      "data-number": "19",
+      "data-conclusion": "success",
+      "data-started-at": "2026-10-15T06:27:51Z",
+      "data-completed-at": "2026-10-15T06:27:51Z"
+    }
+  ],
+  "limits": [
+    "CI native JSON/screenshots/raw logs and exact runner image not obtained",
+    "User Windows10/11 device display/FPS and art acceptance unperformed"
+  ],
+  "artifact": {
+    "id": 11952397553,
+    "name": "VALIS-Windows-x64",
+    "digest": "sha256:9eb967a6c82180ba911af45c5036ea81cf1f72917515c49e44a2a6b210de06c7",
+    "displaySize": "269 MB",
+    "retentionDays": 30
+  },
+  "scope": "Hosted Windows source/assets/package/ZIP-all-checksums and actual exe create/restart; original output, 400ms default, current body motion, conditional fourth phase and saved results."
+}

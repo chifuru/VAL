@@ -46,7 +46,9 @@
   "validWhen": "Execution inputs match target-sha256.json and assertions are retained",
   "invalidWhen": "Execution code/data/conditions changed or checks omitted",
   "pending": [
-    "Hosted Windows result",
     "User Windows10/11 device display/FPS and art acceptance"
-  ]
+  ],
+  "targetCommit": "c2e10a2db26f9b6dff4498b34acd0882b927aa69",
+  "hostedWindowsEvidence": "E38/windows-ci-public-summary.json",
+  "hostedBrowserProof": "browser-ci-public-summary.json"
 }
