@@ -65,3 +65,16 @@ test('N932 carries its bird source and proportions across579 to580 instead of be
 test('unmarked engine5 states retain their old unrestricted branching and JSON continuation',()=>{
  const old=require('./archive/engine-v5-unrestricted.cjs');for(const n of [600,932,1000]){let current=old.initial(n),historical=old.initial(n);assert.equal(current.evolutionPolicy,undefined);for(let row=1;row<=n;row++){if(row%31===0)current=clone(current);current=E.step(current,E.fmtFizzBuzz(row));historical=old.step(historical,old.fmtFizzBuzz(row));if([579,580,n].includes(row)){assert.deepEqual(clone(current),clone(historical));assert.deepEqual(E.appearanceFor(current),old.appearanceFor(historical));}}if(n===932)assert.equal(current.history[1].lineage,'swarm');}
 });
+
+test('revision4 retains its actual ancestor source at every eligible entrance and preserves all branch and awakening calculations',()=>{
+ const Previous=require('./archive/engine-v5-continuity.cjs');let branches=0;for(let n=580;n<=1000;n++){let s=E.initial(n),before;for(let row=1;row<=n;row++){if(row===580)before=E.appearanceFor(s);s=E.step(s,E.fmtFizzBuzz(row));if(row===580){const after=E.appearanceFor(s);assert.equal(after.bodyLineage,before.bodyLineage,'source replaced N'+n);assert.equal(after.bodyFrame,before.bodyFrame);for(const id of E.BODY_PARTS)for(const axis of ['scaleX','scaleY'])assert.ok(Math.abs(after.anatomy[id][axis]/before.anatomy[id][axis]-1)<.035,'entrance dimensions '+n+' '+id);assert.ok(Math.hypot(...after.color.map((v,i)=>v-before.color[i]))<10);if(after.lineage!==before.lineage)branches++;}}
+ const old=Previous.runAll(n);for(const field of ['lineage','matured','maturedAt','energyQuarters'])assert.deepEqual(s[field],old[field],field+' N'+n);assert.deepEqual(s.dna,old.dna);assert.equal(E.appearanceFor(s).bodyLineage,before.bodyLineage);}
+ assert.equal(branches,145);
+});
+test('specialization grows monotonically on a single inherited body and has twenty restrained distinct directions',()=>{
+ for(const n of [847,893,932]){const a=states(n);let previous=0;for(let row=580;row<=n;row++){const current=E.appearanceFor(a[row]);assert.ok(current.specialization.amount>=previous&&current.specialization.amount<=1);previous=current.specialization.amount;assert.equal(current.bodyLineage,a[579].lineage);}}
+ const state=states(932)[760],seen=new Set();for(const l of D.LINEAGES){const a=E.appearanceFor({...state,lineage:l.id,matured:false});seen.add(JSON.stringify(a.specialization.traits));for(const factors of Object.values(a.specialization.traits))assert.ok(factors.every(v=>v>=.94&&v<=1.22));}assert.equal(seen.size,20);
+});
+test('revision3 individuals retain their exact appearance and JSON continuation through branch and awakening',()=>{
+ const Previous=require('./archive/engine-v5-continuity.cjs');for(const n of [847,893,932,1000]){let old=Previous.initial(n),s=Previous.initial(n);for(let row=1;row<=n;row++){s=E.step(row%31===0?clone(s):s,E.fmtFizzBuzz(row));old=Previous.step(old,Previous.fmtFizzBuzz(row));if([579,580,700,n].includes(row)){assert.deepEqual(clone(s),clone(old));assert.deepEqual(E.appearanceFor(s),Previous.appearanceFor(old));}}}
+});

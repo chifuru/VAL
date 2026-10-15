@@ -35,6 +35,13 @@
   return null;
  }
  const response={aquatic:[1,.9,1.1],amphibian:[.82,1.1,.7],avian:[.72,.8,.8],serpent:[1.15,.8,1.2],crystal:[.38,.55,.42],arthropod:[.60,.85,.55],jelly:[1.2,.72,1.18],cephalopod:[1.1,.78,1.15],botanical:[.55,.40,.8],whale:[.75,.95,.9],mechanical:[.32,.5,.38],ethereal:[.8,.4,1.1]};
+ // The existing event envelope controls light; tissue motion has its own soft recovery.
+ function gestureFor(kind,progress){const p=Math.max(0,Math.min(1,progress));
+  if(kind==='fizz')return {jaw:.72+.28*Math.cos(p*Math.PI*4),movement:.82+.18*Math.cos(p*Math.PI*2)};
+  if(kind==='buzz')return {jaw:0,movement:.84+.16*Math.sin(p*Math.PI)};
+  if(kind==='fizzbuzz')return {jaw:0,movement:.72+.28*Math.sin(p*Math.PI)};
+  return {jaw:0,movement:0};
+ }
  function motionProfileFor(bodyPlan,kind){const p=response[bodyPlan]||response.aquatic,i={fizz:0,buzz:1,fizzbuzz:2}[kind];if(i===undefined)return null;return {squeeze:(kind==='fizz'?-.025:kind==='buzz'?.018:.014)*p[i],bend:(kind==='fizz'?-.004:kind==='buzz'?.013:.006)*p[i]};}
  function lightPlanFor(bodyPlan,kind,anatomy,progress){
   if(!kinds.includes(kind))return null;
@@ -85,5 +92,5 @@
    return {reflection:grounded,kind:e.kind,count:e.count,sequence:e.sequence,progress:e.progress,strength:e.strength,duration:e.duration,jawOpen:e.kind==='fizz'?e.strength:0,oral:e.kind==='fizz'?b.oral:null,eyePoint,point,...profile};
   });
  }
- return {colors,lightPlanFor,motionProfileFor,quotas,durations,milestone,advanceEvents,reactions,profileFor,advanceGrowth,growthReactions,seed,draw};
+ return {colors,gestureFor,lightPlanFor,motionProfileFor,quotas,durations,milestone,advanceEvents,reactions,profileFor,advanceGrowth,growthReactions,seed,draw};
 });

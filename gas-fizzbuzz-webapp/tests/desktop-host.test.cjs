@@ -125,7 +125,7 @@ test('old4 and revised4 retain their appearance revision across storage and snap
 });
 
 test('engine5 awakening records and legacy4 coexist, retaining edition boundaries',async t=>{
- const E=require('../src/composite/creature-engine'),L4=require('../src/composite/legacy-engine-v4'),store=new HistoryStore(await directory(t));
+ const E=require('./archive/engine-v5-continuity.cjs'),L4=require('../src/composite/legacy-engine-v4'),store=new HistoryStore(await directory(t));
  const a=record('ecology5',1000),b=record('living4',927);a.engineVersion=5;a.assetVersion='desktop-art-v5';a.state=JSON.parse(JSON.stringify(E.runAll(1000)));b.engineVersion=4;b.state=JSON.parse(JSON.stringify(L4.runAll(927)));
  await store.save(a);await store.save(b);const list=(await store.list()).records;assert.deepEqual(list.find(r=>r.runId===a.runId),a);assert.deepEqual(list.find(r=>r.runId===b.runId),b);
  assert.throws(()=>validateRecord({...a,state:{...a.state,appearanceRevision:2}}),/生態版/);
@@ -138,4 +138,8 @@ test('current session archive stores only final results and starts empty in each
 
 test('current archive module has no filesystem dependency even with a large corrupt legacy archive',async t=>{
  const dir=await directory(t),legacy=path.join(dir,'history.json'),bytes='corrupt '+'x'.repeat(4*1024*1024);await fs.writeFile(legacy,bytes);const source=await fs.readFile(path.join(__dirname,'../src/desktop/history-store.cjs'),'utf8'),module={exports:{}};vm.runInNewContext(source,{module,structuredClone,require:name=>{assert.equal(name,'./record-schema.cjs');return require('../src/desktop/record-schema.cjs');}});const store=new module.exports.SessionStore();await store.save(record());await store.flush();assert.equal(await fs.readFile(legacy,'utf8'),bytes);assert.deepEqual(await fs.readdir(dir),['history.json']);assert.equal((await store.list()).warning,null);
+});
+
+test('session archive accepts current specialization and old ecology editions but rejects mismatched final editions',async()=>{
+ const E=require('../src/composite/creature-engine'),Previous=require('./archive/engine-v5-continuity.cjs'),{SessionStore,validateRecord:validate}=require('../src/desktop/history-store.cjs'),store=new SessionStore();for(const [id,engine]of [['new4',E],['old3',Previous]]){const a=record(id,1000);a.engineVersion=5;a.assetVersion='desktop-art-v5';a.state=JSON.parse(JSON.stringify(engine.runAll(1000)));await store.save(a);assert.deepEqual((await store.list()).records.find(r=>r.runId===id),a);const changed=JSON.parse(JSON.stringify(a));changed.state.finalAppearance.appearanceRevision=id==='new4'?3:4;assert.throws(()=>validate(changed),/覚醒版/);}assert.equal((await store.list()).records.length,2);
 });

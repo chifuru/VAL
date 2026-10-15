@@ -148,3 +148,10 @@ test('endpoint scenery interpolation equals the original environment weights wit
 test('nutritional light follows source anatomy or rises from below, with no numeric light plan',()=>{
  const s=config.sprites['eco-myth:body'][7],before=JSON.stringify(s.anatomy);for(const kind of ['fizz','buzz','fizzbuzz']){const a=F.lightPlanFor('avian',kind,s.anatomy,.1),b=F.lightPlanFor('avian',kind,s.anatomy,.9);if(kind==='buzz'){assert.equal(a.type,'rise');assert.ok(a.position>b.position);}else{assert.equal(a.type,'spread');assert.deepEqual(a.origin,s.anatomy.joints[kind==='fizz'?'mouth':'head']);assert.ok(a.radius<b.radius);}}assert.equal(F.lightPlanFor('avian','number',s.anatomy,.5),null);assert.equal(JSON.stringify(s.anatomy),before);
 });
+
+test('habitat light has a fixed budget, smooth time response, static identity and no nutritional side effects',()=>{
+ const state=E.runAll(932),saved=JSON.stringify(state),plan=H.atmospherePlan(state,0);assert.equal(plan.length,8);assert.deepEqual(H.atmospherePlan(state,0,true),H.atmospherePlan(state,1e9,true));assert.notDeepEqual(plan,H.atmospherePlan(state,3000));const next=H.atmospherePlan(state,1);for(let i=0;i<plan.length;i++){assert.ok(plan[i].alpha>=0&&plan[i].alpha<.05);assert.ok(Math.abs(plan[i].x-next[i].x)<.0001&&Math.abs(plan[i].alpha-next[i].alpha)<.0001);}assert.equal(JSON.stringify(state),saved);
+});
+test('wildlife depth scales source size and stays within the existing bounded population',()=>{
+ for(const n of [120,847,932,1000]){const state=E.runAll(n),fish=H.lifePlan(state,300);assert.equal(fish.length,24);assert.ok(new Set(fish.map(f=>Math.floor(f.depth*10))).size>=3);assert.ok(fish.every(f=>f.depth>=.6&&f.depth<1&&f.size>8&&f.size<36));for(const f of fish)for(const t of [0,1500]){const m=H.lifeMotionFor(f,.5,t);assert.ok(m.cross>.85&&m.cross<1.15&&Math.abs(m.offset)<2);}}
+});

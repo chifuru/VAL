@@ -35,8 +35,8 @@ function stateData(value, seed, processed) {
   if (!Number.isFinite(value.points) || value.points < 0 || value.points > 100 || !integer(value.stage, 0, value.engineVersion>=3?3:2)) invalid('成長値が不正です');
   if (value.dna && value.dna.seed !== undefined && value.dna.seed !== seed) invalid('DNAのNが一致しません');
   if(value.engineVersion===5){
-    if(value.appearanceRevision!==3||!object(value.awakening))invalid('生態版が不正です');
-    if(value.finalAppearance&&(value.finalAppearance.version!==5||value.finalAppearance.appearanceRevision!==3))invalid('覚醒版が不正です');
+    if(![3,4].includes(value.appearanceRevision)||!object(value.awakening))invalid('生態版が不正です');
+    if(value.finalAppearance&&(value.finalAppearance.version!==5||value.finalAppearance.appearanceRevision!==value.appearanceRevision))invalid('覚醒版が不正です');
   }
   if(value.engineVersion===4){
     if(value.appearanceRevision!==undefined&&![1,2].includes(value.appearanceRevision))invalid('外見版が不正です');

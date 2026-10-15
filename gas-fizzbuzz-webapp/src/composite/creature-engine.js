@@ -98,7 +98,7 @@
   function emptySituation() { return {exposure:{signal:0, void:0, heat:0, tide:0}, foods:[], envs:[], steps:0}; }
   function initial(seed) {
     seed = validateSeed(seed);
-    return {engineVersion:5, evolutionPolicy:EVOLUTION_POLICY, appearanceRevision:3, environmentPlan:environmentPlanFor(seed), seed:seed, dna:dnaFor(seed), current:0, energyQuarters:0, energy:0, points:0,
+    return {engineVersion:5, evolutionPolicy:EVOLUTION_POLICY, appearanceRevision:4, environmentPlan:environmentPlanFor(seed), seed:seed, dna:dnaFor(seed), current:0, energyQuarters:0, energy:0, points:0,
       rawPoints:0, currentEnvironment:null, modifier:0, stage:0, lineage:null, history:[], heritage:[], partXp:{}, partImprints:{},
       tissueEnergy:Object.fromEntries(BODY_PARTS.map(function (id) { return [id, 0]; })),
       foods:{number:0, fizz:0, buzz:0, fizzbuzz:0}, regulation:{promote:0, inhibit:0},
@@ -245,6 +245,34 @@
     anatomy.shell.visibility = round(clamp(.1 + .7 * progress + (primary === 'shell' ? .2 : 0), 0, 1));
     return anatomy;
   }
+  // Regional biases express a branch inside its inherited body, never as a second animal.
+  var SPECIALIZATIONS = freeze({
+    abyss:{tail:[1.18,1.06],fin:[1.08,1.10],head:[.97,1.04]},
+    abyssshell:{shell:[1.10,1.14],torso:[1.06,1.03],tail:[.95,.96]},
+    cephalopod:{tail:[1.12,1.18],fin:[1.04,1.14],head:[1.04,1.06]},
+    myth:{fin:[1.12,1.18],tail:[1.16,1.06],head:[1.03,1.06]},
+    sail:{fin:[1.20,1.12],tail:[1.14,.95],torso:[1.07,.96]},
+    recursive:{head:[1.08,1.13],tail:[1.07,1.16],shell:[1.03,1.09]},
+    gravity:{torso:[1.08,1.07],fin:[1.16,.95],tail:[1.10,.96]},
+    valis:{head:[1.10,1.14],fin:[1.08,1.17],eyes:[1.14,1.10]},
+    plasma:{fin:[1.12,1.15],shell:[1.04,1.10],tail:[1.14,1.08]},
+    crystal:{shell:[1.12,1.16],head:[1.05,1.10],limb:[1.06,1.08]},
+    manyeyes:{eyes:[1.18,1.14],head:[1.12,1.09],fin:[1.04,1.08]},
+    swarm:{limb:[1.14,1.10],tail:[1.17,1.03],shell:[1.07,1.03]},
+    parallel:{limb:[1.10,1.12],torso:[1.08,.97],fin:[1.08,.96]},
+    memory:{shell:[1.14,1.08],head:[1.07,1.08],fin:[.98,1.08]},
+    serpent:{tail:[1.22,.95],head:[1.09,1.04],torso:[1.10,.97]},
+    solar:{fin:[1.14,1.14],head:[1.06,1.09],shell:[1.07,1.06]},
+    antimeme:{tail:[1.16,1.10],fin:[.97,1.12],torso:[.96,1.04]},
+    jelly:{fin:[1.12,1.13],tail:[1.06,1.18],torso:[1.05,1.06]},
+    kelp:{head:[1.05,1.10],fin:[1.10,1.19],tail:[1.05,1.16]},
+    whale:{torso:[1.12,1.06],tail:[1.18,1.04],fin:[1.12,1.05]}
+  });
+  function specializationFor(state) {
+    if(state.appearanceRevision!==4 || state.stage<2 || !state.heritage.length)return null;
+    var origin=state.heritage[state.heritage.length-1], t=clamp((state.points-58)/22,0,1);
+    return {origin:origin.lineage,target:state.lineage,amount:state.matured?1:t*t*(3-2*t),traits:SPECIALIZATIONS[state.lineage]};
+  }
   function calculateAppearance(state) {
     var progress = clamp(state.points / 100, 0, 1);
     var phaseStart = [0, 20, 58, 100][state.stage], phaseEnd = [20, 58, 80, 108][state.stage];
@@ -253,14 +281,26 @@
     state.heritage.forEach(function (entry) {
       phenotype(state,entry.lineage).filter(function(p){return p.level>0;}).forEach(function(part){inherited.push({...part});});
     });
+    var specialization=specializationFor(state), anatomy=anatomyFor(state,progress), color=colorFor(state);
+    if(specialization){
+      var ancestor=state.heritage[state.heritage.length-1], amount=specialization.amount;
+      BODY_PARTS.forEach(function(id){
+        var bias=specialization.traits[id]||[1,1];
+        ['scaleX','scaleY'].forEach(function(axis,i){
+          var target=anatomy[id][axis]*(1+(bias[i]-1)*amount);
+          anatomy[id][axis]=round(ancestor.anatomy[id][axis]*(1-amount)+target*amount);
+        });
+      });
+      color=color.map(function(v,i){return Math.round(ancestor.color[i]*(1-amount)+v*amount);});
+    }
     return freeze({version:ENGINE_VERSION, appearanceRevision:state.appearanceRevision || 1, seed:state.seed, dna:{...state.dna}, stage:state.stage,
       points:state.points, progress:progress, tier:Math.min(4, 1 + Math.floor(phaseProgress * 4)),
       bodyFamily:state.lineage?LINEAGE_BY_ID[state.lineage].bodyFamily:'aquatic',
       bodyPlan:LINEAGE_BY_ID[state.lineage||birthLineageFor(state)].bodyPlan,
-      bodyLineage:state.lineage||birthLineageFor(state), bodyFrame:state.matured?(6+(state.dna.skin>.5?1:0)):state.stage===0?(phaseProgress>=.55?1:0):state.stage===1?(phaseProgress>=.68?3:phaseProgress>=.30?2:1):(phaseProgress>=.62?5:phaseProgress>=.25?4:3),awakening:awakeningFor(state),
+      bodyLineage:specialization?specialization.origin:state.lineage||birthLineageFor(state), ...(specialization?{specialization:specialization}:{}), bodyFrame:state.matured?(6+(state.dna.skin>.5?1:0)):state.stage===0?(phaseProgress>=.55?1:0):state.stage===1?(phaseProgress>=.68?3:phaseProgress>=.30?2:1):(phaseProgress>=.62?5:phaseProgress>=.25?4:3),awakening:awakeningFor(state),
       signature:state.lineage?LINEAGE_BY_ID[state.lineage].signature:'遺伝子から生まれる未知の幼体',sense:sensoryFor(state),maturityTarget:round(maturityThreshold(state.dna)),
-      matured:state.matured, lineage:state.lineage, color:colorFor(state), volume:round(1 + 2 * progress),
-      anatomy:anatomyFor(state, progress), organs:phenotype(state), inheritedOrgans:inherited});
+      matured:state.matured, lineage:state.lineage, color:color, volume:round(1 + 2 * progress),
+      anatomy:anatomy, organs:phenotype(state), inheritedOrgans:inherited});
   }
   function appearanceFor(state) {
     if(state.engineVersion!==5) return legacy.appearanceFor(state);

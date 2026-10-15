@@ -32,7 +32,7 @@ async function main(){
  const hashes=[];
  for(const l of D.LINEAGES){const s=examples[l.id];check(!!s,'automatic awakening attainable '+l.id);
   const result=await page.evaluate(s=>{const T=window.__VALIS_TEST__;return{png:T.renderState(s),sources:T.renderedSources(),roots:T.attachments()};},s);hashes.push(result.png);
-  check(result.sources.length===1&&result.sources[0].key==='eco-'+l.id+':body'&&result.sources[0].level>=7,'body and main organs are one physical source '+l.id);
+  check(result.sources.length===1&&result.sources[0].key==='eco-'+E.appearanceFor(s).bodyLineage+':body'&&result.sources[0].level>=7,'body and main organs are one physical source '+l.id);
   check(result.roots.length===0,'no detached organ sprites pasted onto new body '+l.id);
   const bytes=Buffer.from(result.png.split(',')[1],'base64');await fs.writeFile(path.join(out,l.id+'-final.png'),bytes);
   const portrait=await page.evaluate(s=>{const c=document.createElement('canvas');c.width=500;c.height=360;const r=window.CreatureRenderer.create(c,window.VALIS_ASSETS);return r.prepare().then(()=>r.portrait(s,500,360));},s),im=PNG.sync.read(Buffer.from(portrait.split(',')[1],'base64'));
