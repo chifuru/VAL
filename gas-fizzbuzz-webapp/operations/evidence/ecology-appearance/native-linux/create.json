@@ -59,7 +59,7 @@
   ],
   "records": [
     {
-      "runId": "80c19e27-b77d-49fd-9139-7defcddc4a3b",
+      "runId": "71367993-0da6-4a0d-ae8b-65265120b520",
       "seed": 1000,
       "processed": 1000,
       "status": "complete",
@@ -67,7 +67,7 @@
       "stage": 3
     },
     {
-      "runId": "19eccc62-e3d0-41df-ab76-c1722218e225",
+      "runId": "84449d58-1200-4a56-b0c1-e2ad0f039444",
       "seed": 15,
       "processed": 15,
       "status": "complete",
@@ -76,6 +76,6 @@
     }
   ],
   "rendererReady": true,
-  "generatedAt": "2026-10-15T04:52:47.781Z",
+  "generatedAt": "2026-10-15T05:09:17.655Z",
   "network": "Remote requests disabled by desktop host"
 }

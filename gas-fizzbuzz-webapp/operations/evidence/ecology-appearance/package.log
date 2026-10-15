@@ -10,7 +10,7 @@ Packaging app for platform win32 x64 using electron v44.7.2
   "pngCount": 65,
   "sourceBytesMatch": true,
   "zip": "VALIS-Windows-x64.zip",
-  "zipBytes": 281027990,
-  "zipSha256": "ed4e9591649e493e4e80117f5759bd1a39234307d04b629bc5dcc9eac5e3187b",
-  "generatedAt": "2026-10-15T04:53:10.551Z"
+  "zipBytes": 281028190,
+  "zipSha256": "5e411a7b52ca28705d6e0f23014a98a4d3777d857e66df00bbc4151c36334182",
+  "generatedAt": "2026-10-15T05:09:42.739Z"
 }

@@ -2,7 +2,7 @@
   "scope": "Chromium with test persistence bridge; native store verified separately",
   "browser": "154.0.8037.57",
   "platform": "linux",
-  "generatedAt": "2026-10-15T04:53:03.907Z",
+  "generatedAt": "2026-10-15T05:09:34.765Z",
   "checks": [
     "initial preview creates no specimen",
     "start requires loading",

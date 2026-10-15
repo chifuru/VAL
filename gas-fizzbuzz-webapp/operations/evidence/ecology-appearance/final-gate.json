@@ -1,0 +1,58 @@
+{
+  "generatedAt": "2026-10-15T05:13:14.831831+00:00",
+  "appVersion": "1.4.0",
+  "engineVersion": 5,
+  "appearanceRevision": 3,
+  "assetVersion": "desktop-art-v5",
+  "valis": "Operation v2.0 prerequisite feedback, user-confirmed grain, FLOW-04/08/05 and output gate",
+  "manifest": {
+    "counts": {
+      "A": 9,
+      "B": 13,
+      "C": 21,
+      "D": 12,
+      "E": 34
+    },
+    "total": 89,
+    "allDraft": true,
+    "newNodes": [
+      "B1.5.1",
+      "B1.5.2",
+      "C1.5.4",
+      "C1.5.5",
+      "C1.5.2.3",
+      "C1.5.2.4",
+      "D1.3.4",
+      "D1.3.5",
+      "E33",
+      "E34"
+    ]
+  },
+  "targetCommit": "a3edb2cc6c574beaf8ad71dc8903fc7808811b7a",
+  "executionFilesMatchTarget": 191,
+  "workflowFilesMatchTarget": 2,
+  "definitionSnapshotFiles": 55,
+  "protectedCoreAndMocksUnchanged": 23,
+  "checks": {
+    "unitPassed": 50,
+    "unitFailed": 0,
+    "browserPassed": 137,
+    "motionPassed": 139,
+    "nativeCreatePassed": 19,
+    "nativeRestartPassed": 13,
+    "zipChecksumFiles": 74,
+    "runtimePngs": 65,
+    "lineages": 20,
+    "bodyFramesPerLineage": 8,
+    "foodTypes": 3,
+    "foodVariantsPerType": 4,
+    "habitats": 4
+  },
+  "hostedWindowsRun": 38685242231,
+  "hostedBrowserRun": 38685242209,
+  "acceptance": "No user hardware/art approval inferred; all nodes draft",
+  "pending": [
+    "Windows10/11 user-device display/FPS",
+    "User art acceptance"
+  ]
+}

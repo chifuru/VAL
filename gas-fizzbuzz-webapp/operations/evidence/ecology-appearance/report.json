@@ -1,13 +1,13 @@
 {
   "scope": "Local app1.4.0 ecology/appearance and regression; not user art acceptance or Windows execution",
-  "recordedAt": "2026-10-15T04:54:47.199012+00:00",
+  "recordedAt": "2026-10-15T05:10:11.736992+00:00",
   "actor": "Codex cloud environment",
   "platform": "Linux x64; Node24; Chromium154; Electron44.7.2 test launcher Xvfb/--no-sandbox/--disable-gpu; product sandbox unchanged",
   "appVersion": "1.4.0",
   "engineVersion": 5,
   "appearanceRevision": 3,
   "checks": {
-    "unitPassed": 49,
+    "unitPassed": 50,
     "unitFailed": 0,
     "browserPassed": 137,
     "motionPassed": 139,
@@ -29,7 +29,7 @@
       "file": "motion/jelly.webm",
       "decoded": true,
       "frames": 41,
-      "ptsSpanSeconds": 3.336
+      "ptsSpanSeconds": 3.34
     },
     {
       "file": "motion/serpent.webm",
@@ -41,14 +41,16 @@
       "file": "motion/myth.webm",
       "decoded": true,
       "frames": 41,
-      "ptsSpanSeconds": 3.32
+      "ptsSpanSeconds": 3.318
     }
   ],
   "limits": [
-    "Hosted Windows result pending",
     "Windows10/11 user-device DPI/FPS unperformed",
     "User visual acceptance unperformed"
   ],
   "validWhen": "Execution code, data, metadata, assets and checks match target-sha256.json",
-  "invalidWhen": "Any execution input changes or assertions are omitted"
+  "invalidWhen": "Any execution input changes or assertions are omitted",
+  "targetCommit": "a3edb2cc6c574beaf8ad71dc8903fc7808811b7a",
+  "hostedWindowsEvidence": "E34/windows-ci-public-summary.json",
+  "hostedBrowserProof": "browser-ci-public-summary.json"
 }

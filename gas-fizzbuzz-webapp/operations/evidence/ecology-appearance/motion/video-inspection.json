@@ -3,7 +3,7 @@
     "file": "motion/jelly.webm",
     "decoded": true,
     "frames": 41,
-    "ptsSpanSeconds": 3.336
+    "ptsSpanSeconds": 3.34
   },
   {
     "file": "motion/serpent.webm",
@@ -15,6 +15,6 @@
     "file": "motion/myth.webm",
     "decoded": true,
     "frames": 41,
-    "ptsSpanSeconds": 3.32
+    "ptsSpanSeconds": 3.318
   }
 ]
