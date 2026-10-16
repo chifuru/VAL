@@ -6,7 +6,7 @@
   "engineTests": 15,
   "packageTests": 1,
   "browserChecks": 19,
-  "windowsNative": "pending CI",
+  "windowsNative": "passed; see windows-verification.json",
   "sourceHashes": "source-hashes.json",
   "manifestTests": 1
 }

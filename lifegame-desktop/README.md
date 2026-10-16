@@ -2,6 +2,8 @@
 
 初期値から生成した9種族の生物が、成長・採食・繁殖・移動・戦闘を通して生存を競う、Windows向けのローカルシミュレーションです。現行FizzBuzzと同じ Electron / ZIP配布方式です。
 
+v1.0.0は[Windows CI run 38830235546](https://github.com/chifuru/VAL/actions/runs/38830235546)で、単体・構造17検査、画面操作19項目、ZIP展開照合、配布exeの起動・10ターン進行を確認しました。
+
 ## Windowsで起動
 
 [LifeGame Windows x64 の実行一覧](https://github.com/chifuru/VAL/actions/workflows/lifegame-windows.yml)で成功した実行を開き、Artifacts の **LifeGame-Windows-x64** をダウンロードします。外側のアーティファクトZIPと、中の `LifeGame-Windows-x64.zip` をすべて展開し、`LifeGame.exe` を起動してください。

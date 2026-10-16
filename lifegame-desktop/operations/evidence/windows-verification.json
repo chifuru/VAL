@@ -1,0 +1,31 @@
+{
+  "run_id": 38830235546,
+  "job_id": 116747097240,
+  "url": "https://github.com/chifuru/VAL/actions/runs/38830235546",
+  "source_commit": "415626137d80ea3970c43b5958e230bcc4e60e57",
+  "unitTests": 17,
+  "browserChecks": 19,
+  "native": {
+    "ok": true,
+    "electron": "44.7.2",
+    "platform": "Win32",
+    "arch": "x64",
+    "turn": 10,
+    "population": 68,
+    "nodeExposed": false,
+    "local": true,
+    "title": "LifeGame — 生態系観測室"
+  },
+  "package": {
+    "version": "1.0.0",
+    "electron": "44.7.2",
+    "exe": "LifeGame.exe",
+    "platform": "win32",
+    "arch": "x64",
+    "zip": "LifeGame-Windows-x64.zip",
+    "sha256": "8f7c120275dd318f5335f885e671bd102ac319886b3fb0b18401bd8657f92a95",
+    "bytes": 157804429
+  },
+  "artifact_id": 12016619488,
+  "conclusion": "success"
+}
