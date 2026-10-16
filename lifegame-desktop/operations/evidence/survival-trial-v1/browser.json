@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "platform": "linux",
+  "browser": "154.0.8037.57",
+  "version": "survival-trial/v1",
+  "checks": [
+    "standard comparison displays actual main-lineage counts",
+    "snapshot shows observed parasite colonies rather than invented counts",
+    "coverage condition shows a real hyperparasite host",
+    "focused colony observation uses the trial board",
+    "narrow snapshot view does not overflow horizontally",
+    "case changes, focus and resizing never alter observed worlds",
+    "no page exceptions",
+    "preview makes no external requests"
+  ],
+  "errors": [],
+  "network": [],
+  "serving": "HTTP loopback",
+  "note": "Static observation of actual computed worlds, not an implemented production setting."
+}

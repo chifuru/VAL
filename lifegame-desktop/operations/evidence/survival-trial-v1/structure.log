@@ -1,0 +1,14 @@
+✔ VALIS: every node has valid hierarchy, references, manifest entry and real source/test paths (9.169337ms)
+✔ isolated baseline replays production without mutating production catalogue (120.52665ms)
+✔ three repeated local contacts seed one paid colony, keep donor, and cannot chain on the same day (10.767318ms)
+✔ expired exposure and blocked sight do not count as frequent contact (6.274691ms)
+✔ even an early infected host leaves a finite infectious carcass and can transfer its existing colony (7.773094ms)
+✔ mature terminal colony spreads at most three paid daughter colonies and carries paid hyperparasites (6.10535ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 178.586349

@@ -1,0 +1,4 @@
+{"variant":"baseline","richness":{"main":17,"food":2,"P":0,"Q":false},"transmission":{},"wallMs":48153.616769,"main":117,"P":0,"Q":0}
+{"variant":"food","richness":{"main":17,"food":5,"P":0,"Q":false},"transmission":{},"wallMs":45490.81510099999,"main":95,"P":0,"Q":0}
+{"variant":"budget","richness":{"main":19,"food":6,"P":0,"Q":false},"transmission":{},"wallMs":51059.424448000005,"main":285,"P":0,"Q":0}
+{"variant":"routes","richness":{"main":20,"food":4,"P":2,"Q":false},"transmission":{"contact":6264,"carcass":526,"legacy":1153,"terminalContact":320,"preterminalContact":5944,"promotions":76},"wallMs":63032.53514699999,"main":205,"P":2185,"Q":0}

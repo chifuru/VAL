@@ -2,11 +2,12 @@
 
 project_id: lifegame-desktop
 canonical_path: valis/summary/lifegame-desktop.summary.md
-current_status: 外観版2.2.0をモックの造形・地表・金枠・大きな肖像へ接続。Linux画面45項目成功、WindowsはE7参照。生態v1.5は対象ハッシュ同一の範囲で維持。全57Node草案、承認状態変更なし。
+current_status: 外観版2.2.0をモックの造形・地表・金枠・大きな肖像へ接続。Linux画面45項目成功、WindowsはE7参照。生態v1.5は対象ハッシュ同一の範囲で維持。全57Node草案、承認状態変更なし。 生存試作は主20/20系統が残る一方、餌4/6・感染過多で調整未完。製品本体は変更なし。
 current_specification: design/specification/ab-system-specification-v1.3.md
 current_adjustments: design/specification/ab-readiness-v1.4.md + design/specification/ab-balance-v1.5.md
-current_contract: operations/plans/visual-mock-alignment.md
-current_image: operations/evidence/visual-mock-v1/ecosystem-artwork.png（実画面）
+current_contract: operations/plans/survival-trial-v1.md
+current_trial: design/survival-trial/README.md（製品未採用、300ターン限定）
+current_image: operations/evidence/survival-trial-v1/comparison.png（実計算比較画面）
 visual_reference: design/specification/ecosystem-overview-mock.png + design/specification/habitat-overview-mock.png
 
 現在の状態と必要な参照だけを記載する。履歴・過去の作業ログは保持しない。coreはプロジェクト内正本を使用し、変更しない。
@@ -36,6 +37,7 @@ A1.4:（A1 / 局所経験と系統戦略）［草案］
 A1.5:（A1 / 寄生と宿主の生活環）［草案］
 	Node File: valis/nodes/A/A1.5.md; 親: A1
 	実態: 現行仕様v1.3＋調整v1.4/v1.5。実装・分割確認済み。承認状態は草案。
+	限定試作: survival-trial/v1。既存責務内の比較用参照をNodeに記載。製品への採用なし。
 
 A1.6:（A1 / 光合成と共生の栄養）［草案］
 	Node File: valis/nodes/A/A1.6.md; 親: A1
@@ -62,6 +64,7 @@ B4.1:（A1.4, A1.2 / 局所パラメータによる動作判断）［草案］
 B4.2:（A1.5, A1.2, A1.4 / 寄生の遷移）［草案］
 	Node File: valis/nodes/B/B4.2.md; 親: B4
 	実態: 現行仕様v1.3＋調整v1.4/v1.5。実装・分割確認済み。承認状態は草案。
+	限定試作: survival-trial/v1。既存責務内の比較用参照をNodeに記載。製品への採用なし。
 
 B4.3:（A1.6, A1.2 / 非採食の栄養収支）［草案］
 	Node File: valis/nodes/B/B4.3.md; 親: B4
@@ -100,22 +103,27 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 C7.1:（B4, B4.4 / 初期値・固定世界・30系統の共通状態）［草案］
 	Node File: valis/nodes/C/C7.1.md; 親: C7
 	実態: v1.5実装済み。対象ハッシュ・検査範囲はE5/E6。Windows実exeはE7。
+	限定試作: survival-trial/v1。既存責務内の比較用参照をNodeに記載。製品への採用なし。
 
 C7.2:（B4.3, B4.4 / 有限栄養・資源CA・生産と死骸）［草案］
 	Node File: valis/nodes/C/C7.2.md; 親: C7
 	実態: v1.5実装済み。対象ハッシュ・検査範囲はE5/E6。Windows実exeはE7。
+	限定試作: survival-trial/v1。既存責務内の比較用参照をNodeに記載。製品への採用なし。
 
 C7.3:（B4.1 / 局所行動・同時移動戦闘・学習）［草案］
 	Node File: valis/nodes/C/C7.3.md; 親: C7
 	実態: v1.5実装済み。対象ハッシュ・検査範囲はE5/E6。Windows実exeはE7。
+	限定試作: survival-trial/v1。既存責務内の比較用参照をNodeに記載。製品への採用なし。
 
 C7.4:（B4, B4.4 / 成長・遺伝・出生と繁殖例外）［草案］
 	Node File: valis/nodes/C/C7.4.md; 親: C7
 	実態: v1.5実装済み。対象ハッシュ・検査範囲はE5/E6。Windows実exeはE7。
+	限定試作: survival-trial/v1。既存責務内の比較用参照をNodeに記載。製品への採用なし。
 
 C7.5:（B4.2 / 寄生生活環と外部情報）［草案］
 	Node File: valis/nodes/C/C7.5.md; 親: C7
 	実態: v1.5実装済み。対象ハッシュ・検査範囲はE5/E6。Windows実exeはE7。
+	限定試作: survival-trial/v1。既存責務内の比較用参照をNodeに記載。製品への採用なし。
 
 C8:（B5, B5.1, B5.2 / 観測操作・図鑑と説明シート）［草案］
 	Node File: valis/nodes/C/C8.md; 親: なし
@@ -124,6 +132,7 @@ C8:（B5, B5.1, B5.2 / 観測操作・図鑑と説明シート）［草案］
 C8.1:（B5.3 / 盤面と個体の描画・確定モーション）［草案］
 	Node File: valis/nodes/C/C8.1.md; 親: C8
 	実態: 外観版2.2.0を実装。Linux画面45項目成功。対象ハッシュ・範囲はE6、Windows同梱/実exeはE7。
+	限定試作: survival-trial/v1。既存責務内の比較用参照をNodeに記載。製品への採用なし。
 
 ## D：現在の対象
 
@@ -138,6 +147,7 @@ D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案
 D8:（C7 / 生態循環と結合進行）［草案］
 	Node File: valis/nodes/D/D8.md; 親: なし
 	実態: v1.5検査済み。ルール44・画面36の該当範囲はE5/E6。Windows実exeはE7。
+	限定試作: survival-trial/v1。既存責務内の比較用参照をNodeに記載。製品への採用なし。
 
 D8.1:（C7.4 / 相・出生・遺伝と繁殖例外）［草案］
 	Node File: valis/nodes/D/D8.1.md; 親: D8
@@ -146,20 +156,24 @@ D8.1:（C7.4 / 相・出生・遺伝と繁殖例外）［草案］
 D8.2:（C7.5 / 寄生・高次寄生と情報）［草案］
 	Node File: valis/nodes/D/D8.2.md; 親: D8
 	実態: v1.5検査済み。ルール44・画面36の該当範囲はE5/E6。Windows実exeはE7。
+	限定試作: survival-trial/v1。既存責務内の比較用参照をNodeに記載。製品への採用なし。
 
 D9:（C8, C8.1 / 観測画面・系統樹・説明と描画）［草案］
 	Node File: valis/nodes/D/D9.md; 親: なし
 	実態: 外観版2.2.0を実装。Linux画面45項目成功。対象ハッシュ・範囲はE6、Windows同梱/実exeはE7。
+	限定試作: survival-trial/v1。既存責務内の比較用参照をNodeに記載。製品への採用なし。
 
 ## E：現在の対象
 
 E5:（D7, D8, D8.1, D8.2, C7, C7.1, C7.2, C7.3, C7.4, C7.5 / 現行生態計算の実測証跡）［草案］
 	Node File: valis/nodes/E/E5.md; 親: なし
 	実態: ルール44/44成功。4条件1000ターンの収支・出生を検査。標準で219出生/第9世代/54体存続。小盤面の絶滅例あり。
+	限定試作: survival-trial/v1。既存責務内の比較用参照をNodeに記載。製品への採用なし。
 
 E6:（D9, C8, C8.1 / 現行観測画面のLinux実測証跡）［草案］
 	Node File: valis/nodes/E/E6.md; 親: なし
 	実態: Linux外観画面45/45成功。原画/地表/肖像/図鑑/自然成熟を実画面で照合。WindowsはE7。
+	限定試作: survival-trial/v1。既存責務内の比較用参照をNodeに記載。製品への採用なし。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9, A2, C4, C7, C8, C8.1 / 現行Windows配布exeの実測証跡）［草案］
 	Node File: valis/nodes/E/E7.md; 親: なし

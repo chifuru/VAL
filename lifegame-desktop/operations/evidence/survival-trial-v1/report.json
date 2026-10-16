@@ -1,0 +1,22 @@
+{
+  "scope": "survival-trial/v1, prototype only; no production adoption",
+  "ticks_per_case": 300,
+  "cases": [
+    "baseline",
+    "food",
+    "budget",
+    "routes",
+    "coverage-seed/budget",
+    "coverage-seed/routes"
+  ],
+  "model_tests": 5,
+  "browser_checks": 8,
+  "limits": [
+    "not long-term coexistence proof",
+    "initial food budgets differ across allocator modes",
+    "Q coverage seed selected for initial Q presence",
+    "infection excessive; moss and waterbug fragile",
+    "no Windows trial build"
+  ],
+  "production_unchanged": true
+}

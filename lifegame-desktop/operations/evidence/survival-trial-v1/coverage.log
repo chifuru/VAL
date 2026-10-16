@@ -1,0 +1,2 @@
+{"variant":"budget","richness":{"main":19,"food":6,"P":0,"Q":false},"transmission":{},"wallMs":56307.725255,"main":269,"P":0,"Q":0}
+{"variant":"routes","richness":{"main":19,"food":6,"P":2,"Q":true},"transmission":{"contact":5729,"carcass":681,"legacy":1069,"terminalContact":272,"preterminalContact":5457,"promotions":53},"wallMs":57659.564494,"main":221,"P":2072,"Q":1}

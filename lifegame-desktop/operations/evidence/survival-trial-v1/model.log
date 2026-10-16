@@ -1,0 +1,13 @@
+✔ isolated baseline replays production without mutating production catalogue (170.847311ms)
+✔ three repeated local contacts seed one paid colony, keep donor, and cannot chain on the same day (40.55389ms)
+✔ expired exposure and blocked sight do not count as frequent contact (6.086453ms)
+✔ even an early infected host leaves a finite infectious carcass and can transfer its existing colony (6.397153ms)
+✔ mature terminal colony spreads at most three paid daughter colonies and carries paid hyperparasites (7.117365ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 260.480197

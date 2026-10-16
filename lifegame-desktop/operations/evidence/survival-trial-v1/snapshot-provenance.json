@@ -1,0 +1,32 @@
+[
+  {
+    "path": "operations/evidence/survival-trial-v1/food.world.json",
+    "sha256": "a8c17238050c56f464cbf9bb62ca27f5ede39b126cee495cd13e397915e585ff",
+    "note": "CLI-generated full snapshot; compact readonly display retained in preview-data.js; full snapshot regenerable with observe.cjs."
+  },
+  {
+    "path": "operations/evidence/survival-trial-v1/baseline.world.json",
+    "sha256": "453cac605875e7b7597ad2b5a2992a76336eb3de169b4c710f8f7f72ffa81289",
+    "note": "CLI-generated full snapshot; compact readonly display retained in preview-data.js; full snapshot regenerable with observe.cjs."
+  },
+  {
+    "path": "operations/evidence/survival-trial-v1/budget.world.json",
+    "sha256": "7b8e3a8110fb604dde3c531c2b11b35b98d5498797754ee92d1a7780ed261ff4",
+    "note": "CLI-generated full snapshot; compact readonly display retained in preview-data.js; full snapshot regenerable with observe.cjs."
+  },
+  {
+    "path": "operations/evidence/survival-trial-v1/routes.world.json",
+    "sha256": "affc0f6adb4a261550d6cbffa2b62ef8748f51e25591007e767d3a98208f3ee5",
+    "note": "CLI-generated full snapshot; compact readonly display retained in preview-data.js; full snapshot regenerable with observe.cjs."
+  },
+  {
+    "path": "operations/evidence/survival-trial-v1/coverage-seed/budget.world.json",
+    "sha256": "1a1e3c6a3935185a8ea54b5a73e8558f663459f477c6f689609fa697bd8e0898",
+    "note": "CLI-generated full snapshot; compact readonly display retained in preview-data.js; full snapshot regenerable with observe.cjs."
+  },
+  {
+    "path": "operations/evidence/survival-trial-v1/coverage-seed/routes.world.json",
+    "sha256": "4201b3af3cdd4725a6b9fd77adbf679a68bf0a2c105525f810753b3f80d7b57a",
+    "note": "CLI-generated full snapshot; compact readonly display retained in preview-data.js; full snapshot regenerable with observe.cjs."
+  }
+]
