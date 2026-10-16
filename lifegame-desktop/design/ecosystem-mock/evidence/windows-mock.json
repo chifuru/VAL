@@ -1,0 +1,86 @@
+{
+  "scope": "A specification mock observations only; does not approve A nodes or validate the production ecosystem",
+  "source_commit": "bd868fec43974dc0847723a0e9b733bbb3e59437",
+  "run_id": 38832298127,
+  "url": "https://github.com/chifuru/VAL/actions/runs/38832298127",
+  "conclusion": "success",
+  "native": {
+    "ok": true,
+    "turn": 20,
+    "ate": 158,
+    "ready": true,
+    "nodeExposed": false
+  },
+  "browser": {
+    "scope": "A-specification mock behavior checks; not production acceptance",
+    "checks": [
+      "original FizzBuzz growth parity at five seeds",
+      "same lineage is allied",
+      "cellular births generate actual food intake",
+      "cellular activity changes local environments",
+      "base DNA remains unchanged",
+      "abilities grow from actual anatomy and growth",
+      "same DNA and diet produce different organs under different environments",
+      "environment-dependent organ development changes abilities",
+      "world food/environment override fixed original schedule",
+      "eight real FizzBuzz specimens render",
+      "world simulation advances with actual meals",
+      "intake trace displays",
+      "comparison intervention advances a real turn",
+      "observation pauses",
+      "birth mode starts without prior feeding",
+      "narrow viewport fits",
+      "no renderer exceptions"
+    ],
+    "errors": [],
+    "model": {
+      "turn": 120,
+      "cellBirths": 690,
+      "ate": 783,
+      "abilityBefore": {
+        "attack": 9.5,
+        "defense": 10.88,
+        "speed": 2.98,
+        "range": 2.37,
+        "harvest": 2.11,
+        "regen": 1.17,
+        "fertility": 0.61,
+        "longevity": 108.56,
+        "efficiency": 1.39
+      },
+      "abilityAfter": {
+        "attack": 11.05,
+        "defense": 12.36,
+        "speed": 3.38,
+        "range": 2.49,
+        "harvest": 2.26,
+        "regen": 1.31,
+        "fertility": 0.64,
+        "longevity": 116.43,
+        "efficiency": 1.43
+      }
+    },
+    "browser": "141.0.7390.37"
+  },
+  "artifacts": [
+    {
+      "id": 12018030861,
+      "name": "LifeLab-Mock-Windows-x64",
+      "size_in_bytes": 291311319,
+      "url": "https://api.github.com/repos/chifuru/VAL/actions/artifacts/12018030861",
+      "archive_download_url": "https://api.github.com/repos/chifuru/VAL/actions/artifacts/12018030861/zip",
+      "expired": false,
+      "created_at": "2026-10-16T00:57:46Z",
+      "expires_at": "2026-11-15T00:57:35Z",
+      "updated_at": "2026-10-16T00:57:46Z",
+      "digest": "sha256:7fed38e2356703191ccd3406ac3db7993e9b8f0df89aa71e27f851bf754fce61",
+      "workflow_run": {
+        "id": 38832298127,
+        "repository_id": 1411285944,
+        "head_repository_id": 1411285944,
+        "head_branch": "lifegame-mock-a-spec",
+        "head_sha": "bd868fec43974dc0847723a0e9b733bbb3e59437"
+      }
+    }
+  ]
+}

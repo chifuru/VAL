@@ -6,7 +6,7 @@
 
 ## 起動
 
-Windows配布は専用の **LifeLab-Mock-Windows-x64** アーティファクト。ZIPを全展開して `LifeLab-Mock.exe` を起動します。元の `LifeGame.exe` とは別のモックです。
+Windows配布は[確認済みの専用モック](https://github.com/chifuru/VAL/actions/runs/38832298127/artifacts/12018030861)（**LifeLab-Mock-Windows-x64**）。ZIPを全展開して `LifeLab-Mock.exe` を起動します。元の `LifeGame.exe` とは別のモックです。
 
 リポジトリから動かす場合、`lifegame-desktop` で `npm ci` の後、次を実行します。
 
@@ -27,6 +27,8 @@ npx electron design/ecosystem-mock/desktop.cjs
 DNAと成長計算・実素材は流用、能力換算式と生態セルからの餌/環境生成は仮仕様です。戦闘・繁殖・淘汰と能力の全行動効果は次段階。
 
 このモックでは `lifegame-desktop/valis/core/` の3中核定義を参照。`SPEC-PROPOSAL.md` は認識合わせ資料であり、Project Summary Manifestや承認済みNodeではありません。
+
+Windows CIでモックの17項目と、配布exeの起動・20ターン進行・158回の実摂取を確認しました。結果は `evidence/windows-mock.json`。製品版の検証・A仕様承認とは区別します。
 
 ## 再確認
 
