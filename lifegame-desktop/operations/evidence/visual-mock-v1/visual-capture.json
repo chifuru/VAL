@@ -1,0 +1,81 @@
+{
+  "ok": true,
+  "command": "Playwright capture; prepare extended-observation/40x28/80, step100, select actual phaseIII solar, enable resources/grid",
+  "source": "5ea2f20481d6c15282b9d1f0b6f4cbf152d0e51a",
+  "viewport": [
+    1520,
+    1100
+  ],
+  "resources": true,
+  "grid": true,
+  "turn": 100,
+  "stats": {
+    "population": 708,
+    "main": 81,
+    "food": 627,
+    "P": 3,
+    "Q": 0,
+    "resting": 0,
+    "counts": {
+      "abyss": 4,
+      "myth": 4,
+      "recursive": 4,
+      "sail": 4,
+      "gravity": 5,
+      "crystal": 4,
+      "manyeyes": 4,
+      "abyssshell": 4,
+      "parallel": 4,
+      "memory": 4,
+      "serpent": 1,
+      "solar": 4,
+      "antimeme": 3,
+      "valis": 4,
+      "jelly": 5,
+      "kelp": 7,
+      "whale": 3,
+      "swarm": 6,
+      "plasma": 3,
+      "cephalopod": 4,
+      "precocial": 0,
+      "algae": 82,
+      "moss": 122,
+      "grass": 270,
+      "fungus": 0,
+      "waterbug": 0,
+      "grassbug": 153,
+      "tideparasite": 3,
+      "leafparasite": 0,
+      "hyperparasite": 0
+    },
+    "phases": [
+      3,
+      32,
+      46,
+      0
+    ],
+    "roles": {
+      "queen": 1,
+      "worker": 2,
+      "male": 3
+    },
+    "colonies": {
+      "founder:swarm:0": 2,
+      "i:main:4:37:swarm": 4
+    },
+    "infectionStages": {
+      "first": 3,
+      "middle": 0,
+      "extra": 0,
+      "terminal": 0
+    },
+    "resources": 495,
+    "totals": {
+      "E": 22879.646738,
+      "M": 5795.4
+    }
+  },
+  "fingerprint": "78fd505d6b6bcfcdb26443c20880b102dd3b03ee9f97810a9cb5b186a8eef173",
+  "fingerprintAfterView": "78fd505d6b6bcfcdb26443c20880b102dd3b03ee9f97810a9cb5b186a8eef173",
+  "errors": []
+}

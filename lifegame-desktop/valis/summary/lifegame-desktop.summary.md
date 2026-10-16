@@ -6,7 +6,7 @@ current_status: 外観版2.2.0をモックの造形・地表・金枠・大き�
 current_specification: design/specification/ab-system-specification-v1.3.md
 current_adjustments: design/specification/ab-readiness-v1.4.md + design/specification/ab-balance-v1.5.md
 current_contract: operations/plans/visual-mock-alignment.md
-current_image: operations/evidence/visual-mock-v1/ecosystem-grown.png（実画面）
+current_image: operations/evidence/visual-mock-v1/ecosystem-artwork.png（実画面）
 visual_reference: design/specification/ecosystem-overview-mock.png + design/specification/habitat-overview-mock.png
 
 現在の状態と必要な参照だけを記載する。履歴・過去の作業ログは保持しない。coreはプロジェクト内正本を使用し、変更しない。
@@ -91,7 +91,7 @@ B5.3:（A1.1, A1.2, A1.3, A1.5, A1.6 / 確定した行動のモーション表�
 
 C4:（A2, B5 / Electron と Windows 配布）［草案］
 	Node File: valis/nodes/C/C4.md; 親: なし
-	実態: 外観版2.2.0の接続中。生態v1.5は維持。画面・画像同梱・Windows実exeの現行結果は再検査待ち。
+	実態: 現行2.2.0接続済み。Windows ZIP生成・展開SHA照合・実exe10ターン成功。対象版と範囲はE7。
 
 C7:（B4 / 同期ターン接合と世界確定）［草案］
 	Node File: valis/nodes/C/C7.md; 親: なし
@@ -129,7 +129,7 @@ C8.1:（B5.3 / 盤面と個体の描画・確定モーション）［草案］
 
 D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	Node File: valis/nodes/D/D4.md; 親: なし
-	実態: 外観版2.2.0の接続中。生態v1.5は維持。画面・画像同梱・Windows実exeの現行結果は再検査待ち。
+	実態: 現行2.2.0接続済み。Windows ZIP生成・展開SHA照合・実exe10ターン成功。対象版と範囲はE7。
 
 D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案］
 	Node File: valis/nodes/D/D7.md; 親: なし
@@ -163,7 +163,7 @@ E6:（D9, C8, C8.1 / 現行観測画面のLinux実測証跡）［草案］
 
 E7:（D4, D7, D8, D8.1, D8.2, D9, A2, C4, C7, C8, C8.1 / 現行Windows配布exeの実測証跡）［草案］
 	Node File: valis/nodes/E/E7.md; 親: なし
-	実態: 現行2.2.0のWindows配布・画像同梱・実exeのCI待ち。旧版成功は流用しない。
+	実態: Windows CI成功。単体/構造/回帰61、画面45、ZIP展開SHA照合、実exe10ターン・3アトラス読込・Node非公開/file表示を確認。
 
 ## 登録済みだが現行仕様の対象外
 

@@ -16,7 +16,8 @@
     "ecosystem-detail.png",
     "ecosystem-grown.png",
     "lineage-tree.png",
-    "parasite-sheet.png"
+    "parasite-sheet.png",
+    "ecosystem-artwork.png"
   ],
   "visualReview": {
     "references": [
@@ -41,6 +42,20 @@
   "hashes": "source-hashes.json",
   "windows": {
     "report": "windows.json",
-    "status": "pending"
+    "log": "windows-ci.log",
+    "run": "https://github.com/chifuru/VAL/actions/runs/38963984033",
+    "source": "5ea2f20481d6c15282b9d1f0b6f4cbf152d0e51a",
+    "nativeTurns": 10,
+    "unitChecks": 61,
+    "browserChecks": 45,
+    "assetsLoaded": true,
+    "assetErrors": []
+  },
+  "visualCapture": {
+    "report": "visual-capture.json",
+    "resources": true,
+    "grid": true,
+    "turn": 100,
+    "observerIndependent": true
   }
 }
