@@ -4,7 +4,7 @@ project_id: lifegame-desktop
 summary_manifest_type: Project Summary Manifest
 canonical_path: valis/summary/lifegame-desktop.summary.md
 core_definition_mutation: prohibited
-current_status: A仕様・B機能のみ検討中。実装再開はユーザー許可待ち。20系統の進化・分岐図と環境別餌・系統樹参照の静止画を検討する。E4は先行モックv0.3の対象版に限定。全ノード草案
+current_status: A仕様・B機能のみ検討中。実装再開はユーザー許可待ち。20系統の第三相3枝・第四相6経路、雌雄差・第三相からの繁殖、系統樹と説明シートの静止画を検討する。E4は先行モックv0.3の対象版に限定。全ノード草案
 
 A1:（起点 / 生態系の成長と生存観測）［草案］
 	構成（要素・関係）:
@@ -16,19 +16,19 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 		最新方向をA1.1〜A1.3へ展開。現在はA/B検討のみ。E4は先行モックv0.3の範囲。従前製品のE1/E2は最新Aの検証根拠ではない。
 
 	A1.1:（A1 / 個体・系統・段階進化）［草案］
-		Node File: valis/nodes/A/A1.1.md; 親: A1; 対象: ecosystem-mock-v0.3
+		Node File: valis/nodes/A/A1.1.md; 親: A1; 対象: A-B-spec-discussion
 		要約: 1マス最大1個体。初期値から20系統・6軸DNA・見た目の個体差を決定。同系統は仲間。部位別XPは持たず、全20系統の第一相・萌生→第二相・変容→第三相・異相→第四相・覚醒を保持する。基本系統は固定。能力はDNA・成長段階・分岐から計算する。
 		対応: 意味定義
 		次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
 
 	A1.2:（A1 / 各マスの環境・4入力）［草案］
-		Node File: valis/nodes/A/A1.2.md; 親: A1; 対象: ecosystem-mock-v0.3
+		Node File: valis/nodes/A/A1.2.md; 親: A1; 対象: A-B-spec-discussion
 		要約: 固定四分割を廃し、一続きの新規背景上にマスごとの環境を表示する。生命Fizz・鉱物Buzz・情報FizzBuzz・数値入力を有限資源として扱う。数値は栄養とは分け、次の摂取の成長量を調整する。環境は滞在中に毎ターン作用する。
 		対応: 意味定義
 		次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
 
 	A1.3:（A1 / 性別・繁殖・遺伝）［草案］
-		Node File: valis/nodes/A/A1.3.md; 親: A1; 対象: ecosystem-mock-v0.3
+		Node File: valis/nodes/A/A1.3.md; 親: A1; 対象: A-B-spec-discussion
 		要約: オス・メスを区別する。同系統の成熟した異性2体、十分なエネルギー、待機期間終了、近接と空きマスを条件に出生。両親のDNAを継承し、子の成長は初期化。出生・死亡は個体と一致し、移動中も個体IDを保つ。
 		対応: 意味定義
 		次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
@@ -206,13 +206,13 @@ E3:（D4, A2, C4 / Windows配布・実exe検証）［草案］
 ユーザー確認済みの責務分割。承認済み状態への遷移は行わない。B1〜B3・C1〜C4・D1〜D4・E1〜E3は従前製品の記録であり、今回の仕様適合を表さない。
 
 B4:（A1.1, A1.2, A1.3 / モックの生態進行）［草案］
-	Node File: valis/nodes/B/B4.md; 親: なし; 対象: ecosystem-mock-v0.3
+	Node File: valis/nodes/B/B4.md; 親: なし; 対象: A-B-spec-discussion
 	要約: 資源回復→環境更新→生命維持・採食・段階進化→移動→ペア繁殖→集計。固定seedで再現。同じマスに個体を重ねず、新生児は次ターンから行動する。B3/S23による別セルは設けない。
 	対応: 意味定義
 	次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
 
 B5:（A1.1, A1.2, A1.3, A2 / モックの観測・比較操作）［草案］
-	Node File: valis/nodes/B/B5.md; 親: なし; 対象: ecosystem-mock-v0.3
+	Node File: valis/nodes/B/B5.md; 親: なし; 対象: A-B-spec-discussion
 	要約: 生成、開始、一時停止、1ターン、120ターン、マス選択、環境表示切替、20系統の見本、個体詳細、親子情報、摂取・進化・出生・死亡履歴と比較投与を提供。仮設定を画面に表示する。
 	対応: 意味定義
 	次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
@@ -223,6 +223,13 @@ B5:（A1.1, A1.2, A1.3, A2 / モックの観測・比較操作）［草案］
 		対応: design/specification/in-game-evolution-viewer.md、evolution-viewer-mock.png
 		処理: 初期登録。機能仕様のみ。実装・C/D/E展開は未実施。
 		次候補: ユーザーの認識合わせ。
+
+	B5.2:（A1.1, A1.2, A1.3 / 進化・雌雄・繁殖の説明シート）［草案］
+		Node File: valis/nodes/B/B5.2.md; 親: B5; 層: B; 対象: A-B-spec-discussion
+		要約: 餌・環境・戦闘・移動と分岐理由、雌雄差、双方第三相以上からの繁殖条件を説明。一般説明と実個体の情報を区別。
+		対応: design/specification/explanation-sheets.md、explanation-sheets-mock.png
+		処理: ユーザー確認済みの責務分割で初期登録。状態は草案。実装は未実施。
+		次候補: A/Bと静止画の認識合わせ。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	Node File: valis/nodes/C/C5.md; 親: なし; 対象: ecosystem-mock-v0.3
@@ -264,8 +271,22 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 
 ## 系統樹と環境別餌のA/B資料
 
-- A1.1: 元定義の四相名称を保持した20系統の図と46本の特化経路案。枝・条件の数値は未確定。
+- A1.1: 元定義の四相名称を保持した20系統の図。ユーザー指定で第三相60候補・第四相120経路。分類・条件の数値は提案。
 - A1.2: 環境別の餌差分。生命12候補、鉱物8候補、情報8候補、数値の表現4候補。効果量等は未確定。
 - B5.1: ゲーム内参照機能を新規登録。B5の子として分離をユーザー確認済み。状態は草案。
 - 資料: design/specification/evolution-trees/README.md、environment-food.md、in-game-evolution-viewer.md、evolution-viewer-mock.png。
 - 今回はA/B・図・静止画の作成のみ。実装・C/D/E・実行物・CIは更新/実行しない。
+
+## 第三相3枝・第四相6経路と説明シート
+
+- A1.1: 第二相の有効な経験から第三相3枝へ、第三相で新たに得る経験から各2方向へ進む案。採食・機動・戦闘の分類、評価式、閾値は提案。戦闘しない経路もある。
+- A1.3: 雌雄は模様・発光の小差。同系統の双方第三相以上から繁殖候補。子は第一相、獲得した分岐・経験は初期化する案。
+- B4/B5.1/B5.2: 生態結果の機能仕様、3→6系統樹、説明シートを接続。B5.2はユーザー承認済みの分割。
+- 資料: design/specification/branching-rules.md、sex-and-reproduction.md、explanation-sheets.md。静止画: evolution-viewer-mock.png、explanation-sheets-mock.png。
+- A/Bの資料・参照先を照合する。C/D/E・ゲームコード・テスト・承認状態は変更しない。E4は今回の規則の検証証跡ではない。
+
+### 今回の実行範囲と資料照合
+
+FLOW-04によるA/B仕様修正として、関連するproject-local core・A/B・元系統定義を参照。更新対象はA1.1/A1.2/A1.3/B4/B5/B5.1、ユーザー確認済みのB5.2を初期登録し、上記要約を反映する。成果物は仕様文書・20系統の図・静止画2枚。C/D/Eへの展開、実装、ゲームテスト、承認状態変更は今回のユーザー指定範囲外。
+
+作業結果照合: 20系統の既存名、各3枝/6経路、SVG、Node Fileの親子/派生参照と資料実体を照合。全32ノードは草案。今回のルールのゲーム動作検証は未実施。出力は資料作成とmain統合の範囲に限定する。

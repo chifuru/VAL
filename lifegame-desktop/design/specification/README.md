@@ -1,7 +1,15 @@
 # A仕様・B機能の検討資料
 
-[20系統の進化・分岐ツリー](evolution-trees/README.md) / [環境別の餌・生命12差分](environment-food.md) / [ゲーム内参照機能](in-game-evolution-viewer.md)
+[全20系統：第三相3枝→第四相6経路](evolution-trees/README.md) / [分岐ロジック](branching-rules.md) / [雌雄と第三相からの繁殖](sex-and-reproduction.md) / [環境別の餌](environment-food.md)
 
-![ゲーム内系統樹と環境別餌の静止図](evolution-viewer-mock.png)
+## 分岐図画面の静止画
 
-A1.1・A1.2・B5.1に対応する仕様案。四相と既存名は元FizzBuzzから保持し、分岐名・時期・条件・餌差分は今回の提案として区別する。ゲーム実装は許可待ちで、コード・C/D/E・実行物を変更しない。静止画は生物の四相と環境別の餌を描き込んだ画像生成による提案。実データの表示や既存資産をそのまま切り出した一覧ではない。情報配置の構成図もSVGとして保持する。
+![第三相3分岐・第四相6経路](evolution-viewer-mock.png)
+
+## 説明シートの静止画
+
+![進化の理由・雌雄・繁殖](explanation-sheets-mock.png)
+
+[系統樹の機能B5.1](in-game-evolution-viewer.md) / [説明シートの機能B5.2](explanation-sheets.md)
+
+現在はA/Bと静止画のみ。分岐数・第三相からの繁殖・小さな雌雄差はユーザー指定。分類名・評価方法・条件の数値・新しい造形は具体化の提案。元FizzBuzzの四相・名称・基本系統を保持し、既存素材ですべての新しい枝の姿が完成済みとは扱わない。実装再開はユーザー許可待ち。
