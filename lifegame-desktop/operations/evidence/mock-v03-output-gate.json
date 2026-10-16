@@ -1,0 +1,30 @@
+{
+  "scope": "mock-v0.3 delivery, not production acceptance",
+  "checked_at": "2026-10-16T10:52:42.723013+09:00",
+  "result": "passed",
+  "checks": {
+    "all_nodes_draft": true,
+    "node_paths_in_manifest": true,
+    "same_layer_parent_hierarchy": true,
+    "cross_references_exist": true,
+    "source_test_evidence_paths_exist": true,
+    "tested_source_hashes_match": true,
+    "original_core_and_product_unchanged": true,
+    "windows_ci_success": true,
+    "native_execution_and_reproduction": true,
+    "main_integrated_and_pushed": true
+  },
+  "node_count": 30,
+  "evidence_node": "E4",
+  "model_tests": 24,
+  "browser_checks": 22,
+  "validated_source_commit": "22160a504dd9cacd664734f736c644bedb0de3e5",
+  "main_integration_commit": "94c0bbac2284ecf798e6925345fad71fac81c753",
+  "artifact_url": "https://github.com/chifuru/VAL/actions/runs/38837098300/artifacts/12019139553",
+  "remaining": [
+    "ユーザーによる画面・ルールの認識合わせ",
+    "仮設定の調整",
+    "製品版への採用判断"
+  ],
+  "approval_state": "all nodes remain 草案"
+}
