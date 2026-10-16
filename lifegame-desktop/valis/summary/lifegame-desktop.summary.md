@@ -90,7 +90,7 @@ B5.3:（A1.1, A1.2, A1.3, A1.5, A1.6 / 確定した行動のモーション表�
 
 C4:（A2, B5 / Electron と Windows 配布）［草案］
 	Node File: valis/nodes/C/C4.md; 親: なし
-	実態: 現行2.1.0へ接続。Windowsの現行検査はE7を参照（現在CI待ち）。
+	実態: 現行2.1.0接続済み。Windows ZIP生成・展開SHA照合・実exe10ターン成功。対象版と範囲はE7。
 
 C7:（B4 / 同期ターン接合と世界確定）［草案］
 	Node File: valis/nodes/C/C7.md; 親: なし
@@ -128,7 +128,7 @@ C8.1:（B5.3 / 盤面と個体の描画・確定モーション）［草案］
 
 D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	Node File: valis/nodes/D/D4.md; 親: なし
-	実態: 現行2.1.0へ接続。Windowsの現行検査はE7を参照（現在CI待ち）。
+	実態: 現行2.1.0接続済み。Windows ZIP生成・展開SHA照合・実exe10ターン成功。対象版と範囲はE7。
 
 D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案］
 	Node File: valis/nodes/D/D7.md; 親: なし
@@ -162,7 +162,7 @@ E6:（D9, C8, C8.1 / 現行観測画面のLinux実測証跡）［草案］
 
 E7:（D4, D7, D8, D8.1, D8.2, D9, A2, C4, C7, C8, C8.1 / 現行Windows配布exeの実測証跡）［草案］
 	Node File: valis/nodes/E/E7.md; 親: なし
-	実態: 現行v1.5 Windows CI待ち。旧v1.4の実exe成功は現行変更へ流用しない。
+	実態: Windows CI成功。単体/構造/回帰61、画面36、ZIP展開SHA照合、実exe10ターン・Node非公開/file表示を確認。
 
 ## 登録済みだが現行仕様の対象外
 

@@ -1,5 +1,100 @@
 {
-  "version": "ecology-ab/1.5 / app2.1.0",
-  "status": "pending",
-  "reason": "Current source must pass Windows CI; prior-version success is not applied to v1.5."
+  "run": {
+    "id": 38910256556,
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/chifuru/VAL/actions/runs/38910256556",
+    "head_sha": "0bea80254c39d0c71f240167735f88a4cd7571eb"
+  },
+  "job_id": 117003998269,
+  "native": {
+    "ok": true,
+    "electron": "44.7.2",
+    "platform": "Win32",
+    "arch": "x64",
+    "turn": 10,
+    "population": 714,
+    "nodeExposed": false,
+    "local": true,
+    "title": "LifeGame — 生態シミュレーション"
+  },
+  "browser": {
+    "ok": true,
+    "version": "ecology-ab/1.5",
+    "platform": "win32",
+    "browser": "141.0.7390.37",
+    "checks": [
+      "unprepared world cannot advance",
+      "load creates phase-I world without advancing",
+      "seed preserves Unicode, whitespace and newline",
+      "all thirty lineages are present in observation catalogue",
+      "in-game explanation opens",
+      "tree references every species including food and parasites",
+      "tree explains abyss",
+      "tree explains precocial",
+      "tree explains algae",
+      "tree explains tideparasite",
+      "tree explains hyperparasite",
+      "sheet content: system",
+      "system explains finite root uptake and protected plant bases",
+      "sheet content: food",
+      "food sheet explains demand-limited harvesting",
+      "sheet content: action",
+      "sheet content: birth",
+      "birth sheet explains local two-parent competition",
+      "sheet content: parasite",
+      "sheet content: info",
+      "guide and all trees do not change biological state",
+      "single step advances exactly one synchronous turn",
+      "browser world respects slots and finite budgets",
+      "individual observation exposes DNA and current weights",
+      "only selected individual exposes candidate diagnostics",
+      "plant observer distinguishes edible leaves, living base and soil",
+      "view toggles and zoom do not affect simulation",
+      "reset exactly replays original world",
+      "pause stops biological time",
+      "few-lineage clustered weighted mode creates five main lineages",
+      "invalid settings show reason and retain previous world",
+      "failed setup leaves old world intact",
+      "main-off mode is not misreported as extinction",
+      "narrow viewport does not overflow horizontally",
+      "no JavaScript page errors: ",
+      "local app makes no external HTTP requests"
+    ],
+    "errors": [],
+    "network": [],
+    "serving": "HTTP loopback (managed Chromium blocks file URLs)"
+  },
+  "package": {
+    "version": "2.1.0",
+    "electron": "44.7.2",
+    "exe": "LifeGame.exe",
+    "platform": "win32",
+    "arch": "x64",
+    "zip": "LifeGame-Windows-x64.zip",
+    "sha256": "9b7137534f319f6f23a678686e566010dc6a25f75035f1ad3f3a36bb6052e079",
+    "bytes": 157857387
+  },
+  "artifacts": [
+    {
+      "id": 12049494092,
+      "name": "LifeGame-Windows-x64",
+      "size_in_bytes": 158842139,
+      "url": "https://api.github.com/repos/chifuru/VAL/actions/artifacts/12049494092",
+      "archive_download_url": "https://api.github.com/repos/chifuru/VAL/actions/artifacts/12049494092/zip",
+      "expired": false,
+      "created_at": "2026-10-16T13:47:26Z",
+      "expires_at": "2026-11-15T13:47:21Z",
+      "updated_at": "2026-10-16T13:47:26Z",
+      "digest": "sha256:4158058b613fd96c0ade746172eff00243e6cce46b9a1a2015d2781550ecc503",
+      "workflow_run": {
+        "id": 38910256556,
+        "repository_id": 1411285944,
+        "head_repository_id": 1411285944,
+        "head_branch": "main",
+        "head_sha": "0bea80254c39d0c71f240167735f88a4cd7571eb"
+      }
+    }
+  ],
+  "unitChecks": 61
 }

@@ -75,6 +75,11 @@
   "hashes": "source-hashes.json",
   "windows": {
     "report": "windows.json",
-    "status": "pending"
+    "log": "windows-ci.log",
+    "run": "https://github.com/chifuru/VAL/actions/runs/38910256556",
+    "source": "0bea80254c39d0c71f240167735f88a4cd7571eb",
+    "nativeTurns": 10,
+    "unitChecks": 61,
+    "browserChecks": 36
   }
 }

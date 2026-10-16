@@ -1,5 +1,5 @@
-✔ VALIS: every node has valid hierarchy, references, manifest entry and real source/test paths (8.308597ms)
-✔ D4: generated checksums include nested assets, normalize paths and exclude the manifest itself (8.679897ms)
+✔ VALIS: every node has valid hierarchy, references, manifest entry and real source/test paths (7.087952ms)
+✔ D4: generated checksums include nested assets, normalize paths and exclude the manifest itself (10.614427ms)
 ℹ tests 2
 ℹ suites 0
 ℹ pass 2
@@ -7,4 +7,4 @@
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 32.304868
+ℹ duration_ms 31.500565
