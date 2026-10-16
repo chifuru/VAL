@@ -2,6 +2,14 @@
 
 [全20系統：第三相3枝→第四相6経路](evolution-trees/README.md) / [分岐ロジック](branching-rules.md) / [雌雄と第三相からの繁殖](sex-and-reproduction.md) / [環境別の餌](environment-food.md)
 
+## 最新の統合モックと説明
+
+![8環境・個体の6傾向・情報伝達](ecosystem-overview-mock.png)
+
+[全体仕様のまとめ](design-summary.md) / [流れの説明と改善提案](design-review.md)
+
+8環境の凡例、選択個体の6傾向、環境補正、系統を越える情報、量の差を示す。表示例であり、実シミュレーションの結果ではない。以下は要素別の検討画像。
+
 ## 環境追加と情報の共有範囲
 
 [8環境案と系統を越える情報](environment-expansion.md)。寒冷・湿潤・強風・腐食を追加する案。情報は系統を問わず摂取でき、局所的に伝わる。以下の画像は4環境の部分見本。
