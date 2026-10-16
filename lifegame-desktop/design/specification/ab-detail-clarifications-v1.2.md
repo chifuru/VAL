@@ -1,5 +1,7 @@
 # A/B詳細説明 v1.2：戦闘・移動・餌の読み分け
 
+> v1.3更新：本書は旧版の基底資料。現在の統合規則は[統合A/B仕様v1.3](ab-system-specification-v1.3.md)、説明資料は[一枚の統合画像](atlas-v1.3/ecology-system-master.png)を参照。相違時は統合仕様を優先する。
+
 [正本](ab-specification-v1.md)・[実行条件](ab-execution-contract-v1.1.md)・[系統表](ab-catalogue-v1.md)を、詳細図56〜69と合わせて読むための補足。v1.2は説明資料の改訂番号で、別のゲーム方式や新しい独立機能の追加ではない。以下に限り、暗黙だった適用先/順序を明記する。
 
 ## 1. 前版の不足
