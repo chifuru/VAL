@@ -72,3 +72,25 @@ test("checkpoints keep initial and current block, with real counters and no fals
   assert.equal(w.checkpoints[0].turn, 0);
   assert.ok(w.checkpoints.length <= 6);
 });
+
+test("an unmodified seeded world supports phaseI children growing up and producing descendants", () => {
+  const { simulate } = require("../tools/validate-ecology-balance.cjs");
+  const result = simulate(
+    {
+      id: "lifecycle-regression",
+      seed: "lifecycle-regression",
+      width: 40,
+      height: 28,
+      initial: 20,
+      lineages: "manual",
+      selected: ["jelly"],
+    },
+    300,
+  );
+  assert.ok(result.mainBirths > 0);
+  assert.ok(result.offspringMatured > 0);
+  assert.ok(result.descendantBirths > 0);
+  assert.ok(result.maxGeneration >= 2);
+  assert.equal(result.firstExtinction, null);
+  assert.ok(result.finalFood > 0);
+});

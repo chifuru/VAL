@@ -1,0 +1,5 @@
+{
+  "version": "ecology-ab/1.5 / app2.1.0",
+  "status": "pending",
+  "reason": "Current source must pass Windows CI; prior-version success is not applied to v1.5."
+}

@@ -113,10 +113,25 @@ async function main() {
       "info",
     ]) {
       await page.locator(`[data-sheet="${name}"]`).click();
-      check(
-        (await page.locator("#guide-content").textContent()).length > 300,
-        "sheet content: " + name,
-      );
+      const text = await page.locator("#guide-content").textContent();
+      check(text.length > 300, "sheet content: " + name);
+      if (name === "system")
+        check(
+          text.includes("基部B2") &&
+            text.includes("土壌M") &&
+            text.includes("吸収率0.5"),
+          "system explains finite root uptake and protected plant bases",
+        );
+      if (name === "food")
+        check(
+          text.includes("満腹・全快") && text.includes("部分取得"),
+          "food sheet explains demand-limited harvesting",
+        );
+      if (name === "birth")
+        check(
+          text.includes("近傍主生物2〜3体") && text.includes("二段階予約"),
+          "birth sheet explains local two-parent competition",
+        );
     }
     await page.locator("#close-guide").click();
     check(
@@ -148,6 +163,18 @@ async function main() {
     check(
       (await page.locator("#selection").textContent()).includes("候補上位3"),
       "only selected individual exposes candidate diagnostics",
+    );
+    await page.evaluate(() => {
+      const w = __LIFE_TEST__.snapshot().world;
+      const plant = w.organisms.find(
+        (o) => EcoEngine.S.spec(o).group === "plant",
+      );
+      __LIFE_TEST__.select(plant.cell, plant.id);
+    });
+    check(
+      (await page.locator("#selection").textContent()).includes("可食葉B") &&
+        (await page.locator("#selection").textContent()).includes("土壌M"),
+      "plant observer distinguishes edible leaves, living base and soil",
     );
     const beforeView = await page.evaluate(() => __LIFE_TEST__.fingerprint());
     for (const id of ["resources", "motion", "grid"])
@@ -251,7 +278,7 @@ async function main() {
     check(network.length === 0, "local app makes no external HTTP requests");
     const report = {
       ok: true,
-      version: "ecology-ab/1.4",
+      version: "ecology-ab/1.5",
       platform: process.platform,
       browser: await browser.version(),
       checks,

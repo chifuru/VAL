@@ -140,7 +140,7 @@
         food = near.map((p) => m.food.get(p)).filter(Boolean),
         local = [];
       if (!m.main.has(cell) && w.config.enabled.main) {
-        if (mains.length === 3)
+        if ([2, 3].includes(mains.length))
           for (const mother of mains)
             if (
               mother.sex === "female" &&

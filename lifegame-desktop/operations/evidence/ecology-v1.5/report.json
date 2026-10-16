@@ -1,0 +1,80 @@
+{
+  "version": "ecology-ab/1.5 / app2.1.0",
+  "date": "2026-10-16T13:43:44.714100+00:00",
+  "environment": {
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "node": "24.19.0",
+    "chromium": "154.0.8037.57"
+  },
+  "rules": {
+    "passed": 44,
+    "log": "model.log",
+    "command": "node --test --test-isolation=none tests/ecology-*.test.cjs"
+  },
+  "regression": {
+    "command": "npm test",
+    "passedFiles": 7,
+    "log": "unit.log",
+    "note": "Linux default Node reporter groups seven passing files; detailed ecology cases are in model.log."
+  },
+  "browser": {
+    "passed": 36,
+    "report": "browser.json",
+    "command": "node tests/browser-smoke.cjs",
+    "serving": "HTTP loopback (managed Chromium blocks file URLs)"
+  },
+  "balance": {
+    "report": "balance.json",
+    "ticksEach": 1000,
+    "cases": 4,
+    "standard": {
+      "initialMain": 320,
+      "mainBirths": 219,
+      "descendantBirths": 119,
+      "maxGeneration": 9,
+      "finalMain": 54,
+      "finalFood": 2228
+    },
+    "smallMainExtinctionTurns": {
+      "regression": 722,
+      "heldout": 705,
+      "few": 947
+    }
+  },
+  "performance": {
+    "report": "performance.json",
+    "command": "node tools/benchmark-ecology.cjs",
+    "sizes": [
+      [
+        40,
+        28,
+        80
+      ],
+      [
+        80,
+        56,
+        320
+      ],
+      [
+        160,
+        112,
+        1280
+      ]
+    ],
+    "ticksEach": 12,
+    "extendedTicks": 1000,
+    "repeatedRegressionFingerprintMatches": true
+  },
+  "limits": [
+    "One standard seed supports nine generations through turn1000; this is not proof of stable equilibrium or survival of all lineages.",
+    "Three small/few-lineage cases reproduce but eventually lose all main organisms; food organisms remain.",
+    "Natural completion rates of special parasitic life cycles are not established by fixture-level rule tests.",
+    "Node timings do not establish browser or Windows frame rate on user devices.",
+    "Reference creatures use procedural shapes; detailed visual agreement remains open."
+  ],
+  "hashes": "source-hashes.json",
+  "windows": {
+    "report": "windows.json",
+    "status": "pending"
+  }
+}

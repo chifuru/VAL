@@ -532,8 +532,13 @@
             (o.slot === "main"
               ? 0.24 + 0.045 * o.phase
               : 0.15 +
-                0.1 * Math.min(1, o.B / (S.spec(o).capacity?.[1] || 20))) *
-            (o.slot === "main" ? 0.9 + 0.2 * o.dna.body : 1);
+                0.1 *
+                  Math.min(
+                    1,
+                    S.edibleB(o) /
+                      ((S.spec(o).capacity?.[1] || 20) -
+                        (S.spec(o).group === "plant" ? S.PLANT_BASE : 0)),
+                  )) * (o.slot === "main" ? 0.9 + 0.2 * o.dna.body : 1);
           if (o.slot === "main") creature(g, o, cx, cy, size, detail);
           else if (point) {
             g.fillStyle = S.spec(o).color;

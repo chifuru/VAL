@@ -166,3 +166,24 @@ test("food maturity becomes reproductive ability on the next turn, not the matur
   const next = ready(w);
   assert.ok(E.R.reproduce(w, next).length > 0);
 });
+
+test("a qualified adjacent pair can reproduce with two neighbors and cannot reproduce alone", () => {
+  const w = world();
+  const [a, b] = parents(w);
+  w.organisms = w.organisms.filter((o) => o.id !== "neighbor");
+  const c = ready(w),
+    before = S.totals(w),
+    children = E.R.reproduce(w, c);
+  assert.equal(children.length, 1);
+  assert.equal(children[0].phase, 1);
+  assert.equal(children[0].age, 0);
+  assert.deepEqual(children[0].parents, ["mother", "father"]);
+  assert.equal(a.E, 70);
+  assert.equal(b.E, 70);
+  assert.equal(a.M, 10);
+  assert.equal(b.M, 10);
+  assert.deepEqual(S.totals(w), before);
+  const single = world();
+  add(single, "abyss", "alone", 2, 2, { phase: 3, E: 90, M: 12 });
+  assert.equal(E.R.reproduce(single, ready(single)).length, 0);
+});

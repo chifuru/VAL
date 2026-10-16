@@ -195,14 +195,14 @@ test("funded resource amount can reach dense q9 without free refill", () => {
 });
 test("exactly one partial plant body unit is shared, with no source overdraw", () => {
   const w = world(),
-    plant = add(w, "grass", "food", 3, 3, { B: 1, M: 0.1 }),
+    plant = add(w, "grass", "food", 3, 3, { B: 3, M: 0.1 }),
     a = add(w, "recursive", "a", 2, 3, { E: 20 }),
     b = add(w, "recursive", "b", 4, 3, { E: 20 }),
     c = ready(w);
   for (const o of [a, b])
     c.intents.set(o.id, { type: "harvest", target: plant.id, cost: 0 });
   E.N.feed(w, c, E.P.transfer);
-  assert.equal(plant.B, 0);
+  assert.equal(plant.B, 2);
   assert.equal(a.E + b.E, 40.5);
   assert.equal(c.records.get(a.id).bites + c.records.get(b.id).bites, 1);
 });
@@ -240,4 +240,163 @@ test("phaseIII continues mineral intake past phaseIII qualification toward phase
   o.ivCounters = [3, 0];
   E.R.growth(w, c);
   assert.equal(o.phase, 4);
+});
+
+test("plant roots share two bites, transfer finite soil M, and stop at capacity or exhaustion", () => {
+  for (const [M, soil, expectedM, expectedSoil, bites] of [
+    [0, 5, 0.1, 4.9, 2],
+    [1.99, 5, 2, 4.99, 1],
+    [0, 0, 0, 0, 0],
+  ]) {
+    const w = world(),
+      o = add(w, "grass", "root", 3, 3, { M });
+    w.tiles[o.cell].soilM = soil;
+    const c = ready(w),
+      energy = o.E;
+    E.N.feed(w, c, E.P.transfer);
+    assert.equal(o.M, expectedM);
+    assert.equal(w.tiles[o.cell].soilM, expectedSoil);
+    assert.equal(o.E, energy);
+    assert.equal(o.G, 0);
+    assert.equal(c.records.get(o.id).bites, bites);
+    assert.deepEqual(E.invariants(w), []);
+  }
+});
+test("healthy full prey neither strips leaves nor consumes a mineral source", () => {
+  const w = world(),
+    plant = add(w, "grass", "plant", 3, 3),
+    prey = add(w, "grassbug", "prey", 2, 3, { E: 20, HP: 6 });
+  w.resources.push({
+    cell: prey.cell,
+    kind: "mineral",
+    q: 2,
+    E: 0,
+    M: 4,
+    G: 0,
+    created: 0,
+    expires: null,
+    event: null,
+  });
+  const c = ready(w);
+  c.intents.set(prey.id, { type: "harvest", target: plant.id, cost: 0 });
+  E.N.feed(w, c, E.P.transfer);
+  assert.equal(plant.B, 12);
+  assert.equal(prey.M, 0);
+  assert.equal(c.records.get(prey.id).bites, 0);
+  assert.equal(w.resources[0].q, 2);
+});
+test("slightly hungry prey takes only the needed leaf fraction and leaves the living base", () => {
+  const w = world(),
+    plant = add(w, "grass", "plant", 3, 3, { B: 12 }),
+    prey = add(w, "grassbug", "prey", 2, 3, { E: 19.8 });
+  const c = ready(w);
+  c.intents.set(prey.id, { type: "harvest", target: plant.id, cost: 0 });
+  E.N.feed(w, c, E.P.transfer);
+  assert.equal(prey.E, 20);
+  assert.equal(prey.G, 0);
+  assert.ok(Math.abs(plant.B - 11.692308) < 0.000001);
+  assert.equal(c.records.get(prey.id).bites, 1);
+  assert.deepEqual(E.invariants(w), []);
+});
+test("bare living bases are not edible targets, while fungi have no protected plant base", () => {
+  const w = world(),
+    root = add(w, "grass", "root", 3, 3, { B: 2 }),
+    main = add(w, "recursive", "main", 2, 3),
+    fungus = add(w, "fungus", "fungus", 2, 2, { B: 1 });
+  const c = ready(w),
+    m = S.maps(w),
+    list = E.B.candidates(w, main, c, m);
+  assert.ok(!list.some((a) => a.target === root.id && a.type === "harvest"));
+  assert.ok(list.some((a) => a.target === fungus.id && a.type === "harvest"));
+  c.intents.set(main.id, { type: "harvest", target: root.id, cost: 0 });
+  E.N.feed(w, c, E.P.transfer);
+  assert.equal(root.B, 2);
+  assert.equal(c.records.get(main.id).bites, 0);
+});
+test("leaf loss lowers paid light input; basal tissue cannot be spent on drops", () => {
+  for (const [B, gain] of [
+    [12, 2.8],
+    [2, 0.7],
+  ]) {
+    const w = world(),
+      plant = add(w, "grass", "plant", 3, 3, { B, E: 0, M: 2, phase: 2 });
+    const c = ready(w);
+    assert.equal(plant.E, gain);
+    assert.equal(w.ledger.solar, gain);
+    if (B === 2) {
+      w.turn = S.hash(w, "drop/phase", 0, plant.id) % 8;
+      plant.E = 0;
+      const candidates = E.N.investAndDrops(w, c);
+      assert.ok(!candidates.some((a) => a.source === plant));
+      assert.equal(plant.B, 2);
+    }
+  }
+});
+test("a base in darkness can die and never triggers a replacement without parents", () => {
+  const w = world(),
+    plant = add(w, "grass", "plant", 3, 3, { B: 2, E: 0, HP: 0.1, M: 0 });
+  w.tiles[plant.cell].light = 0;
+  w.tiles[plant.cell].soilM = 0;
+  ready(w);
+  const next = E.step(w);
+  assert.equal(next.organisms.length, 0);
+  assert.deepEqual(E.invariants(next), []);
+});
+test("natural initialization keeps four related founders near a legal center and preserves exact counts", () => {
+  const config = {
+    seed: "cohort-contract",
+    width: 40,
+    height: 28,
+    initial: 80,
+  };
+  const a = E.create(config),
+    b = E.create(config);
+  assert.equal(a.version, "ecology-ab/1.5");
+  assert.equal(E.fingerprint(a), E.fingerprint(b));
+  for (const s of S.D.main.slice(0, 20)) {
+    const members = a.organisms.filter((o) => o.species === s.id);
+    assert.equal(members.length, 4);
+    assert.equal(members.filter((o) => o.sex === "male").length, 2);
+    assert.equal(members.filter((o) => o.sex === "female").length, 2);
+    assert.ok(
+      members.slice(1).every((o) => S.oneStep(a, members[0].cell, o.cell)),
+    );
+  }
+  assert.deepEqual(
+    a.tiles,
+    E.create({ ...config, placement: "scatter" }).tiles,
+  );
+  assert.deepEqual(E.invariants(a), []);
+});
+
+test("mate proximity emerges from affinity weights, remains during cooldown, and never grants unqualified birth", () => {
+  function intent(affinity, energy = 80, partnerEnergy = 0) {
+    const w = world(),
+      o = add(w, "recursive", "self", 3, 3, {
+        phase: 3,
+        E: energy,
+        M: 0,
+        sex: "female",
+        facing: 3,
+        birthReady: 100,
+      }),
+      partner = add(w, "recursive", "mate", 4, 3, {
+        phase: 3,
+        E: partnerEnergy,
+        M: 0,
+        sex: "male",
+      });
+    o.weights = [0, 0, 0, affinity, 0, 0, 100, 50, 0];
+    const c = ready(w);
+    E.B.choose(w, c);
+    assert.equal(E.R.eligible(w, o, c), false);
+    return {
+      cell: c.intents.get(o.id).cell,
+      distance: S.distance(w, c.intents.get(o.id).cell, partner.cell),
+    };
+  }
+  assert.ok(intent(0).distance > 1);
+  assert.ok(intent(100).distance <= 1);
+  assert.deepEqual(intent(100, 80, 0), intent(100, 80, 100));
+  assert.ok(intent(100, 34).distance > 1);
 });

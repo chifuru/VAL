@@ -174,6 +174,7 @@
       if (
         food &&
         ["plant", "fungus"].includes(S.spec(food).group) &&
+        S.edibleB(food) > 0 &&
         (s.group === "main" || S.spec(food).group === "plant") &&
         S.distance(w, o.cell, cell) <= 1 &&
         S.oneStep(w, o.cell, cell)
@@ -249,7 +250,12 @@
     let q = 0;
     const plant = v.m.food.get(cell);
     if (plant && ["plant", "fungus"].includes(S.spec(plant).group))
-      q = value(plant.B / S.phenotype(w, plant).capB, S.spec(plant).tag);
+      q = value(
+        S.edibleB(plant) /
+          (S.phenotype(w, plant).capB -
+            (S.spec(plant).group === "plant" ? S.PLANT_BASE : 0)),
+        S.spec(plant).tag,
+      );
     for (const a of v.m.resources.get(cell) || [])
       q = Math.max(q, value(a.q / S.FOOD[a.kind].cap, S.FOOD[a.kind].tag));
     for (const a of v.m.carcasses.get(cell) || [])
@@ -362,10 +368,14 @@
         o.phase >= 3 &&
         a.phase >= 3 &&
         a.sex !== o.sex &&
-        o.birthReady <= w.turn &&
-        S.distance(w, to, p) < S.distance(w, here, p)
+        o.role !== "worker" &&
+        a.role !== "worker" &&
+        o.HP >= 70 &&
+        o.E >= 35 &&
+        (S.distance(w, to, p) <= 1 ||
+          S.distance(w, to, p) < S.distance(w, here, p))
       )
-        mateBonus = 0.1;
+        mateBonus = 0.8;
       if (o.phase <= 2 && a.phase >= 3 && S.distance(w, to, p) <= 1)
         shelterBonus = 0.1;
     }

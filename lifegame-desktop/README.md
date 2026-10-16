@@ -21,13 +21,13 @@ Windows 10/11 x64用。利用時にNode.js・ネット接続・外部サービ�
 ## 生態モデル
 
 - 基本20系統はI→II→IIIの3枝→IVの各2枝。追加の早成甲殻は三相、植物・菌・動く餌は二段階です。子は必ずI相から始まります。
-- 光→植物→動く餌→主生物→死骸・菌・土壌の有限収支。鉱物・情報の候補にはB3/S23の局所CAを使い、供給元の予算も必要です。
+- 光→植物→動く餌→主生物→死骸・菌・土壌の有限収支。植物は刈取りで基部を残し、有限土壌から材料を吸収します。有性出生は二親を要する近傍2〜3体。鉱物・情報の候補にはB3/S23の局所CAを使い、供給元の予算も必要です。
 - 行動は9つの重みと局所刺激の評価結果です。固定の「群れ戦略」を選択せず、実成果・仲間接触・情報が重みを変えます。同系統は仲間です。
 - 有性繁殖はIII以降。浮遊傘の兼性単為生殖、群体節足の繁殖分業・共同育児を含みます。
 - 寄生虫の第一/中間/追加中間/終宿主の生活環、高次寄生虫による寄生の抑制と情報の間接操作を扱います。
 - 情報は**延長された表現型**の抽象モデル。鮮度・文脈・撹乱があり、DNAの水平伝播は行いません。
 
-仕様の正本は[統合A/B v1.3](design/specification/ab-system-specification-v1.3.md)、差分は[v1.4](design/specification/ab-readiness-v1.4.md)、数値は[30系統付表](design/specification/ab-catalogue-v1.md)です。[一枚の全体説明画像](design/specification/atlas-v1.3/ecology-system-master.png)は基本から特殊形態へ読み進められます。v1.4の細則は本文を優先します。
+仕様の正本は[統合A/B v1.3](design/specification/ab-system-specification-v1.3.md)、着手前の差分は[v1.4](design/specification/ab-readiness-v1.4.md)、生態バランスの調整は[v1.5](design/specification/ab-balance-v1.5.md)、数値は[30系統付表](design/specification/ab-catalogue-v1.md)です。[一枚の全体説明画像](design/specification/atlas-v1.3/ecology-system-master.png)は基本から特殊形態へ読み進められます。v1.4の細則は本文を優先します。
 
 ## 開発・検証
 

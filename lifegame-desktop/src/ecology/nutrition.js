@@ -204,6 +204,11 @@
         const f = S.FOOD[a.kind];
         if (a.q <= 0 || (a.E <= 0 && a.M <= 0 && a.kind !== "factor")) continue;
         if (plant && f.tag !== "mineral") continue;
+        if (
+          f.tag === "mineral" &&
+          (spec.group === "prey" || (fungus && p !== o.cell))
+        )
+          continue;
         if (!main && !plant && f.tag !== "mineral" && !organicAllowed(f.tag))
           continue;
         if (!main && ["factor", "info"].includes(a.kind)) continue;
@@ -265,12 +270,23 @@
         });
       }
     }
+    if (plant && o.M < ctx.traits.get(o.id).capM && w.tiles[o.cell].soilM > 0) {
+      list.push({
+        type: "soil",
+        id: "soil:" + o.cell,
+        obj: w.tiles[o.cell],
+        cell: o.cell,
+        tag: "mineral",
+        healing: 1,
+        amount: w.tiles[o.cell].soilM / 20,
+      });
+    }
     if (main) {
       const food = m.food.get(o.cell);
       if (
         food &&
         ["plant", "fungus"].includes(S.spec(food).group) &&
-        food.B > 0 &&
+        S.edibleB(food) > 0 &&
         food.HP > 0
       )
         list.push({
@@ -279,7 +295,10 @@
           obj: food,
           cell: food.cell,
           tag: S.spec(food).tag,
-          amount: food.B / S.phenotype(w, food).capB,
+          amount:
+            S.edibleB(food) /
+            (S.phenotype(w, food).capB -
+              (S.spec(food).group === "plant" ? S.PLANT_BASE : 0)),
           healing: ["moss", "fungus"].includes(food.species) ? 1.2 : 1,
         });
     }
@@ -288,7 +307,7 @@
       if (
         target &&
         target.HP > 0 &&
-        target.B > 0 &&
+        S.edibleB(target) > 0 &&
         S.distance(w, o.cell, target.cell) <= 1 &&
         S.oneStep(w, o.cell, target.cell)
       )
@@ -298,7 +317,10 @@
           obj: target,
           cell: target.cell,
           tag: S.spec(target).tag,
-          amount: target.B / S.phenotype(w, target).capB,
+          amount:
+            S.edibleB(target) /
+            (S.phenotype(w, target).capB -
+              (S.spec(target).group === "plant" ? S.PLANT_BASE : 0)),
           healing: ["moss", "fungus"].includes(target.species) ? 1.2 : 1,
         });
     }
@@ -310,8 +332,13 @@
     function score(a) {
       const organic = ["plant", "fungal", "animal"].includes(a.tag);
       let priority = 10;
-      if (s.group === "plant") priority = 0;
-      else if (s.group !== "main") priority = organic ? 0 : 1;
+      if (s.group === "plant") priority = a.type === "soil" ? 1 : 0;
+      else if (s.group !== "main")
+        priority = organic
+          ? o.E < p.capE - 1e-8 || o.HP < p.maxHP - 1e-8
+            ? 0
+            : 10
+          : 1;
       else if (o.E < 35 && organic) priority = 0;
       else if (o.HP < 50 && organic) priority = 1;
       else if (o.G < (o.phase === 1 ? 30 : o.phase === 2 ? 90 : 210) && organic)
@@ -368,13 +395,35 @@
         const obj = a.obj;
         if (
           (obj.q !== undefined && obj.q <= 0) ||
-          (a.type === "plant" && (obj.B <= 0 || obj.HP <= 0))
+          (a.type === "plant" && (S.edibleB(obj) <= 0 || obj.HP <= 0))
         )
           continue;
         let amount;
-        if (a.type === "plant") {
-          const B = Math.min(2, obj.B),
+        if (a.type === "soil") {
+          amount = {
+            E: 0,
+            M: S.round(
+              Math.min(
+                0.1,
+                obj.soilM,
+                (ctx.traits.get(o.id).capM - o.M) / efficiency(o, "mineral"),
+              ),
+            ),
+            G: 0,
+          };
+          obj.soilM = S.round(obj.soilM - amount.M);
+        } else if (a.type === "plant") {
+          const p = ctx.traits.get(o.id),
+            need = p.capE - o.E + (2 * (p.maxHP - o.HP)) / a.healing;
+          const B = Math.min(
+              2,
+              S.edibleB(obj),
+              S.spec(o).group === "prey"
+                ? Math.max(0, S.round(need / efficiency(o, a.tag, p.phase)))
+                : Infinity,
+            ),
             M = obj.B > 0 ? S.round((obj.M * B) / obj.B) : 0;
+          if (B <= 0) continue;
           obj.B = S.round(obj.B - B);
           obj.M = S.round(obj.M - M);
           amount = { E: B, M, G: 0 };
@@ -415,6 +464,7 @@
           source: a.id,
           to: a.cell,
           amount: amount.E,
+          material: amount.M,
           tag: a.tag,
         });
         ctx.records.get(o.id).bites++;
@@ -526,10 +576,19 @@
               S.nearby(w, p).filter((q) => m.food.get(q)?.species === s.id)
                 .length === 3,
           ),
-          keep = o.phase === 2 && hasBirth ? 8 : 5,
+          keep =
+            s.group === "plant" && o.B < 4
+              ? 2
+              : o.phase === 2 && hasBirth
+                ? 8
+                : 5,
           amount = Math.max(
             0,
-            Math.min(1, o.E - keep, S.phenotype(w, o).capB - o.B),
+            Math.min(
+              s.group === "plant" ? 2 : 1,
+              o.E - keep,
+              S.phenotype(w, o).capB - o.B,
+            ),
           );
         o.E = S.round(o.E - amount);
         o.B = S.round(o.B + amount);
@@ -556,7 +615,7 @@
         kind = "factor";
       const B = kind === "factor" ? 0.2 : 2,
         M = kind === "factor" ? 0 : 0.1;
-      if (o.B < B || o.M < M) continue;
+      if (S.edibleB(o) < B || o.M < M) continue;
       const places = S.nearby(w, o.cell, 1, true)
         .filter((p) => !w.tiles[p].blocked)
         .map((cell) => ({

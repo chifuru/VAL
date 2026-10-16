@@ -135,7 +135,7 @@
         p = ctx.traits.get(o.id),
         light =
           s.group === "plant"
-            ? 2 * w.tiles[o.cell].light
+            ? 4 * w.tiles[o.cell].light * S.leafFactor(o)
             : s.id === "kelp"
               ? 1.5 * w.tiles[o.cell].light * [0, 1, 1.1, 1.2, 1.3][p.phase]
               : 0;

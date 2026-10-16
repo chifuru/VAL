@@ -1,0 +1,19 @@
+
+> valis-lifegame-desktop@2.1.0 test
+> node --test tests/*.test.cjs
+
+✔ tests/ecology-contract.test.cjs (877.269051ms)
+✔ tests/ecology-integration.test.cjs (36710.472823ms)
+✔ tests/ecology-parasites.test.cjs (106.420707ms)
+✔ tests/ecology-reproduction.test.cjs (101.650536ms)
+✔ tests/engine.test.cjs (42397.830724ms)
+✔ tests/manifest.test.cjs (154.42519ms)
+✔ tests/package.test.cjs (110.707613ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 80470.080043

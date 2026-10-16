@@ -8,7 +8,9 @@
   else root.EcoHash = api;
 })(globalThis, function (crypto) {
   "use strict";
-  const VERSION = "ecology-ab/1.4";
+  const VERSION = "ecology-ab/1.5";
+  // Preserve the established random stream while versioning biological rules.
+  const RANDOM_NAMESPACE = "ecology-ab/1.4";
   const K = [
     0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1,
     0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
@@ -91,7 +93,7 @@
   ) {
     return parseInt(
       sha256(
-        JSON.stringify([VERSION, seed, purpose, turn, id, key, axis]),
+        JSON.stringify([RANDOM_NAMESPACE, seed, purpose, turn, id, key, axis]),
       ).slice(0, 8),
       16,
     );
@@ -117,6 +119,7 @@
   }
   return {
     VERSION,
+    RANDOM_NAMESPACE,
     sha256,
     portableSHA256,
     hash,

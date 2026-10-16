@@ -44,6 +44,11 @@
   const hash = (w, p, t = null, id = null, key = null, axis = null) =>
     H.hash(w.config.seed, p, t, id, key, axis);
   const spec = (o) => D.byId[o.species];
+  const PLANT_BASE = 2;
+  const edibleB = (o) =>
+    Math.max(0, o.B - (spec(o).group === "plant" ? PLANT_BASE : 0));
+  const leafFactor = (o) =>
+    0.25 + 0.75 * H.clamp((o.B - PLANT_BASE) / 10, 0, 1);
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
   function nearby(w, p, radius = 1, includeSelf = false) {
@@ -610,10 +615,37 @@
                 a.h - b.h
               : b.score - a.score || a.h - b.h,
           );
-      let cursor = 0;
+      let cursor = 0,
+        cohort = [];
+      const ranks = new Map(candidates.map((c) => [c.p, c]));
+      function naturalCohort(spaced) {
+        for (const anchor of candidates) {
+          if (mainTaken.has(anchor.p)) continue;
+          if (spaced && nearby(w, anchor.p, 2).some((p) => mainTaken.has(p)))
+            continue;
+          const neighbors = nearby(w, anchor.p)
+            .filter((p) => !mainTaken.has(p) && oneStep(w, anchor.p, p))
+            .map((p) => ranks.get(p))
+            .filter(Boolean)
+            .sort((a, b) => b.score - a.score || a.h - b.h);
+          if (neighbors.length >= 3)
+            return [anchor.p, ...neighbors.slice(0, 3).map((c) => c.p)];
+        }
+        return null;
+      }
       for (let j = 0; j < batch.groups * 4; j++) {
         let p;
-        if (config.placement === "scatter") {
+        if (config.placement === "natural") {
+          if (!cohort.length)
+            cohort =
+              naturalCohort(true) ||
+              naturalCohort(false) ||
+              candidates
+                .filter((c) => !mainTaken.has(c.p))
+                .slice(0, 4)
+                .map((c) => c.p);
+          p = cohort.shift();
+        } else if (config.placement === "scatter") {
           let chosen = null;
           for (const c of candidates)
             if (
@@ -877,6 +909,9 @@
     r,
     hash,
     spec,
+    PLANT_BASE,
+    edibleB,
+    leafFactor,
     index,
     xy,
     nearby,
