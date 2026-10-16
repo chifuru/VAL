@@ -1,6 +1,8 @@
 # ライフゲーム：現在のA仕様・B機能
 
-![局所パラメータから生じる動き](emergent-overview-mock.png)
+![仕組みと生態の説明シート](lifegame-explanation-sheet.png)
+
+[ここまでをまとめた説明資料](lifegame-explanation.md)。今回の成果は画面レイアウトではなく、図解・比較・因果関係を読む資料。
 
 [具体化仕様v2](concrete-rules-v2.md)を最新基準とする。数値・配置・観測は表示例。実装・性能・創発は未検証。
 
