@@ -1,51 +1,68 @@
 {
-  "scope": "A-specification mock behavior checks; not production acceptance",
+  "version": "mock-v0.3.0",
+  "scope": "A-spec mock, not production acceptance or approval",
+  "modelTests": 24,
   "checks": [
-    "original FizzBuzz growth parity at five seeds",
-    "same lineage is allied",
-    "cellular births generate actual food intake",
-    "cellular activity changes local environments",
-    "base DNA remains unchanged",
-    "abilities grow from actual anatomy and growth",
-    "same DNA and diet produce different organs under different environments",
-    "environment-dependent organ development changes abilities",
-    "world food/environment override fixed original schedule",
-    "eight real FizzBuzz specimens render",
-    "world simulation advances with actual meals",
-    "intake trace displays",
-    "comparison intervention advances a real turn",
-    "observation pauses",
-    "birth mode starts without prior feeding",
-    "narrow viewport fits",
-    "no renderer exceptions"
+    "reused FizzBuzz modules retain original recorded hashes",
+    "forty individuals cover twenty lineages",
+    "all twenty real lineage portraits render",
+    "same-lineage initial-value variations render",
+    "fixed quadrant backgrounds are removed",
+    "repeated map painting reuses sprites without rebuilding anatomy",
+    "map selection follows exact cell occupancy",
+    "sexual reproduction creates real parent-linked offspring",
+    "actual diets and environments produce stage branches",
+    "all four inputs are consumed naturally",
+    "world reports actual deaths",
+    "one living individual occupies each live cell",
+    "simulation stores no per-part growth experience",
+    "parental identity displays",
+    "numeric comparison changes regulation without nutrition or time advancement",
+    "manual input is distinguished from natural intake",
+    "pause stops the world",
+    "birth observation starts from untrained juveniles",
+    "map zoom retains cell coordinates",
+    "narrow viewport fits without page overflow",
+    "no renderer exceptions or failed asset requests",
+    "sprite cache remains bounded"
   ],
   "errors": [],
+  "failedRequests": [],
   "model": {
     "turn": 120,
-    "cellBirths": 690,
-    "ate": 783,
-    "abilityBefore": {
-      "attack": 9.5,
-      "defense": 10.88,
-      "speed": 2.98,
-      "range": 2.37,
-      "harvest": 2.11,
-      "regen": 1.17,
-      "fertility": 0.61,
-      "longevity": 108.56,
-      "efficiency": 1.39
+    "alive": 95,
+    "births": 60,
+    "deaths": 5,
+    "intake": {
+      "fizz": 2290,
+      "buzz": 1923,
+      "fizzbuzz": 1463,
+      "number": 3409
     },
-    "abilityAfter": {
-      "attack": 11.05,
-      "defense": 12.36,
-      "speed": 3.38,
-      "range": 2.49,
-      "harvest": 2.26,
-      "regen": 1.31,
-      "fertility": 0.64,
-      "longevity": 116.43,
-      "efficiency": 1.43
-    }
+    "evolved": 68
   },
-  "browser": "154.0.8037.57"
+  "performance": {
+    "environment": {
+      "platform": "linux",
+      "arch": "x64",
+      "browser": "154.0.8037.57",
+      "viewport": "1580x1120",
+      "initialPopulation": 40
+    },
+    "startupMs": 3020,
+    "model120Ms": 91,
+    "mapPaintMedianMs": 1,
+    "mapPaintP95Ms": 23.09999999962747,
+    "measurement": "event-driven map paint CPU time, not guaranteed frame rate",
+    "spriteBuildsAtStartup": 67,
+    "spriteBuildsAfterThirtyRepaints": 67,
+    "boundedCacheEntries": 213
+  },
+  "hashes": {
+    "src/model.js": "32eb7d965d716c650a1ad015778c93ed77bb983b08b08638d84aeb0274b22117",
+    "src/presentation.js": "367aa0ea6b1cfb1f359ba5e5e92796f089fd023ea74c77b8f688086a71cfce7f",
+    "src/app.js": "8004634a0c0360529a03849f8cd3bd540e2172cc391e74035a693e06f22b3014",
+    "index.html": "9599570a7b305091cbb3593841968ec72e75f5f588ce0d20614f0e5282dd9d64",
+    "style.css": "b71ab707910a18790e876f44e268c626e7b57e20f249b7d0b57f32b3cba6da02"
+  }
 }

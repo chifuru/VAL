@@ -1,0 +1,32 @@
+✔ same initial value reproduces the world, births and history (245.858412ms)
+✔ initial values cover all twenty fixed lineages, with reproducible individual differences (1.367981ms)
+✔ initial and evolving world has one individual per occupied cell and no simulated organ XP (188.975045ms)
+✔ numeric input changes the next growth amount without directly adding energy or growth (0.374393ms)
+✔ suppressing numeric input reduces the next nutrient growth only (0.346041ms)
+✔ all four actual inputs occur in natural feeding (58.703606ms)
+✔ depleted tile recovers only after five later turns (0.864748ms)
+✔ residence counts the actual cell environment even without a meal (0.606927ms)
+✔ stages and food/environment branches retain fixed lineage and base DNA (0.519027ms)
+✔ the same starting DNA can branch differently with actual diets (0.641137ms)
+✔ adult opposite-sex allies produce one child with parental alleles and no inherited progress (0.443856ms)
+✔ reproduction rejects same sex (0.327794ms)
+✔ reproduction rejects different lineage (0.286954ms)
+✔ reproduction rejects juvenile (0.218052ms)
+✔ reproduction rejects insufficient energy (0.205384ms)
+✔ reproduction rejects cooldown (0.226484ms)
+✔ reproduction rejects dead partner (0.247415ms)
+✔ reproduction rejects distant partner (0.252173ms)
+✔ reproduction rejects no empty adjacent cell (0.214777ms)
+✔ newborn does not act in its birth turn and can act on the next turn (2.659409ms)
+✔ death releases occupancy and does not reset another individual (0.965065ms)
+✔ manual input is marked and preserves simulation time (0.36507ms)
+✔ render projection is read-only, uses fixed stage templates, and ignores changes within a stage (6.136316ms)
+✔ invalid world settings are rejected (0.268297ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 526.731309
