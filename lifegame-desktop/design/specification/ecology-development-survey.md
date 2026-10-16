@@ -1,3 +1,5 @@
+> 検討履歴：現在の仕様は[A/B正本v1](ab-specification-v1.md)と[系統定義表](ab-catalogue-v1.md)。本書の旧条件/未採用候補を現在値として運用しない。
+
 # ライフゲームの発展要素：包括的な候補整理
 
 A/B検討用の洗い出し資料。**この資料に挙げた新規要素を採用したわけではなく、Node/実装/承認状態は変更しない。** 現在の採用草案は[四相強化](lineage-strength-and-evolution.md)・[生理と移動](lineage-physiology-and-movement.md)・[初期配置](initial-placement-modes.md)を参照する。

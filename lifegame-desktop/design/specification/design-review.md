@@ -1,3 +1,5 @@
+> 検討履歴：現在の仕様は[A/B正本v1](ab-specification-v1.md)と[系統定義表](ab-catalogue-v1.md)。本書の旧条件/未採用候補を現在値として運用しない。
+
 # 仕様レビューへの回答と最新方針
 
 [全体要約](design-summary.md) / [具体化の詳細](fixed-environment-and-perturbation.md)

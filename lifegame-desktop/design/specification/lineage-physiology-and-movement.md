@@ -1,3 +1,5 @@
+> 検討履歴：現在の仕様は[A/B正本v1](ab-specification-v1.md)と[系統定義表](ab-catalogue-v1.md)。本書の旧条件/未採用候補を現在値として運用しない。
+
 > 最新追加：[生物共通モデル](unified-organisms-and-hyperparasitism.md)の身体B/出生配分/生物と資源の区別を優先する。代謝補助資源の表示は[代謝因子](metabolic-factors.md)。高度生物20系統の四相と系統差は維持。
 
 # 系統別の繁殖・寿命・栄養要求・移動範囲
