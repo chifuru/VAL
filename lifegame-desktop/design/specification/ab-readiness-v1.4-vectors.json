@@ -1,0 +1,74 @@
+{
+  "role": "仕様の直列化/ハッシュ準拠例。ゲーム実行の証跡ではない",
+  "vectors": [
+    {
+      "input": [
+        "ecology-ab/1.4",
+        "eco-001",
+        "behavior/jitter",
+        1,
+        "i:main:0:0:abyss",
+        [
+          "stop",
+          "i:main:0:0:abyss",
+          null,
+          [],
+          [
+            0,
+            0
+          ]
+        ],
+        null
+      ],
+      "canonical_utf8_json": "[\"ecology-ab/1.4\",\"eco-001\",\"behavior/jitter\",1,\"i:main:0:0:abyss\",[\"stop\",\"i:main:0:0:abyss\",null,[],[0,0]],null]",
+      "h_uint32": 1889594448,
+      "u": 0.4399554915726185
+    },
+    {
+      "input": [
+        "ecology-ab/1.4",
+        "生態",
+        "behavior/jitter",
+        1,
+        "i:main:0:0:abyss",
+        [
+          "stop",
+          "i:main:0:0:abyss",
+          null,
+          [],
+          [
+            0,
+            0
+          ]
+        ],
+        null
+      ],
+      "canonical_utf8_json": "[\"ecology-ab/1.4\",\"生態\",\"behavior/jitter\",1,\"i:main:0:0:abyss\",[\"stop\",\"i:main:0:0:abyss\",null,[],[0,0]],null]",
+      "h_uint32": 3520240851,
+      "u": 0.8196199431549758
+    },
+    {
+      "input": [
+        "ecology-ab/1.4",
+        "  seed\n",
+        "behavior/jitter",
+        1,
+        "i:main:0:0:abyss",
+        [
+          "stop",
+          "i:main:0:0:abyss",
+          null,
+          [],
+          [
+            0,
+            0
+          ]
+        ],
+        null
+      ],
+      "canonical_utf8_json": "[\"ecology-ab/1.4\",\"  seed\\n\",\"behavior/jitter\",1,\"i:main:0:0:abyss\",[\"stop\",\"i:main:0:0:abyss\",null,[],[0,0]],null]",
+      "h_uint32": 42285400,
+      "u": 0.009845336899161339
+    }
+  ]
+}
