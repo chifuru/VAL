@@ -2,7 +2,15 @@
 
 [全20系統：第三相3枝→第四相6経路](evolution-trees/README.md) / [分岐ロジック](branching-rules.md) / [雌雄と第三相からの繁殖](sex-and-reproduction.md) / [環境別の餌](environment-food.md)
 
-## 最新の修正方針
+## 具体化 v1（最新）
+
+![具体化した全体マップ](concrete-overview-mock.png)
+
+[数値・判定・1ターンの順序・20系統の初期表](concrete-rules-v1.md) / [全体要約](design-summary.md)
+
+固定環境、餌の残量と作用、進化/繁殖、6傾向、経験/撹乱情報を一つの具体化草案へ統合。実装・性能・創発は未検証。以下の画像/未確定項目は以前の検討記録で、数値案はv1を優先する。
+
+## 修正方針
 
 [環境は初期値で固定・餌量で調整・情報に撹乱を設ける](fixed-environment-and-perturbation.md)。環境を動的に更新する旧案を撤回。以下の画像は配置・値の表示例であり、環境変動の実演ではない。
 
