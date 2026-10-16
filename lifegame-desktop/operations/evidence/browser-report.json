@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "checks": [
+    "unprepared world cannot start",
+    "load creates exactly 90 organisms without advancing",
+    "loaded world stays still",
+    "canvas selects organism and displays traits",
+    "pause stops scheduling",
+    "paused simulation stays at same turn",
+    "single step advances exactly once",
+    "resume advances again",
+    "editing config requires reload",
+    "reset restores loaded settings and initial world",
+    "same setup reproduces exact initial state",
+    "faction field appears",
+    "faction mode steps",
+    "lineage brawl steps",
+    "terminal result displays and cannot run further",
+    "turn limit reports coexistence",
+    "narrow screen has no page overflow",
+    "no renderer errors",
+    "no external requests"
+  ],
+  "errors": [],
+  "requests": [],
+  "browser": "154.0.8037.57"
+}

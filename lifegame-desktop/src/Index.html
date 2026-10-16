@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'">
+  <title>LifeGame — 生態系観測室</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="masthead"><a class="brand" href="Index.html"><span class="brand-icon">◈</span> VALIS <span class="brand-sub">LIFE LAB</span></a><span class="local-badge"><i></i> LOCAL ECOSYSTEM / 01</span></header>
+<main>
+  <div class="intro"><div><p class="eyebrow">生命は、ひとつの初期値から。</p><h1>生態系観測室<span>LifeGame</span></h1><p class="intro-copy">生まれ、育ち、競い、つながる。小さな世界の行く末を観測しよう。</p></div><div class="intro-note"><span>09</span>種族 <b>×</b> <span>09</span>行動<br><small>同じ初期値から、同じ世界へ。</small></div></div>
+  <div class="workspace">
+    <aside class="panel settings"><div class="panel-heading"><span>01 / 世界をつくる</span><span class="tiny">SETUP</span></div>
+      <form id="setup">
+        <label>初期値 <span class="hint">SEED</span><input id="seed" name="seed" value="VALIS-2026" maxlength="64" required autocomplete="off"></label>
+        <div class="field-row"><label>盤面の幅<input id="width" type="number" value="28" min="8" max="48" required></label><label>盤面の高さ<input id="height" type="number" value="22" min="8" max="48" required></label></div>
+        <label>初期個体数<input id="initial" type="number" value="90" min="2" max="2304" required></label>
+        <label>観測ターンの上限<input id="maxTurns" type="number" value="400" min="1" max="3000" required></label>
+        <label>競争モード<select id="mode"><option value="species">種族戦 — 同じ種族が仲間</option><option value="faction">勢力戦 — 異種族も協力</option><option value="brawl">乱戦 — 血統ごとに競争</option></select></label>
+        <label id="faction-field" hidden>勢力数<input id="factions" type="number" value="3" min="2" max="9"></label>
+        <button id="load" class="button prepare" type="submit"><span>① 世界を読み込む</span><span>↗</span></button>
+      </form>
+      <p class="setup-note">読み込みでは時間は進みません。準備した世界を確認してから、観測を開始できます。</p>
+      <div class="panel-divider"></div>
+      <label class="speed-label" for="speed">観測の速さ <output id="speed-label">標準</output></label><select id="speed"><option value="400">ゆっくり / 0.4秒</option><option value="140" selected>標準 / 0.14秒</option><option value="30">速い / 0.03秒</option></select>
+      <label class="toggle"><input id="resources" type="checkbox" checked>資源を表示する</label>
+      <div class="selection"><p class="tiny">SPECIMEN / 個体観察</p><div id="individual">盤面の生物を選択すると、<br>その個体の状態を観察できます。</div></div>
+    </aside>
+    <section class="world-column" aria-label="生態系の観測">
+      <div class="panel habitat"><div class="panel-heading"><span><i id="status-dot"></i> <span id="status">未準備</span></span><span class="turn">TURN <strong id="turn">000</strong><span id="turn-limit"> / 400</span></span></div>
+        <div class="canvas-wrap"><canvas id="board" width="840" height="660" tabindex="0" aria-label="生態系の盤面。下の集計と個体一覧でも状態を確認できます。"></canvas><div id="empty"><span>◈</span><h2>まだ、誰もいない世界。</h2><p>初期値を決めて「世界を読み込む」を押してください。</p></div></div>
+        <div class="world-footer"><span><i class="resource-dot"></i> 資源 <span class="legend-stage">● 幼体　◉ 成体　◌ 老齢</span></span><span id="seed-display">SEED —</span></div>
+      </div>
+      <div class="transport"><button id="start" class="button primary" disabled>② 観測を開始 <span>▶</span></button><button id="step" class="button secondary" disabled>1ターン進む</button><button id="reset" class="button icon-button" disabled title="同じ設定で最初から" aria-label="同じ設定で最初から">↺</button><p id="run-note" aria-live="polite">世界の読み込みを待っています。</p></div>
+      <div id="message" role="status" aria-live="polite"></div>
+      <div id="result" class="result" hidden><p class="eyebrow">OBSERVATION COMPLETE</p><h2 id="result-title"></h2><p id="result-detail"></p></div>
+      <div class="metrics"><div><span>生存個体</span><strong id="population">—</strong><small id="population-change">POPULATION</small></div><div><span>生存種族</span><strong id="species-count">—</strong><small>SPECIES / 9</small></div><div><span>最長世代</span><strong id="generation">—</strong><small>GENERATION</small></div><div><span>誕生 / 死亡</span><strong class="small-metric" id="births-deaths">— / —</strong><small>TOTAL</small></div></div>
+      <section class="panel trends"><div class="panel-heading"><span>個体数の推移</span><span class="tiny">POPULATION TREND / 直近500標本</span></div><canvas id="chart" width="900" height="170" aria-label="種族別個体数の推移"></canvas></section>
+    </section>
+    <aside class="panel species-panel"><div class="panel-heading"><span>02 / 生存の記録</span><span class="tiny">SPECIES</span></div><p class="species-note">得意な生き方は、それぞれ。<br>この世界に適応するのは、どの種族だろう。</p><div id="ranking"></div><div class="panel-divider"></div><p class="tiny">FIELD NOTES</p><p class="field-notes">資源は採食後、5ターンで回復。生物は成長すると繁殖を始め、子は親の特性と行動を受け継ぎます。</p><p class="field-notes">寿命・飢餓・戦闘で個体は失われます。上限まで複数の集団が残れば「共存」です。</p><details><summary>種族の特性とルール</summary><div id="species-guide"></div><p class="field-notes">種族の基本値は入力資料を基礎にし、初期値由来のDNAが攻撃・防御・代謝を各±10%調整します。生命の予測ではなく、設定したルールの観測です。</p></details></aside>
+  </div>
+  <details class="individual-list"><summary>生存個体を一覧で確認 <span id="list-count">0</span></summary><div class="table-scroll"><table><thead><tr><th>個体</th><th>種族</th><th>年齢 / 段階</th><th>世代</th><th>HP</th><th>エネルギー</th><th>行動</th></tr></thead><tbody id="cells-table"></tbody></table></div><p class="tiny">先頭100個体を表示。盤面上のすべての個体はクリックで観察できます。</p></details>
+  <footer>VALIS / LIFE LAB <span>Deterministic worlds. Unscripted survival.</span><small>v1.0.0 · ローカル実行 · 外部通信なし</small></footer>
+</main>
+<script src="model/config.js"></script><script src="model/lifecycle.js"></script><script src="model/behavior.js"></script><script src="model/engine.js"></script><script src="app.js"></script>
+</body></html>

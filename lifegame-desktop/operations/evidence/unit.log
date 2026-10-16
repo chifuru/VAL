@@ -1,0 +1,23 @@
+✔ D1: exactly requested initial population, all nine species, stable unique positions (8.673175ms)
+✔ D1: same seed and config replay exactly for 300 turns; another seed differs (31879.873042ms)
+✔ D1: previous snapshot is unchanged after stepping (4.596932ms)
+✔ D1: invalid, fractional, empty and out-of-range settings fail clearly (0.569671ms)
+✔ D2: resources return exactly after five recovery ticks (0.177542ms)
+✔ D2: maturity gate and reproduction conserve energy and inherit lineage/DNA (0.337289ms)
+✔ D2: juvenile, adult and elderly stages affect growth independently of generation (0.1289ms)
+✔ D2: faction and lineage determine allies consistently in every mode (0.203471ms)
+✔ D2: lethal attacks resolve simultaneously; dead actors do not reappear (0.425689ms)
+✔ D2: all nine behavior policies score finite moves and preserve occupancy (3.436538ms)
+✔ D2: same-lineage brawl avoids friendly fire, ranged enemies receive damage (0.294245ms)
+✔ D2: extinction, sole survival and coexistence do not fabricate winners (0.147638ms)
+✔ D2: old age and starvation remove a cell without corrupting the previous snapshot (0.49419ms)
+✔ D2: multiple seeds and modes maintain biological and population invariants (2452.975323ms)
+✔ D2: completed worlds do not advance or change their outcome (11.842187ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 34374.69842

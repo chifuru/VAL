@@ -1,0 +1,61 @@
+name: LifeGame Windows x64
+on:
+  push:
+    branches: [main, 'lifegame-*']
+    paths: ['lifegame-desktop/**', '.github/workflows/lifegame-windows.yml']
+  pull_request:
+    paths: ['lifegame-desktop/**', '.github/workflows/lifegame-windows.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: lifegame-desktop
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: lifegame-desktop/package-lock.json
+      - run: npm ci
+      - name: Model and package tests
+        run: |
+          New-Item -ItemType Directory -Force artifacts | Out-Null
+          npm test 2>&1 | Tee-Object artifacts/unit.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Browser interaction
+        run: |
+          npx playwright install chromium
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run test:browser
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Build Windows ZIP
+        run: npm run package:windows
+      - name: Verify expanded ZIP and actual executable
+        run: |
+          Expand-Archive -LiteralPath dist/LifeGame-Windows-x64.zip -DestinationPath dist/expanded -Force
+          $folder = Resolve-Path dist/expanded/LifeGame-Windows-x64
+          Get-Content "$folder/SHA256SUMS.txt" | ForEach-Object {
+            $expected, $relative = $_ -split '  ', 2
+            $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $folder $relative)).Hash.ToLower()
+            if ($actual -ne $expected) { throw "Checksum mismatch: $relative" }
+          }
+          node tests/desktop-smoke.cjs --exe "$folder/LifeGame.exe"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: LifeGame-Windows-x64
+          path: |
+            lifegame-desktop/dist/LifeGame-Windows-x64.zip
+            lifegame-desktop/dist/LifeGame-Windows-x64.zip.sha256
+            lifegame-desktop/dist/package-report.json
+            lifegame-desktop/artifacts/
+          if-no-files-found: warn
+          retention-days: 30

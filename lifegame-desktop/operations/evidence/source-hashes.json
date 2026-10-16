@@ -1,0 +1,18 @@
+{
+  "package-lock.json": "0f4dd1e818ad3d066742c3442b41265504218d5c09141ae6876f78acd3ac1015",
+  "package.json": "2b6179a0da12f501b1016eaaca9b947b34b90b49b00e44290e220c54a9498dfe",
+  "src/Index.html": "a2dc70967edca17881688fa70a6529c1fdb5f379d8ef068bb7476c463ee4f406",
+  "src/app.js": "d3b5f11f87acea88fb7e6e035c1be68f9a0baaac4b750b4da33596721e0a4a1c",
+  "src/desktop/main.cjs": "030b34b418571f42430127b7307e90482d8294417a5004ececadef9962ab2b9a",
+  "src/model/behavior.js": "32b242ba5ffe08b3888638c1ffb3c187b8c19a62425ef7df42204b3473ed4a01",
+  "src/model/config.js": "7e821888292a2799a51ae04a219f8988eee4bc4fe36c0a2ce011c0e21906abc2",
+  "src/model/engine.js": "7123ef3f98b7ec22b2c3685beda9e094388ffb7fe4930442177e82d7657766b1",
+  "src/model/lifecycle.js": "00afede1ddc8e9056114cb66926d8825db16b0924e52eb91215204fe2c7de05b",
+  "src/styles.css": "0b4bf21f91f158e9fe45b16fe0fc7baa9af512b67d881158023c28b131b81936",
+  "tests/browser-smoke.cjs": "4ab90fe1054f5e5ca7f5b724259243a76a771ff91a650af5d52e246430a8e6d5",
+  "tests/desktop-smoke.cjs": "af7bfc035dcf29c343092e5b55ec58004ad377164492746706e411a2a0e4790c",
+  "tests/engine.test.cjs": "a4d9b25e3755bfa543cb01ecd37c801e00a444364863f744f45e4740aca1917a",
+  "tests/manifest.test.cjs": "db41722d12c798cc57f3e47c89e8476894fa42a6fc638f795e0a2e4619517048",
+  "tests/package.test.cjs": "12a5cfd686a291a4313ee6f3d845c7f4d0e160bec8f89a7b3446c7ffe1af6b9a",
+  "tools/package-windows.cjs": "7bf6beb6d57337beaad0836daf296bd8f63650214017381580c590d3bbf33ed7"
+}

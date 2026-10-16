@@ -1,0 +1,12 @@
+{
+  "version": "ba4dd2fc6b42c401181cba4cfb359e2084b249da8ffe82b77995eabe9d4052f9",
+  "date": "2026-10-16T00:29:55.390885+00:00",
+  "executor": "VALIS実行主体",
+  "environment": "Linux / Node 24.19 / Chromium 154",
+  "engineTests": 15,
+  "packageTests": 1,
+  "browserChecks": 19,
+  "windowsNative": "pending CI",
+  "sourceHashes": "source-hashes.json",
+  "manifestTests": 1
+}
