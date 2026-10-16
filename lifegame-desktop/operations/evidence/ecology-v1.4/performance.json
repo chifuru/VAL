@@ -7,9 +7,9 @@
       "width": 40,
       "height": 28,
       "initial": 80,
-      "createMs": 121.80383700000002,
-      "meanMs": 55.16333516666668,
-      "maxMs": 94.67561999999998,
+      "createMs": 128.35331299999999,
+      "meanMs": 52.310987833333336,
+      "maxMs": 88.743743,
       "summary": {
         "population": 515,
         "main": 80,
@@ -80,9 +80,9 @@
       "width": 80,
       "height": 56,
       "initial": 320,
-      "createMs": 403.23192500000005,
-      "meanMs": 158.01365958333335,
-      "maxMs": 191.14322399999992,
+      "createMs": 395.20714,
+      "meanMs": 155.86337541666666,
+      "maxMs": 177.09958199999983,
       "summary": {
         "population": 2090,
         "main": 320,
@@ -145,7 +145,7 @@
           "extra": 0,
           "terminal": 0
         },
-        "resources": 638,
+        "resources": 637,
         "totals": {
           "E": 49359.289219,
           "M": 23188.7
@@ -156,9 +156,9 @@
       "width": 160,
       "height": 112,
       "initial": 1280,
-      "createMs": 1695.1620369999996,
-      "meanMs": 611.1841390833331,
-      "maxMs": 679.7959979999996,
+      "createMs": 1814.0337550000004,
+      "meanMs": 639.7790667499996,
+      "maxMs": 796.1001450000003,
       "summary": {
         "population": 8275,
         "main": 1280,
@@ -233,7 +233,7 @@
           "extra": 0,
           "terminal": 0
         },
-        "resources": 2384,
+        "resources": 2386,
         "totals": {
           "E": 197868.735153,
           "M": 92745.7
