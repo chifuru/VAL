@@ -4,7 +4,7 @@ project_id: lifegame-desktop
 summary_manifest_type: Project Summary Manifest
 canonical_path: valis/summary/lifegame-desktop.summary.md
 core_definition_mutation: prohibited
-current_status: A仕様・B機能のみ検討中。実装再開はユーザー許可待ち。静止画で第四相・生息環境・餌の表示を確認する。E4は先行モックv0.3の対象版に限定。全ノード草案
+current_status: A仕様・B機能のみ検討中。実装再開はユーザー許可待ち。20系統の進化・分岐図と環境別餌・系統樹参照の静止画を検討する。E4は先行モックv0.3の対象版に限定。全ノード草案
 
 A1:（起点 / 生態系の成長と生存観測）［草案］
 	構成（要素・関係）:
@@ -217,6 +217,13 @@ B5:（A1.1, A1.2, A1.3, A2 / モックの観測・比較操作）［草案］
 	対応: 意味定義
 	次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
 
+	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
+		Node File: valis/nodes/B/B5.1.md; 親: B5; 層: B; 対象: A-B-spec-discussion
+		要約: 図鑑から20系統、個体詳細から現在の系統・相・経路を参照。餌・環境条件と不足分を確認。未確定条件や参考見本を実結果と区別する。
+		対応: design/specification/in-game-evolution-viewer.md、evolution-viewer-mock.png
+		処理: 初期登録。機能仕様のみ。実装・C/D/E展開は未実施。
+		次候補: ユーザーの認識合わせ。
+
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	Node File: valis/nodes/C/C5.md; 親: なし; 対象: ecosystem-mock-v0.3
 	要約: モデルは描画から独立。seedによる個体差、段階進化、餌と環境、空間占有、両親DNAの交叉、性別と繁殖待機を管理。部位のXP・成長状態を計算しない。
@@ -254,3 +261,11 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 - B5: 系統別4相の見本、選択マスの環境・餌の表示対応。新たな機能実装は行わない。
 - 参照画像: design/visual-mocks/ab-habitat-food-four-phases.png。日輪系統の4相を代表例として示す生成静止画。数値・配置は表示例。
 - 次FLOW候補: ユーザーの認識合わせ。C/D/Eの展開・更新は行わない。
+
+## 系統樹と環境別餌のA/B資料
+
+- A1.1: 元定義の四相名称を保持した20系統の図と46本の特化経路案。枝・条件の数値は未確定。
+- A1.2: 環境別の餌差分。生命12候補、鉱物8候補、情報8候補、数値の表現4候補。効果量等は未確定。
+- B5.1: ゲーム内参照機能を新規登録。B5の子として分離をユーザー確認済み。状態は草案。
+- 資料: design/specification/evolution-trees/README.md、environment-food.md、in-game-evolution-viewer.md、evolution-viewer-mock.png。
+- 今回はA/B・図・静止画の作成のみ。実装・C/D/E・実行物・CIは更新/実行しない。
