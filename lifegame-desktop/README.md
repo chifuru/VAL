@@ -2,6 +2,8 @@
 
 固定8環境で、30系統の生物と有限資源の食物網を観測するWindows向けローカルアプリです。同じ初期値と設定から同じ世界・結果を再現します。
 
+外観版2.2.0では、モックと同じ20系統×四相の生物画像、新しい8環境の地表、金枠の全体マップ、大きな個体肖像と画像付き系統樹を接続しました。[100ターンの実画面](operations/evidence/visual-mock-v1/ecosystem-grown.png)と[全体表示](operations/evidence/visual-mock-v1/ecosystem-overview.png)を参照できます。画像は配布物に同梱し、生態ルールv1.5は維持します。早成型の専用画と枝ごとの大きな造形差は今後の調整対象です。
+
 ## Windowsで起動
 
 [Windowsビルド一覧](https://github.com/chifuru/VAL/actions/workflows/lifegame-windows.yml)で対象版の成功した実行を開き、Artifactsの **LifeGame-Windows-x64** をダウンロードします。外側のZIPと、その中の `LifeGame-Windows-x64.zip` をすべて展開して `LifeGame.exe` を起動してください。DLL・resources・localesは同じフォルダに保ちます。

@@ -13,78 +13,87 @@
   <body>
     <header>
       <a href="Index.html" class="brand">◈ <strong>LIFE LAB</strong></a
-      ><span>生態シミュレーション / ecology 1.5</span
+      ><span class="header-note"
+        >水と熱と、情報と静けさのあいだで。<br />生態シミュレーション</span
       ><span class="local">● LOCAL · OFFLINE</span>
     </header>
     <main>
       <div class="intro">
         <div>
-          <p class="eyebrow">OBSERVE AN EMERGENT WORLD</p>
-          <h1>ひとつの初期値から、生態系へ。</h1>
+          <p class="eyebrow">LIFE LAB · ECOSYSTEM OBSERVATORY</p>
+          <h1>ひとマスから、系譜が育つ。</h1>
           <p>育ち、競い、つながる。30の系統と、見えない関係を観測する。</p>
         </div>
         <button id="open-guide" class="secondary">系統樹・説明シート ↗</button>
       </div>
       <div class="workspace">
         <aside class="panel setup">
-          <h2>01 / 世界をつくる</h2>
+          <h2>◈ 世界の初期条件 <small>同じ初期値から、同じ世界へ</small></h2>
           <form id="setup">
-            <label
-              >初期値<textarea id="seed" rows="2" maxlength="2048">
+            <div class="setup-main">
+              <label
+                >初期値<textarea id="seed" rows="2" maxlength="2048">
 ECOSYSTEM-2026</textarea
-              ></label
-            ><label
-              >世界の大きさ<select id="size">
-                <option value="40,28">小 · 40 × 28 / 初期80体</option>
-                <option selected value="80,56">
-                  標準 · 80 × 56 / 初期320体
-                </option>
-                <option value="160,112">大 · 160 × 112 / 初期1280体</option>
-              </select></label
-            ><label
-              >主生物の初期数<input
-                id="initial"
-                type="number"
-                min="4"
-                max="17920"
-                step="4"
-                value="320" /></label
-            ><label
-              >系統の構成<select id="lineages">
-                <option value="all">基本20系統</option>
-                <option value="few">初期値から5系統</option>
-                <option value="manual">自分で選択（早成甲殻を含む）</option>
-              </select></label
-            >
-            <div id="lineage-options" hidden></div>
-            <label
-              >系統ごとの配分<select id="distribution">
-                <option value="balanced">偏りなし · 4体単位で均等</option>
-                <option value="weighted">重み付き · 系統ごと1〜4</option>
-              </select></label
-            >
-            <div id="weight-options" hidden></div>
-            <label
-              >初期配置<select id="placement">
-                <option value="natural">
-                  自然配置 · 同系統の小組を適応域へ
-                </option>
-                <option value="scatter">分散配置 · 距離を確保</option>
-                <option value="cluster">集落配置 · 系統ごとに集まる</option>
-              </select></label
-            >
-            <fieldset>
-              <legend>初期に有効にする生物群</legend>
-              <div id="groups"></div>
-            </fieldset>
-            <label class="check"
-              ><input
-                id="guarantee"
-                type="checkbox"
-              />初期集団の近くに有機餌・鉱物を保証</label
-            ><button id="load" type="submit" class="primary">
-              世界を読み込む ↗
-            </button>
+                ></label
+              ><label
+                >世界の大きさ<select id="size">
+                  <option value="40,28">小 · 40 × 28 / 初期80体</option>
+                  <option selected value="80,56">
+                    標準 · 80 × 56 / 初期320体
+                  </option>
+                  <option value="160,112">大 · 160 × 112 / 初期1280体</option>
+                </select></label
+              ><label
+                >主生物の初期数<input
+                  id="initial"
+                  type="number"
+                  min="4"
+                  max="17920"
+                  step="4"
+                  value="320" /></label
+              ><button id="load" type="submit" class="primary">
+                世界を読み込む ↗
+              </button>
+            </div>
+            <details id="advanced-settings">
+              <summary>系統・初期配置・参加する生物群を設定</summary>
+              <div class="setup-more">
+                <label
+                  >系統の構成<select id="lineages">
+                    <option value="all">基本20系統</option>
+                    <option value="few">初期値から5系統</option>
+                    <option value="manual">自分で選択（早成甲殻を含む）</option>
+                  </select></label
+                >
+                <div id="lineage-options" hidden></div>
+                <label
+                  >系統ごとの配分<select id="distribution">
+                    <option value="balanced">偏りなし · 4体単位で均等</option>
+                    <option value="weighted">重み付き · 系統ごと1〜4</option>
+                  </select></label
+                >
+                <div id="weight-options" hidden></div>
+                <label
+                  >初期配置<select id="placement">
+                    <option value="natural">
+                      自然配置 · 同系統の小組を適応域へ
+                    </option>
+                    <option value="scatter">分散配置 · 距離を確保</option>
+                    <option value="cluster">集落配置 · 系統ごとに集まる</option>
+                  </select></label
+                >
+                <fieldset>
+                  <legend>初期に有効にする生物群</legend>
+                  <div id="groups"></div>
+                </fieldset>
+                <label class="check"
+                  ><input
+                    id="guarantee"
+                    type="checkbox"
+                  />初期集団の近くに有機餌・鉱物を保証</label
+                >
+              </div>
+            </details>
           </form>
           <p class="note">
             読み込みでは時間は進みません。環境・地形は固定、餌と生物は変動します。
@@ -93,8 +102,8 @@ ECOSYSTEM-2026</textarea
         <section class="world-column">
           <div class="panel habitat">
             <div class="panel-heading">
-              <span id="status">未準備</span
-              ><span
+              <h2>◈ 生態系マップ <small id="status">未準備</small></h2>
+              <span
                 >TURN <strong id="turn">0</strong>
                 <span id="turn-limit">/ 1000</span></span
               >
@@ -118,7 +127,7 @@ ECOSYSTEM-2026</textarea
               ><label class="check"
                 ><input id="resources" type="checkbox" checked />資源</label
               ><label class="check"
-                ><input id="grid" type="checkbox" />格子</label
+                ><input id="grid" type="checkbox" checked />格子</label
               ><label class="check"
                 ><input id="motion" type="checkbox" checked />モーション</label
               ><span id="render-mode">—</span>
@@ -153,7 +162,7 @@ ECOSYSTEM-2026</textarea
             <div id="checkpoints"></div>
           </section>
           <section class="panel environment">
-            <h2>固定環境と地形</h2>
+            <h2>◈ 8つの生息環境と地形</h2>
             <div id="environment-legend"></div>
             <p class="note">
               環境はマスごとに連続する領域として生成。岩塊は通れず、崖は辺を遮ります。深水・泥・岩地・浅瀬、倒木・茂みも行動へ影響します。
@@ -161,14 +170,15 @@ ECOSYSTEM-2026</textarea
           </section>
         </section>
         <aside class="panel inspector">
-          <h2>02 / マスと個体を観察</h2>
+          <h2 class="inspector-heading">◈ 選択中の個体</h2>
           <p class="note">
             1マスに主生物1体と餌生物1体が共存。寄生虫は宿主に付随します。
           </p>
           <div id="selection">盤面のマスを選択してください。</div>
-          <div class="divider"></div>
-          <h2>生存系統</h2>
-          <div id="ranking"></div>
+          <details class="rank-panel">
+            <summary>生存系統を確認</summary>
+            <div id="ranking"></div>
+          </details>
         </aside>
       </div>
       <details class="panel table-panel">
@@ -194,7 +204,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v2.1.0 · 外部通信なし</span>
+        ><span>v2.2.0 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">
@@ -224,6 +234,8 @@ ECOSYSTEM-2026</textarea
     <script src="ecology/reproduction.js"></script>
     <script src="ecology/parasites.js"></script>
     <script src="ecology/engine.js"></script>
+    <script src="assets/visual-manifest.js"></script>
+    <script src="ecology/art.js"></script>
     <script src="ecology/renderer.js"></script>
     <script src="app.js"></script>
   </body>

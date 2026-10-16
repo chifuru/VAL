@@ -84,8 +84,8 @@
     .join("");
   $("environment-legend").innerHTML = D.environments
     .map(
-      (e) =>
-        `<span class="chip"><i class="dot" style="background:${e.color}"></i>${e.name}</span>`,
+      (e, i) =>
+        `<span class="habitat-chip"><i style="background-position:${((i % 4) * 100) / 3}% ${i < 4 ? 0 : 100}%"></i><b>${e.name}</b></span>`,
     )
     .join("");
   $("size").addEventListener("change", () => {
@@ -169,6 +169,15 @@
     $("step").disabled = false;
     $("reset").disabled = false;
     lastMs = 0;
+    const focal =
+      world.organisms.find((o) => o.species === "solar") ||
+      world.organisms.find((o) => o.slot === "main") ||
+      world.organisms[0];
+    if (focal) {
+      selectedId = focal.id;
+      selectedCell = focal.cell;
+      renderer.view.selected = focal.cell;
+    }
     render();
     message(
       world.warnings.join(" / ") ||
@@ -320,10 +329,45 @@
   function drawPortrait(canvas, o) {
     const g = canvas.getContext("2d");
     g.clearRect(0, 0, canvas.width, canvas.height);
+    if (
+      canvas.classList.contains("portrait") &&
+      canvas.width > 200 &&
+      R.assets.images.terrain
+    ) {
+      const texture = R.assets.images.terrain,
+        env = world?.tiles[o.cell]?.env ?? 3,
+        tw = texture.width / 4,
+        th = texture.height / 2;
+      g.globalAlpha = 0.4;
+      g.drawImage(
+        texture,
+        (env % 4) * tw,
+        Math.floor(env / 4) * th,
+        tw,
+        th,
+        0,
+        0,
+        canvas.width,
+        canvas.height,
+      );
+      g.globalAlpha = 1;
+      const shade = g.createRadialGradient(
+        canvas.width / 2,
+        canvas.height / 2,
+        0,
+        canvas.width / 2,
+        canvas.height / 2,
+        canvas.width * 0.7,
+      );
+      shade.addColorStop(0, "#00192300");
+      shade.addColorStop(1, "#001822ee");
+      g.fillStyle = shade;
+      g.fillRect(0, 0, canvas.width, canvas.height);
+    }
     if (S.spec(o).group === "main")
       R.creature(
         g,
-        o,
+        { ...o, facing: 0 },
         canvas.width / 2,
         canvas.height / 2,
         canvas.width * 0.28,
@@ -336,7 +380,7 @@
         canvas.width / 2,
         canvas.height / 2,
         canvas.width * 0.27,
-        world?.tiles[o.cell]?.env || 3,
+        world?.tiles[o.cell]?.env ?? 3,
       );
   }
   function infectionHTML(o) {
@@ -348,8 +392,28 @@
   function organismHTML(o) {
     const s = S.spec(o),
       p = S.phenotype(world, o),
-      main = o.slot === "main";
-    return `<article class="specimen"><canvas class="portrait" width="116" height="116" data-portrait="${escape(o.id)}"></canvas><h3>${escape(s.name)} · ${phase(o.phase)}相</h3><p class="micro">${escape(o.id)}</p><p class="stats-line">${sex[o.sex] || "無性"} ${roles[o.role] || ""} / 年齢 ${o.age} / 世代 ${o.generation}<br>HP ${fmt(o.HP)} / ${p.maxHP} · E ${fmt(o.E)} / ${fmt(p.capE)}<br>B ${fmt(o.B)} · M ${fmt(o.M)} · G ${fmt(o.G)}${s.group === "plant" ? "<br>可食葉B " + fmt(S.edibleB(o)) + " / 基部B " + fmt(Math.min(S.PLANT_BASE, o.B)) : ""}<br>寿命 ${p.life} · 維持E ${fmt(p.maintenance)}<br>感知 ${p.sense} / 移動 ${p.speed} / 射程 ${p.range}<br>${main ? `枝: ${o.branch3 === null ? "未分岐" : s.branches[o.branch3]} ${o.branch4 === null ? "" : D.branch4[o.branch3][o.branch4]}<br>出生待機 ${Math.max(0, o.birthReady - world.turn)} / 攻撃待機 ${Math.max(0, o.attackReady - world.turn)}<br>` : ""}${o.colony ? "集団 " + escape(o.colony) + "<br>" : ""}両親: ${escape(o.parents.join(", ") || "初期個体")}</p>${main ? `<button class="small" data-tree="${s.id}">この系統の進化条件 ↗</button><details><summary>基礎DNAと行動パラメータ</summary><p class="micro">DNAは出生時固定。行動パラメータは本人・一族・接触・情報の経験で変わります。</p>${S.DNA.map((k) => `<div class="weight-row"><span>${{ body: "体格", appendage: "付属器", senses: "感覚", skin: "外皮", aptitude: "代謝適性", sensitivity: "情報感度" }[k]}</span><span>${fmt(o.dna[k])}</span></div>`).join("")}${o.weights.map((v, i) => `<div class="weight-row"><span>${D.weightNames[i]}</span><progress max="100" value="${v}"></progress><span>${fmt(v)}</span></div>`).join("")}</details>` : ""}${infectionHTML(o)}${world.diagnostics?.id === o.id ? `<details open><summary>直近の候補上位3（観測用）</summary>${world.diagnostics.candidates.map((c) => `<p class="micro">${actions[c.type]} / 得点 ${fmt(c.score)} / 費用 ${fmt(c.cost)}<br>特徴: ${c.features.map(fmt).join(" / ")}</p>`).join("")}</details>` : ""}</article>`;
+      main = o.slot === "main",
+      hero = o.id === selectedId;
+    const weights = main
+      ? `<div class="observation-weights"><h4>この個体の行動パラメータ</h4>${o.weights.map((v, i) => `<div class="weight-row"><span>${D.weightNames[i]}</span><progress max="100" value="${v}"></progress><span>${fmt(v)}</span></div>`).join("")}</div>`
+      : "";
+    const affinity = main
+      ? `<div class="affinities">${[
+          ["attack", "攻撃"],
+          ["defense", "防御"],
+          ["move", "移動費"],
+        ]
+          .map(([key, name]) => {
+            const v = E.B.environmental(world, o, key);
+            return `<div><b>${name} ×${fmt(v)}</b><small>${key === "move" ? (v < 1 ? "得意" : v > 1 ? "苦手" : "標準") : v > 1 ? "有利" : v < 1 ? "不利" : "標準"}</small></div>`;
+          })
+          .join("")}</div>`
+      : "";
+    const preview =
+      main && hero
+        ? `<p class="micro">相ごとの形態見本 · 現在は${phase(o.phase)}相</p><div class="phase-strip">${s.phases.map((name, i) => `<div class="${i + 1 === o.phase ? "active" : ""}"><canvas width="128" height="112" data-phase="${i + 1}" data-owner="${escape(o.id)}"></canvas>${phase(i + 1)}</div>`).join("")}</div>`
+        : "";
+    return `<article class="specimen ${hero ? "specimen-hero" : ""}"><h3>${escape(s.name)}</h3><div class="phase-name">${phase(o.phase)}相 · ${escape(s.phases?.[o.phase - 1] || s.name)} / ${sex[o.sex] || "無性"} ${roles[o.role] || ""}</div><canvas class="portrait" width="${hero ? 384 : 116}" height="${hero ? 300 : 116}" data-portrait="${escape(o.id)}"></canvas><p class="micro">${escape(o.id)} · 世代 ${o.generation} · 年齢 ${o.age}ターン</p><div class="vital-bars"><span>E</span><progress max="${p.capE}" value="${o.E}"></progress><span>${fmt(o.E)} / ${fmt(p.capE)}</span><span>HP</span><progress max="${p.maxHP}" value="${o.HP}"></progress><span>${fmt(o.HP)} / ${p.maxHP}</span></div>${preview}${hero ? affinity + weights : ""}<details class="specimen-data"><summary>栄養・能力・系譜の詳細</summary><p class="stats-line">B ${fmt(o.B)} · M ${fmt(o.M)} · G ${fmt(o.G)}${s.group === "plant" ? "<br>可食葉B " + fmt(S.edibleB(o)) + " / 基部B " + fmt(Math.min(S.PLANT_BASE, o.B)) : ""}<br>寿命 ${p.life} · 維持E ${fmt(p.maintenance)}<br>感知 ${p.sense} / 移動 ${p.speed} / 射程 ${p.range}<br>${main ? `枝: ${o.branch3 === null ? "未分岐" : s.branches[o.branch3]} ${o.branch4 === null ? "" : D.branch4[o.branch3][o.branch4]}<br>出生待機 ${Math.max(0, o.birthReady - world.turn)} / 攻撃待機 ${Math.max(0, o.attackReady - world.turn)}<br>` : ""}${o.colony ? "集団 " + escape(o.colony) + "<br>" : ""}両親: ${escape(o.parents.join(", ") || "初期個体")}</p></details>${main ? `<button class="small" data-tree="${s.id}">この系統の進化条件 ↗</button><details><summary>基礎DNA</summary><p class="micro">DNAは出生時固定。行動パラメータは本人・一族・接触・情報の経験で変わります。</p>${S.DNA.map((k) => `<div class="weight-row"><span>${{ body: "体格", appendage: "付属器", senses: "感覚", skin: "外皮", aptitude: "代謝適性", sensitivity: "情報感度" }[k]}</span><span>${fmt(o.dna[k])}</span></div>`).join("")}</details>` : ""}${infectionHTML(o)}${world.diagnostics?.id === o.id ? `<details><summary>直近の候補上位3（観測用）</summary>${world.diagnostics.candidates.map((c) => `<p class="micro">${actions[c.type]} / 得点 ${fmt(c.score)} / 費用 ${fmt(c.cost)}<br>特徴: ${c.features.map(fmt).join(" / ")}</p>`).join("")}</details>` : ""}</article>`;
   }
   function renderSelection() {
     if (!world || selectedCell === null) {
@@ -369,12 +433,21 @@
       resources = world.resources.filter((a) => a.cell === selectedCell),
       corpses = world.carcasses.filter((a) => a.cell === selectedCell);
     $("selection").innerHTML =
-      `<p class="stats-line">マス (${x}, ${y}) · ${D.environments[t.env].name}<br>${terrain[t.terrain]} / 遮蔽 ${cover[t.cover]}${t.blocked ? " / 通行不可" : ""}<br>光 ${fmt(t.light)} / 土壌M ${fmt(t.soilM)}</p>${occupants.map((o) => `<button class="small" data-observe="${escape(o.id)}">${o.slot === "main" ? "主" : "餌"}: ${escape(S.spec(o).name)}</button>`).join(" ")}${occupants.map(organismHTML).join("")}${resources.map((a) => `<article class="specimen"><h3>${S.FOOD[a.kind].name} · 量 ${fmt(a.q)}</h3><p class="stats-line">E ${fmt(a.E)} / M ${fmt(a.M)} / G ${fmt(a.G)}<br>残存 ${a.expires === null ? "期限なし" : a.expires - world.turn + "ターン"}</p>${a.event ? `<p class="stats-line">情報源 ${escape(a.event.sourceId)}<br>文脈 ${D.environments[a.event.env].name} / 鮮度年齢 ${world.turn - a.event.time}<br>成分 ${a.event.values.map((v) => D.weightNames[v.axis] + " " + fmt(v.value)).join(" / ")}<br>${a.event.noise ? "撹乱情報" : "経験情報"} / ${a.event.mediator ? "Q媒介 " + escape(a.event.mediator.special) : "直接"}</p>` : ""}</article>`).join("")}${corpses.map((a) => `<p class="stats-line">死骸 ${D.byId[a.species].name} / q ${fmt(a.q)}<br>E ${fmt(a.E)} / M ${fmt(a.M)} / G ${fmt(a.G)}<br>${a.infection ? "感染残存 " + escape(a.infection.species) + " / 期限 " + a.payloadExpires : "感染なし"}</p>`).join("")}${!occupants.length ? '<p class="note">生体なし。局所不在は系統全滅とは異なります。</p>' : ""}`;
+      `<p class="cell-context">マス (${x}, ${y}) · ${D.environments[t.env].name}<br>${terrain[t.terrain]} / 遮蔽 ${cover[t.cover]}${t.blocked ? " / 通行不可" : ""}<br>光 ${fmt(t.light)} / 土壌M ${fmt(t.soilM)}</p>${occupants.map((o) => `<button class="small" data-observe="${escape(o.id)}">${o.slot === "main" ? "主" : "餌"}: ${escape(S.spec(o).name)}</button>`).join(" ")}${occupants.map(organismHTML).join("")}${resources.map((a) => `<article class="specimen"><h3>${S.FOOD[a.kind].name} · 量 ${fmt(a.q)}</h3><p class="stats-line">E ${fmt(a.E)} / M ${fmt(a.M)} / G ${fmt(a.G)}<br>残存 ${a.expires === null ? "期限なし" : a.expires - world.turn + "ターン"}</p>${a.event ? `<p class="stats-line">情報源 ${escape(a.event.sourceId)}<br>文脈 ${D.environments[a.event.env].name} / 鮮度年齢 ${world.turn - a.event.time}<br>成分 ${a.event.values.map((v) => D.weightNames[v.axis] + " " + fmt(v.value)).join(" / ")}<br>${a.event.noise ? "撹乱情報" : "経験情報"} / ${a.event.mediator ? "Q媒介 " + escape(a.event.mediator.special) : "直接"}</p>` : ""}</article>`).join("")}${corpses.map((a) => `<p class="stats-line">死骸 ${D.byId[a.species].name} / q ${fmt(a.q)}<br>E ${fmt(a.E)} / M ${fmt(a.M)} / G ${fmt(a.G)}<br>${a.infection ? "感染残存 " + escape(a.infection.species) + " / 期限 " + a.payloadExpires : "感染なし"}</p>`).join("")}${!occupants.length ? '<p class="note">生体なし。局所不在は系統全滅とは異なります。</p>' : ""}`;
     for (const c of $("selection").querySelectorAll("[data-portrait]"))
       drawPortrait(
         c,
         occupants.find((o) => o.id === c.dataset.portrait),
       );
+    for (const c of $("selection").querySelectorAll("[data-phase]")) {
+      const o = occupants.find((a) => a.id === c.dataset.owner);
+      drawPortrait(c, {
+        ...o,
+        phase: Number(c.dataset.phase),
+        branch3: Number(c.dataset.phase) >= 3 ? o.branch3 : null,
+        branch4: Number(c.dataset.phase) >= 4 ? o.branch4 : null,
+      });
+    }
     for (const b of $("selection").querySelectorAll("[data-observe]"))
       b.onclick = () => {
         selectedId = b.dataset.observe;
@@ -579,7 +652,7 @@
       ];
     let tree;
     if (group === "main") {
-      tree = `<div class="tree-root"><div class="phase-box"><small>I</small><br>${s.phases[0]}</div><span>G${s.id === "precocial" ? 45 : 30} →</span><div class="phase-box"><small>II</small><br>${s.phases[1]}</div></div><p class="note">III条件: G${s.id === "precocial" ? 120 : 90}・系統M${s.M3}をDNA補正、経験首位4以上・次点差2。I→IIはG30。上位相ほど能力が上がります。</p><div class="tree-branches">${s.branches.map((name, i) => `<div><div class="phase-box"><small>III · ${s.phases[2]}</small><h4>${name}</h4><p>${third[i]}<br>首位4以上 / 次点差2</p></div>${s.phases.length === 4 ? `<div class="tree-finals">${D.branch4[i].map((b, j) => `<div>IV · ${escape(s.phases[3])}<br><strong>${b}</strong><p>${fourth[i][j]}<br>G210・M${s.M4}（DNA補正）<br>経験首位3以上 / 差2</p></div>`).join("")}</div>` : '<p class="note">IIIで完成。第四相なし。</p>'}</div>`).join("")}</div>`;
+      tree = `<div class="tree-root"><div class="phase-box"><small>I</small><br>${s.phases[0]}</div><span>G${s.id === "precocial" ? 45 : 30} →</span><div class="phase-box"><small>II</small><br>${s.phases[1]}</div></div><p class="note">III条件: G${s.id === "precocial" ? 120 : 90}・系統M${s.M3}をDNA補正、経験首位4以上・次点差2。I→IIはG${s.id === "precocial" ? 45 : 30}。上位相ほど能力が上がります。</p><div class="tree-branches">${s.branches.map((name, i) => `<div><div class="phase-box"><small>III · ${s.phases[2]}</small><h4>${name}</h4><p>${third[i]}<br>首位4以上 / 次点差2</p></div>${s.phases.length === 4 ? `<div class="tree-finals">${D.branch4[i].map((b, j) => `<div>IV · ${escape(s.phases[3])}<br><strong>${b}</strong><p>${fourth[i][j]}<br>G210・M${s.M4}（DNA補正）<br>経験首位3以上 / 差2</p></div>`).join("")}</div>` : '<p class="note">IIIで完成。第四相なし。</p>'}</div>`).join("")}</div>`;
     } else if (group === "P") {
       tree =
         '<div class="flow">' +
@@ -611,6 +684,37 @@
       B: 12,
     };
     drawPortrait($("tree-portrait"), portrait);
+    if (s.group === "main") {
+      const boxes = [...$("guide-content").querySelectorAll(".phase-box")];
+      boxes.forEach((box, i) => {
+        const c = document.createElement("canvas");
+        c.width = 144;
+        c.height = 112;
+        c.className = "tree-node-art";
+        box.prepend(c);
+        drawPortrait(c, {
+          ...portrait,
+          phase: i < 2 ? i + 1 : 3,
+          branch3: i < 2 ? null : i - 2,
+          branch4: null,
+        });
+      });
+      [...$("guide-content").querySelectorAll(".tree-finals > div")].forEach(
+        (box, i) => {
+          const c = document.createElement("canvas");
+          c.width = 144;
+          c.height = 112;
+          c.className = "tree-node-art";
+          box.prepend(c);
+          drawPortrait(c, {
+            ...portrait,
+            phase: 4,
+            branch3: Math.floor(i / 2),
+            branch4: i % 2,
+          });
+        },
+      );
+    }
   }
   function showSheet(name) {
     activeSheet = name;
@@ -643,6 +747,14 @@
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  R.assets.ready.then(() => {
+    renderSelection();
+    if ($("guide").open) showSheet(activeSheet);
+    if (R.assets.errors.length)
+      message(
+        "画像を読み込めませんでした。配布ZIPをすべて展開してから起動してください。",
+      );
+  });
   // Present only in explicitly requested smoke mode; Electron remains sandboxed.
   if (new URLSearchParams(location.search).has("smoke"))
     window.__LIFE_TEST__ = {
@@ -659,6 +771,7 @@
         selectedId,
         view: { ...renderer.view },
         render: { ...renderer.diagnostics },
+        assets: { loaded: R.assets.loaded, errors: [...R.assets.errors] },
       }),
       fingerprint: () => world && E.fingerprint(world),
     };

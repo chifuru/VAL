@@ -2,11 +2,12 @@
 
 project_id: lifegame-desktop
 canonical_path: valis/summary/lifegame-desktop.summary.md
-current_status: v1.5生態調整とローカル検査を実施済み。標準1000ターンで219出生/第9世代/54体存続。WindowsはE7参照。全57Node草案、承認状態変更なし。
+current_status: 外観版2.2.0をモックの造形・地表・金枠・大きな肖像へ接続。Linux画面45項目成功、WindowsはE7参照。生態v1.5は対象ハッシュ同一の範囲で維持。全57Node草案、承認状態変更なし。
 current_specification: design/specification/ab-system-specification-v1.3.md
 current_adjustments: design/specification/ab-readiness-v1.4.md + design/specification/ab-balance-v1.5.md
-current_contract: operations/plans/ecology-balance-v1.5.md
-current_image: design/specification/atlas-v1.3/ecology-system-master.png（概念図。変更値はv1.5仕様/ゲーム内説明を正とする）
+current_contract: operations/plans/visual-mock-alignment.md
+current_image: operations/evidence/visual-mock-v1/ecosystem-grown.png（実画面）
+visual_reference: design/specification/ecosystem-overview-mock.png + design/specification/habitat-overview-mock.png
 
 現在の状態と必要な参照だけを記載する。履歴・過去の作業ログは保持しない。coreはプロジェクト内正本を使用し、変更しない。
 
@@ -90,7 +91,7 @@ B5.3:（A1.1, A1.2, A1.3, A1.5, A1.6 / 確定した行動のモーション表�
 
 C4:（A2, B5 / Electron と Windows 配布）［草案］
 	Node File: valis/nodes/C/C4.md; 親: なし
-	実態: 現行2.1.0接続済み。Windows ZIP生成・展開SHA照合・実exe10ターン成功。対象版と範囲はE7。
+	実態: 外観版2.2.0の接続中。生態v1.5は維持。画面・画像同梱・Windows実exeの現行結果は再検査待ち。
 
 C7:（B4 / 同期ターン接合と世界確定）［草案］
 	Node File: valis/nodes/C/C7.md; 親: なし
@@ -118,17 +119,17 @@ C7.5:（B4.2 / 寄生生活環と外部情報）［草案］
 
 C8:（B5, B5.1, B5.2 / 観測操作・図鑑と説明シート）［草案］
 	Node File: valis/nodes/C/C8.md; 親: なし
-	実態: v1.5実装済み。対象ハッシュ・検査範囲はE5/E6。Windows実exeはE7。
+	実態: 外観版2.2.0を実装。Linux画面45項目成功。対象ハッシュ・範囲はE6、Windows同梱/実exeはE7。
 
 C8.1:（B5.3 / 盤面と個体の描画・確定モーション）［草案］
 	Node File: valis/nodes/C/C8.1.md; 親: C8
-	実態: v1.5実装済み。対象ハッシュ・検査範囲はE5/E6。Windows実exeはE7。
+	実態: 外観版2.2.0を実装。Linux画面45項目成功。対象ハッシュ・範囲はE6、Windows同梱/実exeはE7。
 
 ## D：現在の対象
 
 D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	Node File: valis/nodes/D/D4.md; 親: なし
-	実態: 現行2.1.0接続済み。Windows ZIP生成・展開SHA照合・実exe10ターン成功。対象版と範囲はE7。
+	実態: 外観版2.2.0の接続中。生態v1.5は維持。画面・画像同梱・Windows実exeの現行結果は再検査待ち。
 
 D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案］
 	Node File: valis/nodes/D/D7.md; 親: なし
@@ -148,7 +149,7 @@ D8.2:（C7.5 / 寄生・高次寄生と情報）［草案］
 
 D9:（C8, C8.1 / 観測画面・系統樹・説明と描画）［草案］
 	Node File: valis/nodes/D/D9.md; 親: なし
-	実態: v1.5検査済み。ルール44・画面36の該当範囲はE5/E6。Windows実exeはE7。
+	実態: 外観版2.2.0を実装。Linux画面45項目成功。対象ハッシュ・範囲はE6、Windows同梱/実exeはE7。
 
 ## E：現在の対象
 
@@ -158,11 +159,11 @@ E5:（D7, D8, D8.1, D8.2, C7, C7.1, C7.2, C7.3, C7.4, C7.5 / 現行生態計算�
 
 E6:（D9, C8, C8.1 / 現行観測画面のLinux実測証跡）［草案］
 	Node File: valis/nodes/E/E6.md; 親: なし
-	実態: Linux画面36/36成功。土壌/基部/部分取得/二親条件の説明と個体観察も検査。WindowsはE7。
+	実態: Linux外観画面45/45成功。原画/地表/肖像/図鑑/自然成熟を実画面で照合。WindowsはE7。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9, A2, C4, C7, C8, C8.1 / 現行Windows配布exeの実測証跡）［草案］
 	Node File: valis/nodes/E/E7.md; 親: なし
-	実態: Windows CI成功。単体/構造/回帰61、画面36、ZIP展開SHA照合、実exe10ターン・Node非公開/file表示を確認。
+	実態: 現行2.2.0のWindows配布・画像同梱・実exeのCI待ち。旧版成功は流用しない。
 
 ## 登録済みだが現行仕様の対象外
 
@@ -233,4 +234,4 @@ E4:（D5, D6, A1.1, A1.2, A1.3, B4, B5, C5, C6 / 1マス1個体モックの実�
 
 ## 現在の不足と次作業
 
-標準の一初期値では1000ターンまで世代交代。小盤面3条件では主生物が722/705/947ターンで絶滅し、餌生物は存続。全系統・全初期値の存続や安定平衡は未成立/未保証。自然条件での特殊な寄生生活環の完走頻度、端末別速度と造形の認識合わせは未確認。Windows ZIP/実exeの現行状態はE7を参照。処理フラグ: 承認状態変更なし、未確認事項は本段落、次FLOW候補は実観察に基づく生態評価・必要時の既存A/B調整（FLOW-04）。
+標準の一初期値では1000ターンまで世代交代。小盤面3条件では主生物が722/705/947ターンで絶滅し、餌生物は存続。全系統・全初期値の存続や安定平衡は未成立/未保証。自然条件での特殊な寄生生活環の完走頻度、端末別速度と造形の認識合わせは未確認。Windows ZIP/実exeの現行状態はE7を参照。処理フラグ: 承認状態変更なし、未確認事項は本段落、次FLOW候補は外観認識合わせ・必要時の既存C8/C8.1調整（FLOW-04）。早成型の専用画と枝ごとの大きな造形差は未対応。

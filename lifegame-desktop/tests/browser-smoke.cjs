@@ -26,9 +26,11 @@ async function main() {
         "Content-Type",
         (file.endsWith(".js")
           ? "application/javascript"
-          : file.endsWith(".css")
-            ? "text/css"
-            : "text/html") + "; charset=utf-8",
+          : file.endsWith(".png")
+            ? "image/png"
+            : file.endsWith(".css")
+              ? "text/css"
+              : "text/html") + "; charset=utf-8",
       );
       res.end(await fs.readFile(file));
     } catch {
@@ -60,6 +62,23 @@ async function main() {
   try {
     await page.goto(origin + "/Index.html?smoke=1");
     await page.waitForFunction(() => window.__LIFE_TEST__);
+    await page.waitForFunction(() => __LIFE_TEST__.snapshot().assets.loaded);
+    check(
+      (await page.evaluate(
+        () => __LIFE_TEST__.snapshot().assets.errors.length,
+      )) === 0,
+      "all local creature, food and terrain atlases decode",
+    );
+    check(
+      await page.evaluate(
+        () =>
+          Object.keys(EcoArt.manifest.creatures.regions).length === 20 &&
+          Object.values(EcoArt.manifest.creatures.regions).every(
+            (a) => a.length === 4,
+          ),
+      ),
+      "original mock artwork covers twenty lineages and four phases",
+    );
     check(
       await page.locator("#start").isDisabled(),
       "unprepared world cannot advance",
@@ -82,6 +101,59 @@ async function main() {
       "all thirty lineages are present in observation catalogue",
     );
     const initial = await page.evaluate(() => __LIFE_TEST__.fingerprint());
+    check(
+      await page.evaluate(
+        () =>
+          new Set(
+            [...document.querySelectorAll(".phase-strip canvas")].map((c) =>
+              c.toDataURL(),
+            ),
+          ).size === 4,
+      ),
+      "four phase previews display different artwork for the selected lineage",
+    );
+    check(
+      (await page.locator(".specimen-hero .portrait").boundingBox()).width >
+        250,
+      "selected individual has a large portrait rather than a small icon",
+    );
+    check(
+      await page.evaluate(() => {
+        const b = document.querySelector("#board").getBoundingClientRect(),
+          i = document.querySelector(".inspector").getBoundingClientRect();
+        return b.width > innerWidth * 0.6 && i.x > b.x + b.width;
+      }),
+      "wide screen prioritizes map with inspector on the right",
+    );
+    check(
+      await page.evaluate(() => {
+        const c = document.createElement("canvas");
+        c.width = c.height = 128;
+        const g = c.getContext("2d"),
+          o = __LIFE_TEST__
+            .snapshot()
+            .world.organisms.find((o) => o.slot === "main"),
+          images = [];
+        for (const species of Object.keys(EcoArt.manifest.creatures.regions)) {
+          g.clearRect(0, 0, 128, 128);
+          EcoRenderer.creature(
+            g,
+            { ...o, species, phase: 4 },
+            64,
+            64,
+            40,
+            true,
+          );
+          images.push(c.toDataURL());
+        }
+        return new Set(images).size === 20;
+      }),
+      "mature lineage artwork is distinct across all twenty families",
+    );
+    check(
+      (await page.evaluate(() => __LIFE_TEST__.fingerprint())) === initial,
+      "artwork preparation and phenotype previews never change the ecosystem",
+    );
     await page.locator("#open-guide").click();
     check(
       await page.locator("#guide").isVisible(),
@@ -103,6 +175,11 @@ async function main() {
         (await page.locator("#guide-content").textContent()).length > 100,
         "tree explains " + id,
       );
+      if (id === "abyss")
+        check(
+          (await page.locator(".tree-node-art").count()) === 11,
+          "four-phase tree illustrates I/II, three III branches and six IV endpoints",
+        );
     }
     for (const name of [
       "system",
@@ -206,6 +283,7 @@ async function main() {
         paused,
       "pause stops biological time",
     );
+    await page.locator("#advanced-settings > summary").click();
     await page.locator("#lineages").selectOption("few");
     await page.locator("#placement").selectOption("cluster");
     await page.locator("#distribution").selectOption("weighted");
@@ -244,10 +322,20 @@ async function main() {
         initial: 320,
       }),
     );
+    await page.locator("#advanced-settings").evaluate((e) => (e.open = false));
+    await page.waitForTimeout(150);
     await page.screenshot({
       path: path.join(out, "ecosystem-overview.png"),
       fullPage: true,
     });
+    await page.locator("#zoom-in").click();
+    await page.locator("#zoom-in").click();
+    await page.waitForTimeout(150);
+    await page.screenshot({
+      path: path.join(out, "ecosystem-detail.png"),
+      fullPage: true,
+    });
+    await page.locator("#fit").click();
     await page.evaluate(() => {
       const w = __LIFE_TEST__.snapshot().world;
       __LIFE_TEST__.select(w.organisms.find((a) => a.slot === "main").cell);
@@ -264,6 +352,35 @@ async function main() {
       fullPage: true,
     });
     await page.locator("#close-guide").click();
+    await page.evaluate(async () => {
+      __LIFE_TEST__.prepare({
+        seed: "extended-observation",
+        width: 40,
+        height: 28,
+        initial: 80,
+      });
+      for (let i = 0; i < 100; i++) {
+        __LIFE_TEST__.step();
+        if (i % 10 === 0)
+          await new Promise((resolve) => setTimeout(resolve, 0));
+      }
+      const w = __LIFE_TEST__.snapshot().world;
+      const mature =
+        w.organisms.find((o) => o.species === "solar" && o.phase >= 3) ||
+        w.organisms.find((o) => o.slot === "main" && o.phase >= 3);
+      if (!mature)
+        throw Error("No naturally matured specimen for visual observation");
+      __LIFE_TEST__.select(mature.cell, mature.id);
+    });
+    check(
+      (await page.evaluate(() => __LIFE_TEST__.snapshot().world.turn)) === 100,
+      "actual simulation reaches mature artwork without fabricated phase changes",
+    );
+    await page.waitForTimeout(150);
+    await page.screenshot({
+      path: path.join(out, "ecosystem-grown.png"),
+      fullPage: true,
+    });
     await page.setViewportSize({ width: 640, height: 1000 });
     check(
       await page.evaluate(
@@ -278,6 +395,8 @@ async function main() {
     check(network.length === 0, "local app makes no external HTTP requests");
     const report = {
       ok: true,
+      artwork: "mock-art/1",
+      app: "2.2.0",
       version: "ecology-ab/1.5",
       platform: process.platform,
       browser: await browser.version(),

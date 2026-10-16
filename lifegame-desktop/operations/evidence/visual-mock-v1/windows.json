@@ -1,0 +1,5 @@
+{
+  "status": "pending",
+  "app": "2.2.0",
+  "reason": "Current image-bundled Windows ZIP and real executable must be checked; earlier E7 is not applied to this visual change."
+}

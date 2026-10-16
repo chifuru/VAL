@@ -1,9 +1,9 @@
 /* Rendering reads a settled world. Animation never changes biological state. */
 (function (root, factory) {
-  const api = factory(root.EcoState);
+  const api = factory(root.EcoState, root.EcoArt);
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.EcoRenderer = api;
-})(globalThis, function (S) {
+})(globalThis, function (S, Art) {
   "use strict";
   const colors = [
     "#63c9c4",
@@ -16,6 +16,7 @@
     "#c59873",
   ];
   function creature(g, o, x, y, r, detail = true) {
+    if (Art?.creature(g, o, x, y, r, detail)) return;
     const s = S.spec(o),
       n = S.D.main.findIndex((a) => a.id === o.species),
       phase = o.phase;
@@ -213,6 +214,7 @@
     g.restore();
   }
   function food(g, o, x, y, r, env) {
+    if (Art?.food(g, o, x, y, r, env)) return;
     g.save();
     g.translate(x, y);
     const id = o.species;
@@ -292,7 +294,7 @@
         x: 0,
         y: 0,
         resources: true,
-        grid: false,
+        grid: true,
         motion: true,
         animate: false,
         duration: 260,
@@ -316,67 +318,188 @@
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
     function terrain(w) {
-      const key = w.config.seed + ":" + w.config.width + ":" + w.config.height;
+      const key =
+        w.config.seed +
+        ":" +
+        w.config.width +
+        ":" +
+        w.config.height +
+        ":" +
+        Art?.loaded;
       if (terrainKey === key) return;
       terrainKey = key;
-      cache.width = w.config.width * 12;
-      cache.height = w.config.height * 12;
-      const c = cache.getContext("2d");
-      w.tiles.forEach((t, p) => {
-        const [x, y] = S.xy(w, p),
-          px = x * 12,
-          py = y * 12;
-        c.fillStyle = colors[t.env];
-        c.globalAlpha = t.terrain === "deep" ? 0.23 : 0.14;
-        c.fillRect(px, py, 12, 12);
-        c.globalAlpha = 1;
-        c.strokeStyle = colors[t.env] + "35";
-        c.lineWidth = 0.6;
-        if (t.terrain === "shallow" || t.terrain === "deep") {
-          c.beginPath();
-          c.moveTo(px + 2, py + 7);
-          c.quadraticCurveTo(px + 5, py + 4, px + 10, py + 7);
-          c.stroke();
-        } else if (t.terrain === "rock") {
-          c.beginPath();
-          c.moveTo(px + 3, py + 8);
-          c.lineTo(px + 6, py + 3);
-          c.lineTo(px + 9, py + 8);
-          c.stroke();
-        } else if (t.terrain === "mud") {
-          c.fillStyle = colors[t.env] + "30";
-          c.fillRect(px + 2, py + 6, 5, 2);
+      const size = 24;
+      cache.width = w.config.width * size;
+      cache.height = w.config.height * size;
+      const c = cache.getContext("2d"),
+        texture = Art?.images.terrain;
+      c.fillStyle = "#14292b";
+      c.fillRect(0, 0, cache.width, cache.height);
+      for (let p = 0; p < w.tiles.length; p++) {
+        const t = w.tiles[p],
+          [x, y] = S.xy(w, p),
+          px = x * size,
+          py = y * size;
+        const material = t.env;
+        if (texture) {
+          const tw = texture.width / 4,
+            th = texture.height / 2;
+          c.drawImage(
+            texture,
+            (material % 4) * tw + ((x % 6) * tw) / 6,
+            Math.floor(material / 4) * th + ((y % 6) * th) / 6,
+            tw / 6,
+            th / 6,
+            px,
+            py,
+            size,
+            size,
+          );
+          c.fillStyle =
+            t.terrain === "deep"
+              ? "#002b48aa"
+              : t.terrain === "mud"
+                ? "#2b271a77"
+                : "#071b2238";
+          c.fillRect(px, py, size, size);
+          c.fillStyle = colors[t.env] + "22";
+          c.fillRect(px, py, size, size);
+          if (["shallow", "deep", "mud", "rock"].includes(t.terrain)) {
+            const water = ["shallow", "deep"].includes(t.terrain),
+              color = water
+                ? t.terrain === "deep"
+                  ? "#023e69cc"
+                  : "#38bacb99"
+                : t.terrain === "mud"
+                  ? "#302915b0"
+                  : "#9caba060";
+            const shade = c.createRadialGradient(
+              px + 12,
+              py + 12,
+              1,
+              px + 12,
+              py + 12,
+              16,
+            );
+            shade.addColorStop(0, color);
+            shade.addColorStop(1, color.slice(0, 7) + "00");
+            c.fillStyle = shade;
+            c.fillRect(px, py, size, size);
+            if (water) {
+              c.strokeStyle = t.terrain === "deep" ? "#8dcce450" : "#b8f1de88";
+              c.lineWidth = 0.65;
+              c.beginPath();
+              c.moveTo(px + 3, py + 14);
+              c.bezierCurveTo(
+                px + 8,
+                py + 9,
+                px + 13,
+                py + 18,
+                px + 20,
+                py + 12,
+              );
+              c.stroke();
+            }
+          }
+        } else {
+          c.fillStyle = colors[t.env] + "66";
+          c.fillRect(px, py, size, size);
         }
         if (t.cover === "boulder") {
-          c.fillStyle = "#4d5554";
+          c.save();
+          c.translate(px + size * 0.52, py + size * 0.5);
+          c.fillStyle = "#0009";
           c.beginPath();
-          c.arc(px + 6, py + 6, 4, 0, 7);
+          c.ellipse(1, 6, 10, 7, 0, 0, 7);
           c.fill();
+          const shade = c.createLinearGradient(-8, -9, 9, 9);
+          shade.addColorStop(0, "#b9c2b1");
+          shade.addColorStop(0.35, "#647477");
+          shade.addColorStop(1, "#202f37");
+          c.fillStyle = shade;
+          c.strokeStyle = "#b7c7bd88";
+          c.lineWidth = 0.65;
+          c.beginPath();
+          c.moveTo(-10, 4);
+          c.lineTo(-7, -7);
+          c.lineTo(2, -10);
+          c.lineTo(10, -2);
+          c.lineTo(8, 9);
+          c.lineTo(-5, 10);
+          c.closePath();
+          c.fill();
+          c.stroke();
+          c.beginPath();
+          c.moveTo(-7, -7);
+          c.lineTo(1, 0);
+          c.lineTo(8, 9);
+          c.moveTo(1, 0);
+          c.lineTo(10, -2);
+          c.stroke();
+          c.restore();
         } else if (t.cover === "log") {
-          c.fillStyle = "#70634c";
-          c.fillRect(px + 2, py + 4, 8, 3);
-        } else if (t.cover === "bush") {
-          c.fillStyle = "#69826066";
+          c.save();
+          c.translate(px + 12, py + 12);
+          c.rotate(-0.45);
+          c.fillStyle = "#18211bdd";
+          c.fillRect(-11, -4, 22, 9);
+          c.fillStyle = "#7d6b43";
+          c.fillRect(-10, -4, 20, 6);
+          c.strokeStyle = "#c1a46c";
+          c.lineWidth = 0.7;
           c.beginPath();
-          c.arc(px + 6, py + 6, 4, 0, 7);
-          c.fill();
+          c.moveTo(-9, -3);
+          c.lineTo(10, -2);
+          c.moveTo(-8, 1);
+          c.lineTo(9, 0);
+          c.stroke();
+          c.restore();
+        } else if (t.cover === "bush") {
+          c.fillStyle = "#213e2dcc";
+          for (let j = 0; j < 5; j++) {
+            c.beginPath();
+            c.ellipse(
+              px + 12 + Math.sin(j * 3) * 5,
+              py + 12 + Math.cos(j * 3) * 4,
+              5,
+              4,
+              j,
+              0,
+              7,
+            );
+            c.fill();
+          }
+          c.fillStyle = "#a8bf6eaa";
+          for (let j = 0; j < 4; j++) {
+            c.beginPath();
+            c.ellipse(
+              px + 12 + Math.sin(j * 4) * 5,
+              py + 10 + Math.cos(j * 3) * 3,
+              2,
+              1,
+              j,
+              0,
+              7,
+            );
+            c.fill();
+          }
         }
-        c.strokeStyle = "#bac0aa66";
-        c.lineWidth = 1.3;
+        c.strokeStyle = "#d6cfb390";
+        c.lineWidth = 2.2;
         for (const q of t.walls) {
           if (q === p + 1) {
             c.beginPath();
-            c.moveTo(px + 12, py);
-            c.lineTo(px + 12, py + 12);
+            c.moveTo(px + size, py);
+            c.lineTo(px + size, py + size);
             c.stroke();
           } else if (q === p + w.config.width) {
             c.beginPath();
-            c.moveTo(px, py + 12);
-            c.lineTo(px + 12, py + 12);
+            c.moveTo(px, py + size);
+            c.lineTo(px + size, py + size);
             c.stroke();
           }
         }
-      });
+      }
     }
     function fit() {
       if (!world) return;
@@ -405,6 +528,7 @@
       if (!world) return;
       const w = world,
         z = view.scale;
+      terrain(w);
       g.save();
       g.translate(view.x, view.y);
       g.scale(z, z);
@@ -442,35 +566,9 @@
           if (!inView(a.cell)) continue;
           const [x, y] = S.xy(w, a.cell),
             env = w.tiles[a.cell].env;
-          g.fillStyle =
-            a.kind === "info"
-              ? "#c5b4f8"
-              : a.kind === "factor"
-                ? "#f8d992"
-                : a.kind === "mineral"
-                  ? "#b6d9dc"
-                  : a.kind === "droplet"
-                    ? "#79bbe0"
-                    : colors[env];
           const radius =
-            0.09 + Math.min(1, a.q / (S.FOOD[a.kind].cap || 4)) * 0.19;
-          if (a.kind === "info") {
-            g.globalAlpha = Math.max(
-              0.22,
-              1 - (w.turn - (a.event?.time || a.created)) / 24,
-            );
-            g.beginPath();
-            g.arc(x + 0.5, y + 0.5, radius * 1.8, 0, 7);
-            g.strokeStyle = g.fillStyle;
-            g.lineWidth = 0.04;
-            g.stroke();
-            g.globalAlpha = 1;
-          }
-          g.beginPath();
-          if (a.kind === "mineral")
-            g.rect(x + 0.5 - radius, y + 0.5 - radius, radius * 2, radius * 2);
-          else g.arc(x + 0.5, y + 0.5, radius, 0, 7);
-          g.fill();
+            0.12 + Math.min(1, a.q / (S.FOOD[a.kind].cap || 4)) * 0.23;
+          if (Art) Art.resource(g, a, x + 0.5, y + 0.5, radius, env, w.turn);
         }
       for (const a of w.carcasses) {
         if (!inView(a.cell)) continue;
@@ -539,7 +637,12 @@
                       ((S.spec(o).capacity?.[1] || 20) -
                         (S.spec(o).group === "plant" ? S.PLANT_BASE : 0)),
                   )) * (o.slot === "main" ? 0.9 + 0.2 * o.dna.body : 1);
-          if (o.slot === "main") creature(g, o, cx, cy, size, detail);
+          if (o.slot === "main" && point) {
+            g.fillStyle = S.spec(o).color;
+            g.beginPath();
+            g.arc(cx, cy, 0.28, 0, 7);
+            g.fill();
+          } else if (o.slot === "main") creature(g, o, cx, cy, size, detail);
           else if (point) {
             g.fillStyle = S.spec(o).color;
             g.fillRect(cx - 0.15, cy - 0.15, 0.3, 0.3);
@@ -599,7 +702,9 @@
         }
       if (view.selected !== null) {
         const [x, y] = S.xy(w, view.selected);
-        g.strokeStyle = "#eef3cf";
+        g.fillStyle = "#f5ce5c20";
+        g.fillRect(x, y, 1, 1);
+        g.strokeStyle = "#ffe3a0";
         g.lineWidth = 1.5 / z;
         g.strokeRect(x + 0.03, y + 0.03, 0.94, 0.94);
       }
@@ -630,5 +735,5 @@
     }
     return { view, diagnostics, setWorld, draw, fit, cellAt, zoom, creature };
   }
-  return { create, creature, food, colors };
+  return { create, creature, food, colors, assets: Art };
 });

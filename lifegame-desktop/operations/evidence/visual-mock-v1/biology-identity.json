@@ -1,0 +1,23 @@
+{
+  "version": "ecology-ab/1.5",
+  "app": "2.2.0",
+  "checkedAt": "2026-10-16T20:38:39.446571+00:00",
+  "sourceEvidence": "operations/evidence/ecology-v1.5/source-hashes.json",
+  "sameFiles": {
+    "src/ecology/behavior.js": "49df6df287aca2618a32eab7cb7761686ca9c53aeffcdc67dd4b712b70548b9b",
+    "src/ecology/catalogue.js": "eb06013600ca1e44f4aaf8a7ea9edefb029fe4326c7d1a9d26c946060829f804",
+    "src/ecology/engine.js": "8b5f0c4b2d1db36671ef20d9edb3bc965937325f65a1449094782f91967467f1",
+    "src/ecology/hash.js": "0f7ede6536719c1fcd246e4cf2e823252ff0a7cadc2b68555c4083b9ecf581ee",
+    "src/ecology/nutrition.js": "9092394bed3ca8ff4dc7ced7c839c98dce96e0cd0569bdb88daaa669422799e3",
+    "src/ecology/parasites.js": "10a63424e656ed795541ac750754e1cf6c20f7c81f12a11058f2796f37ccb661",
+    "src/ecology/reproduction.js": "7b699850e5a47ec18ee907692b0b18f10d3e27f340cd6707be1da47b45b687e8",
+    "src/ecology/state.js": "47a1321ac9eddd180d82081188b9d74757021f6e3de485c14973d273762ebba4",
+    "tests/ecology-contract.test.cjs": "45eb9591b7ddf545ebec3bac892bd88c38833e85709925525dcdea4dbd366cc0",
+    "tests/ecology-fixtures.cjs": "8903c4218992f446defa3250ee9fe65d3ed4f96b463424f22de0ed59e449713f",
+    "tests/ecology-integration.test.cjs": "a27638bbfe3b933be0127c855ce3d9190a14777b0f2b5b5a5a8060e863969408",
+    "tests/ecology-parasites.test.cjs": "50020922e1151a565657c4d38086b56cfe01475e5cfbdbdc01e3efebdf96aa82",
+    "tests/ecology-reproduction.test.cjs": "ce2bd9c504df141f1aeeab38b46959b6ca5f44967628a9ca19c85343e1e59a38",
+    "tools/validate-ecology-balance.cjs": "726a7307714901864fd013117a9797f7bef6db0469ea100f58634c533874cd27"
+  },
+  "scope": "C7 biology and its tests only; no new long-run observations inferred. Drawing, UI, native wrapper and packaging are separately checked in E6/E7."
+}

@@ -1,0 +1,46 @@
+{
+  "app": "2.2.0",
+  "artwork": "mock-art/1",
+  "biology": "ecology-ab/1.5",
+  "date": "2026-10-16T20:38:39.461557+00:00",
+  "browser": {
+    "passed": 45,
+    "report": "browser.json",
+    "command": "node tests/browser-smoke.cjs",
+    "platform": "linux",
+    "browser": "154.0.8037.57",
+    "serving": "HTTP loopback (managed Chromium blocks file URLs)"
+  },
+  "images": [
+    "ecosystem-overview.png",
+    "ecosystem-detail.png",
+    "ecosystem-grown.png",
+    "lineage-tree.png",
+    "parasite-sheet.png"
+  ],
+  "visualReview": {
+    "references": [
+      "design/specification/ecosystem-overview-mock.png",
+      "design/specification/habitat-overview-mock.png",
+      "design/visual-mocks/ab-habitat-food-four-phases.png"
+    ],
+    "observed": [
+      "Gold-trim dark teal map-led layout, large selected portrait and original mock creature forms.",
+      "Eight terrain textures follow fixed environments, with terrain/cover/cliff overlays from actual cells.",
+      "Four phase artwork and 3-to-6 illustrated branching; actual turn100 phaseIII specimen captured.",
+      "Painting, art preparation, guide and zoom do not change biological fingerprint."
+    ],
+    "remaining": [
+      "Dedicated precocial artwork currently shares a shell lineage template.",
+      "Branches use color/arc/halo treatment rather than entirely separate painted silhouettes.",
+      "At overview scales detail is limited by screen pixels; no organisms are removed from calculation.",
+      "User visual acceptance and frame rate on their hardware remain open."
+    ]
+  },
+  "biologyIdentity": "biology-identity.json",
+  "hashes": "source-hashes.json",
+  "windows": {
+    "report": "windows.json",
+    "status": "pending"
+  }
+}
