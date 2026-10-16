@@ -1,0 +1,7 @@
+# Keep the recorded source and reused-module bytes identical on Windows and Linux.
+*.js text eol=lf
+*.cjs text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.md text eol=lf
+*.json text eol=lf
