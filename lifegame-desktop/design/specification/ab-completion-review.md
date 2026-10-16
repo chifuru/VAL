@@ -1,3 +1,5 @@
+# 更新案内：v1.1の文書照合は[現行レビュー](ab-implementation-review-v1.1.md)を参照。以下はv1統合時の記録。
+
 # A/B v1 最終整理の記録
 
 [正本](ab-specification-v1.md)・[30系統定義](ab-catalogue-v1.md)・[84候補採否](ab-feature-scope-v1.md)へ統合した。
