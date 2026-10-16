@@ -2,6 +2,10 @@
 
 [全20系統：第三相3枝→第四相6経路](evolution-trees/README.md) / [分岐ロジック](branching-rules.md) / [雌雄と第三相からの繁殖](sex-and-reproduction.md) / [環境別の餌](environment-food.md)
 
+## 環境追加と情報の共有範囲
+
+[8環境案と系統を越える情報](environment-expansion.md)。寒冷・湿潤・強風・腐食を追加する案。情報は系統を問わず摂取でき、局所的に伝わる。以下の画像は4環境の部分見本。
+
 ## 最新の餌の表現
 
 ![情報エネルギー・餌の環境差・量の変化](food-variety-overview-mock.png)
