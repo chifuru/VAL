@@ -1,0 +1,10 @@
+{
+  "base": "2d81d03b92d121d9fef6ae6e1df28bfa9e3c6af3",
+  "unchanged_paths": [
+    "src",
+    "package.json",
+    "package-lock.json",
+    "valis/core"
+  ],
+  "diff": ""
+}

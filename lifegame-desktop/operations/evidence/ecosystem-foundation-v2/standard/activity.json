@@ -1,0 +1,226 @@
+{
+  "from": 1000,
+  "to": 1030,
+  "actions": {
+    "harvest": 16487,
+    "defend": 2185,
+    "attack": 235,
+    "move": 338,
+    "stop": 66642
+  },
+  "events": {
+    "light": 54760,
+    "feed": 102777,
+    "defend": 2185,
+    "death": 998,
+    "infection": 722,
+    "move": 310,
+    "attack": 205,
+    "growth": 55,
+    "birth": 963
+  },
+  "species": {
+    "abyssshell": {
+      "actions": {
+        "harvest": 30
+      },
+      "feeding": 30
+    },
+    "kelp": {
+      "actions": {
+        "harvest": 436,
+        "defend": 114,
+        "stop": 8
+      },
+      "feeding": 455
+    },
+    "antimeme": {
+      "actions": {
+        "defend": 119,
+        "harvest": 181,
+        "move": 1
+      },
+      "feeding": 300
+    },
+    "abyss": {
+      "actions": {
+        "harvest": 199,
+        "defend": 25,
+        "stop": 1,
+        "move": 2
+      },
+      "feeding": 207
+    },
+    "cephalopod": {
+      "actions": {
+        "defend": 2,
+        "harvest": 29
+      },
+      "feeding": 30
+    },
+    "manyeyes": {
+      "actions": {
+        "defend": 559,
+        "harvest": 1598,
+        "attack": 78,
+        "stop": 24,
+        "move": 50
+      },
+      "feeding": 2013
+    },
+    "solar": {
+      "actions": {
+        "harvest": 463,
+        "defend": 70,
+        "move": 12,
+        "attack": 6,
+        "stop": 4
+      },
+      "feeding": 425
+    },
+    "recursive": {
+      "actions": {
+        "defend": 10,
+        "harvest": 20
+      },
+      "feeding": 13
+    },
+    "gravity": {
+      "actions": {
+        "harvest": 128,
+        "defend": 45,
+        "move": 2,
+        "stop": 3,
+        "attack": 2
+      },
+      "feeding": 152
+    },
+    "whale": {
+      "actions": {
+        "harvest": 47,
+        "defend": 10,
+        "stop": 3
+      },
+      "feeding": 57
+    },
+    "jelly": {
+      "actions": {
+        "defend": 660,
+        "harvest": 1341,
+        "move": 18,
+        "stop": 6
+      },
+      "feeding": 1692
+    },
+    "memory": {
+      "actions": {
+        "harvest": 105,
+        "defend": 15
+      },
+      "feeding": 108
+    },
+    "myth": {
+      "actions": {
+        "defend": 201,
+        "harvest": 935,
+        "move": 50,
+        "attack": 69,
+        "stop": 5
+      },
+      "feeding": 1029
+    },
+    "serpent": {
+      "actions": {
+        "harvest": 593,
+        "defend": 53,
+        "attack": 20
+      },
+      "feeding": 611
+    },
+    "plasma": {
+      "actions": {
+        "harvest": 1559,
+        "defend": 296,
+        "move": 49,
+        "stop": 28,
+        "attack": 60
+      },
+      "feeding": 1699
+    },
+    "moss": {
+      "actions": {
+        "stop": 9148
+      },
+      "feeding": 0
+    },
+    "algae": {
+      "actions": {
+        "stop": 10736
+      },
+      "feeding": 0
+    },
+    "grass": {
+      "actions": {
+        "stop": 33875
+      },
+      "feeding": 0
+    },
+    "fungus": {
+      "actions": {
+        "stop": 10887
+      },
+      "feeding": 0
+    },
+    "waterbug": {
+      "actions": {
+        "harvest": 2299,
+        "stop": 304,
+        "move": 24
+      },
+      "feeding": 0
+    },
+    "grassbug": {
+      "actions": {
+        "harvest": 6232,
+        "stop": 913,
+        "move": 127
+      },
+      "feeding": 0
+    }
+  },
+  "finalCounts": {
+    "abyss": 6,
+    "myth": 42,
+    "recursive": 1,
+    "sail": 0,
+    "gravity": 6,
+    "crystal": 0,
+    "manyeyes": 75,
+    "abyssshell": 1,
+    "parallel": 0,
+    "memory": 4,
+    "serpent": 22,
+    "solar": 18,
+    "antimeme": 11,
+    "valis": 0,
+    "jelly": 74,
+    "kelp": 19,
+    "whale": 2,
+    "swarm": 0,
+    "plasma": 67,
+    "cephalopod": 1,
+    "precocial": 0,
+    "algae": 370,
+    "moss": 302,
+    "grass": 1139,
+    "fungus": 350,
+    "waterbug": 89,
+    "grassbug": 250,
+    "tideparasite": 300,
+    "leafparasite": 1426,
+    "hyperparasite": 0
+  },
+  "fingerprint": "3a323d4f8199710cbe8afa45f81525026dc6b2aa338d83f653ffbb2e6e4d5e25",
+  "wallMs": 10338.780279,
+  "scope": "Actual continuation of the standard endpoint; finite E/M and occupancy checked each turn."
+}

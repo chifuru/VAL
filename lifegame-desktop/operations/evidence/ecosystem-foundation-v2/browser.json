@@ -1,0 +1,19 @@
+{
+  "ok": true,
+  "version": "foundation/v2",
+  "checks": [
+    "initial screen presents actual configured lineages",
+    "selected cell identifies both independent living slots",
+    "zoom resolves overlapping organisms instead of changing occupancy",
+    "long-run screen displays actual 1000-turn snapshot",
+    "colony candidate is shown separately at its actual observation horizon",
+    "narrow screen has no horizontal overflow",
+    "selection zoom case switching and resource visibility leave snapshots unchanged",
+    "no page exceptions",
+    "no external requests"
+  ],
+  "errors": [],
+  "network": [],
+  "platform": "linux",
+  "browser": "154.0.8037.57"
+}

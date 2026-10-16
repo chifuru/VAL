@@ -1,0 +1,22 @@
+✔ continuous terrain replays exactly and has fewer fragmented physical edges than production (1474.852793ms)
+✔ initial weighting varies cohort numbers, retains four-founder floor, and does not change requested total (128.357189ms)
+✔ sparse aquatic producer can renew from a real paid parent without injecting founders (8.211953ms)
+✔ preterminal contact requires six local exposures and pays more than the previous trial (11.022776ms)
+✔ an empty ecosystem stays empty; no mid-run lineage rescue or compulsory births (17.118492ms)
+✔ aquatic prey movement cannot send it onto a dry cell (6.50449ms)
+✔ local mate sensing can reunite a mature pair beyond ordinary visual range (8.466028ms)
+✔ an animal-feeding main organism hunts an accessible small prey rather than only harvesting plants (7.757431ms)
+✔ colony candidate has workers and an opposite-sex reproductive pair in every founder cohort (519.106499ms)
+✔ colony worker can support a hungry adult queen with finite paid transfer (22.266498ms)
+✔ eusocial queen stores finite paternity after a real local mating and pays the full brood cost herself (10.097469ms)
+✔ stored paternity permits a later paid brood without a resident male and stops when depleted (9.339638ms)
+✔ local reproductive-caste feedback can produce a queen without an unreachable maternal energy gate (16.371618ms)
+✔ VALIS: every node has valid hierarchy, references, manifest entry and real source/test paths (4.828924ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2258.95171

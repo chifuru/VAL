@@ -1,0 +1,37 @@
+[
+  {
+    "path": "operations/evidence/ecosystem-foundation-v2/colony/colony.world.json",
+    "sha256": "0bcc056fabb2a6090a24a7c5ba2ccb22c4e3dfdfebf12f8a79db493ee37450df",
+    "reproduction": "observe.cjs / survey.cjs; compact readonly worlds retained in preview-data.js"
+  },
+  {
+    "path": "operations/evidence/ecosystem-foundation-v2/standard/foundation.world.json",
+    "sha256": "181557ba356cb75bec5459ddb67b9bfe853c424ff16a11b6ee0dd6ab2c9acae6",
+    "reproduction": "observe.cjs / survey.cjs; compact readonly worlds retained in preview-data.js"
+  },
+  {
+    "path": "operations/evidence/ecosystem-foundation-v2/multi/foundation-c.world.json",
+    "sha256": "3f535dc4f712f539f8917e225d1a0ec0b365de4b1336435c93cd97e10ff3cfdf",
+    "reproduction": "observe.cjs / survey.cjs; compact readonly worlds retained in preview-data.js"
+  },
+  {
+    "path": "operations/evidence/ecosystem-foundation-v2/multi/foundation-a.world.json",
+    "sha256": "181439b835516deb15d9d897032d5d4c71f2e629efe393de5a063e55a5b185d2",
+    "reproduction": "observe.cjs / survey.cjs; compact readonly worlds retained in preview-data.js"
+  },
+  {
+    "path": "operations/evidence/ecosystem-foundation-v2/multi/foundation-b.world.json",
+    "sha256": "4588024a47679e0f2ed815c11565e0f13d0e3ca6371eeff2de6a93f394355914",
+    "reproduction": "observe.cjs / survey.cjs; compact readonly worlds retained in preview-data.js"
+  },
+  {
+    "path": "operations/evidence/ecosystem-foundation-v2/survey/foundation-natural-a.world.json",
+    "sha256": "17efe7108e5250913705f134f6d02658d9b5b450429a6d5dafe12eb2d1c3dc80",
+    "reproduction": "observe.cjs / survey.cjs; compact readonly worlds retained in preview-data.js"
+  },
+  {
+    "path": "operations/evidence/ecosystem-foundation-v2/survey/foundation-natural-b.world.json",
+    "sha256": "28c1d4d1ba0c9be28a3eea57efc584ad07fbc2cc8adb9acf4f56587b7e17202b",
+    "reproduction": "observe.cjs / survey.cjs; compact readonly worlds retained in preview-data.js"
+  }
+]

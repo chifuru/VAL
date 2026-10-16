@@ -1,0 +1,22 @@
+    const n=config.width*config.height;
+    const smooth=u=>u*u*(3-2*u);
+    function field(x,y,scale,axis){
+      const ax=Math.floor(x/scale),ay=Math.floor(y/scale),fx=smooth(x/scale-ax),fy=smooth(y/scale-ay);
+      const v=(dx,dy)=>r(w,'world/continuous/'+axis,0,null,[ax+dx,ay+dy]);
+      return (v(0,0)*(1-fx)+v(1,0)*fx)*(1-fy)+(v(0,1)*(1-fx)+v(1,1)*fx)*fy;
+    }
+    const regions=[];
+    const rotation=Math.floor(r(w,'world/env')*8);
+    for(let j=0;j<8;j++){
+      const angle=j*Math.PI/4+r(w,'world/region-angle',0,String(j))*.35;
+      regions.push({x:config.width*(.5+.36*Math.cos(angle)),y:config.height*(.5+.36*Math.sin(angle)),env:(j+rotation)%8});
+    }
+    for(let p=0;p<n;p++){
+      const [x,y]=xy(w,p),wx=x+(field(x,y,12,'warp-x')-.5)*12,wy=y+(field(x,y,12,'warp-y')-.5)*12;
+      let best=Infinity,nearest=regions[0];
+      for(const a of regions){const d=((wx-a.x)/config.width)**2+((wy-a.y)/config.height)**2;if(d<best){best=d;nearest=a;}}
+      const env=nearest.env,e=D.environments[env],u=.8*field(x,y,7,'elevation')+.2*field(x,y,3,'detail');
+      let terrain=e.terrain[0];for(let j=0;j<e.terrain.length;j+=2)if(u<e.terrain[j+1]){terrain=e.terrain[j];break;}
+      const v=r(w,'world/cover',0,null,[x,y]),cover=v<.012?'boulder':v<.035?'log':v<.09?'bush':'none';
+      w.tiles.push({env,terrain,cover,blocked:cover==='boulder',light:cover==='boulder'?0:H.round(e.light*(cover==='log'?.8:cover==='bush'?.7:1)*(terrain==='deep'?.6:1)),walls:[],soilM:5});
+    }
