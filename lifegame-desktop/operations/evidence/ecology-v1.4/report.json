@@ -1,0 +1,64 @@
+{
+  "version": "ecology-ab/1.4 / app2.0.0",
+  "date": "2026-10-16T12:32:52.345609+00:00",
+  "environment": {
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "node": "24.19.0",
+    "chromium": "154.0.8037.57"
+  },
+  "rules": {
+    "passed": 33,
+    "log": "model.log",
+    "command": "node --test --test-isolation=none tests/ecology-*.test.cjs"
+  },
+  "browser": {
+    "passed": 32,
+    "report": "browser.json",
+    "command": "node tests/browser-smoke.cjs",
+    "serving": "HTTP loopback; managed Chromium blocks file URLs"
+  },
+  "performance": {
+    "report": "performance.json",
+    "command": "node tools/benchmark-ecology.cjs",
+    "sizes": [
+      [
+        40,
+        28,
+        80
+      ],
+      [
+        80,
+        56,
+        320
+      ],
+      [
+        160,
+        112,
+        1280
+      ]
+    ],
+    "ticksEach": 12,
+    "extendedTicks": 1000
+  },
+  "limits": [
+    "Windows native executable not yet run for current version",
+    "Extended-observation seed reached no main phaseIII, no main births, and all organisms extinct by turn500; not evidence of sustainable ecosystem balance",
+    "Maximum-size Node timings do not establish browser or Windows frame rate",
+    "Reference creatures use procedural shapes; detailed visual review remains required"
+  ],
+  "hashes": "source-hashes.json",
+  "package": {
+    "version": "2.0.0",
+    "electron": "44.7.2",
+    "exe": "LifeGame.exe",
+    "platform": "win32",
+    "arch": "x64",
+    "zip": "LifeGame-Windows-x64.zip",
+    "sha256": "5574b474460d5e1219546b6402d0110f596589f5558bb8db0fde921831d30e1d",
+    "bytes": 158008995
+  },
+  "structure": {
+    "passed": 2,
+    "log": "structure.log"
+  }
+}

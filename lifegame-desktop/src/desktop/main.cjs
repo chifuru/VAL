@@ -18,7 +18,7 @@ app.whenReady().then(async () => {
       const result = await win.webContents.executeJavaScript(`(() => {
         const t=window.__LIFE_TEST__; if(!t)throw Error('test bridge absent');
         if(typeof require!=='undefined')throw Error('Node exposed');
-        t.prepare({seed:'native-smoke',width:16,height:12,initial:60,maxTurns:30});
+        t.prepare({seed:'native-smoke',width:40,height:28,initial:80});
         if(t.snapshot().world.turn!==0)throw Error('prepare advanced');
         for(let i=0;i<10;i++)t.step();
         const s=t.snapshot(); if(!s.world.turn)throw Error('no steps');

@@ -1,46 +1,228 @@
 <!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'">
-  <title>LifeGame — 生態系観測室</title><link rel="stylesheet" href="styles.css">
-</head>
-<body>
-<header class="masthead"><a class="brand" href="Index.html"><span class="brand-icon">◈</span> VALIS <span class="brand-sub">LIFE LAB</span></a><span class="local-badge"><i></i> LOCAL ECOSYSTEM / 01</span></header>
-<main>
-  <div class="intro"><div><p class="eyebrow">生命は、ひとつの初期値から。</p><h1>生態系観測室<span>LifeGame</span></h1><p class="intro-copy">生まれ、育ち、競い、つながる。小さな世界の行く末を観測しよう。</p></div><div class="intro-note"><span>09</span>種族 <b>×</b> <span>09</span>行動<br><small>同じ初期値から、同じ世界へ。</small></div></div>
-  <div class="workspace">
-    <aside class="panel settings"><div class="panel-heading"><span>01 / 世界をつくる</span><span class="tiny">SETUP</span></div>
-      <form id="setup">
-        <label>初期値 <span class="hint">SEED</span><input id="seed" name="seed" value="VALIS-2026" maxlength="64" required autocomplete="off"></label>
-        <div class="field-row"><label>盤面の幅<input id="width" type="number" value="28" min="8" max="48" required></label><label>盤面の高さ<input id="height" type="number" value="22" min="8" max="48" required></label></div>
-        <label>初期個体数<input id="initial" type="number" value="90" min="2" max="2304" required></label>
-        <label>観測ターンの上限<input id="maxTurns" type="number" value="400" min="1" max="3000" required></label>
-        <label>競争モード<select id="mode"><option value="species">種族戦 — 同じ種族が仲間</option><option value="faction">勢力戦 — 異種族も協力</option><option value="brawl">乱戦 — 血統ごとに競争</option></select></label>
-        <label id="faction-field" hidden>勢力数<input id="factions" type="number" value="3" min="2" max="9"></label>
-        <button id="load" class="button prepare" type="submit"><span>① 世界を読み込む</span><span>↗</span></button>
-      </form>
-      <p class="setup-note">読み込みでは時間は進みません。準備した世界を確認してから、観測を開始できます。</p>
-      <div class="panel-divider"></div>
-      <label class="speed-label" for="speed">観測の速さ <output id="speed-label">標準</output></label><select id="speed"><option value="400">ゆっくり / 0.4秒</option><option value="140" selected>標準 / 0.14秒</option><option value="30">速い / 0.03秒</option></select>
-      <label class="toggle"><input id="resources" type="checkbox" checked>資源を表示する</label>
-      <div class="selection"><p class="tiny">SPECIMEN / 個体観察</p><div id="individual">盤面の生物を選択すると、<br>その個体の状態を観察できます。</div></div>
-    </aside>
-    <section class="world-column" aria-label="生態系の観測">
-      <div class="panel habitat"><div class="panel-heading"><span><i id="status-dot"></i> <span id="status">未準備</span></span><span class="turn">TURN <strong id="turn">000</strong><span id="turn-limit"> / 400</span></span></div>
-        <div class="canvas-wrap"><canvas id="board" width="840" height="660" tabindex="0" aria-label="生態系の盤面。下の集計と個体一覧でも状態を確認できます。"></canvas><div id="empty"><span>◈</span><h2>まだ、誰もいない世界。</h2><p>初期値を決めて「世界を読み込む」を押してください。</p></div></div>
-        <div class="world-footer"><span><i class="resource-dot"></i> 資源 <span class="legend-stage">● 幼体　◉ 成体　◌ 老齢</span></span><span id="seed-display">SEED —</span></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'"
+    />
+    <title>LifeGame — 生態シミュレーション</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <a href="Index.html" class="brand">◈ <strong>LIFE LAB</strong></a
+      ><span>生態シミュレーション / ecology 1.4</span
+      ><span class="local">● LOCAL · OFFLINE</span>
+    </header>
+    <main>
+      <div class="intro">
+        <div>
+          <p class="eyebrow">OBSERVE AN EMERGENT WORLD</p>
+          <h1>ひとつの初期値から、生態系へ。</h1>
+          <p>育ち、競い、つながる。30の系統と、見えない関係を観測する。</p>
+        </div>
+        <button id="open-guide" class="secondary">系統樹・説明シート ↗</button>
       </div>
-      <div class="transport"><button id="start" class="button primary" disabled>② 観測を開始 <span>▶</span></button><button id="step" class="button secondary" disabled>1ターン進む</button><button id="reset" class="button icon-button" disabled title="同じ設定で最初から" aria-label="同じ設定で最初から">↺</button><p id="run-note" aria-live="polite">世界の読み込みを待っています。</p></div>
-      <div id="message" role="status" aria-live="polite"></div>
-      <div id="result" class="result" hidden><p class="eyebrow">OBSERVATION COMPLETE</p><h2 id="result-title"></h2><p id="result-detail"></p></div>
-      <div class="metrics"><div><span>生存個体</span><strong id="population">—</strong><small id="population-change">POPULATION</small></div><div><span>生存種族</span><strong id="species-count">—</strong><small>SPECIES / 9</small></div><div><span>最長世代</span><strong id="generation">—</strong><small>GENERATION</small></div><div><span>誕生 / 死亡</span><strong class="small-metric" id="births-deaths">— / —</strong><small>TOTAL</small></div></div>
-      <section class="panel trends"><div class="panel-heading"><span>個体数の推移</span><span class="tiny">POPULATION TREND / 直近500標本</span></div><canvas id="chart" width="900" height="170" aria-label="種族別個体数の推移"></canvas></section>
-    </section>
-    <aside class="panel species-panel"><div class="panel-heading"><span>02 / 生存の記録</span><span class="tiny">SPECIES</span></div><p class="species-note">得意な生き方は、それぞれ。<br>この世界に適応するのは、どの種族だろう。</p><div id="ranking"></div><div class="panel-divider"></div><p class="tiny">FIELD NOTES</p><p class="field-notes">資源は採食後、5ターンで回復。生物は成長すると繁殖を始め、子は親の特性と行動を受け継ぎます。</p><p class="field-notes">寿命・飢餓・戦闘で個体は失われます。上限まで複数の集団が残れば「共存」です。</p><details><summary>種族の特性とルール</summary><div id="species-guide"></div><p class="field-notes">種族の基本値は入力資料を基礎にし、初期値由来のDNAが攻撃・防御・代謝を各±10%調整します。生命の予測ではなく、設定したルールの観測です。</p></details></aside>
-  </div>
-  <details class="individual-list"><summary>生存個体を一覧で確認 <span id="list-count">0</span></summary><div class="table-scroll"><table><thead><tr><th>個体</th><th>種族</th><th>年齢 / 段階</th><th>世代</th><th>HP</th><th>エネルギー</th><th>行動</th></tr></thead><tbody id="cells-table"></tbody></table></div><p class="tiny">先頭100個体を表示。盤面上のすべての個体はクリックで観察できます。</p></details>
-  <footer>VALIS / LIFE LAB <span>Deterministic worlds. Unscripted survival.</span><small>v1.0.0 · ローカル実行 · 外部通信なし</small></footer>
-</main>
-<script src="model/config.js"></script><script src="model/lifecycle.js"></script><script src="model/behavior.js"></script><script src="model/engine.js"></script><script src="app.js"></script>
-</body></html>
+      <div class="workspace">
+        <aside class="panel setup">
+          <h2>01 / 世界をつくる</h2>
+          <form id="setup">
+            <label
+              >初期値<textarea id="seed" rows="2" maxlength="2048">
+ECOSYSTEM-2026</textarea
+              ></label
+            ><label
+              >世界の大きさ<select id="size">
+                <option value="40,28">小 · 40 × 28 / 初期80体</option>
+                <option selected value="80,56">
+                  標準 · 80 × 56 / 初期320体
+                </option>
+                <option value="160,112">大 · 160 × 112 / 初期1280体</option>
+              </select></label
+            ><label
+              >主生物の初期数<input
+                id="initial"
+                type="number"
+                min="4"
+                max="17920"
+                step="4"
+                value="320" /></label
+            ><label
+              >系統の構成<select id="lineages">
+                <option value="all">基本20系統</option>
+                <option value="few">初期値から5系統</option>
+                <option value="manual">自分で選択（早成甲殻を含む）</option>
+              </select></label
+            >
+            <div id="lineage-options" hidden></div>
+            <label
+              >系統ごとの配分<select id="distribution">
+                <option value="balanced">偏りなし · 4体単位で均等</option>
+                <option value="weighted">重み付き · 系統ごと1〜4</option>
+              </select></label
+            >
+            <div id="weight-options" hidden></div>
+            <label
+              >初期配置<select id="placement">
+                <option value="natural">自然配置 · 適応環境と餌を優先</option>
+                <option value="scatter">分散配置 · 距離を確保</option>
+                <option value="cluster">集落配置 · 系統ごとに集まる</option>
+              </select></label
+            >
+            <fieldset>
+              <legend>初期に有効にする生物群</legend>
+              <div id="groups"></div>
+            </fieldset>
+            <label class="check"
+              ><input
+                id="guarantee"
+                type="checkbox"
+              />初期集団の近くに有機餌・鉱物を保証</label
+            ><button id="load" type="submit" class="primary">
+              世界を読み込む ↗
+            </button>
+          </form>
+          <p class="note">
+            読み込みでは時間は進みません。環境・地形は固定、餌と生物は変動します。
+          </p>
+        </aside>
+        <section class="world-column">
+          <div class="panel habitat">
+            <div class="panel-heading">
+              <span id="status">未準備</span
+              ><span
+                >TURN <strong id="turn">0</strong>
+                <span id="turn-limit">/ 1000</span></span
+              >
+            </div>
+            <div class="canvas-wrap">
+              <canvas
+                id="board"
+                tabindex="0"
+                aria-label="生態系の盤面。クリックでマスを選択、ドラッグで移動、ホイールで拡大縮小。"
+              ></canvas>
+              <div id="empty">
+                <span>◈</span>
+                <h2>まだ、時間のない世界。</h2>
+                <p>初期値を決めて、世界を読み込んでください。</p>
+              </div>
+            </div>
+            <div class="view-controls">
+              <button id="fit" class="small">全体</button
+              ><button id="zoom-out" class="small" aria-label="縮小">−</button
+              ><button id="zoom-in" class="small" aria-label="拡大">＋</button
+              ><label class="check"
+                ><input id="resources" type="checkbox" checked />資源</label
+              ><label class="check"
+                ><input id="grid" type="checkbox" />格子</label
+              ><label class="check"
+                ><input id="motion" type="checkbox" checked />モーション</label
+              ><span id="render-mode">—</span>
+            </div>
+          </div>
+          <div class="transport">
+            <button id="start" class="primary" disabled>観測を開始 ▶</button
+            ><button id="step" class="secondary" disabled>1ターン進む</button
+            ><button id="reset" class="secondary" disabled>初期状態へ</button
+            ><select id="speed" aria-label="観測速度">
+              <option value="1">1ターン/秒</option>
+              <option value="5">5ターン/秒</option>
+              <option value="10">10ターン/秒</option>
+            </select>
+          </div>
+          <p id="message" role="status" aria-live="polite">
+            世界の読み込みを待っています。
+          </p>
+          <div class="metrics">
+            <div><span>主生物</span><strong id="main-count">—</strong></div>
+            <div><span>餌生物</span><strong id="food-count">—</strong></div>
+            <div>
+              <span>一次 / 高次寄生</span><strong id="parasite-count">—</strong>
+            </div>
+            <div><span>最終計算</span><strong id="timing">—</strong></div>
+          </div>
+          <section class="panel checkpoints">
+            <div class="panel-heading">
+              <h2>観測スナップショット</h2>
+              <span>0 / 100 / 250 / 500 / 1000</span>
+            </div>
+            <div id="checkpoints"></div>
+          </section>
+          <section class="panel environment">
+            <h2>固定環境と地形</h2>
+            <div id="environment-legend"></div>
+            <p class="note">
+              環境はマスごとに連続する領域として生成。岩塊は通れず、崖は辺を遮ります。深水・泥・岩地・浅瀬、倒木・茂みも行動へ影響します。
+            </p>
+          </section>
+        </section>
+        <aside class="panel inspector">
+          <h2>02 / マスと個体を観察</h2>
+          <p class="note">
+            1マスに主生物1体と餌生物1体が共存。寄生虫は宿主に付随します。
+          </p>
+          <div id="selection">盤面のマスを選択してください。</div>
+          <div class="divider"></div>
+          <h2>生存系統</h2>
+          <div id="ranking"></div>
+        </aside>
+      </div>
+      <details class="panel table-panel">
+        <summary>
+          生存個体一覧 <span id="list-count">0</span> ·
+          先頭100体（計算は全個体）
+        </summary>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>個体</th>
+                <th>系統・相</th>
+                <th>性 / 役割</th>
+                <th>年齢 / 世代</th>
+                <th>HP</th>
+                <th>E / B / M / G</th>
+              </tr>
+            </thead>
+            <tbody id="cells-table"></tbody>
+          </table>
+        </div>
+      </details>
+      <footer>
+        VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
+        ><span>v2.0.0 · 外部通信なし</span>
+      </footer>
+    </main>
+    <dialog id="guide">
+      <div class="guide-head">
+        <div>
+          <p class="eyebrow">FIELD GUIDE</p>
+          <h2>生態系のしくみ</h2>
+        </div>
+        <button id="close-guide" class="secondary">閉じる ×</button>
+      </div>
+      <nav id="guide-tabs" aria-label="説明カテゴリ">
+        <button data-sheet="tree">系統樹</button
+        ><button data-sheet="system">世界と進行</button
+        ><button data-sheet="food">食物網と餌</button
+        ><button data-sheet="action">移動・戦闘・戦略</button
+        ><button data-sheet="birth">成長・繁殖</button
+        ><button data-sheet="parasite">寄生・高次寄生</button
+        ><button data-sheet="info">情報と延長された表現型</button>
+      </nav>
+      <section id="guide-content"></section>
+    </dialog>
+    <script src="ecology/hash.js"></script>
+    <script src="ecology/catalogue.js"></script>
+    <script src="ecology/state.js"></script>
+    <script src="ecology/nutrition.js"></script>
+    <script src="ecology/behavior.js"></script>
+    <script src="ecology/reproduction.js"></script>
+    <script src="ecology/parasites.js"></script>
+    <script src="ecology/engine.js"></script>
+    <script src="ecology/renderer.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

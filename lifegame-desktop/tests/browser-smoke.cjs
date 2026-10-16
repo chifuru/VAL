@@ -1,63 +1,275 @@
-'use strict';
-const {chromium} = require('playwright');
-const assert = require('node:assert/strict');
-const path = require('node:path');
-const fs = require('node:fs/promises');
-const http = require('node:http');
+"use strict";
+const { chromium } = require("playwright");
+const assert = require("node:assert/strict"),
+  path = require("node:path"),
+  fs = require("node:fs/promises");
+const http = require("node:http");
 async function main() {
-  const out = path.resolve(process.env.LIFEGAME_EVIDENCE || 'artifacts/browser'); await fs.mkdir(out, {recursive: true});
+  const out = path.resolve(
+    process.env.LIFEGAME_EVIDENCE || "artifacts/browser",
+  );
+  await fs.mkdir(out, { recursive: true });
+  const localChrome =
+    process.env.CHROMIUM_PATH ||
+    (process.platform === "linux" ? "/usr/bin/chromium" : null);
   const server = http.createServer(async (req, res) => {
     try {
-      const relative = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
-      const file = path.resolve('src', '.' + relative);
-      if (!file.startsWith(path.resolve('src') + path.sep)) { res.writeHead(403).end(); return; }
-      const type = file.endsWith('.js') ? 'application/javascript' : file.endsWith('.css') ? 'text/css' : 'text/html';
-      res.setHeader('Content-Type', type + '; charset=utf-8'); res.end(await fs.readFile(file));
-    } catch { res.writeHead(404).end(); }
+      const file = path.resolve(
+        "src",
+        "." + new URL(req.url, "http://localhost").pathname,
+      );
+      if (!file.startsWith(path.resolve("src") + path.sep)) {
+        res.writeHead(403).end();
+        return;
+      }
+      res.setHeader(
+        "Content-Type",
+        (file.endsWith(".js")
+          ? "application/javascript"
+          : file.endsWith(".css")
+            ? "text/css"
+            : "text/html") + "; charset=utf-8",
+      );
+      res.end(await fs.readFile(file));
+    } catch {
+      res.writeHead(404).end();
+    }
   });
-  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-  const origin = 'http://127.0.0.1:' + server.address().port;
-  const browser = await chromium.launch({headless: true, ...(process.env.CHROMIUM_PATH ? {executablePath: process.env.CHROMIUM_PATH} : {}), args: ['--no-sandbox']});
-  const page = await browser.newPage({viewport: {width: 1480, height: 1120}}), errors = [], requests = [], checks = [];
-  page.on('pageerror', e => errors.push(String(e))); page.on('request', r => { if (/^https?:/.test(r.url()) && !r.url().startsWith(origin + '/')) requests.push(r.url()); });
-  const check = (v, label) => { assert.ok(v, label); checks.push(label); };
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const origin = "http://127.0.0.1:" + server.address().port;
+  const browser = await chromium.launch({
+    headless: true,
+    ...(localChrome ? { executablePath: localChrome } : {}),
+    args: ["--no-sandbox"],
+  });
+  const page = await browser.newPage({
+      viewport: { width: 1520, height: 1200 },
+    }),
+    errors = [],
+    network = [],
+    checks = [];
+  page.on("pageerror", (e) => errors.push(String(e)));
+  page.on("request", (r) => {
+    if (/^https?:/.test(r.url()) && !r.url().startsWith(origin + "/"))
+      network.push(r.url());
+  });
+  const check = (value, label) => {
+    assert.ok(value, label);
+    checks.push(label);
+  };
   try {
-    await page.goto(origin + '/Index.html?smoke=1');
+    await page.goto(origin + "/Index.html?smoke=1");
     await page.waitForFunction(() => window.__LIFE_TEST__);
-    check(await page.locator('#start').isDisabled(), 'unprepared world cannot start');
-    await page.locator('#seed').fill('ecosystem-smoke'); await page.locator('#load').click();
+    check(
+      await page.locator("#start").isDisabled(),
+      "unprepared world cannot advance",
+    );
+    await page.locator("#size").selectOption("40,28");
+    await page.locator("#seed").fill(" 生態観測\n日本語 ");
+    await page.locator("#load").click();
+    await page.waitForFunction(() => __LIFE_TEST__.snapshot().world);
     let s = await page.evaluate(() => __LIFE_TEST__.snapshot());
-    check(s.world.turn === 0 && s.world.stats.population === 90 && !s.running, 'load creates exactly 90 organisms without advancing');
-    await page.waitForTimeout(250); check(await page.locator('#turn').textContent() === '000', 'loaded world stays still');
-    const c = s.world.cells[0], box = await page.locator('#board').boundingBox();
-    const geometry = await page.evaluate(() => { const b = document.getElementById('board'), r = b.getBoundingClientRect(), scale = Math.min(r.width / b.width, r.height / b.height); return {scale, left: r.left + (r.width - b.width * scale) / 2, top: r.top + (r.height - b.height * scale) / 2}; });
-    await page.mouse.click(geometry.left + (c.x * 28 + 14) * geometry.scale, geometry.top + (c.y * 28 + 14) * geometry.scale);
-    check((await page.locator('#individual').textContent()).includes('#' + c.id), 'canvas selects organism and displays traits');
-    await page.screenshot({path: path.join(out, 'prepared-desktop.png'), fullPage: true});
-    await page.locator('#speed').selectOption('30'); await page.locator('#start').click();
-    await page.waitForFunction(() => __LIFE_TEST__.snapshot().world.turn >= 3);
-    await page.locator('#start').click(); s = await page.evaluate(() => __LIFE_TEST__.snapshot());
-    check(!s.running, 'pause stops scheduling'); const paused = s.world.turn;
-    await page.waitForTimeout(180); check((await page.evaluate(() => __LIFE_TEST__.snapshot())).world.turn === paused, 'paused simulation stays at same turn');
-    await page.locator('#step').click(); check((await page.evaluate(() => __LIFE_TEST__.snapshot())).world.turn === paused + 1, 'single step advances exactly once');
-    await page.locator('#start').click(); await page.waitForFunction(t => __LIFE_TEST__.snapshot().world.turn > t, paused + 1); await page.locator('#start').click();
-    checks.push('resume advances again');
-    await page.locator('#seed').fill('changed-seed'); check(await page.locator('#start').isDisabled(), 'editing config requires reload');
-    await page.locator('#reset').click(); check((await page.locator('#seed').inputValue()) === 'ecosystem-smoke' && (await page.locator('#turn').textContent()) === '000', 'reset restores loaded settings and initial world');
-    const first = await page.evaluate(() => __LIFE_TEST__.snapshot().world); await page.locator('#load').click(); check(JSON.stringify(first) === JSON.stringify(await page.evaluate(() => __LIFE_TEST__.snapshot().world)), 'same setup reproduces exact initial state');
-    await page.locator('#mode').selectOption('faction'); check(await page.locator('#faction-field').isVisible(), 'faction field appears');
-    await page.locator('#load').click(); await page.locator('#step').click(); check((await page.evaluate(() => __LIFE_TEST__.snapshot())).world.config.mode === 'faction', 'faction mode steps');
-    await page.locator('#mode').selectOption('brawl'); await page.locator('#load').click(); await page.locator('#step').click(); check((await page.evaluate(() => __LIFE_TEST__.snapshot())).world.config.mode === 'brawl', 'lineage brawl steps');
-    await page.locator('#mode').selectOption('species'); await page.locator('#maxTurns').fill('1'); await page.locator('#load').click(); await page.locator('#step').click();
-    check(await page.locator('#result').isVisible() && await page.locator('#start').isDisabled(), 'terminal result displays and cannot run further');
-    check((await page.evaluate(() => __LIFE_TEST__.snapshot())).world.result.reason === 'coexist', 'turn limit reports coexistence');
-    await page.screenshot({path: path.join(out, 'result-desktop.png'), fullPage: true});
-    await page.setViewportSize({width: 390, height: 844});
-    check(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'narrow screen has no page overflow');
-    await page.screenshot({path: path.join(out, 'narrow.png'), fullPage: true});
-    check(errors.length === 0, 'no renderer errors'); check(requests.length === 0, 'no external requests');
-    const report = {ok: true, checks, errors, requests, browser: await browser.version()};
-    await fs.writeFile(path.join(out, 'report.json'), JSON.stringify(report, null, 2) + '\n'); console.log(JSON.stringify(report));
-  } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
+    check(
+      s.world.turn === 0 && s.world.stats.main === 80,
+      "load creates phase-I world without advancing",
+    );
+    check(
+      s.world.config.seed === " 生態観測\n日本語 ",
+      "seed preserves Unicode, whitespace and newline",
+    );
+    check(
+      s.world.stats.counts && Object.keys(s.world.stats.counts).length === 30,
+      "all thirty lineages are present in observation catalogue",
+    );
+    const initial = await page.evaluate(() => __LIFE_TEST__.fingerprint());
+    await page.locator("#open-guide").click();
+    check(
+      await page.locator("#guide").isVisible(),
+      "in-game explanation opens",
+    );
+    check(
+      (await page.locator("#tree-select option").count()) === 30,
+      "tree references every species including food and parasites",
+    );
+    for (const id of [
+      "abyss",
+      "precocial",
+      "algae",
+      "tideparasite",
+      "hyperparasite",
+    ]) {
+      await page.locator("#tree-select").selectOption(id);
+      check(
+        (await page.locator("#guide-content").textContent()).length > 100,
+        "tree explains " + id,
+      );
+    }
+    for (const name of [
+      "system",
+      "food",
+      "action",
+      "birth",
+      "parasite",
+      "info",
+    ]) {
+      await page.locator(`[data-sheet="${name}"]`).click();
+      check(
+        (await page.locator("#guide-content").textContent()).length > 300,
+        "sheet content: " + name,
+      );
+    }
+    await page.locator("#close-guide").click();
+    check(
+      (await page.evaluate(() => __LIFE_TEST__.fingerprint())) === initial,
+      "guide and all trees do not change biological state",
+    );
+    await page.locator("#step").click();
+    s = await page.evaluate(() => __LIFE_TEST__.snapshot());
+    check(
+      s.world.turn === 1,
+      "single step advances exactly one synchronous turn",
+    );
+    check(
+      (await page.evaluate(
+        () => EcoEngine.invariants(__LIFE_TEST__.snapshot().world).length,
+      )) === 0,
+      "browser world respects slots and finite budgets",
+    );
+    await page.evaluate(() => {
+      const w = __LIFE_TEST__.snapshot().world;
+      const main = w.organisms.find((a) => a.slot === "main");
+      __LIFE_TEST__.select(main.cell, main.id);
+    });
+    await page.locator("#step").click();
+    check(
+      (await page.locator("#selection").textContent()).includes("基礎DNA"),
+      "individual observation exposes DNA and current weights",
+    );
+    check(
+      (await page.locator("#selection").textContent()).includes("候補上位3"),
+      "only selected individual exposes candidate diagnostics",
+    );
+    const beforeView = await page.evaluate(() => __LIFE_TEST__.fingerprint());
+    for (const id of ["resources", "motion", "grid"])
+      await page.locator("#" + id).click();
+    await page.locator("#zoom-in").click();
+    check(
+      (await page.evaluate(() => __LIFE_TEST__.fingerprint())) === beforeView,
+      "view toggles and zoom do not affect simulation",
+    );
+    await page.locator("#fit").click();
+    await page.locator("#reset").click();
+    check(
+      (await page.evaluate(() => __LIFE_TEST__.fingerprint())) === initial,
+      "reset exactly replays original world",
+    );
+    await page.locator("#start").click();
+    await page.waitForFunction(
+      () => __LIFE_TEST__.snapshot().world.turn >= 2,
+      {},
+      { timeout: 30000 },
+    );
+    await page.locator("#start").click();
+    const paused = await page.evaluate(
+      () => __LIFE_TEST__.snapshot().world.turn,
+    );
+    await page.waitForTimeout(1100);
+    check(
+      (await page.evaluate(() => __LIFE_TEST__.snapshot().world.turn)) ===
+        paused,
+      "pause stops biological time",
+    );
+    await page.locator("#lineages").selectOption("few");
+    await page.locator("#placement").selectOption("cluster");
+    await page.locator("#distribution").selectOption("weighted");
+    await page.locator("#load").click();
+    s = await page.evaluate(() => __LIFE_TEST__.snapshot());
+    check(
+      Object.values(s.world.stats.counts).filter((n, i) => i < 20 && n > 0)
+        .length === 5,
+      "few-lineage clustered weighted mode creates five main lineages",
+    );
+    for (const id of ["main", "plant", "fungus", "prey", "P", "Q"])
+      await page.locator("#group-" + id).uncheck();
+    await page.locator("#load").click();
+    check(
+      (await page.locator("#message").textContent()).includes(
+        "SETTINGS_INVALID",
+      ),
+      "invalid settings show reason and retain previous world",
+    );
+    check(
+      (await page.evaluate(() => __LIFE_TEST__.snapshot().world.turn)) === 0,
+      "failed setup leaves old world intact",
+    );
+    await page.locator("#group-plant").check();
+    await page.locator("#load").click();
+    s = await page.evaluate(() => __LIFE_TEST__.snapshot());
+    check(
+      s.world.stats.main === 0 && s.world.stats.food > 0 && !s.world.stopReason,
+      "main-off mode is not misreported as extinction",
+    );
+    await page.evaluate(() =>
+      __LIFE_TEST__.prepare({
+        seed: "browser-evidence",
+        width: 80,
+        height: 56,
+        initial: 320,
+      }),
+    );
+    await page.screenshot({
+      path: path.join(out, "ecosystem-overview.png"),
+      fullPage: true,
+    });
+    await page.evaluate(() => {
+      const w = __LIFE_TEST__.snapshot().world;
+      __LIFE_TEST__.select(w.organisms.find((a) => a.slot === "main").cell);
+    });
+    await page.locator("#open-guide").click();
+    await page.locator("#tree-select").selectOption("cephalopod");
+    await page.screenshot({
+      path: path.join(out, "lineage-tree.png"),
+      fullPage: true,
+    });
+    await page.locator('[data-sheet="parasite"]').click();
+    await page.screenshot({
+      path: path.join(out, "parasite-sheet.png"),
+      fullPage: true,
+    });
+    await page.locator("#close-guide").click();
+    await page.setViewportSize({ width: 640, height: 1000 });
+    check(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth + 1,
+      ),
+      "narrow viewport does not overflow horizontally",
+    );
+    check(
+      errors.length === 0,
+      "no JavaScript page errors: " + errors.join("; "),
+    );
+    check(network.length === 0, "local app makes no external HTTP requests");
+    const report = {
+      ok: true,
+      version: "ecology-ab/1.4",
+      platform: process.platform,
+      browser: await browser.version(),
+      checks,
+      errors,
+      network,
+      serving: "HTTP loopback (managed Chromium blocks file URLs)",
+    };
+    await fs.writeFile(
+      path.join(out, "report.json"),
+      JSON.stringify(report, null, 2) + "\n",
+    );
+    console.log(JSON.stringify(report));
+  } finally {
+    await browser.close();
+    await new Promise((resolve) => server.close(resolve));
+  }
 }
-main().catch(e => { console.error(e); process.exitCode = 1; });
+main().catch((e) => {
+  console.error(e);
+  process.exitCode = 1;
+});

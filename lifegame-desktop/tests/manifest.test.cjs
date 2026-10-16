@@ -18,5 +18,6 @@ test('VALIS: every node has valid hierarchy, references, manifest entry and real
     for (const file of [...n.files || [], ...n.tests || [], ...n.logs || []]) assert.ok(fs.existsSync(path.join(root, file)), n.id + ': missing ' + file);
     if (n.layer === 'E') assert.ok(n.evidence_for.length && n.version, 'Evidence identifies a plan and version');
   }
-  for (const name of ['VALIS Operation Definition.md', 'VALIS Summary Manifest.md', 'VALIS Flow Definition.md']) assert.deepEqual(fs.readFileSync(path.join(root, 'valis/core', name)), fs.readFileSync(path.join(root, '../valis/core', name)));
+  const hashes = {'VALIS Operation Definition.md':'30174a1cf1a4c2d46911db0be7a975651390d6f0bc51d64eb7391560f6ca3b50','VALIS Summary Manifest.md':'8d786bfe106c1a479ae03d7da4c44e1df593d41794bc9315e91a181889f6271f','VALIS Flow Definition.md':'911ae9f4a09ebfc6a886970eb73a1f72789047f04a28f2e83e2ea1cc584637da'};
+  for (const [name, expected] of Object.entries(hashes)) assert.equal(require('node:crypto').createHash('sha256').update(fs.readFileSync(path.join(root, 'valis/core', name))).digest('hex'), expected);
 });

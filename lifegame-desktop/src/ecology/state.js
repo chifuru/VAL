@@ -1,0 +1,902 @@
+(function (root, factory) {
+  const api = factory(
+    typeof module === "object" && module.exports
+      ? require("./hash.js")
+      : root.EcoHash,
+    typeof module === "object" && module.exports
+      ? require("./catalogue.js")
+      : root.EcoData,
+  );
+  if (typeof module === "object" && module.exports) module.exports = api;
+  else root.EcoState = api;
+})(globalThis, function (H, D) {
+  "use strict";
+  const DIRS = [
+    [-1, -1],
+    [0, -1],
+    [1, -1],
+    [-1, 0],
+    [1, 0],
+    [-1, 1],
+    [0, 1],
+    [1, 1],
+  ];
+  const DNA = [
+    "body",
+    "appendage",
+    "senses",
+    "skin",
+    "aptitude",
+    "sensitivity",
+  ];
+  const FOOD = {
+    seed: { name: "種実", tag: "plant", cap: 4 },
+    spore: { name: "失活胞子", tag: "fungal", cap: 4, healing: 1.2 },
+    egg: { name: "栄養卵", tag: "animal", cap: 4 },
+    organic: { name: "有機粒", tag: "plant", cap: 4 },
+    mineral: { name: "鉱物片", tag: "mineral", cap: 12, period: 4 },
+    droplet: { name: "鉱液滴", tag: "mineral", cap: 12, period: 3 },
+    factor: { name: "代謝因子", tag: "factor", cap: 1 },
+    info: { name: "情報", tag: "info", cap: 12, period: 1 },
+  };
+  const r = (w, p, t = null, id = null, key = null, axis = null) =>
+    H.random(w.config.seed, p, t, id, key, axis);
+  const hash = (w, p, t = null, id = null, key = null, axis = null) =>
+    H.hash(w.config.seed, p, t, id, key, axis);
+  const spec = (o) => D.byId[o.species];
+  const index = (w, x, y) => y * w.config.width + x;
+  const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
+  function nearby(w, p, radius = 1, includeSelf = false) {
+    const [x, y] = xy(w, p),
+      out = [];
+    for (let dy = -radius; dy <= radius; dy++)
+      for (let dx = -radius; dx <= radius; dx++)
+        if (
+          (includeSelf || dx || dy) &&
+          x + dx >= 0 &&
+          y + dy >= 0 &&
+          x + dx < w.config.width &&
+          y + dy < w.config.height
+        )
+          out.push(index(w, x + dx, y + dy));
+    return out;
+  }
+  function distance(w, a, b) {
+    const [x, y] = xy(w, a),
+      [u, v] = xy(w, b);
+    return Math.max(Math.abs(x - u), Math.abs(y - v));
+  }
+  function oneStep(w, a, b) {
+    if (a === b) return !w.tiles[a].blocked;
+    if (distance(w, a, b) !== 1 || w.tiles[a].blocked || w.tiles[b].blocked)
+      return false;
+    const [x, y] = xy(w, a),
+      [u, v] = xy(w, b),
+      dx = u - x,
+      dy = v - y;
+    const edge = (p, q) => w.tiles[p].walls.includes(q);
+    if (edge(a, b)) return false;
+    if (dx && dy) {
+      const c = index(w, u, y),
+        d = index(w, x, v);
+      if (
+        w.tiles[c].blocked ||
+        w.tiles[d].blocked ||
+        edge(a, c) ||
+        edge(a, d) ||
+        edge(c, b) ||
+        edge(d, b)
+      )
+        return false;
+    }
+    return true;
+  }
+  // Supercover traversal: corner touches test both orthogonal cells and all four edges.
+  function sight(w, a, b, blockers = null) {
+    if (a === b) return true;
+    let [x, y] = xy(w, a);
+    const [tx, ty] = xy(w, b),
+      nx = Math.abs(tx - x),
+      ny = Math.abs(ty - y),
+      sx = Math.sign(tx - x),
+      sy = Math.sign(ty - y);
+    let ix = 0,
+      iy = 0,
+      p = a;
+    const clear = (q) =>
+      !w.tiles[q].blocked &&
+      (!blockers || q === a || q === b || !blockers.has(q));
+    while (ix < nx || iy < ny) {
+      const z = (1 + 2 * ix) * ny - (1 + 2 * iy) * nx;
+      let q;
+      if (z === 0) {
+        const c = index(w, x + sx, y),
+          d = index(w, x, y + sy);
+        q = index(w, x + sx, y + sy);
+        if (!clear(c) || !clear(d) || !oneStep(w, p, q)) return false;
+        x += sx;
+        y += sy;
+        ix++;
+        iy++;
+      } else if (z < 0) {
+        q = index(w, x + sx, y);
+        if (!oneStep(w, p, q)) return false;
+        x += sx;
+        ix++;
+      } else {
+        q = index(w, x, y + sy);
+        if (!oneStep(w, p, q)) return false;
+        y += sy;
+        iy++;
+      }
+      if (!clear(q)) return false;
+      p = q;
+    }
+    return true;
+  }
+  function maps(w) {
+    const main = new Map(),
+      food = new Map(),
+      byId = new Map(),
+      resources = new Map(),
+      carcasses = new Map();
+    for (const o of w.organisms) {
+      byId.set(o.id, o);
+      (o.slot === "main" ? main : food).set(o.cell, o);
+    }
+    for (const a of w.resources) {
+      if (!resources.has(a.cell)) resources.set(a.cell, []);
+      resources.get(a.cell).push(a);
+    }
+    for (const a of w.carcasses) {
+      if (!carcasses.has(a.cell)) carcasses.set(a.cell, []);
+      carcasses.get(a.cell).push(a);
+    }
+    return { main, food, byId, resources, carcasses };
+  }
+  function validHabitat(w, s, p) {
+    const t = w.tiles[p];
+    if (t.blocked) return false;
+    if (s.id === "algae" || s.id === "waterbug")
+      return [0, 5].includes(t.env) && t.terrain === "shallow";
+    if (s.id === "moss")
+      return (
+        [3, 4, 5].includes(t.env) && ["rock", "shallow"].includes(t.terrain)
+      );
+    if (s.id === "grass" || s.id === "grassbug") return t.terrain !== "deep";
+    if (s.id === "fungus")
+      return [2, 3, 5, 1, 7].includes(t.env) && t.terrain !== "deep";
+    return true;
+  }
+  function validate(input = {}) {
+    const c = {
+      seed: "ECOSYSTEM-2026",
+      width: 80,
+      height: 56,
+      initial: 320,
+      lineages: "all",
+      selected: [],
+      weights: {},
+      placement: "natural",
+      distribution: "balanced",
+      guarantee: false,
+      enabled: {
+        main: true,
+        plant: true,
+        fungus: true,
+        prey: true,
+        P: true,
+        Q: true,
+      },
+      ...input,
+    };
+    c.enabled = {
+      main: true,
+      plant: true,
+      fungus: true,
+      prey: true,
+      P: true,
+      Q: true,
+      ...input.enabled,
+    };
+    if (typeof c.seed !== "string" || !c.seed.isWellFormed())
+      throw Error(
+        "SETTINGS_INVALID: 初期値は正しいUnicode文字列で指定してください",
+      );
+    for (const [k, lo, hi] of [
+      ["width", 4, 160],
+      ["height", 4, 112],
+      ["initial", 0, 17920],
+    ])
+      if (!Number.isSafeInteger(c[k]) || c[k] < lo || c[k] > hi)
+        throw Error("SETTINGS_INVALID: " + k);
+    if (!Object.values(c.enabled).some(Boolean))
+      throw Error("SETTINGS_INVALID: 生物群を一つ以上有効にしてください");
+    if (
+      !["all", "few", "manual"].includes(c.lineages) ||
+      !["natural", "scatter", "cluster"].includes(c.placement) ||
+      !["balanced", "weighted"].includes(c.distribution)
+    )
+      throw Error("SETTINGS_INVALID: 配置形式");
+    if (c.enabled.main && (c.initial < 4 || c.initial % 4))
+      throw Error("SETTINGS_INVALID: 主生物数は4体単位です");
+    if (!c.enabled.main) c.initial = 0;
+    if (
+      !Array.isArray(c.selected) ||
+      c.selected.some((id) => !D.main.some((s) => s.id === id))
+    )
+      throw Error("SETTINGS_INVALID: 系統");
+    c.selected = [...new Set(c.selected)];
+    for (const weight of Object.values(c.weights))
+      if (!Number.isInteger(weight) || weight < 1 || weight > 4)
+        throw Error("SETTINGS_INVALID: 配分重みは1〜4");
+    return c;
+  }
+  function organism(w, s, cell, id, options = {}) {
+    const main = s.group === "main",
+      u = {};
+    DNA.forEach(
+      (axis, i) =>
+        (u[axis] = main ? 0.25 + 0.5 * r(w, "init/dna", 0, id, null, i) : 0.5),
+    );
+    const [E, B, M, HP] = main ? [60, 16, 0, 100] : s.initial;
+    const birth = main
+      ? s.weights.map((v, i) =>
+          H.round(
+            H.clamp(v + 8 * r(w, "init/weights", 0, id, null, i) - 4, 0, 100),
+          ),
+        )
+      : null;
+    return {
+      id,
+      species: s.id,
+      slot: s.slot,
+      cell,
+      age: 0,
+      phase: 1,
+      E,
+      B,
+      M,
+      HP,
+      G: 0,
+      dna: u,
+      sex: main ? "female" : null,
+      role: null,
+      colony: null,
+      founder: null,
+      generation: 0,
+      parents: [],
+      birthWeights: birth,
+      weights: birth && birth.slice(),
+      facing: Math.floor(r(w, "init/facing", 0, id) * 8),
+      branch3: null,
+      branch4: null,
+      counters: [0, 0, 0],
+      ivCounters: [0, 0],
+      history: [cell],
+      site: null,
+      pendingMove: null,
+      survival: null,
+      habitatRun: 0,
+      habitatEnv: null,
+      seen: [],
+      birthReady: 0,
+      attackReady: 0,
+      contactReady: 0,
+      infoReady: 0,
+      maleAbsent: 0,
+      infection: null,
+      ...options,
+    };
+  }
+  function phenotype(w, o, phase = o.phase, branch = o.branch4) {
+    const s = spec(o),
+      main = s.group === "main",
+      u = main ? phase / 4 : 0,
+      tr = s.traits || {},
+      skin = o.dna.skin,
+      body = o.dna.body;
+    return {
+      phase,
+      u,
+      capE: main ? 100 + (tr.capacity || 0) * u : s.capacity[0],
+      capB: main ? 32 : s.capacity[1],
+      capM: main ? 30 : 2,
+      maxHP: main ? 100 : s.capacity[3],
+      life: main
+        ? Math.floor(
+            s.life *
+              (0.95 + 0.1 * skin) *
+              (s.id === "precocial"
+                ? [0, 1, 1.15, 1.4][phase]
+                : [0, 1, 1.1, 1.25, 1.4][phase]),
+          )
+        : s.life,
+      maintenance:
+        s.maintenance *
+        (main
+          ? (0.95 + 0.1 * body) *
+            (s.id === "precocial"
+              ? [0, 1, 0.95, 0.9][phase]
+              : [0, 1, 0.98, 0.95, 0.9][phase]) *
+            (1 + (tr.maintenance || 0) * u)
+          : 1),
+      sense: main
+        ? s.id === "manyeyes"
+          ? phase >= 3
+            ? 3
+            : 2
+          : phase >= s.senseAt
+            ? 2
+            : 1
+        : 1,
+      speed: main ? (phase >= s.speedAt ? 2 : 1) : s.group === "prey" ? 1 : 0,
+      range: main && phase >= s.rangeAt ? 2 : 1,
+      cooldown: main
+        ? Math.max(
+            4,
+            Math.ceil(
+              s.birthCooldown * (0.95 + 0.1 * body) * (phase === 4 ? 0.85 : 1),
+            ),
+          )
+        : s.birthCooldown,
+      M3: main ? s.M3 * (0.95 + 0.1 * skin) : 0,
+      M4: main ? s.M4 * (0.95 + 0.1 * skin) : 0,
+      branch,
+    };
+  }
+  function trait(o, name, phase = o.phase) {
+    return ((spec(o).traits?.[name] || 0) * phase) / 4;
+  }
+  function adjustment(w, o, key, env, phase = o.phase) {
+    const s = spec(o),
+      t = s.traits || {},
+      u = phase / 4;
+    let out = 1 + (typeof t[key] === "number" ? t[key] * u : 0);
+    const e = t[key + "Env"];
+    if (e && e[0] === env) out *= 1 + e[1] * u;
+    const es = t[key + "Envs"];
+    if (es && es[0].includes(env)) out *= 1 + es[1] * u;
+    return out;
+  }
+  function totals(w) {
+    let E = 0,
+      M = 0;
+    const infection = (p) => {
+      if (p) {
+        E += p.E;
+        if (p.q) E += p.q.E;
+      }
+    };
+    for (const o of w.organisms) {
+      E += o.E + o.B;
+      M += o.M;
+      infection(o.infection);
+    }
+    for (const a of w.resources) {
+      E += a.E || 0;
+      M += a.M || 0;
+    }
+    for (const a of w.carcasses) {
+      E += a.E;
+      M += a.M;
+      infection(a.infection);
+    }
+    for (const a of w.pending) infection(a.infection);
+    for (const t of w.tiles) M += t.soilM;
+    return { E: H.round(E), M: H.round(M) };
+  }
+  function addSoil(w, cell, m) {
+    const tile = w.tiles[cell],
+      added = Math.min(m, 20 - tile.soilM);
+    tile.soilM = H.round(tile.soilM + added);
+    w.ledger.Mloss = H.round(w.ledger.Mloss + m - added);
+  }
+  function dissipate(w, e) {
+    w.ledger.sinks = H.round(w.ledger.sinks + e);
+  }
+  function create(input = {}) {
+    const config = validate(input),
+      w = {
+        version: H.VERSION,
+        config,
+        turn: 0,
+        tiles: [],
+        organisms: [],
+        resources: [],
+        carcasses: [],
+        pending: [],
+        messages: [],
+        events: [],
+        checkpoints: [],
+        stats: null,
+        initialMain: config.initial,
+        blockEnd: 1000,
+        extinctNotified: false,
+        warnings: [],
+        ledger: { initialE: 0, solar: 0, sinks: 0, initialM: 0, Mloss: 0 },
+      };
+    const n = config.width * config.height,
+      points = [],
+      rotation = Math.floor(r(w, "world/env") * 8);
+    for (let y = 0; y < config.height; y += 8)
+      for (let x = 0; x < config.width; x += 8) {
+        const id = points.length;
+        points.push({
+          x:
+            x +
+            Math.floor(
+              r(w, "world/point", 0, String(id), null, 0) *
+                Math.min(8, config.width - x),
+            ),
+          y:
+            y +
+            Math.floor(
+              r(w, "world/point", 0, String(id), null, 1) *
+                Math.min(8, config.height - y),
+            ),
+          env: (id + rotation) % 8,
+        });
+      }
+    for (let p = 0; p < n; p++) {
+      const [x, y] = xy(w, p);
+      let nearest = points[0],
+        best = Infinity;
+      for (const point of points) {
+        const d = (x - point.x) ** 2 + (y - point.y) ** 2;
+        if (d < best) {
+          best = d;
+          nearest = point;
+        }
+      }
+      const env = nearest.env,
+        e = D.environments[env],
+        u = r(w, "world/terrain", 0, null, [x, y]),
+        v = r(w, "world/cover", 0, null, [x, y]);
+      let terrain = e.terrain[0];
+      for (let j = 0; j < e.terrain.length; j += 2)
+        if (u < e.terrain[j + 1]) {
+          terrain = e.terrain[j];
+          break;
+        }
+      const cover =
+        v < 0.03 ? "boulder" : v < 0.07 ? "log" : v < 0.13 ? "bush" : "none";
+      w.tiles.push({
+        env,
+        terrain,
+        cover,
+        blocked: cover === "boulder",
+        light:
+          cover === "boulder"
+            ? 0
+            : H.round(
+                e.light *
+                  (cover === "log" ? 0.8 : cover === "bush" ? 0.7 : 1) *
+                  (terrain === "deep" ? 0.6 : 1),
+              ),
+        walls: [],
+        soilM: 5,
+      });
+    }
+    for (let p = 0; p < n; p++) {
+      const [x, y] = xy(w, p);
+      for (const q of [
+        x + 1 < config.width ? p + 1 : -1,
+        y + 1 < config.height ? p + config.width : -1,
+      ])
+        if (q >= 0 && r(w, "world/edge", 0, null, [p, q]) < 0.02) {
+          w.tiles[p].walls.push(q);
+          w.tiles[q].walls.push(p);
+        }
+    }
+    const usable = w.tiles
+        .map((t, i) => (!t.blocked ? i : -1))
+        .filter((i) => i >= 0),
+      occupied = new Set();
+    // Allocate within each group only; habitat shortages may use another enabled member.
+    for (const [group, rate] of [
+      ["plant", 0.35],
+      ["fungus", 0.03],
+      ["prey", 0.1],
+    ])
+      if (config.enabled[group]) {
+        const species = D.species.filter((s) => s.group === group),
+          target = Math.round(usable.length * rate),
+          base = Math.floor(target / species.length),
+          tasks = species.map((s, i) => ({
+            s,
+            count: base + (i < target % species.length ? 1 : 0),
+          }));
+        let deficit = 0;
+        function place(s, count) {
+          const candidates = usable
+            .filter((p) => !occupied.has(p) && validHabitat(w, s, p))
+            .map((p) => ({ p, h: hash(w, "init/position", 0, s.id, p) }))
+            .sort((a, b) => a.h - b.h || a.p - b.p);
+          let placed = 0;
+          for (const { p } of candidates.slice(0, count)) {
+            w.organisms.push(
+              organism(
+                w,
+                s,
+                p,
+                "i:food:" +
+                  Math.floor(p / config.width) +
+                  ":" +
+                  (p % config.width) +
+                  ":" +
+                  s.id,
+              ),
+            );
+            occupied.add(p);
+            placed++;
+          }
+          return count - placed;
+        }
+        for (const task of tasks) deficit += place(task.s, task.count);
+        for (const s of species) if (deficit) deficit = place(s, deficit);
+        if (deficit)
+          throw Error("PLACEMENT_SHORTAGE: " + group + " " + deficit);
+      }
+    let mains =
+      config.lineages === "manual"
+        ? config.selected.map((id) => D.byId[id])
+        : D.main.slice(0, 20);
+    if (!config.enabled.main) mains = [];
+    if (config.lineages === "few")
+      mains = mains
+        .map((s) => ({ s, h: hash(w, "init/group", 0, s.id) }))
+        .sort((a, b) => a.h - b.h)
+        .slice(0, 5)
+        .map((x) => x.s);
+    if (
+      config.enabled.main &&
+      (!mains.length || config.initial < 4 * mains.length)
+    )
+      throw Error("SETTINGS_INVALID: 系統ごとに最低4体が必要です");
+    if (config.initial > usable.length) throw Error("PLACEMENT_SHORTAGE: 主枠");
+    const mainTaken = new Set(),
+      foodMap = new Map(w.organisms.map((o) => [o.cell, o])),
+      batches = mains.map((s) => ({
+        s,
+        groups: 1,
+        weight:
+          config.distribution === "weighted" ? config.weights[s.id] || 1 : 1,
+      }));
+    let remaining = config.initial / 4 - batches.length,
+      totalWeight = batches.reduce((a, x) => a + x.weight, 0);
+    if (config.initial) {
+      let used = 0;
+      const extras = batches
+        .map((x) => {
+          const raw = (remaining * x.weight) / totalWeight,
+            whole = Math.floor(raw);
+          x.groups += whole;
+          used += whole;
+          return {
+            x,
+            fraction: raw - whole,
+            h: hash(w, "init/apportion", 0, x.s.id),
+          };
+        })
+        .sort((a, b) => b.fraction - a.fraction || a.h - b.h);
+      for (let j = 0; j < remaining - used; j++) extras[j].x.groups++;
+    }
+    const nearestDistance = new Float64Array(n).fill(Infinity);
+    for (const batch of batches) {
+      const s = batch.s,
+        center =
+          usable[Math.floor(r(w, "init/center", 0, s.id) * usable.length)],
+        candidates = usable
+          .map((p) => {
+            const env = w.tiles[p].env,
+              fit = s.good.includes(env) ? 2 : env === s.bad ? 0 : 1,
+              food = nearby(w, p, 2, true).filter((q) =>
+                ["plant", "fungus"].includes(
+                  spec(foodMap.get(q) || { species: "tideparasite" }).group,
+                ),
+              ).length;
+            return {
+              p,
+              fit,
+              score: fit * (1 + Math.min(0.8, 0.1 * food)),
+              h: hash(w, "init/main-position", 0, s.id, p),
+            };
+          })
+          .sort((a, b) =>
+            config.placement === "cluster"
+              ? distance(w, a.p, center) - distance(w, b.p, center) ||
+                b.fit - a.fit ||
+                a.h - b.h
+              : b.score - a.score || a.h - b.h,
+          );
+      let cursor = 0;
+      for (let j = 0; j < batch.groups * 4; j++) {
+        let p;
+        if (config.placement === "scatter") {
+          let chosen = null;
+          for (const c of candidates)
+            if (
+              !mainTaken.has(c.p) &&
+              (!chosen || nearestDistance[c.p] > nearestDistance[chosen.p])
+            )
+              chosen = c;
+          p = chosen.p;
+        } else {
+          while (mainTaken.has(candidates[cursor].p)) cursor++;
+          p = candidates[cursor++].p;
+        }
+        mainTaken.add(p);
+        if (config.placement === "scatter")
+          for (const q of usable)
+            nearestDistance[q] = Math.min(
+              nearestDistance[q],
+              distance(w, p, q),
+            );
+        const [x, y] = xy(w, p),
+          id = "i:main:" + y + ":" + x + ":" + s.id,
+          sex = j % 4 < 2 ? "male" : "female",
+          group = "founder:" + s.id + ":" + Math.floor(j / 4);
+        w.organisms.push(
+          organism(w, s, p, id, {
+            sex,
+            role:
+              s.id === "swarm"
+                ? j % 4 === 2
+                  ? "queen"
+                  : j % 4 === 3
+                    ? "worker"
+                    : "male"
+                : null,
+            colony: s.id === "swarm" ? group : null,
+            founder: s.id === "swarm" ? group : null,
+            B: s.id === "swarm" && j % 4 === 3 ? 8 : 16,
+          }),
+        );
+      }
+    }
+    for (const kind of ["mineral", "droplet", "info"]) {
+      const target = usable.filter(
+        (p) =>
+          r(w, "init/resource-count", 0, kind, p) <
+          (kind === "info"
+            ? 0.02
+            : kind === "mineral"
+              ? w.tiles[p].terrain === "rock"
+                ? 0.2
+                : 0.03
+              : ["shallow", "mud"].includes(w.tiles[p].terrain)
+                ? 0.2
+                : 0.02),
+      ).length;
+      let left = target;
+      const cost = kind === "mineral" ? 4 : kind === "droplet" ? 2 : 0,
+        taken = new Set();
+      const blocks = usable
+        .filter((p) => {
+          const [x, y] = xy(w, p);
+          return x + 1 < config.width && y + 1 < config.height;
+        })
+        .map((p) => ({
+          p,
+          h: hash(w, "init/resource-block", 0, kind, p),
+          fit:
+            kind === "mineral"
+              ? w.tiles[p].terrain === "rock"
+                ? 2
+                : 1
+              : kind === "droplet"
+                ? ["shallow", "mud"].includes(w.tiles[p].terrain)
+                  ? 2
+                  : 1
+                : 1,
+        }))
+        .sort((a, b) => b.fit - a.fit || a.h - b.h);
+      const put = (p) => {
+        if (
+          taken.has(p) ||
+          w.tiles[p].blocked ||
+          w.tiles[p].soilM < cost ||
+          w.resources.filter((a) => a.cell === p).length >= 3
+        )
+          return false;
+        w.tiles[p].soilM -= cost;
+        w.resources.push({
+          cell: p,
+          kind,
+          q: 2,
+          E: kind === "info" ? 0.1 : 0,
+          M: cost,
+          G: 0,
+          created: 0,
+          expires: kind === "info" ? 20 : null,
+          event: null,
+        });
+        taken.add(p);
+        left--;
+        return true;
+      };
+      for (const { p } of blocks) {
+        if (left < 4) break;
+        const cells = [p, p + 1, p + config.width, p + config.width + 1];
+        if (
+          cells.every(
+            (q) =>
+              !taken.has(q) &&
+              !w.tiles[q].blocked &&
+              w.tiles[q].soilM >= cost &&
+              w.resources.filter((a) => a.cell === q).length < 3,
+          )
+        )
+          cells.forEach(put);
+      }
+      for (const p of usable) if (left && !taken.has(p)) put(p);
+      if (left) throw Error("PLACEMENT_SHORTAGE: 初期資源 " + kind);
+    }
+    if (config.guarantee && config.initial) {
+      let m = maps(w);
+      for (const s of mains) {
+        const members = w.organisms.filter((o) => o.species === s.id);
+        for (let j = 0; j < members.length; j += 4) {
+          const root = members[j],
+            places = nearby(w, root.cell, 2, true).filter((p) =>
+              sight(w, root.cell, p),
+            );
+          const food = places.some((p) => {
+            const o = m.food.get(p);
+            return o && ["plant", "fungus"].includes(spec(o).group);
+          });
+          if (!food) {
+            let done = false;
+            for (const p of places)
+              if (!done && !m.food.has(p))
+                for (const f of D.species.filter(
+                  (f) =>
+                    ["plant", "fungus"].includes(f.group) &&
+                    config.enabled[f.group],
+                ))
+                  if (validHabitat(w, f, p)) {
+                    const o = organism(
+                      w,
+                      f,
+                      p,
+                      "i:guarantee:" + p + ":" + f.id,
+                    );
+                    w.organisms.push(o);
+                    m.food.set(p, o);
+                    done = true;
+                    break;
+                  }
+            if (!done) throw Error("GUARANTEE_FAILED: 可食餌");
+          }
+          if (
+            !places.some((p) =>
+              (m.resources.get(p) || []).some(
+                (a) => FOOD[a.kind].tag === "mineral",
+              ),
+            )
+          ) {
+            const p = places.find(
+              (p) =>
+                !w.tiles[p].blocked &&
+                (m.resources.get(p) || []).length < 3 &&
+                w.tiles[p].soilM >= 4,
+            );
+            if (p === undefined) throw Error("GUARANTEE_FAILED: 鉱物");
+            w.tiles[p].soilM -= 4;
+            const a = {
+              cell: p,
+              kind: "mineral",
+              q: 2,
+              E: 0,
+              M: 4,
+              G: 0,
+              created: 0,
+              expires: null,
+              event: null,
+            };
+            w.resources.push(a);
+            m = maps(w);
+          }
+        }
+      }
+    }
+    if (config.enabled.P)
+      for (const o of w.organisms)
+        if (
+          ["algae", "grass"].includes(o.species) &&
+          r(w, "init/infection", 0, o.id) < 0.05
+        ) {
+          o.infection = infection(
+            w,
+            o.species === "algae" ? "tideparasite" : "leafparasite",
+            o.id,
+            0,
+          );
+          if (config.enabled.Q && r(w, "init/hyper", 0, o.id) < 0.01)
+            o.infection.q = hyper(w, o.infection.id, 0);
+        }
+    if (
+      config.enabled.P &&
+      !w.organisms.some((o) => ["algae", "grass"].includes(o.species))
+    )
+      w.warnings.push("第一宿主不在：寄生虫は初期0です");
+    if (config.enabled.Q && !config.enabled.P)
+      w.warnings.push("一次寄生虫が無効なため高次寄生虫は初期0です");
+    const t = totals(w);
+    w.ledger.initialE = t.E;
+    w.ledger.initialM = t.M;
+    return w;
+  }
+  function infection(w, species, hostId, turn = w.turn, origin = hostId) {
+    return {
+      id: "p:" + origin + ":" + turn,
+      species,
+      hostId,
+      stage: "first",
+      counter: 0,
+      E: 0,
+      ready: 0,
+      q: null,
+    };
+  }
+  function hyper(w, pId, turn = w.turn) {
+    return {
+      id: "q:" + pId + ":" + turn,
+      species: "hyperparasite",
+      hostId: pId,
+      phase: 1,
+      counter: 0,
+      E: 0,
+      ready: 0,
+      special: null,
+      modulation: null,
+      counts: [0, 0, 0],
+      seen: [],
+    };
+  }
+  function loseInfection(w, p) {
+    if (p) {
+      dissipate(w, p.E + (p.q?.E || 0));
+      if (w.tallies) {
+        w.tallies.deaths[p.species]++;
+        if (p.q) w.tallies.deaths.hyperparasite++;
+      }
+    }
+  }
+  function record(ctx, o, type, extra = {}) {
+    if (!ctx.events.has(o.id)) ctx.events.set(o.id, []);
+    ctx.events.get(o.id).push({ id: o.id, type, cell: o.cell, ...extra });
+  }
+  return {
+    ...H,
+    D,
+    DIRS,
+    DNA,
+    FOOD,
+    r,
+    hash,
+    spec,
+    index,
+    xy,
+    nearby,
+    distance,
+    oneStep,
+    sight,
+    maps,
+    validHabitat,
+    validate,
+    organism,
+    phenotype,
+    trait,
+    adjustment,
+    totals,
+    addSoil,
+    dissipate,
+    create,
+    infection,
+    hyper,
+    loseInfection,
+    record,
+  };
+});

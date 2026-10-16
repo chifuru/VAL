@@ -22,7 +22,6 @@ jobs:
           filter: blob:none
           sparse-checkout: |
             lifegame-desktop
-            valis/core
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
