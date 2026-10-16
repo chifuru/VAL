@@ -6,7 +6,7 @@
 
 ## 起動
 
-Windows版は今回のCI配布物を利用し、ZIPをすべて展開して `LifeLab-Mock.exe` を起動する。配布先・Windows実測は作成後に `evidence/windows-mock.json` へ記録する。`evidence/previous-v02/` は旧モックの記録。
+[Windowsモックをダウンロード](https://github.com/chifuru/VAL/actions/runs/38837098300/artifacts/12019139553)。外側のアーティファクトZIPと、中の `dist/LifeLab-Mock-Windows-x64.zip` をすべて展開して `LifeLab-Mock.exe` を起動する。`README.txt` と `仕様まとめ.md` を同梱。Windows実測は `evidence/windows-mock.json`。モデル24項目・画面22項目、配布exeの起動・20ターン・摂取1179回・出生20体を確認済み。`evidence/previous-v02/` は旧モックの記録。
 
 リポジトリからは `lifegame-desktop` で依存を入れた後、次を実行する。
 

@@ -1,0 +1,392 @@
+﻿2026-10-16T01:48:35.2429932Z Current runner version: '2.337.0'
+2026-10-16T01:48:35.2455963Z ##[group]Runner Image Provisioner
+2026-10-16T01:48:35.2456781Z Hosted Compute Agent
+2026-10-16T01:48:35.2457344Z Version: 20261002.596
+2026-10-16T01:48:35.2457954Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-16T01:48:35.2458643Z Build Date: 2026-10-02T22:28:27Z
+2026-10-16T01:48:35.2459316Z Worker ID: {bda0bc51-5001-4ee9-b8bb-6299a179b831}
+2026-10-16T01:48:35.2460005Z Region: eastus
+2026-10-16T01:48:35.2460511Z Cloud: Azure
+2026-10-16T01:48:35.2461029Z ##[endgroup]
+2026-10-16T01:48:35.2462450Z ##[group]Operating System
+2026-10-16T01:48:35.2463065Z Microsoft Windows Server 2025
+2026-10-16T01:48:35.2463683Z 10.0.26100
+2026-10-16T01:48:35.2464162Z Datacenter
+2026-10-16T01:48:35.2464648Z ##[endgroup]
+2026-10-16T01:48:35.2465173Z ##[group]Runner Image
+2026-10-16T01:48:35.2465756Z Image: windows-2025-vs2026
+2026-10-16T01:48:35.2466347Z Version: 20261007.264.1
+2026-10-16T01:48:35.2467774Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20261007.264/images/windows/Windows2025-VS2026-Readme.md
+2026-10-16T01:48:35.2469418Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20261007.264
+2026-10-16T01:48:35.2470356Z ##[endgroup]
+2026-10-16T01:48:35.2471401Z ##[group]GITHUB_TOKEN Permissions
+2026-10-16T01:48:35.2473224Z Contents: read
+2026-10-16T01:48:35.2473847Z Metadata: read
+2026-10-16T01:48:35.2474392Z ##[endgroup]
+2026-10-16T01:48:35.2477050Z Secret source: Actions
+2026-10-16T01:48:35.2477969Z Cache mode: write
+2026-10-16T01:48:35.2478622Z Prepare workflow directory
+2026-10-16T01:48:35.2901763Z Prepare all required actions
+2026-10-16T01:48:35.2950965Z Getting action download info
+2026-10-16T01:48:35.4370088Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-16T01:48:35.5901612Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-10-16T01:48:35.7644327Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-16T01:48:36.1070285Z Complete job name: windows-mock
+2026-10-16T01:48:36.2629622Z ##[group]Run actions/checkout@v4
+2026-10-16T01:48:36.2630638Z with:
+2026-10-16T01:48:36.2631028Z   filter: blob:none
+2026-10-16T01:48:36.2631869Z   sparse-checkout: lifegame-desktop
+gas-fizzbuzz-webapp/src/composite
+gas-fizzbuzz-webapp/src/assets
+
+2026-10-16T01:48:36.2632793Z   repository: chifuru/VAL
+2026-10-16T01:48:36.2636708Z   token: ***
+2026-10-16T01:48:36.2637101Z   ssh-strict: true
+2026-10-16T01:48:36.2637493Z   ssh-user: git
+2026-10-16T01:48:36.2637891Z   persist-credentials: true
+2026-10-16T01:48:36.2638606Z   clean: true
+2026-10-16T01:48:36.2639032Z   sparse-checkout-cone-mode: true
+2026-10-16T01:48:36.2639517Z   fetch-depth: 1
+2026-10-16T01:48:36.2639906Z   fetch-tags: false
+2026-10-16T01:48:36.2640306Z   show-progress: true
+2026-10-16T01:48:36.2640710Z   lfs: false
+2026-10-16T01:48:36.2641103Z   submodules: false
+2026-10-16T01:48:36.2641511Z   set-safe-directory: true
+2026-10-16T01:48:36.2641971Z   allow-unsafe-pr-checkout: false
+2026-10-16T01:48:36.2642795Z ##[endgroup]
+2026-10-16T01:48:36.4132541Z Syncing repository: chifuru/VAL
+2026-10-16T01:48:36.4134351Z ##[group]Getting Git version info
+2026-10-16T01:48:36.4134933Z Working directory is 'D:\a\VAL\VAL'
+2026-10-16T01:48:36.5085176Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-16T01:48:36.9072837Z git version 2.56.0.windows.2
+2026-10-16T01:48:36.9125499Z ##[endgroup]
+2026-10-16T01:48:36.9146720Z Temporarily overriding HOME='D:\a\_temp\9124abf0-aeeb-44e4-a1cf-f4fd9d951cf6' before making global git config changes
+2026-10-16T01:48:36.9149243Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-16T01:48:36.9157199Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\VAL\VAL
+2026-10-16T01:48:36.9915207Z Deleting the contents of 'D:\a\VAL\VAL'
+2026-10-16T01:48:36.9922010Z ##[group]Initializing the repository
+2026-10-16T01:48:36.9930030Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\VAL\VAL
+2026-10-16T01:48:37.0986598Z Initialized empty Git repository in D:/a/VAL/VAL/.git/
+2026-10-16T01:48:37.1040026Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/chifuru/VAL
+2026-10-16T01:48:37.1796532Z ##[endgroup]
+2026-10-16T01:48:37.1797976Z ##[group]Disabling automatic garbage collection
+2026-10-16T01:48:37.1805580Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-10-16T01:48:37.2188097Z ##[endgroup]
+2026-10-16T01:48:37.2189652Z ##[group]Setting up auth
+2026-10-16T01:48:37.2200349Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-16T01:48:37.2588974Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-16T01:48:38.8202747Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-16T01:48:38.8604557Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-16T01:48:39.4721438Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-16T01:48:39.5217104Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-16T01:48:40.1003678Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-10-16T01:48:40.1397867Z ##[endgroup]
+2026-10-16T01:48:40.1398762Z ##[group]Fetching the repository
+2026-10-16T01:48:40.1415255Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --filter=blob:none --depth=1 origin +22160a504dd9cacd664734f736c644bedb0de3e5:refs/remotes/origin/lifegame-mock-v03
+2026-10-16T01:48:41.2449710Z From https://github.com/chifuru/VAL
+2026-10-16T01:48:41.2450486Z  * [new ref]         22160a504dd9cacd664734f736c644bedb0de3e5 -> origin/lifegame-mock-v03
+2026-10-16T01:48:41.2493711Z ##[endgroup]
+2026-10-16T01:48:41.2494130Z ##[group]Determining the checkout info
+2026-10-16T01:48:41.2496625Z ##[endgroup]
+2026-10-16T01:48:41.2497072Z ##[group]Setting up sparse checkout
+2026-10-16T01:48:41.2505944Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout set lifegame-desktop gas-fizzbuzz-webapp/src/composite gas-fizzbuzz-webapp/src/assets
+2026-10-16T01:48:41.3019687Z ##[endgroup]
+2026-10-16T01:48:41.3020104Z ##[group]Checking out the ref
+2026-10-16T01:48:41.3030074Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B lifegame-mock-v03 refs/remotes/origin/lifegame-mock-v03
+2026-10-16T01:48:45.3656564Z Updating files:   0% (1/198)
+2026-10-16T01:48:45.3661613Z Updating files:   1% (2/198)
+2026-10-16T01:48:45.3670318Z Updating files:   2% (4/198)
+2026-10-16T01:48:45.3758923Z Updating files:   3% (6/198)
+2026-10-16T01:48:45.3895269Z Updating files:   4% (8/198)
+2026-10-16T01:48:45.3978851Z Updating files:   5% (10/198)
+2026-10-16T01:48:45.4141921Z Updating files:   6% (12/198)
+2026-10-16T01:48:45.4264937Z Updating files:   7% (14/198)
+2026-10-16T01:48:45.4391043Z Updating files:   8% (16/198)
+2026-10-16T01:48:45.4509699Z Updating files:   9% (18/198)
+2026-10-16T01:48:45.4610240Z Updating files:  10% (20/198)
+2026-10-16T01:48:45.4678916Z Updating files:  11% (22/198)
+2026-10-16T01:48:45.4778600Z Updating files:  12% (24/198)
+2026-10-16T01:48:45.4832086Z Updating files:  13% (26/198)
+2026-10-16T01:48:45.4932600Z Updating files:  14% (28/198)
+2026-10-16T01:48:45.5055075Z Updating files:  15% (30/198)
+2026-10-16T01:48:45.5188588Z Updating files:  16% (32/198)
+2026-10-16T01:48:45.5348770Z Updating files:  17% (34/198)
+2026-10-16T01:48:45.5584561Z Updating files:  18% (36/198)
+2026-10-16T01:48:45.5791532Z Updating files:  19% (38/198)
+2026-10-16T01:48:45.5926786Z Updating files:  20% (40/198)
+2026-10-16T01:48:45.6180682Z Updating files:  21% (42/198)
+2026-10-16T01:48:45.6427614Z Updating files:  22% (44/198)
+2026-10-16T01:48:45.6628935Z Updating files:  23% (46/198)
+2026-10-16T01:48:45.6887332Z Updating files:  24% (48/198)
+2026-10-16T01:48:45.7114489Z Updating files:  25% (50/198)
+2026-10-16T01:48:45.7332915Z Updating files:  26% (52/198)
+2026-10-16T01:48:45.7457640Z Updating files:  27% (54/198)
+2026-10-16T01:48:45.7524288Z Updating files:  28% (56/198)
+2026-10-16T01:48:45.7599325Z Updating files:  29% (58/198)
+2026-10-16T01:48:45.7671557Z Updating files:  30% (60/198)
+2026-10-16T01:48:45.7739406Z Updating files:  31% (62/198)
+2026-10-16T01:48:45.7902890Z Updating files:  32% (64/198)
+2026-10-16T01:48:45.8153920Z Updating files:  33% (66/198)
+2026-10-16T01:48:45.8354989Z Updating files:  34% (68/198)
+2026-10-16T01:48:45.8522523Z Updating files:  35% (70/198)
+2026-10-16T01:48:45.8618833Z Updating files:  36% (72/198)
+2026-10-16T01:48:45.8658837Z Updating files:  37% (74/198)
+2026-10-16T01:48:45.8675564Z Updating files:  38% (76/198)
+2026-10-16T01:48:45.8682373Z Updating files:  39% (78/198)
+2026-10-16T01:48:45.8692671Z Updating files:  40% (80/198)
+2026-10-16T01:48:45.8698796Z Updating files:  41% (82/198)
+2026-10-16T01:48:45.8705539Z Updating files:  42% (84/198)
+2026-10-16T01:48:45.8711845Z Updating files:  43% (86/198)
+2026-10-16T01:48:45.8720258Z Updating files:  44% (88/198)
+2026-10-16T01:48:45.8726230Z Updating files:  45% (90/198)
+2026-10-16T01:48:45.8732664Z Updating files:  46% (92/198)
+2026-10-16T01:48:45.8737901Z Updating files:  47% (94/198)
+2026-10-16T01:48:45.8747493Z Updating files:  48% (96/198)
+2026-10-16T01:48:45.8752543Z Updating files:  49% (98/198)
+2026-10-16T01:48:45.8909839Z Updating files:  50% (99/198)
+2026-10-16T01:48:45.8951587Z Updating files:  51% (101/198)
+2026-10-16T01:48:45.8959698Z Updating files:  52% (103/198)
+2026-10-16T01:48:45.8967140Z Updating files:  53% (105/198)
+2026-10-16T01:48:45.8973584Z Updating files:  54% (107/198)
+2026-10-16T01:48:45.8978865Z Updating files:  55% (109/198)
+2026-10-16T01:48:45.8987028Z Updating files:  56% (111/198)
+2026-10-16T01:48:45.8992260Z Updating files:  57% (113/198)
+2026-10-16T01:48:45.9000419Z Updating files:  58% (115/198)
+2026-10-16T01:48:45.9008291Z Updating files:  59% (117/198)
+2026-10-16T01:48:45.9014033Z Updating files:  60% (119/198)
+2026-10-16T01:48:45.9022630Z Updating files:  61% (121/198)
+2026-10-16T01:48:45.9028723Z Updating files:  62% (123/198)
+2026-10-16T01:48:45.9034670Z Updating files:  63% (125/198)
+2026-10-16T01:48:45.9043150Z Updating files:  64% (127/198)
+2026-10-16T01:48:45.9072207Z Updating files:  65% (129/198)
+2026-10-16T01:48:45.9109898Z Updating files:  66% (131/198)
+2026-10-16T01:48:45.9152886Z Updating files:  67% (133/198)
+2026-10-16T01:48:45.9160324Z Updating files:  68% (135/198)
+2026-10-16T01:48:45.9165396Z Updating files:  69% (137/198)
+2026-10-16T01:48:45.9170365Z Updating files:  70% (139/198)
+2026-10-16T01:48:45.9174707Z Updating files:  71% (141/198)
+2026-10-16T01:48:45.9182225Z Updating files:  72% (143/198)
+2026-10-16T01:48:45.9188633Z Updating files:  73% (145/198)
+2026-10-16T01:48:45.9195214Z Updating files:  74% (147/198)
+2026-10-16T01:48:45.9204502Z Updating files:  75% (149/198)
+2026-10-16T01:48:45.9211388Z Updating files:  76% (151/198)
+2026-10-16T01:48:45.9217991Z Updating files:  77% (153/198)
+2026-10-16T01:48:45.9226083Z Updating files:  78% (155/198)
+2026-10-16T01:48:45.9306752Z Updating files:  79% (157/198)
+2026-10-16T01:48:45.9310974Z Updating files:  80% (159/198)
+2026-10-16T01:48:45.9312803Z Updating files:  81% (161/198)
+2026-10-16T01:48:45.9313550Z Updating files:  82% (163/198)
+2026-10-16T01:48:45.9314654Z Updating files:  83% (165/198)
+2026-10-16T01:48:45.9315282Z Updating files:  84% (167/198)
+2026-10-16T01:48:45.9315966Z Updating files:  85% (169/198)
+2026-10-16T01:48:45.9321264Z Updating files:  86% (171/198)
+2026-10-16T01:48:45.9326745Z Updating files:  87% (173/198)
+2026-10-16T01:48:45.9331721Z Updating files:  88% (175/198)
+2026-10-16T01:48:45.9336728Z Updating files:  89% (177/198)
+2026-10-16T01:48:45.9343655Z Updating files:  90% (179/198)
+2026-10-16T01:48:45.9348402Z Updating files:  91% (181/198)
+2026-10-16T01:48:45.9353270Z Updating files:  92% (183/198)
+2026-10-16T01:48:45.9361723Z Updating files:  93% (185/198)
+2026-10-16T01:48:45.9368093Z Updating files:  94% (187/198)
+2026-10-16T01:48:45.9373042Z Updating files:  95% (189/198)
+2026-10-16T01:48:45.9380014Z Updating files:  96% (191/198)
+2026-10-16T01:48:45.9385882Z Updating files:  97% (193/198)
+2026-10-16T01:48:45.9391706Z Updating files:  98% (195/198)
+2026-10-16T01:48:45.9396519Z Updating files:  99% (197/198)
+2026-10-16T01:48:45.9397184Z Updating files: 100% (198/198)
+2026-10-16T01:48:45.9397642Z Updating files: 100% (198/198), done.
+2026-10-16T01:48:45.9572911Z Switched to a new branch 'lifegame-mock-v03'
+2026-10-16T01:48:45.9636815Z branch 'lifegame-mock-v03' set up to track 'origin/lifegame-mock-v03'.
+2026-10-16T01:48:45.9862029Z ##[endgroup]
+2026-10-16T01:48:46.0387501Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-10-16T01:48:46.0739867Z 22160a504dd9cacd664734f736c644bedb0de3e5
+2026-10-16T01:48:46.1216134Z ##[group]Run actions/setup-node@v4
+2026-10-16T01:48:46.1216447Z with:
+2026-10-16T01:48:46.1216629Z   node-version: 24
+2026-10-16T01:48:46.1216810Z   cache: npm
+2026-10-16T01:48:46.1217068Z   cache-dependency-path: lifegame-desktop/package-lock.json
+2026-10-16T01:48:46.1217407Z   always-auth: false
+2026-10-16T01:48:46.1217604Z   check-latest: false
+2026-10-16T01:48:46.1220813Z   token: ***
+2026-10-16T01:48:46.1221008Z ##[endgroup]
+2026-10-16T01:48:46.3039225Z Found in cache @ C:\hostedtoolcache\windows\node\24.21.0\x64
+2026-10-16T01:48:46.3047061Z (node:2696) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-16T01:48:46.3047862Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-16T01:48:46.3050695Z ##[group]Environment details
+2026-10-16T01:48:51.7985662Z node: v24.21.0
+2026-10-16T01:48:51.7986041Z npm: 11.19.0
+2026-10-16T01:48:51.7986221Z yarn: 1.22.22
+2026-10-16T01:48:51.7986916Z ##[endgroup]
+2026-10-16T01:48:51.8835797Z [command]C:\Windows\system32\cmd.exe /D /S /C "C:\hostedtoolcache\windows\node\24.21.0\x64\npm.cmd config get cache"
+2026-10-16T01:48:52.4228127Z C:\npm\cache
+2026-10-16T01:48:52.7364413Z Cache hit for: node-cache-Windows-x64-npm-e820629810b2cc2acd36a3be5896d9719b29a02897499564924796d67f241e6b
+2026-10-16T01:48:52.7486676Z (node:2696) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-16T01:48:53.0239094Z Received 11744144 of 11744144 (100.0%), 47.7 MBs/sec
+2026-10-16T01:48:53.0240699Z Cache Size: ~11 MB (11744144 B)
+2026-10-16T01:48:53.0309528Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/8e5a499e-a890-4d9c-a5bd-e33fe7d20970/cache.tzst -P -C D:/a/VAL/VAL --force-local --use-compress-program "zstd -d"
+2026-10-16T01:48:53.6029208Z Cache restored successfully
+2026-10-16T01:48:53.6097270Z Cache restored from key: node-cache-Windows-x64-npm-e820629810b2cc2acd36a3be5896d9719b29a02897499564924796d67f241e6b
+2026-10-16T01:48:53.6461893Z ##[group]Run npm ci
+2026-10-16T01:48:53.6462204Z [36;1mnpm ci[0m
+2026-10-16T01:48:53.7272656Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-16T01:48:53.7273077Z ##[endgroup]
+2026-10-16T01:48:57.8987835Z 
+2026-10-16T01:48:57.8994417Z added 53 packages, and audited 54 packages in 3s
+2026-10-16T01:48:57.8995139Z 
+2026-10-16T01:48:57.8995330Z 13 packages are looking for funding
+2026-10-16T01:48:57.8995642Z   run `npm fund` for details
+2026-10-16T01:48:57.9003286Z 
+2026-10-16T01:48:57.9003687Z found 0 vulnerabilities
+2026-10-16T01:48:59.1798891Z ##[group]Run npx playwright install chromium
+2026-10-16T01:48:59.1799322Z [36;1mnpx playwright install chromium[0m
+2026-10-16T01:48:59.1799669Z [36;1mif ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }[0m
+2026-10-16T01:48:59.1800022Z [36;1mnode design/ecosystem-mock/check.cjs[0m
+2026-10-16T01:48:59.1800354Z [36;1mif ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }[0m
+2026-10-16T01:48:59.1871984Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-16T01:48:59.1872336Z ##[endgroup]
+2026-10-16T01:49:01.1113395Z Downloading Chromium 141.0.7390.37 (playwright build v1194)[2m from https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-win64.zip[22m
+2026-10-16T01:49:01.3621961Z |                                                                                |   0% of 148.9 MiB
+2026-10-16T01:49:01.5948242Z |■■■■■■■■                                                                        |  10% of 148.9 MiB
+2026-10-16T01:49:02.2889201Z |■■■■■■■■■■■■■■■■                                                                |  20% of 148.9 MiB
+2026-10-16T01:49:02.5191139Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 148.9 MiB
+2026-10-16T01:49:03.1288377Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 148.9 MiB
+2026-10-16T01:49:03.2846285Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 148.9 MiB
+2026-10-16T01:49:03.7284451Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 148.9 MiB
+2026-10-16T01:49:03.9598313Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 148.9 MiB
+2026-10-16T01:49:04.0919183Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 148.9 MiB
+2026-10-16T01:49:04.2658383Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 148.9 MiB
+2026-10-16T01:49:04.3966233Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 148.9 MiB
+2026-10-16T01:49:09.4760501Z Chromium 141.0.7390.37 (playwright build v1194) downloaded to C:\Users\runneradmin\AppData\Local\ms-playwright\chromium-1194
+2026-10-16T01:49:09.4769292Z Downloading FFMPEG playwright build v1011[2m from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-win64.zip[22m
+2026-10-16T01:49:09.7545298Z |                                                                                |   0% of 1.3 MiB
+2026-10-16T01:49:09.7821813Z |■■■■■■■■                                                                        |  10% of 1.3 MiB
+2026-10-16T01:49:09.7958422Z |■■■■■■■■■■■■■■■■                                                                |  20% of 1.3 MiB
+2026-10-16T01:49:09.8003601Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 1.3 MiB
+2026-10-16T01:49:09.8094095Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 1.3 MiB
+2026-10-16T01:49:09.8122561Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 1.3 MiB
+2026-10-16T01:49:09.8144723Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 1.3 MiB
+2026-10-16T01:49:09.8219821Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  71% of 1.3 MiB
+2026-10-16T01:49:09.8371315Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 1.3 MiB
+2026-10-16T01:49:09.8414906Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 1.3 MiB
+2026-10-16T01:49:09.8428101Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 1.3 MiB
+2026-10-16T01:49:09.9275126Z FFMPEG playwright build v1011 downloaded to C:\Users\runneradmin\AppData\Local\ms-playwright\ffmpeg-1011
+2026-10-16T01:49:09.9288380Z Downloading Chromium Headless Shell 141.0.7390.37 (playwright build v1194)[2m from https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-win64.zip[22m
+2026-10-16T01:49:10.1675780Z |                                                                                |   0% of 91 MiB
+2026-10-16T01:49:10.3684378Z |■■■■■■■■                                                                        |  10% of 91 MiB
+2026-10-16T01:49:10.4748772Z |■■■■■■■■■■■■■■■■                                                                |  20% of 91 MiB
+2026-10-16T01:49:10.5687588Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 91 MiB
+2026-10-16T01:49:10.6586563Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 91 MiB
+2026-10-16T01:49:10.7463607Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 91 MiB
+2026-10-16T01:49:10.8329967Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 91 MiB
+2026-10-16T01:49:10.9170900Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 91 MiB
+2026-10-16T01:49:11.0545613Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 91 MiB
+2026-10-16T01:49:11.1398024Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 91 MiB
+2026-10-16T01:49:11.3229426Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 91 MiB
+2026-10-16T01:49:14.4356643Z Chromium Headless Shell 141.0.7390.37 (playwright build v1194) downloaded to C:\Users\runneradmin\AppData\Local\ms-playwright\chromium_headless_shell-1194
+2026-10-16T01:49:14.4380583Z Downloading Winldd playwright build v1007[2m from https://cdn.playwright.dev/dbazure/download/playwright/builds/winldd/1007/winldd-win64.zip[22m
+2026-10-16T01:49:14.6797572Z |                                                                                |   1% of 0.1 MiB
+2026-10-16T01:49:14.6810549Z |■■■■■■■■                                                                        |  10% of 0.1 MiB
+2026-10-16T01:49:14.6841528Z |■■■■■■■■■■■■■■■■                                                                |  20% of 0.1 MiB
+2026-10-16T01:49:14.6868481Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  31% of 0.1 MiB
+2026-10-16T01:49:14.6985951Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 0.1 MiB
+2026-10-16T01:49:14.7021534Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  61% of 0.1 MiB
+2026-10-16T01:49:14.7056212Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  74% of 0.1 MiB
+2026-10-16T01:49:14.7162796Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  87% of 0.1 MiB
+2026-10-16T01:49:14.7180330Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  99% of 0.1 MiB
+2026-10-16T01:49:14.7182909Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 0.1 MiB
+2026-10-16T01:49:14.7518791Z Winldd playwright build v1007 downloaded to C:\Users\runneradmin\AppData\Local\ms-playwright\winldd-1007
+2026-10-16T01:49:30.0477144Z {"version":"mock-v0.3.0","scope":"A-spec mock, not production acceptance or approval","modelTests":24,"checks":["reused FizzBuzz modules retain original recorded hashes","forty individuals cover twenty lineages","all twenty real lineage portraits render","same-lineage initial-value variations render","fixed quadrant backgrounds are removed","repeated map painting reuses sprites without rebuilding anatomy","map selection follows exact cell occupancy","sexual reproduction creates real parent-linked offspring","actual diets and environments produce stage branches","all four inputs are consumed naturally","world reports actual deaths","one living individual occupies each live cell","simulation stores no per-part growth experience","parental identity displays","numeric comparison changes regulation without nutrition or time advancement","manual input is distinguished from natural intake","pause stops the world","birth observation starts from untrained juveniles","map zoom retains cell coordinates","narrow viewport fits without page overflow","no renderer exceptions or failed asset requests","sprite cache remains bounded"],"errors":[],"failedRequests":[],"model":{"turn":120,"alive":95,"births":60,"deaths":5,"intake":{"fizz":2290,"buzz":1923,"fizzbuzz":1463,"number":3409},"evolved":68},"performance":{"environment":{"platform":"win32","arch":"x64","browser":"141.0.7390.37","viewport":"1580x1120","initialPopulation":40},"startupMs":4900,"model120Ms":115,"mapPaintMedianMs":1,"mapPaintP95Ms":25.29999999998836,"measurement":"event-driven map paint CPU time, not guaranteed frame rate","spriteBuildsAtStartup":67,"spriteBuildsAfterThirtyRepaints":67,"boundedCacheEntries":213},"hashes":{"src/model.js":"32eb7d965d716c650a1ad015778c93ed77bb983b08b08638d84aeb0274b22117","src/presentation.js":"367aa0ea6b1cfb1f359ba5e5e92796f089fd023ea74c77b8f688086a71cfce7f","src/app.js":"8004634a0c0360529a03849f8cd3bd540e2172cc391e74035a693e06f22b3014","index.html":"9599570a7b305091cbb3593841968ec72e75f5f588ce0d20614f0e5282dd9d64","style.css":"b71ab707910a18790e876f44e268c626e7b57e20f249b7d0b57f32b3cba6da02"}}
+2026-10-16T01:49:30.1469237Z ##[group]Run node design/ecosystem-mock/package.cjs
+2026-10-16T01:49:30.1469715Z [36;1mnode design/ecosystem-mock/package.cjs[0m
+2026-10-16T01:49:30.1540671Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-16T01:49:30.1541037Z ##[endgroup]
+2026-10-16T01:49:32.4404164Z Packaging app for platform win32 x64 using electron v44.7.2
+2026-10-16T01:50:10.6451336Z D:\a\VAL\VAL\lifegame-desktop\design\ecosystem-mock\dist\LifeLab-Mock-win32-x64
+2026-10-16T01:50:10.8066959Z ##[group]Run node design/ecosystem-mock/smoke.cjs
+2026-10-16T01:50:10.8067419Z [36;1mnode design/ecosystem-mock/smoke.cjs[0m
+2026-10-16T01:50:10.8141166Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-16T01:50:10.8141525Z ##[endgroup]
+2026-10-16T01:50:14.8889444Z 
+2026-10-16T01:50:14.8890751Z {"ok":true,"turn":20,"ate":1179,"births":20,"population":60,"ready":true,"nodeExposed":false}
+2026-10-16T01:50:15.0475753Z ##[group]Run actions/upload-artifact@v4
+2026-10-16T01:50:15.0476081Z with:
+2026-10-16T01:50:15.0476290Z   name: LifeLab-Mock-Windows-x64
+2026-10-16T01:50:15.0476887Z   path: lifegame-desktop/design/ecosystem-mock/dist/LifeLab-Mock-Windows-x64.zip
+lifegame-desktop/design/ecosystem-mock/evidence/
+
+2026-10-16T01:50:15.0477502Z   retention-days: 30
+2026-10-16T01:50:15.0477709Z   if-no-files-found: warn
+2026-10-16T01:50:15.0478264Z   compression-level: 6
+2026-10-16T01:50:15.0478566Z   overwrite: false
+2026-10-16T01:50:15.0478776Z   include-hidden-files: false
+2026-10-16T01:50:15.0479011Z ##[endgroup]
+2026-10-16T01:50:15.2558585Z (node:1552) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-16T01:50:15.2559909Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-16T01:50:15.2691321Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-16T01:50:15.2695586Z The least common ancestor is D:\a\VAL\VAL\lifegame-desktop\design\ecosystem-mock. This will be the root directory of the artifact
+2026-10-16T01:50:15.2697173Z With the provided path, there will be 10 files uploaded
+2026-10-16T01:50:15.2703635Z Artifact name is valid!
+2026-10-16T01:50:15.2706067Z Root directory input is valid!
+2026-10-16T01:50:15.5045795Z Beginning upload of artifact content to blob storage
+2026-10-16T01:50:15.8002382Z (node:1552) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-16T01:50:16.0345602Z Uploaded bytes 8388608
+2026-10-16T01:50:16.2407088Z Uploaded bytes 16777216
+2026-10-16T01:50:16.5393107Z Uploaded bytes 25165824
+2026-10-16T01:50:16.8163433Z Uploaded bytes 33554432
+2026-10-16T01:50:17.0061404Z Uploaded bytes 41943040
+2026-10-16T01:50:17.3021709Z Uploaded bytes 50331648
+2026-10-16T01:50:17.6562949Z Uploaded bytes 58720256
+2026-10-16T01:50:17.8821592Z Uploaded bytes 67108864
+2026-10-16T01:50:18.0793107Z Uploaded bytes 75497472
+2026-10-16T01:50:18.3124199Z Uploaded bytes 83886080
+2026-10-16T01:50:18.6229800Z Uploaded bytes 92274688
+2026-10-16T01:50:18.8640441Z Uploaded bytes 100663296
+2026-10-16T01:50:19.0770501Z Uploaded bytes 109051904
+2026-10-16T01:50:19.2970487Z Uploaded bytes 117440512
+2026-10-16T01:50:19.6915010Z Uploaded bytes 125829120
+2026-10-16T01:50:19.9167485Z Uploaded bytes 134217728
+2026-10-16T01:50:20.1302999Z Uploaded bytes 142606336
+2026-10-16T01:50:20.3408894Z Uploaded bytes 150994944
+2026-10-16T01:50:20.5590534Z Uploaded bytes 159383552
+2026-10-16T01:50:20.8495740Z Uploaded bytes 167772160
+2026-10-16T01:50:21.0867617Z Uploaded bytes 176160768
+2026-10-16T01:50:21.4316587Z Uploaded bytes 184549376
+2026-10-16T01:50:21.6424659Z Uploaded bytes 192937984
+2026-10-16T01:50:21.9656236Z Uploaded bytes 201326592
+2026-10-16T01:50:22.2227651Z Uploaded bytes 209715200
+2026-10-16T01:50:22.4637193Z Uploaded bytes 218103808
+2026-10-16T01:50:22.8216644Z Uploaded bytes 226492416
+2026-10-16T01:50:23.0583540Z Uploaded bytes 234881024
+2026-10-16T01:50:23.3230623Z Uploaded bytes 243269632
+2026-10-16T01:50:23.6248957Z Uploaded bytes 251658240
+2026-10-16T01:50:23.8095791Z Uploaded bytes 260046848
+2026-10-16T01:50:24.0356199Z Uploaded bytes 268435456
+2026-10-16T01:50:24.3380539Z Uploaded bytes 276824064
+2026-10-16T01:50:24.6562309Z Uploaded bytes 285212672
+2026-10-16T01:50:24.8016825Z Uploaded bytes 291604672
+2026-10-16T01:50:24.8237267Z Finished uploading artifact content to blob storage!
+2026-10-16T01:50:24.8241567Z SHA256 digest of uploaded artifact zip is 79bbfd784cb761acb5ed8be1418d0859be453d2ef0b6105ab1ec3b1a2847dd27
+2026-10-16T01:50:24.8244131Z Finalizing artifact upload
+2026-10-16T01:50:25.0832829Z Artifact LifeLab-Mock-Windows-x64.zip successfully finalized. Artifact ID 12019139553
+2026-10-16T01:50:25.0838228Z Artifact LifeLab-Mock-Windows-x64 has been successfully uploaded! Final size is 291604672 bytes. Artifact ID is 12019139553
+2026-10-16T01:50:25.0848338Z Artifact download URL: https://github.com/chifuru/VAL/actions/runs/38837098300/artifacts/12019139553
+2026-10-16T01:50:25.1219563Z Post job cleanup.
+2026-10-16T01:50:25.2700146Z (node:9196) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-16T01:50:25.2701133Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-16T01:50:25.2705197Z Cache hit occurred on the primary key node-cache-Windows-x64-npm-e820629810b2cc2acd36a3be5896d9719b29a02897499564924796d67f241e6b, not saving cache.
+2026-10-16T01:50:25.3000136Z Post job cleanup.
+2026-10-16T01:50:25.5269639Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-16T01:50:25.5645957Z git version 2.56.0.windows.2
+2026-10-16T01:50:25.5721323Z Temporarily overriding HOME='D:\a\_temp\547e5671-aea0-4420-a22a-92fdc10e520f' before making global git config changes
+2026-10-16T01:50:25.5722790Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-16T01:50:25.5734081Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\VAL\VAL
+2026-10-16T01:50:25.6138981Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-16T01:50:25.6533286Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-16T01:50:26.2310148Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-16T01:50:26.2648853Z http.https://github.com/.extraheader
+2026-10-16T01:50:26.2698966Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+2026-10-16T01:50:26.3085789Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-16T01:50:26.8939821Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-16T01:50:26.9333210Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-16T01:50:27.5270627Z Cleaning up orphan processes
+2026-10-16T01:50:27.5454818Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

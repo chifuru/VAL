@@ -6,7 +6,7 @@ v1.0.0は[Windows CI run 38830235546](https://github.com/chifuru/VAL/actions/run
 
 ## A仕様を合わせるモック
 
-FizzBuzz生物・DNA・成長計算を使った[独立モック](design/ecosystem-mock/README.md)を追加しています。[成長後の画面](design/ecosystem-mock/evidence/02-growth.png)と[A仕様の分割・変更案](design/ecosystem-mock/SPEC-PROPOSAL.md)を参照してください。既存製品版とA本文はモック確認前の状態を維持しています。
+最新の[A仕様モック Life Lab 03](design/ecosystem-mock/README.md)は、1マス1個体・20系統と初期値による個体差・段階進化と条件分岐・4入力・オス/メスの繁殖を扱います。[成長後の画面](design/ecosystem-mock/evidence/02-growth.png)と[仕様まとめ](design/ecosystem-mock/SPEC-PROPOSAL.md)を参照してください。A仕様はA1.1〜A1.3へ整理し、既存製品版のsrc/testsは維持しています。以下は従前製品v1.0.0の説明です。
 
 ## Windowsで起動
 

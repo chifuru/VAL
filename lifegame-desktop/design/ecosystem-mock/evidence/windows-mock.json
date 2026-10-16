@@ -1,0 +1,116 @@
+{
+  "version": "mock-v0.3.0",
+  "scope": "A-spec recognition mock; not production acceptance",
+  "source_commit": "22160a504dd9cacd664734f736c644bedb0de3e5",
+  "workflow_run": 38837098300,
+  "workflow_job": 116768551533,
+  "conclusion": "success",
+  "run_url": "https://github.com/chifuru/VAL/actions/runs/38837098300",
+  "artifact": {
+    "id": 12019139553,
+    "name": "LifeLab-Mock-Windows-x64",
+    "size_in_bytes": 291604672,
+    "url": "https://api.github.com/repos/chifuru/VAL/actions/artifacts/12019139553",
+    "archive_download_url": "https://api.github.com/repos/chifuru/VAL/actions/artifacts/12019139553/zip",
+    "expired": false,
+    "created_at": "2026-10-16T01:50:25Z",
+    "expires_at": "2026-11-15T01:50:15Z",
+    "updated_at": "2026-10-16T01:50:25Z",
+    "digest": "sha256:79bbfd784cb761acb5ed8be1418d0859be453d2ef0b6105ab1ec3b1a2847dd27",
+    "workflow_run": {
+      "id": 38837098300,
+      "repository_id": 1411285944,
+      "head_repository_id": 1411285944,
+      "head_branch": "lifegame-mock-v03",
+      "head_sha": "22160a504dd9cacd664734f736c644bedb0de3e5"
+    }
+  },
+  "download_url": "https://github.com/chifuru/VAL/actions/runs/38837098300/artifacts/12019139553",
+  "browser": {
+    "version": "mock-v0.3.0",
+    "scope": "A-spec mock, not production acceptance or approval",
+    "modelTests": 24,
+    "checks": [
+      "reused FizzBuzz modules retain original recorded hashes",
+      "forty individuals cover twenty lineages",
+      "all twenty real lineage portraits render",
+      "same-lineage initial-value variations render",
+      "fixed quadrant backgrounds are removed",
+      "repeated map painting reuses sprites without rebuilding anatomy",
+      "map selection follows exact cell occupancy",
+      "sexual reproduction creates real parent-linked offspring",
+      "actual diets and environments produce stage branches",
+      "all four inputs are consumed naturally",
+      "world reports actual deaths",
+      "one living individual occupies each live cell",
+      "simulation stores no per-part growth experience",
+      "parental identity displays",
+      "numeric comparison changes regulation without nutrition or time advancement",
+      "manual input is distinguished from natural intake",
+      "pause stops the world",
+      "birth observation starts from untrained juveniles",
+      "map zoom retains cell coordinates",
+      "narrow viewport fits without page overflow",
+      "no renderer exceptions or failed asset requests",
+      "sprite cache remains bounded"
+    ],
+    "errors": [],
+    "failedRequests": [],
+    "model": {
+      "turn": 120,
+      "alive": 95,
+      "births": 60,
+      "deaths": 5,
+      "intake": {
+        "fizz": 2290,
+        "buzz": 1923,
+        "fizzbuzz": 1463,
+        "number": 3409
+      },
+      "evolved": 68
+    },
+    "performance": {
+      "environment": {
+        "platform": "win32",
+        "arch": "x64",
+        "browser": "141.0.7390.37",
+        "viewport": "1580x1120",
+        "initialPopulation": 40
+      },
+      "startupMs": 4900,
+      "model120Ms": 115,
+      "mapPaintMedianMs": 1,
+      "mapPaintP95Ms": 25.29999999998836,
+      "measurement": "event-driven map paint CPU time, not guaranteed frame rate",
+      "spriteBuildsAtStartup": 67,
+      "spriteBuildsAfterThirtyRepaints": 67,
+      "boundedCacheEntries": 213
+    },
+    "hashes": {
+      "src/model.js": "32eb7d965d716c650a1ad015778c93ed77bb983b08b08638d84aeb0274b22117",
+      "src/presentation.js": "367aa0ea6b1cfb1f359ba5e5e92796f089fd023ea74c77b8f688086a71cfce7f",
+      "src/app.js": "8004634a0c0360529a03849f8cd3bd540e2172cc391e74035a693e06f22b3014",
+      "index.html": "9599570a7b305091cbb3593841968ec72e75f5f588ce0d20614f0e5282dd9d64",
+      "style.css": "b71ab707910a18790e876f44e268c626e7b57e20f249b7d0b57f32b3cba6da02"
+    }
+  },
+  "native": {
+    "ok": true,
+    "turn": 20,
+    "ate": 1179,
+    "births": 20,
+    "population": 60,
+    "ready": true,
+    "nodeExposed": false
+  },
+  "first_attempt": {
+    "run": 38836961953,
+    "conclusion": "failure",
+    "reason": "Windows checkout changed LF to CRLF, reproducing the exact hash mismatch; scoped .gitattributes now preserves LF."
+  },
+  "production_regression": {
+    "run": 38837098274,
+    "job": 116768551536,
+    "conclusion": "success"
+  }
+}

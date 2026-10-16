@@ -12,5 +12,8 @@
     "smoke.cjs": "2a047da21b102835b364e4823e8c4c52debd228786f5ece68e939e2a0bef0ad9",
     "check.cjs": "4ef8737f5745d98ee85d734519b261f991cc7edb5120a8146f364dc1765b821f",
     "asset-config.js": "5caf773fbebb3222f547871db4b8b49858504d877d2a3a259560d46656493ea6"
+  },
+  "checkout_control": {
+    ".gitattributes": "cef82d20e8142f583d5891d935a49a465aeb68fa87720a61ee99fcb7d5ae1e1c"
   }
 }

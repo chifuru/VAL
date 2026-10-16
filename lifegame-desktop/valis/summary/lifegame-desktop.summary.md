@@ -4,34 +4,34 @@ project_id: lifegame-desktop
 summary_manifest_type: Project Summary Manifest
 canonical_path: valis/summary/lifegame-desktop.summary.md
 core_definition_mutation: prohibited
-current_status: 最新A仕様モックv0.3のローカル実測成功、Windows確認待ち。従前製品のE1/E2/E3は最新A仕様の検証根拠ではない。全ノード草案
+current_status: 最新A仕様モックv0.3のローカル/Windows実測成功、ユーザー認識合わせ待ち。従前製品のE1/E2/E3は最新A仕様の検証根拠ではない。全ノード草案
 
 A1:（起点 / 生態系の成長と生存観測）［草案］
 	構成（要素・関係）:
 		Node File: valis/nodes/A/A1.md; 層: A; 親: なし
 		対応: 意味定義
 	ロジック:
-		同じ初期値と設定から同じ初期集団・資源・ターン結果を得る。
+		同じ初期値と設定から世界を再現し、20系統・1マス1個体の成長・進化・繁殖・生存を観測する。
 	実態:
 		最新Aの方向をA1.1〜A1.3へ展開。今回のモック証跡はE4。従前製品のE1/E2は最新Aの検証根拠ではない。
 
 	A1.1:（A1 / 個体・系統・段階進化）［草案］
 		Node File: valis/nodes/A/A1.1.md; 親: A1; 対象: ecosystem-mock-v0.3
 		要約: 1マス最大1個体。初期値から20系統・6軸DNA・見た目の個体差を決定。同系統は仲間。部位別XPは持たず、幼体→若体→成体→条件分岐した進化体の節目を計算。基本系統は固定。能力はDNA・成長段階・分岐から計算する。
-		対応:
-		次FLOW候補: モック実装→D5/D6検証→E4記録
+		対応: 意味定義
+		次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
 
 	A1.2:（A1 / 各マスの環境・4入力）［草案］
 		Node File: valis/nodes/A/A1.2.md; 親: A1; 対象: ecosystem-mock-v0.3
 		要約: 固定四分割を廃し、一続きの新規背景上にマスごとの環境を表示する。生命Fizz・鉱物Buzz・情報FizzBuzz・数値入力を有限資源として扱う。数値は栄養とは分け、次の摂取の成長量を調整する。環境は滞在中に毎ターン作用する。
-		対応:
-		次FLOW候補: モック実装→D5/D6検証→E4記録
+		対応: 意味定義
+		次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
 
 	A1.3:（A1 / 性別・繁殖・遺伝）［草案］
 		Node File: valis/nodes/A/A1.3.md; 親: A1; 対象: ecosystem-mock-v0.3
 		要約: オス・メスを区別する。同系統の成熟した異性2体、十分なエネルギー、待機期間終了、近接と空きマスを条件に出生。両親のDNAを継承し、子の成長は初期化。出生・死亡は個体と一致し、移動中も個体IDを保つ。
-		対応:
-		次FLOW候補: モック実装→D5/D6検証→E4記録
+		対応: 意味定義
+		次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
 
 A2:（起点 / 独立した Windows ローカル実行）［草案］
 	構成（要素・関係）:
@@ -205,47 +205,44 @@ E3:（D4, A2, C4 / Windows配布・実exe検証）［草案］
 
 ユーザー確認済みの責務分割。承認済み状態への遷移は行わない。B1〜B3・C1〜C4・D1〜D4・E1〜E3は従前製品の記録であり、今回の仕様適合を表さない。
 
-
-
-
 B4:（A1.1, A1.2, A1.3 / モックの生態進行）［草案］
 	Node File: valis/nodes/B/B4.md; 親: なし; 対象: ecosystem-mock-v0.3
 	要約: 資源回復→環境更新→生命維持・採食・段階進化→移動→ペア繁殖→集計。固定seedで再現。同じマスに個体を重ねず、新生児は次ターンから行動する。B3/S23による別セルは設けない。
-	対応:
-	次FLOW候補: モック実装→D5/D6検証→E4記録
+	対応: 意味定義
+	次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
 
 B5:（A1.1, A1.2, A1.3, A2 / モックの観測・比較操作）［草案］
 	Node File: valis/nodes/B/B5.md; 親: なし; 対象: ecosystem-mock-v0.3
 	要約: 生成、開始、一時停止、1ターン、120ターン、マス選択、環境表示切替、20系統の見本、個体詳細、親子情報、摂取・進化・出生・死亡履歴と比較投与を提供。仮設定を画面に表示する。
-	対応:
-	次FLOW候補: モック実装→D5/D6検証→E4記録
+	対応: 意味定義
+	次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	Node File: valis/nodes/C/C5.md; 親: なし; 対象: ecosystem-mock-v0.3
 	要約: モデルは描画から独立。seedによる個体差、段階進化、餌と環境、空間占有、両親DNAの交叉、性別と繁殖待機を管理。部位のXP・成長状態を計算しない。
 	対応: design/ecosystem-mock/src/model.js
-	次FLOW候補: モック実装→D5/D6検証→E4記録
+	次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
 
 C6:（B5 / モックの造形投影・観測画面・配布）［草案］
 	Node File: valis/nodes/C/C6.md; 親: なし; 対象: ecosystem-mock-v0.3
 	要約: 原版FizzBuzzの描画・素材を改変せず利用。描画用の固定段階テンプレートへモデルを投影し、画像は個体差・段階・分岐をキーに保持。盤面と詳細画面は同じ投影を使う。新規の共通背景と現在マス環境を描画。Windows ZIPを生成する。
 	対応: design/ecosystem-mock/src/presentation.js, design/ecosystem-mock/src/app.js, design/ecosystem-mock/index.html, design/ecosystem-mock/style.css, design/ecosystem-mock/desktop.cjs, design/ecosystem-mock/package.cjs
-	次FLOW候補: モック実装→D5/D6検証→E4記録
+	次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	Node File: valis/nodes/D/D5.md; 親: なし; 対象: ecosystem-mock-v0.3
 	要約: 再現性、20系統網羅、個体差、部位XPなし、4入力の効果、資源回復、環境作用、分岐、系統固定、異性・成熟・エネルギー・待機・空間の繁殖条件、遺伝、出生後の行動、死亡と占有整合を実測する。
 	対応: design/ecosystem-mock/tests/model.test.cjs
-	次FLOW候補: モック実装→D5/D6検証→E4記録
+	次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
 
 D6:（A1.1, A1.2, A1.3, B5, C6 / モックの画面・描画・実行検証計画）［草案］
 	Node File: valis/nodes/D/D6.md; 親: なし; 対象: ecosystem-mock-v0.3
 	要約: 実素材の読込、個体描画、進行と停止、選択と4入力の比較投与、出生・進化履歴、狭幅、描画例外、画像キャッシュ再利用、Windows配布exeの起動と進行を確認する。性能値は実測環境付きで報告し、全端末の保証にはしない。
 	対応: design/ecosystem-mock/check.cjs, design/ecosystem-mock/smoke.cjs
-	次FLOW候補: モック実装→D5/D6検証→E4記録
+	次FLOW候補: E4の実測記録を参照→ユーザーの認識合わせ
 
 E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 	Node File: valis/nodes/E/E4.md; 親: なし; version: mock-v0.3.0/source-hashes.json
-	要約: モデル24項目・画面22項目成功。原版モジュールハッシュ一致。120ターンで出生60/死亡5/生存95、4入力摂取。Windows実測待ち。
-	証跡: design/ecosystem-mock/evidence/report.json、model.log、source-hashes.json
-	次FLOW候補: Windows確認→結果照合→main統合。承認状態は草案維持。
+	要約: モデル24項目・画面22項目成功。原版モジュールハッシュ一致。120ターンで出生60/死亡5/生存95、4入力摂取。Windows実exe20ターン/摂取1179回/出生20体も成功。
+	証跡: design/ecosystem-mock/evidence/report.json、model.log、source-hashes.json、windows-mock.json、windows-ci.log、native-report.json
+	次FLOW候補: ユーザーの認識合わせ。承認状態は草案維持。
