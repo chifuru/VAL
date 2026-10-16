@@ -2,7 +2,15 @@
 
 [全20系統：第三相3枝→第四相6経路](evolution-trees/README.md) / [分岐ロジック](branching-rules.md) / [雌雄と第三相からの繁殖](sex-and-reproduction.md) / [環境別の餌](environment-food.md)
 
-## 最新の全体仕様と静止画
+## 最新の餌の表現
+
+![情報エネルギー・餌の環境差・量の変化](food-variety-overview-mock.png)
+
+[餌の種類・環境差・残量](environment-food.md) / [ライフゲームによる生成と消費](food-cellular-rules.md)
+
+情報は滞留・浮遊するエネルギー体。餌はFizzBuzzの4分類に固定せず、同じ餌を環境と残量で描き分ける。以下の旧モックにある分類名と情報結晶は以前の案。
+
+## 全体仕様と戦略の静止画
 
 [ここまでのA仕様・B機能のまとめ](design-summary.md)
 
