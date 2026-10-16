@@ -8,7 +8,8 @@ function same(a,b){return Boolean(a.bio.lineage&&a.bio.lineage===b.bio.lineage);
 function abilities(s){
  const d=s.dna,a=E.appearanceFor(s),g=s.points/100,n=a.anatomy;
  const v=(key)=>n[key]?.growth||0;
- return {attack:+((2+d.body*4+d.appendage*2)*(1+.9*g+.5*v('limb'))).toFixed(2),defense:+((1+d.skin*5)*(1+v('shell'))).toFixed(2),speed:+((1+d.appendage*3)*(1+.8*v('fin'))).toFixed(2),range:+(1+d.senses*2+.5*v('eyes')).toFixed(2),harvest:+(1+d.aptitude*2+.6*g).toFixed(2),regen:+(.2+d.skin*.5+.5*v('shell')).toFixed(2),fertility:+(.3+d.aptitude*.5+.1*v('fin')).toFixed(2),longevity:+(60+d.body*40+30*v('shell')).toFixed(2),efficiency:+((1+d.aptitude*.6)*(1+.15*g)).toFixed(2)};
+ const organs=E.phenotype(s),o=organs.length?organs.reduce((sum,p)=>sum+p.level/3*p.growth,0)/organs.length:0;
+ return {attack:+((2+d.body*4+d.appendage*2)*(1+.9*g+.5*v('limb')+.3*o)).toFixed(2),defense:+((1+d.skin*5)*(1+v('shell')+.3*o)).toFixed(2),speed:+((1+d.appendage*3)*(1+.8*v('fin')+.2*o)).toFixed(2),range:+(1+d.senses*2+.5*v('eyes')+.2*o).toFixed(2),harvest:+(1+d.aptitude*2+.6*g+.2*o).toFixed(2),regen:+(.2+d.skin*.5+.5*v('shell')+.2*o).toFixed(2),fertility:+(.3+d.aptitude*.5+.1*v('fin')+.1*o).toFixed(2),longevity:+(60+d.body*40+30*v('shell')+10*o).toFixed(2),efficiency:+((1+d.aptitude*.6)*(1+.15*g+.1*o)).toFixed(2)};
 }
 function create(seed=932,birth=false){
  seed=Number(seed);E.dnaFor(seed);

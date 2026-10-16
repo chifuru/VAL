@@ -7,6 +7,8 @@
     "cellular activity changes local environments",
     "base DNA remains unchanged",
     "abilities grow from actual anatomy and growth",
+    "same DNA and diet produce different organs under different environments",
+    "environment-dependent organ development changes abilities",
     "world food/environment override fixed original schedule",
     "eight real FizzBuzz specimens render",
     "world simulation advances with actual meals",
@@ -21,28 +23,28 @@
   "model": {
     "turn": 120,
     "cellBirths": 690,
-    "ate": 786,
+    "ate": 783,
     "abilityBefore": {
-      "attack": 8.2,
-      "defense": 9.23,
-      "speed": 2.66,
-      "range": 2.18,
-      "harvest": 1.92,
-      "regen": 0.98,
-      "fertility": 0.52,
-      "longevity": 98.9,
-      "efficiency": 1.27
+      "attack": 9.5,
+      "defense": 10.88,
+      "speed": 2.98,
+      "range": 2.37,
+      "harvest": 2.11,
+      "regen": 1.17,
+      "fertility": 0.61,
+      "longevity": 108.56,
+      "efficiency": 1.39
     },
     "abilityAfter": {
-      "attack": 9.84,
-      "defense": 10.79,
-      "speed": 3.07,
-      "range": 2.3,
-      "harvest": 2.07,
-      "regen": 1.12,
-      "fertility": 0.55,
-      "longevity": 107.16,
-      "efficiency": 1.32
+      "attack": 11.05,
+      "defense": 12.36,
+      "speed": 3.38,
+      "range": 2.49,
+      "harvest": 2.26,
+      "regen": 1.31,
+      "fertility": 0.64,
+      "longevity": 116.43,
+      "efficiency": 1.43
     }
   },
   "browser": "154.0.8037.57"
