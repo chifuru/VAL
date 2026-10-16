@@ -1,0 +1,49 @@
+name: LifeLab FizzBuzz ecosystem mock
+on:
+  push:
+    branches: [main, 'lifegame-mock-*']
+    paths: ['lifegame-desktop/design/ecosystem-mock/**', '.github/workflows/lifegame-mock.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows-mock:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: lifegame-desktop
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            lifegame-desktop
+            gas-fizzbuzz-webapp/src/composite
+            gas-fizzbuzz-webapp/src/assets
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: lifegame-desktop/package-lock.json
+      - run: npm ci
+      - name: Mock model and browser
+        run: |
+          npx playwright install chromium
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node design/ecosystem-mock/check.cjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Package independent mock
+        run: node design/ecosystem-mock/package.cjs
+      - name: Run packaged mock
+        run: node design/ecosystem-mock/smoke.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: LifeLab-Mock-Windows-x64
+          path: |
+            lifegame-desktop/design/ecosystem-mock/dist/LifeLab-Mock-Windows-x64.zip
+            lifegame-desktop/design/ecosystem-mock/evidence/
+          retention-days: 30
+          if-no-files-found: warn

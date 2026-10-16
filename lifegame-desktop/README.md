@@ -4,6 +4,10 @@
 
 v1.0.0は[Windows CI run 38830235546](https://github.com/chifuru/VAL/actions/runs/38830235546)で、単体・構造17検査、画面操作19項目、ZIP展開照合、配布exeの起動・10ターン進行を確認しました。
 
+## A仕様を合わせるモック
+
+FizzBuzz生物・DNA・成長計算を使った[独立モック](design/ecosystem-mock/README.md)を追加しています。[成長後の画面](design/ecosystem-mock/evidence/02-growth.png)と[A仕様の分割・変更案](design/ecosystem-mock/SPEC-PROPOSAL.md)を参照してください。既存製品版とA本文はモック確認前の状態を維持しています。
+
 ## Windowsで起動
 
 [LifeGame Windows x64 の実行一覧](https://github.com/chifuru/VAL/actions/workflows/lifegame-windows.yml)で成功した実行を開き、Artifacts の **LifeGame-Windows-x64** をダウンロードします。外側のアーティファクトZIPと、中の `LifeGame-Windows-x64.zip` をすべて展開し、`LifeGame.exe` を起動してください。

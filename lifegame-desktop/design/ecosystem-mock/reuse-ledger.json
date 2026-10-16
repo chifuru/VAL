@@ -1,0 +1,80 @@
+[
+  {
+    "file": "creature-engine.js",
+    "origin": "gas-fizzbuzz-webapp/src/composite/creature-engine.js",
+    "sha256": "f4d4ea60ca203d30fb036726d7786ac5941e79064101cbf3d4b43e15adced6e7",
+    "modified": false
+  },
+  {
+    "file": "lineage-definitions.js",
+    "origin": "gas-fizzbuzz-webapp/src/composite/lineage-definitions.js",
+    "sha256": "f48f8446a24d5be61e9e281e493b3621bd1268c30071ca82456a1bac012781b7",
+    "modified": false
+  },
+  {
+    "file": "legacy-engine-v4.js",
+    "origin": "gas-fizzbuzz-webapp/src/composite/legacy-engine-v4.js",
+    "sha256": "9d91ee165c25b7266c8c0487f4c62c8fabfc0272ae1999906afd12b165bf0a1c",
+    "modified": false
+  },
+  {
+    "file": "legacy-engine-v3.js",
+    "origin": "gas-fizzbuzz-webapp/src/composite/legacy-engine-v3.js",
+    "sha256": "b319c740efdfc06b5a60ac077c037fa1d828c6690903574c7e65298d91492919",
+    "modified": false
+  },
+  {
+    "file": "legacy-engine-v2.js",
+    "origin": "gas-fizzbuzz-webapp/src/composite/legacy-engine-v2.js",
+    "sha256": "5761d7bff1e29c2330dbab094f7ca5f7d865ca29eb6639f230e4c21d29e37ed7",
+    "modified": false
+  },
+  {
+    "file": "legacy-engine.js",
+    "origin": "gas-fizzbuzz-webapp/src/composite/legacy-engine.js",
+    "sha256": "24e656a316ecf81e991f8661389bd4ba10016b8888671185b3bf13e0047baefe",
+    "modified": false
+  },
+  {
+    "file": "renderer.js",
+    "origin": "gas-fizzbuzz-webapp/src/composite/renderer.js",
+    "sha256": "c442339988fdc63631b9aa5316116b552692b56b0518d7dff32751d3334f4357",
+    "modified": false
+  },
+  {
+    "file": "environment-scene.js",
+    "origin": "gas-fizzbuzz-webapp/src/composite/environment-scene.js",
+    "sha256": "82eea3620bb4d48f6dba6c446f34505e2e6bff3656f1054c4424906aca6be115",
+    "modified": false
+  },
+  {
+    "file": "food-scene.js",
+    "origin": "gas-fizzbuzz-webapp/src/composite/food-scene.js",
+    "sha256": "6229019713d1ef827de80774482e602da1f8b78dcc13481ed935198f4089e062",
+    "modified": false
+  },
+  {
+    "file": "ecological-engine.js",
+    "origin": "gas-fizzbuzz-webapp/src/composite/creature-engine.js",
+    "modified": true,
+    "changes": "Shared applyMeal; ecologicalStep accepts actual meal/environment without fixed sequence or seed-length cap. Original step/runAll path unchanged."
+  },
+  {
+    "file": "legacy-lineages-v3.js",
+    "origin": "../gas-fizzbuzz-webapp/src/composite/legacy-lineages-v3.js",
+    "sha256": "f138b629c12e30165250ac18caa6882d0d03cef652423224c643a7f2d3efe139",
+    "modified": false
+  },
+  {
+    "file": "legacy-lineages-v4.js",
+    "origin": "../gas-fizzbuzz-webapp/src/composite/legacy-lineages-v4.js",
+    "sha256": "1f9bb7a204b9a4d71130895257fa3236785413f8d45dfcb6a05845df1c7a437e",
+    "modified": false
+  },
+  {
+    "file": "legacy-lineages.js",
+    "origin": "../gas-fizzbuzz-webapp/src/composite/legacy-lineages.js",
+    "sha256": "5cb0726462aac3f3af71a9f6c2d11efae416432a64b75177edddaa7f6ac4a370",
+    "modified": false
+  }
+]

@@ -1,0 +1,49 @@
+{
+  "scope": "A-specification mock behavior checks; not production acceptance",
+  "checks": [
+    "original FizzBuzz growth parity at five seeds",
+    "same lineage is allied",
+    "cellular births generate actual food intake",
+    "cellular activity changes local environments",
+    "base DNA remains unchanged",
+    "abilities grow from actual anatomy and growth",
+    "world food/environment override fixed original schedule",
+    "eight real FizzBuzz specimens render",
+    "world simulation advances with actual meals",
+    "intake trace displays",
+    "comparison intervention advances a real turn",
+    "observation pauses",
+    "birth mode starts without prior feeding",
+    "narrow viewport fits",
+    "no renderer exceptions"
+  ],
+  "errors": [],
+  "model": {
+    "turn": 120,
+    "cellBirths": 690,
+    "ate": 786,
+    "abilityBefore": {
+      "attack": 8.2,
+      "defense": 9.23,
+      "speed": 2.66,
+      "range": 2.18,
+      "harvest": 1.92,
+      "regen": 0.98,
+      "fertility": 0.52,
+      "longevity": 98.9,
+      "efficiency": 1.27
+    },
+    "abilityAfter": {
+      "attack": 9.84,
+      "defense": 10.79,
+      "speed": 3.07,
+      "range": 2.3,
+      "harvest": 2.07,
+      "regen": 1.12,
+      "fertility": 0.55,
+      "longevity": 107.16,
+      "efficiency": 1.32
+    }
+  },
+  "browser": "154.0.8037.57"
+}
