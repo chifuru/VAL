@@ -2,13 +2,13 @@
 
 project_id: lifegame-desktop
 canonical_path: valis/summary/lifegame-desktop.summary.md
-current_status: 製品2.2.0は未変更。foundation/v2の分離モデルと自然地形・重複識別画面を作成。標準1000ターンで主15/20系統・餌6/6系統。条件別の存続/出生/残課題は現行試作報告を参照。全57Node草案、承認状態変更なし。
+current_status: 製品2.2.0は未変更。次期調整は系統別300〜500連続存続（目標3/10・最低1/10）と結末の多様性を重視。自然排水地形・友好の分離試作、描画比較案を作成。結果図鑑の追加分割と描画方向は確認待ち。全57Node草案。
 current_specification: design/specification/ab-system-specification-v1.3.md
 current_adjustments: design/specification/ab-readiness-v1.4.md + design/specification/ab-balance-v1.5.md
-current_contract: operations/plans/ecosystem-foundation-v2.md
-current_trial: design/ecosystem-foundation/README.md（製品未採用）
-current_trial_result: operations/evidence/ecosystem-foundation-v2/report.md
-current_image: operations/evidence/ecosystem-foundation-v2/layer-detail.png（実測世界の拡大）
+current_contract: design/ecosystem-next/README.md
+current_trial: design/ecosystem-next/README.md（製品未採用。foundation/v2を比較基準に使用）
+current_trial_result: operations/evidence/ecosystem-next/report.md
+current_image: design/ecosystem-next/visual-directions.png（画風比較の概念画像、実画面ではない）
 visual_reference: design/specification/ecosystem-overview-mock.png + design/specification/habitat-overview-mock.png
 
 現在の状態と必要な参照だけを記載する。履歴・過去の作業ログは保持しない。coreはプロジェクト内正本を使用し、変更しない。
@@ -17,6 +17,7 @@ visual_reference: design/specification/ecosystem-overview-mock.png + design/spec
 
 A1:（起点 / 生態系の成長と生存観測）［草案］
 	Node File: valis/nodes/A/A1.md; 親: なし
+	次期調整: design/ecosystem-next/README.md。対象範囲と未実施事項はNodeを参照。
 	実態: 現行仕様v1.3＋調整v1.4/v1.5。実装・分割確認済み。承認状態は草案。
 
 A1.1:（A1 / 個体・系統・段階進化）［草案］
@@ -26,6 +27,7 @@ A1.1:（A1 / 個体・系統・段階進化）［草案］
 
 A1.2:（A1 / 各マスの環境・餌資源）［草案］
 	Node File: valis/nodes/A/A1.2.md; 親: A1
+	次期調整: design/ecosystem-next/README.md。対象範囲と未実施事項はNodeを参照。
 	実態: 現行仕様v1.3＋調整v1.4/v1.5。実装・分割確認済み。承認状態は草案。
 	限定試作: foundation/v2。対象版・対応実体・検査の限界はNodeとE5/E6。製品への採用なし。
 
@@ -36,6 +38,7 @@ A1.3:（A1 / 性別・繁殖・遺伝）［草案］
 
 A1.4:（A1 / 局所経験と系統戦略）［草案］
 	Node File: valis/nodes/A/A1.4.md; 親: A1
+	次期調整: design/ecosystem-next/README.md。対象範囲と未実施事項はNodeを参照。
 	実態: 現行仕様v1.3＋調整v1.4/v1.5。実装・分割確認済み。承認状態は草案。
 	限定試作: foundation/v2。対象版・対応実体・検査の限界はNodeとE5/E6。製品への採用なし。
 
@@ -66,6 +69,7 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 
 B4.1:（A1.4, A1.2 / 局所パラメータによる動作判断）［草案］
 	Node File: valis/nodes/B/B4.1.md; 親: B4
+	次期調整: design/ecosystem-next/README.md。対象範囲と未実施事項はNodeを参照。
 	実態: 現行仕様v1.3＋調整v1.4/v1.5。実装・分割確認済み。承認状態は草案。
 	限定試作: foundation/v2。対象版・対応実体・検査の限界はNodeとE5/E6。製品への採用なし。
 
@@ -112,6 +116,7 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C7.1:（B4, B4.4 / 初期値・固定世界・30系統の共通状態）［草案］
 	Node File: valis/nodes/C/C7.1.md; 親: C7
+	次期調整: design/ecosystem-next/README.md。対象範囲と未実施事項はNodeを参照。
 	実態: v1.5実装済み。対象ハッシュ・検査範囲はE5/E6。Windows実exeはE7。
 	限定試作: foundation/v2。対象版・対応実体・検査の限界はNodeとE5/E6。製品への採用なし。
 
@@ -122,6 +127,7 @@ C7.2:（B4.3, B4.4 / 有限栄養・資源CA・生産と死骸）［草案］
 
 C7.3:（B4.1 / 局所行動・同時移動戦闘・学習）［草案］
 	Node File: valis/nodes/C/C7.3.md; 親: C7
+	次期調整: design/ecosystem-next/README.md。対象範囲と未実施事項はNodeを参照。
 	実態: v1.5実装済み。対象ハッシュ・検査範囲はE5/E6。Windows実exeはE7。
 	限定試作: foundation/v2。対象版・対応実体・検査の限界はNodeとE5/E6。製品への採用なし。
 
@@ -141,6 +147,7 @@ C8:（B5, B5.1, B5.2 / 観測操作・図鑑と説明シート）［草案］
 
 C8.1:（B5.3 / 盤面と個体の描画・確定モーション）［草案］
 	Node File: valis/nodes/C/C8.1.md; 親: C8
+	次期調整: design/ecosystem-next/README.md。対象範囲と未実施事項はNodeを参照。
 	実態: 外観版2.2.0を実装。Linux画面45項目成功。対象ハッシュ・範囲はE6、Windows同梱/実exeはE7。
 	限定試作: foundation/v2。対象版・対応実体・検査の限界はNodeとE5/E6。製品への採用なし。
 
@@ -156,6 +163,7 @@ D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案
 
 D8:（C7 / 生態循環と結合進行）［草案］
 	Node File: valis/nodes/D/D8.md; 親: なし
+	次期調整: design/ecosystem-next/README.md。対象範囲と未実施事項はNodeを参照。
 	実態: v1.5検査済み。ルール44・画面36の該当範囲はE5/E6。Windows実exeはE7。
 	限定試作: foundation/v2。対象版・対応実体・検査の限界はNodeとE5/E6。製品への採用なし。
 
@@ -177,6 +185,7 @@ D9:（C8, C8.1 / 観測画面・系統樹・説明と描画）［草案］
 
 E5:（D7, D8, D8.1, D8.2, C7, C7.1, C7.2, C7.3, C7.4, C7.5 / 現行生態計算の実測証跡）［草案］
 	Node File: valis/nodes/E/E5.md; 親: なし
+	次期比較: operations/evidence/ecosystem-next/report.md。固定5系統・10条件・500ターン。未登場系統/最終/安定繁殖の合格へ一般化しない。
 	実態: ルール44/44成功。4条件1000ターンの収支・出生を検査。標準で219出生/第9世代/54体存続。小盤面の絶滅例あり。
 	限定試作: foundation/v2。対象版・対応実体・検査の限界はNodeとE5/E6。製品への採用なし。
 

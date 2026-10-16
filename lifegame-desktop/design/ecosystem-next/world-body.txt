@@ -1,0 +1,35 @@
+    const n=config.width*config.height, W=config.width,Hh=config.height;
+    const smooth=u=>u*u*(3-2*u);
+    function field(x,y,scale,axis){
+      const ax=Math.floor(x/scale),ay=Math.floor(y/scale),fx=smooth(x/scale-ax),fy=smooth(y/scale-ay);
+      const v=(dx,dy)=>r(w,'watershed/'+axis,0,null,[ax+dx,ay+dy]);
+      return (v(0,0)*(1-fx)+v(1,0)*fx)*(1-fy)+(v(0,1)*(1-fx)+v(1,1)*fx)*fy;
+    }
+    const height=new Float64Array(n),filled=new Float64Array(n),parent=new Int32Array(n).fill(-1),seen=new Uint8Array(n),order=[],queue=[];
+    const neighbors=p=>{const x=p%W,y=Math.floor(p/W),a=[];if(x)a.push(p-1);if(x<W-1)a.push(p+1);if(y)a.push(p-W);if(y<Hh-1)a.push(p+W);return a;};
+    const scale=Math.min(W,Hh);
+    for(let p=0;p<n;p++){
+      const x=p%W,y=Math.floor(p/W),edge=Math.min(x/(W-1),1-x/(W-1),y/(Hh-1),1-y/(Hh-1));
+      height[p]=.58*field(x,y,scale*.65,'relief')+.25*field(x,y,scale*.23,'ridge')+.07*field(x,y,scale*.08,'detail')+.32*Math.min(1,edge*5);
+      if(x===0||y===0||x===W-1||y===Hh-1){seen[p]=1;filled[p]=height[p];queue.push(p);}
+    }
+    // Priority flood: every drainage parent has been visited earlier, so channels
+    // cannot form cycles or climb the filled surface. Stable index breaks ties.
+    while(queue.length){
+      let k=0;for(let j=1;j<queue.length;j++)if(filled[queue[j]]<filled[queue[k]]||(filled[queue[j]]===filled[queue[k]]&&queue[j]<queue[k]))k=j;
+      const p=queue[k];queue[k]=queue.at(-1);queue.pop();order.push(p);
+      for(const q of neighbors(p))if(!seen[q]){seen[q]=1;parent[q]=p;filled[q]=Math.max(height[q],filled[p]+1e-7);queue.push(q);}
+    }
+    const flow=new Float64Array(n).fill(1),wet=new Uint8Array(n),distance=new Int32Array(n).fill(n),waterQueue=[];
+    for(let j=order.length-1;j>=0;j--){const p=order[j];if(parent[p]>=0)flow[parent[p]]+=flow[p];}
+    for(let p=0;p<n;p++)if(height[p]<.39||filled[p]-height[p]>.035||flow[p]>Math.max(12,n*.012)){wet[p]=1;distance[p]=0;waterQueue.push(p);}
+    for(let j=0;j<waterQueue.length;j++){const p=waterQueue[j];for(const q of neighbors(p))if(distance[q]>distance[p]+1){distance[q]=distance[p]+1;waterQueue.push(q);}}
+    for(let p=0;p<n;p++){
+      const x=p%W,y=Math.floor(p/W),humidity=.6*field(x,y,scale*.36,'rain')+.4*Math.exp(-distance[p]/3),temperature=.6*field(x,y,scale*.6,'heat')+.4*(1-height[p]);
+      const anomaly=field(x,y,scale*.24,'geology');
+      const env=wet[p]?0:temperature<.28?4:height[p]>.86?6:humidity>.65?5:humidity>.5&&anomaly<.3?7:anomaly>.76?2:temperature>.6&&humidity<.42?1:3;
+      const terrain=wet[p]?(height[p]<.32?'deep':'shallow'):height[p]>.86?'rock':humidity>.62?'mud':'plain';
+      const v=r(w,'watershed/cover',0,null,p),cover=wet[p]?'none':v<.008?'boulder':v<.025?'log':v<.025+.1*humidity?'bush':'none';
+      const e=D.environments[env];
+      w.tiles.push({env,terrain,cover,blocked:cover==='boulder',light:cover==='boulder'?0:H.round(e.light*(cover==='bush'?.7:cover==='log'?.8:1)*(terrain==='deep'?.6:1)),walls:[],soilM:5});
+    }

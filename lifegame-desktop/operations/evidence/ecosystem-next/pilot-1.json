@@ -1,0 +1,74 @@
+{
+  "config": {
+    "seed": "competition-pilot-1",
+    "width": 40,
+    "height": 28,
+    "initial": 80,
+    "lineages": "manual",
+    "selected": [
+      "solar",
+      "kelp",
+      "jelly",
+      "abyss",
+      "crystal"
+    ]
+  },
+  "ticks": 500,
+  "rows": [
+    {
+      "id": "solar",
+      "initial": 16,
+      "minimum300to500": 34,
+      "continuous300to500": true,
+      "final": 34,
+      "births300to500": 11,
+      "descendants": 29
+    },
+    {
+      "id": "kelp",
+      "initial": 16,
+      "minimum300to500": 22,
+      "continuous300to500": true,
+      "final": 25,
+      "births300to500": 7,
+      "descendants": 17
+    },
+    {
+      "id": "jelly",
+      "initial": 16,
+      "minimum300to500": 13,
+      "continuous300to500": true,
+      "final": 13,
+      "births300to500": 7,
+      "descendants": 13
+    },
+    {
+      "id": "abyss",
+      "initial": 16,
+      "minimum300to500": 26,
+      "continuous300to500": true,
+      "final": 27,
+      "births300to500": 11,
+      "descendants": 24
+    },
+    {
+      "id": "crystal",
+      "initial": 16,
+      "minimum300to500": 7,
+      "continuous300to500": true,
+      "final": 7,
+      "births300to500": 0,
+      "descendants": 0
+    }
+  ],
+  "P": 143,
+  "Q": 0,
+  "causes": {
+    "combat": 319,
+    "starvation": 162,
+    "harvest": 221,
+    "age": 2352
+  },
+  "fingerprint": "316e778e6c4cd1266022d9b6ceebd1c55c914eba8c168bfb78753ce46bbacb8a",
+  "wallMs": 20241
+}

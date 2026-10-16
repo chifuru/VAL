@@ -1,0 +1,10 @@
+✔ mutual non-aggression excludes both attack candidates and stale forced attacks (46.157854ms)
+✔ friendship does not disable a different lineage predator attack (10.990417ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 61.899681

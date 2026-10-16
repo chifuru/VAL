@@ -1,0 +1,124 @@
+{
+  "scope": "10 maps; deterministic 20-turn smoke only; not survival acceptance",
+  "checks": [
+    {
+      "seed": "watershed-check-0",
+      "turn": 20,
+      "main": 80,
+      "terrain": {
+        "shallow": 142,
+        "plain": 585,
+        "mud": 140,
+        "deep": 43,
+        "rock": 210
+      }
+    },
+    {
+      "seed": "watershed-check-1",
+      "turn": 20,
+      "main": 80,
+      "terrain": {
+        "plain": 627,
+        "mud": 139,
+        "shallow": 133,
+        "deep": 4,
+        "rock": 217
+      }
+    },
+    {
+      "seed": "watershed-check-2",
+      "turn": 20,
+      "main": 80,
+      "terrain": {
+        "shallow": 132,
+        "deep": 68,
+        "mud": 76,
+        "plain": 478,
+        "rock": 366
+      }
+    },
+    {
+      "seed": "watershed-check-3",
+      "turn": 20,
+      "main": 80,
+      "terrain": {
+        "plain": 828,
+        "shallow": 138,
+        "mud": 53,
+        "rock": 83,
+        "deep": 18
+      }
+    },
+    {
+      "seed": "watershed-check-4",
+      "turn": 20,
+      "main": 80,
+      "terrain": {
+        "plain": 855,
+        "shallow": 143,
+        "deep": 45,
+        "mud": 77
+      }
+    },
+    {
+      "seed": "watershed-check-5",
+      "turn": 20,
+      "main": 80,
+      "terrain": {
+        "plain": 787,
+        "shallow": 162,
+        "mud": 105,
+        "deep": 45,
+        "rock": 21
+      }
+    },
+    {
+      "seed": "watershed-check-6",
+      "turn": 20,
+      "main": 80,
+      "terrain": {
+        "mud": 221,
+        "plain": 709,
+        "shallow": 132,
+        "rock": 42,
+        "deep": 16
+      }
+    },
+    {
+      "seed": "watershed-check-7",
+      "turn": 20,
+      "main": 80,
+      "terrain": {
+        "plain": 477,
+        "mud": 109,
+        "shallow": 140,
+        "rock": 372,
+        "deep": 22
+      }
+    },
+    {
+      "seed": "watershed-check-8",
+      "turn": 20,
+      "main": 80,
+      "terrain": {
+        "plain": 494,
+        "shallow": 118,
+        "mud": 130,
+        "rock": 342,
+        "deep": 36
+      }
+    },
+    {
+      "seed": "watershed-check-9",
+      "turn": 20,
+      "main": 80,
+      "terrain": {
+        "mud": 106,
+        "shallow": 155,
+        "plain": 602,
+        "deep": 22,
+        "rock": 235
+      }
+    }
+  ]
+}
