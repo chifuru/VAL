@@ -2,6 +2,10 @@
 
 [全20系統：第三相3枝→第四相6経路](evolution-trees/README.md) / [分岐ロジック](branching-rules.md) / [雌雄と第三相からの繁殖](sex-and-reproduction.md) / [環境別の餌](environment-food.md)
 
+## 最新の修正方針
+
+[環境は初期値で固定・餌量で調整・情報に撹乱を設ける](fixed-environment-and-perturbation.md)。環境を動的に更新する旧案を撤回。以下の画像は配置・値の表示例であり、環境変動の実演ではない。
+
 ## 最新の統合モックと説明
 
 ![8環境・個体の6傾向・情報伝達](ecosystem-overview-mock.png)
