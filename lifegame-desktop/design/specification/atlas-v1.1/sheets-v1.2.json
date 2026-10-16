@@ -1,0 +1,637 @@
+[
+  {
+    "file": "01-cell-layers.png",
+    "caption": "占有枠と宿主内階層",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 1,
+    "pdf_page_v1_1": 5,
+    "pdf_page": 5
+  },
+  {
+    "file": "02-nutrient-budget.png",
+    "caption": "有限栄養と材料還元",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 2,
+    "pdf_page_v1_1": 7,
+    "pdf_page": 7
+  },
+  {
+    "file": "03-food-identities.png",
+    "caption": "生きた餌と資源の特色",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 3,
+    "pdf_page_v1_1": 8,
+    "pdf_page": 8
+  },
+  {
+    "file": "04-growth-branches.png",
+    "caption": "四相・三相・実成果による分岐",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 4,
+    "pdf_page_v1_1": 22,
+    "pdf_page": 35
+  },
+  {
+    "file": "05-reproduction.png",
+    "caption": "有性・単為・無性と出生配分",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 5,
+    "pdf_page_v1_1": 24,
+    "pdf_page": 37
+  },
+  {
+    "file": "06-eusociality.png",
+    "caption": "真社会性と局所共同育児",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 6,
+    "pdf_page_v1_1": 25,
+    "pdf_page": 38
+  },
+  {
+    "file": "07-parasite-cycles.png",
+    "caption": "短い・長い寄生生活環と移行失敗",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 7,
+    "pdf_page_v1_1": 19,
+    "pdf_page": 31
+  },
+  {
+    "file": "08-hyperparasite-information.png",
+    "caption": "高次寄生と延長された表現型",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 8,
+    "pdf_page_v1_1": 17,
+    "pdf_page": 29
+  },
+  {
+    "file": "09-sensing-movement-combat.png",
+    "caption": "同時移動と独立した感知・射程",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 9,
+    "pdf_page_v1_1": 14,
+    "pdf_page": 20
+  },
+  {
+    "file": "10-emergent-behavior.png",
+    "caption": "多様な行動が生じる局所評価",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 10,
+    "pdf_page_v1_1": 15,
+    "pdf_page": 26
+  },
+  {
+    "file": "11-environment-terrain.png",
+    "caption": "固定環境・地形・初期配置",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 11,
+    "pdf_page_v1_1": 4,
+    "pdf_page": 4
+  },
+  {
+    "file": "12-motion-storyboards.png",
+    "caption": "移動・攻撃・採食の静止絵コンテ",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 12,
+    "pdf_page_v1_1": 55,
+    "pdf_page": 68
+  },
+  {
+    "file": "13-producers-and-prey.png",
+    "caption": "光合成・菌・動く餌の6系統",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 13,
+    "pdf_page_v1_1": 9,
+    "pdf_page": 9
+  },
+  {
+    "file": "14-resource-appearance.png",
+    "caption": "環境差・残量差による餌の静止表現",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 14,
+    "pdf_page_v1_1": 10,
+    "pdf_page": 15
+  },
+  {
+    "file": "15-precocial-and-sex.png",
+    "caption": "早成甲殻の三相と雌雄の小さな外形差",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 15,
+    "pdf_page_v1_1": 26,
+    "pdf_page": 39
+  },
+  {
+    "file": "16-parasite-forms.png",
+    "caption": "一次・高次寄生の宿主別代表形態",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 16,
+    "pdf_page_v1_1": 20,
+    "pdf_page": 32
+  },
+  {
+    "file": "17-ecosystem-overview.png",
+    "caption": "仕様全体：30系統と相互作用",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 17,
+    "pdf_page_v1_1": 2,
+    "pdf_page": 2
+  },
+  {
+    "file": "18-initial-conditions.png",
+    "caption": "初期設定・比較モード・配置不足",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 18,
+    "pdf_page_v1_1": 3,
+    "pdf_page": 3
+  },
+  {
+    "file": "19-state-and-inheritance.png",
+    "caption": "個体状態・DNA・出生基準の継承",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 19,
+    "pdf_page_v1_1": 6,
+    "pdf_page": 6
+  },
+  {
+    "file": "20-turn-sequence.png",
+    "caption": "10段階の同期進行と確定点",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 20,
+    "pdf_page_v1_1": 13,
+    "pdf_page": 19
+  },
+  {
+    "file": "21-payment-and-feeding.png",
+    "caption": "動作予算・維持・二口採食・回復",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 21,
+    "pdf_page_v1_1": 12,
+    "pdf_page": 17
+  },
+  {
+    "file": "22-cellular-rules.png",
+    "caption": "B3/S23・生物出生・有限資源の違い",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 22,
+    "pdf_page_v1_1": 11,
+    "pdf_page": 16
+  },
+  {
+    "file": "23-learning-and-memory.png",
+    "caption": "本人学習・接触学習・固定長記憶",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 23,
+    "pdf_page_v1_1": 16,
+    "pdf_page": 28
+  },
+  {
+    "file": "24-growth-thresholds.png",
+    "caption": "相の閾値・分岐実績・最終枝効果",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 24,
+    "pdf_page_v1_1": 23,
+    "pdf_page": 36
+  },
+  {
+    "file": "25-information-lifecycle.png",
+    "caption": "情報の費用・鮮度・文脈・撹乱",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 25,
+    "pdf_page_v1_1": 18,
+    "pdf_page": 30
+  },
+  {
+    "file": "26-parasite-contract.png",
+    "caption": "寄生の成熟・費用・子候補・失効",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 26,
+    "pdf_page_v1_1": 21,
+    "pdf_page": 33
+  },
+  {
+    "file": "27-observation-and-scale.png",
+    "caption": "観測操作・チェックポイント・表示密度",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 27,
+    "pdf_page_v1_1": 54,
+    "pdf_page": 67
+  },
+  {
+    "file": "28-failures-and-boundaries.png",
+    "caption": "不成立理由・初回範囲・残る評価",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 28,
+    "pdf_page_v1_1": 56,
+    "pdf_page": 70
+  },
+  {
+    "file": "29-main-profiles-01-04.png",
+    "caption": "主20系統の特性一覧 01〜04",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 29,
+    "pdf_page_v1_1": 29,
+    "pdf_page": 42
+  },
+  {
+    "file": "30-main-profiles-05-08.png",
+    "caption": "主20系統の特性一覧 05〜08",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 30,
+    "pdf_page_v1_1": 30,
+    "pdf_page": 43
+  },
+  {
+    "file": "31-main-profiles-09-12.png",
+    "caption": "主20系統の特性一覧 09〜12",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 31,
+    "pdf_page_v1_1": 31,
+    "pdf_page": 44
+  },
+  {
+    "file": "32-main-profiles-13-16.png",
+    "caption": "主20系統の特性一覧 13〜16",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 32,
+    "pdf_page_v1_1": 32,
+    "pdf_page": 45
+  },
+  {
+    "file": "33-main-profiles-17-20.png",
+    "caption": "主20系統の特性一覧 17〜20",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 33,
+    "pdf_page_v1_1": 33,
+    "pdf_page": 46
+  },
+  {
+    "file": "34-precocial-profile.png",
+    "caption": "早成甲殻の数値プロファイル",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 34,
+    "pdf_page_v1_1": 27,
+    "pdf_page": 40
+  },
+  {
+    "file": "35-food-species-profiles.png",
+    "caption": "生産者・菌・小型6系統の数値一覧",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 35,
+    "pdf_page_v1_1": 28,
+    "pdf_page": 41
+  },
+  {
+    "file": "36-tree-abyss.png",
+    "caption": "深淵触手：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 36,
+    "pdf_page_v1_1": 34,
+    "pdf_page": 47
+  },
+  {
+    "file": "37-tree-myth.png",
+    "caption": "神鳥：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 37,
+    "pdf_page_v1_1": 35,
+    "pdf_page": 48
+  },
+  {
+    "file": "38-tree-recursive.png",
+    "caption": "再帰知性：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 38,
+    "pdf_page_v1_1": 36,
+    "pdf_page": 49
+  },
+  {
+    "file": "39-tree-sail.png",
+    "caption": "光帆：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 39,
+    "pdf_page_v1_1": 37,
+    "pdf_page": 50
+  },
+  {
+    "file": "40-tree-gravity.png",
+    "caption": "重力環：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 40,
+    "pdf_page_v1_1": 38,
+    "pdf_page": 51
+  },
+  {
+    "file": "41-tree-crystal.png",
+    "caption": "星晶：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 41,
+    "pdf_page_v1_1": 39,
+    "pdf_page": 52
+  },
+  {
+    "file": "42-tree-manyeyes.png",
+    "caption": "多眼知覚：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 42,
+    "pdf_page_v1_1": 40,
+    "pdf_page": 53
+  },
+  {
+    "file": "43-tree-abyssshell.png",
+    "caption": "深殻：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 43,
+    "pdf_page_v1_1": 41,
+    "pdf_page": 54
+  },
+  {
+    "file": "44-tree-parallel.png",
+    "caption": "並列生命：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 44,
+    "pdf_page_v1_1": 42,
+    "pdf_page": 55
+  },
+  {
+    "file": "45-tree-memory.png",
+    "caption": "記憶殻：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 45,
+    "pdf_page_v1_1": 43,
+    "pdf_page": 56
+  },
+  {
+    "file": "46-tree-serpent.png",
+    "caption": "多頭蛇：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 46,
+    "pdf_page_v1_1": 44,
+    "pdf_page": 57
+  },
+  {
+    "file": "47-tree-solar.png",
+    "caption": "日輪：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 47,
+    "pdf_page_v1_1": 45,
+    "pdf_page": 58
+  },
+  {
+    "file": "48-tree-antimeme.png",
+    "caption": "反記銘生命：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 48,
+    "pdf_page_v1_1": 46,
+    "pdf_page": 59
+  },
+  {
+    "file": "49-tree-valis.png",
+    "caption": "異化通信生命：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 49,
+    "pdf_page_v1_1": 47,
+    "pdf_page": 60
+  },
+  {
+    "file": "50-tree-jelly.png",
+    "caption": "浮遊傘：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 50,
+    "pdf_page_v1_1": 48,
+    "pdf_page": 61
+  },
+  {
+    "file": "51-tree-kelp.png",
+    "caption": "植物共生：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 51,
+    "pdf_page_v1_1": 49,
+    "pdf_page": 62
+  },
+  {
+    "file": "52-tree-whale.png",
+    "caption": "星海鯨：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 52,
+    "pdf_page_v1_1": 50,
+    "pdf_page": 63
+  },
+  {
+    "file": "53-tree-swarm.png",
+    "caption": "群体節足：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 53,
+    "pdf_page_v1_1": 51,
+    "pdf_page": 64
+  },
+  {
+    "file": "54-tree-plasma.png",
+    "caption": "プラズマ生命：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 54,
+    "pdf_page_v1_1": 52,
+    "pdf_page": 65
+  },
+  {
+    "file": "55-tree-cephalopod.png",
+    "caption": "深淵頭足：四相・3枝・6経路",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 55,
+    "pdf_page_v1_1": 53,
+    "pdf_page": 66
+  },
+  {
+    "file": "56-combat-resolution.png",
+    "caption": "戦闘の成立・防御・待機・同時確定",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 56,
+    "revision": "detail-v1.2",
+    "pdf_page": 21,
+    "detail_pdf_page": 2
+  },
+  {
+    "file": "57-combat-damage-examples.png",
+    "caption": "攻防式・防御姿勢・遠隔・損害按分の数値例",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 57,
+    "revision": "detail-v1.2",
+    "pdf_page": 22,
+    "detail_pdf_page": 3
+  },
+  {
+    "file": "58-environment-multipliers.png",
+    "caption": "環境適性・固有発現率・移動費の比較",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 58,
+    "revision": "detail-v1.2",
+    "pdf_page": 23,
+    "detail_pdf_page": 4
+  },
+  {
+    "file": "59-movement-legality.png",
+    "caption": "一歩/二歩の到達・角抜け・崖・枠の通行条件",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 59,
+    "revision": "detail-v1.2",
+    "pdf_page": 24,
+    "detail_pdf_page": 5
+  },
+  {
+    "file": "60-movement-costs.png",
+    "caption": "地形別の移動費・二歩予算・予約取消",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 60,
+    "revision": "detail-v1.2",
+    "pdf_page": 25,
+    "detail_pdf_page": 6
+  },
+  {
+    "file": "61-plants-and-fungus.png",
+    "caption": "植物3系統と菌膜の違い・栄養・回復",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 61,
+    "revision": "detail-v1.2",
+    "pdf_page": 10,
+    "detail_pdf_page": 7
+  },
+  {
+    "file": "62-moving-prey.png",
+    "caption": "動く餌2系統の移動・繁殖・生息域の比較",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 62,
+    "revision": "detail-v1.2",
+    "pdf_page": 11,
+    "detail_pdf_page": 8
+  },
+  {
+    "file": "63-organic-foods.png",
+    "caption": "脱落餌4種の発生元・食性・回復適性",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 63,
+    "revision": "detail-v1.2",
+    "pdf_page": 12,
+    "detail_pdf_page": 9
+  },
+  {
+    "file": "64-minerals-factors-information.png",
+    "caption": "鉱物2種・代謝因子・情報の役割と量",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 64,
+    "revision": "detail-v1.2",
+    "pdf_page": 13,
+    "detail_pdf_page": 10
+  },
+  {
+    "file": "65-diet-and-absorption.png",
+    "caption": "食性5型と吸収効率・生物群ごとの例外",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 65,
+    "revision": "detail-v1.2",
+    "pdf_page": 14,
+    "detail_pdf_page": 11
+  },
+  {
+    "file": "66-feeding-competition.png",
+    "caption": "二口採食・回復配分・有限Bの競合",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 66,
+    "revision": "detail-v1.2",
+    "pdf_page": 18,
+    "detail_pdf_page": 12
+  },
+  {
+    "file": "67-predation-and-carcass.png",
+    "caption": "捕食から有限死骸・寄生移行までの時系列",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 67,
+    "revision": "detail-v1.2",
+    "pdf_page": 34,
+    "detail_pdf_page": 13
+  },
+  {
+    "file": "68-behavior-score-examples.png",
+    "caption": "局所特徴と負傷による行動得点の比較",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 68,
+    "revision": "detail-v1.2",
+    "pdf_page": 27,
+    "detail_pdf_page": 14
+  },
+  {
+    "file": "69-state-and-lifecycle.png",
+    "caption": "密度維持・栄養不足・成長・容量・待機",
+    "width": 1800,
+    "height": 1200,
+    "sheet_id": 69,
+    "revision": "detail-v1.2",
+    "pdf_page": 69,
+    "detail_pdf_page": 15
+  }
+]
