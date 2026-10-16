@@ -209,7 +209,18 @@
         if (!main && ["factor", "info"].includes(a.kind)) continue;
         if (
           f.tag === "mineral" &&
-          o.M >= (main ? Math.max(4, ctx.traits.get(o.id).M3) : 2)
+          o.M >=
+            (main
+              ? Math.max(
+                  4,
+                  ctx.traits.get(o.id).phase === 2
+                    ? ctx.traits.get(o.id).M3
+                    : ctx.traits.get(o.id).phase === 3 &&
+                        spec.id !== "precocial"
+                      ? ctx.traits.get(o.id).M4
+                      : 4,
+                )
+              : 2)
         )
           continue;
         if (

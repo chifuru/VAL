@@ -206,3 +206,38 @@ test("exactly one partial plant body unit is shared, with no source overdraw", (
   assert.equal(a.E + b.E, 40.5);
   assert.equal(c.records.get(a.id).bites + c.records.get(b.id).bites, 1);
 });
+
+test("phaseIII continues mineral intake past phaseIII qualification toward phaseIV, without overfeeding", () => {
+  const w = world(),
+    o = add(w, "abyss", "adult", 3, 3, {
+      phase: 3,
+      G: 210,
+      E: 70,
+      M: 0,
+      branch3: 0,
+    });
+  const p = S.phenotype(w, o);
+  o.M = p.M4 - 0.5;
+  w.resources.push({
+    cell: o.cell,
+    kind: "mineral",
+    q: 2,
+    E: 0,
+    M: 4,
+    G: 0,
+    created: 0,
+    expires: null,
+    event: null,
+  });
+  const c = ready(w);
+  E.N.feed(w, c, E.P.transfer);
+  assert.ok(o.M >= p.M4, "must acquire the M required for phaseIV");
+  assert.equal(
+    c.records.get(o.id).bites,
+    1,
+    "stop once next-phase and breeding M qualification is satisfied",
+  );
+  o.ivCounters = [3, 0];
+  E.R.growth(w, c);
+  assert.equal(o.phase, 4);
+});

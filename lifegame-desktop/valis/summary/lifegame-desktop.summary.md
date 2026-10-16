@@ -2,7 +2,7 @@
 
 project_id: lifegame-desktop
 canonical_path: valis/summary/lifegame-desktop.summary.md
-current_status: 現行A/Bの実装とローカル検査を実施済み。長期持続・自然な主生物繁殖のバランス調整が必要。全56Node草案、承認状態変更なし。
+current_status: 第四相の鉱物取得条件を修正。変更箇所は再検査中。直前版E5/E6を変更箇所の検証済み扱いへ流用しない。 現行A/Bの実装とローカル検査を実施済み。長期持続・自然な主生物繁殖のバランス調整が必要。全56Node草案、承認状態変更なし。
 current_specification: design/specification/ab-system-specification-v1.3.md
 current_adjustments: design/specification/ab-readiness-v1.4.md
 current_contract: operations/plans/ecology-v1.4-implementation.md
