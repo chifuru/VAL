@@ -114,3 +114,27 @@ test("foraging ranks edible yield above a nearly bare base without writing biolo
   thin.B = 2;
   assert.equal(resourceValue(thin), 0, "protected base is not potential food");
 });
+
+test("hungry defense earns survival value only for a visible threat while ordinary vigilance remains", () => {
+  const w = world(),
+    o = add(w, "crystal", "guard", 3, 3, { E: 20, HP: 20 }),
+    enemy = add(w, "abyss", "enemy", 4, 3, { phase: 4, E: 80, HP: 100 });
+  const c = ready(w), m = S.maps(w);
+  function defense(Energy, enemies) {
+    o.E = Energy;
+    const before = E.fingerprint(w), weights = o.weights.slice();
+    const result = E.B.evaluate(w, o, {type:"defend",cell:o.cell,cost:0,path:[]}, c,
+      {m,traits:c.traits,enemies,nearest:enemies[0]||null,visibleCells:new Set([o.cell,enemy.cell]),qualityCache:new Map()});
+    assert.equal(E.fingerprint(w), before);
+    assert.deepEqual(o.weights, weights);
+    return result.features[1];
+  }
+  assert.equal(defense(20, []), 0, "hunger without a threat is not rewarded as defense");
+  assert.equal(defense(35, []), 0.25, "ordinary vigilance retains its existing evaluation");
+  assert(defense(20, [enemy]) > 0.25, "a genuine visible threat still rewards defense while hungry");
+  const social = add(w, "swarm", "social", 2, 2, { E: 20, role: "worker", colony: "home" });
+  const socialCtx = ready(w);
+  const socialGuard = E.B.evaluate(w, social, {type:"defend",cell:social.cell,cost:0,path:[]},socialCtx,
+    {m:S.maps(w),traits:socialCtx.traits,enemies:[],nearest:null,visibleCells:new Set([social.cell]),qualityCache:new Map()});
+  assert.equal(socialGuard.features[1], 0.25, "social waiting retains its existing evaluation");
+});

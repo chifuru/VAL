@@ -465,7 +465,7 @@
       : 0;
     const features = [
       attack ? 1 : move && nearest ? approach(w, here, to, nearest.cell) : 0,
-      move ? oldT - T : guard ? 0.25 + 0.5 * oldT : attack ? -0.25 * oldT : 0,
+      move ? oldT - T : guard ? (s.id === "swarm" || o.E >= 35 || oldT > 0 ? 0.25 + 0.5 * oldT : 0) : attack ? -0.25 * oldT : 0,
       Q - 0.5 * quality(w, o, here, v),
       c.type === "care" ? 1 : move ? next.C - now.C : attack ? -0.1 : now.C,
       move
