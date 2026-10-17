@@ -296,6 +296,7 @@
         resources: true,
         grid: false,
         motion: true,
+        ageEmphasis: false,
         animate: false,
         duration: 260,
         selected: null,
@@ -393,6 +394,15 @@
         lastTurn = w.turn;
         changedAt = performance.now();
       }
+    }
+    function ageMark(o,x,y,r,z){
+      const a=S.ageInfo(o);if(!a.enabled||a.stage==="adult")return;
+      g.save();g.strokeStyle=a.stage==="juvenile"?"#fff1bf":"#dbe7e5";g.fillStyle=g.strokeStyle;
+      g.lineWidth=(view.ageEmphasis?1.9:1.1)/z;
+      g.beginPath();g.arc(x,y,r,a.stage==="elderly"?.35:0,a.stage==="elderly"?Math.PI*1.8:Math.PI*2);g.stroke();
+      if(a.stage==="juvenile"){g.beginPath();g.arc(x-r*.7,y+r*.7,Math.max(.035,1.2/z),0,Math.PI*2);g.fill();}
+      else {g.beginPath();g.moveTo(x+r*.64,y+r*.35);g.lineTo(x+r*.84,y+r*.48);g.stroke();}
+      g.restore();
     }
     function draw() {
       resize();
@@ -526,6 +536,7 @@
             g.fillStyle = S.spec(o).color;
             g.fillRect(cx - 0.15, cy - 0.15, 0.3, 0.3);
           } else food(g, o, cx, cy, size, w.tiles[o.cell].env);
+          ageMark(o,cx,cy,Math.min(.43,size*1.35),z);
           if (o.infection && !point) {
             const bx=cx+.19,by=cy-.22;
             g.fillStyle="#251c25";g.beginPath();g.arc(bx,by,.13,0,7);g.fill();

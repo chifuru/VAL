@@ -45,7 +45,8 @@ module.exports=function(name,s,flags={}){
  }
  if(flags.colony && name==='behavior'){
   replace('o.E >= 40 &&', 'o.E >= 25 &&');
-  replace('main.phase <= 2 &&', '(main.phase <= 2 || (main.role === "queen" && main.E < 65)) &&');
+  const careTarget = '(ctx.traits.get(main.id).ageEnabled ? ctx.traits.get(main.id).ageStage === "juvenile" : main.phase <= 2)';
+  replace(careTarget + ' &&', '(' + careTarget + ' || (main.role === "queen" && main.E < 65)) &&');
   replace('if (!a || a.id === o.id || a.species !== o.species) continue;', 'if (!a || a.id === o.id || a.species !== o.species) continue;\n      if(s.id === "swarm" && o.role === "worker" && a.colony === o.colony && (a.role === "queen" || a.phase <= 2) && (S.distance(w,to,p)<=1 || S.distance(w,to,p)<S.distance(w,here,p))) shelterBonus=Math.max(shelterBonus,.6);');
   replace('  "use strict";', '  "use strict";\n  const CareNutrition=require("./nutrition.js");');
   replace('ctx.traits.get(target.id).capE - target.E < 1.8 - 1e-8 ||', '(ctx.traits.get(target.id).capE - target.E < 1.8 - 1e-8 && target.M>=8 && target.G>=90) ||');

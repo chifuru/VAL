@@ -245,7 +245,42 @@
           typeof c.mapId !== "string" || !["auto", ...Landscape.templates.list().map(m=>m.id)].includes(c.mapId))
         throw Error("SETTINGS_INVALID: 地形の初期値・選択");
     }
+    if (c.ageModel !== undefined && c.ageModel !== "life/1")
+      throw Error("SETTINGS_INVALID: 年齢モデル");
     return c;
+  }
+  const ageFactors = Object.freeze({
+    juvenile:Object.freeze({attack:.65,defense:.75,hp:.70,move:1.10,maintenance:.80,healing:1.10,birth:1,light:.65}),
+    adult:Object.freeze({attack:1,defense:1,hp:1,move:1,maintenance:1,healing:1,birth:1,light:1}),
+    elderly:Object.freeze({attack:.85,defense:.90,hp:.90,move:1.15,maintenance:1.05,healing:.80,birth:1.25,light:.85}),
+    precocial:Object.freeze({attack:.90,defense:.95,hp:.90,move:1,maintenance:.90,healing:1,birth:1,light:.65}),
+  });
+  function ageInfo(o) {
+    if (!Number.isFinite(o.birthLife)) return {enabled:false,stage:"adult",factors:ageFactors.adult};
+    const s=spec(o),matureAt=s.group==="main"?Math.ceil(o.birthLife*(s.id==="precocial"?.03:.10)):s.maturity,
+      elderlyAt=Math.max(matureAt+1,Math.floor(.75*o.birthLife)),
+      stage=o.age<matureAt?"juvenile":o.age<elderlyAt?"adult":"elderly";
+    return {enabled:true,stage,matureAt,elderlyAt,birthLife:o.birthLife,
+      factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
+  }
+  function initializeAge(w,o) {
+    if(w.config.ageModel!=="life/1")return o;
+    const s=spec(o);
+    if(["P","Q"].includes(s.group))return o;
+    o.birthLife=s.group==="main"?Math.floor(s.life*(.95+.1*o.dna.skin)):s.life;
+    const a=ageInfo(o);
+    if(!(0<a.matureAt&&a.matureAt<a.elderlyAt&&a.elderlyAt<o.birthLife))throw Error("AGE_INVALID: "+s.id);
+    o.HP=H.round(Math.min(o.HP,Math.max(1,(s.group==="main"?100:s.capacity[3])*a.factors.hp)));
+    return o;
+  }
+  function settleAge(w,ctx) {
+    if(w.config.ageModel!=="life/1")return;
+    ctx.ageCapacityLoss=0;
+    for(const o of w.organisms){
+      if(o.HP<=0)continue;
+      const maximum=phenotype(w,o).maxHP;
+      if(o.HP>maximum){ctx.ageCapacityLoss=H.round(ctx.ageCapacityLoss+o.HP-maximum);o.HP=maximum;}
+    }
   }
   function organism(w, s, cell, id, options = {}) {
     const main = s.group === "main",
@@ -262,7 +297,7 @@
           ),
         )
       : null;
-    return {
+    const o = {
       id,
       species: s.id,
       slot: s.slot,
@@ -303,6 +338,7 @@
       infection: null,
       ...options,
     };
+    return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
     const s = spec(o),
@@ -311,7 +347,7 @@
       tr = s.traits || {},
       skin = o.dna.skin,
       body = o.dna.body;
-    return {
+    const base = {
       phase,
       u,
       capE: main ? 100 + (tr.capacity || 0) * u : s.capacity[0],
@@ -359,6 +395,11 @@
       M4: main ? s.M4 * (0.95 + 0.1 * skin) : 0,
       branch,
     };
+    const a=ageInfo(o),f=a.factors;
+    return {...base,ageEnabled:a.enabled,ageStage:a.stage,ageFactors:f,
+      baseMaxHP:base.maxHP,baseMaintenance:base.maintenance,baseCooldown:base.cooldown,
+      maxHP:H.round(Math.max(1,base.maxHP*f.hp)),maintenance:base.maintenance*f.maintenance,
+      cooldown:base.cooldown*f.birth};
   }
   function trait(o, name, phase = o.phase) {
     return ((spec(o).traits?.[name] || 0) * phase) / 4;
@@ -939,6 +980,9 @@
     validHabitat,
     validate,
     organism,
+    ageInfo,
+    initializeAge,
+    settleAge,
     phenotype,
     trait,
     adjustment,

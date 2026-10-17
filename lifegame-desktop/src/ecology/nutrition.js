@@ -74,6 +74,7 @@
         0.75,
         0.5 *
           (options.healing || 1) *
+          p.ageFactors.healing *
           (1 + S.trait(o, "healing", phase)) *
           (o.branch3 === 0 && o.branch4 === 1 ? 1.2 : 1),
       );
@@ -89,9 +90,9 @@
     if (organic && !main && S.spec(o).group !== "plant" && remaining > 0) {
       healed = Math.min(
         p.maxHP - o.HP,
-        remaining * 0.5 * (options.healing || 1),
+        remaining * Math.min(.75,0.5 * (options.healing || 1) * p.ageFactors.healing),
       );
-      const used = S.round(healed / (0.5 * (options.healing || 1)));
+      const used = S.round(healed / Math.min(.75,0.5 * (options.healing || 1) * p.ageFactors.healing));
       o.HP = S.round(o.HP + healed);
       remaining = S.round(Math.max(0, remaining - used));
       S.dissipate(w, used);
@@ -414,7 +415,7 @@
           obj.soilM = S.round(obj.soilM - amount.M);
         } else if (a.type === "plant") {
           const p = ctx.traits.get(o.id),
-            need = p.capE - o.E + (2 * (p.maxHP - o.HP)) / a.healing;
+            need = p.capE - o.E + (2 * (p.maxHP - o.HP)) / (a.healing * p.ageFactors.healing);
           const B = Math.min(
               2,
               S.edibleB(obj),

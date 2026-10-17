@@ -41,6 +41,28 @@
     g.fillStyle = a;
     g.fillRect(x - r, y - r, 2 * r, 2 * r);
   }
+  const ageFrames=new Map();
+  function ageFrame(o,frame) {
+    const a=root.EcoState.ageInfo(o);
+    if(!a.enabled||a.stage==="adult")return null;
+    const key=o.species+"/"+o.phase+"/"+a.stage;
+    if(ageFrames.has(key))return ageFrames.get(key);
+    const c=document.createElement("canvas");c.width=frame[2];c.height=frame[3];
+    const g=c.getContext("2d"),[sx,sy,W,H]=frame;
+    if(a.stage==="juvenile"){
+      // Rounder body proportions: shorten outer appendage bands, retain core.
+      const band=4;
+      for(let y=0;y<H;y+=band){const h=Math.min(band,H-y),u=(y+h/2)/H,k=.72+.28*Math.sin(Math.PI*u);
+        g.drawImage(images.creatures,sx,sy+y,W,h,(W-W*k)/2,y,W*k,h);}
+    }else{
+      g.drawImage(images.creatures,...frame,0,0,W,H);
+      // Fine surface folds and pale edges, clipped to living tissue, not wounds.
+      g.globalCompositeOperation="source-atop";g.strokeStyle="#f4e6b84d";g.lineWidth=Math.max(1,W/180);
+      for(let i=0;i<12;i++){const y=H*(.15+i*.055);g.beginPath();g.moveTo(W*.12,y);g.bezierCurveTo(W*.38,y-H*.06,W*.6,y+H*.035,W*.86,y-H*.02);g.stroke();}
+      g.fillStyle="#e0dccb26";for(let i=0;i<30;i++)g.fillRect((i*53%W),(i*79%H),Math.max(1,W*.008),Math.max(1,H*.008));
+    }
+    ageFrames.set(key,c);return c;
+  }
   function creature(g, o, x, y, r, detail = true) {
     const id = o.species === "precocial" ? "abyssshell" : o.species,
       frames = manifest.creatures.regions[id];
@@ -59,14 +81,10 @@
       );
     const width = r * 2.65 * (0.9 + 0.2 * (o.dna.appendage ?? 0.5)),
       height = r * 2.65 * (1.08 - 0.16 * (o.dna.skin ?? 0.5));
-    g.drawImage(
-      images.creatures,
-      ...frame,
-      -width / 2,
-      -height / 2,
-      width,
-      height,
-    );
+    const age=root.EcoState.ageInfo(o),styled=ageFrame(o,frame);
+    const aw=age.enabled&&age.stage==="juvenile"?.9:1,ah=age.enabled&&age.stage==="juvenile"?.76:age.enabled&&age.stage==="elderly"?.94:1;
+    if(styled)g.drawImage(styled,-width*aw/2,-height*ah/2,width*aw,height*ah);
+    else g.drawImage(images.creatures,...frame,-width/2,-height/2,width,height);
     if (detail) {
       g.lineWidth = r * 0.025;
       g.strokeStyle = "#ffe3a1";

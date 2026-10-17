@@ -1,0 +1,25 @@
+
+> valis-lifegame-desktop@2.5.0 test
+> node --test tests/*.test.cjs
+
+✔ tests/age-model.test.cjs (107.631463ms)
+✔ tests/archive.test.cjs (644.040962ms)
+✔ tests/ecology-contract.test.cjs (931.834644ms)
+✔ tests/ecology-integration.test.cjs (27680.0375ms)
+✔ tests/ecology-parasites.test.cjs (99.862469ms)
+✔ tests/ecology-reproduction.test.cjs (97.784979ms)
+✔ tests/ecosystem-foundation.test.cjs (2352.445104ms)
+✔ tests/ecosystem-next.test.cjs (93.563067ms)
+✔ tests/engine.test.cjs (32444.433651ms)
+✔ tests/manifest.test.cjs (66.56036ms)
+✔ tests/map-templates.test.cjs (17668.530491ms)
+✔ tests/package.test.cjs (75.072537ms)
+✔ tests/survival-trial.test.cjs (356.823924ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 82630.760512

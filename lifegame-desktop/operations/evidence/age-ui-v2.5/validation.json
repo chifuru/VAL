@@ -1,0 +1,25 @@
+{
+  "app": "2.5.0",
+  "platform": "linux",
+  "node": "v24.19.0",
+  "browser": "Chromium 154.0.8037.57",
+  "status": "passed-for-declared-scope",
+  "checks": {
+    "unitTestFiles": 13,
+    "ageContracts": 7,
+    "naturalAgeRuns": "3 seeds x 100 turns x 2 repeats",
+    "ageUI": 16,
+    "browser": 45,
+    "observation": 13
+  },
+  "unitLogBoundary": "unit.log covers the initial six age contracts; age.log separately passes the final file including the added three-seed repeated-world contract. Runtime sources are identical.",
+  "sourceHashes": "source-hashes.json",
+  "windows": "pending-current-commit-CI",
+  "limits": [
+    "No 300–500 survival-rate acceptance",
+    "No final adopted creature artwork or independent four-phase plant",
+    "Main creature age bodies are preliminary transforms of existing atlas; food bodies still need dedicated age artwork",
+    "Phase-III age screenshots are manually aged display fixtures, not naturally evolved organisms",
+    "Engine ageModel omitted retains legacy comparison behavior; new UI worlds explicitly use life/1"
+  ]
+}

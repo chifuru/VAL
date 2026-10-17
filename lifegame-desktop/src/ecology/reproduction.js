@@ -85,7 +85,7 @@
         if (branch !== null) {
           o.phase = 4;
           o.branch4 = branch;
-          o.birthReady = Math.min(
+          if(!p.ageEnabled)o.birthReady = Math.min(
             o.birthReady,
             w.turn + S.phenotype(w, o).cooldown + 1,
           );
@@ -108,7 +108,9 @@
   }
   function eligible(w, o, ctx, asexual = false) {
     const s = S.spec(o),
-      rec = ctx.records.get(o.id);
+      rec = ctx.records.get(o.id),
+      p = ctx.traits.get(o.id);
+    if(p?.ageStage === "juvenile")return false;
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
     if (s.group !== "main")
@@ -304,6 +306,7 @@
       );
       o.weights = o.birthWeights.slice();
     }
+    S.initializeAge(w,o);
     c.parents.forEach((parent, i) => {
       parent.E = S.round(parent.E - c.costs[i]);
       parent.M = S.round(

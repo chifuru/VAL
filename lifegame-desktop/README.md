@@ -2,9 +2,9 @@
 
 固定8環境で、30系統の生物と有限資源の食物網を観測するWindows向けローカルアプリです。同じ初期値と設定から同じ世界・結果を再現します。
 
-観測版2.4.0では、**蛇行河川・湖沼・湿地・岩地・疎林平原・盆地**の事前地形を選べます。地形用と生態用の初期値を分け、同じ地形で生物配置と生存競争を比較できます。候補地点の地物だけが変わり、地形の版と指紋を最終結果へ保存します。[実画面と検査範囲](operations/evidence/map-ui-v2.4/README.md)を参照してください。
+観測版2.5.0では、**蛇行河川・湖沼・湿地・岩地・疎林平原・盆地**の事前地形を選べます。地形用と生態用の初期値を分け、同じ地形で生物配置と生存競争を比較できます。候補地点の地物だけが変わり、地形の版と指紋を最終結果へ保存します。[実画面と検査範囲](operations/evidence/map-ui-v2.4/README.md)を参照してください。
 
-遠景/近景は既存アトラスのままです。採用モックの生物・年齢・雌雄などの全面反映と長期バランスは未完。Windows実exeの新しい検査状況は対象コミットのCIとE7を確認してください。
+遠景/近景は既存アトラスのままです。年齢の印と初期体形差、年齢能力・成熟条件・個体の内訳表示を接続しました。[年齢版の実画面と検査範囲](operations/evidence/age-ui-v2.5/README.md)。採用新造形・雌雄の全面反映と長期バランスは未完。Windows実exeの新しい検査状況は対象コミットのCIとE7を確認してください。
 
 ## Windowsで起動
 
@@ -33,7 +33,7 @@ Windows 10/11 x64用。利用時にNode.js・ネット接続・外部サービ�
 - 寄生虫の第一/中間/追加中間/終宿主の生活環、高次寄生虫による寄生の抑制と情報の間接操作を扱います。
 - 情報は**延長された表現型**の抽象モデル。鮮度・文脈・撹乱があり、DNAの水平伝播は行いません。
 
-仕様の正本は[統合A/B v1.3](design/specification/ab-system-specification-v1.3.md)、着手前の差分は[v1.4](design/specification/ab-readiness-v1.4.md)、生態バランスの調整は[v1.5](design/specification/ab-balance-v1.5.md)、事前地形・表示・再生条件は[v1.6](design/specification/ab-map-visual-v1.6.md)、年齢段階と独立四相植物は[v1.7](design/specification/ab-life-age-plant-v1.7.md)、年齢能力の補正は[v1.8](design/specification/ab-age-abilities-v1.8.md)、数値は[30系統付表](design/specification/ab-catalogue-v1.md)です。[一枚の全体説明画像](design/specification/atlas-v1.3/ecology-system-master.png)は基本から特殊形態へ読み進められる概念図です。生態数値はv1.5、今回の地形・表示・再生条件はv1.6を優先します。v1.6はA/Bへ適用済みで、製品2.3への新方式の実装は未実施です。
+仕様の正本は[統合A/B v1.3](design/specification/ab-system-specification-v1.3.md)、着手前の差分は[v1.4](design/specification/ab-readiness-v1.4.md)、生態バランスの調整は[v1.5](design/specification/ab-balance-v1.5.md)、事前地形・表示・再生条件は[v1.6](design/specification/ab-map-visual-v1.6.md)、年齢段階と独立四相植物は[v1.7](design/specification/ab-life-age-plant-v1.7.md)、年齢能力の補正は[v1.8](design/specification/ab-age-abilities-v1.8.md)、数値は[30系統付表](design/specification/ab-catalogue-v1.md)です。[一枚の全体説明画像](design/specification/atlas-v1.3/ecology-system-master.png)は基本から特殊形態へ読み進められる概念図です。生態数値はv1.5、今回の地形・表示・再生条件はv1.6を優先します。v1.6はA/Bへ適用済みで、製品2.4で地形/開始/再生、2.5で年齢の計算と初期表示を接続済みです。
 
 ## 開発・検証
 

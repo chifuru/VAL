@@ -22,7 +22,7 @@
     };
     return table[s.type][kind === "attack" ? 0 : kind === "defense" ? 1 : 2];
   }
-  function moveCost(w, o, to, phase = o.phase, friend = false) {
+  function moveCost(w, o, to, phase = o.phase, friend = false, ageMove = S.ageInfo(o).factors.move) {
     const t = w.tiles[to],
       s = S.spec(o);
     let terrain = { plain: 1, shallow: 1, rock: 1.3, deep: 1.4, mud: 1.5 }[
@@ -44,7 +44,7 @@
         : s.id === "precocial" && phase === 3 && o.branch3 === 1
           ? 0.95
           : 1;
-    return (
+    return ageMove * (
       terrain *
       environmental(w, o, "move", to) *
       S.adjustment(w, o, "move", t.env, phase) *
@@ -52,12 +52,14 @@
       (friend ? 1 + S.trait(o, "packMove", phase) : 1)
     );
   }
-  function power(w, o, kind, ctx) {
+  function power(w, o, kind, ctx, breakdown = false) {
     const s = S.spec(o),
       p = ctx.traits.get(o.id),
       phase = p.phase;
-    if (s.group !== "main")
-      return kind === "attack" ? 0 : s.group === "prey" ? 1 : 0;
+    if (s.group !== "main") {
+      const base=kind === "attack"?0:s.group === "prey"?1:0,value=base*p.ageFactors[kind];
+      return breakdown?{base,ageFactor:p.ageFactors[kind],otherFactor:1,effective:value}:value;
+    }
     const m = ctx.current || S.maps(w),
       friends = S.nearby(w, o.cell).filter(
         (c) => m.main.get(c)?.species === o.species,
@@ -68,7 +70,8 @@
       kind === "attack"
         ? 6 + (6 * (2 * o.dna.body + o.dna.appendage)) / 3
         : 4 + 4 * o.dna.skin;
-    value *= common * S.adjustment(w, o, kind, w.tiles[o.cell].env, phase);
+    const baseValue=value*common;
+    value *= p.ageFactors[kind] * common * S.adjustment(w, o, kind, w.tiles[o.cell].env, phase);
     if (kind === "attack") {
       value *= 1 + Math.min(3, friends) * S.trait(o, "packAttack", phase);
       if (o.branch3 === 2 && o.branch4 === 0) value *= 1.1;
@@ -85,7 +88,7 @@
       if (o.branch3 === 2 && o.branch4 === 1) value *= 1.1;
       if (s.id === "precocial" && phase === 3 && o.branch3 === 2) value *= 1.05;
     }
-    return value;
+    return breakdown?{base:baseValue,ageFactor:p.ageFactors[kind],otherFactor:baseValue?value/(baseValue*p.ageFactors[kind]):1,effective:value}:value;
   }
   function visible(w, o, p, ctx) {
     const radius = ctx.traits.get(o.id).sense;
@@ -131,7 +134,7 @@
             !S.oneStep(w, prev, cell)
           )
             break;
-          cost += moveCost(w, o, cell, p.phase, friend);
+          cost += moveCost(w, o, cell, p.phase, friend, p.ageFactors.move);
           path.push(cell);
           if (cost <= budget + 1e-8)
             out.push({
@@ -194,7 +197,7 @@
         main &&
         main.id !== o.id &&
         main.colony === o.colony &&
-        main.phase <= 2 &&
+        (ctx.traits.get(main.id).ageEnabled ? ctx.traits.get(main.id).ageStage === "juvenile" : main.phase <= 2) &&
         S.distance(w, o.cell, cell) === 1 &&
         S.oneStep(w, o.cell, cell)
       )
@@ -367,6 +370,8 @@
       if (
         o.phase >= 3 &&
         a.phase >= 3 &&
+        ctx.traits.get(o.id).ageStage !== "juvenile" &&
+        ctx.traits.get(a.id).ageStage !== "juvenile" &&
         a.sex !== o.sex &&
         o.role !== "worker" &&
         a.role !== "worker" &&
@@ -486,10 +491,10 @@
             features: c.features,
           })),
         };
-      if (S.spec(o).id === "jelly" && o.sex === "female" && o.phase >= 3)
+      if (S.spec(o).id === "jelly" && o.sex === "female" && o.phase >= 3 && ctx.traits.get(o.id).ageStage !== "juvenile")
         o.maleAbsent = [...v.visibleCells].some((p) => {
           const t = m.main.get(p);
-          return t?.species === o.species && t.sex === "male" && t.phase >= 3;
+          return t?.species === o.species && t.sex === "male" && t.phase >= 3 && ctx.traits.get(t.id).ageStage !== "juvenile";
         })
           ? 0
           : Math.min(8, o.maleAbsent + 1);

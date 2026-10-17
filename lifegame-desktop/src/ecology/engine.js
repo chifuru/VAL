@@ -139,12 +139,13 @@
             : s.id === "kelp"
               ? 1.5 * w.tiles[o.cell].light * [0, 1, 1.1, 1.2, 1.3][p.phase]
               : 0;
-      if (light) {
-        const add = Math.min(p.capE - o.E, light);
+      const ageLight=light*p.ageFactors.light;
+      if (ageLight) {
+        const add = Math.min(p.capE - o.E, ageLight);
         o.E = S.round(o.E + add);
-        w.ledger.solar = S.round(w.ledger.solar + light);
-        S.dissipate(w, light - add);
-        ctx.records.get(o.id).light = light;
+        w.ledger.solar = S.round(w.ledger.solar + ageLight);
+        S.dissipate(w, ageLight - add);
+        ctx.records.get(o.id).light = ageLight;
         S.record(ctx, o, "light", { amount: add });
       }
       ctx.old.get(o.id).E = o.E;
@@ -285,6 +286,7 @@
       infectionFailures: ctx.infectionFailures,
       deathCauses: ctx.deaths,
     };
+    if(w.config.ageModel==="life/1")w.last.ageCapacityLoss=ctx.ageCapacityLoss||0;
     w.stats = summarize(w);
     w.stopReason = null;
     if (w.initialMain > 0 && w.stats.main === 0 && !w.extinctNotified) {
@@ -345,6 +347,7 @@
       information = P.infoCandidates(w, ctx);
     N.supply(w, ctx, [...drops, ...minerals, ...information]);
     P.reproduce(w, ctx);
+    S.settleAge(w,ctx);
     return finish(w, ctx);
   }
   function fingerprint(w) {
@@ -378,6 +381,10 @@
         )
       )
         errors.push("BUDGET:" + o.id);
+      if(w.config.ageModel==="life/1"){
+        if(!Number.isFinite(o.birthLife)||o.birthLife<=0)errors.push("AGE_BASIS:"+o.id);
+        else if(o.HP>S.phenotype(w,o).maxHP+.000001)errors.push("AGE_HP:"+o.id);
+      }
       if (o.infection) {
         const p = o.infection;
         if (p.hostId !== o.id) errors.push("HOST:" + o.id);

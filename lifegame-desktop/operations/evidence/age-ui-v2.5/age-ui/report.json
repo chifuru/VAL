@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "checks": [
+    "new UI worlds use explicit age model",
+    "founders start juvenile with bounded HP",
+    "age emphasis and zoom never change biology",
+    "age glyph legend is permanently visible",
+    "juvenile observer matches age model at same phase III",
+    "juvenile shows base, age and effective ability breakdown",
+    "adult observer matches age model at same phase III",
+    "adult shows base, age and effective ability breakdown",
+    "elderly observer matches age model at same phase III",
+    "elderly shows base, age and effective ability breakdown",
+    "same-phase portraits differ by body proportions or age texture",
+    "fixture far/near transition preserves all biological state",
+    "in-game sheet explains independent age and evolution axes",
+    "normal age-enabled simulation respects budgets and HP caps after 60 turns",
+    "age controls do not overflow narrow layout",
+    "no browser exceptions"
+  ],
+  "errors": [],
+  "visualFixture": "three solar phase-III individuals, identical DNA, explicitly assigned juvenile/adult/elderly ages; not naturally evolved specimens"
+}
