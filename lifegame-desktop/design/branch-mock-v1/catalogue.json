@@ -82,7 +82,20 @@
       "繁殖雌候補",
       "働育雌",
       "繁殖雄"
-    ]
+    ],
+    "appearanceProposal": {
+      "status": "review-only-not-runtime",
+      "male": "longer sharper crest or rim processes; approximately 20% emphasis in art brief",
+      "female": "rounder wider torso or bell; approximately 15% emphasis in art brief",
+      "unchanged": [
+        "lineage identity",
+        "phase and branch",
+        "reproduction rules",
+        "abilities",
+        "swarm caste design"
+      ],
+      "canonicalDisplayRule": "existing 5% rule remains pending visual review"
+    }
   },
   "runtimeChanged": false
 }
