@@ -31,7 +31,7 @@ Windows 10/11 x64用。利用時にNode.js・ネット接続・外部サービ�
 - 寄生虫の第一/中間/追加中間/終宿主の生活環、高次寄生虫による寄生の抑制と情報の間接操作を扱います。
 - 情報は**延長された表現型**の抽象モデル。鮮度・文脈・撹乱があり、DNAの水平伝播は行いません。
 
-仕様の正本は[統合A/B v1.3](design/specification/ab-system-specification-v1.3.md)、着手前の差分は[v1.4](design/specification/ab-readiness-v1.4.md)、生態バランスの調整は[v1.5](design/specification/ab-balance-v1.5.md)、事前地形・表示・再生条件は[v1.6](design/specification/ab-map-visual-v1.6.md)、数値は[30系統付表](design/specification/ab-catalogue-v1.md)です。[一枚の全体説明画像](design/specification/atlas-v1.3/ecology-system-master.png)は基本から特殊形態へ読み進められる概念図です。生態数値はv1.5、今回の地形・表示・再生条件はv1.6を優先します。v1.6はA/Bへ適用済みで、製品2.3への新方式の実装は未実施です。
+仕様の正本は[統合A/B v1.3](design/specification/ab-system-specification-v1.3.md)、着手前の差分は[v1.4](design/specification/ab-readiness-v1.4.md)、生態バランスの調整は[v1.5](design/specification/ab-balance-v1.5.md)、事前地形・表示・再生条件は[v1.6](design/specification/ab-map-visual-v1.6.md)、年齢段階と独立四相植物は[v1.7](design/specification/ab-life-age-plant-v1.7.md)、数値は[30系統付表](design/specification/ab-catalogue-v1.md)です。[一枚の全体説明画像](design/specification/atlas-v1.3/ecology-system-master.png)は基本から特殊形態へ読み進められる概念図です。生態数値はv1.5、今回の地形・表示・再生条件はv1.6を優先します。v1.6はA/Bへ適用済みで、製品2.3への新方式の実装は未実施です。
 
 ## 開発・検証
 
