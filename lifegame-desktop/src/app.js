@@ -290,10 +290,16 @@
   $("close-results").onclick=()=>$("results").close();
   $("detail-view").onclick=()=>{
     if(!world)return;const p=selectedCell??world.organisms.find(o=>o.slot==="main")?.cell??0;
-    renderer.view.scale=96;renderer.view.x=canvas.clientWidth/2-(p%world.config.width+.5)*96;
+    renderer.view.mode="detail";renderer.view.scale=96;renderer.view.x=canvas.clientWidth/2-(p%world.config.width+.5)*96;
     renderer.view.y=canvas.clientHeight/2-(Math.floor(p/world.config.width)+.5)*96;
     renderer.view.x=Math.max(canvas.clientWidth-world.config.width*96,Math.min(0,renderer.view.x));
     renderer.view.y=Math.max(canvas.clientHeight-world.config.height*96,Math.min(0,renderer.view.y));
+  };
+  $("focus-view").onclick=()=>{
+    const active=document.body.classList.toggle("observatory");
+    $("focus-view").setAttribute("aria-pressed",String(active));
+    $("focus-view").textContent=active?"設定も表示 ↙":"観察画面を広く表示 ↗";
+    requestAnimationFrame(()=>{if(renderer.view.mode==="overview")renderer.fit();else if(renderer.view.mode==="detail")$("detail-view").click();});
   };
   $("age-emphasis").addEventListener("change",()=>{renderer.view.ageEmphasis=$("age-emphasis").checked;renderer.draw();});
   for (const id of ["resources", "grid", "motion"])

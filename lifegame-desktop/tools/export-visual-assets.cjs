@@ -174,6 +174,7 @@ async function main() {
       terrain: { file: "terrain.png", columns: 4, rows: 2 },
       note: "Manufacturing templates only. Runtime phase/branches/DNA/sex remain the ecosystem's settled state; no old biology is imported.",
     };
+    Object.assign(manifest, JSON.parse(await fs.readFile(path.join(out, "scenery-manifest.json"), "utf8")));
     await fs.writeFile(
       path.join(out, "visual-manifest.json"),
       JSON.stringify(manifest, null, 2) + "\n",

@@ -6,7 +6,7 @@
     errors = [];
   let loaded = false;
   const ready = Promise.all(
-    ["creatures", "food", "terrain"].map(async (key) => {
+    ["creatures", "food", "terrain", "ground", "props"].map(async (key) => {
       const image = new Image();
       try {
         image.src = "assets/" + manifest[key].file;

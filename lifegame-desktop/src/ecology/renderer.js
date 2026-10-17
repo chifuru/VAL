@@ -341,6 +341,7 @@
     const g = canvas.getContext("2d"),
       view = {
         scale: 10,
+        mode: "auto",
         x: 0,
         y: 0,
         resources: true,
@@ -368,66 +369,15 @@
       }
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
-    function terrain(w) {
-      const key=w.config.seed+":"+w.config.width+":"+w.config.height+":"+Art?.loaded;
+    function terrain(w){
+      const key=w.config.seed+":"+w.config.width+":"+w.config.height+":"+Art?.loaded+":"+(w.config.mapFingerprint||"");
       if(terrainKey===key)return;terrainKey=key;
-      const size=32;cache.width=w.config.width*size;cache.height=w.config.height*size;
-      const c=cache.getContext("2d"), palette=["#496c69","#a18c63","#708279","#7c8d6e","#b6c4ba","#667e52","#a29a75","#6c715e"];
-      c.fillStyle="#1d3934";c.fillRect(0,0,cache.width,cache.height);
-      for(let p=0;p<w.tiles.length;p++){
-        const t=w.tiles[p],[x,y]=S.xy(w,p),px=x*size,py=y*size;
-        c.fillStyle=t.terrain==="deep"?"#164756":t.terrain==="shallow"?"#387d7b":t.terrain==="mud"?"#58604a":palette[t.env];c.fillRect(px,py,size,size);
-      }
-      // Feather neighboring physical materials; no decorative geography is invented.
-      const under=document.createElement("canvas");under.width=cache.width;under.height=cache.height;under.getContext("2d").drawImage(cache,0,0);
-      c.save();c.filter="blur(9px)";c.drawImage(under,0,0);c.restore();
-      if(Art?.images.terrain){
-        const original=Art.images.terrain,texture=document.createElement("canvas");texture.width=original.width;texture.height=original.height;const tone=texture.getContext("2d");tone.filter="saturate(.4) brightness(.9)";tone.drawImage(original,0,0);const tw=texture.width/4,th=texture.height/2;
-        // Texture coordinates follow the world, not independent per-cell random crops.
-        for(let p=0;p<w.tiles.length;p++){
-          const t=w.tiles[p],[x,y]=S.xy(w,p),px=x*size,py=y*size;
-          c.save();c.globalAlpha=.12;
-          c.drawImage(texture,(t.env%4)*tw+(x%16)*tw/16,Math.floor(t.env/4)*th+(y%16)*th/16,tw/16,th/16,px,py,size,size);c.restore();
-          if(["shallow","deep"].includes(t.terrain)){c.fillStyle=t.terrain==="deep"?"#083b6080":"#287d8140";c.fillRect(px,py,size,size);}
-        }
-      }
-      const textured=document.createElement("canvas");textured.width=cache.width;textured.height=cache.height;textured.getContext("2d").drawImage(cache,0,0);
-      c.save();c.filter="blur(8px)";c.drawImage(textured,0,0);c.restore();
-      for(let p=0;p<w.tiles.length;p++){
-        const t=w.tiles[p],[x,y]=S.xy(w,p),px=x*size,py=y*size;
-        if(S.nearby(w,p,1,true).every(q=>w.tiles[q].env===t.env && w.tiles[q].terrain===t.terrain))c.drawImage(textured,px,py,size,size,px,py,size,size);
-      }
-      for(let p=0;p<w.tiles.length;p++){
-        const t=w.tiles[p],[x,y]=S.xy(w,p),px=x*size,py=y*size,water=["deep","shallow"].includes(t.terrain);
-        const h=((x*71+y*137)%97)/97;
-        if(water){
-          c.strokeStyle=t.terrain==="deep"?"#87bcc13d":"#b4d3b666";c.lineWidth=.8;
-          c.beginPath();c.moveTo(px+3,py+12+h*10);c.bezierCurveTo(px+12,py+8+h*10,px+20,py+17+h*10,px+29,py+11+h*10);c.stroke();
-          for(const q of S.nearby(w,p))if(!["deep","shallow"].includes(w.tiles[q].terrain)){
-            const [u,v]=S.xy(w,q);if(Math.abs(u-x)+Math.abs(v-y)!==1)continue;
-            c.strokeStyle="#cbd2b71c";c.lineWidth=1.1;c.beginPath();
-            if(u!==x){const a=px+(u>x?32:0);c.moveTo(a,py+1);c.quadraticCurveTo(a+(u>x?-3:3),py+16,a,py+31);}
-            else{const a=py+(v>y?32:0);c.moveTo(px+1,a);c.quadraticCurveTo(px+16,a+(v>y?-3:3),px+31,a);}c.stroke();
-          }
-        }else{
-          c.fillStyle=t.env===4?"#e8efdf36":"#c2c29c18";
-          for(let j=0;j<3;j++){c.beginPath();c.ellipse(px+((x*13+j*11)%29),py+((y*17+j*7)%29),2.5,1.1,h*3,0,7);c.fill();}
-        }
-        if((t.terrain==="rock" && h<.28)||t.cover==="boulder"){
-          c.save();c.translate(px+16,py+18);const big=t.cover==="boulder",r=big?13:6+h*14;
-          c.fillStyle="#0b1b2170";c.beginPath();c.ellipse(2,5,r+2,r*.6,0,0,7);c.fill();
-          c.fillStyle=t.env===4?"#bdccc8":"#7a877a";c.beginPath();c.moveTo(-r,r*.4);c.lineTo(-r*.5,-r*.7);c.lineTo(0,-r);c.lineTo(r,r*.5);c.closePath();c.fill();
-          c.fillStyle=t.env===4?"#e0e8dc":"#a0aa91";c.beginPath();c.moveTo(-r*.5,-r*.7);c.lineTo(0,-r);c.lineTo(-r*.2,r*.3);c.closePath();c.fill();c.restore();
-        }
-        if(t.cover==="bush"){
-          c.fillStyle="#173a2eaa";for(let j=0;j<3;j++){c.beginPath();c.ellipse(px+15+Math.sin(j*3)*5,py+15+Math.cos(j*3)*4,7,5,j,0,7);c.fill();}
-          c.fillStyle="#8aa26099";c.beginPath();c.ellipse(px+14,py+11,5,2,-.3,0,7);c.fill();
-        }else if(t.cover==="log"){c.save();c.translate(px+16,py+16);c.rotate(-.6);c.fillStyle="#26372c";c.fillRect(-12,-3,24,7);c.fillStyle="#a0915a";c.fillRect(-12,-3,24,2);c.restore();}
-        c.strokeStyle="#b1ad8a88";c.lineWidth=1.8;for(const q of t.walls){if(q===p+1){c.beginPath();c.moveTo(px+32,py);c.lineTo(px+32,py+32);c.stroke();}else if(q===p+w.config.width){c.beginPath();c.moveTo(px,py+32);c.lineTo(px+32,py+32);c.stroke();}}
-      }
+      const painted=globalThis.EcoScenery.paint(w,Art);cache.width=painted.width;cache.height=painted.height;
+      cache.getContext("2d").drawImage(painted,0,0);
     }
     function fit() {
       if (!world) return;
+      view.mode="overview";
       resize();
       const b = canvas.getBoundingClientRect();
       view.scale = Math.min(
@@ -467,7 +417,8 @@
       g.translate(view.x, view.y);
       g.scale(z, z);
       g.drawImage(cache, 0, 0, w.config.width, w.config.height);
-      if(z<24){g.fillStyle="#031b2452";g.fillRect(0,0,w.config.width,w.config.height);}
+      if(view.mode==="overview"||(view.mode==="auto"&&z<24)){g.fillStyle="#031b2452";g.fillRect(0,0,w.config.width,w.config.height);}
+      globalThis.EcoScenery.props(g,w,Art,view,b);
       if (view.grid && z >= 8) {
         g.strokeStyle = "#b7d3c015";
         g.lineWidth = 0.5 / z;
@@ -492,7 +443,7 @@
           );
         },
         point = z < 4,
-        detail = z >= 24;
+        detail = view.mode==="detail"||(view.mode==="auto"&&z>=24);
       diagnostics.mode = point ? "point" : detail ? "detail" : "simple";
       diagnostics.drawn = 0;
       diagnostics.motionActors = 0;
@@ -579,9 +530,9 @@
                       ((S.spec(o).capacity?.[1] || 20) -
                         (S.spec(o).group === "plant" ? S.PLANT_BASE : 0)),
                   )) * (o.slot === "main" ? 0.9 + 0.2 * o.dna.body : 1);
-          g.save();g.fillStyle=slot==="main"?"#071c20aa":"#122b2266";
+          g.save();g.fillStyle=detail?"#00111944":slot==="main"?"#071c20aa":"#122b2266";
           g.strokeStyle=slot==="main"?"#e7d5a65c":"#b8d79a70";g.lineWidth=.7/z;
-          g.beginPath();g.ellipse(cx,cy+.025,size*1.3,size*1.15,0,0,7);g.fill();g.stroke();g.restore();
+          g.beginPath();g.ellipse(cx,cy+(detail?size*.55:.025),size*(detail?.85:1.3),size*(detail?.28:1.15),0,0,7);g.fill();if(!detail)g.stroke();g.restore();
           if(detail){
             if(slot==="main")creature(g,o,cx,cy,size,true);
             else food(g,o,cx,cy,size,w.tiles[o.cell].env);
@@ -666,7 +617,8 @@
       x = canvas.clientWidth / 2,
       y = canvas.clientHeight / 2,
     ) {
-      const next = S.clamp(view.scale * factor, 1, 128),
+      view.mode="auto";
+      const next = S.clamp(view.scale * factor, 1, 320),
         ratio = next / view.scale;
       view.x = x - (x - view.x) * ratio;
       view.y = y - (y - view.y) * ratio;

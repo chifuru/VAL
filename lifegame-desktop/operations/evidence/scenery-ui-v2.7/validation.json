@@ -1,0 +1,25 @@
+{
+  "app": "2.7.0",
+  "scenery": "painterly/1",
+  "platform": "Linux x64 / Node24.19.0 / Chromium154.0.8037.57",
+  "status": "passed-for-declared-scope",
+  "checks": {
+    "scenery": 12,
+    "overview": 15,
+    "browser": 45,
+    "observation": 13,
+    "age-ui": 16
+  },
+  "structure": "package/manifest tests and 59 Node / 177 required Manifest fields passed",
+  "biology": "11 biology files and replay signature unchanged from 2.5, verified by SHA",
+  "windows": "not verified for 2.7",
+  "limits": [
+    "Final visual equivalence with adopted far/near mocks has not been approved",
+    "Existing creature atlas retained; not all accepted species/sex/age/branch artwork has been repainted",
+    "Material atlas is mirror-repeated with boundary blending, not a unique painted map",
+    "Top-down rendering retained; no new perspective camera or 3D terrain mesh",
+    "Large-world cold-paint time and user-device performance are not benchmarked",
+    "No new long-term 300–500 survival acceptance or P/Q stability acceptance",
+    "Displayed phase-III fixture is explicitly staged, not naturally evolved"
+  ]
+}

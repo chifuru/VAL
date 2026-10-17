@@ -24,6 +24,7 @@
           <h1>ひとマスから、系譜が育つ。</h1>
           <p>育ち、競い、つながる。30の系統と、見えない関係を観測する。</p>
         </div>
+        <button id="focus-view" class="secondary" aria-pressed="false">観察画面を広く表示 ↗</button>
         <button id="open-guide" class="secondary">系統樹・説明シート ↗</button>
       </div>
       <div class="workspace">
@@ -209,7 +210,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v2.6.0 · 外部通信なし</span>
+        ><span>v2.7.0 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">
@@ -244,6 +245,7 @@ ECOSYSTEM-2026</textarea
     <script src="ecology/engine.js"></script>
     <script src="assets/visual-manifest.js"></script>
     <script src="ecology/art.js"></script>
+    <script src="ecology/scenery.js"></script>
     <script src="ecology/renderer.js"></script>
     <dialog id="results"><div class="guide-head"><h2>結果図鑑</h2><button id="close-results" class="secondary">閉じる ×</button></div><p>最終結果と初期条件のみ保存 · 再生結果は記録しません · 最大100件</p><p id="results-error" role="alert"></p><section id="results-list"></section></dialog>
     <script src="ecology/replay-version.js"></script>

@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "checks": [
+    "both new production atlases decode with existing assets",
+    "prop sheet has real transparency and painted tissue",
+    "focus mode hides editable setup and can be explicitly toggled",
+    "fit overview remains symbolic even when its cells exceed detail threshold",
+    "same selected location enters real-cell detail mode",
+    "focus, new scenery and far/near transitions preserve biology",
+    "close view can exceed former 128px limit",
+    "leaving focus restores editable world controls",
+    "return from focus and overview preserves biology",
+    "phase-III display fixture is identical in far and detailed screenshots",
+    "focused view fits narrow viewport",
+    "no browser exceptions"
+  ],
+  "errors": [],
+  "natural": "painted-river, river map, 40x28, 80 initial main, turn0; same biological fingerprint far/near",
+  "fixture": "four explicitly placed phase-III organisms at a real river shore; display-only, not naturally evolved"
+}

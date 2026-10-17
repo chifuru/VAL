@@ -1,0 +1,25 @@
+{
+  "method": "image_gen, new production atlases using adopted art references; PNG outputs copied without pixel editing",
+  "references": {
+    "design/visual-alignment-v4/near.png": "f5f5f679a77af58b791139004d71c84401cc37097d4d8a69b3a66411503c0535",
+    "design/asset-mock-v1/01-terrain.png": "9a6c3c32b33632f36be3a854b17f32b42e720fbf19ee166cf80b766f8579a800"
+  },
+  "atlases": [
+    {
+      "key": "ground",
+      "path": "src/assets/ground-painterly.png",
+      "sha256": "e4ea28ec5037ef8977b9eafce8e60acb48788bf5163eb8083baaec17d1b96c70",
+      "generatorOutputName": "exec-f0d6149e-fd70-4fa6-ab40-e86eadcb9733.png",
+      "layout": "4 columns x 2 rows",
+      "purpose": "material textures, not a background map"
+    },
+    {
+      "key": "props",
+      "path": "src/assets/scenery-props.png",
+      "sha256": "9c4f0fbfb02f7671a2f55b10efc4a64065e01e8d3fc434eb7030bf5af3533b26",
+      "generatorOutputName": "exec-729b3994-5f99-458e-a735-7837e01e71f7.png",
+      "layout": "4 columns x 2 rows",
+      "purpose": "transparent environmental props, not edible organisms"
+    }
+  ]
+}
