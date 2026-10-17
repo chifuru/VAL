@@ -415,7 +415,7 @@
     renderer.view.ageEmphasis = $("age-emphasis").checked;
     renderer.draw();
   });
-  for (const id of ["resources", "grid", "motion"])
+  for (const id of ["resources", "grid", "motion", "emphasis"])
     $(id).addEventListener("change", () => {
       renderer.view[id] = $(id).checked;
     });
@@ -939,6 +939,22 @@
               )
               .join("") +
             "</div>",
+        );
+      if (name === "system")
+        $("guide-content").insertAdjacentHTML(
+          "beforeend",
+          card(
+            "通常生活と生存競争",
+            "<p>通常の採食と世代交代で生存できる収支を目指し、主生物の維持・移動・孤立時の負担を調整しています。空腹時は空の場所への固執が弱まり、必要な栄養を探す評価が高まります。鉱物や情報だけを追って餓死し続けないよう、現在の不足を反映します。寿命・老化・有限の繁殖費は残り、主生物間の戦闘の損害・射程は変えません。</p>",
+          ),
+        );
+      if (name === "parasite")
+        $("guide-content").insertAdjacentHTML(
+          "beforeend",
+          card(
+            "繰り返し接触による分散",
+            "<p>適合する近傍宿主へ8ターン以内に3回接触すると、PがE0.12を払い娘群体E0.04を形成します。未終宿主は範囲1・1件・待機18、成熟終宿主は範囲2・最大3件・待機3。宿主の見通しと適合を守り、新しい群体は同じターンに連鎖しません。QII以上はE0.06を払える場合だけ娘Q（I相・E0.02）を付随させます。IIIの情報操作と群体分散の成熟条件は別です。</p>",
+          ),
         );
     }
     $("guide-content").scrollTop = 0;

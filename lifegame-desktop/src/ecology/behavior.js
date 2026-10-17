@@ -53,6 +53,7 @@
           : 1;
     return (
       ageMove *
+      (s.group === "main" ? 0.65 : 1) *
       (terrain *
         environmental(w, o, "move", to) *
         S.adjustment(w, o, "move", t.env, phase) *
@@ -298,8 +299,26 @@
             (S.spec(plant).group === "plant" ? S.PLANT_BASE : 0)),
         S.spec(plant).tag,
       );
-    for (const a of v.m.resources.get(cell) || [])
-      q = Math.max(q, value(a.q / S.FOOD[a.kind].cap, S.FOOD[a.kind].tag));
+    for (const a of v.m.resources.get(cell) || []) {
+      const tag = S.FOOD[a.kind].tag;
+      let utility = 1;
+      if (s.group === "main") {
+        const p = v.traits?.get(o.id) || S.phenotype(w, o);
+        const needM =
+          o.phase === 2
+            ? p.M3
+            : o.phase === 3 && s.id !== "precocial"
+              ? p.M4
+              : 4;
+        if (tag === "mineral")
+          utility =
+            S.clamp((needM - o.M) / Math.max(1, needM), 0, 1) *
+            (o.E < 35 ? 0.08 : 0.45);
+        else if (["info", "factor"].includes(tag))
+          utility = o.E < 35 ? 0 : 0.08;
+      }
+      q = Math.max(q, value(a.q / S.FOOD[a.kind].cap, tag) * utility);
+    }
     for (const a of v.m.carcasses.get(cell) || [])
       if (a.species !== o.species) q = Math.max(q, value(a.q / 4, a.tag));
     const result = Math.min(1, q * (0.9 + 0.2 * o.dna.senses));
@@ -404,6 +423,12 @@
       const a = v.m.main.get(p);
       if (!a || a.id === o.id || a.species !== o.species) continue;
       if (
+        (o.phase < 3 || a.phase < 3) &&
+        (S.distance(w, to, p) <= 1 ||
+          S.distance(w, to, p) < S.distance(w, here, p))
+      )
+        shelterBonus = Math.max(shelterBonus, 0.35);
+      if (
         o.phase >= 3 &&
         a.phase >= 3 &&
         ctx.traits.get(o.id).ageStage !== "juvenile" &&
@@ -489,6 +514,11 @@
     }
     const hunger = Math.max(0, (35 - o.E) / 35),
       injury = Math.max(0, (50 - o.HP) / 50);
+    const livingNeed = Math.max(0, (65 - o.E) / 65);
+    weights[5] *= 1 - 0.95 * livingNeed;
+    weights[3] *= 1 - 0.5 * livingNeed;
+    weights[6] = Math.min(100, weights[6] + 60 * livingNeed);
+    weights[2] = Math.min(100, weights[2] + 35 * livingNeed);
     let score =
       features.reduce(
         (a, v, i) =>
@@ -499,6 +529,8 @@
       injury * features[1] -
       c.cost / 5 +
       lure;
+    if ((c.type === "stop" || guard) && quality(w, o, here, v) < 0.1)
+      score -= 0.3 * livingNeed;
     const feedingNeed = Math.max(0, (75 - o.E) / 75);
     if (move && v.foodTarget !== null)
       score += (0.3 + 0.7 * feedingNeed) * approach(w, here, to, v.foodTarget);

@@ -1,0 +1,33 @@
+{
+  "app": "3.3.0",
+  "mixed": {
+    "trials": 10,
+    "turns": 500,
+    "mainExtinctionBefore": 1,
+    "mainExtinctionAfter": 0,
+    "continuousLineageOccurrencesBefore": 15,
+    "continuousLineageOccurrencesAfter": 41,
+    "introducedLineageOccurrences": 50,
+    "mainDeaths": {
+      "combat": 107,
+      "starvation": 155,
+      "age": 887,
+      "harvest": 0
+    },
+    "PAt500Trials": 10,
+    "QInitiallyAbsentInAll": true
+  },
+  "ordinary": {
+    "conditions": 5,
+    "starvationBefore": 173,
+    "starvationAfter": 54,
+    "survivingConditionsBefore": 2,
+    "survivingConditionsAfter": 4
+  },
+  "limits": [
+    "Combat is not yet the principal cause of population loss.",
+    "Swarm generational replacement remains insufficient.",
+    "Q extinct by turn500 in both initially Q-positive supplemental conditions.",
+    "10 mixed runs do not establish per-lineage target survival rates."
+  ]
+}

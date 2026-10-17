@@ -30,9 +30,12 @@ for (let trial = 0; trial < 10; trial++) {
     initial = { ...w.stats.counts },
     continuous = Object.fromEntries(ids.map((id) => [id, true])),
     firstLoss = {},
-    snapshots = [];
+    snapshots = [],
+    mainCauses = { combat: 0, starvation: 0, age: 0, harvest: 0 };
   for (let t = 1; t <= 500; t++) {
     w = E.step(w);
+    for (const d of w.last.deathCauses)
+      if (E.S.D.byId[d.species].group === "main") mainCauses[d.reason]++;
     const err = E.invariants(w);
     if (err.length) throw Error(err);
     for (const id of ids) {
@@ -52,6 +55,7 @@ for (let trial = 0; trial < 10; trial++) {
   }
   results.push({
     trial,
+    mainCauses,
     ids,
     initial,
     continuous,
@@ -64,6 +68,7 @@ for (let trial = 0; trial < 10; trial++) {
   fs.writeFileSync(output, JSON.stringify({ trials: results }, null, 2));
   console.log(
     trial,
+    mainCauses,
     w.stats.main,
     ids.filter((id) => w.stats.counts[id]).join(","),
   );

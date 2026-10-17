@@ -819,7 +819,7 @@
     animal: {
       name: "肉食主体",
       description: "動く餌・死骸・栄養卵を重視",
-      factors: [0.65, 0.9, 1.5, 1],
+      factors: [0.85, 0.9, 1.5, 1],
       hunt: 0.45,
     },
     general: {
@@ -850,6 +850,7 @@
   };
   for (const id of ["memory", "antimeme"])
     data.species.find((s) => s.id === id).diet = "scavenger";
+  for (const s of data.species) if (s.group === "main") s.maintenance *= .60;
   data.byId = Object.fromEntries(data.species.map((s) => [s.id, s]));
   data.main = data.species.filter((s) => s.group === "main");
   return data;

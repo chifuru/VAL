@@ -157,6 +157,36 @@
     variants.set(key, c);
     return c;
   }
+  const outlineFrames = new WeakMap();
+  const outlineMetrics = { builds: 0, hits: 0 };
+  function outlined(g, frame, x, y, width, height, enabled) {
+    if (enabled) {
+      let entry = outlineFrames.get(frame);
+      if (!entry) {
+        const pad = Math.max(3, Math.ceil(frame.width * 0.018));
+        const c = document.createElement("canvas");
+        c.width = frame.width + pad * 2;
+        c.height = frame.height + pad * 2;
+        const n = c.getContext("2d");
+        for (let i = 0; i < 8; i++) {
+          const a = (i * Math.PI) / 4;
+          n.drawImage(frame, pad + Math.cos(a) * pad, pad + Math.sin(a) * pad);
+        }
+        n.globalCompositeOperation = "source-in";
+        n.fillStyle = "#03131dee";
+        n.fillRect(0, 0, c.width, c.height);
+        n.globalCompositeOperation = "destination-out";
+        n.drawImage(frame, pad, pad);
+        entry = { image: c, pad };
+        outlineFrames.set(frame, entry);
+        outlineMetrics.builds++;
+      } else outlineMetrics.hits++;
+      const px = (width * entry.pad) / frame.width,
+        py = (height * entry.pad) / frame.height;
+      g.drawImage(entry.image, x - px, y - py, width + px * 2, height + py * 2);
+    }
+    g.drawImage(frame, x, y, width, height);
+  }
   function creature(g, o, x, y, r) {
     const frames = manifest.creatures.regions[o.species],
       im = images[manifest.creatures.sheetBySpecies[o.species]];
@@ -203,7 +233,15 @@
       g.scale(1, o.renderPose.squash || 1);
     }
     if (Math.cos(((o.facing || 0) * Math.PI) / 4) < 0) g.scale(-1, 1);
-    g.drawImage(variant(o, source, f), -width / 2, -height / 2, width, height);
+    outlined(
+      g,
+      variant(o, source, f),
+      -width / 2,
+      -height / 2,
+      width,
+      height,
+      o.renderEmphasis,
+    );
     // Family-specific branch structure is in the solar/jelly artwork; other families
     // use tissue width/crest proportions, without fake shared rings or combat effects.
     if (o.species === "swarm" && o.role === "queen") {
@@ -227,12 +265,14 @@
     g.save();
     g.translate(x, y);
     if (o.facing % 2) g.scale(-1, 1);
-    g.drawImage(
+    outlined(
+      g,
       cleanFrame(im, frame),
       -size * 1.3,
       -size * 1.3,
       size * 2.6,
       size * 2.6,
+      o.renderEmphasis,
     );
     if (env === 4) {
       g.globalAlpha = 0.25;
@@ -397,6 +437,7 @@
   }
   root.EcoArt = {
     manifest,
+    outlineMetrics,
     images,
     errors,
     ready,

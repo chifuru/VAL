@@ -130,6 +130,7 @@
         grid: false,
         motion: true,
         ageEmphasis: false,
+        emphasis: true,
         animate: false,
         duration: 260,
         selected: null,
@@ -441,7 +442,12 @@
       }
       actors.sort((a, b) => a.depth - b.depth);
       const bodies = actors.filter((a) => a.o);
-      for (const actor of actors) {
+      // Overview symbols must remain above scenery; depth still orders detailed artwork.
+      const ordered =
+        !detail && view.emphasis
+          ? [...actors.filter((a) => a.obj), ...bodies]
+          : actors;
+      for (const actor of ordered) {
         const { p } = actor;
         if (actor.obj) {
           const a = actor.obj,
@@ -539,13 +545,33 @@
           7,
         );
         g.fill();
+        if (view.emphasis) {
+          g.save();
+          g.fillStyle = detail ? "#02131c99" : "#02131cf0";
+          g.strokeStyle = isMain ? "#f5e6a8b8" : "#c5e9be99";
+          g.lineWidth = Math.max(0.018, (isMain ? 0.85 : 0.55) / z);
+          g.beginPath();
+          g.ellipse(
+            cx,
+            detail ? p[1] : cy,
+            detail ? r * 1.06 : isMain ? 0.38 : 0.235,
+            detail ? r * 0.33 : isMain ? 0.29 : 0.185,
+            0,
+            0,
+            Math.PI * 2,
+          );
+          g.fill();
+          g.stroke();
+          g.restore();
+        }
+        const displayed = view.emphasis ? { ...o, renderEmphasis: true } : o;
         if (detail) {
           if (isMain)
             creature(
               g,
               list.length
                 ? {
-                    ...o,
+                    ...displayed,
                     renderPose: {
                       lean: list.some((e) => e.type === "attack")
                         ? Math.sin(age * Math.PI) * 0.15
@@ -555,13 +581,13 @@
                         : 1,
                     },
                   }
-                : o,
+                : displayed,
               cx,
               cy,
               r,
               true,
             );
-          else food(g, o, cx, cy, r, w.tiles[o.cell].env);
+          else food(g, displayed, cx, cy, r, w.tiles[o.cell].env);
         } else
           symbol(
             g,

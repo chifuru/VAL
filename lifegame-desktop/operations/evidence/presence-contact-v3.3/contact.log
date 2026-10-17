@@ -1,0 +1,14 @@
+✔ three nearby contacts create a paid daughter colony without moving the parent or chaining (10.782348ms)
+✔ expired contact and walls prevent infection, and exposure memory stays bounded (1.819368ms)
+✔ mature terminal colony disperses at most three paid daughters and paid hyperparasites (3.818962ms)
+✔ donors with insufficient energy, immature stages or incompatible hosts cannot infect (4.417266ms)
+✔ simultaneous contact competition is independent of organism array order (3.084727ms)
+✔ Q stage II can disperse a paid immature daughter, but stage I cannot (3.07997ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 32.792695

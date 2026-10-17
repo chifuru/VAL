@@ -1,0 +1,149 @@
+{
+  "selection": "first two natural Q-positive initial conditions in q-contact-survey/0..79, selected before survival outcomes; stage-II dispersal checked on the same two configurations",
+  "results": [
+    {
+      "config": {
+        "seed": "q-contact-survey/9",
+        "terrainSeed": "qmap/9",
+        "landscape": "templates",
+        "ageModel": "life/1",
+        "mapId": "woodland",
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "few",
+        "guarantee": false
+      },
+      "before": {
+        "snapshots": [
+          {
+            "turn": 0,
+            "P": 25,
+            "Q": 1,
+            "main": 80
+          },
+          {
+            "turn": 100,
+            "P": 6,
+            "Q": 0,
+            "main": 85
+          },
+          {
+            "turn": 300,
+            "P": 0,
+            "Q": 0,
+            "main": 44
+          },
+          {
+            "turn": 500,
+            "P": 0,
+            "Q": 0,
+            "main": 26
+          }
+        ],
+        "fingerprint": "47fada2fb90312c0e4dac30cafe77e6f6beb9556b9f2f5e4b0809fd6b0959171"
+      },
+      "after": {
+        "snapshots": [
+          {
+            "turn": 0,
+            "P": 25,
+            "Q": 1,
+            "main": 80
+          },
+          {
+            "turn": 100,
+            "P": 136,
+            "Q": 7,
+            "main": 104
+          },
+          {
+            "turn": 300,
+            "P": 359,
+            "Q": 0,
+            "main": 131
+          },
+          {
+            "turn": 500,
+            "P": 367,
+            "Q": 0,
+            "main": 94
+          }
+        ],
+        "fingerprint": "b15c83b0758b7beefde5485b294430061af3ea25b4051a8886b3307b017c5cbb"
+      }
+    },
+    {
+      "config": {
+        "seed": "q-contact-survey/10",
+        "terrainSeed": "qmap/10",
+        "landscape": "templates",
+        "ageModel": "life/1",
+        "mapId": "river",
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "few",
+        "guarantee": false
+      },
+      "before": {
+        "snapshots": [
+          {
+            "turn": 0,
+            "P": 27,
+            "Q": 1,
+            "main": 80
+          },
+          {
+            "turn": 100,
+            "P": 8,
+            "Q": 0,
+            "main": 87
+          },
+          {
+            "turn": 300,
+            "P": 0,
+            "Q": 0,
+            "main": 41
+          },
+          {
+            "turn": 500,
+            "P": 0,
+            "Q": 0,
+            "main": 27
+          }
+        ],
+        "fingerprint": "9e6c4e92152ca7c21d9e5335559bd667d4b7ec7d51d7aea7a2f32680277e982d"
+      },
+      "after": {
+        "snapshots": [
+          {
+            "turn": 0,
+            "P": 27,
+            "Q": 1,
+            "main": 80
+          },
+          {
+            "turn": 100,
+            "P": 149,
+            "Q": 12,
+            "main": 115
+          },
+          {
+            "turn": 300,
+            "P": 168,
+            "Q": 3,
+            "main": 81
+          },
+          {
+            "turn": 500,
+            "P": 298,
+            "Q": 0,
+            "main": 35
+          }
+        ],
+        "fingerprint": "676b9a2a3cc473b280b4532def2211fca51de13fdc81071ee343a9fc5e5d5e0c"
+      }
+    }
+  ]
+}

@@ -316,7 +316,7 @@ test("bare living bases are not edible targets, while fungi have no protected pl
 test("leaf loss lowers paid light input; basal tissue cannot be spent on drops", () => {
   for (const [B, gain] of [
     [12, 2.8],
-    [2, 0.7],
+    [2, 1.4], // Living basal tissue retains half of full light capture (v2.1).
   ]) {
     const w = world(),
       plant = add(w, "grass", "plant", 3, 3, { B, E: 0, M: 2, phase: 2 });

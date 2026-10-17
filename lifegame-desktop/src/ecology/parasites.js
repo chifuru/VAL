@@ -58,6 +58,59 @@
       S.record(ctx, target, "infection", { parasite: p.id, stage });
     }
   }
+  // Paid colony dispersal; all donors are frozen at the beginning of the turn.
+  function contactStage(p, target, matureTerminal) {
+    const first = p.species === "tideparasite" ? "algae" : "grass";
+    const middle = p.species === "tideparasite" ? "waterbug" : "grassbug";
+    if (target.species === first && (p.stage === "first" || matureTerminal)) return "first";
+    if (target.species === middle && (["first", "middle"].includes(p.stage) || matureTerminal)) return "middle";
+    if (matureTerminal && terminal(p, target)) return target.phase >= 3 ? "terminal" : "extra";
+    if (p.stage === "extra" && terminal(p, target) && target.phase < 3) return "extra";
+    return null;
+  }
+  function contacts(w, ctx) {
+    if (w.contactTurn === w.turn) return;
+    w.contactTurn = w.turn;
+    const m = S.maps(w), touches = new Map(), proposals = [];
+    for (const source of w.organisms) {
+      const p = source.infection, entry = p && ctx.byParasite.get(p.id);
+      if (!entry || source.HP <= 0 || ctx.movedInfections.has(p.id) || entry.counter < required[entry.stage] || (p.contactReady || 0) > w.turn) continue;
+      const matureTerminal = entry.stage === "terminal", radius = matureTerminal ? 2 : 1;
+      for (const cell of S.nearby(w, source.cell, radius, true)) {
+        for (const target of [m.main.get(cell), m.food.get(cell)]) {
+          if (!target || target.HP <= 0 || target.infection || !S.sight(w, source.cell, target.cell)) continue;
+          const stage = contactStage(p, target, matureTerminal);
+          if (!stage) continue;
+          const previous = (target.contactExposure || []).find(e => e.source === p.id && w.turn-e.time < 8);
+          const hits = Math.min(3, (previous?.hits || 0) + 1);
+          if (!touches.has(target.id)) touches.set(target.id, []);
+          touches.get(target.id).push({source:p.id,time:w.turn,hits});
+          if (hits >= 3 && p.E >= .12) proposals.push({source,p,target,stage,matureTerminal,h:S.hash(w,"parasite/contact",w.turn,p.id,target.id)});
+        }
+      }
+    }
+    for (const target of w.organisms) {
+      if (target.infection) { if (target.contactExposure) target.contactExposure=[]; continue; }
+      const recent = (touches.get(target.id) || []).sort((a,b)=>b.hits-a.hits||S.compare(a.source,b.source)).slice(0,4);
+      if (recent.length || target.contactExposure) target.contactExposure=recent;
+    }
+    proposals.sort((a,b)=>a.h-b.h||S.compare(a.target.id,b.target.id));
+    const used = new Map(), taken = new Set();
+    for (const c of proposals) {
+      const n=used.get(c.p.id)||0;
+      if(taken.has(c.target.id)||c.target.infection||n >= (c.matureTerminal?3:1)||c.p.E < .12)continue;
+      const child=S.infection(w,c.p.species,c.target.id,w.turn,S.sha256(c.p.id+":"+c.target.id+":contact").slice(0,16));
+      child.stage=c.stage;child.E=.04;
+      c.p.E=S.round(c.p.E-.12);S.dissipate(w,.08);
+      if(c.p.q && ctx.byParasite.get(c.p.id).qPhase>=2 && c.p.q.E>=.06){
+        c.p.q.E=S.round(c.p.q.E-.06);child.q=S.hyper(w,child.id,w.turn);child.q.E=.02;S.dissipate(w,.04);ctx.births.push("hyperparasite");
+      }
+      c.target.infection=child;c.target.contactExposure=[];ctx.births.push(child.species);ctx.transfers++;
+      taken.add(c.target.id);used.set(c.p.id,n+1);ctx.movedInfections.add(child.id);
+      S.record(ctx,c.target,"infection",{parasite:child.id,stage:c.stage,route:"contact"});
+    }
+    for(const c of proposals)if(used.has(c.p.id))c.p.contactReady=w.turn+(c.matureTerminal?3:18);
+  }
   function fee(w, ctx, host) {
     const entry = ctx.startInfections.get(host.id);
     if (!entry) return;
@@ -394,6 +447,8 @@
   }
   return {
     required,
+    contacts,
+    contactStage,
     terminal,
     transfer,
     fee,

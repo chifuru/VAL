@@ -164,7 +164,7 @@
           o.slot !== "main"
             ? 0
             : neighborCount <= 1
-              ? 0.5
+              ? 0.1
               : neighborCount <= 4
                 ? 0
                 : neighborCount <= 6
@@ -339,6 +339,7 @@
     N.feed(w, ctx, P.transfer);
     N.settle(w, ctx, P.fee);
     B.learn(w, ctx);
+    P.contacts(w, ctx);
     P.mature(w, ctx);
     R.growth(w, ctx);
     R.reproduce(w, ctx);

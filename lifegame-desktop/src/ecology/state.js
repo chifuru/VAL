@@ -49,7 +49,7 @@
   const edibleB = (o) =>
     Math.max(0, o.B - (spec(o).group === "plant" ? PLANT_BASE : 0));
   const leafFactor = (o) =>
-    0.25 + 0.75 * H.clamp((o.B - PLANT_BASE) / 10, 0, 1);
+    0.5 + 0.5 * H.clamp((o.B - PLANT_BASE) / 10, 0, 1);
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
   function nearby(w, p, radius = 1, includeSelf = false) {
