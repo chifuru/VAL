@@ -1,0 +1,630 @@
+{
+  "status": "素材設計モック・未実装",
+  "reference": "design/visual-alignment-v4/near.png",
+  "sheets": [
+    {
+      "id": "01-terrain",
+      "title": "地形・環境・地物",
+      "species": [],
+      "file": "01-terrain.png"
+    },
+    {
+      "id": "02-main-a",
+      "title": "主役生物 1–7",
+      "species": [
+        "abyss",
+        "myth",
+        "recursive",
+        "sail",
+        "gravity",
+        "crystal",
+        "manyeyes"
+      ],
+      "file": "02-main-a.png"
+    },
+    {
+      "id": "03-main-b",
+      "title": "主役生物 8–14",
+      "species": [
+        "abyssshell",
+        "parallel",
+        "memory",
+        "serpent",
+        "solar",
+        "antimeme",
+        "valis"
+      ],
+      "file": "03-main-b.png"
+    },
+    {
+      "id": "04-main-c",
+      "title": "主役生物 15–21",
+      "species": [
+        "jelly",
+        "kelp",
+        "whale",
+        "swarm",
+        "plasma",
+        "cephalopod",
+        "precocial"
+      ],
+      "file": "04-main-c.png"
+    },
+    {
+      "id": "05-food-resources",
+      "title": "植物・餌生物・資源",
+      "species": [
+        "algae",
+        "moss",
+        "grass",
+        "fungus",
+        "waterbug",
+        "grassbug"
+      ],
+      "file": "05-food-resources.png"
+    },
+    {
+      "id": "06-parasites-information",
+      "title": "寄生・高次寄生・情報",
+      "species": [
+        "tideparasite",
+        "leafparasite",
+        "hyperparasite"
+      ],
+      "file": "06-parasites-information.png"
+    },
+    {
+      "id": "07-motion-actions",
+      "title": "移動・戦闘・採食",
+      "species": [],
+      "file": "07-motion-actions.png"
+    },
+    {
+      "id": "08-motion-life",
+      "title": "成長・出生・宿主の変化",
+      "species": [],
+      "file": "08-motion-life.png"
+    }
+  ],
+  "species": [
+    {
+      "id": "abyss",
+      "name": "深淵触手",
+      "group": "main",
+      "phases": [
+        "ミナモルフ",
+        "ウロネクト",
+        "ノクトラケル",
+        "ネフ＝エルド"
+      ],
+      "branches": [
+        "濾過採食",
+        "潮流巡航",
+        "深圧闘争"
+      ],
+      "sheet": "02-main-a"
+    },
+    {
+      "id": "myth",
+      "name": "神鳥",
+      "group": "main",
+      "phases": [
+        "ミナモルフ",
+        "ミツアシハヤ",
+        "カラスヴァ",
+        "天導ヤタリス"
+      ],
+      "branches": [
+        "光糧摂取",
+        "熱翔巡航",
+        "冠翼闘争"
+      ],
+      "sheet": "02-main-a"
+    },
+    {
+      "id": "recursive",
+      "name": "再帰知性",
+      "group": "main",
+      "phases": [
+        "ミナモルフ",
+        "ラムダイル",
+        "リスプラトス",
+        "ゼータ＝パレン"
+      ],
+      "branches": [
+        "資源解析",
+        "分散探索",
+        "再帰防衛"
+      ],
+      "sheet": "02-main-a"
+    },
+    {
+      "id": "sail",
+      "name": "光帆",
+      "group": "main",
+      "phases": [
+        "ミナモルフ",
+        "セイルルガ",
+        "アストレイヴ",
+        "ヘリオ＝ヴェルカ"
+      ],
+      "branches": [
+        "帆膜採集",
+        "光帆巡航",
+        "帆盾闘争"
+      ],
+      "sheet": "02-main-a"
+    },
+    {
+      "id": "gravity",
+      "name": "重力環",
+      "group": "main",
+      "phases": [
+        "ミナモルフ",
+        "トリグラノ",
+        "オルビレグス",
+        "ゼロ＝ケプレア"
+      ],
+      "branches": [
+        "環流蓄積",
+        "軌道移動",
+        "重力制圧"
+      ],
+      "sheet": "02-main-a"
+    },
+    {
+      "id": "crystal",
+      "name": "星晶",
+      "group": "main",
+      "phases": [
+        "ミナモルフ",
+        "プリズメル",
+        "ネビュラティス",
+        "セレス＝グラシア"
+      ],
+      "branches": [
+        "鉱晶蓄積",
+        "晶地踏査",
+        "結晶防衛"
+      ],
+      "sheet": "02-main-a"
+    },
+    {
+      "id": "manyeyes",
+      "name": "多眼知覚",
+      "group": "main",
+      "phases": [
+        "ミナモルフ",
+        "マガノーヴ",
+        "パノプセラ",
+        "オムニ＝ノクティス"
+      ],
+      "branches": [
+        "多眼採集",
+        "広域観測",
+        "精密迎撃"
+      ],
+      "sheet": "02-main-a"
+    },
+    {
+      "id": "abyssshell",
+      "name": "深殻",
+      "group": "main",
+      "phases": [
+        "ミナモルフ",
+        "カルカシェル",
+        "アビサルド",
+        "ウル＝ダルシェル"
+      ],
+      "branches": [
+        "深海採食",
+        "殻体巡航",
+        "重殻防衛"
+      ],
+      "sheet": "03-main-b"
+    },
+    {
+      "id": "parallel",
+      "name": "並列生命",
+      "group": "main",
+      "phases": [
+        "ミナモルフ",
+        "コンカリオ",
+        "パラレギオン",
+        "ゴル＝コンカレス"
+      ],
+      "branches": [
+        "並列採集",
+        "多肢機動",
+        "並列闘争"
+      ],
+      "sheet": "03-main-b"
+    },
+    {
+      "id": "memory",
+      "name": "記憶殻",
+      "group": "main",
+      "phases": [
+        "ミナモルフ",
+        "スタックラ",
+        "ボロウ＝フェラク",
+        "メモル＝クラスト"
+      ],
+      "branches": [
+        "記録蓄積",
+        "経路記憶",
+        "殻体防衛"
+      ],
+      "sheet": "03-main-b"
+    },
+    {
+      "id": "serpent",
+      "name": "多頭蛇",
+      "group": "main",
+      "phases": [
+        "ミナモルフ",
+        "ミダレクビ",
+        "ヤツマガノ",
+        "八星蛇オロマグナ"
+      ],
+      "branches": [
+        "多頭採食",
+        "蛇行巡航",
+        "多頭闘争"
+      ],
+      "sheet": "03-main-b"
+    },
+    {
+      "id": "solar",
+      "name": "日輪",
+      "group": "main",
+      "phases": [
+        "ミナモルフ",
+        "カガミノア",
+        "アマツリンカ",
+        "日輪神アマ＝ゼル"
+      ],
+      "branches": [
+        "熱糧蓄積",
+        "光輪巡航",
+        "日輪闘争"
+      ],
+      "sheet": "03-main-b"
+    },
+    {
+      "id": "antimeme",
+      "name": "反記銘生命",
+      "group": "main",
+      "phases": [
+        "ミナモルフ",
+        "ノル＝メム",
+        "レテグラフ",
+        "アネムネシス"
+      ],
+      "branches": [
+        "潜在採食",
+        "隠密移動",
+        "遮蔽防衛"
+      ],
+      "sheet": "03-main-b"
+    },
+    {
+      "id": "valis",
+      "name": "異化通信生命",
+      "group": "main",
+      "phases": [
+        "ミナモルフ",
+        "ノオフィラ",
+        "アイオ＝レイ",
+        "ヴェイル＝シオン"
+      ],
+      "branches": [
+        "共鳴採集",
+        "通信巡航",
+        "干渉防衛"
+      ],
+      "sheet": "03-main-b"
+    },
+    {
+      "id": "jelly",
+      "name": "浮遊傘",
+      "group": "main",
+      "phases": [
+        "シェルム",
+        "ルミクラ",
+        "エアロネマ",
+        "ルミナ＝アンブラ"
+      ],
+      "branches": [
+        "浮遊採食",
+        "傘膜漂流",
+        "触糸迎撃"
+      ],
+      "sheet": "04-main-c"
+    },
+    {
+      "id": "kelp",
+      "name": "植物共生",
+      "group": "main",
+      "phases": [
+        "ハナモル",
+        "フィトリア",
+        "花冠樹",
+        "フロラ＝ヴァイン"
+      ],
+      "branches": [
+        "共生採集",
+        "生息地開拓",
+        "根域防衛"
+      ],
+      "sheet": "04-main-c"
+    },
+    {
+      "id": "whale",
+      "name": "星海鯨",
+      "group": "main",
+      "phases": [
+        "ウミモル",
+        "ホエリア",
+        "星海鯨",
+        "オルカ＝エオン"
+      ],
+      "branches": [
+        "濾過蓄積",
+        "星海巡航",
+        "巨体防衛"
+      ],
+      "sheet": "04-main-c"
+    },
+    {
+      "id": "swarm",
+      "name": "群体節足",
+      "group": "main",
+      "phases": [
+        "コロニル",
+        "アラクネア",
+        "群星殻",
+        "ミリオ＝コロニー"
+      ],
+      "branches": [
+        "群体採集",
+        "連携機動",
+        "群体闘争"
+      ],
+      "sheet": "04-main-c"
+    },
+    {
+      "id": "plasma",
+      "name": "プラズマ生命",
+      "group": "main",
+      "phases": [
+        "ヒカリル",
+        "プラズミア",
+        "放射生命",
+        "イグニス＝ルーメン"
+      ],
+      "branches": [
+        "光熱蓄積",
+        "放射巡航",
+        "熱波闘争"
+      ],
+      "sheet": "04-main-c"
+    },
+    {
+      "id": "cephalopod",
+      "name": "深淵頭足",
+      "group": "main",
+      "phases": [
+        "マントル",
+        "セファリア",
+        "深淵頭足",
+        "クトラ＝マントル"
+      ],
+      "branches": [
+        "腕群採食",
+        "深淵遊泳",
+        "外套防衛"
+      ],
+      "sheet": "04-main-c"
+    },
+    {
+      "id": "precocial",
+      "name": "早成甲殻",
+      "group": "main",
+      "phases": [
+        "殻芽",
+        "側殻",
+        "完成殻"
+      ],
+      "branches": [
+        "採食",
+        "機動",
+        "戦闘"
+      ],
+      "sheet": "04-main-c"
+    },
+    {
+      "id": "algae",
+      "name": "微藻",
+      "group": "plant",
+      "phases": [
+        "幼生",
+        "成熟"
+      ],
+      "branches": [],
+      "sheet": "05-food-resources"
+    },
+    {
+      "id": "moss",
+      "name": "岩苔",
+      "group": "plant",
+      "phases": [
+        "幼生",
+        "成熟"
+      ],
+      "branches": [],
+      "sheet": "05-food-resources"
+    },
+    {
+      "id": "grass",
+      "name": "草本",
+      "group": "plant",
+      "phases": [
+        "幼生",
+        "成熟"
+      ],
+      "branches": [],
+      "sheet": "05-food-resources"
+    },
+    {
+      "id": "fungus",
+      "name": "菌膜",
+      "group": "fungus",
+      "phases": [
+        "幼生",
+        "成熟"
+      ],
+      "branches": [],
+      "sheet": "05-food-resources"
+    },
+    {
+      "id": "waterbug",
+      "name": "水游虫",
+      "group": "prey",
+      "phases": [
+        "幼生",
+        "成熟"
+      ],
+      "branches": [],
+      "sheet": "05-food-resources"
+    },
+    {
+      "id": "grassbug",
+      "name": "草棲虫",
+      "group": "prey",
+      "phases": [
+        "幼生",
+        "成熟"
+      ],
+      "branches": [],
+      "sheet": "05-food-resources"
+    },
+    {
+      "id": "tideparasite",
+      "name": "潮環",
+      "group": "P",
+      "phases": [
+        "潜伏",
+        "中間",
+        "成熟"
+      ],
+      "branches": [],
+      "sheet": "06-parasites-information"
+    },
+    {
+      "id": "leafparasite",
+      "name": "葉環",
+      "group": "P",
+      "phases": [
+        "潜伏",
+        "中間",
+        "成熟"
+      ],
+      "branches": [],
+      "sheet": "06-parasites-information"
+    },
+    {
+      "id": "hyperparasite",
+      "name": "抑環",
+      "group": "Q",
+      "phases": [
+        "潜伏",
+        "中間",
+        "成熟"
+      ],
+      "branches": [],
+      "sheet": "06-parasites-information"
+    }
+  ],
+  "environments": [
+    {
+      "id": 0,
+      "name": "水域"
+    },
+    {
+      "id": 1,
+      "name": "熱域"
+    },
+    {
+      "id": 2,
+      "name": "情報域"
+    },
+    {
+      "id": 3,
+      "name": "静域"
+    },
+    {
+      "id": 4,
+      "name": "寒冷域"
+    },
+    {
+      "id": 5,
+      "name": "湿潤域"
+    },
+    {
+      "id": 6,
+      "name": "強風域"
+    },
+    {
+      "id": 7,
+      "name": "腐食域"
+    }
+  ],
+  "physicalTerrain": [
+    "plain",
+    "mud",
+    "rock",
+    "shallow",
+    "deep"
+  ],
+  "resources": [
+    {
+      "id": "seed",
+      "name": "種実"
+    },
+    {
+      "id": "spore",
+      "name": "失活胞子"
+    },
+    {
+      "id": "egg",
+      "name": "栄養卵"
+    },
+    {
+      "id": "organic",
+      "name": "有機粒"
+    },
+    {
+      "id": "mineral",
+      "name": "鉱物片"
+    },
+    {
+      "id": "droplet",
+      "name": "鉱液滴"
+    },
+    {
+      "id": "factor",
+      "name": "代謝因子"
+    },
+    {
+      "id": "info",
+      "name": "情報"
+    }
+  ],
+  "source_sha256": {
+    "src/ecology/catalogue.js": "eb06013600ca1e44f4aaf8a7ea9edefb029fe4326c7d1a9d26c946060829f804",
+    "src/ecology/state.js": "619531597033682ba3d74f89218c3b106563abc49bfaec4bdeeb443279e44424",
+    "design/visual-alignment-v4/near.png": "f5f5f679a77af58b791139004d71c84401cc37097d4d8a69b3a66411503c0535",
+    "src/assets/creatures.png": "302e0bb6bcdb0e88f122fb4f2c8ad757283b09e414a018ccaedbf99120af9ed1"
+  }
+}

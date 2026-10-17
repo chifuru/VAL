@@ -1,0 +1,12 @@
+{
+  "scope": "Document inventory and file integrity only; not biological/graphics/performance validation",
+  "sheets": 8,
+  "uniqueSpecies": 30,
+  "main": 21,
+  "food": 6,
+  "parasite": 3,
+  "environments": 8,
+  "resources": 8,
+  "allNamesMatchCatalogue": true,
+  "earlyMaturePhases": 3
+}
