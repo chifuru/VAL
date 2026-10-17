@@ -1,0 +1,88 @@
+{
+  "kind": "appearance-proposal",
+  "source": "src/ecology/catalogue.js",
+  "lineages": [
+    {
+      "id": "solar",
+      "name": "日輪",
+      "phases": [
+        "ミナモルフ",
+        "カガミノア",
+        "アマツリンカ",
+        "日輪神アマ＝ゼル"
+      ],
+      "phaseIII": [
+        {
+          "name": "熱糧蓄積",
+          "phaseIV": [
+            "効率採集",
+            "蓄積回復"
+          ]
+        },
+        {
+          "name": "光輪巡航",
+          "phaseIV": [
+            "広域探索",
+            "地形適応"
+          ]
+        },
+        {
+          "name": "日輪闘争",
+          "phaseIV": [
+            "攻勢",
+            "防衛"
+          ]
+        }
+      ],
+      "file": "01-solar.png"
+    },
+    {
+      "id": "jelly",
+      "name": "浮遊傘",
+      "phases": [
+        "シェルム",
+        "ルミクラ",
+        "エアロネマ",
+        "ルミナ＝アンブラ"
+      ],
+      "phaseIII": [
+        {
+          "name": "浮遊採食",
+          "phaseIV": [
+            "効率採集",
+            "蓄積回復"
+          ]
+        },
+        {
+          "name": "傘膜漂流",
+          "phaseIV": [
+            "広域探索",
+            "地形適応"
+          ]
+        },
+        {
+          "name": "触糸迎撃",
+          "phaseIV": [
+            "攻勢",
+            "防衛"
+          ]
+        }
+      ],
+      "file": "02-jelly.png"
+    }
+  ],
+  "variantSheet": {
+    "file": "03-sex-caste.png",
+    "sexExamples": [
+      "solar",
+      "jelly"
+    ],
+    "casteExample": "swarm",
+    "castes": [
+      "繁殖雌候補",
+      "働育雌",
+      "繁殖雄"
+    ]
+  },
+  "runtimeChanged": false
+}
