@@ -174,7 +174,42 @@
       return [2, 3, 5, 1, 7].includes(t.env) && t.terrain !== "deep";
     return true;
   }
+  const OBSERVATION_MODES = Object.freeze([
+    Object.freeze({id:"custom",name:"自由設定",description:"初期条件を自由に設定。餌の初期量は従来どおり。途中の生体補充はありません。"}),
+    Object.freeze({id:"river-settlement",name:"河畔・定着観察",mapId:"river",foodScale:1.25,
+      selected:Object.freeze(["myth","recursive","crystal","solar","whale","swarm","kelp"]),
+      description:"河畔の7系統。高生産の河畔で、光合成入力2倍、主の初期集団を多め、植物・菌・動く餌の初期量25%増。"}),
+    Object.freeze({id:"lake-foodweb",name:"湖沼・食物網観察",mapId:"lake",foodScale:1.5,
+      selected:Object.freeze(["abyss","abyssshell","jelly","kelp","whale"]),
+      description:"湖沼の5系統。高生産の湖沼で、光合成入力2倍、主の初期集団を多め、植物・菌・動く餌の初期量50%増。"}),
+  ]);
+  function observationPreset(id, width = 80, height = 56) {
+    const mode = OBSERVATION_MODES.find(a=>a.id===id);
+    if (!mode) throw Error("SETTINGS_INVALID: 観察モードが不明です");
+    const resolved = {id,version:1,name:mode.name,description:mode.description};
+    if (id === "custom") return {...resolved,initialFoodScale:1,solarScale:1};
+    return {...resolved,mapId:mode.mapId,lineages:"manual",selected:[...mode.selected],
+      initial:Math.round(width*height/1120*160/4)*4,initialFoodScale:mode.foodScale,solarScale:2,
+      placement:"natural",distribution:"balanced",guarantee:false,
+      enabled:{main:true,plant:true,fungus:true,prey:true,P:true,Q:true}};
+  }
+  function resolveObservation(input) {
+    if (input.observationMode === undefined) {
+      if (input.modeResolved !== undefined || (input.initialFoodScale !== undefined && input.initialFoodScale !== 1) || (input.solarScale !== undefined && input.solarScale !== 1))
+        throw Error("SETTINGS_INVALID: 初期餌の調整には観察モードの指定が必要です");
+      return input;
+    }
+    const mode = observationPreset(input.observationMode,input.width ?? 80,input.height ?? 56);
+    if (input.modeResolved !== undefined && H.stable(input.modeResolved) !== H.stable(mode))
+      throw Error("MODE_VERSION_MISMATCH: 保存された観察モードの条件を再現できません");
+    if (mode.id === "custom") return {...input,initialFoodScale:1,solarScale:1,modeResolved:mode};
+    const {id,version,name,description,...parameters} = mode;
+    if (input.modeResolved !== undefined && Object.entries(parameters).some(([key,value])=>H.stable(input[key])!==H.stable(value)))
+      throw Error("MODE_INPUT_MISMATCH: 保存された観察条件がモードの条件と一致しません");
+    return {...input,...structuredClone(parameters),modeResolved:mode};
+  }
   function validate(input = {}) {
+    input = resolveObservation(input);
     const c = {
       seed: "ECOSYSTEM-2026",
       width: 80,
@@ -564,7 +599,7 @@
     ])
       if (config.enabled[group]) {
         const species = D.species.filter((s) => s.group === group),
-          target = Math.round(usable.length * rate),
+          target = Math.round(usable.length * rate * (config.initialFoodScale || 1)),
           base = Math.floor(target / species.length),
           tasks = species.map((s, i) => ({
             s,
@@ -979,6 +1014,8 @@
     maps,
     validHabitat,
     validate,
+    OBSERVATION_MODES,
+    observationPreset,
     organism,
     ageInfo,
     initializeAge,

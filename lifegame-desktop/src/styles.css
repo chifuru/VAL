@@ -1423,3 +1423,19 @@ input, select, textarea { accent-color: var(--mint); }
 @media (min-width: 1101px) {
   .observatory .canvas-wrap { height: calc(100vh - 410px); min-height: 400px; }
 }
+
+.observation-mode-label { max-width: 680px; margin: 0 0 8px; }
+#observation-mode { border-color: #a7b784; color: #e9e1bc; }
+#mode-help { display: block; margin: 6px 0 14px; }
+.active-mode { margin: 5px 2px 9px; font-size: 10px; color: #c4d5b4; line-height: 1.65; }
+.turn-strip { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 7px; padding: 8px 10px; border: 1px solid #759c8666; border-radius: 5px; background: #08242c; }
+#turn-stages { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
+#turn-stages li { color: #819e9a; padding: 5px 9px; border-radius: 3px; font-size: 11px; }
+#turn-stages li.active { color: #fff0bb; background: #7b6a334d; box-shadow: inset 0 -2px #e3cb83; }
+#turn-stages li.passed { color: #b3dac5; }
+#turn-progress { color: #b2c6bc; font-size: 10px; }
+#preview-note { padding: 10px; border: 1px solid #cfb57066; color: #ecdba7; }
+#selection[inert] { opacity: .6; }
+input:disabled, select:disabled { opacity: .65; cursor: default; }
+@media (min-width: 1101px) { .observatory .canvas-wrap { height: calc(100vh - 480px); min-height: 400px; } }
+#speed { width: 160px; min-width: 160px; }

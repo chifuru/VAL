@@ -28,7 +28,7 @@ function model(flags={}){
     if(name==="catalogue"&&flags.budget)source=replace(source,'  data.byId =',`  for(const s of data.species)if(s.group==="main"&&s.id!=="kelp")s.maintenance*=({animal:.7,fungal:.7,mineral:.75,general:.8,plant:.85}[s.diet]||.8);
   data.byId =`);
     if(name==="engine"){
-      source=replace(source,'    return finish(w, ctx);','    const result=finish(w,ctx);if(options.onTurn)options.onTurn(w,ctx);return result;');
+      source=replace(source,'          finish(w, ctx);','          finish(w,ctx);if(options.onTurn)options.onTurn(w,ctx);');
       if(flags.budget){if(!source.includes('? 0.1\n              : neighborCount'))source=replace(source,'? 0.5\n              : neighborCount','? 0.1\n              : neighborCount');source=replace(source,'? 1.5 * w.tiles[o.cell].light','? 0.8 * w.tiles[o.cell].light');}
       if(flags.routes)source=replace(source,'    P.mature(w, ctx);','    P.contacts(w,ctx);\n    P.mature(w, ctx);');
     }

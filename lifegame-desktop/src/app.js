@@ -73,7 +73,10 @@
     paintAt = 0,
     populationHistory = [],
     legendKey = null,
-    checkpointKey = null;
+    checkpointKey = null,
+    pendingTurn = null,
+    runGeneration = 0;
+  const TURN_MS = 2000;
   const groups = {
     main: "主生物",
     plant: "植物",
@@ -121,9 +124,40 @@
   $("map-id").innerHTML += window.EcoMapTemplates.list()
     .map((m) => `<option value="${escape(m.id)}">${escape(m.name)}</option>`)
     .join("");
+  function applyObservationMode() {
+    const id = $("observation-mode").value,
+      [width,height] = $("size").value.split(",").map(Number),
+      mode = S.observationPreset(id,width,height), fixed = id !== "custom";
+    for (const id of ["map-id","initial","lineages","distribution","placement","guarantee"])
+      $(id).disabled = fixed;
+    for (const input of document.querySelectorAll("#groups input,#lineage-options input,#weight-options input")) input.disabled = fixed;
+    if (fixed) {
+      $("map-id").value = mode.mapId; $("initial").value = mode.initial;
+      $("lineages").value = "manual"; $("distribution").value = mode.distribution;
+      $("placement").value = mode.placement; $("guarantee").checked = false;
+      for (const input of $("lineage-options").querySelectorAll("input")) input.checked = mode.selected.includes(input.value);
+      for (const id of Object.keys(groups)) $("group-"+id).checked = true;
+    }
+    $("lineage-options").hidden = $("lineages").value !== "manual";
+    $("weight-options").hidden = $("distribution").value !== "weighted";
+    $("mode-help").textContent = mode.description + (fixed ? ` 主生物${mode.initial}体、${mode.selected.length}系統（${mode.selected.map(id=>D.byId[id].name).join(" / ")}）。自然配置・均等配分。固定項目を編集する場合は自由設定へ戻してください。` : "") + " 条件は開始時に固定され、観測中も同じ倍率で計算します。救済補充はありません。";
+    updateCohortHint();
+  }
+  $("observation-mode").addEventListener("change",applyObservationMode);
+  $("size").addEventListener("change",applyObservationMode);
+  function showTurnStage(phase = 0,label = "") {
+    for (const [i,item] of [...$("turn-stages").children].entries()) {
+      item.classList.toggle("active",i+1===phase);
+      item.classList.toggle("passed",i+1<phase);
+    }
+    $("turn-progress").textContent = phase ? `TURN ${world.turn+1} · ${phase}/3 ${label}（途中）` : "基準：1ターン約2秒 · 負荷が高い場合は自動減速";
+    $("preview-note").hidden = !phase;
+    $("selection").inert = !!phase;
+  }
   function readConfig() {
     const [width, height] = $("size").value.split(",").map(Number);
     return {
+      observationMode: $("observation-mode").value,
       seed: $("seed").value,
       landscape: "templates",
       mapId: $("map-id").value,
@@ -153,10 +187,19 @@
     $("message").textContent = text;
   }
   function stop() {
+    const hadPending = !!pendingTurn;
+    runGeneration++;
+    if (pendingTurn) { pendingTurn.job.cancel(); pendingTurn = null; }
     running = false;
     renderer.view.animate = false;
     clearTimeout(timer);
     timer = null;
+    showTurnStage();
+    if (hadPending && world) {
+      renderer.setWorld(world);
+      renderSelection();
+      message("途中の計算を取り消し、最後に確定したターンで一時停止しました。");
+    }
     $("start").textContent =
       world?.stopReason === "checkpoint"
         ? "次の1000ターンを続行 ▶"
@@ -185,6 +228,10 @@
     $("setup-help").textContent =
       "設定変更だけでは現在の世界は変わりません。「世界を作り直す」で未保存の観測を置き換えます。残したい結果は先に「終了して図鑑へ保存」を選んでください。";
     initialConfig = structuredClone(next.config);
+    $("observation-mode").value = next.config.observationMode || "custom";
+    const mode = next.config.modeResolved;
+    $("active-mode").textContent = mode ? mode.name + " · " + mode.description +
+      ` 主生物${next.config.initial}体。初期餌${Math.round(mode.initialFoodScale*100)}%。` : "自由設定 · 従来の初期条件。途中の補充なし。";
     $("seed").value = next.config.seed;
     $("terrain-seed").value = next.config.terrainSeed ?? next.config.seed;
     $("map-id").value = next.config.mapId || "auto";
@@ -234,7 +281,7 @@
       selectedCell = focal.cell;
       renderer.view.selected = focal.cell;
     }
-    updateCohortHint();
+    applyObservationMode();
     render();
     message(
       world.warnings.join(" / ") ||
@@ -243,12 +290,15 @@
     return world;
   }
   function tick() {
-    if (!world || ended) return;
+    if (!world || ended || pendingTurn) return;
     renderer.view.animate = running;
-    renderer.view.duration = Math.min(300, 800 / Number($("speed").value));
-    const start = performance.now();
-    world = E.step(world, { observeId: selectedId });
-    lastMs = performance.now() - start;
+    renderer.view.duration = 300;
+    const start = performance.now(), next = E.step(world, { observeId: selectedId });
+    return commitTurn(next,performance.now()-start);
+  }
+  function commitTurn(next, milliseconds) {
+    world = next;
+    lastMs = milliseconds;
     renderer.setWorld(world);
     render();
     if (replayEntry && world.turn >= replayEntry.turn) {
@@ -270,7 +320,7 @@
           ? "主生物が全滅しました。他の生物群は残る場合があります。続行して観測できます。"
           : `${world.turn}ターンの観測区間で一時停止しました。続行できます。`,
       );
-    } else if (lastMs > 1000 / Number($("speed").value))
+    } else if (lastMs > TURN_MS)
       message(
         "計算負荷に合わせて進行を減速しています。個体・出生・ターンは間引きません。",
       );
@@ -278,13 +328,42 @@
     return world;
   }
   function runLoop() {
-    if (!running) return;
-    tick();
-    if (running)
-      timer = setTimeout(
-        runLoop,
-        Math.max(0, 1000 / Number($("speed").value) - lastMs),
-      );
+    if (!running || pendingTurn) return;
+    const token = runGeneration, start = performance.now();
+    try {
+      const begin = performance.now(), job = E.beginTurn(world,{observeId:selectedId});
+      const state = pendingTurn = {job,phase:0,computeMs:performance.now()-begin};
+      function valid() { return running && token === runGeneration && pendingTurn === state; }
+      function advance() {
+        if (!valid()) return;
+        try {
+          const begin = performance.now(), result = job.advance();
+          state.phase = result.phase;
+          const preview = job.preview();
+          const visibleEvents = result.phase === 1 ? ["light"]
+            : result.phase === 2 ? ["move","attack","feed","care","defend","death"]
+            : ["growth","birth","infection"];
+          preview.events = preview.events.filter(event=>visibleEvents.includes(event.type));
+          state.previewTypes = [...new Set(preview.events.map(event=>event.type))];
+          state.computeMs += performance.now()-begin;
+          renderer.view.animate = true;
+          renderer.view.duration = 600;
+          renderer.setWorld(preview,true);
+          showTurnStage(result.phase,result.label);
+          if (result.done) {
+            timer = setTimeout(() => {
+              if (!valid()) return;
+              pendingTurn = null;
+              showTurnStage();
+              renderer.view.animate = false;
+              commitTurn(result.world,state.computeMs);
+              if (running) timer = setTimeout(runLoop,0);
+            },Math.max(180,TURN_MS-(performance.now()-start)));
+          } else timer = setTimeout(advance,Math.max(180,result.phase*TURN_MS/3-(performance.now()-start)));
+        } catch (error) { stop(); message("ターンを確定できませんでした："+error.message); }
+      }
+      advance();
+    } catch (error) { stop(); message("計算を開始できませんでした："+error.message); }
   }
   $("setup").addEventListener("submit", (event) => {
     event.preventDefault();
@@ -372,7 +451,7 @@
           .list()
           .map(
             (r) =>
-              `<article class="result-entry"><h3>${escape(r.config.seed)}</h3><p>${r.turn}ターン · 主生物 ${fmt(r.final.main)} · ${escape(r.config.mapResolved?.id || "従来地形")} · ${escape(r.created.slice(0, 10))}</p><button class="small" data-replay="${escape(r.id)}">初期条件から再生（記録なし）</button> <button class="small secondary" data-remove="${escape(r.id)}">削除</button></article>`,
+              `<article class="result-entry"><h3>${escape(r.config.seed)}</h3><p>${escape(r.config.modeResolved?.name || "自由設定")} · ${r.turn}ターン · 主生物 ${fmt(r.final.main)} · ${escape(r.config.mapResolved?.id || "従来地形")} · ${escape(r.created.slice(0, 10))}</p><button class="small" data-replay="${escape(r.id)}">初期条件から再生（記録なし）</button> <button class="small secondary" data-remove="${escape(r.id)}">削除</button></article>`,
           )
           .join("") ||
         "<p>終了した観測はまだありません。一時停止では保存されません。</p>";
@@ -502,6 +581,7 @@
     if (e.key === "-") renderer.zoom(1 / 1.4);
   });
   function select(cell, id = null) {
+    if (pendingTurn) return;
     selectedCell = cell;
     selectedId =
       id ||
@@ -827,12 +907,12 @@
   }
   $("setup").addEventListener("input", updateCohortHint);
   $("setup").addEventListener("change", updateCohortHint);
-  updateCohortHint();
+  applyObservationMode();
   const card = (title, text) =>
     `<article class="sheet-card"><h3>${title}</h3>${text}</article>`;
   const sheets = {
     system: () =>
-      `<h2>基本システムから読む</h2><p class="note">v1.5：自然配置は同系統4体の小組。植物は基部B2を残し、光4×固定光量×葉量係数でEを得て最大2EをBへ投資。植物の土壌吸収は一口M0.1・吸収率0.5で、合計二口の上限を共有します。</p><div class="flow">初期値 → 固定環境・初期生物 → 局所の同期更新 → 食物網・生存競争 → 観測</div><div class="sheet-grid">${card("セルと生物の重なり", "<p>マスには主生物1体、餌生物1体、最大3種の落ちた資源。一次寄生虫Pは各宿主に1体、高次寄生虫QはPに1体付随します。植物・菌・動く餌は同じ餌枠を使います。1体は常に独立個体です。</p>")}${card("固定環境、変わる生命", "<p>6種類の事前地形から選び、地形用初期値で候補地点の地物を決めます。生態用初期値は個体と資源の配置・生態進行に使います。8環境と地形・光・障害物は開始後に変わりません。系統の得意・苦手環境で攻撃・防御・移動Eが変わります。境界は通行可能なら越えられ、環境ごとに生物を隔離しません。</p>")}${card("10段階の同期ターン", "<ol><li>期限切れ・資源CA</li><li>光と行動候補</li><li>移動予約</li><li>同時戦闘</li><li>育児・採食</li><li>維持費・死亡</li><li>経験・寄生成熟</li><li>成長・繁殖</li><li>有償生産・情報・寄生出産</li><li>結果確定・観測</li></ol>")}${card("有限の収支", "<p>Eは使えるエネルギー、Bは身体の有機量、Mは鉱物、Gは累積成長値。光がEの外部入力で、食物は生物・死骸・土壌から支払います。植物は所在土壌Mを一口最大0.1取り、吸収率0.5の残りを土へ戻します。二口の上限を共有します。時間だけで食べた餌が無料復活することはありません。散逸分も台帳へ記録します。</p>")}${card("ライフゲーム由来の局所規則", "<p>鉱物片・鉱液滴・情報の発生候補は近傍8マスのB3/S23（3で出生、2/3で残存）。候補に加え供給元の予算・地形条件も必要です。主生物の出生は空きマスの近傍主生物2〜3体と二親条件、植物はB3、小型餌は2〜3近傍を使います。主生物の死因は飢餓・寿命・戦闘です。</p>")}${card("規模と観測の限界", "<p>小40×28、標準80×56、大160×112。1/5/10ターン毎秒を指定でき、負荷超過時は実時間の進行を減速します。画面外も計算し、個体数を描画上限へ合わせません。1000ターンで一時停止し、次区間へ続行できます。</p>")}</div>`,
+      `<h2>基本システムから読む</h2><p class="note">v1.5：自然配置は同系統4体の小組。植物は基部B2を残し、光4×固定光量×葉量係数×モードの光合成倍率でEを得て最大2EをBへ投資。植物の土壌吸収は一口M0.1・吸収率0.5で、合計二口の上限を共有します。</p><div class="flow">初期値 → 固定環境・初期生物 → 局所の同期更新 → 食物網・生存競争 → 観測</div><div class="sheet-grid">${card("セルと生物の重なり", "<p>マスには主生物1体、餌生物1体、最大3種の落ちた資源。一次寄生虫Pは各宿主に1体、高次寄生虫QはPに1体付随します。植物・菌・動く餌は同じ餌枠を使います。1体は常に独立個体です。</p>")}${card("固定環境、変わる生命", "<p>6種類の事前地形から選び、地形用初期値で候補地点の地物を決めます。生態用初期値は個体と資源の配置・生態進行に使います。8環境と地形・光・障害物は開始後に変わりません。系統の得意・苦手環境で攻撃・防御・移動Eが変わります。境界は通行可能なら越えられ、環境ごとに生物を隔離しません。</p>")}${card("三段階の観察", "<p>自動観察は1ターン約2秒。資源更新、移動・採食・戦闘、成長・繁殖を順に表示します。途中はプレビューで、個体数や図鑑は確定した結果を使います。一時停止では最後の確定ターンへ戻ります。負荷が高いときは時間を伸ばし、個体やターンを省略しません。手動の1ターン操作は即時に確定します。</p>")}${card("観察モードの条件", "<p>自由設定は従来の光合成入力と初期餌量。河畔・定着観察は7系統、湖沼・食物網観察は5系統で、主生物は小マップ160体から面積に比例します。両モードは高生産環境として光合成入力2倍。餌生物の初期量は河畔25%増、湖沼50%増です。条件は開始時に固定され、途中の救済補充はありません。モードと実際の条件を図鑑へ保存します。</p>")}${card("10段階の同期ターン", "<ol><li>期限切れ・資源CA</li><li>光と行動候補</li><li>移動予約</li><li>同時戦闘</li><li>育児・採食</li><li>維持費・死亡</li><li>経験・寄生成熟</li><li>成長・繁殖</li><li>有償生産・情報・寄生出産</li><li>結果確定・観測</li></ol>")}${card("有限の収支", "<p>Eは使えるエネルギー、Bは身体の有機量、Mは鉱物、Gは累積成長値。光がEの外部入力で、食物は生物・死骸・土壌から支払います。植物は所在土壌Mを一口最大0.1取り、吸収率0.5の残りを土へ戻します。二口の上限を共有します。時間だけで食べた餌が無料復活することはありません。散逸分も台帳へ記録します。</p>")}${card("ライフゲーム由来の局所規則", "<p>鉱物片・鉱液滴・情報の発生候補は近傍8マスのB3/S23（3で出生、2/3で残存）。候補に加え供給元の予算・地形条件も必要です。主生物の出生は空きマスの近傍主生物2〜3体と二親条件、植物はB3、小型餌は2〜3近傍を使います。主生物の死因は飢餓・寿命・戦闘です。</p>")}${card("規模と観測の限界", "<p>小40×28、標準80×56、大160×112。基準は1ターン約2秒で、負荷超過時は実時間の進行を減速します。画面外も計算し、個体数を描画上限へ合わせません。1000ターンで一時停止し、次区間へ続行できます。</p>")}</div>`,
     food: () =>
       `<h2>植物 → 動く餌 → 主生物、そして分解者へ</h2><div class="flow">光 → 植物 → 動く餌 → 主生物 → 死骸 → 菌・有機粒・土壌<br>本人の経験 → 情報エネルギー体 → 他個体の行動パラメータ</div><table class="food-table"><thead><tr><th>餌・生物</th><th>特色 / 主な供給元</th><th>不足・制約</th></tr></thead><tbody>${[
         [
@@ -1086,6 +1166,8 @@
       snapshot: () => ({
         world: world && structuredClone(world),
         running,
+        pending: pendingTurn && {phase:pendingTurn.phase,nextTurn:world.turn+1,events:[...(pendingTurn.previewTypes || [])]},
+        cadenceMs:TURN_MS,
         replay: !!replayEntry,
         ended,
         lastMs,

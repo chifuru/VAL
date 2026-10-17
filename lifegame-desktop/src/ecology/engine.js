@@ -139,7 +139,7 @@
             : s.id === "kelp"
               ? 1.5 * w.tiles[o.cell].light * [0, 1, 1.1, 1.2, 1.3][p.phase]
               : 0;
-      const ageLight=light*p.ageFactors.light;
+      const ageLight=light*p.ageFactors.light*(w.config.solarScale || 1);
       if (ageLight) {
         const add = Math.min(p.capE - o.E, ageLight);
         o.E = S.round(o.E + add);
@@ -321,8 +321,8 @@
     w.checkpoints = [checkpoint(w)];
     return w;
   }
-  function step(previous, options = {}) {
-    const w = structuredClone(previous);
+  function beginTurn(previous, options = {}) {
+    let w = structuredClone(previous), stage = 0, cancelled = false, failed = false;
     if (w.stopReason === "checkpoint") {
       w.blockEnd += 1000;
       const initial = w.checkpoints.find((a) => a.turn === 0);
@@ -330,26 +330,59 @@
     }
     w.turn++;
     const ctx = context(w, options.observeId);
-    N.expireAndCA(w, ctx);
-    prepare(w, ctx);
-    B.choose(w, ctx);
-    B.move(w, ctx);
-    B.combat(w, ctx);
-    B.care(w, ctx);
-    N.feed(w, ctx, P.transfer);
-    N.settle(w, ctx, P.fee);
-    B.learn(w, ctx);
-    P.contacts(w, ctx);
-    P.mature(w, ctx);
-    R.growth(w, ctx);
-    R.reproduce(w, ctx);
-    const drops = N.investAndDrops(w, ctx),
-      minerals = N.mineralCandidates(w, ctx),
-      information = P.infoCandidates(w, ctx);
-    N.supply(w, ctx, [...drops, ...minerals, ...information]);
-    P.reproduce(w, ctx);
-    S.settleAge(w,ctx);
-    return finish(w, ctx);
+    const labels = ["資源更新", "移動・採食・戦闘", "成長・繁殖"];
+    function ensure() {
+      if (cancelled || failed) throw Error("TURN_DISCARDED: 未確定の計算は破棄されました");
+    }
+    function advance() {
+      ensure();
+      if (stage === 3) return {phase:3,label:labels[2],done:true,world:w};
+      try {
+        if (stage === 0) {
+          N.expireAndCA(w, ctx);
+          prepare(w, ctx);
+        } else if (stage === 1) {
+          B.choose(w, ctx);
+          B.move(w, ctx);
+          B.combat(w, ctx);
+          B.care(w, ctx);
+          N.feed(w, ctx, P.transfer);
+          N.settle(w, ctx, P.fee);
+        } else {
+          B.learn(w, ctx);
+          P.contacts(w, ctx);
+          P.mature(w, ctx);
+          R.growth(w, ctx);
+          R.reproduce(w, ctx);
+          const drops = N.investAndDrops(w, ctx),
+            minerals = N.mineralCandidates(w, ctx),
+            information = P.infoCandidates(w, ctx);
+          N.supply(w, ctx, [...drops, ...minerals, ...information]);
+          P.reproduce(w, ctx);
+          S.settleAge(w,ctx);
+          finish(w, ctx);
+        }
+        stage++;
+        return {phase:stage,label:labels[stage-1],done:stage===3,world:stage===3?w:null};
+      } catch (error) { failed = true; throw error; }
+    }
+    function preview() {
+      ensure();
+      const copy = structuredClone(w);
+      if (stage < 3) {
+        copy.events = structuredClone([...ctx.events.values()].flat());
+        copy.stats = summarize(copy);
+        copy.diagnostics = null;
+      }
+      return copy;
+    }
+    return {advance,preview,cancel(){cancelled=true;w=null;}};
+  }
+  function step(previous, options = {}) {
+    const turn = beginTurn(previous, options);
+    let result;
+    do { result = turn.advance(); } while (!result.done);
+    return result.world;
   }
   function fingerprint(w) {
     const copy = structuredClone(w);
@@ -424,6 +457,7 @@
   return {
     create,
     step,
+    beginTurn,
     summarize,
     fingerprint,
     invariants,

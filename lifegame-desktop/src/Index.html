@@ -39,6 +39,8 @@
             地形を選んで「この設定で世界を作る」を押してください。地形用初期値は空欄でも使えます。
           </p>
           <form id="setup">
+            <label class="observation-mode-label">観察モード<select id="observation-mode"><option value="custom">自由設定</option><option value="river-settlement">河畔・定着観察（高生産・初期集団多め）</option><option value="lake-foodweb">湖沼・食物網観察（高生産・初期集団多め）</option></select></label>
+            <p id="mode-help" class="note" aria-live="polite"></p>
             <div class="setup-main">
               <label
                 >生態用初期値<textarea id="seed" rows="2" maxlength="2048">
@@ -46,11 +48,11 @@ ECOSYSTEM-2026</textarea
                 ></label
               ><label
                 >世界の大きさ<select id="size">
-                  <option value="40,28">小 · 40 × 28 / 初期80体</option>
+                  <option value="40,28">小 · 40 × 28</option>
                   <option selected value="80,56">
-                    標準 · 80 × 56 / 初期320体
+                    標準 · 80 × 56
                   </option>
-                  <option value="160,112">大 · 160 × 112 / 初期1280体</option>
+                  <option value="160,112">大 · 160 × 112</option>
                 </select></label
               ><label
                 >主生物の初期数<input
@@ -131,15 +133,13 @@ ECOSYSTEM-2026</textarea
               マップ・初期条件を変更
             </button>
             <button id="start" class="primary" disabled>観測を開始 ▶</button
-            ><button id="step" class="secondary" disabled>1ターン進む</button
+            ><button id="step" class="secondary" disabled>1ターン確定（即時）</button
             ><button id="finish-run" class="secondary" disabled>
               終了して図鑑へ保存</button
             ><button id="open-results" class="secondary">結果図鑑</button
             ><button id="reset" class="secondary" disabled>初期状態へ</button
             ><select id="speed" aria-label="観測速度">
-              <option value="1">1ターン/秒</option>
-              <option value="5">5ターン/秒</option>
-              <option value="10">10ターン/秒</option>
+              <option value="0.5">基準 · 1ターン約2秒</option>
             </select>
           </div>
           <div class="metrics">
@@ -151,6 +151,11 @@ ECOSYSTEM-2026</textarea
             <div><span>最終計算</span><strong id="timing">—</strong></div>
             <div class="trend-card"><span>個体群の推移 <small id="trend-range">観測前</small></span><svg id="population-trend" viewBox="0 0 240 50" role="img" aria-label="主生物の個体数の推移"><path id="trend-fill"></path><path id="trend-line"></path></svg></div>
           </div>
+          <div class="turn-strip" aria-label="ターンの進行">
+            <ol id="turn-stages"><li>01 資源更新</li><li>02 移動・採食・戦闘</li><li>03 成長・繁殖</li></ol>
+            <span id="turn-progress" role="status" aria-live="polite">基準：1ターン約2秒 · 三段階で観察</span>
+          </div>
+          <p id="active-mode" class="active-mode">自由設定 · 初期条件の調整なし</p>
           <div class="panel habitat">
             <div class="panel-heading">
               <h2>◈ 生態系マップ <small id="status">未準備</small></h2>
@@ -237,6 +242,7 @@ ECOSYSTEM-2026</textarea
           <p class="note">
             1マスに主生物1体と餌生物1体が共存。寄生虫は宿主に付随します。
           </p>
+          <p id="preview-note" class="note" hidden>途中のプレビューです。個体の詳細・集計はターン確定後に更新します。一時停止すると最後の確定状態に戻ります。</p>
           <div id="selection">盤面のマスを選択してください。</div>
           <details id="rank-panel" class="rank-panel">
             <summary>生存系統を確認</summary>
@@ -267,7 +273,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v3.8.0 · 外部通信なし</span>
+        ><span>v3.9.0 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">

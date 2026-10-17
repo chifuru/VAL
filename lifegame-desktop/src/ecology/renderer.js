@@ -170,7 +170,7 @@
       g.setTransform(d, 0, 0, d, 0, 0);
       return b;
     }
-    function setWorld(w) {
+    function setWorld(w, restartMotion = false) {
       revision++;
       world = w;
       const key = [
@@ -188,7 +188,7 @@
         cache = null;
         cacheKey = null;
       }
-      if (lastTurn !== w.turn) {
+      if (lastTurn !== w.turn || restartMotion) {
         lastTurn = w.turn;
         changedAt = performance.now();
       }
