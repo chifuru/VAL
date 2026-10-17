@@ -1040,3 +1040,5 @@ dialog::backdrop {
   width: 95px;
   height: 74px;
 }
+
+#results{max-width:850px;width:90%;max-height:85vh;overflow:auto;background:#15272b;color:#e6e6cb;border:1px solid #a89160}.result-entry{border-top:1px solid #586b65;padding:16px 0}#results-error{color:#efb48e}.transport{flex-wrap:wrap}

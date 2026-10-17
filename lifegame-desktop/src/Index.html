@@ -121,13 +121,13 @@ ECOSYSTEM-2026</textarea
               </div>
             </div>
             <div class="view-controls">
-              <button id="fit" class="small">全体</button
+              <button id="detail-view" class="small">選択地点の近景</button><button id="fit" class="small">全体</button
               ><button id="zoom-out" class="small" aria-label="縮小">−</button
               ><button id="zoom-in" class="small" aria-label="拡大">＋</button
               ><label class="check"
                 ><input id="resources" type="checkbox" checked />資源</label
               ><label class="check"
-                ><input id="grid" type="checkbox" checked />格子</label
+                ><input id="grid" type="checkbox" />格子</label
               ><label class="check"
                 ><input id="motion" type="checkbox" checked />モーション</label
               ><span id="render-mode">—</span>
@@ -136,7 +136,7 @@ ECOSYSTEM-2026</textarea
           <div class="transport">
             <button id="start" class="primary" disabled>観測を開始 ▶</button
             ><button id="step" class="secondary" disabled>1ターン進む</button
-            ><button id="reset" class="secondary" disabled>初期状態へ</button
+            ><button id="finish-run" class="secondary" disabled>終了して図鑑へ保存</button><button id="open-results" class="secondary">結果図鑑</button><button id="reset" class="secondary" disabled>初期状態へ</button
             ><select id="speed" aria-label="観測速度">
               <option value="1">1ターン/秒</option>
               <option value="5">5ターン/秒</option>
@@ -204,7 +204,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v2.2.0 · 外部通信なし</span>
+        ><span>v2.3.0 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">
@@ -228,6 +228,7 @@ ECOSYSTEM-2026</textarea
     </dialog>
     <script src="ecology/hash.js"></script>
     <script src="ecology/catalogue.js"></script>
+    <script src="ecology/landscape.js"></script>
     <script src="ecology/state.js"></script>
     <script src="ecology/nutrition.js"></script>
     <script src="ecology/behavior.js"></script>
@@ -237,6 +238,9 @@ ECOSYSTEM-2026</textarea
     <script src="assets/visual-manifest.js"></script>
     <script src="ecology/art.js"></script>
     <script src="ecology/renderer.js"></script>
+    <dialog id="results"><div class="guide-head"><h2>結果図鑑</h2><button id="close-results" class="secondary">閉じる ×</button></div><p>最終結果と初期条件のみ保存 · 再生結果は記録しません · 最大100件</p><p id="results-error" role="alert"></p><section id="results-list"></section></dialog>
+    <script src="ecology/replay-version.js"></script>
+    <script src="ecology/archive.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

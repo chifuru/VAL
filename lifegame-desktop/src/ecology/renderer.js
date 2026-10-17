@@ -16,7 +16,7 @@
     "#c59873",
   ];
   function creature(g, o, x, y, r, detail = true) {
-    if (Art?.creature(g, o, x, y, r, detail)) return;
+    if (detail && Art?.creature(g, o, x, y, r, detail)) return;
     const s = S.spec(o),
       n = S.D.main.findIndex((a) => a.id === o.species),
       phase = o.phase;
@@ -294,7 +294,7 @@
         x: 0,
         y: 0,
         resources: true,
-        grid: true,
+        grid: false,
         motion: true,
         animate: false,
         duration: 260,
@@ -318,187 +318,61 @@
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
     function terrain(w) {
-      const key =
-        w.config.seed +
-        ":" +
-        w.config.width +
-        ":" +
-        w.config.height +
-        ":" +
-        Art?.loaded;
-      if (terrainKey === key) return;
-      terrainKey = key;
-      const size = 24;
-      cache.width = w.config.width * size;
-      cache.height = w.config.height * size;
-      const c = cache.getContext("2d"),
-        texture = Art?.images.terrain;
-      c.fillStyle = "#14292b";
-      c.fillRect(0, 0, cache.width, cache.height);
-      for (let p = 0; p < w.tiles.length; p++) {
-        const t = w.tiles[p],
-          [x, y] = S.xy(w, p),
-          px = x * size,
-          py = y * size;
-        const material = t.env;
-        if (texture) {
-          const tw = texture.width / 4,
-            th = texture.height / 2;
-          c.drawImage(
-            texture,
-            (material % 4) * tw + ((x % 6) * tw) / 6,
-            Math.floor(material / 4) * th + ((y % 6) * th) / 6,
-            tw / 6,
-            th / 6,
-            px,
-            py,
-            size,
-            size,
-          );
-          c.fillStyle =
-            t.terrain === "deep"
-              ? "#002b48aa"
-              : t.terrain === "mud"
-                ? "#2b271a77"
-                : "#071b2238";
-          c.fillRect(px, py, size, size);
-          c.fillStyle = colors[t.env] + "22";
-          c.fillRect(px, py, size, size);
-          if (["shallow", "deep", "mud", "rock"].includes(t.terrain)) {
-            const water = ["shallow", "deep"].includes(t.terrain),
-              color = water
-                ? t.terrain === "deep"
-                  ? "#023e69cc"
-                  : "#38bacb99"
-                : t.terrain === "mud"
-                  ? "#302915b0"
-                  : "#9caba060";
-            const shade = c.createRadialGradient(
-              px + 12,
-              py + 12,
-              1,
-              px + 12,
-              py + 12,
-              16,
-            );
-            shade.addColorStop(0, color);
-            shade.addColorStop(1, color.slice(0, 7) + "00");
-            c.fillStyle = shade;
-            c.fillRect(px, py, size, size);
-            if (water) {
-              c.strokeStyle = t.terrain === "deep" ? "#8dcce450" : "#b8f1de88";
-              c.lineWidth = 0.65;
-              c.beginPath();
-              c.moveTo(px + 3, py + 14);
-              c.bezierCurveTo(
-                px + 8,
-                py + 9,
-                px + 13,
-                py + 18,
-                px + 20,
-                py + 12,
-              );
-              c.stroke();
-            }
-          }
-        } else {
-          c.fillStyle = colors[t.env] + "66";
-          c.fillRect(px, py, size, size);
+      const key=w.config.seed+":"+w.config.width+":"+w.config.height+":"+Art?.loaded;
+      if(terrainKey===key)return;terrainKey=key;
+      const size=32;cache.width=w.config.width*size;cache.height=w.config.height*size;
+      const c=cache.getContext("2d"), palette=["#496c69","#a18c63","#708279","#7c8d6e","#b6c4ba","#667e52","#a29a75","#6c715e"];
+      c.fillStyle="#1d3934";c.fillRect(0,0,cache.width,cache.height);
+      for(let p=0;p<w.tiles.length;p++){
+        const t=w.tiles[p],[x,y]=S.xy(w,p),px=x*size,py=y*size;
+        c.fillStyle=t.terrain==="deep"?"#164756":t.terrain==="shallow"?"#387d7b":t.terrain==="mud"?"#58604a":palette[t.env];c.fillRect(px,py,size,size);
+      }
+      // Feather neighboring physical materials; no decorative geography is invented.
+      const under=document.createElement("canvas");under.width=cache.width;under.height=cache.height;under.getContext("2d").drawImage(cache,0,0);
+      c.save();c.filter="blur(9px)";c.drawImage(under,0,0);c.restore();
+      if(Art?.images.terrain){
+        const original=Art.images.terrain,texture=document.createElement("canvas");texture.width=original.width;texture.height=original.height;const tone=texture.getContext("2d");tone.filter="saturate(.4) brightness(.9)";tone.drawImage(original,0,0);const tw=texture.width/4,th=texture.height/2;
+        // Texture coordinates follow the world, not independent per-cell random crops.
+        for(let p=0;p<w.tiles.length;p++){
+          const t=w.tiles[p],[x,y]=S.xy(w,p),px=x*size,py=y*size;
+          c.save();c.globalAlpha=.12;
+          c.drawImage(texture,(t.env%4)*tw+(x%16)*tw/16,Math.floor(t.env/4)*th+(y%16)*th/16,tw/16,th/16,px,py,size,size);c.restore();
+          if(["shallow","deep"].includes(t.terrain)){c.fillStyle=t.terrain==="deep"?"#083b6080":"#287d8140";c.fillRect(px,py,size,size);}
         }
-        if (t.cover === "boulder") {
-          c.save();
-          c.translate(px + size * 0.52, py + size * 0.5);
-          c.fillStyle = "#0009";
-          c.beginPath();
-          c.ellipse(1, 6, 10, 7, 0, 0, 7);
-          c.fill();
-          const shade = c.createLinearGradient(-8, -9, 9, 9);
-          shade.addColorStop(0, "#b9c2b1");
-          shade.addColorStop(0.35, "#647477");
-          shade.addColorStop(1, "#202f37");
-          c.fillStyle = shade;
-          c.strokeStyle = "#b7c7bd88";
-          c.lineWidth = 0.65;
-          c.beginPath();
-          c.moveTo(-10, 4);
-          c.lineTo(-7, -7);
-          c.lineTo(2, -10);
-          c.lineTo(10, -2);
-          c.lineTo(8, 9);
-          c.lineTo(-5, 10);
-          c.closePath();
-          c.fill();
-          c.stroke();
-          c.beginPath();
-          c.moveTo(-7, -7);
-          c.lineTo(1, 0);
-          c.lineTo(8, 9);
-          c.moveTo(1, 0);
-          c.lineTo(10, -2);
-          c.stroke();
-          c.restore();
-        } else if (t.cover === "log") {
-          c.save();
-          c.translate(px + 12, py + 12);
-          c.rotate(-0.45);
-          c.fillStyle = "#18211bdd";
-          c.fillRect(-11, -4, 22, 9);
-          c.fillStyle = "#7d6b43";
-          c.fillRect(-10, -4, 20, 6);
-          c.strokeStyle = "#c1a46c";
-          c.lineWidth = 0.7;
-          c.beginPath();
-          c.moveTo(-9, -3);
-          c.lineTo(10, -2);
-          c.moveTo(-8, 1);
-          c.lineTo(9, 0);
-          c.stroke();
-          c.restore();
-        } else if (t.cover === "bush") {
-          c.fillStyle = "#213e2dcc";
-          for (let j = 0; j < 5; j++) {
-            c.beginPath();
-            c.ellipse(
-              px + 12 + Math.sin(j * 3) * 5,
-              py + 12 + Math.cos(j * 3) * 4,
-              5,
-              4,
-              j,
-              0,
-              7,
-            );
-            c.fill();
+      }
+      const textured=document.createElement("canvas");textured.width=cache.width;textured.height=cache.height;textured.getContext("2d").drawImage(cache,0,0);
+      c.save();c.filter="blur(8px)";c.drawImage(textured,0,0);c.restore();
+      for(let p=0;p<w.tiles.length;p++){
+        const t=w.tiles[p],[x,y]=S.xy(w,p),px=x*size,py=y*size;
+        if(S.nearby(w,p,1,true).every(q=>w.tiles[q].env===t.env && w.tiles[q].terrain===t.terrain))c.drawImage(textured,px,py,size,size,px,py,size,size);
+      }
+      for(let p=0;p<w.tiles.length;p++){
+        const t=w.tiles[p],[x,y]=S.xy(w,p),px=x*size,py=y*size,water=["deep","shallow"].includes(t.terrain);
+        const h=((x*71+y*137)%97)/97;
+        if(water){
+          c.strokeStyle=t.terrain==="deep"?"#87bcc13d":"#b4d3b666";c.lineWidth=.8;
+          c.beginPath();c.moveTo(px+3,py+12+h*10);c.bezierCurveTo(px+12,py+8+h*10,px+20,py+17+h*10,px+29,py+11+h*10);c.stroke();
+          for(const q of S.nearby(w,p))if(!["deep","shallow"].includes(w.tiles[q].terrain)){
+            const [u,v]=S.xy(w,q);if(Math.abs(u-x)+Math.abs(v-y)!==1)continue;
+            c.strokeStyle="#cbd2b71c";c.lineWidth=1.1;c.beginPath();
+            if(u!==x){const a=px+(u>x?32:0);c.moveTo(a,py+1);c.quadraticCurveTo(a+(u>x?-3:3),py+16,a,py+31);}
+            else{const a=py+(v>y?32:0);c.moveTo(px+1,a);c.quadraticCurveTo(px+16,a+(v>y?-3:3),px+31,a);}c.stroke();
           }
-          c.fillStyle = "#a8bf6eaa";
-          for (let j = 0; j < 4; j++) {
-            c.beginPath();
-            c.ellipse(
-              px + 12 + Math.sin(j * 4) * 5,
-              py + 10 + Math.cos(j * 3) * 3,
-              2,
-              1,
-              j,
-              0,
-              7,
-            );
-            c.fill();
-          }
+        }else{
+          c.fillStyle=t.env===4?"#e8efdf36":"#c2c29c18";
+          for(let j=0;j<3;j++){c.beginPath();c.ellipse(px+((x*13+j*11)%29),py+((y*17+j*7)%29),2.5,1.1,h*3,0,7);c.fill();}
         }
-        c.strokeStyle = "#d6cfb390";
-        c.lineWidth = 2.2;
-        for (const q of t.walls) {
-          if (q === p + 1) {
-            c.beginPath();
-            c.moveTo(px + size, py);
-            c.lineTo(px + size, py + size);
-            c.stroke();
-          } else if (q === p + w.config.width) {
-            c.beginPath();
-            c.moveTo(px, py + size);
-            c.lineTo(px + size, py + size);
-            c.stroke();
-          }
+        if((t.terrain==="rock" && h<.28)||t.cover==="boulder"){
+          c.save();c.translate(px+16,py+18);const big=t.cover==="boulder",r=big?13:6+h*14;
+          c.fillStyle="#0b1b2170";c.beginPath();c.ellipse(2,5,r+2,r*.6,0,0,7);c.fill();
+          c.fillStyle=t.env===4?"#bdccc8":"#7a877a";c.beginPath();c.moveTo(-r,r*.4);c.lineTo(-r*.5,-r*.7);c.lineTo(0,-r);c.lineTo(r,r*.5);c.closePath();c.fill();
+          c.fillStyle=t.env===4?"#e0e8dc":"#a0aa91";c.beginPath();c.moveTo(-r*.5,-r*.7);c.lineTo(0,-r);c.lineTo(-r*.2,r*.3);c.closePath();c.fill();c.restore();
         }
+        if(t.cover==="bush"){
+          c.fillStyle="#173a2eaa";for(let j=0;j<3;j++){c.beginPath();c.ellipse(px+15+Math.sin(j*3)*5,py+15+Math.cos(j*3)*4,7,5,j,0,7);c.fill();}
+          c.fillStyle="#8aa26099";c.beginPath();c.ellipse(px+14,py+11,5,2,-.3,0,7);c.fill();
+        }else if(t.cover==="log"){c.save();c.translate(px+16,py+16);c.rotate(-.6);c.fillStyle="#26372c";c.fillRect(-12,-3,24,7);c.fillStyle="#a0915a";c.fillRect(-12,-3,24,2);c.restore();}
+        c.strokeStyle="#b1ad8a88";c.lineWidth=1.8;for(const q of t.walls){if(q===p+1){c.beginPath();c.moveTo(px+32,py);c.lineTo(px+32,py+32);c.stroke();}else if(q===p+w.config.width){c.beginPath();c.moveTo(px,py+32);c.lineTo(px+32,py+32);c.stroke();}}
       }
     }
     function fit() {
@@ -557,7 +431,7 @@
           );
         },
         point = z < 4,
-        detail = z >= 12;
+        detail = z >= 24;
       diagnostics.mode = point ? "point" : detail ? "detail" : "simple";
       diagnostics.drawn = 0;
       diagnostics.motionActors = 0;
@@ -568,18 +442,18 @@
             env = w.tiles[a.cell].env;
           const radius =
             0.12 + Math.min(1, a.q / (S.FOOD[a.kind].cap || 4)) * 0.23;
-          if (Art) Art.resource(g, a, x + 0.5, y + 0.5, radius, env, w.turn);
+          if (Art) Art.resource(g, a, x + (a.kind==="info"?.32:.12), y + (a.kind==="droplet"?.35:.16), radius * 0.5, env, w.turn);
         }
       for (const a of w.carcasses) {
         if (!inView(a.cell)) continue;
         const [x, y] = S.xy(w, a.cell);
         g.strokeStyle = "#ab8b75";
-        g.lineWidth = 0.08;
+        g.lineWidth = 0.045;
         g.beginPath();
-        g.moveTo(x + 0.25, y + 0.25);
-        g.lineTo(x + 0.75, y + 0.75);
-        g.moveTo(x + 0.25, y + 0.75);
-        g.lineTo(x + 0.75, y + 0.25);
+        g.moveTo(x + 0.69, y + 0.69);
+        g.lineTo(x + 0.91, y + 0.91);
+        g.moveTo(x + 0.69, y + 0.91);
+        g.lineTo(x + 0.91, y + 0.69);
         g.stroke();
       }
       const age = view.animate
@@ -612,6 +486,7 @@
         });
         for (const [id, list] of ordered.slice(0, 128)) events.set(id, list);
       }
+      const occupiedMain=new Set(w.organisms.filter(o=>o.slot==="main").map(o=>o.cell)), occupiedFood=new Set(w.organisms.filter(o=>o.slot==="food").map(o=>o.cell));
       for (const slot of ["food", "main"])
         for (const o of w.organisms) {
           if (o.slot !== slot || !inView(o.cell)) continue;
@@ -619,14 +494,15 @@
           const [x, y] = S.xy(w, o.cell),
             list = events.get(o.id) || [],
             ev = list.find((e) => e.type === "move");
-          let cx = x + 0.5,
-            cy = y + 0.5;
+          const overlapped = occupiedMain.has(o.cell) && occupiedFood.has(o.cell);
+          const ox=overlapped?(slot==="main"?.66:.24):.5, oy=overlapped?(slot==="main"?.35:.76):.5;
+          let cx = x + ox, cy = y + oy;
           if (ev?.type === "move" && ev.from !== undefined) {
             const [u, v] = S.xy(w, ev.from);
-            cx = u + 0.5 + (x - u) * age;
-            cy = v + 0.5 + (y - v) * age;
+            cx = u + ox + (x - u) * age;
+            cy = v + oy + (y - v) * age;
           }
-          const size =
+          const size = (overlapped ? .68 : .86) *
             (o.slot === "main"
               ? 0.24 + 0.045 * o.phase
               : 0.15 +
@@ -637,6 +513,9 @@
                       ((S.spec(o).capacity?.[1] || 20) -
                         (S.spec(o).group === "plant" ? S.PLANT_BASE : 0)),
                   )) * (o.slot === "main" ? 0.9 + 0.2 * o.dna.body : 1);
+          g.save();g.fillStyle=slot==="main"?"#071c20aa":"#122b2266";
+          g.strokeStyle=slot==="main"?"#e7d5a65c":"#b8d79a70";g.lineWidth=.7/z;
+          g.beginPath();g.ellipse(cx,cy+.025,size*1.3,size*1.15,0,0,7);g.fill();g.stroke();g.restore();
           if (o.slot === "main" && point) {
             g.fillStyle = S.spec(o).color;
             g.beginPath();
@@ -646,19 +525,12 @@
           else if (point) {
             g.fillStyle = S.spec(o).color;
             g.fillRect(cx - 0.15, cy - 0.15, 0.3, 0.3);
-          } else food(g, o, cx - 0.12, cy + 0.12, size, w.tiles[o.cell].env);
+          } else food(g, o, cx, cy, size, w.tiles[o.cell].env);
           if (o.infection && !point) {
-            g.fillStyle = "#ec847a";
-            g.beginPath();
-            g.arc(x + 0.81, y + 0.18, 0.1, 0, 7);
-            g.fill();
-            if (o.infection.q) {
-              g.strokeStyle = "#d2a6f4";
-              g.lineWidth = 0.055;
-              g.beginPath();
-              g.arc(x + 0.81, y + 0.18, 0.16, 0, 7);
-              g.stroke();
-            }
+            const bx=cx+.19,by=cy-.22;
+            g.fillStyle="#251c25";g.beginPath();g.arc(bx,by,.13,0,7);g.fill();
+            g.fillStyle="#ffab83";g.beginPath();g.arc(bx,by,.075,0,7);g.fill();
+            if(o.infection.q){g.strokeStyle="#d3afff";g.lineWidth=.045;g.beginPath();g.arc(bx,by,.12,0,7);g.stroke();}
           }
           if (list.length) diagnostics.motionActors++;
           for (const ev of list) {
@@ -727,7 +599,7 @@
       x = canvas.clientWidth / 2,
       y = canvas.clientHeight / 2,
     ) {
-      const next = S.clamp(view.scale * factor, 1, 64),
+      const next = S.clamp(view.scale * factor, 1, 128),
         ratio = next / view.scale;
       view.x = x - (x - view.x) * ratio;
       view.y = y - (y - view.y) * ratio;

@@ -1,0 +1,11 @@
+✔ final record contains initial config and final summary; repeated replay never records (570.253169ms)
+✔ incompatible, corrupt, full or failing storage cannot silently lose records (122.00224ms)
+✔ checked-in replay signature matches all biological sources including landscape (1.274282ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 699.12696

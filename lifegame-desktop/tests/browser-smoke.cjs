@@ -396,7 +396,7 @@ async function main() {
     const report = {
       ok: true,
       artwork: "mock-art/1",
-      app: "2.2.0",
+      app: require("../package.json").version,
       version: "ecology-ab/1.5",
       platform: process.platform,
       browser: await browser.version(),

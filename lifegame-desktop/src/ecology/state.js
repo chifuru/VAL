@@ -6,10 +6,11 @@
     typeof module === "object" && module.exports
       ? require("./catalogue.js")
       : root.EcoData,
+    typeof module === "object" && module.exports ? require("./landscape.js") : root.EcoLandscape,
   );
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.EcoState = api;
-})(globalThis, function (H, D) {
+})(globalThis, function (H, D, Landscape) {
   "use strict";
   const DIRS = [
     [-1, -1],
@@ -483,6 +484,7 @@
         soilM: 5,
       });
     }
+    if(config.landscape === "watershed") { w.tiles=[]; Landscape.generate(w,config,D,H,r,xy); }
     for (let p = 0; p < n; p++) {
       const [x, y] = xy(w, p);
       for (const q of [

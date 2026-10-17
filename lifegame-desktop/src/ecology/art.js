@@ -68,7 +68,7 @@
       height,
     );
     if (detail) {
-      g.lineWidth = Math.max(r * 0.018, 0.5);
+      g.lineWidth = r * 0.025;
       g.strokeStyle = "#ffe3a1";
       g.fillStyle = "#ffe3a1";
       if (o.sex === "male") {

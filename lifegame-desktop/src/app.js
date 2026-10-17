@@ -46,6 +46,8 @@
       terminal: "終宿主",
     };
   const renderer = R.create($("board"));
+  const archive = window.EcoArchive.create({getItem:k=>localStorage.getItem(k),setItem:(k,v)=>localStorage.setItem(k,v)},E,window.EcoReplayVersion);
+  let replayEntry=null, ended=false, pendingResult=null;
   let world = null,
     initialConfig = null,
     running = false,
@@ -136,12 +138,15 @@
       world?.stopReason === "checkpoint"
         ? "次の1000ターンを続行 ▶"
         : "観測を開始 ▶";
-    $("step").disabled = !world;
+    $("step").disabled = !world || ended;
     $("status").textContent = world ? "一時停止" : "未準備";
   }
-  function prepare(config) {
+  function prepare(config, playback=null) {
+    const next = E.create({landscape:"watershed",...config});
     stop();
-    const next = E.create(config);
+    replayEntry=playback;ended=false;pendingResult=null;
+    $("finish-run").disabled=false;
+    $("finish-run").textContent=playback?"再生を終了（記録なし）":"終了して図鑑へ保存";
     world = next;
     initialConfig = structuredClone(next.config);
     $("seed").value = next.config.seed;
@@ -186,7 +191,7 @@
     return world;
   }
   function tick() {
-    if (!world) return;
+    if (!world || ended) return;
     renderer.view.animate = running;
     renderer.view.duration = Math.min(300, 800 / Number($("speed").value));
     const start = performance.now();
@@ -194,7 +199,12 @@
     lastMs = performance.now() - start;
     renderer.setWorld(world);
     render();
-    if (world.stopReason) {
+    if(replayEntry && world.turn>=replayEntry.turn){
+      stop();ended=true;$("start").disabled=true;$("step").disabled=true;
+      message(E.fingerprint(world)===replayEntry.id?"再生終了：元の最終結果と一致しました。記録は追加しません。":"再生終了：元の結果と一致しません。記録は追加しません。");
+    } else if (!replayEntry && world.stopReason === "main-extinct") {
+      finishRun("main-extinct");
+    } else if (world.stopReason && !replayEntry) {
       stop();
       message(
         world.stopReason === "main-extinct"
@@ -230,7 +240,7 @@
       stop();
       return;
     }
-    if (!world) return;
+    if (!world || ended || (replayEntry && world.turn>=replayEntry.turn)) return;
     running = true;
     $("start").textContent = "一時停止 Ⅱ";
     $("step").disabled = true;
@@ -242,8 +252,40 @@
     tick();
   });
   $("reset").addEventListener("click", () => {
-    if (initialConfig) prepare(initialConfig);
+    if (initialConfig) prepare(initialConfig,replayEntry);
   });
+  function finishRun(reason="user-ended") {
+    if(!world)return;
+    stop();ended=true;$("start").disabled=true;$("step").disabled=true;
+    if(replayEntry){message("再生を終了しました。記録は追加しません。");return;}
+    pendingResult ||= archive.capture(world,reason);
+    try{archive.save(pendingResult);$("finish-run").disabled=true;message("最終結果を図鑑に保存しました。再生から同じ初期条件を観察できます。");}
+    catch(error){$("finish-run").textContent="保存を再試行";message("保存できませんでした："+error.message);}
+  }
+  function replayResult(id){
+    const entry=archive.replay(id);prepare(entry.config,entry);
+    if(entry.turn===0){ended=true;$("start").disabled=true;$("step").disabled=true;}
+    message("再生・記録なし："+entry.turn+"ターンまで同じ初期条件から再計算します。");
+    $("start").textContent="再生を開始 ▶";
+  }
+  function showResults(){
+    try{
+      $("results-list").innerHTML=archive.list().map(r=>`<article class="result-entry"><h3>${escape(r.config.seed)}</h3><p>${r.turn}ターン · 主生物 ${fmt(r.final.main)} · ${escape(r.created.slice(0,10))}</p><button class="small" data-replay="${escape(r.id)}">初期条件から再生（記録なし）</button> <button class="small secondary" data-remove="${escape(r.id)}">削除</button></article>`).join("")||"<p>終了した観測はまだありません。一時停止では保存されません。</p>";
+      for(const b of $("results-list").querySelectorAll("[data-replay]"))b.onclick=()=>{try{replayResult(b.dataset.replay);$("results").close();}catch(e){$("results-error").textContent=e.message;}};
+      for(const b of $("results-list").querySelectorAll("[data-remove]"))b.onclick=()=>{try{archive.remove(b.dataset.remove);showResults();}catch(e){$("results-error").textContent=e.message;}};
+    }catch(e){$("results-error").textContent=e.message;}
+    if(!$("results").open)$("results").showModal();
+  }
+  $("finish-run").onclick=()=>finishRun();
+  $("open-results").onclick=()=>{stop();showResults();};
+  $("close-results").onclick=()=>$("results").close();
+  $("detail-view").onclick=()=>{
+    if(!world)return;const p=selectedCell??world.organisms.find(o=>o.slot==="main")?.cell??0;
+    renderer.view.scale=96;renderer.view.x=canvas.clientWidth/2-(p%world.config.width+.5)*96;
+    renderer.view.y=canvas.clientHeight/2-(Math.floor(p/world.config.width)+.5)*96;
+    renderer.view.x=Math.max(canvas.clientWidth-world.config.width*96,Math.min(0,renderer.view.x));
+    renderer.view.y=Math.max(canvas.clientHeight-world.config.height*96,Math.min(0,renderer.view.y));
+  };
   for (const id of ["resources", "grid", "motion"])
     $(id).addEventListener("change", () => {
       renderer.view[id] = $(id).checked;
@@ -736,6 +778,7 @@
     if (now - paintAt >= 1000 / 30) {
       paintAt = now;
       renderer.draw();
+      $("status").textContent=replayEntry?"再生・記録なし":ended?"観測終了":running?"観測中":world?"一時停止":"未準備";
       $("render-mode").textContent =
         { point: "点表示", simple: "簡略表示", detail: "詳細表示" }[
           renderer.diagnostics.mode
@@ -759,6 +802,9 @@
   if (new URLSearchParams(location.search).has("smoke"))
     window.__LIFE_TEST__ = {
       prepare,
+      finish: finishRun,
+      replay: replayResult,
+      records: ()=>archive.list(),
       step: tick,
       stop,
       select,
@@ -767,6 +813,8 @@
       snapshot: () => ({
         world: world && structuredClone(world),
         running,
+        replay:!!replayEntry,
+        ended,
         lastMs,
         selectedId,
         view: { ...renderer.view },

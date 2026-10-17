@@ -2,13 +2,13 @@
 
 project_id: lifegame-desktop
 canonical_path: valis/summary/lifegame-desktop.summary.md
-current_status: 製品2.2.0は未変更。次期調整は系統別300〜500連続存続（目標3/10・最低1/10）と結末の多様性を重視。自然排水地形・友好の分離試作、描画比較案を作成。結果図鑑の追加分割と描画方向は確認待ち。全57Node草案。
+current_status: 観測版2.3.0。自然排水地形、遠景簡略/近景詳細、結果図鑑と記録しない再生を接続。Linuxの実測はE6。長期バランスは未確定、Windows実exeはE7の旧対象から引き継がない。全59Node草案。
 current_specification: design/specification/ab-system-specification-v1.3.md
 current_adjustments: design/specification/ab-readiness-v1.4.md + design/specification/ab-balance-v1.5.md
-current_contract: design/ecosystem-next/README.md
-current_trial: design/ecosystem-next/README.md（製品未採用。foundation/v2を比較基準に使用）
+current_contract: operations/plans/observation-v2.3.md
+current_trial: design/ecosystem-next/README.md（生態調整は未採用。watershed地形のみUIに採用）
 current_trial_result: operations/evidence/ecosystem-next/report.md
-current_image: design/ecosystem-next/visual-directions.png（画風比較の概念画像、実画面ではない）
+current_image: operations/evidence/observation-v2.3/detail.png（同じ90ターン世界の遠景はoverview.png）
 visual_reference: design/specification/ecosystem-overview-mock.png + design/specification/habitat-overview-mock.png
 
 現在の状態と必要な参照だけを記載する。履歴・過去の作業ログは保持しない。coreはプロジェクト内正本を使用し、変更しない。
@@ -191,6 +191,7 @@ E5:（D7, D8, D8.1, D8.2, C7, C7.1, C7.2, C7.3, C7.4, C7.5 / 現行生態計算�
 
 E6:（D9, C8, C8.1 / 現行観測画面のLinux実測証跡）［草案］
 	Node File: valis/nodes/E/E6.md; 親: なし
+	現在対象: app2.3.0。operations/evidence/observation-v2.3/validation.jsonとsource-hashes.json。Windows/長期存続は範囲外。
 	実態: Linux外観画面45/45成功。原画/地表/肖像/図鑑/自然成熟を実画面で照合。WindowsはE7。
 	限定試作: foundation/v2。対象版・対応実体・検査の限界はNodeとE5/E6。製品への採用なし。
 
@@ -268,3 +269,11 @@ E4:（D5, D6, A1.1, A1.2, A1.3, B4, B5, C5, C6 / 1マス1個体モックの実�
 ## 現在の不足と次作業
 
 標準の一初期値では1000ターンまで世代交代。小盤面3条件では主生物が722/705/947ターンで絶滅し、餌生物は存続。全系統・全初期値の存続や安定平衡は未成立/未保証。自然条件での特殊な寄生生活環の完走頻度、端末別速度と造形の認識合わせは未確認。Windows ZIP/実exeの現行状態はE7を参照。処理フラグ: 承認状態変更なし、未確認事項は本段落、次FLOW候補は外観認識合わせ・必要時の既存C8/C8.1調整（FLOW-04）。早成型の専用画と枝ごとの大きな造形差は未対応。
+
+B5.4:（A1, A2 / 最終結果図鑑と記録しない再生）［草案］
+	Node File: valis/nodes/B/B5.4.md; 親: B5
+	実態: 利用者確認済み分割。最終条件・再生書込拒否を具体化。
+
+C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
+	Node File: valis/nodes/C/C8.2.md; 親: C8
+	実態: 観測版2.3に実装、検査はD9/E6。

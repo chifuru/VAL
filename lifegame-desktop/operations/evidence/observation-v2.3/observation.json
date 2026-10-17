@@ -1,0 +1,21 @@
+{
+  "ok": true,
+  "checks": [
+    "app uses the seeded watershed map",
+    "near view uses 96 pixels per real cell",
+    "zoom never changes biology",
+    "ordinary pause and steps do not save intermediate results",
+    "watershed world respects occupancy and finite budgets after 90 turns",
+    "explicit finish saves one final result",
+    "record starts from turn zero in replay mode",
+    "invalid setup cannot promote a replay into a recordable normal run",
+    "replay reaches identical final biological fingerprint",
+    "replay completion adds no record",
+    "replay restart and early finish add no records",
+    "final record persists across app page reload",
+    "no browser exceptions"
+  ],
+  "turn": 90,
+  "fingerprint": "bb5f03325ef8a7759581a2b3f4e4d00f42ec0ef6da6b61ca0e00a83fbd79d552",
+  "errors": []
+}

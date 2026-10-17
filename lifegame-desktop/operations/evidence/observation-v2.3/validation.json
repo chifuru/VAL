@@ -1,0 +1,10 @@
+{
+  "version": "app2.3.0",
+  "source_hashes": "source-hashes.json",
+  "browser": 45,
+  "observation": 13,
+  "archive_tests": 3,
+  "biology_fingerprint": "bb5f03325ef8a7759581a2b3f4e4d00f42ec0ef6da6b61ca0e00a83fbd79d552",
+  "scope": "Linux Chromium; Windows actual executable not covered",
+  "balance": "500-turn prototype results do not certify this production map/configuration"
+}
