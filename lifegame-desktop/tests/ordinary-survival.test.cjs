@@ -138,3 +138,23 @@ test("hungry defense earns survival value only for a visible threat while ordina
     {m:S.maps(w),traits:socialCtx.traits,enemies:[],nearest:null,visibleCells:new Set([social.cell]),qualityCache:new Map()});
   assert.equal(socialGuard.features[1], 0.25, "social waiting retains its existing evaluation");
 });
+
+test("paid reproductive readiness attracts a visible partner without bypassing shortages or cooldown", () => {
+  const w = world(), o = add(w, "crystal", "pair-observer", 2, 3,
+    {phase:3,sex:"female",E:90,M:8,HP:100}),
+    mate = add(w, "crystal", "pair-partner", 4, 3,
+      {phase:3,sex:"male",E:90,M:3,HP:100});
+  const c = ready(w), cell = S.index(w,3,3);
+  const evaluate = () => E.B.evaluate(w,o,{type:"move",cell,cost:0,path:[cell],direction:2},c,
+    {m:S.maps(w),traits:c.traits,enemies:[],nearest:null,visibleCells:new Set(S.nearby(w,o.cell,2,true)),qualityCache:new Map()}).score;
+  const shortage = evaluate(); mate.M = 4;
+  const before = E.fingerprint(w), weights = o.weights.slice(), readyScore = evaluate();
+  assert(Math.abs(readyScore - shortage - .325) < 1e-10, "approaching a locally ready partner adds finite attraction");
+  assert.equal(E.fingerprint(w),before);assert.deepEqual(o.weights,weights);
+  mate.birthReady=w.turn+1;
+  assert.equal(evaluate(),shortage,"waiting prevents reproductive attraction");
+  mate.birthReady=0;mate.E=S.spec(mate).birthEnergy-1;
+  assert.equal(evaluate(),shortage,"a partner unable to fund birth is not treated as ready");
+  mate.E=90;mate.HP=69;
+  assert.equal(evaluate(),shortage,"injured partner still needs recovery");
+});

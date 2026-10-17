@@ -73,13 +73,6 @@ ECOSYSTEM-2026</textarea
                   maxlength="2048"
                   placeholder="空欄なら生態用初期値と同じ"
               /></label>
-              <button id="load" type="submit" class="primary">
-                この設定で世界を作る ↗
-              </button>
-            </div>
-            <details id="advanced-settings">
-              <summary>系統・初期配置・参加する生物群を設定</summary>
-              <div class="setup-more">
                 <label
                   >系統の構成<select id="lineages">
                     <option value="all">基本20系統</option>
@@ -87,6 +80,14 @@ ECOSYSTEM-2026</textarea
                     <option value="manual">自分で選択（早成甲殻を含む）</option>
                   </select></label
                 >
+              <button id="load" type="submit" class="primary">
+                この設定で世界を作る ↗
+              </button>
+            </div>
+            <p id="cohort-hint" class="cohort-hint" aria-live="polite"></p>
+            <details id="advanced-settings">
+              <summary>系統の詳細・初期配置・参加する生物群</summary>
+              <div class="setup-more">
                 <div id="lineage-options" hidden></div>
                 <label
                   >系統ごとの配分<select id="distribution">
@@ -140,6 +141,15 @@ ECOSYSTEM-2026</textarea
               <option value="5">5ターン/秒</option>
               <option value="10">10ターン/秒</option>
             </select>
+          </div>
+          <div class="metrics">
+            <div class="population-main"><span>主生物</span><strong id="main-count">—</strong><small id="main-balance">出生 — / 死亡 —（累計）</small></div>
+            <div><span>餌生物</span><strong id="food-count">—</strong></div>
+            <div>
+              <span>一次 / 高次寄生</span><strong id="parasite-count">—</strong>
+            </div>
+            <div><span>最終計算</span><strong id="timing">—</strong></div>
+            <div class="trend-card"><span>個体群の推移 <small id="trend-range">観測前</small></span><svg id="population-trend" viewBox="0 0 240 50" role="img" aria-label="主生物の個体数の推移"><path id="trend-fill"></path><path id="trend-line"></path></svg></div>
           </div>
           <div class="panel habitat">
             <div class="panel-heading">
@@ -206,20 +216,13 @@ ECOSYSTEM-2026</textarea
           <p id="message" role="status" aria-live="polite">
             世界の読み込みを待っています。
           </p>
-          <div class="metrics">
-            <div><span>主生物</span><strong id="main-count">—</strong></div>
-            <div><span>餌生物</span><strong id="food-count">—</strong></div>
-            <div>
-              <span>一次 / 高次寄生</span><strong id="parasite-count">—</strong>
-            </div>
-            <div><span>最終計算</span><strong id="timing">—</strong></div>
-          </div>
           <section class="panel checkpoints">
             <div class="panel-heading">
               <h2>観測スナップショット</h2>
               <span>0 / 100 / 250 / 500 / 1000</span>
             </div>
             <div id="checkpoints"></div>
+            <details id="budget-panel"><summary>収支・出生・死因・情報の詳細</summary><div id="budget-content"></div></details>
           </section>
           <section class="panel environment">
             <h2>◈ 8つの生息環境と地形</h2>
@@ -235,13 +238,13 @@ ECOSYSTEM-2026</textarea
             1マスに主生物1体と餌生物1体が共存。寄生虫は宿主に付随します。
           </p>
           <div id="selection">盤面のマスを選択してください。</div>
-          <details class="rank-panel">
+          <details id="rank-panel" class="rank-panel">
             <summary>生存系統を確認</summary>
             <div id="ranking"></div>
           </details>
         </aside>
       </div>
-      <details class="panel table-panel">
+      <details id="individual-list" class="panel table-panel">
         <summary>
           生存個体一覧 <span id="list-count">0</span> ·
           先頭100体（計算は全個体）
@@ -264,7 +267,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v3.7.0 · 外部通信なし</span>
+        ><span>v3.8.0 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">

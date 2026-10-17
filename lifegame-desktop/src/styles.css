@@ -1363,3 +1363,63 @@ dialog::backdrop {
   line-height: 1.6;
   margin: 7px 0;
 }
+
+/* Observatory: a compact instrument bar around the original painted world. */
+:root { --mint: #9cdec9; }
+button { border-radius: 6px; transition: border-color .14s, background-color .14s; }
+input, select, textarea { accent-color: var(--mint); }
+.transport { align-items: center; }
+.transport #start { min-width: 130px; }
+.transport #change-world { margin-right: auto; }
+.metrics {
+  grid-template-columns: 1.25fr .8fr 1fr .8fr 1.6fr;
+  gap: 8px;
+  margin: 0 0 10px;
+}
+.metrics > div {
+  min-width: 0;
+  min-height: 86px;
+  padding: 10px 14px;
+  border: 1px solid #6d96874a;
+  border-radius: 6px;
+  background: linear-gradient(145deg, #12383c, #071e26);
+}
+.metrics > div > span { font-size: 10px; letter-spacing: .8px; color: #b2c8c0; }
+.metrics strong { color: #e8ecd7; font-variant-numeric: tabular-nums; }
+.metrics .population-main { border-top: 2px solid #a6ddc2; }
+.metrics .population-main strong { color: #b6efd4; }
+#main-balance { display: block; color: #b2c8c0; font-size: 10px; margin-top: 4px; }
+.metrics .trend-card { padding-bottom: 4px; }
+.trend-card > span { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 3px; }
+#trend-range { font-size: 9px; color: #b2c8c0; letter-spacing: 0; }
+#population-trend { display: block; width: 100%; height: 48px; overflow: visible; }
+#trend-line { fill: none; stroke: #a6e8cc; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+#trend-fill { fill: #81cbb21c; stroke: none; }
+.cohort-hint { margin: 10px 0 4px; font-size: 11px; color: #b7d0c3; }
+.habitat { overflow: hidden; border-color: #829c8277; box-shadow: 0 12px 35px #0004; }
+.habitat .panel-heading { background: linear-gradient(100deg, #15373b, #06232c); }
+.view-controls { background: #071f27; gap: 9px; align-items: center; }
+.view-controls .check { font-size: 11px; white-space: nowrap; }
+.view-controls button { border-color: #73918680; color: #d5e4d3; }
+.view-controls #detail-view { border-color: #bba66b99; color: #f1dda5; }
+#render-mode { margin-left: auto; font-size: 10px; color: #b6d6c8; }
+#budget-panel > summary { padding: 12px 14px; color: #cbd7bc; font-size: 11px; }
+#budget-content { padding: 0 14px 12px; }
+.checkpoints { overflow: hidden; }
+.map-key, .rank-panel { border-color: #78958355; }
+.inspector-heading { border-bottom: 1px solid #8ca48a44; padding-bottom: 12px; }
+@media (max-width: 1100px) {
+  .metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .metrics .trend-card { grid-column: 1/-1; min-height: 66px; }
+  #population-trend { height: 38px; }
+}
+@media (max-width: 760px) {
+  .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metrics > div { padding: 9px 11px; min-height: 76px; }
+  .transport #change-world { margin-right: 0; }
+  #render-mode { width: 100%; }
+}
+.observatory .checkpoints { display: block; }
+@media (min-width: 1101px) {
+  .observatory .canvas-wrap { height: calc(100vh - 410px); min-height: 400px; }
+}

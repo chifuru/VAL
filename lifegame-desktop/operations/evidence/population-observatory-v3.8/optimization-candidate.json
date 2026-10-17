@@ -1,0 +1,28 @@
+[
+  {
+    "seed": "cache38/one",
+    "before": {
+      "fingerprint": "36ea1d44928b1238741262ea2992d8e8a8c90a09131e19b84ed8e5cf95596b0b",
+      "ms": 7646.4221560000005,
+      "main": 92
+    },
+    "after": {
+      "fingerprint": "36ea1d44928b1238741262ea2992d8e8a8c90a09131e19b84ed8e5cf95596b0b",
+      "ms": 6958.96834200001,
+      "main": 92
+    }
+  },
+  {
+    "seed": "cache38/two",
+    "before": {
+      "fingerprint": "2f84f3589c733245c47f059f424917e90d555d1cbbff15525234823ea04c5524",
+      "ms": 6410.89364899998,
+      "main": 97
+    },
+    "after": {
+      "fingerprint": "2f84f3589c733245c47f059f424917e90d555d1cbbff15525234823ea04c5524",
+      "ms": 5324.842185000005,
+      "main": 97
+    }
+  }
+]

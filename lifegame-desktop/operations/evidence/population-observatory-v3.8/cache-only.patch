@@ -1,0 +1,44 @@
+--- a/lifegame-desktop/src/ecology/behavior.js
++++ b/lifegame-desktop/src/ecology/behavior.js
+@@ -276,6 +276,8 @@
+       nearest,
+       traits: ctx.traits,
+       qualityCache: new Map(),
++      dangerCache: new Map(),
++      neighborhoodCache: new Map(),
+     };
+   }
+   function quality(w, o, cell, v) {
+@@ -336,6 +338,7 @@
+     );
+   }
+   function danger(w, o, cell, v) {
++    if (v.dangerCache?.has(cell)) return v.dangerCache.get(cell);
+     let t = 0;
+     for (const enemy of v.enemies) {
+       const s = S.spec(enemy);
+@@ -347,9 +350,12 @@
+         (((9 * phaseA[enemy.phase]) / 24) * hp) /
+         (1 + S.distance(w, cell, enemy.cell)) ** 2;
+     }
+-    return Math.min(1, t);
++    const result = Math.min(1, t);
++    v.dangerCache?.set(cell, result);
++    return result;
+   }
+   function neighborhood(w, o, cell, v) {
++    if (v.neighborhoodCache?.has(cell)) return v.neighborhoodCache.get(cell);
+     let friends = 0,
+       crowd = 0,
+       empty = 0;
+@@ -363,7 +369,9 @@
+       const occupant = (o.slot === "main" ? v.m.main : v.m.food).get(p);
+       if ((!occupant || occupant.id === o.id) && S.oneStep(w, cell, p)) empty++;
+     }
+-    return { C: friends / 8, D: crowd / 8, O: empty / 8 };
++    const result = { C: friends / 8, D: crowd / 8, O: empty / 8 };
++    v.neighborhoodCache?.set(cell, result);
++    return result;
+   }
+   function evaluate(w, o, c, ctx, v) {
+     const s = S.spec(o),

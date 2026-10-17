@@ -18,6 +18,10 @@
             "'": "&#39;",
           })[c],
       );
+  const setText = (id, value) => {
+    const el = $(id), text = String(value);
+    if (el.textContent !== text) el.textContent = text;
+  };
   const fmt = (v) =>
       Number.isFinite(v) ? Number(v.toFixed(2)).toLocaleString("ja-JP") : "—",
     phase = (n) => ["", "I", "II", "III", "IV"][n],
@@ -66,7 +70,10 @@
     lastMs = 0,
     activeSheet = "tree",
     activeLineage = "abyss",
-    paintAt = 0;
+    paintAt = 0,
+    populationHistory = [],
+    legendKey = null,
+    checkpointKey = null;
   const groups = {
     main: "主生物",
     plant: "植物",
@@ -106,6 +113,7 @@
   });
   $("lineages").addEventListener("change", () => {
     $("lineage-options").hidden = $("lineages").value !== "manual";
+    if ($("lineages").value === "manual") $("advanced-settings").open = true;
   });
   $("distribution").addEventListener("change", () => {
     $("weight-options").hidden = $("distribution").value !== "weighted";
@@ -171,6 +179,8 @@
       ? "再生を終了（記録なし）"
       : "終了して図鑑へ保存";
     world = next;
+    populationHistory = [];
+    checkpointKey = null;
     $("load").textContent = "この設定で世界を作り直す ↗";
     $("setup-help").textContent =
       "設定変更だけでは現在の世界は変わりません。「世界を作り直す」で未保存の観測を置き換えます。残したい結果は先に「終了して図鑑へ保存」を選んでください。";
@@ -224,6 +234,7 @@
       selectedCell = focal.cell;
       renderer.view.selected = focal.cell;
     }
+    updateCohortHint();
     render();
     message(
       world.warnings.join(" / ") ||
@@ -633,7 +644,9 @@
       };
   }
   function renderMapKey() {
-    const counts = world.stats.counts;
+    const counts = world.stats.counts, key = JSON.stringify(counts);
+    if (legendKey === key) return;
+    legendKey = key;
     $("species-key").innerHTML = D.species
       .filter((s) => !["P", "Q"].includes(s.group) && counts[s.id] > 0)
       .map(
@@ -646,6 +659,7 @@
         c = item.querySelector("canvas");
       R.symbol(c.getContext("2d"), s.id, 20, 20, 14, R.symbolColor(s));
     }
+    if ($("resource-key").childElementCount) return;
     $("resource-key").innerHTML = Object.entries(S.FOOD)
       .map(
         ([id, f]) =>
@@ -673,14 +687,11 @@
     $("food-count").textContent = s.food.toLocaleString();
     $("parasite-count").textContent = s.P + " / " + s.Q;
     $("timing").textContent = lastMs ? Math.round(lastMs) + " ms" : "—";
-    $("ranking").innerHTML =
-      D.species
-        .map(
-          (a) =>
-            `<div class="rank"><i class="dot" style="background:${a.color}"></i><span>${escape(a.name)}${!world.config.enabled[a.group] ? " · 未参加" : s.counts[a.id] === 0 ? " · 生体0" : ""}</span><strong>${s.counts[a.id]}</strong></div>`,
-        )
-        .join("") +
-      `<p class="note">感染残存・待機 ${s.resting}<br>群体節足: 繁殖型 ${s.roles.queen} / 働育 ${s.roles.worker} / 雄 ${s.roles.male}<br>集団数 ${Object.keys(s.colonies).length}<br>出生 ${world.last.births} / 死亡 ${world.last.deaths}（当ターン）</p>`;
+    renderPopulation();
+    if ($("rank-panel").open) renderRanking();
+    const key = world.checkpoints.map(a => a.turn).join(",");
+    if (checkpointKey !== key) {
+      checkpointKey = key;
     $("checkpoints").innerHTML =
       '<div class="table-scroll"><table><tr><th>TURN</th><th>主</th><th>餌</th><th>P</th><th>Q</th></tr>' +
       world.checkpoints
@@ -690,8 +701,30 @@
         )
         .join("") +
       "</table></div>";
-    $("checkpoints").innerHTML +=
-      '<details style="padding:12px"><summary>収支・出生/死因・情報の累積を見る</summary><p class="stats-line">光からの投入E ' +
+    }
+    if ($("budget-panel").open) renderBudget();
+    $("list-count").textContent = s.population;
+    if ($("individual-list").open) renderIndividuals();
+    renderSelection();
+    if ($("guide").open && activeSheet === "tree") drawTree();
+  }
+  function renderRanking() {
+    if (!world) return;
+    const s = world.stats;
+    $("ranking").innerHTML =
+      D.species
+        .map(
+          (a) =>
+            `<div class="rank"><i class="dot" style="background:${a.color}"></i><span>${escape(a.name)}${!world.config.enabled[a.group] ? " · 未参加" : s.counts[a.id] === 0 ? " · 生体0" : ""}</span><strong>${s.counts[a.id]}</strong></div>`,
+        )
+        .join("") +
+      `<p class="note">感染残存・待機 ${s.resting}<br>群体節足: 繁殖型 ${s.roles.queen} / 働育 ${s.roles.worker} / 雄 ${s.roles.male}<br>集団数 ${Object.keys(s.colonies).length}<br>出生 ${world.last.births} / 死亡 ${world.last.deaths}（当ターン）</p>`;
+  }
+  function renderBudget() {
+    if (!world) return;
+    const s = world.stats;
+    $("budget-content").innerHTML =
+      '<p class="stats-line">光からの投入E ' +
       fmt(world.ledger.solar) +
       " / 散逸E " +
       fmt(world.ledger.sinks) +
@@ -748,8 +781,10 @@
             "</td></tr>",
         )
         .join("") +
-      "</table></div></details>";
-    $("list-count").textContent = s.population;
+      "</table></div>";
+  }
+  function renderIndividuals() {
+    if (!world) return;
     $("cells-table").innerHTML = world.organisms
       .slice(0, 100)
       .map(
@@ -762,9 +797,37 @@
         const o = world.organisms.find((a) => a.id === tr.dataset.id);
         if (o) select(o.cell, o.id);
       };
-    renderSelection();
-    if ($("guide").open && activeSheet === "tree") drawTree();
   }
+  function renderPopulation() {
+    const births = D.main.reduce((n, a) => n + world.tallies.births[a.id], 0),
+      deaths = D.main.reduce((n, a) => n + world.tallies.deaths[a.id], 0);
+    setText("main-balance", `出生 ${births} / 死亡 ${deaths}（累計）`);
+    const sample = {turn: world.turn, count: world.stats.main};
+    if (populationHistory.at(-1)?.turn !== sample.turn) {
+      populationHistory.push(sample);
+      if (populationHistory.length > 121) populationHistory.shift();
+    }
+    const first = populationHistory[0], last = populationHistory.at(-1),
+      maximum = Math.max(1, ...populationHistory.map(a => a.count)),
+      span = Math.max(1, last.turn - first.turn),
+      points = populationHistory.map(a => `${((a.turn-first.turn)/span*236+2).toFixed(2)},${(46-a.count/maximum*40).toFixed(2)}`),
+      line = "M" + points.join(" L");
+    $("trend-line").setAttribute("d", line);
+    $("trend-fill").setAttribute("d", line + ` L${points.at(-1).split(",")[0]},49 L2,49 Z`);
+    setText("trend-range", `${first.turn}–${last.turn} T · 0–${maximum}体`);
+    $("population-trend").setAttribute("aria-label", `主生物の個体数推移。${first.turn}ターン ${first.count}体から${last.turn}ターン ${last.count}体。縦軸0〜${maximum}体`);
+  }
+  for (const [id, fn] of [["rank-panel", renderRanking], ["budget-panel", renderBudget], ["individual-list", renderIndividuals]])
+    $(id).addEventListener("toggle", () => { if ($(id).open) fn(); });
+  function updateCohortHint() {
+    const mode = $("lineages").value,
+      count = mode === "all" ? 20 : mode === "few" ? 5 : $("lineage-options").querySelectorAll("input:checked").length,
+      total = Number($("initial").value);
+    $("cohort-hint").textContent = count ? `${count}系統 / 主生物${total}体 · 均等なら1系統あたり約${Math.floor(total/count)}体。少数の集団は配偶相手を失いやすくなります。生存は保証しません。` : "参加させる系統を選んでください。";
+  }
+  $("setup").addEventListener("input", updateCohortHint);
+  $("setup").addEventListener("change", updateCohortHint);
+  updateCohortHint();
   const card = (title, text) =>
     `<article class="sheet-card"><h3>${title}</h3>${text}</article>`;
   const sheets = {
@@ -975,7 +1038,7 @@
       paintAt = now;
       renderer.drawIfChanged(now);
       $("scale-warning").hidden = renderer.view.scale >= 8;
-      $("status").textContent = replayEntry
+      setText("status", replayEntry
         ? "再生・記録なし"
         : ended
           ? "観測終了"
@@ -983,14 +1046,14 @@
             ? "観測中"
             : world
               ? "一時停止"
-              : "未準備";
-      $("render-mode").textContent =
+              : "未準備");
+      setText("render-mode",
         { point: "密集記号表示", simple: "記号表示", detail: "詳細表示" }[
           renderer.diagnostics.mode
         ] +
         " · " +
         fmt(renderer.view.scale) +
-        " px/マス";
+        " px/マス");
     }
     requestAnimationFrame(frame);
   }

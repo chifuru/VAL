@@ -1,0 +1,6 @@
+{
+  "beforeCommit": "e9d6644fc8dd55c038a70420279d0164fd731819",
+  "variant": "cache-only.patch applied to beforeCommit; excludes reproductive attraction",
+  "beforeBehaviorSHA256": "d06ee8ea0a432520a774fc1fe09f4edc048a269451d8658fc6651519abd45616",
+  "variantBehaviorSHA256": "ccf39b68d95070f7924a401c7239afb920b90755c8a51a484c0a92e2cece9c75"
+}

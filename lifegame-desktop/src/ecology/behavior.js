@@ -276,6 +276,8 @@
       nearest,
       traits: ctx.traits,
       qualityCache: new Map(),
+      dangerCache: new Map(),
+      neighborhoodCache: new Map(),
     };
   }
   function quality(w, o, cell, v) {
@@ -336,6 +338,7 @@
     );
   }
   function danger(w, o, cell, v) {
+    if (v.dangerCache?.has(cell)) return v.dangerCache.get(cell);
     let t = 0;
     for (const enemy of v.enemies) {
       const s = S.spec(enemy);
@@ -347,9 +350,12 @@
         (((9 * phaseA[enemy.phase]) / 24) * hp) /
         (1 + S.distance(w, cell, enemy.cell)) ** 2;
     }
-    return Math.min(1, t);
+    const result = Math.min(1, t);
+    v.dangerCache?.set(cell, result);
+    return result;
   }
   function neighborhood(w, o, cell, v) {
+    if (v.neighborhoodCache?.has(cell)) return v.neighborhoodCache.get(cell);
     let friends = 0,
       crowd = 0,
       empty = 0;
@@ -363,7 +369,9 @@
       const occupant = (o.slot === "main" ? v.m.main : v.m.food).get(p);
       if ((!occupant || occupant.id === o.id) && S.oneStep(w, cell, p)) empty++;
     }
-    return { C: friends / 8, D: crowd / 8, O: empty / 8 };
+    const result = { C: friends / 8, D: crowd / 8, O: empty / 8 };
+    v.neighborhoodCache?.set(cell, result);
+    return result;
   }
   function evaluate(w, o, c, ctx, v) {
     const s = S.spec(o),
@@ -420,7 +428,11 @@
     const move = c.type === "move",
       attack = c.type === "attack",
       guard = c.type === "defend";
+    const pairReady = (a) => a.species !== "swarm" && a.phase >= 3 &&
+      ctx.traits.get(a.id)?.ageStage !== "juvenile" && a.role !== "worker" &&
+      a.HP >= 70 && a.E >= S.spec(a).birthEnergy && a.M >= 4 && a.birthReady <= w.turn;
     let mateBonus = 0,
+      pairApproach = 0,
       shelterBonus = 0;
     for (const p of v.visibleCells) {
       const a = v.m.main.get(p);
@@ -451,6 +463,11 @@
           S.distance(w, to, p) < S.distance(w, here, p))
       )
         mateBonus = 0.8;
+      if (a.sex !== o.sex && pairReady(o) && pairReady(a)) {
+        const attraction = move ? 0.65 * approach(w, here, to, p)
+          : S.distance(w, here, p) <= 1 ? 0.2 : 0;
+        pairApproach = Math.max(pairApproach, attraction);
+      }
       if (o.phase <= 2 && a.phase >= 3 && S.distance(w, to, p) <= 1)
         shelterBonus = Math.max(shelterBonus, 0.1);
     }
@@ -537,7 +554,7 @@
       hunger * features[2] +
       injury * features[1] -
       c.cost / 5 +
-      lure;
+      lure + pairApproach * Math.max(0, 1 - oldT);
     if ((c.type === "stop" || guard) && quality(w, o, here, v) < 0.1)
       score -= 0.3 * livingNeed;
     const feedingNeed = Math.max(0, (75 - o.E) / 75);

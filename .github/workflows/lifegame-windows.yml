@@ -45,6 +45,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node tests/terrain-symbols-ui.cjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node tests/population-ui.cjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Build Windows ZIP
         run: npm run package:windows
       - name: Verify expanded ZIP and actual executable
