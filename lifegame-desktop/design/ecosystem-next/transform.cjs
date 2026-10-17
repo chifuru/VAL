@@ -8,7 +8,7 @@ module.exports=(name,source,flags)=>{
   s=s.replace(old,fs.readFileSync(path.join(__dirname,'world-body.txt'),'utf8'));
  }
  if(name==='behavior'){
-  const edit=(a,b)=>{if(!s.includes(a))throw Error('Friendship contract: '+a);s=s.replace(a,b);};
+  const edit=(a,b)=>{s=require('../source-replace.cjs')(s,a,b,'Friendship contract');};
   edit('  const phaseA =',`  function friendly(a,b){
     return a.species===b.species || ['solar|kelp','kelp|solar'].includes(a.species+'|'+b.species);
   }

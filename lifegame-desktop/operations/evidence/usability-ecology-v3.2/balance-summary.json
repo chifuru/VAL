@@ -1,0 +1,89 @@
+{
+  "before32": {
+    "trials": 10,
+    "checkedTurns": 5000,
+    "mainExtinctionsAt500": 2,
+    "stableLineageOccurrences300to500": 12,
+    "terminalSets": [
+      "",
+      "abyss,kelp,memory",
+      "crystal",
+      "kelp",
+      "memory",
+      "memory,recursive",
+      "memory,valis",
+      "whale"
+    ],
+    "PAt500": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "QAt500": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "after32": {
+    "trials": 10,
+    "checkedTurns": 5000,
+    "mainExtinctionsAt500": 1,
+    "stableLineageOccurrences300to500": 15,
+    "terminalSets": [
+      "",
+      "crystal",
+      "crystal,whale",
+      "kelp",
+      "memory",
+      "memory,recursive,sail",
+      "memory,sail",
+      "sail,solar",
+      "solar,whale"
+    ],
+    "PAt500": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "QAt500": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "limitations": [
+    "Ten total trials, not ten per lineage; no per-lineage target-rate acceptance",
+    "0 P/Q at 500 in both variants; parasite maintenance remains unmet",
+    "No user-device speed guarantee; world sizes and samples are limited",
+    "Pixel identity compares optimized/forced rendering of the same 3.2 state, not cross-version ecosystem outcomes"
+  ]
+}

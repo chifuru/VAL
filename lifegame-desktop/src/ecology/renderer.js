@@ -152,7 +152,9 @@
       changedAt = 0,
       cache = null,
       cacheKey = null,
-      nearCache = null;
+      nearCache = null,
+      revision = 0,
+      lastFrameKey = null;
     function resize() {
       const b = canvas.getBoundingClientRect(),
         d = devicePixelRatio || 1,
@@ -166,6 +168,7 @@
       return b;
     }
     function setWorld(w) {
+      revision++;
       world = w;
       const key = [
         Art.loaded,
@@ -220,7 +223,29 @@
       for (const p of points.slice(1)) g.lineTo(...p);
       g.closePath();
     }
+    function drawIfChanged(now = performance.now()) {
+      const b = canvas.getBoundingClientRect();
+      const active =
+        world && view.animate && view.motion && now - changedAt < view.duration;
+      const key = [
+        revision,
+        Art.loaded,
+        b.width,
+        b.height,
+        devicePixelRatio || 1,
+        JSON.stringify(view),
+        active ? Math.floor(now / (1000 / 30)) : "settled",
+      ].join("/");
+      if (key === lastFrameKey) {
+        diagnostics.skippedFrames = (diagnostics.skippedFrames || 0) + 1;
+        return false;
+      }
+      lastFrameKey = key;
+      draw();
+      return true;
+    }
     function draw() {
+      diagnostics.frames = (diagnostics.frames || 0) + 1;
       const b = resize();
       g.fillStyle = "#07171f";
       g.fillRect(0, 0, b.width, b.height);
@@ -700,6 +725,7 @@
       diagnostics,
       setWorld,
       draw,
+      drawIfChanged,
       fit,
       focus,
       screen,

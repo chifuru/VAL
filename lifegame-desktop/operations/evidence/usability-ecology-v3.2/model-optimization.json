@@ -1,0 +1,16 @@
+[
+  {
+    "seed": "perf/1",
+    "turns": 30,
+    "beforeMs": 2803.964257,
+    "afterMs": 2502.8769709999997,
+    "fingerprint": "38804d0d47b6fedaefcc2f01660a0f635e952333775b94a1c07ec0346cbc5f57"
+  },
+  {
+    "seed": "perf/2",
+    "turns": 30,
+    "beforeMs": 1820.22437,
+    "afterMs": 1562.1898890000011,
+    "fingerprint": "b28d4c31d0d6e08fab9aa61e2361f26e4a36443043bb6cf6e2fff3fa6f475c4c"
+  }
+]

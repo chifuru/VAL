@@ -31,7 +31,13 @@
       </div>
       <div class="workspace">
         <aside class="panel setup">
-          <h2>◈ 世界の初期条件 <small>同じ初期値から、同じ世界へ</small></h2>
+          <h2>◈ マップと初期条件</h2>
+          <p class="setup-steps">
+            <b>① 地形を選ぶ</b> → <b>② 世界を作る</b> → <b>③ 観測を開始</b>
+          </p>
+          <p id="setup-help" class="note">
+            地形を選んで「この設定で世界を作る」を押してください。地形用初期値は空欄でも使えます。
+          </p>
           <form id="setup">
             <div class="setup-main">
               <label
@@ -68,7 +74,7 @@ ECOSYSTEM-2026</textarea
                   placeholder="空欄なら生態用初期値と同じ"
               /></label>
               <button id="load" type="submit" class="primary">
-                世界を読み込む ↗
+                この設定で世界を作る ↗
               </button>
             </div>
             <details id="advanced-settings">
@@ -120,6 +126,9 @@ ECOSYSTEM-2026</textarea
         </aside>
         <section class="world-column">
           <div class="transport">
+            <button id="change-world" class="secondary" type="button">
+              マップ・初期条件を変更
+            </button>
             <button id="start" class="primary" disabled>観測を開始 ▶</button
             ><button id="step" class="secondary" disabled>1ターン進む</button
             ><button id="finish-run" class="secondary" disabled>
@@ -245,7 +254,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v2.8.0 · 外部通信なし</span>
+        ><span>v3.2.0 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">

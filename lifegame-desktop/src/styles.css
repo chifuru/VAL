@@ -1341,3 +1341,25 @@ dialog::backdrop {
     font-size: 10px;
   }
 }
+
+/* The world editor remains reachable after every load. */
+.setup-steps {
+  color: #e7d49b;
+  font-size: 0.86rem;
+  line-height: 1.8;
+}
+#change-world {
+  border-color: #c9ae6a;
+  color: #f1dfac;
+}
+#setup-help {
+  display: block;
+  line-height: 1.7;
+}
+
+.diet-tag {
+  color: #d9d7a8;
+  font-size: 11px;
+  line-height: 1.6;
+  margin: 7px 0;
+}

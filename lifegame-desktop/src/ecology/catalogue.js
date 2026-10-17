@@ -809,6 +809,47 @@
       ["攻勢", "防衛"],
     ],
   };
+  data.diets = {
+    plant: {
+      name: "草食主体",
+      description: "生葉・種実が主食。動物食も不得意食として利用",
+      factors: [1.5, 0.9, 0.65, 1],
+      hunt: -0.3,
+    },
+    animal: {
+      name: "肉食主体",
+      description: "動く餌・死骸・栄養卵を重視",
+      factors: [0.65, 0.9, 1.5, 1],
+      hunt: 0.45,
+    },
+    general: {
+      name: "雑食",
+      description: "植物・菌・動物資源を幅広く利用",
+      factors: [1, 1, 1, 1],
+      hunt: 0.1,
+    },
+    fungal: {
+      name: "菌食主体",
+      description: "菌と失活胞子を効率よく利用",
+      factors: [0.9, 1.5, 0.7, 1],
+      hunt: -0.2,
+    },
+    scavenger: {
+      name: "腐食主体",
+      description: "異系統の死骸と菌を優先し、捕食費を節約",
+      factors: [0.9, 1.2, 1.1, 1],
+      carcass: 1.6,
+      hunt: -0.15,
+    },
+    mineral: {
+      name: "鉱物食併用",
+      description: "鉱物吸収に優れるが、有機餌も必要",
+      factors: [1, 1, 0.8, 1.3],
+      hunt: -0.1,
+    },
+  };
+  for (const id of ["memory", "antimeme"])
+    data.species.find((s) => s.id === id).diet = "scavenger";
   data.byId = Object.fromEntries(data.species.map((s) => [s.id, s]));
   data.main = data.species.filter((s) => s.group === "main");
   return data;

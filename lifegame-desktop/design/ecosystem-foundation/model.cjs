@@ -4,7 +4,7 @@ const fs=require("node:fs"),path=require("node:path"),Module=require("node:modul
 const root=path.resolve(__dirname,"../../src/ecology");
 function model(flags={food:true,budget:true,routes:true,foundation:true}){
   const cache=new Map();
-  function replace(source,from,to){if(!source.includes(from))throw Error("Trial source contract changed: "+from.slice(0,70));return source.replace(from,to);}
+  function replace(source,from,to){return require("../source-replace.cjs")(source,from,to,"Trial source contract");}
   function load(name){
     if(cache.has(name))return cache.get(name).exports;
     const file=path.join(root,name+".js"),m=new Module(file,module);cache.set(name,m);m.filename=file;m.paths=module.paths;

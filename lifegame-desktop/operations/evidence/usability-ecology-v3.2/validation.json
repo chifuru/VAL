@@ -1,0 +1,32 @@
+{
+  "app": "3.2.0",
+  "ui": {
+    "pass": 19,
+    "report": "ui-report.json"
+  },
+  "map": {
+    "pass": 31,
+    "report": "map-report.json"
+  },
+  "habitat": {
+    "pass": 20,
+    "report": "habitat-report.json"
+  },
+  "unitBatch": {
+    "tests": 103,
+    "pass": 102,
+    "fail": 1,
+    "failure": "Manifest ran before E5 unit.log was written; no product rule test failed"
+  },
+  "resolvedManifest": {
+    "pass": 1,
+    "report": "manifest-final.log"
+  },
+  "currentUnresolvedTestFailures": 0,
+  "surveyCheckedTurns": 10000,
+  "biologicalTargetsUnmet": [
+    "Per-lineage survival target rates",
+    "P/Q at 500"
+  ],
+  "windows32": "pending CI; 3.1 evidence is not reused"
+}

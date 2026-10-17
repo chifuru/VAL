@@ -22,7 +22,14 @@
     };
     return table[s.type][kind === "attack" ? 0 : kind === "defense" ? 1 : 2];
   }
-  function moveCost(w, o, to, phase = o.phase, friend = false, ageMove = S.ageInfo(o).factors.move) {
+  function moveCost(
+    w,
+    o,
+    to,
+    phase = o.phase,
+    friend = false,
+    ageMove = S.ageInfo(o).factors.move,
+  ) {
     const t = w.tiles[to],
       s = S.spec(o);
     let terrain = { plain: 1, shallow: 1, rock: 1.3, deep: 1.4, mud: 1.5 }[
@@ -44,12 +51,13 @@
         : s.id === "precocial" && phase === 3 && o.branch3 === 1
           ? 0.95
           : 1;
-    return ageMove * (
-      terrain *
-      environmental(w, o, "move", to) *
-      S.adjustment(w, o, "move", t.env, phase) *
-      branch *
-      (friend ? 1 + S.trait(o, "packMove", phase) : 1)
+    return (
+      ageMove *
+      (terrain *
+        environmental(w, o, "move", to) *
+        S.adjustment(w, o, "move", t.env, phase) *
+        branch *
+        (friend ? 1 + S.trait(o, "packMove", phase) : 1))
     );
   }
   function power(w, o, kind, ctx, breakdown = false) {
@@ -57,8 +65,16 @@
       p = ctx.traits.get(o.id),
       phase = p.phase;
     if (s.group !== "main") {
-      const base=kind === "attack"?0:s.group === "prey"?1:0,value=base*p.ageFactors[kind];
-      return breakdown?{base,ageFactor:p.ageFactors[kind],otherFactor:1,effective:value}:value;
+      const base = kind === "attack" ? 0 : s.group === "prey" ? 1 : 0,
+        value = base * p.ageFactors[kind];
+      return breakdown
+        ? {
+            base,
+            ageFactor: p.ageFactors[kind],
+            otherFactor: 1,
+            effective: value,
+          }
+        : value;
     }
     const m = ctx.current || S.maps(w),
       friends = S.nearby(w, o.cell).filter(
@@ -70,8 +86,11 @@
       kind === "attack"
         ? 6 + (6 * (2 * o.dna.body + o.dna.appendage)) / 3
         : 4 + 4 * o.dna.skin;
-    const baseValue=value*common;
-    value *= p.ageFactors[kind] * common * S.adjustment(w, o, kind, w.tiles[o.cell].env, phase);
+    const baseValue = value * common;
+    value *=
+      p.ageFactors[kind] *
+      common *
+      S.adjustment(w, o, kind, w.tiles[o.cell].env, phase);
     if (kind === "attack") {
       value *= 1 + Math.min(3, friends) * S.trait(o, "packAttack", phase);
       if (o.branch3 === 2 && o.branch4 === 0) value *= 1.1;
@@ -88,7 +107,14 @@
       if (o.branch3 === 2 && o.branch4 === 1) value *= 1.1;
       if (s.id === "precocial" && phase === 3 && o.branch3 === 2) value *= 1.05;
     }
-    return breakdown?{base:baseValue,ageFactor:p.ageFactors[kind],otherFactor:baseValue?value/(baseValue*p.ageFactors[kind]):1,effective:value}:value;
+    return breakdown
+      ? {
+          base: baseValue,
+          ageFactor: p.ageFactors[kind],
+          otherFactor: baseValue ? value / (baseValue * p.ageFactors[kind]) : 1,
+          effective: value,
+        }
+      : value;
   }
   function visible(w, o, p, ctx) {
     const radius = ctx.traits.get(o.id).sense;
@@ -197,7 +223,9 @@
         main &&
         main.id !== o.id &&
         main.colony === o.colony &&
-        (ctx.traits.get(main.id).ageEnabled ? ctx.traits.get(main.id).ageStage === "juvenile" : main.phase <= 2) &&
+        (ctx.traits.get(main.id).ageEnabled
+          ? ctx.traits.get(main.id).ageStage === "juvenile"
+          : main.phase <= 2) &&
         S.distance(w, o.cell, cell) === 1 &&
         S.oneStep(w, o.cell, cell)
       )
@@ -227,24 +255,35 @@
           ["main", "prey"].includes(S.spec(t).group)
         )
           enemies.push(t);
-    return { visibleCells, enemies, m };
+    const nearest = enemies.reduce(
+      (best, a) =>
+        !best ||
+        S.distance(w, o.cell, a.cell) < S.distance(w, o.cell, best.cell) ||
+        (S.distance(w, o.cell, a.cell) === S.distance(w, o.cell, best.cell) &&
+          S.compare(a.id, best.id) < 0)
+          ? a
+          : best,
+      null,
+    );
+    return {
+      visibleCells,
+      enemies,
+      m,
+      nearest,
+      traits: ctx.traits,
+      qualityCache: new Map(),
+    };
   }
   function quality(w, o, cell, v) {
-    const s = S.spec(o),
-      preferences = {
-        plant: [1.2, 1, 0.8, 1],
-        animal: [0.8, 1, 1.2, 1],
-        fungal: [1, 1.2, 0.8, 1],
-        mineral: [1, 1, 0.8, 1.2],
-        general: [1, 1, 1, 1],
-      };
+    if (v.qualityCache?.has(cell)) return v.qualityCache.get(cell);
+    const s = S.spec(o);
     const stage = (amount) =>
       amount <= 0 ? 0 : amount <= 1 / 3 ? 1 / 3 : amount <= 2 / 3 ? 2 / 3 : 1;
     const value = (amount, tag) => {
       if (s.group === "prey" && tag !== "plant") return 0;
       const multiplier =
         s.group === "main"
-          ? preferences[s.diet][
+          ? S.D.diets[s.diet].factors[
               ["plant", "fungal", "animal", "mineral"].indexOf(tag)
             ] || 1
           : 1;
@@ -255,7 +294,7 @@
     if (plant && ["plant", "fungus"].includes(S.spec(plant).group))
       q = value(
         S.edibleB(plant) /
-          (S.phenotype(w, plant).capB -
+          ((v.traits?.get(plant.id) || S.phenotype(w, plant)).capB -
             (S.spec(plant).group === "plant" ? S.PLANT_BASE : 0)),
         S.spec(plant).tag,
       );
@@ -263,7 +302,9 @@
       q = Math.max(q, value(a.q / S.FOOD[a.kind].cap, S.FOOD[a.kind].tag));
     for (const a of v.m.carcasses.get(cell) || [])
       if (a.species !== o.species) q = Math.max(q, value(a.q / 4, a.tag));
-    return Math.min(1, q * (0.9 + 0.2 * o.dna.senses));
+    const result = Math.min(1, q * (0.9 + 0.2 * o.dna.senses));
+    v.qualityCache?.set(cell, result);
+    return result;
   }
   function approach(w, origin, to, target) {
     return S.clamp(
@@ -277,7 +318,8 @@
     for (const enemy of v.enemies) {
       const s = S.spec(enemy);
       if (s.group !== "main") continue;
-      const ratio = enemy.HP / S.phenotype(w, enemy).maxHP,
+      const ratio =
+          enemy.HP / (v.traits?.get(enemy.id) || S.phenotype(w, enemy)).maxHP,
         hp = ratio >= 0.7 ? 1 : ratio >= 0.3 ? 0.7 : 0.4;
       t +=
         (((9 * phaseA[enemy.phase]) / 24) * hp) /
@@ -352,13 +394,7 @@
       return { score, noRandom: score - 0.1 * xi, features: [], xi };
     }
     if (s.group !== "main") return { score: 0, noRandom: 0, features: [], xi };
-    const nearest = v.enemies
-      .slice()
-      .sort(
-        (a, b) =>
-          S.distance(w, here, a.cell) - S.distance(w, here, b.cell) ||
-          S.compare(a.id, b.id),
-      )[0];
+    const nearest = v.nearest;
     const move = c.type === "move",
       attack = c.type === "attack",
       guard = c.type === "defend";
@@ -433,6 +469,24 @@
         weights[5] -= 3 * scale;
       }
     }
+    // Only food in this individual's actual visible cells may steer its movement.
+    if (!v.foodTargetComputed) {
+      let best = null,
+        score = 0;
+      for (const cell of v.visibleCells) {
+        const prey = v.m.food.get(cell);
+        const ediblePrey =
+          prey && S.spec(prey).group === "prey" && s.diet === "animal";
+        const q = Math.max(quality(w, o, cell, v), ediblePrey ? 0.9 : 0);
+        const value = q / (1 + S.distance(w, here, cell));
+        if (value > score) {
+          score = value;
+          best = cell;
+        }
+      }
+      v.foodTarget = best;
+      v.foodTargetComputed = true;
+    }
     const hunger = Math.max(0, (35 - o.E) / 35),
       injury = Math.max(0, (50 - o.HP) / 50);
     let score =
@@ -445,6 +499,16 @@
       injury * features[1] -
       c.cost / 5 +
       lure;
+    const feedingNeed = Math.max(0, (75 - o.E) / 75);
+    if (move && v.foodTarget !== null)
+      score += (0.3 + 0.7 * feedingNeed) * approach(w, here, to, v.foodTarget);
+    if (attack && target) {
+      const smallPrey = S.spec(target).group === "prey";
+      score +=
+        (S.D.diets[s.diet].hunt + (smallPrey ? 0.3 : -0.15)) * feedingNeed;
+      // A well-fed animal has less reason to spend energy hunting; defense remains available.
+      score -= 0.2 * (1 - feedingNeed);
+    }
     if (c.type === "care") score += 0.4;
     if (
       attack &&
@@ -491,10 +555,20 @@
             features: c.features,
           })),
         };
-      if (S.spec(o).id === "jelly" && o.sex === "female" && o.phase >= 3 && ctx.traits.get(o.id).ageStage !== "juvenile")
+      if (
+        S.spec(o).id === "jelly" &&
+        o.sex === "female" &&
+        o.phase >= 3 &&
+        ctx.traits.get(o.id).ageStage !== "juvenile"
+      )
         o.maleAbsent = [...v.visibleCells].some((p) => {
           const t = m.main.get(p);
-          return t?.species === o.species && t.sex === "male" && t.phase >= 3 && ctx.traits.get(t.id).ageStage !== "juvenile";
+          return (
+            t?.species === o.species &&
+            t.sex === "male" &&
+            t.phase >= 3 &&
+            ctx.traits.get(t.id).ageStage !== "juvenile"
+          );
         })
           ? 0
           : Math.min(8, o.maleAbsent + 1);

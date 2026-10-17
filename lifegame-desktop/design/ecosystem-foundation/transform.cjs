@@ -1,7 +1,7 @@
 "use strict";
 const fs=require('node:fs'),path=require('node:path');
 module.exports=function(name,s,flags={}){
- function replace(a,b){if(!s.includes(a))throw Error('Foundation source contract: '+name+' '+a.slice(0,60));s=s.replace(a,b);}
+ function replace(a,b){s=require('../source-replace.cjs')(s,a,b,'Foundation source contract: '+name);}
  if(name==='state'){
   const start=s.indexOf('    const n = config.width * config.height;'),end=s.indexOf('    for (let p = 0; config.landscape !== "templates" && p < n; p++) {',start);
   if(start<0||end<0)throw Error('World generation contract changed');
