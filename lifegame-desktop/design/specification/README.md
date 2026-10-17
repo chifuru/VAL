@@ -1,5 +1,7 @@
 # 生態シミュレーション A・B仕様
 
+現在の作業基準：[UI・バランス完成へ向けた決定稿](ui-balance-baseline-v1.md)。既存設計・生物・背景を一旦固定し、実装差分を埋めてUIと生態バランスを優先する。
+
 現在の正本は次の順に適用する。後の文書が明示した対象条件だけを上書きし、未記載の生態ルールは維持する。
 
 1. [統合A/B仕様 v1.3](ab-system-specification-v1.3.md)
@@ -18,7 +20,7 @@ v1.8は幼体・成体・老齢による攻防・最大HP・移動負担・維�
 - [30系統の数値付表](ab-catalogue-v1.md)
 - [84候補の採否・範囲](ab-feature-scope-v1.md)
 - [一枚の全体説明画像](atlas-v1.3/ecology-system-master.png)と[索引](atlas-v1.3/README.md)
-- [特殊3生物・海生光合成体の各8案（現在の比較資料）](../creature-design-review-v5/README.md)
+- [採用済み造形：植物共生05・社会性01・早成08・海生02](../creature-design-review-v5/README.md)
 - [造形言語8方向の参考](../creature-design-review-v4/README.md)
 - [採用方向を確認した寄生生物と陸生植物](../creature-design-review-v3/README.md)
 - [年齢・雌雄・採用された分岐と植物の元案6枚](../creature-design-review-v2/README.md)

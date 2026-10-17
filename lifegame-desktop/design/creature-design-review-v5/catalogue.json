@@ -1,6 +1,6 @@
 {
   "kind": "illustrated-visual-comparison-not-runtime-assets",
-  "status": "awaiting-user-selection",
+  "status": "selected-structural-reference-style-to-match-pre-exploration-mocks",
   "runtimeChanged": false,
   "biologicalRulesChanged": false,
   "designRules": {
@@ -80,7 +80,12 @@
       "phase": null
     }
   ],
-  "selections": null,
+  "selections": {
+    "symbiont": "05",
+    "social": "01",
+    "precocial": "08",
+    "marine": "02"
+  },
   "retainedDecisions": {
     "parasites-v3": "all-A-B-C-directions-received-assignment-pending",
     "landPlants-v3": [
@@ -102,5 +107,11 @@
       "file": "design/creature-design-review-v2/06-plant-options.png",
       "sha256": "c836c230cc6a0e24a9e445401eebb93ecff52f8ec8c77e0027672e36a95998a1"
     }
-  ]
+  ],
+  "implementationStyleReferences": [
+    "design/asset-mock-v1/README.md",
+    "design/scene-mock-v1/README.md",
+    "design/branch-mock-v1/README.md"
+  ],
+  "completionBaseline": "design/specification/ui-balance-baseline-v1.md"
 }
