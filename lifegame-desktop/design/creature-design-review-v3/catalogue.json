@@ -40,12 +40,12 @@
   "decisions": {
     "solarBranches": "previous-v2-proposal-accepted",
     "landPlantDirections": {
-      "forest": "base-direction-accepted-amplification-awaiting-review",
-      "star": "base-direction-accepted-amplification-awaiting-review"
+      "forest": "expanded-design-accepted",
+      "star": "expanded-design-accepted"
     },
-    "parasites": "awaiting-reselection",
-    "special": "awaiting-reselection",
-    "marinePlants": "new-proposals-awaiting-review",
+    "parasites": "all-A-B-C-directions-received-assignment-pending",
+    "special": "superseded-by-v4-for-reselection",
+    "marinePlants": "superseded-by-v4-for-reselection",
     "sex": "unchanged-awaiting-selection"
   },
   "age": {
@@ -68,5 +68,6 @@
       "file": "design/specification/ab-age-abilities-v1.8.md",
       "sha256": "2c5dace285b654c8591c4070f474ad00f7adf66ab5fa6892b1a3a30732b83f2a"
     }
-  ]
+  ],
+  "currentReview": "design/creature-design-review-v4/README.md"
 }

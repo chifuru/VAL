@@ -1,0 +1,90 @@
+{
+  "kind": "visual-language-comparison-not-species-designs",
+  "runtimeChanged": false,
+  "biologicalRulesChanged": false,
+  "status": "awaiting-direction-review-before-species-expansion",
+  "sheets": [
+    {
+      "id": "visual-languages",
+      "file": "01-visual-languages.png",
+      "options": [
+        {
+          "id": "01",
+          "name": "厚肉・丸塊"
+        },
+        {
+          "id": "02",
+          "name": "硬板・角構造"
+        },
+        {
+          "id": "03",
+          "name": "繊維・流線"
+        },
+        {
+          "id": "04",
+          "name": "粒組織・集合"
+        },
+        {
+          "id": "05",
+          "name": "液質・非対称"
+        },
+        {
+          "id": "06",
+          "name": "節・螺旋"
+        },
+        {
+          "id": "07",
+          "name": "毛状・膨張"
+        },
+        {
+          "id": "08",
+          "name": "薄片・扁平"
+        }
+      ]
+    }
+  ],
+  "decisions": {
+    "parasites-v3": {
+      "tideparasite": [
+        "A",
+        "B",
+        "C"
+      ],
+      "leafparasite": [
+        "A",
+        "B",
+        "C"
+      ],
+      "hyperparasite": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "adopt-all-directions-received-assignment-pending"
+    },
+    "landPlants-v3": [
+      "forest",
+      "star"
+    ],
+    "solarBranches-v2": "accepted",
+    "special-v4": null,
+    "marine-v4": null
+  },
+  "sources": [
+    {
+      "file": "design/specification/ab-life-age-plant-v1.7.md",
+      "sha256": "65ab3eecb6c231dfd41484398e01c7231087f935a9d242781192e398f4c90d2b"
+    },
+    {
+      "file": "design/specification/ab-age-abilities-v1.8.md",
+      "sha256": "2c5dace285b654c8591c4070f474ad00f7adf66ab5fa6892b1a3a30732b83f2a"
+    }
+  ],
+  "designConstraint": "original-body-plans-no-existing-species-basis",
+  "supersedes": "real-species-based-drafts-and-uniform-porous-membrane-drafts",
+  "requestedSpeciesSheets": {
+    "count": 4,
+    "optionsEach": 8,
+    "status": "not-complete-awaiting-direction-review"
+  }
+}
