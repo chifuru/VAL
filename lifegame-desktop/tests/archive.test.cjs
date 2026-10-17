@@ -17,6 +17,13 @@ test('incompatible, corrupt, full or failing storage cannot silently lose record
  a.remove('r0');assert.equal(a.list().length,99);
 });
 test('checked-in replay signature matches all biological sources including landscape',()=>{
- const hash=crypto.createHash('sha256');for(const f of ['landscape','hash','catalogue','state','nutrition','behavior','reproduction','parasites','engine']){hash.update(f+'\0');hash.update(fs.readFileSync(require.resolve('../src/ecology/'+f+'.js')));}
+ const hash=crypto.createHash('sha256');for(const f of ['map-data','map-templates','landscape','hash','catalogue','state','nutrition','behavior','reproduction','parasites','engine']){hash.update(f+'\0');hash.update(fs.readFileSync(require.resolve('../src/ecology/'+f+'.js')));}
  assert(fs.readFileSync(require.resolve('../src/ecology/replay-version.js'),'utf8').includes(hash.digest('hex')));
+});
+
+test('template records require resolved map identity before replay',()=>{
+ const s=storage(),a=A.create(s,E,'maps');
+ const w=E.create({seed:'map-record',terrainSeed:'fixed',landscape:'templates',mapId:'river',width:40,height:28,initial:20,lineages:'few'});
+ const r=a.capture(w,'user-ended');a.save(r);const rows=JSON.parse(s.getItem());delete rows[0].config.mapResolved;s.setItem('',JSON.stringify(rows));
+ assert.throws(()=>a.replay(r.id),/地形の識別/);
 });

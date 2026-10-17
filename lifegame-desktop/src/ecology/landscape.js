@@ -1,4 +1,4 @@
-(function(root,factory){const api=factory();if(typeof module==="object"&&module.exports)module.exports=api;else root.EcoLandscape=api;})(globalThis,function(){
+(function(root,factory){const api=factory(typeof module==="object"&&module.exports?require("./map-templates.js"):root.EcoMapTemplates);if(typeof module==="object"&&module.exports)module.exports=api;else root.EcoLandscape=api;})(globalThis,function(Templates){
   function generate(w,config,D,H,r,xy){
     const n=config.width*config.height, W=config.width,Hh=config.height;
     const smooth=u=>u*u*(3-2*u);
@@ -36,5 +36,5 @@
       w.tiles.push({env,terrain,cover,blocked:cover==='boulder',light:cover==='boulder'?0:H.round(e.light*(cover==='bush'?.7:cover==='log'?.8:1)*(terrain==='deep'?.6:1)),walls:[],soilM:5});
     }
   }
-  return {generate};
+  return {generate,templates:Templates};
 });

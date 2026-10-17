@@ -17,7 +17,7 @@
    storage.setItem(KEY,JSON.stringify([record,...rows]));return true;
   }
   function remove(id){storage.setItem(KEY,JSON.stringify(list().filter(r=>r.id!==id)));}
-  function replay(id){const r=list().find(r=>r.id===id);if(!r)throw Error('観測記録が見つかりません。');if(r.signature!==signature)throw Error('計算版が異なるため同じ結果を再現できません。この記録は再生できません。');return structuredClone(r);}
+  function replay(id){const r=list().find(r=>r.id===id);if(!r)throw Error('観測記録が見つかりません。');if(r.signature!==signature)throw Error('計算版が異なるため同じ結果を再現できません。この記録は再生できません。');if(r.config.landscape==='templates'&&!r.config.mapResolved)throw Error('地形の識別情報がないため再生できません。');return structuredClone(r);}
   return {list,capture,save,remove,replay,limit:LIMIT};
  }
  return {create,KEY};

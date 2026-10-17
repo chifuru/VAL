@@ -32,7 +32,7 @@
           <form id="setup">
             <div class="setup-main">
               <label
-                >初期値<textarea id="seed" rows="2" maxlength="2048">
+                >生態用初期値<textarea id="seed" rows="2" maxlength="2048">
 ECOSYSTEM-2026</textarea
                 ></label
               ><label
@@ -50,8 +50,10 @@ ECOSYSTEM-2026</textarea
                   min="4"
                   max="17920"
                   step="4"
-                  value="320" /></label
-              ><button id="load" type="submit" class="primary">
+                  value="320" /></label>
+              <label>地形<select id="map-id"><option value="auto">おまかせ · 代表6地形</option></select></label>
+              <label>地形用初期値<input id="terrain-seed" type="text" maxlength="2048" placeholder="空欄なら生態用初期値と同じ" /></label>
+              <button id="load" type="submit" class="primary">
                 世界を読み込む ↗
               </button>
             </div>
@@ -95,6 +97,7 @@ ECOSYSTEM-2026</textarea
               </div>
             </details>
           </form>
+          <p id="map-summary" class="note" aria-live="polite">地形と生態の初期値を分けて比較できます。</p>
           <p class="note">
             読み込みでは時間は進みません。環境・地形は固定、餌と生物は変動します。
           </p>
@@ -165,7 +168,7 @@ ECOSYSTEM-2026</textarea
             <h2>◈ 8つの生息環境と地形</h2>
             <div id="environment-legend"></div>
             <p class="note">
-              環境はマスごとに連続する領域として生成。岩塊は通れず、崖は辺を遮ります。深水・泥・岩地・浅瀬、倒木・茂みも行動へ影響します。
+              環境は事前地形のマスごとに固定。候補地点の地物だけが地形用初期値で変わります。岩塊は通れず、崖は辺を遮ります。深水・泥・岩地・浅瀬、倒木・茂みも行動へ影響します。
             </p>
           </section>
         </section>
@@ -204,7 +207,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v2.3.0 · 外部通信なし</span>
+        ><span>v2.4.0 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">
@@ -228,6 +231,8 @@ ECOSYSTEM-2026</textarea
     </dialog>
     <script src="ecology/hash.js"></script>
     <script src="ecology/catalogue.js"></script>
+    <script src="ecology/map-data.js"></script>
+    <script src="ecology/map-templates.js"></script>
     <script src="ecology/landscape.js"></script>
     <script src="ecology/state.js"></script>
     <script src="ecology/nutrition.js"></script>

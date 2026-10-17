@@ -101,10 +101,14 @@
   $("distribution").addEventListener("change", () => {
     $("weight-options").hidden = $("distribution").value !== "weighted";
   });
+  $("map-id").innerHTML += window.EcoMapTemplates.list().map(m=>`<option value="${escape(m.id)}">${escape(m.name)}</option>`).join("");
   function readConfig() {
     const [width, height] = $("size").value.split(",").map(Number);
     return {
       seed: $("seed").value,
+      landscape: "templates",
+      mapId: $("map-id").value,
+      terrainSeed: $("terrain-seed").value || $("seed").value,
       width,
       height,
       initial: Number($("initial").value),
@@ -142,7 +146,7 @@
     $("status").textContent = world ? "一時停止" : "未準備";
   }
   function prepare(config, playback=null) {
-    const next = E.create({landscape:"watershed",...config});
+    const next = E.create({landscape:"templates",...config});
     stop();
     replayEntry=playback;ended=false;pendingResult=null;
     $("finish-run").disabled=false;
@@ -150,6 +154,11 @@
     world = next;
     initialConfig = structuredClone(next.config);
     $("seed").value = next.config.seed;
+    $("terrain-seed").value = next.config.terrainSeed ?? next.config.seed;
+    $("map-id").value = next.config.mapId || "auto";
+    const map=next.config.mapResolved;
+    const mapName=map&&window.EcoMapTemplates.list().find(m=>m.id===map.id)?.name;
+    $("map-summary").textContent=map?`${mapName} · 地形版 ${map.version} · ${map.width}×${map.height} · 地形指紋 ${map.terrainHash.slice(0,12)}${map.fallback?" · 安全な既定配置":""}`:"従来方式の地形";
     $("size").value = next.config.width + "," + next.config.height;
     $("initial").value = next.config.initial;
     for (const key of ["lineages", "distribution", "placement"])
@@ -270,7 +279,7 @@
   }
   function showResults(){
     try{
-      $("results-list").innerHTML=archive.list().map(r=>`<article class="result-entry"><h3>${escape(r.config.seed)}</h3><p>${r.turn}ターン · 主生物 ${fmt(r.final.main)} · ${escape(r.created.slice(0,10))}</p><button class="small" data-replay="${escape(r.id)}">初期条件から再生（記録なし）</button> <button class="small secondary" data-remove="${escape(r.id)}">削除</button></article>`).join("")||"<p>終了した観測はまだありません。一時停止では保存されません。</p>";
+      $("results-list").innerHTML=archive.list().map(r=>`<article class="result-entry"><h3>${escape(r.config.seed)}</h3><p>${r.turn}ターン · 主生物 ${fmt(r.final.main)} · ${escape(r.config.mapResolved?.id || "従来地形")} · ${escape(r.created.slice(0,10))}</p><button class="small" data-replay="${escape(r.id)}">初期条件から再生（記録なし）</button> <button class="small secondary" data-remove="${escape(r.id)}">削除</button></article>`).join("")||"<p>終了した観測はまだありません。一時停止では保存されません。</p>";
       for(const b of $("results-list").querySelectorAll("[data-replay]"))b.onclick=()=>{try{replayResult(b.dataset.replay);$("results").close();}catch(e){$("results-error").textContent=e.message;}};
       for(const b of $("results-list").querySelectorAll("[data-remove]"))b.onclick=()=>{try{archive.remove(b.dataset.remove);showResults();}catch(e){$("results-error").textContent=e.message;}};
     }catch(e){$("results-error").textContent=e.message;}
@@ -607,7 +616,7 @@
     `<article class="sheet-card"><h3>${title}</h3>${text}</article>`;
   const sheets = {
     system: () =>
-      `<h2>基本システムから読む</h2><p class="note">v1.5：自然配置は同系統4体の小組。植物は基部B2を残し、光4×固定光量×葉量係数でEを得て最大2EをBへ投資。植物の土壌吸収は一口M0.1・吸収率0.5で、合計二口の上限を共有します。</p><div class="flow">初期値 → 固定環境・初期生物 → 局所の同期更新 → 食物網・生存競争 → 観測</div><div class="sheet-grid">${card("セルと生物の重なり", "<p>マスには主生物1体、餌生物1体、最大3種の落ちた資源。一次寄生虫Pは各宿主に1体、高次寄生虫QはPに1体付随します。植物・菌・動く餌は同じ餌枠を使います。1体は常に独立個体です。</p>")}${card("固定環境、変わる生命", "<p>8環境と地形・光・障害物は初期値で決まり、途中では変わりません。系統の得意・苦手環境で攻撃・防御・移動Eが変わります。境界は通行可能なら越えられ、環境ごとに生物を隔離しません。</p>")}${card("10段階の同期ターン", "<ol><li>期限切れ・資源CA</li><li>光と行動候補</li><li>移動予約</li><li>同時戦闘</li><li>育児・採食</li><li>維持費・死亡</li><li>経験・寄生成熟</li><li>成長・繁殖</li><li>有償生産・情報・寄生出産</li><li>結果確定・観測</li></ol>")}${card("有限の収支", "<p>Eは使えるエネルギー、Bは身体の有機量、Mは鉱物、Gは累積成長値。光がEの外部入力で、食物は生物・死骸・土壌から支払います。植物は所在土壌Mを一口最大0.1取り、吸収率0.5の残りを土へ戻します。二口の上限を共有します。時間だけで食べた餌が無料復活することはありません。散逸分も台帳へ記録します。</p>")}${card("ライフゲーム由来の局所規則", "<p>鉱物片・鉱液滴・情報の発生候補は近傍8マスのB3/S23（3で出生、2/3で残存）。候補に加え供給元の予算・地形条件も必要です。主生物の出生は空きマスの近傍主生物2〜3体と二親条件、植物はB3、小型餌は2〜3近傍を使います。主生物の死因は飢餓・寿命・戦闘です。</p>")}${card("規模と観測の限界", "<p>小40×28、標準80×56、大160×112。1/5/10ターン毎秒を指定でき、負荷超過時は実時間の進行を減速します。画面外も計算し、個体数を描画上限へ合わせません。1000ターンで一時停止し、次区間へ続行できます。</p>")}</div>`,
+      `<h2>基本システムから読む</h2><p class="note">v1.5：自然配置は同系統4体の小組。植物は基部B2を残し、光4×固定光量×葉量係数でEを得て最大2EをBへ投資。植物の土壌吸収は一口M0.1・吸収率0.5で、合計二口の上限を共有します。</p><div class="flow">初期値 → 固定環境・初期生物 → 局所の同期更新 → 食物網・生存競争 → 観測</div><div class="sheet-grid">${card("セルと生物の重なり", "<p>マスには主生物1体、餌生物1体、最大3種の落ちた資源。一次寄生虫Pは各宿主に1体、高次寄生虫QはPに1体付随します。植物・菌・動く餌は同じ餌枠を使います。1体は常に独立個体です。</p>")}${card("固定環境、変わる生命", "<p>6種類の事前地形から選び、地形用初期値で候補地点の地物を決めます。生態用初期値は個体と資源の配置・生態進行に使います。8環境と地形・光・障害物は開始後に変わりません。系統の得意・苦手環境で攻撃・防御・移動Eが変わります。境界は通行可能なら越えられ、環境ごとに生物を隔離しません。</p>")}${card("10段階の同期ターン", "<ol><li>期限切れ・資源CA</li><li>光と行動候補</li><li>移動予約</li><li>同時戦闘</li><li>育児・採食</li><li>維持費・死亡</li><li>経験・寄生成熟</li><li>成長・繁殖</li><li>有償生産・情報・寄生出産</li><li>結果確定・観測</li></ol>")}${card("有限の収支", "<p>Eは使えるエネルギー、Bは身体の有機量、Mは鉱物、Gは累積成長値。光がEの外部入力で、食物は生物・死骸・土壌から支払います。植物は所在土壌Mを一口最大0.1取り、吸収率0.5の残りを土へ戻します。二口の上限を共有します。時間だけで食べた餌が無料復活することはありません。散逸分も台帳へ記録します。</p>")}${card("ライフゲーム由来の局所規則", "<p>鉱物片・鉱液滴・情報の発生候補は近傍8マスのB3/S23（3で出生、2/3で残存）。候補に加え供給元の予算・地形条件も必要です。主生物の出生は空きマスの近傍主生物2〜3体と二親条件、植物はB3、小型餌は2〜3近傍を使います。主生物の死因は飢餓・寿命・戦闘です。</p>")}${card("規模と観測の限界", "<p>小40×28、標準80×56、大160×112。1/5/10ターン毎秒を指定でき、負荷超過時は実時間の進行を減速します。画面外も計算し、個体数を描画上限へ合わせません。1000ターンで一時停止し、次区間へ続行できます。</p>")}</div>`,
     food: () =>
       `<h2>植物 → 動く餌 → 主生物、そして分解者へ</h2><div class="flow">光 → 植物 → 動く餌 → 主生物 → 死骸 → 菌・有機粒・土壌<br>本人の経験 → 情報エネルギー体 → 他個体の行動パラメータ</div><table class="food-table"><thead><tr><th>餌・生物</th><th>特色 / 主な供給元</th><th>不足・制約</th></tr></thead><tbody>${[
         [

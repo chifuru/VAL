@@ -1036,6 +1036,12 @@ dialog::backdrop {
   height: 88px;
   margin: 0 auto 8px;
 }
+
+.setup > #map-summary {
+  display: block;
+  margin: 8px 0 0;
+  overflow-wrap: anywhere;
+}
 .tree-finals .tree-node-art {
   width: 95px;
   height: 74px;

@@ -236,6 +236,15 @@
     for (const weight of Object.values(c.weights))
       if (!Number.isInteger(weight) || weight < 1 || weight > 4)
         throw Error("SETTINGS_INVALID: 配分重みは1〜4");
+    if (c.landscape !== undefined && !["watershed", "templates"].includes(c.landscape))
+      throw Error("SETTINGS_INVALID: 地形方式");
+    if (c.landscape === "templates") {
+      c.terrainSeed = input.terrainSeed ?? c.seed;
+      c.mapId = input.mapId ?? "auto";
+      if (typeof c.terrainSeed !== "string" || !c.terrainSeed.isWellFormed() ||
+          typeof c.mapId !== "string" || !["auto", ...Landscape.templates.list().map(m=>m.id)].includes(c.mapId))
+        throw Error("SETTINGS_INVALID: 地形の初期値・選択");
+    }
     return c;
   }
   function organism(w, s, cell, id, options = {}) {
@@ -422,9 +431,9 @@
         warnings: [],
         ledger: { initialE: 0, solar: 0, sinks: 0, initialM: 0, Mloss: 0 },
       };
-    const n = config.width * config.height,
-      points = [],
-      rotation = Math.floor(r(w, "world/env") * 8);
+    const n = config.width * config.height;
+    if (config.landscape !== "templates") {
+    const points = [], rotation = Math.floor(r(w, "world/env") * 8);
     for (let y = 0; y < config.height; y += 8)
       for (let x = 0; x < config.width; x += 8) {
         const id = points.length;
@@ -484,8 +493,14 @@
         soilM: 5,
       });
     }
+    }
     if(config.landscape === "watershed") { w.tiles=[]; Landscape.generate(w,config,D,H,r,xy); }
-    for (let p = 0; p < n; p++) {
+    if(config.landscape === "templates") {
+      const resolved=Landscape.templates.resolve(config,D,H);
+      w.tiles=resolved.tiles; config.mapResolved=resolved.metadata;
+      if(resolved.metadata.fallback)w.warnings.push("地形候補が主要経路を妨げるため、安全な既定配置を使いました。");
+    }
+    for (let p = 0; config.landscape !== "templates" && p < n; p++) {
       const [x, y] = xy(w, p);
       for (const q of [
         x + 1 < config.width ? p + 1 : -1,

@@ -1,0 +1,12 @@
+✔ six authored maps support declared sizes and preserve traversable land/water routes (21925.221448ms)
+✔ ecology seed never changes terrain; terrain variation is limited to authored candidate cells (99.601296ms)
+✔ map identity survives deterministic replay and refuses altered/missing versions or dimensions (2011.764367ms)
+✔ an invalid candidate combination uses declared safe base, while an invalid base stops (8.622173ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24066.384825

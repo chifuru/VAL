@@ -1,7 +1,7 @@
 'use strict';
 const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path');
 (async()=>{
- const out=path.resolve('operations/evidence/observation-v2.3');await fs.mkdir(out,{recursive:true});
+ const out=path.resolve(process.env.LIFEGAME_EVIDENCE||'operations/evidence/observation-v2.3');await fs.mkdir(out,{recursive:true});
  const server=require('node:http').createServer(async(req,res)=>{try{const file=path.resolve('src','.'+new URL(req.url,'http://localhost').pathname);if(!file.startsWith(path.resolve('src')+path.sep)){res.writeHead(403).end();return;}res.setHeader('Content-Type',file.endsWith('.js')?'application/javascript':file.endsWith('.css')?'text/css':file.endsWith('.png')?'image/png':'text/html');res.end(await fs.readFile(file));}catch{res.writeHead(404).end();}});
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
  const browser=await chromium.launch({...(process.platform==='linux'?{executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium'}:{}),headless:true,args:['--no-sandbox']}),page=await browser.newPage({viewport:{width:1600,height:1100}}),errors=[],checks=[];
@@ -10,7 +10,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
  try{
   await page.goto('http://127.0.0.1:'+server.address().port+'/Index.html?smoke=1');await page.evaluate(()=>EcoArt.ready);
   await page.evaluate(()=>{localStorage.clear();__LIFE_TEST__.prepare({seed:'observation-detail',width:40,height:28,initial:80});});
-  check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.config.landscape==='watershed'),'app uses the seeded watershed map');
+  check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.config.landscape==='templates'),'app uses the versioned authored map');
   const initial=await page.evaluate(()=>__LIFE_TEST__.fingerprint());
   await page.click('#detail-view');await page.waitForTimeout(120);
   check(await page.evaluate(()=>__LIFE_TEST__.snapshot().view.scale===96),'near view uses 96 pixels per real cell');
@@ -19,7 +19,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   await page.evaluate(()=>{for(let i=0;i<90;i++)__LIFE_TEST__.step();});
   const turn=await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn),fingerprint=await page.evaluate(()=>__LIFE_TEST__.fingerprint());
   check(await page.evaluate(()=>__LIFE_TEST__.records().length===0),'ordinary pause and steps do not save intermediate results');
-  check(await page.evaluate(()=>EcoEngine.invariants(__LIFE_TEST__.snapshot().world).length===0),'watershed world respects occupancy and finite budgets after 90 turns');
+  check(await page.evaluate(()=>EcoEngine.invariants(__LIFE_TEST__.snapshot().world).length===0),'authored-map world respects occupancy and finite budgets after 90 turns');
   await page.click('#fit');await page.waitForTimeout(120);await page.screenshot({path:path.join(out,'overview.png'),fullPage:true});
   await page.click('#detail-view');await page.waitForTimeout(150);await page.screenshot({path:path.join(out,'detail.png'),fullPage:true});
   await page.click('#finish-run');check(await page.evaluate(()=>__LIFE_TEST__.records().length===1),'explicit finish saves one final result');

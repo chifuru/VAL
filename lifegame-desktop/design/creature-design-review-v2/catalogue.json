@@ -143,7 +143,7 @@
   "sources": [
     {
       "file": "design/specification/ab-map-visual-v1.6.md",
-      "sha256": "501bf3b09e3f5aa62d576f316213866f32864f3b1b263a78a3077c75275b2659"
+      "sha256": "c0dd646a7c5227aababb3e80b351cbbc2819ec538be4a8e9d23a6e97145f3996"
     },
     {
       "file": "design/specification/ab-life-age-plant-v1.7.md",

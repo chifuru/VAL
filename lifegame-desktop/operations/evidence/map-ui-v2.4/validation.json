@@ -1,0 +1,23 @@
+{
+  "app": "2.4.0",
+  "platform": "linux",
+  "node": "v24.19.0",
+  "browser": "Chromium 154.0.8037.57",
+  "status": "passed-for-declared-scope",
+  "checks": {
+    "unitTestFiles": 12,
+    "mapModelTests": 4,
+    "archiveTests": 4,
+    "mapUI": 31,
+    "browser": 45,
+    "observation": 13
+  },
+  "sourceHashes": "source-hashes.json",
+  "windows": "pending-current-commit-CI",
+  "limits": [
+    "No new creature artwork or age model",
+    "No long-term stability or parasite persistence acceptance",
+    "No final visual-equivalence approval",
+    "Old archive signature mismatch is refused"
+  ]
+}

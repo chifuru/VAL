@@ -3,9 +3,10 @@ const fs=require('node:fs'),path=require('node:path');
 module.exports=function(name,s,flags={}){
  function replace(a,b){if(!s.includes(a))throw Error('Foundation source contract: '+name+' '+a.slice(0,60));s=s.replace(a,b);}
  if(name==='state'){
-  const start=s.indexOf('    const n = config.width * config.height,'),end=s.indexOf('    for (let p = 0; p < n; p++) {\n      const [x, y] = xy(w, p);\n      for (const q',start);
+  const start=s.indexOf('    const n = config.width * config.height;'),end=s.indexOf('    for (let p = 0; config.landscape !== "templates" && p < n; p++) {',start);
   if(start<0||end<0)throw Error('World generation contract changed');
   s=s.slice(0,start)+fs.readFileSync(path.join(__dirname,'world-body.txt'),'utf8')+s.slice(end);
+  replace('    for (let p = 0; config.landscape !== "templates" && p < n; p++) {', '    for (let p = 0; p < n; p++) {');
   replace('if (s.id === "grass" || s.id === "grassbug") return t.terrain !== "deep";', 'if (s.id === "grass" || s.id === "grassbug") return t.terrain !== "deep" && !([0,5].includes(t.env) && t.terrain === "shallow");');
  }
  if(name==='catalogue')replace('  data.byId =',`  for(const s of data.species){if(s.group==='main'){s.life*=1.5;if(s.id!=='kelp')s.maintenance*=.65;s.birthEnergy=45;}if(s.group==='fungus')s.maintenance=.07;if(['waterbug','grassbug'].includes(s.id)){s.life*=1.5;s.birthCooldown*=1.5;}}
