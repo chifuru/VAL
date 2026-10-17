@@ -135,7 +135,10 @@
       "成体",
       "老齢"
     ],
-    "newbornPhase": 1
+    "newbornPhase": 1,
+    "abilityChanges": true,
+    "abilitySpecification": "design/specification/ab-age-abilities-v1.8.md",
+    "coefficientsStatus": "initial-tuning-not-tested"
   },
   "sources": [
     {
@@ -144,11 +147,15 @@
     },
     {
       "file": "design/specification/ab-life-age-plant-v1.7.md",
-      "sha256": "8ae2e6de007b6a93a3cd8dc9046305f515e3ef2a7d7ba29d54e75b1456e107d1"
+      "sha256": "65ab3eecb6c231dfd41484398e01c7231087f935a9d242781192e398f4c90d2b"
     },
     {
       "file": "src/ecology/catalogue.js",
       "sha256": "eb06013600ca1e44f4aaf8a7ea9edefb029fe4326c7d1a9d26c946060829f804"
+    },
+    {
+      "file": "design/specification/ab-age-abilities-v1.8.md",
+      "sha256": "2c5dace285b654c8591c4070f474ad00f7adf66ab5fa6892b1a3a30732b83f2a"
     }
   ],
   "runtimeChanged": false,
@@ -163,5 +170,6 @@
     "precocial": "B",
     "newPlant": "B"
   },
-  "selections": null
+  "selections": null,
+  "artRevision": "88c3031"
 }
