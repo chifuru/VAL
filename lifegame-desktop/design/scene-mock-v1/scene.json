@@ -1,0 +1,142 @@
+{
+  "kind": "illustration-brief-not-engine-save",
+  "selected": "S1",
+  "landmarks": [
+    "northwest-to-southeast river",
+    "eastern bank selected cell",
+    "near-view extent"
+  ],
+  "entities": [
+    {
+      "id": "S1",
+      "species": "solar",
+      "phase": 3,
+      "relative": "selected eastern-bank cell",
+      "name": "日輪"
+    },
+    {
+      "id": "S2",
+      "species": "solar",
+      "phase": 1,
+      "relative": "near S1 in a different main cell",
+      "name": "日輪"
+    },
+    {
+      "id": "J1",
+      "species": "jelly",
+      "phase": 3,
+      "relative": "northwest water",
+      "name": "浮遊傘"
+    },
+    {
+      "id": "K1",
+      "species": "kelp",
+      "phase": 3,
+      "relative": "southeast bank",
+      "name": "植物共生"
+    },
+    {
+      "id": "W1",
+      "species": "whale",
+      "phase": 3,
+      "relative": "southwest water",
+      "name": "星海鯨"
+    },
+    {
+      "id": "F1",
+      "species": "grassbug",
+      "phase": 2,
+      "cellOf": "S1",
+      "slot": "food",
+      "name": "草棲虫"
+    },
+    {
+      "id": "R1",
+      "resource": "information",
+      "cellOf": "S1",
+      "slot": "resource"
+    },
+    {
+      "id": "C1",
+      "kind": "prey-corpse",
+      "cellOf": "S1",
+      "origin": "a different dead prey, not living F1",
+      "slot": "corpse"
+    },
+    {
+      "id": "P1",
+      "species": "leafparasite",
+      "host": "S1",
+      "name": "葉環"
+    },
+    {
+      "id": "Q1",
+      "species": "hyperparasite",
+      "host": "P1",
+      "name": "抑環"
+    }
+  ],
+  "sheets": [
+    {
+      "id": "far",
+      "file": "01-far.png",
+      "title": "遠景",
+      "focus": "existence-location"
+    },
+    {
+      "id": "near",
+      "file": "02-near.png",
+      "title": "近景",
+      "focus": "same-selection"
+    },
+    {
+      "id": "overlap",
+      "file": "03-overlap-density.png",
+      "title": "重なり・密集・縮尺",
+      "focus": "slots-occlusion-scale"
+    },
+    {
+      "id": "food",
+      "file": "04-food-states.png",
+      "title": "餌・資源の状態差",
+      "focus": "quantity-environment-freshness"
+    },
+    {
+      "id": "interactions",
+      "file": "05-interactions.png",
+      "title": "相互作用",
+      "focus": "confirmed-events"
+    },
+    {
+      "id": "terrain",
+      "file": "06-terrain-edges.png",
+      "title": "地形の接続",
+      "focus": "fixed-terrain-boundaries"
+    },
+    {
+      "id": "special",
+      "file": "07-special-lifecycles.png",
+      "title": "特殊生態",
+      "focus": "parasites-information-reproduction-symbiosis"
+    }
+  ],
+  "sources": [
+    {
+      "file": "src/ecology/catalogue.js",
+      "sha256": "eb06013600ca1e44f4aaf8a7ea9edefb029fe4326c7d1a9d26c946060829f804"
+    },
+    {
+      "file": "design/specification/ab-system-specification-v1.3.md",
+      "sha256": "563c37829c04b157477aa9465585dd046e52d59ae31e2d29c00b5e85921769dc"
+    },
+    {
+      "file": "design/specification/ab-readiness-v1.4.md",
+      "sha256": "b0aab85d4d961e35d10714fba2cff8b48a7fc6acaeef26deabd0c24ebe0737b7"
+    },
+    {
+      "file": "design/specification/ab-balance-v1.5.md",
+      "sha256": "2693825e948e356800fd66c14cb299ccdf935dad091d49fdb4609e4fe595686a"
+    }
+  ],
+  "runtimeChanged": false
+}

@@ -10,7 +10,7 @@ current_trial: design/ecosystem-next/README.md（生態調整は未採用。wate
 current_trial_result: operations/evidence/ecosystem-next/report.md
 current_image: operations/evidence/observation-v2.3/detail.png（同じ90ターン世界の遠景はoverview.png）
 visual_reference: design/specification/ecosystem-overview-mock.png + design/specification/habitat-overview-mock.png
-current_visual_review: design/asset-mock-v1/README.md（8枚とPDF） + design/branch-mock-v1/README.md（代表2系統の3→6分岐、雌雄・階級の3枚。雌雄差を強めた造形案に修正。基準は画面案v4。素材設計・製品未反映）
+current_visual_review: design/asset-mock-v1/README.md（素材8枚とPDF） + design/branch-mock-v1/README.md（代表分岐・雌雄3枚、雌雄差を強めた造形案） + design/scene-mock-v1/README.md（遠近・重なり・状態・生活環7枚。画面案v4に基づく素材設計、製品未反映）
 
 現在の状態と必要な参照だけを記載する。履歴・過去の作業ログは保持しない。coreはプロジェクト内正本を使用し、変更しない。
 
