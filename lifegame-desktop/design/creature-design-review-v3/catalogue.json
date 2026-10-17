@@ -1,0 +1,72 @@
+{
+  "kind": "visual-comparison-not-runtime-assets",
+  "runtimeChanged": false,
+  "sheets": [
+    {
+      "id": "parasites",
+      "file": "01-parasites.png",
+      "options": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "id": "special",
+      "file": "02-special.png",
+      "options": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "id": "land-plants",
+      "file": "03-land-plants.png",
+      "options": [
+        "forest",
+        "star"
+      ]
+    },
+    {
+      "id": "marine-plants",
+      "file": "04-marine-plants.png",
+      "options": [
+        "kelp-forest",
+        "tidal-star"
+      ]
+    }
+  ],
+  "decisions": {
+    "solarBranches": "previous-v2-proposal-accepted",
+    "landPlantDirections": {
+      "forest": "base-direction-accepted-amplification-awaiting-review",
+      "star": "base-direction-accepted-amplification-awaiting-review"
+    },
+    "parasites": "awaiting-reselection",
+    "special": "awaiting-reselection",
+    "marinePlants": "new-proposals-awaiting-review",
+    "sex": "unchanged-awaiting-selection"
+  },
+  "age": {
+    "independentOfPhase": true,
+    "plantComparisonAge": "adult",
+    "newbornPhase": 1,
+    "abilitySpecification": "design/specification/ab-age-abilities-v1.8.md"
+  },
+  "biologicalRulesChanged": false,
+  "sources": [
+    {
+      "file": "design/specification/ab-map-visual-v1.6.md",
+      "sha256": "501bf3b09e3f5aa62d576f316213866f32864f3b1b263a78a3077c75275b2659"
+    },
+    {
+      "file": "design/specification/ab-life-age-plant-v1.7.md",
+      "sha256": "65ab3eecb6c231dfd41484398e01c7231087f935a9d242781192e398f4c90d2b"
+    },
+    {
+      "file": "design/specification/ab-age-abilities-v1.8.md",
+      "sha256": "2c5dace285b654c8591c4070f474ad00f7adf66ab5fa6892b1a3a30732b83f2a"
+    }
+  ]
+}

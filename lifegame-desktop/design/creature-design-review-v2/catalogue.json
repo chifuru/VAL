@@ -1,6 +1,6 @@
 {
   "kind": "visual-comparison-not-runtime-assets",
-  "status": "awaiting-user-selection",
+  "status": "partially-selected-see-v3",
   "sheets": [
     {
       "id": "age",
@@ -170,6 +170,16 @@
     "precocial": "B",
     "newPlant": "B"
   },
-  "selections": null,
-  "artRevision": "88c3031"
+  "selections": {
+    "solarBranches": "accepted",
+    "plant": [
+      "A",
+      "B"
+    ],
+    "parasites": "superseded-by-v3-for-reselection",
+    "special": "superseded-by-v3-for-reselection",
+    "sex": null
+  },
+  "artRevision": "88c3031",
+  "currentReview": "design/creature-design-review-v3/README.md"
 }
