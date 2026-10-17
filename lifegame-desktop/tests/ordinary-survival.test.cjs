@@ -97,3 +97,20 @@ test("hunger releases an empty territory for exploration without rewriting inher
 test('a grazed living plant retains basal productivity, while darkness never grants energy',()=>{
  const w=world(),o=add(w,'grass','base',3,3,{B:S.PLANT_BASE,E:0});assert.equal(S.leafFactor(o),.5);o.B=S.PLANT_BASE+10;assert.equal(S.leafFactor(o),1);o.B=S.PLANT_BASE;w.tiles[o.cell].light=0;ready(w);assert.equal(w.ledger.solar,0);assert.equal(o.E,0);
 });
+
+test("foraging ranks edible yield above a nearly bare base without writing biological state", () => {
+  const w = world(),
+    o = add(w, "crystal", "forager", 3, 3, { E: 20, M: 30 }),
+    thin = add(w, "grass", "thin", 2, 3, { B: 2.08 }),
+    full = add(w, "grass", "full", 4, 3, { B: 6 });
+  const c = ready(w), m = S.maps(w), before = E.fingerprint(w);
+  const resourceValue = (target) => E.B.evaluate(w, o,
+    {type:"harvest",cell:o.cell,target:target.id,cost:0,path:[]},c,
+    {m,traits:c.traits,enemies:[],nearest:null,visibleCells:new Set([o.cell,thin.cell,full.cell]),qualityCache:new Map()}
+  ).features[2];
+  assert(resourceValue(full) > resourceValue(thin) * 10,
+    "enough leaf for a real meal must outrank residual leaf near the living base");
+  assert.equal(E.fingerprint(w), before);
+  thin.B = 2;
+  assert.equal(resourceValue(thin), 0, "protected base is not potential food");
+});

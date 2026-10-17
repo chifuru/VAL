@@ -1,0 +1,225 @@
+{
+  "label": "unaltered production, single primary lineage, P/Q disabled; prey predation remains enabled",
+  "results": [
+    {
+      "id": "myth",
+      "deaths": {
+        "combat": 0,
+        "starvation": 3,
+        "age": 80,
+        "harvest": 0
+      },
+      "snapshots": [
+        {
+          "turn": 100,
+          "main": 44,
+          "births": 4,
+          "phases": [
+            4,
+            4,
+            36,
+            0
+          ]
+        },
+        {
+          "turn": 300,
+          "main": 62,
+          "births": 62,
+          "phases": [
+            3,
+            19,
+            29,
+            11
+          ]
+        },
+        {
+          "turn": 500,
+          "main": 71,
+          "births": 114,
+          "phases": [
+            2,
+            16,
+            34,
+            19
+          ]
+        }
+      ]
+    },
+    {
+      "id": "recursive",
+      "deaths": {
+        "combat": 0,
+        "starvation": 14,
+        "age": 39,
+        "harvest": 0
+      },
+      "snapshots": [
+        {
+          "turn": 100,
+          "main": 49,
+          "births": 9,
+          "phases": [
+            4,
+            19,
+            26,
+            0
+          ]
+        },
+        {
+          "turn": 300,
+          "main": 56,
+          "births": 21,
+          "phases": [
+            2,
+            5,
+            23,
+            26
+          ]
+        },
+        {
+          "turn": 500,
+          "main": 36,
+          "births": 49,
+          "phases": [
+            5,
+            5,
+            17,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "id": "crystal",
+      "deaths": {
+        "combat": 0,
+        "starvation": 33,
+        "age": 9,
+        "harvest": 0
+      },
+      "snapshots": [
+        {
+          "turn": 100,
+          "main": 41,
+          "births": 1,
+          "phases": [
+            15,
+            18,
+            8,
+            0
+          ]
+        },
+        {
+          "turn": 300,
+          "main": 25,
+          "births": 6,
+          "phases": [
+            1,
+            5,
+            12,
+            7
+          ]
+        },
+        {
+          "turn": 500,
+          "main": 9,
+          "births": 11,
+          "phases": [
+            1,
+            4,
+            1,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kelp",
+      "deaths": {
+        "combat": 0,
+        "starvation": 2,
+        "age": 75,
+        "harvest": 0
+      },
+      "snapshots": [
+        {
+          "turn": 100,
+          "main": 64,
+          "births": 24,
+          "phases": [
+            6,
+            8,
+            49,
+            1
+          ]
+        },
+        {
+          "turn": 300,
+          "main": 114,
+          "births": 74,
+          "phases": [
+            17,
+            23,
+            68,
+            6
+          ]
+        },
+        {
+          "turn": 500,
+          "main": 79,
+          "births": 116,
+          "phases": [
+            11,
+            29,
+            34,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "id": "swarm",
+      "deaths": {
+        "combat": 0,
+        "starvation": 19,
+        "age": 38,
+        "harvest": 0
+      },
+      "snapshots": [
+        {
+          "turn": 100,
+          "main": 45,
+          "births": 5,
+          "phases": [
+            2,
+            16,
+            27,
+            0
+          ]
+        },
+        {
+          "turn": 300,
+          "main": 28,
+          "births": 24,
+          "phases": [
+            1,
+            11,
+            5,
+            11
+          ]
+        },
+        {
+          "turn": 500,
+          "main": 24,
+          "births": 41,
+          "phases": [
+            1,
+            8,
+            4,
+            11
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -301,7 +301,7 @@
           ((v.traits?.get(plant.id) || S.phenotype(w, plant)).capB -
             (S.spec(plant).group === "plant" ? S.PLANT_BASE : 0)),
         S.spec(plant).tag,
-      );
+      ) * (s.group === "main" && o.E < 35 ? Math.min(1, S.edibleB(plant) / 4) : 1);
     for (const a of v.m.resources.get(cell) || []) {
       const tag = S.FOOD[a.kind].tag;
       let utility = 1;
