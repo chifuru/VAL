@@ -1,0 +1,164 @@
+{
+  "commit": "e4bc93c70cf1b65acb360ed5fb8f0b7d2b0d4b4b",
+  "app": "3.1.0",
+  "run": {
+    "id": 39037759310,
+    "url": "https://github.com/chifuru/VAL/actions/runs/39037759310",
+    "conclusion": "success",
+    "completed_at": "2026-10-17T13:48:38Z"
+  },
+  "job": {
+    "id": 117410917333,
+    "url": "https://github.com/chifuru/VAL/actions/runs/39037759310/job/117410917333",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@v4",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@v4",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run npm ci",
+        "conclusion": "success"
+      },
+      {
+        "name": "Model and package tests",
+        "conclusion": "success"
+      },
+      {
+        "name": "Browser interaction",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build Windows ZIP",
+        "conclusion": "success"
+      },
+      {
+        "name": "Verify expanded ZIP and actual executable",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@v4",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@v4",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "unit": {
+    "tests": 99,
+    "pass": 99,
+    "fail": 0
+  },
+  "browser": {
+    "ok": true,
+    "artwork": "painted-habitat/3.1",
+    "app": "3.1.0",
+    "version": "ecology-ab/1.5",
+    "platform": "win32",
+    "browser": "141.0.7390.37",
+    "checks": [
+      "all local creature, food and terrain atlases decode",
+      "production artwork covers 21 main families, four phases and three-phase precocial",
+      "unprepared world cannot advance",
+      "loading through the form opens the observation stage",
+      "load creates phase-I world without advancing",
+      "seed preserves Unicode, whitespace and newline",
+      "all thirty lineages are present in observation catalogue",
+      "four phase previews display different artwork for the selected lineage",
+      "selected individual has a large portrait rather than a small icon",
+      "wide screen prioritizes map with inspector on the right",
+      "mature lineage artwork is distinct across all 21 families",
+      "artwork preparation and phenotype previews never change the ecosystem",
+      "in-game explanation opens",
+      "tree references every species including food and parasites",
+      "tree explains abyss",
+      "four-phase tree illustrates I/II, three III branches and six IV endpoints",
+      "tree explains precocial",
+      "tree explains algae",
+      "tree explains tideparasite",
+      "tree explains hyperparasite",
+      "sheet content: system",
+      "system explains finite root uptake and protected plant bases",
+      "sheet content: food",
+      "food sheet explains demand-limited harvesting",
+      "sheet content: action",
+      "sheet content: birth",
+      "birth sheet explains local two-parent competition",
+      "sheet content: parasite",
+      "sheet content: info",
+      "guide and all trees do not change biological state",
+      "single step advances exactly one synchronous turn",
+      "browser world respects slots and finite budgets",
+      "individual observation exposes DNA and current weights",
+      "only selected individual exposes candidate diagnostics",
+      "plant observer distinguishes edible leaves, living base and soil",
+      "view toggles and zoom do not affect simulation",
+      "reset exactly replays original world",
+      "pause stops biological time",
+      "few-lineage clustered weighted mode creates five main lineages",
+      "invalid settings show reason and retain previous world",
+      "failed setup leaves old world intact",
+      "main-off mode is not misreported as extinction",
+      "actual simulation reaches mature artwork without fabricated phase changes",
+      "narrow viewport does not overflow horizontally",
+      "no JavaScript page errors: ",
+      "local app makes no external HTTP requests"
+    ],
+    "errors": [],
+    "network": [],
+    "serving": "HTTP loopback (managed Chromium blocks file URLs)"
+  },
+  "package": {
+    "version": "3.1.0",
+    "electron": "44.7.2",
+    "exe": "LifeGame.exe",
+    "platform": "win32",
+    "arch": "x64",
+    "zip": "LifeGame-Windows-x64.zip",
+    "sha256": "a2ff7f4adb3bb44a53c2a1033a19281ce50a80e44a36aec9f1f4d9b7be64cdb8",
+    "bytes": 232673339
+  },
+  "desktop": {
+    "ok": true,
+    "electron": "44.7.2",
+    "platform": "Win32",
+    "arch": "x64",
+    "assetsLoaded": true,
+    "assetErrors": [],
+    "turn": 10,
+    "population": 804,
+    "nodeExposed": false,
+    "local": true,
+    "title": "LifeGame — 生態シミュレーション"
+  },
+  "artifact": {
+    "id": 12102877646,
+    "url": "https://github.com/chifuru/VAL/actions/runs/39037759310/artifacts/12102877646",
+    "bytes": 239274838,
+    "digest": "sha256:725c9f3b3be6dbeea87390690cda893459eab03ec6838924324ca02c8b85821c",
+    "expired": false,
+    "expires_at": "2026-11-16T13:48:22Z"
+  },
+  "limits": [
+    "Windows CI runner only; no user-device or close-view performance certification",
+    "No new long-term survival trials or visual approval",
+    "Downloaded artifact archive not independently extracted in this Linux session; expanded ZIP and executable verified by the Windows job"
+  ]
+}
