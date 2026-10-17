@@ -3,10 +3,13 @@
     typeof module === "object" && module.exports
       ? require("./state.js")
       : root.EcoState,
+    typeof module === "object" && module.exports
+      ? require("./nutrition.js")
+      : root.EcoNutrition,
   );
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.EcoBehavior = api;
-})(globalThis, function (S) {
+})(globalThis, function (S, Nutrition) {
   "use strict";
   const phaseA = [0, 1, 1.15, 1.35, 1.6];
   function environmental(w, o, kind, cell = o.cell) {
@@ -219,14 +222,14 @@
       if (
         s.id === "swarm" &&
         o.role === "worker" &&
-        o.E >= 40 &&
+        o.E >= 25 &&
         budget >= 2 &&
         main &&
         main.id !== o.id &&
         main.colony === o.colony &&
-        (ctx.traits.get(main.id).ageEnabled
+        ((ctx.traits.get(main.id).ageEnabled
           ? ctx.traits.get(main.id).ageStage === "juvenile"
-          : main.phase <= 2) &&
+          : main.phase <= 2) || (main.role === "queen" && main.E < 65)) &&
         S.distance(w, o.cell, cell) === 1 &&
         S.oneStep(w, o.cell, cell)
       )
@@ -429,6 +432,12 @@
       )
         shelterBonus = Math.max(shelterBonus, 0.35);
       if (
+        s.id === "swarm" && o.role === "worker" &&
+        a.colony === o.colony && (a.role === "queen" || a.phase <= 2) &&
+        (S.distance(w, to, p) <= 1 ||
+          S.distance(w, to, p) < S.distance(w, here, p))
+      ) shelterBonus = Math.max(shelterBonus, 0.6);
+      if (
         o.phase >= 3 &&
         a.phase >= 3 &&
         ctx.traits.get(o.id).ageStage !== "juvenile" &&
@@ -443,7 +452,7 @@
       )
         mateBonus = 0.8;
       if (o.phase <= 2 && a.phase >= 3 && S.distance(w, to, p) <= 1)
-        shelterBonus = 0.1;
+        shelterBonus = Math.max(shelterBonus, 0.1);
     }
     const direction = move
       ? (() => {
@@ -712,18 +721,21 @@
         o.HP <= 0 ||
         !target ||
         target.HP <= 0 ||
-        ctx.traits.get(target.id).capE - target.E < 1.8 - 1e-8 ||
+        (ctx.traits.get(target.id).capE - target.E < 1.8 - 1e-8 &&
+          target.M >= 8 && target.G >= 90) ||
         !S.oneStep(w, o.cell, target.cell)
       )
         continue;
       o.E = S.round(o.E - 2);
-      target.E = S.round(target.E + 1.8);
-      S.dissipate(w, 0.2);
+      const material = Math.min(0.2, Math.max(0, o.M - 2), Math.max(0, 8 - target.M));
+      o.M = S.round(o.M - material);
+      const careGain = Nutrition.absorb(w, target, { E: 2, M: material, G: 0 }, "animal", ctx);
       ctx.records.get(o.id).cared = true;
       S.record(ctx, o, "care", {
         target: target.id,
         to: target.cell,
-        amount: 1.8,
+        amount: careGain.e,
+        material: careGain.m,
       });
     }
   }

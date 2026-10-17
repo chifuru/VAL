@@ -1,0 +1,145 @@
+{
+  "app": "3.4.0",
+  "beforeCommit": "f8669e15e4eecbb971cc5fecdd9fb26def9452e0",
+  "ordinary": [
+    {
+      "id": "myth",
+      "beforeFinal": 53,
+      "afterFinal": 71,
+      "beforeDeaths": {
+        "combat": 0,
+        "starvation": 2,
+        "age": 76,
+        "harvest": 0
+      },
+      "afterDeaths": {
+        "combat": 0,
+        "starvation": 3,
+        "age": 80,
+        "harvest": 0
+      },
+      "births": 114
+    },
+    {
+      "id": "recursive",
+      "beforeFinal": 29,
+      "afterFinal": 36,
+      "beforeDeaths": {
+        "combat": 0,
+        "starvation": 13,
+        "age": 41,
+        "harvest": 0
+      },
+      "afterDeaths": {
+        "combat": 0,
+        "starvation": 14,
+        "age": 39,
+        "harvest": 0
+      },
+      "births": 49
+    },
+    {
+      "id": "crystal",
+      "beforeFinal": 9,
+      "afterFinal": 9,
+      "beforeDeaths": {
+        "combat": 0,
+        "starvation": 29,
+        "age": 12,
+        "harvest": 0
+      },
+      "afterDeaths": {
+        "combat": 0,
+        "starvation": 33,
+        "age": 9,
+        "harvest": 0
+      },
+      "births": 11
+    },
+    {
+      "id": "kelp",
+      "beforeFinal": 101,
+      "afterFinal": 79,
+      "beforeDeaths": {
+        "combat": 0,
+        "starvation": 2,
+        "age": 76,
+        "harvest": 0
+      },
+      "afterDeaths": {
+        "combat": 0,
+        "starvation": 2,
+        "age": 75,
+        "harvest": 0
+      },
+      "births": 116
+    },
+    {
+      "id": "swarm",
+      "beforeFinal": 0,
+      "afterFinal": 24,
+      "beforeDeaths": {
+        "combat": 0,
+        "starvation": 8,
+        "age": 52,
+        "harvest": 0
+      },
+      "afterDeaths": {
+        "combat": 0,
+        "starvation": 19,
+        "age": 38,
+        "harvest": 0
+      },
+      "births": 41
+    }
+  ],
+  "mixedBefore": {
+    "extinctions": 0,
+    "continuousOccurrences": 41,
+    "mainDeaths": {
+      "combat": 107,
+      "starvation": 155,
+      "age": 887,
+      "harvest": 0
+    },
+    "swarmFinal": [
+      {
+        "trial": 3,
+        "count": 0
+      },
+      {
+        "trial": 7,
+        "count": 0
+      },
+      {
+        "trial": 9,
+        "count": 0
+      }
+    ]
+  },
+  "mixedAfter": {
+    "extinctions": 0,
+    "continuousOccurrences": 44,
+    "mainDeaths": {
+      "combat": 75,
+      "starvation": 186,
+      "age": 874,
+      "harvest": 0
+    },
+    "swarmFinal": [
+      {
+        "trial": 3,
+        "count": 24
+      },
+      {
+        "trial": 7,
+        "count": 4
+      },
+      {
+        "trial": 9,
+        "count": 10
+      }
+    ]
+  },
+  "runFinishedUTC": "2026-10-17T17:57:52.676884+00:00"
+}

@@ -39,23 +39,23 @@ module.exports=function(name,s,flags={}){
   // Keep the source expression expected by the preceding food ablation transform.
   replace('s.group === "prey"\n              ? ![2, 3].includes(same.length)','s.group === "prey"\n              ? ![1, 2, 3].includes(same.length)');
  }
- if(flags.colony && name==='state'){
+ if(flags.colony && name==='state' && !s.includes('sex = s.id === "swarm"')){
   replace('sex = j % 4 < 2 ? "male" : "female",', 'sex = s.id === "swarm" ? (j%4===0?"male":"female") : j % 4 < 2 ? "male" : "female",');
   replace(': j % 4 === 3\n                    ? "worker"', ': j % 4 !== 0\n                    ? "worker"');
  }
- if(flags.colony && name==='behavior'){
+ if(flags.colony && name==='behavior' && !s.includes('const careGain = Nutrition.absorb')){
   replace('o.E >= 40 &&', 'o.E >= 25 &&');
   const careTarget = '(ctx.traits.get(main.id).ageEnabled ? ctx.traits.get(main.id).ageStage === "juvenile" : main.phase <= 2)';
-  replace(careTarget + ' &&', '(' + careTarget + ' || (main.role === "queen" && main.E < 65)) &&');
-  replace('if (!a || a.id === o.id || a.species !== o.species) continue;', 'if (!a || a.id === o.id || a.species !== o.species) continue;\n      if(s.id === "swarm" && o.role === "worker" && a.colony === o.colony && (a.role === "queen" || a.phase <= 2) && (S.distance(w,to,p)<=1 || S.distance(w,to,p)<S.distance(w,here,p))) shelterBonus=Math.max(shelterBonus,.6);');
+  if(!s.includes('main.role === "queen" && main.E < 65')) replace(careTarget + ' &&', '(' + careTarget + ' || (main.role === "queen" && main.E < 65)) &&');
+  if(!s.includes('shelterBonus, 0.6')) replace('if (!a || a.id === o.id || a.species !== o.species) continue;', 'if (!a || a.id === o.id || a.species !== o.species) continue;\n      if(s.id === "swarm" && o.role === "worker" && a.colony === o.colony && (a.role === "queen" || a.phase <= 2) && (S.distance(w,to,p)<=1 || S.distance(w,to,p)<S.distance(w,here,p))) shelterBonus=Math.max(shelterBonus,.6);');
   replace('  "use strict";', '  "use strict";\n  const CareNutrition=require("./nutrition.js");');
   replace('ctx.traits.get(target.id).capE - target.E < 1.8 - 1e-8 ||', '(ctx.traits.get(target.id).capE - target.E < 1.8 - 1e-8 && target.M>=8 && target.G>=90) ||');
   replace('      target.E = S.round(target.E + 1.8);\n      S.dissipate(w, 0.2);', '      const material=Math.min(.2,Math.max(0,o.M-2),Math.max(0,8-target.M));o.M=S.round(o.M-material);\n      const careGain=CareNutrition.absorb(w,target,{E:2,M:material,G:0},"animal",ctx);');
   replace('        amount: 1.8,', '        amount: careGain.e, material: careGain.m,');
  }
- if(flags.colony && name==='reproduction'){
-  replace('ctx.old.get(mother.id).E >= 90 &&', 'true &&');
-  replace('S.r(w, "birth/role", w.turn, mother.id, c.cell) < 0.1', 'S.r(w, "birth/role", w.turn, mother.id, c.cell) < (w.organisms.some(a=>a.id!==mother.id&&a.species==="swarm"&&a.role==="queen"&&a.colony===mother.colony&&S.distance(w,a.cell,mother.cell)<=2)?.08:.6)');
+ if(flags.colony && name==='reproduction' && !s.includes('const matingMap=S.maps(w),usedMales=new Set()')){
+  if(!s.includes('? 0.08 : 0.6')) replace('ctx.old.get(mother.id).E >= 90 &&', 'true &&');
+  if(!s.includes('? 0.08 : 0.6')) replace('S.r(w, "birth/role", w.turn, mother.id, c.cell) < 0.1', 'S.r(w, "birth/role", w.turn, mother.id, c.cell) < (w.organisms.some(a=>a.id!==mother.id&&a.species==="swarm"&&a.role==="queen"&&a.colony===mother.colony&&S.distance(w,a.cell,mother.cell)<=2)?.08:.6)');
   replace('    const list = candidates(w, ctx),', `    const matingMap=S.maps(w),usedMales=new Set();
     for(const queen of w.organisms){
       if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||ctx.traits.get(queen.id)?.phase<3||queen.HP<70||queen.E<47)continue;

@@ -257,7 +257,7 @@
   });
   function ageInfo(o) {
     if (!Number.isFinite(o.birthLife)) return {enabled:false,stage:"adult",factors:ageFactors.adult};
-    const s=spec(o),matureAt=s.group==="main"?Math.ceil(o.birthLife*(s.id==="precocial"?.03:.10)):s.maturity,
+    const s=spec(o),matureAt=s.group==="main"?Math.ceil(o.birthLife*(s.id==="precocial"?.03:s.id==="swarm"&&o.role==="queen"?1/30:.10)):s.maturity,
       elderlyAt=Math.max(matureAt+1,Math.floor(.75*o.birthLife)),
       stage=o.age<matureAt?"juvenile":o.age<elderlyAt?"adult":"elderly";
     return {enabled:true,stage,matureAt,elderlyAt,birthLife:o.birthLife,
@@ -267,7 +267,7 @@
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
-    o.birthLife=s.group==="main"?Math.floor(s.life*(.95+.1*o.dna.skin)):s.life;
+    o.birthLife=s.group==="main"?Math.floor(s.life*(.95+.1*o.dna.skin)*(s.id==="swarm"&&o.role==="queen"?3:1)):s.life;
     const a=ageInfo(o);
     if(!(0<a.matureAt&&a.matureAt<a.elderlyAt&&a.elderlyAt<o.birthLife))throw Error("AGE_INVALID: "+s.id);
     o.HP=H.round(Math.min(o.HP,Math.max(1,(s.group==="main"?100:s.capacity[3])*a.factors.hp)));
@@ -396,7 +396,7 @@
       branch,
     };
     const a=ageInfo(o),f=a.factors;
-    return {...base,ageEnabled:a.enabled,ageStage:a.stage,ageFactors:f,
+    return {...base,life:s.id==="swarm"&&o.role==="queen"?(a.enabled?o.birthLife:base.life*3):base.life,ageEnabled:a.enabled,ageStage:a.stage,ageFactors:f,
       baseMaxHP:base.maxHP,baseMaintenance:base.maintenance,baseCooldown:base.cooldown,
       maxHP:H.round(Math.max(1,base.maxHP*f.hp)),maintenance:base.maintenance*f.maintenance,
       cooldown:base.cooldown*f.birth};

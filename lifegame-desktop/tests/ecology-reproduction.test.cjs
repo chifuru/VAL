@@ -108,7 +108,7 @@ test("worker caste never reproduces, and care remains paid if its recipient late
   c.intents.set(worker.id, { type: "care", target: juvenile.id, cost: 2 });
   E.B.care(w, c);
   assert.equal(worker.E, 38);
-  assert.equal(juvenile.E, 1.8);
+  assert.equal(juvenile.E, 0.7); // v2.2: paid care uses ordinary animal digestion.
   E.N.settle(w, c, E.P.fee);
   assert.ok(!w.organisms.includes(juvenile));
   assert.ok(worker.E < 38);

@@ -142,10 +142,13 @@
         food = near.map((p) => m.food.get(p)).filter(Boolean),
         local = [];
       if (!m.main.has(cell) && w.config.enabled.main) {
+        if([2,3].includes(mains.length))for(const mother of mains)
+          if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&S.oneStep(w,mother.cell,cell))
+            local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
         if ([2, 3].includes(mains.length))
           for (const mother of mains)
             if (
-              mother.sex === "female" &&
+              mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
               eligible(w, mother, ctx) &&
               S.oneStep(w, mother.cell, cell)
             )
@@ -240,7 +243,7 @@
   function child(w, c, ctx) {
     const s = S.D.byId[c.species],
       mother = c.parents[0],
-      father = c.parents[1] || mother,
+      father = c.parents[1] || c.fatherReference || mother,
       id =
         "b:" +
         w.turn +
@@ -265,8 +268,12 @@
       role =
         sex === "male"
           ? "male"
-          : ctx.old.get(mother.id).E >= 90 &&
-              S.r(w, "birth/role", w.turn, mother.id, c.cell) < 0.1
+          : S.r(w, "birth/role", w.turn, mother.id, c.cell) <
+              (w.organisms.some((a) =>
+                a.id !== mother.id && a.species === "swarm" &&
+                a.role === "queen" && a.colony === mother.colony &&
+                a.HP > 0 && S.distance(w, a.cell, mother.cell) <= 2)
+                ? 0.08 : 0.6)
             ? "queen"
             : "worker";
     const share = early ? 0.6 : role === "queen" ? 0.5 : 0.8;
@@ -279,8 +286,8 @@
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
       HP: main ? 100 : s.capacity[3],
-      generation: Math.max(...c.parents.map((o) => o.generation)) + 1,
-      parents: c.parents.map((o) => o.id),
+      generation: Math.max(...c.parents.map((o) => o.generation),father.generation) + 1,
+      parents: c.fatherReference ? [mother.id,father.id] : c.parents.map((o) => o.id),
     });
     if (main) {
       S.DNA.forEach((axis, i) => {
@@ -311,7 +318,7 @@
       parent.E = S.round(parent.E - c.costs[i]);
       parent.M = S.round(
         parent.M -
-          (main ? (c.kind === 1 ? 4 : 2) : s.group === "prey" ? 0 : 0.2),
+          (main ? ([1,3].includes(c.kind) ? 4 : 2) : s.group === "prey" ? 0 : 0.2),
       );
       ctx.parents.add(parent.id);
       const cooldown = ctx.traits.get(parent.id).cooldown;
@@ -320,9 +327,18 @@
     });
     if (main) S.addSoil(w, mother.cell, 3);
     S.record(ctx, o, "birth", { parents: o.parents });
+    if(c.kind===3){mother.sperm.uses--;w.colonyMating.storedBirths++;}
     return o;
   }
   function reproduce(w, ctx) {
+    const matingMap=S.maps(w),usedMales=new Set();
+    for(const queen of w.organisms){
+      if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||ctx.traits.get(queen.id)?.phase<3||queen.HP<70||queen.E<47||ctx.traits.get(queen.id)?.ageStage==="juvenile"||ctx.records.get(queen.id)?.damage>0)continue;
+      const male=S.nearby(w,queen.cell).map(p=>matingMap.main.get(p)).filter(a=>a?.species==="swarm"&&a.role==="male"&&ctx.traits.get(a.id)?.phase>=3&&a.HP>=70&&a.E>=2&&ctx.traits.get(a.id)?.ageStage!=="juvenile"&&ctx.records.get(a.id)?.damage===0&&!usedMales.has(a.id)&&S.oneStep(w,queen.cell,a.cell)).sort((a,b)=>S.hash(w,"colony/mate",w.turn,queen.id,a.id)-S.hash(w,"colony/mate",w.turn,queen.id,b.id))[0];
+      if(!male)continue;queen.E=S.round(queen.E-2);male.E=S.round(male.E-2);S.dissipate(w,4);usedMales.add(male.id);
+      queen.sperm={uses:12,father:{id:male.id,dna:{...male.dna},birthWeights:male.birthWeights.slice(),generation:male.generation}};
+      w.colonyMating??={matings:0,storedBirths:0};w.colonyMating.matings++;
+    }
     const list = candidates(w, ctx),
       votes = new Map();
     for (const c of list)

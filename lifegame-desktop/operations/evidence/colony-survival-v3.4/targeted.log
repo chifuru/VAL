@@ -1,0 +1,24 @@
+✔ production worker can feed its hungry queen with a finite paid transfer (9.936742ms)
+✔ queen care respects barriers and recipient capacity under competing workers (2.113192ms)
+✔ production successor caste uses local living queens, retaining paid phase-I birth (5.699532ms)
+✔ production queen stores only real local paternity and funds later births herself (4.495141ms)
+✔ blocked, juvenile or injured partners cannot establish stored paternity (5.243737ms)
+✔ queen lifetime is fixed at birth with ordinary maturation and independent phases (6.025052ms)
+✔ sexual birth has two parents, B3, paid E/M, phaseI and bounded fixed DNA (11.07887ms)
+✔ same parent cannot fund two children; blocked parent-to-child contact cannot give birth (15.90509ms)
+✔ early-completing lineage births a competent phaseI and has no phaseIV (5.767922ms)
+✔ plant B3 uses one paying mature parent and a separate food slot (2.449028ms)
+✔ facultative parthenogenesis requires eight turns without a visible mature male (2.449779ms)
+✔ worker caste never reproduces, and care remains paid if its recipient later dies (3.635162ms)
+✔ growth is at most one phase and phaseIII gives a fresh four-turn breeding wait (1.902811ms)
+✔ plant-only actual intake and recovery can qualify the two foraging IV branches (3.010528ms)
+✔ food maturity becomes reproductive ability on the next turn, not the maturity day (1.801793ms)
+✔ a qualified adjacent pair can reproduce with two neighbors and cannot reproduce alone (3.628892ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 242.296827
