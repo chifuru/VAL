@@ -1,0 +1,22 @@
+{
+  "app": "2.8.0",
+  "status": "functional-checks-passed-for-declared-scope",
+  "visualStatus": "not yet equivalent to the adopted far/near mocks; no user approval inferred",
+  "checks": {
+    "alignment": 17,
+    "browser": 45,
+    "age-ui": 16,
+    "overview": 15,
+    "observation": 13
+  },
+  "environment": "Linux x64 / Node24.19.0 / Chromium154",
+  "windows": "not verified for 2.8",
+  "limits": [
+    "New basic bodies cover only solar/jelly/serpent/cephalopod phase III and IV",
+    "First/second phase and other species retain prior atlas; branch/sex artwork remains incomplete",
+    "Age body differences use existing paint transforms; directional art uses left/right reflection",
+    "Near ground remains top-down rather than the full depth/perspective of the adopted illustration",
+    "Display fixture is explicitly positioned, not natural evolution",
+    "No long-term balance acceptance or current Windows runtime verification"
+  ]
+}

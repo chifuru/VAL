@@ -22,7 +22,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),
   check(await page.evaluate(()=>__LIFE_TEST__.snapshot().render.mode==='simple'),'fit overview remains symbolic even when its cells exceed detail threshold');
   await page.screenshot({path:path.join(out,'natural-far.png'),fullPage:true});await page.locator('#board').screenshot({path:path.join(out,'natural-far-board.png')});
   await page.click('#detail-view');await page.waitForTimeout(120);
-  check(await page.evaluate(()=>{const s=__LIFE_TEST__.snapshot();return s.view.mode==='detail'&&s.view.scale===96&&s.render.mode==='detail';}),'same selected location enters real-cell detail mode');
+  check(await page.evaluate(()=>{const s=__LIFE_TEST__.snapshot();return s.view.mode==='detail'&&s.view.scale===160&&s.render.mode==='detail';}),'same selected location enters real-cell detail mode');
   await page.screenshot({path:path.join(out,'natural-near.png'),fullPage:true});await page.locator('#board').screenshot({path:path.join(out,'natural-near-board.png')});
   check(await page.evaluate(()=>__LIFE_TEST__.fingerprint())===biology,'focus, new scenery and far/near transitions preserve biology');
   await page.click('#zoom-in');await page.click('#zoom-in');await page.waitForTimeout(80);

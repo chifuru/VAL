@@ -13,7 +13,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.config.landscape==='templates'),'app uses the versioned authored map');
   const initial=await page.evaluate(()=>__LIFE_TEST__.fingerprint());
   await page.click('#detail-view');await page.waitForTimeout(120);
-  check(await page.evaluate(()=>__LIFE_TEST__.snapshot().view.scale===96),'near view uses 96 pixels per real cell');
+  check(await page.evaluate(()=>__LIFE_TEST__.snapshot().view.scale===160),'near view uses 160 pixels per real cell');
   check(await page.evaluate(()=>__LIFE_TEST__.fingerprint())===initial,'zoom never changes biology');
   await page.click('#fit');await page.waitForTimeout(120);await page.screenshot({path:path.join(out,'overview.png'),fullPage:true});
   await page.evaluate(()=>{for(let i=0;i<90;i++)__LIFE_TEST__.step();});

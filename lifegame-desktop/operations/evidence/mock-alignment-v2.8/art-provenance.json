@@ -1,0 +1,9 @@
+{
+  "method": "image_gen production atlas followed by image_gen padding correction; original PNG copied unchanged; runtime source rectangles defined explicitly",
+  "sourceReference": "design/visual-alignment-v4/near.png",
+  "referenceSHA256": "f5f5f679a77af58b791139004d71c84401cc37097d4d8a69b3a66411503c0535",
+  "generatorOutputName": "exec-98e1dc6d-d9c3-4bbe-8592-8bdba818907a.png",
+  "asset": "src/assets/representative-adults.png",
+  "sha256": "9ec71ed9f753e92b2f3f1ded5ad133dfd1a156e64c1470b97cf27d84604a4b28",
+  "scope": "four existing IDs, phases III and IV only; no change to names or biology"
+}

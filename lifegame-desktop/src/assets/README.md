@@ -15,3 +15,7 @@
 `ground-painterly.png` は4列×2行の8環境材質、`scenery-props.png` は4列×2行の透過地物。配置は左上から行順。地物は岩塊・小岩群・茂み・倒木・シダ・葦・崖・低い花草の区画で、食用生物や通行条件を増やさない。通常描画で使うのは実際の被覆・岩地・壁に対応する区画。`scenery-manifest.json` が版・ファイル・SHAの正で、旧生物の書出しツールもこの定義を合成し、新素材を落とさない。
 
 採用資料 `design/visual-alignment-v4/near.png` と `design/asset-mock-v1/01-terrain.png` を参照して画像生成し、UI2.7で接続。元画像は変更せず、生成画像をそのまま保存。素材の由来・SHA・実画面は `operations/evidence/scenery-ui-v2.7/README.md` を参照。完全なシームレス原画ではないため、実行時に鏡映反復と環境境界の混合を使う。
+
+## 代表4系統の詳細画 representative/1
+
+`representative-adults.png` はsolar/jelly/serpent/cephalopodのIII/IV相のみ。原画は4列×2行、参照矩形はvisual-manifestのadults.regionsを正とする。I/II・他系統は従前素材、全枝/雌雄の専用作画は未完。scenery-manifestにも定義し、再書出しで失わない。生成・余白修正の由来とSHAはoperations/evidence/mock-alignment-v2.8/art-provenance.json。原画のピクセルを編集せず、実行時に参照矩形・年齢変換・左右反転を適用する。

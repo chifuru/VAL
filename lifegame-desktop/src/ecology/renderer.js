@@ -55,6 +55,8 @@
   }, symbolCache=new Map();
   function symbolColor(s){
     if(s.group!=="main")return s.group==="plant"?"#d0ef9b":s.group==="fungus"?"#e5c0ff":"#ffd18a";
+    const vivid={solar:"#ffb84b",jelly:"#64ddff",serpent:"#6ae3ff",cephalopod:"#cb93ff",kelp:"#b3e671",crystal:"#bce8ff"};
+    if(vivid[s.id])return vivid[s.id];
     const channels=s.color.match(/[0-9a-f]{2}/gi).map(h=>Math.round(parseInt(h,16)*.6+255*.4));
     return "rgb("+channels.join(",")+")";
   }
@@ -352,7 +354,8 @@
         duration: 260,
         selected: null,
       },
-      cache = document.createElement("canvas");
+      cache = document.createElement("canvas"),
+      chartCache=document.createElement("canvas");
     let world = null,
       lastTurn = -1,
       changedAt = 0,
@@ -374,6 +377,7 @@
       if(terrainKey===key)return;terrainKey=key;
       const painted=globalThis.EcoScenery.paint(w,Art);cache.width=painted.width;cache.height=painted.height;
       cache.getContext("2d").drawImage(painted,0,0);
+      chartCache.width=painted.chart.width;chartCache.height=painted.chart.height;chartCache.getContext("2d").drawImage(painted.chart,0,0);
     }
     function fit() {
       if (!world) return;
@@ -416,8 +420,8 @@
       g.save();
       g.translate(view.x, view.y);
       g.scale(z, z);
-      g.drawImage(cache, 0, 0, w.config.width, w.config.height);
-      if(view.mode==="overview"||(view.mode==="auto"&&z<24)){g.fillStyle="#031b2452";g.fillRect(0,0,w.config.width,w.config.height);}
+      const overview=view.mode==="overview"||(view.mode==="auto"&&z<24);
+      g.drawImage(overview?chartCache:cache,0,0,w.config.width,w.config.height);
       globalThis.EcoScenery.props(g,w,Art,view,b);
       if (view.grid && z >= 8) {
         g.strokeStyle = "#b7d3c015";
