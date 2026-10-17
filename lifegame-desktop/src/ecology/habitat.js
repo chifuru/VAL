@@ -89,6 +89,26 @@
       }
       return b;
     };
+    // Smooth only the painted material field; water, walls and ecology stay exact.
+    const materialFields = ["forest", "rock", "earth", "frost", "hot", "info", "corrosion"],
+      material = new WeakMap(),
+      kernel = [0.18, 0.64, 0.18];
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const r = Object.fromEntries(materialFields.map(k => [k, 0]));
+      for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) {
+        const t = tile(x + i, y + j), b = biome(t), q = kernel[i + 1] * kernel[j + 1],
+          values = [b[1], b[2], b[3], +(t.env === 4), +(t.env === 1), +(t.env === 2), +(t.env === 7)];
+        materialFields.forEach((k, n) => r[k] += values[n] * q);
+      }
+      material.set(tile(x, y), r);
+    }
+    function relief(x, y) {
+      const h = (a, b) => P.height(Math.max(0.001, Math.min(W - 0.001, a)), Math.max(0.001, Math.min(H - 0.001, b))),
+        dx = (h(x + 0.35, y) - h(x - 0.35, y)) / 0.7,
+        dy = (h(x, y + 0.35) - h(x, y - 0.35)) / 0.7;
+      return { shade: Math.min(0.34, Math.max(0, 0.045 - 0.85 * (dx + dy))),
+        light: Math.min(0.19, Math.max(0, 0.9 * (dx + dy))) };
+    }
     const isFlow = (t) => t.terrain === "shallow";
     function sample(x, y) {
       const u = Math.floor(x - 0.5),
@@ -112,17 +132,12 @@
       for (let i = 0; i < 4; i++) {
         const t = ts[i],
           q = ws[i],
-          mix = biome(t);
+          mix = material.get(t);
         r.wet += (P.water(t) ? 1 : 0) * q;
         r.deep += (t.terrain === "deep" ? 1 : 0) * q;
-        r.forest += mix[1] * q;
-        r.rock += mix[2] * q;
-        r.earth += mix[3] * q;
-        r.frost += (t.env === 4 ? 1 : 0) * q;
-        r.hot += (t.env === 1 ? 1 : 0) * q;
-        r.info += (t.env === 2 ? 1 : 0) * q;
+        for (const k of materialFields) r[k] += mix[k] * q;
         r.flow += (isFlow(t) ? 1 : 0) * q;
-        r.corrosion += (t.env === 7 ? 1 : 0) * q;
+
       }
       return r;
     }
@@ -207,6 +222,8 @@
           "hot",
           "info",
           "corrosion",
+          "shade",
+          "light",
         ],
         data = Object.fromEntries(
           fields.map((k) => [k, mg.createImageData(mw, mh)]),
@@ -216,6 +233,7 @@
           const x = rect.x + (px + 0.5) / mu,
             y = rect.y + (py + 0.5) / mu,
             r = sample(x, y),
+            lighting = relief(x, y),
             wet = smooth((r.wet - 0.36) / 0.28),
             coast = clamp(1 - Math.abs(r.wet - 0.42) / 0.21),
             n = hash(Math.floor(x * 9), Math.floor(y * 9));
@@ -231,11 +249,14 @@
             hot: r.hot,
             info: r.info,
             corrosion: r.corrosion,
+            shade: lighting.shade * (1 - wet) + coast * 0.08,
+            light: lighting.light * (1 - wet),
           };
           const i = (py * mw + px) * 4;
           for (const k of fields) {
             const d = data[k].data;
-            d[i] = d[i + 1] = d[i + 2] = 255;
+            const color = k === "shade" ? [9, 24, 33] : k === "light" ? [255, 237, 196] : [255, 255, 255];
+            d[i] = color[0]; d[i + 1] = color[1]; d[i + 2] = color[2];
             d[i + 3] = Math.round(clamp(values[k]) * 255);
           }
         }
@@ -265,6 +286,10 @@
       applyMask(l, "dry");
       g.drawImage(land, 0, 0);
       layer(g, "earth", "shore");
+      for (const k of ["shade", "light"]) {
+        mg.putImageData(data[k], 0, 0);
+        g.drawImage(mask, 0, 0, width, height);
+      }
       metrics.patchPixels = width * height;
       metrics.paintedMaterials = names.filter(
         (n) => art.images["habitat-" + n],
@@ -274,7 +299,7 @@
       cache.set(key, result);
       return result;
     }
-    return { make, metrics, sample };
+    return { make, metrics, sample, relief };
   }
   root.EcoHabitat = { create };
 })(globalThis);

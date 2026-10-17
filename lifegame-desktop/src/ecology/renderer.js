@@ -131,6 +131,8 @@
         motion: true,
         ageEmphasis: false,
         emphasis: true,
+        simplified: false,
+        statusMarks: true,
         animate: false,
         duration: 260,
         selected: null,
@@ -253,7 +255,8 @@
       if (!world) return;
       const w = world,
         z = view.scale,
-        detail = view.mode === "detail" || (view.mode === "auto" && z >= 24),
+        near = z >= 24 && view.mode !== "overview",
+        detail = near && !view.simplified,
         point = z < 4;
       Object.assign(diagnostics, {
         mode: point ? "point" : detail ? "detail" : "simple",
@@ -264,6 +267,8 @@
         carcasses: 0,
         infectedHosts: 0,
         highParasites: 0,
+        statusBadges: 0,
+        criticalMarkers: 0,
       });
       const visible = (p, margin = 1) =>
         p[0] * z + view.x >= -z * margin &&
@@ -277,7 +282,7 @@
       g.save();
       g.translate(view.x, view.y);
       g.scale(z, z);
-      if (detail) {
+      if (near) {
         const key = [
           geometryKey,
           view.x,
@@ -331,7 +336,7 @@
         const r = P.bounds;
         g.drawImage(cache, r.minX, r.minY, cache.width / 24, cache.height / 24);
       }
-      diagnostics.materialPixelsPerCell = detail
+      diagnostics.materialPixelsPerCell = near
         ? scene.metrics.unit
         : Math.max(8, Math.min(24, Math.floor(1800 / w.config.width)));
       diagnostics.paintedMaterials = scene.metrics.paintedMaterials;
@@ -447,19 +452,20 @@
         !detail && view.emphasis
           ? [...actors.filter((a) => a.obj), ...bodies]
           : actors;
+      const annotations = [];
       for (const actor of ordered) {
         const { p } = actor;
         if (actor.obj) {
           const a = actor.obj,
             t = w.tiles[a.cell];
           if (
-            !detail &&
+            !near &&
             !["bush", "boulder", "log"].includes(t.cover) &&
             t.terrain !== "rock" &&
             a.index !== 6
           )
             continue;
-          if (detail) {
+          if (near) {
             Art.propShadow(g, a.index, ...p, a.size);
             const obscured = bodies.filter(
               (b) =>
@@ -597,8 +603,9 @@
             isMain ? (overlap ? 0.25 : 0.3) : 0.17,
             symbolColor(S.spec(o)),
           );
-        const a = S.ageInfo(o);
-        if (a.enabled && a.stage !== "adult" && (view.ageEmphasis || !detail)) {
+        const a = S.ageInfo(o),
+          showStatus = view.statusMarks && isMain && near && (z >= 100 || o.cell === view.selected);
+        if (!showStatus && a.enabled && a.stage !== "adult" && (view.ageEmphasis || !detail)) {
           g.strokeStyle = a.stage === "juvenile" ? "#fff0b2" : "#d7e2e0";
           g.lineWidth = 1 / z;
           g.beginPath();
@@ -684,7 +691,8 @@
           }
           g.restore();
         }
-        if (detail && (isMain || o.cell === view.selected)) {
+        if (near && (isMain || o.cell === view.selected)) {
+          annotations.push(() => {
           g.font = ".065px sans-serif";
           g.textAlign = "center";
           g.fillStyle = "#071c25df";
@@ -713,8 +721,41 @@
             cx,
             cy + r * 1.23,
           );
+          });
+        }
+        if (showStatus) {
+          annotations.push(() => {
+          const sex = o.sex === "male" ? "♂" : o.sex === "female" ? "♀" : "—",
+            stage = a.enabled ? ({ juvenile: "幼体", adult: "成体", elderly: "老齢" }[a.stage]) : "未判定",
+            branch = o.phase >= 3 && Number.isInteger(o.branch3)
+              ? "-" + ["A", "B", "C"][o.branch3] + (o.phase === 4 && Number.isInteger(o.branch4) ? o.branch4 + 1 : "") : "",
+            phase = ["I", "II", "III", "IV"][o.phase - 1] + branch,
+            y = cy + r * 1.23 + 0.11;
+          const badges = [
+            { x: -0.34, w: 0.14, text: sex, color: o.sex === "male" ? "#a9e5ff" : o.sex === "female" ? "#ffcfdf" : "#d7d9d3" },
+            { x: -0.18, w: 0.22, text: stage, color: a.stage === "juvenile" ? "#ffec9c" : a.stage === "elderly" ? "#ded5ef" : "#bde9cf" },
+            { x: 0.06, w: 0.30, text: phase, color: "#fff0c9" },
+          ];
+          g.save();
+          g.font = `${Math.max(0.055, 10 / z)}px sans-serif`;
+          g.textAlign = "center"; g.textBaseline = "middle";
+          for (const b of badges) {
+            g.fillStyle = "#061a25f0"; g.fillRect(cx + b.x, y - 0.055, b.w, 0.11);
+            g.strokeStyle = b.color; g.lineWidth = 0.7 / z; g.strokeRect(cx + b.x, y - 0.055, b.w, 0.11);
+            g.fillStyle = b.color; g.fillText(b.text, cx + b.x + b.w / 2, y, b.w - 0.01);
+          }
+          if (o.HP <= 25 || o.E < 15) {
+            g.fillStyle = o.HP <= 25 ? "#e2756f" : "#e6b66c";
+            g.beginPath(); g.arc(cx - 0.28, cy - 0.27, 0.06, 0, Math.PI * 2); g.fill();
+            g.fillStyle = "#07171f"; g.fillText("!", cx - 0.28, cy - 0.27);
+            diagnostics.criticalMarkers++;
+          }
+          diagnostics.statusBadges++;
+          g.restore();
+          });
         }
       }
+      for (const annotate of annotations) annotate();
       if (view.selected !== null) {
         const f = P.face(view.selected);
         path(f.slice(0, 4));

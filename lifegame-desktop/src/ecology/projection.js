@@ -24,10 +24,10 @@
         heights[y * W + x] = water(t)
           ? 0
           : t.terrain === "rock"
-            ? 0.29 + 0.04 * noise(x * 0.37, y * 0.41)
+            ? 0.48 + 0.06 * noise(x * 0.37, y * 0.41)
             : t.terrain === "mud"
               ? 0.07
-              : 0.15 + 0.02 * noise(x * 0.45, y * 0.45);
+              : 0.17 + 0.065 * noise(x * 0.12, y * 0.12) + 0.02 * noise(x * 0.45, y * 0.45);
       }
     for (let y = 0; y <= H; y++)
       for (let x = 0; x <= W; x++) {

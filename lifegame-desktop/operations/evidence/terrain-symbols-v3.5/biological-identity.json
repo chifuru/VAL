@@ -1,0 +1,18 @@
+{
+  "beforeCommit": "3e0e55b7b2884a50616731862a0ff298021f6569",
+  "biologicalSourcesAndReplayIdentical": {
+    "lifegame-desktop/src/ecology/map-data.js": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+    "lifegame-desktop/src/ecology/map-templates.js": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e",
+    "lifegame-desktop/src/ecology/landscape.js": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+    "lifegame-desktop/src/ecology/hash.js": "0f7ede6536719c1fcd246e4cf2e823252ff0a7cadc2b68555c4083b9ecf581ee",
+    "lifegame-desktop/src/ecology/catalogue.js": "fab7920f1e7780ab65dd5cbcdd055ae88c50901e283a210cfb586adf3abe9dff",
+    "lifegame-desktop/src/ecology/state.js": "f37e52ee8cbcc55c7e5930caec99d2ab4ecabe39df914ce807a978dc0fec9d1b",
+    "lifegame-desktop/src/ecology/nutrition.js": "8c44e9a438d3ca21c9f6ae4a6caeec5358218246960b5191f90f28fd794312cb",
+    "lifegame-desktop/src/ecology/behavior.js": "90b89d5f29a6b5fe3a4308017de5d74651abf16674bfa0c859f5261b202af754",
+    "lifegame-desktop/src/ecology/reproduction.js": "d574de8e9d51d1ca886e9653ff57bf053879dca0780adc1a5f486b2eed3a2537",
+    "lifegame-desktop/src/ecology/parasites.js": "867b50c4a015fd8b3096375a9761f727ed937f27654a0af9e80de6554a68acd6",
+    "lifegame-desktop/src/ecology/engine.js": "afd5ed0e3a9b5239ed01f949dc73f95be7e895b8ec76875ca42428dca889f34a",
+    "lifegame-desktop/src/ecology/replay-version.js": "59d3d52791dc56dc6f1176fbfe5a80ffb56182987807818b16c0c81982b9a634"
+  },
+  "originalPNGsUnchanged": 21
+}

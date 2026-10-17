@@ -1,0 +1,40 @@
+{
+  "ok": true,
+  "checks": [
+    "close-view symbols are optional by default",
+    "near view defaults to detailed creatures",
+    "near view supports manual symbols",
+    "near symbols retain detailed painted terrain",
+    "changing representation retains every projected organism anchor",
+    "overview forces symbols",
+    "overview retains all real organisms",
+    "overview remains symbolic when manual preference is off",
+    "manual symbol preference survives zoom and camera changes",
+    "camera and representation do not change ecology",
+    "environment textures overlap on both sides of their boundary",
+    "environment material weights are continuous at the boundary",
+    "relief distinguishes sun-facing and shaded slopes",
+    "symbol mode retains host P/Q markers",
+    "near symbols show separate status badges",
+    "status badges can be hidden independently",
+    "sex, age and all four phases render independently across 36 state combinations",
+    "low-health warning is visible in close view",
+    "200 identical idle updates add zero full redraws",
+    "symbol control is reachable on narrow screens",
+    "narrow view has no horizontal overflow",
+    "no browser exceptions",
+    "no external requests"
+  ],
+  "terrain": {
+    "a": 0.18,
+    "b": 0.5,
+    "c": 0.82,
+    "delta": 0.00012799999999968392,
+    "lit": 0.18000000000000016,
+    "shadow": 0.21500000000000014
+  },
+  "idle": 0,
+  "errors": [],
+  "fixture": "explicit phase III artwork fixture; not natural evolution",
+  "browser": "154.0.8037.57"
+}

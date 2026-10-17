@@ -1,0 +1,37 @@
+{
+  "ok": true,
+  "checks": [
+    "eleven painted habitat materials decode at production resolution",
+    "environment previews use the actual painted materials instead of placeholder gradients",
+    "same natural world and seed as the previous 3.0 screenshot",
+    "far view retains every real organism and resource",
+    "far terrain remains visibly painted after cartographic colour grading",
+    "close surface uses all eleven materials and at least 128 texels per real cell",
+    "painted terrain, new shadows and camera do not alter biology",
+    "material quilting is read-only and reuses identical patch requests",
+    "ground retains detailed colour variation at close resolution",
+    "shore interpolation preserves water/land at every real cell centre",
+    "water foam never casts a floating object shadow",
+    "occlusion reveals locally while retaining opaque foliage elsewhere",
+    "higher magnification keeps a bounded high-resolution surface",
+    "all eight fixed environments have distinct painted ground without changing terrain",
+    "deep-water artwork fully covers the stream bed at deep cell centres",
+    "comparison fixture is exactly the same biological state as 3.0",
+    "foreground reveal retains the host and its P/Q indicators",
+    "rocky view uses a valid unchanged authored map",
+    "habitat view retains narrow-screen layout",
+    "no browser exceptions"
+  ],
+  "errors": [],
+  "material": {
+    "unchanged": true,
+    "reused": true,
+    "colors": 35717,
+    "pixels": 589824,
+    "centres": true
+  },
+  "naturalFingerprint": "0f229472f6339b4fa706ccf70abf701560f049367743533fe68c3bb885bc2c08",
+  "fixtureFingerprint": "0509f89a0cb9bb667ba7e76dd767b0c698fc5f14e949f81656a1676d1ab50cc6",
+  "elapsedMs": 21242,
+  "visual": "Natural state and explicit art-review fixture are identical to app3.0. The terrain-only image hides biology in a copied display state. Rocky view selects an actual natural location without editing terrain."
+}

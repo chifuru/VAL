@@ -411,11 +411,14 @@
       else if (renderer.view.mode === "detail") $("detail-view").click();
     });
   };
+  $("status-marks").addEventListener("change", () => {
+    renderer.view.statusMarks = $("status-marks").checked;
+  });
   $("age-emphasis").addEventListener("change", () => {
     renderer.view.ageEmphasis = $("age-emphasis").checked;
     renderer.draw();
   });
-  for (const id of ["resources", "grid", "motion", "emphasis"])
+  for (const id of ["resources", "grid", "motion", "emphasis", "simplified"])
     $(id).addEventListener("change", () => {
       renderer.view[id] = $(id).checked;
     });
