@@ -2,7 +2,7 @@
 
 project_id: lifegame-desktop
 canonical_path: valis/summary/lifegame-desktop.summary.md
-current_status: 観測版2.3.0。自然排水地形、遠景簡略/近景詳細、結果図鑑と記録しない再生を接続。Linuxの実測はE6。長期バランスは未確定、Windows実exeはE7の旧対象から引き継がない。全59Node草案。
+current_status: 観測版2.3.0。描画は利用者差戻しにより画面案をすり合わせ中。自然排水地形、遠景簡略/近景詳細、結果図鑑と記録しない再生を接続。Linuxの実測はE6。長期バランスは未確定、Windows実exeはE7の旧対象から引き継がない。全59Node草案。
 current_specification: design/specification/ab-system-specification-v1.3.md
 current_adjustments: design/specification/ab-readiness-v1.4.md + design/specification/ab-balance-v1.5.md
 current_contract: operations/plans/observation-v2.3.md
@@ -10,6 +10,7 @@ current_trial: design/ecosystem-next/README.md（生態調整は未採用。wate
 current_trial_result: operations/evidence/ecosystem-next/report.md
 current_image: operations/evidence/observation-v2.3/detail.png（同じ90ターン世界の遠景はoverview.png）
 visual_reference: design/specification/ecosystem-overview-mock.png + design/specification/habitat-overview-mock.png
+current_visual_review: design/visual-alignment-v3/README.md（概念モック、製品未反映）
 
 現在の状態と必要な参照だけを記載する。履歴・過去の作業ログは保持しない。coreはプロジェクト内正本を使用し、変更しない。
 
