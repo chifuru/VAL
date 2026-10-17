@@ -1,0 +1,57 @@
+{
+  "app": "3.0.0",
+  "environment": {
+    "platform": "linux",
+    "node": "v24.19.0",
+    "chromium": "/usr/bin/chromium",
+    "serving": "HTTP loopback; Windows executable not run"
+  },
+  "unit": {
+    "ok": true,
+    "testFiles": 14,
+    "log": "unit.log"
+  },
+  "browserSuites": {
+    "graphics": {
+      "ok": true,
+      "checks": 18,
+      "report": "graphics/report.json"
+    },
+    "browser": {
+      "ok": true,
+      "checks": 46,
+      "report": "browser/report.json"
+    },
+    "maps": {
+      "ok": true,
+      "checks": 31,
+      "report": "maps/report.json"
+    },
+    "age": {
+      "ok": true,
+      "checks": 16,
+      "report": "age/report.json"
+    },
+    "overview": {
+      "ok": true,
+      "checks": 15,
+      "report": "overview/report.json"
+    },
+    "observation": {
+      "ok": true,
+      "checks": 13,
+      "report": "observation/observation.json"
+    }
+  },
+  "biologicalSourcesIdentical": 12,
+  "formalNodeStatesChanged": false,
+  "visualApproval": "not inferred from automated checks",
+  "structure": {
+    "ok": true,
+    "nodeHeaders": 59,
+    "requiredFields": 177,
+    "formalStatesUnchanged": true,
+    "log": "structure.log"
+  },
+  "verificationSequence": "Biological regression, age, maps, overview and replay executed during this change; final renderer refinements rechecked by graphics-rebuild (18 checks), projection and Node/Manifest checks."
+}

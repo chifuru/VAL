@@ -660,7 +660,7 @@ summary {
 .habitat-chip i {
   display: block;
   height: 54px;
-  background-image: url("assets/terrain.png");
+  background-image: linear-gradient(145deg, #80a380, #314e50);
   background-size: 400% 200%;
 }
 .habitat-chip b {
@@ -1047,16 +1047,297 @@ dialog::backdrop {
   height: 74px;
 }
 
-#results{max-width:850px;width:90%;max-height:85vh;overflow:auto;background:#15272b;color:#e6e6cb;border:1px solid #a89160}.result-entry{border-top:1px solid #586b65;padding:16px 0}#results-error{color:#efb48e}.transport{flex-wrap:wrap}
+#results {
+  max-width: 850px;
+  width: 90%;
+  max-height: 85vh;
+  overflow: auto;
+  background: #15272b;
+  color: #e6e6cb;
+  border: 1px solid #a89160;
+}
+.result-entry {
+  border-top: 1px solid #586b65;
+  padding: 16px 0;
+}
+#results-error {
+  color: #efb48e;
+}
+.transport {
+  flex-wrap: wrap;
+}
 
-.age-legend {font-size:11px;color:var(--muted);margin:8px 2px;}
-.age-stage {color:var(--accent);}
+.age-legend {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 8px 2px;
+}
+.age-stage {
+  color: var(--accent);
+}
 
-.map-key{margin:10px 0 14px;padding:10px 12px;border:1px solid #526c6866;background:#041d24;border-radius:4px}.map-key summary{color:var(--accent);cursor:pointer}.species-key{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.map-key-item{display:flex;align-items:center;gap:5px;padding:3px 7px;background:#0b2a32;border:1px solid #5f797344;border-radius:3px;font-size:11px}.map-key-item canvas{width:22px;height:22px;flex:none}.map-key-item b{margin-left:5px;color:#eee4bc}.map-key-note{font-size:11px;color:var(--muted);margin:8px 0 0}#scale-warning{color:#f2cd9c}
+.map-key {
+  margin: 10px 0 14px;
+  padding: 10px 12px;
+  border: 1px solid #526c6866;
+  background: #041d24;
+  border-radius: 4px;
+}
+.map-key summary {
+  color: var(--accent);
+  cursor: pointer;
+}
+.species-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+.map-key-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 7px;
+  background: #0b2a32;
+  border: 1px solid #5f797344;
+  border-radius: 3px;
+  font-size: 11px;
+}
+.map-key-item canvas {
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+.map-key-item b {
+  margin-left: 5px;
+  color: #eee4bc;
+}
+.map-key-note {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 8px 0 0;
+}
+#scale-warning {
+  color: #f2cd9c;
+}
 
 /* The observation stage uses the same world; focus is presentation only. */
-.observatory .setup,.observatory .intro h1,.observatory .intro p{display:none}.observatory main{max-width:1920px;padding:12px 18px}.observatory .intro{margin:0 0 10px;justify-content:flex-end;gap:10px}.observatory .intro>div{display:none}.observatory .canvas-wrap{height:calc(100vh - 220px);min-height:460px;max-height:1100px}.habitat{border-color:#c9ae6a;box-shadow:0 0 0 3px #102c2d,0 0 0 4px #8e784c66,0 16px 45px #0005}.habitat .panel-heading{background:linear-gradient(90deg,#031720,#0d3037,#031720);border-bottom:1px solid #b59a5d}.observatory .workspace{gap:16px}.observatory .panel-heading h2{letter-spacing:.12em}.observatory .map-key{background:#04141ccc;border-color:#b39a5e66}.view-controls{border-top:1px solid #a28d5855}@media(max-width:760px){.observatory main{padding:10px}.observatory .canvas-wrap{height:60vh;min-height:360px}.observatory .intro{flex-wrap:wrap}}
+.observatory .setup,
+.observatory .intro h1,
+.observatory .intro p {
+  display: none;
+}
+.observatory main {
+  max-width: 1920px;
+  padding: 12px 18px;
+}
+.observatory .intro {
+  margin: 0 0 10px;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.observatory .intro > div {
+  display: none;
+}
+.observatory .canvas-wrap {
+  height: calc(100vh - 220px);
+  min-height: 460px;
+  max-height: 1100px;
+}
+.habitat {
+  border-color: #c9ae6a;
+  box-shadow:
+    0 0 0 3px #102c2d,
+    0 0 0 4px #8e784c66,
+    0 16px 45px #0005;
+}
+.habitat .panel-heading {
+  background: linear-gradient(90deg, #031720, #0d3037, #031720);
+  border-bottom: 1px solid #b59a5d;
+}
+.observatory .workspace {
+  gap: 16px;
+}
+.observatory .panel-heading h2 {
+  letter-spacing: 0.12em;
+}
+.observatory .map-key {
+  background: #04141ccc;
+  border-color: #b39a5e66;
+}
+.view-controls {
+  border-top: 1px solid #a28d5855;
+}
+@media (max-width: 760px) {
+  .observatory main {
+    padding: 10px;
+  }
+  .observatory .canvas-wrap {
+    height: 60vh;
+    min-height: 360px;
+  }
+  .observatory .intro {
+    flex-wrap: wrap;
+  }
+}
 
-.committed-action{margin:10px 0;padding:10px 12px;background:#031b23;border:1px solid #bca56b88;line-height:1.6;color:#a8c7c5}.committed-action strong{font-size:16px;color:#f3dc9a;font-weight:400}.strategy-data{margin:12px 0;border-top:1px solid #526c6866;padding-top:10px}.strategy-data summary{cursor:pointer;color:#b9cac1}.strategy-data .observation-weights{border:0}
+.committed-action {
+  margin: 10px 0;
+  padding: 10px 12px;
+  background: #031b23;
+  border: 1px solid #bca56b88;
+  line-height: 1.6;
+  color: #a8c7c5;
+}
+.committed-action strong {
+  font-size: 16px;
+  color: #f3dc9a;
+  font-weight: 400;
+}
+.strategy-data {
+  margin: 12px 0;
+  border-top: 1px solid #526c6866;
+  padding-top: 10px;
+}
+.strategy-data summary {
+  cursor: pointer;
+  color: #b9cac1;
+}
+.strategy-data .observation-weights {
+  border: 0;
+}
 
-.observatory .checkpoints,.observatory .environment{display:none}
+.observatory .checkpoints,
+.observatory .environment {
+  display: none;
+}
+
+/* Rebuilt observation stage: map and specimen remain visible while controls stay reachable. */
+.observatory header {
+  height: 54px;
+  background: linear-gradient(100deg, #061a22, #123a40 65%, #071b24);
+}
+.observatory .brand {
+  font-size: 25px;
+  letter-spacing: 5px;
+}
+.observatory main {
+  padding: 8px 14px 20px;
+}
+.observatory .intro {
+  margin: 0 0 8px;
+}
+.observatory .intro button {
+  font-size: 11px;
+  padding: 6px 12px;
+}
+.observatory .workspace {
+  grid-template-columns: minmax(0, 1fr) 340px;
+  align-items: start;
+}
+.observatory .canvas-wrap {
+  height: calc(100vh - 260px);
+  min-height: 440px;
+}
+.observatory .habitat .panel-heading {
+  padding: 10px 16px;
+  min-height: 42px;
+}
+.observatory .habitat .panel-heading h2 {
+  font-size: 13px;
+}
+.observatory .view-controls {
+  padding: 7px 12px;
+  gap: 7px;
+  background: #09232c;
+}
+.observatory .inspector {
+  max-height: calc(100vh - 110px);
+  overflow: auto;
+  scrollbar-color: #87774f #081d24;
+}
+.observatory .specimen-hero > .portrait {
+  height: 240px;
+  background: radial-gradient(ellipse, #244c55 0, #09212b 60%, #061b24 100%);
+}
+.observatory .age-legend {
+  margin: 6px 2px;
+  font-size: 10px;
+}
+.observatory .map-key {
+  margin: 8px 0;
+  padding: 7px 10px;
+}
+.observatory .transport {
+  margin: 8px 0;
+}
+.observatory .metrics > div {
+  background: #0b252c;
+  border-color: #b39a5e44;
+}
+@media (max-width: 1100px) {
+  .observatory .workspace {
+    grid-template-columns: minmax(0, 1fr) 280px;
+  }
+}
+@media (max-width: 760px) {
+  .observatory .workspace {
+    grid-template-columns: 1fr;
+  }
+  .observatory .inspector {
+    max-height: none;
+  }
+  .observatory .canvas-wrap {
+    height: 60vh;
+    min-height: 360px;
+  }
+  .observatory .brand {
+    font-size: 20px;
+  }
+}
+.observatory .world-column > .transport {
+  margin: 0 0 10px;
+  padding: 8px 10px;
+  border: 1px solid #9d8a584d;
+  background: linear-gradient(90deg, #0c2c34, #071d25);
+  border-radius: 3px;
+}
+.observatory .canvas-wrap {
+  height: calc(100vh - 315px);
+}
+.habitat-chip:nth-child(1) i {
+  background: linear-gradient(145deg, #75b5aa, #1d526b);
+}
+.habitat-chip:nth-child(2) i {
+  background: linear-gradient(145deg, #bc9d63, #65492e);
+}
+.habitat-chip:nth-child(3) i {
+  background: linear-gradient(145deg, #a698ba, #504866);
+}
+.habitat-chip:nth-child(4) i {
+  background: linear-gradient(145deg, #a1ae78, #617348);
+}
+.habitat-chip:nth-child(5) i {
+  background: linear-gradient(145deg, #e2e9dc, #92b0b1);
+}
+.habitat-chip:nth-child(6) i {
+  background: linear-gradient(145deg, #96ae72, #345b40);
+}
+.habitat-chip:nth-child(7) i {
+  background: linear-gradient(145deg, #d8cba1, #8d875d);
+}
+.habitat-chip:nth-child(8) i {
+  background: linear-gradient(145deg, #ad9a78, #615540);
+}
+@media (max-width: 760px) {
+  .observatory .canvas-wrap {
+    height: 60vh;
+  }
+  .observatory .world-column > .transport {
+    gap: 6px;
+  }
+  .observatory .world-column > .transport button {
+    padding: 7px;
+    font-size: 10px;
+  }
+}

@@ -72,12 +72,14 @@ async function main() {
     check(
       await page.evaluate(
         () =>
-          Object.keys(EcoArt.manifest.creatures.regions).length === 20 &&
+          Object.keys(EcoArt.manifest.creatures.regions).filter(
+            (id) => EcoState.D.byId[id].group === "main",
+          ).length === 21 &&
           Object.values(EcoArt.manifest.creatures.regions).every(
-            (a) => a.length === 4,
+            (a) => a.length === 4 || a.length === 3,
           ),
       ),
-      "original mock artwork covers twenty lineages and four phases",
+      "production artwork covers 21 main families, four phases and three-phase precocial",
     );
     check(
       await page.locator("#start").isDisabled(),
@@ -88,6 +90,11 @@ async function main() {
     await page.locator("#load").click();
     await page.waitForFunction(() => __LIFE_TEST__.snapshot().world);
     let s = await page.evaluate(() => __LIFE_TEST__.snapshot());
+    check(
+      (await page.locator("#focus-view").getAttribute("aria-pressed")) ===
+        "true",
+      "loading through the form opens the observation stage",
+    );
     check(
       s.world.turn === 0 && s.world.stats.main === 80,
       "load creates phase-I world without advancing",
@@ -134,7 +141,9 @@ async function main() {
             .snapshot()
             .world.organisms.find((o) => o.slot === "main"),
           images = [];
-        for (const species of Object.keys(EcoArt.manifest.creatures.regions)) {
+        for (const species of Object.keys(
+          EcoArt.manifest.creatures.regions,
+        ).filter((id) => EcoState.D.byId[id].group === "main")) {
           g.clearRect(0, 0, 128, 128);
           EcoRenderer.creature(
             g,
@@ -146,9 +155,9 @@ async function main() {
           );
           images.push(c.toDataURL());
         }
-        return new Set(images).size === 20;
+        return new Set(images).size === 21;
       }),
-      "mature lineage artwork is distinct across all twenty families",
+      "mature lineage artwork is distinct across all 21 families",
     );
     check(
       (await page.evaluate(() => __LIFE_TEST__.fingerprint())) === initial,
@@ -283,6 +292,11 @@ async function main() {
         paused,
       "pause stops biological time",
     );
+    if (
+      (await page.locator("#focus-view").getAttribute("aria-pressed")) ===
+      "true"
+    )
+      await page.click("#focus-view");
     await page.locator("#advanced-settings > summary").click();
     await page.locator("#lineages").selectOption("few");
     await page.locator("#placement").selectOption("cluster");
@@ -294,6 +308,11 @@ async function main() {
         .length === 5,
       "few-lineage clustered weighted mode creates five main lineages",
     );
+    if (
+      (await page.locator("#focus-view").getAttribute("aria-pressed")) ===
+      "true"
+    )
+      await page.click("#focus-view");
     for (const id of ["main", "plant", "fungus", "prey", "P", "Q"])
       await page.locator("#group-" + id).uncheck();
     await page.locator("#load").click();
@@ -395,7 +414,7 @@ async function main() {
     check(network.length === 0, "local app makes no external HTTP requests");
     const report = {
       ok: true,
-      artwork: "mock-art/1",
+      artwork: await page.evaluate(() => EcoVisualManifest.version),
       app: require("../package.json").version,
       version: "ecology-ab/1.5",
       platform: process.platform,

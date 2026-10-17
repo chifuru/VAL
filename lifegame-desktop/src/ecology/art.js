@@ -1,4 +1,4 @@
-/* Paint-only assets and primitives. Never writes to an organism or world. */
+/* Production artwork. Pure display transforms; never mutates the ecosystem. */
 (function (root) {
   "use strict";
   const manifest = root.EcoVisualManifest,
@@ -6,314 +6,339 @@
     errors = [];
   let loaded = false;
   const ready = Promise.all(
-    ["creatures", "food", "terrain", "ground", "props", "adults"].map(async (key) => {
-      const image = new Image();
+    Object.entries(manifest.sheets).map(async ([key, entry]) => {
+      const im = new Image();
       try {
-        image.src = "assets/" + manifest[key].file;
-        await image.decode();
-        images[key] = image;
+        im.src = "assets/" + entry.file;
+        await im.decode();
+        images[key] = im;
       } catch {
-        errors.push(manifest[key].file);
+        errors.push(entry.file);
       }
     }),
   ).then(() => {
-    loaded = errors.length === 0;
+    loaded = !errors.length;
   });
   const tint = [
-    "#56d6d2",
-    "#ff9b4b",
-    "#bf82ee",
-    "#b6b7a0",
-    "#b9e0ff",
-    "#95bc55",
-    "#e2c084",
-    "#ae8a55",
+    "#66d4c5",
+    "#eebd79",
+    "#bb9bdd",
+    "#a6c68b",
+    "#dfebe2",
+    "#91bb78",
+    "#dfcf9d",
+    "#bea17e",
   ];
-  const ellipse = (g, x, y, a, b, angle = 0) => {
+  function ellipse(g, x, y, a, b, angle = 0) {
     g.beginPath();
     g.ellipse(x, y, a, b, angle, 0, Math.PI * 2);
     g.fill();
-  };
-  function glow(g, x, y, r, color) {
+  }
+  function glow(g, x, y, r, c) {
     const a = g.createRadialGradient(x, y, 0, x, y, r);
-    a.addColorStop(0, color + "a0");
-    a.addColorStop(1, color + "00");
+    a.addColorStop(0, c + "80");
+    a.addColorStop(1, c + "00");
     g.fillStyle = a;
-    g.fillRect(x - r, y - r, 2 * r, 2 * r);
+    g.fillRect(x - r, y - r, r * 2, r * 2);
   }
-  const ageFrames=new Map();
-  function ageFrame(o,frame,source=images.creatures) {
-    const a=root.EcoState.ageInfo(o);
-    if(!a.enabled||a.stage==="adult")return null;
-    const key=o.species+"/"+o.phase+"/"+a.stage+"/"+(source===images.adults?"detail":"base");
-    if(ageFrames.has(key))return ageFrames.get(key);
-    const c=document.createElement("canvas");c.width=frame[2];c.height=frame[3];
-    const g=c.getContext("2d"),[sx,sy,W,H]=frame;
-    if(a.stage==="juvenile"){
-      // Rounder body proportions: shorten outer appendage bands, retain core.
-      const band=4;
-      for(let y=0;y<H;y+=band){const h=Math.min(band,H-y),u=(y+h/2)/H,k=.72+.28*Math.sin(Math.PI*u);
-        g.drawImage(source,sx,sy+y,W,h,(W-W*k)/2,y,W*k,h);}
-    }else{
-      g.drawImage(source,...frame,0,0,W,H);
-      // Fine surface folds and pale edges, clipped to living tissue, not wounds.
-      g.globalCompositeOperation="source-atop";g.strokeStyle="#f4e6b84d";g.lineWidth=Math.max(1,W/180);
-      for(let i=0;i<12;i++){const y=H*(.15+i*.055);g.beginPath();g.moveTo(W*.12,y);g.bezierCurveTo(W*.38,y-H*.06,W*.6,y+H*.035,W*.86,y-H*.02);g.stroke();}
-      g.fillStyle="#e0dccb26";for(let i=0;i<30;i++)g.fillRect((i*53%W),(i*79%H),Math.max(1,W*.008),Math.max(1,H*.008));
+  const variants = new Map(),
+    framesClean = new Map();
+  // Atlas cells may contain isolated tips from a neighbour. Keep the central tissue
+  // and its substantial attached components; source PNGs remain unchanged.
+  function cleanFrame(im, f) {
+    const key = im.src + "/" + f.join(",");
+    if (framesClean.has(key)) return framesClean.get(key);
+    const c = document.createElement("canvas");
+    c.width = f[2];
+    c.height = f[3];
+    const g = c.getContext("2d");
+    g.drawImage(im, ...f, 0, 0, c.width, c.height);
+    const d = g.getImageData(0, 0, c.width, c.height),
+      W = c.width,
+      H = c.height,
+      labels = new Int32Array(W * H),
+      groups = [];
+    let n = 0;
+    for (let p = 0; p < W * H; p++) {
+      if (labels[p] || d.data[p * 4 + 3] < 30) continue;
+      n++;
+      const queue = [p];
+      labels[p] = n;
+      let count = 0,
+        cx = 0,
+        cy = 0;
+      for (let q = 0; q < queue.length; q++) {
+        const a = queue[q],
+          x = a % W,
+          y = Math.floor(a / W);
+        count++;
+        cx += x;
+        cy += y;
+        for (const b of [
+          x > 0 ? a - 1 : -1,
+          x < W - 1 ? a + 1 : -1,
+          y > 0 ? a - W : -1,
+          y < H - 1 ? a + W : -1,
+        ])
+          if (b >= 0 && !labels[b] && d.data[b * 4 + 3] >= 30) {
+            labels[b] = n;
+            queue.push(b);
+          }
+      }
+      groups.push({ n, count, cx: cx / count, cy: cy / count });
     }
-    ageFrames.set(key,c);return c;
+    const largest = Math.max(1, ...groups.map((a) => a.count)),
+      keep = new Set(
+        groups.filter((a) => a.count >= largest * 0.06).map((a) => a.n),
+      );
+    // Only remove labelled disconnected fragments. Soft fringe pixels remain intact.
+    for (let p = 0; p < W * H; p++)
+      if (labels[p] && !keep.has(labels[p])) d.data[p * 4 + 3] = 0;
+    g.putImageData(d, 0, 0);
+    framesClean.set(key, c);
+    return c;
   }
-  function creature(g, o, x, y, r, detail = true) {
-    const id = o.species === "precocial" ? "abyssshell" : o.species,
-      frames = manifest.creatures.regions[id];
-    if (!images.creatures || !frames) return false;
-    const replacement=o.phase>=3&&images.adults&&manifest.adults.regions[id],
-      frame=replacement?replacement[Math.min(1,o.phase-3)]:frames[Math.max(0, Math.min(3, o.phase - 1))],
-      source=replacement?images.adults:images.creatures;
+
+  function variant(o, im, f) {
+    im = cleanFrame(im, f);
+    f = [0, 0, im.width, im.height];
+    const age = root.EcoState.ageInfo(o),
+      stage = age.enabled ? age.stage : "adult",
+      sex = o.sex || "none",
+      key = [o.species, o.phase, o.branch3, o.branch4, stage, sex, o.role].join(
+        "/",
+      );
+    if (variants.has(key)) return variants.get(key);
+    const c = document.createElement("canvas");
+    c.width = f[2];
+    c.height = f[3];
+    const g = c.getContext("2d"),
+      W = c.width,
+      H = c.height;
+    // Change tissue proportions, not only an external badge: juvenile appendages shorter,
+    // males longer peripheral structures, females wider central body at every phase.
+    const band = 3;
+    for (let y = 0; y < H; y += band) {
+      const h = Math.min(band, H - y),
+        v = (y + h / 2) / H,
+        core = Math.sin(Math.PI * v),
+        k =
+          stage === "juvenile"
+            ? 0.65 + 0.35 * core
+            : sex === "female"
+              ? 0.83 + 0.17 * core
+              : sex === "male"
+                ? 1 - 0.15 * core
+                : 0.94 + 0.06 * core;
+      g.drawImage(im, f[0], f[1] + y, W, h, (W - W * k) / 2, y, W * k, h);
+    }
+    if (stage === "elderly") {
+      g.globalCompositeOperation = "source-atop";
+      g.fillStyle = "#b8c3bd33";
+      g.fillRect(0, 0, W, H);
+      g.strokeStyle = "#fff0c138";
+      g.lineWidth = W / 250;
+      for (let i = 0; i < 13; i++) {
+        const y = H * (0.12 + i * 0.06);
+        g.beginPath();
+        g.moveTo(W * 0.12, y);
+        g.bezierCurveTo(
+          W * 0.35,
+          y - H * 0.05,
+          W * 0.64,
+          y + H * 0.03,
+          W * 0.88,
+          y - H * 0.02,
+        );
+        g.stroke();
+      }
+    }
+    if (variants.size >= 256) variants.delete(variants.keys().next().value);
+    variants.set(key, c);
+    return c;
+  }
+  function creature(g, o, x, y, r) {
+    const frames = manifest.creatures.regions[o.species],
+      im = images[manifest.creatures.sheetBySpecies[o.species]];
+    if (!frames || !im) return false;
+    let f =
+        frames[Math.max(0, Math.min(frames.length - 1, (o.phase || 1) - 1))],
+      source = im;
+    const b = manifest.branches[o.species];
+    if (b && o.phase >= 3 && images[b.sheet]) {
+      source = images[b.sheet];
+      f =
+        b.regions[
+          o.phase === 3
+            ? (o.branch3 ?? 0)
+            : 3 + (o.branch3 ?? 0) * 2 + (o.branch4 ?? 0)
+        ];
+    }
+    const age = root.EcoState.ageInfo(o),
+      juvenile = age.enabled && age.stage === "juvenile",
+      elder = age.enabled && age.stage === "elderly";
+    const branchWidth =
+      !b && o.phase >= 3
+        ? o.branch3 === 0
+          ? 1.08
+          : o.branch3 === 1
+            ? 0.87
+            : 1.04
+        : 1;
+    const width =
+        branchWidth *
+        r *
+        2.8 *
+        (0.94 + 0.12 * (o.dna?.appendage ?? 0.5)) *
+        (o.sex === "female" ? 1.1 : 1),
+      height =
+        r *
+        2.8 *
+        (juvenile ? 0.77 : elder ? 0.94 : 1) *
+        (o.sex === "male" ? 1.1 : 1);
     g.save();
     g.translate(x, y);
-    if(replacement){if(Math.cos(((o.facing||0)*Math.PI)/4)<0)g.scale(-1,1);}
-    else g.rotate(((o.facing || 0) * Math.PI) / 4);
-    if (o.phase >= 3)
-      glow(
-        g,
-        0,
-        0,
-        r * 1.45,
-        o.branch3 === 2 ? "#ffad70" : o.branch3 === 1 ? "#79c8ed" : "#92dea6",
-      );
-    const width = r * 2.65 * (0.9 + 0.2 * (o.dna.appendage ?? 0.5)),
-      height = r * 2.65 * (1.08 - 0.16 * (o.dna.skin ?? 0.5));
-    const age=root.EcoState.ageInfo(o),styled=ageFrame(o,frame,source);
-    const aw=age.enabled&&age.stage==="juvenile"?.9:1,ah=age.enabled&&age.stage==="juvenile"?.76:age.enabled&&age.stage==="elderly"?.94:1;
-    if(styled)g.drawImage(styled,-width*aw/2,-height*ah/2,width*aw,height*ah);
-    else g.drawImage(source,...frame,-width/2,-height/2,width,height);
-    if (detail) {
-      g.lineWidth = r * 0.025;
-      g.strokeStyle = "#ffe3a1";
-      g.fillStyle = "#ffe3a1";
-      if (o.sex === "male") {
-        g.beginPath();
-        g.moveTo(r * 0.26, -r * 0.62);
-        g.lineTo(r * 0.33, -r * 0.76);
-        g.lineTo(r * 0.41, -r * 0.66);
-        g.stroke();
-      } else if (o.sex === "female") {
-        ellipse(g, -r * 0.2, r * 0.3, r * 0.07, r * 0.055);
-        ellipse(g, -r * 0.31, r * 0.4, r * 0.07, r * 0.055);
-      }
-      if (o.branch4 !== null && o.branch4 !== undefined) {
-        g.strokeStyle = o.branch4 === 0 ? "#d4f3b0" : "#ffe4a0";
-        g.beginPath();
-        g.arc(0, 0, r * 1.2, -0.7, Math.PI * (o.branch4 === 0 ? 1 : 1.7));
-        g.stroke();
-      }
-      if (o.role === "queen") {
-        g.strokeStyle = "#ffe39b";
-        g.beginPath();
-        g.moveTo(-r * 0.4, -r * 0.7);
-        g.lineTo(-r * 0.2, -r);
-        g.lineTo(0, -r * 0.78);
-        g.lineTo(r * 0.2, -r);
-        g.lineTo(r * 0.4, -r * 0.7);
-        g.stroke();
-      }
+    if (o.renderPose) {
+      g.rotate(o.renderPose.lean || 0);
+      g.scale(1, o.renderPose.squash || 1);
+    }
+    if (Math.cos(((o.facing || 0) * Math.PI) / 4) < 0) g.scale(-1, 1);
+    g.drawImage(variant(o, source, f), -width / 2, -height / 2, width, height);
+    // Family-specific branch structure is in the solar/jelly artwork; other families
+    // use tissue width/crest proportions, without fake shared rings or combat effects.
+    if (o.species === "swarm" && o.role === "queen") {
+      g.fillStyle = "#ffe1a6";
+      for (let j = 0; j < 3; j++)
+        ellipse(g, (j - 1) * r * 0.13, -r * 0.18, r * 0.045, r * 0.07);
     }
     g.restore();
     return true;
   }
-  function sprite(g, key, index, x, y, r) {
-    if (!images.food) return false;
-    const f = manifest.food.regions[key][index];
-    g.drawImage(images.food, ...f, x - r, y - r, r * 2, r * 2);
-    return true;
-  }
   function food(g, o, x, y, r, env) {
-    if (!images.food) return false;
-    const id = o.species;
+    const f = manifest.food.regions[o.species];
+    if (!f) {
+      return creature(g, o, x, y, r);
+    }
+    const im = images["food-atlas"];
+    if (!im) return false;
+    const q = Math.max(0.3, Math.min(1, (o.B || 3) / 10)),
+      size = r * (0.85 + 0.25 * q),
+      frame = f[Math.min(1, (o.phase || 1) - 1)];
     g.save();
-    if (id.includes("bug")) {
-      g.translate(x, y);
-      g.rotate(((o.facing || 0) * Math.PI) / 4);
-      sprite(g, "life", id === "waterbug" ? 0 : 3, 0, 0, r * 1.2);
-    } else if (["tideparasite", "leafparasite", "hyperparasite"].includes(id)) {
-      glow(g, x, y, r * 1.5, id === "hyperparasite" ? "#ae8aff" : "#ffac7a");
-      g.strokeStyle = id === "hyperparasite" ? "#d0b1ff" : "#ffce9e";
-      g.lineWidth = r * 0.2;
-      g.beginPath();
-      for (let i = 0; i <= 32; i++) {
-        const a = i * 0.24,
-          rr = r * (0.2 + i / 50),
-          px = x + Math.cos(a) * rr,
-          py = y + Math.sin(a) * rr;
-        if (i) g.lineTo(px, py);
-        else g.moveTo(px, py);
-      }
-      g.stroke();
-    } else if (["algae", "moss", "grass"].includes(id) && o.B <= 2) {
-      g.strokeStyle = "#6b8c63";
-      g.lineWidth = r * 0.18;
-      g.beginPath();
-      g.moveTo(x, y + r * 0.55);
-      g.lineTo(x, y - r * 0.1);
-      g.stroke();
-      g.fillStyle = "#a3bc75";
-      ellipse(g, x, y - r * 0.14, r * 0.16, r * 0.23);
-    } else if (id === "fungus") {
-      for (let i = 0; i < 3; i++) {
-        const px = x + (i - 1) * r * 0.6,
-          py = y + (i % 2) * r * 0.2;
-        g.fillStyle = "#d7c3a5";
-        g.fillRect(px - r * 0.07, py, r * 0.14, r * 0.65);
-        const a = g.createRadialGradient(
-          px,
-          py - r * 0.2,
-          0,
-          px,
-          py - r * 0.2,
-          r * 0.65,
-        );
-        a.addColorStop(0, "#e8baff");
-        a.addColorStop(1, "#67416e");
-        g.fillStyle = a;
-        g.beginPath();
-        g.ellipse(px, py, r * 0.6, r * 0.34, 0, Math.PI, Math.PI * 2);
-        g.fill();
-      }
-    } else {
-      const leaves = id === "moss" ? 8 : id === "grass" ? 5 : 4;
-      g.strokeStyle = "#728e4f";
-      g.lineWidth = r * 0.07;
-      for (let i = 0; i < leaves; i++) {
-        const angle = (i / leaves) * Math.PI * 2,
-          px = x + Math.cos(angle) * r * 0.43,
-          py = y + Math.sin(angle) * r * 0.34;
-        const a = g.createLinearGradient(px, py + r * 0.4, px, py - r * 0.6);
-        a.addColorStop(0, id === "algae" ? "#256b5f" : "#35592c");
-        a.addColorStop(
-          0.55,
-          env === 1
-            ? "#c49c5c"
-            : env === 2
-              ? "#a49bd6"
-              : env === 7
-                ? "#9b9c60"
-                : id === "algae"
-                  ? "#7ecdb1"
-                  : "#9dbb60",
-        );
-        a.addColorStop(1, env === 4 ? "#e5eedc" : "#d1db86");
-        g.fillStyle = a;
-        ellipse(
-          g,
-          px,
-          py,
-          r * (id === "moss" ? 0.35 : 0.2),
-          r * (id === "moss" ? 0.3 : 0.8),
-          angle + 0.5,
-        );
-        g.beginPath();
-        g.moveTo(x, y + r * 0.5);
-        g.lineTo(px, py - r * 0.35);
-        g.stroke();
-      }
-      if (env === 0 || env === 5) {
-        g.strokeStyle = "#8fe1d066";
-        g.lineWidth = r * 0.06;
-        g.beginPath();
-        g.ellipse(x, y + r * 0.5, r * 1.15, r * 0.28, 0, 0, 7);
-        g.stroke();
-      }
-      if (env === 4) {
-        g.fillStyle = "#e5f6fa";
-        for (let i = 0; i < 4; i++)
-          ellipse(
-            g,
-            x + Math.sin(i * 4) * r * 0.7,
-            y + Math.cos(i * 2) * r * 0.6,
-            r * 0.08,
-            r * 0.04,
-          );
-      }
+    g.translate(x, y);
+    if (o.facing % 2) g.scale(-1, 1);
+    g.drawImage(
+      cleanFrame(im, frame),
+      -size * 1.3,
+      -size * 1.3,
+      size * 2.6,
+      size * 2.6,
+    );
+    if (env === 4) {
+      g.globalAlpha = 0.25;
+      glow(g, 0, 0, size, "#d6f6ff");
     }
     g.restore();
     return true;
   }
   function resource(g, a, x, y, r, env, turn) {
     g.save();
+    const n = Math.min(6, Math.max(1, Math.ceil(a.q))),
+      colors = {
+        info: "#73e9ff",
+        seed: "#d5cf83",
+        spore: "#cf9aee",
+        egg: "#ffddaa",
+        organic: "#ba9374",
+        mineral: "#a8d8ed",
+        droplet: "#76d9f3",
+        factor: "#f5c986",
+      },
+      c = colors[a.kind] || "#d6e5b5";
     if (a.kind === "info") {
       g.globalAlpha = Math.max(
-        0.28,
-        1 - (turn - (a.event?.time ?? a.created)) / 24,
+        0.35,
+        1 - (turn - (a.event?.time ?? a.created ?? turn)) / 28,
       );
-      glow(g, x, y, r * 2.6, "#bc65ff");
-      g.strokeStyle = "#d7b6ff";
-      g.lineWidth = r * 0.13;
-      g.beginPath();
-      g.ellipse(x, y, r * 1.2, r * 0.48, -0.35, 0, 7);
-      g.stroke();
-      glow(g, x, y, r * 0.8, "#f4d4ff");
-      g.fillStyle = "#f6e5ff";
-      ellipse(g, x, y, r * 0.23, r * 0.23);
-    } else if (a.kind === "mineral")
-      sprite(g, "mineral", env === 1 ? 1 : env === 2 ? 2 : 0, x, y, r * 1.7);
-    else if (a.kind === "droplet") {
-      const c = g.createLinearGradient(x - r, y - r, x + r, y + r);
-      c.addColorStop(0, "#d9faff");
-      c.addColorStop(0.5, "#5ac4f1");
-      c.addColorStop(1, "#265293");
-      g.fillStyle = c;
-      g.beginPath();
-      g.moveTo(x, y - r);
-      g.bezierCurveTo(
-        x + r * 1.5,
-        y + r * 0.9,
-        x - r * 1.5,
-        y + r * 0.9,
-        x,
-        y - r,
-      );
-      g.fill();
-    } else if (a.kind === "factor") {
-      glow(g, x, y, r * 2, "#e4ce70");
-      g.strokeStyle = "#ffe6a0";
-      g.lineWidth = r * 0.1;
-      g.beginPath();
-      g.arc(x, y, r, 0, 7);
-      g.stroke();
-      g.beginPath();
-      g.moveTo(x - r * 0.7, y);
-      g.lineTo(x + r * 0.7, y);
-      g.stroke();
-    } else {
-      g.fillStyle =
-        a.kind === "egg"
-          ? "#ffe0a1"
-          : a.kind === "spore"
-            ? "#d8a7e6"
-            : "#9ec566";
-      for (let i = 0; i < Math.min(5, Math.ceil(a.q)); i++) {
-        ellipse(
-          g,
-          x + Math.sin(i * 3) * r * 0.6,
-          y + Math.cos(i * 3) * r * 0.5,
-          r * 0.45,
-          r * 0.5,
-          i,
+      glow(g, x, y, r * 3, c);
+      g.strokeStyle = c;
+      g.lineWidth = r * 0.09;
+      for (let j = 0; j < 3; j++) {
+        g.beginPath();
+        g.ellipse(
+          x,
+          y,
+          r * (0.8 + j * 0.35),
+          r * (0.25 + j * 0.12),
+          j * 0.9 - 0.5,
+          0.2,
+          Math.PI * 1.8,
         );
+        g.stroke();
+      }
+      g.fillStyle = "#edfcff";
+      ellipse(g, x, y, r * 0.2, r * 0.2);
+    } else {
+      g.fillStyle = c;
+      g.strokeStyle = c;
+      g.lineWidth = r * 0.08;
+      for (let j = 0; j < n; j++) {
+        const u = x + Math.sin(j * 8) * r * 0.6,
+          v = y + Math.cos(j * 5) * r * 0.4,
+          s = r * (0.34 + j * 0.015);
+        glow(g, u, v, s * 2, c);
+        if (a.kind === "mineral" || a.kind === "factor") {
+          g.beginPath();
+          g.moveTo(u, v - s * 1.5);
+          g.lineTo(u + s, v);
+          g.lineTo(u, v + s);
+          g.lineTo(u - s, v);
+          g.closePath();
+          g.fill();
+          g.strokeStyle = "#efffff";
+          g.beginPath();
+          g.moveTo(u, v - s * 1.4);
+          g.lineTo(u, v + s * 0.7);
+          g.stroke();
+        } else
+          ellipse(
+            g,
+            u,
+            v,
+            s * (a.kind === "spore" ? 0.5 : 0.7),
+            s,
+            a.kind === "seed" ? 0.5 : 0,
+          );
       }
     }
     g.restore();
   }
+  function prop(g, index, x, y, width, alpha = 1) {
+    const im = images["habitat-props"],
+      f = manifest.props.regions[index];
+    if (!im || !f) return;
+    g.save();
+    g.globalAlpha = alpha;
+    const height = (width * f[3]) / f[2];
+    g.drawImage(
+      cleanFrame(im, f),
+      x - width / 2,
+      y - height * 0.9,
+      width,
+      height,
+    );
+    g.restore();
+  }
   root.EcoArt = {
     manifest,
-    ready,
-    errors,
     images,
+    errors,
+    ready,
     tint,
     creature,
     food,
     resource,
+    prop,
     get loaded() {
       return loaded;
     },

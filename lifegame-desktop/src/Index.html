@@ -24,7 +24,9 @@
           <h1>ひとマスから、系譜が育つ。</h1>
           <p>育ち、競い、つながる。30の系統と、見えない関係を観測する。</p>
         </div>
-        <button id="focus-view" class="secondary" aria-pressed="false">観察画面を広く表示 ↗</button>
+        <button id="focus-view" class="secondary" aria-pressed="false">
+          観察画面を広く表示 ↗
+        </button>
         <button id="open-guide" class="secondary">系統樹・説明シート ↗</button>
       </div>
       <div class="workspace">
@@ -51,9 +53,20 @@ ECOSYSTEM-2026</textarea
                   min="4"
                   max="17920"
                   step="4"
-                  value="320" /></label>
-              <label>地形<select id="map-id"><option value="auto">おまかせ · 代表6地形</option></select></label>
-              <label>地形用初期値<input id="terrain-seed" type="text" maxlength="2048" placeholder="空欄なら生態用初期値と同じ" /></label>
+                  value="320"
+              /></label>
+              <label
+                >地形<select id="map-id">
+                  <option value="auto">おまかせ · 代表6地形</option>
+                </select></label
+              >
+              <label
+                >地形用初期値<input
+                  id="terrain-seed"
+                  type="text"
+                  maxlength="2048"
+                  placeholder="空欄なら生態用初期値と同じ"
+              /></label>
               <button id="load" type="submit" class="primary">
                 世界を読み込む ↗
               </button>
@@ -98,12 +111,27 @@ ECOSYSTEM-2026</textarea
               </div>
             </details>
           </form>
-          <p id="map-summary" class="note" aria-live="polite">地形と生態の初期値を分けて比較できます。</p>
+          <p id="map-summary" class="note" aria-live="polite">
+            地形と生態の初期値を分けて比較できます。
+          </p>
           <p class="note">
             読み込みでは時間は進みません。環境・地形は固定、餌と生物は変動します。
           </p>
         </aside>
         <section class="world-column">
+          <div class="transport">
+            <button id="start" class="primary" disabled>観測を開始 ▶</button
+            ><button id="step" class="secondary" disabled>1ターン進む</button
+            ><button id="finish-run" class="secondary" disabled>
+              終了して図鑑へ保存</button
+            ><button id="open-results" class="secondary">結果図鑑</button
+            ><button id="reset" class="secondary" disabled>初期状態へ</button
+            ><select id="speed" aria-label="観測速度">
+              <option value="1">1ターン/秒</option>
+              <option value="5">5ターン/秒</option>
+              <option value="10">10ターン/秒</option>
+            </select>
+          </div>
           <div class="panel habitat">
             <div class="panel-heading">
               <h2>◈ 生態系マップ <small id="status">未準備</small></h2>
@@ -125,7 +153,8 @@ ECOSYSTEM-2026</textarea
               </div>
             </div>
             <div class="view-controls">
-              <button id="detail-view" class="small">選択地点の近景</button><button id="fit" class="small">全体</button
+              <button id="detail-view" class="small">選択地点の近景</button
+              ><button id="fit" class="small">全体</button
               ><button id="zoom-out" class="small" aria-label="縮小">−</button
               ><button id="zoom-in" class="small" aria-label="拡大">＋</button
               ><label class="check"
@@ -134,21 +163,27 @@ ECOSYSTEM-2026</textarea
                 ><input id="grid" type="checkbox" />格子</label
               ><label class="check"
                 ><input id="motion" type="checkbox" checked />モーション</label
-              ><label class="check"><input id="age-emphasis" type="checkbox" />年齢を強調</label><span id="render-mode">—</span>
+              ><label class="check"
+                ><input id="age-emphasis" type="checkbox" />年齢を強調</label
+              ><span id="render-mode">—</span>
             </div>
           </div>
-          <p class="age-legend">年齢印：幼体＝小点付きの輪 ／ 成体＝通常形 ／ 老齢＝切欠きの輪。進化相とは別です。</p>
-          <details id="map-key" class="map-key" open><summary>盤面の記号と現在の個体数</summary><div id="species-key" class="species-key"></div><p class="map-key-note">主生物は中央、餌は下側、資源は上側。橙の点＝宿主内の寄生、紫の輪＝高次寄生、×＝死骸。記号は全個体を対象とし、微細な違いはマスを選択して近景で確認できます。</p><div id="resource-key" class="species-key"></div><p id="scale-warning" class="map-key-note" hidden>現在の縮尺では記号の細部を判読できません。存在位置を描いていますが重なる画素があります。拡大またはマス選択で内訳を確認してください。</p></details>
-          <div class="transport">
-            <button id="start" class="primary" disabled>観測を開始 ▶</button
-            ><button id="step" class="secondary" disabled>1ターン進む</button
-            ><button id="finish-run" class="secondary" disabled>終了して図鑑へ保存</button><button id="open-results" class="secondary">結果図鑑</button><button id="reset" class="secondary" disabled>初期状態へ</button
-            ><select id="speed" aria-label="観測速度">
-              <option value="1">1ターン/秒</option>
-              <option value="5">5ターン/秒</option>
-              <option value="10">10ターン/秒</option>
-            </select>
-          </div>
+          <p class="age-legend">
+            年齢印：幼体＝小点付きの輪 ／ 成体＝通常形 ／
+            老齢＝切欠きの輪。進化相とは別です。
+          </p>
+          <details id="map-key" class="map-key" open>
+            <summary>盤面の記号と現在の個体数</summary>
+            <div id="species-key" class="species-key"></div>
+            <p class="map-key-note">
+              主生物は中央、餌は下側、資源は上側。橙の点＝宿主内の寄生、紫の輪＝高次寄生、×＝死骸。記号は全個体を対象とし、微細な違いはマスを選択して近景で確認できます。
+            </p>
+            <div id="resource-key" class="species-key"></div>
+            <p id="scale-warning" class="map-key-note" hidden>
+              現在の縮尺では記号の細部を判読できません。存在位置を描いていますが重なる画素があります。拡大またはマス選択で内訳を確認してください。
+            </p>
+          </details>
+
           <p id="message" role="status" aria-live="polite">
             世界の読み込みを待っています。
           </p>
@@ -246,8 +281,17 @@ ECOSYSTEM-2026</textarea
     <script src="assets/visual-manifest.js"></script>
     <script src="ecology/art.js"></script>
     <script src="ecology/scenery.js"></script>
+    <script src="ecology/projection.js"></script>
     <script src="ecology/renderer.js"></script>
-    <dialog id="results"><div class="guide-head"><h2>結果図鑑</h2><button id="close-results" class="secondary">閉じる ×</button></div><p>最終結果と初期条件のみ保存 · 再生結果は記録しません · 最大100件</p><p id="results-error" role="alert"></p><section id="results-list"></section></dialog>
+    <dialog id="results">
+      <div class="guide-head">
+        <h2>結果図鑑</h2>
+        <button id="close-results" class="secondary">閉じる ×</button>
+      </div>
+      <p>最終結果と初期条件のみ保存 · 再生結果は記録しません · 最大100件</p>
+      <p id="results-error" role="alert"></p>
+      <section id="results-list"></section>
+    </dialog>
     <script src="ecology/replay-version.js"></script>
     <script src="ecology/archive.js"></script>
     <script src="app.js"></script>

@@ -46,8 +46,17 @@
       terminal: "終宿主",
     };
   const renderer = R.create($("board"));
-  const archive = window.EcoArchive.create({getItem:k=>localStorage.getItem(k),setItem:(k,v)=>localStorage.setItem(k,v)},E,window.EcoReplayVersion);
-  let replayEntry=null, ended=false, pendingResult=null;
+  const archive = window.EcoArchive.create(
+    {
+      getItem: (k) => localStorage.getItem(k),
+      setItem: (k, v) => localStorage.setItem(k, v),
+    },
+    E,
+    window.EcoReplayVersion,
+  );
+  let replayEntry = null,
+    ended = false,
+    pendingResult = null;
   let world = null,
     initialConfig = null,
     running = false,
@@ -101,7 +110,9 @@
   $("distribution").addEventListener("change", () => {
     $("weight-options").hidden = $("distribution").value !== "weighted";
   });
-  $("map-id").innerHTML += window.EcoMapTemplates.list().map(m=>`<option value="${escape(m.id)}">${escape(m.name)}</option>`).join("");
+  $("map-id").innerHTML += window.EcoMapTemplates.list()
+    .map((m) => `<option value="${escape(m.id)}">${escape(m.name)}</option>`)
+    .join("");
   function readConfig() {
     const [width, height] = $("size").value.split(",").map(Number);
     return {
@@ -145,20 +156,31 @@
     $("step").disabled = !world || ended;
     $("status").textContent = world ? "一時停止" : "未準備";
   }
-  function prepare(config, playback=null) {
-    const next = E.create({landscape:"templates",ageModel:"life/1",...config});
+  function prepare(config, playback = null) {
+    const next = E.create({
+      landscape: "templates",
+      ageModel: "life/1",
+      ...config,
+    });
     stop();
-    replayEntry=playback;ended=false;pendingResult=null;
-    $("finish-run").disabled=false;
-    $("finish-run").textContent=playback?"再生を終了（記録なし）":"終了して図鑑へ保存";
+    replayEntry = playback;
+    ended = false;
+    pendingResult = null;
+    $("finish-run").disabled = false;
+    $("finish-run").textContent = playback
+      ? "再生を終了（記録なし）"
+      : "終了して図鑑へ保存";
     world = next;
     initialConfig = structuredClone(next.config);
     $("seed").value = next.config.seed;
     $("terrain-seed").value = next.config.terrainSeed ?? next.config.seed;
     $("map-id").value = next.config.mapId || "auto";
-    const map=next.config.mapResolved;
-    const mapName=map&&window.EcoMapTemplates.list().find(m=>m.id===map.id)?.name;
-    $("map-summary").textContent=map?`${mapName} · 地形版 ${map.version} · ${map.width}×${map.height} · 地形指紋 ${map.terrainHash.slice(0,12)}${map.fallback?" · 安全な既定配置":""}`:"従来方式の地形";
+    const map = next.config.mapResolved;
+    const mapName =
+      map && window.EcoMapTemplates.list().find((m) => m.id === map.id)?.name;
+    $("map-summary").textContent = map
+      ? `${mapName} · 地形版 ${map.version} · ${map.width}×${map.height} · 地形指紋 ${map.terrainHash.slice(0, 12)}${map.fallback ? " · 安全な既定配置" : ""}`
+      : "従来方式の地形";
     $("size").value = next.config.width + "," + next.config.height;
     $("initial").value = next.config.initial;
     for (const key of ["lineages", "distribution", "placement"])
@@ -184,9 +206,16 @@
     $("reset").disabled = false;
     lastMs = 0;
     const focal =
-      world.organisms.find((o) => o.species === "solar") ||
-      world.organisms.find((o) => o.slot === "main") ||
-      world.organisms[0];
+      [...world.organisms]
+        .filter((o) => o.slot === "main")
+        .sort((a, b) => {
+          const distance = (o) =>
+            Math.hypot(
+              (o.cell % world.config.width) - world.config.width / 2,
+              Math.floor(o.cell / world.config.width) - world.config.height / 2,
+            );
+          return distance(a) - distance(b);
+        })[0] || world.organisms[0];
     if (focal) {
       selectedId = focal.id;
       selectedCell = focal.cell;
@@ -208,9 +237,16 @@
     lastMs = performance.now() - start;
     renderer.setWorld(world);
     render();
-    if(replayEntry && world.turn>=replayEntry.turn){
-      stop();ended=true;$("start").disabled=true;$("step").disabled=true;
-      message(E.fingerprint(world)===replayEntry.id?"再生終了：元の最終結果と一致しました。記録は追加しません。":"再生終了：元の結果と一致しません。記録は追加しません。");
+    if (replayEntry && world.turn >= replayEntry.turn) {
+      stop();
+      ended = true;
+      $("start").disabled = true;
+      $("step").disabled = true;
+      message(
+        E.fingerprint(world) === replayEntry.id
+          ? "再生終了：元の最終結果と一致しました。記録は追加しません。"
+          : "再生終了：元の結果と一致しません。記録は追加しません。",
+      );
     } else if (!replayEntry && world.stopReason === "main-extinct") {
       finishRun("main-extinct");
     } else if (world.stopReason && !replayEntry) {
@@ -240,6 +276,8 @@
     event.preventDefault();
     try {
       prepare(readConfig());
+      if (!document.body.classList.contains("observatory"))
+        $("focus-view").click();
     } catch (error) {
       message(error.message);
     }
@@ -249,7 +287,8 @@
       stop();
       return;
     }
-    if (!world || ended || (replayEntry && world.turn>=replayEntry.turn)) return;
+    if (!world || ended || (replayEntry && world.turn >= replayEntry.turn))
+      return;
     running = true;
     $("start").textContent = "一時停止 Ⅱ";
     $("step").disabled = true;
@@ -261,47 +300,106 @@
     tick();
   });
   $("reset").addEventListener("click", () => {
-    if (initialConfig) prepare(initialConfig,replayEntry);
+    if (initialConfig) prepare(initialConfig, replayEntry);
   });
-  function finishRun(reason="user-ended") {
-    if(!world)return;
-    stop();ended=true;$("start").disabled=true;$("step").disabled=true;
-    if(replayEntry){message("再生を終了しました。記録は追加しません。");return;}
-    pendingResult ||= archive.capture(world,reason);
-    try{archive.save(pendingResult);$("finish-run").disabled=true;message("最終結果を図鑑に保存しました。再生から同じ初期条件を観察できます。");}
-    catch(error){$("finish-run").textContent="保存を再試行";message("保存できませんでした："+error.message);}
+  function finishRun(reason = "user-ended") {
+    if (!world) return;
+    stop();
+    ended = true;
+    $("start").disabled = true;
+    $("step").disabled = true;
+    if (replayEntry) {
+      message("再生を終了しました。記録は追加しません。");
+      return;
+    }
+    pendingResult ||= archive.capture(world, reason);
+    try {
+      archive.save(pendingResult);
+      $("finish-run").disabled = true;
+      message(
+        "最終結果を図鑑に保存しました。再生から同じ初期条件を観察できます。",
+      );
+    } catch (error) {
+      $("finish-run").textContent = "保存を再試行";
+      message("保存できませんでした：" + error.message);
+    }
   }
-  function replayResult(id){
-    const entry=archive.replay(id);prepare(entry.config,entry);
-    if(entry.turn===0){ended=true;$("start").disabled=true;$("step").disabled=true;}
-    message("再生・記録なし："+entry.turn+"ターンまで同じ初期条件から再計算します。");
-    $("start").textContent="再生を開始 ▶";
+  function replayResult(id) {
+    const entry = archive.replay(id);
+    prepare(entry.config, entry);
+    if (entry.turn === 0) {
+      ended = true;
+      $("start").disabled = true;
+      $("step").disabled = true;
+    }
+    message(
+      "再生・記録なし：" +
+        entry.turn +
+        "ターンまで同じ初期条件から再計算します。",
+    );
+    $("start").textContent = "再生を開始 ▶";
   }
-  function showResults(){
-    try{
-      $("results-list").innerHTML=archive.list().map(r=>`<article class="result-entry"><h3>${escape(r.config.seed)}</h3><p>${r.turn}ターン · 主生物 ${fmt(r.final.main)} · ${escape(r.config.mapResolved?.id || "従来地形")} · ${escape(r.created.slice(0,10))}</p><button class="small" data-replay="${escape(r.id)}">初期条件から再生（記録なし）</button> <button class="small secondary" data-remove="${escape(r.id)}">削除</button></article>`).join("")||"<p>終了した観測はまだありません。一時停止では保存されません。</p>";
-      for(const b of $("results-list").querySelectorAll("[data-replay]"))b.onclick=()=>{try{replayResult(b.dataset.replay);$("results").close();}catch(e){$("results-error").textContent=e.message;}};
-      for(const b of $("results-list").querySelectorAll("[data-remove]"))b.onclick=()=>{try{archive.remove(b.dataset.remove);showResults();}catch(e){$("results-error").textContent=e.message;}};
-    }catch(e){$("results-error").textContent=e.message;}
-    if(!$("results").open)$("results").showModal();
+  function showResults() {
+    try {
+      $("results-list").innerHTML =
+        archive
+          .list()
+          .map(
+            (r) =>
+              `<article class="result-entry"><h3>${escape(r.config.seed)}</h3><p>${r.turn}ターン · 主生物 ${fmt(r.final.main)} · ${escape(r.config.mapResolved?.id || "従来地形")} · ${escape(r.created.slice(0, 10))}</p><button class="small" data-replay="${escape(r.id)}">初期条件から再生（記録なし）</button> <button class="small secondary" data-remove="${escape(r.id)}">削除</button></article>`,
+          )
+          .join("") ||
+        "<p>終了した観測はまだありません。一時停止では保存されません。</p>";
+      for (const b of $("results-list").querySelectorAll("[data-replay]"))
+        b.onclick = () => {
+          try {
+            replayResult(b.dataset.replay);
+            $("results").close();
+          } catch (e) {
+            $("results-error").textContent = e.message;
+          }
+        };
+      for (const b of $("results-list").querySelectorAll("[data-remove]"))
+        b.onclick = () => {
+          try {
+            archive.remove(b.dataset.remove);
+            showResults();
+          } catch (e) {
+            $("results-error").textContent = e.message;
+          }
+        };
+    } catch (e) {
+      $("results-error").textContent = e.message;
+    }
+    if (!$("results").open) $("results").showModal();
   }
-  $("finish-run").onclick=()=>finishRun();
-  $("open-results").onclick=()=>{stop();showResults();};
-  $("close-results").onclick=()=>$("results").close();
-  $("detail-view").onclick=()=>{
-    if(!world)return;const p=selectedCell??world.organisms.find(o=>o.slot==="main")?.cell??0;
-    renderer.view.mode="detail";renderer.view.scale=160;renderer.view.x=canvas.clientWidth/2-(p%world.config.width+.5)*160;
-    renderer.view.y=canvas.clientHeight/2-(Math.floor(p/world.config.width)+.5)*160;
-    renderer.view.x=Math.max(canvas.clientWidth-world.config.width*160,Math.min(0,renderer.view.x));
-    renderer.view.y=Math.max(canvas.clientHeight-world.config.height*160,Math.min(0,renderer.view.y));
+  $("finish-run").onclick = () => finishRun();
+  $("open-results").onclick = () => {
+    stop();
+    showResults();
   };
-  $("focus-view").onclick=()=>{
-    const active=document.body.classList.toggle("observatory");
-    $("focus-view").setAttribute("aria-pressed",String(active));
-    $("focus-view").textContent=active?"設定も表示 ↙":"観察画面を広く表示 ↗";
-    requestAnimationFrame(()=>{if(renderer.view.mode==="overview")renderer.fit();else if(renderer.view.mode==="detail")$("detail-view").click();});
+  $("close-results").onclick = () => $("results").close();
+  $("detail-view").onclick = () => {
+    if (!world) return;
+    const p =
+      selectedCell ?? world.organisms.find((o) => o.slot === "main")?.cell ?? 0;
+    renderer.focus(p);
   };
-  $("age-emphasis").addEventListener("change",()=>{renderer.view.ageEmphasis=$("age-emphasis").checked;renderer.draw();});
+  $("focus-view").onclick = () => {
+    const active = document.body.classList.toggle("observatory");
+    $("focus-view").setAttribute("aria-pressed", String(active));
+    $("focus-view").textContent = active
+      ? "設定も表示 ↙"
+      : "観察画面を広く表示 ↗";
+    requestAnimationFrame(() => {
+      if (renderer.view.mode === "overview") renderer.fit();
+      else if (renderer.view.mode === "detail") $("detail-view").click();
+    });
+  };
+  $("age-emphasis").addEventListener("change", () => {
+    renderer.view.ageEmphasis = $("age-emphasis").checked;
+    renderer.draw();
+  });
   for (const id of ["resources", "grid", "motion"])
     $(id).addEventListener("change", () => {
       renderer.view[id] = $(id).checked;
@@ -387,41 +485,6 @@
   function drawPortrait(canvas, o) {
     const g = canvas.getContext("2d");
     g.clearRect(0, 0, canvas.width, canvas.height);
-    if (
-      canvas.classList.contains("portrait") &&
-      canvas.width > 200 &&
-      R.assets.images.terrain
-    ) {
-      const texture = R.assets.images.terrain,
-        env = world?.tiles[o.cell]?.env ?? 3,
-        tw = texture.width / 4,
-        th = texture.height / 2;
-      g.globalAlpha = 0.4;
-      g.drawImage(
-        texture,
-        (env % 4) * tw,
-        Math.floor(env / 4) * th,
-        tw,
-        th,
-        0,
-        0,
-        canvas.width,
-        canvas.height,
-      );
-      g.globalAlpha = 1;
-      const shade = g.createRadialGradient(
-        canvas.width / 2,
-        canvas.height / 2,
-        0,
-        canvas.width / 2,
-        canvas.height / 2,
-        canvas.width * 0.7,
-      );
-      shade.addColorStop(0, "#00192300");
-      shade.addColorStop(1, "#001822ee");
-      g.fillStyle = shade;
-      g.fillRect(0, 0, canvas.width, canvas.height);
-    }
     if (S.spec(o).group === "main")
       R.creature(
         g,
@@ -453,12 +516,18 @@
       main = o.slot === "main",
       hero = o.id === selectedId,
       age = S.ageInfo(o),
-      ageLabel = {juvenile:"幼体",adult:"成体",elderly:"老齢"}[age.stage];
-    const powerContext={traits:new Map([[o.id,p]]),intents:new Map()},
-      powerDetails=age.enabled?["attack","defense"].map(kind=>{
-        const v=E.B.power(world,o,kind,powerContext,true);
-        return `${kind==="attack"?"攻撃":"防御"}：基礎${fmt(v.base)} × 年齢${fmt(v.ageFactor)} × 環境等${fmt(v.otherFactor)} → ${fmt(v.effective)}`;
-      }).join("<br>"):"";
+      ageLabel = { juvenile: "幼体", adult: "成体", elderly: "老齢" }[
+        age.stage
+      ];
+    const powerContext = { traits: new Map([[o.id, p]]), intents: new Map() },
+      powerDetails = age.enabled
+        ? ["attack", "defense"]
+            .map((kind) => {
+              const v = E.B.power(world, o, kind, powerContext, true);
+              return `${kind === "attack" ? "攻撃" : "防御"}：基礎${fmt(v.base)} × 年齢${fmt(v.ageFactor)} × 環境等${fmt(v.otherFactor)} → ${fmt(v.effective)}`;
+            })
+            .join("<br>")
+        : "";
     const weights = main
       ? `<details class="strategy-data"><summary>行動パラメータを詳しく</summary><div class="observation-weights"><h4>この個体の行動パラメータ</h4>${o.weights.map((v, i) => `<div class="weight-row"><span>${D.weightNames[i]}</span><progress max="100" value="${v}"></progress><span>${fmt(v)}</span></div>`).join("")}</div></details>`
       : "";
@@ -474,9 +543,27 @@
           })
           .join("")}</div>`
       : "";
-    const actionNames={move:"移動",attack:"攻撃",defend:"防御",feed:"採食",care:"育児",birth:"繁殖",growth:"進化",infection:"感染",light:"光利用"},
-      outcomes=[...new Set(world.events.filter(e=>e.id===o.id&&actionNames[e.type]).map(e=>actionNames[e.type]))],
-      actionNote=hero?`<p class="committed-action">直前の確定結果<br><strong>${outcomes.length?outcomes.join("・"):world.turn===0?"初期状態・未実行":"該当イベントなし"}</strong></p>`:"";
+    const actionNames = {
+        move: "移動",
+        attack: "攻撃",
+        defend: "防御",
+        feed: "採食",
+        care: "育児",
+        birth: "繁殖",
+        growth: "進化",
+        infection: "感染",
+        light: "光利用",
+      },
+      outcomes = [
+        ...new Set(
+          world.events
+            .filter((e) => e.id === o.id && actionNames[e.type])
+            .map((e) => actionNames[e.type]),
+        ),
+      ],
+      actionNote = hero
+        ? `<p class="committed-action">直前の確定結果<br><strong>${outcomes.length ? outcomes.join("・") : world.turn === 0 ? "初期状態・未実行" : "該当イベントなし"}</strong></p>`
+        : "";
     const preview =
       main && hero
         ? `<p class="micro">相ごとの形態見本 · 現在は${phase(o.phase)}相</p><div class="phase-strip">${s.phases.map((name, i) => `<div class="${i + 1 === o.phase ? "active" : ""}"><canvas width="128" height="112" data-phase="${i + 1}" data-owner="${escape(o.id)}"></canvas>${phase(i + 1)}</div>`).join("")}</div>`
@@ -527,12 +614,35 @@
         openGuide("tree");
       };
   }
-  function renderMapKey(){
-    const counts=world.stats.counts;
-    $("species-key").innerHTML=D.species.filter(s=>!["P","Q"].includes(s.group)&&counts[s.id]>0).map(s=>`<span class="map-key-item" data-species="${s.id}"><canvas width="40" height="40" aria-hidden="true"></canvas><span>${escape(s.name)}</span><b>${counts[s.id]}</b></span>`).join("");
-    for(const item of $("species-key").children){const s=D.byId[item.dataset.species],c=item.querySelector("canvas");R.symbol(c.getContext("2d"),s.id,20,20,14,R.symbolColor(s));}
-    $("resource-key").innerHTML=Object.entries(S.FOOD).map(([id,f])=>`<span class="map-key-item" data-resource="${id}"><canvas width="40" height="40" aria-hidden="true"></canvas><span>${escape(f.name)}</span></span>`).join("");
-    for(const item of $("resource-key").children)R.symbol(item.querySelector("canvas").getContext("2d"),item.dataset.resource,20,20,12,item.dataset.resource==="info"?"#8be9ff":"#e9d4a1");
+  function renderMapKey() {
+    const counts = world.stats.counts;
+    $("species-key").innerHTML = D.species
+      .filter((s) => !["P", "Q"].includes(s.group) && counts[s.id] > 0)
+      .map(
+        (s) =>
+          `<span class="map-key-item" data-species="${s.id}"><canvas width="40" height="40" aria-hidden="true"></canvas><span>${escape(s.name)}</span><b>${counts[s.id]}</b></span>`,
+      )
+      .join("");
+    for (const item of $("species-key").children) {
+      const s = D.byId[item.dataset.species],
+        c = item.querySelector("canvas");
+      R.symbol(c.getContext("2d"), s.id, 20, 20, 14, R.symbolColor(s));
+    }
+    $("resource-key").innerHTML = Object.entries(S.FOOD)
+      .map(
+        ([id, f]) =>
+          `<span class="map-key-item" data-resource="${id}"><canvas width="40" height="40" aria-hidden="true"></canvas><span>${escape(f.name)}</span></span>`,
+      )
+      .join("");
+    for (const item of $("resource-key").children)
+      R.symbol(
+        item.querySelector("canvas").getContext("2d"),
+        item.dataset.resource,
+        20,
+        20,
+        12,
+        item.dataset.resource === "info" ? "#8be9ff" : "#e9d4a1",
+      );
   }
   function render() {
     if (!world) return;
@@ -812,8 +922,16 @@
     if (now - paintAt >= 1000 / 30) {
       paintAt = now;
       renderer.draw();
-      $("scale-warning").hidden=renderer.view.scale>=8;
-      $("status").textContent=replayEntry?"再生・記録なし":ended?"観測終了":running?"観測中":world?"一時停止":"未準備";
+      $("scale-warning").hidden = renderer.view.scale >= 8;
+      $("status").textContent = replayEntry
+        ? "再生・記録なし"
+        : ended
+          ? "観測終了"
+          : running
+            ? "観測中"
+            : world
+              ? "一時停止"
+              : "未準備";
       $("render-mode").textContent =
         { point: "密集記号表示", simple: "記号表示", detail: "詳細表示" }[
           renderer.diagnostics.mode
@@ -836,11 +954,12 @@
   // Present only in explicitly requested smoke mode; Electron remains sandboxed.
   if (new URLSearchParams(location.search).has("smoke"))
     window.__LIFE_TEST__ = {
+      screenForCell: (cell) => renderer.screen(cell),
       prepare,
       refresh: render,
       finish: finishRun,
       replay: replayResult,
-      records: ()=>archive.list(),
+      records: () => archive.list(),
       step: tick,
       stop,
       select,
@@ -849,7 +968,7 @@
       snapshot: () => ({
         world: world && structuredClone(world),
         running,
-        replay:!!replayEntry,
+        replay: !!replayEntry,
         ended,
         lastMs,
         selectedId,

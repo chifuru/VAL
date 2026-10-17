@@ -1,0 +1,13 @@
+59 Node headers, exact titles/states/primary references, parent order and tab depths: PASS
+177 required sections with content/file references: PASS
+All 59 Node IDs/parents/formal states unchanged: PASS
+✔ tests/manifest.test.cjs (53.436944ms)
+✔ tests/projection.test.cjs (55.930417ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 117.356802

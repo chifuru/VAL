@@ -1,129 +1,317 @@
-/* Paint-only world materials. All geography comes from the settled tile map. */
-(function(root){
-  'use strict';
-  const palette=['#326c65','#563c30','#493c5b','#657449','#a5b9b2','#477036','#ac9866','#4a4537'];
-  const materialCache=new WeakMap();
-  function seamless(image){
-    if(materialCache.has(image))return materialCache.get(image);
-    const c=document.createElement('canvas');c.width=image.width;c.height=image.height;const g=c.getContext('2d');g.drawImage(image,0,0);
-    const src=g.getImageData(0,0,c.width,c.height),dst=g.createImageData(c.width,c.height),W=c.width/4,H=c.height/2;
-    // Periodic crossfade, rather than mirrored repetition that made visible symmetric motifs.
-    for(let tile=0;tile<8;tile++)for(let y=0;y<H;y++)for(let x=0;x<W;x++){
-      const ax=Math.sin(Math.PI*x/W)**2,ay=Math.sin(Math.PI*y/H)**2,
-        xs=[x,(x+W/2)%W],ys=[y,(y+H/2)%H],weights=[ax*ay,(1-ax)*ay,ax*(1-ay),(1-ax)*(1-ay)],
-        out=((Math.floor(tile/4)*H+y)*c.width+tile%4*W+x)*4;
-      for(let channel=0;channel<3;channel++){
-        let sum=0;for(let j=0;j<4;j++){
-          const at=((Math.floor(tile/4)*H+ys[j>>1])*c.width+tile%4*W+xs[j%2])*4;sum+=src.data[at+channel]*weights[j];
-        }dst.data[out+channel]=sum;
-      }dst.data[out+3]=255;
+/* Oblique terrain mesh and upright habitat objects. All anchors use actual cells. */
+(function (root) {
+  "use strict";
+  const palette = [
+    "#43877c",
+    "#947c51",
+    "#796c91",
+    "#879461",
+    "#becfcb",
+    "#568252",
+    "#c2b283",
+    "#827257",
+  ];
+  const rgb = (h) => h.match(/[a-f\d]{2}/gi).map((x) => parseInt(x, 16));
+  const hex = (a) =>
+    "#" +
+    a
+      .map((x) =>
+        Math.max(0, Math.min(255, Math.round(x)))
+          .toString(16)
+          .padStart(2, "0"),
+      )
+      .join("");
+  const noise = (p, k = 1) =>
+    (((Math.sin(p * 71.17 + k * 21.9) * 43758.5453) % 1) + 1) % 1;
+  function build(w, P) {
+    const W = w.config.width,
+      H = w.config.height,
+      base = w.tiles.map((t) =>
+        rgb(
+          P.water(t)
+            ? t.terrain === "deep"
+              ? "#17465b"
+              : "#307e89"
+            : t.terrain === "rock"
+              ? "#6c7973"
+              : t.terrain === "mud"
+                ? "#697455"
+                : palette[t.env],
+        ),
+      );
+    const vertex = (x, y) => {
+      const a = [0, 0, 0];
+      let n = 0;
+      for (const [dx, dy] of [
+        [-1, -1],
+        [0, -1],
+        [-1, 0],
+        [0, 0],
+      ]) {
+        const u = x + dx,
+          v = y + dy;
+        if (u < 0 || v < 0 || u >= W || v >= H) continue;
+        const c = base[v * W + u];
+        for (let j = 0; j < 3; j++) a[j] += c[j];
+        n++;
+      }
+      return a.map((v) => v / n);
+    };
+    const vertices = Array.from({ length: (W + 1) * (H + 1) }, (_, i) =>
+      vertex(i % (W + 1), Math.floor(i / (W + 1))),
+    );
+    const cells = Array.from({ length: w.tiles.length }, (_, p) => p).sort(
+      (a, b) =>
+        P.depth(a % W, Math.floor(a / W)) - P.depth(b % W, Math.floor(b / W)),
+    );
+    const unit = Math.max(10, Math.min(40, Math.floor(1600 / W))),
+      texture = document.createElement("canvas");
+    texture.width = W * unit;
+    texture.height = H * unit;
+    const tx = texture.getContext("2d"),
+      pixels = tx.createImageData(texture.width, texture.height);
+    const smooth = (t) => t * t * (3 - 2 * t),
+      mix = (a, b, t) => a + (b - a) * t;
+    function value(x, y, k = 0) {
+      const u = Math.floor(x),
+        v = Math.floor(y),
+        a = smooth(x - u),
+        b = smooth(y - v);
+      return mix(
+        mix(noise(u + v * 3571, k), noise(u + 1 + v * 3571, k), a),
+        mix(noise(u + (v + 1) * 3571, k), noise(u + 1 + (v + 1) * 3571, k), a),
+        b,
+      );
     }
-    g.putImageData(dst,0,0);materialCache.set(image,c);return c;
-  }
-  function paint(w,art){
-    const unit=w.config.width<=40?96:w.config.width<=80?48:24,c=document.createElement('canvas');
-    c.width=w.config.width*unit;c.height=w.config.height*unit;const g=c.getContext('2d'),im=art.images.ground?seamless(art.images.ground):null;
-    const width=w.config.width,height=w.config.height,isWater=t=>["shallow","deep"].includes(t.terrain);
-    const envs=w.tiles.map((t,p)=>{
-      if(!isWater(t))return t.env===3&&t.terrain!=="rock"?5:t.env;
-      const x=p%width,y=Math.floor(p/width);
-      const near=[[1,0],[-1,0],[0,1],[0,-1]].map(([dx,dy])=>w.tiles[Math.max(0,Math.min(height-1,y+dy))*width+Math.max(0,Math.min(width-1,x+dx))]).find(t=>!isWater(t));
-      return near?(near.env===3&&near.terrain!=="rock"?5:near.env):5;
-    });
-    if(im){
-      const source=document.createElement('canvas');source.width=im.width;source.height=im.height;const sg=source.getContext('2d');sg.drawImage(im,0,0);
-      const src=sg.getImageData(0,0,im.width,im.height).data,dst=g.createImageData(c.width,c.height),W=im.width/4,H=im.height/2,
-        envAt=(x,y)=>envs[Math.max(0,Math.min(height-1,y))*width+Math.max(0,Math.min(width-1,x))];
-      for(let py=0;py<c.height;py++){
-        const fy=(py+.5)/unit-.5,iy=Math.floor(fy),dy=fy-iy,sy=Math.floor((py/(unit*6)%1)*H);
-        for(let px=0;px<c.width;px++){
-          const fx=(px+.5)/unit-.5,ix=Math.floor(fx),dx=fx-ix,sx=Math.floor((px/(unit*6)%1)*W),
-            kinds=[envAt(ix,iy),envAt(ix+1,iy),envAt(ix,iy+1),envAt(ix+1,iy+1)],weights=[(1-dx)*(1-dy),dx*(1-dy),(1-dx)*dy,dx*dy],k=(py*c.width+px)*4;
-          for(let i=0;i<4;i++){
-            const e=kinds[i],q=((Math.floor(e/4)*H+sy)*im.width+(e%4)*W+sx)*4;
-            for(let ch=0;ch<3;ch++)dst.data[k+ch]+=src[q+ch]*weights[i];
+    const at = (x, y) =>
+      Math.max(0, Math.min(H - 1, y)) * W + Math.max(0, Math.min(W - 1, x));
+    for (let py = 0; py < texture.height; py++)
+      for (let px = 0; px < texture.width; px++) {
+        const fx = (px + 0.5) / unit - 0.5,
+          fy = (py + 0.5) / unit - 0.5,
+          x = Math.floor(fx),
+          y = Math.floor(fy),
+          a = fx - x,
+          b = fy - y,
+          ids = [at(x, y), at(x + 1, y), at(x, y + 1), at(x + 1, y + 1)],
+          weights = [(1 - a) * (1 - b), a * (1 - b), (1 - a) * b, a * b];
+        let wet = 0,
+          deep = 0;
+        const land = [0, 0, 0];
+        for (let j = 0; j < 4; j++) {
+          const t = w.tiles[ids[j]];
+          wet += (P.water(t) ? 1 : 0) * weights[j];
+          deep += (t.terrain === "deep" ? 1 : 0) * weights[j];
+          const c = rgb(
+            t.terrain === "rock"
+              ? "#768780"
+              : t.terrain === "mud"
+                ? "#687554"
+                : palette[t.env],
+          );
+          for (let ch = 0; ch < 3; ch++) land[ch] += c[ch] * weights[j];
+        }
+        const n =
+            value((px / unit) * 1.6, (py / unit) * 1.6) * 0.55 +
+            value((px / unit) * 7, (py / unit) * 7, 3) * 0.3 +
+            value((px / unit) * 28, (py / unit) * 28, 7) * 0.15,
+          coast = Math.max(0, Math.min(1, (wet - 0.43) / 0.14)),
+          sand = Math.max(0, 1 - Math.abs(wet - 0.46) / 0.14) * 0.55;
+        const water = [
+            mix(47, 18, deep),
+            mix(132, 65, deep),
+            mix(143, 87, deep),
+          ],
+          shore = [166, 167, 120],
+          i = (py * texture.width + px) * 4;
+        for (let ch = 0; ch < 3; ch++) {
+          const dry = mix(land[ch], shore[ch], sand),
+            c =
+              mix(dry, water[ch], coast) + (n - 0.5) * (coast > 0.9 ? 16 : 32);
+          pixels.data[i + ch] = c;
+        }
+        if (Math.abs(wet - 0.51) < 0.012) {
+          pixels.data[i] += 30;
+          pixels.data[i + 1] += 38;
+          pixels.data[i + 2] += 28;
+        }
+        pixels.data[i + 3] = 255;
+      }
+    tx.putImageData(pixels, 0, 0);
+    function triangle(g, src, dst) {
+      const [a, b, c] = src,
+        [u, v, z] = dst,
+        det = (b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1]);
+      const m00 =
+          ((v[0] - u[0]) * (c[1] - a[1]) - (z[0] - u[0]) * (b[1] - a[1])) / det,
+        m01 =
+          ((z[0] - u[0]) * (b[0] - a[0]) - (v[0] - u[0]) * (c[0] - a[0])) / det,
+        m10 =
+          ((v[1] - u[1]) * (c[1] - a[1]) - (z[1] - u[1]) * (b[1] - a[1])) / det,
+        m11 =
+          ((z[1] - u[1]) * (b[0] - a[0]) - (v[1] - u[1]) * (c[0] - a[0])) / det;
+      g.save();
+      const center = [(u[0] + v[0] + z[0]) / 3, (u[1] + v[1] + z[1]) / 3],
+        expanded = dst.map((p) => {
+          const dx = p[0] - center[0],
+            dy = p[1] - center[1],
+            d = Math.hypot(dx, dy);
+          return [p[0] + (dx / d) * 0.03, p[1] + (dy / d) * 0.03];
+        });
+      g.beginPath();
+      g.moveTo(...expanded[0]);
+      g.lineTo(...expanded[1]);
+      g.lineTo(...expanded[2]);
+      g.closePath();
+      g.clip();
+      g.transform(
+        m00,
+        m10,
+        m01,
+        m11,
+        u[0] - m00 * a[0] - m01 * a[1],
+        u[1] - m10 * a[0] - m11 * a[1],
+      );
+      const sx = Math.max(0, Math.min(...src.map((p) => p[0])) - 2),
+        sy = Math.max(0, Math.min(...src.map((p) => p[1])) - 2),
+        sw = Math.min(
+          texture.width - sx,
+          Math.max(...src.map((p) => p[0])) - sx + 2,
+        ),
+        sh = Math.min(
+          texture.height - sy,
+          Math.max(...src.map((p) => p[1])) - sy + 2,
+        );
+      g.drawImage(texture, sx, sy, sw, sh, sx, sy, sw, sh);
+      g.restore();
+    }
+    function surface(g, visible, detail, scale) {
+      for (const p of cells) {
+        const f = P.face(p);
+        if (visible && !visible(f[4], 2)) continue;
+        const x = p % W,
+          y = Math.floor(p / W),
+          t = w.tiles[p],
+          wet = P.water(t),
+          c = base[p],
+          corners = [
+            vertices[y * (W + 1) + x],
+            vertices[y * (W + 1) + x + 1],
+            vertices[(y + 1) * (W + 1) + x + 1],
+            vertices[(y + 1) * (W + 1) + x],
+          ];
+        const src = [
+          [x * unit, y * unit],
+          [(x + 1) * unit, y * unit],
+          [(x + 1) * unit, (y + 1) * unit],
+          [x * unit, (y + 1) * unit],
+          [(x + 0.5) * unit, (y + 0.5) * unit],
+        ];
+        // Texture the continuous material onto the relief, without visible triangle colours.
+        for (let j = 0; j < 4; j++)
+          triangle(
+            g,
+            [src[j], src[(j + 1) % 4], src[4]],
+            [f[j], f[(j + 1) % 4], f[4]],
+          );
+        if (!detail) continue;
+        if (wet) {
+          g.strokeStyle = t.terrain === "deep" ? "#93d6d914" : "#cdf5e530";
+          g.lineWidth = 0.006;
+          for (let j = 0; j < 4; j++) {
+            const u = x + noise(p, j) * 0.7,
+              v = y + 0.1 + j * 0.21,
+              a = P.point(u, v),
+              b = P.point(u + 0.22, v + 0.025);
+            g.beginPath();
+            g.moveTo(...a);
+            g.quadraticCurveTo((a[0] + b[0]) / 2, a[1] - 0.012, ...b);
+            g.stroke();
           }
-          dst.data[k+3]=255;
+        } else {
+          for (let j = 0; j < 15; j++) {
+            const u = x + 0.05 + noise(p, j) * 0.9,
+              v = y + 0.05 + noise(p + 123, j) * 0.9,
+              a = P.point(u, v),
+              h = 0.025 + noise(p + 42, j) * 0.06;
+            g.strokeStyle = j % 3 === 0 ? "#e4d9a238" : "#1d412b30";
+            g.lineWidth = 0.005;
+            g.beginPath();
+            g.moveTo(...a);
+            g.quadraticCurveTo(
+              a[0] - 0.015,
+              a[1] - h * 0.7,
+              a[0] + 0.012,
+              a[1] - h,
+            );
+            g.stroke();
+          }
         }
       }
-      g.putImageData(dst,0,0);
-    }else{g.fillStyle='#477036';g.fillRect(0,0,c.width,c.height);}
-    for(let p=0;p<w.tiles.length;p++)if(w.tiles[p].terrain==='mud'){g.fillStyle='#322d2040';g.fillRect(p%width*unit,Math.floor(p/width)*unit,unit,unit);}
-    const water=document.createElement('canvas');water.width=c.width;water.height=c.height;const v=water.getContext('2d');
-    if(im){const W=im.width/4,H=im.height/2,repeat=unit*6;
-      for(let y=0;y<water.height;y+=repeat)for(let x=0;x<water.width;x+=repeat)v.drawImage(im,0,0,W,H,x,y,repeat,repeat);
-    }else{v.fillStyle='#27888d';v.fillRect(0,0,water.width,water.height);}
-    v.fillStyle='#116e823d';v.fillRect(0,0,water.width,water.height);
-    const mask=document.createElement('canvas');mask.width=c.width;mask.height=c.height;const m=mask.getContext('2d');
-    m.fillStyle='#032e58dc';for(let p=0;p<w.tiles.length;p++)if(w.tiles[p].terrain==='deep')m.fillRect(p%width*unit,Math.floor(p/width)*unit,unit,unit);
-    v.save();v.filter='blur('+unit*.5+'px)';v.drawImage(mask,0,0);v.restore();
-    m.clearRect(0,0,mask.width,mask.height);const pixels=m.createImageData(mask.width,mask.height),foam=m.createImageData(mask.width,mask.height);
-    const value=(x,y)=>isWater(w.tiles[Math.max(0,Math.min(height-1,y))*width+Math.max(0,Math.min(width-1,x))])?1:0;
-    // Bilinear contour through real cell-centre values; every cell centre keeps its class.
-    for(let py=0;py<c.height;py++){
-      const fy=(py+.5)/unit-.5,y=Math.floor(fy),dy=fy-y;
-      for(let px=0;px<c.width;px++){
-        const fx=(px+.5)/unit-.5,x=Math.floor(fx),dx=fx-x,
-          top=value(x,y)*(1-dx)+value(x+1,y)*dx,bottom=value(x,y+1)*(1-dx)+value(x+1,y+1)*dx,n=top*(1-dy)+bottom*dy,
-          a=Math.max(0,Math.min(1,(n-.46)/.08)),k=(py*c.width+px)*4;
-        pixels.data[k+3]=Math.round(a*255);
-        foam.data[k]=208;foam.data[k+1]=237;foam.data[k+2]=211;foam.data[k+3]=Math.abs(n-.5)<.018?120:0;
-      }
     }
-    // Overview is a separately authored cartographic pass, not a reduced close-up texture.
-    const chart=document.createElement('canvas');chart.width=c.width;chart.height=c.height;const cg=chart.getContext('2d'),
-      tones=['#507c64','#8a734b','#635779','#7a8958','#b5c8bc','#3f643d','#b6a875','#625c43'];
-    for(let p=0;p<w.tiles.length;p++){cg.fillStyle=tones[w.tiles[p].env];cg.fillRect(p%width*unit,Math.floor(p/width)*unit,unit,unit);}
-    const softened=document.createElement('canvas');softened.width=c.width;softened.height=c.height;const sc=softened.getContext('2d');sc.filter='blur('+unit*.4+'px)';sc.drawImage(chart,0,0);cg.drawImage(softened,0,0);
-    const lake=document.createElement('canvas');lake.width=c.width;lake.height=c.height;const lg=lake.getContext('2d'),gradient=lg.createLinearGradient(0,0,c.width,c.height);
-    gradient.addColorStop(0,'#37a4b4');gradient.addColorStop(1,'#176580');lg.fillStyle=gradient;lg.fillRect(0,0,c.width,c.height);
-    lg.save();lg.filter='blur('+unit*.45+'px)';lg.globalAlpha=.65;lg.drawImage(mask,0,0);lg.restore();
-    m.putImageData(pixels,0,0);lg.globalCompositeOperation='destination-in';lg.drawImage(mask,0,0);cg.drawImage(lake,0,0);
-    c.chart=chart;
-    m.putImageData(pixels,0,0);v.globalCompositeOperation='destination-in';v.drawImage(mask,0,0);g.drawImage(water,0,0);
-    m.putImageData(foam,0,0);g.drawImage(mask,0,0);cg.drawImage(mask,0,0);
-    return c;
-  }
-  function props(g,w,art,view,box){
-    const im=art.images.props;if(!im)return;const z=view.scale,W=im.width/4,H=im.height/2;
-    const left=Math.max(0,Math.floor(-view.x/z)-1),right=Math.min(w.config.width,Math.ceil((box.width-view.x)/z)+1),
-      top=Math.max(0,Math.floor(-view.y/z)-1),bottom=Math.min(w.config.height,Math.ceil((box.height-view.y)/z)+1);
-    for(let y=top;y<bottom;y++)for(let x=left;x<right;x++){
-      const p=y*w.config.width+x,t=w.tiles[p],h=((p*71+137)%97)/97;
-      let id=-1,size=1;
-      if(t.cover==='boulder'){id=p%2;size=1+h*.3;}
-      else if(t.cover==='bush'){id=[2,4,7][p%3];size=.8+h*.4;}
-      else if(t.cover==='log'){id=3;size=1.25;}
-      else if(t.terrain==='rock'&&h<.25){id=1;size=.9;}
-      const far=view.mode==='overview'||(view.mode==='auto'&&z<24);
-      if(far){
-        // Small upright landforms with three material planes, anchored to the actual cell.
-        const cx=x+.5+Math.sin(p*17)*.1,cy=y+.66+Math.cos(p*23)*.08;
-        if(t.cover==='bush'){
-          g.fillStyle='#12372d77';g.beginPath();g.ellipse(cx+.05,cy+.08,.36,.15,0,0,7);g.fill();
-          for(let j=0;j<3;j++){const a=cx+(j-1)*.17,b=cy-(j%2)*.13;g.beginPath();g.moveTo(a-.19,b);g.quadraticCurveTo(a-.25,b-.25,a,b-.55);g.quadraticCurveTo(a+.25,b-.25,a+.19,b);g.closePath();g.fillStyle=j===1?'#3d6741':'#28533b';g.fill();g.strokeStyle='#8aa16366';g.lineWidth=.025;g.stroke();}
-        }else if(t.cover==='boulder'||t.terrain==='rock'){
-          g.fillStyle='#162c2d66';g.beginPath();g.ellipse(cx+.07,cy+.08,.42,.15,0,0,7);g.fill();
-          const peak=cy-(t.cover==='boulder'?.75:.48);
-          g.beginPath();g.moveTo(cx-.4,cy);g.lineTo(cx-.08,peak);g.lineTo(cx+.38,cy);g.closePath();g.fillStyle='#647371';g.fill();
-          g.beginPath();g.moveTo(cx-.08,peak);g.lineTo(cx-.02,cy-.08);g.lineTo(cx+.38,cy);g.closePath();g.fillStyle='#354e50';g.fill();g.strokeStyle='#c1c8a966';g.lineWidth=.025;g.stroke();
-        }else if(t.cover==='log'){
-          g.save();g.translate(cx,cy-.12);g.rotate(-.5);g.fillStyle='#493f2c';g.fillRect(-.4,-.08,.8,.16);g.fillStyle='#ba9c58';g.fillRect(-.4,-.08,.8,.045);g.restore();
-        }
-        g.strokeStyle='#d4d3ad88';g.lineWidth=.035;
-        for(const q of t.walls){if(q===p+1)g.strokeRect(x+.93,y,.07,1);else if(q===p+w.config.width)g.strokeRect(x,y+.93,1,.07);}
-        continue;
+    const objects = [];
+    for (let p = 0; p < w.tiles.length; p++) {
+      const t = w.tiles[p],
+        h = noise(p);
+      let index = -1,
+        size = 1;
+      if (t.cover === "bush") {
+        index = t.env === 4 ? 1 : [0, 0, 2, 3][Math.floor(noise(p, 33) * 4)];
+        size = (index < 3 ? 1.6 : 1.0) * (0.85 + noise(p, 11) * 0.3);
+      } else if (t.cover === "boulder") {
+        index = t.env === 4 ? 12 : t.env === 1 ? 13 : 5;
+        size = 1.15;
+      } else if (t.cover === "log") {
+        index = p % 2 ? 7 : 10;
+        size = 1.3;
+      } else if (t.terrain === "rock" && h < 0.38) {
+        index = 4;
+        size = 1.5;
+      } else if (
+        t.terrain === "shallow" &&
+        h < 0.42 &&
+        [
+          [1, 0],
+          [-1, 0],
+          [0, 1],
+          [0, -1],
+        ].some(([dx, dy]) => {
+          const x = (p % W) + dx,
+            y = Math.floor(p / W) + dy;
+          return (
+            x >= 0 && y >= 0 && x < W && y < H && !P.water(w.tiles[y * W + x])
+          );
+        })
+      ) {
+        index = 9;
+        size = 0.85;
+      } else if (t.terrain === "mud" && h < 0.12) {
+        index = 8;
+        size = 0.7;
+      } else if (!P.water(t) && t.terrain !== "rock" && h < 0.22) {
+        index = t.env === 6 ? 11 : 15;
+        size = 0.7;
       }
-      // Low decoration lies within the material; it is neither an edible body nor a blocker.
-      if(id>=0){g.save();g.globalAlpha=t.cover==='bush'?.85:1;
-        g.translate(x+.5+Math.sin(p*17)*.12,y+.5+Math.cos(p*23)*.1);g.rotate((h-.5)*(t.cover==='log'?1.8:.65));
-        if(p%2)g.scale(-1,1);
-        g.drawImage(im,(id%4)*W,Math.floor(id/4)*H,W,H,-size*.5,-size*.48,size,size*.85);g.restore();}
-      for(const q of t.walls){
-        if(q===p+1){g.drawImage(im,2*W,H,W,H,x+.83,y-.05,.34,1.1);}
-        else if(q===p+w.config.width){g.drawImage(im,2*W,H,W,H,x-.05,y+.8,1.1,.36);}
-      }
+      if (index >= 0)
+        objects.push({
+          cell: p,
+          index,
+          size,
+          x: (p % W) + 0.5,
+          y: Math.floor(p / W) + 0.68,
+        });
+      for (const q of t.walls || [])
+        if (q === p + 1 || q === p + W)
+          objects.push({
+            cell: p,
+            index: 6,
+            wall: q,
+            size: 1,
+            x: (p % W) + (q === p + 1 ? 0.98 : 0.5),
+            y: Math.floor(p / W) + (q === p + 1 ? 0.5 : 0.98),
+          });
     }
+    return { surface, objects };
   }
-  root.EcoScenery={paint,props};
+  root.EcoScenery = { build, palette };
 })(globalThis);

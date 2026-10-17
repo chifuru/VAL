@@ -1,0 +1,111 @@
+{
+  "method": "image_gen production atlas creation and background cleanup; original PNGs copied unchanged; explicit runtime frame rectangles and tissue transforms",
+  "referenceSHA256": {
+    "design/visual-alignment-v4/far.png": "bf89eb32da3ac6ca44eb50fc43ffa48b5837fcfb87bcc85ef722e3659958e463",
+    "design/visual-alignment-v4/near.png": "f5f5f679a77af58b791139004d71c84401cc37097d4d8a69b3a66411503c0535",
+    "design/asset-mock-v1/01-terrain.png": "9a6c3c32b33632f36be3a854b17f32b42e720fbf19ee166cf80b766f8579a800",
+    "design/asset-mock-v1/02-main-a.png": "011780f35a4c7ec3d371280436d7c9fb83bd290ff9155cbaeffb6c8a64f06bf5",
+    "design/asset-mock-v1/03-main-b.png": "992db1644868d8c07d29b33333fca2374f0c232c712745150b2d328629811bf0",
+    "design/asset-mock-v1/04-main-c.png": "fdbc4d98a486dddbbdc2611902b4e112849935053b0b692e987d840d4e440d10",
+    "design/asset-mock-v1/05-food-resources.png": "70e6d5f218056c68b28cbb7e6615d794070f5e4ab812f2e10226364eb39f2214",
+    "design/branch-mock-v1/01-solar.png": "e529180d56c7283fc05aeb64aac6c0ab44c16ee9428866fda428f880a8033a48",
+    "design/branch-mock-v1/02-jelly.png": "7821912110db2e7b23e9ae4b6477e39a1f9b69556215b4757798ee83201a887f",
+    "design/creature-design-review-v3/01-parasites.png": "49c3394767ef472517e72b5f7342cd46dc22d8cf4a651d62557553cddaf99171",
+    "design/creature-design-review-v5/01-symbiont-8.png": "6da343a43f300b38a323e8d0e0e26e6e3fdbbd83caada53b74ba832cfa9d0ca8",
+    "design/creature-design-review-v5/02-social-8.png": "a35b94868126a82d294eb7124862a8f090c2544d336d188c9d67beb59ae33631",
+    "design/creature-design-review-v5/03-precocial-8.png": "1eb56ac90033ff22073051c5adf04ba2f1aafba8aab463bf32aeb21f7405d44f"
+  },
+  "assets": [
+    {
+      "sheet": "life-a",
+      "sourceImage": "exec-86866bc0-4b51-4e2e-bdea-6c968f1c589b.png",
+      "asset": "src/assets/life-a.png",
+      "file": "life-a.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "114b3796d97eeb34b231cc579d403a2ef5fa2eba130fed1740fedc5fc4b75da2"
+    },
+    {
+      "sheet": "life-b",
+      "sourceImage": "exec-2bc01077-c38e-4e93-98e4-3449c34b0140.png",
+      "asset": "src/assets/life-b.png",
+      "file": "life-b.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "bba04650d629127ef4702a23437ce3ebbc3bfe0bdc73884e325d3281402406a6"
+    },
+    {
+      "sheet": "life-c",
+      "sourceImage": "exec-555e4787-a583-48c0-8109-8f74c72e15d1.png",
+      "asset": "src/assets/life-c.png",
+      "file": "life-c.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "a6fb08fd60b21713eaae95f2042237acaa3ede0853887309ecbedcadd3810155"
+    },
+    {
+      "sheet": "life-d",
+      "sourceImage": "exec-166b6ec0-178d-4b2c-87a1-26e4430e0c9b.png",
+      "asset": "src/assets/life-d.png",
+      "file": "life-d.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "bf30019cf35f32932fbc1fb46c0501066448c01251e0090aeb68148325bc78a1"
+    },
+    {
+      "sheet": "life-e",
+      "sourceImage": "exec-b59096de-d901-41dc-986c-1c9d2a9c8ad0.png",
+      "asset": "src/assets/life-e.png",
+      "file": "life-e.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "d6e5664af7f12857fa00abf4a5c6c5da63383ad27cf306dff2a62611f2e4022a"
+    },
+    {
+      "sheet": "life-f",
+      "sourceImage": "exec-fcd922e3-62ca-492f-abce-5bbdb393b160.png",
+      "asset": "src/assets/life-f.png",
+      "file": "life-f.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "801c8124d20370d18c8c815820d6341cf815cea544c0764a0dad009f043e347b"
+    },
+    {
+      "sheet": "food-atlas",
+      "sourceImage": "exec-edd86e2d-6fc0-4148-b2a3-15b0895960f6.png",
+      "asset": "src/assets/food-atlas.png",
+      "file": "food-atlas.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "6138200ab41053fee1413f171d081583bc93f3ddc8f11ca29b050d38b2b3cceb"
+    },
+    {
+      "sheet": "habitat-props",
+      "sourceImage": "exec-ada83368-112b-404f-9227-cc206c74ab0d.png",
+      "asset": "src/assets/habitat-props.png",
+      "file": "habitat-props.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "f2d605c90d991f8beb6a9c5f7958db4687531b46f9f9129de98024e30c00ee07"
+    },
+    {
+      "sheet": "solar-branches",
+      "sourceImage": "exec-4239981f-2617-42c4-96de-e652fcba7fe7.png",
+      "asset": "src/assets/solar-branches.png",
+      "file": "solar-branches.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "e5d639cf00d6c2d37e9bcf5a709a6fd3ccf6325db32e75694bf4efcf0e55c908"
+    },
+    {
+      "sheet": "jelly-branches",
+      "sourceImage": "exec-bf611ef4-273b-4b7d-af18-b6124501c9e2.png",
+      "asset": "src/assets/jelly-branches.png",
+      "file": "jelly-branches.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "74a75d082ae6fd0b8a997bdce1b45b1e6eb0d65b3b04156b4ef26f232f5d8eef"
+    }
+  ],
+  "scope": "30 existing biological IDs; no new biological species or lifecycle rules; 83 main phase frames plus 9 P/Q display forms, 12 edible organism forms and 18 representative branch forms"
+}
