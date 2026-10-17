@@ -2,7 +2,7 @@
   "kind": "visual-language-comparison-not-species-designs",
   "runtimeChanged": false,
   "biologicalRulesChanged": false,
-  "status": "awaiting-direction-review-before-species-expansion",
+  "status": "direction-accepted-paint-quality-adjustment-requested",
   "sheets": [
     {
       "id": "visual-languages",
@@ -85,6 +85,7 @@
   "requestedSpeciesSheets": {
     "count": 4,
     "optionsEach": 8,
-    "status": "not-complete-awaiting-direction-review"
-  }
+    "status": "see-v5-awaiting-selection"
+  },
+  "currentReview": "design/creature-design-review-v5/README.md"
 }

@@ -1,0 +1,106 @@
+{
+  "kind": "illustrated-visual-comparison-not-runtime-assets",
+  "status": "awaiting-user-selection",
+  "runtimeChanged": false,
+  "biologicalRulesChanged": false,
+  "designRules": {
+    "paintReference": "design/creature-design-review-v2/06-plant-options.png",
+    "paintQuality": "detailed-hand-painted-natural-textures-rich-color-fine-luminous-accents",
+    "originalBodyPlans": true,
+    "sharedPorousMembraneStyle": false,
+    "eightOptionsAreNotEvolutionStages": true
+  },
+  "sheets": [
+    {
+      "id": "symbiont",
+      "name": "植物共生",
+      "file": "01-symbiont-8.png",
+      "options": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "age": "adult",
+      "phase": 3
+    },
+    {
+      "id": "social",
+      "name": "社会性生物",
+      "file": "02-social-8.png",
+      "options": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "age": "adult",
+      "phase": 3
+    },
+    {
+      "id": "precocial",
+      "name": "早成生物",
+      "file": "03-precocial-8.png",
+      "options": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "age": "adult",
+      "phase": 3
+    },
+    {
+      "id": "marine",
+      "name": "海生光合成体",
+      "file": "04-marine-8.png",
+      "options": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "age": "adult",
+      "phase": null
+    }
+  ],
+  "selections": null,
+  "retainedDecisions": {
+    "parasites-v3": "all-A-B-C-directions-received-assignment-pending",
+    "landPlants-v3": [
+      "forest",
+      "star"
+    ],
+    "solarBranches-v2": "accepted"
+  },
+  "sources": [
+    {
+      "file": "design/specification/ab-life-age-plant-v1.7.md",
+      "sha256": "65ab3eecb6c231dfd41484398e01c7231087f935a9d242781192e398f4c90d2b"
+    },
+    {
+      "file": "design/specification/ab-age-abilities-v1.8.md",
+      "sha256": "2c5dace285b654c8591c4070f474ad00f7adf66ab5fa6892b1a3a30732b83f2a"
+    },
+    {
+      "file": "design/creature-design-review-v2/06-plant-options.png",
+      "sha256": "c836c230cc6a0e24a9e445401eebb93ecff52f8ec8c77e0027672e36a95998a1"
+    }
+  ]
+}
