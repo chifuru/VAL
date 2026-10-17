@@ -15,6 +15,7 @@ v1.7は進化相と年齢を分離し、幼体・老齢を近景の体形/質感
 - [30系統の数値付表](ab-catalogue-v1.md)
 - [84候補の採否・範囲](ab-feature-scope-v1.md)
 - [一枚の全体説明画像](atlas-v1.3/ecology-system-master.png)と[索引](atlas-v1.3/README.md)
+- [年齢・差分・特殊生物・独立植物の造形比較6枚（選択待ち）](../creature-design-review-v2/README.md)
 - [素材資料](../asset-mock-v1/README.md)
 - [代表分岐・雌雄](../branch-mock-v1/README.md)
 - [場面・状態・特殊生態](../scene-mock-v1/README.md)

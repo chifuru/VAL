@@ -1,0 +1,167 @@
+{
+  "kind": "visual-comparison-not-runtime-assets",
+  "status": "awaiting-user-selection",
+  "sheets": [
+    {
+      "id": "age",
+      "file": "01-age.png",
+      "species": [
+        {
+          "id": "solar",
+          "name": "日輪"
+        },
+        {
+          "id": "jelly",
+          "name": "浮遊傘"
+        }
+      ],
+      "options": []
+    },
+    {
+      "id": "branches",
+      "file": "02-branches.png",
+      "species": [
+        {
+          "id": "solar",
+          "name": "日輪"
+        }
+      ],
+      "options": []
+    },
+    {
+      "id": "sex",
+      "file": "03-sex-options.png",
+      "species": [
+        {
+          "id": "solar",
+          "name": "日輪"
+        },
+        {
+          "id": "jelly",
+          "name": "浮遊傘"
+        }
+      ],
+      "options": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "id": "parasites",
+      "file": "04-parasite-options.png",
+      "species": [
+        {
+          "id": "tideparasite",
+          "name": "潮環"
+        },
+        {
+          "id": "leafparasite",
+          "name": "葉環"
+        },
+        {
+          "id": "hyperparasite",
+          "name": "抑環"
+        }
+      ],
+      "options": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "id": "special",
+      "file": "05-special-options.png",
+      "species": [
+        {
+          "id": "kelp",
+          "name": "植物共生"
+        },
+        {
+          "id": "swarm",
+          "name": "群体節足"
+        },
+        {
+          "id": "precocial",
+          "name": "早成甲殻"
+        }
+      ],
+      "options": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "id": "plant",
+      "file": "06-plant-options.png",
+      "species": [],
+      "options": [
+        "A",
+        "B"
+      ]
+    }
+  ],
+  "newPlant": {
+    "name": "光樹",
+    "provisional": true,
+    "runtimeRegistered": false,
+    "phaseCount": 4
+  },
+  "solarBranches": {
+    "phaseIII": [
+      "熱糧蓄積",
+      "光輪巡航",
+      "日輪闘争"
+    ],
+    "phaseIV": [
+      [
+        "効率採集",
+        "蓄積回復"
+      ],
+      [
+        "広域探索",
+        "地形適応"
+      ],
+      [
+        "攻勢",
+        "防衛"
+      ]
+    ]
+  },
+  "age": {
+    "independentOfPhase": true,
+    "comparisonPhase": 3,
+    "stages": [
+      "幼体",
+      "成体",
+      "老齢"
+    ],
+    "newbornPhase": 1
+  },
+  "sources": [
+    {
+      "file": "design/specification/ab-map-visual-v1.6.md",
+      "sha256": "501bf3b09e3f5aa62d576f316213866f32864f3b1b263a78a3077c75275b2659"
+    },
+    {
+      "file": "design/specification/ab-life-age-plant-v1.7.md",
+      "sha256": "8ae2e6de007b6a93a3cd8dc9046305f515e3ef2a7d7ba29d54e75b1456e107d1"
+    },
+    {
+      "file": "src/ecology/catalogue.js",
+      "sha256": "eb06013600ca1e44f4aaf8a7ea9edefb029fe4326c7d1a9d26c946060829f804"
+    }
+  ],
+  "runtimeChanged": false,
+  "recommendations": {
+    "sex.solar": "B",
+    "sex.jelly": "B",
+    "tideparasite": "A",
+    "leafparasite": "B",
+    "hyperparasite": "B",
+    "kelp": "B",
+    "swarm": "B",
+    "precocial": "B",
+    "newPlant": "B"
+  },
+  "selections": null
+}
