@@ -15,6 +15,56 @@
     "#d4c179",
     "#c59873",
   ];
+  // Cartographic symbols, shared by board and legend. Shape is independent of biology.
+  const symbolPaths = {
+    abyss:"M-.7 .6 Q-1 -.7 0 -.7 Q1 -.7 .7 .6 M-.45 .25 Q-.8 1 -.95 .5 M0 .3 Q.15 1 .4 .65 M.4 .2 Q1 .8 .9 .2",
+    myth:"M-1 .4 L-.4 -.45 L0 .1 L.4 -.7 L1 .2 L.2 .45 L0 .9 Z",
+    recursive:"M-.8 -.7 H.1 V-.1 H.8 V.7 H-.1 V.1 H-.8 Z M-.45 -.4 L.45 .4",
+    sail:"M0 -.9 L.9 .5 H-.8 Z M0 -.9 V.7 M-.85 .8 H.85",
+    gravity:"M-.85 0 A.85 .4 -30 1 0 .85 0 A.85 .4 -30 1 0 -.85 0 M0 -.45 V.45 M-.25 0 H.25",
+    crystal:"M0 -.95 L.7 -.25 L.5 .7 L0 1 L-.5 .7 L-.7 -.25 Z M0 -.95 V1 M-.7 -.25 H.7",
+    manyeyes:"M0 -.8 A.8 .8 0 1 0 .01 -.8 M-.6 -.2 H-.3 M.3 -.2 H.6 M-.15 .4 H.15",
+    abyssshell:"M-.8 .5 Q-.8 -1 0 -.8 Q.8 -1 .8 .5 Z M-.35 .4 V-.4 M0 .4 V-.65 M.35 .4 V-.4",
+    parallel:"M-.7 -.8 V.8 M0 -.8 V.8 M.7 -.8 V.8 M-.9 -.45 H.9 M-.9 .45 H.9",
+    memory:"M-.8 0 A.8 .8 0 1 1 0 .8 H-.4 V.1 H.35 V-.35 H-.25",
+    serpent:"M-.7 .7 C.8 1 -1 -.4 .2 -.4 C1 -.4 .9 -1 .35 -.8 M.35 -.8 L.4 -.5",
+    solar:"M0 -.6 A.6 .6 0 1 0 .01 -.6 M0 -.8 V-1 M0 .8 V1 M-.8 0 H-1 M.8 0 H1 M-.6 -.6 L-.8 -.8 M.6 -.6 L.8 -.8 M-.6 .6 L-.8 .8 M.6 .6 L.8 .8",
+    antimeme:"M-.8 -.3 V-.8 H-.3 M.3 -.8 H.8 V-.3 M.8 .3 V.8 H.3 M-.3 .8 H-.8 V.3 M-.2 -.1 L.2 .1",
+    valis:"M0 -.9 L.9 0 L0 .9 L-.9 0 Z M0 -.35 L.35 0 L0 .35 L-.35 0 Z",
+    jelly:"M-.85 0 Q-.7 -1 0 -.8 Q.7 -1 .85 0 Z M-.5 0 Q-.8 .55 -.5 .9 M0 0 Q.3 .55 0 .95 M.5 0 Q.8 .55 .5 .9",
+    kelp:"M0 .9 V-.8 M0 -.5 Q-1 -.9 -.6 -.2 Q-.2 .1 0 -.2 M0 .2 Q1 -.3 .65 .4 Q.2 .8 0 .5",
+    whale:"M-.8 -.1 Q0 -1 .8 -.15 L1 -.5 V.5 L.7 .2 Q0 1 -.8 .1 Z",
+    swarm:"M-.8 0 Q-.8 -.65 0 -.65 Q.8 -.65 .8 0 Q.8 .65 0 .65 Q-.8 .65 -.8 0 M-.8 0 H.8 M-.5 .5 L-.8 .9 M.5 .5 L.8 .9",
+    plasma:"M-.6 -.75 L.1 -.4 L.5 -1 L.4 -.1 L.95 .2 L.25 .4 L-.2 1 L-.25 .2 L-.9 .05 Z",
+    cephalopod:"M-.5 -.15 Q-.7 -.95 0 -.95 Q.7 -.95 .5 -.15 M-.5 -.15 Q-1 .8 -.5 .8 Q0 .8 -.15 .1 M.15 .1 Q0 .8 .5 .8 Q1 .8 .5 -.15",
+    precocial:"M-.95 .4 L-.7 -.4 L0 -.75 L.7 -.4 L.95 .4 Z M-.7 -.4 L-.25 .4 M.7 -.4 L.25 .4 M-.95 .7 H.95",
+    algae:"M-.8 .7 Q-.6 -.4 -.3 -.8 M0 .8 Q-.2 -.1 .2 -.75 M.5 .7 Q.8 0 .6 -.5",
+    moss:"M-.85 .5 Q-.6 -.5 -.25 .2 Q0 -.8 .3 .1 Q.7 -.4 .85 .5 Z",
+    grass:"M0 .9 V-.75 M0 .1 Q-.9 -.6 -.7 -.15 Q-.4 .3 0 .45 M0 -.2 Q.8 -.8 .7 -.25 Q.4 .1 0 .1",
+    fungus:"M-.9 0 Q-.8 -1 0 -.9 Q.8 -1 .9 0 Z M-.2 0 V.8 H.2 V0",
+    waterbug:"M0 -.8 L.6 0 L0 .8 L-.6 0 Z M-.5 -.2 L-1 -.5 M.5 -.2 L1 -.5 M-.5 .2 L-1 .5 M.5 .2 L1 .5",
+    grassbug:"M-.25 -.7 H.25 V.7 H-.25 Z M-.25 -.4 L-.9 -.7 M.25 -.4 L.9 -.7 M-.25 .3 L-.9 .65 M.25 .3 L.9 .65",
+    info:"M0 -1 L.65 0 L0 1 L-.65 0 Z M0 -.45 V.45",
+    seed:"M-.5 .7 Q-1 -.8 .6 -.7 Q1 .8 -.5 .7 M-.3 .4 L.4 -.45",
+    spore:"M0 -.9 V.9 M-.8 -.45 L.8 .45 M-.8 .45 L.8 -.45",
+    egg:"M0 -.9 C-1 -.4 -.8 .85 0 .85 C.8 .85 1 -.4 0 -.9 Z",
+    organic:"M-.85 .1 L-.35 -.55 L.2 -.1 L.8 -.55 L.6 .65 L-.4 .8 Z",
+    mineral:"M-.7 -.5 H.5 L.9 .1 L.4 .7 H-.5 L-.9 0 Z",
+    droplet:"M0 -.95 Q-1 .3 -.55 .65 Q0 1.1 .55 .65 Q1 .3 0 -.95 Z",
+    factor:"M-.8 -.6 H.8 L-.8 .6 H.8 M0 -.8 V.8",
+  }, symbolCache=new Map();
+  function symbolColor(s){
+    if(s.group!=="main")return s.group==="plant"?"#d0ef9b":s.group==="fungus"?"#e5c0ff":"#ffd18a";
+    const channels=s.color.match(/[0-9a-f]{2}/gi).map(h=>Math.round(parseInt(h,16)*.6+255*.4));
+    return "rgb("+channels.join(",")+")";
+  }
+  function symbol(g,id,x,y,r,color="#e8e4be") {
+    if(!symbolPaths[id])return false;
+    if(!symbolCache.has(id))symbolCache.set(id,new Path2D(symbolPaths[id]));
+    g.save();g.translate(x,y);g.scale(r,r);g.lineJoin="round";g.lineCap="round";
+    const path=symbolCache.get(id);g.strokeStyle="#041820";g.lineWidth=.48;g.stroke(path);
+    g.strokeStyle=color;g.lineWidth=.19;g.stroke(path);g.restore();return true;
+  }
   function creature(g, o, x, y, r, detail = true) {
     if (detail && Art?.creature(g, o, x, y, r, detail)) return;
     const s = S.spec(o),
@@ -306,7 +356,7 @@
       lastTurn = -1,
       changedAt = 0,
       terrainKey = null;
-    const diagnostics = { mode: "detail", drawn: 0, motionActors: 0 };
+    const diagnostics = { mode: "detail", drawn: 0, motionActors: 0, resources:0, carcasses:0, infectedHosts:0, highParasites:0 };
     function resize() {
       const box = canvas.getBoundingClientRect(),
         dpr = devicePixelRatio || 1;
@@ -417,6 +467,7 @@
       g.translate(view.x, view.y);
       g.scale(z, z);
       g.drawImage(cache, 0, 0, w.config.width, w.config.height);
+      if(z<24){g.fillStyle="#031b2452";g.fillRect(0,0,w.config.width,w.config.height);}
       if (view.grid && z >= 8) {
         g.strokeStyle = "#b7d3c015";
         g.lineWidth = 0.5 / z;
@@ -445,6 +496,7 @@
       diagnostics.mode = point ? "point" : detail ? "detail" : "simple";
       diagnostics.drawn = 0;
       diagnostics.motionActors = 0;
+      diagnostics.resources=0;diagnostics.carcasses=0;diagnostics.infectedHosts=0;diagnostics.highParasites=0;
       if (view.resources)
         for (const a of w.resources) {
           if (!inView(a.cell)) continue;
@@ -452,13 +504,17 @@
             env = w.tiles[a.cell].env;
           const radius =
             0.12 + Math.min(1, a.q / (S.FOOD[a.kind].cap || 4)) * 0.23;
-          if (Art) Art.resource(g, a, x + (a.kind==="info"?.32:.12), y + (a.kind==="droplet"?.35:.16), radius * 0.5, env, w.turn);
+          diagnostics.resources++;
+          const kind=Object.keys(S.FOOD).indexOf(a.kind),rx=x+.12+(kind%4)*.24,ry=y+.10+Math.floor(kind/4)*.18;
+          if(detail&&Art)Art.resource(g,a,rx,ry,radius*.40,env,w.turn);
+          else symbol(g,a.kind,rx,ry,.055+.025*Math.min(1,a.q/(S.FOOD[a.kind].cap||4)),a.kind==="info"?"#8be9ff":S.FOOD[a.kind].tag==="mineral"?"#d3ddec":"#e9d4a1");
         }
       for (const a of w.carcasses) {
         if (!inView(a.cell)) continue;
         const [x, y] = S.xy(w, a.cell);
-        g.strokeStyle = "#ab8b75";
-        g.lineWidth = 0.045;
+        diagnostics.carcasses++;
+        g.strokeStyle = "#d4ac92";
+        g.lineWidth = Math.max(.045,.7/z);
         g.beginPath();
         g.moveTo(x + 0.69, y + 0.69);
         g.lineTo(x + 0.91, y + 0.91);
@@ -505,7 +561,7 @@
             list = events.get(o.id) || [],
             ev = list.find((e) => e.type === "move");
           const overlapped = occupiedMain.has(o.cell) && occupiedFood.has(o.cell);
-          const ox=overlapped?(slot==="main"?.66:.24):.5, oy=overlapped?(slot==="main"?.35:.76):.5;
+          const ox=overlapped?(slot==="main"?.66:.24):.5, oy=detail?(overlapped?(slot==="main"?.35:.76):.5):(slot==="main"?.55:.76);
           let cx = x + ox, cy = y + oy;
           if (ev?.type === "move" && ev.from !== undefined) {
             const [u, v] = S.xy(w, ev.from);
@@ -526,22 +582,22 @@
           g.save();g.fillStyle=slot==="main"?"#071c20aa":"#122b2266";
           g.strokeStyle=slot==="main"?"#e7d5a65c":"#b8d79a70";g.lineWidth=.7/z;
           g.beginPath();g.ellipse(cx,cy+.025,size*1.3,size*1.15,0,0,7);g.fill();g.stroke();g.restore();
-          if (o.slot === "main" && point) {
-            g.fillStyle = S.spec(o).color;
-            g.beginPath();
-            g.arc(cx, cy, 0.28, 0, 7);
-            g.fill();
-          } else if (o.slot === "main") creature(g, o, cx, cy, size, detail);
-          else if (point) {
-            g.fillStyle = S.spec(o).color;
-            g.fillRect(cx - 0.15, cy - 0.15, 0.3, 0.3);
-          } else food(g, o, cx, cy, size, w.tiles[o.cell].env);
-          ageMark(o,cx,cy,Math.min(.43,size*1.35),z);
-          if (o.infection && !point) {
+          if(detail){
+            if(slot==="main")creature(g,o,cx,cy,size,true);
+            else food(g,o,cx,cy,size,w.tiles[o.cell].env);
+          }else{
+            const color=symbolColor(S.spec(o));
+            symbol(g,o.species,cx,cy,slot==="main"?(overlapped?.27:.32):Math.min(.20,size*1.12),color);
+          }
+          // Keep age in the same cell, away from the body at overview scale.
+          ageMark(o,detail?cx:x+(slot==="main"?.82:.10),detail?cy:y+(slot==="main"?.77:.90),detail?Math.min(.43,size*1.35):.065,z);
+          if(o.infection){
+            diagnostics.infectedHosts++;
+            if(o.infection.q)diagnostics.highParasites++;
             const bx=cx+.19,by=cy-.22;
-            g.fillStyle="#251c25";g.beginPath();g.arc(bx,by,.13,0,7);g.fill();
-            g.fillStyle="#ffab83";g.beginPath();g.arc(bx,by,.075,0,7);g.fill();
-            if(o.infection.q){g.strokeStyle="#d3afff";g.lineWidth=.045;g.beginPath();g.arc(bx,by,.12,0,7);g.stroke();}
+            g.fillStyle="#161421";g.beginPath();g.arc(bx,by,.115,0,7);g.fill();
+            g.fillStyle="#ffbc8f";g.beginPath();g.arc(bx,by,.065,0,7);g.fill();
+            if(o.infection.q){g.strokeStyle="#d3afff";g.lineWidth=Math.max(.035,.55/z);g.beginPath();g.arc(bx,by,.11,0,7);g.stroke();}
           }
           if (list.length) diagnostics.motionActors++;
           for (const ev of list) {
@@ -618,5 +674,5 @@
     }
     return { view, diagnostics, setWorld, draw, fit, cellAt, zoom, creature };
   }
-  return { create, creature, food, colors, assets: Art };
+  return { create, creature, food, symbol, symbolColor, symbolPaths, colors, assets: Art };
 });

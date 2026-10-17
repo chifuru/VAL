@@ -518,9 +518,17 @@
         openGuide("tree");
       };
   }
+  function renderMapKey(){
+    const counts=world.stats.counts;
+    $("species-key").innerHTML=D.species.filter(s=>!["P","Q"].includes(s.group)&&counts[s.id]>0).map(s=>`<span class="map-key-item" data-species="${s.id}"><canvas width="40" height="40" aria-hidden="true"></canvas><span>${escape(s.name)}</span><b>${counts[s.id]}</b></span>`).join("");
+    for(const item of $("species-key").children){const s=D.byId[item.dataset.species],c=item.querySelector("canvas");R.symbol(c.getContext("2d"),s.id,20,20,14,R.symbolColor(s));}
+    $("resource-key").innerHTML=Object.entries(S.FOOD).map(([id,f])=>`<span class="map-key-item" data-resource="${id}"><canvas width="40" height="40" aria-hidden="true"></canvas><span>${escape(f.name)}</span></span>`).join("");
+    for(const item of $("resource-key").children)R.symbol(item.querySelector("canvas").getContext("2d"),item.dataset.resource,20,20,12,item.dataset.resource==="info"?"#8be9ff":"#e9d4a1");
+  }
   function render() {
     if (!world) return;
     const s = world.stats;
+    renderMapKey();
     $("turn").textContent = world.turn;
     $("turn-limit").textContent = "/ " + world.blockEnd;
     $("status").textContent = running ? "観測中" : "一時停止";
@@ -795,9 +803,10 @@
     if (now - paintAt >= 1000 / 30) {
       paintAt = now;
       renderer.draw();
+      $("scale-warning").hidden=renderer.view.scale>=8;
       $("status").textContent=replayEntry?"再生・記録なし":ended?"観測終了":running?"観測中":world?"一時停止":"未準備";
       $("render-mode").textContent =
-        { point: "点表示", simple: "簡略表示", detail: "詳細表示" }[
+        { point: "密集記号表示", simple: "記号表示", detail: "詳細表示" }[
           renderer.diagnostics.mode
         ] +
         " · " +
@@ -819,6 +828,7 @@
   if (new URLSearchParams(location.search).has("smoke"))
     window.__LIFE_TEST__ = {
       prepare,
+      refresh: render,
       finish: finishRun,
       replay: replayResult,
       records: ()=>archive.list(),

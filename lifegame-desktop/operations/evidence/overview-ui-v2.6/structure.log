@@ -1,0 +1,34 @@
+✔ tests/manifest.test.cjs (145.203731ms)
+✔ tests/package.test.cjs (343.552193ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 584.767305
+59 Node headers, exact titles/states/primary references, parent order and tab depths: PASS
+177 required sections with content/file references: PASS
+All 59 Node IDs/parents/formal states unchanged: PASS
+✔ VALIS: every node has valid hierarchy, references, manifest entry and real source/test paths (39.915754ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 45.228873
+59 Node headers, exact titles/states/primary references, parent order and tab depths: PASS
+177 required sections with content/file references: PASS
+All 59 Node IDs/parents/formal states unchanged: PASS
+✔ VALIS: every node has valid hierarchy, references, manifest entry and real source/test paths (15.919138ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 21.056766

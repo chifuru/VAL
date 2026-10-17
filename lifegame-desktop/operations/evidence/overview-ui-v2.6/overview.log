@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "checks": [
+    "legend counts match real organisms",
+    "27 biological and 8 resource symbols are explicitly defined",
+    "all 35 symbol rasterizations are distinct",
+    "overview draws every organism, resource and carcass without sampling",
+    "all resource kinds including information have a legend",
+    "far and detailed view preserve biology",
+    "returning to overview preserves biology",
+    "fixture retains all 27 bodies, 8 resources, carcass and host P/Q",
+    "selected overlap exposes both organisms and information",
+    "overlap and host fixture has identical biological state at near zoom",
+    "unreadable scale explicitly asks for zoom or cell selection",
+    "extreme zoom does not alter the world",
+    "legend and scale warning fit narrow layout",
+    "large world overview keeps every biological position in the draw set",
+    "no browser exceptions"
+  ]
+}
