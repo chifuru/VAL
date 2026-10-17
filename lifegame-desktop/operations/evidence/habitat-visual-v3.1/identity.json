@@ -1,0 +1,30 @@
+{
+  "biology": "12 exact SHA matches to app3.0 and earlier biological baseline",
+  "biologicalSHA256": {
+    "src/ecology/map-data.js": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+    "src/ecology/map-templates.js": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e",
+    "src/ecology/landscape.js": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+    "src/ecology/hash.js": "0f7ede6536719c1fcd246e4cf2e823252ff0a7cadc2b68555c4083b9ecf581ee",
+    "src/ecology/catalogue.js": "eb06013600ca1e44f4aaf8a7ea9edefb029fe4326c7d1a9d26c946060829f804",
+    "src/ecology/state.js": "17e79140fe762812aebc5a4e19545b8566218060044cf7172fca6706b4b566b5",
+    "src/ecology/nutrition.js": "521664e84b16d6f04045eba9cb46ea512e690c8abc281db92b6367c962ecdab4",
+    "src/ecology/behavior.js": "ef29e290eb434e0ab465f3dbd5b5cc2bae9f609fdbda6ae8e9150f80287e64d4",
+    "src/ecology/reproduction.js": "2cb3573b3f4f1161ea8c6adf5bfcf58e9ee0f5e406d6d2d8c8b9e28c27eff4d1",
+    "src/ecology/parasites.js": "10a63424e656ed795541ac750754e1cf6c20f7c81f12a11058f2796f37ccb661",
+    "src/ecology/engine.js": "0cf915b8f4698f6900e46b9edefbb4a8e11fc7b8667989889bf688e3c8d2d50f",
+    "src/ecology/replay-version.js": "78c660d97166461680ead659c3d25fe550c44d5d4a22ad47a34efb9df3c638fa"
+  },
+  "existingArt": "all 10 original production sheets unchanged",
+  "artSHA256": {
+    "src/assets/life-a.png": "114b3796d97eeb34b231cc579d403a2ef5fa2eba130fed1740fedc5fc4b75da2",
+    "src/assets/life-b.png": "bba04650d629127ef4702a23437ce3ebbc3bfe0bdc73884e325d3281402406a6",
+    "src/assets/life-c.png": "a6fb08fd60b21713eaae95f2042237acaa3ede0853887309ecbedcadd3810155",
+    "src/assets/life-d.png": "bf30019cf35f32932fbc1fb46c0501066448c01251e0090aeb68148325bc78a1",
+    "src/assets/life-e.png": "d6e5664af7f12857fa00abf4a5c6c5da63383ad27cf306dff2a62611f2e4022a",
+    "src/assets/life-f.png": "801c8124d20370d18c8c815820d6341cf815cea544c0764a0dad009f043e347b",
+    "src/assets/food-atlas.png": "6138200ab41053fee1413f171d081583bc93f3ddc8f11ca29b050d38b2b3cceb",
+    "src/assets/habitat-props.png": "f2d605c90d991f8beb6a9c5f7958db4687531b46f9f9129de98024e30c00ee07",
+    "src/assets/solar-branches.png": "e5d639cf00d6c2d37e9bcf5a709a6fd3ccf6325db32e75694bf4efcf0e55c908",
+    "src/assets/jelly-branches.png": "74a75d082ae6fd0b8a997bdce1b45b1e6eb0d65b3b04156b4ef26f232f5d8eef"
+  }
+}

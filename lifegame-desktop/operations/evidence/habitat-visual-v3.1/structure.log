@@ -1,0 +1,15 @@
+59 Node headers, exact titles/states/primary references, parent order and tab depths: PASS
+177 required sections with content/file references: PASS
+All 59 Node IDs/parents/formal states unchanged: PASS
+✔ VALIS: every node has valid hierarchy, references, manifest entry and real source/test paths (17.026622ms)
+✔ display relief selects every actual cell centre without changing world state (13.169734ms)
+✔ shared terrain vertices agree, water stays level, and camera bounds cover cells (2.384943ms)
+✔ base-plane camera projection and inverse are consistent at fractional coordinates (0.427411ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 136.32544

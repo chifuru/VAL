@@ -56,9 +56,9 @@ const { chromium } = require("playwright"),
     await page.evaluate(() => EcoArt.ready);
     check(
       await page.evaluate(
-        () => EcoArt.loaded && Object.keys(EcoArt.images).length === 10,
+        () => EcoArt.loaded && Object.keys(EcoArt.images).length === 21,
       ),
-      "all ten replacement production atlases decode",
+      "all twenty-one creature and habitat production images decode",
     );
     check(
       await page.evaluate(() =>

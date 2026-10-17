@@ -34,6 +34,11 @@ for (const [id, f] of Object.entries(m.creatures.regions))
 for (const f of Object.values(m.food.regions)) frames("food-atlas", f);
 frames("habitat-props", m.props.regions);
 for (const b of Object.values(m.branches)) frames(b.sheet, b.regions);
+for (const [name, v] of Object.entries(m.terrain || {}))
+  assert.ok(
+    m.sheets[v.sheet] && m.sheets[v.sheet].width >= 1024,
+    name + " missing high-resolution habitat material",
+  );
 const context = { globalThis: {} };
 require("node:vm").runInNewContext(
   fs.readFileSync(path.join(dir, "visual-manifest.js"), "utf8"),
@@ -55,5 +60,6 @@ console.log(
       0,
     ),
     representativeBranches: 18,
+    paintedTerrainMaterials: Object.keys(m.terrain || {}).length,
   }),
 );

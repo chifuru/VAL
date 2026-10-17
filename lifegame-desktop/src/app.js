@@ -96,7 +96,7 @@
   $("environment-legend").innerHTML = D.environments
     .map(
       (e, i) =>
-        `<span class="habitat-chip"><i style="background-position:${((i % 4) * 100) / 3}% ${i < 4 ? 0 : 100}%"></i><b>${e.name}</b></span>`,
+        `<span class="habitat-chip"><i style="background-image:url(assets/habitat-${["water", "thermal", "signal", "meadow", "frost", "forest", "earth", "corrosion"][i]}.png);background-size:cover;background-position:center"></i><b>${e.name}</b></span>`,
     )
     .join("");
   $("size").addEventListener("change", () => {
@@ -944,6 +944,7 @@
   }
   requestAnimationFrame(frame);
   R.assets.ready.then(() => {
+    if (world) renderer.setWorld(world);
     renderSelection();
     if ($("guide").open) showSheet(activeSheet);
     if (R.assets.errors.length)

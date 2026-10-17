@@ -313,17 +313,83 @@
     }
     g.restore();
   }
-  function prop(g, index, x, y, width, alpha = 1) {
+  const propVariants = new Map(),
+    shadowFrames = new Map();
+  function prop(g, index, x, y, width, alpha = 1, holes = []) {
     const im = images["habitat-props"],
       f = manifest.props.regions[index];
     if (!im || !f) return;
+    const original = cleanFrame(im, f),
+      height = (width * f[3]) / f[2];
+    let frame = original;
+    if (holes.length) {
+      const key =
+        index +
+        "/" +
+        holes
+          .map((h) =>
+            [h.x, h.y, h.radius, h.selected ? 1 : 0]
+              .map((v) => Math.round(v * 20) / 20)
+              .join(","),
+          )
+          .join(";");
+      if (propVariants.has(key)) frame = propVariants.get(key);
+      else {
+        const c = document.createElement("canvas");
+        c.width = original.width;
+        c.height = original.height;
+        const p = c.getContext("2d");
+        p.drawImage(original, 0, 0);
+        p.globalCompositeOperation = "destination-out";
+        for (const h of holes) {
+          const hx = (h.x / width + 0.5) * c.width,
+            hy = (h.y / height + 0.9) * c.height,
+            r = (h.radius / width) * c.width,
+            fade = p.createRadialGradient(hx, hy, r * 0.45, hx, hy, r * 1.18);
+          fade.addColorStop(0, h.selected ? "#000000f5" : "#000000eb");
+          fade.addColorStop(0.65, "#000000d9");
+          fade.addColorStop(1, "#0000");
+          p.fillStyle = fade;
+          p.fillRect(hx - r * 1.2, hy - r * 1.2, r * 2.4, r * 2.4);
+        }
+        if (propVariants.size >= 128)
+          propVariants.delete(propVariants.keys().next().value);
+        propVariants.set(key, c);
+        frame = c;
+      }
+    }
     g.save();
     g.globalAlpha = alpha;
+    g.drawImage(frame, x - width / 2, y - height * 0.9, width, height);
+    g.restore();
+  }
+  function propShadow(g, index, x, y, width) {
+    if ([3, 8, 9, 11, 15].includes(index)) return;
+    const im = images["habitat-props"],
+      f = manifest.props.regions[index];
+    if (!im || !f) return;
+    if (!shadowFrames.has(index)) {
+      const original = cleanFrame(im, f),
+        c = document.createElement("canvas");
+      c.width = original.width;
+      c.height = original.height;
+      const s = c.getContext("2d");
+      s.drawImage(original, 0, 0);
+      s.globalCompositeOperation = "source-in";
+      s.fillStyle = "#071e26";
+      s.fillRect(0, 0, c.width, c.height);
+      shadowFrames.set(index, c);
+    }
     const height = (width * f[3]) / f[2];
+    g.save();
+    g.translate(x, y);
+    g.transform(1, 0.18, -0.65, -0.2, 0, 0);
+    g.globalAlpha = 0.28;
+    g.filter = "blur(2px)";
     g.drawImage(
-      cleanFrame(im, f),
-      x - width / 2,
-      y - height * 0.9,
+      shadowFrames.get(index),
+      -width / 2,
+      -height * 0.9,
       width,
       height,
     );
@@ -339,6 +405,7 @@
     food,
     resource,
     prop,
+    propShadow,
     get loaded() {
       return loaded;
     },

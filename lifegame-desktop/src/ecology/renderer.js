@@ -168,6 +168,7 @@
     function setWorld(w) {
       world = w;
       const key = [
+        Art.loaded,
         w.config.seed,
         w.config.width,
         w.config.height,
@@ -179,6 +180,7 @@
         scene = globalThis.EcoScenery.build(w, P);
         geometryKey = key;
         cache = null;
+        cacheKey = null;
       }
       if (lastTurn !== w.turn) {
         lastTurn = w.turn;
@@ -250,9 +252,15 @@
       g.translate(view.x, view.y);
       g.scale(z, z);
       if (detail) {
-        const key = [geometryKey, view.x, view.y, z, b.width, b.height].join(
-          "/",
-        );
+        const key = [
+          geometryKey,
+          view.x,
+          view.y,
+          z,
+          b.width,
+          b.height,
+          devicePixelRatio || 1,
+        ].join("/");
         if (key !== cacheKey) {
           cacheKey = key;
           nearCache = document.createElement("canvas");
@@ -283,10 +291,24 @@
           c.scale(u, u);
           c.translate(-r.minX, -r.minY);
           scene.surface(c, null, false, u);
+          c.setTransform(1, 0, 0, 1, 0, 0);
+          const soft = document.createElement("canvas");
+          soft.width = cache.width;
+          soft.height = cache.height;
+          const sg = soft.getContext("2d");
+          sg.filter = "blur(1.1px) saturate(.65) brightness(.72)";
+          sg.drawImage(cache, 0, 0);
+          c.globalCompositeOperation = "copy";
+          c.drawImage(soft, 0, 0);
+          c.globalCompositeOperation = "source-over";
         }
         const r = P.bounds;
         g.drawImage(cache, r.minX, r.minY, cache.width / 24, cache.height / 24);
       }
+      diagnostics.materialPixelsPerCell = detail
+        ? scene.metrics.unit
+        : Math.max(8, Math.min(24, Math.floor(1800 / w.config.width)));
+      diagnostics.paintedMaterials = scene.metrics.paintedMaterials;
       if (view.grid && z >= 8) {
         g.strokeStyle = "#e9e4c326";
         g.lineWidth = 0.6 / z;
@@ -407,18 +429,7 @@
           )
             continue;
           if (detail) {
-            g.fillStyle = "#061c2e45";
-            g.beginPath();
-            g.ellipse(
-              p[0] + 0.12,
-              p[1] + 0.04,
-              a.size * 0.35,
-              a.size * 0.12,
-              -0.2,
-              0,
-              7,
-            );
-            g.fill();
+            Art.propShadow(g, a.index, ...p, a.size);
             const obscured = bodies.filter(
               (b) =>
                 b.depth < actor.depth &&
@@ -426,14 +437,13 @@
                 b.p[1] < p[1] + 0.08 &&
                 b.p[1] > p[1] - a.size * 0.8,
             );
-            const alpha = obscured.some((b) => b.o.cell === view.selected)
-              ? 0.12
-              : obscured.length
-                ? 0.3
-                : main.has(a.cell) || foodCells.has(a.cell)
-                  ? 0.35
-                  : 0.95;
-            Art.prop(g, a.index, ...p, a.size, a.index === 9 ? 0.42 : alpha);
+            const holes = obscured.map((b) => ({
+              x: b.p[0] - p[0],
+              y: b.p[1] - (b.o.slot === "main" ? 0.2 : 0.04) - p[1],
+              radius: b.o.slot === "main" ? 0.47 : 0.28,
+              selected: b.o.cell === view.selected,
+            }));
+            Art.prop(g, a.index, ...p, a.size, a.index === 9 ? 0.65 : 1, holes);
           } else {
             if (a.wall !== undefined) {
               const f = P.face(a.cell),
