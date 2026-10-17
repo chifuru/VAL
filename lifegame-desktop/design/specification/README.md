@@ -1,14 +1,20 @@
 # 生態シミュレーション A・B仕様
 
-現在の正本は[統合A/B仕様v1.3](ab-system-specification-v1.3.md)と[実装着手前の調整v1.4](ab-readiness-v1.4.md)。v1.4が明示した条件はv1.4を優先する。[一枚の統合説明画像](atlas-v1.3/ecology-system-master.png)は、基本システム→共通ルール→行動と成長→寄生/社会性→系統別資料→観測の順に読む。ゲーム画面ではなく仕様説明資料。
+現在の正本は次の順に適用する。後の文書が明示した対象条件だけを上書きし、未記載の生態ルールは維持する。
 
-- [実装着手判断と調整の照合](ab-readiness-review-v1.4.md)
-- [画像索引・各部の位置](atlas-v1.3/README.md)
+1. [統合A/B仕様 v1.3](ab-system-specification-v1.3.md)
+2. [着手前調整 v1.4](ab-readiness-v1.4.md)
+3. [生態バランス調整 v1.5](ab-balance-v1.5.md)
+4. [事前地形・表示・再生条件 v1.6](ab-map-visual-v1.6.md)
+
+v1.6はA/Bに適用済み。事前作成地形＋許可候補のランダム化、代表6地形から36種程度への拡張、地形/生態の初期値分離、遠近の対応、見分けられる雌雄差、地形の版を含む再生条件を定義する。製品2.3のコードは従来方式のままで、新方式の実マップ・実装・ゲーム検証は未実施。全59Node草案。
+
 - [30系統の数値付表](ab-catalogue-v1.md)
 - [84候補の採否・範囲](ab-feature-scope-v1.md)
-- [資料照合記録](atlas-v1.3/coverage.md)
-- [今回のFLOW実行契約（11節）](ab-readiness-v1.4.md)
+- [一枚の全体説明画像](atlas-v1.3/ecology-system-master.png)と[索引](atlas-v1.3/README.md)
+- [素材資料](../asset-mock-v1/README.md)
+- [代表分岐・雌雄](../branch-mock-v1/README.md)
+- [場面・状態・特殊生態](../scene-mock-v1/README.md)
+- [現在のノード構造](../../valis/summary/lifegame-desktop.summary.md)
 
-寄生は宿主H→P→Qの付随関係。餌との重なりを許可し、P/Qは地表の独立マスを占有しない。今回の更新は既存17 A/B Nodeのみ。全41 Node草案、未実装・ゲーム未検証。独立Windowsローカル実行方式は従前どおり。
-
-v1/v1.1/v1.2本文と69枚の分冊説明は基底・履歴として残す。数値や条件が異なる場合は統合仕様とv1.4調整を優先する。実装範囲C/D/E/src/testsへ進むには別途許可が必要。
+画像は説明・造形資料であり、数値や条件は上記の本文を正とする。寄生はH→P→Qへ付随し、情報は延長された表現型の抽象モデル。独立Windowsローカル実行、有限収支、出生は第一相という条件は維持する。履歴はGitと版付き資料へ委ねる。

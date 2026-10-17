@@ -84,7 +84,7 @@
       "繁殖雄"
     ],
     "appearanceProposal": {
-      "status": "review-only-not-runtime",
+      "status": "applied-to-ab-v1.6-not-runtime",
       "male": "longer sharper crest or rim processes; approximately 20% emphasis in art brief",
       "female": "rounder wider torso or bell; approximately 15% emphasis in art brief",
       "unchanged": [
@@ -94,7 +94,7 @@
         "abilities",
         "swarm caste design"
       ],
-      "canonicalDisplayRule": "existing 5% rule remains pending visual review"
+      "canonicalDisplayRule": "design/specification/ab-map-visual-v1.6.md section 6 supersedes the previous uniform 5% appearance guideline; no biological ability change"
     }
   },
   "runtimeChanged": false
