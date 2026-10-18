@@ -341,7 +341,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 	ロジック:
 		確定世界を観察し、操作や拡大を生態計算から分ける。
 	実態:
-		全ターン三グラフ/CSV・説明/所在強調/追跡と設定遷移を接続。 修正/再検証要否あり。次FLOW-04/05。
+		設定内エラー、適用入力のみの検証、主生物なし連続生成、小型破棄確認、説明閉鎖を実装。生態/新グラフ/造形は未変更。 正式状態は草案。今回証跡: operations/evidence/navigation-recovery-v4.1/README.md。後続は描画なし比較の基準一致。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,7 +450,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		全ターンCSV/操作継続/停止観察/選択/追跡/描画を実ブラウザで検査。 修正/再検証要否あり。次FLOW-04/05。
+		navigation-ui.cjsの27項目と既存観察14項目をLinux Chromiumで確認。Windows/長期生存は対象外。 正式状態は草案。今回証跡: operations/evidence/navigation-recovery-v4.1/README.md。後続は描画なし比較の基準一致。
 
 ```
 
@@ -499,11 +499,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。operations/evidence/fast-observation-v4/source-hashes.json、Linux app4.0.0。
+		valis/nodes/E/E6.md。operations/evidence/navigation-recovery-v4.1/source-hashes.json。観察4.1の既存記録と今回の遷移修正を区別。
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		4.1のLinux実画面と操作/グラフ/CSV検査。外観承認・全端末性能は対象外。 正式状態は草案。
+		今回のLinux遷移27/観察14項目と既存22テストファイル通過。対象ハッシュと画面はnavigation-recovery-v4.1へ記録。 正式状態は草案。今回証跡: operations/evidence/navigation-recovery-v4.1/README.md。後続は描画なし比較の基準一致。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

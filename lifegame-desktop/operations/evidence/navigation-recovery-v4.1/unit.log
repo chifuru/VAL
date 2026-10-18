@@ -1,0 +1,34 @@
+
+> valis-lifegame-desktop@4.1.0 test
+> node --test tests/*.test.cjs
+
+✔ tests/age-model.test.cjs (37644.988807ms)
+✔ tests/archive.test.cjs (686.529108ms)
+✔ tests/colony-production.test.cjs (92.41285ms)
+✔ tests/compute-client.test.cjs (46.122648ms)
+✔ tests/compute-worker.test.cjs (4928.712606ms)
+✔ tests/diet.test.cjs (4374.388103ms)
+✔ tests/ecology-contract.test.cjs (860.178548ms)
+✔ tests/ecology-integration.test.cjs (48289.00765ms)
+✔ tests/ecology-observation.test.cjs (10558.069564ms)
+✔ tests/ecology-parasites.test.cjs (143.920535ms)
+✔ tests/ecology-reproduction.test.cjs (154.984483ms)
+✔ tests/ecosystem-foundation.test.cjs (3598.629313ms)
+✔ tests/ecosystem-next.test.cjs (151.286209ms)
+✔ tests/engine.test.cjs (33738.278837ms)
+✔ tests/manifest.test.cjs (68.454107ms)
+✔ tests/map-templates.test.cjs (19975.628725ms)
+✔ tests/ordinary-survival.test.cjs (14027.017152ms)
+✔ tests/package.test.cjs (61.383751ms)
+✔ tests/parasite-contact.test.cjs (89.629454ms)
+✔ tests/projection.test.cjs (56.905633ms)
+✔ tests/staged-turn.test.cjs (8530.967336ms)
+✔ tests/survival-trial.test.cjs (277.992255ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 188373.922315

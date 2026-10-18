@@ -1,0 +1,33 @@
+{
+  "checks": [
+    "first valid generation enters observation",
+    "repeated valid generation enters observation",
+    "insufficient population explains correction in visible setup",
+    "model rejection preserves prior world and all-turn history",
+    "model error receives keyboard focus",
+    "correcting model error permits retry",
+    "placement failure is visible in setup",
+    "creation failure preserves world and observations",
+    "all groups disabled shows actionable error",
+    "main-disabled world is legal",
+    "unused initial population does not participate in native validation",
+    "main-disabled world can be generated a second time",
+    "hidden unused weight is disabled",
+    "invalid unused weight is excluded from model validation too",
+    "active invalid weight has a visible validation message",
+    "invalid nested field opens its details",
+    "empty manual selection explains error",
+    "species explanation can open",
+    "return to setup closes prior-world explanation",
+    "invalid configuration rejected before asking to discard history",
+    "discard confirmation uses themed in-app dialog",
+    "confirmation fits its content rather than the whole screen",
+    "Escape cancellation preserves fingerprint and all-turn history",
+    "accepting discard creates new world and navigates",
+    "fixed observation mode remains usable",
+    "return during staged calculation leaves committed world stopped",
+    "no runtime errors or native popups"
+  ],
+  "errors": [],
+  "scope": "Linux Chromium; navigation only; no Windows or ecological balance certification"
+}

@@ -1,0 +1,7 @@
+{
+  "src/app.js": "855296907f09f156e9d3d147db06d7dce7074af729a5d791be9b689cd8020ed6",
+  "src/Index.html": "cd714398300f64d8caed09dafc5f7b647a5436c2fa8dc1af1057116e5474e9c5",
+  "src/styles.css": "309c6514d9216bb391d017607e49152d6e4aca3b88481da18b6d8f1495415d47",
+  "tests/navigation-ui.cjs": "33146c20d4bc6871e344130ad04af55be1a822455fe62d81cc2902c4d498db25",
+  "tests/ecology-observation-ui.cjs": "015dbef92ba770c3aa8e3ab86d8347b05af29e8cd0d3b4f8583cf8b7afd3823c"
+}

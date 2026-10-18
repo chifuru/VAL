@@ -39,6 +39,7 @@
             地形・生物・配置を選んで世界を作ります。同じ設定でも、新しい世界では配置が変わります。
           </p>
           <form id="setup">
+            <p id="setup-message" class="note" role="status" aria-live="polite" tabindex="-1" hidden></p>
             <label class="observation-mode-label">観察モード<select id="observation-mode"><option value="custom">自由設定</option><option value="river-settlement">河畔・定着観察（高生産・初期集団多め）</option><option value="lake-foodweb">湖沼・食物網観察（高生産・初期集団多め）</option></select></label>
             <p id="mode-help" class="note" aria-live="polite"></p>
             <div class="setup-main">
@@ -339,6 +340,14 @@ ECOSYSTEM-2026</textarea
     <script src="ecology/transport.js"></script>
     <script src="ecology/compute-client.js"></script>
     <script src="ecology/observations.js"></script>
+    <dialog id="world-confirm" aria-labelledby="world-confirm-title">
+      <h2 id="world-confirm-title">新しい世界へ進みますか？</h2>
+      <p id="world-confirm-text"></p>
+      <form method="dialog" class="transport">
+        <button value="cancel" class="secondary" autofocus>キャンセル</button>
+        <button value="proceed" class="primary">続行する</button>
+      </form>
+    </dialog>
     <script src="app.js"></script>
   </body>
 </html>

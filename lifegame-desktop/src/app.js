@@ -154,7 +154,7 @@
     if ($("lineages").value === "manual") $("advanced-settings").open = true;
   });
   $("distribution").addEventListener("change", () => {
-    $("weight-options").hidden = $("distribution").value !== "weighted";
+    syncSetupFields();
   });
   $("map-id").innerHTML += window.EcoMapTemplates.list()
     .map((m) => `<option value="${escape(m.id)}">${escape(m.name)}</option>`)
@@ -175,6 +175,7 @@
     }
     $("lineage-options").hidden = $("lineages").value !== "manual";
     $("weight-options").hidden = $("distribution").value !== "weighted";
+    syncSetupFields();
     $("mode-help").textContent = mode.description + (fixed ? ` 主生物${mode.initial}体、${mode.selected.length}系統（${mode.selected.map(id=>D.byId[id].name).join(" / ")}）。自然配置・均等配分。固定項目を編集する場合は自由設定へ戻してください。` : "") + " 条件は開始時に固定され、観測中も同じ倍率で計算します。救済補充はありません。";
     updateCohortHint();
   }
@@ -201,17 +202,17 @@
       terrainSeed: crypto.randomUUID(),
       width,
       height,
-      initial: Number($("initial").value),
+      initial: $("group-main").checked ? Number($("initial").value) : 0,
       lineages: $("lineages").value,
       selected: [...$("lineage-options").querySelectorAll("input:checked")].map(
         (i) => i.value,
       ),
-      weights: Object.fromEntries(
+      weights: $("group-main").checked && $("distribution").value === "weighted" ? Object.fromEntries(
         [...$("weight-options").querySelectorAll("input")].map((i) => [
           i.dataset.weight,
           Number(i.value),
         ]),
-      ),
+      ) : {},
       placement: $("placement").value,
       distribution: $("distribution").value,
       guarantee: $("guarantee").checked,
@@ -222,6 +223,40 @@
   }
   function message(text) {
     $("message").textContent = text;
+    if (document.body.classList.contains("setup-screen")) setupMessage(text);
+  }
+  function setupMessage(text, error = false) {
+    const el = $("setup-message");
+    el.textContent = text;
+    el.hidden = !text;
+    el.classList.toggle("error", error);
+    if (error) el.focus();
+  }
+  function syncSetupFields() {
+    const fixed = $("observation-mode").value !== "custom";
+    const main = $("group-main").checked;
+    for (const id of ["initial", "lineages", "distribution", "placement", "guarantee"])
+      $(id).disabled = fixed || !main;
+    for (const input of $("lineage-options").querySelectorAll("input"))
+      input.disabled = fixed || !main || $("lineages").value !== "manual";
+    const weighted = $("distribution").value === "weighted";
+    $("weight-options").hidden = !main || !weighted;
+    for (const input of $("weight-options").querySelectorAll("input"))
+      input.disabled = fixed || !main || !weighted;
+  }
+  function closeWorldDetails() {
+    for (const id of ["species-info", "guide", "results"])
+      if ($(id).open) $(id).close();
+  }
+  function confirmWorldChange(text) {
+    const dialog = $("world-confirm");
+    if (dialog.open) return Promise.resolve(false);
+    $("world-confirm-text").textContent = text;
+    dialog.returnValue = "cancel";
+    return new Promise(resolve => {
+      dialog.addEventListener("close", () => resolve(dialog.returnValue === "proceed"), {once:true});
+      dialog.showModal();
+    });
   }
   function stop() {
     clearTimeout(interactionTimer);holds.clear();updateHold();
@@ -255,6 +290,8 @@
       ...config,
     });
     stop();
+    closeWorldDetails();
+    setupMessage("");
     replayEntry = playback;
     ended = false;
     pendingResult = null;
@@ -417,20 +454,41 @@
     }
     advance();
   }
-  $("setup").addEventListener("submit", (event) => {
+  let preparingWorld = false;
+  $("setup").addEventListener("invalid", event => {
+    const field = event.target;
+    const details = field.closest("details");
+    if (details) details.open = true;
+    setupMessage("入力内容を確認してください：" + field.validationMessage, true);
+  }, true);
+  $("setup").addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (preparingWorld) return;
+    preparingWorld = true;
+    $("load").disabled = true;
+    $("setup").setAttribute("aria-busy", "true");
     try {
-      if(world && world.turn>0 && observations?.unexported && !confirm("未出力の全ターン観測データを破棄して新しい世界を作ります。必要ならキャンセルしてCSVを保存してください。"))return;
-      const resume=false;
-      prepare(readConfig());
-      if(resume)startRunning();
+      const config = S.validate(readConfig());
+      const count = config.lineages === "all" ? 20 : config.lineages === "few" ? 5 : config.selected.length;
+      if (config.enabled.main && (!count || config.initial < count * 4))
+        throw Error("参加系統を選び、系統ごとに最低4体の主生物を設定してください。");
+      if(world && world.turn>0 && observations?.unexported && !await confirmWorldChange("未出力の全ターン観測データを破棄して新しい世界を作ります。必要ならキャンセルしてCSVを保存してください。")) {
+        setupMessage("生成を取り消しました。現在の世界と観測履歴は保持しています。");
+        return;
+      }
+      setupMessage("世界を生成しています…");
+      prepare(config);
       if (!document.body.classList.contains("observatory"))
         $("focus-view").click();
     } catch (error) {
-      message(error.message);
+      setupMessage("世界を作成できませんでした：" + error.message + " 設定を修正して再試行してください。", true);
+    } finally {
+      preparingWorld = false;
+      $("load").disabled = false;
+      $("setup").removeAttribute("aria-busy");
     }
   });
-  function returnSetup(){stop();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;message("初期設定に戻りました。現在の結果や全ターンCSVを残す場合は、新しい世界を作る前に保存してください。");}
+  function returnSetup(){stop();closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;syncSetupFields();message("初期設定に戻りました。現在の結果や全ターンCSVを残す場合は、新しい世界を作る前に保存してください。");}
   $("change-world").onclick=returnSetup;
   $("start").addEventListener("click", () => {
     if (running) {
@@ -448,7 +506,7 @@
   $("reset").addEventListener("click", () => {
     returnSetup();
   });
-  $("restart-world").onclick=()=>{if(initialConfig && (!observations?.unexported || world.turn===0 || confirm("未出力の観測履歴を破棄して同じ世界を最初から再生しますか？")))prepare(initialConfig,replayEntry);};
+  $("restart-world").onclick=async()=>{if(initialConfig && (!observations?.unexported || world.turn===0 || await confirmWorldChange("未出力の観測履歴を破棄して同じ世界を最初から再生しますか？")))prepare(initialConfig,replayEntry);};
   function finishRun(reason = "user-ended") {
     if (!world) return;
     stop();
@@ -1017,6 +1075,11 @@
   for (const [id, fn] of [["rank-panel", renderRanking], ["budget-panel", renderBudget], ["individual-list", renderIndividuals]])
     $(id).addEventListener("toggle", () => { if ($(id).open) fn(); });
   function updateCohortHint() {
+    syncSetupFields();
+    if (!$("group-main").checked) {
+      $("cohort-hint").textContent = "主生物なしで、選択した生物群を観察します。";
+      return;
+    }
     const mode = $("lineages").value,
       count = mode === "all" ? 20 : mode === "few" ? 5 : $("lineage-options").querySelectorAll("input:checked").length,
       total = Number($("initial").value);
@@ -1027,6 +1090,7 @@
   applyObservationMode();
   $("setup").addEventListener("focusin",()=>hold("settings"));
   $("cancel-settings").onclick=()=>{
+    closeWorldDetails();
     if(document.body.classList.contains("observatory")===false)$("focus-view").click();
     document.body.classList.remove("setup-screen");release("settings");message("編集内容を適用せず、現在の世界の観測へ戻ります。");
   };
