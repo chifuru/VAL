@@ -190,6 +190,8 @@
       intent = ctx.intents.get(o.id);
     const list = [];
     function organicAllowed(tag) {
+      if (plant) return false;
+      if (spec.id === "kelp") return tag === "animal";
       return main || fungus || (spec.group === "prey" && tag === "plant");
     }
     const cells = fungus
@@ -202,6 +204,7 @@
         const f = S.FOOD[a.kind];
         if (a.q <= 0 || (a.E <= 0 && a.M <= 0 && a.kind !== "factor")) continue;
         if (plant && f.tag !== "mineral") continue;
+        if (["plant", "fungal", "animal"].includes(f.tag) && !organicAllowed(f.tag)) continue;
         if (
           f.tag === "mineral" &&
           (spec.group === "prey" || (fungus && p !== o.cell))
@@ -283,6 +286,7 @@
       const food = m.food.get(o.cell);
       if (
         food &&
+        organicAllowed(S.spec(food).tag) &&
         ["plant", "fungus"].includes(S.spec(food).group) &&
         S.edibleB(food) > 0 &&
         food.HP > 0
@@ -300,13 +304,21 @@
           healing: ["moss", "fungus"].includes(food.species) ? 1.2 : 1,
         });
     }
-    if (w.config.ecologyRevision === "observation/4.1") {
-      for(const cell of S.nearby(w,o.cell,1,true)){const target=m.food.get(cell);if(!target||target.id===o.id||!["plant","fungus"].includes(S.spec(target).group)||S.edibleB(target)<=0||!S.oneStep(w,o.cell,cell)||list.some(a=>a.id===target.id))continue;list.push({type:"plant",id:target.id,obj:target,cell,tag:S.spec(target).tag,amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB-S.PLANT_BASE),healing:1});}
+    if (w.config.ecologyRevision === "observation/4.1" && !plant) {
+      for (const cell of S.nearby(w,o.cell,1,true)) {
+        const target = m.food.get(cell);
+        if (!target || target.id === o.id || !organicAllowed(S.spec(target).tag) ||
+            !["plant","fungus"].includes(S.spec(target).group) || S.edibleB(target) <= 0 ||
+            !S.oneStep(w,o.cell,cell) || list.some(a => a.id === target.id)) continue;
+        list.push({type:"plant",id:target.id,obj:target,cell,tag:S.spec(target).tag,
+          amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB-S.PLANT_BASE),healing:1});
+      }
     }
     if (intent?.type === "harvest") {
       const target = m.byId.get(intent.target);
       if (
         target &&
+        organicAllowed(S.spec(target).tag) &&
         target.HP > 0 &&
         S.edibleB(target) > 0 &&
         S.distance(w, o.cell, target.cell) <= 1 &&

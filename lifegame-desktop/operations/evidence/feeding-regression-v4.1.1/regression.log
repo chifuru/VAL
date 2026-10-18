@@ -1,0 +1,12 @@
+✔ ordinary producers never consume neighboring living plants and still absorb soil minerals (68.706778ms)
+✔ moving prey accepts plants but not neighboring fungi (7.917967ms)
+✔ carnivorous plant symbiont photosynthesizes, hunts prey and rejects plant harvest or main attacks (6.895286ms)
+✔ kelp accepts animal-derived finite stores, while ordinary plants reject organic stores and corpses (6.491091ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 193.653199

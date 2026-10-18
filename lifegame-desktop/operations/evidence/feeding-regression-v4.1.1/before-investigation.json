@@ -1,0 +1,227 @@
+[
+  {
+    "label": "current-legacy",
+    "config": {
+      "seed": "ecology32/0",
+      "width": 40,
+      "height": 28,
+      "initial": 80,
+      "lineages": "few",
+      "selected": [],
+      "weights": {},
+      "placement": "natural",
+      "distribution": "balanced",
+      "guarantee": false,
+      "enabled": {
+        "main": true,
+        "plant": true,
+        "fungus": true,
+        "prey": true,
+        "P": true,
+        "Q": true
+      },
+      "terrainSeed": "ecology32/map/0",
+      "landscape": "templates",
+      "ageModel": "life/1",
+      "mapId": "river",
+      "mapResolved": {
+        "setVersion": "terrain-set/1",
+        "id": "river",
+        "version": 1,
+        "width": 40,
+        "height": 28,
+        "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+        "pattern": [
+          1,
+          2,
+          0,
+          1,
+          2,
+          2,
+          1,
+          0,
+          1,
+          2,
+          2,
+          3,
+          2,
+          1,
+          2,
+          0,
+          3,
+          1,
+          1,
+          0,
+          1,
+          3,
+          0,
+          0,
+          3,
+          3,
+          3,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "fallback": false,
+        "terrainHash": "19c4c4da3f2a5fef08f6ae26e3877797a93a9d6225a3a0399699f4c0d0c2e335"
+      }
+    },
+    "snapshots": [
+      {
+        "turn": 0,
+        "main": 80,
+        "food": 534,
+        "grassbug": 111,
+        "P": 19
+      },
+      {
+        "turn": 100,
+        "main": 96,
+        "food": 561,
+        "grassbug": 159,
+        "P": 117
+      },
+      {
+        "turn": 300,
+        "main": 82,
+        "food": 506,
+        "grassbug": 37,
+        "P": 427
+      },
+      {
+        "turn": 500,
+        "main": 68,
+        "food": 521,
+        "grassbug": 57,
+        "P": 517
+      }
+    ],
+    "fingerprint": "6a680cef4b407a225e629895a577b157c8c2c80a449d105d50a7008593041f00",
+    "matchesHistoricalFinal": false
+  },
+  {
+    "label": "current-observation41",
+    "config": {
+      "seed": "ecology32/0",
+      "width": 40,
+      "height": 28,
+      "initial": 80,
+      "lineages": "few",
+      "selected": [],
+      "weights": {},
+      "placement": "natural",
+      "distribution": "balanced",
+      "guarantee": false,
+      "enabled": {
+        "main": true,
+        "plant": true,
+        "fungus": true,
+        "prey": true,
+        "P": true,
+        "Q": true
+      },
+      "terrainSeed": "ecology32/map/0",
+      "landscape": "templates",
+      "ageModel": "life/1",
+      "mapId": "river",
+      "mapResolved": {
+        "setVersion": "terrain-set/1",
+        "id": "river",
+        "version": 1,
+        "width": 40,
+        "height": 28,
+        "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+        "pattern": [
+          1,
+          2,
+          0,
+          1,
+          2,
+          2,
+          1,
+          0,
+          1,
+          2,
+          2,
+          3,
+          2,
+          1,
+          2,
+          0,
+          3,
+          1,
+          1,
+          0,
+          1,
+          3,
+          0,
+          0,
+          3,
+          3,
+          3,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "fallback": false,
+        "terrainHash": "19c4c4da3f2a5fef08f6ae26e3877797a93a9d6225a3a0399699f4c0d0c2e335"
+      },
+      "ecologyRevision": "observation/4.1",
+      "ecologyParameters": {
+        "version": 1,
+        "mainMaintenance": 0.65,
+        "mainMovement": 0.6,
+        "sexualThreshold": 0.65,
+        "sexualMineral": 2,
+        "producerBirth": "B23",
+        "fungusBirth": "B123",
+        "initialFoodAgeFraction": 0.5
+      },
+      "parasiteInitial": {
+        "policy": "local-search/1",
+        "unit": "colony",
+        "targetSearchQ": 4,
+        "createdSearchQ": 4
+      }
+    },
+    "snapshots": [
+      {
+        "turn": 0,
+        "main": 80,
+        "food": 534,
+        "grassbug": 111,
+        "P": 19
+      },
+      {
+        "turn": 100,
+        "main": 64,
+        "food": 162,
+        "grassbug": 0,
+        "P": 61
+      },
+      {
+        "turn": 300,
+        "main": 8,
+        "food": 0,
+        "grassbug": 0,
+        "P": 0
+      },
+      {
+        "turn": 500,
+        "main": 0,
+        "food": 0,
+        "grassbug": 0,
+        "P": 0
+      }
+    ],
+    "fingerprint": "5577049f95a490576cae0e13a40ef38ab3599d53cf2e49f3b68b9204b964991f",
+    "matchesHistoricalFinal": false
+  }
+]

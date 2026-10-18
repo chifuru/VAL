@@ -50,7 +50,9 @@ test('contact episodes, continued contact and a wall-blocked neighbor are distin
  w.tiles[S.index(w,2,2)].walls.push(S.index(w,3,2));w.turn++;E.finish(w,F.ready(w));assert.equal(Object.keys(w.observation.contactTurns).length,0);
 });
 test('new production worlds retain invariants, deterministic replay and observation independence',()=>{
- let a=E.create({seed:'new-rules41',width:40,height:28,initial:80,lineages:'few',ageModel:'life/1',ecologyRevision:'observation/4.1'}),b=E.create(a.config);assert(a.searchQ.length>=4);
+ let a=E.create({seed:'new-rules41',width:40,height:28,initial:80,lineages:'few',ageModel:'life/1',ecologyRevision:'observation/4.1'}),b=E.create(a.config);assert.equal(a.searchQ.length,a.config.parasiteInitial.createdSearchQ);
+ assert(a.searchQ.length<=a.config.parasiteInitial.targetSearchQ);
+ if(!a.searchQ.length)assert(a.warnings.some(x=>x.includes('高次寄生の探索群体を配置できません')));
  for(let t=0;t<30;t++){a=E.step(a,{observeId:a.organisms[0]?.id});b=E.step(b);assert.deepEqual(E.invariants(a),[]);assert.equal(E.fingerprint(a),E.fingerprint(b));}
 });
 
@@ -67,4 +69,11 @@ test('relationship continuity measures repeated completed time blocks, not a sin
 test('turn zero reports initial conditions without fabricated interaction events',()=>{
  const w=E.create({seed:'initial-observation',width:40,height:28,initial:80,lineages:'few',ageModel:'life/1',ecologyRevision:'observation/4.1'}),h=O.create(w.config,'initial');h.append(w);
  assert.equal(h.rows[0].contacts,0);assert.equal(h.rows[0].interactions,0);assert.equal(h.rows[0].bondTurns,0);assert.equal(h.rows[0].turn,0);
+});
+
+// Kelp is now carnivorous; a random lineage selection need not contain a suitable Q-start host.
+test('Q search initialization uses eligible hosts and pays its declared founder energy',()=>{
+ const w=E.create({seed:'Q-suitable41',width:40,height:28,initial:80,lineages:'manual',selected:['solar'],ageModel:'life/1',ecologyRevision:'observation/4.1'});
+ assert(w.searchQ.length>=4);assert.equal(w.searchQ.length,w.config.parasiteInitial.createdSearchQ);
+ assert.deepEqual(E.invariants(w),[]);
 });

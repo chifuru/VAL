@@ -45,8 +45,8 @@ test('observation modes state every initial adjustment and reproduce their resol
  assert.throws(()=>E.create({...config,initialFoodScale:1.5}),/観察モード/);
 });
 
-test("unconfigured worlds retain the pre-refactor biological results",()=>{
-  for(const row of [{"seed": "staged/golden-1", "fingerprint": "fff1a6a4d6832d67ab6866f082f4b108a200145d05cba8726827665b69158873"}, {"seed": "staged/golden-2", "fingerprint": "9b99933ff2efbb2341b66d99a4ec3e8b321083b6a79f2110877ec1bb02e759fb"}]){let w=E.create({...config,seed:row.seed});for(let n=0;n<20;n++)w=E.step(w);assert.equal(E.fingerprint(w),row.fingerprint);}
+test("unconfigured worlds match fixed biological fixtures (kelp diet updated in 4.1.1)",()=>{
+  for(const row of [{"seed": "staged/golden-1", "fingerprint": "091808880d13d7ca0e39ce4e3afd19fde150c49959c7fa8c4a5fe77b6318f478"}, {"seed": "staged/golden-2", "fingerprint": "9b99933ff2efbb2341b66d99a4ec3e8b321083b6a79f2110877ec1bb02e759fb"}]){let w=E.create({...config,seed:row.seed});for(let n=0;n<20;n++)w=E.step(w);assert.equal(E.fingerprint(w),row.fingerprint);}
 });
 
 test('declared production conditions double paid solar input while darkness and capacity remain bounded',()=>{

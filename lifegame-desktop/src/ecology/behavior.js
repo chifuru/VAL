@@ -191,6 +191,7 @@
             target.species !== o.species &&
             !(w.config.ecologyRevision === "observation/4.1" && ["solar","kelp"].includes(o.species) && ["solar","kelp"].includes(target.species)) &&
             ["main", "prey"].includes(S.spec(target).group) &&
+            !(s.id === "kelp" && S.spec(target).group !== "prey") &&
             S.distance(w, o.cell, cell) <= p.range
           ) {
             const range = S.distance(w, o.cell, cell),
@@ -208,6 +209,7 @@
           }
       if (
         food &&
+        s.id !== "kelp" &&
         ["plant", "fungus"].includes(S.spec(food).group) &&
         S.edibleB(food) > 0 &&
         (s.group === "main" || S.spec(food).group === "plant") &&
@@ -296,6 +298,7 @@
       amount <= 0 ? 0 : amount <= 1 / 3 ? 1 / 3 : amount <= 2 / 3 ? 2 / 3 : 1;
     const value = (amount, tag) => {
       if (s.group === "prey" && tag !== "plant") return 0;
+      if (s.id === "kelp" && ["plant", "fungal"].includes(tag)) return 0;
       const multiplier =
         s.group === "main"
           ? S.D.diets[s.diet].factors[
@@ -691,6 +694,7 @@
         p = ctx.traits.get(o.id);
       if (
         !target ||
+        (S.spec(o).id === "kelp" && S.spec(target).group !== "prey") ||
         target.HP <= 0 ||
         S.distance(w, o.cell, target.cell) > p.range ||
         !S.sight(

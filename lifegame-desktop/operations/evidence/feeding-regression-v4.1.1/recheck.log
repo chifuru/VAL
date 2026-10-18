@@ -1,0 +1,50 @@
+✔ all turn values survive more than two 500-turn blocks and CSV preserves old peaks and config (304.825755ms)
+✔ age-mature phase I and II can reproduce, juveniles cannot; every child begins phase I age zero (11.21022ms)
+✔ movement and a subsequent effect use the remaining budget; feeding does not finance prior actions (21.019866ms)
+✔ Q window opens only after first terminal maturation and never directly suppresses P maturation (1.755495ms)
+✔ search Q attaches only inside the limited window and conserves finite energy (3.761774ms)
+✔ finite P maintenance causes loss without food and grooming cannot remove an internal parasite (3.058152ms)
+✔ contact episodes, continued contact and a wall-blocked neighbor are distinct (2.630543ms)
+✔ new production worlds retain invariants, deterministic replay and observation independence (10131.073912ms)
+✔ finite observation capacity refuses a new row without silently deleting any recorded turn (2.136104ms)
+✔ relationship continuity measures repeated completed time blocks, not a single burst (5.498721ms)
+✔ turn zero reports initial conditions without fabricated interaction events (83.697516ms)
+✔ Q search initialization uses eligible hosts and pays its declared founder energy (41.144571ms)
+✔ ordinary producers never consume neighboring living plants and still absorb soil minerals (4.646467ms)
+✔ moving prey accepts plants but not neighboring fungi (1.534895ms)
+✔ carnivorous plant symbiont photosynthesizes, hunts prey and rejects plant harvest or main attacks (1.853361ms)
+✔ kelp accepts animal-derived finite stores, while ordinary plants reject organic stores and corpses (15.676125ms)
+✖ VALIS: every node has valid hierarchy, references, manifest entry and real source/test paths (5.051622ms)
+✔ three private stages preserve atomic outcomes, input state and preview independence (7103.732268ms)
+✔ discarding either partial stage prevents all later publication and permits exact restart (265.203188ms)
+✔ observation modes state every initial adjustment and reproduce their resolved conditions (482.428944ms)
+✔ unconfigured worlds match fixed biological fixtures (kelp diet updated in 4.1.1) (2805.541ms)
+✔ declared production conditions double paid solar input while darkness and capacity remain bounded (3.225142ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 21
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 21339.525316
+
+✖ failing tests:
+
+test at tests/manifest.test.cjs:10:1
+✖ VALIS: every node has valid hierarchy, references, manifest entry and real source/test paths (5.051622ms)
+  AssertionError [ERR_ASSERTION]: A1.6: missing operations/evidence/feeding-regression-v4.1.1/README.md
+      at TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/manifest.test.cjs:18:86)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

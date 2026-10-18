@@ -5,7 +5,7 @@ const { E, S, world, add, ready } = require("./ecology-fixtures.cjs");
 test("six feeding niches have stronger primary-food efficiency without forbidding fallback food", () => {
   const w = world();
   for (const [id, tag, other] of [
-    ["kelp", "plant", "animal"],
+    ["kelp", "animal", "plant"],
     ["abyss", "animal", "plant"],
     ["jelly", "fungal", "animal"],
     ["gravity", "mineral", "animal"],

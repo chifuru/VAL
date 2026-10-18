@@ -1,0 +1,34 @@
+{
+  "label": "current-observation41-diet-guard-only",
+  "snapshots": [
+    {
+      "turn": 0,
+      "main": 80,
+      "food": 534,
+      "grassbug": 111,
+      "P": 19
+    },
+    {
+      "turn": 100,
+      "main": 92,
+      "food": 741,
+      "grassbug": 90,
+      "P": 125
+    },
+    {
+      "turn": 300,
+      "main": 91,
+      "food": 629,
+      "grassbug": 32,
+      "P": 317
+    },
+    {
+      "turn": 500,
+      "main": 113,
+      "food": 599,
+      "grassbug": 63,
+      "P": 476
+    }
+  ],
+  "fingerprint": "d4adbf7f95fefb220d33bc3b0bf45302936a45919791e37fb8b413b2b05e67c4"
+}
