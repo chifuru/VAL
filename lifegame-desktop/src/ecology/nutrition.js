@@ -304,7 +304,7 @@
           healing: ["moss", "fungus"].includes(food.species) ? 1.2 : 1,
         });
     }
-    if (w.config.ecologyRevision === "observation/4.1" && !plant) {
+    if (w.config.ecologyRevision === "observation/4.1" && !plant && !fungus) {
       for (const cell of S.nearby(w,o.cell,1,true)) {
         const target = m.food.get(cell);
         if (!target || target.id === o.id || !organicAllowed(S.spec(target).tag) ||
@@ -314,7 +314,7 @@
           amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB-S.PLANT_BASE),healing:1});
       }
     }
-    if (intent?.type === "harvest") {
+    if (intent?.type === "harvest" && !plant && !fungus) {
       const target = m.byId.get(intent.target);
       if (
         target &&

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "historical-input",
+    "baseline": {
+      "algae": 93,
+      "grass": 297,
+      "moss": 0,
+      "fungus": 33,
+      "waterbug": 0,
+      "grassbug": 111
+    },
+    "sharedHabitatTrial": {
+      "algae": 47,
+      "grass": 343,
+      "moss": 0,
+      "fungus": 33,
+      "waterbug": 46,
+      "grassbug": 65
+    },
+    "initialFood": [
+      534,
+      534
+    ],
+    "main": [
+      80,
+      80
+    ],
+    "scope": "initial-placement feasibility only; no long-term survival or adoption claim"
+  },
+  {
+    "id": "custom",
+    "baseline": {
+      "algae": 93,
+      "grass": 296,
+      "moss": 0,
+      "fungus": 33,
+      "waterbug": 0,
+      "grassbug": 111
+    },
+    "sharedHabitatTrial": {
+      "algae": 47,
+      "grass": 342,
+      "moss": 0,
+      "fungus": 33,
+      "waterbug": 46,
+      "grassbug": 65
+    },
+    "initialFood": [
+      533,
+      533
+    ],
+    "main": [
+      80,
+      80
+    ],
+    "scope": "initial-placement feasibility only; no long-term survival or adoption claim"
+  },
+  {
+    "id": "lake",
+    "baseline": {
+      "algae": 142,
+      "grass": 442,
+      "moss": 0,
+      "fungus": 50,
+      "waterbug": 0,
+      "grassbug": 167
+    },
+    "sharedHabitatTrial": {
+      "algae": 71,
+      "grass": 513,
+      "moss": 0,
+      "fungus": 50,
+      "waterbug": 71,
+      "grassbug": 96
+    },
+    "initialFood": [
+      801,
+      801
+    ],
+    "main": [
+      160,
+      160
+    ],
+    "scope": "initial-placement feasibility only; no long-term survival or adoption claim"
+  }
+]

@@ -53,3 +53,14 @@ test('kelp accepts animal-derived finite stores, while ordinary plants reject or
   assert(Math.abs(totals.M+w.ledger.Mloss-w.ledger.initialM)<1e-5);
  }
 });
+
+test('fungal decomposers never graze living producers, even through forced harvest',()=>{
+ const w=world();w.config.ecologyRevision='observation/4.1';
+ const o=add(w,'fungus','decomposer',2,2,{E:0,M:0}),plant=add(w,'grass','living',3,2,{B:8,M:1});
+ w.resources=[{id:'organic',cell:plant.cell,kind:'organic',q:4,E:8,M:2}];
+ w.carcasses=[{id:'dead',cell:plant.cell,species:'grass',tag:'plant',q:4,E:8,M:2}];
+ const c=ready(w);c.intents.set(o.id,{type:'harvest',target:plant.id,cost:0});
+ const list=sources(w,o,c);assert(!list.some(x=>x.type==='plant'));assert(list.some(x=>x.obj.id==='organic'));assert(list.some(x=>x.obj.id==='dead'));
+ const before=plant.B;E.N.feed(w,c,()=>{});assert.equal(plant.B,before);assert(o.E>0,'finite detritus remains edible');
+ const totals=S.totals(w);assert(Math.abs(totals.E+w.ledger.sinks-w.ledger.initialE-w.ledger.solar)<1e-5);assert(Math.abs(totals.M+w.ledger.Mloss-w.ledger.initialM)<1e-5);
+});

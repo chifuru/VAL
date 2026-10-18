@@ -1,0 +1,16 @@
+✔ ordinary producers never consume neighboring living plants and still absorb soil minerals (15.161986ms)
+✔ moving prey accepts plants but not neighboring fungi (1.886744ms)
+✔ carnivorous plant symbiont photosynthesizes, hunts prey and rejects plant harvest or main attacks (2.97665ms)
+✔ kelp accepts animal-derived finite stores, while ordinary plants reject organic stores and corpses (3.213473ms)
+✔ fungal decomposers never graze living producers, even through forced harvest (2.150528ms)
+✔ foodweb measurement preserves exact biological states and existing observables (4641.004946ms)
+✔ diagnostic hooks are restored after a failed turn and never alter the input (92.736406ms)
+✔ food-only control keeps initial food positions and terrain without inventing energy or organisms (133.371952ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4933.326553

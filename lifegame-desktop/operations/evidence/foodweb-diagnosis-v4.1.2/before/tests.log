@@ -1,0 +1,11 @@
+✔ foodweb measurement preserves exact biological states and existing observables (10038.120905ms)
+✔ diagnostic hooks are restored after a failed turn and never alter the input (166.53353ms)
+✔ food-only control keeps initial food positions and terrain without inventing energy or organisms (202.786634ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10466.442666

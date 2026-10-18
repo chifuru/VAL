@@ -1,0 +1,1922 @@
+{
+  "id": "historical-input",
+  "treatment": "full",
+  "productionVersion": "4.1.2",
+  "newBaseline": true,
+  "reference": "Explicit new baseline; no old fingerprint equivalence claim",
+  "derivedControl": null,
+  "config": {
+    "seed": "ecology32/0",
+    "width": 40,
+    "height": 28,
+    "initial": 80,
+    "lineages": "few",
+    "selected": [],
+    "weights": {},
+    "placement": "natural",
+    "distribution": "balanced",
+    "guarantee": false,
+    "enabled": {
+      "main": true,
+      "plant": true,
+      "fungus": true,
+      "prey": true,
+      "P": true,
+      "Q": true
+    },
+    "terrainSeed": "ecology32/map/0",
+    "landscape": "templates",
+    "ageModel": "life/1",
+    "mapId": "river",
+    "mapResolved": {
+      "setVersion": "terrain-set/1",
+      "id": "river",
+      "version": 1,
+      "width": 40,
+      "height": 28,
+      "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+      "pattern": [
+        1,
+        2,
+        0,
+        1,
+        2,
+        2,
+        1,
+        0,
+        1,
+        2,
+        2,
+        3,
+        2,
+        1,
+        2,
+        0,
+        3,
+        1,
+        1,
+        0,
+        1,
+        3,
+        0,
+        0,
+        3,
+        3,
+        3,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "fallback": false,
+      "terrainHash": "19c4c4da3f2a5fef08f6ae26e3877797a93a9d6225a3a0399699f4c0d0c2e335"
+    },
+    "ecologyRevision": "observation/4.1",
+    "ecologyParameters": {
+      "version": 1,
+      "mainMaintenance": 0.65,
+      "mainMovement": 0.6,
+      "sexualThreshold": 0.65,
+      "sexualMineral": 2,
+      "producerBirth": "B23",
+      "fungusBirth": "B123",
+      "initialFoodAgeFraction": 0.5
+    },
+    "parasiteInitial": {
+      "policy": "local-search/1",
+      "unit": "colony",
+      "targetSearchQ": 4,
+      "createdSearchQ": 4
+    }
+  },
+  "checkedStates": 501,
+  "matchedStates": null,
+  "final": {
+    "population": 810,
+    "main": 171,
+    "food": 639,
+    "P": 443,
+    "Q": 0,
+    "Qsearch": 0,
+    "resting": 11,
+    "counts": {
+      "abyss": 0,
+      "myth": 2,
+      "recursive": 0,
+      "sail": 1,
+      "gravity": 0,
+      "crystal": 0,
+      "manyeyes": 0,
+      "abyssshell": 0,
+      "parallel": 0,
+      "memory": 0,
+      "serpent": 1,
+      "solar": 68,
+      "antimeme": 99,
+      "valis": 0,
+      "jelly": 0,
+      "kelp": 0,
+      "whale": 0,
+      "swarm": 0,
+      "plasma": 0,
+      "cephalopod": 0,
+      "precocial": 0,
+      "algae": 4,
+      "moss": 0,
+      "grass": 454,
+      "fungus": 173,
+      "waterbug": 0,
+      "grassbug": 8,
+      "tideparasite": 0,
+      "leafparasite": 443,
+      "hyperparasite": 0
+    },
+    "phases": [
+      24,
+      63,
+      61,
+      23
+    ],
+    "roles": {
+      "queen": 0,
+      "worker": 0,
+      "male": 0
+    },
+    "colonies": {},
+    "infectionStages": {
+      "first": 435,
+      "middle": 8,
+      "extra": 0,
+      "terminal": 0
+    },
+    "resources": 155,
+    "totals": {
+      "E": 27270.917614,
+      "M": 5451.062842
+    }
+  },
+  "tallies": {
+    "births": {
+      "abyss": 0,
+      "myth": 8,
+      "recursive": 0,
+      "sail": 13,
+      "gravity": 0,
+      "crystal": 0,
+      "manyeyes": 0,
+      "abyssshell": 0,
+      "parallel": 0,
+      "memory": 0,
+      "serpent": 1,
+      "solar": 81,
+      "antimeme": 113,
+      "valis": 0,
+      "jelly": 0,
+      "kelp": 0,
+      "whale": 0,
+      "swarm": 0,
+      "plasma": 0,
+      "cephalopod": 0,
+      "precocial": 0,
+      "algae": 104,
+      "moss": 0,
+      "grass": 2536,
+      "fungus": 1361,
+      "waterbug": 0,
+      "grassbug": 916,
+      "tideparasite": 95,
+      "leafparasite": 2291,
+      "hyperparasite": 0
+    },
+    "deaths": {
+      "abyss": 0,
+      "myth": 22,
+      "recursive": 0,
+      "sail": 28,
+      "gravity": 0,
+      "crystal": 0,
+      "manyeyes": 0,
+      "abyssshell": 0,
+      "parallel": 0,
+      "memory": 0,
+      "serpent": 16,
+      "solar": 29,
+      "antimeme": 30,
+      "valis": 0,
+      "jelly": 0,
+      "kelp": 0,
+      "whale": 0,
+      "swarm": 0,
+      "plasma": 0,
+      "cephalopod": 0,
+      "precocial": 0,
+      "algae": 193,
+      "moss": 0,
+      "grass": 2379,
+      "fungus": 1221,
+      "waterbug": 0,
+      "grassbug": 1019,
+      "tideparasite": 97,
+      "leafparasite": 1854,
+      "hyperparasite": 4
+    },
+    "causes": {
+      "combat": 690,
+      "starvation": 7,
+      "harvest": 286,
+      "age": 3958
+    },
+    "sources": {
+      "plant": 242743.622855,
+      "fungal": 27540.032495,
+      "animal": 6879.610528,
+      "mineral": 0,
+      "factor": 34.6,
+      "info": 0
+    },
+    "transfers": 2502,
+    "infectionFailures": 1368,
+    "information": {
+      "emissionTurns": 0,
+      "received": 0,
+      "mediated": 0
+    }
+  },
+  "totals": {
+    "feeding": {
+      "algae": {
+        "gainE": 0,
+        "gainM": 325.5583950000002,
+        "gainHP": 0,
+        "light": 52966.84013229009,
+        "bites": 32569,
+        "sourceE": 0,
+        "sourceM": 2162.7741829999986,
+        "source/mineral": 32569
+      },
+      "grass": {
+        "gainE": 0,
+        "gainM": 4459.921462999992,
+        "gainHP": 0,
+        "light": 559015.4874948527,
+        "bites": 377876,
+        "sourceE": 0,
+        "sourceM": 25938.053856000017,
+        "source/mineral": 377876
+      },
+      "fungus": {
+        "gainE": 48456.25725100003,
+        "gainM": 1036.0303929999998,
+        "gainHP": 62.253856000000006,
+        "light": 0,
+        "bites": 25025,
+        "sourceE": 69859.25151200006,
+        "sourceM": 3425.204602000002,
+        "source/fungus": 3177,
+        "source/fungal": 6150,
+        "source/plant": 10996,
+        "source/grassbug": 244,
+        "source/grass": 4070,
+        "source/algae": 124,
+        "source/solar": 58,
+        "source/myth": 54,
+        "source/sail": 72,
+        "source/serpent": 36,
+        "source/antimeme": 44
+      },
+      "grassbug": {
+        "gainE": 17308.97614599999,
+        "gainM": 0,
+        "gainHP": 584.1038819999997,
+        "light": 0,
+        "bites": 21639,
+        "sourceE": 28532.55187199997,
+        "sourceM": 2125.1175630000016,
+        "source/grass": 20453,
+        "source/algae": 986,
+        "source/plant": 200
+      },
+      "solar": {
+        "gainE": 14721.485439,
+        "gainM": 1007.1829309999993,
+        "gainHP": 3850.517841000002,
+        "light": 0,
+        "bites": 26058,
+        "sourceE": 49156.39321400004,
+        "sourceM": 2050.7719470000015,
+        "source/fungus": 1034,
+        "source/grass": 23639,
+        "source/grassbug": 182,
+        "source/plant": 112,
+        "source/algae": 982,
+        "source/factor": 85,
+        "source/sail": 10,
+        "source/myth": 2,
+        "source/mineral": 11,
+        "source/fungal": 1
+      },
+      "sail": {
+        "gainE": 5215.990501999991,
+        "gainM": 641.573475999999,
+        "gainHP": 2852.119286999998,
+        "light": 0,
+        "bites": 12911,
+        "sourceE": 24102.152659000003,
+        "sourceM": 1376.7829979999983,
+        "source/grass": 10384,
+        "source/fungus": 527,
+        "source/algae": 1753,
+        "source/plant": 53,
+        "source/grassbug": 100,
+        "source/factor": 93,
+        "source/antimeme": 1
+      },
+      "serpent": {
+        "gainE": 5410.820940000032,
+        "gainM": 376.96976800000016,
+        "gainHP": 858.5681279999998,
+        "light": 0,
+        "bites": 7987,
+        "sourceE": 16134.415411000005,
+        "sourceM": 796.6185989999991,
+        "source/grass": 6402,
+        "source/fungus": 588,
+        "source/algae": 521,
+        "source/grassbug": 405,
+        "source/plant": 43,
+        "source/solar": 7,
+        "source/factor": 9,
+        "source/antimeme": 4,
+        "source/sail": 1,
+        "source/myth": 7
+      },
+      "myth": {
+        "gainE": 6048.520108999996,
+        "gainM": 492.9695390000003,
+        "gainHP": 1213.5000469999998,
+        "light": 0,
+        "bites": 10158,
+        "sourceE": 20413.45636699999,
+        "sourceM": 981.9377430000003,
+        "source/fungus": 854,
+        "source/grass": 7430,
+        "source/mineral": 3,
+        "source/algae": 1494,
+        "source/grassbug": 309,
+        "source/plant": 33,
+        "source/factor": 25,
+        "source/antimeme": 2,
+        "source/serpent": 6,
+        "source/solar": 2
+      },
+      "antimeme": {
+        "gainE": 17793.942009000002,
+        "gainM": 1361.3261800000002,
+        "gainHP": 6121.943295,
+        "light": 0,
+        "bites": 36868,
+        "sourceE": 68999.64484300005,
+        "sourceM": 2838.290464000001,
+        "source/grass": 30412,
+        "source/fungus": 2056,
+        "source/algae": 3866,
+        "source/plant": 122,
+        "source/grassbug": 260,
+        "source/factor": 134,
+        "source/serpent": 3,
+        "source/myth": 6,
+        "source/sail": 5,
+        "source/solar": 4
+      }
+    },
+    "birthGates": {
+      "algae": {
+        "alive": 20365,
+        "eligible": 14559,
+        "juvenile": 431,
+        "phaseLow": 562,
+        "E": 1578,
+        "M": 4295,
+        "B": 771,
+        "hasVacancy": 4941,
+        "hasRuleSite": 1256,
+        "eligibleWithSite": 228,
+        "cooldown": 452
+      },
+      "grass": {
+        "alive": 253952,
+        "eligible": 124100,
+        "hasVacancy": 201281,
+        "hasRuleSite": 37570,
+        "eligibleWithSite": 3825,
+        "juvenile": 10135,
+        "phaseLow": 43391,
+        "E": 83986,
+        "cooldown": 10283,
+        "M": 51700,
+        "B": 28963
+      },
+      "fungus": {
+        "alive": 86921,
+        "E": 70371,
+        "hasVacancy": 40527,
+        "hasRuleSite": 26972,
+        "M": 26462,
+        "B": 28536,
+        "juvenile": 6455,
+        "phaseLow": 14651,
+        "eligible": 8598,
+        "eligibleWithSite": 1536,
+        "cooldown": 6780
+      },
+      "grassbug": {
+        "alive": 16978,
+        "E": 8483,
+        "hasVacancy": 11897,
+        "hasRuleSite": 6583,
+        "juvenile": 2377,
+        "phaseLow": 3074,
+        "eligible": 7166,
+        "eligibleWithSite": 1229,
+        "cooldown": 2361,
+        "damage": 3
+      }
+    },
+    "losses": {
+      "algae": {
+        "baseDemand": 4152.260000000005,
+        "densityDemand": 0,
+        "infected": 8107
+      },
+      "grass": {
+        "baseDemand": 51481.17000000044,
+        "densityDemand": 0,
+        "infected": 153306
+      },
+      "fungus": {
+        "baseDemand": 13171.612499999954,
+        "densityDemand": 0,
+        "cannotPayBase": 928
+      },
+      "grassbug": {
+        "baseDemand": 3528.389999999993,
+        "densityDemand": 0,
+        "infected": 3384,
+        "cannotPayBase": 109
+      },
+      "solar": {
+        "baseDemand": 6220.969368836769,
+        "densityDemand": 1063.6999999999991,
+        "infected": 64,
+        "cannotPayBase": 71
+      },
+      "sail": {
+        "baseDemand": 2230.4766579720153,
+        "densityDemand": 647.8000000000014,
+        "infected": 20
+      },
+      "serpent": {
+        "baseDemand": 2029.495165882718,
+        "densityDemand": 361.8000000000052,
+        "cannotPayBase": 55
+      },
+      "myth": {
+        "baseDemand": 2495.647138647287,
+        "densityDemand": 472.2999999999995,
+        "cannotPayBase": 5
+      },
+      "antimeme": {
+        "baseDemand": 6431.50884053388,
+        "densityDemand": 1662.5000000000005
+      }
+    },
+    "actions": {
+      "algae": {
+        "reserved": 324.2799999999994
+      },
+      "grass": {
+        "reserved": 6136.719999999947
+      },
+      "fungus": {
+        "reserved": 0
+      },
+      "grassbug": {
+        "reserved": 864.8700000000003
+      },
+      "solar": {
+        "reserved": 1556.920254999998
+      },
+      "sail": {
+        "reserved": 1075.337629000003
+      },
+      "serpent": {
+        "reserved": 3310.109767500004
+      },
+      "myth": {
+        "reserved": 2624.717303100002
+      },
+      "antimeme": {
+        "reserved": 908.5063897499996
+      }
+    },
+    "deaths": {
+      "fungus": {
+        "harvest": 286,
+        "age": 932,
+        "starvation": 3
+      },
+      "grassbug": {
+        "combat": 658,
+        "age": 358,
+        "starvation": 3
+      },
+      "solar": {
+        "combat": 11,
+        "age": 18
+      },
+      "grass": {
+        "age": 2379
+      },
+      "sail": {
+        "combat": 6,
+        "age": 22
+      },
+      "algae": {
+        "age": 193
+      },
+      "antimeme": {
+        "combat": 6,
+        "age": 24
+      },
+      "myth": {
+        "combat": 6,
+        "age": 16
+      },
+      "serpent": {
+        "combat": 3,
+        "starvation": 1,
+        "age": 12
+      },
+      "hyperparasite": {
+        "age": 4
+      }
+    }
+  },
+  "snapshots": [
+    {
+      "turn": 0,
+      "counts": {
+        "abyss": 0,
+        "myth": 16,
+        "recursive": 0,
+        "sail": 16,
+        "gravity": 0,
+        "crystal": 0,
+        "manyeyes": 0,
+        "abyssshell": 0,
+        "parallel": 0,
+        "memory": 0,
+        "serpent": 16,
+        "solar": 16,
+        "antimeme": 16,
+        "valis": 0,
+        "jelly": 0,
+        "kelp": 0,
+        "whale": 0,
+        "swarm": 0,
+        "plasma": 0,
+        "cephalopod": 0,
+        "precocial": 0,
+        "algae": 93,
+        "moss": 0,
+        "grass": 297,
+        "fungus": 33,
+        "waterbug": 0,
+        "grassbug": 111,
+        "tideparasite": 2,
+        "leafparasite": 17,
+        "hyperparasite": 4
+      },
+      "stocks": {
+        "species": {
+          "algae": {
+            "n": 93,
+            "E": 558,
+            "B": 1116,
+            "M": 46.5,
+            "edible": 930,
+            "lowE": 93,
+            "lowM": 0
+          },
+          "grass": {
+            "n": 297,
+            "E": 1782,
+            "B": 3564,
+            "M": 148.5,
+            "edible": 2970,
+            "lowE": 297,
+            "lowM": 0
+          },
+          "fungus": {
+            "n": 33,
+            "E": 198,
+            "B": 198,
+            "M": 6.600000000000003,
+            "edible": 198,
+            "lowE": 33,
+            "lowM": 0
+          },
+          "grassbug": {
+            "n": 111,
+            "E": 888,
+            "B": 222,
+            "M": 0,
+            "edible": 222,
+            "lowE": 0,
+            "lowM": 111
+          },
+          "solar": {
+            "n": 16,
+            "E": 959,
+            "B": 256,
+            "M": 0,
+            "edible": 256,
+            "lowE": 0,
+            "lowM": 16
+          },
+          "sail": {
+            "n": 16,
+            "E": 959,
+            "B": 256,
+            "M": 0,
+            "edible": 256,
+            "lowE": 0,
+            "lowM": 16
+          },
+          "serpent": {
+            "n": 16,
+            "E": 960,
+            "B": 256,
+            "M": 0,
+            "edible": 256,
+            "lowE": 0,
+            "lowM": 16
+          },
+          "myth": {
+            "n": 16,
+            "E": 960,
+            "B": 256,
+            "M": 0,
+            "edible": 256,
+            "lowE": 0,
+            "lowM": 16
+          },
+          "antimeme": {
+            "n": 16,
+            "E": 960,
+            "B": 256,
+            "M": 0,
+            "edible": 256,
+            "lowE": 0,
+            "lowM": 16
+          }
+        },
+        "soilM": 5378,
+        "resourceM": 222,
+        "carcassM": 0
+      }
+    },
+    {
+      "turn": 50,
+      "counts": {
+        "abyss": 0,
+        "myth": 16,
+        "recursive": 0,
+        "sail": 21,
+        "gravity": 0,
+        "crystal": 0,
+        "manyeyes": 0,
+        "abyssshell": 0,
+        "parallel": 0,
+        "memory": 0,
+        "serpent": 16,
+        "solar": 22,
+        "antimeme": 21,
+        "valis": 0,
+        "jelly": 0,
+        "kelp": 0,
+        "whale": 0,
+        "swarm": 0,
+        "plasma": 0,
+        "cephalopod": 0,
+        "precocial": 0,
+        "algae": 93,
+        "moss": 0,
+        "grass": 547,
+        "fungus": 29,
+        "waterbug": 0,
+        "grassbug": 132,
+        "tideparasite": 22,
+        "leafparasite": 60,
+        "hyperparasite": 4
+      },
+      "stocks": {
+        "species": {
+          "algae": {
+            "n": 93,
+            "E": 1725.3852309999982,
+            "B": 1969.969265,
+            "M": 144.33911200000003,
+            "edible": 1783.969265,
+            "lowE": 1,
+            "lowM": 0
+          },
+          "grass": {
+            "n": 547,
+            "E": 6206.3775850000175,
+            "B": 7536.505707000005,
+            "M": 612.6352179999998,
+            "edible": 6442.505707000001,
+            "lowE": 239,
+            "lowM": 30
+          },
+          "fungus": {
+            "n": 29,
+            "E": 149.82564299999999,
+            "B": 155.652578,
+            "M": 8.499913,
+            "edible": 155.652578,
+            "lowE": 28,
+            "lowM": 6
+          },
+          "solar": {
+            "n": 22,
+            "E": 1051.0010470000002,
+            "B": 296,
+            "M": 65.096507,
+            "edible": 296,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "sail": {
+            "n": 21,
+            "E": 1187.1956950000001,
+            "B": 296,
+            "M": 91.349679,
+            "edible": 296,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "serpent": {
+            "n": 16,
+            "E": 724.8422509999999,
+            "B": 256,
+            "M": 80.10255000000001,
+            "edible": 256,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "myth": {
+            "n": 16,
+            "E": 790.652762,
+            "B": 256,
+            "M": 86.181374,
+            "edible": 256,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "antimeme": {
+            "n": 21,
+            "E": 1192.9795330000002,
+            "B": 296,
+            "M": 65.675208,
+            "edible": 296,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "grassbug": {
+            "n": 132,
+            "E": 1780.6826209999995,
+            "B": 264,
+            "M": 0,
+            "edible": 264,
+            "lowE": 32,
+            "lowM": 132
+          }
+        },
+        "soilM": 4583.998598,
+        "resourceM": 61.7000000000005,
+        "carcassM": 2.021841
+      }
+    },
+    {
+      "turn": 100,
+      "counts": {
+        "abyss": 0,
+        "myth": 18,
+        "recursive": 0,
+        "sail": 22,
+        "gravity": 0,
+        "crystal": 0,
+        "manyeyes": 0,
+        "abyssshell": 0,
+        "parallel": 0,
+        "memory": 0,
+        "serpent": 16,
+        "solar": 25,
+        "antimeme": 26,
+        "valis": 0,
+        "jelly": 0,
+        "kelp": 0,
+        "whale": 0,
+        "swarm": 0,
+        "plasma": 0,
+        "cephalopod": 0,
+        "precocial": 0,
+        "algae": 58,
+        "moss": 0,
+        "grass": 509,
+        "fungus": 89,
+        "waterbug": 0,
+        "grassbug": 46,
+        "tideparasite": 27,
+        "leafparasite": 108,
+        "hyperparasite": 4
+      },
+      "stocks": {
+        "species": {
+          "algae": {
+            "n": 58,
+            "E": 769.0917919999997,
+            "B": 1062.5864810000003,
+            "M": 64.994604,
+            "edible": 946.586481,
+            "lowE": 15,
+            "lowM": 0
+          },
+          "solar": {
+            "n": 25,
+            "E": 1152.8023869999997,
+            "B": 312,
+            "M": 183.04015,
+            "edible": 312,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "sail": {
+            "n": 22,
+            "E": 1293.2836040000002,
+            "B": 296,
+            "M": 200.37408200000002,
+            "edible": 296,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "serpent": {
+            "n": 16,
+            "E": 715.923125,
+            "B": 256,
+            "M": 178.02375999999998,
+            "edible": 256,
+            "lowE": 3,
+            "lowM": 0
+          },
+          "myth": {
+            "n": 18,
+            "E": 851.96195,
+            "B": 264,
+            "M": 165.103435,
+            "edible": 264,
+            "lowE": 3,
+            "lowM": 0
+          },
+          "antimeme": {
+            "n": 26,
+            "E": 1279.9503399999999,
+            "B": 328,
+            "M": 156.77199299999995,
+            "edible": 328,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "grass": {
+            "n": 509,
+            "E": 5705.39120400001,
+            "B": 7972.891776999995,
+            "M": 592.6949820000002,
+            "edible": 6954.891776999994,
+            "lowE": 225,
+            "lowM": 8
+          },
+          "fungus": {
+            "n": 89,
+            "E": 640.88255,
+            "B": 457.00383299999993,
+            "M": 31.25067000000001,
+            "edible": 457.00383299999993,
+            "lowE": 63,
+            "lowM": 23
+          },
+          "grassbug": {
+            "n": 46,
+            "E": 479.799984,
+            "B": 92,
+            "M": 0,
+            "edible": 92,
+            "lowE": 16,
+            "lowM": 46
+          }
+        },
+        "soilM": 4145.195114000001,
+        "resourceM": 50.90000000000035,
+        "carcassM": 33.25121
+      }
+    },
+    {
+      "turn": 150,
+      "counts": {
+        "abyss": 0,
+        "myth": 18,
+        "recursive": 0,
+        "sail": 23,
+        "gravity": 0,
+        "crystal": 0,
+        "manyeyes": 0,
+        "abyssshell": 0,
+        "parallel": 0,
+        "memory": 0,
+        "serpent": 15,
+        "solar": 23,
+        "antimeme": 27,
+        "valis": 0,
+        "jelly": 0,
+        "kelp": 0,
+        "whale": 0,
+        "swarm": 0,
+        "plasma": 0,
+        "cephalopod": 0,
+        "precocial": 0,
+        "algae": 50,
+        "moss": 0,
+        "grass": 545,
+        "fungus": 145,
+        "waterbug": 0,
+        "grassbug": 13,
+        "tideparasite": 29,
+        "leafparasite": 176,
+        "hyperparasite": 4
+      },
+      "stocks": {
+        "species": {
+          "solar": {
+            "n": 23,
+            "E": 1390.0518479999998,
+            "B": 288,
+            "M": 282.396626,
+            "edible": 288,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "sail": {
+            "n": 23,
+            "E": 1426.4839400000003,
+            "B": 304,
+            "M": 314.46112800000003,
+            "edible": 304,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "serpent": {
+            "n": 15,
+            "E": 639.7031609999999,
+            "B": 240,
+            "M": 239.51967000000002,
+            "edible": 240,
+            "lowE": 3,
+            "lowM": 0
+          },
+          "myth": {
+            "n": 18,
+            "E": 982.3881180000001,
+            "B": 256,
+            "M": 242.378125,
+            "edible": 256,
+            "lowE": 3,
+            "lowM": 0
+          },
+          "antimeme": {
+            "n": 27,
+            "E": 1555.4387179999999,
+            "B": 336,
+            "M": 289.3117640000001,
+            "edible": 336,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "grass": {
+            "n": 545,
+            "E": 8428.997916000037,
+            "B": 11125.518215999995,
+            "M": 764.9551179999996,
+            "edible": 10035.518215999995,
+            "lowE": 110,
+            "lowM": 49
+          },
+          "algae": {
+            "n": 50,
+            "E": 933.0080459999996,
+            "B": 1115.057325,
+            "M": 56.097724000000014,
+            "edible": 1015.057325,
+            "lowE": 0,
+            "lowM": 10
+          },
+          "fungus": {
+            "n": 145,
+            "E": 677.0172339999999,
+            "B": 564.4352750000002,
+            "M": 44.159947,
+            "edible": 564.4352750000002,
+            "lowE": 138,
+            "lowM": 46
+          },
+          "grassbug": {
+            "n": 13,
+            "E": 162.11551,
+            "B": 26,
+            "M": 0,
+            "edible": 26,
+            "lowE": 3,
+            "lowM": 13
+          }
+        },
+        "soilM": 3506.4229730000015,
+        "resourceM": 47.0000000000003,
+        "carcassM": 14.896925
+      }
+    },
+    {
+      "turn": 200,
+      "counts": {
+        "abyss": 0,
+        "myth": 18,
+        "recursive": 0,
+        "sail": 23,
+        "gravity": 0,
+        "crystal": 0,
+        "manyeyes": 0,
+        "abyssshell": 0,
+        "parallel": 0,
+        "memory": 0,
+        "serpent": 12,
+        "solar": 21,
+        "antimeme": 33,
+        "valis": 0,
+        "jelly": 0,
+        "kelp": 0,
+        "whale": 0,
+        "swarm": 0,
+        "plasma": 0,
+        "cephalopod": 0,
+        "precocial": 0,
+        "algae": 47,
+        "moss": 0,
+        "grass": 546,
+        "fungus": 197,
+        "waterbug": 0,
+        "grassbug": 19,
+        "tideparasite": 26,
+        "leafparasite": 299,
+        "hyperparasite": 0
+      },
+      "stocks": {
+        "species": {
+          "solar": {
+            "n": 21,
+            "E": 1503.566882,
+            "B": 256,
+            "M": 322.029269,
+            "edible": 256,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "sail": {
+            "n": 23,
+            "E": 1415.069348,
+            "B": 296,
+            "M": 406.87694799999997,
+            "edible": 296,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "serpent": {
+            "n": 12,
+            "E": 559.898052,
+            "B": 192,
+            "M": 251.937593,
+            "edible": 192,
+            "lowE": 5,
+            "lowM": 0
+          },
+          "myth": {
+            "n": 18,
+            "E": 1038.3010940000001,
+            "B": 248,
+            "M": 289.233729,
+            "edible": 248,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "antimeme": {
+            "n": 33,
+            "E": 1866.5743520000008,
+            "B": 384,
+            "M": 406.1894770000001,
+            "edible": 384,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "algae": {
+            "n": 47,
+            "E": 704.0788450000001,
+            "B": 904.9366869999999,
+            "M": 32.826693000000006,
+            "edible": 810.9366869999999,
+            "lowE": 9,
+            "lowM": 15
+          },
+          "grass": {
+            "n": 546,
+            "E": 7132.8819500000145,
+            "B": 10113.808248000005,
+            "M": 652.531387,
+            "edible": 9021.808248000001,
+            "lowE": 188,
+            "lowM": 73
+          },
+          "fungus": {
+            "n": 197,
+            "E": 1060.4758460000003,
+            "B": 929.6073349999999,
+            "M": 58.201707000000056,
+            "edible": 929.6073349999999,
+            "lowE": 177,
+            "lowM": 55
+          },
+          "grassbug": {
+            "n": 19,
+            "E": 255.049013,
+            "B": 38,
+            "M": 0,
+            "edible": 38,
+            "lowE": 6,
+            "lowM": 19
+          }
+        },
+        "soilM": 3307.5582030000014,
+        "resourceM": 38.5000000000002,
+        "carcassM": 35.701226
+      }
+    },
+    {
+      "turn": 250,
+      "counts": {
+        "abyss": 0,
+        "myth": 17,
+        "recursive": 0,
+        "sail": 23,
+        "gravity": 0,
+        "crystal": 0,
+        "manyeyes": 0,
+        "abyssshell": 0,
+        "parallel": 0,
+        "memory": 0,
+        "serpent": 12,
+        "solar": 28,
+        "antimeme": 39,
+        "valis": 0,
+        "jelly": 0,
+        "kelp": 0,
+        "whale": 0,
+        "swarm": 0,
+        "plasma": 0,
+        "cephalopod": 0,
+        "precocial": 0,
+        "algae": 31,
+        "moss": 0,
+        "grass": 526,
+        "fungus": 225,
+        "waterbug": 0,
+        "grassbug": 13,
+        "tideparasite": 18,
+        "leafparasite": 391,
+        "hyperparasite": 0
+      },
+      "stocks": {
+        "species": {
+          "solar": {
+            "n": 28,
+            "E": 1867.7108860000003,
+            "B": 304,
+            "M": 351.788851,
+            "edible": 304,
+            "lowE": 1,
+            "lowM": 0
+          },
+          "sail": {
+            "n": 23,
+            "E": 1641.5512540000002,
+            "B": 296,
+            "M": 488.75001799999995,
+            "edible": 296,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "serpent": {
+            "n": 12,
+            "E": 577.011945,
+            "B": 192,
+            "M": 290.363853,
+            "edible": 192,
+            "lowE": 4,
+            "lowM": 0
+          },
+          "myth": {
+            "n": 17,
+            "E": 1127.4212690000002,
+            "B": 232,
+            "M": 302.41620100000006,
+            "edible": 232,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "antimeme": {
+            "n": 39,
+            "E": 2417.5941169999996,
+            "B": 432,
+            "M": 520.9671770000001,
+            "edible": 432,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "grass": {
+            "n": 526,
+            "E": 8088.414554000009,
+            "B": 10688.398091000005,
+            "M": 561.3723639999998,
+            "edible": 9636.398091000003,
+            "lowE": 94,
+            "lowM": 134
+          },
+          "fungus": {
+            "n": 225,
+            "E": 1181.9577790000005,
+            "B": 861.9219129999999,
+            "M": 63.41047000000002,
+            "edible": 861.9219129999999,
+            "lowE": 203,
+            "lowM": 99
+          },
+          "algae": {
+            "n": 31,
+            "E": 545.0973240000001,
+            "B": 657.8484469999999,
+            "M": 21.968654,
+            "edible": 595.848447,
+            "lowE": 1,
+            "lowM": 11
+          },
+          "grassbug": {
+            "n": 13,
+            "E": 104.43624700000001,
+            "B": 26,
+            "M": 0,
+            "edible": 26,
+            "lowE": 8,
+            "lowM": 13
+          }
+        },
+        "soilM": 3152.9904889999975,
+        "resourceM": 35.60000000000017,
+        "carcassM": 3.251294
+      }
+    },
+    {
+      "turn": 300,
+      "counts": {
+        "abyss": 0,
+        "myth": 5,
+        "recursive": 0,
+        "sail": 20,
+        "gravity": 0,
+        "crystal": 0,
+        "manyeyes": 0,
+        "abyssshell": 0,
+        "parallel": 0,
+        "memory": 0,
+        "serpent": 1,
+        "solar": 33,
+        "antimeme": 42,
+        "valis": 0,
+        "jelly": 0,
+        "kelp": 0,
+        "whale": 0,
+        "swarm": 0,
+        "plasma": 0,
+        "cephalopod": 0,
+        "precocial": 0,
+        "algae": 34,
+        "moss": 0,
+        "grass": 521,
+        "fungus": 226,
+        "waterbug": 0,
+        "grassbug": 12,
+        "tideparasite": 22,
+        "leafparasite": 469,
+        "hyperparasite": 0
+      },
+      "stocks": {
+        "species": {
+          "solar": {
+            "n": 33,
+            "E": 2403.0768630000002,
+            "B": 344,
+            "M": 360.2481269999999,
+            "edible": 344,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "sail": {
+            "n": 20,
+            "E": 1534.0627000000002,
+            "B": 256,
+            "M": 465.17577,
+            "edible": 256,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "antimeme": {
+            "n": 42,
+            "E": 2868.438363000001,
+            "B": 456,
+            "M": 596.916909,
+            "edible": 456,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "myth": {
+            "n": 5,
+            "E": 193.951579,
+            "B": 40,
+            "M": 86.69309200000001,
+            "edible": 40,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "algae": {
+            "n": 34,
+            "E": 575.108105,
+            "B": 688.9813309999998,
+            "M": 14.407001999999997,
+            "edible": 620.9813309999998,
+            "lowE": 2,
+            "lowM": 21
+          },
+          "grass": {
+            "n": 521,
+            "E": 6726.493015000014,
+            "B": 9517.217121000005,
+            "M": 493.69216699999953,
+            "edible": 8475.217121000009,
+            "lowE": 185,
+            "lowM": 141
+          },
+          "fungus": {
+            "n": 226,
+            "E": 1263.3799479999998,
+            "B": 1043.0756969999993,
+            "M": 80.25392200000003,
+            "edible": 1043.0756969999993,
+            "lowE": 193,
+            "lowM": 58
+          },
+          "grassbug": {
+            "n": 12,
+            "E": 105.38188999999998,
+            "B": 24,
+            "M": 0,
+            "edible": 24,
+            "lowE": 5,
+            "lowM": 12
+          },
+          "serpent": {
+            "n": 1,
+            "E": 67.731701,
+            "B": 8,
+            "M": 6.390921,
+            "edible": 8,
+            "lowE": 0,
+            "lowM": 0
+          }
+        },
+        "soilM": 3533.2087739999984,
+        "resourceM": 33.100000000000165,
+        "carcassM": 19.691005999999998
+      }
+    },
+    {
+      "turn": 350,
+      "counts": {
+        "abyss": 0,
+        "myth": 4,
+        "recursive": 0,
+        "sail": 6,
+        "gravity": 0,
+        "crystal": 0,
+        "manyeyes": 0,
+        "abyssshell": 0,
+        "parallel": 0,
+        "memory": 0,
+        "serpent": 1,
+        "solar": 34,
+        "antimeme": 57,
+        "valis": 0,
+        "jelly": 0,
+        "kelp": 0,
+        "whale": 0,
+        "swarm": 0,
+        "plasma": 0,
+        "cephalopod": 0,
+        "precocial": 0,
+        "algae": 19,
+        "moss": 0,
+        "grass": 516,
+        "fungus": 255,
+        "waterbug": 0,
+        "grassbug": 9,
+        "tideparasite": 9,
+        "leafparasite": 503,
+        "hyperparasite": 0
+      },
+      "stocks": {
+        "species": {
+          "antimeme": {
+            "n": 57,
+            "E": 4046.7539860000006,
+            "B": 576,
+            "M": 684.8278630000001,
+            "edible": 576,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "solar": {
+            "n": 34,
+            "E": 2404.589472,
+            "B": 272,
+            "M": 255.9461610000001,
+            "edible": 272,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "sail": {
+            "n": 6,
+            "E": 485.9092350000001,
+            "B": 48,
+            "M": 119.89931200000001,
+            "edible": 48,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "myth": {
+            "n": 4,
+            "E": 194.49589,
+            "B": 32,
+            "M": 76.59996699999999,
+            "edible": 32,
+            "lowE": 1,
+            "lowM": 0
+          },
+          "algae": {
+            "n": 19,
+            "E": 315.2795100000001,
+            "B": 340.823634,
+            "M": 10.191521000000002,
+            "edible": 302.823634,
+            "lowE": 0,
+            "lowM": 10
+          },
+          "grass": {
+            "n": 516,
+            "E": 7501.857485000008,
+            "B": 10035.218885000008,
+            "M": 483.70893000000024,
+            "edible": 9003.218885000004,
+            "lowE": 125,
+            "lowM": 176
+          },
+          "fungus": {
+            "n": 255,
+            "E": 1333.0616220000006,
+            "B": 1116.0159750000005,
+            "M": 96.88615200000002,
+            "edible": 1116.0159750000005,
+            "lowE": 237,
+            "lowM": 99
+          },
+          "serpent": {
+            "n": 1,
+            "E": 59.795326,
+            "B": 8,
+            "M": 10.377695,
+            "edible": 8,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "grassbug": {
+            "n": 9,
+            "E": 62.26552500000001,
+            "B": 18,
+            "M": 0,
+            "edible": 18,
+            "lowE": 5,
+            "lowM": 9
+          }
+        },
+        "soilM": 3843.0967230000006,
+        "resourceM": 29.50000000000013,
+        "carcassM": 10.110166
+      }
+    },
+    {
+      "turn": 400,
+      "counts": {
+        "abyss": 0,
+        "myth": 3,
+        "recursive": 0,
+        "sail": 3,
+        "gravity": 0,
+        "crystal": 0,
+        "manyeyes": 0,
+        "abyssshell": 0,
+        "parallel": 0,
+        "memory": 0,
+        "serpent": 1,
+        "solar": 36,
+        "antimeme": 62,
+        "valis": 0,
+        "jelly": 0,
+        "kelp": 0,
+        "whale": 0,
+        "swarm": 0,
+        "plasma": 0,
+        "cephalopod": 0,
+        "precocial": 0,
+        "algae": 18,
+        "moss": 0,
+        "grass": 506,
+        "fungus": 236,
+        "waterbug": 0,
+        "grassbug": 7,
+        "tideparasite": 9,
+        "leafparasite": 481,
+        "hyperparasite": 0
+      },
+      "stocks": {
+        "species": {
+          "antimeme": {
+            "n": 62,
+            "E": 4093.936119999999,
+            "B": 496,
+            "M": 449.592433,
+            "edible": 496,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "solar": {
+            "n": 36,
+            "E": 2812.6078870000006,
+            "B": 288,
+            "M": 203.88269300000002,
+            "edible": 288,
+            "lowE": 0,
+            "lowM": 1
+          },
+          "sail": {
+            "n": 3,
+            "E": 285.114733,
+            "B": 24,
+            "M": 41.044343,
+            "edible": 24,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "myth": {
+            "n": 3,
+            "E": 216.836155,
+            "B": 24,
+            "M": 27.066471,
+            "edible": 24,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "serpent": {
+            "n": 1,
+            "E": 98.143818,
+            "B": 8,
+            "M": 10.835351,
+            "edible": 8,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "algae": {
+            "n": 18,
+            "E": 246.95686300000006,
+            "B": 281.735803,
+            "M": 6.655028000000001,
+            "edible": 245.73580299999995,
+            "lowE": 5,
+            "lowM": 10
+          },
+          "grass": {
+            "n": 506,
+            "E": 6402.934852000011,
+            "B": 8884.424482000008,
+            "M": 424.1578949999998,
+            "edible": 7872.424482000001,
+            "lowE": 191,
+            "lowM": 174
+          },
+          "fungus": {
+            "n": 236,
+            "E": 1430.9158129999998,
+            "B": 1199.377438000001,
+            "M": 99.794824,
+            "edible": 1199.377438000001,
+            "lowE": 201,
+            "lowM": 51
+          },
+          "grassbug": {
+            "n": 7,
+            "E": 36.925151,
+            "B": 14,
+            "M": 0,
+            "edible": 14,
+            "lowE": 5,
+            "lowM": 7
+          }
+        },
+        "soilM": 4168.0951430000005,
+        "resourceM": 30.90000000000014,
+        "carcassM": 59.800684
+      }
+    },
+    {
+      "turn": 450,
+      "counts": {
+        "abyss": 0,
+        "myth": 4,
+        "recursive": 0,
+        "sail": 2,
+        "gravity": 0,
+        "crystal": 0,
+        "manyeyes": 0,
+        "abyssshell": 0,
+        "parallel": 0,
+        "memory": 0,
+        "serpent": 1,
+        "solar": 53,
+        "antimeme": 75,
+        "valis": 0,
+        "jelly": 0,
+        "kelp": 0,
+        "whale": 0,
+        "swarm": 0,
+        "plasma": 0,
+        "cephalopod": 0,
+        "precocial": 0,
+        "algae": 8,
+        "moss": 0,
+        "grass": 493,
+        "fungus": 216,
+        "waterbug": 0,
+        "grassbug": 6,
+        "tideparasite": 3,
+        "leafparasite": 491,
+        "hyperparasite": 0
+      },
+      "stocks": {
+        "species": {
+          "antimeme": {
+            "n": 75,
+            "E": 5014.930786,
+            "B": 600,
+            "M": 455.5624429999999,
+            "edible": 600,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "solar": {
+            "n": 53,
+            "E": 3633.8764020000003,
+            "B": 424,
+            "M": 218.17438999999996,
+            "edible": 424,
+            "lowE": 0,
+            "lowM": 1
+          },
+          "sail": {
+            "n": 2,
+            "E": 199.318487,
+            "B": 16,
+            "M": 24.178224,
+            "edible": 16,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "myth": {
+            "n": 4,
+            "E": 242.035234,
+            "B": 32,
+            "M": 33.443101,
+            "edible": 32,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "serpent": {
+            "n": 1,
+            "E": 99.42351,
+            "B": 8,
+            "M": 11.256039,
+            "edible": 8,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "algae": {
+            "n": 8,
+            "E": 86.516734,
+            "B": 107.176563,
+            "M": 0.727894,
+            "edible": 91.176563,
+            "lowE": 4,
+            "lowM": 6
+          },
+          "grass": {
+            "n": 493,
+            "E": 6637.892863000011,
+            "B": 8451.979512000004,
+            "M": 391.584579,
+            "edible": 7465.979512000004,
+            "lowE": 153,
+            "lowM": 192
+          },
+          "fungus": {
+            "n": 216,
+            "E": 1175.7973600000003,
+            "B": 1034.0884930000004,
+            "M": 74.88060999999996,
+            "edible": 1034.0884930000004,
+            "lowE": 193,
+            "lowM": 70
+          },
+          "grassbug": {
+            "n": 6,
+            "E": 54.765639,
+            "B": 12,
+            "M": 0,
+            "edible": 12,
+            "lowE": 3,
+            "lowM": 6
+          }
+        },
+        "soilM": 4217.262155,
+        "resourceM": 34.50000000000012,
+        "carcassM": 13.0655
+      }
+    },
+    {
+      "turn": 500,
+      "counts": {
+        "abyss": 0,
+        "myth": 2,
+        "recursive": 0,
+        "sail": 1,
+        "gravity": 0,
+        "crystal": 0,
+        "manyeyes": 0,
+        "abyssshell": 0,
+        "parallel": 0,
+        "memory": 0,
+        "serpent": 1,
+        "solar": 68,
+        "antimeme": 99,
+        "valis": 0,
+        "jelly": 0,
+        "kelp": 0,
+        "whale": 0,
+        "swarm": 0,
+        "plasma": 0,
+        "cephalopod": 0,
+        "precocial": 0,
+        "algae": 4,
+        "moss": 0,
+        "grass": 454,
+        "fungus": 173,
+        "waterbug": 0,
+        "grassbug": 8,
+        "tideparasite": 0,
+        "leafparasite": 443,
+        "hyperparasite": 0
+      },
+      "stocks": {
+        "species": {
+          "antimeme": {
+            "n": 99,
+            "E": 6571.987039000001,
+            "B": 792,
+            "M": 483.0814370000001,
+            "edible": 792,
+            "lowE": 0,
+            "lowM": 1
+          },
+          "solar": {
+            "n": 68,
+            "E": 4120.597001,
+            "B": 544,
+            "M": 278.18155299999984,
+            "edible": 544,
+            "lowE": 1,
+            "lowM": 2
+          },
+          "serpent": {
+            "n": 1,
+            "E": 99.42351,
+            "B": 8,
+            "M": 12.721763,
+            "edible": 8,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "sail": {
+            "n": 1,
+            "E": 99.600256,
+            "B": 8,
+            "M": 12.795164,
+            "edible": 8,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "myth": {
+            "n": 2,
+            "E": 68.906767,
+            "B": 16,
+            "M": 16.399301,
+            "edible": 16,
+            "lowE": 0,
+            "lowM": 0
+          },
+          "grass": {
+            "n": 454,
+            "E": 5095.9815750000025,
+            "B": 6699.725314000001,
+            "M": 305.775424,
+            "edible": 5791.725314,
+            "lowE": 194,
+            "lowM": 181
+          },
+          "algae": {
+            "n": 4,
+            "E": 56.29751900000001,
+            "B": 54,
+            "M": 0.132286,
+            "edible": 46,
+            "lowE": 1,
+            "lowM": 4
+          },
+          "fungus": {
+            "n": 173,
+            "E": 958.8886410000002,
+            "B": 850.5592999999998,
+            "M": 56.190808000000004,
+            "edible": 850.5592999999998,
+            "lowE": 149,
+            "lowM": 43
+          },
+          "grassbug": {
+            "n": 8,
+            "E": 44.676860999999995,
+            "B": 16,
+            "M": 0,
+            "edible": 16,
+            "lowE": 6,
+            "lowM": 8
+          }
+        },
+        "soilM": 4257.712178000006,
+        "resourceM": 23.300000000000082,
+        "carcassM": 4.772927999999999
+      }
+    }
+  ]
+}

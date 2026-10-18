@@ -1,0 +1,10 @@
+{
+  "tools/diagnose-foodweb.cjs": "ab81a5a27d93892f203ea49ae6b545630dfbd438f2ecdda5f91e91ee2b303acb",
+  "src/ecology/engine.js": "e1a922778d3c4359709bdb4c611bff75ac8128e6a7dd0ba893324c49372cd539",
+  "src/ecology/state.js": "4f23d370cd90b6d3d97679b056dbd3884fc72ab850ea85949be3c135592f47b1",
+  "src/ecology/nutrition.js": "6b8774bbfe3cba66e176a47feb07729b0c1098c84b372f3fba41fa8b1af49669",
+  "src/ecology/reproduction.js": "2fdbce36ee6d5e78edf9a00eb83d7c6ed5a01910bbc278b5f2afaa7480272240",
+  "src/ecology/behavior.js": "50eea514aef9d2b25f267ab322bfed7b1592271be7da9d46f4883f7c11f8a006",
+  "src/ecology/parasites.js": "17e60d0eb10cd99c3c1e7d253dcf3a96f29ec3303e12653c0cbb1783c1c0a85f",
+  "src/ecology/catalogue.js": "53c74149e6a7dd3cc36864e6b477ee5af6d1345e73feb2008be326129a146763"
+}
