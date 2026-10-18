@@ -1,0 +1,288 @@
+{
+  "checkedStates": 3006,
+  "trialObserverCacheStates": 28,
+  "producerCacheStates": 14,
+  "initialStateExceptSlotsMatched": 2,
+  "referenceSourceHashesMatched": true,
+  "sourceHashesMatched": true,
+  "summary": [
+    {
+      "id": "custom",
+      "treatment": "mixed",
+      "before": {
+        "main": 128,
+        "food": 302,
+        "prey": {
+          "waterbug": {
+            "initial": 46,
+            "final": 0,
+            "births": 28,
+            "lastAlive": 140,
+            "descendantReproduced": 13
+          },
+          "grassbug": {
+            "initial": 65,
+            "final": 0,
+            "births": 656,
+            "lastAlive": 162,
+            "descendantReproduced": 366
+          }
+        }
+      },
+      "after": {
+        "main": 162,
+        "food": 193,
+        "prey": {
+          "waterbug": {
+            "initial": 46,
+            "final": 0,
+            "births": 117,
+            "lastAlive": 127,
+            "descendantReproduced": 59
+          },
+          "grassbug": {
+            "initial": 65,
+            "final": 6,
+            "births": 3911,
+            "lastAlive": 500,
+            "descendantReproduced": 2200
+          }
+        }
+      }
+    },
+    {
+      "id": "custom",
+      "treatment": "lower-only",
+      "before": {
+        "main": 0,
+        "food": 987,
+        "prey": {
+          "waterbug": {
+            "initial": 46,
+            "final": 0,
+            "births": 20,
+            "lastAlive": 156,
+            "descendantReproduced": 7
+          },
+          "grassbug": {
+            "initial": 65,
+            "final": 28,
+            "births": 1055,
+            "lastAlive": 500,
+            "descendantReproduced": 698
+          }
+        }
+      },
+      "after": {
+        "main": 0,
+        "food": 0,
+        "prey": {
+          "waterbug": {
+            "initial": 46,
+            "final": 0,
+            "births": 116,
+            "lastAlive": 177,
+            "descendantReproduced": 65
+          },
+          "grassbug": {
+            "initial": 65,
+            "final": 0,
+            "births": 2430,
+            "lastAlive": 359,
+            "descendantReproduced": 1629
+          }
+        }
+      }
+    },
+    {
+      "id": "custom",
+      "treatment": "producer-and-decomposer-control",
+      "food": 960,
+      "counts": {
+        "abyss": 0,
+        "myth": 0,
+        "recursive": 0,
+        "sail": 0,
+        "gravity": 0,
+        "crystal": 0,
+        "manyeyes": 0,
+        "abyssshell": 0,
+        "parallel": 0,
+        "memory": 0,
+        "serpent": 0,
+        "solar": 0,
+        "antimeme": 0,
+        "valis": 0,
+        "jelly": 0,
+        "kelp": 0,
+        "whale": 0,
+        "swarm": 0,
+        "plasma": 0,
+        "cephalopod": 0,
+        "precocial": 0,
+        "algae": 14,
+        "moss": 0,
+        "grass": 527,
+        "fungus": 419,
+        "waterbug": 0,
+        "grassbug": 0,
+        "tideparasite": 0,
+        "leafparasite": 0,
+        "hyperparasite": 0
+      },
+      "habitats": {
+        "land": {
+          "producer": 464,
+          "producerB": 9929.342792999996,
+          "edibleB": 9001.342793000005,
+          "primary": 0
+        },
+        "water": {
+          "producer": 77,
+          "producerB": 1766.0696500000001,
+          "edibleB": 1612.0696500000001,
+          "primary": 0
+        }
+      }
+    },
+    {
+      "id": "lake",
+      "treatment": "mixed",
+      "before": {
+        "main": 89,
+        "food": 229,
+        "prey": {
+          "waterbug": {
+            "initial": 71,
+            "final": 0,
+            "births": 77,
+            "lastAlive": 86,
+            "descendantReproduced": 31
+          },
+          "grassbug": {
+            "initial": 96,
+            "final": 0,
+            "births": 781,
+            "lastAlive": 221,
+            "descendantReproduced": 427
+          }
+        }
+      },
+      "after": {
+        "main": 26,
+        "food": 136,
+        "prey": {
+          "waterbug": {
+            "initial": 71,
+            "final": 0,
+            "births": 266,
+            "lastAlive": 125,
+            "descendantReproduced": 138
+          },
+          "grassbug": {
+            "initial": 96,
+            "final": 47,
+            "births": 4847,
+            "lastAlive": 500,
+            "descendantReproduced": 2903
+          }
+        }
+      }
+    },
+    {
+      "id": "lake",
+      "treatment": "lower-only",
+      "before": {
+        "main": 0,
+        "food": 966,
+        "prey": {
+          "waterbug": {
+            "initial": 71,
+            "final": 0,
+            "births": 66,
+            "lastAlive": 189,
+            "descendantReproduced": 34
+          },
+          "grassbug": {
+            "initial": 96,
+            "final": 20,
+            "births": 527,
+            "lastAlive": 500,
+            "descendantReproduced": 360
+          }
+        }
+      },
+      "after": {
+        "main": 0,
+        "food": 0,
+        "prey": {
+          "waterbug": {
+            "initial": 71,
+            "final": 0,
+            "births": 617,
+            "lastAlive": 429,
+            "descendantReproduced": 422
+          },
+          "grassbug": {
+            "initial": 96,
+            "final": 0,
+            "births": 3510,
+            "lastAlive": 382,
+            "descendantReproduced": 2367
+          }
+        }
+      }
+    },
+    {
+      "id": "lake",
+      "treatment": "producer-and-decomposer-control",
+      "food": 951,
+      "counts": {
+        "abyss": 0,
+        "myth": 0,
+        "recursive": 0,
+        "sail": 0,
+        "gravity": 0,
+        "crystal": 0,
+        "manyeyes": 0,
+        "abyssshell": 0,
+        "parallel": 0,
+        "memory": 0,
+        "serpent": 0,
+        "solar": 0,
+        "antimeme": 0,
+        "valis": 0,
+        "jelly": 0,
+        "kelp": 0,
+        "whale": 0,
+        "swarm": 0,
+        "plasma": 0,
+        "cephalopod": 0,
+        "precocial": 0,
+        "algae": 70,
+        "moss": 0,
+        "grass": 493,
+        "fungus": 388,
+        "waterbug": 0,
+        "grassbug": 0,
+        "tideparasite": 0,
+        "leafparasite": 0,
+        "hyperparasite": 0
+      },
+      "habitats": {
+        "land": {
+          "producer": 429,
+          "producerB": 9035.343319999998,
+          "edibleB": 8177.343320000003,
+          "primary": 0
+        },
+        "water": {
+          "producer": 134,
+          "producerB": 3088.6240000000003,
+          "edibleB": 2820.6240000000003,
+          "primary": 0
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{"id":"lake","treatment":"mixed","food":866,"prey":{"waterbug":{"initial":71,"final":72,"births":1,"lastAlive":2,"descendantReproduced":0},"grassbug":{"initial":96,"final":109,"births":13,"lastAlive":2,"descendantReproduced":0}},"habitats":{"land":{"producer":561,"producerB":6687.72,"edibleB":5565.72,"primary":111},"water":{"producer":73,"producerB":424.4788,"edibleB":278.4788,"primary":70}},"elapsedMs":1828}
+{"id":"lake","treatment":"lower-only","food":866,"prey":{"waterbug":{"initial":71,"final":71,"births":0,"lastAlive":2,"descendantReproduced":0},"grassbug":{"initial":96,"final":110,"births":14,"lastAlive":2,"descendantReproduced":0}},"habitats":{"land":{"producer":560,"producerB":7153.4144000000015,"edibleB":6033.4144000000015,"primary":110},"water":{"producer":71,"producerB":664,"edibleB":522,"primary":71}},"elapsedMs":912}
+✔ ordinary producers never consume neighboring living plants and still absorb soil minerals (57.7826ms)
+✔ moving prey accepts plants but not neighboring fungi (3.47282ms)
+✔ carnivorous plant symbiont photosynthesizes, hunts prey and rejects plant harvest or main attacks (9.358084ms)
+✔ kelp accepts animal-derived finite stores, while ordinary plants reject organic stores and corpses (5.883281ms)
+✔ fungal decomposers never graze living producers, even through forced harvest (2.144822ms)
+✔ foodweb measurement preserves exact biological states and existing observables (9679.196167ms)
+✔ diagnostic hooks are restored after a failed turn and never alter the input (144.438284ms)
+✔ food-only control keeps initial food positions and terrain without inventing energy or organisms (245.921342ms)
+✔ independent basal and prey maps allow overlap and reject duplicates within one layer (3.171764ms)
+✔ prey moves onto live producers and same-cell feeding transfers finite stock (4.245199ms)
+✔ prey can be born on a producer cell without deleting it or bypassing birth payment (4.110518ms)
+✔ main predators retain attack access to prey overlapping producers (2.070196ms)
+✔ parasite contact still reaches the primary consumer layer (1.844769ms)
+✔ layer split preserves initial terrain, species, positions and finite budgets (630.943719ms)
+✔ overlapping producer and prey corpses retain separate origins and conserve finite stocks (3.586978ms)
+✔ producer energy comes from light; mineral uptake cannot photosynthesize for primary consumers (13.50981ms)
+✔ trophic observer preserves exact biological state and restores every hooked method (39.679208ms)
+✔ lower-layer control preserves terrain and food stocks, removes upper consumers, and resets finite ledger (505.745616ms)
+✔ trophic runner rejects unknown or excessive trials and checks paired controls (7289.772279ms)
+✔ habitat trial keeps aquatic primary consumers in valid water without changing main movement (4.839363ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18776.82042

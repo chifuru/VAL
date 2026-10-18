@@ -1,5 +1,7 @@
 # 生態シミュレーション A・B仕様
 
+占有分離の比較用実装は[結果と残件](../../operations/evidence/layered-primary-v4.1.3/README.md)を参照。草棲虫の混合存続に改善例、水系/下層更新は未達。製品への3枠接続・新生産者・詳細死骸描画は未実施。
+
 現在の数値計算はv2.5 32節／製品4.1.3。行動費と光入力を先に量子化して収支ずれを修正。新基準と検証範囲はoperations/evidence/energy-precision-v4.1.3/README.md。生存候補の採用とは区別する。
 
 現在の食物網の調整方針は[陸水の生産者・一次消費者 v2.6](trophic-foundation-v2.6.md)（v2.5 34節）。光/無機材料→生産者→一次消費者→捕食者を陸水別に測り、下層対照と混合条件を比較する。適地配分等の候補は製品未採用。実測と未達はoperations/evidence/trophic-foundation-v4.1.3/README.md。

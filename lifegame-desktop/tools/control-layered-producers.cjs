@@ -1,0 +1,12 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),zlib=require('node:zlib'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+const {model}=require('../design/layered-primary/model.cjs'),{stocks,lowerOnly}=require('../design/trophic-foundation/observe.cjs');
+const root=path.resolve(__dirname,'..');
+function run(id,out){
+ assert(['custom','lake'].includes(id));const E=model({allocation:true}),S=E.S,config=require('../operations/evidence/energy-precision-v4.1.3/baseline/'+id+'-full.json').config;
+ const files=['tools/control-layered-producers.cjs','design/layered-primary/model.cjs','design/trophic-foundation/habitat-model.cjs','design/trophic-foundation/observe.cjs','design/renewal-screen-v2/model.cjs','design/renewal-screen-v2/allocation.txt',...fs.readdirSync(path.join(root,'src/ecology')).filter(f=>f.endsWith('.js')).map(f=>'src/ecology/'+f)];const hashes=()=>Object.fromEntries(files.map(f=>[f,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,f))).digest('hex')])),before=hashes();
+ let w=lowerOnly(E,E.create(config));w.organisms=w.organisms.filter(o=>S.spec(o).group!=='prey');const remaining=S.totals(w);w.ledger={initialE:remaining.E,initialM:remaining.M,solar:0,sinks:0,Mloss:0};w.stats=E.summarize(w);let plain=structuredClone(w);S.prepareGeometry(w);const rows=[],deaths={};
+ for(let t=0;t<=500;t++){assert.deepEqual(E.invariants(w),[],id+'/'+t);const fingerprint=E.fingerprint(w);if(t<=6)assert.equal(fingerprint,E.fingerprint(plain),'cache changed world');for(const d of w.last.deathCauses||[]){const k=d.species+'|'+d.reason;deaths[k]=(deaths[k]||0)+1;}rows.push({turn:t,fingerprint,stats:w.stats,stocks:stocks(E,w),ledger:w.ledger});if(t<500){w=E.step(w);if(t<6)plain=E.step(plain);}}
+ assert.deepEqual(hashes(),before);const result={id,treatment:'producers-and-decomposers-only',derivedControl:true,productAdopted:false,productionVersion:require('../package.json').version,config:w.config,states:rows.length,cacheMatched:7,initial:rows[0].stats,final:w.stats,initialStocks:rows[0].stocks,finalStocks:rows.at(-1).stocks,deaths,sourceHashes:before};fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,id+'.json.gz'),zlib.gzipSync(JSON.stringify(rows)));fs.writeFileSync(path.join(out,id+'.json'),JSON.stringify(result,null,2));console.log(JSON.stringify({id,food:w.stats.food,habitats:result.finalStocks.habitats}));return result;
+}
+module.exports={run};if(require.main===module)run(process.argv[2],path.resolve(process.argv[3]));
