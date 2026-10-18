@@ -253,7 +253,7 @@ C4:（A2, B5 / Electron と Windows 配布）［草案］
 	ロジック:
 		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
 	実態:
-		4.0へ実Worker再生を含むWindows配布検査を接続。Windows3.9成功受領、4.0はCI待ち。
+		Windows4.0 9053ec8のZIP照合・画像読込・実exeのWorker再生が成功。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -378,7 +378,7 @@ D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	ロジック:
 		C4と対象版を照合して配布物そのものを実行する。
 	実態:
-		Windows3.9のZIP/実exe成功を受領。4.0はfile起動のWorker進行を必須としCI待ち。
+		Windows4.0 9053ec8で配布ZIP照合とfile起動のWorker進行を確認。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -491,10 +491,10 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows3.9.json、Windows app3.9.0。
+		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
 	ロジック:
 		記録した配布物・対象ハッシュ・Windows環境だけに適用する。
 	実態:
-		Windows3.9 afacce577のZIP/実exe成功を受領。現行4.0はCI確認待ち。
+		Windows4.0 9053ec8、run39093427576・job117574791642成功。実exe11ターン・Worker再生・画像読込・Node非公開。
 
 ```

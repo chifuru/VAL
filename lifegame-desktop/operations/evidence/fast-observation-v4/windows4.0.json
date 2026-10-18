@@ -1,0 +1,116 @@
+{
+  "version": "4.0.0",
+  "sha": "9053ec8e8c4b8d23385b4faa6cb762553e6cf9a7",
+  "tree": "b5d0a04565e3ce88cbd45d3dbd2c3e6a2ff025c2",
+  "run": 39093427576,
+  "job": 117574791642,
+  "url": "https://github.com/chifuru/VAL/actions/runs/39093427576",
+  "jobs": [
+    {
+      "id": 117574791642,
+      "name": "windows",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 39093427576,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Model and package tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Browser interaction",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Build Windows ZIP",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Verify expanded ZIP and actual executable",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        }
+      ]
+    }
+  ],
+  "native": {
+    "ok": true,
+    "electron": "44.7.2",
+    "platform": "Win32",
+    "arch": "x64",
+    "workerPlayback": true,
+    "workerTurnMs": 4166,
+    "assetsLoaded": true,
+    "assetErrors": [],
+    "turn": 11,
+    "population": 829,
+    "nodeExposed": false,
+    "local": true,
+    "title": "LifeGame — 生態シミュレーション"
+  },
+  "interaction": {
+    "ok": true,
+    "checks": 25,
+    "fiveTurnMs": 5365.300000000047,
+    "preparationMs": 407.30000000004657
+  },
+  "modelPassed": 133,
+  "artifact": "https://github.com/chifuru/VAL/actions/runs/39093427576/artifacts/12123472324",
+  "scope": "Windows CI x64 actual expanded ZIP executable, local file Worker playback; no balance-rate or all-hardware assurance"
+}
