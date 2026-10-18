@@ -26,19 +26,23 @@
   ];
   const encoder = new TextEncoder();
   const rotate = (x, n) => (x >>> n) | (x << (32 - n));
-  function portableSHA256(text) {
-    const raw = encoder.encode(text),
-      bytes = new Uint8Array(Math.ceil((raw.length + 9) / 64) * 64),
-      view = new DataView(bytes.buffer);
-    bytes.set(raw);
-    bytes[raw.length] = 128;
-    view.setUint32(bytes.length - 4, raw.length * 8);
-    view.setUint32(bytes.length - 8, Math.floor(raw.length / 536870912));
-    const h = new Uint32Array([
-        0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c,
-        0x1f83d9ab, 0x5be0cd19,
-      ]),
-      w = new Uint32Array(64);
+  // SHA is synchronous: reuse private scratch storage without altering the stream.
+  const scratchWords = new Uint32Array(64), scratchState = new Uint32Array(8);
+  let scratchBytes = new Uint8Array(1024);
+  function digestWords(text) {
+    const capacity = Math.ceil((text.length*3+9)/64)*64;
+    if(capacity>scratchBytes.length && capacity<=1048576)
+      scratchBytes=new Uint8Array(2**Math.ceil(Math.log2(capacity)));
+    const storage=capacity<=scratchBytes.length?scratchBytes:new Uint8Array(capacity);
+    const {written}=encoder.encodeInto(text,storage);
+    const length=Math.ceil((written+9)/64)*64;
+    storage.fill(0,written,length);
+    const bytes=storage.subarray(0,length),view=new DataView(bytes.buffer,bytes.byteOffset,length);
+    bytes[written]=128;
+    view.setUint32(length-4,written*8);
+    view.setUint32(length-8,Math.floor(written/536870912));
+    const h=scratchState,w=scratchWords;
+    h.set([0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19]);
     for (let off = 0; off < bytes.length; off += 64) {
       for (let i = 0; i < 16; i++) w[i] = view.getUint32(off + i * 4);
       for (let i = 16; i < 64; i++) {
@@ -73,11 +77,13 @@
         b = a;
         a = (t + u) >>> 0;
       }
-      [a, b, c, d, e, f, g, j].forEach((v, i) => {
-        h[i] = (h[i] + v) >>> 0;
-      });
+      h[0]=(h[0]+a)>>>0;h[1]=(h[1]+b)>>>0;h[2]=(h[2]+c)>>>0;h[3]=(h[3]+d)>>>0;
+      h[4]=(h[4]+e)>>>0;h[5]=(h[5]+f)>>>0;h[6]=(h[6]+g)>>>0;h[7]=(h[7]+j)>>>0;
     }
-    return Array.from(h, (v) => v.toString(16).padStart(8, "0")).join("");
+    return h;
+  }
+  function portableSHA256(text) {
+    return Array.from(digestWords(text),(v)=>v.toString(16).padStart(8,"0")).join("");
   }
   const sha256 = (text) =>
     crypto
@@ -91,12 +97,8 @@
     key = null,
     axis = null,
   ) {
-    return parseInt(
-      sha256(
-        JSON.stringify([RANDOM_NAMESPACE, seed, purpose, turn, id, key, axis]),
-      ).slice(0, 8),
-      16,
-    );
+    const text=JSON.stringify([RANDOM_NAMESPACE,seed,purpose,turn,id,key,axis]);
+    return crypto?parseInt(sha256(text).slice(0,8),16):digestWords(text)[0];
   }
   const random = (...args) => hash(...args) / 4294967296;
   const clamp = (v, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, v));

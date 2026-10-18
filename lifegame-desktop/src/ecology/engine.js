@@ -294,10 +294,10 @@
       w.extinctNotified = true;
     }
     if (w.turn >= w.blockEnd) w.stopReason = "checkpoint";
-    const offset = w.turn - (w.blockEnd - 1000);
-    if ([100, 250, 500, 1000].includes(offset)) {
+    const offset = w.turn - (w.blockEnd - (w.config.blockTurns || 1000));
+    if ((w.config.blockTurns === 500 ? [50,125,250,500] : [100,250,500,1000]).includes(offset)) {
       const initial = w.checkpoints.find((a) => a.turn === 0);
-      const current = w.checkpoints.filter((a) => a.turn >= w.blockEnd - 1000);
+      const current = w.checkpoints.filter((a) => a.turn >= w.blockEnd - (w.config.blockTurns || 1000));
       w.checkpoints = [
         ...(initial ? [initial] : []),
         ...current.filter((a) => a.turn !== 0),
@@ -323,8 +323,9 @@
   }
   function beginTurn(previous, options = {}) {
     let w = structuredClone(previous), stage = 0, cancelled = false, failed = false;
+    S.inheritGeometry(previous,w);
     if (w.stopReason === "checkpoint") {
-      w.blockEnd += 1000;
+      w.blockEnd += w.config.blockTurns || 1000;
       const initial = w.checkpoints.find((a) => a.turn === 0);
       w.checkpoints = [...(initial ? [initial] : []), checkpoint(w)];
     }
@@ -376,7 +377,13 @@
       }
       return copy;
     }
-    return {advance,preview,cancel(){cancelled=true;w=null;}};
+    // Synchronous read-only consumer for Worker serialization: no full-world clone.
+    // postMessage copies each patch before the next advance can mutate this world.
+    function display() {
+      ensure();
+      return stage===3?w:{...w,events:[...ctx.events.values()].flat(),diagnostics:null};
+    }
+    return {advance,preview,display,cancel(){cancelled=true;w=null;}};
   }
   function step(previous, options = {}) {
     const turn = beginTurn(previous, options);

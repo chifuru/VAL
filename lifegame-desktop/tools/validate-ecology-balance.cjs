@@ -47,9 +47,9 @@ const CASES = [
     placement: "scatter",
   },
 ];
-function simulate(config, ticks = 1000) {
+function simulate(config, ticks = 500) {
   const { id, ...input } = config;
-  let w = E.create(input),
+  let w = E.create({blockTurns:500,...input}),
     maxGeneration = 0,
     mainBirths = 0,
     descendantBirths = 0,
@@ -58,6 +58,8 @@ function simulate(config, ticks = 1000) {
     phaseIV = new Set(),
     offspringMatured = new Set(),
     snapshots = [];
+  const represented = E.S.D.main.filter(s=>w.stats.counts[s.id]>0).map(s=>s.id),
+    continuous150to250=Object.fromEntries(represented.map(id=>[id,true]));
   const started = performance.now();
   function snapshot() {
     const t = S.totals(w);
@@ -107,12 +109,15 @@ function simulate(config, ticks = 1000) {
     }
     if (firstExtinction === null && w.initialMain > 0 && w.stats.main === 0)
       firstExtinction = w.turn;
-    if ([100, 250, 500, 1000, 2000].includes(w.turn) || w.turn === ticks)
+    if(w.turn>=150&&w.turn<=250)for(const id of represented)
+      if(!w.stats.counts[id])continuous150to250[id]=false;
+    if ([50, 125, 150, 250, 500, 1000, 2000].includes(w.turn) || w.turn === ticks)
       snapshots.push(snapshot());
   }
   return {
     id,
-    config: input,
+    config: w.config,
+    survivalWindow: {from:150,to:250,complete:ticks>=250,continuous:ticks>=250?continuous150to250:null},
     ticks,
     version: w.version,
     mainBirths,
@@ -131,7 +136,7 @@ function simulate(config, ticks = 1000) {
 }
 if (require.main === module) {
   const selected = process.argv[2] || "regression",
-    ticks = Number(process.argv[3] || 1000);
+    ticks = Number(process.argv[3] || 500);
   if (!Number.isSafeInteger(ticks) || ticks < 1 || ticks > 10000)
     throw Error("invalid tick count");
   const cases =

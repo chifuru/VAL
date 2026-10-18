@@ -1438,4 +1438,7 @@ input, select, textarea { accent-color: var(--mint); }
 #selection[inert] { opacity: .6; }
 input:disabled, select:disabled { opacity: .65; cursor: default; }
 @media (min-width: 1101px) { .observatory .canvas-wrap { height: calc(100vh - 480px); min-height: 400px; } }
-#speed { width: 160px; min-width: 160px; }
+#speed { width: 220px; min-width: 220px; max-width: 100%; }
+
+#interaction-note { margin: 6px 0; padding: 9px 12px; border: 1px solid #927d48; border-radius: 6px; color: #f1dda3; background: #26352c; }
+#detail-hold { margin: 8px 0; }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; worker-src 'self'; object-src 'none'; base-uri 'none'"
     />
     <title>LifeGame — 生態シミュレーション</title>
     <link rel="stylesheet" href="styles.css" />
@@ -86,6 +86,7 @@ ECOSYSTEM-2026</textarea
                 この設定で世界を作る ↗
               </button>
             </div>
+            <button id="cancel-settings" type="button" class="secondary" hidden>変更を適用せず観測へ戻る</button>
             <p id="cohort-hint" class="cohort-hint" aria-live="polite"></p>
             <details id="advanced-settings">
               <summary>系統の詳細・初期配置・参加する生物群</summary>
@@ -139,9 +140,10 @@ ECOSYSTEM-2026</textarea
             ><button id="open-results" class="secondary">結果図鑑</button
             ><button id="reset" class="secondary" disabled>初期状態へ</button
             ><select id="speed" aria-label="観測速度">
-              <option value="0.5">基準 · 1ターン約2秒</option>
+              <option value="1">基準 · 約1秒 × 500ターン</option>
             </select>
           </div>
+          <p id="interaction-note" class="note" role="status" hidden></p>
           <div class="metrics">
             <div class="population-main"><span>主生物</span><strong id="main-count">—</strong><small id="main-balance">出生 — / 死亡 —（累計）</small></div>
             <div><span>餌生物</span><strong id="food-count">—</strong></div>
@@ -153,7 +155,7 @@ ECOSYSTEM-2026</textarea
           </div>
           <div class="turn-strip" aria-label="ターンの進行">
             <ol id="turn-stages"><li>01 資源更新</li><li>02 移動・採食・戦闘</li><li>03 成長・繁殖</li></ol>
-            <span id="turn-progress" role="status" aria-live="polite">基準：1ターン約2秒 · 三段階で観察</span>
+            <span id="turn-progress" role="status" aria-live="polite">基準：1ターン約1秒 · 三段階で観察</span>
           </div>
           <p id="active-mode" class="active-mode">自由設定 · 初期条件の調整なし</p>
           <div class="panel habitat">
@@ -161,7 +163,7 @@ ECOSYSTEM-2026</textarea
               <h2>◈ 生態系マップ <small id="status">未準備</small></h2>
               <span
                 >TURN <strong id="turn">0</strong>
-                <span id="turn-limit">/ 1000</span></span
+                <span id="turn-limit">/ 500</span></span
               >
             </div>
             <div class="canvas-wrap">
@@ -224,7 +226,7 @@ ECOSYSTEM-2026</textarea
           <section class="panel checkpoints">
             <div class="panel-heading">
               <h2>観測スナップショット</h2>
-              <span>0 / 100 / 250 / 500 / 1000</span>
+              <span>0 / 100 / 250 / 500 / 500</span>
             </div>
             <div id="checkpoints"></div>
             <details id="budget-panel"><summary>収支・出生・死因・情報の詳細</summary><div id="budget-content"></div></details>
@@ -243,6 +245,7 @@ ECOSYSTEM-2026</textarea
             1マスに主生物1体と餌生物1体が共存。寄生虫は宿主に付随します。
           </p>
           <p id="preview-note" class="note" hidden>途中のプレビューです。個体の詳細・集計はターン確定後に更新します。一時停止すると最後の確定状態に戻ります。</p>
+          <button id="detail-hold" class="secondary" type="button">詳細を読みながら停止</button>
           <div id="selection">盤面のマスを選択してください。</div>
           <details id="rank-panel" class="rank-panel">
             <summary>生存系統を確認</summary>
@@ -323,6 +326,8 @@ ECOSYSTEM-2026</textarea
     </dialog>
     <script src="ecology/replay-version.js"></script>
     <script src="ecology/archive.js"></script>
+    <script src="ecology/transport.js"></script>
+    <script src="ecology/compute-client.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

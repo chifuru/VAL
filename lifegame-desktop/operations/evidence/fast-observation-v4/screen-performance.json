@@ -1,0 +1,29 @@
+{
+  "app": "4.0.0",
+  "browser": "154.0.8037.57",
+  "map": "river / 80x56 / initial main 640",
+  "environment": "Linux shared cloud CPU; real three-stage UI and painted artwork",
+  "rows": [
+    {
+      "view": "overview",
+      "from": 1,
+      "to": 16,
+      "wallMs": 22341.10000000149,
+      "meanTurnMs": 1489.4066666667661,
+      "preparationMs": 6778.5999999996275,
+      "main": 640
+    },
+    {
+      "view": "detail",
+      "from": 16,
+      "to": 31,
+      "wallMs": 22326.199999999255,
+      "meanTurnMs": 1488.4133333332836,
+      "preparationMs": 2958.2999999988824,
+      "main": 640
+    }
+  ],
+  "responseMs": 51.333550000003015,
+  "errors": [],
+  "external": []
+}

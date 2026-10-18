@@ -111,7 +111,7 @@ const { chromium } = require("playwright"),
     await page.screenshot({type:'jpeg',quality:92,path:path.join(out,'narrow.jpg'),fullPage:true});
     check(errors.length===0,'no browser errors: '+errors.join(';'));
     check(external.length===0,'no external HTTP requests');
-    await fs.writeFile(path.join(out,'report.json'),JSON.stringify({ok:true,app:'3.9.0',checks,errors,external,browser:browser.version()},null,2));
+    await fs.writeFile(path.join(out,'report.json'),JSON.stringify({ok:true,app:require('../package.json').version,checks,errors,external,browser:browser.version()},null,2));
     console.log(JSON.stringify({ok:true,checks:checks.length}));
   } finally {
     await browser.close();await new Promise(r=>server.close(r));

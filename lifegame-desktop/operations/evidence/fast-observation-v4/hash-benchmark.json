@@ -1,0 +1,17 @@
+{
+  "environment": "same Node V8 VM, portable SHA for both; microbenchmark, not whole-game speed",
+  "rows": [
+    {
+      "name": "before",
+      "sum": 43072915418726,
+      "ms": 278.791989
+    },
+    {
+      "name": "after",
+      "sum": 43072915418726,
+      "ms": 124.26588800000002
+    }
+  ],
+  "sameRandomSequence": true,
+  "largeUnicodeDigests": true
+}

@@ -59,7 +59,7 @@ const { chromium } = require("playwright"),
   }
   try {
     await page.goto(origin+'/Index.html?smoke=1');await page.evaluate(()=>EcoArt.ready);
-    check(await page.locator('#speed option').count()===1&&await page.locator('#speed').inputValue()==='0.5','one reference cadence is two seconds per turn');
+    check(await page.locator('#speed option').count()===1&&await page.locator('#speed').inputValue()==='1','one reference cadence is one second per turn');
     await page.selectOption('#size','40,28');await page.selectOption('#observation-mode','river-settlement');
     check(await page.locator('#initial').inputValue()==='160','settlement mode exposes its larger initial cohort');
     check(await page.locator('#map-id').isDisabled()&&await page.locator('#lineages').isDisabled(),'fixed preset parameters are explicit and protected');
@@ -97,7 +97,7 @@ const { chromium } = require("playwright"),
     await page.waitForFunction(()=>__LIFE_TEST__.snapshot().world.turn===1);
     const elapsed=await page.evaluate(()=>performance.now())-started;
     await page.evaluate(()=>document.getElementById('start').click());
-    check(elapsed>=1900,'reference cadence does not skip ahead to meet a faster target');
+    check(elapsed>=900,'reference cadence does not skip ahead to meet a faster target');
     check(await page.evaluate(()=>{const w=__LIFE_TEST__.snapshot().world;return EcoEngine.fingerprint(w)===EcoEngine.fingerprint(EcoEngine.step(EcoEngine.create(w.config)));}),'animated stages end at the same biological result as an atomic turn');
     await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:path.join(out,'staged-overview.jpg'),type:'jpeg',quality:92});
     await page.click('#detail-view');await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:path.join(out,'staged-detail.jpg'),type:'jpeg',quality:92});
@@ -120,7 +120,7 @@ const { chromium } = require("playwright"),
     await page.setViewportSize({width:390,height:844});
     check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'mode and stage controls fit a narrow screen');
     check(errors.length===0,'no browser errors: '+errors.join(';'));check(external.length===0,'no external requests');
-    await fs.writeFile(path.join(out,'report.json'),JSON.stringify({ok:true,app:'3.9.0',checks,errors,external,cadenceMs:2000,observedFirstTurnMs:elapsed,browser:browser.version()},null,2));
+    await fs.writeFile(path.join(out,'report.json'),JSON.stringify({ok:true,app:'4.0.0',checks,errors,external,cadenceMs:1000,observedFirstTurnMs:elapsed,browser:browser.version()},null,2));
     console.log(JSON.stringify({ok:true,checks:checks.length,observedFirstTurnMs:elapsed}));
   } finally { await browser.close();await new Promise(r=>server.close(r)); }
 })().catch(e=>{console.error(e);process.exitCode=1;});

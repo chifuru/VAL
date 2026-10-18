@@ -39,6 +39,7 @@ async function main() {
     const data = JSON.parse(await fs.readFile(report, "utf8"));
     if (
       !data.ok ||
+      !data.workerPlayback ||
       data.turn < 1 ||
       data.nodeExposed ||
       !data.local ||

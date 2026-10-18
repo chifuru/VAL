@@ -52,7 +52,35 @@
     0.5 + 0.5 * H.clamp((o.B - PLANT_BASE) / 10, 0, 1);
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
-  function nearby(w, p, radius = 1, includeSelf = false) {
+  // Explicitly enabled only for fixed production worlds; never serialized.
+  const geometry = new WeakMap(), geometryPool = new Map();
+  function prepareGeometry(w) {
+    const key = H.sha256(H.stable([w.config.width,w.config.height,w.tiles.map(({soilM,...t})=>t)]));
+    let cache = geometryPool.get(key);
+    const reused = !!cache;
+    if (!cache) {
+      cache = {near:new Map(),edges:new Map(),sight:new Map(),habitat:new Map()};
+      for (let p=0;p<w.tiles.length;p++) {
+        cache.near.set(p+":1:false",rawNearby(w,p));
+        for (const q of rawNearby(w,p)) cache.edges.set(p*w.tiles.length+q,rawOneStep(w,p,q));
+      }
+      geometryPool.set(key,cache);
+      if (geometryPool.size>2) geometryPool.delete(geometryPool.keys().next().value);
+    }
+    geometry.set(w,cache);
+    return {key,reused};
+  }
+  function inheritGeometry(from,to) { const c=geometry.get(from);if(c)geometry.set(to,c); }
+  function nearby(w,p,radius=1,includeSelf=false) {
+    const c=geometry.get(w);if(!c)return rawNearby(w,p,radius,includeSelf);
+    const key=p+":"+radius+":"+includeSelf;
+    if(!c.near.has(key)) {
+      if(c.near.size>=20000)return rawNearby(w,p,radius,includeSelf);
+      c.near.set(key,rawNearby(w,p,radius,includeSelf));
+    }
+    return c.near.get(key).slice();
+  }
+  function rawNearby(w, p, radius = 1, includeSelf = false) {
     const [x, y] = xy(w, p),
       out = [];
     for (let dy = -radius; dy <= radius; dy++)
@@ -72,7 +100,11 @@
       [u, v] = xy(w, b);
     return Math.max(Math.abs(x - u), Math.abs(y - v));
   }
-  function oneStep(w, a, b) {
+  function oneStep(w,a,b) {
+    const c=geometry.get(w),key=a*w.tiles.length+b;
+    return c?.edges.has(key)?c.edges.get(key):rawOneStep(w,a,b);
+  }
+  function rawOneStep(w, a, b) {
     if (a === b) return !w.tiles[a].blocked;
     if (distance(w, a, b) !== 1 || w.tiles[a].blocked || w.tiles[b].blocked)
       return false;
@@ -98,7 +130,17 @@
     return true;
   }
   // Supercover traversal: corner touches test both orthogonal cells and all four edges.
-  function sight(w, a, b, blockers = null) {
+  function sight(w,a,b,blockers=null) {
+    const c=geometry.get(w);
+    // Organism occlusion is dynamic and must always be evaluated.
+    if(!c||blockers)return rawSight(w,a,b,blockers);
+    const key=a*w.tiles.length+b;
+    if(c.sight.has(key))return c.sight.get(key);
+    const value=rawSight(w,a,b);
+    if(c.sight.size<100000)c.sight.set(key,value);
+    return value;
+  }
+  function rawSight(w, a, b, blockers = null) {
     if (a === b) return true;
     let [x, y] = xy(w, a);
     const [tx, ty] = xy(w, b),
@@ -282,6 +324,8 @@
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
+      throw Error("SETTINGS_INVALID: 観測区間");
     return c;
   }
   const ageFactors = Object.freeze({
@@ -502,7 +546,7 @@
         checkpoints: [],
         stats: null,
         initialMain: config.initial,
-        blockEnd: 1000,
+        blockEnd: config.blockTurns || 1000,
         extinctNotified: false,
         warnings: [],
         ledger: { initialE: 0, solar: 0, sinks: 0, initialM: 0, Mloss: 0 },
@@ -1008,6 +1052,8 @@
     index,
     xy,
     nearby,
+    prepareGeometry,
+    inheritGeometry,
     distance,
     oneStep,
     sight,

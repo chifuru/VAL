@@ -43,8 +43,14 @@ app
         t.prepare({seed:'native-smoke',width:40,height:28,initial:80});
         if(t.snapshot().world.turn!==0)throw Error('prepare advanced');
         for(let i=0;i<10;i++)t.step();
-        const s=t.snapshot(); if(!s.world.turn)throw Error('no steps');
-        return {assetsLoaded:t.snapshot().assets.loaded,assetErrors:t.snapshot().assets.errors,platform:navigator.platform,turn:s.world.turn,population:s.world.stats.population,nodeExposed:typeof require!=='undefined',local:location.protocol==='file:',title:document.title};
+        const manualTurn=t.snapshot().world.turn;
+        document.getElementById('start').click();
+        const workerStart=performance.now();
+        while(t.snapshot().world.turn<=manualTurn && performance.now()-workerStart<15000)await new Promise(r=>setTimeout(r,50));
+        const workerTurn=t.snapshot().world.turn;
+        t.stop();
+        const s=t.snapshot();if(workerTurn<=manualTurn)throw Error('Local file Worker did not advance: '+document.getElementById('message').textContent);
+        return {workerPlayback:true,workerTurnMs:performance.now()-workerStart,assetsLoaded:t.snapshot().assets.loaded,assetErrors:t.snapshot().assets.errors,platform:navigator.platform,turn:s.world.turn,population:s.world.stats.population,nodeExposed:typeof require!=='undefined',local:location.protocol==='file:',title:document.title};
       })()`);
         if (!result.local) throw Error("Non-local renderer");
         const report = {

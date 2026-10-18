@@ -76,7 +76,46 @@
     checkpointKey = null,
     pendingTurn = null,
     runGeneration = 0;
-  const TURN_MS = 2000;
+  const TURN_MS = 1000;
+  const holds = new Set();
+  let interactionTimer = null, prewarming = true, lastPreparationMs = 0;
+  const compute = window.EcoCompute.create({
+    onChange: () => { if(running&&!holds.size&&!pendingTurn&&!timer)timer=setTimeout(runLoop,0); },
+    onError: text => { stop();message(text); }
+  });
+  function restoreCommitted() {
+    runGeneration++;clearTimeout(timer);timer=null;
+    const had=!!pendingTurn;pendingTurn=null;
+    if(had){compute.close();prewarming=true;}
+    renderer.view.animate=false;showTurnStage();
+    if(world){renderer.setWorld(world);renderSelection();}
+  }
+  function hold(reason) {
+    if(!running||!world||ended)return;
+    if(!holds.size)restoreCommitted();
+    holds.add(reason);updateHold();
+  }
+  function release(reason) {
+    holds.delete(reason);updateHold();
+    if(running&&!holds.size&&!pendingTurn&&!timer)timer=setTimeout(runLoop,0);
+  }
+  function updateHold() {
+    const names={map:"マップ操作",detail:"個体詳細の閲覧",guide:"説明シートの閲覧",results:"図鑑の閲覧",settings:"初期条件の編集",hidden:"画面が非表示"};
+    $("interaction-note").hidden=!holds.size;
+    $("interaction-note").textContent=holds.size?([...holds].map(k=>names[k]).join("・")+"のため停止中") : "";
+    $("detail-hold").textContent=holds.has("detail")?"詳細の閲覧を終える ▶":"詳細を読みながら停止";
+    $("cancel-settings").hidden=!holds.has("settings");
+    if(running)$("status").textContent=holds.size?"操作中・停止":"観測中";
+  }
+  function mapInteraction(held=false) {
+    hold("map");clearTimeout(interactionTimer);
+    if(!held)interactionTimer=setTimeout(()=>release("map"),1000);
+  }
+  function startRunning() {
+    if(!world||ended)return;
+    running=true;$("start").textContent="一時停止 Ⅱ";$("step").disabled=true;
+    updateHold();if(!holds.size)timer=setTimeout(runLoop,0);
+  }
   const groups = {
     main: "主生物",
     plant: "植物",
@@ -150,13 +189,14 @@
       item.classList.toggle("active",i+1===phase);
       item.classList.toggle("passed",i+1<phase);
     }
-    $("turn-progress").textContent = phase ? `TURN ${world.turn+1} · ${phase}/3 ${label}（途中）` : "基準：1ターン約2秒 · 負荷が高い場合は自動減速";
+    $("turn-progress").textContent = phase ? `TURN ${world.turn+1} · ${phase}/3 ${label}（途中）` : "基準：1ターン約1秒 · 負荷が高い場合は自動減速";
     $("preview-note").hidden = !phase;
     $("selection").inert = !!phase;
   }
   function readConfig() {
     const [width, height] = $("size").value.split(",").map(Number);
     return {
+      blockTurns: 500,
       observationMode: $("observation-mode").value,
       seed: $("seed").value,
       landscape: "templates",
@@ -187,9 +227,11 @@
     $("message").textContent = text;
   }
   function stop() {
+    clearTimeout(interactionTimer);holds.clear();updateHold();
+    compute.close();prewarming=true;
     const hadPending = !!pendingTurn;
     runGeneration++;
-    if (pendingTurn) { pendingTurn.job.cancel(); pendingTurn = null; }
+    if (pendingTurn) pendingTurn = null;
     running = false;
     renderer.view.animate = false;
     clearTimeout(timer);
@@ -202,7 +244,7 @@
     }
     $("start").textContent =
       world?.stopReason === "checkpoint"
-        ? "次の1000ターンを続行 ▶"
+        ? `次の${world.config.blockTurns || 1000}ターンを続行 ▶`
         : "観測を開始 ▶";
     $("step").disabled = !world || ended;
     $("status").textContent = world ? "一時停止" : "未準備";
@@ -211,6 +253,7 @@
     const next = E.create({
       landscape: "templates",
       ageModel: "life/1",
+      blockTurns: 500,
       ...config,
     });
     stop();
@@ -328,47 +371,54 @@
     return world;
   }
   function runLoop() {
-    if (!running || pendingTurn) return;
-    const token = runGeneration, start = performance.now();
-    try {
-      const begin = performance.now(), job = E.beginTurn(world,{observeId:selectedId});
-      const state = pendingTurn = {job,phase:0,computeMs:performance.now()-begin};
-      function valid() { return running && token === runGeneration && pendingTurn === state; }
-      function advance() {
-        if (!valid()) return;
-        try {
-          const begin = performance.now(), result = job.advance();
-          state.phase = result.phase;
-          const preview = job.preview();
-          const visibleEvents = result.phase === 1 ? ["light"]
-            : result.phase === 2 ? ["move","attack","feed","care","defend","death"]
-            : ["growth","birth","infection"];
-          preview.events = preview.events.filter(event=>visibleEvents.includes(event.type));
-          state.previewTypes = [...new Set(preview.events.map(event=>event.type))];
-          state.computeMs += performance.now()-begin;
-          renderer.view.animate = true;
-          renderer.view.duration = 600;
-          renderer.setWorld(preview,true);
-          showTurnStage(result.phase,result.label);
-          if (result.done) {
-            timer = setTimeout(() => {
-              if (!valid()) return;
-              pendingTurn = null;
-              showTurnStage();
-              renderer.view.animate = false;
-              commitTurn(result.world,state.computeMs);
-              if (running) timer = setTimeout(runLoop,0);
-            },Math.max(180,TURN_MS-(performance.now()-start)));
-          } else timer = setTimeout(advance,Math.max(180,result.phase*TURN_MS/3-(performance.now()-start)));
-        } catch (error) { stop(); message("ターンを確定できませんでした："+error.message); }
-      }
-      advance();
-    } catch (error) { stop(); message("計算を開始できませんでした："+error.message); }
+    timer=null;
+    if (!running || holds.size || pendingTurn) return;
+    if(!compute.initialized) {
+      const limit=replayEntry?.turn || (world.blockEnd + (world.stopReason==="checkpoint"?(world.config.blockTurns||1000):0));
+      prewarming=true;compute.init(world,selectedId,limit);
+      if(!running)return;
+    }
+    if(prewarming && (!compute.length || compute.busy || !compute.ready)) {
+      $("status").textContent="観測の準備中";
+      message(`観測の準備中 · ${(compute.elapsed/1000).toFixed(1)}秒 / 上限60秒。先行計算中もマップを操作できます。`);
+      timer=setTimeout(runLoop,100);return;
+    }
+    if(prewarming){lastPreparationMs=compute.elapsed;prewarming=false;}
+    const packet=compute.take();
+    if(!packet){compute.fill(2);$("status").textContent="計算待ち";message("次のターンを計算しています。個体やターンを省略せず待機します。");timer=setTimeout(runLoop,100);return;}
+    const token=runGeneration,start=performance.now();
+    const state=pendingTurn={phase:0,computeMs:packet.computeMs,preview:world};
+    compute.fill(2);
+    function valid(){return running&&!holds.size&&token===runGeneration&&pendingTurn===state;}
+    function advance(){
+      if(!valid())return;
+      try {
+        const i=state.phase,preview=window.EcoTransport.apply(state.preview,packet.patches[i]);
+        state.preview=preview;state.phase++;
+        const visibleEvents=i===0?["light"]:i===1?["move","attack","feed","care","defend","death"]:["growth","birth","infection"];
+        const events=preview.events.filter(e=>visibleEvents.includes(e.type));
+        state.previewTypes=[...new Set(events.map(e=>e.type))];
+        renderer.view.animate=true;renderer.view.duration=TURN_MS/3;
+        renderer.setWorld({...preview,events},true);
+        showTurnStage(state.phase,["資源更新","移動・採食・戦闘","成長・繁殖"][i]);
+        $("status").textContent="観測中";
+        if(state.phase===3)timer=setTimeout(()=>{
+          if(!valid())return;
+          pendingTurn=null;showTurnStage();renderer.view.animate=false;
+          commitTurn(preview,packet.computeMs);
+          if(running&&!holds.size)timer=setTimeout(runLoop,0);
+        },Math.max(100,TURN_MS-(performance.now()-start)));
+        else timer=setTimeout(advance,Math.max(100,state.phase*TURN_MS/3-(performance.now()-start)));
+      }catch(e){stop();message("計算結果を表示できませんでした："+e.message);}
+    }
+    advance();
   }
   $("setup").addEventListener("submit", (event) => {
     event.preventDefault();
     try {
+      const resume=running;
       prepare(readConfig());
+      if(resume)startRunning();
       if (!document.body.classList.contains("observatory"))
         $("focus-view").click();
     } catch (error) {
@@ -376,7 +426,7 @@
     }
   });
   $("change-world").addEventListener("click", () => {
-    stop();
+    hold("settings");
     if (document.body.classList.contains("observatory"))
       $("focus-view").click();
     $("setup").scrollIntoView({ block: "start", behavior: "auto" });
@@ -394,11 +444,7 @@
     }
     if (!world || ended || (replayEntry && world.turn >= replayEntry.turn))
       return;
-    running = true;
-    $("start").textContent = "一時停止 Ⅱ";
-    $("step").disabled = true;
-    $("status").textContent = "観測中";
-    timer = setTimeout(runLoop, 0);
+    startRunning();
   });
   $("step").addEventListener("click", () => {
     stop();
@@ -480,7 +526,7 @@
   }
   $("finish-run").onclick = () => finishRun();
   $("open-results").onclick = () => {
-    stop();
+    hold("results");
     showResults();
   };
   $("close-results").onclick = () => $("results").close();
@@ -518,6 +564,7 @@
   const canvas = $("board");
   let drag = null;
   canvas.addEventListener("pointerdown", (e) => {
+    mapInteraction(true);
     drag = {
       x: e.clientX,
       y: e.clientY,
@@ -543,18 +590,24 @@
   canvas.addEventListener("pointerup", (e) => {
     if (drag && !drag.moved) {
       const cell = renderer.cellAt(e.clientX, e.clientY);
-      if (cell !== null) select(cell);
+      if (cell !== null) { select(cell);hold("detail"); }
     }
     drag = null;
+    mapInteraction();
   });
   canvas.addEventListener("pointercancel", () => {
     drag = null;
+    mapInteraction();
+  });
+  canvas.addEventListener("lostpointercapture",()=>{
+    if(drag){drag=null;mapInteraction();}
   });
   canvas.addEventListener(
     "wheel",
     (e) => {
       if (!world) return;
       e.preventDefault();
+      mapInteraction(!!drag);
       const b = canvas.getBoundingClientRect();
       renderer.zoom(
         Math.exp(-e.deltaY * 0.002),
@@ -566,6 +619,7 @@
   );
   canvas.addEventListener("keydown", (e) => {
     if (!world) return;
+    if(["ArrowLeft","ArrowRight","ArrowUp","ArrowDown","+","=","-"].includes(e.key))mapInteraction();
     let cell = selectedCell ?? 0;
     const changes = {
       ArrowLeft: -1,
@@ -582,6 +636,8 @@
   });
   function select(cell, id = null) {
     if (pendingTurn) return;
+    // A changed observer needs fresh diagnostics; biology remains identical.
+    if(compute.initialized){compute.close();prewarming=true;}
     selectedCell = cell;
     selectedId =
       id ||
@@ -875,7 +931,7 @@
     for (const tr of $("cells-table").querySelectorAll("tr"))
       tr.onclick = () => {
         const o = world.organisms.find((a) => a.id === tr.dataset.id);
-        if (o) select(o.cell, o.id);
+        if (o) {hold("detail");select(o.cell, o.id);}
       };
   }
   function renderPopulation() {
@@ -908,11 +964,22 @@
   $("setup").addEventListener("input", updateCohortHint);
   $("setup").addEventListener("change", updateCohortHint);
   applyObservationMode();
+  $("setup").addEventListener("focusin",()=>hold("settings"));
+  $("cancel-settings").onclick=()=>{
+    if(document.body.classList.contains("observatory")===false)$("focus-view").click();
+    release("settings");message("編集内容を適用せず、現在の世界の観測へ戻ります。");
+  };
+  $("detail-hold").onclick=()=>holds.has("detail")?release("detail"):hold("detail");
+  for(const id of ["guide","results"])$(id).addEventListener("close",()=>release(id));
+  for(const id of ["fit","zoom-in","zoom-out","overview-view","detail-view","focus-view","simplified","grid","resources","emphasis","age-emphasis","status-marks","motion"]){
+    $(id)?.addEventListener("click",()=>mapInteraction(!!drag),true);
+  }
+  document.addEventListener("visibilitychange",()=>document.hidden?hold("hidden"):release("hidden"));
   const card = (title, text) =>
     `<article class="sheet-card"><h3>${title}</h3>${text}</article>`;
   const sheets = {
     system: () =>
-      `<h2>基本システムから読む</h2><p class="note">v1.5：自然配置は同系統4体の小組。植物は基部B2を残し、光4×固定光量×葉量係数×モードの光合成倍率でEを得て最大2EをBへ投資。植物の土壌吸収は一口M0.1・吸収率0.5で、合計二口の上限を共有します。</p><div class="flow">初期値 → 固定環境・初期生物 → 局所の同期更新 → 食物網・生存競争 → 観測</div><div class="sheet-grid">${card("セルと生物の重なり", "<p>マスには主生物1体、餌生物1体、最大3種の落ちた資源。一次寄生虫Pは各宿主に1体、高次寄生虫QはPに1体付随します。植物・菌・動く餌は同じ餌枠を使います。1体は常に独立個体です。</p>")}${card("固定環境、変わる生命", "<p>6種類の事前地形から選び、地形用初期値で候補地点の地物を決めます。生態用初期値は個体と資源の配置・生態進行に使います。8環境と地形・光・障害物は開始後に変わりません。系統の得意・苦手環境で攻撃・防御・移動Eが変わります。境界は通行可能なら越えられ、環境ごとに生物を隔離しません。</p>")}${card("三段階の観察", "<p>自動観察は1ターン約2秒。資源更新、移動・採食・戦闘、成長・繁殖を順に表示します。途中はプレビューで、個体数や図鑑は確定した結果を使います。一時停止では最後の確定ターンへ戻ります。負荷が高いときは時間を伸ばし、個体やターンを省略しません。手動の1ターン操作は即時に確定します。</p>")}${card("観察モードの条件", "<p>自由設定は従来の光合成入力と初期餌量。河畔・定着観察は7系統、湖沼・食物網観察は5系統で、主生物は小マップ160体から面積に比例します。両モードは高生産環境として光合成入力2倍。餌生物の初期量は河畔25%増、湖沼50%増です。条件は開始時に固定され、途中の救済補充はありません。モードと実際の条件を図鑑へ保存します。</p>")}${card("10段階の同期ターン", "<ol><li>期限切れ・資源CA</li><li>光と行動候補</li><li>移動予約</li><li>同時戦闘</li><li>育児・採食</li><li>維持費・死亡</li><li>経験・寄生成熟</li><li>成長・繁殖</li><li>有償生産・情報・寄生出産</li><li>結果確定・観測</li></ol>")}${card("有限の収支", "<p>Eは使えるエネルギー、Bは身体の有機量、Mは鉱物、Gは累積成長値。光がEの外部入力で、食物は生物・死骸・土壌から支払います。植物は所在土壌Mを一口最大0.1取り、吸収率0.5の残りを土へ戻します。二口の上限を共有します。時間だけで食べた餌が無料復活することはありません。散逸分も台帳へ記録します。</p>")}${card("ライフゲーム由来の局所規則", "<p>鉱物片・鉱液滴・情報の発生候補は近傍8マスのB3/S23（3で出生、2/3で残存）。候補に加え供給元の予算・地形条件も必要です。主生物の出生は空きマスの近傍主生物2〜3体と二親条件、植物はB3、小型餌は2〜3近傍を使います。主生物の死因は飢餓・寿命・戦闘です。</p>")}${card("規模と観測の限界", "<p>小40×28、標準80×56、大160×112。基準は1ターン約2秒で、負荷超過時は実時間の進行を減速します。画面外も計算し、個体数を描画上限へ合わせません。1000ターンで一時停止し、次区間へ続行できます。</p>")}</div>`,
+      `<h2>基本システムから読む</h2><p class="note">v1.5：自然配置は同系統4体の小組。植物は基部B2を残し、光4×固定光量×葉量係数×モードの光合成倍率でEを得て最大2EをBへ投資。植物の土壌吸収は一口M0.1・吸収率0.5で、合計二口の上限を共有します。</p><div class="flow">初期値 → 固定環境・初期生物 → 局所の同期更新 → 食物網・生存競争 → 観測</div><div class="sheet-grid">${card("セルと生物の重なり", "<p>マスには主生物1体、餌生物1体、最大3種の落ちた資源。一次寄生虫Pは各宿主に1体、高次寄生虫QはPに1体付随します。植物・菌・動く餌は同じ餌枠を使います。1体は常に独立個体です。</p>")}${card("固定環境、変わる生命", "<p>6種類の事前地形から選び、地形用初期値で候補地点の地物を決めます。生態用初期値は個体と資源の配置・生態進行に使います。8環境と地形・光・障害物は開始後に変わりません。系統の得意・苦手環境で攻撃・防御・移動Eが変わります。境界は通行可能なら越えられ、環境ごとに生物を隔離しません。</p>")}${card("三段階の観察", "<p>自動観察は1ターン約1秒。資源更新、移動・採食・戦闘、成長・繁殖を順に表示します。途中はプレビューで、個体数や図鑑は確定した結果を使います。一時停止では最後の確定ターンへ戻ります。操作中は停止し、終了後に再開します。最大60秒の事前計算と上限6ターンの先行計算を使います。負荷が高いときは時間を伸ばし、個体やターンを省略しません。手動の1ターン操作は即時に確定します。</p>")}${card("観察モードの条件", "<p>自由設定は従来の光合成入力と初期餌量。河畔・定着観察は7系統、湖沼・食物網観察は5系統で、主生物は小マップ160体から面積に比例します。両モードは高生産環境として光合成入力2倍。餌生物の初期量は河畔25%増、湖沼50%増です。条件は開始時に固定され、途中の救済補充はありません。モードと実際の条件を図鑑へ保存します。</p>")}${card("10段階の同期ターン", "<ol><li>期限切れ・資源CA</li><li>光と行動候補</li><li>移動予約</li><li>同時戦闘</li><li>育児・採食</li><li>維持費・死亡</li><li>経験・寄生成熟</li><li>成長・繁殖</li><li>有償生産・情報・寄生出産</li><li>結果確定・観測</li></ol>")}${card("有限の収支", "<p>Eは使えるエネルギー、Bは身体の有機量、Mは鉱物、Gは累積成長値。光がEの外部入力で、食物は生物・死骸・土壌から支払います。植物は所在土壌Mを一口最大0.1取り、吸収率0.5の残りを土へ戻します。二口の上限を共有します。時間だけで食べた餌が無料復活することはありません。散逸分も台帳へ記録します。</p>")}${card("ライフゲーム由来の局所規則", "<p>鉱物片・鉱液滴・情報の発生候補は近傍8マスのB3/S23（3で出生、2/3で残存）。候補に加え供給元の予算・地形条件も必要です。主生物の出生は空きマスの近傍主生物2〜3体と二親条件、植物はB3、小型餌は2〜3近傍を使います。主生物の死因は飢餓・寿命・戦闘です。</p>")}${card("規模と観測の限界", "<p>小40×28、標準80×56、大160×112。基準は1ターン約1秒で、負荷超過時は実時間の進行を減速します。画面外も計算し、個体数を描画上限へ合わせません。500ターンで一時停止し、次区間へ続行できます。</p>")}</div>`,
     food: () =>
       `<h2>植物 → 動く餌 → 主生物、そして分解者へ</h2><div class="flow">光 → 植物 → 動く餌 → 主生物 → 死骸 → 菌・有機粒・土壌<br>本人の経験 → 情報エネルギー体 → 他個体の行動パラメータ</div><table class="food-table"><thead><tr><th>餌・生物</th><th>特色 / 主な供給元</th><th>不足・制約</th></tr></thead><tbody>${[
         [
@@ -1107,6 +1174,7 @@
   }
   function openGuide(name = "tree") {
     showSheet(name);
+    hold("guide");
     if (!$("guide").open) $("guide").showModal();
   }
   $("open-guide").onclick = () => openGuide();
@@ -1168,6 +1236,8 @@
         running,
         pending: pendingTurn && {phase:pendingTurn.phase,nextTurn:world.turn+1,events:[...(pendingTurn.previewTypes || [])]},
         cadenceMs:TURN_MS,
+        holds:[...holds],
+        compute:{initialized:compute.initialized,ready:compute.ready,busy:compute.busy,buffered:compute.length,preparationMs:lastPreparationMs,metadata:compute.metadata},
         replay: !!replayEntry,
         ended,
         lastMs,
