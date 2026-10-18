@@ -1,0 +1,2 @@
+{"id":"custom","forage":false,"main":129,"food":282,"prey":{"waterbug":{"initial":0,"final":0,"births":0,"lastAlive":-1,"descendantReproduced":0},"grassbug":{"initial":111,"final":0,"births":1207,"lastAlive":352,"descendantReproduced":627}},"elapsedMs":128122}
+{"id":"custom","forage":true,"main":114,"food":240,"prey":{"waterbug":{"initial":0,"final":0,"births":0,"lastAlive":-1,"descendantReproduced":0},"grassbug":{"initial":111,"final":0,"births":857,"lastAlive":208,"descendantReproduced":454}},"elapsedMs":69497}

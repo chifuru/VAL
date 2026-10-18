@@ -1,0 +1,151 @@
+{
+  "checkedStates": 3006,
+  "baselineMatched": 1503,
+  "sourceHashesMatched": true,
+  "summary": [
+    {
+      "id": "historical-input",
+      "variant": "baseline",
+      "states": 501,
+      "baselineMatched": 501,
+      "main": 171,
+      "food": 639,
+      "P": 443,
+      "Q": 0,
+      "grassbug": {
+        "initial": 111,
+        "final": 8,
+        "births": 916,
+        "lastAlive": 500,
+        "descendantReproduced": 474
+      },
+      "waterbug": {
+        "initial": 0,
+        "final": 0,
+        "births": 0,
+        "lastAlive": -1,
+        "descendantReproduced": 0
+      }
+    },
+    {
+      "id": "historical-input",
+      "variant": "forage",
+      "states": 501,
+      "baselineMatched": null,
+      "main": 161,
+      "food": 560,
+      "P": 374,
+      "Q": 0,
+      "grassbug": {
+        "initial": 111,
+        "final": 0,
+        "births": 565,
+        "lastAlive": 161,
+        "descendantReproduced": 286
+      },
+      "waterbug": {
+        "initial": 0,
+        "final": 0,
+        "births": 0,
+        "lastAlive": -1,
+        "descendantReproduced": 0
+      }
+    },
+    {
+      "id": "custom",
+      "variant": "baseline",
+      "states": 501,
+      "baselineMatched": 501,
+      "main": 129,
+      "food": 282,
+      "P": 209,
+      "Q": 0,
+      "grassbug": {
+        "initial": 111,
+        "final": 0,
+        "births": 1207,
+        "lastAlive": 352,
+        "descendantReproduced": 627
+      },
+      "waterbug": {
+        "initial": 0,
+        "final": 0,
+        "births": 0,
+        "lastAlive": -1,
+        "descendantReproduced": 0
+      }
+    },
+    {
+      "id": "custom",
+      "variant": "forage",
+      "states": 501,
+      "baselineMatched": null,
+      "main": 114,
+      "food": 240,
+      "P": 207,
+      "Q": 0,
+      "grassbug": {
+        "initial": 111,
+        "final": 0,
+        "births": 857,
+        "lastAlive": 208,
+        "descendantReproduced": 454
+      },
+      "waterbug": {
+        "initial": 0,
+        "final": 0,
+        "births": 0,
+        "lastAlive": -1,
+        "descendantReproduced": 0
+      }
+    },
+    {
+      "id": "lake",
+      "variant": "baseline",
+      "states": 501,
+      "baselineMatched": 501,
+      "main": 23,
+      "food": 4,
+      "P": 0,
+      "Q": 0,
+      "grassbug": {
+        "initial": 167,
+        "final": 0,
+        "births": 1028,
+        "lastAlive": 229,
+        "descendantReproduced": 574
+      },
+      "waterbug": {
+        "initial": 0,
+        "final": 0,
+        "births": 0,
+        "lastAlive": -1,
+        "descendantReproduced": 0
+      }
+    },
+    {
+      "id": "lake",
+      "variant": "forage",
+      "states": 501,
+      "baselineMatched": null,
+      "main": 7,
+      "food": 0,
+      "P": 0,
+      "Q": 0,
+      "grassbug": {
+        "initial": 167,
+        "final": 0,
+        "births": 789,
+        "lastAlive": 216,
+        "descendantReproduced": 431
+      },
+      "waterbug": {
+        "initial": 0,
+        "final": 0,
+        "births": 0,
+        "lastAlive": -1,
+        "descendantReproduced": 0
+      }
+    }
+  ]
+}

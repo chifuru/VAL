@@ -1,0 +1,2 @@
+{"id":"lake","forage":false,"main":23,"food":4,"prey":{"waterbug":{"initial":0,"final":0,"births":0,"lastAlive":-1,"descendantReproduced":0},"grassbug":{"initial":167,"final":0,"births":1028,"lastAlive":229,"descendantReproduced":574}},"elapsedMs":56768}
+{"id":"lake","forage":true,"main":7,"food":0,"prey":{"waterbug":{"initial":0,"final":0,"births":0,"lastAlive":-1,"descendantReproduced":0},"grassbug":{"initial":167,"final":0,"births":789,"lastAlive":216,"descendantReproduced":431}},"elapsedMs":122546}

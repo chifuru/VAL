@@ -1,0 +1,26 @@
+{"id":"lake","forage":false,"main":160,"food":908,"prey":{"waterbug":{"initial":0,"final":0,"births":0,"lastAlive":-1,"descendantReproduced":0},"grassbug":{"initial":167,"final":214,"births":47,"lastAlive":3,"descendantReproduced":0}},"elapsedMs":2670}
+{"id":"lake","forage":true,"main":160,"food":910,"prey":{"waterbug":{"initial":0,"final":0,"births":0,"lastAlive":-1,"descendantReproduced":0},"grassbug":{"initial":167,"final":218,"births":51,"lastAlive":3,"descendantReproduced":0}},"elapsedMs":2991}
+✔ ordinary producers never consume neighboring living plants and still absorb soil minerals (67.69927ms)
+✔ moving prey accepts plants but not neighboring fungi (6.397533ms)
+✔ carnivorous plant symbiont photosynthesizes, hunts prey and rejects plant harvest or main attacks (7.636432ms)
+✔ kelp accepts animal-derived finite stores, while ordinary plants reject organic stores and corpses (7.698054ms)
+✔ fungal decomposers never graze living producers, even through forced harvest (4.929571ms)
+✔ foodweb measurement preserves exact biological states and existing observables (18691.354819ms)
+✔ diagnostic hooks are restored after a failed turn and never alter the input (424.178437ms)
+✔ food-only control keeps initial food positions and terrain without inventing energy or organisms (517.875806ms)
+✔ corrected recovery screen rejects unsupported experiments and preserves exact baseline states (6196.022267ms)
+✔ shared-habitat and retained-material trials keep distinct mechanisms and group budgets (4442.464343ms)
+✔ local renewal compares consistent birth sites and energy reservation without mineral or energy subsidies (1844.755773ms)
+✔ historical 4.1.2 reference refuses changed production sources instead of relabeling results (2.775523ms)
+✔ private prey movement values reachable adjacent leaves without occupying or consuming them (12.326739ms)
+✔ private forage evaluation excludes distant, blocked and fungal food (53.208992ms)
+✔ private source compilation leaves production behavior and initial world untouched (416.157618ms)
+✔ focused runner matches archived production states before comparing the isolated candidate (6283.465579ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 39091.502681
