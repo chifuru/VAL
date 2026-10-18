@@ -1,0 +1,47 @@
+{
+  "failedTurn": 483,
+  "errors": [
+    "ENERGY:0.002006"
+  ],
+  "verifiedStates": 483,
+  "partialRows": 483,
+  "sampled": [
+    {
+      "turn": 0,
+      "Eerror": 0
+    },
+    {
+      "turn": 100,
+      "Eerror": 0.000057
+    },
+    {
+      "turn": 200,
+      "Eerror": 0.000237
+    },
+    {
+      "turn": 300,
+      "Eerror": 0.000595
+    },
+    {
+      "turn": 400,
+      "Eerror": 0.001467
+    },
+    {
+      "turn": 480,
+      "Eerror": 0.001977
+    },
+    {
+      "turn": 481,
+      "Eerror": 0.001984
+    },
+    {
+      "turn": 482,
+      "Eerror": 0.001994
+    }
+  ],
+  "maxAbsoluteSingleTurnChange": {
+    "delta": 0.000019,
+    "turn": 309
+  },
+  "scope": "final-turn residual trend only; no substage attribution or numerical-cause certification"
+}

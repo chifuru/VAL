@@ -1,0 +1,21 @@
+✔ corrected recovery screen rejects unsupported experiments and preserves exact baseline states (6756.228808ms)
+✔ shared-habitat and retained-material trials keep distinct mechanisms and group budgets (6368.305401ms)
+✔ new private loader preserves old candidate results when new flags are off (474.339984ms)
+✔ shared initial placement preserves group targets and terrain while keeping aquatic producers and prey (1409.66479ms)
+✔ initial placement is reproducible and never creates a disabled food group (600.666677ms)
+✔ lower prey energy gate still pays eight units and gives finite child reserves (17.463979ms)
+✔ lower gate cannot reproduce below cost or bypass the juvenile phase (26.866464ms)
+✔ producer retains birth energy for the same sparse neighborhood accepted by reproduction (56.512191ms)
+✔ empty trial matches production and rejects unknown mechanism flags (399.744187ms)
+✔ sparse paid birth needs a real mature parent and preserves finite budgets (17.276037ms)
+✔ uptake changes finite soil transfer but never creates mineral (14.083617ms)
+✔ expanded neighborhood cannot create offspring from an empty or depleted world (6.716666ms)
+✔ producer reserve leaves mineral with grazed producer without breaking the ledger (11.689095ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16419.995317

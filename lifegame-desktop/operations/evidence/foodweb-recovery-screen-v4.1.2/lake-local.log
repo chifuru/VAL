@@ -1,0 +1,2 @@
+Run lake/allocationLocal
+{"variant":"allocationLocal","id":"lake","main":19,"food":37,"waterbug":{"initial":71,"final":0,"births":70,"lastAlive":72,"maxGeneration":4,"descendantReproduced":22},"grassbug":{"initial":96,"final":0,"births":540,"lastAlive":216,"maxGeneration":14,"descendantReproduced":297},"P":27,"Q":0,"stages":{"tideparasite|first":174,"leafparasite|first":1373,"tideparasite|middle":20,"leafparasite|middle":286,"tideparasite|extra":348,"leafparasite|extra":7,"tideparasite|terminal":952,"leafparasite|terminal":7},"windows":265,"attachedQ":2,"elapsedMs":141565}

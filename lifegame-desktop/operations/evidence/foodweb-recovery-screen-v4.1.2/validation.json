@@ -1,0 +1,114 @@
+{
+  "completed500T": 14,
+  "rejected483T": 1,
+  "fullBaselineMatches": 3,
+  "productionSourceUnchanged": true,
+  "trialSourcesVerified": true,
+  "records": [
+    {
+      "file": "baseline-historical-input.json",
+      "states": 501,
+      "matchedStates": 501,
+      "status": "completed",
+      "runnerSource": "screen-phase1.cjs.txt"
+    },
+    {
+      "file": "allocationReserve-custom.json",
+      "states": 501,
+      "matchedStates": null,
+      "status": "completed",
+      "runnerSource": "screen-phase1.cjs.txt"
+    },
+    {
+      "file": "allocationReserve-lake.json",
+      "states": 501,
+      "matchedStates": null,
+      "status": "completed",
+      "runnerSource": "screen-phase1.cjs.txt"
+    },
+    {
+      "file": "baseline-custom.json",
+      "states": 501,
+      "matchedStates": 501,
+      "status": "completed",
+      "runnerSource": "screen-phase1.cjs.txt"
+    },
+    {
+      "file": "reserve-historical-input.json",
+      "states": 501,
+      "matchedStates": null,
+      "status": "completed",
+      "runnerSource": "screen-phase1.cjs.txt"
+    },
+    {
+      "file": "allocationLocal-custom.json",
+      "states": 501,
+      "matchedStates": null,
+      "status": "completed",
+      "runnerSource": "screen-phase2.cjs.txt"
+    },
+    {
+      "file": "allocationLocal-lake.json",
+      "states": 501,
+      "matchedStates": null,
+      "status": "completed",
+      "runnerSource": "screen-phase2.cjs.txt"
+    },
+    {
+      "file": "allocationReserve-historical-input.json",
+      "states": 501,
+      "matchedStates": null,
+      "status": "completed",
+      "runnerSource": "screen-phase1.cjs.txt"
+    },
+    {
+      "file": "allocation-lake.json",
+      "states": 501,
+      "matchedStates": null,
+      "status": "completed",
+      "runnerSource": "screen-phase1.cjs.txt"
+    },
+    {
+      "file": "allocation-historical-input.json",
+      "states": 501,
+      "matchedStates": null,
+      "status": "completed",
+      "runnerSource": "screen-phase1.cjs.txt"
+    },
+    {
+      "file": "reserve-custom.json",
+      "states": 501,
+      "matchedStates": null,
+      "status": "completed",
+      "runnerSource": "screen-phase1.cjs.txt"
+    },
+    {
+      "file": "allocation-custom.json",
+      "states": 501,
+      "matchedStates": null,
+      "status": "completed",
+      "runnerSource": "screen-phase1.cjs.txt"
+    },
+    {
+      "file": "reserve-lake.json",
+      "states": 501,
+      "matchedStates": null,
+      "status": "completed",
+      "runnerSource": "screen-phase1.cjs.txt"
+    },
+    {
+      "file": "baseline-lake.json",
+      "states": 501,
+      "matchedStates": 501,
+      "status": "completed",
+      "runnerSource": "screen-phase1.cjs.txt"
+    },
+    {
+      "file": "allocationLocal-historical-input.failure.json",
+      "states": 483,
+      "matchedStates": null,
+      "status": "rejected",
+      "runnerSource": "tools/screen-foodweb-recovery.cjs"
+    }
+  ]
+}
