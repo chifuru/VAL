@@ -85,8 +85,9 @@
   });
   function restoreCommitted() {
     runGeneration++;clearTimeout(timer);timer=null;
-    const had=!!pendingTurn;pendingTurn=null;
-    if(had){compute.close();prewarming=true;}
+    const had=!!pendingTurn;
+    if(pendingTurn?.packet)compute.restore(pendingTurn.packet);
+    pendingTurn=null;
     renderer.view.animate=false;showTurnStage();
     if(world){renderer.setWorld(world);renderSelection();}
   }
@@ -387,7 +388,7 @@
     const packet=compute.take();
     if(!packet){compute.fill(2);$("status").textContent="計算待ち";message("次のターンを計算しています。個体やターンを省略せず待機します。");timer=setTimeout(runLoop,100);return;}
     const token=runGeneration,start=performance.now();
-    const state=pendingTurn={phase:0,computeMs:packet.computeMs,preview:world};
+    const state=pendingTurn={phase:0,computeMs:packet.computeMs,preview:world,packet};
     compute.fill(2);
     function valid(){return running&&!holds.size&&token===runGeneration&&pendingTurn===state;}
     function advance(){
@@ -404,7 +405,7 @@
         $("status").textContent="観測中";
         if(state.phase===3)timer=setTimeout(()=>{
           if(!valid())return;
-          pendingTurn=null;showTurnStage();renderer.view.animate=false;
+          compute.acknowledge();pendingTurn=null;showTurnStage();renderer.view.animate=false;
           commitTurn(preview,packet.computeMs);
           if(running&&!holds.size)timer=setTimeout(runLoop,0);
         },Math.max(100,TURN_MS-(performance.now()-start)));

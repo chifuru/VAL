@@ -1,9 +1,9 @@
-✔ preparation has one total sixty-second deadline, terminates failures and supports retry (2.568857ms)
-✔ bounded buffering, stale generation rejection and a persistent map-cache Worker (0.744855ms)
-✔ real Worker differential frames reconstruct exactly the atomic result across turns and a fresh observer (2418.5022ms)
-✔ fixed geometry caching preserves results, ignores soil amounts, keys obstacles and does not leak mutable neighbors (2164.331804ms)
-✔ 500-turn blocks checkpoint at their own boundaries and resume with unchanged biology (202.884933ms)
-✔ Worker does not calculate beyond its requested terminal turn (513.941332ms)
+✔ preparation has one total sixty-second deadline, terminates failures and supports retry (2.891114ms)
+✔ bounded buffering, stale generation rejection and a persistent map-cache Worker (1.225046ms)
+✔ real Worker differential frames reconstruct exactly the atomic result across turns and a fresh observer (1411.800137ms)
+✔ fixed geometry caching preserves results, ignores soil amounts, keys obstacles and does not leak mutable neighbors (1505.296235ms)
+✔ 500-turn blocks checkpoint at their own boundaries and resume with unchanged biology (144.318866ms)
+✔ Worker does not calculate beyond its requested terminal turn (299.292232ms)
 ℹ tests 6
 ℹ suites 0
 ℹ pass 6
@@ -11,4 +11,4 @@
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 5447.720256
+ℹ duration_ms 3510.144882

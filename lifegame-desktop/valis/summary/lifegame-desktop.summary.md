@@ -9,7 +9,7 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 	構成（要素・関係）:
 		valis/nodes/A/A1.md。固定世界の生存競争・存続・世代交代。正本の入口: design/specification/README.md。 年齢独立・盤面表示と独立四相植物の追加方針を含む。 モック対応: design/specification/ab-visual-reference-v1.md。
 	ロジック:
-		A1.1〜A1.7をB4/B5へ接続し、v1.3→v1.4→v1.5→v1.6を適用する。 v1.7を年齢・植物に適用する。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。
+		A1.1〜A1.7をB4/B5へ接続し、v1.3→v1.4→v1.5→v1.6を適用する。 v1.7を年齢・植物に適用する。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。
 	実態:
 		基本500ターン・存続窓150〜250へ更新。3/10目標・最低1/10を維持し、達成率は未認定。
 
@@ -73,7 +73,7 @@ A2:（起点 / 独立した Windows ローカル実行）［草案］
 	構成（要素・関係）:
 		valis/nodes/A/A2.md。独立したWindowsローカル実行。
 	ロジック:
-		配布物と利用者の記録を分離し、利用時に外部サービスへ依存しない。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。
+		配布物と利用者の記録を分離し、利用時に外部サービスへ依存しない。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。
 	実態:
 		基準約1秒、準備上限60秒、ローカルWorkerで計算。重い時は間引かず待機。
 
@@ -126,7 +126,7 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 	構成（要素・関係）:
 		valis/nodes/B/B4.md。初期世界の確定と同期進行の接合。 年齢更新と成熟境界の同期接合を含む。
 	ロジック:
-		合法な地形・障害物・配置を確定してから、既存の十段階更新へ渡す。 開始時の年齢で資格を判定し、確定後の年齢を表示する。 年齢能力はv1.8を適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。
+		合法な地形・障害物・配置を確定してから、既存の十段階更新へ渡す。 開始時の年齢で資格を判定し、確定後の年齢を表示する。 年齢能力はv1.8を適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。
 	実態:
 		同期順と有限収支を保った先行計算。未表示の未来を確定値へ混ぜない。
 
@@ -166,7 +166,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 	構成（要素・関係）:
 		valis/nodes/B/B5.md。開始条件と観測・比較、B5.1〜B5.4の接合。
 	ロジック:
-		マップ選択と二つの初期値、系統・数・偏り・配置モードを区別する。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。
+		マップ選択と二つの初期値、系統・数・偏り・配置モードを区別する。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。 現行の観測条件はdesign/specification/observation-session-v2.3.mdを適用。
 	実態:
 		操作後1秒で再開、閲覧/設定は終了まで停止。手動停止を優先し早送りしない。
 
@@ -434,7 +434,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		既存46・段階26・操作23と標準遠近の実再生。端末別性能と外観承認は未確定。
+		既存46・段階26・操作25と標準遠近の実再生。端末別性能と外観承認は未確定。
 
 ```
 
@@ -487,7 +487,7 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		4.0既存46・段階26・操作23と標準遠近の速度。原画保持、全端末/外観の承認なし。
+		4.0既存46・段階26・操作25と標準遠近の速度。原画保持、全端末/外観の承認なし。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

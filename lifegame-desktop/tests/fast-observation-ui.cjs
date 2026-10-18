@@ -65,6 +65,8 @@ const { chromium } = require("playwright"),
     await page.click('#start');await page.waitForFunction(()=>__LIFE_TEST__.snapshot().pending?.phase===1);
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().compute.initialized&&__LIFE_TEST__.snapshot().compute.ready),'actual local Worker prepares the future');
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn===0&&__LIFE_TEST__.records().length===0),'prepared future is absent from committed counters and archive');
+    const cacheBeforeWheel=await page.evaluate(()=>__LIFE_TEST__.snapshot().compute.metadata.cache.key);
+    const wheelStart=performance.now();
     await page.dispatchEvent('#board','wheel',{deltaY:-50,clientX:700,clientY:500});
     const held=await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn);
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().holds.includes('map')&&!__LIFE_TEST__.snapshot().pending),'wheel pauses and restores committed world');
@@ -73,6 +75,8 @@ const { chromium } = require("playwright"),
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn)===held,'interaction pause lasts through its quiet period');
     await page.waitForFunction(()=>__LIFE_TEST__.snapshot().world.turn>=1,{},{timeout:15000});
     check(await page.evaluate(()=>!__LIFE_TEST__.snapshot().holds.length),'observation resumes after the quiet period');
+    check(performance.now()-wheelStart<5000,'map operation reuses prepared work without repeating startup');
+    check(await page.evaluate(()=>__LIFE_TEST__.snapshot().compute.metadata.cache.key)===cacheBeforeWheel,'map operation retains the same prepared geometry');
     // Keep a pointer held longer than the resume delay.
     const box=await page.locator('#board').boundingBox();
     await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();

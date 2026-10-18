@@ -8,22 +8,22 @@
       "view": "overview",
       "from": 1,
       "to": 16,
-      "wallMs": 22341.10000000149,
-      "meanTurnMs": 1489.4066666667661,
-      "preparationMs": 6778.5999999996275,
+      "wallMs": 27724,
+      "meanTurnMs": 1848.2666666666667,
+      "preparationMs": 9747.60000000149,
       "main": 640
     },
     {
       "view": "detail",
-      "from": 16,
-      "to": 31,
-      "wallMs": 22326.199999999255,
-      "meanTurnMs": 1488.4133333332836,
-      "preparationMs": 2958.2999999988824,
+      "from": 17,
+      "to": 32,
+      "wallMs": 18342.299999998882,
+      "meanTurnMs": 1222.8199999999256,
+      "preparationMs": 9747.60000000149,
       "main": 640
     }
   ],
-  "responseMs": 51.333550000003015,
+  "responseMs": 49.57595799999399,
   "errors": [],
   "external": []
 }

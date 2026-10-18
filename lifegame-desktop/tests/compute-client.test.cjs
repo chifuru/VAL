@@ -23,6 +23,8 @@ test('bounded buffering, stale generation rejection and a persistent map-cache W
  w.onmessage({data:{type:'idle',epoch:first}});f.client.fill(99);assert.equal(w.sent.at(-1).count,3);
  for(let t=4;t<=6;t++)w.onmessage({data:{type:'turn',epoch:first,turn:t}});
  w.onmessage({data:{type:'idle',epoch:first}});const sent=w.sent.length;f.client.fill(99);assert.equal(w.sent.length,sent);assert.equal(f.client.length,6);
+ const reserved=f.client.take();assert.equal(reserved.turn,1);f.client.fill(99);assert.equal(w.sent.length,sent,'in-flight displayed turn counts toward the six-turn bound');
+ f.client.restore(reserved);assert.equal(f.client.length,6);assert.equal(f.client.take().turn,1,'operating the map rewinds the same prepared turn');f.client.acknowledge();
  const oldHandler=w.onmessage;f.client.close();assert.equal(f.client.initialized,false);
  f.client.init({turn:0},'b',500);assert.equal(f.created,1,'reuse worker for immutable geometry caches');
  oldHandler({data:{type:'turn',epoch:first,turn:7}});assert.equal(f.client.length,0);

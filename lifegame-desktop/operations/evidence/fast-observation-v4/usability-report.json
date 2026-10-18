@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "checks": [
+    "initial setup help is visible",
+    "three-step loading instructions are visible",
+    "world editor remains reachable in observation mode",
+    "loading does not advance biological time",
+    "change-world opens map selection and pauses observation",
+    "editing holds automatic playback until apply or cancel",
+    "editing longer than a turn never advances the ecosystem",
+    "editing has no biological side effects",
+    "failed reloading preserves previous world",
+    "replacement and save guidance remains visible",
+    "second load switches map and resets time",
+    "third load remains available",
+    "200 identical idle frames require zero full redraws",
+    "optimized and forced rendering are pixel-identical and read-only",
+    "zoom invalidates the frame cache",
+    "stepping works after repeated loading",
+    "food guide explains all six feeding niches",
+    "reload entry remains reachable on a narrow screen",
+    "narrow screen has no horizontal overflow",
+    "no browser exceptions"
+  ],
+  "perf": {
+    "idleFrames": 0,
+    "cachedCallMs": 0.0035000000055879356,
+    "forcedDrawMs": 0.9875000000465661,
+    "pixelsIdentical": true,
+    "biologyIdentical": true
+  },
+  "errors": []
+}

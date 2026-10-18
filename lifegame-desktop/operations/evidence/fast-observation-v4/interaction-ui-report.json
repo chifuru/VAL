@@ -9,6 +9,8 @@
     "partial preview never leaks when operating the map",
     "interaction pause lasts through its quiet period",
     "observation resumes after the quiet period",
+    "map operation reuses prepared work without repeating startup",
+    "map operation retains the same prepared geometry",
     "held drag never resumes underneath the pointer",
     "five steady turns retain the approximately one-second cadence",
     "detail remains paused until explicitly released",
@@ -30,6 +32,6 @@
   "external": [],
   "browser": "154.0.8037.57",
   "cadenceMs": 1000,
-  "fiveTurnMs": 5923.0999999996275,
-  "preparationMs": 1248.5999999996275
+  "fiveTurnMs": 5277.300000000745,
+  "preparationMs": 322.09999999962747
 }

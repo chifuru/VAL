@@ -87,10 +87,12 @@ const { chromium } = require("playwright"),
       "change-world opens map selection and pauses observation",
     );
     check(
-      await page.evaluate(() => !__LIFE_TEST__.snapshot().running),
-      "editing stops automatic turns",
+      await page.evaluate(() => __LIFE_TEST__.snapshot().holds.includes("settings") && !__LIFE_TEST__.snapshot().pending),
+      "editing holds automatic playback until apply or cancel",
     );
     const original = await page.evaluate(() => __LIFE_TEST__.fingerprint());
+    await page.waitForTimeout(1250);
+    check(await page.evaluate(() => __LIFE_TEST__.fingerprint()) === original,"editing longer than a turn never advances the ecosystem");
     await page.selectOption("#map-id", "lake");
     check(
       (await page.evaluate(() => __LIFE_TEST__.fingerprint())) === original,
