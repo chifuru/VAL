@@ -6,39 +6,41 @@
     {
       "file": "01-overview.png",
       "title": "遠景・一画面配置",
-      "status": "review-in-progress",
+      "status": "reference-with-overrides",
       "sha256": "bb091064a211af5645950fb0b84cf93b213ae0372917b6f4d76af9c246527e8c"
     },
     {
       "file": "02-closeup.png",
       "title": "近景・横詳細",
-      "status": "review-in-progress",
+      "status": "reference-with-overrides",
       "sha256": "9863916df6fb0dfb72b85aaf1b1fbf9a0fccb6119b382d679c7d32fd7e3b1a11"
     },
     {
       "file": "03-abyss-branches.png",
       "title": "深淵触手の分岐",
-      "status": "review-in-progress",
+      "status": "direction-confirmed",
       "sha256": "1c024f0cd69691eb7b5ee8fb0d71aefd94e441206017331db737f0b5dced7177"
     },
     {
       "file": "04-crystal-branches.png",
       "title": "星晶の分岐",
-      "status": "review-in-progress",
+      "status": "direction-confirmed",
       "sha256": "d5a2e98c78377b986dc8f71062111bbdb52e6411878c996c94de82a96f3c160f"
     },
     {
       "file": "05-symbiont-branches.png",
       "title": "植物共生の分岐",
-      "status": "review-in-progress",
+      "status": "direction-confirmed",
       "sha256": "4c8a799321f352fc0a1e0143c5b842d0ffd66d9422348d9919c8969fd5cb95b2"
     }
   ],
   "feedback": [
     {
-      "target": "01-overview.png / composition",
-      "request": "集団構成を時間軸付きグラフへ。",
-      "state": "specification-recorded-image-not-revised"
+      "target": "composition",
+      "request": "相/雌雄/年齢の個体数時系列、右側3グラフと既存trend-card小型サマリ",
+      "state": "reflected-in-ab-section-27"
     }
-  ]
+  ],
+  "review_status": "representative-direction-confirmed",
+  "review_scope": "分岐3枚の系統別表現を確認。全画面配置はv9とA/B27節、v6構成横棒は非適用。製品合格/正式Node状態変更ではない。"
 }
