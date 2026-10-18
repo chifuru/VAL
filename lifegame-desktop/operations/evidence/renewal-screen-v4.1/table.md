@@ -1,0 +1,20 @@
+| 候補 | 条件 | 主500T | 餌500T | P/Q500T | 主出生累計 | 子孫の再繁殖 |
+|---|---|---:|---:|---:|---:|---:|
+| baseline | custom | 0 | 0 | 0/0 | 0 | 0 |
+| baseline | river | 3 | 0 | 0/0 | 4 | 0 |
+| baseline | lake | 5 | 0 | 0/0 | 6 | 0 |
+| reserve | custom | 0 | 0 | 0/0 | 0 | 0 |
+| reserve | river | 9 | 0 | 0/0 | 9 | 2 |
+| reserve | lake | 6 | 0 | 0/0 | 10 | 2 |
+| uptake | custom | 0 | 0 | 0/0 | 14 | 0 |
+| uptake | river | 25 | 0 | 0/0 | 75 | 27 |
+| uptake | lake | 28 | 0 | 0/0 | 96 | 30 |
+| sparse | custom | 0 | 4 | 0/0 | 1 | 0 |
+| sparse | river | 5 | 10 | 0/0 | 5 | 4 |
+| sparse | lake | 3 | 4 | 2/0 | 5 | 2 |
+| combined | custom | 0 | 6 | 2/0 | 9 | 0 |
+| combined | river | 40 | 0 | 0/0 | 91 | 37 |
+| combined | lake | 34 | 0 | 0/0 | 105 | 37 |
+| reserveSparse | custom | 0 | 7 | 3/0 | 0 | 0 |
+| reserveSparse | river | 9 | 19 | 4/0 | 10 | 4 |
+| reserveSparse | lake | 7 | 1 | 0/0 | 11 | 4 |

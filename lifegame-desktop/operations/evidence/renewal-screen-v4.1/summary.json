@@ -1,0 +1,519 @@
+{
+  "productionCommit": "7c62f68405b9ef4c624885626f12632717174aa3",
+  "caseCount": 18,
+  "statesPerCase": 501,
+  "productionRulesChanged": false,
+  "balanceCertified": false,
+  "cases": [
+    {
+      "variant": "baseline",
+      "case": "custom",
+      "main": 0,
+      "food": 0,
+      "plants": 0,
+      "movingPrey": 0,
+      "P": 0,
+      "Q": 0,
+      "mainBirths": 0,
+      "descendantReproduced": 0,
+      "meanFoodLast50": 0,
+      "finalMainSpecies": [],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 111,
+          "births": 143,
+          "lastAlive": 104
+        }
+      },
+      "resultFile": "baseline-custom.json"
+    },
+    {
+      "variant": "baseline",
+      "case": "river",
+      "main": 3,
+      "food": 0,
+      "plants": 0,
+      "movingPrey": 0,
+      "P": 0,
+      "Q": 0,
+      "mainBirths": 4,
+      "descendantReproduced": 0,
+      "meanFoodLast50": 0,
+      "finalMainSpecies": [
+        "kelp"
+      ],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 140,
+          "births": 420,
+          "lastAlive": 126
+        }
+      },
+      "resultFile": "baseline-river.json"
+    },
+    {
+      "variant": "baseline",
+      "case": "lake",
+      "main": 5,
+      "food": 0,
+      "plants": 0,
+      "movingPrey": 0,
+      "P": 0,
+      "Q": 0,
+      "mainBirths": 6,
+      "descendantReproduced": 0,
+      "meanFoodLast50": 0,
+      "finalMainSpecies": [
+        "kelp"
+      ],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 167,
+          "births": 596,
+          "lastAlive": 119
+        }
+      },
+      "resultFile": "baseline-lake.json"
+    },
+    {
+      "variant": "reserve",
+      "case": "custom",
+      "main": 0,
+      "food": 0,
+      "plants": 0,
+      "movingPrey": 0,
+      "P": 0,
+      "Q": 0,
+      "mainBirths": 0,
+      "descendantReproduced": 0,
+      "meanFoodLast50": 0,
+      "finalMainSpecies": [],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 111,
+          "births": 140,
+          "lastAlive": 106
+        }
+      },
+      "resultFile": "reserve-custom.json"
+    },
+    {
+      "variant": "reserve",
+      "case": "river",
+      "main": 9,
+      "food": 0,
+      "plants": 0,
+      "movingPrey": 0,
+      "P": 0,
+      "Q": 0,
+      "mainBirths": 9,
+      "descendantReproduced": 2,
+      "meanFoodLast50": 0,
+      "finalMainSpecies": [
+        "kelp"
+      ],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 140,
+          "births": 359,
+          "lastAlive": 114
+        }
+      },
+      "resultFile": "reserve-river.json"
+    },
+    {
+      "variant": "reserve",
+      "case": "lake",
+      "main": 6,
+      "food": 0,
+      "plants": 0,
+      "movingPrey": 0,
+      "P": 0,
+      "Q": 0,
+      "mainBirths": 10,
+      "descendantReproduced": 2,
+      "meanFoodLast50": 0,
+      "finalMainSpecies": [
+        "kelp"
+      ],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 167,
+          "births": 661,
+          "lastAlive": 134
+        }
+      },
+      "resultFile": "reserve-lake.json"
+    },
+    {
+      "variant": "uptake",
+      "case": "custom",
+      "main": 0,
+      "food": 0,
+      "plants": 0,
+      "movingPrey": 0,
+      "P": 0,
+      "Q": 0,
+      "mainBirths": 14,
+      "descendantReproduced": 0,
+      "meanFoodLast50": 0,
+      "finalMainSpecies": [],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 111,
+          "births": 122,
+          "lastAlive": 84
+        }
+      },
+      "resultFile": "uptake-custom.json"
+    },
+    {
+      "variant": "uptake",
+      "case": "river",
+      "main": 25,
+      "food": 0,
+      "plants": 0,
+      "movingPrey": 0,
+      "P": 0,
+      "Q": 0,
+      "mainBirths": 75,
+      "descendantReproduced": 27,
+      "meanFoodLast50": 0,
+      "finalMainSpecies": [
+        "kelp"
+      ],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 140,
+          "births": 306,
+          "lastAlive": 110
+        }
+      },
+      "resultFile": "uptake-river.json"
+    },
+    {
+      "variant": "uptake",
+      "case": "lake",
+      "main": 28,
+      "food": 0,
+      "plants": 0,
+      "movingPrey": 0,
+      "P": 0,
+      "Q": 0,
+      "mainBirths": 96,
+      "descendantReproduced": 30,
+      "meanFoodLast50": 0,
+      "finalMainSpecies": [
+        "kelp"
+      ],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 167,
+          "births": 548,
+          "lastAlive": 130
+        }
+      },
+      "resultFile": "uptake-lake.json"
+    },
+    {
+      "variant": "sparse",
+      "case": "custom",
+      "main": 0,
+      "food": 4,
+      "plants": 4,
+      "movingPrey": 0,
+      "P": 0,
+      "Q": 0,
+      "mainBirths": 1,
+      "descendantReproduced": 0,
+      "meanFoodLast50": 3.98,
+      "finalMainSpecies": [],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 111,
+          "births": 203,
+          "lastAlive": 115
+        }
+      },
+      "resultFile": "sparse-custom.json"
+    },
+    {
+      "variant": "sparse",
+      "case": "river",
+      "main": 5,
+      "food": 10,
+      "plants": 10,
+      "movingPrey": 0,
+      "P": 0,
+      "Q": 0,
+      "mainBirths": 5,
+      "descendantReproduced": 4,
+      "meanFoodLast50": 12.74,
+      "finalMainSpecies": [
+        "kelp"
+      ],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 140,
+          "births": 534,
+          "lastAlive": 138
+        }
+      },
+      "resultFile": "sparse-river.json"
+    },
+    {
+      "variant": "sparse",
+      "case": "lake",
+      "main": 3,
+      "food": 4,
+      "plants": 4,
+      "movingPrey": 0,
+      "P": 2,
+      "Q": 0,
+      "mainBirths": 5,
+      "descendantReproduced": 2,
+      "meanFoodLast50": 3.96,
+      "finalMainSpecies": [
+        "kelp"
+      ],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 167,
+          "births": 661,
+          "lastAlive": 132
+        }
+      },
+      "resultFile": "sparse-lake.json"
+    },
+    {
+      "variant": "combined",
+      "case": "custom",
+      "main": 0,
+      "food": 6,
+      "plants": 6,
+      "movingPrey": 0,
+      "P": 2,
+      "Q": 0,
+      "mainBirths": 9,
+      "descendantReproduced": 0,
+      "meanFoodLast50": 5.44,
+      "finalMainSpecies": [],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 111,
+          "births": 223,
+          "lastAlive": 107
+        }
+      },
+      "resultFile": "combined-custom.json"
+    },
+    {
+      "variant": "combined",
+      "case": "river",
+      "main": 40,
+      "food": 0,
+      "plants": 0,
+      "movingPrey": 0,
+      "P": 0,
+      "Q": 0,
+      "mainBirths": 91,
+      "descendantReproduced": 37,
+      "meanFoodLast50": 0,
+      "finalMainSpecies": [
+        "kelp"
+      ],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 140,
+          "births": 426,
+          "lastAlive": 128
+        }
+      },
+      "resultFile": "combined-river.json"
+    },
+    {
+      "variant": "combined",
+      "case": "lake",
+      "main": 34,
+      "food": 0,
+      "plants": 0,
+      "movingPrey": 0,
+      "P": 0,
+      "Q": 0,
+      "mainBirths": 105,
+      "descendantReproduced": 37,
+      "meanFoodLast50": 0,
+      "finalMainSpecies": [
+        "kelp"
+      ],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 167,
+          "births": 559,
+          "lastAlive": 135
+        }
+      },
+      "resultFile": "combined-lake.json"
+    },
+    {
+      "variant": "reserveSparse",
+      "case": "custom",
+      "main": 0,
+      "food": 7,
+      "plants": 7,
+      "movingPrey": 0,
+      "P": 3,
+      "Q": 0,
+      "mainBirths": 0,
+      "descendantReproduced": 0,
+      "meanFoodLast50": 8.26,
+      "finalMainSpecies": [],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 111,
+          "births": 234,
+          "lastAlive": 115
+        }
+      },
+      "resultFile": "reserveSparse-custom.json"
+    },
+    {
+      "variant": "reserveSparse",
+      "case": "river",
+      "main": 9,
+      "food": 19,
+      "plants": 19,
+      "movingPrey": 0,
+      "P": 4,
+      "Q": 0,
+      "mainBirths": 10,
+      "descendantReproduced": 4,
+      "meanFoodLast50": 19.5,
+      "finalMainSpecies": [
+        "kelp"
+      ],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 140,
+          "births": 413,
+          "lastAlive": 124
+        }
+      },
+      "resultFile": "reserveSparse-river.json"
+    },
+    {
+      "variant": "reserveSparse",
+      "case": "lake",
+      "main": 7,
+      "food": 1,
+      "plants": 1,
+      "movingPrey": 0,
+      "P": 0,
+      "Q": 0,
+      "mainBirths": 11,
+      "descendantReproduced": 4,
+      "meanFoodLast50": 1.02,
+      "finalMainSpecies": [
+        "kelp"
+      ],
+      "movingPreyRoutes": {
+        "waterbug": {
+          "initial": 0,
+          "births": 0,
+          "lastAlive": -1
+        },
+        "grassbug": {
+          "initial": 167,
+          "births": 666,
+          "lastAlive": 134
+        }
+      },
+      "resultFile": "reserveSparse-lake.json"
+    }
+  ]
+}

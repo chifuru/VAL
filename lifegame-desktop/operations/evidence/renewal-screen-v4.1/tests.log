@@ -1,0 +1,13 @@
+✔ empty trial matches production and rejects unknown mechanism flags (240.237365ms)
+✔ sparse paid birth needs a real mature parent and preserves finite budgets (14.185448ms)
+✔ uptake changes finite soil transfer but never creates mineral (8.376294ms)
+✔ expanded neighborhood cannot create offspring from an empty or depleted world (10.719127ms)
+✔ producer reserve leaves mineral with grazed producer without breaking the ledger (10.189492ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 331.85716
