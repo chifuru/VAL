@@ -1,0 +1,295 @@
+{
+  "version": "trophic-groups/2.7",
+  "status": "design-only; not connected to production",
+  "basis": "species default nutrition; one individual in one representative group",
+  "groups": [
+    {
+      "id": "producer",
+      "label": "生産者",
+      "placement": "pyramid",
+      "order": 0
+    },
+    {
+      "id": "primary",
+      "label": "一次消費者",
+      "placement": "pyramid",
+      "order": 1
+    },
+    {
+      "id": "higher",
+      "label": "高次消費者",
+      "placement": "pyramid",
+      "order": 2
+    },
+    {
+      "id": "parasite",
+      "label": "寄生生物",
+      "placement": "auxiliary",
+      "order": 3
+    },
+    {
+      "id": "decomposer",
+      "label": "分解者",
+      "placement": "auxiliary",
+      "order": 4
+    }
+  ],
+  "species": [
+    {
+      "id": "abyss",
+      "name": "深淵触手",
+      "legacyGroup": "main",
+      "diet": "animal",
+      "role": "higher",
+      "note": ""
+    },
+    {
+      "id": "myth",
+      "name": "神鳥",
+      "legacyGroup": "main",
+      "diet": "animal",
+      "role": "higher",
+      "note": ""
+    },
+    {
+      "id": "recursive",
+      "name": "再帰知性",
+      "legacyGroup": "main",
+      "diet": "general",
+      "role": "higher",
+      "note": "雑食の代表区分。実際の食物網の複数リンクは別に記録。"
+    },
+    {
+      "id": "sail",
+      "name": "光帆",
+      "legacyGroup": "main",
+      "diet": "general",
+      "role": "higher",
+      "note": "雑食の代表区分。実際の食物網の複数リンクは別に記録。"
+    },
+    {
+      "id": "gravity",
+      "name": "重力環",
+      "legacyGroup": "main",
+      "diet": "mineral",
+      "role": "higher",
+      "note": "鉱物併用の有機栄養消費者。生産者として扱わない。"
+    },
+    {
+      "id": "crystal",
+      "name": "星晶",
+      "legacyGroup": "main",
+      "diet": "mineral",
+      "role": "higher",
+      "note": "鉱物併用の有機栄養消費者。生産者として扱わない。"
+    },
+    {
+      "id": "manyeyes",
+      "name": "多眼知覚",
+      "legacyGroup": "main",
+      "diet": "animal",
+      "role": "higher",
+      "note": ""
+    },
+    {
+      "id": "abyssshell",
+      "name": "深殻",
+      "legacyGroup": "main",
+      "diet": "mineral",
+      "role": "higher",
+      "note": "鉱物併用の有機栄養消費者。生産者として扱わない。"
+    },
+    {
+      "id": "parallel",
+      "name": "並列生命",
+      "legacyGroup": "main",
+      "diet": "general",
+      "role": "higher",
+      "note": "雑食の代表区分。実際の食物網の複数リンクは別に記録。"
+    },
+    {
+      "id": "memory",
+      "name": "記憶殻",
+      "legacyGroup": "main",
+      "diet": "scavenger",
+      "role": "higher",
+      "note": "屍肉食/菌利用。動物であり分解者には分類しない。"
+    },
+    {
+      "id": "serpent",
+      "name": "多頭蛇",
+      "legacyGroup": "main",
+      "diet": "animal",
+      "role": "higher",
+      "note": ""
+    },
+    {
+      "id": "solar",
+      "name": "日輪",
+      "legacyGroup": "main",
+      "diet": "general",
+      "role": "higher",
+      "note": "雑食の代表区分。実際の食物網の複数リンクは別に記録。"
+    },
+    {
+      "id": "antimeme",
+      "name": "反記銘生命",
+      "legacyGroup": "main",
+      "diet": "scavenger",
+      "role": "higher",
+      "note": "屍肉食/菌利用。動物であり分解者には分類しない。"
+    },
+    {
+      "id": "valis",
+      "name": "異化通信生命",
+      "legacyGroup": "main",
+      "diet": "general",
+      "role": "higher",
+      "note": "雑食の代表区分。実際の食物網の複数リンクは別に記録。"
+    },
+    {
+      "id": "jelly",
+      "name": "浮遊傘",
+      "legacyGroup": "main",
+      "diet": "fungal",
+      "role": "higher",
+      "note": "菌食の消費者。分解者ではない。"
+    },
+    {
+      "id": "kelp",
+      "name": "植物共生",
+      "legacyGroup": "main",
+      "diet": "animal",
+      "role": "higher",
+      "note": "光合成＋小型捕食の混合栄養。個体数を生産者へ重複計上しない。"
+    },
+    {
+      "id": "whale",
+      "name": "星海鯨",
+      "legacyGroup": "main",
+      "diet": "general",
+      "role": "higher",
+      "note": "雑食の代表区分。実際の食物網の複数リンクは別に記録。"
+    },
+    {
+      "id": "swarm",
+      "name": "群体節足",
+      "legacyGroup": "main",
+      "diet": "fungal",
+      "role": "higher",
+      "note": "菌食の消費者。分解者ではない。"
+    },
+    {
+      "id": "plasma",
+      "name": "プラズマ生命",
+      "legacyGroup": "main",
+      "diet": "mineral",
+      "role": "higher",
+      "note": "鉱物併用の有機栄養消費者。生産者として扱わない。"
+    },
+    {
+      "id": "cephalopod",
+      "name": "深淵頭足",
+      "legacyGroup": "main",
+      "diet": "animal",
+      "role": "higher",
+      "note": ""
+    },
+    {
+      "id": "precocial",
+      "name": "早成甲殻",
+      "legacyGroup": "main",
+      "diet": "general",
+      "role": "higher",
+      "note": "雑食の代表区分。実際の食物網の複数リンクは別に記録。"
+    },
+    {
+      "id": "algae",
+      "name": "微藻",
+      "legacyGroup": "plant",
+      "diet": null,
+      "role": "producer",
+      "note": ""
+    },
+    {
+      "id": "moss",
+      "name": "岩苔",
+      "legacyGroup": "plant",
+      "diet": null,
+      "role": "producer",
+      "note": ""
+    },
+    {
+      "id": "grass",
+      "name": "草本",
+      "legacyGroup": "plant",
+      "diet": null,
+      "role": "producer",
+      "note": ""
+    },
+    {
+      "id": "fungus",
+      "name": "菌膜",
+      "legacyGroup": "fungus",
+      "diet": null,
+      "role": "decomposer",
+      "note": ""
+    },
+    {
+      "id": "waterbug",
+      "name": "水游虫",
+      "legacyGroup": "prey",
+      "diet": null,
+      "role": "primary",
+      "note": ""
+    },
+    {
+      "id": "grassbug",
+      "name": "草棲虫",
+      "legacyGroup": "prey",
+      "diet": null,
+      "role": "primary",
+      "note": ""
+    },
+    {
+      "id": "tideparasite",
+      "name": "潮環",
+      "legacyGroup": "P",
+      "diet": null,
+      "role": "parasite",
+      "note": ""
+    },
+    {
+      "id": "leafparasite",
+      "name": "葉環",
+      "legacyGroup": "P",
+      "diet": null,
+      "role": "parasite",
+      "note": ""
+    },
+    {
+      "id": "hyperparasite",
+      "name": "抑環",
+      "legacyGroup": "Q",
+      "diet": null,
+      "role": "parasite",
+      "note": ""
+    }
+  ],
+  "plannedSpecies": [
+    {
+      "id": "phytoplankton",
+      "name": "浮遊微藻",
+      "role": "producer",
+      "status": "unimplemented"
+    },
+    {
+      "id": "waterplant",
+      "name": "水生植物",
+      "role": "producer",
+      "status": "unimplemented"
+    }
+  ],
+  "sourceProductionVersion": "4.1.3",
+  "sourceCatalogSha256": "53c74149e6a7dd3cc36864e6b477ee5af6d1345e73feb2008be326129a146763"
+}
