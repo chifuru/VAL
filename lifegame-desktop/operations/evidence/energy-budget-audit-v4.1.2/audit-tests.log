@@ -1,0 +1,12 @@
+✔ stage budget audit preserves full world states and reconciles its residual increments (1594.466526ms)
+✔ stage audit restores all hooks if engine calculation fails (14.709813ms)
+✔ fractional costs debit exactly the same quantum that enters dissipation (7.765943ms)
+✔ fractional photosynthesis uses one light quantum for stock and input ledger (1.756834ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1639.85943

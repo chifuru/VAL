@@ -1,5 +1,7 @@
 # 生態シミュレーション A・B仕様
 
+現在の数値計算はv2.5 32節／製品4.1.3。行動費と光入力を先に量子化して収支ずれを修正。新基準と検証範囲はoperations/evidence/energy-precision-v4.1.3/README.md。生存候補の採用とは区別する。
+
 現在の候補評価はv2.5 31節。適地配分/M留保/局所更新は試行済み・製品未採用。結果と収支停止/次の切り分けはoperations/evidence/foodweb-recovery-screen-v4.1.2/README.md。
 
 食性の確定差分はv2.5 29〜30節：通常植物は非捕食、植物共生体は食虫植物型。4.1.1で通常植物、4.1.2で分解者の生体刈取りを修正し、修正後の基準から生存経路を再評価する。実測と未達はoperations/evidence/foodweb-diagnosis-v4.1.2/README.md。

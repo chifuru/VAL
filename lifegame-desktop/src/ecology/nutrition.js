@@ -501,6 +501,8 @@
     }
   }
   function spend(w, o, cost) {
+    // Quantize the transaction once; both balances must use the same amount.
+    cost = S.round(cost);
     const paid = Math.min(o.E, cost);
     o.E = S.round(o.E - paid);
     o.HP = S.round(Math.max(0, o.HP - 2 * (cost - paid)));

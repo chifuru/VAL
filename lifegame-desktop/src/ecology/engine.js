@@ -142,7 +142,7 @@
             : s.id === "kelp"
               ? 1.5 * w.tiles[o.cell].light * [0, 1, 1.1, 1.2, 1.3][p.phase]
               : 0;
-      const ageLight=light*p.ageFactors.light*(w.config.solarScale || 1);
+      const ageLight=S.round(light*p.ageFactors.light*(w.config.solarScale || 1));
       if (ageLight) {
         const add = Math.min(p.capE - o.E, ageLight);
         o.E = S.round(o.E + add);
