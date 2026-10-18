@@ -1,0 +1,151 @@
+{
+  "run": 39111855591,
+  "job": 117629482273,
+  "conclusion": "success",
+  "testedCommit": "85983fdaf3cd3b3881ab32500b712ef5689bb522",
+  "url": "https://github.com/chifuru/VAL/actions/runs/39111855591",
+  "steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1,
+      "started_at": "2026-10-18T08:32:44Z",
+      "completed_at": "2026-10-18T08:32:45Z"
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2,
+      "started_at": "2026-10-18T08:32:45Z",
+      "completed_at": "2026-10-18T08:33:48Z"
+    },
+    {
+      "name": "Run actions/setup-node@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3,
+      "started_at": "2026-10-18T08:33:48Z",
+      "completed_at": "2026-10-18T08:33:55Z"
+    },
+    {
+      "name": "Run npm ci",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4,
+      "started_at": "2026-10-18T08:33:55Z",
+      "completed_at": "2026-10-18T08:34:02Z"
+    },
+    {
+      "name": "Model and package tests",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 5,
+      "started_at": "2026-10-18T08:34:02Z",
+      "completed_at": "2026-10-18T08:35:50Z"
+    },
+    {
+      "name": "Browser interaction",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 6,
+      "started_at": "2026-10-18T08:35:50Z",
+      "completed_at": "2026-10-18T08:39:12Z"
+    },
+    {
+      "name": "Build Windows ZIP",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 7,
+      "started_at": "2026-10-18T08:39:12Z",
+      "completed_at": "2026-10-18T08:40:13Z"
+    },
+    {
+      "name": "Verify expanded ZIP and actual executable",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 8,
+      "started_at": "2026-10-18T08:40:13Z",
+      "completed_at": "2026-10-18T08:40:24Z"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 9,
+      "started_at": "2026-10-18T08:40:24Z",
+      "completed_at": "2026-10-18T08:40:34Z"
+    },
+    {
+      "name": "Post Run actions/setup-node@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 17,
+      "started_at": "2026-10-18T08:40:34Z",
+      "completed_at": "2026-10-18T08:40:36Z"
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 18,
+      "started_at": "2026-10-18T08:40:36Z",
+      "completed_at": "2026-10-18T08:40:38Z"
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 19,
+      "started_at": "2026-10-18T08:40:38Z",
+      "completed_at": "2026-10-18T08:40:38Z"
+    }
+  ],
+  "package": {
+    "version": "4.1.0",
+    "electron": "44.7.2",
+    "exe": "LifeGame.exe",
+    "platform": "win32",
+    "arch": "x64",
+    "zip": "LifeGame-Windows-x64.zip",
+    "sha256": "0ed5c39f87e519166205d6774e152c71e8290b0730395b49835037de56e70581",
+    "bytes": 232707984
+  },
+  "native": {
+    "ok": true,
+    "electron": "44.7.2",
+    "platform": "Win32",
+    "arch": "x64",
+    "workerPlayback": true,
+    "workerTurnMs": 3435.9000000000233,
+    "assetsLoaded": true,
+    "assetErrors": [],
+    "turn": 11,
+    "population": 755,
+    "nodeExposed": false,
+    "local": true,
+    "title": "LifeGame — 生態シミュレーション"
+  },
+  "artifacts": [
+    {
+      "id": 12130009254,
+      "name": "LifeGame-Windows-x64",
+      "size_in_bytes": 257466921,
+      "url": "https://api.github.com/repos/chifuru/VAL/actions/artifacts/12130009254",
+      "archive_download_url": "https://api.github.com/repos/chifuru/VAL/actions/artifacts/12130009254/zip",
+      "expired": false,
+      "created_at": "2026-10-18T08:40:34Z",
+      "expires_at": "2026-11-17T08:40:25Z",
+      "updated_at": "2026-10-18T08:40:34Z",
+      "digest": "sha256:2bc32cdb09cae6ab0af49a3ea871508755c58e6a672123b2e430cadadbac8069",
+      "workflow_run": {
+        "id": 39111855591,
+        "repository_id": 1411285944,
+        "head_repository_id": 1411285944,
+        "head_branch": "main",
+        "head_sha": "85983fdaf3cd3b3881ab32500b712ef5689bb522"
+      }
+    }
+  ]
+}

@@ -40,4 +40,6 @@
 
 グラフは全期間と任意ターンの実数参照/CSVを接続。期間ズーム/横移動や帯単位の直接強調、栄養網深度などの補助表示は未接続。
 
-Windows4.1の実exeは、この文書作成時点で再検証待ち。旧4.0のWindows成功を4.1へ流用しない。Windows CIの成功が得られた場合だけ、対象SHA/runと実測結果を別途追記する。
+Windows4.1の対象コミットは85983fdaf3cd3b3881ab32500b712ef5689bb522。CI [run39111855591](https://github.com/chifuru/VAL/actions/runs/39111855591)、job117629482273は成功。モデル/画面検査、ZIP作成、全展開後のSHA256照合、実exeの11ターンとローカルWorker進行、画像読込・Node非公開・file起動を確認した。詳細と配布SHAは `windows.json`。原画/バランスの最終承認や全端末性能は含めない。後続の文書更新は対象ソースハッシュを変更しない。
+
+配布物: [LifeGame-Windows-x64](https://github.com/chifuru/VAL/actions/runs/39111855591/artifacts/12130009254)。外側と内側のZIPを展開しLifeGame.exeを起動する。
