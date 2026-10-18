@@ -1,0 +1,329 @@
+{
+  "checkedStates": 4008,
+  "productionReferenceUniqueStates": 14,
+  "trialObserverCacheStates": 56,
+  "sourceHashesMatched": true,
+  "summary": [
+    {
+      "variant": "allocation",
+      "id": "custom",
+      "treatment": "mixed",
+      "states": 501,
+      "referenceMatched": 7,
+      "observerMatched": 7,
+      "food": 333,
+      "main": 59,
+      "prey": {
+        "waterbug": {
+          "initial": 46,
+          "final": 0,
+          "births": 59,
+          "lastAlive": 148,
+          "descendantReproduced": 30
+        },
+        "grassbug": {
+          "initial": 65,
+          "final": 0,
+          "births": 775,
+          "lastAlive": 233,
+          "descendantReproduced": 430
+        }
+      },
+      "habitats": {
+        "land": {
+          "producer": 252,
+          "producerB": 4630.422374999998,
+          "edibleB": 4126.422374999997,
+          "primary": 0
+        },
+        "water": {
+          "producer": 29,
+          "producerB": 575.590277,
+          "edibleB": 517.590277,
+          "primary": 0
+        }
+      }
+    },
+    {
+      "variant": "allocation",
+      "id": "custom",
+      "treatment": "lower-only",
+      "states": 501,
+      "referenceMatched": 7,
+      "observerMatched": 7,
+      "food": 973,
+      "main": 0,
+      "prey": {
+        "waterbug": {
+          "initial": 46,
+          "final": 9,
+          "births": 114,
+          "lastAlive": 500,
+          "descendantReproduced": 68
+        },
+        "grassbug": {
+          "initial": 65,
+          "final": 14,
+          "births": 962,
+          "lastAlive": 500,
+          "descendantReproduced": 630
+        }
+      },
+      "habitats": {
+        "land": {
+          "producer": 456,
+          "producerB": 9718.08764799999,
+          "edibleB": 8806.087647999992,
+          "primary": 14
+        },
+        "water": {
+          "producer": 72,
+          "producerB": 1607.5459439999997,
+          "edibleB": 1463.5459439999997,
+          "primary": 9
+        }
+      }
+    },
+    {
+      "variant": "allocation",
+      "id": "lake",
+      "treatment": "mixed",
+      "states": 501,
+      "referenceMatched": 7,
+      "observerMatched": 7,
+      "food": 77,
+      "main": 28,
+      "prey": {
+        "waterbug": {
+          "initial": 71,
+          "final": 0,
+          "births": 118,
+          "lastAlive": 134,
+          "descendantReproduced": 45
+        },
+        "grassbug": {
+          "initial": 96,
+          "final": 0,
+          "births": 672,
+          "lastAlive": 242,
+          "descendantReproduced": 372
+        }
+      },
+      "habitats": {
+        "land": {
+          "producer": 77,
+          "producerB": 1177.271579,
+          "edibleB": 1023.271579,
+          "primary": 0
+        },
+        "water": {
+          "producer": 0,
+          "producerB": 0,
+          "edibleB": 0,
+          "primary": 0
+        }
+      }
+    },
+    {
+      "variant": "allocation",
+      "id": "lake",
+      "treatment": "lower-only",
+      "states": 501,
+      "referenceMatched": 7,
+      "observerMatched": 7,
+      "food": 961,
+      "main": 0,
+      "prey": {
+        "waterbug": {
+          "initial": 71,
+          "final": 0,
+          "births": 98,
+          "lastAlive": 295,
+          "descendantReproduced": 51
+        },
+        "grassbug": {
+          "initial": 96,
+          "final": 24,
+          "births": 534,
+          "lastAlive": 500,
+          "descendantReproduced": 368
+        }
+      },
+      "habitats": {
+        "land": {
+          "producer": 434,
+          "producerB": 9145.773361,
+          "edibleB": 8277.773361000001,
+          "primary": 23
+        },
+        "water": {
+          "producer": 131,
+          "producerB": 2984,
+          "edibleB": 2722,
+          "primary": 1
+        }
+      }
+    },
+    {
+      "variant": "habitat",
+      "id": "custom",
+      "treatment": "mixed",
+      "states": 501,
+      "referenceMatched": 7,
+      "observerMatched": 7,
+      "food": 302,
+      "main": 128,
+      "prey": {
+        "waterbug": {
+          "initial": 46,
+          "final": 0,
+          "births": 28,
+          "lastAlive": 140,
+          "descendantReproduced": 13
+        },
+        "grassbug": {
+          "initial": 65,
+          "final": 0,
+          "births": 656,
+          "lastAlive": 162,
+          "descendantReproduced": 366
+        }
+      },
+      "habitats": {
+        "land": {
+          "producer": 236,
+          "producerB": 3380.460384999999,
+          "edibleB": 2908.460384999999,
+          "primary": 0
+        },
+        "water": {
+          "producer": 12,
+          "producerB": 88.302783,
+          "edibleB": 64.30278299999999,
+          "primary": 0
+        }
+      }
+    },
+    {
+      "variant": "habitat",
+      "id": "custom",
+      "treatment": "lower-only",
+      "states": 501,
+      "referenceMatched": 7,
+      "observerMatched": 7,
+      "food": 987,
+      "main": 0,
+      "prey": {
+        "waterbug": {
+          "initial": 46,
+          "final": 0,
+          "births": 20,
+          "lastAlive": 156,
+          "descendantReproduced": 7
+        },
+        "grassbug": {
+          "initial": 65,
+          "final": 28,
+          "births": 1055,
+          "lastAlive": 500,
+          "descendantReproduced": 698
+        }
+      },
+      "habitats": {
+        "land": {
+          "producer": 467,
+          "producerB": 9921.143936,
+          "edibleB": 8987.143936000002,
+          "primary": 28
+        },
+        "water": {
+          "producer": 85,
+          "producerB": 1783.4646300000002,
+          "edibleB": 1613.4646300000002,
+          "primary": 0
+        }
+      }
+    },
+    {
+      "variant": "habitat",
+      "id": "lake",
+      "treatment": "mixed",
+      "states": 501,
+      "referenceMatched": 7,
+      "observerMatched": 7,
+      "food": 229,
+      "main": 89,
+      "prey": {
+        "waterbug": {
+          "initial": 71,
+          "final": 0,
+          "births": 77,
+          "lastAlive": 86,
+          "descendantReproduced": 31
+        },
+        "grassbug": {
+          "initial": 96,
+          "final": 0,
+          "births": 781,
+          "lastAlive": 221,
+          "descendantReproduced": 427
+        }
+      },
+      "habitats": {
+        "land": {
+          "producer": 179,
+          "producerB": 2564.12374,
+          "edibleB": 2206.12374,
+          "primary": 0
+        },
+        "water": {
+          "producer": 50,
+          "producerB": 691.7199999999998,
+          "edibleB": 591.7199999999998,
+          "primary": 0
+        }
+      }
+    },
+    {
+      "variant": "habitat",
+      "id": "lake",
+      "treatment": "lower-only",
+      "states": 501,
+      "referenceMatched": 7,
+      "observerMatched": 7,
+      "food": 966,
+      "main": 0,
+      "prey": {
+        "waterbug": {
+          "initial": 71,
+          "final": 0,
+          "births": 66,
+          "lastAlive": 189,
+          "descendantReproduced": 34
+        },
+        "grassbug": {
+          "initial": 96,
+          "final": 20,
+          "births": 527,
+          "lastAlive": 500,
+          "descendantReproduced": 360
+        }
+      },
+      "habitats": {
+        "land": {
+          "producer": 424,
+          "producerB": 9078.591487000002,
+          "edibleB": 8230.591487000002,
+          "primary": 20
+        },
+        "water": {
+          "producer": 134,
+          "producerB": 2914,
+          "edibleB": 2646,
+          "primary": 0
+        }
+      }
+    }
+  ],
+  "birthAuditMatched": 400
+}

@@ -1,0 +1,1687 @@
+{
+  "id": "custom",
+  "treatment": "mixed",
+  "productionVersion": "4.1.3",
+  "productAdopted": false,
+  "variant": "habitat-movement",
+  "derivedControl": false,
+  "config": {
+    "seed": "baseline41/custom",
+    "width": 40,
+    "height": 28,
+    "initial": 80,
+    "lineages": "few",
+    "selected": [],
+    "weights": {},
+    "placement": "natural",
+    "distribution": "balanced",
+    "guarantee": false,
+    "enabled": {
+      "main": true,
+      "plant": true,
+      "fungus": true,
+      "prey": true,
+      "P": true,
+      "Q": true
+    },
+    "landscape": "templates",
+    "ageModel": "life/1",
+    "ecologyRevision": "observation/4.1",
+    "blockTurns": 500,
+    "observationMode": "custom",
+    "mapId": "river",
+    "initialFoodScale": 1,
+    "solarScale": 1,
+    "modeResolved": {
+      "id": "custom",
+      "version": 1,
+      "name": "自由設定",
+      "description": "初期条件を自由に設定。餌の初期量は従来どおり。途中の生体補充はありません。",
+      "initialFoodScale": 1,
+      "solarScale": 1
+    },
+    "terrainSeed": "baseline41/custom",
+    "mapResolved": {
+      "setVersion": "terrain-set/1",
+      "id": "river",
+      "version": 1,
+      "width": 40,
+      "height": 28,
+      "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+      "pattern": [
+        3,
+        1,
+        2,
+        3,
+        0,
+        1,
+        2,
+        3,
+        1,
+        0,
+        1,
+        1,
+        3,
+        0,
+        2,
+        1,
+        2,
+        0,
+        1,
+        3,
+        1,
+        2,
+        3,
+        0,
+        3,
+        1,
+        2,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1
+      ],
+      "fallback": false,
+      "terrainHash": "0864a5482daee9ec02543671f2dfe2c90663cca6fa40ce4993a089088bbeb2ca"
+    },
+    "ecologyParameters": {
+      "version": 1,
+      "mainMaintenance": 0.65,
+      "mainMovement": 0.6,
+      "sexualThreshold": 0.65,
+      "sexualMineral": 2,
+      "producerBirth": "B23",
+      "fungusBirth": "B123",
+      "initialFoodAgeFraction": 0.5
+    },
+    "parasiteInitial": {
+      "policy": "local-search/1",
+      "unit": "colony",
+      "targetSearchQ": 4,
+      "createdSearchQ": 4
+    }
+  },
+  "states": 501,
+  "productionReferenceMatched": 7,
+  "observerCacheMatched": 7,
+  "initial": {
+    "population": 613,
+    "main": 80,
+    "food": 533,
+    "P": 22,
+    "Q": 4,
+    "Qsearch": 4,
+    "resting": 0,
+    "counts": {
+      "abyss": 0,
+      "myth": 0,
+      "recursive": 0,
+      "sail": 0,
+      "gravity": 16,
+      "crystal": 0,
+      "manyeyes": 0,
+      "abyssshell": 0,
+      "parallel": 16,
+      "memory": 0,
+      "serpent": 16,
+      "solar": 0,
+      "antimeme": 0,
+      "valis": 16,
+      "jelly": 0,
+      "kelp": 0,
+      "whale": 16,
+      "swarm": 0,
+      "plasma": 0,
+      "cephalopod": 0,
+      "precocial": 0,
+      "algae": 47,
+      "moss": 0,
+      "grass": 342,
+      "fungus": 33,
+      "waterbug": 46,
+      "grassbug": 65,
+      "tideparasite": 3,
+      "leafparasite": 19,
+      "hyperparasite": 4
+    },
+    "phases": [
+      80,
+      0,
+      0,
+      0
+    ],
+    "roles": {
+      "queen": 0,
+      "worker": 0,
+      "male": 0
+    },
+    "colonies": {},
+    "infectionStages": {
+      "first": 22,
+      "middle": 0,
+      "extra": 0,
+      "terminal": 0
+    },
+    "resources": 98,
+    "totals": {
+      "E": 14589.7,
+      "M": 5801.1
+    }
+  },
+  "final": {
+    "population": 430,
+    "main": 128,
+    "food": 302,
+    "P": 234,
+    "Q": 0,
+    "Qsearch": 0,
+    "resting": 6,
+    "counts": {
+      "abyss": 0,
+      "myth": 0,
+      "recursive": 0,
+      "sail": 0,
+      "gravity": 3,
+      "crystal": 0,
+      "manyeyes": 0,
+      "abyssshell": 0,
+      "parallel": 5,
+      "memory": 0,
+      "serpent": 7,
+      "solar": 0,
+      "antimeme": 0,
+      "valis": 72,
+      "jelly": 0,
+      "kelp": 0,
+      "whale": 41,
+      "swarm": 0,
+      "plasma": 0,
+      "cephalopod": 0,
+      "precocial": 0,
+      "algae": 4,
+      "moss": 0,
+      "grass": 244,
+      "fungus": 54,
+      "waterbug": 0,
+      "grassbug": 0,
+      "tideparasite": 0,
+      "leafparasite": 234,
+      "hyperparasite": 0
+    },
+    "phases": [
+      12,
+      36,
+      36,
+      44
+    ],
+    "roles": {
+      "queen": 0,
+      "worker": 0,
+      "male": 0
+    },
+    "colonies": {},
+    "infectionStages": {
+      "first": 234,
+      "middle": 0,
+      "extra": 0,
+      "terminal": 0
+    },
+    "resources": 83,
+    "totals": {
+      "E": 14697.533706,
+      "M": 5490.431717
+    }
+  },
+  "initialStocks": {
+    "species": {
+      "algae": {
+        "n": 47,
+        "E": 282,
+        "B": 564,
+        "M": 23.5,
+        "edibleB": 470
+      },
+      "waterbug": {
+        "n": 46,
+        "E": 368,
+        "B": 92,
+        "M": 0,
+        "edibleB": 92
+      },
+      "fungus": {
+        "n": 33,
+        "E": 198,
+        "B": 198,
+        "M": 6.600000000000003,
+        "edibleB": 198
+      },
+      "grass": {
+        "n": 342,
+        "E": 2052,
+        "B": 4104,
+        "M": 171,
+        "edibleB": 3420
+      },
+      "grassbug": {
+        "n": 65,
+        "E": 520,
+        "B": 130,
+        "M": 0,
+        "edibleB": 130
+      },
+      "parallel": {
+        "n": 16,
+        "E": 959,
+        "B": 256,
+        "M": 0,
+        "edibleB": 256
+      },
+      "whale": {
+        "n": 16,
+        "E": 959.5,
+        "B": 256,
+        "M": 0,
+        "edibleB": 256
+      },
+      "gravity": {
+        "n": 16,
+        "E": 960,
+        "B": 256,
+        "M": 0,
+        "edibleB": 256
+      },
+      "valis": {
+        "n": 16,
+        "E": 959.5,
+        "B": 256,
+        "M": 0,
+        "edibleB": 256
+      },
+      "serpent": {
+        "n": 16,
+        "E": 960,
+        "B": 256,
+        "M": 0,
+        "edibleB": 256
+      }
+    },
+    "habitats": {
+      "land": {
+        "producer": 342,
+        "producerB": 4104,
+        "edibleB": 3420,
+        "primary": 65
+      },
+      "water": {
+        "producer": 47,
+        "producerB": 564,
+        "edibleB": 470,
+        "primary": 46
+      }
+    },
+    "soilM": 5358
+  },
+  "finalStocks": {
+    "species": {
+      "whale": {
+        "n": 41,
+        "E": 2305.768515,
+        "B": 376,
+        "M": 436.06948800000004,
+        "edibleB": 376
+      },
+      "gravity": {
+        "n": 3,
+        "E": 181.591596,
+        "B": 24,
+        "M": 39.27399,
+        "edibleB": 24
+      },
+      "valis": {
+        "n": 72,
+        "E": 3082.4676039999995,
+        "B": 576,
+        "M": 415.6302650000002,
+        "edibleB": 576
+      },
+      "parallel": {
+        "n": 5,
+        "E": 305.606591,
+        "B": 40,
+        "M": 65.791829,
+        "edibleB": 40
+      },
+      "serpent": {
+        "n": 7,
+        "E": 240.79341700000003,
+        "B": 56,
+        "M": 149.112694,
+        "edibleB": 56
+      },
+      "algae": {
+        "n": 4,
+        "E": 26.76959,
+        "B": 16,
+        "M": 0.299788,
+        "edibleB": 8
+      },
+      "grass": {
+        "n": 244,
+        "E": 2925.443897000001,
+        "B": 3452.7631679999995,
+        "M": 123.40890399999999,
+        "edibleB": 2964.7631679999986
+      },
+      "fungus": {
+        "n": 54,
+        "E": 240.897733,
+        "B": 153.72120299999997,
+        "M": 14.020966000000001,
+        "edibleB": 153.72120299999997
+      }
+    },
+    "habitats": {
+      "land": {
+        "producer": 236,
+        "producerB": 3380.460384999999,
+        "edibleB": 2908.460384999999,
+        "primary": 0
+      },
+      "water": {
+        "producer": 12,
+        "producerB": 88.302783,
+        "edibleB": 64.30278299999999,
+        "primary": 0
+      }
+    },
+    "soilM": 4209.622589000009
+  },
+  "totals": {
+    "feeding": {
+      "algae": {
+        "gainE": 0,
+        "gainM": 173.037549,
+        "gainHP": 0,
+        "source/mineral": 0,
+        "material/mineral": 1879.054357
+      },
+      "waterbug": {
+        "gainE": 1241.020215,
+        "gainM": 0,
+        "gainHP": 96.583426,
+        "source/algae": 1285.131652,
+        "material/algae": 98.783946,
+        "alive": 2184,
+        "withAdjacentLeaves": 995,
+        "source/grass": 903.780643,
+        "material/grass": 75.140508,
+        "source/plant": 28,
+        "material/plant": 1.4
+      },
+      "fungus": {
+        "gainE": 22713.228649,
+        "gainM": 419.072726,
+        "gainHP": 20.060162,
+        "source/mineral": 0,
+        "material/mineral": 8,
+        "source/fungal": 5200,
+        "material/fungal": 260,
+        "source/plant": 10688,
+        "material/plant": 534.4,
+        "source/waterbug": 32.32,
+        "material/waterbug": 0,
+        "source/fungus": 2359.637296,
+        "material/fungus": 72.782874,
+        "source/grassbug": 843.942941,
+        "material/grassbug": 0,
+        "source/grass": 11790.152571,
+        "material/grass": 353.49046,
+        "source/algae": 233.438219,
+        "material/algae": 7.937563,
+        "source/whale": 154.19138,
+        "material/whale": 26.130204,
+        "source/parallel": 466.632369,
+        "material/parallel": 60.777903,
+        "source/gravity": 25.064081,
+        "material/gravity": 5.641828,
+        "source/serpent": 627.109339,
+        "material/serpent": 119.798658,
+        "source/valis": 185.344419,
+        "material/valis": 44.25946
+      },
+      "grass": {
+        "gainE": 0,
+        "gainM": 2713.900068,
+        "gainHP": 0,
+        "source/mineral": 0,
+        "material/mineral": 24641.97114
+      },
+      "grassbug": {
+        "gainE": 13822.40167,
+        "gainM": 0,
+        "gainHP": 579.62877,
+        "source/grass": 22056.676008,
+        "material/grass": 1673.324451,
+        "alive": 14818,
+        "withAdjacentLeaves": 8791,
+        "source/algae": 661.374522,
+        "material/algae": 55.451106,
+        "source/plant": 436,
+        "material/plant": 21.8
+      },
+      "parallel": {
+        "gainE": 10812.923705,
+        "gainM": 907.916208,
+        "gainHP": 5223.074371,
+        "source/grass": 39785.752968,
+        "material/grass": 1603.507088,
+        "source/fungus": 1138.734767,
+        "material/fungus": 56.009471,
+        "source/algae": 3376.410313,
+        "material/algae": 126.037821,
+        "source/plant": 354,
+        "material/plant": 17.7,
+        "source/grassbug": 147.688095,
+        "material/grassbug": 0,
+        "source/factor": 6.6,
+        "material/factor": 0,
+        "source/waterbug": 20.965714,
+        "material/waterbug": 0,
+        "source/mineral": 0,
+        "material/mineral": 4,
+        "source/serpent": 14.160024,
+        "material/serpent": 10.429098,
+        "source/valis": 64.83706,
+        "material/valis": 10.846114,
+        "source/whale": 4,
+        "material/whale": 4.788385
+      },
+      "whale": {
+        "gainE": 10872.846226,
+        "gainM": 817.04995,
+        "gainHP": 3442.365566,
+        "source/algae": 4761.927894,
+        "material/algae": 196.02828,
+        "source/grass": 29993.313746,
+        "material/grass": 1182.070273,
+        "source/info": 0.15,
+        "material/info": 0,
+        "source/fungus": 689.570657,
+        "material/fungus": 30.638392,
+        "source/plant": 342,
+        "material/plant": 17.1,
+        "source/waterbug": 68.929291,
+        "material/waterbug": 0,
+        "source/grassbug": 148.052383,
+        "material/grassbug": 0,
+        "source/factor": 6.1,
+        "material/factor": 0,
+        "source/mineral": 0,
+        "material/mineral": 8,
+        "source/parallel": 253.158207,
+        "material/parallel": 46.17725,
+        "source/gravity": 160.949398,
+        "material/gravity": 60.913168,
+        "source/serpent": 28.371772,
+        "material/serpent": 14.466152,
+        "source/valis": 526.109898,
+        "material/valis": 105.997105
+      },
+      "gravity": {
+        "gainE": 4005.305867,
+        "gainM": 547.64628,
+        "gainHP": 2394.917891,
+        "source/grass": 17022.537753,
+        "material/grass": 806.600616,
+        "source/fungus": 224.332942,
+        "material/fungus": 9.327486,
+        "source/plant": 242,
+        "material/plant": 12.1,
+        "source/grassbug": 202.778661,
+        "material/grassbug": 0,
+        "source/factor": 2,
+        "material/factor": 0,
+        "source/algae": 1186.042077,
+        "material/algae": 42.949603,
+        "source/mineral": 0,
+        "material/mineral": 1,
+        "source/waterbug": 8.263334,
+        "material/waterbug": 0,
+        "source/parallel": 56.624469,
+        "material/parallel": 6.194705,
+        "source/serpent": 55.128916,
+        "material/serpent": 24.42424,
+        "source/valis": 164.24236,
+        "material/valis": 38.329369
+      },
+      "valis": {
+        "gainE": 25200.108584,
+        "gainM": 1760.273798,
+        "gainHP": 6867.395104,
+        "source/grass": 70928.850939,
+        "material/grass": 3033.691395,
+        "source/fungus": 1326.956657,
+        "material/fungus": 63.715834,
+        "source/algae": 5505.137388,
+        "material/algae": 163.13435,
+        "source/grassbug": 1200.528436,
+        "material/grassbug": 0,
+        "source/plant": 1162,
+        "material/plant": 58.1,
+        "source/info": 0.1,
+        "material/info": 0,
+        "source/mineral": 0,
+        "material/mineral": 7,
+        "source/waterbug": 44.258029,
+        "material/waterbug": 0,
+        "source/factor": 15.5,
+        "material/factor": 0,
+        "source/fungal": 2,
+        "material/fungal": 0.1,
+        "source/serpent": 85.060419,
+        "material/serpent": 44.562395,
+        "source/whale": 94.487565,
+        "material/whale": 12.438361,
+        "source/parallel": 224.089664,
+        "material/parallel": 29.881723,
+        "source/gravity": 189.86656,
+        "material/gravity": 73.418945
+      },
+      "serpent": {
+        "gainE": 14690.556287,
+        "gainM": 929.808524,
+        "gainHP": 993.620395,
+        "source/grass": 31634.425521,
+        "material/grass": 1387.242934,
+        "source/fungus": 2614.455185,
+        "material/fungus": 142.924431,
+        "source/algae": 2256.403893,
+        "material/algae": 88.193449,
+        "source/waterbug": 68.850634,
+        "material/waterbug": 0,
+        "source/grassbug": 818.157468,
+        "material/grassbug": 0,
+        "source/plant": 190,
+        "material/plant": 9.5,
+        "source/whale": 154.704444,
+        "material/whale": 35.306061,
+        "source/factor": 5.5,
+        "material/factor": 0,
+        "source/parallel": 698.081047,
+        "material/parallel": 111.94689,
+        "source/gravity": 113.161324,
+        "material/gravity": 46.24367,
+        "source/valis": 278.069632,
+        "material/valis": 58.771265
+      }
+    },
+    "demand": {
+      "algae": {
+        "base": 2924.24,
+        "density": 0
+      },
+      "waterbug": {
+        "base": 437.19,
+        "density": 0
+      },
+      "fungus": {
+        "base": 6184.9875,
+        "density": 0
+      },
+      "grass": {
+        "base": 42546.62,
+        "density": 0
+      },
+      "grassbug": {
+        "base": 2915.43,
+        "density": 0
+      },
+      "parallel": {
+        "base": 5599.78425,
+        "density": 763.7
+      },
+      "whale": {
+        "base": 6223.001957,
+        "density": 1211.6
+      },
+      "gravity": {
+        "base": 2816.16017,
+        "density": 593.8
+      },
+      "valis": {
+        "base": 13130.173901,
+        "density": 3853.5
+      },
+      "serpent": {
+        "base": 5173.235806,
+        "density": 938.3
+      }
+    },
+    "leafGrowth": {
+      "algae": {
+        "B": 21861.794687
+      },
+      "grass": {
+        "B": 254609.281053
+      }
+    },
+    "light": {
+      "algae": {
+        "E": 33233.740001
+      },
+      "waterbug": {
+        "E": 0
+      },
+      "fungus": {
+        "E": 0
+      },
+      "grass": {
+        "E": 447260.515658
+      },
+      "grassbug": {
+        "E": 0
+      },
+      "parallel": {
+        "E": 0
+      },
+      "whale": {
+        "E": 0
+      },
+      "gravity": {
+        "E": 0
+      },
+      "valis": {
+        "E": 0
+      },
+      "serpent": {
+        "E": 0
+      }
+    }
+  },
+  "deaths": {
+    "fungus|harvest": 296,
+    "waterbug|combat": 17,
+    "grassbug|combat": 423,
+    "grassbug|age": 297,
+    "waterbug|age": 57,
+    "fungus|starvation": 3,
+    "fungus|age": 381,
+    "whale|combat": 15,
+    "grass|age": 2073,
+    "algae|age": 132,
+    "gravity|combat": 10,
+    "parallel|combat": 52,
+    "grassbug|starvation": 1,
+    "valis|combat": 23,
+    "hyperparasite|age": 4,
+    "serpent|starvation": 4,
+    "parallel|age": 20,
+    "serpent|age": 31,
+    "valis|age": 42,
+    "valis|starvation": 42,
+    "parallel|starvation": 2,
+    "gravity|age": 12,
+    "whale|starvation": 7,
+    "gravity|starvation": 1,
+    "whale|age": 2
+  },
+  "demography": {
+    "algae|0": {
+      "species": "algae",
+      "generation": 0,
+      "initial": 47,
+      "born": 0,
+      "matured": 3,
+      "reproduced": 19,
+      "juvenileDeaths": 0
+    },
+    "waterbug|0": {
+      "species": "waterbug",
+      "generation": 0,
+      "initial": 46,
+      "born": 0,
+      "matured": 9,
+      "reproduced": 7,
+      "juvenileDeaths": 1
+    },
+    "fungus|0": {
+      "species": "fungus",
+      "generation": 0,
+      "initial": 33,
+      "born": 0,
+      "matured": 6,
+      "reproduced": 22,
+      "juvenileDeaths": 0
+    },
+    "grass|0": {
+      "species": "grass",
+      "generation": 0,
+      "initial": 342,
+      "born": 0,
+      "matured": 25,
+      "reproduced": 243,
+      "juvenileDeaths": 0
+    },
+    "grassbug|0": {
+      "species": "grassbug",
+      "generation": 0,
+      "initial": 65,
+      "born": 0,
+      "matured": 7,
+      "reproduced": 34,
+      "juvenileDeaths": 0
+    },
+    "parallel|0": {
+      "species": "parallel",
+      "generation": 0,
+      "initial": 16,
+      "born": 0,
+      "matured": 16,
+      "reproduced": 16,
+      "juvenileDeaths": 0
+    },
+    "whale|0": {
+      "species": "whale",
+      "generation": 0,
+      "initial": 16,
+      "born": 0,
+      "matured": 16,
+      "reproduced": 11,
+      "juvenileDeaths": 0
+    },
+    "gravity|0": {
+      "species": "gravity",
+      "generation": 0,
+      "initial": 16,
+      "born": 0,
+      "matured": 16,
+      "reproduced": 11,
+      "juvenileDeaths": 0
+    },
+    "valis|0": {
+      "species": "valis",
+      "generation": 0,
+      "initial": 16,
+      "born": 0,
+      "matured": 16,
+      "reproduced": 15,
+      "juvenileDeaths": 0
+    },
+    "serpent|0": {
+      "species": "serpent",
+      "generation": 0,
+      "initial": 16,
+      "born": 0,
+      "matured": 16,
+      "reproduced": 11,
+      "juvenileDeaths": 0
+    },
+    "grass|1": {
+      "species": "grass",
+      "generation": 1,
+      "initial": 0,
+      "born": 312,
+      "matured": 312,
+      "reproduced": 165,
+      "juvenileDeaths": 0
+    },
+    "algae|1": {
+      "species": "algae",
+      "generation": 1,
+      "initial": 0,
+      "born": 23,
+      "matured": 23,
+      "reproduced": 14,
+      "juvenileDeaths": 0
+    },
+    "grassbug|1": {
+      "species": "grassbug",
+      "generation": 1,
+      "initial": 0,
+      "born": 51,
+      "matured": 48,
+      "reproduced": 38,
+      "juvenileDeaths": 3
+    },
+    "fungus|1": {
+      "species": "fungus",
+      "generation": 1,
+      "initial": 0,
+      "born": 38,
+      "matured": 30,
+      "reproduced": 27,
+      "juvenileDeaths": 8
+    },
+    "grassbug|2": {
+      "species": "grassbug",
+      "generation": 2,
+      "initial": 0,
+      "born": 54,
+      "matured": 50,
+      "reproduced": 38,
+      "juvenileDeaths": 4
+    },
+    "grass|2": {
+      "species": "grass",
+      "generation": 2,
+      "initial": 0,
+      "born": 229,
+      "matured": 229,
+      "reproduced": 141,
+      "juvenileDeaths": 0
+    },
+    "grassbug|3": {
+      "species": "grassbug",
+      "generation": 3,
+      "initial": 0,
+      "born": 59,
+      "matured": 56,
+      "reproduced": 38,
+      "juvenileDeaths": 3
+    },
+    "fungus|2": {
+      "species": "fungus",
+      "generation": 2,
+      "initial": 0,
+      "born": 56,
+      "matured": 46,
+      "reproduced": 34,
+      "juvenileDeaths": 10
+    },
+    "grass|3": {
+      "species": "grass",
+      "generation": 3,
+      "initial": 0,
+      "born": 216,
+      "matured": 216,
+      "reproduced": 119,
+      "juvenileDeaths": 0
+    },
+    "grassbug|4": {
+      "species": "grassbug",
+      "generation": 4,
+      "initial": 0,
+      "born": 69,
+      "matured": 59,
+      "reproduced": 51,
+      "juvenileDeaths": 10
+    },
+    "serpent|1": {
+      "species": "serpent",
+      "generation": 1,
+      "initial": 0,
+      "born": 13,
+      "matured": 13,
+      "reproduced": 8,
+      "juvenileDeaths": 0
+    },
+    "parallel|1": {
+      "species": "parallel",
+      "generation": 1,
+      "initial": 0,
+      "born": 29,
+      "matured": 29,
+      "reproduced": 18,
+      "juvenileDeaths": 0
+    },
+    "waterbug|1": {
+      "species": "waterbug",
+      "generation": 1,
+      "initial": 0,
+      "born": 9,
+      "matured": 9,
+      "reproduced": 4,
+      "juvenileDeaths": 0
+    },
+    "valis|1": {
+      "species": "valis",
+      "generation": 1,
+      "initial": 0,
+      "born": 20,
+      "matured": 20,
+      "reproduced": 17,
+      "juvenileDeaths": 0
+    },
+    "fungus|3": {
+      "species": "fungus",
+      "generation": 3,
+      "initial": 0,
+      "born": 61,
+      "matured": 54,
+      "reproduced": 35,
+      "juvenileDeaths": 7
+    },
+    "grassbug|5": {
+      "species": "grassbug",
+      "generation": 5,
+      "initial": 0,
+      "born": 95,
+      "matured": 83,
+      "reproduced": 56,
+      "juvenileDeaths": 12
+    },
+    "gravity|1": {
+      "species": "gravity",
+      "generation": 1,
+      "initial": 0,
+      "born": 9,
+      "matured": 9,
+      "reproduced": 1,
+      "juvenileDeaths": 0
+    },
+    "grass|4": {
+      "species": "grass",
+      "generation": 4,
+      "initial": 0,
+      "born": 194,
+      "matured": 194,
+      "reproduced": 114,
+      "juvenileDeaths": 0
+    },
+    "waterbug|2": {
+      "species": "waterbug",
+      "generation": 2,
+      "initial": 0,
+      "born": 5,
+      "matured": 5,
+      "reproduced": 3,
+      "juvenileDeaths": 0
+    },
+    "fungus|4": {
+      "species": "fungus",
+      "generation": 4,
+      "initial": 0,
+      "born": 53,
+      "matured": 48,
+      "reproduced": 28,
+      "juvenileDeaths": 5
+    },
+    "whale|1": {
+      "species": "whale",
+      "generation": 1,
+      "initial": 0,
+      "born": 16,
+      "matured": 16,
+      "reproduced": 7,
+      "juvenileDeaths": 0
+    },
+    "waterbug|3": {
+      "species": "waterbug",
+      "generation": 3,
+      "initial": 0,
+      "born": 5,
+      "matured": 5,
+      "reproduced": 3,
+      "juvenileDeaths": 0
+    },
+    "fungus|5": {
+      "species": "fungus",
+      "generation": 5,
+      "initial": 0,
+      "born": 39,
+      "matured": 31,
+      "reproduced": 21,
+      "juvenileDeaths": 8
+    },
+    "grassbug|6": {
+      "species": "grassbug",
+      "generation": 6,
+      "initial": 0,
+      "born": 89,
+      "matured": 77,
+      "reproduced": 50,
+      "juvenileDeaths": 12
+    },
+    "grassbug|7": {
+      "species": "grassbug",
+      "generation": 7,
+      "initial": 0,
+      "born": 92,
+      "matured": 82,
+      "reproduced": 39,
+      "juvenileDeaths": 10
+    },
+    "fungus|6": {
+      "species": "fungus",
+      "generation": 6,
+      "initial": 0,
+      "born": 33,
+      "matured": 32,
+      "reproduced": 22,
+      "juvenileDeaths": 1
+    },
+    "valis|2": {
+      "species": "valis",
+      "generation": 2,
+      "initial": 0,
+      "born": 23,
+      "matured": 23,
+      "reproduced": 18,
+      "juvenileDeaths": 0
+    },
+    "fungus|7": {
+      "species": "fungus",
+      "generation": 7,
+      "initial": 0,
+      "born": 35,
+      "matured": 33,
+      "reproduced": 25,
+      "juvenileDeaths": 2
+    },
+    "parallel|2": {
+      "species": "parallel",
+      "generation": 2,
+      "initial": 0,
+      "born": 18,
+      "matured": 17,
+      "reproduced": 7,
+      "juvenileDeaths": 1
+    },
+    "serpent|2": {
+      "species": "serpent",
+      "generation": 2,
+      "initial": 0,
+      "born": 10,
+      "matured": 10,
+      "reproduced": 3,
+      "juvenileDeaths": 0
+    },
+    "grassbug|8": {
+      "species": "grassbug",
+      "generation": 8,
+      "initial": 0,
+      "born": 63,
+      "matured": 51,
+      "reproduced": 32,
+      "juvenileDeaths": 12
+    },
+    "algae|2": {
+      "species": "algae",
+      "generation": 2,
+      "initial": 0,
+      "born": 21,
+      "matured": 21,
+      "reproduced": 10,
+      "juvenileDeaths": 0
+    },
+    "fungus|8": {
+      "species": "fungus",
+      "generation": 8,
+      "initial": 0,
+      "born": 33,
+      "matured": 33,
+      "reproduced": 21,
+      "juvenileDeaths": 0
+    },
+    "fungus|9": {
+      "species": "fungus",
+      "generation": 9,
+      "initial": 0,
+      "born": 30,
+      "matured": 30,
+      "reproduced": 20,
+      "juvenileDeaths": 0
+    },
+    "waterbug|4": {
+      "species": "waterbug",
+      "generation": 4,
+      "initial": 0,
+      "born": 3,
+      "matured": 3,
+      "reproduced": 1,
+      "juvenileDeaths": 0
+    },
+    "grassbug|9": {
+      "species": "grassbug",
+      "generation": 9,
+      "initial": 0,
+      "born": 47,
+      "matured": 37,
+      "reproduced": 16,
+      "juvenileDeaths": 10
+    },
+    "grass|5": {
+      "species": "grass",
+      "generation": 5,
+      "initial": 0,
+      "born": 197,
+      "matured": 197,
+      "reproduced": 111,
+      "juvenileDeaths": 0
+    },
+    "fungus|10": {
+      "species": "fungus",
+      "generation": 10,
+      "initial": 0,
+      "born": 29,
+      "matured": 28,
+      "reproduced": 14,
+      "juvenileDeaths": 1
+    },
+    "serpent|3": {
+      "species": "serpent",
+      "generation": 3,
+      "initial": 0,
+      "born": 3,
+      "matured": 3,
+      "reproduced": 0,
+      "juvenileDeaths": 0
+    },
+    "gravity|2": {
+      "species": "gravity",
+      "generation": 2,
+      "initial": 0,
+      "born": 1,
+      "matured": 1,
+      "reproduced": 0,
+      "juvenileDeaths": 0
+    },
+    "grassbug|10": {
+      "species": "grassbug",
+      "generation": 10,
+      "initial": 0,
+      "born": 29,
+      "matured": 23,
+      "reproduced": 6,
+      "juvenileDeaths": 6
+    },
+    "fungus|11": {
+      "species": "fungus",
+      "generation": 11,
+      "initial": 0,
+      "born": 21,
+      "matured": 19,
+      "reproduced": 12,
+      "juvenileDeaths": 2
+    },
+    "valis|3": {
+      "species": "valis",
+      "generation": 3,
+      "initial": 0,
+      "born": 38,
+      "matured": 37,
+      "reproduced": 22,
+      "juvenileDeaths": 1
+    },
+    "grassbug|11": {
+      "species": "grassbug",
+      "generation": 11,
+      "initial": 0,
+      "born": 6,
+      "matured": 3,
+      "reproduced": 1,
+      "juvenileDeaths": 3
+    },
+    "parallel|3": {
+      "species": "parallel",
+      "generation": 3,
+      "initial": 0,
+      "born": 13,
+      "matured": 9,
+      "reproduced": 2,
+      "juvenileDeaths": 4
+    },
+    "grass|6": {
+      "species": "grass",
+      "generation": 6,
+      "initial": 0,
+      "born": 175,
+      "matured": 175,
+      "reproduced": 108,
+      "juvenileDeaths": 0
+    },
+    "whale|2": {
+      "species": "whale",
+      "generation": 2,
+      "initial": 0,
+      "born": 15,
+      "matured": 14,
+      "reproduced": 7,
+      "juvenileDeaths": 0
+    },
+    "fungus|12": {
+      "species": "fungus",
+      "generation": 12,
+      "initial": 0,
+      "born": 15,
+      "matured": 13,
+      "reproduced": 10,
+      "juvenileDeaths": 2
+    },
+    "waterbug|5": {
+      "species": "waterbug",
+      "generation": 5,
+      "initial": 0,
+      "born": 1,
+      "matured": 1,
+      "reproduced": 1,
+      "juvenileDeaths": 0
+    },
+    "fungus|13": {
+      "species": "fungus",
+      "generation": 13,
+      "initial": 0,
+      "born": 17,
+      "matured": 15,
+      "reproduced": 8,
+      "juvenileDeaths": 1
+    },
+    "waterbug|6": {
+      "species": "waterbug",
+      "generation": 6,
+      "initial": 0,
+      "born": 4,
+      "matured": 3,
+      "reproduced": 1,
+      "juvenileDeaths": 1
+    },
+    "grassbug|12": {
+      "species": "grassbug",
+      "generation": 12,
+      "initial": 0,
+      "born": 1,
+      "matured": 1,
+      "reproduced": 1,
+      "juvenileDeaths": 0
+    },
+    "algae|3": {
+      "species": "algae",
+      "generation": 3,
+      "initial": 0,
+      "born": 14,
+      "matured": 14,
+      "reproduced": 9,
+      "juvenileDeaths": 0
+    },
+    "algae|4": {
+      "species": "algae",
+      "generation": 4,
+      "initial": 0,
+      "born": 15,
+      "matured": 15,
+      "reproduced": 6,
+      "juvenileDeaths": 0
+    },
+    "fungus|14": {
+      "species": "fungus",
+      "generation": 14,
+      "initial": 0,
+      "born": 15,
+      "matured": 15,
+      "reproduced": 12,
+      "juvenileDeaths": 0
+    },
+    "grassbug|13": {
+      "species": "grassbug",
+      "generation": 13,
+      "initial": 0,
+      "born": 1,
+      "matured": 0,
+      "reproduced": 0,
+      "juvenileDeaths": 1
+    },
+    "waterbug|7": {
+      "species": "waterbug",
+      "generation": 7,
+      "initial": 0,
+      "born": 1,
+      "matured": 1,
+      "reproduced": 0,
+      "juvenileDeaths": 0
+    },
+    "algae|5": {
+      "species": "algae",
+      "generation": 5,
+      "initial": 0,
+      "born": 8,
+      "matured": 8,
+      "reproduced": 4,
+      "juvenileDeaths": 0
+    },
+    "grass|7": {
+      "species": "grass",
+      "generation": 7,
+      "initial": 0,
+      "born": 188,
+      "matured": 188,
+      "reproduced": 98,
+      "juvenileDeaths": 0
+    },
+    "valis|4": {
+      "species": "valis",
+      "generation": 4,
+      "initial": 0,
+      "born": 38,
+      "matured": 37,
+      "reproduced": 20,
+      "juvenileDeaths": 0
+    },
+    "grass|8": {
+      "species": "grass",
+      "generation": 8,
+      "initial": 0,
+      "born": 157,
+      "matured": 157,
+      "reproduced": 80,
+      "juvenileDeaths": 0
+    },
+    "fungus|15": {
+      "species": "fungus",
+      "generation": 15,
+      "initial": 0,
+      "born": 19,
+      "matured": 19,
+      "reproduced": 16,
+      "juvenileDeaths": 0
+    },
+    "grass|9": {
+      "species": "grass",
+      "generation": 9,
+      "initial": 0,
+      "born": 134,
+      "matured": 133,
+      "reproduced": 54,
+      "juvenileDeaths": 0
+    },
+    "grass|10": {
+      "species": "grass",
+      "generation": 10,
+      "initial": 0,
+      "born": 77,
+      "matured": 75,
+      "reproduced": 33,
+      "juvenileDeaths": 0
+    },
+    "fungus|16": {
+      "species": "fungus",
+      "generation": 16,
+      "initial": 0,
+      "born": 23,
+      "matured": 23,
+      "reproduced": 18,
+      "juvenileDeaths": 0
+    },
+    "algae|6": {
+      "species": "algae",
+      "generation": 6,
+      "initial": 0,
+      "born": 5,
+      "matured": 5,
+      "reproduced": 3,
+      "juvenileDeaths": 0
+    },
+    "grass|11": {
+      "species": "grass",
+      "generation": 11,
+      "initial": 0,
+      "born": 56,
+      "matured": 53,
+      "reproduced": 18,
+      "juvenileDeaths": 0
+    },
+    "fungus|17": {
+      "species": "fungus",
+      "generation": 17,
+      "initial": 0,
+      "born": 27,
+      "matured": 27,
+      "reproduced": 18,
+      "juvenileDeaths": 0
+    },
+    "valis|5": {
+      "species": "valis",
+      "generation": 5,
+      "initial": 0,
+      "born": 30,
+      "matured": 26,
+      "reproduced": 6,
+      "juvenileDeaths": 0
+    },
+    "fungus|18": {
+      "species": "fungus",
+      "generation": 18,
+      "initial": 0,
+      "born": 28,
+      "matured": 26,
+      "reproduced": 16,
+      "juvenileDeaths": 2
+    },
+    "fungus|19": {
+      "species": "fungus",
+      "generation": 19,
+      "initial": 0,
+      "born": 22,
+      "matured": 21,
+      "reproduced": 15,
+      "juvenileDeaths": 1
+    },
+    "parallel|4": {
+      "species": "parallel",
+      "generation": 4,
+      "initial": 0,
+      "born": 2,
+      "matured": 2,
+      "reproduced": 1,
+      "juvenileDeaths": 0
+    },
+    "whale|3": {
+      "species": "whale",
+      "generation": 3,
+      "initial": 0,
+      "born": 13,
+      "matured": 13,
+      "reproduced": 4,
+      "juvenileDeaths": 0
+    },
+    "fungus|20": {
+      "species": "fungus",
+      "generation": 20,
+      "initial": 0,
+      "born": 22,
+      "matured": 22,
+      "reproduced": 16,
+      "juvenileDeaths": 0
+    },
+    "fungus|21": {
+      "species": "fungus",
+      "generation": 21,
+      "initial": 0,
+      "born": 22,
+      "matured": 22,
+      "reproduced": 17,
+      "juvenileDeaths": 0
+    },
+    "fungus|22": {
+      "species": "fungus",
+      "generation": 22,
+      "initial": 0,
+      "born": 19,
+      "matured": 19,
+      "reproduced": 15,
+      "juvenileDeaths": 0
+    },
+    "fungus|23": {
+      "species": "fungus",
+      "generation": 23,
+      "initial": 0,
+      "born": 20,
+      "matured": 19,
+      "reproduced": 9,
+      "juvenileDeaths": 1
+    },
+    "parallel|5": {
+      "species": "parallel",
+      "generation": 5,
+      "initial": 0,
+      "born": 1,
+      "matured": 1,
+      "reproduced": 0,
+      "juvenileDeaths": 0
+    },
+    "algae|7": {
+      "species": "algae",
+      "generation": 7,
+      "initial": 0,
+      "born": 3,
+      "matured": 3,
+      "reproduced": 0,
+      "juvenileDeaths": 0
+    },
+    "valis|6": {
+      "species": "valis",
+      "generation": 6,
+      "initial": 0,
+      "born": 8,
+      "matured": 8,
+      "reproduced": 2,
+      "juvenileDeaths": 0
+    },
+    "whale|4": {
+      "species": "whale",
+      "generation": 4,
+      "initial": 0,
+      "born": 5,
+      "matured": 4,
+      "reproduced": 0,
+      "juvenileDeaths": 0
+    },
+    "fungus|24": {
+      "species": "fungus",
+      "generation": 24,
+      "initial": 0,
+      "born": 11,
+      "matured": 10,
+      "reproduced": 6,
+      "juvenileDeaths": 0
+    },
+    "fungus|25": {
+      "species": "fungus",
+      "generation": 25,
+      "initial": 0,
+      "born": 7,
+      "matured": 7,
+      "reproduced": 4,
+      "juvenileDeaths": 0
+    },
+    "grass|12": {
+      "species": "grass",
+      "generation": 12,
+      "initial": 0,
+      "born": 27,
+      "matured": 26,
+      "reproduced": 9,
+      "juvenileDeaths": 0
+    },
+    "grass|13": {
+      "species": "grass",
+      "generation": 13,
+      "initial": 0,
+      "born": 11,
+      "matured": 9,
+      "reproduced": 2,
+      "juvenileDeaths": 0
+    },
+    "fungus|26": {
+      "species": "fungus",
+      "generation": 26,
+      "initial": 0,
+      "born": 4,
+      "matured": 4,
+      "reproduced": 1,
+      "juvenileDeaths": 0
+    },
+    "valis|7": {
+      "species": "valis",
+      "generation": 7,
+      "initial": 0,
+      "born": 3,
+      "matured": 2,
+      "reproduced": 2,
+      "juvenileDeaths": 0
+    },
+    "valis|8": {
+      "species": "valis",
+      "generation": 8,
+      "initial": 0,
+      "born": 2,
+      "matured": 1,
+      "reproduced": 1,
+      "juvenileDeaths": 0
+    },
+    "fungus|27": {
+      "species": "fungus",
+      "generation": 27,
+      "initial": 0,
+      "born": 2,
+      "matured": 2,
+      "reproduced": 0,
+      "juvenileDeaths": 0
+    },
+    "grass|14": {
+      "species": "grass",
+      "generation": 14,
+      "initial": 0,
+      "born": 2,
+      "matured": 1,
+      "reproduced": 0,
+      "juvenileDeaths": 0
+    },
+    "valis|9": {
+      "species": "valis",
+      "generation": 9,
+      "initial": 0,
+      "born": 1,
+      "matured": 0,
+      "reproduced": 0,
+      "juvenileDeaths": 0
+    }
+  },
+  "prey": {
+    "waterbug": {
+      "initial": 46,
+      "final": 0,
+      "births": 28,
+      "lastAlive": 140,
+      "descendantReproduced": 13
+    },
+    "grassbug": {
+      "initial": 65,
+      "final": 0,
+      "births": 656,
+      "lastAlive": 162,
+      "descendantReproduced": 366
+    }
+  },
+  "sourceHashes": {
+    "tools/screen-trophic-habitat.cjs": "4adbe8e401b8d766f6703235bbed470c4a1a9aea5298ddefc7bb8c63210d2642",
+    "design/trophic-foundation/habitat-model.cjs": "680026a17ed1e5c377b4dd6e17c5026248c2ff2484c2cb21c664a4d0dfc9a487",
+    "design/trophic-foundation/observe.cjs": "6fcb22cd2ad78e743cd43424322cca5e8dd675ee26d28903fc2f342723c5b86e",
+    "design/renewal-screen-v2/model.cjs": "0a080d9460f4257d6ee6f74813ec68147e7005c02cce0fb9f04d7fc15f30d865",
+    "design/renewal-screen-v2/allocation.txt": "f8940f9bb2525ea114b9d1e8367c294e3e2c1224e17a8a8bfa531b4b34141413",
+    "src/ecology/archive.js": "ea7641eef68be91e996c4032b993b7074fae245c3ac4d1712010a22e38b08fac",
+    "src/ecology/art.js": "3c9e403899b0f3bc2595c76b581ad9ecb618c506a239f3bc899370d131b77400",
+    "src/ecology/behavior.js": "50eea514aef9d2b25f267ab322bfed7b1592271be7da9d46f4883f7c11f8a006",
+    "src/ecology/catalogue.js": "53c74149e6a7dd3cc36864e6b477ee5af6d1345e73feb2008be326129a146763",
+    "src/ecology/compute-client.js": "70b8399436eb1b031554946832b9e65063acda0643a6c738c98a53d9172a98b5",
+    "src/ecology/compute-worker.js": "f169b8d1b614d1b8041bca78c96ec60ef45b794e98e68391f355300016e33b14",
+    "src/ecology/engine.js": "7e8dfc730025f48a2812171c28b7480335731f56564dc9e1ec1099fce9ac083a",
+    "src/ecology/habitat.js": "1740d5e15c9d891692a091fb8ea6a85b4b63ad53532cb15cff4fd065a7a17185",
+    "src/ecology/hash.js": "636175b050278fd50892ee78e160e2963fb7a73f5398ae5a7f55be27b41f6dc9",
+    "src/ecology/landscape.js": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+    "src/ecology/map-data.js": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+    "src/ecology/map-templates.js": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e",
+    "src/ecology/nutrition.js": "5f610b78e738a23eee84e9717852b2062b0b2b82c78a69a40c67e0e97077b295",
+    "src/ecology/observations.js": "df2016e7d5eb0d7bb3aab26c019984d897729828b521ff9929a1363dc5652748",
+    "src/ecology/parasites.js": "17e60d0eb10cd99c3c1e7d253dcf3a96f29ec3303e12653c0cbb1783c1c0a85f",
+    "src/ecology/projection.js": "2d39fe4b359c71818818c836b091e5dcc39d68f89ac8f28d2e54155255cee1a1",
+    "src/ecology/renderer.js": "ba1b12507aab93124f708f7dcee4cdfad4a48df78d7a4d883caf5df1fc5e55df",
+    "src/ecology/replay-version.js": "53b17f8fc8abf211b32070fc03a886c533c51c3f25e0af960f04433de17cf080",
+    "src/ecology/reproduction.js": "2fdbce36ee6d5e78edf9a00eb83d7c6ed5a01910bbc278b5f2afaa7480272240",
+    "src/ecology/scenery.js": "9c9522e4e33ccf0f07361d001f87bc77ca9630c73ea27cf2387e7282ef3f31ba",
+    "src/ecology/state.js": "4f23d370cd90b6d3d97679b056dbd3884fc72ab850ea85949be3c135592f47b1",
+    "src/ecology/transport.js": "d2b79f3fe97320a47d257f6cb9d817faef43d005a1f6c1ca238d914cbb3f0330"
+  },
+  "elapsedMs": 89781
+}
