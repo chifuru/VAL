@@ -136,6 +136,7 @@
         animate: false,
         duration: 260,
         selected: null,
+        highlights: [],
       };
     const diagnostics = {
       mode: "detail",
@@ -228,6 +229,7 @@
     }
     function drawIfChanged(now = performance.now()) {
       const b = canvas.getBoundingClientRect();
+      if(!b.width || !b.height)return false;
       const active =
         world && view.animate && view.motion && now - changedAt < view.duration;
       const key = [
@@ -248,6 +250,7 @@
       return true;
     }
     function draw() {
+      const visibleRect=canvas.getBoundingClientRect();if(!visibleRect.width||!visibleRect.height)return;
       diagnostics.frames = (diagnostics.frames || 0) + 1;
       const b = resize();
       g.fillStyle = "#07171f";
@@ -539,7 +542,7 @@
             : 0.13 + 0.07 * Math.min(1, S.edibleB(o) / 15),
           cx = p[0],
           cy = p[1] - (detail ? (isMain ? 0.18 : 0.03) : 0);
-        g.fillStyle = detail ? "#00132360" : "#061922cc";
+        if(detail){const shadow=g.createRadialGradient(p[0],p[1]+.04,0,p[0],p[1]+.04,r);shadow.addColorStop(0,"#00131be0");shadow.addColorStop(1,"#00131b08");g.fillStyle=shadow;}else g.fillStyle="#061922cc";
         g.beginPath();
         g.ellipse(
           p[0],
@@ -604,7 +607,7 @@
             symbolColor(S.spec(o)),
           );
         const a = S.ageInfo(o),
-          showStatus = view.statusMarks && isMain && near && (z >= 100 || o.cell === view.selected);
+          showStatus = view.statusMarks && near && (z >= 100 || o.cell === view.selected);
         if (!showStatus && a.enabled && a.stage !== "adult" && (view.ageEmphasis || !detail)) {
           g.strokeStyle = a.stage === "juvenile" ? "#fff0b2" : "#d7e2e0";
           g.lineWidth = 1 / z;
@@ -621,6 +624,7 @@
         if (o.infection) {
           diagnostics.infectedHosts++;
           if (o.infection.q) diagnostics.highParasites++;
+          if(near && z>=100)annotations.push(()=>{g.font=".055px sans-serif";g.fillStyle="#ffd1a3";g.fillText(S.D.byId[o.infection.species].name+" P · "+o.infection.stage,cx+.1,cy-.43);if(o.infection.q){g.fillStyle="#d9b9ff";g.fillText(S.D.byId.hyperparasite.name+" Q · "+o.infection.q.phase,cx+.1,cy-.51);}});
           const bx = cx + 0.23,
             by = cy - 0.26;
           g.fillStyle = "#19172b";
@@ -691,11 +695,11 @@
           }
           g.restore();
         }
-        if (near && (isMain || o.cell === view.selected)) {
+        if (near) {
           annotations.push(() => {
           g.font = ".065px sans-serif";
           g.textAlign = "center";
-          g.fillStyle = "#071c25df";
+          g.fillStyle = isMain ? "#071c25df" : "#123d2aef";
           g.fillRect(cx - 0.4, cy + r * 0.95, 0.8, 0.13);
           g.fillStyle = "#fff1c9";
           const action = w.events.find(
@@ -744,8 +748,8 @@
             g.strokeStyle = b.color; g.lineWidth = 0.7 / z; g.strokeRect(cx + b.x, y - 0.055, b.w, 0.11);
             g.fillStyle = b.color; g.fillText(b.text, cx + b.x + b.w / 2, y, b.w - 0.01);
           }
-          if (o.HP <= 25 || o.E < 15) {
-            g.fillStyle = o.HP <= 25 ? "#e2756f" : "#e6b66c";
+          if (o.HP <= .25*S.phenotype(w,o).maxHP || o.E < .15*S.phenotype(w,o).capE) {
+            g.fillStyle = o.HP <= .25*S.phenotype(w,o).maxHP ? "#e2756f" : "#e6b66c";
             g.beginPath(); g.arc(cx - 0.28, cy - 0.27, 0.06, 0, Math.PI * 2); g.fill();
             g.fillStyle = "#07171f"; g.fillText("!", cx - 0.28, cy - 0.27);
             diagnostics.criticalMarkers++;
@@ -755,6 +759,15 @@
           });
         }
       }
+      for(const q of w.searchQ || []){
+        const [x,y]=S.xy(w,q.cell),p=P.point(x+.5,y+.5);symbol(g,"hyperparasite",p[0]+.24,p[1]-.25,.09,"#ccadff");
+        if(near){g.fillStyle="#d9c6ff";g.font=".06px sans-serif";g.fillText(S.D.byId.hyperparasite.name+" · 探索",p[0],p[1]-.38);}
+      }
+      const marks=new Set(view.highlights||[]);
+      for(const o of w.organisms){const species=[o.species,o.infection?.species,o.infection?.q?.species].filter(s=>marks.has(s));if(!species.length)continue;
+        const face=P.face(o.cell);species.forEach((id,i)=>{path(face.slice(0,4));g.fillStyle=id==="hyperparasite"?"#c895ff30":"#ffe29930";g.fill();g.strokeStyle=id==="hyperparasite"?"#d6a8ff":id.includes("parasite")?"#ffab79":"#fff2ad";g.lineWidth=(2+i)/z;g.setLineDash(i?[3/z,2/z]:[]);g.stroke();g.setLineDash([]);});
+      }
+      for(const q of w.searchQ||[])if(marks.has("hyperparasite")){path(P.face(q.cell).slice(0,4));g.fillStyle="#c895ff55";g.fill();g.strokeStyle="#d6a8ff";g.lineWidth=2/z;g.stroke();}
       for (const annotate of annotations) annotate();
       if (view.selected !== null) {
         const f = P.face(view.selected);

@@ -41,12 +41,14 @@
         }
       }
     }
+    counts.hyperparasite += w.searchQ?.length || 0;
     return {
       population: w.organisms.length,
       main,
       food,
       P: Pcount,
-      Q: Qcount,
+      Q: Qcount + (w.searchQ?.length || 0),
+      ...(w.config.ecologyRevision === "observation/4.1" ? {Qsearch:w.searchQ?.length||0} : {}),
       resting: w.pending.length + w.carcasses.filter((a) => a.infection).length,
       counts,
       phases,
@@ -85,6 +87,7 @@
       ctx.traits.set(o.id, S.phenotype(w, o));
       ctx.old.set(o.id, {
         phase: o.phase,
+        species: o.species,
         HP: o.HP,
         E: o.E,
         cell: o.cell,
@@ -176,10 +179,10 @@
         (1 + S.trait(o, "maintenance", p.phase));
       ctx.costs.set(o.id, {
         action: 0,
-        base,
+        base: base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" ? .65 : 1),
         density,
         neighborCount,
-        budget: Math.max(0, o.E - base - density - (o.infection ? 0.2 : 0)),
+        budget: Math.max(0, o.E - base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" ? .65 : 1) - density - (o.infection ? 0.2 : 0)),
       });
     }
   }
@@ -238,6 +241,58 @@
       },
     };
   }
+  function observation(w,ctx) {
+    const refs = new Map(w.organisms.map(o=>[o.id,o.species]));
+    for(const [id,old] of ctx.old) if(old.species) refs.set(id,old.species);
+    const relations={};
+    for(const o of w.organisms)if(o.infection){refs.set(o.infection.id,o.infection.species);if(o.infection.q)refs.set(o.infection.q.id,"hyperparasite");}
+    function add(from,to,type,amount=1) {
+      if(!from||!to)return;
+      const key=from+"|"+to+"|"+type;
+      relations[key]=(relations[key]||0)+amount;
+    }
+    for(const [id,list] of ctx.events) for(const e of list) {
+      if(e.type==="attack")add(refs.get(id),refs.get(e.target),"combat");
+      if(e.type==="feed")add(refs.get(id),e.sourceSpecies || refs.get(e.source),"feeding");
+      if(e.type==="care"||e.type==="clear")add(refs.get(id),refs.get(e.target),e.type);
+      if(e.type==="infection")add(e.species || refs.get(e.parasite),refs.get(e.target)||refs.get(id),"infection");
+    }
+    const map=S.maps(w),last=new Set(w.contactPairs||[]),pairs=[],contactEpisodes={},contactTurns={};
+    const contactAdd=(out,key)=>out[key]=(out[key]||0)+1;
+    for(const a of w.organisms)for(const cell of S.nearby(w,a.cell,1,true)){
+      if(!S.oneStep(w,a.cell,cell))continue;
+      for(const b of [map.main.get(cell),map.food.get(cell)]){
+        if(!b || S.compare(a.id,b.id)>=0)continue;
+        const pair=a.id+"|"+b.id,pairSpecies=[a.species,b.species].sort().join("|")+"|contact";
+        pairs.push(pair);contactAdd(contactTurns,pairSpecies);
+        // Record one new encounter per pair, not one event for each endpoint.
+        if(!last.has(pair))contactAdd(contactEpisodes,pairSpecies);
+        add(pairSpecies.split('|')[0],pairSpecies.split('|')[1],"contact");
+      }
+    }
+    w.contactPairs=pairs;
+    const composition={};const links={};const birthReasons={};
+    w.demography ??= {};
+    const cohort=(species,generation)=>w.demography[species+"|"+generation]??={species,generation,initial:0,born:0,matured:0,reproduced:0,juvenileDeaths:0};
+    const childIds=new Set((ctx.children||[]).map(a=>a.id));
+    for(const o of w.organisms){const c=cohort(o.species,o.generation);
+      if(w.turn===0)c.initial++;
+      if(childIds.has(o.id))c.born++;
+      if(ctx.traits.get(o.id)?.ageStage==="juvenile" && S.ageInfo(o).stage!=="juvenile")c.matured++;
+      if(o.firstBirthAt===w.turn && ctx.parents.has(o.id))c.reproduced++;
+    }
+    for(const d of ctx.deaths)if(d.ageStage==="juvenile")cohort(d.species,d.generation).juvenileDeaths++;
+
+    for(const o of w.organisms) {
+      const row=composition[o.species]??={phases:[0,0,0,0],ages:{juvenile:0,adult:0,elderly:0},sex:{female:0,male:0,none:0},roles:{}};
+      row.phases[o.phase-1]++;row.ages[S.ageInfo(o).stage]++;row.sex[o.sex in row.sex ? o.sex : "none"]++;
+      if(o.birthBlockers){const reasons=birthReasons[o.species]??={};for(const reason of o.birthBlockers)reasons[reason]=(reasons[reason]||0)+1;}
+      if(o.role)row.roles[o.role]=(row.roles[o.role]||0)+1;
+      if(o.infection){const p=o.infection;add(p.species,o.species,"bond");links[p.species+"|"+o.species+"|bond"]=(links[p.species+"|"+o.species+"|bond"]||0)+1;if(p.q){add("hyperparasite",p.species,"bond");links["hyperparasite|"+p.species+"|bond"]=(links["hyperparasite|"+p.species+"|bond"]||0)+1;}}
+      for(const e of ctx.records.get(o.id)?.information || [])add(refs.get(e.sourceId),o.species,"information");
+    }
+    return {turn:w.turn,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
+  }
   function finish(w, ctx) {
     w.tallies = w.tallies || emptyTallies();
     for (const id of ctx.births) w.tallies.births[id]++;
@@ -262,6 +317,7 @@
       ctx.diagnostics.failure = ctx.records.get(ctx.observeId)?.failure || null;
     }
 
+    if(w.config.ecologyRevision === "observation/4.1") w.observation = observation(w,ctx);
     w.events = [];
     for (const [id, list] of ctx.events) {
       const feeds = list.filter((e) => e.type === "feed"),
@@ -309,6 +365,7 @@
   function create(input = {}) {
     const w = S.create(input);
     w.stats = summarize(w);
+    if(w.config.ecologyRevision === "observation/4.1") w.observation=observation(w,context(w));
     w.last = {
       births: 0,
       deaths: 0,
@@ -343,16 +400,20 @@
           N.expireAndCA(w, ctx);
           prepare(w, ctx);
         } else if (stage === 1) {
-          B.choose(w, ctx);
+          B.choose(w, ctx, w.config.ecologyRevision === "observation/4.1" ? "move" : null);
           B.move(w, ctx);
+          if(w.config.ecologyRevision === "observation/4.1") B.choose(w,ctx,"effect");
           B.combat(w, ctx);
           B.care(w, ctx);
+          if(w.config.ecologyRevision === "observation/4.1") P.clear(w,ctx);
+          if(w.config.ecologyRevision === "observation/4.1") N.payActions(w,ctx);
           N.feed(w, ctx, P.transfer);
           N.settle(w, ctx, P.fee);
         } else {
           B.learn(w, ctx);
           P.contacts(w, ctx);
           P.mature(w, ctx);
+          if(w.config.ecologyRevision === "observation/4.1") P.search(w,ctx);
           R.growth(w, ctx);
           R.reproduce(w, ctx);
           const drops = N.investAndDrops(w, ctx),
@@ -394,6 +455,7 @@
   function fingerprint(w) {
     const copy = structuredClone(w);
     delete copy.diagnostics;
+    delete copy.observation;
     delete copy.events;
     delete copy.warnings;
     copy.organisms.sort((a, b) => S.compare(a.id, b.id));
@@ -437,6 +499,10 @@
           ids.add(p.q.id);
         }
       }
+    }
+    for(const q of w.searchQ||[]){
+      if(ids.has(q.id))errors.push("ID_DUPLICATE:"+q.id);ids.add(q.id);
+      if(!Number.isFinite(q.E)||q.E<0||!Number.isInteger(q.cell)||!w.tiles[q.cell]||w.tiles[q.cell].blocked)errors.push("SEARCH_Q:"+q.id);
     }
     for (const a of w.resources) {
       if (!resourceKinds.has(a.cell)) resourceKinds.set(a.cell, new Set());

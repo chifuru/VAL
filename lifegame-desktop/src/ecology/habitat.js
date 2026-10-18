@@ -106,8 +106,8 @@
       const h = (a, b) => P.height(Math.max(0.001, Math.min(W - 0.001, a)), Math.max(0.001, Math.min(H - 0.001, b))),
         dx = (h(x + 0.35, y) - h(x - 0.35, y)) / 0.7,
         dy = (h(x, y + 0.35) - h(x, y - 0.35)) / 0.7;
-      return { shade: Math.min(0.34, Math.max(0, 0.045 - 0.85 * (dx + dy))),
-        light: Math.min(0.19, Math.max(0, 0.9 * (dx + dy))) };
+      return { shade: Math.min(0.38, Math.max(0, 0.045 - 1.05 * (dx + dy))),
+        light: Math.min(0.23, Math.max(0, 1.05 * (dx + dy))) };
     }
     const isFlow = (t) => t.terrain === "shallow";
     function sample(x, y) {

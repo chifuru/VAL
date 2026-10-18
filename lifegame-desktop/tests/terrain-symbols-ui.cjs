@@ -128,7 +128,8 @@ const { chromium } = require("playwright"),
       return count;
     });
     check(badgeCases===36,"sex, age and all four phases render independently across 36 state combinations");
-    await page.evaluate(()=>{const t=__LIFE_TEST__,w=t.prepare({seed:"critical-badge",width:40,height:28,initial:80,mapId:"river"}),a=w.organisms.find(o=>o.slot==="main");a.HP=20;t.select(a.cell);t.refresh();document.getElementById("detail-view").click();});
+    await page.evaluate(()=>{const t=__LIFE_TEST__,w=t.prepare({seed:"critical-badge",width:40,height:28,initial:80,mapId:"river"}),a=w.organisms.find(o=>o.slot==="main");a.HP=EcoState.phenotype(w,a).maxHP*.2;t.select(a.cell);t.refresh();document.getElementById("detail-view").click();});
+    await page.waitForFunction(()=>__LIFE_TEST__.snapshot().render.criticalMarkers>0);
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().render.criticalMarkers>0),"low-health warning is visible in close view");
     const idle=await page.evaluate(()=>{const t=__LIFE_TEST__;t.drawIfChanged(performance.now()+5000);const n=t.snapshot().render.frames;for(let i=0;i<200;i++)t.drawIfChanged(performance.now()+5000);return t.snapshot().render.frames-n});
     check(idle===0,"200 identical idle updates add zero full redraws");

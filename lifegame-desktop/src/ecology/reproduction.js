@@ -71,7 +71,7 @@
         toIII = early ? 120 : 90;
       if (old === 1 && o.G >= toII) o.phase = 2;
       else if (old === 2 && o.G >= toIII && o.M >= p.M3) {
-        const branch = lead(o.counters, 4);
+        const branch = lead(o.counters, 4) ?? (w.config.ecologyRevision === "observation/4.1" && o.counters.reduce((a,b)=>a+b,0)>=18 ? o.counters.indexOf(Math.max(...o.counters)) : null);
         if (branch !== null) {
           o.phase = 3;
           o.branch3 = branch;
@@ -120,10 +120,10 @@
         (s.group === "prey" || (o.M >= 0.2 && o.B >= 3))
       );
     return (
-      ctx.traits.get(o.id).phase >= 3 &&
+      (w.config.ecologyRevision === "observation/4.1" || ctx.traits.get(o.id).phase >= 3) &&
       o.HP >= 70 &&
-      o.M >= 4 &&
-      o.E >= (asexual ? 70 : s.birthEnergy) &&
+      o.M >= (w.config.ecologyRevision === "observation/4.1" && !asexual ? 2 : 4) &&
+      o.E >= (asexual ? 70 : s.birthEnergy*(w.config.ecologyRevision === "observation/4.1" ? .65 : 1)) &&
       o.role !== "worker"
     );
   }
@@ -143,7 +143,7 @@
         local = [];
       if (!m.main.has(cell) && w.config.enabled.main) {
         if([2,3].includes(mains.length))for(const mother of mains)
-          if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&S.oneStep(w,mother.cell,cell))
+          if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
             local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
         if ([2, 3].includes(mains.length))
           for (const mother of mains)
@@ -203,7 +203,7 @@
           if (
             s.group === "prey"
               ? ![2, 3].includes(same.length)
-              : same.length !== 3
+              : w.config.ecologyRevision === "observation/4.1" ? !(s.group === "fungus" ? [1,2,3] : [2,3]).includes(same.length) : same.length !== 3
           )
             continue;
           for (const parent of same)
@@ -325,16 +325,28 @@
       parent.birthReady =
         w.turn + Math.ceil(cooldown * (c.kind === 1 ? 1.5 : 1)) + 1;
     });
+    if(w.config.ecologyRevision === "observation/4.1")for(const parent of c.parents)parent.firstBirthAt??=w.turn;
     if (main) S.addSoil(w, mother.cell, 3);
     S.record(ctx, o, "birth", { parents: o.parents });
     if(c.kind===3){mother.sperm.uses--;w.colonyMating.storedBirths++;}
     return o;
   }
+  function blockers(w,o,ctx,m=S.maps(w)) {
+    const s=S.spec(o),p=ctx.traits.get(o.id)||S.phenotype(w,o),reasons=[];
+    if(p.ageStage==="juvenile")reasons.push("未成熟");
+    if(o.HP<70)reasons.push("健康不足");if(o.E<s.birthEnergy*(w.config.ecologyRevision === "observation/4.1"?.65:1))reasons.push("栄養不足");if(o.M<(o.sperm?.uses>0?4:2))reasons.push("鉱物不足");
+    if(o.birthReady>w.turn)reasons.push("待機中");if(o.role==="worker")reasons.push("非繁殖階級");if(ctx.records.get(o.id)?.damage>0)reasons.push("当日被害");
+    const near=S.nearby(w,o.cell).map(c=>m.main.get(c)).filter(Boolean);
+    if(o.sex==="female" && !(o.sperm?.uses>0) && !(s.id==="jelly"&&o.maleAbsent>=8) && !near.some(a=>a.species===o.species && a.sex!==o.sex && S.ageInfo(a).stage!=="juvenile" && S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
+    if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&[2,3].includes(S.nearby(w,c).filter(k=>m.main.has(k)).length)))reasons.push("出生場所不足");
+    return reasons;
+  }
   function reproduce(w, ctx) {
+    if(w.config.ecologyRevision === "observation/4.1"){const m=S.maps(w);for(const o of w.organisms)if(o.slot === "main")o.birthBlockers=blockers(w,o,ctx,m);}
     const matingMap=S.maps(w),usedMales=new Set();
     for(const queen of w.organisms){
-      if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||ctx.traits.get(queen.id)?.phase<3||queen.HP<70||queen.E<47||ctx.traits.get(queen.id)?.ageStage==="juvenile"||ctx.records.get(queen.id)?.damage>0)continue;
-      const male=S.nearby(w,queen.cell).map(p=>matingMap.main.get(p)).filter(a=>a?.species==="swarm"&&a.role==="male"&&ctx.traits.get(a.id)?.phase>=3&&a.HP>=70&&a.E>=2&&ctx.traits.get(a.id)?.ageStage!=="juvenile"&&ctx.records.get(a.id)?.damage===0&&!usedMales.has(a.id)&&S.oneStep(w,queen.cell,a.cell)).sort((a,b)=>S.hash(w,"colony/mate",w.turn,queen.id,a.id)-S.hash(w,"colony/mate",w.turn,queen.id,b.id))[0];
+      if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||(w.config.ecologyRevision!=="observation/4.1"&&ctx.traits.get(queen.id)?.phase<3)||queen.HP<70||queen.E<47||ctx.traits.get(queen.id)?.ageStage==="juvenile"||ctx.records.get(queen.id)?.damage>0)continue;
+      const male=S.nearby(w,queen.cell).map(p=>matingMap.main.get(p)).filter(a=>a?.species==="swarm"&&a.role==="male"&&(w.config.ecologyRevision==="observation/4.1"||ctx.traits.get(a.id)?.phase>=3)&&a.HP>=70&&a.E>=2&&ctx.traits.get(a.id)?.ageStage!=="juvenile"&&ctx.records.get(a.id)?.damage===0&&!usedMales.has(a.id)&&S.oneStep(w,queen.cell,a.cell)).sort((a,b)=>S.hash(w,"colony/mate",w.turn,queen.id,a.id)-S.hash(w,"colony/mate",w.turn,queen.id,b.id))[0];
       if(!male)continue;queen.E=S.round(queen.E-2);male.E=S.round(male.E-2);S.dissipate(w,4);usedMales.add(male.id);
       queen.sperm={uses:12,father:{id:male.id,dna:{...male.dna},birthWeights:male.birthWeights.slice(),generation:male.generation}};
       w.colonyMating??={matings:0,storedBirths:0};w.colonyMating.matings++;

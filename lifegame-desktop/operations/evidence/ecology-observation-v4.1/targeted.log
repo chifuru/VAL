@@ -1,0 +1,27 @@
+✔ final record contains initial config and final summary; repeated replay never records (673.987536ms)
+✔ incompatible, corrupt, full or failing storage cannot silently lose records (116.25081ms)
+✔ checked-in replay signature matches all biological sources including landscape (1.451904ms)
+✔ template records require resolved map identity before replay (85.559501ms)
+✔ real Worker differential frames reconstruct exactly the atomic result across turns and a fresh observer (2841.61576ms)
+✔ fixed geometry caching preserves results, ignores soil amounts, keys obstacles and does not leak mutable neighbors (3870.898878ms)
+✔ 500-turn blocks checkpoint at their own boundaries and resume with unchanged biology (728.829378ms)
+✔ Worker does not calculate beyond its requested terminal turn (1212.114732ms)
+✔ all turn values survive more than two 500-turn blocks and CSV preserves old peaks and config (566.757382ms)
+✔ age-mature phase I and II can reproduce, juveniles cannot; every child begins phase I age zero (15.027966ms)
+✔ movement and a subsequent effect use the remaining budget; feeding does not finance prior actions (8.558734ms)
+✔ Q window opens only after first terminal maturation and never directly suppresses P maturation (1.522087ms)
+✔ search Q attaches only inside the limited window and conserves finite energy (2.947001ms)
+✔ finite P maintenance causes loss without food and grooming cannot remove an internal parasite (2.407505ms)
+✔ contact episodes, continued contact and a wall-blocked neighbor are distinct (1.353288ms)
+✔ new production worlds retain invariants, deterministic replay and observation independence (13244.685131ms)
+✔ finite observation capacity refuses a new row without silently deleting any recorded turn (1.756124ms)
+✔ relationship continuity measures repeated completed time blocks, not a single burst (4.51669ms)
+✔ turn zero reports initial conditions without fabricated interaction events (116.260257ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23552.283003

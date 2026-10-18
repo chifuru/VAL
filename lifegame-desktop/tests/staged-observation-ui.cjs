@@ -58,13 +58,14 @@ const { chromium } = require("playwright"),
     checks.push(label);
   }
   try {
+    page.on("dialog",d=>d.accept());
     await page.goto(origin+'/Index.html?smoke=1');await page.evaluate(()=>EcoArt.ready);
     check(await page.locator('#speed option').count()===1&&await page.locator('#speed').inputValue()==='1','one reference cadence is one second per turn');
     await page.selectOption('#size','40,28');await page.selectOption('#observation-mode','river-settlement');
     check(await page.locator('#initial').inputValue()==='160','settlement mode exposes its larger initial cohort');
     check(await page.locator('#map-id').isDisabled()&&await page.locator('#lineages').isDisabled(),'fixed preset parameters are explicit and protected');
     check((await page.locator('#mode-help').textContent()).includes('25%'),'initial food adjustment is explained before creation');
-    await page.fill('#seed','staged-ui39');await page.click('#load');
+    await page.click('#load');
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.config.modeResolved.initialFoodScale===1.25),'resolved mode metadata reaches the actual world');
     const before=await page.evaluate(()=>__LIFE_TEST__.fingerprint());
     await page.evaluate(()=>{
@@ -80,7 +81,7 @@ const { chromium } = require("playwright"),
     await page.waitForFunction(()=>window.pausedOnStage2);
     check(await page.evaluate(()=>stageWitness.some(s=>s.phase===1&&s.turn===0)),'resource preview does not commit the turn');
     check(await page.evaluate(()=>stageWitness.some(s=>s.phase===1&&s.note)),'intermediate display is labelled as a preview');
-    check(await page.evaluate(()=>stageWitness.some(s=>s.phase===1&&s.inert)),'uncommitted detail selection is suspended');
+    check(await page.evaluate(()=>stageWitness.some(s=>s.phase===1&&!s.inert)),'committed detail selection remains available during preview');
     check(await page.evaluate(()=>stageWitness.find(s=>s.phase===2).fingerprint)===before,'feeding and movement preview cannot overwrite the committed world');
     check(await page.evaluate(()=>!__LIFE_TEST__.snapshot().pending&&__LIFE_TEST__.snapshot().world.turn===0),'pause cancels the private calculation');
     check(await page.evaluate(()=>__LIFE_TEST__.fingerprint())===before,'pause restores the exact committed state');
@@ -111,7 +112,7 @@ const { chromium } = require("playwright"),
     await page.click('#change-world');await page.selectOption('#observation-mode','lake-foodweb');
     check((await page.locator('#mode-help').textContent()).includes('50%'),'lake mode explains its separate food adjustment');
     await page.click('#load');await page.click('#start');
-    await page.waitForFunction(()=>__LIFE_TEST__.snapshot().pending?.phase===1);await page.click('#reset');
+    await page.waitForFunction(()=>__LIFE_TEST__.snapshot().pending?.phase===1);await page.click('#restart-world');
     await page.waitForTimeout(2200);
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn===0&&!__LIFE_TEST__.snapshot().running&&!__LIFE_TEST__.snapshot().pending),'reset invalidates all pending callbacks');
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.config.modeResolved.id==='lake-foodweb'),'reset retains the exact lake preset');

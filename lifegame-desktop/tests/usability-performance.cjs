@@ -58,6 +58,7 @@ const { chromium } = require("playwright"),
     checks.push(label);
   }
   try {
+    page.on("dialog",d=>d.accept());
     await page.goto(origin + "/Index.html?smoke=1");
     await page.evaluate(() => EcoArt.ready);
     check(
@@ -87,8 +88,8 @@ const { chromium } = require("playwright"),
       "change-world opens map selection and pauses observation",
     );
     check(
-      await page.evaluate(() => __LIFE_TEST__.snapshot().holds.includes("settings") && !__LIFE_TEST__.snapshot().pending),
-      "editing holds automatic playback until apply or cancel",
+      await page.evaluate(() => !__LIFE_TEST__.snapshot().running && !__LIFE_TEST__.snapshot().pending),
+      "return to setup stops playback until explicit observation restart",
     );
     const original = await page.evaluate(() => __LIFE_TEST__.fingerprint());
     await page.waitForTimeout(1250);
@@ -111,7 +112,6 @@ const { chromium } = require("playwright"),
       "failed reloading preserves previous world",
     );
     await page.fill("#initial", "80");
-    await page.click("#change-world");
     check(
       await page.locator("#setup-help").isVisible(),
       "replacement and save guidance remains visible",

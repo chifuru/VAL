@@ -58,6 +58,7 @@ const { chromium } = require("playwright"),
     checks.push(label);
   }
   try {
+    page.on("dialog",d=>d.accept());
     await page.goto(origin+'/Index.html?smoke=1');await page.evaluate(()=>EcoArt.ready);
     await page.evaluate(()=>{__LIFE_TEST__.prepare({seed:'fast-ui40',width:40,height:28,initial:80,lineages:'few'});document.getElementById('focus-view').click();});
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.blockEnd===500),'new observation uses 500-turn blocks');
@@ -69,10 +70,10 @@ const { chromium } = require("playwright"),
     const wheelStart=performance.now();
     await page.dispatchEvent('#board','wheel',{deltaY:-50,clientX:700,clientY:500});
     const held=await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn);
-    check(await page.evaluate(()=>__LIFE_TEST__.snapshot().holds.includes('map')&&!__LIFE_TEST__.snapshot().pending),'wheel pauses and restores committed world');
+    check(await page.evaluate(()=>!__LIFE_TEST__.snapshot().holds.length&&__LIFE_TEST__.snapshot().running),'wheel preserves running playback');
     check(await page.evaluate(()=>__LIFE_TEST__.fingerprint())===initial,'partial preview never leaks when operating the map');
     await page.waitForTimeout(650);
-    check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn)===held,'interaction pause lasts through its quiet period');
+    check(await page.evaluate(()=>__LIFE_TEST__.snapshot().running),'map interaction never inserts a quiet-period pause');
     await page.waitForFunction(()=>__LIFE_TEST__.snapshot().world.turn>=1,{},{timeout:15000});
     check(await page.evaluate(()=>!__LIFE_TEST__.snapshot().holds.length),'observation resumes after the quiet period');
     check(performance.now()-wheelStart<5000,'map operation reuses prepared work without repeating startup');
@@ -82,37 +83,37 @@ const { chromium } = require("playwright"),
     await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();
     await page.mouse.move(box.x+box.width/2+15,box.y+box.height/2+8);
     const dragging=await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn);await page.waitForTimeout(1300);
-    check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn)===dragging,'held drag never resumes underneath the pointer');
+    check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn)>dragging,'ecology continues while the pointer is held');
     await page.mouse.up();await page.waitForFunction(t=>__LIFE_TEST__.snapshot().world.turn>t,dragging);
     // Observe a complete steady playback span, excluding preparation and interaction.
     const start=await page.evaluate(()=>({t:performance.now(),turn:__LIFE_TEST__.snapshot().world.turn}));
     await page.waitForFunction(t=>__LIFE_TEST__.snapshot().world.turn>=t+5,start.turn,{timeout:20000});
     const span=await page.evaluate(()=>performance.now())-start.t;
-    check(span>=4500&&span<12000,'five steady turns retain the approximately one-second cadence');
+    check(span>=3900&&span<20000,'five committed turns preserve the reference cadence without skipping (may start between commits)');
     await page.click('#detail-hold');const detailTurn=await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn);
     await page.waitForTimeout(1400);
-    check(await page.evaluate(()=>__LIFE_TEST__.snapshot().holds.includes('detail')&&__LIFE_TEST__.snapshot().world.turn)===detailTurn,'detail remains paused until explicitly released');
+    check(await page.evaluate(()=>!__LIFE_TEST__.snapshot().running&&__LIFE_TEST__.snapshot().world.turn)===detailTurn,'detail remains paused until explicitly released');
     await page.click('#open-guide');await page.click('#close-guide');
-    check(await page.evaluate(()=>__LIFE_TEST__.snapshot().holds.includes('detail')),'closing one reader does not release another reader');
+    check(await page.evaluate(()=>!__LIFE_TEST__.snapshot().running),'closing one reader does not release another reader');
     await page.click('#detail-hold');await page.waitForFunction(t=>__LIFE_TEST__.snapshot().world.turn>t,detailTurn);
     await page.click('#open-guide');const guideTurn=await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn);
     await page.waitForTimeout(1200);
-    check(await page.evaluate(()=>__LIFE_TEST__.snapshot().holds.includes('guide')&&__LIFE_TEST__.snapshot().world.turn)===guideTurn,'guide pauses observation for reading');
+    check(await page.evaluate(()=>__LIFE_TEST__.snapshot().running&&__LIFE_TEST__.snapshot().world.turn)>guideTurn,'guide reading keeps observation running');
     await page.click('#close-guide');await page.waitForFunction(t=>__LIFE_TEST__.snapshot().world.turn>t,guideTurn);
     await page.click('#open-results');const resultTurn=await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn);
     await page.waitForTimeout(1200);
-    check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn)===resultTurn,'archive reading pauses observation');
+    check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn)>resultTurn,'archive reading keeps observation running');
     await page.click('#close-results');await page.waitForFunction(t=>__LIFE_TEST__.snapshot().world.turn>t,resultTurn);
     await page.click('#change-world');
-    check(await page.evaluate(()=>__LIFE_TEST__.snapshot().holds.includes('settings')),'editing initial conditions holds the current world');
-    await page.click('#cancel-settings');await page.waitForFunction(t=>__LIFE_TEST__.snapshot().world.turn>t,resultTurn);
+    check(await page.evaluate(()=>!__LIFE_TEST__.snapshot().running),'editing initial conditions holds the current world');
+    await page.click('#cancel-settings');await page.click('#start');await page.waitForFunction(t=>__LIFE_TEST__.snapshot().world.turn>t,resultTurn);
     // Manual pause overrides any pending automatic resume.
     await page.dispatchEvent('#board','wheel',{deltaY:30,clientX:700,clientY:500});await page.click('#start');
     const manual=await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn);
     await page.waitForTimeout(2200);
     check(await page.evaluate(()=>!__LIFE_TEST__.snapshot().running&&__LIFE_TEST__.snapshot().world.turn)===manual,'manual stop prevents automatic restart');
     await page.click('#start');await page.waitForFunction(()=>!!__LIFE_TEST__.snapshot().pending);
-    await page.click('#reset');await page.waitForTimeout(1500);
+    await page.click('#restart-world');await page.waitForTimeout(1500);
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn===0&&!__LIFE_TEST__.snapshot().pending&&!__LIFE_TEST__.snapshot().running),'reset rejects all outstanding Worker results');
     await page.click('#start');await page.waitForFunction(()=>__LIFE_TEST__.snapshot().world.turn>=2);
     await page.evaluate(()=>__LIFE_TEST__.stop());

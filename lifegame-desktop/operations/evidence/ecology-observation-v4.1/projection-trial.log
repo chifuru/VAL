@@ -1,0 +1,16 @@
+✔ display relief selects every actual cell centre without changing world state (13.2471ms)
+✔ shared terrain vertices agree, water stays level, and camera bounds cover cells (2.295415ms)
+✔ base-plane camera projection and inverse are consistent at fractional coordinates (0.639533ms)
+✔ isolated baseline replays production without mutating production catalogue (157.018658ms)
+✔ three repeated local contacts seed one paid colony, keep donor, and cannot chain on the same day (12.733543ms)
+✔ expired exposure and blocked sight do not count as frequent contact (6.676819ms)
+✔ even an early infected host leaves a finite infectious carcass and can transfer its existing colony (7.038993ms)
+✔ mature terminal colony spreads at most three paid daughter colonies and carries paid hyperparasites (9.597917ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 225.745583

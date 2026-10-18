@@ -36,9 +36,9 @@ function model(flags={food:true,budget:true,routes:true,foundation:true}){
     if(name==="behavior"&&flags.budget)source=replace(source,'      terrain *\n      environmental','      0.8 * terrain *\n      environmental');
     if(name==="nutrition"){
       if(flags.budget)source=replace(source,'          0.5 *\n            factor *\n            (0.9 + 0.2 * o.dna.aptitude)','          0.6 *\n            factor *\n            (0.9 + 0.2 * o.dna.aptitude)');
-      if(flags.routes){source=replace(source,'if (p && ["middle", "extra"].includes(p.stage) && p.counter >= 6)','if (p)');source=replace(source,'a.payloadExpires = w.turn + 4;','a.payloadExpires = w.turn + 16;');source=replace(source,'expires: w.turn + 12,','expires: w.turn + 20,');}
+      if(flags.routes){source=replace(source,'if (p && (w.config.ecologyRevision === "observation/4.1" ? p.counter >= ({first:4,middle:6,extra:6,terminal:8}[p.stage]) : ["middle", "extra"].includes(p.stage) && p.counter >= 6))','if (p)');source=replace(source,'a.payloadExpires = w.turn + 4;','a.payloadExpires = w.turn + 16;');source=replace(source,'expires: w.turn + 12,','expires: w.turn + 20,');}
     }
-    if(name==="reproduction"&&flags.food)source=replace(source,'              : same.length !== 3','              : s.group === "fungus" ? ![1,2,3].includes(same.length) : same.length !== 3');
+    if(name==="reproduction"&&flags.food)source=replace(source,'              : w.config.ecologyRevision === \"observation/4.1\" ? !(s.group === \"fungus\" ? [1,2,3] : [2,3]).includes(same.length) : same.length !== 3','              : s.group === "fungus" ? ![1,2,3].includes(same.length) : same.length !== 3');
     if(flags.foundation)source=require("./transform.cjs")(name,source,flags);
     const normal=m.require.bind(m);m.require=(id)=>/^\.\/[^/]+\.js$/.test(id)?load(id.slice(2,-3)):normal(id);m._compile(source,file);
     if(name==="parasites"&&flags.routes)m.exports=require("./parasite-routes.cjs")(load("state"),m.exports);

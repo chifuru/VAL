@@ -518,6 +518,7 @@
       infection(a.infection);
     }
     for (const a of w.pending) infection(a.infection);
+    for (const q of w.searchQ || []) E += q.E;
     for (const t of w.tiles) M += t.soilM;
     return { E: H.round(E), M: H.round(M) };
   }
@@ -970,6 +971,7 @@
         }
       }
     }
+    if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot === "food"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
     if (config.enabled.P)
       for (const o of w.organisms)
         if (
@@ -982,7 +984,7 @@
             o.id,
             0,
           );
-          if (config.enabled.Q && r(w, "init/hyper", 0, o.id) < 0.01)
+          if (config.ecologyRevision !== "observation/4.1" && config.enabled.Q && r(w, "init/hyper", 0, o.id) < 0.01)
             o.infection.q = hyper(w, o.infection.id, 0);
         }
     if (
@@ -992,6 +994,20 @@
       w.warnings.push("第一宿主不在：寄生虫は初期0です");
     if (config.enabled.Q && !config.enabled.P)
       w.warnings.push("一次寄生虫が無効なため高次寄生虫は初期0です");
+    if(config.ecologyRevision === "observation/4.1") {
+      w.searchQ=[];
+      config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
+      config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.max(4,Math.min(16,Math.ceil(config.width*config.height/400))),createdSearchQ:0};
+      const candidates=w.organisms.filter(o=>o.slot==="main" && ["plant","general"].includes(D.byId[o.species].diet));
+      if(config.enabled.P && config.enabled.Q && w.organisms.some(o=>o.infection) && candidates.length) {
+        for(let i=0;i<Math.min(config.parasiteInitial.targetSearchQ,candidates.length);i++) {
+          const host=candidates[Math.floor(i*candidates.length/Math.min(config.parasiteInitial.targetSearchQ,candidates.length))];
+          const q=hyper(w,"search:"+i,0);q.cell=host.cell;q.expires=160;q.E=Math.min(.5,host.E);host.E=H.round(host.E-q.E);w.searchQ.push(q);
+        }
+      }
+      config.parasiteInitial.createdSearchQ=w.searchQ.length;
+      if(config.enabled.Q && !w.searchQ.length)w.warnings.push("高次寄生の探索群体を配置できません。適合宿主/一次寄生虫の初期条件を確認してください。");
+    }
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -1002,6 +1018,7 @@
       id: "p:" + origin + ":" + turn,
       species,
       hostId,
+      ...(w.config.ecologyRevision === "observation/4.1" ? {location:species === "leafparasite" ? "external" : "internal",load:.5} : {}),
       stage: "first",
       counter: 0,
       E: 0,

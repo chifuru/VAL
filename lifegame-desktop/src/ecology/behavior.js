@@ -56,6 +56,7 @@
           : 1;
     return (
       ageMove *
+      (w.config.ecologyRevision === "observation/4.1" && s.group === "main" ? .6 : 1) *
       (s.group === "main" ? 0.65 : 1) *
       (terrain *
         environmental(w, o, "move", to) *
@@ -136,7 +137,7 @@
   function candidates(w, o, ctx, m) {
     const s = S.spec(o),
       p = ctx.traits.get(o.id),
-      budget = ctx.costs.get(o.id).budget,
+      budget = Math.max(0, ctx.costs.get(o.id).budget - ctx.costs.get(o.id).action),
       out = [{ type: "stop", cell: o.cell, cost: 0, path: [] }];
     if (s.group === "plant" || s.group === "fungus") return out;
     const friend = S.nearby(w, o.cell).some(
@@ -188,6 +189,7 @@
             target &&
             target.id !== o.id &&
             target.species !== o.species &&
+            !(w.config.ecologyRevision === "observation/4.1" && ["solar","kelp"].includes(o.species) && ["solar","kelp"].includes(target.species)) &&
             ["main", "prey"].includes(S.spec(target).group) &&
             S.distance(w, o.cell, cell) <= p.range
           ) {
@@ -240,6 +242,13 @@
           cost: 2,
           path: [],
         });
+    }
+    if (w.config.ecologyRevision === "observation/4.1" && s.group === "main" && budget >= 0.3) {
+      for (const cell of S.nearby(w,o.cell,1,true)) {
+        const target=m.main.get(cell);
+        if(target?.infection?.location === "external" && target.species===o.species && S.oneStep(w,o.cell,cell))
+          out.push({type:"groom",cell:o.cell,target:target.id,cost:0.3,path:[]});
+      }
     }
     return out;
   }
@@ -428,9 +437,9 @@
     const move = c.type === "move",
       attack = c.type === "attack",
       guard = c.type === "defend";
-    const pairReady = (a) => a.species !== "swarm" && a.phase >= 3 &&
+    const pairReady = (a) => a.species !== "swarm" && (w.config.ecologyRevision === "observation/4.1" || a.phase >= 3) &&
       ctx.traits.get(a.id)?.ageStage !== "juvenile" && a.role !== "worker" &&
-      a.HP >= 70 && a.E >= S.spec(a).birthEnergy && a.M >= 4 && a.birthReady <= w.turn;
+      a.HP >= 70 && a.E >= S.spec(a).birthEnergy*(w.config.ecologyRevision === "observation/4.1"?.65:1) && a.M >= (w.config.ecologyRevision === "observation/4.1"?2:4) && a.birthReady <= w.turn;
     let mateBonus = 0,
       pairApproach = 0,
       shelterBonus = 0;
@@ -450,8 +459,7 @@
           S.distance(w, to, p) < S.distance(w, here, p))
       ) shelterBonus = Math.max(shelterBonus, 0.6);
       if (
-        o.phase >= 3 &&
-        a.phase >= 3 &&
+        (w.config.ecologyRevision === "observation/4.1" || (o.phase >= 3 && a.phase >= 3)) &&
         ctx.traits.get(o.id).ageStage !== "juvenile" &&
         ctx.traits.get(a.id).ageStage !== "juvenile" &&
         a.sex !== o.sex &&
@@ -575,14 +583,15 @@
       S.distance(w, here, target.cell) <= 1
     )
       score += 0.1 * hunger;
+    if(c.type === "groom") score += 0.3 + 0.4*(o.weights[4]/100);
     const noRandom = score;
     score += (weights[8] / 100) * xi;
     return { score, noRandom, features, xi };
   }
-  function choose(w, ctx) {
+  function choose(w, ctx, stage = null) {
     const m = S.maps(w);
     for (const o of w.organisms) {
-      const list = candidates(w, o, ctx, m),
+      const list = candidates(w, o, ctx, m).filter(c => !stage || (stage === "move" ? ["stop","move"].includes(c.type) : c.type !== "move")),
         v = view(w, o, ctx, m);
       for (const c of list) {
         Object.assign(c, evaluate(w, o, c, ctx, v));
@@ -616,7 +625,7 @@
       if (
         S.spec(o).id === "jelly" &&
         o.sex === "female" &&
-        o.phase >= 3 &&
+        (w.config.ecologyRevision === "observation/4.1" || o.phase >= 3) &&
         ctx.traits.get(o.id).ageStage !== "juvenile"
       )
         o.maleAbsent = [...v.visibleCells].some((p) => {
@@ -624,7 +633,7 @@
           return (
             t?.species === o.species &&
             t.sex === "male" &&
-            t.phase >= 3 &&
+            (w.config.ecologyRevision === "observation/4.1" || t.phase >= 3) &&
             ctx.traits.get(t.id).ageStage !== "juvenile"
           );
         })
@@ -657,7 +666,7 @@
         rec.newPlace = !o.history.includes(c.cell);
         o.cell = c.cell;
         o.facing = c.direction;
-        ctx.costs.get(o.id).action = c.cost;
+        ctx.costs.get(o.id).action += c.cost;
         if (rec.newPlace)
           o.pendingMove = { turn: w.turn, expires: w.turn + 3, cell: c.cell };
         o.history.push(c.cell);
@@ -701,7 +710,7 @@
         mitigated = Math.max(0, Math.max(1, Math.floor(A + 0.5)) - damage);
       if (!byTarget.has(target.id)) byTarget.set(target.id, []);
       byTarget.get(target.id).push({ o, target, damage, mitigated });
-      ctx.costs.get(o.id).action = c.cost;
+      ctx.costs.get(o.id).action += c.cost;
       if (range === 2) o.attackReady = w.turn + 2;
       S.record(ctx, o, "attack", { target: target.id, to: target.cell });
     }

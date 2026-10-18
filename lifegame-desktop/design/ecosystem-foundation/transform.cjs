@@ -13,7 +13,7 @@ module.exports=function(name,s,flags={}){
   data.byId =`);
  if(name==='behavior'){
   replace('            occupied.has(cell) ||','            occupied.has(cell) || (s.group === "prey" && !S.validHabitat(w,s,cell)) ||');
-  replace('o.phase >= 3 &&\n        a.phase >= 3 &&','o.phase >= 1 &&\n        a.phase >= 1 &&');
+  replace('(w.config.ecologyRevision === \"observation/4.1\" || (o.phase >= 3 && a.phase >= 3)) &&','o.phase >= 1 &&\n        a.phase >= 1 &&');
   replace('mateBonus = 0.8;', 'mateBonus = o.phase>=3 && a.phase>=3 ? .8 : .5;');
   replace('      0.8 * terrain *','      0.48 * terrain *');
   replace('for (const p of v.visibleCells) {\n      const a = v.m.main.get(p);', 'for (const p of v.mateCells || v.visibleCells) {\n      const a = v.m.main.get(p);');
@@ -25,7 +25,7 @@ module.exports=function(name,s,flags={}){
  if(name==='nutrition'){
   replace('if (plant && o.M <', 'if ((plant || fungus) && o.M <');
   replace('s.group === "plant" && o.B < 4\n              ? 2\n              : o.phase === 2 && hasBirth\n                ? 8\n                : 5', 'o.phase === 2 && hasBirth ? 8 : s.group === "plant" && o.B < 4 ? 2 : 5');
-  replace('S.nearby(w, p).filter((q) => m.food.get(q)?.species === s.id)\n                .length === 3', '(["algae","moss","fungus"].includes(s.id) ? [1,2,3] : [3]).includes(S.nearby(w,p).filter(q=>m.food.get(q)?.species===s.id).length)');
+  replace('(w.config.ecologyRevision === \"observation/4.1\" ? s.group === \"fungus\" ? [1,2,3] : [2,3] : [3]).includes(S.nearby(w, p).filter((q) => m.food.get(q)?.species === s.id).length)', '(["algae","moss","fungus"].includes(s.id) ? [1,2,3] : [3]).includes(S.nearby(w,p).filter(q=>m.food.get(q)?.species===s.id).length)');
  }
  if(name==='parasites'){
   replace('      paid = Math.min(host.E, 0.2);', '      cost = S.spec(host).group === "main" ? .15 : .04, paid = Math.min(host.E, cost);');

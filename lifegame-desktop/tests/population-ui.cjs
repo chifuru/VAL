@@ -58,6 +58,7 @@ const { chromium } = require("playwright"),
     checks.push(label);
   }
   try {
+    page.on("dialog",d=>d.accept());
     await page.goto(origin + "/Index.html?smoke=1");
     await page.evaluate(() => EcoArt.ready);
     check(await page.locator('#lineages').isVisible(), 'lineage composition is visible without advanced settings');
@@ -104,7 +105,7 @@ const { chromium } = require("playwright"),
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().render.mode==='detail'),'near view keeps detailed rendering');
     await page.evaluate(()=>{for(let n=0;n<125;n++)__LIFE_TEST__.refresh();});
     check(await page.evaluate(()=>document.getElementById('trend-range').textContent.startsWith('0–13 T')),'UI refresh does not fabricate trend samples');
-    await page.click('#reset');
+    await page.click('#restart-world');
     check((await page.locator('#trend-range').textContent()).startsWith('0–0 T'),'new world resets trend history');
     await page.setViewportSize({width:390,height:844});
     check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'phone width has no horizontal page overflow');

@@ -1,0 +1,26 @@
+{
+  "checks": [
+    "internal seeds hidden in setup",
+    "setup cannot be edited during observation",
+    "all 30 species including parasites can be selected",
+    "Q has its own explanation",
+    "map and detail operations do not pause ecology",
+    "explicit individual camera tracking",
+    "manual pause freezes ecological time",
+    "highlight and camera remain operable while paused",
+    "graph keeps all records beyond former 121-point limit",
+    "exact initial turn remains selectable",
+    "CSV contains exact turn zero and reproducible conditions",
+    "return to initial setup is a real navigation",
+    "return from setup preserves the existing observation",
+    "no browser runtime errors"
+  ],
+  "errors": [],
+  "turn": 2,
+  "scope": "Linux Chromium; no Windows claim",
+  "csv": {
+    "bytes": 3090500,
+    "sha256": "45a29f0f4f55a9773c6e94e05213ba80f75c5e2df87d028f6868be1879a74c36",
+    "storage": "明示ダウンロードを検査。図鑑へは格納しない。"
+  }
+}

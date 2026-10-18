@@ -9,7 +9,7 @@
     ca = Math.cos(angle),
     sa = Math.sin(angle),
     tilt = 0.72,
-    lift = 0.95;
+    lift = 1.05;
   const water = (t) => t.terrain === "deep" || t.terrain === "shallow";
   const noise = (x, y) =>
     Math.sin(x * 1.731 + y * 0.671) * Math.cos(y * 1.219 - x * 0.413);

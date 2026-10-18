@@ -300,6 +300,9 @@
           healing: ["moss", "fungus"].includes(food.species) ? 1.2 : 1,
         });
     }
+    if (w.config.ecologyRevision === "observation/4.1") {
+      for(const cell of S.nearby(w,o.cell,1,true)){const target=m.food.get(cell);if(!target||target.id===o.id||!["plant","fungus"].includes(S.spec(target).group)||S.edibleB(target)<=0||!S.oneStep(w,o.cell,cell)||list.some(a=>a.id===target.id))continue;list.push({type:"plant",id:target.id,obj:target,cell,tag:S.spec(target).tag,amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB-S.PLANT_BASE),healing:1});}
+    }
     if (intent?.type === "harvest") {
       const target = m.byId.get(intent.target);
       if (
@@ -466,6 +469,7 @@
         }
         S.record(ctx, o, "feed", {
           source: a.id,
+          sourceSpecies: obj.species || null,
           to: a.cell,
           amount: amount.E,
           material: amount.M,
@@ -525,13 +529,16 @@
     S.dissipate(w, o.E + o.B - a.E);
     S.addSoil(w, o.cell, o.M - a.M);
     const p = o.infection;
-    if (p && ["middle", "extra"].includes(p.stage) && p.counter >= 6) {
+    if (p && (w.config.ecologyRevision === "observation/4.1" ? p.counter >= ({first:4,middle:6,extra:6,terminal:8}[p.stage]) : ["middle", "extra"].includes(p.stage) && p.counter >= 6)) {
       a.infection = p;
       p.hostId = a.id;
       a.payloadExpires = w.turn + 4;
     } else S.loseInfection(w, p);
     o.infection = null;
     w.carcasses.push(a);
+  }
+  function payActions(w,ctx) {
+    for(const o of w.organisms){const c=ctx.costs.get(o.id);if(!c)continue;spend(w,o,c.action);c.action=0;}
   }
   function settle(w, ctx, parasiteFee) {
     for (const o of w.organisms) {
@@ -559,7 +566,7 @@
       if (!reason && o.age >= p.life) reason = "age";
       if (reason) {
         S.record(ctx, o, "death", { reason });
-        ctx.deaths.push({ species: o.species, reason });
+        ctx.deaths.push({ species: o.species, reason, ...(w.config.ecologyRevision === "observation/4.1" ? {id:o.id,generation:o.generation,ageStage:ctx.traits.get(o.id).ageStage} : {}) });
         carcass(w, o, ctx);
       } else survivors.push(o);
     }
@@ -577,8 +584,7 @@
               !m.food.has(p) &&
               S.oneStep(w, o.cell, p) &&
               S.validHabitat(w, s, p) &&
-              S.nearby(w, p).filter((q) => m.food.get(q)?.species === s.id)
-                .length === 3,
+              (w.config.ecologyRevision === "observation/4.1" ? s.group === "fungus" ? [1,2,3] : [2,3] : [3]).includes(S.nearby(w, p).filter((q) => m.food.get(q)?.species === s.id).length),
           ),
           keep =
             s.group === "plant" && o.B < 4
@@ -810,6 +816,7 @@
     spend,
     carcass,
     settle,
+    payActions,
     investAndDrops,
     mineralCandidates,
     candidateOrder,

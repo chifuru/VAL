@@ -60,6 +60,7 @@ async function main() {
     checks.push(label);
   };
   try {
+    page.on("dialog", d=>d.accept());
     await page.goto(origin + "/Index.html?smoke=1");
     await page.waitForFunction(() => window.__LIFE_TEST__);
     await page.waitForFunction(() => __LIFE_TEST__.snapshot().assets.loaded);
@@ -86,7 +87,7 @@ async function main() {
       "unprepared world cannot advance",
     );
     await page.locator("#size").selectOption("40,28");
-    await page.locator("#seed").fill(" 生態観測\n日本語 ");
+    check(await page.locator("#seed").isHidden(), "internal seed is not a normal user setting");
     await page.locator("#load").click();
     await page.waitForFunction(() => __LIFE_TEST__.snapshot().world);
     let s = await page.evaluate(() => __LIFE_TEST__.snapshot());
@@ -100,8 +101,8 @@ async function main() {
       "load creates phase-I world without advancing",
     );
     check(
-      s.world.config.seed === " 生態観測\n日本語 ",
-      "seed preserves Unicode, whitespace and newline",
+      typeof s.world.config.seed === "string" && s.world.config.seed.length > 0,
+      "creation generates an internal reproducible seed",
     );
     check(
       s.world.stats.counts && Object.keys(s.world.stats.counts).length === 30,
@@ -271,7 +272,7 @@ async function main() {
       "view toggles and zoom do not affect simulation",
     );
     await page.locator("#fit").click();
-    await page.locator("#reset").click();
+    await page.locator("#restart-world").click();
     check(
       (await page.evaluate(() => __LIFE_TEST__.fingerprint())) === initial,
       "reset exactly replays original world",
@@ -297,6 +298,7 @@ async function main() {
       "true"
     )
       await page.click("#focus-view");
+    await page.locator("#change-world").click();
     await page.locator("#advanced-settings > summary").click();
     await page.locator("#lineages").selectOption("few");
     await page.locator("#placement").selectOption("cluster");
@@ -313,6 +315,7 @@ async function main() {
       "true"
     )
       await page.click("#focus-view");
+    await page.locator("#change-world").click();
     for (const id of ["main", "plant", "fungus", "prey", "P", "Q"])
       await page.locator("#group-" + id).uncheck();
     await page.locator("#load").click();
@@ -385,15 +388,15 @@ async function main() {
       }
       const w = __LIFE_TEST__.snapshot().world;
       const mature =
-        w.organisms.find((o) => o.species === "solar" && o.phase >= 3) ||
-        w.organisms.find((o) => o.slot === "main" && o.phase >= 3);
+        w.organisms.find((o) => o.species === "solar" && EcoState.ageInfo(o).stage !== "juvenile") ||
+        w.organisms.find((o) => o.slot === "main" && EcoState.ageInfo(o).stage !== "juvenile");
       if (!mature)
         throw Error("No naturally matured specimen for visual observation");
       __LIFE_TEST__.select(mature.cell, mature.id);
     });
     check(
       (await page.evaluate(() => __LIFE_TEST__.snapshot().world.turn)) === 100,
-      "actual simulation reaches mature artwork without fabricated phase changes",
+      "actual simulation reaches age maturity without fabricated phase changes",
     );
     await page.waitForTimeout(150);
     await page.screenshot({

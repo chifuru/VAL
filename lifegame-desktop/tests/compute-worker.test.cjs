@@ -1,7 +1,7 @@
 'use strict';
 const {test}=require('node:test'),assert=require('node:assert/strict'),{Worker}=require('node:worker_threads'),path=require('node:path');
 const E=require('../src/ecology/engine.js'),T=require('../src/ecology/transport.js');
-const config={seed:'worker40/equality',landscape:'templates',mapId:'river',ageModel:'life/1',width:40,height:28,initial:80,lineages:'few',blockTurns:500};
+const config={seed:'worker40/equality',landscape:'templates',mapId:'river',ageModel:'life/1',width:40,height:28,initial:80,lineages:'few',blockTurns:500,ecologyRevision:'observation/4.1'};
 function thread(){
  const w=new Worker(path.join(__dirname,'compute-harness.cjs')),messages=[],waiters=[];
  w.on('message',m=>{if(waiters.length)waiters.shift()(m);else messages.push(m);});

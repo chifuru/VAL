@@ -30,6 +30,12 @@
         stage = "middle";
       else return;
     } else if (type === "carcass") {
+      if(w.config.ecologyRevision === "observation/4.1" && source.payloadExpires>w.turn && !target.infection && p.counter>=required[p.stage]){
+        const first=p.species === "tideparasite" ? "algae" : "grass",prey=p.species === "tideparasite" ? "waterbug" : "grassbug";
+        if(p.stage === "first" && target.species === prey)stage="middle";
+        else if(["middle","extra","terminal"].includes(p.stage) && terminal(p,target))stage=S.ageInfo(target).stage !== "juvenile" ? "terminal" : "extra";
+        else if(p.stage === "terminal" && target.species===first)stage="first";
+      }
       if (!source.payloadExpires || source.payloadExpires <= w.turn) return;
       if (
         !target.infection &&
@@ -37,8 +43,8 @@
         terminal(p, target)
       ) {
         if (p.stage === "middle")
-          stage = target.phase >= 3 ? "terminal" : "extra";
-        else if (p.stage === "extra" && target.phase >= 3) stage = "terminal";
+          stage = (w.config.ecologyRevision === "observation/4.1" ? S.ageInfo(target).stage !== "juvenile" : target.phase >= 3) ? "terminal" : "extra";
+        else if (p.stage === "extra" && (w.config.ecologyRevision === "observation/4.1" ? S.ageInfo(target).stage !== "juvenile" : target.phase >= 3)) stage = "terminal";
       }
       if (!stage) {
         S.loseInfection(w, p);
@@ -59,13 +65,13 @@
     }
   }
   // Paid colony dispersal; all donors are frozen at the beginning of the turn.
-  function contactStage(p, target, matureTerminal) {
+  function contactStage(p, target, matureTerminal, ageBased = false) {
     const first = p.species === "tideparasite" ? "algae" : "grass";
     const middle = p.species === "tideparasite" ? "waterbug" : "grassbug";
     if (target.species === first && (p.stage === "first" || matureTerminal)) return "first";
     if (target.species === middle && (["first", "middle"].includes(p.stage) || matureTerminal)) return "middle";
-    if (matureTerminal && terminal(p, target)) return target.phase >= 3 ? "terminal" : "extra";
-    if (p.stage === "extra" && terminal(p, target) && target.phase < 3) return "extra";
+    if (matureTerminal && terminal(p, target)) return (ageBased ? S.ageInfo(target).stage !== "juvenile" : target.phase >= 3) ? "terminal" : "extra";
+    if (p.stage === "extra" && terminal(p, target) && (ageBased ? S.ageInfo(target).stage === "juvenile" : target.phase < 3)) return "extra";
     return null;
   }
   function contacts(w, ctx) {
@@ -79,7 +85,7 @@
       for (const cell of S.nearby(w, source.cell, radius, true)) {
         for (const target of [m.main.get(cell), m.food.get(cell)]) {
           if (!target || target.HP <= 0 || target.infection || !S.sight(w, source.cell, target.cell)) continue;
-          const stage = contactStage(p, target, matureTerminal);
+          const stage = contactStage(p, target, matureTerminal, w.config.ecologyRevision === "observation/4.1");
           if (!stage) continue;
           const previous = (target.contactExposure || []).find(e => e.source === p.id && w.turn-e.time < 8);
           const hits = Math.min(3, (previous?.hits || 0) + 1);
@@ -102,7 +108,7 @@
       const child=S.infection(w,c.p.species,c.target.id,w.turn,S.sha256(c.p.id+":"+c.target.id+":contact").slice(0,16));
       child.stage=c.stage;child.E=.04;
       c.p.E=S.round(c.p.E-.12);S.dissipate(w,.08);
-      if(c.p.q && ctx.byParasite.get(c.p.id).qPhase>=2 && c.p.q.E>=.06){
+      if(w.config.ecologyRevision !== "observation/4.1" && c.p.q && ctx.byParasite.get(c.p.id).qPhase>=2 && c.p.q.E>=.06){
         c.p.q.E=S.round(c.p.q.E-.06);child.q=S.hyper(w,child.id,w.turn);child.q.E=.02;S.dissipate(w,.04);ctx.births.push("hyperparasite");
       }
       c.target.infection=child;c.target.contactExposure=[];ctx.births.push(child.species);ctx.transfers++;
@@ -114,6 +120,7 @@
   function fee(w, ctx, host) {
     const entry = ctx.startInfections.get(host.id);
     if (!entry) return;
+    if(w.config.ecologyRevision === "observation/4.1") return upkeep(w,ctx,host,entry);
     const { p, q } = entry,
       paid = Math.min(host.E, 0.2);
     host.E = S.round(host.E - paid);
@@ -134,10 +141,11 @@
       if (!p || ctx.movedInfections.has(p.id)) continue;
       const entry = ctx.byParasite.get(p.id);
       if (!entry) continue;
-      const suppressed = entry.qPhase >= 2,
+      const suppressed = w.config.ecologyRevision !== "observation/4.1" && entry.qPhase >= 2,
         parity = (w.turn + S.hash(w, "parasite/phase", 0, p.id)) % 2 === 0;
       if (entry.full && (!suppressed || parity))
         p.counter = Math.min(required[p.stage], p.counter + 1);
+      if (w.config.ecologyRevision === "observation/4.1" && p.stage === "terminal" && p.counter >= required.terminal && p.matureAt === undefined) p.matureAt=w.turn;
       if (p.q && entry.qFull) {
         const q = p.q;
         q.counter++;
@@ -373,7 +381,7 @@
       ctx.births.push(child.species);
       p.E = S.round(p.E - 0.1);
       S.dissipate(w, 0.1);
-      if (p.q && entry.qPhase === 3 && p.q.E >= 0.1) {
+      if (w.config.ecologyRevision !== "observation/4.1" && p.q && entry.qPhase === 3 && p.q.E >= 0.1) {
         p.q.E = S.round(p.q.E - 0.1);
         S.dissipate(w, 0.1);
         child.q = S.hyper(w, child.id, w.turn);
@@ -394,7 +402,7 @@
           expires: w.turn + 8,
           infection: child,
         });
-      p.ready = w.turn + (entry.qPhase >= 2 ? 8 : 4) + 1;
+      p.ready = w.turn + (w.config.ecologyRevision !== "observation/4.1" && entry.qPhase >= 2 ? 8 : 4) + 1;
     }
     const pendingVotes = new Map(),
       pendingChoices = [];
@@ -445,7 +453,70 @@
       q.seen = q.seen.filter((a) => a.expires > w.turn);
     }
   }
+  function upkeep(w,ctx,host,entry) {
+    const p=entry.p;
+    // The beginning-of-turn host pays, even after trophic transfer; a cleared colony pays nothing.
+    if(!w.organisms.some(o=>o.infection===p) && !w.carcasses.some(c=>c.infection===p))return;
+    p.load ??= .5;
+    const fee=.12*p.load,paid=Math.min(host.E,fee),add=Math.min(2-p.E,paid);
+    host.E=S.round(host.E-paid);p.E=S.round(p.E+add);S.dissipate(w,paid-add);
+    const cost=.04,maintenance=Math.min(p.E,cost);p.E=S.round(p.E-maintenance);S.dissipate(w,maintenance);
+    p.stress=maintenance+1e-8<cost?(p.stress||0)+1:Math.max(0,(p.stress||0)-1);
+    p.load=S.round(S.clamp(p.load+(maintenance>=cost?.01:-.08),0,1));
+    entry.full=paid+1e-8>=fee && maintenance+1e-8>=cost;
+    if(p.q){feedQ(w,p.q,host.cell);entry.qFull=p.q?.E>=.01;}
+    if(p.load<=0||p.stress>=8){S.loseInfection(w,p);const carrier=w.organisms.find(o=>o.infection===p);if(carrier)carrier.infection=null;S.record(ctx,host,"clear",{target:host.id,parasite:p.id,reason:"maintenance"});}
+  }
+  function feedQ(w,q,cell) {
+    // External information resource, never an extra direct tax on host or primary parasite.
+    const a=w.resources.find(a=>a.cell===cell&&a.kind==="info"&&a.E>0);
+    if(a){const n=Math.min(.03,a.E,1-q.E);q.E=S.round(q.E+n);a.E=S.round(a.E-n);}
+    const cost=Math.min(q.E,.001);q.E=S.round(q.E-cost);S.dissipate(w,cost);
+  }
+  function clear(w,ctx) {
+    const m=S.maps(w);
+    for(const o of w.organisms){
+      const intent=ctx.intents.get(o.id),cost=ctx.costs.get(o.id);
+      if(o.HP<=0)continue;
+      if(intent?.type==="groom"){
+        const target=m.byId.get(intent.target),p=target?.infection;
+        if(p && p.location === "external" && target.HP>0 && target.species===o.species && S.oneStep(w,o.cell,target.cell) && cost.budget-cost.action>=.3){
+          cost.action+=.3;p.load=S.round(Math.max(0,(p.load??.5)-.22));
+          S.record(ctx,o,"clear",{target:target.id,parasite:p.id,species:p.species,reason:"groom"});
+          if(p.load<=0){S.loseInfection(w,p);target.infection=null;}
+        }
+      }
+      const p=o.infection;
+      if(p && cost.budget-cost.action>=.04){
+        // Bounded, paid immunity; no guaranteed clearance or physical damage to the host.
+        cost.action+=.04;
+        if(S.r(w,"parasite/immunity",w.turn,o.id)<.006){p.load=S.round(Math.max(0,(p.load??.5)-.3));if(p.load<=0){S.loseInfection(w,p);o.infection=null;S.record(ctx,o,"clear",{target:o.id,parasite:p.id,species:p.species,reason:"immunity"});}}
+      }
+    }
+  }
+  function windowOpen(w,p){return p.stage==="terminal" && Number.isInteger(p.matureAt) && w.turn>p.matureAt && w.turn<=p.matureAt+3;}
+  function search(w,ctx){
+    const current=w.searchQ || [],next=[],born=[];
+    const infected=w.organisms.filter(o=>o.infection && !o.infection.q && windowOpen(w,o.infection) && !ctx.movedInfections.has(o.infection.id));
+    const occupied=new Set();
+    for(const q of current.slice().sort((a,b)=>S.compare(a.id,b.id))){
+      feedQ(w,q,q.cell);
+      if(q.E<=0 || q.expires<=w.turn){S.dissipate(w,q.E);ctx.deaths.push({species:"hyperparasite",reason:"age"});continue;}
+      const target=infected.filter(o=>!occupied.has(o.id)&&S.distance(w,q.cell,o.cell)<=1&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.compare(a.id,b.id))[0];
+      if(target && q.E>=.02){q.E=S.round(q.E-.02);S.dissipate(w,.02);q.hostId=target.infection.id;delete q.cell;delete q.expires;target.infection.q=q;occupied.add(target.id);S.record(ctx,target,"infection",{parasite:q.id,species:"hyperparasite",stage:"window",target:target.infection.id});continue;}
+      const map=S.maps(w),cue=S.nearby(w,q.cell,3,true).map(c=>map.main.get(c)).filter(o=>o?.infection?.stage==="terminal"&&o.infection.counter>=5&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
+      const moves=S.nearby(w,q.cell).filter(c=>S.oneStep(w,q.cell,c));
+      if(moves.length && q.E>.001){const c=moves.sort((a,b)=>(cue?S.distance(w,a,cue.cell)-S.distance(w,b,cue.cell):0)||S.hash(w,"hyper/search",w.turn,q.id,a)-S.hash(w,"hyper/search",w.turn,q.id,b))[0];q.cell=c;q.E=S.round(q.E-.001);S.dissipate(w,.001);}
+      next.push(q);
+    }
+    for(const host of w.organisms){const p=host.infection,q=p?.q;if(!q)continue;
+      if(q.E<=0){S.dissipate(w,q.E);p.q=null;ctx.deaths.push({species:"hyperparasite",reason:"starvation"});continue;}
+      if(q.phase>=3&&q.ready<=w.turn&&q.E>=.12 && next.length+born.length<256){const child=S.hyper(w,q.id,w.turn);child.cell=host.cell;child.E=.08;child.expires=w.turn+40;q.E=S.round(q.E-.1);q.ready=w.turn+12;S.dissipate(w,.02);born.push(child);ctx.births.push("hyperparasite");}
+    }
+    w.searchQ=[...next,...born];
+  }
   return {
+    clear,search,windowOpen,
     required,
     contacts,
     contactStage,

@@ -10,7 +10,7 @@
     <title>LifeGame — 生態シミュレーション</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body class="setup-screen">
     <header>
       <a href="Index.html" class="brand">◈ <strong>LIFE LAB</strong></a
       ><span class="header-note"
@@ -36,14 +36,14 @@
             <b>① 地形を選ぶ</b> → <b>② 世界を作る</b> → <b>③ 観測を開始</b>
           </p>
           <p id="setup-help" class="note">
-            地形を選んで「この設定で世界を作る」を押してください。地形用初期値は空欄でも使えます。
+            地形・生物・配置を選んで世界を作ります。同じ設定でも、新しい世界では配置が変わります。
           </p>
           <form id="setup">
             <label class="observation-mode-label">観察モード<select id="observation-mode"><option value="custom">自由設定</option><option value="river-settlement">河畔・定着観察（高生産・初期集団多め）</option><option value="lake-foodweb">湖沼・食物網観察（高生産・初期集団多め）</option></select></label>
             <p id="mode-help" class="note" aria-live="polite"></p>
             <div class="setup-main">
               <label
-                >生態用初期値<textarea id="seed" rows="2" maxlength="2048">
+                 hidden>生態用初期値<textarea id="seed" rows="2" maxlength="2048">
 ECOSYSTEM-2026</textarea
                 ></label
               ><label
@@ -69,7 +69,7 @@ ECOSYSTEM-2026</textarea
                 </select></label
               >
               <label
-                >地形用初期値<input
+                 hidden>地形用初期値<input
                   id="terrain-seed"
                   type="text"
                   maxlength="2048"
@@ -122,7 +122,7 @@ ECOSYSTEM-2026</textarea
             </details>
           </form>
           <p id="map-summary" class="note" aria-live="polite">
-            地形と生態の初期値を分けて比較できます。
+            地形・生態の再現条件は内部で保持します。
           </p>
           <p class="note">
             読み込みでは時間は進みません。環境・地形は固定、餌と生物は変動します。
@@ -131,15 +131,15 @@ ECOSYSTEM-2026</textarea
         <section class="world-column">
           <div class="transport">
             <button id="change-world" class="secondary" type="button">
-              マップ・初期条件を変更
+              初期設定へ戻る
             </button>
             <button id="start" class="primary" disabled>観測を開始 ▶</button
             ><button id="step" class="secondary" disabled>1ターン確定（即時）</button
             ><button id="finish-run" class="secondary" disabled>
               終了して図鑑へ保存</button
             ><button id="open-results" class="secondary">結果図鑑</button
-            ><button id="reset" class="secondary" disabled>初期状態へ</button
-            ><select id="speed" aria-label="観測速度">
+            ><button id="reset" class="secondary" hidden disabled>初期設定へ戻る</button
+            ><button id="restart-world" class="secondary" disabled>同じ世界をやり直す</button><select id="speed" aria-label="観測速度">
               <option value="1">基準 · 約1秒 × 500ターン</option>
             </select>
           </div>
@@ -175,7 +175,7 @@ ECOSYSTEM-2026</textarea
               <div id="empty">
                 <span>◈</span>
                 <h2>まだ、時間のない世界。</h2>
-                <p>初期値を決めて、世界を読み込んでください。</p>
+                <p>条件を選んで、世界を作成してください。</p>
               </div>
             </div>
             <div class="view-controls">
@@ -214,10 +214,19 @@ ECOSYSTEM-2026</textarea
             <p class="map-key-note">
               主生物は中央、餌は下側、資源は上側。橙の点＝宿主内の寄生、紫の輪＝高次寄生、×＝死骸。記号は全個体を対象とし、微細な違いはマスを選択して近景で確認できます。
             </p>
-            <div id="resource-key" class="species-key"></div>
+            <button id="clear-highlights" class="small">所在強調をすべて解除</button><div id="resource-key" class="species-key"></div>
             <p id="scale-warning" class="map-key-note" hidden>
               現在の縮尺では記号の細部を判読できません。存在位置を描いていますが重なる画素があります。拡大またはマス選択で内訳を確認してください。
             </p>
+          </details>
+
+          <details id="graphs-panel" class="panel graphs-panel" open>
+            <summary>全ターンの生態観測 · 個体数 / 集団構成 / 関係</summary>
+            <div class="graph-toolbar"><label>参照ターン<input id="graph-turn" type="number" min="0" value="0" step="1"></label><button id="graph-latest" class="small">最新を追う</button><button id="export-observation" class="small">全ターンCSVを保存</button><span id="graph-range"></span></div>
+            <p id="graph-readout" class="note"></p>
+            <div class="graph-grid"><article><h3>全系統の積み上げ推移</h3><canvas id="graph-stacked" width="760" height="220" aria-label="0ターンから現在までの全系統の積み上げ個体数"></canvas><p class="note">植物・菌・動く餌・主生物・P・Qの色系統。主/餌＝個体、P/Q＝群体。指示すると各ターンの実数を参照できます。</p></article>
+            <article><h3>集団構成</h3><label>対象<select id="graph-species"><option value="all">全生物</option></select></label><label>内訳<select id="graph-axis"><option value="ages">年齢</option><option value="phases">進化相</option><option value="sex">性別</option><option value="roles">階級</option></select></label><div id="graph-composition"></div></article>
+            <article><h3>生態系の関係</h3><svg id="graph-relations" viewBox="0 0 760 160" role="img" aria-label="全ターンの関与回数・関係数・継続関係"></svg><p class="note">水色＝新規接触回数 / 金＝直近50Tの関係数 / 紫＝継続関係数（10T区間×2以上）。各系列は実数の共通目盛。</p><p id="relation-readout"></p></article></div><div id="graph-values" class="graph-values"></div>
           </details>
 
           <p id="message" role="status" aria-live="polite">
@@ -245,7 +254,7 @@ ECOSYSTEM-2026</textarea
             1マスに主生物1体と餌生物1体が共存。寄生虫は宿主に付随します。
           </p>
           <p id="preview-note" class="note" hidden>途中のプレビューです。個体の詳細・集計はターン確定後に更新します。一時停止すると最後の確定状態に戻ります。</p>
-          <button id="detail-hold" class="secondary" type="button">詳細を読みながら停止</button>
+          <button id="detail-hold" class="secondary" type="button">一時停止して観察</button><button id="follow-individual" class="secondary" disabled>選択個体を追跡</button><p id="follow-note" class="note"></p>
           <div id="selection">盤面のマスを選択してください。</div>
           <details id="rank-panel" class="rank-panel">
             <summary>生存系統を確認</summary>
@@ -276,7 +285,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v3.9.0 · 外部通信なし</span>
+        ><span>v4.1.0 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">
@@ -315,6 +324,7 @@ ECOSYSTEM-2026</textarea
     <script src="ecology/scenery.js"></script>
     <script src="ecology/projection.js"></script>
     <script src="ecology/renderer.js"></script>
+    <dialog id="species-info"><button id="close-species" class="secondary">閉じる ×</button><div id="species-description"></div></dialog>
     <dialog id="results">
       <div class="guide-head">
         <h2>結果図鑑</h2>
@@ -328,6 +338,7 @@ ECOSYSTEM-2026</textarea
     <script src="ecology/archive.js"></script>
     <script src="ecology/transport.js"></script>
     <script src="ecology/compute-client.js"></script>
+    <script src="ecology/observations.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
