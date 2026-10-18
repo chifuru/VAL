@@ -1,0 +1,10 @@
+✔ isolated baseline has no trial adjustments and matches exact all-turn records (1645.252551ms)
+✔ comparison rejects differences in observation data excluded from biological hashes (294.877802ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1956.415435

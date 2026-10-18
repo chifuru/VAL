@@ -1,0 +1,584 @@
+[
+  {
+    "id": "custom",
+    "checkpoints": [
+      {
+        "turn": 0,
+        "main": 80,
+        "food": 533,
+        "P": 23,
+        "Q": 4,
+        "mainBirths": 0
+      },
+      {
+        "turn": 50,
+        "main": 79,
+        "food": 543,
+        "P": 119,
+        "Q": 4,
+        "mainBirths": 0
+      },
+      {
+        "turn": 100,
+        "main": 79,
+        "food": 173,
+        "P": 62,
+        "Q": 4,
+        "mainBirths": 0
+      },
+      {
+        "turn": 150,
+        "main": 68,
+        "food": 20,
+        "P": 5,
+        "Q": 4,
+        "mainBirths": 0
+      },
+      {
+        "turn": 200,
+        "main": 52,
+        "food": 3,
+        "P": 2,
+        "Q": 0,
+        "mainBirths": 0
+      },
+      {
+        "turn": 250,
+        "main": 13,
+        "food": 0,
+        "P": 0,
+        "Q": 0,
+        "mainBirths": 0
+      },
+      {
+        "turn": 400,
+        "main": 0,
+        "food": 0,
+        "P": 0,
+        "Q": 0,
+        "mainBirths": 0
+      },
+      {
+        "turn": 500,
+        "main": 0,
+        "food": 0,
+        "P": 0,
+        "Q": 0,
+        "mainBirths": 0
+      }
+    ],
+    "turn150BirthBlockers": {
+      "parallel": {
+        "健康不足": 12,
+        "栄養不足": 15,
+        "出生場所不足": 3,
+        "局所配偶相手なし": 7,
+        "鉱物不足": 4,
+        "当日被害": 1
+      },
+      "whale": {
+        "栄養不足": 16,
+        "健康不足": 10,
+        "局所配偶相手なし": 8,
+        "出生場所不足": 7,
+        "鉱物不足": 6
+      },
+      "gravity": {
+        "健康不足": 9,
+        "栄養不足": 15,
+        "出生場所不足": 4,
+        "局所配偶相手なし": 8,
+        "鉱物不足": 2
+      },
+      "valis": {
+        "健康不足": 5,
+        "栄養不足": 15,
+        "出生場所不足": 3,
+        "局所配偶相手なし": 8,
+        "待機中": 1,
+        "鉱物不足": 1
+      },
+      "serpent": {
+        "健康不足": 6,
+        "栄養不足": 7,
+        "局所配偶相手なし": 3
+      }
+    },
+    "turn150Diagnostics": {
+      "parallel": {
+        "count": 15,
+        "Ebelow8": 9,
+        "Ebelow12": 9,
+        "Mbelow02": 0,
+        "Mbelow2": 4,
+        "mature": 15,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "whale": {
+        "count": 16,
+        "Ebelow8": 14,
+        "Ebelow12": 15,
+        "Mbelow02": 0,
+        "Mbelow2": 6,
+        "mature": 16,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "gravity": {
+        "count": 15,
+        "Ebelow8": 10,
+        "Ebelow12": 12,
+        "Mbelow02": 0,
+        "Mbelow2": 2,
+        "mature": 15,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "valis": {
+        "count": 15,
+        "Ebelow8": 9,
+        "Ebelow12": 9,
+        "Mbelow02": 0,
+        "Mbelow2": 1,
+        "mature": 15,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "serpent": {
+        "count": 7,
+        "Ebelow8": 7,
+        "Ebelow12": 7,
+        "Mbelow02": 0,
+        "Mbelow2": 0,
+        "mature": 7,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "grass": {
+        "count": 18,
+        "Ebelow8": 9,
+        "Ebelow12": 13,
+        "Mbelow02": 7,
+        "Mbelow2": 18,
+        "mature": 18,
+        "generation1plus": 18,
+        "maxGeneration": 3
+      },
+      "algae": {
+        "count": 2,
+        "Ebelow8": 2,
+        "Ebelow12": 2,
+        "Mbelow02": 0,
+        "Mbelow2": 2,
+        "mature": 2,
+        "generation1plus": 2,
+        "maxGeneration": 1
+      }
+    },
+    "deathCauses": {
+      "combat": 103,
+      "starvation": 68,
+      "harvest": 37,
+      "age": 698
+    }
+  },
+  {
+    "id": "river",
+    "checkpoints": [
+      {
+        "turn": 0,
+        "main": 160,
+        "food": 670,
+        "P": 17,
+        "Q": 4,
+        "mainBirths": 0
+      },
+      {
+        "turn": 50,
+        "main": 160,
+        "food": 715,
+        "P": 90,
+        "Q": 4,
+        "mainBirths": 0
+      },
+      {
+        "turn": 100,
+        "main": 158,
+        "food": 255,
+        "P": 50,
+        "Q": 4,
+        "mainBirths": 1
+      },
+      {
+        "turn": 150,
+        "main": 146,
+        "food": 35,
+        "P": 0,
+        "Q": 4,
+        "mainBirths": 1
+      },
+      {
+        "turn": 200,
+        "main": 111,
+        "food": 14,
+        "P": 0,
+        "Q": 0,
+        "mainBirths": 1
+      },
+      {
+        "turn": 250,
+        "main": 64,
+        "food": 1,
+        "P": 0,
+        "Q": 0,
+        "mainBirths": 3
+      },
+      {
+        "turn": 400,
+        "main": 3,
+        "food": 0,
+        "P": 0,
+        "Q": 0,
+        "mainBirths": 4
+      },
+      {
+        "turn": 500,
+        "main": 3,
+        "food": 0,
+        "P": 0,
+        "Q": 0,
+        "mainBirths": 4
+      }
+    ],
+    "turn150BirthBlockers": {
+      "myth": {
+        "健康不足": 15,
+        "栄養不足": 16,
+        "局所配偶相手なし": 6,
+        "鉱物不足": 5,
+        "出生場所不足": 1
+      },
+      "recursive": {
+        "栄養不足": 22,
+        "鉱物不足": 15,
+        "局所配偶相手なし": 10,
+        "健康不足": 7,
+        "出生場所不足": 1
+      },
+      "crystal": {
+        "栄養不足": 21,
+        "鉱物不足": 5,
+        "局所配偶相手なし": 7,
+        "健康不足": 2
+      },
+      "solar": {
+        "健康不足": 19,
+        "栄養不足": 21,
+        "鉱物不足": 13,
+        "局所配偶相手なし": 9,
+        "当日被害": 1
+      },
+      "whale": {
+        "健康不足": 12,
+        "栄養不足": 24,
+        "鉱物不足": 16,
+        "局所配偶相手なし": 12,
+        "出生場所不足": 5
+      },
+      "swarm": {
+        "健康不足": 13,
+        "栄養不足": 16,
+        "鉱物不足": 9,
+        "局所配偶相手なし": 8,
+        "非繁殖階級": 5,
+        "出生場所不足": 2
+      },
+      "kelp": {
+        "鉱物不足": 23,
+        "局所配偶相手なし": 8,
+        "健康不足": 1,
+        "出生場所不足": 1
+      }
+    },
+    "turn150Diagnostics": {
+      "myth": {
+        "count": 16,
+        "Ebelow8": 16,
+        "Ebelow12": 16,
+        "Mbelow02": 0,
+        "Mbelow2": 5,
+        "mature": 16,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "recursive": {
+        "count": 22,
+        "Ebelow8": 9,
+        "Ebelow12": 12,
+        "Mbelow02": 0,
+        "Mbelow2": 15,
+        "mature": 22,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "crystal": {
+        "count": 21,
+        "Ebelow8": 4,
+        "Ebelow12": 6,
+        "Mbelow02": 0,
+        "Mbelow2": 5,
+        "mature": 21,
+        "generation1plus": 1,
+        "maxGeneration": 1
+      },
+      "solar": {
+        "count": 21,
+        "Ebelow8": 18,
+        "Ebelow12": 18,
+        "Mbelow02": 0,
+        "Mbelow2": 13,
+        "mature": 21,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "whale": {
+        "count": 24,
+        "Ebelow8": 18,
+        "Ebelow12": 20,
+        "Mbelow02": 0,
+        "Mbelow2": 16,
+        "mature": 24,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "swarm": {
+        "count": 18,
+        "Ebelow8": 12,
+        "Ebelow12": 13,
+        "Mbelow02": 0,
+        "Mbelow2": 8,
+        "mature": 18,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "kelp": {
+        "count": 24,
+        "Ebelow8": 0,
+        "Ebelow12": 0,
+        "Mbelow02": 0,
+        "Mbelow2": 23,
+        "mature": 24,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "grass": {
+        "count": 28,
+        "Ebelow8": 3,
+        "Ebelow12": 3,
+        "Mbelow02": 28,
+        "Mbelow2": 28,
+        "mature": 28,
+        "generation1plus": 28,
+        "maxGeneration": 3
+      },
+      "algae": {
+        "count": 7,
+        "Ebelow8": 0,
+        "Ebelow12": 0,
+        "Mbelow02": 7,
+        "Mbelow2": 7,
+        "mature": 7,
+        "generation1plus": 7,
+        "maxGeneration": 2
+      }
+    },
+    "deathCauses": {
+      "combat": 272,
+      "starvation": 114,
+      "harvest": 44,
+      "age": 998
+    }
+  },
+  {
+    "id": "lake",
+    "checkpoints": [
+      {
+        "turn": 0,
+        "main": 160,
+        "food": 801,
+        "P": 37,
+        "Q": 4,
+        "mainBirths": 0
+      },
+      {
+        "turn": 50,
+        "main": 161,
+        "food": 827,
+        "P": 153,
+        "Q": 4,
+        "mainBirths": 1
+      },
+      {
+        "turn": 100,
+        "main": 161,
+        "food": 162,
+        "P": 58,
+        "Q": 4,
+        "mainBirths": 1
+      },
+      {
+        "turn": 150,
+        "main": 159,
+        "food": 8,
+        "P": 2,
+        "Q": 4,
+        "mainBirths": 1
+      },
+      {
+        "turn": 200,
+        "main": 139,
+        "food": 1,
+        "P": 1,
+        "Q": 0,
+        "mainBirths": 2
+      },
+      {
+        "turn": 250,
+        "main": 57,
+        "food": 0,
+        "P": 0,
+        "Q": 0,
+        "mainBirths": 5
+      },
+      {
+        "turn": 400,
+        "main": 6,
+        "food": 0,
+        "P": 0,
+        "Q": 0,
+        "mainBirths": 6
+      },
+      {
+        "turn": 500,
+        "main": 5,
+        "food": 0,
+        "P": 0,
+        "Q": 0,
+        "mainBirths": 6
+      }
+    ],
+    "turn150BirthBlockers": {
+      "abyss": {
+        "健康不足": 21,
+        "栄養不足": 30,
+        "鉱物不足": 29,
+        "当日被害": 1,
+        "局所配偶相手なし": 13,
+        "出生場所不足": 1
+      },
+      "abyssshell": {
+        "栄養不足": 32,
+        "鉱物不足": 24,
+        "健康不足": 15,
+        "局所配偶相手なし": 14
+      },
+      "jelly": {
+        "栄養不足": 32,
+        "鉱物不足": 24,
+        "健康不足": 7,
+        "局所配偶相手なし": 2
+      },
+      "kelp": {
+        "鉱物不足": 28,
+        "局所配偶相手なし": 6,
+        "健康不足": 1
+      },
+      "whale": {
+        "健康不足": 24,
+        "栄養不足": 32,
+        "鉱物不足": 26,
+        "局所配偶相手なし": 14,
+        "出生場所不足": 2
+      }
+    },
+    "turn150Diagnostics": {
+      "abyss": {
+        "count": 30,
+        "Ebelow8": 30,
+        "Ebelow12": 30,
+        "Mbelow02": 0,
+        "Mbelow2": 29,
+        "mature": 30,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "abyssshell": {
+        "count": 32,
+        "Ebelow8": 6,
+        "Ebelow12": 10,
+        "Mbelow02": 0,
+        "Mbelow2": 24,
+        "mature": 32,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "jelly": {
+        "count": 32,
+        "Ebelow8": 25,
+        "Ebelow12": 27,
+        "Mbelow02": 0,
+        "Mbelow2": 24,
+        "mature": 32,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "kelp": {
+        "count": 33,
+        "Ebelow8": 0,
+        "Ebelow12": 0,
+        "Mbelow02": 0,
+        "Mbelow2": 28,
+        "mature": 33,
+        "generation1plus": 1,
+        "maxGeneration": 1
+      },
+      "whale": {
+        "count": 32,
+        "Ebelow8": 32,
+        "Ebelow12": 32,
+        "Mbelow02": 0,
+        "Mbelow2": 26,
+        "mature": 32,
+        "generation1plus": 0,
+        "maxGeneration": 0
+      },
+      "grass": {
+        "count": 7,
+        "Ebelow8": 3,
+        "Ebelow12": 3,
+        "Mbelow02": 3,
+        "Mbelow2": 7,
+        "mature": 7,
+        "generation1plus": 7,
+        "maxGeneration": 2
+      },
+      "algae": {
+        "count": 1,
+        "Ebelow8": 0,
+        "Ebelow12": 0,
+        "Mbelow02": 1,
+        "Mbelow2": 1,
+        "mature": 1,
+        "generation1plus": 1,
+        "maxGeneration": 1
+      }
+    },
+    "deathCauses": {
+      "combat": 249,
+      "starvation": 96,
+      "harvest": 56,
+      "age": 1231
+    }
+  }
+]
