@@ -1,0 +1,14 @@
+✔ new private loader preserves old candidate results when new flags are off (211.480338ms)
+✔ shared initial placement preserves group targets and terrain while keeping aquatic producers and prey (683.399837ms)
+✔ initial placement is reproducible and never creates a disabled food group (308.474121ms)
+✔ lower prey energy gate still pays eight units and gives finite child reserves (15.022883ms)
+✔ lower gate cannot reproduce below cost or bypass the juvenile phase (7.139612ms)
+✔ producer retains birth energy for the same sparse neighborhood accepted by reproduction (7.079251ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1238.650198

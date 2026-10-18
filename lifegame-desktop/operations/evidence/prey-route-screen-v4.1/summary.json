@@ -1,0 +1,884 @@
+{
+  "productionCommit": "7929c9b4af6ddea704776396d438551cf6a9410d",
+  "mixedCases": 18,
+  "foodOnlyControls": 5,
+  "productionRulesChanged": false,
+  "balanceCertified": false,
+  "cases": [
+    {
+      "variant": "alignedReserve",
+      "case": "custom",
+      "control": false,
+      "states": 501,
+      "main500": 0,
+      "food500": 12,
+      "P500": 6,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 4,
+        "moss": 0,
+        "grass": 8,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {},
+      "mainBirths": 0,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 47,
+          "lastAlive": 112,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 65,
+          "births": 148,
+          "lastAlive": 132,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "alignedReserve-custom.json"
+    },
+    {
+      "variant": "alignedReserve",
+      "case": "custom-food-only",
+      "control": true,
+      "states": 501,
+      "main500": 0,
+      "food500": 11,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 8,
+        "moss": 0,
+        "grass": 3,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {},
+      "mainBirths": 0,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 61,
+          "lastAlive": 154,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 65,
+          "births": 444,
+          "lastAlive": 332,
+          "continuous150to250": true,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "alignedReserve-food-only.json"
+    },
+    {
+      "variant": "alignedReserve",
+      "case": "lake",
+      "control": false,
+      "states": 501,
+      "main500": 10,
+      "food500": 9,
+      "P500": 9,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 4,
+        "moss": 0,
+        "grass": 5,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {
+        "kelp": 10
+      },
+      "mainBirths": 14,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 71,
+          "births": 73,
+          "lastAlive": 76,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 96,
+          "births": 412,
+          "lastAlive": 124,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "alignedReserve-lake.json"
+    },
+    {
+      "variant": "alignedReserve",
+      "case": "river",
+      "control": false,
+      "states": 501,
+      "main500": 11,
+      "food500": 11,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 4,
+        "moss": 0,
+        "grass": 7,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {
+        "kelp": 11
+      },
+      "mainBirths": 11,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 56,
+          "lastAlive": 117,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 94,
+          "births": 426,
+          "lastAlive": 137,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "alignedReserve-river.json"
+    },
+    {
+      "variant": "alignedReserveGate",
+      "case": "custom",
+      "control": false,
+      "states": 501,
+      "main500": 0,
+      "food500": 4,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 2,
+        "moss": 0,
+        "grass": 2,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {},
+      "mainBirths": 0,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 65,
+          "lastAlive": 110,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 65,
+          "births": 403,
+          "lastAlive": 119,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "alignedReserveGate-custom.json"
+    },
+    {
+      "variant": "alignedReserveGate",
+      "case": "custom-food-only",
+      "control": true,
+      "states": 501,
+      "main500": 0,
+      "food500": 2,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 2,
+        "moss": 0,
+        "grass": 0,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {},
+      "mainBirths": 0,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 92,
+          "lastAlive": 155,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 65,
+          "births": 802,
+          "lastAlive": 174,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "alignedReserveGate-food-only.json"
+    },
+    {
+      "variant": "alignedReserveGate",
+      "case": "lake",
+      "control": false,
+      "states": 501,
+      "main500": 7,
+      "food500": 0,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 0,
+        "moss": 0,
+        "grass": 0,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {
+        "kelp": 7
+      },
+      "mainBirths": 12,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 71,
+          "births": 110,
+          "lastAlive": 115,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 96,
+          "births": 774,
+          "lastAlive": 157,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "alignedReserveGate-lake.json"
+    },
+    {
+      "variant": "alignedReserveGate",
+      "case": "river",
+      "control": false,
+      "states": 501,
+      "main500": 9,
+      "food500": 11,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 2,
+        "moss": 0,
+        "grass": 9,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {
+        "kelp": 9
+      },
+      "mainBirths": 9,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 133,
+          "lastAlive": 124,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 94,
+          "births": 712,
+          "lastAlive": 132,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "alignedReserveGate-river.json"
+    },
+    {
+      "variant": "allocation",
+      "case": "custom",
+      "control": false,
+      "states": 501,
+      "main500": 0,
+      "food500": 0,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 0,
+        "moss": 0,
+        "grass": 0,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {},
+      "mainBirths": 0,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 26,
+          "lastAlive": 105,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 65,
+          "births": 106,
+          "lastAlive": 107,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocation-custom.json"
+    },
+    {
+      "variant": "allocation",
+      "case": "custom-food-only",
+      "control": true,
+      "states": 501,
+      "main500": 0,
+      "food500": 0,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 0,
+        "moss": 0,
+        "grass": 0,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {},
+      "mainBirths": 0,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 31,
+          "lastAlive": 149,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 65,
+          "births": 171,
+          "lastAlive": 139,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocation-food-only.json"
+    },
+    {
+      "variant": "allocation",
+      "case": "lake",
+      "control": false,
+      "states": 501,
+      "main500": 13,
+      "food500": 0,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 0,
+        "moss": 0,
+        "grass": 0,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {
+        "kelp": 13
+      },
+      "mainBirths": 19,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 71,
+          "births": 55,
+          "lastAlive": 67,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 96,
+          "births": 253,
+          "lastAlive": 133,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocation-lake.json"
+    },
+    {
+      "variant": "allocation",
+      "case": "river",
+      "control": false,
+      "states": 501,
+      "main500": 7,
+      "food500": 0,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 0,
+        "moss": 0,
+        "grass": 0,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {
+        "kelp": 7
+      },
+      "mainBirths": 10,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 48,
+          "lastAlive": 119,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 94,
+          "births": 289,
+          "lastAlive": 113,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocation-river.json"
+    },
+    {
+      "variant": "allocationGate",
+      "case": "custom",
+      "control": false,
+      "states": 501,
+      "main500": 0,
+      "food500": 0,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 0,
+        "moss": 0,
+        "grass": 0,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {},
+      "mainBirths": 0,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 37,
+          "lastAlive": 95,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 65,
+          "births": 222,
+          "lastAlive": 114,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocationGate-custom.json"
+    },
+    {
+      "variant": "allocationGate",
+      "case": "lake",
+      "control": false,
+      "states": 501,
+      "main500": 6,
+      "food500": 0,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 0,
+        "moss": 0,
+        "grass": 0,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {
+        "kelp": 6
+      },
+      "mainBirths": 8,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 71,
+          "births": 90,
+          "lastAlive": 78,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 96,
+          "births": 454,
+          "lastAlive": 138,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocationGate-lake.json"
+    },
+    {
+      "variant": "allocationGate",
+      "case": "river",
+      "control": false,
+      "states": 501,
+      "main500": 7,
+      "food500": 0,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 0,
+        "moss": 0,
+        "grass": 0,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {
+        "kelp": 7
+      },
+      "mainBirths": 8,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 52,
+          "lastAlive": 89,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 94,
+          "births": 562,
+          "lastAlive": 123,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocationGate-river.json"
+    },
+    {
+      "variant": "allocationGateReserveSparse",
+      "case": "custom",
+      "control": false,
+      "states": 501,
+      "main500": 0,
+      "food500": 9,
+      "P500": 6,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 3,
+        "moss": 0,
+        "grass": 6,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {},
+      "mainBirths": 0,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 75,
+          "lastAlive": 113,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 65,
+          "births": 386,
+          "lastAlive": 124,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocationGateReserveSparse-custom.json"
+    },
+    {
+      "variant": "allocationGateReserveSparse",
+      "case": "custom-food-only",
+      "control": true,
+      "states": 501,
+      "main500": 0,
+      "food500": 2,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 2,
+        "moss": 0,
+        "grass": 0,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {},
+      "mainBirths": 0,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 94,
+          "lastAlive": 155,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 65,
+          "births": 784,
+          "lastAlive": 173,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocationGateReserveSparse-food-only.json"
+    },
+    {
+      "variant": "allocationGateReserveSparse",
+      "case": "lake",
+      "control": false,
+      "states": 501,
+      "main500": 11,
+      "food500": 3,
+      "P500": 2,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 2,
+        "moss": 0,
+        "grass": 1,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {
+        "kelp": 11
+      },
+      "mainBirths": 16,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 71,
+          "births": 111,
+          "lastAlive": 103,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 96,
+          "births": 764,
+          "lastAlive": 166,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocationGateReserveSparse-lake.json"
+    },
+    {
+      "variant": "allocationGateReserveSparse",
+      "case": "river",
+      "control": false,
+      "states": 501,
+      "main500": 8,
+      "food500": 18,
+      "P500": 2,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 4,
+        "moss": 0,
+        "grass": 14,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {
+        "kelp": 8
+      },
+      "mainBirths": 8,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 129,
+          "lastAlive": 125,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 94,
+          "births": 794,
+          "lastAlive": 135,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocationGateReserveSparse-river.json"
+    },
+    {
+      "variant": "allocationReserveSparse",
+      "case": "custom",
+      "control": false,
+      "states": 501,
+      "main500": 0,
+      "food500": 12,
+      "P500": 6,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 4,
+        "moss": 0,
+        "grass": 8,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {},
+      "mainBirths": 0,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 43,
+          "lastAlive": 96,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 65,
+          "births": 167,
+          "lastAlive": 114,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocationReserveSparse-custom.json"
+    },
+    {
+      "variant": "allocationReserveSparse",
+      "case": "custom-food-only",
+      "control": true,
+      "states": 501,
+      "main500": 0,
+      "food500": 4,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 3,
+        "moss": 0,
+        "grass": 1,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {},
+      "mainBirths": 0,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 62,
+          "lastAlive": 154,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 65,
+          "births": 436,
+          "lastAlive": 237,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocationReserveSparse-food-only.json"
+    },
+    {
+      "variant": "allocationReserveSparse",
+      "case": "lake",
+      "control": false,
+      "states": 501,
+      "main500": 16,
+      "food500": 6,
+      "P500": 4,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 0,
+        "moss": 0,
+        "grass": 6,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {
+        "kelp": 16
+      },
+      "mainBirths": 22,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 71,
+          "births": 81,
+          "lastAlive": 106,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 96,
+          "births": 403,
+          "lastAlive": 134,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocationReserveSparse-lake.json"
+    },
+    {
+      "variant": "allocationReserveSparse",
+      "case": "river",
+      "control": false,
+      "states": 501,
+      "main500": 11,
+      "food500": 10,
+      "P500": 0,
+      "Q500": 0,
+      "foodComposition500": {
+        "algae": 0,
+        "moss": 0,
+        "grass": 10,
+        "fungus": 0,
+        "waterbug": 0,
+        "grassbug": 0
+      },
+      "mainSpecies500": {
+        "kelp": 11
+      },
+      "mainBirths": 12,
+      "movingPrey": {
+        "waterbug": {
+          "initial": 46,
+          "births": 56,
+          "lastAlive": 121,
+          "continuous150to250": false,
+          "min450to500": 0
+        },
+        "grassbug": {
+          "initial": 94,
+          "births": 364,
+          "lastAlive": 127,
+          "continuous150to250": false,
+          "min450to500": 0
+        }
+      },
+      "resultFile": "allocationReserveSparse-river.json"
+    }
+  ]
+}

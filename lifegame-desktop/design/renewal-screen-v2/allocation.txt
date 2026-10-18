@@ -1,0 +1,37 @@
+    // Trial: share finite food slots without letting an earlier group exhaust a habitat.
+    const foodGroups = [
+      ["plant", 0.35], ["fungus", 0.03], ["prey", 0.1],
+    ].filter(([group]) => config.enabled[group]).map(([group, rate]) => {
+      const species = D.species.filter(s => s.group === group);
+      const target = Math.round(usable.length * rate * (config.initialFoodScale || 1));
+      return {group, target, placed:0, tasks:species.map((s,i) => ({
+        s, desired:Math.floor(target/species.length)+(i<target%species.length?1:0), placed:0,
+        cells:usable.filter(p => validHabitat(w,s,p)), cursor:0,
+      }))};
+    });
+    const tasks = foodGroups.flatMap(g => g.tasks.map(t => (t.owner=g,t)));
+    const pressure = new Float64Array(n);
+    for (const task of tasks) for (const p of task.cells)
+      pressure[p] += task.desired / Math.max(1,task.cells.length);
+    for (const task of tasks) task.cells.sort((a,b) =>
+      pressure[a]-pressure[b] ||
+      hash(w,"init/position",0,task.s.id,a)-hash(w,"init/position",0,task.s.id,b) || a-b);
+    tasks.sort((a,b) => a.cells.length-b.cells.length || (a.s.id<b.s.id?-1:a.s.id>b.s.id?1:0));
+    function placeFood(task) {
+      while(task.cursor<task.cells.length && occupied.has(task.cells[task.cursor]))task.cursor++;
+      if(task.cursor===task.cells.length)return false;
+      const p=task.cells[task.cursor++];
+      w.organisms.push(organism(w,task.s,p,"i:food:"+Math.floor(p/config.width)+":"+(p%config.width)+":"+task.s.id));
+      occupied.add(p);task.placed++;task.owner.placed++;return true;
+    }
+    let progress=true;
+    while(progress){progress=false;for(const task of tasks)
+      if(task.placed<task.desired)progress=placeFood(task)||progress;}
+    for(const group of foodGroups){
+      while(group.placed<group.target){let placed=false;
+        for(const task of tasks.filter(t=>t.owner===group)){
+          if(group.placed===group.target)break;placed=placeFood(task)||placed;
+        }
+        if(!placed)throw Error("PLACEMENT_SHORTAGE: "+group.group+" "+(group.target-group.placed));
+      }
+    }

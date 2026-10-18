@@ -1,0 +1,25 @@
+| 候補 | 条件 | 主500T | 餌500T | P/Q500T | 水生餌の最終確認T | 陸生餌の最終確認T |
+|---|---|---:|---:|---:|---:|---:|
+| alignedReserve | custom | 0 | 12 | 6/0 | 112 | 132 |
+| alignedReserve | custom-food-only | 0 | 11 | 0/0 | 154 | 332 |
+| alignedReserve | lake | 10 | 9 | 9/0 | 76 | 124 |
+| alignedReserve | river | 11 | 11 | 0/0 | 117 | 137 |
+| alignedReserveGate | custom | 0 | 4 | 0/0 | 110 | 119 |
+| alignedReserveGate | custom-food-only | 0 | 2 | 0/0 | 155 | 174 |
+| alignedReserveGate | lake | 7 | 0 | 0/0 | 115 | 157 |
+| alignedReserveGate | river | 9 | 11 | 0/0 | 124 | 132 |
+| allocation | custom | 0 | 0 | 0/0 | 105 | 107 |
+| allocation | custom-food-only | 0 | 0 | 0/0 | 149 | 139 |
+| allocation | lake | 13 | 0 | 0/0 | 67 | 133 |
+| allocation | river | 7 | 0 | 0/0 | 119 | 113 |
+| allocationGate | custom | 0 | 0 | 0/0 | 95 | 114 |
+| allocationGate | lake | 6 | 0 | 0/0 | 78 | 138 |
+| allocationGate | river | 7 | 0 | 0/0 | 89 | 123 |
+| allocationGateReserveSparse | custom | 0 | 9 | 6/0 | 113 | 124 |
+| allocationGateReserveSparse | custom-food-only | 0 | 2 | 0/0 | 155 | 173 |
+| allocationGateReserveSparse | lake | 11 | 3 | 2/0 | 103 | 166 |
+| allocationGateReserveSparse | river | 8 | 18 | 2/0 | 125 | 135 |
+| allocationReserveSparse | custom | 0 | 12 | 6/0 | 96 | 114 |
+| allocationReserveSparse | custom-food-only | 0 | 4 | 0/0 | 154 | 237 |
+| allocationReserveSparse | lake | 16 | 6 | 4/0 | 106 | 134 |
+| allocationReserveSparse | river | 11 | 10 | 0/0 | 121 | 127 |
