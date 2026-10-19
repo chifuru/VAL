@@ -1,5 +1,7 @@
 # 生態シミュレーション A・B仕様
 
+最新の暫定採用は[自由・観察優遇 A/B v2.9](favored-free-v2.9.md)。比較モデルで基本バランスを仮決めし、次は遠近代表比較と製品接続。[2505状態の結果と範囲](../../operations/evidence/favored-free-v2.8/README.md)。製品4.1.3は未変更。以下の旧未達は当時の条件に限定する。
+
 最新の完成順序は[期限優先の観察版 A/B v2.8](observation-first-v2.8.md)。既定の高生産条件でR0→現行UI/絵柄を保った視認性・背景立体感の確認→細かな調整。旧R1〜R6は保持。[供給支援の実測と未達](../../operations/evidence/producer-support-v2.7/README.md)を参照。製品4.1.3への接続は次作業。
 
 占有分離の比較用実装は[結果と残件](../../operations/evidence/layered-primary-v4.1.3/README.md)を参照。草棲虫の混合存続に改善例、水系/下層更新は未達。製品への3枠接続・新生産者・詳細死骸描画は未実施。

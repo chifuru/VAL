@@ -1,0 +1,10 @@
+✔ 128 initial search colonies are explicitly configured and funded by existing hosts (321.681164ms)
+✔ small main population permits colocated colonies without creating energy or negative hosts (632.31976ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 989.930768

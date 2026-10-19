@@ -1,0 +1,132 @@
+{
+  "states": 2505,
+  "sourceHashesMatched": true,
+  "maxEnergyResidual": 0,
+  "maxMaterialResidual": 0,
+  "externalE": 0,
+  "externalM": 0,
+  "selected": "favored-free/3",
+  "scope": "private model selection; not product integration",
+  "results": [
+    {
+      "id": "river",
+      "revision": 1,
+      "main": 278,
+      "producer": 783,
+      "waterbug": 86,
+      "grassbug": 504,
+      "waterbugBirths": 93,
+      "waterbugDescendantReproduction": 27,
+      "P": 364,
+      "Q": 0,
+      "qFinal": {
+        "search": 0,
+        "attached": 0,
+        "phases": [
+          0,
+          0,
+          0
+        ]
+      },
+      "qEverAttached": 1,
+      "qEverThird": 0,
+      "qBirths": 0
+    },
+    {
+      "id": "lake",
+      "revision": 1,
+      "main": 365,
+      "producer": 805,
+      "waterbug": 119,
+      "grassbug": 516,
+      "waterbugBirths": 100,
+      "waterbugDescendantReproduction": 31,
+      "P": 460,
+      "Q": 0,
+      "qFinal": {
+        "search": 0,
+        "attached": 0,
+        "phases": [
+          0,
+          0,
+          0
+        ]
+      },
+      "qEverAttached": 0,
+      "qEverThird": 0,
+      "qBirths": 0
+    },
+    {
+      "id": "woodland",
+      "revision": 1,
+      "main": 200,
+      "producer": 786,
+      "waterbug": 53,
+      "grassbug": 661,
+      "waterbugBirths": 67,
+      "waterbugDescendantReproduction": 28,
+      "P": 0,
+      "Q": 0,
+      "qFinal": {
+        "search": 0,
+        "attached": 0,
+        "phases": [
+          0,
+          0,
+          0
+        ]
+      },
+      "qEverAttached": 0,
+      "qEverThird": 0,
+      "qBirths": 0
+    },
+    {
+      "id": "river",
+      "revision": 2,
+      "main": 278,
+      "producer": 783,
+      "waterbug": 86,
+      "grassbug": 504,
+      "waterbugBirths": 93,
+      "waterbugDescendantReproduction": 27,
+      "P": 364,
+      "Q": 190,
+      "qFinal": {
+        "search": 126,
+        "attached": 64,
+        "phases": [
+          0,
+          0,
+          64
+        ]
+      },
+      "qEverAttached": 76,
+      "qEverThird": 76,
+      "qBirths": 175
+    },
+    {
+      "id": "river",
+      "revision": 3,
+      "main": 277,
+      "producer": 785,
+      "waterbug": 83,
+      "grassbug": 421,
+      "waterbugBirths": 138,
+      "waterbugDescendantReproduction": 51,
+      "P": 301,
+      "Q": 268,
+      "qFinal": {
+        "search": 186,
+        "attached": 82,
+        "phases": [
+          0,
+          0,
+          82
+        ]
+      },
+      "qEverAttached": 107,
+      "qEverThird": 106,
+      "qBirths": 256
+    }
+  ]
+}

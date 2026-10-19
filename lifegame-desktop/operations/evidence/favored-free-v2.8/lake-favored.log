@@ -1,0 +1,6 @@
+{"id":"lake","turn":0,"main":80,"waterbug":56,"grassbug":56,"ms":5}
+{"id":"lake","turn":100,"main":146,"waterbug":117,"grassbug":577,"ms":44530}
+{"id":"lake","turn":200,"main":305,"waterbug":119,"grassbug":570,"ms":92641}
+{"id":"lake","turn":300,"main":459,"waterbug":121,"grassbug":512,"ms":154199}
+{"id":"lake","turn":400,"main":478,"waterbug":115,"grassbug":442,"ms":211007}
+{"id":"lake","turn":500,"main":365,"waterbug":119,"grassbug":516,"ms":242911}
