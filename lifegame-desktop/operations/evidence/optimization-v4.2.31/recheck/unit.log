@@ -1,0 +1,10 @@
+✔ tests/compute-worker.test.cjs (6456.299036ms)
+✔ tests/optimization.test.cjs (993.905009ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7458.512466

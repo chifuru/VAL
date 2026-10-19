@@ -495,7 +495,7 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		4.2.31: Linux Chromiumの現行配置/演出/陰影/複数選択と性能比較。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
+		4.2.31: Linux Chromiumの現行配置/演出/陰影/複数選択と性能比較。小中大・遠近の追加計測で停止の残存を確認。範囲/反例/未確認: operations/evidence/optimization-v4.2.31/README.md、operations/evidence/optimization-v4.2.31/recheck/README.md。草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
