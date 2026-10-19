@@ -1,0 +1,25 @@
+✔ single mature waterbug can form a paid local birth; no parentless birth (65.086773ms)
+✔ waterbug still needs maturity, nutrition, no current damage and expired cooldown (17.271471ms)
+✔ single grassbug does not gain the water-specific sparse birth rule (3.067593ms)
+✔ water-specific gate does not add initial organisms or change initial budgets (1194.307901ms)
+✔ independent basal and prey maps allow overlap and reject duplicates within one layer (7.247017ms)
+✔ prey moves onto live producers and same-cell feeding transfers finite stock (8.103926ms)
+✔ prey can be born on a producer cell without deleting it or bypassing birth payment (7.108839ms)
+✔ main predators retain attack access to prey overlapping producers (1.692976ms)
+✔ parasite contact still reaches the primary consumer layer (42.849385ms)
+✔ layer split preserves initial terrain, species, positions and finite budgets (1229.093679ms)
+✔ overlapping producer and prey corpses retain separate origins and conserve finite stocks (10.495522ms)
+✔ three nearby contacts create a paid daughter colony without moving the parent or chaining (17.800387ms)
+✔ expired contact and walls prevent infection, and exposure memory stays bounded (4.015418ms)
+✔ mature terminal colony disperses at most three paid daughters and paid hyperparasites (37.92584ms)
+✔ donors with insufficient energy, immature stages or incompatible hosts cannot infect (9.510752ms)
+✔ simultaneous contact competition is independent of organism array order (6.911573ms)
+✔ Q stage II can disperse a paid immature daughter, but stage I cannot (8.776888ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2818.855514

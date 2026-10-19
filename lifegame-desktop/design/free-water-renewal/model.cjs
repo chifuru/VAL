@@ -1,0 +1,3 @@
+'use strict';
+const fs=require('fs'),path=require('path'),Module=require('module');
+function model(){const file=path.resolve(__dirname,'../layered-primary/model.cjs'),from="let source=fs.readFileSync(file,'utf8');";let source=fs.readFileSync(file,'utf8');if(source.split(from).length!==2)throw Error('Layer loader moved');const transform="if(name==='reproduction'){const from='? ![2, 3].includes(same.length)';if(source.split(from).length!==2)throw Error('Birth gate moved');source=source.replace(from,\"? !(s.id === 'waterbug' ? [1,2,3] : [2,3]).includes(same.length)\");}";source=source.replace(from,from+transform);const m=new Module(file,module);m.filename=file;m.paths=module.paths;m._compile(source,file);return m.exports.model({allocation:true});}module.exports={model};

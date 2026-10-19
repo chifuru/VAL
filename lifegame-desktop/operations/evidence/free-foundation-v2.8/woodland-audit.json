@@ -1,0 +1,3509 @@
+{
+  "id": "woodland",
+  "turns": 180,
+  "statsAndLedgerMatched": 181,
+  "rows": [
+    {
+      "turn": 1,
+      "n": 29,
+      "eligible": 0,
+      "juvenile": 5,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 29,
+      "phase1": 5,
+      "emptySites": 30,
+      "neighborCounts": {
+        "0": 8,
+        "1": 16,
+        "2": 6
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 30,
+      "waterEdible": 190,
+      "births": 0
+    },
+    {
+      "turn": 2,
+      "n": 29,
+      "eligible": 7,
+      "juvenile": 4,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 20,
+      "phase1": 4,
+      "emptySites": 30,
+      "neighborCounts": {
+        "0": 7,
+        "1": 19,
+        "2": 4
+      },
+      "sitesWithEligible": 4,
+      "candidates": 1,
+      "algae": 34,
+      "waterEdible": 120,
+      "births": 1
+    },
+    {
+      "turn": 3,
+      "n": 30,
+      "eligible": 22,
+      "juvenile": 4,
+      "damaged": 0,
+      "cooldown": 1,
+      "lowEnergy": 5,
+      "phase1": 4,
+      "emptySites": 29,
+      "neighborCounts": {
+        "0": 7,
+        "1": 19,
+        "2": 3
+      },
+      "sitesWithEligible": 17,
+      "candidates": 3,
+      "algae": 34,
+      "waterEdible": 106,
+      "births": 3
+    },
+    {
+      "turn": 4,
+      "n": 33,
+      "eligible": 22,
+      "juvenile": 5,
+      "damaged": 0,
+      "cooldown": 4,
+      "lowEnergy": 10,
+      "phase1": 5,
+      "emptySites": 26,
+      "neighborCounts": {
+        "0": 7,
+        "1": 17,
+        "2": 2
+      },
+      "sitesWithEligible": 15,
+      "candidates": 1,
+      "algae": 34,
+      "waterEdible": 88.116,
+      "births": 1
+    },
+    {
+      "turn": 5,
+      "n": 33,
+      "eligible": 22,
+      "juvenile": 5,
+      "damaged": 0,
+      "cooldown": 5,
+      "lowEnergy": 10,
+      "phase1": 5,
+      "emptySites": 26,
+      "neighborCounts": {
+        "0": 7,
+        "1": 18,
+        "2": 1
+      },
+      "sitesWithEligible": 14,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 75.434,
+      "births": 0
+    },
+    {
+      "turn": 6,
+      "n": 32,
+      "eligible": 21,
+      "juvenile": 5,
+      "damaged": 0,
+      "cooldown": 5,
+      "lowEnergy": 10,
+      "phase1": 5,
+      "emptySites": 27,
+      "neighborCounts": {
+        "0": 7,
+        "1": 19,
+        "2": 1
+      },
+      "sitesWithEligible": 15,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 59.434,
+      "births": 0
+    },
+    {
+      "turn": 7,
+      "n": 32,
+      "eligible": 22,
+      "juvenile": 4,
+      "damaged": 0,
+      "cooldown": 4,
+      "lowEnergy": 8,
+      "phase1": 4,
+      "emptySites": 27,
+      "neighborCounts": {
+        "0": 7,
+        "1": 19,
+        "2": 1
+      },
+      "sitesWithEligible": 15,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 56.118848,
+      "births": 0
+    },
+    {
+      "turn": 8,
+      "n": 31,
+      "eligible": 23,
+      "juvenile": 1,
+      "damaged": 0,
+      "cooldown": 1,
+      "lowEnergy": 8,
+      "phase1": 1,
+      "emptySites": 28,
+      "neighborCounts": {
+        "0": 9,
+        "1": 17,
+        "2": 2
+      },
+      "sitesWithEligible": 16,
+      "candidates": 2,
+      "algae": 34,
+      "waterEdible": 58.61917,
+      "births": 2
+    },
+    {
+      "turn": 9,
+      "n": 33,
+      "eligible": 23,
+      "juvenile": 2,
+      "damaged": 0,
+      "cooldown": 2,
+      "lowEnergy": 9,
+      "phase1": 2,
+      "emptySites": 26,
+      "neighborCounts": {
+        "0": 9,
+        "1": 17
+      },
+      "sitesWithEligible": 15,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 72.73112000000002,
+      "births": 0
+    },
+    {
+      "turn": 10,
+      "n": 33,
+      "eligible": 24,
+      "juvenile": 2,
+      "damaged": 0,
+      "cooldown": 2,
+      "lowEnergy": 8,
+      "phase1": 2,
+      "emptySites": 25,
+      "neighborCounts": {
+        "0": 8,
+        "1": 15,
+        "2": 2
+      },
+      "sitesWithEligible": 16,
+      "candidates": 2,
+      "algae": 34,
+      "waterEdible": 71.70033800000002,
+      "births": 2
+    },
+    {
+      "turn": 11,
+      "n": 35,
+      "eligible": 22,
+      "juvenile": 4,
+      "damaged": 0,
+      "cooldown": 4,
+      "lowEnergy": 9,
+      "phase1": 4,
+      "emptySites": 22,
+      "neighborCounts": {
+        "0": 7,
+        "1": 15
+      },
+      "sitesWithEligible": 14,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 61.628633,
+      "births": 0
+    },
+    {
+      "turn": 12,
+      "n": 35,
+      "eligible": 23,
+      "juvenile": 4,
+      "damaged": 0,
+      "cooldown": 4,
+      "lowEnergy": 8,
+      "phase1": 4,
+      "emptySites": 22,
+      "neighborCounts": {
+        "0": 7,
+        "1": 15
+      },
+      "sitesWithEligible": 14,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 66.067254,
+      "births": 0
+    },
+    {
+      "turn": 13,
+      "n": 35,
+      "eligible": 26,
+      "juvenile": 2,
+      "damaged": 0,
+      "cooldown": 2,
+      "lowEnergy": 8,
+      "phase1": 2,
+      "emptySites": 21,
+      "neighborCounts": {
+        "0": 7,
+        "1": 14
+      },
+      "sitesWithEligible": 13,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 67.693718,
+      "births": 0
+    },
+    {
+      "turn": 14,
+      "n": 35,
+      "eligible": 28,
+      "juvenile": 2,
+      "damaged": 0,
+      "cooldown": 2,
+      "lowEnergy": 5,
+      "phase1": 2,
+      "emptySites": 19,
+      "neighborCounts": {
+        "0": 6,
+        "1": 13
+      },
+      "sitesWithEligible": 13,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 62.83143,
+      "births": 0
+    },
+    {
+      "turn": 15,
+      "n": 34,
+      "eligible": 29,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 5,
+      "phase1": 0,
+      "emptySites": 20,
+      "neighborCounts": {
+        "0": 7,
+        "1": 13
+      },
+      "sitesWithEligible": 13,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 65.640872,
+      "births": 0
+    },
+    {
+      "turn": 16,
+      "n": 34,
+      "eligible": 30,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 4,
+      "phase1": 0,
+      "emptySites": 20,
+      "neighborCounts": {
+        "0": 7,
+        "1": 13
+      },
+      "sitesWithEligible": 13,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 61.39180999999999,
+      "births": 0
+    },
+    {
+      "turn": 17,
+      "n": 34,
+      "eligible": 31,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 3,
+      "phase1": 0,
+      "emptySites": 19,
+      "neighborCounts": {
+        "0": 6,
+        "1": 13
+      },
+      "sitesWithEligible": 13,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 55.63651399999999,
+      "births": 0
+    },
+    {
+      "turn": 18,
+      "n": 34,
+      "eligible": 30,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 4,
+      "phase1": 0,
+      "emptySites": 20,
+      "neighborCounts": {
+        "0": 6,
+        "1": 14
+      },
+      "sitesWithEligible": 14,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 47.917036,
+      "births": 0
+    },
+    {
+      "turn": 19,
+      "n": 34,
+      "eligible": 33,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 1,
+      "phase1": 0,
+      "emptySites": 19,
+      "neighborCounts": {
+        "0": 6,
+        "1": 13
+      },
+      "sitesWithEligible": 13,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 55.473994,
+      "births": 0
+    },
+    {
+      "turn": 20,
+      "n": 34,
+      "eligible": 33,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 1,
+      "phase1": 0,
+      "emptySites": 19,
+      "neighborCounts": {
+        "0": 7,
+        "1": 12
+      },
+      "sitesWithEligible": 12,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 55.516940999999996,
+      "births": 0
+    },
+    {
+      "turn": 21,
+      "n": 32,
+      "eligible": 31,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 1,
+      "phase1": 0,
+      "emptySites": 20,
+      "neighborCounts": {
+        "0": 10,
+        "1": 10
+      },
+      "sitesWithEligible": 10,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 47.337283,
+      "births": 0
+    },
+    {
+      "turn": 22,
+      "n": 29,
+      "eligible": 28,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 1,
+      "phase1": 0,
+      "emptySites": 23,
+      "neighborCounts": {
+        "0": 12,
+        "1": 10,
+        "2": 1
+      },
+      "sitesWithEligible": 11,
+      "candidates": 1,
+      "algae": 34,
+      "waterEdible": 44.39875599999999,
+      "births": 1
+    },
+    {
+      "turn": 23,
+      "n": 29,
+      "eligible": 27,
+      "juvenile": 1,
+      "damaged": 0,
+      "cooldown": 1,
+      "lowEnergy": 1,
+      "phase1": 1,
+      "emptySites": 22,
+      "neighborCounts": {
+        "0": 12,
+        "1": 10
+      },
+      "sitesWithEligible": 9,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 40.82977500000001,
+      "births": 0
+    },
+    {
+      "turn": 24,
+      "n": 26,
+      "eligible": 24,
+      "juvenile": 1,
+      "damaged": 0,
+      "cooldown": 1,
+      "lowEnergy": 1,
+      "phase1": 1,
+      "emptySites": 24,
+      "neighborCounts": {
+        "0": 14,
+        "1": 10
+      },
+      "sitesWithEligible": 9,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 38.081936000000006,
+      "births": 0
+    },
+    {
+      "turn": 25,
+      "n": 23,
+      "eligible": 21,
+      "juvenile": 1,
+      "damaged": 0,
+      "cooldown": 1,
+      "lowEnergy": 1,
+      "phase1": 1,
+      "emptySites": 25,
+      "neighborCounts": {
+        "0": 14,
+        "1": 10,
+        "2": 1
+      },
+      "sitesWithEligible": 10,
+      "candidates": 1,
+      "algae": 34,
+      "waterEdible": 29.113049000000004,
+      "births": 1
+    },
+    {
+      "turn": 26,
+      "n": 23,
+      "eligible": 19,
+      "juvenile": 2,
+      "damaged": 0,
+      "cooldown": 2,
+      "lowEnergy": 2,
+      "phase1": 2,
+      "emptySites": 23,
+      "neighborCounts": {
+        "0": 12,
+        "1": 9,
+        "2": 1,
+        "3": 1
+      },
+      "sitesWithEligible": 9,
+      "candidates": 2,
+      "algae": 34,
+      "waterEdible": 37.264501,
+      "births": 2
+    },
+    {
+      "turn": 27,
+      "n": 25,
+      "eligible": 18,
+      "juvenile": 3,
+      "damaged": 0,
+      "cooldown": 3,
+      "lowEnergy": 5,
+      "phase1": 3,
+      "emptySites": 20,
+      "neighborCounts": {
+        "0": 13,
+        "1": 7
+      },
+      "sitesWithEligible": 7,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 36.469274,
+      "births": 0
+    },
+    {
+      "turn": 28,
+      "n": 23,
+      "eligible": 16,
+      "juvenile": 3,
+      "damaged": 0,
+      "cooldown": 3,
+      "lowEnergy": 5,
+      "phase1": 3,
+      "emptySites": 21,
+      "neighborCounts": {
+        "0": 14,
+        "1": 7
+      },
+      "sitesWithEligible": 7,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 38.251356,
+      "births": 0
+    },
+    {
+      "turn": 29,
+      "n": 22,
+      "eligible": 15,
+      "juvenile": 3,
+      "damaged": 0,
+      "cooldown": 3,
+      "lowEnergy": 5,
+      "phase1": 3,
+      "emptySites": 22,
+      "neighborCounts": {
+        "0": 14,
+        "1": 8
+      },
+      "sitesWithEligible": 7,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 34.211374000000006,
+      "births": 0
+    },
+    {
+      "turn": 30,
+      "n": 22,
+      "eligible": 17,
+      "juvenile": 2,
+      "damaged": 0,
+      "cooldown": 2,
+      "lowEnergy": 4,
+      "phase1": 2,
+      "emptySites": 23,
+      "neighborCounts": {
+        "0": 15,
+        "1": 7,
+        "2": 1
+      },
+      "sitesWithEligible": 7,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 39.949926000000005,
+      "births": 0
+    },
+    {
+      "turn": 31,
+      "n": 22,
+      "eligible": 19,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 3,
+      "phase1": 0,
+      "emptySites": 22,
+      "neighborCounts": {
+        "0": 14,
+        "1": 7,
+        "2": 1
+      },
+      "sitesWithEligible": 7,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 34.630661999999994,
+      "births": 0
+    },
+    {
+      "turn": 32,
+      "n": 20,
+      "eligible": 17,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 3,
+      "phase1": 0,
+      "emptySites": 24,
+      "neighborCounts": {
+        "0": 14,
+        "1": 9,
+        "2": 1
+      },
+      "sitesWithEligible": 9,
+      "candidates": 1,
+      "algae": 34,
+      "waterEdible": 33.071905,
+      "births": 1
+    },
+    {
+      "turn": 33,
+      "n": 19,
+      "eligible": 15,
+      "juvenile": 1,
+      "damaged": 0,
+      "cooldown": 1,
+      "lowEnergy": 3,
+      "phase1": 1,
+      "emptySites": 23,
+      "neighborCounts": {
+        "0": 14,
+        "1": 8,
+        "2": 1
+      },
+      "sitesWithEligible": 7,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 32.427434999999996,
+      "births": 0
+    },
+    {
+      "turn": 34,
+      "n": 17,
+      "eligible": 13,
+      "juvenile": 1,
+      "damaged": 0,
+      "cooldown": 1,
+      "lowEnergy": 3,
+      "phase1": 1,
+      "emptySites": 26,
+      "neighborCounts": {
+        "0": 17,
+        "1": 8,
+        "2": 1
+      },
+      "sitesWithEligible": 6,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 39.014931000000004,
+      "births": 0
+    },
+    {
+      "turn": 35,
+      "n": 16,
+      "eligible": 13,
+      "juvenile": 1,
+      "damaged": 0,
+      "cooldown": 1,
+      "lowEnergy": 2,
+      "phase1": 1,
+      "emptySites": 25,
+      "neighborCounts": {
+        "0": 17,
+        "1": 7,
+        "2": 1
+      },
+      "sitesWithEligible": 6,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 29.822675000000004,
+      "births": 0
+    },
+    {
+      "turn": 36,
+      "n": 15,
+      "eligible": 12,
+      "juvenile": 1,
+      "damaged": 0,
+      "cooldown": 1,
+      "lowEnergy": 2,
+      "phase1": 1,
+      "emptySites": 26,
+      "neighborCounts": {
+        "0": 19,
+        "1": 6,
+        "2": 1
+      },
+      "sitesWithEligible": 5,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 27.683753000000003,
+      "births": 0
+    },
+    {
+      "turn": 37,
+      "n": 14,
+      "eligible": 11,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 3,
+      "phase1": 0,
+      "emptySites": 26,
+      "neighborCounts": {
+        "0": 18,
+        "1": 7,
+        "2": 1
+      },
+      "sitesWithEligible": 5,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 30.214087,
+      "births": 0
+    },
+    {
+      "turn": 38,
+      "n": 14,
+      "eligible": 12,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 2,
+      "phase1": 0,
+      "emptySites": 25,
+      "neighborCounts": {
+        "0": 18,
+        "1": 6,
+        "2": 1
+      },
+      "sitesWithEligible": 6,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 14.842896999999999,
+      "births": 0
+    },
+    {
+      "turn": 39,
+      "n": 12,
+      "eligible": 10,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 2,
+      "phase1": 0,
+      "emptySites": 26,
+      "neighborCounts": {
+        "0": 22,
+        "1": 3,
+        "2": 1
+      },
+      "sitesWithEligible": 3,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 21.188696,
+      "births": 0
+    },
+    {
+      "turn": 40,
+      "n": 11,
+      "eligible": 9,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 2,
+      "phase1": 0,
+      "emptySites": 24,
+      "neighborCounts": {
+        "0": 20,
+        "1": 3,
+        "2": 1
+      },
+      "sitesWithEligible": 3,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 20.956108999999998,
+      "births": 0
+    },
+    {
+      "turn": 41,
+      "n": 11,
+      "eligible": 9,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 2,
+      "phase1": 0,
+      "emptySites": 22,
+      "neighborCounts": {
+        "0": 18,
+        "1": 3,
+        "2": 1
+      },
+      "sitesWithEligible": 3,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 28.244794,
+      "births": 0
+    },
+    {
+      "turn": 42,
+      "n": 11,
+      "eligible": 10,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 1,
+      "phase1": 0,
+      "emptySites": 21,
+      "neighborCounts": {
+        "0": 17,
+        "1": 3,
+        "2": 1
+      },
+      "sitesWithEligible": 4,
+      "candidates": 1,
+      "algae": 34,
+      "waterEdible": 33.416272,
+      "births": 1
+    },
+    {
+      "turn": 43,
+      "n": 10,
+      "eligible": 8,
+      "juvenile": 1,
+      "damaged": 0,
+      "cooldown": 1,
+      "lowEnergy": 2,
+      "phase1": 1,
+      "emptySites": 22,
+      "neighborCounts": {
+        "0": 17,
+        "1": 5
+      },
+      "sitesWithEligible": 4,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 43.701541000000006,
+      "births": 0
+    },
+    {
+      "turn": 44,
+      "n": 8,
+      "eligible": 6,
+      "juvenile": 1,
+      "damaged": 0,
+      "cooldown": 1,
+      "lowEnergy": 2,
+      "phase1": 1,
+      "emptySites": 23,
+      "neighborCounts": {
+        "0": 19,
+        "1": 4
+      },
+      "sitesWithEligible": 3,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 47.40884199999999,
+      "births": 0
+    },
+    {
+      "turn": 45,
+      "n": 8,
+      "eligible": 6,
+      "juvenile": 1,
+      "damaged": 0,
+      "cooldown": 1,
+      "lowEnergy": 2,
+      "phase1": 1,
+      "emptySites": 24,
+      "neighborCounts": {
+        "0": 20,
+        "1": 4
+      },
+      "sitesWithEligible": 3,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 47.729845,
+      "births": 0
+    },
+    {
+      "turn": 46,
+      "n": 8,
+      "eligible": 6,
+      "juvenile": 1,
+      "damaged": 0,
+      "cooldown": 1,
+      "lowEnergy": 2,
+      "phase1": 1,
+      "emptySites": 23,
+      "neighborCounts": {
+        "0": 20,
+        "1": 3
+      },
+      "sitesWithEligible": 2,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 37.595698999999996,
+      "births": 0
+    },
+    {
+      "turn": 47,
+      "n": 8,
+      "eligible": 6,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 2,
+      "phase1": 0,
+      "emptySites": 23,
+      "neighborCounts": {
+        "0": 20,
+        "1": 3
+      },
+      "sitesWithEligible": 2,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 52.587254,
+      "births": 0
+    },
+    {
+      "turn": 48,
+      "n": 7,
+      "eligible": 5,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 2,
+      "phase1": 0,
+      "emptySites": 25,
+      "neighborCounts": {
+        "0": 20,
+        "1": 5
+      },
+      "sitesWithEligible": 4,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 51.613627,
+      "births": 0
+    },
+    {
+      "turn": 49,
+      "n": 7,
+      "eligible": 5,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 2,
+      "phase1": 0,
+      "emptySites": 24,
+      "neighborCounts": {
+        "0": 19,
+        "1": 5
+      },
+      "sitesWithEligible": 4,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 63.054632000000005,
+      "births": 0
+    },
+    {
+      "turn": 50,
+      "n": 5,
+      "eligible": 3,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 2,
+      "phase1": 0,
+      "emptySites": 27,
+      "neighborCounts": {
+        "0": 21,
+        "1": 6
+      },
+      "sitesWithEligible": 4,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 50.548006,
+      "births": 0
+    },
+    {
+      "turn": 51,
+      "n": 5,
+      "eligible": 3,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 2,
+      "phase1": 0,
+      "emptySites": 26,
+      "neighborCounts": {
+        "0": 21,
+        "1": 5
+      },
+      "sitesWithEligible": 3,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 49.04602799999999,
+      "births": 0
+    },
+    {
+      "turn": 52,
+      "n": 3,
+      "eligible": 2,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 1,
+      "phase1": 0,
+      "emptySites": 33,
+      "neighborCounts": {
+        "0": 30,
+        "1": 3
+      },
+      "sitesWithEligible": 1,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 54.276402999999995,
+      "births": 0
+    },
+    {
+      "turn": 53,
+      "n": 3,
+      "eligible": 2,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 1,
+      "phase1": 0,
+      "emptySites": 35,
+      "neighborCounts": {
+        "0": 32,
+        "1": 3
+      },
+      "sitesWithEligible": 1,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 50.156938999999994,
+      "births": 0
+    },
+    {
+      "turn": 54,
+      "n": 3,
+      "eligible": 2,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 1,
+      "phase1": 0,
+      "emptySites": 36,
+      "neighborCounts": {
+        "0": 33,
+        "1": 3
+      },
+      "sitesWithEligible": 1,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 62.71654900000001,
+      "births": 0
+    },
+    {
+      "turn": 55,
+      "n": 2,
+      "eligible": 2,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 36,
+      "neighborCounts": {
+        "0": 35,
+        "1": 1
+      },
+      "sitesWithEligible": 1,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 64.66731200000002,
+      "births": 0
+    },
+    {
+      "turn": 56,
+      "n": 2,
+      "eligible": 2,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 38,
+      "neighborCounts": {
+        "0": 37,
+        "1": 1
+      },
+      "sitesWithEligible": 1,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 51.954947,
+      "births": 0
+    },
+    {
+      "turn": 57,
+      "n": 2,
+      "eligible": 2,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 38,
+      "neighborCounts": {
+        "0": 38
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 67.08630600000001,
+      "births": 0
+    },
+    {
+      "turn": 58,
+      "n": 1,
+      "eligible": 1,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 38,
+      "neighborCounts": {
+        "0": 38
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 69.57481600000001,
+      "births": 0
+    },
+    {
+      "turn": 59,
+      "n": 1,
+      "eligible": 1,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 39,
+      "neighborCounts": {
+        "0": 39
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 85.35613099999999,
+      "births": 0
+    },
+    {
+      "turn": 60,
+      "n": 1,
+      "eligible": 1,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 39,
+      "neighborCounts": {
+        "0": 39
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 34,
+      "waterEdible": 94.195517,
+      "births": 0
+    },
+    {
+      "turn": 61,
+      "n": 1,
+      "eligible": 1,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 38,
+      "neighborCounts": {
+        "0": 38
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 33,
+      "waterEdible": 94.960768,
+      "births": 0
+    },
+    {
+      "turn": 62,
+      "n": 1,
+      "eligible": 1,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 38,
+      "neighborCounts": {
+        "0": 38
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 33,
+      "waterEdible": 98.79469600000002,
+      "births": 0
+    },
+    {
+      "turn": 63,
+      "n": 1,
+      "eligible": 1,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 35,
+      "neighborCounts": {
+        "0": 35
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 33,
+      "waterEdible": 115.82471000000001,
+      "births": 0
+    },
+    {
+      "turn": 64,
+      "n": 1,
+      "eligible": 1,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 34,
+      "neighborCounts": {
+        "0": 34
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 33,
+      "waterEdible": 126.11775200000001,
+      "births": 0
+    },
+    {
+      "turn": 65,
+      "n": 1,
+      "eligible": 1,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 34,
+      "neighborCounts": {
+        "0": 34
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 32,
+      "waterEdible": 135.24852899999996,
+      "births": 0
+    },
+    {
+      "turn": 66,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 38,
+      "neighborCounts": {
+        "0": 38
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 32,
+      "waterEdible": 148.37331099999997,
+      "births": 0
+    },
+    {
+      "turn": 67,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 40,
+      "neighborCounts": {
+        "0": 40
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 30,
+      "waterEdible": 155.528836,
+      "births": 0
+    },
+    {
+      "turn": 68,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 38,
+      "neighborCounts": {
+        "0": 38
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 30,
+      "waterEdible": 159.19987200000003,
+      "births": 0
+    },
+    {
+      "turn": 69,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 37,
+      "neighborCounts": {
+        "0": 37
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 31,
+      "waterEdible": 153.92922700000003,
+      "births": 0
+    },
+    {
+      "turn": 70,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 37,
+      "neighborCounts": {
+        "0": 37
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 31,
+      "waterEdible": 162.47357599999998,
+      "births": 0
+    },
+    {
+      "turn": 71,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 38,
+      "neighborCounts": {
+        "0": 38
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 31,
+      "waterEdible": 176.75209299999997,
+      "births": 0
+    },
+    {
+      "turn": 72,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 38,
+      "neighborCounts": {
+        "0": 38
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 30,
+      "waterEdible": 183.26092,
+      "births": 0
+    },
+    {
+      "turn": 73,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 37,
+      "neighborCounts": {
+        "0": 37
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 30,
+      "waterEdible": 197.34263699999994,
+      "births": 0
+    },
+    {
+      "turn": 74,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 37,
+      "neighborCounts": {
+        "0": 37
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 30,
+      "waterEdible": 206.49312599999996,
+      "births": 0
+    },
+    {
+      "turn": 75,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 41,
+      "neighborCounts": {
+        "0": 41
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 29,
+      "waterEdible": 210.41589599999998,
+      "births": 0
+    },
+    {
+      "turn": 76,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 38,
+      "neighborCounts": {
+        "0": 38
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 29,
+      "waterEdible": 223.79530299999993,
+      "births": 0
+    },
+    {
+      "turn": 77,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 38,
+      "neighborCounts": {
+        "0": 38
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 29,
+      "waterEdible": 233.66567299999997,
+      "births": 0
+    },
+    {
+      "turn": 78,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 37,
+      "neighborCounts": {
+        "0": 37
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 29,
+      "waterEdible": 231.50486799999993,
+      "births": 0
+    },
+    {
+      "turn": 79,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 38,
+      "neighborCounts": {
+        "0": 38
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 29,
+      "waterEdible": 229.86576499999995,
+      "births": 0
+    },
+    {
+      "turn": 80,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 38,
+      "neighborCounts": {
+        "0": 38
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 29,
+      "waterEdible": 233.85891499999994,
+      "births": 0
+    },
+    {
+      "turn": 81,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 38,
+      "neighborCounts": {
+        "0": 38
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 28,
+      "waterEdible": 228.95192799999995,
+      "births": 0
+    },
+    {
+      "turn": 82,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 40,
+      "neighborCounts": {
+        "0": 40
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 28,
+      "waterEdible": 226.34141400000001,
+      "births": 0
+    },
+    {
+      "turn": 83,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 36,
+      "neighborCounts": {
+        "0": 36
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 27,
+      "waterEdible": 212.534524,
+      "births": 0
+    },
+    {
+      "turn": 84,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 41,
+      "neighborCounts": {
+        "0": 41
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 26,
+      "waterEdible": 186.54225599999995,
+      "births": 0
+    },
+    {
+      "turn": 85,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 43,
+      "neighborCounts": {
+        "0": 43
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 26,
+      "waterEdible": 186.89122500000002,
+      "births": 0
+    },
+    {
+      "turn": 86,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 40,
+      "neighborCounts": {
+        "0": 40
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 24,
+      "waterEdible": 185.588769,
+      "births": 0
+    },
+    {
+      "turn": 87,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 40,
+      "neighborCounts": {
+        "0": 40
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 24,
+      "waterEdible": 191.83634800000002,
+      "births": 0
+    },
+    {
+      "turn": 88,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 42,
+      "neighborCounts": {
+        "0": 42
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 24,
+      "waterEdible": 200.22499300000004,
+      "births": 0
+    },
+    {
+      "turn": 89,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 42,
+      "neighborCounts": {
+        "0": 42
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 25,
+      "waterEdible": 189.10005800000002,
+      "births": 0
+    },
+    {
+      "turn": 90,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 42,
+      "neighborCounts": {
+        "0": 42
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 24,
+      "waterEdible": 189.93698200000003,
+      "births": 0
+    },
+    {
+      "turn": 91,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 44,
+      "neighborCounts": {
+        "0": 44
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 24,
+      "waterEdible": 185.50684700000005,
+      "births": 0
+    },
+    {
+      "turn": 92,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 45,
+      "neighborCounts": {
+        "0": 45
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 23,
+      "waterEdible": 194.88505100000003,
+      "births": 0
+    },
+    {
+      "turn": 93,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 47,
+      "neighborCounts": {
+        "0": 47
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 23,
+      "waterEdible": 205.73684300000005,
+      "births": 0
+    },
+    {
+      "turn": 94,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 46,
+      "neighborCounts": {
+        "0": 46
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 21,
+      "waterEdible": 211.86041400000002,
+      "births": 0
+    },
+    {
+      "turn": 95,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 48,
+      "neighborCounts": {
+        "0": 48
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 20,
+      "waterEdible": 231.38776000000001,
+      "births": 0
+    },
+    {
+      "turn": 96,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 47,
+      "neighborCounts": {
+        "0": 47
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 20,
+      "waterEdible": 244.84574700000002,
+      "births": 0
+    },
+    {
+      "turn": 97,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 47,
+      "neighborCounts": {
+        "0": 47
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 20,
+      "waterEdible": 258.83575500000006,
+      "births": 0
+    },
+    {
+      "turn": 98,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 49,
+      "neighborCounts": {
+        "0": 49
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 20,
+      "waterEdible": 274.45888600000006,
+      "births": 0
+    },
+    {
+      "turn": 99,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 51,
+      "neighborCounts": {
+        "0": 51
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 19,
+      "waterEdible": 271.6799470000001,
+      "births": 0
+    },
+    {
+      "turn": 100,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 50,
+      "neighborCounts": {
+        "0": 50
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 19,
+      "waterEdible": 288.8432190000001,
+      "births": 0
+    },
+    {
+      "turn": 101,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 50,
+      "neighborCounts": {
+        "0": 50
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 19,
+      "waterEdible": 308.62901300000004,
+      "births": 0
+    },
+    {
+      "turn": 102,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 52,
+      "neighborCounts": {
+        "0": 52
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 18,
+      "waterEdible": 303.81123900000006,
+      "births": 0
+    },
+    {
+      "turn": 103,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 53,
+      "neighborCounts": {
+        "0": 53
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 18,
+      "waterEdible": 322.6923750000001,
+      "births": 0
+    },
+    {
+      "turn": 104,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 54,
+      "neighborCounts": {
+        "0": 54
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 18,
+      "waterEdible": 336.129977,
+      "births": 0
+    },
+    {
+      "turn": 105,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 54,
+      "neighborCounts": {
+        "0": 54
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 17,
+      "waterEdible": 326.69425,
+      "births": 0
+    },
+    {
+      "turn": 106,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 52,
+      "neighborCounts": {
+        "0": 52
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 16,
+      "waterEdible": 317.81505599999997,
+      "births": 0
+    },
+    {
+      "turn": 107,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 53,
+      "neighborCounts": {
+        "0": 53
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 15,
+      "waterEdible": 309.585558,
+      "births": 0
+    },
+    {
+      "turn": 108,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 51,
+      "neighborCounts": {
+        "0": 51
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 15,
+      "waterEdible": 308.420821,
+      "births": 0
+    },
+    {
+      "turn": 109,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 51,
+      "neighborCounts": {
+        "0": 51
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 13,
+      "waterEdible": 304.49241,
+      "births": 0
+    },
+    {
+      "turn": 110,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 51,
+      "neighborCounts": {
+        "0": 51
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 13,
+      "waterEdible": 305.138689,
+      "births": 0
+    },
+    {
+      "turn": 111,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 49,
+      "neighborCounts": {
+        "0": 49
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 13,
+      "waterEdible": 303.717738,
+      "births": 0
+    },
+    {
+      "turn": 112,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 51,
+      "neighborCounts": {
+        "0": 51
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 13,
+      "waterEdible": 301.690519,
+      "births": 0
+    },
+    {
+      "turn": 113,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 50,
+      "neighborCounts": {
+        "0": 50
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 12,
+      "waterEdible": 293.763575,
+      "births": 0
+    },
+    {
+      "turn": 114,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 52,
+      "neighborCounts": {
+        "0": 52
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 12,
+      "waterEdible": 294.530681,
+      "births": 0
+    },
+    {
+      "turn": 115,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 52,
+      "neighborCounts": {
+        "0": 52
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 11,
+      "waterEdible": 308.08458900000005,
+      "births": 0
+    },
+    {
+      "turn": 116,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 51,
+      "neighborCounts": {
+        "0": 51
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 10,
+      "waterEdible": 293.862854,
+      "births": 0
+    },
+    {
+      "turn": 117,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 53,
+      "neighborCounts": {
+        "0": 53
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 10,
+      "waterEdible": 310.838885,
+      "births": 0
+    },
+    {
+      "turn": 118,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 53,
+      "neighborCounts": {
+        "0": 53
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 9,
+      "waterEdible": 299.5207510000001,
+      "births": 0
+    },
+    {
+      "turn": 119,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 54,
+      "neighborCounts": {
+        "0": 54
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 9,
+      "waterEdible": 308.53163800000016,
+      "births": 0
+    },
+    {
+      "turn": 120,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 54,
+      "neighborCounts": {
+        "0": 54
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 8,
+      "waterEdible": 298.59825000000006,
+      "births": 0
+    },
+    {
+      "turn": 121,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 53,
+      "neighborCounts": {
+        "0": 53
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 4,
+      "waterEdible": 275.39670700000005,
+      "births": 0
+    },
+    {
+      "turn": 122,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 54,
+      "neighborCounts": {
+        "0": 54
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 290.84632000000005,
+      "births": 0
+    },
+    {
+      "turn": 123,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 56,
+      "neighborCounts": {
+        "0": 56
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 309.1371470000001,
+      "births": 0
+    },
+    {
+      "turn": 124,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 56,
+      "neighborCounts": {
+        "0": 56
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 304.85609000000005,
+      "births": 0
+    },
+    {
+      "turn": 125,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 58,
+      "neighborCounts": {
+        "0": 58
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 326.76018100000005,
+      "births": 0
+    },
+    {
+      "turn": 126,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 330.169533,
+      "births": 0
+    },
+    {
+      "turn": 127,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 340.7413570000001,
+      "births": 0
+    },
+    {
+      "turn": 128,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 349.0886430000001,
+      "births": 0
+    },
+    {
+      "turn": 129,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 366.3340100000001,
+      "births": 0
+    },
+    {
+      "turn": 130,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 375.56771300000014,
+      "births": 0
+    },
+    {
+      "turn": 131,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 383.65791,
+      "births": 0
+    },
+    {
+      "turn": 132,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 382.664272,
+      "births": 0
+    },
+    {
+      "turn": 133,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 401.85962099999995,
+      "births": 0
+    },
+    {
+      "turn": 134,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 402.4115069999999,
+      "births": 0
+    },
+    {
+      "turn": 135,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 402.31631200000004,
+      "births": 0
+    },
+    {
+      "turn": 136,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 405.583914,
+      "births": 0
+    },
+    {
+      "turn": 137,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 420.28293199999996,
+      "births": 0
+    },
+    {
+      "turn": 138,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 419.727915,
+      "births": 0
+    },
+    {
+      "turn": 139,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 425.939039,
+      "births": 0
+    },
+    {
+      "turn": 140,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 417.45048899999995,
+      "births": 0
+    },
+    {
+      "turn": 141,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 427.45393799999994,
+      "births": 0
+    },
+    {
+      "turn": 142,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 423.1075619999999,
+      "births": 0
+    },
+    {
+      "turn": 143,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 432.666877,
+      "births": 0
+    },
+    {
+      "turn": 144,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 439.090344,
+      "births": 0
+    },
+    {
+      "turn": 145,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 450.08659,
+      "births": 0
+    },
+    {
+      "turn": 146,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 458.927101,
+      "births": 0
+    },
+    {
+      "turn": 147,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 456.05274199999997,
+      "births": 0
+    },
+    {
+      "turn": 148,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 457.13897499999996,
+      "births": 0
+    },
+    {
+      "turn": 149,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 459.011973,
+      "births": 0
+    },
+    {
+      "turn": 150,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 468.99061900000004,
+      "births": 0
+    },
+    {
+      "turn": 151,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 477.830604,
+      "births": 0
+    },
+    {
+      "turn": 152,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 477.848629,
+      "births": 0
+    },
+    {
+      "turn": 153,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 472.265303,
+      "births": 0
+    },
+    {
+      "turn": 154,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 468.653562,
+      "births": 0
+    },
+    {
+      "turn": 155,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 467.651168,
+      "births": 0
+    },
+    {
+      "turn": 156,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 463.746598,
+      "births": 0
+    },
+    {
+      "turn": 157,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 466.53099,
+      "births": 0
+    },
+    {
+      "turn": 158,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 465.031752,
+      "births": 0
+    },
+    {
+      "turn": 159,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 471.33175000000006,
+      "births": 0
+    },
+    {
+      "turn": 160,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 483.658185,
+      "births": 0
+    },
+    {
+      "turn": 161,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 448.97730700000005,
+      "births": 0
+    },
+    {
+      "turn": 162,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 408.437089,
+      "births": 0
+    },
+    {
+      "turn": 163,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 396.6838460000001,
+      "births": 0
+    },
+    {
+      "turn": 164,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 402.9150660000001,
+      "births": 0
+    },
+    {
+      "turn": 165,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 416.4638230000001,
+      "births": 0
+    },
+    {
+      "turn": 166,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 419.02689200000003,
+      "births": 0
+    },
+    {
+      "turn": 167,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 434.94408300000003,
+      "births": 0
+    },
+    {
+      "turn": 168,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 445.09572300000013,
+      "births": 0
+    },
+    {
+      "turn": 169,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 456.9127910000002,
+      "births": 0
+    },
+    {
+      "turn": 170,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 464.7031690000002,
+      "births": 0
+    },
+    {
+      "turn": 171,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 59,
+      "neighborCounts": {
+        "0": 59
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 477.99813700000016,
+      "births": 0
+    },
+    {
+      "turn": 172,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 58,
+      "neighborCounts": {
+        "0": 58
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 461.94399700000014,
+      "births": 0
+    },
+    {
+      "turn": 173,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 58,
+      "neighborCounts": {
+        "0": 58
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 473.02853400000015,
+      "births": 0
+    },
+    {
+      "turn": 174,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 58,
+      "neighborCounts": {
+        "0": 58
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 476.7589110000001,
+      "births": 0
+    },
+    {
+      "turn": 175,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 58,
+      "neighborCounts": {
+        "0": 58
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 482.63321000000013,
+      "births": 0
+    },
+    {
+      "turn": 176,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 57,
+      "neighborCounts": {
+        "0": 57
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 509.9593710000001,
+      "births": 0
+    },
+    {
+      "turn": 177,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 56,
+      "neighborCounts": {
+        "0": 56
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 523.0675060000001,
+      "births": 0
+    },
+    {
+      "turn": 178,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 56,
+      "neighborCounts": {
+        "0": 56
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 512.2540200000001,
+      "births": 0
+    },
+    {
+      "turn": 179,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 56,
+      "neighborCounts": {
+        "0": 56
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 519.909529,
+      "births": 0
+    },
+    {
+      "turn": 180,
+      "n": 0,
+      "eligible": 0,
+      "juvenile": 0,
+      "damaged": 0,
+      "cooldown": 0,
+      "lowEnergy": 0,
+      "phase1": 0,
+      "emptySites": 56,
+      "neighborCounts": {
+        "0": 56
+      },
+      "sitesWithEligible": 0,
+      "candidates": 0,
+      "algae": 5,
+      "waterEdible": 527.5825980000001,
+      "births": 0
+    }
+  ]
+}
