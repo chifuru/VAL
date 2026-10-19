@@ -1,0 +1,4571 @@
+{
+  "productVersion": "4.2.28",
+  "productChanged": false,
+  "scope": "three river seeds,40x28,40 main founders,60T per variant; private comparison, not 500T survival certification",
+  "elapsedMs": 135079,
+  "runs": [
+    {
+      "seed": "baseline41/custom",
+      "variant": "current",
+      "turns": 60,
+      "initialFingerprint": "2467ee21e7aec56bf45c07913fb7651498569fae0f278a0bbbf2b060cec8a063",
+      "finalFingerprint": "f08dc70cfbc6426be13cd304048e69f4f4261bcffb31d5ce036a6f8a4377f944",
+      "sum": {
+        "emitted": 0,
+        "received": 0,
+        "applied": 0,
+        "unchanged": 0,
+        "noiseReceived": 0,
+        "mediatedEmitted": 0,
+        "mediatedApplied": 0,
+        "infoEnergy": 0,
+        "organicEnergy": 49470.99758300712
+      },
+      "peakInfo": 16,
+      "finalInfo": 0,
+      "finalMain": 52,
+      "maxError": {
+        "E": 0,
+        "M": 0
+      },
+      "rows": [
+        {
+          "turn": 1,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 2,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 3,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 4,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 5,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 6,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 7,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 8,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 9,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 10,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 11,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 12,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 13,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 14,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 15,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 16,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 17,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 18,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 19,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 20,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 21,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 22,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 23,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 24,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 25,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 26,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 27,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 42
+        },
+        {
+          "turn": 28,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 29,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 30,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 31,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 32,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 33,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 34,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 35,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 36,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 37,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 38,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 39,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 40,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 41,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 42,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 43,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 44,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 45,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 46,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 47,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 48,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 49,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 50,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 51,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 49
+        },
+        {
+          "turn": 52,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 49
+        },
+        {
+          "turn": 53,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 49
+        },
+        {
+          "turn": 54,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 50
+        },
+        {
+          "turn": 55,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 50
+        },
+        {
+          "turn": 56,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 57,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 52
+        },
+        {
+          "turn": 58,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 52
+        },
+        {
+          "turn": 59,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 52
+        },
+        {
+          "turn": 60,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 52
+        }
+      ]
+    },
+    {
+      "seed": "baseline41/custom",
+      "variant": "imprint",
+      "turns": 60,
+      "initialFingerprint": "2467ee21e7aec56bf45c07913fb7651498569fae0f278a0bbbf2b060cec8a063",
+      "finalFingerprint": "f3ec3e671026969cc796c676c7923beb6fe5471a5aeaaf3fc2df68fdde68d76c",
+      "sum": {
+        "emitted": 23,
+        "received": 0,
+        "applied": 0,
+        "unchanged": 0,
+        "noiseReceived": 0,
+        "mediatedEmitted": 0,
+        "mediatedApplied": 0,
+        "infoEnergy": 0,
+        "organicEnergy": 49468.05391600712
+      },
+      "peakInfo": 16,
+      "finalInfo": 0,
+      "finalMain": 52,
+      "maxError": {
+        "E": 0,
+        "M": 0
+      },
+      "rows": [
+        {
+          "turn": 1,
+          "emitted": 4,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 2,
+          "emitted": 4,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 3,
+          "emitted": 3,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 4,
+          "emitted": 2,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 5,
+          "emitted": 2,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 6,
+          "emitted": 2,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 7,
+          "emitted": 2,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 8,
+          "emitted": 2,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 9,
+          "emitted": 2,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 10,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 11,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 12,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 13,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 14,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 15,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 16,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 17,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 18,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 19,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 20,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 21,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 22,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 23,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 24,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 25,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 26,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 27,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 42
+        },
+        {
+          "turn": 28,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 29,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 30,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 31,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 32,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 33,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 34,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 35,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 36,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 37,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 38,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 39,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 40,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 41,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 42,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 43,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 44,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 45,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 46,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 47,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 48,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 49,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 50,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 51,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 49
+        },
+        {
+          "turn": 52,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 49
+        },
+        {
+          "turn": 53,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 49
+        },
+        {
+          "turn": 54,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 50
+        },
+        {
+          "turn": 55,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 50
+        },
+        {
+          "turn": 56,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 57,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 52
+        },
+        {
+          "turn": 58,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 52
+        },
+        {
+          "turn": 59,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 52
+        },
+        {
+          "turn": 60,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 52
+        }
+      ]
+    },
+    {
+      "seed": "baseline41/custom",
+      "variant": "footprint",
+      "turns": 60,
+      "initialFingerprint": "2467ee21e7aec56bf45c07913fb7651498569fae0f278a0bbbf2b060cec8a063",
+      "finalFingerprint": "26b6a66d1640e79860b94601cf9cb9c7ec0698f40958ea73ba88c700e3c53d5f",
+      "sum": {
+        "emitted": 4527,
+        "received": 16,
+        "applied": 12,
+        "unchanged": 4,
+        "noiseReceived": 2,
+        "mediatedEmitted": 0,
+        "mediatedApplied": 0,
+        "infoEnergy": 0.7973610000000002,
+        "organicEnergy": 49965.055862008296
+      },
+      "peakInfo": 127,
+      "finalInfo": 102,
+      "finalMain": 49,
+      "maxError": {
+        "E": 0,
+        "M": 0
+      },
+      "rows": [
+        {
+          "turn": 1,
+          "emitted": 4,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 16,
+          "main": 40
+        },
+        {
+          "turn": 2,
+          "emitted": 8,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 19,
+          "main": 40
+        },
+        {
+          "turn": 3,
+          "emitted": 25,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 37,
+          "main": 40
+        },
+        {
+          "turn": 4,
+          "emitted": 43,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 54,
+          "main": 40
+        },
+        {
+          "turn": 5,
+          "emitted": 54,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 64,
+          "main": 40
+        },
+        {
+          "turn": 6,
+          "emitted": 64,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 75,
+          "main": 40
+        },
+        {
+          "turn": 7,
+          "emitted": 71,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 84,
+          "main": 40
+        },
+        {
+          "turn": 8,
+          "emitted": 75,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 89,
+          "main": 40
+        },
+        {
+          "turn": 9,
+          "emitted": 77,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 93,
+          "main": 40
+        },
+        {
+          "turn": 10,
+          "emitted": 93,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 108,
+          "main": 40
+        },
+        {
+          "turn": 11,
+          "emitted": 79,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 99,
+          "main": 40
+        },
+        {
+          "turn": 12,
+          "emitted": 94,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 115,
+          "main": 40
+        },
+        {
+          "turn": 13,
+          "emitted": 82,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 103,
+          "main": 40
+        },
+        {
+          "turn": 14,
+          "emitted": 87,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 109,
+          "main": 40
+        },
+        {
+          "turn": 15,
+          "emitted": 81,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 104,
+          "main": 40
+        },
+        {
+          "turn": 16,
+          "emitted": 88,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 115,
+          "main": 40
+        },
+        {
+          "turn": 17,
+          "emitted": 77,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 109,
+          "main": 40
+        },
+        {
+          "turn": 18,
+          "emitted": 74,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 107,
+          "main": 40
+        },
+        {
+          "turn": 19,
+          "emitted": 63,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 97,
+          "main": 40
+        },
+        {
+          "turn": 20,
+          "emitted": 70,
+          "received": 2,
+          "applied": 2,
+          "infoCells": 96,
+          "main": 40
+        },
+        {
+          "turn": 21,
+          "emitted": 65,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 96,
+          "main": 40
+        },
+        {
+          "turn": 22,
+          "emitted": 63,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 95,
+          "main": 40
+        },
+        {
+          "turn": 23,
+          "emitted": 70,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 111,
+          "main": 40
+        },
+        {
+          "turn": 24,
+          "emitted": 56,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 101,
+          "main": 41
+        },
+        {
+          "turn": 25,
+          "emitted": 66,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 109,
+          "main": 41
+        },
+        {
+          "turn": 26,
+          "emitted": 62,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 100,
+          "main": 41
+        },
+        {
+          "turn": 27,
+          "emitted": 65,
+          "received": 1,
+          "applied": 0,
+          "infoCells": 98,
+          "main": 42
+        },
+        {
+          "turn": 28,
+          "emitted": 71,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 105,
+          "main": 44
+        },
+        {
+          "turn": 29,
+          "emitted": 69,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 98,
+          "main": 44
+        },
+        {
+          "turn": 30,
+          "emitted": 86,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 117,
+          "main": 44
+        },
+        {
+          "turn": 31,
+          "emitted": 71,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 103,
+          "main": 45
+        },
+        {
+          "turn": 32,
+          "emitted": 97,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 121,
+          "main": 45
+        },
+        {
+          "turn": 33,
+          "emitted": 81,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 103,
+          "main": 45
+        },
+        {
+          "turn": 34,
+          "emitted": 89,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 112,
+          "main": 45
+        },
+        {
+          "turn": 35,
+          "emitted": 92,
+          "received": 1,
+          "applied": 0,
+          "infoCells": 112,
+          "main": 45
+        },
+        {
+          "turn": 36,
+          "emitted": 89,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 109,
+          "main": 45
+        },
+        {
+          "turn": 37,
+          "emitted": 94,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 116,
+          "main": 46
+        },
+        {
+          "turn": 38,
+          "emitted": 77,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 103,
+          "main": 46
+        },
+        {
+          "turn": 39,
+          "emitted": 84,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 111,
+          "main": 46
+        },
+        {
+          "turn": 40,
+          "emitted": 82,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 109,
+          "main": 46
+        },
+        {
+          "turn": 41,
+          "emitted": 87,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 116,
+          "main": 46
+        },
+        {
+          "turn": 42,
+          "emitted": 75,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 106,
+          "main": 46
+        },
+        {
+          "turn": 43,
+          "emitted": 87,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 115,
+          "main": 47
+        },
+        {
+          "turn": 44,
+          "emitted": 85,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 111,
+          "main": 47
+        },
+        {
+          "turn": 45,
+          "emitted": 89,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 122,
+          "main": 47
+        },
+        {
+          "turn": 46,
+          "emitted": 63,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 99,
+          "main": 47
+        },
+        {
+          "turn": 47,
+          "emitted": 89,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 119,
+          "main": 47
+        },
+        {
+          "turn": 48,
+          "emitted": 82,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 107,
+          "main": 47
+        },
+        {
+          "turn": 49,
+          "emitted": 87,
+          "received": 2,
+          "applied": 1,
+          "infoCells": 113,
+          "main": 47
+        },
+        {
+          "turn": 50,
+          "emitted": 78,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 110,
+          "main": 47
+        },
+        {
+          "turn": 51,
+          "emitted": 98,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 127,
+          "main": 47
+        },
+        {
+          "turn": 52,
+          "emitted": 82,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 111,
+          "main": 48
+        },
+        {
+          "turn": 53,
+          "emitted": 91,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 117,
+          "main": 48
+        },
+        {
+          "turn": 54,
+          "emitted": 81,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 106,
+          "main": 48
+        },
+        {
+          "turn": 55,
+          "emitted": 87,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 116,
+          "main": 48
+        },
+        {
+          "turn": 56,
+          "emitted": 82,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 106,
+          "main": 48
+        },
+        {
+          "turn": 57,
+          "emitted": 85,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 109,
+          "main": 49
+        },
+        {
+          "turn": 58,
+          "emitted": 86,
+          "received": 2,
+          "applied": 1,
+          "infoCells": 109,
+          "main": 49
+        },
+        {
+          "turn": 59,
+          "emitted": 95,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 121,
+          "main": 49
+        },
+        {
+          "turn": 60,
+          "emitted": 80,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 102,
+          "main": 49
+        }
+      ]
+    },
+    {
+      "seed": "information-coast",
+      "variant": "current",
+      "turns": 60,
+      "initialFingerprint": "7591e3d2422907d820ec58254a342666af9dcc7caee918e734f0c79db0613e46",
+      "finalFingerprint": "5d49ba823f9f9d13932168c075b3756311976c0c5dbd2fc91f975e4b75f6c859",
+      "sum": {
+        "emitted": 0,
+        "received": 0,
+        "applied": 0,
+        "unchanged": 0,
+        "noiseReceived": 0,
+        "mediatedEmitted": 0,
+        "mediatedApplied": 0,
+        "infoEnergy": 0.09240000000000001,
+        "organicEnergy": 48936.40307100489
+      },
+      "peakInfo": 28,
+      "finalInfo": 0,
+      "finalMain": 61,
+      "maxError": {
+        "E": 0,
+        "M": 0
+      },
+      "rows": [
+        {
+          "turn": 1,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 2,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 3,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 4,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 5,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 6,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 7,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 8,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 9,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 10,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 11,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 12,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 13,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 14,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 15,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 16,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 17,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 18,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 19,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 20,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 21,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 22,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 23,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 24,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 25,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 26,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 27,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 28,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 29,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 30,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 31,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 32,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 33,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 50
+        },
+        {
+          "turn": 34,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 35,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 36,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 37,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 38,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 39,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 52
+        },
+        {
+          "turn": 40,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 41,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 42,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 43,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 44,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 45,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 46,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 47,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 48,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 49,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 56
+        },
+        {
+          "turn": 50,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 51,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 52,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 53,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 54,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 55,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 56,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 57,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 58,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 59,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 60,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        }
+      ]
+    },
+    {
+      "seed": "information-coast",
+      "variant": "imprint",
+      "turns": 60,
+      "initialFingerprint": "7591e3d2422907d820ec58254a342666af9dcc7caee918e734f0c79db0613e46",
+      "finalFingerprint": "9cbc5bbeda99bed209693397466287b2d01c73610d482363693187c9385a9d1f",
+      "sum": {
+        "emitted": 64,
+        "received": 2,
+        "applied": 2,
+        "unchanged": 0,
+        "noiseReceived": 0,
+        "mediatedEmitted": 0,
+        "mediatedApplied": 0,
+        "infoEnergy": 0.09848,
+        "organicEnergy": 48936.40307100489
+      },
+      "peakInfo": 28,
+      "finalInfo": 0,
+      "finalMain": 61,
+      "maxError": {
+        "E": 0,
+        "M": 0
+      },
+      "rows": [
+        {
+          "turn": 1,
+          "emitted": 8,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 2,
+          "emitted": 8,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 3,
+          "emitted": 8,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 4,
+          "emitted": 8,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 5,
+          "emitted": 8,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 6,
+          "emitted": 8,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 7,
+          "emitted": 8,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 8,
+          "emitted": 8,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 9,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 10,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 11,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 12,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 13,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 14,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 15,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 16,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 17,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 18,
+          "emitted": 0,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 19,
+          "emitted": 0,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 20,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 21,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 22,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 23,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 24,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 25,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 26,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 27,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 28,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 29,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 30,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 44
+        },
+        {
+          "turn": 31,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 32,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 33,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 50
+        },
+        {
+          "turn": 34,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 35,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 36,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 37,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 38,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 39,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 52
+        },
+        {
+          "turn": 40,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 41,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 42,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 43,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 44,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 45,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 46,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 47,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 48,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 55
+        },
+        {
+          "turn": 49,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 56
+        },
+        {
+          "turn": 50,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 51,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 52,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 53,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 54,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 55,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 56,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 57,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 58,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 59,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        },
+        {
+          "turn": 60,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 61
+        }
+      ]
+    },
+    {
+      "seed": "information-coast",
+      "variant": "footprint",
+      "turns": 60,
+      "initialFingerprint": "7591e3d2422907d820ec58254a342666af9dcc7caee918e734f0c79db0613e46",
+      "finalFingerprint": "06f5b5535da82638a276d70fa3c70f9a080db604312463fa9d6a2c8b9c161cd9",
+      "sum": {
+        "emitted": 4035,
+        "received": 18,
+        "applied": 9,
+        "unchanged": 9,
+        "noiseReceived": 2,
+        "mediatedEmitted": 0,
+        "mediatedApplied": 0,
+        "infoEnergy": 0.8958460000000001,
+        "organicEnergy": 49275.1722250057
+      },
+      "peakInfo": 129,
+      "finalInfo": 111,
+      "finalMain": 63,
+      "maxError": {
+        "E": 0,
+        "M": 0
+      },
+      "rows": [
+        {
+          "turn": 1,
+          "emitted": 8,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 28,
+          "main": 40
+        },
+        {
+          "turn": 2,
+          "emitted": 17,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 37,
+          "main": 40
+        },
+        {
+          "turn": 3,
+          "emitted": 39,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 57,
+          "main": 40
+        },
+        {
+          "turn": 4,
+          "emitted": 57,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 71,
+          "main": 40
+        },
+        {
+          "turn": 5,
+          "emitted": 68,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 80,
+          "main": 40
+        },
+        {
+          "turn": 6,
+          "emitted": 77,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 89,
+          "main": 40
+        },
+        {
+          "turn": 7,
+          "emitted": 67,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 79,
+          "main": 40
+        },
+        {
+          "turn": 8,
+          "emitted": 72,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 84,
+          "main": 40
+        },
+        {
+          "turn": 9,
+          "emitted": 92,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 104,
+          "main": 40
+        },
+        {
+          "turn": 10,
+          "emitted": 66,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 78,
+          "main": 40
+        },
+        {
+          "turn": 11,
+          "emitted": 84,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 99,
+          "main": 40
+        },
+        {
+          "turn": 12,
+          "emitted": 70,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 97,
+          "main": 40
+        },
+        {
+          "turn": 13,
+          "emitted": 58,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 92,
+          "main": 40
+        },
+        {
+          "turn": 14,
+          "emitted": 60,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 96,
+          "main": 40
+        },
+        {
+          "turn": 15,
+          "emitted": 51,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 90,
+          "main": 40
+        },
+        {
+          "turn": 16,
+          "emitted": 54,
+          "received": 2,
+          "applied": 1,
+          "infoCells": 97,
+          "main": 40
+        },
+        {
+          "turn": 17,
+          "emitted": 44,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 96,
+          "main": 40
+        },
+        {
+          "turn": 18,
+          "emitted": 32,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 90,
+          "main": 40
+        },
+        {
+          "turn": 19,
+          "emitted": 33,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 99,
+          "main": 40
+        },
+        {
+          "turn": 20,
+          "emitted": 27,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 83,
+          "main": 40
+        },
+        {
+          "turn": 21,
+          "emitted": 32,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 90,
+          "main": 40
+        },
+        {
+          "turn": 22,
+          "emitted": 29,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 88,
+          "main": 40
+        },
+        {
+          "turn": 23,
+          "emitted": 24,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 80,
+          "main": 40
+        },
+        {
+          "turn": 24,
+          "emitted": 38,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 78,
+          "main": 40
+        },
+        {
+          "turn": 25,
+          "emitted": 45,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 79,
+          "main": 41
+        },
+        {
+          "turn": 26,
+          "emitted": 56,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 88,
+          "main": 44
+        },
+        {
+          "turn": 27,
+          "emitted": 53,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 78,
+          "main": 44
+        },
+        {
+          "turn": 28,
+          "emitted": 68,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 89,
+          "main": 44
+        },
+        {
+          "turn": 29,
+          "emitted": 69,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 90,
+          "main": 44
+        },
+        {
+          "turn": 30,
+          "emitted": 84,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 100,
+          "main": 44
+        },
+        {
+          "turn": 31,
+          "emitted": 84,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 96,
+          "main": 45
+        },
+        {
+          "turn": 32,
+          "emitted": 81,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 92,
+          "main": 47
+        },
+        {
+          "turn": 33,
+          "emitted": 79,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 92,
+          "main": 50
+        },
+        {
+          "turn": 34,
+          "emitted": 82,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 98,
+          "main": 51
+        },
+        {
+          "turn": 35,
+          "emitted": 87,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 102,
+          "main": 51
+        },
+        {
+          "turn": 36,
+          "emitted": 67,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 88,
+          "main": 51
+        },
+        {
+          "turn": 37,
+          "emitted": 83,
+          "received": 1,
+          "applied": 0,
+          "infoCells": 104,
+          "main": 51
+        },
+        {
+          "turn": 38,
+          "emitted": 75,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 95,
+          "main": 51
+        },
+        {
+          "turn": 39,
+          "emitted": 75,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 101,
+          "main": 52
+        },
+        {
+          "turn": 40,
+          "emitted": 65,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 96,
+          "main": 55
+        },
+        {
+          "turn": 41,
+          "emitted": 67,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 101,
+          "main": 55
+        },
+        {
+          "turn": 42,
+          "emitted": 69,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 104,
+          "main": 55
+        },
+        {
+          "turn": 43,
+          "emitted": 73,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 105,
+          "main": 55
+        },
+        {
+          "turn": 44,
+          "emitted": 84,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 119,
+          "main": 55
+        },
+        {
+          "turn": 45,
+          "emitted": 63,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 102,
+          "main": 55
+        },
+        {
+          "turn": 46,
+          "emitted": 77,
+          "received": 2,
+          "applied": 1,
+          "infoCells": 116,
+          "main": 55
+        },
+        {
+          "turn": 47,
+          "emitted": 60,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 98,
+          "main": 55
+        },
+        {
+          "turn": 48,
+          "emitted": 81,
+          "received": 1,
+          "applied": 0,
+          "infoCells": 115,
+          "main": 55
+        },
+        {
+          "turn": 49,
+          "emitted": 79,
+          "received": 2,
+          "applied": 0,
+          "infoCells": 107,
+          "main": 56
+        },
+        {
+          "turn": 50,
+          "emitted": 89,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 120,
+          "main": 61
+        },
+        {
+          "turn": 51,
+          "emitted": 92,
+          "received": 2,
+          "applied": 1,
+          "infoCells": 123,
+          "main": 61
+        },
+        {
+          "turn": 52,
+          "emitted": 96,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 129,
+          "main": 61
+        },
+        {
+          "turn": 53,
+          "emitted": 96,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 119,
+          "main": 62
+        },
+        {
+          "turn": 54,
+          "emitted": 99,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 124,
+          "main": 62
+        },
+        {
+          "turn": 55,
+          "emitted": 98,
+          "received": 1,
+          "applied": 0,
+          "infoCells": 120,
+          "main": 62
+        },
+        {
+          "turn": 56,
+          "emitted": 86,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 104,
+          "main": 62
+        },
+        {
+          "turn": 57,
+          "emitted": 97,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 117,
+          "main": 62
+        },
+        {
+          "turn": 58,
+          "emitted": 94,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 120,
+          "main": 63
+        },
+        {
+          "turn": 59,
+          "emitted": 98,
+          "received": 2,
+          "applied": 1,
+          "infoCells": 128,
+          "main": 63
+        },
+        {
+          "turn": 60,
+          "emitted": 85,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 111,
+          "main": 63
+        }
+      ]
+    },
+    {
+      "seed": "information-marsh",
+      "variant": "current",
+      "turns": 60,
+      "initialFingerprint": "2bae95ada869d9b04ffabf871ea7e508911abbb4eb33afb33b4a515bc3d8b480",
+      "finalFingerprint": "b42577fa2a0189d59bb1e4a03155d7108c4c7e67312b58ef58f5a10392eb5ba5",
+      "sum": {
+        "emitted": 21,
+        "received": 1,
+        "applied": 1,
+        "unchanged": 0,
+        "noiseReceived": 0,
+        "mediatedEmitted": 0,
+        "mediatedApplied": 0,
+        "infoEnergy": 0.049867,
+        "organicEnergy": 48383.98971400822
+      },
+      "peakInfo": 30,
+      "finalInfo": 0,
+      "finalMain": 51,
+      "maxError": {
+        "E": 0,
+        "M": 0
+      },
+      "rows": [
+        {
+          "turn": 1,
+          "emitted": 2,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 30,
+          "main": 40
+        },
+        {
+          "turn": 2,
+          "emitted": 5,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 29,
+          "main": 40
+        },
+        {
+          "turn": 3,
+          "emitted": 6,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 29,
+          "main": 40
+        },
+        {
+          "turn": 4,
+          "emitted": 5,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 27,
+          "main": 40
+        },
+        {
+          "turn": 5,
+          "emitted": 3,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 23,
+          "main": 40
+        },
+        {
+          "turn": 6,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 7,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 8,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 9,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 10,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 11,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 12,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 13,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 14,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 15,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 16,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 17,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 18,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 19,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 20,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 21,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 22,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 23,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 24,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 25,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 26,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 27,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 28,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 29,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 30,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 31,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 32,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 33,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 34,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 35,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 36,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 43
+        },
+        {
+          "turn": 37,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 38,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 39,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 40,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 41,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 42,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 43,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 44,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 45,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 46
+        },
+        {
+          "turn": 46,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 47,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 48,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 49,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 50,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 51,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 52,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 48
+        },
+        {
+          "turn": 53,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 49
+        },
+        {
+          "turn": 54,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 49
+        },
+        {
+          "turn": 55,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 49
+        },
+        {
+          "turn": 56,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 57,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 58,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 59,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        },
+        {
+          "turn": 60,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 51
+        }
+      ]
+    },
+    {
+      "seed": "information-marsh",
+      "variant": "imprint",
+      "turns": 60,
+      "initialFingerprint": "2bae95ada869d9b04ffabf871ea7e508911abbb4eb33afb33b4a515bc3d8b480",
+      "finalFingerprint": "245ee74910455f278d21184134b150289a5f4e1e72eefd6b11b6132b0139ba25",
+      "sum": {
+        "emitted": 77,
+        "received": 1,
+        "applied": 1,
+        "unchanged": 0,
+        "noiseReceived": 0,
+        "mediatedEmitted": 0,
+        "mediatedApplied": 0,
+        "infoEnergy": 0.049867,
+        "organicEnergy": 48228.46944100722
+      },
+      "peakInfo": 30,
+      "finalInfo": 0,
+      "finalMain": 53,
+      "maxError": {
+        "E": 0,
+        "M": 0
+      },
+      "rows": [
+        {
+          "turn": 1,
+          "emitted": 13,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 30,
+          "main": 40
+        },
+        {
+          "turn": 2,
+          "emitted": 14,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 29,
+          "main": 40
+        },
+        {
+          "turn": 3,
+          "emitted": 14,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 29,
+          "main": 40
+        },
+        {
+          "turn": 4,
+          "emitted": 11,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 27,
+          "main": 40
+        },
+        {
+          "turn": 5,
+          "emitted": 8,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 23,
+          "main": 40
+        },
+        {
+          "turn": 6,
+          "emitted": 5,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 7,
+          "emitted": 5,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 8,
+          "emitted": 5,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 9,
+          "emitted": 2,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 10,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 11,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 12,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 13,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 14,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 15,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 16,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 17,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 18,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 19,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 20,
+          "main": 40
+        },
+        {
+          "turn": 20,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 21,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 22,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 23,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 24,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 25,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 26,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 27,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 28,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 40
+        },
+        {
+          "turn": 29,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 41
+        },
+        {
+          "turn": 30,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 42
+        },
+        {
+          "turn": 31,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 42
+        },
+        {
+          "turn": 32,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 42
+        },
+        {
+          "turn": 33,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 43
+        },
+        {
+          "turn": 34,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 43
+        },
+        {
+          "turn": 35,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 43
+        },
+        {
+          "turn": 36,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 45
+        },
+        {
+          "turn": 37,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 38,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 39,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 40,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 41,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 42,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 43,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 44,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 45,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 46,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 47,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 48,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 49,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 50,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 47
+        },
+        {
+          "turn": 51,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 48
+        },
+        {
+          "turn": 52,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 49
+        },
+        {
+          "turn": 53,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 50
+        },
+        {
+          "turn": 54,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 50
+        },
+        {
+          "turn": 55,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 50
+        },
+        {
+          "turn": 56,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 52
+        },
+        {
+          "turn": 57,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 52
+        },
+        {
+          "turn": 58,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 52
+        },
+        {
+          "turn": 59,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 53
+        },
+        {
+          "turn": 60,
+          "emitted": 0,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 0,
+          "main": 53
+        }
+      ]
+    },
+    {
+      "seed": "information-marsh",
+      "variant": "footprint",
+      "turns": 60,
+      "initialFingerprint": "2bae95ada869d9b04ffabf871ea7e508911abbb4eb33afb33b4a515bc3d8b480",
+      "finalFingerprint": "70099c113320fe0b3b7302c819bf0ed77f11e5c885c4ab467442a73ab799e038",
+      "sum": {
+        "emitted": 4540,
+        "received": 13,
+        "applied": 6,
+        "unchanged": 7,
+        "noiseReceived": 0,
+        "mediatedEmitted": 0,
+        "mediatedApplied": 0,
+        "infoEnergy": 0.649072,
+        "organicEnergy": 49028.5206650088
+      },
+      "peakInfo": 140,
+      "finalInfo": 97,
+      "finalMain": 51,
+      "maxError": {
+        "E": 0,
+        "M": 0
+      },
+      "rows": [
+        {
+          "turn": 1,
+          "emitted": 13,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 30,
+          "main": 40
+        },
+        {
+          "turn": 2,
+          "emitted": 25,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 40,
+          "main": 40
+        },
+        {
+          "turn": 3,
+          "emitted": 44,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 53,
+          "main": 40
+        },
+        {
+          "turn": 4,
+          "emitted": 56,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 58,
+          "main": 40
+        },
+        {
+          "turn": 5,
+          "emitted": 64,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 69,
+          "main": 40
+        },
+        {
+          "turn": 6,
+          "emitted": 78,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 84,
+          "main": 40
+        },
+        {
+          "turn": 7,
+          "emitted": 81,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 85,
+          "main": 40
+        },
+        {
+          "turn": 8,
+          "emitted": 90,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 94,
+          "main": 40
+        },
+        {
+          "turn": 9,
+          "emitted": 96,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 101,
+          "main": 40
+        },
+        {
+          "turn": 10,
+          "emitted": 78,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 85,
+          "main": 40
+        },
+        {
+          "turn": 11,
+          "emitted": 89,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 97,
+          "main": 40
+        },
+        {
+          "turn": 12,
+          "emitted": 82,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 88,
+          "main": 40
+        },
+        {
+          "turn": 13,
+          "emitted": 99,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 107,
+          "main": 40
+        },
+        {
+          "turn": 14,
+          "emitted": 87,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 99,
+          "main": 40
+        },
+        {
+          "turn": 15,
+          "emitted": 87,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 106,
+          "main": 40
+        },
+        {
+          "turn": 16,
+          "emitted": 77,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 98,
+          "main": 40
+        },
+        {
+          "turn": 17,
+          "emitted": 81,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 106,
+          "main": 40
+        },
+        {
+          "turn": 18,
+          "emitted": 70,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 100,
+          "main": 40
+        },
+        {
+          "turn": 19,
+          "emitted": 64,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 104,
+          "main": 40
+        },
+        {
+          "turn": 20,
+          "emitted": 58,
+          "received": 2,
+          "applied": 2,
+          "infoCells": 102,
+          "main": 40
+        },
+        {
+          "turn": 21,
+          "emitted": 54,
+          "received": 1,
+          "applied": 1,
+          "infoCells": 106,
+          "main": 40
+        },
+        {
+          "turn": 22,
+          "emitted": 51,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 111,
+          "main": 40
+        },
+        {
+          "turn": 23,
+          "emitted": 46,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 111,
+          "main": 40
+        },
+        {
+          "turn": 24,
+          "emitted": 40,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 101,
+          "main": 40
+        },
+        {
+          "turn": 25,
+          "emitted": 61,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 115,
+          "main": 40
+        },
+        {
+          "turn": 26,
+          "emitted": 57,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 108,
+          "main": 40
+        },
+        {
+          "turn": 27,
+          "emitted": 61,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 109,
+          "main": 40
+        },
+        {
+          "turn": 28,
+          "emitted": 67,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 111,
+          "main": 40
+        },
+        {
+          "turn": 29,
+          "emitted": 79,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 117,
+          "main": 41
+        },
+        {
+          "turn": 30,
+          "emitted": 74,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 110,
+          "main": 41
+        },
+        {
+          "turn": 31,
+          "emitted": 75,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 104,
+          "main": 42
+        },
+        {
+          "turn": 32,
+          "emitted": 74,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 101,
+          "main": 42
+        },
+        {
+          "turn": 33,
+          "emitted": 89,
+          "received": 1,
+          "applied": 0,
+          "infoCells": 109,
+          "main": 42
+        },
+        {
+          "turn": 34,
+          "emitted": 91,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 112,
+          "main": 42
+        },
+        {
+          "turn": 35,
+          "emitted": 102,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 119,
+          "main": 42
+        },
+        {
+          "turn": 36,
+          "emitted": 94,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 106,
+          "main": 44
+        },
+        {
+          "turn": 37,
+          "emitted": 94,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 106,
+          "main": 46
+        },
+        {
+          "turn": 38,
+          "emitted": 99,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 111,
+          "main": 46
+        },
+        {
+          "turn": 39,
+          "emitted": 94,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 112,
+          "main": 46
+        },
+        {
+          "turn": 40,
+          "emitted": 76,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 99,
+          "main": 47
+        },
+        {
+          "turn": 41,
+          "emitted": 80,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 113,
+          "main": 47
+        },
+        {
+          "turn": 42,
+          "emitted": 62,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 94,
+          "main": 47
+        },
+        {
+          "turn": 43,
+          "emitted": 70,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 104,
+          "main": 47
+        },
+        {
+          "turn": 44,
+          "emitted": 78,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 116,
+          "main": 47
+        },
+        {
+          "turn": 45,
+          "emitted": 85,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 123,
+          "main": 47
+        },
+        {
+          "turn": 46,
+          "emitted": 82,
+          "received": 1,
+          "applied": 0,
+          "infoCells": 127,
+          "main": 47
+        },
+        {
+          "turn": 47,
+          "emitted": 76,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 120,
+          "main": 47
+        },
+        {
+          "turn": 48,
+          "emitted": 91,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 139,
+          "main": 47
+        },
+        {
+          "turn": 49,
+          "emitted": 86,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 140,
+          "main": 47
+        },
+        {
+          "turn": 50,
+          "emitted": 69,
+          "received": 1,
+          "applied": 0,
+          "infoCells": 124,
+          "main": 47
+        },
+        {
+          "turn": 51,
+          "emitted": 84,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 139,
+          "main": 47
+        },
+        {
+          "turn": 52,
+          "emitted": 91,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 133,
+          "main": 48
+        },
+        {
+          "turn": 53,
+          "emitted": 79,
+          "received": 1,
+          "applied": 0,
+          "infoCells": 112,
+          "main": 48
+        },
+        {
+          "turn": 54,
+          "emitted": 92,
+          "received": 2,
+          "applied": 1,
+          "infoCells": 121,
+          "main": 49
+        },
+        {
+          "turn": 55,
+          "emitted": 91,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 112,
+          "main": 49
+        },
+        {
+          "turn": 56,
+          "emitted": 89,
+          "received": 1,
+          "applied": 0,
+          "infoCells": 113,
+          "main": 51
+        },
+        {
+          "turn": 57,
+          "emitted": 87,
+          "received": 1,
+          "applied": 0,
+          "infoCells": 105,
+          "main": 51
+        },
+        {
+          "turn": 58,
+          "emitted": 90,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 111,
+          "main": 51
+        },
+        {
+          "turn": 59,
+          "emitted": 86,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 108,
+          "main": 51
+        },
+        {
+          "turn": 60,
+          "emitted": 75,
+          "received": 0,
+          "applied": 0,
+          "infoCells": 97,
+          "main": 51
+        }
+      ]
+    }
+  ]
+}

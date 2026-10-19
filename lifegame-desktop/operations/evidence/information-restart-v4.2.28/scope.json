@@ -1,0 +1,11 @@
+{
+  "baseline": "f0aeba5",
+  "version": "4.2.28",
+  "productChanged": false,
+  "rawAssetsChanged": false,
+  "hashes": {
+    "src/ecology/observation-modules.js": "a6cfe7b5fd82bafbc15525e6135e1a18e01198d014cb53095e51f71d65c3961c",
+    "src/ecology/observation-model.js": "6b3290364814a05cc605e31bf914d21d3bae54d3739d0641e24a03b0808bf4e4",
+    "src/ecology/replay-version.js": "e8567d8da300fdcd866e3003f209e8ea6abb78efaf4adb2a929e8d0bbb934837"
+  }
+}

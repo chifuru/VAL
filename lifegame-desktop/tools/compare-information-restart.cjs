@@ -1,0 +1,14 @@
+'use strict';
+const fs=require('node:fs'),assert=require('node:assert/strict'),{model}=require('../design/information-restart/model.cjs'),base=require('../operations/evidence/circulation-audit-v4.2.19/off.json').config;
+const root='operations/evidence/information-restart-v4.2.28',runs=[],initial=new Map(),start=performance.now();
+for(const seed of ['baseline41/custom','information-coast','information-marsh'])for(const variant of ['current','imprint','footprint']){
+ const E=model(variant,base.advantageSettings),S=E.S;let w=E.create({...base,seed,terrainSeed:seed,width:40,height:28,initial:40,mapResolved:undefined,producerSupport:{enabled:false}});const fp=E.fingerprint(w);if(initial.has(seed))assert.equal(initial.get(seed),fp,'identical initial ecology');else initial.set(seed,fp);
+ const sum={emitted:0,received:0,applied:0,unchanged:0,noiseReceived:0,mediatedEmitted:0,mediatedApplied:0,infoEnergy:0,organicEnergy:0},rows=[],maxError={E:0,M:0};let peakInfo=0;
+ for(let turn=1;turn<=60;turn++){
+  w=E.step(w);assert.deepEqual(E.invariants(w),[],seed+'/'+variant+'/'+turn);const total=S.totals(w),errorE=Math.abs(S.round(total.E+w.ledger.sinks-w.ledger.initialE-w.ledger.solar-(w.ledger.producerE||0))),errorM=Math.abs(S.round(total.M+w.ledger.Mloss-w.ledger.initialM-(w.ledger.producerM||0)));maxError.E=Math.max(maxError.E,errorE);maxError.M=Math.max(maxError.M,errorM);assert(errorE<=.002&&errorM<=.002,'finite ledger');
+  const info=w.observation.flowTelemetry.information,counts={emitted:info.emissions.length,received:info.receipts.filter(r=>r.event).length,applied:info.effects.filter(r=>r.deltaAbs>0).length};sum.emitted+=counts.emitted;sum.received+=counts.received;sum.applied+=counts.applied;sum.unchanged+=info.effects.filter(r=>!r.deltaAbs).length;sum.noiseReceived+=info.receipts.filter(r=>r.event?.noise).length;sum.mediatedEmitted+=info.emissions.filter(r=>r.mediated).length;sum.mediatedApplied+=info.effects.filter(r=>r.event?.mediated&&r.deltaAbs>0).length;
+  for(const flow of w.observation.flowTelemetry.inputs){if(flow.tag==='info')sum.infoEnergy+=flow.energy;else if(['plant','animal','fungal'].includes(flow.tag))sum.organicEnergy+=flow.energy;}
+  const n=w.resources.filter(r=>r.kind==='info').length;peakInfo=Math.max(peakInfo,n);rows.push({turn,...counts,infoCells:n,main:w.stats.main});
+ }
+ const run={seed,variant,turns:60,initialFingerprint:fp,finalFingerprint:E.fingerprint(w),sum,peakInfo,finalInfo:w.resources.filter(r=>r.kind==='info').length,finalMain:w.stats.main,maxError,rows};runs.push(run);fs.writeFileSync(root+'/comparison.json',JSON.stringify({productVersion:'4.2.28',productChanged:false,scope:'three river seeds,40x28,40 main founders,60T per variant; private comparison, not 500T survival certification',elapsedMs:Math.round(performance.now()-start),runs},null,2)+'\n');console.log(JSON.stringify({seed,variant,sum,peakInfo,main:run.finalMain,maxError,elapsedMs:Math.round(performance.now()-start)}));
+}
