@@ -2,7 +2,11 @@
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.EcoDisplayPlane=api;})(globalThis,()=>{
  'use strict';
  const LIFT=1.2;
- function create(w,P,enabled){
+ function parasitePoint(point,kind,detail=false){
+  const offset=detail&&kind==='Q'?[.43,-.37]:[.23,-.26];
+  return [point[0]+offset[0],point[1]+offset[1]];
+ }
+ function create(w,P,enabled,detail=false){
   const cells=slot=>new Set(w.organisms.filter(slot).map(o=>o.cell)),
     main=cells(o=>o.slot==='main'),food=cells(o=>o.slot!=='main'),basal=cells(o=>o.slot==='food'),prey=cells(o=>o.slot==='prey'),
     hosts=new Map();
@@ -17,11 +21,11 @@
    return {ground,point,depth:P.depth(x+ox,y+oy),elevated:!!enabled&&o.slot==='main'};
   }
   function entity(id){
-   const host=hosts.get(id);if(host){const a=anchor(host);if(host.id!==id)a.point=[a.point[0]+.23,a.point[1]-.26];return {...a,host,id,cell:host.cell};}
+   const host=hosts.get(id);if(host){const a=anchor(host);if(host.id!==id)a.point=parasitePoint(a.point,host.infection?.q?.id===id?'Q':'P',detail);return {...a,host,id,cell:host.cell};}
    const q=(w.searchQ||[]).find(q=>q.id===id);if(q){const p=P.point(q.cell%w.config.width+.5,Math.floor(q.cell/w.config.width)+.5);return {id,cell:q.cell,point:[p[0]+.24,p[1]-.25],ground:p,elevated:false};}
    return null;
   }
   return {anchor,entity,enabled:!!enabled};
  }
- return {create,LIFT};
+ return {create,LIFT,parasitePoint};
 });

@@ -1,6 +1,6 @@
 {
-  "version": "approved-body-art/4.2.4",
-  "source": "Swarm uses user-selected 942.png, byte-identical to existing swarm-branches-v423; serpent approved forms in current production style; all other species unchanged.",
+  "version": "parasite-remains/4.2.5",
+  "source": "Preserve all artwork; connect host/search P/Q and remains. Correct only the nine parasite crop rectangles to full existing bodies.",
   "sheets": {
     "life-a": {
       "file": "life-a.png",
@@ -758,61 +758,61 @@
       "tideparasite": [
         [
           0,
-          314,
-          314,
-          313
+          377,
+          349,
+          265
         ],
         [
-          314,
-          314,
-          313,
-          313
+          350,
+          360,
+          282,
+          304
         ],
         [
-          627,
-          314,
-          313,
-          313
+          623,
+          352,
+          361,
+          311
         ]
       ],
       "leafparasite": [
         [
-          0,
-          627,
-          314,
-          313
+          21,
+          671,
+          317,
+          287
         ],
         [
-          314,
-          627,
-          313,
-          313
+          333,
+          670,
+          316,
+          284
         ],
         [
-          627,
-          627,
-          313,
-          313
+          636,
+          660,
+          340,
+          299
         ]
       ],
       "hyperparasite": [
         [
-          0,
-          940,
-          314,
-          314
+          9,
+          974,
+          336,
+          263
         ],
         [
-          314,
-          940,
-          313,
-          314
+          306,
+          958,
+          331,
+          286
         ],
         [
-          627,
-          940,
-          313,
-          314
+          622,
+          965,
+          363,
+          269
         ]
       ]
     },

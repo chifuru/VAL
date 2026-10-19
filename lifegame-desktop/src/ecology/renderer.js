@@ -171,12 +171,13 @@
       nearCache = null,
       revision = 0,
       lastFrameKey = null,
-      layout = null, layoutWorld = null, layoutEnabled = null,
+      layout = null, layoutWorld = null, layoutEnabled = null, layoutDetail = null,
       previousActors = new Map(), hitRegions = [];
     function displayLayout(){
-      if(layoutWorld!==world||layoutEnabled!==view.planeSeparation){
-        layout=globalThis.EcoDisplayPlane.create(world,P,view.planeSeparation);
-        layoutWorld=world;layoutEnabled=view.planeSeparation;
+      const detail=view.scale>=24&&view.mode!=="overview"&&!view.simplified;
+      if(layoutWorld!==world||layoutEnabled!==view.planeSeparation||layoutDetail!==detail){
+        layout=globalThis.EcoDisplayPlane.create(world,P,view.planeSeparation,detail);
+        layoutWorld=world;layoutEnabled=view.planeSeparation;layoutDetail=detail;
       }
       return layout;
     }
@@ -297,6 +298,8 @@
         carcasses: 0,
         infectedHosts: 0,
         highParasites: 0,
+        parasiteArt: 0,
+        remainsArt: 0,
         statusBadges: 0,
         criticalMarkers: 0,
         elevated: 0,
@@ -436,8 +439,9 @@
               a.kind === "info" ? "#8be9ff" : "#e5d4a1",
             );
         }
-      for (const a of w.carcasses) {
-        const p = position(a.cell, 0.86, 0.86);
+      // Keep the overview glyph path unchanged. Detailed remains join scene depth below.
+      for (const a of detail ? [] : w.carcasses) {
+        const p = position(a.cell, .86, .86);
         if (!visible(p)) continue;
         diagnostics.carcasses++;
         g.strokeStyle = "#e5b798";
@@ -460,6 +464,11 @@
         const p = P.point(obj.x, obj.y);
         if (visible(p, 2))
           actors.push({ depth: P.depth(obj.x, obj.y) - 0.05, obj, p });
+      }
+      if(detail)for(const a of w.carcasses){
+        const dx=a.slot==="food"?.22:a.slot==="prey"?.52:.86,
+          p=position(a.cell,dx,.86),[x,y]=S.xy(w,a.cell);
+        if(visible(p))actors.push({carcass:a,p,depth:P.depth(x+dx,y+.86)});
       }
       for (const o of w.organisms) {
         const list = events.get(o.id) || [], ev=list.find(e=>e.type==='move'),
@@ -486,6 +495,13 @@
       for (const actor of sequence) {
         if(actor.elevated&&!upperStarted){for(const paint of annotations)paint();annotations.length=0;upperStarted=true;}
         const { p } = actor;
+        if(actor.carcass){
+          const a=actor.carcass;
+          diagnostics.carcasses++;
+          if(Art.remains(g,a,...p,.16,P.water(w.tiles[a.cell]),w.turn))diagnostics.remainsArt++;
+          hitRegions.push({id:null,cell:a.cell,main:false,x:p[0],y:p[1],rx:.23,ry:.12});
+          continue;
+        }
         if (actor.obj) {
           const a = actor.obj,
             t = w.tiles[a.cell];
@@ -657,8 +673,19 @@
           diagnostics.infectedHosts++;
           if (o.infection.q) diagnostics.highParasites++;
           if(near && z>=100)annotations.push(()=>{g.font=".055px sans-serif";g.fillStyle="#ffd1a3";g.fillText(S.D.byId[o.infection.species].name+" P · "+o.infection.stage,cx+.1,cy-.43);if(o.infection.q){g.fillStyle="#d9b9ff";g.fillText(S.D.byId.hyperparasite.name+" Q · "+o.infection.q.phase,cx+.1,cy-.51);}});
-          const bx = cx + 0.23,
-            by = cy - 0.26;
+          const [bx, by] = globalThis.EcoDisplayPlane.parasitePoint([cx,cy],"P",detail);
+          if (detail && Art.parasite(g, o.infection, bx, by, .105)) {
+            diagnostics.parasiteArt++;
+            hitRegions.push({id:o.infection.id,cell:o.cell,main:isMain,x:bx,y:by,rx:.10,ry:.10});
+            if (o.infection.q) {
+              const [qx,qy]=globalThis.EcoDisplayPlane.parasitePoint([cx,cy],"Q",true);
+              // A quiet link denotes Q's attachment to P, not another free organism.
+              g.strokeStyle="#bb9fdd88";g.lineWidth=.008;
+              g.beginPath();g.moveTo(bx+.06,by-.03);g.lineTo(qx-.06,qy+.03);g.stroke();
+              if(Art.parasite(g,o.infection.q,qx,qy,.11))diagnostics.parasiteArt++;
+              hitRegions.push({id:o.infection.q.id,cell:o.cell,main:isMain,x:qx,y:qy,rx:.115,ry:.115});
+            }
+          } else {
           g.fillStyle = "#19172b";
           g.beginPath();
           g.arc(bx, by, 0.1, 0, 7);
@@ -675,6 +702,7 @@
             g.beginPath();
             g.arc(bx, by, 0.1, 0, 7);
             g.stroke();
+          }
           }
         }
         if (list.length) {
@@ -797,7 +825,7 @@
         }
       }
       for(const q of w.searchQ || []){
-        const [x,y]=S.xy(w,q.cell),p=P.point(x+.5,y+.5);symbol(g,"hyperparasite",p[0]+.24,p[1]-.25,.09,"#ccadff");hitRegions.push({id:q.id,cell:q.cell,main:false,x:p[0]+.24,y:p[1]-.25,rx:.11,ry:.11});
+        const [x,y]=S.xy(w,q.cell),p=P.point(x+.5,y+.5);if(detail&&Art.parasite(g,q,p[0]+.24,p[1]-.25,.11))diagnostics.parasiteArt++;else symbol(g,"hyperparasite",p[0]+.24,p[1]-.25,.09,"#ccadff");hitRegions.push({id:q.id,cell:q.cell,main:false,x:p[0]+.24,y:p[1]-.25,rx:.11,ry:.11});
         if(near){g.fillStyle="#d9c6ff";g.font=".06px sans-serif";g.fillText(S.D.byId.hyperparasite.name+" · 探索",p[0],p[1]-.38);}
       }
       const marks=new Set(view.highlights||[]);

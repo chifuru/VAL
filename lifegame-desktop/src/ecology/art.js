@@ -288,6 +288,64 @@
     g.restore();
     return true;
   }
+  // Parasite colonies use their actual lifecycle, never host age or sex transforms.
+  function parasitePhase(p) {
+    if (p.species === "hyperparasite") return Math.max(1, Math.min(3, p.phase || 1));
+    return p.stage === "first" ? 1 : p.stage === "terminal" && p.counter >= 8 ? 3 : 2;
+  }
+  function parasite(g, p, x, y, r) {
+    const phase = parasitePhase(p),
+      f = manifest.creatures.regions[p.species]?.[phase - 1],
+      im = images[manifest.creatures.sheetBySpecies[p.species]];
+    if (!f || !im) return false;
+    const frame = cleanFrame(im, f, true), aspect = f[2] / f[3],
+      width = 2 * r * Math.min(1, aspect), height = 2 * r * Math.min(1, 1 / aspect);
+    outlined(g, frame, x - width / 2, y - height / 2, width, height, true);
+    return true;
+  }
+  const remainsFrames = new Map();
+  function remains(g, a, x, y, r, water, turn) {
+    const foodFrames = manifest.food.regions[a.species === "phytoplankton" ? "algae" : a.species],
+      f = foodFrames?.[0] || manifest.creatures.regions[a.species]?.[0],
+      im = images[foodFrames ? "food-atlas" : manifest.creatures.sheetBySpecies[a.species]];
+    if (!f || !im) return false;
+    // q is an absolute existing stock, not a guessed percentage of original biomass.
+    const amount = Math.max(1, Math.min(4, Math.ceil(a.q || 1))),
+      elapsed = Math.max(0, turn - a.created),
+      duration = Math.max(1, (a.expires ?? a.created + 12) - a.created),
+      weather = Math.min(2, Math.floor(elapsed / duration * 3)),
+      key = [a.species, amount, weather, !!water].join("/");
+    let frame = remainsFrames.get(key);
+    if (!frame) {
+      const original = cleanFrame(im, f, true), c = document.createElement("canvas");
+      c.width = 192; c.height = 192;
+      const n = c.getContext("2d");
+      n.filter = `grayscale(${.65 + weather * .12}) brightness(${.80 - weather * .08})`;
+      n.drawImage(original, 0, 0, 192, 192); n.filter = "none";
+      n.globalCompositeOperation = "source-atop";
+      n.fillStyle = water ? "#568a9a48" : "#b18d6140";
+      n.fillRect(0, 0, 192, 192);
+      n.globalCompositeOperation = "destination-out";
+      // Grazing removes tissue from the perimeter; time only changes surface weathering.
+      for (let i = 0; i < (4 - amount) * 4; i++) {
+        const angle = i * 2.399;
+        ellipse(n, 96 + Math.cos(angle) * 81, 96 + Math.sin(angle) * 74, 23, 20);
+      }
+      n.globalCompositeOperation = "source-atop";
+      n.fillStyle = "#dec9a12a";
+      for (let i = 0; i < weather * 14; i++)
+        ellipse(n, 12 + (i * 47 % 168), 12 + (i * 73 % 168), 2, 1);
+      if (remainsFrames.size >= 256) remainsFrames.delete(remainsFrames.keys().next().value);
+      remainsFrames.set(key, c); frame = c;
+    }
+    const size = r * (1.3 + .18 * amount);
+    g.save(); g.translate(x, y);
+    g.fillStyle = water ? "#071d2f66" : "#07140c88";
+    ellipse(g, 0, .02, size * .9, size * .28);
+    g.rotate(a.slot === "food" ? -.12 : -.3);
+    outlined(g, frame, -size, -size * .48, size * 2, size * .96, true);
+    g.restore(); return true;
+  }
   function resource(g, a, x, y, r, env, turn) {
     g.save();
     const n = Math.min(6, Math.max(1, Math.ceil(a.q))),
@@ -452,6 +510,9 @@
     creature,
     food,
     resource,
+    parasitePhase,
+    parasite,
+    remains,
     prop,
     propShadow,
     get loaded() {

@@ -1,0 +1,15 @@
+{
+  "changed": [
+    "src/Index.html",
+    "src/ecology/art.js",
+    "src/ecology/renderer.js",
+    "src/ecology/display-plane.js",
+    "src/assets/visual-manifest.js",
+    "src/assets/visual-manifest.json"
+  ],
+  "all35PNGsUnchanged": true,
+  "biologyUnchanged": true,
+  "replayFormatUnchanged": true,
+  "allNonParasiteRegionsUnchanged": true,
+  "onlyNineParasiteCropRegionsChanged": true
+}
