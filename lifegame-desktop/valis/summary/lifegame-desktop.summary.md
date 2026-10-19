@@ -4,6 +4,8 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 全残件の現在入口: `operations/plans/remaining-completion-v4.2.md`。製品4.2.19の河川供給OFF/ON各500Tは `operations/evidence/circulation-audit-v4.2.19/README.md`。R0の限定生存経路と子孫繁殖を確認。次は最終UI/描画・性能と画面付き結合、実Windows。情報長期伝播/菌膜・水中生産者の孫更新等は不足として保持。
 
+画面の現在課題: `operations/evidence/visual-review-v4.2.19/README.md`。遠近の実画面で一画面配置の未達を確認。保存/分析復帰等16項目は通過。次は現行絵柄を保った配置修正。
+
 ## A：仕様
 
 ```text

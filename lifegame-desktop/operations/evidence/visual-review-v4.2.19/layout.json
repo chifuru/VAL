@@ -1,0 +1,91 @@
+{
+  "layouts": [
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "body": [
+        1920,
+        1874
+      ],
+      "panels": [
+        {
+          "id": "board",
+          "x": 15,
+          "y": 624.5,
+          "width": 1394,
+          "height": 600
+        },
+        {
+          "id": "graph-stacked",
+          "x": 1436,
+          "y": 195,
+          "width": 460,
+          "height": 87.75
+        },
+        {
+          "id": "information-readout",
+          "x": 1436,
+          "y": 1007.375,
+          "width": 460,
+          "height": 14
+        }
+      ],
+      "inspector": [
+        {
+          "h": 989,
+          "scroll": 989
+        },
+        {
+          "h": 0,
+          "scroll": 0
+        }
+      ]
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "body": [
+        1366,
+        1837
+      ],
+      "panels": [
+        {
+          "id": "board",
+          "x": 15,
+          "y": 702.65625,
+          "width": 840,
+          "height": 400
+        },
+        {
+          "id": "graph-stacked",
+          "x": 882,
+          "y": 195,
+          "width": 460,
+          "height": 87.75
+        },
+        {
+          "id": "information-readout",
+          "x": 882,
+          "y": 1007.375,
+          "width": 460,
+          "height": 14
+        }
+      ],
+      "inspector": [
+        {
+          "h": 742,
+          "scroll": 989
+        },
+        {
+          "h": 0,
+          "scroll": 0
+        }
+      ]
+    }
+  ],
+  "errors": []
+}
