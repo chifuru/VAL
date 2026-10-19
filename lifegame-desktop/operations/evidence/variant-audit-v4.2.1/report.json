@@ -1,0 +1,295 @@
+{
+  "version": "4.2.1 audit only",
+  "rows": [
+    {
+      "id": "abyss",
+      "name": "深淵触手",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-a"
+    },
+    {
+      "id": "myth",
+      "name": "神鳥",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-a"
+    },
+    {
+      "id": "recursive",
+      "name": "再帰知性",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-a"
+    },
+    {
+      "id": "sail",
+      "name": "光帆",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-a"
+    },
+    {
+      "id": "gravity",
+      "name": "重力環",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-b"
+    },
+    {
+      "id": "crystal",
+      "name": "星晶",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-b"
+    },
+    {
+      "id": "manyeyes",
+      "name": "多眼知覚",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-b"
+    },
+    {
+      "id": "abyssshell",
+      "name": "深殻",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-b"
+    },
+    {
+      "id": "parallel",
+      "name": "並列生命",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-c"
+    },
+    {
+      "id": "memory",
+      "name": "記憶殻",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-c"
+    },
+    {
+      "id": "serpent",
+      "name": "多頭蛇",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-c"
+    },
+    {
+      "id": "solar",
+      "name": "日輪",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 9,
+      "sheet": "life-c"
+    },
+    {
+      "id": "antimeme",
+      "name": "反記銘生命",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-d"
+    },
+    {
+      "id": "valis",
+      "name": "異化通信生命",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-d"
+    },
+    {
+      "id": "jelly",
+      "name": "浮遊傘",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 9,
+      "sheet": "life-d"
+    },
+    {
+      "id": "kelp",
+      "name": "植物共生",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-d"
+    },
+    {
+      "id": "whale",
+      "name": "星海鯨",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-e"
+    },
+    {
+      "id": "swarm",
+      "name": "群体節足",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-e"
+    },
+    {
+      "id": "plasma",
+      "name": "プラズマ生命",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-e"
+    },
+    {
+      "id": "cephalopod",
+      "name": "深淵頭足",
+      "group": "main",
+      "phases": 4,
+      "phaseFrames": 4,
+      "branchFrames": 0,
+      "sheet": "life-e"
+    },
+    {
+      "id": "precocial",
+      "name": "早成甲殻",
+      "group": "main",
+      "phases": 3,
+      "phaseFrames": 3,
+      "branchFrames": 0,
+      "sheet": "life-f"
+    },
+    {
+      "id": "algae",
+      "name": "微藻",
+      "group": "plant",
+      "phases": 2,
+      "phaseFrames": 2,
+      "branchFrames": 0,
+      "sheet": "food-atlas"
+    },
+    {
+      "id": "moss",
+      "name": "岩苔",
+      "group": "plant",
+      "phases": 2,
+      "phaseFrames": 2,
+      "branchFrames": 0,
+      "sheet": "food-atlas"
+    },
+    {
+      "id": "grass",
+      "name": "草本",
+      "group": "plant",
+      "phases": 2,
+      "phaseFrames": 2,
+      "branchFrames": 0,
+      "sheet": "food-atlas"
+    },
+    {
+      "id": "fungus",
+      "name": "菌膜",
+      "group": "fungus",
+      "phases": 2,
+      "phaseFrames": 2,
+      "branchFrames": 0,
+      "sheet": "food-atlas"
+    },
+    {
+      "id": "waterbug",
+      "name": "水游虫",
+      "group": "prey",
+      "phases": 2,
+      "phaseFrames": 2,
+      "branchFrames": 0,
+      "sheet": "food-atlas"
+    },
+    {
+      "id": "grassbug",
+      "name": "草棲虫",
+      "group": "prey",
+      "phases": 2,
+      "phaseFrames": 2,
+      "branchFrames": 0,
+      "sheet": "food-atlas"
+    },
+    {
+      "id": "tideparasite",
+      "name": "潮環",
+      "group": "P",
+      "phases": 3,
+      "phaseFrames": 3,
+      "branchFrames": 0,
+      "sheet": "life-f"
+    },
+    {
+      "id": "leafparasite",
+      "name": "葉環",
+      "group": "P",
+      "phases": 3,
+      "phaseFrames": 3,
+      "branchFrames": 0,
+      "sheet": "life-f"
+    },
+    {
+      "id": "hyperparasite",
+      "name": "抑環",
+      "group": "Q",
+      "phases": 3,
+      "phaseFrames": 3,
+      "branchFrames": 0,
+      "sheet": "life-f"
+    },
+    {
+      "id": "phytoplankton",
+      "name": "浮遊微藻",
+      "group": "plant",
+      "phases": 2,
+      "phaseFrames": 2,
+      "branchFrames": 0,
+      "sheet": "food-atlas"
+    }
+  ],
+  "renderedCases": 95,
+  "errors": [],
+  "sourceHashes": {
+    "src/ecology/art.js": "a7d60068bb9b630097e0195507a45d6eafc49682f97f78f9a0f193e0d2ec4628",
+    "src/ecology/renderer.js": "414803b72db918352d27c0e4dc3d6a51e835d3b218e4888e483215ee3b7f8b36",
+    "src/ecology/state.js": "4f23d370cd90b6d3d97679b056dbd3884fc72ab850ea85949be3c135592f47b1",
+    "src/ecology/catalogue.js": "53c74149e6a7dd3cc36864e6b477ee5af6d1345e73feb2008be326129a146763",
+    "src/assets/visual-manifest.json": "9581750a326ad14e32c2d560de41c0eefd0673eef1fbfb8da9eea6df89f1e05a",
+    "design/variant-audit-v4.2.1/capture.cjs": "a2b9638ccace33b91a0291d28e7a0c1e6dca647c7344a57a729c018b9ee55534"
+  },
+  "scope": "Linux Chromium / production EcoArt / explicit display fixtures / no biology trial"
+}

@@ -182,7 +182,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 		ロジック:
 			代表モックの系統固有の相/雌雄/年齢と6行動の表現を適用。背景の彩度/細部を抑え接地影/縁の明暗で分離。確定イベントから描き、生態計算へ逆作用させない。
 		実態:
-			4.2.1で主のみ上昇、下層同時表示、付着P/Q追従、選択/追跡/既存動作端点を接続。原画と遠景記号は維持。新規書き分け/重要モーションは工程2以降。 詳細: operations/evidence/primary-plane-v4.2.1/README.md。
+			工程2の現行素材接続を監査。主21系統の専用枝は日輪/浮遊傘の2系統、他19は未完。代表の相/雌雄/年齢/枝を実描画で比較し、固有輪郭・P/Q原画接続・下層/死骸の不足を整理。 詳細: operations/evidence/variant-audit-v4.2.1/README.md。
 	B5.4:（A1, A2, A1.2 / 最終結果図鑑と再生・新規保存）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.4.md。最終結果図鑑と再生・新規保存。
@@ -332,7 +332,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 		ロジック:
 			実タイルから地形/深浅/8環境のマスクを生成し、視野内だけ高解像度で合成。遠景は全位置記号、近景は描き込んだ景観。輪郭影と局所遮蔽を使い、装飾を新たな生態/障害物としない。
 		実態:
-			4.2.1のdisplay-plane.jsで表示座標を共通化。主のみ上昇し、地表影/描画順/直接選択/Shift地表/追跡/動作端点へ接続。チェック欄既定OFF。生態と原画は不変。 詳細: operations/evidence/primary-plane-v4.2.1/README.md。
+			4.2.1相分離は維持。工程2の31系統素材接続と代表95描画条件を監査。製品src/原画の追加変更なし。星晶/深淵触手の系統固有枝を次の制作対象とする。 詳細: operations/evidence/variant-audit-v4.2.1/README.md。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -431,7 +431,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		4.2.1で表示22確認、座標/投影/保存10テスト、遷移27確認通過。代表遠近/同居/P-Q/追跡/端点/Worker一致を対象とし、全端末・Windows実機は未確認。 詳細: operations/evidence/primary-plane-v4.2.1/README.md。
+		4.2.1表示22/遷移27等の既存証跡を維持。今回31系統の素材枠/ファイルと95描画条件の入力不変/エラー0を検査。実寸判別性/生態/Windowsの再認定なし。 詳細: operations/evidence/variant-audit-v4.2.1/README.md。
 ```
 
 ## E：検証証跡
@@ -482,7 +482,7 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		primary-plane-v4.2.1へ表示22/単体等10/遷移27の実測と遠近実画面を保存。表示fixtureと自然生態試行を区別。全端末/Windows実機の認定なし。 詳細: operations/evidence/primary-plane-v4.2.1/README.md。
+		variant-audit-v4.2.1に現行素材接続31系統/95描画条件の監査結果と対象SHAを保存。比較画像はdesign/variant-audit-v4.2.1。新原画実装や判別性合格とは区別。 詳細: operations/evidence/variant-audit-v4.2.1/README.md。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
