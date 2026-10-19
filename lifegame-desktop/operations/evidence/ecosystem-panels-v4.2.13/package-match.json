@@ -1,0 +1,17 @@
+{
+  "version": "4.2.13",
+  "files": {
+    "src/Index.html": "a1bf69f7f68578112e135748f469534f8c4b4bc66d2ce4ae9e5fe2f6d3913914",
+    "src/app.js": "e0a5f51eddccfbae79b411112de96e39904c5a96715344f2c82c48faa991925c",
+    "src/styles.css": "126464a66e49474b5d7ae6cca795c537f1d070f976b932834fdb07a489820ca0",
+    "src/ecology/observations.js": "c46eca9e132505a7204406925e1e3f98801632f8d287d4a937d342ffad1a007a",
+    "src/ecology/engine.js": "f8a4ca9d09d87a3fdb45da8ec27b649c44ed2a521d57815436fc0bac8edf352a",
+    "src/ecology/nutrition.js": "885211c560fd23237fd82ef39e1255335530c1e9d9182761152303de5ed735a8",
+    "src/ecology/observation-modules.js": "cf0088d73d9df7ce13f61d627916d10c7bd81d463ebaf400eeb1248763e52d79",
+    "src/ecology/replay-version.js": "53d9a78cf8eb00284047dd50b5445120bb019dbb3def9f8859bad6575f39354a",
+    "src/ecology/archive.js": "1fe719025007f44d8121c9d09384a0a2b5eff76def0f9251ca64ba9f33d5a8a9"
+  },
+  "png": 35,
+  "allMatched": true,
+  "nativeWindowsRun": false
+}

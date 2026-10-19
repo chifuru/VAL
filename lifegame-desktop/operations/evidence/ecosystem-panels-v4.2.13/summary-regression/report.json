@@ -1,0 +1,28 @@
+{
+  "checks": [
+    "current composition ring visible",
+    "old redundant trend graph removed",
+    "reference left ring and right interpretation retained",
+    "all three original labels retained",
+    "no three metric bars reintroduced",
+    "interpretive sentence breadth",
+    "supporting number or unobserved reason breadth",
+    "subordinate readable evidence breadth",
+    "interpretive sentence diversity",
+    "supporting number or unobserved reason diversity",
+    "subordinate readable evidence diversity",
+    "interpretive sentence persistence",
+    "supporting number or unobserved reason persistence",
+    "subordinate readable evidence persistence",
+    "initial continuity not falsely zero or established",
+    "six category legend",
+    "existing count row preserved",
+    "summary rendering does not mutate biology",
+    "evidence period updates during real Worker playback",
+    "all turns retained during playback",
+    "narrow layout does not overflow horizontally",
+    "no browser errors"
+  ],
+  "errors": [],
+  "scope": "Linux Chromium; current summary only; lower relation diagram/pyramid not implemented"
+}

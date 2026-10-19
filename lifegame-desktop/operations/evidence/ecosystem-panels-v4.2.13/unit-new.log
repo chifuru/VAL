@@ -1,0 +1,12 @@
+✔ actual diet allocates a common conserved B scale; missing diets remain unknown (8.084979ms)
+✔ mixed nutrition splits mass and information never creates trophic flow (1.095906ms)
+✔ unknown carcass origin stays unknown and old feeding expires after50T (13.033798ms)
+✔ phase sex age series have equal absolute totals, including nonapplicable parasites (0.669782ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 28.160341

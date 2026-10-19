@@ -248,12 +248,22 @@ ECOSYSTEM-2026</textarea
           </details>
 
           <details id="graphs-panel" class="panel graphs-panel" open>
-            <summary>全ターンの生態観測 · 個体数 / 集団構成 / 関係</summary>
-            <div class="graph-toolbar"><label>参照ターン<input id="graph-turn" type="number" min="0" value="0" step="1"></label><button id="graph-latest" class="small">最新を追う</button><button id="export-observation" class="small">全ターンCSVを保存</button><span id="graph-range"></span></div>
-            <p id="graph-readout" class="note"></p>
-            <div class="graph-grid"><article><h3>全系統の積み上げ推移</h3><canvas id="graph-stacked" width="760" height="220" aria-label="0ターンから現在までの全系統の積み上げ個体数"></canvas><p class="note">植物・菌・動く餌・主生物・P・Qの色系統。主/餌＝個体、P/Q＝群体。指示すると各ターンの実数を参照できます。</p></article>
-            <article><h3>集団構成</h3><label>対象<select id="graph-species"><option value="all">全生物</option></select></label><label>内訳<select id="graph-axis"><option value="ages">年齢</option><option value="phases">進化相</option><option value="sex">性別</option><option value="roles">階級</option></select></label><div id="graph-composition"></div></article>
-            <article><h3>生態系の関係</h3><svg id="graph-relations" viewBox="0 0 760 160" role="img" aria-label="全ターンの関与回数・関係数・継続関係"></svg><p class="note">水色＝新規接触回数 / 金＝直近50Tの関係数 / 紫＝継続関係数（10T区間×2以上）。各系列は実数の共通目盛。</p><p id="relation-readout"></p></article></div><div id="graph-values" class="graph-values"></div>
+            <summary>生態観測 · 0Tから現在まで</summary>
+            <label class="graph-target">対象<select id="graph-species"><option value="main">主生物</option><option value="all">全生物</option><option value="plant">生産者</option><option value="prey">一次消費者</option><option value="fungus">分解者</option><option value="P">一次寄生</option><option value="Q">高次寄生</option></select></label>
+            <div class="graph-grid">
+              <article><h3>個体数の推移 <small id="graph-range"></small></h3><canvas id="graph-stacked" width="760" height="145" aria-label="全期間の系統別積み上げ個体数"></canvas><div id="population-legend" class="population-legend"></div></article>
+              <article><h3>集団構成 <small>実数・共通の縦軸</small></h3><div id="graph-composition">
+                <p class="note">相：Ⅰ 青緑・Ⅱ 青・Ⅲ 紫・Ⅳ 金 ／ 雌 桃・雄 水色・無性別 淡緑<br>年齢：幼体 黄・成体 緑・老齢 紫 ／ 非該当 灰</p><div class="composition-time"><span>相</span><canvas id="composition-phases" width="760" height="100"></canvas></div>
+                <div class="composition-time"><span>雌雄</span><canvas id="composition-sex" width="760" height="100"></canvas></div>
+                <div class="composition-time"><span>年齢</span><canvas id="composition-ages" width="760" height="100"></canvas></div>
+              </div><p class="note">無性別と非該当は別区分。P/Qの生活環は進化相・年齢へ換算しません。</p></article>
+              <article><h3>生態関係 <small>盤面全体・直近50T</small></h3><svg id="graph-relations" viewBox="0 0 420 100" role="img" aria-label="全期間の広がり・多様さ・持続性"></svg>
+                <div class="ecology-diagrams"><section><h4>成立した関係</h4><svg id="foodweb-diagram" viewBox="0 0 420 235" role="img" aria-label="栄養と宿主から受け手への関係図"></svg><p id="foodweb-leaders" class="note"></p></section>
+                <section><h4>生物量ピラミッド</h4><div id="biomass-pyramid"></div><p id="pyramid-support" class="note"></p></section></div>
+                <p id="relation-readout" class="note"></p>
+              </article>
+            </div>
+            <details class="graph-analysis"><summary>観測値・CSV・集計の説明</summary><div class="graph-toolbar"><label>参照ターン<input id="graph-turn" type="number" min="0" value="0" step="1"></label><button id="graph-latest" class="small">最新を追う</button><button id="export-observation" class="small">全ターンCSVを保存</button></div><p id="graph-readout" class="note"></p><div id="graph-values" class="graph-values"></div><p class="note">主/餌は個体、P/Qは群体。割合ではなく実数。ピラミッドのBはモデル量で、生産/同化Eとは別単位です。</p></details>
           </details>
 
           <p id="message" role="status" aria-live="polite">
@@ -275,7 +285,7 @@ ECOSYSTEM-2026</textarea
             </p>
           </section>
         </section>
-        <aside class="panel inspector">
+        <aside class="panel inspector"><div id="inspector-graphs"></div><div id="inspector-details">
           <div class="inspector-title"><h2 class="inspector-heading">◈ 選択中の個体</h2><button id="close-species" class="small" hidden>詳細を閉じる ×</button></div><section id="species-info" hidden><div id="species-description"></div></section>
           <p class="note">
             1マスに主生物1体と餌生物1体が共存。寄生虫は宿主に付随します。
@@ -287,7 +297,7 @@ ECOSYSTEM-2026</textarea
             <summary>生存系統を確認</summary>
             <div id="ranking"></div>
           </details>
-        </aside>
+        </div></aside>
       </div>
       <details id="individual-list" class="panel table-panel">
         <summary>
@@ -312,7 +322,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.12 · 外部通信なし</span>
+        ><span>v4.2.13 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">

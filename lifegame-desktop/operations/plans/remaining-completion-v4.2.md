@@ -141,7 +141,7 @@
 |非主名札の分類別切替・既定OFF|4.2.9で5分類の既定OFF切替を接続|2|src/Index.html、src/ecology/renderer.js|
 |名札/状態札/本体/所在の独立|4.2.9で独立切替と選択名を接続|2|src/app.js、src/ecology/renderer.js|
 |複数所在の系統固定色と同居|4.2.9で固定色/同居多重縁/選択順不変を確認|2|src/ecology/renderer.js|
-|系統/個体の共通横詳細|4.2.9で横詳細へ統一。右側3グラフ復帰は工程5|2/5|src/app.js、src/Index.html|
+|系統/個体の共通横詳細|4.2.9で横詳細へ統一。右側3グラフ復帰を4.2.13で接続|2/5|src/app.js、src/Index.html|
 |生体0の一覧非表示と追跡消失|4.2.9で0一覧非表示/フォーカス退避、ID追跡を保持|2|src/app.js|
 |下層7対象/浮遊微藻|基本差は接続あり、全密集/動作は未確認|3/9|operations/evidence/lower-states-v4.2.6/README.md|
 |死骸の遠景/死亡時姿/PQ/選択|4.2.10で由来記号/3枠選択/死骸P-Q。4.2.11で死亡イベントから取得。記録は再計算で復元|3/7|src/ecology/art.js、src/ecology/nutrition.js|
@@ -149,13 +149,13 @@
 |攻撃試行/命中/回避/実防御|4.2.11で試行線/実損害衝撃/実軽減盾を接続。生態にない回避は作らない。最終外観は残る|3/9|src/ecology/renderer.js|
 |植物食/捕食/屍肉食/分解|4.2.11で採食元別/餌→本人の粒子を接続。多重供給/全密集は最終確認|3/8/9|src/ecology/nutrition.js、src/ecology/renderer.js|
 |感染/除去/出生/相進化/死亡|4.2.11で感染/清掃/出生/成長の形と死亡姿を接続。死亡主体の動作/上限超過は残る|3/9|src/ecology/renderer.js|
-|個体数の群/系統対象選択|全系統積み上げあり、対象切替は未完|4|src/app.js|
-|相/雌雄/年齢の3実数時系列|現状は指定時点の一内訳を切替|4|src/app.js、src/ecology/observations.js|
-|主を既定、全体の母数/非該当|現状はall既定、母数/非該当の仕上げが必要|4|src/Index.html、src/app.js|
-|複雑さの広がり/多様さ/持続性|接触等の集計あり、最終3観点は未完|4|src/ecology/observations.js|
+|個体数の群/系統対象選択|4.2.13で全期間積み上げ/群・系統選択を接続|4|src/app.js|
+|相/雌雄/年齢の3実数時系列|4.2.13で相/雌雄/年齢の3実数時系列を同時表示|4|src/app.js、src/ecology/observations.js|
+|主を既定、全体の母数/非該当|4.2.13で主既定、共通母数/非該当と無性別を区別|4|src/Index.html、src/app.js|
+|複雑さの広がり/多様さ/持続性|4.2.13で実作用限定3レーン/50T継続を接続。個体率/世代更新は未観測|4|src/ecology/observations.js|
 |0T〜全期間原値とCSV|接続あり・維持、保存へ未接続|4/7|src/ecology/observations.js、src/app.js|
 |現在像サマリ|4.2.12で円グラフ＋右総括/3ラベル文章＋薄い実数を限定接続|5|src/app.js、src/Index.html|
-|マップ+右側3グラフ/詳細解除|現状はグラフがマップ下、詳細は固定別欄|5|src/Index.html、src/styles.css|
+|マップ+右側3グラフ/詳細解除|4.2.13で右側3パネル/詳細解除復帰。全寸法の一画面判読は最終確認|5|src/Index.html、src/styles.css|
 |非主/資源の初期量・分布の直接調整|有効群/モード等あり、詳細指定は未完|6|src/Index.html、src/app.js|
 |自由モードで供給選択・優遇表示|優遇3切替あり、供給選択は未完|6|src/ecology/observation-model.js、src/app.js|
 |実効条件/配置結果の保存|追加設定/入力と保存の接続が必要|6/7|src/ecology/archive.js|
@@ -194,3 +194,5 @@
 最新の採用仕様：operations/plans/ecosystem-summary-handoff-v1.md。工程4で現在像/優勢/生物量の集計、工程5でサマリ・関係図・ピラミッド、工程7で全期間原値と定義版の記録を接続。今回はA/Bのみ、実装は未変更。
 
 4.2.12現在像サマリの限定接続: operations/evidence/current-summary-v4.2.12/README.md。関与個体率・実生産・栄養階層配分・関係図/ピラミッド・右側3パネルの全配置は未完。
+
+現在の工程4/5接続（4.2.13）: 基本3パネル・関係図・共通Bピラミッドを限定接続。栄養由来は50T実績/供給元の前ターン配分、不明を維持。生産/捕食/定着の単位は別。詳細はecosystem-panels-v4.2.13証跡。関係図の代表記号/固有色・捕食回数/寄生継続の優勢、記録への全期間保存、全寸法/密集の判読性は残る。次の本作業は工程6の初期設定/供給選択。

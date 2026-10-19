@@ -370,11 +370,7 @@
             );
           return distance(a) - distance(b);
         })[0] || world.organisms[0];
-    if (focal) {
-      selectedId = focal.id;
-      selectedCell = focal.cell;
-      renderer.view.selected = focal.cell;
-    }
+    // Keep the graphs visible initially; focusing the camera does not select an individual.
     applyObservationMode();
     render();
     message(
@@ -762,43 +758,55 @@
   function parasiteDetails(id){const a=locate(id);if(!a)return '<p>対象は消失しました。別個体へ切り替えません。</p>';const q=a.entity,s=D.byId[q.species];return `<article class="specimen parasite"><h3>${escape(s.name)}</h3><p>${escape(q.id)}<br>宿主: ${escape(q.hostId || 'なし・探索中')}${a.carcass?"（感染性死骸・地表） / 残り"+Math.max(0,a.host.payloadExpires-world.turn)+"T":""}<br>${q.stage?stages[q.stage]+' / 成熟 '+q.counter+'/'+E.P.required[q.stage]+' / 負荷 '+fmt(q.load??.5):'Q '+phase(q.phase)+' / '+(q.cell!==undefined?'探索':'定着')}<br>E ${fmt(q.E)}${q.matureAt!==undefined?'<br>成熟移行 '+q.matureAt+'T / 感染窓 '+(q.matureAt+1)+'〜'+(q.matureAt+3)+'T':''}</p></article>`;}
   function chartColor(s){const ids=D.species.filter(a=>a.group===s.group),i=ids.findIndex(a=>a.id===s.id),h={plant:125,fungus:35,prey:185,main:220,P:18,Q:280}[s.group];return `hsl(${h+i*2} 65% ${40+(i%5)*9}%)`;}
   let graphInspect=null;
+  $('inspector-graphs').append($('graphs-panel'));
+  function paintStack(canvas,data,colors,maximum){
+    const g=canvas.getContext('2d'),W=canvas.width,H=canvas.height,last=observations.rows.length-1,keys=[...new Set(data.flatMap(r=>Object.keys(r.values)))],max=maximum||Math.max(1,...data.map(r=>r.total)),x=t=>30+(W-45)*t/Math.max(1,last),y=n=>H-18-n/max*(H-35),base=data.map(()=>0);
+    g.clearRect(0,0,W,H);g.strokeStyle='#47646b';g.lineWidth=1;g.beginPath();g.moveTo(30,15);g.lineTo(30,H-18);g.lineTo(W-15,H-18);g.stroke();
+    for(const [k,index]of keys.map((k,i)=>[k,i])){g.fillStyle=colors(k,index);g.beginPath();data.forEach((r,i)=>{const px=x(r.turn),py=y(base[i]+(r.values[k]||0));i?g.lineTo(px,py):g.moveTo(px,py);});for(let i=data.length-1;i>=0;i--)g.lineTo(x(data[i].turn),y(base[i]));g.closePath();g.fill();if(data.length===1)g.fillRect(30,y((data[0].values[k]||0)+base[0]),4,(data[0].values[k]||0)/max*(H-35));data.forEach((r,i)=>base[i]+=r.values[k]||0);}
+    g.fillStyle='#bcd3d2';g.font='16px sans-serif';g.fillText(Math.round(max),2,15);g.fillText('0',8,H-17);g.fillText('0T',30,H-1);g.fillText(last+'T',W-65,H-1);
+    canvas.setAttribute('aria-label','0–'+last+'T / 最大'+max+'管理単位 / 現在'+(data.at(-1)?.total||0));
+  }
   function renderGraphs(){
     if(!observations?.rows.length)return;
     const rows=observations.rows,last=rows.length-1;
-    $('graph-turn').max=last;if(graphFollow)$('graph-turn').value=last;
-    const t=Math.max(0,Math.min(last,Number($('graph-turn').value)||0)),r=rows[t];graphInspect=t;
-    $('graph-range').textContent=`0–${last} T · ${rows.length}時点 · 全ターン保持`;
-    $('graph-readout').textContent=`参照 ${t}T / 主 ${r.main}・餌 ${r.food}個体 / P ${r.P}・Q ${r.Q}群体（探索Q ${r.Qsearch}） · 出生 ${r.births} / 死亡 ${r.deaths}`;
-    const c=$('graph-stacked'),g=c.getContext('2d'),bins=observations.bins(700),order=['plant','fungus','prey','main','P','Q'].flatMap(group=>D.species.filter(s=>s.group===group));
-    g.clearRect(0,0,c.width,c.height);
-    const max=Math.max(1,...bins.map(b=>Object.values(b.max).reduce((a,n)=>a+n,0))),x=t=>20+(c.width-32)*t/Math.max(1,last),y=n=>c.height-22-n/max*(c.height-38);
-    const baselines=bins.map(()=>0);
-    for(const s of order){
-      g.fillStyle=chartColor(s);g.beginPath();
-      bins.forEach((b,i)=>{const px=x(b.last),py=y(baselines[i]+(b.counts[s.id]||0));if(i===0)g.moveTo(px,py);else g.lineTo(px,py);});
-      for(let i=bins.length-1;i>=0;i--)g.lineTo(x(bins[i].last),y(baselines[i]));g.closePath();g.fill();
-      bins.forEach((b,i)=>{baselines[i]+=b.counts[s.id]||0;if(b.max[s.id]!==b.min[s.id]){g.strokeStyle=chartColor(s);g.lineWidth=1;g.beginPath();g.moveTo(x(b.last),y(baselines[i]));g.lineTo(x(b.last),y(baselines[i]+b.max[s.id]-b.min[s.id]));g.stroke();}});
+    if(!$('graph-species').dataset.ready){$('graph-species').innerHTML+=D.species.map(s=>`<option value="${s.id}">${escape(s.name)}</option>`).join('');$('graph-species').dataset.ready='yes';}
+    $('graph-turn').max=last;$('graph-turn').disabled=running;if(graphFollow||running)$('graph-turn').value=last;
+    const t=Math.max(0,Math.min(last,Number($('graph-turn').value)||0)),r=rows[t],target=$('graph-species').value;graphInspect=t;
+    $('graph-range').textContent=`0–${last}T`;
+    $('graph-readout').textContent=`参照 ${t}T / 主 ${r.main}・下層 ${r.food}個体 / P ${r.P}・Q ${r.Q}群体。全${rows.length}時点を保持。`;
+    const population=observations.series(target);paintStack($('graph-stacked'),population,id=>chartColor(D.byId[id]));
+    $('population-legend').innerHTML=Object.entries(population.at(-1).values).filter(([,n])=>n>0).map(([id,n])=>`<span><i style="background:${chartColor(D.byId[id])}"></i>${escape(D.byId[id].name)} ${n}</span>`).join('')||'現在の対象は0です';
+    const series=Object.fromEntries(['phases','sex','ages'].map(k=>[k,observations.series(target,k)])),max=Math.max(1,...series.phases.map(r=>r.total)),palettes={phases:['#80c9c0','#7ba9db','#a698d9','#e0bc76'],sex:['#e4acc5','#87c7e6','#c4d3b1'],ages:['#d8c779','#8dc5ae','#b9a6ca']};
+    for(const axis of ['phases','sex','ages'])paintStack($('composition-'+axis),series[axis],(k,i)=>k==='nonapplicable'?'#526773':palettes[axis][axis==='phases'?Number(k):({female:0,male:1,none:2,juvenile:0,adult:1,elderly:2}[k]??i)%palettes[axis].length],max);
+    const labels={phases:'I / II / III / IV / 非該当',sex:'雌 / 雄 / 無性別 / 非該当',ages:'幼体 / 成体 / 老齢 / 非該当'};
+    for(const axis of ['phases','sex','ages'])$('composition-'+axis).title=labels[axis];
+    const lanes=[['species','広がり（関与系統）','#7edbdf'],['types','多様さ（作用種類）','#e7c780'],['continuous','持続性（継続関係）','#bc9eea']];
+    $('graph-relations').innerHTML=lanes.map(([key,label,color],i)=>{const value=r=>key==='types'?r.current.relations.types.length:r.current.relations[key],m=Math.max(1,...rows.map(value)),top=i*32+12;return `<text x="0" y="${top}" fill="${color}" font-size="12">${label} ${key==='continuous'&&t<20?'判定待ち':value(r)}</text><path fill="none" stroke="${color}" stroke-width="1.5" d="${rows.map((r,j)=>(j?'L':'M')+(150+r.turn/Math.max(1,last)*260)+','+(top+12-value(r)/m*20)).join(' ')}"/>`;}).join('');
+    const p=r.current.pyramid,nodes={plant:[5,15,'生産者'],prey:[145,15,'一次消費者'],main:[285,15,'主生物'],detritus:[5,95,'死骸'],fungus:[145,95,'分解者'],resource:[285,95,'光・無機養分'],host:[5,175,'宿主'],P:[145,175,'P'],Q:[285,175,'Q']},edges={...p.edges};
+    for(const [key,n]of Object.entries(r.current.bonds)){const [from,to]=key.split('|'),source=from==='hyperparasite'?'P':'host',dest=from==='hyperparasite'?'Q':'P';edges[source+'|'+dest]=(edges[source+'|'+dest]||0)+n;}
+    const basic=['plant|prey','prey|main','detritus|fungus','fungus|resource','resource|plant','host|P','P|Q'],all=[...new Set([...basic,...Object.keys(edges)])];
+    let svg='<defs><marker id="food-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#a6c9c8"/></marker></defs>';
+    for(const key of all){const [from,to]=key.split('|'),a=nodes[from],b=nodes[to];if(!a||!b)continue;const active=(edges[key]||0)>0,x1=a[0]+65,y1=a[1]+23,x2=b[0]+65,y2=b[1]+23;let d;
+      if(from===to)d=`M${x1+30},${y1-20} C${x1+70},${y1-60} ${x1-70},${y1-60} ${x1-30},${y1-20}`;
+      else if(a[1]===b[1])d=a[0]<b[0]?`M${a[0]+130},${y1} L${b[0]},${y2}`:`M${a[0]},${y1} L${b[0]+130},${y2}`;
+      else d=`M${x1},${y1+22} Q${(x1+x2)/2},${(y1+y2)/2+20} ${x2},${y2+22}`;
+      svg+=`<path data-relation="${key}" data-observed="${active}" d="${d}" fill="none" stroke="${active?'#9ecfc9':'#496370'}" stroke-width="${active?2+Math.min(3,Math.log1p(edges[key])):1}" ${active?'':'stroke-dasharray="4 4"'} marker-end="url(#food-arrow)"/>`;
     }
-    g.fillStyle='#c2d6da';g.font='12px sans-serif';g.fillText('0T',20,c.height-3);g.fillText(last+'T',c.width-65,c.height-3);g.fillText(max+' 管理単位',20,13);g.strokeStyle='#ffffffaa';g.beginPath();g.moveTo(x(t),17);g.lineTo(x(t),c.height-20);g.stroke();
-    if(!$('graph-species').dataset.ready){$('graph-species').innerHTML+=D.species.filter(s=>!['P','Q'].includes(s.group)).map(s=>`<option value="${s.id}">${escape(s.name)}</option>`).join('');$('graph-species').dataset.ready='yes';}
-    const species=$('graph-species').value,axis=$('graph-axis').value,values={};
-    for(const [id,a] of Object.entries(r.composition))if(species==='all'||id===species){const data=a[axis];for(const [k,n] of Object.entries(data||{}))values[k]=(values[k]||0)+n;}
-    const labels={juvenile:'幼体',adult:'成体',elderly:'老齢',female:'雌',male:'雄',none:'適用外',queen:'繁殖型',worker:'働育型'},sum=Object.values(values).reduce((n,v)=>n+v,0);
-    $('graph-composition').innerHTML=Object.entries(values).map(([k,n])=>`<p class="composition-row"><span>${axis==='phases'?['I','II','III','IV'][Number(k)]:labels[k]||k}</span><progress value="${n}" max="${Math.max(1,sum)}"></progress><b>${n}</b></p>`).join('')+`<p class="note">分母 ${sum}個体。P/Qの生活環は進化相・雌雄・年齢の分母へ加えません。${axis==='roles'?'階級を持つ個体だけが対象。':''}</p>`;
-    const cohorts=Object.values(r.funnel||{}).filter(c=>species==='all'||c.species===species);
-    $('graph-composition').innerHTML+=`<details><summary>子から次世代への到達（累計）</summary>${cohorts.filter(c=>c.generation>0).map(c=>`<p class="micro">${escape(D.byId[c.species].name)} 第${c.generation}世代: 出生${c.born} / 成熟到達${c.matured} / 繁殖経験${c.reproduced} / 幼体死亡${c.juvenileDeaths}</p>`).join('')||'<p>子の世代はまだ観測されていません。</p>'}<p class="note">未成熟で生存中の子は失敗に数えません。初期集団の成熟済み個体は成熟到達へ加算しません。</p></details>`;
-    const stride=Math.max(1,Math.ceil(rows.length/700)),sampled=Array.from({length:Math.floor(last/stride)+1},(_,i)=>rows[i*stride]);if(sampled.at(-1)!==rows[last])sampled.push(rows[last]);const maxR=Math.max(1,...sampled.flatMap(r=>[r.contacts,r.activeEdges,r.continuous]));
-    $('graph-relations').innerHTML=[['contacts','#7edbdf'],['activeEdges','#e7c780'],['continuous','#bc9eea']].map(([k,color])=>`<path fill="none" stroke="${color}" stroke-width="2" d="${sampled.map((r,i)=>(i?'L':'M')+(20+r.turn/Math.max(1,last)*720)+','+(140-r[k]/maxR*120)).join(' ')}"/>`).join('')+`<text x="20" y="14" fill="#bcd4d7" font-size="12">0〜${maxR}（実数）</text><text x="20" y="157" fill="#bcd4d7" font-size="12">0T → ${last}T</text>`;
-    $('relation-readout').textContent=`${t}T: 新規接触 ${r.contacts}回・接触継続 ${r.contactTurns}組ターン / 作用 ${r.interactions}回 / 関係 ${r.activeEdges}種類 / 継続 ${t<20?'判定保留':r.continuous} / 寄生結合 ${r.bondTurns}群体ターン。当日感染 ${r.transfers}回。`+(species!=='all'&&r.rates[species]?.per100!==null?` 選択系統の関与 ${fmt(r.rates[species]?.per100)}回/100個体ターン（直近${r.window}T）。`:'');
-    if(!$('graph-values').childElementCount)$('graph-values').innerHTML=D.species.map(s=>`<button class="graph-species-value small" data-graph-description="${s.id}"><i style="background:${chartColor(s)}"></i>${escape(s.name)} <b>0</b></button>`).join('');
-    for(const b of $('graph-values').children)b.querySelector('b').textContent=r.counts[b.dataset.graphDescription]||0;
-    for(const b of $('graph-values').querySelectorAll('button'))b.onclick=()=>describeSpecies(b.dataset.graphDescription);
+    for(const [id,[x,y,label]]of Object.entries(nodes))svg+=`<rect x="${x}" y="${y}" width="130" height="46" rx="8" fill="#11313b" stroke="${['P','Q','host'].includes(id)?'#a88dd0':'#6399a0'}"/><text x="${x+65}" y="${y+29}" text-anchor="middle" fill="#d7e9df" font-size="18">${label}</text>`;
+    $('foodweb-diagram').innerHTML=svg;
+    const leader=(a,label)=>a.length?label+'：'+a.filter(v=>v.value===a[0].value).slice(0,2).map(v=>v.name).join('・'):'未観測';
+    $('foodweb-leaders').textContent=leader(p.leaders.production,'生産の中心')+' / '+leader(p.leaders.predation,'捕食で優勢')+' / 定着：'+Object.entries(r.current.bonds).filter(([k])=>k.startsWith('tideparasite|')||k.startsWith('leafparasite|')).sort((a,b)=>b[1]-a[1]).slice(0,1).map(([k,n])=>D.byId[k.split('|')[0]].name+' '+n+'群体').join('・')+'。実線＝確認、破線＝未確認。栄養は同化E、寄生は現在の定着数で別尺度。';
+    const peak=Math.max(1,...p.layers),names=['生産者','一次消費者','二次消費者','高次（第4段以上）'];
+    $('biomass-pyramid').innerHTML=p.layers.map((v,i)=>`<div class="pyramid-level" data-level="${i}" data-value="${v}"><span>${names[i]}</span><div><i style="width:${v/peak*100}%;background:${['#72c48e','#62cbd3','#6ba6dc','#9196d4'][i]}"></i></div><b>${fmt(v)}</b></div>`).reverse().join('')+`<p class="note">食性未観測 B ${fmt(p.side.unknown)} / 分解者 B ${fmt(p.side.decomposer)}<br>死骸の残量 ${fmt(p.side.remains)}（Bと別単位） / P-Qは宿主依存の別枠</p>`;
+    $('pyramid-support').textContent='生産 '+(p.production===null?'未観測':fmt(p.production)+' E')+' / 同化 '+(p.uptake===null?'未観測':fmt(p.uptake)+' E')+'（直近'+p.window+'T）。幅は共通B尺度。逆転だけで異常とは判定しません。';
+    $('relation-readout').textContent='3系列は別尺度・全期間。関与個体率/世代交代は未観測。層配分は実際の栄養取得と前ターンに確認した供給元によります。';
+    if(!$('graph-values').childElementCount)$('graph-values').innerHTML=D.species.map(s=>`<button class="small" data-graph-description="${s.id}">${escape(s.name)} <b>0</b></button>`).join('');
+    for(const b of $('graph-values').children){b.querySelector('b').textContent=r.counts[b.dataset.graphDescription]||0;b.onclick=()=>describeSpecies(b.dataset.graphDescription);}
   }
   $('graph-turn').oninput=()=>{graphFollow=false;renderGraphs();};
   $('graph-latest').onclick=()=>{graphFollow=true;renderGraphs();};
-  for(const id of ['graph-axis','graph-species'])$(id).onchange=renderGraphs;
+  $('graph-species').onchange=renderGraphs;
   $('graphs-panel').ontoggle=()=>{if($('graphs-panel').open)renderGraphs();};
-  $('graph-stacked').onpointerdown=e=>{if(!observations)return;const b=e.currentTarget.getBoundingClientRect(),x=(e.clientX-b.left)/b.width;graphFollow=false;$('graph-turn').value=Math.round(Math.max(0,Math.min(1,(x*760-20)/728))*(observations.rows.length-1));renderGraphs();};
   $('export-observation').onclick=()=>{
     if(!observations)return;
     try{const blob=new Blob([observations.csv()],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`ecology-turns-0-${world.turn}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);observations.markExported();message('全ターンCSVのダウンロードを開始しました。保存先でファイルをご確認ください。');}catch(e){stop();message('観測データを書き出せませんでした: '+e.message);}
@@ -895,7 +903,9 @@
     return `<article class="specimen ${hero ? "specimen-hero" : ""}"><h3>${escape(s.name)}</h3><div class="phase-name">${phase(o.phase)}相 · ${escape(s.phases?.[o.phase - 1] || s.name)} / ${sex[o.sex] || "無性"} ${roles[o.role] || ""}</div>${main ? `<p class="diet-tag">${escape(s.dietName || D.diets[s.diet].name)} · ${escape(s.dietDescription || D.diets[s.diet].description)}</p>` : ""}<canvas class="portrait" width="${hero ? 384 : 116}" height="${hero ? 300 : 116}" data-portrait="${escape(o.id)}"></canvas><p class="micro">${escape(o.id)} · 世代 ${o.generation} · 年齢 ${o.age}ターン${age.enabled ? ` · <strong class="age-stage" data-age-stage="${age.stage}">${ageLabel}</strong> · 成熟${age.matureAt} / 老齢${age.elderlyAt}` : ""}</p><div class="vital-bars"><span>E</span><progress max="${p.capE}" value="${o.E}"></progress><span>${fmt(o.E)} / ${fmt(p.capE)}</span><span>HP</span><progress max="${p.maxHP}" value="${o.HP}"></progress><span>${fmt(o.HP)} / ${p.maxHP}</span></div>${actionNote}${birthNote}${preview}${hero ? affinity + weights : ""}<details class="specimen-data"><summary>栄養・能力・系譜の詳細</summary><p class="stats-line">B ${fmt(o.B)} · M ${fmt(o.M)} · G ${fmt(o.G)}${s.group === "plant" ? "<br>可食葉B " + fmt(S.edibleB(o)) + " / 基部B " + fmt(Math.min(S.PLANT_BASE, o.B)) : ""}<br>食性 ${s.dietName || D.diets[s.diet]?.name || (s.group === "plant" ? "光合成" : s.group === "prey" ? "草食" : "菌類の分解吸収")}<br>寿命 ${p.life} · 維持E ${fmt(p.maintenance)}${age.enabled ? `<br>出生時寿命基準 ${age.birthLife}（進化しても固定）<br>通常姿勢の攻防（観測用）<br>${powerDetails}<br>年齢補正：攻撃×${fmt(p.ageFactors.attack)} / 防御×${fmt(p.ageFactors.defense)} / HP×${fmt(p.ageFactors.hp)}<br>移動費×${fmt(p.ageFactors.move)} / 回復×${fmt(p.ageFactors.healing)} / 繁殖待機×${fmt(p.ageFactors.birth)}<br>最大HP：基礎${p.baseMaxHP} → ${p.maxHP} / 維持：基礎${fmt(p.baseMaintenance)} → ${fmt(p.maintenance)}` : ""}<br>感知 ${p.sense} / 移動 ${p.speed} / 射程 ${p.range}<br>${main ? `枝: ${o.branch3 === null ? "未分岐" : s.branches[o.branch3]} ${o.branch4 === null ? "" : D.branch4[o.branch3][o.branch4]}<br>出生待機 ${Math.max(0, o.birthReady - world.turn)} / 攻撃待機 ${Math.max(0, o.attackReady - world.turn)}<br>` : ""}${o.colony ? "集団 " + escape(o.colony) + "<br>" : ""}両親: ${escape(o.parents.join(", ") || "初期個体")}</p></details>${main ? `<button class="small" data-tree="${s.id}">この系統の進化条件 ↗</button><details><summary>基礎DNA</summary><p class="micro">DNAは出生時固定。行動パラメータは本人・一族・接触・情報の経験で変わります。</p>${S.DNA.map((k) => `<div class="weight-row"><span>${{ body: "体格", appendage: "付属器", senses: "感覚", skin: "外皮", aptitude: "代謝適性", sensitivity: "情報感度" }[k]}</span><span>${fmt(o.dna[k])}</span></div>`).join("")}</details>` : ""}${infectionHTML(o)}${world.diagnostics?.id === o.id ? `<details><summary>直近の候補上位3（観測用）</summary>${world.diagnostics.candidates.map((c) => `<p class="micro">${actions[c.type]} / 得点 ${fmt(c.score)} / 費用 ${fmt(c.cost)}<br>特徴: ${c.features.map(fmt).join(" / ")}</p>`).join("")}</details>` : ""}</article>`;
   }
   function renderSelection() {
-    const speciesMode=!!describedSpecies;
+    const speciesMode=!!describedSpecies,detailMode=speciesMode||selectedCell!==null;
+    $('inspector-graphs').hidden=detailMode;$('inspector-details').hidden=!detailMode;
+    if(!detailMode&&world)renderGraphs();
     $("species-info").hidden=!speciesMode;$("selection").hidden=speciesMode;
     $("follow-individual").hidden=speciesMode;$("follow-note").hidden=speciesMode;
     $("close-species").hidden=!speciesMode&&selectedCell===null;
@@ -953,7 +963,7 @@
       };
   }
   function renderMapKey() {
-    const counts=world.stats.counts;
+    const counts=observations?.rows.at(-1)?.current.counts||world.stats.counts;
     if(!$("species-key").childElementCount){
       $("species-key").innerHTML=D.species.map(s=>`<span class="map-key-item" data-species="${s.id}"><input type="checkbox" aria-label="${escape(s.name)}の所在を強調" data-highlight="${s.id}"><button class="species-button" data-describe="${s.id}"><canvas width="40" height="40" aria-hidden="true"></canvas><span>${escape(s.name)}</span><b data-count="${s.id}">0</b></button></span>`).join("");
       for(const item of $("species-key").children){const sp=D.byId[item.dataset.species];item.style.setProperty("--presence-color",R.highlightColor(sp.id));R.symbol(item.querySelector("canvas").getContext("2d"),sp.id,20,20,14,R.symbolColor(sp));}
@@ -995,7 +1005,7 @@
     $("parasite-count").textContent = s.P + " / " + s.Q;
     $("timing").textContent = lastMs ? Math.round(lastMs) + " ms" : "—";
     renderPopulation();
-    if($("graphs-panel").open)renderGraphs();
+    if($("graphs-panel").open&&!$("inspector-graphs").hidden)renderGraphs();
     if ($("rank-panel").open) renderRanking();
     const key = world.checkpoints.map(a => a.turn).join(",");
     if (checkpointKey !== key) {

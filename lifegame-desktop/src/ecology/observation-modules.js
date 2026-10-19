@@ -2421,10 +2421,12 @@ function(require,module){
           obj.q--;
           if (!obj.q) ctx.exhausted.add(obj.cell + ":" + obj.kind);
         }
+        let assimilated=0;
         if (a.tag === "info") {
           const add = Math.min(ctx.traits.get(o.id).capE - o.E, amount.E);
           o.E = S.round(o.E + add);
           S.dissipate(w, amount.E - add);
+          assimilated=add;
           if (obj.event) {
             ctx.records.get(o.id).information.push(obj.event);
             o.seen.push({ id: obj.event.id, expires: obj.event.time + 20 });
@@ -2439,11 +2441,13 @@ function(require,module){
             algae: a.type === "plant" && obj.species === "algae",
             carcass: a.type === "carcass",
           });
+          assimilated=result.e;
           if (result.organic && amount.E > 0) transfer(w, ctx, obj, o, a.type);
         }
         S.record(ctx, o, "feed", {
           source: a.id,
           sourceType: a.type,
+          assimilated,
           sourceSpecies: obj.species || null,
           to: a.cell,
           amount: amount.E,
@@ -4941,7 +4945,17 @@ function(require,module){
       if(o.infection){const p=o.infection;add(p.species,o.species,"bond");links[p.species+"|"+o.species+"|bond"]=(links[p.species+"|"+o.species+"|bond"]||0)+1;if(p.q){add("hyperparasite",p.species,"bond");links["hyperparasite|"+p.species+"|bond"]=(links["hyperparasite|"+p.species+"|bond"]||0)+1;}}
       for(const e of ctx.records.get(o.id)?.information || [])add(refs.get(e.sourceId),o.species,"information");
     }
-    return {turn:w.turn,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
+    // Exact observation facts before the animation event cap. No decision reads these.
+    const flowTelemetry={definition:"nutrition-observed/1",inputs:[],production:{}};
+    if(w.turn>0)for(const [id,list]of ctx.events){
+      const species=refs.get(id);if(!species)continue;
+      for(const e of list){
+        if(e.type==="light")flowTelemetry.inputs.push({id,species,type:"light",energy:e.amount,source:null,sourceSpecies:null,tag:"light",withdrawn:0});
+        if(e.type==="feed")flowTelemetry.inputs.push({id,species,type:e.sourceType,energy:e.assimilated||0,source:e.source,sourceSpecies:e.sourceSpecies,tag:e.tag,withdrawn:e.amount||0});
+      }
+      const produced=ctx.records.get(id)?.light||0;if(produced>0)flowTelemetry.production[species]=(flowTelemetry.production[species]||0)+produced;
+    }
+    return {turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
     w.tallies = w.tallies || emptyTallies();
@@ -7617,10 +7631,12 @@ function(require,module){
           obj.q--;
           if (!obj.q) ctx.exhausted.add(obj.cell + ":" + obj.kind);
         }
+        let assimilated=0;
         if (a.tag === "info") {
           const add = Math.min(ctx.traits.get(o.id).capE - o.E, amount.E);
           o.E = S.round(o.E + add);
           S.dissipate(w, amount.E - add);
+          assimilated=add;
           if (obj.event) {
             ctx.records.get(o.id).information.push(obj.event);
             o.seen.push({ id: obj.event.id, expires: obj.event.time + 20 });
@@ -7635,11 +7651,13 @@ function(require,module){
             algae: a.type === "plant" && obj.species === "algae",
             carcass: a.type === "carcass",
           });
+          assimilated=result.e;
           if (result.organic && amount.E > 0) transfer(w, ctx, obj, o, a.type);
         }
         S.record(ctx, o, "feed", {
           source: a.id,
           sourceType: a.type,
+          assimilated,
           sourceSpecies: obj.species || null,
           to: a.cell,
           amount: amount.E,
@@ -8679,7 +8697,17 @@ function(require,module){
       if(o.infection){const p=o.infection;add(p.species,o.species,"bond");links[p.species+"|"+o.species+"|bond"]=(links[p.species+"|"+o.species+"|bond"]||0)+1;if(p.q){add("hyperparasite",p.species,"bond");links["hyperparasite|"+p.species+"|bond"]=(links["hyperparasite|"+p.species+"|bond"]||0)+1;}}
       for(const e of ctx.records.get(o.id)?.information || [])add(refs.get(e.sourceId),o.species,"information");
     }
-    return {turn:w.turn,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
+    // Exact observation facts before the animation event cap. No decision reads these.
+    const flowTelemetry={definition:"nutrition-observed/1",inputs:[],production:{}};
+    if(w.turn>0)for(const [id,list]of ctx.events){
+      const species=refs.get(id);if(!species)continue;
+      for(const e of list){
+        if(e.type==="light")flowTelemetry.inputs.push({id,species,type:"light",energy:e.amount,source:null,sourceSpecies:null,tag:"light",withdrawn:0});
+        if(e.type==="feed")flowTelemetry.inputs.push({id,species,type:e.sourceType,energy:e.assimilated||0,source:e.source,sourceSpecies:e.sourceSpecies,tag:e.tag,withdrawn:e.amount||0});
+      }
+      const produced=ctx.records.get(id)?.light||0;if(produced>0)flowTelemetry.production[species]=(flowTelemetry.production[species]||0)+produced;
+    }
+    return {turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
     w.tallies = w.tallies || emptyTallies();

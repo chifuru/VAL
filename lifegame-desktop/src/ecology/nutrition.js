@@ -459,10 +459,12 @@
           obj.q--;
           if (!obj.q) ctx.exhausted.add(obj.cell + ":" + obj.kind);
         }
+        let assimilated=0;
         if (a.tag === "info") {
           const add = Math.min(ctx.traits.get(o.id).capE - o.E, amount.E);
           o.E = S.round(o.E + add);
           S.dissipate(w, amount.E - add);
+          assimilated=add;
           if (obj.event) {
             ctx.records.get(o.id).information.push(obj.event);
             o.seen.push({ id: obj.event.id, expires: obj.event.time + 20 });
@@ -477,11 +479,13 @@
             algae: a.type === "plant" && obj.species === "algae",
             carcass: a.type === "carcass",
           });
+          assimilated=result.e;
           if (result.organic && amount.E > 0) transfer(w, ctx, obj, o, a.type);
         }
         S.record(ctx, o, "feed", {
           source: a.id,
           sourceType: a.type,
+          assimilated,
           sourceSpecies: obj.species || null,
           to: a.cell,
           amount: amount.E,

@@ -3,7 +3,7 @@
  'use strict';
  const KEY='lifegame.results.v1',LIMIT=100;
  // 4.2.11 adds presentation facts only. This single alias is covered by old/new model equality.
- const replayAliases={'8119156dc6760f78ba8ab02a683390562e262802fd977d85de27115b15c38c48':['cbab69c80c0122ff99a6ded0528f10e7c4070652a587aa0468c868678437e7fe']};
+ const replayAliases={'d14f8a832f9da26d011dc83f15af689369fa6d567511bc520c2773d7caf36c3f':['8119156dc6760f78ba8ab02a683390562e262802fd977d85de27115b15c38c48','cbab69c80c0122ff99a6ded0528f10e7c4070652a587aa0468c868678437e7fe'],'8119156dc6760f78ba8ab02a683390562e262802fd977d85de27115b15c38c48':['cbab69c80c0122ff99a6ded0528f10e7c4070652a587aa0468c868678437e7fe']};
  function create(storage,engine,signature){
   function list(){
    const raw=storage.getItem(KEY);if(!raw)return [];

@@ -1,0 +1,28 @@
+{
+  "checks": [
+    "default shows graphs, without auto-selecting an individual",
+    "visible graph-stacked",
+    "visible composition-phases",
+    "visible composition-sex",
+    "visible composition-ages",
+    "visible graph-relations",
+    "visible foodweb-diagram",
+    "visible biomass-pyramid",
+    "main organisms default",
+    "initial flow correctly unobserved",
+    "render does not mutate biology",
+    "absolute composition label",
+    "species selection supported",
+    "individual replaces graph area",
+    "close restores graphs",
+    "all turns retained during Worker playback",
+    "target preserved across details and playback",
+    "actual production recorded",
+    "actual confirmed flow displayed",
+    "live trophic allocation conserves B",
+    "narrow layout has no horizontal overflow",
+    "no page errors or native dialogs"
+  ],
+  "errors": [],
+  "scope": "Linux Chromium; exact all-turn series, sidebar and live Worker observations"
+}
