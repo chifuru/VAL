@@ -1,0 +1,256 @@
+{
+  "rows": [
+    {
+      "id": "abyss",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.6804165575058947,
+      "pixelsOver16Fraction": 0.0012051349227141734
+    },
+    {
+      "id": "abyss",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.5576623014767345,
+      "pixelsOver16Fraction": 0.0011702424073558094
+    },
+    {
+      "id": "myth",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.8287140873651607,
+      "pixelsOver16Fraction": 0.002296272562212966
+    },
+    {
+      "id": "myth",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.6787391771829552,
+      "pixelsOver16Fraction": 0.0020938260426687796
+    },
+    {
+      "id": "recursive",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.6418066144652792,
+      "pixelsOver16Fraction": 0.00005151452709664125
+    },
+    {
+      "id": "recursive",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.5400899672846238,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "id": "sail",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.8068711611041219,
+      "pixelsOver16Fraction": 0.0038481462295567232
+    },
+    {
+      "id": "sail",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.6894929533107629,
+      "pixelsOver16Fraction": 0.0040941658137154556
+    },
+    {
+      "id": "gravity",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.7382437733352237,
+      "pixelsOver16Fraction": 0.0015596200198497094
+    },
+    {
+      "id": "gravity",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.6461888939233751,
+      "pixelsOver16Fraction": 0.0024165533907264765
+    },
+    {
+      "id": "crystal",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.6976484857970108,
+      "pixelsOver16Fraction": 0.0003130135378355114
+    },
+    {
+      "id": "crystal",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.6199151484901423,
+      "pixelsOver16Fraction": 0.00016637550952499792
+    },
+    {
+      "id": "manyeyes",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.7083540792374992,
+      "pixelsOver16Fraction": 0.0003556440714133295
+    },
+    {
+      "id": "manyeyes",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.5834840605923581,
+      "pixelsOver16Fraction": 0.00037681814756198657
+    },
+    {
+      "id": "abyssshell",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.7637898796307117,
+      "pixelsOver16Fraction": 0.0015192240271123057
+    },
+    {
+      "id": "abyssshell",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.6871038896483161,
+      "pixelsOver16Fraction": 0.0016776438424257487
+    },
+    {
+      "id": "parallel",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.6018626174309366,
+      "pixelsOver16Fraction": 0.00004650730164635848
+    },
+    {
+      "id": "parallel",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.5066208018937712,
+      "pixelsOver16Fraction": 0.000049316960102579274
+    },
+    {
+      "id": "memory",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.7178908740901161,
+      "pixelsOver16Fraction": 0.0024664621307826503
+    },
+    {
+      "id": "memory",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.636889542316543,
+      "pixelsOver16Fraction": 0.002045512656609563
+    },
+    {
+      "id": "serpent",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.7028167470407716,
+      "pixelsOver16Fraction": 0.0005480052608505041
+    },
+    {
+      "id": "serpent",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.5747425662385746,
+      "pixelsOver16Fraction": 0.0009256045354622237
+    },
+    {
+      "id": "solar",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.5636519074477062,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "id": "solar",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.44043206980671795,
+      "pixelsOver16Fraction": 0.00009382623381497467
+    },
+    {
+      "id": "antimeme",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.7372743314782136,
+      "pixelsOver16Fraction": 0.0019003664992534273
+    },
+    {
+      "id": "antimeme",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.6216302724233587,
+      "pixelsOver16Fraction": 0.002489508499893307
+    },
+    {
+      "id": "valis",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.7445178571428571,
+      "pixelsOver16Fraction": 0.0024285714285714284
+    },
+    {
+      "id": "valis",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.6236582650870637,
+      "pixelsOver16Fraction": 0.0010336328218176036
+    },
+    {
+      "id": "jelly",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.5940321213028081,
+      "pixelsOver16Fraction": 0.000049877799391490845
+    },
+    {
+      "id": "jelly",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.46299208470933584,
+      "pixelsOver16Fraction": 0.00005241914347119568
+    },
+    {
+      "id": "kelp",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.818078913324709,
+      "pixelsOver16Fraction": 0.0021021992238033633
+    },
+    {
+      "id": "kelp",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.7295074909591872,
+      "pixelsOver16Fraction": 0.002066471499913897
+    },
+    {
+      "id": "whale",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.6343999737979824,
+      "pixelsOver16Fraction": 0.0005895453949954147
+    },
+    {
+      "id": "whale",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.5258923649393605,
+      "pixelsOver16Fraction": 0.0005512679162072767
+    },
+    {
+      "id": "swarm",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.5691765007696254,
+      "pixelsOver16Fraction": 0.0000513083632632119
+    },
+    {
+      "id": "swarm",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.524616889468536,
+      "pixelsOver16Fraction": 0.000054341919356591676
+    },
+    {
+      "id": "plasma",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.6134518828451883,
+      "pixelsOver16Fraction": 0.0010041841004184101
+    },
+    {
+      "id": "plasma",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.4875606528451698,
+      "pixelsOver16Fraction": 0.00105866784296427
+    },
+    {
+      "id": "cephalopod",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.6270177562550444,
+      "pixelsOver16Fraction": 0.00013451708366962604
+    },
+    {
+      "id": "cephalopod",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.5653368025440879,
+      "pixelsOver16Fraction": 0.0007227522405319456
+    },
+    {
+      "id": "precocial",
+      "pose": false,
+      "meanAbsoluteChannelError": 0.6266799022602322,
+      "pixelsOver16Fraction": 0.00025453064548971695
+    },
+    {
+      "id": "precocial",
+      "pose": true,
+      "meanAbsoluteChannelError": 0.5767420471759359,
+      "pixelsOver16Fraction": 0.0002705042198658299
+    }
+  ]
+}

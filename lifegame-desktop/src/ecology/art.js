@@ -358,9 +358,25 @@
     variants.set(key, c);
     return c;
   }
+  // Color lighting is independent of pose, camera and biological state.
+  // Bake it once per immutable sprite instead of opening filtered canvas layers
+  // for every moving body on the full board.
+  const litFrames = new WeakMap();
+  function litFrame(frame) {
+    let lit = litFrames.get(frame);
+    if (!lit) {
+      lit = document.createElement("canvas");
+      lit.width = frame.width; lit.height = frame.height;
+      const c = lit.getContext("2d");
+      c.filter = 'brightness(1.13) contrast(1.07) saturate(1.10)';
+      c.drawImage(frame, 0, 0);
+      litFrames.set(frame, lit);
+    }
+    return lit;
+  }
   const outlineFrames = new WeakMap();
   const outlineMetrics = { builds: 0, hits: 0 };
-  function outlined(g, frame, x, y, width, height, enabled) {
+  function outlined(g, frame, x, y, width, height, enabled, lighting = false) {
     if (enabled) {
       let entry = outlineFrames.get(frame);
       if (!entry) {
@@ -384,9 +400,9 @@
       } else outlineMetrics.hits++;
       const px = (width * entry.pad) / frame.width,
         py = (height * entry.pad) / frame.height;
-      g.drawImage(entry.image, x - px, y - py, width + px * 2, height + py * 2);
+      g.drawImage(lighting ? litFrame(entry.image) : entry.image, x - px, y - py, width + px * 2, height + py * 2);
     }
-    g.drawImage(frame, x, y, width, height);
+    g.drawImage(lighting ? litFrame(frame) : frame, x, y, width, height);
   }
   function creature(g, o, x, y, r) {
     const frames = manifest.creatures.regions[o.species],
@@ -449,6 +465,7 @@
       width,
       height,
       o.renderEmphasis,
+      o.renderLighting,
     );
     // Every main lineage selects its own dedicated branch artwork.
     // Age/sex tissue transforms remain separate from branch identity.

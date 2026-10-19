@@ -1,0 +1,130 @@
+{
+  "before": {
+    "turn": 230,
+    "elapsedMs": 54446,
+    "cost": {
+      "applyPatch": {
+        "calls": 15,
+        "total": 23.80000001192093,
+        "max": 4.0999999940395355
+      },
+      "setWorld": {
+        "calls": 20,
+        "total": 10.899999991059303,
+        "max": 1.7000000029802322
+      },
+      "showTurnStage": {
+        "calls": 21,
+        "total": 9.599999994039536,
+        "max": 5.700000002980232
+      },
+      "draw": {
+        "calls": 35,
+        "total": 38286.39999996126,
+        "max": 3000.0999999940395
+      },
+      "append": {
+        "calls": 5,
+        "total": 149.80000001192093,
+        "max": 40.30000001192093
+      },
+      "renderMapKey": {
+        "calls": 5,
+        "total": 1.8999999910593033,
+        "max": 0.5
+      },
+      "renderCurrentSummary": {
+        "calls": 5,
+        "total": 9.000000014901161,
+        "max": 2.2000000029802322
+      },
+      "renderGraphs": {
+        "calls": 10,
+        "total": 80.8999999910593,
+        "max": 15.200000002980232
+      },
+      "renderSelection": {
+        "calls": 5,
+        "total": 35.5,
+        "max": 9.799999997019768
+      },
+      "render": {
+        "calls": 5,
+        "total": 94,
+        "max": 26.599999994039536
+      },
+      "commitTurn": {
+        "calls": 5,
+        "total": 248.10000002384186,
+        "max": 62.70000000298023
+      }
+    }
+  },
+  "after": {
+    "turn": 230,
+    "elapsedMs": 13863,
+    "cost": {
+      "applyPatch": {
+        "calls": 15,
+        "total": 24.5,
+        "max": 4.799999997019768
+      },
+      "setWorld": {
+        "calls": 20,
+        "total": 15.400000005960464,
+        "max": 3.7000000029802322
+      },
+      "showTurnStage": {
+        "calls": 21,
+        "total": 3.2000000327825546,
+        "max": 0.20000000298023224
+      },
+      "draw": {
+        "calls": 37,
+        "total": 908.2000000178814,
+        "max": 106.40000000596046
+      },
+      "append": {
+        "calls": 5,
+        "total": 142.79999999701977,
+        "max": 38.6000000089407
+      },
+      "renderMapKey": {
+        "calls": 5,
+        "total": 1.5,
+        "max": 0.30000001192092896
+      },
+      "renderCurrentSummary": {
+        "calls": 5,
+        "total": 8.699999988079071,
+        "max": 2.2000000029802322
+      },
+      "renderGraphs": {
+        "calls": 10,
+        "total": 65.40000003576279,
+        "max": 10.200000002980232
+      },
+      "renderSelection": {
+        "calls": 5,
+        "total": 29.00000001490116,
+        "max": 9.400000005960464
+      },
+      "render": {
+        "calls": 5,
+        "total": 77.99999998509884,
+        "max": 22.099999994039536
+      },
+      "commitTurn": {
+        "calls": 5,
+        "total": 223.8999999910593,
+        "max": 61.20000000298023
+      }
+    }
+  },
+  "sameBiologicalFingerprint": true,
+  "notes": [
+    "Private five-turn probes start from an independently regenerated 225T world and the saved history prefix. Not a full 0–500 run.",
+    "CPU profiler, test instrumentation and repeated full snapshots add overhead. Before probe partly overlaps a separate clearance check; not a controlled hardware benchmark.",
+    "Compare attribution and unchanged result, not a universal speed multiplier."
+  ]
+}

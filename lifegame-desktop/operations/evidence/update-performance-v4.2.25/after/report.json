@@ -1,0 +1,63 @@
+{
+  "cost": {
+    "applyPatch": {
+      "calls": 15,
+      "total": 24.5,
+      "max": 4.799999997019768
+    },
+    "setWorld": {
+      "calls": 20,
+      "total": 15.400000005960464,
+      "max": 3.7000000029802322
+    },
+    "showTurnStage": {
+      "calls": 21,
+      "total": 3.2000000327825546,
+      "max": 0.20000000298023224
+    },
+    "draw": {
+      "calls": 37,
+      "total": 908.2000000178814,
+      "max": 106.40000000596046
+    },
+    "append": {
+      "calls": 5,
+      "total": 142.79999999701977,
+      "max": 38.6000000089407
+    },
+    "renderMapKey": {
+      "calls": 5,
+      "total": 1.5,
+      "max": 0.30000001192092896
+    },
+    "renderCurrentSummary": {
+      "calls": 5,
+      "total": 8.699999988079071,
+      "max": 2.2000000029802322
+    },
+    "renderGraphs": {
+      "calls": 10,
+      "total": 65.40000003576279,
+      "max": 10.200000002980232
+    },
+    "renderSelection": {
+      "calls": 5,
+      "total": 29.00000001490116,
+      "max": 9.400000005960464
+    },
+    "render": {
+      "calls": 5,
+      "total": 77.99999998509884,
+      "max": 22.099999994039536
+    },
+    "commitTurn": {
+      "calls": 5,
+      "total": 223.8999999910593,
+      "max": 61.20000000298023
+    }
+  },
+  "turn": 230,
+  "fingerprint": "cb9c1ac8d1adf9892920a06a9b9ce453383698dae30f90afb266a3b87727b52a",
+  "elapsedMs": 13863,
+  "errors": []
+}

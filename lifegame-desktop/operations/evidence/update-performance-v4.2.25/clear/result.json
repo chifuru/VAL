@@ -1,0 +1,32 @@
+{
+  "actual": [
+    {
+      "id": "i:main:25:4:crystal",
+      "type": "clear",
+      "cell": 1005,
+      "target": "i:main:25:4:crystal",
+      "parasite": "p:i:main:25:4:crystal:0",
+      "species": "leafparasite",
+      "reason": "groom"
+    },
+    {
+      "id": "i:main:25:4:crystal",
+      "type": "clear",
+      "cell": 1005,
+      "target": "i:main:25:4:crystal",
+      "parasite": "p:i:main:25:4:crystal:0",
+      "reason": "maintenance"
+    }
+  ],
+  "stage": {
+    "events": [
+      "move",
+      "clear"
+    ],
+    "kinds": {
+      "clear": 1
+    }
+  },
+  "actualFingerprint": "c4e8fa1607274b49325666a275f467a80d991c42ee8dc69b627e4ab24989f05d",
+  "expectedFingerprint": "c4e8fa1607274b49325666a275f467a80d991c42ee8dc69b627e4ab24989f05d"
+}

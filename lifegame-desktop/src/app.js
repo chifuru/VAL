@@ -481,7 +481,7 @@
       try {
         const i=state.phase,preview=window.EcoTransport.apply(state.preview,packet.patches[i]);
         state.preview=preview;state.phase++;
-        const visibleEvents=i===0?["light"]:i===1?["move","attack","feed","care","defend","death"]:["growth","birth","infection"];
+        const visibleEvents=i===0?["light"]:i===1?["move","attack","feed","care","defend","clear","death"]:["growth","birth","infection"];
         const events=preview.events.filter(e=>visibleEvents.includes(e.type));
         state.previewTypes=[...new Set(events.map(e=>e.type))];
         renderer.view.animate=true;renderer.view.duration=TURN_MS/3;
