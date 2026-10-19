@@ -1,0 +1,10 @@
+✔ combined and producer-only models start with identical populations, terrain and budgets (3110.538874ms)
+✔ combined model grants sparse paid birth only to waterbug, not grassbug (23.603934ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3320.732164

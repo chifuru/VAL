@@ -1,0 +1,26 @@
+✔ new producer is private, disabled model exactly matches previous world (300.299805ms)
+✔ floating producer needs lit water and remains non-predatory (5.953473ms)
+✔ existing algae regrows edible tissue from stored light energy, not external input (2.322046ms)
+✔ waterbug can eat either living producer on its cell; base survives and finite stocks balance (4.284581ms)
+✔ darkness produces no solar input; floating producer births pay E/M and retain parent (4.244159ms)
+✔ floating phase progression requires acquired light energy rather than age alone (1.851347ms)
+✔ ordinary producers never consume neighboring living plants and still absorb soil minerals (6.661268ms)
+✔ moving prey accepts plants but not neighboring fungi (2.207713ms)
+✔ carnivorous plant symbiont photosynthesizes, hunts prey and rejects plant harvest or main attacks (3.774072ms)
+✔ kelp accepts animal-derived finite stores, while ordinary plants reject organic stores and corpses (3.267409ms)
+✔ fungal decomposers never graze living producers, even through forced harvest (1.736154ms)
+✔ independent basal and prey maps allow overlap and reject duplicates within one layer (2.063547ms)
+✔ prey moves onto live producers and same-cell feeding transfers finite stock (2.538302ms)
+✔ prey can be born on a producer cell without deleting it or bypassing birth payment (5.762094ms)
+✔ main predators retain attack access to prey overlapping producers (1.694711ms)
+✔ parasite contact still reaches the primary consumer layer (2.153883ms)
+✔ layer split preserves initial terrain, species, positions and finite budgets (317.13283ms)
+✔ overlapping producer and prey corpses retain separate origins and conserve finite stocks (1.851488ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 723.716314

@@ -1,0 +1,6 @@
+{
+  "tests/aquatic-producer.test.cjs": "29924a39e7921c5a30a404a29036f5600d23848ccb4e3ca6df76a5fb0e06dfaf",
+  "tests/aquatic-combination.test.cjs": "1dd8aa649dd190e6d09b3a0316f0ad36cf58000abe422226f91bde7c65b18d80",
+  "tests/layered-primary.test.cjs": "ce8bab755656863f0cd297a310fdd7a0c4ebf2cafa5c0faefeeeec17f37f051f",
+  "tests/feeding-regression.test.cjs": "c0acf5d338eae2f264d94c850a5346030567d2511eb2742f696c7489c8bae48d"
+}

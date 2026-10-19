@@ -1,0 +1,6 @@
+{"id":"river","turn":0,"main":80,"waterbug":46,"grassbug":65,"ms":5}
+{"id":"river","turn":100,"main":114,"waterbug":26,"grassbug":250,"ms":37436}
+{"id":"river","turn":200,"main":125,"waterbug":19,"grassbug":201,"ms":54344}
+{"id":"river","turn":300,"main":109,"waterbug":0,"grassbug":97,"ms":66156}
+{"id":"river","turn":400,"main":92,"waterbug":0,"grassbug":363,"ms":76164}
+{"id":"river","turn":500,"main":72,"waterbug":0,"grassbug":24,"ms":80484}
