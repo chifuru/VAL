@@ -1,0 +1,26 @@
+{
+  "scope": "two base-body studies, three alternatives each; not evolution branches",
+  "mouthOrganCount": "not fixed; drawn visible counts are illustrative",
+  "images": [
+    {
+      "id": "swarm",
+      "file": "01-swarm.png",
+      "sha256": "79e76c20a4dc31dad0c06ffbdd197ad386610e2a5f6766794868e9b7e4f39a20",
+      "size": [
+        1774,
+        887
+      ],
+      "status": "review-only / product unchanged"
+    },
+    {
+      "id": "serpent",
+      "file": "02-serpent.png",
+      "sha256": "24a7492aef58160b75a03ed05bf5df86921cafc30fe7f9ebb869d2bb38d0dedd",
+      "size": [
+        1536,
+        1024
+      ],
+      "status": "review-only / product unchanged"
+    }
+  ]
+}
