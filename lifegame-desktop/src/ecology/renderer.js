@@ -250,7 +250,7 @@
       const [x, y] = S.xy(world, cell),entity=displayLayout().entity(id),
         p = entity?.point.slice() || P.point(x + 0.5, y + 0.5),
         detail=view.scale>=24&&view.mode!=="overview"&&!view.simplified;
-      if(detail&&entity?.host)p[1]-=entity.host.slot==="main"?.18:.03;
+      if(detail&&entity?.host&&!entity.carcass)p[1]-=entity.host.slot==="main"?.18:.03;
       return [view.x + p[0] * view.scale, view.y + p[1] * view.scale];
     }
     function path(points) {
@@ -306,6 +306,7 @@
         highParasites: 0,
         parasiteArt: 0,
         remainsArt: 0,
+        carcassParasites: 0,
         statusBadges: 0,
         nameLabels: { main:0, basal:0, prey:0, P:0, Q:0, resource:0 },
         highlightedCells: [],
@@ -453,19 +454,21 @@
               a.kind === "info" ? "#8be9ff" : "#e5d4a1",
             );
         }
-      // Keep the overview glyph path unchanged. Detailed remains join scene depth below.
-      for (const a of detail ? [] : w.carcasses) {
-        const p = position(a.cell, .86, .86);
-        if (!visible(p)) continue;
-        diagnostics.carcasses++;
-        g.strokeStyle = "#e5b798";
-        g.lineWidth = Math.max(0.025, 0.7 / z);
-        g.beginPath();
-        g.moveTo(p[0] - 0.06, p[1] - 0.04);
-        g.lineTo(p[0] + 0.06, p[1] + 0.04);
-        g.moveTo(p[0] - 0.06, p[1] + 0.04);
-        g.lineTo(p[0] + 0.06, p[1] - 0.04);
-        g.stroke();
+      function corpsePayload(a){
+        if(!a.infection || !(a.payloadExpires>w.turn))return;
+        for(const [kind,o]of [["P",a.infection],["Q",a.infection.q]]){
+          if(!o)continue;const p=coordinates.entity(o.id)?.point;if(!p)continue;
+          if(detail)Art.parasite(g,o,...p,.065);
+          else {g.strokeStyle=kind==="Q"?"#d6a8ff":"#ffb278";g.lineWidth=1/z;g.beginPath();g.arc(...p,.05,0,Math.PI*2);g.stroke();}
+          diagnostics.carcassParasites++;hitRegions.push({id:o.id,cell:a.cell,main:false,x:p[0],y:p[1],rx:.07,ry:.07});
+          if(near&&nameEnabled(kind,o.id))annotations.push(()=>{g.save();g.font=".055px sans-serif";g.fillStyle=kind==="Q"?"#dec3ff":"#ffd1a3";g.fillText(S.D.byId[o.species||"hyperparasite"].name+" · 死骸",p[0],p[1]-.08);g.restore();});
+        }
+      }
+      for(const a of detail?[]:w.carcasses){
+        const p=coordinates.entity(a.id)?.point;if(!p||!visible(p))continue;
+        diagnostics.carcasses++;symbol(g,a.species,...p,.10,"#bda691");
+        g.strokeStyle="#edb5a0";g.lineWidth=Math.max(.025,.7/z);g.beginPath();g.moveTo(p[0]-.10,p[1]+.07);g.lineTo(p[0]+.10,p[1]-.07);g.stroke();
+        hitRegions.push({id:a.id,cell:a.cell,main:false,x:p[0],y:p[1],rx:.12,ry:.09});corpsePayload(a);
       }
       const actors = [],
         main = new Set(
@@ -513,7 +516,8 @@
           const a=actor.carcass;
           diagnostics.carcasses++;
           if(Art.remains(g,a,...p,.16,P.water(w.tiles[a.cell]),w.turn))diagnostics.remainsArt++;
-          hitRegions.push({id:null,cell:a.cell,main:false,x:p[0],y:p[1],rx:.23,ry:.12});
+          hitRegions.push({id:a.id,cell:a.cell,main:false,x:p[0],y:p[1],rx:.23,ry:.12});
+          corpsePayload(a);
           continue;
         }
         if (actor.obj) {

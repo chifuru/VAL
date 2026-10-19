@@ -22,6 +22,12 @@
   }
   function entity(id){
    const host=hosts.get(id);if(host){const a=anchor(host);if(host.id!==id)a.point=parasitePoint(a.point,host.infection?.q?.id===id?'Q':'P',detail);return {...a,host,id,cell:host.cell};}
+   for(const a of w.carcasses||[]){
+    if(a.id!==id&&(!(a.payloadExpires>w.turn)||(a.infection?.id!==id&&a.infection?.q?.id!==id)))continue;
+    const ground=P.point(a.cell%w.config.width+(a.slot==='food'?.22:a.slot==='prey'?.52:.86),Math.floor(a.cell/w.config.width)+.86),point=[...ground];
+    if(id!==a.id){point[0]+=a.infection?.q?.id===id?.23:.09;point[1]-=a.infection?.q?.id===id?.18:.12;}
+    return {id,cell:a.cell,host:a,ground,point,elevated:false,carcass:true};
+   }
    const q=(w.searchQ||[]).find(q=>q.id===id);if(q){const p=P.point(q.cell%w.config.width+.5,Math.floor(q.cell/w.config.width)+.5);return {id,cell:q.cell,point:[p[0]+.24,p[1]-.25],ground:p,elevated:false};}
    return null;
   }

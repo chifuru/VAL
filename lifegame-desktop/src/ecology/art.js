@@ -587,72 +587,37 @@
   }
   function resource(g, a, x, y, r, env, turn) {
     g.save();
-    const n = Math.min(6, Math.max(1, Math.ceil(a.q))),
-      colors = {
-        info: "#73e9ff",
-        seed: "#d5cf83",
-        spore: "#cf9aee",
-        egg: "#ffddaa",
-        organic: "#ba9374",
-        mineral: "#a8d8ed",
-        droplet: "#76d9f3",
-        factor: "#f5c986",
-      },
-      c = colors[a.kind] || "#d6e5b5";
-    if (a.kind === "info") {
-      g.globalAlpha = Math.max(
-        0.35,
-        1 - (turn - (a.event?.time ?? a.created ?? turn)) / 28,
-      );
-      glow(g, x, y, r * 3, c);
-      g.strokeStyle = c;
-      g.lineWidth = r * 0.09;
-      for (let j = 0; j < 3; j++) {
+    const n=Math.min(6,Math.max(1,Math.ceil(a.q))),
+      c=({info:"#73e9ff",seed:"#d5cf83",spore:"#cf9aee",egg:"#ffddaa",organic:"#ba9374",mineral:"#a8d8ed",droplet:"#76d9f3",factor:"#f5c986"})[a.kind]||"#d6e5b5",
+      habitat=["#78cee2","#f1a36a","#b9a8ff","#d0db89","#d6edff","#94d6a5","#d0ac7d","#ccdc7a"][env]||"#b5d0c5";
+    if(a.kind==="info"){
+      const elapsed=Math.max(0,turn-(a.event?.time??a.created??turn)),fresh=Math.max(0,1-Math.floor(elapsed/5)*.25);
+      if(!fresh){g.restore();return;}
+      g.globalAlpha=fresh;glow(g,x,y,r*(2+n*.12),c);g.strokeStyle=c;g.lineWidth=r*.09;
+      for(let j=0;j<3;j++){g.beginPath();g.ellipse(x,y,r*(.8+j*.35),r*(.25+j*.12),j*.9-.5+env*.035,.2,Math.PI*1.8);g.stroke();}
+      for(let j=0;j<n;j++){const t=j*2.399;g.fillStyle=j%2?habitat:"#edfcff";ellipse(g,x+Math.cos(t)*r*.65,y+Math.sin(t)*r*.24,r*.10,r*.10);}
+      g.fillStyle="#edfcff";ellipse(g,x,y,r*.20,r*.20);
+    }else{
+      for(let j=0;j<n;j++){
+        const u=x+Math.sin(j*8)*r*.6,v=y+Math.cos(j*5)*r*.4,k=r*(.34+j*.015);
+        g.save();g.translate(u,v);g.rotate((env-3)*.035+j*.12);glow(g,0,0,k*1.7,c);g.fillStyle=c;g.strokeStyle=habitat;g.lineWidth=r*.075;
         g.beginPath();
-        g.ellipse(
-          x,
-          y,
-          r * (0.8 + j * 0.35),
-          r * (0.25 + j * 0.12),
-          j * 0.9 - 0.5,
-          0.2,
-          Math.PI * 1.8,
-        );
-        g.stroke();
-      }
-      g.fillStyle = "#edfcff";
-      ellipse(g, x, y, r * 0.2, r * 0.2);
-    } else {
-      g.fillStyle = c;
-      g.strokeStyle = c;
-      g.lineWidth = r * 0.08;
-      for (let j = 0; j < n; j++) {
-        const u = x + Math.sin(j * 8) * r * 0.6,
-          v = y + Math.cos(j * 5) * r * 0.4,
-          s = r * (0.34 + j * 0.015);
-        glow(g, u, v, s * 2, c);
-        if (a.kind === "mineral" || a.kind === "factor") {
-          g.beginPath();
-          g.moveTo(u, v - s * 1.5);
-          g.lineTo(u + s, v);
-          g.lineTo(u, v + s);
-          g.lineTo(u - s, v);
-          g.closePath();
-          g.fill();
-          g.strokeStyle = "#efffff";
-          g.beginPath();
-          g.moveTo(u, v - s * 1.4);
-          g.lineTo(u, v + s * 0.7);
-          g.stroke();
-        } else
-          ellipse(
-            g,
-            u,
-            v,
-            s * (a.kind === "spore" ? 0.5 : 0.7),
-            s,
-            a.kind === "seed" ? 0.5 : 0,
-          );
+        if(a.kind==="mineral"||a.kind==="factor"){
+          g.moveTo(0,-k*1.5);g.lineTo(k,0);g.lineTo(0,k);g.lineTo(-k,0);g.closePath();g.fill();g.stroke();
+          g.strokeStyle="#efffff";g.beginPath();g.moveTo(0,-k*1.4);g.lineTo(0,k*.7);g.stroke();
+          if(a.kind==="factor"){g.strokeStyle=c;g.beginPath();g.ellipse(0,0,k*1.5,k*.5,-.6,0,Math.PI*2);g.stroke();}
+        }else if(a.kind==="seed"){
+          g.moveTo(0,-k*1.3);g.bezierCurveTo(k*1.4,-k*.2,k*.8,k,0,k);g.bezierCurveTo(-k*.8,k,-k*1.2,-k*.2,0,-k*1.3);g.fill();g.stroke();g.beginPath();g.moveTo(0,-k);g.lineTo(0,k*.7);g.stroke();
+        }else if(a.kind==="spore"){
+          ellipse(g,0,0,k*.65,k*.65);g.stroke();g.globalAlpha=.65;g.beginPath();g.ellipse(0,0,k,k,0,0,Math.PI*2);g.stroke();
+        }else if(a.kind==="egg"){
+          ellipse(g,0,0,k*.8,k*1.15);g.stroke();g.fillStyle="#fff6dd";ellipse(g,-k*.2,-k*.35,k*.22,k*.35);
+        }else if(a.kind==="droplet"){
+          g.moveTo(0,-k*1.5);g.bezierCurveTo(k*1.5,k*.3,k*.65,k*1.3,0,k);g.bezierCurveTo(-k*.9,k,-k,k*.1,0,-k*1.5);g.fill();g.stroke();g.fillStyle="#efffff";ellipse(g,-k*.25,0,k*.16,k*.35);
+        }else{
+          g.moveTo(-k,0);g.quadraticCurveTo(-k*.6,-k,k*.1,-k*.6);g.quadraticCurveTo(k*1.2,-k*.3,k*.8,k*.6);g.quadraticCurveTo(-k*.5,k,-k,0);g.fill();g.stroke();g.fillStyle=habitat;ellipse(g,0,0,k*.22,k*.16);
+        }
+        g.restore();
       }
     }
     g.restore();
