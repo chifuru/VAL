@@ -40,21 +40,21 @@ app
         const t=window.__LIFE_TEST__; if(!t)throw Error('test bridge absent');
         if(typeof require!=='undefined')throw Error('Node exposed');
         await window.EcoArt.ready;if(!t.snapshot().assets.loaded)throw Error('Packaged artwork missing: '+t.snapshot().assets.errors.join(','));
-        t.prepare({seed:'native-smoke',width:40,height:28,initial:80});
+        t.prepare({seed:'native-smoke',randomModel:'table/1',width:40,height:28,initial:80});
         if(t.snapshot().world.turn!==0)throw Error('prepare advanced');
         for(let i=0;i<10;i++)t.step();
         const manualTurn=t.snapshot().world.turn;
         document.getElementById('start').click();
         const workerStart=performance.now();
         while(t.snapshot().world.turn<=manualTurn && performance.now()-workerStart<15000)await new Promise(r=>setTimeout(r,50));
-        const workerTurn=t.snapshot().world.turn;
+        const workerTurn=t.snapshot().world.turn,workerTurnMs=performance.now()-workerStart;
         t.stop();
         document.getElementById('detail-view').click();
         const terrainStart=performance.now();
         while((!t.snapshot().render.terrainBuildMs||t.snapshot().render.terrainPending)&&performance.now()-terrainStart<20000)await new Promise(r=>setTimeout(r,100));
         if(!t.snapshot().render.terrainBuildMs||t.snapshot().render.terrainPending)throw Error('Local file terrain Worker did not finish');
         const s=t.snapshot();if(workerTurn<=manualTurn)throw Error('Local file Worker did not advance: '+document.getElementById('message').textContent);
-        return {terrainWorker:true,terrainBuildMs:s.render.terrainBuildMs,workerPlayback:true,workerTurnMs:performance.now()-workerStart,assetsLoaded:t.snapshot().assets.loaded,assetErrors:t.snapshot().assets.errors,platform:navigator.platform,turn:s.world.turn,population:s.world.stats.population,nodeExposed:typeof require!=='undefined',local:location.protocol==='file:',title:document.title};
+        return {terrainWorker:true,terrainBuildMs:s.render.terrainBuildMs,workerPlayback:true,workerTurnMs,randomModel:s.world.config.randomModel,assetsLoaded:t.snapshot().assets.loaded,assetErrors:t.snapshot().assets.errors,platform:navigator.platform,turn:s.world.turn,population:s.world.stats.population,nodeExposed:typeof require!=='undefined',local:location.protocol==='file:',title:document.title};
       })()`);
         if (!result.local) throw Error("Non-local renderer");
         const report = {

@@ -1,0 +1,12 @@
+✔ tests/archive.test.cjs (764.540244ms)
+✔ tests/compute-client.test.cjs (49.372159ms)
+✔ tests/manifest.test.cjs (66.359726ms)
+✔ tests/optimization.test.cjs (990.957496ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1881.116302

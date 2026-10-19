@@ -618,11 +618,13 @@
           c.cell,
         ]);
       }
-      list.sort((a, b) => b.score - a.score || a.h - b.h);
-      const chosen = list[0],
-        without = list
-          .slice()
-          .sort((a, b) => b.noRandom - a.noRandom || a.h - b.h)[0];
+      let chosen=list[0],without=list[0];
+      for(let i=1;i<list.length;i++){
+        const c=list[i];
+        if(c.score>chosen.score || (c.score===chosen.score && c.h<chosen.h))chosen=c;
+        if(c.noRandom>without.noRandom || (c.noRandom===without.noRandom && c.h<without.h))without=c;
+      }
+      if(o.id===ctx.observeId)list.sort((a,b)=>b.score-a.score||a.h-b.h);
       ctx.intents.set(o.id, chosen);
       if (chosen.type === "defend") S.record(ctx, o, "defend");
       ctx.records.get(o.id).randomChanged = chosen !== without;

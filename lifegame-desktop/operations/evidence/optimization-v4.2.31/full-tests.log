@@ -1,0 +1,74 @@
+
+> valis-lifegame-desktop@4.2.30 test
+> node --test tests/*.test.cjs
+
+✔ tests/advantage-switches.test.cjs (7468.098479ms)
+✔ tests/age-model.test.cjs (43213.096222ms)
+✔ tests/aquatic-combination.test.cjs (1379.877203ms)
+✔ tests/aquatic-producer.test.cjs (481.218573ms)
+✔ tests/archive-history.test.cjs (14779.745565ms)
+✖ tests/archive.test.cjs (1009.917635ms)
+✔ tests/colony-production.test.cjs (132.836965ms)
+✖ tests/compute-client.test.cjs (74.869647ms)
+✔ tests/compute-worker.test.cjs (9051.973712ms)
+✔ tests/current-summary.test.cjs (162.597751ms)
+✔ tests/diet.test.cjs (6738.878087ms)
+✔ tests/display-plane.test.cjs (67.419605ms)
+✔ tests/ecology-contract.test.cjs (1145.569242ms)
+✔ tests/ecology-integration.test.cjs (46070.631015ms)
+✔ tests/ecology-observation.test.cjs (12249.37098ms)
+✔ tests/ecology-parasites.test.cjs (143.428341ms)
+✔ tests/ecology-reproduction.test.cjs (153.621476ms)
+✔ tests/ecosystem-foundation.test.cjs (3308.213607ms)
+✔ tests/ecosystem-next.test.cjs (148.473568ms)
+✔ tests/ecosystem-panels.test.cjs (94.645665ms)
+✔ tests/energy-budget-audit.test.cjs (2664.667759ms)
+✔ tests/engine.test.cjs (48220.788372ms)
+✔ tests/favored-free.test.cjs (2026.060142ms)
+✔ tests/favored-q-v2.test.cjs (509.092506ms)
+✔ tests/favored-q-v3.test.cjs (815.855921ms)
+✔ tests/feeding-regression.test.cjs (95.0881ms)
+✔ tests/foodweb-diagnosis.test.cjs (5346.345116ms)
+✔ tests/foodweb-recovery-screen.test.cjs (59.359792ms)
+✔ tests/founder-counts.test.cjs (1153.163421ms)
+✔ tests/free-water-renewal.test.cjs (359.240222ms)
+✔ tests/headless-baseline.test.cjs (2145.431819ms)
+✔ tests/information-observation.test.cjs (342.202078ms)
+✔ tests/information-restart.test.cjs (165.847893ms)
+✔ tests/initial-supply.test.cjs (3670.522509ms)
+✔ tests/interaction-audit.test.cjs (360.066332ms)
+✔ tests/layered-primary.test.cjs (442.211032ms)
+✔ tests/manifest.test.cjs (64.736771ms)
+✔ tests/map-templates.test.cjs (19282.213206ms)
+✔ tests/observation-model.test.cjs (9780.090838ms)
+✔ tests/optimization.test.cjs (962.06056ms)
+✔ tests/ordinary-survival.test.cjs (13079.145646ms)
+✔ tests/package.test.cjs (89.962799ms)
+✔ tests/parasite-contact.test.cjs (141.020107ms)
+✔ tests/population-regulation.test.cjs (5714.577585ms)
+✔ tests/prey-forage-screen.test.cjs (385.099292ms)
+✔ tests/prey-route-screen.test.cjs (1220.51194ms)
+✔ tests/producer-support.test.cjs (5621.030487ms)
+✔ tests/projection.test.cjs (92.098797ms)
+✔ tests/renewal-screen.test.cjs (445.614177ms)
+✔ tests/staged-turn.test.cjs (13023.163731ms)
+✔ tests/survival-trial.test.cjs (328.821405ms)
+✔ tests/trophic-foundation.test.cjs (485.311218ms)
+ℹ tests 52
+ℹ suites 0
+ℹ pass 50
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 286992.672635
+
+✖ failing tests:
+
+test at tests/archive.test.cjs:1:1
+✖ tests/archive.test.cjs (1009.917635ms)
+  'test failed'
+
+test at tests/compute-client.test.cjs:1:1
+✖ tests/compute-client.test.cjs (74.869647ms)
+  'test failed'

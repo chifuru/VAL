@@ -1,0 +1,12 @@
+{
+  "turn": 500,
+  "rows": 501,
+  "main": 56,
+  "waterbug": 81,
+  "signature": "521df4a778be285f5d45548c265e3f4364744e9a10037bddf40beb34e5c65217",
+  "finalFingerprint": "a36bf00ffc8612c562888d7567aa8b5bb8c824c3425aec75b9612585ee4ec0ae",
+  "rawBytes": 9739103,
+  "allRowsRestored": true,
+  "errors": [],
+  "elapsedMs": 66661.477319
+}

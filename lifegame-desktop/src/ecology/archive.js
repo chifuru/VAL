@@ -56,7 +56,7 @@
        if(!['normal','replay-new'].includes(mode)||record.originRecordId&&mode!=='replay-new')return false;
        if(mode==='replay-new'&&(!record.originRecordId||record.schema!==2))throw Error('新規保存する再生元がありません。');
        if(record.schema!==2||!record.observation||record.finalFingerprint?.length!==64)throw Error('保存する全期間記録を読み取れません。');
-       const oldCount=legacy.list().length,db=await open(),header=structuredClone(record);delete header.observation;
+       const oldCount=legacy.list().length,db=await open(),header=structuredClone({...record,observation:undefined});delete header.observation;
        const saved=await new Promise((resolve,reject)=>{const tx=db.transaction(['headers','records'],'readwrite'),hs=tx.objectStore('headers');let duplicate=false,limit=false,failure=null;
          const existing=hs.get(record.id);existing.onsuccess=()=>{try{if(existing.result){duplicate=true;return;}const count=hs.count();count.onsuccess=()=>{try{if(count.result+oldCount>=LIMIT){limit=true;tx.abort();return;}hs.put(header);tx.objectStore('records').put(record);}catch(e){failure=e;tx.abort();}};}catch(e){failure=e;tx.abort();}};
          tx.oncomplete=()=>resolve(!duplicate);tx.onabort=()=>reject(Error(limit?'観測記録が100件に達しました。不要な記録を削除してから再試行してください。':(failure||tx.error)?.name==='QuotaExceededError'?'保存容量が不足しています。結果JSONを書き出すか、不要な記録を削除して再試行してください。':'図鑑に保存できませんでした。記録を保護し、同じ結果を再試行できます。'));tx.onerror=()=>{};

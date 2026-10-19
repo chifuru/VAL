@@ -101,6 +101,21 @@
     return crypto?parseInt(sha256(text).slice(0,8),16):digestWords(text)[0];
   }
   const random = (...args) => hash(...args) / 4294967296;
+  const tableCache=new Map();
+  const mix32=x=>{x=Math.imul(x^(x>>>16),0x7feb352d);x=Math.imul(x^(x>>>15),0x846ca68b);return (x^(x>>>16))>>>0;};
+  function textHash(text,start=2166136261){let h=start;for(let i=0;i<text.length;i++)h=Math.imul(h^text.charCodeAt(i),16777619);return h>>>0;}
+  function randomTable(seed){
+    let entry=tableCache.get(seed);if(entry)return entry;
+    const words=new Uint32Array(4096),salt=parseInt(sha256('random-table/1:'+seed).slice(0,8),16);
+    for(let i=0;i<words.length;i++)words[i]=mix32((salt+Math.imul(i+1,0x9e3779b9))>>>0);
+    entry={words,salt,purposes:new Map()};if(tableCache.size>=4)tableCache.delete(tableCache.keys().next().value);tableCache.set(seed,entry);return entry;
+  }
+  function tableHash(seed,purpose,turn=null,id=null,key=null,axis=null){
+    const t=randomTable(seed);let prefix=t.purposes.get(purpose);
+    if(prefix===undefined){prefix=textHash(String(purpose),t.salt);t.purposes.set(purpose,prefix);}
+    const h=mix32(textHash(JSON.stringify([turn,id,key,axis]),prefix));
+    return mix32(h^t.words[h&4095]^rotate(t.words[(h>>>12)&4095],13));
+  }
   const clamp = (v, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, v));
   const round = (v) =>
     (Math.sign(v) * Math.round((Math.abs(v) + Number.EPSILON) * 1e6)) / 1e6;
@@ -126,6 +141,8 @@
     portableSHA256,
     hash,
     random,
+    tableHash,
+    randomTable,
     clamp,
     round,
     compare,

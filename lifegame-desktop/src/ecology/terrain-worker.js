@@ -11,6 +11,6 @@ onmessage=({data:d})=>{try{
   g.scale(d.dpr,d.dpr);g.translate(d.x,d.y);g.scale(d.scale,d.scale);
   const visible=(p,margin=1)=>p[0]*d.scale+d.x>=-d.scale*margin&&p[1]*d.scale+d.y>=-d.scale*margin&&p[0]*d.scale+d.x<=d.width+d.scale*margin&&p[1]*d.scale+d.y<=d.height+d.scale*margin;
   scene.surface(g,visible,true,d.scale);
-  const bitmap=c.transferToImageBitmap();postMessage({type:'surface',epoch,key:d.key,bitmap,metrics:scene.metrics,ms:performance.now()-at},[bitmap]);
+  const bitmap=c.transferToImageBitmap();postMessage({type:'surface',epoch,key:d.key,bitmap,rect:{x:d.x,y:d.y,width:d.width,height:d.height,scale:d.scale},metrics:scene.metrics,ms:performance.now()-at},[bitmap]);
  }
 }catch(e){postMessage({type:'error',epoch,message:e.message});}};

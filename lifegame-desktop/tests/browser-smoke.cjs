@@ -141,9 +141,9 @@ async function main() {
       await page.evaluate(() => {
         const b = document.querySelector("#board").getBoundingClientRect(),
           i = document.querySelector(".inspector").getBoundingClientRect();
-        return b.width > innerWidth * 0.6 && i.x > b.x + b.width;
+        return b.width > innerWidth * 0.30 && i.x >= b.x + b.width && !document.getElementById("inspector-graphs").hidden && !document.getElementById("inspector-details").hidden;
       }),
-      "wide screen prioritizes map with inspector on the right",
+      "wide screen retains map, timelines and separate selected-detail pane",
     );
     check(
       await page.evaluate(() => {

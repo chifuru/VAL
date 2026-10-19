@@ -123,7 +123,6 @@
   function creature(g, o, x, y, r, detail = true) {
     if(detail){
       g.save();
-      g.shadowColor='rgba(0,12,18,.65)';g.shadowBlur=3;g.shadowOffsetX=1;g.shadowOffsetY=3;
       const drawn=Art?.creature(g,{...o,renderEmphasis:false,renderLighting:true},x,y,r);
       g.restore();if(drawn)return;
     }
@@ -132,6 +131,22 @@
   function food(g, o, x, y, r, env) {
     if (Art?.food(g, o, x, y, r, env)) return;
     symbol(g, o.species, x, y, r, symbolColor(S.spec(o)));
+  }
+  let contactShadow=null;
+  const markSprites=new Map(),markLabels={attack:'攻撃',defend:'防御',graze:'植物食',predate:'捕食',scavenge:'屍肉食',fungal:'分解食',absorb:'吸収',care:'育児',infection:'寄生',clear:'除去',birth:'出生',growth:'進化',death:'死亡'};
+  const markColors={attack:'#ff9978',defend:'#9edfff',graze:'#b1e59a',predate:'#ffcb88',scavenge:'#d9ad91',fungal:'#d7bbef',absorb:'#b6e8dc',care:'#bce7b1',infection:'#d3a2ff',clear:'#eff7ed',birth:'#ffe3a0',growth:'#a7eeef',death:'#c6b7ad'};
+  function actionKind(e){return e.type==='feed'?(e.sourceType==='carcass'?'scavenge':e.sourceType==='plant'?(e.tag==='plant'?'graze':e.tag==='fungal'?'fungal':'predate'):'absorb'):e.type;}
+  function markSprite(kind){
+    if(markSprites.has(kind))return markSprites.get(kind);
+    const c=document.createElement('canvas');c.width=112;c.height=34;const g=c.getContext('2d');
+    g.fillStyle='#07232bf0';g.beginPath();g.roundRect(1,1,110,32,9);g.fill();g.strokeStyle=markColors[kind];g.lineWidth=2;g.stroke();
+    g.fillStyle=markColors[kind];g.font='bold 21px sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(markLabels[kind],56,18);
+    markSprites.set(kind,c);return c;
+  }
+  function groundShadow(){
+    if(contactShadow)return contactShadow;contactShadow=document.createElement('canvas');contactShadow.width=128;contactShadow.height=128;
+    const g=contactShadow.getContext('2d'),r=g.createRadialGradient(64,64,0,64,64,64);r.addColorStop(0,'#00131be0');r.addColorStop(1,'#00131b00');
+    g.fillStyle=r;g.fillRect(0,0,128,128);return contactShadow;
   }
   function create(canvas) {
     const g = canvas.getContext("2d"),
@@ -166,7 +181,9 @@
       infectedHosts: 0,
       highParasites: 0,
     };
-    const deathAppearances=new Map();
+    const deathAppearances=new Map(),actionMarks=new Map();
+    Art.ready.then(()=>{groundShadow();for(const kind of Object.keys(markLabels))markSprite(kind);});
+    let livingById=new Map(),eventPlan=null;
     let world = null,
       P = null,
       scene = null,
@@ -175,7 +192,7 @@
       changedAt = 0,
       cache = null,
       cacheKey = null,
-      nearCache = null,
+      nearCache = null, nearRect = null,
       revision = 0,
       lastFrameKey = null,
       layout = null, layoutWorld = null, layoutEnabled = null, layoutDetail = null,
@@ -185,6 +202,7 @@
     function pumpTerrain(){
       if(!terrainReady||terrainBusy||!terrainRequest)return;
       const request=terrainRequest;terrainRequest=null;terrainBusy=true;
+      diagnostics.terrainRequests=(diagnostics.terrainRequests||0)+1;
       terrainWorker.postMessage({type:"render",epoch:terrainEpoch,...request});
     }
     function resetTerrain(w){
@@ -200,7 +218,7 @@
           if(epoch!==terrainEpoch||d.epoch!==epoch){d.bitmap?.close?.();return;}
           terrainBusy=false;
           if(d.type==="error"){terrainFailed=true;diagnostics.terrainPending=false;revision++;return;}
-          if(d.key===cacheKey){nearCache?.close?.();nearCache=d.bitmap;terrainMetrics=d.metrics;diagnostics.terrainBuildMs=d.ms;diagnostics.terrainPending=false;revision++;}
+          if(d.key===cacheKey){nearCache?.close?.();nearCache=d.bitmap;nearRect=d.rect;terrainMetrics=d.metrics;diagnostics.terrainBuildMs=d.ms;diagnostics.terrainPending=false;revision++;}
           else d.bitmap?.close?.();
           pumpTerrain();
         };
@@ -233,7 +251,14 @@
       return b;
     }
     function setWorld(w, restartMotion = false) {
-      revision++;
+      revision++;livingById=new Map(w.organisms.map(o=>[o.id,o]));eventPlan=null;
+      const time=performance.now();
+      if(world&&(w.turn<world.turn||w.config.seed!==world.config.seed))actionMarks.clear();
+      for(const [key,m]of actionMarks)if(time-m.at>850)actionMarks.delete(key);
+      for(const ev of w.events||[]){const kind=actionKind(ev);if(!markLabels[kind])continue;
+        const key=[w.turn,ev.id,kind,ev.target||ev.source||''].join('|');
+        if(!actionMarks.has(key)){if(actionMarks.size>=256)actionMarks.delete(actionMarks.keys().next().value);actionMarks.set(key,{id:ev.id,cell:ev.cell??livingById.get(ev.id)?.cell,kind,at:time});}
+      }
       if(world && (w.turn<world.turn || w.config.seed!==world.config.seed))deathAppearances.clear();
       const deadIds=new Set(w.carcasses.map(a=>a.id));
       for(const id of deathAppearances.keys())if(!deadIds.has(id))deathAppearances.delete(id);
@@ -314,8 +339,9 @@
     function drawIfChanged(now = performance.now()) {
       const b = canvas.getBoundingClientRect();
       if(!b.width || !b.height)return false;
-      const active =
-        world && view.animate && view.motion && now - changedAt < view.duration;
+      const active = world && view.motion && (
+        (view.animate&&now-changedAt<view.duration&&(world.events||[]).some(e=>e.type!=='light')) ||
+        [...actionMarks.values()].some(m=>now-m.at>=670&&now-m.at<850));
       const key = [
         revision,
         Art.loaded,
@@ -383,10 +409,11 @@
       g.translate(view.x, view.y);
       g.scale(z, z);
       if (near) {
+        const sx=Math.floor(view.x/128)*128+128+(view.x-Math.floor(view.x)),sy=Math.floor(view.y/128)*128+128+(view.y-Math.floor(view.y));
         const key = [
           geometryKey,
-          view.x,
-          view.y,
+          sx,
+          sy,
           z,
           b.width,
           b.height,
@@ -394,15 +421,16 @@
         ].join("/");
         if (key !== cacheKey) {
           cacheKey = key;nearCache?.close?.();nearCache=null;
-          terrainRequest={key,x:view.x,y:view.y,scale:z,width:b.width,height:b.height,dpr:devicePixelRatio||1};
+          terrainRequest={key,x:sx,y:sy,scale:z,width:b.width+256,height:b.height+256,dpr:devicePixelRatio||1};
           diagnostics.terrainPending=!terrainFailed;pumpTerrain();
         }
         if(!nearCache&&terrainFailed){
           nearCache=document.createElement("canvas");const d=devicePixelRatio||1;
+          nearRect={x:view.x,y:view.y,width:b.width,height:b.height,scale:z};
           nearCache.width=Math.round(b.width*d);nearCache.height=Math.round(b.height*d);
           const n=nearCache.getContext("2d");n.scale(d,d);n.translate(view.x,view.y);n.scale(z,z);scene.surface(n,visible,true,z);
         }
-        if(nearCache)g.drawImage(nearCache,-view.x/z,-view.y/z,b.width/z,b.height/z);
+        if(nearCache)g.drawImage(nearCache,-nearRect.x/z,-nearRect.y/z,nearRect.width/z,nearRect.height/z);
         else scene.surface(g,visible,false,z);
       } else {
         if (!cache) {
@@ -450,13 +478,16 @@
         events = new Map(),
         departed = new Map();
       if (view.motion && !point && age < 1) {
-        const living = new Map(w.organisms.map((o) => [o.id, o])),
+        const planKey=[revision,view.x,view.y,z,view.selected,view.selectedEntity,b.width,b.height].join('/');
+        if(eventPlan?.key===planKey){for(const [id,list]of eventPlan.events)events.set(id,list);for(const [id,o]of eventPlan.departed)departed.set(id,o);}
+        else {
+        const living = new Map(livingById),
           grouped = new Map();
         for (const ev of w.events) if (near && ev.type === "death" && !living.has(ev.id) && previousActors.has(ev.id)) {
           const o = previousActors.get(ev.id);departed.set(ev.id,o);living.set(ev.id,o);
         }
         for (const ev of w.events) {
-          if(ev.type === "death") continue;
+          if(ev.type === "death"||ev.type === "light") continue;
           const o = living.get(ev.id);
           if (!o || !visible(coordinates.anchor(o).point, 1.6)) continue;
           if (!grouped.has(ev.id)) grouped.set(ev.id, []);
@@ -495,6 +526,8 @@
           );
         });
         for (const [id, list] of order.slice(0, 128)) events.set(id, list);
+        eventPlan={key:planKey,events:new Map(events),departed:new Map(departed)};
+        }
       }
       function actionEffects(o,list,r,cx,cy) {
         if (list.length) {
@@ -511,7 +544,7 @@
           g.strokeStyle=({attack:"#ffa47c",defend:"#9edfff",graze:"#b1e59a",predate:"#ffcb88",scavenge:"#d9ad91",fungal:"#d7bbef",absorb:"#b6e8dc",care:"#bce7b1",infection:"#d3a2ff",clear:"#eff7ed",birth:"#ffe3a0",growth:"#a7eeef"})[kind]||"#e9eab0";g.lineWidth=.025;
           if(["attack","feed","care"].includes(ev.type)){
             const targetId=ev.target||ev.source,
-              target=w.organisms.find(a=>a.id===targetId)||(previousActors.has(targetId)?{...previousActors.get(targetId),cell:ev.to??previousActors.get(targetId).cell}:null),
+              target=livingById.get(targetId)||(previousActors.has(targetId)?{...previousActors.get(targetId),cell:ev.to??previousActors.get(targetId).cell}:null),
               corpse=coordinates.entity(targetId),oldCorpse=previousCorpses.get(targetId),resourceIndex=ev.sourceType==="resource"?Object.keys(S.FOOD).indexOf(String(ev.source).split(":").at(-1)):-1,
               sourcePoint=oldCorpse?position(ev.to??oldCorpse.cell,oldCorpse.slot==="food"?.22:oldCorpse.slot==="prey"?.52:.86,.86):resourceIndex>=0?position(ev.to??o.cell,.12+(resourceIndex%4)*.23,.12+Math.floor(resourceIndex/4)*.2):null,
               endpoint=target?coordinates.anchor(target,age,events.get(target.id)?.find(e=>e.type==='move')):null,
@@ -554,7 +587,7 @@
           diagnostics.resources++;
           const r = 0.05 + 0.04 * Math.min(1, a.q / (S.FOOD[a.kind].cap || 4));
           if (near && (view.names.resource || a.cell===view.selected)) {
-            annotations.push(()=>{g.save();g.fillStyle="#fff1cd";g.font=".055px sans-serif";g.textAlign="center";g.shadowColor="#061a25";g.shadowBlur=3/z;g.fillText(S.FOOD[a.kind].name,p[0],p[1]-.10);g.restore();});
+            annotations.push(()=>{g.save();g.fillStyle="#fff1cd";g.font=".055px sans-serif";g.textAlign="center";g.fillText(S.FOOD[a.kind].name,p[0],p[1]-.10);g.restore();});
             diagnostics.nameLabels.resource++;
           }
           if (detail) Art.resource(g, a, ...p, r, w.tiles[a.cell].env, w.turn);
@@ -730,7 +763,8 @@
           g.restore();actionEffects(o,list,r,cx,cy);continue;
         }
         if(!actor.elevated){
-        if(detail){const shadow=g.createRadialGradient(p[0],p[1]+.04,0,p[0],p[1]+.04,r);shadow.addColorStop(0,"#00131be0");shadow.addColorStop(1,"#00131b08");g.fillStyle=shadow;}else g.fillStyle="#061922cc";
+        if(detail){g.drawImage(groundShadow(),p[0]-r*.9,p[1]+.04-r*.23,r*1.8,r*.46);}
+        else {g.fillStyle="#061922cc";
         g.beginPath();
         g.ellipse(
           p[0],
@@ -741,7 +775,7 @@
           0,
           7,
         );
-        g.fill();
+        g.fill();}
         }
         hitRegions.push({id:o.id,cell:o.cell,main:isMain,x:cx,y:cy,rx:detail?r*1.65:isMain?.35:.22,ry:detail?r*1.55:isMain?.32:.21});
         if (view.emphasis && (!detail || !isMain)) {
@@ -768,19 +802,7 @@
           if (isMain)
             creature(
               g,
-              list.length
-                ? {
-                    ...displayed,
-                    renderPose: {
-                      lean: list.some((e) => e.type === "attack")
-                        ? Math.sin(age * Math.PI) * 0.15
-                        : 0,
-                      squash: list.some((e) => e.type === "feed")
-                        ? 1 - Math.sin(age * Math.PI) * 0.07
-                        : 1,
-                    },
-                  }
-                : displayed,
+              displayed,
               cx,
               cy,
               r,
@@ -820,7 +842,7 @@
             const pName=nameEnabled("P",o.infection.id),qName=o.infection.q&&nameEnabled("Q",o.infection.q.id);
             if(pName)diagnostics.nameLabels.P++;
             if(qName)diagnostics.nameLabels.Q++;
-            annotations.push(()=>{g.save();g.font=".055px sans-serif";g.textAlign="left";g.shadowColor="#061a25";g.shadowBlur=3/z;if(pName){g.fillStyle="#ffd1a3";g.fillText(S.D.byId[o.infection.species].name+" P · "+o.infection.stage,cx+.1,cy-.43);}if(qName){g.fillStyle="#d9b9ff";g.fillText(S.D.byId.hyperparasite.name+" Q · "+o.infection.q.phase,cx+.1,cy-.51);}g.restore();});
+            annotations.push(()=>{g.save();g.font=".055px sans-serif";g.textAlign="left";if(pName){g.fillStyle="#ffd1a3";g.fillText(S.D.byId[o.infection.species].name+" P · "+o.infection.stage,cx+.1,cy-.43);}if(qName){g.fillStyle="#d9b9ff";g.fillText(S.D.byId.hyperparasite.name+" Q · "+o.infection.q.phase,cx+.1,cy-.51);}g.restore();});
           }
           const [bx, by] = globalThis.EcoDisplayPlane.parasitePoint([cx,cy],"P",detail);
           if (detail && Art.parasite(g, o.infection, bx, by, .105)) {
@@ -945,6 +967,18 @@
         });g.restore();diagnostics.highlightedCells.push({cell,ids:ordered,colors:ordered.map(highlightColor),mode:z<24&&ordered.length>1?"split-perimeter":"nested"});
       }
       for (const annotate of annotations) annotate();
+      diagnostics.actionMarks=[];
+      if(view.motion&&!point){const now=performance.now(),marks=[...actionMarks.values()].filter(m=>now-m.at<850&&Number.isInteger(m.cell??livingById.get(m.id)?.cell));
+        marks.sort((a,b)=>Number(b.id===view.selectedEntity)-Number(a.id===view.selectedEntity)||b.at-a.at);
+        const slots=new Map();
+        for(const m of marks.slice(0,64)){const o=livingById.get(m.id),p=o?coordinates.anchor(o).point:position(m.cell);if(!visible(p,2))continue;
+          const n=slots.get(m.id)||0;if(n>=3)continue;slots.set(m.id,n+1);
+          const width=detail?Math.max(.18,46/z):Math.max(.30,20/z),height=width*34/112;
+          const mx=S.clamp(p[0]-width/2,(-view.x+4)/z,(-view.x+b.width-4)/z-width),my=Math.max((-view.y+4)/z+2*(height+.025),p[1]-(detail?.40:.42))-n*(height+.025);
+          g.save();g.globalAlpha=Math.min(1,(850-(now-m.at))/180);g.drawImage(markSprite(m.kind),mx,my,width,height);g.restore();
+          diagnostics.actionMarks.push({id:m.id,kind:m.kind,x:mx*z+view.x,y:my*z+view.y});
+        }
+      }
       if (view.selected !== null) {
         const f = P.face(view.selected);
         path(f.slice(0, 4));

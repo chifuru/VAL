@@ -153,9 +153,10 @@
     return s.id === "precocial" ? 30 : 20 * (1 + S.trait(o, "birth", phase));
   }
   function candidates(w, ctx) {
-    const m = S.maps(w),
-      out = [];
-    for (let cell = 0; cell < w.tiles.length; cell++) {
+    const m = S.maps(w),out=[],cells=w.organisms.length*8<w.tiles.length?new Set():null,enabledSpecies=S.D.species.filter(s=>["plant","fungus","prey"].includes(s.group)&&w.config.enabled[s.group]);
+    if(cells)for(const o of w.organisms)for(const cell of S.nearby(w,o.cell))cells.add(cell);
+    for (let cell=0;cell<w.tiles.length;cell++) {
+      if(cells&&!cells.has(cell))continue;
       if (w.tiles[cell].blocked) continue;
       const near = S.nearby(w, cell),
         mains = near.map((p) => m.main.get(p)).filter(Boolean),
@@ -213,11 +214,7 @@
               });
       }
       if (!m.food.has(cell))
-        for (const s of S.D.species.filter(
-          (s) =>
-            ["plant", "fungus", "prey"].includes(s.group) &&
-            w.config.enabled[s.group],
-        )) {
+        for (const s of enabledSpecies) {
           if (!S.validHabitat(w, s, cell)) continue;
           const same = food.filter((o) => o.species === s.id);
           if (

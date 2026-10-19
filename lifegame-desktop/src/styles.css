@@ -474,7 +474,7 @@ canvas#board {
   display: block;
   border-radius: 0;
   background: radial-gradient(ellipse at 50% 45%, #26576244, #00151c00);
-  filter: drop-shadow(0 4px 8px #0006);
+  filter: none;
 }
 .specimen-hero .phase-name {
   font-family: "Yu Mincho", serif;
@@ -1693,7 +1693,7 @@ body:not(.setup-screen) .workspace > .inspector { grid-row: 2; }
   .observatory .observation-overview .current-summary { grid-template-columns:minmax(270px,1.25fr) minmax(220px,.9fr) minmax(210px,.85fr) 190px; }
   .observatory .current-composition canvas { width:180px; }
   body.observatory:not(.setup-screen) .workspace { grid-template-columns:minmax(0,1fr) 480px; }
-  body.observatory:not(.setup-screen) .workspace:has(> .inspector.has-detail) { grid-template-columns:minmax(0,1fr) 780px; }
+  body.observatory:not(.setup-screen) .workspace:has(> .inspector.has-detail) { grid-template-columns:minmax(0,1fr) 812px; }
   .observatory .workspace > .inspector.has-detail { grid-template-columns:464px minmax(0,1fr); grid-template-rows:minmax(0,1fr); }
 }
 @media (min-width:1101px) and (min-height:700px) {
@@ -1709,3 +1709,15 @@ body:not(.setup-screen) .workspace > .inspector { grid-row: 2; }
 @media (min-width:1101px) and (min-height:700px) {
   .observatory .workspace > .world-column { gap:2px; }
 }
+
+/* Grouped presence catalogue: no single horizontal scroll strip. */
+#species-key, .observatory .map-key > #species-key { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;max-height:164px;overflow-y:auto;overflow-x:hidden;white-space:normal; }
+.species-group { min-width:0;padding:4px 0;border-top:1px solid #31545b; }
+.species-group h4 { margin:0 0 4px;color:#9ec5c5;font-size:11px;letter-spacing:.06em; }
+.species-key-items { display:flex;flex-wrap:wrap;gap:4px;min-width:0; }
+.species-key-items .map-key-item { max-width:100%; }
+.species-key-items .species-button { min-width:0; }
+.species-key-items .species-button span { overflow:hidden;text-overflow:ellipsis; }
+@media(max-width:700px) { #species-key,.observatory .map-key > #species-key { grid-template-columns:1fr; } }
+
+@media (min-width:1101px) and (min-height:700px) and (max-height:850px) { .observatory .map-key > #species-key {max-height:84px;} }

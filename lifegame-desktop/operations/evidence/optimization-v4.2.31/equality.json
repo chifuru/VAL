@@ -1,0 +1,26 @@
+[
+  {
+    "width": 40,
+    "height": 28,
+    "turns": 20,
+    "before": 2987.2069610000003,
+    "after": 2906.6233829999996,
+    "equal": true
+  },
+  {
+    "width": 80,
+    "height": 56,
+    "turns": 8,
+    "before": 3904.5780479999994,
+    "after": 3357.9971960000003,
+    "equal": true
+  },
+  {
+    "width": 160,
+    "height": 112,
+    "turns": 3,
+    "before": 6547.645818000001,
+    "after": 5875.971880000001,
+    "equal": true
+  }
+]

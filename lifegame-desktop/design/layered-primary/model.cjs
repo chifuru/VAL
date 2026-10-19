@@ -27,7 +27,7 @@ function model(options={}){
   }
   if(name==='reproduction'){
    source=change(source,'near.map((p) => m.food.get(p)).filter(Boolean)','near.flatMap((p) => [m.food.get(p), m.prey.get(p)]).filter(Boolean)');
-   source=change(source,'      if (!m.food.has(cell))\n        for (const s of S.D.species.filter(','      for (const s of S.D.species.filter(');
+   source=change(source,'      if (!m.food.has(cell))\n        for (const s of enabledSpecies)','      for (const s of enabledSpecies)');
    source=change(source,'          if (!S.validHabitat(w, s, cell)) continue;','          if ((s.slot === "prey" ? m.prey : m.food).has(cell) || !S.validHabitat(w, s, cell)) continue;');
    source=change(source,'slot: "food",\n                kind: 2,','slot: s.slot,\n                kind: 2,');
    source=change(source,'for (const slot of ["main", "food"])','for (const slot of ["main", "food", "prey"])');

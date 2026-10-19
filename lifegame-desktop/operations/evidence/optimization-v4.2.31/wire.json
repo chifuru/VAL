@@ -1,0 +1,7 @@
+{
+  "phases": 24,
+  "oldJsonBytes": 24511815,
+  "newJsonBytes": 13058989,
+  "equal": true,
+  "note": "JSON representation for approximate payload comparison, not native structured-clone bytes"
+}

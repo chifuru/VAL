@@ -1,3 +1,5 @@
+[最適化・乱数表・事前陰影・行動マーク・分類一覧（4.2.31）](optimization-v4.2.31.md)。現在の実装範囲と後段を区別する。
+
 [河川500Tの世代循環と要所利益の実測](../../operations/evidence/circulation-audit-v4.2.19/README.md)。供給OFF/ONで限定生存経路を確認。source/UI不変。情報長期伝播・分解者/水中生産者の不足と、画面/実Windowsの未確認を保持。
 
 [情報の由来・直接重み適用・Q媒介（4.2.19）](information-observation-v1.md)。死亡後の既知由来と20T期限、取得/適用/媒介を分離して全期間/CSV/保存へ。生態決定・原画は維持。

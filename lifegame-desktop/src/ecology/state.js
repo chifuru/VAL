@@ -107,10 +107,9 @@ return {settings,attach,region,level,factor,begin,finish};
     factor: { name: "代謝因子", tag: "factor", cap: 1 },
     info: { name: "情報", tag: "info", cap: 12, period: 1 },
   };
-  const r = (w, p, t = null, id = null, key = null, axis = null) =>
-    H.random(w.config.seed, p, t, id, key, axis);
   const hash = (w, p, t = null, id = null, key = null, axis = null) =>
-    H.hash(w.config.seed, p, t, id, key, axis);
+    (w.config.randomModel==='table/1'?H.tableHash:H.hash)(w.config.seed,p,t,id,key,axis);
+  const r = (w, p, t = null, id = null, key = null, axis = null) => hash(w,p,t,id,key,axis)/4294967296;
   const spec = (o) => D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
@@ -393,6 +392,8 @@ return {settings,attach,region,level,factor,begin,finish};
       throw Error("SETTINGS_INVALID: 年齢モデル");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
+    if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
+    if(c.randomModel==='table/1')H.randomTable(c.seed);
     if(c.populationRegulation!==undefined){
       const a=c.populationRegulation;
       if(!a||typeof a!=="object"||Array.isArray(a)||a.version!==1||Object.keys(a).some(k=>k!=="version"))throw Error("SETTINGS_INVALID: 個体群の出生調整");

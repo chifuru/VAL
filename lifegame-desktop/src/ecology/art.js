@@ -18,6 +18,7 @@
     }),
   ).then(() => {
     loaded = !errors.length;
+    if(loaded){const c=document.createElement('canvas');c.width=c.height=1;const g=c.getContext('2d');for(let index=0;index<manifest.props.regions.length;index++)propShadow(g,index,0,0,1);}
   });
   const tint = [
     "#66d4c5",
@@ -34,20 +35,25 @@
     g.ellipse(x, y, a, b, angle, 0, Math.PI * 2);
     g.fill();
   }
-  function glow(g, x, y, r, c) {
-    const a = g.createRadialGradient(x, y, 0, x, y, r);
-    a.addColorStop(0, c + "80");
-    a.addColorStop(1, c + "00");
-    g.fillStyle = a;
-    g.fillRect(x - r, y - r, r * 2, r * 2);
+  const glowFrames=new Map();
+  function glow(g,x,y,r,c){
+    let image=glowFrames.get(c);if(!image){image=document.createElement('canvas');image.width=image.height=128;
+      const n=image.getContext('2d'),a=n.createRadialGradient(64,64,0,64,64,64);a.addColorStop(0,c+'80');a.addColorStop(1,c+'00');n.fillStyle=a;n.fillRect(0,0,128,128);if(glowFrames.size>=16)glowFrames.delete(glowFrames.keys().next().value);glowFrames.set(c,image);}
+    g.drawImage(image,x-r,y-r,r*2,r*2);
   }
-  const variants = new Map(),
-    framesClean = new Map();
+  const variants = new Map(),framesClean = new Map(),cacheMetrics={bytes:{},evictions:{}};
+  function cachedFrame(map,key){const value=map.get(key);if(value){map.delete(key);map.set(key,value);}return value;}
+  function storeFrame(name,map,key,frame,megabytes,factor=1){
+    map.set(key,frame);let bytes=0;for(const c of map.values())bytes+=c.width*c.height*4*factor;
+    const limit=megabytes*1024*1024;
+    while(bytes>limit&&map.size>1){const first=map.keys().next().value,c=map.get(first);map.delete(first);bytes-=c.width*c.height*4*factor;cacheMetrics.evictions[name]=(cacheMetrics.evictions[name]||0)+1;}
+    cacheMetrics.bytes[name]=bytes;return frame;
+  }
   // Atlas cells may contain isolated tips from a neighbour. Keep the central tissue
   // and its substantial attached components; source PNGs remain unchanged.
   function cleanFrame(im, f, singleBody = false) {
     const key = im.src + "/" + f.join(",") + "/" + singleBody;
-    if (framesClean.has(key)) return framesClean.get(key);
+    if (framesClean.has(key)) return cachedFrame(framesClean,key);
     const c = document.createElement("canvas");
     c.width = f[2];
     c.height = f[3];
@@ -95,7 +101,7 @@
     for (let p = 0; p < W * H; p++)
       if (labels[p] && !keep.has(labels[p])) d.data[p * 4 + 3] = 0;
     g.putImageData(d, 0, 0);
-    framesClean.set(key, c);
+    storeFrame('clean',framesClean,key,c,96);
     return c;
   }
 
@@ -298,7 +304,7 @@
       key = [o.species, o.phase, o.branch3, o.branch4, stage, sex, o.role].join(
         "/",
       );
-    if (variants.has(key)) { if(anatomyTargets.has(o.species))anatomyMetrics.hits++; return variants.get(key); }
+    if (variants.has(key)) { if(anatomyTargets.has(o.species))anatomyMetrics.hits++; return cachedFrame(variants,key); }
     const c = document.createElement("canvas");
     c.width = f[2];
     c.height = f[3];
@@ -314,7 +320,7 @@
       anatomyMetrics.maxTexturePixels=Math.max(anatomyMetrics.maxTexturePixels,c.width*c.height);
       anatomyFrame(c,skin,o,stage);
       if(variants.size>=256)variants.delete(variants.keys().next().value);
-      variants.set(key,c);return c;
+      storeFrame('variants',variants,key,c,128,2);return c;
     }
     // Change tissue proportions, not only an external badge: juvenile appendages shorter,
     // males longer peripheral structures, females wider central body at every phase.
@@ -355,7 +361,7 @@
       }
     }
     if (variants.size >= 256) variants.delete(variants.keys().next().value);
-    variants.set(key, c);
+    storeFrame('variants',variants,key,c,128,2);
     return c;
   }
   // Color lighting is independent of pose, camera and biological state.
@@ -535,7 +541,7 @@
       }
       n.globalCompositeOperation="source-over";
       if(foodStates.size>=128)foodStates.delete(foodStates.keys().next().value);
-      foodStates.set(key,c);frame=c;foodMetrics.builds++;foodMetrics.cached=foodStates.size;
+      storeFrame('lower',foodStates,key,c,24);frame=c;foodMetrics.builds++;foodMetrics.cached=foodStates.size;
     }else foodMetrics.hits++;
     const ageScale=stage==="juvenile"?.78:stage==="elderly"?.94:1,
       size=r*(.93+.12*stock)*ageScale;
@@ -594,7 +600,7 @@
       for (let i = 0; i < weather * 14; i++)
         ellipse(n, 12 + (i * 47 % 168), 12 + (i * 73 % 168), 2, 1);
       if (remainsFrames.size >= 256) remainsFrames.delete(remainsFrames.keys().next().value);
-      remainsFrames.set(key, c); frame = c;
+      storeFrame('remains',remainsFrames,key,c,32); frame = c;
     }
     const size = r * (1.3 + .18 * amount);
     g.save(); g.translate(x, y);
@@ -706,31 +712,31 @@
       s.globalCompositeOperation = "source-in";
       s.fillStyle = "#071e26";
       s.fillRect(0, 0, c.width, c.height);
-      shadowFrames.set(index, c);
+      const baked=document.createElement("canvas");baked.width=c.width;baked.height=c.height;
+      const bg=baked.getContext('2d');bg.filter='blur(3px)';bg.drawImage(c,0,0);shadowFrames.set(index,baked);
     }
     const height = (width * f[3]) / f[2];
     g.save();
     g.translate(x, y);
     g.transform(1, 0.18, -0.65, -0.2, 0, 0);
     g.globalAlpha = 0.28;
-    // Blur a small, reusable screen-space stamp rather than opening a
-    // filtered layer over the entire observation canvas for every prop/frame.
-    const m=g.getTransform(),pad=8,key=[index,width,height,m.a,m.b,m.c,m.d].join("/");
-    let stamp=shadowStamps.get(key);
-    if(!stamp){
-      const points=[[-width/2,-height*.9],[width/2,-height*.9],[-width/2,height*.1],[width/2,height*.1]].map(([x,y])=>[m.a*x+m.c*y,m.b*x+m.d*y]);
-      const left=Math.floor(Math.min(...points.map(p=>p[0])))-pad,top=Math.floor(Math.min(...points.map(p=>p[1])))-pad,
-        right=Math.ceil(Math.max(...points.map(p=>p[0])))+pad,bottom=Math.ceil(Math.max(...points.map(p=>p[1])))+pad;
-      const canvas=document.createElement("canvas");canvas.width=Math.max(1,right-left);canvas.height=Math.max(1,bottom-top);
-      const c=canvas.getContext("2d");c.setTransform(m.a,m.b,m.c,m.d,-left,-top);c.filter="blur(2px)";
-      c.drawImage(shadowFrames.get(index),-width/2,-height*.9,width,height);
-      stamp={canvas,left,top};if(shadowStamps.size>=128)shadowStamps.delete(shadowStamps.keys().next().value);shadowStamps.set(key,stamp);
-    }
-    g.setTransform(1,0,0,1,0,0);g.drawImage(stamp.canvas,m.e+stamp.left,m.f+stamp.top);
+    g.drawImage(shadowFrames.get(index),-width/2,-height*.9,width,height);
     g.restore();
+  }
+  let warmEpoch=0;
+  function warmWorld(w){
+    const epoch=++warmEpoch,seen=new Set(),queue=[];
+    for(const o of w.organisms){if(o.slot!=='main')continue;const key=[o.species,o.phase,o.branch3,o.branch4,root.EcoState.ageInfo(o).stage,o.sex,o.role].join('/');if(!seen.has(key)){seen.add(key);queue.push(o);}}
+    return ready.then(()=>new Promise(resolve=>{
+      if(!loaded)return resolve();const c=document.createElement('canvas');c.width=c.height=1;const g=c.getContext('2d');
+      const schedule=fn=>typeof requestIdleCallback==='function'?requestIdleCallback(fn,{timeout:250}):setTimeout(fn,0);
+      const next=()=>{if(epoch!==warmEpoch||!queue.length)return resolve();creature(g,{...queue.shift(),renderLighting:true,renderEmphasis:false},0,0,1);schedule(next);};schedule(next);
+    }));
   }
   root.EcoArt = {
     manifest,
+    warmWorld,
+    cacheMetrics,
     outlineMetrics,
     anatomyMetrics,
     anatomyTargets: [...anatomyTargets],

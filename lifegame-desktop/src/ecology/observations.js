@@ -4,7 +4,7 @@
   function create(config,version,{maxBytes=256*1024*1024,species=[]}={}){
     const rows=[],levels=[],metadata={schema:'ecology-observation/1',version,config:structuredClone(config),species:species.map(({id,name,group})=>({id,name,group}))};
     const byId=Object.fromEntries(species.map(s=>[s.id,s])),groupOrder=['plant','prey','main','fungus','P','Q'],groupNames={plant:'生産者',prey:'一次消費者',main:'主生物',fungus:'分解者',P:'P',Q:'Q'};
-    let exportedThrough=-1,estimatedBytes=0,dietFrames=[],allocations=new Map(),informationOrigins=new Map();
+    let exportedThrough=-1,estimatedBytes=0,dietFrames=[],dietFrameBytes=[],allocations=new Map(),informationOrigins=new Map();
     function trophic(w,frames){
       const inputById=new Map(),production={},predators={},combatKills={},scavengers={},edges={},needed=new Set(),next=new Map(),side={decomposer:0,remains:0,unknown:0},layers=[0,0,0,0],fresh=w.observation?.flowTelemetry;
       for(const frame of frames){for(const [id,n]of Object.entries(frame.combat?.kills||{}))combatKills[id]=(combatKills[id]||0)+n;
@@ -121,9 +121,9 @@
       const nextFrames=[...dietFrames,frame].slice(-50),pyramid=trophic(w,nextFrames);
       row.current.pyramid=pyramid.data;row.current.biomass.production=pyramid.data.production;
 
-      const bytes=JSON.stringify(row).length*4;
-      if(estimatedBytes+bytes+JSON.stringify(nextFrames).length*4>maxBytes)throw Error("観測記録の容量上限に達しました。既存の全ターンCSVを書き出してください。");
-      estimatedBytes+=bytes;dietFrames=nextFrames;allocations=pyramid.allocation;informationOrigins=nextOrigins;rows.push(row);
+      const bytes=JSON.stringify(row).length*4,nextFrameBytes=[...dietFrameBytes,JSON.stringify(frame).length*4].slice(-50),retainedBytes=nextFrameBytes.reduce((a,n)=>a+n,0)+Math.max(0,nextFrameBytes.length-1)*4+8;
+      if(estimatedBytes+bytes+retainedBytes>maxBytes)throw Error("観測記録の容量上限に達しました。既存の全ターンCSVを書き出してください。");
+      estimatedBytes+=bytes;dietFrames=nextFrames;dietFrameBytes=nextFrameBytes;allocations=pyramid.allocation;informationOrigins=nextOrigins;rows.push(row);
       // Dyadic summaries are built once per append, never by rescanning full history on each frame.
       const base={first:row.turn,last:row.turn,counts:row.counts,min:{...row.counts},max:{...row.counts}};
       (levels[0]??=[]).push(base);
@@ -140,17 +140,21 @@
       while(at<rows.length){let size=l;while(size>0 && at+2**size>rows.length)size--;const item=levels[size]?.[Math.floor(at/2**size)];if(!item)break;out.push(item);at+=2**size;}
       return out;
     }
+    const seriesCache=new Map();
     function series(target='main',axis='population'){
       const accepts=id=>target==='all'||id===target||byId[id]?.group===target;
-      return rows.map(r=>{const values={};
+      const cacheKey=target+'|'+axis;let result=seriesCache.get(cacheKey);
+      if(!result||result.length>rows.length){result=[];if(seriesCache.size>=8)seriesCache.delete(seriesCache.keys().next().value);seriesCache.set(cacheKey,result);}
+      for(let at=result.length;at<rows.length;at++){const r=rows[at],values={};
         for(const [id,count]of Object.entries(r.counts))if(accepts(id)){
           if(axis==='population'){values[id]=count;continue;}
           const c=r.composition[id],data=c?.[axis];let sum=0;
           for(const [key,n]of Object.entries(data||{})){values[key]=(values[key]||0)+n;sum+=n;}
           if(count>sum)values.nonapplicable=(values.nonapplicable||0)+count-sum;
         }
-        return {turn:r.turn,values,total:Object.values(values).reduce((a,n)=>a+n,0)};
-      });
+        result.push({turn:r.turn,values,total:Object.values(values).reduce((a,n)=>a+n,0)});
+      }
+      return result;
     }
     const quote=v=>'"'+String(v??'').replaceAll('"','""')+'"';
     function csv(){
@@ -184,7 +188,7 @@
       }
       return '\ufeff'+out.join('\r\n')+'\r\n';
     }
-    return {rows,metadata,append,bins,csv,series,snapshot(){return {schema:"observation-snapshot/1",definitions:{current:"ecosystem-current/1",trophic:"trophic-observed/1",nutrition:"nutrition-observed/1",...(rows.some(r=>r.combatKills!==undefined)?{combat:"combat-observed/1"}:{}),...(rows.some(r=>r.information!==undefined)?{information:"information-observed/1"}:{})},metadata:structuredClone(metadata),rows:structuredClone(rows)};},markExported(){exportedThrough=rows.at(-1)?.turn??-1;},get unexported(){return exportedThrough<(rows.at(-1)?.turn??-1);}};
+    return {rows,metadata,append,bins,csv,series,snapshot({copy=true}={}){return {schema:"observation-snapshot/1",definitions:{current:"ecosystem-current/1",trophic:"trophic-observed/1",nutrition:"nutrition-observed/1",...(rows.some(r=>r.combatKills!==undefined)?{combat:"combat-observed/1"}:{}),...(rows.some(r=>r.information!==undefined)?{information:"information-observed/1"}:{})},metadata:structuredClone(metadata),rows:copy?structuredClone(rows):rows};},markExported(){exportedThrough=rows.at(-1)?.turn??-1;},get unexported(){return exportedThrough<(rows.at(-1)?.turn??-1);}};
   }
   function restore(snapshot,{species=[]}={}){
     if(!snapshot||snapshot.schema!=="observation-snapshot/1"||snapshot.metadata?.schema!=="ecology-observation/1"||snapshot.definitions?.current!=="ecosystem-current/1"||snapshot.definitions?.trophic!=="trophic-observed/1"||snapshot.definitions?.nutrition!=="nutrition-observed/1"||(snapshot.definitions.information!==undefined&&snapshot.definitions.information!=="information-observed/1")||(snapshot.definitions.combat!==undefined&&snapshot.definitions.combat!=="combat-observed/1")||!Array.isArray(snapshot.rows)||!snapshot.rows.length)throw Error("保存された観測の形式・指標版を読み取れません。");

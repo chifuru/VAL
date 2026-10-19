@@ -480,9 +480,9 @@ function(require,module){
         type: "defense",
         diet: "animal",
         dietName: "食虫植物型",
-        dietDescription: "光合成を行い、小型の餌生物を捕らえて栄養を補います。植物は食べません。",
+        dietDescription: "光合成を行い、小型の一次消費者を捕らえて栄養を補います。植物は食べません。",
         traits: { birth: -0.15 },
-        traitText: ["光合成と小型餌生物の捕食", "親の出生E−15%"],
+        traitText: ["光合成と小型一次消費者の捕食", "親の出生E−15%"],
         color: "#986e55",
         senseAt: 3,
         rangeAt: 99,
@@ -825,7 +825,7 @@ function(require,module){
     },
     animal: {
       name: "肉食主体",
-      description: "動く餌・死骸・栄養卵を重視",
+      description: "一次消費者・死骸・栄養卵を重視",
       factors: [0.85, 0.9, 1.5, 1],
       hunt: 0.45,
     },
@@ -975,10 +975,9 @@ return {settings,attach,region,level,factor,begin,finish};
     factor: { name: "代謝因子", tag: "factor", cap: 1 },
     info: { name: "情報", tag: "info", cap: 12, period: 1 },
   };
-  const r = (w, p, t = null, id = null, key = null, axis = null) =>
-    H.random(w.config.seed, p, t, id, key, axis);
   const hash = (w, p, t = null, id = null, key = null, axis = null) =>
-    H.hash(w.config.seed, p, t, id, key, axis);
+    (w.config.randomModel==='table/1'?H.tableHash:H.hash)(w.config.seed,p,t,id,key,axis);
+  const r = (w, p, t = null, id = null, key = null, axis = null) => hash(w,p,t,id,key,axis)/4294967296;
   const spec = (o) => D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
@@ -1262,6 +1261,8 @@ return {settings,attach,region,level,factor,begin,finish};
       throw Error("SETTINGS_INVALID: 年齢モデル");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
+    if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
+    if(c.randomModel==='table/1')H.randomTable(c.seed);
     if(c.populationRegulation!==undefined){
       const a=c.populationRegulation;
       if(!a||typeof a!=="object"||Array.isArray(a)||a.version!==1||Object.keys(a).some(k=>k!=="version"))throw Error("SETTINGS_INVALID: 個体群の出生調整");
@@ -2259,10 +2260,11 @@ function(require,module){
           source && S.distance(w,event.cell,source.cell)<=1 && !w.tiles[event.cell].blocked)
           cells.add(event.cell);
       }
-      for (let cell = 0; cell < w.tiles.length; cell++) {
+      const counts=new Uint8Array(w.tiles.length),candidates=new Set(cells);
+      for(const source of cells)for(const cell of S.nearby(w,source)){counts[cell]++;candidates.add(cell);}
+      for (const cell of [...candidates].sort((a,b)=>a-b)) {
         if (w.tiles[cell].blocked) continue;
-        let n = 0;
-        for (const q of S.nearby(w, cell)) if (cells.has(q)) n++;
+        const n=counts[cell];
         const old = (m.resources.get(cell) || []).find((a) => a.kind === kind);
         if (old) {
           if (n !== 2 && n !== 3) {
@@ -3567,11 +3569,13 @@ function(require,module){
           c.cell,
         ]);
       }
-      list.sort((a, b) => b.score - a.score || a.h - b.h);
-      const chosen = list[0],
-        without = list
-          .slice()
-          .sort((a, b) => b.noRandom - a.noRandom || a.h - b.h)[0];
+      let chosen=list[0],without=list[0];
+      for(let i=1;i<list.length;i++){
+        const c=list[i];
+        if(c.score>chosen.score || (c.score===chosen.score && c.h<chosen.h))chosen=c;
+        if(c.noRandom>without.noRandom || (c.noRandom===without.noRandom && c.h<without.h))without=c;
+      }
+      if(o.id===ctx.observeId)list.sort((a,b)=>b.score-a.score||a.h-b.h);
       ctx.intents.set(o.id, chosen);
       if (chosen.type === "defend") S.record(ctx, o, "defend");
       ctx.records.get(o.id).randomChanged = chosen !== without;
@@ -4043,9 +4047,10 @@ function(require,module){
     return s.id === "precocial" ? 30 : 20 * (1 + S.trait(o, "birth", phase));
   }
   function candidates(w, ctx) {
-    const m = S.maps(w),
-      out = [];
-    for (let cell = 0; cell < w.tiles.length; cell++) {
+    const m = S.maps(w),out=[],cells=w.organisms.length*8<w.tiles.length?new Set():null,enabledSpecies=S.D.species.filter(s=>["plant","fungus","prey"].includes(s.group)&&w.config.enabled[s.group]);
+    if(cells)for(const o of w.organisms)for(const cell of S.nearby(w,o.cell))cells.add(cell);
+    for (let cell=0;cell<w.tiles.length;cell++) {
+      if(cells&&!cells.has(cell))continue;
       if (w.tiles[cell].blocked) continue;
       const near = S.nearby(w, cell),
         mains = near.map((p) => m.main.get(p)).filter(Boolean),
@@ -4102,11 +4107,7 @@ function(require,module){
                 species: mother.species,
               });
       }
-      for (const s of S.D.species.filter(
-          (s) =>
-            ["plant", "fungus", "prey"].includes(s.group) &&
-            w.config.enabled[s.group],
-        )) {
+      for (const s of enabledSpecies) {
           if ((s.slot === "prey" ? m.prey : m.food).has(cell) || !S.validHabitat(w, s, cell)) continue;
           const same = food.filter((o) => o.species === s.id);
           if (
@@ -4791,13 +4792,13 @@ function(require,module){
   function search(w,ctx){
     const current=w.searchQ || [],next=[],born=[];
     const infected=w.organisms.filter(o=>o.infection && !o.infection.q && windowOpen(w,o.infection) && !ctx.movedInfections.has(o.infection.id));
-    const occupied=new Set();
+    const occupied=new Set(), searchMap=S.maps(w);
     for(const q of current.slice().sort((a,b)=>S.compare(a.id,b.id))){
       feedQ(w,q,q.cell);
       if(q.E<=0 || q.expires<=w.turn){S.dissipate(w,q.E);ctx.deaths.push({species:"hyperparasite",reason:"age"});continue;}
       const target=infected.filter(o=>!occupied.has(o.id)&&S.distance(w,q.cell,o.cell)<=1&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.compare(a.id,b.id))[0];
       if(target && q.E>=.02){q.E=S.round(q.E-.02);S.dissipate(w,.02);q.hostId=target.infection.id;delete q.cell;delete q.expires;target.infection.q=q;occupied.add(target.id);S.record(ctx,target,"infection",{parasite:q.id,species:"hyperparasite",stage:"window",target:target.infection.id});continue;}
-      const map=S.maps(w),cue=S.nearby(w,q.cell,3,true).map(c=>map.main.get(c)).filter(o=>o?.infection?.stage==="terminal"&&o.infection.counter>=5&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
+      const map=searchMap,cue=S.nearby(w,q.cell,3,true).map(c=>map.main.get(c)).filter(o=>o?.infection?.stage==="terminal"&&o.infection.counter>=5&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
       const moves=S.nearby(w,q.cell).filter(c=>S.oneStep(w,q.cell,c));
       if(moves.length && q.E>.001){const c=moves.sort((a,b)=>(cue?S.distance(w,a,cue.cell)-S.distance(w,b,cue.cell):0)||S.hash(w,"hyper/search",w.turn,q.id,a)-S.hash(w,"hyper/search",w.turn,q.id,b))[0];q.cell=c;q.E=S.round(q.E-.001);S.dissipate(w,.001);}
       next.push(q);
@@ -5227,7 +5228,8 @@ function(require,module){
     return w;
   }
   function beginTurn(previous, options = {}) {
-    let w = structuredClone(previous), stage = 0, cancelled = false, failed = false;
+    let w = structuredClone({...previous,tiles:undefined}), stage = 0, cancelled = false, failed = false;
+    w.tiles=previous.tiles.map(t=>({...t}));
     S.inheritGeometry(previous,w);
     if (w.stopReason === "checkpoint") {
       w.blockEnd += w.config.blockTurns || 1000;
@@ -5302,11 +5304,9 @@ function(require,module){
     return result.world;
   }
   function fingerprint(w) {
-    const copy = structuredClone(w);
-    delete copy.diagnostics;
-    delete copy.observation;
-    delete copy.events;
-    delete copy.warnings;
+    const source={...w};
+    delete source.diagnostics;delete source.observation;delete source.events;delete source.warnings;
+    const copy=structuredClone(source);
     copy.organisms.sort((a, b) => S.compare(a.id, b.id));
     copy.resources.sort((a, b) => a.cell - b.cell || S.compare(a.kind, b.kind));
     copy.carcasses.sort((a, b) => S.compare(a.id, b.id));
@@ -5874,9 +5874,9 @@ function(require,module){
         type: "defense",
         diet: "animal",
         dietName: "食虫植物型",
-        dietDescription: "光合成を行い、小型の餌生物を捕らえて栄養を補います。植物は食べません。",
+        dietDescription: "光合成を行い、小型の一次消費者を捕らえて栄養を補います。植物は食べません。",
         traits: { birth: -0.15 },
-        traitText: ["光合成と小型餌生物の捕食", "親の出生E−15%"],
+        traitText: ["光合成と小型一次消費者の捕食", "親の出生E−15%"],
         color: "#986e55",
         senseAt: 3,
         rangeAt: 99,
@@ -6219,7 +6219,7 @@ function(require,module){
     },
     animal: {
       name: "肉食主体",
-      description: "動く餌・死骸・栄養卵を重視",
+      description: "一次消費者・死骸・栄養卵を重視",
       factors: [0.85, 0.9, 1.5, 1],
       hunt: 0.45,
     },
@@ -6370,10 +6370,9 @@ return {settings,attach,region,level,factor,begin,finish};
     factor: { name: "代謝因子", tag: "factor", cap: 1 },
     info: { name: "情報", tag: "info", cap: 12, period: 1 },
   };
-  const r = (w, p, t = null, id = null, key = null, axis = null) =>
-    H.random(w.config.seed, p, t, id, key, axis);
   const hash = (w, p, t = null, id = null, key = null, axis = null) =>
-    H.hash(w.config.seed, p, t, id, key, axis);
+    (w.config.randomModel==='table/1'?H.tableHash:H.hash)(w.config.seed,p,t,id,key,axis);
+  const r = (w, p, t = null, id = null, key = null, axis = null) => hash(w,p,t,id,key,axis)/4294967296;
   const spec = (o) => D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
@@ -6657,6 +6656,8 @@ return {settings,attach,region,level,factor,begin,finish};
       throw Error("SETTINGS_INVALID: 年齢モデル");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
+    if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
+    if(c.randomModel==='table/1')H.randomTable(c.seed);
     if(c.populationRegulation!==undefined){
       const a=c.populationRegulation;
       if(!a||typeof a!=="object"||Array.isArray(a)||a.version!==1||Object.keys(a).some(k=>k!=="version"))throw Error("SETTINGS_INVALID: 個体群の出生調整");
@@ -7655,10 +7656,11 @@ function(require,module){
           source && S.distance(w,event.cell,source.cell)<=1 && !w.tiles[event.cell].blocked)
           cells.add(event.cell);
       }
-      for (let cell = 0; cell < w.tiles.length; cell++) {
+      const counts=new Uint8Array(w.tiles.length),candidates=new Set(cells);
+      for(const source of cells)for(const cell of S.nearby(w,source)){counts[cell]++;candidates.add(cell);}
+      for (const cell of [...candidates].sort((a,b)=>a-b)) {
         if (w.tiles[cell].blocked) continue;
-        let n = 0;
-        for (const q of S.nearby(w, cell)) if (cells.has(q)) n++;
+        const n=counts[cell];
         const old = (m.resources.get(cell) || []).find((a) => a.kind === kind);
         if (old) {
           if (n !== 2 && n !== 3) {
@@ -8498,9 +8500,10 @@ function(require,module){
     return s.id === "precocial" ? 30 : 20 * (1 + S.trait(o, "birth", phase));
   }
   function candidates(w, ctx) {
-    const m = S.maps(w),
-      out = [];
-    for (let cell = 0; cell < w.tiles.length; cell++) {
+    const m = S.maps(w),out=[],cells=w.organisms.length*8<w.tiles.length?new Set():null,enabledSpecies=S.D.species.filter(s=>["plant","fungus","prey"].includes(s.group)&&w.config.enabled[s.group]);
+    if(cells)for(const o of w.organisms)for(const cell of S.nearby(w,o.cell))cells.add(cell);
+    for (let cell=0;cell<w.tiles.length;cell++) {
+      if(cells&&!cells.has(cell))continue;
       if (w.tiles[cell].blocked) continue;
       const near = S.nearby(w, cell),
         mains = near.map((p) => m.main.get(p)).filter(Boolean),
@@ -8557,11 +8560,7 @@ function(require,module){
                 species: mother.species,
               });
       }
-      for (const s of S.D.species.filter(
-          (s) =>
-            ["plant", "fungus", "prey"].includes(s.group) &&
-            w.config.enabled[s.group],
-        )) {
+      for (const s of enabledSpecies) {
           if ((s.slot === "prey" ? m.prey : m.food).has(cell) || !S.validHabitat(w, s, cell)) continue;
           const same = food.filter((o) => o.species === s.id);
           if (
@@ -9148,7 +9147,8 @@ function(require,module){
     return w;
   }
   function beginTurn(previous, options = {}) {
-    let w = structuredClone(previous), stage = 0, cancelled = false, failed = false;
+    let w = structuredClone({...previous,tiles:undefined}), stage = 0, cancelled = false, failed = false;
+    w.tiles=previous.tiles.map(t=>({...t}));
     S.inheritGeometry(previous,w);
     if (w.stopReason === "checkpoint") {
       w.blockEnd += w.config.blockTurns || 1000;
@@ -9223,11 +9223,9 @@ function(require,module){
     return result.world;
   }
   function fingerprint(w) {
-    const copy = structuredClone(w);
-    delete copy.diagnostics;
-    delete copy.observation;
-    delete copy.events;
-    delete copy.warnings;
+    const source={...w};
+    delete source.diagnostics;delete source.observation;delete source.events;delete source.warnings;
+    const copy=structuredClone(source);
     copy.organisms.sort((a, b) => S.compare(a.id, b.id));
     copy.resources.sort((a, b) => a.cell - b.cell || S.compare(a.kind, b.kind));
     copy.carcasses.sort((a, b) => S.compare(a.id, b.id));
@@ -9795,9 +9793,9 @@ function(require,module){
         type: "defense",
         diet: "animal",
         dietName: "食虫植物型",
-        dietDescription: "光合成を行い、小型の餌生物を捕らえて栄養を補います。植物は食べません。",
+        dietDescription: "光合成を行い、小型の一次消費者を捕らえて栄養を補います。植物は食べません。",
         traits: { birth: -0.15 },
-        traitText: ["光合成と小型餌生物の捕食", "親の出生E−15%"],
+        traitText: ["光合成と小型一次消費者の捕食", "親の出生E−15%"],
         color: "#986e55",
         senseAt: 3,
         rangeAt: 99,
@@ -10140,7 +10138,7 @@ function(require,module){
     },
     animal: {
       name: "肉食主体",
-      description: "動く餌・死骸・栄養卵を重視",
+      description: "一次消費者・死骸・栄養卵を重視",
       factors: [0.85, 0.9, 1.5, 1],
       hunt: 0.45,
     },
@@ -10802,11 +10800,13 @@ function(require,module){
           c.cell,
         ]);
       }
-      list.sort((a, b) => b.score - a.score || a.h - b.h);
-      const chosen = list[0],
-        without = list
-          .slice()
-          .sort((a, b) => b.noRandom - a.noRandom || a.h - b.h)[0];
+      let chosen=list[0],without=list[0];
+      for(let i=1;i<list.length;i++){
+        const c=list[i];
+        if(c.score>chosen.score || (c.score===chosen.score && c.h<chosen.h))chosen=c;
+        if(c.noRandom>without.noRandom || (c.noRandom===without.noRandom && c.h<without.h))without=c;
+      }
+      if(o.id===ctx.observeId)list.sort((a,b)=>b.score-a.score||a.h-b.h);
       ctx.intents.set(o.id, chosen);
       if (chosen.type === "defend") S.record(ctx, o, "defend");
       ctx.records.get(o.id).randomChanged = chosen !== without;
@@ -11278,9 +11278,10 @@ function(require,module){
     return s.id === "precocial" ? 30 : 20 * (1 + S.trait(o, "birth", phase));
   }
   function candidates(w, ctx) {
-    const m = S.maps(w),
-      out = [];
-    for (let cell = 0; cell < w.tiles.length; cell++) {
+    const m = S.maps(w),out=[],cells=w.organisms.length*8<w.tiles.length?new Set():null,enabledSpecies=S.D.species.filter(s=>["plant","fungus","prey"].includes(s.group)&&w.config.enabled[s.group]);
+    if(cells)for(const o of w.organisms)for(const cell of S.nearby(w,o.cell))cells.add(cell);
+    for (let cell=0;cell<w.tiles.length;cell++) {
+      if(cells&&!cells.has(cell))continue;
       if (w.tiles[cell].blocked) continue;
       const near = S.nearby(w, cell),
         mains = near.map((p) => m.main.get(p)).filter(Boolean),
@@ -11337,11 +11338,7 @@ function(require,module){
                 species: mother.species,
               });
       }
-      for (const s of S.D.species.filter(
-          (s) =>
-            ["plant", "fungus", "prey"].includes(s.group) &&
-            w.config.enabled[s.group],
-        )) {
+      for (const s of enabledSpecies) {
           if ((s.slot === "prey" ? m.prey : m.food).has(cell) || !S.validHabitat(w, s, cell)) continue;
           const same = food.filter((o) => o.species === s.id);
           if (
@@ -12003,9 +12000,9 @@ function(require,module){
         type: "defense",
         diet: "animal",
         dietName: "食虫植物型",
-        dietDescription: "光合成を行い、小型の餌生物を捕らえて栄養を補います。植物は食べません。",
+        dietDescription: "光合成を行い、小型の一次消費者を捕らえて栄養を補います。植物は食べません。",
         traits: { birth: -0.15 },
-        traitText: ["光合成と小型餌生物の捕食", "親の出生E−15%"],
+        traitText: ["光合成と小型一次消費者の捕食", "親の出生E−15%"],
         color: "#986e55",
         senseAt: 3,
         rangeAt: 99,
@@ -12348,7 +12345,7 @@ function(require,module){
     },
     animal: {
       name: "肉食主体",
-      description: "動く餌・死骸・栄養卵を重視",
+      description: "一次消費者・死骸・栄養卵を重視",
       factors: [0.85, 0.9, 1.5, 1],
       hunt: 0.45,
     },
@@ -12546,9 +12543,10 @@ function(require,module){
     return s.id === "precocial" ? 30 : 20 * (1 + S.trait(o, "birth", phase));
   }
   function candidates(w, ctx) {
-    const m = S.maps(w),
-      out = [];
-    for (let cell = 0; cell < w.tiles.length; cell++) {
+    const m = S.maps(w),out=[],cells=w.organisms.length*8<w.tiles.length?new Set():null,enabledSpecies=S.D.species.filter(s=>["plant","fungus","prey"].includes(s.group)&&w.config.enabled[s.group]);
+    if(cells)for(const o of w.organisms)for(const cell of S.nearby(w,o.cell))cells.add(cell);
+    for (let cell=0;cell<w.tiles.length;cell++) {
+      if(cells&&!cells.has(cell))continue;
       if (w.tiles[cell].blocked) continue;
       const near = S.nearby(w, cell),
         mains = near.map((p) => m.main.get(p)).filter(Boolean),
@@ -12605,11 +12603,7 @@ function(require,module){
                 species: mother.species,
               });
       }
-      for (const s of S.D.species.filter(
-          (s) =>
-            ["plant", "fungus", "prey"].includes(s.group) &&
-            w.config.enabled[s.group],
-        )) {
+      for (const s of enabledSpecies) {
           if ((s.slot === "prey" ? m.prey : m.food).has(cell) || !S.validHabitat(w, s, cell)) continue;
           const same = food.filter((o) => o.species === s.id);
           if (
@@ -12903,10 +12897,9 @@ return {settings,attach,region,level,factor,begin,finish};
     factor: { name: "代謝因子", tag: "factor", cap: 1 },
     info: { name: "情報", tag: "info", cap: 12, period: 1 },
   };
-  const r = (w, p, t = null, id = null, key = null, axis = null) =>
-    H.random(w.config.seed, p, t, id, key, axis);
   const hash = (w, p, t = null, id = null, key = null, axis = null) =>
-    H.hash(w.config.seed, p, t, id, key, axis);
+    (w.config.randomModel==='table/1'?H.tableHash:H.hash)(w.config.seed,p,t,id,key,axis);
+  const r = (w, p, t = null, id = null, key = null, axis = null) => hash(w,p,t,id,key,axis)/4294967296;
   const spec = (o) => D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
@@ -13190,6 +13183,8 @@ return {settings,attach,region,level,factor,begin,finish};
       throw Error("SETTINGS_INVALID: 年齢モデル");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
+    if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
+    if(c.randomModel==='table/1')H.randomTable(c.seed);
     if(c.populationRegulation!==undefined){
       const a=c.populationRegulation;
       if(!a||typeof a!=="object"||Array.isArray(a)||a.version!==1||Object.keys(a).some(k=>k!=="version"))throw Error("SETTINGS_INVALID: 個体群の出生調整");
@@ -14512,13 +14507,13 @@ function(require,module){
   function search(w,ctx){
     const current=w.searchQ || [],next=[],born=[];
     const infected=w.organisms.filter(o=>o.infection && !o.infection.q && windowOpen(w,o.infection) && !ctx.movedInfections.has(o.infection.id));
-    const occupied=new Set();
+    const occupied=new Set(), searchMap=S.maps(w);
     for(const q of current.slice().sort((a,b)=>S.compare(a.id,b.id))){
       feedQ(w,q,q.cell);
       if(q.E<=0 || q.expires<=w.turn){S.dissipate(w,q.E);ctx.deaths.push({species:"hyperparasite",reason:"age"});continue;}
       const target=infected.filter(o=>!occupied.has(o.id)&&S.distance(w,q.cell,o.cell)<=3&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.compare(a.id,b.id))[0];
       if(target && q.E>=.02){q.E=S.round(q.E-.02);S.dissipate(w,.02);q.hostId=target.infection.id;delete q.cell;delete q.expires;target.infection.q=q;occupied.add(target.id);S.record(ctx,target,"infection",{parasite:q.id,species:"hyperparasite",stage:"window",target:target.infection.id});continue;}
-      const map=S.maps(w),cue=S.nearby(w,q.cell,3,true).map(c=>map.main.get(c)).filter(o=>o?.infection?.stage==="terminal"&&o.infection.counter>=5&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
+      const map=searchMap,cue=S.nearby(w,q.cell,3,true).map(c=>map.main.get(c)).filter(o=>o?.infection?.stage==="terminal"&&o.infection.counter>=5&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
       const moves=S.nearby(w,q.cell).filter(c=>S.oneStep(w,q.cell,c));
       if(moves.length && q.E>.0001){const c=moves.sort((a,b)=>(cue?S.distance(w,a,cue.cell)-S.distance(w,b,cue.cell):0)||S.hash(w,"hyper/search",w.turn,q.id,a)-S.hash(w,"hyper/search",w.turn,q.id,b))[0];q.cell=c;q.E=S.round(q.E-.0001);S.dissipate(w,.0001);}
       next.push(q);
@@ -14655,10 +14650,9 @@ return {settings,attach,region,level,factor,begin,finish};
     factor: { name: "代謝因子", tag: "factor", cap: 1 },
     info: { name: "情報", tag: "info", cap: 12, period: 1 },
   };
-  const r = (w, p, t = null, id = null, key = null, axis = null) =>
-    H.random(w.config.seed, p, t, id, key, axis);
   const hash = (w, p, t = null, id = null, key = null, axis = null) =>
-    H.hash(w.config.seed, p, t, id, key, axis);
+    (w.config.randomModel==='table/1'?H.tableHash:H.hash)(w.config.seed,p,t,id,key,axis);
+  const r = (w, p, t = null, id = null, key = null, axis = null) => hash(w,p,t,id,key,axis)/4294967296;
   const spec = (o) => D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
@@ -14942,6 +14936,8 @@ return {settings,attach,region,level,factor,begin,finish};
       throw Error("SETTINGS_INVALID: 年齢モデル");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
+    if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
+    if(c.randomModel==='table/1')H.randomTable(c.seed);
     if(c.populationRegulation!==undefined){
       const a=c.populationRegulation;
       if(!a||typeof a!=="object"||Array.isArray(a)||a.version!==1||Object.keys(a).some(k=>k!=="version"))throw Error("SETTINGS_INVALID: 個体群の出生調整");
@@ -16242,9 +16238,9 @@ function(require,module){
         type: "defense",
         diet: "animal",
         dietName: "食虫植物型",
-        dietDescription: "光合成を行い、小型の餌生物を捕らえて栄養を補います。植物は食べません。",
+        dietDescription: "光合成を行い、小型の一次消費者を捕らえて栄養を補います。植物は食べません。",
         traits: { birth: -0.15 },
-        traitText: ["光合成と小型餌生物の捕食", "親の出生E−15%"],
+        traitText: ["光合成と小型一次消費者の捕食", "親の出生E−15%"],
         color: "#986e55",
         senseAt: 3,
         rangeAt: 99,
@@ -16587,7 +16583,7 @@ function(require,module){
     },
     animal: {
       name: "肉食主体",
-      description: "動く餌・死骸・栄養卵を重視",
+      description: "一次消費者・死骸・栄養卵を重視",
       factors: [0.85, 0.9, 1.5, 1],
       hunt: 0.45,
     },
@@ -16738,10 +16734,9 @@ return {settings,attach,region,level,factor,begin,finish};
     factor: { name: "代謝因子", tag: "factor", cap: 1 },
     info: { name: "情報", tag: "info", cap: 12, period: 1 },
   };
-  const r = (w, p, t = null, id = null, key = null, axis = null) =>
-    H.random(w.config.seed, p, t, id, key, axis);
   const hash = (w, p, t = null, id = null, key = null, axis = null) =>
-    H.hash(w.config.seed, p, t, id, key, axis);
+    (w.config.randomModel==='table/1'?H.tableHash:H.hash)(w.config.seed,p,t,id,key,axis);
+  const r = (w, p, t = null, id = null, key = null, axis = null) => hash(w,p,t,id,key,axis)/4294967296;
   const spec = (o) => D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
@@ -17025,6 +17020,8 @@ return {settings,attach,region,level,factor,begin,finish};
       throw Error("SETTINGS_INVALID: 年齢モデル");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
+    if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
+    if(c.randomModel==='table/1')H.randomTable(c.seed);
     if(c.populationRegulation!==undefined){
       const a=c.populationRegulation;
       if(!a||typeof a!=="object"||Array.isArray(a)||a.version!==1||Object.keys(a).some(k=>k!=="version"))throw Error("SETTINGS_INVALID: 個体群の出生調整");

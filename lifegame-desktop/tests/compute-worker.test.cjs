@@ -54,3 +54,11 @@ test('Worker does not calculate beyond its requested terminal turn',async()=>{
   worker.post({type:'compute',epoch:1,count:6,limit:500});assert.equal((await worker.next()).type,'idle');
  }finally{await worker.close();}
 });
+
+test('streaming sends each phase once and reconstructs the same table-world final state',async()=>{
+ const worker=thread();try{
+  const world=E.create({...config,randomModel:'table/1'});worker.post({type:'init',epoch:30,world,stream:true});assert.equal((await worker.next()).type,'ready');worker.post({type:'compute',epoch:30,count:1,limit:500});let view=world;
+  for(let phase=0;phase<3;phase++){const d=await worker.next();assert.equal(d.type,'phase');assert.equal(d.phase,phase);view=T.apply(view,d.patch);}
+  const result=await worker.next();assert.equal(result.type,'turn');assert.equal(result.patches,null);assert.deepEqual(view,E.step(world));assert.equal((await worker.next()).type,'idle');
+ }finally{await worker.close();}
+});

@@ -399,7 +399,8 @@
     return w;
   }
   function beginTurn(previous, options = {}) {
-    let w = structuredClone(previous), stage = 0, cancelled = false, failed = false;
+    let w = structuredClone({...previous,tiles:undefined}), stage = 0, cancelled = false, failed = false;
+    w.tiles=previous.tiles.map(t=>({...t}));
     S.inheritGeometry(previous,w);
     if (w.stopReason === "checkpoint") {
       w.blockEnd += w.config.blockTurns || 1000;
@@ -474,11 +475,9 @@
     return result.world;
   }
   function fingerprint(w) {
-    const copy = structuredClone(w);
-    delete copy.diagnostics;
-    delete copy.observation;
-    delete copy.events;
-    delete copy.warnings;
+    const source={...w};
+    delete source.diagnostics;delete source.observation;delete source.events;delete source.warnings;
+    const copy=structuredClone(source);
     copy.organisms.sort((a, b) => S.compare(a.id, b.id));
     copy.resources.sort((a, b) => a.cell - b.cell || S.compare(a.kind, b.kind));
     copy.carcasses.sort((a, b) => S.compare(a.id, b.id));

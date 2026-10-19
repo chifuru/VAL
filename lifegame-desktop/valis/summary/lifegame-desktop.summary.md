@@ -2,9 +2,9 @@
 
 lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Node、仕様と資料の入口は `design/specification/README.md`。
 
-現在入口: `operations/plans/observation-clarity-v4.2.30.md`。製品4.2.30は停止表示/別枠/グラフ拡大/層分離撤去、初期Q比率と出生調整、背景Worker/影キャッシュを接続。原画/遠景記号を維持。物理的な群体化は未実装。
+現在入口: `operations/plans/optimization-v4.2.31.md`。製品4.2.31は版付き乱数表、候補/CA/通信/系列/保存の重複削減、事前陰影、背景再利用、作用マーク、分類別の折り返し一覧を接続。個体単位/原画/遠景記号/全ターン原値を維持。集団化は不要として除外。
 
-画面54項目・背景/影の画素比較と短期出生比較を確認。2初期値500Tは主122/81・一次消費者94/66が存続し、有限収支違反なし。Windows ZIPを生成・同梱照合済み。実Windows CIを確認中。全条件の存続率/性能は未認定。4.2.29の既存500Tを今回版へ流用しない。
+検証範囲は `operations/evidence/optimization-v4.2.31/README.md`。旧乱数3規模の世界一致、新乱数2条件500Tの有限収支/存続、関連UIを限定確認。Windows4.2.31配布と実exeは別ゲート。全PC/全条件の性能・厳密生存率、全面的なdirty更新/GPU等は未認定または未実装。正式状態は草案。
 
 ## A：仕様
 
@@ -13,16 +13,16 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 	構成（要素・関係）:
 		valis/nodes/A/A1.md。生態系の成長と生存観測。差分正本: design/specification/observation-first-v2.8.md。 残件の作業順: operations/plans/remaining-completion-v4.2.md。
 	ロジック:
-		4.2.6の現在地から主系統固有差→表示/動作→集計/UI→設定/保存→生態照合→外観/性能→R0。厳密R1〜R6と追加展開は一旦完成後。 作業順: operations/plans/remaining-completion-v4.2.md。
+		既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 	実態:
-		自由設定の3枠/浮遊微藻/優遇3条件を製品4.2へ接続。採用河川500Tは主277/水游虫83/Q268で選定案と最終統計一致。全設定の成功率とR1〜R6は後段、既存UI/記録の残件を維持。 詳細: operations/evidence/observation-model-v4.2/README.md。
+		既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 	A1.1:（A1 / 個体・系統・段階進化）［草案］
 		構成（要素・関係）:
 			valis/nodes/A/A1.1.md。個体・系統・段階進化。
 		ロジック:
 			系統ごとに異なる相/分岐/雌雄/年齢の代表表現を確認。同じ相・枝・年齢で雌雄を比較し、進化相と年齢は独立。全系統の実寸照合は後続。
 		実態:
-			4.2.11で死亡確定時の相/枝/性/階級/年齢をイベント化し、現存死骸の表示cacheと横詳細へ接続。攻撃の実損害/軽減と採食元を記録し、命中/実防御/採食等を区別。8優遇×30Tの旧新版生態/集計一致。旧署名1版の再生互換を維持。
+			既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 
 	A1.2:（A1 / 各マスの環境・餌資源）［草案］
 		構成（要素・関係）:
@@ -30,21 +30,21 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 		ロジック:
 			固定環境と変動資源を分離。装飾植生を餌と誤認させず、適地の共同配分と渡河/領域の有限利益を定める。
 		実態:
-			4.2.30: 下層の初期密度/内訳表示。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+			既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 	A1.3:（A1 / 性別・繁殖・遺伝）［草案］
 		構成（要素・関係）:
 			valis/nodes/A/A1.3.md。性別・繁殖・遺伝。
 		ロジック:
 			年齢成熟でI/II相も繁殖可能、子I/年齢0。健康/E/M・局所配偶・待機・出生先と子の再繁殖を別々に評価する。
 		実態:
-			4.2.30: 局所混雑と栄養による出生調整。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+			既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 	A1.4:（A1 / 局所経験と系統戦略）［草案］
 		構成（要素・関係）:
 			valis/nodes/A/A1.4.md。局所経験と系統戦略。
 		ロジック:
 			個体パラメータから行動が創発。移動/戦闘/採食は同一ターンに条件別で成立し、有限予算を共有。 局所的な領域利用/防衛、確定した関係と単なる接触の区別、延長された表現型の作用。 移動・戦闘・食事の各機会と有限共有予算を維持し、排他的な一行動方式へ戻さない。
 		実態:
-			情報は延長された表現型。生存発信者の新鮮な経験場と物理粒子を重複なく合成しB3/S23で候補化。有償供給/内容整合/期限/Q追加費用を通し、DNAを変えず重みに作用。仕様: design/specification/information-experience-ca-v4.2.29.md。 製品4.2.29へ接続、草案。
+			4.2.31: 乱数表を明示した再現可能な行動揺らぎ。無指定の旧SHA方式は維持。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
 
 	A1.5:（A1 / 寄生と宿主の生活環）［草案］
 		構成（要素・関係）:
@@ -52,7 +52,7 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 		ロジック:
 			Pの負担/排除とH→P→Qを区別。Qは一次成熟移行窓で感染し行動のみへ作用。初期接続と各段階の不成立を診断する。
 		実態:
-			4.2.30: 初期Qを初期Pの半数へ。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+			既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 	A1.6:（A1 / 光合成と共生の栄養）［草案］
 		構成（要素・関係）:
 			valis/nodes/A/A1.6.md。光合成と共生の栄養。
@@ -66,14 +66,14 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 		ロジック:
 			主/餌/資源とH→P→Qの枠・単位を区別。可食量/到達性・各支出・最終死因を共通の有限モデルで扱う。
 		実態:
-			4.2.19の河川同一初期値で供給OFF/ON各500T・計1002状態の収支/不変条件を確認。主277/469、水游虫83/82、子孫の成熟/繁殖を確認しR0の限定生存経路を接続。21主系統の遮蔽/防御利益を局所照合。source/UI不変。情報生成0・菌膜終端0・水中生産者の孫更新は未達、全条件/画面500T/実Windowsは未認定。 詳細: operations/evidence/circulation-audit-v4.2.19/README.md。
+			既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 A2:（起点 / 独立した Windows ローカル実行）［草案］
 	構成（要素・関係）:
 		valis/nodes/A/A2.md。独立した Windows ローカル実行。 残件の作業順: operations/plans/remaining-completion-v4.2.md。
 	ロジック:
 		現行UIを基準に、既存個体数カード列末尾の小型trend-cardをサマリへ置換。右側は基本3グラフ/詳細の切替。一画面の判読性と遷移保護を確認する。
 	実態:
-		4.2.30: 観測状態/右の独立枠/拡大。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+		4.2.31: 分類別の折り返し選択一覧と通常step撤去。原画/独立した右側3グラフと詳細列を維持。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
 
 ```
 
@@ -126,7 +126,7 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 	ロジック:
 		全体移動→全体同時戦闘→生存者の採食。競合・共有予算・死亡時点を調停し確定理由を渡す。 比較モデルもセル/局所作用/有限収支/出生/P/Qを保持。無変更で製品と一致させ、選定案の製品反映後も原値/指紋を照合する。
 	実態:
-		4.2.30: 出生調整を同期進行へ。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+		既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 
 	B4.1:（A1.4, A1.2, A1.1 / 局所パラメータによる動作判断）［草案］
 		構成（要素・関係）:
@@ -134,7 +134,7 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 		ロジック:
 			局所重みから各行動を条件別に判定。配偶探索は年齢成熟を使い、不成立原因を分離。 種の通行適応と渡河地点、主要陸域と水路の接続、局所行動から生じる有利な領域の保持。 条件付きの移動→作用→食事を維持。各原則1機会、未成立はスキップし、捕食圧/費用を別途評価する。 局所パラメータから生じた群れ/場所利用/追跡・逃走/優勢交代を事後観測し、固定戦略や乱数差だけを創発としない。 調整は仕組み単位で少数条件を比較してから組合せへ。生態に影響する渡河/領域/情報の変更は同じ比較過程へ含める。
 		実態:
-			情報は延長された表現型。生存発信者の新鮮な経験場と物理粒子を重複なく合成しB3/S23で候補化。有償供給/内容整合/期限/Q追加費用を通し、DNAを変えず重みに作用。仕様: design/specification/information-experience-ca-v4.2.29.md。 製品4.2.29へ接続、草案。
+			4.2.31: 最良候補の線形選択、繁殖候補/CAの局所化、共有索引と版付き乱数表。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
 
 	B4.2:（A1.5, A1.2, A1.4 / 寄生の遷移）［草案］
 		構成（要素・関係）:
@@ -142,7 +142,7 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 		ロジック:
 			Pの接触/捕食/死骸経路と有償排除、Qの限定窓を維持。宿主欠落・探索期限・各生活環到達の失敗を集計する。
 		実態:
-			4.2.30: 初期Qの比率。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+			既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 	B4.3:（A1.6, A1.2 / 非採食の栄養収支）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B4.3.md。非採食の栄養収支。
@@ -156,14 +156,14 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 		ロジック:
 			植物/菌/餌の局所生活処理。有限費用の低密度更新、初期適地の共同配分と実配置表示、成熟後の再繁殖を評価する。
 		実態:
-			4.2.30: 一次消費者の初期密度と出生調整。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+			既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案］
 	構成（要素・関係）:
 		valis/nodes/B/B5.md。生態系の観測・比較操作。 残件の作業順: operations/plans/remaining-completion-v4.2.md。
 	ロジック:
 		工程別の完了条件で既存UI/生態へ接続し、名札/色/一覧/横説明・3+1グラフ・設定/保存の未完を完成扱いにしない。 作業順: operations/plans/remaining-completion-v4.2.md。
 	実態:
-		4.2.30: 停止/再開と右の別枠。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+		既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.1.md。系統樹と進化条件の参照機能。
@@ -178,7 +178,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 		ロジック:
 			基本から特殊生態へ説明。繁殖資格、P負担/排除、Q限定窓と行動効果、関係回数/継続性を明示。 通行と費用、領域の有限利益、複雑さ3観点と安定性との違い、情報の媒介元/撹乱を説明。
 		実態:
-			4.2.17で3枠/供給/独立行動/水中生産者/年齢成熟を現行説明へ、P樹のIII条件を年齢へ修正。Q説明と樹を優遇別成長・実初期数へ連動。生態source/署名/原画は不変。工程8全体・500T/最終外観/実Windowsは未完。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
+			既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 
 	B5.3:（A1.1, A1.2, A1.3, A1.5, A1.6 / 確定した行動のモーション表示）［草案］
 		構成（要素・関係）:
@@ -186,14 +186,15 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 		ロジック:
 			代表モックの系統固有の相/雌雄/年齢と6行動の表現を適用。背景の彩度/細部を抑え接地影/縁の明暗で分離。確定イベントから描き、生態計算へ逆作用させない。
 		実態:
-			4.2.11で死亡確定時の相/枝/性/階級/年齢をイベント化し、現存死骸の表示cacheと横詳細へ接続。攻撃の実損害/軽減と採食元を記録し、命中/実防御/採食等を区別。8優遇×30Tの旧新版生態/集計一致。旧署名1版の再生互換を維持。
+			4.2.31: 元の身体画を保ち、実イベントの軌跡/命中/軽減と850msの作用マーク。事前生成陰影。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
+
 	B5.4:（A1, A2, A1.2 / 最終結果図鑑と再生・新規保存）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.4.md。最終結果図鑑と再生・新規保存。
 		ロジック:
 			初期条件/最終状態/全ターン原値を記録。再生後の明示保存は元記録を残す別ID。最終結果で分析し、版違いでも保存済み集計を閲覧する。 比較実験の出力を製品図鑑と分離。製品では全ターン記録/旧版閲覧/新規保存と失敗時の保護を結合確認する。
 		実態:
-			4.2.15で初期/最終統計/全ターン観測と指標版をschema2/IndexedDBへ保存し、最終結果の3パネル分析・CSV/JSONへ接続。再生だけでは増件せず、明示保存は独立ID/元記録参照。旧記録を併読し上書きしない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
+			既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 
 	B5.5:（A1, A1.1, A1.3, A1.5, A1.7 / 個体数・集団構成・生態関係のグラフ）［草案］
 		構成（要素・関係）:
@@ -201,14 +202,15 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 		ロジック:
 			個体数推移は全て/主生物/餌生物/植物/一次/高次を選択。構成は相/雌雄/年齢の個体数積み上げ3本を同時表示し対象共通・総数一致、既定主生物。小型サマリは各系列最大100と現在実数、全ターン原値を保持。
 		実態:
-			4.2.30: 円/3グラフの拡大、下層内訳。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+			4.2.31: 全ターン原値を維持し、系列と容量計算の重複を削減。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
+
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.6.md。生物の選択・所在強調・個体追跡。
 		ロジック:
 			複数強調色と宿主付随関係を代表資料に合わせて区別。名称オフでも所在を保ち、詳細/グラフ切替と選択対象を独立させ、現在UIへ接続する。
 		実態:
-			4.2.30: 詳細の独立列と層分離撤去。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+			4.2.31: 六分類の折り返し一覧。複数強調/0非表示/隣の説明列を維持。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
 
 ```
 
@@ -261,7 +263,7 @@ C4:（A2, B5 / Electron と Windows 配布）［草案］
 	ロジック:
 		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
 	実態:
-		4.2.30: Windows4.2.30配布。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+		4.2.31: Windows4.2.31パッケージと新乱数/描画Workerの実exe検査へ接続。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -285,7 +287,7 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 	ロジック:
 		C7.1〜C7.5を接合し、前状態と有限予算から次状態を確定する。
 	実態:
-		4.2.29で経験場B3/S23と有償刻印を製品接続。全8プロファイルで採用案と20T指紋一致。代表供給OFF500Tは主219/水游虫81存続、情報作用638/Q媒介17、E/M誤差0。通常Worker20T/図鑑/全行出力/同署名再生12項目を確認。旧結果は閲覧可・異署名再計算は拒否。全条件/新則描画500T/実Windows未認定。詳細: operations/evidence/information-release-v4.2.29/README.md。草案。
+		既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 
 	C7.1:（B4, B4.4 / 初期値・固定世界・31種の共通状態）［草案］
 		構成（要素・関係）:
@@ -293,21 +295,23 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 		ロジック:
 			目的別の決定的乱数と、独立した占有枠・有限台帳を保持する。
 		実態:
-			4.2.30: 明示したpopulationRegulation設定と初期Q比率。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+			4.2.31: 固定地形属性の共有とrandomModel=table/1の明示保存/開始時準備。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
+
 	C7.2:（B4.3, B4.4 / 有限栄養・資源CA・生産と死骸）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C7.2.md。有限栄養・資源CA・生産と死骸。
 		ロジック:
 			供給元・取得・散逸を同じ台帳で調停する。
 		実態:
-			4.2.29で経験場B3/S23と有償刻印を製品接続。全8プロファイルで採用案と20T指紋一致。代表供給OFF500Tは主219/水游虫81存続、情報作用638/Q媒介17、E/M誤差0。通常Worker20T/図鑑/全行出力/同署名再生12項目を確認。旧結果は閲覧可・異署名再計算は拒否。全条件/新則描画500T/実Windows未認定。詳細: operations/evidence/information-release-v4.2.29/README.md。草案。
+			4.2.31: B3/S23の有効源から近傍数を集計。有限収支/更新順を維持。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
+
 	C7.3:（B4.1 / 局所行動・同時移動戦闘・学習）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C7.3.md。局所行動・同時移動/戦闘・学習。
 		ロジック:
 			合法候補・予約・同時損害・実成果を接合する。
 		実態:
-			4.2.19で情報の成功生成/実取得/直接重み適用/Q媒介を別観測し、既知イベント由来を元時刻+20Tまで保持。死亡後の系統欠落と取得=作用を補正。既存パネル/全ターンCSV/保存へ接続。行動決定/費用/原画は不変、重み差を行動結果の因果とはしない。 詳細: operations/evidence/information-observation-v4.2.19/README.md。
+			4.2.31: 候補の線形選択、旧乱数条件の小中大世界一致。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
 
 	C7.4:（B4, B4.4 / 成長・遺伝・出生と繁殖例外）［草案］
 		構成（要素・関係）:
@@ -315,36 +319,39 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 		ロジック:
 			同時予約と有限投資を守り、子をI相から開始する。
 		実態:
-			4.2.30: 出生確率の局所/全体密度・栄養補正。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+			4.2.31: 有効種一覧/疎密別の出生候補確認を再利用、出生則は維持。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
+
 	C7.5:（B4.2 / 寄生生活環と外部情報）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C7.5.md。寄生生活環と外部情報。
 		ロジック:
 			宿主参照・適合・成熟・移行費用・鮮度/文脈を接合する。
 		実態:
-			4.2.30: 自動Q初期数比率。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+			4.2.31: Q探索の索引を群体間で共有。感染窓/宿主条件は維持。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
+
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
 		valis/nodes/C/C8.md。観測操作・系統樹・説明と図鑑接続。
 	ロジック:
 		確定世界を観察し、操作や拡大を生態計算から分ける。
 	実態:
-		4.2.30: 状態上書き/停止ラベル/別枠・グラフ拡大。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+		4.2.31: 段階通信を一回ずつ送信、同じID順を省略、分類一覧と版付き条件へ接続。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
+
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C8.1.md。projection/scenery/habitat/art/renderer、生物/地物10原画と背景11素材。契約: operations/plans/habitat-visual-v3.1.md。
 		ロジック:
 			実タイルから地形/深浅/8環境のマスクを生成し、視野内だけ高解像度で合成。遠景は全位置記号、近景は描き込んだ景観。輪郭影と局所遮蔽を使い、装飾を新たな生態/障害物としない。
 		実態:
-			4.2.30: 背景Worker/影キャッシュ/層分離撤去。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+			4.2.31: 事前生成の陰影/発光、待機中の参加種画像準備、余白付き背景再利用、実作用マークと段階イベントの準備共有。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C8.2.md。結果保存と初期条件からの再計算。
 		ロジック:
-			最終結果だけを保持し、全再生経路で新規保存を拒否する。
+			初期条件・最終結果・全期間原値を保持し、暗黙再生保存を拒否。明示保存は新規記録とする。
 		実態:
-			4.2.21は上部を一体の現在像サマリ（構成/総括・根拠/関係図/ピラミッド）、右を全期間3パネルへ訂正。過去参照で現在像を巻き戻さず、詳細表示中も最新化。保存分析は最終サマリと履歴を表示して元の現在へ復帰。39項目+既存40/22項目を限定確認。詳細: operations/evidence/unified-summary-v4.2.21/README.md。草案を維持。
+			4.2.31: 全期間保存を維持し、snapshot/保存ヘッダー/指紋の不要な全履歴複製を削減。暗黙再生保存は禁止、明示保存は新記録。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
 
 ```
 
@@ -381,7 +388,7 @@ D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	ロジック:
 		C4と対象版を照合して配布物そのものを実行する。
 	実態:
-		4.2.30: 新描画Workerを含む実exe検査。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+		既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -405,7 +412,7 @@ D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案
 	ロジック:
 		C7系列の状態と調停条件を検査する。
 	実態:
-		基準一致の3条件×0〜500Tと専用2検査を確認。観測だけの差異も検出。生存率/全系統/Workerの新認定ではない。 証跡: operations/evidence/headless-baseline-v4.1/README.md。次FLOW-04/05、餌/材料循環の比較へ接続。正式状態は草案。
+		既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 
 D8:（C7 / 生態循環と結合進行）［草案］
 	構成（要素・関係）:
@@ -413,14 +420,14 @@ D8:（C7 / 生態循環と結合進行）［草案］
 	ロジック:
 		存続・出生・資源・特殊生態の結合を対象条件付きで調べる。
 	実態:
-		4.2.29で経験場B3/S23と有償刻印を製品接続。全8プロファイルで採用案と20T指紋一致。代表供給OFF500Tは主219/水游虫81存続、情報作用638/Q媒介17、E/M誤差0。通常Worker20T/図鑑/全行出力/同署名再生12項目を確認。旧結果は閲覧可・異署名再計算は拒否。全条件/新則描画500T/実Windows未認定。詳細: operations/evidence/information-release-v4.2.29/README.md。草案。
+		既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 	D8.1:（C7.4 / 相・出生・遺伝と繁殖例外）［草案］
 		構成（要素・関係）:
 			valis/nodes/D/D8.1.md。相・出生・遺伝と繁殖例外の計画。
 		ロジック:
 			同時出生・有限投資・子の開始相を照合する。
 		実態:
-			4.2.30: 出生調整の短期比較・収支/再現性。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+			既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 
 	D8.2:（C7.5 / 寄生・高次寄生と情報）［草案］
 		構成（要素・関係）:
@@ -428,14 +435,15 @@ D8:（C7 / 生態循環と結合進行）［草案］
 		ロジック:
 			宿主・生活環・徴収・情報作用の境界を照合する。
 		実態:
-			4.2.30: Q初期数/手動数指定の照合。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+			既存の実装対応を維持。今回の適用・検証範囲は operations/evidence/optimization-v4.2.31/README.md。全条件の認定/正式承認は未完。草案。
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
 		valis/nodes/D/D9.md。画面・系統樹・説明・保存再生、projection.testとgraphics-rebuildの受入計画。
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		4.2.30: 配置/待機復帰/背景/影の比較。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+		4.2.31: 分類一覧/複数選択/作用マーク/影/背景画素/遷移/保存を照合し、遠近と確定処理を計測。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
+
 ```
 
 ## E：検証証跡
@@ -479,20 +487,22 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	ロジック:
 		各対象の実装・仕様・環境と一致する記録範囲に限定して参照する。
 	実態:
-		4.2.30: 生態/出生/初期Qの実測。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+		4.2.31: 旧乱数3規模の世界一致と新乱数2条件500T有限収支/存続の限定実測。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
+
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E6.md。operations/evidence/navigation-recovery-v4.1/source-hashes.json。観察4.1の既存記録と今回の遷移修正を区別。
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		4.2.30: 54項目の画面検査と描画比較。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+		4.2.31: Linux Chromiumの現行配置/演出/陰影/複数選択と性能比較。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
+
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
 	ロジック:
-		対象SHAと版が一致するWindows4.1の配布/実exe・Worker・画像読込・Node非公開の実測で判定する。
+		対象SHAと版が一致する配布物を展開し、実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		4.2.30: Windows4.2.30配布の実測。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
+		4.2.31: Windows4.2.31のZIP同梱と実exeを区別。実Windows CIは確認待ち。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
 
 ```

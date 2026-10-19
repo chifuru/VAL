@@ -1,0 +1,12 @@
+✔ tests/archive-history.test.cjs (7729.321059ms)
+✔ tests/archive.test.cjs (1089.677835ms)
+✔ tests/compute-client.test.cjs (55.71354ms)
+✔ tests/optimization.test.cjs (1483.751069ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10373.763912

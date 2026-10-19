@@ -173,10 +173,11 @@
           source && S.distance(w,event.cell,source.cell)<=1 && !w.tiles[event.cell].blocked)
           cells.add(event.cell);
       }
-      for (let cell = 0; cell < w.tiles.length; cell++) {
+      const counts=new Uint8Array(w.tiles.length),candidates=new Set(cells);
+      for(const source of cells)for(const cell of S.nearby(w,source)){counts[cell]++;candidates.add(cell);}
+      for (const cell of [...candidates].sort((a,b)=>a-b)) {
         if (w.tiles[cell].blocked) continue;
-        let n = 0;
-        for (const q of S.nearby(w, cell)) if (cells.has(q)) n++;
+        const n=counts[cell];
         const old = (m.resources.get(cell) || []).find((a) => a.kind === kind);
         if (old) {
           if (n !== 2 && n !== 3) {
