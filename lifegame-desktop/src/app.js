@@ -161,11 +161,19 @@
   $("map-id").innerHTML += window.EcoMapTemplates.list()
     .map((m) => `<option value="${escape(m.id)}">${escape(m.name)}</option>`)
     .join("");
+  const founderSpecies=D.species.filter(s=>["plant","fungus","prey","P","Q"].includes(s.group));
+  $("founder-inputs").innerHTML=founderSpecies.map(s=>`<label>${escape(s.name)} · ${s.group==="P"?"一次寄生":s.group==="Q"?"高次寄生":s.group==="plant"?"生産者":s.group==="fungus"?"分解者":"一次消費者"}（${["P","Q"].includes(s.group)?"群体":"体"}）<input id="founder-${escape(s.id)}" type="number" min="0" max="${s.group==="Q"?1024:17920}" step="1" placeholder="自動"></label>`).join("");
+  function readFounders(){
+    const result={version:1,species:{},parasites:{}};
+    for(const s of founderSpecies){const input=$("founder-"+s.id);if(input.value!=="")result[["P","Q"].includes(s.group)?"parasites":"species"][s.id]=Number(input.value);}
+    return Object.keys(result.species).length||Object.keys(result.parasites).length?{founderCounts:result}:{};
+  }
   function resetLowerSettings(){
     const [w,h]=$("size").value.split(",").map(Number),mode=S.observationPreset($("observation-mode").value,w,h);
     for(const [k,v]of Object.entries({plant:35,fungus:3,prey:10}))$("density-"+k).value=+(v*mode.initialFoodScale).toFixed(1);
     for(const k of ["mineral","droplet","info"])$("resource-"+k).value=100;
     $("lower-distribution").value="habitat";
+    for(const s of founderSpecies)$("founder-"+s.id).value="";
   }
   $("reset-lower-settings").onclick=resetLowerSettings;
   $("producer-supply").onchange=()=>{for(const e of $("supply-inputs").querySelectorAll("input"))e.disabled=!$("producer-supply").checked;};
@@ -205,6 +213,7 @@
     const [width, height] = $("size").value.split(",").map(Number);
     return {
       blockTurns: 500,
+      ...readFounders(),
       observationMode: $("observation-mode").value,
       producerSupport: $("producer-supply").checked ? {enabled:true,...Object.fromEntries(["land","water"].map(r=>[r,Object.fromEntries(["nutrition","capacity","regrowth"].map(k=>[k,Number($("supply-"+r+"-"+k).value)/(k==="capacity"?100:1)]))]))} : {enabled:false},
       initialConditions:{version:1,density:Object.fromEntries(["plant","fungus","prey"].map(k=>[k,Number($("density-"+k).value)/100])),resources:Object.fromEntries(["mineral","droplet","info"].map(k=>[k,Number($("resource-"+k).value)/100])),distribution:$("lower-distribution").value},
@@ -341,6 +350,12 @@
     if(lower){for(const k of ["plant","fungus","prey"])$("density-"+k).value=+(lower.density[k]*100).toFixed(1);for(const k of ["mineral","droplet","info"])$("resource-"+k).value=lower.resources[k]*100;$("lower-distribution").value=lower.distribution;}
     else {for(const [k,v]of Object.entries({plant:35,fungus:3,prey:10}))$("density-"+k).value=+(v*(next.config.initialFoodScale||1)).toFixed(1);for(const k of ["mineral","droplet","info"])$("resource-"+k).value=100;$("lower-distribution").value="habitat";}
     if(lower){const baseline={plant:.35,fungus:.03,prey:.1},changed=Object.entries(baseline).some(([k,v])=>Math.abs(lower.density[k]-v*(next.config.initialFoodScale||1))>1e-8)||Object.values(lower.resources).some(v=>v!==1)||lower.distribution!=="habitat"||!support?.enabled||["land","water"].some(r=>Object.entries({nutrition:1,capacity:.35,regrowth:1}).some(([k,v])=>support[r][k]!==v));$("active-mode").textContent+=changed?" 下層・供給：調整あり。":" 下層・供給：基準設定。";}
+    for(const s of founderSpecies)$("founder-"+s.id).value=next.config.founderCounts?.[["P","Q"].includes(s.group)?"parasites":"species"]?.[s.id]??"";
+    const founders=next.config.founderReport;$("founder-report").hidden=!founders;
+    if(founders){
+      $("active-mode").textContent+=" 種別・寄生初期数：調整あり。";
+      $("founder-report-content").innerHTML=founderSpecies.map(s=>{const row=founders[["P","Q"].includes(s.group)?"parasites":"species"][s.id],unit=["P","Q"].includes(s.group)?"群体":"体";return `<p>${escape(s.name)}：${row.actual}${unit}（${row.requested===null?"自動":"指定 "+row.requested+unit}）</p>`;}).join("");
+    }else $("founder-report-content").textContent="";
     const report=next.config.initialReport;if(report)$("active-mode").textContent+=` 初期配置: 生産者${report.groups.plant.actual}/${report.groups.plant.requested}・分解者${report.groups.fungus.actual}/${report.groups.fungus.requested}・一次消費者${report.groups.prey.actual}/${report.groups.prey.requested}（実数/目標）。資源: 鉱物${report.resources.mineral}・水分${report.resources.droplet}・情報${report.resources.info}地点。`;
     $("seed").value = next.config.seed;
     $("terrain-seed").value = next.config.terrainSeed ?? next.config.seed;

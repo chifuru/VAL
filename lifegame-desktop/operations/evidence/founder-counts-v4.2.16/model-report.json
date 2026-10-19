@@ -1,0 +1,8 @@
+{
+  "profiles": 8,
+  "conditionsPerProfile": 2,
+  "turnsPerCondition": 30,
+  "biologicalFingerprintAndStatsEqual": true,
+  "includesPreviousSupplyAndInitialControls": true,
+  "scope": "No founder overrides; not a 500T survival certification"
+}

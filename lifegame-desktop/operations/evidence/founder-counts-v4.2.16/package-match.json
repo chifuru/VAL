@@ -1,0 +1,14 @@
+{
+  "version": "4.2.16",
+  "files": {
+    "src/Index.html": "615c5f092eb5bd3b4c3fd0f53ee642908145880d31b7ddd19aff62f612d20964",
+    "src/app.js": "cda2d69b6041a7590fce72d84a32eda7bf610e879f0e4b43a8c0bbee62d05d32",
+    "src/ecology/archive.js": "c45031d1f2716902026ad7a9d09ba398cd8170149ffb98a91830e6eca41c7fbf",
+    "src/ecology/observation-modules.js": "c8b235f042484a8022f1deaffcad9ae6fd2329f9d26832430fa052f85e22a52e",
+    "src/ecology/replay-version.js": "9b1120458e7aa575a9e50b226b8e925173d1fb80596645696de532ca5ac71e02",
+    "src/ecology/state.js": "70156ab235a819f52a8c2cc05dd68d55e15cb5f9929fa1fc1405236aa62f320d"
+  },
+  "png": 35,
+  "allMatched": true,
+  "nativeWindowsRun": false
+}

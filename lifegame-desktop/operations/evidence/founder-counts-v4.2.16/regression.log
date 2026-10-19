@@ -1,0 +1,13 @@
+✔ tests/archive-history.test.cjs (10449.039262ms)
+✔ tests/archive.test.cjs (688.08341ms)
+✔ tests/initial-supply.test.cjs (3925.207541ms)
+✔ tests/observation-model.test.cjs (10932.774412ms)
+✔ tests/producer-support.test.cjs (4005.038031ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 30015.002867

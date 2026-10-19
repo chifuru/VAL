@@ -1,0 +1,16 @@
+✔ mixed automatic and manual counts are exact, zero has no substitution and result is deterministic (73.02236ms)
+✔ all explicit zero suppresses initial placement but does not invent an extinction lock (60.383745ms)
+✔ P starts on its first host; Q is searching rather than mature attached and transfer conserves energy (24.025947ms)
+✔ impossible species, first-host or searching-host requests fail explicitly (86.219751ms)
+✔ malformed, unknown, out-of-range, disabled and conflicting requests are rejected (0.8015ms)
+✔ effective group report accounts for species overrides and retains exact requested counts (34.545956ms)
+✔ saved manual conditions and initial reports reproduce every turn, without mutating caller input (749.361952ms)
+✔ previous biological version replays only records without founder settings, old supply guard remains (41.961698ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1080.767066

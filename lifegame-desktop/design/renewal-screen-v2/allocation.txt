@@ -4,10 +4,11 @@
     ].filter(([group]) => config.enabled[group]).map(([group, rate]) => {
       const species = D.species.filter(s => s.group === group);
       const target = Math.round(usable.length * (config.initialConditions?.density[group] ?? rate * (config.initialFoodScale || 1)));
-      return {group, target, placed:0, tasks:species.map((s,i) => ({
-        s, desired:Math.floor(target/species.length)+(i<target%species.length?1:0), placed:0,
+      const tasks=species.map((s,i) => ({
+        s, desired:config.founderCounts?.species[s.id] ?? (Math.floor(target/species.length)+(i<target%species.length?1:0)), exact:Object.hasOwn(config.founderCounts?.species||{},s.id), placed:0,
         cells:usable.filter(p => validHabitat(w,s,p)), cursor:0,
-      }))};
+      }));
+      return {group,target:tasks.reduce((sum,t)=>sum+t.desired,0),placed:0,tasks};
     });
     const tasks = foodGroups.flatMap(g => g.tasks.map(t => (t.owner=g,t)));
     const pressure = new Float64Array(n);
@@ -27,9 +28,10 @@
     let progress=true;
     while(progress){progress=false;for(const task of tasks)
       if(task.placed<task.desired)progress=placeFood(task)||progress;}
+    for(const task of tasks)if(task.exact&&task.placed<task.desired)throw Error("PLACEMENT_SHORTAGE: "+task.s.name+" 指定"+task.desired+" / 配置可能"+task.placed+"。適地/空き枠が不足しています");
     for(const group of foodGroups){
       while(group.placed<group.target){let placed=false;
-        for(const task of tasks.filter(t=>t.owner===group)){
+        for(const task of tasks.filter(t=>t.owner===group&&!t.exact)){
           if(group.placed===group.target)break;placed=placeFood(task)||placed;
         }
         if(!placed)throw Error("PLACEMENT_SHORTAGE: "+group.group+" "+(group.target-group.placed));

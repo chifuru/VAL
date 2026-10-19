@@ -156,9 +156,9 @@
 |0T〜全期間原値とCSV|接続あり・維持、4.2.15で保存へ接続|4/7|src/ecology/observations.js、src/app.js|
 |現在像サマリ|4.2.12で円グラフ＋右総括/3ラベル文章＋薄い実数を限定接続|5|src/app.js、src/Index.html|
 |マップ+右側3グラフ/詳細解除|4.2.13で右側3パネル/詳細解除復帰。全寸法の一画面判読は最終確認|5|src/Index.html、src/styles.css|
-|非主/資源の初期量・分布の直接調整|4.2.14で群密度/下層分布/資源3種量を接続。種別/PQ直接数は未完|6|src/Index.html、src/app.js|
+|非主/資源の初期量・分布の直接調整|4.2.14で群密度/下層分布/資源3種量、4.2.16で種別/PQ直接数・指定/実配置の保存再生を限定接続|6|src/Index.html、src/app.js|
 |自由モードで供給選択・優遇表示|4.2.14で優遇と独立した供給ON/OFF・陸水3量を接続。攪乱UIは未完|6|src/ecology/observation-model.js、src/app.js|
-|実効条件/配置結果の保存|4.2.14で実効供給/初期量/実配置をconfigへ保持。全期間保存は工程7|6/7|src/ecology/archive.js|
+|実効条件/配置結果の保存|4.2.16で種別/PQを含む実効初期量/実配置をconfigへ保持。全期間保存は4.2.15で接続|6/7|src/ecology/archive.js|
 |最終状態+全グラフの図鑑保存|4.2.15で初期/最終統計/全期間原値と定義を保存|7|src/ecology/archive.js|
 |再生後の明示的新規記録|4.2.15で暗黙保存禁止/明示保存は新IDと元記録参照|7|src/ecology/archive.js、src/app.js|
 |保存失敗/旧形式/結果分析|4.2.15でschema2/旧併読/結果分析/quota保護を接続。未知の指標版変換は未対応|7/10|src/ecology/archive.js|
@@ -173,7 +173,7 @@
 |基本進行/手動停止観察/追跡|接続あり、UI変更後の回帰確認|2/5/10|src/app.js|
 |背景立体感/自然な境界/全要素識別|既存改善あり、最終全場面は未確認|9|src/ecology/habitat.js、src/ecology/scenery.js|
 |5〜15分/500T/準備60秒/品質維持|基準実装あり、最終版の実測が必要|9/10|src/app.js、src/ecology/compute-client.js|
-|Windows生成と実機|4.2.6同梱確認あり、最新実機は未確認|10|operations/evidence/lower-states-v4.2.6/package-report.json|
+|Windows生成と実機|4.2.16生成・変更src6/35PNG同梱一致、最新実機は未確認|10|operations/evidence/lower-states-v4.2.6/package-report.json|
 |R0循環/世代/競争と500T存続|既存採用条件の例あり、最終結合版は未確認|10|design/specification/observation-first-v2.8.md|
 |厳密R1〜R6/新植物/36地形|目標と採用意向を保持、完成後の工程|11|design/specification/ab-visual-ecology-v2.5.md、design/dedicated-variants-v4.2.2/coverage.md|
 
@@ -195,4 +195,4 @@
 
 4.2.12現在像サマリの限定接続: operations/evidence/current-summary-v4.2.12/README.md。関与個体率・実生産・栄養階層配分・関係図/ピラミッド・右側3パネルの全配置は未完。
 
-現在の工程4/5接続（4.2.13）: 基本3パネル・関係図・共通Bピラミッドを限定接続。栄養由来は50T実績/供給元の前ターン配分、不明を維持。生産/捕食/定着の単位は別。詳細はecosystem-panels-v4.2.13証跡。関係図の代表記号/固有色・捕食回数/寄生継続の優勢、記録への全期間保存、全寸法/密集の判読性は残る。次の本作業は残る初期数指定と工程8の生態/説明照合。工程6の種別/PQ直接数等は残件として保持。
+現在の工程4/5接続（4.2.13）: 基本3パネル・関係図・共通Bピラミッドを限定接続。栄養由来は50T実績/供給元の前ターン配分、不明を維持。生産/捕食/定着の単位は別。詳細はecosystem-panels-v4.2.13証跡。関係図の代表記号/固有色・捕食回数/寄生継続の優勢、記録への全期間保存、全寸法/密集の判読性は残る。4.2.16で種別/PQ直接数を限定接続（operations/evidence/founder-counts-v4.2.16/README.md）。次の本作業は工程8の生態/説明照合。工程6の攪乱UIは残件として保持。

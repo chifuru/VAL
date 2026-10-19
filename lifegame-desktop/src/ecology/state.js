@@ -406,6 +406,21 @@ return {settings,attach,region,level,factor,begin,finish};
       if(H.round(a.density.plant+a.density.fungus)>.95)throw Error("SETTINGS_INVALID: 生産者と分解者の密度合計は95%以下です");
       c.initialConditions=structuredClone(a);
     }
+    if(c.founderCounts!==undefined){
+      const a=c.founderCounts;
+      if(!a||typeof a!=="object"||Array.isArray(a)||a.version!==1||Object.keys(a).some(k=>!["version","species","parasites"].includes(k)))throw Error("SETTINGS_INVALID: 種別の初期数");
+      for(const key of ["species","parasites"]){
+        const obj=a[key];if(!obj||typeof obj!=="object"||Array.isArray(obj))throw Error("SETTINGS_INVALID: 種別の初期数 "+key);
+        for(const [id,count]of Object.entries(obj)){
+          const species=D.species.find(s=>s.id===id),allowed=key==="species"?["plant","fungus","prey"]:["P","Q"];
+          if(!species||!allowed.includes(species.group)||!Number.isSafeInteger(count)||count<0||count>(species.group==="Q"?1024:17920))throw Error("SETTINGS_INVALID: 初期数 "+id);
+          if(count>0&&!c.enabled[species.group])throw Error("SETTINGS_INVALID: "+species.name+"の生物群を有効にしてください");
+        }
+      }
+      if(Object.keys(a.species).length&&c.guarantee)throw Error("SETTINGS_INVALID: 種別の初期数を指定する場合は初期餌保証をOFFにしてください");
+      if(Object.keys(a.parasites).length&&c.ecologyRevision!=="observation/4.1")throw Error("SETTINGS_INVALID: 寄生群体の初期数は観察モデル専用です");
+      c.founderCounts=structuredClone(a);
+    }
     return c;
   }
   const ageFactors = Object.freeze({
@@ -728,7 +743,8 @@ return {settings,attach,region,level,factor,begin,finish};
           base = Math.floor(target / species.length),
           tasks = species.map((s, i) => ({
             s,
-            count: base + (i < target % species.length ? 1 : 0),
+            count: config.founderCounts?.species[s.id] ?? (base + (i < target % species.length ? 1 : 0)),
+            exact: Object.hasOwn(config.founderCounts?.species||{},s.id),
           }));
         let deficit = 0;
         function place(s, count) {
@@ -756,8 +772,8 @@ return {settings,attach,region,level,factor,begin,finish};
           }
           return count - placed;
         }
-        for (const task of tasks) deficit += place(task.s, task.count);
-        for (const s of species) if (deficit) deficit = place(s, deficit);
+        for (const task of tasks) {const left=place(task.s, task.count);if(task.exact&&left)throw Error("PLACEMENT_SHORTAGE: "+task.s.name+" 指定"+task.count+"体の適地/空き枠が不足しています");deficit+=left;}
+        for (const task of tasks) if (deficit&&!task.exact) deficit = place(task.s, deficit);
         if (deficit)
           throw Error("PLACEMENT_SHORTAGE: " + group + " " + deficit);
       }
@@ -1056,6 +1072,7 @@ return {settings,attach,region,level,factor,begin,finish};
       for (const o of w.organisms)
         if (
           ["algae", "grass"].includes(o.species) &&
+          !Object.hasOwn(config.founderCounts?.parasites||{},o.species === "algae" ? "tideparasite" : "leafparasite") &&
           r(w, "init/infection", 0, o.id) < 0.05
         ) {
           o.infection = infection(
@@ -1067,6 +1084,11 @@ return {settings,attach,region,level,factor,begin,finish};
           if (config.ecologyRevision !== "observation/4.1" && config.enabled.Q && r(w, "init/hyper", 0, o.id) < 0.01)
             o.infection.q = hyper(w, o.infection.id, 0);
         }
+    for(const [id,count]of Object.entries(config.founderCounts?.parasites||{}))if(["tideparasite","leafparasite"].includes(id)){
+      const hostSpecies=id==="tideparasite"?"algae":"grass",hosts=w.organisms.filter(o=>o.species===hostSpecies&&!o.infection).sort((a,b)=>hash(w,"init/manual-P",0,id,a.id)-hash(w,"init/manual-P",0,id,b.id)||a.id.localeCompare(b.id));
+      if(hosts.length<count)throw Error("PLACEMENT_SHORTAGE: "+D.byId[id].name+" 指定"+count+"群体に対し第一宿主は"+hosts.length+"体です");
+      for(const o of hosts.slice(0,count))o.infection=infection(w,id,o.id,0);
+    }
     if (
       config.enabled.P &&
       !w.organisms.some((o) => ["algae", "grass"].includes(o.species))
@@ -1078,6 +1100,8 @@ return {settings,attach,region,level,factor,begin,finish};
       w.searchQ=[];
       config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
       config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.max(4,Math.min(16,Math.ceil(config.width*config.height/400))),createdSearchQ:0};
+      const manualQ=config.founderCounts?.parasites.hyperparasite;
+      if(manualQ!==undefined)config.parasiteInitial.targetSearchQ=manualQ;
       const candidates=w.organisms.filter(o=>o.slot==="main" && ["plant","general"].includes(D.byId[o.species].diet));
       if(config.enabled.P && config.enabled.Q && w.organisms.some(o=>o.infection) && candidates.length) {
         for(let i=0;i<Math.min(config.parasiteInitial.targetSearchQ,candidates.length);i++) {
@@ -1086,10 +1110,19 @@ return {settings,attach,region,level,factor,begin,finish};
         }
       }
       config.parasiteInitial.createdSearchQ=w.searchQ.length;
-      if(config.enabled.Q && !w.searchQ.length)w.warnings.push("高次寄生の探索群体を配置できません。適合宿主/一次寄生虫の初期条件を確認してください。");
+      if(manualQ!==undefined&&manualQ!==w.searchQ.length)throw Error("PLACEMENT_SHORTAGE: 高次寄生の探索群体 指定"+manualQ+" / 配置可能"+w.searchQ.length+"。一次寄生と適合探索宿主の条件を確認してください");
+      if(config.enabled.Q && manualQ!==0 && !w.searchQ.length)w.warnings.push("高次寄生の探索群体を配置できません。適合宿主/一次寄生虫の初期条件を確認してください。");
     }
     if(config.initialConditions){
       config.initialReport={version:1,usable:usable.length,groups:Object.fromEntries(["plant","fungus","prey"].map(g=>[g,{requested:config.enabled[g]?Math.round(usable.length*config.initialConditions.density[g]):0,actual:w.organisms.filter(o=>D.byId[o.species].group===g).length}])),bySpecies:Object.fromEntries(D.species.filter(s=>["plant","fungus","prey"].includes(s.group)).map(s=>[s.id,w.organisms.filter(o=>o.species===s.id).length])),resources:Object.fromEntries(["mineral","droplet","info"].map(k=>[k,w.resources.filter(a=>a.kind===k).length]))};
+    }
+    if(config.founderCounts){
+      const requested=config.founderCounts;
+      config.founderReport={version:1,species:Object.fromEntries(D.species.filter(s=>["plant","fungus","prey"].includes(s.group)).map(s=>[s.id,{requested:requested.species[s.id]??null,actual:w.organisms.filter(o=>o.species===s.id).length}])),parasites:Object.fromEntries(["tideparasite","leafparasite","hyperparasite"].map(id=>[id,{requested:requested.parasites[id]??null,actual:id==="hyperparasite"?(w.searchQ?.length||0)+w.organisms.filter(o=>o.infection?.q).length:w.organisms.filter(o=>o.infection?.species===id).length}]))};
+      if(config.initialReport)for(const g of ["plant","fungus","prey"]){
+        const species=D.species.filter(s=>s.group===g),target=config.enabled[g]?Math.round(usable.length*config.initialConditions.density[g]):0;
+        config.initialReport.groups[g].requested=species.reduce((sum,s,i)=>sum+(config.enabled[g]?(requested.species[s.id]??(Math.floor(target/species.length)+(i<target%species.length?1:0))):0),0);
+      }
     }
     const t = totals(w);
     w.ledger.initialE = t.E;

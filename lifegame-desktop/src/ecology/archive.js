@@ -2,8 +2,8 @@
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.EcoArchive=api;})(globalThis,function(){
  'use strict';
  const KEY='lifegame.results.v1',LIMIT=100;
- // Known legacy rules compare equal only when the record has no new supply/initial controls.
- const replayAliases={'9e94eea06cc9c1f640fecb88faaf25bc205d3f3e34b57b042a0d7c1160fef0ab':['d14f8a832f9da26d011dc83f15af689369fa6d567511bc520c2773d7caf36c3f','8119156dc6760f78ba8ab02a683390562e262802fd977d85de27115b15c38c48','cbab69c80c0122ff99a6ded0528f10e7c4070652a587aa0468c868678437e7fe'],'d14f8a832f9da26d011dc83f15af689369fa6d567511bc520c2773d7caf36c3f':['8119156dc6760f78ba8ab02a683390562e262802fd977d85de27115b15c38c48','cbab69c80c0122ff99a6ded0528f10e7c4070652a587aa0468c868678437e7fe'],'8119156dc6760f78ba8ab02a683390562e262802fd977d85de27115b15c38c48':['cbab69c80c0122ff99a6ded0528f10e7c4070652a587aa0468c868678437e7fe']};
+ // Legacy aliases are gated by the features absent from their source version.
+ const replayAliases={'8fca29559d94f405a0022c5f86d8d15c400204ddae3f71a40a7a261b5bd2552a':["9e94eea06cc9c1f640fecb88faaf25bc205d3f3e34b57b042a0d7c1160fef0ab", "d14f8a832f9da26d011dc83f15af689369fa6d567511bc520c2773d7caf36c3f", "8119156dc6760f78ba8ab02a683390562e262802fd977d85de27115b15c38c48", "cbab69c80c0122ff99a6ded0528f10e7c4070652a587aa0468c868678437e7fe"],'9e94eea06cc9c1f640fecb88faaf25bc205d3f3e34b57b042a0d7c1160fef0ab':['d14f8a832f9da26d011dc83f15af689369fa6d567511bc520c2773d7caf36c3f','8119156dc6760f78ba8ab02a683390562e262802fd977d85de27115b15c38c48','cbab69c80c0122ff99a6ded0528f10e7c4070652a587aa0468c868678437e7fe'],'d14f8a832f9da26d011dc83f15af689369fa6d567511bc520c2773d7caf36c3f':['8119156dc6760f78ba8ab02a683390562e262802fd977d85de27115b15c38c48','cbab69c80c0122ff99a6ded0528f10e7c4070652a587aa0468c868678437e7fe'],'8119156dc6760f78ba8ab02a683390562e262802fd977d85de27115b15c38c48':['cbab69c80c0122ff99a6ded0528f10e7c4070652a587aa0468c868678437e7fe']};
  function create(storage,engine,signature){
   function list(){
    const raw=storage.getItem(KEY);if(!raw)return [];
@@ -29,7 +29,7 @@
    storage.setItem(KEY,JSON.stringify([record,...rows]));return true;
   }
   function remove(id){storage.setItem(KEY,JSON.stringify(list().filter(r=>r.id!==id)));}
-  function replay(id){const r=list().find(r=>r.id===id);if(!r)throw Error('観測記録が見つかりません。');if(r.signature!==signature&&(!replayAliases[signature]?.includes(r.signature)||(signature==='9e94eea06cc9c1f640fecb88faaf25bc205d3f3e34b57b042a0d7c1160fef0ab'&&(r.config.producerSupport!==undefined||r.config.initialConditions!==undefined||r.config.initialReport!==undefined))))throw Error('計算版が異なるため同じ結果を再現できません。この記録は再生できません。');if(r.config.landscape==='templates'&&!r.config.mapResolved)throw Error('地形の識別情報がないため再生できません。');return structuredClone(r);}
+  function replay(id){const r=list().find(r=>r.id===id);if(!r)throw Error('観測記録が見つかりません。');if(r.signature!==signature&&(!replayAliases[signature]?.includes(r.signature)||(r.config.founderCounts!==undefined||r.config.founderReport!==undefined)||(['9e94eea06cc9c1f640fecb88faaf25bc205d3f3e34b57b042a0d7c1160fef0ab','8fca29559d94f405a0022c5f86d8d15c400204ddae3f71a40a7a261b5bd2552a'].includes(signature)&&r.signature!=='9e94eea06cc9c1f640fecb88faaf25bc205d3f3e34b57b042a0d7c1160fef0ab'&&(r.config.producerSupport!==undefined||r.config.initialConditions!==undefined||r.config.initialReport!==undefined))))throw Error('計算版が異なるため同じ結果を再現できません。この記録は再生できません。');if(r.config.landscape==='templates'&&!r.config.mapResolved)throw Error('地形の識別情報がないため再生できません。');return structuredClone(r);}
   return {list,capture,save,remove,replay,get:id=>structuredClone(list().find(r=>r.id===id)),limit:LIMIT};
  }
  function persistent(storage,engine,signature,{indexedDB=globalThis.indexedDB,name='lifegame.results.v2'}={}){

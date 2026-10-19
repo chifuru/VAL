@@ -2,7 +2,7 @@
 
 lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Node、仕様と資料の入口は `design/specification/README.md`。
 
-全残件の現在入口: `operations/plans/remaining-completion-v4.2.md`。製品4.2.15の全期間記録/結果分析/明示的新規保存は `operations/evidence/archive-history-v4.2.15/README.md`。次は種別/PQ初期数と生態必須機能/説明の照合。最終外観/性能・500T/実Windows確認は残る。
+全残件の現在入口: `operations/plans/remaining-completion-v4.2.md`。製品4.2.16の種別/PQ初期数は `operations/evidence/founder-counts-v4.2.16/README.md`、全期間記録は `operations/evidence/archive-history-v4.2.15/README.md`。次は生態必須機能/説明の照合。最終外観/性能・500T/実Windows確認は残る。
 
 ## A：仕様
 
@@ -28,7 +28,7 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 		ロジック:
 			固定環境と変動資源を分離。装飾植生を餌と誤認させず、適地の共同配分と渡河/領域の有限利益を定める。
 		実態:
-			4.2.14で自由設定の供給ON/OFFと陸水別3量、下層3群の密度/分布、資源3種の初期量を接続。実効条件/調整あり/目標と実配置を表示しconfigへ保持。旧欠落はOFF。種別/PQの直接数指定・全期間保存は残る。 詳細: operations/evidence/initial-supply-v4.2.14/README.md。草案を維持。
+			4.2.16で非主7種とP2種/Qの初期直接数、空欄自動/明示0、指定種の代替禁止、第一宿主/探索条件の不足案内、指定/実配置の保存再生を接続。無指定の旧8優遇×2条件×30Tの生態指紋/統計一致。500T/実Windows/最終外観は未確認。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 	A1.3:（A1 / 性別・繁殖・遺伝）［草案］
 		構成（要素・関係）:
 			valis/nodes/A/A1.3.md。性別・繁殖・遺伝。
@@ -50,7 +50,7 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 		ロジック:
 			Pの負担/排除とH→P→Qを区別。Qは一次成熟移行窓で感染し行動のみへ作用。初期接続と各段階の不成立を診断する。
 		実態:
-			4.2.10で資源8種の形/量/8環境・情報5T鮮度/20T失効、死骸の由来記号/3枠、感染性死骸P/Qの期限/地表表示/個別選択/横説明を接続。死亡時造形保存と確定モーション精査は残る。生態/記録不変。
+			4.2.16で非主7種とP2種/Qの初期直接数、空欄自動/明示0、指定種の代替禁止、第一宿主/探索条件の不足案内、指定/実配置の保存再生を接続。無指定の旧8優遇×2条件×30Tの生態指紋/統計一致。500T/実Windows/最終外観は未確認。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 	A1.6:（A1 / 光合成と共生の栄養）［草案］
 		構成（要素・関係）:
 			valis/nodes/A/A1.6.md。光合成と共生の栄養。
@@ -64,14 +64,14 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 		ロジック:
 			主/餌/資源とH→P→Qの枠・単位を区別。可食量/到達性・各支出・最終死因を共通の有限モデルで扱う。
 		実態:
-			4.2.14で自由設定の供給ON/OFFと陸水別3量、下層3群の密度/分布、資源3種の初期量を接続。実効条件/調整あり/目標と実配置を表示しconfigへ保持。旧欠落はOFF。種別/PQの直接数指定・全期間保存は残る。 詳細: operations/evidence/initial-supply-v4.2.14/README.md。草案を維持。
+			4.2.16で非主7種とP2種/Qの初期直接数、空欄自動/明示0、指定種の代替禁止、第一宿主/探索条件の不足案内、指定/実配置の保存再生を接続。無指定の旧8優遇×2条件×30Tの生態指紋/統計一致。500T/実Windows/最終外観は未確認。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 A2:（起点 / 独立した Windows ローカル実行）［草案］
 	構成（要素・関係）:
 		valis/nodes/A/A2.md。独立した Windows ローカル実行。 残件の作業順: operations/plans/remaining-completion-v4.2.md。
 	ロジック:
 		現行UIを基準に、既存個体数カード列末尾の小型trend-cardをサマリへ置換。右側は基本3グラフ/詳細の切替。一画面の判読性と遷移保護を確認する。
 	実態:
-		4.2.15で初期/最終統計/全ターン観測と指標版をschema2/IndexedDBへ保存し、最終結果の3パネル分析・CSV/JSONへ接続。再生だけでは増件せず、明示保存は独立ID/元記録参照。旧記録を併読し上書きしない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
+		4.2.16で非主7種とP2種/Qの初期直接数、空欄自動/明示0、指定種の代替禁止、第一宿主/探索条件の不足案内、指定/実配置の保存再生を接続。無指定の旧8優遇×2条件×30Tの生態指紋/統計一致。500T/実Windows/最終外観は未確認。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 
 ```
 
@@ -161,7 +161,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 	ロジック:
 		工程別の完了条件で既存UI/生態へ接続し、名札/色/一覧/横説明・3+1グラフ・設定/保存の未完を完成扱いにしない。 作業順: operations/plans/remaining-completion-v4.2.md。
 	実態:
-		4.2.15で初期/最終統計/全ターン観測と指標版をschema2/IndexedDBへ保存し、最終結果の3パネル分析・CSV/JSONへ接続。再生だけでは増件せず、明示保存は独立ID/元記録参照。旧記録を併読し上書きしない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
+		4.2.16で非主7種とP2種/Qの初期直接数、空欄自動/明示0、指定種の代替禁止、第一宿主/探索条件の不足案内、指定/実配置の保存再生を接続。無指定の旧8優遇×2条件×30Tの生態指紋/統計一致。500T/実Windows/最終外観は未確認。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.1.md。系統樹と進化条件の参照機能。
@@ -259,7 +259,7 @@ C4:（A2, B5 / Electron と Windows 配布）［草案］
 	ロジック:
 		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
 	実態:
-		Windows4.2.15生成と変更ソース5・原画35PNGの同梱一致を確認。生態source/再生署名は不変。実Windows起動/性能は未実施。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
+		Windows4.2.16生成と変更src6ファイル・原画35PNGの同梱一致を確認。初期数指定により生態署名は更新、無指定の旧8優遇×2条件×30Tの指紋/統計一致を確認。実Windows起動/性能は未実施。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -283,7 +283,7 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 	ロジック:
 		C7.1〜C7.5を接合し、前状態と有限予算から次状態を確定する。
 	実態:
-		環境由来の生産者定着/有限再生と外部E/B/M台帳を接続。新6単体/供給8、旧条件8優遇×30Tの指紋/統計一致、既存Worker/モデル等5ファイル回帰を確認。動物/PQ救済なし。新500T認定は未実施。 詳細: operations/evidence/initial-supply-v4.2.14/README.md。草案を維持。
+		4.2.16で非主7種とP2種/Qの初期直接数、空欄自動/明示0、指定種の代替禁止、第一宿主/探索条件の不足案内、指定/実配置の保存再生を接続。無指定の旧8優遇×2条件×30Tの生態指紋/統計一致。500T/実Windows/最終外観は未確認。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 
 	C7.1:（B4, B4.4 / 初期値・固定世界・31種の共通状態）［草案］
 		構成（要素・関係）:
@@ -291,7 +291,7 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 		ロジック:
 			目的別の決定的乱数と、独立した占有枠・有限台帳を保持する。
 		実態:
-			環境由来の生産者定着/有限再生と外部E/B/M台帳を接続。新6単体/供給8、旧条件8優遇×30Tの指紋/統計一致、既存Worker/モデル等5ファイル回帰を確認。動物/PQ救済なし。新500T認定は未実施。 詳細: operations/evidence/initial-supply-v4.2.14/README.md。草案を維持。
+			4.2.16で非主7種とP2種/Qの初期直接数、空欄自動/明示0、指定種の代替禁止、第一宿主/探索条件の不足案内、指定/実配置の保存再生を接続。無指定の旧8優遇×2条件×30Tの生態指紋/統計一致。500T/実Windows/最終外観は未確認。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 	C7.2:（B4.3, B4.4 / 有限栄養・資源CA・生産と死骸）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C7.2.md。有限栄養・資源CA・生産と死骸。
@@ -327,7 +327,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 	ロジック:
 		確定世界を観察し、操作や拡大を生態計算から分ける。
 	実態:
-		4.2.15で初期/最終統計/全ターン観測と指標版をschema2/IndexedDBへ保存し、最終結果の3パネル分析・CSV/JSONへ接続。再生だけでは増件せず、明示保存は独立ID/元記録参照。旧記録を併読し上書きしない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
+		4.2.16で非主7種とP2種/Qの初期直接数、空欄自動/明示0、指定種の代替禁止、第一宿主/探索条件の不足案内、指定/実配置の保存再生を接続。無指定の旧8優遇×2条件×30Tの生態指紋/統計一致。500T/実Windows/最終外観は未確認。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C8.1.md。projection/scenery/habitat/art/renderer、生物/地物10原画と背景11素材。契約: operations/plans/habitat-visual-v3.1.md。
@@ -379,7 +379,7 @@ D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	ロジック:
 		C4と対象版を照合して配布物そのものを実行する。
 	実態:
-		Windows4.2.15生成と変更ソース5・原画35PNGの同梱一致を確認。生態source/再生署名は不変。実Windows起動/性能は未実施。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
+		Windows4.2.16生成と変更src6ファイル・原画35PNGの同梱一致を確認。初期数指定により生態署名は更新、無指定の旧8優遇×2条件×30Tの指紋/統計一致を確認。実Windows起動/性能は未実施。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -411,7 +411,7 @@ D8:（C7 / 生態循環と結合進行）［草案］
 	ロジック:
 		存続・出生・資源・特殊生態の結合を対象条件付きで調べる。
 	実態:
-		環境由来の生産者定着/有限再生と外部E/B/M台帳を接続。新6単体/供給8、旧条件8優遇×30Tの指紋/統計一致、既存Worker/モデル等5ファイル回帰を確認。動物/PQ救済なし。新500T認定は未実施。 詳細: operations/evidence/initial-supply-v4.2.14/README.md。草案を維持。
+		新単体8件、旧8優遇×2条件×30Tの指紋/統計一致、関連5ファイル回帰、Linux Chromium29項目の正確配置/宿主・適地不足/前世界保持/再試行/取消/Worker同期一致/保存再生を確認。新500T生存認定は未実施。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 	D8.1:（C7.4 / 相・出生・遺伝と繁殖例外）［草案］
 		構成（要素・関係）:
 			valis/nodes/D/D8.1.md。相・出生・遺伝と繁殖例外の計画。
@@ -433,7 +433,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		Linux Chromium40項目で実IndexedDBの再読込/保存原値/結果分析/指紋照合/明示的新規保存/元記録保護/quotaロールバック/再試行/100件/破損保護/狭幅を確認。新単体5・旧archive4、関連5ファイル回帰。合成501時点は輸送検査で生態500T認定ではない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
+		新単体8件、旧8優遇×2条件×30Tの指紋/統計一致、関連5ファイル回帰、Linux Chromium29項目の正確配置/宿主・適地不足/前世界保持/再試行/取消/Worker同期一致/保存再生を確認。新500T生存認定は未実施。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 ```
 
 ## E：検証証跡
@@ -477,20 +477,20 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	ロジック:
 		各対象の実装・仕様・環境と一致する記録範囲に限定して参照する。
 	実態:
-		環境由来の生産者定着/有限再生と外部E/B/M台帳を接続。新6単体/供給8、旧条件8優遇×30Tの指紋/統計一致、既存Worker/モデル等5ファイル回帰を確認。動物/PQ救済なし。新500T認定は未実施。 詳細: operations/evidence/initial-supply-v4.2.14/README.md。草案を維持。
+		新単体8件、旧8優遇×2条件×30Tの指紋/統計一致、関連5ファイル回帰、Linux Chromium29項目の正確配置/宿主・適地不足/前世界保持/再試行/取消/Worker同期一致/保存再生を確認。新500T生存認定は未実施。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E6.md。operations/evidence/navigation-recovery-v4.1/source-hashes.json。観察4.1の既存記録と今回の遷移修正を区別。
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		Linux Chromium40項目で実IndexedDBの再読込/保存原値/結果分析/指紋照合/明示的新規保存/元記録保護/quotaロールバック/再試行/100件/破損保護/狭幅を確認。新単体5・旧archive4、関連5ファイル回帰。合成501時点は輸送検査で生態500T認定ではない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
+		新単体8件、旧8優遇×2条件×30Tの指紋/統計一致、関連5ファイル回帰、Linux Chromium29項目の正確配置/宿主・適地不足/前世界保持/再試行/取消/Worker同期一致/保存再生を確認。新500T生存認定は未実施。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
 	ロジック:
 		対象SHAと版が一致するWindows4.1の配布/実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		Windows4.2.15生成と変更ソース5・原画35PNGの同梱一致を確認。生態source/再生署名は不変。実Windows起動/性能は未実施。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
+		Windows4.2.16生成と変更src6ファイル・原画35PNGの同梱一致を確認。初期数指定により生態署名は更新、無指定の旧8優遇×2条件×30Tの指紋/統計一致を確認。実Windows起動/性能は未実施。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
 
 ```
