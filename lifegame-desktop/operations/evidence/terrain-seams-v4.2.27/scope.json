@@ -1,0 +1,18 @@
+{
+  "baseline": "303f997",
+  "sourceChanges": [
+    {
+      "file": "src/Index.html",
+      "before": "7d8118b7c210015c90925d4fd343a64b97f6ee8366a6b91e98fc2327176cb3c6",
+      "after": "8881dc209cd65b2a24d3a7428b56c31684c044de8070a46f84deb9f84528449a"
+    },
+    {
+      "file": "src/ecology/habitat.js",
+      "before": "8f93f461d3a09e940f09c1916e0c4ed2b98b5ea720abb232d201ac2c70fd4175",
+      "after": "9f8709c5769c83a7216132f47ddb75463cb328d562fd53ea7d9f4a52acfe1178"
+    }
+  ],
+  "unchangedBiology": true,
+  "nativeWindowsRun": false,
+  "unchangedSourceAssets": true
+}

@@ -1,0 +1,58 @@
+{
+  "version": "4.2.27",
+  "checks": [
+    "all eleven original terrain materials decoded",
+    "terrain patch cache reused old",
+    "world-space overlap differs only by sub-byte mean raster rounding old",
+    "evicted terrain patch rebuild is deterministic old",
+    "terrain patch cache reused current",
+    "world-space overlap differs only by sub-byte mean raster rounding current",
+    "evicted terrain patch rebuild is deterministic current",
+    "new blend is present before mesh projection",
+    "painted surface remains opaque grass",
+    "painted surface remains opaque frost-rock",
+    "painted surface remains opaque deep-water",
+    "all 1120 actual cell centres remain selectable",
+    "actual water surfaces remain level",
+    "paint diagnostics and camera changes preserve biological fingerprint",
+    "overview retains every actual organism",
+    "no browser errors"
+  ],
+  "errors": [],
+  "metrics": {
+    "old": {
+      "firstBuildMs": 711.7000000029802,
+      "overlap": {
+        "maxChannelError": 1,
+        "meanChannelError": 0.00046253204345703125
+      }
+    },
+    "current": {
+      "firstBuildMs": 576.7999999970198,
+      "overlap": {
+        "maxChannelError": 2,
+        "meanChannelError": 0.00025463104248046875
+      }
+    },
+    "grass": {
+      "buildMs": 68.3999999910593
+    },
+    "frost-rock": {
+      "buildMs": 39.400000005960464
+    },
+    "deep-water": {
+      "buildMs": 39.80000001192093
+    }
+  },
+  "drawTimings": {
+    "old": {
+      "medianMs": 0.10000000149011612,
+      "maxMs": 0.5999999940395355
+    },
+    "current": {
+      "medianMs": 0.10000000149011612,
+      "maxMs": 0.5999999940395355
+    }
+  },
+  "scope": "one real river world, two render versions, three private uniform surface fixtures; no ecology change or all-map visual approval"
+}

@@ -48,8 +48,10 @@
         vertical ? 1024 : 0,
       );
       grad.addColorStop(0, "#0000");
-      grad.addColorStop(0.08, "#000");
-      grad.addColorStop(0.92, "#000");
+      // Wide cross-fades pair with overlapping world-space stamps below.
+      // Keep source detail sharp; only the stamp boundary changes opacity.
+      grad.addColorStop(0.22, "#000");
+      grad.addColorStop(0.78, "#000");
       grad.addColorStop(1, "#0000");
       g.fillStyle = grad;
       g.fillRect(0, 0, 1024, 1024);
@@ -169,7 +171,8 @@
       if (!im) return;
       const patch = feather(im),
         period = ["water", "rapids", "deep"].includes(name) ? 3.6 : 2.8,
-        size = period * 1.28;
+        // Cover diagonal joins as well as horizontal/vertical neighbors.
+        size = period * 1.55;
       for (
         let y = Math.floor(rect.y / period) - 2;
         y <= Math.ceil((rect.y + rect.h) / period) + 1;
