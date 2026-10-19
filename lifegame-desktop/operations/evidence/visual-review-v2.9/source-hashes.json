@@ -1,0 +1,8 @@
+{
+  "design/advantage-switches/model.cjs": "67e5c8851891be3b4a5a0c0003853263e3706d4c1cd16f89c00c24d4f2c1fb28",
+  "design/advantage-switches/transform.cjs": "a43ab5b03d7340caa1beea11429599b3383dc42f68719e2f7c3a70919290852b",
+  "tests/advantage-switches.test.cjs": "0532d171c469c8b32082dd7ecb75136790f98b46e3e42b75927134da314b0c1f",
+  "design/visual-review-v2.9/capture.cjs": "756c3006f589b2d1b7879bfbc200e17ab8982ea367b22da2df5d7c988b4fd162",
+  "design/visual-review-v2.9/transform.cjs": "6606236249a1e0c52f3630b44b0cf18e1b0c6acaea2ae176513e3075da2b724c",
+  "design/visual-review-v2.9/index.html": "cffd5cc227128d7e0207f71b879514ace3d251002e6e676298383f9929b47b73"
+}

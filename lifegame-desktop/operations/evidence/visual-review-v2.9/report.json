@@ -1,0 +1,132 @@
+{
+  "checks": [
+    "far symbol paths, palette and drawing function remain byte-identical",
+    "far comparison uses the same display scale",
+    "far comparison uses identical biological state",
+    "near fixture has identical organisms, ages, phases, sexes and world fingerprint",
+    "display changes do not mutate biology",
+    "source atlases and creature geometry unchanged; proposal alters primary creature luminance/saturation/shadow only",
+    "no browser errors or native dialogs"
+  ],
+  "errors": [],
+  "fixtures": [
+    {
+      "cell": 299,
+      "specimens": [
+        {
+          "id": "visual-specimen-0",
+          "species": "solar",
+          "age": 0,
+          "phase": 1,
+          "sex": "female",
+          "ageStage": "juvenile"
+        },
+        {
+          "id": "visual-specimen-1",
+          "species": "jelly",
+          "age": 40,
+          "phase": 3,
+          "sex": "male",
+          "ageStage": "adult"
+        },
+        {
+          "id": "visual-specimen-2",
+          "species": "cephalopod",
+          "age": 40,
+          "phase": 4,
+          "sex": "female",
+          "ageStage": "adult"
+        },
+        {
+          "id": "visual-specimen-3",
+          "species": "serpent",
+          "age": 40,
+          "phase": 3,
+          "sex": "male",
+          "ageStage": "adult"
+        },
+        {
+          "id": "visual-specimen-4",
+          "species": "crystal",
+          "age": 272,
+          "phase": 4,
+          "sex": "female",
+          "ageStage": "elderly"
+        },
+        {
+          "id": "visual-specimen-5",
+          "species": "recursive",
+          "age": 40,
+          "phase": 2,
+          "sex": "male",
+          "ageStage": "adult"
+        }
+      ],
+      "hash": "7c52d69614a722e7a10423a82ea09d8e4c677b11ad4e287875d1754043a83f4f"
+    },
+    {
+      "cell": 299,
+      "specimens": [
+        {
+          "id": "visual-specimen-0",
+          "species": "solar",
+          "age": 0,
+          "phase": 1,
+          "sex": "female",
+          "ageStage": "juvenile"
+        },
+        {
+          "id": "visual-specimen-1",
+          "species": "jelly",
+          "age": 40,
+          "phase": 3,
+          "sex": "male",
+          "ageStage": "adult"
+        },
+        {
+          "id": "visual-specimen-2",
+          "species": "cephalopod",
+          "age": 40,
+          "phase": 4,
+          "sex": "female",
+          "ageStage": "adult"
+        },
+        {
+          "id": "visual-specimen-3",
+          "species": "serpent",
+          "age": 40,
+          "phase": 3,
+          "sex": "male",
+          "ageStage": "adult"
+        },
+        {
+          "id": "visual-specimen-4",
+          "species": "crystal",
+          "age": 272,
+          "phase": 4,
+          "sex": "female",
+          "ageStage": "elderly"
+        },
+        {
+          "id": "visual-specimen-5",
+          "species": "recursive",
+          "age": 40,
+          "phase": 2,
+          "sex": "male",
+          "ageStage": "adult"
+        }
+      ],
+      "hash": "7c52d69614a722e7a10423a82ea09d8e4c677b11ad4e287875d1754043a83f4f"
+    }
+  ],
+  "sourceHashes": {
+    "src/ecology/renderer.js": "ba1b12507aab93124f708f7dcee4cdfad4a48df78d7a4d883caf5df1fc5e55df",
+    "src/ecology/projection.js": "2d39fe4b359c71818818c836b091e5dcc39d68f89ac8f28d2e54155255cee1a1",
+    "src/ecology/habitat.js": "1740d5e15c9d891692a091fb8ea6a85b4b63ad53532cb15cff4fd065a7a17185",
+    "src/ecology/art.js": "3c9e403899b0f3bc2595c76b581ad9ecb618c506a239f3bc899370d131b77400",
+    "design/visual-review-v2.9/transform.cjs": "6606236249a1e0c52f3630b44b0cf18e1b0c6acaea2ae176513e3075da2b724c",
+    "design/visual-review-v2.9/capture.cjs": "756c3006f589b2d1b7879bfbc200e17ab8982ea367b22da2df5d7c988b4fd162",
+    "design/visual-review-v2.9/index.html": "cffd5cc227128d7e0207f71b879514ace3d251002e6e676298383f9929b47b73"
+  },
+  "scope": "Linux Chromium, display prototype; user visual approval and product integration pending"
+}

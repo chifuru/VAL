@@ -69,7 +69,7 @@ A2:（起点 / 独立した Windows ローカル実行）［草案］
 	ロジック:
 		現行UIを基準に、既存個体数カード列末尾の小型trend-cardをサマリへ置換。右側は基本3グラフ/詳細の切替。一画面の判読性と遷移保護を確認する。
 	実態:
-		Windows4.1実exeの11ターン・Worker・ローカル起動/原画・Node非公開を確認。長期生存率/全端末性能は未認定。 代表表現は利用者確認済み。A/B27〜28節反映、製品差分は未実装・未検証。次FLOW-04/05、operations/plans/ab-review-handoff-v2.5.mdへ接続。
+		生産者・水游虫・高次寄生の優遇を初期設定の独立3スイッチとし全ON既定。人工供給と分離し実効条件を保存、実行中変更なし。比較モデルのみ接続、製品設定・記録接続は後続。 詳細: operations/evidence/visual-review-v2.9/README.md。
 
 ```
 
@@ -159,7 +159,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 	ロジック:
 		現行UIの操作/質感を維持し、右側の基本3グラフ、小型trend-cardサマリ、共通横詳細、小型個体カードを接合。生存ルート比較を先に行い、製品反映後に画面を仕上げる。
 	実態:
-		既存UI改善も統合計画へ接続。3+1グラフ/構成3時間軸/複雑さ/横詳細/複数強調/名称/追跡/生成遷移/結果と再生を含む。遠近の代表比較を先行提示し現行UIと絵柄を維持。実装未実施。 計画: operations/plans/observation-first-v2.8.md。
+		現行UIを維持し、優遇3項目を独立オンオフへ。遠近の盤面比較2画像を作成。チェック欄は配置試作で製品未接続、描画方向は利用者確認待ち。既存グラフ/横詳細等の未完項目は維持。 詳細: operations/evidence/visual-review-v2.9/README.md。
 	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.1.md。系統樹と進化条件の参照機能。
@@ -296,7 +296,7 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 		ロジック:
 			供給元・取得・散逸を同じ台帳で調停する。
 		実態:
-			人工供給なしの優遇生産者/有限初期土壌と3枠を比較用実装。5試行2505状態でE/M残差0。favored-free/3を接続候補に固定、製品4.1.3は不変。 詳細: operations/evidence/favored-free-v2.8/README.md。
+			比較モデルに生産者優遇の独立切替を実装。全8組合せ短期検査、全ON既採用案/全OFF浮遊生産者基準の世界一致を確認。混合条件500T・製品接続は未実施。 詳細: operations/evidence/visual-review-v2.9/README.md。
 	C7.3:（B4.1 / 局所行動・同時移動戦闘・学習）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C7.3.md。局所行動・同時移動/戦闘・学習。
@@ -311,28 +311,28 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 		ロジック:
 			同時予約と有限投資を守り、子をI相から開始する。
 		実態:
-			水游虫の長寿命/低維持/高耐久・B123/E8/支払8を比較用実装し出生/子孫繁殖を確認。基礎係数は仮決め、製品未接続。 詳細: operations/evidence/favored-free-v2.8/README.md。
+			比較モデルに水游虫優遇の独立切替を実装。全8組合せの短期検査と全ON/OFF基準一致を確認。製品の設定・Worker・記録接続は後続。 詳細: operations/evidence/visual-review-v2.9/README.md。
 	C7.5:（B4.2 / 寄生生活環と外部情報）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C7.5.md。寄生生活環と外部情報。
 		ロジック:
 			宿主参照・適合・成熟・移行費用・鮮度/文脈を接合する。
 		実態:
-			Q初期128〜256/探索480/成長1+2Tと低費用/到達3を比較用実装。元の3T感染窓と有限移転維持。河川でQ268・付着III相82・256出生、製品未接続。 詳細: operations/evidence/favored-free-v2.8/README.md。
+			比較モデルに高次寄生優遇の独立切替を実装。OFFでも種を削除せず旧条件へ戻す。全8組合せ短期確認、混合条件の長期存続は未認定。製品未接続。 詳細: operations/evidence/visual-review-v2.9/README.md。
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
 		valis/nodes/C/C8.md。観測操作・系統樹・説明と図鑑接続。
 	ロジック:
 		確定世界を観察し、操作や拡大を生態計算から分ける。
 	実態:
-		現行4.1.3の生成/遷移27項目をLinux Chromiumで再確認。今回条件で阻害なし、製品コード変更なし。同期生成の途中取消・Windows等は未確認。 証跡: operations/evidence/navigation-review-v4.1.3/README.md。次は自由条件比較。
+		現行盤面による遠近の独立比較2画像を作成。優遇欄は初期設定の配置試作。UI配置変更案ではなく製品未接続、方向確認後に展開する。 詳細: operations/evidence/visual-review-v2.9/README.md。
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C8.1.md。projection/scenery/habitat/art/renderer、生物/地物10原画と背景11素材。契約: operations/plans/habitat-visual-v3.1.md。
 		ロジック:
 			実タイルから地形/深浅/8環境のマスクを生成し、視野内だけ高解像度で合成。遠景は全位置記号、近景は描き込んだ景観。輪郭影と局所遮蔽を使い、装飾を新たな生態/障害物としない。
 		実態:
-			全群の名称/状態札、所在強調、近景の陰影と選択整合を接続。 修正/再検証要否あり。次FLOW-04/05。
+			遠景の記号をbyte同一に保ち、近景は主生物だけ明暗・接地影、背景は表示起伏・陰影を試作。元素材/絵柄/生態不変。代表6個体の比較であり全状態の視認性は未認定。 詳細: operations/evidence/visual-review-v2.9/README.md。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -409,7 +409,7 @@ D8:（C7 / 生態循環と結合進行）［草案］
 	ロジック:
 		存続・出生・資源・特殊生態の結合を対象条件付きで調べる。
 	実態:
-		優遇の第一版3条件とQ改版2条件、計2505状態の不変条件/収支を確認。新規8境界検査通過。比較用基本バランスを区切り、製品/画面検証は次工程。 詳細: operations/evidence/favored-free-v2.8/README.md。
+		優遇スイッチ3検査通過。全8組合せ各0〜3Tの32状態、全ON/OFF基準一致、無効型/未知キー/保存設定不一致の拒否を確認。長期混合条件は対象外。 詳細: operations/evidence/visual-review-v2.9/README.md。
 	D8.1:（C7.4 / 相・出生・遺伝と繁殖例外）［草案］
 		構成（要素・関係）:
 			valis/nodes/D/D8.1.md。相・出生・遺伝と繁殖例外の計画。
@@ -431,7 +431,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		統合計画段階1の既存navigation-ui.cjsを4.1.3で再実行し27項目通過。画面/世界指紋/履歴保護を照合。全設定・Windows・同期処理途中取消の保証なし。 証跡: operations/evidence/navigation-review-v4.1.3/README.md。次は自由条件比較。
+		Linux Chromiumで遠近比較の7確認を実施。倍率/生態指紋一致、遠景記号不変、素材不変、例外なし。ユーザー外観承認・全状態/操作結合の合格とはしない。 詳細: operations/evidence/visual-review-v2.9/README.md。
 ```
 
 ## E：検証証跡
@@ -475,14 +475,14 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	ロジック:
 		各対象の実装・仕様・環境と一致する記録範囲に限定して参照する。
 	実態:
-		favored-free-v2.8へ5試行2505状態と8境界/構造検査を保存。最終河川の水游虫83・Q268を根拠にfavored-free/3を暫定選定。製品・画面完成とは区別。 詳細: operations/evidence/favored-free-v2.8/README.md。
+		visual-review-v2.9に優遇切替3検査と対象hashを保存。全8組合せ短期確認のみで新しい500T検証ではない。既存favored-free/3の長期証跡と区別する。 詳細: operations/evidence/visual-review-v2.9/README.md。
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E6.md。operations/evidence/navigation-recovery-v4.1/source-hashes.json。観察4.1の既存記録と今回の遷移修正を区別。
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		navigation-review-v4.1.3に現行版27項目と実画面/対象ハッシュを保存。実行時エラー/ネイティブポップアップ0。新生態・描画の合格とは区別。 証跡: operations/evidence/navigation-review-v4.1.3/README.md。次は自由条件比較。
+		visual-review-v2.9に遠近2画像・7確認・対象hashを保存。実描画の代表比較、製品変更なし。外観の方向確認待ち、全UI/全状態完成とはしない。 詳細: operations/evidence/visual-review-v2.9/README.md。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。

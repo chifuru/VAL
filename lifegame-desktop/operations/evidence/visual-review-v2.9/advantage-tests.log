@@ -1,0 +1,11 @@
+✔ all eight independent advantage combinations are recorded, bounded and conserve finite stocks (4425.031415ms)
+✔ all on reproduces selected preset; all off reproduces the pre-advantage model through short progression (2100.876769ms)
+✔ invalid flags and replay mismatch are rejected (3.445823ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6541.147737
