@@ -843,22 +843,23 @@
   }
   function renderCurrentStructure(r, catalogue) {
     const graphById=Object.fromEntries(catalogue.map(s=>[s.id,s]));
-    const p=r.current.pyramid,nodes={plant:[5,15,'生産者'],prey:[145,15,'一次消費者'],main:[285,15,'主生物'],detritus:[5,95,'死骸'],fungus:[145,95,'分解者'],resource:[285,95,'光・無機養分'],host:[5,175,'宿主'],P:[145,175,'P'],Q:[285,175,'Q']},edges={...p.edges};
+    const p=r.current.pyramid,nodes={plant:[5,15,'生産者'],prey:[145,15,'一次消費者'],main:[285,15,'主生物'],detritus:[5,95,'死骸'],fungus:[145,95,'分解者'],resource:[285,95,'光・無機養分'],host:[5,175,'寄生される生物'],P:[145,175,'一次寄生虫'],Q:[285,175,'高次寄生虫']},edges={...p.edges};
     for(const [key,n]of Object.entries(r.current.bonds)){const [from,to]=key.split('|'),source=from==='hyperparasite'?'P':'host',dest=from==='hyperparasite'?'Q':'P';edges[source+'|'+dest]=(edges[source+'|'+dest]||0)+n;}
     const basic=['plant|prey','prey|main','detritus|fungus','fungus|resource','resource|plant','host|P','P|Q'],all=[...new Set([...basic,...Object.keys(edges)])];
-    let svg='<defs><marker id="food-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#a6c9c8"/></marker></defs>';
+    let svg='<title>矢印は栄養や宿主を利用する側へ。実線は確認済み、破線は未確認の関係です。</title><defs><marker id="food-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#a6c9c8"/></marker></defs>';
     for(const key of all){const [from,to]=key.split('|'),a=nodes[from],b=nodes[to];if(!a||!b)continue;const active=(edges[key]||0)>0,x1=a[0]+65,y1=a[1]+23,x2=b[0]+65,y2=b[1]+23;let d;
       if(from===to)d=`M${x1+30},${y1-20} C${x1+70},${y1-60} ${x1-70},${y1-60} ${x1-30},${y1-20}`;
       else if(a[1]===b[1])d=a[0]<b[0]?`M${a[0]+130},${y1} L${b[0]},${y2}`:`M${a[0]},${y1} L${b[0]+130},${y2}`;
       else d=`M${x1},${y1+22} Q${(x1+x2)/2},${(y1+y2)/2+20} ${x2},${y2+22}`;
       svg+=`<path data-relation="${key}" data-observed="${active}" d="${d}" fill="none" stroke="${active?'#9ecfc9':'#496370'}" stroke-width="${active?2+Math.min(3,Math.log1p(edges[key])):1}" ${active?'':'stroke-dasharray="4 4"'} marker-end="url(#food-arrow)"/>`;
     }
-    for(const [id,[x,y,label]]of Object.entries(nodes))svg+=`<rect x="${x}" y="${y}" width="130" height="46" rx="8" fill="#11313b" stroke="${['P','Q','host'].includes(id)?'#a88dd0':'#6399a0'}"/><text x="${x+65}" y="${y+29}" text-anchor="middle" fill="#d7e9df" font-size="20">${label}</text>`;
+    const nodeDescriptions={plant:'生産者：光などを使って栄養を作る植物や微藻。',prey:'一次消費者：植物や微藻などを食べる小型の餌生物。',main:'主生物：観察の中心となる系統。草食・肉食・雑食などを含みます。',detritus:'死んだ生物の残骸。屍肉食や分解に利用されます。',fungus:'分解者：死骸などの有機物を利用する菌類。',resource:'生産に利用される光と無機養分。',host:'寄生虫が付随する生物。感染性のある死骸に残る群体も観測に含みます。',P:'一次寄生虫：生物に寄生する群体。',Q:'高次寄生虫：一次寄生虫に寄生し、宿主の行動へ間接的に作用する群体。'};
+    for(const [id,[x,y,label]]of Object.entries(nodes))svg+=`<g><title>${nodeDescriptions[id]}</title><rect x="${x}" y="${y}" width="130" height="46" rx="8" fill="#11313b" stroke="${['P','Q','host'].includes(id)?'#a88dd0':'#6399a0'}"/><text x="${x+65}" y="${y+29}" text-anchor="middle" fill="#d7e9df" font-size="${id==='host'?17:20}">${label}</text></g>`;
     $('foodweb-diagram').innerHTML=svg;
     const leader=(a,label)=>a.length?label+'：'+a.filter(v=>v.value===a[0].value).slice(0,2).map(v=>v.name).join('・'):'未観測';
     const measuredLeader=(a,label,unit)=>a===undefined?label+'：未記録':!a.length?label+'：0':label+'：'+a.filter(v=>v.value===a[0].value).slice(0,2).map(v=>v.name+' '+fmt(v.value)+unit).join('・');
-    const resident=Object.entries(r.current.bonds).filter(([k])=>k.startsWith('tideparasite|')||k.startsWith('leafparasite|')).sort((a,b)=>b[1]-a[1]).slice(0,1).map(([k,n])=>(graphById[k.split('|')[0]]?.name||k.split('|')[0])+' '+n+'群体').join('・');
-    $('foodweb-leaders').textContent=leader(p.leaders.production,'生産の中心')+' / '+measuredLeader(p.leaders.combat,'戦闘討ち取り','体')+' / '+measuredLeader(p.leaders.scavenging,'動物死骸食',' E')+' / P定着：'+(resident||'0群体')+'。';
+    const resident=Object.entries(r.current.bonds).filter(([k])=>k.startsWith('tideparasite|')||k.startsWith('leafparasite|')).sort((a,b)=>b[1]-a[1]).slice(0,1).map(([k,n])=>(graphById[k.split('|')[0]]?.name||k.split('|')[0])+'（'+(graphById[k.split('|')[1]]?.name||k.split('|')[1])+'に付随）'+n+'群体').join('・');
+    $('foodweb-leaders').textContent=leader(p.leaders.production,'光合成の中心')+' / '+measuredLeader(p.leaders.combat,'戦闘で倒した数','体')+' / '+measuredLeader(p.leaders.scavenging,'動物の死骸から得た栄養',' E')+' / 一次寄生の多い組合せ：'+(resident||'0群体')+'。';
     const peak=Math.max(1,...p.layers),names=['生産者','一次消費者','二次消費者','高次（第4段以上）'];
     $('biomass-pyramid').innerHTML=p.layers.map((v,i)=>`<div class="pyramid-level" data-level="${i}" data-value="${v}"><span>${names[i]}</span><div><i style="width:${v/peak*100}%;background:${['#72c48e','#62cbd3','#6ba6dc','#9196d4'][i]}"></i></div><b>${fmt(v)}</b></div>`).reverse().join('')+`<p class="note">未観測 ${fmt(p.side.unknown)} B / 分解者 ${fmt(p.side.decomposer)} B<br>死骸 ${fmt(p.side.remains)}（別単位） / P-Q別枠</p>`;
     $('pyramid-support').textContent='生産 '+(p.production===null?'未観測':fmt(p.production)+' E')+' / 同化 '+(p.uptake===null?'未観測':fmt(p.uptake)+' E')+'（直近'+p.window+'T）。共通B尺度。';
