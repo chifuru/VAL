@@ -57,6 +57,13 @@ const { chromium } = require("playwright"),
     assert(value, label);
     checks.push(label);
   }
+  async function loadWorld() {
+    await page.click("#load");
+    await page.waitForFunction(() => document.querySelector("#world-confirm").open || !document.querySelector("#load").disabled);
+    if (await page.locator("#world-confirm").evaluate(e => e.open))
+      await page.locator('#world-confirm button[value="proceed"]').click();
+    await page.waitForFunction(() => !document.querySelector("#world-confirm").open && !document.querySelector("#load").disabled);
+  }
   try {
     page.on("dialog",d=>d.accept());
     await page.goto(origin + "/Index.html?smoke=1");
@@ -71,7 +78,7 @@ const { chromium } = require("playwright"),
     );
     await page.selectOption("#size", "40,28");
     await page.selectOption("#map-id", "river");
-    await page.click("#load");
+    await loadWorld();
     check(
       await page.locator("#change-world").isVisible(),
       "world editor remains reachable in observation mode",
@@ -120,7 +127,7 @@ const { chromium } = require("playwright"),
       path: path.join(out, "reload-settings.png"),
       fullPage: true,
     });
-    await page.click("#load");
+    await loadWorld();
     check(
       await page.evaluate(
         () =>
@@ -131,7 +138,7 @@ const { chromium } = require("playwright"),
     );
     await page.click("#change-world");
     await page.selectOption("#map-id", "woodland");
-    await page.click("#load");
+    await loadWorld();
     check(
       await page.evaluate(
         () =>

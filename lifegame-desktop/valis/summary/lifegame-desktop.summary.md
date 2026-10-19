@@ -261,7 +261,7 @@ C4:（A2, B5 / Electron と Windows 配布）［草案］
 	ロジック:
 		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
 	実態:
-		Windows4.2.29生成、全72ソース/35PNG同梱一致。生態署名更新済み。実Windows起動未確認。詳細: operations/evidence/information-release-v4.2.29/package-match.json。草案。
+		Windows4.2.29をローカル生成・同梱一致。旧UI検査によるCI失敗を修正中。製品不変、最新ZIP公開/実Windowsは未確認。配布確認の入口: operations/evidence/distribution-recovery-v4.2.29/README.md。草案。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -381,7 +381,7 @@ D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	ロジック:
 		C4と対象版を照合して配布物そのものを実行する。
 	実態:
-		Windows4.2.29生成、全72ソース/35PNG同梱一致。生態署名更新済み。実Windows起動未確認。詳細: operations/evidence/information-release-v4.2.29/package-match.json。草案。
+		Windows4.2.29をローカル生成・同梱一致。旧UI検査によるCI失敗を修正中。製品不変、最新ZIP公開/実Windowsは未確認。配布確認の入口: operations/evidence/distribution-recovery-v4.2.29/README.md。草案。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -493,6 +493,6 @@ E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［�
 	ロジック:
 		対象SHAと版が一致するWindows4.1の配布/実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		Windows4.2.29生成、全72ソース/35PNG同梱一致。生態署名更新済み。実Windows起動未確認。詳細: operations/evidence/information-release-v4.2.29/package-match.json。草案。
+		Windows4.2.29をローカル生成・同梱一致。旧UI検査によるCI失敗を修正中。製品不変、最新ZIP公開/実Windowsは未確認。配布確認の入口: operations/evidence/distribution-recovery-v4.2.29/README.md。草案。
 
 ```

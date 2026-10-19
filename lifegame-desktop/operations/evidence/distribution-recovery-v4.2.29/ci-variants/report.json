@@ -1,0 +1,121 @@
+{
+  "checks": [
+    "all production images decode",
+    "all 21 main families have dedicated branch selectors",
+    "all 183 branch variants render nonempty and are pixel-distinct within each family",
+    "early-maturing lineage has three phaseIII branches and no phaseIV",
+    "all branch render inputs remain unchanged",
+    "out-of-range early phase display input safely falls back to III without adding a phase",
+    "far/detail/separated display preserves biological fingerprint",
+    "no browser exceptions"
+  ],
+  "errors": [],
+  "families": [
+    {
+      "id": "abyss",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "myth",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "recursive",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "sail",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "gravity",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "crystal",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "manyeyes",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "abyssshell",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "parallel",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "memory",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "serpent",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "solar",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "antimeme",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "valis",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "jelly",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "kelp",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "whale",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "swarm",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "plasma",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "cephalopod",
+      "frames": 9,
+      "distinct": 9
+    },
+    {
+      "id": "precocial",
+      "frames": 3,
+      "distinct": 3
+    }
+  ],
+  "scope": "Linux Chromium; explicit branch display fixtures; pixel distinction is not visual approval"
+}

@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "checks": [
+    "organism emphasis is enabled by default",
+    "overview emphasis changes pixels without changing terrain materials",
+    "overview retains every real organism position",
+    "close view uses cached alpha-shaped outlines for organisms",
+    "repeated draws reuse the silhouette cache",
+    "outline, emphasis and camera never alter biological state",
+    "host P and Q remain visible with emphasis",
+    "emphasis preserves zero additional redraws for 200 idle updates",
+    "emphasis control remains reachable on narrow screens",
+    "narrow viewport does not overflow",
+    "in-game explanation connects contact dispersal to real conditions",
+    "in-game system sheet explains ordinary survival and competition",
+    "no browser exceptions"
+  ],
+  "cache": {
+    "builds": 8,
+    "after": 8,
+    "reused": true
+  },
+  "idle": 0,
+  "errors": [],
+  "fixture": "explicit phase III and host P/Q artwork fixture",
+  "initialFingerprint": "3756e3e566fd392ba0ab13300ec03f4480525cbcbebe00e3e84a1e8b01be1137"
+}

@@ -55,7 +55,7 @@ Windows 10/11 x64用。利用時にNode.js・ネット接続・外部サービ�
 
 仕様の差分正本は[生態・観察A/B v2.4](design/specification/ab-ecology-observation-v2.4.md)です。13節に4.1の調整条件・実装範囲と未達、[仕様索引](design/specification/README.md)に基礎仕様との優先関係を記載しています。
 
-現行Windows ZIPは生成・同梱照合済みです。今回の環境での実Windows起動と最新GitHub CIの成否は未確認です。対象版と検査範囲はE7を参照してください。旧版の実行結果を現行版の保証にしません。
+現行Windows ZIPは生成・同梱照合済みです。CI 39277787728は旧画面検査で失敗し、ZIP未生成です。現在は検査修正後の配布を確認中です。最新の取得対象は[配布復旧の実測](operations/evidence/distribution-recovery-v4.2.29/README.md)を参照してください。実Windows起動は未確認です。対象版と検査範囲はE7を参照してください。旧版の実行結果を現行版の保証にしません。
 
 ## 開発・検証
 

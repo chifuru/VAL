@@ -28,6 +28,8 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
   check(await page.evaluate(()=>__LIFE_TEST__.snapshot().view.highlights.includes('grass')),'highlight and camera remain operable while paused');
   await page.evaluate(()=>{for(let i=0;i<125;i++)__LIFE_TEST__.step();});
   check(await page.evaluate(()=>__LIFE_TEST__.observations().rows.length===__LIFE_TEST__.snapshot().world.turn+1),'graph keeps all records beyond former 121-point limit');
+  await page.click('#close-species');
+  await page.locator('.graph-analysis > summary').click();
   await page.locator('#graph-turn').fill('0');await page.locator('#graph-turn').dispatchEvent('input');
   check((await page.locator('#graph-readout').textContent()).includes('参照 0T'),'exact initial turn remains selectable');
   const download=page.waitForEvent('download');await page.click('#export-observation');const d=await download;await d.saveAs(path.join(out,'all-turns.csv'));

@@ -78,14 +78,17 @@ const { chromium } = require("playwright"),
       for(let n=0;n<12;n++)__LIFE_TEST__.step();
     });
     check(await page.evaluate(()=>lazyChanges===0),'closed panels receive no biological-turn DOM writes');
-    check((await page.locator('#trend-range').textContent()).startsWith('0–12 T'), 'trend records actual biological time');
+    check((await page.locator('#graph-range').textContent()).startsWith('0–12T'), 'trend records actual biological time');
     check(await page.evaluate(()=>{
       const w=__LIFE_TEST__.snapshot().world,b=EcoData.main.reduce((n,a)=>n+w.tallies.births[a.id],0),d=EcoData.main.reduce((n,a)=>n+w.tallies.deaths[a.id],0);
       return document.getElementById('main-balance').textContent===`出生 ${b} / 死亡 ${d}（累計）`;
     }),'population balance counts main organisms rather than all prey deaths');
-    for (const id of ['individual-list','rank-panel','budget-panel']) await page.locator(`#${id} > summary`).click();
+    await page.evaluate(() => { const a = __LIFE_TEST__.snapshot().world.organisms[0]; __LIFE_TEST__.select(a.cell); });
+    for (const id of ['individual-list','rank-panel']) await page.locator(`#${id} > summary`).click();
+    // The compact observation layout hides the legacy budget panel; verify its lazy model separately.
+    await page.locator('#budget-panel').evaluate(e => { e.open = true; });
     await page.waitForFunction(()=>document.querySelector('#cells-table tr')&&document.getElementById('budget-content').textContent.length>0);
-    check(await page.locator('#ranking .rank').count()===31,'opening ranking shows current thirty-one species');
+    check(await page.locator('#ranking .rank').count()===await page.evaluate(()=>EcoData.species.length),'opening ranking shows every current species');
     check(await page.locator('#cells-table tr').count()===100,'opening list creates current first hundred organisms');
     await page.evaluate(()=>__LIFE_TEST__.step());
     check(await page.evaluate(()=>['individual-list','rank-panel','budget-panel'].every(id=>document.getElementById(id).open)), 'running a turn preserves every expanded panel');
@@ -103,12 +106,13 @@ const { chromium } = require("playwright"),
     await page.screenshot({type:'jpeg',quality:92,path:path.join(out,'detail.jpg')});
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().assets.loaded),'original painted atlases are loaded');
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().render.mode==='detail'),'near view keeps detailed rendering');
+    await page.click('#close-species');
     await page.evaluate(()=>{for(let n=0;n<125;n++)__LIFE_TEST__.refresh();});
-    check(await page.evaluate(()=>document.getElementById('trend-range').textContent.startsWith('0–13 T')),'UI refresh does not fabricate trend samples');
+    check(await page.evaluate(()=>document.getElementById('graph-range').textContent.startsWith('0–13T')),'UI refresh does not fabricate trend samples');
     await page.click('#restart-world');
     if(await page.locator('#world-confirm').evaluate(e=>e.open))await page.locator('#world-confirm button[value="proceed"]').click();
     await page.waitForFunction(()=>__LIFE_TEST__.snapshot().world.turn===0);
-    check((await page.locator('#trend-range').textContent()).startsWith('0–0 T'),'new world resets trend history');
+    check((await page.locator('#graph-range').textContent()).startsWith('0–0T'),'new world resets trend history');
     await page.setViewportSize({width:390,height:844});
     check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'phone width has no horizontal page overflow');
     await page.screenshot({type:'jpeg',quality:92,path:path.join(out,'narrow.jpg'),fullPage:true});

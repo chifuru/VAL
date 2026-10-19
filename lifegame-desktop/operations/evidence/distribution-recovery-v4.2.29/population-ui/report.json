@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "app": "4.2.29",
+  "checks": [
+    "lineage composition is visible without advanced settings",
+    "cohort hint explains current allocation",
+    "instrument bar matches actual main population",
+    "main birth and death counters start at zero",
+    "closed individual list is not built",
+    "closed ranking is not built",
+    "closed budget is not built",
+    "closed panels receive no biological-turn DOM writes",
+    "trend records actual biological time",
+    "population balance counts main organisms rather than all prey deaths",
+    "opening ranking shows every current species",
+    "opening list creates current first hundred organisms",
+    "running a turn preserves every expanded panel",
+    "expanded individual list stays current",
+    "expanded budget retains finite resource information",
+    "panels and view controls never change biological state",
+    "original painted atlases are loaded",
+    "near view keeps detailed rendering",
+    "UI refresh does not fabricate trend samples",
+    "new world resets trend history",
+    "phone width has no horizontal page overflow",
+    "no browser errors: ",
+    "no external HTTP requests"
+  ],
+  "errors": [],
+  "external": [],
+  "browser": "154.0.8037.57"
+}
