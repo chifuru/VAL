@@ -414,7 +414,9 @@
       diagnostics.frames = (diagnostics.frames || 0) + 1;
       const b = resize();
       g.fillStyle = "#07171f";
-      g.fillRect(0, 0, b.width, b.height);
+      // CSS dimensions can be fractional while the backing bitmap is rounded.
+      // Cover every backing pixel so repeated draws cannot accumulate edge alpha.
+      g.save();g.setTransform(1,0,0,1,0,0);g.fillRect(0,0,canvas.width,canvas.height);g.restore();
       if (!world) return;
       hitRegions=[];
       const coordinates=displayLayout();

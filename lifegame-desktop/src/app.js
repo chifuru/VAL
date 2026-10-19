@@ -1544,7 +1544,7 @@
       screenForCell: (cell, id = null) => renderer.screen(cell,id),
       hitAt: renderer.hitAt,
       prepare,
-      refresh: render,
+      refresh: () => { if(world)renderer.setWorld(world);render(); },
       draw: renderer.draw,
       drawIfChanged: renderer.drawIfChanged,
       finish: finishRun,

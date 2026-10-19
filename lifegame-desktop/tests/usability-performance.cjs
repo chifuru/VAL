@@ -169,8 +169,10 @@ const { chromium } = require("playwright"),
         pixelsIdentical:
           before === document.getElementById("board").toDataURL(),
         biologyIdentical: fingerprint === t.fingerprint(),
+        opaqueBacking: (()=>{const c=document.getElementById("board");return c.getContext("2d").getImageData(c.width-1,c.height-1,1,1).data[3]===255;})(),
       };
     });
+    await fs.writeFile(path.join(out,"cache-check.json"),JSON.stringify(perf,null,2));
     check(
       perf.idleFrames === 0,
       "200 identical idle frames require zero full redraws",
@@ -179,6 +181,7 @@ const { chromium } = require("playwright"),
       perf.pixelsIdentical && perf.biologyIdentical,
       "optimized and forced rendering are pixel-identical and read-only",
     );
+    check(perf.opaqueBacking,"rounded backing bitmap has no partially cleared edge");
     const count = await page.evaluate(
       () => __LIFE_TEST__.snapshot().render.frames,
     );

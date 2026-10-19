@@ -1,0 +1,15 @@
+{
+  "version": "4.2.32",
+  "turn": 500,
+  "rows": 501,
+  "elapsedMs": 517341,
+  "main": 56,
+  "waterbug": 81,
+  "P": 824,
+  "Q": 116,
+  "exactRows": true,
+  "finalFingerprint": "a36bf00ffc8612c562888d7567aa8b5bb8c824c3425aec75b9612585ee4ec0ae",
+  "saveSucceeded": true,
+  "pausedAt500": true,
+  "errors": []
+}

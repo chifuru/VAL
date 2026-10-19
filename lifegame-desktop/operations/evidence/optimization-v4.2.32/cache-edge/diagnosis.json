@@ -1,0 +1,10 @@
+{
+  "condition": "CSS fractional canvas height / rounded backing bitmap",
+  "affectedRow": 452,
+  "affectedPixels": 1054,
+  "maxChannelDifference": 38,
+  "biologyIdentical": true,
+  "failureRun": 39338665580,
+  "failureJob": 118354476808,
+  "fix": "fill complete backing bitmap at identity transform; retain exact pixel equality assertion"
+}

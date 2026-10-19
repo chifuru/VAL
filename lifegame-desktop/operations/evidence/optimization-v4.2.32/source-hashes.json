@@ -1,6 +1,6 @@
 {
   "src/Index.html": "cb84902298667e87b625268d372b1feb8c6bf172f94151bb4299f26b55d65796",
-  "src/app.js": "1ccd37ba6a52e9f9ff9a6db77bb051cfbf1efd9e6ad9bc0e8f10d237aed6c877",
+  "src/app.js": "ce638d4fdef48330dd042fde3e357214a64b372048fcdf8dd5ca241130571226",
   "src/assets/README.md": "91e6c3ec41a5a1beb3d63243bc8da6f4e13b1e2a99acc0a4377582fcf98df7b3",
   "src/assets/dedicated-branches-01.png": "f2c0ee0ba9c56f3bc7efaddae6d8ee5be2bf949a3eac513bfa20036e64cd21f5",
   "src/assets/dedicated-branches-02.png": "975699fe3421dc6f53dd99cbfcfeafe4264c2d0f58efd88269e256b1c53f1011",
@@ -62,7 +62,7 @@
   "src/ecology/observations.js": "cad786207d14154155162637ea4ebd15294b9d4c5c586c47123d8fc6515885f1",
   "src/ecology/parasites.js": "50362b176e807b84fa2f90309fdfcacb01b1638fecec247d34944512c76cbe9c",
   "src/ecology/projection.js": "92da3a931bdc5688e677d4393025a526b31e5e601de0ec7c00f134c9bf5816c1",
-  "src/ecology/renderer.js": "3466f9abd7085072e147a0a9c1ff22f3fb5d2404a5d00e2bfcae076badd39608",
+  "src/ecology/renderer.js": "3458efc8b8573881e10a3d9d50f41d6c5fdf1e122d13b90be5936fde4bf1007b",
   "src/ecology/replay-version.js": "22a968104b338be6ed611f939084dc19a3baaf18eaf381a353d817312d03af44",
   "src/ecology/reproduction.js": "4df21381cd31e6729352ee4ab908097ffbbd468f2964a5ab4c2a405ca1eecdaf",
   "src/ecology/scenery.js": "c0e5622164f9e3b1c4bc2ed056b19a57799dbfea8d8ebbcff1f2790bbd894f3a",

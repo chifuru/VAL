@@ -1,0 +1,10 @@
+✔ tests/optimization-pipeline.test.cjs (2125.09371ms)
+✔ tests/package.test.cjs (56.614103ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2190.957733
