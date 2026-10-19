@@ -837,7 +837,7 @@
     const labels={phases:'I / II / III / IV / 非該当',sex:'雌 / 雄 / 無性別 / 非該当',ages:'幼体 / 成体 / 老齢 / 非該当'};
     for(const axis of ['phases','sex','ages'])$('composition-'+axis).title=labels[axis];
     const lanes=[['species','広がり（関与系統）','#7edbdf'],['types','多様さ（作用種類）','#e7c780'],['continuous','持続性（継続関係）','#bc9eea']];
-    $('graph-relations').innerHTML=lanes.map(([key,label,color],i)=>{const value=r=>key==='types'?r.current.relations.types.length:r.current.relations[key],m=Math.max(1,...rows.map(value)),top=i*32+12;return `<text x="0" y="${top}" fill="${color}" font-size="12">${label} ${key==='continuous'&&t<20?'判定待ち':value(r)}</text><path fill="none" stroke="${color}" stroke-width="1.5" d="${rows.map((r,j)=>(j?'L':'M')+(150+r.turn/Math.max(1,last)*260)+','+(top+12-value(r)/m*20)).join(' ')}"/>`;}).join('');
+    $('graph-relations').innerHTML=lanes.map(([key,label,color],i)=>{const value=r=>key==='types'?r.current.relations.types.length:r.current.relations[key],m=Math.max(1,...rows.map(value)),top=i*25+12;return `<text x="0" y="${top}" fill="${color}" font-size="12">${label} ${key==='continuous'&&t<20?'判定待ち':value(r)}</text><path fill="none" stroke="${color}" stroke-width="1.5" d="${rows.map((r,j)=>(j?'L':'M')+(150+r.turn/Math.max(1,last)*260)+','+(top+9-value(r)/m*15)).join(' ')}"/>`;}).join('');
     const p=r.current.pyramid,nodes={plant:[5,15,'生産者'],prey:[145,15,'一次消費者'],main:[285,15,'主生物'],detritus:[5,95,'死骸'],fungus:[145,95,'分解者'],resource:[285,95,'光・無機養分'],host:[5,175,'宿主'],P:[145,175,'P'],Q:[285,175,'Q']},edges={...p.edges};
     for(const [key,n]of Object.entries(r.current.bonds)){const [from,to]=key.split('|'),source=from==='hyperparasite'?'P':'host',dest=from==='hyperparasite'?'Q':'P';edges[source+'|'+dest]=(edges[source+'|'+dest]||0)+n;}
     const basic=['plant|prey','prey|main','detritus|fungus','fungus|resource','resource|plant','host|P','P|Q'],all=[...new Set([...basic,...Object.keys(edges)])];
@@ -853,14 +853,14 @@
     const leader=(a,label)=>a.length?label+'：'+a.filter(v=>v.value===a[0].value).slice(0,2).map(v=>v.name).join('・'):'未観測';
     const measuredLeader=(a,label,unit)=>a===undefined?label+'：未記録':!a.length?label+'：0':label+'：'+a.filter(v=>v.value===a[0].value).slice(0,2).map(v=>v.name+' '+fmt(v.value)+unit).join('・');
     const resident=Object.entries(r.current.bonds).filter(([k])=>k.startsWith('tideparasite|')||k.startsWith('leafparasite|')).sort((a,b)=>b[1]-a[1]).slice(0,1).map(([k,n])=>(graphById[k.split('|')[0]]?.name||k.split('|')[0])+' '+n+'群体').join('・');
-    $('foodweb-leaders').textContent=leader(p.leaders.production,'生産の中心')+' / '+measuredLeader(p.leaders.combat,'戦闘討ち取り','体')+' / '+measuredLeader(p.leaders.scavenging,'動物死骸食',' E')+' / P定着：'+(resident||'0群体')+'。実線＝確認、破線＝未確認。生産/戦闘/死骸食は直近50T、Pは現在。討ち取りは死亡への最多損害者に1件、死骸食は捕食と区別し、各尺度を合算しません。';
+    $('foodweb-leaders').textContent=leader(p.leaders.production,'生産の中心')+' / '+measuredLeader(p.leaders.combat,'戦闘討ち取り','体')+' / '+measuredLeader(p.leaders.scavenging,'動物死骸食',' E')+' / P定着：'+(resident||'0群体')+'。';
     const peak=Math.max(1,...p.layers),names=['生産者','一次消費者','二次消費者','高次（第4段以上）'];
-    $('biomass-pyramid').innerHTML=p.layers.map((v,i)=>`<div class="pyramid-level" data-level="${i}" data-value="${v}"><span>${names[i]}</span><div><i style="width:${v/peak*100}%;background:${['#72c48e','#62cbd3','#6ba6dc','#9196d4'][i]}"></i></div><b>${fmt(v)}</b></div>`).reverse().join('')+`<p class="note">食性未観測 B ${fmt(p.side.unknown)} / 分解者 B ${fmt(p.side.decomposer)}<br>死骸の残量 ${fmt(p.side.remains)}（Bと別単位） / P-Qは宿主依存の別枠</p>`;
-    $('pyramid-support').textContent='生産 '+(p.production===null?'未観測':fmt(p.production)+' E')+' / 同化 '+(p.uptake===null?'未観測':fmt(p.uptake)+' E')+'（直近'+p.window+'T）。幅は共通B尺度。逆転だけで異常とは判定しません。';
+    $('biomass-pyramid').innerHTML=p.layers.map((v,i)=>`<div class="pyramid-level" data-level="${i}" data-value="${v}"><span>${names[i]}</span><div><i style="width:${v/peak*100}%;background:${['#72c48e','#62cbd3','#6ba6dc','#9196d4'][i]}"></i></div><b>${fmt(v)}</b></div>`).reverse().join('')+`<p class="note">未観測 ${fmt(p.side.unknown)} B / 分解者 ${fmt(p.side.decomposer)} B<br>死骸 ${fmt(p.side.remains)}（別単位） / P-Q別枠</p>`;
+    $('pyramid-support').textContent='生産 '+(p.production===null?'未観測':fmt(p.production)+' E')+' / 同化 '+(p.uptake===null?'未観測':fmt(p.uptake)+' E')+'（直近'+p.window+'T）。共通B尺度。';
     const info=r.information;
     $('information-readout').textContent=info?`情報（${r.turn}T）：生成${info.generated} / 取得${info.received} / 重み適用${info.applied} / Q媒介取得${info.mediatedReceived}・適用${info.mediatedApplied} / 由来不明${info.unattributed}。`:'情報の内訳：未記録（旧記録の情報関係は取得基準）。';
     $('information-readout').title='生成は成功した資源生成/増量の件数。適用は情報による非ゼロの直接重み変更。移動結果の変化やQの反実仮想的な寄与を意味しません。全ターン原値と変化量はCSV/保存結果で確認できます。';
-    $('relation-readout').textContent='3系列は別尺度・全期間。関与個体率/世代交代は未観測。層配分は実際の栄養取得と前ターンに確認した供給元によります。';
+    $('relation-readout').textContent='3系列は別尺度・全期間。実線＝確認／破線＝未確認。詳しくは下の集計説明へ。';
     if($('graph-values').dataset.catalogue!==catalogueKey){$('graph-values').dataset.catalogue=catalogueKey;$('graph-values').innerHTML=catalogue.map(s=>`<button class="small" data-graph-description="${escape(s.id)}">${escape(s.name)} <b>0</b></button>`).join('');}
     for(const b of $('graph-values').children){b.querySelector('b').textContent=r.counts[b.dataset.graphDescription]||0;b.disabled=!!analysisData;b.onclick=()=>describeSpecies(b.dataset.graphDescription);}
   }
@@ -1447,6 +1447,21 @@
   $("close-guide").onclick = () => $("guide").close();
   for (const b of $("guide-tabs").querySelectorAll("button"))
     b.onclick = () => showSheet(b.dataset.sheet);
+  // Refit the overview after layout/viewport changes; keep a panned or detailed
+  // view centred on its previous location rather than resetting its selection.
+  let boardSize = null;
+  new ResizeObserver(([entry]) => {
+    const { width, height } = entry.contentRect;
+    if (!width || !height) return;
+    const previous = boardSize; boardSize = { width, height };
+    if (!world || !previous) return;
+    if (renderer.view.mode === "overview") renderer.fit();
+    else {
+      renderer.view.x += (width - previous.width) / 2;
+      renderer.view.y += (height - previous.height) / 2;
+    }
+    renderer.draw();
+  }).observe($("board"));
   function frame(now) {
     if (now - paintAt >= 1000 / 30) {
       paintAt = now;

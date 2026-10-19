@@ -1,0 +1,12 @@
+✔ tests/archive.test.cjs (717.811578ms)
+✔ tests/ecology-observation.test.cjs (9354.717175ms)
+✔ tests/manifest.test.cjs (65.721882ms)
+✔ tests/package.test.cjs (56.697111ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10205.566102

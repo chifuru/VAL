@@ -19,9 +19,10 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
     const add=(species,id)=>{const o=S.organism(w,S.D.byId[species],cell,id,{phase:2,age:40,E:60,HP:100,dna:Object.fromEntries(S.DNA.map(k=>[k,.5]))});w.organisms.push(o);return o;};
     window.__CONTROL_WORLD__=w;const m=add('solar','controls-main'),p=add('grass','controls-plant'),prey=add('grassbug','controls-prey');
     m.infection=S.infection(w,'leafparasite',m.id);m.infection.q=S.hyper(w,m.infection.id);
-    if(w.resources.length)w.resources[0].cell=cell;w.stats=EcoEngine.summarize(w);w.events=[];__LIFE_TEST__.stop();__PLANE_R__.setWorld(w);__LIFE_TEST__.select(cell,m.id);__LIFE_TEST__.refresh();return {cell,main:m.id,plant:p.id,prey:prey.id,P:m.infection.id,Q:m.infection.q.id};
+    if(w.resources.length)w.resources[0].cell=cell;w.stats=EcoEngine.summarize(w);{const h=EcoObservations.create(w.config,'display-fixture',{species:EcoData.species});h.append(w);Object.assign(__LIFE_TEST__.observations().rows[0],h.rows[0]);}w.events=[];__LIFE_TEST__.stop();__PLANE_R__.setWorld(w);__LIFE_TEST__.select(cell,m.id);__LIFE_TEST__.refresh();return {cell,main:m.id,plant:p.id,prey:prey.id,P:m.infection.id,Q:m.infection.q.id};
   });
   const fingerprint=await page.evaluate(()=>__LIFE_TEST__.fingerprint());
+  await page.locator('.map-key-extra').evaluate(e=>e.open=true);
   for(const group of ['basal','prey','P','Q','resource'])check(!await page.locator('#names-'+group).isChecked(),'name default OFF '+group);
   await page.click('#detail-view');
   await page.evaluate(()=>{__PLANE_R__.view.scale=150;__PLANE_R__.focus(__LIFE_TEST__.snapshot().view.selected,__LIFE_TEST__.snapshot().selectedId);__LIFE_TEST__.draw();});
@@ -76,13 +77,13 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
   
   await page.locator('[data-describe="grassbug"]').focus();
   await page.evaluate(()=>{
-    const w=window.__CONTROL_WORLD__;w.savedPrey=w.organisms.filter(o=>o.species==='grassbug');w.organisms=w.organisms.filter(o=>o.species!=='grassbug');w.stats=EcoEngine.summarize(w);__LIFE_TEST__.refresh();
+    const w=window.__CONTROL_WORLD__;w.savedPrey=w.organisms.filter(o=>o.species==='grassbug');w.organisms=w.organisms.filter(o=>o.species!=='grassbug');w.stats=EcoEngine.summarize(w);{const h=EcoObservations.create(w.config,'display-fixture',{species:EcoData.species});h.append(w);Object.assign(__LIFE_TEST__.observations().rows[0],h.rows[0]);}__LIFE_TEST__.refresh();
   });
   check(await page.locator('[data-species="grassbug"]').isHidden(),'zero population hides current presence row');
   check(await page.locator('#clear-highlights').evaluate(e=>e===document.activeElement),'extinction moves focus to stable clear control');
   check((await page.locator('#presence-note').textContent()).includes('0'),'extinction is announced');
   await page.locator('[data-describe="solar"]').click();
-  await page.evaluate(()=>{const w=window.__CONTROL_WORLD__;w.organisms.push(...w.savedPrey);delete w.savedPrey;w.stats=EcoEngine.summarize(w);__LIFE_TEST__.refresh();});
+  await page.evaluate(()=>{const w=window.__CONTROL_WORLD__;w.organisms.push(...w.savedPrey);delete w.savedPrey;w.stats=EcoEngine.summarize(w);{const h=EcoObservations.create(w.config,'display-fixture',{species:EcoData.species});h.append(w);Object.assign(__LIFE_TEST__.observations().rows[0],h.rows[0]);}__LIFE_TEST__.refresh();});
   check(await page.locator('[data-species="grassbug"]').isVisible(),'returning lineage restores same presence row');
   check(await page.evaluate(()=>__LIFE_TEST__.fingerprint())===fingerprint,'fixture restoration returns exact fingerprint');
   await page.evaluate(()=>{__PLANE_R__.view.scale=150;__LIFE_TEST__.draw();});

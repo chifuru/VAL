@@ -1,0 +1,259 @@
+{
+  "layouts": [
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "body": [
+        1920,
+        1189
+      ],
+      "panels": [
+        {
+          "id": "board",
+          "x": 15,
+          "y": 347.3125,
+          "width": 1458,
+          "height": 583.6875
+        },
+        {
+          "id": "graph-stacked",
+          "x": 1501,
+          "y": 109,
+          "width": 390,
+          "height": 61.578125
+        },
+        {
+          "id": "information-readout",
+          "x": 1494,
+          "y": 689.609375,
+          "width": 404,
+          "height": 13
+        },
+        {
+          "id": "foodweb-leaders",
+          "x": 1501,
+          "y": 608.03125,
+          "width": 192,
+          "height": 39
+        },
+        {
+          "id": "pyramid-support",
+          "x": 1699,
+          "y": 630.609375,
+          "width": 192,
+          "height": 26
+        },
+        {
+          "id": "relation-readout",
+          "x": 1494,
+          "y": 705.609375,
+          "width": 404,
+          "height": 11.6875
+        },
+        {
+          "id": "graph-composition",
+          "x": 1501,
+          "y": 227.578125,
+          "width": 390,
+          "height": 130.75
+        },
+        {
+          "id": "biomass-pyramid",
+          "x": 1699,
+          "y": 493.609375,
+          "width": 192,
+          "height": 134
+        },
+        {
+          "id": "graphs-panel",
+          "x": 1494,
+          "y": 54,
+          "width": 404,
+          "height": 632.609375
+        },
+        {
+          "id": "map-key",
+          "x": 14,
+          "y": 971,
+          "width": 1460,
+          "height": 78
+        },
+        {
+          "id": "current-overall",
+          "x": 185,
+          "y": 137,
+          "width": 1279,
+          "height": 19.59375
+        },
+        {
+          "id": "current-donut",
+          "x": 44,
+          "y": 137,
+          "width": 100,
+          "height": 83.328125
+        },
+        {
+          "id": "graph-relations",
+          "x": 1501,
+          "y": 397.328125,
+          "width": 390,
+          "height": 74.28125
+        },
+        {
+          "id": "turn-stages",
+          "x": 21,
+          "y": 264.328125,
+          "width": 244.03125,
+          "height": 17
+        },
+        {
+          "id": "active-mode",
+          "x": 16,
+          "y": 311.328125,
+          "width": 1456,
+          "height": 16.5
+        }
+      ],
+      "inspector": [
+        {
+          "h": 647,
+          "scroll": 647
+        },
+        {
+          "h": 0,
+          "scroll": 0
+        }
+      ]
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "body": [
+        1366,
+        877
+      ],
+      "panels": [
+        {
+          "id": "board",
+          "x": 15,
+          "y": 347.296875,
+          "width": 904,
+          "height": 271.703125
+        },
+        {
+          "id": "graph-stacked",
+          "x": 947,
+          "y": 109,
+          "width": 390,
+          "height": 61.578125
+        },
+        {
+          "id": "information-readout",
+          "x": 940,
+          "y": 689.609375,
+          "width": 404,
+          "height": 13
+        },
+        {
+          "id": "foodweb-leaders",
+          "x": 947,
+          "y": 608.03125,
+          "width": 192,
+          "height": 39
+        },
+        {
+          "id": "pyramid-support",
+          "x": 1145,
+          "y": 630.609375,
+          "width": 192,
+          "height": 26
+        },
+        {
+          "id": "relation-readout",
+          "x": 940,
+          "y": 705.609375,
+          "width": 404,
+          "height": 11.6875
+        },
+        {
+          "id": "graph-composition",
+          "x": 947,
+          "y": 227.578125,
+          "width": 390,
+          "height": 130.75
+        },
+        {
+          "id": "biomass-pyramid",
+          "x": 1145,
+          "y": 493.609375,
+          "width": 192,
+          "height": 134
+        },
+        {
+          "id": "graphs-panel",
+          "x": 940,
+          "y": 54,
+          "width": 404,
+          "height": 632.609375
+        },
+        {
+          "id": "map-key",
+          "x": 14,
+          "y": 659,
+          "width": 906,
+          "height": 78
+        },
+        {
+          "id": "current-overall",
+          "x": 185,
+          "y": 137,
+          "width": 725,
+          "height": 19.59375
+        },
+        {
+          "id": "current-donut",
+          "x": 44,
+          "y": 137,
+          "width": 100,
+          "height": 83.328125
+        },
+        {
+          "id": "graph-relations",
+          "x": 947,
+          "y": 397.328125,
+          "width": 390,
+          "height": 74.28125
+        },
+        {
+          "id": "turn-stages",
+          "x": 21,
+          "y": 264.328125,
+          "width": 244.03125,
+          "height": 17
+        },
+        {
+          "id": "active-mode",
+          "x": 16,
+          "y": 311.328125,
+          "width": 902,
+          "height": 33
+        }
+      ],
+      "inspector": [
+        {
+          "h": 647,
+          "scroll": 647
+        },
+        {
+          "h": 0,
+          "scroll": 0
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

@@ -2,9 +2,9 @@
 
 lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Node、仕様と資料の入口は `design/specification/README.md`。
 
-全残件の現在入口: `operations/plans/remaining-completion-v4.2.md`。製品4.2.19の河川供給OFF/ON各500Tは `operations/evidence/circulation-audit-v4.2.19/README.md`。R0の限定生存経路と子孫繁殖を確認。次は最終UI/描画・性能と画面付き結合、実Windows。情報長期伝播/菌膜・水中生産者の孫更新等は不足として保持。
+全残件の現在入口: `operations/plans/remaining-completion-v4.2.md`。製品4.2.20（生態不変）の河川供給OFF/ON各500Tは `operations/evidence/circulation-audit-v4.2.19/README.md`。R0の限定生存経路と子孫繁殖を確認。次は最終UI/描画・性能と画面付き結合、実Windows。情報長期伝播/菌膜・水中生産者の孫更新等は不足として保持。
 
-画面の現在課題: `operations/evidence/visual-review-v4.2.19/README.md`。遠近の実画面で一画面配置の未達を確認。保存/分析復帰等16項目は通過。次は現行絵柄を保った配置修正。
+画面の現在地: `operations/evidence/viewport-layout-v4.2.20/README.md`。代表1920/1366幅でマップ＋基本3グラフ＋サマリを同時表示。既存の関係図/ピラミッドと原値を保持。配布版4.2.20生成/全ソース一致。密集/性能・描画付き500T・実Windowsは継続。
 
 ## A：仕様
 
@@ -261,7 +261,7 @@ C4:（A2, B5 / Electron と Windows 配布）［草案］
 	ロジック:
 		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
 	実態:
-		Windows4.2.19生成と変更src9/原画35PNGの同梱一致。観測追加の署名更新と旧生態指紋一致による互換を接続。実Windows起動/性能は未実施。 詳細: operations/evidence/information-observation-v4.2.19/README.md。
+		Windows4.2.20を生成し、ASAR内の全72ソース（35PNGを含む）が現行と一致。今回の製品差分はIndex/app/stylesのみ。生態・原画不変。実Windows起動は未実施。詳細: operations/evidence/viewport-layout-v4.2.20/package-match.json。正式状態は草案。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -329,14 +329,14 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 	ロジック:
 		確定世界を観察し、操作や拡大を生態計算から分ける。
 	実態:
-		4.2.19で情報の成功生成/実取得/直接重み適用/Q媒介を別観測し、既知イベント由来を元時刻+20Tまで保持。死亡後の系統欠落と取得=作用を補正。既存パネル/全ターンCSV/保存へ接続。行動決定/費用/原画は不変、重み差を行動結果の因果とはしない。 詳細: operations/evidence/information-observation-v4.2.19/README.md。
+		4.2.20で観察配置のマップ/基本3パネル/現在像サマリを1920・1366幅へ収め、遠景のサイズ追従と近景中心維持を接続。生態・素材不変。詳細: operations/evidence/viewport-layout-v4.2.20/README.md。全地形の判読/性能・画面付き500T・実Windowsは残る。
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C8.1.md。projection/scenery/habitat/art/renderer、生物/地物10原画と背景11素材。契約: operations/plans/habitat-visual-v3.1.md。
 		ロジック:
 			実タイルから地形/深浅/8環境のマスクを生成し、視野内だけ高解像度で合成。遠景は全位置記号、近景は描き込んだ景観。輪郭影と局所遮蔽を使い、装飾を新たな生態/障害物としない。
 		実態:
-			4.2.11で死亡確定時の相/枝/性/階級/年齢をイベント化し、現存死骸の表示cacheと横詳細へ接続。攻撃の実損害/軽減と採食元を記録し、命中/実防御/採食等を区別。8優遇×30Tの旧新版生態/集計一致。旧署名1版の再生互換を維持。
+			4.2.20で観察配置のマップ/基本3パネル/現在像サマリを1920・1366幅へ収め、遠景のサイズ追従と近景中心維持を接続。生態・素材不変。詳細: operations/evidence/viewport-layout-v4.2.20/README.md。全地形の判読/性能・画面付き500T・実Windowsは残る。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -381,7 +381,7 @@ D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	ロジック:
 		C4と対象版を照合して配布物そのものを実行する。
 	実態:
-		Windows4.2.19生成と変更src9/原画35PNGの同梱一致。観測追加の署名更新と旧生態指紋一致による互換を接続。実Windows起動/性能は未実施。 詳細: operations/evidence/information-observation-v4.2.19/README.md。
+		Windows4.2.20を生成し、ASAR内の全72ソース（35PNGを含む）が現行と一致。今回の製品差分はIndex/app/stylesのみ。生態・原画不変。実Windows起動は未実施。詳細: operations/evidence/viewport-layout-v4.2.20/package-match.json。正式状態は草案。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -435,7 +435,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		Linux Chromium16項目で今T情報内訳/限界説明、実Worker一致、全期間原値/CSV/IndexedDB保存・再分析、旧欠測と復帰を確認。正数表示は合成fixtureで実生態と区別。最終外観/実Windowsは未確認。 詳細: operations/evidence/information-observation-v4.2.19/README.md。
+		4.2.20で観察配置のマップ/基本3パネル/現在像サマリを1920・1366幅へ収め、遠景のサイズ追従と近景中心維持を接続。生態・素材不変。詳細: operations/evidence/viewport-layout-v4.2.20/README.md。全地形の判読/性能・画面付き500T・実Windowsは残る。
 ```
 
 ## E：検証証跡
@@ -486,13 +486,13 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		Linux Chromium16項目で今T情報内訳/限界説明、実Worker一致、全期間原値/CSV/IndexedDB保存・再分析、旧欠測と復帰を確認。正数表示は合成fixtureで実生態と区別。最終外観/実Windowsは未確認。 詳細: operations/evidence/information-observation-v4.2.19/README.md。
+		4.2.20で観察配置のマップ/基本3パネル/現在像サマリを1920・1366幅へ収め、遠景のサイズ追従と近景中心維持を接続。生態・素材不変。詳細: operations/evidence/viewport-layout-v4.2.20/README.md。全地形の判読/性能・画面付き500T・実Windowsは残る。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
 	ロジック:
 		対象SHAと版が一致するWindows4.1の配布/実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		Windows4.2.19生成と変更src9/原画35PNGの同梱一致。観測追加の署名更新と旧生態指紋一致による互換を接続。実Windows起動/性能は未実施。 詳細: operations/evidence/information-observation-v4.2.19/README.md。
+		Windows4.2.20を生成し、ASAR内の全72ソース（35PNGを含む）が現行と一致。今回の製品差分はIndex/app/stylesのみ。生態・原画不変。実Windows起動は未実施。詳細: operations/evidence/viewport-layout-v4.2.20/package-match.json。正式状態は草案。
 
 ```

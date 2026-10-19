@@ -17,8 +17,8 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),
   await page.evaluate(()=>__LIFE_TEST__.prepare({seed:'overview-natural',width:40,height:28,initial:80,lineages:'few',mapId:'river'}));
   await page.waitForTimeout(100);
   check(await page.evaluate(()=>{const w=__LIFE_TEST__.snapshot().world;return [...document.querySelectorAll('#species-key [data-species]')].every(e=>Number(e.querySelector('b').textContent)===w.stats.counts[e.dataset.species]);}),'legend counts match real organisms');
-  check(await page.evaluate(()=>Object.keys(EcoRenderer.symbolPaths).length===35),'27 biological and 8 resource symbols are explicitly defined');
-  check(await page.evaluate(()=>{const c=document.createElement('canvas');c.width=c.height=48;const g=c.getContext('2d');return new Set(Object.keys(EcoRenderer.symbolPaths).map(id=>{g.clearRect(0,0,48,48);EcoRenderer.symbol(g,id,24,24,18);return c.toDataURL();})).size===35;}),'all 35 symbol rasterizations are distinct');
+  check(await page.evaluate(()=>Object.keys(EcoRenderer.symbolPaths).length===EcoData.species.length+Object.keys(EcoState.FOOD).length),'every current biological and resource symbol is explicitly defined');
+  check(await page.evaluate(()=>{const c=document.createElement('canvas');c.width=c.height=48;const g=c.getContext('2d');return new Set(Object.keys(EcoRenderer.symbolPaths).map(id=>{g.clearRect(0,0,48,48);EcoRenderer.symbol(g,id,24,24,18);return c.toDataURL();})).size===EcoData.species.length+Object.keys(EcoState.FOOD).length;}),'all current symbol rasterizations are distinct');
   const before=await page.evaluate(()=>__LIFE_TEST__.fingerprint());
   await page.screenshot({path:path.join(out,'natural-overview.png'),fullPage:true});
   await page.locator('#board').screenshot({path:path.join(out,'natural-board.png')});
@@ -32,14 +32,14 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),
   await page.evaluate(()=>{
    const w=__LIFE_TEST__.prepare({seed:'overview-display-fixture',width:40,height:28,initial:80});
    w.organisms=EcoState.D.species.filter(s=>!['P','Q'].includes(s.group)).map((s,i)=>EcoState.organism(w,s,(5+Math.floor(i/9)*5)*40+4+(i%9)*3,'symbol-'+s.id,{phase:s.group==='main'?3:1,age:30}));
-   const host=w.organisms[0],food=w.organisms.find(o=>o.species==='grass');food.cell=host.cell;
+   w.searchQ=[];const host=w.organisms.find(o=>o.species==='solar'),food=w.organisms.find(o=>o.species==='grass');food.cell=host.cell;
    host.infection=EcoState.infection(w,'tideparasite',host.id,0);host.infection.q=EcoState.hyper(w,host.infection.id,0);
    w.resources=Object.keys(EcoState.FOOD).map((kind,i)=>({id:'fixture-'+kind,kind,cell:host.cell,q:1,E:1,M:0,G:0,expires:null}));
    w.carcasses=[{id:'fixture-carcass',species:'solar',cell:host.cell,q:1,E:1,M:0,G:0}];w.events=[];w.stats=EcoEngine.summarize(w);__LIFE_TEST__.refresh();__LIFE_TEST__.select(host.cell,host.id);
   });
   await page.click('#fit');await page.waitForTimeout(100);
-  check(await page.evaluate(()=>{const r=__LIFE_TEST__.snapshot().render;return r.drawn===27&&r.resources===8&&r.carcasses===1&&r.infectedHosts===1&&r.highParasites===1;}),'fixture retains all 27 bodies, 8 resources, carcass and host P/Q');
-  check((await page.textContent('#selection')).includes('情報')&&(await page.locator('#selection [data-observe]').count())===2,'selected overlap exposes both organisms and information');
+  check(await page.evaluate(()=>{const r=__LIFE_TEST__.snapshot().render;return r.drawn===28&&r.resources===8&&r.carcasses===1&&r.infectedHosts===1&&r.highParasites===1;}),'fixture retains all 28 bodies, 8 resources, carcass and host P/Q');
+  check((await page.textContent('#selection')).includes('情報')&&await page.evaluate(()=>{const ids=[...document.querySelectorAll('#selection [data-observe]')].map(e=>e.dataset.observe);return ids.includes('symbol-solar')&&ids.includes('symbol-grass')&&ids.includes('fixture-carcass')&&ids.length===5;}),'selected overlap exposes both bodies, P/Q, carcass and information');
   const fixture=await page.evaluate(()=>__LIFE_TEST__.fingerprint());
   await page.screenshot({path:path.join(out,'symbols-overview-fixture.png'),fullPage:true});
   await page.click('#detail-view');await page.waitForTimeout(100);await page.screenshot({path:path.join(out,'overlap-detail-fixture.png'),fullPage:true});
@@ -52,6 +52,6 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),
   await page.evaluate(()=>__LIFE_TEST__.prepare({seed:'large-overview',width:160,height:112,initial:320,lineages:'few'}));await page.waitForTimeout(100);
   check(await page.evaluate(()=>{const s=__LIFE_TEST__.snapshot();return s.render.drawn===s.world.organisms.length&&s.render.resources===s.world.resources.length;}),'large world overview keeps every biological position in the draw set');
   check(errors.length===0,'no browser exceptions');
-  await fs.writeFile(path.join(out,'report.json'),JSON.stringify({ok:true,checks,errors,fixture:'27 explicitly placed species, one main/food overlap, eight resource kinds, carcass and P/Q; display-only, not naturally evolved; natural screenshots are separate'},null,2)+'\n');console.log(JSON.stringify({ok:true,checks},null,2));
+  await fs.writeFile(path.join(out,'report.json'),JSON.stringify({ok:true,checks,errors,fixture:'28 explicitly placed species, one main/food overlap, eight resource kinds, carcass and P/Q; display-only, not naturally evolved; natural screenshots are separate'},null,2)+'\n');console.log(JSON.stringify({ok:true,checks},null,2));
  }finally{await browser.close();await new Promise(r=>server.close(r));}
 })().catch(e=>{console.error(e);process.exitCode=1;});

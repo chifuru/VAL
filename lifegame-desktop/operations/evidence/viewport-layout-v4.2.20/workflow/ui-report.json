@@ -1,0 +1,22 @@
+{
+  "checks": [
+    "current-turn information counts visible",
+    "weight application distinguished from uptake",
+    "causal limitation explained",
+    "real Worker matches synchronous biological state",
+    "information metric version recorded",
+    "all turns retain information aggregates",
+    "CSV keeps effect and mediated effect separately",
+    "real result persisted",
+    "saved analysis displays information aggregates",
+    "persisted all-turn original aggregates match",
+    "returns to live three-panel view",
+    "separate positive counts render correctly",
+    "legacy missing metrics are explained without zero fabrication",
+    "rendering fixtures cannot change biology",
+    "information note fits narrow page",
+    "no browser errors or native dialogs"
+  ],
+  "errors": [],
+  "scope": "Linux Chromium; Real Worker, all-turn information/CSV/IndexedDB; synthetic positive/missing rendering fixtures are separate"
+}
