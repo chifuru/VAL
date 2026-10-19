@@ -126,7 +126,7 @@ const { chromium } = require("playwright"),
     await page.setViewportSize({width:390,height:844});
     check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'mode and stage controls fit a narrow screen');
     check(errors.length===0,'no browser errors: '+errors.join(';'));check(external.length===0,'no external requests');
-    await fs.writeFile(path.join(out,'report.json'),JSON.stringify({ok:true,app:'4.0.0',checks,errors,external,cadenceMs:1000,observedFirstTurnMs:elapsed,browser:browser.version()},null,2));
+    await fs.writeFile(path.join(out,'report.json'),JSON.stringify({ok:true,app:require('../package.json').version,checks,errors,external,cadenceMs:1000,observedFirstTurnMs:elapsed,browser:browser.version()},null,2));
     console.log(JSON.stringify({ok:true,checks:checks.length,observedFirstTurnMs:elapsed}));
   } finally { await browser.close();await new Promise(r=>server.close(r)); }
 })().catch(e=>{console.error(e);process.exitCode=1;});

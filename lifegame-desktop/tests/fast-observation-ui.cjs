@@ -90,6 +90,7 @@ const { chromium } = require("playwright"),
     await page.waitForFunction(t=>__LIFE_TEST__.snapshot().world.turn>=t+5,start.turn,{timeout:20000});
     const span=await page.evaluate(()=>performance.now())-start.t;
     check(span>=3900&&span<20000,'five committed turns preserve the reference cadence without skipping (may start between commits)');
+    await page.evaluate(()=>{const a=__LIFE_TEST__.snapshot().world.organisms.find(o=>o.slot==='main');__LIFE_TEST__.select(a.cell,a.id);});
     await page.click('#detail-hold');const detailTurn=await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn);
     await page.waitForTimeout(1400);
     check(await page.evaluate(()=>!__LIFE_TEST__.snapshot().running&&__LIFE_TEST__.snapshot().world.turn)===detailTurn,'detail remains paused until explicitly released');
@@ -132,7 +133,7 @@ const { chromium } = require("playwright"),
     await page.setViewportSize({width:390,height:844});
     check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'new pause controls fit narrow screens');
     check(errors.length===0,'no browser errors: '+errors.join(';'));check(external.length===0,'all Worker and image requests stay local');
-    await fs.writeFile(path.join(out,'report.json'),JSON.stringify({ok:true,app:'4.0.0',checks,errors,external,browser:browser.version(),cadenceMs:1000,fiveTurnMs:span,preparationMs:snapshot.compute.preparationMs},null,2));
+    await fs.writeFile(path.join(out,'report.json'),JSON.stringify({ok:true,app:require('../package.json').version,checks,errors,external,browser:browser.version(),cadenceMs:1000,fiveTurnMs:span,preparationMs:snapshot.compute.preparationMs},null,2));
     console.log(JSON.stringify({ok:true,checks:checks.length,fiveTurnMs:span,preparationMs:snapshot.compute.preparationMs}));
   } finally {await browser.close();await new Promise(r=>server.close(r));}
 })().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,0 +1,21 @@
+{
+  "checks": [
+    "internal seeds hidden in setup",
+    "setup cannot be edited during observation",
+    "all 31 species including phytoplankton and parasites can be selected",
+    "Q has its own explanation",
+    "map and detail operations do not pause ecology",
+    "explicit individual camera tracking",
+    "manual pause freezes ecological time",
+    "highlight and camera remain operable while paused",
+    "graph keeps all records beyond former 121-point limit",
+    "exact initial turn remains selectable",
+    "CSV contains exact turn zero and reproducible conditions",
+    "return to initial setup is a real navigation",
+    "return from setup preserves the existing observation",
+    "no browser runtime errors"
+  ],
+  "errors": [],
+  "turn": 2,
+  "scope": "Linux Chromium; no Windows claim"
+}
