@@ -1,0 +1,29 @@
+{
+  "baseline": "95a674b",
+  "version": "4.2.29",
+  "config": {
+    "landscape": "templates",
+    "ageModel": "life/1",
+    "mapId": "river",
+    "width": 40,
+    "height": 28,
+    "initial": 80,
+    "lineages": "few"
+  },
+  "rows": [
+    {
+      "seed": "staged/golden-1",
+      "previous": "c36836ccd9ef6d20a7d7a7b569a89224f944ee734b8fd7db4497aac8b4c34421",
+      "current": "306c94be8f13c9a17dce79749db8ac370e80444a7962e6e6ba8443d76eafb543",
+      "oldCodeReproducesPrevious": true,
+      "newAtomicEqualsStaged": true
+    },
+    {
+      "seed": "staged/golden-2",
+      "previous": "b1b7a9d90ebecad5c73b20e407fb147d872221adb36150a6c8cbb959a6ceeccb",
+      "current": "2c0b8fc8b941f0ccd1be6eccbea903f98e5037b8ea5d46c055be6dfc8be2e854",
+      "oldCodeReproducesPrevious": true,
+      "newAtomicEqualsStaged": true
+    }
+  ]
+}

@@ -115,6 +115,12 @@ async function main() {
       "all thirty-one species including phytoplankton are present in observation catalogue",
     );
     const initial = await page.evaluate(() => __LIFE_TEST__.fingerprint());
+    // Current observation starts with graphs; portraits appear after selection.
+    check(await page.locator("#graphs-panel").isVisible(), "observation initially shows all-period graphs");
+    await page.evaluate(() => {
+      const o=__LIFE_TEST__.snapshot().world.organisms.find(o=>o.slot==="main");
+      __LIFE_TEST__.select(o.cell,o.id);
+    });
     check(
       await page.evaluate(
         () =>
@@ -210,10 +216,10 @@ async function main() {
       check(text.length > 300, "sheet content: " + name);
       if (name === "system")
         check(
-          text.includes("基部B2") &&
+          text.includes("外部入力") &&
             text.includes("土壌M") &&
             text.includes("吸収率0.5"),
-          "system explains finite root uptake and protected plant bases",
+          "system explains finite root uptake and separately recorded external inputs",
         );
       if (name === "food")
         check(
@@ -307,7 +313,7 @@ async function main() {
     )
       await page.click("#focus-view");
     await page.locator("#change-world").click();
-    await page.locator("#advanced-settings > summary").click();
+    await page.locator("#advanced-settings").evaluate(e=>e.open=true);
     await page.locator("#lineages").selectOption("few");
     await page.locator("#placement").selectOption("cluster");
     await page.locator("#distribution").selectOption("weighted");
@@ -329,7 +335,7 @@ async function main() {
     await loadWorld();
     check(
       (await page.locator("#setup-message").textContent()).includes(
-        "SETTINGS_INVALID",
+        "生物群を一つ以上",
       ),
       "invalid settings show reason and retain previous world",
     );

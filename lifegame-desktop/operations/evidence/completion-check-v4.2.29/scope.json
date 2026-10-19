@@ -1,0 +1,29 @@
+{
+  "baseline": "84672d0",
+  "productVersion": "4.2.29",
+  "productChanged": false,
+  "nativeWindowsRun": false,
+  "githubCI": "unconfirmed: API Forbidden",
+  "validation": {
+    "navigation": 27,
+    "display": 22,
+    "browser": 48,
+    "unitInitial": {
+      "files": 50,
+      "passed": 49,
+      "failed": 1
+    },
+    "affectedFileRecheck": {
+      "file": "tests/staged-turn.test.cjs",
+      "tests": 5,
+      "passed": 5
+    }
+  },
+  "productHashes": {
+    "src/app.js": "721f051c071722d9454bd4e1c60835ceafd166e1b81813d5d6a3dfd08ea4992f",
+    "src/styles.css": "b1f4d7b72904312ee02f88a2509d21695dd5003d56b7b72f00c998f5b4dacd18",
+    "src/ecology/renderer.js": "8dfeaa72002513cd15908c57ded5231952cc393b93a0d3b057c629fe135aa9d9",
+    "src/ecology/observation-modules.js": "d3c93d8ffdeaa54f46816d2bd44a6200dedfe586d1de4e0b955f4e6f6652cbc3",
+    "src/ecology/replay-version.js": "4985ebb17b96165da67bacf2e69158477a100e6085511dfd78dc8b110edcb1f6"
+  }
+}

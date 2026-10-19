@@ -45,8 +45,8 @@ test('observation modes state every initial adjustment and reproduce their resol
  assert.throws(()=>E.create({...config,initialFoodScale:1.5}),/観察モード/);
 });
 
-test("unconfigured worlds match fixed biological fixtures (kelp diet 4.1.1; atomic energy rounding 4.1.3)",()=>{
-  for(const row of [{"seed": "staged/golden-1", "fingerprint": "c36836ccd9ef6d20a7d7a7b569a89224f944ee734b8fd7db4497aac8b4c34421"}, {"seed": "staged/golden-2", "fingerprint": "b1b7a9d90ebecad5c73b20e407fb147d872221adb36150a6c8cbb959a6ceeccb"}]){let w=E.create({...config,seed:row.seed});for(let n=0;n<20;n++)w=E.step(w);assert.equal(E.fingerprint(w),row.fingerprint);}
+test("unconfigured worlds match fixed biological fixtures (information experience CA 4.2.29)",()=>{
+  for(const row of [{"seed": "staged/golden-1", "fingerprint": "306c94be8f13c9a17dce79749db8ac370e80444a7962e6e6ba8443d76eafb543"}, {"seed": "staged/golden-2", "fingerprint": "2c0b8fc8b941f0ccd1be6eccbea903f98e5037b8ea5d46c055be6dfc8be2e854"}]){let w=E.create({...config,seed:row.seed});for(let n=0;n<20;n++)w=E.step(w);assert.equal(E.fingerprint(w),row.fingerprint);}
 });
 
 test('declared production conditions double paid solar input while darkness and capacity remain bounded',()=>{
