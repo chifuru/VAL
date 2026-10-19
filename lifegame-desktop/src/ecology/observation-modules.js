@@ -5228,7 +5228,10 @@ function(require,module){
     return w;
   }
   function beginTurn(previous, options = {}) {
-    let w = structuredClone({...previous,tiles:undefined}), stage = 0, cancelled = false, failed = false;
+    let w = structuredClone({...previous,tiles:undefined,observation:undefined,diagnostics:undefined}), stage = 0, cancelled = false, failed = false;
+    // Prior telemetry is read-only until finish replaces it; do not clone it every turn.
+    if(Object.hasOwn(previous,"observation"))w.observation=previous.observation;else delete w.observation;
+    if(Object.hasOwn(previous,"diagnostics"))w.diagnostics=previous.diagnostics;else delete w.diagnostics;
     w.tiles=previous.tiles.map(t=>({...t}));
     S.inheritGeometry(previous,w);
     if (w.stopReason === "checkpoint") {
@@ -9147,7 +9150,10 @@ function(require,module){
     return w;
   }
   function beginTurn(previous, options = {}) {
-    let w = structuredClone({...previous,tiles:undefined}), stage = 0, cancelled = false, failed = false;
+    let w = structuredClone({...previous,tiles:undefined,observation:undefined,diagnostics:undefined}), stage = 0, cancelled = false, failed = false;
+    // Prior telemetry is read-only until finish replaces it; do not clone it every turn.
+    if(Object.hasOwn(previous,"observation"))w.observation=previous.observation;else delete w.observation;
+    if(Object.hasOwn(previous,"diagnostics"))w.diagnostics=previous.diagnostics;else delete w.diagnostics;
     w.tiles=previous.tiles.map(t=>({...t}));
     S.inheritGeometry(previous,w);
     if (w.stopReason === "checkpoint") {

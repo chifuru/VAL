@@ -47,6 +47,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node tests/optimization-ui.cjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node tests/optimization-pipeline-ui.cjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node tests/dedicated-variants-ui.cjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node tests/usability-performance.cjs

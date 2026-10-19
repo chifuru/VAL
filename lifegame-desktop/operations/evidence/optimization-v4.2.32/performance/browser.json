@@ -1,0 +1,2113 @@
+{
+  "source": "working-tree-based-on-1386101",
+  "version": "4.2.32",
+  "note": "Read-only injected instrumentation; nested costs overlap; Chromium Linux headless; short runs do not certify long-term large-board performance.",
+  "runs": [
+    {
+      "width": 40,
+      "height": 28,
+      "initial": 80,
+      "turns": 8,
+      "elapsedSincePrepareStartMs": 10779,
+      "config": {
+        "seed": "jank-check",
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "populationRegulation": {
+          "version": 1
+        },
+        "randomModel": "table/1",
+        "mapId": "river",
+        "terrainSeed": "jank-check",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 40,
+          "height": 28,
+          "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+          "pattern": [
+            0,
+            0,
+            1,
+            2,
+            1,
+            3,
+            0,
+            1,
+            2,
+            2,
+            0,
+            1,
+            2,
+            2,
+            3,
+            3,
+            1,
+            3,
+            1,
+            3,
+            1,
+            1,
+            2,
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1
+          ],
+          "fallback": false,
+          "terrainHash": "103f7b59e556012c0c37f41a3fa8177496000cd9dce2accacc9e65ed5e2706c5"
+        },
+        "freeAdvantage": {
+          "version": "favored-free/3",
+          "externalSupply": false,
+          "producerLife": 2400,
+          "producerLight": 2,
+          "soilM": 3,
+          "waterbugLife": 600,
+          "waterbugBirth": "B123/E8/cost8",
+          "QsearchLife": 480,
+          "QsearchRange": 3,
+          "Qgrowth": [
+            1,
+            2
+          ],
+          "Qinitial": "half-primary/1"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 5,
+          "createdSearchQ": 5
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": true,
+          "waterbug": true,
+          "hyperparasite": true
+        }
+      },
+      "initialPopulation": 614,
+      "mode": "far",
+      "elapsedMs": 10296,
+      "state": {
+        "turn": 8,
+        "running": false,
+        "main": 80,
+        "population": 1028,
+        "resources": 459,
+        "compute": {
+          "type": "ready",
+          "epoch": 2,
+          "cache": {
+            "key": "7a6b76be12837dbea735e872af8702b7a7425679d5f8cd2dd4cc2a43861605d2",
+            "reused": false
+          },
+          "prepareMs": 30.099999994039536
+        }
+      },
+      "cost": {
+        "canvas.getImageData": {
+          "calls": 25,
+          "total": 151.00000005960464,
+          "max": 30.400000005960464,
+          "over50": 0
+        },
+        "canvas.putImageData": {
+          "calls": 25,
+          "total": 1.3000000715255737,
+          "max": 0.20000001788139343,
+          "over50": 0
+        },
+        "art.cleanFrame": {
+          "calls": 79,
+          "total": 252.9000000655651,
+          "max": 40.599999994039536,
+          "over50": 0
+        },
+        "art.food": {
+          "calls": 56,
+          "total": 253.20000004768372,
+          "max": 42.599999994039536,
+          "over50": 0
+        },
+        "art.anatomyFrame": {
+          "calls": 10,
+          "total": 26.699999928474426,
+          "max": 8.699999988079071,
+          "over50": 0
+        },
+        "art.variant": {
+          "calls": 10,
+          "total": 164.49999997019768,
+          "max": 49.79999998211861,
+          "over50": 0
+        },
+        "art.litFrame": {
+          "calls": 10,
+          "total": 99.90000000596046,
+          "max": 20.099999994039536,
+          "over50": 0
+        },
+        "draw": {
+          "calls": 128,
+          "total": 1114.1999999284744,
+          "max": 69.5,
+          "over50": 1
+        },
+        "setWorld": {
+          "calls": 34,
+          "total": 55.800000071525574,
+          "max": 18.5,
+          "over50": 0
+        },
+        "graphs": {
+          "calls": 9,
+          "total": 19.80000001192093,
+          "max": 6.100000023841858,
+          "over50": 0
+        },
+        "selection": {
+          "calls": 9,
+          "total": 20.600000023841858,
+          "max": 6.100000023841858,
+          "over50": 0
+        },
+        "render": {
+          "calls": 8,
+          "total": 36.80000001192093,
+          "max": 7.200000017881393,
+          "over50": 0
+        },
+        "commit": {
+          "calls": 8,
+          "total": 94.5,
+          "max": 14.300000011920929,
+          "over50": 0
+        }
+      },
+      "longTasks": [
+        {
+          "at": 2807,
+          "ms": 74
+        },
+        {
+          "at": 4379,
+          "ms": 94
+        },
+        {
+          "at": 5108.9000000059605,
+          "ms": 52
+        },
+        {
+          "at": 5443.100000023842,
+          "ms": 58
+        },
+        {
+          "at": 6455,
+          "ms": 51
+        }
+      ],
+      "frames": 559,
+      "gapP50": 16.699999999999818,
+      "gapP95": 33.30000000000018,
+      "gapMax": 100,
+      "over50": 4,
+      "drawMetrics": {
+        "basalBuilds": 17,
+        "basalHits": 112,
+        "candidates": 1028
+      },
+      "cache": {
+        "bytes": {
+          "clean": 14198540,
+          "lower": 8257536,
+          "variants": 14641024
+        },
+        "evictions": {}
+      },
+      "anatomy": {
+        "builds": 10,
+        "hits": 0,
+        "foldedTriangles": 0,
+        "maxTexturePixels": 183184,
+        "limitedFrames": 1,
+        "minStrength": 0.75
+      },
+      "terrain": 0
+    },
+    {
+      "width": 40,
+      "height": 28,
+      "initial": 80,
+      "turns": 8,
+      "elapsedSincePrepareStartMs": 20258,
+      "config": {
+        "seed": "jank-check",
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "populationRegulation": {
+          "version": 1
+        },
+        "randomModel": "table/1",
+        "mapId": "river",
+        "terrainSeed": "jank-check",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 40,
+          "height": 28,
+          "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+          "pattern": [
+            0,
+            0,
+            1,
+            2,
+            1,
+            3,
+            0,
+            1,
+            2,
+            2,
+            0,
+            1,
+            2,
+            2,
+            3,
+            3,
+            1,
+            3,
+            1,
+            3,
+            1,
+            1,
+            2,
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1
+          ],
+          "fallback": false,
+          "terrainHash": "103f7b59e556012c0c37f41a3fa8177496000cd9dce2accacc9e65ed5e2706c5"
+        },
+        "freeAdvantage": {
+          "version": "favored-free/3",
+          "externalSupply": false,
+          "producerLife": 2400,
+          "producerLight": 2,
+          "soilM": 3,
+          "waterbugLife": 600,
+          "waterbugBirth": "B123/E8/cost8",
+          "QsearchLife": 480,
+          "QsearchRange": 3,
+          "Qgrowth": [
+            1,
+            2
+          ],
+          "Qinitial": "half-primary/1"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 5,
+          "createdSearchQ": 5
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": true,
+          "waterbug": true,
+          "hyperparasite": true
+        }
+      },
+      "initialPopulation": 614,
+      "mode": "near",
+      "elapsedMs": 9405,
+      "state": {
+        "turn": 16,
+        "running": false,
+        "main": 80,
+        "population": 1088,
+        "resources": 698,
+        "compute": {
+          "type": "ready",
+          "epoch": 4,
+          "cache": {
+            "key": "7a6b76be12837dbea735e872af8702b7a7425679d5f8cd2dd4cc2a43861605d2",
+            "reused": false
+          },
+          "prepareMs": 66.5
+        }
+      },
+      "cost": {
+        "art.cleanFrame": {
+          "calls": 3129,
+          "total": 16.799999982118607,
+          "max": 3.0999999940395355,
+          "over50": 0
+        },
+        "art.food": {
+          "calls": 7586,
+          "total": 280.6999997496605,
+          "max": 71.59999999403954,
+          "over50": 2
+        },
+        "art.prop": {
+          "calls": 1755,
+          "total": 31.299999922513962,
+          "max": 2.300000011920929,
+          "over50": 0
+        },
+        "art.variant": {
+          "calls": 677,
+          "total": 18.000000208616257,
+          "max": 7.300000011920929,
+          "over50": 0
+        },
+        "art.litFrame": {
+          "calls": 677,
+          "total": 27.700000077486038,
+          "max": 15.400000005960464,
+          "over50": 0
+        },
+        "canvas.getImageData": {
+          "calls": 3,
+          "total": 0.5999999642372131,
+          "max": 0.29999998211860657,
+          "over50": 0
+        },
+        "canvas.putImageData": {
+          "calls": 3,
+          "total": 0.09999999403953552,
+          "max": 0.09999999403953552,
+          "over50": 0
+        },
+        "draw": {
+          "calls": 135,
+          "total": 643.8999999165535,
+          "max": 31.299999982118607,
+          "over50": 0
+        },
+        "setWorld": {
+          "calls": 34,
+          "total": 100.39999997615814,
+          "max": 37.70000001788139,
+          "over50": 0
+        },
+        "graphs": {
+          "calls": 9,
+          "total": 19.299999952316284,
+          "max": 4.399999976158142,
+          "over50": 0
+        },
+        "selection": {
+          "calls": 9,
+          "total": 19.499999970197678,
+          "max": 4.5,
+          "over50": 0
+        },
+        "render": {
+          "calls": 8,
+          "total": 44.79999998211861,
+          "max": 9.900000005960464,
+          "over50": 0
+        },
+        "commit": {
+          "calls": 8,
+          "total": 156.60000005364418,
+          "max": 36.099999994039536,
+          "over50": 0
+        },
+        "art.anatomyFrame": {
+          "calls": 2,
+          "total": 7.600000023841858,
+          "max": 3.9000000059604645,
+          "over50": 0
+        }
+      },
+      "longTasks": [
+        {
+          "at": 13992.800000011921,
+          "ms": 52
+        },
+        {
+          "at": 14494.5,
+          "ms": 56
+        },
+        {
+          "at": 14570.90000000596,
+          "ms": 72
+        },
+        {
+          "at": 14886.800000011921,
+          "ms": 60
+        },
+        {
+          "at": 15583.5,
+          "ms": 52
+        },
+        {
+          "at": 15859.100000023842,
+          "ms": 76
+        },
+        {
+          "at": 15991.100000023842,
+          "ms": 53
+        },
+        {
+          "at": 17699.20000001788,
+          "ms": 52
+        }
+      ],
+      "frames": 466,
+      "gapP50": 16.700000000000728,
+      "gapP95": 50,
+      "gapMax": 83.30000000000109,
+      "over50": 7,
+      "drawMetrics": {
+        "basalBuilds": 17,
+        "basalHits": 112,
+        "candidates": 364
+      },
+      "cache": {
+        "bytes": {
+          "clean": 15253684,
+          "lower": 11354112,
+          "variants": 17558272
+        },
+        "evictions": {}
+      },
+      "anatomy": {
+        "builds": 12,
+        "hits": 675,
+        "foldedTriangles": 0,
+        "maxTexturePixels": 183184,
+        "limitedFrames": 1,
+        "minStrength": 0.75
+      },
+      "terrain": 0
+    },
+    {
+      "width": 80,
+      "height": 56,
+      "initial": 320,
+      "turns": 5,
+      "elapsedSincePrepareStartMs": 12324,
+      "config": {
+        "seed": "jank-check",
+        "width": 80,
+        "height": 56,
+        "initial": 320,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "populationRegulation": {
+          "version": 1
+        },
+        "randomModel": "table/1",
+        "mapId": "river",
+        "terrainSeed": "jank-check",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 80,
+          "height": 56,
+          "dataHash": "23f011e8114c6c76ac84aa387f21830014f3991b0c1095300b921d2f702a4a66",
+          "pattern": [
+            0,
+            0,
+            1,
+            2,
+            1,
+            3,
+            0,
+            1,
+            2,
+            2,
+            0,
+            1,
+            2,
+            2,
+            3,
+            3,
+            1,
+            3,
+            1,
+            3,
+            1,
+            1,
+            2,
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            0,
+            0,
+            0
+          ],
+          "fallback": false,
+          "terrainHash": "38ba93f3cdf08c5f8bf7bc31cb43d17e3140a5dd46db649e6fbf3a4d57d2e636"
+        },
+        "freeAdvantage": {
+          "version": "favored-free/3",
+          "externalSupply": false,
+          "producerLife": 2400,
+          "producerLight": 2,
+          "soilM": 3,
+          "waterbugLife": 600,
+          "waterbugBirth": "B123/E8/cost8",
+          "QsearchLife": 480,
+          "QsearchRange": 3,
+          "Qgrowth": [
+            1,
+            2
+          ],
+          "Qinitial": "half-primary/1"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 35,
+          "createdSearchQ": 35
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": true,
+          "waterbug": true,
+          "hyperparasite": true
+        }
+      },
+      "initialPopulation": 2467,
+      "mode": "far",
+      "elapsedMs": 11566,
+      "state": {
+        "turn": 5,
+        "running": false,
+        "main": 320,
+        "population": 3873,
+        "resources": 1080,
+        "compute": {
+          "type": "ready",
+          "epoch": 2,
+          "cache": {
+            "key": "3a8f65e4613765a57632c4fb287182cd3ac0d4aeb11977b9860954004352202f",
+            "reused": false
+          },
+          "prepareMs": 79.40000000596046
+        }
+      },
+      "cost": {
+        "canvas.getImageData": {
+          "calls": 25,
+          "total": 132.3999999165535,
+          "max": 25.80000001192093,
+          "over50": 0
+        },
+        "canvas.putImageData": {
+          "calls": 25,
+          "total": 0.4999999701976776,
+          "max": 0.29999998211860657,
+          "over50": 0
+        },
+        "art.cleanFrame": {
+          "calls": 74,
+          "total": 193.6000000834465,
+          "max": 30.80000001192093,
+          "over50": 0
+        },
+        "art.food": {
+          "calls": 52,
+          "total": 151.70000007748604,
+          "max": 23.599999994039536,
+          "over50": 0
+        },
+        "art.anatomyFrame": {
+          "calls": 10,
+          "total": 17.999999970197678,
+          "max": 3.2999999821186066,
+          "over50": 0
+        },
+        "art.variant": {
+          "calls": 10,
+          "total": 112.5,
+          "max": 24.900000005960464,
+          "over50": 0
+        },
+        "art.litFrame": {
+          "calls": 10,
+          "total": 91.2000000178814,
+          "max": 21.19999998807907,
+          "over50": 0
+        },
+        "draw": {
+          "calls": 58,
+          "total": 2775.899999946356,
+          "max": 234.59999999403954,
+          "over50": 15
+        },
+        "setWorld": {
+          "calls": 22,
+          "total": 154.00000005960464,
+          "max": 40.400000005960464,
+          "over50": 0
+        },
+        "graphs": {
+          "calls": 6,
+          "total": 10.199999898672104,
+          "max": 2.0999999940395355,
+          "over50": 0
+        },
+        "selection": {
+          "calls": 6,
+          "total": 10.699999958276749,
+          "max": 2.300000011920929,
+          "over50": 0
+        },
+        "render": {
+          "calls": 5,
+          "total": 22.299999982118607,
+          "max": 5.4000000059604645,
+          "over50": 0
+        },
+        "commit": {
+          "calls": 5,
+          "total": 310.19999998807907,
+          "max": 91.5,
+          "over50": 2
+        }
+      },
+      "longTasks": [
+        {
+          "at": 7664.5999999940395,
+          "ms": 55
+        },
+        {
+          "at": 8005.899999976158,
+          "ms": 163
+        },
+        {
+          "at": 8358.09999999404,
+          "ms": 192
+        },
+        {
+          "at": 8574.299999982119,
+          "ms": 102
+        },
+        {
+          "at": 8677.399999976158,
+          "ms": 104
+        },
+        {
+          "at": 8781.799999982119,
+          "ms": 67
+        },
+        {
+          "at": 8923.299999982119,
+          "ms": 141
+        },
+        {
+          "at": 9295.299999982119,
+          "ms": 80
+        },
+        {
+          "at": 9611.899999976158,
+          "ms": 59
+        },
+        {
+          "at": 10025.299999982119,
+          "ms": 53
+        },
+        {
+          "at": 10355.899999976158,
+          "ms": 194
+        },
+        {
+          "at": 10578.799999982119,
+          "ms": 71
+        },
+        {
+          "at": 10650.899999976158,
+          "ms": 53
+        },
+        {
+          "at": 10711.09999999404,
+          "ms": 70
+        },
+        {
+          "at": 10789.59999999404,
+          "ms": 112
+        },
+        {
+          "at": 10902.59999999404,
+          "ms": 102
+        },
+        {
+          "at": 11059.399999976158,
+          "ms": 117
+        },
+        {
+          "at": 11177.699999988079,
+          "ms": 91
+        },
+        {
+          "at": 11270.09999999404,
+          "ms": 51
+        },
+        {
+          "at": 11322.699999988079,
+          "ms": 50
+        },
+        {
+          "at": 11385.399999976158,
+          "ms": 95
+        },
+        {
+          "at": 11667.299999982119,
+          "ms": 76
+        },
+        {
+          "at": 11997.299999982119,
+          "ms": 86
+        },
+        {
+          "at": 12083.699999988079,
+          "ms": 52
+        },
+        {
+          "at": 12450.09999999404,
+          "ms": 57
+        },
+        {
+          "at": 12776.399999976158,
+          "ms": 274
+        },
+        {
+          "at": 13071.199999988079,
+          "ms": 108
+        },
+        {
+          "at": 13255.09999999404,
+          "ms": 140
+        },
+        {
+          "at": 13396.399999976158,
+          "ms": 64
+        },
+        {
+          "at": 13464.59999999404,
+          "ms": 101
+        },
+        {
+          "at": 13572.399999976158,
+          "ms": 94
+        }
+      ],
+      "frames": 475,
+      "gapP50": 16.699999999999818,
+      "gapP95": 66.70000000000073,
+      "gapMax": 250,
+      "over50": 27,
+      "drawMetrics": {
+        "basalBuilds": 11,
+        "basalHits": 48,
+        "candidates": 3873
+      },
+      "cache": {
+        "bytes": {
+          "clean": 14198540,
+          "lower": 7667712,
+          "variants": 14641024
+        },
+        "evictions": {}
+      },
+      "anatomy": {
+        "builds": 10,
+        "hits": 0,
+        "foldedTriangles": 0,
+        "maxTexturePixels": 183184,
+        "limitedFrames": 1,
+        "minStrength": 0.75
+      },
+      "terrain": 0
+    },
+    {
+      "width": 80,
+      "height": 56,
+      "initial": 320,
+      "turns": 5,
+      "elapsedSincePrepareStartMs": 20523,
+      "config": {
+        "seed": "jank-check",
+        "width": 80,
+        "height": 56,
+        "initial": 320,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "populationRegulation": {
+          "version": 1
+        },
+        "randomModel": "table/1",
+        "mapId": "river",
+        "terrainSeed": "jank-check",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 80,
+          "height": 56,
+          "dataHash": "23f011e8114c6c76ac84aa387f21830014f3991b0c1095300b921d2f702a4a66",
+          "pattern": [
+            0,
+            0,
+            1,
+            2,
+            1,
+            3,
+            0,
+            1,
+            2,
+            2,
+            0,
+            1,
+            2,
+            2,
+            3,
+            3,
+            1,
+            3,
+            1,
+            3,
+            1,
+            1,
+            2,
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            0,
+            0,
+            0
+          ],
+          "fallback": false,
+          "terrainHash": "38ba93f3cdf08c5f8bf7bc31cb43d17e3140a5dd46db649e6fbf3a4d57d2e636"
+        },
+        "freeAdvantage": {
+          "version": "favored-free/3",
+          "externalSupply": false,
+          "producerLife": 2400,
+          "producerLight": 2,
+          "soilM": 3,
+          "waterbugLife": 600,
+          "waterbugBirth": "B123/E8/cost8",
+          "QsearchLife": 480,
+          "QsearchRange": 3,
+          "Qgrowth": [
+            1,
+            2
+          ],
+          "Qinitial": "half-primary/1"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 35,
+          "createdSearchQ": 35
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": true,
+          "waterbug": true,
+          "hyperparasite": true
+        }
+      },
+      "initialPopulation": 2467,
+      "mode": "near",
+      "elapsedMs": 8119,
+      "state": {
+        "turn": 10,
+        "running": false,
+        "main": 320,
+        "population": 4121,
+        "resources": 2004,
+        "compute": {
+          "type": "ready",
+          "epoch": 4,
+          "cache": {
+            "key": "3a8f65e4613765a57632c4fb287182cd3ac0d4aeb11977b9860954004352202f",
+            "reused": false
+          },
+          "prepareMs": 149.90000000596046
+        }
+      },
+      "cost": {
+        "art.cleanFrame": {
+          "calls": 3844,
+          "total": 41.899999886751175,
+          "max": 21.5,
+          "over50": 0
+        },
+        "art.food": {
+          "calls": 3847,
+          "total": 228.19999971985817,
+          "max": 89.39999997615814,
+          "over50": 1
+        },
+        "canvas.getImageData": {
+          "calls": 3,
+          "total": 0.8999999761581421,
+          "max": 0.4000000059604645,
+          "over50": 0
+        },
+        "canvas.putImageData": {
+          "calls": 3,
+          "total": 0.09999999403953552,
+          "max": 0.09999999403953552,
+          "over50": 0
+        },
+        "art.prop": {
+          "calls": 871,
+          "total": 54.699999928474426,
+          "max": 22.299999982118607,
+          "over50": 0
+        },
+        "art.variant": {
+          "calls": 402,
+          "total": 3.699999898672104,
+          "max": 0.699999988079071,
+          "over50": 0
+        },
+        "art.litFrame": {
+          "calls": 402,
+          "total": 0.5,
+          "max": 0.10000002384185791,
+          "over50": 0
+        },
+        "draw": {
+          "calls": 67,
+          "total": 1409.5,
+          "max": 131.7999999821186,
+          "over50": 9
+        },
+        "setWorld": {
+          "calls": 22,
+          "total": 287.2999999523163,
+          "max": 50.599999994039536,
+          "over50": 1
+        },
+        "graphs": {
+          "calls": 6,
+          "total": 19.40000006556511,
+          "max": 7.100000023841858,
+          "over50": 0
+        },
+        "selection": {
+          "calls": 6,
+          "total": 19.900000035762787,
+          "max": 7.200000017881393,
+          "over50": 0
+        },
+        "render": {
+          "calls": 5,
+          "total": 41.099999994039536,
+          "max": 16.900000005960464,
+          "over50": 0
+        },
+        "commit": {
+          "calls": 5,
+          "total": 432.5,
+          "max": 111.59999999403954,
+          "over50": 4
+        }
+      },
+      "longTasks": [
+        {
+          "at": 14089.5,
+          "ms": 85
+        },
+        {
+          "at": 14240.399999976158,
+          "ms": 60
+        },
+        {
+          "at": 14611.899999976158,
+          "ms": 57
+        },
+        {
+          "at": 15662.399999976158,
+          "ms": 95
+        },
+        {
+          "at": 15787.299999982119,
+          "ms": 120
+        },
+        {
+          "at": 16107.299999982119,
+          "ms": 89
+        },
+        {
+          "at": 16199.899999976158,
+          "ms": 123
+        },
+        {
+          "at": 16562.399999976158,
+          "ms": 94
+        },
+        {
+          "at": 16787.5,
+          "ms": 77
+        },
+        {
+          "at": 17112.29999998212,
+          "ms": 100
+        },
+        {
+          "at": 17463.09999999404,
+          "ms": 190
+        },
+        {
+          "at": 17695.79999998212,
+          "ms": 80
+        },
+        {
+          "at": 17799.19999998808,
+          "ms": 54
+        },
+        {
+          "at": 17988.899999976158,
+          "ms": 68
+        },
+        {
+          "at": 18104.79999998212,
+          "ms": 87
+        },
+        {
+          "at": 18291.899999976158,
+          "ms": 80
+        },
+        {
+          "at": 18706.09999999404,
+          "ms": 73
+        },
+        {
+          "at": 18789.59999999404,
+          "ms": 75
+        },
+        {
+          "at": 19067.5,
+          "ms": 83
+        },
+        {
+          "at": 19295.19999998808,
+          "ms": 54
+        },
+        {
+          "at": 19378.59999999404,
+          "ms": 111
+        },
+        {
+          "at": 19491.09999999404,
+          "ms": 58
+        },
+        {
+          "at": 19690.29999998212,
+          "ms": 97
+        },
+        {
+          "at": 19998.899999976158,
+          "ms": 90
+        },
+        {
+          "at": 20101.19999998808,
+          "ms": 51
+        },
+        {
+          "at": 20303.09999999404,
+          "ms": 61
+        },
+        {
+          "at": 20995.29999998212,
+          "ms": 89
+        },
+        {
+          "at": 21116.09999999404,
+          "ms": 82
+        },
+        {
+          "at": 21198.59999999404,
+          "ms": 67
+        },
+        {
+          "at": 21306.5,
+          "ms": 52
+        },
+        {
+          "at": 21687.09999999404,
+          "ms": 113
+        },
+        {
+          "at": 21801.5,
+          "ms": 73
+        },
+        {
+          "at": 21885.899999976158,
+          "ms": 66
+        }
+      ],
+      "frames": 254,
+      "gapP50": 16.700000000000728,
+      "gapP95": 99.90000000000146,
+      "gapMax": 266.5,
+      "over50": 36,
+      "drawMetrics": {
+        "basalBuilds": 11,
+        "basalHits": 48,
+        "candidates": 248
+      },
+      "cache": {
+        "bytes": {
+          "clean": 15187724,
+          "lower": 10616832,
+          "variants": 14641024,
+          "remains": 737280
+        },
+        "evictions": {}
+      },
+      "anatomy": {
+        "builds": 10,
+        "hits": 402,
+        "foldedTriangles": 0,
+        "maxTexturePixels": 183184,
+        "limitedFrames": 1,
+        "minStrength": 0.75
+      },
+      "terrain": 0
+    },
+    {
+      "width": 160,
+      "height": 112,
+      "initial": 1280,
+      "turns": 3,
+      "elapsedSincePrepareStartMs": 19125,
+      "config": {
+        "seed": "jank-check",
+        "width": 160,
+        "height": 112,
+        "initial": 1280,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "populationRegulation": {
+          "version": 1
+        },
+        "randomModel": "table/1",
+        "mapId": "river",
+        "terrainSeed": "jank-check",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 160,
+          "height": 112,
+          "dataHash": "51470f336c30c786a21b7818c4b1611bff68dc6d05702c9e3c52ada8d5281878",
+          "pattern": [
+            0,
+            0,
+            1,
+            2,
+            1,
+            3,
+            0,
+            1,
+            2,
+            2,
+            0,
+            1,
+            2,
+            2,
+            3,
+            3,
+            1,
+            3,
+            1,
+            3,
+            1,
+            1,
+            2,
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            0,
+            0
+          ],
+          "fallback": false,
+          "terrainHash": "55b5c9509b14c4cb3aec2c004ed819cffd3f300c86706e945a7b6c0272db7778"
+        },
+        "freeAdvantage": {
+          "version": "favored-free/3",
+          "externalSupply": false,
+          "producerLife": 2400,
+          "producerLight": 2,
+          "soilM": 3,
+          "waterbugLife": 600,
+          "waterbugBirth": "B123/E8/cost8",
+          "QsearchLife": 480,
+          "QsearchRange": 3,
+          "Qgrowth": [
+            1,
+            2
+          ],
+          "Qinitial": "half-primary/1"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 122,
+          "createdSearchQ": 122
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": true,
+          "waterbug": true,
+          "hyperparasite": true
+        }
+      },
+      "initialPopulation": 9878,
+      "mode": "far",
+      "elapsedMs": 17469,
+      "state": {
+        "turn": 3,
+        "running": false,
+        "main": 1280,
+        "population": 14879,
+        "resources": 2625,
+        "compute": {
+          "type": "ready",
+          "epoch": 2,
+          "cache": {
+            "key": "1bfc52c86d0ccb75e03ea9b2cad6330a8d5e2d3a1291d72cd1641d66f16a1a0a",
+            "reused": false
+          },
+          "prepareMs": 200.69999998807907
+        }
+      },
+      "cost": {
+        "canvas.getImageData": {
+          "calls": 25,
+          "total": 151.00000002980232,
+          "max": 21.5,
+          "over50": 0
+        },
+        "canvas.putImageData": {
+          "calls": 25,
+          "total": 1.0000000298023224,
+          "max": 0.20000001788139343,
+          "over50": 0
+        },
+        "art.cleanFrame": {
+          "calls": 68,
+          "total": 207.89999997615814,
+          "max": 23.700000017881393,
+          "over50": 0
+        },
+        "art.food": {
+          "calls": 46,
+          "total": 148.39999988675117,
+          "max": 26.900000005960464,
+          "over50": 0
+        },
+        "art.anatomyFrame": {
+          "calls": 10,
+          "total": 21.200000017881393,
+          "max": 3.399999976158142,
+          "over50": 0
+        },
+        "art.variant": {
+          "calls": 10,
+          "total": 125.89999997615814,
+          "max": 25.700000017881393,
+          "over50": 0
+        },
+        "art.litFrame": {
+          "calls": 10,
+          "total": 79.20000004768372,
+          "max": 9.800000011920929,
+          "over50": 0
+        },
+        "draw": {
+          "calls": 22,
+          "total": 5142.799999982119,
+          "max": 533.7000000178814,
+          "over50": 22
+        },
+        "setWorld": {
+          "calls": 12,
+          "total": 403.80000004172325,
+          "max": 73.30000001192093,
+          "over50": 4
+        },
+        "graphs": {
+          "calls": 3,
+          "total": 5.899999976158142,
+          "max": 2.199999988079071,
+          "over50": 0
+        },
+        "selection": {
+          "calls": 3,
+          "total": 6.199999988079071,
+          "max": 2.2999999821186066,
+          "over50": 0
+        },
+        "render": {
+          "calls": 3,
+          "total": 13.5,
+          "max": 4.699999988079071,
+          "over50": 0
+        },
+        "commit": {
+          "calls": 3,
+          "total": 642.0999999940395,
+          "max": 259.59999999403954,
+          "over50": 3
+        }
+      },
+      "longTasks": [
+        {
+          "at": 9373.200000017881,
+          "ms": 131
+        },
+        {
+          "at": 11899.800000011921,
+          "ms": 211
+        },
+        {
+          "at": 12198.800000011921,
+          "ms": 108
+        },
+        {
+          "at": 12334.09999999404,
+          "ms": 554
+        },
+        {
+          "at": 12893.90000000596,
+          "ms": 85
+        },
+        {
+          "at": 12979.300000011921,
+          "ms": 348
+        },
+        {
+          "at": 13328.5,
+          "ms": 187
+        },
+        {
+          "at": 13516.09999999404,
+          "ms": 236
+        },
+        {
+          "at": 13778.300000011921,
+          "ms": 227
+        },
+        {
+          "at": 14122.90000000596,
+          "ms": 171
+        },
+        {
+          "at": 14294.200000017881,
+          "ms": 126
+        },
+        {
+          "at": 14808.300000011921,
+          "ms": 65
+        },
+        {
+          "at": 14908.800000011921,
+          "ms": 227
+        },
+        {
+          "at": 15207.700000017881,
+          "ms": 107
+        },
+        {
+          "at": 15315.09999999404,
+          "ms": 505
+        },
+        {
+          "at": 15833,
+          "ms": 207
+        },
+        {
+          "at": 16040.300000011921,
+          "ms": 55
+        },
+        {
+          "at": 16096.300000011921,
+          "ms": 295
+        },
+        {
+          "at": 16391.70000001788,
+          "ms": 195
+        },
+        {
+          "at": 16587.40000000596,
+          "ms": 197
+        },
+        {
+          "at": 17239.30000001192,
+          "ms": 86
+        },
+        {
+          "at": 17325.5,
+          "ms": 168
+        },
+        {
+          "at": 17494.90000000596,
+          "ms": 259
+        },
+        {
+          "at": 17835.09999999404,
+          "ms": 88
+        },
+        {
+          "at": 17945.5,
+          "ms": 182
+        },
+        {
+          "at": 18306.80000001192,
+          "ms": 538
+        },
+        {
+          "at": 18858.80000001192,
+          "ms": 103
+        },
+        {
+          "at": 19001.70000001788,
+          "ms": 378
+        },
+        {
+          "at": 19379.90000000596,
+          "ms": 259
+        },
+        {
+          "at": 19640.30000001192,
+          "ms": 195
+        },
+        {
+          "at": 19885,
+          "ms": 330
+        },
+        {
+          "at": 20283.30000001192,
+          "ms": 161
+        },
+        {
+          "at": 20444.80000001192,
+          "ms": 170
+        }
+      ],
+      "frames": 629,
+      "gapP50": 16.699999999999818,
+      "gapP95": 33.39999999999782,
+      "gapMax": 599.8999999999996,
+      "over50": 27,
+      "drawMetrics": {
+        "basalBuilds": 7,
+        "basalHits": 16,
+        "candidates": 14879
+      },
+      "cache": {
+        "bytes": {
+          "clean": 14198540,
+          "lower": 6782976,
+          "variants": 14641024
+        },
+        "evictions": {}
+      },
+      "anatomy": {
+        "builds": 10,
+        "hits": 0,
+        "foldedTriangles": 0,
+        "maxTexturePixels": 183184,
+        "limitedFrames": 1,
+        "minStrength": 0.75
+      },
+      "terrain": 0
+    },
+    {
+      "width": 160,
+      "height": 112,
+      "initial": 1280,
+      "turns": 3,
+      "elapsedSincePrepareStartMs": 38321,
+      "config": {
+        "seed": "jank-check",
+        "width": 160,
+        "height": 112,
+        "initial": 1280,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "populationRegulation": {
+          "version": 1
+        },
+        "randomModel": "table/1",
+        "mapId": "river",
+        "terrainSeed": "jank-check",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 160,
+          "height": 112,
+          "dataHash": "51470f336c30c786a21b7818c4b1611bff68dc6d05702c9e3c52ada8d5281878",
+          "pattern": [
+            0,
+            0,
+            1,
+            2,
+            1,
+            3,
+            0,
+            1,
+            2,
+            2,
+            0,
+            1,
+            2,
+            2,
+            3,
+            3,
+            1,
+            3,
+            1,
+            3,
+            1,
+            1,
+            2,
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1,
+            0,
+            0
+          ],
+          "fallback": false,
+          "terrainHash": "55b5c9509b14c4cb3aec2c004ed819cffd3f300c86706e945a7b6c0272db7778"
+        },
+        "freeAdvantage": {
+          "version": "favored-free/3",
+          "externalSupply": false,
+          "producerLife": 2400,
+          "producerLight": 2,
+          "soilM": 3,
+          "waterbugLife": 600,
+          "waterbugBirth": "B123/E8/cost8",
+          "QsearchLife": 480,
+          "QsearchRange": 3,
+          "Qgrowth": [
+            1,
+            2
+          ],
+          "Qinitial": "half-primary/1"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 122,
+          "createdSearchQ": 122
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": true,
+          "waterbug": true,
+          "hyperparasite": true
+        }
+      },
+      "initialPopulation": 9878,
+      "mode": "near",
+      "elapsedMs": 19072,
+      "state": {
+        "turn": 6,
+        "running": false,
+        "main": 1280,
+        "population": 15528,
+        "resources": 4951,
+        "compute": {
+          "type": "ready",
+          "epoch": 4,
+          "cache": {
+            "key": "1bfc52c86d0ccb75e03ea9b2cad6330a8d5e2d3a1291d72cd1641d66f16a1a0a",
+            "reused": false
+          },
+          "prepareMs": 486.2000000178814
+        }
+      },
+      "cost": {
+        "canvas.getImageData": {
+          "calls": 1,
+          "total": 0.19999998807907104,
+          "max": 0.19999998807907104,
+          "over50": 0
+        },
+        "canvas.putImageData": {
+          "calls": 1,
+          "total": 0,
+          "max": 0,
+          "over50": 0
+        },
+        "art.cleanFrame": {
+          "calls": 5835,
+          "total": 10.600000113248825,
+          "max": 1.7000000178813934,
+          "over50": 0
+        },
+        "art.prop": {
+          "calls": 86,
+          "total": 4.800000071525574,
+          "max": 2.4000000059604645,
+          "over50": 0
+        },
+        "art.food": {
+          "calls": 2784,
+          "total": 214.90000009536743,
+          "max": 42.400000005960464,
+          "over50": 0
+        },
+        "art.variant": {
+          "calls": 430,
+          "total": 2.5000000596046448,
+          "max": 0.10000002384185791,
+          "over50": 0
+        },
+        "art.litFrame": {
+          "calls": 430,
+          "total": 0.4000000059604645,
+          "max": 0.30000001192092896,
+          "over50": 0
+        },
+        "draw": {
+          "calls": 43,
+          "total": 1597.8000000417233,
+          "max": 170.5,
+          "over50": 11
+        },
+        "setWorld": {
+          "calls": 12,
+          "total": 383.0999999344349,
+          "max": 64.5,
+          "over50": 2
+        },
+        "graphs": {
+          "calls": 3,
+          "total": 6.600000023841858,
+          "max": 2.5,
+          "over50": 0
+        },
+        "selection": {
+          "calls": 3,
+          "total": 6.800000041723251,
+          "max": 2.600000023841858,
+          "over50": 0
+        },
+        "render": {
+          "calls": 3,
+          "total": 40.40000003576279,
+          "max": 29.200000017881393,
+          "over50": 0
+        },
+        "commit": {
+          "calls": 3,
+          "total": 1178.4000000357628,
+          "max": 480.2000000178814,
+          "over50": 3
+        }
+      },
+      "longTasks": [
+        {
+          "at": 20843.40000000596,
+          "ms": 177
+        },
+        {
+          "at": 21087.5,
+          "ms": 227
+        },
+        {
+          "at": 21319.30000001192,
+          "ms": 115
+        },
+        {
+          "at": 23395.40000000596,
+          "ms": 227
+        },
+        {
+          "at": 25110.20000001788,
+          "ms": 229
+        },
+        {
+          "at": 26753.5,
+          "ms": 150
+        },
+        {
+          "at": 29051.70000001788,
+          "ms": 151
+        },
+        {
+          "at": 29327.90000000596,
+          "ms": 51
+        },
+        {
+          "at": 30650,
+          "ms": 170
+        },
+        {
+          "at": 30822.5,
+          "ms": 130
+        },
+        {
+          "at": 30977.80000001192,
+          "ms": 53
+        },
+        {
+          "at": 31157.30000001192,
+          "ms": 139
+        },
+        {
+          "at": 31309.30000001192,
+          "ms": 117
+        },
+        {
+          "at": 31426.90000000596,
+          "ms": 52
+        },
+        {
+          "at": 31508.20000001788,
+          "ms": 70
+        },
+        {
+          "at": 31595.90000000596,
+          "ms": 99
+        },
+        {
+          "at": 31835.5,
+          "ms": 377
+        },
+        {
+          "at": 32223,
+          "ms": 163
+        },
+        {
+          "at": 32925.09999999404,
+          "ms": 70
+        },
+        {
+          "at": 33386.80000001192,
+          "ms": 129
+        },
+        {
+          "at": 34581.30000001192,
+          "ms": 234
+        },
+        {
+          "at": 34817.20000001788,
+          "ms": 173
+        },
+        {
+          "at": 34990.40000000596,
+          "ms": 143
+        },
+        {
+          "at": 35179.59999999404,
+          "ms": 131
+        },
+        {
+          "at": 35311.09999999404,
+          "ms": 138
+        },
+        {
+          "at": 35620.30000001192,
+          "ms": 116
+        },
+        {
+          "at": 35817,
+          "ms": 480
+        },
+        {
+          "at": 36297.30000001192,
+          "ms": 104
+        },
+        {
+          "at": 36922,
+          "ms": 68
+        },
+        {
+          "at": 37027.80000001192,
+          "ms": 59
+        },
+        {
+          "at": 37126,
+          "ms": 65
+        },
+        {
+          "at": 37333.20000001788,
+          "ms": 245
+        },
+        {
+          "at": 38263.80000001192,
+          "ms": 95
+        },
+        {
+          "at": 38360.30000001192,
+          "ms": 76
+        },
+        {
+          "at": 38437.20000001788,
+          "ms": 57
+        },
+        {
+          "at": 38693.20000001788,
+          "ms": 65
+        },
+        {
+          "at": 38758.70000001788,
+          "ms": 74
+        },
+        {
+          "at": 39078.09999999404,
+          "ms": 112
+        },
+        {
+          "at": 39359.90000000596,
+          "ms": 320
+        },
+        {
+          "at": 39680.80000001192,
+          "ms": 51
+        }
+      ],
+      "frames": 739,
+      "gapP50": 16.700000000000728,
+      "gapP95": 66.5,
+      "gapMax": 566.7000000000044,
+      "over50": 39,
+      "drawMetrics": {
+        "basalBuilds": 7,
+        "basalHits": 16,
+        "candidates": 327
+      },
+      "cache": {
+        "bytes": {
+          "clean": 14533388,
+          "lower": 10911744,
+          "variants": 14641024
+        },
+        "evictions": {}
+      },
+      "anatomy": {
+        "builds": 10,
+        "hits": 430,
+        "foldedTriangles": 0,
+        "maxTexturePixels": 183184,
+        "limitedFrames": 1,
+        "minStrength": 0.75
+      },
+      "terrain": 16877.5
+    }
+  ],
+  "errors": []
+}

@@ -5,6 +5,7 @@
   else root.EcoRenderer = api;
 })(globalThis, function (S, Art) {
   "use strict";
+  const resourceKinds=Object.keys(S.FOOD);
   const colors = [
     "#63c9c4",
     "#efad64",
@@ -80,7 +81,12 @@
       droplet: "M0 -.95 Q-1 .3 -.55 .65 Q0 1.1 .55 .65 Q1 .3 0 -.95 Z",
       factor: "M-.8 -.6 H.8 L-.8 .6 H.8 M0 -.8 V.8",
     },
-    symbolCache = new Map();
+    symbolCache = new Map(),symbolImages=new Map(),ellipseImages=new Map(),basalSprites=new Map();
+  let symbolResolution=24;
+  const spriteMetrics={builds:0,hits:0,bytes:{symbols:0,ellipses:0,basal:0}};
+  function readSprite(map,key){const image=map.get(key);if(image){map.delete(key);map.set(key,image);spriteMetrics.hits++;}return image;}
+  function keepSprite(name,map,key,image,limit,count){map.set(key,image);spriteMetrics.builds++;spriteMetrics.bytes[name]+=image.width*image.height*4;while((spriteMetrics.bytes[name]>limit||map.size>count)&&map.size>1){const k=map.keys().next().value,a=map.get(k);map.delete(k);spriteMetrics.bytes[name]-=a.width*a.height*4;}}
+
   function symbolColor(s) {
     if (s.group !== "main")
       return s.group === "plant"
@@ -102,23 +108,29 @@
       .map((h) => Math.round(parseInt(h, 16) * 0.6 + 255 * 0.4));
     return "rgb(" + channels.join(",") + ")";
   }
-  function symbol(g, id, x, y, r, color = "#e8e4be") {
-    if (!symbolPaths[id]) return false;
-    if (!symbolCache.has(id)) symbolCache.set(id, new Path2D(symbolPaths[id]));
-    g.save();
-    g.translate(x, y);
-    g.scale(r, r);
-    g.lineJoin = "round";
-    g.lineCap = "round";
-    const path = symbolCache.get(id);
-    g.strokeStyle = "#041820";
-    g.lineWidth = 0.48;
-    g.stroke(path);
-    g.strokeStyle = color;
-    g.lineWidth = 0.19;
-    g.stroke(path);
-    g.restore();
-    return true;
+  function symbol(g,id,x,y,r,color='#e8e4be'){
+    if(!symbolPaths[id])return false;
+    const pixels=Math.max(8,Math.min(192,Math.ceil(r*symbolResolution*2))),key=[id,color,pixels].join('/');
+    let image=readSprite(symbolImages,key);
+    if(!image){image=document.createElement('canvas');const n=pixels+8;image.width=image.height=n;const c=image.getContext('2d');c.translate(n/2,n/2);c.scale(pixels/2,pixels/2);c.lineJoin='round';c.lineCap='round';
+      if(!symbolCache.has(id))symbolCache.set(id,new Path2D(symbolPaths[id]));const path=symbolCache.get(id);c.strokeStyle='#041820';c.lineWidth=.48;c.stroke(path);c.strokeStyle=color;c.lineWidth=.19;c.stroke(path);
+      keepSprite('symbols',symbolImages,key,image,16*1024*1024,512);}
+    const size=r*2*(image.width/pixels);g.drawImage(image,x-size/2,y-size/2,size,size);return true;
+  }
+  function ellipseStamp(g,x,y,rx,ry,fill,stroke=null,line=0){
+    const z=symbolResolution,key=[rx,ry,fill,stroke,line,z].join('/');let image=readSprite(ellipseImages,key);
+    if(!image){image=document.createElement('canvas');image.width=Math.max(2,Math.ceil((rx*2+line)*z)+4);image.height=Math.max(2,Math.ceil((ry*2+line)*z)+4);const c=image.getContext('2d');c.translate(image.width/2,image.height/2);c.scale(z,z);c.beginPath();c.ellipse(0,0,rx,ry,0,0,Math.PI*2);c.fillStyle=fill;c.fill();if(stroke){c.strokeStyle=stroke;c.lineWidth=line;c.stroke();}keepSprite('ellipses',ellipseImages,key,image,8*1024*1024,256);}
+    g.drawImage(image,x-image.width/z/2,y-image.height/z/2,image.width/z,image.height/z);
+  }
+  function basalSprite(g,o,x,y,z,age){
+    const unit=Math.max(16,symbolResolution),key=[o.species,age.enabled,age.stage,!!o.infection,!!o.infection?.q,z,unit].join('/');let image=readSprite(basalSprites,key);
+    if(!image){image=document.createElement('canvas');image.width=image.height=Math.ceil(unit*2)+4;const c=image.getContext('2d');c.translate(image.width/2,image.height/2);c.scale(unit,unit);
+      ellipseStamp(c,0,.04,.22,.17,'#061922cc');ellipseStamp(c,0,0,.235,.185,'#02131cf0','#c5e9be99',Math.max(.018,.55/z));symbol(c,o.species,0,0,.17,symbolColor(S.spec(o)));
+      if(age.enabled&&age.stage!=='adult'){c.strokeStyle=age.stage==='juvenile'?'#fff0b2':'#d7e2e0';c.lineWidth=1/z;c.beginPath();c.arc(.23,.12,.045,0,age.stage==='juvenile'?Math.PI*2:Math.PI*1.6);c.stroke();}
+      if(o.infection){const [bx,by]=globalThis.EcoDisplayPlane.parasitePoint([0,0],'P',false);c.fillStyle='#19172b';c.beginPath();c.arc(bx,by,.1,0,7);c.fill();c.fillStyle='#ffba82';c.beginPath();c.arc(bx,by,.05,0,7);c.fill();if(o.infection.q){c.strokeStyle='#d8adff';c.lineWidth=Math.max(.025,.7/z);c.beginPath();c.arc(bx,by,.1,0,7);c.stroke();}}
+      keepSprite('basal',basalSprites,key,image,4*1024*1024,256);
+    }
+    g.drawImage(image,x-image.width/unit/2,y-image.height/unit/2,image.width/unit,image.height/unit);
   }
   function creature(g, o, x, y, r, detail = true) {
     if(detail){
@@ -183,22 +195,57 @@
     };
     const deathAppearances=new Map(),actionMarks=new Map();
     Art.ready.then(()=>{groundShadow();for(const kind of Object.keys(markLabels))markSprite(kind);});
-    let livingById=new Map(),eventPlan=null;
+    let livingById=new Map(),eventPlan=null,frameCandidates=null,objectIndex=null;
     let world = null,
       P = null,
       scene = null,
       geometryKey = null,
       lastTurn = -1,
       changedAt = 0,
-      cache = null,
+      cache = null, overviewBounds=null,
       cacheKey = null,
       nearCache = null, nearRect = null,
       revision = 0,
       lastFrameKey = null,
       layout = null, layoutWorld = null, layoutEnabled = null, layoutDetail = null,
+      basalLayer=null,
       previousActors = new Map(), previousCorpses = new Map(), hitRegions = [];
     let terrainWorker=null, terrainEpoch=0, terrainReady=false, terrainBusy=false,
       terrainRequest=null, terrainFailed=false, terrainMetrics=null;
+    let fallbackNearToken=0,fallbackOverviewEpoch=null;
+    function fallbackSurface(request){
+      const epoch=terrainEpoch,overview=!!request.overview;
+      if(overview&&fallbackOverviewEpoch===epoch)return;
+      if(overview)fallbackOverviewEpoch=epoch;
+      const token=overview?null:++fallbackNearToken,r=P.bounds,
+        rect=overview?{x:-r.minX*24,y:-r.minY*24,scale:24,width:Math.ceil((r.maxX-r.minX)*24),height:Math.ceil((r.maxY-r.minY)*24),dpr:1}:request,
+        c=document.createElement('canvas');c.width=Math.ceil(rect.width*rect.dpr);c.height=Math.ceil(rect.height*rect.dpr);
+      const context=c.getContext('2d'),at=performance.now(),source=world,projection=P,surface=scene;
+      context.scale(rect.dpr,rect.dpr);context.translate(rect.x,rect.y);context.scale(rect.scale,rect.scale);
+      const visible=p=>p[0]*rect.scale+rect.x>=-rect.scale*2&&p[1]*rect.scale+rect.y>=-rect.scale*2&&p[0]*rect.scale+rect.x<=rect.width+rect.scale*2&&p[1]*rect.scale+rect.y<=rect.height+rect.scale*2;
+      let x=0,y=0;
+      const schedule=fn=>typeof requestIdleCallback==='function'?requestIdleCallback(fn,{timeout:100}):setTimeout(fn,0);
+      const next=()=>{
+        if(epoch!==terrainEpoch||(!overview&&token!==fallbackNearToken))return;
+        let painted=false;
+        for(let attempt=0;attempt<32&&y<source.config.height&&!painted;attempt++){
+          const selected=[];for(let j=y;j<Math.min(y+4,source.config.height);j++)for(let i=x;i<Math.min(x+4,source.config.width);i++){const cell=j*source.config.width+i;if(overview||visible(projection.face(cell)[4]))selected.push(cell);}
+          x+=4;if(x>=source.config.width){x=0;y+=4;}
+          if(selected.length){surface.surface(context,null,true,rect.scale,selected);painted=true;}
+        }
+        if(y<source.config.height){schedule(next);return;}
+        if(overview){
+          const soft=document.createElement('canvas');soft.width=c.width;soft.height=c.height;const sg=soft.getContext('2d');sg.filter='blur(1.1px) saturate(.65) brightness(.72)';sg.drawImage(c,0,0);
+          context.setTransform(1,0,0,1,0,0);context.globalCompositeOperation='copy';context.drawImage(soft,0,0);cache?.close?.();cache=c;overviewBounds=r;diagnostics.overviewBuildMs=performance.now()-at;
+        }else if(request.key===cacheKey){nearCache?.close?.();nearCache=c;nearRect=rect;terrainMetrics=surface.metrics;diagnostics.terrainBuildMs=performance.now()-at;diagnostics.terrainPending=false;}
+        diagnostics.terrainFallback=true;revision++;
+      };
+      schedule(next);
+    }
+    function failTerrain(){
+      terrainFailed=true;terrainBusy=false;terrainWorker?.terminate();terrainWorker=null;cacheKey=null;diagnostics.terrainPending=false;revision++;
+      if(!cache)fallbackSurface({overview:true});
+    }
     function pumpTerrain(){
       if(!terrainReady||terrainBusy||!terrainRequest)return;
       const request=terrainRequest;terrainRequest=null;terrainBusy=true;
@@ -206,29 +253,31 @@
       terrainWorker.postMessage({type:"render",epoch:terrainEpoch,...request});
     }
     function resetTerrain(w){
-      terrainEpoch++;terrainWorker?.terminate();terrainWorker=null;
-      nearCache?.close?.();nearCache=null;terrainReady=false;terrainBusy=false;
+      terrainEpoch++;fallbackNearToken++;fallbackOverviewEpoch=null;terrainWorker?.terminate();terrainWorker=null;
+      nearCache?.close?.();nearCache=null;cache?.close?.();cache=null;overviewBounds=null;terrainReady=false;terrainBusy=false;
       terrainRequest=null;terrainMetrics=null;terrainFailed=false;
-      if(typeof OffscreenCanvas==="undefined"||typeof createImageBitmap==="undefined"||typeof Worker==="undefined"){terrainFailed=true;return;}
+      diagnostics.terrainFallback=false;diagnostics.overviewBuildMs=0;diagnostics.terrainBuildMs=0;
+      if(typeof OffscreenCanvas==="undefined"||typeof createImageBitmap==="undefined"||typeof Worker==="undefined"){failTerrain();return;}
       const epoch=terrainEpoch;
       try{
         terrainWorker=new Worker("ecology/terrain-worker.js");
-        terrainWorker.onerror=e=>{if(epoch!==terrainEpoch)return;e.preventDefault?.();terrainFailed=true;terrainBusy=false;diagnostics.terrainPending=false;revision++;};
+        terrainWorker.onerror=e=>{if(epoch!==terrainEpoch)return;e.preventDefault?.();failTerrain();};
         terrainWorker.onmessage=({data:d})=>{
           if(epoch!==terrainEpoch||d.epoch!==epoch){d.bitmap?.close?.();return;}
           terrainBusy=false;
-          if(d.type==="error"){terrainFailed=true;diagnostics.terrainPending=false;revision++;return;}
+          if(d.type==='overview'){cache?.close?.();cache=d.bitmap;overviewBounds=d.bounds;diagnostics.overviewBuildMs=d.ms;revision++;return;}
+          if(d.type==="error"){failTerrain();return;}
           if(d.key===cacheKey){nearCache?.close?.();nearCache=d.bitmap;nearRect=d.rect;terrainMetrics=d.metrics;diagnostics.terrainBuildMs=d.ms;diagnostics.terrainPending=false;revision++;}
           else d.bitmap?.close?.();
           pumpTerrain();
         };
         Promise.all(Object.entries(Art.images).filter(([key])=>key.startsWith("habitat-")).map(async([key,im])=>[key,await createImageBitmap(im)])).then(entries=>{
-          if(epoch!==terrainEpoch){for(const [,im]of entries)im.close();return;}
+          if(epoch!==terrainEpoch||terrainFailed){for(const [,im]of entries)im.close();return;}
           const images=Object.fromEntries(entries);
           terrainWorker.postMessage({type:"init",epoch,world:{config:w.config,tiles:w.tiles},images},Object.values(images));
           terrainReady=true;pumpTerrain();
-        }).catch(()=>{if(epoch===terrainEpoch){terrainFailed=true;diagnostics.terrainPending=false;revision++;}});
-      }catch(e){terrainFailed=true;}
+        }).catch(()=>{if(epoch===terrainEpoch)failTerrain();});
+      }catch(e){failTerrain();}
     }
     function displayLayout(){
       const detail=view.scale>=24&&view.mode!=="overview"&&!view.simplified;
@@ -251,7 +300,7 @@
       return b;
     }
     function setWorld(w, restartMotion = false) {
-      revision++;livingById=new Map(w.organisms.map(o=>[o.id,o]));eventPlan=null;
+      revision++;livingById=new Map(w.organisms.map(o=>[o.id,o]));eventPlan=null;frameCandidates=null;
       const time=performance.now();
       if(world&&(w.turn<world.turn||w.config.seed!==world.config.seed))actionMarks.clear();
       for(const [key,m]of actionMarks)if(time-m.at>850)actionMarks.delete(key);
@@ -290,6 +339,7 @@
       if (key !== geometryKey) {
         P = globalThis.EcoProjection.build(w);
         scene = globalThis.EcoScenery.build(w, P);
+        const projected=scene.objects.map(obj=>({obj,p:P.point(obj.x,obj.y)}));objectIndex=globalThis.EcoDisplayPlane.spatial(projected,a=>[a.p[0]-a.obj.size,a.p[1]-a.obj.size,a.p[0]+a.obj.size,a.p[1]+a.obj.size]);
         geometryKey = key;
         cache = null;
         cacheKey = null;
@@ -339,7 +389,7 @@
     function drawIfChanged(now = performance.now()) {
       const b = canvas.getBoundingClientRect();
       if(!b.width || !b.height)return false;
-      const active = world && view.motion && (
+      const active = world && view.scale>=4 && view.motion && (
         (view.animate&&now-changedAt<view.duration&&(world.events||[]).some(e=>e.type!=='light')) ||
         [...actionMarks.values()].some(m=>now-m.at>=670&&now-m.at<850));
       const key = [
@@ -373,6 +423,7 @@
         near = z >= 24 && view.mode !== "overview",
         detail = near && !view.simplified,
         point = z < 4;
+      symbolResolution=Math.max(4,Math.round(z*(devicePixelRatio||1)*4)/4);
       Object.assign(diagnostics, {
         mode: point ? "point" : detail ? "detail" : "simple",
         drawn: 0,
@@ -401,6 +452,9 @@
         p[1] * z + view.y >= -z * margin &&
         p[0] * z + view.x <= b.width + z * margin &&
         p[1] * z + view.y <= b.height + z * margin;
+      const candidateKey=[revision,near,view.x,view.y,z,b.width,b.height].join('/');
+      if(frameCandidates?.key!==candidateKey){const rect=[-view.x/z-3,-view.y/z-3,(b.width-view.x)/z+3,(b.height-view.y)/z+3];frameCandidates={key:candidateKey,organisms:near?coordinates.candidates(rect):w.organisms,resources:near?coordinates.resources(rect):w.resources,objects:near?objectIndex(rect).map(a=>a.obj):scene.objects};}
+      diagnostics.candidateOrganisms=frameCandidates.organisms.length;
       const position = (cell, dx = 0.5, dy = 0.5) => {
         const [x, y] = S.xy(w, cell);
         return P.point(x + dx, y + dy);
@@ -423,40 +477,11 @@
           cacheKey = key;nearCache?.close?.();nearCache=null;
           terrainRequest={key,x:sx,y:sy,scale:z,width:b.width+256,height:b.height+256,dpr:devicePixelRatio||1};
           diagnostics.terrainPending=!terrainFailed;pumpTerrain();
-        }
-        if(!nearCache&&terrainFailed){
-          nearCache=document.createElement("canvas");const d=devicePixelRatio||1;
-          nearRect={x:view.x,y:view.y,width:b.width,height:b.height,scale:z};
-          nearCache.width=Math.round(b.width*d);nearCache.height=Math.round(b.height*d);
-          const n=nearCache.getContext("2d");n.scale(d,d);n.translate(view.x,view.y);n.scale(z,z);scene.surface(n,visible,true,z);
+          if(terrainFailed){diagnostics.terrainPending=true;fallbackSurface(terrainRequest);terrainRequest=null;}
         }
         if(nearCache)g.drawImage(nearCache,-nearRect.x/z,-nearRect.y/z,nearRect.width/z,nearRect.height/z);
-        else scene.surface(g,visible,false,z);
-      } else {
-        if (!cache) {
-          const r = P.bounds,
-            u = 24;
-          cache = document.createElement("canvas");
-          cache.width = Math.ceil((r.maxX - r.minX) * u);
-          cache.height = Math.ceil((r.maxY - r.minY) * u);
-          const c = cache.getContext("2d");
-          c.scale(u, u);
-          c.translate(-r.minX, -r.minY);
-          scene.surface(c, null, false, u);
-          c.setTransform(1, 0, 0, 1, 0, 0);
-          const soft = document.createElement("canvas");
-          soft.width = cache.width;
-          soft.height = cache.height;
-          const sg = soft.getContext("2d");
-          sg.filter = "blur(1.1px) saturate(.65) brightness(.72)";
-          sg.drawImage(cache, 0, 0);
-          c.globalCompositeOperation = "copy";
-          c.drawImage(soft, 0, 0);
-          c.globalCompositeOperation = "source-over";
-        }
-        const r = P.bounds;
-        g.drawImage(cache, r.minX, r.minY, cache.width / 24, cache.height / 24);
-      }
+        else if(cache&&overviewBounds)g.drawImage(cache,overviewBounds.minX,overviewBounds.minY,cache.width/24,cache.height/24);
+      } else if(cache&&overviewBounds){g.drawImage(cache,overviewBounds.minX,overviewBounds.minY,cache.width/24,cache.height/24);}
       diagnostics.materialPixelsPerCell = near
         ? (terrainMetrics?.unit || scene.metrics.unit)
         : Math.max(8, Math.min(24, Math.floor(1800 / w.config.width)));
@@ -545,7 +570,7 @@
           if(["attack","feed","care"].includes(ev.type)){
             const targetId=ev.target||ev.source,
               target=livingById.get(targetId)||(previousActors.has(targetId)?{...previousActors.get(targetId),cell:ev.to??previousActors.get(targetId).cell}:null),
-              corpse=coordinates.entity(targetId),oldCorpse=previousCorpses.get(targetId),resourceIndex=ev.sourceType==="resource"?Object.keys(S.FOOD).indexOf(String(ev.source).split(":").at(-1)):-1,
+              corpse=coordinates.entity(targetId),oldCorpse=previousCorpses.get(targetId),resourceIndex=ev.sourceType==="resource"?resourceKinds.indexOf(String(ev.source).split(":").at(-1)):-1,
               sourcePoint=oldCorpse?position(ev.to??oldCorpse.cell,oldCorpse.slot==="food"?.22:oldCorpse.slot==="prey"?.52:.86,.86):resourceIndex>=0?position(ev.to??o.cell,.12+(resourceIndex%4)*.23,.12+Math.floor(resourceIndex/4)*.2):null,
               endpoint=target?coordinates.anchor(target,age,events.get(target.id)?.find(e=>e.type==='move')):null,
               t=endpoint?[endpoint.point[0],endpoint.point[1]-(detail?(target.slot==='main'?.18:.03):0)]:corpse?.point||sourcePoint||position(ev.to??o.cell);
@@ -573,16 +598,12 @@
           g.restore();
         }
       }
+      const worldEvents=frameCandidates.worldEvents ||= (()=>{const m=new Map();for(const e of w.events){if(!m.has(e.id))m.set(e.id,[]);m.get(e.id).push(e);}return m;})();
       const annotations = [];
       const nameEnabled=(group,id)=>view.names[group]||id===view.selectedEntity;
       if (view.resources)
-        for (const a of w.resources) {
-          const kind = Object.keys(S.FOOD).indexOf(a.kind),
-            p = position(
-              a.cell,
-              0.12 + (kind % 4) * 0.23,
-              0.12 + Math.floor(kind / 4) * 0.2,
-            );
+        for (const record of (frameCandidates.resourcePoints ||= frameCandidates.resources.map(a=>{const kind=resourceKinds.indexOf(a.kind);return {a,p:position(a.cell,.12+(kind%4)*.23,.12+Math.floor(kind/4)*.2)};}))) {
+          const {a,p}=record;
           if (!visible(p)) continue;
           diagnostics.resources++;
           const r = 0.05 + 0.04 * Math.min(1, a.q / (S.FOOD[a.kind].cap || 4));
@@ -616,32 +637,21 @@
         g.strokeStyle="#edb5a0";g.lineWidth=Math.max(.025,.7/z);g.beginPath();g.moveTo(p[0]-.10,p[1]+.07);g.lineTo(p[0]+.10,p[1]-.07);g.stroke();
         hitRegions.push({id:a.id,cell:a.cell,main:false,x:p[0],y:p[1],rx:.12,ry:.09});corpsePayload(a);
       }
-      const actors = [],
-        main = new Set(
-          w.organisms.filter((o) => o.slot === "main").map((o) => o.cell),
-        ),
-        foodCells = new Set(
-          w.organisms.filter((o) => o.slot !== "main").map((o) => o.cell),
-        );
-      for (const obj of scene.objects) {
-        const p = P.point(obj.x, obj.y);
-        if (visible(p, 2))
-          actors.push({ depth: P.depth(obj.x, obj.y) - 0.05, obj, p });
+      const main=coordinates.main,foodCells=coordinates.food,
+        actorKey=String(view.motion&&age<1&&!point),activeEvents=events;
+      let fixed=frameCandidates.fixed,dynamic=[];
+      if(!fixed||frameCandidates.actorKey!==actorKey){
+        fixed=[];const moving=[];
+        for(const obj of frameCandidates.objects){const p=P.point(obj.x,obj.y);if(visible(p,2))fixed.push({depth:P.depth(obj.x,obj.y)-.05,obj,p});}
+        if(detail)for(const a of w.carcasses){const dx=a.slot==='food'?.22:a.slot==='prey'?.52:.86,p=position(a.cell,dx,.86),[x,y]=S.xy(w,a.cell);if(visible(p))fixed.push({carcass:a,p,depth:P.depth(x+dx,y+.86)});}
+        for(const o of frameCandidates.organisms){const list=activeEvents.get(o.id)||[],ev=list.find(e=>e.type==='move');if(ev){moving.push(o);continue;}const a=coordinates.anchor(o);if(visible(a.point,1.6)||visible(a.ground,1.6))fixed.push({depth:a.depth,o,p:a.point,list,ground:a.ground,elevated:a.elevated,remnant:false});}
+        fixed.sort((a,b)=>a.depth-b.depth);frameCandidates.fixed=fixed;frameCandidates.moving=moving;frameCandidates.actorKey=actorKey;
       }
-      if(detail)for(const a of w.carcasses){
-        const dx=a.slot==="food"?.22:a.slot==="prey"?.52:.86,
-          p=position(a.cell,dx,.86),[x,y]=S.xy(w,a.cell);
-        if(visible(p))actors.push({carcass:a,p,depth:P.depth(x+dx,y+.86)});
-      }
-      for (const o of [...w.organisms,...departed.values()]) {
-        const list = events.get(o.id) || [], ev=list.find(e=>e.type==='move'),
-          a=coordinates.anchor(o,age,ev),p=a.point;
-        const remnant=departed.has(o.id);
-        if (remnant && !list.some(e=>["move","attack","defend","feed","care","clear"].includes(e.type))) continue;
-        if (!visible(p, 1.6) && !visible(a.ground,1.6)) continue;
-        actors.push({depth:a.depth,o,p,list,ground:a.ground,elevated:a.elevated,remnant});
-      }
-      actors.sort((a, b) => a.depth - b.depth);
+      for(const o of [...frameCandidates.moving,...departed.values()]){const list=activeEvents.get(o.id)||[],ev=list.find(e=>e.type==='move'),a=coordinates.anchor(o,age,ev),remnant=departed.has(o.id);
+        if(remnant&&!list.some(e=>['move','attack','defend','feed','care','clear'].includes(e.type)))continue;
+        if(visible(a.point,1.6)||visible(a.ground,1.6))dynamic.push({depth:a.depth,o,p:a.point,list,ground:a.ground,elevated:a.elevated,remnant});}
+      dynamic.sort((a,b)=>a.depth-b.depth);const actors=[];let fixedAt=0,movingAt=0;
+      while(fixedAt<fixed.length||movingAt<dynamic.length){if(movingAt===dynamic.length||(fixedAt<fixed.length&&fixed[fixedAt].depth<=dynamic[movingAt].depth))actors.push(fixed[fixedAt++]);else actors.push(dynamic[movingAt++]);}
       const bodies = actors.filter((a) => a.o);
       // Overview symbols must remain above scenery; depth still orders detailed artwork.
       const ordered =
@@ -655,6 +665,30 @@
         for(const a of bodies)if(a.elevated&&visible(a.ground)){
           g.beginPath();g.ellipse(...a.ground,.32,.12,0,0,Math.PI*2);g.fill();
         }
+      }
+      // Every basal individual keeps its glyph and hit region. Cache the stationary paint,
+      // while current action effects and all moving actors remain separate.
+      const useBasalLayer=!near&&view.emphasis&&!view.planeSeparation,
+        basalActors=useBasalLayer?(frameCandidates.basalActors ||= sequence.filter(a=>a.o&&!a.remnant&&['plant','fungus'].includes(S.spec(a.o).group))):[];
+      let basalPainted=false;
+      function paintBasalLayer(){
+        if(basalPainted||!basalActors.length)return;basalPainted=true;
+        const key=[geometryKey,view.x,view.y,z,b.width,b.height,devicePixelRatio||1].join('/');
+        const ages=frameCandidates.ages ||= new Map();
+        const identities=frameCandidates.basalIdentities ||= basalActors.map(a=>{const o=a.o;if(!ages.has(o.id))ages.set(o.id,S.ageInfo(o));return [o.id,o.species,o.cell,ages.get(o.id).stage,o.infection?.id,o.infection?.q?.id];});
+        const valid=basalLayer?.key===key&&identities.length===basalLayer.identities.length&&identities.every((a,i)=>a.every((v,j)=>v===basalLayer.identities[i][j]));
+        if(!valid){
+          const image=document.createElement('canvas'),d=devicePixelRatio||1;image.width=Math.ceil(b.width*d);image.height=Math.ceil(b.height*d);const c=image.getContext('2d');c.setTransform(d*z,0,0,d*z,d*view.x,d*view.y);
+          const hits=[];let infected=0,high=0;
+          for(const actor of basalActors){const o=actor.o,[cx,cy]=actor.p;
+            const age=ages.get(o.id);basalSprite(c,o,cx,cy,z,age);
+            hits.push({id:o.id,cell:o.cell,main:false,x:cx,y:cy,rx:.22,ry:.21});
+            if(o.infection){infected++;if(o.infection.q)high++;const [bx,by]=globalThis.EcoDisplayPlane.parasitePoint([cx,cy],'P',false);hits.push({id:o.infection.id,cell:o.cell,main:false,x:bx,y:by,rx:.065,ry:.065});if(o.infection.q)hits.push({id:o.infection.q.id,cell:o.cell,main:false,x:bx,y:by,rx:.115,ry:.115,min:.6});}
+          }
+          basalLayer={key,image,identities,hits,infected,high};diagnostics.basalLayerBuilds=(diagnostics.basalLayerBuilds||0)+1;
+        }else diagnostics.basalLayerHits=(diagnostics.basalLayerHits||0)+1;
+        g.drawImage(basalLayer.image,-view.x/z,-view.y/z,b.width/z,b.height/z);for(const h of basalLayer.hits)hitRegions.push(h);
+        diagnostics.drawn+=basalActors.length;diagnostics.infectedHosts+=basalLayer.infected;diagnostics.highParasites+=basalLayer.high;
       }
       let upperStarted=false;
       for (const actor of sequence) {
@@ -743,6 +777,7 @@
           continue;
         }
         const { o, list } = actor;
+        if(useBasalLayer){paintBasalLayer();if(!actor.remnant&&['plant','fungus'].includes(S.spec(o).group)){if(list.length)actionEffects(o,list,.13+.07*Math.min(1,S.edibleB(o)/15),p[0],p[1]);continue;}}
         if(!actor.remnant)diagnostics.drawn++;
         if(actor.elevated)diagnostics.elevated++;
         const isMain = o.slot === "main",
@@ -764,40 +799,14 @@
         }
         if(!actor.elevated){
         if(detail){g.drawImage(groundShadow(),p[0]-r*.9,p[1]+.04-r*.23,r*1.8,r*.46);}
-        else {g.fillStyle="#061922cc";
-        g.beginPath();
-        g.ellipse(
-          p[0],
-          p[1] + 0.04,
-          detail ? r * 0.9 : isMain ? 0.38 : 0.22,
-          detail ? r * 0.23 : isMain ? 0.3 : 0.17,
-          0,
-          0,
-          7,
-        );
-        g.fill();}
+        else ellipseStamp(g,p[0],p[1]+.04,isMain?.38:.22,isMain?.3:.17,'#061922cc');
         }
         hitRegions.push({id:o.id,cell:o.cell,main:isMain,x:cx,y:cy,rx:detail?r*1.65:isMain?.35:.22,ry:detail?r*1.55:isMain?.32:.21});
         if (view.emphasis && (!detail || !isMain)) {
-          g.save();
-          g.fillStyle = detail ? "#02131c99" : "#02131cf0";
-          g.strokeStyle = isMain ? "#f5e6a8b8" : "#c5e9be99";
-          g.lineWidth = Math.max(0.018, (isMain ? 0.85 : 0.55) / z);
-          g.beginPath();
-          g.ellipse(
-            cx,
-            detail ? p[1] : cy,
-            detail ? r * 1.06 : isMain ? 0.38 : 0.235,
-            detail ? r * 0.33 : isMain ? 0.29 : 0.185,
-            0,
-            0,
-            Math.PI * 2,
-          );
-          g.fill();
-          g.stroke();
-          g.restore();
+          if(!detail)ellipseStamp(g,cx,cy,isMain?.38:.235,isMain?.29:.185,'#02131cf0',isMain?'#f5e6a8b8':'#c5e9be99',Math.max(.018,(isMain?.85:.55)/z));
+          else ellipseStamp(g,cx,p[1],r*1.06,r*.33,'#02131c99',isMain?'#f5e6a8b8':'#c5e9be99',Math.max(.018,(isMain?.85:.55)/z));
         }
-        const displayed = view.emphasis ? { ...o, renderEmphasis: true } : o;
+        const displayed = detail&&view.emphasis ? { ...o, renderEmphasis: true } : o;
         if (detail) {
           if (isMain)
             creature(
@@ -818,7 +827,8 @@
             isMain ? (overlap ? 0.25 : 0.3) : 0.17,
             symbolColor(S.spec(o)),
           );
-        const a = S.ageInfo(o),
+        const ages=frameCandidates.ages ||= new Map();if(!ages.has(o.id))ages.set(o.id,S.ageInfo(o));
+        const a = ages.get(o.id),
           showStatus = view.statusMarks && near &&
             (view.statusScope === "all" || isMain || o.id === view.selectedEntity) &&
             (z >= 100 || o.cell === view.selected);
@@ -886,7 +896,7 @@
           g.fillStyle = isMain ? "#071c25df" : "#123d2aef";
           g.fillRect(cx - 0.4, cy + r * 0.95, 0.8, 0.13);
           g.fillStyle = "#fff1c9";
-          const action = w.events.find(
+          const action = (worldEvents.get(o.id)||[]).find(
             (e) =>
               e.id === o.id &&
               ["attack", "feed", "defend", "care", "move", "birth"].includes(
@@ -1036,6 +1046,7 @@
     return {
       view,
       diagnostics,
+      get prepared(){return Art.loaded&&!!cache&&(view.scale<24||view.mode==='overview'||view.simplified||!!nearCache);},
       setWorld,
       draw,
       drawIfChanged,
@@ -1057,6 +1068,7 @@
     symbolColor,
     highlightColor,
     symbolPaths,
+    spriteMetrics,
     colors,
     assets: Art,
   };

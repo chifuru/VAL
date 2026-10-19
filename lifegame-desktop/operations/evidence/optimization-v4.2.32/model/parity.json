@@ -1,0 +1,78 @@
+{
+  "profiles": [
+    {
+      "mask": 0,
+      "turns": 12,
+      "exact": true,
+      "fingerprint": "d4f69138ad7b276a6595ee14b4e7cf952cff4f0ce6269bad2f323a8bfef12568"
+    },
+    {
+      "mask": 1,
+      "turns": 12,
+      "exact": true,
+      "fingerprint": "39f4e9d72e00e2954d30cf604a259ba1fdb60281c7813ffa5d38b17427399e4c"
+    },
+    {
+      "mask": 2,
+      "turns": 12,
+      "exact": true,
+      "fingerprint": "4b0fcad495b593e989b82aadd4e96f79e15d1d34895bc93128a5c228a607cc38"
+    },
+    {
+      "mask": 3,
+      "turns": 12,
+      "exact": true,
+      "fingerprint": "3814687f65f443a09ce6047e78154651640c99c63ed945454af0799b9464f48d"
+    },
+    {
+      "mask": 4,
+      "turns": 12,
+      "exact": true,
+      "fingerprint": "555df60e36a09b581ce83b1d2a0f3043c7381e846e90423a209da4f68dcad290"
+    },
+    {
+      "mask": 5,
+      "turns": 12,
+      "exact": true,
+      "fingerprint": "787df650ba903135e9da873e57460cb452ec47eaa3ac99edebe59eb5f2c79045"
+    },
+    {
+      "mask": 6,
+      "turns": 12,
+      "exact": true,
+      "fingerprint": "4d16ad36537ba448bf8d35ae47efd61023780fe0d0bdd79aaf18b2071a6454be"
+    },
+    {
+      "mask": 7,
+      "turns": 12,
+      "exact": true,
+      "fingerprint": "863acaa84e280186b55ea319c93a8af898e021bb58f3dc5eebad98b2f7bb0d46"
+    }
+  ],
+  "sizes": [
+    {
+      "width": 40,
+      "height": 28,
+      "turns": 10,
+      "exactWorld": true,
+      "exactObservation": true,
+      "exactCSV": true
+    },
+    {
+      "width": 80,
+      "height": 56,
+      "turns": 5,
+      "exactWorld": true,
+      "exactObservation": true,
+      "exactCSV": true
+    },
+    {
+      "width": 160,
+      "height": 112,
+      "turns": 3,
+      "exactWorld": true,
+      "exactObservation": true,
+      "exactCSV": true
+    }
+  ]
+}

@@ -51,6 +51,7 @@
   }
   // Atlas cells may contain isolated tips from a neighbour. Keep the central tissue
   // and its substantial attached components; source PNGs remain unchanged.
+  let componentLabels=new Int32Array(0),componentQueue=new Int32Array(0);
   function cleanFrame(im, f, singleBody = false) {
     const key = im.src + "/" + f.join(",") + "/" + singleBody;
     if (framesClean.has(key)) return cachedFrame(framesClean,key);
@@ -62,34 +63,20 @@
     const d = g.getImageData(0, 0, c.width, c.height),
       W = c.width,
       H = c.height,
-      labels = new Int32Array(W * H),
+      labels = (componentLabels.length<W*H?(componentLabels=new Int32Array(W*H)):componentLabels).subarray(0,W*H),
       groups = [];
+    labels.fill(0);if(componentQueue.length<W*H)componentQueue=new Int32Array(W*H);
     let n = 0;
     for (let p = 0; p < W * H; p++) {
       if (labels[p] || d.data[p * 4 + 3] < 30) continue;
       n++;
-      const queue = [p];
-      labels[p] = n;
-      let count = 0,
-        cx = 0,
-        cy = 0;
-      for (let q = 0; q < queue.length; q++) {
-        const a = queue[q],
-          x = a % W,
-          y = Math.floor(a / W);
-        count++;
-        cx += x;
-        cy += y;
-        for (const b of [
-          x > 0 ? a - 1 : -1,
-          x < W - 1 ? a + 1 : -1,
-          y > 0 ? a - W : -1,
-          y < H - 1 ? a + W : -1,
-        ])
-          if (b >= 0 && !labels[b] && d.data[b * 4 + 3] >= 30) {
-            labels[b] = n;
-            queue.push(b);
-          }
+      const queue=componentQueue;let head=0,tail=1;queue[0]=p;labels[p]=n;
+      let count=0,cx=0,cy=0;
+      while(head<tail){const a=queue[head++],x=a%W,y=Math.floor(a/W);count++;cx+=x;cy+=y;
+        if(x>0){const b=a-1;if(!labels[b]&&d.data[b*4+3]>=30){labels[b]=n;queue[tail++]=b;}}
+        if(x<W-1){const b=a+1;if(!labels[b]&&d.data[b*4+3]>=30){labels[b]=n;queue[tail++]=b;}}
+        if(y>0){const b=a-W;if(!labels[b]&&d.data[b*4+3]>=30){labels[b]=n;queue[tail++]=b;}}
+        if(y<H-1){const b=a+W;if(!labels[b]&&d.data[b*4+3]>=30){labels[b]=n;queue[tail++]=b;}}
       }
       groups.push({ n, count, cx: cx / count, cy: cy / count });
     }
@@ -723,19 +710,30 @@
     g.drawImage(shadowFrames.get(index),-width/2,-height*.9,width,height);
     g.restore();
   }
-  let warmEpoch=0;
+  let warmSeed=null,warmScheduled=false,warmLatest=null,warmCurrent=null,warmCursor=0,warmExtras=[];
+  const warmKeys=new Set();
   function warmWorld(w){
-    const epoch=++warmEpoch,seen=new Set(),queue=[];
-    for(const o of w.organisms){if(o.slot!=='main')continue;const key=[o.species,o.phase,o.branch3,o.branch4,root.EcoState.ageInfo(o).stage,o.sex,o.role].join('/');if(!seen.has(key)){seen.add(key);queue.push(o);}}
-    return ready.then(()=>new Promise(resolve=>{
-      if(!loaded)return resolve();const c=document.createElement('canvas');c.width=c.height=1;const g=c.getContext('2d');
-      const schedule=fn=>typeof requestIdleCallback==='function'?requestIdleCallback(fn,{timeout:250}):setTimeout(fn,0);
-      const next=()=>{if(epoch!==warmEpoch||!queue.length)return resolve();creature(g,{...queue.shift(),renderLighting:true,renderEmphasis:false},0,0,1);schedule(next);};schedule(next);
-    }));
+    warmLatest=w;if(warmScheduled)return;warmScheduled=true;
+    const c=document.createElement('canvas');c.width=c.height=1;const g=c.getContext('2d'),schedule=fn=>typeof requestIdleCallback==='function'?requestIdleCallback(fn,{timeout:500}):setTimeout(fn,0);
+    const next=()=>{
+      if(!warmCurrent||warmSeed!==warmLatest.config.seed||warmCursor>=warmCurrent.organisms.length){if(warmCurrent===warmLatest){warmScheduled=false;return;}warmCurrent=warmLatest;warmCursor=0;if(warmSeed!==warmCurrent.config.seed){warmSeed=warmCurrent.config.seed;warmKeys.clear();}
+        warmExtras=[];for(const species of [...(warmCurrent.config.enabled.P?['tideparasite','leafparasite']:[]),...(warmCurrent.config.enabled.Q?['hyperparasite']:[])])for(let i=0;i<3;i++)warmExtras.push({species,phase:i+1,stage:['first','middle','terminal'][i],counter:i===2?8:0});
+      }
+      while(warmExtras.length){const p=warmExtras.shift(),key='parasite/'+p.species+'/'+parasitePhase(p);if(!warmKeys.has(key)){warmKeys.add(key);parasite(g,p,0,0,1);schedule(next);return;}}
+      for(let count=0;count<128&&warmCursor<warmCurrent.organisms.length;count++){
+        const o=warmCurrent.organisms[warmCursor++],stage=root.EcoState.ageInfo(o).stage,env=warmCurrent.tiles[o.cell].env;let key,paint;
+        if(o.slot==='main'){key=['m',o.species,o.phase,o.branch3,o.branch4,stage,o.sex,o.role].join('/');paint=()=>creature(g,{...o,renderLighting:true,renderEmphasis:false},0,0,1);}
+        else {const spec=root.EcoState.spec(o),density=Math.min(3,Math.floor(Math.max(0,Math.min(1,o.B/Math.max(1,spec.capacity[1])))*4));key=['f',o.species,o.phase,stage,density,[1,4,5,7].includes(env)?env:0].join('/');paint=()=>food(g,o,0,0,1,env);}
+        if(!warmKeys.has(key)){warmKeys.add(key);paint();break;}
+      }
+      if(warmKeys.size>4096)warmKeys.clear();schedule(next);
+    };
+    ready.then(()=>{if(loaded)schedule(next);else warmScheduled=false;});
   }
   root.EcoArt = {
     manifest,
     warmWorld,
+    get warming(){return warmScheduled;},
     cacheMetrics,
     outlineMetrics,
     anatomyMetrics,

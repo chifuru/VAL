@@ -1,0 +1,30 @@
+{
+  "checks": [
+    "typed-array artwork cleanup matches original pixels for every main lineage",
+    "far map retains every biological individual",
+    "stationary far paint keeps individual hit regions and is reused",
+    "near scene uses a bounded position query",
+    "spatial query preserves the visible individual count",
+    "spatial query matches the exhaustive scene pixel for pixel",
+    "neither far nor near calls synchronous terrain surface generation",
+    "actual export Worker preserves all 501 CSV rows byte for byte",
+    "actual JSON export Worker preserves complete history and final statuses",
+    "failed terrain Worker recovers by cooperative fixed chunks",
+    "export failure preserves the running simulation",
+    "no browser errors"
+  ],
+  "errors": [],
+  "indexedCandidates": 218,
+  "population": 2466,
+  "visible": 31,
+  "pixelDifference": {
+    "max": 0,
+    "total": 0
+  },
+  "exported": {
+    "csv": "8fdee9366f1e14e20955b5235bf5a50709a0c54c46b376dcd0fabf02d6451b5b",
+    "rows": 501,
+    "history": true,
+    "final": true
+  }
+}

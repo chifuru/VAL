@@ -83,6 +83,7 @@
   const TURN_MS = 1000;
   const holds = new Set();
   let interactionTimer = null, prewarming = true, lastPreparationMs = 0, computeWaitAt = null, playbackError = null;
+  let graphicsPrepared=false,observationPreparationAt=null,preparationHeldAt=null;
   const compute = window.EcoCompute.create({
     onChange: () => { if(running&&!holds.size&&!pendingTurn&&!timer)timer=setTimeout(runLoop,0); },
     onError: text => { stop();playbackError=text;message(text); }
@@ -101,6 +102,8 @@
     if(running&&!holds.size&&!pendingTurn&&!timer)timer=setTimeout(runLoop,0);
   }
   function updateHold() {
+    if(holds.size&&preparationHeldAt===null)preparationHeldAt=performance.now();
+    if(!holds.size&&preparationHeldAt!==null){if(observationPreparationAt!==null)observationPreparationAt+=performance.now()-preparationHeldAt;preparationHeldAt=null;}
     const names={map:"マップ操作",detail:"個体詳細の閲覧",guide:"説明シートの閲覧",results:"図鑑の閲覧",settings:"初期条件の編集",hidden:"画面が非表示"};
     $("interaction-note").hidden=!holds.size;
     $("interaction-note").textContent=holds.size?([...holds].map(k=>names[k]).join("・")+"のため停止中") : "";
@@ -111,6 +114,7 @@
   function mapInteraction() { /* View input never pauses the simulation. */ }
   function startRunning() {
     if(!world||ended)return;
+    observationPreparationAt=performance.now();preparationHeldAt=null;
     playbackError=null;computeWaitAt=null;running=true;$("start").textContent="一時停止 Ⅱ";$("step").disabled=true;
     updateHold();if(!holds.size)timer=setTimeout(runLoop,0);
   }
@@ -331,6 +335,7 @@
       ? "再生結果を新規保存"
       : "終了して図鑑へ保存";
     world = next;
+    graphicsPrepared=false;observationPreparationAt=null;
     populationHistory = [];
     observations=window.EcoObservations.create(next.config,window.EcoReplayVersion,{species:D.species});observations.append(next);graphFollow=true;followId=null;lastTracked=null;legendKey=null;
     document.body.classList.remove("setup-screen");
@@ -435,6 +440,7 @@
     world = next;
     lastMs = milliseconds;
     renderer.setWorld(world);
+    R.assets.warmWorld?.(world);
     updateTracking();
     render();
     if (replayEntry && world.turn >= replayEntry.turn) {
@@ -466,6 +472,15 @@
   function runLoop() {
     timer=null;
     if (!running || holds.size || pendingTurn) return;
+    if(prewarming&&observationPreparationAt!==null&&performance.now()-observationPreparationAt>60000){stop();playbackError='観測の準備が60秒以内に完了しませんでした。確定状態を保持しています。再試行できます。';message(playbackError);return;}
+    if(!graphicsPrepared){
+      if(!renderer.prepared||R.assets.warming){
+        $("status").textContent="観測の準備中";
+        message(`背景・外観を準備中 · ${((performance.now()-observationPreparationAt)/1000).toFixed(1)}秒 / 全体の上限60秒。マップは操作できます。`);
+        timer=setTimeout(runLoop,100);return;
+      }
+      graphicsPrepared=true;
+    }
     if(!compute.initialized) {
       const limit=replayEntry?.turn || (world.blockEnd + (world.stopReason==="checkpoint"?(world.config.blockTurns||1000):0));
       prewarming=true;compute.init(world,selectedId,limit);
@@ -473,10 +488,10 @@
     }
     if(prewarming && (!compute.length || !compute.ready)) {
       $("status").textContent="観測の準備中";
-      message(`観測の準備中 · ${(compute.elapsed/1000).toFixed(1)}秒 / 上限60秒。先行計算中もマップを操作できます。`);
+      message(`観測の準備中 · ${((performance.now()-(observationPreparationAt??performance.now()-compute.elapsed))/1000).toFixed(1)}秒 / 上限60秒。先行計算中もマップを操作できます。`);
       timer=setTimeout(runLoop,100);return;
     }
-    if(prewarming){lastPreparationMs=compute.elapsed;prewarming=false;}
+    if(prewarming){lastPreparationMs=observationPreparationAt===null?compute.elapsed:performance.now()-observationPreparationAt;prewarming=false;}
     const packet=compute.take();
     if(!packet){computeWaitAt??=performance.now();compute.fill(2);message(`次のターンを計算中 · ${((performance.now()-computeWaitAt)/1000).toFixed(1)}秒。自動で再開します。個体・ターンは省略しません。`);timer=setTimeout(runLoop,100);return;}
     computeWaitAt=null;
@@ -561,8 +576,8 @@
     returnSetup();
   });
   $("restart-world").onclick=async()=>{if(initialConfig && (!observations?.unexported || world.turn===0 || await confirmWorldChange("未出力の観測履歴を破棄して同じ世界を最初から再生しますか？")))prepare(initialConfig,replayEntry);};
-  function downloadJSON(record){
-    if(!record)return;const url=URL.createObjectURL(new Blob([JSON.stringify(record)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=`lifegame-result-${record.turn}T-${record.id.slice(-8)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);
+  async function downloadJSON(record){
+    if(!record)return;try{const blob=await EcoExport.json(record),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`lifegame-result-${record.turn}T-${record.id.slice(-8)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);}catch(e){message('結果を書き出せませんでした：'+e.message);}
   }
   async function finishRun(reason = "user-ended",{explicit=false}={}) {
     if(!world)return;stop();ended=true;$("start").disabled=true;$("step").disabled=true;
@@ -899,15 +914,16 @@
     $('information-readout').title='生成は成功した資源生成/増量の件数。適用は情報による非ゼロの直接重み変更。移動結果の変化やQの反実仮想的な寄与を意味しません。全ターン原値と変化量はCSV/保存結果で確認できます。';
     $('relation-readout').textContent='3系列は別尺度・全期間。実線＝確認／破線＝未確認。詳しくは下の集計説明へ。';
     if($('graph-values').dataset.catalogue!==catalogueKey){$('graph-values').dataset.catalogue=catalogueKey;$('graph-values').innerHTML=catalogue.map(s=>`<button class="small" data-graph-description="${escape(s.id)}">${escape(s.name)} <b>0</b></button>`).join('');}
-    for(const b of $('graph-values').children){b.querySelector('b').textContent=r.counts[b.dataset.graphDescription]||0;b.disabled=!!analysisData;b.onclick=()=>describeSpecies(b.dataset.graphDescription);}
+    for(const b of $('graph-values').children){const value=String(r.counts[b.dataset.graphDescription]||0),label=b.querySelector('b');if(label.textContent!==value)label.textContent=value;if(b.disabled!==!!analysisData)b.disabled=!!analysisData;b.onclick ||= ()=>describeSpecies(b.dataset.graphDescription);}
   }
   $('graph-turn').oninput=()=>{graphFollow=false;renderGraphs();};
   $('graph-latest').onclick=()=>{graphFollow=true;renderGraphs();};
   $('graph-species').onchange=renderGraphs;
   $('graphs-panel').ontoggle=()=>{if($('graphs-panel').open)renderGraphs();};
-  $('export-observation').onclick=()=>{
+  $('export-observation').onclick=async()=>{
     const graph=graphObservation();if(!graph)return;
-    try{const blob=new Blob([graph.csv()],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`ecology-turns-0-${graph.rows.at(-1).turn}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);graph.markExported();message('全ターンCSVのダウンロードを開始しました。保存先でファイルをご確認ください。');}catch(e){stop();message('観測データを書き出せませんでした: '+e.message);}
+    const through=graph.rows.at(-1).turn;const control=$('export-observation');control.disabled=true;
+    try{const blob=await EcoExport.csv(graph),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`ecology-turns-0-${through}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);graph.markExported(through);message('全ターンCSVのダウンロードを開始しました。保存先でファイルをご確認ください。');}catch(e){message('観測データを書き出せませんでした: '+e.message);}finally{control.disabled=false;}
   };
 
   function drawPortrait(canvas, o) {

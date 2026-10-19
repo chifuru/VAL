@@ -103,7 +103,7 @@ async function packageWindows() {
       throw Error("Invalid Windows x64 executable");
     await fs.writeFile(
       path.join(destination, "README.txt"),
-      "LifeGame — Windows 10/11 x64\r\nZIPをすべて展開し LifeGame.exe を起動してください。\r\nDLL・resources・localesを同じフォルダに保ってください。\r\n利用時にNode.js・GAS・ネット接続は不要です。\r\n設定や観測結果は終了するとリセットされます。\r\n",
+      "LifeGame — Windows 10/11 x64\r\nZIPをすべて展開し LifeGame.exe を起動してください。\r\nDLL・resources・localesを同じフォルダに保ってください。\r\n利用時にNode.js・GAS・ネット接続は不要です。\r\n図鑑へ明示保存した結果は次回の起動後も参照できます。進行中の状態は自動保存されません。全期間のCSV・JSONも書き出せます。\r\n",
     );
     await checksums(destination);
     const zip = path.join(out, "LifeGame-Windows-x64.zip");

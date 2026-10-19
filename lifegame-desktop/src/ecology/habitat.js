@@ -62,7 +62,9 @@
   function create(w, P, art) {
     const W = w.config.width,
       H = w.config.height,
-      cache = new Map(),
+      cache = new Map(), maskCache=new Map(),
+      maskBudget=24*1024*1024, imageBudget=96*1024*1024,
+      cacheBytes={images:0,masks:0},
       metrics = {
         unit: 0,
         patchPixels: 0,
@@ -204,7 +206,7 @@
         metrics.unit = unit;
         metrics.patchPixels =
           cache.get(key).canvas.width * cache.get(key).canvas.height;
-        return cache.get(key);
+        const hit=cache.get(key);cache.delete(key);cache.set(key,hit);return hit;
       }
       metrics.unit = unit;
       metrics.builds++;
@@ -240,9 +242,11 @@
           "shade",
           "light",
         ],
-        data = Object.fromEntries(
-          fields.map((k) => [k, mg.createImageData(mw, mh)]),
+        maskKey=[rect.x,rect.y,rect.w,rect.h,mu].join("/"),
+        data = maskCache.get(maskKey) || Object.fromEntries(
+          fields.map((k) => [k, new Uint8Array(mw*mh)]),
         );
+      if(!maskCache.has(maskKey)){
       for (let py = 0; py < mh; py++)
         for (let px = 0; px < mw; px++) {
           const x = rect.x + (px + 0.5) / mu,
@@ -277,20 +281,19 @@
             shade: lighting.shade * (1 - wet) + coast * 0.14,
             light: lighting.light * (1 - wet),
           };
-          const i = (py * mw + px) * 4;
-          for (const k of fields) {
-            const d = data[k].data;
-            const color = ["shade", "bankshade"].includes(k) ? [9, 24, 33]
-              : k === "light" ? [255, 237, 196]
-              : k === "banklight" ? [194, 201, 148]
-              : k === "shallows" ? [111, 181, 167]
-              : k === "wetbank" ? [46, 65, 49] : [255, 255, 255];
-            d[i] = color[0]; d[i + 1] = color[1]; d[i + 2] = color[2];
-            d[i + 3] = Math.round(clamp(values[k]) * 255);
-          }
+          const i=py*mw+px;for(const k of fields)data[k][i]=Math.round(clamp(values[k])*255);
         }
+      const bytes=mw*mh*fields.length;if(bytes<=maskBudget){maskCache.set(maskKey,data);cacheBytes.masks+=bytes;
+      while(cacheBytes.masks>maskBudget&&maskCache.size>1){const k=maskCache.keys().next().value,d=maskCache.get(k);maskCache.delete(k);cacheBytes.masks-=d.dry.byteLength*fields.length;}
+      }
+      }
+      const maskImage=mg.createImageData(mw,mh);
+      function paintMask(k){
+        const alpha=data[k],d=maskImage.data,color=['shade','bankshade'].includes(k)?[9,24,33]:k==='light'?[255,237,196]:k==='banklight'?[194,201,148]:k==='shallows'?[111,181,167]:k==='wetbank'?[46,65,49]:[255,255,255];
+        for(let i=0;i<alpha.length;i++){const p=i*4;d[p]=color[0];d[p+1]=color[1];d[p+2]=color[2];d[p+3]=alpha[i];}mg.putImageData(maskImage,0,0);
+      }
       function applyMask(target, k) {
-        mg.putImageData(data[k], 0, 0);
+        paintMask(k);
         target.globalCompositeOperation = "destination-in";
         target.drawImage(mask, 0, 0, width, height);
         target.globalCompositeOperation = "source-over";
@@ -316,7 +319,7 @@
       g.drawImage(land, 0, 0);
       layer(g, "earth", "shore");
       for (const k of ["shallows", "wetbank", "shade", "bankshade", "light", "banklight"]) {
-        mg.putImageData(data[k], 0, 0);
+        paintMask(k);
         g.drawImage(mask, 0, 0, width, height);
       }
       metrics.patchPixels = width * height;
@@ -324,8 +327,9 @@
         (n) => art.images["habitat-" + n],
       ).length;
       const result = { canvas: c, rect, unit };
-      if (cache.size >= 3) cache.delete(cache.keys().next().value);
-      cache.set(key, result);
+      cache.set(key,result);cacheBytes.images+=c.width*c.height*4;
+      while(cacheBytes.images>imageBudget&&cache.size>1){const k=cache.keys().next().value,a=cache.get(k);cache.delete(k);cacheBytes.images-=a.canvas.width*a.canvas.height*4;}
+      metrics.cachedImageBytes=cacheBytes.images;metrics.cachedMaskBytes=cacheBytes.masks;
       return result;
     }
     return { make, metrics, sample, relief };

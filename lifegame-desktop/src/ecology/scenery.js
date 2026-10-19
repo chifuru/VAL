@@ -78,26 +78,20 @@
       g.drawImage(texture, sx, sy, sw, sh, sx, sy, sw, sh);
       g.restore();
     }
-    function surface(g, visible, detail, scale) {
-      const selected = cells.filter(
+    function surface(g, visible, detail, scale, selection = null) {
+      const selected = selection || cells.filter(
         (p) => !visible || visible(P.face(p)[4], 2),
       );
       if (!selected.length) return;
-      const xs = selected.map((p) => p % W),
-        ys = selected.map((p) => Math.floor(p / W)),
-        x0 = Math.max(0, Math.min(...xs) - 1),
-        y0 = Math.max(0, Math.min(...ys) - 1),
-        x1 = Math.min(W, Math.max(...xs) + 2),
-        y1 = Math.min(H, Math.max(...ys) + 2);
-      const unit = detail
-        ? Math.min(256, Math.max(128, Math.ceil(scale / 32) * 32))
-        : Math.max(8, Math.min(24, Math.floor(1800 / W)));
-      const patch = materials.make(
-          { x: x0, y: y0, w: x1 - x0, h: y1 - y0 },
-          unit,
-        ),
-        texture = patch.canvas;
-      for (const p of selected) {
+      const unit = detail ? Math.min(256, Math.max(128, Math.ceil(scale / 32) * 32)) : Math.max(8, Math.min(24, Math.floor(1800 / W)));
+      // Fixed recipes: camera changes select existing world chunks rather than new patches.
+      const chunks=new Map(),chunkSize=detail?4:Math.max(W,w.config.height);
+      for(const p of selected){const cx=Math.floor((p%W)/chunkSize),cy=Math.floor(Math.floor(p/W)/chunkSize),key=cx+':'+cy;
+        if(!chunks.has(key))chunks.set(key,[]);chunks.get(key).push(p);}
+      for(const [key,group] of chunks){
+        const [cx,cy]=key.split(':').map(Number),x0=Math.max(0,cx*chunkSize-1),y0=Math.max(0,cy*chunkSize-1),
+          x1=Math.min(W,(cx+1)*chunkSize+1),y1=Math.min(H,(cy+1)*chunkSize+1),patch=materials.make({x:x0,y:y0,w:x1-x0,h:y1-y0},unit),texture=patch.canvas;
+      for (const p of group) {
         const f = P.face(p),
           x = (p % W) - x0,
           y = Math.floor(p / W) - y0,
@@ -115,6 +109,7 @@
             [f[j], f[(j + 1) % 4], f[4]],
             texture,
           );
+      }
       }
     }
     const objects = [];

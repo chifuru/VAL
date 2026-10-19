@@ -1,0 +1,756 @@
+{
+  "source": "working-tree-based-on-1386101",
+  "version": "4.2.32",
+  "note": "Read-only injected instrumentation; nested costs overlap; Chromium Linux headless; short runs do not certify long-term large-board performance.",
+  "runs": [
+    {
+      "width": 40,
+      "height": 28,
+      "initial": 80,
+      "turns": 4,
+      "elapsedSincePrepareStartMs": 17677,
+      "config": {
+        "seed": "jank-check",
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "populationRegulation": {
+          "version": 1
+        },
+        "randomModel": "table/1",
+        "mapId": "river",
+        "terrainSeed": "jank-check",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 40,
+          "height": 28,
+          "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+          "pattern": [
+            0,
+            0,
+            1,
+            2,
+            1,
+            3,
+            0,
+            1,
+            2,
+            2,
+            0,
+            1,
+            2,
+            2,
+            3,
+            3,
+            1,
+            3,
+            1,
+            3,
+            1,
+            1,
+            2,
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1
+          ],
+          "fallback": false,
+          "terrainHash": "103f7b59e556012c0c37f41a3fa8177496000cd9dce2accacc9e65ed5e2706c5"
+        },
+        "freeAdvantage": {
+          "version": "favored-free/3",
+          "externalSupply": false,
+          "producerLife": 2400,
+          "producerLight": 2,
+          "soilM": 3,
+          "waterbugLife": 600,
+          "waterbugBirth": "B123/E8/cost8",
+          "QsearchLife": 480,
+          "QsearchRange": 3,
+          "Qgrowth": [
+            1,
+            2
+          ],
+          "Qinitial": "half-primary/1"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 5,
+          "createdSearchQ": 5
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": true,
+          "waterbug": true,
+          "hyperparasite": true
+        }
+      },
+      "initialPopulation": 614,
+      "mode": "far",
+      "elapsedMs": 17201,
+      "state": {
+        "turn": 4,
+        "running": false,
+        "main": 80,
+        "population": 955,
+        "resources": 208,
+        "compute": {
+          "type": "ready",
+          "epoch": 2,
+          "cache": {
+            "key": "7a6b76be12837dbea735e872af8702b7a7425679d5f8cd2dd4cc2a43861605d2",
+            "reused": false
+          },
+          "prepareMs": 26.599999994039536
+        }
+      },
+      "cost": {
+        "canvas.getImageData": {
+          "calls": 25,
+          "total": 119.60000005364418,
+          "max": 18.30000001192093,
+          "over50": 0
+        },
+        "canvas.putImageData": {
+          "calls": 1215,
+          "total": 22.70000010728836,
+          "max": 0.20000001788139343,
+          "over50": 0
+        },
+        "art.cleanFrame": {
+          "calls": 70,
+          "total": 169.90000000596046,
+          "max": 24,
+          "over50": 0
+        },
+        "draw": {
+          "calls": 70,
+          "total": 463.89999973773956,
+          "max": 28.69999998807907,
+          "over50": 0
+        },
+        "background.surface": {
+          "calls": 70,
+          "total": 11685.900000035763,
+          "max": 561.0999999940395,
+          "over50": 70
+        },
+        "art.food": {
+          "calls": 47,
+          "total": 99.40000003576279,
+          "max": 20.599999994039536,
+          "over50": 0
+        },
+        "art.anatomyFrame": {
+          "calls": 10,
+          "total": 20.400000005960464,
+          "max": 3,
+          "over50": 0
+        },
+        "art.variant": {
+          "calls": 10,
+          "total": 113.50000005960464,
+          "max": 25.900000005960464,
+          "over50": 0
+        },
+        "art.litFrame": {
+          "calls": 10,
+          "total": 66.09999993443489,
+          "max": 8.099999994039536,
+          "over50": 0
+        },
+        "setWorld": {
+          "calls": 18,
+          "total": 18.60000005364418,
+          "max": 3.199999988079071,
+          "over50": 0
+        },
+        "graphs": {
+          "calls": 5,
+          "total": 9.300000011920929,
+          "max": 3.2000000178813934,
+          "over50": 0
+        },
+        "selection": {
+          "calls": 5,
+          "total": 9.700000017881393,
+          "max": 3.4000000059604645,
+          "over50": 0
+        },
+        "render": {
+          "calls": 4,
+          "total": 16.400000035762787,
+          "max": 5.700000017881393,
+          "over50": 0
+        },
+        "commit": {
+          "calls": 4,
+          "total": 54.50000002980232,
+          "max": 15.5,
+          "over50": 0
+        }
+      },
+      "longTasks": [
+        {
+          "at": 2141.0999999940395,
+          "ms": 561
+        },
+        {
+          "at": 2730.7999999821186,
+          "ms": 169
+        },
+        {
+          "at": 2918.399999976158,
+          "ms": 143
+        },
+        {
+          "at": 3076.699999988079,
+          "ms": 138
+        },
+        {
+          "at": 3223.7999999821186,
+          "ms": 116
+        },
+        {
+          "at": 3348.5,
+          "ms": 111
+        },
+        {
+          "at": 3467.399999976158,
+          "ms": 139
+        },
+        {
+          "at": 3626.5,
+          "ms": 172
+        },
+        {
+          "at": 3808.2999999821186,
+          "ms": 153
+        },
+        {
+          "at": 3988,
+          "ms": 131
+        },
+        {
+          "at": 4130.799999982119,
+          "ms": 152
+        },
+        {
+          "at": 4290,
+          "ms": 171
+        },
+        {
+          "at": 4479.799999982119,
+          "ms": 175
+        },
+        {
+          "at": 4662.5,
+          "ms": 164
+        },
+        {
+          "at": 4833.699999988079,
+          "ms": 147
+        },
+        {
+          "at": 5002.0999999940395,
+          "ms": 144
+        },
+        {
+          "at": 5155.899999976158,
+          "ms": 161
+        },
+        {
+          "at": 5321.899999976158,
+          "ms": 175
+        },
+        {
+          "at": 5502.299999982119,
+          "ms": 157
+        },
+        {
+          "at": 5674.199999988079,
+          "ms": 137
+        },
+        {
+          "at": 5823.399999976158,
+          "ms": 153
+        },
+        {
+          "at": 5981.799999982119,
+          "ms": 188
+        },
+        {
+          "at": 6176.299999982119,
+          "ms": 195
+        },
+        {
+          "at": 6385.399999976158,
+          "ms": 196
+        },
+        {
+          "at": 6591.399999976158,
+          "ms": 179
+        },
+        {
+          "at": 6776.199999988079,
+          "ms": 140
+        },
+        {
+          "at": 6922.899999976158,
+          "ms": 155
+        },
+        {
+          "at": 7097.399999976158,
+          "ms": 179
+        },
+        {
+          "at": 7283.5,
+          "ms": 184
+        },
+        {
+          "at": 7477.799999982119,
+          "ms": 146
+        },
+        {
+          "at": 7630.0999999940395,
+          "ms": 138
+        },
+        {
+          "at": 7809.0999999940395,
+          "ms": 190
+        },
+        {
+          "at": 8017.699999988079,
+          "ms": 210
+        },
+        {
+          "at": 8267.59999999404,
+          "ms": 224
+        },
+        {
+          "at": 8510.399999976158,
+          "ms": 201
+        },
+        {
+          "at": 8746.5,
+          "ms": 173
+        },
+        {
+          "at": 8934.5,
+          "ms": 159
+        },
+        {
+          "at": 9127.5,
+          "ms": 172
+        },
+        {
+          "at": 9326.299999982119,
+          "ms": 200
+        },
+        {
+          "at": 9558.699999988079,
+          "ms": 171
+        },
+        {
+          "at": 9745.299999982119,
+          "ms": 166
+        },
+        {
+          "at": 9916.899999976158,
+          "ms": 212
+        },
+        {
+          "at": 10133.699999988079,
+          "ms": 200
+        },
+        {
+          "at": 10344,
+          "ms": 219
+        },
+        {
+          "at": 10567.699999988079,
+          "ms": 185
+        },
+        {
+          "at": 10758,
+          "ms": 176
+        },
+        {
+          "at": 10939.09999999404,
+          "ms": 168
+        },
+        {
+          "at": 11112.59999999404,
+          "ms": 181
+        },
+        {
+          "at": 11308.399999976158,
+          "ms": 188
+        },
+        {
+          "at": 11501,
+          "ms": 170
+        },
+        {
+          "at": 11675.59999999404,
+          "ms": 170
+        },
+        {
+          "at": 11850.299999982119,
+          "ms": 134
+        },
+        {
+          "at": 11989.5,
+          "ms": 153
+        },
+        {
+          "at": 12155.899999976158,
+          "ms": 163
+        },
+        {
+          "at": 12324.5,
+          "ms": 144
+        },
+        {
+          "at": 12472.799999982119,
+          "ms": 131
+        },
+        {
+          "at": 12608.699999988079,
+          "ms": 125
+        },
+        {
+          "at": 12738.799999982119,
+          "ms": 175
+        },
+        {
+          "at": 12930,
+          "ms": 177
+        },
+        {
+          "at": 13111.09999999404,
+          "ms": 147
+        },
+        {
+          "at": 13263.199999988079,
+          "ms": 130
+        },
+        {
+          "at": 13397.59999999404,
+          "ms": 129
+        },
+        {
+          "at": 13531.5,
+          "ms": 141
+        },
+        {
+          "at": 13677.299999982119,
+          "ms": 144
+        },
+        {
+          "at": 13837.799999982119,
+          "ms": 118
+        },
+        {
+          "at": 13960.199999988079,
+          "ms": 107
+        },
+        {
+          "at": 14071.59999999404,
+          "ms": 107
+        },
+        {
+          "at": 14183.299999982119,
+          "ms": 145
+        },
+        {
+          "at": 14333.799999982119,
+          "ms": 160
+        },
+        {
+          "at": 14499.699999988079,
+          "ms": 157
+        }
+      ],
+      "frames": 447,
+      "gapP50": 16.700000000000728,
+      "gapP95": 150.10000000000036,
+      "gapMax": 550,
+      "over50": 71,
+      "cache": {
+        "bytes": {
+          "clean": 14198540,
+          "lower": 6930432,
+          "variants": 14641024
+        },
+        "evictions": {}
+      },
+      "anatomy": {
+        "builds": 10,
+        "hits": 0,
+        "foldedTriangles": 0,
+        "maxTexturePixels": 183184,
+        "limitedFrames": 1,
+        "minStrength": 0.75
+      },
+      "terrain": 0
+    },
+    {
+      "width": 40,
+      "height": 28,
+      "initial": 80,
+      "turns": 4,
+      "elapsedSincePrepareStartMs": 22448,
+      "config": {
+        "seed": "jank-check",
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "populationRegulation": {
+          "version": 1
+        },
+        "randomModel": "table/1",
+        "mapId": "river",
+        "terrainSeed": "jank-check",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 40,
+          "height": 28,
+          "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+          "pattern": [
+            0,
+            0,
+            1,
+            2,
+            1,
+            3,
+            0,
+            1,
+            2,
+            2,
+            0,
+            1,
+            2,
+            2,
+            3,
+            3,
+            1,
+            3,
+            1,
+            3,
+            1,
+            1,
+            2,
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2,
+            1
+          ],
+          "fallback": false,
+          "terrainHash": "103f7b59e556012c0c37f41a3fa8177496000cd9dce2accacc9e65ed5e2706c5"
+        },
+        "freeAdvantage": {
+          "version": "favored-free/3",
+          "externalSupply": false,
+          "producerLife": 2400,
+          "producerLight": 2,
+          "soilM": 3,
+          "waterbugLife": 600,
+          "waterbugBirth": "B123/E8/cost8",
+          "QsearchLife": 480,
+          "QsearchRange": 3,
+          "Qgrowth": [
+            1,
+            2
+          ],
+          "Qinitial": "half-primary/1"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 5,
+          "createdSearchQ": 5
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": true,
+          "waterbug": true,
+          "hyperparasite": true
+        }
+      },
+      "initialPopulation": 614,
+      "mode": "near",
+      "elapsedMs": 4715,
+      "state": {
+        "turn": 8,
+        "running": false,
+        "main": 80,
+        "population": 1028,
+        "resources": 459,
+        "compute": {
+          "type": "ready",
+          "epoch": 4,
+          "cache": {
+            "key": "7a6b76be12837dbea735e872af8702b7a7425679d5f8cd2dd4cc2a43861605d2",
+            "reused": false
+          },
+          "prepareMs": 18.900000005960464
+        }
+      },
+      "cost": {
+        "draw": {
+          "calls": 1,
+          "total": 7.5,
+          "max": 7.5,
+          "over50": 0
+        },
+        "art.cleanFrame": {
+          "calls": 9,
+          "total": 0.30000001192092896,
+          "max": 0.10000002384185791,
+          "over50": 0
+        },
+        "art.food": {
+          "calls": 9,
+          "total": 14.000000059604645,
+          "max": 5,
+          "over50": 0
+        },
+        "setWorld": {
+          "calls": 18,
+          "total": 18.59999990463257,
+          "max": 3,
+          "over50": 0
+        },
+        "graphs": {
+          "calls": 5,
+          "total": 11.900000005960464,
+          "max": 6.899999976158142,
+          "over50": 0
+        },
+        "selection": {
+          "calls": 5,
+          "total": 12.399999976158142,
+          "max": 6.899999976158142,
+          "over50": 0
+        },
+        "render": {
+          "calls": 4,
+          "total": 14.5,
+          "max": 4.800000011920929,
+          "over50": 0
+        },
+        "commit": {
+          "calls": 4,
+          "total": 131.0999999642372,
+          "max": 100.2999999821186,
+          "over50": 1
+        }
+      },
+      "longTasks": [
+        {
+          "at": 21727.69999998808,
+          "ms": 100
+        }
+      ],
+      "frames": 545,
+      "gapP50": 0,
+      "gapP95": 16.700000000000728,
+      "gapMax": 83.29999999999927,
+      "over50": 1,
+      "cache": {
+        "bytes": {
+          "clean": 14198540,
+          "lower": 8257536,
+          "variants": 14641024
+        },
+        "evictions": {}
+      },
+      "anatomy": {
+        "builds": 10,
+        "hits": 0,
+        "foldedTriangles": 0,
+        "maxTexturePixels": 183184,
+        "limitedFrames": 1,
+        "minStrength": 0.75
+      },
+      "terrain": 0
+    }
+  ],
+  "errors": [
+    "TypeError: Cannot read properties of null (reading 'postMessage')"
+  ]
+}

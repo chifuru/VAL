@@ -1,0 +1,27 @@
+{
+  "checks": [
+    "new UI conditions explicitly record table random",
+    "presence catalogue has six distinct ecological groups",
+    "presence catalogue wraps without horizontal scrolling",
+    "ecological names replace the food-organism category",
+    "grouped controls retain independent multiple highlights",
+    "description and timelines remain in separate panes",
+    "small integer camera pan reuses the oversized high-resolution background",
+    "attack defense and plant feeding have separately identifiable marks",
+    "action marks remain inside the map at the upper edge",
+    "an unsuccessful attack does not produce a successful hit effect",
+    "board draws no per-frame blurred shadows over organisms",
+    "action marks expire without changing turns",
+    "presentation fixtures never advance the ecosystem",
+    "measured damage and mitigation produce distinct hit and block effects",
+    "animal-remains feeding has its own mark",
+    "separate confirmed infection mark is visible",
+    "separate confirmed clear mark is visible",
+    "separate confirmed birth mark is visible",
+    "separate confirmed growth mark is visible",
+    "separate confirmed care mark is visible",
+    "normal product UI does not expose the one-turn debug operation",
+    "no browser errors"
+  ],
+  "errors": []
+}

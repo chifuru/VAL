@@ -1,0 +1,53 @@
+{
+  "turns": 500,
+  "rows": 501,
+  "elapsedMs": 50905.983775,
+  "fingerprint": "a36bf00ffc8612c562888d7567aa8b5bb8c824c3425aec75b9612585ee4ec0ae",
+  "exactRows": true,
+  "oldReplayAccepted": true,
+  "milestones": [
+    {
+      "turn": 0,
+      "main": 80,
+      "waterbug": 34,
+      "P": 9,
+      "Q": 4
+    },
+    {
+      "turn": 100,
+      "main": 109,
+      "waterbug": 73,
+      "P": 186,
+      "Q": 4
+    },
+    {
+      "turn": 200,
+      "main": 108,
+      "waterbug": 66,
+      "P": 596,
+      "Q": 7
+    },
+    {
+      "turn": 300,
+      "main": 82,
+      "waterbug": 80,
+      "P": 829,
+      "Q": 53
+    },
+    {
+      "turn": 400,
+      "main": 62,
+      "waterbug": 83,
+      "P": 829,
+      "Q": 89
+    },
+    {
+      "turn": 500,
+      "main": 56,
+      "waterbug": 81,
+      "P": 824,
+      "Q": 116
+    }
+  ],
+  "errors": []
+}
