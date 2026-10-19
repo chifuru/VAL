@@ -261,7 +261,7 @@ C4:（A2, B5 / Electron と Windows 配布）［草案］
 	ロジック:
 		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
 	実態:
-		Windows4.2.27生成、全72ソース/35PNG同梱一致。実Windows起動未確認。詳細: operations/evidence/terrain-seams-v4.2.27/package-match.json。草案。
+		Windows4.2.28生成、全72ソース/35PNG同梱一致。実Windows起動未確認。詳細: operations/evidence/dead-actor-v4.2.28/package-match.json。草案。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -336,7 +336,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 		ロジック:
 			実タイルから地形/深浅/8環境のマスクを生成し、視野内だけ高解像度で合成。遠景は全位置記号、近景は描き込んだ景観。輪郭影と局所遮蔽を使い、装飾を新たな生態/障害物としない。
 		実態:
-			4.2.27で地表原画のフェザーと重なり幅を拡大し、投影前からある矩形境界を緩和。河川の前後画像、16項目と投影3項目を限定照合。生態・地形・投影・原画・UI不変。反復模様/全背景外観は未解決。詳細: operations/evidence/terrain-seams-v4.2.27/README.md。草案。
+			4.2.28で行動段階に死亡した個体の確定行動を近景の短い残像で補完。生存数/選択/札に加えず、OFF/遠景/終了時に非表示。対象39＋既存モーション37項目を限定照合し、実Workerと一括計算の生態指紋一致。詳細: operations/evidence/dead-actor-v4.2.28/README.md。草案。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -381,7 +381,7 @@ D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	ロジック:
 		C4と対象版を照合して配布物そのものを実行する。
 	実態:
-		Windows4.2.27生成、全72ソース/35PNG同梱一致。実Windows起動未確認。詳細: operations/evidence/terrain-seams-v4.2.27/package-match.json。草案。
+		Windows4.2.28生成、全72ソース/35PNG同梱一致。実Windows起動未確認。詳細: operations/evidence/dead-actor-v4.2.28/package-match.json。草案。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -435,7 +435,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		4.2.27で地表原画のフェザーと重なり幅を拡大し、投影前からある矩形境界を緩和。河川の前後画像、16項目と投影3項目を限定照合。生態・地形・投影・原画・UI不変。反復模様/全背景外観は未解決。詳細: operations/evidence/terrain-seams-v4.2.27/README.md。草案。
+		4.2.28で行動段階に死亡した個体の確定行動を近景の短い残像で補完。生存数/選択/札に加えず、OFF/遠景/終了時に非表示。対象39＋既存モーション37項目を限定照合し、実Workerと一括計算の生態指紋一致。詳細: operations/evidence/dead-actor-v4.2.28/README.md。草案。
 ```
 
 ## E：検証証跡
@@ -486,13 +486,13 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		4.2.27で地表原画のフェザーと重なり幅を拡大し、投影前からある矩形境界を緩和。河川の前後画像、16項目と投影3項目を限定照合。生態・地形・投影・原画・UI不変。反復模様/全背景外観は未解決。詳細: operations/evidence/terrain-seams-v4.2.27/README.md。草案。
+		4.2.28で行動段階に死亡した個体の確定行動を近景の短い残像で補完。生存数/選択/札に加えず、OFF/遠景/終了時に非表示。対象39＋既存モーション37項目を限定照合し、実Workerと一括計算の生態指紋一致。詳細: operations/evidence/dead-actor-v4.2.28/README.md。草案。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
 	ロジック:
 		対象SHAと版が一致するWindows4.1の配布/実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		Windows4.2.27生成、全72ソース/35PNG同梱一致。実Windows起動未確認。詳細: operations/evidence/terrain-seams-v4.2.27/package-match.json。草案。
+		Windows4.2.28生成、全72ソース/35PNG同梱一致。実Windows起動未確認。詳細: operations/evidence/dead-actor-v4.2.28/package-match.json。草案。
 
 ```

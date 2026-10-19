@@ -1,0 +1,116 @@
+{
+  "events": [
+    {
+      "id": "i:main:25:4:crystal",
+      "type": "death",
+      "cell": 1004,
+      "reason": "age",
+      "appearance": {
+        "species": "crystal",
+        "phase": 1,
+        "branch3": null,
+        "branch4": null,
+        "sex": "male",
+        "role": null,
+        "age": 100001,
+        "birthLife": 321,
+        "facing": 2,
+        "dna": {
+          "body": 0.27509067265782505,
+          "appendage": 0.5116014104569331,
+          "senses": 0.26023753616027534,
+          "skin": 0.5420839600265026,
+          "aptitude": 0.5515736433444545,
+          "sensitivity": 0.6660510639194399
+        }
+      }
+    },
+    {
+      "id": "i:main:25:4:crystal",
+      "type": "feed",
+      "cell": 1004,
+      "source": "i:food:24:4:grass",
+      "sourceType": "plant",
+      "assimilated": 1.010315,
+      "sourceSpecies": "grass",
+      "to": 964,
+      "amount": 2,
+      "material": 0.105,
+      "tag": "plant",
+      "supplies": [
+        {
+          "source": "i:food:24:4:grass",
+          "amount": 2,
+          "tag": "plant"
+        },
+        {
+          "source": "i:food:25:4:grass",
+          "amount": 2,
+          "tag": "plant"
+        }
+      ]
+    }
+  ],
+  "stage": {
+    "events": [
+      "feed",
+      "move",
+      "defend",
+      "death"
+    ],
+    "d": {
+      "mode": "detail",
+      "drawn": 21,
+      "motionActors": 20,
+      "selectedMotion": true,
+      "resources": 0,
+      "carcasses": 1,
+      "infectedHosts": 0,
+      "highParasites": 0,
+      "frames": 33,
+      "parasiteArt": 128,
+      "remainsArt": 1,
+      "carcassParasites": 0,
+      "deathSnapshots": 1,
+      "departedMotionActors": 1,
+      "motionKinds": {
+        "absorb": 15,
+        "graze": 5,
+        "defend": 1
+      },
+      "statusBadges": 3,
+      "statusBadgesByGroup": {
+        "main": 3,
+        "basal": 0,
+        "prey": 0
+      },
+      "nameLabels": {
+        "main": 3,
+        "basal": 0,
+        "prey": 0,
+        "P": 0,
+        "Q": 0,
+        "resource": 0
+      },
+      "highlightedCells": [],
+      "criticalMarkers": 0,
+      "elevated": 0,
+      "selectedMotionEndpoints": {
+        "id": "i:main:25:4:crystal",
+        "target": "i:food:24:4:grass",
+        "from": [
+          -0.6657018015282263,
+          18.312931019955354
+        ],
+        "to": [
+          -0.467032470733165,
+          17.764769799822478
+        ]
+      },
+      "materialPixelsPerCell": 256,
+      "paintedMaterials": 11,
+      "skippedFrames": 27
+    }
+  },
+  "equal": true
+}

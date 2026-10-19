@@ -1,0 +1,18 @@
+{
+  "baseline": "1853e31",
+  "sourceChanges": [
+    {
+      "file": "src/Index.html",
+      "before": "8881dc209cd65b2a24d3a7428b56c31684c044de8070a46f84deb9f84528449a",
+      "after": "87f650d4704b8d0acb673b215f2531e1b17fcbdbb8d6207e27793b8acf13f7a8"
+    },
+    {
+      "file": "src/ecology/renderer.js",
+      "before": "ddae61fef951da82ac38167bdc5f14067917ab1b5ccfefdbde2ff41e992b0f76",
+      "after": "8dfeaa72002513cd15908c57ded5231952cc393b93a0d3b057c629fe135aa9d9"
+    }
+  ],
+  "unchangedBiology": true,
+  "nativeWindowsRun": false,
+  "unchangedSourceAssets": true
+}
