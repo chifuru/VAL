@@ -1,0 +1,10 @@
+{
+  "version": "4.2.18",
+  "electron": "44.7.2",
+  "exe": "LifeGame.exe",
+  "platform": "win32",
+  "arch": "x64",
+  "zip": "LifeGame-Windows-x64.zip",
+  "sha256": "d168e1b5e5d92d69e84b40b69603fb5d2d661890ed31e07f051f63e4c935ac43",
+  "bytes": 274711556
+}

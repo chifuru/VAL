@@ -1,0 +1,15 @@
+{
+  "version": "4.2.18",
+  "changedFiles": [
+    "src/Index.html",
+    "src/app.js",
+    "src/ecology/archive.js",
+    "src/ecology/engine.js",
+    "src/ecology/observation-modules.js",
+    "src/ecology/observations.js",
+    "src/ecology/replay-version.js"
+  ],
+  "png": 35,
+  "allMatched": true,
+  "nativeWindowsRun": false
+}

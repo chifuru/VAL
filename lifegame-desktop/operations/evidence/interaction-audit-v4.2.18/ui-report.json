@@ -1,0 +1,22 @@
+{
+  "checks": [
+    "combat leader has distinct label",
+    "animal remains has distinct label",
+    "misleading live-feed dominance removed",
+    "current parasite bonds retained",
+    "real Worker and synchronous biology agree",
+    "combat metric version recorded",
+    "all turns include measured combat zero or counts",
+    "new result saved",
+    "saved analysis displays same metric",
+    "saved all-turn metrics match original raw rows",
+    "analysis returns to live graph",
+    "positive rendering retains different units",
+    "legacy missing values are never fabricated zero",
+    "expanded role text fits narrow page",
+    "no errors",
+    "no browser errors or native dialogs"
+  ],
+  "errors": [],
+  "scope": "Linux Chromium; Worker, all-turn metrics, saved real history; explicit synthetic UI fixtures for positive and missing values"
+}

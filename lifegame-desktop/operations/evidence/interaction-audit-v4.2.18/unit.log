@@ -1,0 +1,14 @@
+✔ one combat death credits the recorded largest-damage attacker; other causes and survivors do not (35.008337ms)
+✔ mutual deaths retain attacker attribution through old identities, and unknown attackers are not invented (20.643507ms)
+✔ carcass assimilation and combat credits are separate, expire after50 turns and survive snapshot/CSV (61.173006ms)
+✔ legacy histories do not turn missing combat measurement into zero or animal remains into live predation (21.11304ms)
+✔ observation collection changes neither world state nor accounting (27.489052ms)
+✔ previous current signature accepts founder conditions; unsupported older signatures keep feature guards (24.823219ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 202.635981

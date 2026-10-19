@@ -5075,6 +5075,13 @@ function(require,module){
       }
       const produced=ctx.records.get(id)?.light||0;if(produced>0)flowTelemetry.production[species]=(flowTelemetry.production[species]||0)+produced;
     }
+    const combat={definition:"combat-observed/1",kills:{}};
+    for(const death of ctx.deaths){
+      if(death.reason!=="combat")continue;
+      const attacker=ctx.records.get(death.id)?.hitBy,credited=refs.get(attacker);
+      if(credited)combat.kills[credited]=(combat.kills[credited]||0)+1;
+    }
+    flowTelemetry.combat=combat;
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
@@ -8950,6 +8957,13 @@ function(require,module){
       }
       const produced=ctx.records.get(id)?.light||0;if(produced>0)flowTelemetry.production[species]=(flowTelemetry.production[species]||0)+produced;
     }
+    const combat={definition:"combat-observed/1",kills:{}};
+    for(const death of ctx.deaths){
+      if(death.reason!=="combat")continue;
+      const attacker=ctx.records.get(death.id)?.hitBy,credited=refs.get(attacker);
+      if(credited)combat.kills[credited]=(combat.kills[credited]||0)+1;
+    }
+    flowTelemetry.combat=combat;
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {

@@ -2,7 +2,7 @@
 
 ## 適用範囲と現在地
 
-製品基準は4.2.17。工程1〜7は限定接続し、種別/PQ初期数と全期間記録を含む。工程8では説明の3枠/独立行動/供給/成熟/P-Q条件を修正し、36地形条件の既定経路と2profileの境界を照合（operations/evidence/ecology-guide-v4.2.17/README.md）。要所・循環・寄生/情報の観測照合、最終判読/性能・500T/実Windowsは残る。限定検査を全要件完成と扱わない。
+製品基準は4.2.18。工程1〜7は限定接続。工程8は説明/既定経路/成熟境界に加え、役割別優勢の戦闘討ち取りと動物死骸食を分離し原値/保存へ接続（operations/evidence/interaction-audit-v4.2.18/README.md）。生態決定は不変。次は情報由来/実効作用の観測、要所保持と長期循環の照合。最終判読/性能・500T/実Windowsは残る。限定検査を全要件完成と扱わない。
 
 起点は**主生物21系統の固有の雌雄・年齢・階級差の補完**。その後に表示操作、動作、集計、画面、設定、保存、生態照合、視認性・性能、結合運転の順で進む。生態進行不能やデータ消失が見つかった場合は、それを先に修正して元工程へ戻る。
 
@@ -163,17 +163,17 @@
 |再生後の明示的新規記録|4.2.15で暗黙保存禁止/明示保存は新IDと元記録参照|7|src/ecology/archive.js、src/app.js|
 |保存失敗/旧形式/結果分析|4.2.15でschema2/旧併読/結果分析/quota保護を接続。未知の指標版変換は未対応|7/10|src/ecology/archive.js|
 |渡河・適応・水路/主要陸域接続|4.2.17で36条件の既定陸水経路と主の深水移動費を照合。全陸域/自律渡航は未確認|8|src/ecology/landscape.js、src/ecology/behavior.js|
-|保持すると有利な場所|適性/遮蔽あり、有限利益・保持観測の照合が必要|8|src/ecology/behavior.js|
+|保持すると有利な場所|4.2.18で遮蔽/防御の有限利益を確認。要所保持の時系列/実効利益観測は未完|8|src/ecology/behavior.js|
 |陸水の食物網/生産基盤/還元|3枠/浮遊微藻あり、全条件の更新は未確認|8/10|src/ecology/observation-modules.js|
 |繁殖難易度/年齢成熟/世代更新|成熟分離あり、経路の長期検証は未完|8/10|src/ecology/reproduction.js|
 |P淘汰/感染経路/Q限定窓と作用|接続あり、全対象/条件の生存は未確認|8/10|src/ecology/parasites.js|
-|情報の文脈/鮮度/撹乱/作用|基本処理あり、集計・説明との照合が必要|4/8|src/ecology/parasites.js、src/ecology/observations.js|
+|情報の文脈/鮮度/撹乱/作用|4.2.18で短期情報1作用を確認。消えた発信元の由来と発信/取得/実効変化/Q媒介の観測分離は未完|4/8|src/ecology/parasites.js、src/ecology/observations.js|
 |説明の3枠/繁殖/凡例/保存|4.2.17で3枠/成熟/P-Q優遇/供給/独立行動の説明と樹を修正。全項目照合は継続|8/9|src/app.js、src/Index.html|
 |生成失敗/取消/再試行/設定帰還|接続あり、変更後の再確認が必要|6/10|operations/evidence/navigation-review-v4.1.3/README.md|
 |基本進行/手動停止観察/追跡|接続あり、UI変更後の回帰確認|2/5/10|src/app.js|
 |背景立体感/自然な境界/全要素識別|既存改善あり、最終全場面は未確認|9|src/ecology/habitat.js、src/ecology/scenery.js|
 |5〜15分/500T/準備60秒/品質維持|基準実装あり、最終版の実測が必要|9/10|src/app.js、src/ecology/compute-client.js|
-|Windows生成と実機|4.2.17生成・変更src2/35PNG同梱一致、最新実機は未確認|10|operations/evidence/lower-states-v4.2.6/package-report.json|
+|Windows生成と実機|4.2.18生成・変更src7/35PNG同梱一致、最新実機は未確認|10|operations/evidence/lower-states-v4.2.6/package-report.json|
 |R0循環/世代/競争と500T存続|既存採用条件の例あり、最終結合版は未確認|10|design/specification/observation-first-v2.8.md|
 |厳密R1〜R6/新植物/36地形|目標と採用意向を保持、完成後の工程|11|design/specification/ab-visual-ecology-v2.5.md、design/dedicated-variants-v4.2.2/coverage.md|
 

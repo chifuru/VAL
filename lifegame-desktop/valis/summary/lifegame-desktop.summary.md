@@ -2,7 +2,7 @@
 
 lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Node、仕様と資料の入口は `design/specification/README.md`。
 
-全残件の現在入口: `operations/plans/remaining-completion-v4.2.md`。製品4.2.17の生態/説明照合は `operations/evidence/ecology-guide-v4.2.17/README.md`。種別初期数と全期間記録は接続済み。次は工程8の要所・循環・寄生/情報観測の照合。最終外観/性能・500T/実Windows確認は残る。
+全残件の現在入口: `operations/plans/remaining-completion-v4.2.md`。製品4.2.18の役割別優勢・実作用照合は `operations/evidence/interaction-audit-v4.2.18/README.md`。次は情報由来/実効作用の観測、要所保持・長期循環の照合。最終外観/性能・500T/実Windows確認は残る。
 
 ## A：仕様
 
@@ -199,7 +199,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 		ロジック:
 			個体数推移は全て/主生物/餌生物/植物/一次/高次を選択。構成は相/雌雄/年齢の個体数積み上げ3本を同時表示し対象共通・総数一致、既定主生物。小型サマリは各系列最大100と現在実数、全ターン原値を保持。
 		実態:
-			4.2.15で初期/最終統計/全ターン観測と指標版をschema2/IndexedDBへ保存し、最終結果の3パネル分析・CSV/JSONへ接続。再生だけでは増件せず、明示保存は独立ID/元記録参照。旧記録を併読し上書きしない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
+			4.2.18で役割別優勢を戦闘討ち取り/動物死骸同化Eへ分離。最多損害者への1死亡1件、全ターン原値/50T/CSV/保存と旧欠測の未記録表示を接続。生態の決定/費用/原画は不変。情報由来/全作用グラフ・長期循環は未完。 詳細: operations/evidence/interaction-audit-v4.2.18/README.md。
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.6.md。生物の選択・所在強調・個体追跡。
@@ -259,7 +259,7 @@ C4:（A2, B5 / Electron と Windows 配布）［草案］
 	ロジック:
 		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
 	実態:
-		Windows4.2.17生成と変更src2ファイル・原画35PNGの同梱一致を確認。生態source/署名/原画は不変。実Windows起動/性能は未実施。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
+		Windows4.2.18生成と変更src7/原画35PNGの同梱一致を確認。観測追加で署名更新、旧条件の生態指紋一致で互換を継承。実Windows起動は未実施。 詳細: operations/evidence/interaction-audit-v4.2.18/README.md。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -283,7 +283,7 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 	ロジック:
 		C7.1〜C7.5を接合し、前状態と有限予算から次状態を確定する。
 	実態:
-		4.2.16で非主7種とP2種/Qの初期直接数、空欄自動/明示0、指定種の代替禁止、第一宿主/探索条件の不足案内、指定/実配置の保存再生を接続。無指定の旧8優遇×2条件×30Tの生態指紋/統計一致。500T/実Windows/最終外観は未確認。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
+		4.2.18で役割別優勢を戦闘討ち取り/動物死骸同化Eへ分離。最多損害者への1死亡1件、全ターン原値/50T/CSV/保存と旧欠測の未記録表示を接続。生態の決定/費用/原画は不変。情報由来/全作用グラフ・長期循環は未完。 詳細: operations/evidence/interaction-audit-v4.2.18/README.md。
 
 	C7.1:（B4, B4.4 / 初期値・固定世界・31種の共通状態）［草案］
 		構成（要素・関係）:
@@ -327,7 +327,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 	ロジック:
 		確定世界を観察し、操作や拡大を生態計算から分ける。
 	実態:
-		4.2.17で3枠/供給/独立行動/水中生産者/年齢成熟を現行説明へ、P樹のIII条件を年齢へ修正。Q説明と樹を優遇別成長・実初期数へ連動。生態source/署名/原画は不変。工程8全体・500T/最終外観/実Windowsは未完。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
+		4.2.18で役割別優勢を戦闘討ち取り/動物死骸同化Eへ分離。最多損害者への1死亡1件、全ターン原値/50T/CSV/保存と旧欠測の未記録表示を接続。生態の決定/費用/原画は不変。情報由来/全作用グラフ・長期循環は未完。 詳細: operations/evidence/interaction-audit-v4.2.18/README.md。
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C8.1.md。projection/scenery/habitat/art/renderer、生物/地物10原画と背景11素材。契約: operations/plans/habitat-visual-v3.1.md。
@@ -379,7 +379,7 @@ D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	ロジック:
 		C4と対象版を照合して配布物そのものを実行する。
 	実態:
-		Windows4.2.17生成と変更src2ファイル・原画35PNGの同梱一致を確認。生態source/署名/原画は不変。実Windows起動/性能は未実施。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
+		Windows4.2.18生成と変更src7/原画35PNGの同梱一致を確認。観測追加で署名更新、旧条件の生態指紋一致で互換を継承。実Windows起動は未実施。 詳細: operations/evidence/interaction-audit-v4.2.18/README.md。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -411,7 +411,7 @@ D8:（C7 / 生態循環と結合進行）［草案］
 	ロジック:
 		存続・出生・資源・特殊生態の結合を対象条件付きで調べる。
 	実態:
-		36地形条件の既定陸水経路と製品2profileの年齢成熟/Q感染窓/成長境界を確認。関連5ファイル回帰。全陸域連結/長期生存の認定ではない。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
+		新単体6件、旧8優遇×2条件×30Tの生態指紋/統計一致と不変条件/収支、関連5ファイル回帰を確認。遮蔽/防御の有限利益と短期の採食/戦闘/感染/育児/情報関係を照合。長期循環・新500T未認定。 詳細: operations/evidence/interaction-audit-v4.2.18/README.md。
 	D8.1:（C7.4 / 相・出生・遺伝と繁殖例外）［草案］
 		構成（要素・関係）:
 			valis/nodes/D/D8.1.md。相・出生・遺伝と繁殖例外の計画。
@@ -433,7 +433,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		Linux Chromium32項目で現行説明/優遇ON-OFFのQ樹・説明/初期Q実数/復帰/指紋不変/狭幅を確認。生態source/署名/原画は不変。最終外観/実Windowsは未確認。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
+		Linux Chromium16項目で役割別表示/単位/旧欠測、実Worker一致、全ターン原値と保存一致/分析復帰を確認。正数表示には合成fixtureを使用し実生態と区別。最終外観/実Windowsは未確認。 詳細: operations/evidence/interaction-audit-v4.2.18/README.md。
 ```
 
 ## E：検証証跡
@@ -477,20 +477,20 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	ロジック:
 		各対象の実装・仕様・環境と一致する記録範囲に限定して参照する。
 	実態:
-		36地形条件の既定陸水経路と製品2profileの年齢成熟/Q感染窓/成長境界を確認。関連5ファイル回帰。全陸域連結/長期生存の認定ではない。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
+		新単体6件、旧8優遇×2条件×30Tの生態指紋/統計一致と不変条件/収支、関連5ファイル回帰を確認。遮蔽/防御の有限利益と短期の採食/戦闘/感染/育児/情報関係を照合。長期循環・新500T未認定。 詳細: operations/evidence/interaction-audit-v4.2.18/README.md。
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E6.md。operations/evidence/navigation-recovery-v4.1/source-hashes.json。観察4.1の既存記録と今回の遷移修正を区別。
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		Linux Chromium32項目で現行説明/優遇ON-OFFのQ樹・説明/初期Q実数/復帰/指紋不変/狭幅を確認。生態source/署名/原画は不変。最終外観/実Windowsは未確認。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
+		Linux Chromium16項目で役割別表示/単位/旧欠測、実Worker一致、全ターン原値と保存一致/分析復帰を確認。正数表示には合成fixtureを使用し実生態と区別。最終外観/実Windowsは未確認。 詳細: operations/evidence/interaction-audit-v4.2.18/README.md。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
 	ロジック:
 		対象SHAと版が一致するWindows4.1の配布/実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		Windows4.2.17生成と変更src2ファイル・原画35PNGの同梱一致を確認。生態source/署名/原画は不変。実Windows起動/性能は未実施。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
+		Windows4.2.18生成と変更src7/原画35PNGの同梱一致を確認。観測追加で署名更新、旧条件の生態指紋一致で互換を継承。実Windows起動は未実施。 詳細: operations/evidence/interaction-audit-v4.2.18/README.md。
 
 ```

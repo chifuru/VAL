@@ -1,0 +1,13 @@
+✔ tests/archive-history.test.cjs (13722.988604ms)
+✔ tests/current-summary.test.cjs (141.667979ms)
+✔ tests/ecosystem-panels.test.cjs (96.078223ms)
+✔ tests/founder-counts.test.cjs (1853.748823ms)
+✔ tests/observation-model.test.cjs (21751.430273ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 37580.030929
