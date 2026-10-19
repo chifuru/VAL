@@ -2543,6 +2543,7 @@ function(require,module){
         }
         let assimilated=0;
         if (a.tag === "info") {
+          (ctx.infoReceipts??=[]).push({recipient:o.id,species:o.species,event:obj.event?{id:obj.event.id,sourceId:obj.event.sourceId,time:obj.event.time,mediated:!!obj.event.mediator,noise:!!obj.event.noise}:null});
           const add = Math.min(ctx.traits.get(o.id).capE - o.E, amount.E);
           o.E = S.round(o.E + add);
           S.dissipate(w, amount.E - add);
@@ -2908,7 +2909,10 @@ function(require,module){
           q.seen.push({ id: c.event.id, expires: c.event.time + 20 });
           q.seen = q.seen.filter((x) => x.expires > w.turn).slice(-5);
         }
-        if (c.kind === "info") ctx.records.get(c.source.id).emitted = true;
+        if (c.kind === "info") {
+          ctx.records.get(c.source.id).emitted = true;
+          (ctx.infoEmissions??=[]).push({id:c.event.id,sourceId:c.event.sourceId,species:c.source.species,time:c.event.time,mediated:!!c.opQ});
+        }
       }
     }
   }
@@ -3798,6 +3802,7 @@ function(require,module){
         S.clamp(v + S.clamp(delta[i], -2, 2), 0, 100),
       );
       for (const event of rec.information) {
+        let deltaAbs=0;
         const age = w.turn - event.time,
           fresh =
             age < 5
@@ -3819,12 +3824,15 @@ function(require,module){
             -3,
             3,
           );
+          const beforeInformation=o.weights[component.axis];
           o.weights[component.axis] = S.clamp(
             o.weights[component.axis] + d,
             0,
             100,
           );
+          deltaAbs+=Math.abs(S.round(o.weights[component.axis])-S.round(beforeInformation));
         }
+        (ctx.infoEffects??=[]).push({recipient:o.id,species:o.species,event:{id:event.id,sourceId:event.sourceId,time:event.time,mediated:!!event.mediator,noise:!!event.noise},deltaAbs});
       }
       if (w.turn % 10 === 0)
         o.weights = o.weights.map(
@@ -5082,6 +5090,8 @@ function(require,module){
       if(credited)combat.kills[credited]=(combat.kills[credited]||0)+1;
     }
     flowTelemetry.combat=combat;
+    flowTelemetry.information={definition:"information-observed/1",emissions:ctx.infoEmissions||[],receipts:ctx.infoReceipts||[],effects:ctx.infoEffects||[],origins:[]};
+    for(const a of w.resources)if(a.kind==="info"&&a.event&&refs.has(a.event.sourceId))flowTelemetry.information.origins.push({id:a.event.id,species:refs.get(a.event.sourceId),time:a.event.time});
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
@@ -7883,6 +7893,7 @@ function(require,module){
         }
         let assimilated=0;
         if (a.tag === "info") {
+          (ctx.infoReceipts??=[]).push({recipient:o.id,species:o.species,event:obj.event?{id:obj.event.id,sourceId:obj.event.sourceId,time:obj.event.time,mediated:!!obj.event.mediator,noise:!!obj.event.noise}:null});
           const add = Math.min(ctx.traits.get(o.id).capE - o.E, amount.E);
           o.E = S.round(o.E + add);
           S.dissipate(w, amount.E - add);
@@ -8248,7 +8259,10 @@ function(require,module){
           q.seen.push({ id: c.event.id, expires: c.event.time + 20 });
           q.seen = q.seen.filter((x) => x.expires > w.turn).slice(-5);
         }
-        if (c.kind === "info") ctx.records.get(c.source.id).emitted = true;
+        if (c.kind === "info") {
+          ctx.records.get(c.source.id).emitted = true;
+          (ctx.infoEmissions??=[]).push({id:c.event.id,sourceId:c.event.sourceId,species:c.source.species,time:c.event.time,mediated:!!c.opQ});
+        }
       }
     }
   }
@@ -8964,6 +8978,8 @@ function(require,module){
       if(credited)combat.kills[credited]=(combat.kills[credited]||0)+1;
     }
     flowTelemetry.combat=combat;
+    flowTelemetry.information={definition:"information-observed/1",emissions:ctx.infoEmissions||[],receipts:ctx.infoReceipts||[],effects:ctx.infoEffects||[],origins:[]};
+    for(const a of w.resources)if(a.kind==="info"&&a.event&&refs.has(a.event.sourceId))flowTelemetry.information.origins.push({id:a.event.id,species:refs.get(a.event.sourceId),time:a.event.time});
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
@@ -10954,6 +10970,7 @@ function(require,module){
         S.clamp(v + S.clamp(delta[i], -2, 2), 0, 100),
       );
       for (const event of rec.information) {
+        let deltaAbs=0;
         const age = w.turn - event.time,
           fresh =
             age < 5
@@ -10975,12 +10992,15 @@ function(require,module){
             -3,
             3,
           );
+          const beforeInformation=o.weights[component.axis];
           o.weights[component.axis] = S.clamp(
             o.weights[component.axis] + d,
             0,
             100,
           );
+          deltaAbs+=Math.abs(S.round(o.weights[component.axis])-S.round(beforeInformation));
         }
+        (ctx.infoEffects??=[]).push({recipient:o.id,species:o.species,event:{id:event.id,sourceId:event.sourceId,time:event.time,mediated:!!event.mediator,noise:!!event.noise},deltaAbs});
       }
       if (w.turn % 10 === 0)
         o.weights = o.weights.map(

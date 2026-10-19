@@ -1,0 +1,37 @@
+{
+  "cover": {
+    "bare": 3.9635130407230466,
+    "covered": 4.5580399968315035,
+    "guarded": 5.6975499960393785,
+    "scope": "Local finite defense benefit only; no territory ownership metric"
+  },
+  "realizedRelations": {
+    "feeding": 51988,
+    "contact": 425603,
+    "combat": 1002,
+    "bond": 1450,
+    "infection": 94,
+    "information": 1,
+    "care": 94
+  },
+  "nutrition": {
+    "light|light": 140450.76131601303,
+    "resource|mineral": 0,
+    "soil|mineral": 0,
+    "plant|plant": 51998.445651019916,
+    "plant|fungal": 220.857961,
+    "carcass|fungal": 95.38426099999998,
+    "resource|fungal": 175.8949340000004,
+    "resource|plant": 2654.8483040000506,
+    "resource|factor": 1.396988,
+    "carcass|animal": 1052.774528,
+    "resource|info": 0.5995
+  },
+  "profiles": 8,
+  "conditionsPerProfile": 2,
+  "turnsPerCondition": 30,
+  "biologicalFingerprintAndStatsEqual": true,
+  "includesPreviousSupplyAndInitialControls": true,
+  "observationOnlyChange": true,
+  "scope": "No founder overrides; not a 500T survival certification"
+}

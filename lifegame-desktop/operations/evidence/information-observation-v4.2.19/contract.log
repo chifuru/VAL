@@ -1,0 +1,29 @@
+✔ v1.4 Unicode SHA-256 vectors agree in Node and portable browser implementation (7.685721ms)
+✔ catalogue keeps twenty four-phase 3→6 trees and thirty biological definitions (0.190185ms)
+✔ fixed terrain, exact initial seed, independent slots and biological-group toggles (1131.769414ms)
+✔ recovery can return an injured adult to breeding HP without double crediting energy (3.932745ms)
+✔ full recovery sends remaining absorbed energy to reserve; prey keeps its own HP cap (2.558655ms)
+✔ material absorption returns unabsorbed M to source soil (2.259106ms)
+✔ movement uses every path reservation; neither swaps nor winner retry occurs (2.656362ms)
+✔ cliff edges and diagonal corner rocks stop both movement and sight (1.854831ms)
+✔ same-turn attacks are simultaneous and do not create an automatic counterattack (3.103823ms)
+✔ three-neighbor mineral birth is a candidate only and requires finite local M (40.364518ms)
+✔ funded resource amount can reach dense q9 without free refill (2.644744ms)
+✔ exactly one partial plant body unit is shared, with no source overdraw (4.100487ms)
+✔ phaseIII continues mineral intake past phaseIII qualification toward phaseIV, without overfeeding (3.327639ms)
+✔ plant roots share two bites, transfer finite soil M, and stop at capacity or exhaustion (5.66367ms)
+✔ healthy full prey neither strips leaves nor consumes a mineral source (1.903423ms)
+✔ slightly hungry prey takes only the needed leaf fraction and leaves the living base (5.340326ms)
+✔ bare living bases are not edible targets, while fungi have no protected plant base (3.238635ms)
+✔ leaf loss lowers paid light input; basal tissue cannot be spent on drops (3.866666ms)
+✔ a base in darkness can die and never triggers a replacement without parents (9.327452ms)
+✔ natural initialization keeps four related founders near a legal center and preserves exact counts (922.576851ms)
+✔ mate proximity emerges from affinity weights, remains during cooldown, and never grants unqualified birth (55.969883ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2265.895918

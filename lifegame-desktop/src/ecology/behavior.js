@@ -865,6 +865,7 @@
         S.clamp(v + S.clamp(delta[i], -2, 2), 0, 100),
       );
       for (const event of rec.information) {
+        let deltaAbs=0;
         const age = w.turn - event.time,
           fresh =
             age < 5
@@ -886,12 +887,15 @@
             -3,
             3,
           );
+          const beforeInformation=o.weights[component.axis];
           o.weights[component.axis] = S.clamp(
             o.weights[component.axis] + d,
             0,
             100,
           );
+          deltaAbs+=Math.abs(S.round(o.weights[component.axis])-S.round(beforeInformation));
         }
+        (ctx.infoEffects??=[]).push({recipient:o.id,species:o.species,event:{id:event.id,sourceId:event.sourceId,time:event.time,mediated:!!event.mediator,noise:!!event.noise},deltaAbs});
       }
       if (w.turn % 10 === 0)
         o.weights = o.weights.map(

@@ -462,6 +462,7 @@
         }
         let assimilated=0;
         if (a.tag === "info") {
+          (ctx.infoReceipts??=[]).push({recipient:o.id,species:o.species,event:obj.event?{id:obj.event.id,sourceId:obj.event.sourceId,time:obj.event.time,mediated:!!obj.event.mediator,noise:!!obj.event.noise}:null});
           const add = Math.min(ctx.traits.get(o.id).capE - o.E, amount.E);
           o.E = S.round(o.E + add);
           S.dissipate(w, amount.E - add);
@@ -827,7 +828,10 @@
           q.seen.push({ id: c.event.id, expires: c.event.time + 20 });
           q.seen = q.seen.filter((x) => x.expires > w.turn).slice(-5);
         }
-        if (c.kind === "info") ctx.records.get(c.source.id).emitted = true;
+        if (c.kind === "info") {
+          ctx.records.get(c.source.id).emitted = true;
+          (ctx.infoEmissions??=[]).push({id:c.event.id,sourceId:c.event.sourceId,species:c.source.species,time:c.event.time,mediated:!!c.opQ});
+        }
       }
     }
   }

@@ -24,3 +24,5 @@
 短期の栄養入力・採食/戦闘/寄生/情報の実関係を照合する。短期に作用があったことと長期の世代循環は別。Q媒介は既存tallies.information.mediatedで確認できるが、発信・取得・実効変化/Q媒介の全てが独立したグラフ系列になっているわけではない。元発信者が消えた後の系統参照欠落などは後続対象として明記する。
 
 実行契約: operations/plans/interaction-audit-v4.2.18.md。限定実測: operations/evidence/interaction-audit-v4.2.18/README.md。全工程の現在入口: operations/plans/remaining-completion-v4.2.md。
+
+4.2.19の現在接続: design/specification/information-observation-v1.md。期限内の既知由来と生成/取得/直接重み適用/Q媒介の観測を追加。旧版の由来欠落/未分離という記載は4.2.18の状態に限定する。行動結果への因果と長期頻度は後続。

@@ -1,0 +1,13 @@
+✔ tests/archive-history.test.cjs (11690.252678ms)
+✔ tests/current-summary.test.cjs (118.950623ms)
+✔ tests/ecology-parasites.test.cjs (110.336007ms)
+✔ tests/interaction-audit.test.cjs (335.828483ms)
+✔ tests/observation-model.test.cjs (11696.994857ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23963.789191

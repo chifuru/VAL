@@ -1,0 +1,16 @@
+✔ expired sender is traced by event identity without a live source, while receipt and actual application remain separate (63.753486ms)
+✔ unknown source stays unknown and zero weight change never creates an actual relation (30.842418ms)
+✔ original20T expiry is not refreshed by later observation or retransmission (30.408895ms)
+✔ actual learning records direct quantized change, handles saturation and leaves DNA intact (52.248046ms)
+✔ successful paid supply records emission and Q mediation, failed funding records neither (46.912897ms)
+✔ actual consumption records one payload receipt and subsequent learning records the applied effect (20.88121ms)
+✔ all-turn aggregate survives saved history, rejects unknown definitions, and legacy omissions stay absent (32.557626ms)
+✔ previous signature with founder settings remains replayable after observation-only change (28.628043ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 321.026801
