@@ -1,0 +1,10 @@
+MATCH src/ecology/art.js
+MATCH src/ecology/renderer.js
+MATCH src/ecology/display-plane.js
+MATCH src/Index.html
+MATCH src/assets/visual-manifest.json
+MATCH src/assets/visual-manifest.js
+MATCH src/assets/swarm-branches-v423.png
+MATCH src/assets/serpent-approved-v424.png
+MATCH src/assets/dedicated-branches-10.png
+4.2.7; native Windows launch not executed

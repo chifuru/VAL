@@ -99,6 +99,98 @@
     return c;
   }
 
+  const anatomyTargets = new Set(["solar", "cephalopod", "crystal", "swarm", "precocial"]);
+  const anatomyMetrics = { builds: 0, hits: 0, foldedTriangles: 0, maxTexturePixels: 0, limitedFrames: 0, minStrength: 1 };
+  function anatomyPoints(o, stage) {
+    const m=o.sex==="male"?1:0, f=o.sex==="female"?1:0,
+      j=stage==="juvenile"?1:0, e=stage==="elderly"?1:0,
+      points=[], at=(x,y,dx,dy,sx=.21,sy=.20)=>points.push([x,y,dx,dy,sx,sy]);
+    if(o.species==="solar"){
+      at(.44,.17,0,-.19*m+.055*f+.18*j+.12*e,.27,.16); // crown feathers
+      at(.84,.53,.17*m-.15*f-.21*j,.10*e,.20,.29); // rear plumage
+      at(.32,.58,-.14*f+.035*m, .025*f,.17,.20); // breast
+      at(.66,.30, .04*m, .11*j+.075*e,.21,.17); // wing tips
+      at(.43,.87,0,-.09*j+.06*e,.26,.12); // supports
+    }else if(o.species==="cephalopod"){
+      const hx=o.phase>=3?.24:.50,hy=o.phase>=3?.36:.28;
+      at(hx-.13,hy,-.10*f+.035*m, .025*e,.16,.22);
+      at(hx+.13,hy, .10*f-.035*m,-.035*j,.16,.22); // mantle depth
+      at(.83,.64,.18*m-.08*f-.16*j,.14*e,.18,.23); // outer arms
+      at(.25,.86,-.07*m+.08*j,-.16*j+.11*e,.20,.15);
+      at(.61,.83,.07*m-.10*j,-.14*j+.13*e,.18,.15);
+    }else if(o.species==="crystal"){
+      at(.57,.18, .025*m,-.23*m+.065*f+.19*j+.085*e,.29,.16); // dorsal crystals
+      at(.47,.55,-.09*f+.035*m,.02*f,.19,.20);
+      at(.79,.51, .08*f-.025*m,0,.15,.23); // central crystal body
+      at(.31,.88, .05*j,-.14*j+.08*e,.14,.12);
+      at(.79,.86,-.04*j,-.12*j+.07*e,.14,.12); // crystal supports
+    }else if(o.species==="swarm"){
+      const queen=o.role==="queen"?1:0,worker=o.role==="worker"?1:0;
+      at(.52,.14,0,-.22*queen-.12*m+.075*worker+.16*j+.08*e,.22,.13); // living signal cluster
+      at(.50,.70,0,.20*queen-.10*worker-.035*m-.075*j+.08*e,.24,.17); // central lower ring
+      at(.15,.55,-.13*queen-.08*worker-.20*m+.16*j,.035*worker+.09*e,.15,.25);
+      at(.84,.55, .13*queen+.08*worker+.20*m-.16*j,.035*worker+.09*e,.15,.25); // lateral plates
+      at(.50,.46,0,.065*queen-.025*worker,.20,.16); // torus remains connected and hollow
+    }else if(o.species==="precocial"){
+      at(.20,.35,-.13*m+.045*f+.05*j,.03*j+.04*e,.16,.17);
+      at(.80,.36, .13*m-.045*f-.05*j,.03*j+.05*e,.16,.18); // outer plates
+      at(.52,.53,0,.12*f-.035*m+.025*j,.23,.19); // central carapace
+      at(.28,.87,0,-.045*j+.085*e,.15,.11);
+      at(.75,.87,0,-.045*j+.085*e,.15,.11); // early juvenile already has developed supports
+    }
+    return points;
+  }
+  function anatomyFrame(canvas, image, o, stage) {
+    const g=canvas.getContext("2d"),W=image.width,H=image.height,
+      points=anatomyPoints(o,stage),N=12,padX=W*.18,padY=H*.18;
+    g.save();g.translate(padX,padY);
+    let strength=1;
+    function vertex(x,y){
+      const u=x/W,v=y/H,edge=.45+.55*16*u*(1-u)*v*(1-v);let dx=0,dy=0;
+      for(const [cx,cy,px,py,sx,sy]of points){const w=Math.exp(-.5*(((u-cx)/sx)**2+((v-cy)/sy)**2));dx+=px*w;dy+=py*w;}
+      return [x+dx*edge*W*strength,y+dy*edge*H*strength];
+    }
+    function triangle(s,t){
+      const sx1=s[1][0]-s[0][0],sy1=s[1][1]-s[0][1],sx2=s[2][0]-s[0][0],sy2=s[2][1]-s[0][1],
+        dx1=t[1][0]-t[0][0],dy1=t[1][1]-t[0][1],dx2=t[2][0]-t[0][0],dy2=t[2][1]-t[0][1],det=sx1*sy2-sx2*sy1,
+        a=(dx1*sy2-dx2*sy1)/det,b=(dy1*sy2-dy2*sy1)/det,c=(dx2*sx1-dx1*sx2)/det,d=(dy2*sx1-dy1*sx2)/det,
+        cx=(t[0][0]+t[1][0]+t[2][0])/3,cy=(t[0][1]+t[1][1]+t[2][1])/3;
+      if((dx1*dy2-dx2*dy1)*det<=0)anatomyMetrics.foldedTriangles++;
+      g.save();g.beginPath();
+      // A small overlap avoids antialias cracks while keeping the existing painted tissue.
+      t.forEach((p,i)=>{const x=cx+(p[0]-cx)*1.006,y=cy+(p[1]-cy)*1.006;i?g.lineTo(x,y):g.moveTo(x,y);});g.closePath();g.clip();
+      g.transform(a,b,c,d,t[0][0]-a*s[0][0]-c*s[0][1],t[0][1]-b*s[0][0]-d*s[0][1]);g.drawImage(image,0,0);g.restore();
+    }
+    const source=Array.from({length:(N+1)**2},(_,i)=>[i%(N+1)*W/N,Math.floor(i/(N+1))*H/N]),
+      area=(a,b,c)=>(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]),
+      triangles=[];
+    for(let y=0;y<N;y++)for(let x=0;x<N;x++){
+      const a=y*(N+1)+x,b=a+1,c=a+N+1,d=c+1;triangles.push([a,b,c],[d,c,b]);
+    }
+    let destination;
+    // Bound local distortion by triangle area; never fold or collapse painted anatomy.
+    for(let attempt=0;attempt<10;attempt++){
+      destination=source.map(p=>vertex(...p));
+      if(triangles.every(t=>area(...t.map(i=>destination[i]))/area(...t.map(i=>source[i]))>=.20))break;
+      strength=attempt===8?0:strength*.75;
+    }
+    if(strength<1)anatomyMetrics.limitedFrames++;
+    anatomyMetrics.minStrength=Math.min(anatomyMetrics.minStrength,strength);
+    for(const t of triangles)triangle(t.map(i=>source[i]),t.map(i=>destination[i]));
+    if(stage==="elderly"){
+      g.globalCompositeOperation="source-atop";
+      g.fillStyle=o.species==="solar"?"#bca6842e":o.species==="cephalopod"?"#a9bac330":"#bac5c52c";g.fillRect(-padX,-padY,W+2*padX,H+2*padY);
+      const wear= o.species==="crystal"||o.species==="precocial";
+      g.strokeStyle=wear?"#f3e4b567":"#cabfc544";g.lineWidth=Math.max(1,W/240);
+      const count=wear?7:4;
+      for(let i=0;i<count;i++){
+        const x=W*(.2+i*.09),y=H*(wear?.24:.72);
+        g.beginPath();g.moveTo(x,y);g.lineTo(x+W*.025,y+H*(wear?.08:.05));g.stroke();
+      }
+      g.globalCompositeOperation="source-over";
+    }
+    g.restore();anatomyMetrics.builds++;
+  }
   function variant(o, im, f, singleBody = false) {
     im = cleanFrame(im, f, singleBody);
     f = [0, 0, im.width, im.height];
@@ -108,13 +200,24 @@
       key = [o.species, o.phase, o.branch3, o.branch4, stage, sex, o.role].join(
         "/",
       );
-    if (variants.has(key)) return variants.get(key);
+    if (variants.has(key)) { if(anatomyTargets.has(o.species))anatomyMetrics.hits++; return variants.get(key); }
     const c = document.createElement("canvas");
     c.width = f[2];
     c.height = f[3];
     const g = c.getContext("2d"),
       W = c.width,
       H = c.height;
+    if(anatomyTargets.has(o.species)){
+      // Bound generated texture size; padding retains extended appendages without clipping.
+      const scale=Math.min(1,360/im.width,360/im.height),skin=document.createElement("canvas");
+      skin.width=Math.max(1,Math.round(im.width*scale));skin.height=Math.max(1,Math.round(im.height*scale));
+      skin.getContext("2d").drawImage(im,0,0,skin.width,skin.height);
+      c.width=Math.ceil(skin.width*1.36);c.height=Math.ceil(skin.height*1.36);
+      anatomyMetrics.maxTexturePixels=Math.max(anatomyMetrics.maxTexturePixels,c.width*c.height);
+      anatomyFrame(c,skin,o,stage);
+      if(variants.size>=256)variants.delete(variants.keys().next().value);
+      variants.set(key,c);return c;
+    }
     // Change tissue proportions, not only an external badge: juvenile appendages shorter,
     // males longer peripheral structures, females wider central body at every phase.
     const band = 3;
@@ -224,15 +327,15 @@
         Math.min(1, aspect) *
         branchWidth *
         r *
-        2.8 *
+        2.8 * (anatomyTargets.has(o.species)?1.36:1) *
         (0.94 + 0.12 * (o.dna?.appendage ?? 0.5)) *
-        (o.sex === "female" ? 1.1 : 1),
+        (!anatomyTargets.has(o.species) && o.sex === "female" ? 1.1 : 1),
       height =
         Math.min(1, 1 / aspect) *
         r *
-        2.8 *
-        (juvenile ? 0.77 : elder ? 0.94 : 1) *
-        (o.sex === "male" ? 1.1 : 1);
+        2.8 * (anatomyTargets.has(o.species)?1.36:1) *
+        (anatomyTargets.has(o.species) ? juvenile ? o.species === "precocial" ? .94 : .88 : elder ? .97 : 1 : juvenile ? .77 : elder ? .94 : 1) *
+        (!anatomyTargets.has(o.species) && o.sex === "male" ? 1.1 : 1);
     g.save();
     g.translate(x, y);
     if (o.renderPose) {
@@ -251,11 +354,6 @@
     );
     // Every main lineage selects its own dedicated branch artwork.
     // Age/sex tissue transforms remain separate from branch identity.
-    if (o.species === "swarm" && o.role === "queen") {
-      g.fillStyle = "#ffe1a6";
-      for (let j = 0; j < 3; j++)
-        ellipse(g, (j - 1) * r * 0.13, -r * 0.18, r * 0.045, r * 0.07);
-    }
     g.restore();
     return true;
   }
@@ -546,6 +644,8 @@
   root.EcoArt = {
     manifest,
     outlineMetrics,
+    anatomyMetrics,
+    anatomyTargets: [...anatomyTargets],
     images,
     errors,
     ready,

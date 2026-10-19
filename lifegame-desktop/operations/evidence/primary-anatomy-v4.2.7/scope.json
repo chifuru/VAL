@@ -1,0 +1,21 @@
+{
+  "changed": [
+    "src/Index.html",
+    "src/ecology/art.js"
+  ],
+  "all35PNGsUnchanged": true,
+  "allPhaseAnd183BranchRegionsUnchanged": true,
+  "biologyUnchanged": true,
+  "replayFormatUnchanged": true,
+  "rendererAndDisplayCoordinatesUnchanged": true,
+  "targets": [
+    "solar",
+    "cephalopod",
+    "crystal",
+    "swarm",
+    "precocial"
+  ],
+  "other16Lineages288StatesPixelEqual": true,
+  "nonMainArtPixelEqual": true,
+  "representativesOnly": true
+}
