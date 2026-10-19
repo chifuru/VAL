@@ -1,0 +1,28 @@
+✔ ordinary producers never consume neighboring living plants and still absorb soil minerals (88.728781ms)
+✔ moving prey accepts plants but not neighboring fungi (2.96279ms)
+✔ carnivorous plant symbiont photosynthesizes, hunts prey and rejects plant harvest or main attacks (6.706394ms)
+✔ kelp accepts animal-derived finite stores, while ordinary plants reject organic stores and corpses (13.706655ms)
+✔ fungal decomposers never graze living producers, even through forced harvest (4.992276ms)
+✔ independent basal and prey maps allow overlap and reject duplicates within one layer (7.157359ms)
+✔ prey moves onto live producers and same-cell feeding transfers finite stock (45.749753ms)
+✔ prey can be born on a producer cell without deleting it or bypassing birth payment (8.494384ms)
+✔ main predators retain attack access to prey overlapping producers (6.751362ms)
+✔ parasite contact still reaches the primary consumer layer (8.447713ms)
+✔ layer split preserves initial terrain, species, positions and finite budgets (1437.459424ms)
+✔ overlapping producer and prey corpses retain separate origins and conserve finite stocks (46.403381ms)
+✔ support settings validate finite bounds and nonoverlapping stress intervals (0.714233ms)
+✔ disabled support exactly preserves the layered reference without adding state (13528.742544ms)
+✔ strong grazing consumes finite leaves while supported basal organisms persist (23.320802ms)
+✔ supply stop has zero external input, exhausts reserve and causes producer loss (152.130301ms)
+✔ restored support establishes new IDs with explicit origin and separate observation counts (115.627246ms)
+✔ external ledger cannot hide missing or double-counted input and leaves original baselines intact (12.933772ms)
+✔ producer support never creates animal or parasite populations (119.641414ms)
+✔ non-finite external ledger values and mid-run reconfiguration are rejected (58.859814ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15881.01389

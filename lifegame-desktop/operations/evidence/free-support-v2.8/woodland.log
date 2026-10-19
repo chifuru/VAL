@@ -1,0 +1,12 @@
+{"id":"woodland","enabled":false,"turn":0,"main":80,"waterbug":29,"grassbug":82,"ms":8}
+{"id":"woodland","enabled":false,"turn":100,"main":112,"waterbug":0,"grassbug":190,"ms":42674}
+{"id":"woodland","enabled":false,"turn":200,"main":105,"waterbug":0,"grassbug":199,"ms":61493}
+{"id":"woodland","enabled":false,"turn":300,"main":118,"waterbug":0,"grassbug":298,"ms":78809}
+{"id":"woodland","enabled":false,"turn":400,"main":98,"waterbug":0,"grassbug":43,"ms":87849}
+{"id":"woodland","enabled":false,"turn":500,"main":69,"waterbug":0,"grassbug":29,"ms":97273}
+{"id":"woodland","enabled":true,"turn":0,"main":80,"waterbug":29,"grassbug":82,"ms":166}
+{"id":"woodland","enabled":true,"turn":100,"main":132,"waterbug":0,"grassbug":561,"ms":38610}
+{"id":"woodland","enabled":true,"turn":200,"main":155,"waterbug":0,"grassbug":599,"ms":73205}
+{"id":"woodland","enabled":true,"turn":300,"main":160,"waterbug":0,"grassbug":586,"ms":106173}
+{"id":"woodland","enabled":true,"turn":400,"main":115,"waterbug":0,"grassbug":664,"ms":131935}
+{"id":"woodland","enabled":true,"turn":500,"main":79,"waterbug":0,"grassbug":652,"ms":149636}

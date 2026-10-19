@@ -1,0 +1,12 @@
+{"id":"lake","enabled":false,"turn":0,"main":80,"waterbug":56,"grassbug":56,"ms":6}
+{"id":"lake","enabled":false,"turn":100,"main":98,"waterbug":70,"grassbug":277,"ms":39855}
+{"id":"lake","enabled":false,"turn":200,"main":103,"waterbug":0,"grassbug":14,"ms":49268}
+{"id":"lake","enabled":false,"turn":300,"main":27,"waterbug":0,"grassbug":0,"ms":51888}
+{"id":"lake","enabled":false,"turn":400,"main":3,"waterbug":0,"grassbug":0,"ms":52759}
+{"id":"lake","enabled":false,"turn":500,"main":2,"waterbug":0,"grassbug":0,"ms":53465}
+{"id":"lake","enabled":true,"turn":0,"main":80,"waterbug":56,"grassbug":56,"ms":176}
+{"id":"lake","enabled":true,"turn":100,"main":139,"waterbug":79,"grassbug":594,"ms":41263}
+{"id":"lake","enabled":true,"turn":200,"main":181,"waterbug":55,"grassbug":567,"ms":74461}
+{"id":"lake","enabled":true,"turn":300,"main":185,"waterbug":46,"grassbug":550,"ms":105591}
+{"id":"lake","enabled":true,"turn":400,"main":158,"waterbug":36,"grassbug":556,"ms":136966}
+{"id":"lake","enabled":true,"turn":500,"main":129,"waterbug":39,"grassbug":572,"ms":165987}

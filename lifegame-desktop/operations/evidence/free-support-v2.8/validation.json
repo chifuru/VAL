@@ -1,0 +1,9 @@
+{
+  "checkedStates": 3006,
+  "pairedInitialStatsAndStocksEqual": true,
+  "sourceHashesMatch": true,
+  "maxEnergyResidual": 0,
+  "maxMaterialResidual": 0,
+  "oldRiverOnFinalFingerprintMatches": true,
+  "scope": "3 fixed free-mode conditions, 6 private-model runs; no survival probability or product certification"
+}
