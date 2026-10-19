@@ -1,0 +1,93 @@
+{
+  "rows": [
+    {
+      "turn": 1,
+      "ca": 16,
+      "growth": 16,
+      "newCells": 0,
+      "growthWithPayload": 0,
+      "newWithLocalLiveExperience": 0,
+      "candidates": 0,
+      "infoResources": 16,
+      "messages": 52
+    },
+    {
+      "turn": 2,
+      "ca": 16,
+      "growth": 16,
+      "newCells": 0,
+      "growthWithPayload": 0,
+      "newWithLocalLiveExperience": 0,
+      "candidates": 0,
+      "infoResources": 16,
+      "messages": 88
+    },
+    {
+      "turn": 3,
+      "ca": 16,
+      "growth": 16,
+      "newCells": 0,
+      "growthWithPayload": 0,
+      "newWithLocalLiveExperience": 0,
+      "candidates": 0,
+      "infoResources": 16,
+      "messages": 95
+    },
+    {
+      "turn": 4,
+      "ca": 16,
+      "growth": 16,
+      "newCells": 0,
+      "growthWithPayload": 0,
+      "newWithLocalLiveExperience": 0,
+      "candidates": 0,
+      "infoResources": 16,
+      "messages": 101
+    },
+    {
+      "turn": 5,
+      "ca": 16,
+      "growth": 16,
+      "newCells": 0,
+      "growthWithPayload": 0,
+      "newWithLocalLiveExperience": 0,
+      "candidates": 0,
+      "infoResources": 16,
+      "messages": 106
+    },
+    {
+      "turn": 6,
+      "ca": 16,
+      "growth": 16,
+      "newCells": 0,
+      "growthWithPayload": 0,
+      "newWithLocalLiveExperience": 0,
+      "candidates": 0,
+      "infoResources": 16,
+      "messages": 109
+    },
+    {
+      "turn": 7,
+      "ca": 16,
+      "growth": 16,
+      "newCells": 0,
+      "growthWithPayload": 0,
+      "newWithLocalLiveExperience": 0,
+      "candidates": 0,
+      "infoResources": 16,
+      "messages": 113
+    },
+    {
+      "turn": 8,
+      "ca": 16,
+      "growth": 16,
+      "newCells": 0,
+      "growthWithPayload": 0,
+      "newWithLocalLiveExperience": 0,
+      "candidates": 0,
+      "infoResources": 16,
+      "messages": 117
+    }
+  ],
+  "scope": "Eight baseline river turns; payload/local-experience filters, no model changes"
+}

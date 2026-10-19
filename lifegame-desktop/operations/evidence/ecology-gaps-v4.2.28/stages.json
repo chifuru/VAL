@@ -1,0 +1,5402 @@
+[
+  {
+    "turn": 1,
+    "producers": {
+      "algae": {
+        "population": 47,
+        "descendants": 0,
+        "eligible": 47,
+        "eligibleDescendants": 0,
+        "validCells": 93,
+        "vacantCells": 46,
+        "candidates": 18
+      },
+      "phytoplankton": {
+        "population": 81,
+        "descendants": 0,
+        "eligible": 81,
+        "eligibleDescendants": 0,
+        "validCells": 174,
+        "vacantCells": 46,
+        "candidates": 15
+      },
+      "fungus": {
+        "population": 32,
+        "descendants": 0,
+        "eligible": 0,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 620,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 52,
+      "newMessages": 52,
+      "eligibleSources": 52,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 63,
+      "phytoplankton": 95,
+      "fungus": 32
+    }
+  },
+  {
+    "turn": 2,
+    "producers": {
+      "algae": {
+        "population": 63,
+        "descendants": 16,
+        "eligible": 31,
+        "eligibleDescendants": 0,
+        "validCells": 93,
+        "vacantCells": 6,
+        "candidates": 1
+      },
+      "phytoplankton": {
+        "population": 95,
+        "descendants": 14,
+        "eligible": 67,
+        "eligibleDescendants": 0,
+        "validCells": 174,
+        "vacantCells": 6,
+        "candidates": 2
+      },
+      "fungus": {
+        "population": 30,
+        "descendants": 0,
+        "eligible": 0,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 436,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 88,
+      "newMessages": 80,
+      "eligibleSources": 80,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 64,
+      "phytoplankton": 97,
+      "fungus": 30
+    }
+  },
+  {
+    "turn": 3,
+    "producers": {
+      "algae": {
+        "population": 64,
+        "descendants": 17,
+        "eligible": 46,
+        "eligibleDescendants": 0,
+        "validCells": 93,
+        "vacantCells": 3,
+        "candidates": 1
+      },
+      "phytoplankton": {
+        "population": 97,
+        "descendants": 16,
+        "eligible": 79,
+        "eligibleDescendants": 0,
+        "validCells": 174,
+        "vacantCells": 3,
+        "candidates": 1
+      },
+      "fungus": {
+        "population": 27,
+        "descendants": 0,
+        "eligible": 1,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 431,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 95,
+      "newMessages": 80,
+      "eligibleSources": 80,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 28
+    }
+  },
+  {
+    "turn": 4,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 46,
+        "eligibleDescendants": 0,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 89,
+        "eligibleDescendants": 10,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 28,
+        "descendants": 1,
+        "eligible": 2,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 342,
+        "candidates": 5
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 101,
+      "newMessages": 80,
+      "eligibleSources": 80,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 30
+    }
+  },
+  {
+    "turn": 5,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 47,
+        "eligibleDescendants": 0,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 92,
+        "eligibleDescendants": 12,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 28,
+        "descendants": 3,
+        "eligible": 4,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 341,
+        "candidates": 15
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 106,
+      "newMessages": 80,
+      "eligibleSources": 80,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 32
+    }
+  },
+  {
+    "turn": 6,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 57,
+        "eligibleDescendants": 12,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 93,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 32,
+        "descendants": 7,
+        "eligible": 0,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 326,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 109,
+      "newMessages": 80,
+      "eligibleSources": 80,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 32
+    }
+  },
+  {
+    "turn": 7,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 59,
+        "eligibleDescendants": 15,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 92,
+        "eligibleDescendants": 13,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 29,
+        "descendants": 7,
+        "eligible": 0,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 310,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 113,
+      "newMessages": 79,
+      "eligibleSources": 79,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 29
+    }
+  },
+  {
+    "turn": 8,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 60,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 94,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 27,
+        "descendants": 6,
+        "eligible": 2,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 303,
+        "candidates": 4
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 117,
+      "newMessages": 78,
+      "eligibleSources": 78,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 29
+    }
+  },
+  {
+    "turn": 9,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 59,
+        "eligibleDescendants": 14,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 90,
+        "eligibleDescendants": 12,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 28,
+        "descendants": 7,
+        "eligible": 1,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 294,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 112,
+      "newMessages": 76,
+      "eligibleSources": 76,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 29
+    }
+  },
+  {
+    "turn": 10,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 56,
+        "eligibleDescendants": 12,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 92,
+        "eligibleDescendants": 15,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 28,
+        "descendants": 7,
+        "eligible": 2,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 292,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 107,
+      "newMessages": 75,
+      "eligibleSources": 75,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 30
+    }
+  },
+  {
+    "turn": 11,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 55,
+        "eligibleDescendants": 12,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 92,
+        "eligibleDescendants": 13,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 29,
+        "descendants": 9,
+        "eligible": 1,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 290,
+        "candidates": 4
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 102,
+      "newMessages": 74,
+      "eligibleSources": 74,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 30
+    }
+  },
+  {
+    "turn": 12,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 53,
+        "eligibleDescendants": 10,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 90,
+        "eligibleDescendants": 13,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 30,
+        "descendants": 10,
+        "eligible": 1,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 287,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 99,
+      "newMessages": 76,
+      "eligibleSources": 76,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 31
+    }
+  },
+  {
+    "turn": 13,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 52,
+        "eligibleDescendants": 13,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 87,
+        "eligibleDescendants": 10,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 30,
+        "descendants": 10,
+        "eligible": 1,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 287,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 97,
+      "newMessages": 76,
+      "eligibleSources": 76,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 31
+    }
+  },
+  {
+    "turn": 14,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 53,
+        "eligibleDescendants": 13,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 88,
+        "eligibleDescendants": 12,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 30,
+        "descendants": 10,
+        "eligible": 2,
+        "eligibleDescendants": 1,
+        "validCells": 890,
+        "vacantCells": 285,
+        "candidates": 4
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 93,
+      "newMessages": 75,
+      "eligibleSources": 75,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 32
+    }
+  },
+  {
+    "turn": 15,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 51,
+        "eligibleDescendants": 12,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 89,
+        "eligibleDescendants": 13,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 31,
+        "descendants": 11,
+        "eligible": 2,
+        "eligibleDescendants": 1,
+        "validCells": 890,
+        "vacantCells": 283,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 91,
+      "newMessages": 75,
+      "eligibleSources": 75,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 33
+    }
+  },
+  {
+    "turn": 16,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 54,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 91,
+        "eligibleDescendants": 15,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 33,
+        "descendants": 13,
+        "eligible": 2,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 280,
+        "candidates": 7
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 88,
+      "newMessages": 78,
+      "eligibleSources": 78,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 35
+    }
+  },
+  {
+    "turn": 17,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 49,
+        "eligibleDescendants": 15,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 92,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 32,
+        "descendants": 12,
+        "eligible": 3,
+        "eligibleDescendants": 2,
+        "validCells": 890,
+        "vacantCells": 281,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 88,
+      "newMessages": 75,
+      "eligibleSources": 75,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 35
+    }
+  },
+  {
+    "turn": 18,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 55,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 92,
+        "eligibleDescendants": 15,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 35,
+        "descendants": 15,
+        "eligible": 0,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 277,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 88,
+      "newMessages": 76,
+      "eligibleSources": 76,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 35
+    }
+  },
+  {
+    "turn": 19,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 52,
+        "eligibleDescendants": 15,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 94,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 34,
+        "descendants": 15,
+        "eligible": 2,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 278,
+        "candidates": 5
+      }
+    },
+    "info": {
+      "ca": 16,
+      "messages": 91,
+      "newMessages": 72,
+      "eligibleSources": 72,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 36
+    }
+  },
+  {
+    "turn": 20,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 58,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 93,
+        "eligibleDescendants": 15,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 36,
+        "descendants": 17,
+        "eligible": 1,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 276,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 93,
+      "newMessages": 72,
+      "eligibleSources": 72,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 36
+    }
+  },
+  {
+    "turn": 21,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 57,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 94,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 35,
+        "descendants": 17,
+        "eligible": 5,
+        "eligibleDescendants": 2,
+        "validCells": 890,
+        "vacantCells": 277,
+        "candidates": 6
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 93,
+      "newMessages": 72,
+      "eligibleSources": 72,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 39
+    }
+  },
+  {
+    "turn": 22,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 53,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 16,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 38,
+        "descendants": 20,
+        "eligible": 1,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 274,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 93,
+      "newMessages": 73,
+      "eligibleSources": 73,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 38
+    }
+  },
+  {
+    "turn": 23,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 55,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 94,
+        "eligibleDescendants": 13,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 38,
+        "descendants": 20,
+        "eligible": 3,
+        "eligibleDescendants": 2,
+        "validCells": 890,
+        "vacantCells": 274,
+        "candidates": 4
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 95,
+      "newMessages": 74,
+      "eligibleSources": 74,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 40
+    }
+  },
+  {
+    "turn": 24,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 56,
+        "eligibleDescendants": 15,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 15,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 40,
+        "descendants": 22,
+        "eligible": 3,
+        "eligibleDescendants": 2,
+        "validCells": 890,
+        "vacantCells": 272,
+        "candidates": 4
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 94,
+      "newMessages": 78,
+      "eligibleSources": 78,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 42
+    }
+  },
+  {
+    "turn": 25,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 56,
+        "eligibleDescendants": 13,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 16,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 42,
+        "descendants": 24,
+        "eligible": 1,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 270,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 98,
+      "newMessages": 77,
+      "eligibleSources": 77,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 42
+    }
+  },
+  {
+    "turn": 26,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 55,
+        "eligibleDescendants": 13,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 42,
+        "descendants": 24,
+        "eligible": 1,
+        "eligibleDescendants": 0,
+        "validCells": 890,
+        "vacantCells": 270,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 98,
+      "newMessages": 81,
+      "eligibleSources": 81,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 42
+    }
+  },
+  {
+    "turn": 27,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 57,
+        "eligibleDescendants": 15,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 42,
+        "descendants": 24,
+        "eligible": 5,
+        "eligibleDescendants": 4,
+        "validCells": 890,
+        "vacantCells": 270,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 100,
+      "newMessages": 77,
+      "eligibleSources": 77,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 44
+    }
+  },
+  {
+    "turn": 28,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 55,
+        "eligibleDescendants": 14,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 16,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 43,
+        "descendants": 26,
+        "eligible": 4,
+        "eligibleDescendants": 3,
+        "validCells": 890,
+        "vacantCells": 268,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 107,
+      "newMessages": 78,
+      "eligibleSources": 78,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 44
+    }
+  },
+  {
+    "turn": 29,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 58,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 16,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 43,
+        "descendants": 26,
+        "eligible": 6,
+        "eligibleDescendants": 4,
+        "validCells": 890,
+        "vacantCells": 268,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 108,
+      "newMessages": 75,
+      "eligibleSources": 75,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 45
+    }
+  },
+  {
+    "turn": 30,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 60,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 95,
+        "eligibleDescendants": 15,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 45,
+        "descendants": 28,
+        "eligible": 8,
+        "eligibleDescendants": 5,
+        "validCells": 890,
+        "vacantCells": 266,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 113,
+      "newMessages": 80,
+      "eligibleSources": 80,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 47
+    }
+  },
+  {
+    "turn": 31,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 59,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 46,
+        "descendants": 29,
+        "eligible": 7,
+        "eligibleDescendants": 3,
+        "validCells": 890,
+        "vacantCells": 265,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 118,
+      "newMessages": 79,
+      "eligibleSources": 79,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 47
+    }
+  },
+  {
+    "turn": 32,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 58,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 95,
+        "eligibleDescendants": 15,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 47,
+        "descendants": 30,
+        "eligible": 6,
+        "eligibleDescendants": 3,
+        "validCells": 890,
+        "vacantCells": 264,
+        "candidates": 4
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 120,
+      "newMessages": 79,
+      "eligibleSources": 79,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 48
+    }
+  },
+  {
+    "turn": 33,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 58,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 16,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 48,
+        "descendants": 31,
+        "eligible": 3,
+        "eligibleDescendants": 2,
+        "validCells": 890,
+        "vacantCells": 263,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 124,
+      "newMessages": 84,
+      "eligibleSources": 84,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 48
+    }
+  },
+  {
+    "turn": 34,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 58,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 48,
+        "descendants": 31,
+        "eligible": 6,
+        "eligibleDescendants": 5,
+        "validCells": 890,
+        "vacantCells": 263,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 124,
+      "newMessages": 85,
+      "eligibleSources": 85,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 50
+    }
+  },
+  {
+    "turn": 35,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 58,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 95,
+        "eligibleDescendants": 16,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 50,
+        "descendants": 33,
+        "eligible": 6,
+        "eligibleDescendants": 5,
+        "validCells": 890,
+        "vacantCells": 261,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 127,
+      "newMessages": 83,
+      "eligibleSources": 83,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 51
+    }
+  },
+  {
+    "turn": 36,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 59,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 95,
+        "eligibleDescendants": 16,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 50,
+        "descendants": 33,
+        "eligible": 9,
+        "eligibleDescendants": 8,
+        "validCells": 890,
+        "vacantCells": 261,
+        "candidates": 4
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 135,
+      "newMessages": 85,
+      "eligibleSources": 85,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 53
+    }
+  },
+  {
+    "turn": 37,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 61,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 51,
+        "descendants": 34,
+        "eligible": 7,
+        "eligibleDescendants": 6,
+        "validCells": 890,
+        "vacantCells": 260,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 144,
+      "newMessages": 85,
+      "eligibleSources": 85,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 53
+    }
+  },
+  {
+    "turn": 38,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 62,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 95,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 53,
+        "descendants": 36,
+        "eligible": 4,
+        "eligibleDescendants": 3,
+        "validCells": 890,
+        "vacantCells": 258,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 144,
+      "newMessages": 93,
+      "eligibleSources": 93,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 53
+    }
+  },
+  {
+    "turn": 39,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 62,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 53,
+        "descendants": 36,
+        "eligible": 6,
+        "eligibleDescendants": 4,
+        "validCells": 890,
+        "vacantCells": 258,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 148,
+      "newMessages": 94,
+      "eligibleSources": 94,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 53
+    }
+  },
+  {
+    "turn": 40,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 59,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 53,
+        "descendants": 36,
+        "eligible": 12,
+        "eligibleDescendants": 8,
+        "validCells": 890,
+        "vacantCells": 258,
+        "candidates": 4
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 155,
+      "newMessages": 90,
+      "eligibleSources": 90,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 54
+    }
+  },
+  {
+    "turn": 41,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 61,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 54,
+        "descendants": 37,
+        "eligible": 15,
+        "eligibleDescendants": 9,
+        "validCells": 890,
+        "vacantCells": 257,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 159,
+      "newMessages": 94,
+      "eligibleSources": 94,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 56
+    }
+  },
+  {
+    "turn": 42,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 63,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 55,
+        "descendants": 38,
+        "eligible": 11,
+        "eligibleDescendants": 7,
+        "validCells": 890,
+        "vacantCells": 256,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 159,
+      "newMessages": 94,
+      "eligibleSources": 94,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 56
+    }
+  },
+  {
+    "turn": 43,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 62,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 55,
+        "descendants": 38,
+        "eligible": 13,
+        "eligibleDescendants": 9,
+        "validCells": 890,
+        "vacantCells": 256,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 165,
+      "newMessages": 96,
+      "eligibleSources": 96,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 57
+    }
+  },
+  {
+    "turn": 44,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 64,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 55,
+        "descendants": 39,
+        "eligible": 18,
+        "eligibleDescendants": 14,
+        "validCells": 890,
+        "vacantCells": 256,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 166,
+      "newMessages": 94,
+      "eligibleSources": 94,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 58
+    }
+  },
+  {
+    "turn": 45,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 61,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 57,
+        "descendants": 42,
+        "eligible": 18,
+        "eligibleDescendants": 13,
+        "validCells": 890,
+        "vacantCells": 254,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 172,
+      "newMessages": 93,
+      "eligibleSources": 93,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 57
+    }
+  },
+  {
+    "turn": 46,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 62,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 57,
+        "descendants": 42,
+        "eligible": 20,
+        "eligibleDescendants": 16,
+        "validCells": 890,
+        "vacantCells": 254,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 175,
+      "newMessages": 90,
+      "eligibleSources": 90,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 58
+    }
+  },
+  {
+    "turn": 47,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 62,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 56,
+        "descendants": 42,
+        "eligible": 20,
+        "eligibleDescendants": 14,
+        "validCells": 890,
+        "vacantCells": 255,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 176,
+      "newMessages": 98,
+      "eligibleSources": 98,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 57
+    }
+  },
+  {
+    "turn": 48,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 59,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 57,
+        "descendants": 43,
+        "eligible": 22,
+        "eligibleDescendants": 16,
+        "validCells": 890,
+        "vacantCells": 254,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 173,
+      "newMessages": 92,
+      "eligibleSources": 92,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 59
+    }
+  },
+  {
+    "turn": 49,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 63,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 58,
+        "descendants": 45,
+        "eligible": 23,
+        "eligibleDescendants": 18,
+        "validCells": 890,
+        "vacantCells": 253,
+        "candidates": 4
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 176,
+      "newMessages": 95,
+      "eligibleSources": 95,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 61
+    }
+  },
+  {
+    "turn": 50,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 62,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 59,
+        "descendants": 46,
+        "eligible": 19,
+        "eligibleDescendants": 14,
+        "validCells": 890,
+        "vacantCells": 252,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 174,
+      "newMessages": 94,
+      "eligibleSources": 94,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 60
+    }
+  },
+  {
+    "turn": 51,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 63,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 60,
+        "descendants": 47,
+        "eligible": 20,
+        "eligibleDescendants": 15,
+        "validCells": 890,
+        "vacantCells": 251,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 177,
+      "newMessages": 98,
+      "eligibleSources": 98,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 60
+    }
+  },
+  {
+    "turn": 52,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 63,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 59,
+        "descendants": 47,
+        "eligible": 19,
+        "eligibleDescendants": 15,
+        "validCells": 890,
+        "vacantCells": 252,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 184,
+      "newMessages": 95,
+      "eligibleSources": 95,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 61
+    }
+  },
+  {
+    "turn": 53,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 62,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 61,
+        "descendants": 49,
+        "eligible": 19,
+        "eligibleDescendants": 16,
+        "validCells": 890,
+        "vacantCells": 250,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 192,
+      "newMessages": 99,
+      "eligibleSources": 99,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 62
+    }
+  },
+  {
+    "turn": 54,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 63,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 61,
+        "descendants": 50,
+        "eligible": 20,
+        "eligibleDescendants": 17,
+        "validCells": 890,
+        "vacantCells": 250,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 196,
+      "newMessages": 92,
+      "eligibleSources": 92,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 62
+    }
+  },
+  {
+    "turn": 55,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 62,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 61,
+        "descendants": 50,
+        "eligible": 24,
+        "eligibleDescendants": 20,
+        "validCells": 890,
+        "vacantCells": 250,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 202,
+      "newMessages": 99,
+      "eligibleSources": 99,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 63
+    }
+  },
+  {
+    "turn": 56,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 64,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 63,
+        "descendants": 52,
+        "eligible": 22,
+        "eligibleDescendants": 19,
+        "validCells": 890,
+        "vacantCells": 248,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 207,
+      "newMessages": 95,
+      "eligibleSources": 95,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 64
+    }
+  },
+  {
+    "turn": 57,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 62,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 62,
+        "descendants": 53,
+        "eligible": 24,
+        "eligibleDescendants": 21,
+        "validCells": 890,
+        "vacantCells": 249,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 214,
+      "newMessages": 94,
+      "eligibleSources": 94,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 64
+    }
+  },
+  {
+    "turn": 58,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 62,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 64,
+        "descendants": 55,
+        "eligible": 22,
+        "eligibleDescendants": 18,
+        "validCells": 890,
+        "vacantCells": 247,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 216,
+      "newMessages": 91,
+      "eligibleSources": 91,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 64
+    }
+  },
+  {
+    "turn": 59,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 61,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 64,
+        "descendants": 55,
+        "eligible": 23,
+        "eligibleDescendants": 19,
+        "validCells": 890,
+        "vacantCells": 247,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 224,
+      "newMessages": 102,
+      "eligibleSources": 102,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 65
+    }
+  },
+  {
+    "turn": 60,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 61,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 63,
+        "descendants": 55,
+        "eligible": 20,
+        "eligibleDescendants": 17,
+        "validCells": 890,
+        "vacantCells": 248,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 224,
+      "newMessages": 102,
+      "eligibleSources": 102,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 65
+    }
+  },
+  {
+    "turn": 61,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 59,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 65,
+        "descendants": 57,
+        "eligible": 20,
+        "eligibleDescendants": 17,
+        "validCells": 890,
+        "vacantCells": 246,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 232,
+      "newMessages": 101,
+      "eligibleSources": 101,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 67
+    }
+  },
+  {
+    "turn": 62,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 61,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 65,
+        "descendants": 57,
+        "eligible": 19,
+        "eligibleDescendants": 16,
+        "validCells": 890,
+        "vacantCells": 246,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 238,
+      "newMessages": 103,
+      "eligibleSources": 103,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 67
+    }
+  },
+  {
+    "turn": 63,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 61,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 95,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 67,
+        "descendants": 59,
+        "eligible": 21,
+        "eligibleDescendants": 18,
+        "validCells": 890,
+        "vacantCells": 244,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 237,
+      "newMessages": 106,
+      "eligibleSources": 106,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 68
+    }
+  },
+  {
+    "turn": 64,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 62,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 68,
+        "descendants": 60,
+        "eligible": 21,
+        "eligibleDescendants": 19,
+        "validCells": 890,
+        "vacantCells": 243,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 235,
+      "newMessages": 106,
+      "eligibleSources": 106,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 70
+    }
+  },
+  {
+    "turn": 65,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 60,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 70,
+        "descendants": 62,
+        "eligible": 18,
+        "eligibleDescendants": 16,
+        "validCells": 890,
+        "vacantCells": 241,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 238,
+      "newMessages": 106,
+      "eligibleSources": 106,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 70
+    }
+  },
+  {
+    "turn": 66,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 59,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 68,
+        "descendants": 61,
+        "eligible": 19,
+        "eligibleDescendants": 18,
+        "validCells": 890,
+        "vacantCells": 243,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 232,
+      "newMessages": 104,
+      "eligibleSources": 104,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 69
+    }
+  },
+  {
+    "turn": 67,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 60,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 68,
+        "descendants": 62,
+        "eligible": 22,
+        "eligibleDescendants": 21,
+        "validCells": 890,
+        "vacantCells": 243,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 245,
+      "newMessages": 108,
+      "eligibleSources": 108,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 71
+    }
+  },
+  {
+    "turn": 68,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 60,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 70,
+        "descendants": 64,
+        "eligible": 23,
+        "eligibleDescendants": 21,
+        "validCells": 890,
+        "vacantCells": 241,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 243,
+      "newMessages": 105,
+      "eligibleSources": 105,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 73
+    }
+  },
+  {
+    "turn": 69,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 59,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 73,
+        "descendants": 67,
+        "eligible": 19,
+        "eligibleDescendants": 17,
+        "validCells": 890,
+        "vacantCells": 238,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 250,
+      "newMessages": 108,
+      "eligibleSources": 108,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 73
+    }
+  },
+  {
+    "turn": 70,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 59,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 73,
+        "descendants": 67,
+        "eligible": 22,
+        "eligibleDescendants": 20,
+        "validCells": 890,
+        "vacantCells": 238,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 253,
+      "newMessages": 108,
+      "eligibleSources": 108,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 75
+    }
+  },
+  {
+    "turn": 71,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 62,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 74,
+        "descendants": 68,
+        "eligible": 19,
+        "eligibleDescendants": 17,
+        "validCells": 890,
+        "vacantCells": 237,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 249,
+      "newMessages": 106,
+      "eligibleSources": 106,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 75
+    }
+  },
+  {
+    "turn": 72,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 58,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 75,
+        "descendants": 69,
+        "eligible": 20,
+        "eligibleDescendants": 18,
+        "validCells": 890,
+        "vacantCells": 236,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 259,
+      "newMessages": 111,
+      "eligibleSources": 111,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 75
+    }
+  },
+  {
+    "turn": 73,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 58,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 75,
+        "descendants": 69,
+        "eligible": 20,
+        "eligibleDescendants": 18,
+        "validCells": 890,
+        "vacantCells": 236,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 272,
+      "newMessages": 112,
+      "eligibleSources": 112,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 75
+    }
+  },
+  {
+    "turn": 74,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 61,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 75,
+        "descendants": 69,
+        "eligible": 25,
+        "eligibleDescendants": 23,
+        "validCells": 890,
+        "vacantCells": 236,
+        "candidates": 3
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 278,
+      "newMessages": 114,
+      "eligibleSources": 114,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 77
+    }
+  },
+  {
+    "turn": 75,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 61,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 75,
+        "descendants": 70,
+        "eligible": 23,
+        "eligibleDescendants": 20,
+        "validCells": 890,
+        "vacantCells": 236,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 281,
+      "newMessages": 113,
+      "eligibleSources": 113,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 75
+    }
+  },
+  {
+    "turn": 76,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 60,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 95,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 71,
+        "descendants": 68,
+        "eligible": 25,
+        "eligibleDescendants": 22,
+        "validCells": 890,
+        "vacantCells": 240,
+        "candidates": 4
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 281,
+      "newMessages": 113,
+      "eligibleSources": 113,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 75
+    }
+  },
+  {
+    "turn": 77,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 60,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 95,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 70,
+        "descendants": 70,
+        "eligible": 20,
+        "eligibleDescendants": 20,
+        "validCells": 890,
+        "vacantCells": 241,
+        "candidates": 6
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 285,
+      "newMessages": 119,
+      "eligibleSources": 119,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 74
+    }
+  },
+  {
+    "turn": 78,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 58,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 72,
+        "descendants": 72,
+        "eligible": 16,
+        "eligibleDescendants": 16,
+        "validCells": 890,
+        "vacantCells": 239,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 298,
+      "newMessages": 112,
+      "eligibleSources": 112,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 73
+    }
+  },
+  {
+    "turn": 79,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 61,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 72,
+        "descendants": 72,
+        "eligible": 14,
+        "eligibleDescendants": 14,
+        "validCells": 890,
+        "vacantCells": 239,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 308,
+      "newMessages": 119,
+      "eligibleSources": 119,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 72
+    }
+  },
+  {
+    "turn": 80,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 59,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 98,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 72,
+        "descendants": 72,
+        "eligible": 16,
+        "eligibleDescendants": 16,
+        "validCells": 890,
+        "vacantCells": 239,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 310,
+      "newMessages": 119,
+      "eligibleSources": 119,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 72
+    }
+  },
+  {
+    "turn": 81,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 58,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 72,
+        "descendants": 72,
+        "eligible": 16,
+        "eligibleDescendants": 16,
+        "validCells": 890,
+        "vacantCells": 239,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 308,
+      "newMessages": 123,
+      "eligibleSources": 123,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 73
+    }
+  },
+  {
+    "turn": 82,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 58,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 72,
+        "descendants": 72,
+        "eligible": 19,
+        "eligibleDescendants": 19,
+        "validCells": 890,
+        "vacantCells": 239,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 304,
+      "newMessages": 121,
+      "eligibleSources": 121,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 73
+    }
+  },
+  {
+    "turn": 83,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 56,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 71,
+        "descendants": 71,
+        "eligible": 23,
+        "eligibleDescendants": 23,
+        "validCells": 890,
+        "vacantCells": 240,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 311,
+      "newMessages": 124,
+      "eligibleSources": 124,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 72
+    }
+  },
+  {
+    "turn": 84,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 60,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 17,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 70,
+        "descendants": 70,
+        "eligible": 19,
+        "eligibleDescendants": 19,
+        "validCells": 890,
+        "vacantCells": 241,
+        "candidates": 4
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 312,
+      "newMessages": 122,
+      "eligibleSources": 122,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 72
+    }
+  },
+  {
+    "turn": 85,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 60,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 96,
+        "eligibleDescendants": 16,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 70,
+        "descendants": 70,
+        "eligible": 19,
+        "eligibleDescendants": 19,
+        "validCells": 890,
+        "vacantCells": 241,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 303,
+      "newMessages": 121,
+      "eligibleSources": 121,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 72
+    }
+  },
+  {
+    "turn": 86,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 60,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 97,
+        "eligibleDescendants": 16,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 71,
+        "descendants": 71,
+        "eligible": 20,
+        "eligibleDescendants": 20,
+        "validCells": 890,
+        "vacantCells": 240,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 304,
+      "newMessages": 124,
+      "eligibleSources": 124,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 72
+    }
+  },
+  {
+    "turn": 87,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 60,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 94,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 72,
+        "descendants": 72,
+        "eligible": 17,
+        "eligibleDescendants": 17,
+        "validCells": 890,
+        "vacantCells": 239,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 317,
+      "newMessages": 128,
+      "eligibleSources": 128,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 72
+    }
+  },
+  {
+    "turn": 88,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 58,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 93,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 71,
+        "descendants": 71,
+        "eligible": 17,
+        "eligibleDescendants": 17,
+        "validCells": 890,
+        "vacantCells": 240,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 327,
+      "newMessages": 128,
+      "eligibleSources": 128,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 71
+    }
+  },
+  {
+    "turn": 89,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 56,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 93,
+        "eligibleDescendants": 15,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 70,
+        "descendants": 70,
+        "eligible": 17,
+        "eligibleDescendants": 17,
+        "validCells": 890,
+        "vacantCells": 241,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 334,
+      "newMessages": 126,
+      "eligibleSources": 126,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 71
+    }
+  },
+  {
+    "turn": 90,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 58,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 95,
+        "eligibleDescendants": 16,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 68,
+        "descendants": 68,
+        "eligible": 17,
+        "eligibleDescendants": 17,
+        "validCells": 890,
+        "vacantCells": 243,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 338,
+      "newMessages": 125,
+      "eligibleSources": 125,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 69
+    }
+  },
+  {
+    "turn": 91,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 58,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 94,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 69,
+        "descendants": 69,
+        "eligible": 18,
+        "eligibleDescendants": 18,
+        "validCells": 890,
+        "vacantCells": 242,
+        "candidates": 4
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 339,
+      "newMessages": 124,
+      "eligibleSources": 124,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 71
+    }
+  },
+  {
+    "turn": 92,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 55,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 95,
+        "eligibleDescendants": 16,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 68,
+        "descendants": 68,
+        "eligible": 16,
+        "eligibleDescendants": 16,
+        "validCells": 890,
+        "vacantCells": 243,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 330,
+      "newMessages": 124,
+      "eligibleSources": 124,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 69
+    }
+  },
+  {
+    "turn": 93,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 53,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 93,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 67,
+        "descendants": 67,
+        "eligible": 13,
+        "eligibleDescendants": 13,
+        "validCells": 890,
+        "vacantCells": 244,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 327,
+      "newMessages": 123,
+      "eligibleSources": 123,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 67
+    }
+  },
+  {
+    "turn": 94,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 57,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 95,
+        "eligibleDescendants": 16,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 65,
+        "descendants": 65,
+        "eligible": 15,
+        "eligibleDescendants": 15,
+        "validCells": 890,
+        "vacantCells": 246,
+        "candidates": 4
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 324,
+      "newMessages": 122,
+      "eligibleSources": 122,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 68
+    }
+  },
+  {
+    "turn": 95,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 54,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 91,
+        "eligibleDescendants": 13,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 64,
+        "descendants": 64,
+        "eligible": 12,
+        "eligibleDescendants": 12,
+        "validCells": 890,
+        "vacantCells": 247,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 326,
+      "newMessages": 123,
+      "eligibleSources": 123,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 64
+    }
+  },
+  {
+    "turn": 96,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 56,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 92,
+        "eligibleDescendants": 13,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 62,
+        "descendants": 62,
+        "eligible": 15,
+        "eligibleDescendants": 15,
+        "validCells": 890,
+        "vacantCells": 249,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 326,
+      "newMessages": 125,
+      "eligibleSources": 125,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 62
+    }
+  },
+  {
+    "turn": 97,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 57,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 93,
+        "eligibleDescendants": 15,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 57,
+        "descendants": 57,
+        "eligible": 15,
+        "eligibleDescendants": 15,
+        "validCells": 890,
+        "vacantCells": 254,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 320,
+      "newMessages": 130,
+      "eligibleSources": 130,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 59
+    }
+  },
+  {
+    "turn": 98,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 53,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 94,
+        "eligibleDescendants": 15,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 59,
+        "descendants": 59,
+        "eligible": 15,
+        "eligibleDescendants": 15,
+        "validCells": 890,
+        "vacantCells": 252,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 313,
+      "newMessages": 129,
+      "eligibleSources": 129,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 59
+    }
+  },
+  {
+    "turn": 99,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 56,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 92,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 56,
+        "descendants": 56,
+        "eligible": 12,
+        "eligibleDescendants": 12,
+        "validCells": 890,
+        "vacantCells": 255,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 327,
+      "newMessages": 132,
+      "eligibleSources": 132,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 58
+    }
+  },
+  {
+    "turn": 100,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 54,
+        "eligibleDescendants": 18,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 90,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 56,
+        "descendants": 56,
+        "eligible": 9,
+        "eligibleDescendants": 9,
+        "validCells": 890,
+        "vacantCells": 255,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 327,
+      "newMessages": 133,
+      "eligibleSources": 133,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 57
+    }
+  },
+  {
+    "turn": 101,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 53,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 86,
+        "eligibleDescendants": 12,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 54,
+        "descendants": 54,
+        "eligible": 5,
+        "eligibleDescendants": 5,
+        "validCells": 890,
+        "vacantCells": 257,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 330,
+      "newMessages": 138,
+      "eligibleSources": 138,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 55
+    }
+  },
+  {
+    "turn": 102,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 50,
+        "eligibleDescendants": 15,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 87,
+        "eligibleDescendants": 12,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 54,
+        "descendants": 54,
+        "eligible": 7,
+        "eligibleDescendants": 7,
+        "validCells": 890,
+        "vacantCells": 257,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 337,
+      "newMessages": 132,
+      "eligibleSources": 132,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 54
+    }
+  },
+  {
+    "turn": 103,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 52,
+        "eligibleDescendants": 15,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 90,
+        "eligibleDescendants": 12,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 52,
+        "descendants": 52,
+        "eligible": 7,
+        "eligibleDescendants": 7,
+        "validCells": 890,
+        "vacantCells": 259,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 337,
+      "newMessages": 131,
+      "eligibleSources": 131,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 52
+    }
+  },
+  {
+    "turn": 104,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 52,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 92,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 50,
+        "descendants": 50,
+        "eligible": 9,
+        "eligibleDescendants": 9,
+        "validCells": 890,
+        "vacantCells": 261,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 335,
+      "newMessages": 132,
+      "eligibleSources": 132,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 50
+    }
+  },
+  {
+    "turn": 105,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 54,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 90,
+        "eligibleDescendants": 13,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 48,
+        "descendants": 48,
+        "eligible": 11,
+        "eligibleDescendants": 11,
+        "validCells": 890,
+        "vacantCells": 263,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 336,
+      "newMessages": 140,
+      "eligibleSources": 140,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 48
+    }
+  },
+  {
+    "turn": 106,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 57,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 92,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 48,
+        "descendants": 48,
+        "eligible": 12,
+        "eligibleDescendants": 12,
+        "validCells": 890,
+        "vacantCells": 263,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 330,
+      "newMessages": 133,
+      "eligibleSources": 133,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 48
+    }
+  },
+  {
+    "turn": 107,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 54,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 90,
+        "eligibleDescendants": 13,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 44,
+        "descendants": 44,
+        "eligible": 12,
+        "eligibleDescendants": 12,
+        "validCells": 890,
+        "vacantCells": 267,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 332,
+      "newMessages": 133,
+      "eligibleSources": 133,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 45
+    }
+  },
+  {
+    "turn": 108,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 52,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 92,
+        "eligibleDescendants": 13,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 43,
+        "descendants": 43,
+        "eligible": 12,
+        "eligibleDescendants": 12,
+        "validCells": 890,
+        "vacantCells": 268,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 336,
+      "newMessages": 136,
+      "eligibleSources": 136,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 44
+    }
+  },
+  {
+    "turn": 109,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 51,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 91,
+        "eligibleDescendants": 15,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 43,
+        "descendants": 43,
+        "eligible": 11,
+        "eligibleDescendants": 11,
+        "validCells": 890,
+        "vacantCells": 268,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 337,
+      "newMessages": 135,
+      "eligibleSources": 135,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 44
+    }
+  },
+  {
+    "turn": 110,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 49,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 92,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 40,
+        "descendants": 40,
+        "eligible": 9,
+        "eligibleDescendants": 9,
+        "validCells": 890,
+        "vacantCells": 271,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 350,
+      "newMessages": 132,
+      "eligibleSources": 132,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 41
+    }
+  },
+  {
+    "turn": 111,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 47,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 91,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 40,
+        "descendants": 40,
+        "eligible": 9,
+        "eligibleDescendants": 9,
+        "validCells": 890,
+        "vacantCells": 271,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 353,
+      "newMessages": 137,
+      "eligibleSources": 137,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 41
+    }
+  },
+  {
+    "turn": 112,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 48,
+        "eligibleDescendants": 15,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 91,
+        "eligibleDescendants": 15,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 40,
+        "descendants": 40,
+        "eligible": 7,
+        "eligibleDescendants": 7,
+        "validCells": 890,
+        "vacantCells": 270,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 355,
+      "newMessages": 139,
+      "eligibleSources": 139,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 41
+    }
+  },
+  {
+    "turn": 113,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 46,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 88,
+        "eligibleDescendants": 15,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 41,
+        "descendants": 41,
+        "eligible": 7,
+        "eligibleDescendants": 7,
+        "validCells": 890,
+        "vacantCells": 269,
+        "candidates": 2
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 367,
+      "newMessages": 142,
+      "eligibleSources": 142,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 43
+    }
+  },
+  {
+    "turn": 114,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 49,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 90,
+        "eligibleDescendants": 15,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 41,
+        "descendants": 41,
+        "eligible": 5,
+        "eligibleDescendants": 5,
+        "validCells": 890,
+        "vacantCells": 269,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 368,
+      "newMessages": 134,
+      "eligibleSources": 134,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 42
+    }
+  },
+  {
+    "turn": 115,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 48,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 89,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 39,
+        "descendants": 39,
+        "eligible": 5,
+        "eligibleDescendants": 5,
+        "validCells": 890,
+        "vacantCells": 271,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 372,
+      "newMessages": 133,
+      "eligibleSources": 133,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 39
+    }
+  },
+  {
+    "turn": 116,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 49,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 91,
+        "eligibleDescendants": 16,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 38,
+        "descendants": 38,
+        "eligible": 8,
+        "eligibleDescendants": 8,
+        "validCells": 890,
+        "vacantCells": 272,
+        "candidates": 4
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 379,
+      "newMessages": 144,
+      "eligibleSources": 144,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 40
+    }
+  },
+  {
+    "turn": 117,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 46,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 90,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 38,
+        "descendants": 38,
+        "eligible": 6,
+        "eligibleDescendants": 6,
+        "validCells": 890,
+        "vacantCells": 272,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 382,
+      "newMessages": 143,
+      "eligibleSources": 143,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 38
+    }
+  },
+  {
+    "turn": 118,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 47,
+        "eligibleDescendants": 17,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 87,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 38,
+        "descendants": 38,
+        "eligible": 6,
+        "eligibleDescendants": 6,
+        "validCells": 890,
+        "vacantCells": 272,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 391,
+      "newMessages": 142,
+      "eligibleSources": 142,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 38
+    }
+  },
+  {
+    "turn": 119,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 47,
+        "eligibleDescendants": 15,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 87,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 36,
+        "descendants": 36,
+        "eligible": 7,
+        "eligibleDescendants": 7,
+        "validCells": 890,
+        "vacantCells": 274,
+        "candidates": 1
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 399,
+      "newMessages": 139,
+      "eligibleSources": 139,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 37
+    }
+  },
+  {
+    "turn": 120,
+    "producers": {
+      "algae": {
+        "population": 65,
+        "descendants": 18,
+        "eligible": 45,
+        "eligibleDescendants": 16,
+        "validCells": 93,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "phytoplankton": {
+        "population": 98,
+        "descendants": 17,
+        "eligible": 87,
+        "eligibleDescendants": 14,
+        "validCells": 174,
+        "vacantCells": 0,
+        "candidates": 0
+      },
+      "fungus": {
+        "population": 35,
+        "descendants": 35,
+        "eligible": 3,
+        "eligibleDescendants": 3,
+        "validCells": 890,
+        "vacantCells": 275,
+        "candidates": 0
+      }
+    },
+    "info": {
+      "ca": 0,
+      "messages": 394,
+      "newMessages": 139,
+      "eligibleSources": 139,
+      "candidates": 0,
+      "emissions": 0
+    },
+    "counts": {
+      "algae": 65,
+      "phytoplankton": 98,
+      "fungus": 35
+    }
+  }
+]
