@@ -22,5 +22,9 @@
       ],
       "status": "review-only / product unchanged"
     }
-  ]
+  ],
+  "currentSelection": {
+    "swarm": "C adopted",
+    "serpent": "all oral concepts rejected; use v2 original-body forms"
+  }
 }
