@@ -2,6 +2,8 @@
 
 lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Node、仕様と資料の入口は `design/specification/README.md`。
 
+全残件の現在入口: `operations/plans/remaining-completion-v4.2.md`。主系統固有差から着手。計画照合は `operations/evidence/completion-plan-v4.2.6/README.md`、製品の追加実測ではない。
+
 ## A：仕様
 
 ```text
@@ -9,7 +11,7 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 	構成（要素・関係）:
 		valis/nodes/A/A1.md。生態系の成長と生存観測。差分正本: design/specification/observation-first-v2.8.md。 残件の作業順: operations/plans/remaining-completion-v4.2.md。
 	ロジック:
-		自由・観察優遇で基本バランス仮決め→遠近の代表比較→製品/UI・記録接続→R0。旧R1〜R6と未完一覧を後段へ保持。
+		4.2.6の現在地から主系統固有差→表示/動作→集計/UI→設定/保存→生態照合→外観/性能→R0。厳密R1〜R6と追加展開は一旦完成後。 作業順: operations/plans/remaining-completion-v4.2.md。
 	実態:
 		自由設定の3枠/浮遊微藻/優遇3条件を製品4.2へ接続。採用河川500Tは主277/水游虫83/Q268で選定案と最終統計一致。全設定の成功率とR1〜R6は後段、既存UI/記録の残件を維持。 詳細: operations/evidence/observation-model-v4.2/README.md。
 	A1.1:（A1 / 個体・系統・段階進化）［草案］
@@ -157,7 +159,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 	構成（要素・関係）:
 		valis/nodes/B/B5.md。生態系の観測・比較操作。 残件の作業順: operations/plans/remaining-completion-v4.2.md。
 	ロジック:
-		現行UIの操作/質感を維持し、右側の基本3グラフ、小型trend-cardサマリ、共通横詳細、小型個体カードを接合。生存ルート比較を先に行い、製品反映後に画面を仕上げる。
+		工程別の完了条件で既存UI/生態へ接続し、名札/色/一覧/横説明・3+1グラフ・設定/保存の未完を完成扱いにしない。 作業順: operations/plans/remaining-completion-v4.2.md。
 	実態:
 		初期画面の優遇3項目、観察中の実効ON/OFF、保存再生へ接続。現行UI維持、既存3+1グラフ/共通横詳細/最終記録等の残件は完成扱いにしない。 詳細: operations/evidence/observation-model-v4.2/README.md。
 	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
@@ -197,14 +199,14 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 		ロジック:
 			個体数推移は全て/主生物/餌生物/植物/一次/高次を選択。構成は相/雌雄/年齢の個体数積み上げ3本を同時表示し対象共通・総数一致、既定主生物。小型サマリは各系列最大100と現在実数、全ターン原値を保持。
 		実態:
-			既存3グラフ＋小型サマリの配置と全ターン履歴を維持。R0の個体数/循環と未成立生活環を見える形にし、詳細な多条件評価は後続へ残す。新分類表示は未接続。 詳細: design/specification/observation-first-v2.8.md。次FLOW-04/05。
+			全期間の個体数積み上げ/指定時点の構成切替/関係集計は接続あり。相・雌雄・年齢の3実数時系列、群対象切替、最終小型サマリと配置は未接続。 作業順: operations/plans/remaining-completion-v4.2.md。
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.6.md。生物の選択・所在強調・個体追跡。
 		ロジック:
 			複数強調色と宿主付随関係を代表資料に合わせて区別。名称オフでも所在を保ち、詳細/グラフ切替と選択対象を独立させ、現在UIへ接続する。
 		実態:
-			全群の説明/複数所在強調/同居枠選択/固定ID追跡を接続。 代表表現は利用者確認済み。A/B27〜28節反映、製品差分は未実装・未検証。次FLOW-04/05、operations/plans/ab-review-handoff-v2.5.mdへ接続。
+			同居選択/固定ID追跡/複数強調の土台あり。非主名札切替、系統固定色、生体0の一覧非表示、共通横説明と詳細解除後3グラフは未接続。 作業順: operations/plans/remaining-completion-v4.2.md。
 
 ```
 
