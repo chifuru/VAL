@@ -45,8 +45,8 @@
     framesClean = new Map();
   // Atlas cells may contain isolated tips from a neighbour. Keep the central tissue
   // and its substantial attached components; source PNGs remain unchanged.
-  function cleanFrame(im, f) {
-    const key = im.src + "/" + f.join(",");
+  function cleanFrame(im, f, singleBody = false) {
+    const key = im.src + "/" + f.join(",") + "/" + singleBody;
     if (framesClean.has(key)) return framesClean.get(key);
     const c = document.createElement("canvas");
     c.width = f[2];
@@ -89,7 +89,7 @@
     }
     const largest = Math.max(1, ...groups.map((a) => a.count)),
       keep = new Set(
-        groups.filter((a) => a.count >= largest * 0.06).map((a) => a.n),
+        groups.filter((a) => singleBody ? a.count === largest : a.count >= largest * 0.06).map((a) => a.n),
       );
     // Only remove labelled disconnected fragments. Soft fringe pixels remain intact.
     for (let p = 0; p < W * H; p++)
@@ -99,8 +99,8 @@
     return c;
   }
 
-  function variant(o, im, f) {
-    im = cleanFrame(im, f);
+  function variant(o, im, f, singleBody = false) {
+    im = cleanFrame(im, f, singleBody);
     f = [0, 0, im.width, im.height];
     const age = root.EcoState.ageInfo(o),
       stage = age.enabled ? age.stage : "adult",
@@ -191,15 +191,18 @@
     const frames = manifest.creatures.regions[o.species],
       im = images[manifest.creatures.sheetBySpecies[o.species]];
     if (!frames || !im) return false;
+    // Clamp presentation input to the actual lineage phase count (precocial ends at III).
+    const phase = Math.max(1, Math.min(frames.length, o.phase || 1));
     let f =
-        frames[Math.max(0, Math.min(frames.length - 1, (o.phase || 1) - 1))],
+        frames[phase - 1],
       source = im;
-    const b = manifest.branches[o.species];
-    if (b && o.phase >= 3 && images[b.sheet]) {
+    const b = manifest.branches[o.species],
+      useBranch = b && phase >= 3 && images[b.sheet];
+    if (useBranch) {
       source = images[b.sheet];
       f =
         b.regions[
-          o.phase === 3
+          phase === 3
             ? (o.branch3 ?? 0)
             : 3 + (o.branch3 ?? 0) * 2 + (o.branch4 ?? 0)
         ];
@@ -215,13 +218,16 @@
             ? 0.87
             : 1.04
         : 1;
+    const aspect = useBranch && b.fit === "contain" ? f[2] / f[3] : 1;
     const width =
+        Math.min(1, aspect) *
         branchWidth *
         r *
         2.8 *
         (0.94 + 0.12 * (o.dna?.appendage ?? 0.5)) *
         (o.sex === "female" ? 1.1 : 1),
       height =
+        Math.min(1, 1 / aspect) *
         r *
         2.8 *
         (juvenile ? 0.77 : elder ? 0.94 : 1) *
@@ -235,15 +241,15 @@
     if (Math.cos(((o.facing || 0) * Math.PI) / 4) < 0) g.scale(-1, 1);
     outlined(
       g,
-      variant(o, source, f),
+      variant(o, source, f, !!useBranch && b.fit === "contain"),
       -width / 2,
       -height / 2,
       width,
       height,
       o.renderEmphasis,
     );
-    // Family-specific branch structure is in the solar/jelly artwork; other families
-    // use tissue width/crest proportions, without fake shared rings or combat effects.
+    // Every main lineage selects its own dedicated branch artwork.
+    // Age/sex tissue transforms remain separate from branch identity.
     if (o.species === "swarm" && o.role === "queen") {
       g.fillStyle = "#ffe1a6";
       for (let j = 0; j < 3; j++)

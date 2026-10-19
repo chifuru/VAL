@@ -1,0 +1,31 @@
+{
+  "ok": true,
+  "checks": [
+    "all declared creature and habitat production images decode",
+    "every registered biological family has connected artwork (phytoplankton shares algae)",
+    "all 83 main-family phase renders are distinct",
+    "solar and jelly each render six distinct final branches",
+    "cliff markers retain every actual blocking edge without adding a wall",
+    "natural overview draws every individual and resource",
+    "near view shows a small area at 240 pixels per real cell",
+    "new terrain, camera and art do not change biology",
+    "every real-map cell centre round-trips through relief picking",
+    "pointer selects the actual projected rock cell",
+    "naturally evolved 100-turn scene obeys ecosystem invariants",
+    "naturally grown far and near scenes preserve identical state",
+    "motion cap prioritizes the selected visible actor and never writes to world state",
+    "parasites and hyperparasites stay attached to a visible host",
+    "main organism and edible organism remain separately selectable",
+    "review fixture is unchanged by far/near rendering",
+    "rebuilt observation screen fits a narrow viewport",
+    "no browser exceptions"
+  ],
+  "coverage": {
+    "frames": 83,
+    "distinct": 83
+  },
+  "errors": [],
+  "naturalFingerprint": "54481e7769be4dc816ac99016e257ad7b64e94f25dc434c9eb0e8f926db43e93",
+  "fixtureFingerprint": "419b63f9413a78af83e8e3205a27ae71fec76021b6c1545bf9bce6fa32c8f3e2",
+  "fixture": "Seven explicitly placed third-phase main organisms, a fungus, host P/Q and information. Display fixture only; not a survival result."
+}

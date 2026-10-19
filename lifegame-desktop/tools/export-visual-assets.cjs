@@ -59,7 +59,8 @@ console.log(
       (n, a) => n + a.length,
       0,
     ),
-    representativeBranches: 18,
+    dedicatedBranchFamilies: Object.keys(m.branches).length,
+    dedicatedBranchFrames: Object.values(m.branches).reduce((n,b)=>n+b.regions.length,0),
     paintedTerrainMaterials: Object.keys(m.terrain || {}).length,
   }),
 );

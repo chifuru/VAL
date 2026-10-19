@@ -2,7 +2,7 @@
 
 ## この計画の扱いと現在地
 
-現在の製品基準は4.2.1。工程1の主生物相分離を実装し、代表場面の描画/選択/追跡を検査。証跡: operations/evidence/primary-plane-v4.2.1/README.md。工程2以降は未完。3枠占有/浮遊微藻/優遇3項目の初期設定・Worker・保存再生への接続、固定河川500Tの存続例、背景と主生物の明暗調整を土台とする。実測範囲はoperations/evidence/observation-model-v4.2/README.md。全系統の成功率・全モック差分・UI全体が完成したという基準ではない。
+現在の製品基準は4.2.2。主21系統の専用分岐183枠を接続。全系統の残る差分はdesign/dedicated-variants-v4.2.2/coverage.md。工程1の主生物相分離を実装し、代表場面の描画/選択/追跡を検査。証跡: operations/evidence/primary-plane-v4.2.1/README.md。工程2以降は未完。3枠占有/浮遊微藻/優遇3項目の初期設定・Worker・保存再生への接続、固定河川500Tの存続例、背景と主生物の明暗調整を土台とする。実測範囲はoperations/evidence/observation-model-v4.2/README.md。全系統の成功率・全モック差分・UI全体が完成したという基準ではない。
 
 本書を残件全体の最新の作業順序とする。旧計画の順序や「4.1.3製品未接続」の記載と衝突する範囲は本書と現行4.2の証跡を優先し、旧証跡の対象版は書き換えない。仕様はdesign/specification/README.md、採用形はab-visual-reference-v1.md、相分離はlayered-observation-v4.2.mdを参照。
 
@@ -83,4 +83,4 @@ R0は、公開する基準条件で生産者→一次消費者→主/P/Qを観�
 
 ## 各工程の締め方
 
-実体差分→対象を絞った検査→E証跡→既存Node/Manifest反映→出力前照合→main統合の順。Manifestには現在の状態と残件/次の接続だけを要約し、作業履歴はGitや版付き証跡へ置く。工程2の接続監査はdesign/variant-audit-v4.2.1/coverage.md。主21系統中専用枝2、95描画条件を確認。次は既存採用v6に沿う星晶/深淵触手の固有枝の制作と実寸接続。
+実体差分→対象を絞った検査→E証跡→既存Node/Manifest反映→出力前照合→main統合の順。Manifestには現在の状態と残件/次の接続だけを要約し、作業履歴はGitや版付き証跡へ置く。工程2の接続監査はdesign/variant-audit-v4.2.1/coverage.md。主21系統中専用枝2、95描画条件を確認。4.2.2で全21主系統183枝へ展開。次は全系統の雌雄/年齢/階級/寄生/下層差と実寸・密集照合。

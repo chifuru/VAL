@@ -1,0 +1,250 @@
+[
+  {
+    "id": "abyss",
+    "name": "深淵触手",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "myth",
+    "name": "神鳥",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "recursive",
+    "name": "再帰知性",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "sail",
+    "name": "光帆",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "gravity",
+    "name": "重力環",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "crystal",
+    "name": "星晶",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "manyeyes",
+    "name": "多眼知覚",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "abyssshell",
+    "name": "深殻",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "parallel",
+    "name": "並列生命",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "memory",
+    "name": "記憶殻",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "serpent",
+    "name": "多頭蛇",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "solar",
+    "name": "日輪",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "antimeme",
+    "name": "反記銘生命",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "valis",
+    "name": "異化通信生命",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "jelly",
+    "name": "浮遊傘",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "kelp",
+    "name": "植物共生",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "whale",
+    "name": "星海鯨",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "swarm",
+    "name": "群体節足",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合。階級専用造形"
+  },
+  {
+    "id": "plasma",
+    "name": "プラズマ生命",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "cephalopod",
+    "name": "深淵頭足",
+    "branchFramesConnected": 9,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "precocial",
+    "name": "早成甲殻",
+    "branchFramesConnected": 3,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "雌雄/全年齢の系統固有差、実寸/密集の最終照合"
+  },
+  {
+    "id": "algae",
+    "name": "微藻",
+    "branchFramesConnected": 0,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "専用状態画と描画接続・実寸照合。生物学的な年齢と残量/生活環を混同しない"
+  },
+  {
+    "id": "moss",
+    "name": "岩苔",
+    "branchFramesConnected": 0,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "専用状態画と描画接続・実寸照合。生物学的な年齢と残量/生活環を混同しない"
+  },
+  {
+    "id": "grass",
+    "name": "草本",
+    "branchFramesConnected": 0,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "専用状態画と描画接続・実寸照合。生物学的な年齢と残量/生活環を混同しない"
+  },
+  {
+    "id": "fungus",
+    "name": "菌膜",
+    "branchFramesConnected": 0,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "専用状態画と描画接続・実寸照合。生物学的な年齢と残量/生活環を混同しない"
+  },
+  {
+    "id": "waterbug",
+    "name": "水游虫",
+    "branchFramesConnected": 0,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "専用状態画と描画接続・実寸照合。生物学的な年齢と残量/生活環を混同しない"
+  },
+  {
+    "id": "grassbug",
+    "name": "草棲虫",
+    "branchFramesConnected": 0,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "専用状態画と描画接続・実寸照合。生物学的な年齢と残量/生活環を混同しない"
+  },
+  {
+    "id": "tideparasite",
+    "name": "潮環",
+    "branchFramesConnected": 0,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "専用状態画と描画接続・実寸照合。生物学的な年齢と残量/生活環を混同しない"
+  },
+  {
+    "id": "leafparasite",
+    "name": "葉環",
+    "branchFramesConnected": 0,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "専用状態画と描画接続・実寸照合。生物学的な年齢と残量/生活環を混同しない"
+  },
+  {
+    "id": "hyperparasite",
+    "name": "抑環",
+    "branchFramesConnected": 0,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "専用状態画と描画接続・実寸照合。生物学的な年齢と残量/生活環を混同しない"
+  },
+  {
+    "id": "phytoplankton",
+    "name": "浮遊微藻",
+    "branchFramesConnected": 0,
+    "dedicatedSexAgeComplete": false,
+    "branchFinalVisualApproval": false,
+    "remaining": "専用状態画と描画接続・実寸照合。生物学的な年齢と残量/生活環を混同しない"
+  }
+]

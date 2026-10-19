@@ -56,9 +56,9 @@ const { chromium } = require("playwright"),
     await page.evaluate(() => EcoArt.ready);
     check(
       await page.evaluate(
-        () => EcoArt.loaded && Object.keys(EcoArt.images).length === 21,
+        () => EcoArt.loaded && Object.keys(EcoArt.images).length === Object.keys(EcoArt.manifest.sheets).length,
       ),
-      "all twenty-one creature and habitat production images decode",
+      "all declared creature and habitat production images decode",
     );
     check(
       await page.evaluate(() =>
@@ -68,10 +68,10 @@ const { chromium } = require("playwright"),
               (s.id === "precocial" ? 3 : 4)
             : ["P", "Q"].includes(s.group)
               ? EcoVisualManifest.creatures.regions[s.id]?.length === 3
-              : EcoVisualManifest.food.regions[s.id]?.length === 2,
+              : EcoVisualManifest.food.regions[s.id === "phytoplankton" ? "algae" : s.id]?.length === 2,
         ),
       ),
-      "every one of the 30 registered biological families has its own art",
+      "every registered biological family has connected artwork (phytoplankton shares algae)",
     );
     const coverage = await page.evaluate(() => {
       const c = document.createElement("canvas");
@@ -381,7 +381,8 @@ const { chromium } = require("playwright"),
       "parasites and hyperparasites stay attached to a visible host",
     );
     check(
-      (await page.locator("#selection [data-observe]").count()) === 2,
+      (await page.locator('#selection [data-observe="review-solar"]').count()) === 1 &&
+        (await page.locator('#selection [data-observe="review-fungus"]').count()) === 1,
       "main organism and edible organism remain separately selectable",
     );
     check(

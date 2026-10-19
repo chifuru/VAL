@@ -154,7 +154,7 @@ async function main() {
           g.clearRect(0, 0, 128, 128);
           EcoRenderer.creature(
             g,
-            { ...o, species, phase: 4 },
+            { ...o, species, phase: EcoState.D.byId[species].phases.length },
             64,
             64,
             40,

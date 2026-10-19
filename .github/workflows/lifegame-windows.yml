@@ -45,6 +45,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node tests/primary-plane-ui.cjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node tests/dedicated-variants-ui.cjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node tests/usability-performance.cjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node tests/presence-ui.cjs
