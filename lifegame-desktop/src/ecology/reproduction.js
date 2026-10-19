@@ -110,7 +110,7 @@
     const s = S.spec(o),
       rec = ctx.records.get(o.id),
       p = ctx.traits.get(o.id);
-    if(p?.ageStage === "juvenile")return false;
+    if(p?.ageStage === "juvenile" || (s.group === "plant" && S.ProducerSupport.factor(w,o,S)===0))return false;
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
     if (s.group !== "main")

@@ -3,7 +3,7 @@
       ["plant", 0.35], ["fungus", 0.03], ["prey", 0.1],
     ].filter(([group]) => config.enabled[group]).map(([group, rate]) => {
       const species = D.species.filter(s => s.group === group);
-      const target = Math.round(usable.length * rate * (config.initialFoodScale || 1));
+      const target = Math.round(usable.length * (config.initialConditions?.density[group] ?? rate * (config.initialFoodScale || 1)));
       return {group, target, placed:0, tasks:species.map((s,i) => ({
         s, desired:Math.floor(target/species.length)+(i<target%species.length?1:0), placed:0,
         cells:usable.filter(p => validHabitat(w,s,p)), cursor:0,
@@ -15,7 +15,7 @@
       pressure[p] += task.desired / Math.max(1,task.cells.length);
     for (const task of tasks) task.cells.sort((a,b) =>
       pressure[a]-pressure[b] ||
-      hash(w,"init/position",0,task.s.id,a)-hash(w,"init/position",0,task.s.id,b) || a-b);
+      initialRank(w,task.s,a)-initialRank(w,task.s,b) || a-b);
     tasks.sort((a,b) => a.cells.length-b.cells.length || (a.s.id<b.s.id?-1:a.s.id>b.s.id?1:0));
     function placeFood(task) {
       while(task.cursor<task.cells.length && occupied.has(task.cells[task.cursor]))task.cursor++;

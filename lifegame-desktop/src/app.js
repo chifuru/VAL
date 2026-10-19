@@ -160,6 +160,14 @@
   $("map-id").innerHTML += window.EcoMapTemplates.list()
     .map((m) => `<option value="${escape(m.id)}">${escape(m.name)}</option>`)
     .join("");
+  function resetLowerSettings(){
+    const [w,h]=$("size").value.split(",").map(Number),mode=S.observationPreset($("observation-mode").value,w,h);
+    for(const [k,v]of Object.entries({plant:35,fungus:3,prey:10}))$("density-"+k).value=+(v*mode.initialFoodScale).toFixed(1);
+    for(const k of ["mineral","droplet","info"])$("resource-"+k).value=100;
+    $("lower-distribution").value="habitat";
+  }
+  $("reset-lower-settings").onclick=resetLowerSettings;
+  $("producer-supply").onchange=()=>{for(const e of $("supply-inputs").querySelectorAll("input"))e.disabled=!$("producer-supply").checked;};
   function applyObservationMode() {
     const id = $("observation-mode").value,
       [width,height] = $("size").value.split(",").map(Number),
@@ -168,6 +176,7 @@
       $(id).disabled = fixed;
     for (const input of document.querySelectorAll("#groups input,#lineage-options input,#weight-options input")) input.disabled = fixed;
     if (fixed) {
+      resetLowerSettings();
       $("map-id").value = mode.mapId; $("initial").value = mode.initial;
       $("lineages").value = "manual"; $("distribution").value = mode.distribution;
       $("placement").value = mode.placement; $("guarantee").checked = false;
@@ -177,7 +186,7 @@
     $("lineage-options").hidden = $("lineages").value !== "manual";
     $("weight-options").hidden = $("distribution").value !== "weighted";
     syncSetupFields();
-    $("mode-help").textContent = mode.description + (fixed ? ` 主生物${mode.initial}体、${mode.selected.length}系統（${mode.selected.map(id=>D.byId[id].name).join(" / ")}）。自然配置・均等配分。固定項目を編集する場合は自由設定へ戻してください。` : "") + " 条件は開始時に固定され、観測中も同じ倍率で計算します。救済補充はありません。";
+    $("mode-help").textContent = mode.description.replace("途中の生体補充はありません。","動物の救済補充はありません。") + (fixed ? ` 主生物${mode.initial}体、${mode.selected.length}系統（${mode.selected.map(id=>D.byId[id].name).join(" / ")}）。自然配置・均等配分。固定項目を編集する場合は自由設定へ戻してください。` : "") + " 条件は開始時に固定され、観測中も同じ倍率で計算します。動物・寄生虫の救済補充はありません。生産者の環境供給は別欄で選択できます。";
     updateCohortHint();
   }
   $("observation-mode").addEventListener("change",applyObservationMode);
@@ -196,6 +205,8 @@
     return {
       blockTurns: 500,
       observationMode: $("observation-mode").value,
+      producerSupport: $("producer-supply").checked ? {enabled:true,...Object.fromEntries(["land","water"].map(r=>[r,Object.fromEntries(["nutrition","capacity","regrowth"].map(k=>[k,Number($("supply-"+r+"-"+k).value)/(k==="capacity"?100:1)]))]))} : {enabled:false},
+      initialConditions:{version:1,density:Object.fromEntries(["plant","fungus","prey"].map(k=>[k,Number($("density-"+k).value)/100])),resources:Object.fromEntries(["mineral","droplet","info"].map(k=>[k,Number($("resource-"+k).value)/100])),distribution:$("lower-distribution").value},
       advantageSettings: window.EcoObservationModel.settings(Object.fromEntries(
         ["producer","waterbug","hyperparasite"].map(k=>[k,$("advantage-"+k).checked]))),
       seed: crypto.randomUUID(),
@@ -314,12 +325,21 @@
     initialConfig = structuredClone(next.config);
     $("observation-mode").value = next.config.observationMode || "custom";
     const mode = next.config.modeResolved;
-    $("active-mode").textContent = mode ? mode.name + " · " + mode.description +
-      ` 主生物${next.config.initial}体。初期餌${Math.round(mode.initialFoodScale*100)}%。` : "自由設定 · 選択した初期条件で観察。途中の補充なし。";
-    if(next.config.ecologyParameters)$("active-mode").textContent+=" 生活維持・繁殖を支える観察条件: 主の維持消費65%・移動消費60%、有性繁殖の栄養基準65%/鉱物2。追加優遇の有効/無効は以下に表示します。途中の救済補充なし。";
+    $("active-mode").textContent = mode ? mode.name + " · " + mode.description.replace("途中の生体補充はありません。","動物の救済補充はありません。") +
+      ` 主生物${next.config.initial}体。初期餌${Math.round(mode.initialFoodScale*100)}%。` : "自由設定 · 選択した初期条件で観察。";
+    if(next.config.ecologyParameters)$("active-mode").textContent+=" 生活維持・繁殖を支える観察条件: 主の維持消費65%・移動消費60%、有性繁殖の栄養基準65%/鉱物2。追加優遇の有効/無効は以下に表示します。動物・寄生虫の救済補充なし。";
     const advantages=next.config.advantageSettings;
     for(const k of ["producer","waterbug","hyperparasite"])$("advantage-"+k).checked=advantages[k];
-    $("active-mode").textContent+=" 優遇: "+[["producer","生産者"],["waterbug","水游虫"],["hyperparasite","高次寄生"]].map(([k,label])=>label+(advantages[k]?"ON":"OFF")).join(" / ")+"。人工供給なし。";
+    $("active-mode").textContent+=" 優遇: "+[["producer","生産者"],["waterbug","水游虫"],["hyperparasite","高次寄生"]].map(([k,label])=>label+(advantages[k]?"ON":"OFF")).join(" / ")+"。";
+    const support=next.config.producerSupport;$("producer-supply").checked=!!support?.enabled;
+    for(const r of ["land","water"])for(const k of ["nutrition","capacity","regrowth"])$("supply-"+r+"-"+k).value=(support?.[r]?.[k]??(k==="capacity"?.35:1))*(k==="capacity"?100:1);
+    $("producer-supply").onchange();
+    $("active-mode").textContent+=support?.enabled?` 生産者供給あり（陸: 栄養${support.land.nutrition}・地点${support.land.capacity*100}%・再生${support.land.regrowth} / 水: 栄養${support.water.nutrition}・地点${support.water.capacity*100}%・再生${support.water.regrowth}）。外部入力は収支へ記録。`:" 生産者供給なし（途中の外部栄養入力なし）。";
+    const lower=next.config.initialConditions;
+    if(lower){for(const k of ["plant","fungus","prey"])$("density-"+k).value=+(lower.density[k]*100).toFixed(1);for(const k of ["mineral","droplet","info"])$("resource-"+k).value=lower.resources[k]*100;$("lower-distribution").value=lower.distribution;}
+    else {for(const [k,v]of Object.entries({plant:35,fungus:3,prey:10}))$("density-"+k).value=+(v*(next.config.initialFoodScale||1)).toFixed(1);for(const k of ["mineral","droplet","info"])$("resource-"+k).value=100;$("lower-distribution").value="habitat";}
+    if(lower){const baseline={plant:.35,fungus:.03,prey:.1},changed=Object.entries(baseline).some(([k,v])=>Math.abs(lower.density[k]-v*(next.config.initialFoodScale||1))>1e-8)||Object.values(lower.resources).some(v=>v!==1)||lower.distribution!=="habitat"||!support?.enabled||["land","water"].some(r=>Object.entries({nutrition:1,capacity:.35,regrowth:1}).some(([k,v])=>support[r][k]!==v));$("active-mode").textContent+=changed?" 下層・供給：調整あり。":" 下層・供給：基準設定。";}
+    const report=next.config.initialReport;if(report)$("active-mode").textContent+=` 初期配置: 生産者${report.groups.plant.actual}/${report.groups.plant.requested}・分解者${report.groups.fungus.actual}/${report.groups.fungus.requested}・一次消費者${report.groups.prey.actual}/${report.groups.prey.requested}（実数/目標）。資源: 鉱物${report.resources.mineral}・水分${report.resources.droplet}・情報${report.resources.info}地点。`;
     $("seed").value = next.config.seed;
     $("terrain-seed").value = next.config.terrainSeed ?? next.config.seed;
     $("map-id").value = next.config.mapId || "auto";
@@ -1044,6 +1064,7 @@
     $("budget-content").innerHTML =
       '<p class="stats-line">光からの投入E ' +
       fmt(world.ledger.solar) +
+      (world.config.producerSupport?.enabled?" / 生産者への外部入力E "+fmt(world.ledger.producerE||0)+"・M "+fmt(world.ledger.producerM||0):"") +
       " / 散逸E " +
       fmt(world.ledger.sinks) +
       "<br>現存E " +

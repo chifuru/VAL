@@ -1,0 +1,14 @@
+✔ initial density, resource zero, distribution and effective report are deterministic (93.427022ms)
+✔ invalid settings and impossible placement fail rather than silently reducing population (11.928628ms)
+✔ supply ON is finite, separately accounted, deterministic and does not change initial reserves (3435.544827ms)
+✔ missing supply stays OFF, explicit OFF adds no external input and disabled plants never establish (129.820109ms)
+✔ archive preserves resolved initial and supply settings and exact replay (107.866665ms)
+✔ legacy replay aliases refuse records containing the new feature settings (21.690255ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3817.495264

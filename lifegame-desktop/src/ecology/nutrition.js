@@ -189,6 +189,7 @@
       plant = spec.group === "plant",
       intent = ctx.intents.get(o.id);
     const list = [];
+    if(plant && S.ProducerSupport.factor(w,o,S)===0)return list;
     function organicAllowed(tag) {
       if (plant) return false;
       if (spec.id === "kelp") return tag === "animal";
@@ -589,7 +590,7 @@
           sex:o.sex,role:o.role,age:o.age,birthLife:o.birthLife,facing:o.facing,
           dna:{...o.dna}
         } });
-        ctx.deaths.push({ species: o.species, reason, ...(w.config.ecologyRevision === "observation/4.1" ? {id:o.id,generation:o.generation,ageStage:ctx.traits.get(o.id).ageStage} : {}) });
+        ctx.deaths.push({ species: o.species, reason, ...(o.producerReserve===0?{environmentCause:"basal-nutrition-exhausted"}:{}), ...(w.config.ecologyRevision === "observation/4.1" ? {id:o.id,generation:o.generation,ageStage:ctx.traits.get(o.id).ageStage} : {}) });
         carcass(w, o, ctx);
       } else survivors.push(o);
     }
@@ -619,7 +620,7 @@
             0,
             Math.min(
               s.group === "plant" ? 2 : 1,
-              o.E - keep,
+              (s.group === "plant" && S.ProducerSupport.factor(w,o,S)===0) ? 0 : o.E - keep,
               S.phenotype(w, o).capB - o.B,
             ),
           );

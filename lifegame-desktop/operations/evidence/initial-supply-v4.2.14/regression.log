@@ -1,0 +1,13 @@
+✔ tests/archive.test.cjs (1114.233349ms)
+✔ tests/compute-worker.test.cjs (10214.609619ms)
+✔ tests/ecology-observation.test.cjs (11789.521586ms)
+✔ tests/observation-model.test.cjs (10840.76394ms)
+✔ tests/producer-support.test.cjs (4068.566671ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 38066.883336

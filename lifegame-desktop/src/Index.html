@@ -95,6 +95,28 @@ ECOSYSTEM-2026</textarea
             </div>
             <button id="cancel-settings" type="button" class="secondary" hidden>変更を適用せず観測へ戻る</button>
             <p id="cohort-hint" class="cohort-hint" aria-live="polite"></p>
+            <fieldset id="producer-supply-settings"><legend>生産者の供給モデル</legend>
+              <label class="check"><input id="producer-supply" type="checkbox" checked>環境から生産者を支える</label>
+              <p class="hint">地形・生存優遇と独立した設定です。陸と水の生産者へ栄養を供給し、適地では環境由来の新個体が生じます。動物・寄生虫の救済補充はしません。</p>
+              <details><summary>陸・水の供給量を調整</summary><div class="setup-more" id="supply-inputs">
+                <label>陸の基礎栄養（倍率）<input id="supply-land-nutrition" type="number" required min="0" max="4" step="0.1" value="1"></label>
+                <label>陸の支援地点率（%）<input id="supply-land-capacity" type="number" required min="0" max="100" step="1" value="35"></label>
+                <label>陸の可食部再生（倍率）<input id="supply-land-regrowth" type="number" required min="0" max="4" step="0.1" value="1"></label>
+                <label>水の基礎栄養（倍率）<input id="supply-water-nutrition" type="number" required min="0" max="4" step="0.1" value="1"></label>
+                <label>水の支援地点率（%）<input id="supply-water-capacity" type="number" required min="0" max="100" step="1" value="35"></label>
+                <label>水の可食部再生（倍率）<input id="supply-water-regrowth" type="number" required min="0" max="4" step="0.1" value="1"></label>
+              </div></details>
+            </fieldset>
+            <details id="lower-initial-settings"><summary>下層生物・資源の初期量と分布</summary><p class="hint">密度は通行可能マスに対する配置目標です。適地と空き枠が不足すれば生成せず、設定の修正を案内します。供給中の量とは別です。P/Qの初期群体数は自動設定です。</p><div class="setup-more">
+              <label>生産者の初期密度（%）<input id="density-plant" type="number" required min="0" max="90" step="0.1" value="35"></label>
+              <label>分解者の初期密度（%）<input id="density-fungus" type="number" required min="0" max="90" step="0.1" value="3"></label>
+              <label>一次消費者の初期密度（%）<input id="density-prey" type="number" required min="0" max="90" step="0.1" value="10"></label>
+              <label>下層の分布<select id="lower-distribution"><option value="habitat">適地内に散在</option><option value="cluster">適地内に集落</option></select></label>
+              <label>鉱物の初期量（基準比%）<input id="resource-mineral" type="number" required min="0" max="400" step="10" value="100"></label>
+              <label>水分の初期量（基準比%）<input id="resource-droplet" type="number" required min="0" max="400" step="10" value="100"></label>
+              <label>情報の初期量（基準比%）<input id="resource-info" type="number" required min="0" max="400" step="10" value="100"></label>
+              <button id="reset-lower-settings" type="button" class="secondary">下層の初期量を基準に戻す</button>
+            </div></details>
             <details id="advanced-settings">
               <summary>系統の詳細・初期配置・参加する生物群</summary>
               <div class="setup-more">
@@ -322,7 +344,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.13 · 外部通信なし</span>
+        ><span>v4.2.14 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">

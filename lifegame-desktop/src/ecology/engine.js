@@ -142,7 +142,7 @@
             : s.id === "kelp"
               ? 1.5 * w.tiles[o.cell].light * [0, 1, 1.1, 1.2, 1.3][p.phase]
               : 0;
-      const ageLight=S.round(light*p.ageFactors.light*(w.config.solarScale || 1));
+      const ageLight=S.round(light*p.ageFactors.light*(w.config.solarScale || 1)*S.ProducerSupport.factor(w,o,S));
       if (ageLight) {
         const add = Math.min(p.capE - o.E, ageLight);
         o.E = S.round(o.E + add);
@@ -301,9 +301,10 @@
       }
       const produced=ctx.records.get(id)?.light||0;if(produced>0)flowTelemetry.production[species]=(flowTelemetry.production[species]||0)+produced;
     }
-    return {turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
+    return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
+    S.ProducerSupport.finish(w,ctx,S);
     w.tallies = w.tallies || emptyTallies();
     for (const id of ctx.births) w.tallies.births[id]++;
     for (const death of ctx.deaths) {
@@ -397,6 +398,7 @@
       w.checkpoints = [...(initial ? [initial] : []), checkpoint(w)];
     }
     w.turn++;
+    S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
     const labels = ["資源更新", "移動・採食・戦闘", "成長・繁殖"];
     function ensure() {
@@ -528,11 +530,12 @@
       )
         errors.push("RESOURCE_CAP");
     }
+    if(w.producerSupport && [w.ledger.producerE,w.ledger.producerM].some(v=>!Number.isFinite(v)||v<0))errors.push("PRODUCER_LEDGER");
     const totals = S.totals(w),
       Eerror = S.round(
-        totals.E + w.ledger.sinks - w.ledger.initialE - w.ledger.solar,
+        totals.E + w.ledger.sinks - w.ledger.initialE - w.ledger.solar - (w.ledger.producerE||0),
       ),
-      Merror = S.round(totals.M + w.ledger.Mloss - w.ledger.initialM);
+      Merror = S.round(totals.M + w.ledger.Mloss - w.ledger.initialM - (w.ledger.producerM||0));
     if (Math.abs(Eerror) > 0.002) errors.push("ENERGY:" + Eerror);
     if (Math.abs(Merror) > 0.002) errors.push("MATERIAL:" + Merror);
     return errors;

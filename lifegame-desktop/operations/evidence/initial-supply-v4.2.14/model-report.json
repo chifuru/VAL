@@ -1,0 +1,9 @@
+{
+  "profiles": 8,
+  "turnsPerProfile": 30,
+  "biologicalFingerprintAndStatsEqual": true,
+  "inputs": 110866,
+  "photosynthesis": 88138.95396200003,
+  "knownLegacyAliases": 3,
+  "unknownRejected": true
+}

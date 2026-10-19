@@ -1,0 +1,16 @@
+✔ support settings validate finite bounds and nonoverlapping stress intervals (1.318933ms)
+✔ disabled support exactly preserves the layered reference without adding state (3582.998968ms)
+✔ strong grazing consumes finite leaves while supported basal organisms persist (15.192953ms)
+✔ supply stop has zero external input, exhausts reserve and causes producer loss (44.139045ms)
+✔ restored support establishes new IDs with explicit origin and separate observation counts (44.487936ms)
+✔ external ledger cannot hide missing or double-counted input and leaves original baselines intact (8.01326ms)
+✔ producer support never creates animal or parasite populations (47.068298ms)
+✔ non-finite external ledger values and mid-run reconfiguration are rejected (11.063614ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3761.418032

@@ -1,0 +1,18 @@
+{
+  "version": "4.2.14",
+  "files": {
+    "src/Index.html": "4b3b4c43285ef3bb606236f52e0b3ee52cc095180b6b499ece16f0666b261ab8",
+    "src/app.js": "2b0eb37b1316b54f8337f679971c0366618162852a7511b2c247967b3195aaf1",
+    "src/ecology/observations.js": "e1f3e388b8f42aa8177922d3cffed0cc90eacabf4b7b33d8a05b46281372451c",
+    "src/ecology/engine.js": "5252d70fca905421b5de8f9dd53aa287b5eb3a6b9ad3e110dc18e4714d23c031",
+    "src/ecology/state.js": "9e9724ae942d90b015887d01dda83c6fca5e7482c6c587a2c608f140e1830800",
+    "src/ecology/reproduction.js": "2eb0c0bd9c8add8a7ceab26532a855039df912a926e09f3b96f1333508db71e6",
+    "src/ecology/nutrition.js": "403e9b1312ffff27b5ea6c18349ee09766fe50dee23080b1ecfdce0f86d80b2d",
+    "src/ecology/observation-modules.js": "9acf7905884027f4f3a342616dbd243a612c134293c790418739390e06a5c2ca",
+    "src/ecology/replay-version.js": "2c3a8ceabe0833ace2c1bd58be18312315861fbf3455f9a9bc7242607bfde4b4",
+    "src/ecology/archive.js": "8aa025f05600670bd970b5642e6c618887c132526cd61ac2da0766fda9b5a822"
+  },
+  "png": 35,
+  "allMatched": true,
+  "nativeWindowsRun": false
+}

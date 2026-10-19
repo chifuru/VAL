@@ -1,0 +1,30 @@
+{
+  "checks": [
+    "new UI defaults to producer support",
+    "disabled support inputs do not participate in validation",
+    "support applied",
+    "water setting applied independently",
+    "direct density applied",
+    "zero initial information respected",
+    "effective support explained",
+    "actual placement explained",
+    "manual overrides distinguished from baseline",
+    "existing panel preserved graph-stacked",
+    "existing panel preserved composition-phases",
+    "existing panel preserved composition-sex",
+    "existing panel preserved composition-ages",
+    "Worker applies accounted external input",
+    "Worker and synchronous model reproduce exact state",
+    "return retains effective support",
+    "cancel preserves observed world",
+    "legacy missing support is displayed OFF",
+    "legacy OFF described",
+    "invalid density remains visible within current UI",
+    "actionable combined density error",
+    "retry with support OFF succeeds",
+    "setup has no horizontal overflow",
+    "no browser errors or native dialogs"
+  ],
+  "errors": [],
+  "scope": "Linux Chromium; settings, Worker, legacy OFF, cancel/failure/retry"
+}
