@@ -344,6 +344,7 @@
     selectedId = null;
     selectedCell = null;
     renderer.view.selected = null;
+    renderer.view.selectedEntity = null;
     renderer.setWorld(world);
     renderer.fit();
     $("empty").hidden = true;
@@ -593,7 +594,7 @@
     if (!world) return;
     const p =
       selectedCell ?? world.organisms.find((o) => o.slot === "main")?.cell ?? 0;
-    renderer.focus(p);
+    renderer.focus(p,selectedId);
   };
   $("focus-view").onclick = () => {
     const active = document.body.classList.toggle("observatory");
@@ -605,6 +606,19 @@
       if (renderer.view.mode === "overview") renderer.fit();
       else if (renderer.view.mode === "detail") $("detail-view").click();
     });
+  };
+  $("plane-separation").onchange=()=>{
+    renderer.view.planeSeparation=$("plane-separation").checked;
+    if(followId)updateTracking();
+    else if(renderer.view.mode==="overview")renderer.fit();
+    else {
+      renderer.view.y+=(renderer.view.planeSeparation?1:-1)*window.EcoDisplayPlane.LIFT*renderer.view.scale/2;
+      if(renderer.view.planeSeparation){
+        const b=$("board").getBoundingClientRect(),safe=Math.max(48,(b.height-72)/(window.EcoDisplayPlane.LIFT+1.8));
+        if(renderer.view.scale>safe)renderer.zoom(safe/renderer.view.scale);
+      }
+    }
+    renderer.draw();
   };
   $("status-marks").addEventListener("change", () => {
     renderer.view.statusMarks = $("status-marks").checked;
@@ -649,8 +663,8 @@
   });
   canvas.addEventListener("pointerup", (e) => {
     if (drag && !drag.moved) {
-      const cell = renderer.cellAt(e.clientX, e.clientY);
-      if (cell !== null) { select(cell);hold("detail"); }
+      const hit=renderer.hitAt(e.clientX,e.clientY,e.shiftKey);
+      if(hit){select(hit.cell,hit.id,{groundOnly:hit.groundOnly});hold("detail");}
     }
     drag = null;
     mapInteraction();
@@ -694,15 +708,16 @@
     if (e.key === "+" || e.key === "=") renderer.zoom(1.4);
     if (e.key === "-") renderer.zoom(1 / 1.4);
   });
-  function select(cell, id = null) {
+  function select(cell, id = null, {groundOnly=false} = {}) {
     // Selection reads committed state and does not invalidate prepared work.
     selectedCell = cell;
     selectedId =
       id ||
-      world.organisms.find((o) => o.cell === cell && o.slot === "main")?.id ||
-      world.organisms.find((o) => o.cell === cell)?.id ||
+      (!groundOnly?world.organisms.find((o) => o.cell === cell && o.slot === "main")?.id:null) ||
+      world.organisms.find((o) => o.cell === cell && (!groundOnly||o.slot!=="main"))?.id ||
       null;
     renderer.view.selected = cell;
+    renderer.view.selectedEntity = selectedId;
     renderSelection();
   }
   function locate(id){
@@ -712,7 +727,7 @@
   }
   function updateTracking(){
     const found=locate(followId);
-    if(found){selectedId=followId;selectedCell=found.cell;lastTracked={id:followId,cell:found.cell,turn:world.turn,hostId:found.host?.id};const [x,y]=renderer.screen(found.cell),b=$('board').getBoundingClientRect();renderer.view.x+=b.width/2-x;renderer.view.y+=b.height/2-y;$('follow-note').textContent='追跡中: '+followId;}
+    if(found){selectedId=followId;selectedCell=found.cell;lastTracked={id:followId,cell:found.cell,turn:world.turn,hostId:found.host?.id};const [x,y]=renderer.screen(found.cell,followId),b=$('board').getBoundingClientRect();renderer.view.x+=b.width/2-x;renderer.view.y+=b.height/2-y-(renderer.view.planeSeparation&&found.host?.slot==='main'?window.EcoDisplayPlane.LIFT*renderer.view.scale/2:0);$('follow-note').textContent='追跡中: '+followId;}
     else if(followId){const death=world.last.deathCauses.find(d=>d.id===followId||d.id===lastTracked?.hostId),cause=death?({combat:"戦闘",starvation:"栄養不足",harvest:"採食による喪失",age:"寿命"}[death.reason]||death.reason):"消失（確定理由の記録なし）";$('follow-note').textContent=`追跡終了: ${followId} · 最終確認 ${lastTracked?.turn ?? world.turn}T / マス${lastTracked?.cell ?? selectedCell} / ${cause}。`;followId=null;}
   }
   $('follow-individual').onclick=()=>{followId=followId?null:selectedId;updateTracking();};
@@ -870,6 +885,7 @@
     if (observed) {
       selectedCell = observed.cell;
       renderer.view.selected = selectedCell;
+      renderer.view.selectedEntity = selectedId;
     }
     const [x, y] = S.xy(world, selectedCell),
       t = world.tiles[selectedCell],
@@ -1349,7 +1365,8 @@
   if (new URLSearchParams(location.search).has("smoke"))
     window.__LIFE_TEST__ = {
       observations:()=>observations,
-      screenForCell: (cell) => renderer.screen(cell),
+      screenForCell: (cell, id = null) => renderer.screen(cell,id),
+      hitAt: renderer.hitAt,
       prepare,
       refresh: render,
       draw: renderer.draw,

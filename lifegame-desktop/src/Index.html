@@ -177,7 +177,7 @@ ECOSYSTEM-2026</textarea
               <canvas
                 id="board"
                 tabindex="0"
-                aria-label="生態系の盤面。クリックでマスを選択、ドラッグで移動、ホイールで拡大縮小。"
+                aria-label="生態系の盤面。クリックで生物、Shiftとクリックで地表を選択。ドラッグで移動、ホイールで拡大縮小。"
               ></canvas>
               <div id="empty">
                 <span>◈</span>
@@ -190,6 +190,8 @@ ECOSYSTEM-2026</textarea
               ><button id="fit" class="small">全体</button
               ><button id="zoom-out" class="small" aria-label="縮小">−</button
               ><button id="zoom-in" class="small" aria-label="拡大">＋</button
+              ><label class="check" title="オンで主生物だけを上へ分離して表示。オフで通常表示へ戻ります。"
+                ><input id="plane-separation" type="checkbox" />主生物を相分離</label
               ><label class="check"
                 ><input id="resources" type="checkbox" checked />資源</label
               ><label class="check"
@@ -212,6 +214,7 @@ ECOSYSTEM-2026</textarea
             </div>
           </div>
           <p class="age-legend">
+            相分離：主生物を上へ表示。クリックで生物、Shift＋クリックで地表を選択。<br />
             年齢印：幼体＝小点付きの輪 ／ 成体＝通常形 ／
             老齢＝切欠きの輪。近景の状態札：♂/♀/—、幼体/成体/老齢、I〜IV相＋分岐。! は低体力・低栄養。年齢と進化相は別です。
           </p>
@@ -292,7 +295,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.0 · 外部通信なし</span>
+        ><span>v4.2.1 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">
@@ -326,6 +329,7 @@ ECOSYSTEM-2026</textarea
     <script src="ecology/habitat.js"></script>
     <script src="ecology/scenery.js"></script>
     <script src="ecology/projection.js"></script>
+    <script src="ecology/display-plane.js"></script>
     <script src="ecology/renderer.js"></script>
     <dialog id="species-info"><button id="close-species" class="secondary">閉じる ×</button><div id="species-description"></div></dialog>
     <dialog id="results">

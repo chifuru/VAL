@@ -1,0 +1,18 @@
+✔ final record contains initial config and final summary; repeated replay never records (508.196261ms)
+✔ incompatible, corrupt, full or failing storage cannot silently lose records (88.53586ms)
+✔ checked-in replay signature matches all biological sources including landscape (1.883175ms)
+✔ template records require resolved map identity before replay (59.634716ms)
+✔ only main display rises; colocated lower layers and biological world stay unchanged (1.707712ms)
+✔ attached P and Q rise with the host; search Q stays on its real base cell (1.949925ms)
+✔ movement interpolates on the same elevated plane and converges to the settled anchor (0.342772ms)
+✔ display relief selects every actual cell centre without changing world state (15.874225ms)
+✔ shared terrain vertices agree, water stays level, and camera bounds cover cells (2.781186ms)
+✔ base-plane camera projection and inverse are consistent at fractional coordinates (0.624213ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 722.20177

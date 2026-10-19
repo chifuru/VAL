@@ -137,6 +137,8 @@
         x: 0,
         y: 0,
         resources: true,
+        planeSeparation: false,
+        selectedEntity: null,
         grid: false,
         motion: true,
         ageEmphasis: false,
@@ -168,7 +170,16 @@
       cacheKey = null,
       nearCache = null,
       revision = 0,
-      lastFrameKey = null;
+      lastFrameKey = null,
+      layout = null, layoutWorld = null, layoutEnabled = null,
+      previousActors = new Map(), hitRegions = [];
+    function displayLayout(){
+      if(layoutWorld!==world||layoutEnabled!==view.planeSeparation){
+        layout=globalThis.EcoDisplayPlane.create(world,P,view.planeSeparation);
+        layoutWorld=world;layoutEnabled=view.planeSeparation;
+      }
+      return layout;
+    }
     function resize() {
       const b = canvas.getBoundingClientRect(),
         d = devicePixelRatio || 1,
@@ -183,6 +194,7 @@
     }
     function setWorld(w, restartMotion = false) {
       revision++;
+      previousActors = new Map((world?.organisms || []).map(o=>[o.id,o]));
       world = w;
       const key = [
         Art.loaded,
@@ -207,7 +219,7 @@
     function fit() {
       if (!world) return;
       const b = resize(),
-        r = P.bounds;
+        r = {...P.bounds,minY:P.bounds.minY-(view.planeSeparation?globalThis.EcoDisplayPlane.LIFT:0)};
       view.mode = "overview";
       view.scale = Math.min(
         (b.width - 40) / (r.maxX - r.minX),
@@ -216,19 +228,22 @@
       view.x = (b.width - (r.maxX + r.minX) * view.scale) / 2;
       view.y = (b.height - (r.maxY + r.minY) * view.scale) / 2;
     }
-    function focus(cell) {
+    function focus(cell, id = null) {
       if (!world) return;
       const b = resize(),
         [x, y] = S.xy(world, cell),
-        p = P.point(x + 0.5, y + 0.5);
+        p = displayLayout().entity(id || world.organisms.find(o=>o.cell===cell&&o.slot==="main")?.id)?.point || P.point(x + 0.5, y + 0.5);
+      if(view.planeSeparation&&displayLayout().entity(id||world.organisms.find(o=>o.cell===cell&&o.slot==="main")?.id)?.elevated)p[1]+=globalThis.EcoDisplayPlane.LIFT/2;
       view.mode = "detail";
-      view.scale = 240;
+      view.scale = view.planeSeparation?Math.min(240,Math.max(48,(b.height-72)/(globalThis.EcoDisplayPlane.LIFT+1.8))):240;
       view.x = b.width / 2 - p[0] * view.scale;
       view.y = b.height / 2 - p[1] * view.scale;
     }
-    function screen(cell) {
-      const [x, y] = S.xy(world, cell),
-        p = P.point(x + 0.5, y + 0.5);
+    function screen(cell, id = null) {
+      const [x, y] = S.xy(world, cell),entity=displayLayout().entity(id),
+        p = entity?.point.slice() || P.point(x + 0.5, y + 0.5),
+        detail=view.scale>=24&&view.mode!=="overview"&&!view.simplified;
+      if(detail&&entity?.host)p[1]-=entity.host.slot==="main"?.18:.03;
       return [view.x + p[0] * view.scale, view.y + p[1] * view.scale];
     }
     function path(points) {
@@ -266,6 +281,8 @@
       g.fillStyle = "#07171f";
       g.fillRect(0, 0, b.width, b.height);
       if (!world) return;
+      hitRegions=[];
+      const coordinates=displayLayout();
       const w = world,
         z = view.scale,
         near = z >= 24 && view.mode !== "overview",
@@ -282,6 +299,8 @@
         highParasites: 0,
         statusBadges: 0,
         criticalMarkers: 0,
+        elevated: 0,
+        selectedMotionEndpoints: null,
       });
       const visible = (p, margin = 1) =>
         p[0] * z + view.x >= -z * margin &&
@@ -373,13 +392,13 @@
           grouped = new Map();
         for (const ev of w.events) {
           const o = living.get(ev.id);
-          if (!o || !visible(position(o.cell), 1.6)) continue;
+          if (!o || !visible(coordinates.anchor(o).point, 1.6)) continue;
           if (!grouped.has(ev.id)) grouped.set(ev.id, []);
           if (grouped.get(ev.id).length < 4) grouped.get(ev.id).push(ev);
         }
         const distance = (id) => {
           const o = living.get(id),
-            p = position(o.cell);
+            p = coordinates.anchor(o).point;
           return Math.hypot(
             p[0] * z + view.x - b.width / 2,
             p[1] * z + view.y - b.height / 2,
@@ -437,29 +456,16 @@
         foodCells = new Set(
           w.organisms.filter((o) => o.slot !== "main").map((o) => o.cell),
         );
-      const basalCells=new Set(w.organisms.filter(o=>o.slot==="food").map(o=>o.cell)),
-        preyCells=new Set(w.organisms.filter(o=>o.slot==="prey").map(o=>o.cell));
       for (const obj of scene.objects) {
         const p = P.point(obj.x, obj.y);
         if (visible(p, 2))
           actors.push({ depth: P.depth(obj.x, obj.y) - 0.05, obj, p });
       }
       for (const o of w.organisms) {
-        const overlap = main.has(o.cell) && foodCells.has(o.cell),
-          layered = basalCells.has(o.cell) && preyCells.has(o.cell),
-          ox = layered ? (o.slot === "main" ? .65 : o.slot === "prey" ? .18 : .68) : overlap ? (o.slot === "main" ? 0.67 : 0.2) : 0.5,
-          oy = layered ? (o.slot === "main" ? .4 : o.slot === "prey" ? .72 : .88) : overlap ? (o.slot === "main" ? 0.44 : 0.81) : 0.55;
-        let [x, y] = S.xy(w, o.cell);
-        const list = events.get(o.id) || [],
-          ev = list.find((e) => e.type === "move");
-        if (ev?.from !== undefined) {
-          const [u, v] = S.xy(w, ev.from);
-          x = u + (x - u) * age;
-          y = v + (y - v) * age;
-        }
-        const p = P.point(x + ox, y + oy);
-        if (!visible(p, 1.6)) continue;
-        actors.push({ depth: P.depth(x + ox, y + oy), o, p, list });
+        const list = events.get(o.id) || [], ev=list.find(e=>e.type==='move'),
+          a=coordinates.anchor(o,age,ev),p=a.point;
+        if (!visible(p, 1.6) && !visible(a.ground,1.6)) continue;
+        actors.push({depth:a.depth,o,p,list,ground:a.ground,elevated:a.elevated});
       }
       actors.sort((a, b) => a.depth - b.depth);
       const bodies = actors.filter((a) => a.o);
@@ -468,8 +474,17 @@
         !detail && view.emphasis
           ? [...actors.filter((a) => a.obj), ...bodies]
           : actors;
-      const annotations = [];
-      for (const actor of ordered) {
+      const sequence=view.planeSeparation
+        ? [...ordered.filter(a=>!a.elevated),...ordered.filter(a=>a.elevated)] : ordered;
+      if(view.planeSeparation){
+        g.fillStyle='#00151d40';
+        for(const a of bodies)if(a.elevated&&visible(a.ground)){
+          g.beginPath();g.ellipse(...a.ground,.32,.12,0,0,Math.PI*2);g.fill();
+        }
+      }
+      const annotations = [];let upperStarted=false;
+      for (const actor of sequence) {
+        if(actor.elevated&&!upperStarted){for(const paint of annotations)paint();annotations.length=0;upperStarted=true;}
         const { p } = actor;
         if (actor.obj) {
           const a = actor.obj,
@@ -485,7 +500,7 @@
             Art.propShadow(g, a.index, ...p, a.size);
             const obscured = bodies.filter(
               (b) =>
-                b.depth < actor.depth &&
+                !b.elevated && b.depth < actor.depth &&
                 Math.abs(b.p[0] - p[0]) < a.size * 0.42 &&
                 b.p[1] < p[1] + 0.08 &&
                 b.p[1] > p[1] - a.size * 0.8,
@@ -546,6 +561,7 @@
         }
         const { o, list } = actor;
         diagnostics.drawn++;
+        if(actor.elevated)diagnostics.elevated++;
         const isMain = o.slot === "main",
           overlap = main.has(o.cell) && foodCells.has(o.cell),
           r = isMain
@@ -555,6 +571,7 @@
             : 0.13 + 0.07 * Math.min(1, S.edibleB(o) / 15),
           cx = p[0],
           cy = p[1] - (detail ? (isMain ? 0.18 : 0.03) : 0);
+        if(!actor.elevated){
         if(detail){const shadow=g.createRadialGradient(p[0],p[1]+.04,0,p[0],p[1]+.04,r);shadow.addColorStop(0,"#00131be0");shadow.addColorStop(1,"#00131b08");g.fillStyle=shadow;}else g.fillStyle="#061922cc";
         g.beginPath();
         g.ellipse(
@@ -567,6 +584,8 @@
           7,
         );
         g.fill();
+        }
+        hitRegions.push({id:o.id,cell:o.cell,main:isMain,x:cx,y:cy,rx:detail?r*1.65:isMain?.35:.22,ry:detail?r*1.55:isMain?.32:.21});
         if (view.emphasis && (!detail || !isMain)) {
           g.save();
           g.fillStyle = detail ? "#02131c99" : "#02131cf0";
@@ -648,7 +667,9 @@
           g.beginPath();
           g.arc(bx, by, 0.05, 0, 7);
           g.fill();
+          hitRegions.push({id:o.infection.id,cell:o.cell,main:isMain,x:bx,y:by,rx:.065,ry:.065});
           if (o.infection.q) {
+            hitRegions.push({id:o.infection.q.id,cell:o.cell,main:isMain,x:bx,y:by,rx:.115,ry:.115,min:.6});
             g.strokeStyle = "#d8adff";
             g.lineWidth = Math.max(0.025, 0.7 / z);
             g.beginPath();
@@ -672,7 +693,10 @@
                 : "#e9eab0";
           g.lineWidth = 0.035;
           if (["attack", "feed", "care"].includes(ev.type)) {
-            const t = position(ev.to ?? o.cell);
+            const target=w.organisms.find(a=>a.id===ev.target)||(previousActors.has(ev.target)?{...previousActors.get(ev.target),cell:ev.to??previousActors.get(ev.target).cell}:null),
+              endpoint=target?coordinates.anchor(target,age,events.get(target.id)?.find(e=>e.type==='move')):null,
+              t=endpoint?[endpoint.point[0],endpoint.point[1]-(detail?(target.slot==='main'?.18:.03):0)]:position(ev.to??o.cell);
+            if(o.id===view.selectedEntity)diagnostics.selectedMotionEndpoints={id:o.id,target:ev.target,from:[cx,cy],to:t};
             g.beginPath();
             g.moveTo(cx, cy);
             g.quadraticCurveTo(
@@ -773,7 +797,7 @@
         }
       }
       for(const q of w.searchQ || []){
-        const [x,y]=S.xy(w,q.cell),p=P.point(x+.5,y+.5);symbol(g,"hyperparasite",p[0]+.24,p[1]-.25,.09,"#ccadff");
+        const [x,y]=S.xy(w,q.cell),p=P.point(x+.5,y+.5);symbol(g,"hyperparasite",p[0]+.24,p[1]-.25,.09,"#ccadff");hitRegions.push({id:q.id,cell:q.cell,main:false,x:p[0]+.24,y:p[1]-.25,rx:.11,ry:.11});
         if(near){g.fillStyle="#d9c6ff";g.font=".06px sans-serif";g.fillText(S.D.byId.hyperparasite.name+" · 探索",p[0],p[1]-.38);}
       }
       const marks=new Set(view.highlights||[]);
@@ -791,7 +815,19 @@
         g.lineWidth = 1.5 / z;
         g.stroke();
       }
+      const selected=coordinates.entity(view.selectedEntity);
+      if(selected?.elevated){
+        g.save();g.strokeStyle='#f2d79c88';g.lineWidth=1/z;g.setLineDash([2/z,3/z]);
+        g.beginPath();g.moveTo(...selected.ground);g.lineTo(...selected.point);g.stroke();g.restore();
+      }
       g.restore();
+    }
+    function hitAt(clientX,clientY,groundOnly=false){
+      const cell=cellAt(clientX,clientY);if(!world)return null;
+      const b=canvas.getBoundingClientRect(),x=(clientX-b.left-view.x)/view.scale,y=(clientY-b.top-view.y)/view.scale;
+      if(!groundOnly)for(let i=hitRegions.length-1;i>=0;i--){const a=hitRegions[i],d=((x-a.x)/a.rx)**2+((y-a.y)/a.ry)**2;if(d<=1&&d>=(a.min||0)**2)return {cell:a.cell,id:a.id};}
+      if(cell===null)return null;
+      return {cell,id:groundOnly?world.organisms.find(o=>o.cell===cell&&o.slot!=='main')?.id:null,groundOnly};
     }
     function cellAt(clientX, clientY) {
       if (!world) return null;
@@ -823,6 +859,7 @@
       focus,
       screen,
       cellAt,
+      hitAt,
       zoom,
       creature,
     };

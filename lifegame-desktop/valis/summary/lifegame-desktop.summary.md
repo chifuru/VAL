@@ -69,7 +69,7 @@ A2:（起点 / 独立した Windows ローカル実行）［草案］
 	ロジック:
 		現行UIを基準に、既存個体数カード列末尾の小型trend-cardをサマリへ置換。右側は基本3グラフ/詳細の切替。一画面の判読性と遷移保護を確認する。
 	実態:
-		開始前の優遇3項目を自由設定でも独立選択し既定全ON。実行中表示/世界/保存再生へ版と3値を接続。異なる計算版の旧記録を新条件へ黙って変更しない。人工供給選択と記録の残件は後続。 詳細: operations/evidence/observation-model-v4.2/README.md。 主生物だけの描画面分離を残件へ反映。基底面も同時表示し、付着P/Qは宿主に追従。未実装。
+		既存表示設定列のチェック欄「主生物を相分離」を4.2.1へ接続、既定OFF。全要素同時表示、世界/保存条件は変更しない。 詳細: operations/evidence/primary-plane-v4.2.1/README.md。
 
 ```
 
@@ -182,7 +182,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 		ロジック:
 			代表モックの系統固有の相/雌雄/年齢と6行動の表現を適用。背景の彩度/細部を抑え接地影/縁の明暗で分離。確定イベントから描き、生態計算へ逆作用させない。
 		実態:
-			既存遠景記号/近景原画を維持し、3枠同居時は主/一次消費者/生産者の位置を分ける。浮遊微藻は既存藻の原画を利用。新種の専用造形と全状態/全端末の視認性は未認定。 詳細: operations/evidence/observation-model-v4.2/README.md。 主生物だけの描画面分離を残件へ反映。基底面も同時表示し、付着P/Qは宿主に追従。未実装。
+			4.2.1で主のみ上昇、下層同時表示、付着P/Q追従、選択/追跡/既存動作端点を接続。原画と遠景記号は維持。新規書き分け/重要モーションは工程2以降。 詳細: operations/evidence/primary-plane-v4.2.1/README.md。
 	B5.4:（A1, A2, A1.2 / 最終結果図鑑と再生・新規保存）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.4.md。最終結果図鑑と再生・新規保存。
@@ -257,7 +257,7 @@ C4:（A2, B5 / Electron と Windows 配布）［草案］
 	ロジック:
 		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
 	実態:
-		Windows4.2.0配布を生成しPE/ZIP/hashとapp.asarの対象src一致を確認。実Windows起動/性能は今回未確認、旧4.1の実機証跡を新製品の合格へ流用しない。 詳細: operations/evidence/observation-model-v4.2/README.md。
+		Windows4.2.1の配布生成/PE/ZIP/hashと相分離srcの同梱一致を確認。実機起動/性能は未実施。詳細: operations/evidence/primary-plane-v4.2.1/README.md。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -332,7 +332,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 		ロジック:
 			実タイルから地形/深浅/8環境のマスクを生成し、視野内だけ高解像度で合成。遠景は全位置記号、近景は描き込んだ景観。輪郭影と局所遮蔽を使い、装飾を新たな生態/障害物としない。
 		実態:
-			3枠同居位置を分け浮遊微藻へ既存藻の原画を利用。背景/遠景記号/主生物の原画は維持。実画面描画確認、全状態/端末は未認定。 詳細: operations/evidence/observation-model-v4.2/README.md。
+			4.2.1のdisplay-plane.jsで表示座標を共通化。主のみ上昇し、地表影/描画順/直接選択/Shift地表/追跡/動作端点へ接続。チェック欄既定OFF。生態と原画は不変。 詳細: operations/evidence/primary-plane-v4.2.1/README.md。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -377,7 +377,7 @@ D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	ロジック:
 		C4と対象版を照合して配布物そのものを実行する。
 	実態:
-		Windows4.2.0の配布生成/同梱一致を確認。実機起動は未実施で、旧4.1実測とは区別。Linux Chromiumのモデル/Worker/画面検査はD8/D9参照。 詳細: operations/evidence/observation-model-v4.2/README.md。
+		Windows4.2.1の配布生成/PE/ZIP/hashと相分離srcの同梱一致を確認。実機起動/性能は未実施。詳細: operations/evidence/primary-plane-v4.2.1/README.md。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -431,7 +431,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		実画面47/遷移27/優遇・Worker・再生8確認を通過。全8条件の実Worker各2Tと同期指紋一致。旧再生成テストは確認UIと生成完了を待つ形へ更新。Windows実機は未確認。 詳細: operations/evidence/observation-model-v4.2/README.md。
+		4.2.1で表示22確認、座標/投影/保存10テスト、遷移27確認通過。代表遠近/同居/P-Q/追跡/端点/Worker一致を対象とし、全端末・Windows実機は未確認。 詳細: operations/evidence/primary-plane-v4.2.1/README.md。
 ```
 
 ## E：検証証跡
@@ -482,13 +482,13 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		observation-model-v4.2に実画面47/遷移27/専用8確認と画像を保存。Worker/設定保存再生一致、例外なし。Windows配布生成は記録し実機確認とは区別。 詳細: operations/evidence/observation-model-v4.2/README.md。
+		primary-plane-v4.2.1へ表示22/単体等10/遷移27の実測と遠近実画面を保存。表示fixtureと自然生態試行を区別。全端末/Windows実機の認定なし。 詳細: operations/evidence/primary-plane-v4.2.1/README.md。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
 	ロジック:
 		対象SHAと版が一致するWindows4.1の配布/実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		4.2.0はWindows配布生成/PE形式/同梱src一致のみを今回記録。実Windows起動・性能は未確認。既存4.1の実機証跡は当時の対象SHAに限定し新製品へ代用しない。 詳細: operations/evidence/observation-model-v4.2/README.md。
+		Windows4.2.1の配布生成/PE/ZIP/hashと相分離srcの同梱一致を確認。実機起動/性能は未実施。詳細: operations/evidence/primary-plane-v4.2.1/README.md。
 
 ```

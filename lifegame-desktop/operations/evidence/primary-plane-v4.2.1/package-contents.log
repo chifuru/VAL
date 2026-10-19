@@ -1,0 +1,5 @@
+MATCH src/ecology/display-plane.js
+MATCH src/ecology/renderer.js
+MATCH src/app.js
+MATCH src/Index.html
+version 4.2.1; native Windows launch not tested
