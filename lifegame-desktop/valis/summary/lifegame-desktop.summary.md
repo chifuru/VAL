@@ -7,7 +7,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 ```text
 A1:（起点 / 生態系の成長と生存観測）［草案］
 	構成（要素・関係）:
-		valis/nodes/A/A1.md。生態系の成長と生存観測。差分正本: design/specification/observation-first-v2.8.md。
+		valis/nodes/A/A1.md。生態系の成長と生存観測。差分正本: design/specification/observation-first-v2.8.md。 残件の作業順: operations/plans/remaining-completion-v4.2.md。
 	ロジック:
 		自由・観察優遇で基本バランス仮決め→遠近の代表比較→製品/UI・記録接続→R0。旧R1〜R6と未完一覧を後段へ保持。
 	実態:
@@ -65,7 +65,7 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 			3枠の共通生物処理と31種を製品接続し、同居枠は表示位置も区別。固定河川500Tで下層/主/P/Qの存続例。全地形/全系統の存続保証ではない。 詳細: operations/evidence/observation-model-v4.2/README.md。
 A2:（起点 / 独立した Windows ローカル実行）［草案］
 	構成（要素・関係）:
-		valis/nodes/A/A2.md。独立した Windows ローカル実行。
+		valis/nodes/A/A2.md。独立した Windows ローカル実行。 残件の作業順: operations/plans/remaining-completion-v4.2.md。
 	ロジック:
 		現行UIを基準に、既存個体数カード列末尾の小型trend-cardをサマリへ置換。右側は基本3グラフ/詳細の切替。一画面の判読性と遷移保護を確認する。
 	実態:
@@ -155,7 +155,7 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 			生産者/一次消費者/主の占有を分離した生活処理を製品接続。有限収支と出生/成長の選定条件を維持。全系統/全seedの目標率は後段。 詳細: operations/evidence/observation-model-v4.2/README.md。
 B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案］
 	構成（要素・関係）:
-		valis/nodes/B/B5.md。生態系の観測・比較操作。
+		valis/nodes/B/B5.md。生態系の観測・比較操作。 残件の作業順: operations/plans/remaining-completion-v4.2.md。
 	ロジック:
 		現行UIの操作/質感を維持し、右側の基本3グラフ、小型trend-cardサマリ、共通横詳細、小型個体カードを接合。生存ルート比較を先に行い、製品反映後に画面を仕上げる。
 	実態:
@@ -178,7 +178,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.3:（A1.1, A1.2, A1.3, A1.5, A1.6 / 確定した行動のモーション表示）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.3.md。確定した行動のモーション表示。
+			valis/nodes/B/B5.3.md。確定した行動のモーション表示。 残件の作業順: operations/plans/remaining-completion-v4.2.md。
 		ロジック:
 			代表モックの系統固有の相/雌雄/年齢と6行動の表現を適用。背景の彩度/細部を抑え接地影/縁の明暗で分離。確定イベントから描き、生態計算へ逆作用させない。
 		実態:

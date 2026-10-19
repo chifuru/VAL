@@ -1,5 +1,7 @@
 # 観察版完成までの一連の作業計画
 
+現在の残件制作順は [remaining-completion-v4.2.md](remaining-completion-v4.2.md) を優先する。製品4.2への生態接続と最新の主生物だけの相分離を反映した計画。以下の過去段階の版付き結果は対象条件の資料として参照する。
+
 ## 実行契約と現在地
 
 目的は、自由モードでも選べる生産者供給と下層の更新力を基盤に、500ターンを観察して楽しめる暫定版R0を作ること。入力正本はdesign/specification/observation-first-v2.8.md、producer-pyramid-v2.7.md、producer-support-v2.7の実測。従来のR1〜R6は後続評価へ保持する。
