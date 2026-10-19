@@ -1,0 +1,10 @@
+{
+  "src/ecology/habitat.js": "8f93f461d3a09e940f09c1916e0c4ed2b98b5ea720abb232d201ac2c70fd4175",
+  "src/ecology/projection.js": "92da3a931bdc5688e677d4393025a526b31e5e601de0ec7c00f134c9bf5816c1",
+  "src/ecology/renderer.js": "bd4d62ae037be2e65786a69f32ebb5fb37e9443f35ebf7166522d729332658bb",
+  "src/ecology/art.js": "3c9e403899b0f3bc2595c76b581ad9ecb618c506a239f3bc899370d131b77400",
+  "src/ecology/scenery.js": "9c9522e4e33ccf0f07361d001f87bc77ca9630c73ea27cf2387e7282ef3f31ba",
+  "src/ecology/engine.js": "7e8dfc730025f48a2812171c28b7480335731f56564dc9e1ec1099fce9ac083a",
+  "design/terrain-depth-v4.1.4/capture.cjs": "75e75e2587064794b098f89636111d41abaa80183e58a9b76029f00712daa436",
+  "design/terrain-depth-v4.1.4/index.html": "063513394516ffb75502c10c66769d8115de6c0ce8aee05079bf1e7fcb8bea37"
+}

@@ -1,0 +1,12 @@
+✔ VALIS: every node has valid hierarchy, references, manifest entry and real source/test paths (16.142567ms)
+✔ display relief selects every actual cell centre without changing world state (11.476051ms)
+✔ shared terrain vertices agree, water stays level, and camera bounds cover cells (2.957631ms)
+✔ base-plane camera projection and inverse are consistent at fractional coordinates (0.386059ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 44.734154

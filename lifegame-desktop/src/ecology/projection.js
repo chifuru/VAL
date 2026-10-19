@@ -27,7 +27,7 @@
             ? 0.48 + 0.06 * noise(x * 0.37, y * 0.41)
             : t.terrain === "mud"
               ? 0.07
-              : 0.17 + 0.065 * noise(x * 0.12, y * 0.12) + 0.02 * noise(x * 0.45, y * 0.45);
+              : Math.max(.08, .22 + .10 * noise(x * .12, y * .12) + .025 * noise(x * .45, y * .45));
       }
     for (let y = 0; y <= H; y++)
       for (let x = 0; x <= W; x++) {

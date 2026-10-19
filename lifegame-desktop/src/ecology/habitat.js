@@ -24,6 +24,10 @@
     const n = Math.sin(x * 127.1 + y * 311.7 + k * 71.31) * 43758.5453;
     return n - Math.floor(n);
   };
+  // Continuous world-space variation: broad patches cross cell and cache boundaries.
+  const field = (x, y) => .5 + .26 * Math.sin(x * .83 + y * .37)
+    + .14 * Math.cos(y * 1.13 - x * .29)
+    + .08 * Math.sin(x * 2.1 + y * 1.7);
   function canvas(W, H) {
     const c = document.createElement("canvas");
     c.width = Math.max(1, Math.round(W));
@@ -106,8 +110,8 @@
       const h = (a, b) => P.height(Math.max(0.001, Math.min(W - 0.001, a)), Math.max(0.001, Math.min(H - 0.001, b))),
         dx = (h(x + 0.35, y) - h(x - 0.35, y)) / 0.7,
         dy = (h(x, y + 0.35) - h(x, y - 0.35)) / 0.7;
-      return { shade: Math.min(0.38, Math.max(0, 0.045 - 1.05 * (dx + dy))),
-        light: Math.min(0.23, Math.max(0, 1.05 * (dx + dy))) };
+      return { shade: Math.min(0.45, Math.max(0, 0.045 - 1.4 * (dx + dy))),
+        light: Math.min(0.26, Math.max(0, 1.4 * (dx + dy))) };
     }
     const isFlow = (t) => t.terrain === "shallow";
     function sample(x, y) {
@@ -139,6 +143,10 @@
         r.flow += (isFlow(t) ? 1 : 0) * q;
 
       }
+      const w0 = +P.water(ts[0]), w1 = +P.water(ts[1]),
+        w2 = +P.water(ts[2]), w3 = +P.water(ts[3]);
+      r.wetDx = (w1 - w0) * (1 - b) + (w3 - w2) * b;
+      r.wetDy = (w2 - w0) * (1 - a) + (w3 - w1) * a;
       return r;
     }
     function quilt(g, name, rect, unit) {
@@ -218,6 +226,10 @@
           "deep",
           "flow",
           "shore",
+          "shallows",
+          "wetbank",
+          "bankshade",
+          "banklight",
           "frost",
           "hot",
           "info",
@@ -236,26 +248,40 @@
             lighting = relief(x, y),
             wet = smooth((r.wet - 0.36) / 0.28),
             coast = clamp(1 - Math.abs(r.wet - 0.42) / 0.21),
-            n = hash(Math.floor(x * 9), Math.floor(y * 9));
+            n = field(x, y),
+            // Shore bands follow the exact water field; no new biological water/obstacles.
+            shelf = smooth(r.wet / .32) * (1 - smooth((r.wet - .68) / .3)),
+            bank = smooth(r.wet / .17) * (1 - smooth((r.wet - .48) / .15)),
+            gradX = r.wetDx,
+            gradY = r.wetDy,
+            facing = (gradX + gradY) / (Math.hypot(gradX, gradY) + .001);
           const values = {
             dry: 1 - wet,
-            forest: r.forest,
+            forest: clamp(r.forest * (.72 + .55 * n)),
             rock: r.rock,
-            earth: r.earth,
+            earth: clamp(r.earth * (.7 + .6 * (1 - n))),
             deep: r.deep,
             flow: r.flow * (w.config.mapResolved?.id === "river" ? 0.72 : 0.27),
-            shore: coast * (0.5 + n * 0.2),
+            shore: coast * (.45 + n * .22),
+            shallows: shelf * wet * (1 - r.deep * .65) * .38,
+            wetbank: bank * (1 - wet) * .28,
+            bankshade: coast * Math.max(0, facing) * .24,
+            banklight: coast * Math.max(0, -facing) * .22,
             frost: r.frost,
             hot: r.hot,
             info: r.info,
             corrosion: r.corrosion,
-            shade: lighting.shade * (1 - wet) + coast * 0.08,
+            shade: lighting.shade * (1 - wet) + coast * 0.14,
             light: lighting.light * (1 - wet),
           };
           const i = (py * mw + px) * 4;
           for (const k of fields) {
             const d = data[k].data;
-            const color = k === "shade" ? [9, 24, 33] : k === "light" ? [255, 237, 196] : [255, 255, 255];
+            const color = ["shade", "bankshade"].includes(k) ? [9, 24, 33]
+              : k === "light" ? [255, 237, 196]
+              : k === "banklight" ? [194, 201, 148]
+              : k === "shallows" ? [111, 181, 167]
+              : k === "wetbank" ? [46, 65, 49] : [255, 255, 255];
             d[i] = color[0]; d[i + 1] = color[1]; d[i + 2] = color[2];
             d[i + 3] = Math.round(clamp(values[k]) * 255);
           }
@@ -286,7 +312,7 @@
       applyMask(l, "dry");
       g.drawImage(land, 0, 0);
       layer(g, "earth", "shore");
-      for (const k of ["shade", "light"]) {
+      for (const k of ["shallows", "wetbank", "shade", "bankshade", "light", "banklight"]) {
         mg.putImageData(data[k], 0, 0);
         g.drawImage(mask, 0, 0, width, height);
       }

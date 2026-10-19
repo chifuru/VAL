@@ -1,0 +1,10 @@
+AssertionError [ERR_ASSERTION]: reset exactly replays original world
+    at check (/workspace/work/baseline-terrain-browser.cjs:59:12)
+    at main (/workspace/work/baseline-terrain-browser.cjs:276:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

@@ -112,7 +112,13 @@
     return true;
   }
   function creature(g, o, x, y, r, detail = true) {
-    if (detail && Art?.creature(g, o, x, y, r)) return;
+    if(detail){
+      g.save();
+      g.filter='brightness(1.13) contrast(1.07) saturate(1.10)';
+      g.shadowColor='rgba(0,12,18,.65)';g.shadowBlur=3;g.shadowOffsetX=1;g.shadowOffsetY=3;
+      const drawn=Art?.creature(g,{...o,renderEmphasis:false},x,y,r);
+      g.restore();if(drawn)return;
+    }
     symbol(g, o.species, x, y, r, symbolColor(S.spec(o)));
   }
   function food(g, o, x, y, r, env) {
@@ -554,7 +560,7 @@
           7,
         );
         g.fill();
-        if (view.emphasis) {
+        if (view.emphasis && (!detail || !isMain)) {
           g.save();
           g.fillStyle = detail ? "#02131c99" : "#02131cf0";
           g.strokeStyle = isMain ? "#f5e6a8b8" : "#c5e9be99";

@@ -1,0 +1,11 @@
+✔ display relief selects every actual cell centre without changing world state (16.991681ms)
+✔ shared terrain vertices agree, water stays level, and camera bounds cover cells (3.375202ms)
+✔ base-plane camera projection and inverse are consistent at fractional coordinates (0.448371ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 31.589127
