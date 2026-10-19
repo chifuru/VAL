@@ -329,8 +329,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 	ロジック:
 		確定世界を観察し、操作や拡大を生態計算から分ける。
 	実態:
-		設定内エラー、適用入力のみの検証、主生物なし連続生成、小型破棄確認、説明閉鎖を実装。生態/新グラフ/造形は未変更。 正式状態は草案。今回証跡: operations/evidence/navigation-recovery-v4.1/README.md。後続は描画なし比較の基準一致。
-
+		現行4.1.3の生成/遷移27項目をLinux Chromiumで再確認。今回条件で阻害なし、製品コード変更なし。同期生成の途中取消・Windows等は未確認。 証跡: operations/evidence/navigation-review-v4.1.3/README.md。次は自由条件比較。
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C8.1.md。projection/scenery/habitat/art/renderer、生物/地物10原画と背景11素材。契約: operations/plans/habitat-visual-v3.1.md。
@@ -437,8 +436,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		navigation-ui.cjsの27項目と既存観察14項目をLinux Chromiumで確認。Windows/長期生存は対象外。 正式状態は草案。今回証跡: operations/evidence/navigation-recovery-v4.1/README.md。後続は描画なし比較の基準一致。
-
+		統合計画段階1の既存navigation-ui.cjsを4.1.3で再実行し27項目通過。画面/世界指紋/履歴保護を照合。全設定・Windows・同期処理途中取消の保証なし。 証跡: operations/evidence/navigation-review-v4.1.3/README.md。次は自由条件比較。
 ```
 
 ## E：検証証跡
@@ -489,8 +487,7 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		今回のLinux遷移27/観察14項目と既存22テストファイル通過。対象ハッシュと画面はnavigation-recovery-v4.1へ記録。 正式状態は草案。今回証跡: operations/evidence/navigation-recovery-v4.1/README.md。後続は描画なし比較の基準一致。
-
+		navigation-review-v4.1.3に現行版27項目と実画面/対象ハッシュを保存。実行時エラー/ネイティブポップアップ0。新生態・描画の合格とは区別。 証跡: operations/evidence/navigation-review-v4.1.3/README.md。次は自由条件比較。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
