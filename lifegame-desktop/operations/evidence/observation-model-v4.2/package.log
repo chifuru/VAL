@@ -1,0 +1,2 @@
+Packaging app for platform win32 x64 using electron v44.7.2
+{"version":"4.2.0","electron":"44.7.2","exe":"LifeGame.exe","platform":"win32","arch":"x64","zip":"LifeGame-Windows-x64.zip","sha256":"20c88fceacb60fb1b5a496dca29f0ba0005f0553c3a8f3f2f454385af1285359","bytes":232875200}

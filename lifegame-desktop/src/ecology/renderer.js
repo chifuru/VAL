@@ -52,6 +52,10 @@
         "M-.5 -.15 Q-.7 -.95 0 -.95 Q.7 -.95 .5 -.15 M-.5 -.15 Q-1 .8 -.5 .8 Q0 .8 -.15 .1 M.15 .1 Q0 .8 .5 .8 Q1 .8 .5 -.15",
       precocial:
         "M-.95 .4 L-.7 -.4 L0 -.75 L.7 -.4 L.95 .4 Z M-.7 -.4 L-.25 .4 M.7 -.4 L.25 .4 M-.95 .7 H.95",
+      phytoplankton: "M-.4 -.55 A.48 .48 0 1 0 -.39 .41 A.48 .48 0 1 0 -.4 -.55 M.48 -.15 A.4 .4 0 1 0 .49 .65 A.4 .4 0 1 0 .48 -.15",
+      tideparasite: "M-.8 -.5 Q-.1 -1 .5 -.4 Q1 .1 .3 .6 Q-.3 1 -.7 .3 M-.55 -.25 Q0 -.55 .4 0 M-.3 .35 L-.55 .75",
+      leafparasite: "M0 -.85 L.65 0 L0 .85 L-.65 0 Z M-.9 -.45 L-.4 -.1 M.9 -.45 L.4 -.1 M-.9 .45 L-.4 .1 M.9 .45 L.4 .1",
+      hyperparasite: "M0 -.9 L.8 .55 H-.8 Z M0 -.9 V.05 M-.8 .55 L0 .05 L.8 .55 M-.18 -.1 H.18 V.25 H-.18 Z",
       algae:
         "M-.8 .7 Q-.6 -.4 -.3 -.8 M0 .8 Q-.2 -.1 .2 -.75 M.5 .7 Q.8 0 .6 -.5",
       moss: "M-.85 .5 Q-.6 -.5 -.25 .2 Q0 -.8 .3 .1 Q.7 -.4 .85 .5 Z",
@@ -431,8 +435,10 @@
           w.organisms.filter((o) => o.slot === "main").map((o) => o.cell),
         ),
         foodCells = new Set(
-          w.organisms.filter((o) => o.slot === "food").map((o) => o.cell),
+          w.organisms.filter((o) => o.slot !== "main").map((o) => o.cell),
         );
+      const basalCells=new Set(w.organisms.filter(o=>o.slot==="food").map(o=>o.cell)),
+        preyCells=new Set(w.organisms.filter(o=>o.slot==="prey").map(o=>o.cell));
       for (const obj of scene.objects) {
         const p = P.point(obj.x, obj.y);
         if (visible(p, 2))
@@ -440,8 +446,9 @@
       }
       for (const o of w.organisms) {
         const overlap = main.has(o.cell) && foodCells.has(o.cell),
-          ox = overlap ? (o.slot === "main" ? 0.67 : 0.2) : 0.5,
-          oy = overlap ? (o.slot === "main" ? 0.44 : 0.81) : 0.55;
+          layered = basalCells.has(o.cell) && preyCells.has(o.cell),
+          ox = layered ? (o.slot === "main" ? .65 : o.slot === "prey" ? .18 : .68) : overlap ? (o.slot === "main" ? 0.67 : 0.2) : 0.5,
+          oy = layered ? (o.slot === "main" ? .4 : o.slot === "prey" ? .72 : .88) : overlap ? (o.slot === "main" ? 0.44 : 0.81) : 0.55;
         let [x, y] = S.xy(w, o.cell);
         const list = events.get(o.id) || [],
           ev = list.find((e) => e.type === "move");

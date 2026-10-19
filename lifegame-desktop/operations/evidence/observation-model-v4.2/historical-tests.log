@@ -1,0 +1,21 @@
+﹣ corrected recovery screen rejects unsupported experiments and preserves exact baseline states (0.80947ms) # 4.1.3固定証跡の実験。現行製品はobservation-model検査で照合。
+﹣ shared-habitat and retained-material trials keep distinct mechanisms and group budgets (0.094351ms) # 4.1.3固定証跡の実験。現行製品はobservation-model検査で照合。
+﹣ local renewal compares consistent birth sites and energy reservation without mineral or energy subsidies (0.069995ms) # 4.1.3固定証跡の実験。現行製品はobservation-model検査で照合。
+✔ historical 4.1.2 reference refuses changed production sources instead of relabeling results (4.199308ms)
+✔ private prey movement values reachable adjacent leaves without occupying or consuming them (14.962849ms)
+✔ private forage evaluation excludes distant, blocked and fungal food (23.01072ms)
+✔ private source compilation leaves production behavior and initial world untouched (266.442961ms)
+﹣ focused runner matches archived production states before comparing the isolated candidate (0.107952ms) # 4.1.3固定証跡の実験。現行製品はobservation-model検査で照合。
+✔ producer energy comes from light; mineral uptake cannot photosynthesize for primary consumers (13.073735ms)
+✔ trophic observer preserves exact biological state and restores every hooked method (5.641463ms)
+✔ lower-layer control preserves terrain and food stocks, removes upper consumers, and resets finite ledger (233.485594ms)
+﹣ trophic runner rejects unknown or excessive trials and checks paired controls (0.090084ms) # 4.1.3固定証跡の実験。現行製品はobservation-model検査で照合。
+✔ habitat trial keeps aquatic primary consumers in valid water without changing main movement (7.587481ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 5
+ℹ todo 0
+ℹ duration_ms 606.598044

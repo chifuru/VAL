@@ -111,8 +111,12 @@ const { chromium } = require("playwright"),
     check(await page.evaluate(()=>__LIFE_TEST__.records().length===1),'staged replay never adds a result record');
     await page.click('#change-world');await page.selectOption('#observation-mode','lake-foodweb');
     check((await page.locator('#mode-help').textContent()).includes('50%'),'lake mode explains its separate food adjustment');
-    await page.click('#load');await page.click('#start');
+    await page.click('#load');
+    if(await page.locator('#world-confirm').evaluate(e=>e.open))await page.locator('#world-confirm button[value="proceed"]').click();
+    await page.waitForFunction(()=>!document.querySelector('#load').disabled);await page.click('#start');
     await page.waitForFunction(()=>__LIFE_TEST__.snapshot().pending?.phase===1);await page.click('#restart-world');
+    if(await page.locator('#world-confirm').evaluate(e=>e.open))await page.locator('#world-confirm button[value="proceed"]').click();
+    await page.waitForFunction(()=>__LIFE_TEST__.snapshot().world.turn===0);
     await page.waitForTimeout(2200);
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn===0&&!__LIFE_TEST__.snapshot().running&&!__LIFE_TEST__.snapshot().pending),'reset invalidates all pending callbacks');
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.config.modeResolved.id==='lake-foodweb'),'reset retains the exact lake preset');

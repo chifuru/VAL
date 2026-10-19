@@ -12,7 +12,7 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
   check(await page.locator('#seed').isHidden()&&await page.locator('#terrain-seed').isHidden(),'internal seeds hidden in setup');
   await page.evaluate(()=>__LIFE_TEST__.prepare({seed:'observation-ui41',width:40,height:28,initial:80,lineages:'few'}));
   check(await page.locator('#setup').isHidden(),'setup cannot be edited during observation');
-  check(await page.locator('[data-highlight]').count()===30,'all 30 species including parasites can be selected');
+  check(await page.locator('[data-highlight]').count()===31,'all 31 species including phytoplankton and parasites can be selected');
   await page.locator('[data-highlight="hyperparasite"]').check();await page.locator('[data-describe="hyperparasite"]').click();
   check(await page.locator('#species-info').isVisible(),'Q has its own explanation');await page.click('#close-species');
   await page.click('#start');await page.waitForFunction(()=>__LIFE_TEST__.snapshot().pending?.phase===1,{},{timeout:20000});

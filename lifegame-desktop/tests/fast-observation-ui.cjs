@@ -113,7 +113,9 @@ const { chromium } = require("playwright"),
     await page.waitForTimeout(2200);
     check(await page.evaluate(()=>!__LIFE_TEST__.snapshot().running&&__LIFE_TEST__.snapshot().world.turn)===manual,'manual stop prevents automatic restart');
     await page.click('#start');await page.waitForFunction(()=>!!__LIFE_TEST__.snapshot().pending);
-    await page.click('#restart-world');await page.waitForTimeout(1500);
+    await page.click('#restart-world');
+    if(await page.locator('#world-confirm').evaluate(e=>e.open))await page.locator('#world-confirm button[value="proceed"]').click();
+    await page.waitForFunction(()=>__LIFE_TEST__.snapshot().world.turn===0);await page.waitForTimeout(1500);
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn===0&&!__LIFE_TEST__.snapshot().pending&&!__LIFE_TEST__.snapshot().running),'reset rejects all outstanding Worker results');
     await page.click('#start');await page.waitForFunction(()=>__LIFE_TEST__.snapshot().world.turn>=2);
     await page.evaluate(()=>__LIFE_TEST__.stop());

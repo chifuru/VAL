@@ -17,7 +17,7 @@ test('incompatible, corrupt, full or failing storage cannot silently lose record
  a.remove('r0');assert.equal(a.list().length,99);
 });
 test('checked-in replay signature matches all biological sources including landscape',()=>{
- const hash=crypto.createHash('sha256');for(const f of ['map-data','map-templates','landscape','hash','catalogue','state','nutrition','behavior','reproduction','parasites','engine']){hash.update(f+'\0');hash.update(fs.readFileSync(require.resolve('../src/ecology/'+f+'.js')));}
+ const hash=crypto.createHash('sha256');for(const f of ['map-data','map-templates','landscape','hash','catalogue','state','nutrition','behavior','reproduction','parasites','engine','observation-modules','observation-model']){hash.update(f+'\0');hash.update(fs.readFileSync(require.resolve('../src/ecology/'+f+'.js')));}
  assert(fs.readFileSync(require.resolve('../src/ecology/replay-version.js'),'utf8').includes(hash.digest('hex')));
 });
 

@@ -1475,3 +1475,8 @@ body:not(.setup-screen) .workspace { grid-template-columns:minmax(0,1fr) 340px; 
 body:not(.setup-screen) .world-column { grid-column:1; min-width:0; }
 body:not(.setup-screen) .inspector { grid-column:2; grid-row:1; position:sticky; top:12px; max-height:calc(100vh - 24px); overflow:auto; }
 @media(max-width:900px){body:not(.setup-screen) .inspector { grid-column:1; grid-row:auto; position:static; }}
+
+#advantage-settings{margin:12px 0;padding:12px 14px;border:1px solid #315459;border-radius:10px;background:#0c282d}
+#advantage-settings legend{padding:0 6px;color:#b6d7c5;font-size:.85rem}
+#advantage-settings .check{display:flex;margin:6px 0;font-size:.85rem}
+#advantage-settings .hint{margin:9px 0 0;color:#9bb5b3;font-size:.75rem;line-height:1.6}

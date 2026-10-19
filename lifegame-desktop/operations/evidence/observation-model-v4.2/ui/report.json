@@ -1,0 +1,65 @@
+{
+  "checks": [
+    "default all three advantages ON in free settings",
+    "all thirty-one species including searching Q have visible board and legend symbols",
+    "form records independently selected flags",
+    "active observation names the disabled advantage",
+    "real Worker matches synchronous production engine for all eight combinations, two turns each",
+    "saved replay retains flags and final state without automatic duplicate record",
+    "return to initial settings preserves selected OFF",
+    "no browser errors or native dialogs"
+  ],
+  "errors": [],
+  "workerChecks": [
+    {
+      "mask": 0,
+      "turns": 2,
+      "match": true
+    },
+    {
+      "mask": 1,
+      "turns": 2,
+      "match": true
+    },
+    {
+      "mask": 2,
+      "turns": 2,
+      "match": true
+    },
+    {
+      "mask": 3,
+      "turns": 2,
+      "match": true
+    },
+    {
+      "mask": 4,
+      "turns": 2,
+      "match": true
+    },
+    {
+      "mask": 5,
+      "turns": 2,
+      "match": true
+    },
+    {
+      "mask": 6,
+      "turns": 2,
+      "match": true
+    },
+    {
+      "mask": 7,
+      "turns": 2,
+      "match": true
+    }
+  ],
+  "replay": {
+    "match": true,
+    "unchanged": true,
+    "flags": {
+      "version": "advantage-switches/1",
+      "producer": true,
+      "waterbug": false,
+      "hyperparasite": true
+    }
+  }
+}

@@ -59,6 +59,12 @@ async function main() {
     assert.ok(value, label);
     checks.push(label);
   };
+  async function loadWorld(){
+    await page.locator("#load").click();
+    if(await page.locator('#world-confirm').evaluate(e=>e.open))
+      await page.locator('#world-confirm button[value="proceed"]').click();
+    await page.waitForFunction(()=>!document.querySelector('#load').disabled);
+  }
   try {
     page.on("dialog", d=>d.accept());
     await page.goto(origin + "/Index.html?smoke=1");
@@ -88,7 +94,7 @@ async function main() {
     );
     await page.locator("#size").selectOption("40,28");
     check(await page.locator("#seed").isHidden(), "internal seed is not a normal user setting");
-    await page.locator("#load").click();
+    await loadWorld();
     await page.waitForFunction(() => __LIFE_TEST__.snapshot().world);
     let s = await page.evaluate(() => __LIFE_TEST__.snapshot());
     check(
@@ -105,8 +111,8 @@ async function main() {
       "creation generates an internal reproducible seed",
     );
     check(
-      s.world.stats.counts && Object.keys(s.world.stats.counts).length === 30,
-      "all thirty lineages are present in observation catalogue",
+      s.world.stats.counts && Object.keys(s.world.stats.counts).length === 31,
+      "all thirty-one species including phytoplankton are present in observation catalogue",
     );
     const initial = await page.evaluate(() => __LIFE_TEST__.fingerprint());
     check(
@@ -170,7 +176,7 @@ async function main() {
       "in-game explanation opens",
     );
     check(
-      (await page.locator("#tree-select option").count()) === 30,
+      (await page.locator("#tree-select option").count()) === 31,
       "tree references every species including food and parasites",
     );
     for (const id of [
@@ -273,6 +279,8 @@ async function main() {
     );
     await page.locator("#fit").click();
     await page.locator("#restart-world").click();
+    await page.locator('#world-confirm[open] button[value="proceed"]').click();
+    await page.waitForFunction(()=>!document.querySelector('#world-confirm').open && __LIFE_TEST__.snapshot().world.turn===0);
     check(
       (await page.evaluate(() => __LIFE_TEST__.fingerprint())) === initial,
       "reset exactly replays original world",
@@ -303,7 +311,7 @@ async function main() {
     await page.locator("#lineages").selectOption("few");
     await page.locator("#placement").selectOption("cluster");
     await page.locator("#distribution").selectOption("weighted");
-    await page.locator("#load").click();
+    await loadWorld();
     s = await page.evaluate(() => __LIFE_TEST__.snapshot());
     check(
       Object.values(s.world.stats.counts).filter((n, i) => i < 20 && n > 0)
@@ -318,9 +326,9 @@ async function main() {
     await page.locator("#change-world").click();
     for (const id of ["main", "plant", "fungus", "prey", "P", "Q"])
       await page.locator("#group-" + id).uncheck();
-    await page.locator("#load").click();
+    await loadWorld();
     check(
-      (await page.locator("#message").textContent()).includes(
+      (await page.locator("#setup-message").textContent()).includes(
         "SETTINGS_INVALID",
       ),
       "invalid settings show reason and retain previous world",
@@ -330,7 +338,7 @@ async function main() {
       "failed setup leaves old world intact",
     );
     await page.locator("#group-plant").check();
-    await page.locator("#load").click();
+    await loadWorld();
     s = await page.evaluate(() => __LIFE_TEST__.snapshot());
     check(
       s.world.stats.main === 0 && s.world.stats.food > 0 && !s.world.stopReason,

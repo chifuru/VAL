@@ -1,0 +1,23 @@
+{
+  "package.json": "5e00653bee92ff14cb9dc7fe28f765a3bfc749f2d21ba06fdb9cbf480c2e885b",
+  "src/Index.html": "917da0f74fffef977cb34ae8a0c36a125fb1fa9d57fc01f99ad5b651d5672d22",
+  "src/app.js": "5f135865ee4c66d120c242d039e5f40cd771ae6756fe6d05d49a311d81efa315",
+  "src/styles.css": "a57b046d08d9e94c9d6e9f07ffc2d299f5cf462a6fdb8f41855c5710d4902896",
+  "src/ecology/observation-modules.js": "bc78e0b12a7a81d14708ed3b98e18dec927d79935ef8cf287998c581df5fa45e",
+  "src/ecology/observation-model.js": "6b3290364814a05cc605e31bf914d21d3bae54d3739d0641e24a03b0808bf4e4",
+  "src/ecology/observation-main.js": "a99d4e5cc0cfcc431c8992e592e19e10f890a54a098985f9c3b3edb817e4bf31",
+  "src/ecology/compute-worker.js": "c0ad63e804659e351b96af116db96ad1ac1be4cf63744b8868422a4ede9cd129",
+  "src/ecology/art.js": "a7d60068bb9b630097e0195507a45d6eafc49682f97f78f9a0f193e0d2ec4628",
+  "src/ecology/renderer.js": "9e7ecfad8965f71c9355032d9f1a1a5b8df932fac8a628cf7f4a488fda640ba9",
+  "src/ecology/replay-version.js": "c4f147ad5a102a01ae60167df1c04f9d62ecfcf204d6c61f772045fd9e474cce",
+  "src/ecology/archive.js": "ea7641eef68be91e996c4032b993b7074fae245c3ac4d1712010a22e38b08fac",
+  "tools/build-observation-model.cjs": "86973960daebd2b6db60ae8edad28770fde76542ce308ec6aa2ef7f6129c28ab",
+  "tools/check-observation-model.cjs": "2b10fa22367972ba18bf2ccc2cf09daa32e7a745c2e5684cce4b56edf8f0d463",
+  "tests/observation-model.test.cjs": "1035cc078bd3a507c0f9c175d79d3277f65cda3db83e171850a3dbad6c83b050",
+  "tests/observation-model-ui.cjs": "587a82d8bec0edb6cdcdc1fd96d0a8199ab5108ddeb402a580577a779811da65",
+  "tests/browser-smoke.cjs": "f51ce2be31de3f5fa25a6a6870f98f12a93f589f55b9b5f81052c28993486851",
+  "tests/population-ui.cjs": "58019c10e9acdf621af87f6c842d8d9e6f12509500236dd2c01aa19db3a90bd9",
+  "tests/ecology-observation-ui.cjs": "eaf63d87afc98482785231ba6a0cecd590aeb29e470a80beac767d6333e05c5d",
+  "tests/fast-observation-ui.cjs": "d2f9f070aa5c4dc6516802db721daad16333ef979814e2b02660e5b9f6fe48e2",
+  "tests/staged-observation-ui.cjs": "d28dbfc678d7d9b3f66a26c234fe43e53e014ea1ece164136411811c88feffdd"
+}

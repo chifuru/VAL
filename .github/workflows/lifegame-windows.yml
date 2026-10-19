@@ -31,6 +31,8 @@ jobs:
       - name: Model and package tests
         run: |
           New-Item -ItemType Directory -Force artifacts | Out-Null
+          node tools/build-observation-model.cjs --check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           npm test 2>&1 | Tee-Object artifacts/unit.log
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Browser interaction
@@ -38,6 +40,8 @@ jobs:
           npx playwright install chromium
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           npm run test:browser
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node tests/observation-model-ui.cjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node tests/usability-performance.cjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

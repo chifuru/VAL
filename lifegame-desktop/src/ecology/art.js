@@ -253,7 +253,7 @@
     return true;
   }
   function food(g, o, x, y, r, env) {
-    const f = manifest.food.regions[o.species];
+    const f = manifest.food.regions[o.species === "phytoplankton" ? "algae" : o.species];
     if (!f) {
       return creature(g, o, x, y, r);
     }

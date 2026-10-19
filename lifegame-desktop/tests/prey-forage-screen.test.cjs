@@ -1,4 +1,6 @@
 'use strict';
+// These experiments intentionally require the archived 4.1.3 source set.
+const historicalOptions={skip:require('../package.json').version!=='4.1.3'?'4.1.3固定証跡の実験。現行製品はobservation-model検査で照合。':false};
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const F=require('./ecology-fixtures.cjs'),{model}=require('../design/prey-forage-screen/model.cjs');
 function score(E,w,o,c){w=structuredClone(w);o=w.organisms.find(a=>a.id===o.id);const ctx=F.ready(w),m=E.S.maps(w),v={m,traits:ctx.traits,enemies:[],visibleCells:new Set(w.tiles.map((_,i)=>i)),qualityCache:new Map(),dangerCache:new Map(),neighborhoodCache:new Map()};return E.B.evaluate(w,o,c,ctx,v);}
@@ -18,7 +20,7 @@ test('private source compilation leaves production behavior and initial world un
  assert.equal(E.fingerprint(E.create(config)),model(true).fingerprint(model(true).create(config)));
  assert.equal(require('../src/ecology/engine.js'),E);
 });
-test('focused runner matches archived production states before comparing the isolated candidate',()=>{
+test('focused runner matches archived production states before comparing the isolated candidate',historicalOptions,()=>{
  const {run}=require('../tools/screen-prey-forage.cjs'),results=run('lake',{turns:3});
  assert.equal(results.length,2);assert.equal(results[0].baselineMatched,4);assert.equal(results[1].baselineMatched,null);
  assert.deepEqual(results[0].initial,results[1].initial);assert.equal(results[1].productAdopted,false);

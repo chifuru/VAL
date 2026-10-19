@@ -1,0 +1,17 @@
+✔ final record contains initial config and final summary; repeated replay never records (542.151887ms)
+✔ incompatible, corrupt, full or failing storage cannot silently lose records (93.343469ms)
+✔ checked-in replay signature matches all biological sources including landscape (1.788938ms)
+✔ template records require resolved map identity before replay (72.154695ms)
+✔ preparation has one total sixty-second deadline, terminates failures and supports retry (1.786755ms)
+✔ bounded buffering, stale generation rejection and a persistent map-cache Worker (0.869416ms)
+✔ display relief selects every actual cell centre without changing world state (10.187185ms)
+✔ shared terrain vertices agree, water stays level, and camera bounds cover cells (3.173828ms)
+✔ base-plane camera projection and inverse are consistent at fractional coordinates (0.438869ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 776.017778

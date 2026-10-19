@@ -1,0 +1,357 @@
+✔ all eight independent advantage combinations are recorded, bounded and conserve finite stocks (7079.394739ms)
+✔ all on reproduces selected preset; all off reproduces the pre-advantage model through short progression (3816.462266ms)
+✔ invalid flags and replay mismatch are rejected (3.999442ms)
+✔ age is independent of all four phases and frozen to birth DNA lifetime (4.790479ms)
+✔ age changes effective combat, movement and maintenance without changing range or free resources (2.733382ms)
+✔ crossing age boundaries does not heal, pay resources, or create combat damage (11.733928ms)
+✔ maturity is checked at turn start and newborns are first-phase juveniles with inherited birth basis (2.609987ms)
+✔ elderly reproduction remains possible and its cooldown is applied once at actual birth (2.151219ms)
+✔ age affects real solar input and paid healing while finite budgets and colony life remain intact (6.838883ms)
+✔ age-enabled natural worlds remain deterministic and conserve budgets across repeated runs (42982.021238ms)
+✔ combined and producer-only models start with identical populations, terrain and budgets (1188.341575ms)
+✔ combined model grants sparse paid birth only to waterbug, not grassbug (4.187938ms)
+✔ new producer is private, disabled model exactly matches previous world (369.939205ms)
+✔ floating producer needs lit water and remains non-predatory (2.172747ms)
+✔ existing algae regrows edible tissue from stored light energy, not external input (1.211386ms)
+✔ waterbug can eat either living producer on its cell; base survives and finite stocks balance (2.498465ms)
+✔ darkness produces no solar input; floating producer births pay E/M and retain parent (2.558095ms)
+✔ floating phase progression requires acquired light energy rather than age alone (1.649663ms)
+✔ final record contains initial config and final summary; repeated replay never records (704.033393ms)
+✔ incompatible, corrupt, full or failing storage cannot silently lose records (184.435732ms)
+✔ checked-in replay signature matches all biological sources including landscape (1.470504ms)
+✔ template records require resolved map identity before replay (60.603238ms)
+✔ production worker can feed its hungry queen with a finite paid transfer (2.563473ms)
+✔ queen care respects barriers and recipient capacity under competing workers (1.436864ms)
+✔ production successor caste uses local living queens, retaining paid phase-I birth (2.480198ms)
+✔ production queen stores only real local paternity and funds later births herself (2.512006ms)
+✔ blocked, juvenile or injured partners cannot establish stored paternity (21.375553ms)
+✔ queen lifetime is fixed at birth with ordinary maturation and independent phases (1.312668ms)
+✔ preparation has one total sixty-second deadline, terminates failures and supports retry (2.093629ms)
+✔ bounded buffering, stale generation rejection and a persistent map-cache Worker (0.930314ms)
+✔ real Worker differential frames reconstruct exactly the atomic result across turns and a fresh observer (3332.466417ms)
+✔ fixed geometry caching preserves results, ignores soil amounts, keys obstacles and does not leak mutable neighbors (3322.769969ms)
+✔ 500-turn blocks checkpoint at their own boundaries and resume with unchanged biology (292.706825ms)
+✔ Worker does not calculate beyond its requested terminal turn (686.494686ms)
+✔ six feeding niches have stronger primary-food efficiency without forbidding fallback food (2.509293ms)
+✔ specialized absorption conserves finite energy and mineral budgets (10.139186ms)
+✔ food niches remain deterministic and conserve slots and ledgers through natural competition (4875.722413ms)
+✔ comparison source edits tolerate formatting but reject changed or ambiguous rules (0.928793ms)
+✔ v1.4 Unicode SHA-256 vectors agree in Node and portable browser implementation (1.093499ms)
+✔ catalogue keeps twenty four-phase 3→6 trees and thirty biological definitions (0.108863ms)
+✔ fixed terrain, exact initial seed, independent slots and biological-group toggles (422.738384ms)
+✔ recovery can return an injured adult to breeding HP without double crediting energy (0.994099ms)
+✔ full recovery sends remaining absorbed energy to reserve; prey keeps its own HP cap (1.466928ms)
+✔ material absorption returns unabsorbed M to source soil (0.955261ms)
+✔ movement uses every path reservation; neither swaps nor winner retry occurs (1.195011ms)
+✔ cliff edges and diagonal corner rocks stop both movement and sight (0.905046ms)
+✔ same-turn attacks are simultaneous and do not create an automatic counterattack (1.346428ms)
+✔ three-neighbor mineral birth is a candidate only and requires finite local M (1.37471ms)
+✔ funded resource amount can reach dense q9 without free refill (1.872395ms)
+✔ exactly one partial plant body unit is shared, with no source overdraw (1.648119ms)
+✔ phaseIII continues mineral intake past phaseIII qualification toward phaseIV, without overfeeding (1.123013ms)
+✔ plant roots share two bites, transfer finite soil M, and stop at capacity or exhaustion (2.821136ms)
+✔ healthy full prey neither strips leaves nor consumes a mineral source (0.979227ms)
+✔ slightly hungry prey takes only the needed leaf fraction and leaves the living base (1.074389ms)
+✔ bare living bases are not edible targets, while fungi have no protected plant base (1.395491ms)
+✔ leaf loss lowers paid light input; basal tissue cannot be spent on drops (1.853306ms)
+✔ a base in darkness can die and never triggers a replacement without parents (1.845354ms)
+✔ natural initialization keeps four related founders near a legal center and preserves exact counts (354.441397ms)
+✔ mate proximity emerges from affinity weights, remains during cooldown, and never grants unqualified birth (6.279698ms)
+✔ deterministic progress, observer independence, immutable input and fixed environment (5607.69299ms)
+✔ three initial seeds retain finite energy/material and occupancy through 120 turns (20452.175107ms)
+✔ main-off experiment remains active without a false main extinction stop (60.051198ms)
+✔ checkpoints keep initial and current block, with real counters and no false main extinction (4.816747ms)
+✔ an unmodified seeded world supports phaseI children growing up and producing descendants (10936.328407ms)
+✔ all turn values survive more than two 500-turn blocks and CSV preserves old peaks and config (249.561657ms)
+✔ age-mature phase I and II can reproduce, juveniles cannot; every child begins phase I age zero (12.495374ms)
+✔ movement and a subsequent effect use the remaining budget; feeding does not finance prior actions (1.737818ms)
+✔ Q window opens only after first terminal maturation and never directly suppresses P maturation (1.315161ms)
+✔ search Q attaches only inside the limited window and conserves finite energy (2.322831ms)
+✔ finite P maintenance causes loss without food and grooming cannot remove an internal parasite (2.947127ms)
+✔ contact episodes, continued contact and a wall-blocked neighbor are distinct (1.667649ms)
+✔ new production worlds retain invariants, deterministic replay and observation independence (7104.10937ms)
+✔ finite observation capacity refuses a new row without silently deleting any recorded turn (1.848719ms)
+✔ relationship continuity measures repeated completed time blocks, not a single burst (4.730887ms)
+✔ turn zero reports initial conditions without fabricated interaction events (47.13179ms)
+✔ Q search initialization uses eligible hosts and pays its declared founder energy (47.659671ms)
+✔ H→P→Q transfer retains distinct identities, charges old host once, pauses maturation (1.313148ms)
+✔ partial host payment gives Q no extra charge and no free maturation (0.898405ms)
+✔ immature plant infection cannot jump directly to a main terminal host (0.899016ms)
+✔ mature prey carcass can pass through an additional juvenile host without skipping stages (0.935892ms)
+✔ information freshness, context and Q variants affect behavior only, not fixed DNA (3.536297ms)
+✔ same event grants neither repeated learning nor repeated information E (1.115681ms)
+✔ new Q phaseIII uses previous counters, and its information ability waits until next turn (1.104164ms)
+✔ two mature parasites competing for one first host use one frozen vote without retry (2.000637ms)
+✔ sexual birth has two parents, B3, paid E/M, phaseI and bounded fixed DNA (1.344534ms)
+✔ same parent cannot fund two children; blocked parent-to-child contact cannot give birth (2.084703ms)
+✔ early-completing lineage births a competent phaseI and has no phaseIV (1.242981ms)
+✔ plant B3 uses one paying mature parent and a separate food slot (1.116352ms)
+✔ facultative parthenogenesis requires eight turns without a visible mature male (1.429471ms)
+✔ worker caste never reproduces, and care remains paid if its recipient later dies (1.392787ms)
+✔ growth is at most one phase and phaseIII gives a fresh four-turn breeding wait (0.933328ms)
+✔ plant-only actual intake and recovery can qualify the two foraging IV branches (1.651874ms)
+✔ food maturity becomes reproductive ability on the next turn, not the maturity day (1.313918ms)
+✔ a qualified adjacent pair can reproduce with two neighbors and cannot reproduce alone (2.136831ms)
+✔ continuous terrain replays exactly and has fewer fragmented physical edges than production (1553.072944ms)
+✔ initial weighting varies cohort numbers, retains four-founder floor, and does not change requested total (148.788724ms)
+✔ sparse aquatic producer can renew from a real paid parent without injecting founders (12.469649ms)
+✔ preterminal contact requires six local exposures and pays more than the previous trial (12.426605ms)
+✔ an empty ecosystem stays empty; no mid-run lineage rescue or compulsory births (40.844042ms)
+✔ aquatic prey movement cannot send it onto a dry cell (9.563355ms)
+✔ local mate sensing can reunite a mature pair beyond ordinary visual range (10.54739ms)
+✔ an animal-feeding main organism hunts an accessible small prey rather than only harvesting plants (9.692028ms)
+✔ colony candidate has workers and an opposite-sex reproductive pair in every founder cohort (529.060052ms)
+✔ colony worker can support a hungry adult queen with finite paid transfer (10.205056ms)
+✔ eusocial queen stores finite paternity after a real local mating and pays the full brood cost herself (8.755826ms)
+✔ stored paternity permits a later paid brood without a resident male and stops when depleted (23.888583ms)
+✔ local reproductive-caste feedback can produce a queen without an unreachable maternal energy gate (19.17314ms)
+✔ mutual non-aggression excludes both attack candidates and stale forced attacks (23.710457ms)
+✔ friendship does not disable a different lineage predator attack (10.584195ms)
+✔ stage budget audit preserves full world states and reconciles its residual increments (1416.260457ms)
+✔ stage audit restores all hooks if engine calculation fails (6.204394ms)
+✔ fractional costs debit exactly the same quantum that enters dissipation (4.868123ms)
+✔ fractional photosynthesis uses one light quantum for stock and input ledger (1.157974ms)
+✔ D1: exactly requested initial population, all nine species, stable unique positions (7.746033ms)
+✔ D1: same seed and config replay exactly for 300 turns; another seed differs (36955.69836ms)
+✔ D1: previous snapshot is unchanged after stepping (3.678349ms)
+✔ D1: invalid, fractional, empty and out-of-range settings fail clearly (0.463404ms)
+✔ D2: resources return exactly after five recovery ticks (0.135472ms)
+✔ D2: maturity gate and reproduction conserve energy and inherit lineage/DNA (0.291006ms)
+✔ D2: juvenile, adult and elderly stages affect growth independently of generation (0.148722ms)
+✔ D2: faction and lineage determine allies consistently in every mode (0.123525ms)
+✔ D2: lethal attacks resolve simultaneously; dead actors do not reappear (0.369704ms)
+✔ D2: all nine behavior policies score finite moves and preserve occupancy (2.313786ms)
+✔ D2: same-lineage brawl avoids friendly fire, ranged enemies receive damage (0.151507ms)
+✔ D2: extinction, sole survival and coexistence do not fabricate winners (0.130906ms)
+✔ D2: old age and starvation remove a cell without corrupting the previous snapshot (0.411135ms)
+✔ D2: multiple seeds and modes maintain biological and population invariants (3027.007424ms)
+✔ D2: completed worlds do not advance or change their outcome (13.642766ms)
+✔ disabled preset matches prior model and enabled initial advantages are explicit and balanced (464.023731ms)
+✔ favorable waterbug has defense and paid sparse reproduction without attack power (2.500806ms)
+✔ Q gains bounded reach and low finite costs, but still only attaches in the original window (3.25348ms)
+✔ repeated steps conserve finite stocks and do not create external support ledgers (1671.772692ms)
+✔ Q revision preserves other initial organisms and conserves parent-funded initial Q (346.666792ms)
+✔ fast Q maturation uses unchanged narrow infection window and pays its phase transition cost (164.464881ms)
+✔ 128 initial search colonies are explicitly configured and funded by existing hosts (369.361388ms)
+✔ small main population permits colocated colonies without creating energy or negative hosts (801.342145ms)
+✔ ordinary producers never consume neighboring living plants and still absorb soil minerals (6.897155ms)
+✔ moving prey accepts plants but not neighboring fungi (2.258651ms)
+✔ carnivorous plant symbiont photosynthesizes, hunts prey and rejects plant harvest or main attacks (2.267144ms)
+✔ kelp accepts animal-derived finite stores, while ordinary plants reject organic stores and corpses (4.031095ms)
+✔ fungal decomposers never graze living producers, even through forced harvest (2.145793ms)
+✔ foodweb measurement preserves exact biological states and existing observables (6229.93064ms)
+✔ diagnostic hooks are restored after a failed turn and never alter the input (191.800181ms)
+✔ food-only control keeps initial food positions and terrain without inventing energy or organisms (203.992462ms)
+✖ corrected recovery screen rejects unsupported experiments and preserves exact baseline states (10.763513ms)
+✖ shared-habitat and retained-material trials keep distinct mechanisms and group budgets (2.755695ms)
+✖ local renewal compares consistent birth sites and energy reservation without mineral or energy subsidies (1.489901ms)
+✔ historical 4.1.2 reference refuses changed production sources instead of relabeling results (1.905303ms)
+✔ single mature waterbug can form a paid local birth; no parentless birth (4.566016ms)
+✔ waterbug still needs maturity, nutrition, no current damage and expired cooldown (10.552517ms)
+✔ single grassbug does not gain the water-specific sparse birth rule (2.376498ms)
+✔ water-specific gate does not add initial organisms or change initial budgets (470.075819ms)
+✔ isolated baseline has no trial adjustments and matches exact all-turn records (2460.297081ms)
+✔ comparison rejects differences in observation data excluded from biological hashes (337.581482ms)
+✔ independent basal and prey maps allow overlap and reject duplicates within one layer (1.674336ms)
+✔ prey moves onto live producers and same-cell feeding transfers finite stock (1.65675ms)
+✔ prey can be born on a producer cell without deleting it or bypassing birth payment (2.362016ms)
+✔ main predators retain attack access to prey overlapping producers (1.281288ms)
+✔ parasite contact still reaches the primary consumer layer (1.372755ms)
+✔ layer split preserves initial terrain, species, positions and finite budgets (367.657826ms)
+✔ overlapping producer and prey corpses retain separate origins and conserve finite stocks (1.724051ms)
+✔ VALIS: every node has valid hierarchy, references, manifest entry and real source/test paths (7.720959ms)
+✔ six authored maps support declared sizes and preserve traversable land/water routes (19550.886591ms)
+✔ ecology seed never changes terrain; terrain variation is limited to authored candidate cells (103.301348ms)
+✔ map identity survives deterministic replay and refuses altered/missing versions or dimensions (1624.027354ms)
+✔ an invalid candidate combination uses declared safe base, while an invalid base stops (8.936615ms)
+✔ production static profiles exactly match all eight comparison models and isolate catalogues (14513.689902ms)
+✔ profile selection rejects corrupt/versioned settings and cannot silently change replay flags (267.832037ms)
+✔ a hungry mineral specialist values organic food above an already-satisfied mineral need (2.001815ms)
+✔ ordinary single-lineage feeding sustains survival and paid reproduction without enemies or replenishment (13977.593374ms)
+✔ hunger releases an empty territory for exploration without rewriting inherited strategy (2.608659ms)
+✔ a grazed living plant retains basal productivity, while darkness never grants energy (1.069197ms)
+✔ foraging ranks edible yield above a nearly bare base without writing biological state (2.37571ms)
+✔ hungry defense earns survival value only for a visible threat while ordinary vigilance remains (3.635623ms)
+✔ paid reproductive readiness attracts a visible partner without bypassing shortages or cooldown (2.479165ms)
+✔ D4: generated checksums include nested assets, normalize paths and exclude the manifest itself (8.013776ms)
+✔ three nearby contacts create a paid daughter colony without moving the parent or chaining (2.160028ms)
+✔ expired contact and walls prevent infection, and exposure memory stays bounded (0.999113ms)
+✔ mature terminal colony disperses at most three paid daughters and paid hyperparasites (1.15084ms)
+✔ donors with insufficient energy, immature stages or incompatible hosts cannot infect (2.66333ms)
+✔ simultaneous contact competition is independent of organism array order (2.461749ms)
+✔ Q stage II can disperse a paid immature daughter, but stage I cannot (2.024806ms)
+✔ private prey movement values reachable adjacent leaves without occupying or consuming them (11.694407ms)
+✔ private forage evaluation excludes distant, blocked and fungal food (24.635776ms)
+✔ private source compilation leaves production behavior and initial world untouched (241.390019ms)
+✖ focused runner matches archived production states before comparing the isolated candidate (2.572124ms)
+✔ new private loader preserves old candidate results when new flags are off (182.689216ms)
+✔ shared initial placement preserves group targets and terrain while keeping aquatic producers and prey (641.396453ms)
+✔ initial placement is reproducible and never creates a disabled food group (236.879308ms)
+✔ lower prey energy gate still pays eight units and gives finite child reserves (14.801069ms)
+✔ lower gate cannot reproduce below cost or bypass the juvenile phase (10.937145ms)
+✔ producer retains birth energy for the same sparse neighborhood accepted by reproduction (11.319066ms)
+✔ support settings validate finite bounds and nonoverlapping stress intervals (0.422501ms)
+✔ disabled support exactly preserves the layered reference without adding state (3404.57194ms)
+✔ strong grazing consumes finite leaves while supported basal organisms persist (14.245407ms)
+✔ supply stop has zero external input, exhausts reserve and causes producer loss (34.656279ms)
+✔ restored support establishes new IDs with explicit origin and separate observation counts (43.219652ms)
+✔ external ledger cannot hide missing or double-counted input and leaves original baselines intact (9.316531ms)
+✔ producer support never creates animal or parasite populations (45.608838ms)
+✔ non-finite external ledger values and mid-run reconfiguration are rejected (14.532917ms)
+✔ display relief selects every actual cell centre without changing world state (7.817749ms)
+✔ shared terrain vertices agree, water stays level, and camera bounds cover cells (2.179141ms)
+✔ base-plane camera projection and inverse are consistent at fractional coordinates (0.639647ms)
+✔ empty trial matches production and rejects unknown mechanism flags (136.393165ms)
+✔ sparse paid birth needs a real mature parent and preserves finite budgets (12.725502ms)
+✔ uptake changes finite soil transfer but never creates mineral (11.697504ms)
+✔ expanded neighborhood cannot create offspring from an empty or depleted world (6.186097ms)
+✔ producer reserve leaves mineral with grazed producer without breaking the ledger (18.884789ms)
+✔ three private stages preserve atomic outcomes, input state and preview independence (5221.268931ms)
+✔ discarding either partial stage prevents all later publication and permits exact restart (252.479737ms)
+✔ observation modes state every initial adjustment and reproduce their resolved conditions (449.029222ms)
+✔ unconfigured worlds match fixed biological fixtures (kelp diet 4.1.1; atomic energy rounding 4.1.3) (2158.330092ms)
+✔ declared production conditions double paid solar input while darkness and capacity remain bounded (2.831146ms)
+✔ isolated baseline replays production without mutating production catalogue (95.562319ms)
+✔ three repeated local contacts seed one paid colony, keep donor, and cannot chain on the same day (10.567732ms)
+✔ expired exposure and blocked sight do not count as frequent contact (8.340789ms)
+✔ even an early infected host leaves a finite infectious carcass and can transfer its existing colony (16.640096ms)
+✔ mature terminal colony spreads at most three paid daughter colonies and carries paid hyperparasites (9.246355ms)
+✔ producer energy comes from light; mineral uptake cannot photosynthesize for primary consumers (3.296582ms)
+✔ trophic observer preserves exact biological state and restores every hooked method (2.097499ms)
+✔ lower-layer control preserves terrain and food stocks, removes upper consumers, and resets finite ledger (215.84786ms)
+✖ trophic runner rejects unknown or excessive trials and checks paired controls (8.143014ms)
+✔ habitat trial keeps aquatic primary consumers in valid water without changing main movement (6.371954ms)
+ℹ tests 223
+ℹ suites 0
+ℹ pass 218
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 236287.841951
+
+✖ failing tests:
+
+test at tests/foodweb-recovery-screen.test.cjs:5:1
+✖ corrected recovery screen rejects unsupported experiments and preserves exact baseline states (10.763513ms)
+  AssertionError [ERR_ASSERTION]: production reference source changed: src/ecology/art.js
+  + actual - expected
+  
+  + 'a7d60068bb9b630097e0195507a45d6eafc49682f97f78f9a0f193e0d2ec4628'
+  - '3c9e403899b0f3bc2595c76b581ad9ecb618c506a239f3bc899370d131b77400'
+  
+      at Object.run (/workspace/VAL/lifegame-desktop/tools/screen-foodweb-recovery.cjs:11:150)
+      at run (/workspace/VAL/lifegame-desktop/tests/foodweb-recovery-screen.test.cjs:4:37)
+      at TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/foodweb-recovery-screen.test.cjs:7:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'a7d60068bb9b630097e0195507a45d6eafc49682f97f78f9a0f193e0d2ec4628',
+    expected: '3c9e403899b0f3bc2595c76b581ad9ecb618c506a239f3bc899370d131b77400',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/foodweb-recovery-screen.test.cjs:9:1
+✖ shared-habitat and retained-material trials keep distinct mechanisms and group budgets (2.755695ms)
+  AssertionError [ERR_ASSERTION]: production reference source changed: src/ecology/art.js
+  + actual - expected
+  
+  + 'a7d60068bb9b630097e0195507a45d6eafc49682f97f78f9a0f193e0d2ec4628'
+  - '3c9e403899b0f3bc2595c76b581ad9ecb618c506a239f3bc899370d131b77400'
+  
+      at Object.run (/workspace/VAL/lifegame-desktop/tools/screen-foodweb-recovery.cjs:11:150)
+      at run (/workspace/VAL/lifegame-desktop/tests/foodweb-recovery-screen.test.cjs:4:37)
+      at TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/foodweb-recovery-screen.test.cjs:10:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'a7d60068bb9b630097e0195507a45d6eafc49682f97f78f9a0f193e0d2ec4628',
+    expected: '3c9e403899b0f3bc2595c76b581ad9ecb618c506a239f3bc899370d131b77400',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/foodweb-recovery-screen.test.cjs:17:1
+✖ local renewal compares consistent birth sites and energy reservation without mineral or energy subsidies (1.489901ms)
+  AssertionError [ERR_ASSERTION]: production reference source changed: src/ecology/art.js
+  + actual - expected
+  
+  + 'a7d60068bb9b630097e0195507a45d6eafc49682f97f78f9a0f193e0d2ec4628'
+  - '3c9e403899b0f3bc2595c76b581ad9ecb618c506a239f3bc899370d131b77400'
+  
+      at Object.run (/workspace/VAL/lifegame-desktop/tools/screen-foodweb-recovery.cjs:11:150)
+      at run (/workspace/VAL/lifegame-desktop/tests/foodweb-recovery-screen.test.cjs:4:37)
+      at TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/foodweb-recovery-screen.test.cjs:18:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'a7d60068bb9b630097e0195507a45d6eafc49682f97f78f9a0f193e0d2ec4628',
+    expected: '3c9e403899b0f3bc2595c76b581ad9ecb618c506a239f3bc899370d131b77400',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/prey-forage-screen.test.cjs:21:1
+✖ focused runner matches archived production states before comparing the isolated candidate (2.572124ms)
+  AssertionError [ERR_ASSERTION]: reference source mismatch
+  + actual - expected
+  
+  + 'a7d60068bb9b630097e0195507a45d6eafc49682f97f78f9a0f193e0d2ec4628'
+  - '3c9e403899b0f3bc2595c76b581ad9ecb618c506a239f3bc899370d131b77400'
+  
+      at run (/workspace/VAL/lifegame-desktop/tools/screen-prey-forage.cjs:10:118)
+      at TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/prey-forage-screen.test.cjs:22:65)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'a7d60068bb9b630097e0195507a45d6eafc49682f97f78f9a0f193e0d2ec4628',
+    expected: '3c9e403899b0f3bc2595c76b581ad9ecb618c506a239f3bc899370d131b77400',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/trophic-foundation.test.cjs:28:1
+✖ trophic runner rejects unknown or excessive trials and checks paired controls (8.143014ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '4.1.3' !== '4.2.0'
+  
+      at run (/workspace/VAL/lifegame-desktop/tools/screen-trophic-foundation.cjs:10:9)
+      at TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/trophic-foundation.test.cjs:30:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '4.1.3',
+    expected: '4.2.0',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

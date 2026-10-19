@@ -1,4 +1,6 @@
 'use strict';
+// These experiments intentionally require the archived 4.1.3 source set.
+const historicalOptions={skip:require('../package.json').version!=='4.1.3'?'4.1.3固定証跡の実験。現行製品はobservation-model検査で照合。':false};
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const F=require('./ecology-fixtures.cjs'),{observe,stocks,lowerOnly}=require('../design/trophic-foundation/observe.cjs');
 test('producer energy comes from light; mineral uptake cannot photosynthesize for primary consumers',()=>{
@@ -25,7 +27,7 @@ test('lower-layer control preserves terrain and food stocks, removes upper consu
  assert.deepEqual(lower.organisms.map(o=>[o.id,o.E,o.B,o.M]),w.organisms.filter(o=>E.S.spec(o).group!=='main').map(o=>[o.id,o.E,o.B,o.M]));
  assert.deepEqual(E.invariants(lower),[]);assert(lower.stats.counts.waterbug>0);assert.equal(stocks(E,lower).species.waterbug.n,lower.stats.counts.waterbug);
 });
-test('trophic runner rejects unknown or excessive trials and checks paired controls',()=>{
+test('trophic runner rejects unknown or excessive trials and checks paired controls',historicalOptions,()=>{
  const {run}=require('../tools/screen-trophic-foundation.cjs');assert.throws(()=>run('unknown',{turns:0}));assert.throws(()=>run('lake',{turns:501}));
  const r=run('lake',{turns:2});assert.equal(r.length,2);assert.equal(r[0].productionReferenceMatched,7);assert.equal(r[0].states,3);assert.equal(r[1].final.main,0);assert(r[0].initial.counts.waterbug>0);assert.equal(r[0].initial.counts.waterbug,r[1].initial.counts.waterbug);
 });

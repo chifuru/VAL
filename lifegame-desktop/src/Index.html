@@ -22,7 +22,7 @@
         <div>
           <p class="eyebrow">LIFE LAB · ECOSYSTEM OBSERVATORY</p>
           <h1>ひとマスから、系譜が育つ。</h1>
-          <p>育ち、競い、つながる。30の系統と、見えない関係を観測する。</p>
+          <p>育ち、競い、つながる。31の系統と、見えない関係を観測する。</p>
         </div>
         <button id="focus-view" class="secondary" aria-pressed="false">
           観察画面を広く表示 ↗
@@ -41,6 +41,12 @@
           <form id="setup">
             <p id="setup-message" class="note" role="status" aria-live="polite" tabindex="-1" hidden></p>
             <label class="observation-mode-label">観察モード<select id="observation-mode"><option value="custom">自由設定</option><option value="river-settlement">河畔・定着観察（高生産・初期集団多め）</option><option value="lake-foodweb">湖沼・食物網観察（高生産・初期集団多め）</option></select></label>
+          <fieldset id="advantage-settings"><legend>追加の生存優遇</legend>
+            <label class="check"><input type="checkbox" id="advantage-producer" checked>生産者を強くする</label>
+            <label class="check"><input type="checkbox" id="advantage-waterbug" checked>水游虫を強くする</label>
+            <label class="check"><input type="checkbox" id="advantage-hyperparasite" checked>高次寄生を広がりやすくする</label>
+            <p class="hint">自由設定でも個別に選べます。初期養分・寿命・繁殖などを調整し、途中の救済補充はしません。条件は世界と一緒に保存されます。</p>
+          </fieldset>
             <p id="mode-help" class="note" aria-live="polite"></p>
             <div class="setup-main">
               <label
@@ -286,7 +292,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.1.3 · 外部通信なし</span>
+        ><span>v4.2.0 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">
@@ -309,16 +315,12 @@ ECOSYSTEM-2026</textarea
       <section id="guide-content"></section>
     </dialog>
     <script src="ecology/hash.js"></script>
-    <script src="ecology/catalogue.js"></script>
     <script src="ecology/map-data.js"></script>
     <script src="ecology/map-templates.js"></script>
     <script src="ecology/landscape.js"></script>
-    <script src="ecology/state.js"></script>
-    <script src="ecology/nutrition.js"></script>
-    <script src="ecology/behavior.js"></script>
-    <script src="ecology/reproduction.js"></script>
-    <script src="ecology/parasites.js"></script>
-    <script src="ecology/engine.js"></script>
+    <script src="ecology/observation-modules.js"></script>
+    <script src="ecology/observation-model.js"></script>
+    <script src="ecology/observation-main.js"></script>
     <script src="assets/visual-manifest.js"></script>
     <script src="ecology/art.js"></script>
     <script src="ecology/habitat.js"></script>

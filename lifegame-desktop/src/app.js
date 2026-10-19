@@ -195,6 +195,8 @@
     return {
       blockTurns: 500,
       observationMode: $("observation-mode").value,
+      advantageSettings: window.EcoObservationModel.settings(Object.fromEntries(
+        ["producer","waterbug","hyperparasite"].map(k=>[k,$("advantage-"+k).checked]))),
       seed: crypto.randomUUID(),
       ecologyRevision: "observation/4.1",
       landscape: "templates",
@@ -311,8 +313,11 @@
     $("observation-mode").value = next.config.observationMode || "custom";
     const mode = next.config.modeResolved;
     $("active-mode").textContent = mode ? mode.name + " · " + mode.description +
-      ` 主生物${next.config.initial}体。初期餌${Math.round(mode.initialFoodScale*100)}%。` : "自由設定 · 従来の初期条件。途中の補充なし。";
-    if(next.config.ecologyParameters)$("active-mode").textContent+=" 生活維持・繁殖を支える観察条件: 主の維持消費65%・移動消費60%、有性繁殖の栄養基準65%/鉱物2、生産者B23・菌B123、餌生物の初期年齢を寿命の前半で分散。途中の救済補充なし。";
+      ` 主生物${next.config.initial}体。初期餌${Math.round(mode.initialFoodScale*100)}%。` : "自由設定 · 選択した初期条件で観察。途中の補充なし。";
+    if(next.config.ecologyParameters)$("active-mode").textContent+=" 生活維持・繁殖を支える観察条件: 主の維持消費65%・移動消費60%、有性繁殖の栄養基準65%/鉱物2。追加優遇の有効/無効は以下に表示します。途中の救済補充なし。";
+    const advantages=next.config.advantageSettings;
+    for(const k of ["producer","waterbug","hyperparasite"])$("advantage-"+k).checked=advantages[k];
+    $("active-mode").textContent+=" 優遇: "+[["producer","生産者"],["waterbug","水游虫"],["hyperparasite","高次寄生"]].map(([k,label])=>label+(advantages[k]?"ON":"OFF")).join(" / ")+"。人工供給なし。";
     $("seed").value = next.config.seed;
     $("terrain-seed").value = next.config.terrainSeed ?? next.config.seed;
     $("map-id").value = next.config.mapId || "auto";
