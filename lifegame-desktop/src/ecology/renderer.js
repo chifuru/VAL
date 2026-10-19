@@ -414,7 +414,21 @@
           const o = living.get(ev.id);
           if (!o || !visible(coordinates.anchor(o).point, 1.6)) continue;
           if (!grouped.has(ev.id)) grouped.set(ev.id, []);
-          if (grouped.get(ev.id).length < 4) grouped.get(ev.id).push(ev);
+          grouped.get(ev.id).push(ev);
+        }
+        // Keep interpolation and distinct confirmed actions within the existing budget.
+        // Repeated feeding must not crowd out combat recorded later in the turn.
+        const priority = (ev) => ({move:100,attack:90,defend:85,clear:80,
+          infection:75,birth:70,growth:65,care:60,feed:50}[ev.type] || 10);
+        for (const [id, list] of grouped) {
+          const seen = new Set();
+          grouped.set(id, list.map((ev,index)=>({ev,index}))
+            .sort((a,b)=>priority(b.ev)-priority(a.ev)||a.index-b.index)
+            .filter(({ev})=>{
+              const key=ev.type==='feed'?`feed:${ev.sourceType}:${ev.tag}`:ev.type;
+              if(seen.has(key))return false;
+              seen.add(key);return true;
+            }).slice(0,4).map(({ev})=>ev));
         }
         const distance = (id) => {
           const o = living.get(id),
@@ -428,6 +442,7 @@
           const sa = living.get(a[0]).cell === view.selected,
             sb = living.get(b[0]).cell === view.selected;
           return (
+            Number(b[0] === view.selectedEntity) - Number(a[0] === view.selectedEntity) ||
             Number(sb) - Number(sa) ||
             distance(a[0]) - distance(b[0]) ||
             S.compare(a[0], b[0])

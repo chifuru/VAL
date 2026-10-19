@@ -47,6 +47,10 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
     if(kind==='scavenge')check(d.selectedMotionEndpoints.target===f.dead,'scavenging connects actual dead-host ID');
     if(['hit','graze','scavenge','defend'].includes(kind))await page.locator('#board').screenshot({path:path.join(out,kind+'.png')});
   }
+  await page.evaluate(f=>{const w=__MOTION_WORLD__;w.events=[...Array.from({length:6},()=>({id:f.id,type:'feed',sourceType:'resource',source:'r:'+f.cell+':info',tag:'info',cell:f.cell})),{id:f.id,type:'attack',actualDamage:3,mitigated:2,target:f.target,to:f.targetCell},{id:f.id,type:'defend'},{id:f.id,type:'move',from:f.cell,to:f.cell}];__PLANE_R__.setWorld(w,true);__LIFE_TEST__.draw();},f);
+  const dense=await page.evaluate(()=>__LIFE_TEST__.snapshot().render);
+  check(!!dense.motionKinds.attack&&!!dense.motionKinds.hit&&!!dense.motionKinds.defend,'repeated feeding cannot hide later attack or defense');
+  await page.locator('#board').screenshot({path:path.join(out,'mixed-actions.png')});
   await page.uncheck('#motion');await page.evaluate(()=>__LIFE_TEST__.draw());check(await page.evaluate(()=>Object.keys(__LIFE_TEST__.snapshot().render.motionKinds).length===0),'motion OFF suppresses all action effects');await page.check('#motion');
   check(await page.evaluate(()=>__LIFE_TEST__.fingerprint())===fingerprint,'drawing and event presentation preserve biological fingerprint');
   await page.evaluate(()=>{const w=__MOTION_WORLD__;w.events=[];__PLANE_R__.setWorld(w);});check(await page.evaluate(id=>!!__PLANE_R__.deathAppearance(id),f.dead),'death appearance persists after transient event disappears');

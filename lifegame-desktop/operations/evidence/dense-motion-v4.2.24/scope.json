@@ -1,0 +1,17 @@
+{
+  "baseline": "4289000",
+  "sourceChanges": [
+    {
+      "file": "src/Index.html",
+      "before": "511a129d0040eafb23af877f93515ae98d27727c2c61117bfda235f4e71f3422",
+      "after": "fca30338a23c8d8e2a36c45dcf15a31be37159f522153636fe47e346dfb1e396"
+    },
+    {
+      "file": "src/ecology/renderer.js",
+      "before": "a3e6c5ec072550522a2c22947de8e29aaa6ba5b3916da1e2909717e9218426ca",
+      "after": "729900b0194744846374c0296645ff9cea620c8f8be0b2c3b6252d6ffd5f4f38"
+    }
+  ],
+  "unchangedBiologyAndArt": true,
+  "nativeWindowsRun": false
+}
