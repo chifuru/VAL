@@ -1,0 +1,11 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),zlib=require('node:zlib'),assert=require('node:assert/strict'),O=require('../src/ecology/observations.js');
+const out=path.resolve(__dirname,'../operations/evidence/circulation-audit-v4.2.19'),reports={};
+for(const key of ['off','on']){const report=JSON.parse(fs.readFileSync(path.join(out,key+'.json'))),history=JSON.parse(zlib.gunzipSync(fs.readFileSync(path.join(out,key+'-history.json.gz')))),states=JSON.parse(zlib.gunzipSync(fs.readFileSync(path.join(out,key+'-states.json.gz'))));assert.equal(states.length,501);assert.equal(history.rows.length,501);O.restore(history);report.finalObservedCounts=history.rows.at(-1).current.counts;
+ for(const [id,r]of Object.entries(report.bySpecies)){r.observedFinal=report.finalObservedCounts[id]||0;if(['P','Q'].includes(r.group)){r.born=report.tallies.births[id]||0;r.descendantMatured=null;r.descendantReproduced=null;r.maxGeneration=null;}}
+ report.residence.definition='Consecutive unchanged-cell transitions; run starts at0, threshold5. Observational association only.';report.sourceUnits='Assimilated E (light is gross E input); zero mineral E does not mean zero M uptake.';
+ fs.writeFileSync(path.join(out,key+'.json'),JSON.stringify(report,null,2)+'\n');reports[key]={R0Limited:report.R0Limited,final:report.final,bySpecies:report.bySpecies,elapsedMs:report.elapsedMs,residence:report.residence,information:report.information,maxErrors:report.maxErrors,stepTiming:report.stepTiming};
+ // Logs are normalized summaries from persisted raw states, not a claim to preserve stdout timing.
+ fs.writeFileSync(path.join(out,key+'.log'),states.filter(r=>r.turn%50===0).map(r=>JSON.stringify({turn:r.turn,main:r.stats.main,waterbug:r.stats.counts.waterbug,P:r.stats.P,Q:r.stats.Q})).join('\n')+'\n'+JSON.stringify({normalizedFrom:'verified states/report',states:501,elapsedMs:report.elapsedMs,completed:true})+'\n');
+}
+fs.writeFileSync(path.join(out,'comparison.json'),JSON.stringify({version:'4.2.19',fixedMap:'river40x28',fixedSeed:'baseline41/custom',replicatesPerCondition:1,comparison:reports},null,2)+'\n');console.log(JSON.stringify(Object.fromEntries(Object.entries(reports).map(([k,r])=>[k,{main:r.final.main,waterbug:r.final.counts.waterbug,R0:r.R0Limited,elapsedMs:r.elapsedMs}]))));

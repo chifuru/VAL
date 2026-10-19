@@ -1,0 +1,182 @@
+{
+  "benefits": [
+    {
+      "species": "abyss",
+      "bare": 10.497839912697675,
+      "covered": 12.072515899602326,
+      "guarded": 15.090644874502907,
+      "bareMove": 0.3315,
+      "coveredMove": 0.39780000000000004
+    },
+    {
+      "species": "myth",
+      "bare": 10.231343474797905,
+      "covered": 11.766044996017591,
+      "guarded": 14.707556245021987,
+      "bareMove": 0.2925,
+      "coveredMove": 0.351
+    },
+    {
+      "species": "recursive",
+      "bare": 11.129966340772807,
+      "covered": 12.799461291888727,
+      "guarded": 15.485170561075211,
+      "bareMove": 0.3159,
+      "coveredMove": 0.37908000000000003
+    },
+    {
+      "species": "sail",
+      "bare": 8.560384529158474,
+      "covered": 9.844442208532245,
+      "guarded": 12.305552760665305,
+      "bareMove": 0.21937500000000001,
+      "coveredMove": 0.26325
+    },
+    {
+      "species": "gravity",
+      "bare": 13.901704965099691,
+      "covered": 15.986960709864643,
+      "guarded": 19.341502560138704,
+      "bareMove": 0.35100000000000003,
+      "coveredMove": 0.4212
+    },
+    {
+      "species": "crystal",
+      "bare": 14.645310448937115,
+      "covered": 16.84210701627768,
+      "guarded": 20.376084102869033,
+      "bareMove": 0.35100000000000003,
+      "coveredMove": 0.4212
+    },
+    {
+      "species": "manyeyes",
+      "bare": 10.912581254392864,
+      "covered": 12.549468442551794,
+      "guarded": 18.0398608861682,
+      "bareMove": 0.3315,
+      "coveredMove": 0.39780000000000004
+    },
+    {
+      "species": "abyssshell",
+      "bare": 12.875569707015527,
+      "covered": 14.806905163067857,
+      "guarded": 17.913836114108562,
+      "bareMove": 0.35100000000000003,
+      "coveredMove": 0.4212
+    },
+    {
+      "species": "parallel",
+      "bare": 10.843398766480387,
+      "covered": 12.469908581452446,
+      "guarded": 15.587385726815555,
+      "bareMove": 0.3315,
+      "coveredMove": 0.39780000000000004
+    },
+    {
+      "species": "memory",
+      "bare": 11.569453416466713,
+      "covered": 13.30487142893672,
+      "guarded": 16.096630840301515,
+      "bareMove": 0.35100000000000003,
+      "coveredMove": 0.4212
+    },
+    {
+      "species": "serpent",
+      "bare": 9.413087122701109,
+      "covered": 10.825050191106275,
+      "guarded": 13.531312738882843,
+      "bareMove": 0.3315,
+      "coveredMove": 0.39780000000000004
+    },
+    {
+      "species": "solar",
+      "bare": 10.230693644285202,
+      "covered": 11.765297690927982,
+      "guarded": 14.706622113659977,
+      "bareMove": 0.3315,
+      "coveredMove": 0.39780000000000004
+    },
+    {
+      "species": "antimeme",
+      "bare": 10.07392039246857,
+      "covered": 13.322759719039684,
+      "guarded": 16.118272627949715,
+      "bareMove": 0.29835,
+      "coveredMove": 0.35802
+    },
+    {
+      "species": "valis",
+      "bare": 9.408133736997843,
+      "covered": 10.81935379754752,
+      "guarded": 13.524192246934398,
+      "bareMove": 0.281775,
+      "coveredMove": 0.33813
+    },
+    {
+      "species": "jelly",
+      "bare": 10.470607697032392,
+      "covered": 12.04119885158725,
+      "guarded": 15.051498564484064,
+      "bareMove": 0.24862499999999998,
+      "coveredMove": 0.29834999999999995
+    },
+    {
+      "species": "kelp",
+      "bare": 9.763568539172411,
+      "covered": 11.22810382004827,
+      "guarded": 13.584095358848572,
+      "bareMove": 0.35100000000000003,
+      "coveredMove": 0.4212
+    },
+    {
+      "species": "whale",
+      "bare": 10.207407981865106,
+      "covered": 11.738519179144872,
+      "guarded": 14.201611105203629,
+      "bareMove": 0.35100000000000003,
+      "coveredMove": 0.4212
+    },
+    {
+      "species": "swarm",
+      "bare": 10.327941155433654,
+      "covered": 11.877132328748703,
+      "guarded": 14.846415410935878,
+      "bareMove": 0.2925,
+      "coveredMove": 0.351
+    },
+    {
+      "species": "plasma",
+      "bare": 8.611078188791872,
+      "covered": 9.902739917110653,
+      "guarded": 12.378424896388315,
+      "bareMove": 0.3315,
+      "coveredMove": 0.39780000000000004
+    },
+    {
+      "species": "cephalopod",
+      "bare": 12.571284209199252,
+      "covered": 14.456976840579138,
+      "guarded": 18.07122105072392,
+      "bareMove": 0.3315,
+      "coveredMove": 0.39780000000000004
+    },
+    {
+      "species": "precocial",
+      "bare": 9.756255684308707,
+      "covered": 11.219694036955014,
+      "guarded": 13.573920952081682,
+      "bareMove": 0.35100000000000003,
+      "coveredMove": 0.4212
+    }
+  ],
+  "deathReturn": {
+    "bodyM": 0,
+    "remainsM": 0,
+    "soilReturnedM": 0
+  },
+  "producerUptake": {
+    "soilNetWithdrawnM": 0.1,
+    "producerStoredM": 0.1
+  },
+  "scope": "Private paired/local process checks; no survival causality or territory ownership claim"
+}

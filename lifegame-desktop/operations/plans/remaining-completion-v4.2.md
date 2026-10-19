@@ -2,7 +2,7 @@
 
 ## 適用範囲と現在地
 
-製品基準は4.2.19。工程1〜7は限定接続。工程8は説明/既定経路/成熟/役割別優勢に加え、情報の由来/直接重み適用/Q媒介の観測を接続（operations/evidence/information-observation-v4.2.19/README.md）。生態決定は不変。次は要所保持と長期世代循環の照合、最終判読/性能・500T/実Windows確認。限定検査を全要件完成と扱わない。
+製品基準は4.2.19。河川40×28/同一初期値の供給OFF/ON各500Tを計算監査し、収支と消費者の子孫繁殖/R0限定経路を確認（operations/evidence/circulation-audit-v4.2.19/README.md）。source/UIは不変。次は工程9の最終判読/性能と画面付き結合・実Windows。情報生成0、菌膜終端0、水中生産者の孫繁殖0は未達として保持し、全系統/全経路の完成とは扱わない。
 
 起点は**主生物21系統の固有の雌雄・年齢・階級差の補完**。その後に表示操作、動作、集計、画面、設定、保存、生態照合、視認性・性能、結合運転の順で進む。生態進行不能やデータ消失が見つかった場合は、それを先に修正して元工程へ戻る。
 
@@ -163,9 +163,9 @@
 |再生後の明示的新規記録|4.2.15で暗黙保存禁止/明示保存は新IDと元記録参照|7|src/ecology/archive.js、src/app.js|
 |保存失敗/旧形式/結果分析|4.2.15でschema2/旧併読/結果分析/quota保護を接続。未知の指標版変換は未対応|7/10|src/ecology/archive.js|
 |渡河・適応・水路/主要陸域接続|4.2.17で36条件の既定陸水経路と主の深水移動費を照合。全陸域/自律渡航は未確認|8|src/ecology/landscape.js、src/ecology/behavior.js|
-|保持すると有利な場所|4.2.18で遮蔽/防御の有限利益を確認。要所保持の時系列/実効利益観測は未完|8|src/ecology/behavior.js|
-|陸水の食物網/生産基盤/還元|3枠/浮遊微藻あり、全条件の更新は未確認|8/10|src/ecology/observation-modules.js|
-|繁殖難易度/年齢成熟/世代更新|成熟分離あり、経路の長期検証は未完|8/10|src/ecology/reproduction.js|
+|保持すると有利な場所|4.2.19で21主系統の有限利益と私有500Tの5T滞在/採食を確認。製品への保持時系列表示・生存因果は未完|8|src/ecology/behavior.js|
+|陸水の食物網/生産基盤/還元|河川OFF/ON各500Tで陸水消費者の子孫繁殖。菌膜終端0/水中生産者の孫繁殖0、全条件は未確認|8/10|src/ecology/observation-modules.js|
+|繁殖難易度/年齢成熟/世代更新|河川OFF/ON各500Tで子の成熟と子孫繁殖、主/一次消費者の最大世代を確認。多条件は未認定|8/10|src/ecology/reproduction.js|
 |P淘汰/感染経路/Q限定窓と作用|接続あり、全対象/条件の生存は未確認|8/10|src/ecology/parasites.js|
 |情報の文脈/鮮度/撹乱/作用|4.2.19で期限内の既知由来/生成/取得/直接重み適用/Q媒介を観測分離。行動結果への因果/長期頻度は未認定|4/8|src/ecology/parasites.js、src/ecology/observations.js|
 |説明の3枠/繁殖/凡例/保存|4.2.17で3枠/成熟/P-Q優遇/供給/独立行動の説明と樹を修正。全項目照合は継続|8/9|src/app.js、src/Index.html|
@@ -174,7 +174,7 @@
 |背景立体感/自然な境界/全要素識別|既存改善あり、最終全場面は未確認|9|src/ecology/habitat.js、src/ecology/scenery.js|
 |5〜15分/500T/準備60秒/品質維持|基準実装あり、最終版の実測が必要|9/10|src/app.js、src/ecology/compute-client.js|
 |Windows生成と実機|4.2.19生成・変更src9/35PNG同梱一致、最新実機は未確認|10|operations/evidence/lower-states-v4.2.6/package-report.json|
-|R0循環/世代/競争と500T存続|既存採用条件の例あり、最終結合版は未確認|10|design/specification/observation-first-v2.8.md|
+|R0循環/世代/競争と500T存続|現行4.2.19の河川OFF/ON計1002状態でR0限定経路。画面付き結合/全条件は未認定|10|design/specification/observation-first-v2.8.md|
 |厳密R1〜R6/新植物/36地形|目標と採用意向を保持、完成後の工程|11|design/specification/ab-visual-ecology-v2.5.md、design/dedicated-variants-v4.2.2/coverage.md|
 
 ## 各区切りの手順・検証費用・報告

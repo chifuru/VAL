@@ -1,0 +1,836 @@
+{
+  "version": "4.2.19",
+  "fixedMap": "river40x28",
+  "fixedSeed": "baseline41/custom",
+  "replicatesPerCondition": 1,
+  "comparison": {
+    "off": {
+      "R0Limited": {
+        "consumerAt500": true,
+        "consumerDescendantReproduction": true,
+        "baselineStatisticsMatch": true
+      },
+      "final": {
+        "population": 1566,
+        "main": 277,
+        "food": 1289,
+        "P": 301,
+        "Q": 268,
+        "Qsearch": 186,
+        "resting": 90,
+        "counts": {
+          "abyss": 0,
+          "myth": 0,
+          "recursive": 0,
+          "sail": 0,
+          "gravity": 19,
+          "crystal": 0,
+          "manyeyes": 0,
+          "abyssshell": 0,
+          "parallel": 19,
+          "memory": 0,
+          "serpent": 0,
+          "solar": 0,
+          "antimeme": 0,
+          "valis": 82,
+          "jelly": 0,
+          "kelp": 0,
+          "whale": 157,
+          "swarm": 0,
+          "plasma": 0,
+          "cephalopod": 0,
+          "precocial": 0,
+          "algae": 65,
+          "moss": 0,
+          "grass": 622,
+          "fungus": 0,
+          "waterbug": 83,
+          "grassbug": 421,
+          "tideparasite": 301,
+          "leafparasite": 0,
+          "hyperparasite": 268,
+          "phytoplankton": 98
+        },
+        "phases": [
+          16,
+          34,
+          92,
+          135
+        ],
+        "roles": {
+          "queen": 0,
+          "worker": 0,
+          "male": 0
+        },
+        "colonies": {},
+        "infectionStages": {
+          "first": 64,
+          "middle": 82,
+          "extra": 68,
+          "terminal": 87
+        },
+        "resources": 264,
+        "totals": {
+          "E": 43575.31996,
+          "M": 16483.091296
+        }
+      },
+      "bySpecies": {
+        "abyss": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "myth": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "recursive": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "sail": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "gravity": {
+          "group": "main",
+          "final": 19,
+          "born": 25,
+          "descendantMatured": 25,
+          "descendantReproduced": 7,
+          "environmentEstablished": 0,
+          "maxGeneration": 2,
+          "observedFinal": 19
+        },
+        "crystal": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "manyeyes": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "abyssshell": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "parallel": {
+          "group": "main",
+          "final": 19,
+          "born": 58,
+          "descendantMatured": 58,
+          "descendantReproduced": 17,
+          "environmentEstablished": 0,
+          "maxGeneration": 4,
+          "observedFinal": 19
+        },
+        "memory": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "serpent": {
+          "group": "main",
+          "final": 0,
+          "born": 2,
+          "descendantMatured": 2,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 1,
+          "observedFinal": 0
+        },
+        "solar": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "antimeme": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "valis": {
+          "group": "main",
+          "final": 82,
+          "born": 109,
+          "descendantMatured": 104,
+          "descendantReproduced": 68,
+          "environmentEstablished": 0,
+          "maxGeneration": 8,
+          "observedFinal": 82
+        },
+        "jelly": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "kelp": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "whale": {
+          "group": "main",
+          "final": 157,
+          "born": 158,
+          "descendantMatured": 143,
+          "descendantReproduced": 63,
+          "environmentEstablished": 0,
+          "maxGeneration": 6,
+          "observedFinal": 157
+        },
+        "swarm": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "plasma": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "cephalopod": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "precocial": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "algae": {
+          "group": "plant",
+          "final": 65,
+          "born": 18,
+          "descendantMatured": 18,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 1,
+          "observedFinal": 65
+        },
+        "moss": {
+          "group": "plant",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "grass": {
+          "group": "plant",
+          "final": 622,
+          "born": 361,
+          "descendantMatured": 361,
+          "descendantReproduced": 39,
+          "environmentEstablished": 0,
+          "maxGeneration": 3,
+          "observedFinal": 622
+        },
+        "fungus": {
+          "group": "fungus",
+          "final": 0,
+          "born": 157,
+          "descendantMatured": 113,
+          "descendantReproduced": 73,
+          "environmentEstablished": 0,
+          "maxGeneration": 10,
+          "observedFinal": 0
+        },
+        "waterbug": {
+          "group": "prey",
+          "final": 83,
+          "born": 138,
+          "descendantMatured": 135,
+          "descendantReproduced": 51,
+          "environmentEstablished": 0,
+          "maxGeneration": 9,
+          "observedFinal": 83
+        },
+        "grassbug": {
+          "group": "prey",
+          "final": 421,
+          "born": 13814,
+          "descendantMatured": 11411,
+          "descendantReproduced": 8033,
+          "environmentEstablished": 0,
+          "maxGeneration": 43,
+          "observedFinal": 421
+        },
+        "tideparasite": {
+          "group": "P",
+          "final": 301,
+          "born": 2474,
+          "descendantMatured": null,
+          "descendantReproduced": null,
+          "environmentEstablished": 0,
+          "maxGeneration": null,
+          "observedFinal": 301
+        },
+        "leafparasite": {
+          "group": "P",
+          "final": 0,
+          "born": 154,
+          "descendantMatured": null,
+          "descendantReproduced": null,
+          "environmentEstablished": 0,
+          "maxGeneration": null,
+          "observedFinal": 0
+        },
+        "hyperparasite": {
+          "group": "Q",
+          "final": 268,
+          "born": 256,
+          "descendantMatured": null,
+          "descendantReproduced": null,
+          "environmentEstablished": 0,
+          "maxGeneration": null,
+          "observedFinal": 268
+        },
+        "phytoplankton": {
+          "group": "plant",
+          "final": 98,
+          "born": 17,
+          "descendantMatured": 17,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 1,
+          "observedFinal": 98
+        }
+      },
+      "elapsedMs": 290428,
+      "residence": {
+        "episodes": 2532,
+        "residentTurns": 48060,
+        "coverTurns": 7875,
+        "resourceTurns": 8377,
+        "organicAssimilated": 56781.78762099898,
+        "maxRun": 421,
+        "definition": "Consecutive unchanged-cell transitions; run starts at0, threshold5. Observational association only."
+      },
+      "information": {
+        "generated": 0,
+        "received": 2,
+        "applied": 0,
+        "unchanged": 0,
+        "unattributed": 2,
+        "mediatedGenerated": 0,
+        "mediatedReceived": 0,
+        "mediatedApplied": 0,
+        "noiseReceived": 0,
+        "deltaAbs": 0
+      },
+      "maxErrors": {
+        "E": 0,
+        "M": 0
+      },
+      "stepTiming": {
+        "meanMs": 387.1308675939988,
+        "maxMs": 1208.366952999997
+      }
+    },
+    "on": {
+      "R0Limited": {
+        "consumerAt500": true,
+        "consumerDescendantReproduction": true,
+        "baselineStatisticsMatch": null
+      },
+      "final": {
+        "population": 1790,
+        "main": 469,
+        "food": 1321,
+        "P": 296,
+        "Q": 83,
+        "Qsearch": 14,
+        "resting": 109,
+        "counts": {
+          "abyss": 0,
+          "myth": 0,
+          "recursive": 0,
+          "sail": 0,
+          "gravity": 90,
+          "crystal": 0,
+          "manyeyes": 0,
+          "abyssshell": 0,
+          "parallel": 24,
+          "memory": 0,
+          "serpent": 0,
+          "solar": 0,
+          "antimeme": 0,
+          "valis": 169,
+          "jelly": 0,
+          "kelp": 0,
+          "whale": 186,
+          "swarm": 0,
+          "plasma": 0,
+          "cephalopod": 0,
+          "precocial": 0,
+          "algae": 67,
+          "moss": 0,
+          "grass": 704,
+          "fungus": 0,
+          "waterbug": 82,
+          "grassbug": 371,
+          "tideparasite": 296,
+          "leafparasite": 0,
+          "hyperparasite": 83,
+          "phytoplankton": 97
+        },
+        "phases": [
+          34,
+          57,
+          131,
+          247
+        ],
+        "roles": {
+          "queen": 0,
+          "worker": 0,
+          "male": 0
+        },
+        "colonies": {},
+        "infectionStages": {
+          "first": 64,
+          "middle": 82,
+          "extra": 23,
+          "terminal": 127
+        },
+        "resources": 343,
+        "totals": {
+          "E": 57019.944593,
+          "M": 25050.086324
+        }
+      },
+      "bySpecies": {
+        "abyss": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "myth": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "recursive": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "sail": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "gravity": {
+          "group": "main",
+          "final": 90,
+          "born": 106,
+          "descendantMatured": 100,
+          "descendantReproduced": 55,
+          "environmentEstablished": 0,
+          "maxGeneration": 7,
+          "observedFinal": 90
+        },
+        "crystal": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "manyeyes": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "abyssshell": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "parallel": {
+          "group": "main",
+          "final": 24,
+          "born": 88,
+          "descendantMatured": 88,
+          "descendantReproduced": 53,
+          "environmentEstablished": 0,
+          "maxGeneration": 7,
+          "observedFinal": 24
+        },
+        "memory": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "serpent": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "solar": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "antimeme": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "valis": {
+          "group": "main",
+          "final": 169,
+          "born": 214,
+          "descendantMatured": 202,
+          "descendantReproduced": 129,
+          "environmentEstablished": 0,
+          "maxGeneration": 10,
+          "observedFinal": 169
+        },
+        "jelly": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "kelp": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "whale": {
+          "group": "main",
+          "final": 186,
+          "born": 184,
+          "descendantMatured": 165,
+          "descendantReproduced": 73,
+          "environmentEstablished": 0,
+          "maxGeneration": 7,
+          "observedFinal": 186
+        },
+        "swarm": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "plasma": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "cephalopod": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "precocial": {
+          "group": "main",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "algae": {
+          "group": "plant",
+          "final": 67,
+          "born": 18,
+          "descendantMatured": 18,
+          "descendantReproduced": 0,
+          "environmentEstablished": 2,
+          "maxGeneration": 1,
+          "observedFinal": 67
+        },
+        "moss": {
+          "group": "plant",
+          "final": 0,
+          "born": 0,
+          "descendantMatured": 0,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 0,
+          "observedFinal": 0
+        },
+        "grass": {
+          "group": "plant",
+          "final": 704,
+          "born": 308,
+          "descendantMatured": 308,
+          "descendantReproduced": 21,
+          "environmentEstablished": 135,
+          "maxGeneration": 2,
+          "observedFinal": 704
+        },
+        "fungus": {
+          "group": "fungus",
+          "final": 0,
+          "born": 161,
+          "descendantMatured": 136,
+          "descendantReproduced": 98,
+          "environmentEstablished": 0,
+          "maxGeneration": 11,
+          "observedFinal": 0
+        },
+        "waterbug": {
+          "group": "prey",
+          "final": 82,
+          "born": 127,
+          "descendantMatured": 127,
+          "descendantReproduced": 50,
+          "environmentEstablished": 0,
+          "maxGeneration": 6,
+          "observedFinal": 82
+        },
+        "grassbug": {
+          "group": "prey",
+          "final": 371,
+          "born": 14962,
+          "descendantMatured": 12287,
+          "descendantReproduced": 8550,
+          "environmentEstablished": 0,
+          "maxGeneration": 45,
+          "observedFinal": 371
+        },
+        "tideparasite": {
+          "group": "P",
+          "final": 296,
+          "born": 681,
+          "descendantMatured": null,
+          "descendantReproduced": null,
+          "environmentEstablished": 0,
+          "maxGeneration": null,
+          "observedFinal": 298
+        },
+        "leafparasite": {
+          "group": "P",
+          "final": 0,
+          "born": 236,
+          "descendantMatured": null,
+          "descendantReproduced": null,
+          "environmentEstablished": 0,
+          "maxGeneration": null,
+          "observedFinal": 0
+        },
+        "hyperparasite": {
+          "group": "Q",
+          "final": 83,
+          "born": 70,
+          "descendantMatured": null,
+          "descendantReproduced": null,
+          "environmentEstablished": 0,
+          "maxGeneration": null,
+          "observedFinal": 84
+        },
+        "phytoplankton": {
+          "group": "plant",
+          "final": 97,
+          "born": 16,
+          "descendantMatured": 16,
+          "descendantReproduced": 0,
+          "environmentEstablished": 0,
+          "maxGeneration": 1,
+          "observedFinal": 97
+        }
+      },
+      "elapsedMs": 343477,
+      "residence": {
+        "episodes": 4158,
+        "residentTurns": 79766,
+        "coverTurns": 17380,
+        "resourceTurns": 20434,
+        "organicAssimilated": 97717.97280698938,
+        "maxRun": 421,
+        "definition": "Consecutive unchanged-cell transitions; run starts at0, threshold5. Observational association only."
+      },
+      "information": {
+        "generated": 0,
+        "received": 1,
+        "applied": 0,
+        "unchanged": 0,
+        "unattributed": 1,
+        "mediatedGenerated": 0,
+        "mediatedReceived": 0,
+        "mediatedApplied": 0,
+        "noiseReceived": 0,
+        "deltaAbs": 0
+      },
+      "maxErrors": {
+        "E": 0,
+        "M": 0
+      },
+      "stepTiming": {
+        "meanMs": 459.60214078000024,
+        "maxMs": 1119.0946870000002
+      }
+    }
+  }
+}

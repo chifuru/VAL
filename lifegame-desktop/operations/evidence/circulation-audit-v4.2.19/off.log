@@ -1,0 +1,12 @@
+{"turn":0,"main":80,"waterbug":46,"P":19,"Q":128}
+{"turn":50,"main":104,"waterbug":85,"P":64,"Q":128}
+{"turn":100,"main":141,"waterbug":86,"P":48,"Q":129}
+{"turn":150,"main":176,"waterbug":87,"P":62,"Q":128}
+{"turn":200,"main":219,"waterbug":87,"P":69,"Q":128}
+{"turn":250,"main":268,"waterbug":86,"P":92,"Q":130}
+{"turn":300,"main":281,"waterbug":87,"P":157,"Q":157}
+{"turn":350,"main":295,"waterbug":83,"P":222,"Q":232}
+{"turn":400,"main":294,"waterbug":81,"P":268,"Q":317}
+{"turn":450,"main":278,"waterbug":80,"P":288,"Q":345}
+{"turn":500,"main":277,"waterbug":83,"P":301,"Q":268}
+{"normalizedFrom":"verified states/report","states":501,"elapsedMs":290428,"completed":true}
