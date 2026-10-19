@@ -1,0 +1,136 @@
+{
+  "version": "4.2.32",
+  "sourceCommit": "2309185522cd9bdf4dc967bfb68c54efe58074fe",
+  "runId": 39340183030,
+  "jobId": 118359506331,
+  "unitFiles": 53,
+  "unitTests": 291,
+  "unitPassed": 286,
+  "unitSkipped": 5,
+  "conclusion": "success",
+  "native": {
+    "ok": true,
+    "electron": "44.7.2",
+    "platform": "Win32",
+    "arch": "x64",
+    "terrainWorker": true,
+    "terrainBuildMs": 5208.800000000047,
+    "workerPlayback": true,
+    "workerTurnMs": 3519.1999999999534,
+    "randomModel": "table/1",
+    "assetsLoaded": true,
+    "assetErrors": [],
+    "turn": 11,
+    "population": 1048,
+    "nodeExposed": false,
+    "local": true,
+    "title": "LifeGame — 生態シミュレーション"
+  },
+  "package": {
+    "version": "4.2.32",
+    "electron": "44.7.2",
+    "exe": "LifeGame.exe",
+    "platform": "win32",
+    "arch": "x64",
+    "zip": "LifeGame-Windows-x64.zip",
+    "sha256": "cae1f56bd23f93185d67145faf7a6b2f0e2fbc4276d1c1b3f74e90818a27e0ea",
+    "bytes": 274742016
+  },
+  "artifact": {
+    "id": 12229435734,
+    "name": "LifeGame-Windows-x64",
+    "size_in_bytes": 298381246,
+    "url": "https://api.github.com/repos/chifuru/VAL/actions/artifacts/12229435734",
+    "archive_download_url": "https://api.github.com/repos/chifuru/VAL/actions/artifacts/12229435734/zip",
+    "expired": false,
+    "created_at": "2026-10-19T23:23:18Z",
+    "expires_at": "2026-11-18T23:23:10Z",
+    "updated_at": "2026-10-19T23:23:18Z",
+    "digest": "sha256:eb9a326a8a6c31d313d7c102ed4f915eac60f33771c6b50ffeaa7a924a001ec7",
+    "workflow_run": {
+      "id": 39340183030,
+      "repository_id": 1411285944,
+      "head_repository_id": 1411285944,
+      "head_branch": "main",
+      "head_sha": "2309185522cd9bdf4dc967bfb68c54efe58074fe"
+    }
+  },
+  "steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2
+    },
+    {
+      "name": "Run actions/setup-node@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3
+    },
+    {
+      "name": "Run npm ci",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4
+    },
+    {
+      "name": "Model and package tests",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 5
+    },
+    {
+      "name": "Browser interaction",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 6
+    },
+    {
+      "name": "Build Windows ZIP",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 7
+    },
+    {
+      "name": "Verify expanded ZIP and actual executable",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 8
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 9
+    },
+    {
+      "name": "Post Run actions/setup-node@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 17
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 18
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 19
+    }
+  ],
+  "limits": [
+    "Windows CIの限定条件。全ユーザーPCの性能・全条件500T・最終外観承認ではない。",
+    "500Tと短期性能の実測時ソースは各フォルダ内で保持。以後は描画端クリアとsmoke fixture通知のみ変更し生態署名は不変。"
+  ]
+}

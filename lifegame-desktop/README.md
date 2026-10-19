@@ -12,7 +12,7 @@
 
 ## Windowsで起動
 
-[4.2.31 ダウンロード画面](https://github.com/chifuru/VAL/actions/runs/39300201408/artifacts/12211792260)から **LifeGame-Windows-x64** を取得してください。Windowsでの実行確認済みです。外側のZIPを展開し、同梱の `dist/LifeGame-Windows-x64.zip` も展開して `LifeGame.exe` を起動します。DLL・resources・localesは同じフォルダに保ち、アプリ下部の版表示を確認してください。
+[4.2.32 ダウンロード画面](https://github.com/chifuru/VAL/actions/runs/39340183030/artifacts/12229435734)から **LifeGame-Windows-x64** を取得してください。Windowsでの実行確認済みです。外側のZIPを展開し、同梱の `dist/LifeGame-Windows-x64.zip` も展開して `LifeGame.exe` を起動します。DLL・resources・localesは同じフォルダに保ち、アプリ下部の版表示を確認してください。
 
 Windows 10/11 x64用。利用時にNode.js・ネット接続・外部サービスは不要です。実行中の観測状態は終了時に消えます。明示終了または主生物全滅で保存した最終結果は、配布物と別のローカルアプリ領域に最大100件保持します。実測対象・環境と制限は[現行Manifest](valis/summary/lifegame-desktop.summary.md)とEノードに記載します。
 

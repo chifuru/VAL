@@ -483,7 +483,7 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 
 E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E5.md。operations/evidence/headless-baseline-v4.1/report.json、全ターン原値と対象hash。生態4.1の既存証跡とは実測範囲を区別。
+		valis/nodes/E/E5.md。operations/evidence/optimization-v4.2.32/model/、rendered-500/、全ターン原値と各実測時hash。
 	ロジック:
 		各対象の実装・仕様・環境と一致する記録範囲に限定して参照する。
 	実態:
@@ -491,7 +491,7 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。operations/evidence/navigation-recovery-v4.1/source-hashes.json。観察4.1の既存記録と今回の遷移修正を区別。
+		valis/nodes/E/E6.md。operations/evidence/optimization-v4.2.32/ui/、performance/、対象hashと反例。
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
@@ -499,10 +499,10 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
+		valis/nodes/E/E7.md。operations/evidence/optimization-v4.2.32/windows-native.json、Windows app4.2.32 / 2309185。
 	ロジック:
 		対象SHAと版が一致する配布物を展開し、実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		4.2.32の配布検査を接続、実Windowsは新CI確認待ち。旧4.2.31のCI実績と区別。 範囲/未確認: operations/evidence/optimization-v4.2.32/README.md。草案。
+		4.2.32: CI39340183030/job118359506331で全件・画面・ZIP展開SHA・実Windows exe/Worker/画像/Node非公開が成功。対象2309185/artifact12229435734。全PC性能保証ではない。 範囲/未確認: operations/evidence/optimization-v4.2.32/README.md。草案。
 
 ```
