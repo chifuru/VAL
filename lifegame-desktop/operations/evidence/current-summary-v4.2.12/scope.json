@@ -1,0 +1,16 @@
+{
+  "changed": [
+    "src/styles.css",
+    "src/Index.html",
+    "src/app.js",
+    "src/ecology/observations.js"
+  ],
+  "browserChecks": 22,
+  "unitTests": 5,
+  "existingObservationTests": 12,
+  "allAssetsAndBiologyUnchanged": true,
+  "replaySignatureAndArchiveSchemaUnchanged": true,
+  "lowerRelationshipDiagramAndPyramidNotImplemented": true,
+  "unknownProductionAndIndividualParticipationNotInvented": true,
+  "nativeWindowsNotTested": true
+}

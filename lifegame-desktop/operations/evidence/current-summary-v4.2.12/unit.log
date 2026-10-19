@@ -1,0 +1,13 @@
+✔ summary preserves zero and unknown evidence and never creates a numerical score (5.48188ms)
+✔ carrier, host and search parasite counts are unique and expire precisely (0.880538ms)
+✔ contacts never become actual relation diversity or continuity (26.081414ms)
+✔ completed adjacent10T intervals within the50T window define continuity (38.890003ms)
+✔ single species abundance does not invent reproduction, generation replacement or ecosystem health (3.887355ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 94.597752

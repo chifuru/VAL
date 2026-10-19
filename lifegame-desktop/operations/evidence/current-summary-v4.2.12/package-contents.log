@@ -1,0 +1,8 @@
+MATCH src/app.js
+MATCH src/Index.html
+MATCH src/styles.css
+MATCH src/ecology/observations.js
+MATCH src/ecology/replay-version.js
+MATCH src/ecology/art.js
+MATCH src/assets/visual-manifest.json
+PASS package4.2.12; native Windows not tested

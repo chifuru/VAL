@@ -158,8 +158,17 @@ ECOSYSTEM-2026</textarea
               <span>一次 / 高次寄生</span><strong id="parasite-count">—</strong>
             </div>
             <div><span>最終計算</span><strong id="timing">—</strong></div>
-            <div class="trend-card"><span>個体群の推移 <small id="trend-range">観測前</small></span><svg id="population-trend" viewBox="0 0 240 50" role="img" aria-label="主生物の個体数の推移"><path id="trend-fill"></path><path id="trend-line"></path></svg></div>
+
           </div>
+          <section class="current-summary panel" aria-label="生態系の現在像">
+            <div class="current-composition"><canvas id="current-donut" width="240" height="200" role="img" aria-label="現在の分類・系統の割合"></canvas><div id="current-legend"></div></div>
+            <div class="current-reading"><h2 id="current-overall">生態系の特徴を観測中</h2>
+              <dl><div><dt>広がり</dt><dd><span id="current-breadth"></span><small id="current-breadth-values" class="support-values"></small></dd></div>
+              <div><dt>多様さ</dt><dd><span id="current-diversity"></span><small id="current-diversity-values" class="support-values"></small></dd></div>
+              <div><dt>持続性</dt><dd><span id="current-persistence"></span><small id="current-persistence-values" class="support-values"></small></dd></div></dl>
+              <p class="note">構成は現在 ／ 関係は直近50Tの観測。個体・群体の数の割合であり、生物量の割合ではありません。</p>
+            </div>
+          </section>
           <div class="turn-strip" aria-label="ターンの進行">
             <ol id="turn-stages"><li>01 資源更新</li><li>02 移動・採食・戦闘</li><li>03 成長・繁殖</li></ol>
             <span id="turn-progress" role="status" aria-live="polite">基準：1ターン約1秒 · 三段階で観察</span>
@@ -303,7 +312,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.11 · 外部通信なし</span>
+        ><span>v4.2.12 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">

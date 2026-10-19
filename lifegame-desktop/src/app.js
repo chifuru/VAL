@@ -305,7 +305,7 @@
       : "終了して図鑑へ保存";
     world = next;
     populationHistory = [];
-    observations=window.EcoObservations.create(next.config,window.EcoReplayVersion);observations.append(next);graphFollow=true;followId=null;lastTracked=null;legendKey=null;
+    observations=window.EcoObservations.create(next.config,window.EcoReplayVersion,{species:D.species});observations.append(next);graphFollow=true;followId=null;lastTracked=null;legendKey=null;
     document.body.classList.remove("setup-screen");
     checkpointKey = null;
     $("load").textContent = "この設定で新しい世界を作る ↗";
@@ -1115,16 +1115,22 @@
       populationHistory.push(sample);
       // Exact turn records are retained by observations; no rolling deletion.
     }
-    const pointsHistory=observations.bins(240).map(b=>({turn:b.last,count:D.main.reduce((n,s)=>n+(b.counts[s.id]||0),0)}));
-    const first = populationHistory[0], last = populationHistory.at(-1),
-      maximum = Math.max(1, ...pointsHistory.map(a => a.count)),
-      span = Math.max(1, last.turn - first.turn),
-      points = pointsHistory.map(a => `${((a.turn-first.turn)/span*236+2).toFixed(2)},${(46-a.count/maximum*40).toFixed(2)}`),
-      line = "M" + points.join(" L");
-    $("trend-line").setAttribute("d", line);
-    $("trend-fill").setAttribute("d", line + ` L${points.at(-1).split(",")[0]},49 L2,49 Z`);
-    setText("trend-range", `${first.turn}–${last.turn} T · 0–${maximum}体`);
-    $("population-trend").setAttribute("aria-label", `主生物の個体数推移。${first.turn}ターン ${first.count}体から${last.turn}ターン ${last.count}体。縦軸0〜${maximum}体`);
+    const current=observations.rows.at(-1)?.current;if(!current)return;
+    setText("current-overall",current.summary.overall);
+    for(const key of ["breadth","diversity","persistence"]){setText("current-"+key,current.summary[key].text);setText("current-"+key+"-values",current.summary[key].detail);}
+    const palette={plant:"#68ce8c",prey:"#53d2df",main:"#62a7ef",fungus:"#efb375",P:"#b88ae5",Q:"#d5b3f2"},c=$("current-donut"),g=c.getContext("2d");g.clearRect(0,0,c.width,c.height);
+    let angle=-Math.PI/2;
+    for(const group of current.groups){if(!group.count)continue;const end=angle+group.count/Math.max(1,current.total)*Math.PI*2;
+      g.beginPath();g.arc(120,94,66,angle,end);g.lineWidth=24;g.strokeStyle=palette[group.id];g.stroke();
+      const members=D.species.filter(s=>s.group===group.id);let at=angle;
+      for(const s of members){const n=current.counts[s.id]||0;if(!n)continue;const to=at+n/current.total*Math.PI*2;g.beginPath();g.arc(120,94,85,at+.008,Math.max(at+.008,to-.008));g.lineWidth=12;g.strokeStyle=R.highlightColor(s.id);g.stroke();at=to;}
+      angle=end;
+    }
+    g.textAlign="center";g.fillStyle="#d6e5df";g.font="14px sans-serif";g.fillText(current.total?"現在の構成":"生体なし",120,99);
+    $("current-legend").innerHTML=current.groups.map(a=>`<span><i style="background:${palette[a.id]}"></i>${escape(a.name)}</span>`).join("");
+    $("current-donut").setAttribute("aria-label",current.groups.map(a=>a.name+" "+(current.total?(a.count/current.total*100).toFixed(1)+"%":"0")).join(" / "));
+    setText("parasite-count",(current.counts.tideparasite||0)+(current.counts.leafparasite||0)+" / "+(current.counts.hyperparasite||0));
+
   }
   for (const [id, fn] of [["rank-panel", renderRanking], ["budget-panel", renderBudget], ["individual-list", renderIndividuals]])
     $(id).addEventListener("toggle", () => { if ($(id).open) fn(); });
