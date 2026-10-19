@@ -105,6 +105,7 @@ const { chromium } = require("playwright"),
     await page.click('#finish-run');await page.waitForFunction(()=>document.querySelector('#finish-run').textContent==='図鑑に保存済み');
     check(await page.evaluate(()=>__LIFE_TEST__.records()[0].config.modeResolved.id==='river-settlement'),'archive retains the selected mode and versioned conditions');
     await page.click('#open-results');
+    await page.waitForFunction(()=>document.querySelector('#results-list [data-replay]')); 
     check((await page.locator('#results-list').textContent()).includes('河畔・定着観察'),'archive displays which observation mode produced the result');
     await page.locator('[data-replay]').click();await page.click('#start');
     await page.waitForFunction(()=>__LIFE_TEST__.snapshot().ended&&__LIFE_TEST__.snapshot().world.turn===1);
