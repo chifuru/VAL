@@ -99,7 +99,7 @@
     return c;
   }
 
-  const anatomyTargets = new Set(["solar", "cephalopod", "crystal", "swarm", "precocial"]);
+  const anatomyTargets = new Set(["solar", "cephalopod", "crystal", "swarm", "precocial", "abyss", "myth", "recursive", "sail", "gravity", "manyeyes", "abyssshell", "parallel", "memory", "serpent", "antimeme", "valis", "jelly", "kelp", "whale", "plasma"]);
   const anatomyMetrics = { builds: 0, hits: 0, foldedTriangles: 0, maxTexturePixels: 0, limitedFrames: 0, minStrength: 1 };
   function anatomyPoints(o, stage) {
     const m=o.sex==="male"?1:0, f=o.sex==="female"?1:0,
@@ -137,6 +137,104 @@
       at(.52,.53,0,.12*f-.035*m+.025*j,.23,.19); // central carapace
       at(.28,.87,0,-.045*j+.085*e,.15,.11);
       at(.75,.87,0,-.045*j+.085*e,.15,.11); // early juvenile already has developed supports
+    }else if(o.species==="abyss"){
+      at(0.18,0.72,-.15*m+.13*j,.12*e);
+      at(0.82,0.75,.16*m-.14*j,.14*e);
+      at(0.4,0.35,-.10*f,.06*j);
+      at(0.64,0.36,.10*f,.05*e);
+
+    }else if(o.species==="myth"){
+      at(0.51,0.15,0,-.18*m+.14*j+.10*e);
+      at(0.82,0.65,.16*m-.10*f-.17*j,.08*e);
+      at(0.43,0.59,-.12*f,.035*f);
+      at(0.22,0.38,.07*j,.12*j+.08*e);
+
+    }else if(o.species==="recursive"){
+      at(0.18,0.25,-.14*m+.16*j,.10*e);
+      at(0.85,0.65,.16*m-.14*j,.13*e);
+      at(0.43,0.48,-.10*f,.04*f);
+      at(0.6,0.51,.10*f,-.04*f);
+
+    }else if(o.species==="sail"){
+      at(0.85,0.35,.18*m-.16*j,.09*e);
+      at(0.4,0.4,-.10*f,.06*j);
+      at(0.62,0.48,.11*f,.08*f);
+      at(0.4,0.8,0,-.12*j+.10*e);
+
+    }else if(o.species==="gravity"){
+      at(0.15,0.5,-.15*m+.16*j,.08*e);
+      at(0.85,0.5,.15*m-.16*j,.08*e);
+      at(0.5,0.2,0,-.09*f+.12*j+.08*e);
+      at(0.5,0.8,0,.09*f-.12*j+.10*e);
+
+    }else if(o.species==="manyeyes"){
+      at(0.14,0.3,-.15*m+.15*j,.10*e);
+      at(0.88,0.6,.17*m-.15*j,.12*e);
+      at(0.4,0.4,-.10*f,.04*f);
+      at(0.6,0.43,.10*f,.04*e);
+
+    }else if(o.species==="abyssshell"){
+      at(0.18,0.42,-.18*m+.12*j,.06*e);
+      at(0.65,0.45,.11*f,-.08*f+.07*j);
+      at(0.55,0.2,0,.12*j+.08*e);
+      at(0.66,0.82,0,-.08*j+.10*e);
+
+    }else if(o.species==="parallel"){
+      at(0.17,0.28,-.13*m+.15*j,.08*e);
+      at(0.83,0.27,.13*m-.15*j,.08*e);
+      at(0.2,0.78,-.10*m+.12*j,.12*e);
+      at(0.8,0.79,.10*m-.12*j,.12*e);
+      at(0.5,0.52,.10*f,.08*f);
+
+    }else if(o.species==="memory"){
+      at(0.85,0.32,.17*m-.14*j,.12*e);
+      at(0.2,0.7,-.13*m+.12*j,.10*e);
+      at(0.42,0.45,-.09*f,.07*j);
+      at(0.62,0.62,.10*f,.08*f);
+
+    }else if(o.species==="serpent"){
+      at(0.45,0.18,.04*m,-.18*m+.15*j+.11*e);
+      at(0.62,0.52,.10*f,.08*f);
+      at(0.86,0.68,.10*m-.12*j,.07*e);
+      at(0.32,0.65,-.06*f,.05*e);
+
+    }else if(o.species==="antimeme"){
+      at(0.85,0.45,.17*m-.15*j,.08*e);
+      at(0.34,0.42,-.10*f,.07*j);
+      at(0.57,0.57,.10*f,.05*f);
+      at(0.5,0.82,0,-.12*j+.12*e);
+
+    }else if(o.species==="valis"){
+      at(0.72,0.18,.12*m-.12*j,-.13*m+.12*j+.12*e);
+      at(0.32,0.55,-.10*f,.05*f);
+      at(0.57,0.6,.11*f,.07*f);
+      at(0.86,0.68,.12*m-.12*j,.10*e);
+
+    }else if(o.species==="jelly"){
+      at(0.3,0.3,-.10*f+.06*j,.08*e);
+      at(0.7,0.3,.10*f-.06*j,.08*e);
+      at(0.5,0.22,0,-.07*f+.10*j);
+      at(0.4,0.8,-.05*m,.17*m-.18*j+.11*e);
+      at(0.7,0.78,.05*m,.14*m-.16*j+.12*e);
+
+    }else if(o.species==="kelp"){
+      at(0.83,0.28,.15*m-.15*j,.10*e);
+      at(0.35,0.57,-.11*f,.06*j);
+      at(0.6,0.62,.11*f,.08*f);
+      at(0.35,0.82,-.06*m+.07*j,.09*e);
+
+    }else if(o.species==="whale"){
+      at(0.55,0.18,0,-.17*m+.15*j+.10*e);
+      at(0.9,0.58,.16*m-.14*j,.09*e);
+      at(0.5,0.65,-.04*f,.13*f-.05*j);
+      at(0.65,0.43,.04*m,.06*e);
+
+    }else if(o.species==="plasma"){
+      at(0.88,0.48,.19*m-.17*j,.08*e);
+      at(0.29,0.45,-.10*f,.05*j);
+      at(0.46,0.63,.10*f,.08*f);
+      at(0.7,0.8,.08*m-.10*j,.13*e);
+
     }
     return points;
   }

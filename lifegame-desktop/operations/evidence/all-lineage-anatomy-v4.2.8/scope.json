@@ -1,0 +1,38 @@
+{
+  "changed": [
+    "src/Index.html",
+    "src/ecology/art.js"
+  ],
+  "all35PNGsUnchanged": true,
+  "allPhaseAnd183BranchRegionsUnchanged": true,
+  "biologyUnchanged": true,
+  "replayFormatUnchanged": true,
+  "rendererAndDisplayCoordinatesUnchanged": true,
+  "targets": [
+    "abyss",
+    "myth",
+    "recursive",
+    "sail",
+    "gravity",
+    "crystal",
+    "manyeyes",
+    "abyssshell",
+    "parallel",
+    "memory",
+    "serpent",
+    "solar",
+    "antimeme",
+    "valis",
+    "jelly",
+    "kelp",
+    "whale",
+    "swarm",
+    "plasma",
+    "cephalopod",
+    "precocial"
+  ],
+  "previous5Lineages114StatesPixelEqual": true,
+  "nonMainArtPixelEqual": true,
+  "all21Connected": true,
+  "finalVisualApproval": false
+}
