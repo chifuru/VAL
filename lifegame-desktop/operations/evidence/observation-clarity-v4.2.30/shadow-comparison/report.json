@@ -1,0 +1,292 @@
+{
+  "rows": [
+    {
+      "index": 0,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0.0036216517857142858,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 0,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0.02224330357142857,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 0,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0.03655412946428571,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 1,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0.002890625,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 1,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0.017533482142857142,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 1,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0.03442243303571429,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 2,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0.0033872767857142856,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 2,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0.01916015625,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 2,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0.036208147321428574,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 3,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 3,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 3,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 4,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0.0030245535714285713,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 4,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0.015477120535714286,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 4,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0.03081752232142857,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 5,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0.0027511160714285715,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 5,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0.015047433035714286,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 5,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0.02904575892857143,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 6,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0.0034849330357142856,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 6,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0.018523995535714287,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 6,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0.034185267857142855,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 7,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0.00314453125,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 7,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0.01810267857142857,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 7,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0.03326729910714286,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 8,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 8,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 8,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 9,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 9,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 9,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 10,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0.0024581473214285716,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 10,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0.014835379464285715,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 10,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0.025209263392857142,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 11,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 11,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 11,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 12,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0.00279296875,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 12,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0.015669642857142858,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 12,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0.028529575892857144,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 13,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0.0028069196428571427,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 13,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0.014893973214285714,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 13,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0.027857142857142858,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 14,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0.002664620535714286,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 14,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0.014123883928571428,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 14,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0.027293526785714287,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 15,
+      "scale": 48,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 15,
+      "scale": 160,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    },
+    {
+      "index": 15,
+      "scale": 240,
+      "meanAbsoluteChannelError": 0,
+      "pixelsOver16Fraction": 0
+    }
+  ]
+}

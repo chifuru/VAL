@@ -2,9 +2,9 @@
 
 lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Node、仕様と資料の入口は `design/specification/README.md`。
 
-全残件の現在入口: `operations/plans/remaining-completion-v4.2.md`。製品4.2.23（生態不変）の河川供給OFF/ON各500Tは `operations/evidence/circulation-audit-v4.2.19/README.md`。R0の限定生存経路と子孫繁殖を確認。次は最終UI/描画・性能と画面付き結合、実Windows。情報長期伝播/菌膜・水中生産者の孫更新等は不足として保持。
+現在入口: `operations/plans/observation-clarity-v4.2.30.md`。製品4.2.30は停止表示/別枠/グラフ拡大/層分離撤去、初期Q比率と出生調整、背景Worker/影キャッシュを接続。原画/遠景記号を維持。物理的な群体化は未実装。
 
-画面の現在地: `operations/evidence/summary-order-v4.2.23/README.md`。上部の統合サマリは左からサマリ文→成立した関係→生物量ピラミッド→円グラフ。右の全期間3グラフ、根拠数値下段/凡例3行を維持。配布版4.2.23同梱一致。密集/性能・描画付き500T・実Windowsは継続。
+画面54項目・背景/影の画素比較と短期出生比較を確認。2初期値500Tは主122/81・一次消費者94/66が存続し、有限収支違反なし。Windows ZIPを生成・同梱照合済み。実Windows CIを確認中。全条件の存続率/性能は未認定。4.2.29の既存500Tを今回版へ流用しない。
 
 ## A：仕様
 
@@ -30,14 +30,14 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 		ロジック:
 			固定環境と変動資源を分離。装飾植生を餌と誤認させず、適地の共同配分と渡河/領域の有限利益を定める。
 		実態:
-			情報は延長された表現型。生存発信者の新鮮な経験場と物理粒子を重複なく合成しB3/S23で候補化。有償供給/内容整合/期限/Q追加費用を通し、DNAを変えず重みに作用。仕様: design/specification/information-experience-ca-v4.2.29.md。 製品4.2.29へ接続、草案。
+			4.2.30: 下層の初期密度/内訳表示。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 	A1.3:（A1 / 性別・繁殖・遺伝）［草案］
 		構成（要素・関係）:
 			valis/nodes/A/A1.3.md。性別・繁殖・遺伝。
 		ロジック:
 			年齢成熟でI/II相も繁殖可能、子I/年齢0。健康/E/M・局所配偶・待機・出生先と子の再繁殖を別々に評価する。
 		実態:
-			4.2.11で死亡確定時の相/枝/性/階級/年齢をイベント化し、現存死骸の表示cacheと横詳細へ接続。攻撃の実損害/軽減と採食元を記録し、命中/実防御/採食等を区別。8優遇×30Tの旧新版生態/集計一致。旧署名1版の再生互換を維持。
+			4.2.30: 局所混雑と栄養による出生調整。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 	A1.4:（A1 / 局所経験と系統戦略）［草案］
 		構成（要素・関係）:
 			valis/nodes/A/A1.4.md。局所経験と系統戦略。
@@ -52,7 +52,7 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 		ロジック:
 			Pの負担/排除とH→P→Qを区別。Qは一次成熟移行窓で感染し行動のみへ作用。初期接続と各段階の不成立を診断する。
 		実態:
-			4.2.16で非主7種とP2種/Qの初期直接数、空欄自動/明示0、指定種の代替禁止、第一宿主/探索条件の不足案内、指定/実配置の保存再生を接続。無指定の旧8優遇×2条件×30Tの生態指紋/統計一致。500T/実Windows/最終外観は未確認。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
+			4.2.30: 初期Qを初期Pの半数へ。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 	A1.6:（A1 / 光合成と共生の栄養）［草案］
 		構成（要素・関係）:
 			valis/nodes/A/A1.6.md。光合成と共生の栄養。
@@ -73,7 +73,7 @@ A2:（起点 / 独立した Windows ローカル実行）［草案］
 	ロジック:
 		現行UIを基準に、既存個体数カード列末尾の小型trend-cardをサマリへ置換。右側は基本3グラフ/詳細の切替。一画面の判読性と遷移保護を確認する。
 	実態:
-		4.2.21は上部を一体の現在像サマリ（構成/総括・根拠/関係図/ピラミッド）、右を全期間3パネルへ訂正。過去参照で現在像を巻き戻さず、詳細表示中も最新化。保存分析は最終サマリと履歴を表示して元の現在へ復帰。39項目+既存40/22項目を限定確認。詳細: operations/evidence/unified-summary-v4.2.21/README.md。草案を維持。
+		4.2.30: 観測状態/右の独立枠/拡大。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 
 ```
 
@@ -126,7 +126,7 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 	ロジック:
 		全体移動→全体同時戦闘→生存者の採食。競合・共有予算・死亡時点を調停し確定理由を渡す。 比較モデルもセル/局所作用/有限収支/出生/P/Qを保持。無変更で製品と一致させ、選定案の製品反映後も原値/指紋を照合する。
 	実態:
-		4.2.19の河川同一初期値で供給OFF/ON各500T・計1002状態の収支/不変条件を確認。主277/469、水游虫83/82、子孫の成熟/繁殖を確認しR0の限定生存経路を接続。21主系統の遮蔽/防御利益を局所照合。source/UI不変。情報生成0・菌膜終端0・水中生産者の孫更新は未達、全条件/画面500T/実Windowsは未認定。 詳細: operations/evidence/circulation-audit-v4.2.19/README.md。
+		4.2.30: 出生調整を同期進行へ。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 
 	B4.1:（A1.4, A1.2, A1.1 / 局所パラメータによる動作判断）［草案］
 		構成（要素・関係）:
@@ -142,7 +142,7 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 		ロジック:
 			Pの接触/捕食/死骸経路と有償排除、Qの限定窓を維持。宿主欠落・探索期限・各生活環到達の失敗を集計する。
 		実態:
-			情報は延長された表現型。生存発信者の新鮮な経験場と物理粒子を重複なく合成しB3/S23で候補化。有償供給/内容整合/期限/Q追加費用を通し、DNAを変えず重みに作用。仕様: design/specification/information-experience-ca-v4.2.29.md。 製品4.2.29へ接続、草案。
+			4.2.30: 初期Qの比率。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 	B4.3:（A1.6, A1.2 / 非採食の栄養収支）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B4.3.md。非採食の栄養収支。
@@ -156,14 +156,14 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 		ロジック:
 			植物/菌/餌の局所生活処理。有限費用の低密度更新、初期適地の共同配分と実配置表示、成熟後の再繁殖を評価する。
 		実態:
-			生産者/一次消費者/主の占有を分離した生活処理を製品接続。有限収支と出生/成長の選定条件を維持。全系統/全seedの目標率は後段。 詳細: operations/evidence/observation-model-v4.2/README.md。
+			4.2.30: 一次消費者の初期密度と出生調整。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案］
 	構成（要素・関係）:
 		valis/nodes/B/B5.md。生態系の観測・比較操作。 残件の作業順: operations/plans/remaining-completion-v4.2.md。
 	ロジック:
 		工程別の完了条件で既存UI/生態へ接続し、名札/色/一覧/横説明・3+1グラフ・設定/保存の未完を完成扱いにしない。 作業順: operations/plans/remaining-completion-v4.2.md。
 	実態:
-		4.2.26で状態札の対象「主＋選択」既定/「全生物」を追加。名札と独立、状態OFF優先。代表盤面の札56→15、旧版と全生物/遠景の盤面画素一致。対象20項目＋既存配置39/分離22を限定照合。1366幅の盤面241pxを維持。生態・原画・照明は不変。地表だけでも継ぎ目が残ることを診断したが背景未修正。詳細: operations/evidence/status-density-v4.2.26/README.md。草案。
+		4.2.30: 停止/再開と右の別枠。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.1.md。系統樹と進化条件の参照機能。
@@ -201,14 +201,14 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 		ロジック:
 			個体数推移は全て/主生物/餌生物/植物/一次/高次を選択。構成は相/雌雄/年齢の個体数積み上げ3本を同時表示し対象共通・総数一致、既定主生物。小型サマリは各系列最大100と現在実数、全ターン原値を保持。
 		実態:
-			4.2.23で上部の同じサマリを左からサマリ文→成立した関係→生物量ピラミッド→円グラフへ並べ替え。DOM順も一致、狭幅/図鑑分析では同じ順に折返し。右の全期間3グラフと定義は維持。代表2寸法/既存22項目を部分照合。詳細: operations/evidence/summary-order-v4.2.23/README.md。草案。
+			4.2.30: 円/3グラフの拡大、下層内訳。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.6.md。生物の選択・所在強調・個体追跡。
 		ロジック:
 			複数強調色と宿主付随関係を代表資料に合わせて区別。名称オフでも所在を保ち、詳細/グラフ切替と選択対象を独立させ、現在UIへ接続する。
 		実態:
-			4.2.13で基本3パネルを右欄へ接続。主既定の群/系統選択、相/雌雄/年齢の実数時系列、実作用3レーン、関係図と実栄養由来の共通B配分を限定実装。添付サマリ/文章と薄い数値を維持。 詳細: operations/evidence/ecosystem-panels-v4.2.13/README.md。草案を維持。
+			4.2.30: 詳細の独立列と層分離撤去。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 
 ```
 
@@ -261,7 +261,7 @@ C4:（A2, B5 / Electron と Windows 配布）［草案］
 	ロジック:
 		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
 	実態:
-		Windows4.2.29をローカル生成・同梱一致。旧UI検査を修正し局所画面検査通過、main5b4809a。CI39282240848は実行待ち。製品不変、最新ZIP公開/実Windowsは未確認。配布確認の入口: operations/evidence/distribution-recovery-v4.2.29/README.md。草案。
+		4.2.30: Windows4.2.30配布。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -293,7 +293,7 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 		ロジック:
 			目的別の決定的乱数と、独立した占有枠・有限台帳を保持する。
 		実態:
-			4.2.16で非主7種とP2種/Qの初期直接数、空欄自動/明示0、指定種の代替禁止、第一宿主/探索条件の不足案内、指定/実配置の保存再生を接続。無指定の旧8優遇×2条件×30Tの生態指紋/統計一致。500T/実Windows/最終外観は未確認。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
+			4.2.30: 明示したpopulationRegulation設定と初期Q比率。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 	C7.2:（B4.3, B4.4 / 有限栄養・資源CA・生産と死骸）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C7.2.md。有限栄養・資源CA・生産と死骸。
@@ -315,28 +315,28 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 		ロジック:
 			同時予約と有限投資を守り、子をI相から開始する。
 		実態:
-			水游虫優遇/独立OFFと選定出生処理を製品接続。初期/再生の条件保持と河川500Tの存続例を確認。全系統の成功率は未認定。 詳細: operations/evidence/observation-model-v4.2/README.md。
+			4.2.30: 出生確率の局所/全体密度・栄養補正。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 	C7.5:（B4.2 / 寄生生活環と外部情報）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C7.5.md。寄生生活環と外部情報。
 		ロジック:
 			宿主参照・適合・成熟・移行費用・鮮度/文脈を接合する。
 		実態:
-			4.2.29で経験場B3/S23と有償刻印を製品接続。全8プロファイルで採用案と20T指紋一致。代表供給OFF500Tは主219/水游虫81存続、情報作用638/Q媒介17、E/M誤差0。通常Worker20T/図鑑/全行出力/同署名再生12項目を確認。旧結果は閲覧可・異署名再計算は拒否。全条件/新則描画500T/実Windows未認定。詳細: operations/evidence/information-release-v4.2.29/README.md。草案。
+			4.2.30: 自動Q初期数比率。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
 		valis/nodes/C/C8.md。観測操作・系統樹・説明と図鑑接続。
 	ロジック:
 		確定世界を観察し、操作や拡大を生態計算から分ける。
 	実態:
-		4.2.29を一旦完成の使用基準として整理。生成/取消/復旧27、表示/選択/追跡22、基本観察/説明48項目を確認。全体50ファイルは49成功＋旧指紋1件を旧コード再現後に更新し該当5試験成功。製品/UI/生態不変、READMEを現行化。既存500T/保存再生/同梱照合は維持。全条件/実Windows/最新CIは未確認。詳細: operations/evidence/completion-check-v4.2.29/README.md。草案。
+		4.2.30: 状態上書き/停止ラベル/別枠・グラフ拡大。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C8.1.md。projection/scenery/habitat/art/renderer、生物/地物10原画と背景11素材。契約: operations/plans/habitat-visual-v3.1.md。
 		ロジック:
 			実タイルから地形/深浅/8環境のマスクを生成し、視野内だけ高解像度で合成。遠景は全位置記号、近景は描き込んだ景観。輪郭影と局所遮蔽を使い、装飾を新たな生態/障害物としない。
 		実態:
-			4.2.28で行動段階に死亡した個体の確定行動を近景の短い残像で補完。生存数/選択/札に加えず、OFF/遠景/終了時に非表示。対象39＋既存モーション37項目を限定照合し、実Workerと一括計算の生態指紋一致。詳細: operations/evidence/dead-actor-v4.2.28/README.md。草案。
+			4.2.30: 背景Worker/影キャッシュ/層分離撤去。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -381,7 +381,7 @@ D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	ロジック:
 		C4と対象版を照合して配布物そのものを実行する。
 	実態:
-		Windows4.2.29をローカル生成・同梱一致。旧UI検査を修正し局所画面検査通過、main5b4809a。CI39282240848は実行待ち。製品不変、最新ZIP公開/実Windowsは未確認。配布確認の入口: operations/evidence/distribution-recovery-v4.2.29/README.md。草案。
+		4.2.30: 新描画Workerを含む実exe検査。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -420,7 +420,7 @@ D8:（C7 / 生態循環と結合進行）［草案］
 		ロジック:
 			同時出生・有限投資・子の開始相を照合する。
 		実態:
-			成熟I/IIの出生、幼体禁止、子I/年齢0と有限支払を検査。 修正/再検証要否あり。次FLOW-04/05。
+			4.2.30: 出生調整の短期比較・収支/再現性。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 
 	D8.2:（C7.5 / 寄生・高次寄生と情報）［草案］
 		構成（要素・関係）:
@@ -428,14 +428,14 @@ D8:（C7 / 生態循環と結合進行）［草案］
 		ロジック:
 			宿主・生活環・徴収・情報作用の境界を照合する。
 		実態:
-			Q増量/猶予/成長の境界と元の3T窓・有限費用を確認。最終河川で感染107/III相106/出生256/終端268。成功確率や全地形の保証なし。製品未接続。 詳細: operations/evidence/favored-free-v2.8/README.md。
+			4.2.30: Q初期数/手動数指定の照合。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
 		valis/nodes/D/D9.md。画面・系統樹・説明・保存再生、projection.testとgraphics-rebuildの受入計画。
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		4.2.29を一旦完成の使用基準として整理。生成/取消/復旧27、表示/選択/追跡22、基本観察/説明48項目を確認。全体50ファイルは49成功＋旧指紋1件を旧コード再現後に更新し該当5試験成功。製品/UI/生態不変、READMEを現行化。既存500T/保存再生/同梱照合は維持。全条件/実Windows/最新CIは未確認。詳細: operations/evidence/completion-check-v4.2.29/README.md。草案。
+		4.2.30: 配置/待機復帰/背景/影の比較。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 ```
 
 ## E：検証証跡
@@ -479,20 +479,20 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	ロジック:
 		各対象の実装・仕様・環境と一致する記録範囲に限定して参照する。
 	実態:
-		4.2.29で経験場B3/S23と有償刻印を製品接続。全8プロファイルで採用案と20T指紋一致。代表供給OFF500Tは主219/水游虫81存続、情報作用638/Q媒介17、E/M誤差0。通常Worker20T/図鑑/全行出力/同署名再生12項目を確認。旧結果は閲覧可・異署名再計算は拒否。全条件/新則描画500T/実Windows未認定。詳細: operations/evidence/information-release-v4.2.29/README.md。草案。
+		4.2.30: 生態/出生/初期Qの実測。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E6.md。operations/evidence/navigation-recovery-v4.1/source-hashes.json。観察4.1の既存記録と今回の遷移修正を区別。
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		4.2.29を一旦完成の使用基準として整理。生成/取消/復旧27、表示/選択/追跡22、基本観察/説明48項目を確認。全体50ファイルは49成功＋旧指紋1件を旧コード再現後に更新し該当5試験成功。製品/UI/生態不変、READMEを現行化。既存500T/保存再生/同梱照合は維持。全条件/実Windows/最新CIは未確認。詳細: operations/evidence/completion-check-v4.2.29/README.md。草案。
+		4.2.30: 54項目の画面検査と描画比較。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
 	ロジック:
 		対象SHAと版が一致するWindows4.1の配布/実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		Windows4.2.29をローカル生成・同梱一致。旧UI検査を修正し局所画面検査通過、main5b4809a。CI39282240848は実行待ち。製品不変、最新ZIP公開/実Windowsは未確認。配布確認の入口: operations/evidence/distribution-recovery-v4.2.29/README.md。草案。
+		4.2.30: Windows4.2.30配布の実測。検証範囲/未確認: operations/evidence/observation-clarity-v4.2.30/README.md。草案。
 
 ```

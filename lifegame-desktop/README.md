@@ -1,8 +1,8 @@
-# LifeGame — 生態シミュレーション 4.2.29
+# LifeGame — 生態シミュレーション 4.2.30
 
 固定8環境で、31種の生物と有限資源の食物網を観測するWindows向けローカルアプリです。同じ初期値と設定から同じ世界・結果を再現します。
 
-現行版は、一旦完成版として使用確認を進める基準です。生産者・一次消費者・主生物、寄生・高次寄生、経験から生まれる情報餌を接続しています。供給OFF・河川・主80体・3優遇ONの代表試行では、500ターンで主219体・水游虫81体が存続し、情報の実作用638件（うちQ媒介17件）、E/M収支誤差0を確認しました。通常Workerでの保存・同じ計算版での再生、画面遷移も別に照合しています。[現行版の実測範囲](operations/evidence/information-release-v4.2.29/README.md)を参照してください。
+現行版は停止/再開表示、グラフ拡大と生物詳細の独立列、近景背景の別スレッド生成、影キャッシュを接続しています。初期高次寄生は一次寄生の半数、下層は内訳表示、一次消費者の初期密度は6%を基準とし、混雑と栄養に応じて出生を調整します。[今回の実測と制約](operations/evidence/observation-clarity-v4.2.30/README.md)を参照してください。4.2.29の代表500Tの結果は旧条件の実測であり、この出生調整の保証とは分けます。
 
 生産者・水游虫・高次寄生の優遇は初期設定で個別にON/OFFできます。生産者の環境供給も自由設定で選べます。動物・寄生虫の救済補充はありません。全初期値の安定率、菌膜の後期存続など細かなバランスは継続調整の対象です。
 
@@ -10,7 +10,7 @@
 
 ## Windowsで起動
 
-[Windowsビルド一覧](https://github.com/chifuru/VAL/actions/workflows/lifegame-windows.yml)で **4.2.29のソースを含む成功した実行** を開き、Artifactsの **LifeGame-Windows-x64** をダウンロードします。外側のZIPと、その中の `LifeGame-Windows-x64.zip` をすべて展開して `LifeGame.exe` を起動してください。DLL・resources・localesは同じフォルダに保ちます。アプリ下部の版表示を確認してください。古い成功ビルドは現行版とは別です。
+[Windowsビルド一覧](https://github.com/chifuru/VAL/actions/workflows/lifegame-windows.yml)で **4.2.30のソースを含む成功した実行** を開き、Artifactsの **LifeGame-Windows-x64** をダウンロードします。外側のZIPと、その中の `LifeGame-Windows-x64.zip` をすべて展開して `LifeGame.exe` を起動してください。DLL・resources・localesは同じフォルダに保ちます。アプリ下部の版表示を確認してください。古い成功ビルドは現行版とは別です。
 
 Windows 10/11 x64用。利用時にNode.js・ネット接続・外部サービスは不要です。実行中の観測状態は終了時に消えます。明示終了または主生物全滅で保存した最終結果は、配布物と別のローカルアプリ領域に最大100件保持します。実測対象・環境と制限は[現行Manifest](valis/summary/lifegame-desktop.summary.md)とEノードに記載します。
 
@@ -55,7 +55,7 @@ Windows 10/11 x64用。利用時にNode.js・ネット接続・外部サービ�
 
 仕様の差分正本は[生態・観察A/B v2.4](design/specification/ab-ecology-observation-v2.4.md)です。13節に4.1の調整条件・実装範囲と未達、[仕様索引](design/specification/README.md)に基礎仕様との優先関係を記載しています。
 
-現行Windows ZIPは生成・同梱照合済みです。CI 39277787728は旧画面検査で失敗し、ZIP未生成です。現在は検査修正後の配布を確認中です。最新の取得対象は[配布復旧の実測](operations/evidence/distribution-recovery-v4.2.29/README.md)を参照してください。実Windows起動は未確認です。対象版と検査範囲はE7を参照してください。旧版の実行結果を現行版の保証にしません。
+現行Windows ZIPは生成・同梱照合済みです。4.2.29のWindows実行はCI39282240848で成功。今回の4.2.30は画面修正後の配布を確認中です。[今回の実測](operations/evidence/observation-clarity-v4.2.30/README.md)を参照してください。対象版と検査範囲はE7を参照してください。旧版の実行結果を現行版の保証にしません。
 
 ## 開発・検証
 

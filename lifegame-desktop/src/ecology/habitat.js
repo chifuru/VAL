@@ -29,7 +29,7 @@
     + .14 * Math.cos(y * 1.13 - x * .29)
     + .08 * Math.sin(x * 2.1 + y * 1.7);
   function canvas(W, H) {
-    const c = document.createElement("canvas");
+    const c = typeof document !== "undefined" ? document.createElement("canvas") : new OffscreenCanvas(1,1);
     c.width = Math.max(1, Math.round(W));
     c.height = Math.max(1, Math.round(H));
     return c;

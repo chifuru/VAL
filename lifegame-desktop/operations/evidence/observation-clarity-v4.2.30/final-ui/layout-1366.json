@@ -1,0 +1,176 @@
+{
+  "viewport": [
+    1366,
+    768
+  ],
+  "panels": [
+    {
+      "id": "board",
+      "x": 15,
+      "y": 388.453125,
+      "width": 844,
+      "height": 242.546875,
+      "bottom": 631,
+      "right": 859
+    },
+    {
+      "id": "current-donut",
+      "x": 1165,
+      "y": 137,
+      "width": 177,
+      "height": 147.5,
+      "bottom": 284.5,
+      "right": 1342
+    },
+    {
+      "id": "current-overall",
+      "x": 24,
+      "y": 137,
+      "width": 457.5,
+      "height": 19.59375,
+      "bottom": 156.59375,
+      "right": 481.5
+    },
+    {
+      "id": "graph-stacked",
+      "x": 889,
+      "y": 377.5,
+      "width": 446,
+      "height": 70.40625,
+      "bottom": 447.90625,
+      "right": 1335
+    },
+    {
+      "id": "composition-phases",
+      "x": 918,
+      "y": 538.90625,
+      "width": 417,
+      "height": 38.40625,
+      "bottom": 577.3125,
+      "right": 1335
+    },
+    {
+      "id": "composition-sex",
+      "x": 918,
+      "y": 578.3125,
+      "width": 417,
+      "height": 38.40625,
+      "bottom": 616.71875,
+      "right": 1335
+    },
+    {
+      "id": "composition-ages",
+      "x": 918,
+      "y": 617.71875,
+      "width": 417,
+      "height": 38.40625,
+      "bottom": 656.125,
+      "right": 1335
+    },
+    {
+      "id": "graph-relations",
+      "x": 889,
+      "y": 684.125,
+      "width": 446,
+      "height": 80,
+      "bottom": 764.125,
+      "right": 1335
+    },
+    {
+      "id": "foodweb-diagram",
+      "x": 504.5,
+      "y": 159,
+      "width": 316.390625,
+      "height": 100,
+      "bottom": 259,
+      "right": 820.890625
+    },
+    {
+      "id": "biomass-pyramid",
+      "x": 843.890625,
+      "y": 159,
+      "width": 298.109375,
+      "height": 95,
+      "bottom": 254,
+      "right": 1142
+    },
+    {
+      "id": "foodweb-leaders",
+      "x": 504.5,
+      "y": 263,
+      "width": 316.390625,
+      "height": 39,
+      "bottom": 302,
+      "right": 820.890625
+    },
+    {
+      "id": "pyramid-support",
+      "x": 843.890625,
+      "y": 258,
+      "width": 298.109375,
+      "height": 13,
+      "bottom": 271,
+      "right": 1142
+    },
+    {
+      "id": "map-key",
+      "x": 14,
+      "y": 668,
+      "width": 846,
+      "height": 72,
+      "bottom": 740,
+      "right": 860
+    }
+  ],
+  "inspector": {
+    "x": 872,
+    "y": 325.5,
+    "width": 480,
+    "height": 434.5,
+    "bottom": 760,
+    "right": 1352,
+    "client": 433,
+    "scroll": 433
+  },
+  "horizontalOverflow": false,
+  "mode": "overview",
+  "draw": {
+    "mode": "simple",
+    "drawn": 937,
+    "motionActors": 0,
+    "selectedMotion": false,
+    "resources": 163,
+    "carcasses": 5,
+    "infectedHosts": 18,
+    "highParasites": 0,
+    "frames": 13,
+    "parasiteArt": 0,
+    "remainsArt": 0,
+    "carcassParasites": 0,
+    "deathSnapshots": 0,
+    "departedMotionActors": 0,
+    "motionKinds": {},
+    "statusBadges": 0,
+    "statusBadgesByGroup": {
+      "main": 0,
+      "basal": 0,
+      "prey": 0
+    },
+    "nameLabels": {
+      "main": 0,
+      "basal": 0,
+      "prey": 0,
+      "P": 0,
+      "Q": 0,
+      "resource": 0
+    },
+    "highlightedCells": [],
+    "criticalMarkers": 0,
+    "elevated": 0,
+    "selectedMotionEndpoints": null,
+    "materialPixelsPerCell": 24,
+    "paintedMaterials": 11,
+    "skippedFrames": 23
+  },
+  "expected": 937
+}

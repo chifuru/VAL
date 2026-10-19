@@ -67,7 +67,7 @@ const { chromium } = require("playwright"),
       t.select(a[0].cell); t.refresh();
     });
     check(!await page.locator("#simplified").isChecked(), "close-view symbols are optional by default");
-    await page.click("#detail-view"); await page.waitForTimeout(120);
+    await page.click("#detail-view"); await page.waitForFunction(()=>!__LIFE_TEST__.snapshot().render.terrainPending,{},{timeout:20000,polling:150});
     const before = await page.evaluate(()=>__LIFE_TEST__.fingerprint());
     const anchors = await page.evaluate(()=>__LIFE_TEST__.snapshot().world.organisms.map(o=>__LIFE_TEST__.screenForCell(o.cell)));
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().render.mode==="detail"), "near view defaults to detailed creatures");
@@ -104,7 +104,7 @@ const { chromium } = require("playwright"),
       const t=__LIFE_TEST__,w=t.prepare({seed:"host-detail",width:40,height:28,initial:80,mapId:"river"});
       const a=w.organisms.find(o=>o.slot==="main");a.infection=EcoState.infection(w,"leafparasite",a.id);a.infection.q=EcoState.hyper(w,a.infection.id);t.select(a.cell);t.refresh();
     });
-    await page.click("#detail-view"); await page.waitForTimeout(120);
+    await page.click("#detail-view"); await page.waitForFunction(()=>!__LIFE_TEST__.snapshot().render.terrainPending,{},{timeout:20000,polling:150});
     check(await page.evaluate(()=>{const r=__LIFE_TEST__.snapshot().render;return r.infectedHosts>0&&r.highParasites>0}),"symbol mode retains host P/Q markers");
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().render.statusBadges>0), "near symbols show separate status badges");
     await page.uncheck("#status-marks"); await page.waitForTimeout(100);

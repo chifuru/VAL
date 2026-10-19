@@ -1,0 +1,14 @@
+✔ tests/archive-history.test.cjs (10870.014618ms)
+✔ tests/colony-production.test.cjs (130.395149ms)
+✔ tests/compute-worker.test.cjs (7563.711866ms)
+✔ tests/ecology-reproduction.test.cjs (124.945088ms)
+✔ tests/observation-model.test.cjs (14362.419811ms)
+✔ tests/population-regulation.test.cjs (7734.321054ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 40795.937298

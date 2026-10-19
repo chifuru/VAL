@@ -49,8 +49,12 @@ app
         while(t.snapshot().world.turn<=manualTurn && performance.now()-workerStart<15000)await new Promise(r=>setTimeout(r,50));
         const workerTurn=t.snapshot().world.turn;
         t.stop();
+        document.getElementById('detail-view').click();
+        const terrainStart=performance.now();
+        while((!t.snapshot().render.terrainBuildMs||t.snapshot().render.terrainPending)&&performance.now()-terrainStart<20000)await new Promise(r=>setTimeout(r,100));
+        if(!t.snapshot().render.terrainBuildMs||t.snapshot().render.terrainPending)throw Error('Local file terrain Worker did not finish');
         const s=t.snapshot();if(workerTurn<=manualTurn)throw Error('Local file Worker did not advance: '+document.getElementById('message').textContent);
-        return {workerPlayback:true,workerTurnMs:performance.now()-workerStart,assetsLoaded:t.snapshot().assets.loaded,assetErrors:t.snapshot().assets.errors,platform:navigator.platform,turn:s.world.turn,population:s.world.stats.population,nodeExposed:typeof require!=='undefined',local:location.protocol==='file:',title:document.title};
+        return {terrainWorker:true,terrainBuildMs:s.render.terrainBuildMs,workerPlayback:true,workerTurnMs:performance.now()-workerStart,assetsLoaded:t.snapshot().assets.loaded,assetErrors:t.snapshot().assets.errors,platform:navigator.platform,turn:s.world.turn,population:s.world.stats.population,nodeExposed:typeof require!=='undefined',local:location.protocol==='file:',title:document.title};
       })()`);
         if (!result.local) throw Error("Non-local renderer");
         const report = {

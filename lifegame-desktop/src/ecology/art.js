@@ -642,7 +642,7 @@
     g.restore();
   }
   const propVariants = new Map(),
-    shadowFrames = new Map();
+    shadowFrames = new Map(), shadowStamps = new Map();
   function prop(g, index, x, y, width, alpha = 1, holes = []) {
     const im = images["habitat-props"],
       f = manifest.props.regions[index];
@@ -713,14 +713,20 @@
     g.translate(x, y);
     g.transform(1, 0.18, -0.65, -0.2, 0, 0);
     g.globalAlpha = 0.28;
-    g.filter = "blur(2px)";
-    g.drawImage(
-      shadowFrames.get(index),
-      -width / 2,
-      -height * 0.9,
-      width,
-      height,
-    );
+    // Blur a small, reusable screen-space stamp rather than opening a
+    // filtered layer over the entire observation canvas for every prop/frame.
+    const m=g.getTransform(),pad=8,key=[index,width,height,m.a,m.b,m.c,m.d].join("/");
+    let stamp=shadowStamps.get(key);
+    if(!stamp){
+      const points=[[-width/2,-height*.9],[width/2,-height*.9],[-width/2,height*.1],[width/2,height*.1]].map(([x,y])=>[m.a*x+m.c*y,m.b*x+m.d*y]);
+      const left=Math.floor(Math.min(...points.map(p=>p[0])))-pad,top=Math.floor(Math.min(...points.map(p=>p[1])))-pad,
+        right=Math.ceil(Math.max(...points.map(p=>p[0])))+pad,bottom=Math.ceil(Math.max(...points.map(p=>p[1])))+pad;
+      const canvas=document.createElement("canvas");canvas.width=Math.max(1,right-left);canvas.height=Math.max(1,bottom-top);
+      const c=canvas.getContext("2d");c.setTransform(m.a,m.b,m.c,m.d,-left,-top);c.filter="blur(2px)";
+      c.drawImage(shadowFrames.get(index),-width/2,-height*.9,width,height);
+      stamp={canvas,left,top};if(shadowStamps.size>=128)shadowStamps.delete(shadowStamps.keys().next().value);shadowStamps.set(key,stamp);
+    }
+    g.setTransform(1,0,0,1,0,0);g.drawImage(stamp.canvas,m.e+stamp.left,m.f+stamp.top);
     g.restore();
   }
   root.EcoArt = {

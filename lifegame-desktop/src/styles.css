@@ -1669,3 +1669,43 @@ body:not(.setup-screen) .workspace > .inspector { grid-row: 2; }
 .view-controls #status-scope { width:auto; max-width:105px; margin:0; padding:2px 4px; font-size:10px; flex-shrink:0; }
 
 @media (max-width:1500px) { .view-controls .control-subject { display:none; } }
+
+/* Timelines and the selected organism occupy independent right-side panes. */
+.workspace > .inspector { display:grid; grid-template-rows:minmax(0,1fr); gap:8px; }
+.workspace > .inspector > #inspector-graphs,
+.workspace > .inspector > #inspector-details { min-width:0; min-height:0; border:1px solid #42616a; border-radius:5px; padding:8px; background:#0a242b; }
+.workspace > .inspector.has-detail { grid-template-rows:minmax(0,1fr) minmax(0,.85fr); }
+@media (min-width:1101px) and (min-height:700px) {
+  .observatory .workspace > .inspector { overflow:hidden; }
+  .observatory .workspace > .inspector > #inspector-graphs,
+  .observatory .workspace > .inspector > #inspector-details { overflow:auto; scrollbar-width:thin; }
+}
+@media (max-width:1100px), (max-height:699px) {
+  .workspace > .inspector, .workspace > .inspector.has-detail { display:flex; flex-direction:column; }
+  .workspace > .inspector > #inspector-graphs,
+  .workspace > .inspector > #inspector-details { flex-shrink:0; }
+}
+
+/* Give the current composition and timelines readable space. Selecting an
+   organism adds its own column, preserving the timeline column's full height. */
+.current-summary .current-composition canvas { width:180px; }
+@media (min-width:1101px) and (min-height:700px) {
+  .observatory .observation-overview .current-summary { grid-template-columns:minmax(270px,1.25fr) minmax(220px,.9fr) minmax(210px,.85fr) 190px; }
+  .observatory .current-composition canvas { width:180px; }
+  body.observatory:not(.setup-screen) .workspace { grid-template-columns:minmax(0,1fr) 480px; }
+  body.observatory:not(.setup-screen) .workspace:has(> .inspector.has-detail) { grid-template-columns:minmax(0,1fr) 780px; }
+  .observatory .workspace > .inspector.has-detail { grid-template-columns:464px minmax(0,1fr); grid-template-rows:minmax(0,1fr); }
+}
+@media (min-width:1101px) and (min-height:700px) {
+  .observatory .workspace > .inspector > #inspector-graphs { padding:4px; }
+  .observatory .workspace > .inspector .graph-grid { margin-top:0; }
+  .observatory .workspace > .inspector #graph-relations { height:80px; }
+  .observatory .habitat .view-controls { flex-wrap:nowrap; overflow-x:auto; scrollbar-width:thin; }
+  .observatory .habitat .view-controls > * { flex-shrink:0; white-space:nowrap; }
+}
+
+#plane-separation-option[hidden] { display:none!important; }
+.view-controls #scale-warning { margin:0; font-size:10px; }
+@media (min-width:1101px) and (min-height:700px) {
+  .observatory .workspace > .world-column { gap:2px; }
+}

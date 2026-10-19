@@ -393,6 +393,11 @@ return {settings,attach,region,level,factor,begin,finish};
       throw Error("SETTINGS_INVALID: 年齢モデル");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
+    if(c.populationRegulation!==undefined){
+      const a=c.populationRegulation;
+      if(!a||typeof a!=="object"||Array.isArray(a)||a.version!==1||Object.keys(a).some(k=>k!=="version"))throw Error("SETTINGS_INVALID: 個体群の出生調整");
+      c.populationRegulation={version:1};
+    }
     if(c.producerSupport!==undefined){
       if(!c.producerSupport||typeof c.producerSupport!=="object"||Array.isArray(c.producerSupport))throw Error("SETTINGS_INVALID: 生産者供給");
       c.producerSupport=ProducerSupport.settings(c.producerSupport);

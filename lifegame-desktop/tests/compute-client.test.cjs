@@ -30,3 +30,12 @@ test('bounded buffering, stale generation rejection and a persistent map-cache W
  oldHandler({data:{type:'turn',epoch:first,turn:7}});assert.equal(f.client.length,0);
  w.onmessage({data:{type:'turn',epoch:first,turn:8}});assert.equal(f.client.length,0);
 });
+
+test('runtime timeout identifies the next-turn calculation rather than startup',()=>{
+ const f=fixture();f.client.init({turn:0},'a',500);const w=f.workers[0],epoch=w.sent[0].epoch;
+ w.onmessage({data:{type:'ready',epoch}});
+ w.onmessage({data:{type:'turn',epoch,turn:1}});w.onmessage({data:{type:'idle',epoch}});
+ f.client.fill(1);f.advance(60001);
+ assert.equal(f.errors.length,1);assert.match(f.errors[0],/次のターン/);assert.match(f.errors[0],/確定状態を保持/);
+ assert.equal(f.client.initialized,false);
+});

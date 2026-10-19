@@ -82,10 +82,10 @@
     runGeneration = 0;
   const TURN_MS = 1000;
   const holds = new Set();
-  let interactionTimer = null, prewarming = true, lastPreparationMs = 0;
+  let interactionTimer = null, prewarming = true, lastPreparationMs = 0, computeWaitAt = null, playbackError = null;
   const compute = window.EcoCompute.create({
     onChange: () => { if(running&&!holds.size&&!pendingTurn&&!timer)timer=setTimeout(runLoop,0); },
-    onError: text => { stop();message(text); }
+    onError: text => { stop();playbackError=text;message(text); }
   });
   function restoreCommitted() {
     runGeneration++;clearTimeout(timer);timer=null;
@@ -104,14 +104,14 @@
     const names={map:"マップ操作",detail:"個体詳細の閲覧",guide:"説明シートの閲覧",results:"図鑑の閲覧",settings:"初期条件の編集",hidden:"画面が非表示"};
     $("interaction-note").hidden=!holds.size;
     $("interaction-note").textContent=holds.size?([...holds].map(k=>names[k]).join("・")+"のため停止中") : "";
-    $("detail-hold").textContent=holds.has("detail")?"詳細の閲覧を終える ▶":"一時停止して観察";
+    $("detail-hold").textContent=running?"一時停止して観察":"観測を再開 ▶";
     $("cancel-settings").hidden=!holds.has("settings");
     if(running)$("status").textContent=holds.size?"操作中・停止":"観測中";
   }
   function mapInteraction() { /* View input never pauses the simulation. */ }
   function startRunning() {
     if(!world||ended)return;
-    running=true;$("start").textContent="一時停止 Ⅱ";$("step").disabled=true;
+    playbackError=null;computeWaitAt=null;running=true;$("start").textContent="一時停止 Ⅱ";$("step").disabled=true;
     updateHold();if(!holds.size)timer=setTimeout(runLoop,0);
   }
   const groups = {
@@ -170,7 +170,7 @@
   }
   function resetLowerSettings(){
     const [w,h]=$("size").value.split(",").map(Number),mode=S.observationPreset($("observation-mode").value,w,h);
-    for(const [k,v]of Object.entries({plant:35,fungus:3,prey:10}))$("density-"+k).value=+(v*mode.initialFoodScale).toFixed(1);
+    for(const [k,v]of Object.entries({plant:35,fungus:3,prey:6}))$("density-"+k).value=+(v*mode.initialFoodScale).toFixed(1);
     for(const k of ["mineral","droplet","info"])$("resource-"+k).value=100;
     $("lower-distribution").value="habitat";
     for(const s of founderSpecies)$("founder-"+s.id).value="";
@@ -290,6 +290,7 @@
     runGeneration++;
     if (pendingTurn) pendingTurn = null;
     running = false;
+    computeWaitAt=null;
     renderer.view.animate = false;
     clearTimeout(timer);
     timer = null;
@@ -303,6 +304,7 @@
       world?.stopReason === "checkpoint"
         ? `次の${world.config.blockTurns || 1000}ターンを続行 ▶`
         : "観測を開始 ▶";
+    updateHold();
     $("step").disabled = !world || ended;
     $("status").textContent = world ? "一時停止" : "未準備";
   }
@@ -312,6 +314,7 @@
       ageModel: "life/1",
       ecologyRevision: "observation/4.1",
       blockTurns: 500,
+      populationRegulation:{version:1},
       ...config,
     });
     stop();
@@ -319,6 +322,7 @@
     setupMessage("");
     replayEntry = playback;
     ended = false;
+    playbackError=null;
     pendingResult = null;
     $("export-result").hidden=true;
     $("finish-run").disabled = false;
@@ -348,8 +352,8 @@
     $("active-mode").textContent+=support?.enabled?` 生産者供給あり（陸: 栄養${support.land.nutrition}・地点${support.land.capacity*100}%・再生${support.land.regrowth} / 水: 栄養${support.water.nutrition}・地点${support.water.capacity*100}%・再生${support.water.regrowth}）。外部入力は収支へ記録。`:" 生産者供給なし（途中の外部栄養入力なし）。";
     const lower=next.config.initialConditions;
     if(lower){for(const k of ["plant","fungus","prey"])$("density-"+k).value=+(lower.density[k]*100).toFixed(1);for(const k of ["mineral","droplet","info"])$("resource-"+k).value=lower.resources[k]*100;$("lower-distribution").value=lower.distribution;}
-    else {for(const [k,v]of Object.entries({plant:35,fungus:3,prey:10}))$("density-"+k).value=+(v*(next.config.initialFoodScale||1)).toFixed(1);for(const k of ["mineral","droplet","info"])$("resource-"+k).value=100;$("lower-distribution").value="habitat";}
-    if(lower){const baseline={plant:.35,fungus:.03,prey:.1},changed=Object.entries(baseline).some(([k,v])=>Math.abs(lower.density[k]-v*(next.config.initialFoodScale||1))>1e-8)||Object.values(lower.resources).some(v=>v!==1)||lower.distribution!=="habitat"||!support?.enabled||["land","water"].some(r=>Object.entries({nutrition:1,capacity:.35,regrowth:1}).some(([k,v])=>support[r][k]!==v));$("active-mode").textContent+=changed?" 下層・供給：調整あり。":" 下層・供給：基準設定。";}
+    else {for(const [k,v]of Object.entries({plant:35,fungus:3,prey:6}))$("density-"+k).value=+(v*(next.config.initialFoodScale||1)).toFixed(1);for(const k of ["mineral","droplet","info"])$("resource-"+k).value=100;$("lower-distribution").value="habitat";}
+    if(lower){const baseline={plant:.35,fungus:.03,prey:.06},changed=Object.entries(baseline).some(([k,v])=>Math.abs(lower.density[k]-v*(next.config.initialFoodScale||1))>1e-8)||Object.values(lower.resources).some(v=>v!==1)||lower.distribution!=="habitat"||!support?.enabled||["land","water"].some(r=>Object.entries({nutrition:1,capacity:.35,regrowth:1}).some(([k,v])=>support[r][k]!==v));$("active-mode").textContent+=changed?" 下層・供給：調整あり。":" 下層・供給：基準設定。";}
     for(const s of founderSpecies)$("founder-"+s.id).value=next.config.founderCounts?.[["P","Q"].includes(s.group)?"parasites":"species"]?.[s.id]??"";
     const founders=next.config.founderReport;$("founder-report").hidden=!founders;
     if(founders){
@@ -409,6 +413,7 @@
         })[0] || world.organisms[0];
     // Keep the graphs visible initially; focusing the camera does not select an individual.
     applyObservationMode();
+    if(next.config.populationRegulation)$("active-mode").textContent+=" 出生：局所混雑・栄養収支で調整。";
     render();
     message(
       world.warnings.join(" / ") ||
@@ -464,14 +469,15 @@
       prewarming=true;compute.init(world,selectedId,limit);
       if(!running)return;
     }
-    if(prewarming && (!compute.length || compute.busy || !compute.ready)) {
+    if(prewarming && (!compute.length || !compute.ready)) {
       $("status").textContent="観測の準備中";
       message(`観測の準備中 · ${(compute.elapsed/1000).toFixed(1)}秒 / 上限60秒。先行計算中もマップを操作できます。`);
       timer=setTimeout(runLoop,100);return;
     }
     if(prewarming){lastPreparationMs=compute.elapsed;prewarming=false;}
     const packet=compute.take();
-    if(!packet){compute.fill(2);$("status").textContent="計算待ち";message("次のターンを計算しています。個体やターンを省略せず待機します。");timer=setTimeout(runLoop,100);return;}
+    if(!packet){computeWaitAt??=performance.now();compute.fill(2);message(`次のターンを計算中 · ${((performance.now()-computeWaitAt)/1000).toFixed(1)}秒。自動で再開します。個体・ターンは省略しません。`);timer=setTimeout(runLoop,100);return;}
+    computeWaitAt=null;
     const token=runGeneration,start=performance.now();
     const state=pendingTurn={phase:0,computeMs:packet.computeMs,preview:world,packet};
     compute.fill(2);
@@ -846,13 +852,13 @@
   }
   function renderCurrentStructure(r, catalogue) {
     const graphById=Object.fromEntries(catalogue.map(s=>[s.id,s]));
-    const p=r.current.pyramid,nodes={plant:[5,15,'生産者'],prey:[145,15,'一次消費者'],main:[285,15,'主生物'],detritus:[5,95,'死骸'],fungus:[145,95,'分解者'],resource:[285,95,'光・無機養分'],host:[5,175,'寄生される生物'],P:[145,175,'一次寄生虫'],Q:[285,175,'高次寄生虫']},edges={...p.edges};
+    const p=r.current.pyramid,nodes={plant:[5,15,'生産者'],prey:[185,15,'一次消費者'],main:[365,15,'主生物'],detritus:[5,95,'死骸'],fungus:[185,95,'分解者'],resource:[365,95,'光・無機養分'],host:[5,175,'寄生される生物'],P:[185,175,'一次寄生虫'],Q:[365,175,'高次寄生虫']},edges={...p.edges};
     for(const [key,n]of Object.entries(r.current.bonds)){const [from,to]=key.split('|'),source=from==='hyperparasite'?'P':'host',dest=from==='hyperparasite'?'Q':'P';edges[source+'|'+dest]=(edges[source+'|'+dest]||0)+n;}
     const basic=['plant|prey','prey|main','detritus|fungus','fungus|resource','resource|plant','host|P','P|Q'],all=[...new Set([...basic,...Object.keys(edges)])];
     let svg='<title>矢印は栄養や宿主を利用する側へ。実線は確認済み、破線は未確認の関係です。</title><defs><marker id="food-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#a6c9c8"/></marker></defs>';
     for(const key of all){const [from,to]=key.split('|'),a=nodes[from],b=nodes[to];if(!a||!b)continue;const active=(edges[key]||0)>0,x1=a[0]+65,y1=a[1]+23,x2=b[0]+65,y2=b[1]+23;let d;
       if(from===to)d=`M${x1+30},${y1-20} C${x1+70},${y1-60} ${x1-70},${y1-60} ${x1-30},${y1-20}`;
-      else if(a[1]===b[1])d=a[0]<b[0]?`M${a[0]+130},${y1} L${b[0]},${y2}`:`M${a[0]},${y1} L${b[0]+130},${y2}`;
+      else if(a[1]===b[1])d=a[0]<b[0]?`M${a[0]+134},${y1} L${b[0]-5},${y2}`:`M${a[0]-4},${y1} L${b[0]+135},${y2}`;
       else d=`M${x1},${y1+22} Q${(x1+x2)/2},${(y1+y2)/2+20} ${x2},${y2+22}`;
       svg+=`<path data-relation="${key}" data-observed="${active}" d="${d}" fill="none" stroke="${active?'#9ecfc9':'#496370'}" stroke-width="${active?2+Math.min(3,Math.log1p(edges[key])):1}" ${active?'':'stroke-dasharray="4 4"'} marker-end="url(#food-arrow)"/>`;
     }
@@ -993,8 +999,9 @@
   }
   function renderSelection() {
     const speciesMode=!!describedSpecies,detailMode=speciesMode||selectedCell!==null;
-    $('inspector-graphs').hidden=detailMode;$('inspector-details').hidden=!detailMode;
-    if(!detailMode&&world)renderGraphs();
+    $('inspector-graphs').hidden=false;$('inspector-details').hidden=!detailMode;
+    $('inspector-details').closest('.inspector').classList.toggle('has-detail',detailMode);
+    if(world&&$("graphs-panel").open)renderGraphs();
     $("species-info").hidden=!speciesMode;$("selection").hidden=speciesMode;
     $("follow-individual").hidden=speciesMode;$("follow-note").hidden=speciesMode;
     $("close-species").hidden=!speciesMode&&selectedCell===null;
@@ -1091,10 +1098,11 @@
     $("status").textContent = running ? "観測中" : "一時停止";
     $("main-count").textContent = s.main.toLocaleString();
     $("food-count").textContent = s.food.toLocaleString();
+    const lower={plant:0,prey:0,fungus:0};for(const o of world.organisms){const group=D.byId[o.species].group;if(group in lower)lower[group]++;}
+    $("food-breakdown").textContent=`生産者 ${lower.plant} / 一次消費者 ${lower.prey} / 分解者 ${lower.fungus}`;
     $("parasite-count").textContent = s.P + " / " + s.Q;
     $("timing").textContent = lastMs ? Math.round(lastMs) + " ms" : "—";
     renderPopulation();
-    if($("graphs-panel").open&&(!$("inspector-graphs").hidden||analysisData))renderGraphs();
     if ($("rank-panel").open) renderRanking();
     const key = world.checkpoints.map(a => a.turn).join(",");
     if (checkpointKey !== key) {
@@ -1327,7 +1335,7 @@
     birth: () =>
       `<h2>子は第一相から。年齢と進化相は独立。</h2><p class="note">年齢は出生からの時間、相は経験と資源で決まります。各相に幼体・成体・老齢があり得ます。進化しても若返らず、成熟で無料全快しません。幼体の攻防/HPは控えめで維持費が軽く、老齢は回復・移動費・出生待機にも補正が掛かります。老齢と負傷は別です。</p><div class="flow">I · G30 → II · G90＋M＋経験 → III · 3分岐 → IV · G210＋M＋枝経験 → 3×2の最終経路</div><div class="sheet-grid">${card("成長と分岐", "<p>I→IIはG30。II→IIIはG90、系統別M、採食/移動生還/戦闘の経験の首位4以上・差2（均衡している場合は累積18回から最多の経験）。III→IVはG210、追加M、枝内の経験首位3以上・差2。1ターンで1相だけ進み、新能力は翌ターンから有効です。確定した枝は変わりません。</p>")}${card("有性繁殖", "<p>相を問わず年齢が成体/老齢の同系統の雌雄、隣接・無被害・HP70以上・系統別Eの65%・各M2以上・待機0が必要。空きマスの近傍主生物2〜3体のB2/3候補を、親と出生枠の二段階予約で調停します。親は原則E20とM2ずつを支払い、一方の親から同日に複数出生しません。</p>")}${card("遺伝と雌雄差", "<p>子のDNA6値は両親平均に小さな差分。行動の出生重みには系統と親の不変出生基準を含みます。雌雄は同じ能力基盤。系統ごとの器官・輪郭・斑・階級の差を使い、年齢と進化相から独立して表します。出産で親の相を子へ引き継ぎません。</p>")}${card("早成甲殻 · 三相", "<p>この追加系統はIIIで完成。子もI相・年齢0ですが、初期から殻の完成度が高く、防御向きです。出生費は親E30ずつと高く、M・待機などの負担と交換になります。成長段階の少なさは子を成体として生む意味ではありません。</p>")}${card("浮遊傘 · 単為生殖", "<p>成熟雌が可視の同系統成熟雄を8ターン連続で見ず、HP70/E70/M4・無被害・待機0なら単為候補。本人がE40/M4を支払い雌のI相を生みます。有性繁殖を優先し、世界全体の雄不在を透視しません。</p>")}${card("群体節足 · 真社会性", "<p>繁殖雌・繁殖雄・不妊の働育雌。全員独立個体で、共同育児E2→幼体1.8が世代の存続を助けます。高投資の娘が次の繁殖型候補となり、IIIで新集団へ。女王が失われても自動救済はありません。集団由来と階級は個体観察で確認します。</p>")}${card("回復と繁殖復帰", "<p>有機吸収はまずE35まで補い、負傷があれば年齢補正後のHP上限まで回復し、余りはEへ。HP50は回復の上限ではなく行動の危機境界。小型餌は自分のE容量とHP上限を使います。</p>")}${card("出生にも有限収支", "<p>親が支払ったEは子のE/Bへ、Mは子と土壌へ分配。餌生物・植物も少ない段階で成長し、光・食物と局所条件から繁殖します。死亡や採食と同じターンに費用を二重利用しません。</p>")}</div>`,
     parasite: () =>
-      `<h2>宿主に付随する生物。H → P → Q。</h2><div class="flow">潮環：微藻 → 水游虫 → 水系の成熟主生物<br>葉環：草本 → 草棲虫 → 植物食/雑食の成熟主生物<br>幼い主生物へ入った場合：追加中間宿主 → 別の成熟主生物</div><div class="sheet-grid">${card("一次寄生虫Pの生活環", "<p>第一宿主で4回の完全支払いを受け、適合する小型餌が食べると中間へ。中間で6回、死亡後の感染性死骸を別の適合主生物が食べると終宿主へ。年齢が幼体なら追加中間となり、更に6回と別宿主への移行が必要。終宿主は8回で成熟します。</p>")}${card("費用・移行・失敗", "<p>宿主が負荷に応じてPへ有限Eを払い、P自身も維持費を必要とします。Qは蓄えと外部情報資源で維持し、宿主/Pへ追加徴収しません。体表Pは有償清掃、体内Pは有償免疫と資源不足で排除されます。移行日は旧宿主だけが払い、P/QのID・エネルギーを保ち、成熟を一日止めます。宿主不適合・感染済み・期限切れでは移行しません。</p>")}${card("出産は第一宿主へ戻る", "<p>成熟終宿主内のPはE0.1を使い、近くの適合第一宿主へ子を置きます。空き第一宿主がなければ8ターンの有限待機体へ。複数Pが同宿主を選ぶと局所調停し、落選者は別宿主へ取り直しません。Pを自由に歩く餌として描きません。</p>")}${card("高次寄生虫Qの進化", `<p>QはPに寄生。${qGrowthGuide()}。現在の高次寄生優遇${world?.config.advantageSettings?.hyperparasite!==false?"ON":"OFF"}の条件です。既存Pの終宿主内成熟直後の3ターンだけ感染可能。Pの成熟や能力値は直接変えず、行動と局所情報へ作用します。Qは宿主へ直接の新たな栄養負荷を重複請求しません。</p>`)}${card("この世界の初期探索Q", `<p>${world?.config.parasiteInitial?.createdSearchQ??0}群体を初期配置。${world?.config.founderCounts?.parasites.hyperparasite!==undefined?"種別指定":"自動設定"}の結果です。これは開始時の値で、現在数は個体数欄で確認できます。</p>`)}${card("間接的で技術的な操作", "<p>QIIIは累積の発信・接触・情報取得をもとに、整流/鮮度保持/変調へ特化。情報の一成分を半減、鮮度倍率1.25（上限1）、または固定−1/0/+1の変調を行います。E0.02、待機4、同イベントの再操作拒否があり、強制的な全域通信はできません。</p>")}${card("観測と本人の知覚は別", "<p>選択した宿主ではH/P/QのID・段階・成熟・エネルギー・特化を確認できます。生物本人はその観測画面を読みません。初期Pは適合第一宿主から選び、Qは適合条件があるとき探索群体を配置します。自動Qは優遇OFFで4〜16、ONで128〜256群体が目標。種別の初期数指定があればそちらを使い、実数は「種別の初期配置結果」と保存条件で確認できます。実際の初期数は開始条件に記録され、観測途中の救済補充はありません。</p>")}</div>`,
+      `<h2>宿主に付随する生物。H → P → Q。</h2><div class="flow">潮環：微藻 → 水游虫 → 水系の成熟主生物<br>葉環：草本 → 草棲虫 → 植物食/雑食の成熟主生物<br>幼い主生物へ入った場合：追加中間宿主 → 別の成熟主生物</div><div class="sheet-grid">${card("一次寄生虫Pの生活環", "<p>第一宿主で4回の完全支払いを受け、適合する小型餌が食べると中間へ。中間で6回、死亡後の感染性死骸を別の適合主生物が食べると終宿主へ。年齢が幼体なら追加中間となり、更に6回と別宿主への移行が必要。終宿主は8回で成熟します。</p>")}${card("費用・移行・失敗", "<p>宿主が負荷に応じてPへ有限Eを払い、P自身も維持費を必要とします。Qは蓄えと外部情報資源で維持し、宿主/Pへ追加徴収しません。体表Pは有償清掃、体内Pは有償免疫と資源不足で排除されます。移行日は旧宿主だけが払い、P/QのID・エネルギーを保ち、成熟を一日止めます。宿主不適合・感染済み・期限切れでは移行しません。</p>")}${card("出産は第一宿主へ戻る", "<p>成熟終宿主内のPはE0.1を使い、近くの適合第一宿主へ子を置きます。空き第一宿主がなければ8ターンの有限待機体へ。複数Pが同宿主を選ぶと局所調停し、落選者は別宿主へ取り直しません。Pを自由に歩く餌として描きません。</p>")}${card("高次寄生虫Qの進化", `<p>QはPに寄生。${qGrowthGuide()}。現在の高次寄生優遇${world?.config.advantageSettings?.hyperparasite!==false?"ON":"OFF"}の条件です。既存Pの終宿主内成熟直後の3ターンだけ感染可能。Pの成熟や能力値は直接変えず、行動と局所情報へ作用します。Qは宿主へ直接の新たな栄養負荷を重複請求しません。</p>`)}${card("この世界の初期探索Q", `<p>${world?.config.parasiteInitial?.createdSearchQ??0}群体を初期配置。${world?.config.founderCounts?.parasites.hyperparasite!==undefined?"種別指定":"自動設定"}の結果です。これは開始時の値で、現在数は個体数欄で確認できます。</p>`)}${card("間接的で技術的な操作", "<p>QIIIは累積の発信・接触・情報取得をもとに、整流/鮮度保持/変調へ特化。情報の一成分を半減、鮮度倍率1.25（上限1）、または固定−1/0/+1の変調を行います。E0.02、待機4、同イベントの再操作拒否があり、強制的な全域通信はできません。</p>")}${card("観測と本人の知覚は別", "<p>選択した宿主ではH/P/QのID・段階・成熟・エネルギー・特化を確認できます。生物本人はその観測画面を読みません。初期Pは適合第一宿主から選び、Qは適合条件があるとき探索群体を配置します。自動Qは一次寄生の初期群体数の半分（端数切捨て）が上限。優遇ONではその数、OFFでは従来の4〜16群体目標との小さい方を使います。種別の初期数指定があればそちらを使い、実数は「種別の初期配置結果」と保存条件で確認できます。実際の初期数は開始条件に記録され、観測途中の救済補充はありません。</p>")}</div>`,
     info: () =>
       `<h2>情報は、外に残った行動の作用。</h2><div class="flow">実際の経験 → 有償の情報分泌 → 局所B3/S23 → 鮮度・環境文脈・Q媒介 → 別個体の行動へ</div><div class="sheet-grid">${card("延長された表現型", "<p>情報は滞留・浮遊するエネルギー体として表現します。生物の実成果が環境に残り、別の個体の行動へ作用するモデルです。遺伝子の水平伝播ではなく、系統・DNA・繁殖条件・進化枝を直接書き換えません。</p>")}${card("系統を越えた局所伝達", "<p>本人の経験変化から絶対値の大きい2成分を候補にし、発信元のEを支払って近くへ生成。受け手の系統は問いません。世界全体へ一瞬で共有せず、元の発信時刻・環境文脈・発信者IDを保ちます。</p>")}${card("文脈と鮮度", "<p>同環境は文脈1、異環境は0.5。鮮度は経過0〜4/5〜9/10〜14/15〜19で1/0.75/0.5/0.25、20で失効。感度DNAと掛け、行動重みへの変化は成分±3以内。摂取待機5、既読ID4件で同じ情報の無限取得を防ぎます。</p>")}${card("撹乱も生態の一部", "<p>90%は実経験、10%は同じ成分の符号を反転し大きさ3へ変える撹乱情報。Qの変調も別に作用し得ます。情報が常に正しいとは限らず、同じ生態からどの動きが残るかを観測します。</p>")}${card("少ない栄養、行動への作用", "<p>情報餌は独立項目。Eは1単位0.05相当、Gはありません。有機餌や鉱物の代わりにして全生活を支えることはできません。光輪の濃さと選択表示で鮮度・発信源・媒介を区別します。</p>")}${card("固定長で計算する", "<p>情報イベントは期限付き、記憶は少数ID、Qの経験は3カウンタ。系統全体や家系の全履歴を常時検索せず、近傍と有限の状態から創発的な影響を作ります。</p>")}</div>`,
   };
@@ -1483,22 +1491,19 @@
       paintAt = now;
       renderer.drawIfChanged(now);
       $("scale-warning").hidden = renderer.view.scale >= 8;
-      setText("status", replayEntry
-        ? "再生・記録なし"
-        : ended
-          ? "観測終了"
-          : running
-            ? "観測中"
-            : world
-              ? "一時停止"
-              : "未準備");
+      setText("status", playbackError ? "計算エラー・停止" : ended ? "観測終了" : running
+        ? prewarming && !pendingTurn ? "観測の準備中"
+          : !pendingTurn && !compute.length ? `計算待ち · ${Math.floor((now-(computeWaitAt??now))/1000)}秒`
+          : replayEntry ? "再生中・記録なし" : "観測中"
+        : world ? world.stopReason === "checkpoint" ? "区間終了・一時停止" : "一時停止" : "未準備");
+      $("status").title=playbackError||$("message").textContent;
       setText("render-mode",
         { point: "密集記号表示", simple: "記号表示", detail: "詳細表示" }[
           renderer.diagnostics.mode
         ] +
         " · " +
         fmt(renderer.view.scale) +
-        " px/マス");
+        " px/マス" + (renderer.diagnostics.terrainPending ? " · 背景を精細化中" : ""));
     }
     requestAnimationFrame(frame);
   }

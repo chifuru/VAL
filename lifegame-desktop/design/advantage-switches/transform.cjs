@@ -1,5 +1,12 @@
 'use strict';
-module.exports=(name,source,f)=>{const change=(a,b)=>{if(source.split(a).length!==2)throw Error('Selective advantage contract moved: '+name+'/'+a);source=source.replace(a,b);};if(f.producer&&f.waterbug&&f.hyperparasite)return require('../favored-free-v3/transform.cjs')(name,source);
+module.exports=(name,source,f)=>{const change=(a,b)=>{if(source.split(a).length!==2)throw Error('Selective advantage contract moved: '+name+'/'+a);source=source.replace(a,b);};const finish=source=>{if(name==='state'){
+ const formula='Math.max(128,Math.min(256,Math.ceil(config.width*config.height/10)))';
+ const fallback='Math.max(4,Math.min(16,Math.ceil(config.width*config.height/400)))';
+ const ratio='Math.floor(w.organisms.filter(o=>o.infection).length/2)';
+ const target=f.hyperparasite?formula:fallback;
+ if(source.split(target).length!==2)throw Error('Q initial ratio contract moved');
+ source=source.replace(target,f.hyperparasite?ratio:'Math.min('+fallback+','+ratio+')').replace('Qinitial:"128-256"','Qinitial:"half-primary/1"');
+ }return source;};if(f.producer&&f.waterbug&&f.hyperparasite)return finish(require('../favored-free-v3/transform.cjs')(name,source));
 if(name==='catalogue'){
  if(f.producer)change('  data.byId = Object.fromEntries',`  for(const s of data.species)if(s.group==='plant')Object.assign(s,{life:2400,maintenance:.02,birthCooldown:1,initial:[12,s.id==='phytoplankton'?16:20,1,12],capacity:[32,48,4,12]});
   data.byId = Object.fromEntries`);
@@ -20,4 +27,4 @@ if(f.hyperparasite){
  if(name==='state'){change('Math.max(4,Math.min(16,Math.ceil(config.width*config.height/400)))','Math.max(128,Math.min(256,Math.ceil(config.width*config.height/10)))');change('const candidates=w.organisms.filter(o=>o.slot==="main" && ["plant","general"].includes(D.byId[o.species].diet));','const candidates=w.organisms.filter(o=>o.slot==="main");');change('for(let i=0;i<Math.min(config.parasiteInitial.targetSearchQ,candidates.length);i++)','for(let i=0;i<config.parasiteInitial.targetSearchQ;i++)');change('Math.floor(i*candidates.length/Math.min(config.parasiteInitial.targetSearchQ,candidates.length))','Math.floor(i*candidates.length/config.parasiteInitial.targetSearchQ)');change('q.expires=160;q.E=Math.min(.5,host.E);','q.expires=480;q.E=Math.min(1,host.E);');}
  if(name==='parasites'){change('entry.qPhase === 1 && q.counter >= 4','entry.qPhase === 1 && q.counter >= 1');change('q.counter >= 8 && q.E >= 0.2','q.counter >= 2 && q.E >= 0.02');change('q.E = S.round(q.E - 0.2);\n          S.dissipate(w, 0.2);','q.E = S.round(q.E - 0.02);\n          S.dissipate(w, 0.02);');change('const cost=Math.min(q.E,.001);','const cost=Math.min(q.E,.0001);');change('S.distance(w,q.cell,o.cell)<=1&&','S.distance(w,q.cell,o.cell)<=3&&');change('if(moves.length && q.E>.001)','if(moves.length && q.E>.0001)');change('q.E=S.round(q.E-.001);S.dissipate(w,.001);','q.E=S.round(q.E-.0001);S.dissipate(w,.0001);');change('child.expires=w.turn+40;','child.expires=w.turn+480;');}
 }
-return source;};
+return finish(source);};

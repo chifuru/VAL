@@ -1,0 +1,6 @@
+const fs=require('node:fs'),E=require('/workspace/VAL/lifegame-desktop/src/ecology/observation-model').model(),results=[];
+for(const seed of ['population-a','population-b'])for(const adjusted of [true]){
+ const config={seed,terrainSeed:seed,width:40,height:28,initial:80,lineages:'few',landscape:'templates',mapId:'river',ageModel:'life/1',ecologyRevision:'observation/4.1',blockTurns:500,producerSupport:{enabled:true},initialConditions:{version:1,density:{plant:.35,fungus:.03,prey:adjusted?.06:.1},resources:{mineral:1,droplet:1,info:1},distribution:'habitat'},...(adjusted?{populationRegulation:{version:1}}:{})};
+ let w=E.create(config);const rows=[],errors=[];for(let t=0;t<=100;t++){if(t%25===0)rows.push({turn:t,main:w.stats.main,lower:w.stats.food,prey:w.organisms.filter(o=>E.S.spec(o).group==='prey').length,P:w.stats.P,Q:w.stats.Q,births:w.tallies.births});const inv=E.invariants(w);if(inv.length)throw Error(inv.join(','));if(t<100)w=E.step(w);}
+ results.push({seed,adjusted,config:config,rows,errors});fs.writeFileSync('/workspace/work/clarity-profile/populations-final.json',JSON.stringify(results,null,2));console.log(JSON.stringify({seed,adjusted,rows:rows.map(r=>({turn:r.turn,main:r.main,prey:r.prey,P:r.P,Q:r.Q}))}));
+}

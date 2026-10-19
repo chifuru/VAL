@@ -4,7 +4,7 @@
     let worker=null,epoch=0,queue=[],busy=false,ready=false,limit=Infinity,preparedAt=0,watchdog=null,metadata=null, warming=true,active=false,reserved=null;
     function close(dispose=false){epoch++;active=false;if(dispose){worker?.terminate();worker=null;}queue=[];reserved=null;busy=false;ready=false;clearTimeout(watchdog);watchdog=null;}
     function fail(message){close(true);onError(message);}
-    function arm(){clearTimeout(watchdog);watchdog=setTimeout(()=>fail('事前計算が60秒以内に応答しませんでした。確定状態から再試行してください。'),warming?Math.max(1,60000-(performance.now()-preparedAt)):60000);}
+    function arm(){clearTimeout(watchdog);watchdog=setTimeout(()=>fail(warming?'事前計算が60秒以内に応答しませんでした。確定状態から再試行してください。':'次のターンの計算が60秒以内に応答しませんでした。確定状態を保持しています。「観測を開始」で再試行できます。'),warming?Math.max(1,60000-(performance.now()-preparedAt)):60000);}
     function init(world,observeId,end){
       close();limit=end;preparedAt=performance.now();metadata=null;warming=true;
       try{

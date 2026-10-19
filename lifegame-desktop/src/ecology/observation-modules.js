@@ -1262,6 +1262,11 @@ return {settings,attach,region,level,factor,begin,finish};
       throw Error("SETTINGS_INVALID: 年齢モデル");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
+    if(c.populationRegulation!==undefined){
+      const a=c.populationRegulation;
+      if(!a||typeof a!=="object"||Array.isArray(a)||a.version!==1||Object.keys(a).some(k=>k!=="version"))throw Error("SETTINGS_INVALID: 個体群の出生調整");
+      c.populationRegulation={version:1};
+    }
     if(c.producerSupport!==undefined){
       if(!c.producerSupport||typeof c.producerSupport!=="object"||Array.isArray(c.producerSupport))throw Error("SETTINGS_INVALID: 生産者供給");
       c.producerSupport=ProducerSupport.settings(c.producerSupport);
@@ -1961,7 +1966,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if(config.ecologyRevision === "observation/4.1") {
       w.searchQ=[];
       config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
-      config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.max(4,Math.min(16,Math.ceil(config.width*config.height/400))),createdSearchQ:0};
+      config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.min(Math.max(4,Math.min(16,Math.ceil(config.width*config.height/400))),Math.floor(w.organisms.filter(o=>o.infection).length/2)),createdSearchQ:0};
       const manualQ=config.founderCounts?.parasites.hyperparasite;
       if(manualQ!==undefined)config.parasiteInitial.targetSearchQ=manualQ;
       const candidates=w.organisms.filter(o=>o.slot==="main" && ["plant","general"].includes(D.byId[o.species].diet));
@@ -3538,6 +3543,19 @@ function(require,module){
   function choose(w, ctx, stage = null) {
     const m = S.maps(w);
     for (const o of w.organisms) {
+      // Stationary basal life has exactly one possible action. Process that
+      // shared rule directly instead of constructing visibility and scores.
+      const group = S.spec(o).group;
+      if (group === "plant" || group === "fungus") {
+        const type = "stop", cell = o.cell, path = [];
+        const chosen = {type, cell, cost:0, path, score:0, noRandom:0, features:[],
+          xi:2*S.r(w,"behavior/jitter",w.turn,o.id,[type,null,path,cell])-1,
+          h:S.hash(w,"behavior/tie",w.turn,o.id,[type,null,path,cell])};
+        ctx.intents.set(o.id,chosen);
+        ctx.records.get(o.id).randomChanged=false;
+        if(o.id===ctx.observeId)ctx.diagnostics={id:o.id,candidates:[{type,target:undefined,cell,score:0,cost:0,features:[]}]};
+        continue;
+      }
       const list = candidates(w, o, ctx, m).filter(c => !stage || (stage === "move" ? ["stop","move"].includes(c.type) : c.type !== "move")),
         v = view(w, o, ctx, m);
       for (const c of list) {
@@ -3978,6 +3996,25 @@ function(require,module){
       }
     }
   }
+  function birthPressure(w,o,ctx){
+    const group=S.spec(o).group;
+    if(!w.config.populationRegulation||!["main","prey"].includes(group))return {allowed:true,chance:1,density:0,foodFactor:1};
+    const cache=ctx.birthPressure??=new Map();if(cache.has(o.id))return cache.get(o.id);
+    let counts=ctx.birthPressureCounts;
+    if(!counts){counts=ctx.birthPressureCounts={main:new Map(),prey:new Map()};for(const a of w.organisms){const g=S.spec(a).group;if(counts[g])counts[g].set(a.cell,(counts[g].get(a.cell)||0)+1);}}
+    const area=ctx.birthPressureArea??=Math.max(1,w.tiles.filter(t=>!t.blocked).length);
+    const cells=S.nearby(w,o.cell,2,true).filter(c=>!w.tiles[c].blocked&&S.validHabitat(w,S.spec(o),c)),
+      peers=cells.reduce((n,c)=>n+(counts[group].get(c)||0),0),
+      localDensity=peers/Math.max(1,cells.length),
+      density=group==="prey"?Math.min(localDensity,counts.prey.size/area*2):localDensity,
+      target=group==="main"?.16:.08,
+      rec=ctx.records.get(o.id),maintenance=ctx.traits.get(o.id)?.maintenance||1,
+      reserve=Math.max(0,o.E-(group==="main"?(S.spec(o).birthEnergy||60)*.65:8)),
+      foodFactor=Math.max(.25,Math.min(1,((rec?.organic||0)+(rec?.light||0)+reserve)/(maintenance*2))),
+      chance=foodFactor/(1+(group==="main"?8:12)*Math.max(0,density-target)/target),
+      result={chance,density,foodFactor,allowed:S.r(w,"birth/local-pressure",w.turn,o.id)<chance};
+    cache.set(o.id,result);return result;
+  }
   function eligible(w, o, ctx, asexual = false) {
     const s = S.spec(o),
       rec = ctx.records.get(o.id),
@@ -3985,6 +4022,7 @@ function(require,module){
     if(p?.ageStage === "juvenile" || (s.group === "plant" && S.ProducerSupport.factor(w,o,S)===0))return false;
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
+    if(!birthPressure(w,o,ctx).allowed)return false;
     if (s.group !== "main")
       return (
         ctx.traits.get(o.id).phase >= 2 &&
@@ -4210,6 +4248,7 @@ function(require,module){
     const near=S.nearby(w,o.cell).map(c=>m.main.get(c)).filter(Boolean);
     if(o.sex==="female" && !(o.sperm?.uses>0) && !(s.id==="jelly"&&o.maleAbsent>=8) && !near.some(a=>a.species===o.species && a.sex!==o.sex && S.ageInfo(a).stage!=="juvenile" && S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
     if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&[2,3].includes(S.nearby(w,c).filter(k=>m.main.has(k)).length)))reasons.push("出生場所不足");
+    if(!birthPressure(w,o,ctx).allowed)reasons.push("混雑・栄養収支による出生調整");
     return reasons;
   }
   function reproduce(w, ctx) {
@@ -4247,7 +4286,7 @@ function(require,module){
     ctx.children = children;
     return children;
   }
-  return { lead, growth, eligible, birthCost, candidates, child, reproduce };
+  return { lead, growth, eligible, birthPressure, birthCost, candidates, child, reproduce };
 });
 
 },
@@ -6618,6 +6657,11 @@ return {settings,attach,region,level,factor,begin,finish};
       throw Error("SETTINGS_INVALID: 年齢モデル");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
+    if(c.populationRegulation!==undefined){
+      const a=c.populationRegulation;
+      if(!a||typeof a!=="object"||Array.isArray(a)||a.version!==1||Object.keys(a).some(k=>k!=="version"))throw Error("SETTINGS_INVALID: 個体群の出生調整");
+      c.populationRegulation={version:1};
+    }
     if(c.producerSupport!==undefined){
       if(!c.producerSupport||typeof c.producerSupport!=="object"||Array.isArray(c.producerSupport))throw Error("SETTINGS_INVALID: 生産者供給");
       c.producerSupport=ProducerSupport.settings(c.producerSupport);
@@ -7318,7 +7362,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if(config.ecologyRevision === "observation/4.1") {
       w.searchQ=[];
       config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
-      config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.max(4,Math.min(16,Math.ceil(config.width*config.height/400))),createdSearchQ:0};
+      config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.min(Math.max(4,Math.min(16,Math.ceil(config.width*config.height/400))),Math.floor(w.organisms.filter(o=>o.infection).length/2)),createdSearchQ:0};
       const manualQ=config.founderCounts?.parasites.hyperparasite;
       if(manualQ!==undefined)config.parasiteInitial.targetSearchQ=manualQ;
       const candidates=w.organisms.filter(o=>o.slot==="main" && ["plant","general"].includes(D.byId[o.species].diet));
@@ -8407,6 +8451,25 @@ function(require,module){
       }
     }
   }
+  function birthPressure(w,o,ctx){
+    const group=S.spec(o).group;
+    if(!w.config.populationRegulation||!["main","prey"].includes(group))return {allowed:true,chance:1,density:0,foodFactor:1};
+    const cache=ctx.birthPressure??=new Map();if(cache.has(o.id))return cache.get(o.id);
+    let counts=ctx.birthPressureCounts;
+    if(!counts){counts=ctx.birthPressureCounts={main:new Map(),prey:new Map()};for(const a of w.organisms){const g=S.spec(a).group;if(counts[g])counts[g].set(a.cell,(counts[g].get(a.cell)||0)+1);}}
+    const area=ctx.birthPressureArea??=Math.max(1,w.tiles.filter(t=>!t.blocked).length);
+    const cells=S.nearby(w,o.cell,2,true).filter(c=>!w.tiles[c].blocked&&S.validHabitat(w,S.spec(o),c)),
+      peers=cells.reduce((n,c)=>n+(counts[group].get(c)||0),0),
+      localDensity=peers/Math.max(1,cells.length),
+      density=group==="prey"?Math.min(localDensity,counts.prey.size/area*2):localDensity,
+      target=group==="main"?.16:.08,
+      rec=ctx.records.get(o.id),maintenance=ctx.traits.get(o.id)?.maintenance||1,
+      reserve=Math.max(0,o.E-(group==="main"?(S.spec(o).birthEnergy||60)*.65:8)),
+      foodFactor=Math.max(.25,Math.min(1,((rec?.organic||0)+(rec?.light||0)+reserve)/(maintenance*2))),
+      chance=foodFactor/(1+(group==="main"?8:12)*Math.max(0,density-target)/target),
+      result={chance,density,foodFactor,allowed:S.r(w,"birth/local-pressure",w.turn,o.id)<chance};
+    cache.set(o.id,result);return result;
+  }
   function eligible(w, o, ctx, asexual = false) {
     const s = S.spec(o),
       rec = ctx.records.get(o.id),
@@ -8414,6 +8477,7 @@ function(require,module){
     if(p?.ageStage === "juvenile" || (s.group === "plant" && S.ProducerSupport.factor(w,o,S)===0))return false;
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
+    if(!birthPressure(w,o,ctx).allowed)return false;
     if (s.group !== "main")
       return (
         ctx.traits.get(o.id).phase >= 2 &&
@@ -8639,6 +8703,7 @@ function(require,module){
     const near=S.nearby(w,o.cell).map(c=>m.main.get(c)).filter(Boolean);
     if(o.sex==="female" && !(o.sperm?.uses>0) && !(s.id==="jelly"&&o.maleAbsent>=8) && !near.some(a=>a.species===o.species && a.sex!==o.sex && S.ageInfo(a).stage!=="juvenile" && S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
     if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&[2,3].includes(S.nearby(w,c).filter(k=>m.main.has(k)).length)))reasons.push("出生場所不足");
+    if(!birthPressure(w,o,ctx).allowed)reasons.push("混雑・栄養収支による出生調整");
     return reasons;
   }
   function reproduce(w, ctx) {
@@ -8676,7 +8741,7 @@ function(require,module){
     ctx.children = children;
     return children;
   }
-  return { lead, growth, eligible, birthCost, candidates, child, reproduce };
+  return { lead, growth, eligible, birthPressure, birthCost, candidates, child, reproduce };
 });
 
 },
@@ -10713,6 +10778,19 @@ function(require,module){
   function choose(w, ctx, stage = null) {
     const m = S.maps(w);
     for (const o of w.organisms) {
+      // Stationary basal life has exactly one possible action. Process that
+      // shared rule directly instead of constructing visibility and scores.
+      const group = S.spec(o).group;
+      if (group === "plant" || group === "fungus") {
+        const type = "stop", cell = o.cell, path = [];
+        const chosen = {type, cell, cost:0, path, score:0, noRandom:0, features:[],
+          xi:2*S.r(w,"behavior/jitter",w.turn,o.id,[type,null,path,cell])-1,
+          h:S.hash(w,"behavior/tie",w.turn,o.id,[type,null,path,cell])};
+        ctx.intents.set(o.id,chosen);
+        ctx.records.get(o.id).randomChanged=false;
+        if(o.id===ctx.observeId)ctx.diagnostics={id:o.id,candidates:[{type,target:undefined,cell,score:0,cost:0,features:[]}]};
+        continue;
+      }
       const list = candidates(w, o, ctx, m).filter(c => !stage || (stage === "move" ? ["stop","move"].includes(c.type) : c.type !== "move")),
         v = view(w, o, ctx, m);
       for (const c of list) {
@@ -11153,6 +11231,25 @@ function(require,module){
       }
     }
   }
+  function birthPressure(w,o,ctx){
+    const group=S.spec(o).group;
+    if(!w.config.populationRegulation||!["main","prey"].includes(group))return {allowed:true,chance:1,density:0,foodFactor:1};
+    const cache=ctx.birthPressure??=new Map();if(cache.has(o.id))return cache.get(o.id);
+    let counts=ctx.birthPressureCounts;
+    if(!counts){counts=ctx.birthPressureCounts={main:new Map(),prey:new Map()};for(const a of w.organisms){const g=S.spec(a).group;if(counts[g])counts[g].set(a.cell,(counts[g].get(a.cell)||0)+1);}}
+    const area=ctx.birthPressureArea??=Math.max(1,w.tiles.filter(t=>!t.blocked).length);
+    const cells=S.nearby(w,o.cell,2,true).filter(c=>!w.tiles[c].blocked&&S.validHabitat(w,S.spec(o),c)),
+      peers=cells.reduce((n,c)=>n+(counts[group].get(c)||0),0),
+      localDensity=peers/Math.max(1,cells.length),
+      density=group==="prey"?Math.min(localDensity,counts.prey.size/area*2):localDensity,
+      target=group==="main"?.16:.08,
+      rec=ctx.records.get(o.id),maintenance=ctx.traits.get(o.id)?.maintenance||1,
+      reserve=Math.max(0,o.E-(group==="main"?(S.spec(o).birthEnergy||60)*.65:8)),
+      foodFactor=Math.max(.25,Math.min(1,((rec?.organic||0)+(rec?.light||0)+reserve)/(maintenance*2))),
+      chance=foodFactor/(1+(group==="main"?8:12)*Math.max(0,density-target)/target),
+      result={chance,density,foodFactor,allowed:S.r(w,"birth/local-pressure",w.turn,o.id)<chance};
+    cache.set(o.id,result);return result;
+  }
   function eligible(w, o, ctx, asexual = false) {
     const s = S.spec(o),
       rec = ctx.records.get(o.id),
@@ -11160,6 +11257,7 @@ function(require,module){
     if(p?.ageStage === "juvenile" || (s.group === "plant" && S.ProducerSupport.factor(w,o,S)===0))return false;
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
+    if(!birthPressure(w,o,ctx).allowed)return false;
     if (s.group !== "main")
       return (
         ctx.traits.get(o.id).phase >= 2 &&
@@ -11385,6 +11483,7 @@ function(require,module){
     const near=S.nearby(w,o.cell).map(c=>m.main.get(c)).filter(Boolean);
     if(o.sex==="female" && !(o.sperm?.uses>0) && !(s.id==="jelly"&&o.maleAbsent>=8) && !near.some(a=>a.species===o.species && a.sex!==o.sex && S.ageInfo(a).stage!=="juvenile" && S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
     if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&[2,3].includes(S.nearby(w,c).filter(k=>m.main.has(k)).length)))reasons.push("出生場所不足");
+    if(!birthPressure(w,o,ctx).allowed)reasons.push("混雑・栄養収支による出生調整");
     return reasons;
   }
   function reproduce(w, ctx) {
@@ -11422,7 +11521,7 @@ function(require,module){
     ctx.children = children;
     return children;
   }
-  return { lead, growth, eligible, birthCost, candidates, child, reproduce };
+  return { lead, growth, eligible, birthPressure, birthCost, candidates, child, reproduce };
 });
 
 },
@@ -12400,6 +12499,25 @@ function(require,module){
       }
     }
   }
+  function birthPressure(w,o,ctx){
+    const group=S.spec(o).group;
+    if(!w.config.populationRegulation||!["main","prey"].includes(group))return {allowed:true,chance:1,density:0,foodFactor:1};
+    const cache=ctx.birthPressure??=new Map();if(cache.has(o.id))return cache.get(o.id);
+    let counts=ctx.birthPressureCounts;
+    if(!counts){counts=ctx.birthPressureCounts={main:new Map(),prey:new Map()};for(const a of w.organisms){const g=S.spec(a).group;if(counts[g])counts[g].set(a.cell,(counts[g].get(a.cell)||0)+1);}}
+    const area=ctx.birthPressureArea??=Math.max(1,w.tiles.filter(t=>!t.blocked).length);
+    const cells=S.nearby(w,o.cell,2,true).filter(c=>!w.tiles[c].blocked&&S.validHabitat(w,S.spec(o),c)),
+      peers=cells.reduce((n,c)=>n+(counts[group].get(c)||0),0),
+      localDensity=peers/Math.max(1,cells.length),
+      density=group==="prey"?Math.min(localDensity,counts.prey.size/area*2):localDensity,
+      target=group==="main"?.16:.08,
+      rec=ctx.records.get(o.id),maintenance=ctx.traits.get(o.id)?.maintenance||1,
+      reserve=Math.max(0,o.E-(group==="main"?(S.spec(o).birthEnergy||60)*.65:8)),
+      foodFactor=Math.max(.25,Math.min(1,((rec?.organic||0)+(rec?.light||0)+reserve)/(maintenance*2))),
+      chance=foodFactor/(1+(group==="main"?8:12)*Math.max(0,density-target)/target),
+      result={chance,density,foodFactor,allowed:S.r(w,"birth/local-pressure",w.turn,o.id)<chance};
+    cache.set(o.id,result);return result;
+  }
   function eligible(w, o, ctx, asexual = false) {
     const s = S.spec(o),
       rec = ctx.records.get(o.id),
@@ -12407,6 +12525,7 @@ function(require,module){
     if(p?.ageStage === "juvenile" || (s.group === "plant" && S.ProducerSupport.factor(w,o,S)===0))return false;
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
+    if(!birthPressure(w,o,ctx).allowed)return false;
     if (s.group !== "main")
       return (
         ctx.traits.get(o.id).phase >= 2 &&
@@ -12632,6 +12751,7 @@ function(require,module){
     const near=S.nearby(w,o.cell).map(c=>m.main.get(c)).filter(Boolean);
     if(o.sex==="female" && !(o.sperm?.uses>0) && !(s.id==="jelly"&&o.maleAbsent>=8) && !near.some(a=>a.species===o.species && a.sex!==o.sex && S.ageInfo(a).stage!=="juvenile" && S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
     if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&[2,3].includes(S.nearby(w,c).filter(k=>m.main.has(k)).length)))reasons.push("出生場所不足");
+    if(!birthPressure(w,o,ctx).allowed)reasons.push("混雑・栄養収支による出生調整");
     return reasons;
   }
   function reproduce(w, ctx) {
@@ -12669,7 +12789,7 @@ function(require,module){
     ctx.children = children;
     return children;
   }
-  return { lead, growth, eligible, birthCost, candidates, child, reproduce };
+  return { lead, growth, eligible, birthPressure, birthCost, candidates, child, reproduce };
 });
 
 },
@@ -13070,6 +13190,11 @@ return {settings,attach,region,level,factor,begin,finish};
       throw Error("SETTINGS_INVALID: 年齢モデル");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
+    if(c.populationRegulation!==undefined){
+      const a=c.populationRegulation;
+      if(!a||typeof a!=="object"||Array.isArray(a)||a.version!==1||Object.keys(a).some(k=>k!=="version"))throw Error("SETTINGS_INVALID: 個体群の出生調整");
+      c.populationRegulation={version:1};
+    }
     if(c.producerSupport!==undefined){
       if(!c.producerSupport||typeof c.producerSupport!=="object"||Array.isArray(c.producerSupport))throw Error("SETTINGS_INVALID: 生産者供給");
       c.producerSupport=ProducerSupport.settings(c.producerSupport);
@@ -13769,7 +13894,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if(config.ecologyRevision === "observation/4.1") {
       w.searchQ=[];
       config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
-      config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.max(128,Math.min(256,Math.ceil(config.width*config.height/10))),createdSearchQ:0};
+      config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.floor(w.organisms.filter(o=>o.infection).length/2),createdSearchQ:0};
       const manualQ=config.founderCounts?.parasites.hyperparasite;
       if(manualQ!==undefined)config.parasiteInitial.targetSearchQ=manualQ;
       const candidates=w.organisms.filter(o=>o.slot==="main");
@@ -14817,6 +14942,11 @@ return {settings,attach,region,level,factor,begin,finish};
       throw Error("SETTINGS_INVALID: 年齢モデル");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
+    if(c.populationRegulation!==undefined){
+      const a=c.populationRegulation;
+      if(!a||typeof a!=="object"||Array.isArray(a)||a.version!==1||Object.keys(a).some(k=>k!=="version"))throw Error("SETTINGS_INVALID: 個体群の出生調整");
+      c.populationRegulation={version:1};
+    }
     if(c.producerSupport!==undefined){
       if(!c.producerSupport||typeof c.producerSupport!=="object"||Array.isArray(c.producerSupport))throw Error("SETTINGS_INVALID: 生産者供給");
       c.producerSupport=ProducerSupport.settings(c.producerSupport);
@@ -15517,7 +15647,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if(config.ecologyRevision === "observation/4.1") {
       w.searchQ=[];
       config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
-      config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.max(128,Math.min(256,Math.ceil(config.width*config.height/10))),createdSearchQ:0};
+      config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.floor(w.organisms.filter(o=>o.infection).length/2),createdSearchQ:0};
       const manualQ=config.founderCounts?.parasites.hyperparasite;
       if(manualQ!==undefined)config.parasiteInitial.targetSearchQ=manualQ;
       const candidates=w.organisms.filter(o=>o.slot==="main");
@@ -16895,6 +17025,11 @@ return {settings,attach,region,level,factor,begin,finish};
       throw Error("SETTINGS_INVALID: 年齢モデル");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
+    if(c.populationRegulation!==undefined){
+      const a=c.populationRegulation;
+      if(!a||typeof a!=="object"||Array.isArray(a)||a.version!==1||Object.keys(a).some(k=>k!=="version"))throw Error("SETTINGS_INVALID: 個体群の出生調整");
+      c.populationRegulation={version:1};
+    }
     if(c.producerSupport!==undefined){
       if(!c.producerSupport||typeof c.producerSupport!=="object"||Array.isArray(c.producerSupport))throw Error("SETTINGS_INVALID: 生産者供給");
       c.producerSupport=ProducerSupport.settings(c.producerSupport);
@@ -17230,7 +17365,7 @@ return {settings,attach,region,level,factor,begin,finish};
         }
     }
     for(const t of w.tiles)t.soilM=H.round(t.soilM*3);
-    config.freeAdvantage={version:"favored-free/3",externalSupply:false,producerLife:2400,producerLight:2,soilM:3,waterbugLife:600,waterbugBirth:"B123/E8/cost8",QsearchLife:480,QsearchRange:3,Qgrowth:[1,2],Qinitial:"128-256"};
+    config.freeAdvantage={version:"favored-free/3",externalSupply:false,producerLife:2400,producerLight:2,soilM:3,waterbugLife:600,waterbugBirth:"B123/E8/cost8",QsearchLife:480,QsearchRange:3,Qgrowth:[1,2],Qinitial:"half-primary/1"};
     const usable = w.tiles
         .map((t, i) => (!t.blocked ? i : -1))
         .filter((i) => i >= 0),
@@ -17596,7 +17731,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if(config.ecologyRevision === "observation/4.1") {
       w.searchQ=[];
       config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
-      config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.max(128,Math.min(256,Math.ceil(config.width*config.height/10))),createdSearchQ:0};
+      config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.floor(w.organisms.filter(o=>o.infection).length/2),createdSearchQ:0};
       const manualQ=config.founderCounts?.parasites.hyperparasite;
       if(manualQ!==undefined)config.parasiteInitial.targetSearchQ=manualQ;
       const candidates=w.organisms.filter(o=>o.slot==="main");

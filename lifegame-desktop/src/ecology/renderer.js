@@ -180,6 +180,38 @@
       lastFrameKey = null,
       layout = null, layoutWorld = null, layoutEnabled = null, layoutDetail = null,
       previousActors = new Map(), previousCorpses = new Map(), hitRegions = [];
+    let terrainWorker=null, terrainEpoch=0, terrainReady=false, terrainBusy=false,
+      terrainRequest=null, terrainFailed=false, terrainMetrics=null;
+    function pumpTerrain(){
+      if(!terrainReady||terrainBusy||!terrainRequest)return;
+      const request=terrainRequest;terrainRequest=null;terrainBusy=true;
+      terrainWorker.postMessage({type:"render",epoch:terrainEpoch,...request});
+    }
+    function resetTerrain(w){
+      terrainEpoch++;terrainWorker?.terminate();terrainWorker=null;
+      nearCache?.close?.();nearCache=null;terrainReady=false;terrainBusy=false;
+      terrainRequest=null;terrainMetrics=null;terrainFailed=false;
+      if(typeof OffscreenCanvas==="undefined"||typeof createImageBitmap==="undefined"||typeof Worker==="undefined"){terrainFailed=true;return;}
+      const epoch=terrainEpoch;
+      try{
+        terrainWorker=new Worker("ecology/terrain-worker.js");
+        terrainWorker.onerror=e=>{if(epoch!==terrainEpoch)return;e.preventDefault?.();terrainFailed=true;terrainBusy=false;diagnostics.terrainPending=false;revision++;};
+        terrainWorker.onmessage=({data:d})=>{
+          if(epoch!==terrainEpoch||d.epoch!==epoch){d.bitmap?.close?.();return;}
+          terrainBusy=false;
+          if(d.type==="error"){terrainFailed=true;diagnostics.terrainPending=false;revision++;return;}
+          if(d.key===cacheKey){nearCache?.close?.();nearCache=d.bitmap;terrainMetrics=d.metrics;diagnostics.terrainBuildMs=d.ms;diagnostics.terrainPending=false;revision++;}
+          else d.bitmap?.close?.();
+          pumpTerrain();
+        };
+        Promise.all(Object.entries(Art.images).filter(([key])=>key.startsWith("habitat-")).map(async([key,im])=>[key,await createImageBitmap(im)])).then(entries=>{
+          if(epoch!==terrainEpoch){for(const [,im]of entries)im.close();return;}
+          const images=Object.fromEntries(entries);
+          terrainWorker.postMessage({type:"init",epoch,world:{config:w.config,tiles:w.tiles},images},Object.values(images));
+          terrainReady=true;pumpTerrain();
+        }).catch(()=>{if(epoch===terrainEpoch){terrainFailed=true;diagnostics.terrainPending=false;revision++;}});
+      }catch(e){terrainFailed=true;}
+    }
     function displayLayout(){
       const detail=view.scale>=24&&view.mode!=="overview"&&!view.simplified;
       if(layoutWorld!==world||layoutEnabled!==view.planeSeparation||layoutDetail!==detail){
@@ -236,6 +268,7 @@
         geometryKey = key;
         cache = null;
         cacheKey = null;
+        resetTerrain(w);
       }
       if (lastTurn !== w.turn || restartMotion) {
         lastTurn = w.turn;
@@ -360,24 +393,17 @@
           devicePixelRatio || 1,
         ].join("/");
         if (key !== cacheKey) {
-          cacheKey = key;
-          nearCache = document.createElement("canvas");
-          const d = devicePixelRatio || 1;
-          nearCache.width = Math.round(b.width * d);
-          nearCache.height = Math.round(b.height * d);
-          const n = nearCache.getContext("2d");
-          n.scale(d, d);
-          n.translate(view.x, view.y);
-          n.scale(z, z);
-          scene.surface(n, visible, true, z);
+          cacheKey = key;nearCache?.close?.();nearCache=null;
+          terrainRequest={key,x:view.x,y:view.y,scale:z,width:b.width,height:b.height,dpr:devicePixelRatio||1};
+          diagnostics.terrainPending=!terrainFailed;pumpTerrain();
         }
-        g.drawImage(
-          nearCache,
-          -view.x / z,
-          -view.y / z,
-          b.width / z,
-          b.height / z,
-        );
+        if(!nearCache&&terrainFailed){
+          nearCache=document.createElement("canvas");const d=devicePixelRatio||1;
+          nearCache.width=Math.round(b.width*d);nearCache.height=Math.round(b.height*d);
+          const n=nearCache.getContext("2d");n.scale(d,d);n.translate(view.x,view.y);n.scale(z,z);scene.surface(n,visible,true,z);
+        }
+        if(nearCache)g.drawImage(nearCache,-view.x/z,-view.y/z,b.width/z,b.height/z);
+        else scene.surface(g,visible,false,z);
       } else {
         if (!cache) {
           const r = P.bounds,
@@ -404,9 +430,9 @@
         g.drawImage(cache, r.minX, r.minY, cache.width / 24, cache.height / 24);
       }
       diagnostics.materialPixelsPerCell = near
-        ? scene.metrics.unit
+        ? (terrainMetrics?.unit || scene.metrics.unit)
         : Math.max(8, Math.min(24, Math.floor(1800 / w.config.width)));
-      diagnostics.paintedMaterials = scene.metrics.paintedMaterials;
+      diagnostics.paintedMaterials = terrainMetrics?.paintedMaterials || scene.metrics.paintedMaterials;
       if (view.grid && z >= 8) {
         g.strokeStyle = "#e9e4c326";
         g.lineWidth = 0.6 / z;

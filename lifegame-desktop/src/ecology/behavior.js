@@ -594,6 +594,19 @@
   function choose(w, ctx, stage = null) {
     const m = S.maps(w);
     for (const o of w.organisms) {
+      // Stationary basal life has exactly one possible action. Process that
+      // shared rule directly instead of constructing visibility and scores.
+      const group = S.spec(o).group;
+      if (group === "plant" || group === "fungus") {
+        const type = "stop", cell = o.cell, path = [];
+        const chosen = {type, cell, cost:0, path, score:0, noRandom:0, features:[],
+          xi:2*S.r(w,"behavior/jitter",w.turn,o.id,[type,null,path,cell])-1,
+          h:S.hash(w,"behavior/tie",w.turn,o.id,[type,null,path,cell])};
+        ctx.intents.set(o.id,chosen);
+        ctx.records.get(o.id).randomChanged=false;
+        if(o.id===ctx.observeId)ctx.diagnostics={id:o.id,candidates:[{type,target:undefined,cell,score:0,cost:0,features:[]}]};
+        continue;
+      }
       const list = candidates(w, o, ctx, m).filter(c => !stage || (stage === "move" ? ["stop","move"].includes(c.type) : c.type !== "move")),
         v = view(w, o, ctx, m);
       for (const c of list) {

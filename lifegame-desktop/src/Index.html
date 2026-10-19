@@ -111,7 +111,7 @@ ECOSYSTEM-2026</textarea
             <details id="lower-initial-settings"><summary>下層生物・資源の初期量と分布</summary><p class="hint">密度は通行可能マスに対する配置目標です。適地と空き枠が不足すれば生成せず、設定の修正を案内します。供給中の量とは別です。種別・P/Qの初期数は下欄で個別に指定できます。</p><div class="setup-more">
               <label>生産者の初期密度（%）<input id="density-plant" type="number" required min="0" max="90" step="0.1" value="35"></label>
               <label>分解者の初期密度（%）<input id="density-fungus" type="number" required min="0" max="90" step="0.1" value="3"></label>
-              <label>一次消費者の初期密度（%）<input id="density-prey" type="number" required min="0" max="90" step="0.1" value="10"></label>
+              <label>一次消費者の初期密度（%）<input id="density-prey" type="number" required min="0" max="90" step="0.1" value="6"></label><p class="note">主生物・一次消費者の出生は、周囲の混雑と栄養状態に応じて調整します。</p>
               <label>下層の分布<select id="lower-distribution"><option value="habitat">適地内に散在</option><option value="cluster">適地内に集落</option></select></label>
               <label>鉱物の初期量（基準比%）<input id="resource-mineral" type="number" required min="0" max="400" step="10" value="100"></label>
               <label>水分の初期量（基準比%）<input id="resource-droplet" type="number" required min="0" max="400" step="10" value="100"></label>
@@ -177,7 +177,7 @@ ECOSYSTEM-2026</textarea
 
           <div class="metrics">
             <div class="population-main"><span>主生物</span><strong id="main-count">—</strong><small id="main-balance">出生 — / 死亡 —（累計）</small></div>
-            <div><span>餌生物</span><strong id="food-count">—</strong></div>
+            <div><span>下層生物</span><strong id="food-count">—</strong><small id="food-breakdown">生産者 / 一次消費者 / 分解者</small></div>
             <div>
               <span>一次 / 高次寄生</span><strong id="parasite-count">—</strong>
             </div>
@@ -191,7 +191,7 @@ ECOSYSTEM-2026</textarea
               <div><dt>持続性</dt><dd><span id="current-persistence"></span><small id="current-persistence-values" class="support-values"></small></dd></div></dl>
               <p class="note">構成は現在 ／ 関係は直近50Tの観測。個体・群体の数の割合であり、生物量の割合ではありません。</p>
             </div>
-                <div class="ecology-diagrams"><section><h4>成立した関係</h4><svg id="foodweb-diagram" viewBox="0 0 420 235" role="img" aria-label="栄養と宿主から受け手への関係図"></svg><p id="foodweb-leaders" class="note"></p></section>
+                <div class="ecology-diagrams"><section><h4>成立した関係</h4><svg id="foodweb-diagram" viewBox="0 0 510 235" role="img" aria-label="栄養と宿主から受け手への関係図"></svg><p id="foodweb-leaders" class="note"></p></section>
                 <section><h4>生物量ピラミッド（B／個体数ではありません）</h4><div id="biomass-pyramid"></div><p id="pyramid-support" class="note"></p></section></div>
             <div class="current-composition"><canvas id="current-donut" width="240" height="200" role="img" aria-label="現在の分類・系統の割合"></canvas><div id="current-legend"></div></div>
           </section>
@@ -233,7 +233,7 @@ ECOSYSTEM-2026</textarea
               ><button id="fit" class="small">全体</button
               ><button id="zoom-out" class="small" aria-label="縮小">−</button
               ><button id="zoom-in" class="small" aria-label="拡大">＋</button
-              ><label class="check" title="オンで主生物だけを上へ分離して表示。オフで通常表示へ戻ります。"
+              ><label id="plane-separation-option" class="check" hidden title="一旦提供を停止しています。"
                 ><input id="plane-separation" type="checkbox" />主生物を相分離</label
               ><label class="check"
                 ><input id="resources" type="checkbox" checked />資源</label
@@ -253,16 +253,16 @@ ECOSYSTEM-2026</textarea
                 ><input id="simplified" aria-label="生物を記号表示" type="checkbox" /><span class="control-subject">生物を</span>記号表示</label
               ><label class="check"
                 ><input id="status-marks" type="checkbox" checked />状態マーク</label
-              ><select id="status-scope" aria-label="状態マークの対象" title="主＋選択：主生物と選択した個体。全生物：下層の状態も表示。名札の設定とは独立しています。"><option value="main">主＋選択</option><option value="all">全生物</option></select><span id="render-mode">—</span>
+              ><select id="status-scope" aria-label="状態マークの対象" title="主＋選択：主生物と選択した個体。全生物：下層の状態も表示。名札の設定とは独立しています。"><option value="main">主＋選択</option><option value="all">全生物</option></select><span id="render-mode">—</span><span id="scale-warning" class="map-key-note" hidden>
+              縮尺が小さいため記号が重なります。拡大またはマス選択で内訳を確認できます。
+            </span>
             </div>
           </div>
           <details id="map-key" class="map-key" open>
             <summary>盤面の記号と現在の個体数</summary>
             <button id="clear-highlights" class="small">所在強調をすべて解除</button><p id="presence-note" class="note" role="status" aria-live="polite"></p>
             <div id="species-key" class="species-key"></div>
-            <p id="scale-warning" class="map-key-note" hidden>
-              縮尺が小さいため記号が重なります。拡大またはマス選択で内訳を確認できます。
-            </p>
+
             <details class="map-key-extra"><summary>名札・資源・記号の説明</summary>
           <fieldset class="name-settings"><legend>名札（近景）</legend>
             <label class="check"><input type="checkbox" id="names-basal" />植物・菌</label>
@@ -360,7 +360,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.29 · 外部通信なし</span>
+        ><span>v4.2.30 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">

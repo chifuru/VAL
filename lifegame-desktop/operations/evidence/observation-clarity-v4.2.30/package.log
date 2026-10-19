@@ -1,0 +1,6 @@
+
+> valis-lifegame-desktop@4.2.30 package:windows
+> node tools/package-windows.cjs
+
+Packaging app for platform win32 x64 using electron v44.7.2
+{"version":"4.2.30","electron":"44.7.2","exe":"LifeGame.exe","platform":"win32","arch":"x64","zip":"LifeGame-Windows-x64.zip","sha256":"30dfc74b4276ec8ea2a5925da1391421060773bea72cae463325001743fb155d","bytes":274725279}
