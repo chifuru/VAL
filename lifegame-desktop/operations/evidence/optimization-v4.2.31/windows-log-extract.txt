@@ -1,0 +1,8 @@
+2026-10-19T18:13:50.2619615Z ℹ tests 287
+2026-10-19T18:13:50.2620201Z ℹ pass 282
+2026-10-19T18:13:50.2620474Z ℹ fail 0
+2026-10-19T18:20:09.4073231Z {"version":"4.2.31","electron":"44.7.2","exe":"LifeGame.exe","platform":"win32","arch":"x64","zip":"LifeGame-Windows-x64.zip","sha256":"4a7ce725136c2f6cf30ad0856807bd35369554c636a55f96433df010a3451d8b","bytes":274734671}
+2026-10-19T18:20:27.0624729Z {"ok":true,"electron":"44.7.2","platform":"Win32","arch":"x64","terrainWorker":true,"terrainBuildMs":5008,"workerPlayback":true,"workerTurnMs":4355.199999999953,"randomModel":"table/1","assetsLoaded":true,"assetErrors":[],"turn":11,"population":1048,"nodeExposed":false,"local":true,"title":"LifeGame — 生態シミュレーション"}
+2026-10-19T18:20:27.2826421Z {"ok":true,"electron":"44.7.2","platform":"Win32","arch":"x64","terrainWorker":true,"terrainBuildMs":5008,"workerPlayback":true,"workerTurnMs":4355.199999999953,"randomModel":"table/1","assetsLoaded":true,"assetErrors":[],"turn":11,"population":1048,"nodeExposed":false,"local":true,"title":"LifeGame — 生態シミュレーション"}
+2026-10-19T18:20:39.2196380Z Artifact LifeGame-Windows-x64.zip successfully finalized. Artifact ID 12211792260
+2026-10-19T18:20:39.2200998Z Artifact LifeGame-Windows-x64 has been successfully uploaded! Final size is 299655177 bytes. Artifact ID is 12211792260

@@ -30,6 +30,12 @@ browser-baseline.json と browser-table-final.json は同じ小盤面・遠近10
 
 ## 配布と未確認
 
-最終Windows4.2.31 ZIPを生成。package-match.jsonでsrc全73ファイル/35PNGのASAR同梱一致を照合（実数は同JSONを正とする）。実Windowsはmain統合後のCIで確認する。旧版や途中ZIPを現行版と案内しない。
+最終Windows4.2.31 ZIPを生成。package-match.jsonでsrc全73ファイル/35PNGのASAR同梱一致を照合（実数は同JSONを正とする）。実WindowsはCI39300201408の配布ZIP全展開から実exeを起動し成功。windows-native.jsonとwindows-log-extract.txtを参照。287テスト中282成功/5スキップ/失敗0、画面検査と新乱数表・生態Worker・描画Worker・画像読込・Node非公開を確認。旧版や途中ZIPを現行版と案内しない。
 
-全面的なdirty追跡/索引増分更新、全50T指標の完全ローリング化、全描画の空間分割、CSVストリーム化、GPU/WASM/計算分散、全条件の厳密安定率、最終版の通常描画500Tと全差分の外観承認は未実施。source-hashes.jsonの対象と各検査範囲に限定する。比較用cjsはworkspaceのbaseline等を使う監査スクリプトであり、利用者向け起動手順ではない。
+全面的なdirty追跡/索引増分更新、全50T指標の完全ローリング化、全描画の空間分割、CSVストリーム化、GPU/WASM/計算分散、全条件の厳密安定率、全条件の通常描画500Tと全差分の外観承認は未実施。source-hashes.jsonの対象と各検査範囲に限定する。比較用cjsはworkspaceのbaseline等を使う監査スクリプトであり、利用者向け起動手順ではない。
+
+## 通常再生500Tの結合確認
+
+rendered-500/report.json: 最終配布と同じ生態/通信/描画を使う通常Workerで河川40×28・供給OFF・5系統を500T再生。542223ms（約9分2秒）、主56/水游虫81/P824/Q116。最終指紋a36bf00f…が描画なしの実測と一致。全501行を図鑑へ保存しJSONを書き出し、最終指紋/全501行を照合。errors=[]。saved.json.gzと最終画面を保存。監視は軽量turn参照であり毎フレーム世界を複製しない。他の初期値/盤面サイズの所要時間は保証しない。
+
+配布: [Windows4.2.31](https://github.com/chifuru/VAL/actions/runs/39300201408/artifacts/12211792260)。製品ソース10f9f77、artifact12211792260。Windows生成ZIPのSHAは4a7ce725…、ローカル生成ZIPのSHAはbe31b380…で別ファイル。両方を同一バイナリとは扱わない。ZIP/画像一致はローカル73src/35PNG、WindowsはCIの対象commit・全展開SHA・実exeの実測で区別する。

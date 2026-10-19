@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `operations/plans/optimization-v4.2.31.md`。製品4.2.31は版付き乱数表、候補/CA/通信/系列/保存の重複削減、事前陰影、背景再利用、作用マーク、分類別の折り返し一覧を接続。個体単位/原画/遠景記号/全ターン原値を維持。集団化は不要として除外。
 
-検証範囲は `operations/evidence/optimization-v4.2.31/README.md`。旧乱数3規模の世界一致、新乱数2条件500Tの有限収支/存続、関連UIを限定確認。Windows4.2.31配布と実exeは別ゲート。全PC/全条件の性能・厳密生存率、全面的なdirty更新/GPU等は未認定または未実装。正式状態は草案。
+検証範囲は `operations/evidence/optimization-v4.2.31/README.md`。旧乱数3規模の世界一致、新乱数2条件500Tの有限収支/存続、関連UIを限定確認。Windows4.2.31はCI39300201408でZIP展開SHA/実exe/生態・描画Workerが成功（製品10f9f77、artifact12211792260）。全PC/全条件の性能・厳密生存率、全面的なdirty更新/GPU等は未認定または未実装。正式状態は草案。通常再生の代表500Tは約9分2秒、描画なしと最終指紋一致・全501行の保存を確認。
 
 ## A：仕様
 
@@ -503,6 +503,6 @@ E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［�
 	ロジック:
 		対象SHAと版が一致する配布物を展開し、実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		4.2.31: Windows4.2.31のZIP同梱と実exeを区別。実Windows CIは確認待ち。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
+		4.2.31: Windows4.2.31のZIP展開SHA/実exeと生態・描画WorkerがCI39300201408で成功。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
 
 ```
