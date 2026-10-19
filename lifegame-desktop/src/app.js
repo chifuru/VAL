@@ -68,6 +68,7 @@
     timer = null,
     selectedId = null,
     selectedCell = null,
+    describedSpecies = null,
     lastMs = 0,
     activeSheet = "tree",
     activeLineage = "abyss",
@@ -247,7 +248,8 @@
       input.disabled = fixed || !main || !weighted;
   }
   function closeWorldDetails() {
-    for (const id of ["species-info", "guide", "results"])
+    closeDetails();
+    for (const id of ["guide", "results"])
       if ($(id).open) $(id).close();
   }
   function confirmWorldChange(text) {
@@ -343,6 +345,10 @@
 
     selectedId = null;
     selectedCell = null;
+    describedSpecies = null;
+    renderer.view.highlights=[];
+    for(const input of $("species-key").querySelectorAll("input"))input.checked=false;
+    $("presence-note").textContent="";
     renderer.view.selected = null;
     renderer.view.selectedEntity = null;
     renderer.setWorld(world);
@@ -710,6 +716,7 @@
   });
   function select(cell, id = null, {groundOnly=false} = {}) {
     // Selection reads committed state and does not invalidate prepared work.
+    describedSpecies = null;
     selectedCell = cell;
     selectedId =
       id ||
@@ -732,12 +739,18 @@
   }
   $('follow-individual').onclick=()=>{followId=followId?null:selectedId;updateTracking();};
   $('clear-highlights').onclick=()=>{renderer.view.highlights=[];for(const i of $('species-key').querySelectorAll('input'))i.checked=false;};
-  $('close-species').onclick=()=>$('species-info').close();
+  function closeDetails(){describedSpecies=null;selectedId=null;selectedCell=null;followId=null;lastTracked=null;renderer.view.selected=null;renderer.view.selectedEntity=null;$("follow-note").textContent="";renderSelection();}
+  $('close-species').onclick=closeDetails;
+  for(const group of ["basal","prey","P","Q","resource"])$("names-"+group).onchange=()=>{renderer.view.names[group]=$("names-"+group).checked;renderer.draw();};
   function describeSpecies(id){
+    if(describedSpecies===id){closeDetails();return;}
+    describedSpecies=id;renderSelection();
+  }
+  function renderSpeciesDescription(id){
     const s=D.byId[id];
     const group=groups[s.group],diet=D.diets[s.diet];
     $('species-description').innerHTML=`<p class="eyebrow">${escape(group)}</p><h2>${escape(s.name)}</h2><canvas id="species-symbol" width="120" height="120"></canvas><p>現在 ${world.stats.counts[id]||0} ${['P','Q'].includes(s.group)?'群体':'個体'}</p><p>${s.dietName ? escape(s.dietName) + ' · ' : ''}${escape(s.dietDescription || diet?.description || (s.group==='plant'?'光合成を行い、他生物を支える生産者。':s.group==='fungus'?'有限の有機物を利用する分解者。':s.group==='prey'?'主生物の食物網を支える小型の餌生物。':s.group==='P'?'宿主を移り生活環を進める一次寄生群体。維持費と排除により失われます。':'一次寄生虫の成熟移行期だけ感染。行動や局所情報へ作用する高次寄生群体。'))}</p><p>${s.good?'得意環境: '+s.good.map(i=>D.environments[i].name).join(' / '):'適合する宿主・生息条件で活動'}${Number.isInteger(s.bad)?' / 苦手: '+D.environments[s.bad].name:''}</p><p>${s.phases?'成長: '+s.phases.join(' → '):'進化相と寄生生活環は別の状態です。'} / ${world.stats.counts[id]?'盤面のチェックで全所在を強調できます。':world.config.enabled[s.group]?'現在の生体は0です。':'この観察では未参加です。'}</p>`;
-    R.symbol($('species-symbol').getContext('2d'),id,60,60,42,R.symbolColor(s));if(!$('species-info').open)$('species-info').show();
+    R.symbol($('species-symbol').getContext('2d'),id,60,60,42,R.symbolColor(s));
   }
   function parasiteDetails(id){const a=locate(id);if(!a)return '<p>対象は消失しました。別個体へ切り替えません。</p>';const q=a.entity,s=D.byId[q.species];return `<article class="specimen parasite"><h3>${escape(s.name)}</h3><p>${escape(q.id)}<br>宿主: ${escape(q.hostId || 'なし・探索中')}<br>${q.stage?stages[q.stage]+' / 成熟 '+q.counter+'/'+E.P.required[q.stage]+' / 負荷 '+fmt(q.load??.5):'Q '+phase(q.phase)+' / '+(q.cell!==undefined?'探索':'定着')}<br>E ${fmt(q.E)}${q.matureAt!==undefined?'<br>成熟移行 '+q.matureAt+'T / 感染窓 '+(q.matureAt+1)+'〜'+(q.matureAt+3)+'T':''}</p></article>`;}
   function chartColor(s){const ids=D.species.filter(a=>a.group===s.group),i=ids.findIndex(a=>a.id===s.id),h={plant:125,fungus:35,prey:185,main:220,P:18,Q:280}[s.group];return `hsl(${h+i*2} 65% ${40+(i%5)*9}%)`;}
@@ -875,7 +888,14 @@
     return `<article class="specimen ${hero ? "specimen-hero" : ""}"><h3>${escape(s.name)}</h3><div class="phase-name">${phase(o.phase)}相 · ${escape(s.phases?.[o.phase - 1] || s.name)} / ${sex[o.sex] || "無性"} ${roles[o.role] || ""}</div>${main ? `<p class="diet-tag">${escape(s.dietName || D.diets[s.diet].name)} · ${escape(s.dietDescription || D.diets[s.diet].description)}</p>` : ""}<canvas class="portrait" width="${hero ? 384 : 116}" height="${hero ? 300 : 116}" data-portrait="${escape(o.id)}"></canvas><p class="micro">${escape(o.id)} · 世代 ${o.generation} · 年齢 ${o.age}ターン${age.enabled ? ` · <strong class="age-stage" data-age-stage="${age.stage}">${ageLabel}</strong> · 成熟${age.matureAt} / 老齢${age.elderlyAt}` : ""}</p><div class="vital-bars"><span>E</span><progress max="${p.capE}" value="${o.E}"></progress><span>${fmt(o.E)} / ${fmt(p.capE)}</span><span>HP</span><progress max="${p.maxHP}" value="${o.HP}"></progress><span>${fmt(o.HP)} / ${p.maxHP}</span></div>${actionNote}${birthNote}${preview}${hero ? affinity + weights : ""}<details class="specimen-data"><summary>栄養・能力・系譜の詳細</summary><p class="stats-line">B ${fmt(o.B)} · M ${fmt(o.M)} · G ${fmt(o.G)}${s.group === "plant" ? "<br>可食葉B " + fmt(S.edibleB(o)) + " / 基部B " + fmt(Math.min(S.PLANT_BASE, o.B)) : ""}<br>食性 ${s.dietName || D.diets[s.diet]?.name || (s.group === "plant" ? "光合成" : s.group === "prey" ? "草食" : "菌類の分解吸収")}<br>寿命 ${p.life} · 維持E ${fmt(p.maintenance)}${age.enabled ? `<br>出生時寿命基準 ${age.birthLife}（進化しても固定）<br>通常姿勢の攻防（観測用）<br>${powerDetails}<br>年齢補正：攻撃×${fmt(p.ageFactors.attack)} / 防御×${fmt(p.ageFactors.defense)} / HP×${fmt(p.ageFactors.hp)}<br>移動費×${fmt(p.ageFactors.move)} / 回復×${fmt(p.ageFactors.healing)} / 繁殖待機×${fmt(p.ageFactors.birth)}<br>最大HP：基礎${p.baseMaxHP} → ${p.maxHP} / 維持：基礎${fmt(p.baseMaintenance)} → ${fmt(p.maintenance)}` : ""}<br>感知 ${p.sense} / 移動 ${p.speed} / 射程 ${p.range}<br>${main ? `枝: ${o.branch3 === null ? "未分岐" : s.branches[o.branch3]} ${o.branch4 === null ? "" : D.branch4[o.branch3][o.branch4]}<br>出生待機 ${Math.max(0, o.birthReady - world.turn)} / 攻撃待機 ${Math.max(0, o.attackReady - world.turn)}<br>` : ""}${o.colony ? "集団 " + escape(o.colony) + "<br>" : ""}両親: ${escape(o.parents.join(", ") || "初期個体")}</p></details>${main ? `<button class="small" data-tree="${s.id}">この系統の進化条件 ↗</button><details><summary>基礎DNA</summary><p class="micro">DNAは出生時固定。行動パラメータは本人・一族・接触・情報の経験で変わります。</p>${S.DNA.map((k) => `<div class="weight-row"><span>${{ body: "体格", appendage: "付属器", senses: "感覚", skin: "外皮", aptitude: "代謝適性", sensitivity: "情報感度" }[k]}</span><span>${fmt(o.dna[k])}</span></div>`).join("")}</details>` : ""}${infectionHTML(o)}${world.diagnostics?.id === o.id ? `<details><summary>直近の候補上位3（観測用）</summary>${world.diagnostics.candidates.map((c) => `<p class="micro">${actions[c.type]} / 得点 ${fmt(c.score)} / 費用 ${fmt(c.cost)}<br>特徴: ${c.features.map(fmt).join(" / ")}</p>`).join("")}</details>` : ""}</article>`;
   }
   function renderSelection() {
+    const speciesMode=!!describedSpecies;
+    $("species-info").hidden=!speciesMode;$("selection").hidden=speciesMode;
+    $("follow-individual").hidden=speciesMode;$("follow-note").hidden=speciesMode;
+    $("close-species").hidden=!speciesMode&&selectedCell===null;
+    document.querySelector(".inspector-heading").textContent=speciesMode?"◈ 系統の説明":"◈ 選択中の個体";
+    if(speciesMode&&world){const panel=document.querySelector(".inspector"),scroll=panel.scrollTop;renderSpeciesDescription(describedSpecies);panel.scrollTop=scroll;return;}
     if (!world || selectedCell === null) {
+      $("follow-individual").disabled=true;
       $("selection").textContent = "盤面のマスを選択してください。";
       return;
     }
@@ -915,6 +935,7 @@
     }
     for (const b of $("selection").querySelectorAll("[data-observe]"))
       b.onclick = () => {
+        describedSpecies = null;
         selectedId = b.dataset.observe;
         renderSelection();
       };
@@ -928,11 +949,16 @@
     const counts=world.stats.counts;
     if(!$("species-key").childElementCount){
       $("species-key").innerHTML=D.species.map(s=>`<span class="map-key-item" data-species="${s.id}"><input type="checkbox" aria-label="${escape(s.name)}の所在を強調" data-highlight="${s.id}"><button class="species-button" data-describe="${s.id}"><canvas width="40" height="40" aria-hidden="true"></canvas><span>${escape(s.name)}</span><b data-count="${s.id}">0</b></button></span>`).join("");
-      for(const item of $("species-key").children){const sp=D.byId[item.dataset.species];R.symbol(item.querySelector("canvas").getContext("2d"),sp.id,20,20,14,R.symbolColor(sp));}
+      for(const item of $("species-key").children){const sp=D.byId[item.dataset.species];item.style.setProperty("--presence-color",R.highlightColor(sp.id));R.symbol(item.querySelector("canvas").getContext("2d"),sp.id,20,20,14,R.symbolColor(sp));}
       for(const input of $("species-key").querySelectorAll("[data-highlight]"))input.onchange=()=>{renderer.view.highlights=[...$("species-key").querySelectorAll("[data-highlight]:checked")].map(i=>i.dataset.highlight);};
       for(const button of $("species-key").querySelectorAll("[data-describe]"))button.onclick=()=>describeSpecies(button.dataset.describe);
     }
-    for(const s of D.species)document.querySelector(`[data-count="${s.id}"]`).textContent=counts[s.id]||0;
+    for(const s of D.species){
+      const count=counts[s.id]||0,node=document.querySelector(`[data-count="${s.id}"]`),item=node.closest(".map-key-item");
+      node.textContent=count;
+      if(!count&&item.contains(document.activeElement)){$("clear-highlights").focus({preventScroll:true});$("presence-note").textContent=s.name+"の現在個体数は0になりました。過去の記録と所在強調の選択は保持します。";}
+      item.hidden=count===0;
+    }
     if ($("resource-key").childElementCount) return;
     $("resource-key").innerHTML = Object.entries(S.FOOD)
       .map(

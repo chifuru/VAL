@@ -1,0 +1,9 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+const out=__dirname,before=JSON.parse(fs.readFileSync(path.join(out,'before-hashes.json'))),allowed=new Set(['src/app.js','src/ecology/renderer.js','src/styles.css','src/Index.html']),hashes={},changed=[];
+for(const[f,old]of Object.entries(before)){const h=crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');hashes[f]=h;if(h!==old){assert(allowed.has(f),'Unexpected source change '+f);changed.push(f);}}assert.equal(changed.length,4);
+const a=fs.readFileSync(path.join(out,'before-renderer.js'),'utf8'),b=fs.readFileSync('src/ecology/renderer.js','utf8'),symbolSection=s=>s.slice(s.indexOf('  const symbolPaths ='),s.indexOf('  function create(canvas)'));
+assert.equal(symbolSection(a),symbolSection(b),'far symbol paths, colors and organism art dispatch unchanged');
+for(const f of ['tests/observation-controls-ui.cjs','tests/navigation-ui.cjs','operations/plans/observation-controls-v4.2.9.md'])hashes[f]=crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+const reports={};for(const [name,count]of [['report.json',45],['navigation/report.json',27],['plane/report.json',22]]){const r=JSON.parse(fs.readFileSync(path.join(out,name)));assert.equal(r.checks.length,count);assert.equal(r.errors.length,0);reports[name]=count;}
+fs.writeFileSync(path.join(out,'source-hashes.json'),JSON.stringify(hashes,null,2)+'\n');fs.writeFileSync(path.join(out,'scope.json'),JSON.stringify({changed,reports,all35PNGsAndArtUnchanged:true,all183BranchRegionsUnchanged:true,farSymbolsUnchanged:true,biologyUnchanged:true,replayFormatUnchanged:true,all31LineageColors:true,graphLayoutUnchanged:true,fullDensityAndNativeWindowsNotVerified:true},null,2)+'\n');console.log('PASS: four display files only; raw art/biology/replay unchanged; 94 scoped checks; far symbols preserved');

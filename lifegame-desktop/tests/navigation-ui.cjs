@@ -39,7 +39,7 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
   await page.locator('#weight-options input').first().fill('1');await page.selectOption('#lineages','manual');await page.locator('#lineage-options input').evaluateAll(es=>es.forEach(e=>e.checked=false));await load();
   check((await page.locator('#setup-message').textContent()).includes('参加系統'),'empty manual selection explains error');
   await page.click('#cancel-settings');await page.locator('[data-describe="abyss"]').click();check(await page.locator('#species-info').isVisible(),'species explanation can open');await page.click('#change-world');
-  check(!await page.locator('#species-info').evaluate(e=>e.open),'return to setup closes prior-world explanation');
+  check(await page.locator('#species-info').isHidden(),'return to setup closes prior-world explanation');
   await page.selectOption('#lineages','few');await page.selectOption('#distribution','balanced');await load();
   await page.evaluate(()=>__LIFE_TEST__.step());const history=await state();await page.click('#change-world');
   await page.fill('#initial','4');await page.selectOption('#lineages','all');await load();

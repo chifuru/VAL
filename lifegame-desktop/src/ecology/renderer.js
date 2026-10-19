@@ -15,6 +15,11 @@
     "#d4c179",
     "#c59873",
   ];
+  // ID order is stable; highlight colors never depend on selection order.
+  function highlightColor(id) {
+    const index=S.D.species.findIndex(s=>s.id===id);
+    return `hsl(${Math.round((index*137.508+32)%360)} 78% 68%)`;
+  }
   // Cartographic symbols, shared by board and legend. Shape is independent of biology.
   const symbolPaths = {
       abyss:
@@ -149,6 +154,7 @@
         duration: 260,
         selected: null,
         highlights: [],
+        names: { basal:false, prey:false, P:false, Q:false, resource:false },
       };
     const diagnostics = {
       mode: "detail",
@@ -301,6 +307,8 @@
         parasiteArt: 0,
         remainsArt: 0,
         statusBadges: 0,
+        nameLabels: { main:0, basal:0, prey:0, P:0, Q:0, resource:0 },
+        highlightedCells: [],
         criticalMarkers: 0,
         elevated: 0,
         selectedMotionEndpoints: null,
@@ -418,6 +426,8 @@
         });
         for (const [id, list] of order.slice(0, 128)) events.set(id, list);
       }
+      const annotations = [];
+      const nameEnabled=(group,id)=>view.names[group]||id===view.selectedEntity;
       if (view.resources)
         for (const a of w.resources) {
           const kind = Object.keys(S.FOOD).indexOf(a.kind),
@@ -429,6 +439,10 @@
           if (!visible(p)) continue;
           diagnostics.resources++;
           const r = 0.05 + 0.04 * Math.min(1, a.q / (S.FOOD[a.kind].cap || 4));
+          if (near && (view.names.resource || a.cell===view.selected)) {
+            annotations.push(()=>{g.save();g.fillStyle="#fff1cd";g.font=".055px sans-serif";g.textAlign="center";g.shadowColor="#061a25";g.shadowBlur=3/z;g.fillText(S.FOOD[a.kind].name,p[0],p[1]-.10);g.restore();});
+            diagnostics.nameLabels.resource++;
+          }
           if (detail) Art.resource(g, a, ...p, r, w.tiles[a.cell].env, w.turn);
           else
             symbol(
@@ -491,7 +505,7 @@
           g.beginPath();g.ellipse(...a.ground,.32,.12,0,0,Math.PI*2);g.fill();
         }
       }
-      const annotations = [];let upperStarted=false;
+      let upperStarted=false;
       for (const actor of sequence) {
         if(actor.elevated&&!upperStarted){for(const paint of annotations)paint();annotations.length=0;upperStarted=true;}
         const { p } = actor;
@@ -672,7 +686,12 @@
         if (o.infection) {
           diagnostics.infectedHosts++;
           if (o.infection.q) diagnostics.highParasites++;
-          if(near && z>=100)annotations.push(()=>{g.font=".055px sans-serif";g.fillStyle="#ffd1a3";g.fillText(S.D.byId[o.infection.species].name+" P · "+o.infection.stage,cx+.1,cy-.43);if(o.infection.q){g.fillStyle="#d9b9ff";g.fillText(S.D.byId.hyperparasite.name+" Q · "+o.infection.q.phase,cx+.1,cy-.51);}});
+          if(near && (z>=100 || o.infection.id===view.selectedEntity || o.infection.q?.id===view.selectedEntity)) {
+            const pName=nameEnabled("P",o.infection.id),qName=o.infection.q&&nameEnabled("Q",o.infection.q.id);
+            if(pName)diagnostics.nameLabels.P++;
+            if(qName)diagnostics.nameLabels.Q++;
+            annotations.push(()=>{g.save();g.font=".055px sans-serif";g.textAlign="left";g.shadowColor="#061a25";g.shadowBlur=3/z;if(pName){g.fillStyle="#ffd1a3";g.fillText(S.D.byId[o.infection.species].name+" P · "+o.infection.stage,cx+.1,cy-.43);}if(qName){g.fillStyle="#d9b9ff";g.fillText(S.D.byId.hyperparasite.name+" Q · "+o.infection.q.phase,cx+.1,cy-.51);}g.restore();});
+          }
           const [bx, by] = globalThis.EcoDisplayPlane.parasitePoint([cx,cy],"P",detail);
           if (detail && Art.parasite(g, o.infection, bx, by, .105)) {
             diagnostics.parasiteArt++;
@@ -760,7 +779,9 @@
           }
           g.restore();
         }
-        if (near) {
+        const nameGroup=isMain?"main":S.spec(o).group==="prey"?"prey":"basal";
+        if (near && (isMain || nameEnabled(nameGroup,o.id))) {
+          diagnostics.nameLabels[nameGroup]++;
           annotations.push(() => {
           g.font = ".065px sans-serif";
           g.textAlign = "center";
@@ -826,13 +847,26 @@
       }
       for(const q of w.searchQ || []){
         const [x,y]=S.xy(w,q.cell),p=P.point(x+.5,y+.5);if(detail&&Art.parasite(g,q,p[0]+.24,p[1]-.25,.11))diagnostics.parasiteArt++;else symbol(g,"hyperparasite",p[0]+.24,p[1]-.25,.09,"#ccadff");hitRegions.push({id:q.id,cell:q.cell,main:false,x:p[0]+.24,y:p[1]-.25,rx:.11,ry:.11});
-        if(near){g.fillStyle="#d9c6ff";g.font=".06px sans-serif";g.fillText(S.D.byId.hyperparasite.name+" · 探索",p[0],p[1]-.38);}
+        if(near && nameEnabled("Q",q.id)){diagnostics.nameLabels.Q++;g.save();g.fillStyle="#d9c6ff";g.font=".06px sans-serif";g.textAlign="center";g.fillText(S.D.byId.hyperparasite.name+" · 探索",p[0],p[1]-.38);g.restore();}
       }
-      const marks=new Set(view.highlights||[]);
-      for(const o of w.organisms){const species=[o.species,o.infection?.species,o.infection?.q?.species].filter(s=>marks.has(s));if(!species.length)continue;
-        const face=P.face(o.cell);species.forEach((id,i)=>{path(face.slice(0,4));g.fillStyle=id==="hyperparasite"?"#c895ff30":"#ffe29930";g.fill();g.strokeStyle=id==="hyperparasite"?"#d6a8ff":id.includes("parasite")?"#ffab79":"#fff2ad";g.lineWidth=(2+i)/z;g.setLineDash(i?[3/z,2/z]:[]);g.stroke();g.setLineDash([]);});
+      const marks=new Set(view.highlights||[]),markedCells=new Map();
+      const mark=(cell,id)=>{if(!marks.has(id))return;if(!markedCells.has(cell))markedCells.set(cell,new Set());markedCells.get(cell).add(id);};
+      for(const o of w.organisms){mark(o.cell,o.species);if(o.infection){mark(o.cell,o.infection.species);if(o.infection.q)mark(o.cell,o.infection.q.species||"hyperparasite");}}
+      for(const q of w.searchQ||[])mark(q.cell,"hyperparasite");
+      for(const [cell,ids]of markedCells){
+        const face=P.face(cell).slice(0,4),cx=face.reduce((n,p)=>n+p[0],0)/4,cy=face.reduce((n,p)=>n+p[1],0)/4,
+          ordered=S.D.species.filter(s=>ids.has(s.id)).map(s=>s.id);
+        g.save();ordered.forEach((id,i)=>{
+          const color=highlightColor(id),inset=Math.min(.32,i*3/z),f=face.map(p=>[p[0]+(cx-p[0])*inset,p[1]+(cy-p[1])*inset]);
+          g.strokeStyle=color;g.lineWidth=2/z;
+          if(z<24 && ordered.length>1){
+            // At overview scale nested borders would coincide. Split the perimeter instead.
+            const start=i*4/ordered.length,end=(i+1)*4/ordered.length,
+              edgePoint=t=>{const k=Math.min(3,Math.floor(t)),u=t-k;return [face[k][0]+(face[(k+1)%4][0]-face[k][0])*u,face[k][1]+(face[(k+1)%4][1]-face[k][1])*u];};
+            g.beginPath();g.moveTo(...edgePoint(start));for(let k=Math.floor(start)+1;k<end;k++)g.lineTo(...edgePoint(k));g.lineTo(...edgePoint(end));g.stroke();
+          }else{path(f);g.globalAlpha=.10;g.fillStyle=color;g.fill();g.globalAlpha=1;g.stroke();}
+        });g.restore();diagnostics.highlightedCells.push({cell,ids:ordered,colors:ordered.map(highlightColor),mode:z<24&&ordered.length>1?"split-perimeter":"nested"});
       }
-      for(const q of w.searchQ||[])if(marks.has("hyperparasite")){path(P.face(q.cell).slice(0,4));g.fillStyle="#c895ff55";g.fill();g.strokeStyle="#d6a8ff";g.lineWidth=2/z;g.stroke();}
       for (const annotate of annotations) annotate();
       if (view.selected !== null) {
         const f = P.face(view.selected);
@@ -909,6 +943,7 @@
     food,
     symbol,
     symbolColor,
+    highlightColor,
     symbolPaths,
     colors,
     assets: Art,

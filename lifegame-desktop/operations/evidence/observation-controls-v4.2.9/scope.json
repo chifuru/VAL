@@ -1,0 +1,21 @@
+{
+  "changed": [
+    "src/styles.css",
+    "src/Index.html",
+    "src/app.js",
+    "src/ecology/renderer.js"
+  ],
+  "reports": {
+    "report.json": 45,
+    "navigation/report.json": 27,
+    "plane/report.json": 22
+  },
+  "all35PNGsAndArtUnchanged": true,
+  "all183BranchRegionsUnchanged": true,
+  "farSymbolsUnchanged": true,
+  "biologyUnchanged": true,
+  "replayFormatUnchanged": true,
+  "all31LineageColors": true,
+  "graphLayoutUnchanged": true,
+  "fullDensityAndNativeWindowsNotVerified": true
+}

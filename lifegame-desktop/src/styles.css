@@ -1468,7 +1468,7 @@ body:not(.setup-screen) .workspace { grid-template-columns:minmax(0,1fr) 340px; 
 .species-button { display:flex; align-items:center; gap:5px; border:0; background:transparent; padding:2px; font:inherit; }
 .map-key-item { align-items:center; }
 .map-key-item input { accent-color:#e0c581; }
-#species-info { position:fixed; top:15vh; right:4vw; max-width:420px; background:#0b2632; color:#dbefec; border:1px solid #58747d; border-radius:16px; padding:24px; z-index:50; }
+#species-info { position:static; max-width:100%; color:#dbefec; padding:8px 0; }
 #species-info p { line-height:1.7; }
 @media(max-width:900px){body:not(.setup-screen) .workspace { grid-template-columns:1fr; }.graph-grid{grid-template-columns:1fr;}}
 
@@ -1480,3 +1480,14 @@ body:not(.setup-screen) .inspector { grid-column:2; grid-row:1; position:sticky;
 #advantage-settings legend{padding:0 6px;color:#b6d7c5;font-size:.85rem}
 #advantage-settings .check{display:flex;margin:6px 0;font-size:.85rem}
 #advantage-settings .hint{margin:9px 0 0;color:#9bb5b3;font-size:.75rem;line-height:1.6}
+
+/* Observation controls share the existing panel material. */
+.name-settings{display:flex;flex-wrap:wrap;gap:8px 16px;margin:10px 0;border:1px solid #31515b;border-radius:8px;padding:10px 12px;align-items:center}
+.name-settings legend{font-size:12px;color:#accbc8;padding:0 6px}
+.name-settings small{color:#8daead;font-size:11px}
+.map-key-item[hidden],#species-info[hidden],#selection[hidden]{display:none!important}
+.map-key-item[data-species]{border-left:3px solid var(--presence-color);padding-left:5px}
+.map-key-item input[data-highlight]{accent-color:var(--presence-color)}
+.map-key-item:has(input[data-highlight]:checked){box-shadow:inset 0 -2px var(--presence-color)}
+.inspector-title{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px}
+#species-info{overflow-wrap:anywhere}#species-symbol{display:block;margin:0 auto}

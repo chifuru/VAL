@@ -213,6 +213,14 @@ ECOSYSTEM-2026</textarea
               ><span id="render-mode">—</span>
             </div>
           </div>
+          <fieldset class="name-settings"><legend>名札（近景）</legend>
+            <label class="check"><input type="checkbox" id="names-basal" />植物・菌</label>
+            <label class="check"><input type="checkbox" id="names-prey" />一次消費者</label>
+            <label class="check"><input type="checkbox" id="names-P" />一次寄生</label>
+            <label class="check"><input type="checkbox" id="names-Q" />高次寄生</label>
+            <label class="check"><input type="checkbox" id="names-resource" />資源</label>
+            <small>主生物と選択対象の名前は常に確認できます</small>
+          </fieldset>
           <p class="age-legend">
             相分離：主生物を上へ表示。クリックで生物、Shift＋クリックで地表を選択。<br />
             年齢印：幼体＝小点付きの輪 ／ 成体＝通常形 ／
@@ -224,7 +232,7 @@ ECOSYSTEM-2026</textarea
             <p class="map-key-note">
               主生物は中央、餌は下側、資源は上側。橙の点＝宿主内の寄生、紫の輪＝高次寄生、×＝死骸。記号は全個体を対象とし、微細な違いはマスを選択して近景で確認できます。
             </p>
-            <button id="clear-highlights" class="small">所在強調をすべて解除</button><div id="resource-key" class="species-key"></div>
+            <button id="clear-highlights" class="small">所在強調をすべて解除</button><p id="presence-note" class="note" role="status" aria-live="polite"></p><div id="resource-key" class="species-key"></div>
             <p id="scale-warning" class="map-key-note" hidden>
               現在の縮尺では記号の細部を判読できません。存在位置を描いていますが重なる画素があります。拡大またはマス選択で内訳を確認してください。
             </p>
@@ -259,7 +267,7 @@ ECOSYSTEM-2026</textarea
           </section>
         </section>
         <aside class="panel inspector">
-          <h2 class="inspector-heading">◈ 選択中の個体</h2>
+          <div class="inspector-title"><h2 class="inspector-heading">◈ 選択中の個体</h2><button id="close-species" class="small" hidden>詳細を閉じる ×</button></div><section id="species-info" hidden><div id="species-description"></div></section>
           <p class="note">
             1マスに主生物1体と餌生物1体が共存。寄生虫は宿主に付随します。
           </p>
@@ -295,7 +303,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.8 · 外部通信なし</span>
+        ><span>v4.2.9 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">
@@ -331,7 +339,6 @@ ECOSYSTEM-2026</textarea
     <script src="ecology/projection.js"></script>
     <script src="ecology/display-plane.js"></script>
     <script src="ecology/renderer.js"></script>
-    <dialog id="species-info"><button id="close-species" class="secondary">閉じる ×</button><div id="species-description"></div></dialog>
     <dialog id="results">
       <div class="guide-head">
         <h2>結果図鑑</h2>
