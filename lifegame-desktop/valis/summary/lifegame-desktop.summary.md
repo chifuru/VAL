@@ -332,7 +332,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 		ロジック:
 			実タイルから地形/深浅/8環境のマスクを生成し、視野内だけ高解像度で合成。遠景は全位置記号、近景は描き込んだ景観。輪郭影と局所遮蔽を使い、装飾を新たな生態/障害物としない。
 		実態:
-			多頭蛇の相/枝参照を新11枠へ接続し、I/II相にも縦横比保持設定を適用。群体節足の指定原画・参照は4.2.3と同じ。他19系統57描画条件は変更前一致。 詳細: operations/evidence/approved-body-art-v4.2.4/README.md。
+			4.2.4の書き分け接続を監査。専用枝183枠と指定原画を維持。共通雌雄/年齢変形、下層状態差、寄生原画未接続、死骸×印を残件として明示。 詳細: operations/evidence/state-audit-v4.2.4/README.md。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -431,7 +431,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		対象2種22状態を90/150pxで6確認。群体指定画像のファイル完全一致と11状態同一、多頭蛇11状態の描画、他19系統57条件一致、素材/構造を照合。長期/全画面回帰は再実施なし。 詳細: operations/evidence/approved-body-art-v4.2.4/README.md。
+		4.2.4の574条件・11比較画像（主21系統の各相×雌雄×全年齢498条件を含む）。非空描画/入力不変/例外0/src不変を確認。判別性・密集・Windowsは未確認。 詳細: operations/evidence/state-audit-v4.2.4/README.md。
 ```
 
 ## E：検証証跡
@@ -482,7 +482,7 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		approved-body-art-v4.2.4へ指定942.pngの維持と多頭蛇の既存絵柄接続を記録。画像完全一致/対象22状態/他19系統57条件一致を確認。Windows実機は未確認。 詳細: operations/evidence/approved-body-art-v4.2.4/README.md。
+		state-audit-v4.2.4に574描画条件・11比較画像と不足を記録。製品変更なし。外観承認・実マップ・Windows・長期生態は対象外。 詳細: operations/evidence/state-audit-v4.2.4/README.md。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。

@@ -1,0 +1,5975 @@
+{
+  "version": "4.2.4 display audit",
+  "scope": "Linux Chromium / fixed display fixtures / no production changes / no visual acceptance",
+  "renderedCases": 574,
+  "mainPhaseSexAgeCases": 498,
+  "imageCount": 11,
+  "rows": [
+    {
+      "id": "abyss",
+      "name": "深淵触手",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "myth",
+      "name": "神鳥",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "recursive",
+      "name": "再帰知性",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "sail",
+      "name": "光帆",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "gravity",
+      "name": "重力環",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "crystal",
+      "name": "星晶",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "manyeyes",
+      "name": "多眼知覚",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "abyssshell",
+      "name": "深殻",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "parallel",
+      "name": "並列生命",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "memory",
+      "name": "記憶殻",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "serpent",
+      "name": "多頭蛇",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "solar",
+      "name": "日輪",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "antimeme",
+      "name": "反記銘生命",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "valis",
+      "name": "異化通信生命",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "jelly",
+      "name": "浮遊傘",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "kelp",
+      "name": "植物共生",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "whale",
+      "name": "星海鯨",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "swarm",
+      "name": "群体節足",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "plasma",
+      "name": "プラズマ生命",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "cephalopod",
+      "name": "深淵頭足",
+      "group": "main",
+      "phases": 4,
+      "route": "creature",
+      "phaseFrames": 4,
+      "branches": 9
+    },
+    {
+      "id": "precocial",
+      "name": "早成甲殻",
+      "group": "main",
+      "phases": 3,
+      "route": "creature",
+      "phaseFrames": 3,
+      "branches": 3
+    },
+    {
+      "id": "algae",
+      "name": "微藻",
+      "group": "plant",
+      "phases": 2,
+      "route": "food",
+      "phaseFrames": 2,
+      "branches": 0
+    },
+    {
+      "id": "moss",
+      "name": "岩苔",
+      "group": "plant",
+      "phases": 2,
+      "route": "food",
+      "phaseFrames": 2,
+      "branches": 0
+    },
+    {
+      "id": "grass",
+      "name": "草本",
+      "group": "plant",
+      "phases": 2,
+      "route": "food",
+      "phaseFrames": 2,
+      "branches": 0
+    },
+    {
+      "id": "fungus",
+      "name": "菌膜",
+      "group": "fungus",
+      "phases": 2,
+      "route": "food",
+      "phaseFrames": 2,
+      "branches": 0
+    },
+    {
+      "id": "waterbug",
+      "name": "水游虫",
+      "group": "prey",
+      "phases": 2,
+      "route": "food",
+      "phaseFrames": 2,
+      "branches": 0
+    },
+    {
+      "id": "grassbug",
+      "name": "草棲虫",
+      "group": "prey",
+      "phases": 2,
+      "route": "food",
+      "phaseFrames": 2,
+      "branches": 0
+    },
+    {
+      "id": "tideparasite",
+      "name": "潮環",
+      "group": "P",
+      "phases": 3,
+      "route": "host/search glyph only",
+      "phaseFrames": 3,
+      "branches": 0
+    },
+    {
+      "id": "leafparasite",
+      "name": "葉環",
+      "group": "P",
+      "phases": 3,
+      "route": "host/search glyph only",
+      "phaseFrames": 3,
+      "branches": 0
+    },
+    {
+      "id": "hyperparasite",
+      "name": "抑環",
+      "group": "Q",
+      "phases": 3,
+      "route": "host/search glyph only",
+      "phaseFrames": 3,
+      "branches": 0
+    },
+    {
+      "id": "phytoplankton",
+      "name": "浮遊微藻",
+      "group": "plant",
+      "phases": 2,
+      "route": "food",
+      "phaseFrames": 2,
+      "branches": 0
+    }
+  ],
+  "cases": [
+    {
+      "label": "深淵触手 1相 雄 幼体",
+      "species": "abyss",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1893
+    },
+    {
+      "label": "深淵触手 1相 雄 成体",
+      "species": "abyss",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2408
+    },
+    {
+      "label": "深淵触手 1相 雄 老齢",
+      "species": "abyss",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2269
+    },
+    {
+      "label": "深淵触手 1相 雌 幼体",
+      "species": "abyss",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1883
+    },
+    {
+      "label": "深淵触手 1相 雌 成体",
+      "species": "abyss",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2576
+    },
+    {
+      "label": "深淵触手 1相 雌 老齢",
+      "species": "abyss",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2425
+    },
+    {
+      "label": "深淵触手 2相 雄 幼体",
+      "species": "abyss",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2995
+    },
+    {
+      "label": "深淵触手 2相 雄 成体",
+      "species": "abyss",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3771
+    },
+    {
+      "label": "深淵触手 2相 雄 老齢",
+      "species": "abyss",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3548
+    },
+    {
+      "label": "深淵触手 2相 雌 幼体",
+      "species": "abyss",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2975
+    },
+    {
+      "label": "深淵触手 2相 雌 成体",
+      "species": "abyss",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4070
+    },
+    {
+      "label": "深淵触手 2相 雌 老齢",
+      "species": "abyss",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3827
+    },
+    {
+      "label": "深淵触手 3相 雄 幼体",
+      "species": "abyss",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3742
+    },
+    {
+      "label": "深淵触手 3相 雄 成体",
+      "species": "abyss",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4786
+    },
+    {
+      "label": "深淵触手 3相 雄 老齢",
+      "species": "abyss",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4495
+    },
+    {
+      "label": "深淵触手 3相 雌 幼体",
+      "species": "abyss",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3750
+    },
+    {
+      "label": "深淵触手 3相 雌 成体",
+      "species": "abyss",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 5126
+    },
+    {
+      "label": "深淵触手 3相 雌 老齢",
+      "species": "abyss",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4819
+    },
+    {
+      "label": "深淵触手 4相 雄 幼体",
+      "species": "abyss",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3497
+    },
+    {
+      "label": "深淵触手 4相 雄 成体",
+      "species": "abyss",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4481
+    },
+    {
+      "label": "深淵触手 4相 雄 老齢",
+      "species": "abyss",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4211
+    },
+    {
+      "label": "深淵触手 4相 雌 幼体",
+      "species": "abyss",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3502
+    },
+    {
+      "label": "深淵触手 4相 雌 成体",
+      "species": "abyss",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4791
+    },
+    {
+      "label": "深淵触手 4相 雌 老齢",
+      "species": "abyss",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4505
+    },
+    {
+      "label": "神鳥 1相 雄 幼体",
+      "species": "myth",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1643
+    },
+    {
+      "label": "神鳥 1相 雄 成体",
+      "species": "myth",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2072
+    },
+    {
+      "label": "神鳥 1相 雄 老齢",
+      "species": "myth",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1946
+    },
+    {
+      "label": "神鳥 1相 雌 幼体",
+      "species": "myth",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1649
+    },
+    {
+      "label": "神鳥 1相 雌 成体",
+      "species": "myth",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2253
+    },
+    {
+      "label": "神鳥 1相 雌 老齢",
+      "species": "myth",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2117
+    },
+    {
+      "label": "神鳥 2相 雄 幼体",
+      "species": "myth",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2669
+    },
+    {
+      "label": "神鳥 2相 雄 成体",
+      "species": "myth",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3309
+    },
+    {
+      "label": "神鳥 2相 雄 老齢",
+      "species": "myth",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3110
+    },
+    {
+      "label": "神鳥 2相 雌 幼体",
+      "species": "myth",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2649
+    },
+    {
+      "label": "神鳥 2相 雌 成体",
+      "species": "myth",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3591
+    },
+    {
+      "label": "神鳥 2相 雌 老齢",
+      "species": "myth",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3378
+    },
+    {
+      "label": "神鳥 3相 雄 幼体",
+      "species": "myth",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2873
+    },
+    {
+      "label": "神鳥 3相 雄 成体",
+      "species": "myth",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3605
+    },
+    {
+      "label": "神鳥 3相 雄 老齢",
+      "species": "myth",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3390
+    },
+    {
+      "label": "神鳥 3相 雌 幼体",
+      "species": "myth",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2858
+    },
+    {
+      "label": "神鳥 3相 雌 成体",
+      "species": "myth",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3894
+    },
+    {
+      "label": "神鳥 3相 雌 老齢",
+      "species": "myth",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3670
+    },
+    {
+      "label": "神鳥 4相 雄 幼体",
+      "species": "myth",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2032
+    },
+    {
+      "label": "神鳥 4相 雄 成体",
+      "species": "myth",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2512
+    },
+    {
+      "label": "神鳥 4相 雄 老齢",
+      "species": "myth",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2360
+    },
+    {
+      "label": "神鳥 4相 雌 幼体",
+      "species": "myth",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2034
+    },
+    {
+      "label": "神鳥 4相 雌 成体",
+      "species": "myth",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2740
+    },
+    {
+      "label": "神鳥 4相 雌 老齢",
+      "species": "myth",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2587
+    },
+    {
+      "label": "再帰知性 1相 雄 幼体",
+      "species": "recursive",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1891
+    },
+    {
+      "label": "再帰知性 1相 雄 成体",
+      "species": "recursive",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2311
+    },
+    {
+      "label": "再帰知性 1相 雄 老齢",
+      "species": "recursive",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2184
+    },
+    {
+      "label": "再帰知性 1相 雌 幼体",
+      "species": "recursive",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1885
+    },
+    {
+      "label": "再帰知性 1相 雌 成体",
+      "species": "recursive",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2534
+    },
+    {
+      "label": "再帰知性 1相 雌 老齢",
+      "species": "recursive",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2381
+    },
+    {
+      "label": "再帰知性 2相 雄 幼体",
+      "species": "recursive",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2887
+    },
+    {
+      "label": "再帰知性 2相 雄 成体",
+      "species": "recursive",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3623
+    },
+    {
+      "label": "再帰知性 2相 雄 老齢",
+      "species": "recursive",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3413
+    },
+    {
+      "label": "再帰知性 2相 雌 幼体",
+      "species": "recursive",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2890
+    },
+    {
+      "label": "再帰知性 2相 雌 成体",
+      "species": "recursive",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3925
+    },
+    {
+      "label": "再帰知性 2相 雌 老齢",
+      "species": "recursive",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3682
+    },
+    {
+      "label": "再帰知性 3相 雄 幼体",
+      "species": "recursive",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2572
+    },
+    {
+      "label": "再帰知性 3相 雄 成体",
+      "species": "recursive",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3178
+    },
+    {
+      "label": "再帰知性 3相 雄 老齢",
+      "species": "recursive",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2994
+    },
+    {
+      "label": "再帰知性 3相 雌 幼体",
+      "species": "recursive",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2566
+    },
+    {
+      "label": "再帰知性 3相 雌 成体",
+      "species": "recursive",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3482
+    },
+    {
+      "label": "再帰知性 3相 雌 老齢",
+      "species": "recursive",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3270
+    },
+    {
+      "label": "再帰知性 4相 雄 幼体",
+      "species": "recursive",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2245
+    },
+    {
+      "label": "再帰知性 4相 雄 成体",
+      "species": "recursive",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2801
+    },
+    {
+      "label": "再帰知性 4相 雄 老齢",
+      "species": "recursive",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2628
+    },
+    {
+      "label": "再帰知性 4相 雌 幼体",
+      "species": "recursive",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2245
+    },
+    {
+      "label": "再帰知性 4相 雌 成体",
+      "species": "recursive",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3029
+    },
+    {
+      "label": "再帰知性 4相 雌 老齢",
+      "species": "recursive",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2870
+    },
+    {
+      "label": "光帆 1相 雄 幼体",
+      "species": "sail",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1032
+    },
+    {
+      "label": "光帆 1相 雄 成体",
+      "species": "sail",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 1189
+    },
+    {
+      "label": "光帆 1相 雄 老齢",
+      "species": "sail",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1119
+    },
+    {
+      "label": "光帆 1相 雌 幼体",
+      "species": "sail",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1036
+    },
+    {
+      "label": "光帆 1相 雌 成体",
+      "species": "sail",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 1374
+    },
+    {
+      "label": "光帆 1相 雌 老齢",
+      "species": "sail",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1280
+    },
+    {
+      "label": "光帆 2相 雄 幼体",
+      "species": "sail",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1932
+    },
+    {
+      "label": "光帆 2相 雄 成体",
+      "species": "sail",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2268
+    },
+    {
+      "label": "光帆 2相 雄 老齢",
+      "species": "sail",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2139
+    },
+    {
+      "label": "光帆 2相 雌 幼体",
+      "species": "sail",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1943
+    },
+    {
+      "label": "光帆 2相 雌 成体",
+      "species": "sail",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2572
+    },
+    {
+      "label": "光帆 2相 雌 老齢",
+      "species": "sail",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2418
+    },
+    {
+      "label": "光帆 3相 雄 幼体",
+      "species": "sail",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2786
+    },
+    {
+      "label": "光帆 3相 雄 成体",
+      "species": "sail",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3480
+    },
+    {
+      "label": "光帆 3相 雄 老齢",
+      "species": "sail",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3251
+    },
+    {
+      "label": "光帆 3相 雌 幼体",
+      "species": "sail",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2782
+    },
+    {
+      "label": "光帆 3相 雌 成体",
+      "species": "sail",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3778
+    },
+    {
+      "label": "光帆 3相 雌 老齢",
+      "species": "sail",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3560
+    },
+    {
+      "label": "光帆 4相 雄 幼体",
+      "species": "sail",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2861
+    },
+    {
+      "label": "光帆 4相 雄 成体",
+      "species": "sail",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3543
+    },
+    {
+      "label": "光帆 4相 雄 老齢",
+      "species": "sail",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3330
+    },
+    {
+      "label": "光帆 4相 雌 幼体",
+      "species": "sail",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2859
+    },
+    {
+      "label": "光帆 4相 雌 成体",
+      "species": "sail",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3875
+    },
+    {
+      "label": "光帆 4相 雌 老齢",
+      "species": "sail",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3640
+    },
+    {
+      "label": "重力環 1相 雄 幼体",
+      "species": "gravity",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1414
+    },
+    {
+      "label": "重力環 1相 雄 成体",
+      "species": "gravity",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 1789
+    },
+    {
+      "label": "重力環 1相 雄 老齢",
+      "species": "gravity",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1683
+    },
+    {
+      "label": "重力環 1相 雌 幼体",
+      "species": "gravity",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1413
+    },
+    {
+      "label": "重力環 1相 雌 成体",
+      "species": "gravity",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 1942
+    },
+    {
+      "label": "重力環 1相 雌 老齢",
+      "species": "gravity",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1814
+    },
+    {
+      "label": "重力環 2相 雄 幼体",
+      "species": "gravity",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2059
+    },
+    {
+      "label": "重力環 2相 雄 成体",
+      "species": "gravity",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2566
+    },
+    {
+      "label": "重力環 2相 雄 老齢",
+      "species": "gravity",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2408
+    },
+    {
+      "label": "重力環 2相 雌 幼体",
+      "species": "gravity",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2056
+    },
+    {
+      "label": "重力環 2相 雌 成体",
+      "species": "gravity",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2804
+    },
+    {
+      "label": "重力環 2相 雌 老齢",
+      "species": "gravity",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2628
+    },
+    {
+      "label": "重力環 3相 雄 幼体",
+      "species": "gravity",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3943
+    },
+    {
+      "label": "重力環 3相 雄 成体",
+      "species": "gravity",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4980
+    },
+    {
+      "label": "重力環 3相 雄 老齢",
+      "species": "gravity",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4689
+    },
+    {
+      "label": "重力環 3相 雌 幼体",
+      "species": "gravity",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3952
+    },
+    {
+      "label": "重力環 3相 雌 成体",
+      "species": "gravity",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 5365
+    },
+    {
+      "label": "重力環 3相 雌 老齢",
+      "species": "gravity",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 5044
+    },
+    {
+      "label": "重力環 4相 雄 幼体",
+      "species": "gravity",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3444
+    },
+    {
+      "label": "重力環 4相 雄 成体",
+      "species": "gravity",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4348
+    },
+    {
+      "label": "重力環 4相 雄 老齢",
+      "species": "gravity",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4106
+    },
+    {
+      "label": "重力環 4相 雌 幼体",
+      "species": "gravity",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3451
+    },
+    {
+      "label": "重力環 4相 雌 成体",
+      "species": "gravity",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4694
+    },
+    {
+      "label": "重力環 4相 雌 老齢",
+      "species": "gravity",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4409
+    },
+    {
+      "label": "星晶 1相 雄 幼体",
+      "species": "crystal",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1660
+    },
+    {
+      "label": "星晶 1相 雄 成体",
+      "species": "crystal",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2235
+    },
+    {
+      "label": "星晶 1相 雄 老齢",
+      "species": "crystal",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2099
+    },
+    {
+      "label": "星晶 1相 雌 幼体",
+      "species": "crystal",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1652
+    },
+    {
+      "label": "星晶 1相 雌 成体",
+      "species": "crystal",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2328
+    },
+    {
+      "label": "星晶 1相 雌 老齢",
+      "species": "crystal",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2182
+    },
+    {
+      "label": "星晶 2相 雄 幼体",
+      "species": "crystal",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2851
+    },
+    {
+      "label": "星晶 2相 雄 成体",
+      "species": "crystal",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3680
+    },
+    {
+      "label": "星晶 2相 雄 老齢",
+      "species": "crystal",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3460
+    },
+    {
+      "label": "星晶 2相 雌 幼体",
+      "species": "crystal",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2840
+    },
+    {
+      "label": "星晶 2相 雌 成体",
+      "species": "crystal",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3921
+    },
+    {
+      "label": "星晶 2相 雌 老齢",
+      "species": "crystal",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3687
+    },
+    {
+      "label": "星晶 3相 雄 幼体",
+      "species": "crystal",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2091
+    },
+    {
+      "label": "星晶 3相 雄 成体",
+      "species": "crystal",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2632
+    },
+    {
+      "label": "星晶 3相 雄 老齢",
+      "species": "crystal",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2477
+    },
+    {
+      "label": "星晶 3相 雌 幼体",
+      "species": "crystal",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2088
+    },
+    {
+      "label": "星晶 3相 雌 成体",
+      "species": "crystal",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2849
+    },
+    {
+      "label": "星晶 3相 雌 老齢",
+      "species": "crystal",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2677
+    },
+    {
+      "label": "星晶 4相 雄 幼体",
+      "species": "crystal",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2460
+    },
+    {
+      "label": "星晶 4相 雄 成体",
+      "species": "crystal",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3105
+    },
+    {
+      "label": "星晶 4相 雄 老齢",
+      "species": "crystal",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2924
+    },
+    {
+      "label": "星晶 4相 雌 幼体",
+      "species": "crystal",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2458
+    },
+    {
+      "label": "星晶 4相 雌 成体",
+      "species": "crystal",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3347
+    },
+    {
+      "label": "星晶 4相 雌 老齢",
+      "species": "crystal",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3148
+    },
+    {
+      "label": "多眼知覚 1相 雄 幼体",
+      "species": "manyeyes",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1364
+    },
+    {
+      "label": "多眼知覚 1相 雄 成体",
+      "species": "manyeyes",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 1714
+    },
+    {
+      "label": "多眼知覚 1相 雄 老齢",
+      "species": "manyeyes",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1623
+    },
+    {
+      "label": "多眼知覚 1相 雌 幼体",
+      "species": "manyeyes",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1366
+    },
+    {
+      "label": "多眼知覚 1相 雌 成体",
+      "species": "manyeyes",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 1853
+    },
+    {
+      "label": "多眼知覚 1相 雌 老齢",
+      "species": "manyeyes",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1737
+    },
+    {
+      "label": "多眼知覚 2相 雄 幼体",
+      "species": "manyeyes",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2716
+    },
+    {
+      "label": "多眼知覚 2相 雄 成体",
+      "species": "manyeyes",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3362
+    },
+    {
+      "label": "多眼知覚 2相 雄 老齢",
+      "species": "manyeyes",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3166
+    },
+    {
+      "label": "多眼知覚 2相 雌 幼体",
+      "species": "manyeyes",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2726
+    },
+    {
+      "label": "多眼知覚 2相 雌 成体",
+      "species": "manyeyes",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3670
+    },
+    {
+      "label": "多眼知覚 2相 雌 老齢",
+      "species": "manyeyes",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3455
+    },
+    {
+      "label": "多眼知覚 3相 雄 幼体",
+      "species": "manyeyes",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2628
+    },
+    {
+      "label": "多眼知覚 3相 雄 成体",
+      "species": "manyeyes",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3311
+    },
+    {
+      "label": "多眼知覚 3相 雄 老齢",
+      "species": "manyeyes",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3113
+    },
+    {
+      "label": "多眼知覚 3相 雌 幼体",
+      "species": "manyeyes",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2635
+    },
+    {
+      "label": "多眼知覚 3相 雌 成体",
+      "species": "manyeyes",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3577
+    },
+    {
+      "label": "多眼知覚 3相 雌 老齢",
+      "species": "manyeyes",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3371
+    },
+    {
+      "label": "多眼知覚 4相 雄 幼体",
+      "species": "manyeyes",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3162
+    },
+    {
+      "label": "多眼知覚 4相 雄 成体",
+      "species": "manyeyes",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4011
+    },
+    {
+      "label": "多眼知覚 4相 雄 老齢",
+      "species": "manyeyes",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3774
+    },
+    {
+      "label": "多眼知覚 4相 雌 幼体",
+      "species": "manyeyes",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3157
+    },
+    {
+      "label": "多眼知覚 4相 雌 成体",
+      "species": "manyeyes",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4310
+    },
+    {
+      "label": "多眼知覚 4相 雌 老齢",
+      "species": "manyeyes",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4054
+    },
+    {
+      "label": "深殻 1相 雄 幼体",
+      "species": "abyssshell",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2032
+    },
+    {
+      "label": "深殻 1相 雄 成体",
+      "species": "abyssshell",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2382
+    },
+    {
+      "label": "深殻 1相 雄 老齢",
+      "species": "abyssshell",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2227
+    },
+    {
+      "label": "深殻 1相 雌 幼体",
+      "species": "abyssshell",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2026
+    },
+    {
+      "label": "深殻 1相 雌 成体",
+      "species": "abyssshell",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2696
+    },
+    {
+      "label": "深殻 1相 雌 老齢",
+      "species": "abyssshell",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2533
+    },
+    {
+      "label": "深殻 2相 雄 幼体",
+      "species": "abyssshell",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2823
+    },
+    {
+      "label": "深殻 2相 雄 成体",
+      "species": "abyssshell",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3359
+    },
+    {
+      "label": "深殻 2相 雄 老齢",
+      "species": "abyssshell",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3153
+    },
+    {
+      "label": "深殻 2相 雌 幼体",
+      "species": "abyssshell",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2815
+    },
+    {
+      "label": "深殻 2相 雌 成体",
+      "species": "abyssshell",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3762
+    },
+    {
+      "label": "深殻 2相 雌 老齢",
+      "species": "abyssshell",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3539
+    },
+    {
+      "label": "深殻 3相 雄 幼体",
+      "species": "abyssshell",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2626
+    },
+    {
+      "label": "深殻 3相 雄 成体",
+      "species": "abyssshell",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3302
+    },
+    {
+      "label": "深殻 3相 雄 老齢",
+      "species": "abyssshell",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3100
+    },
+    {
+      "label": "深殻 3相 雌 幼体",
+      "species": "abyssshell",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2617
+    },
+    {
+      "label": "深殻 3相 雌 成体",
+      "species": "abyssshell",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3573
+    },
+    {
+      "label": "深殻 3相 雌 老齢",
+      "species": "abyssshell",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3361
+    },
+    {
+      "label": "深殻 4相 雄 幼体",
+      "species": "abyssshell",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2610
+    },
+    {
+      "label": "深殻 4相 雄 成体",
+      "species": "abyssshell",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3259
+    },
+    {
+      "label": "深殻 4相 雄 老齢",
+      "species": "abyssshell",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3052
+    },
+    {
+      "label": "深殻 4相 雌 幼体",
+      "species": "abyssshell",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2605
+    },
+    {
+      "label": "深殻 4相 雌 成体",
+      "species": "abyssshell",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3538
+    },
+    {
+      "label": "深殻 4相 雌 老齢",
+      "species": "abyssshell",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3325
+    },
+    {
+      "label": "並列生命 1相 雄 幼体",
+      "species": "parallel",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1427
+    },
+    {
+      "label": "並列生命 1相 雄 成体",
+      "species": "parallel",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 1887
+    },
+    {
+      "label": "並列生命 1相 雄 老齢",
+      "species": "parallel",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1750
+    },
+    {
+      "label": "並列生命 1相 雌 幼体",
+      "species": "parallel",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1419
+    },
+    {
+      "label": "並列生命 1相 雌 成体",
+      "species": "parallel",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 1965
+    },
+    {
+      "label": "並列生命 1相 雌 老齢",
+      "species": "parallel",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1844
+    },
+    {
+      "label": "並列生命 2相 雄 幼体",
+      "species": "parallel",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2128
+    },
+    {
+      "label": "並列生命 2相 雄 成体",
+      "species": "parallel",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2711
+    },
+    {
+      "label": "並列生命 2相 雄 老齢",
+      "species": "parallel",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2527
+    },
+    {
+      "label": "並列生命 2相 雌 幼体",
+      "species": "parallel",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2141
+    },
+    {
+      "label": "並列生命 2相 雌 成体",
+      "species": "parallel",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2905
+    },
+    {
+      "label": "並列生命 2相 雌 老齢",
+      "species": "parallel",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2745
+    },
+    {
+      "label": "並列生命 3相 雄 幼体",
+      "species": "parallel",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2289
+    },
+    {
+      "label": "並列生命 3相 雄 成体",
+      "species": "parallel",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2938
+    },
+    {
+      "label": "並列生命 3相 雄 老齢",
+      "species": "parallel",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2754
+    },
+    {
+      "label": "並列生命 3相 雌 幼体",
+      "species": "parallel",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2307
+    },
+    {
+      "label": "並列生命 3相 雌 成体",
+      "species": "parallel",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3143
+    },
+    {
+      "label": "並列生命 3相 雌 老齢",
+      "species": "parallel",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2957
+    },
+    {
+      "label": "並列生命 4相 雄 幼体",
+      "species": "parallel",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2700
+    },
+    {
+      "label": "並列生命 4相 雄 成体",
+      "species": "parallel",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3377
+    },
+    {
+      "label": "並列生命 4相 雄 老齢",
+      "species": "parallel",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3178
+    },
+    {
+      "label": "並列生命 4相 雌 幼体",
+      "species": "parallel",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2684
+    },
+    {
+      "label": "並列生命 4相 雌 成体",
+      "species": "parallel",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3657
+    },
+    {
+      "label": "並列生命 4相 雌 老齢",
+      "species": "parallel",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3425
+    },
+    {
+      "label": "記憶殻 1相 雄 幼体",
+      "species": "memory",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1504
+    },
+    {
+      "label": "記憶殻 1相 雄 成体",
+      "species": "memory",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 1773
+    },
+    {
+      "label": "記憶殻 1相 雄 老齢",
+      "species": "memory",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1670
+    },
+    {
+      "label": "記憶殻 1相 雌 幼体",
+      "species": "memory",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1503
+    },
+    {
+      "label": "記憶殻 1相 雌 成体",
+      "species": "memory",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2003
+    },
+    {
+      "label": "記憶殻 1相 雌 老齢",
+      "species": "memory",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1876
+    },
+    {
+      "label": "記憶殻 2相 雄 幼体",
+      "species": "memory",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2817
+    },
+    {
+      "label": "記憶殻 2相 雄 成体",
+      "species": "memory",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3404
+    },
+    {
+      "label": "記憶殻 2相 雄 老齢",
+      "species": "memory",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3197
+    },
+    {
+      "label": "記憶殻 2相 雌 幼体",
+      "species": "memory",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2813
+    },
+    {
+      "label": "記憶殻 2相 雌 成体",
+      "species": "memory",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3769
+    },
+    {
+      "label": "記憶殻 2相 雌 老齢",
+      "species": "memory",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3554
+    },
+    {
+      "label": "記憶殻 3相 雄 幼体",
+      "species": "memory",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3286
+    },
+    {
+      "label": "記憶殻 3相 雄 成体",
+      "species": "memory",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4134
+    },
+    {
+      "label": "記憶殻 3相 雄 老齢",
+      "species": "memory",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3878
+    },
+    {
+      "label": "記憶殻 3相 雌 幼体",
+      "species": "memory",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3274
+    },
+    {
+      "label": "記憶殻 3相 雌 成体",
+      "species": "memory",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4459
+    },
+    {
+      "label": "記憶殻 3相 雌 老齢",
+      "species": "memory",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4190
+    },
+    {
+      "label": "記憶殻 4相 雄 幼体",
+      "species": "memory",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3316
+    },
+    {
+      "label": "記憶殻 4相 雄 成体",
+      "species": "memory",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4149
+    },
+    {
+      "label": "記憶殻 4相 雄 老齢",
+      "species": "memory",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3906
+    },
+    {
+      "label": "記憶殻 4相 雌 幼体",
+      "species": "memory",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3294
+    },
+    {
+      "label": "記憶殻 4相 雌 成体",
+      "species": "memory",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4480
+    },
+    {
+      "label": "記憶殻 4相 雌 老齢",
+      "species": "memory",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4216
+    },
+    {
+      "label": "多頭蛇 1相 雄 幼体",
+      "species": "serpent",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1790
+    },
+    {
+      "label": "多頭蛇 1相 雄 成体",
+      "species": "serpent",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2362
+    },
+    {
+      "label": "多頭蛇 1相 雄 老齢",
+      "species": "serpent",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2229
+    },
+    {
+      "label": "多頭蛇 1相 雌 幼体",
+      "species": "serpent",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1795
+    },
+    {
+      "label": "多頭蛇 1相 雌 成体",
+      "species": "serpent",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2484
+    },
+    {
+      "label": "多頭蛇 1相 雌 老齢",
+      "species": "serpent",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2342
+    },
+    {
+      "label": "多頭蛇 2相 雄 幼体",
+      "species": "serpent",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1899
+    },
+    {
+      "label": "多頭蛇 2相 雄 成体",
+      "species": "serpent",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2438
+    },
+    {
+      "label": "多頭蛇 2相 雄 老齢",
+      "species": "serpent",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2291
+    },
+    {
+      "label": "多頭蛇 2相 雌 幼体",
+      "species": "serpent",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1904
+    },
+    {
+      "label": "多頭蛇 2相 雌 成体",
+      "species": "serpent",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2593
+    },
+    {
+      "label": "多頭蛇 2相 雌 老齢",
+      "species": "serpent",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2431
+    },
+    {
+      "label": "多頭蛇 3相 雄 幼体",
+      "species": "serpent",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2233
+    },
+    {
+      "label": "多頭蛇 3相 雄 成体",
+      "species": "serpent",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2898
+    },
+    {
+      "label": "多頭蛇 3相 雄 老齢",
+      "species": "serpent",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2714
+    },
+    {
+      "label": "多頭蛇 3相 雌 幼体",
+      "species": "serpent",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2241
+    },
+    {
+      "label": "多頭蛇 3相 雌 成体",
+      "species": "serpent",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3071
+    },
+    {
+      "label": "多頭蛇 3相 雌 老齢",
+      "species": "serpent",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2888
+    },
+    {
+      "label": "多頭蛇 4相 雄 幼体",
+      "species": "serpent",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2317
+    },
+    {
+      "label": "多頭蛇 4相 雄 成体",
+      "species": "serpent",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2970
+    },
+    {
+      "label": "多頭蛇 4相 雄 老齢",
+      "species": "serpent",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2812
+    },
+    {
+      "label": "多頭蛇 4相 雌 幼体",
+      "species": "serpent",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2318
+    },
+    {
+      "label": "多頭蛇 4相 雌 成体",
+      "species": "serpent",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3172
+    },
+    {
+      "label": "多頭蛇 4相 雌 老齢",
+      "species": "serpent",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2988
+    },
+    {
+      "label": "日輪 1相 雄 幼体",
+      "species": "solar",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2071
+    },
+    {
+      "label": "日輪 1相 雄 成体",
+      "species": "solar",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2432
+    },
+    {
+      "label": "日輪 1相 雄 老齢",
+      "species": "solar",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2285
+    },
+    {
+      "label": "日輪 1相 雌 幼体",
+      "species": "solar",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2049
+    },
+    {
+      "label": "日輪 1相 雌 成体",
+      "species": "solar",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2733
+    },
+    {
+      "label": "日輪 1相 雌 老齢",
+      "species": "solar",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2569
+    },
+    {
+      "label": "日輪 2相 雄 幼体",
+      "species": "solar",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2897
+    },
+    {
+      "label": "日輪 2相 雄 成体",
+      "species": "solar",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3502
+    },
+    {
+      "label": "日輪 2相 雄 老齢",
+      "species": "solar",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3301
+    },
+    {
+      "label": "日輪 2相 雌 幼体",
+      "species": "solar",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2895
+    },
+    {
+      "label": "日輪 2相 雌 成体",
+      "species": "solar",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3863
+    },
+    {
+      "label": "日輪 2相 雌 老齢",
+      "species": "solar",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3641
+    },
+    {
+      "label": "日輪 3相 雄 幼体",
+      "species": "solar",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 4182
+    },
+    {
+      "label": "日輪 3相 雄 成体",
+      "species": "solar",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 5257
+    },
+    {
+      "label": "日輪 3相 雄 老齢",
+      "species": "solar",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4949
+    },
+    {
+      "label": "日輪 3相 雌 幼体",
+      "species": "solar",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 4177
+    },
+    {
+      "label": "日輪 3相 雌 成体",
+      "species": "solar",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 5692
+    },
+    {
+      "label": "日輪 3相 雌 老齢",
+      "species": "solar",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 5355
+    },
+    {
+      "label": "日輪 4相 雄 幼体",
+      "species": "solar",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3504
+    },
+    {
+      "label": "日輪 4相 雄 成体",
+      "species": "solar",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4324
+    },
+    {
+      "label": "日輪 4相 雄 老齢",
+      "species": "solar",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4062
+    },
+    {
+      "label": "日輪 4相 雌 幼体",
+      "species": "solar",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3480
+    },
+    {
+      "label": "日輪 4相 雌 成体",
+      "species": "solar",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4724
+    },
+    {
+      "label": "日輪 4相 雌 老齢",
+      "species": "solar",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4439
+    },
+    {
+      "label": "反記銘生命 1相 雄 幼体",
+      "species": "antimeme",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1613
+    },
+    {
+      "label": "反記銘生命 1相 雄 成体",
+      "species": "antimeme",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 1927
+    },
+    {
+      "label": "反記銘生命 1相 雄 老齢",
+      "species": "antimeme",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1817
+    },
+    {
+      "label": "反記銘生命 1相 雌 幼体",
+      "species": "antimeme",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1611
+    },
+    {
+      "label": "反記銘生命 1相 雌 成体",
+      "species": "antimeme",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2146
+    },
+    {
+      "label": "反記銘生命 1相 雌 老齢",
+      "species": "antimeme",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2020
+    },
+    {
+      "label": "反記銘生命 2相 雄 幼体",
+      "species": "antimeme",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2361
+    },
+    {
+      "label": "反記銘生命 2相 雄 成体",
+      "species": "antimeme",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2860
+    },
+    {
+      "label": "反記銘生命 2相 雄 老齢",
+      "species": "antimeme",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2678
+    },
+    {
+      "label": "反記銘生命 2相 雌 幼体",
+      "species": "antimeme",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2356
+    },
+    {
+      "label": "反記銘生命 2相 雌 成体",
+      "species": "antimeme",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3163
+    },
+    {
+      "label": "反記銘生命 2相 雌 老齢",
+      "species": "antimeme",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2967
+    },
+    {
+      "label": "反記銘生命 3相 雄 幼体",
+      "species": "antimeme",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2909
+    },
+    {
+      "label": "反記銘生命 3相 雄 成体",
+      "species": "antimeme",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3637
+    },
+    {
+      "label": "反記銘生命 3相 雄 老齢",
+      "species": "antimeme",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3417
+    },
+    {
+      "label": "反記銘生命 3相 雌 幼体",
+      "species": "antimeme",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2897
+    },
+    {
+      "label": "反記銘生命 3相 雌 成体",
+      "species": "antimeme",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3941
+    },
+    {
+      "label": "反記銘生命 3相 雌 老齢",
+      "species": "antimeme",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3706
+    },
+    {
+      "label": "反記銘生命 4相 雄 幼体",
+      "species": "antimeme",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2696
+    },
+    {
+      "label": "反記銘生命 4相 雄 成体",
+      "species": "antimeme",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3336
+    },
+    {
+      "label": "反記銘生命 4相 雄 老齢",
+      "species": "antimeme",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3126
+    },
+    {
+      "label": "反記銘生命 4相 雌 幼体",
+      "species": "antimeme",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2701
+    },
+    {
+      "label": "反記銘生命 4相 雌 成体",
+      "species": "antimeme",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3654
+    },
+    {
+      "label": "反記銘生命 4相 雌 老齢",
+      "species": "antimeme",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3429
+    },
+    {
+      "label": "異化通信生命 1相 雄 幼体",
+      "species": "valis",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1918
+    },
+    {
+      "label": "異化通信生命 1相 雄 成体",
+      "species": "valis",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2350
+    },
+    {
+      "label": "異化通信生命 1相 雄 老齢",
+      "species": "valis",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2206
+    },
+    {
+      "label": "異化通信生命 1相 雌 幼体",
+      "species": "valis",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1923
+    },
+    {
+      "label": "異化通信生命 1相 雌 成体",
+      "species": "valis",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2593
+    },
+    {
+      "label": "異化通信生命 1相 雌 老齢",
+      "species": "valis",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2433
+    },
+    {
+      "label": "異化通信生命 2相 雄 幼体",
+      "species": "valis",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2872
+    },
+    {
+      "label": "異化通信生命 2相 雄 成体",
+      "species": "valis",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3578
+    },
+    {
+      "label": "異化通信生命 2相 雄 老齢",
+      "species": "valis",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3368
+    },
+    {
+      "label": "異化通信生命 2相 雌 幼体",
+      "species": "valis",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2887
+    },
+    {
+      "label": "異化通信生命 2相 雌 成体",
+      "species": "valis",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3914
+    },
+    {
+      "label": "異化通信生命 2相 雌 老齢",
+      "species": "valis",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3670
+    },
+    {
+      "label": "異化通信生命 3相 雄 幼体",
+      "species": "valis",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2181
+    },
+    {
+      "label": "異化通信生命 3相 雄 成体",
+      "species": "valis",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2735
+    },
+    {
+      "label": "異化通信生命 3相 雄 老齢",
+      "species": "valis",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2572
+    },
+    {
+      "label": "異化通信生命 3相 雌 幼体",
+      "species": "valis",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2173
+    },
+    {
+      "label": "異化通信生命 3相 雌 成体",
+      "species": "valis",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2944
+    },
+    {
+      "label": "異化通信生命 3相 雌 老齢",
+      "species": "valis",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2768
+    },
+    {
+      "label": "異化通信生命 4相 雄 幼体",
+      "species": "valis",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2630
+    },
+    {
+      "label": "異化通信生命 4相 雄 成体",
+      "species": "valis",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3255
+    },
+    {
+      "label": "異化通信生命 4相 雄 老齢",
+      "species": "valis",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3062
+    },
+    {
+      "label": "異化通信生命 4相 雌 幼体",
+      "species": "valis",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2614
+    },
+    {
+      "label": "異化通信生命 4相 雌 成体",
+      "species": "valis",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3550
+    },
+    {
+      "label": "異化通信生命 4相 雌 老齢",
+      "species": "valis",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3346
+    },
+    {
+      "label": "浮遊傘 1相 雄 幼体",
+      "species": "jelly",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1695
+    },
+    {
+      "label": "浮遊傘 1相 雄 成体",
+      "species": "jelly",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2006
+    },
+    {
+      "label": "浮遊傘 1相 雄 老齢",
+      "species": "jelly",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1882
+    },
+    {
+      "label": "浮遊傘 1相 雌 幼体",
+      "species": "jelly",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1697
+    },
+    {
+      "label": "浮遊傘 1相 雌 成体",
+      "species": "jelly",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2252
+    },
+    {
+      "label": "浮遊傘 1相 雌 老齢",
+      "species": "jelly",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2120
+    },
+    {
+      "label": "浮遊傘 2相 雄 幼体",
+      "species": "jelly",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2453
+    },
+    {
+      "label": "浮遊傘 2相 雄 成体",
+      "species": "jelly",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2982
+    },
+    {
+      "label": "浮遊傘 2相 雄 老齢",
+      "species": "jelly",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2805
+    },
+    {
+      "label": "浮遊傘 2相 雌 幼体",
+      "species": "jelly",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2440
+    },
+    {
+      "label": "浮遊傘 2相 雌 成体",
+      "species": "jelly",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3277
+    },
+    {
+      "label": "浮遊傘 2相 雌 老齢",
+      "species": "jelly",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3084
+    },
+    {
+      "label": "浮遊傘 3相 雄 幼体",
+      "species": "jelly",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3269
+    },
+    {
+      "label": "浮遊傘 3相 雄 成体",
+      "species": "jelly",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4036
+    },
+    {
+      "label": "浮遊傘 3相 雄 老齢",
+      "species": "jelly",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3787
+    },
+    {
+      "label": "浮遊傘 3相 雌 幼体",
+      "species": "jelly",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3262
+    },
+    {
+      "label": "浮遊傘 3相 雌 成体",
+      "species": "jelly",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4423
+    },
+    {
+      "label": "浮遊傘 3相 雌 老齢",
+      "species": "jelly",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4135
+    },
+    {
+      "label": "浮遊傘 4相 雄 幼体",
+      "species": "jelly",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2902
+    },
+    {
+      "label": "浮遊傘 4相 雄 成体",
+      "species": "jelly",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3550
+    },
+    {
+      "label": "浮遊傘 4相 雄 老齢",
+      "species": "jelly",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3340
+    },
+    {
+      "label": "浮遊傘 4相 雌 幼体",
+      "species": "jelly",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2899
+    },
+    {
+      "label": "浮遊傘 4相 雌 成体",
+      "species": "jelly",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3907
+    },
+    {
+      "label": "浮遊傘 4相 雌 老齢",
+      "species": "jelly",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3673
+    },
+    {
+      "label": "植物共生 1相 雄 幼体",
+      "species": "kelp",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2115
+    },
+    {
+      "label": "植物共生 1相 雄 成体",
+      "species": "kelp",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2515
+    },
+    {
+      "label": "植物共生 1相 雄 老齢",
+      "species": "kelp",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2359
+    },
+    {
+      "label": "植物共生 1相 雌 幼体",
+      "species": "kelp",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2122
+    },
+    {
+      "label": "植物共生 1相 雌 成体",
+      "species": "kelp",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2825
+    },
+    {
+      "label": "植物共生 1相 雌 老齢",
+      "species": "kelp",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2652
+    },
+    {
+      "label": "植物共生 2相 雄 幼体",
+      "species": "kelp",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3368
+    },
+    {
+      "label": "植物共生 2相 雄 成体",
+      "species": "kelp",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4108
+    },
+    {
+      "label": "植物共生 2相 雄 老齢",
+      "species": "kelp",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3864
+    },
+    {
+      "label": "植物共生 2相 雌 幼体",
+      "species": "kelp",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3357
+    },
+    {
+      "label": "植物共生 2相 雌 成体",
+      "species": "kelp",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4524
+    },
+    {
+      "label": "植物共生 2相 雌 老齢",
+      "species": "kelp",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4262
+    },
+    {
+      "label": "植物共生 3相 雄 幼体",
+      "species": "kelp",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2340
+    },
+    {
+      "label": "植物共生 3相 雄 成体",
+      "species": "kelp",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2971
+    },
+    {
+      "label": "植物共生 3相 雄 老齢",
+      "species": "kelp",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2790
+    },
+    {
+      "label": "植物共生 3相 雌 幼体",
+      "species": "kelp",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2337
+    },
+    {
+      "label": "植物共生 3相 雌 成体",
+      "species": "kelp",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3200
+    },
+    {
+      "label": "植物共生 3相 雌 老齢",
+      "species": "kelp",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2998
+    },
+    {
+      "label": "植物共生 4相 雄 幼体",
+      "species": "kelp",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2353
+    },
+    {
+      "label": "植物共生 4相 雄 成体",
+      "species": "kelp",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2983
+    },
+    {
+      "label": "植物共生 4相 雄 老齢",
+      "species": "kelp",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2801
+    },
+    {
+      "label": "植物共生 4相 雌 幼体",
+      "species": "kelp",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2353
+    },
+    {
+      "label": "植物共生 4相 雌 成体",
+      "species": "kelp",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3201
+    },
+    {
+      "label": "植物共生 4相 雌 老齢",
+      "species": "kelp",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3010
+    },
+    {
+      "label": "星海鯨 1相 雄 幼体",
+      "species": "whale",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1688
+    },
+    {
+      "label": "星海鯨 1相 雄 成体",
+      "species": "whale",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2025
+    },
+    {
+      "label": "星海鯨 1相 雄 老齢",
+      "species": "whale",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1911
+    },
+    {
+      "label": "星海鯨 1相 雌 幼体",
+      "species": "whale",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1698
+    },
+    {
+      "label": "星海鯨 1相 雌 成体",
+      "species": "whale",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2260
+    },
+    {
+      "label": "星海鯨 1相 雌 老齢",
+      "species": "whale",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2132
+    },
+    {
+      "label": "星海鯨 2相 雄 幼体",
+      "species": "whale",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2495
+    },
+    {
+      "label": "星海鯨 2相 雄 成体",
+      "species": "whale",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3018
+    },
+    {
+      "label": "星海鯨 2相 雄 老齢",
+      "species": "whale",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2827
+    },
+    {
+      "label": "星海鯨 2相 雌 幼体",
+      "species": "whale",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2501
+    },
+    {
+      "label": "星海鯨 2相 雌 成体",
+      "species": "whale",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3353
+    },
+    {
+      "label": "星海鯨 2相 雌 老齢",
+      "species": "whale",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3148
+    },
+    {
+      "label": "星海鯨 3相 雄 幼体",
+      "species": "whale",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2986
+    },
+    {
+      "label": "星海鯨 3相 雄 成体",
+      "species": "whale",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3713
+    },
+    {
+      "label": "星海鯨 3相 雄 老齢",
+      "species": "whale",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3495
+    },
+    {
+      "label": "星海鯨 3相 雌 幼体",
+      "species": "whale",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2972
+    },
+    {
+      "label": "星海鯨 3相 雌 成体",
+      "species": "whale",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4045
+    },
+    {
+      "label": "星海鯨 3相 雌 老齢",
+      "species": "whale",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3797
+    },
+    {
+      "label": "星海鯨 4相 雄 幼体",
+      "species": "whale",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3353
+    },
+    {
+      "label": "星海鯨 4相 雄 成体",
+      "species": "whale",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4241
+    },
+    {
+      "label": "星海鯨 4相 雄 老齢",
+      "species": "whale",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3982
+    },
+    {
+      "label": "星海鯨 4相 雌 幼体",
+      "species": "whale",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 3357
+    },
+    {
+      "label": "星海鯨 4相 雌 成体",
+      "species": "whale",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4578
+    },
+    {
+      "label": "星海鯨 4相 雌 老齢",
+      "species": "whale",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 4305
+    },
+    {
+      "label": "群体節足 1相 雄 幼体",
+      "species": "swarm",
+      "phase": 1,
+      "sex": "male",
+      "role": "male",
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2201
+    },
+    {
+      "label": "群体節足 1相 雄 成体",
+      "species": "swarm",
+      "phase": 1,
+      "sex": "male",
+      "role": "male",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2677
+    },
+    {
+      "label": "群体節足 1相 雄 老齢",
+      "species": "swarm",
+      "phase": 1,
+      "sex": "male",
+      "role": "male",
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2513
+    },
+    {
+      "label": "群体節足 1相 雌 幼体",
+      "species": "swarm",
+      "phase": 1,
+      "sex": "female",
+      "role": "worker",
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2195
+    },
+    {
+      "label": "群体節足 1相 雌 成体",
+      "species": "swarm",
+      "phase": 1,
+      "sex": "female",
+      "role": "worker",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2960
+    },
+    {
+      "label": "群体節足 1相 雌 老齢",
+      "species": "swarm",
+      "phase": 1,
+      "sex": "female",
+      "role": "worker",
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2783
+    },
+    {
+      "label": "群体節足 2相 雄 幼体",
+      "species": "swarm",
+      "phase": 2,
+      "sex": "male",
+      "role": "male",
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2752
+    },
+    {
+      "label": "群体節足 2相 雄 成体",
+      "species": "swarm",
+      "phase": 2,
+      "sex": "male",
+      "role": "male",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3334
+    },
+    {
+      "label": "群体節足 2相 雄 老齢",
+      "species": "swarm",
+      "phase": 2,
+      "sex": "male",
+      "role": "male",
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3135
+    },
+    {
+      "label": "群体節足 2相 雌 幼体",
+      "species": "swarm",
+      "phase": 2,
+      "sex": "female",
+      "role": "worker",
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2748
+    },
+    {
+      "label": "群体節足 2相 雌 成体",
+      "species": "swarm",
+      "phase": 2,
+      "sex": "female",
+      "role": "worker",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3692
+    },
+    {
+      "label": "群体節足 2相 雌 老齢",
+      "species": "swarm",
+      "phase": 2,
+      "sex": "female",
+      "role": "worker",
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3461
+    },
+    {
+      "label": "群体節足 3相 雄 幼体",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "male",
+      "role": "male",
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2487
+    },
+    {
+      "label": "群体節足 3相 雄 成体",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "male",
+      "role": "male",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3094
+    },
+    {
+      "label": "群体節足 3相 雄 老齢",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "male",
+      "role": "male",
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2920
+    },
+    {
+      "label": "群体節足 3相 雌 幼体",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "female",
+      "role": "worker",
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2496
+    },
+    {
+      "label": "群体節足 3相 雌 成体",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "female",
+      "role": "worker",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3378
+    },
+    {
+      "label": "群体節足 3相 雌 老齢",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "female",
+      "role": "worker",
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3180
+    },
+    {
+      "label": "群体節足 4相 雄 幼体",
+      "species": "swarm",
+      "phase": 4,
+      "sex": "male",
+      "role": "male",
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2492
+    },
+    {
+      "label": "群体節足 4相 雄 成体",
+      "species": "swarm",
+      "phase": 4,
+      "sex": "male",
+      "role": "male",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3111
+    },
+    {
+      "label": "群体節足 4相 雄 老齢",
+      "species": "swarm",
+      "phase": 4,
+      "sex": "male",
+      "role": "male",
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2922
+    },
+    {
+      "label": "群体節足 4相 雌 幼体",
+      "species": "swarm",
+      "phase": 4,
+      "sex": "female",
+      "role": "worker",
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2499
+    },
+    {
+      "label": "群体節足 4相 雌 成体",
+      "species": "swarm",
+      "phase": 4,
+      "sex": "female",
+      "role": "worker",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3387
+    },
+    {
+      "label": "群体節足 4相 雌 老齢",
+      "species": "swarm",
+      "phase": 4,
+      "sex": "female",
+      "role": "worker",
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3184
+    },
+    {
+      "label": "プラズマ生命 1相 雄 幼体",
+      "species": "plasma",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2005
+    },
+    {
+      "label": "プラズマ生命 1相 雄 成体",
+      "species": "plasma",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2335
+    },
+    {
+      "label": "プラズマ生命 1相 雄 老齢",
+      "species": "plasma",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2206
+    },
+    {
+      "label": "プラズマ生命 1相 雌 幼体",
+      "species": "plasma",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2004
+    },
+    {
+      "label": "プラズマ生命 1相 雌 成体",
+      "species": "plasma",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2649
+    },
+    {
+      "label": "プラズマ生命 1相 雌 老齢",
+      "species": "plasma",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2492
+    },
+    {
+      "label": "プラズマ生命 2相 雄 幼体",
+      "species": "plasma",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2861
+    },
+    {
+      "label": "プラズマ生命 2相 雄 成体",
+      "species": "plasma",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3452
+    },
+    {
+      "label": "プラズマ生命 2相 雄 老齢",
+      "species": "plasma",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3249
+    },
+    {
+      "label": "プラズマ生命 2相 雌 幼体",
+      "species": "plasma",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2862
+    },
+    {
+      "label": "プラズマ生命 2相 雌 成体",
+      "species": "plasma",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3832
+    },
+    {
+      "label": "プラズマ生命 2相 雌 老齢",
+      "species": "plasma",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3605
+    },
+    {
+      "label": "プラズマ生命 3相 雄 幼体",
+      "species": "plasma",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2062
+    },
+    {
+      "label": "プラズマ生命 3相 雄 成体",
+      "species": "plasma",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2585
+    },
+    {
+      "label": "プラズマ生命 3相 雄 老齢",
+      "species": "plasma",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2445
+    },
+    {
+      "label": "プラズマ生命 3相 雌 幼体",
+      "species": "plasma",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2054
+    },
+    {
+      "label": "プラズマ生命 3相 雌 成体",
+      "species": "plasma",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2801
+    },
+    {
+      "label": "プラズマ生命 3相 雌 老齢",
+      "species": "plasma",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2631
+    },
+    {
+      "label": "プラズマ生命 4相 雄 幼体",
+      "species": "plasma",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1809
+    },
+    {
+      "label": "プラズマ生命 4相 雄 成体",
+      "species": "plasma",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2244
+    },
+    {
+      "label": "プラズマ生命 4相 雄 老齢",
+      "species": "plasma",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2106
+    },
+    {
+      "label": "プラズマ生命 4相 雌 幼体",
+      "species": "plasma",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1792
+    },
+    {
+      "label": "プラズマ生命 4相 雌 成体",
+      "species": "plasma",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2427
+    },
+    {
+      "label": "プラズマ生命 4相 雌 老齢",
+      "species": "plasma",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2289
+    },
+    {
+      "label": "深淵頭足 1相 雄 幼体",
+      "species": "cephalopod",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2210
+    },
+    {
+      "label": "深淵頭足 1相 雄 成体",
+      "species": "cephalopod",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2620
+    },
+    {
+      "label": "深淵頭足 1相 雄 老齢",
+      "species": "cephalopod",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2468
+    },
+    {
+      "label": "深淵頭足 1相 雌 幼体",
+      "species": "cephalopod",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2204
+    },
+    {
+      "label": "深淵頭足 1相 雌 成体",
+      "species": "cephalopod",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2950
+    },
+    {
+      "label": "深淵頭足 1相 雌 老齢",
+      "species": "cephalopod",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2773
+    },
+    {
+      "label": "深淵頭足 2相 雄 幼体",
+      "species": "cephalopod",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2881
+    },
+    {
+      "label": "深淵頭足 2相 雄 成体",
+      "species": "cephalopod",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3495
+    },
+    {
+      "label": "深淵頭足 2相 雄 老齢",
+      "species": "cephalopod",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3288
+    },
+    {
+      "label": "深淵頭足 2相 雌 幼体",
+      "species": "cephalopod",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2886
+    },
+    {
+      "label": "深淵頭足 2相 雌 成体",
+      "species": "cephalopod",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3868
+    },
+    {
+      "label": "深淵頭足 2相 雌 老齢",
+      "species": "cephalopod",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3638
+    },
+    {
+      "label": "深淵頭足 3相 雄 幼体",
+      "species": "cephalopod",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1760
+    },
+    {
+      "label": "深淵頭足 3相 雄 成体",
+      "species": "cephalopod",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2222
+    },
+    {
+      "label": "深淵頭足 3相 雄 老齢",
+      "species": "cephalopod",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2088
+    },
+    {
+      "label": "深淵頭足 3相 雌 幼体",
+      "species": "cephalopod",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1776
+    },
+    {
+      "label": "深淵頭足 3相 雌 成体",
+      "species": "cephalopod",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2393
+    },
+    {
+      "label": "深淵頭足 3相 雌 老齢",
+      "species": "cephalopod",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2263
+    },
+    {
+      "label": "深淵頭足 4相 雄 幼体",
+      "species": "cephalopod",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1676
+    },
+    {
+      "label": "深淵頭足 4相 雄 成体",
+      "species": "cephalopod",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2072
+    },
+    {
+      "label": "深淵頭足 4相 雄 老齢",
+      "species": "cephalopod",
+      "phase": 4,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 1949
+    },
+    {
+      "label": "深淵頭足 4相 雌 幼体",
+      "species": "cephalopod",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 1676
+    },
+    {
+      "label": "深淵頭足 4相 雌 成体",
+      "species": "cephalopod",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2279
+    },
+    {
+      "label": "深淵頭足 4相 雌 老齢",
+      "species": "cephalopod",
+      "phase": 4,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2129
+    },
+    {
+      "label": "早成甲殻 1相 雄 幼体",
+      "species": "precocial",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2237
+    },
+    {
+      "label": "早成甲殻 1相 雄 成体",
+      "species": "precocial",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3062
+    },
+    {
+      "label": "早成甲殻 1相 雄 老齢",
+      "species": "precocial",
+      "phase": 1,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2876
+    },
+    {
+      "label": "早成甲殻 1相 雌 幼体",
+      "species": "precocial",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2205
+    },
+    {
+      "label": "早成甲殻 1相 雌 成体",
+      "species": "precocial",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3164
+    },
+    {
+      "label": "早成甲殻 1相 雌 老齢",
+      "species": "precocial",
+      "phase": 1,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2950
+    },
+    {
+      "label": "早成甲殻 2相 雄 幼体",
+      "species": "precocial",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2990
+    },
+    {
+      "label": "早成甲殻 2相 雄 成体",
+      "species": "precocial",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3925
+    },
+    {
+      "label": "早成甲殻 2相 雄 老齢",
+      "species": "precocial",
+      "phase": 2,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3686
+    },
+    {
+      "label": "早成甲殻 2相 雌 幼体",
+      "species": "precocial",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2960
+    },
+    {
+      "label": "早成甲殻 2相 雌 成体",
+      "species": "precocial",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4131
+    },
+    {
+      "label": "早成甲殻 2相 雌 老齢",
+      "species": "precocial",
+      "phase": 2,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3875
+    },
+    {
+      "label": "早成甲殻 3相 雄 幼体",
+      "species": "precocial",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2995
+    },
+    {
+      "label": "早成甲殻 3相 雄 成体",
+      "species": "precocial",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3799
+    },
+    {
+      "label": "早成甲殻 3相 雄 老齢",
+      "species": "precocial",
+      "phase": 3,
+      "sex": "male",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3572
+    },
+    {
+      "label": "早成甲殻 3相 雌 幼体",
+      "species": "precocial",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2989
+    },
+    {
+      "label": "早成甲殻 3相 雌 成体",
+      "species": "precocial",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4091
+    },
+    {
+      "label": "早成甲殻 3相 雌 老齢",
+      "species": "precocial",
+      "phase": 3,
+      "sex": "female",
+      "role": null,
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3841
+    },
+    {
+      "label": "群体節足 繁殖雌 幼体",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "female",
+      "role": "queen",
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2515
+    },
+    {
+      "label": "群体節足 繁殖雌 成体",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "female",
+      "role": "queen",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3416
+    },
+    {
+      "label": "群体節足 繁殖雌 老齢",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "female",
+      "role": "queen",
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3212
+    },
+    {
+      "label": "群体節足 働育雌 幼体",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "female",
+      "role": "worker",
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2496
+    },
+    {
+      "label": "群体節足 働育雌 成体",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "female",
+      "role": "worker",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3378
+    },
+    {
+      "label": "群体節足 働育雌 老齢",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "female",
+      "role": "worker",
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 3180
+    },
+    {
+      "label": "群体節足 繁殖雄 幼体",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "male",
+      "role": "male",
+      "stage": "juvenile",
+      "kind": "creature",
+      "pixels": 2487
+    },
+    {
+      "label": "群体節足 繁殖雄 成体",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "male",
+      "role": "male",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3094
+    },
+    {
+      "label": "群体節足 繁殖雄 老齢",
+      "species": "swarm",
+      "phase": 3,
+      "sex": "male",
+      "role": "male",
+      "stage": "elderly",
+      "kind": "creature",
+      "pixels": 2920
+    },
+    {
+      "label": "微藻 1相",
+      "species": "algae",
+      "phase": 1,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 1424
+    },
+    {
+      "label": "微藻 2相",
+      "species": "algae",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 3881
+    },
+    {
+      "label": "岩苔 1相",
+      "species": "moss",
+      "phase": 1,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 2572
+    },
+    {
+      "label": "岩苔 2相",
+      "species": "moss",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 4408
+    },
+    {
+      "label": "草本 1相",
+      "species": "grass",
+      "phase": 1,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 1012
+    },
+    {
+      "label": "草本 2相",
+      "species": "grass",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 3701
+    },
+    {
+      "label": "菌膜 1相",
+      "species": "fungus",
+      "phase": 1,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 1217
+    },
+    {
+      "label": "菌膜 2相",
+      "species": "fungus",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 3212
+    },
+    {
+      "label": "水游虫 1相",
+      "species": "waterbug",
+      "phase": 1,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 1591
+    },
+    {
+      "label": "水游虫 2相",
+      "species": "waterbug",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 3811
+    },
+    {
+      "label": "草棲虫 1相",
+      "species": "grassbug",
+      "phase": 1,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 952
+    },
+    {
+      "label": "草棲虫 2相",
+      "species": "grassbug",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 1959
+    },
+    {
+      "label": "潮環 1段階 原画のみ",
+      "species": "tideparasite",
+      "phase": 1,
+      "sex": "none",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4156
+    },
+    {
+      "label": "潮環 2段階 原画のみ",
+      "species": "tideparasite",
+      "phase": 2,
+      "sex": "none",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3738
+    },
+    {
+      "label": "潮環 3段階 原画のみ",
+      "species": "tideparasite",
+      "phase": 3,
+      "sex": "none",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 4921
+    },
+    {
+      "label": "葉環 1段階 原画のみ",
+      "species": "leafparasite",
+      "phase": 1,
+      "sex": "none",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3621
+    },
+    {
+      "label": "葉環 2段階 原画のみ",
+      "species": "leafparasite",
+      "phase": 2,
+      "sex": "none",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3000
+    },
+    {
+      "label": "葉環 3段階 原画のみ",
+      "species": "leafparasite",
+      "phase": 3,
+      "sex": "none",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 5256
+    },
+    {
+      "label": "抑環 1段階 原画のみ",
+      "species": "hyperparasite",
+      "phase": 1,
+      "sex": "none",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 2426
+    },
+    {
+      "label": "抑環 2段階 原画のみ",
+      "species": "hyperparasite",
+      "phase": 2,
+      "sex": "none",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 1703
+    },
+    {
+      "label": "抑環 3段階 原画のみ",
+      "species": "hyperparasite",
+      "phase": 3,
+      "sex": "none",
+      "stage": "adult",
+      "kind": "creature",
+      "pixels": 3454
+    },
+    {
+      "label": "浮遊微藻 1相",
+      "species": "phytoplankton",
+      "phase": 1,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 1424
+    },
+    {
+      "label": "浮遊微藻 2相",
+      "species": "phytoplankton",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 3881
+    },
+    {
+      "label": "微藻 env0 量1",
+      "species": "algae",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 3021
+    },
+    {
+      "label": "微藻 env0 量10",
+      "species": "algae",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 4259
+    },
+    {
+      "label": "微藻 env4 量1",
+      "species": "algae",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 3023
+    },
+    {
+      "label": "微藻 env4 量10",
+      "species": "algae",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 4260
+    },
+    {
+      "label": "浮遊微藻 env0 量1",
+      "species": "phytoplankton",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 3021
+    },
+    {
+      "label": "浮遊微藻 env0 量10",
+      "species": "phytoplankton",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 4259
+    },
+    {
+      "label": "浮遊微藻 env4 量1",
+      "species": "phytoplankton",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 3023
+    },
+    {
+      "label": "浮遊微藻 env4 量10",
+      "species": "phytoplankton",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 4260
+    },
+    {
+      "label": "岩苔 env0 量1",
+      "species": "moss",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 3417
+    },
+    {
+      "label": "岩苔 env0 量10",
+      "species": "moss",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 4858
+    },
+    {
+      "label": "岩苔 env4 量1",
+      "species": "moss",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 3424
+    },
+    {
+      "label": "岩苔 env4 量10",
+      "species": "moss",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 4859
+    },
+    {
+      "label": "草本 env0 量1",
+      "species": "grass",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 2862
+    },
+    {
+      "label": "草本 env0 量10",
+      "species": "grass",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 4026
+    },
+    {
+      "label": "草本 env4 量1",
+      "species": "grass",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 2960
+    },
+    {
+      "label": "草本 env4 量10",
+      "species": "grass",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 4171
+    },
+    {
+      "label": "菌膜 env0 量1",
+      "species": "fungus",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 2493
+    },
+    {
+      "label": "菌膜 env0 量10",
+      "species": "fungus",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 3539
+    },
+    {
+      "label": "菌膜 env4 量1",
+      "species": "fungus",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 2554
+    },
+    {
+      "label": "菌膜 env4 量10",
+      "species": "fungus",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 3620
+    },
+    {
+      "label": "水游虫 env0 量1",
+      "species": "waterbug",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 2959
+    },
+    {
+      "label": "水游虫 env0 量10",
+      "species": "waterbug",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 4188
+    },
+    {
+      "label": "水游虫 env4 量1",
+      "species": "waterbug",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 3032
+    },
+    {
+      "label": "水游虫 env4 量10",
+      "species": "waterbug",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 4296
+    },
+    {
+      "label": "草棲虫 env0 量1",
+      "species": "grassbug",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 1527
+    },
+    {
+      "label": "草棲虫 env0 量10",
+      "species": "grassbug",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 2152
+    },
+    {
+      "label": "草棲虫 env4 量1",
+      "species": "grassbug",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 1563
+    },
+    {
+      "label": "草棲虫 env4 量10",
+      "species": "grassbug",
+      "phase": 2,
+      "sex": "none",
+      "role": null,
+      "stage": "adult",
+      "kind": "food",
+      "pixels": 2206
+    },
+    {
+      "label": "info 量1",
+      "species": "info",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 3640
+    },
+    {
+      "label": "info 量6",
+      "species": "info",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 3640
+    },
+    {
+      "label": "seed 量1",
+      "species": "seed",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 270
+    },
+    {
+      "label": "seed 量6",
+      "species": "seed",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 1020
+    },
+    {
+      "label": "spore 量1",
+      "species": "spore",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 270
+    },
+    {
+      "label": "spore 量6",
+      "species": "spore",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 1020
+    },
+    {
+      "label": "egg 量1",
+      "species": "egg",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 270
+    },
+    {
+      "label": "egg 量6",
+      "species": "egg",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 1020
+    },
+    {
+      "label": "organic 量1",
+      "species": "organic",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 270
+    },
+    {
+      "label": "organic 量6",
+      "species": "organic",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 1020
+    },
+    {
+      "label": "mineral 量1",
+      "species": "mineral",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 270
+    },
+    {
+      "label": "mineral 量6",
+      "species": "mineral",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 1020
+    },
+    {
+      "label": "droplet 量1",
+      "species": "droplet",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 270
+    },
+    {
+      "label": "droplet 量6",
+      "species": "droplet",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 1020
+    },
+    {
+      "label": "factor 量1",
+      "species": "factor",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 270
+    },
+    {
+      "label": "factor 量6",
+      "species": "factor",
+      "stage": null,
+      "kind": "resource",
+      "pixels": 1020
+    }
+  ],
+  "errors": [],
+  "productionUnchanged": true
+}
