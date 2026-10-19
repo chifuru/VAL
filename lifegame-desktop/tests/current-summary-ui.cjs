@@ -17,7 +17,7 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
   check(await page.locator('#current-donut').isVisible(),'current composition ring visible');
   check(await page.locator('#population-trend').count()===0,'old redundant trend graph removed');
   const box=await page.locator('.current-summary').boundingBox(),ring=await page.locator('.current-composition').boundingBox(),reading=await page.locator('.current-reading').boundingBox();
-  check(ring.x<reading.x&&Math.abs(ring.y-reading.y)<40,'reference left ring and right interpretation retained');
+  check(reading.x<ring.x,'interpretation precedes the rightmost composition ring');
   check(await page.locator('.current-reading dt').allTextContents().then(a=>a.join('/')==='広がり/多様さ/持続性'),'all three original labels retained');
   check(await page.locator('.current-summary progress,.current-summary input[type=range]').count()===0,'no three metric bars reintroduced');
   for(const key of ['breadth','diversity','persistence']){
@@ -35,6 +35,6 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
   check(await page.evaluate(()=>__LIFE_TEST__.observations().rows.length===__LIFE_TEST__.snapshot().world.turn+1),'all turns retained during playback');
   await page.locator('.current-summary').screenshot({path:path.join(out,'summary-active.png')});
   await page.setViewportSize({width:820,height:900});check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'narrow layout does not overflow horizontally');await page.locator('.current-summary').screenshot({path:path.join(out,'summary-narrow.png')});
-  check(errors.length===0,'no browser errors');await fs.writeFile(path.join(out,'report.json'),JSON.stringify({checks,errors,scope:'Linux Chromium; current summary only; lower relation diagram/pyramid not implemented'},null,2)+'\n');console.log(JSON.stringify({checks:checks.length,errors}));
+  check(errors.length===0,'no browser errors');await fs.writeFile(path.join(out,'report.json'),JSON.stringify({checks,errors,scope:'Linux Chromium; summary text/ring and observation connection; relation/pyramid semantics not revalidated'},null,2)+'\n');console.log(JSON.stringify({checks:checks.length,errors}));
  }finally{if(browser)await browser.close();await new Promise(r=>server.close(r));}
 })().catch(e=>{console.error(e);process.exitCode=1;});
