@@ -182,7 +182,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 		ロジック:
 			代表モックの系統固有の相/雌雄/年齢と6行動の表現を適用。背景の彩度/細部を抑え接地影/縁の明暗で分離。確定イベントから描き、生態計算へ逆作用させない。
 		実態:
-			4.2.2で主21系統の専用分岐183枠を接続。全系統で異なる器官配置/輪郭を使用し、既存記号/基本材質/相分離を維持。雌雄/年齢/階級/生活環/下層の専用差は未完管理。 詳細: operations/evidence/dedicated-variants-v4.2.2/README.md。
+			全21主系統183枝を維持。4.2.3で群体節足/多頭蛇/異化通信生命の27枝だけを胴/支持/膜の構造差へ修正。雌雄/年齢等の既存残件は変更しない。 詳細: operations/evidence/three-lineage-retouch-v4.2.3/README.md。
 	B5.4:（A1, A2, A1.2 / 最終結果図鑑と再生・新規保存）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.4.md。最終結果図鑑と再生・新規保存。
@@ -257,7 +257,7 @@ C4:（A2, B5 / Electron と Windows 配布）［草案］
 	ロジック:
 		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
 	実態:
-		Windows4.2.2配布を生成。原画31PNG/manifest/描画srcとapp.asarのバイト一致を確認。実Windows起動/性能は未実施。 詳細: operations/evidence/dedicated-variants-v4.2.2/README.md。
+		Windows4.2.3配布を生成。修正3原画/manifest/描画コードの同梱一致を確認。実Windows起動・性能は未実施。 詳細: operations/evidence/three-lineage-retouch-v4.2.3/README.md。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -332,7 +332,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 		ロジック:
 			実タイルから地形/深浅/8環境のマスクを生成し、視野内だけ高解像度で合成。遠景は全位置記号、近景は描き込んだ景観。輪郭影と局所遮蔽を使い、装飾を新たな生態/障害物としない。
 		実態:
-			全21主系統の枝を専用原画へ接続。新19系統165枠は身体に沿う参照矩形/縦横比/断片清掃を使用。早成の表示上限をIIIへ制限。生態/renderer記号/既存原画は不変。 詳細: operations/evidence/dedicated-variants-v4.2.2/README.md。
+			4.2.3でswarm/serpent/valisの枝参照を専用修正原画3枚へ差し替え。対象27枝のみ、他18系統の枝参照・既存原画31枚・生態/描画コードは不変。 詳細: operations/evidence/three-lineage-retouch-v4.2.3/README.md。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -377,7 +377,7 @@ D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	ロジック:
 		C4と対象版を照合して配布物そのものを実行する。
 	実態:
-		Windows4.2.2配布を生成。原画31PNG/manifest/描画srcとapp.asarのバイト一致を確認。実Windows起動/性能は未実施。 詳細: operations/evidence/dedicated-variants-v4.2.2/README.md。
+		Windows4.2.3配布を生成。修正3原画/manifest/描画コードの同梱一致を確認。実Windows起動・性能は未実施。 詳細: operations/evidence/three-lineage-retouch-v4.2.3/README.md。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -431,7 +431,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		4.2.2で全21主系統183枝の描画/非空/系統内画像差/入力不変と、早成上限・遠近/相分離の指紋不変を確認。専用9/通常47/相分離22/造形18確認を実施。実寸密集の外観承認と全差分完成は未認定。 詳細: operations/evidence/dedicated-variants-v4.2.2/README.md。
+		4.2.3は対象27枝の90/150px変更前後・読込/非空/選択/入力不変を5確認。対象外参照/原画/コード不変と素材/構造を照合。全画面回帰・長期試行は再実施しない。 詳細: operations/evidence/three-lineage-retouch-v4.2.3/README.md。
 ```
 
 ## E：検証証跡
@@ -482,13 +482,13 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		dedicated-variants-v4.2.2へ全21主系統183枝の実描画、通常画面/相分離回帰、対象SHA、全枝比較を記録。雌雄/年齢等と最終外観は未完。Windows実機は未確認。 詳細: operations/evidence/dedicated-variants-v4.2.2/README.md。
+		three-lineage-retouch-v4.2.3に対象3系統27枝の比較画像/5確認と対象外不変の証跡を保存。既存全体検査は4.2.2の対象範囲へ限定、今回の再実施とは扱わない。 詳細: operations/evidence/three-lineage-retouch-v4.2.3/README.md。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
 	ロジック:
 		対象SHAと版が一致するWindows4.1の配布/実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		Windows4.2.2配布を生成。原画31PNG/manifest/描画srcとapp.asarのバイト一致を確認。実Windows起動/性能は未実施。 詳細: operations/evidence/dedicated-variants-v4.2.2/README.md。
+		Windows4.2.3配布を生成。修正3原画/manifest/描画コードの同梱一致を確認。実Windows起動・性能は未実施。 詳細: operations/evidence/three-lineage-retouch-v4.2.3/README.md。
 
 ```

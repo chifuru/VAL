@@ -1,0 +1,8 @@
+MATCH src/assets/visual-manifest.json
+MATCH src/assets/visual-manifest.js
+MATCH src/ecology/art.js
+MATCH src/Index.html
+MATCH src/assets/swarm-branches-v423.png
+MATCH src/assets/serpent-branches-v423.png
+MATCH src/assets/valis-branches-v423.png
+4.2.3; native Windows launch untested

@@ -1,0 +1,43 @@
+{
+  "changedBranchFamilies": [
+    "swarm",
+    "serpent",
+    "valis"
+  ],
+  "changedBranchFrames": 27,
+  "otherMainBranchSelectorsUnchanged": 18,
+  "existingPngsUnchanged": [
+    "life-a.png",
+    "life-b.png",
+    "life-c.png",
+    "life-d.png",
+    "life-e.png",
+    "life-f.png",
+    "food-atlas.png",
+    "habitat-props.png",
+    "solar-branches.png",
+    "jelly-branches.png",
+    "habitat-meadow.png",
+    "habitat-forest.png",
+    "habitat-rock.png",
+    "habitat-earth.png",
+    "habitat-water.png",
+    "habitat-rapids.png",
+    "habitat-deep.png",
+    "habitat-frost.png",
+    "habitat-thermal.png",
+    "habitat-signal.png",
+    "habitat-corrosion.png",
+    "dedicated-branches-01.png",
+    "dedicated-branches-02.png",
+    "dedicated-branches-03.png",
+    "dedicated-branches-04.png",
+    "dedicated-branches-05.png",
+    "dedicated-branches-06.png",
+    "dedicated-branches-07.png",
+    "dedicated-branches-08.png",
+    "dedicated-branches-09.png",
+    "dedicated-branches-10.png"
+  ],
+  "ecologyAndDrawingCodeUnchanged": true
+}

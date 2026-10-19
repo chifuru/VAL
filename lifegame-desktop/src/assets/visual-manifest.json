@@ -1,6 +1,6 @@
 {
-  "version": "dedicated-branches/4.2.2",
-  "source": "Existing phase/terrain/solar/jelly art preserved; all main lineages now have dedicated branch artwork. Sex/age/caste and lower layers tracked separately.",
+  "version": "three-lineage-retouch/4.2.3",
+  "source": "4.2.2 artwork preserved except swarm, serpent and valis dedicated branch selectors; three dedicated replacement atlases.",
   "sheets": {
     "life-a": {
       "file": "life-a.png",
@@ -187,6 +187,24 @@
       "width": 2172,
       "height": 724,
       "sha256": "7dd791f59a7936589cc0627196a4ceda511e4da1705e3d3cc9b1fe6477db4e0f"
+    },
+    "swarm-branches-v423": {
+      "file": "swarm-branches-v423.png",
+      "width": 1222,
+      "height": 1287,
+      "sha256": "7d6f005e73cdf7db014e68badecd749e786032fd893a8069934d89dae197ec6e"
+    },
+    "serpent-branches-v423": {
+      "file": "serpent-branches-v423.png",
+      "width": 1223,
+      "height": 1286,
+      "sha256": "0a78efcccb85ab7a4b693827d1c49bf753e47d0936e019da2b709fb140de1754"
+    },
+    "valis-branches-v423": {
+      "file": "valis-branches-v423.png",
+      "width": 1224,
+      "height": 1285,
+      "sha256": "930dc8c6fecc37a286572dbccfecf0f7603387a6fbbcc977e6b1787f17e875c9"
     }
   },
   "creatures": {
@@ -1737,65 +1755,65 @@
       "source": "dedicated-variants/4.2.2"
     },
     "serpent": {
-      "sheet": "dedicated-branches-06",
+      "sheet": "serpent-branches-v423",
       "regions": [
         [
-          14,
-          109,
-          359,
-          186
+          16,
+          250,
+          466,
+          210
         ],
         [
-          346,
-          68,
-          385,
-          236
+          423,
+          152,
+          484,
+          303
         ],
         [
-          701,
-          12,
-          316,
-          292
+          866,
+          80,
+          348,
+          378
         ],
         [
-          19,
-          317,
-          321,
-          216
+          11,
+          575,
+          477,
+          229
         ],
         [
-          352,
-          320,
-          276,
-          213
+          451,
+          490,
+          357,
+          315
         ],
         [
-          609,
-          341,
-          409,
-          191
+          800,
+          542,
+          417,
+          262
         ],
         [
-          12,
-          613,
-          367,
-          178
+          9,
+          962,
+          503,
+          238
         ],
         [
-          322,
-          547,
-          399,
-          244
+          437,
+          823,
+          452,
+          377
         ],
         [
-          724,
-          536,
-          294,
-          249
+          858,
+          854,
+          358,
+          336
         ]
       ],
       "fit": "contain",
-      "source": "dedicated-variants/4.2.2"
+      "source": "three-lineage-retouch/4.2.3"
     },
     "antimeme": {
       "sheet": "dedicated-branches-06",
@@ -1859,65 +1877,65 @@
       "source": "dedicated-variants/4.2.2"
     },
     "valis": {
-      "sheet": "dedicated-branches-07",
+      "sheet": "valis-branches-v423",
       "regions": [
         [
-          10,
-          14,
-          328,
-          299
+          18,
+          191,
+          476,
+          279
         ],
         [
-          362,
-          4,
-          303,
-          315
+          485,
+          141,
+          403,
+          326
         ],
         [
-          692,
-          3,
-          323,
-          324
+          929,
+          163,
+          262,
+          306
         ],
         [
-          13,
-          317,
-          339,
-          276
+          15,
+          528,
+          475,
+          335
         ],
         [
+          489,
+          530,
+          364,
+          327
+        ],
+        [
+          864,
+          516,
           358,
-          320,
-          335,
-          265
-        ],
-        [
-          718,
-          323,
-          293,
-          264
+          364
         ],
         [
           12,
-          593,
-          345,
-          255
+          941,
+          501,
+          247
         ],
         [
-          363,
-          596,
-          345,
-          264
+          499,
+          935,
+          401,
+          277
         ],
         [
-          736,
-          596,
-          276,
-          258
+          934,
+          912,
+          278,
+          288
         ]
       ],
       "fit": "contain",
-      "source": "dedicated-variants/4.2.2"
+      "source": "three-lineage-retouch/4.2.3"
     },
     "kelp": {
       "sheet": "dedicated-branches-07",
@@ -2042,65 +2060,65 @@
       "source": "dedicated-variants/4.2.2"
     },
     "swarm": {
-      "sheet": "dedicated-branches-08",
+      "sheet": "swarm-branches-v423",
       "regions": [
         [
-          5,
-          778,
-          319,
-          225
+          29,
+          162,
+          377,
+          256
         ],
         [
-          343,
-          760,
-          354,
-          262
+          421,
+          147,
+          451,
+          289
         ],
         [
-          712,
-          772,
-          298,
-          240
+          870,
+          141,
+          321,
+          272
         ],
         [
-          14,
-          1007,
-          320,
-          237
+          19,
+          545,
+          398,
+          260
         ],
         [
-          359,
-          994,
-          309,
-          242
+          441,
+          507,
+          380,
+          289
         ],
         [
-          677,
-          1013,
-          334,
-          249
+          839,
+          519,
+          369,
+          296
         ],
         [
-          13,
-          1285,
-          344,
-          194
+          12,
+          944,
+          456,
+          185
         ],
         [
-          332,
-          1244,
-          360,
-          246
+          469,
+          870,
+          389,
+          289
         ],
         [
-          714,
-          1266,
-          287,
-          222
+          886,
+          871,
+          321,
+          280
         ]
       ],
       "fit": "contain",
-      "source": "dedicated-variants/4.2.2"
+      "source": "three-lineage-retouch/4.2.3"
     },
     "plasma": {
       "sheet": "dedicated-branches-09",

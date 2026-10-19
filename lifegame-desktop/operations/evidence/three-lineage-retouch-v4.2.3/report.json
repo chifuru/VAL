@@ -1,0 +1,34 @@
+{
+  "checks": [
+    "27 target branches decode, render nonempty and select nine distinct images per family at 90/150px",
+    "27 target branch images differ from before",
+    "all display inputs remain unchanged",
+    "other 18 main lineage branch selectors unchanged",
+    "no browser exceptions"
+  ],
+  "families": [
+    {
+      "id": "swarm",
+      "branches": 9,
+      "nonempty": true,
+      "distinct": true,
+      "inputUnchanged": true
+    },
+    {
+      "id": "serpent",
+      "branches": 9,
+      "nonempty": true,
+      "distinct": true,
+      "inputUnchanged": true
+    },
+    {
+      "id": "valis",
+      "branches": 9,
+      "nonempty": true,
+      "distinct": true,
+      "inputUnchanged": true
+    }
+  ],
+  "errors": [],
+  "scope": "Linux Chromium / target27 only / no long biology or full UI rerun"
+}
