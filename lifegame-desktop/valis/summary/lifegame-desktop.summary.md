@@ -2,7 +2,7 @@
 
 lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Node、仕様と資料の入口は `design/specification/README.md`。
 
-全残件の現在入口: `operations/plans/remaining-completion-v4.2.md`。製品4.2.14の限定接続範囲は `operations/evidence/initial-supply-v4.2.14/README.md`。次は全期間記録/再保存。種別/PQ初期数・最終判読/性能・500T/実Windows確認は残る。
+全残件の現在入口: `operations/plans/remaining-completion-v4.2.md`。製品4.2.15の全期間記録/結果分析/明示的新規保存は `operations/evidence/archive-history-v4.2.15/README.md`。次は種別/PQ初期数と生態必須機能/説明の照合。最終外観/性能・500T/実Windows確認は残る。
 
 ## A：仕様
 
@@ -71,7 +71,7 @@ A2:（起点 / 独立した Windows ローカル実行）［草案］
 	ロジック:
 		現行UIを基準に、既存個体数カード列末尾の小型trend-cardをサマリへ置換。右側は基本3グラフ/詳細の切替。一画面の判読性と遷移保護を確認する。
 	実態:
-		4.2.14で自由設定の供給ON/OFFと陸水別3量、下層3群の密度/分布、資源3種の初期量を接続。実効条件/調整あり/目標と実配置を表示しconfigへ保持。旧欠落はOFF。種別/PQの直接数指定・全期間保存は残る。 詳細: operations/evidence/initial-supply-v4.2.14/README.md。草案を維持。
+		4.2.15で初期/最終統計/全ターン観測と指標版をschema2/IndexedDBへ保存し、最終結果の3パネル分析・CSV/JSONへ接続。再生だけでは増件せず、明示保存は独立ID/元記録参照。旧記録を併読し上書きしない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
 
 ```
 
@@ -161,7 +161,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 	ロジック:
 		工程別の完了条件で既存UI/生態へ接続し、名札/色/一覧/横説明・3+1グラフ・設定/保存の未完を完成扱いにしない。 作業順: operations/plans/remaining-completion-v4.2.md。
 	実態:
-		4.2.14で自由設定の供給ON/OFFと陸水別3量、下層3群の密度/分布、資源3種の初期量を接続。実効条件/調整あり/目標と実配置を表示しconfigへ保持。旧欠落はOFF。種別/PQの直接数指定・全期間保存は残る。 詳細: operations/evidence/initial-supply-v4.2.14/README.md。草案を維持。
+		4.2.15で初期/最終統計/全ターン観測と指標版をschema2/IndexedDBへ保存し、最終結果の3パネル分析・CSV/JSONへ接続。再生だけでは増件せず、明示保存は独立ID/元記録参照。旧記録を併読し上書きしない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
 	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.1.md。系統樹と進化条件の参照機能。
@@ -191,7 +191,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 		ロジック:
 			初期条件/最終状態/全ターン原値を記録。再生後の明示保存は元記録を残す別ID。最終結果で分析し、版違いでも保存済み集計を閲覧する。 比較実験の出力を製品図鑑と分離。製品では全ターン記録/旧版閲覧/新規保存と失敗時の保護を結合確認する。
 		実態:
-			現行4.1は初期条件/最終個体数中心で、再生保存を禁止。新要件への修正が必要。 A/B v2.5を反映。既存4.1の接続は維持。追加差分は未実装・未検証、外観/存続目標は未認定。次FLOW-04/05。
+			4.2.15で初期/最終統計/全ターン観測と指標版をschema2/IndexedDBへ保存し、最終結果の3パネル分析・CSV/JSONへ接続。再生だけでは増件せず、明示保存は独立ID/元記録参照。旧記録を併読し上書きしない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
 
 	B5.5:（A1, A1.1, A1.3, A1.5, A1.7 / 個体数・集団構成・生態関係のグラフ）［草案］
 		構成（要素・関係）:
@@ -199,7 +199,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 		ロジック:
 			個体数推移は全て/主生物/餌生物/植物/一次/高次を選択。構成は相/雌雄/年齢の個体数積み上げ3本を同時表示し対象共通・総数一致、既定主生物。小型サマリは各系列最大100と現在実数、全ターン原値を保持。
 		実態:
-			4.2.13で基本3パネルを右欄へ接続。主既定の群/系統選択、相/雌雄/年齢の実数時系列、実作用3レーン、関係図と実栄養由来の共通B配分を限定実装。添付サマリ/文章と薄い数値を維持。 詳細: operations/evidence/ecosystem-panels-v4.2.13/README.md。草案を維持。
+			4.2.15で初期/最終統計/全ターン観測と指標版をschema2/IndexedDBへ保存し、最終結果の3パネル分析・CSV/JSONへ接続。再生だけでは増件せず、明示保存は独立ID/元記録参照。旧記録を併読し上書きしない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.6.md。生物の選択・所在強調・個体追跡。
@@ -259,7 +259,7 @@ C4:（A2, B5 / Electron と Windows 配布）［草案］
 	ロジック:
 		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
 	実態:
-		Windows4.2.14生成と変更ソース10・原画35PNGの同梱一致を確認。実Windows起動/性能は未実施。 詳細: operations/evidence/initial-supply-v4.2.14/README.md。草案を維持。
+		Windows4.2.15生成と変更ソース5・原画35PNGの同梱一致を確認。生態source/再生署名は不変。実Windows起動/性能は未実施。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -327,7 +327,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 	ロジック:
 		確定世界を観察し、操作や拡大を生態計算から分ける。
 	実態:
-		4.2.14で自由設定の供給ON/OFFと陸水別3量、下層3群の密度/分布、資源3種の初期量を接続。実効条件/調整あり/目標と実配置を表示しconfigへ保持。旧欠落はOFF。種別/PQの直接数指定・全期間保存は残る。 詳細: operations/evidence/initial-supply-v4.2.14/README.md。草案を維持。
+		4.2.15で初期/最終統計/全ターン観測と指標版をschema2/IndexedDBへ保存し、最終結果の3パネル分析・CSV/JSONへ接続。再生だけでは増件せず、明示保存は独立ID/元記録参照。旧記録を併読し上書きしない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C8.1.md。projection/scenery/habitat/art/renderer、生物/地物10原画と背景11素材。契約: operations/plans/habitat-visual-v3.1.md。
@@ -342,7 +342,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 		ロジック:
 			最終結果だけを保持し、全再生経路で新規保存を拒否する。
 		実態:
-			保存した優遇版/3条件で再生し実Workerと同じ計算を利用。計算署名に生成モデル/選択コードを含め旧版記録は明示拒否。最終グラフ保存/明示的新規記録等の残件は未接続。 詳細: operations/evidence/observation-model-v4.2/README.md。
+			4.2.15で初期/最終統計/全ターン観測と指標版をschema2/IndexedDBへ保存し、最終結果の3パネル分析・CSV/JSONへ接続。再生だけでは増件せず、明示保存は独立ID/元記録参照。旧記録を併読し上書きしない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
 
 ```
 
@@ -379,7 +379,7 @@ D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	ロジック:
 		C4と対象版を照合して配布物そのものを実行する。
 	実態:
-		Windows4.2.14生成と変更ソース10・原画35PNGの同梱一致を確認。実Windows起動/性能は未実施。 詳細: operations/evidence/initial-supply-v4.2.14/README.md。草案を維持。
+		Windows4.2.15生成と変更ソース5・原画35PNGの同梱一致を確認。生態source/再生署名は不変。実Windows起動/性能は未実施。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -433,7 +433,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		Linux Chromium24項目で新ON/旧OFF・陸水/密度/0資源・実配置/調整あり・Worker同期一致・取消/失敗/再試行/既存グラフ/狭幅を確認。通常dialog/pageerror0。全端末性能は未認定。 詳細: operations/evidence/initial-supply-v4.2.14/README.md。草案を維持。
+		Linux Chromium40項目で実IndexedDBの再読込/保存原値/結果分析/指紋照合/明示的新規保存/元記録保護/quotaロールバック/再試行/100件/破損保護/狭幅を確認。新単体5・旧archive4、関連5ファイル回帰。合成501時点は輸送検査で生態500T認定ではない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
 ```
 
 ## E：検証証跡
@@ -484,13 +484,13 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		Linux Chromium24項目で新ON/旧OFF・陸水/密度/0資源・実配置/調整あり・Worker同期一致・取消/失敗/再試行/既存グラフ/狭幅を確認。通常dialog/pageerror0。全端末性能は未認定。 詳細: operations/evidence/initial-supply-v4.2.14/README.md。草案を維持。
+		Linux Chromium40項目で実IndexedDBの再読込/保存原値/結果分析/指紋照合/明示的新規保存/元記録保護/quotaロールバック/再試行/100件/破損保護/狭幅を確認。新単体5・旧archive4、関連5ファイル回帰。合成501時点は輸送検査で生態500T認定ではない。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
 	ロジック:
 		対象SHAと版が一致するWindows4.1の配布/実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		Windows4.2.14生成と変更ソース10・原画35PNGの同梱一致を確認。実Windows起動/性能は未実施。 詳細: operations/evidence/initial-supply-v4.2.14/README.md。草案を維持。
+		Windows4.2.15生成と変更ソース5・原画35PNGの同梱一致を確認。生態source/再生署名は不変。実Windows起動/性能は未実施。 詳細: operations/evidence/archive-history-v4.2.15/README.md。草案を維持。
 
 ```

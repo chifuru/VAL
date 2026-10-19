@@ -1,0 +1,13 @@
+{
+  "version": "4.2.15",
+  "files": {
+    "src/Index.html": "048ee663814b3fe52aa125989da319447c28e808a4dfac8e986e386f8adcddc4",
+    "src/app.js": "4226ff81ef1a317d22694ba41bab84d7bebb1677ea2dab9ff765d3be66ea802b",
+    "src/styles.css": "75319e2b25ac04bfa21d1e98c8882dc380ed7c0cb8d7a7c32465e0b88d29d170",
+    "src/ecology/archive.js": "4104c01b3b9b279bb4a20cfb7b30c001cc7f1d4f583cf72428ee724c999b0dd1",
+    "src/ecology/observations.js": "ec81013f73952048b836b1c07b4f71ca88a5765428fc6313d56bad31b3a4914f"
+  },
+  "png": 35,
+  "allMatched": true,
+  "nativeWindowsRun": false
+}

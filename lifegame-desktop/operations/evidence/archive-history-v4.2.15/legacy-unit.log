@@ -1,0 +1,12 @@
+✔ final record contains initial config and final summary; repeated replay never records (476.149145ms)
+✔ incompatible, corrupt, full or failing storage cannot silently lose records (92.361963ms)
+✔ checked-in replay signature matches all biological sources including landscape (2.372414ms)
+✔ template records require resolved map identity before replay (70.212228ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 646.495003

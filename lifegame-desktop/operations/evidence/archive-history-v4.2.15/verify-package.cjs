@@ -1,0 +1,10 @@
+'use strict';
+const fs=require('fs'),crypto=require('crypto'),assert=require('assert/strict');
+(async()=>{const {extractFile}=await import('@electron/asar'),out='operations/evidence/archive-history-v4.2.15',asar='dist/LifeGame-Windows-x64/resources/app.asar',hash=b=>crypto.createHash('sha256').update(b).digest('hex'),before=JSON.parse(fs.readFileSync(out+'/before-hashes.json'));
+console.log('baseline format',Object.keys(before).slice(0,3));
+const paths=['src/Index.html','src/app.js','src/styles.css','src/ecology/archive.js','src/ecology/observations.js'];
+const checked={};for(const p of paths){const source=fs.readFileSync(p),pack=extractFile(asar,p);assert(source.equals(pack),p);checked[p]=hash(source);}
+const pkg=JSON.parse(extractFile(asar,'package.json'));assert.equal(pkg.version,'4.2.15');let png=0;for(const name of fs.readdirSync('src/assets'))if(name.endsWith('.png')){const p='src/assets/'+name;assert(fs.readFileSync(p).equals(extractFile(asar,p)));png++;}
+fs.copyFileSync('dist/package-report.json',out+'/package-report.json');fs.writeFileSync(out+'/package-match.json',JSON.stringify({version:pkg.version,files:checked,png,allMatched:true,nativeWindowsRun:false},null,2)+'\n');
+function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(dir+'/'+e.name):[dir+'/'+e.name]);}const current=Object.fromEntries(walk('src').map(p=>[p,hash(fs.readFileSync(p))]));const old=before.files||before;const changed=Object.keys(current).filter(p=>old[p]!==current[p]);assert.deepEqual(changed.sort(),paths.sort());
+fs.writeFileSync(out+'/scope.json',JSON.stringify({changedSourceFiles:changed,sourceHashes:current,artUnchanged:changed.every(p=>!p.startsWith('src/assets/')),biologicalChanges:'none: simulation sources and replay signature unchanged',archiveSchemaUnchanged:false,newSchema:2,newBackend:"IndexedDB with legacy localStorage read",signatureUpdated:false,coreUnchanged:true},null,2)+'\n');console.log(JSON.stringify({matched:paths.length,png,changed:changed.length}));})().catch(e=>{console.error(e);process.exitCode=1;});

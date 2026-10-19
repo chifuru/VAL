@@ -47,11 +47,11 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
     return checks;
   },require('../operations/evidence/free-support-v2.8/river-off.json').config);
   check(workerChecks.length===8,'real Worker matches synchronous production engine for all eight combinations, two turns each');
-  const replay=await page.evaluate(()=>{
-    __LIFE_TEST__.step();__LIFE_TEST__.step();__LIFE_TEST__.step();const hash=__LIFE_TEST__.fingerprint();__LIFE_TEST__.finish();
+  const replay=await page.evaluate(async()=>{
+    __LIFE_TEST__.step();__LIFE_TEST__.step();__LIFE_TEST__.step();const hash=__LIFE_TEST__.fingerprint();await __LIFE_TEST__.finish();
     const record=__LIFE_TEST__.records()[0],count=__LIFE_TEST__.records().length;__LIFE_TEST__.replay(record.id);
     const flags=__LIFE_TEST__.snapshot().world.config.advantageSettings;
-    for(let i=0;i<record.turn;i++)__LIFE_TEST__.step();__LIFE_TEST__.finish();
+    for(let i=0;i<record.turn;i++)__LIFE_TEST__.step();await __LIFE_TEST__.finish();
     return{match:hash===__LIFE_TEST__.fingerprint(),unchanged:count===__LIFE_TEST__.records().length,flags};
   });
   check(replay.match&&replay.unchanged&&!replay.flags.waterbug&&replay.flags.producer&&replay.flags.hyperparasite,'saved replay retains flags and final state without automatic duplicate record');

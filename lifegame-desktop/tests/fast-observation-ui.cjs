@@ -124,7 +124,7 @@ const { chromium } = require("playwright"),
     await page.evaluate(()=>{document.getElementById('fit').click();scrollTo(0,0);});
     await page.screenshot({path:path.join(out,'overview.jpg'),type:'jpeg',quality:92});
     await page.click('#detail-view');await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:path.join(out,'detail.jpg'),type:'jpeg',quality:92});
-    await page.click('#finish-run');check(await page.evaluate(()=>__LIFE_TEST__.records().length===1),'only final committed result is saved');
+    await page.click('#finish-run');await page.waitForFunction(()=>document.querySelector('#finish-run').textContent==='図鑑に保存済み');check(await page.evaluate(()=>__LIFE_TEST__.records().length===1),'only final committed result is saved');
     await page.click('#open-results');await page.locator('[data-replay]').click();await page.click('#start');
     await page.waitForFunction(()=>__LIFE_TEST__.snapshot().ended,{},{timeout:20000});
     check(await page.evaluate(()=>__LIFE_TEST__.fingerprint())===fp,'recorded initial conditions replay to the exact final result');

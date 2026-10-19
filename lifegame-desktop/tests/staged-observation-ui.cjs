@@ -102,7 +102,7 @@ const { chromium } = require("playwright"),
     check(await page.evaluate(()=>{const w=__LIFE_TEST__.snapshot().world;return EcoEngine.fingerprint(w)===EcoEngine.fingerprint(EcoEngine.step(EcoEngine.create(w.config)));}),'animated stages end at the same biological result as an atomic turn');
     await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:path.join(out,'staged-overview.jpg'),type:'jpeg',quality:92});
     await page.click('#detail-view');await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:path.join(out,'staged-detail.jpg'),type:'jpeg',quality:92});
-    await page.click('#finish-run');
+    await page.click('#finish-run');await page.waitForFunction(()=>document.querySelector('#finish-run').textContent==='図鑑に保存済み');
     check(await page.evaluate(()=>__LIFE_TEST__.records()[0].config.modeResolved.id==='river-settlement'),'archive retains the selected mode and versioned conditions');
     await page.click('#open-results');
     check((await page.locator('#results-list').textContent()).includes('河畔・定着観察'),'archive displays which observation mode produced the result');

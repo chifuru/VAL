@@ -51,7 +51,7 @@
       terminal: "終宿主",
     };
   const renderer = R.create($("board"));
-  const archive = window.EcoArchive.create(
+  const archive = window.EcoArchive.persistent(
     {
       getItem: (k) => localStorage.getItem(k),
       setItem: (k, v) => localStorage.setItem(k, v),
@@ -62,6 +62,7 @@
   let replayEntry = null,
     ended = false,
     pendingResult = null;
+  let analysisData=null,analysisRecord=null,analysisState=null;
   let world = null,
     initialConfig = null,
     running = false,
@@ -261,7 +262,7 @@
   function closeWorldDetails() {
     closeDetails();
     for (const id of ["guide", "results"])
-      if ($(id).open) $(id).close();
+      if ($(id).open){if(id==="results")closeAnalysis();$(id).close();}
   }
   function confirmWorldChange(text) {
     const dialog = $("world-confirm");
@@ -310,9 +311,10 @@
     replayEntry = playback;
     ended = false;
     pendingResult = null;
+    $("export-result").hidden=true;
     $("finish-run").disabled = false;
     $("finish-run").textContent = playback
-      ? "再生を終了（記録なし）"
+      ? "再生結果を新規保存"
       : "終了して図鑑へ保存";
     world = next;
     populationHistory = [];
@@ -419,9 +421,9 @@
       $("start").disabled = true;
       $("step").disabled = true;
       message(
-        E.fingerprint(world) === replayEntry.id
-          ? "再生終了：元の最終結果と一致しました。記録は追加しません。"
-          : "再生終了：元の結果と一致しません。記録は追加しません。",
+        E.fingerprint(world) === (replayEntry.finalFingerprint||replayEntry.id)
+          ? "再生終了：元の最終結果と一致しました。保存ボタンで新しい記録にできます。"
+          : "再生終了：元の結果と一致しません。自動保存はしません。",
       );
     } else if (!replayEntry && world.stopReason === "main-extinct") {
       finishRun("main-extinct");
@@ -535,28 +537,23 @@
     returnSetup();
   });
   $("restart-world").onclick=async()=>{if(initialConfig && (!observations?.unexported || world.turn===0 || await confirmWorldChange("未出力の観測履歴を破棄して同じ世界を最初から再生しますか？")))prepare(initialConfig,replayEntry);};
-  function finishRun(reason = "user-ended") {
-    if (!world) return;
-    stop();
-    ended = true;
-    $("start").disabled = true;
-    $("step").disabled = true;
-    if (replayEntry) {
-      message("再生を終了しました。記録は追加しません。");
-      return;
-    }
-    pendingResult ||= archive.capture(world, reason);
-    try {
-      archive.save(pendingResult);
-      $("finish-run").disabled = true;
-      message(
-        "最終結果を図鑑に保存しました。再生から同じ初期条件を観察できます。",
-      );
-    } catch (error) {
-      $("finish-run").textContent = "保存を再試行";
-      message("保存できませんでした：" + error.message);
-    }
+  function downloadJSON(record){
+    if(!record)return;const url=URL.createObjectURL(new Blob([JSON.stringify(record)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=`lifegame-result-${record.turn}T-${record.id.slice(-8)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);
   }
+  async function finishRun(reason = "user-ended",{explicit=false}={}) {
+    if(!world)return;stop();ended=true;$("start").disabled=true;$("step").disabled=true;
+    if(replayEntry&&!explicit){message("再生を終了しました。自動保存はしません。保存ボタンで新しい記録にできます。");return;}
+    const finishedWorld=world;
+    $("finish-run").disabled=true;$("finish-run").textContent="保存中…";
+    try{
+      pendingResult ||= archive.capture(world,reason,observations.snapshot(),replayEntry?.id||null);
+      if(replayEntry)pendingResult.replayMatch=world.turn===replayEntry.turn?E.fingerprint(world)===(replayEntry.finalFingerprint||replayEntry.id):null;
+      const record=pendingResult;await archive.retry();const saved=await archive.save(record,replayEntry?'replay-new':'normal');
+      if(world!==finishedWorld)return;observations.markExported();$("finish-run").textContent="図鑑に保存済み";$("export-result").hidden=false;
+      message(saved?(replayEntry?"元記録を残し、再生結果を新しい記録として保存しました。":"全期間グラフと最終結果を図鑑へ保存しました。結果から詳細を確認できます。"):"この結果は既に保存されています。");
+    }catch(error){if(world!==finishedWorld)return;$("finish-run").disabled=false;$("finish-run").textContent="保存を再試行";$("export-result").hidden=!pendingResult;message("保存できませんでした："+error.message+" 結果は保持しています。");}
+  }
+  $("export-result").onclick=()=>downloadJSON(pendingResult);
   function replayResult(id) {
     const entry = archive.replay(id);
     prepare(entry.config, entry);
@@ -572,17 +569,20 @@
     );
     $("start").textContent = "再生を開始 ▶";
   }
-  function showResults() {
+  async function showResults() {
+    $("results-error").textContent="";
     try {
+      await archive.retry();
       $("results-list").innerHTML =
         archive
           .list()
           .map(
             (r) =>
-              `<article class="result-entry"><h3>${escape(r.config.seed)}</h3><p>${escape(r.config.modeResolved?.name || "自由設定")} · ${r.turn}ターン · 主生物 ${fmt(r.final.main)} · ${escape(r.config.mapResolved?.id || "従来地形")} · ${escape(r.created.slice(0, 10))}</p><button class="small" data-replay="${escape(r.id)}">初期条件から再生（記録なし）</button> <button class="small secondary" data-remove="${escape(r.id)}">削除</button></article>`,
+              `<article class="result-entry"><h3>${escape(r.config.modeResolved?.name || "自由設定")} · ${r.turn}T</h3><p>${escape(r.config.modeResolved?.name || "自由設定")} · ${r.turn}ターン · 主生物 ${fmt(r.final.main)} · ${escape(r.config.mapResolved?.id || "従来地形")} · ${escape(Number.isFinite(Date.parse(r.created))?new Date(r.created).toLocaleString("ja-JP",{timeZone:"Asia/Tokyo"}):"日時不明")}</p><button class="small" data-analyze="${escape(r.id)}">最終結果・全期間グラフ</button> <button class="small" data-replay="${escape(r.id)}">初期条件から再生（記録なし）</button> <button class="small secondary" data-remove="${escape(r.id)}">削除</button></article>`,
           )
           .join("") ||
         "<p>終了した観測はまだありません。一時停止では保存されません。</p>";
+      for(const b of $("results-list").querySelectorAll("[data-analyze]"))b.onclick=()=>analyzeResult(b.dataset.analyze);
       for (const b of $("results-list").querySelectorAll("[data-replay]"))
         b.onclick = () => {
           try {
@@ -593,9 +593,9 @@
           }
         };
       for (const b of $("results-list").querySelectorAll("[data-remove]"))
-        b.onclick = () => {
+        b.onclick = async () => {
           try {
-            archive.remove(b.dataset.remove);
+            await archive.remove(b.dataset.remove);
             showResults();
           } catch (e) {
             $("results-error").textContent = e.message;
@@ -606,12 +606,29 @@
     }
     if (!$("results").open) $("results").showModal();
   }
-  $("finish-run").onclick = () => finishRun();
+  $("finish-run").onclick = () => finishRun("user-ended",{explicit:true});
   $("open-results").onclick = () => {
     hold("results");
     showResults();
   };
-  $("close-results").onclick = () => $("results").close();
+  function closeAnalysis(){
+    if(analysisState){$("inspector-graphs").append($("graphs-panel"));$("graph-species").value=analysisState.target;$("graph-turn").value=analysisState.turn;graphFollow=analysisState.follow;}
+    analysisData=null;analysisRecord=null;analysisState=null;$("results-analysis").hidden=true;$("results-list").hidden=false;if(observations?.rows.length)renderGraphs();
+  }
+  async function analyzeResult(id){
+    try{const record=await archive.get(id);let data=null;if(record.schema===2)data=window.EcoObservations.restore(record.observation,{species:D.species});
+      if(!analysisState)analysisState={target:$("graph-species").value,turn:$("graph-turn").value,follow:graphFollow};
+      analysisRecord=record;analysisData=data;$("results-list").hidden=true;$("results-analysis").hidden=false;
+      $("result-analysis-title").textContent=`保存した最終結果 · ${record.turn}T`;
+      $("result-analysis-summary").textContent=`主生物 ${record.final.main} / 下層 ${record.final.food} / P ${record.final.P} / Q ${record.final.Q}。`+(data?'記録時の指標と全確定ターンを参照しています。':'旧記録には全期間グラフが保存されていません。値を再計算して補いません。');
+      $("result-final-values").textContent=JSON.stringify({final:record.final,conditions:record.config,originRecordId:record.originRecordId||null,replayMatch:record.replayMatch??null,definitions:record.observation?.definitions||null},null,2);
+      $("results-graph-host").hidden=!data;if(data){$("results-graph-host").append($("graphs-panel"));graphFollow=true;$("graph-turn").value=record.turn;renderGraphs();}
+    }catch(e){$("results-error").textContent=e.message;}
+  }
+  $("back-results").onclick=closeAnalysis;$("export-record").onclick=()=>downloadJSON(analysisRecord);
+  $("results").addEventListener("close",closeAnalysis);
+  $("close-results").onclick = () => {closeAnalysis();$("results").close();};
+  $("open-results-setup").onclick=()=>{hold("results");showResults();};
   $("detail-view").onclick = () => {
     if (!world) return;
     const p =
@@ -776,27 +793,31 @@
     R.symbol($('species-symbol').getContext('2d'),id,60,60,42,R.symbolColor(s));
   }
   function parasiteDetails(id){const a=locate(id);if(!a)return '<p>対象は消失しました。別個体へ切り替えません。</p>';const q=a.entity,s=D.byId[q.species];return `<article class="specimen parasite"><h3>${escape(s.name)}</h3><p>${escape(q.id)}<br>宿主: ${escape(q.hostId || 'なし・探索中')}${a.carcass?"（感染性死骸・地表） / 残り"+Math.max(0,a.host.payloadExpires-world.turn)+"T":""}<br>${q.stage?stages[q.stage]+' / 成熟 '+q.counter+'/'+E.P.required[q.stage]+' / 負荷 '+fmt(q.load??.5):'Q '+phase(q.phase)+' / '+(q.cell!==undefined?'探索':'定着')}<br>E ${fmt(q.E)}${q.matureAt!==undefined?'<br>成熟移行 '+q.matureAt+'T / 感染窓 '+(q.matureAt+1)+'〜'+(q.matureAt+3)+'T':''}</p></article>`;}
-  function chartColor(s){const ids=D.species.filter(a=>a.group===s.group),i=ids.findIndex(a=>a.id===s.id),h={plant:125,fungus:35,prey:185,main:220,P:18,Q:280}[s.group];return `hsl(${h+i*2} 65% ${40+(i%5)*9}%)`;}
+  const chartCatalogue=()=>analysisData?.metadata.species?.length?analysisData.metadata.species:D.species;
+  function chartColor(s){if(!s)return '#839097';const ids=chartCatalogue().filter(a=>a.group===s.group),i=ids.findIndex(a=>a.id===s.id),h={plant:125,fungus:35,prey:185,main:220,P:18,Q:280}[s.group]??200;return `hsl(${h+i*2} 65% ${40+(i%5)*9}%)`;}
   let graphInspect=null;
+  const baseGraphOptions=$('graph-species').innerHTML;
   $('inspector-graphs').append($('graphs-panel'));
+  const graphObservation=()=>analysisData||observations;
   function paintStack(canvas,data,colors,maximum){
-    const g=canvas.getContext('2d'),W=canvas.width,H=canvas.height,last=observations.rows.length-1,keys=[...new Set(data.flatMap(r=>Object.keys(r.values)))],max=maximum||Math.max(1,...data.map(r=>r.total)),x=t=>30+(W-45)*t/Math.max(1,last),y=n=>H-18-n/max*(H-35),base=data.map(()=>0);
+    const g=canvas.getContext('2d'),W=canvas.width,H=canvas.height,last=graphObservation().rows.length-1,keys=[...new Set(data.flatMap(r=>Object.keys(r.values)))],max=maximum||Math.max(1,...data.map(r=>r.total)),x=t=>30+(W-45)*t/Math.max(1,last),y=n=>H-18-n/max*(H-35),base=data.map(()=>0);
     g.clearRect(0,0,W,H);g.strokeStyle='#47646b';g.lineWidth=1;g.beginPath();g.moveTo(30,15);g.lineTo(30,H-18);g.lineTo(W-15,H-18);g.stroke();
     for(const [k,index]of keys.map((k,i)=>[k,i])){g.fillStyle=colors(k,index);g.beginPath();data.forEach((r,i)=>{const px=x(r.turn),py=y(base[i]+(r.values[k]||0));i?g.lineTo(px,py):g.moveTo(px,py);});for(let i=data.length-1;i>=0;i--)g.lineTo(x(data[i].turn),y(base[i]));g.closePath();g.fill();if(data.length===1)g.fillRect(30,y((data[0].values[k]||0)+base[0]),4,(data[0].values[k]||0)/max*(H-35));data.forEach((r,i)=>base[i]+=r.values[k]||0);}
     g.fillStyle='#bcd3d2';g.font='16px sans-serif';g.fillText(Math.round(max),2,15);g.fillText('0',8,H-17);g.fillText('0T',30,H-1);g.fillText(last+'T',W-65,H-1);
     canvas.setAttribute('aria-label','0–'+last+'T / 最大'+max+'管理単位 / 現在'+(data.at(-1)?.total||0));
   }
   function renderGraphs(){
-    if(!observations?.rows.length)return;
-    const rows=observations.rows,last=rows.length-1;
-    if(!$('graph-species').dataset.ready){$('graph-species').innerHTML+=D.species.map(s=>`<option value="${s.id}">${escape(s.name)}</option>`).join('');$('graph-species').dataset.ready='yes';}
-    $('graph-turn').max=last;$('graph-turn').disabled=running;if(graphFollow||running)$('graph-turn').value=last;
+    if(!graphObservation()?.rows.length)return;
+    const rows=graphObservation().rows,last=rows.length-1;
+    const catalogue=chartCatalogue(),graphById=Object.fromEntries(catalogue.map(s=>[s.id,s])),catalogueKey=JSON.stringify(catalogue);
+    if($('graph-species').dataset.catalogue!==catalogueKey){const value=$('graph-species').value;$('graph-species').innerHTML=baseGraphOptions+catalogue.map(s=>`<option value="${escape(s.id)}">${escape(s.name)}</option>`).join('');$('graph-species').value=[...$('graph-species').options].some(o=>o.value===value)?value:'main';$('graph-species').dataset.catalogue=catalogueKey;}
+    $('graph-turn').max=last;$('graph-turn').disabled=running&&!analysisData;if(graphFollow||running&&!analysisData)$('graph-turn').value=last;
     const t=Math.max(0,Math.min(last,Number($('graph-turn').value)||0)),r=rows[t],target=$('graph-species').value;graphInspect=t;
     $('graph-range').textContent=`0–${last}T`;
     $('graph-readout').textContent=`参照 ${t}T / 主 ${r.main}・下層 ${r.food}個体 / P ${r.P}・Q ${r.Q}群体。全${rows.length}時点を保持。`;
-    const population=observations.series(target);paintStack($('graph-stacked'),population,id=>chartColor(D.byId[id]));
-    $('population-legend').innerHTML=Object.entries(population.at(-1).values).filter(([,n])=>n>0).map(([id,n])=>`<span><i style="background:${chartColor(D.byId[id])}"></i>${escape(D.byId[id].name)} ${n}</span>`).join('')||'現在の対象は0です';
-    const series=Object.fromEntries(['phases','sex','ages'].map(k=>[k,observations.series(target,k)])),max=Math.max(1,...series.phases.map(r=>r.total)),palettes={phases:['#80c9c0','#7ba9db','#a698d9','#e0bc76'],sex:['#e4acc5','#87c7e6','#c4d3b1'],ages:['#d8c779','#8dc5ae','#b9a6ca']};
+    const population=graphObservation().series(target);paintStack($('graph-stacked'),population,id=>chartColor(graphById[id]));
+    $('population-legend').innerHTML=Object.entries(population.at(-1).values).filter(([,n])=>n>0).map(([id,n])=>`<span><i style="background:${chartColor(graphById[id])}"></i>${escape(graphById[id]?.name||id)} ${n}</span>`).join('')||'現在の対象は0です';
+    const series=Object.fromEntries(['phases','sex','ages'].map(k=>[k,graphObservation().series(target,k)])),max=Math.max(1,...series.phases.map(r=>r.total)),palettes={phases:['#80c9c0','#7ba9db','#a698d9','#e0bc76'],sex:['#e4acc5','#87c7e6','#c4d3b1'],ages:['#d8c779','#8dc5ae','#b9a6ca']};
     for(const axis of ['phases','sex','ages'])paintStack($('composition-'+axis),series[axis],(k,i)=>k==='nonapplicable'?'#526773':palettes[axis][axis==='phases'?Number(k):({female:0,male:1,none:2,juvenile:0,adult:1,elderly:2}[k]??i)%palettes[axis].length],max);
     const labels={phases:'I / II / III / IV / 非該当',sex:'雌 / 雄 / 無性別 / 非該当',ages:'幼体 / 成体 / 老齢 / 非該当'};
     for(const axis of ['phases','sex','ages'])$('composition-'+axis).title=labels[axis];
@@ -815,21 +836,21 @@
     for(const [id,[x,y,label]]of Object.entries(nodes))svg+=`<rect x="${x}" y="${y}" width="130" height="46" rx="8" fill="#11313b" stroke="${['P','Q','host'].includes(id)?'#a88dd0':'#6399a0'}"/><text x="${x+65}" y="${y+29}" text-anchor="middle" fill="#d7e9df" font-size="18">${label}</text>`;
     $('foodweb-diagram').innerHTML=svg;
     const leader=(a,label)=>a.length?label+'：'+a.filter(v=>v.value===a[0].value).slice(0,2).map(v=>v.name).join('・'):'未観測';
-    $('foodweb-leaders').textContent=leader(p.leaders.production,'生産の中心')+' / '+leader(p.leaders.predation,'捕食で優勢')+' / 定着：'+Object.entries(r.current.bonds).filter(([k])=>k.startsWith('tideparasite|')||k.startsWith('leafparasite|')).sort((a,b)=>b[1]-a[1]).slice(0,1).map(([k,n])=>D.byId[k.split('|')[0]].name+' '+n+'群体').join('・')+'。実線＝確認、破線＝未確認。栄養は同化E、寄生は現在の定着数で別尺度。';
+    $('foodweb-leaders').textContent=leader(p.leaders.production,'生産の中心')+' / '+leader(p.leaders.predation,'捕食で優勢')+' / 定着：'+Object.entries(r.current.bonds).filter(([k])=>k.startsWith('tideparasite|')||k.startsWith('leafparasite|')).sort((a,b)=>b[1]-a[1]).slice(0,1).map(([k,n])=>(graphById[k.split('|')[0]]?.name||k.split('|')[0])+' '+n+'群体').join('・')+'。実線＝確認、破線＝未確認。栄養は同化E、寄生は現在の定着数で別尺度。';
     const peak=Math.max(1,...p.layers),names=['生産者','一次消費者','二次消費者','高次（第4段以上）'];
     $('biomass-pyramid').innerHTML=p.layers.map((v,i)=>`<div class="pyramid-level" data-level="${i}" data-value="${v}"><span>${names[i]}</span><div><i style="width:${v/peak*100}%;background:${['#72c48e','#62cbd3','#6ba6dc','#9196d4'][i]}"></i></div><b>${fmt(v)}</b></div>`).reverse().join('')+`<p class="note">食性未観測 B ${fmt(p.side.unknown)} / 分解者 B ${fmt(p.side.decomposer)}<br>死骸の残量 ${fmt(p.side.remains)}（Bと別単位） / P-Qは宿主依存の別枠</p>`;
     $('pyramid-support').textContent='生産 '+(p.production===null?'未観測':fmt(p.production)+' E')+' / 同化 '+(p.uptake===null?'未観測':fmt(p.uptake)+' E')+'（直近'+p.window+'T）。幅は共通B尺度。逆転だけで異常とは判定しません。';
     $('relation-readout').textContent='3系列は別尺度・全期間。関与個体率/世代交代は未観測。層配分は実際の栄養取得と前ターンに確認した供給元によります。';
-    if(!$('graph-values').childElementCount)$('graph-values').innerHTML=D.species.map(s=>`<button class="small" data-graph-description="${s.id}">${escape(s.name)} <b>0</b></button>`).join('');
-    for(const b of $('graph-values').children){b.querySelector('b').textContent=r.counts[b.dataset.graphDescription]||0;b.onclick=()=>describeSpecies(b.dataset.graphDescription);}
+    if($('graph-values').dataset.catalogue!==catalogueKey){$('graph-values').dataset.catalogue=catalogueKey;$('graph-values').innerHTML=catalogue.map(s=>`<button class="small" data-graph-description="${escape(s.id)}">${escape(s.name)} <b>0</b></button>`).join('');}
+    for(const b of $('graph-values').children){b.querySelector('b').textContent=r.counts[b.dataset.graphDescription]||0;b.disabled=!!analysisData;b.onclick=()=>describeSpecies(b.dataset.graphDescription);}
   }
   $('graph-turn').oninput=()=>{graphFollow=false;renderGraphs();};
   $('graph-latest').onclick=()=>{graphFollow=true;renderGraphs();};
   $('graph-species').onchange=renderGraphs;
   $('graphs-panel').ontoggle=()=>{if($('graphs-panel').open)renderGraphs();};
   $('export-observation').onclick=()=>{
-    if(!observations)return;
-    try{const blob=new Blob([observations.csv()],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`ecology-turns-0-${world.turn}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);observations.markExported();message('全ターンCSVのダウンロードを開始しました。保存先でファイルをご確認ください。');}catch(e){stop();message('観測データを書き出せませんでした: '+e.message);}
+    const graph=graphObservation();if(!graph)return;
+    try{const blob=new Blob([graph.csv()],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`ecology-turns-0-${graph.rows.at(-1).turn}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);graph.markExported();message('全ターンCSVのダウンロードを開始しました。保存先でファイルをご確認ください。');}catch(e){stop();message('観測データを書き出せませんでした: '+e.message);}
   };
 
   function drawPortrait(canvas, o) {
@@ -1025,7 +1046,7 @@
     $("parasite-count").textContent = s.P + " / " + s.Q;
     $("timing").textContent = lastMs ? Math.round(lastMs) + " ms" : "—";
     renderPopulation();
-    if($("graphs-panel").open&&!$("inspector-graphs").hidden)renderGraphs();
+    if($("graphs-panel").open&&(!$("inspector-graphs").hidden||analysisData))renderGraphs();
     if ($("rank-panel").open) renderRanking();
     const key = world.checkpoints.map(a => a.turn).join(",");
     if (checkpointKey !== key) {

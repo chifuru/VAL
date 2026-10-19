@@ -1,0 +1,13 @@
+✔ schema2 stores every turn, final status, units and definitions, without world history (485.477591ms)
+✔ replay saves only explicitly, gets an independent ID and preserves parent/fingerprint (345.177801ms)
+✔ missing turn, wrong definition/version or mismatched conditions are rejected (255.760365ms)
+✔ all501 synthetic turn aggregates and old peaks remain exact through save/load (8213.747669ms)
+✔ save failure retains previous bytes and pending record remains retryable (269.19449ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9575.07412

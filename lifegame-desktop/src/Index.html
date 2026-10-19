@@ -38,6 +38,7 @@
           <p id="setup-help" class="note">
             地形・生物・配置を選んで世界を作ります。同じ設定でも、新しい世界では配置が変わります。
           </p>
+          <button id="open-results-setup" type="button" class="secondary">保存した結果を見る</button>
           <form id="setup">
             <p id="setup-message" class="note" role="status" aria-live="polite" tabindex="-1" hidden></p>
             <label class="observation-mode-label">観察モード<select id="observation-mode"><option value="custom">自由設定</option><option value="river-settlement">河畔・定着観察（高生産・初期集団多め）</option><option value="lake-foodweb">湖沼・食物網観察（高生産・初期集団多め）</option></select></label>
@@ -166,7 +167,7 @@ ECOSYSTEM-2026</textarea
             ><button id="step" class="secondary" disabled>1ターン確定（即時）</button
             ><button id="finish-run" class="secondary" disabled>
               終了して図鑑へ保存</button
-            ><button id="open-results" class="secondary">結果図鑑</button
+            ><button id="export-result" class="secondary" hidden>結果JSONを書き出す</button><button id="open-results" class="secondary">結果図鑑</button
             ><button id="reset" class="secondary" hidden disabled>初期設定へ戻る</button
             ><button id="restart-world" class="secondary" disabled>同じ世界をやり直す</button><select id="speed" aria-label="観測速度">
               <option value="1">基準 · 約1秒 × 500ターン</option>
@@ -344,7 +345,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.14 · 外部通信なし</span>
+        ><span>v4.2.15 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">
@@ -385,9 +386,15 @@ ECOSYSTEM-2026</textarea
         <h2>結果図鑑</h2>
         <button id="close-results" class="secondary">閉じる ×</button>
       </div>
-      <p>最終結果と初期条件のみ保存 · 再生結果は記録しません · 最大100件</p>
+      <p>初期条件・最終状態・全期間グラフを保存 · 再生は自動記録なし／明示保存で新規記録 · 最大100件</p>
       <p id="results-error" role="alert"></p>
       <section id="results-list"></section>
+      <section id="results-analysis" hidden>
+        <button id="back-results" class="secondary">一覧へ戻る</button> <button id="export-record" class="secondary">この結果をJSONで保存</button>
+        <h3 id="result-analysis-title"></h3><p id="result-analysis-summary"></p>
+        <div id="results-graph-host" class="inspector"></div>
+        <details><summary>最終ステータス・実効条件・指標定義</summary><pre id="result-final-values"></pre></details>
+      </section>
     </dialog>
     <script src="ecology/replay-version.js"></script>
     <script src="ecology/archive.js"></script>
