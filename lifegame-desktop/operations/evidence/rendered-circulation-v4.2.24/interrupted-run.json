@@ -1,0 +1,76 @@
+{
+  "version": "4.2.24",
+  "completed500": false,
+  "reason": "Stop after substantial near-separated rendering delay; optimize before retrying long UI integration",
+  "lastConfirmedSample": {
+    "turn": 225,
+    "running": true,
+    "pending": null,
+    "cadenceMs": 1000,
+    "frames": 2460,
+    "drawn": 181,
+    "mode": "detail",
+    "main": 240,
+    "counts": {
+      "abyss": 0,
+      "myth": 0,
+      "recursive": 0,
+      "sail": 0,
+      "gravity": 29,
+      "crystal": 0,
+      "manyeyes": 0,
+      "abyssshell": 0,
+      "parallel": 61,
+      "memory": 0,
+      "serpent": 18,
+      "solar": 0,
+      "antimeme": 0,
+      "valis": 58,
+      "jelly": 0,
+      "kelp": 0,
+      "whale": 74,
+      "swarm": 0,
+      "plasma": 0,
+      "cephalopod": 0,
+      "precocial": 0,
+      "algae": 65,
+      "moss": 0,
+      "grass": 621,
+      "fungus": 1,
+      "waterbug": 87,
+      "grassbug": 572,
+      "tideparasite": 74,
+      "leafparasite": 0,
+      "hyperparasite": 128,
+      "phytoplankton": 98
+    },
+    "compute": {
+      "initialized": true,
+      "ready": true,
+      "busy": false,
+      "buffered": 5,
+      "preparationMs": 918.3999999910593,
+      "metadata": {
+        "type": "ready",
+        "epoch": 4,
+        "cache": {
+          "key": "1a9200ef7f77f4bcb86848bace0740ca5a0949417f7df02d78cabf670922d43b",
+          "reused": false
+        },
+        "prepareMs": 17.5
+      }
+    },
+    "lastMs": 622.0999999940395,
+    "rows": 226,
+    "summaryTurn": "225",
+    "status": "観測中",
+    "elapsedMs": 557926
+  },
+  "note": "Only sampled checkpoints retained; full history and final result were not exported. Number of committed states at last sample is rows, not a saved all-turn dataset.",
+  "separatedSegment": {
+    "fromTurn": 200,
+    "toTurn": 225,
+    "elapsedMs": 157772,
+    "meanMsPerTurn": 6310.88
+  }
+}
