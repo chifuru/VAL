@@ -1,0 +1,12 @@
+✔ tests/archive.test.cjs (1086.450348ms)
+✔ tests/current-summary.test.cjs (154.734503ms)
+✔ tests/ecosystem-panels.test.cjs (94.286022ms)
+✔ tests/manifest.test.cjs (92.093689ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1439.096304

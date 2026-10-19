@@ -1,0 +1,22 @@
+{
+  "baseline": "031a48319d7959b5dba5d388454f2ee891697484",
+  "sourceChanges": [
+    {
+      "file": "src/Index.html",
+      "before": "c9d4b3d36a9820cfed28e29cd80b037df6931e93e58dca3edc530710e6690cce",
+      "after": "0b51aea2c92209c827266dca7e96df876d5a87b8606bb3afc710f5e87b2a67fb"
+    },
+    {
+      "file": "src/app.js",
+      "before": "c14fb850111be6397d35f00cfc3d901c3f3e30d4f66e59d203f83f2faa3df722",
+      "after": "e63d8616149c6c56e775fd9ac782ce8e06ffef5672702b88bcb15c684cef286a"
+    },
+    {
+      "file": "src/styles.css",
+      "before": "0b2fde14c7efb894b1733684c9d1e0ad85c3f29c4f9146c8431257875a311a17",
+      "after": "b01cb5751c032c736f97dd788a3490087a21ad3b01cf9d64941677485590fff7"
+    }
+  ],
+  "unchangedBiologyAndArt": true,
+  "nativeWindowsRun": false
+}

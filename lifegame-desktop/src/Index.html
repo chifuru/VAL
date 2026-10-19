@@ -159,7 +159,7 @@ ECOSYSTEM-2026</textarea
             読み込みでは時間は進みません。環境・地形は固定、餌と生物は変動します。
           </p>
         </aside>
-        <section class="world-column">
+        <section class="observation-overview" aria-label="現在の生態系と観測操作">
           <div class="transport">
             <button id="change-world" class="secondary" type="button">
               初期設定へ戻る
@@ -174,7 +174,7 @@ ECOSYSTEM-2026</textarea
               <option value="1">基準 · 約1秒 × 500ターン</option>
             </select>
           </div>
-          <p id="interaction-note" class="note" role="status" hidden></p>
+
           <div class="metrics">
             <div class="population-main"><span>主生物</span><strong id="main-count">—</strong><small id="main-balance">出生 — / 死亡 —（累計）</small></div>
             <div><span>餌生物</span><strong id="food-count">—</strong></div>
@@ -184,7 +184,7 @@ ECOSYSTEM-2026</textarea
             <div><span>最終計算</span><strong id="timing">—</strong></div>
 
           </div>
-          <section class="current-summary panel" aria-label="生態系の現在像">
+          <section id="current-summary" class="current-summary panel" aria-label="生態系の現在像">
             <div class="current-composition"><canvas id="current-donut" width="240" height="200" role="img" aria-label="現在の分類・系統の割合"></canvas><div id="current-legend"></div></div>
             <div class="current-reading"><h2 id="current-overall">生態系の特徴を観測中</h2>
               <dl><div><dt>広がり</dt><dd><span id="current-breadth"></span><small id="current-breadth-values" class="support-values"></small></dd></div>
@@ -192,7 +192,13 @@ ECOSYSTEM-2026</textarea
               <div><dt>持続性</dt><dd><span id="current-persistence"></span><small id="current-persistence-values" class="support-values"></small></dd></div></dl>
               <p class="note">構成は現在 ／ 関係は直近50Tの観測。個体・群体の数の割合であり、生物量の割合ではありません。</p>
             </div>
+                <div class="ecology-diagrams"><section><h4>成立した関係</h4><svg id="foodweb-diagram" viewBox="0 0 420 235" role="img" aria-label="栄養と宿主から受け手への関係図"></svg><p id="foodweb-leaders" class="note"></p></section>
+                <section><h4>生物量ピラミッド</h4><div id="biomass-pyramid"></div><p id="pyramid-support" class="note"></p></section></div>
           </section>
+        </section>
+        <section class="world-column">
+          <p id="interaction-note" class="note" role="status" hidden></p>
+          <div class="observation-toolbar">
           <div class="turn-strip" aria-label="ターンの進行">
             <ol id="turn-stages"><li>01 資源更新</li><li>02 移動・採食・戦闘</li><li>03 成長・繁殖</li></ol>
             <span id="turn-progress" role="status" aria-live="polite">基準：1ターン約1秒 · 三段階で観察</span>
@@ -201,6 +207,7 @@ ECOSYSTEM-2026</textarea
           <p id="active-mode" class="active-mode">自由設定 · 初期条件の調整なし</p>
           <details id="founder-report" class="active-mode" hidden><summary>種別の初期配置結果</summary><div id="founder-report-content"></div></details>
           </details>
+          </div>
           <div class="panel habitat">
             <div class="panel-heading">
               <h2>◈ 生態系マップ <small id="status">未準備</small></h2>
@@ -254,7 +261,7 @@ ECOSYSTEM-2026</textarea
             <button id="clear-highlights" class="small">所在強調をすべて解除</button><p id="presence-note" class="note" role="status" aria-live="polite"></p>
             <div id="species-key" class="species-key"></div>
             <p id="scale-warning" class="map-key-note" hidden>
-              現在の縮尺では記号の細部を判読できません。存在位置を描いていますが重なる画素があります。拡大またはマス選択で内訳を確認してください。
+              縮尺が小さいため記号が重なります。拡大またはマス選択で内訳を確認できます。
             </p>
             <details class="map-key-extra"><summary>名札・資源・記号の説明</summary>
           <fieldset class="name-settings"><legend>名札（近景）</legend>
@@ -288,9 +295,8 @@ ECOSYSTEM-2026</textarea
                 <div class="composition-time"><span>雌雄</span><canvas id="composition-sex" width="760" height="70"></canvas></div>
                 <div class="composition-time"><span>年齢</span><canvas id="composition-ages" width="760" height="70"></canvas></div>
               </div></article>
-              <article><h3>生態関係 <small>盤面全体・直近50T</small></h3><svg id="graph-relations" viewBox="0 0 420 80" role="img" aria-label="全期間の広がり・多様さ・持続性"></svg>
-                <div class="ecology-diagrams"><section><h4>成立した関係</h4><svg id="foodweb-diagram" viewBox="0 0 420 235" role="img" aria-label="栄養と宿主から受け手への関係図"></svg><p id="foodweb-leaders" class="note"></p></section>
-                <section><h4>生物量ピラミッド</h4><div id="biomass-pyramid"></div><p id="pyramid-support" class="note"></p></section></div>
+              <article><h3>生態関係 <small>全期間・各点は直近50T</small></h3><svg id="graph-relations" viewBox="0 0 420 80" role="img" aria-label="全期間の広がり・多様さ・持続性"></svg>
+
               </article>
             </div>
             <details class="graph-analysis"><summary>観測値・CSV・集計の説明</summary>                <p id="information-readout" class="note"></p>
@@ -354,7 +360,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.20 · 外部通信なし</span>
+        ><span>v4.2.21 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">

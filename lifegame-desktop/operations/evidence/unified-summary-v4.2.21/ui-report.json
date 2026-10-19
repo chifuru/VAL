@@ -1,0 +1,387 @@
+{
+  "checks": [
+    "all four current perspectives belong to one summary",
+    "right side has exactly three period panels",
+    "no current-only diagram remains in the period panels",
+    "past reference and graph target cannot rewind current summary",
+    "no horizontal overflow 1920",
+    "map, three panels and current-summary perspectives fit 1920",
+    "default three panels require no inspector scrolling 1920",
+    "map retains usable height 1920",
+    "overview retains all organism positions 1920",
+    "no horizontal overflow 1366",
+    "map, three panels and current-summary perspectives fit 1366",
+    "default three panels require no inspector scrolling 1366",
+    "map retains usable height 1366",
+    "overview retains all organism positions 1366",
+    "detail centre preserved across resize",
+    "simplified view remains available near",
+    "non-main labels default OFF basal",
+    "non-main labels default OFF prey",
+    "non-main labels default OFF P",
+    "non-main labels default OFF Q",
+    "non-main labels default OFF resource",
+    "all resource symbols retained in disclosure",
+    "effective observation conditions available",
+    "individual detail replaces panels",
+    "closing detail restores three panels",
+    "information observations retained in expandable analysis",
+    "measurement limitations remain available",
+    "all presentation changes preserve biological fingerprint",
+    "current summary updates even while individual details replace timelines",
+    "archive analysis contains the complete unified summary",
+    "archive summary uses the saved final turn",
+    "archive interpretation matches saved final original values",
+    "closing archive restores current summary and three period panels",
+    "archive close restores the different live world without mixing its data",
+    "normal observation layout remains available",
+    "summary stays above map in normal layout",
+    "narrow layout scrolls vertically without horizontal overflow",
+    "narrow fallback stacks timelines below the map without overlap",
+    "no browser exceptions or native dialogs"
+  ],
+  "layouts": [
+    {
+      "viewport": [
+        1920,
+        1080
+      ],
+      "panels": [
+        {
+          "id": "board",
+          "x": 15,
+          "y": 358,
+          "width": 1458,
+          "height": 581,
+          "bottom": 939,
+          "right": 1473
+        },
+        {
+          "id": "current-donut",
+          "x": 39,
+          "y": 152.828125,
+          "width": 100,
+          "height": 83.328125,
+          "bottom": 236.15625,
+          "right": 139
+        },
+        {
+          "id": "current-overall",
+          "x": 175,
+          "y": 137,
+          "width": 702.328125,
+          "height": 19.59375,
+          "bottom": 156.59375,
+          "right": 877.328125
+        },
+        {
+          "id": "graph-stacked",
+          "x": 1499,
+          "y": 352,
+          "width": 394,
+          "height": 62.203125,
+          "bottom": 414.203125,
+          "right": 1893
+        },
+        {
+          "id": "composition-phases",
+          "x": 1528,
+          "y": 495.203125,
+          "width": 365,
+          "height": 33.609375,
+          "bottom": 528.8125,
+          "right": 1893
+        },
+        {
+          "id": "composition-sex",
+          "x": 1528,
+          "y": 529.8125,
+          "width": 365,
+          "height": 33.609375,
+          "bottom": 563.421875,
+          "right": 1893
+        },
+        {
+          "id": "composition-ages",
+          "x": 1528,
+          "y": 564.421875,
+          "width": 365,
+          "height": 33.609375,
+          "bottom": 598.03125,
+          "right": 1893
+        },
+        {
+          "id": "graph-relations",
+          "x": 1499,
+          "y": 630.03125,
+          "width": 394,
+          "height": 75.046875,
+          "bottom": 705.078125,
+          "right": 1893
+        },
+        {
+          "id": "foodweb-diagram",
+          "x": 900.328125,
+          "y": 159,
+          "width": 500.59375,
+          "height": 100,
+          "bottom": 259,
+          "right": 1400.921875
+        },
+        {
+          "id": "biomass-pyramid",
+          "x": 1423.921875,
+          "y": 159,
+          "width": 472.078125,
+          "height": 95,
+          "bottom": 254,
+          "right": 1896
+        },
+        {
+          "id": "foodweb-leaders",
+          "x": 900.328125,
+          "y": 263,
+          "width": 500.59375,
+          "height": 13,
+          "bottom": 276,
+          "right": 1400.921875
+        },
+        {
+          "id": "pyramid-support",
+          "x": 1423.921875,
+          "y": 258,
+          "width": 472.078125,
+          "height": 13,
+          "bottom": 271,
+          "right": 1896
+        },
+        {
+          "id": "map-key",
+          "x": 14,
+          "y": 978,
+          "width": 1460,
+          "height": 72,
+          "bottom": 1050,
+          "right": 1474
+        }
+      ],
+      "inspector": {
+        "x": 1486,
+        "y": 293,
+        "width": 420,
+        "height": 779,
+        "bottom": 1072,
+        "right": 1906,
+        "client": 777,
+        "scroll": 777
+      },
+      "horizontalOverflow": false,
+      "mode": "overview",
+      "draw": {
+        "mode": "simple",
+        "drawn": 993,
+        "motionActors": 0,
+        "selectedMotion": false,
+        "resources": 104,
+        "carcasses": 5,
+        "infectedHosts": 18,
+        "highParasites": 0,
+        "frames": 10,
+        "parasiteArt": 0,
+        "remainsArt": 0,
+        "carcassParasites": 0,
+        "deathSnapshots": 0,
+        "motionKinds": {},
+        "statusBadges": 0,
+        "nameLabels": {
+          "main": 0,
+          "basal": 0,
+          "prey": 0,
+          "P": 0,
+          "Q": 0,
+          "resource": 0
+        },
+        "highlightedCells": [],
+        "criticalMarkers": 0,
+        "elevated": 0,
+        "selectedMotionEndpoints": null,
+        "materialPixelsPerCell": 24,
+        "paintedMaterials": 11,
+        "skippedFrames": 13
+      },
+      "expected": 993
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "panels": [
+        {
+          "id": "board",
+          "x": 15,
+          "y": 371,
+          "width": 904,
+          "height": 241,
+          "bottom": 612,
+          "right": 919
+        },
+        {
+          "id": "current-donut",
+          "x": 39,
+          "y": 159.328125,
+          "width": 100,
+          "height": 83.328125,
+          "bottom": 242.65625,
+          "right": 139
+        },
+        {
+          "id": "current-overall",
+          "x": 175,
+          "y": 137,
+          "width": 471.5,
+          "height": 19.59375,
+          "bottom": 156.59375,
+          "right": 646.5
+        },
+        {
+          "id": "graph-stacked",
+          "x": 945,
+          "y": 365,
+          "width": 394,
+          "height": 62.203125,
+          "bottom": 427.203125,
+          "right": 1339
+        },
+        {
+          "id": "composition-phases",
+          "x": 974,
+          "y": 508.203125,
+          "width": 365,
+          "height": 33.609375,
+          "bottom": 541.8125,
+          "right": 1339
+        },
+        {
+          "id": "composition-sex",
+          "x": 974,
+          "y": 542.8125,
+          "width": 365,
+          "height": 33.609375,
+          "bottom": 576.421875,
+          "right": 1339
+        },
+        {
+          "id": "composition-ages",
+          "x": 974,
+          "y": 577.421875,
+          "width": 365,
+          "height": 33.609375,
+          "bottom": 611.03125,
+          "right": 1339
+        },
+        {
+          "id": "graph-relations",
+          "x": 945,
+          "y": 643.03125,
+          "width": 394,
+          "height": 75.046875,
+          "bottom": 718.078125,
+          "right": 1339
+        },
+        {
+          "id": "foodweb-diagram",
+          "x": 669.5,
+          "y": 159,
+          "width": 334.390625,
+          "height": 100,
+          "bottom": 259,
+          "right": 1003.890625
+        },
+        {
+          "id": "biomass-pyramid",
+          "x": 1026.890625,
+          "y": 159,
+          "width": 315.109375,
+          "height": 95,
+          "bottom": 254,
+          "right": 1342
+        },
+        {
+          "id": "foodweb-leaders",
+          "x": 669.5,
+          "y": 263,
+          "width": 334.390625,
+          "height": 26,
+          "bottom": 289,
+          "right": 1003.890625
+        },
+        {
+          "id": "pyramid-support",
+          "x": 1026.890625,
+          "y": 258,
+          "width": 315.109375,
+          "height": 13,
+          "bottom": 271,
+          "right": 1342
+        },
+        {
+          "id": "map-key",
+          "x": 14,
+          "y": 651,
+          "width": 906,
+          "height": 87,
+          "bottom": 738,
+          "right": 920
+        }
+      ],
+      "inspector": {
+        "x": 932,
+        "y": 306,
+        "width": 420,
+        "height": 454,
+        "bottom": 760,
+        "right": 1352,
+        "client": 452,
+        "scroll": 452
+      },
+      "horizontalOverflow": false,
+      "mode": "overview",
+      "draw": {
+        "mode": "simple",
+        "drawn": 993,
+        "motionActors": 0,
+        "selectedMotion": false,
+        "resources": 104,
+        "carcasses": 5,
+        "infectedHosts": 18,
+        "highParasites": 0,
+        "frames": 16,
+        "parasiteArt": 0,
+        "remainsArt": 0,
+        "carcassParasites": 0,
+        "deathSnapshots": 0,
+        "motionKinds": {},
+        "statusBadges": 0,
+        "nameLabels": {
+          "main": 0,
+          "basal": 0,
+          "prey": 0,
+          "P": 0,
+          "Q": 0,
+          "resource": 0
+        },
+        "highlightedCells": [],
+        "criticalMarkers": 0,
+        "elevated": 0,
+        "selectedMotionEndpoints": null,
+        "materialPixelsPerCell": 24,
+        "paintedMaterials": 11,
+        "skippedFrames": 27
+      },
+      "expected": 993
+    }
+  ],
+  "errors": [],
+  "scope": "Linux Chromium; real 3T river world; layout/view controls only; no 500T or Windows runtime claim"
+}
