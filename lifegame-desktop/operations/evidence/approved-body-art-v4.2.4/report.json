@@ -1,0 +1,30 @@
+{
+  "checks": [
+    "22 target phase/branch cases decode and render eleven distinct images per family at 90/150px",
+    "11 revised serpent renders differ; all11 user-selected swarm renders remain unchanged",
+    "all display inputs remain unchanged",
+    "other19 lineages phaseI/II/final renders match before in all57 cases",
+    "other 19 main lineage branch selectors unchanged",
+    "no browser exceptions"
+  ],
+  "families": [
+    {
+      "id": "swarm",
+      "renderCases": 11,
+      "branches": 9,
+      "nonempty": true,
+      "distinct": true,
+      "inputUnchanged": true
+    },
+    {
+      "id": "serpent",
+      "renderCases": 11,
+      "branches": 9,
+      "nonempty": true,
+      "distinct": true,
+      "inputUnchanged": true
+    }
+  ],
+  "errors": [],
+  "scope": "Linux Chromium / target22 only / no long biology or full UI rerun"
+}

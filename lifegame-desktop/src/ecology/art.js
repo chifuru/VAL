@@ -218,7 +218,8 @@
             ? 0.87
             : 1.04
         : 1;
-    const aspect = useBranch && b.fit === "contain" ? f[2] / f[3] : 1;
+    const contain = (useBranch ? b.fit : manifest.creatures.fitBySpecies?.[o.species]) === "contain";
+    const aspect = contain ? f[2] / f[3] : 1;
     const width =
         Math.min(1, aspect) *
         branchWidth *
@@ -241,7 +242,7 @@
     if (Math.cos(((o.facing || 0) * Math.PI) / 4) < 0) g.scale(-1, 1);
     outlined(
       g,
-      variant(o, source, f, !!useBranch && b.fit === "contain"),
+      variant(o, source, f, contain),
       -width / 2,
       -height / 2,
       width,

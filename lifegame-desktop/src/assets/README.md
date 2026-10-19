@@ -29,3 +29,5 @@
 採用モック・前回3.0・今回3.1の比較は `operations/evidence/habitat-visual-v3.1/comparison.html` と同PNG。原画・対象SHA・実測条件は同ディレクトリのREADME。生物原画10枚と生態計算は3.0から変更していない。
 
 4.2.3: 群体節足・多頭蛇・異化通信生命の27枝だけを専用修正3枚へ差し替え。現行宣言は34PNG。旧混在シートは他系統のため保持。原画以外の描画処理と他系統は変更しない。比較はoperations/evidence/three-lineage-retouch-v4.2.3/README.md。
+
+4.2.4: 群体節足Cは取り下げ、添付942.pngと同一のswarm-branches-v423を維持。多頭蛇だけserpent-approved-v424の11枠へ接続し、I/II相も縦横比保持を指定。現行宣言35PNG。詳細: operations/evidence/approved-body-art-v4.2.4/README.md。

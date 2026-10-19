@@ -1,0 +1,14 @@
+{
+  "swarm": {
+    "userFile": "942.png",
+    "productionFile": "src/assets/swarm-branches-v423.png",
+    "sha256": "7d6f005e73cdf7db014e68badecd749e786032fd893a8069934d89dae197ec6e",
+    "byteIdentical": true,
+    "phaseAndBranchSelectorsUnchanged": true
+  },
+  "serpent": "approved original-body forms in current production style; I/II plus nine branches",
+  "allOtherSpeciesSelectorsUnchanged": true,
+  "originalPngsUnchanged": 34,
+  "ecologyCodeUnchanged": true,
+  "drawingChange": "asset fit option applied to serpent base I/II only"
+}

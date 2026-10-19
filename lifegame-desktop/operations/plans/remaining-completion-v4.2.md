@@ -2,7 +2,7 @@
 
 ## この計画の扱いと現在地
 
-現在の製品基準は4.2.3。群体節足/多頭蛇/異化通信生命の27枝を限定修正（operations/evidence/three-lineage-retouch-v4.2.3）。主21系統の専用分岐183枠を接続。全系統の残る差分はdesign/dedicated-variants-v4.2.2/coverage.md。工程1の主生物相分離を実装し、代表場面の描画/選択/追跡を検査。証跡: operations/evidence/primary-plane-v4.2.1/README.md。工程2以降は未完。3枠占有/浮遊微藻/優遇3項目の初期設定・Worker・保存再生への接続、固定河川500Tの存続例、背景と主生物の明暗調整を土台とする。実測範囲はoperations/evidence/observation-model-v4.2/README.md。全系統の成功率・全モック差分・UI全体が完成したという基準ではない。
+現在の製品基準は4.2.4。群体節足は添付942.pngの9形態を維持、多頭蛇は採用形を既存絵柄へ接続（operations/evidence/approved-body-art-v4.2.4）。群体節足/多頭蛇/異化通信生命の27枝を限定修正（operations/evidence/three-lineage-retouch-v4.2.3）。主21系統の専用分岐183枠を接続。全系統の残る差分はdesign/dedicated-variants-v4.2.2/coverage.md。工程1の主生物相分離を実装し、代表場面の描画/選択/追跡を検査。証跡: operations/evidence/primary-plane-v4.2.1/README.md。工程2以降は未完。3枠占有/浮遊微藻/優遇3項目の初期設定・Worker・保存再生への接続、固定河川500Tの存続例、背景と主生物の明暗調整を土台とする。実測範囲はoperations/evidence/observation-model-v4.2/README.md。全系統の成功率・全モック差分・UI全体が完成したという基準ではない。
 
 本書を残件全体の最新の作業順序とする。旧計画の順序や「4.1.3製品未接続」の記載と衝突する範囲は本書と現行4.2の証跡を優先し、旧証跡の対象版は書き換えない。仕様はdesign/specification/README.md、採用形はab-visual-reference-v1.md、相分離はlayered-observation-v4.2.mdを参照。
 

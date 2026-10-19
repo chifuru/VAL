@@ -1,6 +1,6 @@
 {
-  "version": "three-lineage-retouch/4.2.3",
-  "source": "4.2.2 artwork preserved except swarm, serpent and valis dedicated branch selectors; three dedicated replacement atlases.",
+  "version": "approved-body-art/4.2.4",
+  "source": "Swarm uses user-selected 942.png, byte-identical to existing swarm-branches-v423; serpent approved forms in current production style; all other species unchanged.",
   "sheets": {
     "life-a": {
       "file": "life-a.png",
@@ -205,6 +205,12 @@
       "width": 1224,
       "height": 1285,
       "sha256": "930dc8c6fecc37a286572dbccfecf0f7603387a6fbbcc977e6b1787f17e875c9"
+    },
+    "serpent-approved-v424": {
+      "file": "serpent-approved-v424.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "3601c2eaf733f1dea54556db93492a6f4c836f99fccda88b114f978714ee26ee"
     }
   },
   "creatures": {
@@ -471,28 +477,28 @@
       ],
       "serpent": [
         [
-          0,
-          627,
-          314,
-          313
+          68,
+          28,
+          421,
+          247
         ],
         [
-          314,
-          627,
-          313,
-          313
+          541,
+          6,
+          477,
+          270
         ],
         [
-          627,
-          627,
-          313,
-          313
+          1067,
+          1,
+          457,
+          287
         ],
         [
-          940,
-          627,
-          314,
-          313
+          1061,
+          277,
+          464,
+          269
         ]
       ],
       "solar": [
@@ -821,7 +827,7 @@
       "abyssshell": "life-b",
       "parallel": "life-c",
       "memory": "life-c",
-      "serpent": "life-c",
+      "serpent": "serpent-approved-v424",
       "solar": "life-c",
       "antimeme": "life-d",
       "valis": "life-d",
@@ -835,6 +841,9 @@
       "tideparasite": "life-f",
       "leafparasite": "life-f",
       "hyperparasite": "life-f"
+    },
+    "fitBySpecies": {
+      "serpent": "contain"
     }
   },
   "food": {
@@ -1755,65 +1764,65 @@
       "source": "dedicated-variants/4.2.2"
     },
     "serpent": {
-      "sheet": "serpent-branches-v423",
+      "sheet": "serpent-approved-v424",
       "regions": [
         [
-          16,
-          250,
-          466,
-          210
+          1067,
+          1,
+          457,
+          287
         ],
         [
-          423,
-          152,
-          484,
-          303
+          30,
+          294,
+          531,
+          214
         ],
         [
-          866,
-          80,
-          348,
-          378
+          596,
+          276,
+          362,
+          243
         ],
         [
-          11,
-          575,
-          477,
-          229
+          1061,
+          277,
+          464,
+          269
         ],
         [
-          451,
-          490,
-          357,
-          315
+          32,
+          495,
+          389,
+          237
         ],
         [
-          800,
+          473,
+          516,
+          569,
+          230
+        ],
+        [
+          1043,
           542,
-          417,
-          262
+          491,
+          226
         ],
         [
-          9,
-          962,
-          503,
-          238
+          21,
+          734,
+          495,
+          289
         ],
         [
-          437,
-          823,
-          452,
-          377
-        ],
-        [
-          858,
-          854,
-          358,
-          336
+          545,
+          778,
+          472,
+          236
         ]
       ],
       "fit": "contain",
-      "source": "three-lineage-retouch/4.2.3"
+      "source": "approved-body-art/4.2.4"
     },
     "antimeme": {
       "sheet": "dedicated-branches-06",

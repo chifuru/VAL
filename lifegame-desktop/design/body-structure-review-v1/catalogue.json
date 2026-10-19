@@ -24,7 +24,8 @@
     }
   ],
   "currentSelection": {
-    "swarm": "C adopted",
+    "swarm": "user 942.png selected; byte-identical to src/assets/swarm-branches-v423.png; C withdrawn",
     "serpent": "all oral concepts rejected; use v2 original-body forms"
-  }
+  },
+  "swarmImageSha256": "7d6f005e73cdf7db014e68badecd749e786032fd893a8069934d89dae197ec6e"
 }

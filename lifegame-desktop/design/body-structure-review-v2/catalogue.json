@@ -1,7 +1,7 @@
 {
   "productVersion": "4.2.3 unchanged",
-  "swarmBase": "v1 C adopted by user",
-  "serpentBase": "original multi-headed serpent; v1 oral A/B/C rejected",
+  "swarmBase": "user 942.png selected; src/assets/swarm-branches-v423.png retained; C withdrawn",
+  "serpentBase": "original serpent four-form direction accepted; match production art style",
   "images": [
     {
       "id": "serpent",
@@ -11,7 +11,7 @@
         1254
       ],
       "sha256": "8fd16db49e30547a1deabe00d11c44e5d17bd4ab32338d31a55a8d5615c71b74",
-      "status": "new form review; prior oral forms rejected"
+      "status": "body direction accepted / production styling in 4.2.4"
     },
     {
       "id": "swarm",
@@ -21,11 +21,13 @@
         1024
       ],
       "sha256": "8026ee579e97abdb65d2d5da00d69888319a1c9444e6f995c83ce687e49080ea",
-      "status": "C adopted base; branches are mock only"
+      "status": "C withdrawn / unused mock"
     }
   ],
   "references": [
     "https://blog.playstation.com/2021/12/16/a-closer-look-at-horizon-forbidden-wests-new-slitherfang-rollerback-and-sunwing-machines/",
     "https://nazz.artstation.com/projects/14lYoK"
-  ]
+  ],
+  "currentProduct": "4.2.4",
+  "swarmImageSha256": "7d6f005e73cdf7db014e68badecd749e786032fd893a8069934d89dae197ec6e"
 }

@@ -18,7 +18,7 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 		ロジック:
 			系統ごとに異なる相/分岐/雌雄/年齢の代表表現を確認。同じ相・枝・年齢で雌雄を比較し、進化相と年齢は独立。全系統の実寸照合は後続。
 		実態:
-			製品4.2.3を維持。群体節足は身体構造v1のCを採用し9枝のモックへ展開。多頭蛇の口器型3案は不採用、元の多頭蛇体を基準にした4形態を再提案。新図は未実装、頭数を全相/枝の固定条件にしない。 詳細: design/body-structure-review-v2/README.md。
+			4.2.4で群体節足は添付942.pngと完全一致する既存9形態を維持（C案取り下げ）。多頭蛇は承認された4形態の特徴を既存絵柄へ合わせI/II＋9枝へ接続。相/年齢の独立と能力は維持。 詳細: operations/evidence/approved-body-art-v4.2.4/README.md。
 
 	A1.2:（A1 / 各マスの環境・餌資源）［草案］
 		構成（要素・関係）:
@@ -182,7 +182,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 		ロジック:
 			代表モックの系統固有の相/雌雄/年齢と6行動の表現を適用。背景の彩度/細部を抑え接地影/縁の明暗で分離。確定イベントから描き、生態計算へ逆作用させない。
 		実態:
-			群体節足Cの胴/腹面/支持部を保つ9枝案、多頭蛇の元の顔/鱗/鰭を保つ流線・冠帆・重装・遊泳の4形態案を作成。多頭蛇の口器案は使わない。現行製品の原画/計算/描画は変更なし。 詳細: design/body-structure-review-v2/README.md。
+			群体節足は指定942.pngの9形態（既存swarm-branches-v423）と元のI/II相を維持。多頭蛇は既存の描線/材質/配色/発光へ合わせた11枠を使用。口器案と群体Cは不採用。 詳細: operations/evidence/approved-body-art-v4.2.4/README.md。
 	B5.4:（A1, A2, A1.2 / 最終結果図鑑と再生・新規保存）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.4.md。最終結果図鑑と再生・新規保存。
@@ -257,7 +257,7 @@ C4:（A2, B5 / Electron と Windows 配布）［草案］
 	ロジック:
 		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
 	実態:
-		Windows4.2.3配布を生成。修正3原画/manifest/描画コードの同梱一致を確認。実Windows起動・性能は未実施。 詳細: operations/evidence/three-lineage-retouch-v4.2.3/README.md。
+		Windows4.2.4配布を生成。指定群体原画/新多頭蛇原画/manifest/描画コードの同梱一致を確認。実Windows起動・性能は未実施。 詳細: operations/evidence/approved-body-art-v4.2.4/README.md。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -332,7 +332,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 		ロジック:
 			実タイルから地形/深浅/8環境のマスクを生成し、視野内だけ高解像度で合成。遠景は全位置記号、近景は描き込んだ景観。輪郭影と局所遮蔽を使い、装飾を新たな生態/障害物としない。
 		実態:
-			4.2.3でswarm/serpent/valisの枝参照を専用修正原画3枚へ差し替え。対象27枝のみ、他18系統の枝参照・既存原画31枚・生態/描画コードは不変。 詳細: operations/evidence/three-lineage-retouch-v4.2.3/README.md。
+			多頭蛇の相/枝参照を新11枠へ接続し、I/II相にも縦横比保持設定を適用。群体節足の指定原画・参照は4.2.3と同じ。他19系統57描画条件は変更前一致。 詳細: operations/evidence/approved-body-art-v4.2.4/README.md。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -377,7 +377,7 @@ D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	ロジック:
 		C4と対象版を照合して配布物そのものを実行する。
 	実態:
-		Windows4.2.3配布を生成。修正3原画/manifest/描画コードの同梱一致を確認。実Windows起動・性能は未実施。 詳細: operations/evidence/three-lineage-retouch-v4.2.3/README.md。
+		Windows4.2.4配布を生成。指定群体原画/新多頭蛇原画/manifest/描画コードの同梱一致を確認。実Windows起動・性能は未実施。 詳細: operations/evidence/approved-body-art-v4.2.4/README.md。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -431,7 +431,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		4.2.3は対象27枝の90/150px変更前後・読込/非空/選択/入力不変を5確認。対象外参照/原画/コード不変と素材/構造を照合。全画面回帰・長期試行は再実施しない。 詳細: operations/evidence/three-lineage-retouch-v4.2.3/README.md。
+		対象2種22状態を90/150pxで6確認。群体指定画像のファイル完全一致と11状態同一、多頭蛇11状態の描画、他19系統57条件一致、素材/構造を照合。長期/全画面回帰は再実施なし。 詳細: operations/evidence/approved-body-art-v4.2.4/README.md。
 ```
 
 ## E：検証証跡
@@ -482,13 +482,13 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		three-lineage-retouch-v4.2.3に対象3系統27枝の比較画像/5確認と対象外不変の証跡を保存。既存全体検査は4.2.2の対象範囲へ限定、今回の再実施とは扱わない。 詳細: operations/evidence/three-lineage-retouch-v4.2.3/README.md。
+		approved-body-art-v4.2.4へ指定942.pngの維持と多頭蛇の既存絵柄接続を記録。画像完全一致/対象22状態/他19系統57条件一致を確認。Windows実機は未確認。 詳細: operations/evidence/approved-body-art-v4.2.4/README.md。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
 	ロジック:
 		対象SHAと版が一致するWindows4.1の配布/実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		Windows4.2.3配布を生成。修正3原画/manifest/描画コードの同梱一致を確認。実Windows起動・性能は未実施。 詳細: operations/evidence/three-lineage-retouch-v4.2.3/README.md。
+		Windows4.2.4配布を生成。指定群体原画/新多頭蛇原画/manifest/描画コードの同梱一致を確認。実Windows起動・性能は未実施。 詳細: operations/evidence/approved-body-art-v4.2.4/README.md。
 
 ```
