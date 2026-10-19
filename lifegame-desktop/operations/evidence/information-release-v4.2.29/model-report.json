@@ -1,0 +1,237 @@
+{
+  "version": "4.2.29",
+  "signature": "e72d2e0f6ac778311962ba2439d67cee03fe6759c2dc9c6c6fd7dbcc9560a6c2",
+  "checks": [
+    "product equals selected candidate profile 0 through 20T",
+    "product equals selected candidate profile 1 through 20T",
+    "product equals selected candidate profile 2 through 20T",
+    "product equals selected candidate profile 3 through 20T",
+    "product equals selected candidate profile 4 through 20T",
+    "product equals selected candidate profile 5 through 20T",
+    "product equals selected candidate profile 6 through 20T",
+    "product equals selected candidate profile 7 through 20T",
+    "representative free-mode main consumers persist at 500T",
+    "natural run connects information emission receipt and effect",
+    "all 501 observations retained",
+    "all-period observation roundtrip",
+    "new signature record preserves final fingerprint",
+    "old results stay readable",
+    "old biological rules are not silently replayed with new rules"
+  ],
+  "config": {
+    "seed": "baseline41/custom",
+    "width": 40,
+    "height": 28,
+    "initial": 80,
+    "lineages": "few",
+    "selected": [],
+    "weights": {},
+    "placement": "natural",
+    "distribution": "balanced",
+    "guarantee": false,
+    "enabled": {
+      "main": true,
+      "plant": true,
+      "fungus": true,
+      "prey": true,
+      "P": true,
+      "Q": true
+    },
+    "terrainSeed": "baseline41/custom",
+    "mapId": "river",
+    "landscape": "templates",
+    "ageModel": "life/1",
+    "ecologyRevision": "observation/4.1",
+    "blockTurns": 500,
+    "observationMode": "custom",
+    "initialFoodScale": 1,
+    "solarScale": 1,
+    "modeResolved": {
+      "id": "custom",
+      "version": 1,
+      "name": "自由設定",
+      "description": "初期条件を自由に設定。餌の初期量は従来どおり。途中の生体補充はありません。",
+      "initialFoodScale": 1,
+      "solarScale": 1
+    },
+    "mapResolved": {
+      "setVersion": "terrain-set/1",
+      "id": "river",
+      "version": 1,
+      "width": 40,
+      "height": 28,
+      "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+      "pattern": [
+        3,
+        1,
+        2,
+        3,
+        0,
+        1,
+        2,
+        3,
+        1,
+        0,
+        1,
+        1,
+        3,
+        0,
+        2,
+        1,
+        2,
+        0,
+        1,
+        3,
+        1,
+        2,
+        3,
+        0,
+        3,
+        1,
+        2,
+        3,
+        3,
+        3,
+        2,
+        1,
+        1
+      ],
+      "fallback": false,
+      "terrainHash": "0864a5482daee9ec02543671f2dfe2c90663cca6fa40ce4993a089088bbeb2ca"
+    },
+    "ecologyParameters": {
+      "version": 1,
+      "mainMaintenance": 0.65,
+      "mainMovement": 0.6,
+      "sexualThreshold": 0.65,
+      "sexualMineral": 2,
+      "producerBirth": "B23",
+      "fungusBirth": "B123",
+      "initialFoodAgeFraction": 0.5
+    },
+    "parasiteInitial": {
+      "policy": "local-search/1",
+      "unit": "colony",
+      "targetSearchQ": 128,
+      "createdSearchQ": 128
+    },
+    "freeAdvantage": {
+      "version": "favored-free/3",
+      "externalSupply": false,
+      "producerLife": 2400,
+      "producerLight": 2,
+      "soilM": 3,
+      "waterbugLife": 600,
+      "waterbugBirth": "B123/E8/cost8",
+      "QsearchLife": 480,
+      "QsearchRange": 3,
+      "Qgrowth": [
+        1,
+        2
+      ],
+      "Qinitial": "128-256"
+    },
+    "advantageSettings": {
+      "version": "advantage-switches/1",
+      "producer": true,
+      "waterbug": true,
+      "hyperparasite": true
+    },
+    "producerSupport": {
+      "enabled": false,
+      "land": {
+        "nutrition": 1,
+        "capacity": 0.35,
+        "regrowth": 1
+      },
+      "water": {
+        "nutrition": 1,
+        "capacity": 0.35,
+        "regrowth": 1
+      },
+      "grace": 20,
+      "establishment": 0.1,
+      "targetE": 8,
+      "targetM": 0.5,
+      "schedule": []
+    }
+  },
+  "totals": {
+    "emitted": 72615,
+    "received": 1579,
+    "applied": 638,
+    "mediated": 17
+  },
+  "maxError": {
+    "E": 0,
+    "M": 0
+  },
+  "final": {
+    "population": 1651,
+    "main": 219,
+    "food": 1432,
+    "P": 356,
+    "Q": 353,
+    "Qsearch": 256,
+    "resting": 115,
+    "counts": {
+      "abyss": 0,
+      "myth": 0,
+      "recursive": 0,
+      "sail": 0,
+      "gravity": 14,
+      "crystal": 0,
+      "manyeyes": 0,
+      "abyssshell": 0,
+      "parallel": 0,
+      "memory": 0,
+      "serpent": 0,
+      "solar": 0,
+      "antimeme": 0,
+      "valis": 1,
+      "jelly": 0,
+      "kelp": 0,
+      "whale": 204,
+      "swarm": 0,
+      "plasma": 0,
+      "cephalopod": 0,
+      "precocial": 0,
+      "algae": 65,
+      "moss": 0,
+      "grass": 621,
+      "fungus": 0,
+      "waterbug": 81,
+      "grassbug": 567,
+      "tideparasite": 347,
+      "leafparasite": 9,
+      "hyperparasite": 353,
+      "phytoplankton": 98
+    },
+    "phases": [
+      17,
+      38,
+      98,
+      66
+    ],
+    "roles": {
+      "queen": 0,
+      "worker": 0,
+      "male": 0
+    },
+    "colonies": {},
+    "infectionStages": {
+      "first": 68,
+      "middle": 87,
+      "extra": 93,
+      "terminal": 108
+    },
+    "resources": 422,
+    "totals": {
+      "E": 43932.914259,
+      "M": 16494.24977
+    }
+  },
+  "fingerprint": "42f2705cafa6374075c36cb8c81ffc5092914b2e54b6228fe7a283cd36b170fd",
+  "elapsedMs": 333771,
+  "scope": "eight profile candidate matches20T; one river seed 500T headless, no all-seed survival or rendered500T certification"
+}

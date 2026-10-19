@@ -1,0 +1,18 @@
+✔ private footprint creates paid B3 information without initial food; current/imprint do not (57.537195ms)
+✔ B3 needs exactly three neighbours, not unconditional emission (12.982426ms)
+✔ stale traces and absent senders never seed the latent field (6.978388ms)
+✔ imprint only uses an existing Conway growth slot and pays before adding content (4.406841ms)
+✔ unfunded imprint does not write a payload or emit a relation (1.767522ms)
+✔ existing contents cannot be replaced by a different event or expiry extended (2.79265ms)
+✔ generated payload can be consumed and alter weights while DNA stays unchanged (4.01939ms)
+✔ existing particles survive/grow only under S23, with no expiry refresh (8.328283ms)
+✔ Q retains its paid mediation path on newly born information (3.155574ms)
+✔ expired physical food can restart from still-fresh local traces with conserved E/M (2.369435ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 111.538336

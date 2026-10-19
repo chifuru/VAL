@@ -1,0 +1,11 @@
+✔ tests/founder-counts.test.cjs (1611.703847ms)
+✔ tests/initial-supply.test.cjs (4449.778274ms)
+✔ tests/interaction-audit.test.cjs (355.114708ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6429.450623

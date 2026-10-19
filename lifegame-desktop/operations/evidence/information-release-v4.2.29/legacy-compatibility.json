@@ -1,0 +1,9 @@
+{
+  "source": "operations/evidence/update-performance-v4.2.25/full-run/saved-result.json.gz",
+  "signature": "fd86e3845849b8fb1432d48e6608098b5028ecf97ac7337956415c7b34ef8091",
+  "currentSignature": "e72d2e0f6ac778311962ba2439d67cee03fe6759c2dc9c6c6fd7dbcc9560a6c2",
+  "all501RowsReadable": true,
+  "originalRowsUnchanged": true,
+  "replayRejected": true,
+  "recordSha256": "27b0ed2e60dbee5522c915014fb999e8ff5c9e32166dc5166d8c8e7bec15ff8a"
+}

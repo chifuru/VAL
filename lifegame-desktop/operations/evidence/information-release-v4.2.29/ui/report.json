@@ -1,0 +1,33 @@
+{
+  "version": "4.2.29",
+  "checks": [
+    "actual normal Worker equals atomic product engine",
+    "normal one-second three-stage cadence unchanged",
+    "all committed turns retained",
+    "actual Worker emits receives and applies information",
+    "map, graphs, summary and legend remain visible in one viewport",
+    "map retains usable height beside full-period graphs",
+    "result saved through actual IndexedDB",
+    "saved result analysis shows final current summary",
+    "export preserves all original observations",
+    "same-signature replay repeats the observed result",
+    "replay creates no automatic duplicate record",
+    "no browser exceptions or native dialogs"
+  ],
+  "errors": [],
+  "turn": 20,
+  "totals": {
+    "generated": 1309,
+    "received": 7,
+    "applied": 7,
+    "unchanged": 0,
+    "unattributed": 0,
+    "mediatedGenerated": 0,
+    "mediatedReceived": 0,
+    "mediatedApplied": 0,
+    "noiseReceived": 1,
+    "deltaAbs": 11.585921999999997
+  },
+  "fingerprint": "6668ab43159ad7a2ccdba7bc7632359dd7f4debf3c96217a30ce15c665a1e639",
+  "scope": "actual normal Worker20T plus same-record replay, IndexedDB/export; not rendered500T"
+}

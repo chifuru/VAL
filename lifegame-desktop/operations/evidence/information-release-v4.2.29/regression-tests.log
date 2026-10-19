@@ -1,0 +1,12 @@
+✔ tests/archive-history.test.cjs (28323.968413ms)
+✔ tests/archive.test.cjs (2382.478754ms)
+✔ tests/ecology-parasites.test.cjs (285.205843ms)
+✔ tests/parasite-contact.test.cjs (217.371523ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 31259.585279

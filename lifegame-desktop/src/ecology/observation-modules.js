@@ -2246,7 +2246,14 @@ function(require,module){
     for (const kind of ["mineral", "droplet", "info"]) {
       const f = S.FOOD[kind];
       if (t % f.period) continue;
-      const cells = byKind.get(kind) || new Set();
+      const cells = new Set(byKind.get(kind) || []);
+      // Experience traces are a latent field, not free physical food or energy.
+      if(kind === "info") for(const event of w.messages){
+        const source=m.byId.get(event.sourceId);
+        if(event.expires>w.turn && w.turn-event.time<8 && event.values?.length &&
+          source && S.distance(w,event.cell,source.cell)<=1 && !w.tiles[event.cell].blocked)
+          cells.add(event.cell);
+      }
       for (let cell = 0; cell < w.tiles.length; cell++) {
         if (w.tiles[cell].blocked) continue;
         let n = 0;
@@ -2865,8 +2872,7 @@ function(require,module){
         if (
           old &&
           c.kind === "info" &&
-          (!old.event ||
-            old.event.id !== c.event?.id ||
+          old.event && (old.event.id !== c.event?.id ||
             S.stable(old.event) !== S.stable(c.event))
         )
           continue;
@@ -2882,6 +2888,7 @@ function(require,module){
         if (c.costE) S.dissipate(w, c.costE - c.E);
         if (c.kind === "factor") S.dissipate(w, c.costB - c.E);
         if (old) {
+          if(c.kind === "info" && !old.event) old.event=structuredClone(c.event);
           old.q += c.q;
           old.E = S.round(old.E + c.E);
           old.M = S.round(old.M + c.M);
@@ -4469,8 +4476,8 @@ function(require,module){
       (c) => c.kind === "info" && !ctx.exhausted.has(c.cell + ":info"),
     )) {
       let event, source;
-      if (c.growth) {
-        if (!w.resources.includes(c.growth) || !c.growth.event) continue;
+      if (c.growth && !w.resources.includes(c.growth)) continue;
+      if (c.growth?.event) {
         event = c.growth.event;
         source = m.byId.get(event.sourceId);
         if (
@@ -7596,7 +7603,14 @@ function(require,module){
     for (const kind of ["mineral", "droplet", "info"]) {
       const f = S.FOOD[kind];
       if (t % f.period) continue;
-      const cells = byKind.get(kind) || new Set();
+      const cells = new Set(byKind.get(kind) || []);
+      // Experience traces are a latent field, not free physical food or energy.
+      if(kind === "info") for(const event of w.messages){
+        const source=m.byId.get(event.sourceId);
+        if(event.expires>w.turn && w.turn-event.time<8 && event.values?.length &&
+          source && S.distance(w,event.cell,source.cell)<=1 && !w.tiles[event.cell].blocked)
+          cells.add(event.cell);
+      }
       for (let cell = 0; cell < w.tiles.length; cell++) {
         if (w.tiles[cell].blocked) continue;
         let n = 0;
@@ -8215,8 +8229,7 @@ function(require,module){
         if (
           old &&
           c.kind === "info" &&
-          (!old.event ||
-            old.event.id !== c.event?.id ||
+          old.event && (old.event.id !== c.event?.id ||
             S.stable(old.event) !== S.stable(c.event))
         )
           continue;
@@ -8232,6 +8245,7 @@ function(require,module){
         if (c.costE) S.dissipate(w, c.costE - c.E);
         if (c.kind === "factor") S.dissipate(w, c.costB - c.E);
         if (old) {
+          if(c.kind === "info" && !old.event) old.event=structuredClone(c.event);
           old.q += c.q;
           old.E = S.round(old.E + c.E);
           old.M = S.round(old.M + c.M);
@@ -14097,8 +14111,8 @@ function(require,module){
       (c) => c.kind === "info" && !ctx.exhausted.has(c.cell + ":info"),
     )) {
       let event, source;
-      if (c.growth) {
-        if (!w.resources.includes(c.growth) || !c.growth.event) continue;
+      if (c.growth && !w.resources.includes(c.growth)) continue;
+      if (c.growth?.event) {
         event = c.growth.event;
         source = m.byId.get(event.sourceId);
         if (

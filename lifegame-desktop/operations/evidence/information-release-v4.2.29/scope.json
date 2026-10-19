@@ -1,0 +1,33 @@
+{
+  "baseline": "95a674b",
+  "sourceChanges": [
+    {
+      "file": "src/Index.html",
+      "before": "87f650d4704b8d0acb673b215f2531e1b17fcbdbb8d6207e27793b8acf13f7a8",
+      "after": "744fca66647434edfc9f1127e8b089a86dcb125fc629b3f6f3d6e50d65301ff1"
+    },
+    {
+      "file": "src/ecology/nutrition.js",
+      "before": "b16a9353a4b2b9a8144361860b22b6124f3cafb09712967f4444d70ec51b62e6",
+      "after": "f98899d97e81a81702b95e871e62764a0cdecc9e026cd89eb0ca3d0247a2de00"
+    },
+    {
+      "file": "src/ecology/parasites.js",
+      "before": "17e60d0eb10cd99c3c1e7d253dcf3a96f29ec3303e12653c0cbb1783c1c0a85f",
+      "after": "437da729cbbb143d226e382cd8017b13c1eb1fc3ea27a0a6964e4264c4033e25"
+    },
+    {
+      "file": "src/ecology/observation-modules.js",
+      "before": "a6cfe7b5fd82bafbc15525e6135e1a18e01198d014cb53095e51f71d65c3961c",
+      "after": "d3c93d8ffdeaa54f46816d2bd44a6200dedfe586d1de4e0b955f4e6f6652cbc3"
+    },
+    {
+      "file": "src/ecology/replay-version.js",
+      "before": "e8567d8da300fdcd866e3003f209e8ea6abb78efaf4adb2a929e8d0bbb934837",
+      "after": "4985ebb17b96165da67bacf2e69158477a100e6085511dfd78dc8b110edcb1f6"
+    }
+  ],
+  "unexpectedBiologyChanges": [],
+  "nativeWindowsRun": false,
+  "unchangedSourceAssets": true
+}

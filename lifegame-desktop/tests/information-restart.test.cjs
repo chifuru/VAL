@@ -1,5 +1,6 @@
 'use strict';
-const {test}=require('node:test'),assert=require('node:assert/strict'),{model}=require('../design/information-restart/model.cjs');
+const {test}=require('node:test'),assert=require('node:assert/strict'),{model:privateModel}=require('../design/information-restart/model.cjs');
+const model=(variant,flags)=>process.env.LIFEGAME_PRODUCT_INFO==='1'&&variant==='footprint'?require('../src/ecology/observation-model.js').model(flags):privateModel(variant,flags);
 function fixture(variant='footprint'){
  const E=model(variant),S=E.S,w=E.create({seed:'private-info',width:8,height:8,initial:0,enabled:{main:false,plant:false,fungus:false,prey:false,P:true,Q:false},ecologyRevision:'observation/4.1',ageModel:'life/1'});
  w.organisms=[];w.resources=[];w.messages=[];w.carcasses=[];w.searchQ=[];w.turn=1;w.tiles=w.tiles.map(t=>({...t,blocked:false,env:3,terrain:'plain',soilM:5,light:1,cover:'none'}));

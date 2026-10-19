@@ -222,8 +222,8 @@
       (c) => c.kind === "info" && !ctx.exhausted.has(c.cell + ":info"),
     )) {
       let event, source;
-      if (c.growth) {
-        if (!w.resources.includes(c.growth) || !c.growth.event) continue;
+      if (c.growth && !w.resources.includes(c.growth)) continue;
+      if (c.growth?.event) {
         event = c.growth.event;
         source = m.byId.get(event.sourceId);
         if (
