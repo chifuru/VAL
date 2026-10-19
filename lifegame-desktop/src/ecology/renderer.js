@@ -149,6 +149,7 @@
         emphasis: true,
         simplified: false,
         statusMarks: true,
+        statusScope: "main",
         animate: false,
         duration: 260,
         selected: null,
@@ -315,6 +316,7 @@
         deathSnapshots: 0,
         motionKinds: {},
         statusBadges: 0,
+        statusBadgesByGroup: {main:0,basal:0,prey:0},
         nameLabels: { main:0, basal:0, prey:0, P:0, Q:0, resource:0 },
         highlightedCells: [],
         criticalMarkers: 0,
@@ -696,7 +698,9 @@
             symbolColor(S.spec(o)),
           );
         const a = S.ageInfo(o),
-          showStatus = view.statusMarks && near && (z >= 100 || o.cell === view.selected);
+          showStatus = view.statusMarks && near &&
+            (view.statusScope === "all" || isMain || o.id === view.selectedEntity) &&
+            (z >= 100 || o.cell === view.selected);
         if (!showStatus && a.enabled && a.stage !== "adult" && (view.ageEmphasis || !detail)) {
           g.strokeStyle = a.stage === "juvenile" ? "#fff0b2" : "#d7e2e0";
           g.lineWidth = 1 / z;
@@ -855,6 +859,7 @@
             diagnostics.criticalMarkers++;
           }
           diagnostics.statusBadges++;
+          diagnostics.statusBadgesByGroup[isMain?"main":S.spec(o).group==="prey"?"prey":"basal"]++;
           g.restore();
           });
         }

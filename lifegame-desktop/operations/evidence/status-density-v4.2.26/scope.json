@@ -1,0 +1,28 @@
+{
+  "baseline": "3dd1cbd",
+  "sourceChanges": [
+    {
+      "file": "src/Index.html",
+      "before": "ea28a06d1b605f7b191a6b1a91f6c1286e95f9953d5361d040f2292fcd7346f7",
+      "after": "7d8118b7c210015c90925d4fd343a64b97f6ee8366a6b91e98fc2327176cb3c6"
+    },
+    {
+      "file": "src/app.js",
+      "before": "7b470aacf288b8300ffbc8d9e2417d1a83924c45d3a181a41214088817d2147c",
+      "after": "721f051c071722d9454bd4e1c60835ceafd166e1b81813d5d6a3dfd08ea4992f"
+    },
+    {
+      "file": "src/ecology/renderer.js",
+      "before": "3c840c5b3c9ddb41a21d59fe8e00b23602b6459d5dd8262b821438018e413b75",
+      "after": "ddae61fef951da82ac38167bdc5f14067917ab1b5ccfefdbde2ff41e992b0f76"
+    },
+    {
+      "file": "src/styles.css",
+      "before": "27ac47ef0c993b8a115b66ce7e37b3e8e95fa279de33c739037364a9df2dbe0a",
+      "after": "b1f4d7b72904312ee02f88a2509d21695dd5003d56b7b72f00c998f5b4dacd18"
+    }
+  ],
+  "unchangedBiology": true,
+  "nativeWindowsRun": false,
+  "unchangedSourceAssets": true
+}

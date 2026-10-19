@@ -1,0 +1,11 @@
+{
+  "viewport": [
+    1366,
+    768
+  ],
+  "initialProposalBoardHeight": 221,
+  "finalBoardHeight": 241,
+  "minimumAcceptedHeight": 240,
+  "initialFailure": "new target dropdown pushed render-mode onto a second row",
+  "fix": "shorten repeated subject words only below 1500px while retaining full accessible labels"
+}

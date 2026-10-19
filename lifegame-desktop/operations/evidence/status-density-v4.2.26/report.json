@@ -1,0 +1,39 @@
+{
+  "version": "4.2.26",
+  "checks": [
+    "default status target is primary plus selected",
+    "default view omits unselected lower badges without omitting primary badges",
+    "lower names can be shown independently of status target",
+    "selecting lower individual reveals only its lower badge, not siblings sharing its cell",
+    "selected lower name remains available with names disabled",
+    "closing individual details restores primary-only badges",
+    "status scope preserves visible organism count",
+    "all-status mode restores lower badges independently of names",
+    "all-status board pixels match previous renderer",
+    "global status OFF suppresses every badge and disables target control",
+    "turning status back on retains target choice",
+    "near symbol view supports all-status target",
+    "primary separation preserves primary-target status",
+    "selected lower badge remains visible beneath separated primary plane",
+    "overview retains all organisms and no near-only status boxes",
+    "overview symbols and terrain pixels match previous renderer",
+    "status control does not add horizontal overflow at narrow width",
+    "status target remains reachable on narrow screen",
+    "selection, target changes and private terrain diagnostics preserve biological fingerprint",
+    "no browser errors or native dialogs"
+  ],
+  "errors": [],
+  "measurements": {
+    "default": {
+      "main": 15,
+      "basal": 0,
+      "prey": 0
+    },
+    "all": {
+      "main": 15,
+      "basal": 36,
+      "prey": 5
+    }
+  },
+  "scope": "Linux Chromium fixed mixed-cell fixture plus natural neighbors; terrain-only diagnostics are private presentation copies"
+}

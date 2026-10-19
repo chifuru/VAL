@@ -676,7 +676,10 @@
   };
   $("status-marks").addEventListener("change", () => {
     renderer.view.statusMarks = $("status-marks").checked;
+    $("status-scope").disabled = !renderer.view.statusMarks;
+    renderer.draw();
   });
+  $("status-scope").onchange=()=>{renderer.view.statusScope=$("status-scope").value;renderer.draw();};
   $("age-emphasis").addEventListener("change", () => {
     renderer.view.ageEmphasis = $("age-emphasis").checked;
     renderer.draw();

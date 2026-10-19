@@ -243,17 +243,17 @@ ECOSYSTEM-2026</textarea
                 ><input id="motion" type="checkbox" checked />モーション</label
               ><label class="check"
                 ><input
-                  id="emphasis"
+                  id="emphasis" aria-label="生物を強調"
                   type="checkbox"
                   checked
-                />生物を強調</label
+                /><span class="control-subject">生物を</span>強調</label
               ><label class="check"
                 ><input id="age-emphasis" type="checkbox" />年齢を強調</label
               ><label class="check"
-                ><input id="simplified" type="checkbox" />生物を記号表示</label
+                ><input id="simplified" aria-label="生物を記号表示" type="checkbox" /><span class="control-subject">生物を</span>記号表示</label
               ><label class="check"
                 ><input id="status-marks" type="checkbox" checked />状態マーク</label
-              ><span id="render-mode">—</span>
+              ><select id="status-scope" aria-label="状態マークの対象" title="主＋選択：主生物と選択した個体。全生物：下層の状態も表示。名札の設定とは独立しています。"><option value="main">主＋選択</option><option value="all">全生物</option></select><span id="render-mode">—</span>
             </div>
           </div>
           <details id="map-key" class="map-key" open>
@@ -360,7 +360,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.25 · 外部通信なし</span>
+        ><span>v4.2.26 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">
