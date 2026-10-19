@@ -1,0 +1,12 @@
+✔ only main display rises; colocated lower layers and biological world stay unchanged (2.328383ms)
+✔ attached P and Q rise with the host; search Q stays on its real base cell (4.092383ms)
+✔ movement interpolates on the same elevated plane and converges to the settled anchor (1.225553ms)
+✔ VALIS: every node has valid hierarchy, references, manifest entry and real source/test paths (19.228106ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 42.482232

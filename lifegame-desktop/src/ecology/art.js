@@ -259,34 +259,77 @@
     g.restore();
     return true;
   }
+  const foodStates = new Map();
+  const foodMetrics = { builds: 0, hits: 0, cached: 0 };
   function food(g, o, x, y, r, env) {
-    const f = manifest.food.regions[o.species === "phytoplankton" ? "algae" : o.species];
-    if (!f) {
-      return creature(g, o, x, y, r);
-    }
-    const im = images["food-atlas"];
-    if (!im) return false;
-    const q = Math.max(0.3, Math.min(1, (o.B || 3) / 10)),
-      size = r * (0.85 + 0.25 * q),
-      frame = f[Math.min(1, (o.phase || 1) - 1)];
-    g.save();
-    g.translate(x, y);
-    if (o.facing % 2) g.scale(-1, 1);
-    outlined(
-      g,
-      cleanFrame(im, frame),
-      -size * 1.3,
-      -size * 1.3,
-      size * 2.6,
-      size * 2.6,
-      o.renderEmphasis,
-    );
-    if (env === 4) {
-      g.globalAlpha = 0.25;
-      glow(g, 0, 0, size, "#d6f6ff");
-    }
-    g.restore();
-    return true;
+    const id=o.species, floating=id==="phytoplankton",
+      frames=manifest.food.regions[floating?"algae":id], im=images["food-atlas"];
+    if(!frames)return creature(g,o,x,y,r);
+    if(!im)return false;
+    const spec=root.EcoState.spec(o), age=root.EcoState.ageInfo(o),
+      stage=age.enabled?age.stage:"adult", animal=spec.group==="prey",
+      capacity=Math.max(1,spec.capacity[1]),
+      stock=Math.max(0,Math.min(1,(Number.isFinite(o.B)?o.B:spec.initial[1])/capacity)),
+      density=Math.min(3,Math.floor(stock*4)), phase=Math.max(1,Math.min(2,o.phase||1)),
+      climate=[1,4,5,7].includes(env)?env:0,
+      key=[id,phase,stage,density,climate].join("/");
+    let frame=foodStates.get(key);
+    if(!frame){
+      const c=document.createElement("canvas");c.width=c.height=192;
+      const n=c.getContext("2d"), f=frames[phase-1];
+      // Separate cells are intentional in algae; animals/tufts keep a single body.
+      const original=cleanFrame(im,f,id!=="algae"&&!floating);
+      n.filter=stage==="elderly"?"saturate(.55) brightness(.89)":stage==="juvenile"?"saturate(1.08)":"none";
+      if(floating){
+        const cellFrame=cleanFrame(im,[56,146,114,108],true),
+          count=2+density*2+(phase===2?2:0);
+        for(let i=0;i<count;i++){
+          const a=i*2.399,spread=12+Math.sqrt(i/count)*58,
+            size=(phase===2?30:26)*(i%3===0?1:.70);
+          n.drawImage(cellFrame,96+Math.cos(a)*spread-size/2,93+Math.sin(a)*spread*.65-size/2,size,size);
+        }
+      }else{
+        const aspect=f[2]/f[3],W=168*Math.min(1,aspect),H=168*Math.min(1,1/aspect),
+          body=animal?(.77+density*.075):1,
+          juvenile=stage==="juvenile";
+        if(animal){
+          // Waterbug appendages trail sideways; grassbug supports drop below the body.
+          for(let y0=0;y0<original.height;y0+=4){
+            const h=Math.min(4,original.height-y0),v=(y0+h/2)/original.height,
+              k=juvenile?(id==="waterbug"?.78+.22*Math.sin(Math.PI*v):.88+.12*Math.sin(Math.PI*v)):1,
+              droop=stage==="elderly"?(id==="waterbug"?Math.sin(v*Math.PI)*8:(v>.5?(v-.5)*12:0)):0;
+            n.drawImage(original,0,y0,original.width,h,96-W*body*k/2+droop,96-H/2+y0/original.height*H,W*body*k,h/original.height*H);
+          }
+        }else n.drawImage(original,96-W/2,96-H/2,W,H);
+      }
+      n.filter="none";
+      if(!animal&&!floating){
+        // Thin the actual peripheral tissue, rather than changing the organism count.
+        n.globalCompositeOperation="destination-out";
+        const holes=(3-density)*(id==="grass"?4:id==="fungus"?5:6);
+        for(let i=0;i<holes;i++){
+          const a=i*2.399,rx=id==="grass"?18:id==="fungus"?13:16,
+            ry=id==="grass"?34:id==="fungus"?18:13;
+          ellipse(n,96+Math.cos(a)*69,91+Math.sin(a)*59,rx,ry,a*.1);
+        }
+      }
+      n.globalCompositeOperation="source-atop";
+      const tint=climate===1?"#efbd6c21":climate===4?"#c5ecff30":climate===5?"#5ec8b620":climate===7?"#91857530":null;
+      if(tint){n.fillStyle=tint;n.fillRect(0,0,192,192);}
+      if(stage==="elderly"&&!animal){
+        n.fillStyle="#c0a16f50";
+        n.fillRect(0,0,192,42); // aged tips remain independent of grazed biomass
+      }
+      n.globalCompositeOperation="source-over";
+      if(foodStates.size>=128)foodStates.delete(foodStates.keys().next().value);
+      foodStates.set(key,c);frame=c;foodMetrics.builds++;foodMetrics.cached=foodStates.size;
+    }else foodMetrics.hits++;
+    const ageScale=stage==="juvenile"?.78:stage==="elderly"?.94:1,
+      size=r*(.93+.12*stock)*ageScale;
+    g.save();g.translate(x,y);
+    if(o.facing%2)g.scale(-1,1);
+    outlined(g,frame,-size*1.3,-size*1.3,size*2.6,size*2.6,o.renderEmphasis);
+    g.restore();return true;
   }
   // Parasite colonies use their actual lifecycle, never host age or sex transforms.
   function parasitePhase(p) {
@@ -509,6 +552,7 @@
     tint,
     creature,
     food,
+    foodMetrics,
     resource,
     parasitePhase,
     parasite,

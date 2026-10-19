@@ -853,7 +853,18 @@
     function hitAt(clientX,clientY,groundOnly=false){
       const cell=cellAt(clientX,clientY);if(!world)return null;
       const b=canvas.getBoundingClientRect(),x=(clientX-b.left-view.x)/view.scale,y=(clientY-b.top-view.y)/view.scale;
-      if(!groundOnly)for(let i=hitRegions.length-1;i>=0;i--){const a=hitRegions[i],d=((x-a.x)/a.rx)**2+((y-a.y)/a.ry)**2;if(d<=1&&d>=(a.min||0)**2)return {cell:a.cell,id:a.id};}
+      if(!groundOnly){
+        const detail=view.scale>=24&&view.mode!=="overview"&&!view.simplified;
+        let closest=null,best=Infinity;
+        for(let i=hitRegions.length-1;i>=0;i--){
+          const a=hitRegions[i],d=((x-a.x)/a.rx)**2+((y-a.y)/a.ry)**2;
+          if(d<=1&&d>=(a.min||0)**2){
+            if(!detail)return {cell:a.cell,id:a.id};
+            if(d<best){best=d;closest=a;}
+          }
+        }
+        if(closest)return {cell:closest.cell,id:closest.id};
+      }
       if(cell===null)return null;
       return {cell,id:groundOnly?world.organisms.find(o=>o.cell===cell&&o.slot!=='main')?.id:null,groundOnly};
     }

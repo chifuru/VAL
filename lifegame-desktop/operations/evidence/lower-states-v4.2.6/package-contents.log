@@ -1,0 +1,10 @@
+MATCH src/assets/visual-manifest.json
+MATCH src/assets/visual-manifest.js
+MATCH src/ecology/art.js
+MATCH src/ecology/renderer.js
+MATCH src/Index.html
+MATCH src/assets/food-atlas.png
+MATCH src/assets/life-f.png
+MATCH src/assets/swarm-branches-v423.png
+MATCH src/assets/serpent-approved-v424.png
+4.2.6; native Windows launch not executed

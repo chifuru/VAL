@@ -182,7 +182,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 		ロジック:
 			代表モックの系統固有の相/雌雄/年齢と6行動の表現を適用。背景の彩度/細部を抑え接地影/縁の明暗で分離。確定イベントから描き、生態計算へ逆作用させない。
 		実態:
-			近景のP/Q/探索を既存専用原画で表示し、死骸を系統輪郭・残存q・経時差で表示。遠景記号と確定生態を維持。死亡時造形保存/死骸上寄生原画/遠景死骸輪郭は残る。 詳細: operations/evidence/parasite-remains-v4.2.5/README.md。
+			下層7対象の相と年齢を独立表示し、量/消耗/環境差と浮遊微藻の散在形を接続。近景の重なり選択を補正。主系統の固有雌雄/年齢/階級差は残る。 詳細: operations/evidence/lower-states-v4.2.6/README.md。
 	B5.4:（A1, A2, A1.2 / 最終結果図鑑と再生・新規保存）［草案］
 		構成（要素・関係）:
 			valis/nodes/B/B5.4.md。最終結果図鑑と再生・新規保存。
@@ -257,7 +257,7 @@ C4:（A2, B5 / Electron と Windows 配布）［草案］
 	ロジック:
 		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
 	実態:
-		4.2.5のWindows配布を生成し、寄生/死骸の描画・共通座標・manifest・原画の同梱一致を確認。実Windows起動は未実施。 詳細: operations/evidence/parasite-remains-v4.2.5/README.md。
+		4.2.6 Windows配布を生成。下層描画/選択補正/food参照と既存原画の同梱一致を確認。実Windows起動は未実施。 詳細: operations/evidence/lower-states-v4.2.6/README.md。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -332,7 +332,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 		ロジック:
 			実タイルから地形/深浅/8環境のマスクを生成し、視野内だけ高解像度で合成。遠景は全位置記号、近景は描き込んだ景観。輪郭影と局所遮蔽を使い、装飾を新たな生態/障害物としない。
 		実態:
-			4.2.5でP/Q/探索の近景原画、生活環割当、共通選択座標、死骸の量/経時/陸水差を接続。原画35PNG・生態不変。雌雄/年齢の固有差と下層差は残る。 詳細: operations/evidence/parasite-remains-v4.2.5/README.md。
+			4.2.6で下層7対象の量/年齢/環境と浮遊微藻の専用形を接続。food12矩形補正、近景選択の競合補正。主/寄生原画・遠景・生態不変。 詳細: operations/evidence/lower-states-v4.2.6/README.md。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -377,7 +377,7 @@ D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	ロジック:
 		C4と対象版を照合して配布物そのものを実行する。
 	実態:
-		Windows4.2.5の生成と変更描画/素材の同梱一致を確認。実Windows起動/性能の新検証は未実施。 詳細: operations/evidence/parasite-remains-v4.2.5/README.md。
+		Windows4.2.6の生成と変更描画/参照/原画の同梱一致を確認。実Windows起動/性能は未実施。 詳細: operations/evidence/lower-states-v4.2.6/README.md。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -431,7 +431,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		4.2.5の専用97確認と相分離22確認、display-plane3/構造1、素材検査を実施。遠景/簡略は変更前一致。密集全条件/長期/Windows実機は対象外。 詳細: operations/evidence/parasite-remains-v4.2.5/README.md。
+		4.2.6の下層126条件・8環境・容量8モード・重なり選択と相分離、遠景/簡略一致を限定確認。寄生死骸97、単体構造4、素材検査も通過。 詳細: operations/evidence/lower-states-v4.2.6/README.md。
 ```
 
 ## E：検証証跡
@@ -482,13 +482,13 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		parasite-remains-v4.2.5へ近景P/Q/探索・死骸の専用97/相分離22/単体構造4と実画像を記録。生態不変。Windows実機と長期バランスは未確認。 詳細: operations/evidence/parasite-remains-v4.2.5/README.md。
+		lower-states-v4.2.6へ下層126条件・比較10枚、近景選択、寄生死骸回帰を記録。全密集・長期生態・Windows実機は未確認。 詳細: operations/evidence/lower-states-v4.2.6/README.md。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
 	ロジック:
 		対象SHAと版が一致するWindows4.1の配布/実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		Windows4.2.5配布生成と描画/参照/原画同梱の一致を記録。実Windows起動/性能は未実施。 詳細: operations/evidence/parasite-remains-v4.2.5/README.md。
+		Windows4.2.6配布生成と下層描画/選択/原画参照の同梱一致を記録。実Windows起動/性能は未実施。 詳細: operations/evidence/lower-states-v4.2.6/README.md。
 
 ```

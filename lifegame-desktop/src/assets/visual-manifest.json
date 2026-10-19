@@ -1,6 +1,6 @@
 {
-  "version": "parasite-remains/4.2.5",
-  "source": "Preserve all artwork; connect host/search P/Q and remains. Correct only the nine parasite crop rectangles to full existing bodies.",
+  "version": "lower-states/4.2.6",
+  "source": "Preserve all PNG artwork; add lower-organism biomass/age/climate transforms and dispersed phytoplankton cells. Correct food atlas crop rectangles only.",
   "sheets": {
     "life-a": {
       "file": "life-a.png",
@@ -850,86 +850,86 @@
     "regions": {
       "algae": [
         [
-          0,
-          0,
-          384,
-          341
+          40,
+          102,
+          286,
+          235
         ],
         [
-          384,
-          0,
-          384,
-          341
+          362,
+          38,
+          412,
+          307
         ]
       ],
       "moss": [
         [
-          768,
-          0,
-          384,
-          341
+          790,
+          55,
+          302,
+          305
         ],
         [
-          1152,
-          0,
-          384,
-          341
+          1092,
+          32,
+          444,
+          338
         ]
       ],
       "grass": [
         [
-          0,
-          341,
-          384,
-          342
+          12,
+          412,
+          272,
+          243
         ],
         [
-          384,
-          341,
-          384,
-          342
+          289,
+          338,
+          504,
+          349
         ]
       ],
       "fungus": [
         [
-          768,
-          341,
-          384,
-          342
+          797,
+          450,
+          257,
+          247
         ],
         [
-          1152,
-          341,
-          384,
-          342
+          1061,
+          369,
+          471,
+          344
         ]
       ],
       "waterbug": [
         [
-          0,
-          683,
-          384,
-          341
+          40,
+          755,
+          223,
+          179
         ],
         [
-          384,
-          683,
-          384,
-          341
+          282,
+          679,
+          547,
+          329
         ]
       ],
       "grassbug": [
         [
-          768,
-          683,
-          384,
-          341
+          785,
+          764,
+          326,
+          191
         ],
         [
-          1152,
-          683,
-          384,
-          341
+          1080,
+          681,
+          454,
+          293
         ]
       ]
     }

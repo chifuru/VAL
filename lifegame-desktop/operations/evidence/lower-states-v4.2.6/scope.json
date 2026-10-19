@@ -1,0 +1,17 @@
+{
+  "changed": [
+    "src/Index.html",
+    "src/ecology/art.js",
+    "src/ecology/renderer.js",
+    "src/assets/visual-manifest.js",
+    "src/assets/visual-manifest.json"
+  ],
+  "all35PNGsUnchanged": true,
+  "biologyUnchanged": true,
+  "replayFormatUnchanged": true,
+  "nonFoodRegionsUnchanged": true,
+  "mainAndParasiteArtworkFunctionsUnchanged": true,
+  "rendererDrawingUnchanged": true,
+  "rendererHitSelectionOnly": true,
+  "foodCropFrames": 12
+}
