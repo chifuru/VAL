@@ -166,6 +166,7 @@
       infectedHosts: 0,
       highParasites: 0,
     };
+    const deathAppearances=new Map();
     let world = null,
       P = null,
       scene = null,
@@ -178,7 +179,7 @@
       revision = 0,
       lastFrameKey = null,
       layout = null, layoutWorld = null, layoutEnabled = null, layoutDetail = null,
-      previousActors = new Map(), hitRegions = [];
+      previousActors = new Map(), previousCorpses = new Map(), hitRegions = [];
     function displayLayout(){
       const detail=view.scale>=24&&view.mode!=="overview"&&!view.simplified;
       if(layoutWorld!==world||layoutEnabled!==view.planeSeparation||layoutDetail!==detail){
@@ -201,6 +202,11 @@
     }
     function setWorld(w, restartMotion = false) {
       revision++;
+      if(world && (w.turn<world.turn || w.config.seed!==world.config.seed))deathAppearances.clear();
+      const deadIds=new Set(w.carcasses.map(a=>a.id));
+      for(const id of deathAppearances.keys())if(!deadIds.has(id))deathAppearances.delete(id);
+      for(const ev of w.events||[])if(ev.type==="death"&&ev.appearance){const id="c:"+ev.id+":"+w.turn;if(deadIds.has(id))deathAppearances.set(id,structuredClone(ev.appearance));}
+      previousCorpses = new Map((world?.carcasses || []).map(o=>[o.id,o]));
       previousActors = new Map((world?.organisms || []).map(o=>[o.id,o]));
       world = w;
       const key = [
@@ -307,6 +313,8 @@
         parasiteArt: 0,
         remainsArt: 0,
         carcassParasites: 0,
+        deathSnapshots: 0,
+        motionKinds: {},
         statusBadges: 0,
         nameLabels: { main:0, basal:0, prey:0, P:0, Q:0, resource:0 },
         highlightedCells: [],
@@ -515,7 +523,8 @@
         if(actor.carcass){
           const a=actor.carcass;
           diagnostics.carcasses++;
-          if(Art.remains(g,a,...p,.16,P.water(w.tiles[a.cell]),w.turn))diagnostics.remainsArt++;
+          const appearance=deathAppearances.get(a.id);if(appearance)diagnostics.deathSnapshots++;
+          if(Art.remains(g,appearance?{...a,appearance}:a,...p,.16,P.water(w.tiles[a.cell]),w.turn))diagnostics.remainsArt++;
           hitRegions.push({id:a.id,cell:a.cell,main:false,x:p[0],y:p[1],rx:.23,ry:.12});
           corpsePayload(a);
           continue;
@@ -736,50 +745,37 @@
           if (ev.type === "move") continue;
           g.save();
           g.globalAlpha = 1 - age;
-          g.strokeStyle =
-            ev.type === "attack"
-              ? "#ffaf84"
-              : ev.type === "infection"
-                ? "#d6a3ff"
-                : "#e9eab0";
-          g.lineWidth = 0.035;
-          if (["attack", "feed", "care"].includes(ev.type)) {
-            const target=w.organisms.find(a=>a.id===ev.target)||(previousActors.has(ev.target)?{...previousActors.get(ev.target),cell:ev.to??previousActors.get(ev.target).cell}:null),
+          const feedKind=ev.sourceType==="carcass"?"scavenge":ev.sourceType==="plant"?(ev.tag==="plant"?"graze":ev.tag==="fungal"?"fungal":"predate"):"absorb",
+            kind=ev.type==="feed"?feedKind:ev.type;
+          diagnostics.motionKinds[kind]=(diagnostics.motionKinds[kind]||0)+1;
+          g.strokeStyle=({attack:"#ffa47c",defend:"#9edfff",graze:"#b1e59a",predate:"#ffcb88",scavenge:"#d9ad91",fungal:"#d7bbef",absorb:"#b6e8dc",care:"#bce7b1",infection:"#d3a2ff",clear:"#eff7ed",birth:"#ffe3a0",growth:"#a7eeef"})[kind]||"#e9eab0";g.lineWidth=.025;
+          if(["attack","feed","care"].includes(ev.type)){
+            const targetId=ev.target||ev.source,
+              target=w.organisms.find(a=>a.id===targetId)||(previousActors.has(targetId)?{...previousActors.get(targetId),cell:ev.to??previousActors.get(targetId).cell}:null),
+              corpse=coordinates.entity(targetId),oldCorpse=previousCorpses.get(targetId),resourceIndex=ev.sourceType==="resource"?Object.keys(S.FOOD).indexOf(String(ev.source).split(":").at(-1)):-1,
+              sourcePoint=oldCorpse?position(ev.to??oldCorpse.cell,oldCorpse.slot==="food"?.22:oldCorpse.slot==="prey"?.52:.86,.86):resourceIndex>=0?position(ev.to??o.cell,.12+(resourceIndex%4)*.23,.12+Math.floor(resourceIndex/4)*.2):null,
               endpoint=target?coordinates.anchor(target,age,events.get(target.id)?.find(e=>e.type==='move')):null,
-              t=endpoint?[endpoint.point[0],endpoint.point[1]-(detail?(target.slot==='main'?.18:.03):0)]:position(ev.to??o.cell);
-            if(o.id===view.selectedEntity)diagnostics.selectedMotionEndpoints={id:o.id,target:ev.target,from:[cx,cy],to:t};
-            g.beginPath();
-            g.moveTo(cx, cy);
-            g.quadraticCurveTo(
-              (cx + t[0]) / 2,
-              Math.min(cy, t[1]) - 0.22,
-              ...t,
-            );
-            g.stroke();
-            for (let j = 0; j < 3; j++) {
-              g.fillStyle = g.strokeStyle;
-              g.beginPath();
-              g.arc(
-                cx + (t[0] - cx) * age,
-                cy + (t[1] - cy) * age - j * 0.04,
-                0.018,
-                0,
-                7,
-              );
-              g.fill();
+              t=endpoint?[endpoint.point[0],endpoint.point[1]-(detail?(target.slot==='main'?.18:.03):0)]:corpse?.point||sourcePoint||position(ev.to??o.cell);
+            if(o.id===view.selectedEntity)diagnostics.selectedMotionEndpoints={id:o.id,target:targetId,from:[cx,cy],to:t};
+            g.beginPath();g.moveTo(cx,cy);
+            if(ev.type==="attack")g.lineTo(...t);else g.quadraticCurveTo((cx+t[0])/2,Math.min(cy,t[1])-.22,...t);g.stroke();
+            if(ev.type==="attack"){
+              if(ev.actualDamage>0){g.beginPath();g.moveTo(t[0]-.07,t[1]-.09);g.lineTo(t[0]+.07,t[1]+.09);g.moveTo(t[0]+.07,t[1]-.09);g.lineTo(t[0]-.07,t[1]+.09);g.stroke();diagnostics.motionKinds.hit=(diagnostics.motionKinds.hit||0)+1;}
+              if(ev.mitigated>0){g.strokeStyle="#a9e1ff";g.beginPath();g.arc(...t,.15,-2.5,-.6);g.stroke();diagnostics.motionKinds.block=(diagnostics.motionKinds.block||0)+1;}
+            }else{
+              const from=ev.type==="feed"?t:[cx,cy],to=ev.type==="feed"?[cx,cy]:t;
+              for(let j=0;j<3;j++){const u=Math.max(0,age-j*.08);g.fillStyle=g.strokeStyle;g.beginPath();g.arc(from[0]+(to[0]-from[0])*u,from[1]+(to[1]-from[1])*u,.018,0,7);g.fill();}
             }
-          } else {
-            g.beginPath();
-            g.ellipse(
-              cx,
-              cy,
-              r + age * 0.2,
-              (r + age * 0.2) * 0.6,
-              0,
-              0,
-              Math.PI * 2,
-            );
-            g.stroke();
+          }else if(ev.type==="defend"){
+            g.beginPath();g.moveTo(cx-.12,cy-.10);g.lineTo(cx+.12,cy-.10);g.lineTo(cx+.10,cy+.06);g.lineTo(cx,cy+.15);g.lineTo(cx-.10,cy+.06);g.closePath();g.stroke();
+          }else if(ev.type==="clear"){
+            for(const d of [-1,1]){g.beginPath();g.moveTo(cx+d*.06,cy-.03);g.lineTo(cx+d*(.13+age*.12),cy-.15);g.stroke();}
+          }else if(ev.type==="growth"){
+            for(const dy of [0,.10]){g.beginPath();g.moveTo(cx-.10,cy+dy);g.lineTo(cx,cy-.10+dy);g.lineTo(cx+.10,cy+dy);g.stroke();}
+          }else if(ev.type==="birth"){
+            for(let j=0;j<6;j++){const t=j*Math.PI/3;g.beginPath();g.moveTo(cx+Math.cos(t)*.08,cy+Math.sin(t)*.08);g.lineTo(cx+Math.cos(t)*(.14+age*.10),cy+Math.sin(t)*(.14+age*.10));g.stroke();}
+          }else{
+            g.beginPath();g.ellipse(cx,cy,r+age*.2,(r+age*.2)*.6,0,0,Math.PI*2);g.stroke();
           }
           g.restore();
         }
@@ -937,6 +933,7 @@
       screen,
       cellAt,
       hitAt,
+      deathAppearance: id=>{const a=deathAppearances.get(id);return a?structuredClone(a):null;},
       zoom,
       creature,
     };

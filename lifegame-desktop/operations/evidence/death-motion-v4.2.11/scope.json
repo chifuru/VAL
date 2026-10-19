@@ -1,0 +1,24 @@
+{
+  "changed": [
+    "src/Index.html",
+    "src/app.js",
+    "src/ecology/art.js",
+    "src/ecology/observation-modules.js",
+    "src/ecology/renderer.js",
+    "src/ecology/replay-version.js",
+    "src/ecology/archive.js",
+    "src/ecology/nutrition.js",
+    "src/ecology/behavior.js"
+  ],
+  "oldNewProfiles": 8,
+  "turnsPerProfile": 30,
+  "biologicalFingerprintsAndStatisticsEqual": true,
+  "all35PNGsAnd183BranchRegionsUnchanged": true,
+  "deathMetadataInEventsOnly": true,
+  "archiveSchemaUnchanged": true,
+  "replaySignatureUpdated": true,
+  "explicitSingleLegacyAlias": true,
+  "uiChecks": 384,
+  "archiveTests": 4,
+  "long500AndNativeWindowsNotTested": true
+}

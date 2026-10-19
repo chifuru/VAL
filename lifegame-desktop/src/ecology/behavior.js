@@ -724,6 +724,9 @@
         actual = Math.min(target.HP, total);
       for (const h of hits) {
         const share = (actual * h.damage) / total;
+        // Presentation facts only; these values are never read by action resolution.
+        const event=ctx.events.get(h.o.id)?.find(e=>e.type==="attack"&&e.target===id);
+        if(event){event.actualDamage=share;event.mitigated=h.mitigated;}
         ctx.records.get(h.o.id).dealt += share;
         ctx.records.get(id).mitigated += h.mitigated;
       }

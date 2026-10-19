@@ -2,6 +2,8 @@
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.EcoArchive=api;})(globalThis,function(){
  'use strict';
  const KEY='lifegame.results.v1',LIMIT=100;
+ // 4.2.11 adds presentation facts only. This single alias is covered by old/new model equality.
+ const replayAliases={'8119156dc6760f78ba8ab02a683390562e262802fd977d85de27115b15c38c48':['cbab69c80c0122ff99a6ded0528f10e7c4070652a587aa0468c868678437e7fe']};
  function create(storage,engine,signature){
   function list(){
    const raw=storage.getItem(KEY);if(!raw)return [];
@@ -17,7 +19,7 @@
    storage.setItem(KEY,JSON.stringify([record,...rows]));return true;
   }
   function remove(id){storage.setItem(KEY,JSON.stringify(list().filter(r=>r.id!==id)));}
-  function replay(id){const r=list().find(r=>r.id===id);if(!r)throw Error('観測記録が見つかりません。');if(r.signature!==signature)throw Error('計算版が異なるため同じ結果を再現できません。この記録は再生できません。');if(r.config.landscape==='templates'&&!r.config.mapResolved)throw Error('地形の識別情報がないため再生できません。');return structuredClone(r);}
+  function replay(id){const r=list().find(r=>r.id===id);if(!r)throw Error('観測記録が見つかりません。');if(r.signature!==signature&&!replayAliases[signature]?.includes(r.signature))throw Error('計算版が異なるため同じ結果を再現できません。この記録は再生できません。');if(r.config.landscape==='templates'&&!r.config.mapResolved)throw Error('地形の識別情報がないため再生できません。');return structuredClone(r);}
   return {list,capture,save,remove,replay,limit:LIMIT};
  }
  return {create,KEY};

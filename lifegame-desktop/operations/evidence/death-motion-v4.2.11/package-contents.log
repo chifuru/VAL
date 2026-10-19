@@ -1,0 +1,12 @@
+MATCH src/app.js
+MATCH src/Index.html
+MATCH src/ecology/art.js
+MATCH src/ecology/renderer.js
+MATCH src/ecology/archive.js
+MATCH src/ecology/nutrition.js
+MATCH src/ecology/behavior.js
+MATCH src/ecology/observation-modules.js
+MATCH src/ecology/replay-version.js
+MATCH src/assets/visual-manifest.json
+MATCH src/assets/swarm-branches-v423.png
+PASS package4.2.11; native Windows execution not tested

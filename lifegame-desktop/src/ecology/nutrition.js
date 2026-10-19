@@ -481,6 +481,7 @@
         }
         S.record(ctx, o, "feed", {
           source: a.id,
+          sourceType: a.type,
           sourceSpecies: obj.species || null,
           to: a.cell,
           amount: amount.E,
@@ -579,7 +580,11 @@
       if (ctx.harvestDead.has(o.id)) reason = "harvest";
       if (!reason && o.age >= p.life) reason = "age";
       if (reason) {
-        S.record(ctx, o, "death", { reason });
+        S.record(ctx, o, "death", { reason, appearance: {
+          species:o.species,phase:o.phase,branch3:o.branch3,branch4:o.branch4,
+          sex:o.sex,role:o.role,age:o.age,birthLife:o.birthLife,facing:o.facing,
+          dna:{...o.dna}
+        } });
         ctx.deaths.push({ species: o.species, reason, ...(w.config.ecologyRevision === "observation/4.1" ? {id:o.id,generation:o.generation,ageStage:ctx.traits.get(o.id).ageStage} : {}) });
         carcass(w, o, ctx);
       } else survivors.push(o);

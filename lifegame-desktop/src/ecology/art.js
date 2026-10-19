@@ -553,10 +553,12 @@
       elapsed = Math.max(0, turn - a.created),
       duration = Math.max(1, (a.expires ?? a.created + 12) - a.created),
       weather = Math.min(2, Math.floor(elapsed / duration * 3)),
-      key = [a.species, amount, weather, !!water].join("/");
+      key = [a.species, amount, weather, !!water, JSON.stringify(a.appearance||null)].join("/");
     let frame = remainsFrames.get(key);
     if (!frame) {
-      const original = cleanFrame(im, f, true), c = document.createElement("canvas");
+      let original=cleanFrame(im,f,true);
+      if(a.appearance){const body=document.createElement("canvas");body.width=body.height=192;creature(body.getContext("2d"),a.appearance,96,96,58);original=body;}
+      const c = document.createElement("canvas");
       c.width = 192; c.height = 192;
       const n = c.getContext("2d");
       n.filter = `grayscale(${.65 + weather * .12}) brightness(${.80 - weather * .08})`;
