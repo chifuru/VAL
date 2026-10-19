@@ -1,0 +1,149 @@
+{
+  "checkedStates": 2004,
+  "observerCacheStates": 28,
+  "disabledReferenceStates": 28,
+  "productionReferenceUniqueStates": 14,
+  "sourceHashesMatched": true,
+  "summary": [
+    {
+      "id": "custom",
+      "treatment": "mixed",
+      "states": 501,
+      "main": 104,
+      "food": 1222,
+      "P": 92,
+      "Q": 0,
+      "prey": {
+        "waterbug": {
+          "initial": 46,
+          "final": 0,
+          "births": 124,
+          "lastAlive": 157,
+          "descendantReproduced": 69
+        },
+        "grassbug": {
+          "initial": 65,
+          "final": 620,
+          "births": 14977,
+          "lastAlive": 500,
+          "descendantReproduced": 8530
+        }
+      },
+      "externalInputs": {
+        "E": 214518.900691,
+        "M": 24418.051927
+      },
+      "environmentEstablished": {
+        "algae": 95,
+        "grass": 1263
+      },
+      "maxEnergyResidual": 0,
+      "maxMaterialResidual": 0
+    },
+    {
+      "id": "custom",
+      "treatment": "lower-only",
+      "states": 501,
+      "main": 0,
+      "food": 1423,
+      "P": 0,
+      "Q": 0,
+      "prey": {
+        "waterbug": {
+          "initial": 46,
+          "final": 0,
+          "births": 148,
+          "lastAlive": 251,
+          "descendantReproduced": 90
+        },
+        "grassbug": {
+          "initial": 65,
+          "final": 623,
+          "births": 9840,
+          "lastAlive": 500,
+          "descendantReproduced": 7108
+        }
+      },
+      "externalInputs": {
+        "E": 154051.289011,
+        "M": 13859.864919
+      },
+      "environmentEstablished": {
+        "algae": 61,
+        "grass": 805
+      },
+      "maxEnergyResidual": 0,
+      "maxMaterialResidual": 0
+    },
+    {
+      "id": "lake",
+      "treatment": "mixed",
+      "states": 501,
+      "main": 104,
+      "food": 1089,
+      "P": 193,
+      "Q": 0,
+      "prey": {
+        "waterbug": {
+          "initial": 71,
+          "final": 47,
+          "births": 858,
+          "lastAlive": 500,
+          "descendantReproduced": 492
+        },
+        "grassbug": {
+          "initial": 96,
+          "final": 552,
+          "births": 11672,
+          "lastAlive": 500,
+          "descendantReproduced": 7276
+        }
+      },
+      "externalInputs": {
+        "E": 137452.5624,
+        "M": 24156.816654
+      },
+      "environmentEstablished": {
+        "grass": 1111,
+        "algae": 134
+      },
+      "maxEnergyResidual": 0,
+      "maxMaterialResidual": 0
+    },
+    {
+      "id": "lake",
+      "treatment": "lower-only",
+      "states": 501,
+      "main": 0,
+      "food": 1513,
+      "P": 0,
+      "Q": 0,
+      "prey": {
+        "waterbug": {
+          "initial": 71,
+          "final": 79,
+          "births": 957,
+          "lastAlive": 500,
+          "descendantReproduced": 676
+        },
+        "grassbug": {
+          "initial": 96,
+          "final": 578,
+          "births": 9176,
+          "lastAlive": 500,
+          "descendantReproduced": 6565
+        }
+      },
+      "externalInputs": {
+        "E": 91460.23978,
+        "M": 8972.629324
+      },
+      "environmentEstablished": {
+        "grass": 534,
+        "algae": 41
+      },
+      "maxEnergyResidual": 0,
+      "maxMaterialResidual": 0
+    }
+  ]
+}

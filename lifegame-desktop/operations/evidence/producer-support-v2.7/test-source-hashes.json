@@ -1,0 +1,6 @@
+{
+  "tests/producer-support.test.cjs": "d8c56d96e21bdf159d3502816f9430d94ea827f83d9aa4f0fc32a974597994d4",
+  "tests/layered-primary.test.cjs": "ce8bab755656863f0cd297a310fdd7a0c4ebf2cafa5c0faefeeeec17f37f051f",
+  "tests/feeding-regression.test.cjs": "c0acf5d338eae2f264d94c850a5346030567d2511eb2742f696c7489c8bae48d",
+  "tests/ecology-fixtures.cjs": "8903c4218992f446defa3250ee9fe65d3ed4f96b463424f22de0ed59e449713f"
+}

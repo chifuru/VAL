@@ -1,0 +1,28 @@
+✔ ordinary producers never consume neighboring living plants and still absorb soil minerals (22.635305ms)
+✔ moving prey accepts plants but not neighboring fungi (1.816757ms)
+✔ carnivorous plant symbiont photosynthesizes, hunts prey and rejects plant harvest or main attacks (4.034629ms)
+✔ kelp accepts animal-derived finite stores, while ordinary plants reject organic stores and corpses (3.807097ms)
+✔ fungal decomposers never graze living producers, even through forced harvest (3.475146ms)
+✔ independent basal and prey maps allow overlap and reject duplicates within one layer (3.024116ms)
+✔ prey moves onto live producers and same-cell feeding transfers finite stock (2.994912ms)
+✔ prey can be born on a producer cell without deleting it or bypassing birth payment (3.344839ms)
+✔ main predators retain attack access to prey overlapping producers (2.09713ms)
+✔ parasite contact still reaches the primary consumer layer (3.017617ms)
+✔ layer split preserves initial terrain, species, positions and finite budgets (342.960821ms)
+✔ overlapping producer and prey corpses retain separate origins and conserve finite stocks (2.541078ms)
+✔ support settings validate finite bounds and nonoverlapping stress intervals (0.771923ms)
+✔ disabled support exactly preserves the layered reference without adding state (3529.934442ms)
+✔ strong grazing consumes finite leaves while supported basal organisms persist (14.08049ms)
+✔ supply stop has zero external input, exhausts reserve and causes producer loss (35.477407ms)
+✔ restored support establishes new IDs with explicit origin and separate observation counts (39.519318ms)
+✔ external ledger cannot hide missing or double-counted input and leaves original baselines intact (7.181233ms)
+✔ producer support never creates animal or parasite populations (35.873376ms)
+✔ non-finite external ledger values and mid-run reconfiguration are rejected (12.536732ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4118.136571
