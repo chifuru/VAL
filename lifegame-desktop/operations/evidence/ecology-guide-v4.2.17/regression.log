@@ -1,0 +1,13 @@
+✔ tests/ecology-parasites.test.cjs (113.562414ms)
+✔ tests/ecology-reproduction.test.cjs (126.771728ms)
+✔ tests/observation-model.test.cjs (10449.141228ms)
+✔ tests/parasite-contact.test.cjs (99.694971ms)
+✔ tests/staged-turn.test.cjs (8579.751729ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19378.935949

@@ -2,7 +2,7 @@
 
 lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Node、仕様と資料の入口は `design/specification/README.md`。
 
-全残件の現在入口: `operations/plans/remaining-completion-v4.2.md`。製品4.2.16の種別/PQ初期数は `operations/evidence/founder-counts-v4.2.16/README.md`、全期間記録は `operations/evidence/archive-history-v4.2.15/README.md`。次は生態必須機能/説明の照合。最終外観/性能・500T/実Windows確認は残る。
+全残件の現在入口: `operations/plans/remaining-completion-v4.2.md`。製品4.2.17の生態/説明照合は `operations/evidence/ecology-guide-v4.2.17/README.md`。種別初期数と全期間記録は接続済み。次は工程8の要所・循環・寄生/情報観測の照合。最終外観/性能・500T/実Windows確認は残る。
 
 ## A：仕様
 
@@ -176,7 +176,7 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 		ロジック:
 			基本から特殊生態へ説明。繁殖資格、P負担/排除、Q限定窓と行動効果、関係回数/継続性を明示。 通行と費用、領域の有限利益、複雑さ3観点と安定性との違い、情報の媒介元/撹乱を説明。
 		実態:
-			4.2.12で添付の左右配置を維持し、円グラフ＋右総括/広がり・多様さ・持続性の文章と薄い根拠数値へ限定接続。未観測を捏造せず、下部関係図/ピラミッド・3パネル全配置は後続。
+			4.2.17で3枠/供給/独立行動/水中生産者/年齢成熟を現行説明へ、P樹のIII条件を年齢へ修正。Q説明と樹を優遇別成長・実初期数へ連動。生態source/署名/原画は不変。工程8全体・500T/最終外観/実Windowsは未完。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
 
 	B5.3:（A1.1, A1.2, A1.3, A1.5, A1.6 / 確定した行動のモーション表示）［草案］
 		構成（要素・関係）:
@@ -259,7 +259,7 @@ C4:（A2, B5 / Electron と Windows 配布）［草案］
 	ロジック:
 		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
 	実態:
-		Windows4.2.16生成と変更src6ファイル・原画35PNGの同梱一致を確認。初期数指定により生態署名は更新、無指定の旧8優遇×2条件×30Tの指紋/統計一致を確認。実Windows起動/性能は未実施。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
+		Windows4.2.17生成と変更src2ファイル・原画35PNGの同梱一致を確認。生態source/署名/原画は不変。実Windows起動/性能は未実施。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -327,7 +327,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 	ロジック:
 		確定世界を観察し、操作や拡大を生態計算から分ける。
 	実態:
-		4.2.16で非主7種とP2種/Qの初期直接数、空欄自動/明示0、指定種の代替禁止、第一宿主/探索条件の不足案内、指定/実配置の保存再生を接続。無指定の旧8優遇×2条件×30Tの生態指紋/統計一致。500T/実Windows/最終外観は未確認。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
+		4.2.17で3枠/供給/独立行動/水中生産者/年齢成熟を現行説明へ、P樹のIII条件を年齢へ修正。Q説明と樹を優遇別成長・実初期数へ連動。生態source/署名/原画は不変。工程8全体・500T/最終外観/実Windowsは未完。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
 			valis/nodes/C/C8.1.md。projection/scenery/habitat/art/renderer、生物/地物10原画と背景11素材。契約: operations/plans/habitat-visual-v3.1.md。
@@ -379,7 +379,7 @@ D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	ロジック:
 		C4と対象版を照合して配布物そのものを実行する。
 	実態:
-		Windows4.2.16生成と変更src6ファイル・原画35PNGの同梱一致を確認。初期数指定により生態署名は更新、無指定の旧8優遇×2条件×30Tの指紋/統計一致を確認。実Windows起動/性能は未実施。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
+		Windows4.2.17生成と変更src2ファイル・原画35PNGの同梱一致を確認。生態source/署名/原画は不変。実Windows起動/性能は未実施。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -411,7 +411,7 @@ D8:（C7 / 生態循環と結合進行）［草案］
 	ロジック:
 		存続・出生・資源・特殊生態の結合を対象条件付きで調べる。
 	実態:
-		新単体8件、旧8優遇×2条件×30Tの指紋/統計一致、関連5ファイル回帰、Linux Chromium29項目の正確配置/宿主・適地不足/前世界保持/再試行/取消/Worker同期一致/保存再生を確認。新500T生存認定は未実施。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
+		36地形条件の既定陸水経路と製品2profileの年齢成熟/Q感染窓/成長境界を確認。関連5ファイル回帰。全陸域連結/長期生存の認定ではない。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
 	D8.1:（C7.4 / 相・出生・遺伝と繁殖例外）［草案］
 		構成（要素・関係）:
 			valis/nodes/D/D8.1.md。相・出生・遺伝と繁殖例外の計画。
@@ -433,7 +433,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		新単体8件、旧8優遇×2条件×30Tの指紋/統計一致、関連5ファイル回帰、Linux Chromium29項目の正確配置/宿主・適地不足/前世界保持/再試行/取消/Worker同期一致/保存再生を確認。新500T生存認定は未実施。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
+		Linux Chromium32項目で現行説明/優遇ON-OFFのQ樹・説明/初期Q実数/復帰/指紋不変/狭幅を確認。生態source/署名/原画は不変。最終外観/実Windowsは未確認。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
 ```
 
 ## E：検証証跡
@@ -477,20 +477,20 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	ロジック:
 		各対象の実装・仕様・環境と一致する記録範囲に限定して参照する。
 	実態:
-		新単体8件、旧8優遇×2条件×30Tの指紋/統計一致、関連5ファイル回帰、Linux Chromium29項目の正確配置/宿主・適地不足/前世界保持/再試行/取消/Worker同期一致/保存再生を確認。新500T生存認定は未実施。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
+		36地形条件の既定陸水経路と製品2profileの年齢成熟/Q感染窓/成長境界を確認。関連5ファイル回帰。全陸域連結/長期生存の認定ではない。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E6.md。operations/evidence/navigation-recovery-v4.1/source-hashes.json。観察4.1の既存記録と今回の遷移修正を区別。
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		新単体8件、旧8優遇×2条件×30Tの指紋/統計一致、関連5ファイル回帰、Linux Chromium29項目の正確配置/宿主・適地不足/前世界保持/再試行/取消/Worker同期一致/保存再生を確認。新500T生存認定は未実施。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
+		Linux Chromium32項目で現行説明/優遇ON-OFFのQ樹・説明/初期Q実数/復帰/指紋不変/狭幅を確認。生態source/署名/原画は不変。最終外観/実Windowsは未確認。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
 		valis/nodes/E/E7.md。operations/evidence/fast-observation-v4/windows4.0.json、Windows app4.0.0 / 9053ec8。
 	ロジック:
 		対象SHAと版が一致するWindows4.1の配布/実exe・Worker・画像読込・Node非公開の実測で判定する。
 	実態:
-		Windows4.2.16生成と変更src6ファイル・原画35PNGの同梱一致を確認。初期数指定により生態署名は更新、無指定の旧8優遇×2条件×30Tの指紋/統計一致を確認。実Windows起動/性能は未実施。 詳細: operations/evidence/founder-counts-v4.2.16/README.md。
+		Windows4.2.17生成と変更src2ファイル・原画35PNGの同梱一致を確認。生態source/署名/原画は不変。実Windows起動/性能は未実施。 詳細: operations/evidence/ecology-guide-v4.2.17/README.md。
 
 ```

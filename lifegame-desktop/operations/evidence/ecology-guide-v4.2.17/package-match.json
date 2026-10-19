@@ -1,0 +1,10 @@
+{
+  "version": "4.2.17",
+  "changedFiles": [
+    "src/Index.html",
+    "src/app.js"
+  ],
+  "png": 35,
+  "allMatched": true,
+  "nativeWindowsRun": false
+}
