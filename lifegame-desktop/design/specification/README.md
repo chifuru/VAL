@@ -55,4 +55,4 @@
 
 - [一枚の全体説明画像と索引](atlas-v1.3/README.md)、[採用画像と本文の対応](ab-visual-reference-v1.md)。旧画像内の仮表記や旧ルールを現在の仕様にしない。
 - [現在の構造](../../valis/summary/lifegame-desktop.summary.md)、[既存製品の実測範囲](../../operations/evidence/optimization-v4.2.32/README.md)。製品4.2.32と追加A/Bの成立範囲は別に確認する。
-- [既存の全工程計画](../../operations/plans/remaining-completion-v4.2.md)は作業計画でありゲーム仕様の正本ではない。第1〜第4組と比較開始値を反映し、現在は[採用表](decision-register-v1.md)と[実装引継ぎ](observation-state-contract-v1.md#10-実装への引継ぎ順序)に従って採用した初期表と差分/データ対応を接続する。今回の整理からC/D/E・src/tests・画像制作を自動開始しない。
+- [現在の残作業と実行順](../../operations/plans/completion-roadmap-v1.md)は作業計画でありゲーム仕様の正本ではない。[既存工程の参照](../../operations/plans/remaining-completion-v4.2.md)にある旧条件より、対象別正本と現在ロードマップを優先する。[採用表](decision-register-v1.md)と[実装引継ぎ](observation-state-contract-v1.md#10-実装への引継ぎ順序)に従い、量機を含む初期表/差分・データ対応からC/Dへ接続する。今回の残件整理からゲーム実装や画像制作を自動開始しない。
