@@ -1005,8 +1005,11 @@ return {settings,attach,region,level,factor,begin,finish};
   // envelope follows the effective waterbug profile of this observation mode.
   const grassGroupSpec = {...D.byId.grassbug,...Object.fromEntries(
     ['life','maturity','maintenance','birthCooldown','initial','capacity'].map(k=>[k,D.byId.waterbug[k]]) )};
-  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
-    ? grassGroupSpec : D.byId[o.species];
+  const grassBalancedSpec={...grassGroupSpec,life:240,maintenance:.06,birthCooldown:2,
+    initial:[...grassGroupSpec.initial.slice(0,3),30],capacity:[...grassGroupSpec.capacity.slice(0,3),30]};
+  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
+    ? grassBalancedSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
+      ? grassGroupSpec : D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
     Math.max(0, o.B - (FungalColony.is(o) ? o.colony.baseB : spec(o).group === "plant" ? PLANT_BASE : 0));
@@ -1062,7 +1065,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const d={version:'consumer-group-parameters/1',capacity:8,initialSize:4,maxBirths:2,dispersalAt:4};
       if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(d,k)))throw Error('SETTINGS_INVALID: 一次消費者集団');
       const z={...d,...input};
-      if(!['consumer-group-parameters/1','consumer-group-parameters/2'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
+      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
         !['initialSize','maxBirths','dispersalAt'].every(k=>Number.isSafeInteger(z[k])&&z[k]>=1&&z[k]<=z.capacity))throw Error('SETTINGS_INVALID: 一次消費者集団の値');
       return z;
     }
@@ -1071,6 +1074,7 @@ return {settings,attach,region,level,factor,begin,finish};
       if(!enabled(w)||!species.includes(o.species)||is(o))return;
       o.consumerGroup={version:VERSION,establishedAt:w.turn,origin:null,cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:empty(w.turn)};
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/2')o.consumerGroup.grassAdvantage='waterbug/1';
+      if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/3')o.consumerGroup.grassAdvantage='balanced/1';
       delete o.birthLife;
     }
     function compact(o){const by=new Map();for(const c of o.consumerGroup.cohorts)if(c.n>0){const key=c.age+':'+c.phase,old=by.get(key);if(old)old.n+=c.n;else by.set(key,{...c});}
@@ -1090,7 +1094,7 @@ return {settings,attach,region,level,factor,begin,finish};
       for(const o of w.organisms)if(species.includes(o.species)){
         attach(w,o);o.consumerGroup.cohorts=[{age:o.age,phase:o.phase,n:1}];o.consumerGroup.wounds=H.round(Math.max(0,maxHP(o)-o.HP));
         if(o.consumerGroup.grassAdvantage==='waterbug/1'){
-          const source=D.byId.grassbug.initial,target=D.byId.waterbug.initial;
+          const source=D.byId.grassbug.initial,target=spec(o).initial;
           o.E=H.round(o.E+target[0]-source[0]);o.B=H.round(o.B+target[1]-source[1]);
           o.HP=H.round(o.HP*target[3]/source[3]);
           o.consumerGroup.wounds=H.round(Math.max(0,maxHP(o)-o.HP));
@@ -9400,8 +9404,11 @@ return {settings,attach,region,level,factor,begin,finish};
   // envelope follows the effective waterbug profile of this observation mode.
   const grassGroupSpec = {...D.byId.grassbug,...Object.fromEntries(
     ['life','maturity','maintenance','birthCooldown','initial','capacity'].map(k=>[k,D.byId.waterbug[k]]) )};
-  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
-    ? grassGroupSpec : D.byId[o.species];
+  const grassBalancedSpec={...grassGroupSpec,life:240,maintenance:.06,birthCooldown:2,
+    initial:[...grassGroupSpec.initial.slice(0,3),30],capacity:[...grassGroupSpec.capacity.slice(0,3),30]};
+  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
+    ? grassBalancedSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
+      ? grassGroupSpec : D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
     Math.max(0, o.B - (FungalColony.is(o) ? o.colony.baseB : spec(o).group === "plant" ? PLANT_BASE : 0));
@@ -9457,7 +9464,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const d={version:'consumer-group-parameters/1',capacity:8,initialSize:4,maxBirths:2,dispersalAt:4};
       if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(d,k)))throw Error('SETTINGS_INVALID: 一次消費者集団');
       const z={...d,...input};
-      if(!['consumer-group-parameters/1','consumer-group-parameters/2'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
+      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
         !['initialSize','maxBirths','dispersalAt'].every(k=>Number.isSafeInteger(z[k])&&z[k]>=1&&z[k]<=z.capacity))throw Error('SETTINGS_INVALID: 一次消費者集団の値');
       return z;
     }
@@ -9466,6 +9473,7 @@ return {settings,attach,region,level,factor,begin,finish};
       if(!enabled(w)||!species.includes(o.species)||is(o))return;
       o.consumerGroup={version:VERSION,establishedAt:w.turn,origin:null,cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:empty(w.turn)};
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/2')o.consumerGroup.grassAdvantage='waterbug/1';
+      if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/3')o.consumerGroup.grassAdvantage='balanced/1';
       delete o.birthLife;
     }
     function compact(o){const by=new Map();for(const c of o.consumerGroup.cohorts)if(c.n>0){const key=c.age+':'+c.phase,old=by.get(key);if(old)old.n+=c.n;else by.set(key,{...c});}
@@ -9485,7 +9493,7 @@ return {settings,attach,region,level,factor,begin,finish};
       for(const o of w.organisms)if(species.includes(o.species)){
         attach(w,o);o.consumerGroup.cohorts=[{age:o.age,phase:o.phase,n:1}];o.consumerGroup.wounds=H.round(Math.max(0,maxHP(o)-o.HP));
         if(o.consumerGroup.grassAdvantage==='waterbug/1'){
-          const source=D.byId.grassbug.initial,target=D.byId.waterbug.initial;
+          const source=D.byId.grassbug.initial,target=spec(o).initial;
           o.E=H.round(o.E+target[0]-source[0]);o.B=H.round(o.B+target[1]-source[1]);
           o.HP=H.round(o.HP*target[3]/source[3]);
           o.consumerGroup.wounds=H.round(Math.max(0,maxHP(o)-o.HP));
@@ -18195,8 +18203,11 @@ return {settings,attach,region,level,factor,begin,finish};
   // envelope follows the effective waterbug profile of this observation mode.
   const grassGroupSpec = {...D.byId.grassbug,...Object.fromEntries(
     ['life','maturity','maintenance','birthCooldown','initial','capacity'].map(k=>[k,D.byId.waterbug[k]]) )};
-  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
-    ? grassGroupSpec : D.byId[o.species];
+  const grassBalancedSpec={...grassGroupSpec,life:240,maintenance:.06,birthCooldown:2,
+    initial:[...grassGroupSpec.initial.slice(0,3),30],capacity:[...grassGroupSpec.capacity.slice(0,3),30]};
+  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
+    ? grassBalancedSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
+      ? grassGroupSpec : D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
     Math.max(0, o.B - (FungalColony.is(o) ? o.colony.baseB : spec(o).group === "plant" ? PLANT_BASE : 0));
@@ -18252,7 +18263,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const d={version:'consumer-group-parameters/1',capacity:8,initialSize:4,maxBirths:2,dispersalAt:4};
       if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(d,k)))throw Error('SETTINGS_INVALID: 一次消費者集団');
       const z={...d,...input};
-      if(!['consumer-group-parameters/1','consumer-group-parameters/2'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
+      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
         !['initialSize','maxBirths','dispersalAt'].every(k=>Number.isSafeInteger(z[k])&&z[k]>=1&&z[k]<=z.capacity))throw Error('SETTINGS_INVALID: 一次消費者集団の値');
       return z;
     }
@@ -18261,6 +18272,7 @@ return {settings,attach,region,level,factor,begin,finish};
       if(!enabled(w)||!species.includes(o.species)||is(o))return;
       o.consumerGroup={version:VERSION,establishedAt:w.turn,origin:null,cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:empty(w.turn)};
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/2')o.consumerGroup.grassAdvantage='waterbug/1';
+      if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/3')o.consumerGroup.grassAdvantage='balanced/1';
       delete o.birthLife;
     }
     function compact(o){const by=new Map();for(const c of o.consumerGroup.cohorts)if(c.n>0){const key=c.age+':'+c.phase,old=by.get(key);if(old)old.n+=c.n;else by.set(key,{...c});}
@@ -18280,7 +18292,7 @@ return {settings,attach,region,level,factor,begin,finish};
       for(const o of w.organisms)if(species.includes(o.species)){
         attach(w,o);o.consumerGroup.cohorts=[{age:o.age,phase:o.phase,n:1}];o.consumerGroup.wounds=H.round(Math.max(0,maxHP(o)-o.HP));
         if(o.consumerGroup.grassAdvantage==='waterbug/1'){
-          const source=D.byId.grassbug.initial,target=D.byId.waterbug.initial;
+          const source=D.byId.grassbug.initial,target=spec(o).initial;
           o.E=H.round(o.E+target[0]-source[0]);o.B=H.round(o.B+target[1]-source[1]);
           o.HP=H.round(o.HP*target[3]/source[3]);
           o.consumerGroup.wounds=H.round(Math.max(0,maxHP(o)-o.HP));
@@ -22302,8 +22314,11 @@ return {settings,attach,region,level,factor,begin,finish};
   // envelope follows the effective waterbug profile of this observation mode.
   const grassGroupSpec = {...D.byId.grassbug,...Object.fromEntries(
     ['life','maturity','maintenance','birthCooldown','initial','capacity'].map(k=>[k,D.byId.waterbug[k]]) )};
-  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
-    ? grassGroupSpec : D.byId[o.species];
+  const grassBalancedSpec={...grassGroupSpec,life:240,maintenance:.06,birthCooldown:2,
+    initial:[...grassGroupSpec.initial.slice(0,3),30],capacity:[...grassGroupSpec.capacity.slice(0,3),30]};
+  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
+    ? grassBalancedSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
+      ? grassGroupSpec : D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
     Math.max(0, o.B - (FungalColony.is(o) ? o.colony.baseB : spec(o).group === "plant" ? PLANT_BASE : 0));
@@ -22359,7 +22374,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const d={version:'consumer-group-parameters/1',capacity:8,initialSize:4,maxBirths:2,dispersalAt:4};
       if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(d,k)))throw Error('SETTINGS_INVALID: 一次消費者集団');
       const z={...d,...input};
-      if(!['consumer-group-parameters/1','consumer-group-parameters/2'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
+      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
         !['initialSize','maxBirths','dispersalAt'].every(k=>Number.isSafeInteger(z[k])&&z[k]>=1&&z[k]<=z.capacity))throw Error('SETTINGS_INVALID: 一次消費者集団の値');
       return z;
     }
@@ -22368,6 +22383,7 @@ return {settings,attach,region,level,factor,begin,finish};
       if(!enabled(w)||!species.includes(o.species)||is(o))return;
       o.consumerGroup={version:VERSION,establishedAt:w.turn,origin:null,cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:empty(w.turn)};
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/2')o.consumerGroup.grassAdvantage='waterbug/1';
+      if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/3')o.consumerGroup.grassAdvantage='balanced/1';
       delete o.birthLife;
     }
     function compact(o){const by=new Map();for(const c of o.consumerGroup.cohorts)if(c.n>0){const key=c.age+':'+c.phase,old=by.get(key);if(old)old.n+=c.n;else by.set(key,{...c});}
@@ -22387,7 +22403,7 @@ return {settings,attach,region,level,factor,begin,finish};
       for(const o of w.organisms)if(species.includes(o.species)){
         attach(w,o);o.consumerGroup.cohorts=[{age:o.age,phase:o.phase,n:1}];o.consumerGroup.wounds=H.round(Math.max(0,maxHP(o)-o.HP));
         if(o.consumerGroup.grassAdvantage==='waterbug/1'){
-          const source=D.byId.grassbug.initial,target=D.byId.waterbug.initial;
+          const source=D.byId.grassbug.initial,target=spec(o).initial;
           o.E=H.round(o.E+target[0]-source[0]);o.B=H.round(o.B+target[1]-source[1]);
           o.HP=H.round(o.HP*target[3]/source[3]);
           o.consumerGroup.wounds=H.round(Math.max(0,maxHP(o)-o.HP));
@@ -25816,8 +25832,11 @@ return {settings,attach,region,level,factor,begin,finish};
   // envelope follows the effective waterbug profile of this observation mode.
   const grassGroupSpec = {...D.byId.grassbug,...Object.fromEntries(
     ['life','maturity','maintenance','birthCooldown','initial','capacity'].map(k=>[k,D.byId.waterbug[k]]) )};
-  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
-    ? grassGroupSpec : D.byId[o.species];
+  const grassBalancedSpec={...grassGroupSpec,life:240,maintenance:.06,birthCooldown:2,
+    initial:[...grassGroupSpec.initial.slice(0,3),30],capacity:[...grassGroupSpec.capacity.slice(0,3),30]};
+  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
+    ? grassBalancedSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
+      ? grassGroupSpec : D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
     Math.max(0, o.B - (FungalColony.is(o) ? o.colony.baseB : spec(o).group === "plant" ? PLANT_BASE : 0));
@@ -25873,7 +25892,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const d={version:'consumer-group-parameters/1',capacity:8,initialSize:4,maxBirths:2,dispersalAt:4};
       if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(d,k)))throw Error('SETTINGS_INVALID: 一次消費者集団');
       const z={...d,...input};
-      if(!['consumer-group-parameters/1','consumer-group-parameters/2'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
+      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
         !['initialSize','maxBirths','dispersalAt'].every(k=>Number.isSafeInteger(z[k])&&z[k]>=1&&z[k]<=z.capacity))throw Error('SETTINGS_INVALID: 一次消費者集団の値');
       return z;
     }
@@ -25882,6 +25901,7 @@ return {settings,attach,region,level,factor,begin,finish};
       if(!enabled(w)||!species.includes(o.species)||is(o))return;
       o.consumerGroup={version:VERSION,establishedAt:w.turn,origin:null,cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:empty(w.turn)};
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/2')o.consumerGroup.grassAdvantage='waterbug/1';
+      if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/3')o.consumerGroup.grassAdvantage='balanced/1';
       delete o.birthLife;
     }
     function compact(o){const by=new Map();for(const c of o.consumerGroup.cohorts)if(c.n>0){const key=c.age+':'+c.phase,old=by.get(key);if(old)old.n+=c.n;else by.set(key,{...c});}
@@ -25901,7 +25921,7 @@ return {settings,attach,region,level,factor,begin,finish};
       for(const o of w.organisms)if(species.includes(o.species)){
         attach(w,o);o.consumerGroup.cohorts=[{age:o.age,phase:o.phase,n:1}];o.consumerGroup.wounds=H.round(Math.max(0,maxHP(o)-o.HP));
         if(o.consumerGroup.grassAdvantage==='waterbug/1'){
-          const source=D.byId.grassbug.initial,target=D.byId.waterbug.initial;
+          const source=D.byId.grassbug.initial,target=spec(o).initial;
           o.E=H.round(o.E+target[0]-source[0]);o.B=H.round(o.B+target[1]-source[1]);
           o.HP=H.round(o.HP*target[3]/source[3]);
           o.consumerGroup.wounds=H.round(Math.max(0,maxHP(o)-o.HP));

@@ -19,16 +19,28 @@ test('favored grassbug group uses the effective waterbug survival profile; versi
   assert.deepEqual(s.spec(grass).capacity,s.D.byId.waterbug.capacity);
   assert(old.organisms.filter(o=>o.species==='grassbug').every(o=>s.spec(o)===s.D.byId.grassbug));
   assert.deepEqual(model.invariants(favored),[]);
+  const balanced=model.create({...config,consumerGroupSettings:{version:'consumer-group-parameters/3'},initial:12,enabled:{...config.enabled,prey:true}}),balancedGrass=balanced.organisms.find(o=>o.species==='grassbug');
+  assert.equal(s.spec(balancedGrass).life,240);assert.equal(s.spec(balancedGrass).maintenance,.06);
+  assert.equal(s.spec(balancedGrass).birthCooldown,2);assert.equal(s.spec(balancedGrass).capacity[3],30);
+  assert.equal(s.spec(balancedGrass).maturity,s.D.byId.waterbug.maturity);
+  assert.deepEqual(model.invariants(balanced),[]);
  }
 });
 
-test('new favored-group recording replays with its own settings version',()=>{
- const model=M.model(),w0=model.create({...config,consumerGroupSettings:{version:'consumer-group-parameters/2'},initial:12,enabled:{...config.enabled,prey:true}}),
+test('matched and balanced group recordings replay with their own settings version',()=>{
+ for(const version of ['consumer-group-parameters/2','consumer-group-parameters/3']){
+ const model=M.model(),w0=model.create({...config,consumerGroupSettings:{version},initial:12,enabled:{...config.enabled,prey:true}}),
   history=O.create(w0.config,globalThis.EcoReplayVersion,{species:model.S.activeSpecies(w0)});
  history.append(w0);const w=model.step(w0);history.append(w);
  const record=A.create({getItem:()=>null,setItem:()=>{}},model,globalThis.EcoReplayVersion).capture(w,'user',history.snapshot());
- assert.equal(record.config.consumerGroupSettings.version,'consumer-group-parameters/2');
+ assert.equal(record.config.consumerGroupSettings.version,version);
  A.create({getItem:()=>null,setItem:()=>{}},model,globalThis.EcoReplayVersion).replayRecord(record);
+ if(version==='consumer-group-parameters/2'){
+  const previous=structuredClone(record);previous.signature='9d1336a947b3e7357e4902957cedafbd7b7281c5c2dd85843e40d64cb0035dcd';
+  previous.observation.metadata.version=previous.signature;
+  A.create({getItem:()=>null,setItem:()=>{}},model,globalThis.EcoReplayVersion).replayRecord(previous);
+ }
+ }
 });
 
 test('initial local packing preserves individuals, all E/B/M and P/Q; explicit zero remains zero',()=>{

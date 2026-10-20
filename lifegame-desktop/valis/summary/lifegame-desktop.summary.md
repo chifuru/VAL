@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-開発版は4.2.48、Windows配布済み版は4.2.32。現在対象は operations/evidence/i11f-grassbug-favor-v1/README.md。草棲虫・水游虫の小集団を維持し、新規観測の草棲虫へ水游虫相当の生存枠を適用する。旧保存は設定版1で再生する。全系統R1〜R6・P/Q自然循環・性能は未認定。新Windows/ZIPはI12、構成修正は実稼働後。
+開発版は4.2.49、Windows配布済み版は4.2.32。現在対象は operations/evidence/i11g-grassbug-balance-v1/README.md。草棲虫・水游虫の小集団を維持し、新規観測の草棲虫へ過密を抑えた暫定生存枠を適用する。旧保存は設定版1/2を含め保存時の条件で再生する。全系統R1〜R6・P/Q自然循環・性能は未認定。新Windows/ZIPはI12、構成修正は実稼働後。
 
 ## A：仕様
 
@@ -27,11 +27,11 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 
 	A1.2:（A1 / 各マスの環境・餌資源）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.2.md。正本: design/specification/grassbug-favor-v1.md。契約: operations/plans/i11f-grassbug-favor-v1.md。証跡: operations/evidence/i11f-grassbug-favor-v1/README.md。
+			valis/nodes/A/A1.2.md。正本: design/specification/grassbug-balance-v1.md。契約: operations/plans/i11g-grassbug-balance-v1.md。証跡: operations/evidence/i11g-grassbug-balance-v1/README.md。
 		ロジック:
-			下層の生産者/菌膜は群落、草棲虫/水游虫は小集団。草棲虫の新版生存枠は水游虫相当。人数・体量・栄養の有限性を維持。 菌膜の既存群落処理も保持。
+			下層の生産者/菌膜は群落、草棲虫/水游虫は小集団。草棲虫の新版生存枠は過密を抑えた暫定値。人数・体量・栄養の有限性を維持。 菌膜の既存群落処理も保持。
 		実態:
-			4.2.48 / consumer-group-parameters/2を接続。限定確認はI11f証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			4.2.49 / consumer-group-parameters/3を接続。限定確認はI11g証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
 
 	A1.3:（A1 / 性別・繁殖・遺伝）［草案］
 		構成（要素・関係）:
@@ -67,11 +67,11 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 
 	A1.7:（A1 / 共通生物モデルと栄養関係）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.7.md。正本: design/specification/grassbug-favor-v1.md。契約: operations/plans/i11f-grassbug-favor-v1.md。証跡: operations/evidence/i11f-grassbug-favor-v1/README.md。
+			valis/nodes/A/A1.7.md。正本: design/specification/grassbug-balance-v1.md。契約: operations/plans/i11g-grassbug-balance-v1.md。証跡: operations/evidence/i11g-grassbug-balance-v1/README.md。
 		ロジック:
-			内部人数/相/年齢を持つ一次消費者の小集団を採用し、新版のみ草棲虫へ水游虫相当の生存枠を適用。主生物/独立大型植物は個体を維持。 菌膜の既存群落処理も保持。
+			内部人数/相/年齢を持つ一次消費者の小集団を採用し、新版のみ草棲虫へ寿命・維持・待機・HPの暫定値を適用。主生物/独立大型植物は個体を維持。 菌膜の既存群落処理も保持。
 		実態:
-			4.2.48 / consumer-group-parameters/2を接続。限定確認はI11f証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			4.2.49 / consumer-group-parameters/3を接続。限定確認はI11g証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
 
 A2:（起点 / 独立した Windows ローカル実行）［草案］
 	構成（要素・関係）:
@@ -160,11 +160,11 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 
 	B4.4:（A1.7, A1.2, A1.6 / 生産者・餌生物の共通生活処理）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B4.4.md。正本: design/specification/grassbug-favor-v1.md。契約: operations/plans/i11f-grassbug-favor-v1.md。証跡: operations/evidence/i11f-grassbug-favor-v1/README.md。
+			valis/nodes/B/B4.4.md。正本: design/specification/grassbug-balance-v1.md。契約: operations/plans/i11g-grassbug-balance-v1.md。証跡: operations/evidence/i11g-grassbug-balance-v1/README.md。
 		ロジック:
 			部分損失・内部有償出生・局所分散/合流。無償再生/二重出生/集団時計による一斉寿命なし。 菌膜の既存群落処理も保持。
 		実態:
-			4.2.48 / consumer-group-parameters/2を接続。限定確認はI11f証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			4.2.49 / consumer-group-parameters/3を接続。限定確認はI11g証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
 
 B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案］
 	構成（要素・関係）:
@@ -301,11 +301,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 	C7.1:（B4, B4.4 / 初期値・固定世界・31種の共通状態）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.1.md。正本: design/specification/grassbug-favor-v1.md。契約: operations/plans/i11f-grassbug-favor-v1.md。証跡: operations/evidence/i11f-grassbug-favor-v1/README.md。
+			valis/nodes/C/C7.1.md。正本: design/specification/grassbug-balance-v1.md。契約: operations/plans/i11g-grassbug-balance-v1.md。証跡: operations/evidence/i11g-grassbug-balance-v1/README.md。
 		ロジック:
 			有限年齢区分/人数状態、局所初期束ね、初期総人数を保存し、新版の草棲虫蓄え差分を有限初期台帳へ加える。 菌膜の既存群落処理も保持。
 		実態:
-			4.2.48 / consumer-group-parameters/2を接続。限定確認はI11f証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			4.2.49 / consumer-group-parameters/3を接続。限定確認はI11g証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
 
 	C7.2:（B4.3, B4.4 / 有限栄養・資源CA・生産と死骸）［草案］
 		構成（要素・関係）:
@@ -434,11 +434,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 	D8.1:（C7.4 / 相・出生・遺伝と繁殖例外）［草案］
 		構成（要素・関係）:
-			valis/nodes/D/D8.1.md。正本: design/specification/grassbug-favor-v1.md。契約: operations/plans/i11f-grassbug-favor-v1.md。証跡: operations/evidence/i11f-grassbug-favor-v1/README.md。
+			valis/nodes/D/D8.1.md。正本: design/specification/grassbug-balance-v1.md。契約: operations/plans/i11g-grassbug-balance-v1.md。証跡: operations/evidence/i11g-grassbug-balance-v1/README.md。
 		ロジック:
 			内部出生の費用・I/年齢0、分散保存と一斉寿命の回避。
 		実態:
-			4.2.48 / consumer-group-parameters/2を接続。限定確認はI11f証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			4.2.49 / consumer-group-parameters/3を接続。限定確認はI11g証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
 
 	D8.2:（C7.5 / 寄生・高次寄生と情報）［草案］
 		構成（要素・関係）:
@@ -495,11 +495,11 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 
 E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E5.md。正本: design/specification/grassbug-favor-v1.md。契約: operations/plans/i11f-grassbug-favor-v1.md。証跡: operations/evidence/i11f-grassbug-favor-v1/README.md。
+		valis/nodes/E/E5.md。正本: design/specification/grassbug-balance-v1.md。契約: operations/plans/i11g-grassbug-balance-v1.md。証跡: operations/evidence/i11g-grassbug-balance-v1/README.md。
 	ロジック:
-		草棲虫の固定河川・湖50Tと湖500T、旧版再生、有限収支、16項目の画面検査を記録。湖の過密と性能未認定を明記。
+		草棲虫の固定河川・湖50T/500T、旧版再生、有限収支、画面検査を記録。性能未認定を明記。
 	実態:
-		4.2.48 / consumer-group-parameters/2を接続。限定確認はI11f証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+		4.2.49 / consumer-group-parameters/3を接続。限定確認はI11g証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:

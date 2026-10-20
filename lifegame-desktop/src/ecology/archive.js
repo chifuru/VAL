@@ -20,13 +20,16 @@
  const relationshipBuildSignature='a7cac02a9d7382b478919b40c44823ce0d6bb0325b3e551adb1236908c92774d';
  const balanceBuildSignature='95b7405d3e4513acabf2194ed0ed1b9eb79c9ffd566bcc9e0b5f1edc3ca1b889';
  const foodwebBuildSignature='ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97';
- const consumerGroupBuildSignature='9d1336a947b3e7357e4902957cedafbd7b7281c5c2dd85843e40d64cb0035dcd';
+ const consumerGroupBuildSignature='e664191a35beadfb8ee18df8ec8a009028beb3ba246d4ba02f430b48ec39c4a4';
+ const matchedConsumerGroupBuildSignature='9d1336a947b3e7357e4902957cedafbd7b7281c5c2dd85843e40d64cb0035dcd';
  const previousConsumerGroupBuildSignature='6db4142a9987079b6e0a4f6f1f06623fe9b1dd5096763ce2682993aefbb3316c';
  const fungalColonyBuildSignature='90daa5c38dfbc78aa12c79176ff54d5e70f6e90590ff4d2dbcaf2ef5647b56e4';
  const localSurvivalBuildSignature='c78400a515eba25515dd699c1f3f5ba6cc2004c5dc4b992fbf3e4c2d1c6082d9';
  function canonicalSignature(s,config){
-  if(s===consumerGroupBuildSignature&&config.consumerModel==='group/1'&&config.consumerGroupSettings?.version==='consumer-group-parameters/1')s=previousConsumerGroupBuildSignature;
-  if(s===consumerGroupBuildSignature&&config.consumerModel===undefined&&config.consumerGroupSettings===undefined)s=previousConsumerGroupBuildSignature;
+  if(s===consumerGroupBuildSignature&&config.consumerModel==='group/1'&&config.consumerGroupSettings?.version!=='consumer-group-parameters/3')s=matchedConsumerGroupBuildSignature;
+  if(s===consumerGroupBuildSignature&&config.consumerModel===undefined&&config.consumerGroupSettings===undefined)s=matchedConsumerGroupBuildSignature;
+  if(s===matchedConsumerGroupBuildSignature&&config.consumerModel==='group/1'&&config.consumerGroupSettings?.version==='consumer-group-parameters/1')s=previousConsumerGroupBuildSignature;
+  if(s===matchedConsumerGroupBuildSignature&&config.consumerModel===undefined&&config.consumerGroupSettings===undefined)s=previousConsumerGroupBuildSignature;
   if(s===previousConsumerGroupBuildSignature&&config.consumerModel===undefined&&config.consumerGroupSettings===undefined)s=fungalColonyBuildSignature;
   if(s===fungalColonyBuildSignature&&config.balanceModel!=='survival/4')s=localSurvivalBuildSignature;
   if(s===localSurvivalBuildSignature&&config.balanceModel!=='survival/3')s=foodwebBuildSignature;
