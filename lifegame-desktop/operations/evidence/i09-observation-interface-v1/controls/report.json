@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "checks": [
+    "manual pause cancels an uncommitted preview without losing or duplicating all-turn rows",
+    "manual pause remains stopped",
+    "the same top-right button resumes after a staged manual pause",
+    "lineage highlights sidebar display toggles zoom and graph target keep observation running",
+    "guide transition rolls back only the pending preview and holds the committed state",
+    "guide remains paused while open",
+    "closing the guide restores the original running intent",
+    "closing a guide never resumes an originally manual-paused observation",
+    "settings transition holds the last committed turn",
+    "nested guide closing preserves the outer settings hold",
+    "canceling settings restores the first running intent through a nested screen",
+    "canceling settings preserves an originally manual-paused observation",
+    "new-world success invalidates old screen-return intent and waits for a fresh start",
+    "results holds the world immediately before asynchronous loading",
+    "late results loading cannot reopen a dialog over a later settings transition",
+    "a drawing exception stops visibly while the frame monitor survives",
+    "top-right retry recovers drawing without adding the same turn twice",
+    "committed UI failure keeps exactly one observation row for the committed turn",
+    "retry after committed UI failure continues from the committed state without duplicates",
+    "observation-append failure retains the old committed world and all-turn history",
+    "retry after observation failure reconstructs one next turn instead of skipping it",
+    "checkpoint is a distinct resumable state on the single top-right button",
+    "checkpoint continuation advances without duplicate all-turn samples",
+    "all actual controls and injected failures produce no uncaught browser exceptions or native dialogs"
+  ],
+  "errors": [],
+  "sourceSignature": "a7cac02a9d7382b478919b40c44823ce0d6bb0325b3e551adb1236908c92774d",
+  "scope": "Linux Chromium actual lifecycle controls; manual/staged pause, same-screen controls, nested screens, stale asynchronous results, draw/UI/recording exceptions and retry, checkpoint continuation at a deliberately shortened boundary fixture. Injected failures are controlled fixtures, not claimed user-bug reproductions."
+}

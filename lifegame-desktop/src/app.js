@@ -84,39 +84,63 @@
   const holds = new Set();
   let interactionTimer = null, prewarming = true, lastPreparationMs = 0, computeWaitAt = null, playbackError = null;
   let graphicsPrepared=false,observationPreparationAt=null,preparationHeldAt=null;
+  let worldGeneration=0,returnIntent=null,bufferWorld=null,bufferFingerprint=null,faultKind=null,renderFaulted=false;
   const compute = window.EcoCompute.create({
     onChange: () => { if(running&&!holds.size&&!pendingTurn&&!timer)timer=setTimeout(runLoop,0); },
-    onError: text => { stop();playbackError=text;message(text); }
+    onError: text => failObservation("計算",text)
   });
   function restoreCommitted() {
     runGeneration++;clearTimeout(timer);timer=null;
-    const had=!!pendingTurn;
     if(pendingTurn?.packet)compute.restore(pendingTurn.packet);
     pendingTurn=null;
     renderer.view.animate=false;showTurnStage();
     if(world){renderer.setWorld(world);renderSelection();}
   }
-  function hold(reason) { /* Reading and map operations keep ecology running. */ }
+  function hold(reason) {
+    if(!["guide","results","settings"].includes(reason)||holds.has(reason))return;
+    if(!holds.size){
+      returnIntent={generation:worldGeneration,world,running};
+      try{restoreCommitted();}catch(error){failObservation("表示更新",error);return;}
+    }
+    holds.add(reason);updateHold();
+  }
   function release(reason) {
-    holds.delete(reason);updateHold();
+    holds.delete(reason);
+    if(!holds.size&&returnIntent){
+      const intent=returnIntent;returnIntent=null;
+      if(intent.generation===worldGeneration&&intent.world===world&&!ended&&!playbackError)running=intent.running;
+    }
+    updateHold();
     if(running&&!holds.size&&!pendingTurn&&!timer)timer=setTimeout(runLoop,0);
   }
   function updateHold() {
     if(holds.size&&preparationHeldAt===null)preparationHeldAt=performance.now();
     if(!holds.size&&preparationHeldAt!==null){if(observationPreparationAt!==null)observationPreparationAt+=performance.now()-preparationHeldAt;preparationHeldAt=null;}
-    const names={map:"マップ操作",detail:"個体詳細の閲覧",guide:"説明シートの閲覧",results:"図鑑の閲覧",settings:"初期条件の編集",hidden:"画面が非表示"};
+    const names={guide:"説明シートの閲覧",results:"図鑑の閲覧",settings:"初期条件の編集"};
     $("interaction-note").hidden=!holds.size;
     $("interaction-note").textContent=holds.size?([...holds].map(k=>names[k]).join("・")+"のため停止中") : "";
-    $("detail-hold").textContent=running?"一時停止して観察":"観測を再開 ▶";
-    $("cancel-settings").hidden=!holds.has("settings");
-    if(running)$("status").textContent=holds.size?"操作中・停止":"観測中";
+    $("cancel-settings").hidden=!document.body.classList.contains("setup-screen")||!world;
+    if(running)$("status").textContent=holds.size?"別画面・停止中":"観測中";
   }
-  function mapInteraction() { /* View input never pauses the simulation. */ }
+  function mapInteraction(active=false) { renderer.interact?.(active); }
+  function failObservation(kind,error) {
+    const text=error?.message||String(error);
+    stop({discard:true});faultKind=kind;playbackError=text;renderFaulted=kind==="描画";
+    $("status").textContent=kind+"エラー・停止";
+    $("start").disabled=!world||ended;
+    $("start").textContent=ended?"観測終了":"表示と計算を再試行 ▶";
+    message(kind+"を継続できませんでした："+text+" 確定ターンと全期間記録は保持しています。"+(ended?"新しい世界を作成できます。":"右上から再試行できます。"));
+  }
   function startRunning() {
-    if(!world||ended)return;
+    if(!world||ended||holds.size)return;
+    try {
+      if(playbackError){renderer.setWorld(world);render();renderer.draw();}
+      if(compute.initialized&&(bufferWorld!==world||(bufferFingerprint!==null&&bufferFingerprint!==E.fingerprint(world)))){compute.close();prewarming=true;bufferWorld=null;}
+      bufferFingerprint=null;
+    }catch(error){failObservation("表示更新",error);return;}
     observationPreparationAt=performance.now();preparationHeldAt=null;
-    playbackError=null;computeWaitAt=null;running=true;$("start").textContent="一時停止 Ⅱ";$("step").disabled=true;
-    updateHold();if(!holds.size)timer=setTimeout(runLoop,0);
+    playbackError=null;faultKind=null;renderFaulted=false;computeWaitAt=null;running=true;$("start").textContent="一時停止 Ⅱ";$("step").disabled=true;
+    updateHold();timer=setTimeout(runLoop,0);
   }
   const groups = {
     main: "主生物",
@@ -310,7 +334,7 @@
   function readConfig() {
     const [width, height] = $("size").value.split(",").map(Number);
     const config = {
-      generationModel:'diverse/1',generationSettings:generationSettings(),
+      generationModel:'diverse/1',generationSettings:generationSettings(),relationshipModel:'network/1',
       blockTurns: 500,
       randomModel: "table/1",
       producerModel:'colony/1',
@@ -392,30 +416,22 @@
     for (const id of ["guide", "results"])
       if ($(id).open){if(id==="results")closeAnalysis();$(id).close();}
   }
-  function stop() {
-    clearTimeout(interactionTimer);holds.clear();updateHold();
-    compute.close();prewarming=true;
-    const hadPending = !!pendingTurn;
-    runGeneration++;
-    if (pendingTurn) pendingTurn = null;
-    running = false;
+  function stop({discard=false}={}) {
+    clearTimeout(interactionTimer);holds.clear();returnIntent=null;
+    running=false;
+    const hadPending=!!pendingTurn;
+    try{restoreCommitted();}catch(error){discard=true;pendingTurn=null;}
+    if(discard||world?.stopReason||ended){compute.close();prewarming=true;bufferWorld=null;bufferFingerprint=null;}
+    else if(compute.initialized)bufferFingerprint=E.fingerprint(world);
     computeWaitAt=null;
-    renderer.view.animate = false;
-    clearTimeout(timer);
-    timer = null;
-    showTurnStage();
-    if (hadPending && world) {
-      renderer.setWorld(world);
-      renderSelection();
-      message("途中の計算を取り消し、最後に確定したターンで一時停止しました。");
-    }
-    $("start").textContent =
-      world?.stopReason === "checkpoint"
-        ? `次の${world.config.blockTurns || 1000}ターンを続行 ▶`
-        : "観測を開始 ▶";
+    renderer.view.animate=false;
+    if(hadPending&&world)message("途中の表示を取り消し、最後に確定したターンで一時停止しました。");
+    $("start").textContent=world?.stopReason==="checkpoint"
+      ?`次の${world.config.blockTurns||1000}ターンを続行 ▶`
+      :world?.turn?"観測を再開 ▶":"観測を開始 ▶";
+    $("step").disabled=!world||ended;
     updateHold();
-    $("step").disabled = !world || ended;
-    $("status").textContent = world ? "一時停止" : "未準備";
+    $("status").textContent=world?"一時停止":"未準備";
   }
   function prepare(config, playback = null) {
     const previousActivation=world?.config||{advantageSettings:window.EcoObservationModel.settings()};
@@ -433,12 +449,13 @@
       throw error;
     }
     resultReadEpoch++;
-    stop();
+    worldGeneration++;
+    stop({discard:true});
     closeWorldDetails();
     setupMessage("");
     replayEntry = playback;
     ended = false;
-    playbackError=null;
+    playbackError=null;faultKind=null;renderFaulted=false;
     pendingResult = null;
     $("export-result").hidden=true;
     $("finish-run").disabled = false;
@@ -555,21 +572,20 @@
   }
   function tick() {
     if (!world || ended || pendingTurn) return;
+    compute.close();prewarming=true;bufferWorld=null;bufferFingerprint=null;
     renderer.view.animate = running;
     renderer.view.duration = 300;
     const start = performance.now(), next = E.step(world, { observeId: selectedId });
     return commitTurn(next,performance.now()-start);
   }
   function commitTurn(next, milliseconds) {
-    try{observations.append(next);}catch(e){stop();renderer.setWorld(world);render();message(e.message);return world;}
-    world = next;
+    try{observations.append(next);}catch(e){failObservation("観測記録",e);return world;}
+    world = next;bufferWorld=world;bufferFingerprint=null;
     lastMs = milliseconds;
-    renderer.setWorld(world);
-    R.assets.warmWorld?.(world);
-    updateTracking();
-    render();
+    try{renderer.setWorld(world);R.assets.warmWorld?.(world);updateTracking();render();}
+    catch(error){failObservation("表示更新",error);return world;}
     if (replayEntry && world.turn >= replayEntry.turn) {
-      stop();
+      stop({discard:true});
       ended = true;
       $("start").disabled = true;
       $("step").disabled = true;
@@ -581,7 +597,7 @@
     } else if (!replayEntry && world.stopReason === "main-extinct") {
       finishRun("main-extinct");
     } else if (world.stopReason && !replayEntry) {
-      stop();
+      stop({discard:true});
       message(
         world.stopReason === "main-extinct"
           ? "主生物が全滅しました。他の生物群は残る場合があります。続行して観測できます。"
@@ -595,9 +611,10 @@
     return world;
   }
   function runLoop() {
+    try {
     timer=null;
     if (!running || holds.size || pendingTurn) return;
-    if(prewarming&&observationPreparationAt!==null&&performance.now()-observationPreparationAt>60000){stop();playbackError='観測の準備が60秒以内に完了しませんでした。確定状態を保持しています。再試行できます。';message(playbackError);return;}
+    if(prewarming&&observationPreparationAt!==null&&performance.now()-observationPreparationAt>60000){failObservation('準備','観測の準備が60秒以内に完了しませんでした。');return;}
     if(!graphicsPrepared){
       if(!renderer.prepared||R.assets.warming){
         $("status").textContent="観測の準備中";
@@ -608,7 +625,7 @@
     }
     if(!compute.initialized) {
       const limit=replayEntry?.turn || (world.blockEnd + (world.stopReason==="checkpoint"?(world.config.blockTurns||1000):0));
-      prewarming=true;compute.init(world,selectedId,limit);
+      prewarming=true;bufferWorld=world;bufferFingerprint=null;compute.init(world,selectedId,limit);
       if(!running)return;
     }
     if(prewarming && (!compute.length || !compute.ready)) {
@@ -638,14 +655,17 @@
         $("status").textContent="観測中";
         if(state.phase===3)timer=setTimeout(()=>{
           if(!valid())return;
-          compute.acknowledge();pendingTurn=null;showTurnStage();renderer.view.animate=false;
-          commitTurn(preview,packet.computeMs);
-          if(running&&!holds.size)timer=setTimeout(runLoop,0);
+          try{
+            compute.acknowledge();pendingTurn=null;showTurnStage();renderer.view.animate=false;
+            commitTurn(preview,packet.computeMs);
+            if(running&&!holds.size)timer=setTimeout(runLoop,0);
+          }catch(error){failObservation("表示更新",error);}
         },Math.max(100,TURN_MS-(performance.now()-start)));
         else timer=setTimeout(advance,Math.max(100,state.phase*TURN_MS/3-(performance.now()-start)));
-      }catch(e){stop();message("計算結果を表示できませんでした："+e.message);}
+      }catch(e){failObservation("表示更新",e);}
     }
     advance();
+    }catch(error){failObservation("表示更新",error);}
   }
   let preparingWorld = false;
   $("setup").addEventListener("invalid", event => {
@@ -677,7 +697,7 @@
       $("setup").removeAttribute("aria-busy");
     }
   });
-  function returnSetup(){resultReadEpoch++;stop();closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;if(world){showProducerSettings(world.config.producerModel==='colony/1'?world.config.producerSettings:null,world.config.initialFoodScale||1);showLargePlantSettings(world.config.largePlantModel==='independent/1'?world.config.largePlantSettings:undefined);}showGenerationSettings(world?.config||{});$("resource-info").value=0;$("information-influence").value=world?.config.informationModel==='persistent/1'?world.config.informationSettings.influence:1;syncSetupFields();message("初期設定に戻りました。条件を選んで新しい世界を作れます。取消すと現在の観測へ戻ります。");}
+  function returnSetup(){resultReadEpoch++;hold("settings");closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;if(world){showProducerSettings(world.config.producerModel==='colony/1'?world.config.producerSettings:null,world.config.initialFoodScale||1);showLargePlantSettings(world.config.largePlantModel==='independent/1'?world.config.largePlantSettings:undefined);}showGenerationSettings(world?.config||{});$("resource-info").value=0;$("information-influence").value=world?.config.informationModel==='persistent/1'?world.config.informationSettings.influence:1;syncSetupFields();message("初期設定に戻りました。条件を選んで新しい世界を作れます。取消すと現在の観測へ戻ります。");}
   $("change-world").onclick=returnSetup;
   $("start").addEventListener("click", () => {
     if (running) {
@@ -701,7 +721,7 @@
     if(!record)return;try{const blob=await EcoExport.json(record),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`lifegame-result-${record.turn}T-${record.id.slice(-8)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);}catch(e){message('結果を書き出せませんでした：'+e.message);}
   }
   async function finishRun(reason = "user-ended",{explicit=false}={}) {
-    if(!world)return;stop();ended=true;$("start").disabled=true;$("step").disabled=true;
+    if(!world)return;stop({discard:true});ended=true;$("start").disabled=true;$("step").disabled=true;
     if(replayEntry&&!explicit){message("再生を終了しました。自動保存はしません。保存ボタンで新しい記録にできます。");return;}
     const finishedWorld=world;
     $("finish-run").disabled=true;$("finish-run").textContent="保存中…";
@@ -739,9 +759,11 @@
     return (profile?(S.WorldGeneration.profiles.find(p=>p.id===profile)?.name||profile)+' / ':'')+(record.config.modeResolved?.name||'自由設定');
   }
   async function showResults() {
+    const epoch=resultReadEpoch, previous=world;
     $("results-error").textContent="";
     try {
       await archive.retry();
+      if(epoch!==resultReadEpoch||previous!==world||!holds.has("results"))return;
       $("results-list").innerHTML =
         archive
           .list()
@@ -772,7 +794,7 @@
     } catch (e) {
       $("results-error").textContent = e.message;
     }
-    if (!$("results").open) $("results").showModal();
+    if(epoch===resultReadEpoch&&previous===world&&holds.has("results")&&!$("results").open)$("results").showModal();
   }
   $("finish-run").onclick = () => finishRun("user-ended",{explicit:true});
   $("open-results").onclick = () => {
@@ -1021,52 +1043,68 @@
   $('current-summary').before(summaryHome);
   const graphObservation=()=>analysisData||observations;
   function paintStack(canvas,data,colors,maximum){
-    const g=canvas.getContext('2d'),W=canvas.width,H=canvas.height,last=graphObservation().rows.length-1,keys=[...new Set(data.flatMap(r=>Object.keys(r.values)))],max=maximum||Math.max(1,...data.map(r=>r.total)),x=t=>30+(W-45)*t/Math.max(1,last),y=n=>H-18-n/max*(H-35),base=data.map(()=>0);
-    g.clearRect(0,0,W,H);g.strokeStyle='#47646b';g.lineWidth=1;g.beginPath();g.moveTo(30,15);g.lineTo(30,H-18);g.lineTo(W-15,H-18);g.stroke();
-    for(const [k,index]of keys.map((k,i)=>[k,i])){g.fillStyle=colors(k,index);g.beginPath();data.forEach((r,i)=>{const px=x(r.turn),py=y(base[i]+(r.values[k]||0));i?g.lineTo(px,py):g.moveTo(px,py);});for(let i=data.length-1;i>=0;i--)g.lineTo(x(data[i].turn),y(base[i]));g.closePath();g.fill();if(data.length===1)g.fillRect(30,y((data[0].values[k]||0)+base[0]),4,(data[0].values[k]||0)/max*(H-35));data.forEach((r,i)=>base[i]+=r.values[k]||0);}
-    g.fillStyle='#bcd3d2';g.font='16px sans-serif';g.fillText(Math.round(max),2,15);g.fillText('0',8,H-17);g.fillText('0T',30,H-1);g.fillText(last+'T',W-65,H-1);
+    const g=canvas.getContext('2d'),W=canvas.width,H=canvas.height,last=graphObservation().rows.length-1,keys=[...new Set(data.flatMap(r=>Object.keys(r.values)))],max=maximum||Math.max(1,...data.map(r=>r.total)),left=76,bottom=29,top=25,x=t=>left+(W-left-25)*t/Math.max(1,last),y=n=>H-bottom-n/max*(H-top-bottom),base=data.map(()=>0);
+    g.clearRect(0,0,W,H);g.strokeStyle='#47646b';g.lineWidth=1.5;g.beginPath();g.moveTo(left,top);g.lineTo(left,H-bottom);g.lineTo(W-25,H-bottom);g.stroke();
+    for(const [key,index]of keys.map((key,i)=>[key,i])){g.fillStyle=colors(key,index);g.beginPath();data.forEach((row,i)=>{const px=x(row.turn),py=y(base[i]+(row.values[key]||0));i?g.lineTo(px,py):g.moveTo(px,py);});for(let i=data.length-1;i>=0;i--)g.lineTo(x(data[i].turn),y(base[i]));g.closePath();g.fill();if(data.length===1)g.fillRect(left,y((data[0].values[key]||0)+base[0]),5,(data[0].values[key]||0)/max*(H-top-bottom));data.forEach((row,i)=>base[i]+=row.values[key]||0);}
+    g.fillStyle='#bcd3d2';g.font='23px sans-serif';g.textAlign='right';g.fillText(Math.round(max),left-9,top);g.fillText('0',left-9,H-bottom);g.textAlign='left';g.fillText('0T',left,H-2);g.textAlign='right';g.fillText(last+'T',W-25,H-2);
     canvas.setAttribute('aria-label','0–'+last+'T / 最大'+max+'管理単位 / 現在'+(data.at(-1)?.total||0));
   }
   function renderCurrentSummary(row, catalogue) {
     const current=row?.current;if(!current)return;
     $("current-summary").dataset.turn=String(row.turn);
     setText("current-overall",current.summary.overall);
-    for(const key of ["breadth","diversity","persistence"]){setText("current-"+key,current.summary[key].text);setText("current-"+key+"-values",current.summary[key].detail);}
-    const palette={plant:"#68ce8c",prey:"#53d2df",main:"#62a7ef",fungus:"#efb375",P:"#b88ae5",Q:"#d5b3f2"},c=$("current-donut"),g=c.getContext("2d");g.clearRect(0,0,c.width,c.height);
+    const relations=current.relations;
+    setText('current-breadth-values',`直近${Math.min(50,row.turn)}T：関与 ${relations.species}系統・${Object.keys(relations.edges).length}関係`);
+    setText('current-diversity-values',`作用 ${relations.types.length}種類`);
+    setText('current-persistence-values',row.turn<20?'継続：判定待ち':`継続 ${relations.continuous}関係`);
+    const palette={plant:"#68ce8c",prey:"#53d2df",main:"#62a7ef",fungus:"#efb375",P:"#b88ae5",Q:"#d5b3f2"},c=$("current-donut"),g=c.getContext("2d"),cx=360,cy=270;
+    g.clearRect(0,0,c.width,c.height);
     let angle=-Math.PI/2;
     for(const group of current.groups){if(!group.count)continue;const end=angle+group.count/Math.max(1,current.total)*Math.PI*2;
-      g.beginPath();g.arc(120,94,66,angle,end);g.lineWidth=24;g.strokeStyle=palette[group.id];g.stroke();
-      const members=catalogue.filter(s=>s.group===group.id);let at=angle;
-      for(const s of members){const n=current.counts[s.id]||0;if(!n)continue;const to=at+n/current.total*Math.PI*2;g.beginPath();g.arc(120,94,85,at+.008,Math.max(at+.008,to-.008));g.lineWidth=12;g.strokeStyle=R.highlightColor(s.id);g.stroke();at=to;}
+      g.beginPath();g.arc(cx,cy,151,angle,end);g.lineWidth=57;g.strokeStyle=palette[group.id];g.stroke();
+      let at=angle;
+      for(const member of catalogue.filter(v=>v.group===group.id)){const n=current.counts[member.id]||0;if(!n)continue;const to=at+n/current.total*Math.PI*2;g.beginPath();g.arc(cx,cy,207,at,to);g.lineWidth=31;g.strokeStyle=R.highlightColor(member.id);g.stroke();at=to;}
       angle=end;
     }
-    g.textAlign="center";g.fillStyle="#d6e5df";g.font="14px sans-serif";g.fillText(current.total?"現在の構成":"生体なし",120,99);
-    $("current-legend").innerHTML=current.groups.map(a=>`<span><i style="background:${palette[a.id]}"></i>${escape(a.name)}</span>`).join("");
-    $("current-donut").setAttribute("aria-label",current.groups.map(a=>a.name+" "+(current.total?(a.count/current.total*100).toFixed(1)+"%":"0")).join(" / "));
+    if(!current.total){g.strokeStyle='#38545b';g.lineWidth=57;g.beginPath();g.arc(cx,cy,151,0,Math.PI*2);g.stroke();}
+    g.textAlign="center";g.fillStyle="#d6e5df";g.font="34px sans-serif";g.fillText(current.total?"現在の構成":"生体なし",cx,cy+10);
+    g.lineWidth=2;g.strokeStyle='#a2bfbb';g.beginPath();g.moveTo(cx-100,cy+114);g.lineTo(95,490);g.lineTo(95,514);g.moveTo(cx+170,cy+118);g.lineTo(590,490);g.lineTo(590,514);g.stroke();
+    g.font='30px sans-serif';g.fillText('内側',130,552);g.fillText('外側',585,552);g.font='28px sans-serif';g.fillText('生物グループ',160,592);g.fillText('系統',585,592);
+    $("current-legend").innerHTML=current.groups.map(group=>`<span title="${escape(group.name)} ${group.count}記録"><i style="background:${palette[group.id]}"></i>${escape(group.name)}</span>`).join("");
+    c.setAttribute("aria-label",'内側は生物グループ、外側は系統。同じ全生物が分母。'+current.groups.map(group=>group.name+" "+(current.total?(group.count/current.total*100).toFixed(1)+"%":"0%")).join(" / "));
     renderCurrentStructure(row, catalogue);
   }
-  function renderCurrentStructure(r, catalogue) {
-    const graphById=Object.fromEntries(catalogue.map(s=>[s.id,s]));
-    const p=r.current.pyramid,nodes={plant:[5,15,'生産者'],prey:[185,15,'一次消費者'],main:[365,15,'主生物'],detritus:[5,95,'死骸'],fungus:[185,95,'分解者'],resource:[365,95,'光・無機養分'],host:[5,175,'寄生される生物'],P:[185,175,'一次寄生虫'],Q:[365,175,'高次寄生虫']},edges={...p.edges};
-    for(const [key,n]of Object.entries(r.current.bonds)){const [from,to]=key.split('|'),source=from==='hyperparasite'?'P':'host',dest=from==='hyperparasite'?'Q':'P';edges[source+'|'+dest]=(edges[source+'|'+dest]||0)+n;}
-    const basic=['plant|prey','prey|main','detritus|fungus','fungus|resource','resource|plant','host|P','P|Q'],all=[...new Set([...basic,...Object.keys(edges)])];
-    let svg='<title>矢印は栄養や宿主を利用する側へ。実線は確認済み、破線は未確認の関係です。</title><defs><marker id="food-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#a6c9c8"/></marker></defs>';
-    for(const key of all){const [from,to]=key.split('|'),a=nodes[from],b=nodes[to];if(!a||!b)continue;const active=(edges[key]||0)>0,x1=a[0]+65,y1=a[1]+23,x2=b[0]+65,y2=b[1]+23;let d;
-      if(from===to)d=`M${x1+30},${y1-20} C${x1+70},${y1-60} ${x1-70},${y1-60} ${x1-30},${y1-20}`;
-      else if(a[1]===b[1])d=a[0]<b[0]?`M${a[0]+134},${y1} L${b[0]-5},${y2}`:`M${a[0]-4},${y1} L${b[0]+135},${y2}`;
-      else d=`M${x1},${y1+22} Q${(x1+x2)/2},${(y1+y2)/2+20} ${x2},${y2+22}`;
-      svg+=`<path data-relation="${key}" data-observed="${active}" d="${d}" fill="none" stroke="${active?'#9ecfc9':'#496370'}" stroke-width="${active?2+Math.min(3,Math.log1p(edges[key])):1}" ${active?'':'stroke-dasharray="4 4"'} marker-end="url(#food-arrow)"/>`;
-    }
-    const nodeDescriptions={plant:'生産者：光などを使って栄養を作る植物や微藻。',prey:'一次消費者：植物や微藻などを食べる小型の一次消費者。',main:'主生物：観察の中心となる系統。草食・肉食・雑食などを含みます。',detritus:'死んだ生物の残骸。屍肉食や分解に利用されます。',fungus:'分解者：死骸などの有機物を利用する菌類。',resource:'生産に利用される光と無機養分。',host:'寄生虫が付随する生物。感染性のある死骸に残る群体も観測に含みます。',P:'一次寄生虫：生物に寄生する群体。',Q:'高次寄生虫：一次寄生虫に寄生し、宿主の行動へ間接的に作用する群体。'};
-    for(const [id,[x,y,label]]of Object.entries(nodes))svg+=`<g><title>${nodeDescriptions[id]}</title><rect x="${x}" y="${y}" width="130" height="46" rx="8" fill="#11313b" stroke="${['P','Q','host'].includes(id)?'#a88dd0':'#6399a0'}"/><text x="${x+65}" y="${y+29}" text-anchor="middle" fill="#d7e9df" font-size="${id==='host'?17:20}">${label}</text></g>`;
-    $('foodweb-diagram').innerHTML=svg;
-    const leader=(a,label)=>a.length?label+'：'+a.filter(v=>v.value===a[0].value).slice(0,2).map(v=>v.name).join('・'):'未観測';
-    const measuredLeader=(a,label,unit)=>a===undefined?label+'：未記録':!a.length?label+'：0':label+'：'+a.filter(v=>v.value===a[0].value).slice(0,2).map(v=>v.name+' '+fmt(v.value)+unit).join('・');
-    const resident=Object.entries(r.current.bonds).filter(([k])=>k.startsWith('tideparasite|')||k.startsWith('leafparasite|')).sort((a,b)=>b[1]-a[1]).slice(0,1).map(([k,n])=>(graphById[k.split('|')[0]]?.name||k.split('|')[0])+'（'+(graphById[k.split('|')[1]]?.name||k.split('|')[1])+'に付随）'+n+'群体').join('・');
-    $('foodweb-leaders').textContent=leader(p.leaders.production,'光合成の中心')+' / '+measuredLeader(p.leaders.combat,'戦闘で倒した数','体')+' / '+measuredLeader(p.leaders.scavenging,'動物の死骸から得た栄養',' E')+' / 一次寄生の多い組合せ：'+(resident||'0群体')+'。';
-    const peak=Math.max(1,...p.layers),names=['生産者','一次消費者','二次消費者','高次（第4段以上）'];
+  function renderCurrentStructure(row, catalogue) {
+    const p=row.current.pyramid,peak=Math.max(1,...p.layers),names=['生産者','一次消費者','二次消費者','高次（第4段以上）'];
     $('biomass-pyramid').innerHTML=p.layers.map((v,i)=>`<div class="pyramid-level" data-level="${i}" data-value="${v}"><span>${names[i]}</span><div><i style="width:${v/peak*100}%;background:${['#72c48e','#62cbd3','#6ba6dc','#9196d4'][i]}"></i></div><b>${fmt(v)}</b></div>`).reverse().join('')+`<p class="note">未観測 ${fmt(p.side.unknown)} B / 分解者 ${fmt(p.side.decomposer)} B<br>死骸 ${fmt(p.side.remains)}（別単位） / P-Q別枠</p>`;
-    $('pyramid-support').textContent='生産 '+(p.production===null?'未観測':fmt(p.production)+' E')+' / 同化 '+(p.uptake===null?'未観測':fmt(p.uptake)+' E')+'（直近'+p.window+'T）。共通B尺度。';
+    $('pyramid-support').textContent='生産 '+(p.production===null?'未記録':fmt(p.production)+' E')+' / 同化 '+(p.uptake===null?'未記録':fmt(p.uptake)+' E')+'（直近'+p.window+'T）。逆転だけでは異常と判定しません。';
+    const history=graphObservation();
+    if(window.EcoRelationshipNetwork&&history){
+      if(analysisData&&$('saved-network-controls').dataset.record!==analysisRecord?.id){
+        $('saved-network-controls').dataset.record=analysisRecord?.id||'';
+        const last=history.rows.at(-1).turn,blocks=Math.max(1,Math.ceil(last/500));
+        $('saved-network-controls').innerHTML=`<label>関係面の500T区切り <select id="saved-network-window">${Array.from({length:blocks},(_,i)=>{const end=Math.min(last,(i+1)*500);return `<option value="${end}" ${i===blocks-1?'selected':''}>${last===0?'0T':i*500+1+'–'+end+'T'}</option>`;}).join('')}</select></label>`;
+        $('saved-network-window').onchange=()=>renderCurrentSummary(history.rows.at(-1),catalogue);
+      }
+      const selected=analysisData&&$('saved-network-window')?Number($('saved-network-window').value):row.turn;
+      const model=EcoRelationshipNetwork.build(history,Math.min(row.turn,selected));
+      $('relationship-network').innerHTML=EcoRelationshipNetwork.render(model,{symbols:R.symbolPaths,colors:Object.fromEntries(catalogue.map(v=>[v.id,R.symbolColor(D.byId[v.id]||{...v,color:'#91c4bf'})])),species:catalogue});
+      if(analysisData){
+        const byId=Object.fromEntries(catalogue.map(v=>[v.id,v.name])),label=id=>byId[id]||id.replace('@light','光').replace('@carcass:','死骸：').replace('@resource:','資源：');
+        const blocks=[...(model.past||[]).filter(Boolean),model.current].filter(Boolean);
+        $('saved-network-data').innerHTML=model.missing?'<p>この旧記録には100T関係面の原値がありません。現在値で補完しません。</p>':'<table><thead><tr><th>区間</th><th>観測T</th><th>作用</th><th>供給元・実行者 → 受け手</th><th>実績</th><th>線幅の尺度</th></tr></thead><tbody>'+blocks.flatMap(block=>block.edges.map(edge=>{const type=EcoRelationshipNetwork.types[edge.type],unit=edge.type==='parasitism'?'群体':type.unit,value=edge.type==='parasitism'?edge.rate:edge.value;return `<tr><td>${block.first}–${block.last}T</td><td>${block.observed}</td><td>${escape(type.name)}</td><td>${escape(label(edge.from))} → ${escape(label(edge.to))}</td><td>${primaryNumber(value)} ${unit}${edge.type==='parasitism'?'（平均）':''}</td><td>${primaryNumber(edge.rate)} ${edge.type==='parasitism'?'群体':unit+'/T'}</td></tr>`;})).join('')+'</tbody></table>';
+      }
+    }
+  }
+  let lastChartPaint=-Infinity,chartTimer=null,slowGraphs=false,lastChartData=null,lastChartTurn=-1,lastChartTarget=null;
+  function scheduleGraphs(force=false){
+    if(!graphObservation()?.rows.length)return;
+    const graph=graphObservation(),last=graph.rows.at(-1).turn,target=$('graph-species').value;
+    if(!force&&lastChartData===graph&&lastChartTurn===last&&lastChartTarget===target)return;
+    const paint=()=>{clearTimeout(chartTimer);chartTimer=null;lastChartPaint=performance.now();lastChartData=graphObservation();lastChartTurn=lastChartData.rows.at(-1).turn;lastChartTarget=$('graph-species').value;if(!analysisData)renderCurrentSummary(observations.rows.at(-1),activeCatalogue());renderGraphs();};
+    const delay=1000-(performance.now()-lastChartPaint);
+    if(force||!slowGraphs||!running||analysisData||delay<=0)paint();
+    else if(!chartTimer)chartTimer=setTimeout(paint,delay);
   }
   function renderGraphs(){
     if(!graphObservation()?.rows.length)return;
@@ -1083,8 +1121,8 @@
     for(const axis of ['phases','sex','ages'])paintStack($('composition-'+axis),series[axis],(k,i)=>k==='nonapplicable'?'#526773':palettes[axis][axis==='phases'?Number(k):({female:0,male:1,none:2,juvenile:0,adult:1,elderly:2}[k]??i)%palettes[axis].length],max);
     const labels={phases:'I / II / III / IV / 非該当',sex:'雌 / 雄 / 無性別 / 非該当',ages:'幼体 / 成体 / 老齢 / 非該当'};
     for(const axis of ['phases','sex','ages'])$('composition-'+axis).title=labels[axis];
-    const lanes=[['species','広がり（関与系統）','#7edbdf'],['types','多様さ（作用種類）','#e7c780'],['continuous','持続性（継続関係）','#bc9eea']];
-    $('graph-relations').innerHTML=lanes.map(([key,label,color],i)=>{const value=r=>key==='types'?r.current.relations.types.length:r.current.relations[key],m=Math.max(1,...rows.map(value)),top=i*25+12;return `<text x="0" y="${top}" fill="${color}" font-size="12">${label} ${key==='continuous'&&t<20?'判定待ち':value(r)}</text><path fill="none" stroke="${color}" stroke-width="1.5" d="${rows.map((r,j)=>(j?'L':'M')+(150+r.turn/Math.max(1,last)*260)+','+(top+9-value(r)/m*15)).join(' ')}"/>`;}).join('');
+    const lanes=[['species','広がり · 関与系統','#7edbdf'],['types','多様さ · 作用種類','#e7c780'],['continuous','持続性 · 継続関係','#bc9eea']];
+    $('graph-relations').innerHTML=lanes.map(([key,label,color],i)=>{const value=r=>key==='types'?r.current.relations.types.length:r.current.relations[key],m=Math.max(1,...rows.map(value)),top=i*51+18;return `<text x="0" y="${top}" fill="${color}" font-size="16">${label} ${key==='continuous'&&t<20?'判定待ち':value(r)}</text><path fill="none" stroke="${color}" stroke-width="2" d="${rows.map((r,j)=>(j?'L':'M')+(250+r.turn/Math.max(1,last)*450)+','+(top+23-value(r)/m*36)).join(' ')}"/>`;}).join('')+`<text x="250" y="178" fill="#9bbab7" font-size="14">0T</text><text x="700" y="178" text-anchor="end" fill="#9bbab7" font-size="14">${last}T</text>`;
     if (analysisData) renderCurrentSummary(rows.at(-1), catalogue);
     const info=r.information;
     $('information-readout').textContent=info?`情報（${r.turn}T）：生成${info.generated} / 取得${info.received} / 重み適用${info.applied} / Q媒介取得${info.mediatedReceived}・適用${info.mediatedApplied} / 由来不明${info.unattributed}。`:'情報の内訳：未記録（旧記録の情報関係は取得基準）。';
@@ -1093,19 +1131,39 @@
       $('information-readout').textContent=`非栄養情報（${r.turn}T）：量 ${primaryNumber(s.field.amount)} / ${s.field.origins}由来 / 生成 ${f.normalGenerated+f.lowGenerated} / 受容 ${f.originsRead} / 学習 ${f.learned} / 場所作用 ${f.placeApplications} / 受容費 ${primaryNumber(f.receptionCostE)} E。`;
       $('information-readout').title='生成・受容・実際の学習・場所作用は別の原値です。情報量は生体数・B・栄養Eへ加算しません。Qの促進/歪曲件数はQの利益や生存への因果を意味しません。全確定ターンをCSV/保存結果で確認できます。';
     }
-    $('relation-readout').textContent='3系列は別尺度・全期間。実線＝確認／破線＝未確認。詳しくは下の集計説明へ。';
+    $('relation-readout').textContent='3系列は別尺度・0Tからの全期間。各点は直近50T、上の関係面は100T区間です。';
     if($('graph-values').dataset.catalogue!==catalogueKey){$('graph-values').dataset.catalogue=catalogueKey;$('graph-values').innerHTML=catalogue.map(s=>`<button class="small" data-graph-description="${escape(s.id)}">${escape(s.name)} <b>0</b></button>`).join('');}
     for(const b of $('graph-values').children){const value=String(r.counts[b.dataset.graphDescription]||0),label=b.querySelector('b');if(label.textContent!==value)label.textContent=value;if(b.disabled!==!!analysisData)b.disabled=!!analysisData;b.onclick ||= ()=>describeSpecies(b.dataset.graphDescription);}
   }
   $('graph-turn').oninput=()=>{graphFollow=false;renderGraphs();};
   $('graph-latest').onclick=()=>{graphFollow=true;renderGraphs();};
-  $('graph-species').onchange=renderGraphs;
-  $('graphs-panel').ontoggle=()=>{if($('graphs-panel').open)renderGraphs();};
+  $('graph-species').onchange=()=>scheduleGraphs(true);
+
   $('export-observation').onclick=async()=>{
     const graph=graphObservation();if(!graph)return;
     const through=graph.rows.at(-1).turn;const control=$('export-observation');control.disabled=true;
     try{const blob=await EcoExport.csv(graph),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`ecology-turns-0-${through}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);graph.markExported(through);message('全ターンCSVのダウンロードを開始しました。保存先でファイルをご確認ください。');}catch(e){message('観測データを書き出せませんでした: '+e.message);}finally{control.disabled=false;}
   };
+
+  const displayNames=['names-basal','names-prey','names-P','names-Q','names-resource'];
+  function applyDisplaySettings(mode='custom'){
+    if(mode!=='custom'){
+      const light=mode==='maximum';
+      $('motion').checked=!light;$('display-effects').checked=!light;$('display-action-marks').checked=true;
+      $('status-marks').checked=!light;$('display-slow-graphs').checked=light;$('display-simple-background').checked=light;
+      for(const id of displayNames)$(id).checked=false;
+    }
+    renderer.view.motion=$('motion').checked;
+    renderer.view.effects=$('display-effects').checked;renderer.view.actionMarks=$('display-action-marks').checked;
+    renderer.view.statusMarks=$('status-marks').checked;$('status-scope').disabled=!renderer.view.statusMarks;
+    renderer.view.interactionSimplify=$('display-simple-background').checked;slowGraphs=$('display-slow-graphs').checked;
+    for(const id of displayNames)renderer.view.names[id.slice(6)]=$(id).checked;
+    $('display-load-state').textContent=mode==='normal'?'通常':mode==='maximum'?'最大軽減':'個別設定';
+    renderer.draw();scheduleGraphs(true);
+  }
+  $('display-normal').onclick=()=>applyDisplaySettings('normal');
+  $('display-maximum').onclick=()=>applyDisplaySettings('maximum');
+  for(const id of ['motion','status-marks','display-effects','display-action-marks','display-slow-graphs','display-simple-background',...displayNames])$(id).addEventListener('change',()=>applyDisplaySettings());
 
   function drawPortrait(canvas, o) {
     const g = canvas.getContext("2d");
@@ -1250,7 +1308,9 @@
     const speciesMode=!!describedSpecies,detailMode=speciesMode||selectedCell!==null;
     $('inspector-graphs').hidden=false;$('inspector-details').hidden=!detailMode;
     $('inspector-details').closest('.inspector').classList.toggle('has-detail',detailMode);
-    if(world&&$("graphs-panel").open)renderGraphs();
+    const chartSelection=[describedSpecies,selectedCell,selectedId].join('|');
+    const forceCharts=renderSelection.chartSelection!==chartSelection;renderSelection.chartSelection=chartSelection;
+    if(world)scheduleGraphs(forceCharts);
     $("species-info").hidden=!speciesMode;$("selection").hidden=speciesMode;
     $("follow-individual").hidden=speciesMode;$("follow-note").hidden=speciesMode;
     $("close-species").hidden=!speciesMode&&selectedCell===null;
@@ -1377,8 +1437,6 @@
       "</table></div>";
     }
     if ($("budget-panel").open) renderBudget();
-    $("list-count").textContent = s.population;
-    if ($("individual-list").open) renderIndividuals();
     renderSelection();
     if ($("guide").open && activeSheet === "tree") drawTree();
   }
@@ -1458,21 +1516,6 @@
         .join("") +
       "</table></div>";
   }
-  function renderIndividuals() {
-    if (!world) return;
-    $("cells-table").innerHTML = world.organisms
-      .slice(0, 100)
-      .map(
-        (o) =>
-          `<tr class="select-row" data-id="${escape(o.id)}"><td>${escape(o.id)}</td><td>${escape(S.spec(o).name)} ${phase(o.phase)}</td><td>${sex[o.sex] || "無性"} ${roles[o.role] || ""}</td><td>${o.age} / ${o.generation}</td><td>${fmt(o.HP)}</td><td>${[o.E, o.B, o.M, o.G].map(fmt).join(" / ")}</td></tr>`,
-      )
-      .join("");
-    for (const tr of $("cells-table").querySelectorAll("tr"))
-      tr.onclick = () => {
-        const o = world.organisms.find((a) => a.id === tr.dataset.id);
-        if (o) {hold("detail");select(o.cell, o.id);}
-      };
-  }
   function renderPopulation() {
     const births = D.main.reduce((n, a) => n + world.tallies.births[a.id], 0),
       deaths = D.main.reduce((n, a) => n + world.tallies.deaths[a.id], 0);
@@ -1483,11 +1526,11 @@
       // Exact turn records are retained by observations; no rolling deletion.
     }
     const current=observations.rows.at(-1)?.current;if(!current)return;
-    if (!analysisData) renderCurrentSummary(observations.rows.at(-1), activeCatalogue());
+    if (!analysisData) scheduleGraphs();
     setText("parasite-count",(current.counts.tideparasite||0)+(current.counts.leafparasite||0)+" / "+(current.counts.hyperparasite||0));
 
   }
-  for (const [id, fn] of [["rank-panel", renderRanking], ["budget-panel", renderBudget], ["individual-list", renderIndividuals]])
+  for (const [id, fn] of [["rank-panel", renderRanking], ["budget-panel", renderBudget]])
     $(id).addEventListener("toggle", () => { if ($(id).open) fn(); });
   function updateCohortHint() {
     syncSetupFields();
@@ -1509,12 +1552,10 @@
     if(document.body.classList.contains("observatory")===false)$("focus-view").click();
     document.body.classList.remove("setup-screen");release("settings");message("編集内容を適用せず、現在の世界の観測へ戻ります。");
   };
-  $("detail-hold").onclick=()=>running?stop():startRunning();
   for(const id of ["guide","results"])$(id).addEventListener("close",()=>release(id));
   for(const id of ["fit","zoom-in","zoom-out","overview-view","detail-view","focus-view","simplified","grid","resources","emphasis","age-emphasis","status-marks","motion"]){
     $(id)?.addEventListener("click",()=>mapInteraction(!!drag),true);
   }
-  document.addEventListener("visibilitychange",()=>document.hidden?hold("hidden"):release("hidden"));
   const card = (title, text) =>
     `<article class="sheet-card"><h3>${title}</h3>${text}</article>`;
   function qGrowthGuide(){
@@ -1523,7 +1564,7 @@
   }
   const sheets = {
     system: () =>
-      `<h2>基本システムから読む</h2><p class="note">自然配置は同系統4体の小組。生産者は光・葉量・モード・優遇に応じてEを得てBへ投資し、土壌Mも利用します。生産者の供給設定は光合成と別の外部入力として収支に記録します。</p><div class="flow">初期値 → 固定環境・初期生物 → 局所の同期更新 → 食物網・生存競争 → 観測</div><div class="sheet-grid">${card("セルと生物の重なり", "<p>マスには主生物1体、生産者/分解者1体、一次消費者1体の3枠があり、同じマスに共存できます。最大3種の落ちた資源は別です。一次寄生虫Pは各宿主に1群体、高次寄生虫QはPに1群体付随します。探索Qと感染性死骸も別に存在します。生物は独立個体、P/Qは群体の管理単位です。</p>")}${card("固定環境、変わる生命", "<p>6種類の事前地形から選び、地形用初期値で候補地点の地物を決めます。生態用初期値は個体と資源の配置・生態進行に使います。8環境と地形・光・障害物は開始後に変わりません。系統の得意・苦手環境で攻撃・防御・移動Eが変わります。境界は通行可能なら越えられ、環境ごとに生物を隔離しません。</p>")}${card("三段階の観察", "<p>自動観察は1ターン約1秒。資源更新、移動・採食・戦闘、成長・繁殖を順に表示します。途中はプレビューで、個体数や図鑑は確定した結果を使います。一時停止では最後の確定ターンへ戻ります。地図操作や説明閲覧中も進みます。手動停止中も観察操作ができます。最大60秒の事前計算と上限6ターンの先行計算を使います。負荷が高いときは時間を伸ばし、個体やターンを省略しません。行動の軌跡と短いマークで成立した作用を示します。</p>")}${card("観察モードの条件", "<p>自由設定は従来の光合成入力と初期餌量。河畔・定着観察は7系統、湖沼・食物網観察は5系統で、主生物は小マップ160体から面積に比例します。両モードは高生産環境として光合成入力2倍。一次消費者の初期量は河畔25%増、湖沼50%増です。群密度・種別初期数・資源量は別欄で調整でき、生産者供給も自由設定から選択できます。動物・寄生虫の救済補充はありません。供給ONでは適地の生産者へ外部栄養と環境由来の定着が生じます。実効条件と実配置を図鑑へ保存します。</p>")}${card("10段階の同期ターン", "<ol><li>期限切れ・資源CA</li><li>光と行動候補</li><li>移動予約</li><li>同時戦闘</li><li>育児・採食</li><li>維持費・死亡</li><li>経験・寄生成熟</li><li>成長・繁殖</li><li>有償生産・情報・寄生出産</li><li>結果確定・観測</li></ol>")}${card("有限の収支", "<p>Eは使えるエネルギー、Bは身体の有機量、Mは鉱物、Gは累積成長値。光と、有効時の生産者供給が外部入力です。供給のE/Mは独立台帳へ記録し、食物は生物・死骸・土壌から支払います。植物は所在土壌Mを一口最大0.1取り、吸収率0.5の残りを土へ戻します。二口の上限を共有します。時間だけで食べた餌が無料復活することはありません。散逸分も台帳へ記録します。</p>")}${card("ライフゲーム由来の局所規則", "<p>鉱物片・鉱液滴・情報の発生候補は近傍8マスのB3/S23（3で出生、2/3で残存）。候補に加え供給元の予算・地形条件も必要です。主生物の出生は空き主枠の近傍主生物2〜3体と親条件を使います。生産者は通常B2/3（浮遊微藻はB1/2/3）、生産者優遇ONではB1/2/3。一次消費者は通常B2/3、水游虫優遇ONでは水游虫がB1/2/3です。各出生に成熟・栄養・材料・出生費が必要で、供給ONの環境由来定着は親からの出生と別に記録します。主生物の死因は飢餓・寿命・戦闘です。</p>")}${card("規模と観測の限界", "<p>小40×28、標準80×56、大160×112。基準は1ターン約1秒で、負荷超過時は実時間の進行を減速します。画面外も計算し、個体数を描画上限へ合わせません。500ターンで一時停止し、次区間へ続行できます。</p>")}</div>`,
+      `<h2>基本システムから読む</h2><p class="note">自然配置は同系統4体の小組。生産者は光・葉量・モード・優遇に応じてEを得てBへ投資し、土壌Mも利用します。生産者の供給設定は光合成と別の外部入力として収支に記録します。</p><div class="flow">初期値 → 固定環境・初期生物 → 局所の同期更新 → 食物網・生存競争 → 観測</div><div class="sheet-grid">${card("セルと生物の重なり", "<p>マスには主生物1体、生産者/分解者1体、一次消費者1体の3枠があり、同じマスに共存できます。最大3種の落ちた資源は別です。一次寄生虫Pは各宿主に1群体、高次寄生虫QはPに1群体付随します。探索Qと感染性死骸も別に存在します。生物は独立個体、P/Qは群体の管理単位です。</p>")}${card("固定環境、変わる生命", "<p>6種類の事前地形から選び、地形用初期値で候補地点の地物を決めます。生態用初期値は個体と資源の配置・生態進行に使います。8環境と地形・光・障害物は開始後に変わりません。系統の得意・苦手環境で攻撃・防御・移動Eが変わります。境界は通行可能なら越えられ、環境ごとに生物を隔離しません。</p>")}${card("三段階の観察", "<p>自動観察は1ターン約1秒。資源更新、移動・採食・戦闘、成長・繁殖を順に表示します。途中はプレビューで、個体数や図鑑は確定した結果を使います。一時停止では最後の確定ターンへ戻ります。地図操作・個体選択では進みます。説明・図鑑・初期設定へ移る間は停止し、元が観測中なら同じ世界へ戻ると再開します。手動停止中も観察操作ができます。最大60秒の事前計算と上限6ターンの先行計算を使います。負荷が高いときは時間を伸ばし、個体やターンを省略しません。行動の軌跡と短いマークで成立した作用を示します。</p>")}${card("観察モードの条件", "<p>自由設定は従来の光合成入力と初期餌量。河畔・定着観察は7系統、湖沼・食物網観察は5系統で、主生物は小マップ160体から面積に比例します。両モードは高生産環境として光合成入力2倍。一次消費者の初期量は河畔25%増、湖沼50%増です。群密度・種別初期数・資源量は別欄で調整でき、生産者供給も自由設定から選択できます。動物・寄生虫の救済補充はありません。供給ONでは適地の生産者へ外部栄養と環境由来の定着が生じます。実効条件と実配置を図鑑へ保存します。</p>")}${card("10段階の同期ターン", "<ol><li>期限切れ・資源CA</li><li>光と行動候補</li><li>移動予約</li><li>同時戦闘</li><li>育児・採食</li><li>維持費・死亡</li><li>経験・寄生成熟</li><li>成長・繁殖</li><li>有償生産・情報・寄生出産</li><li>結果確定・観測</li></ol>")}${card("有限の収支", "<p>Eは使えるエネルギー、Bは身体の有機量、Mは鉱物、Gは累積成長値。光と、有効時の生産者供給が外部入力です。供給のE/Mは独立台帳へ記録し、食物は生物・死骸・土壌から支払います。植物は所在土壌Mを一口最大0.1取り、吸収率0.5の残りを土へ戻します。二口の上限を共有します。時間だけで食べた餌が無料復活することはありません。散逸分も台帳へ記録します。</p>")}${card("ライフゲーム由来の局所規則", "<p>鉱物片・鉱液滴・情報の発生候補は近傍8マスのB3/S23（3で出生、2/3で残存）。候補に加え供給元の予算・地形条件も必要です。主生物の出生は空き主枠の近傍主生物2〜3体と親条件を使います。生産者は通常B2/3（浮遊微藻はB1/2/3）、生産者優遇ONではB1/2/3。一次消費者は通常B2/3、水游虫優遇ONでは水游虫がB1/2/3です。各出生に成熟・栄養・材料・出生費が必要で、供給ONの環境由来定着は親からの出生と別に記録します。主生物の死因は飢餓・寿命・戦闘です。</p>")}${card("規模と観測の限界", "<p>小40×28、標準80×56、大160×112。基準は1ターン約1秒で、負荷超過時は実時間の進行を減速します。画面外も計算し、個体数を描画上限へ合わせません。500ターンで一時停止し、次区間へ続行できます。</p>")}</div>`,
     food: () =>
       `<h2>植物 → 一次消費者 → 主生物、そして分解者へ</h2><div class="flow">光 → 植物 → 一次消費者 → 主生物 → 死骸 → 菌・有機粒・土壌<br>${S.PersistentInformation?.enabled(world)?"本人の実経験 → 非栄養の情報痕跡 → 学習・場所作用":"本人の経験 → 情報エネルギー体 → 他個体の行動パラメータ"}</div><table class="food-table"><thead><tr><th>餌・生物</th><th>特色 / 主な供給元</th><th>不足・制約</th></tr></thead><tbody>${[
         [
@@ -1790,11 +1831,12 @@
     renderer.draw();
   }).observe($("board"));
   function frame(now) {
+    try {
     if (now - paintAt >= 1000 / 30) {
       paintAt = now;
-      renderer.drawIfChanged(now);
+      if(!renderFaulted)renderer.drawIfChanged(now);
       $("scale-warning").hidden = renderer.view.scale >= 8;
-      setText("status", playbackError ? "計算エラー・停止" : ended ? "観測終了" : running
+      setText("status", playbackError ? (faultKind||"計算")+"エラー・停止" : ended ? "観測終了" : holds.size ? "別画面・停止中" : running
         ? prewarming && !pendingTurn ? "観測の準備中"
           : !pendingTurn && !compute.length ? `計算待ち · ${Math.floor((now-(computeWaitAt??now))/1000)}秒`
           : replayEntry ? "再生中・記録なし" : "観測中"
@@ -1808,7 +1850,9 @@
         fmt(renderer.view.scale) +
         " px/マス" + (renderer.diagnostics.terrainPending ? " · 背景を精細化中" : ""));
     }
-    requestAnimationFrame(frame);
+      if(running&&!holds.size&&!pendingTurn&&!timer&&!playbackError)timer=setTimeout(runLoop,0);
+    }catch(error){failObservation("描画",error);}
+    finally {requestAnimationFrame(frame);}
   }
   requestAnimationFrame(frame);
   R.assets.ready.then(() => {
@@ -1843,6 +1887,7 @@
       snapshot: () => ({
         world: world && structuredClone(world),
         running,
+        faultKind,playbackError,worldGeneration,scheduled:!!timer,
         pending: pendingTurn && {phase:pendingTurn.phase,nextTurn:world.turn+1,events:[...(pendingTurn.previewTypes || [])]},
         cadenceMs:TURN_MS,
         holds:[...holds],

@@ -17,7 +17,9 @@
  const hyperBuildSignature="32595746fbb53881d5bcda4c42a98f062540cf73d91c85125d5b7dd73df600b1";
  const informationBuildSignature="cc602920ce515db5502edec9d74233a0f397735ff5707ea7ae71fa81eb5fc50d";
  const generationBuildSignature='2789e4711fd87f4824e11ff10762fde9a26880fa322db3a1bfbeb808b094d85d';
+ const relationshipBuildSignature='a7cac02a9d7382b478919b40c44823ce0d6bb0325b3e551adb1236908c92774d';
  function canonicalSignature(s,config){
+  if(s===relationshipBuildSignature&&config.relationshipModel===undefined)s=generationBuildSignature;
   if(s===generationBuildSignature&&config.generationModel===undefined&&config.generationSettings===undefined&&config.generationResolved===undefined)s=informationBuildSignature;
   if(s===informationBuildSignature&&config.informationModel===undefined&&config.informationSettings===undefined)s=hyperBuildSignature;
   if(s===hyperBuildSignature&&config.hyperParasiteModel===undefined&&config.hyperParasiteSettings===undefined)s=primaryBuildSignature;
@@ -28,7 +30,7 @@
    ? "8d7f6fbd94128cebf77ab6032098e09a432bc13d8cb2552222b0546971e84745" : equivalentReplaySignatures[s]||s;
  }
  const terminalDefinition='ecosystem-terminal-state/1',sampleLimit=4;
- const modelKeys=['generationModel','producerModel','largePlantModel','ryoukiModel','primaryParasiteModel','hyperParasiteModel','informationModel'];
+ const modelKeys=['relationshipModel','generationModel','producerModel','largePlantModel','ryoukiModel','primaryParasiteModel','hyperParasiteModel','informationModel'];
  const sampleKeys=['organisms','colonies','independentPlants','ryouki','primaryParasites','hyperParasites','informationField','informationSubjects'];
  const pick=(o,keys)=>Object.fromEntries(keys.filter(k=>o?.[k]!==undefined).map(k=>[k,structuredClone(o[k])]));
  function same(a,b){if(Object.is(a,b))return true;if(!a||!b||typeof a!=='object'||typeof b!=='object'||Array.isArray(a)!==Array.isArray(b))return false;const keys=Object.keys(a);return keys.length===Object.keys(b).length&&keys.every(k=>Object.hasOwn(b,k)&&same(a[k],b[k]));}
@@ -85,7 +87,7 @@
   const S=engine.S;if(!S.WorldGeneration?.validateResolved)throw Error('多様生成の保存条件を検証できません。');S.WorldGeneration.validateResolved(record.config);
   const normalized=S.validate(record.config);for(const key of ['producerSettings','largePlantSettings','ryoukiSettings','primaryParasiteSettings','hyperParasiteSettings','informationSettings'])if(!same(normalized[key],record.config[key]))throw Error('保存された全実効条件に欠測があります。');
   const o=record.observation;if(o?.metadata?.version!==record.signature||!same(o.metadata.config,record.config)||!Array.isArray(o.rows)||o.rows.length!==record.turn+1)throw Error('保存された全期間記録の条件・署名・時点が一致しません。');
-  const definitions=['current','trophic','nutrition','producerColony','independentPlants','ryouki','primaryParasite','primaryParasiteFlow','hyperParasite','hyperParasiteFlow','persistentInformation','persistentInformationFlow','combat','information'];
+  const definitions=['current','trophic','nutrition','producerColony','independentPlants','ryouki','primaryParasite','primaryParasiteFlow','hyperParasite','hyperParasiteFlow','persistentInformation','persistentInformationFlow','combat','information','relationship'];
   if(Object.keys(o.definitions||{}).some(k=>!definitions.includes(k)))throw Error('保存された観測に未知の定義があります。');
   const O=observationsAPI();if(!O?.restore)throw Error('保存された観測の検証APIを読み取れません。');O.restore(o,{validateOnly:true});
   const ids=o.metadata.species?.map(s=>s.id);if(!ids?.length||new Set(ids).size!==ids.length)throw Error('保存された系統定義に欠測があります。');
@@ -112,6 +114,9 @@
     return record;
   }
   function capture(world,reason,observation,originRecordId=null){
+    const relationModel=world.config.relationshipModel;
+    if(relationModel!==undefined&&relationModel!=='network/1')throw Error('関係図の観測方式を読み取れません。');
+    if(relationModel==='network/1'){if(!observation)throw Error('関係図の保存には全期間観測が必要です。');observationsAPI().restore(observation,{validateOnly:true});}
     const generation=world.config.generationModel!==undefined||world.config.generationSettings!==undefined||world.config.generationResolved!==undefined;
     if(generation&&!observation)throw Error('多様生成の保存には全ターン観測が必要です。');
     if(generation)finiteData(world);

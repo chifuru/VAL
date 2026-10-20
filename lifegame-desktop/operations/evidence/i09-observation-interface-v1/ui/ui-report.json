@@ -1,0 +1,300 @@
+{
+  "passed": true,
+  "checks": [
+    "setup hides the live three-graph region",
+    "individual table and the second pause control are removed",
+    "three graphs have no folding control",
+    "CSV and long aggregate explanations are confined to saved-result analysis",
+    "three full-period graph panels remain present together",
+    "live graph is visible: graph-stacked",
+    "live graph is visible: composition-phases",
+    "live graph is visible: composition-sex",
+    "live graph is visible: composition-ages",
+    "live graph is visible: graph-relations",
+    "population and all three composition histories have readable height",
+    "standard layout has no horizontal document overflow",
+    "map and permanent graphs use distinct columns with adequate map height",
+    "relationships biomass and composition stay within one summary",
+    "donut uses a larger native bitmap rather than a stretched tiny canvas",
+    "inner and outer rings both use the same complete population denominator",
+    "ring headings and common denominator are explained",
+    "all-turn graph can display all",
+    "all-turn graph can display main",
+    "all-turn graph can display plant",
+    "all-turn graph can display prey",
+    "all-turn graph can display fungus",
+    "all-turn graph can display P",
+    "all-turn graph can display Q",
+    "all-turn graph can display solar",
+    "selecting an individual shows its separate details without replacing graphs",
+    "individual details and graphs do not visually overlap",
+    "existing class name control updates the same renderer state",
+    "maximum mode omits optional effects labels and status while retaining action marks",
+    "maximum mode does not turn detailed creatures into symbols",
+    "background simplification can be individually disabled after maximum mode",
+    "action marks can be disabled independently",
+    "normal preset restores detailed presentation settings",
+    "display presets and individual switches preserve the complete world and every turn observation",
+    "four committed turns produce identical fingerprints and complete raw observations under normal maximum and individual settings",
+    "controlled rapid committed turns keep every raw row while low-frequency charts coalesce redraws",
+    "manual stop and individual selection immediately show the latest committed graph",
+    "controlled row-copy display fixture always renders one main and four history slots",
+    "controlled display fixture keeps ended boundaries above and starts a new block only at the next committed turn",
+    "narrow layout avoids horizontal document overflow",
+    "narrow vertical layout retains graph graph-stacked",
+    "narrow vertical layout retains graph composition-phases",
+    "narrow vertical layout retains graph composition-sex",
+    "narrow vertical layout retains graph composition-ages",
+    "narrow vertical layout retains graph graph-relations",
+    "final result can be saved from the redesigned observation screen",
+    "saved result retains full turns and versioned relationship intervals",
+    "saved result exposes graphs and numerical analysis in the result dialog",
+    "saved result uses one integrated summary with the recorded relationship model",
+    "closing saved analysis restores live graph and summary locations",
+    "returning to setup hides live graphs without losing history",
+    "returning to setup retains all committed raw turns",
+    "cancelling setup restores the same graph panel",
+    "old saved results show missing relation measurements rather than invented present-day paths",
+    "old replay preserves the absence of the new relationship model",
+    "old recorded endpoint remains exactly reproducible",
+    "all adopted image assets still load",
+    "no browser exceptions or native dialogs"
+  ],
+  "errors": [],
+  "sourceSignature": "a7cac02a9d7382b478919b40c44823ce0d6bb0325b3e551adb1236908c92774d",
+  "measurements": {
+    "standard": {
+      "map": {
+        "x": 15,
+        "y": 512.40625,
+        "width": 938,
+        "height": 255.59375,
+        "right": 953,
+        "bottom": 768
+      },
+      "summary": {
+        "x": 14,
+        "y": 130,
+        "width": 1432,
+        "height": 313.453125,
+        "right": 1446,
+        "bottom": 443.453125
+      },
+      "graphs": {
+        "x": 979,
+        "y": 462.453125,
+        "width": 454,
+        "height": 546.546875,
+        "right": 1433,
+        "bottom": 1009
+      },
+      "population": {
+        "x": 987,
+        "y": 559.453125,
+        "width": 438,
+        "height": 98,
+        "right": 1425,
+        "bottom": 657.453125
+      },
+      "phase": {
+        "x": 1016,
+        "y": 767.453125,
+        "width": 409,
+        "height": 38,
+        "right": 1425,
+        "bottom": 805.453125
+      },
+      "sex": {
+        "x": 1016,
+        "y": 809.453125,
+        "width": 409,
+        "height": 38,
+        "right": 1425,
+        "bottom": 847.453125
+      },
+      "age": {
+        "x": 1016,
+        "y": 851.453125,
+        "width": 409,
+        "height": 38,
+        "right": 1425,
+        "bottom": 889.453125
+      },
+      "ecology": {
+        "x": 987,
+        "y": 935.453125,
+        "width": 438,
+        "height": 76,
+        "right": 1425,
+        "bottom": 1011.453125
+      },
+      "donut": {
+        "x": 1173.109375,
+        "y": 171.53125,
+        "width": 250,
+        "height": 211.796875,
+        "right": 1423.109375,
+        "bottom": 383.328125
+      },
+      "documentWidth": 1460,
+      "viewport": 1460
+    },
+    "controlledFastCommitCadence": {
+      "before": 5,
+      "after": 8,
+      "fast": [],
+      "stopped": {
+        "label": "0–7T",
+        "turn": 7
+      },
+      "selectedLabel": "0–7T"
+    },
+    "syntheticBoundaryFixture": [
+      {
+        "turn": 0,
+        "first": 1,
+        "last": 0,
+        "live": 1,
+        "past": 4,
+        "firsts": [
+          1
+        ]
+      },
+      {
+        "turn": 100,
+        "first": 1,
+        "last": 100,
+        "live": 1,
+        "past": 4,
+        "firsts": [
+          1
+        ]
+      },
+      {
+        "turn": 101,
+        "first": 101,
+        "last": 101,
+        "live": 1,
+        "past": 4,
+        "firsts": [
+          101,
+          1
+        ]
+      },
+      {
+        "turn": 400,
+        "first": 301,
+        "last": 400,
+        "live": 1,
+        "past": 4,
+        "firsts": [
+          301,
+          1,
+          101,
+          201
+        ]
+      },
+      {
+        "turn": 500,
+        "first": 401,
+        "last": 500,
+        "live": 1,
+        "past": 4,
+        "firsts": [
+          401,
+          1,
+          101,
+          201,
+          301
+        ]
+      },
+      {
+        "turn": 501,
+        "first": 501,
+        "last": 501,
+        "live": 1,
+        "past": 4,
+        "firsts": [
+          501
+        ]
+      }
+    ],
+    "narrow": {
+      "map": {
+        "x": 15,
+        "y": 1044.203125,
+        "width": 750,
+        "height": 685,
+        "right": 765,
+        "bottom": 1729.203125
+      },
+      "summary": {
+        "x": 14,
+        "y": 298,
+        "width": 752,
+        "height": 598.203125,
+        "right": 766,
+        "bottom": 896.203125
+      },
+      "graphs": {
+        "x": 24,
+        "y": 2316.203125,
+        "width": 732,
+        "height": 961.203125,
+        "right": 756,
+        "bottom": 3277.40625
+      },
+      "population": {
+        "x": 32,
+        "y": 2416.203125,
+        "width": 716,
+        "height": 193.90625,
+        "right": 748,
+        "bottom": 2610.109375
+      },
+      "phase": {
+        "x": 61,
+        "y": 2724.109375,
+        "width": 687,
+        "height": 103.765625,
+        "right": 748,
+        "bottom": 2827.875
+      },
+      "sex": {
+        "x": 61,
+        "y": 2829.875,
+        "width": 687,
+        "height": 103.765625,
+        "right": 748,
+        "bottom": 2933.640625
+      },
+      "age": {
+        "x": 61,
+        "y": 2935.640625,
+        "width": 687,
+        "height": 103.765625,
+        "right": 748,
+        "bottom": 3039.40625
+      },
+      "ecology": {
+        "x": 32,
+        "y": 3090.40625,
+        "width": 716,
+        "height": 179,
+        "right": 748,
+        "bottom": 3269.40625
+      },
+      "donut": {
+        "x": 467.328125,
+        "y": 622.8125,
+        "width": 250,
+        "height": 211.796875,
+        "right": 717.328125,
+        "bottom": 834.609375
+      },
+      "documentWidth": 780,
+      "viewport": 780
+    }
+  },
+  "scope": "Linux Chromium at1460x1030 and780x1000; actual short4T worlds and IndexedDB save/analysis, raw data equality across display settings; 100T boundaries use explicitly synthetic repeated-row display fixtures, not500T ecological survival"
+}

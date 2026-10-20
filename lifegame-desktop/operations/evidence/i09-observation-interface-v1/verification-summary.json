@@ -1,0 +1,100 @@
+{
+  "status": "passed-with-deferred-scope",
+  "version": "4.2.41",
+  "baseline": "e09132c / 4.2.40",
+  "dateUTC": "2026-10-20T17:23:28.290211+00:00",
+  "biologicalSignature": "a7cac02a9d7382b478919b40c44823ce0d6bb0325b3e551adb1236908c92774d",
+  "unitFullRun": {
+    "status": "passed-with-existing-skips",
+    "command": "node --test --test-concurrency=2 tests/*.test.cjs",
+    "files": 78,
+    "countMeaning": "individual and nested node:test entries;578 entries across78 files",
+    "log": "model/unit.log",
+    "tests": 578,
+    "pass": 573,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 5,
+    "duration_ms": 281617.830882,
+    "skipReason": "5 unchanged4.1.3 fixed-evidence experiments; current production checked separately by observation-model tests"
+  },
+  "newDedicated": {
+    "relationshipCases": 9,
+    "archiveCases": 3,
+    "realRendererCases": 1,
+    "totalCases": 13,
+    "logs": [
+      "model/relationship-network.log",
+      "model/archive-network.log",
+      "model/final-related.log",
+      "model/unit.log"
+    ],
+    "finalRenderChangesCheckedSeparately": true
+  },
+  "legacyComparison": {
+    "cases": 64,
+    "states": 448,
+    "worldFingerprintAndCSVEqual": true,
+    "report": "model/paths.json"
+  },
+  "newPathComparison": {
+    "cases": 8,
+    "states": 40,
+    "staticDynamicWorldFingerprintAndCSVEqual": true,
+    "report": "model/paths.json"
+  },
+  "newObservationParity": {
+    "cases": 8,
+    "states": 48,
+    "allPriorFieldsExactlyEqual": true,
+    "excludedOnly": "new display flag, derived resolution digests and new display telemetry",
+    "report": "model/ecology-parity.json"
+  },
+  "ui": {
+    "checks": 58,
+    "errors": [],
+    "report": "ui/ui-report.json",
+    "sourceSignature": "a7cac02a9d7382b478919b40c44823ce0d6bb0325b3e551adb1236908c92774d",
+    "command": "I09_LAYOUT_PREFLIGHT=0 LIFEGAME_EVIDENCE=operations/evidence/i09-observation-interface-v1/ui node tests/i09-observation-interface.cjs",
+    "screenshots": 5,
+    "scope": "Linux Chromium at1460x1030 and780x1000; actual short4T worlds and IndexedDB save/analysis, raw data equality across display settings; 100T boundaries use explicitly synthetic repeated-row display fixtures, not500T ecological survival",
+    "standardMeasuredPixels": {
+      "map": 255.594,
+      "summary": 313.453,
+      "population": 98,
+      "phase": 38,
+      "sex": 38,
+      "age": 38,
+      "ecology": 76,
+      "donut": 211.797
+    },
+    "narrowWidth": 780,
+    "noHorizontalOverflow": true
+  },
+  "controls": {
+    "checks": 24,
+    "errors": [],
+    "report": "controls/report.json",
+    "sourceSignature": "a7cac02a9d7382b478919b40c44823ce0d6bb0325b3e551adb1236908c92774d",
+    "scope": "Linux Chromium actual lifecycle controls; manual/staged pause, same-screen controls, nested screens, stale asynchronous results, draw/UI/recording exceptions and retry, checkpoint continuation at a deliberately shortened boundary fixture. Injected failures are controlled fixtures, not claimed user-bug reproductions."
+  },
+  "totalBrowserChecks": 82,
+  "limits": [
+    "Synthetic100/101/400/500/501T history fixtures test presentation boundaries, not natural500T survival. Checkpoint control uses an intentionally shortened test boundary within a500T config.",
+    "Fault injection proves controlled recovery paths, not a reproduction or definitive cause of every reported user freeze.",
+    "Narrow screens use a vertical layout; standard viewport1460x1030 was measured. All device sizes/performance are not certified.",
+    "Displayed support, exposure, applied weights and role leaders are observations; no counterfactual ecological causality or overall health score is inferred.",
+    "P/Q natural long-term circulation and500T/R1-R6 remain unmet/deferred to I11. Adopted artwork unchanged; I10 final materials/actions remain. No new Windows/ZIP, distributed4.2.32 unchanged."
+  ],
+  "next": "I10 materials/rendering/action displays",
+  "structure": {
+    "report": "final-structure-check.json",
+    "nodeCount": 61,
+    "updatedNodes": 8,
+    "formalStateAndHierarchyUnchanged": true,
+    "coreABAndPriorImagesUnchanged": true,
+    "sourceHashes": 48,
+    "references": 3803,
+    "markdownLinks": 52
+  }
+}

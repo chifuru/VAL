@@ -1,0 +1,17 @@
+✔ uncapped combat amounts, care and actual removal are collected only by the new observation gate (10.472137ms)
+✔ food arrows follow actual energy, distinguish carcasses and never use information as food (14.34959ms)
+✔ information attributes only nonzero known origins once, separating confirmed Q mediation (0.97405ms)
+✔ 100T windows retain boundary values, use shared scales and change only on the following turn (70.111784ms)
+✔ new snapshot saves all intervals and rejects missing, corrupted and future definitions (5.425153ms)
+✔ legacy snapshots and CSV are unmodified and absent old relation data is not zero-filled (1.967181ms)
+✔ initial, extinct and missing states remain distinct in models and shared-symbol markup (8.041795ms)
+✔ missing amount measurements stay unrecorded instead of becoming apparent measured zero (0.966519ms)
+✔ all displayed intervals share one compact canonical species and resource layout (14.19681ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 137.312918

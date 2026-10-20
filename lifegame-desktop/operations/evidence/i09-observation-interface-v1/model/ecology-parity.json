@@ -1,0 +1,47 @@
+{
+  "cases": 8,
+  "states": 48,
+  "scope": "Same engine with the relationship observation flag enabled/absent; all prior biological state, RNG, budget, events and original observation fields exactly equal after excluding only the added flag, derived resolution digests and new display telemetry",
+  "reports": [
+    {
+      "bits": 0,
+      "states": 6,
+      "allOriginalFieldsExact": true
+    },
+    {
+      "bits": 1,
+      "states": 6,
+      "allOriginalFieldsExact": true
+    },
+    {
+      "bits": 2,
+      "states": 6,
+      "allOriginalFieldsExact": true
+    },
+    {
+      "bits": 3,
+      "states": 6,
+      "allOriginalFieldsExact": true
+    },
+    {
+      "bits": 4,
+      "states": 6,
+      "allOriginalFieldsExact": true
+    },
+    {
+      "bits": 5,
+      "states": 6,
+      "allOriginalFieldsExact": true
+    },
+    {
+      "bits": 6,
+      "states": 6,
+      "allOriginalFieldsExact": true
+    },
+    {
+      "bits": 7,
+      "states": 6,
+      "allOriginalFieldsExact": true
+    }
+  ]
+}

@@ -126,11 +126,20 @@
     if(!image){image=document.createElement('canvas');image.width=Math.max(2,Math.ceil((rx*2+line)*z)+4);image.height=Math.max(2,Math.ceil((ry*2+line)*z)+4);const c=image.getContext('2d');c.translate(image.width/2,image.height/2);c.scale(z,z);c.beginPath();c.ellipse(0,0,rx,ry,0,0,Math.PI*2);c.fillStyle=fill;c.fill();if(stroke){c.strokeStyle=stroke;c.lineWidth=line;c.stroke();}keepSprite('ellipses',ellipseImages,key,image,8*1024*1024,256);}
     g.drawImage(image,x-image.width/z/2,y-image.height/z/2,image.width/z,image.height/z);
   }
-  function basalSprite(g,o,x,y,z,age){
-    const unit=Math.max(16,symbolResolution),key=[o.species,age.enabled,age.stage,!!o.infection,!!o.infection?.q,z,unit].join('/');let image=readSprite(basalSprites,key);
+  function ageMarker(g,x,y,z,age){
+    if(!age.enabled||age.stage==='adult')return false;
+    const young=age.stage==='juvenile',radius=Math.max(.045,1.9/z),cx=x+Math.max(.23,3/z),cy=y+.12;
+    g.save();g.strokeStyle='#061923';g.lineWidth=3/z;g.beginPath();g.arc(cx,cy,radius,0,young?Math.PI*2:Math.PI*1.55);g.stroke();
+    g.strokeStyle=young?'#ffe69a':'#d2c6f6';g.lineWidth=1.3/z;g.stroke();
+    if(young){g.fillStyle='#ffe69a';g.beginPath();g.arc(cx,cy,radius*.27,0,Math.PI*2);g.fill();}
+    else{g.beginPath();g.moveTo(cx+radius*.5,cy-radius*.45);g.lineTo(cx+radius*1.2,cy-radius*1.05);g.stroke();}
+    g.restore();return true;
+  }
+  function basalSprite(g,o,x,y,z,age,showAge){
+    const unit=Math.max(16,symbolResolution),key=[o.species,age.enabled,age.stage,showAge,!!o.infection,!!o.infection?.q,z,unit].join('/');let image=readSprite(basalSprites,key);
     if(!image){image=document.createElement('canvas');image.width=image.height=Math.ceil(unit*2)+4;const c=image.getContext('2d');c.translate(image.width/2,image.height/2);c.scale(unit,unit);
       ellipseStamp(c,0,.04,.22,.17,'#061922cc');ellipseStamp(c,0,0,.235,.185,'#02131cf0','#c5e9be99',Math.max(.018,.55/z));symbol(c,o.species,0,0,.17,symbolColor(S.spec(o)));
-      if(age.enabled&&age.stage!=='adult'){c.strokeStyle=age.stage==='juvenile'?'#fff0b2':'#d7e2e0';c.lineWidth=1/z;c.beginPath();c.arc(.23,.12,.045,0,age.stage==='juvenile'?Math.PI*2:Math.PI*1.6);c.stroke();}
+      if(showAge)ageMarker(c,0,0,z,age);
       if(o.infection){const [bx,by]=globalThis.EcoDisplayPlane.parasitePoint([0,0],'P',false);c.fillStyle='#19172b';c.beginPath();c.arc(bx,by,.1,0,7);c.fill();c.fillStyle='#ffba82';c.beginPath();c.arc(bx,by,.05,0,7);c.fill();if(o.infection.q){c.strokeStyle='#d8adff';c.lineWidth=Math.max(.025,.7/z);c.beginPath();c.arc(bx,by,.1,0,7);c.stroke();}}
       keepSprite('basal',basalSprites,key,image,4*1024*1024,256);
     }
@@ -186,6 +195,9 @@
         selectedEntity: null,
         grid: false,
         motion: true,
+        effects: true,
+        actionMarks: true,
+        interactionSimplify: false,
         ageEmphasis: false,
         emphasis: true,
         simplified: false,
@@ -227,6 +239,10 @@
     let terrainWorker=null, terrainEpoch=0, terrainReady=false, terrainBusy=false,
       terrainRequest=null, terrainFailed=false, terrainMetrics=null;
     let fallbackNearToken=0,fallbackOverviewEpoch=null;
+    let interactionHeld=false,interactionUntil=0;
+    function interact(active=false){
+      interactionHeld=!!active;interactionUntil=performance.now()+180;lastFrameKey=null;
+    }
     function fallbackSurface(request){
       const epoch=terrainEpoch,overview=!!request.overview;
       if(overview&&fallbackOverviewEpoch===epoch)return;
@@ -410,9 +426,10 @@
     function drawIfChanged(now = performance.now()) {
       const b = canvas.getBoundingClientRect();
       if(!b.width || !b.height)return false;
-      const active = world && view.scale>=4 && view.motion && (
-        (view.animate&&now-changedAt<view.duration&&(world.events||[]).some(e=>e.type!=='light')) ||
-        [...actionMarks.values()].some(m=>now-m.at>=670&&now-m.at<850));
+      const active = world && view.scale>=4 && (
+        ((view.motion||view.effects)&&view.animate&&now-changedAt<view.duration&&(world.events||[]).some(e=>e.type!=='light')) ||
+        (view.actionMarks&&[...actionMarks.values()].some(m=>now-m.at>=670&&now-m.at<850)) ||
+        (view.interactionSimplify&&(interactionHeld||now<interactionUntil)));
       const key = [
         revision,
         Art.loaded,
@@ -445,7 +462,8 @@
         z = view.scale,
         near = z >= 24 && view.mode !== "overview",
         detail = near && !view.simplified,
-        point = z < 4;
+        point = z < 4,
+        simplifiedBackground=near&&view.interactionSimplify&&(interactionHeld||performance.now()<interactionUntil);
       symbolResolution=Math.max(4,Math.round(z*(devicePixelRatio||1)*4)/4);
       Object.assign(diagnostics, {
         mode: point ? "point" : detail ? "detail" : "simple",
@@ -471,6 +489,11 @@
         elevated: 0,
         selectedMotionEndpoints: null,
         informationFields: [],
+        effectsEnabled: view.effects,
+        actionMarksEnabled: view.actionMarks,
+        ageMarkers: 0,
+        gridCells: 0,
+        backgroundSimplified: simplifiedBackground,
       });
       const visible = (p, margin = 1) =>
         p[0] * z + view.x >= -z * margin &&
@@ -493,7 +516,7 @@
       g.save();
       g.translate(view.x, view.y);
       g.scale(z, z);
-      if (near) {
+      if (near && !simplifiedBackground) {
         const sx=Math.floor(view.x/128)*128+128+(view.x-Math.floor(view.x)),sy=Math.floor(view.y/128)*128+128+(view.y-Math.floor(view.y));
         const key = [
           geometryKey,
@@ -505,36 +528,41 @@
           devicePixelRatio || 1,
         ].join("/");
         if (key !== cacheKey) {
-          cacheKey = key;nearCache?.close?.();nearCache=null;
+          // Retain the last detailed surface while the next viewport is prepared.
+          // Only newly exposed areas use the bounded overview fallback.
+          cacheKey = key;
           terrainRequest={key,x:sx,y:sy,scale:z,width:b.width+256,height:b.height+256,dpr:devicePixelRatio||1};
           diagnostics.terrainPending=!terrainFailed;pumpTerrain();
           if(terrainFailed){diagnostics.terrainPending=true;fallbackSurface(terrainRequest);terrainRequest=null;}
         }
-        if(nearCache)g.drawImage(nearCache,-nearRect.x/z,-nearRect.y/z,nearRect.width/z,nearRect.height/z);
-        else if(cache&&overviewBounds)g.drawImage(cache,overviewBounds.minX,overviewBounds.minY,cache.width/24,cache.height/24);
+        if(cache&&overviewBounds)g.drawImage(cache,overviewBounds.minX,overviewBounds.minY,cache.width/24,cache.height/24);
+        if(nearCache)g.drawImage(nearCache,-nearRect.x/nearRect.scale,-nearRect.y/nearRect.scale,nearRect.width/nearRect.scale,nearRect.height/nearRect.scale);
       } else if(cache&&overviewBounds){g.drawImage(cache,overviewBounds.minX,overviewBounds.minY,cache.width/24,cache.height/24);}
       diagnostics.materialPixelsPerCell = near
         ? (terrainMetrics?.unit || scene.metrics.unit)
         : Math.max(8, Math.min(24, Math.floor(1800 / w.config.width)));
       diagnostics.paintedMaterials = terrainMetrics?.paintedMaterials || scene.metrics.paintedMaterials;
-      if (view.grid && z >= 8) {
-        g.strokeStyle = "#e9e4c326";
-        g.lineWidth = 0.6 / z;
+      if (view.grid && z >= 4) {
+        g.save();
         for (let p = 0; p < w.tiles.length; p++) {
           const f = P.face(p);
           if (visible(f[4])) {
             path(f.slice(0, 4));
+            g.strokeStyle = '#03141bb8';g.lineWidth = 2.6/z;g.stroke();
+            g.strokeStyle = '#f2e6b5a8';g.lineWidth = 1/z;
             g.stroke();
+            diagnostics.gridCells++;
           }
         }
+        g.restore();
       }
       const age = view.animate
           ? Math.min(1, (performance.now() - changedAt) / view.duration)
           : 1,
         events = new Map(),
         departed = new Map();
-      if (view.motion && !point && age < 1) {
-        const planKey=[revision,view.x,view.y,z,view.selected,view.selectedEntity,b.width,b.height].join('/');
+      if ((view.motion || view.effects) && !point && age < 1) {
+        const planKey=[revision,view.x,view.y,z,view.selected,view.selectedEntity,b.width,b.height,view.motion,view.effects].join('/');
         if(eventPlan?.key===planKey){for(const [id,list]of eventPlan.events)events.set(id,list);for(const [id,o]of eventPlan.departed)departed.set(id,o);}
         else {
         const living = new Map([...livingById,...freeQById]),
@@ -543,7 +571,7 @@
           const o = previousActors.get(ev.id);departed.set(ev.id,o);living.set(ev.id,o);
         }
         for (const ev of w.events) {
-          if(ev.type === "death"||ev.type === "light"||actionKind(ev,w)===null) continue;
+          if(ev.type === "death"||ev.type === "light"||actionKind(ev,w)===null||(ev.type==='move'&&!view.motion)) continue;
           const o = living.get(ev.id);
           if (!o || !visible(eventPoint(o), 1.6)) continue;
           if (!grouped.has(ev.id)) grouped.set(ev.id, []);
@@ -590,6 +618,7 @@
           diagnostics.motionActors++;
           if (o.cell === view.selected) diagnostics.selectedMotion = true;
         }
+        if(!view.effects)return;
         for (const ev of list.slice(0, 4)) {
           if (ev.type === "move") continue;
           g.save();
@@ -603,7 +632,7 @@
               target=livingById.get(targetId)||(previousActors.has(targetId)?{...previousActors.get(targetId),cell:ev.to??previousActors.get(targetId).cell}:null),
               corpse=coordinates.entity(targetId),oldCorpse=previousCorpses.get(targetId),resourceIndex=ev.sourceType==="resource"?resourceKinds.indexOf(String(ev.source).split(":").at(-1)):-1,
               sourcePoint=oldCorpse?position(ev.to??oldCorpse.cell,oldCorpse.slot==="food"?.22:oldCorpse.slot==="prey"?.52:.86,.86):resourceIndex>=0?position(ev.to??o.cell,.12+(resourceIndex%4)*.23,.12+Math.floor(resourceIndex/4)*.2):null,
-              endpoint=target?coordinates.anchor(target,age,events.get(target.id)?.find(e=>e.type==='move')):null,
+              endpoint=target?coordinates.anchor(target,view.motion?age:1,events.get(target.id)?.find(e=>e.type==='move')):null,
               t=endpoint?[endpoint.point[0],endpoint.point[1]-(detail?bodyOffset(target):0)]:corpse?.point||sourcePoint||position(ev.to??o.cell);
             if(o.id===view.selectedEntity)diagnostics.selectedMotionEndpoints={id:o.id,target:targetId,from:[cx,cy],to:t};
             g.beginPath();g.moveTo(cx,cy);
@@ -687,7 +716,7 @@
         hitRegions.push({id:a.id,cell:a.cell,main:false,x:p[0],y:p[1],rx:.12,ry:.09});corpsePayload(a);
       }
       const main=coordinates.main,foodCells=coordinates.food,
-        actorKey=String(view.motion&&age<1&&!point),activeEvents=events;
+        actorKey=[view.motion,view.effects,age<1&&!point].join('/'),activeEvents=events;
       let fixed=frameCandidates.fixed,dynamic=[];
       if(!fixed||frameCandidates.actorKey!==actorKey){
         fixed=[];const moving=[];
@@ -696,7 +725,7 @@
         for(const o of frameCandidates.organisms){const list=activeEvents.get(o.id)||[],ev=list.find(e=>e.type==='move');if(ev){moving.push(o);continue;}const a=coordinates.anchor(o);if(visible(a.point,1.6)||visible(a.ground,1.6))fixed.push({depth:a.depth,o,p:a.point,list,ground:a.ground,elevated:a.elevated,cohabit:a.cohabit,rank:a.rank,scale:a.scale,remnant:false});}
         fixed.sort((a,b)=>a.depth-b.depth);frameCandidates.fixed=fixed;frameCandidates.moving=moving;frameCandidates.actorKey=actorKey;
       }
-      for(const o of [...frameCandidates.moving,...departed.values()]){const list=activeEvents.get(o.id)||[],ev=list.find(e=>e.type==='move'),a=coordinates.anchor(o,age,ev),remnant=departed.has(o.id);
+      for(const o of [...frameCandidates.moving,...departed.values()]){const list=activeEvents.get(o.id)||[],ev=list.find(e=>e.type==='move'),a=coordinates.anchor(o,view.motion?age:1,ev),remnant=departed.has(o.id);
         if(remnant&&!list.some(e=>['move','attack','defend','feed','care','clear'].includes(e.type)||(/^(primary|hyper)-/.test(e.type)&&actionKind(e,w))))continue;
         if(visible(a.point,1.6)||visible(a.ground,1.6))dynamic.push({depth:a.depth,o,p:a.point,list,ground:a.ground,elevated:a.elevated,cohabit:a.cohabit,rank:a.rank,scale:a.scale,remnant});}
       dynamic.sort((a,b)=>a.depth-b.depth);const actors=[];let fixedAt=0,movingAt=0;
@@ -722,7 +751,7 @@
       let basalPainted=false;
       function paintBasalLayer(){
         if(basalPainted||!basalActors.length)return;basalPainted=true;
-        const key=[geometryKey,view.x,view.y,z,b.width,b.height,devicePixelRatio||1].join('/');
+        const key=[geometryKey,view.x,view.y,z,b.width,b.height,devicePixelRatio||1,view.ageEmphasis].join('/');
         const ages=frameCandidates.ages ||= new Map();
         const identities=frameCandidates.basalIdentities ||= basalActors.map(a=>{const o=a.o;if(!ages.has(o.id))ages.set(o.id,S.ageInfo(o));return [o.id,o.species,o.cell,ages.get(o.id).stage,o.infection?.id,o.infection?.q?.id];});
         const valid=basalLayer?.key===key&&identities.length===basalLayer.identities.length&&identities.every((a,i)=>a.every((v,j)=>v===basalLayer.identities[i][j]));
@@ -730,7 +759,7 @@
           const image=document.createElement('canvas'),d=devicePixelRatio||1;image.width=Math.ceil(b.width*d);image.height=Math.ceil(b.height*d);const c=image.getContext('2d');c.setTransform(d*z,0,0,d*z,d*view.x,d*view.y);
           const hits=[];let infected=0,high=0;
           for(const actor of basalActors){const o=actor.o,[cx,cy]=actor.p;
-            const age=ages.get(o.id);basalSprite(c,o,cx,cy,z,age);
+            const age=ages.get(o.id);basalSprite(c,o,cx,cy,z,age,view.ageEmphasis);
             hits.push({id:o.id,cell:o.cell,main:false,x:cx,y:cy,rx:.22,ry:.21});
             if(o.infection){infected++;if(o.infection.q)high++;const [bx,by]=globalThis.EcoDisplayPlane.parasitePoint([cx,cy],'P',false);hits.push({id:o.infection.id,cell:o.cell,main:false,x:bx,y:by,rx:.065,ry:.065});if(o.infection.q)hits.push({id:o.infection.q.id,cell:o.cell,main:false,x:bx,y:by,rx:.115,ry:.115,min:.6});}
           }
@@ -738,6 +767,7 @@
         }else diagnostics.basalLayerHits=(diagnostics.basalLayerHits||0)+1;
         g.drawImage(basalLayer.image,-view.x/z,-view.y/z,b.width/z,b.height/z);for(const h of basalLayer.hits)hitRegions.push(h);
         diagnostics.drawn+=basalActors.length;diagnostics.infectedHosts+=basalLayer.infected;diagnostics.highParasites+=basalLayer.high;
+        if(view.ageEmphasis)diagnostics.ageMarkers+=basalActors.filter(a=>{const age=ages.get(a.o.id);return age.enabled&&age.stage!=='adult';}).length;
       }
       let upperStarted=false;
       for (const actor of sequence) {
@@ -885,19 +915,7 @@
           showStatus = view.statusMarks && near &&
             (view.statusScope === "all" || isMain || isProducer || o.id === view.selectedEntity) &&
             (z >= 100 || o.cell === view.selected);
-        if (!showStatus && a.enabled && a.stage !== "adult" && (view.ageEmphasis || !detail)) {
-          g.strokeStyle = a.stage === "juvenile" ? "#fff0b2" : "#d7e2e0";
-          g.lineWidth = 1 / z;
-          g.beginPath();
-          g.arc(
-            cx + 0.23,
-            cy + 0.12,
-            0.045,
-            0,
-            a.stage === "juvenile" ? Math.PI * 2 : Math.PI * 1.6,
-          );
-          g.stroke();
-        }
+        if(view.ageEmphasis&&ageMarker(g,cx,cy,z,a))diagnostics.ageMarkers++;
         if (o.infection) {
           diagnostics.infectedHosts++;
           if (o.infection.q) diagnostics.highParasites++;
@@ -1013,7 +1031,7 @@
         }
       }
       for(const q of w.searchQ || []){
-        const [x,y]=S.xy(w,q.cell),base=P.point(x+.5,y+.5),newQ=freeQById.has(q.id),list=newQ?(events.get(q.id)||[]):[],p=newQ?qPoint(q,age,list.find(e=>e.type==='move')):[base[0]+.24,base[1]-.25];
+        const [x,y]=S.xy(w,q.cell),base=P.point(x+.5,y+.5),newQ=freeQById.has(q.id),list=newQ?(events.get(q.id)||[]):[],p=newQ?qPoint(q,view.motion?age:1,list.find(e=>e.type==='move')):[base[0]+.24,base[1]-.25];
         if(detail&&Art.parasite(g,q,...p,.11))diagnostics.parasiteArt++;else symbol(g,"hyperparasite",...p,.09,"#ccadff");hitRegions.push({id:q.id,cell:q.cell,main:false,x:p[0],y:p[1],rx:.11,ry:.11});
         if(newQ)actionEffects(q,list,.11,...p);
         if(near && nameEnabled("Q",q.id)){diagnostics.nameLabels.Q++;g.save();g.fillStyle="#d9c6ff";g.font=".06px sans-serif";g.textAlign="center";g.fillText(S.D.byId.hyperparasite.name+(newQ?' Q · '+q.phase+'相 · 年齢'+(Number.isFinite(q.age)?q.age+'T':'未記録')+' · 自立':" · 探索"),newQ?p[0]-.24:base[0],newQ?p[1]-.13:base[1]-.38);g.restore();}
@@ -1038,7 +1056,7 @@
       }
       for (const annotate of annotations) annotate();
       diagnostics.actionMarks=[];
-      if(view.motion&&!point){const now=performance.now(),marks=[...actionMarks.values()].filter(m=>now-m.at<850&&Number.isInteger(m.cell??livingById.get(m.id)?.cell));
+      if(view.actionMarks&&!point){const now=performance.now(),marks=[...actionMarks.values()].filter(m=>now-m.at<850&&Number.isInteger(m.cell??livingById.get(m.id)?.cell));
         marks.sort((a,b)=>Number(b.id===view.selectedEntity)-Number(a.id===view.selectedEntity)||b.at-a.at);
         const slots=new Map();
         for(const m of marks.slice(0,64)){const o=livingById.get(m.id),p=o?coordinates.anchor(o).point:freeQById.has(m.id)?qPoint(freeQById.get(m.id)):position(m.cell);if(!visible(p,2))continue;
@@ -1114,6 +1132,7 @@
       setWorld,
       draw,
       drawIfChanged,
+      interact,
       fit,
       focus,
       screen,

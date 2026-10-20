@@ -1731,3 +1731,102 @@ body:not(.setup-screen) .workspace > .inspector { grid-row: 2; }
 /* Setup never displays live observation panels; saved analysis stays in its dialog. */
 body.setup-screen .workspace > .inspector,
 body.setup-screen #individual-list { display:none; }
+
+/* I09: one current summary, three permanent timelines and an independent specimen. */
+#current-summary { grid-template-columns:minmax(0,2.7fr) minmax(160px,.75fr) minmax(220px,.9fr); align-items:start; }
+#current-summary > * { min-width:0; }
+#current-summary h2 { font-size:16px; line-height:1.5; margin:0 0 5px; }
+#current-summary h3 { font-size:12px; line-height:1.5; margin:0 0 7px; }
+#current-summary h3 small { display:block; color:#9db7b4; font-weight:400; font-size:10px; }
+#current-summary .current-biomass { border-left:1px solid #34545e; padding-left:12px; }
+#current-summary .current-composition { display:flex; flex-direction:column; align-items:center; }
+#current-summary .current-composition canvas { width:100%; max-width:280px; height:auto; }
+#current-indicators { font-size:10px; line-height:1.5; color:#88aaa7; margin:5px 0 0; }
+#current-legend { display:flex; flex-wrap:wrap; justify-content:center; gap:3px 8px; }
+#relationship-network svg { display:block; width:100%; height:auto; overflow:visible; }
+#relationship-network .relationship-history { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; }
+#relationship-network .relationship-legend { color:#9bbab7; font-size:10px; line-height:1.5; }
+.graphs-heading { font-size:14px; margin:0 0 6px; }
+.graphs-heading small { color:#92b8b2; font-size:10px; font-weight:400; }
+.display-load { padding:4px 7px; font-size:11px; border-top:1px solid #385b60; }
+.display-load > summary { color:#b8d1cb; }
+#display-load-state { margin-left:8px; color:#e0c884; }
+.display-load-presets,.display-load-options { display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; margin:6px 0; }
+.display-load .note { font-size:10px; margin:4px 0; }
+#graphs-panel .graph-grid { display:block; margin-top:0; }
+#graphs-panel .graph-target { position:static; width:auto; margin:4px 0 7px; }
+#graphs-panel .graph-grid article { margin:6px 0; padding:7px; }
+#graphs-panel .graph-grid h3 { font-size:12px; line-height:1.5; margin:0 0 5px; }
+#graphs-panel #graph-relations { display:block; width:100%; height:auto; min-height:100px; }
+#graphs-panel .population-legend { max-height:48px; }
+#graphs-panel .graph-grid canvas { max-height:none; }
+#saved-network-data { overflow:auto; max-height:45vh; font-size:11px; }
+#saved-network-data table { width:100%; border-collapse:collapse; }
+#saved-network-data th,#saved-network-data td { text-align:left; padding:6px; border-bottom:1px solid #37545a; }
+#saved-network-controls { margin:8px 0; }
+#results-analysis #current-summary { grid-template-columns:minmax(0,1fr) minmax(180px,.5fr); }
+#results-analysis #current-summary .current-relationships { grid-column:1/-1; }
+#results-analysis #current-summary .current-biomass { border-left:0; padding-left:0; }
+#results-analysis #current-summary .current-composition { border-left:1px solid #34545e; }
+#results-analysis .graph-grid canvas { max-height:none; }
+@media (min-width:1101px) and (min-height:700px) {
+  .observatory .observation-overview #current-summary { grid-template-columns:minmax(0,2.7fr) minmax(160px,.75fr) minmax(220px,.9fr); gap:12px; padding:8px 10px; }
+  .observatory #current-summary .pyramid-level { display:block; margin:9px 0; }
+  .observatory #current-summary .pyramid-level > b { margin-top:2px; }
+  .observatory .workspace > .inspector #graph-relations { height:auto; }
+  .observatory .workspace > .inspector .graph-target { position:static; width:auto; }
+  .observatory .map-key > summary { padding-right:130px; }
+  .observatory .map-key-extra:not([open]) > summary { position:static; }
+  .observatory .map-key-extra[open] { right:initial; max-width:calc(100vw - 34px); }
+  .observatory .workspace > .inspector .graph-grid article { padding:7px; margin:6px 0; }
+}
+@media(max-width:1100px) {
+  #current-summary { grid-template-columns:minmax(0,1fr) minmax(200px,.8fr); }
+  #current-summary .current-relationships { grid-column:1/-1; }
+  #current-summary .current-biomass { border-left:0; padding-left:0; }
+  #graphs-panel .graph-grid article { margin:10px 0; }
+}
+@media(max-width:600px) {
+  #current-summary,#results-analysis #current-summary { grid-template-columns:minmax(0,1fr); }
+  #current-summary .current-composition,#results-analysis #current-summary .current-composition { border-left:0; padding-left:0; }
+  #current-summary .current-biomass { border-top:1px solid #34545e; padding-top:10px; }
+  #current-summary .current-composition canvas { width:260px; max-width:100%; }
+}
+
+.relationship-main h5,.relationship-past h5 { margin:4px 0;color:#b7d5d0;font-size:10px;font-weight:400; }
+.relationship-role-leaders { display:flex;flex-wrap:wrap;gap:2px 9px;font-size:10px;line-height:1.5;margin:3px 0;color:#b1d0ca; }
+.relationship-empty { font-size:10px;color:#8faeab;margin:4px 0; }
+.relationship-past { min-width:0; }
+@media (min-width:1101px) and (min-height:700px) {
+  .observatory .workspace > .inspector > #inspector-graphs { display:flex;flex-direction:column;overflow:hidden; }
+  .observatory #graphs-panel { flex:1;min-height:0;display:flex;flex-direction:column; }
+  .observatory #graphs-panel .graph-grid { flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(156px,1.3fr) minmax(210px,1.6fr) minmax(115px,.9fr);gap:5px; }
+  .observatory #graphs-panel .graph-grid article { min-height:0;display:flex;flex-direction:column;margin:0; }
+  .observatory #graphs-panel .graph-grid article > canvas { flex:1;min-height:0;width:100%;height:100%; }
+  .observatory #graphs-panel #graph-composition { flex:1;min-height:0;display:flex;flex-direction:column; }
+  .observatory #graphs-panel .composition-time { flex:1;min-height:0;margin:2px 0; }
+  .observatory #graphs-panel .composition-time > canvas { height:100%;min-height:0; }
+  .observatory #graphs-panel #graph-relations { flex:1;height:100%;min-height:0; }
+  .observatory #graphs-panel .population-legend { max-height:36px;flex-shrink:0; }
+}
+
+#current-summary .current-composition canvas { max-width:250px; }
+#current-summary .current-composition .note { max-width:240px; font-size:9px; line-height:1.4; }
+.relationship-legend { margin:4px 0; }
+@media (min-width:1101px) and (min-height:700px) {
+  .observatory .habitat { min-height:255px; }
+  .observatory .canvas-wrap { min-height:200px; }
+  .observatory .map-key > #species-key { max-height:125px; }
+}
+
+@media (min-width:1101px) and (min-height:700px) {
+  .observatory #current-summary .pyramid-level { display:grid;grid-template-columns:minmax(75px,.9fr) minmax(40px,1fr) 45px;gap:4px;margin:7px 0; }
+  .observatory #current-summary .pyramid-level > span { grid-column:1;grid-row:1; }
+  .observatory #current-summary .pyramid-level > div { grid-column:2;grid-row:1; }
+  .observatory #current-summary .pyramid-level > b { grid-column:3;grid-row:1;margin:0; }
+}
+/* Expanding name settings stays in its own region instead of covering controls. */
+.observatory .map-key-extra[open] { position:static;left:auto;right:auto;bottom:auto;z-index:auto;max-width:none;max-height:none;box-shadow:none; }
+@media (min-width:1101px) and (min-height:700px) {
+  .observatory #map-key { max-height:190px;overflow:auto;scrollbar-width:thin; }
+}

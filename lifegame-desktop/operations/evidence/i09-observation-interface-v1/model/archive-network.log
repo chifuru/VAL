@@ -1,0 +1,13 @@
+✔ tests/archive-history.test.cjs (3658.661535ms)
+✔ tests/archive.test.cjs (1093.456949ms)
+✔ tests/generation-archive.test.cjs (2904.532807ms)
+✔ tests/relationship-archive.test.cjs (1552.702699ms)
+✔ tests/relationship-network.test.cjs (209.867093ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9431.653014

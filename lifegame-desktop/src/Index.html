@@ -204,15 +204,13 @@ ECOSYSTEM-2026</textarea
 
           </div>
           <section id="current-summary" class="current-summary panel" aria-label="生態系の現在像">
-            <div class="current-reading"><h2 id="current-overall">生態系の特徴を観測中</h2>
-              <dl><div><dt>広がり</dt><dd><span id="current-breadth"></span><small id="current-breadth-values" class="support-values"></small></dd></div>
-              <div><dt>多様さ</dt><dd><span id="current-diversity"></span><small id="current-diversity-values" class="support-values"></small></dd></div>
-              <div><dt>持続性</dt><dd><span id="current-persistence"></span><small id="current-persistence-values" class="support-values"></small></dd></div></dl>
-              <p class="note">構成は現在 ／ 関係は直近50Tの観測。個体・群落・群体の記録数の割合であり、生物量の割合ではありません。</p>
+            <div class="current-relationships">
+              <h2 id="current-overall">生態系の特徴を観測中</h2>
+              <div id="relationship-network" aria-label="100ターン区間の生態関係"></div>
+              <p id="current-indicators" class="support-values"><span id="current-breadth-values"></span> · <span id="current-diversity-values"></span> · <span id="current-persistence-values"></span></p>
             </div>
-                <div class="ecology-diagrams"><section><h4>成立した関係</h4><svg id="foodweb-diagram" viewBox="0 0 510 235" role="img" aria-label="栄養と宿主から受け手への関係図"></svg><p id="foodweb-leaders" class="note"></p></section>
-                <section><h4>生物量ピラミッド（B／個体数ではありません）</h4><div id="biomass-pyramid"></div><p id="pyramid-support" class="note"></p></section></div>
-            <div class="current-composition"><canvas id="current-donut" width="240" height="200" role="img" aria-label="現在の分類・系統の割合"></canvas><div id="current-legend"></div></div>
+            <section class="current-biomass"><h3>生物量ピラミッド <small>B・個体数ではありません</small></h3><div id="biomass-pyramid"></div><p id="pyramid-support" class="note"></p></section>
+            <div class="current-composition"><h3>現在の構成</h3><canvas id="current-donut" width="720" height="610" role="img" aria-label="内側は生物グループ、外側は系統。個体・群落・群体数の割合"></canvas><div id="current-legend"></div><p class="note">個体・群落・群体数の割合。内外は同じ分母。</p></div>
           </section>
         </section>
         <section class="world-column">
@@ -267,7 +265,7 @@ ECOSYSTEM-2026</textarea
                   checked
                 /><span class="control-subject">生物を</span>強調</label
               ><label class="check"
-                ><input id="age-emphasis" type="checkbox" />年齢を強調</label
+                ><input id="age-emphasis" type="checkbox" />幼体・老齢マークを表示</label
               ><label class="check"
                 ><input id="simplified" aria-label="生物を記号表示" type="checkbox" /><span class="control-subject">生物を</span>記号表示</label
               ><label class="check"
@@ -277,6 +275,16 @@ ECOSYSTEM-2026</textarea
             </span>
             </div>
           </div>
+          <details id="display-load" class="display-load"><summary>処理軽減 <span id="display-load-state">通常</span></summary>
+            <div class="display-load-presets"><button id="display-normal" class="small" type="button">通常へ戻す</button><button id="display-maximum" class="small" type="button">最大軽減</button></div>
+            <p class="note">生態計算と全ターン記録は省略しません。近景の絵柄と選択は維持します。</p>
+            <div class="display-load-options">
+              <label class="check"><input id="display-effects" type="checkbox" checked>追加演出</label>
+              <label class="check"><input id="display-action-marks" type="checkbox" checked>行動マーク</label>
+              <label class="check"><input id="display-slow-graphs" type="checkbox">グラフ更新を最大1回/秒に</label>
+              <label class="check"><input id="display-simple-background" type="checkbox">操作中の背景を簡略化</label>
+            </div><p class="note">モーション・状態マーク・分類別名札は、それぞれの表示チェックと同期します。</p>
+          </details>
           <details id="map-key" class="map-key" open>
             <summary>盤面の記号と現在の個体数</summary>
             <button id="clear-highlights" class="small">所在強調をすべて解除</button><p id="presence-note" class="note" role="status" aria-live="polite"></p>
@@ -297,31 +305,29 @@ ECOSYSTEM-2026</textarea
             老齢＝切欠きの輪。近景の状態札：♂/♀/—、幼体/成体/老齢、I〜IV相＋分岐。! は低体力・低栄養。年齢と進化相は別です。
           </p>
             <p class="map-key-note">
-              主生物は中央、餌は下側、資源は上側。橙の点＝宿主内の寄生、紫の輪＝高次寄生、×＝死骸。記号は全個体を対象とし、微細な違いはマスを選択して近景で確認できます。
+              主生物は中央、一次消費者は下側、資源は上側。橙の点＝宿主内の寄生、紫の輪＝高次寄生、×＝死骸。記号は全個体を対象とし、微細な違いはマスを選択して近景で確認できます。
             </p>
             <div id="resource-key" class="species-key"></div>
 
             </details>
           </details>
 
-          <details id="graphs-panel" class="panel graphs-panel" open>
-            <summary>生態観測 · 0Tから現在まで</summary>
+          <section id="graphs-panel" class="panel graphs-panel">
+            <h2 class="graphs-heading">生態観測 <small>0Tから現在まで</small></h2>
             <label class="graph-target">対象<select id="graph-species"><option value="main">主生物</option><option value="all">全生物</option><option value="plant">生産者</option><option value="prey">一次消費者</option><option value="fungus">分解者</option><option value="P">一次寄生</option><option value="Q">高次寄生</option></select></label>
             <div class="graph-grid">
-              <article><h3>個体数の推移 <small id="graph-range"></small></h3><canvas id="graph-stacked" width="760" height="120" aria-label="全期間の系統別積み上げ個体数"></canvas><div id="population-legend" class="population-legend"></div></article>
+              <article><h3>個体数の推移 <small id="graph-range"></small></h3><canvas id="graph-stacked" width="960" height="260" aria-label="全期間の系統別積み上げ個体数"></canvas><div id="population-legend" class="population-legend"></div></article>
               <article><h3>集団構成 <small>実数・共通の縦軸</small></h3><div id="graph-composition">
-                <p class="note">相：Ⅰ 青緑・Ⅱ 青・Ⅲ 紫・Ⅳ 金<br>雌雄：雌 桃・雄 水色・無性別 淡緑<br>年齢：幼体 黄・成体 緑・老齢 紫 ／ 非該当 灰</p><div class="composition-time"><span>相</span><canvas id="composition-phases" width="760" height="70"></canvas></div>
-                <div class="composition-time"><span>雌雄</span><canvas id="composition-sex" width="760" height="70"></canvas></div>
-                <div class="composition-time"><span>年齢</span><canvas id="composition-ages" width="760" height="70"></canvas></div>
+                <p class="note">相：Ⅰ 青緑・Ⅱ 青・Ⅲ 紫・Ⅳ 金<br>雌雄：雌 桃・雄 水色・無性別 淡緑<br>年齢：幼体 黄・成体 緑・老齢 紫 ／ 非該当 灰</p><div class="composition-time"><span>相</span><canvas id="composition-phases" width="960" height="145"></canvas></div>
+                <div class="composition-time"><span>雌雄</span><canvas id="composition-sex" width="960" height="145"></canvas></div>
+                <div class="composition-time"><span>年齢</span><canvas id="composition-ages" width="960" height="145"></canvas></div>
               </div></article>
-              <article><h3>生態関係 <small>全期間・各点は直近50T</small></h3><svg id="graph-relations" viewBox="0 0 420 80" role="img" aria-label="全期間の広がり・多様さ・持続性"></svg>
+              <article><h3>生態関係 <small>全期間・各点は直近50T</small></h3><svg id="graph-relations" viewBox="0 0 720 180" role="img" aria-label="全期間の広がり・多様さ・持続性"></svg>
 
               </article>
             </div>
-            <details class="graph-analysis"><summary>観測値・CSV・集計の説明</summary>                <p id="information-readout" class="note"></p>
-                <p id="relation-readout" class="note"></p>
-<div class="graph-toolbar"><label>参照ターン<input id="graph-turn" type="number" min="0" value="0" step="1"></label><button id="graph-latest" class="small">最新を追う</button><button id="export-observation" class="small">全ターンCSVを保存</button></div><p id="graph-readout" class="note"></p><div id="graph-values" class="graph-values"></div><p class="note">主/餌は個体、P/Qは群体。割合ではなく実数。無性別と非該当は別区分。P/Qの生活環は進化相・年齢へ換算しません。ピラミッドのBはモデル量で、生産/同化Eとは別単位です。実線は確認済み、破線は未確認。生産・戦闘・動物死骸食は直近50T、P定着は現在。討ち取りは最多損害者に1死亡1件、死骸食は捕食と区別し合算しません。栄養階層は実際の栄養取得と前ターンの供給元から推定し、逆転だけで異常とは判定しません。関与個体率・世代交代は未観測です。</p></details>
-          </details>
+
+          </section>
 
           <p id="message" role="status" aria-live="polite">
             世界の読み込みを待っています。
@@ -348,7 +354,7 @@ ECOSYSTEM-2026</textarea
             1マスに主生物1体と一次消費者1体が共存。寄生虫は宿主に付随します。
           </p>
           <p id="preview-note" class="note" hidden>途中のプレビューです。個体の詳細・集計はターン確定後に更新します。一時停止すると最後の確定状態に戻ります。</p>
-          <button id="detail-hold" class="secondary" type="button">一時停止して観察</button><button id="follow-individual" class="secondary" disabled>選択個体を追跡</button><p id="follow-note" class="note"></p>
+          <button id="follow-individual" class="secondary" disabled>選択個体を追跡</button><p id="follow-note" class="note"></p>
           <div id="selection">盤面のマスを選択してください。</div>
           <details id="rank-panel" class="rank-panel">
             <summary>生存系統を確認</summary>
@@ -356,30 +362,9 @@ ECOSYSTEM-2026</textarea
           </details>
         </div></aside>
       </div>
-      <details id="individual-list" class="panel table-panel">
-        <summary>
-          生存個体一覧 <span id="list-count">0</span> ·
-          先頭100体（計算は全個体）
-        </summary>
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>個体</th>
-                <th>系統・相</th>
-                <th>性 / 役割</th>
-                <th>年齢 / 世代</th>
-                <th>HP</th>
-                <th>E / B / M / G</th>
-              </tr>
-            </thead>
-            <tbody id="cells-table"></tbody>
-          </table>
-        </div>
-      </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.40 · 外部通信なし</span>
+        ><span>v4.2.41 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">
@@ -427,6 +412,10 @@ ECOSYSTEM-2026</textarea
         <button id="back-results" class="secondary">一覧へ戻る</button> <button id="export-record" class="secondary">この結果をJSONで保存</button>
         <h3 id="result-analysis-title"></h3><p id="result-analysis-summary"></p>
         <div id="results-graph-host" class="inspector"></div>
+            <details class="graph-analysis" id="saved-analysis-values"><summary>保存した観測の数値・CSV・集計根拠</summary>                <p id="information-readout" class="note"></p>
+                <p id="relation-readout" class="note"></p>
+<div class="graph-toolbar"><label>参照ターン<input id="graph-turn" type="number" min="0" value="0" step="1"></label><button id="graph-latest" class="small">最新を追う</button><button id="export-observation" class="small">全ターンCSVを保存</button></div><p id="graph-readout" class="note"></p><div id="graph-values" class="graph-values"></div><p class="note">動物・独立植物は個体、基底植物は群落、P/Qは群体。構成の推移は割合ではなく実数で、無性別と非該当を分けます。生活状態・進化相・年齢は別の軸です。ピラミッドのBと生産/同化Eは別単位。関係面は100T区間の成立作用、右の生態関係は各時点の直近50Tです。線種は作用、無方向点線は同一系統の対応。討ち取りは最多損害者に1死亡1件、死骸食と生体採食は分けます。栄養階層の逆転だけで異常とは判定しません。旧記録の未記録値は補完しません。</p></details>
+        <details id="saved-network-values"><summary>関係図の区間・全経路の数値</summary><div id="saved-network-controls"></div><div id="saved-network-data"></div></details>
         <details><summary>最終ステータス・実効条件・指標定義</summary><pre id="result-final-values"></pre></details>
       </section>
     </dialog>
@@ -434,6 +423,7 @@ ECOSYSTEM-2026</textarea
     <script src="ecology/archive.js"></script>
     <script src="ecology/transport.js"></script>
     <script src="ecology/compute-client.js"></script>
+    <script src="ecology/relationship-network.js"></script>
     <script src="ecology/observations.js"></script>
     <script src="ecology/export-client.js"></script>
     <script src="app.js"></script>

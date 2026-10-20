@@ -7656,6 +7656,24 @@ function(require,module){
       if(credited)combat.kills[credited]=(combat.kills[credited]||0)+1;
     }
     flowTelemetry.combat=combat;
+    if(w.config.relationshipModel==="network/1"){
+      // Exact presentation facts before the animation cap. Biology never reads this table.
+      const relationship={definition:"relationship-telemetry/1",turn:w.turn,damage:{},kills:{},care:{},clear:{}};
+      const pair=(table,from,to,value=1)=>{if(!from||!to||!(value>0))return;const key=from+"|"+to;table[key]=(table[key]||0)+value;};
+      if(w.turn>0){
+        for(const [id,list]of ctx.events)for(const e of list){
+          const from=refs.get(id),to=refs.get(e.target);
+          if(e.type==="attack")pair(relationship.damage,from,to,e.actualDamage);
+          if(e.type==="care"&&e.amount>0)pair(relationship.care,from,to);
+          if(e.type==="clear"&&["groom","immunity"].includes(e.reason))pair(relationship.clear,from,to||from);
+          // New P grooming is same-species only; the emitted holder is the beneficiary.
+          if(e.type==="primary-clear"&&["groom","immunity"].includes(e.reason))pair(relationship.clear,from,from);
+          if(e.type==="hyper-cleared"&&["groom","immunity"].includes(e.reason))pair(relationship.clear,e.hostSpecies,e.hostSpecies);
+        }
+        for(const death of ctx.deaths)if(death.reason==="combat")pair(relationship.kills,refs.get(ctx.records.get(death.id)?.hitBy),death.species||refs.get(death.id));
+      }
+      flowTelemetry.relationship=relationship;
+    }
     flowTelemetry.information={definition:"information-observed/1",emissions:ctx.infoEmissions||[],receipts:ctx.infoReceipts||[],effects:ctx.infoEffects||[],origins:[]};
     for(const a of w.resources)if(a.kind==="info"&&a.event&&refs.has(a.event.sourceId))flowTelemetry.information.origins.push({id:a.event.id,species:refs.get(a.event.sourceId),time:a.event.time});
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),...(S.HyperParasite?.enabled(w)?{hyperParasite:structuredClone(ctx.hyperFlow)}:{}),...(S.PersistentInformation?.enabled(w)?{persistentInformation:structuredClone(ctx.persistentInformationFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
@@ -13066,6 +13084,24 @@ function(require,module){
       if(credited)combat.kills[credited]=(combat.kills[credited]||0)+1;
     }
     flowTelemetry.combat=combat;
+    if(w.config.relationshipModel==="network/1"){
+      // Exact presentation facts before the animation cap. Biology never reads this table.
+      const relationship={definition:"relationship-telemetry/1",turn:w.turn,damage:{},kills:{},care:{},clear:{}};
+      const pair=(table,from,to,value=1)=>{if(!from||!to||!(value>0))return;const key=from+"|"+to;table[key]=(table[key]||0)+value;};
+      if(w.turn>0){
+        for(const [id,list]of ctx.events)for(const e of list){
+          const from=refs.get(id),to=refs.get(e.target);
+          if(e.type==="attack")pair(relationship.damage,from,to,e.actualDamage);
+          if(e.type==="care"&&e.amount>0)pair(relationship.care,from,to);
+          if(e.type==="clear"&&["groom","immunity"].includes(e.reason))pair(relationship.clear,from,to||from);
+          // New P grooming is same-species only; the emitted holder is the beneficiary.
+          if(e.type==="primary-clear"&&["groom","immunity"].includes(e.reason))pair(relationship.clear,from,from);
+          if(e.type==="hyper-cleared"&&["groom","immunity"].includes(e.reason))pair(relationship.clear,e.hostSpecies,e.hostSpecies);
+        }
+        for(const death of ctx.deaths)if(death.reason==="combat")pair(relationship.kills,refs.get(ctx.records.get(death.id)?.hitBy),death.species||refs.get(death.id));
+      }
+      flowTelemetry.relationship=relationship;
+    }
     flowTelemetry.information={definition:"information-observed/1",emissions:ctx.infoEmissions||[],receipts:ctx.infoReceipts||[],effects:ctx.infoEffects||[],origins:[]};
     for(const a of w.resources)if(a.kind==="info"&&a.event&&refs.has(a.event.sourceId))flowTelemetry.information.origins.push({id:a.event.id,species:refs.get(a.event.sourceId),time:a.event.time});
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),...(S.HyperParasite?.enabled(w)?{hyperParasite:structuredClone(ctx.hyperFlow)}:{}),...(S.PersistentInformation?.enabled(w)?{persistentInformation:structuredClone(ctx.persistentInformationFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
