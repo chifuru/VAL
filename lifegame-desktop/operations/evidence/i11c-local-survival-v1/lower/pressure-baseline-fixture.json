@@ -1,0 +1,128 @@
+{
+  "scope": "Local read-only pressure fixture, not a simulation or survival comparison",
+  "habitat": {
+    "river-0": {
+      "grassHabitat": 1025,
+      "waterHabitat": 93,
+      "overlap": 93,
+      "grassOnly": 932,
+      "waterOnly": 0
+    },
+    "lake-1": {
+      "grassHabitat": 1001,
+      "waterHabitat": 142,
+      "overlap": 142,
+      "grassOnly": 859,
+      "waterOnly": 0
+    }
+  },
+  "distantSharedHabitatWater": {
+    "before": {
+      "grassCell": 1,
+      "totalPrey": 4,
+      "allArea": 1115,
+      "grassEligibleArea": 1001,
+      "preyInGrassEligibleArea": 4,
+      "sameSpeciesInGrassEligibleArea": 4,
+      "actual": {
+        "chance": 1,
+        "density": 0.007174887892376682,
+        "foodFactor": 1
+      },
+      "sameHabitatAllPreyDensityCap": 0.007992007992007992,
+      "sameSpeciesRarityDensityCap": 0.007992007992007992
+    },
+    "after": {
+      "grassCell": 1,
+      "totalPrey": 146,
+      "allArea": 1115,
+      "grassEligibleArea": 1001,
+      "preyInGrassEligibleArea": 146,
+      "sameSpeciesInGrassEligibleArea": 4,
+      "actual": {
+        "chance": 0.03535753924211195,
+        "density": 0.26188340807174887,
+        "foodFactor": 1
+      },
+      "sameHabitatAllPreyDensityCap": 0.2917082917082917,
+      "sameSpeciesRarityDensityCap": 0.007992007992007992
+    },
+    "addedOutsideLocalRadiusOnly": 142,
+    "note": "All waterbug habitat is legal grassbug habitat in current product; this fixture does not claim habitat separation."
+  },
+  "foodFactor": [
+    {
+      "species": "grassbug",
+      "energy": 8,
+      "recordedOrganic": 0,
+      "chance": 0.008839384810527987,
+      "density": 0.26188340807174887,
+      "foodFactor": 0.25,
+      "allowed": false
+    },
+    {
+      "species": "grassbug",
+      "energy": 10,
+      "recordedOrganic": 0,
+      "chance": 0.03535753924211195,
+      "density": 0.26188340807174887,
+      "foodFactor": 1,
+      "allowed": false
+    },
+    {
+      "species": "grassbug",
+      "energy": 8,
+      "recordedOrganic": 3,
+      "chance": 0.03535753924211195,
+      "density": 0.26188340807174887,
+      "foodFactor": 1,
+      "allowed": false
+    },
+    {
+      "species": "grassbug",
+      "energy": 10,
+      "recordedOrganic": 3,
+      "chance": 0.03535753924211195,
+      "density": 0.26188340807174887,
+      "foodFactor": 1,
+      "allowed": false
+    },
+    {
+      "species": "waterbug",
+      "energy": 8,
+      "recordedOrganic": 0,
+      "chance": 0.008839384810527987,
+      "density": 0.26188340807174887,
+      "foodFactor": 0.25,
+      "allowed": false
+    },
+    {
+      "species": "waterbug",
+      "energy": 10,
+      "recordedOrganic": 0,
+      "chance": 0.03535753924211195,
+      "density": 0.26188340807174887,
+      "foodFactor": 1,
+      "allowed": false
+    },
+    {
+      "species": "waterbug",
+      "energy": 8,
+      "recordedOrganic": 3,
+      "chance": 0.03535753924211195,
+      "density": 0.26188340807174887,
+      "foodFactor": 1,
+      "allowed": false
+    },
+    {
+      "species": "waterbug",
+      "energy": 10,
+      "recordedOrganic": 3,
+      "chance": 0.03535753924211195,
+      "density": 0.26188340807174887,
+      "foodFactor": 1,
+      "allowed": false
+    }
+  ],
+  "organicRecordingSource": "nutrition.absorb only updates rec.organic inside organic && main"
+}

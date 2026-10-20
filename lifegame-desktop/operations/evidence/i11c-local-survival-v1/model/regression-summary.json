@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "exitCode": 0,
+  "completedUTC": "2026-10-20T20:07:31.423068+00:00",
+  "version": "4.2.45",
+  "signature": "c78400a515eba25515dd699c1f3f5ba6cc2004c5dc4b992fbf3e4c2d1c6082d9",
+  "fileCount": 14,
+  "files": [
+    "tests/compute-worker.test.cjs",
+    "tests/energy-budget-audit.test.cjs",
+    "tests/foodweb-initial-age.test.cjs",
+    "tests/hyper-parasite-flow.test.cjs",
+    "tests/hyper-parasite-observation.test.cjs",
+    "tests/hyper-parasite.test.cjs",
+    "tests/local-survival-parasites.test.cjs",
+    "tests/lower-foodweb-routes.test.cjs",
+    "tests/observation-model.test.cjs",
+    "tests/primary-parasite-flow.test.cjs",
+    "tests/primary-parasite-observation.test.cjs",
+    "tests/primary-parasite.test.cjs",
+    "tests/survival-parasites.test.cjs",
+    "tests/survival2-parasites.test.cjs"
+  ],
+  "counts": {
+    "tests": 121,
+    "suites": 0,
+    "pass": 121,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "duration_ms": 88227.312675
+  },
+  "sourceAndTestChangesDuringRun": [],
+  "commandFile": "regression-command.txt",
+  "log": "regression.log",
+  "selectionAndHashes": "regression-selection.json",
+  "scope": "I11c parasite changes and version gates, finite budgets, short Worker and generated product parity; no natural500T or browser checks; archives and survival-model checked by another agent",
+  "modifiedProductOrTests": false
+}

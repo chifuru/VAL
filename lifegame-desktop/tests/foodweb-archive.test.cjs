@@ -3,7 +3,7 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),crypto=re
 const sourceMode=process.env.LIFEGAME_ARCHIVE_SOURCE_MODEL==='1';
 const E=sourceMode?require('../design/advantage-switches/model.cjs').model():require('../src/ecology/observation-model.js').model(),O=require('../src/ecology/observations.js'),A=require('../src/ecology/archive.js');
 require('../src/ecology/replay-version.js');
-const previous='95b7405d3e4513acabf2194ed0ed1b9eb79c9ffd566bcc9e0b5f1edc3ca1b889',relationship='a7cac02a9d7382b478919b40c44823ce0d6bb0325b3e551adb1236908c92774d',foodwebSignature=fs.readFileSync(require.resolve('../src/ecology/archive.js'),'utf8').match(/const foodwebBuildSignature=['"]([^'"]+)['"]/)[1],current=sourceMode?foodwebSignature:globalThis.EcoReplayVersion;
+const previous='95b7405d3e4513acabf2194ed0ed1b9eb79c9ffd566bcc9e0b5f1edc3ca1b889',relationship='a7cac02a9d7382b478919b40c44823ce0d6bb0325b3e551adb1236908c92774d',foodwebSignature='ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97',current=foodwebSignature;
 const config={seed:'i11b/archive',terrainSeed:'i11b/archive/map',width:40,height:28,initial:32,lineages:'manual',selected:['solar','ryouki','jelly'],mapId:'river',landscape:'templates',ageModel:'life/1',ecologyRevision:'observation/4.1',randomModel:'table/1',populationRegulation:{version:1},producerModel:'colony/1',largePlantModel:'independent/1',ryoukiModel:'ryouki/1',primaryParasiteModel:'primary/1',hyperParasiteModel:'hyper/1',informationModel:'persistent/1',relationshipModel:'network/1',generationModel:'diverse/1',generationSettings:{mode:'manual',profile:'standard'}};
 const sha=value=>crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex'),cache=new Map();
 function storage(){let bytes=null;return {getItem:()=>bytes,setItem:(_key,value)=>{bytes=value;}};}
@@ -13,7 +13,7 @@ function fixture(balanceModel='survival/2',signature=current){
 }
 function replayWorld(record){let w=E.create(record.config);const h=O.create(w.config,record.signature,{species:E.S.activeSpecies(w)});h.append(w);for(let t=0;t<record.turn;t++){w=E.step(w);assert.deepEqual(E.invariants(w),[]);h.append(w);}return {w,observations:h.snapshot()};}
 test('foodweb records have their own completed model signature and keep all resolved rules and turn observations',()=>{
- if(!sourceMode)assert.match(current,/^[0-9a-f]{64}$/);assert.equal(current,foodwebSignature);assert.notEqual(current,previous);
+ assert.match(current,/^[0-9a-f]{64}$/);assert.equal(fs.readFileSync(require.resolve('../src/ecology/archive.js'),'utf8').match(/const foodwebBuildSignature=['"]([^'"]+)['"]/)[1],foodwebSignature);assert.notEqual(current,previous);
  const {w,observations}=fixture(),a=archive(),record=a.capture(w,'user',observations);assert.equal(record.schema,3);assert.equal(record.signature,current);assert.equal(record.config.balanceModel,'survival/2');assert.equal(record.final.state.models.balanceModel,'survival/2');assert.deepEqual(record.config,w.config);assert.deepEqual(record.observation.rows.map(r=>r.turn),[0,1,2,3]);assert.deepEqual(record.observation,observations);
  assert(a.save(record));assert.deepEqual(a.get(record.id),record);const replay=a.replay(record.id),again=replayWorld(replay);assert.equal(E.fingerprint(again.w),record.finalFingerprint);assert.deepEqual(again.observations,observations);
 });

@@ -1,0 +1,14 @@
+{
+  "definition": "i11c-comment-only-source-provenance/1",
+  "currentSource": "src/ecology/parasites.js",
+  "currentSHA": "6213b0821f217cf8b943aeeb58058c508026d5d80ad85cbadcb5546a27392dac",
+  "earlierPhysicalSHA": "8829dbf8335fe9bf1be2db0879f0be1aab109617f3d112d8e7106fb694602bde",
+  "earlierEvidence": "../lower/fungus-comparison-50.json",
+  "reconstruction": "Remove exactly the following two comment lines; every remaining byte is identical.",
+  "removedComments": [
+    "      // v3 ranks the observed external cue before bodies with no such cue;",
+    "      // inherited preference still ranks the visibly infested candidates."
+  ],
+  "calculationCodeDifference": false,
+  "rerunPerformed": false
+}

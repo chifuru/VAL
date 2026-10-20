@@ -1,0 +1,37 @@
+{
+  "schema": "i11c-browser-boundary/1",
+  "status": "passed-with-limited-scope",
+  "appVersion": "4.2.45",
+  "signature": "c78400a515eba25515dd699c1f3f5ba6cc2004c5dc4b992fbf3e4c2d1c6082d9",
+  "checks": 49,
+  "browserExceptions": [],
+  "consoleErrors": [],
+  "actualCommittedTurns": 4,
+  "observationRows": 5,
+  "currentBalanceModel": "survival/3",
+  "legacyModels": [
+    "survival/2",
+    "survival/1",
+    null
+  ],
+  "newModelRejectedByLegacySignatures": true,
+  "allCommittedFingerprintsAndRawObservationsMatchDirect": true,
+  "startPauseResumeSpeciesSelection": true,
+  "explicitReplaySaveCreatesNewRecord": true,
+  "originalRecordsPreserved": true,
+  "imageRecomparison": false,
+  "longRun500T": false,
+  "sourceHashes": {
+    "src/app.js": "6c91f697012140685aa0e2284b124248b60ce3cb940fd09d058929134b636707",
+    "src/ecology/replay-version.js": "6caf9bd0e166750da5cdf93cd01e0dc8c6b5fe95ca2d585b8cf23cc2f32ce464",
+    "src/ecology/observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+    "src/ecology/observation-modules.js": "2e6643e2d277b4755bcb0973f77bdd6044805a508e4670886c1344f013c89654",
+    "src/ecology/archive.js": "61d4ac9f2ffb172fe2de0997d5d51887907b3f0921788407557855f67fab33a7",
+    "src/ecology/observations.js": "ddcb0dc63989f4c2d0544736d98228b020e451dc9a14d715e813ae2c9a49bcf5",
+    "src/ecology/renderer.js": "d3ef6bec130d754866b2259f6715b501ab0e67ab6b77f53fbbb92a515e33e6e9",
+    "src/ecology/habitat.js": "6f7c68aac59c369d47d5bb3df62499360d6f421e6b687a07f661158b3cac570c",
+    "package.json": "e247f92ccfcbd690775c1f1a1597901e5831aa6a1716286602a0b99a52acaa9e",
+    "operations/evidence/i11c-local-survival-v1/browser/runner.cjs": "0d557921a432d9208874760df9d2a082f6dcc7dd3a0b73dedbf19a0c08ae33f2"
+  },
+  "details": "report.json"
+}

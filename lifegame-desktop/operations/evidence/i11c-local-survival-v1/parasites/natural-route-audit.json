@@ -1,0 +1,921 @@
+{
+  "definition": "i11c-natural-route-static-audit/1",
+  "scope": "Read-only aggregation of six existing paired120T biology files. No new world/trial or product changes.",
+  "sampling": "Committed-turn states; ID-linked parentage. Window distances are geometric checks only, not proof of sight, traversability, actual search-stage opportunity or successful contact.",
+  "cases": [
+    {
+      "variant": "v2",
+      "case": 0,
+      "biologyArtifact": "parasite-runs/v2/aquatic-carnivore-0-T120.biology.json.gz",
+      "biologySHA256": "b406256d8885e9e59d89919339da438aceecaf2305c749f3ecbcd0a5ec5af0a1",
+      "P": {
+        "newMiddleThenSameIDTerminal": 6,
+        "thenMature": 5,
+        "thenOriginalReleaseObserved": 5,
+        "thenNextFirstChildEstablished": 3,
+        "interpretation": "A first-host parent gives rise to a new middle-host P; that same new PID reaches a terminal host, and some produce a further first-host daughter. This is limited lineage return, not one ID completing all generations or a general sustained-cycle guarantee.",
+        "examples": [
+          {
+            "firstParent": {
+              "turn": 0,
+              "id": "p:initial:tideparasite:i:colony:652:algae:0",
+              "generation": 0,
+              "stage": "first",
+              "host": "i:colony:652:algae"
+            },
+            "parentEdibleEvidence": {
+              "turn": 2,
+              "id": "inoculum:p:initial:tideparasite:i:colony:652:algae:0:2",
+              "createdAt": 2,
+              "sourceId": "p:initial:tideparasite:i:colony:652:algae:0",
+              "location": "edible"
+            },
+            "newMiddle": {
+              "turn": 10,
+              "id": "p:inoculum:p:initial:tideparasite:i:colony:652:algae:0:8:invading:i:food:17:11:waterbug:9:10",
+              "generation": 1,
+              "parents": [
+                "p:initial:tideparasite:i:colony:652:algae:0"
+              ],
+              "stage": "middle",
+              "host": "i:food:17:11:waterbug"
+            },
+            "samePIDTerminal": {
+              "turn": 58,
+              "id": "p:inoculum:p:initial:tideparasite:i:colony:652:algae:0:8:invading:i:food:17:11:waterbug:9:10",
+              "stage": "terminal",
+              "host": "i:main:17:12:abyss"
+            },
+            "terminalMatureAt": 66,
+            "samePIDEmission": {
+              "turn": 67,
+              "id": "inoculum:p:inoculum:p:initial:tideparasite:i:colony:652:algae:0:8:invading:i:food:17:11:waterbug:9:10:67",
+              "createdAt": 67,
+              "sourceId": "p:inoculum:p:initial:tideparasite:i:colony:652:algae:0:8:invading:i:food:17:11:waterbug:9:10",
+              "location": "water"
+            },
+            "nextFirstChild": {
+              "turn": 69,
+              "id": "p:inoculum:p:inoculum:p:initial:tideparasite:i:colony:652:algae:0:8:invading:i:food:17:11:waterbug:9:10:67:invading:i:colony:691:algae:68:69",
+              "generation": 2,
+              "parents": [
+                "p:inoculum:p:initial:tideparasite:i:colony:652:algae:0:8:invading:i:food:17:11:waterbug:9:10"
+              ],
+              "stage": "first",
+              "host": "i:colony:691:algae"
+            },
+            "nextFirstRoute": "water"
+          }
+        ]
+      },
+      "Q": {
+        "ids": [
+          {
+            "id": "q:initial:p:initial:tideparasite:i:main:18:17:abyssshell:0:0",
+            "initialLocation": "host",
+            "generation": 0,
+            "emergedAt": 36,
+            "firstFreeE": 0.01385,
+            "lastCommittedTurn": 43,
+            "disappearedAt": 44,
+            "sameTurnSpeciesDeathReasons": [
+              "maintenance"
+            ],
+            "reason": "maintenance",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0,
+            "adultFedE": 0,
+            "adultMoveCount": 0
+          },
+          {
+            "id": "q:initial:p:initial:tideparasite:i:main:20:3:cephalopod:0:0",
+            "initialLocation": "host",
+            "generation": 0,
+            "emergedAt": 20,
+            "firstFreeE": 0.026,
+            "lastCommittedTurn": 25,
+            "disappearedAt": 26,
+            "sameTurnSpeciesDeathReasons": [
+              "predation"
+            ],
+            "reason": "predation",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0.068,
+            "adultFedE": 0.15,
+            "adultMoveCount": 4
+          },
+          {
+            "id": "q:initial:free:724:0",
+            "initialLocation": "free",
+            "generation": 0,
+            "emergedAt": null,
+            "firstFreeE": 0.08,
+            "lastCommittedTurn": 4,
+            "disappearedAt": 5,
+            "sameTurnSpeciesDeathReasons": [
+              "predation"
+            ],
+            "reason": "predation",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0.048,
+            "adultFedE": 0.05,
+            "adultMoveCount": 3
+          },
+          {
+            "id": "q:initial:free:98:0",
+            "initialLocation": "free",
+            "generation": 0,
+            "emergedAt": null,
+            "firstFreeE": 0.08,
+            "lastCommittedTurn": 33,
+            "disappearedAt": 34,
+            "sameTurnSpeciesDeathReasons": [
+              "predation"
+            ],
+            "reason": "predation",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0.308,
+            "adultFedE": 0.9,
+            "adultMoveCount": 6
+          }
+        ],
+        "newGenerationBirths": 0,
+        "final": 0,
+        "potentialWindows": {
+          "all": 54,
+          "occupied": 5,
+          "unoccupied": 49
+        },
+        "postTurnWindowAdultPairs": {
+          "within3": 0,
+          "within1": 0,
+          "minimumDistance": 6
+        },
+        "previousQCellProxyPairs": {
+          "within3": 0,
+          "within1": 0,
+          "minimumDistance": 6
+        },
+        "nearExamples": [],
+        "contactLimit": "Window cells and Q positions are end-of-turn snapshots. Prior-cell proxy excludes same-turn emergence. No line-of-sight, traversability or exact search-stage eligibility is inferred.",
+        "windowTimeOverlap": {
+          "withAnyFreeQ": 28,
+          "withoutFreeQ": 21
+        },
+        "lastFreeQCommittedTurn": 43
+      }
+    },
+    {
+      "variant": "v2",
+      "case": 1,
+      "biologyArtifact": "parasite-runs/v2/aquatic-carnivore-1-T120.biology.json.gz",
+      "biologySHA256": "a5202699b100c7bd4d3425e78422eeba0653ff65b790e09d93b8a140d8fcbb69",
+      "P": {
+        "newMiddleThenSameIDTerminal": 6,
+        "thenMature": 6,
+        "thenOriginalReleaseObserved": 5,
+        "thenNextFirstChildEstablished": 1,
+        "interpretation": "A first-host parent gives rise to a new middle-host P; that same new PID reaches a terminal host, and some produce a further first-host daughter. This is limited lineage return, not one ID completing all generations or a general sustained-cycle guarantee.",
+        "examples": [
+          {
+            "firstParent": {
+              "turn": 0,
+              "id": "p:initial:tideparasite:i:colony:428:algae:0",
+              "generation": 0,
+              "stage": "first",
+              "host": "i:colony:428:algae"
+            },
+            "parentEdibleEvidence": {
+              "turn": 3,
+              "id": "inoculum:p:initial:tideparasite:i:colony:428:algae:0:3",
+              "createdAt": 3,
+              "sourceId": "p:initial:tideparasite:i:colony:428:algae:0",
+              "location": "edible"
+            },
+            "newMiddle": {
+              "turn": 11,
+              "id": "p:inoculum:p:initial:tideparasite:i:colony:428:algae:0:9:invading:i:food:10:28:waterbug:10:11",
+              "generation": 1,
+              "parents": [
+                "p:initial:tideparasite:i:colony:428:algae:0"
+              ],
+              "stage": "middle",
+              "host": "i:food:10:28:waterbug"
+            },
+            "samePIDTerminal": {
+              "turn": 33,
+              "id": "p:inoculum:p:initial:tideparasite:i:colony:428:algae:0:9:invading:i:food:10:28:waterbug:10:11",
+              "stage": "terminal",
+              "host": "i:main:11:27:abyss"
+            },
+            "terminalMatureAt": 41,
+            "samePIDEmission": {
+              "turn": 42,
+              "id": "inoculum:p:inoculum:p:initial:tideparasite:i:colony:428:algae:0:9:invading:i:food:10:28:waterbug:10:11:42",
+              "createdAt": 42,
+              "sourceId": "p:inoculum:p:initial:tideparasite:i:colony:428:algae:0:9:invading:i:food:10:28:waterbug:10:11",
+              "location": "water"
+            },
+            "nextFirstChild": {
+              "turn": 56,
+              "id": "p:inoculum:p:inoculum:p:initial:tideparasite:i:colony:428:algae:0:9:invading:i:food:10:28:waterbug:10:11:54:invading:i:colony:467:algae:55:56",
+              "generation": 2,
+              "parents": [
+                "p:inoculum:p:initial:tideparasite:i:colony:428:algae:0:9:invading:i:food:10:28:waterbug:10:11"
+              ],
+              "stage": "first",
+              "host": "i:colony:467:algae"
+            },
+            "nextFirstRoute": "water"
+          }
+        ]
+      },
+      "Q": {
+        "ids": [
+          {
+            "id": "q:initial:p:initial:tideparasite:i:main:15:27:abyss:0:0",
+            "initialLocation": "host",
+            "generation": 0,
+            "emergedAt": 10,
+            "firstFreeE": 0.016,
+            "lastCommittedTurn": 10,
+            "disappearedAt": 11,
+            "sameTurnSpeciesDeathReasons": [
+              "predation",
+              "predation"
+            ],
+            "reason": "predation",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0.016,
+            "adultFedE": 0,
+            "adultMoveCount": 0
+          },
+          {
+            "id": "q:initial:free:769:0",
+            "initialLocation": "free",
+            "generation": 0,
+            "emergedAt": null,
+            "firstFreeE": 0.08,
+            "lastCommittedTurn": 10,
+            "disappearedAt": 11,
+            "sameTurnSpeciesDeathReasons": [
+              "predation",
+              "predation"
+            ],
+            "reason": "predation",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0,
+            "adultFedE": 0,
+            "adultMoveCount": 2
+          },
+          {
+            "id": "q:initial:free:68:0",
+            "initialLocation": "free",
+            "generation": 0,
+            "emergedAt": null,
+            "firstFreeE": 0.08,
+            "lastCommittedTurn": 33,
+            "disappearedAt": 34,
+            "sameTurnSpeciesDeathReasons": [
+              "predation"
+            ],
+            "reason": "predation",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0.162,
+            "adultFedE": 0.75,
+            "adultMoveCount": 5
+          }
+        ],
+        "newGenerationBirths": 0,
+        "final": 0,
+        "potentialWindows": {
+          "all": 58,
+          "occupied": 1,
+          "unoccupied": 57
+        },
+        "postTurnWindowAdultPairs": {
+          "within3": 0,
+          "within1": 0,
+          "minimumDistance": 4
+        },
+        "previousQCellProxyPairs": {
+          "within3": 1,
+          "within1": 0,
+          "minimumDistance": 3
+        },
+        "nearExamples": [],
+        "contactLimit": "Window cells and Q positions are end-of-turn snapshots. Prior-cell proxy excludes same-turn emergence. No line-of-sight, traversability or exact search-stage eligibility is inferred.",
+        "windowTimeOverlap": {
+          "withAnyFreeQ": 27,
+          "withoutFreeQ": 30
+        },
+        "lastFreeQCommittedTurn": 33
+      }
+    },
+    {
+      "variant": "v2",
+      "case": 2,
+      "biologyArtifact": "parasite-runs/v2/aquatic-carnivore-2-T120.biology.json.gz",
+      "biologySHA256": "e15a974cff00bec6540bdabcd56f7d5559b7ae8230e11eb462a174b6e179545a",
+      "P": {
+        "newMiddleThenSameIDTerminal": 6,
+        "thenMature": 6,
+        "thenOriginalReleaseObserved": 5,
+        "thenNextFirstChildEstablished": 2,
+        "interpretation": "A first-host parent gives rise to a new middle-host P; that same new PID reaches a terminal host, and some produce a further first-host daughter. This is limited lineage return, not one ID completing all generations or a general sustained-cycle guarantee.",
+        "examples": [
+          {
+            "firstParent": {
+              "turn": 0,
+              "id": "p:initial:tideparasite:i:colony:772:algae:0",
+              "generation": 0,
+              "stage": "first",
+              "host": "i:colony:772:algae"
+            },
+            "parentEdibleEvidence": {
+              "turn": 5,
+              "id": "inoculum:p:initial:tideparasite:i:colony:772:algae:0:5",
+              "createdAt": 5,
+              "sourceId": "p:initial:tideparasite:i:colony:772:algae:0",
+              "location": "edible"
+            },
+            "newMiddle": {
+              "turn": 19,
+              "id": "p:inoculum:p:initial:tideparasite:i:colony:772:algae:0:17:invading:i:food:20:13:waterbug:18:19",
+              "generation": 1,
+              "parents": [
+                "p:initial:tideparasite:i:colony:772:algae:0"
+              ],
+              "stage": "middle",
+              "host": "i:food:20:13:waterbug"
+            },
+            "samePIDTerminal": {
+              "turn": 29,
+              "id": "p:inoculum:p:initial:tideparasite:i:colony:772:algae:0:17:invading:i:food:20:13:waterbug:18:19",
+              "stage": "terminal",
+              "host": "i:main:20:14:cephalopod"
+            },
+            "terminalMatureAt": 37,
+            "samePIDEmission": {
+              "turn": 38,
+              "id": "inoculum:p:inoculum:p:initial:tideparasite:i:colony:772:algae:0:17:invading:i:food:20:13:waterbug:18:19:38",
+              "createdAt": 38,
+              "sourceId": "p:inoculum:p:initial:tideparasite:i:colony:772:algae:0:17:invading:i:food:20:13:waterbug:18:19",
+              "location": "water"
+            },
+            "nextFirstChild": {
+              "turn": 52,
+              "id": "p:inoculum:p:inoculum:p:initial:tideparasite:i:colony:772:algae:0:17:invading:i:food:20:13:waterbug:18:19:50:invading:i:colony:610:algae:51:52",
+              "generation": 2,
+              "parents": [
+                "p:inoculum:p:initial:tideparasite:i:colony:772:algae:0:17:invading:i:food:20:13:waterbug:18:19"
+              ],
+              "stage": "first",
+              "host": "i:colony:610:algae"
+            },
+            "nextFirstRoute": "water"
+          }
+        ]
+      },
+      "Q": {
+        "ids": [
+          {
+            "id": "q:initial:free:787:0",
+            "initialLocation": "free",
+            "generation": 0,
+            "emergedAt": null,
+            "firstFreeE": 0.08,
+            "lastCommittedTurn": 10,
+            "disappearedAt": 11,
+            "sameTurnSpeciesDeathReasons": [
+              "maintenance"
+            ],
+            "reason": "maintenance",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0,
+            "adultFedE": 0,
+            "adultMoveCount": 3
+          },
+          {
+            "id": "q:initial:free:744:0",
+            "initialLocation": "free",
+            "generation": 0,
+            "emergedAt": null,
+            "firstFreeE": 0.08,
+            "lastCommittedTurn": 27,
+            "disappearedAt": 28,
+            "sameTurnSpeciesDeathReasons": [
+              "maintenance"
+            ],
+            "reason": "maintenance",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0,
+            "adultFedE": 0.35,
+            "adultMoveCount": 9
+          }
+        ],
+        "newGenerationBirths": 0,
+        "final": 0,
+        "potentialWindows": {
+          "all": 60,
+          "unoccupied": 60
+        },
+        "postTurnWindowAdultPairs": {
+          "within3": 2,
+          "within1": 0,
+          "minimumDistance": 3
+        },
+        "previousQCellProxyPairs": {
+          "within3": 2,
+          "within1": 0,
+          "minimumDistance": 3
+        },
+        "nearExamples": [
+          {
+            "turn": 7,
+            "distance": 3,
+            "P": "p:initial:tideparasite:i:main:13:20:cephalopod:0",
+            "Pcell": 820,
+            "matureAt": 6,
+            "Q": "q:initial:free:744:0",
+            "Qcell": 703,
+            "QE": 0.184
+          },
+          {
+            "turn": 8,
+            "distance": 3,
+            "P": "p:initial:tideparasite:i:main:13:20:cephalopod:0",
+            "Pcell": 861,
+            "matureAt": 6,
+            "Q": "q:initial:free:744:0",
+            "Qcell": 743,
+            "QE": 0.162
+          }
+        ],
+        "contactLimit": "Window cells and Q positions are end-of-turn snapshots. Prior-cell proxy excludes same-turn emergence. No line-of-sight, traversability or exact search-stage eligibility is inferred.",
+        "windowTimeOverlap": {
+          "withAnyFreeQ": 30,
+          "withoutFreeQ": 30
+        },
+        "lastFreeQCommittedTurn": 27
+      }
+    },
+    {
+      "variant": "v3",
+      "case": 0,
+      "biologyArtifact": "parasite-runs/v3/aquatic-carnivore-0-T120.biology.json.gz",
+      "biologySHA256": "034c9b11f026fdd4148626fb4c5b0f8c99be112e17559ae04ef1509be53529f2",
+      "P": {
+        "newMiddleThenSameIDTerminal": 6,
+        "thenMature": 6,
+        "thenOriginalReleaseObserved": 6,
+        "thenNextFirstChildEstablished": 3,
+        "interpretation": "A first-host parent gives rise to a new middle-host P; that same new PID reaches a terminal host, and some produce a further first-host daughter. This is limited lineage return, not one ID completing all generations or a general sustained-cycle guarantee.",
+        "examples": [
+          {
+            "firstParent": {
+              "turn": 0,
+              "id": "p:initial:tideparasite:i:colony:824:algae:0",
+              "generation": 0,
+              "stage": "first",
+              "host": "i:colony:824:algae"
+            },
+            "parentEdibleEvidence": {
+              "turn": 1,
+              "id": "inoculum:p:initial:tideparasite:i:colony:824:algae:0:1",
+              "createdAt": 1,
+              "sourceId": "p:initial:tideparasite:i:colony:824:algae:0",
+              "location": "edible"
+            },
+            "newMiddle": {
+              "turn": 15,
+              "id": "p:inoculum:p:initial:tideparasite:i:colony:824:algae:0:13:invading:b:12:prey:19:23:14:15",
+              "generation": 1,
+              "parents": [
+                "p:initial:tideparasite:i:colony:824:algae:0"
+              ],
+              "stage": "middle",
+              "host": "b:12:prey:19:23"
+            },
+            "samePIDTerminal": {
+              "turn": 49,
+              "id": "p:inoculum:p:initial:tideparasite:i:colony:824:algae:0:13:invading:b:12:prey:19:23:14:15",
+              "stage": "terminal",
+              "host": "i:main:18:24:abyss"
+            },
+            "terminalMatureAt": 57,
+            "samePIDEmission": {
+              "turn": 58,
+              "id": "inoculum:p:inoculum:p:initial:tideparasite:i:colony:824:algae:0:13:invading:b:12:prey:19:23:14:15:58",
+              "createdAt": 58,
+              "sourceId": "p:inoculum:p:initial:tideparasite:i:colony:824:algae:0:13:invading:b:12:prey:19:23:14:15",
+              "location": "water"
+            },
+            "nextFirstChild": {
+              "turn": 86,
+              "id": "p:inoculum:p:inoculum:p:initial:tideparasite:i:colony:824:algae:0:13:invading:b:12:prey:19:23:14:15:84:invading:i:colony:863:algae:85:86",
+              "generation": 2,
+              "parents": [
+                "p:inoculum:p:initial:tideparasite:i:colony:824:algae:0:13:invading:b:12:prey:19:23:14:15"
+              ],
+              "stage": "first",
+              "host": "i:colony:863:algae"
+            },
+            "nextFirstRoute": "water"
+          }
+        ]
+      },
+      "Q": {
+        "ids": [
+          {
+            "id": "q:initial:p:initial:tideparasite:i:main:18:17:abyssshell:0:0",
+            "initialLocation": "host",
+            "generation": 0,
+            "emergedAt": 36,
+            "firstFreeE": 0.01385,
+            "lastCommittedTurn": 43,
+            "disappearedAt": 44,
+            "sameTurnSpeciesDeathReasons": [
+              "maintenance"
+            ],
+            "reason": "maintenance",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0,
+            "adultFedE": 0,
+            "adultMoveCount": 0
+          },
+          {
+            "id": "q:initial:p:initial:tideparasite:i:main:20:3:cephalopod:0:0",
+            "initialLocation": "host",
+            "generation": 0,
+            "emergedAt": 20,
+            "firstFreeE": 0.026,
+            "lastCommittedTurn": 25,
+            "disappearedAt": 26,
+            "sameTurnSpeciesDeathReasons": [
+              "predation"
+            ],
+            "reason": "predation",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0.116,
+            "adultFedE": 0.2,
+            "adultMoveCount": 5
+          },
+          {
+            "id": "q:initial:free:724:0",
+            "initialLocation": "free",
+            "generation": 0,
+            "emergedAt": null,
+            "firstFreeE": 0.08,
+            "lastCommittedTurn": 3,
+            "disappearedAt": 4,
+            "sameTurnSpeciesDeathReasons": [
+              "predation"
+            ],
+            "reason": "predation",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0.064,
+            "adultFedE": 0.05,
+            "adultMoveCount": 3
+          },
+          {
+            "id": "q:initial:free:98:0",
+            "initialLocation": "free",
+            "generation": 0,
+            "emergedAt": null,
+            "firstFreeE": 0.08,
+            "lastCommittedTurn": 48,
+            "disappearedAt": 49,
+            "sameTurnSpeciesDeathReasons": [
+              "predation"
+            ],
+            "reason": "predation",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0.578,
+            "adultFedE": 1.5,
+            "adultMoveCount": 21
+          }
+        ],
+        "newGenerationBirths": 0,
+        "final": 0,
+        "potentialWindows": {
+          "all": 56,
+          "occupied": 5,
+          "unoccupied": 51
+        },
+        "postTurnWindowAdultPairs": {
+          "within3": 0,
+          "within1": 0,
+          "minimumDistance": 6
+        },
+        "previousQCellProxyPairs": {
+          "within3": 0,
+          "within1": 0,
+          "minimumDistance": 6
+        },
+        "nearExamples": [],
+        "contactLimit": "Window cells and Q positions are end-of-turn snapshots. Prior-cell proxy excludes same-turn emergence. No line-of-sight, traversability or exact search-stage eligibility is inferred.",
+        "windowTimeOverlap": {
+          "withAnyFreeQ": 32,
+          "withoutFreeQ": 19
+        },
+        "lastFreeQCommittedTurn": 48
+      }
+    },
+    {
+      "variant": "v3",
+      "case": 1,
+      "biologyArtifact": "parasite-runs/v3/aquatic-carnivore-1-T120.biology.json.gz",
+      "biologySHA256": "a5202699b100c7bd4d3425e78422eeba0653ff65b790e09d93b8a140d8fcbb69",
+      "P": {
+        "newMiddleThenSameIDTerminal": 6,
+        "thenMature": 6,
+        "thenOriginalReleaseObserved": 5,
+        "thenNextFirstChildEstablished": 1,
+        "interpretation": "A first-host parent gives rise to a new middle-host P; that same new PID reaches a terminal host, and some produce a further first-host daughter. This is limited lineage return, not one ID completing all generations or a general sustained-cycle guarantee.",
+        "examples": [
+          {
+            "firstParent": {
+              "turn": 0,
+              "id": "p:initial:tideparasite:i:colony:428:algae:0",
+              "generation": 0,
+              "stage": "first",
+              "host": "i:colony:428:algae"
+            },
+            "parentEdibleEvidence": {
+              "turn": 3,
+              "id": "inoculum:p:initial:tideparasite:i:colony:428:algae:0:3",
+              "createdAt": 3,
+              "sourceId": "p:initial:tideparasite:i:colony:428:algae:0",
+              "location": "edible"
+            },
+            "newMiddle": {
+              "turn": 11,
+              "id": "p:inoculum:p:initial:tideparasite:i:colony:428:algae:0:9:invading:i:food:10:28:waterbug:10:11",
+              "generation": 1,
+              "parents": [
+                "p:initial:tideparasite:i:colony:428:algae:0"
+              ],
+              "stage": "middle",
+              "host": "i:food:10:28:waterbug"
+            },
+            "samePIDTerminal": {
+              "turn": 33,
+              "id": "p:inoculum:p:initial:tideparasite:i:colony:428:algae:0:9:invading:i:food:10:28:waterbug:10:11",
+              "stage": "terminal",
+              "host": "i:main:11:27:abyss"
+            },
+            "terminalMatureAt": 41,
+            "samePIDEmission": {
+              "turn": 42,
+              "id": "inoculum:p:inoculum:p:initial:tideparasite:i:colony:428:algae:0:9:invading:i:food:10:28:waterbug:10:11:42",
+              "createdAt": 42,
+              "sourceId": "p:inoculum:p:initial:tideparasite:i:colony:428:algae:0:9:invading:i:food:10:28:waterbug:10:11",
+              "location": "water"
+            },
+            "nextFirstChild": {
+              "turn": 56,
+              "id": "p:inoculum:p:inoculum:p:initial:tideparasite:i:colony:428:algae:0:9:invading:i:food:10:28:waterbug:10:11:54:invading:i:colony:467:algae:55:56",
+              "generation": 2,
+              "parents": [
+                "p:inoculum:p:initial:tideparasite:i:colony:428:algae:0:9:invading:i:food:10:28:waterbug:10:11"
+              ],
+              "stage": "first",
+              "host": "i:colony:467:algae"
+            },
+            "nextFirstRoute": "water"
+          }
+        ]
+      },
+      "Q": {
+        "ids": [
+          {
+            "id": "q:initial:p:initial:tideparasite:i:main:15:27:abyss:0:0",
+            "initialLocation": "host",
+            "generation": 0,
+            "emergedAt": 10,
+            "firstFreeE": 0.016,
+            "lastCommittedTurn": 10,
+            "disappearedAt": 11,
+            "sameTurnSpeciesDeathReasons": [
+              "predation",
+              "predation"
+            ],
+            "reason": "predation",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0.016,
+            "adultFedE": 0,
+            "adultMoveCount": 0
+          },
+          {
+            "id": "q:initial:free:769:0",
+            "initialLocation": "free",
+            "generation": 0,
+            "emergedAt": null,
+            "firstFreeE": 0.08,
+            "lastCommittedTurn": 10,
+            "disappearedAt": 11,
+            "sameTurnSpeciesDeathReasons": [
+              "predation",
+              "predation"
+            ],
+            "reason": "predation",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0,
+            "adultFedE": 0,
+            "adultMoveCount": 2
+          },
+          {
+            "id": "q:initial:free:68:0",
+            "initialLocation": "free",
+            "generation": 0,
+            "emergedAt": null,
+            "firstFreeE": 0.08,
+            "lastCommittedTurn": 33,
+            "disappearedAt": 34,
+            "sameTurnSpeciesDeathReasons": [
+              "predation"
+            ],
+            "reason": "predation",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0.162,
+            "adultFedE": 0.75,
+            "adultMoveCount": 5
+          }
+        ],
+        "newGenerationBirths": 0,
+        "final": 0,
+        "potentialWindows": {
+          "all": 58,
+          "occupied": 1,
+          "unoccupied": 57
+        },
+        "postTurnWindowAdultPairs": {
+          "within3": 0,
+          "within1": 0,
+          "minimumDistance": 4
+        },
+        "previousQCellProxyPairs": {
+          "within3": 1,
+          "within1": 0,
+          "minimumDistance": 3
+        },
+        "nearExamples": [],
+        "contactLimit": "Window cells and Q positions are end-of-turn snapshots. Prior-cell proxy excludes same-turn emergence. No line-of-sight, traversability or exact search-stage eligibility is inferred.",
+        "windowTimeOverlap": {
+          "withAnyFreeQ": 27,
+          "withoutFreeQ": 30
+        },
+        "lastFreeQCommittedTurn": 33
+      }
+    },
+    {
+      "variant": "v3",
+      "case": 2,
+      "biologyArtifact": "parasite-runs/v3/aquatic-carnivore-2-T120.biology.json.gz",
+      "biologySHA256": "493877e8397701b695593237257199ae29fe50413cf814de084efa90b95e4785",
+      "P": {
+        "newMiddleThenSameIDTerminal": 6,
+        "thenMature": 6,
+        "thenOriginalReleaseObserved": 5,
+        "thenNextFirstChildEstablished": 2,
+        "interpretation": "A first-host parent gives rise to a new middle-host P; that same new PID reaches a terminal host, and some produce a further first-host daughter. This is limited lineage return, not one ID completing all generations or a general sustained-cycle guarantee.",
+        "examples": [
+          {
+            "firstParent": {
+              "turn": 0,
+              "id": "p:initial:tideparasite:i:colony:772:algae:0",
+              "generation": 0,
+              "stage": "first",
+              "host": "i:colony:772:algae"
+            },
+            "parentEdibleEvidence": {
+              "turn": 5,
+              "id": "inoculum:p:initial:tideparasite:i:colony:772:algae:0:5",
+              "createdAt": 5,
+              "sourceId": "p:initial:tideparasite:i:colony:772:algae:0",
+              "location": "edible"
+            },
+            "newMiddle": {
+              "turn": 19,
+              "id": "p:inoculum:p:initial:tideparasite:i:colony:772:algae:0:17:invading:i:food:20:13:waterbug:18:19",
+              "generation": 1,
+              "parents": [
+                "p:initial:tideparasite:i:colony:772:algae:0"
+              ],
+              "stage": "middle",
+              "host": "i:food:20:13:waterbug"
+            },
+            "samePIDTerminal": {
+              "turn": 29,
+              "id": "p:inoculum:p:initial:tideparasite:i:colony:772:algae:0:17:invading:i:food:20:13:waterbug:18:19",
+              "stage": "terminal",
+              "host": "i:main:20:14:cephalopod"
+            },
+            "terminalMatureAt": 37,
+            "samePIDEmission": {
+              "turn": 38,
+              "id": "inoculum:p:inoculum:p:initial:tideparasite:i:colony:772:algae:0:17:invading:i:food:20:13:waterbug:18:19:38",
+              "createdAt": 38,
+              "sourceId": "p:inoculum:p:initial:tideparasite:i:colony:772:algae:0:17:invading:i:food:20:13:waterbug:18:19",
+              "location": "water"
+            },
+            "nextFirstChild": {
+              "turn": 52,
+              "id": "p:inoculum:p:inoculum:p:initial:tideparasite:i:colony:772:algae:0:17:invading:i:food:20:13:waterbug:18:19:50:invading:i:colony:610:algae:51:52",
+              "generation": 2,
+              "parents": [
+                "p:inoculum:p:initial:tideparasite:i:colony:772:algae:0:17:invading:i:food:20:13:waterbug:18:19"
+              ],
+              "stage": "first",
+              "host": "i:colony:610:algae"
+            },
+            "nextFirstRoute": "water"
+          }
+        ]
+      },
+      "Q": {
+        "ids": [
+          {
+            "id": "q:initial:free:787:0",
+            "initialLocation": "free",
+            "generation": 0,
+            "emergedAt": null,
+            "firstFreeE": 0.08,
+            "lastCommittedTurn": 10,
+            "disappearedAt": 11,
+            "sameTurnSpeciesDeathReasons": [
+              "maintenance"
+            ],
+            "reason": "maintenance",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0,
+            "adultFedE": 0,
+            "adultMoveCount": 3
+          },
+          {
+            "id": "q:initial:free:744:0",
+            "initialLocation": "free",
+            "generation": 0,
+            "emergedAt": null,
+            "firstFreeE": 0.08,
+            "lastCommittedTurn": 27,
+            "disappearedAt": 28,
+            "sameTurnSpeciesDeathReasons": [
+              "maintenance"
+            ],
+            "reason": "maintenance",
+            "reasonLimit": "Death rows omit Q ID; reason linked by disappearance time, and all Q deaths at that time have the same reason.",
+            "lastE": 0,
+            "adultFedE": 0.35,
+            "adultMoveCount": 14
+          }
+        ],
+        "newGenerationBirths": 0,
+        "final": 0,
+        "potentialWindows": {
+          "all": 60,
+          "unoccupied": 60
+        },
+        "postTurnWindowAdultPairs": {
+          "within3": 2,
+          "within1": 0,
+          "minimumDistance": 3
+        },
+        "previousQCellProxyPairs": {
+          "within3": 2,
+          "within1": 0,
+          "minimumDistance": 3
+        },
+        "nearExamples": [
+          {
+            "turn": 7,
+            "distance": 3,
+            "P": "p:initial:tideparasite:i:main:13:20:cephalopod:0",
+            "Pcell": 820,
+            "matureAt": 6,
+            "Q": "q:initial:free:744:0",
+            "Qcell": 703,
+            "QE": 0.184
+          },
+          {
+            "turn": 8,
+            "distance": 3,
+            "P": "p:initial:tideparasite:i:main:13:20:cephalopod:0",
+            "Pcell": 861,
+            "matureAt": 6,
+            "Q": "q:initial:free:744:0",
+            "Qcell": 743,
+            "QE": 0.162
+          }
+        ],
+        "contactLimit": "Window cells and Q positions are end-of-turn snapshots. Prior-cell proxy excludes same-turn emergence. No line-of-sight, traversability or exact search-stage eligibility is inferred.",
+        "windowTimeOverlap": {
+          "withAnyFreeQ": 30,
+          "withoutFreeQ": 30
+        },
+        "lastFreeQCommittedTurn": 27
+      }
+    }
+  ]
+}

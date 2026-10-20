@@ -1,0 +1,47 @@
+{
+  "definition": "i11c-lower-portability-check/1",
+  "baselineCommit": "48876e7",
+  "dependencyFiles": 30,
+  "syntaxFiles": [
+    "compare-replay.cjs",
+    "diagnostic-runner.cjs",
+    "fungus-fixture.cjs",
+    "pressure-fixture.cjs",
+    "private-transform.cjs",
+    "replay-support.cjs",
+    "risk-fixture.cjs"
+  ],
+  "compiled": [
+    {
+      "variant": "baseline",
+      "loadedSourceFiles": 0,
+      "worldCreated": false,
+      "turnsExecuted": 0
+    },
+    {
+      "variant": "rarity",
+      "loadedSourceFiles": 11,
+      "worldCreated": false,
+      "turnsExecuted": 0,
+      "measuredSourceSHACompared": true,
+      "differentPhysicalSourceSHA": []
+    },
+    {
+      "variant": "risk",
+      "loadedSourceFiles": 11,
+      "worldCreated": false,
+      "turnsExecuted": 0,
+      "measuredSourceSHACompared": true,
+      "differentPhysicalSourceSHA": []
+    },
+    {
+      "variant": "fungus",
+      "loadedSourceFiles": 11,
+      "worldCreated": false,
+      "turnsExecuted": 0,
+      "measuredSourceSHACompared": true,
+      "differentPhysicalSourceSHA": []
+    }
+  ],
+  "scope": "Git source extraction, pinned-byte validation, syntax, private compilation and all 11 historical loaded source SHA matches for every candidate. No world/fixture/turn rerun."
+}

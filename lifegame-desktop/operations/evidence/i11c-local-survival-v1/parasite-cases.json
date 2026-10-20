@@ -1,0 +1,39 @@
+{
+  "version": "i11c-fixed-local-survival/1",
+  "baselineCommit": "48876e7",
+  "scope": "Three preregistered aquatic carnivore diagnostic seeds, 60T paired screen. Same80 main/founder counts/support as previous water setup; change selected hosts to actual carnivores. Not500T certification or independent holdout. If any new establishment/emergence or attached Q remains at60T, extend all three to120T; no seed substitution.",
+  "baseReference": {
+    "file": "operations/evidence/i11b-foodweb-routes-v1/parasites/initial-v2-preflight.json",
+    "row": "water"
+  },
+  "overrides": {
+    "selected": [
+      "abyss",
+      "abyssshell",
+      "cephalopod"
+    ]
+  },
+  "cases": [
+    {
+      "id": "aquatic-carnivore-0",
+      "overrides": {
+        "seed": "i11c/parasite-water/00",
+        "terrainSeed": "i11c/parasite-water/terrain/00"
+      }
+    },
+    {
+      "id": "aquatic-carnivore-1",
+      "overrides": {
+        "seed": "i11c/parasite-water/01",
+        "terrainSeed": "i11c/parasite-water/terrain/01"
+      }
+    },
+    {
+      "id": "aquatic-carnivore-2",
+      "overrides": {
+        "seed": "i11c/parasite-water/02",
+        "terrainSeed": "i11c/parasite-water/terrain/02"
+      }
+    }
+  ]
+}

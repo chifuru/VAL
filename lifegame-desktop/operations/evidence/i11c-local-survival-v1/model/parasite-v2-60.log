@@ -1,0 +1,9 @@
+{"event":"progress","variant":"v2","case":"aquatic-carnivore-0","turn":25,"main":84,"grassbug":0,"fungus":38,"P":51,"Q":3,"elapsedMs":3979.557224}
+{"event":"progress","variant":"v2","case":"aquatic-carnivore-0","turn":50,"main":98,"grassbug":0,"fungus":28,"P":45,"Q":0,"elapsedMs":8795.017412000001}
+{"event":"complete","variant":"v2","case":"aquatic-carnivore-0","wallMs":11164.938142,"summary":"/workspace/VAL/lifegame-desktop/operations/evidence/i11c-local-survival-v1/parasite-runs/v2/aquatic-carnivore-0-T60.summary.json"}
+{"event":"progress","variant":"v2","case":"aquatic-carnivore-1","turn":25,"main":85,"grassbug":0,"fungus":41,"P":57,"Q":1,"elapsedMs":3514.995580999999}
+{"event":"progress","variant":"v2","case":"aquatic-carnivore-1","turn":50,"main":102,"grassbug":0,"fungus":31,"P":57,"Q":0,"elapsedMs":8758.71163}
+{"event":"complete","variant":"v2","case":"aquatic-carnivore-1","wallMs":11500.736472999999,"summary":"/workspace/VAL/lifegame-desktop/operations/evidence/i11c-local-survival-v1/parasite-runs/v2/aquatic-carnivore-1-T60.summary.json"}
+{"event":"progress","variant":"v2","case":"aquatic-carnivore-2","turn":25,"main":85,"grassbug":0,"fungus":44,"P":55,"Q":1,"elapsedMs":2828.813493999998}
+{"event":"progress","variant":"v2","case":"aquatic-carnivore-2","turn":50,"main":100,"grassbug":0,"fungus":38,"P":48,"Q":0,"elapsedMs":7307.330647999999}
+{"event":"complete","variant":"v2","case":"aquatic-carnivore-2","wallMs":9844.837746000001,"summary":"/workspace/VAL/lifegame-desktop/operations/evidence/i11c-local-survival-v1/parasite-runs/v2/aquatic-carnivore-2-T60.summary.json"}

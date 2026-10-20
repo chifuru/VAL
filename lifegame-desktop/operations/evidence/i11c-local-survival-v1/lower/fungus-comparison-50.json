@@ -1,0 +1,475 @@
+{
+  "scope": "Private fungus-only conditional keep2E accounting comparison: fixed2case50T only, not 500T/R1-R6 certification.",
+  "source": {
+    "engine": "10fe37981c5dda2865fb955d3c11d3bfed5359daf1e8038d43d1b917ea96cf07",
+    "state": "199ad6c9c31f9cfc7ec719b48236d6ad831148965308dc2be278690727068fbb",
+    "hash": "a2af1afe8540aa56834b8c26255f4a4b3da80104a27a9471cace70a65670f39c",
+    "catalogue": "73d0761e892b2ce5562b6869343a035b467aac375cfa20019522609a783ad13c",
+    "landscape": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+    "map-templates": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e",
+    "map-data": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+    "nutrition": "d0720e8df176b7657b69196197c306adc5cd7b199b676da16dd3cc12924ee1dd",
+    "behavior": "805c7f0c089be24e837c10cdca107cde16eb72c24ff2a879c94334f9d545ba5b",
+    "reproduction": "d3ceb9591baf7c51b7b671719e0d3a858621d03ff6b876c0576e45d81c1b4b15",
+    "parasites": "8829dbf8335fe9bf1be2db0879f0be1aab109617f3d112d8e7106fb694602bde"
+  },
+  "physicalSourcesChangedDuringRun": [],
+  "monitorParity5": true,
+  "cases": [
+    {
+      "id": "river-0",
+      "effectiveConfigsExact": true,
+      "baseline": {
+        "fungusFinal": 4,
+        "fungusBirths": 8,
+        "fungusDeaths": {
+          "harvest": 35,
+          "starvation": 1,
+          "age": 1
+        },
+        "body": {
+          "consumedB": 214.21163299999995,
+          "harvestTurns": 72,
+          "harvestedToZero": 35,
+          "strandedEOnZeroB": 171.18475199999995,
+          "strandedMOnZeroB": 0,
+          "repairedB": 28.171632999999993,
+          "repairCostE": 28.17163299999999,
+          "birthReserveBlocksRepair": 3
+        },
+        "feed": {
+          "turns": 650,
+          "bites": 88,
+          "netReserveGain": 101.32043500000002,
+          "netMaterialGain": -5.557753000000005,
+          "healedHP": 0,
+          "baseCostPlanned": 96.58500000000033,
+          "ateTurns": 72,
+          "grossE": 144.74347800000007,
+          "grossM": 6.608332999999993,
+          "assimilatedE": 101.32043500000003,
+          "source:resource:plant": 54,
+          "source:resource:mineral": 1,
+          "source:carcass:animal": 18,
+          "source:resource:fungal": 2,
+          "source:carcass:fungal": 13
+        },
+        "birthGates": {
+          "energy": 599,
+          "juvenile": 44,
+          "phaseI": 161,
+          "material": 172,
+          "body": 178,
+          "noEmpty": 15,
+          "actualCandidate": 8,
+          "waiting": 34,
+          "lowBodyButBirthEAvailable": 6
+        },
+        "grassFinal": 0,
+        "grassBirths": 5,
+        "waterFinal": 36,
+        "waterBirths": 57
+      },
+      "candidate": {
+        "fungusFinal": 4,
+        "fungusBirths": 6,
+        "fungusDeaths": {
+          "harvest": 34,
+          "age": 1
+        },
+        "body": {
+          "consumedB": 259.95266699999996,
+          "harvestTurns": 89,
+          "harvestedToZero": 34,
+          "strandedEOnZeroB": 131.9223,
+          "strandedMOnZeroB": 0,
+          "repairedB": 83.582667,
+          "repairCostE": 83.582667
+        },
+        "feed": {
+          "turns": 639,
+          "bites": 108,
+          "netReserveGain": 127.62031300000007,
+          "netMaterialGain": -4.869758000000007,
+          "healedHP": 0,
+          "baseCostPlanned": 94.95750000000038,
+          "ateTurns": 88,
+          "grossE": 182.31473100000002,
+          "grossM": 8.599999999999985,
+          "assimilatedE": 127.62031300000014,
+          "source:resource:plant": 73,
+          "source:carcass:fungal": 12,
+          "source:resource:mineral": 1,
+          "source:carcass:animal": 19,
+          "source:resource:fungal": 3
+        },
+        "birthGates": {
+          "energy": 597,
+          "juvenile": 41,
+          "phaseI": 109,
+          "material": 177,
+          "body": 107,
+          "noEmpty": 15,
+          "actualCandidate": 6,
+          "waiting": 30,
+          "lowBodyButBirthEAvailable": 1
+        },
+        "grassFinal": 0,
+        "grassBirths": 5,
+        "waterFinal": 23,
+        "waterBirths": 51
+      },
+      "wallMs": 8914.105375,
+      "fingerprint": "842ef97ce51d03ed48c099b55448f0d003800d0b56af25888a14246e974d5ab0"
+    },
+    {
+      "id": "lake-1",
+      "effectiveConfigsExact": true,
+      "baseline": {
+        "fungusFinal": 5,
+        "fungusBirths": 9,
+        "fungusDeaths": {
+          "harvest": 33,
+          "age": 3,
+          "starvation": 1
+        },
+        "body": {
+          "consumedB": 213.21999899999997,
+          "harvestTurns": 78,
+          "harvestedToZero": 33,
+          "strandedEOnZeroB": 168.31433300000006,
+          "strandedMOnZeroB": 0,
+          "repairedB": 53.991999,
+          "repairCostE": 53.991999,
+          "birthReserveBlocksRepair": 6
+        },
+        "feed": {
+          "turns": 784,
+          "bites": 130,
+          "netReserveGain": 162.8818320000003,
+          "netMaterialGain": -3.6249990000000114,
+          "healedHP": 0,
+          "baseCostPlanned": 116.61750000000079,
+          "ateTurns": 109,
+          "grossE": 232.688332,
+          "grossM": 10.899999999999979,
+          "assimilatedE": 162.88183200000032,
+          "source:resource:plant": 102,
+          "source:carcass:fungal": 22,
+          "source:resource:fungal": 6
+        },
+        "birthGates": {
+          "juvenile": 56,
+          "phaseI": 131,
+          "energy": 706,
+          "material": 186,
+          "body": 212,
+          "noEmpty": 44,
+          "actualCandidate": 9,
+          "lowBodyButBirthEAvailable": 10,
+          "waiting": 42
+        },
+        "grassFinal": 7,
+        "grassBirths": 26,
+        "waterFinal": 74,
+        "waterBirths": 55
+      },
+      "candidate": {
+        "fungusFinal": 4,
+        "fungusBirths": 7,
+        "fungusDeaths": {
+          "harvest": 31,
+          "age": 3,
+          "starvation": 2
+        },
+        "body": {
+          "consumedB": 257.41616600000003,
+          "harvestTurns": 94,
+          "harvestedToZero": 31,
+          "strandedEOnZeroB": 112.47,
+          "strandedMOnZeroB": 0,
+          "repairedB": 103.56066599999998,
+          "repairCostE": 103.56066600000001
+        },
+        "feed": {
+          "turns": 782,
+          "bites": 123,
+          "netReserveGain": 152.02366600000028,
+          "netMaterialGain": -3.6390720000000125,
+          "healedHP": 0,
+          "baseCostPlanned": 116.52000000000089,
+          "ateTurns": 106,
+          "grossE": 217.17666599999998,
+          "grossM": 10.299999999999981,
+          "assimilatedE": 152.02366600000036,
+          "source:resource:plant": 96,
+          "source:carcass:fungal": 21,
+          "source:resource:fungal": 6
+        },
+        "birthGates": {
+          "juvenile": 46,
+          "phaseI": 118,
+          "energy": 724,
+          "material": 212,
+          "body": 165,
+          "noEmpty": 31,
+          "actualCandidate": 7,
+          "waiting": 30,
+          "lowBodyButBirthEAvailable": 3
+        },
+        "grassFinal": 7,
+        "grassBirths": 30,
+        "waterFinal": 70,
+        "waterBirths": 55
+      },
+      "wallMs": 7971.131756999999,
+      "fingerprint": "dc624b8cb51062e99b0f7540aff99485878a687b0256e2cb8f07495bd6a23e4d"
+    }
+  ],
+  "fixture": {
+    "scope": "Local private source-account fixture only. No ecological survival claim or source edit.",
+    "candidate": "Fungus only: only when phase2 AND legal birth place exists AND (B<3 OR M<.2), use existing emergency reserve2E rather than unconditional birth reserve8E; keep capB, maximum1E->1B/T, same inputs, no postmortem rescue.",
+    "source": {
+      "baseline": "55e06fa22f2ebf8e88a030fadcfd37c4bdec15d1d7a1104f688608ec66f1e8f2",
+      "candidate": "d0720e8df176b7657b69196197c306adc5cd7b199b676da16dd3cc12924ee1dd"
+    },
+    "rows": [
+      {
+        "values": {
+          "E": 8,
+          "B": 2,
+          "M": 0.2
+        },
+        "baseline": {
+          "before": {
+            "E": 8,
+            "B": 2,
+            "M": 0.2
+          },
+          "after": {
+            "E": 8,
+            "B": 2,
+            "M": 0.2
+          },
+          "paidE": 0,
+          "gainedB": 0,
+          "dropCandidates": 0,
+          "invariants": []
+        },
+        "candidate": {
+          "before": {
+            "E": 8,
+            "B": 2,
+            "M": 0.2
+          },
+          "after": {
+            "E": 7,
+            "B": 3,
+            "M": 0.2
+          },
+          "paidE": 1,
+          "gainedB": 1,
+          "dropCandidates": 0,
+          "invariants": []
+        }
+      },
+      {
+        "values": {
+          "E": 6,
+          "B": 2,
+          "M": 0.2
+        },
+        "baseline": {
+          "before": {
+            "E": 6,
+            "B": 2,
+            "M": 0.2
+          },
+          "after": {
+            "E": 6,
+            "B": 2,
+            "M": 0.2
+          },
+          "paidE": 0,
+          "gainedB": 0,
+          "dropCandidates": 0,
+          "invariants": []
+        },
+        "candidate": {
+          "before": {
+            "E": 6,
+            "B": 2,
+            "M": 0.2
+          },
+          "after": {
+            "E": 5,
+            "B": 3,
+            "M": 0.2
+          },
+          "paidE": 1,
+          "gainedB": 1,
+          "dropCandidates": 0,
+          "invariants": []
+        }
+      },
+      {
+        "values": {
+          "E": 8,
+          "B": 3,
+          "M": 0
+        },
+        "baseline": {
+          "before": {
+            "E": 8,
+            "B": 3,
+            "M": 0
+          },
+          "after": {
+            "E": 8,
+            "B": 3,
+            "M": 0
+          },
+          "paidE": 0,
+          "gainedB": 0,
+          "dropCandidates": 0,
+          "invariants": []
+        },
+        "candidate": {
+          "before": {
+            "E": 8,
+            "B": 3,
+            "M": 0
+          },
+          "after": {
+            "E": 7,
+            "B": 4,
+            "M": 0
+          },
+          "paidE": 1,
+          "gainedB": 1,
+          "dropCandidates": 0,
+          "invariants": []
+        }
+      },
+      {
+        "values": {
+          "E": 8,
+          "B": 3,
+          "M": 0.2
+        },
+        "baseline": {
+          "before": {
+            "E": 8,
+            "B": 3,
+            "M": 0.2
+          },
+          "after": {
+            "E": 8,
+            "B": 3,
+            "M": 0.2
+          },
+          "paidE": 0,
+          "gainedB": 0,
+          "dropCandidates": 0,
+          "invariants": []
+        },
+        "candidate": {
+          "before": {
+            "E": 8,
+            "B": 3,
+            "M": 0.2
+          },
+          "after": {
+            "E": 8,
+            "B": 3,
+            "M": 0.2
+          },
+          "paidE": 0,
+          "gainedB": 0,
+          "dropCandidates": 0,
+          "invariants": []
+        }
+      },
+      {
+        "values": {
+          "E": 8,
+          "B": 2,
+          "M": 0.2,
+          "blockBirth": true
+        },
+        "baseline": {
+          "before": {
+            "E": 8,
+            "B": 2,
+            "M": 0.2
+          },
+          "after": {
+            "E": 7,
+            "B": 3,
+            "M": 0.2
+          },
+          "paidE": 1,
+          "gainedB": 1,
+          "dropCandidates": 0,
+          "invariants": []
+        },
+        "candidate": {
+          "before": {
+            "E": 8,
+            "B": 2,
+            "M": 0.2
+          },
+          "after": {
+            "E": 7,
+            "B": 3,
+            "M": 0.2
+          },
+          "paidE": 1,
+          "gainedB": 1,
+          "dropCandidates": 0,
+          "invariants": []
+        }
+      }
+    ],
+    "reach": {
+      "soilOnly": [],
+      "adjacentMineral": [],
+      "sameCellMineral": [
+        {
+          "id": "r:27:mineral",
+          "cell": 27,
+          "tag": "mineral",
+          "type": "resource"
+        }
+      ],
+      "adjacentOrganic": [
+        {
+          "id": "r:28:organic",
+          "cell": 28,
+          "tag": "plant",
+          "type": "resource"
+        }
+      ],
+      "adjacentCarcass": [
+        {
+          "id": "r:28:organic",
+          "cell": 28,
+          "tag": "plant",
+          "type": "resource"
+        },
+        {
+          "id": "neighbor-carcass",
+          "cell": 28,
+          "tag": "animal",
+          "type": "carcass"
+        }
+      ]
+    },
+    "caveats": [
+      "Reserve2 is a comparison initial value borrowed from existing plant emergency reserve, not an adopted species rule.",
+      "M shortage cannot be solved by E->B repair. Current adjacent organic/carcass reach is real; adjacent mineral and free soil are not current fungus sources.",
+      "Rebuilding B never restores an already harvested-to-zero fungus because settle removes it before investAndDrops.",
+      "This fixture does not estimate intervention frequency or 500T survival."
+    ]
+  }
+}

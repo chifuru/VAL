@@ -1,0 +1,736 @@
+TAP version 13
+# Subtest: real Worker differential frames reconstruct exactly the atomic result across turns and a fresh observer
+ok 1 - real Worker differential frames reconstruct exactly the atomic result across turns and a fresh observer
+  ---
+  duration_ms: 4845.004215
+  type: 'test'
+  ...
+# Subtest: fixed geometry caching preserves results, ignores soil amounts, keys obstacles and does not leak mutable neighbors
+ok 2 - fixed geometry caching preserves results, ignores soil amounts, keys obstacles and does not leak mutable neighbors
+  ---
+  duration_ms: 5894.100093
+  type: 'test'
+  ...
+# Subtest: 500-turn blocks checkpoint at their own boundaries and resume with unchanged biology
+ok 3 - 500-turn blocks checkpoint at their own boundaries and resume with unchanged biology
+  ---
+  duration_ms: 532.476981
+  type: 'test'
+  ...
+# Subtest: Worker does not calculate beyond its requested terminal turn
+ok 4 - Worker does not calculate beyond its requested terminal turn
+  ---
+  duration_ms: 1386.834638
+  type: 'test'
+  ...
+# Subtest: streaming sends each phase once and reconstructs the same table-world final state
+ok 5 - streaming sends each phase once and reconstructs the same table-world final state
+  ---
+  duration_ms: 1810.98929
+  type: 'test'
+  ...
+# Subtest: Worker caps an oversized batch at six continuous turns in legacy and stream modes
+ok 6 - Worker caps an oversized batch at six continuous turns in legacy and stream modes
+  ---
+  duration_ms: 12774.522208
+  type: 'test'
+  ...
+# Subtest: invalid batch counts do not advance the Worker world
+ok 7 - invalid batch counts do not advance the Worker world
+  ---
+  duration_ms: 1294.363545
+  type: 'test'
+  ...
+# Subtest: a checkpoint ends the batch and a later request continues a longer replay
+ok 8 - a checkpoint ends the batch and a later request continues a longer replay
+  ---
+  duration_ms: 2456.467766
+  type: 'test'
+  ...
+# Subtest: reinit after a partial preview starts from the supplied committed world and ignores old requests
+ok 9 - reinit after a partial preview starts from the supplied committed world and ignores old requests
+  ---
+  duration_ms: 2862.462186
+  type: 'test'
+  ...
+# Subtest: stage budget audit preserves full world states and reconciles its residual increments
+ok 10 - stage budget audit preserves full world states and reconciles its residual increments
+  ---
+  duration_ms: 4201.577545
+  type: 'test'
+  ...
+# Subtest: stage audit restores all hooks if engine calculation fails
+ok 11 - stage audit restores all hooks if engine calculation fails
+  ---
+  duration_ms: 5.776579
+  type: 'test'
+  ...
+# Subtest: fractional costs debit exactly the same quantum that enters dissipation
+ok 12 - fractional costs debit exactly the same quantum that enters dissipation
+  ---
+  duration_ms: 5.861918
+  type: 'test'
+  ...
+# Subtest: fractional photosynthesis uses one light quantum for stock and input ledger
+ok 13 - fractional photosynthesis uses one light quantum for stock and input ledger
+  ---
+  duration_ms: 1.448887
+  type: 'test'
+  ...
+# Subtest: initial main founders have deterministic mixed ages with valid age-based capabilities and unchanged phase/lineage
+ok 14 - initial main founders have deterministic mixed ages with valid age-based capabilities and unchanged phase/lineage
+  ---
+  duration_ms: 525.427432
+  type: 'test'
+  ...
+# Subtest: explicit ages and later-born organisms never acquire an initial founder age
+ok 15 - explicit ages and later-born organisms never acquire an initial founder age
+  ---
+  duration_ms: 95.033402
+  type: 'test'
+  ...
+# Subtest: terminal P initial placement is limited to genuinely mature founders and keeps valid Q windows
+ok 16 - terminal P initial placement is limited to genuinely mature founders and keeps valid Q windows
+  ---
+  duration_ms: 187.973982
+  type: 'test'
+  ...
+# Subtest: only completed Q establishment and actual clearance count as ecological relations
+ok 17 - only completed Q establishment and actual clearance count as ecological relations
+  ---
+  duration_ms: 250.393438
+  type: 'test'
+  ...
+# Subtest: Hyper parasite effective conditions, biological counts and flow survive all-turn archive replay
+ok 18 - Hyper parasite effective conditions, biological counts and flow survive all-turn archive replay
+  ---
+  duration_ms: 3558.152751
+  type: 'test'
+  ...
+# Subtest: pre-hyper biological signatures cannot claim the new Q lifecycle
+ok 19 - pre-hyper biological signatures cannot claim the new Q lifecycle
+  ---
+  duration_ms: 139.251063
+  type: 'test'
+  ...
+# Subtest: I05 worlds retain the exact35-species replay without new hyper fields
+ok 20 - I05 worlds retain the exact35-species replay without new hyper fields
+  ---
+  duration_ms: 1103.89108
+  type: 'test'
+  ...
+# Subtest: Worker transports hyper body, inocula and committed phases before restart
+ok 21 - Worker transports hyper body, inocula and committed phases before restart
+  ---
+  duration_ms: 5145.112924
+  type: 'test'
+  ...
+# Subtest: attached and free living Q IDs keep real biomass four phases and age separate from nonliving eggs
+ok 22 - attached and free living Q IDs keep real biomass four phases and age separate from nonliving eggs
+  ---
+  duration_ms: 8.041862
+  type: 'test'
+  ...
+# Subtest: one committed emergence removes only P and retains the same Q without an extra birth or host death
+ok 23 - one committed emergence removes only P and retains the same Q without an extra birth or host death
+  ---
+  duration_ms: 12.663504
+  type: 'test'
+  ...
+# Subtest: all-turn event and energy flow preserves raw values beyond animation limits and never implies initial emergence
+ok 24 - all-turn event and energy flow preserves raw values beyond animation limits and never implies initial emergence
+  ---
+  duration_ms: 34.591035
+  type: 'test'
+  ...
+# Subtest: missing unknown or inconsistent Q stock and flow refuses a new row while preserving committed data
+ok 25 - missing unknown or inconsistent Q stock and flow refuses a new row while preserving committed data
+  ---
+  duration_ms: 108.059128
+  type: 'test'
+  ...
+# Subtest: Q restore requires both definitions metadata and every row without zero-completing missing observations
+ok 26 - Q restore requires both definitions metadata and every row without zero-completing missing observations
+  ---
+  duration_ms: 10.448614
+  type: 'test'
+  ...
+# Subtest: old I05 Q snapshot and CSV bytes retain the prior three-phase definition without new-model completion
+ok 27 - old I05 Q snapshot and CSV bytes retain the prior three-phase definition without new-model completion
+  ---
+  duration_ms: 4.585319
+  type: 'test'
+  ...
+# Subtest: the four-phase Q model is explicit and rejects unsupported or contradictory model settings
+ok 28 - the four-phase Q model is explicit and rejects unsupported or contradictory model settings
+  ---
+  duration_ms: 105.453582
+  type: 'test'
+  ...
+# Subtest: the first terminal maturity window gates actual contact at T+1 and T+3, with no route for dead or non-host bodies
+ok 29 - the first terminal maturity window gates actual contact at T+1 and T+3, with no route for dead or non-host bodies
+  ---
+  duration_ms: 24.978594
+  type: 'test'
+  ...
+# Subtest: paid eggs remain finite nonliving reserves until the separate next-turn establishment
+ok 30 - paid eggs remain finite nonliving reserves until the separate next-turn establishment
+  ---
+  duration_ms: 49.5943
+  type: 'test'
+  ...
+# Subtest: a legal last-window invasion may establish after the window closes, while changed maturity or a lost host invalidates its proof
+ok 31 - a legal last-window invasion may establish after the window closes, while changed maturity or a lost host invalidates its proof
+  ---
+  duration_ms: 28.466166
+  type: 'test'
+  ...
+# Subtest: one P reserves only one invading Q, and insufficient egg mass cannot create a living colony
+ok 32 - one P reserves only one invading Q, and insufficient egg mass cannot create a living colony
+  ---
+  duration_ms: 8.72322
+  type: 'test'
+  ...
+# Subtest: parent traits mutate once with a bounded allocation tradeoff and do not transmit experience or acquired resistance
+ok 33 - parent traits mutate once with a bounded allocation tradeoff and do not transmit experience or acquired resistance
+  ---
+  duration_ms: 6.077599
+  type: 'test'
+  ...
+# Subtest: Q exclusion grants only the direct host P a finite paid resistance that decays independently of H
+ok 34 - Q exclusion grants only the direct host P a finite paid resistance that decays independently of H
+  ---
+  duration_ms: 4.334529
+  type: 'test'
+  ...
+# Subtest: Q phase experience, age maturity and host development advance separately from actual paid outcomes
+ok 35 - Q phase experience, age maturity and host development advance separately from actual paid outcomes
+  ---
+  duration_ms: 71.173636
+  type: 'test'
+  ...
+# Subtest: each emergence gate remains independent after real upkeep and the exact post-upkeep reserve must fund both the attempt and extra body
+ok 36 - each emergence gate remains independent after real upkeep and the exact post-upkeep reserve must fund both the attempt and extra body
+  ---
+  duration_ms: 18.306297
+  type: 'test'
+  ...
+# Subtest: failed emergence spends the attempt once, waits four turns and still requires renewed finite reserves
+ok 37 - failed emergence spends the attempt once, waits four turns and still requires renewed finite reserves
+  ---
+  duration_ms: 2.721515
+  type: 'test'
+  ...
+# Subtest: successful emergence kills only P once and preserves the same Q ID and lifetime as a next-turn adult
+ok 38 - successful emergence kills only P once and preserves the same Q ID and lifetime as a next-turn adult
+  ---
+  duration_ms: 9.983731
+  type: 'test'
+  ...
+# Subtest: early H or P death cannot rescue a prepared Q into a free adult
+ok 39 - early H or P death cannot rescue a prepared Q into a free adult
+  ---
+  duration_ms: 10.206287
+  type: 'test'
+  ...
+# Subtest: adult feeding is capped at real local organic energy, absorbs half and never consumes information or mineral energy
+ok 40 - adult feeding is capped at real local organic energy, absorbs half and never consumes information or mineral energy
+  ---
+  duration_ms: 43.096492
+  type: 'test'
+  ...
+# Subtest: adult movement pays for one legal neighboring cell and cannot cross blocked terrain or spend an absent step budget
+ok 41 - adult movement pays for one legal neighboring cell and cannot cross blocked terrain or spend an absent step budget
+  ---
+  duration_ms: 10.04859
+  type: 'test'
+  ...
+# Subtest: adult carcass feeding removes the same fraction of growth credit and records the actual food cell before movement
+ok 42 - adult carcass feeding removes the same fraction of growth credit and records the actual food cell before movement
+  ---
+  duration_ms: 5.648421
+  type: 'test'
+  ...
+# Subtest: one controlled lineage connects paid emergence to adult oviposition and a new first-phase Q on another P
+ok 43 - one controlled lineage connects paid emergence to adult oviposition and a new first-phase Q on another P
+  ---
+  duration_ms: 19.69997
+  type: 'test'
+  ...
+# Subtest: living adult Q is finite prey consumed once without duplicating its body or settling an inoculum as food
+ok 44 - living adult Q is finite prey consumed once without duplicating its body or settling an inoculum as food
+  ---
+  duration_ms: 10.591198
+  type: 'test'
+  ...
+# Subtest: P pays finite exclusion attempts on either outcome and only a successful removal acquires anti-Q resistance
+ok 45 - P pays finite exclusion attempts on either outcome and only a successful removal acquires anti-Q resistance
+  ---
+  duration_ms: 7.143016
+  type: 'test'
+  ...
+# Subtest: the paid Q modulation and trace budgets are bounded by the actual remaining reserve and keep fixed genes unchanged
+ok 46 - the paid Q modulation and trace budgets are bounded by the actual remaining reserve and keep fixed genes unchanged
+  ---
+  duration_ms: 41.697494
+  type: 'test'
+  ...
+# Subtest: initial Q quotas use actual P colonies and past windows without inventing maturity, hosts or emergence successes
+ok 47 - initial Q quotas use actual P colonies and past windows without inventing maturity, hosts or emergence successes
+  ---
+  duration_ms: 17.807245
+  type: 'test'
+  ...
+# Subtest: short coupled Q worlds remain reproducible with finite hosted, free-adult and egg reserves
+ok 48 - short coupled Q worlds remain reproducible with finite hosted, free-adult and egg reserves
+  ---
+  duration_ms: 94.662562
+  type: 'test'
+  ...
+# Subtest: a same-P trophic migration carries the same Q and pauses its development through next-turn establishment
+ok 49 - a same-P trophic migration carries the same Q and pauses its development through next-turn establishment
+  ---
+  duration_ms: 7.78835
+  type: 'test'
+  ...
+# Subtest: attached and adult Q expire at the original eighty-turn lifetime without resetting after detachment
+ok 50 - attached and adult Q expire at the original eighty-turn lifetime without resetting after detachment
+  ---
+  duration_ms: 5.620349
+  type: 'test'
+  ...
+# Subtest: survival3 explores locally with no cue using finite paid movement while survival2 retains stop
+ok 51 - survival3 explores locally with no cue using finite paid movement while survival2 retains stop
+  ---
+  duration_ms: 8.964885
+  type: 'test'
+  ...
+# Subtest: survival3 leaves an unproductive same-cell host instead of treating contact as a permanent goal
+ok 52 - survival3 leaves an unproductive same-cell host instead of treating contact as a permanent goal
+  ---
+  duration_ms: 6.72086
+  type: 'test'
+  ...
+# Subtest: a visible external infestation outranks an uninfested body without granting exact compatibility knowledge
+ok 53 - a visible external infestation outranks an uninfested body without granting exact compatibility knowledge
+  ---
+  duration_ms: 68.081721
+  type: 'test'
+  ...
+# Subtest: internal P and its exact maturation clock cannot steer autonomous Q movement
+ok 54 - internal P and its exact maturation clock cannot steer autonomous Q movement
+  ---
+  duration_ms: 6.981423
+  type: 'test'
+  ...
+# Subtest: hungry Q retains real local feeding over exploration and consumes only finite food
+ok 55 - hungry Q retains real local feeding over exploration and consumes only finite food
+  ---
+  duration_ms: 2.415735
+  type: 'test'
+  ...
+# Subtest: depleted or immobilized Q is not forced to move or given food energy
+ok 56 - depleted or immobilized Q is not forced to move or given food energy
+  ---
+  duration_ms: 6.446896
+  type: 'test'
+  ...
+# Subtest: local exploration is deterministic without new memory or private host knowledge
+ok 57 - local exploration is deterministic without new memory or private host knowledge
+  ---
+  duration_ms: 3.85097
+  type: 'test'
+  ...
+# Subtest: survival3 preserves the one-use three-turn infection window and paid finite egg cost
+ok 58 - survival3 preserves the one-use three-turn infection window and paid finite egg cost
+  ---
+  duration_ms: 5.97273
+  type: 'test'
+  ...
+# Subtest: survival2 survival1 and unversioned full worlds keep all baseline48876e7 states and RNG through8T
+ok 59 - survival2 survival1 and unversioned full worlds keep all baseline48876e7 states and RNG through8T
+  ---
+  duration_ms: 1519.585821
+  type: 'test'
+  ...
+# Subtest: fungal optional release preserves paid-birth material and body reserves without creating nutrients
+ok 60 - fungal optional release preserves paid-birth material and body reserves without creating nutrients
+  ---
+  duration_ms: 49.397092
+  type: 'test'
+  ...
+# Subtest: surplus fungus still releases finite spores and pays the original costs
+ok 61 - surplus fungus still releases finite spores and pays the original costs
+  ---
+  duration_ms: 4.418466
+  type: 'test'
+  ...
+# Subtest: exact fungal reserve boundaries remain legal after the shared nutrient quantization
+ok 62 - exact fungal reserve boundaries remain legal after the shared nutrient quantization
+  ---
+  duration_ms: 3.770188
+  type: 'test'
+  ...
+# Subtest: reserve retention alone neither grants soil nutrition nor bypasses a real parent and maturity
+ok 63 - reserve retention alone neither grants soil nutrition nor bypasses a real parent and maturity
+  ---
+  duration_ms: 4.539598
+  type: 'test'
+  ...
+# Subtest: a visible funded attacker adds danger to existing choices and a legal escape still pays movement
+ok 64 - a visible funded attacker adds danger to existing choices and a legal escape still pays movement
+  ---
+  duration_ms: 11.892772
+  type: 'test'
+  ...
+# Subtest: invisible, cooldown or unfunded attackers do not trigger the added immediate danger
+ok 65 - invisible, cooldown or unfunded attackers do not trigger the added immediate danger
+  ---
+  duration_ms: 10.205206
+  type: 'test'
+  ...
+# Subtest: danger never creates an unaffordable escape or an illegal path
+ok 66 - danger never creates an unaffordable escape or an illegal path
+  ---
+  duration_ms: 4.716936
+  type: 'test'
+  ...
+# Subtest: range-two danger vacates the moving animal's origin but retains a different organism sharing it
+ok 67 - range-two danger vacates the moving animal's origin but retains a different organism sharing it
+  ---
+  duration_ms: 10.55165
+  type: 'test'
+  ...
+# Subtest: survival/1 and unversioned worlds retain their former optional release and movement choices
+ok 68 - survival/1 and unversioned worlds retain their former optional release and movement choices
+  ---
+  duration_ms: 12.911629
+  type: 'test'
+  ...
+# Subtest: production static profiles exactly match all eight comparison models and isolate catalogues
+ok 69 - production static profiles exactly match all eight comparison models and isolate catalogues
+  ---
+  duration_ms: 24254.10371
+  type: 'test'
+  ...
+# Subtest: profile selection rejects corrupt/versioned settings and cannot silently change replay flags
+ok 70 - profile selection rejects corrupt/versioned settings and cannot silently change replay flags
+  ---
+  duration_ms: 564.951085
+  type: 'test'
+  ...
+# Subtest: Primary parasite effective conditions, biological counts and flow survive all-turn archive replay
+ok 71 - Primary parasite effective conditions, biological counts and flow survive all-turn archive replay
+  ---
+  duration_ms: 3234.005692
+  type: 'test'
+  ...
+# Subtest: only established, transferred and actually cleared P enter the ecosystem relation counts
+ok 72 - only established, transferred and actually cleared P enter the ecosystem relation counts
+  ---
+  duration_ms: 97.324015
+  type: 'test'
+  ...
+# Subtest: pre-primary biological signatures cannot claim the new P infection model
+ok 73 - pre-primary biological signatures cannot claim the new P infection model
+  ---
+  duration_ms: 106.820748
+  type: 'test'
+  ...
+# Subtest: I04 worlds retain the exact35-species replay without the new primary fields
+ok 74 - I04 worlds retain the exact35-species replay without the new primary fields
+  ---
+  duration_ms: 1087.056135
+  type: 'test'
+  ...
+# Subtest: Worker transports primary body, inocula and committed phases before restart
+ok 75 - Worker transports primary body, inocula and committed phases before restart
+  ---
+  duration_ms: 3588.749688
+  type: 'test'
+  ...
+# Subtest: canonical living P IDs are counted once while extracellular and invading quantities remain separate
+ok 76 - canonical living P IDs are counted once while extracellular and invading quantities remain separate
+  ---
+  duration_ms: 3.33187
+  type: 'test'
+  ...
+# Subtest: dense all-turn route flow is independent of animation caps and survives exact save restore CSV
+ok 77 - dense all-turn route flow is independent of animation caps and survives exact save restore CSV
+  ---
+  duration_ms: 5.210374
+  type: 'test'
+  ...
+# Subtest: missing unknown or inconsistent stock and flow rejects a new row without replacing prior observations
+ok 78 - missing unknown or inconsistent stock and flow rejects a new row without replacing prior observations
+  ---
+  duration_ms: 47.967069
+  type: 'test'
+  ...
+# Subtest: restore requires both definitions every row and consistent live counts without zero-completing old data
+ok 79 - restore requires both definitions every row and consistent live counts without zero-completing old data
+  ---
+  duration_ms: 5.036232
+  type: 'test'
+  ...
+# Subtest: old I04 snapshot and CSV remain byte-identical even with unselected new telemetry present
+ok 80 - old I04 snapshot and CSV remain byte-identical even with unselected new telemetry present
+  ---
+  duration_ms: 3.297487
+  type: 'test'
+  ...
+# Subtest: primary parasites are explicitly versioned without altering legacy catalogue or world shape
+ok 81 - primary parasites are explicitly versioned without altering legacy catalogue or world shape
+  ---
+  duration_ms: 39.986637
+  type: 'test'
+  ...
+# Subtest: the explicit host table distinguishes first, middle, terminal, carrier and non-host routes
+ok 82 - the explicit host table distinguishes first, middle, terminal, carrier and non-host routes
+  ---
+  duration_ms: 2.616079
+  type: 'test'
+  ...
+# Subtest: adaptation is bounded, specialized and inherited only through balanced small mutations
+ok 83 - adaptation is bounded, specialized and inherited only through balanced small mutations
+  ---
+  duration_ms: 4.724732
+  type: 'test'
+  ...
+# Subtest: resistance is route-specific, decays over forty turns and is effective only in proportion to its finite upkeep
+ok 84 - resistance is route-specific, decays over forty turns and is effective only in proportion to its finite upkeep
+  ---
+  duration_ms: 1.916212
+  type: 'test'
+  ...
+# Subtest: zero exposure, non-hosts, incompatible routes and occupied individuals never become extra living colonies
+ok 85 - zero exposure, non-hosts, incompatible routes and occupied individuals never become extra living colonies
+  ---
+  duration_ms: 8.156481
+  type: 'test'
+  ...
+# Subtest: production spends a real parent's reserve, has one shared six-turn cooldown and cannot chain on its creation turn
+ok 86 - production spends a real parent's reserve, has one shared six-turn cooldown and cannot chain on its creation turn
+  ---
+  duration_ms: 2.842811
+  type: 'test'
+  ...
+# Subtest: entry and establishment occupy separate turns and preserve finite half and full doses with their original excess expiry
+ok 87 - entry and establishment occupy separate turns and preserve finite half and full doses with their original excess expiry
+  ---
+  duration_ms: 42.984799
+  type: 'test'
+  ...
+# Subtest: subminimum and failed establishment doses dissipate once without creating a parasite or acquired resistance
+ok 88 - subminimum and failed establishment doses dissipate once without creating a parasite or acquired resistance
+  ---
+  duration_ms: 19.895098
+  type: 'test'
+  ...
+# Subtest: only same-origin finite microdoses accumulate before an invasion draw and their original deadline never restarts
+ok 89 - only same-origin finite microdoses accumulate before an invasion draw and their original deadline never restarts
+  ---
+  duration_ms: 5.640604
+  type: 'test'
+  ...
+# Subtest: an invasion on the last valid external turn gets exactly one next-turn establishment without refreshing expiry
+ok 90 - an invasion on the last valid external turn gets exactly one next-turn establishment without refreshing expiry
+  ---
+  duration_ms: 9.751388
+  type: 'test'
+  ...
+# Subtest: only a real exclusion acquires resistance, while a lost parasite and its Q cannot be recreated for free
+ok 91 - only a real exclusion acquires resistance, while a lost parasite and its Q cannot be recreated for free
+  ---
+  duration_ms: 2.651653
+  type: 'test'
+  ...
+# Subtest: water diffusion uses a synchronous twenty-percent budget and retains origin and the exact original expiry
+ok 92 - water diffusion uses a synchronous twenty-percent budget and retains origin and the exact original expiry
+  ---
+  duration_ms: 3.488255
+  type: 'test'
+  ...
+# Subtest: lethal feeding transfers the same P and Q IDs, reserves and clocks, then pauses development for the following turn
+ok 93 - lethal feeding transfers the same P and Q IDs, reserves and clocks, then pauses development for the following turn
+  ---
+  duration_ms: 8.976308
+  type: 'test'
+  ...
+# Subtest: a daughter from a finite inoculum gets a new ID without copying its parent's resident Q or acquired state
+ok 94 - a daughter from a finite inoculum gets a new ID without copying its parent's resident Q or acquired state
+  ---
+  duration_ms: 8.598728
+  type: 'test'
+  ...
+# Subtest: three co-located hosts reserve invasion and establishment by actual host ID without copying finite infection mass
+ok 95 - three co-located hosts reserve invasion and establishment by actual host ID without copying finite infection mass
+  ---
+  duration_ms: 2.075873
+  type: 'test'
+  ...
+# Subtest: partial leaf feeding apportions only the finite edible stock and never splits the resident P or its Q
+ok 96 - partial leaf feeding apportions only the finite edible stock and never splits the resident P or its Q
+  ---
+  duration_ms: 1.658714
+  type: 'test'
+  ...
+# Subtest: immature terminal hosts carry without development or release until maturity or the fixed twelve-turn deadline
+ok 97 - immature terminal hosts carry without development or release until maturity or the fixed twelve-turn deadline
+  ---
+  duration_ms: 2.679294
+  type: 'test'
+  ...
+# Subtest: host-stage progress, the parasite's three phases and age use independent finite clocks and paid biomass growth
+ok 98 - host-stage progress, the parasite's three phases and age use independent finite clocks and paid biomass growth
+  ---
+  duration_ms: 19.384913
+  type: 'test'
+  ...
+# Subtest: the initial terminal maturity stamp opens exactly T+1 through T+3 and never restarts on phase growth
+ok 99 - the initial terminal maturity stamp opens exactly T+1 through T+3 and never restarts on phase growth
+  ---
+  duration_ms: 1.604702
+  type: 'test'
+  ...
+# Subtest: eight consecutive unpaid maintenance turns or the fixed lifetime end remove P and its un-emerged Q once
+ok 100 - eight consecutive unpaid maintenance turns or the fixed lifetime end remove P and its un-emerged Q once
+  ---
+  duration_ms: 3.533634
+  type: 'test'
+  ...
+# Subtest: induction is funded only after full maintenance and development and scales to the actually paid phase budget
+ok 101 - induction is funded only after full maintenance and development and scales to the actually paid phase budget
+  ---
+  duration_ms: 13.726408
+  type: 'test'
+  ...
+# Subtest: host and route adaptation keeps real maintenance and development costs within the selected finite tradeoff bounds
+ok 102 - host and route adaptation keeps real maintenance and development costs within the selected finite tradeoff bounds
+  ---
+  duration_ms: 3.538
+  type: 'test'
+  ...
+# Subtest: genetic success affects establishment once, while full adaptation cannot open a non-host route
+ok 103 - genetic success affects establishment once, while full adaptation cannot open a non-host route
+  ---
+  duration_ms: 20.641815
+  type: 'test'
+  ...
+# Subtest: exclusion attempts pay real action energy on both outcomes and acquire resistance only on actual removal
+ok 104 - exclusion attempts pay real action energy on both outcomes and acquire resistance only on actual removal
+  ---
+  duration_ms: 4.427423
+  type: 'test'
+  ...
+# Subtest: death retains a mature same-ID P/Q only in its finite carcass carrier and expiry cannot rescue either colony
+ok 105 - death retains a mature same-ID P/Q only in its finite carcass carrier and expiry cannot rescue either colony
+  ---
+  duration_ms: 3.294062
+  type: 'test'
+  ...
+# Subtest: automatic founders use existing first hosts while direct zero, exact first-host counts and shortage never add rescue hosts
+ok 106 - automatic founders use existing first hosts while direct zero, exact first-host counts and shortage never add rescue hosts
+  ---
+  duration_ms: 160.415482
+  type: 'test'
+  ...
+# Subtest: automatic terminal founders require already mature hosts and retain shortages without promoting juveniles or reallocating quotas
+ok 107 - automatic terminal founders require already mature hosts and retain shortages without promoting juveniles or reallocating quotas
+  ---
+  duration_ms: 23.768986
+  type: 'test'
+  ...
+# Subtest: short primary worlds repeat their committed state and conserve finite parasite, inoculum and host budgets
+ok 108 - short primary worlds repeat their committed state and conserve finite parasite, inoculum and host budgets
+  ---
+  duration_ms: 593.204886
+  type: 'test'
+  ...
+# Subtest: paid edible production reaches a real grazing consumer through regrowing colony stock before its fixed deadline
+ok 109 - paid edible production reaches a real grazing consumer through regrowing colony stock before its fixed deadline
+  ---
+  duration_ms: 3.504419
+  type: 'test'
+  ...
+# Subtest: paid induction changes only a visible legal candidate's bounded score and cannot invent a distant host cue
+ok 110 - paid induction changes only a visible legal candidate's bounded score and cannot invent a distant host cue
+  ---
+  duration_ms: 2.96097
+  type: 'test'
+  ...
+# Subtest: hungry autonomous Q approaches sensed finite food, consumes it next turn, and stays while it remains useful
+ok 111 - hungry autonomous Q approaches sensed finite food, consumes it next turn, and stays while it remains useful
+  ---
+  duration_ms: 6.203674
+  type: 'test'
+  ...
+# Subtest: Q avoids true predators without treating mineral-only non-hunters as predators
+ok 112 - Q avoids true predators without treating mineral-only non-hunters as predators
+  ---
+  duration_ms: 5.575345
+  type: 'test'
+  ...
+# Subtest: nutrition search excludes information and unseen distant stocks, and does not waste movement with no local opportunity
+ok 113 - nutrition search excludes information and unseen distant stocks, and does not waste movement with no local opportunity
+  ---
+  duration_ms: 2.567606
+  type: 'test'
+  ...
+# Subtest: P optional induction preserves finite next-turn maintenance and release budget
+ok 114 - P optional induction preserves finite next-turn maintenance and release budget
+  ---
+  duration_ms: 6.064083
+  type: 'test'
+  ...
+# Subtest: Q optional manipulation and information investment cannot consume the paid emergence reserve
+ok 115 - Q optional manipulation and information investment cannot consume the paid emergence reserve
+  ---
+  duration_ms: 5.334501
+  type: 'test'
+  ...
+# Subtest: unversioned worlds preserve the exact prior parasite execution and random outcomes
+ok 116 - unversioned worlds preserve the exact prior parasite execution and random outcomes
+  ---
+  duration_ms: 607.429442
+  type: 'test'
+  ...
+# Subtest: survival/2 full Q leaves finite food for a visible safe host while survival/1 keeps its recorded ranking
+ok 117 - survival/2 full Q leaves finite food for a visible safe host while survival/1 keeps its recorded ranking
+  ---
+  duration_ms: 46.985136
+  type: 'test'
+  ...
+# Subtest: survival/2 hungry Q stays to eat real stock and starts seeking a host after its finite reserve is sufficient
+ok 118 - survival/2 hungry Q stays to eat real stock and starts seeking a host after its finite reserve is sufficient
+  ---
+  duration_ms: 6.889259
+  type: 'test'
+  ...
+# Subtest: new Q ranking cannot create nutrition from information or invisible distant stock
+ok 119 - new Q ranking cannot create nutrition from information or invisible distant stock
+  ---
+  duration_ms: 4.247531
+  type: 'test'
+  ...
+# Subtest: survival/2 host approach preserves the one-use window and paid finite egg cost
+ok 120 - survival/2 host approach preserves the one-use window and paid finite egg cost
+  ---
+  duration_ms: 7.352037
+  type: 'test'
+  ...
+# Subtest: flagless and survival/1 worlds keep the exact1b248aa parasite states and random outcomes
+ok 121 - flagless and survival/1 worlds keep the exact1b248aa parasite states and random outcomes
+  ---
+  duration_ms: 1607.353061
+  type: 'test'
+  ...
+1..121
+# tests 121
+# suites 0
+# pass 121
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 88227.312675

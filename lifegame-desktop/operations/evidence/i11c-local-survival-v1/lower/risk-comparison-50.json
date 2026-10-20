@@ -1,0 +1,498 @@
+{
+  "scope": "One-factor private grassbug bounded-monotone risk comparison, fixed2case50T only. No source/Node/tests changes or R1-R6 certification.",
+  "source": {
+    "engine": "10fe37981c5dda2865fb955d3c11d3bfed5359daf1e8038d43d1b917ea96cf07",
+    "state": "4a5af035523483d02f259150fca43ef38abbcaec2a3fe672f50326d88ef797c1",
+    "hash": "a2af1afe8540aa56834b8c26255f4a4b3da80104a27a9471cace70a65670f39c",
+    "catalogue": "73d0761e892b2ce5562b6869343a035b467aac375cfa20019522609a783ad13c",
+    "landscape": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+    "map-templates": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e",
+    "map-data": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+    "nutrition": "bc2a5a1ce59173214feb8ebaeca350186e71a3c253ab4543c6ad012eda02028c",
+    "behavior": "5033bd5fcabebb93df4be14cb73bf889ee24ce088d331854bdbfd41e7129e325",
+    "reproduction": "f75a4617831a2f142bbc06b1285d66eb3ea4fc01a75b3168202a4f6ffc32eeae",
+    "parasites": "ba73356650e9ec568c886971e2927ff5ca8208e0d85e20b8d8e546e590a0a918"
+  },
+  "monitorParity5": true,
+  "cases": [
+    {
+      "id": "river-0",
+      "configsExact": true,
+      "baseline": {
+        "grassFinal": 0,
+        "grassBirths": 5,
+        "grassDeaths": {
+          "combat": 36,
+          "harvest": 2
+        },
+        "fungusFinal": 4,
+        "fungusBirths": 8,
+        "waterbugFinal": 36,
+        "grassMove": {
+          "stop": 133,
+          "proposedCost": 115.58999999999992,
+          "atThreatSaturation": 158,
+          "allLegalThreatSaturated": 76,
+          "chosenThreatSaturated": 88,
+          "stoppedAtZeroFood": 116,
+          "move": 99,
+          "legalLowerThreat": 82,
+          "moveToZeroFood": 71,
+          "actualCost": 93.25999999999996,
+          "reservationLost": 18,
+          "actualMoves": 81
+        },
+        "wallMs": 9752.853988
+      },
+      "candidate": {
+        "grassFinal": 0,
+        "grassBirths": 5,
+        "grassDeaths": {
+          "combat": 35,
+          "harvest": 2,
+          "age": 1
+        },
+        "fungusFinal": 5,
+        "fungusBirths": 7,
+        "waterbugFinal": 45,
+        "grassMove": {
+          "stop": 138,
+          "proposedCost": 111.44999999999993,
+          "stoppedAtZeroFood": 101,
+          "move": 95,
+          "moveToZeroFood": 70,
+          "actualCost": 91.98999999999995,
+          "reservationLost": 15,
+          "actualMoves": 80
+        },
+        "wallMs": 8588.805675
+      }
+    },
+    {
+      "id": "lake-1",
+      "configsExact": true,
+      "baseline": {
+        "grassFinal": 7,
+        "grassBirths": 26,
+        "grassDeaths": {
+          "combat": 30,
+          "starvation": 3,
+          "age": 19
+        },
+        "fungusFinal": 5,
+        "fungusBirths": 9,
+        "waterbugFinal": 74,
+        "grassMove": {
+          "stop": 747,
+          "proposedCost": 369.1400000000005,
+          "stoppedAtZeroFood": 466,
+          "atThreatSaturation": 590,
+          "allLegalThreatSaturated": 328,
+          "chosenThreatSaturated": 372,
+          "move": 288,
+          "legalLowerThreat": 262,
+          "moveToZeroFood": 140,
+          "actualCost": 312.61000000000047,
+          "actualMoves": 244,
+          "reservationLost": 44
+        },
+        "wallMs": 8235.229982
+      },
+      "candidate": {
+        "grassFinal": 5,
+        "grassBirths": 36,
+        "grassDeaths": {
+          "combat": 37,
+          "starvation": 5,
+          "age": 22
+        },
+        "fungusFinal": 4,
+        "fungusBirths": 9,
+        "waterbugFinal": 73,
+        "grassMove": {
+          "stop": 903,
+          "proposedCost": 319.6299999999998,
+          "stoppedAtZeroFood": 439,
+          "move": 252,
+          "moveToZeroFood": 136,
+          "actualCost": 284.21499999999986,
+          "reservationLost": 28,
+          "actualMoves": 224
+        },
+        "wallMs": 8281.874784
+      }
+    }
+  ],
+  "decisionFixtures": {
+    "scope": "Two local decision fixtures only; no simulation or survival claim.",
+    "singleEnemy": {
+      "positions": [
+        [
+          4,
+          3
+        ]
+      ],
+      "baseline": {
+        "selected": {
+          "type": "move",
+          "cell": 26,
+          "cost": 1
+        },
+        "allCandidatesClampedOne": false,
+        "riskRange": [
+          0.04791666666666666,
+          1
+        ],
+        "candidates": [
+          {
+            "type": "move",
+            "cell": 26,
+            "cost": 1,
+            "score": -0.054141264411931234,
+            "threat": 0.04791666666666666
+          },
+          {
+            "type": "move",
+            "cell": 18,
+            "cost": 1,
+            "score": -0.1069036335249742,
+            "threat": 0.04791666666666666
+          },
+          {
+            "type": "move",
+            "cell": 34,
+            "cost": 1,
+            "score": -0.13787621585962676,
+            "threat": 0.04791666666666666
+          },
+          {
+            "type": "stop",
+            "cell": 27,
+            "cost": 0,
+            "score": -0.442209846386686,
+            "threat": 1
+          },
+          {
+            "type": "move",
+            "cell": 35,
+            "cost": 1,
+            "score": -0.7024002494756134,
+            "threat": 1
+          },
+          {
+            "type": "move",
+            "cell": 19,
+            "cost": 1,
+            "score": -0.7463239660020917,
+            "threat": 1
+          },
+          {
+            "type": "move",
+            "cell": 28,
+            "cost": 1,
+            "score": -0.7907150996848942,
+            "threat": 1
+          },
+          {
+            "type": "move",
+            "cell": 20,
+            "cost": 1,
+            "score": -0.8863389978650957,
+            "threat": 1
+          },
+          {
+            "type": "move",
+            "cell": 36,
+            "cost": 1,
+            "score": -0.9115421435330062,
+            "threat": 1
+          }
+        ]
+      },
+      "candidate": {
+        "selected": {
+          "type": "move",
+          "cell": 26,
+          "cost": 1
+        },
+        "allCandidatesClampedOne": false,
+        "riskRange": [
+          0.04572564612326044,
+          0.5886889460154241
+        ],
+        "candidates": [
+          {
+            "type": "move",
+            "cell": 26,
+            "cost": 1,
+            "score": -0.052388447977206265,
+            "threat": 0.04572564612326044
+          },
+          {
+            "type": "stop",
+            "cell": 27,
+            "cost": 0,
+            "score": -0.0626694460901701,
+            "threat": 0.5255744996293551
+          },
+          {
+            "type": "move",
+            "cell": 18,
+            "cost": 1,
+            "score": -0.10515081709024923,
+            "threat": 0.04572564612326044
+          },
+          {
+            "type": "move",
+            "cell": 34,
+            "cost": 1,
+            "score": -0.1361233994249018,
+            "threat": 0.04572564612326044
+          },
+          {
+            "type": "move",
+            "cell": 35,
+            "cost": 1,
+            "score": -0.3228598491790974,
+            "threat": 0.5255744996293551
+          },
+          {
+            "type": "move",
+            "cell": 19,
+            "cost": 1,
+            "score": -0.3667835657055759,
+            "threat": 0.5255744996293551
+          },
+          {
+            "type": "move",
+            "cell": 28,
+            "cost": 1,
+            "score": -0.46166625649723336,
+            "threat": 0.5886889460154241
+          },
+          {
+            "type": "move",
+            "cell": 20,
+            "cost": 1,
+            "score": -0.5067985975685798,
+            "threat": 0.5255744996293551
+          },
+          {
+            "type": "move",
+            "cell": 36,
+            "cost": 1,
+            "score": -0.5320017432364905,
+            "threat": 0.5255744996293551
+          }
+        ]
+      }
+    },
+    "multipleEnemies": {
+      "positions": [
+        [
+          4,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "baseline": {
+        "selected": {
+          "type": "stop",
+          "cell": 27,
+          "cost": 0
+        },
+        "allCandidatesClampedOne": true,
+        "riskRange": [
+          1,
+          1
+        ],
+        "candidates": [
+          {
+            "type": "stop",
+            "cell": 27,
+            "cost": 0,
+            "score": -0.442209846386686,
+            "threat": 1
+          },
+          {
+            "type": "move",
+            "cell": 35,
+            "cost": 1,
+            "score": -0.7024002494756134,
+            "threat": 1
+          },
+          {
+            "type": "move",
+            "cell": 19,
+            "cost": 1,
+            "score": -0.7463239660020917,
+            "threat": 1
+          },
+          {
+            "type": "move",
+            "cell": 28,
+            "cost": 1,
+            "score": -0.7907150996848942,
+            "threat": 1
+          },
+          {
+            "type": "move",
+            "cell": 26,
+            "cost": 1,
+            "score": -0.815807931078598,
+            "threat": 1
+          },
+          {
+            "type": "move",
+            "cell": 18,
+            "cost": 1,
+            "score": -0.8685703001916409,
+            "threat": 1
+          },
+          {
+            "type": "move",
+            "cell": 20,
+            "cost": 1,
+            "score": -0.8863389978650957,
+            "threat": 1
+          },
+          {
+            "type": "move",
+            "cell": 34,
+            "cost": 1,
+            "score": -0.8995428825262934,
+            "threat": 1
+          },
+          {
+            "type": "move",
+            "cell": 36,
+            "cost": 1,
+            "score": -0.9115421435330062,
+            "threat": 1
+          }
+        ]
+      },
+      "candidate": {
+        "selected": {
+          "type": "stop",
+          "cell": 27,
+          "cost": 0
+        },
+        "allCandidatesClampedOne": false,
+        "riskRange": [
+          0.5462065705506972,
+          0.7848016139878952
+        ],
+        "candidates": [
+          {
+            "type": "stop",
+            "cell": 27,
+            "cost": 0,
+            "score": -0.25717189915141314,
+            "threat": 0.7687025659559089
+          },
+          {
+            "type": "move",
+            "cell": 35,
+            "cost": 1,
+            "score": -0.4793713544560112,
+            "threat": 0.7212138812254973
+          },
+          {
+            "type": "move",
+            "cell": 18,
+            "cost": 1,
+            "score": -0.5055355566321986,
+            "threat": 0.5462065705506972
+          },
+          {
+            "type": "move",
+            "cell": 19,
+            "cost": 1,
+            "score": -0.5232950709824897,
+            "threat": 0.7212138812254973
+          },
+          {
+            "type": "move",
+            "cell": 34,
+            "cost": 1,
+            "score": -0.5365081389668511,
+            "threat": 0.5462065705506972
+          },
+          {
+            "type": "move",
+            "cell": 26,
+            "cost": 1,
+            "score": -0.5706754701785022,
+            "threat": 0.6935844238748803
+          },
+          {
+            "type": "move",
+            "cell": 28,
+            "cost": 1,
+            "score": -0.6185563908752103,
+            "threat": 0.7848016139878952
+          },
+          {
+            "type": "move",
+            "cell": 20,
+            "cost": 1,
+            "score": -0.641206536965,
+            "threat": 0.6935844238748803
+          },
+          {
+            "type": "move",
+            "cell": 36,
+            "cost": 1,
+            "score": -0.6664096826329107,
+            "threat": 0.6935844238748803
+          }
+        ]
+      }
+    },
+    "boundedMonotone": {
+      "formula": "f(t)=t/(1+t), t>=0",
+      "range": "[0,1)",
+      "derivative": "1/(1+t)^2>0",
+      "examples": [
+        {
+          "raw": 0,
+          "old": 0,
+          "candidate": 0
+        },
+        {
+          "raw": 0.2,
+          "old": 0.2,
+          "candidate": 0.16666666666666669
+        },
+        {
+          "raw": 1,
+          "old": 1,
+          "candidate": 0.5
+        },
+        {
+          "raw": 2,
+          "old": 1,
+          "candidate": 0.6666666666666666
+        },
+        {
+          "raw": 3,
+          "old": 1,
+          "candidate": 0.75
+        },
+        {
+          "raw": 5,
+          "old": 1,
+          "candidate": 0.8333333333333334
+        }
+      ]
+    }
+  }
+}

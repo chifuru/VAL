@@ -1,0 +1,489 @@
+{
+  "definition": "i11c-preregistered-parasite-comparison/1",
+  "baseline": "48876e7",
+  "versions": {
+    "v2": "ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97",
+    "v3": "c78400a515eba25515dd699c1f3f5ba6cc2004c5dc4b992fbf3e4c2d1c6082d9"
+  },
+  "cases": [
+    {
+      "case": "aquatic-carnivore-0",
+      "pairedConfigExactExceptVersion": true,
+      "initialExact": true,
+      "firstDifferentObservationTurn": 1,
+      "variants": {
+        "v2": {
+          "signature": "ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97",
+          "configHash": "123453c93ebfac5a92667477544cb8b1c7d86c093f457b9c15e54df5caecd612",
+          "initial": {
+            "P": 50,
+            "Q": 4
+          },
+          "final": {
+            "abyss": 31,
+            "abyssshell": 33,
+            "cephalopod": 40,
+            "waterbug": 98,
+            "fungus": 3,
+            "tideparasite": 38,
+            "hyperparasite": 0
+          },
+          "finalFingerprint": "58bbd0e5335ebd94f94b29936385ed7274e60002510e77007cacf7860e2ef36e",
+          "Q": {
+            "exposures": 0,
+            "invasionAttempts": 0,
+            "invaded": 0,
+            "established": 0,
+            "cleared": 0,
+            "emergenceAttempts": 9,
+            "emergenceFailed": 7,
+            "emerged": 2,
+            "eggsLaid": 0,
+            "offspringEstablished": 0,
+            "fedE": 1.1,
+            "moved": 13,
+            "preyed": 3,
+            "maintenanceE": 1.53985,
+            "developmentE": 0.195,
+            "metaE": 0.055,
+            "informationE": 0.11,
+            "emergenceE": 0.81,
+            "movementE": 0.026,
+            "laidE": 0
+          },
+          "P": {
+            "contact:exposures": 1,
+            "contact:invaded": 0,
+            "contact:established": 0,
+            "contact:transferred": 0,
+            "feeding:exposures": 412,
+            "feeding:invaded": 77,
+            "feeding:established": 57,
+            "feeding:transferred": 0,
+            "carcass:exposures": 0,
+            "carcass:invaded": 15,
+            "carcass:established": 0,
+            "carcass:transferred": 10,
+            "water:exposures": 1618,
+            "water:invaded": 11,
+            "water:established": 8,
+            "water:transferred": 0
+          },
+          "PStageIndividualTurns": {
+            "middle": 2882,
+            "first": 2020,
+            "terminal": 930
+          },
+          "potentialMaturityWindowIndividualTurns": 54,
+          "sameQIdsEmerged": [
+            "q:initial:p:initial:tideparasite:i:main:18:17:abyssshell:0:0",
+            "q:initial:p:initial:tideparasite:i:main:20:3:cephalopod:0:0"
+          ],
+          "newQGenerationIds": [],
+          "survivingQAt60": 0,
+          "survivingQAt120": 0,
+          "checkedStates": 121,
+          "allFinite": true,
+          "observationRestored": true,
+          "shortPrefixExact": true
+        },
+        "v3": {
+          "signature": "c78400a515eba25515dd699c1f3f5ba6cc2004c5dc4b992fbf3e4c2d1c6082d9",
+          "configHash": "98d0781c986ed2561ef7bc91a8527c7fd740ebb73e9a918ee77f9bf0afb9c081",
+          "initial": {
+            "P": 50,
+            "Q": 4
+          },
+          "final": {
+            "abyss": 31,
+            "abyssshell": 34,
+            "cephalopod": 43,
+            "waterbug": 91,
+            "fungus": 3,
+            "tideparasite": 33,
+            "hyperparasite": 0
+          },
+          "finalFingerprint": "0cd4eed47da8b671d548daf99531291c7f8f7199de140f094a00f98ad4d45878",
+          "Q": {
+            "exposures": 0,
+            "invasionAttempts": 0,
+            "invaded": 0,
+            "established": 0,
+            "cleared": 0,
+            "emergenceAttempts": 9,
+            "emergenceFailed": 7,
+            "emerged": 2,
+            "eggsLaid": 0,
+            "offspringEstablished": 0,
+            "fedE": 1.75,
+            "moved": 29,
+            "preyed": 3,
+            "maintenanceE": 1.82385,
+            "developmentE": 0.195,
+            "metaE": 0.055,
+            "informationE": 0.11,
+            "emergenceE": 0.81,
+            "movementE": 0.058,
+            "laidE": 0
+          },
+          "P": {
+            "contact:exposures": 7,
+            "contact:invaded": 3,
+            "contact:established": 3,
+            "contact:transferred": 0,
+            "feeding:exposures": 391,
+            "feeding:invaded": 68,
+            "feeding:established": 50,
+            "feeding:transferred": 0,
+            "carcass:exposures": 0,
+            "carcass:invaded": 14,
+            "carcass:established": 0,
+            "carcass:transferred": 9,
+            "water:exposures": 1490,
+            "water:invaded": 8,
+            "water:established": 6,
+            "water:transferred": 0
+          },
+          "PStageIndividualTurns": {
+            "middle": 2613,
+            "first": 2031,
+            "terminal": 979
+          },
+          "potentialMaturityWindowIndividualTurns": 56,
+          "sameQIdsEmerged": [
+            "q:initial:p:initial:tideparasite:i:main:18:17:abyssshell:0:0",
+            "q:initial:p:initial:tideparasite:i:main:20:3:cephalopod:0:0"
+          ],
+          "newQGenerationIds": [],
+          "survivingQAt60": 0,
+          "survivingQAt120": 0,
+          "checkedStates": 121,
+          "allFinite": true,
+          "observationRestored": true,
+          "shortPrefixExact": true
+        }
+      }
+    },
+    {
+      "case": "aquatic-carnivore-1",
+      "pairedConfigExactExceptVersion": true,
+      "initialExact": true,
+      "firstDifferentObservationTurn": null,
+      "variants": {
+        "v2": {
+          "signature": "ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97",
+          "configHash": "329e6eb3b545b47082e6a7348789566b0f25cd5a09678ef221c7e7926cb3c20a",
+          "initial": {
+            "P": 50,
+            "Q": 3
+          },
+          "final": {
+            "abyss": 28,
+            "abyssshell": 40,
+            "cephalopod": 39,
+            "waterbug": 97,
+            "fungus": 8,
+            "tideparasite": 35,
+            "hyperparasite": 0
+          },
+          "finalFingerprint": "0880712ea54eab2756f28624dab7158c6f618f75e08486197fa707d4e0f34653",
+          "Q": {
+            "exposures": 0,
+            "invasionAttempts": 0,
+            "invaded": 0,
+            "established": 0,
+            "cleared": 0,
+            "emergenceAttempts": 1,
+            "emergenceFailed": 0,
+            "emerged": 1,
+            "eggsLaid": 0,
+            "offspringEstablished": 0,
+            "fedE": 0.75,
+            "moved": 7,
+            "preyed": 3,
+            "maintenanceE": 0.824,
+            "developmentE": 0.09,
+            "metaE": 0.018,
+            "informationE": 0.036,
+            "emergenceE": 0.09,
+            "movementE": 0.014,
+            "laidE": 0
+          },
+          "P": {
+            "contact:exposures": 22,
+            "contact:invaded": 5,
+            "contact:established": 4,
+            "contact:transferred": 0,
+            "feeding:exposures": 479,
+            "feeding:invaded": 67,
+            "feeding:established": 50,
+            "feeding:transferred": 0,
+            "carcass:exposures": 0,
+            "carcass:invaded": 17,
+            "carcass:established": 0,
+            "carcass:transferred": 11,
+            "water:exposures": 1934,
+            "water:invaded": 13,
+            "water:established": 9,
+            "water:transferred": 0
+          },
+          "PStageIndividualTurns": {
+            "middle": 2489,
+            "first": 2402,
+            "terminal": 1165,
+            "extra": 12
+          },
+          "potentialMaturityWindowIndividualTurns": 58,
+          "sameQIdsEmerged": [
+            "q:initial:p:initial:tideparasite:i:main:15:27:abyss:0:0"
+          ],
+          "newQGenerationIds": [],
+          "survivingQAt60": 0,
+          "survivingQAt120": 0,
+          "checkedStates": 121,
+          "allFinite": true,
+          "observationRestored": true,
+          "shortPrefixExact": true
+        },
+        "v3": {
+          "signature": "c78400a515eba25515dd699c1f3f5ba6cc2004c5dc4b992fbf3e4c2d1c6082d9",
+          "configHash": "e011e5b33790468271e6c026b0e05a1cd844e3c294d5b770070f55c105a4ea90",
+          "initial": {
+            "P": 50,
+            "Q": 3
+          },
+          "final": {
+            "abyss": 28,
+            "abyssshell": 40,
+            "cephalopod": 39,
+            "waterbug": 97,
+            "fungus": 8,
+            "tideparasite": 35,
+            "hyperparasite": 0
+          },
+          "finalFingerprint": "33024e600ad804562941f49891881fc25884b8c9fb140b0978f1be944a718fd1",
+          "Q": {
+            "exposures": 0,
+            "invasionAttempts": 0,
+            "invaded": 0,
+            "established": 0,
+            "cleared": 0,
+            "emergenceAttempts": 1,
+            "emergenceFailed": 0,
+            "emerged": 1,
+            "eggsLaid": 0,
+            "offspringEstablished": 0,
+            "fedE": 0.75,
+            "moved": 7,
+            "preyed": 3,
+            "maintenanceE": 0.824,
+            "developmentE": 0.09,
+            "metaE": 0.018,
+            "informationE": 0.036,
+            "emergenceE": 0.09,
+            "movementE": 0.014,
+            "laidE": 0
+          },
+          "P": {
+            "contact:exposures": 22,
+            "contact:invaded": 5,
+            "contact:established": 4,
+            "contact:transferred": 0,
+            "feeding:exposures": 479,
+            "feeding:invaded": 67,
+            "feeding:established": 50,
+            "feeding:transferred": 0,
+            "carcass:exposures": 0,
+            "carcass:invaded": 17,
+            "carcass:established": 0,
+            "carcass:transferred": 11,
+            "water:exposures": 1934,
+            "water:invaded": 13,
+            "water:established": 9,
+            "water:transferred": 0
+          },
+          "PStageIndividualTurns": {
+            "middle": 2489,
+            "first": 2402,
+            "terminal": 1165,
+            "extra": 12
+          },
+          "potentialMaturityWindowIndividualTurns": 58,
+          "sameQIdsEmerged": [
+            "q:initial:p:initial:tideparasite:i:main:15:27:abyss:0:0"
+          ],
+          "newQGenerationIds": [],
+          "survivingQAt60": 0,
+          "survivingQAt120": 0,
+          "checkedStates": 121,
+          "allFinite": true,
+          "observationRestored": true,
+          "shortPrefixExact": true
+        }
+      }
+    },
+    {
+      "case": "aquatic-carnivore-2",
+      "pairedConfigExactExceptVersion": true,
+      "initialExact": true,
+      "firstDifferentObservationTurn": 12,
+      "variants": {
+        "v2": {
+          "signature": "ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97",
+          "configHash": "6873479a5aa48a48f08aba7fb95cb3555f03ff7bf558d5eec716e7fb23773c4d",
+          "initial": {
+            "P": 50,
+            "Q": 2
+          },
+          "final": {
+            "abyss": 25,
+            "abyssshell": 38,
+            "cephalopod": 42,
+            "waterbug": 93,
+            "fungus": 10,
+            "tideparasite": 25,
+            "hyperparasite": 0
+          },
+          "finalFingerprint": "84f09c0fd9b92149a2e4fdf13ec4fdc4eff4475741208db4d8e7894c5660171f",
+          "Q": {
+            "exposures": 0,
+            "invasionAttempts": 0,
+            "invaded": 0,
+            "established": 0,
+            "cleared": 0,
+            "emergenceAttempts": 0,
+            "emergenceFailed": 0,
+            "emerged": 0,
+            "eggsLaid": 0,
+            "offspringEstablished": 0,
+            "fedE": 0.35,
+            "moved": 12,
+            "preyed": 0,
+            "maintenanceE": 0.486,
+            "developmentE": 0,
+            "metaE": 0,
+            "informationE": 0,
+            "emergenceE": 0,
+            "movementE": 0.024,
+            "laidE": 0
+          },
+          "P": {
+            "contact:exposures": 5,
+            "contact:invaded": 2,
+            "contact:established": 2,
+            "contact:transferred": 0,
+            "feeding:exposures": 439,
+            "feeding:invaded": 48,
+            "feeding:established": 35,
+            "feeding:transferred": 0,
+            "carcass:exposures": 0,
+            "carcass:invaded": 12,
+            "carcass:established": 0,
+            "carcass:transferred": 11,
+            "water:exposures": 1854,
+            "water:invaded": 10,
+            "water:established": 8,
+            "water:transferred": 0
+          },
+          "PStageIndividualTurns": {
+            "middle": 2118,
+            "first": 2139,
+            "terminal": 1348
+          },
+          "potentialMaturityWindowIndividualTurns": 60,
+          "sameQIdsEmerged": [],
+          "newQGenerationIds": [],
+          "survivingQAt60": 0,
+          "survivingQAt120": 0,
+          "checkedStates": 121,
+          "allFinite": true,
+          "observationRestored": true,
+          "shortPrefixExact": true
+        },
+        "v3": {
+          "signature": "c78400a515eba25515dd699c1f3f5ba6cc2004c5dc4b992fbf3e4c2d1c6082d9",
+          "configHash": "a0eb3005059a4971a5010b2e8aad5fb239a5a59d6233e74d53cb4d58e7909936",
+          "initial": {
+            "P": 50,
+            "Q": 2
+          },
+          "final": {
+            "abyss": 25,
+            "abyssshell": 38,
+            "cephalopod": 42,
+            "waterbug": 93,
+            "fungus": 10,
+            "tideparasite": 25,
+            "hyperparasite": 0
+          },
+          "finalFingerprint": "5f1ecc4189c13ae3854eb7fac2249947704a1928d2220f70ac9be8ee5bab1a3e",
+          "Q": {
+            "exposures": 0,
+            "invasionAttempts": 0,
+            "invaded": 0,
+            "established": 0,
+            "cleared": 0,
+            "emergenceAttempts": 0,
+            "emergenceFailed": 0,
+            "emerged": 0,
+            "eggsLaid": 0,
+            "offspringEstablished": 0,
+            "fedE": 0.35,
+            "moved": 17,
+            "preyed": 0,
+            "maintenanceE": 0.476,
+            "developmentE": 0,
+            "metaE": 0,
+            "informationE": 0,
+            "emergenceE": 0,
+            "movementE": 0.034,
+            "laidE": 0
+          },
+          "P": {
+            "contact:exposures": 5,
+            "contact:invaded": 2,
+            "contact:established": 2,
+            "contact:transferred": 0,
+            "feeding:exposures": 439,
+            "feeding:invaded": 48,
+            "feeding:established": 35,
+            "feeding:transferred": 0,
+            "carcass:exposures": 0,
+            "carcass:invaded": 12,
+            "carcass:established": 0,
+            "carcass:transferred": 11,
+            "water:exposures": 1854,
+            "water:invaded": 10,
+            "water:established": 8,
+            "water:transferred": 0
+          },
+          "PStageIndividualTurns": {
+            "middle": 2118,
+            "first": 2139,
+            "terminal": 1348
+          },
+          "potentialMaturityWindowIndividualTurns": 60,
+          "sameQIdsEmerged": [],
+          "newQGenerationIds": [],
+          "survivingQAt60": 0,
+          "survivingQAt120": 0,
+          "checkedStates": 121,
+          "allFinite": true,
+          "observationRestored": true,
+          "shortPrefixExact": true
+        }
+      }
+    }
+  ],
+  "finalStatesChecked": 726,
+  "additional60TStatesChecked": 366,
+  "totalMeasuredStates": 1092,
+  "selection": "All three prespecified seeds, both versions; no replacement or outcome selection.",
+  "extension": "An emergence at 60T triggered extension of all three cases and both versions to120T.",
+  "interpretation": [
+    "Same-ID emergence of initially attached Q is not new Q establishment or a completed generation.",
+    "Potential P maturity-window individual-turns are not guaranteed accessible/compatible windows for each Q.",
+    "No 500T balance improvement is certified by this short diagnostic.",
+    "Timing under concurrent headless checks is not browser playback performance."
+  ]
+}

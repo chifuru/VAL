@@ -485,7 +485,7 @@
       t +=
         (((9 * phaseA[enemy.phase]) / 24) * hp) /
         (1 + S.distance(w, cell, enemy.cell)) ** 2;
-      if(w.config.balanceModel==="survival/2"&&o.species==="grassbug"&&enemy.HP>0&&v.visibleCells.has(enemy.cell)){
+      if(["survival/2","survival/3"].includes(w.config.balanceModel)&&o.species==="grassbug"&&enemy.HP>0&&v.visibleCells.has(enemy.cell)){
         const p=v.traits?.get(enemy.id)||S.phenotype(w,enemy),distance=S.distance(w,cell,enemy.cell),
           attackCost=(distance===2?4:3)*S.adjustment(w,enemy,"attackCost",w.tiles[enemy.cell].env,p.phase),
           costs=v.costs?.get(enemy.id),available=costs?costs.budget-costs.action:Math.max(0,enemy.E-p.maintenance);

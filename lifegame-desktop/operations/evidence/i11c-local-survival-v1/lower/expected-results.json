@@ -1,0 +1,126 @@
+{
+  "definition": "i11c-lower-expected/1",
+  "scope": "Measured fixed2case50T; rejected candidates. Fingerprints and effective config hashes, not R1-R6 certification.",
+  "variants": {
+    "baseline": {
+      "river-0": {
+        "fingerprint": "ba6cb6f2c7e0f37cceec2f83f5cffa543be511889015e6428edefa0bd0eca47a",
+        "configHash": "f5fc8cc90b925d46bdca564194bc9f4c042f97c720fb7fdde8ac8ca3f69f3b20",
+        "final": {
+          "grassbug": 0,
+          "fungus": 4,
+          "waterbug": 36
+        },
+        "births": {
+          "grassbug": 5,
+          "fungus": 8,
+          "waterbug": 57
+        }
+      },
+      "lake-1": {
+        "fingerprint": "655858d1a97366d0c9101ba18503de208c87594b8925d9d8bd967d236a51acfc",
+        "configHash": "b67cde2b2c1d0a20aa79b6cee252fb2905f74950efd9fe078a5be6fc349a3bcc",
+        "final": {
+          "grassbug": 7,
+          "fungus": 5,
+          "waterbug": 74
+        },
+        "births": {
+          "grassbug": 26,
+          "fungus": 9,
+          "waterbug": 55
+        }
+      }
+    },
+    "rarity": {
+      "river-0": {
+        "fingerprint": "f06b1c271339dfc198e3b1f660c3bfae7f49d83f6a9c907c14de8a23bbca791a",
+        "configHash": "f5fc8cc90b925d46bdca564194bc9f4c042f97c720fb7fdde8ac8ca3f69f3b20",
+        "final": {
+          "grassbug": 0,
+          "fungus": 3,
+          "waterbug": 16
+        },
+        "births": {
+          "grassbug": 7,
+          "fungus": 7,
+          "waterbug": 18
+        }
+      },
+      "lake-1": {
+        "fingerprint": "36f8869df277d23d00576e6a8a871b86d5de6df729aef8e856cbb3ef96bb442a",
+        "configHash": "b67cde2b2c1d0a20aa79b6cee252fb2905f74950efd9fe078a5be6fc349a3bcc",
+        "final": {
+          "grassbug": 1,
+          "fungus": 4,
+          "waterbug": 41
+        },
+        "births": {
+          "grassbug": 48,
+          "fungus": 10,
+          "waterbug": 30
+        }
+      }
+    },
+    "risk": {
+      "river-0": {
+        "fingerprint": "099948930938897f7edad3fad2d94abdc6dd03f6f228d560aeeb95047935a274",
+        "configHash": "f5fc8cc90b925d46bdca564194bc9f4c042f97c720fb7fdde8ac8ca3f69f3b20",
+        "final": {
+          "grassbug": 0,
+          "fungus": 5,
+          "waterbug": 45
+        },
+        "births": {
+          "grassbug": 5,
+          "fungus": 7,
+          "waterbug": 60
+        }
+      },
+      "lake-1": {
+        "fingerprint": "b71ebd3887f32315a5d1e8e10835a29276ed41c304e82caa7765ae70de659b3c",
+        "configHash": "b67cde2b2c1d0a20aa79b6cee252fb2905f74950efd9fe078a5be6fc349a3bcc",
+        "final": {
+          "grassbug": 5,
+          "fungus": 4,
+          "waterbug": 73
+        },
+        "births": {
+          "grassbug": 36,
+          "fungus": 9,
+          "waterbug": 60
+        }
+      }
+    },
+    "fungus": {
+      "river-0": {
+        "fingerprint": "842ef97ce51d03ed48c099b55448f0d003800d0b56af25888a14246e974d5ab0",
+        "configHash": "f5fc8cc90b925d46bdca564194bc9f4c042f97c720fb7fdde8ac8ca3f69f3b20",
+        "final": {
+          "grassbug": 0,
+          "fungus": 4,
+          "waterbug": 23
+        },
+        "births": {
+          "grassbug": 5,
+          "fungus": 6,
+          "waterbug": 51
+        }
+      },
+      "lake-1": {
+        "fingerprint": "dc624b8cb51062e99b0f7540aff99485878a687b0256e2cb8f07495bd6a23e4d",
+        "configHash": "b67cde2b2c1d0a20aa79b6cee252fb2905f74950efd9fe078a5be6fc349a3bcc",
+        "final": {
+          "grassbug": 7,
+          "fungus": 4,
+          "waterbug": 70
+        },
+        "births": {
+          "grassbug": 30,
+          "fungus": 7,
+          "waterbug": 55
+        }
+      }
+    }
+  }
+}

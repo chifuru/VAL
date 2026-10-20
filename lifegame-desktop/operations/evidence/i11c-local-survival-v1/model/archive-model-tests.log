@@ -1,0 +1,25 @@
+✔ foodweb records have their own completed model signature and keep all resolved rules and turn observations (2123.11372ms)
+✔ explicitly saving a foodweb replay creates a new ID and preserves its original record and all-turn data (755.538219ms)
+✔ survival/1 and unversioned old records retain baseline1b248aa fingerprints and exact original turn observations (2358.668077ms)
+✔ canonical compatibility allows new-build old rules but never treats foodweb rules as the former signature (1164.149908ms)
+✔ changing a known model version or removing one of its saved copies rejects replay and cannot overwrite good records (311.812641ms)
+✔ unknown foodweb versions fail creation capture every full-record entrance and stored read without rewriting bytes (105.239543ms)
+✔ local survival3 has its own completed signature and preserves resolved config all-turn observations and exact replay (1372.88679ms)
+✔ an explicit replay save is a different record and never changes its survival3 origin (743.145668ms)
+✔ old survival2 survival1 and flagless records retain baseline48876e7 world and all-turn observation goldens (2996.043917ms)
+✔ canonical old-version compatibility never aliases survival3 to a former model or accepts a forged old signature (1488.142112ms)
+✔ known-version copy mismatches and missing turns reject every full-record entrance without altering good saved bytes (257.352992ms)
+✔ unknown local-survival versions reject creation capture validation save replay and stored read without rewriting data (122.436505ms)
+✔ new survival rules and all committed observations remain exact through archive and replay (979.197452ms)
+✔ previous relationship records replay without silently enabling new survival rules (244.739181ms)
+✔ new survival records cannot use the former biological signature as an equivalent model (108.565663ms)
+✔ unknown survival model versions fail world creation capture and every archive entrance (84.10684ms)
+✔ all eight generated product profiles preserve the versioned source model including full states and finite accounting (5284.252742ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20734.593173

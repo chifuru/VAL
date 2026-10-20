@@ -1,0 +1,73 @@
+{
+  "schema": "i11c-archive-compatibility-audit/1",
+  "baseline": "48876e7",
+  "signature": "c78400a515eba25515dd699c1f3f5ba6cc2004c5dc4b992fbf3e4c2d1c6082d9",
+  "passed": true,
+  "testCommand": "node --test --test-isolation=none tests/local-survival-archive.test.cjs tests/foodweb-archive.test.cjs tests/survival-archive.test.cjs tests/survival-model.test.cjs",
+  "testResults": {
+    "tests": 17,
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "generatedSourceStateComparisons": 72
+  },
+  "legacyParity": {
+    "runner": "legacy-parity.cjs",
+    "baselineRootArgument": "--baseline-root PATH_TO_48876e7/src/ecology",
+    "completeWorlds": 120,
+    "fingerprints": 120,
+    "observationRows": 120,
+    "completeObservationSnapshots": 24,
+    "versions": [
+      null,
+      "survival/1",
+      "survival/2"
+    ],
+    "profiles": 8,
+    "turns": [
+      0,
+      4
+    ]
+  },
+  "review": {
+    "scope": [
+      "survival3 canonical signature and archive version boundaries",
+      "all committed short-run observations and explicit replay-save identity",
+      "unchanged old survival2/survival1/unversioned paths",
+      "v3 externally observable parasite cues and paid bounded exploration"
+    ],
+    "majorIssuesFound": [],
+    "findings": [
+      "New signature does not alias survival3 into any older signature; only older configurations traverse the existing canonical chain.",
+      "Older v2-specific tests use its fixed ada68bb8 signature, while the new test verifies the actual current signature and v3 model.",
+      "External cue ranking reads the visible infestation category, not internal maturity, energy, host genes or hidden infection state.",
+      "Exploration adds only an action score; existing actual movement payment remains, with a two-upkeep-plus-move energy threshold and no starvation exploration.",
+      "Exact old complete worlds and separate baseline/current product observations match across all three old versions and all eight advantage profiles."
+    ],
+    "limits": [
+      "Short deterministic compatibility checks only; no long-term survival or R1–R6 completion claimed.",
+      "No browser, Windows, whole-suite or device performance run.",
+      "No source, Node, Manifest, generated-model or signature edits by this verification task."
+    ]
+  },
+  "sourceHashes": {
+    "src/ecology/archive.js": "61d4ac9f2ffb172fe2de0997d5d51887907b3f0921788407557855f67fab33a7",
+    "src/ecology/state.js": "199ad6c9c31f9cfc7ec719b48236d6ad831148965308dc2be278690727068fbb",
+    "src/ecology/behavior.js": "805c7f0c089be24e837c10cdca107cde16eb72c24ff2a879c94334f9d545ba5b",
+    "src/ecology/nutrition.js": "55e06fa22f2ebf8e88a030fadcfd37c4bdec15d1d7a1104f688608ec66f1e8f2",
+    "src/ecology/parasites.js": "6213b0821f217cf8b943aeeb58058c508026d5d80ad85cbadcb5546a27392dac",
+    "src/ecology/reproduction.js": "d3ceb9591baf7c51b7b671719e0d3a858621d03ff6b876c0576e45d81c1b4b15",
+    "src/ecology/observation-modules.js": "2e6643e2d277b4755bcb0973f77bdd6044805a508e4670886c1344f013c89654",
+    "src/ecology/replay-version.js": "6caf9bd0e166750da5cdf93cd01e0dc8c6b5fe95ca2d585b8cf23cc2f32ce464",
+    "tests/local-survival-archive.test.cjs": "9174221573cbbbcfaa1d5ace4ddd9e338d6cb15ec0e5209ced3c8fd16fab29aa",
+    "tests/foodweb-archive.test.cjs": "71dcad51f63f99906344a5d6061e2bb410dbb500ef67623c3668e1b35f1f8a6f",
+    "tests/survival-archive.test.cjs": "05697e7a9ceb561e97e8ec348e1bb957f93be874b7e044263e753d70c54102ff",
+    "tests/survival-model.test.cjs": "03c523cabec0971646108fb8bb4db109b8afdaf3a3ce4c56cb39b11a32971de4"
+  },
+  "artifacts": [
+    "archive-model-tests.log",
+    "legacy-parity.cjs",
+    "legacy-parity.log",
+    "legacy-parity.json"
+  ]
+}

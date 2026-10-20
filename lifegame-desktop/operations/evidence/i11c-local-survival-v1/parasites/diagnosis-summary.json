@@ -1,0 +1,478 @@
+{
+  "identity": {
+    "baseline": "48876e7",
+    "signature": "ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97",
+    "sources": {
+      "state": "4a5af035523483d02f259150fca43ef38abbcaec2a3fe672f50326d88ef797c1",
+      "parasites": "ba73356650e9ec568c886971e2927ff5ca8208e0d85e20b8d8e546e590a0a918",
+      "behavior": "dc5be81640450347eaa53669760bcf1d8369da327f36b8a8dfc319480bc03d9c",
+      "nutrition": "bc2a5a1ce59173214feb8ebaeca350186e71a3c253ab4543c6ad012eda02028c",
+      "engine": "10fe37981c5dda2865fb955d3c11d3bfed5359daf1e8038d43d1b917ea96cf07"
+    }
+  },
+  "candidateSource": "76c5fb634fb932584a17d2279b71309f9fc19328cb2936a51bda46edf26f06b9",
+  "scope": "2 unchanged product conditions ×60T baseline, then same2 ×60T private candidate; no source/Node/tests changes; not500T/R5 certification",
+  "cases": [
+    {
+      "id": "land",
+      "initial": {
+        "P": 103,
+        "Q": 7,
+        "Qattached": 2,
+        "Qfree": 5,
+        "Qshortage": 13
+      },
+      "baseline": {
+        "last": {
+          "turn": 60,
+          "P": 37,
+          "Q": 0,
+          "stages": {
+            "first": 31,
+            "middle": 5,
+            "extra": 0,
+            "terminal": 1
+          },
+          "matureP": 0,
+          "main": 117,
+          "grassbug": 52,
+          "waterbug": 0,
+          "fingerprint": "ddcc1623925633a00f038a7d6e2d5808468f08901c664cb0f5c5f8b41a759e31"
+        },
+        "groom": {
+          "selected": 99,
+          "self": 56,
+          "other": 43,
+          "removed": 29,
+          "maxSameTarget": 4,
+          "targets": {}
+        },
+        "clears": {
+          "groom": 29,
+          "immunity": 15
+        },
+        "Qloss": [
+          {
+            "turn": 2,
+            "P": {
+              "id": "p:initial:leafparasite:i:main:7:39:precocial:0",
+              "phase": 3,
+              "E": 0.08,
+              "age": 28,
+              "stage": "terminal",
+              "counter": 8,
+              "matureAt": -3,
+              "load": 0
+            },
+            "Q": {
+              "id": "q:initial:p:initial:leafparasite:i:main:7:39:precocial:0:0",
+              "phase": 1,
+              "E": 0.094,
+              "age": 4,
+              "counter": 0,
+              "development": 3
+            },
+            "host": {
+              "id": "i:main:7:39:precocial",
+              "E": 60.738413,
+              "HP": 100
+            },
+            "reason": "groom",
+            "groomActors": [
+              {
+                "actor": "i:main:8:38:precocial",
+                "self": false
+              },
+              {
+                "actor": "i:main:7:38:precocial",
+                "self": false
+              },
+              {
+                "actor": "i:main:7:39:precocial",
+                "self": true
+              }
+            ]
+          },
+          {
+            "turn": 2,
+            "P": {
+              "id": "p:initial:leafparasite:i:main:17:1:solar:0",
+              "phase": 2,
+              "E": 0.09,
+              "age": 12,
+              "stage": "terminal",
+              "counter": 8,
+              "matureAt": -2,
+              "load": 0
+            },
+            "Q": {
+              "id": "q:initial:p:initial:leafparasite:i:main:17:1:solar:0:0",
+              "phase": 1,
+              "E": 0.094,
+              "age": 2,
+              "counter": 0,
+              "development": 1
+            },
+            "host": {
+              "id": "i:main:17:1:solar",
+              "E": 58.475974,
+              "HP": 100
+            },
+            "reason": "groom",
+            "groomActors": [
+              {
+                "actor": "i:main:16:0:solar",
+                "self": false
+              },
+              {
+                "actor": "i:main:17:1:solar",
+                "self": true
+              }
+            ]
+          }
+        ],
+        "Qbudget": {
+          "1/3": {
+            "turns": 2,
+            "tax": 0.04,
+            "requestedTax": 0.04,
+            "shortTaxTurns": 0,
+            "maintenance": 0.01,
+            "development": 0.01,
+            "meta": 0.002,
+            "info": 0.004,
+            "emergenceBlocked": 0
+          },
+          "1/2": {
+            "turns": 2,
+            "tax": 0.04,
+            "requestedTax": 0.04,
+            "shortTaxTurns": 0,
+            "maintenance": 0.01,
+            "development": 0.01,
+            "meta": 0.002,
+            "info": 0.004,
+            "emergenceBlocked": 0
+          }
+        },
+        "transfer": {
+          "P-source/first": 1539,
+          "incompatible/first->precocial": 834,
+          "incompatible/first->solar": 265,
+          "compatible/first->middle": 440,
+          "immature-source": 31,
+          "living-partial-source": 259,
+          "occupied-target": 152,
+          "P-source/middle": 55,
+          "compatible/middle->terminal": 34,
+          "legal-migration-gate": 44,
+          "migration-submitted/middle": 11,
+          "compatible/middle->extra": 12,
+          "incompatible/middle->fungus": 9
+        },
+        "windows": {
+          "allPTurns": 3,
+          "availablePTurns": 2,
+          "seenQPairs": 0,
+          "beforeContact": 0,
+          "afterContact": 0,
+          "lastWindowAfterContact": 0,
+          "fundedBefore": 0,
+          "examples": []
+        },
+        "Qflow": {
+          "exposures": 0,
+          "invasionAttempts": 0,
+          "invaded": 0,
+          "established": 0,
+          "cleared": 0,
+          "emergenceAttempts": 0,
+          "emergenceFailed": 0,
+          "emerged": 0,
+          "eggsLaid": 0,
+          "offspringEstablished": 0,
+          "fedE": 3.549999999999999,
+          "moved": 39,
+          "preyed": 5,
+          "maintenanceE": 2.732000000000002,
+          "developmentE": 0.02,
+          "metaE": 0.004,
+          "informationE": 0.008,
+          "emergenceE": 0,
+          "movementE": 0.07800000000000004,
+          "laidE": 0
+        },
+        "cue": {
+          "predator/distance1": 20,
+          "none": 14,
+          "predator/distance3": 1,
+          "predator/distance2": 101
+        }
+      },
+      "candidate": {
+        "last": {
+          "turn": 60,
+          "P": 37,
+          "Q": 0,
+          "stages": {
+            "first": 31,
+            "middle": 5,
+            "extra": 0,
+            "terminal": 1
+          },
+          "matureP": 0,
+          "main": 117,
+          "grassbug": 52,
+          "waterbug": 0,
+          "fingerprint": "997423f1b93d88f480fa9ef67d85f4562286d338c8d68b9c8852e3b4df962b2f"
+        },
+        "windows": {
+          "allPTurns": 3,
+          "availablePTurns": 2,
+          "seenQPairs": 0,
+          "beforeContact": 0,
+          "afterContact": 0,
+          "lastWindowAfterContact": 0,
+          "fundedBefore": 0,
+          "examples": []
+        },
+        "Qflow": {
+          "exposures": 0,
+          "invasionAttempts": 0,
+          "invaded": 0,
+          "established": 0,
+          "cleared": 0,
+          "emergenceAttempts": 0,
+          "emergenceFailed": 0,
+          "emerged": 0,
+          "eggsLaid": 0,
+          "offspringEstablished": 0,
+          "fedE": 3.55,
+          "moved": 50,
+          "preyed": 5,
+          "maintenanceE": 2.6900000000000017,
+          "developmentE": 0.02,
+          "metaE": 0.004,
+          "informationE": 0.008,
+          "emergenceE": 0,
+          "movementE": 0.10000000000000006,
+          "laidE": 0
+        },
+        "cue": {
+          "predator/distance1": 23,
+          "none": 14,
+          "predator/distance3": 1,
+          "predator/distance2": 95,
+          "predator/distance0": 1
+        }
+      }
+    },
+    {
+      "id": "water",
+      "initial": {
+        "P": 50,
+        "Q": 3,
+        "Qattached": 1,
+        "Qfree": 2,
+        "Qshortage": 7
+      },
+      "baseline": {
+        "last": {
+          "turn": 60,
+          "P": 69,
+          "Q": 2,
+          "stages": {
+            "first": 20,
+            "middle": 42,
+            "extra": 0,
+            "terminal": 7
+          },
+          "matureP": 7,
+          "main": 106,
+          "grassbug": 0,
+          "waterbug": 110,
+          "fingerprint": "79faaec3b45977ff2a5a07b3815bfb32f71f3b7fda271a1dff6e11620b07b583"
+        },
+        "groom": {
+          "selected": 0,
+          "self": 0,
+          "other": 0,
+          "removed": 0,
+          "maxSameTarget": 0,
+          "targets": {}
+        },
+        "clears": {
+          "immunity": 24
+        },
+        "Qloss": [
+          {
+            "turn": 11,
+            "P": {
+              "id": "p:initial:tideparasite:i:main:13:25:whale:0",
+              "phase": 3,
+              "E": 0.1,
+              "age": 22,
+              "stage": "terminal",
+              "counter": 8,
+              "matureAt": -3,
+              "load": 0.5
+            },
+            "Q": {
+              "id": "q:initial:p:initial:tideparasite:i:main:13:25:whale:0:0",
+              "phase": 2,
+              "E": 0.131,
+              "age": 11,
+              "counter": 0,
+              "development": 10
+            },
+            "host": {
+              "id": "i:main:13:25:whale",
+              "E": 59.014576,
+              "HP": 100
+            },
+            "reason": "immunity",
+            "groomActors": []
+          }
+        ],
+        "Qbudget": {
+          "1/2": {
+            "turns": 4,
+            "tax": 0.08,
+            "requestedTax": 0.08,
+            "shortTaxTurns": 0,
+            "maintenance": 0.02,
+            "development": 0.02,
+            "meta": 0.004,
+            "info": 0.008,
+            "emergenceBlocked": 0
+          },
+          "2/2": {
+            "turns": 5,
+            "tax": 0.15,
+            "requestedTax": 0.15,
+            "shortTaxTurns": 0,
+            "maintenance": 0.05,
+            "development": 0.05,
+            "meta": 0.01,
+            "info": 0.02,
+            "emergenceBlocked": 0
+          },
+          "2/3": {
+            "turns": 2,
+            "tax": 0.06,
+            "requestedTax": 0.06,
+            "shortTaxTurns": 0,
+            "maintenance": 0.02,
+            "development": 0.02,
+            "meta": 0.004,
+            "info": 0.008,
+            "emergenceBlocked": 0
+          }
+        },
+        "transfer": {
+          "P-source/first": 1460,
+          "incompatible/first->whale": 280,
+          "incompatible/first->jelly": 318,
+          "compatible/first->middle": 862,
+          "immature-source": 72,
+          "living-partial-source": 450,
+          "occupied-target": 340
+        },
+        "windows": {
+          "allPTurns": 27,
+          "availablePTurns": 27,
+          "seenQPairs": 0,
+          "beforeContact": 0,
+          "afterContact": 0,
+          "lastWindowAfterContact": 0,
+          "fundedBefore": 0,
+          "examples": []
+        },
+        "Qflow": {
+          "exposures": 0,
+          "invasionAttempts": 0,
+          "invaded": 0,
+          "established": 0,
+          "cleared": 0,
+          "emergenceAttempts": 0,
+          "emergenceFailed": 0,
+          "emerged": 0,
+          "eggsLaid": 0,
+          "offspringEstablished": 0,
+          "fedE": 3.3499999999999983,
+          "moved": 24,
+          "preyed": 0,
+          "maintenanceE": 2.4820000000000015,
+          "developmentE": 0.09,
+          "metaE": 0.018000000000000002,
+          "informationE": 0.036000000000000004,
+          "emergenceE": 0,
+          "movementE": 0.04800000000000002,
+          "laidE": 0
+        },
+        "cue": {
+          "safe/distance2": 2,
+          "none": 60,
+          "safe/distance1": 14,
+          "safe/distance0": 44
+        }
+      },
+      "candidate": {
+        "last": {
+          "turn": 60,
+          "P": 69,
+          "Q": 2,
+          "stages": {
+            "first": 20,
+            "middle": 42,
+            "extra": 0,
+            "terminal": 7
+          },
+          "matureP": 7,
+          "main": 106,
+          "grassbug": 0,
+          "waterbug": 110,
+          "fingerprint": "85a04aa40fb5873eb0e7938453e948315370993d3b77312dd69239ee619b4947"
+        },
+        "windows": {
+          "allPTurns": 27,
+          "availablePTurns": 27,
+          "seenQPairs": 0,
+          "beforeContact": 0,
+          "afterContact": 0,
+          "lastWindowAfterContact": 0,
+          "fundedBefore": 0,
+          "examples": []
+        },
+        "Qflow": {
+          "exposures": 0,
+          "invasionAttempts": 0,
+          "invaded": 0,
+          "established": 0,
+          "cleared": 0,
+          "emergenceAttempts": 0,
+          "emergenceFailed": 0,
+          "emerged": 0,
+          "eggsLaid": 0,
+          "offspringEstablished": 0,
+          "fedE": 3.2499999999999982,
+          "moved": 115,
+          "preyed": 0,
+          "maintenanceE": 2.4800000000000018,
+          "developmentE": 0.09,
+          "metaE": 0.018000000000000002,
+          "informationE": 0.036000000000000004,
+          "emergenceE": 0,
+          "movementE": 0.23000000000000018,
+          "laidE": 0
+        },
+        "cue": {
+          "safe/distance2": 2,
+          "none": 60,
+          "safe/distance1": 33,
+          "safe/distance0": 25
+        }
+      }
+    }
+  ]
+}

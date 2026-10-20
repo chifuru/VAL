@@ -2233,7 +2233,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&!["survival/1","survival/2"].includes(c.balanceModel))
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
@@ -2556,7 +2556,7 @@ return {settings,attach,region,level,factor,begin,finish};
     delete o.plantOrigin;
     // Only initial main founders receive a mixed age cohort. Births and explicit
     // ages retain their own clocks, and evolution phase is independent of age.
-    const initialFraction=w.turn===0&&w.config.balanceModel==="survival/2"&&w.config.ageModel==="life/1"&&main&&
+    const initialFraction=w.turn===0&&["survival/2","survival/3"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
       id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
     return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
@@ -4043,7 +4043,7 @@ function(require,module){
       const B = kind === "factor" ? 0.2 : 2,
         M = kind === "factor" ? 0 : 0.1;
       if (S.edibleB(o) < B || o.M < M) continue;
-      if(w.config.balanceModel==="survival/2"&&s.id==="fungus"&&(S.round(S.edibleB(o)-B)<3||S.round(o.M-M)<.2))continue;
+      if(["survival/2","survival/3"].includes(w.config.balanceModel)&&s.id==="fungus"&&(S.round(S.edibleB(o)-B)<3||S.round(o.M-M)<.2))continue;
       const places = S.nearby(w, o.cell, 1, true)
         .filter((p) => !w.tiles[p].blocked)
         .map((cell) => ({
@@ -4735,7 +4735,7 @@ function(require,module){
       t +=
         (((9 * phaseA[enemy.phase]) / 24) * hp) /
         (1 + S.distance(w, cell, enemy.cell)) ** 2;
-      if(w.config.balanceModel==="survival/2"&&o.species==="grassbug"&&enemy.HP>0&&v.visibleCells.has(enemy.cell)){
+      if(["survival/2","survival/3"].includes(w.config.balanceModel)&&o.species==="grassbug"&&enemy.HP>0&&v.visibleCells.has(enemy.cell)){
         const p=v.traits?.get(enemy.id)||S.phenotype(w,enemy),distance=S.distance(w,cell,enemy.cell),
           attackCost=(distance===2?4:3)*S.adjustment(w,enemy,"attackCost",w.tiles[enemy.cell].env,p.phase),
           costs=v.costs?.get(enemy.id),available=costs?costs.budget-costs.action:Math.max(0,enemy.E-p.maintenance);
@@ -5440,7 +5440,7 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
-  const survival = (w) => ["survival/1","survival/2"].includes(w.config.balanceModel);
+  const survival = (w) => ["survival/1","survival/2","survival/3"].includes(w.config.balanceModel);
   function sparseMainBirths(w, ctx) {
     if (!survival(w)) return false;
     if (ctx.sparseMainBirths === undefined) {
@@ -5937,7 +5937,7 @@ function(require,module){
   const primaryEnabled=w=>S.PrimaryParasite?.enabled(w)===true;
   const hyperEnabled=w=>S.HyperParasite?.enabled(w)===true;
   const informationEnabled=w=>S.PersistentInformation?.enabled(w)===true;
-  const survivalEnabled=w=>["survival/1","survival/2"].includes(w?.config?.balanceModel);
+  const survivalEnabled=w=>["survival/1","survival/2","survival/3"].includes(w?.config?.balanceModel);
   const informationKeys=["ownExperiences","holdingQualified","deathDecisions","candidateDeaths","normalGenerated","lowGenerated","noGeneration","generatedAmount","expiredAmount","capacityLostAmount","microLostAmount","movedAmount","originsRead","contentsRead","rejectedScope","rejectedContext","rejectedBudget","deduplicated","learned","learningDeltaAbs","placeApplications","placeMagnitude","receptionCostE","qPromoted","qDistorted","environmentRead","ordinaryRead","caregiverRead"];
   function emptyInformationFlow(w){return {definition:"persistent-information-flow/1",turn:w.turn,all:Object.fromEntries(informationKeys.map(key=>[key,0]))};}
   function informationFlow(w,ctx,key,n=1){ctx.persistentInformationFlow??=emptyInformationFlow(w);const a=ctx.persistentInformationFlow.all;a[key]=S.round(a[key]+n);}
@@ -6444,7 +6444,9 @@ function(require,module){
       for(const cell of cells)for(const host of S.mainAt(m,cell))if(host.HP>0&&S.sight(w,q.cell,host.cell))candidates.push(host);
       // External infestation is a visible cue. An internal infestation, its
       // maturity clock, genes and energy are not privileged search knowledge.
-      const preference=host=>host.infection?.location==="external"?(q.hyper.preference?.[host.infection.species]??.5)*informationHostFactor(w,q,host.infection.species):.5;
+      // v3 ranks the observed external cue before bodies with no such cue;
+      // inherited preference still ranks the visibly infested candidates.
+      const preference=host=>host.infection?.location==="external"?(w.config.balanceModel==="survival/3"?1:0)+(q.hyper.preference?.[host.infection.species]??.5)*informationHostFactor(w,q,host.infection.species):.5;
       const local=candidates.filter(host=>S.oneStep(w,q.cell,host.cell)).sort((a,b)=>preference(b)-preference(a)||S.hash(w,"hyper/contact-choice",w.turn,q.id,a.id)-S.hash(w,"hyper/contact-choice",w.turn,q.id,b.id));
       if(q.ready<=w.turn&&q.age>=(q.maturity??z.maturity)&&local.length)hyperExpose(w,ctx,q,local[0]);
       const predator=host=>S.spec(host).group==="main"&&host.species!=="ryouki"&&
@@ -6466,19 +6468,23 @@ function(require,module){
           if(amount>0)forage.push({cell,amount});
         }
         const hunger=S.clamp(1-q.E/Math.max(z.eggCost+4*z.maintenance[4],1e-6),0,1),
-          v2=w.config.balanceModel==="survival/2",
+          v2=["survival/2","survival/3"].includes(w.config.balanceModel),
           // A finite food stock is not another reward after the adult has
           // reserved one laying attempt and the existing four-turn upkeep.
           needed=Math.max(0,Math.min(z.capE,z.eggCost+4*z.maintenance[4])-q.E),
           readyToLay=q.E>=z.eggCost&&q.ready<=w.turn?1:.15,
+          // With no visible cue, or after an unproductive body contact, keep
+          // a small paid exploration option. Food and danger still compete;
+          // depleted adults retain stop and never borrow future upkeep.
+          exploring=w.config.balanceModel==="survival/3"&&(!cue||(cue.infection?.location!=="external"&&S.distance(w,q.cell,cue.cell)===0))&&q.hyper.starvationRun===0&&q.E>=2*z.maintenance[4]+z.adultMoveCost,
           score=cell=>{
             const nutrition=forage.reduce((n,a)=>Math.max(n,(v2?
                 Math.min(needed,Math.min(z.adultFoodCap,a.amount)*z.adultAssimilation)/Math.max(z.adultFoodCap*z.adultAssimilation,1e-6):
                 Math.min(1,a.amount/Math.max(z.adultFoodCap,1e-6)))/(1+S.distance(w,cell,a.cell))),0),
-              approach=cue?(3-S.distance(w,cell,cue.cell))/3:0,
+              approach=cue&&!exploring?(3-S.distance(w,cell,cue.cell))/3:0,
               movement=cell===q.cell?0:z.adultMoveCost/Math.max(q.E,z.maintenance[4],1e-6);
             return nutrition*(v2?2:.5+1.5*hunger)+approach*.45*readyToLay-
-              threat(cell)*(.65+learned)+(places?.get(cell).value||0)*.1-movement*.1;
+              threat(cell)*(.65+learned)+(places?.get(cell).value||0)*.1-movement*.1+(exploring&&cell!==q.cell?.02:0);
           },scores=new Map(moves.map(cell=>[cell,score(cell)]));
         moves.sort((a,b)=>scores.get(b)-scores.get(a)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b));
       }else moves.sort((a,b)=>{
@@ -10340,7 +10346,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&!["survival/1","survival/2"].includes(c.balanceModel))
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
@@ -10663,7 +10669,7 @@ return {settings,attach,region,level,factor,begin,finish};
     delete o.plantOrigin;
     // Only initial main founders receive a mixed age cohort. Births and explicit
     // ages retain their own clocks, and evolution phase is independent of age.
-    const initialFraction=w.turn===0&&w.config.balanceModel==="survival/2"&&w.config.ageModel==="life/1"&&main&&
+    const initialFraction=w.turn===0&&["survival/2","survival/3"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
       id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
     return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
@@ -12151,7 +12157,7 @@ function(require,module){
       const B = kind === "factor" ? 0.2 : 2,
         M = kind === "factor" ? 0 : 0.1;
       if (S.edibleB(o) < B || o.M < M) continue;
-      if(w.config.balanceModel==="survival/2"&&s.id==="fungus"&&(S.round(S.edibleB(o)-B)<3||S.round(o.M-M)<.2))continue;
+      if(["survival/2","survival/3"].includes(w.config.balanceModel)&&s.id==="fungus"&&(S.round(S.edibleB(o)-B)<3||S.round(o.M-M)<.2))continue;
       const places = S.nearby(w, o.cell, 1, true)
         .filter((p) => !w.tiles[p].blocked)
         .map((cell) => ({
@@ -12365,7 +12371,7 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
-  const survival = (w) => ["survival/1","survival/2"].includes(w.config.balanceModel);
+  const survival = (w) => ["survival/1","survival/2","survival/3"].includes(w.config.balanceModel);
   function sparseMainBirths(w, ctx) {
     if (!survival(w)) return false;
     if (ctx.sparseMainBirths === undefined) {
@@ -14934,7 +14940,7 @@ function(require,module){
       t +=
         (((9 * phaseA[enemy.phase]) / 24) * hp) /
         (1 + S.distance(w, cell, enemy.cell)) ** 2;
-      if(w.config.balanceModel==="survival/2"&&o.species==="grassbug"&&enemy.HP>0&&v.visibleCells.has(enemy.cell)){
+      if(["survival/2","survival/3"].includes(w.config.balanceModel)&&o.species==="grassbug"&&enemy.HP>0&&v.visibleCells.has(enemy.cell)){
         const p=v.traits?.get(enemy.id)||S.phenotype(w,enemy),distance=S.distance(w,cell,enemy.cell),
           attackCost=(distance===2?4:3)*S.adjustment(w,enemy,"attackCost",w.tiles[enemy.cell].env,p.phase),
           costs=v.costs?.get(enemy.id),available=costs?costs.budget-costs.action:Math.max(0,enemy.E-p.maintenance);
@@ -15639,7 +15645,7 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
-  const survival = (w) => ["survival/1","survival/2"].includes(w.config.balanceModel);
+  const survival = (w) => ["survival/1","survival/2","survival/3"].includes(w.config.balanceModel);
   function sparseMainBirths(w, ctx) {
     if (!survival(w)) return false;
     if (ctx.sparseMainBirths === undefined) {
@@ -17018,7 +17024,7 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
-  const survival = (w) => ["survival/1","survival/2"].includes(w.config.balanceModel);
+  const survival = (w) => ["survival/1","survival/2","survival/3"].includes(w.config.balanceModel);
   function sparseMainBirths(w, ctx) {
     if (!survival(w)) return false;
     if (ctx.sparseMainBirths === undefined) {
@@ -18847,7 +18853,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&!["survival/1","survival/2"].includes(c.balanceModel))
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
@@ -19170,7 +19176,7 @@ return {settings,attach,region,level,factor,begin,finish};
     delete o.plantOrigin;
     // Only initial main founders receive a mixed age cohort. Births and explicit
     // ages retain their own clocks, and evolution phase is independent of age.
-    const initialFraction=w.turn===0&&w.config.balanceModel==="survival/2"&&w.config.ageModel==="life/1"&&main&&
+    const initialFraction=w.turn===0&&["survival/2","survival/3"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
       id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
     return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
@@ -19928,7 +19934,7 @@ function(require,module){
   const primaryEnabled=w=>S.PrimaryParasite?.enabled(w)===true;
   const hyperEnabled=w=>S.HyperParasite?.enabled(w)===true;
   const informationEnabled=w=>S.PersistentInformation?.enabled(w)===true;
-  const survivalEnabled=w=>["survival/1","survival/2"].includes(w?.config?.balanceModel);
+  const survivalEnabled=w=>["survival/1","survival/2","survival/3"].includes(w?.config?.balanceModel);
   const informationKeys=["ownExperiences","holdingQualified","deathDecisions","candidateDeaths","normalGenerated","lowGenerated","noGeneration","generatedAmount","expiredAmount","capacityLostAmount","microLostAmount","movedAmount","originsRead","contentsRead","rejectedScope","rejectedContext","rejectedBudget","deduplicated","learned","learningDeltaAbs","placeApplications","placeMagnitude","receptionCostE","qPromoted","qDistorted","environmentRead","ordinaryRead","caregiverRead"];
   function emptyInformationFlow(w){return {definition:"persistent-information-flow/1",turn:w.turn,all:Object.fromEntries(informationKeys.map(key=>[key,0]))};}
   function informationFlow(w,ctx,key,n=1){ctx.persistentInformationFlow??=emptyInformationFlow(w);const a=ctx.persistentInformationFlow.all;a[key]=S.round(a[key]+n);}
@@ -20435,7 +20441,9 @@ function(require,module){
       for(const cell of cells)for(const host of S.mainAt(m,cell))if(host.HP>0&&S.sight(w,q.cell,host.cell))candidates.push(host);
       // External infestation is a visible cue. An internal infestation, its
       // maturity clock, genes and energy are not privileged search knowledge.
-      const preference=host=>host.infection?.location==="external"?(q.hyper.preference?.[host.infection.species]??.5)*informationHostFactor(w,q,host.infection.species):.5;
+      // v3 ranks the observed external cue before bodies with no such cue;
+      // inherited preference still ranks the visibly infested candidates.
+      const preference=host=>host.infection?.location==="external"?(w.config.balanceModel==="survival/3"?1:0)+(q.hyper.preference?.[host.infection.species]??.5)*informationHostFactor(w,q,host.infection.species):.5;
       const local=candidates.filter(host=>S.oneStep(w,q.cell,host.cell)).sort((a,b)=>preference(b)-preference(a)||S.hash(w,"hyper/contact-choice",w.turn,q.id,a.id)-S.hash(w,"hyper/contact-choice",w.turn,q.id,b.id));
       if(q.ready<=w.turn&&q.age>=(q.maturity??z.maturity)&&local.length)hyperExpose(w,ctx,q,local[0]);
       const predator=host=>S.spec(host).group==="main"&&host.species!=="ryouki"&&
@@ -20457,19 +20465,23 @@ function(require,module){
           if(amount>0)forage.push({cell,amount});
         }
         const hunger=S.clamp(1-q.E/Math.max(z.eggCost+4*z.maintenance[4],1e-6),0,1),
-          v2=w.config.balanceModel==="survival/2",
+          v2=["survival/2","survival/3"].includes(w.config.balanceModel),
           // A finite food stock is not another reward after the adult has
           // reserved one laying attempt and the existing four-turn upkeep.
           needed=Math.max(0,Math.min(z.capE,z.eggCost+4*z.maintenance[4])-q.E),
           readyToLay=q.E>=z.eggCost&&q.ready<=w.turn?1:.15,
+          // With no visible cue, or after an unproductive body contact, keep
+          // a small paid exploration option. Food and danger still compete;
+          // depleted adults retain stop and never borrow future upkeep.
+          exploring=w.config.balanceModel==="survival/3"&&(!cue||(cue.infection?.location!=="external"&&S.distance(w,q.cell,cue.cell)===0))&&q.hyper.starvationRun===0&&q.E>=2*z.maintenance[4]+z.adultMoveCost,
           score=cell=>{
             const nutrition=forage.reduce((n,a)=>Math.max(n,(v2?
                 Math.min(needed,Math.min(z.adultFoodCap,a.amount)*z.adultAssimilation)/Math.max(z.adultFoodCap*z.adultAssimilation,1e-6):
                 Math.min(1,a.amount/Math.max(z.adultFoodCap,1e-6)))/(1+S.distance(w,cell,a.cell))),0),
-              approach=cue?(3-S.distance(w,cell,cue.cell))/3:0,
+              approach=cue&&!exploring?(3-S.distance(w,cell,cue.cell))/3:0,
               movement=cell===q.cell?0:z.adultMoveCost/Math.max(q.E,z.maintenance[4],1e-6);
             return nutrition*(v2?2:.5+1.5*hunger)+approach*.45*readyToLay-
-              threat(cell)*(.65+learned)+(places?.get(cell).value||0)*.1-movement*.1;
+              threat(cell)*(.65+learned)+(places?.get(cell).value||0)*.1-movement*.1+(exploring&&cell!==q.cell?.02:0);
           },scores=new Map(moves.map(cell=>[cell,score(cell)]));
         moves.sort((a,b)=>scores.get(b)-scores.get(a)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b));
       }else moves.sort((a,b)=>{
@@ -22733,7 +22745,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&!["survival/1","survival/2"].includes(c.balanceModel))
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
@@ -23056,7 +23068,7 @@ return {settings,attach,region,level,factor,begin,finish};
     delete o.plantOrigin;
     // Only initial main founders receive a mixed age cohort. Births and explicit
     // ages retain their own clocks, and evolution phase is independent of age.
-    const initialFraction=w.turn===0&&w.config.balanceModel==="survival/2"&&w.config.ageModel==="life/1"&&main&&
+    const initialFraction=w.turn===0&&["survival/2","survival/3"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
       id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
     return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
@@ -26032,7 +26044,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&!["survival/1","survival/2"].includes(c.balanceModel))
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
@@ -26355,7 +26367,7 @@ return {settings,attach,region,level,factor,begin,finish};
     delete o.plantOrigin;
     // Only initial main founders receive a mixed age cohort. Births and explicit
     // ages retain their own clocks, and evolution phase is independent of age.
-    const initialFraction=w.turn===0&&w.config.balanceModel==="survival/2"&&w.config.ageModel==="life/1"&&main&&
+    const initialFraction=w.turn===0&&["survival/2","survival/3"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
       id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
     return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }

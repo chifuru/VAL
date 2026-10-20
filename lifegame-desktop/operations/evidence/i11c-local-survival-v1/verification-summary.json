@@ -1,0 +1,101 @@
+{
+  "definition": "i11c-limited-verification/1",
+  "baseline": "48876e7",
+  "version": "4.2.45",
+  "signature": "c78400a515eba25515dd699c1f3f5ba6cc2004c5dc4b992fbf3e4c2d1c6082d9",
+  "scope": "Q local exploration correction only; short lower candidates rejected; long-term ecology incomplete",
+  "tests": {
+    "distinctFiles": 18,
+    "tests": 138,
+    "passed": 138,
+    "failed": 0,
+    "skipped": 0,
+    "regression": "model/regression-summary.json",
+    "archiveModel": "model/archive-compatibility-audit.json"
+  },
+  "parity": {
+    "generatedVsSourceStates": 72,
+    "legacyCompleteWorldStates": 120,
+    "legacyFullObservationSnapshots": 24,
+    "versions": [
+      null,
+      "survival/1",
+      "survival/2"
+    ],
+    "profiles": 8
+  },
+  "browser": {
+    "checks": 49,
+    "committedTurns": 4,
+    "observationRows": 5,
+    "exceptions": 0,
+    "summary": "browser/summary.json"
+  },
+  "naturalDiagnostic": {
+    "cases": 3,
+    "versions": [
+      "survival/2",
+      "survival/3"
+    ],
+    "turns": [
+      60,
+      120
+    ],
+    "stateChecksIncludingRepeatedPrefixes": 1092,
+    "longestUniqueStates": 726,
+    "allFinite": true,
+    "invariantErrors": 0,
+    "allObservationsRestored": true,
+    "shortRunPrefixExact": true,
+    "newQEstablishments": 0,
+    "newQOffspring": 0,
+    "sameInitialQEmergencesEachVersion": [
+      2,
+      1,
+      0
+    ],
+    "comparison": "parasite-comparison.json",
+    "scope": "Preregistered diagnostic with existing supply/advantages; not500T or independent R1-R6 holdout"
+  },
+  "adopted": [
+    "v3 visible external infestation cue ranking",
+    "v3 bounded paid exploration without useful cue or after unproductive contact"
+  ],
+  "rejectedLowerCandidates": [
+    "per-species rarity birth pressure",
+    "grassbug danger transform t/(1+t)",
+    "conditional fungus keep2 reserve"
+  ],
+  "retained": [
+    "core/A/B",
+    "all61 formal statuses/hierarchy/relations",
+    "R1-R6 thresholds",
+    "initial numbers/lifetimes/maturity window/host tax",
+    "finite budgets and explicit zero values",
+    "current UI/layout/far symbols/near art/background",
+    "old2/1/unversioned calculations and saved records"
+  ],
+  "notCertified": [
+    "500T survival improvement",
+    "all22 main-lineage R1-R6",
+    "long-term natural P/Q generation maintenance",
+    "all-device performance/memory",
+    "new Windows distribution"
+  ],
+  "resultReconciliation": "final-structure-check.json",
+  "executionContract": "../../plans/i11c-local-survival-v1.md",
+  "outputGate": {
+    "operationFirstAndProjectLocalCore": [
+      "valis/core/VALIS Operation Definition.md",
+      "valis/core/VALIS Summary Manifest.md",
+      "valis/core/VALIS Flow Definition.md"
+    ],
+    "contract": "operations/plans/i11c-local-survival-v1.md",
+    "existingStructure": "A/B unchanged, 15 existing C/D/E reflected, 61 formal draft statuses/hierarchy unchanged",
+    "manifestCurrentOnly": true,
+    "resultScopeMatchesEvidence": true,
+    "unresolvedUserInput": [],
+    "next": "Continue I11 lower intake/renewal, long-term P circulation, Q spatial contact and post-emergence survival; R1-R6/performance and I12 remain",
+    "approvalStatusUnchanged": true
+  }
+}

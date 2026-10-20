@@ -1,0 +1,43 @@
+{
+  "baseline": "48876e7",
+  "baselineParasitesSHA": "ba73356650e9ec568c886971e2927ff5ca8208e0d85e20b8d8e546e590a0a918",
+  "adoptedSource": {
+    "path": "src/ecology/parasites.js",
+    "SHA": "6213b0821f217cf8b943aeeb58058c508026d5d80ad85cbadcb5546a27392dac"
+  },
+  "version": "survival/3",
+  "boundaryCases": {
+    "new": 9,
+    "existing": 11,
+    "total": 20,
+    "passed": 20
+  },
+  "legacyExact": {
+    "models": [
+      "unversioned",
+      "survival/1",
+      "survival/2"
+    ],
+    "turns": "0..8",
+    "serializedFullWorldSHAEveryTurn": true
+  },
+  "privateCandidate": {
+    "sourceSHA": "76c5fb634fb932584a17d2279b71309f9fc19328cb2936a51bda46edf26f06b9",
+    "reproducedFromBaseline": true,
+    "models": "survival/2 only in private comparison; adopted as survival/3",
+    "conditions": 2,
+    "turnsEach": 60,
+    "serial": true,
+    "allTurnInvariants": true,
+    "wrapperFirstTurnExact": true,
+    "additionalAdoptedProductNaturalTrials": false
+  },
+  "notEstablished": [
+    "natural Q establishment",
+    "paid Q emergence",
+    "same Q IV after emergence",
+    "offspring Q establishment",
+    "R5 or long-term ecology acceptance"
+  ],
+  "pending": "root generated8models/signature/replay/paired predator conditions"
+}

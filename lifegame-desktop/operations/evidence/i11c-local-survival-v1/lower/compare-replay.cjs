@@ -1,0 +1,5 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),expected=require('./expected-results.json');
+const dir=path.resolve(process.argv[2]||'/tmp/i11c-lower-replay'),missing=[];
+for(const [variant,cases]of Object.entries(expected.variants)){const file=path.join(dir,variant+'-50.json');if(!fs.existsSync(file)){missing.push(file);continue;}const run=JSON.parse(fs.readFileSync(file));for(const [id,want]of Object.entries(cases)){const got=run.cases.find(x=>x.id===id);assert.ok(got,'Missing fixed case');assert.equal(got.configHash,want.configHash,'Effective settings differ: '+variant+'/'+id);assert.equal(got.fingerprint,want.fingerprint,'Final state differs: '+variant+'/'+id);for(const species of Object.keys(want.final)){assert.equal(got.final[species],want.final[species]);assert.equal(got.births[species],want.births[species]);}}}
+if(missing.length){console.log(JSON.stringify({status:'missing',missing,note:'No missing rerun was filled from measured evidence'}));process.exitCode=2;}else console.log(JSON.stringify({status:'all-eight-50T-results-match-measured-fingerprints',criteria:'R1-R6 not certified'}));

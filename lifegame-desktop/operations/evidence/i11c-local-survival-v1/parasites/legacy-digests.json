@@ -1,0 +1,67 @@
+{
+  "baseline": "48876e7",
+  "sourceSHA": "ba73356650e9ec568c886971e2927ff5ca8208e0d85e20b8d8e546e590a0a918",
+  "flags": {
+    "producer": false,
+    "waterbug": false,
+    "hyperparasite": false
+  },
+  "config": {
+    "seed": "i11c/legacy-parasite-regression",
+    "width": 16,
+    "height": 12,
+    "initial": 24,
+    "lineages": "manual",
+    "selected": [
+      "solar",
+      "jelly"
+    ],
+    "enabled": {
+      "main": true,
+      "plant": true,
+      "fungus": true,
+      "prey": true,
+      "P": true,
+      "Q": true
+    },
+    "ageModel": "life/1",
+    "ecologyRevision": "observation/4.1",
+    "primaryParasiteModel": "primary/1",
+    "hyperParasiteModel": "hyper/1"
+  },
+  "frames": {
+    "unversioned": [
+      "0f944a130751303c5a32e4529663325330cecc51827fbbb7668294f29e84b463",
+      "471511748cb8ec305e73624c4a1aa08c9aa58675a151c5b3853d8b7cb7d6991e",
+      "5980d18a31f7c023f4044e2e20ab157540f2b57c83b76ca96685b2f01670bdfc",
+      "19387be10496c8d3c6376fd860f6e6469a11bc58b02b3a6cc09971b5a681fc74",
+      "2286e1653b9552dad84819c4ab8663d000e964c9748dd909382542477ff1ea3e",
+      "7b66abda3d9a9f4e3796f6211502efd1a9300a7d3ac5d40c02ca7e674d0149c4",
+      "61264717606a99d61969900f5abc05307964fb78edfe9a1295053619cc7dded7",
+      "f202b9e77daafbe6fd84d9be0eff85d32772f563dafb93a0021710dbb0dc3fa2",
+      "7866e2c6aac60e7254801845992d4ee096f0f6f1f267d68ca5c904ab9f8c424b"
+    ],
+    "survival/1": [
+      "3768d7e9cf58c21e8617b09cd77b7d4cd9dc6af266384a73665620bebdb8cb9e",
+      "9e8a5865e2d60d509c9851d5ff05ecc87fc3125e8875da7f2cdf778de510395a",
+      "23e27ddc280a733292bf53158e805d81a2044f98ddd309f3c7ad1f30db841fd6",
+      "e5da3481916596ee6881f22a856ddfe9994866e61eb724d95ff214544ffe1ac0",
+      "4093e36d78b7ec3f6ef7568a9e66670498c818f096626ad469a187f4e992e8ff",
+      "d87d9edbd6ea89679940e96a7046e309ed531fecbe3135139f416b5140fc3f70",
+      "17b0b81bb8d38166d4720c3d8153f6552428eaabd20b551645833597bd1c32e5",
+      "4735d1992369530259b12dd437f4c143ca3cb31106f5f1fdcaef14d24269f0a8",
+      "eb2c8e2f12aed835df64ba0e93918a7998fc4c3dc0c860a6f5e3482b0ce5136e"
+    ],
+    "survival/2": [
+      "c488a6d96fd85a2b329d1c343926bb46afab70a7f591b4595ee66d5b55e2ef90",
+      "672935e4c535b83802a542ce4b2d9b308bab1f64d2218ba3e9836fbbe5fd660c",
+      "02fb05d51478f36351701c3502bb1e95eb865a366c60a090e2c9571b1a26238d",
+      "bd137812bbdff25f3b1bfaedd7842433def6cce3fcfdacbc76e30b94a6d7ed5c",
+      "c14c11c2f6e816799149df1aaf43310103ab0dfaa2d4610eaf8ecec9419e55b9",
+      "1bcf862dd75160d0c30a06baef535f1e358ad091d4b15f2b2ac9a418f4e2528c",
+      "240f89eb2bbdc342cfe13cffd770371adfcef9d2799a27080b644178fe27251b",
+      "09b3e752e3318ded324d3affbfe1967ae2f0bf8f99fd3c899e5b4789e90112bb",
+      "d7ae9ae888d3de3cc20d7735306c45611594eb206c26f3681aaa03a45dedf88c"
+    ]
+  }
+}

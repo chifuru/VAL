@@ -20,7 +20,9 @@
  const relationshipBuildSignature='a7cac02a9d7382b478919b40c44823ce0d6bb0325b3e551adb1236908c92774d';
  const balanceBuildSignature='95b7405d3e4513acabf2194ed0ed1b9eb79c9ffd566bcc9e0b5f1edc3ca1b889';
  const foodwebBuildSignature='ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97';
+ const localSurvivalBuildSignature='c78400a515eba25515dd699c1f3f5ba6cc2004c5dc4b992fbf3e4c2d1c6082d9';
  function canonicalSignature(s,config){
+  if(s===localSurvivalBuildSignature&&config.balanceModel!=='survival/3')s=foodwebBuildSignature;
   if(s===foodwebBuildSignature&&config.balanceModel!=='survival/2')s=balanceBuildSignature;
   if(s===balanceBuildSignature&&config.balanceModel===undefined)s=relationshipBuildSignature;
   if(s===relationshipBuildSignature&&config.relationshipModel===undefined)s=generationBuildSignature;
@@ -84,7 +86,7 @@
  }
  function validateFullRecord(record,engine){
   if(!record||![1,2,3].includes(record.schema)||typeof record.id!=='string'||typeof record.signature!=='string'||!integer(record.turn)||typeof record.config?.seed!=='string'||!record.final)throw Error('保存本文の形式が不正です。');
-  if(record.config.balanceModel!==undefined&&!['survival/1','survival/2'].includes(record.config.balanceModel))throw Error('生存調整の観測方式を読み取れません。');
+  if(record.config.balanceModel!==undefined&&!['survival/1','survival/2','survival/3'].includes(record.config.balanceModel))throw Error('生存調整の観測方式を読み取れません。');
   const generation=record?.config?.generationModel!==undefined||record?.config?.generationSettings!==undefined||record?.config?.generationResolved!==undefined;
   if(record?.schema!==3){if(generation)throw Error('多様生成の保存形式・状態版を読み取れません。');return record;}
   finiteData(record);
@@ -119,7 +121,7 @@
     return record;
   }
   function capture(world,reason,observation,originRecordId=null){
-    if(world.config.balanceModel!==undefined&&!['survival/1','survival/2'].includes(world.config.balanceModel))throw Error('生存調整の観測方式を読み取れません。');
+    if(world.config.balanceModel!==undefined&&!['survival/1','survival/2','survival/3'].includes(world.config.balanceModel))throw Error('生存調整の観測方式を読み取れません。');
     const relationModel=world.config.relationshipModel;
     if(relationModel!==undefined&&relationModel!=='network/1')throw Error('関係図の観測方式を読み取れません。');
     if(relationModel==='network/1'){if(!observation)throw Error('関係図の保存には全期間観測が必要です。');observationsAPI().restore(observation,{validateOnly:true});}

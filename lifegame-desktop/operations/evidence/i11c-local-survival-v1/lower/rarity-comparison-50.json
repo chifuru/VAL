@@ -1,0 +1,352 @@
+{
+  "scope": "Private one-factor global rarity fixed2case50T comparison. No source/Node/tests changed, no 500T or R1-R6 certification.",
+  "baselineModel": {
+    "replaySignature": "ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97",
+    "sourceHash": "10f80f38829cdd22364ace430e80b080dbf3b272a40ea59fc2c4ed4e05b40034",
+    "sources": {
+      "archive.js": "9ee02328eb392d389d2885f640a5493cc3bbef448ccef521b6ca58a476adc207",
+      "behavior.js": "dc5be81640450347eaa53669760bcf1d8369da327f36b8a8dfc319480bc03d9c",
+      "catalogue.js": "73d0761e892b2ce5562b6869343a035b467aac375cfa20019522609a783ad13c",
+      "engine.js": "10fe37981c5dda2865fb955d3c11d3bfed5359daf1e8038d43d1b917ea96cf07",
+      "habitat.js": "6f7c68aac59c369d47d5bb3df62499360d6f421e6b687a07f661158b3cac570c",
+      "hash.js": "a2af1afe8540aa56834b8c26255f4a4b3da80104a27a9471cace70a65670f39c",
+      "landscape.js": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+      "map-data.js": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+      "map-templates.js": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e",
+      "nutrition.js": "bc2a5a1ce59173214feb8ebaeca350186e71a3c253ab4543c6ad012eda02028c",
+      "observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+      "observation-modules.js": "e8eaf9b9e3ef9ac71f3d319ed371cfbe57ff3fe565292016f8241b6481ea31da",
+      "observations.js": "ddcb0dc63989f4c2d0544736d98228b020e451dc9a14d715e813ae2c9a49bcf5",
+      "parasites.js": "ba73356650e9ec568c886971e2927ff5ca8208e0d85e20b8d8e546e590a0a918",
+      "relationship-network.js": "b26b46f9fb93a801dc82b4dd69b0b3946557102d468b09a50a9bf20c181e042b",
+      "replay-version.js": "41035d9d9eac0ddb5a259fede4bfe97c4d0e3e1c66675a970d0fd97c217f91b7",
+      "reproduction.js": "f75a4617831a2f142bbc06b1285d66eb3ea4fc01a75b3168202a4f6ffc32eeae",
+      "state.js": "4a5af035523483d02f259150fca43ef38abbcaec2a3fe672f50326d88ef797c1",
+      "transport.js": "9af950c3804684365644cd79397466051d824fbca06149e84d62bbe1b1c64afd"
+    }
+  },
+  "privateSource": {
+    "engine": "10fe37981c5dda2865fb955d3c11d3bfed5359daf1e8038d43d1b917ea96cf07",
+    "state": "4a5af035523483d02f259150fca43ef38abbcaec2a3fe672f50326d88ef797c1",
+    "hash": "a2af1afe8540aa56834b8c26255f4a4b3da80104a27a9471cace70a65670f39c",
+    "catalogue": "73d0761e892b2ce5562b6869343a035b467aac375cfa20019522609a783ad13c",
+    "landscape": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+    "map-templates": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e",
+    "map-data": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+    "nutrition": "bc2a5a1ce59173214feb8ebaeca350186e71a3c253ab4543c6ad012eda02028c",
+    "behavior": "dc5be81640450347eaa53669760bcf1d8369da327f36b8a8dfc319480bc03d9c",
+    "reproduction": "08386583a106d4ecdd2ba4e891a2bc8bc351c69718f504cc53174c4cadc1a9df",
+    "parasites": "ba73356650e9ec568c886971e2927ff5ca8208e0d85e20b8d8e546e590a0a918"
+  },
+  "monitorParity5": true,
+  "habitat": {
+    "river-0": {
+      "grassHabitat": 1025,
+      "waterHabitat": 93,
+      "overlap": 93,
+      "grassOnly": 932,
+      "waterOnly": 0
+    },
+    "lake-1": {
+      "grassHabitat": 1001,
+      "waterHabitat": 142,
+      "overlap": 142,
+      "grassOnly": 859,
+      "waterOnly": 0
+    }
+  },
+  "pressureFixture": {
+    "before": {
+      "grassCell": 1,
+      "totalPrey": 4,
+      "allArea": 1115,
+      "grassEligibleArea": 1001,
+      "preyInGrassEligibleArea": 4,
+      "sameSpeciesInGrassEligibleArea": 4,
+      "actual": {
+        "chance": 1,
+        "density": 0.007992007992007992,
+        "foodFactor": 1
+      },
+      "sameHabitatAllPreyDensityCap": 0.007992007992007992,
+      "sameSpeciesRarityDensityCap": 0.007992007992007992
+    },
+    "after": {
+      "grassCell": 1,
+      "totalPrey": 146,
+      "allArea": 1115,
+      "grassEligibleArea": 1001,
+      "preyInGrassEligibleArea": 146,
+      "sameSpeciesInGrassEligibleArea": 4,
+      "actual": {
+        "chance": 1,
+        "density": 0.007992007992007992,
+        "foodFactor": 1
+      },
+      "sameHabitatAllPreyDensityCap": 0.2917082917082917,
+      "sameSpeciesRarityDensityCap": 0.007992007992007992
+    },
+    "addedOutsideLocalRadiusOnly": 142,
+    "note": "All waterbug habitat is legal grassbug habitat in current product; this fixture does not claim habitat separation."
+  },
+  "pressureUpperBounds": {
+    "definition": "density=min(localPreyDensity,2*sameSpeciesPopulation/habitatArea); target=.08; chance=foodFactor/(1+12*max(0,density-.08)/.08)",
+    "allLocalAndGlobalDensitiesAtLeast": [
+      {
+        "minimumDensity": 0.08,
+        "maximumChanceAtFoodFactor1": 1
+      },
+      {
+        "minimumDensity": 0.12,
+        "maximumChanceAtFoodFactor1": 0.14285714285714288
+      },
+      {
+        "minimumDensity": 0.2,
+        "maximumChanceAtFoodFactor1": 0.05263157894736842
+      },
+      {
+        "minimumDensity": 0.5,
+        "maximumChanceAtFoodFactor1": 0.015625
+      },
+      {
+        "minimumDensity": 1,
+        "maximumChanceAtFoodFactor1": 0.007194244604316547
+      }
+    ],
+    "finiteGuardsUnchanged": [
+      "E>=10 grass/E>=8 water",
+      "E8 birth payment",
+      "maturity/phase and waiting",
+      "actual empty compatible prey slot",
+      "local all-prey competition",
+      "one-use parent per turn",
+      "maximum one prey occupant per cell"
+    ]
+  },
+  "cases": [
+    {
+      "id": "river-0",
+      "effectiveConfigsExact": true,
+      "baseline": {
+        "grassbug": {
+          "final": 0,
+          "births": 5,
+          "deaths": {
+            "combat": 36,
+            "harvest": 2
+          },
+          "pressure": 174,
+          "turns": 194,
+          "energyBlocked": 162,
+          "actualCandidate": 5,
+          "movementE": 93.25999999999996
+        },
+        "fungus": {
+          "final": 4,
+          "births": 8,
+          "deaths": {
+            "harvest": 35,
+            "starvation": 1,
+            "age": 1
+          }
+        },
+        "waterbug": {
+          "final": 36,
+          "births": 57
+        },
+        "main": {
+          "abyss": 0,
+          "myth": 26,
+          "recursive": 0,
+          "sail": 0,
+          "gravity": 0,
+          "crystal": 28,
+          "manyeyes": 0,
+          "abyssshell": 0,
+          "parallel": 0,
+          "memory": 0,
+          "serpent": 0,
+          "solar": 31,
+          "antimeme": 0,
+          "valis": 0,
+          "jelly": 0,
+          "kelp": 24,
+          "whale": 28,
+          "swarm": 29,
+          "plasma": 0,
+          "cephalopod": 0,
+          "precocial": 0,
+          "ryouki": 41
+        },
+        "wallMs": 9752.853988,
+        "fingerprint": "ba6cb6f2c7e0f37cceec2f83f5cffa543be511889015e6428edefa0bd0eca47a"
+      },
+      "candidate": {
+        "grassbug": {
+          "final": 0,
+          "births": 7,
+          "deaths": {
+            "combat": 39,
+            "age": 1
+          },
+          "pressure": 110,
+          "turns": 168,
+          "energyBlocked": 155,
+          "actualCandidate": 7,
+          "movementE": 71.11000000000001
+        },
+        "fungus": {
+          "final": 3,
+          "births": 7,
+          "deaths": {
+            "harvest": 35,
+            "starvation": 2
+          }
+        },
+        "waterbug": {
+          "final": 16,
+          "births": 18
+        },
+        "main": {
+          "abyss": 0,
+          "myth": 28,
+          "recursive": 0,
+          "sail": 0,
+          "gravity": 0,
+          "crystal": 26,
+          "manyeyes": 0,
+          "abyssshell": 0,
+          "parallel": 0,
+          "memory": 0,
+          "serpent": 0,
+          "solar": 27,
+          "antimeme": 0,
+          "valis": 0,
+          "jelly": 0,
+          "kelp": 24,
+          "whale": 27,
+          "swarm": 29,
+          "plasma": 0,
+          "cephalopod": 0,
+          "precocial": 0,
+          "ryouki": 40
+        },
+        "wallMs": 8896.006243,
+        "fingerprint": "f06b1c271339dfc198e3b1f660c3bfae7f49d83f6a9c907c14de8a23bbca791a"
+      }
+    },
+    {
+      "id": "lake-1",
+      "effectiveConfigsExact": true,
+      "baseline": {
+        "grassbug": {
+          "final": 7,
+          "births": 26,
+          "deaths": {
+            "combat": 30,
+            "starvation": 3,
+            "age": 19
+          },
+          "pressure": 914,
+          "turns": 983,
+          "energyBlocked": 579,
+          "actualCandidate": 26,
+          "movementE": 312.61000000000047
+        },
+        "fungus": {
+          "final": 5,
+          "births": 9,
+          "deaths": {
+            "harvest": 33,
+            "age": 3,
+            "starvation": 1
+          }
+        },
+        "waterbug": {
+          "final": 74,
+          "births": 55
+        },
+        "main": {
+          "abyss": 37,
+          "myth": 0,
+          "recursive": 0,
+          "sail": 0,
+          "gravity": 0,
+          "crystal": 0,
+          "manyeyes": 0,
+          "abyssshell": 36,
+          "parallel": 0,
+          "memory": 0,
+          "serpent": 0,
+          "solar": 0,
+          "antimeme": 0,
+          "valis": 0,
+          "jelly": 52,
+          "kelp": 35,
+          "whale": 45,
+          "swarm": 0,
+          "plasma": 0,
+          "cephalopod": 0,
+          "precocial": 0,
+          "ryouki": 0
+        },
+        "wallMs": 8235.229982,
+        "fingerprint": "655858d1a97366d0c9101ba18503de208c87594b8925d9d8bd967d236a51acfc"
+      },
+      "candidate": {
+        "grassbug": {
+          "final": 1,
+          "births": 48,
+          "deaths": {
+            "combat": 67,
+            "age": 13
+          },
+          "pressure": 616,
+          "turns": 971,
+          "energyBlocked": 798,
+          "actualCandidate": 48,
+          "movementE": 279.18
+        },
+        "fungus": {
+          "final": 4,
+          "births": 10,
+          "deaths": {
+            "harvest": 36,
+            "age": 2,
+            "starvation": 1
+          }
+        },
+        "waterbug": {
+          "final": 41,
+          "births": 30
+        },
+        "main": {
+          "abyss": 39,
+          "myth": 0,
+          "recursive": 0,
+          "sail": 0,
+          "gravity": 0,
+          "crystal": 0,
+          "manyeyes": 0,
+          "abyssshell": 37,
+          "parallel": 0,
+          "memory": 0,
+          "serpent": 0,
+          "solar": 0,
+          "antimeme": 0,
+          "valis": 0,
+          "jelly": 48,
+          "kelp": 35,
+          "whale": 45,
+          "swarm": 0,
+          "plasma": 0,
+          "cephalopod": 0,
+          "precocial": 0,
+          "ryouki": 0
+        },
+        "wallMs": 7934.355794000001,
+        "fingerprint": "36f8869df277d23d00576e6a8a871b86d5de6df729aef8e856cbb3ef96bb442a"
+      }
+    }
+  ]
+}

@@ -741,7 +741,7 @@
       const B = kind === "factor" ? 0.2 : 2,
         M = kind === "factor" ? 0 : 0.1;
       if (S.edibleB(o) < B || o.M < M) continue;
-      if(w.config.balanceModel==="survival/2"&&s.id==="fungus"&&(S.round(S.edibleB(o)-B)<3||S.round(o.M-M)<.2))continue;
+      if(["survival/2","survival/3"].includes(w.config.balanceModel)&&s.id==="fungus"&&(S.round(S.edibleB(o)-B)<3||S.round(o.M-M)<.2))continue;
       const places = S.nearby(w, o.cell, 1, true)
         .filter((p) => !w.tiles[p].blocked)
         .map((cell) => ({

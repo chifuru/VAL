@@ -1,0 +1,50 @@
+
+local-boundaries.log
+✔ survival3 explores locally with no cue using finite paid movement while survival2 retains stop (26.918062ms)
+✔ survival3 leaves an unproductive same-cell host instead of treating contact as a permanent goal (8.894799ms)
+✔ a visible external infestation outranks an uninfested body without granting exact compatibility knowledge (10.905566ms)
+✔ internal P and its exact maturation clock cannot steer autonomous Q movement (7.708227ms)
+✔ hungry Q retains real local feeding over exploration and consumes only finite food (3.78826ms)
+✔ depleted or immobilized Q is not forced to move or given food energy (9.251568ms)
+✔ local exploration is deterministic without new memory or private host knowledge (4.998747ms)
+✔ survival3 preserves the one-use three-turn infection window and paid finite egg cost (6.542658ms)
+✔ survival2 survival1 and unversioned full worlds keep all baseline48876e7 states and RNG through8T (783.396122ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 880.339318
+
+v2-regression.log
+✔ survival/2 full Q leaves finite food for a visible safe host while survival/1 keeps its recorded ranking (21.261491ms)
+✔ survival/2 hungry Q stays to eat real stock and starts seeking a host after its finite reserve is sufficient (5.675489ms)
+✔ new Q ranking cannot create nutrition from information or invisible distant stock (4.453635ms)
+✔ survival/2 host approach preserves the one-use window and paid finite egg cost (9.986337ms)
+✔ flagless and survival/1 worlds keep the exact1b248aa parasite states and random outcomes (951.429877ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1006.489587
+
+v1-regression.log
+✔ hungry autonomous Q approaches sensed finite food, consumes it next turn, and stays while it remains useful (19.255157ms)
+✔ Q avoids true predators without treating mineral-only non-hunters as predators (11.373751ms)
+✔ nutrition search excludes information and unseen distant stocks, and does not waste movement with no local opportunity (4.014163ms)
+✔ P optional induction preserves finite next-turn maintenance and release budget (11.210407ms)
+✔ Q optional manipulation and information investment cannot consume the paid emergence reserve (8.279596ms)
+✔ unversioned worlds preserve the exact prior parasite execution and random outcomes (485.27207ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 545.700829

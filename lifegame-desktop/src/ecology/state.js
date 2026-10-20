@@ -1343,7 +1343,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&!["survival/1","survival/2"].includes(c.balanceModel))
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
@@ -1666,7 +1666,7 @@ return {settings,attach,region,level,factor,begin,finish};
     delete o.plantOrigin;
     // Only initial main founders receive a mixed age cohort. Births and explicit
     // ages retain their own clocks, and evolution phase is independent of age.
-    const initialFraction=w.turn===0&&w.config.balanceModel==="survival/2"&&w.config.ageModel==="life/1"&&main&&
+    const initialFraction=w.turn===0&&["survival/2","survival/3"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
       id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
     return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }

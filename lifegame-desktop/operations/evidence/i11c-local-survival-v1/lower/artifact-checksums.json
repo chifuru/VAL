@@ -1,0 +1,85 @@
+{
+  "scope": "Compact rejected lower-candidate evidence only. No production sources or whole worlds copied.",
+  "files": {
+    "README.md": {
+      "bytes": 7270,
+      "sha256": "cdbd540cf5e0b33da7c269e39277faeff6cf22ad661a5aec9e0beb11a4ba8268"
+    },
+    "baseline-50.json": {
+      "bytes": 17409,
+      "sha256": "ec3c70b4d49c020238145901f7eabc84593715529d2f7056ebc94496b58466ce"
+    },
+    "baseline-dependencies.json": {
+      "bytes": 3857,
+      "sha256": "194bf3b1415129713764a00a8caca207a0021355a6e75d37af7dfe071b1cf4ef"
+    },
+    "compare-replay.cjs": {
+      "bytes": 1168,
+      "sha256": "3a95feee826d66beeaaf1d9b482829e3d3033b26c624a9cff8dc1eb50dc4399e"
+    },
+    "diagnostic-runner.cjs": {
+      "bytes": 7812,
+      "sha256": "50925d24ad8a3c3128acbcead6e0b9106541847d5b572a9a74b74fbf91522620"
+    },
+    "expected-results.json": {
+      "bytes": 3599,
+      "sha256": "1efdb9c0abd38248928f21ace09aa1e3256f7e79fb77729ffa0035ebae64f7b8"
+    },
+    "findings.md": {
+      "bytes": 4125,
+      "sha256": "36965c450ae9779f39cdd38573e4d71d73e7d1ec0da2d944635f63ee37337a99"
+    },
+    "fixed-cases.json": {
+      "bytes": 3920,
+      "sha256": "f785faade54871e7fafe92580219d9ccf74d6b097e7f123c8da11da35e882349"
+    },
+    "fungus-comparison-50.json": {
+      "bytes": 12894,
+      "sha256": "454d74e26b0fc859cf39dde38259b3c26a207c3097d3c2e9b8d8b4b4a486202f"
+    },
+    "fungus-fixture.cjs": {
+      "bytes": 3651,
+      "sha256": "15c20dc1d711ee96e4b9e07d2f5761c6e3445f358d92a9cb552c5914e7587263"
+    },
+    "fungus-measured-source-delta.json": {
+      "bytes": 14086,
+      "sha256": "39cf033f79757e25a28a9fe821a44d588d7bd1aeabdb41886ec997b21d895ea3"
+    },
+    "portable-check.json": {
+      "bytes": 1269,
+      "sha256": "94cc1f0bb23f1085fc86e5bbe7090b1d114c9e90d49f36c205a1b5a6720897e8"
+    },
+    "prepare-baseline.py": {
+      "bytes": 1292,
+      "sha256": "95e11e27594677865a31789df88b97c879f9d8ce27fe382d5f33e8b9f7c86cb7"
+    },
+    "pressure-baseline-fixture.json": {
+      "bytes": 3300,
+      "sha256": "ab648b3689c587675afc9f8f6a988869f63d74c7e70672c58ca7bd87c867a76a"
+    },
+    "pressure-fixture.cjs": {
+      "bytes": 4167,
+      "sha256": "0143c0095d6065bb5300d8e85d808755f94722f6bfb848edee387d700fc80fbb"
+    },
+    "private-transform.cjs": {
+      "bytes": 1789,
+      "sha256": "fc0b2aeed3396f28e5b1c52ca6c35d2745710f782753be30a29436aa2b736348"
+    },
+    "rarity-comparison-50.json": {
+      "bytes": 10775,
+      "sha256": "8856dab891cc7d6eec36c20415e18b2ce3d23e3526a1c87d6862a3b94dffe3cd"
+    },
+    "replay-support.cjs": {
+      "bytes": 2587,
+      "sha256": "6b422bf01b193fb697ddac1517c2817fdc56cfd6c49913231d9f4dc483c39590"
+    },
+    "risk-comparison-50.json": {
+      "bytes": 12566,
+      "sha256": "8235b4df43483f2d42cab82768200be8c923f826d741dc6703636122e707154e"
+    },
+    "risk-fixture.cjs": {
+      "bytes": 2656,
+      "sha256": "ce7551b86159a992bdb598e5d74d414ecfa1841de41d44779537044e3416e02d"
+    }
+  }
+}
