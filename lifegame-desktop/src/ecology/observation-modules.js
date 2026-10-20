@@ -1602,6 +1602,140 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return {enabled,is,parameters,settings,hostTable,hostRule,adaptation,childAdaptation,infection,inoculum,takeInoculum,resistance,acquireResistance,beginResistance,entries,locate,ageInfo:parasiteAge,initial,summary,validate};
   })();
+  const HyperParasite = (() => {
+    const VERSION="hyper-state/1",P_SPECIES=["leafparasite","tideparasite"];
+    const enabled=w=>w?.config?.hyperParasiteModel==="hyper/1";
+    const is=q=>q?.species==="hyperparasite"&&q?.hyper?.version===VERSION;
+    function parameters(input={}){
+      const defaults={version:"hyper-parameters/1",maintenance:[0,.005,.010,.015,.020],hostTax:[0,.020,.030,.040,0],
+        developmentCost:[0,.005,.010,.015,0],biomass:[0,.01,.015,.02,.03],phaseThresholds:[0,0,4,12],maturity:12,life:80,development:12,
+        starvationTurns:8,entryRate:.6,entryDefense:.2,establishmentRate:.7,exclusionCost:.01,exclusionRate:.006,
+        emergenceMultiplier:6,emergenceRate:.6,prepareTurns:4,eggCost:.10,eggReserve:.09,eggCooldown:12,eggLifetime:4,
+        adultMoveCost:.002,adultFoodCap:.10,adultAssimilation:.5,capE:1,metaCosts:[0,.001,.002,.004,0],metaCaps:[0,.03,.05,.08,0],
+        informationCosts:[0,.002,.004,.008,0],promotionCaps:[0,.02,.05,.10,0],distortionCaps:[0,.05,.10,.20,0],
+        mutationRate:.10,mutationStep:.05,resistanceGain:.4,resistanceCap:.8,resistanceHalfLife:40,resistanceMaintenance:.005,
+        initialFraction:.2,initialAttachedFraction:.75,initialEnergy:.08};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 高次寄生の比較値");
+      const out={...structuredClone(defaults),...structuredClone(input)};
+      if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 高次寄生の定義版");
+      for(const [key,value]of Object.entries(out)){
+        if(key==="version")continue;
+        const valid=n=>typeof n==="number"&&Number.isFinite(n)&&n>=0&&n<=10000;
+        if(Array.isArray(defaults[key])){if(!Array.isArray(value)||value.length!==defaults[key].length||value.some(n=>!valid(n)))throw Error("SETTINGS_INVALID: 高次寄生 "+key);}
+        else if(!valid(value))throw Error("SETTINGS_INVALID: 高次寄生 "+key);
+      }
+      for(const key of ["maturity","life","starvationTurns","prepareTurns","eggCooldown","eggLifetime"])if(!Number.isSafeInteger(out[key])||out[key]<1)throw Error("SETTINGS_INVALID: 高次寄生のT");
+      for(const key of ["entryRate","entryDefense","establishmentRate","exclusionRate","emergenceRate","adultAssimilation","mutationRate","mutationStep","resistanceGain","resistanceCap","initialFraction","initialAttachedFraction"])if(out[key]>1)throw Error("SETTINGS_INVALID: 高次寄生の率");
+      if(out.life<=out.maturity||out.capE<out.initialEnergy||out.resistanceCap>.8||out.resistanceHalfLife<=0||out.development<=0||
+        out.eggCost<out.eggReserve||out.eggReserve<out.biomass[1]||out.eggReserve-out.biomass[1]>out.capE||
+        out.maintenance.slice(1).some(n=>n<=0)||out.developmentCost.slice(1,4).some(n=>n<=0)||out.metaCosts.slice(1,4).some(n=>n<=0)||out.informationCosts.slice(1,4).some(n=>n<=0)||
+        [out.exclusionCost,out.emergenceMultiplier,out.eggCost,out.adultMoveCost,out.resistanceMaintenance].some(n=>n<=0)||
+        out.biomass[0]!==0||out.biomass.slice(1).some((n,i)=>n<=0||(i>0&&n<out.biomass[i]))||
+        out.phaseThresholds[0]!==0||out.phaseThresholds[1]!==0||out.phaseThresholds[2]<=0||out.phaseThresholds[3]<=out.phaseThresholds[2]||
+        out.metaCaps.some(n=>n>1)||out.promotionCaps.some(n=>n>1)||out.distortionCaps.some(n=>n>1))throw Error("SETTINGS_INVALID: 高次寄生の収支/成長");
+      return out;
+    }
+    const settings=w=>w.config.hyperParasiteSettings;
+    const defaultGenes=()=>({hosts:{leafparasite:.5,tideparasite:.5},routes:{contact:.5},stages:{terminal:.5},investment:{promotion:.5,distortion:.5}});
+    function initialTraits(w,origin){return {genes:defaultGenes(),preference:Object.fromEntries(P_SPECIES.map(id=>[id,H.round(.25+.5*r(w,"hyper/host-preference",0,origin,id))])),
+      bias:{axis:Math.floor(r(w,"hyper/bias-axis",0,origin)*5),sign:r(w,"hyper/bias-sign",0,origin)<.5?-1:1},parents:[],generation:0,mutation:{occurred:false,changes:[]}};}
+    function childTraits(w,parent,origin,turn=w.turn){
+      const a=parent.hyper??parent.traits??parent,p=settings(w),traits={genes:structuredClone(a.genes??defaultGenes()),preference:structuredClone(a.preference??initialTraits(w,origin).preference),
+        bias:structuredClone(a.bias??initialTraits(w,origin).bias),parents:[parent.parentId??parent.id],generation:(a.generation??parent.generation??0)+1,mutation:{occurred:false,changes:[]}};
+      if(r(w,"hyper/mutation",turn,origin)<p.mutationRate){
+        const g=traits.genes,keys=Object.keys(g).flatMap(group=>Object.keys(g[group]).map(key=>[group,key])),first=keys[Math.floor(r(w,"hyper/mutation-key",turn,origin)*keys.length)],sign=r(w,"hyper/mutation-sign",turn,origin)<.5?-1:1,
+          choices=keys.filter(key=>key!==first&&(key[0]==="investment")===(first[0]==="investment")&&(sign>0?g[key[0]][key[1]]>0:g[key[0]][key[1]]<1))
+            .sort((a,b)=>hash(w,"hyper/mutation-tradeoff",turn,origin,a)-hash(w,"hyper/mutation-tradeoff",turn,origin,b)),second=choices[0];
+        if(second){const value=g[first[0]][first[1]],other=g[second[0]][second[1]],step=Math.min(p.mutationStep,sign>0?1-value:value,sign>0?other:1-other);
+          if(step>0){g[first[0]][first[1]]=H.round(value+sign*step);g[second[0]][second[1]]=H.round(other-sign*step);traits.mutation={occurred:true,changes:[{key:first.join("/"),delta:sign*step},{key:second.join("/"),delta:-sign*step}]};}}
+      }
+      return traits;
+    }
+    function create(w,pId,turn=w.turn,origin=pId,traits=null){
+      if(!enabled(w))throw Error("SETTINGS_INVALID: 高次寄生モデルの指定が必要です");
+      const t=traits?.traits??traits??initialTraits(w,origin),p=settings(w);
+      return {id:"q:"+origin+":"+turn,species:"hyperparasite",hostId:pId,phase:1,age:0,bornAt:turn,birthLife:p.life,maturity:p.maturity,E:0,B:p.biomass[1],
+        ready:0,counter:0,special:null,modulation:null,counts:[0,0,0],seen:[],
+        hyper:{version:VERSION,state:"egg",development:0,experience:0,settledAt:turn,pauseUntil:turn,starvationRun:0,prepareUntil:0,
+          genes:structuredClone(t.genes??defaultGenes()),preference:structuredClone(t.preference??initialTraits(w,origin).preference),bias:structuredClone(t.bias??initialTraits(w,origin).bias),
+          parents:structuredClone(t.parents??[]),generation:t.generation??0,mutation:structuredClone(t.mutation??{occurred:false,changes:[]}),
+          origin:traits?"descendant":"initial",last:{turn,maintenanceE:0,developmentE:0,metaE:0,informationE:0,maintained:false,developed:false,progress:0,blockers:[]}}};
+    }
+    function adaptation(q,species,route="contact",stage="terminal"){const g=(q.hyper??q.traits??q).genes;return ((g?.hosts[species]??.5)+(g?.routes[route]??.5)+(g?.stages[stage]??.5))/3;}
+    function acquireResistance(w,p){
+      if(!enabled(w)||!PrimaryParasite.is(p))return;
+      const s=settings(w),a=p.hyperResistance??={version:"hyper-resistance/1",value:0,effective:0,updatedAt:w.turn,paidAt:-1,lastPaidE:0};
+      a.value=H.round(Math.min(s.resistanceCap,a.value*Math.pow(.5,Math.max(0,w.turn-a.updatedAt)/s.resistanceHalfLife)+s.resistanceGain));a.updatedAt=w.turn;return a;
+    }
+    function beginResistance(w,p){
+      const a=p.hyperResistance;if(!enabled(w)||!a||a.paidAt===w.turn)return {paid:0,required:0};
+      const s=settings(w);a.value=H.round(a.value*Math.pow(.5,Math.max(0,w.turn-a.updatedAt)/s.resistanceHalfLife));a.updatedAt=w.turn;a.paidAt=w.turn;
+      const required=H.round(s.resistanceMaintenance*a.value),paid=H.round(Math.min(p.E,required));p.E=H.round(p.E-paid);dissipate(w,paid);a.lastPaidE=paid;a.effective=required>0?H.round(a.value*paid/required):a.value;return {paid,required};
+    }
+    const resistance=(w,p)=>p.hyperResistance?.paidAt===w.turn?p.hyperResistance.effective:0;
+    function entries(w){
+      if(!enabled(w))return [];
+      const out=[],seen=new Set();
+      for(const e of PrimaryParasite.entries(w)){const q=e.p.q;if(is(q)&&!seen.has(q.id)){seen.add(q.id);out.push({q,p:e.p,host:e.host,hostP:e.p,hostH:e.host,carrier:e.carrier,kind:"attached",location:e.kind,cell:e.cell});}}
+      for(const q of w.searchQ||[])if(is(q)&&!seen.has(q.id)){seen.add(q.id);out.push({q,p:null,host:null,hostP:null,hostH:null,carrier:q,kind:"free",location:"free",cell:q.cell});}return out;
+    }
+    function locate(w,id){return entries(w).find(e=>e.q.id===id||e.p?.id===id||e.host?.id===id)??null;}
+    function qAge(q){return {enabled:is(q),applicable:is(q),age:q.age,birthLife:q.birthLife,life:q.birthLife,matureAt:q.maturity,elderlyAt:Math.floor(q.birthLife*.75),
+      stage:q.age<q.maturity?"juvenile":q.age<q.birthLife*.75?"adult":"elderly"};}
+    function initial(w){
+      if(!enabled(w))return;
+      const s=settings(w),all=PrimaryParasite.entries(w).filter(e=>P_SPECIES.includes(e.p.species)),direct=w.config.founderCounts?.parasites?.hyperparasite,
+        planned=w.config.enabled.Q?(direct??Math.floor(all.length*s.initialFraction)):0,freePlanned=Math.floor(planned*(1-s.initialAttachedFraction)),attachedPlanned=planned-freePlanned;
+      w.searchQ=[];w.hyperInocula=[];
+      const candidates=all.filter(e=>e.kind==="host"&&!e.p.q&&e.p.stage==="terminal"&&Number.isInteger(e.p.matureAt)&&
+        Math.max(e.p.matureAt+1,-s.life+1)<=Math.min(e.p.matureAt+3,0)).sort((a,b)=>hash(w,"hyper/initial-attached",0,a.p.id)-hash(w,"hyper/initial-attached",0,b.p.id)||H.compare(a.p.id,b.p.id));
+      const report={version:"hyper-initial/1",compatibleP:all.length,requested:direct??null,planned,actual:0,shortage:0,
+        attached:{planned:attachedPlanned,actual:0,shortage:0},free:{planned:freePlanned,actual:0,shortage:0},reasons:[]};
+      for(const e of candidates.slice(0,attachedPlanned)){
+        const origin="initial:"+e.p.id,earliest=Math.max(e.p.matureAt+1,-s.life+1),latest=Math.min(e.p.matureAt+3,0),bornAt=earliest+Math.floor(r(w,"hyper/initial-infected",0,origin)*(latest-earliest+1)),q=create(w,e.p.id,0,origin),age=Math.max(0,-bornAt),
+          experience=Math.min(s.phaseThresholds[3],age),phase=experience>=s.phaseThresholds[3]?3:experience>=s.phaseThresholds[2]?2:1;
+        Object.assign(q,{age,bornAt,phase,B:s.biomass[phase],E:s.initialEnergy});Object.assign(q.hyper,{state:phase===1?"egg":phase===2?"larva":"preparation",experience,development:Math.min(s.development,age),origin:"initial",initialExperience:experience});
+        e.p.q=q;report.attached.actual++;
+      }
+      const cells=w.tiles.map((tile,cell)=>({tile,cell})).filter(e=>!e.tile.blocked).map(e=>e.cell)
+        .sort((a,b)=>hash(w,"hyper/initial-free",0,null,a)-hash(w,"hyper/initial-free",0,null,b)||a-b);
+      for(const cell of cells.slice(0,freePlanned)){
+        const origin="initial:free:"+cell,q=create(w,null,0,origin),age=s.maturity+Math.floor(r(w,"hyper/initial-adult-age",0,origin)*Math.min(20,s.life-s.maturity));
+        Object.assign(q,{phase:4,cell,age,bornAt:-age,B:s.biomass[4],E:s.initialEnergy});Object.assign(q.hyper,{state:"adult",development:s.development,experience:s.phaseThresholds[3],origin:"initial",initialExperience:s.phaseThresholds[3]});w.searchQ.push(q);report.free.actual++;
+      }
+      for(const key of ["attached","free"]){report[key].shortage=report[key].planned-report[key].actual;report.actual+=report[key].actual;if(report[key].shortage)report.reasons.push(key+":"+(key==="attached"?"初回成熟窓と整合する終宿主P不足 ":"合法成体セル不足 ")+report[key].shortage);}
+      report.shortage=planned-report.actual;w.config.hyperParasiteInitial=report;
+      if(direct!==undefined&&report.shortage)throw Error("PLACEMENT_SHORTAGE: 抑環 指定"+direct+" / 配置可能"+report.actual+"（"+report.reasons.join("、")+"）");
+      if(report.shortage)w.warnings.push("高次寄生:予定"+planned+" / 実配置"+report.actual+"。"+report.reasons.join("、"));summary(w);return report;
+    }
+    function summary(w){
+      if(!enabled(w))return;
+      const out={definition:"hyper-parasite-observed/1",turn:w.turn,count:0,attached:0,free:0,migrating:0,mature:0,phases:[0,0,0,0],states:{egg:0,larva:0,preparation:0,adult:0},biomassB:0,reserveE:0,
+        invading:{records:0,amount:0,reserveE:0},resistance:{hosts:0,stored:0,effective:0,paidE:0}};
+      for(const e of entries(w)){const q=e.q;out.count++;out[e.kind]++;if(e.carrier.kind==="primary-migration")out.migrating++;if(q.age>=q.maturity)out.mature++;out.phases[q.phase-1]++;out.states[q.hyper.state]++;out.biomassB+=q.B;out.reserveE+=q.E;}
+      for(const i of w.hyperInocula||[]){out.invading.records++;out.invading.reserveE+=i.E;out.invading.amount+=i.E/settings(w).eggReserve;}
+      for(const {p}of PrimaryParasite.entries(w))if(p.hyperResistance){const a=p.hyperResistance;out.resistance.hosts++;out.resistance.stored+=a.value;if(a.paidAt===w.turn){out.resistance.effective+=a.effective;out.resistance.paidE+=a.lastPaidE;}}
+      const round=value=>{for(const key of Object.keys(value))if(typeof value[key]==="number")value[key]=H.round(value[key]);else if(value[key]&&typeof value[key]==="object")round(value[key]);};round(out);w.hyperParasiteSummary=out;return out;
+    }
+    function validate(w){
+      if(!enabled(w))return [];
+      const errors=[],seen=new Set(),sameKeys=(a,b)=>a&&typeof a==="object"&&!Array.isArray(a)&&Object.keys(a).sort().join("|")===Object.keys(b).sort().join("|");
+      const validTraits=a=>{
+        const expected=defaultGenes();return a&&sameKeys(a.genes,expected)&&Object.keys(expected).every(key=>sameKeys(a.genes[key],expected[key]))&&
+          Object.values(a.genes).flatMap(g=>Object.values(g)).every(n=>Number.isFinite(n)&&n>=0&&n<=1)&&a.genes.investment.promotion+a.genes.investment.distortion<=1+1e-6&&
+          sameKeys(a.preference,expected.hosts)&&Object.values(a.preference).every(n=>Number.isFinite(n)&&n>=0&&n<=1)&&Number.isInteger(a.bias?.axis)&&a.bias.axis>=0&&a.bias.axis<5&&[-1,1].includes(a.bias?.sign);
+      };
+      for(const holder of [...w.organisms,...w.carcasses,...w.pending])if(holder.infection?.q){const q=holder.infection.q;if(!is(q))errors.push("HYPER_STATE:"+q.id);if(seen.has(q.id))errors.push("HYPER_ID:"+q.id);seen.add(q.id);}
+      for(const q of w.searchQ||[]){if(!is(q))errors.push("HYPER_STATE:"+q.id);if(seen.has(q.id))errors.push("HYPER_ID:"+q.id);seen.add(q.id);}
+      for(const {q,p,kind}of entries(w))if(![q.E,q.B,q.age,q.hyper.experience,q.hyper.development].every(n=>Number.isFinite(n)&&n>=0)||
+        q.E>settings(w).capE+1e-6||!Number.isInteger(q.phase)||q.phase<1||q.phase>4||!Number.isFinite(q.bornAt)||q.birthLife<=0||!validTraits(q.hyper)||
+        !["egg","larva","preparation","adult"].includes(q.hyper.state)||(kind==="free"&&(q.phase!==4||q.hyper.state!=="adult"||!Number.isInteger(q.cell)||!w.tiles[q.cell]||q.hostId!==null))||
+        (p&&(q.hostId!==p.id||q.phase===4||q.hyper.state==="adult")))errors.push("HYPER_STATE:"+q.id);
+      for(const i of w.hyperInocula||[])if(!Number.isFinite(i.E)||i.E<0||!Number.isSafeInteger(i.expires)||!validTraits(i.traits??i)||i.kind!=="invading")errors.push("HYPER_INOCULUM:"+i.id);
+      return errors;
+    }
+    return {enabled,is,parameters,settings,create,childTraits,adaptation,entries,locate,ageInfo:qAge,summary,initial,validate,resistance,acquireResistance,beginResistance};
+  })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
   // Explicitly enabled only for fixed production worlds; never serialized.
@@ -1920,6 +2054,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(c.primaryParasiteModel==="primary/1"){
       c.primaryParasiteSettings=PrimaryParasite.parameters(c.primaryParasiteSettings);c.ageModel="life/1";
     }else if(c.primaryParasiteSettings!==undefined)throw Error("SETTINGS_INVALID: 一次寄生モデルの指定が必要です");
+    if(c.hyperParasiteModel!==undefined&&c.hyperParasiteModel!=="hyper/1")throw Error("SETTINGS_INVALID: 高次寄生モデル");
+    if(c.hyperParasiteModel==="hyper/1"){
+      if(c.primaryParasiteModel!=="primary/1")throw Error("SETTINGS_INVALID: 高次寄生には一次寄生モデルが必要です");
+      c.hyperParasiteSettings=HyperParasite.parameters(c.hyperParasiteSettings);
+    }else if(c.hyperParasiteSettings!==undefined)throw Error("SETTINGS_INVALID: 高次寄生モデルの指定が必要です");
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
@@ -2156,7 +2295,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const infection = (p) => {
       if (p) {
         E += p.E+(PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0);
-        if (p.q) E += p.q.E;
+        if (p.q) E += p.q.E+(HyperParasite.enabled(w)&&HyperParasite.is(p.q)?p.q.B:0);
       }
     };
     for (const o of w.organisms) {
@@ -2175,8 +2314,9 @@ return {settings,attach,region,level,factor,begin,finish};
       infection(a.infection);
     }
     for (const a of w.pending) infection(a.infection);
-    for (const q of w.searchQ || []) E += q.E;
+    for (const q of w.searchQ || []) E += q.E+(HyperParasite.enabled(w)&&HyperParasite.is(q)?q.B:0);
     if(PrimaryParasite.enabled(w))for(const i of w.primaryInocula||[])E+=i.E;
+    if(HyperParasite.enabled(w))for(const i of w.hyperInocula||[])E+=i.E;
     for (const t of w.tiles) M += t.soilM;
     return { E: H.round(E), M: H.round(M) };
   }
@@ -2662,9 +2802,10 @@ return {settings,attach,region,level,factor,begin,finish};
     if (config.enabled.Q && !config.enabled.P)
       w.warnings.push("一次寄生虫が無効なため高次寄生虫は初期0です");
     if(PrimaryParasite.enabled(w))PrimaryParasite.initial(w);
-    if(config.ecologyRevision === "observation/4.1") {
+    if(config.ecologyRevision === "observation/4.1")config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
+    if(HyperParasite.enabled(w))HyperParasite.initial(w);
+    else if(config.ecologyRevision === "observation/4.1") {
       w.searchQ=[];
-      config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
       config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.min(Math.max(4,Math.min(16,Math.ceil(config.width*config.height/400))),Math.floor(w.organisms.filter(o=>o.infection).length/2)),createdSearchQ:0};
       const manualQ=config.founderCounts?.parasites.hyperparasite;
       if(manualQ!==undefined)config.parasiteInitial.targetSearchQ=manualQ;
@@ -2693,6 +2834,7 @@ return {settings,attach,region,level,factor,begin,finish};
     Colony.summary(w);
     LargePlant.summary(w);
     PrimaryParasite.summary(w);
+    HyperParasite.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -2713,6 +2855,7 @@ return {settings,attach,region,level,factor,begin,finish};
     };
   }
   function hyper(w, pId, turn = w.turn) {
+    if(HyperParasite.enabled(w))return HyperParasite.create(w,pId,turn,pId);
     return {
       id: "q:" + pId + ":" + turn,
       species: "hyperparasite",
@@ -2729,7 +2872,7 @@ return {settings,attach,region,level,factor,begin,finish};
   }
   function loseInfection(w, p) {
     if (p) {
-      dissipate(w, p.E + (PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0) + (p.q?.E || 0));
+      dissipate(w, p.E + (PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0) + (p.q?.E || 0) + (HyperParasite.enabled(w)&&HyperParasite.is(p.q)?p.q.B:0));
       if (w.tallies) {
         w.tallies.deaths[p.species]++;
         if (p.q) w.tallies.deaths.hyperparasite++;
@@ -2748,6 +2891,7 @@ return {settings,attach,region,level,factor,begin,finish};
     LargePlant,
     Ryouki,
     PrimaryParasite,
+    HyperParasite,
     activeSpecies,
     activeMain,
     initialRank,
@@ -3164,6 +3308,17 @@ function(require,module){
           !S.oneStep(w,o.cell,cell)||list.some(a=>a.id===target.id))continue;
       list.push({type:"plant",id:target.id,obj:target,cell,tag:"animal",amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB),healing:1});
     }
+    // Free IV Q are finite living prey, distinct from hosted Q and inocula.
+    // Reuse the normal ration arbitration rather than grant a second free meal.
+    if(S.HyperParasite?.enabled(w)&&main&&!isRyouki(w,o)&&(S.D.diets[spec.diet]?.hunt||0)>=0){
+      for(const cell of S.nearby(w,o.cell,1,true)){
+        if(!S.oneStep(w,o.cell,cell))continue;
+        for(const q of ctx.hyperAdultsByCell?.get(cell)||[]){
+          if(!S.HyperParasite.is(q)||q.phase!==4||q.E+q.B<=0)continue;
+          list.push({type:"hyper",id:q.id,obj:q,cell,tag:"animal",amount:Math.min(1,q.E+q.B),healing:1});
+        }
+      }
+    }
     return list;
   }
   function chooseSource(w, o, list, ctx) {
@@ -3214,6 +3369,10 @@ function(require,module){
   }
   function feed(w, ctx, transfer) {
     let m = S.maps(w);
+    if(S.HyperParasite?.enabled(w)){
+      ctx.hyperAdultsByCell=new Map();
+      for(const q of w.searchQ||[]){const rows=ctx.hyperAdultsByCell.get(q.cell)||[];rows.push(q);ctx.hyperAdultsByCell.set(q.cell,rows);}
+    }
     for (let round = 0; round < 2; round++) {
       const requests = [];
       for (const o of w.organisms)
@@ -3239,6 +3398,7 @@ function(require,module){
         const obj = a.obj;
         if (
           (obj.q !== undefined && obj.q <= 0) ||
+          (a.type === "hyper" && obj.E + obj.B <= 0) ||
           (a.type === "plant" && (S.edibleB(obj) <= 0 || obj.HP <= 0))
         )
           continue;
@@ -3256,6 +3416,10 @@ function(require,module){
             G: 0,
           };
           obj.soilM = S.round(obj.soilM - amount.M);
+        } else if (a.type === "hyper") {
+          amount={E:S.round(obj.E+obj.B),M:0,G:obj.B};
+          obj.E=0;obj.B=0;
+          ctx.primaryHooks.hyperAdultDeath(w,ctx,obj,"predation");
         } else if (a.type === "plant") {
           const p = ctx.traits.get(o.id),
             need =
@@ -5342,6 +5506,219 @@ function(require,module){
   "use strict";
   const required = { first: 4, middle: 6, extra: 6, terminal: 8 };
   const primaryEnabled=w=>S.PrimaryParasite?.enabled(w)===true;
+  const hyperEnabled=w=>S.HyperParasite?.enabled(w)===true;
+  const hyperFlowKeys=["exposures","invasionAttempts","invaded","established","cleared","emergenceAttempts","emergenceFailed","emerged","eggsLaid","offspringEstablished","fedE","moved","preyed","maintenanceE","developmentE","metaE","informationE","emergenceE","movementE","laidE"];
+  function emptyHyperFlow(w) {
+    return {definition:"hyper-parasite-flow/1",turn:w.turn,bySpecies:{hyperparasite:Object.fromEntries(hyperFlowKeys.map(k=>[k,0]))}};
+  }
+  function hyperFlow(w,ctx,key,value=1) {
+    ctx.hyperFlow??=emptyHyperFlow(w);
+    const row=ctx.hyperFlow.bySpecies.hyperparasite;row[key]=S.round(row[key]+value);
+  }
+  function hyperEvent(ctx,subject,type,extra={}) {
+    S.record(ctx,subject,"hyper-"+type,{species:"hyperparasite",...extra});
+  }
+  function hyperLast(w,q) {
+    if(q.hyper.last?.turn!==w.turn)q.hyper.last={turn:w.turn,outcome:null,outcomeAt:null,reason:null,blockers:[],taxE:0,maintenanceE:0,developmentE:0,metaE:0,informationE:0,emergenceE:0,feedingE:0,movementE:0,laidE:0,maintained:false,developed:false,progress:0,modulation:0};
+    return q.hyper.last;
+  }
+  function hyperOutcome(w,q,outcome,reason=null) {
+    Object.assign(hyperLast(w,q),{outcome,outcomeAt:w.turn,reason});
+  }
+  function hyperCost(q,p) {
+    return S.clamp(1-.5*(S.HyperParasite.adaptation(q,p.species,"contact","terminal")-.5),.75,1.25);
+  }
+  function hyperSpend(w,q,cost) {
+    const paid=S.round(Math.min(q.E,Math.max(0,cost)));q.E=S.round(q.E-paid);S.dissipate(w,paid);return paid;
+  }
+  function hyperDetachTraces(w,host,p,q,hostOnly=false) {
+    if(!hyperEnabled(w)||!S.HyperParasite.is(q))return;
+    for(const holder of hostOnly?[host]:[host,p])for(const trace of holder?.hyperTraces||[])
+      if(trace.qId===q.id&&trace.detachedAt===null)trace.detachedAt=w.turn;
+  }
+  function hyperTrace(w,host,p,q,paid) {
+    if(paid<=0)return;
+    const z=S.HyperParasite.settings(w),phase=q.phase,ratio=S.clamp(paid/z.informationCosts[phase],0,1),
+      investment=q.hyper.genes.investment, promotion=z.promotionCaps[phase]*ratio*investment.promotion,
+      distortion=z.distortionCaps[phase]*ratio*investment.distortion;
+    for(const holder of [host,p]){
+      if(!holder)continue;
+      holder.hyperTraces??=[];
+      const old=holder.hyperTraces.find(a=>a.qId===q.id),oldFactor=old?.detachedAt===null?1:old?Math.pow(.5,Math.max(0,w.turn-old.detachedAt)/50):0,
+        heldPromotion=Math.min(z.promotionCaps[phase]*investment.promotion,(old?.promotion||0)*oldFactor+promotion),
+        heldDistortion=Math.min(z.distortionCaps[phase]*investment.distortion,(old?.distortion||0)*oldFactor+distortion),
+        trace={version:"hyper-trace/1",qId:q.id,pId:p.id,sourceId:host.id,
+        firstAt:old?.firstAt??w.turn,updatedAt:w.turn,detachedAt:null,phase,paidE:S.round((old?.paidE||0)+paid),
+        promotion:S.round(heldPromotion),distortion:S.round(heldDistortion),direction:structuredClone(q.hyper.bias||{axis:0,sign:1}),
+        strength:S.round(heldPromotion+heldDistortion)};
+      const candidates=[...holder.hyperTraces.filter(a=>a.qId!==q.id),trace].filter(a=>a.detachedAt===null||w.turn-a.detachedAt<100);
+      candidates.sort((a,b)=>{
+        const value=t=>t.strength*(t.detachedAt===null?1:Math.pow(.5,(w.turn-t.detachedAt)/50));
+        return value(b)-value(a)||S.compare(a.qId,b.qId);
+      });
+      holder.hyperTraces=candidates.slice(0,2);
+    }
+  }
+  function hyperExclude(w,ctx,host,reason="immunity") {
+    if(!hyperEnabled(w))return false;
+    const p=host.infection,q=p?.q;if(!S.HyperParasite.is(q))return false;
+    hyperDetachTraces(w,host,p,q);
+    if(["immunity","groom"].includes(reason)){S.HyperParasite.acquireResistance(w,p);hyperFlow(w,ctx,"cleared");}
+    hyperOutcome(w,q,"cleared",reason);p.q=null;S.dissipate(w,q.E+q.B);
+    ctx.deaths.push({species:"hyperparasite",reason});hyperEvent(ctx,host,"cleared",{parasite:q.id,target:p.id,hostSpecies:p.species,reason});return true;
+  }
+  function hyperAdultDeath(w,ctx,q,reason="predation") {
+    if(!hyperEnabled(w)||!S.HyperParasite.is(q)||(w.searchQ||[]).every(a=>a.id!==q.id))return false;
+    S.dissipate(w,q.E+q.B);q.E=0;q.B=0;w.searchQ=w.searchQ.filter(a=>a.id!==q.id);
+    ctx.deaths.push({species:"hyperparasite",reason});if(reason==="predation")hyperFlow(w,ctx,"preyed");
+    hyperOutcome(w,q,"dead",reason);hyperEvent(ctx,q,"death",{parasite:q.id,reason});return true;
+  }
+  function hyperExpose(w,ctx,parent,host) {
+    if(!hyperEnabled(w)||!S.HyperParasite.is(parent)||parent.phase!==4||parent.hyper.state!=="adult")return {invaded:false,reason:"parent"};
+    const z=S.HyperParasite.settings(w),p=host?.infection,last=hyperLast(w,parent);
+    if(!host||host.HP<=0||!S.oneStep(w,parent.cell,host.cell)||!S.sight(w,parent.cell,host.cell))return {invaded:false,reason:"contact"};
+    if(parent.bornAt>=w.turn||parent.hyper.detachedAt>=w.turn||parent.ready>w.turn||parent.age<(parent.maturity??z.maturity))return {invaded:false,reason:"parent"};
+    // Selection does not reveal the exact internal clock. Actual contact must
+    // still pass this strict, one-use biological compatibility window.
+    if(!S.PrimaryParasite.is(p)||!["leafparasite","tideparasite"].includes(p.species)||!windowOpen(w,p))return {invaded:false,reason:"window"};
+    if(p.q||(w.hyperInocula||[]).some(i=>i.hostId===p.id&&i.E>0))return {invaded:false,reason:"occupied"};
+    if(ctx.movedInfections.has(p.id)||w.turn<=p.primary.pauseUntil)return {invaded:false,reason:"migration"};
+    const factor=hyperCost(parent,p),cost=S.round(z.eggReserve+(z.eggCost-z.eggReserve)*factor);
+    if(parent.E+1e-8<cost)return {invaded:false,reason:"nutrition"};
+    parent.E=S.round(parent.E-cost);last.laidE=S.round(last.laidE+cost);hyperFlow(w,ctx,"laidE",cost);parent.ready=w.turn+z.eggCooldown;
+    hyperFlow(w,ctx,"exposures");hyperFlow(w,ctx,"invasionAttempts");
+    const resistance=S.HyperParasite.resistance(w,p),chance=S.clamp(z.entryRate*(1-z.entryDefense)*(1-.5*resistance),0,1);
+    if(S.r(w,"hyper/invasion",w.turn,parent.id,p.id)>=chance){S.dissipate(w,cost);hyperOutcome(w,parent,"invasion-failed","invasion");hyperEvent(ctx,host,"invasion-failed",{parasite:parent.id,target:p.id,cost});return {invaded:false,reason:"invasion"};}
+    const id="hyper-inoculum:"+parent.id+":"+w.turn,traits=S.HyperParasite.childTraits(w,parent,id,w.turn);
+    const i={id,kind:"invading",parentId:parent.id,sourceId:parent.id,hostId:p.id,carrierId:host.id,cell:host.cell,
+      E:z.eggReserve,createdAt:w.turn,invadedAt:w.turn,establishAt:w.turn+1,expires:w.turn+z.eggLifetime,
+      matureAt:p.matureAt,route:"contact",...traits};
+    w.hyperInocula??=[];w.hyperInocula.push(i);S.dissipate(w,cost-z.eggReserve);
+    hyperFlow(w,ctx,"invaded");hyperFlow(w,ctx,"eggsLaid");hyperOutcome(w,parent,"laid");
+    hyperEvent(ctx,host,"invaded",{parasite:parent.id,target:p.id,inoculum:id,establishAt:i.establishAt,cost});
+    return {invaded:true,reason:null,id};
+  }
+  function hyperEstablish(w,ctx) {
+    if(!hyperEnabled(w))return;
+    const z=S.HyperParasite.settings(w),holders=new Map(primaryHolders(w).map(host=>[host.infection.id,host]));
+    const due=(w.hyperInocula||[]).slice().sort((a,b)=>S.compare(a.id,b.id)),keep=[];
+    for(const i of due){
+      if(i.establishAt>w.turn&&i.expires>w.turn){keep.push(i);continue;}
+      const host=holders.get(i.hostId),p=host?.infection;
+      const proof=Number.isSafeInteger(i.matureAt)&&i.invadedAt>i.matureAt&&i.invadedAt<=i.matureAt+3&&i.establishAt===i.invadedAt+1;
+      const timely=proof&&i.establishAt===w.turn&&i.invadedAt<i.expires;
+      const valid=timely&&host&&w.organisms.includes(host)&&host.HP>0&&S.PrimaryParasite.is(p)&&p.matureAt===i.matureAt&&!p.q&&!ctx.movedInfections.has(p.id)&&w.turn>p.primary.pauseUntil;
+      const a=valid?S.HyperParasite.adaptation({hyper:{genes:i.genes}},p.species,"contact","terminal"):.5,
+        chance=S.clamp(z.establishmentRate*(1-(valid?S.HyperParasite.resistance(w,p):0))*(1+.5*(a-.5)),0,1);
+      if(valid&&i.E>=z.biomass[1]&&S.r(w,"hyper/establishment",w.turn,i.id,p.id)<chance){
+        const q=S.HyperParasite.create(w,p.id,w.turn,i.id,i);q.B=z.biomass[1];q.E=S.round(i.E-q.B);p.q=q;
+        q.hyper.state="egg";q.hyper.settledAt=w.turn;q.hyper.pauseUntil=w.turn;
+        ctx.births.push("hyperparasite");hyperFlow(w,ctx,"established");if(i.parentId)hyperFlow(w,ctx,"offspringEstablished");
+        hyperOutcome(w,q,"established");hyperEvent(ctx,host,"established",{parasite:q.id,target:p.id,hostSpecies:p.species,parent:i.parentId,amount:i.E});
+      }else{
+        S.dissipate(w,i.E);hyperEvent(ctx,host||{id:i.hostId,cell:i.cell},"establishment-failed",{parasite:i.id,target:i.hostId,reason:valid?"establishment":"host-or-window",amount:i.E});
+      }
+    }
+    w.hyperInocula=keep;
+  }
+  function hyperBegin(w,ctx) {
+    if(!hyperEnabled(w)||ctx.hyperBegun)return;ctx.hyperBegun=true;ctx.hyperFlow??=emptyHyperFlow(w);
+    const z=S.HyperParasite.settings(w);
+    for(const host of primaryHolders(w))S.HyperParasite.beginResistance(w,host.infection);
+    hyperEstablish(w,ctx);
+    for(const host of primaryHolders(w)){
+      const p=host.infection,q=p.q;if(!S.HyperParasite.is(q))continue;
+      q.age=Math.max(q.age||0,w.turn-q.bornAt);const last=hyperLast(w,q);
+      if(q.age>=q.birthLife){hyperExclude(w,ctx,host,"age");continue;}
+      if(q.hyper.settledAt>=w.turn)continue;
+      if(p.E>=z.exclusionCost){
+        p.E=S.round(p.E-z.exclusionCost);S.dissipate(w,z.exclusionCost);
+        if(S.r(w,"hyper/exclusion",w.turn,p.id,q.id)<z.exclusionRate){hyperExclude(w,ctx,host,"immunity");continue;}
+      }
+      const phase=Math.min(3,q.phase),factor=hyperCost(q,p),tax=S.round(Math.min(p.E,z.hostTax[phase],z.capE-q.E));
+      p.E=S.round(p.E-tax);q.E=S.round(q.E+tax);last.taxE=tax;
+      const cost=S.round(z.maintenance[phase]*factor),paid=hyperSpend(w,q,cost);
+      last.maintenanceE=paid;last.maintained=paid+1e-8>=cost;hyperFlow(w,ctx,"maintenanceE",paid);
+      q.hyper.starvationRun=last.maintained?0:q.hyper.starvationRun+1;
+      if(!last.maintained)last.blockers.push("maintenance");
+      if(q.hyper.starvationRun>=z.starvationTurns){hyperExclude(w,ctx,host,"maintenance");continue;}
+      const developing=w.organisms.includes(host)&&host.HP>0&&!ctx.movedInfections.has(p.id)&&w.turn>Math.max(p.primary.pauseUntil,q.hyper.pauseUntil)&&q.hyper.development<z.development;
+      if(last.maintained&&developing){
+        const cost=S.round(z.developmentCost[phase]*factor),paid=hyperSpend(w,q,cost);last.developmentE=paid;
+        last.developed=paid+1e-8>=cost;hyperFlow(w,ctx,"developmentE",paid);
+        if(last.developed)last.progress=S.round(1-.5*S.HyperParasite.resistance(w,p));else last.blockers.push("development");
+      }
+      if(last.maintained&&(!developing||last.developed)&&w.organisms.includes(host)&&host.HP>0){
+        const meta=S.round(z.metaCosts[phase]*factor),paid=hyperSpend(w,q,meta);last.metaE=paid;hyperFlow(w,ctx,"metaE",paid);
+        const sign=q.hyper.bias?.sign??(q.modulation||1);last.modulation=meta>0?S.round(sign*z.metaCaps[phase]*Math.min(1,paid/meta)):0;
+        const info=S.round(z.informationCosts[phase]*factor),invest=hyperSpend(w,q,info);last.informationE=invest;hyperFlow(w,ctx,"informationE",invest);hyperTrace(w,host,p,q,invest);
+        if(p.primary.last)p.primary.last.induction=S.round(S.clamp(p.primary.last.induction*(1+last.modulation),0,1));
+      }
+    }
+  }
+  function hyperMature(w,ctx) {
+    if(!hyperEnabled(w)||ctx.hyperMatured)return;ctx.hyperMatured=true;
+    const z=S.HyperParasite.settings(w);
+    for(const host of w.organisms){
+      const p=host.infection,q=p?.q;if(!S.HyperParasite.is(q)||q.hyper.settledAt>=w.turn)continue;
+      const last=hyperLast(w,q),active=host.HP>0&&!ctx.movedInfections.has(p.id)&&w.turn>Math.max(p.primary.pauseUntil,q.hyper.pauseUntil);
+      if(!active){last.blockers.push("migration");continue;}
+      if(last.maintained){q.hyper.experience=S.round(q.hyper.experience+.25+(last.developed ? .75 : 0));if(last.progress>0)q.hyper.development=S.round(Math.min(z.development,q.hyper.development+last.progress));}
+      const phase=q.hyper.experience>=z.phaseThresholds[3]?3:q.hyper.experience>=z.phaseThresholds[2]?2:1;
+      if(phase>q.phase){const extra=S.round(z.biomass[phase]-q.B);if(q.E>=extra){q.E=S.round(q.E-extra);q.B=S.round(q.B+extra);q.phase=phase;}}
+      q.hyper.state=q.hyper.development>=z.development?"preparation":q.hyper.development>=1?"larva":"egg";
+      if(q.phase<3)last.blockers.push("phase");if(q.age<(q.maturity??z.maturity))last.blockers.push("maturity");
+      if(q.hyper.development<z.development)last.blockers.push("development");if(w.turn<q.hyper.prepareUntil)last.blockers.push("repreparation");
+      if(!last.maintained||q.phase<3||q.age<(q.maturity??z.maturity)||q.hyper.development<z.development||w.turn<q.hyper.prepareUntil)continue;
+      const cost=S.round(z.maintenance[q.phase]*hyperCost(q,p)*z.emergenceMultiplier),extra=S.round(z.biomass[4]-q.B);
+      if(q.E+1e-8<cost+extra){last.blockers.push("emergence-nutrition");continue;}
+      last.emergenceE=hyperSpend(w,q,cost);hyperFlow(w,ctx,"emergenceE",last.emergenceE);hyperFlow(w,ctx,"emergenceAttempts");q.hyper.prepareUntil=w.turn+z.prepareTurns;
+      const chance=S.clamp(z.emergenceRate*(1-S.HyperParasite.resistance(w,p)),0,1);
+      if(S.r(w,"hyper/emergence",w.turn,q.id,p.id)>=chance){hyperFlow(w,ctx,"emergenceFailed");hyperOutcome(w,q,"emergence-failed","resistance-or-chance");hyperEvent(ctx,host,"emergence-failed",{parasite:q.id,target:p.id,cost});continue;}
+      q.E=S.round(q.E-extra);q.B=S.round(q.B+extra);hyperDetachTraces(w,host,p,q);p.q=null;
+      host.infection=null;S.loseInfection(w,p);q.phase=4;q.hostId=null;q.cell=host.cell;q.hyper.state="adult";q.hyper.detachedAt=w.turn;
+      q.hyper.emergedFromPid=p.id;q.hyper.emergedFromHid=host.id;
+      w.searchQ??=[];w.searchQ.push(q);hyperFlow(w,ctx,"emerged");hyperOutcome(w,q,"emerged");
+      hyperEvent(ctx,q,"emerged",{parasite:q.id,source:p.id,host:host.id,hostSpecies:p.species,cost});
+    }
+  }
+  function hyperSearch(w,ctx) {
+    if(!hyperEnabled(w)||ctx.hyperSearched)return;ctx.hyperSearched=true;
+    const z=S.HyperParasite.settings(w),m=S.maps(w),resourceMap=m.resources,carcassMap=m.carcasses;
+    for(const q of (w.searchQ||[]).slice().sort((a,b)=>S.compare(a.id,b.id))){
+      if(!S.HyperParasite.is(q))continue;
+      q.age=Math.max(q.age||0,w.turn-q.bornAt);const last=hyperLast(w,q);
+      if(q.age>=q.birthLife){hyperAdultDeath(w,ctx,q,"age");continue;}
+      if(q.hyper.detachedAt>=w.turn||q.bornAt>=w.turn)continue;
+      const paid=hyperSpend(w,q,z.maintenance[4]);last.maintenanceE=paid;last.maintained=paid+1e-8>=z.maintenance[4];hyperFlow(w,ctx,"maintenanceE",paid);
+      q.hyper.starvationRun=last.maintained?0:q.hyper.starvationRun+1;
+      if(q.hyper.starvationRun>=z.starvationTurns){hyperAdultDeath(w,ctx,q,"maintenance");continue;}
+      const food=[...(resourceMap.get(q.cell)||[]).filter(a=>["plant","fungal","animal"].includes(S.FOOD[a.kind]?.tag)),...(carcassMap.get(q.cell)||[])].filter(a=>a.E>0).sort((a,b)=>S.compare(a.id,b.id));
+      let appetite=z.adultFoodCap;
+      for(const a of food){
+        const n=S.round(Math.min(appetite,a.E,(z.capE-q.E)/z.adultAssimilation));if(n<=0)continue;
+        const beforeE=a.E;a.E=S.round(a.E-n);
+        if(!a.kind&&Number.isFinite(a.G))a.G=S.round(a.G*a.E/beforeE);
+        const assimilated=S.round(n*z.adultAssimilation);q.E=S.round(q.E+assimilated);S.dissipate(w,n-assimilated);appetite=S.round(appetite-n);
+        last.feedingE=S.round(last.feedingE+assimilated);hyperFlow(w,ctx,"fedE",assimilated);
+        S.record(ctx,q,"feed",{source:a.id||"r:"+a.cell+":"+a.kind,sourceType:a.kind?"resource":"carcass",sourceSpecies:a.species||null,
+          tag:S.FOOD[a.kind]?.tag||"animal",amount:n,assimilated,to:a.cell,species:"hyperparasite"});
+      }
+      const cells=S.nearby(w,q.cell,3,true),candidates=[];
+      for(const cell of cells)for(const host of S.mainAt(m,cell))if(host.HP>0&&S.sight(w,q.cell,host.cell))candidates.push(host);
+      // External infestation is a visible cue. An internal infestation, its
+      // maturity clock, genes and energy are not privileged search knowledge.
+      const preference=host=>host.infection?.location==="external"?(q.hyper.preference?.[host.infection.species]??.5):.5;
+      const local=candidates.filter(host=>S.oneStep(w,q.cell,host.cell)).sort((a,b)=>preference(b)-preference(a)||S.hash(w,"hyper/contact-choice",w.turn,q.id,a.id)-S.hash(w,"hyper/contact-choice",w.turn,q.id,b.id));
+      if(q.ready<=w.turn&&q.age>=(q.maturity??z.maturity)&&local.length)hyperExpose(w,ctx,q,local[0]);
+      const predator=host=>S.spec(host).group==="main"&&!["plant"].includes(S.spec(host).diet)&&host.species!=="ryouki";
+      const threat=cell=>candidates.reduce((n,host)=>n+(predator(host)&&S.distance(w,cell,host.cell)<=1?1:0),0);
+      const cue=candidates.slice().sort((a,b)=>preference(b)-preference(a)||S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
+      const moves=[q.cell,...S.nearby(w,q.cell).filter(cell=>S.oneStep(w,q.cell,cell))];
+      moves.sort((a,b)=>threat(a)-threat(b)||(cue?S.distance(w,a,cue.cell)-S.distance(w,b,cue.cell):0)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b));
+      if(moves[0]!==q.cell&&q.E>=z.adultMoveCost){const from=q.cell;q.cell=moves[0];last.movementE=hyperSpend(w,q,z.adultMoveCost);hyperFlow(w,ctx,"moved");hyperFlow(w,ctx,"movementE",last.movementE);S.record(ctx,q,"move",{from,to:q.cell,species:"hyperparasite"});}
+    }
+  }
   const primaryStage=stage=>stage==="extra"?"terminal":stage;
   function emptyPrimaryFlow(w) {
     return {definition:"primary-parasite-flow/1",turn:w.turn,bySpecies:Object.fromEntries(["leafparasite","tideparasite"].map(species=>[species,
@@ -5395,6 +5772,7 @@ function(require,module){
       S.PrimaryParasite.acquireResistance(w,host,p.species,route);
       primaryFlow(w,ctx,p.species,route,"cleared");
     }
+    if(hyperEnabled(w))hyperDetachTraces(w,host,p,p.q);
     host.infection=null;S.loseInfection(w,p);primaryResult(w,p,route,"clear",reason);
     primaryEvent(ctx,host,"clear",{parasite:p.id,species:p.species,route,reason});return true;
   }
@@ -5536,9 +5914,10 @@ function(require,module){
         if(!last.developed)last.blockers.push("development");
         if(last.developed)last.progress=S.round(1-.5*S.PrimaryParasite.resistance(w,host,p.species,p.primary.route||"contact"));
       }
-      if(p.q){primaryBridgeQ(w,p.q,host.cell,p);entry.qFull=p.q.E>=.01;}
+      if(p.q&&!hyperEnabled(w)){primaryBridgeQ(w,p.q,host.cell,p);entry.qFull=p.q.E>=.01;}
       if(alive&&p.stage!=="extra"&&last.maintained&&(!canDevelop||last.developed)&&w.turn>p.primary.pauseUntil){const cost=settings.metaCosts[phase],paid=primarySpend(w,p,cost);last.metaE=paid;last.induction=cost>0?S.round(settings.metaCaps[phase]*Math.min(1,paid/cost)):0;}
     }
+    if(hyperEnabled(w))hyperBegin(w,ctx);
   }
   function produce(w,ctx,host,kind=null) {
     if(!primaryEnabled(w))return null;
@@ -5590,6 +5969,7 @@ function(require,module){
     if(S.r(w,"primary/migration",w.turn,p.id,target.id)>=chance){primaryEvent(ctx,target,"migration-failed",{parasite:p.id,species:p.species,route});return;}
     const pending={id:"primary-migration:"+p.id+":"+w.turn,kind:"primary-migration",infection:p,cell:target.cell,hostId:target.id,
       sourceId:source.id,sourceStage:p.stage,stage:rule.stage,route,createdAt:w.turn,establishAt:w.turn+1,expires:w.turn+2};
+    if(hyperEnabled(w))hyperDetachTraces(w,source,p,p.q,true);
     source.infection=null;p.hostId=pending.id;p.primary.pauseUntil=w.turn+1;p.primary.last.induction=0;
     w.pending.push(pending);ctx.movedInfections.add(p.id);
     primaryResult(w,p,route,"transferring");primaryFlow(w,ctx,p.species,route,"invaded");
@@ -5626,7 +6006,7 @@ function(require,module){
         if(p.stage==="terminal"&&p.counter>=settings.development.terminal&&p.matureAt===undefined){p.matureAt=w.turn;primaryResult(w,p,p.primary.route||"contact","mature");}
       }
       // Existing Q bridge only; I06 owns its new lifecycle and biomass.
-      const q=p.q;if(q&&entry.qFull&&!ctx.movedInfections.has(p.id)&&w.turn>p.primary.pauseUntil){
+      const q=p.q;if(q&&!hyperEnabled(w)&&entry.qFull&&!ctx.movedInfections.has(p.id)&&w.turn>p.primary.pauseUntil){
         const favored=w.config.advantageSettings?.hyperparasite===true;q.counter++;
         if(entry.qPhase===1&&q.counter>=(favored?1:4)){q.phase=2;q.counter=0;}
         else if(entry.qPhase===2&&q.counter>=(favored?2:8)&&q.E>=(favored ? .02 : .2)){
@@ -5636,10 +6016,17 @@ function(require,module){
         }
       }
     }
+    if(hyperEnabled(w))hyperMature(w,ctx);
   }
   function hostDeath(w,ctx,host,carcass) {
     if(!primaryEnabled(w))return false;
     const settings=S.PrimaryParasite.settings(w);
+    if(hyperEnabled(w)&&host.hyperTraces?.length){
+      // Death freezes the old source's paid trace; a surviving P in a carcass
+      // is a different holder, not continued remote investment into dead H.
+      for(const trace of host.hyperTraces)if(trace.detachedAt===null)trace.detachedAt=w.turn;
+      carcass.hyperSourceTraces=structuredClone(host.hyperTraces);
+    }
     for(const i of w.primaryInocula||[])if(i.hostId===host.id&&i.kind==="edible"){
       i.hostId=carcass.id;i.cell=carcass.cell;i.kind="carcass";i.route="carcass";
       i.expires=Math.min(i.expires,w.turn+settings.inoculumLifetime.carcass);
@@ -5648,7 +6035,7 @@ function(require,module){
     if(p.stage!=="extra"&&p.counter>=settings.development[p.stage]){
       if(p.species==="tideparasite"&&["shallow","deep"].includes(w.tiles[host.cell].terrain))produce(w,ctx,host,"water");
       carcass.infection=p;p.hostId=carcass.id;carcass.payloadExpires=Math.min(carcass.expires,w.turn+settings.inoculumLifetime.carcass);p.primary.last.induction=0;
-    }else S.loseInfection(w,p);
+    }else {if(hyperEnabled(w))hyperDetachTraces(w,host,p,p.q);S.loseInfection(w,p);}
     host.infection=null;return true;
   }
   function expireCarrier(w,ctx,carrier) {
@@ -5947,6 +6334,7 @@ function(require,module){
         fit: event.env === w.tiles[c.cell].env ? 2 : 1,
       });
     }
+    if(hyperEnabled(w))return out; // I07 will consume paid traces; no legacy live-resource rewriting.
     const byQ = new Map();
     for (const c of out) {
       if (c.growth) continue;
@@ -6012,7 +6400,7 @@ function(require,module){
       for(const host of w.organisms)if(host.HP>0)produce(w,ctx,host);
       for(const host of w.organisms){
         const p=host.infection,q=p?.q,rec=ctx.records.get(host.id);
-        if(!q||!rec||ctx.movedInfections.has(p.id))continue;
+        if(!q||hyperEnabled(w)||!rec||ctx.movedInfections.has(p.id))continue;
         const signals=[rec.emitted,rec.contacted,rec.information.length>0];
         q.counts=q.counts.map((v,i)=>Math.min(8,v+(signals[i]?1:0)));q.seen=q.seen.filter(a=>a.expires>w.turn);
       }
@@ -6187,6 +6575,7 @@ function(require,module){
   }
   function windowOpen(w,p){return p.stage==="terminal" && Number.isInteger(p.matureAt) && w.turn>p.matureAt && w.turn<=p.matureAt+3;}
   function search(w,ctx){
+    if(hyperEnabled(w))return hyperSearch(w,ctx);
     const current=w.searchQ || [],next=[],born=[];
     const infected=w.organisms.filter(o=>o.infection && !o.infection.q && windowOpen(w,o.infection) && !ctx.movedInfections.has(o.infection.id));
     const occupied=new Set(), searchMap=S.maps(w);
@@ -6207,6 +6596,7 @@ function(require,module){
     w.searchQ=[...next,...born];
   }
   return {
+    hyperBegin,hyperMature,hyperSearch,hyperExclude,hyperExpose,hyperEstablish,hyperAdultDeath,emptyHyperFlow,
     begin,hostDeath,expireCarrier,produce,expose,diffuse,exclude,emptyPrimaryFlow,
     clear,search,windowOpen,
     required,
@@ -6321,6 +6711,7 @@ function(require,module){
       ctx.primaryHooks=P;
       ctx.primaryFlow=P.emptyPrimaryFlow(w);
     }
+    if(S.HyperParasite?.enabled(w))ctx.hyperFlow=P.emptyHyperFlow(w);
     for (const o of w.organisms) {
       ctx.traits.set(o.id, S.phenotype(w, o));
       ctx.old.set(o.id, {
@@ -6436,6 +6827,9 @@ function(require,module){
     "primary-established": 2,
     "primary-transferred": 2,
     "primary-clear": 2,
+    "hyper-established": 2,
+    "hyper-emerged": 2,
+    "hyper-cleared": 2,
     attack: 3,
     feed: 4,
     care: 4,
@@ -6492,6 +6886,7 @@ function(require,module){
     for(const [id,old] of ctx.old) if(old.species) refs.set(id,old.species);
     const relations={};
     for(const o of w.organisms)if(o.infection){refs.set(o.infection.id,o.infection.species);if(o.infection.q)refs.set(o.infection.q.id,"hyperparasite");}
+    if(S.HyperParasite?.enabled(w))for(const {q} of S.HyperParasite.entries(w))refs.set(q.id,q.species);
     function add(from,to,type,amount=1) {
       if(!from||!to)return;
       const key=from+"|"+to+"|"+type;
@@ -6505,6 +6900,10 @@ function(require,module){
       if(S.PrimaryParasite?.enabled(w)){
         if(["primary-established","primary-transferred"].includes(e.type))add(e.species,refs.get(id),"infection");
         if(e.type==="primary-clear")add(refs.get(id),e.species,"clear");
+      }
+      if(S.HyperParasite?.enabled(w)){
+        if(e.type==="hyper-established")add("hyperparasite",e.hostSpecies||refs.get(e.target),"infection");
+        if(e.type==="hyper-cleared")add(e.hostSpecies||refs.get(e.target),"hyperparasite","clear");
       }
     }
     const map=S.maps(w),last=new Set(w.contactPairs||[]),pairs=[],contactEpisodes={},contactTurns={};
@@ -6562,9 +6961,10 @@ function(require,module){
     flowTelemetry.combat=combat;
     flowTelemetry.information={definition:"information-observed/1",emissions:ctx.infoEmissions||[],receipts:ctx.infoReceipts||[],effects:ctx.infoEffects||[],origins:[]};
     for(const a of w.resources)if(a.kind==="info"&&a.event&&refs.has(a.event.sourceId))flowTelemetry.information.origins.push({id:a.event.id,species:refs.get(a.event.sourceId),time:a.event.time});
-    return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
+    return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),...(S.HyperParasite?.enabled(w)?{hyperParasite:structuredClone(ctx.hyperFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
+    if(S.HyperParasite?.enabled(w))S.HyperParasite.summary(w);
     if(S.PrimaryParasite?.enabled(w))S.PrimaryParasite.summary(w);
     S.Ryouki.summary(w);
     S.Colony.summary(w);
@@ -6574,7 +6974,7 @@ function(require,module){
     for (const id of ctx.births) w.tallies.births[id]++;
     for (const death of ctx.deaths) {
       w.tallies.deaths[death.species]++;
-      w.tallies.causes[death.reason]++;
+      w.tallies.causes[death.reason]=(w.tallies.causes[death.reason]??0)+1;
     }
     for (const list of ctx.events.values())
       for (const event of list)
@@ -6640,6 +7040,7 @@ function(require,module){
   }
   function create(input = {}) {
     const w = S.create(input);
+    if(S.HyperParasite?.enabled(w))S.HyperParasite.summary(w);
     if(S.PrimaryParasite?.enabled(w))S.PrimaryParasite.summary(w);
     S.Ryouki.summary(w);
     w.stats = summarize(w);
@@ -6770,6 +7171,7 @@ function(require,module){
       ids = new Set(),
       resourceKinds = new Map();
     if(S.PrimaryParasite?.enabled(w))errors.push(...S.PrimaryParasite.validate(w));
+    if(S.HyperParasite?.enabled(w))errors.push(...S.HyperParasite.validate(w));
     for (const o of w.organisms) {
       const occupied = o.slot === "main" ? main : o.slot === "prey" ? prey : food;
       if(o.slot === "producer"){
@@ -6845,6 +7247,9 @@ function(require,module){
     for(const q of w.searchQ||[]){
       if(ids.has(q.id))errors.push("ID_DUPLICATE:"+q.id);ids.add(q.id);
       if(!Number.isFinite(q.E)||q.E<0||!Number.isInteger(q.cell)||!w.tiles[q.cell]||w.tiles[q.cell].blocked)errors.push("SEARCH_Q:"+q.id);
+    }
+    if(S.HyperParasite?.enabled(w))for(const i of w.hyperInocula||[]){
+      if(ids.has(i.id))errors.push("ID_DUPLICATE:"+i.id);ids.add(i.id);
     }
     for (const a of w.resources) {
       if (!resourceKinds.has(a.cell)) resourceKinds.set(a.cell, new Set());
@@ -8490,6 +8895,140 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return {enabled,is,parameters,settings,hostTable,hostRule,adaptation,childAdaptation,infection,inoculum,takeInoculum,resistance,acquireResistance,beginResistance,entries,locate,ageInfo:parasiteAge,initial,summary,validate};
   })();
+  const HyperParasite = (() => {
+    const VERSION="hyper-state/1",P_SPECIES=["leafparasite","tideparasite"];
+    const enabled=w=>w?.config?.hyperParasiteModel==="hyper/1";
+    const is=q=>q?.species==="hyperparasite"&&q?.hyper?.version===VERSION;
+    function parameters(input={}){
+      const defaults={version:"hyper-parameters/1",maintenance:[0,.005,.010,.015,.020],hostTax:[0,.020,.030,.040,0],
+        developmentCost:[0,.005,.010,.015,0],biomass:[0,.01,.015,.02,.03],phaseThresholds:[0,0,4,12],maturity:12,life:80,development:12,
+        starvationTurns:8,entryRate:.6,entryDefense:.2,establishmentRate:.7,exclusionCost:.01,exclusionRate:.006,
+        emergenceMultiplier:6,emergenceRate:.6,prepareTurns:4,eggCost:.10,eggReserve:.09,eggCooldown:12,eggLifetime:4,
+        adultMoveCost:.002,adultFoodCap:.10,adultAssimilation:.5,capE:1,metaCosts:[0,.001,.002,.004,0],metaCaps:[0,.03,.05,.08,0],
+        informationCosts:[0,.002,.004,.008,0],promotionCaps:[0,.02,.05,.10,0],distortionCaps:[0,.05,.10,.20,0],
+        mutationRate:.10,mutationStep:.05,resistanceGain:.4,resistanceCap:.8,resistanceHalfLife:40,resistanceMaintenance:.005,
+        initialFraction:.2,initialAttachedFraction:.75,initialEnergy:.08};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 高次寄生の比較値");
+      const out={...structuredClone(defaults),...structuredClone(input)};
+      if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 高次寄生の定義版");
+      for(const [key,value]of Object.entries(out)){
+        if(key==="version")continue;
+        const valid=n=>typeof n==="number"&&Number.isFinite(n)&&n>=0&&n<=10000;
+        if(Array.isArray(defaults[key])){if(!Array.isArray(value)||value.length!==defaults[key].length||value.some(n=>!valid(n)))throw Error("SETTINGS_INVALID: 高次寄生 "+key);}
+        else if(!valid(value))throw Error("SETTINGS_INVALID: 高次寄生 "+key);
+      }
+      for(const key of ["maturity","life","starvationTurns","prepareTurns","eggCooldown","eggLifetime"])if(!Number.isSafeInteger(out[key])||out[key]<1)throw Error("SETTINGS_INVALID: 高次寄生のT");
+      for(const key of ["entryRate","entryDefense","establishmentRate","exclusionRate","emergenceRate","adultAssimilation","mutationRate","mutationStep","resistanceGain","resistanceCap","initialFraction","initialAttachedFraction"])if(out[key]>1)throw Error("SETTINGS_INVALID: 高次寄生の率");
+      if(out.life<=out.maturity||out.capE<out.initialEnergy||out.resistanceCap>.8||out.resistanceHalfLife<=0||out.development<=0||
+        out.eggCost<out.eggReserve||out.eggReserve<out.biomass[1]||out.eggReserve-out.biomass[1]>out.capE||
+        out.maintenance.slice(1).some(n=>n<=0)||out.developmentCost.slice(1,4).some(n=>n<=0)||out.metaCosts.slice(1,4).some(n=>n<=0)||out.informationCosts.slice(1,4).some(n=>n<=0)||
+        [out.exclusionCost,out.emergenceMultiplier,out.eggCost,out.adultMoveCost,out.resistanceMaintenance].some(n=>n<=0)||
+        out.biomass[0]!==0||out.biomass.slice(1).some((n,i)=>n<=0||(i>0&&n<out.biomass[i]))||
+        out.phaseThresholds[0]!==0||out.phaseThresholds[1]!==0||out.phaseThresholds[2]<=0||out.phaseThresholds[3]<=out.phaseThresholds[2]||
+        out.metaCaps.some(n=>n>1)||out.promotionCaps.some(n=>n>1)||out.distortionCaps.some(n=>n>1))throw Error("SETTINGS_INVALID: 高次寄生の収支/成長");
+      return out;
+    }
+    const settings=w=>w.config.hyperParasiteSettings;
+    const defaultGenes=()=>({hosts:{leafparasite:.5,tideparasite:.5},routes:{contact:.5},stages:{terminal:.5},investment:{promotion:.5,distortion:.5}});
+    function initialTraits(w,origin){return {genes:defaultGenes(),preference:Object.fromEntries(P_SPECIES.map(id=>[id,H.round(.25+.5*r(w,"hyper/host-preference",0,origin,id))])),
+      bias:{axis:Math.floor(r(w,"hyper/bias-axis",0,origin)*5),sign:r(w,"hyper/bias-sign",0,origin)<.5?-1:1},parents:[],generation:0,mutation:{occurred:false,changes:[]}};}
+    function childTraits(w,parent,origin,turn=w.turn){
+      const a=parent.hyper??parent.traits??parent,p=settings(w),traits={genes:structuredClone(a.genes??defaultGenes()),preference:structuredClone(a.preference??initialTraits(w,origin).preference),
+        bias:structuredClone(a.bias??initialTraits(w,origin).bias),parents:[parent.parentId??parent.id],generation:(a.generation??parent.generation??0)+1,mutation:{occurred:false,changes:[]}};
+      if(r(w,"hyper/mutation",turn,origin)<p.mutationRate){
+        const g=traits.genes,keys=Object.keys(g).flatMap(group=>Object.keys(g[group]).map(key=>[group,key])),first=keys[Math.floor(r(w,"hyper/mutation-key",turn,origin)*keys.length)],sign=r(w,"hyper/mutation-sign",turn,origin)<.5?-1:1,
+          choices=keys.filter(key=>key!==first&&(key[0]==="investment")===(first[0]==="investment")&&(sign>0?g[key[0]][key[1]]>0:g[key[0]][key[1]]<1))
+            .sort((a,b)=>hash(w,"hyper/mutation-tradeoff",turn,origin,a)-hash(w,"hyper/mutation-tradeoff",turn,origin,b)),second=choices[0];
+        if(second){const value=g[first[0]][first[1]],other=g[second[0]][second[1]],step=Math.min(p.mutationStep,sign>0?1-value:value,sign>0?other:1-other);
+          if(step>0){g[first[0]][first[1]]=H.round(value+sign*step);g[second[0]][second[1]]=H.round(other-sign*step);traits.mutation={occurred:true,changes:[{key:first.join("/"),delta:sign*step},{key:second.join("/"),delta:-sign*step}]};}}
+      }
+      return traits;
+    }
+    function create(w,pId,turn=w.turn,origin=pId,traits=null){
+      if(!enabled(w))throw Error("SETTINGS_INVALID: 高次寄生モデルの指定が必要です");
+      const t=traits?.traits??traits??initialTraits(w,origin),p=settings(w);
+      return {id:"q:"+origin+":"+turn,species:"hyperparasite",hostId:pId,phase:1,age:0,bornAt:turn,birthLife:p.life,maturity:p.maturity,E:0,B:p.biomass[1],
+        ready:0,counter:0,special:null,modulation:null,counts:[0,0,0],seen:[],
+        hyper:{version:VERSION,state:"egg",development:0,experience:0,settledAt:turn,pauseUntil:turn,starvationRun:0,prepareUntil:0,
+          genes:structuredClone(t.genes??defaultGenes()),preference:structuredClone(t.preference??initialTraits(w,origin).preference),bias:structuredClone(t.bias??initialTraits(w,origin).bias),
+          parents:structuredClone(t.parents??[]),generation:t.generation??0,mutation:structuredClone(t.mutation??{occurred:false,changes:[]}),
+          origin:traits?"descendant":"initial",last:{turn,maintenanceE:0,developmentE:0,metaE:0,informationE:0,maintained:false,developed:false,progress:0,blockers:[]}}};
+    }
+    function adaptation(q,species,route="contact",stage="terminal"){const g=(q.hyper??q.traits??q).genes;return ((g?.hosts[species]??.5)+(g?.routes[route]??.5)+(g?.stages[stage]??.5))/3;}
+    function acquireResistance(w,p){
+      if(!enabled(w)||!PrimaryParasite.is(p))return;
+      const s=settings(w),a=p.hyperResistance??={version:"hyper-resistance/1",value:0,effective:0,updatedAt:w.turn,paidAt:-1,lastPaidE:0};
+      a.value=H.round(Math.min(s.resistanceCap,a.value*Math.pow(.5,Math.max(0,w.turn-a.updatedAt)/s.resistanceHalfLife)+s.resistanceGain));a.updatedAt=w.turn;return a;
+    }
+    function beginResistance(w,p){
+      const a=p.hyperResistance;if(!enabled(w)||!a||a.paidAt===w.turn)return {paid:0,required:0};
+      const s=settings(w);a.value=H.round(a.value*Math.pow(.5,Math.max(0,w.turn-a.updatedAt)/s.resistanceHalfLife));a.updatedAt=w.turn;a.paidAt=w.turn;
+      const required=H.round(s.resistanceMaintenance*a.value),paid=H.round(Math.min(p.E,required));p.E=H.round(p.E-paid);dissipate(w,paid);a.lastPaidE=paid;a.effective=required>0?H.round(a.value*paid/required):a.value;return {paid,required};
+    }
+    const resistance=(w,p)=>p.hyperResistance?.paidAt===w.turn?p.hyperResistance.effective:0;
+    function entries(w){
+      if(!enabled(w))return [];
+      const out=[],seen=new Set();
+      for(const e of PrimaryParasite.entries(w)){const q=e.p.q;if(is(q)&&!seen.has(q.id)){seen.add(q.id);out.push({q,p:e.p,host:e.host,hostP:e.p,hostH:e.host,carrier:e.carrier,kind:"attached",location:e.kind,cell:e.cell});}}
+      for(const q of w.searchQ||[])if(is(q)&&!seen.has(q.id)){seen.add(q.id);out.push({q,p:null,host:null,hostP:null,hostH:null,carrier:q,kind:"free",location:"free",cell:q.cell});}return out;
+    }
+    function locate(w,id){return entries(w).find(e=>e.q.id===id||e.p?.id===id||e.host?.id===id)??null;}
+    function qAge(q){return {enabled:is(q),applicable:is(q),age:q.age,birthLife:q.birthLife,life:q.birthLife,matureAt:q.maturity,elderlyAt:Math.floor(q.birthLife*.75),
+      stage:q.age<q.maturity?"juvenile":q.age<q.birthLife*.75?"adult":"elderly"};}
+    function initial(w){
+      if(!enabled(w))return;
+      const s=settings(w),all=PrimaryParasite.entries(w).filter(e=>P_SPECIES.includes(e.p.species)),direct=w.config.founderCounts?.parasites?.hyperparasite,
+        planned=w.config.enabled.Q?(direct??Math.floor(all.length*s.initialFraction)):0,freePlanned=Math.floor(planned*(1-s.initialAttachedFraction)),attachedPlanned=planned-freePlanned;
+      w.searchQ=[];w.hyperInocula=[];
+      const candidates=all.filter(e=>e.kind==="host"&&!e.p.q&&e.p.stage==="terminal"&&Number.isInteger(e.p.matureAt)&&
+        Math.max(e.p.matureAt+1,-s.life+1)<=Math.min(e.p.matureAt+3,0)).sort((a,b)=>hash(w,"hyper/initial-attached",0,a.p.id)-hash(w,"hyper/initial-attached",0,b.p.id)||H.compare(a.p.id,b.p.id));
+      const report={version:"hyper-initial/1",compatibleP:all.length,requested:direct??null,planned,actual:0,shortage:0,
+        attached:{planned:attachedPlanned,actual:0,shortage:0},free:{planned:freePlanned,actual:0,shortage:0},reasons:[]};
+      for(const e of candidates.slice(0,attachedPlanned)){
+        const origin="initial:"+e.p.id,earliest=Math.max(e.p.matureAt+1,-s.life+1),latest=Math.min(e.p.matureAt+3,0),bornAt=earliest+Math.floor(r(w,"hyper/initial-infected",0,origin)*(latest-earliest+1)),q=create(w,e.p.id,0,origin),age=Math.max(0,-bornAt),
+          experience=Math.min(s.phaseThresholds[3],age),phase=experience>=s.phaseThresholds[3]?3:experience>=s.phaseThresholds[2]?2:1;
+        Object.assign(q,{age,bornAt,phase,B:s.biomass[phase],E:s.initialEnergy});Object.assign(q.hyper,{state:phase===1?"egg":phase===2?"larva":"preparation",experience,development:Math.min(s.development,age),origin:"initial",initialExperience:experience});
+        e.p.q=q;report.attached.actual++;
+      }
+      const cells=w.tiles.map((tile,cell)=>({tile,cell})).filter(e=>!e.tile.blocked).map(e=>e.cell)
+        .sort((a,b)=>hash(w,"hyper/initial-free",0,null,a)-hash(w,"hyper/initial-free",0,null,b)||a-b);
+      for(const cell of cells.slice(0,freePlanned)){
+        const origin="initial:free:"+cell,q=create(w,null,0,origin),age=s.maturity+Math.floor(r(w,"hyper/initial-adult-age",0,origin)*Math.min(20,s.life-s.maturity));
+        Object.assign(q,{phase:4,cell,age,bornAt:-age,B:s.biomass[4],E:s.initialEnergy});Object.assign(q.hyper,{state:"adult",development:s.development,experience:s.phaseThresholds[3],origin:"initial",initialExperience:s.phaseThresholds[3]});w.searchQ.push(q);report.free.actual++;
+      }
+      for(const key of ["attached","free"]){report[key].shortage=report[key].planned-report[key].actual;report.actual+=report[key].actual;if(report[key].shortage)report.reasons.push(key+":"+(key==="attached"?"初回成熟窓と整合する終宿主P不足 ":"合法成体セル不足 ")+report[key].shortage);}
+      report.shortage=planned-report.actual;w.config.hyperParasiteInitial=report;
+      if(direct!==undefined&&report.shortage)throw Error("PLACEMENT_SHORTAGE: 抑環 指定"+direct+" / 配置可能"+report.actual+"（"+report.reasons.join("、")+"）");
+      if(report.shortage)w.warnings.push("高次寄生:予定"+planned+" / 実配置"+report.actual+"。"+report.reasons.join("、"));summary(w);return report;
+    }
+    function summary(w){
+      if(!enabled(w))return;
+      const out={definition:"hyper-parasite-observed/1",turn:w.turn,count:0,attached:0,free:0,migrating:0,mature:0,phases:[0,0,0,0],states:{egg:0,larva:0,preparation:0,adult:0},biomassB:0,reserveE:0,
+        invading:{records:0,amount:0,reserveE:0},resistance:{hosts:0,stored:0,effective:0,paidE:0}};
+      for(const e of entries(w)){const q=e.q;out.count++;out[e.kind]++;if(e.carrier.kind==="primary-migration")out.migrating++;if(q.age>=q.maturity)out.mature++;out.phases[q.phase-1]++;out.states[q.hyper.state]++;out.biomassB+=q.B;out.reserveE+=q.E;}
+      for(const i of w.hyperInocula||[]){out.invading.records++;out.invading.reserveE+=i.E;out.invading.amount+=i.E/settings(w).eggReserve;}
+      for(const {p}of PrimaryParasite.entries(w))if(p.hyperResistance){const a=p.hyperResistance;out.resistance.hosts++;out.resistance.stored+=a.value;if(a.paidAt===w.turn){out.resistance.effective+=a.effective;out.resistance.paidE+=a.lastPaidE;}}
+      const round=value=>{for(const key of Object.keys(value))if(typeof value[key]==="number")value[key]=H.round(value[key]);else if(value[key]&&typeof value[key]==="object")round(value[key]);};round(out);w.hyperParasiteSummary=out;return out;
+    }
+    function validate(w){
+      if(!enabled(w))return [];
+      const errors=[],seen=new Set(),sameKeys=(a,b)=>a&&typeof a==="object"&&!Array.isArray(a)&&Object.keys(a).sort().join("|")===Object.keys(b).sort().join("|");
+      const validTraits=a=>{
+        const expected=defaultGenes();return a&&sameKeys(a.genes,expected)&&Object.keys(expected).every(key=>sameKeys(a.genes[key],expected[key]))&&
+          Object.values(a.genes).flatMap(g=>Object.values(g)).every(n=>Number.isFinite(n)&&n>=0&&n<=1)&&a.genes.investment.promotion+a.genes.investment.distortion<=1+1e-6&&
+          sameKeys(a.preference,expected.hosts)&&Object.values(a.preference).every(n=>Number.isFinite(n)&&n>=0&&n<=1)&&Number.isInteger(a.bias?.axis)&&a.bias.axis>=0&&a.bias.axis<5&&[-1,1].includes(a.bias?.sign);
+      };
+      for(const holder of [...w.organisms,...w.carcasses,...w.pending])if(holder.infection?.q){const q=holder.infection.q;if(!is(q))errors.push("HYPER_STATE:"+q.id);if(seen.has(q.id))errors.push("HYPER_ID:"+q.id);seen.add(q.id);}
+      for(const q of w.searchQ||[]){if(!is(q))errors.push("HYPER_STATE:"+q.id);if(seen.has(q.id))errors.push("HYPER_ID:"+q.id);seen.add(q.id);}
+      for(const {q,p,kind}of entries(w))if(![q.E,q.B,q.age,q.hyper.experience,q.hyper.development].every(n=>Number.isFinite(n)&&n>=0)||
+        q.E>settings(w).capE+1e-6||!Number.isInteger(q.phase)||q.phase<1||q.phase>4||!Number.isFinite(q.bornAt)||q.birthLife<=0||!validTraits(q.hyper)||
+        !["egg","larva","preparation","adult"].includes(q.hyper.state)||(kind==="free"&&(q.phase!==4||q.hyper.state!=="adult"||!Number.isInteger(q.cell)||!w.tiles[q.cell]||q.hostId!==null))||
+        (p&&(q.hostId!==p.id||q.phase===4||q.hyper.state==="adult")))errors.push("HYPER_STATE:"+q.id);
+      for(const i of w.hyperInocula||[])if(!Number.isFinite(i.E)||i.E<0||!Number.isSafeInteger(i.expires)||!validTraits(i.traits??i)||i.kind!=="invading")errors.push("HYPER_INOCULUM:"+i.id);
+      return errors;
+    }
+    return {enabled,is,parameters,settings,create,childTraits,adaptation,entries,locate,ageInfo:qAge,summary,initial,validate,resistance,acquireResistance,beginResistance};
+  })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
   // Explicitly enabled only for fixed production worlds; never serialized.
@@ -8808,6 +9347,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(c.primaryParasiteModel==="primary/1"){
       c.primaryParasiteSettings=PrimaryParasite.parameters(c.primaryParasiteSettings);c.ageModel="life/1";
     }else if(c.primaryParasiteSettings!==undefined)throw Error("SETTINGS_INVALID: 一次寄生モデルの指定が必要です");
+    if(c.hyperParasiteModel!==undefined&&c.hyperParasiteModel!=="hyper/1")throw Error("SETTINGS_INVALID: 高次寄生モデル");
+    if(c.hyperParasiteModel==="hyper/1"){
+      if(c.primaryParasiteModel!=="primary/1")throw Error("SETTINGS_INVALID: 高次寄生には一次寄生モデルが必要です");
+      c.hyperParasiteSettings=HyperParasite.parameters(c.hyperParasiteSettings);
+    }else if(c.hyperParasiteSettings!==undefined)throw Error("SETTINGS_INVALID: 高次寄生モデルの指定が必要です");
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
@@ -9044,7 +9588,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const infection = (p) => {
       if (p) {
         E += p.E+(PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0);
-        if (p.q) E += p.q.E;
+        if (p.q) E += p.q.E+(HyperParasite.enabled(w)&&HyperParasite.is(p.q)?p.q.B:0);
       }
     };
     for (const o of w.organisms) {
@@ -9063,8 +9607,9 @@ return {settings,attach,region,level,factor,begin,finish};
       infection(a.infection);
     }
     for (const a of w.pending) infection(a.infection);
-    for (const q of w.searchQ || []) E += q.E;
+    for (const q of w.searchQ || []) E += q.E+(HyperParasite.enabled(w)&&HyperParasite.is(q)?q.B:0);
     if(PrimaryParasite.enabled(w))for(const i of w.primaryInocula||[])E+=i.E;
+    if(HyperParasite.enabled(w))for(const i of w.hyperInocula||[])E+=i.E;
     for (const t of w.tiles) M += t.soilM;
     return { E: H.round(E), M: H.round(M) };
   }
@@ -9551,9 +10096,10 @@ return {settings,attach,region,level,factor,begin,finish};
     if (config.enabled.Q && !config.enabled.P)
       w.warnings.push("一次寄生虫が無効なため高次寄生虫は初期0です");
     if(PrimaryParasite.enabled(w))PrimaryParasite.initial(w);
-    if(config.ecologyRevision === "observation/4.1") {
+    if(config.ecologyRevision === "observation/4.1")config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
+    if(HyperParasite.enabled(w))HyperParasite.initial(w);
+    else if(config.ecologyRevision === "observation/4.1") {
       w.searchQ=[];
-      config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
       config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.min(Math.max(4,Math.min(16,Math.ceil(config.width*config.height/400))),Math.floor(w.organisms.filter(o=>o.infection).length/2)),createdSearchQ:0};
       const manualQ=config.founderCounts?.parasites.hyperparasite;
       if(manualQ!==undefined)config.parasiteInitial.targetSearchQ=manualQ;
@@ -9582,6 +10128,7 @@ return {settings,attach,region,level,factor,begin,finish};
     Colony.summary(w);
     LargePlant.summary(w);
     PrimaryParasite.summary(w);
+    HyperParasite.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -9602,6 +10149,7 @@ return {settings,attach,region,level,factor,begin,finish};
     };
   }
   function hyper(w, pId, turn = w.turn) {
+    if(HyperParasite.enabled(w))return HyperParasite.create(w,pId,turn,pId);
     return {
       id: "q:" + pId + ":" + turn,
       species: "hyperparasite",
@@ -9618,7 +10166,7 @@ return {settings,attach,region,level,factor,begin,finish};
   }
   function loseInfection(w, p) {
     if (p) {
-      dissipate(w, p.E + (PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0) + (p.q?.E || 0));
+      dissipate(w, p.E + (PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0) + (p.q?.E || 0) + (HyperParasite.enabled(w)&&HyperParasite.is(p.q)?p.q.B:0));
       if (w.tallies) {
         w.tallies.deaths[p.species]++;
         if (p.q) w.tallies.deaths.hyperparasite++;
@@ -9637,6 +10185,7 @@ return {settings,attach,region,level,factor,begin,finish};
     LargePlant,
     Ryouki,
     PrimaryParasite,
+    HyperParasite,
     activeSpecies,
     activeMain,
     initialRank,
@@ -10053,6 +10602,17 @@ function(require,module){
           !S.oneStep(w,o.cell,cell)||list.some(a=>a.id===target.id))continue;
       list.push({type:"plant",id:target.id,obj:target,cell,tag:"animal",amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB),healing:1});
     }
+    // Free IV Q are finite living prey, distinct from hosted Q and inocula.
+    // Reuse the normal ration arbitration rather than grant a second free meal.
+    if(S.HyperParasite?.enabled(w)&&main&&!isRyouki(w,o)&&(S.D.diets[spec.diet]?.hunt||0)>=0){
+      for(const cell of S.nearby(w,o.cell,1,true)){
+        if(!S.oneStep(w,o.cell,cell))continue;
+        for(const q of ctx.hyperAdultsByCell?.get(cell)||[]){
+          if(!S.HyperParasite.is(q)||q.phase!==4||q.E+q.B<=0)continue;
+          list.push({type:"hyper",id:q.id,obj:q,cell,tag:"animal",amount:Math.min(1,q.E+q.B),healing:1});
+        }
+      }
+    }
     return list;
   }
   function chooseSource(w, o, list, ctx) {
@@ -10103,6 +10663,10 @@ function(require,module){
   }
   function feed(w, ctx, transfer) {
     let m = S.maps(w);
+    if(S.HyperParasite?.enabled(w)){
+      ctx.hyperAdultsByCell=new Map();
+      for(const q of w.searchQ||[]){const rows=ctx.hyperAdultsByCell.get(q.cell)||[];rows.push(q);ctx.hyperAdultsByCell.set(q.cell,rows);}
+    }
     for (let round = 0; round < 2; round++) {
       const requests = [];
       for (const o of w.organisms)
@@ -10128,6 +10692,7 @@ function(require,module){
         const obj = a.obj;
         if (
           (obj.q !== undefined && obj.q <= 0) ||
+          (a.type === "hyper" && obj.E + obj.B <= 0) ||
           (a.type === "plant" && (S.edibleB(obj) <= 0 || obj.HP <= 0))
         )
           continue;
@@ -10145,6 +10710,10 @@ function(require,module){
             G: 0,
           };
           obj.soilM = S.round(obj.soilM - amount.M);
+        } else if (a.type === "hyper") {
+          amount={E:S.round(obj.E+obj.B),M:0,G:obj.B};
+          obj.E=0;obj.B=0;
+          ctx.primaryHooks.hyperAdultDeath(w,ctx,obj,"predation");
         } else if (a.type === "plant") {
           const p = ctx.traits.get(o.id),
             need =
@@ -11171,6 +11740,7 @@ function(require,module){
       ctx.primaryHooks=P;
       ctx.primaryFlow=P.emptyPrimaryFlow(w);
     }
+    if(S.HyperParasite?.enabled(w))ctx.hyperFlow=P.emptyHyperFlow(w);
     for (const o of w.organisms) {
       ctx.traits.set(o.id, S.phenotype(w, o));
       ctx.old.set(o.id, {
@@ -11286,6 +11856,9 @@ function(require,module){
     "primary-established": 2,
     "primary-transferred": 2,
     "primary-clear": 2,
+    "hyper-established": 2,
+    "hyper-emerged": 2,
+    "hyper-cleared": 2,
     attack: 3,
     feed: 4,
     care: 4,
@@ -11342,6 +11915,7 @@ function(require,module){
     for(const [id,old] of ctx.old) if(old.species) refs.set(id,old.species);
     const relations={};
     for(const o of w.organisms)if(o.infection){refs.set(o.infection.id,o.infection.species);if(o.infection.q)refs.set(o.infection.q.id,"hyperparasite");}
+    if(S.HyperParasite?.enabled(w))for(const {q} of S.HyperParasite.entries(w))refs.set(q.id,q.species);
     function add(from,to,type,amount=1) {
       if(!from||!to)return;
       const key=from+"|"+to+"|"+type;
@@ -11355,6 +11929,10 @@ function(require,module){
       if(S.PrimaryParasite?.enabled(w)){
         if(["primary-established","primary-transferred"].includes(e.type))add(e.species,refs.get(id),"infection");
         if(e.type==="primary-clear")add(refs.get(id),e.species,"clear");
+      }
+      if(S.HyperParasite?.enabled(w)){
+        if(e.type==="hyper-established")add("hyperparasite",e.hostSpecies||refs.get(e.target),"infection");
+        if(e.type==="hyper-cleared")add(e.hostSpecies||refs.get(e.target),"hyperparasite","clear");
       }
     }
     const map=S.maps(w),last=new Set(w.contactPairs||[]),pairs=[],contactEpisodes={},contactTurns={};
@@ -11412,9 +11990,10 @@ function(require,module){
     flowTelemetry.combat=combat;
     flowTelemetry.information={definition:"information-observed/1",emissions:ctx.infoEmissions||[],receipts:ctx.infoReceipts||[],effects:ctx.infoEffects||[],origins:[]};
     for(const a of w.resources)if(a.kind==="info"&&a.event&&refs.has(a.event.sourceId))flowTelemetry.information.origins.push({id:a.event.id,species:refs.get(a.event.sourceId),time:a.event.time});
-    return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
+    return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),...(S.HyperParasite?.enabled(w)?{hyperParasite:structuredClone(ctx.hyperFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
+    if(S.HyperParasite?.enabled(w))S.HyperParasite.summary(w);
     if(S.PrimaryParasite?.enabled(w))S.PrimaryParasite.summary(w);
     S.Ryouki.summary(w);
     S.Colony.summary(w);
@@ -11424,7 +12003,7 @@ function(require,module){
     for (const id of ctx.births) w.tallies.births[id]++;
     for (const death of ctx.deaths) {
       w.tallies.deaths[death.species]++;
-      w.tallies.causes[death.reason]++;
+      w.tallies.causes[death.reason]=(w.tallies.causes[death.reason]??0)+1;
     }
     for (const list of ctx.events.values())
       for (const event of list)
@@ -11490,6 +12069,7 @@ function(require,module){
   }
   function create(input = {}) {
     const w = S.create(input);
+    if(S.HyperParasite?.enabled(w))S.HyperParasite.summary(w);
     if(S.PrimaryParasite?.enabled(w))S.PrimaryParasite.summary(w);
     S.Ryouki.summary(w);
     w.stats = summarize(w);
@@ -11620,6 +12200,7 @@ function(require,module){
       ids = new Set(),
       resourceKinds = new Map();
     if(S.PrimaryParasite?.enabled(w))errors.push(...S.PrimaryParasite.validate(w));
+    if(S.HyperParasite?.enabled(w))errors.push(...S.HyperParasite.validate(w));
     for (const o of w.organisms) {
       const occupied = o.slot === "main" ? main : o.slot === "prey" ? prey : food;
       if(o.slot === "producer"){
@@ -11695,6 +12276,9 @@ function(require,module){
     for(const q of w.searchQ||[]){
       if(ids.has(q.id))errors.push("ID_DUPLICATE:"+q.id);ids.add(q.id);
       if(!Number.isFinite(q.E)||q.E<0||!Number.isInteger(q.cell)||!w.tiles[q.cell]||w.tiles[q.cell].blocked)errors.push("SEARCH_Q:"+q.id);
+    }
+    if(S.HyperParasite?.enabled(w))for(const i of w.hyperInocula||[]){
+      if(ids.has(i.id))errors.push("ID_DUPLICATE:"+i.id);ids.add(i.id);
     }
     for (const a of w.resources) {
       if (!resourceKinds.has(a.cell)) resourceKinds.set(a.cell, new Set());
@@ -16315,6 +16899,140 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return {enabled,is,parameters,settings,hostTable,hostRule,adaptation,childAdaptation,infection,inoculum,takeInoculum,resistance,acquireResistance,beginResistance,entries,locate,ageInfo:parasiteAge,initial,summary,validate};
   })();
+  const HyperParasite = (() => {
+    const VERSION="hyper-state/1",P_SPECIES=["leafparasite","tideparasite"];
+    const enabled=w=>w?.config?.hyperParasiteModel==="hyper/1";
+    const is=q=>q?.species==="hyperparasite"&&q?.hyper?.version===VERSION;
+    function parameters(input={}){
+      const defaults={version:"hyper-parameters/1",maintenance:[0,.005,.010,.015,.020],hostTax:[0,.020,.030,.040,0],
+        developmentCost:[0,.005,.010,.015,0],biomass:[0,.01,.015,.02,.03],phaseThresholds:[0,0,4,12],maturity:12,life:80,development:12,
+        starvationTurns:8,entryRate:.6,entryDefense:.2,establishmentRate:.7,exclusionCost:.01,exclusionRate:.006,
+        emergenceMultiplier:6,emergenceRate:.6,prepareTurns:4,eggCost:.10,eggReserve:.09,eggCooldown:12,eggLifetime:4,
+        adultMoveCost:.002,adultFoodCap:.10,adultAssimilation:.5,capE:1,metaCosts:[0,.001,.002,.004,0],metaCaps:[0,.03,.05,.08,0],
+        informationCosts:[0,.002,.004,.008,0],promotionCaps:[0,.02,.05,.10,0],distortionCaps:[0,.05,.10,.20,0],
+        mutationRate:.10,mutationStep:.05,resistanceGain:.4,resistanceCap:.8,resistanceHalfLife:40,resistanceMaintenance:.005,
+        initialFraction:.2,initialAttachedFraction:.75,initialEnergy:.08};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 高次寄生の比較値");
+      const out={...structuredClone(defaults),...structuredClone(input)};
+      if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 高次寄生の定義版");
+      for(const [key,value]of Object.entries(out)){
+        if(key==="version")continue;
+        const valid=n=>typeof n==="number"&&Number.isFinite(n)&&n>=0&&n<=10000;
+        if(Array.isArray(defaults[key])){if(!Array.isArray(value)||value.length!==defaults[key].length||value.some(n=>!valid(n)))throw Error("SETTINGS_INVALID: 高次寄生 "+key);}
+        else if(!valid(value))throw Error("SETTINGS_INVALID: 高次寄生 "+key);
+      }
+      for(const key of ["maturity","life","starvationTurns","prepareTurns","eggCooldown","eggLifetime"])if(!Number.isSafeInteger(out[key])||out[key]<1)throw Error("SETTINGS_INVALID: 高次寄生のT");
+      for(const key of ["entryRate","entryDefense","establishmentRate","exclusionRate","emergenceRate","adultAssimilation","mutationRate","mutationStep","resistanceGain","resistanceCap","initialFraction","initialAttachedFraction"])if(out[key]>1)throw Error("SETTINGS_INVALID: 高次寄生の率");
+      if(out.life<=out.maturity||out.capE<out.initialEnergy||out.resistanceCap>.8||out.resistanceHalfLife<=0||out.development<=0||
+        out.eggCost<out.eggReserve||out.eggReserve<out.biomass[1]||out.eggReserve-out.biomass[1]>out.capE||
+        out.maintenance.slice(1).some(n=>n<=0)||out.developmentCost.slice(1,4).some(n=>n<=0)||out.metaCosts.slice(1,4).some(n=>n<=0)||out.informationCosts.slice(1,4).some(n=>n<=0)||
+        [out.exclusionCost,out.emergenceMultiplier,out.eggCost,out.adultMoveCost,out.resistanceMaintenance].some(n=>n<=0)||
+        out.biomass[0]!==0||out.biomass.slice(1).some((n,i)=>n<=0||(i>0&&n<out.biomass[i]))||
+        out.phaseThresholds[0]!==0||out.phaseThresholds[1]!==0||out.phaseThresholds[2]<=0||out.phaseThresholds[3]<=out.phaseThresholds[2]||
+        out.metaCaps.some(n=>n>1)||out.promotionCaps.some(n=>n>1)||out.distortionCaps.some(n=>n>1))throw Error("SETTINGS_INVALID: 高次寄生の収支/成長");
+      return out;
+    }
+    const settings=w=>w.config.hyperParasiteSettings;
+    const defaultGenes=()=>({hosts:{leafparasite:.5,tideparasite:.5},routes:{contact:.5},stages:{terminal:.5},investment:{promotion:.5,distortion:.5}});
+    function initialTraits(w,origin){return {genes:defaultGenes(),preference:Object.fromEntries(P_SPECIES.map(id=>[id,H.round(.25+.5*r(w,"hyper/host-preference",0,origin,id))])),
+      bias:{axis:Math.floor(r(w,"hyper/bias-axis",0,origin)*5),sign:r(w,"hyper/bias-sign",0,origin)<.5?-1:1},parents:[],generation:0,mutation:{occurred:false,changes:[]}};}
+    function childTraits(w,parent,origin,turn=w.turn){
+      const a=parent.hyper??parent.traits??parent,p=settings(w),traits={genes:structuredClone(a.genes??defaultGenes()),preference:structuredClone(a.preference??initialTraits(w,origin).preference),
+        bias:structuredClone(a.bias??initialTraits(w,origin).bias),parents:[parent.parentId??parent.id],generation:(a.generation??parent.generation??0)+1,mutation:{occurred:false,changes:[]}};
+      if(r(w,"hyper/mutation",turn,origin)<p.mutationRate){
+        const g=traits.genes,keys=Object.keys(g).flatMap(group=>Object.keys(g[group]).map(key=>[group,key])),first=keys[Math.floor(r(w,"hyper/mutation-key",turn,origin)*keys.length)],sign=r(w,"hyper/mutation-sign",turn,origin)<.5?-1:1,
+          choices=keys.filter(key=>key!==first&&(key[0]==="investment")===(first[0]==="investment")&&(sign>0?g[key[0]][key[1]]>0:g[key[0]][key[1]]<1))
+            .sort((a,b)=>hash(w,"hyper/mutation-tradeoff",turn,origin,a)-hash(w,"hyper/mutation-tradeoff",turn,origin,b)),second=choices[0];
+        if(second){const value=g[first[0]][first[1]],other=g[second[0]][second[1]],step=Math.min(p.mutationStep,sign>0?1-value:value,sign>0?other:1-other);
+          if(step>0){g[first[0]][first[1]]=H.round(value+sign*step);g[second[0]][second[1]]=H.round(other-sign*step);traits.mutation={occurred:true,changes:[{key:first.join("/"),delta:sign*step},{key:second.join("/"),delta:-sign*step}]};}}
+      }
+      return traits;
+    }
+    function create(w,pId,turn=w.turn,origin=pId,traits=null){
+      if(!enabled(w))throw Error("SETTINGS_INVALID: 高次寄生モデルの指定が必要です");
+      const t=traits?.traits??traits??initialTraits(w,origin),p=settings(w);
+      return {id:"q:"+origin+":"+turn,species:"hyperparasite",hostId:pId,phase:1,age:0,bornAt:turn,birthLife:p.life,maturity:p.maturity,E:0,B:p.biomass[1],
+        ready:0,counter:0,special:null,modulation:null,counts:[0,0,0],seen:[],
+        hyper:{version:VERSION,state:"egg",development:0,experience:0,settledAt:turn,pauseUntil:turn,starvationRun:0,prepareUntil:0,
+          genes:structuredClone(t.genes??defaultGenes()),preference:structuredClone(t.preference??initialTraits(w,origin).preference),bias:structuredClone(t.bias??initialTraits(w,origin).bias),
+          parents:structuredClone(t.parents??[]),generation:t.generation??0,mutation:structuredClone(t.mutation??{occurred:false,changes:[]}),
+          origin:traits?"descendant":"initial",last:{turn,maintenanceE:0,developmentE:0,metaE:0,informationE:0,maintained:false,developed:false,progress:0,blockers:[]}}};
+    }
+    function adaptation(q,species,route="contact",stage="terminal"){const g=(q.hyper??q.traits??q).genes;return ((g?.hosts[species]??.5)+(g?.routes[route]??.5)+(g?.stages[stage]??.5))/3;}
+    function acquireResistance(w,p){
+      if(!enabled(w)||!PrimaryParasite.is(p))return;
+      const s=settings(w),a=p.hyperResistance??={version:"hyper-resistance/1",value:0,effective:0,updatedAt:w.turn,paidAt:-1,lastPaidE:0};
+      a.value=H.round(Math.min(s.resistanceCap,a.value*Math.pow(.5,Math.max(0,w.turn-a.updatedAt)/s.resistanceHalfLife)+s.resistanceGain));a.updatedAt=w.turn;return a;
+    }
+    function beginResistance(w,p){
+      const a=p.hyperResistance;if(!enabled(w)||!a||a.paidAt===w.turn)return {paid:0,required:0};
+      const s=settings(w);a.value=H.round(a.value*Math.pow(.5,Math.max(0,w.turn-a.updatedAt)/s.resistanceHalfLife));a.updatedAt=w.turn;a.paidAt=w.turn;
+      const required=H.round(s.resistanceMaintenance*a.value),paid=H.round(Math.min(p.E,required));p.E=H.round(p.E-paid);dissipate(w,paid);a.lastPaidE=paid;a.effective=required>0?H.round(a.value*paid/required):a.value;return {paid,required};
+    }
+    const resistance=(w,p)=>p.hyperResistance?.paidAt===w.turn?p.hyperResistance.effective:0;
+    function entries(w){
+      if(!enabled(w))return [];
+      const out=[],seen=new Set();
+      for(const e of PrimaryParasite.entries(w)){const q=e.p.q;if(is(q)&&!seen.has(q.id)){seen.add(q.id);out.push({q,p:e.p,host:e.host,hostP:e.p,hostH:e.host,carrier:e.carrier,kind:"attached",location:e.kind,cell:e.cell});}}
+      for(const q of w.searchQ||[])if(is(q)&&!seen.has(q.id)){seen.add(q.id);out.push({q,p:null,host:null,hostP:null,hostH:null,carrier:q,kind:"free",location:"free",cell:q.cell});}return out;
+    }
+    function locate(w,id){return entries(w).find(e=>e.q.id===id||e.p?.id===id||e.host?.id===id)??null;}
+    function qAge(q){return {enabled:is(q),applicable:is(q),age:q.age,birthLife:q.birthLife,life:q.birthLife,matureAt:q.maturity,elderlyAt:Math.floor(q.birthLife*.75),
+      stage:q.age<q.maturity?"juvenile":q.age<q.birthLife*.75?"adult":"elderly"};}
+    function initial(w){
+      if(!enabled(w))return;
+      const s=settings(w),all=PrimaryParasite.entries(w).filter(e=>P_SPECIES.includes(e.p.species)),direct=w.config.founderCounts?.parasites?.hyperparasite,
+        planned=w.config.enabled.Q?(direct??Math.floor(all.length*s.initialFraction)):0,freePlanned=Math.floor(planned*(1-s.initialAttachedFraction)),attachedPlanned=planned-freePlanned;
+      w.searchQ=[];w.hyperInocula=[];
+      const candidates=all.filter(e=>e.kind==="host"&&!e.p.q&&e.p.stage==="terminal"&&Number.isInteger(e.p.matureAt)&&
+        Math.max(e.p.matureAt+1,-s.life+1)<=Math.min(e.p.matureAt+3,0)).sort((a,b)=>hash(w,"hyper/initial-attached",0,a.p.id)-hash(w,"hyper/initial-attached",0,b.p.id)||H.compare(a.p.id,b.p.id));
+      const report={version:"hyper-initial/1",compatibleP:all.length,requested:direct??null,planned,actual:0,shortage:0,
+        attached:{planned:attachedPlanned,actual:0,shortage:0},free:{planned:freePlanned,actual:0,shortage:0},reasons:[]};
+      for(const e of candidates.slice(0,attachedPlanned)){
+        const origin="initial:"+e.p.id,earliest=Math.max(e.p.matureAt+1,-s.life+1),latest=Math.min(e.p.matureAt+3,0),bornAt=earliest+Math.floor(r(w,"hyper/initial-infected",0,origin)*(latest-earliest+1)),q=create(w,e.p.id,0,origin),age=Math.max(0,-bornAt),
+          experience=Math.min(s.phaseThresholds[3],age),phase=experience>=s.phaseThresholds[3]?3:experience>=s.phaseThresholds[2]?2:1;
+        Object.assign(q,{age,bornAt,phase,B:s.biomass[phase],E:s.initialEnergy});Object.assign(q.hyper,{state:phase===1?"egg":phase===2?"larva":"preparation",experience,development:Math.min(s.development,age),origin:"initial",initialExperience:experience});
+        e.p.q=q;report.attached.actual++;
+      }
+      const cells=w.tiles.map((tile,cell)=>({tile,cell})).filter(e=>!e.tile.blocked).map(e=>e.cell)
+        .sort((a,b)=>hash(w,"hyper/initial-free",0,null,a)-hash(w,"hyper/initial-free",0,null,b)||a-b);
+      for(const cell of cells.slice(0,freePlanned)){
+        const origin="initial:free:"+cell,q=create(w,null,0,origin),age=s.maturity+Math.floor(r(w,"hyper/initial-adult-age",0,origin)*Math.min(20,s.life-s.maturity));
+        Object.assign(q,{phase:4,cell,age,bornAt:-age,B:s.biomass[4],E:s.initialEnergy});Object.assign(q.hyper,{state:"adult",development:s.development,experience:s.phaseThresholds[3],origin:"initial",initialExperience:s.phaseThresholds[3]});w.searchQ.push(q);report.free.actual++;
+      }
+      for(const key of ["attached","free"]){report[key].shortage=report[key].planned-report[key].actual;report.actual+=report[key].actual;if(report[key].shortage)report.reasons.push(key+":"+(key==="attached"?"初回成熟窓と整合する終宿主P不足 ":"合法成体セル不足 ")+report[key].shortage);}
+      report.shortage=planned-report.actual;w.config.hyperParasiteInitial=report;
+      if(direct!==undefined&&report.shortage)throw Error("PLACEMENT_SHORTAGE: 抑環 指定"+direct+" / 配置可能"+report.actual+"（"+report.reasons.join("、")+"）");
+      if(report.shortage)w.warnings.push("高次寄生:予定"+planned+" / 実配置"+report.actual+"。"+report.reasons.join("、"));summary(w);return report;
+    }
+    function summary(w){
+      if(!enabled(w))return;
+      const out={definition:"hyper-parasite-observed/1",turn:w.turn,count:0,attached:0,free:0,migrating:0,mature:0,phases:[0,0,0,0],states:{egg:0,larva:0,preparation:0,adult:0},biomassB:0,reserveE:0,
+        invading:{records:0,amount:0,reserveE:0},resistance:{hosts:0,stored:0,effective:0,paidE:0}};
+      for(const e of entries(w)){const q=e.q;out.count++;out[e.kind]++;if(e.carrier.kind==="primary-migration")out.migrating++;if(q.age>=q.maturity)out.mature++;out.phases[q.phase-1]++;out.states[q.hyper.state]++;out.biomassB+=q.B;out.reserveE+=q.E;}
+      for(const i of w.hyperInocula||[]){out.invading.records++;out.invading.reserveE+=i.E;out.invading.amount+=i.E/settings(w).eggReserve;}
+      for(const {p}of PrimaryParasite.entries(w))if(p.hyperResistance){const a=p.hyperResistance;out.resistance.hosts++;out.resistance.stored+=a.value;if(a.paidAt===w.turn){out.resistance.effective+=a.effective;out.resistance.paidE+=a.lastPaidE;}}
+      const round=value=>{for(const key of Object.keys(value))if(typeof value[key]==="number")value[key]=H.round(value[key]);else if(value[key]&&typeof value[key]==="object")round(value[key]);};round(out);w.hyperParasiteSummary=out;return out;
+    }
+    function validate(w){
+      if(!enabled(w))return [];
+      const errors=[],seen=new Set(),sameKeys=(a,b)=>a&&typeof a==="object"&&!Array.isArray(a)&&Object.keys(a).sort().join("|")===Object.keys(b).sort().join("|");
+      const validTraits=a=>{
+        const expected=defaultGenes();return a&&sameKeys(a.genes,expected)&&Object.keys(expected).every(key=>sameKeys(a.genes[key],expected[key]))&&
+          Object.values(a.genes).flatMap(g=>Object.values(g)).every(n=>Number.isFinite(n)&&n>=0&&n<=1)&&a.genes.investment.promotion+a.genes.investment.distortion<=1+1e-6&&
+          sameKeys(a.preference,expected.hosts)&&Object.values(a.preference).every(n=>Number.isFinite(n)&&n>=0&&n<=1)&&Number.isInteger(a.bias?.axis)&&a.bias.axis>=0&&a.bias.axis<5&&[-1,1].includes(a.bias?.sign);
+      };
+      for(const holder of [...w.organisms,...w.carcasses,...w.pending])if(holder.infection?.q){const q=holder.infection.q;if(!is(q))errors.push("HYPER_STATE:"+q.id);if(seen.has(q.id))errors.push("HYPER_ID:"+q.id);seen.add(q.id);}
+      for(const q of w.searchQ||[]){if(!is(q))errors.push("HYPER_STATE:"+q.id);if(seen.has(q.id))errors.push("HYPER_ID:"+q.id);seen.add(q.id);}
+      for(const {q,p,kind}of entries(w))if(![q.E,q.B,q.age,q.hyper.experience,q.hyper.development].every(n=>Number.isFinite(n)&&n>=0)||
+        q.E>settings(w).capE+1e-6||!Number.isInteger(q.phase)||q.phase<1||q.phase>4||!Number.isFinite(q.bornAt)||q.birthLife<=0||!validTraits(q.hyper)||
+        !["egg","larva","preparation","adult"].includes(q.hyper.state)||(kind==="free"&&(q.phase!==4||q.hyper.state!=="adult"||!Number.isInteger(q.cell)||!w.tiles[q.cell]||q.hostId!==null))||
+        (p&&(q.hostId!==p.id||q.phase===4||q.hyper.state==="adult")))errors.push("HYPER_STATE:"+q.id);
+      for(const i of w.hyperInocula||[])if(!Number.isFinite(i.E)||i.E<0||!Number.isSafeInteger(i.expires)||!validTraits(i.traits??i)||i.kind!=="invading")errors.push("HYPER_INOCULUM:"+i.id);
+      return errors;
+    }
+    return {enabled,is,parameters,settings,create,childTraits,adaptation,entries,locate,ageInfo:qAge,summary,initial,validate,resistance,acquireResistance,beginResistance};
+  })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
   // Explicitly enabled only for fixed production worlds; never serialized.
@@ -16633,6 +17351,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(c.primaryParasiteModel==="primary/1"){
       c.primaryParasiteSettings=PrimaryParasite.parameters(c.primaryParasiteSettings);c.ageModel="life/1";
     }else if(c.primaryParasiteSettings!==undefined)throw Error("SETTINGS_INVALID: 一次寄生モデルの指定が必要です");
+    if(c.hyperParasiteModel!==undefined&&c.hyperParasiteModel!=="hyper/1")throw Error("SETTINGS_INVALID: 高次寄生モデル");
+    if(c.hyperParasiteModel==="hyper/1"){
+      if(c.primaryParasiteModel!=="primary/1")throw Error("SETTINGS_INVALID: 高次寄生には一次寄生モデルが必要です");
+      c.hyperParasiteSettings=HyperParasite.parameters(c.hyperParasiteSettings);
+    }else if(c.hyperParasiteSettings!==undefined)throw Error("SETTINGS_INVALID: 高次寄生モデルの指定が必要です");
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
@@ -16869,7 +17592,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const infection = (p) => {
       if (p) {
         E += p.E+(PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0);
-        if (p.q) E += p.q.E;
+        if (p.q) E += p.q.E+(HyperParasite.enabled(w)&&HyperParasite.is(p.q)?p.q.B:0);
       }
     };
     for (const o of w.organisms) {
@@ -16888,8 +17611,9 @@ return {settings,attach,region,level,factor,begin,finish};
       infection(a.infection);
     }
     for (const a of w.pending) infection(a.infection);
-    for (const q of w.searchQ || []) E += q.E;
+    for (const q of w.searchQ || []) E += q.E+(HyperParasite.enabled(w)&&HyperParasite.is(q)?q.B:0);
     if(PrimaryParasite.enabled(w))for(const i of w.primaryInocula||[])E+=i.E;
+    if(HyperParasite.enabled(w))for(const i of w.hyperInocula||[])E+=i.E;
     for (const t of w.tiles) M += t.soilM;
     return { E: H.round(E), M: H.round(M) };
   }
@@ -17375,9 +18099,10 @@ return {settings,attach,region,level,factor,begin,finish};
     if (config.enabled.Q && !config.enabled.P)
       w.warnings.push("一次寄生虫が無効なため高次寄生虫は初期0です");
     if(PrimaryParasite.enabled(w))PrimaryParasite.initial(w);
-    if(config.ecologyRevision === "observation/4.1") {
+    if(config.ecologyRevision === "observation/4.1")config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
+    if(HyperParasite.enabled(w))HyperParasite.initial(w);
+    else if(config.ecologyRevision === "observation/4.1") {
       w.searchQ=[];
-      config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
       config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.floor(w.organisms.filter(o=>o.infection).length/2),createdSearchQ:0};
       const manualQ=config.founderCounts?.parasites.hyperparasite;
       if(manualQ!==undefined)config.parasiteInitial.targetSearchQ=manualQ;
@@ -17406,6 +18131,7 @@ return {settings,attach,region,level,factor,begin,finish};
     Colony.summary(w);
     LargePlant.summary(w);
     PrimaryParasite.summary(w);
+    HyperParasite.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -17426,6 +18152,7 @@ return {settings,attach,region,level,factor,begin,finish};
     };
   }
   function hyper(w, pId, turn = w.turn) {
+    if(HyperParasite.enabled(w))return HyperParasite.create(w,pId,turn,pId);
     return {
       id: "q:" + pId + ":" + turn,
       species: "hyperparasite",
@@ -17442,7 +18169,7 @@ return {settings,attach,region,level,factor,begin,finish};
   }
   function loseInfection(w, p) {
     if (p) {
-      dissipate(w, p.E + (PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0) + (p.q?.E || 0));
+      dissipate(w, p.E + (PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0) + (p.q?.E || 0) + (HyperParasite.enabled(w)&&HyperParasite.is(p.q)?p.q.B:0));
       if (w.tallies) {
         w.tallies.deaths[p.species]++;
         if (p.q) w.tallies.deaths.hyperparasite++;
@@ -17461,6 +18188,7 @@ return {settings,attach,region,level,factor,begin,finish};
     LargePlant,
     Ryouki,
     PrimaryParasite,
+    HyperParasite,
     activeSpecies,
     activeMain,
     initialRank,
@@ -17521,6 +18249,219 @@ function(require,module){
   "use strict";
   const required = { first: 4, middle: 6, extra: 6, terminal: 8 };
   const primaryEnabled=w=>S.PrimaryParasite?.enabled(w)===true;
+  const hyperEnabled=w=>S.HyperParasite?.enabled(w)===true;
+  const hyperFlowKeys=["exposures","invasionAttempts","invaded","established","cleared","emergenceAttempts","emergenceFailed","emerged","eggsLaid","offspringEstablished","fedE","moved","preyed","maintenanceE","developmentE","metaE","informationE","emergenceE","movementE","laidE"];
+  function emptyHyperFlow(w) {
+    return {definition:"hyper-parasite-flow/1",turn:w.turn,bySpecies:{hyperparasite:Object.fromEntries(hyperFlowKeys.map(k=>[k,0]))}};
+  }
+  function hyperFlow(w,ctx,key,value=1) {
+    ctx.hyperFlow??=emptyHyperFlow(w);
+    const row=ctx.hyperFlow.bySpecies.hyperparasite;row[key]=S.round(row[key]+value);
+  }
+  function hyperEvent(ctx,subject,type,extra={}) {
+    S.record(ctx,subject,"hyper-"+type,{species:"hyperparasite",...extra});
+  }
+  function hyperLast(w,q) {
+    if(q.hyper.last?.turn!==w.turn)q.hyper.last={turn:w.turn,outcome:null,outcomeAt:null,reason:null,blockers:[],taxE:0,maintenanceE:0,developmentE:0,metaE:0,informationE:0,emergenceE:0,feedingE:0,movementE:0,laidE:0,maintained:false,developed:false,progress:0,modulation:0};
+    return q.hyper.last;
+  }
+  function hyperOutcome(w,q,outcome,reason=null) {
+    Object.assign(hyperLast(w,q),{outcome,outcomeAt:w.turn,reason});
+  }
+  function hyperCost(q,p) {
+    return S.clamp(1-.5*(S.HyperParasite.adaptation(q,p.species,"contact","terminal")-.5),.75,1.25);
+  }
+  function hyperSpend(w,q,cost) {
+    const paid=S.round(Math.min(q.E,Math.max(0,cost)));q.E=S.round(q.E-paid);S.dissipate(w,paid);return paid;
+  }
+  function hyperDetachTraces(w,host,p,q,hostOnly=false) {
+    if(!hyperEnabled(w)||!S.HyperParasite.is(q))return;
+    for(const holder of hostOnly?[host]:[host,p])for(const trace of holder?.hyperTraces||[])
+      if(trace.qId===q.id&&trace.detachedAt===null)trace.detachedAt=w.turn;
+  }
+  function hyperTrace(w,host,p,q,paid) {
+    if(paid<=0)return;
+    const z=S.HyperParasite.settings(w),phase=q.phase,ratio=S.clamp(paid/z.informationCosts[phase],0,1),
+      investment=q.hyper.genes.investment, promotion=z.promotionCaps[phase]*ratio*investment.promotion,
+      distortion=z.distortionCaps[phase]*ratio*investment.distortion;
+    for(const holder of [host,p]){
+      if(!holder)continue;
+      holder.hyperTraces??=[];
+      const old=holder.hyperTraces.find(a=>a.qId===q.id),oldFactor=old?.detachedAt===null?1:old?Math.pow(.5,Math.max(0,w.turn-old.detachedAt)/50):0,
+        heldPromotion=Math.min(z.promotionCaps[phase]*investment.promotion,(old?.promotion||0)*oldFactor+promotion),
+        heldDistortion=Math.min(z.distortionCaps[phase]*investment.distortion,(old?.distortion||0)*oldFactor+distortion),
+        trace={version:"hyper-trace/1",qId:q.id,pId:p.id,sourceId:host.id,
+        firstAt:old?.firstAt??w.turn,updatedAt:w.turn,detachedAt:null,phase,paidE:S.round((old?.paidE||0)+paid),
+        promotion:S.round(heldPromotion),distortion:S.round(heldDistortion),direction:structuredClone(q.hyper.bias||{axis:0,sign:1}),
+        strength:S.round(heldPromotion+heldDistortion)};
+      const candidates=[...holder.hyperTraces.filter(a=>a.qId!==q.id),trace].filter(a=>a.detachedAt===null||w.turn-a.detachedAt<100);
+      candidates.sort((a,b)=>{
+        const value=t=>t.strength*(t.detachedAt===null?1:Math.pow(.5,(w.turn-t.detachedAt)/50));
+        return value(b)-value(a)||S.compare(a.qId,b.qId);
+      });
+      holder.hyperTraces=candidates.slice(0,2);
+    }
+  }
+  function hyperExclude(w,ctx,host,reason="immunity") {
+    if(!hyperEnabled(w))return false;
+    const p=host.infection,q=p?.q;if(!S.HyperParasite.is(q))return false;
+    hyperDetachTraces(w,host,p,q);
+    if(["immunity","groom"].includes(reason)){S.HyperParasite.acquireResistance(w,p);hyperFlow(w,ctx,"cleared");}
+    hyperOutcome(w,q,"cleared",reason);p.q=null;S.dissipate(w,q.E+q.B);
+    ctx.deaths.push({species:"hyperparasite",reason});hyperEvent(ctx,host,"cleared",{parasite:q.id,target:p.id,hostSpecies:p.species,reason});return true;
+  }
+  function hyperAdultDeath(w,ctx,q,reason="predation") {
+    if(!hyperEnabled(w)||!S.HyperParasite.is(q)||(w.searchQ||[]).every(a=>a.id!==q.id))return false;
+    S.dissipate(w,q.E+q.B);q.E=0;q.B=0;w.searchQ=w.searchQ.filter(a=>a.id!==q.id);
+    ctx.deaths.push({species:"hyperparasite",reason});if(reason==="predation")hyperFlow(w,ctx,"preyed");
+    hyperOutcome(w,q,"dead",reason);hyperEvent(ctx,q,"death",{parasite:q.id,reason});return true;
+  }
+  function hyperExpose(w,ctx,parent,host) {
+    if(!hyperEnabled(w)||!S.HyperParasite.is(parent)||parent.phase!==4||parent.hyper.state!=="adult")return {invaded:false,reason:"parent"};
+    const z=S.HyperParasite.settings(w),p=host?.infection,last=hyperLast(w,parent);
+    if(!host||host.HP<=0||!S.oneStep(w,parent.cell,host.cell)||!S.sight(w,parent.cell,host.cell))return {invaded:false,reason:"contact"};
+    if(parent.bornAt>=w.turn||parent.hyper.detachedAt>=w.turn||parent.ready>w.turn||parent.age<(parent.maturity??z.maturity))return {invaded:false,reason:"parent"};
+    // Selection does not reveal the exact internal clock. Actual contact must
+    // still pass this strict, one-use biological compatibility window.
+    if(!S.PrimaryParasite.is(p)||!["leafparasite","tideparasite"].includes(p.species)||!windowOpen(w,p))return {invaded:false,reason:"window"};
+    if(p.q||(w.hyperInocula||[]).some(i=>i.hostId===p.id&&i.E>0))return {invaded:false,reason:"occupied"};
+    if(ctx.movedInfections.has(p.id)||w.turn<=p.primary.pauseUntil)return {invaded:false,reason:"migration"};
+    const factor=hyperCost(parent,p),cost=S.round(z.eggReserve+(z.eggCost-z.eggReserve)*factor);
+    if(parent.E+1e-8<cost)return {invaded:false,reason:"nutrition"};
+    parent.E=S.round(parent.E-cost);last.laidE=S.round(last.laidE+cost);hyperFlow(w,ctx,"laidE",cost);parent.ready=w.turn+z.eggCooldown;
+    hyperFlow(w,ctx,"exposures");hyperFlow(w,ctx,"invasionAttempts");
+    const resistance=S.HyperParasite.resistance(w,p),chance=S.clamp(z.entryRate*(1-z.entryDefense)*(1-.5*resistance),0,1);
+    if(S.r(w,"hyper/invasion",w.turn,parent.id,p.id)>=chance){S.dissipate(w,cost);hyperOutcome(w,parent,"invasion-failed","invasion");hyperEvent(ctx,host,"invasion-failed",{parasite:parent.id,target:p.id,cost});return {invaded:false,reason:"invasion"};}
+    const id="hyper-inoculum:"+parent.id+":"+w.turn,traits=S.HyperParasite.childTraits(w,parent,id,w.turn);
+    const i={id,kind:"invading",parentId:parent.id,sourceId:parent.id,hostId:p.id,carrierId:host.id,cell:host.cell,
+      E:z.eggReserve,createdAt:w.turn,invadedAt:w.turn,establishAt:w.turn+1,expires:w.turn+z.eggLifetime,
+      matureAt:p.matureAt,route:"contact",...traits};
+    w.hyperInocula??=[];w.hyperInocula.push(i);S.dissipate(w,cost-z.eggReserve);
+    hyperFlow(w,ctx,"invaded");hyperFlow(w,ctx,"eggsLaid");hyperOutcome(w,parent,"laid");
+    hyperEvent(ctx,host,"invaded",{parasite:parent.id,target:p.id,inoculum:id,establishAt:i.establishAt,cost});
+    return {invaded:true,reason:null,id};
+  }
+  function hyperEstablish(w,ctx) {
+    if(!hyperEnabled(w))return;
+    const z=S.HyperParasite.settings(w),holders=new Map(primaryHolders(w).map(host=>[host.infection.id,host]));
+    const due=(w.hyperInocula||[]).slice().sort((a,b)=>S.compare(a.id,b.id)),keep=[];
+    for(const i of due){
+      if(i.establishAt>w.turn&&i.expires>w.turn){keep.push(i);continue;}
+      const host=holders.get(i.hostId),p=host?.infection;
+      const proof=Number.isSafeInteger(i.matureAt)&&i.invadedAt>i.matureAt&&i.invadedAt<=i.matureAt+3&&i.establishAt===i.invadedAt+1;
+      const timely=proof&&i.establishAt===w.turn&&i.invadedAt<i.expires;
+      const valid=timely&&host&&w.organisms.includes(host)&&host.HP>0&&S.PrimaryParasite.is(p)&&p.matureAt===i.matureAt&&!p.q&&!ctx.movedInfections.has(p.id)&&w.turn>p.primary.pauseUntil;
+      const a=valid?S.HyperParasite.adaptation({hyper:{genes:i.genes}},p.species,"contact","terminal"):.5,
+        chance=S.clamp(z.establishmentRate*(1-(valid?S.HyperParasite.resistance(w,p):0))*(1+.5*(a-.5)),0,1);
+      if(valid&&i.E>=z.biomass[1]&&S.r(w,"hyper/establishment",w.turn,i.id,p.id)<chance){
+        const q=S.HyperParasite.create(w,p.id,w.turn,i.id,i);q.B=z.biomass[1];q.E=S.round(i.E-q.B);p.q=q;
+        q.hyper.state="egg";q.hyper.settledAt=w.turn;q.hyper.pauseUntil=w.turn;
+        ctx.births.push("hyperparasite");hyperFlow(w,ctx,"established");if(i.parentId)hyperFlow(w,ctx,"offspringEstablished");
+        hyperOutcome(w,q,"established");hyperEvent(ctx,host,"established",{parasite:q.id,target:p.id,hostSpecies:p.species,parent:i.parentId,amount:i.E});
+      }else{
+        S.dissipate(w,i.E);hyperEvent(ctx,host||{id:i.hostId,cell:i.cell},"establishment-failed",{parasite:i.id,target:i.hostId,reason:valid?"establishment":"host-or-window",amount:i.E});
+      }
+    }
+    w.hyperInocula=keep;
+  }
+  function hyperBegin(w,ctx) {
+    if(!hyperEnabled(w)||ctx.hyperBegun)return;ctx.hyperBegun=true;ctx.hyperFlow??=emptyHyperFlow(w);
+    const z=S.HyperParasite.settings(w);
+    for(const host of primaryHolders(w))S.HyperParasite.beginResistance(w,host.infection);
+    hyperEstablish(w,ctx);
+    for(const host of primaryHolders(w)){
+      const p=host.infection,q=p.q;if(!S.HyperParasite.is(q))continue;
+      q.age=Math.max(q.age||0,w.turn-q.bornAt);const last=hyperLast(w,q);
+      if(q.age>=q.birthLife){hyperExclude(w,ctx,host,"age");continue;}
+      if(q.hyper.settledAt>=w.turn)continue;
+      if(p.E>=z.exclusionCost){
+        p.E=S.round(p.E-z.exclusionCost);S.dissipate(w,z.exclusionCost);
+        if(S.r(w,"hyper/exclusion",w.turn,p.id,q.id)<z.exclusionRate){hyperExclude(w,ctx,host,"immunity");continue;}
+      }
+      const phase=Math.min(3,q.phase),factor=hyperCost(q,p),tax=S.round(Math.min(p.E,z.hostTax[phase],z.capE-q.E));
+      p.E=S.round(p.E-tax);q.E=S.round(q.E+tax);last.taxE=tax;
+      const cost=S.round(z.maintenance[phase]*factor),paid=hyperSpend(w,q,cost);
+      last.maintenanceE=paid;last.maintained=paid+1e-8>=cost;hyperFlow(w,ctx,"maintenanceE",paid);
+      q.hyper.starvationRun=last.maintained?0:q.hyper.starvationRun+1;
+      if(!last.maintained)last.blockers.push("maintenance");
+      if(q.hyper.starvationRun>=z.starvationTurns){hyperExclude(w,ctx,host,"maintenance");continue;}
+      const developing=w.organisms.includes(host)&&host.HP>0&&!ctx.movedInfections.has(p.id)&&w.turn>Math.max(p.primary.pauseUntil,q.hyper.pauseUntil)&&q.hyper.development<z.development;
+      if(last.maintained&&developing){
+        const cost=S.round(z.developmentCost[phase]*factor),paid=hyperSpend(w,q,cost);last.developmentE=paid;
+        last.developed=paid+1e-8>=cost;hyperFlow(w,ctx,"developmentE",paid);
+        if(last.developed)last.progress=S.round(1-.5*S.HyperParasite.resistance(w,p));else last.blockers.push("development");
+      }
+      if(last.maintained&&(!developing||last.developed)&&w.organisms.includes(host)&&host.HP>0){
+        const meta=S.round(z.metaCosts[phase]*factor),paid=hyperSpend(w,q,meta);last.metaE=paid;hyperFlow(w,ctx,"metaE",paid);
+        const sign=q.hyper.bias?.sign??(q.modulation||1);last.modulation=meta>0?S.round(sign*z.metaCaps[phase]*Math.min(1,paid/meta)):0;
+        const info=S.round(z.informationCosts[phase]*factor),invest=hyperSpend(w,q,info);last.informationE=invest;hyperFlow(w,ctx,"informationE",invest);hyperTrace(w,host,p,q,invest);
+        if(p.primary.last)p.primary.last.induction=S.round(S.clamp(p.primary.last.induction*(1+last.modulation),0,1));
+      }
+    }
+  }
+  function hyperMature(w,ctx) {
+    if(!hyperEnabled(w)||ctx.hyperMatured)return;ctx.hyperMatured=true;
+    const z=S.HyperParasite.settings(w);
+    for(const host of w.organisms){
+      const p=host.infection,q=p?.q;if(!S.HyperParasite.is(q)||q.hyper.settledAt>=w.turn)continue;
+      const last=hyperLast(w,q),active=host.HP>0&&!ctx.movedInfections.has(p.id)&&w.turn>Math.max(p.primary.pauseUntil,q.hyper.pauseUntil);
+      if(!active){last.blockers.push("migration");continue;}
+      if(last.maintained){q.hyper.experience=S.round(q.hyper.experience+.25+(last.developed ? .75 : 0));if(last.progress>0)q.hyper.development=S.round(Math.min(z.development,q.hyper.development+last.progress));}
+      const phase=q.hyper.experience>=z.phaseThresholds[3]?3:q.hyper.experience>=z.phaseThresholds[2]?2:1;
+      if(phase>q.phase){const extra=S.round(z.biomass[phase]-q.B);if(q.E>=extra){q.E=S.round(q.E-extra);q.B=S.round(q.B+extra);q.phase=phase;}}
+      q.hyper.state=q.hyper.development>=z.development?"preparation":q.hyper.development>=1?"larva":"egg";
+      if(q.phase<3)last.blockers.push("phase");if(q.age<(q.maturity??z.maturity))last.blockers.push("maturity");
+      if(q.hyper.development<z.development)last.blockers.push("development");if(w.turn<q.hyper.prepareUntil)last.blockers.push("repreparation");
+      if(!last.maintained||q.phase<3||q.age<(q.maturity??z.maturity)||q.hyper.development<z.development||w.turn<q.hyper.prepareUntil)continue;
+      const cost=S.round(z.maintenance[q.phase]*hyperCost(q,p)*z.emergenceMultiplier),extra=S.round(z.biomass[4]-q.B);
+      if(q.E+1e-8<cost+extra){last.blockers.push("emergence-nutrition");continue;}
+      last.emergenceE=hyperSpend(w,q,cost);hyperFlow(w,ctx,"emergenceE",last.emergenceE);hyperFlow(w,ctx,"emergenceAttempts");q.hyper.prepareUntil=w.turn+z.prepareTurns;
+      const chance=S.clamp(z.emergenceRate*(1-S.HyperParasite.resistance(w,p)),0,1);
+      if(S.r(w,"hyper/emergence",w.turn,q.id,p.id)>=chance){hyperFlow(w,ctx,"emergenceFailed");hyperOutcome(w,q,"emergence-failed","resistance-or-chance");hyperEvent(ctx,host,"emergence-failed",{parasite:q.id,target:p.id,cost});continue;}
+      q.E=S.round(q.E-extra);q.B=S.round(q.B+extra);hyperDetachTraces(w,host,p,q);p.q=null;
+      host.infection=null;S.loseInfection(w,p);q.phase=4;q.hostId=null;q.cell=host.cell;q.hyper.state="adult";q.hyper.detachedAt=w.turn;
+      q.hyper.emergedFromPid=p.id;q.hyper.emergedFromHid=host.id;
+      w.searchQ??=[];w.searchQ.push(q);hyperFlow(w,ctx,"emerged");hyperOutcome(w,q,"emerged");
+      hyperEvent(ctx,q,"emerged",{parasite:q.id,source:p.id,host:host.id,hostSpecies:p.species,cost});
+    }
+  }
+  function hyperSearch(w,ctx) {
+    if(!hyperEnabled(w)||ctx.hyperSearched)return;ctx.hyperSearched=true;
+    const z=S.HyperParasite.settings(w),m=S.maps(w),resourceMap=m.resources,carcassMap=m.carcasses;
+    for(const q of (w.searchQ||[]).slice().sort((a,b)=>S.compare(a.id,b.id))){
+      if(!S.HyperParasite.is(q))continue;
+      q.age=Math.max(q.age||0,w.turn-q.bornAt);const last=hyperLast(w,q);
+      if(q.age>=q.birthLife){hyperAdultDeath(w,ctx,q,"age");continue;}
+      if(q.hyper.detachedAt>=w.turn||q.bornAt>=w.turn)continue;
+      const paid=hyperSpend(w,q,z.maintenance[4]);last.maintenanceE=paid;last.maintained=paid+1e-8>=z.maintenance[4];hyperFlow(w,ctx,"maintenanceE",paid);
+      q.hyper.starvationRun=last.maintained?0:q.hyper.starvationRun+1;
+      if(q.hyper.starvationRun>=z.starvationTurns){hyperAdultDeath(w,ctx,q,"maintenance");continue;}
+      const food=[...(resourceMap.get(q.cell)||[]).filter(a=>["plant","fungal","animal"].includes(S.FOOD[a.kind]?.tag)),...(carcassMap.get(q.cell)||[])].filter(a=>a.E>0).sort((a,b)=>S.compare(a.id,b.id));
+      let appetite=z.adultFoodCap;
+      for(const a of food){
+        const n=S.round(Math.min(appetite,a.E,(z.capE-q.E)/z.adultAssimilation));if(n<=0)continue;
+        const beforeE=a.E;a.E=S.round(a.E-n);
+        if(!a.kind&&Number.isFinite(a.G))a.G=S.round(a.G*a.E/beforeE);
+        const assimilated=S.round(n*z.adultAssimilation);q.E=S.round(q.E+assimilated);S.dissipate(w,n-assimilated);appetite=S.round(appetite-n);
+        last.feedingE=S.round(last.feedingE+assimilated);hyperFlow(w,ctx,"fedE",assimilated);
+        S.record(ctx,q,"feed",{source:a.id||"r:"+a.cell+":"+a.kind,sourceType:a.kind?"resource":"carcass",sourceSpecies:a.species||null,
+          tag:S.FOOD[a.kind]?.tag||"animal",amount:n,assimilated,to:a.cell,species:"hyperparasite"});
+      }
+      const cells=S.nearby(w,q.cell,3,true),candidates=[];
+      for(const cell of cells)for(const host of S.mainAt(m,cell))if(host.HP>0&&S.sight(w,q.cell,host.cell))candidates.push(host);
+      // External infestation is a visible cue. An internal infestation, its
+      // maturity clock, genes and energy are not privileged search knowledge.
+      const preference=host=>host.infection?.location==="external"?(q.hyper.preference?.[host.infection.species]??.5):.5;
+      const local=candidates.filter(host=>S.oneStep(w,q.cell,host.cell)).sort((a,b)=>preference(b)-preference(a)||S.hash(w,"hyper/contact-choice",w.turn,q.id,a.id)-S.hash(w,"hyper/contact-choice",w.turn,q.id,b.id));
+      if(q.ready<=w.turn&&q.age>=(q.maturity??z.maturity)&&local.length)hyperExpose(w,ctx,q,local[0]);
+      const predator=host=>S.spec(host).group==="main"&&!["plant"].includes(S.spec(host).diet)&&host.species!=="ryouki";
+      const threat=cell=>candidates.reduce((n,host)=>n+(predator(host)&&S.distance(w,cell,host.cell)<=1?1:0),0);
+      const cue=candidates.slice().sort((a,b)=>preference(b)-preference(a)||S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
+      const moves=[q.cell,...S.nearby(w,q.cell).filter(cell=>S.oneStep(w,q.cell,cell))];
+      moves.sort((a,b)=>threat(a)-threat(b)||(cue?S.distance(w,a,cue.cell)-S.distance(w,b,cue.cell):0)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b));
+      if(moves[0]!==q.cell&&q.E>=z.adultMoveCost){const from=q.cell;q.cell=moves[0];last.movementE=hyperSpend(w,q,z.adultMoveCost);hyperFlow(w,ctx,"moved");hyperFlow(w,ctx,"movementE",last.movementE);S.record(ctx,q,"move",{from,to:q.cell,species:"hyperparasite"});}
+    }
+  }
   const primaryStage=stage=>stage==="extra"?"terminal":stage;
   function emptyPrimaryFlow(w) {
     return {definition:"primary-parasite-flow/1",turn:w.turn,bySpecies:Object.fromEntries(["leafparasite","tideparasite"].map(species=>[species,
@@ -17574,6 +18515,7 @@ function(require,module){
       S.PrimaryParasite.acquireResistance(w,host,p.species,route);
       primaryFlow(w,ctx,p.species,route,"cleared");
     }
+    if(hyperEnabled(w))hyperDetachTraces(w,host,p,p.q);
     host.infection=null;S.loseInfection(w,p);primaryResult(w,p,route,"clear",reason);
     primaryEvent(ctx,host,"clear",{parasite:p.id,species:p.species,route,reason});return true;
   }
@@ -17715,9 +18657,10 @@ function(require,module){
         if(!last.developed)last.blockers.push("development");
         if(last.developed)last.progress=S.round(1-.5*S.PrimaryParasite.resistance(w,host,p.species,p.primary.route||"contact"));
       }
-      if(p.q){primaryBridgeQ(w,p.q,host.cell,p);entry.qFull=p.q.E>=.01;}
+      if(p.q&&!hyperEnabled(w)){primaryBridgeQ(w,p.q,host.cell,p);entry.qFull=p.q.E>=.01;}
       if(alive&&p.stage!=="extra"&&last.maintained&&(!canDevelop||last.developed)&&w.turn>p.primary.pauseUntil){const cost=settings.metaCosts[phase],paid=primarySpend(w,p,cost);last.metaE=paid;last.induction=cost>0?S.round(settings.metaCaps[phase]*Math.min(1,paid/cost)):0;}
     }
+    if(hyperEnabled(w))hyperBegin(w,ctx);
   }
   function produce(w,ctx,host,kind=null) {
     if(!primaryEnabled(w))return null;
@@ -17769,6 +18712,7 @@ function(require,module){
     if(S.r(w,"primary/migration",w.turn,p.id,target.id)>=chance){primaryEvent(ctx,target,"migration-failed",{parasite:p.id,species:p.species,route});return;}
     const pending={id:"primary-migration:"+p.id+":"+w.turn,kind:"primary-migration",infection:p,cell:target.cell,hostId:target.id,
       sourceId:source.id,sourceStage:p.stage,stage:rule.stage,route,createdAt:w.turn,establishAt:w.turn+1,expires:w.turn+2};
+    if(hyperEnabled(w))hyperDetachTraces(w,source,p,p.q,true);
     source.infection=null;p.hostId=pending.id;p.primary.pauseUntil=w.turn+1;p.primary.last.induction=0;
     w.pending.push(pending);ctx.movedInfections.add(p.id);
     primaryResult(w,p,route,"transferring");primaryFlow(w,ctx,p.species,route,"invaded");
@@ -17805,7 +18749,7 @@ function(require,module){
         if(p.stage==="terminal"&&p.counter>=settings.development.terminal&&p.matureAt===undefined){p.matureAt=w.turn;primaryResult(w,p,p.primary.route||"contact","mature");}
       }
       // Existing Q bridge only; I06 owns its new lifecycle and biomass.
-      const q=p.q;if(q&&entry.qFull&&!ctx.movedInfections.has(p.id)&&w.turn>p.primary.pauseUntil){
+      const q=p.q;if(q&&!hyperEnabled(w)&&entry.qFull&&!ctx.movedInfections.has(p.id)&&w.turn>p.primary.pauseUntil){
         const favored=w.config.advantageSettings?.hyperparasite===true;q.counter++;
         if(entry.qPhase===1&&q.counter>=(favored?1:4)){q.phase=2;q.counter=0;}
         else if(entry.qPhase===2&&q.counter>=(favored?2:8)&&q.E>=(favored ? .02 : .2)){
@@ -17815,10 +18759,17 @@ function(require,module){
         }
       }
     }
+    if(hyperEnabled(w))hyperMature(w,ctx);
   }
   function hostDeath(w,ctx,host,carcass) {
     if(!primaryEnabled(w))return false;
     const settings=S.PrimaryParasite.settings(w);
+    if(hyperEnabled(w)&&host.hyperTraces?.length){
+      // Death freezes the old source's paid trace; a surviving P in a carcass
+      // is a different holder, not continued remote investment into dead H.
+      for(const trace of host.hyperTraces)if(trace.detachedAt===null)trace.detachedAt=w.turn;
+      carcass.hyperSourceTraces=structuredClone(host.hyperTraces);
+    }
     for(const i of w.primaryInocula||[])if(i.hostId===host.id&&i.kind==="edible"){
       i.hostId=carcass.id;i.cell=carcass.cell;i.kind="carcass";i.route="carcass";
       i.expires=Math.min(i.expires,w.turn+settings.inoculumLifetime.carcass);
@@ -17827,7 +18778,7 @@ function(require,module){
     if(p.stage!=="extra"&&p.counter>=settings.development[p.stage]){
       if(p.species==="tideparasite"&&["shallow","deep"].includes(w.tiles[host.cell].terrain))produce(w,ctx,host,"water");
       carcass.infection=p;p.hostId=carcass.id;carcass.payloadExpires=Math.min(carcass.expires,w.turn+settings.inoculumLifetime.carcass);p.primary.last.induction=0;
-    }else S.loseInfection(w,p);
+    }else {if(hyperEnabled(w))hyperDetachTraces(w,host,p,p.q);S.loseInfection(w,p);}
     host.infection=null;return true;
   }
   function expireCarrier(w,ctx,carrier) {
@@ -18126,6 +19077,7 @@ function(require,module){
         fit: event.env === w.tiles[c.cell].env ? 2 : 1,
       });
     }
+    if(hyperEnabled(w))return out; // I07 will consume paid traces; no legacy live-resource rewriting.
     const byQ = new Map();
     for (const c of out) {
       if (c.growth) continue;
@@ -18191,7 +19143,7 @@ function(require,module){
       for(const host of w.organisms)if(host.HP>0)produce(w,ctx,host);
       for(const host of w.organisms){
         const p=host.infection,q=p?.q,rec=ctx.records.get(host.id);
-        if(!q||!rec||ctx.movedInfections.has(p.id))continue;
+        if(!q||hyperEnabled(w)||!rec||ctx.movedInfections.has(p.id))continue;
         const signals=[rec.emitted,rec.contacted,rec.information.length>0];
         q.counts=q.counts.map((v,i)=>Math.min(8,v+(signals[i]?1:0)));q.seen=q.seen.filter(a=>a.expires>w.turn);
       }
@@ -18366,6 +19318,7 @@ function(require,module){
   }
   function windowOpen(w,p){return p.stage==="terminal" && Number.isInteger(p.matureAt) && w.turn>p.matureAt && w.turn<=p.matureAt+3;}
   function search(w,ctx){
+    if(hyperEnabled(w))return hyperSearch(w,ctx);
     const current=w.searchQ || [],next=[],born=[];
     const infected=w.organisms.filter(o=>o.infection && !o.infection.q && windowOpen(w,o.infection) && !ctx.movedInfections.has(o.infection.id));
     const occupied=new Set(), searchMap=S.maps(w);
@@ -18386,6 +19339,7 @@ function(require,module){
     w.searchQ=[...next,...born];
   }
   return {
+    hyperBegin,hyperMature,hyperSearch,hyperExclude,hyperExpose,hyperEstablish,hyperAdultDeath,emptyHyperFlow,
     begin,hostDeath,expireCarrier,produce,expose,diffuse,exclude,emptyPrimaryFlow,
     clear,search,windowOpen,
     required,
@@ -19118,6 +20072,140 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return {enabled,is,parameters,settings,hostTable,hostRule,adaptation,childAdaptation,infection,inoculum,takeInoculum,resistance,acquireResistance,beginResistance,entries,locate,ageInfo:parasiteAge,initial,summary,validate};
   })();
+  const HyperParasite = (() => {
+    const VERSION="hyper-state/1",P_SPECIES=["leafparasite","tideparasite"];
+    const enabled=w=>w?.config?.hyperParasiteModel==="hyper/1";
+    const is=q=>q?.species==="hyperparasite"&&q?.hyper?.version===VERSION;
+    function parameters(input={}){
+      const defaults={version:"hyper-parameters/1",maintenance:[0,.005,.010,.015,.020],hostTax:[0,.020,.030,.040,0],
+        developmentCost:[0,.005,.010,.015,0],biomass:[0,.01,.015,.02,.03],phaseThresholds:[0,0,4,12],maturity:12,life:80,development:12,
+        starvationTurns:8,entryRate:.6,entryDefense:.2,establishmentRate:.7,exclusionCost:.01,exclusionRate:.006,
+        emergenceMultiplier:6,emergenceRate:.6,prepareTurns:4,eggCost:.10,eggReserve:.09,eggCooldown:12,eggLifetime:4,
+        adultMoveCost:.002,adultFoodCap:.10,adultAssimilation:.5,capE:1,metaCosts:[0,.001,.002,.004,0],metaCaps:[0,.03,.05,.08,0],
+        informationCosts:[0,.002,.004,.008,0],promotionCaps:[0,.02,.05,.10,0],distortionCaps:[0,.05,.10,.20,0],
+        mutationRate:.10,mutationStep:.05,resistanceGain:.4,resistanceCap:.8,resistanceHalfLife:40,resistanceMaintenance:.005,
+        initialFraction:.2,initialAttachedFraction:.75,initialEnergy:.08};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 高次寄生の比較値");
+      const out={...structuredClone(defaults),...structuredClone(input)};
+      if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 高次寄生の定義版");
+      for(const [key,value]of Object.entries(out)){
+        if(key==="version")continue;
+        const valid=n=>typeof n==="number"&&Number.isFinite(n)&&n>=0&&n<=10000;
+        if(Array.isArray(defaults[key])){if(!Array.isArray(value)||value.length!==defaults[key].length||value.some(n=>!valid(n)))throw Error("SETTINGS_INVALID: 高次寄生 "+key);}
+        else if(!valid(value))throw Error("SETTINGS_INVALID: 高次寄生 "+key);
+      }
+      for(const key of ["maturity","life","starvationTurns","prepareTurns","eggCooldown","eggLifetime"])if(!Number.isSafeInteger(out[key])||out[key]<1)throw Error("SETTINGS_INVALID: 高次寄生のT");
+      for(const key of ["entryRate","entryDefense","establishmentRate","exclusionRate","emergenceRate","adultAssimilation","mutationRate","mutationStep","resistanceGain","resistanceCap","initialFraction","initialAttachedFraction"])if(out[key]>1)throw Error("SETTINGS_INVALID: 高次寄生の率");
+      if(out.life<=out.maturity||out.capE<out.initialEnergy||out.resistanceCap>.8||out.resistanceHalfLife<=0||out.development<=0||
+        out.eggCost<out.eggReserve||out.eggReserve<out.biomass[1]||out.eggReserve-out.biomass[1]>out.capE||
+        out.maintenance.slice(1).some(n=>n<=0)||out.developmentCost.slice(1,4).some(n=>n<=0)||out.metaCosts.slice(1,4).some(n=>n<=0)||out.informationCosts.slice(1,4).some(n=>n<=0)||
+        [out.exclusionCost,out.emergenceMultiplier,out.eggCost,out.adultMoveCost,out.resistanceMaintenance].some(n=>n<=0)||
+        out.biomass[0]!==0||out.biomass.slice(1).some((n,i)=>n<=0||(i>0&&n<out.biomass[i]))||
+        out.phaseThresholds[0]!==0||out.phaseThresholds[1]!==0||out.phaseThresholds[2]<=0||out.phaseThresholds[3]<=out.phaseThresholds[2]||
+        out.metaCaps.some(n=>n>1)||out.promotionCaps.some(n=>n>1)||out.distortionCaps.some(n=>n>1))throw Error("SETTINGS_INVALID: 高次寄生の収支/成長");
+      return out;
+    }
+    const settings=w=>w.config.hyperParasiteSettings;
+    const defaultGenes=()=>({hosts:{leafparasite:.5,tideparasite:.5},routes:{contact:.5},stages:{terminal:.5},investment:{promotion:.5,distortion:.5}});
+    function initialTraits(w,origin){return {genes:defaultGenes(),preference:Object.fromEntries(P_SPECIES.map(id=>[id,H.round(.25+.5*r(w,"hyper/host-preference",0,origin,id))])),
+      bias:{axis:Math.floor(r(w,"hyper/bias-axis",0,origin)*5),sign:r(w,"hyper/bias-sign",0,origin)<.5?-1:1},parents:[],generation:0,mutation:{occurred:false,changes:[]}};}
+    function childTraits(w,parent,origin,turn=w.turn){
+      const a=parent.hyper??parent.traits??parent,p=settings(w),traits={genes:structuredClone(a.genes??defaultGenes()),preference:structuredClone(a.preference??initialTraits(w,origin).preference),
+        bias:structuredClone(a.bias??initialTraits(w,origin).bias),parents:[parent.parentId??parent.id],generation:(a.generation??parent.generation??0)+1,mutation:{occurred:false,changes:[]}};
+      if(r(w,"hyper/mutation",turn,origin)<p.mutationRate){
+        const g=traits.genes,keys=Object.keys(g).flatMap(group=>Object.keys(g[group]).map(key=>[group,key])),first=keys[Math.floor(r(w,"hyper/mutation-key",turn,origin)*keys.length)],sign=r(w,"hyper/mutation-sign",turn,origin)<.5?-1:1,
+          choices=keys.filter(key=>key!==first&&(key[0]==="investment")===(first[0]==="investment")&&(sign>0?g[key[0]][key[1]]>0:g[key[0]][key[1]]<1))
+            .sort((a,b)=>hash(w,"hyper/mutation-tradeoff",turn,origin,a)-hash(w,"hyper/mutation-tradeoff",turn,origin,b)),second=choices[0];
+        if(second){const value=g[first[0]][first[1]],other=g[second[0]][second[1]],step=Math.min(p.mutationStep,sign>0?1-value:value,sign>0?other:1-other);
+          if(step>0){g[first[0]][first[1]]=H.round(value+sign*step);g[second[0]][second[1]]=H.round(other-sign*step);traits.mutation={occurred:true,changes:[{key:first.join("/"),delta:sign*step},{key:second.join("/"),delta:-sign*step}]};}}
+      }
+      return traits;
+    }
+    function create(w,pId,turn=w.turn,origin=pId,traits=null){
+      if(!enabled(w))throw Error("SETTINGS_INVALID: 高次寄生モデルの指定が必要です");
+      const t=traits?.traits??traits??initialTraits(w,origin),p=settings(w);
+      return {id:"q:"+origin+":"+turn,species:"hyperparasite",hostId:pId,phase:1,age:0,bornAt:turn,birthLife:p.life,maturity:p.maturity,E:0,B:p.biomass[1],
+        ready:0,counter:0,special:null,modulation:null,counts:[0,0,0],seen:[],
+        hyper:{version:VERSION,state:"egg",development:0,experience:0,settledAt:turn,pauseUntil:turn,starvationRun:0,prepareUntil:0,
+          genes:structuredClone(t.genes??defaultGenes()),preference:structuredClone(t.preference??initialTraits(w,origin).preference),bias:structuredClone(t.bias??initialTraits(w,origin).bias),
+          parents:structuredClone(t.parents??[]),generation:t.generation??0,mutation:structuredClone(t.mutation??{occurred:false,changes:[]}),
+          origin:traits?"descendant":"initial",last:{turn,maintenanceE:0,developmentE:0,metaE:0,informationE:0,maintained:false,developed:false,progress:0,blockers:[]}}};
+    }
+    function adaptation(q,species,route="contact",stage="terminal"){const g=(q.hyper??q.traits??q).genes;return ((g?.hosts[species]??.5)+(g?.routes[route]??.5)+(g?.stages[stage]??.5))/3;}
+    function acquireResistance(w,p){
+      if(!enabled(w)||!PrimaryParasite.is(p))return;
+      const s=settings(w),a=p.hyperResistance??={version:"hyper-resistance/1",value:0,effective:0,updatedAt:w.turn,paidAt:-1,lastPaidE:0};
+      a.value=H.round(Math.min(s.resistanceCap,a.value*Math.pow(.5,Math.max(0,w.turn-a.updatedAt)/s.resistanceHalfLife)+s.resistanceGain));a.updatedAt=w.turn;return a;
+    }
+    function beginResistance(w,p){
+      const a=p.hyperResistance;if(!enabled(w)||!a||a.paidAt===w.turn)return {paid:0,required:0};
+      const s=settings(w);a.value=H.round(a.value*Math.pow(.5,Math.max(0,w.turn-a.updatedAt)/s.resistanceHalfLife));a.updatedAt=w.turn;a.paidAt=w.turn;
+      const required=H.round(s.resistanceMaintenance*a.value),paid=H.round(Math.min(p.E,required));p.E=H.round(p.E-paid);dissipate(w,paid);a.lastPaidE=paid;a.effective=required>0?H.round(a.value*paid/required):a.value;return {paid,required};
+    }
+    const resistance=(w,p)=>p.hyperResistance?.paidAt===w.turn?p.hyperResistance.effective:0;
+    function entries(w){
+      if(!enabled(w))return [];
+      const out=[],seen=new Set();
+      for(const e of PrimaryParasite.entries(w)){const q=e.p.q;if(is(q)&&!seen.has(q.id)){seen.add(q.id);out.push({q,p:e.p,host:e.host,hostP:e.p,hostH:e.host,carrier:e.carrier,kind:"attached",location:e.kind,cell:e.cell});}}
+      for(const q of w.searchQ||[])if(is(q)&&!seen.has(q.id)){seen.add(q.id);out.push({q,p:null,host:null,hostP:null,hostH:null,carrier:q,kind:"free",location:"free",cell:q.cell});}return out;
+    }
+    function locate(w,id){return entries(w).find(e=>e.q.id===id||e.p?.id===id||e.host?.id===id)??null;}
+    function qAge(q){return {enabled:is(q),applicable:is(q),age:q.age,birthLife:q.birthLife,life:q.birthLife,matureAt:q.maturity,elderlyAt:Math.floor(q.birthLife*.75),
+      stage:q.age<q.maturity?"juvenile":q.age<q.birthLife*.75?"adult":"elderly"};}
+    function initial(w){
+      if(!enabled(w))return;
+      const s=settings(w),all=PrimaryParasite.entries(w).filter(e=>P_SPECIES.includes(e.p.species)),direct=w.config.founderCounts?.parasites?.hyperparasite,
+        planned=w.config.enabled.Q?(direct??Math.floor(all.length*s.initialFraction)):0,freePlanned=Math.floor(planned*(1-s.initialAttachedFraction)),attachedPlanned=planned-freePlanned;
+      w.searchQ=[];w.hyperInocula=[];
+      const candidates=all.filter(e=>e.kind==="host"&&!e.p.q&&e.p.stage==="terminal"&&Number.isInteger(e.p.matureAt)&&
+        Math.max(e.p.matureAt+1,-s.life+1)<=Math.min(e.p.matureAt+3,0)).sort((a,b)=>hash(w,"hyper/initial-attached",0,a.p.id)-hash(w,"hyper/initial-attached",0,b.p.id)||H.compare(a.p.id,b.p.id));
+      const report={version:"hyper-initial/1",compatibleP:all.length,requested:direct??null,planned,actual:0,shortage:0,
+        attached:{planned:attachedPlanned,actual:0,shortage:0},free:{planned:freePlanned,actual:0,shortage:0},reasons:[]};
+      for(const e of candidates.slice(0,attachedPlanned)){
+        const origin="initial:"+e.p.id,earliest=Math.max(e.p.matureAt+1,-s.life+1),latest=Math.min(e.p.matureAt+3,0),bornAt=earliest+Math.floor(r(w,"hyper/initial-infected",0,origin)*(latest-earliest+1)),q=create(w,e.p.id,0,origin),age=Math.max(0,-bornAt),
+          experience=Math.min(s.phaseThresholds[3],age),phase=experience>=s.phaseThresholds[3]?3:experience>=s.phaseThresholds[2]?2:1;
+        Object.assign(q,{age,bornAt,phase,B:s.biomass[phase],E:s.initialEnergy});Object.assign(q.hyper,{state:phase===1?"egg":phase===2?"larva":"preparation",experience,development:Math.min(s.development,age),origin:"initial",initialExperience:experience});
+        e.p.q=q;report.attached.actual++;
+      }
+      const cells=w.tiles.map((tile,cell)=>({tile,cell})).filter(e=>!e.tile.blocked).map(e=>e.cell)
+        .sort((a,b)=>hash(w,"hyper/initial-free",0,null,a)-hash(w,"hyper/initial-free",0,null,b)||a-b);
+      for(const cell of cells.slice(0,freePlanned)){
+        const origin="initial:free:"+cell,q=create(w,null,0,origin),age=s.maturity+Math.floor(r(w,"hyper/initial-adult-age",0,origin)*Math.min(20,s.life-s.maturity));
+        Object.assign(q,{phase:4,cell,age,bornAt:-age,B:s.biomass[4],E:s.initialEnergy});Object.assign(q.hyper,{state:"adult",development:s.development,experience:s.phaseThresholds[3],origin:"initial",initialExperience:s.phaseThresholds[3]});w.searchQ.push(q);report.free.actual++;
+      }
+      for(const key of ["attached","free"]){report[key].shortage=report[key].planned-report[key].actual;report.actual+=report[key].actual;if(report[key].shortage)report.reasons.push(key+":"+(key==="attached"?"初回成熟窓と整合する終宿主P不足 ":"合法成体セル不足 ")+report[key].shortage);}
+      report.shortage=planned-report.actual;w.config.hyperParasiteInitial=report;
+      if(direct!==undefined&&report.shortage)throw Error("PLACEMENT_SHORTAGE: 抑環 指定"+direct+" / 配置可能"+report.actual+"（"+report.reasons.join("、")+"）");
+      if(report.shortage)w.warnings.push("高次寄生:予定"+planned+" / 実配置"+report.actual+"。"+report.reasons.join("、"));summary(w);return report;
+    }
+    function summary(w){
+      if(!enabled(w))return;
+      const out={definition:"hyper-parasite-observed/1",turn:w.turn,count:0,attached:0,free:0,migrating:0,mature:0,phases:[0,0,0,0],states:{egg:0,larva:0,preparation:0,adult:0},biomassB:0,reserveE:0,
+        invading:{records:0,amount:0,reserveE:0},resistance:{hosts:0,stored:0,effective:0,paidE:0}};
+      for(const e of entries(w)){const q=e.q;out.count++;out[e.kind]++;if(e.carrier.kind==="primary-migration")out.migrating++;if(q.age>=q.maturity)out.mature++;out.phases[q.phase-1]++;out.states[q.hyper.state]++;out.biomassB+=q.B;out.reserveE+=q.E;}
+      for(const i of w.hyperInocula||[]){out.invading.records++;out.invading.reserveE+=i.E;out.invading.amount+=i.E/settings(w).eggReserve;}
+      for(const {p}of PrimaryParasite.entries(w))if(p.hyperResistance){const a=p.hyperResistance;out.resistance.hosts++;out.resistance.stored+=a.value;if(a.paidAt===w.turn){out.resistance.effective+=a.effective;out.resistance.paidE+=a.lastPaidE;}}
+      const round=value=>{for(const key of Object.keys(value))if(typeof value[key]==="number")value[key]=H.round(value[key]);else if(value[key]&&typeof value[key]==="object")round(value[key]);};round(out);w.hyperParasiteSummary=out;return out;
+    }
+    function validate(w){
+      if(!enabled(w))return [];
+      const errors=[],seen=new Set(),sameKeys=(a,b)=>a&&typeof a==="object"&&!Array.isArray(a)&&Object.keys(a).sort().join("|")===Object.keys(b).sort().join("|");
+      const validTraits=a=>{
+        const expected=defaultGenes();return a&&sameKeys(a.genes,expected)&&Object.keys(expected).every(key=>sameKeys(a.genes[key],expected[key]))&&
+          Object.values(a.genes).flatMap(g=>Object.values(g)).every(n=>Number.isFinite(n)&&n>=0&&n<=1)&&a.genes.investment.promotion+a.genes.investment.distortion<=1+1e-6&&
+          sameKeys(a.preference,expected.hosts)&&Object.values(a.preference).every(n=>Number.isFinite(n)&&n>=0&&n<=1)&&Number.isInteger(a.bias?.axis)&&a.bias.axis>=0&&a.bias.axis<5&&[-1,1].includes(a.bias?.sign);
+      };
+      for(const holder of [...w.organisms,...w.carcasses,...w.pending])if(holder.infection?.q){const q=holder.infection.q;if(!is(q))errors.push("HYPER_STATE:"+q.id);if(seen.has(q.id))errors.push("HYPER_ID:"+q.id);seen.add(q.id);}
+      for(const q of w.searchQ||[]){if(!is(q))errors.push("HYPER_STATE:"+q.id);if(seen.has(q.id))errors.push("HYPER_ID:"+q.id);seen.add(q.id);}
+      for(const {q,p,kind}of entries(w))if(![q.E,q.B,q.age,q.hyper.experience,q.hyper.development].every(n=>Number.isFinite(n)&&n>=0)||
+        q.E>settings(w).capE+1e-6||!Number.isInteger(q.phase)||q.phase<1||q.phase>4||!Number.isFinite(q.bornAt)||q.birthLife<=0||!validTraits(q.hyper)||
+        !["egg","larva","preparation","adult"].includes(q.hyper.state)||(kind==="free"&&(q.phase!==4||q.hyper.state!=="adult"||!Number.isInteger(q.cell)||!w.tiles[q.cell]||q.hostId!==null))||
+        (p&&(q.hostId!==p.id||q.phase===4||q.hyper.state==="adult")))errors.push("HYPER_STATE:"+q.id);
+      for(const i of w.hyperInocula||[])if(!Number.isFinite(i.E)||i.E<0||!Number.isSafeInteger(i.expires)||!validTraits(i.traits??i)||i.kind!=="invading")errors.push("HYPER_INOCULUM:"+i.id);
+      return errors;
+    }
+    return {enabled,is,parameters,settings,create,childTraits,adaptation,entries,locate,ageInfo:qAge,summary,initial,validate,resistance,acquireResistance,beginResistance};
+  })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
   // Explicitly enabled only for fixed production worlds; never serialized.
@@ -19436,6 +20524,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(c.primaryParasiteModel==="primary/1"){
       c.primaryParasiteSettings=PrimaryParasite.parameters(c.primaryParasiteSettings);c.ageModel="life/1";
     }else if(c.primaryParasiteSettings!==undefined)throw Error("SETTINGS_INVALID: 一次寄生モデルの指定が必要です");
+    if(c.hyperParasiteModel!==undefined&&c.hyperParasiteModel!=="hyper/1")throw Error("SETTINGS_INVALID: 高次寄生モデル");
+    if(c.hyperParasiteModel==="hyper/1"){
+      if(c.primaryParasiteModel!=="primary/1")throw Error("SETTINGS_INVALID: 高次寄生には一次寄生モデルが必要です");
+      c.hyperParasiteSettings=HyperParasite.parameters(c.hyperParasiteSettings);
+    }else if(c.hyperParasiteSettings!==undefined)throw Error("SETTINGS_INVALID: 高次寄生モデルの指定が必要です");
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
@@ -19672,7 +20765,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const infection = (p) => {
       if (p) {
         E += p.E+(PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0);
-        if (p.q) E += p.q.E;
+        if (p.q) E += p.q.E+(HyperParasite.enabled(w)&&HyperParasite.is(p.q)?p.q.B:0);
       }
     };
     for (const o of w.organisms) {
@@ -19691,8 +20784,9 @@ return {settings,attach,region,level,factor,begin,finish};
       infection(a.infection);
     }
     for (const a of w.pending) infection(a.infection);
-    for (const q of w.searchQ || []) E += q.E;
+    for (const q of w.searchQ || []) E += q.E+(HyperParasite.enabled(w)&&HyperParasite.is(q)?q.B:0);
     if(PrimaryParasite.enabled(w))for(const i of w.primaryInocula||[])E+=i.E;
+    if(HyperParasite.enabled(w))for(const i of w.hyperInocula||[])E+=i.E;
     for (const t of w.tiles) M += t.soilM;
     return { E: H.round(E), M: H.round(M) };
   }
@@ -20179,9 +21273,10 @@ return {settings,attach,region,level,factor,begin,finish};
     if (config.enabled.Q && !config.enabled.P)
       w.warnings.push("一次寄生虫が無効なため高次寄生虫は初期0です");
     if(PrimaryParasite.enabled(w))PrimaryParasite.initial(w);
-    if(config.ecologyRevision === "observation/4.1") {
+    if(config.ecologyRevision === "observation/4.1")config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
+    if(HyperParasite.enabled(w))HyperParasite.initial(w);
+    else if(config.ecologyRevision === "observation/4.1") {
       w.searchQ=[];
-      config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
       config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.floor(w.organisms.filter(o=>o.infection).length/2),createdSearchQ:0};
       const manualQ=config.founderCounts?.parasites.hyperparasite;
       if(manualQ!==undefined)config.parasiteInitial.targetSearchQ=manualQ;
@@ -20210,6 +21305,7 @@ return {settings,attach,region,level,factor,begin,finish};
     Colony.summary(w);
     LargePlant.summary(w);
     PrimaryParasite.summary(w);
+    HyperParasite.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -20230,6 +21326,7 @@ return {settings,attach,region,level,factor,begin,finish};
     };
   }
   function hyper(w, pId, turn = w.turn) {
+    if(HyperParasite.enabled(w))return HyperParasite.create(w,pId,turn,pId);
     return {
       id: "q:" + pId + ":" + turn,
       species: "hyperparasite",
@@ -20246,7 +21343,7 @@ return {settings,attach,region,level,factor,begin,finish};
   }
   function loseInfection(w, p) {
     if (p) {
-      dissipate(w, p.E + (PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0) + (p.q?.E || 0));
+      dissipate(w, p.E + (PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0) + (p.q?.E || 0) + (HyperParasite.enabled(w)&&HyperParasite.is(p.q)?p.q.B:0));
       if (w.tallies) {
         w.tallies.deaths[p.species]++;
         if (p.q) w.tallies.deaths.hyperparasite++;
@@ -20265,6 +21362,7 @@ return {settings,attach,region,level,factor,begin,finish};
     LargePlant,
     Ryouki,
     PrimaryParasite,
+    HyperParasite,
     activeSpecies,
     activeMain,
     initialRank,
@@ -21913,6 +23011,140 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return {enabled,is,parameters,settings,hostTable,hostRule,adaptation,childAdaptation,infection,inoculum,takeInoculum,resistance,acquireResistance,beginResistance,entries,locate,ageInfo:parasiteAge,initial,summary,validate};
   })();
+  const HyperParasite = (() => {
+    const VERSION="hyper-state/1",P_SPECIES=["leafparasite","tideparasite"];
+    const enabled=w=>w?.config?.hyperParasiteModel==="hyper/1";
+    const is=q=>q?.species==="hyperparasite"&&q?.hyper?.version===VERSION;
+    function parameters(input={}){
+      const defaults={version:"hyper-parameters/1",maintenance:[0,.005,.010,.015,.020],hostTax:[0,.020,.030,.040,0],
+        developmentCost:[0,.005,.010,.015,0],biomass:[0,.01,.015,.02,.03],phaseThresholds:[0,0,4,12],maturity:12,life:80,development:12,
+        starvationTurns:8,entryRate:.6,entryDefense:.2,establishmentRate:.7,exclusionCost:.01,exclusionRate:.006,
+        emergenceMultiplier:6,emergenceRate:.6,prepareTurns:4,eggCost:.10,eggReserve:.09,eggCooldown:12,eggLifetime:4,
+        adultMoveCost:.002,adultFoodCap:.10,adultAssimilation:.5,capE:1,metaCosts:[0,.001,.002,.004,0],metaCaps:[0,.03,.05,.08,0],
+        informationCosts:[0,.002,.004,.008,0],promotionCaps:[0,.02,.05,.10,0],distortionCaps:[0,.05,.10,.20,0],
+        mutationRate:.10,mutationStep:.05,resistanceGain:.4,resistanceCap:.8,resistanceHalfLife:40,resistanceMaintenance:.005,
+        initialFraction:.2,initialAttachedFraction:.75,initialEnergy:.08};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 高次寄生の比較値");
+      const out={...structuredClone(defaults),...structuredClone(input)};
+      if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 高次寄生の定義版");
+      for(const [key,value]of Object.entries(out)){
+        if(key==="version")continue;
+        const valid=n=>typeof n==="number"&&Number.isFinite(n)&&n>=0&&n<=10000;
+        if(Array.isArray(defaults[key])){if(!Array.isArray(value)||value.length!==defaults[key].length||value.some(n=>!valid(n)))throw Error("SETTINGS_INVALID: 高次寄生 "+key);}
+        else if(!valid(value))throw Error("SETTINGS_INVALID: 高次寄生 "+key);
+      }
+      for(const key of ["maturity","life","starvationTurns","prepareTurns","eggCooldown","eggLifetime"])if(!Number.isSafeInteger(out[key])||out[key]<1)throw Error("SETTINGS_INVALID: 高次寄生のT");
+      for(const key of ["entryRate","entryDefense","establishmentRate","exclusionRate","emergenceRate","adultAssimilation","mutationRate","mutationStep","resistanceGain","resistanceCap","initialFraction","initialAttachedFraction"])if(out[key]>1)throw Error("SETTINGS_INVALID: 高次寄生の率");
+      if(out.life<=out.maturity||out.capE<out.initialEnergy||out.resistanceCap>.8||out.resistanceHalfLife<=0||out.development<=0||
+        out.eggCost<out.eggReserve||out.eggReserve<out.biomass[1]||out.eggReserve-out.biomass[1]>out.capE||
+        out.maintenance.slice(1).some(n=>n<=0)||out.developmentCost.slice(1,4).some(n=>n<=0)||out.metaCosts.slice(1,4).some(n=>n<=0)||out.informationCosts.slice(1,4).some(n=>n<=0)||
+        [out.exclusionCost,out.emergenceMultiplier,out.eggCost,out.adultMoveCost,out.resistanceMaintenance].some(n=>n<=0)||
+        out.biomass[0]!==0||out.biomass.slice(1).some((n,i)=>n<=0||(i>0&&n<out.biomass[i]))||
+        out.phaseThresholds[0]!==0||out.phaseThresholds[1]!==0||out.phaseThresholds[2]<=0||out.phaseThresholds[3]<=out.phaseThresholds[2]||
+        out.metaCaps.some(n=>n>1)||out.promotionCaps.some(n=>n>1)||out.distortionCaps.some(n=>n>1))throw Error("SETTINGS_INVALID: 高次寄生の収支/成長");
+      return out;
+    }
+    const settings=w=>w.config.hyperParasiteSettings;
+    const defaultGenes=()=>({hosts:{leafparasite:.5,tideparasite:.5},routes:{contact:.5},stages:{terminal:.5},investment:{promotion:.5,distortion:.5}});
+    function initialTraits(w,origin){return {genes:defaultGenes(),preference:Object.fromEntries(P_SPECIES.map(id=>[id,H.round(.25+.5*r(w,"hyper/host-preference",0,origin,id))])),
+      bias:{axis:Math.floor(r(w,"hyper/bias-axis",0,origin)*5),sign:r(w,"hyper/bias-sign",0,origin)<.5?-1:1},parents:[],generation:0,mutation:{occurred:false,changes:[]}};}
+    function childTraits(w,parent,origin,turn=w.turn){
+      const a=parent.hyper??parent.traits??parent,p=settings(w),traits={genes:structuredClone(a.genes??defaultGenes()),preference:structuredClone(a.preference??initialTraits(w,origin).preference),
+        bias:structuredClone(a.bias??initialTraits(w,origin).bias),parents:[parent.parentId??parent.id],generation:(a.generation??parent.generation??0)+1,mutation:{occurred:false,changes:[]}};
+      if(r(w,"hyper/mutation",turn,origin)<p.mutationRate){
+        const g=traits.genes,keys=Object.keys(g).flatMap(group=>Object.keys(g[group]).map(key=>[group,key])),first=keys[Math.floor(r(w,"hyper/mutation-key",turn,origin)*keys.length)],sign=r(w,"hyper/mutation-sign",turn,origin)<.5?-1:1,
+          choices=keys.filter(key=>key!==first&&(key[0]==="investment")===(first[0]==="investment")&&(sign>0?g[key[0]][key[1]]>0:g[key[0]][key[1]]<1))
+            .sort((a,b)=>hash(w,"hyper/mutation-tradeoff",turn,origin,a)-hash(w,"hyper/mutation-tradeoff",turn,origin,b)),second=choices[0];
+        if(second){const value=g[first[0]][first[1]],other=g[second[0]][second[1]],step=Math.min(p.mutationStep,sign>0?1-value:value,sign>0?other:1-other);
+          if(step>0){g[first[0]][first[1]]=H.round(value+sign*step);g[second[0]][second[1]]=H.round(other-sign*step);traits.mutation={occurred:true,changes:[{key:first.join("/"),delta:sign*step},{key:second.join("/"),delta:-sign*step}]};}}
+      }
+      return traits;
+    }
+    function create(w,pId,turn=w.turn,origin=pId,traits=null){
+      if(!enabled(w))throw Error("SETTINGS_INVALID: 高次寄生モデルの指定が必要です");
+      const t=traits?.traits??traits??initialTraits(w,origin),p=settings(w);
+      return {id:"q:"+origin+":"+turn,species:"hyperparasite",hostId:pId,phase:1,age:0,bornAt:turn,birthLife:p.life,maturity:p.maturity,E:0,B:p.biomass[1],
+        ready:0,counter:0,special:null,modulation:null,counts:[0,0,0],seen:[],
+        hyper:{version:VERSION,state:"egg",development:0,experience:0,settledAt:turn,pauseUntil:turn,starvationRun:0,prepareUntil:0,
+          genes:structuredClone(t.genes??defaultGenes()),preference:structuredClone(t.preference??initialTraits(w,origin).preference),bias:structuredClone(t.bias??initialTraits(w,origin).bias),
+          parents:structuredClone(t.parents??[]),generation:t.generation??0,mutation:structuredClone(t.mutation??{occurred:false,changes:[]}),
+          origin:traits?"descendant":"initial",last:{turn,maintenanceE:0,developmentE:0,metaE:0,informationE:0,maintained:false,developed:false,progress:0,blockers:[]}}};
+    }
+    function adaptation(q,species,route="contact",stage="terminal"){const g=(q.hyper??q.traits??q).genes;return ((g?.hosts[species]??.5)+(g?.routes[route]??.5)+(g?.stages[stage]??.5))/3;}
+    function acquireResistance(w,p){
+      if(!enabled(w)||!PrimaryParasite.is(p))return;
+      const s=settings(w),a=p.hyperResistance??={version:"hyper-resistance/1",value:0,effective:0,updatedAt:w.turn,paidAt:-1,lastPaidE:0};
+      a.value=H.round(Math.min(s.resistanceCap,a.value*Math.pow(.5,Math.max(0,w.turn-a.updatedAt)/s.resistanceHalfLife)+s.resistanceGain));a.updatedAt=w.turn;return a;
+    }
+    function beginResistance(w,p){
+      const a=p.hyperResistance;if(!enabled(w)||!a||a.paidAt===w.turn)return {paid:0,required:0};
+      const s=settings(w);a.value=H.round(a.value*Math.pow(.5,Math.max(0,w.turn-a.updatedAt)/s.resistanceHalfLife));a.updatedAt=w.turn;a.paidAt=w.turn;
+      const required=H.round(s.resistanceMaintenance*a.value),paid=H.round(Math.min(p.E,required));p.E=H.round(p.E-paid);dissipate(w,paid);a.lastPaidE=paid;a.effective=required>0?H.round(a.value*paid/required):a.value;return {paid,required};
+    }
+    const resistance=(w,p)=>p.hyperResistance?.paidAt===w.turn?p.hyperResistance.effective:0;
+    function entries(w){
+      if(!enabled(w))return [];
+      const out=[],seen=new Set();
+      for(const e of PrimaryParasite.entries(w)){const q=e.p.q;if(is(q)&&!seen.has(q.id)){seen.add(q.id);out.push({q,p:e.p,host:e.host,hostP:e.p,hostH:e.host,carrier:e.carrier,kind:"attached",location:e.kind,cell:e.cell});}}
+      for(const q of w.searchQ||[])if(is(q)&&!seen.has(q.id)){seen.add(q.id);out.push({q,p:null,host:null,hostP:null,hostH:null,carrier:q,kind:"free",location:"free",cell:q.cell});}return out;
+    }
+    function locate(w,id){return entries(w).find(e=>e.q.id===id||e.p?.id===id||e.host?.id===id)??null;}
+    function qAge(q){return {enabled:is(q),applicable:is(q),age:q.age,birthLife:q.birthLife,life:q.birthLife,matureAt:q.maturity,elderlyAt:Math.floor(q.birthLife*.75),
+      stage:q.age<q.maturity?"juvenile":q.age<q.birthLife*.75?"adult":"elderly"};}
+    function initial(w){
+      if(!enabled(w))return;
+      const s=settings(w),all=PrimaryParasite.entries(w).filter(e=>P_SPECIES.includes(e.p.species)),direct=w.config.founderCounts?.parasites?.hyperparasite,
+        planned=w.config.enabled.Q?(direct??Math.floor(all.length*s.initialFraction)):0,freePlanned=Math.floor(planned*(1-s.initialAttachedFraction)),attachedPlanned=planned-freePlanned;
+      w.searchQ=[];w.hyperInocula=[];
+      const candidates=all.filter(e=>e.kind==="host"&&!e.p.q&&e.p.stage==="terminal"&&Number.isInteger(e.p.matureAt)&&
+        Math.max(e.p.matureAt+1,-s.life+1)<=Math.min(e.p.matureAt+3,0)).sort((a,b)=>hash(w,"hyper/initial-attached",0,a.p.id)-hash(w,"hyper/initial-attached",0,b.p.id)||H.compare(a.p.id,b.p.id));
+      const report={version:"hyper-initial/1",compatibleP:all.length,requested:direct??null,planned,actual:0,shortage:0,
+        attached:{planned:attachedPlanned,actual:0,shortage:0},free:{planned:freePlanned,actual:0,shortage:0},reasons:[]};
+      for(const e of candidates.slice(0,attachedPlanned)){
+        const origin="initial:"+e.p.id,earliest=Math.max(e.p.matureAt+1,-s.life+1),latest=Math.min(e.p.matureAt+3,0),bornAt=earliest+Math.floor(r(w,"hyper/initial-infected",0,origin)*(latest-earliest+1)),q=create(w,e.p.id,0,origin),age=Math.max(0,-bornAt),
+          experience=Math.min(s.phaseThresholds[3],age),phase=experience>=s.phaseThresholds[3]?3:experience>=s.phaseThresholds[2]?2:1;
+        Object.assign(q,{age,bornAt,phase,B:s.biomass[phase],E:s.initialEnergy});Object.assign(q.hyper,{state:phase===1?"egg":phase===2?"larva":"preparation",experience,development:Math.min(s.development,age),origin:"initial",initialExperience:experience});
+        e.p.q=q;report.attached.actual++;
+      }
+      const cells=w.tiles.map((tile,cell)=>({tile,cell})).filter(e=>!e.tile.blocked).map(e=>e.cell)
+        .sort((a,b)=>hash(w,"hyper/initial-free",0,null,a)-hash(w,"hyper/initial-free",0,null,b)||a-b);
+      for(const cell of cells.slice(0,freePlanned)){
+        const origin="initial:free:"+cell,q=create(w,null,0,origin),age=s.maturity+Math.floor(r(w,"hyper/initial-adult-age",0,origin)*Math.min(20,s.life-s.maturity));
+        Object.assign(q,{phase:4,cell,age,bornAt:-age,B:s.biomass[4],E:s.initialEnergy});Object.assign(q.hyper,{state:"adult",development:s.development,experience:s.phaseThresholds[3],origin:"initial",initialExperience:s.phaseThresholds[3]});w.searchQ.push(q);report.free.actual++;
+      }
+      for(const key of ["attached","free"]){report[key].shortage=report[key].planned-report[key].actual;report.actual+=report[key].actual;if(report[key].shortage)report.reasons.push(key+":"+(key==="attached"?"初回成熟窓と整合する終宿主P不足 ":"合法成体セル不足 ")+report[key].shortage);}
+      report.shortage=planned-report.actual;w.config.hyperParasiteInitial=report;
+      if(direct!==undefined&&report.shortage)throw Error("PLACEMENT_SHORTAGE: 抑環 指定"+direct+" / 配置可能"+report.actual+"（"+report.reasons.join("、")+"）");
+      if(report.shortage)w.warnings.push("高次寄生:予定"+planned+" / 実配置"+report.actual+"。"+report.reasons.join("、"));summary(w);return report;
+    }
+    function summary(w){
+      if(!enabled(w))return;
+      const out={definition:"hyper-parasite-observed/1",turn:w.turn,count:0,attached:0,free:0,migrating:0,mature:0,phases:[0,0,0,0],states:{egg:0,larva:0,preparation:0,adult:0},biomassB:0,reserveE:0,
+        invading:{records:0,amount:0,reserveE:0},resistance:{hosts:0,stored:0,effective:0,paidE:0}};
+      for(const e of entries(w)){const q=e.q;out.count++;out[e.kind]++;if(e.carrier.kind==="primary-migration")out.migrating++;if(q.age>=q.maturity)out.mature++;out.phases[q.phase-1]++;out.states[q.hyper.state]++;out.biomassB+=q.B;out.reserveE+=q.E;}
+      for(const i of w.hyperInocula||[]){out.invading.records++;out.invading.reserveE+=i.E;out.invading.amount+=i.E/settings(w).eggReserve;}
+      for(const {p}of PrimaryParasite.entries(w))if(p.hyperResistance){const a=p.hyperResistance;out.resistance.hosts++;out.resistance.stored+=a.value;if(a.paidAt===w.turn){out.resistance.effective+=a.effective;out.resistance.paidE+=a.lastPaidE;}}
+      const round=value=>{for(const key of Object.keys(value))if(typeof value[key]==="number")value[key]=H.round(value[key]);else if(value[key]&&typeof value[key]==="object")round(value[key]);};round(out);w.hyperParasiteSummary=out;return out;
+    }
+    function validate(w){
+      if(!enabled(w))return [];
+      const errors=[],seen=new Set(),sameKeys=(a,b)=>a&&typeof a==="object"&&!Array.isArray(a)&&Object.keys(a).sort().join("|")===Object.keys(b).sort().join("|");
+      const validTraits=a=>{
+        const expected=defaultGenes();return a&&sameKeys(a.genes,expected)&&Object.keys(expected).every(key=>sameKeys(a.genes[key],expected[key]))&&
+          Object.values(a.genes).flatMap(g=>Object.values(g)).every(n=>Number.isFinite(n)&&n>=0&&n<=1)&&a.genes.investment.promotion+a.genes.investment.distortion<=1+1e-6&&
+          sameKeys(a.preference,expected.hosts)&&Object.values(a.preference).every(n=>Number.isFinite(n)&&n>=0&&n<=1)&&Number.isInteger(a.bias?.axis)&&a.bias.axis>=0&&a.bias.axis<5&&[-1,1].includes(a.bias?.sign);
+      };
+      for(const holder of [...w.organisms,...w.carcasses,...w.pending])if(holder.infection?.q){const q=holder.infection.q;if(!is(q))errors.push("HYPER_STATE:"+q.id);if(seen.has(q.id))errors.push("HYPER_ID:"+q.id);seen.add(q.id);}
+      for(const q of w.searchQ||[]){if(!is(q))errors.push("HYPER_STATE:"+q.id);if(seen.has(q.id))errors.push("HYPER_ID:"+q.id);seen.add(q.id);}
+      for(const {q,p,kind}of entries(w))if(![q.E,q.B,q.age,q.hyper.experience,q.hyper.development].every(n=>Number.isFinite(n)&&n>=0)||
+        q.E>settings(w).capE+1e-6||!Number.isInteger(q.phase)||q.phase<1||q.phase>4||!Number.isFinite(q.bornAt)||q.birthLife<=0||!validTraits(q.hyper)||
+        !["egg","larva","preparation","adult"].includes(q.hyper.state)||(kind==="free"&&(q.phase!==4||q.hyper.state!=="adult"||!Number.isInteger(q.cell)||!w.tiles[q.cell]||q.hostId!==null))||
+        (p&&(q.hostId!==p.id||q.phase===4||q.hyper.state==="adult")))errors.push("HYPER_STATE:"+q.id);
+      for(const i of w.hyperInocula||[])if(!Number.isFinite(i.E)||i.E<0||!Number.isSafeInteger(i.expires)||!validTraits(i.traits??i)||i.kind!=="invading")errors.push("HYPER_INOCULUM:"+i.id);
+      return errors;
+    }
+    return {enabled,is,parameters,settings,create,childTraits,adaptation,entries,locate,ageInfo:qAge,summary,initial,validate,resistance,acquireResistance,beginResistance};
+  })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
   // Explicitly enabled only for fixed production worlds; never serialized.
@@ -22231,6 +23463,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(c.primaryParasiteModel==="primary/1"){
       c.primaryParasiteSettings=PrimaryParasite.parameters(c.primaryParasiteSettings);c.ageModel="life/1";
     }else if(c.primaryParasiteSettings!==undefined)throw Error("SETTINGS_INVALID: 一次寄生モデルの指定が必要です");
+    if(c.hyperParasiteModel!==undefined&&c.hyperParasiteModel!=="hyper/1")throw Error("SETTINGS_INVALID: 高次寄生モデル");
+    if(c.hyperParasiteModel==="hyper/1"){
+      if(c.primaryParasiteModel!=="primary/1")throw Error("SETTINGS_INVALID: 高次寄生には一次寄生モデルが必要です");
+      c.hyperParasiteSettings=HyperParasite.parameters(c.hyperParasiteSettings);
+    }else if(c.hyperParasiteSettings!==undefined)throw Error("SETTINGS_INVALID: 高次寄生モデルの指定が必要です");
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
@@ -22467,7 +23704,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const infection = (p) => {
       if (p) {
         E += p.E+(PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0);
-        if (p.q) E += p.q.E;
+        if (p.q) E += p.q.E+(HyperParasite.enabled(w)&&HyperParasite.is(p.q)?p.q.B:0);
       }
     };
     for (const o of w.organisms) {
@@ -22486,8 +23723,9 @@ return {settings,attach,region,level,factor,begin,finish};
       infection(a.infection);
     }
     for (const a of w.pending) infection(a.infection);
-    for (const q of w.searchQ || []) E += q.E;
+    for (const q of w.searchQ || []) E += q.E+(HyperParasite.enabled(w)&&HyperParasite.is(q)?q.B:0);
     if(PrimaryParasite.enabled(w))for(const i of w.primaryInocula||[])E+=i.E;
+    if(HyperParasite.enabled(w))for(const i of w.hyperInocula||[])E+=i.E;
     for (const t of w.tiles) M += t.soilM;
     return { E: H.round(E), M: H.round(M) };
   }
@@ -22975,9 +24213,10 @@ return {settings,attach,region,level,factor,begin,finish};
     if (config.enabled.Q && !config.enabled.P)
       w.warnings.push("一次寄生虫が無効なため高次寄生虫は初期0です");
     if(PrimaryParasite.enabled(w))PrimaryParasite.initial(w);
-    if(config.ecologyRevision === "observation/4.1") {
+    if(config.ecologyRevision === "observation/4.1")config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
+    if(HyperParasite.enabled(w))HyperParasite.initial(w);
+    else if(config.ecologyRevision === "observation/4.1") {
       w.searchQ=[];
-      config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
       config.parasiteInitial={policy:"local-search/1",unit:"colony",targetSearchQ:Math.floor(w.organisms.filter(o=>o.infection).length/2),createdSearchQ:0};
       const manualQ=config.founderCounts?.parasites.hyperparasite;
       if(manualQ!==undefined)config.parasiteInitial.targetSearchQ=manualQ;
@@ -23006,6 +24245,7 @@ return {settings,attach,region,level,factor,begin,finish};
     Colony.summary(w);
     LargePlant.summary(w);
     PrimaryParasite.summary(w);
+    HyperParasite.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -23026,6 +24266,7 @@ return {settings,attach,region,level,factor,begin,finish};
     };
   }
   function hyper(w, pId, turn = w.turn) {
+    if(HyperParasite.enabled(w))return HyperParasite.create(w,pId,turn,pId);
     return {
       id: "q:" + pId + ":" + turn,
       species: "hyperparasite",
@@ -23042,7 +24283,7 @@ return {settings,attach,region,level,factor,begin,finish};
   }
   function loseInfection(w, p) {
     if (p) {
-      dissipate(w, p.E + (PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0) + (p.q?.E || 0));
+      dissipate(w, p.E + (PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0) + (p.q?.E || 0) + (HyperParasite.enabled(w)&&HyperParasite.is(p.q)?p.q.B:0));
       if (w.tallies) {
         w.tallies.deaths[p.species]++;
         if (p.q) w.tallies.deaths.hyperparasite++;
@@ -23061,6 +24302,7 @@ return {settings,attach,region,level,factor,begin,finish};
     LargePlant,
     Ryouki,
     PrimaryParasite,
+    HyperParasite,
     activeSpecies,
     activeMain,
     initialRank,

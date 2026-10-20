@@ -613,19 +613,35 @@
   }
   // Parasite colonies use their actual lifecycle, never host age or sex transforms.
   function parasitePhase(p) {
-    if (p.species === "hyperparasite") return Math.max(1, Math.min(3, p.phase || 1));
+    if (p.species === "hyperparasite") return Math.max(1, Math.min(p.hyper?.version==='hyper-state/1'?4:3, p.phase || 1));
     if (p.primary?.version === "primary-state/1") return p.phase;
     return p.stage === "first" ? 1 : p.stage === "terminal" && p.counter >= 8 ? 3 : 2;
   }
   function parasite(g, p, x, y, r) {
     const phase = parasitePhase(p),
-      f = manifest.creatures.regions[p.species]?.[phase - 1],
+      // I06 preserves the existing transparent body. Faithful IV silhouette,
+      // all directions and all ages are I10; the portrait uses adopted IV now.
+      f = manifest.creatures.regions[p.species]?.[Math.min(3,phase) - 1],
       im = images[manifest.creatures.sheetBySpecies[p.species]];
     if (!f || !im) return false;
+    const age=p.hyper?.version==='hyper-state/1'?root.EcoState.HyperParasite.ageInfo(p):null,
+      ageScale=age?.stage==='juvenile'?.78:age?.stage==='elderly'?.94:1;
+    r*=ageScale;
     const frame = cleanFrame(im, f, true), aspect = f[2] / f[3],
       width = 2 * r * Math.min(1, aspect), height = 2 * r * Math.min(1, 1 / aspect);
+    g.save();if(age?.stage==='elderly')g.filter='saturate(.65) brightness(.91)';
     outlined(g, frame, x - width / 2, y - height / 2, width, height, true);
+    g.restore();
     return true;
+  }
+  function parasitePortrait(g,p,x,y,r){
+    if(p.species!=='hyperparasite'||p.hyper?.version!=='hyper-state/1')return parasite(g,p,x,y,r);
+    const reference=manifest.hyperparasite?.references[parasitePhase(p)-1],im=images[reference?.sheet];
+    if(!reference||!im)return false;
+    const f=reference.region,aspect=f[2]/f[3],size=r*2.6,width=size*Math.min(1,aspect),height=size*Math.min(1,1/aspect);
+    // Exact adopted crop in the inspector/tree only. Its painted background is
+    // never composited as a rectangular card on the biological board.
+    g.drawImage(im,...f,x-width/2,y-height/2,width,height);return true;
   }
   const remainsFrames = new Map();
   function remains(g, a, x, y, r, water, turn) {
@@ -833,6 +849,7 @@
     resource,
     parasitePhase,
     parasite,
+    parasitePortrait,
     remains,
     prop,
     propShadow,

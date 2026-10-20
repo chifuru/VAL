@@ -1,0 +1,11 @@
+✔ tests/hyper-parasite-flow.test.cjs (4775.429968ms)
+✔ tests/hyper-parasite-observation.test.cjs (160.015711ms)
+✔ tests/hyper-parasite.test.cjs (440.055135ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5386.447208

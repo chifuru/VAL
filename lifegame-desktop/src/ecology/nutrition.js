@@ -366,6 +366,17 @@
           !S.oneStep(w,o.cell,cell)||list.some(a=>a.id===target.id))continue;
       list.push({type:"plant",id:target.id,obj:target,cell,tag:"animal",amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB),healing:1});
     }
+    // Free IV Q are finite living prey, distinct from hosted Q and inocula.
+    // Reuse the normal ration arbitration rather than grant a second free meal.
+    if(S.HyperParasite?.enabled(w)&&main&&!isRyouki(w,o)&&(S.D.diets[spec.diet]?.hunt||0)>=0){
+      for(const cell of S.nearby(w,o.cell,1,true)){
+        if(!S.oneStep(w,o.cell,cell))continue;
+        for(const q of ctx.hyperAdultsByCell?.get(cell)||[]){
+          if(!S.HyperParasite.is(q)||q.phase!==4||q.E+q.B<=0)continue;
+          list.push({type:"hyper",id:q.id,obj:q,cell,tag:"animal",amount:Math.min(1,q.E+q.B),healing:1});
+        }
+      }
+    }
     return list;
   }
   function chooseSource(w, o, list, ctx) {
@@ -416,6 +427,10 @@
   }
   function feed(w, ctx, transfer) {
     let m = S.maps(w);
+    if(S.HyperParasite?.enabled(w)){
+      ctx.hyperAdultsByCell=new Map();
+      for(const q of w.searchQ||[]){const rows=ctx.hyperAdultsByCell.get(q.cell)||[];rows.push(q);ctx.hyperAdultsByCell.set(q.cell,rows);}
+    }
     for (let round = 0; round < 2; round++) {
       const requests = [];
       for (const o of w.organisms)
@@ -441,6 +456,7 @@
         const obj = a.obj;
         if (
           (obj.q !== undefined && obj.q <= 0) ||
+          (a.type === "hyper" && obj.E + obj.B <= 0) ||
           (a.type === "plant" && (S.edibleB(obj) <= 0 || obj.HP <= 0))
         )
           continue;
@@ -458,6 +474,10 @@
             G: 0,
           };
           obj.soilM = S.round(obj.soilM - amount.M);
+        } else if (a.type === "hyper") {
+          amount={E:S.round(obj.E+obj.B),M:0,G:obj.B};
+          obj.E=0;obj.B=0;
+          ctx.primaryHooks.hyperAdultDeath(w,ctx,obj,"predation");
         } else if (a.type === "plant") {
           const p = ctx.traits.get(o.id),
             need =

@@ -1,0 +1,60 @@
+{
+  "version": "hyper-reference-art/1",
+  "kind": "unchanged-adopted-portrait-copies-not-runtime-transparent-atlas",
+  "sources": [
+    {
+      "file": "design/appearance-baseline-v1/05-hyperparasite-source-i-iii-only.png",
+      "sha256": "62d507d946462dab173f28ebdfbfba3d55182540a891d8fad9d64ebb2986306c",
+      "runtimeCopy": "src/assets/hyperparasite-internal-reference-v1.png",
+      "copySha256": "62d507d946462dab173f28ebdfbfba3d55182540a891d8fad9d64ebb2986306c"
+    },
+    {
+      "file": "design/appearance-baseline-v1/06-hyperparasite-adult.png",
+      "sha256": "71ba0d25891b64e790cac4538d82b2b479a4581e4592156e8a0e8c22c17b05f3",
+      "runtimeCopy": "src/assets/hyperparasite-adult-reference-v1.png",
+      "copySha256": "71ba0d25891b64e790cac4538d82b2b479a4581e4592156e8a0e8c22c17b05f3"
+    }
+  ],
+  "references": [
+    {
+      "sheet": "hyperparasite-internal-reference-v1",
+      "region": [
+        10,
+        80,
+        344,
+        926
+      ]
+    },
+    {
+      "sheet": "hyperparasite-internal-reference-v1",
+      "region": [
+        370,
+        80,
+        331,
+        926
+      ]
+    },
+    {
+      "sheet": "hyperparasite-internal-reference-v1",
+      "region": [
+        716,
+        80,
+        374,
+        926
+      ]
+    },
+    {
+      "sheet": "hyperparasite-adult-reference-v1",
+      "region": [
+        0,
+        0,
+        1536,
+        1024
+      ]
+    }
+  ],
+  "excluded": [
+    "05 old IV"
+  ],
+  "runtimeBody": "Existing life-f I/II/III body; new IV temporarily uses its III body, own phase/age/state are preserved. Final transparent and directional art is I10."
+}

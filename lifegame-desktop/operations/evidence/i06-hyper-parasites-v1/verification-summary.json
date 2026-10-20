@@ -1,0 +1,126 @@
+{
+  "version": "4.2.38",
+  "baseline": "cec7c37 / 4.2.37",
+  "dateUTC": "2026-10-20T15:18:44.838557+00:00",
+  "biologicalSignature": "32595746fbb53881d5bcda4c42a98f062540cf73d91c85125d5b7dd73df600b1",
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "unitFullRun": {
+    "command": "node --test --test-concurrency=4 tests/*.test.cjs",
+    "files": 69,
+    "pass": 67,
+    "fail": 2,
+    "sourceSignature": "32595746fbb53881d5bcda4c42a98f062540cf73d91c85125d5b7dd73df600b1",
+    "log": "model/unit.log",
+    "failedFiles": [
+      "tests/compute-worker.test.cjs",
+      "tests/manifest.test.cjs"
+    ],
+    "scope": "full run retained as executed; final rechecks are separate, not rewritten as 69/69"
+  },
+  "workerRecheck": {
+    "command": "node tests/compute-worker.test.cjs",
+    "cases": 9,
+    "pass": 9,
+    "fail": 0,
+    "log": "model/worker-final.log",
+    "scope": "isolated final-source run; concurrent full-run failure is not hidden or treated as a device performance certification"
+  },
+  "manifestRecheck": {
+    "log": "model/manifest-final.log",
+    "priorFailure": "E5 referenced verification-summary.json before final evidence creation",
+    "priorLog": "model/manifest-before-evidence.log",
+    "command": "node tests/manifest.test.cjs",
+    "cases": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  "finalRelated": {
+    "command": "node --test tests/hyper-parasite.test.cjs tests/hyper-parasite-flow.test.cjs tests/hyper-parasite-observation.test.cjs",
+    "files": 3,
+    "pass": 3,
+    "fail": 0,
+    "boundaryCases": 23,
+    "flowCases": 5,
+    "observationCases": 6,
+    "log": "model/final-related.log",
+    "boundaryDetailLog": "model/boundaries.log",
+    "controlledFullRoute": "same Q paid emergence -> IV oviposition -> new I/age0 Q established on another P; default probabilities unchanged"
+  },
+  "legacyComparison": {
+    "cases": 40,
+    "states": 280,
+    "worldFingerprintAndCSVEqual": true,
+    "models": [
+      "legacy",
+      "colony",
+      "independent plants",
+      "Ryouki",
+      "primary P"
+    ]
+  },
+  "newProfileComparison": {
+    "cases": 8,
+    "states": 40,
+    "staticDynamicWorldFingerprintAndCSVEqual": true
+  },
+  "circulation": {
+    "cases": 3,
+    "turnsEach": 180,
+    "states": 543,
+    "allInvariantsPassed": true,
+    "initialQ": {
+      "river-free": 1,
+      "lake-free": 1,
+      "river-supported": 1
+    },
+    "newQ": {
+      "river-free": 0,
+      "lake-free": 0,
+      "river-supported": 0
+    },
+    "finalQ": {
+      "river-free": 0,
+      "lake-free": 0,
+      "river-supported": 0
+    },
+    "finalP": {
+      "river-free": 1,
+      "lake-free": 0,
+      "river-supported": 0
+    },
+    "initialAttachedShortage": {
+      "river-free": 5,
+      "lake-free": 5,
+      "river-supported": 6
+    },
+    "scope": "all fixed diagnostics include failures; no naturally established or emerged Q; long-term Q circulation NOT achieved"
+  },
+  "ui": [
+    {
+      "report": "ui/q/ui-report.json",
+      "checks": 47,
+      "sourceSignature": "32595746fbb53881d5bcda4c42a98f062540cf73d91c85125d5b7dd73df600b1",
+      "scope": "Linux Chromium; explicit Q model/settings and initial IV, own phase/age/maturity versus host P window, four adopted portrait references with provisional existing IV board body, real runtime establishment and paid emergence success/failure prepared fixtures, same ID and clock, egg quantities outside living counts, all-turn CSV/archive/replay, old I05 non-conversion and minimal P regression; no final I10 material or natural long-term emergence claim",
+      "errors": []
+    },
+    {
+      "report": "graphics/graphics-report.json",
+      "checks": 48,
+      "sourceSignature": "32595746fbb53881d5bcda4c42a98f062540cf73d91c85125d5b7dd73df600b1",
+      "scope": "Linux Chromium; exact legacy body and board regression; four unchanged adopted reference crops excluding old IV; provisional transparent IV body; actual runtime establishment emergence/exclusion and failed attempts; same-ID phase/age/hit/move; explicit display fixtures, no final I10 art or long-term biology claim",
+      "errors": []
+    }
+  ],
+  "uiChecks": 95,
+  "limits": [
+    "Natural Q lifecycle and long survival not achieved in fixed3 conditions; initial attached P shortages5/5/6, each initial freeIV1, finalQ0; adjust in I11",
+    "Paid finite traces are recorded; information generation/distortion/learning effect joins in I07",
+    "Accurate adopted portrait crops only; IV board body temporarily uses existing III sprite; transparent/directional final art remains I10",
+    "No500T/R1-R6, whole-device performance or Windows/newZIP certification; distributed4.2.32 unchanged"
+  ],
+  "next": "I07 persistent information"
+}

@@ -14,7 +14,9 @@
  // Only flagless records may use the pre-Ryouki biological path.
  const ryoukiBuildSignature="952b362eb16d6822343c6e739f37e6057fed6eef9067cb7c684bc3e224169efb";
  const primaryBuildSignature="0789b6828052dfc261fd4d7ebe290deedb1f8375506e7bb19e9073a8ee12aba8";
+ const hyperBuildSignature="32595746fbb53881d5bcda4c42a98f062540cf73d91c85125d5b7dd73df600b1";
  function canonicalSignature(s,config){
+  if(s===hyperBuildSignature&&config.hyperParasiteModel===undefined&&config.hyperParasiteSettings===undefined)s=primaryBuildSignature;
   if(s===primaryBuildSignature&&config.primaryParasiteModel===undefined&&config.primaryParasiteSettings===undefined)s=ryoukiBuildSignature;
   if(s===ryoukiBuildSignature&&config.ryoukiModel===undefined&&config.ryoukiSettings===undefined)s=independentBuildSignature;
   if(s===independentBuildSignature&&config.largePlantModel===undefined&&config.largePlantSettings===undefined)s=colonyBuildSignature;
@@ -31,6 +33,10 @@
   function capture(world,reason,observation,originRecordId=null){
     const fingerprint=engine.fingerprint(world),record={schema:1,id:fingerprint,signature,config:structuredClone(world.config),turn:world.turn,reason,created:new Date().toISOString(),final:{counts:{...world.stats.counts},main:world.stats.main,food:world.stats.food,P:world.stats.P,Q:world.stats.Q}};
     if(observation){
+      const hyperModel=world.config.hyperParasiteModel==='hyper/1',hyperDefinition=observation.definitions?.hyperParasite,hyperFlow=observation.definitions?.hyperParasiteFlow;
+      if((hyperDefinition!==undefined&&hyperDefinition!=="hyper-parasite-observed/1")||(hyperFlow!==undefined&&hyperFlow!=="hyper-parasite-flow/1")||
+        hyperModel!==(hyperDefinition!==undefined)||hyperModel!==(hyperFlow!==undefined)||
+        (hyperModel&&(!Array.isArray(observation.rows)||observation.rows.some(r=>r.hyperParasite?.definition!==hyperDefinition||r.hyperParasite.turn!==r.turn||r.hyperParasiteFlow?.definition!==hyperFlow||r.hyperParasiteFlow.turn!==r.turn))))throw Error("高次寄生の全期間観測・定義版が揃っていないため保存できません。");
       const primaryModel=world.config.primaryParasiteModel==='primary/1',primaryDefinition=observation.definitions?.primaryParasite,primaryFlow=observation.definitions?.primaryParasiteFlow;
       if((primaryDefinition!==undefined&&primaryDefinition!=="primary-parasite-observed/1")||(primaryFlow!==undefined&&primaryFlow!=="primary-parasite-flow/1")||
         primaryModel!==(primaryDefinition!==undefined)||primaryModel!==(primaryFlow!==undefined)||
@@ -49,6 +55,7 @@
       if(plantModel)record.final.independentPlants=structuredClone(observation.rows.at(-1).independentPlants);
       if(ryoukiModel)record.final.ryouki=structuredClone(observation.rows.at(-1).ryouki);
       if(primaryModel){record.final.primaryParasite=structuredClone(observation.rows.at(-1).primaryParasite);record.final.primaryParasiteFlow=structuredClone(observation.rows.at(-1).primaryParasiteFlow);}
+      if(hyperModel){record.final.hyperParasite=structuredClone(observation.rows.at(-1).hyperParasite);record.final.hyperParasiteFlow=structuredClone(observation.rows.at(-1).hyperParasiteFlow);}
       const current=observation.rows.at(-1).current;record.final.counts={...current.counts};record.final.P=current.groups.find(g=>g.id==='P')?.count||0;record.final.Q=current.groups.find(g=>g.id==='Q')?.count||0;
       Object.assign(record.final,{stats:structuredClone(world.stats),ledger:structuredClone(world.ledger),tallies:structuredClone(world.tallies),demography:structuredClone(world.demography),current:structuredClone(observation.rows.at(-1).current)});
     }

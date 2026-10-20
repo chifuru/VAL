@@ -1,0 +1,17 @@
+✔ real Worker differential frames reconstruct exactly the atomic result across turns and a fresh observer (2810.003165ms)
+✔ fixed geometry caching preserves results, ignores soil amounts, keys obstacles and does not leak mutable neighbors (2505.229125ms)
+✔ 500-turn blocks checkpoint at their own boundaries and resume with unchanged biology (237.946532ms)
+✔ Worker does not calculate beyond its requested terminal turn (534.8897ms)
+✔ streaming sends each phase once and reconstructs the same table-world final state (677.574529ms)
+✔ Worker caps an oversized batch at six continuous turns in legacy and stream modes (5837.785462ms)
+✔ invalid batch counts do not advance the Worker world (596.471915ms)
+✔ a checkpoint ends the batch and a later request continues a longer replay (1288.940486ms)
+✔ reinit after a partial preview starts from the supplied committed world and ignores old requests (1675.675789ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16172.04088

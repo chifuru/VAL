@@ -295,6 +295,18 @@
       "width": 1536,
       "height": 1536,
       "sha256": "8f9892de8f1321a620e5c59bbb4f08a3c13ef6401a3c8cf9258d9d93585fc495"
+    },
+    "hyperparasite-internal-reference-v1": {
+      "file": "hyperparasite-internal-reference-v1.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "62d507d946462dab173f28ebdfbfba3d55182540a891d8fad9d64ebb2986306c"
+    },
+    "hyperparasite-adult-reference-v1": {
+      "file": "hyperparasite-adult-reference-v1.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "71ba0d25891b64e790cac4538d82b2b479a4581e4592156e8a0e8c22c17b05f3"
     }
   },
   "creatures": {
@@ -3476,5 +3488,55 @@
     "fit": "contain",
     "provisional": true,
     "source": "adopted-ryouki-background-removal/1"
+  },
+  "hyperparasite": {
+    "references": [
+      {
+        "sheet": "hyperparasite-internal-reference-v1",
+        "region": [
+          10,
+          80,
+          344,
+          926
+        ]
+      },
+      {
+        "sheet": "hyperparasite-internal-reference-v1",
+        "region": [
+          370,
+          80,
+          331,
+          926
+        ]
+      },
+      {
+        "sheet": "hyperparasite-internal-reference-v1",
+        "region": [
+          716,
+          80,
+          374,
+          926
+        ]
+      },
+      {
+        "sheet": "hyperparasite-adult-reference-v1",
+        "region": [
+          0,
+          0,
+          1536,
+          1024
+        ]
+      }
+    ],
+    "panels": [
+      "I",
+      "II",
+      "III",
+      "IV"
+    ],
+    "source": "adopted-hyper-reference/1",
+    "provisionalBody": "existing-life-f-third-phase-for-IV",
+    "excluded": "internal-reference panel IV",
+    "finalTransparentArt": "I10"
   }
 }

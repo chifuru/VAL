@@ -1,0 +1,31 @@
+✔ the four-phase Q model is explicit and rejects unsupported or contradictory model settings (811.545541ms)
+✔ the first terminal maturity window gates actual contact at T+1 and T+3, with no route for dead or non-host bodies (430.048117ms)
+✔ paid eggs remain finite nonliving reserves until the separate next-turn establishment (108.077693ms)
+✔ a legal last-window invasion may establish after the window closes, while changed maturity or a lost host invalidates its proof (375.797097ms)
+✔ one P reserves only one invading Q, and insufficient egg mass cannot create a living colony (78.845111ms)
+✔ parent traits mutate once with a bounded allocation tradeoff and do not transmit experience or acquired resistance (37.535688ms)
+✔ Q exclusion grants only the direct host P a finite paid resistance that decays independently of H (15.754975ms)
+✔ Q phase experience, age maturity and host development advance separately from actual paid outcomes (91.00533ms)
+✔ each emergence gate remains independent after real upkeep and the exact post-upkeep reserve must fund both the attempt and extra body (111.331936ms)
+✔ failed emergence spends the attempt once, waits four turns and still requires renewed finite reserves (52.09149ms)
+✔ successful emergence kills only P once and preserves the same Q ID and lifetime as a next-turn adult (44.409456ms)
+✔ early H or P death cannot rescue a prepared Q into a free adult (56.71319ms)
+✔ adult feeding is capped at real local organic energy, absorbs half and never consumes information or mineral energy (27.956796ms)
+✔ adult movement pays for one legal neighboring cell and cannot cross blocked terrain or spend an absent step budget (70.884981ms)
+✔ adult carcass feeding removes the same fraction of growth credit and records the actual food cell before movement (5.946898ms)
+✔ one controlled lineage connects paid emergence to adult oviposition and a new first-phase Q on another P (179.541214ms)
+✔ living adult Q is finite prey consumed once without duplicating its body or settling an inoculum as food (34.51456ms)
+✔ P pays finite exclusion attempts on either outcome and only a successful removal acquires anti-Q resistance (77.521589ms)
+✔ the paid Q modulation and trace budgets are bounded by the actual remaining reserve and keep fixed genes unchanged (41.959098ms)
+✔ initial Q quotas use actual P colonies and past windows without inventing maturity, hosts or emergence successes (156.576491ms)
+✔ short coupled Q worlds remain reproducible with finite hosted, free-adult and egg reserves (426.791748ms)
+✔ a same-P trophic migration carries the same Q and pauses its development through next-turn establishment (108.344242ms)
+✔ attached and adult Q expire at the original eighty-turn lifetime without resetting after detachment (66.802995ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3575.004818

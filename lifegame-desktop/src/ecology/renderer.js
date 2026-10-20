@@ -158,6 +158,7 @@
   const markColors={attack:'#ff9978',defend:'#9edfff',graze:'#b1e59a',predate:'#ffcb88',scavenge:'#d9ad91',fungal:'#d7bbef',absorb:'#b6e8dc',care:'#bce7b1',infection:'#d3a2ff',clear:'#eff7ed',birth:'#ffe3a0',growth:'#a7eeef',death:'#c6b7ad'};
   function actionKind(e,w){
     if(e.type.startsWith('primary-'))return w?.config?.primaryParasiteModel==='primary/1'?({'primary-established':'infection','primary-transferred':'infection','primary-clear':'clear'}[e.type]||null):null;
+    if(e.type.startsWith('hyper-'))return w?.config?.hyperParasiteModel==='hyper/1'?({'hyper-established':'infection','hyper-emerged':'growth','hyper-cleared':'clear'}[e.type]||null):null;
     return e.type==='feed'?(e.sourceType==='carcass'?'scavenge':e.sourceType==='plant'?(e.tag==='plant'?'graze':e.tag==='fungal'?'fungal':'predate'):'absorb'):e.type;
   }
   function markSprite(kind){
@@ -207,7 +208,7 @@
     };
     const deathAppearances=new Map(),actionMarks=new Map();
     Art.ready.then(()=>{groundShadow();for(const kind of Object.keys(markLabels))markSprite(kind);});
-    let livingById=new Map(),eventPlan=null,frameCandidates=null,objectIndex=null;
+    let livingById=new Map(),freeQById=new Map(),eventPlan=null,frameCandidates=null,objectIndex=null;
     let world = null,
       P = null,
       scene = null,
@@ -313,6 +314,7 @@
     }
     function setWorld(w, restartMotion = false) {
       revision++;livingById=new Map(w.organisms.map(o=>[o.id,o]));eventPlan=null;frameCandidates=null;
+      freeQById=new Map(w.config.hyperParasiteModel==='hyper/1'?(w.searchQ||[]).filter(q=>S.HyperParasite?.is(q)).map(q=>[q.id,q]):[]);
       const time=performance.now();
       if(world&&(w.turn<world.turn||w.config.seed!==world.config.seed))actionMarks.clear();
       for(const [key,m]of actionMarks)if(time-m.at>850)actionMarks.delete(key);
@@ -474,6 +476,12 @@
         const [x, y] = S.xy(w, cell);
         return P.point(x + dx, y + dy);
       };
+      const qPoint=(q,progress=1,move=null)=>{
+        if(!move||move.from===undefined)return coordinates.entity(q.id).point;
+        const [x,y]=S.xy(w,move.from),[tx,ty]=S.xy(w,q.cell),p=P.point(x+(tx-x)*progress+.5,y+(ty-y)*progress+.5);
+        return [p[0]+.24,p[1]-.25];
+      };
+      const eventPoint=o=>freeQById.has(o.id)?qPoint(o):coordinates.anchor(o).point;
       g.save();
       g.translate(view.x, view.y);
       g.scale(z, z);
@@ -521,7 +529,7 @@
         const planKey=[revision,view.x,view.y,z,view.selected,view.selectedEntity,b.width,b.height].join('/');
         if(eventPlan?.key===planKey){for(const [id,list]of eventPlan.events)events.set(id,list);for(const [id,o]of eventPlan.departed)departed.set(id,o);}
         else {
-        const living = new Map(livingById),
+        const living = new Map([...livingById,...freeQById]),
           grouped = new Map();
         for (const ev of w.events) if (near && ev.type === "death" && !living.has(ev.id) && previousActors.has(ev.id)) {
           const o = previousActors.get(ev.id);departed.set(ev.id,o);living.set(ev.id,o);
@@ -529,27 +537,27 @@
         for (const ev of w.events) {
           if(ev.type === "death"||ev.type === "light"||actionKind(ev,w)===null) continue;
           const o = living.get(ev.id);
-          if (!o || !visible(coordinates.anchor(o).point, 1.6)) continue;
+          if (!o || !visible(eventPoint(o), 1.6)) continue;
           if (!grouped.has(ev.id)) grouped.set(ev.id, []);
           grouped.get(ev.id).push(ev);
         }
         // Keep interpolation and distinct confirmed actions within the existing budget.
         // Repeated feeding must not crowd out combat recorded later in the turn.
         const priority = (ev) => ({move:100,attack:90,defend:85,clear:80,
-          infection:75,birth:70,growth:65,care:60,feed:50}[ev.type.startsWith('primary-')?actionKind(ev,w):ev.type] || 10);
+          infection:75,birth:70,growth:65,care:60,feed:50}[/^(primary|hyper)-/.test(ev.type)?actionKind(ev,w):ev.type] || 10);
         for (const [id, list] of grouped) {
           const seen = new Set();
           grouped.set(id, list.map((ev,index)=>({ev,index}))
             .sort((a,b)=>priority(b.ev)-priority(a.ev)||a.index-b.index)
             .filter(({ev})=>{
-              const key=ev.type==='feed'?`feed:${ev.sourceType}:${ev.tag}`:ev.type.startsWith('primary-')?actionKind(ev,w):ev.type;
+              const key=ev.type==='feed'?`feed:${ev.sourceType}:${ev.tag}`:/^(primary|hyper)-/.test(ev.type)?actionKind(ev,w):ev.type;
               if(seen.has(key))return false;
               seen.add(key);return true;
             }).slice(0,4).map(({ev})=>ev));
         }
         const distance = (id) => {
           const o = living.get(id),
-            p = coordinates.anchor(o).point;
+            p = eventPoint(o);
           return Math.hypot(
             p[0] * z + view.x - b.width / 2,
             p[1] * z + view.y - b.height / 2,
@@ -603,7 +611,7 @@
             g.beginPath();g.moveTo(cx-.12,cy-.10);g.lineTo(cx+.12,cy-.10);g.lineTo(cx+.10,cy+.06);g.lineTo(cx,cy+.15);g.lineTo(cx-.10,cy+.06);g.closePath();g.stroke();
           }else if(kind==="clear"){
             for(const d of [-1,1]){g.beginPath();g.moveTo(cx+d*.06,cy-.03);g.lineTo(cx+d*(.13+age*.12),cy-.15);g.stroke();}
-          }else if(ev.type==="growth"){
+          }else if(kind==="growth"){
             for(const dy of [0,.10]){g.beginPath();g.moveTo(cx-.10,cy+dy);g.lineTo(cx,cy-.10+dy);g.lineTo(cx+.10,cy+dy);g.stroke();}
           }else if(ev.type==="birth"){
             for(let j=0;j<6;j++){const t=j*Math.PI/3;g.beginPath();g.moveTo(cx+Math.cos(t)*.08,cy+Math.sin(t)*.08);g.lineTo(cx+Math.cos(t)*(.14+age*.10),cy+Math.sin(t)*(.14+age*.10));g.stroke();}
@@ -663,7 +671,7 @@
         fixed.sort((a,b)=>a.depth-b.depth);frameCandidates.fixed=fixed;frameCandidates.moving=moving;frameCandidates.actorKey=actorKey;
       }
       for(const o of [...frameCandidates.moving,...departed.values()]){const list=activeEvents.get(o.id)||[],ev=list.find(e=>e.type==='move'),a=coordinates.anchor(o,age,ev),remnant=departed.has(o.id);
-        if(remnant&&!list.some(e=>['move','attack','defend','feed','care','clear'].includes(e.type)||(e.type.startsWith('primary-')&&actionKind(e,w))))continue;
+        if(remnant&&!list.some(e=>['move','attack','defend','feed','care','clear'].includes(e.type)||(/^(primary|hyper)-/.test(e.type)&&actionKind(e,w))))continue;
         if(visible(a.point,1.6)||visible(a.ground,1.6))dynamic.push({depth:a.depth,o,p:a.point,list,ground:a.ground,elevated:a.elevated,cohabit:a.cohabit,rank:a.rank,scale:a.scale,remnant});}
       dynamic.sort((a,b)=>a.depth-b.depth);const actors=[];let fixedAt=0,movingAt=0;
       while(fixedAt<fixed.length||movingAt<dynamic.length){if(movingAt===dynamic.length||(fixedAt<fixed.length&&fixed[fixedAt].depth<=dynamic[movingAt].depth))actors.push(fixed[fixedAt++]);else actors.push(dynamic[movingAt++]);}
@@ -871,7 +879,7 @@
             const pName=nameEnabled("P",o.infection.id),qName=o.infection.q&&nameEnabled("Q",o.infection.q.id);
             if(pName)diagnostics.nameLabels.P++;
             if(qName)diagnostics.nameLabels.Q++;
-            annotations.push(()=>{g.save();g.font=".055px sans-serif";g.textAlign="left";if(pName){const p=o.infection,state=w.config.primaryParasiteModel==='primary/1'&&p.primary?.version==='primary-state/1'?p.phase+'相 · 年齢'+(Number.isFinite(p.age)?p.age+'T':'未記録'):p.stage;g.fillStyle="#ffd1a3";g.fillText(S.D.byId[p.species].name+" P · "+state,cx+.1,cy-.43);}if(qName){g.fillStyle="#d9b9ff";g.fillText(S.D.byId.hyperparasite.name+" Q · "+o.infection.q.phase,cx+.1,cy-.51);}g.restore();});
+            annotations.push(()=>{g.save();g.font=".055px sans-serif";g.textAlign="left";if(pName){const p=o.infection,state=w.config.primaryParasiteModel==='primary/1'&&p.primary?.version==='primary-state/1'?p.phase+'相 · 年齢'+(Number.isFinite(p.age)?p.age+'T':'未記録'):p.stage;g.fillStyle="#ffd1a3";g.fillText(S.D.byId[p.species].name+" P · "+state,cx+.1,cy-.43);}if(qName){const q=o.infection.q,state=w.config.hyperParasiteModel==='hyper/1'&&S.HyperParasite.is(q)?q.phase+'相 · 年齢'+(Number.isFinite(q.age)?q.age+'T':'未記録'):q.phase;g.fillStyle="#d9b9ff";g.fillText(S.D.byId.hyperparasite.name+" Q · "+state,cx+.1,cy-.51);}g.restore();});
           }
           const [bx, by] = globalThis.EcoDisplayPlane.parasitePoint([cx,cy],"P",detail,actor.rank,actor.cohabit);
           if (detail && Art.parasite(g, o.infection, bx, by, .105)) {
@@ -979,8 +987,10 @@
         }
       }
       for(const q of w.searchQ || []){
-        const [x,y]=S.xy(w,q.cell),p=P.point(x+.5,y+.5);if(detail&&Art.parasite(g,q,p[0]+.24,p[1]-.25,.11))diagnostics.parasiteArt++;else symbol(g,"hyperparasite",p[0]+.24,p[1]-.25,.09,"#ccadff");hitRegions.push({id:q.id,cell:q.cell,main:false,x:p[0]+.24,y:p[1]-.25,rx:.11,ry:.11});
-        if(near && nameEnabled("Q",q.id)){diagnostics.nameLabels.Q++;g.save();g.fillStyle="#d9c6ff";g.font=".06px sans-serif";g.textAlign="center";g.fillText(S.D.byId.hyperparasite.name+" · 探索",p[0],p[1]-.38);g.restore();}
+        const [x,y]=S.xy(w,q.cell),base=P.point(x+.5,y+.5),newQ=freeQById.has(q.id),list=newQ?(events.get(q.id)||[]):[],p=newQ?qPoint(q,age,list.find(e=>e.type==='move')):[base[0]+.24,base[1]-.25];
+        if(detail&&Art.parasite(g,q,...p,.11))diagnostics.parasiteArt++;else symbol(g,"hyperparasite",...p,.09,"#ccadff");hitRegions.push({id:q.id,cell:q.cell,main:false,x:p[0],y:p[1],rx:.11,ry:.11});
+        if(newQ)actionEffects(q,list,.11,...p);
+        if(near && nameEnabled("Q",q.id)){diagnostics.nameLabels.Q++;g.save();g.fillStyle="#d9c6ff";g.font=".06px sans-serif";g.textAlign="center";g.fillText(S.D.byId.hyperparasite.name+(newQ?' Q · '+q.phase+'相 · 年齢'+(Number.isFinite(q.age)?q.age+'T':'未記録')+' · 自立':" · 探索"),newQ?p[0]-.24:base[0],newQ?p[1]-.13:base[1]-.38);g.restore();}
       }
       const marks=new Set(view.highlights||[]),markedCells=new Map();
       const mark=(cell,id)=>{if(!marks.has(id))return;if(!markedCells.has(cell))markedCells.set(cell,new Set());markedCells.get(cell).add(id);};
@@ -1005,7 +1015,7 @@
       if(view.motion&&!point){const now=performance.now(),marks=[...actionMarks.values()].filter(m=>now-m.at<850&&Number.isInteger(m.cell??livingById.get(m.id)?.cell));
         marks.sort((a,b)=>Number(b.id===view.selectedEntity)-Number(a.id===view.selectedEntity)||b.at-a.at);
         const slots=new Map();
-        for(const m of marks.slice(0,64)){const o=livingById.get(m.id),p=o?coordinates.anchor(o).point:position(m.cell);if(!visible(p,2))continue;
+        for(const m of marks.slice(0,64)){const o=livingById.get(m.id),p=o?coordinates.anchor(o).point:freeQById.has(m.id)?qPoint(freeQById.get(m.id)):position(m.cell);if(!visible(p,2))continue;
           const n=slots.get(m.id)||0;if(n>=3)continue;slots.set(m.id,n+1);
           const width=detail?Math.max(.18,46/z):Math.max(.30,20/z),height=width*34/112;
           const mx=S.clamp(p[0]-width/2,(-view.x+4)/z,(-view.x+b.width-4)/z-width),my=Math.max((-view.y+4)/z+2*(height+.025),p[1]-(detail?.40:.42))-n*(height+.025);
