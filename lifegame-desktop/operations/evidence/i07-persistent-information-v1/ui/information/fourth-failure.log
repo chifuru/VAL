@@ -1,0 +1,10 @@
+AssertionError [ERR_ASSERTION]: real information-glyph click opens field details without auto-selecting a main organism {"clickTarget":{"target":"board","hit":{"cell":580,"id":"ui-information-receiver"},"point":{"x":346.683500451275,"y":701.3249276423066}},"selectedId":"ui-information-receiver","records":2}
+    at check (/workspace/VAL/lifegame-desktop/tests/persistent-information-ui.cjs:7:29)
+    at /workspace/VAL/lifegame-desktop/tests/persistent-information-ui.cjs:33:585 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

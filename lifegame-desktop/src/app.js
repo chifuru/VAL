@@ -206,7 +206,8 @@
     showProducerSettings(null,mode.initialFoodScale);
     showLargePlantSettings();
     for(const [k,v]of Object.entries({fungus:3,prey:6}))$("density-"+k).value=+(v*mode.initialFoodScale).toFixed(1);
-    for(const k of ["mineral","droplet","info"])$("resource-"+k).value=100;
+    for(const k of ["mineral","droplet"])$("resource-"+k).value=100;
+    $("resource-info").value=0;$("information-influence").value=1;
     $("lower-distribution").value="habitat";
     for(const s of founderSpecies)$("founder-"+s.id).value="";
   }
@@ -259,11 +260,13 @@
       primaryParasiteSettings:S.PrimaryParasite.parameters(),
       hyperParasiteModel:'hyper/1',
       hyperParasiteSettings:S.HyperParasite.parameters(),
+      informationModel:'persistent/1',
+      informationSettings:S.PersistentInformation.parameters({influence:Number($("information-influence").value)}),
       ageModel:'life/1',
       ...readFounders(),
       observationMode: $("observation-mode").value,
       producerSupport: $("producer-supply").checked ? {enabled:true,...Object.fromEntries(["land","water"].map(r=>[r,Object.fromEntries(["nutrition","capacity","regrowth"].map(k=>[k,Number($("supply-"+r+"-"+k).value)/(k==="capacity"?100:1)]))]))} : {enabled:false},
-      initialConditions:{version:1,density:{plant:0,...Object.fromEntries(["fungus","prey"].map(k=>[k,Number($("density-"+k).value)/100]))},resources:Object.fromEntries(["mineral","droplet","info"].map(k=>[k,Number($("resource-"+k).value)/100])),distribution:$("lower-distribution").value},
+      initialConditions:{version:1,density:{plant:0,...Object.fromEntries(["fungus","prey"].map(k=>[k,Number($("density-"+k).value)/100]))},resources:{...Object.fromEntries(["mineral","droplet"].map(k=>[k,Number($("resource-"+k).value)/100])),info:0},distribution:$("lower-distribution").value},
       advantageSettings: window.EcoObservationModel.settings(Object.fromEntries(
         ["producer","waterbug","hyperparasite"].map(k=>[k,$("advantage-"+k).checked]))),
       seed: crypto.randomUUID(),
@@ -399,6 +402,7 @@
     for(const r of ["land","water"])for(const k of ["nutrition","capacity","regrowth"])$("supply-"+r+"-"+k).value=(support?.[r]?.[k]??(k==="capacity"?.35:1))*(k==="capacity"?100:1);
     $("producer-supply").onchange();
     $("active-mode").textContent+=support?.enabled?` 生産者供給あり（陸: 栄養${support.land.nutrition}・地点${support.land.capacity*100}%・再生${support.land.regrowth} / 水: 栄養${support.water.nutrition}・地点${support.water.capacity*100}%・再生${support.water.regrowth}）。外部入力は収支へ記録。`:" 生産者供給なし（途中の外部栄養入力なし）。";
+    $('information-influence').value=next.config.informationModel==='persistent/1'?next.config.informationSettings.influence:1;
     const lower=next.config.initialConditions;
     const colonies=next.config.producerModel==='colony/1',foodScale=next.config.initialFoodScale||1;
     showProducerSettings(colonies?next.config.producerSettings:null,foodScale);
@@ -609,7 +613,7 @@
       $("setup").removeAttribute("aria-busy");
     }
   });
-  function returnSetup(){stop();closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;if(world){showProducerSettings(world.config.producerModel==='colony/1'?world.config.producerSettings:null,world.config.initialFoodScale||1);showLargePlantSettings(world.config.largePlantModel==='independent/1'?world.config.largePlantSettings:undefined);}syncSetupFields();message("初期設定に戻りました。現在の結果や全ターンCSVを残す場合は、新しい世界を作る前に保存してください。");}
+  function returnSetup(){stop();closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;if(world){showProducerSettings(world.config.producerModel==='colony/1'?world.config.producerSettings:null,world.config.initialFoodScale||1);showLargePlantSettings(world.config.largePlantModel==='independent/1'?world.config.largePlantSettings:undefined);}$("resource-info").value=0;$("information-influence").value=world?.config.informationModel==='persistent/1'?world.config.informationSettings.influence:1;syncSetupFields();message("初期設定に戻りました。現在の結果や全ターンCSVを残す場合は、新しい世界を作る前に保存してください。");}
   $("change-world").onclick=returnSetup;
   $("start").addEventListener("click", () => {
     if (running) {
@@ -798,7 +802,7 @@
   canvas.addEventListener("pointerup", (e) => {
     if (drag && !drag.moved) {
       const hit=renderer.hitAt(e.clientX,e.clientY,e.shiftKey);
-      if(hit){select(hit.cell,hit.id,{groundOnly:hit.groundOnly});hold("detail");}
+      if(hit){select(hit.cell,hit.id,{groundOnly:hit.groundOnly,information:hit.information});hold("detail");}
     }
     drag = null;
     mapInteraction();
@@ -842,11 +846,11 @@
     if (e.key === "+" || e.key === "=") renderer.zoom(1.4);
     if (e.key === "-") renderer.zoom(1 / 1.4);
   });
-  function select(cell, id = null, {groundOnly=false} = {}) {
+  function select(cell, id = null, {groundOnly=false,information=false} = {}) {
     // Selection reads committed state and does not invalidate prepared work.
     describedSpecies = null;
     selectedCell = cell;
-    selectedId =
+    selectedId = information ? null :
       id ||
       (!groundOnly?world.organisms.find((o) => o.cell === cell && o.slot === "main")?.id:null) ||
       world.organisms.find((o) => o.cell === cell && (!groundOnly||o.slot!=="main"))?.id ||
@@ -1011,6 +1015,10 @@
     const info=r.information;
     $('information-readout').textContent=info?`情報（${r.turn}T）：生成${info.generated} / 取得${info.received} / 重み適用${info.applied} / Q媒介取得${info.mediatedReceived}・適用${info.mediatedApplied} / 由来不明${info.unattributed}。`:'情報の内訳：未記録（旧記録の情報関係は取得基準）。';
     $('information-readout').title='生成は成功した資源生成/増量の件数。適用は情報による非ゼロの直接重み変更。移動結果の変化やQの反実仮想的な寄与を意味しません。全ターン原値と変化量はCSV/保存結果で確認できます。';
+    if(r.persistentInformation){const s=r.persistentInformation,f=r.persistentInformationFlow.all;
+      $('information-readout').textContent=`非栄養情報（${r.turn}T）：量 ${primaryNumber(s.field.amount)} / ${s.field.origins}由来 / 生成 ${f.normalGenerated+f.lowGenerated} / 受容 ${f.originsRead} / 学習 ${f.learned} / 場所作用 ${f.placeApplications} / 受容費 ${primaryNumber(f.receptionCostE)} E。`;
+      $('information-readout').title='生成・受容・実際の学習・場所作用は別の原値です。情報量は生体数・B・栄養Eへ加算しません。Qの促進/歪曲件数はQの利益や生存への因果を意味しません。全確定ターンをCSV/保存結果で確認できます。';
+    }
     $('relation-readout').textContent='3系列は別尺度・全期間。実線＝確認／破線＝未確認。詳しくは下の集計説明へ。';
     if($('graph-values').dataset.catalogue!==catalogueKey){$('graph-values').dataset.catalogue=catalogueKey;$('graph-values').innerHTML=catalogue.map(s=>`<button class="small" data-graph-description="${escape(s.id)}">${escape(s.name)} <b>0</b></button>`).join('');}
     for(const b of $('graph-values').children){const value=String(r.counts[b.dataset.graphDescription]||0),label=b.querySelector('b');if(label.textContent!==value)label.textContent=value;if(b.disabled!==!!analysisData)b.disabled=!!analysisData;b.onclick ||= ()=>describeSpecies(b.dataset.graphDescription);}
@@ -1144,6 +1152,26 @@
         : "";
     return `<article class="specimen ${hero ? "specimen-hero" : ""}"${S.Ryouki.is(o)?' data-ryouki-id="'+escape(o.id)+'"':''}><h3>${escape(s.name)}</h3><div class="phase-name">${phase(o.phase)}相 · ${escape(s.phases?.[o.phase - 1] || s.name)} / ${sex[o.sex] || "無性"} ${roles[o.role] || ""}${S.Ryouki.is(o)?" / "+ryoukiMorph(o):""}</div>${main ? `<p class="diet-tag">${escape(s.dietName || diet.name)} · ${escape(s.dietDescription || diet.description)}</p>` : ""}<canvas class="portrait" width="${hero ? 384 : 116}" height="${hero ? 300 : 116}" data-portrait="${escape(o.id)}"></canvas><p class="micro">${escape(o.id)} · 世代 ${o.generation} · 年齢 ${o.age}ターン${age.enabled ? ` · <strong class="age-stage" data-age-stage="${age.stage}">${ageLabel}</strong> · 成熟${age.matureAt} / 老齢${age.elderlyAt}` : ""}</p><div class="vital-bars"><span>E</span><progress max="${p.capE}" value="${o.E}"></progress><span>${fmt(o.E)} / ${fmt(p.capE)}</span><span>HP</span><progress max="${p.maxHP}" value="${o.HP}"></progress><span>${fmt(o.HP)} / ${p.maxHP}</span></div>${ryoukiHTML(o,p)}${actionNote}${birthNote}${preview}${hero ? affinity + weights : ""}<details class="specimen-data"><summary>栄養・能力・系譜の詳細</summary><p class="stats-line">B ${fmt(o.B)} · M ${fmt(o.M)} · G ${fmt(o.G)}${s.group === "plant" ? "<br>可食葉B " + fmt(S.edibleB(o)) + " / 基部B " + fmt(Math.min(S.PLANT_BASE, o.B)) : ""}<br>食性 ${s.dietName || D.diets[s.diet]?.name || (s.group === "plant" ? "光合成" : s.group === "prey" ? "草食" : "菌類の分解吸収")}<br>寿命 ${p.life} · 維持E ${fmt(p.maintenance)}${age.enabled ? `<br>出生時寿命基準 ${age.birthLife}（進化しても固定）<br>通常姿勢の攻防（観測用）<br>${powerDetails}<br>年齢補正：攻撃×${fmt(p.ageFactors.attack)} / 防御×${fmt(p.ageFactors.defense)} / HP×${fmt(p.ageFactors.hp)}<br>移動費×${fmt(p.ageFactors.move)} / 回復×${fmt(p.ageFactors.healing)} / 繁殖待機×${fmt(p.ageFactors.birth)}<br>最大HP：基礎${p.baseMaxHP} → ${p.maxHP} / 維持：基礎${fmt(p.baseMaintenance)} → ${fmt(p.maintenance)}` : ""}<br>感知 ${p.sense} / 移動 ${p.speed} / 射程 ${p.range}<br>${main ? `枝: ${o.branch3 === null ? "未分岐" : s.branches[o.branch3]} ${o.branch4 === null ? "" : (s.fourthBranches||D.branch4)[o.branch3][o.branch4]}<br>出生待機 ${Math.max(0, o.birthReady - world.turn)} / 攻撃待機 ${Math.max(0, o.attackReady - world.turn)}<br>` : ""}${o.colony ? "集団 " + escape(o.colony) + "<br>" : ""}両親: ${escape(o.parents.join(", ") || "初期個体")}</p></details>${main ? `<button class="small" data-tree="${s.id}">この系統の進化条件 ↗</button><details><summary>基礎DNA</summary><p class="micro">DNAは出生時固定。行動パラメータは本人・一族・接触・情報の経験で変わります。</p>${S.DNA.map((k) => `<div class="weight-row"><span>${{ body: "体格", appendage: "付属器", senses: "感覚", skin: "外皮", aptitude: "代謝適性", sensitivity: "情報感度" }[k]}</span><span>${fmt(o.dna[k])}</span></div>`).join("")}</details>` : ""}${infectionHTML(o)}${world.diagnostics?.id === o.id ? `<details><summary>直近の候補上位3（観測用）</summary>${world.diagnostics.candidates.map((c) => `<p class="micro">${actions[c.type]} / 得点 ${fmt(c.score)} / 費用 ${fmt(c.cost)}<br>特徴: ${c.features.map(fmt).join(" / ")}</p>`).join("")}</details>` : ""}</article>`;
   }
+  const informationMeaning={feeding:'資源利用',production:'生産',damage:'実被害',support:'支援・共存',reproduction:'繁殖・定着',competition:'混雑・競争',parasitism:'寄生関係'};
+  const informationRole={producer:'生産者','primary-consumer':'一次消費者','secondary-consumer':'二次消費者','higher-consumer':'高次消費者',decomposer:'分解者',P:'P',Q:'Q'};
+  const informationValues=values=>(values||[]).map(v=>escape(D.weightNames[v.axis]||v.axis)+' '+primaryNumber(v.value)).join(' / ')||'該当成分なし';
+  function persistentGenerationHTML(g){
+    if(!g)return '<p class="micro">生成判定の詳細は未記録。</p>';
+    const e=g.evaluation,b=e?.benchmarks;
+    return `<details data-information-generation><summary>生成時に固定した実績・抽選</summary><p class="micro">候補 ${g.kind==='normal'?'通常':g.kind==='low'?'根拠不足':escape(g.kind||'未記録')} / pN ${primaryNumber(g.pN)} / pL ${primaryNumber(g.pL)} / 抽選u ${primaryNumber(g.u)}<br>評価 ${e?.resolved?'S '+primaryNumber(e.S)+' / 維持A '+primaryNumber(e.A)+' / 役割B '+primaryNumber(e.B)+' / 関係C '+primaryNumber(e.C):'未評価'}<br>評価基準 ${escape(b?.species||'未記録')} / 維持 ${primaryNumber(b?.maintainedTurns)}T / 関係 ${primaryNumber(b?.relationTurns)}T / 子の成立 ${primaryNumber(b?.offspringSuccess)}<br>役割別基準量 ${Object.entries(b?.roleAmounts||{}).map(([k,v])=>escape(informationRole[k]||k)+' '+primaryNumber(v)).join(' / ')||'未記録'}</p></details>`;
+  }
+  function persistentFieldHTML(cell){
+    const records=S.PersistentInformation.fieldAt(world,cell);
+    return `<section data-persistent-field><h3>非栄養の情報場 · ${records.length}記録</h3><p class="note">情報量は生体数・B・E・Mと別です。読取だけでは量を消費せず、由来・元経験の鮮度・生成後の期限を更新しません。</p>${records.map(r=>`<article class="specimen" data-information-origin="${escape(r.originId)}"><h4>情報量 ${primaryNumber(r.amount)} · ${r.lowEvidence?'根拠不足（初期判断半重み）':'実経験由来'}</h4><p class="micro">由来 ${escape(r.originId)}<br>発信者 ${escape(r.sourceId)} / ${escape(D.byId[r.sourceSpecies]?.name||r.sourceSpecies)}<br>発信時の役割 ${(r.sourceRoles||[]).map(k=>escape(informationRole[k]||k)).join(' / ')}<br>生成 ${r.generatedAt}T / 期限 ${r.expires}T（残り ${r.expires-world.turn}T） / 実績S ${primaryNumber(r.score)}</p>${persistentGenerationHTML(r.generation)}${r.contents.map(c=>`<details open data-information-content="${escape(c.contentId)}"><summary>${escape(informationMeaning[c.meaning]||c.meaning)} · ${escape({normal:'通常',low:'根拠不足', 'confirmed-harm':'確認済み被害'}[c.evidence]||c.evidence)}</summary><p class="micro">元経験 ${c.experienceAt}T / 古さ ${world.turn-c.experienceAt}T / 鮮度 ${primaryNumber(S.PersistentInformation.freshness(c,world.turn))}（半減期 ${c.halfLife}T）<br>範囲 ${c.scope==='all'?'全層向け（局所の適合対象）':'同層向け'} / 役割 ${(c.roles||[]).map(k=>escape(informationRole[k]||k)).join(' / ')}<br>元の場所 ${Number.isInteger(c.context?.cell)?c.context.cell:'未記録'} / 環境 ${escape(D.environments[c.context?.env]?.name||'未記録')}<br>元内容 ${informationValues(c.originalValues)}<br>伝達内容 ${informationValues(c.values)}</p></details>`).join('')}<details data-information-q><summary>Qの出現促進と内容歪曲</summary><p class="micro">出現促進 ${primaryNumber(r.qEffects?.promotion)} / 歪曲 ${informationValues((r.qEffects?.vectors||[]).map((value,axis)=>({axis,value})).filter(v=>v.value!==0))}<br>${(r.qEffects?.traces||[]).map(t=>'加工Q '+escape(t.qId)+' / 直接P '+escape(t.pId)+' / 発信元 '+escape(t.sourceId)+' / 更新 '+t.updatedAt+'T / 離脱 '+(t.detachedAt===null?'未離脱':t.detachedAt+'T')+' / 支払 '+primaryNumber(t.paidE)+' E').join('<br>')||'Q加工の記録なし'}<br>生成時の歪曲は固定値です。元経験・実績を書き換えず、生成後にQの離脱減衰を重ねません。</p></details></article>`).join('')||'<p class="micro">このセルに有効な情報記録はありません。</p>'}</section>`;
+  }
+  function persistentSubjectHTML(o){
+    const a=o.informationState,z=S.PersistentInformation.settings(world),evaluation=S.PersistentInformation.evaluate(world,o),last=a.last,place=last?.place;
+    return `<details data-information-subject="${escape(o.id)}"><summary>本人経験・受取学習・場所作用</summary><p class="micro">本人 ${escape(o.id)} / 役割 ${S.PersistentInformation.roles(world,o).map(k=>escape(informationRole[k]||k)).join(' / ')}<br>実績評価 ${evaluation.resolved?'S '+primaryNumber(evaluation.S)+' / A '+primaryNumber(evaluation.A)+' / B '+primaryNumber(evaluation.B)+' / C '+primaryNumber(evaluation.C)+' / 基礎出現率 '+primaryNumber(evaluation.pBase):'未評価（役割基準の欠測を0補完しません）'}</p><h4>本人が確かめた実経験</h4>${a.experience.map(c=>`<p class="micro">${escape(informationMeaning[c.meaning]||c.meaning)} / ${c.count}件・${c.distinctTurns}T / 最終 ${c.lastExperienceAt}T<br>保持資格 ${c.count>=z.holdingCount&&c.distinctTurns>=z.holdingTurns?'到達':'未到達'}（${z.holdingCount}件/${z.holdingTurns}T） / 死亡時候補 ${c.confirmedHarm?'確認済み被害':c.count>=z.normalCount&&c.distinctTurns>=z.normalTurns?'通常':'根拠不足'}<br>${informationValues(c.values)}</p>`).join('')||'<p class="micro">本人実経験の記録なし。</p>'}<h4>他者から受け取った学習</h4>${a.learned.map(c=>`<p class="micro">由来 ${escape(c.originId)} / 発信者 ${escape(c.sourceId)}<br>受容 ${c.receivedAt}T / ${c.source==='environment'?'環境':c.caregiver?'実養育者':'通常個体'} / 内容 ${escape((c.contentIds||[c.contentId]).join(' / '))}</p>`).join('')||'<p class="micro">受取学習の記録なし。</p>'}<p class="micro">直近受容 ${last?last.turn+'T / '+last.received+'由来 / 実適用 '+last.applied+' / 変化量 '+primaryNumber(last.deltaAbs)+' / 費用 '+primaryNumber(last.costE)+' E':'未実行'}<br>${S.spec(o).group==='main'?'学習は現在の行動重みに反映します。': '受取学習の蓄積 '+informationValues(a.learnedPreferences.map((value,axis)=>({axis,value})).filter(v=>v.value!==0))}</p><h4>現在地で実際に使った場所作用</h4><p class="micro">${place?place.turn+'T / 誘引 '+primaryNumber(place.attraction)+' / 警戒 '+primaryNumber(place.warning)+' / 評価 '+primaryNumber(place.value)+'<br>由来 '+escape(place.origins.map(c=>c.originId).join(' / ')):'当Tの利用記録なし（候補照会や表示では加算しません）'}</p><p class="note">受取や場所の反復作用は本人の新経験ではありません。痕跡の期限切れだけで既存学習を消さず、DNAへ書き戻しません。k=${primaryNumber(z.influence)}。</p>${(o.hyperTraces||[]).length?`<h4>本人に残るQの有償痕跡</h4>${o.hyperTraces.map(t=>`<p class="micro">Q ${escape(t.qId)} / P ${escape(t.pId)} / 発信元 ${escape(t.sourceId)}<br>出現促進 ${primaryNumber(t.promotion)} / 歪曲強度 ${primaryNumber(t.distortion)} / 支払 ${primaryNumber(t.paidE)} E<br>離脱 ${t.detachedAt===null?'未離脱':t.detachedAt+'T / 失活 '+(t.detachedAt+z.traceLifetime)+'T'}。保持強度と死亡時の実効値は別です。</p>`).join('')}`:''}</details>`;
+  }
+  function persistentGuideHTML(){
+    const z=S.PersistentInformation.settings(world);
+    return `<section data-persistent-guide><h2>実経験から残る、非栄養の情報</h2><div class="flow">本人の実経験 → 死亡時に一度の生成判定 → 次Tから局所の受容・学習／場所作用</div><div class="sheet-grid">${card('量・鮮度・期限は別',`<p>情報量は痕跡の量で、栄養E/B/Mや生体数ではありません。元経験から半減期25/50/100Tで鮮度が下がり、生成後100〜200Tの期限を保持します。読取・拡散・Q加工では若返りません。</p>`)}${card('経験と受取',`<p>通常候補は3件/2T、保持・伝達資格は6件/3T。確認済み被害は別の通常候補、根拠不足は残余最大5%・初期判断半重みです。「正しさ50%」ではありません。本人経験と受取内容を分け、同じ由来の再読取を新経験にしません。</p>`)}${card('学習と場所作用',`<p>環境1・通常個体0.25・実養育者から幼体1。新規受容は最大2由来/T、1由来に維持費1%相当を支払います。学習蓄積と、その場所での一時的な誘引・警戒は別です。k=${primaryNumber(z.influence)}。0でも生成・受容・費用を維持し、両作用を0にします。</p>`)}${card('Qの促進と歪曲',`<p>有償痕跡は発信元1体に最大2つ。直接P・発信元・加工Qを分け、元の実績・経験・役割・期限を書き換えません。離脱後は半減期50T・100Tで失活し、生成時に固定された歪曲へ離脱減衰を重ねません。Q自立IVは既存情報を遠隔加工しません。</p>`)}${card('観測と保存',`<p>全確定ターンのstock/flowをCSVと結果へ保存します。量、取得数、学習・場所作用、Q加工を分け、情報の存在だけで成立関係や生存への利益を認定しません。旧世界は旧定義のままです。</p>`)}</div></section>`;
+  }
   function renderSelection() {
     const speciesMode=!!describedSpecies,detailMode=speciesMode||selectedCell!==null;
     $('inspector-graphs').hidden=false;$('inspector-details').hidden=!detailMode;
@@ -1152,7 +1180,7 @@
     $("species-info").hidden=!speciesMode;$("selection").hidden=speciesMode;
     $("follow-individual").hidden=speciesMode;$("follow-note").hidden=speciesMode;
     $("close-species").hidden=!speciesMode&&selectedCell===null;
-    document.querySelector(".inspector-heading").textContent=speciesMode?"◈ 系統の説明":"◈ 選択中の個体";
+    document.querySelector(".inspector-heading").textContent=speciesMode?"◈ 系統の説明":S.PersistentInformation?.enabled(world)&&!selectedId?"◈ 選択中のマス":"◈ 選択中の個体";
     if(speciesMode&&world){const panel=document.querySelector(".inspector"),scroll=panel.scrollTop;renderSpeciesDescription(describedSpecies);panel.scrollTop=scroll;return;}
     if (!world || selectedCell === null) {
       $("follow-individual").disabled=true;
@@ -1177,6 +1205,9 @@
     const inspectorScroll=document.querySelector(".inspector").scrollTop, savedScroll=$("selection").scrollTop, savedOpen=[...$("selection").querySelectorAll("details")].map(d=>d.open);
     $("selection").innerHTML =
       `<p class="note">${selectedId&&!located?"選択したIDは消失しました。同じマスの別個体へは追跡を切り替えていません。":""}</p><p class="cell-context">マス (${x}, ${y}) · ${D.environments[t.env].name}<br>${terrain[t.terrain]} / 遮蔽 ${cover[t.cover]}${t.blocked ? " / 通行不可" : ""}<br>光 ${fmt(t.light)} / 土壌M ${fmt(t.soilM)}</p>${occupants.map((o) => `<button class="small" data-observe="${escape(o.id)}">${o.slot === "main" ? "主" : o.slot === "producer" ? "生産者" : "餌"}: ${escape(S.spec(o).name)}${S.Ryouki.is(o)&&occupants.filter(S.Ryouki.is).length>1?" · "+escape(o.id):""}</button>`).join(" ")}${occupants.map(o=>`<span class="parasite-choices">${o.infection?`<button class="small" data-observe="${escape(o.infection.id)}">P ${escape(D.byId[o.infection.species].name)}</button>`:""}${o.infection?.q?`<button class="small" data-observe="${escape(o.infection.q.id)}">Q ${escape(D.byId.hyperparasite.name)}</button>`:""}</span>`).join("")}${(world.searchQ||[]).filter(q=>q.cell===selectedCell&&!S.HyperParasite?.enabled(world)).map(q=>`<button class="small" data-observe="${escape(q.id)}">Q 探索群体 ${escape(q.id)}</button>`).join("")}${S.HyperParasite?.is(located?.entity)?hyperDetails(located.entity,located.hyper):S.PrimaryParasite.is(located?.entity)?primaryDetails(located.entity,located.primary):selectedId?.startsWith("q:")||selectedId?.startsWith("p:")?parasiteDetails(selectedId):""}${occupants.map(organismHTML).join("")}${corpses.map(a=>`<p class="parasite-choices"><button class="small" data-observe="${escape(a.id)}">死骸: ${escape(D.byId[a.species].name)} / ${escape(a.slot)}</button>${a.infection&&(world.turn<a.payloadExpires)?`<button class="small" data-observe="${escape(a.infection.id)}">死骸上P</button>${a.infection.q?`<button class="small" data-observe="${escape(a.infection.q.id)}">死骸上Q</button>`:""}`:""}</p>`).join("")}${resources.map((a) => `<article class="specimen"><h3>${S.FOOD[a.kind].name} · 量 ${fmt(a.q)}</h3><p class="stats-line">E ${fmt(a.E)} / M ${fmt(a.M)} / G ${fmt(a.G)}<br>残存 ${a.expires === null ? "期限なし" : a.expires - world.turn + "ターン"}</p>${a.event ? `<p class="stats-line">情報源 ${escape(a.event.sourceId)}<br>文脈 ${D.environments[a.event.env].name} / 鮮度年齢 ${world.turn - a.event.time}<br>成分 ${a.event.values.map((v) => D.weightNames[v.axis] + " " + fmt(v.value)).join(" / ")}<br>${a.event.noise ? "撹乱情報" : "経験情報"} / ${a.event.mediator ? "Q媒介 " + escape(a.event.mediator.special) : "直接"}</p>` : ""}</article>`).join("")}${corpses.map((a) => {const appearance=renderer.deathAppearance(a.id);return `<p class="stats-line">死骸 ${D.byId[a.species].name} / q ${fmt(a.q)}<br>${appearance?"死亡時: "+phase(appearance.phase)+"相 / "+escape(appearance.sex||"無性別")+" / 年齢"+appearance.age+"T / 枝"+(appearance.branch3??"—")+"-"+(appearance.branch4??"—"):"死亡時の姿は未取得（基本画）"}<br>E ${fmt(a.E)} / M ${fmt(a.M)} / G ${fmt(a.G)}<br>${a.infection ? "感染残存 " + escape(a.infection.species) + " / 期限 " + a.payloadExpires : "感染なし"}</p>`;}).join("")}${!occupants.length&&!(S.HyperParasite?.enabled(world)&&S.HyperParasite.entries(world).some(e=>e.cell===selectedCell)) ? '<p class="note">生体なし。局所不在は系統全滅とは異なります。</p>' : ""}`;
+    if(S.PersistentInformation?.enabled(world)){
+      $("selection").insertAdjacentHTML('beforeend',persistentFieldHTML(selectedCell)+(located?.entity?.informationState?persistentSubjectHTML(located.entity):''));
+    }
     if(S.PrimaryParasite.enabled(world))$("selection").insertAdjacentHTML('beforeend',primaryAmountsHTML(selectedCell));
     if(S.HyperParasite?.enabled(world))$("selection").insertAdjacentHTML('beforeend',hyperCellHTML(selectedCell));
     [...$("selection").querySelectorAll("details")].forEach((d,i)=>{if(savedOpen[i]!==undefined)d.open=savedOpen[i];});$("selection").scrollTop=savedScroll;document.querySelector(".inspector").scrollTop=inspectorScroll;
@@ -1314,12 +1345,12 @@
       world.tallies.transfers +
       " / 失敗 " +
       world.tallies.infectionFailures +
-      "<br>情報 発信成功ターン " +
+      (S.PersistentInformation?.enabled(world)?"<br>非栄養情報 量 "+primaryNumber(world.persistentInformationSummary.field.amount)+" / 累積生成量 "+primaryNumber(world.persistentInformationSummary.ledger.generatedAmount)+" / 累積失活量 "+primaryNumber(world.persistentInformationSummary.ledger.inactivatedAmount)+" / 当T受容 "+world.observation.persistentInformation.all.originsRead+" / 学習 "+world.observation.persistentInformation.all.learned+" / 場所作用 "+world.observation.persistentInformation.all.placeApplications+" / 受容費 "+primaryNumber(world.observation.persistentInformation.all.receptionCostE)+" E":"<br>情報 発信成功ターン " +
       world.tallies.information.emissionTurns +
       " / 新規受信 " +
       world.tallies.information.received +
       " / Q媒介 " +
-      world.tallies.information.mediated +
+      world.tallies.information.mediated) +
       "<br>採食E（吸収前・供給元別） " +
       Object.entries(world.tallies.sources)
         .map(([k, v]) => k + " " + fmt(v))
@@ -1420,7 +1451,7 @@
     system: () =>
       `<h2>基本システムから読む</h2><p class="note">自然配置は同系統4体の小組。生産者は光・葉量・モード・優遇に応じてEを得てBへ投資し、土壌Mも利用します。生産者の供給設定は光合成と別の外部入力として収支に記録します。</p><div class="flow">初期値 → 固定環境・初期生物 → 局所の同期更新 → 食物網・生存競争 → 観測</div><div class="sheet-grid">${card("セルと生物の重なり", "<p>マスには主生物1体、生産者/分解者1体、一次消費者1体の3枠があり、同じマスに共存できます。最大3種の落ちた資源は別です。一次寄生虫Pは各宿主に1群体、高次寄生虫QはPに1群体付随します。探索Qと感染性死骸も別に存在します。生物は独立個体、P/Qは群体の管理単位です。</p>")}${card("固定環境、変わる生命", "<p>6種類の事前地形から選び、地形用初期値で候補地点の地物を決めます。生態用初期値は個体と資源の配置・生態進行に使います。8環境と地形・光・障害物は開始後に変わりません。系統の得意・苦手環境で攻撃・防御・移動Eが変わります。境界は通行可能なら越えられ、環境ごとに生物を隔離しません。</p>")}${card("三段階の観察", "<p>自動観察は1ターン約1秒。資源更新、移動・採食・戦闘、成長・繁殖を順に表示します。途中はプレビューで、個体数や図鑑は確定した結果を使います。一時停止では最後の確定ターンへ戻ります。地図操作や説明閲覧中も進みます。手動停止中も観察操作ができます。最大60秒の事前計算と上限6ターンの先行計算を使います。負荷が高いときは時間を伸ばし、個体やターンを省略しません。行動の軌跡と短いマークで成立した作用を示します。</p>")}${card("観察モードの条件", "<p>自由設定は従来の光合成入力と初期餌量。河畔・定着観察は7系統、湖沼・食物網観察は5系統で、主生物は小マップ160体から面積に比例します。両モードは高生産環境として光合成入力2倍。一次消費者の初期量は河畔25%増、湖沼50%増です。群密度・種別初期数・資源量は別欄で調整でき、生産者供給も自由設定から選択できます。動物・寄生虫の救済補充はありません。供給ONでは適地の生産者へ外部栄養と環境由来の定着が生じます。実効条件と実配置を図鑑へ保存します。</p>")}${card("10段階の同期ターン", "<ol><li>期限切れ・資源CA</li><li>光と行動候補</li><li>移動予約</li><li>同時戦闘</li><li>育児・採食</li><li>維持費・死亡</li><li>経験・寄生成熟</li><li>成長・繁殖</li><li>有償生産・情報・寄生出産</li><li>結果確定・観測</li></ol>")}${card("有限の収支", "<p>Eは使えるエネルギー、Bは身体の有機量、Mは鉱物、Gは累積成長値。光と、有効時の生産者供給が外部入力です。供給のE/Mは独立台帳へ記録し、食物は生物・死骸・土壌から支払います。植物は所在土壌Mを一口最大0.1取り、吸収率0.5の残りを土へ戻します。二口の上限を共有します。時間だけで食べた餌が無料復活することはありません。散逸分も台帳へ記録します。</p>")}${card("ライフゲーム由来の局所規則", "<p>鉱物片・鉱液滴・情報の発生候補は近傍8マスのB3/S23（3で出生、2/3で残存）。候補に加え供給元の予算・地形条件も必要です。主生物の出生は空き主枠の近傍主生物2〜3体と親条件を使います。生産者は通常B2/3（浮遊微藻はB1/2/3）、生産者優遇ONではB1/2/3。一次消費者は通常B2/3、水游虫優遇ONでは水游虫がB1/2/3です。各出生に成熟・栄養・材料・出生費が必要で、供給ONの環境由来定着は親からの出生と別に記録します。主生物の死因は飢餓・寿命・戦闘です。</p>")}${card("規模と観測の限界", "<p>小40×28、標準80×56、大160×112。基準は1ターン約1秒で、負荷超過時は実時間の進行を減速します。画面外も計算し、個体数を描画上限へ合わせません。500ターンで一時停止し、次区間へ続行できます。</p>")}</div>`,
     food: () =>
-      `<h2>植物 → 一次消費者 → 主生物、そして分解者へ</h2><div class="flow">光 → 植物 → 一次消費者 → 主生物 → 死骸 → 菌・有機粒・土壌<br>本人の経験 → 情報エネルギー体 → 他個体の行動パラメータ</div><table class="food-table"><thead><tr><th>餌・生物</th><th>特色 / 主な供給元</th><th>不足・制約</th></tr></thead><tbody>${[
+      `<h2>植物 → 一次消費者 → 主生物、そして分解者へ</h2><div class="flow">光 → 植物 → 一次消費者 → 主生物 → 死骸 → 菌・有機粒・土壌<br>${S.PersistentInformation?.enabled(world)?"本人の実経験 → 非栄養の情報痕跡 → 学習・場所作用":"本人の経験 → 情報エネルギー体 → 他個体の行動パラメータ"}</div><table class="food-table"><thead><tr><th>餌・生物</th><th>特色 / 主な供給元</th><th>不足・制約</th></tr></thead><tbody>${[
         [
           "微藻・岩苔・草本",
           "動かず光からEを生産。多く分布し、可食葉の刈取り量は小さく、基部B2を残します。微藻は浅水、岩苔は寒冷/静/湿潤の岩・浅瀬、草本は深水以外。",
@@ -1473,8 +1504,8 @@
         ],
         [
           "情報",
-          "経験の滞留・浮遊するエネルギー体。系統を越えて局所へ伝わる。",
-          "Eは微量、Gなし。鮮度・文脈・重複拒否で効果が変わる。",
+          S.PersistentInformation?.enabled(world)?"実経験に由来する非栄養の痕跡。生体数・B・Eへ加算しません。":"経験の滞留・浮遊するエネルギー体。系統を越えて局所へ伝わる。",
+          S.PersistentInformation?.enabled(world)?"非消費読取。元経験の鮮度・有限期限・適用範囲・受容費を別に持ちます。":"Eは微量、Gなし。鮮度・文脈・重複拒否で効果が変わる。",
         ],
       ]
         .map(
@@ -1491,7 +1522,7 @@
     parasite: () =>
       S.HyperParasite?.enabled(world)?primaryGuideHTML()+hyperGuideHTML():S.PrimaryParasite.enabled(world)?primaryGuideHTML():`<h2>宿主に付随する生物。H → P → Q。</h2><div class="flow">潮環：微藻 → 水游虫 → 水系の成熟主生物<br>葉環：草本 → 草棲虫 → 植物食/雑食の成熟主生物<br>幼い主生物へ入った場合：追加中間宿主 → 別の成熟主生物</div><div class="sheet-grid">${card("一次寄生虫Pの生活環", "<p>第一宿主で4回の完全支払いを受け、適合する小型餌が食べると中間へ。中間で6回、死亡後の感染性死骸を別の適合主生物が食べると終宿主へ。年齢が幼体なら追加中間となり、更に6回と別宿主への移行が必要。終宿主は8回で成熟します。</p>")}${card("費用・移行・失敗", "<p>宿主が負荷に応じてPへ有限Eを払い、P自身も維持費を必要とします。Qは蓄えと外部情報資源で維持し、宿主/Pへ追加徴収しません。体表Pは有償清掃、体内Pは有償免疫と資源不足で排除されます。移行日は旧宿主だけが払い、P/QのID・エネルギーを保ち、成熟を一日止めます。宿主不適合・感染済み・期限切れでは移行しません。</p>")}${card("出産は第一宿主へ戻る", "<p>成熟終宿主内のPはE0.1を使い、近くの適合第一宿主へ子を置きます。空き第一宿主がなければ8ターンの有限待機体へ。複数Pが同宿主を選ぶと局所調停し、落選者は別宿主へ取り直しません。Pを自由に歩く餌として描きません。</p>")}${card("高次寄生虫Qの進化", `<p>QはPに寄生。${qGrowthGuide()}。現在の高次寄生優遇${world?.config.advantageSettings?.hyperparasite!==false?"ON":"OFF"}の条件です。既存Pの終宿主内成熟直後の3ターンだけ感染可能。Pの成熟や能力値は直接変えず、行動と局所情報へ作用します。Qは宿主へ直接の新たな栄養負荷を重複請求しません。</p>`)}${card("この世界の初期探索Q", `<p>${world?.config.parasiteInitial?.createdSearchQ??0}群体を初期配置。${world?.config.founderCounts?.parasites.hyperparasite!==undefined?"種別指定":"自動設定"}の結果です。これは開始時の値で、現在数は個体数欄で確認できます。</p>`)}${card("間接的で技術的な操作", "<p>QIIIは累積の発信・接触・情報取得をもとに、整流/鮮度保持/変調へ特化。情報の一成分を半減、鮮度倍率1.25（上限1）、または固定−1/0/+1の変調を行います。E0.02、待機4、同イベントの再操作拒否があり、強制的な全域通信はできません。</p>")}${card("観測と本人の知覚は別", "<p>選択した宿主ではH/P/QのID・段階・成熟・エネルギー・特化を確認できます。生物本人はその観測画面を読みません。初期Pは適合第一宿主から選び、Qは適合条件があるとき探索群体を配置します。自動Qは一次寄生の初期群体数の半分（端数切捨て）が上限。優遇ONではその数、OFFでは従来の4〜16群体目標との小さい方を使います。種別の初期数指定があればそちらを使い、実数は「種別の初期配置結果」と保存条件で確認できます。実際の初期数は開始条件に記録され、観測途中の救済補充はありません。</p>")}</div>`,
     info: () =>
-      `<h2>情報は、外に残った行動の作用。</h2><div class="flow">実際の経験 → 有償の情報分泌 → 局所B3/S23 → 鮮度・環境文脈・Q媒介 → 別個体の行動へ</div><div class="sheet-grid">${card("延長された表現型", "<p>情報は滞留・浮遊するエネルギー体として表現します。生物の実成果が環境に残り、別の個体の行動へ作用するモデルです。遺伝子の水平伝播ではなく、系統・DNA・繁殖条件・進化枝を直接書き換えません。</p>")}${card("系統を越えた局所伝達", "<p>本人の経験変化から絶対値の大きい2成分を候補にし、発信元のEを支払って近くへ生成。受け手の系統は問いません。世界全体へ一瞬で共有せず、元の発信時刻・環境文脈・発信者IDを保ちます。</p>")}${card("文脈と鮮度", "<p>同環境は文脈1、異環境は0.5。鮮度は経過0〜4/5〜9/10〜14/15〜19で1/0.75/0.5/0.25、20で失効。感度DNAと掛け、行動重みへの変化は成分±3以内。摂取待機5、既読ID4件で同じ情報の無限取得を防ぎます。</p>")}${card("撹乱も生態の一部", "<p>90%は実経験、10%は同じ成分の符号を反転し大きさ3へ変える撹乱情報。Qの変調も別に作用し得ます。情報が常に正しいとは限らず、同じ生態からどの動きが残るかを観測します。</p>")}${card("少ない栄養、行動への作用", "<p>情報餌は独立項目。Eは1単位0.05相当、Gはありません。有機餌や鉱物の代わりにして全生活を支えることはできません。光輪の濃さと選択表示で鮮度・発信源・媒介を区別します。</p>")}${card("固定長で計算する", "<p>情報イベントは期限付き、記憶は少数ID、Qの経験は3カウンタ。系統全体や家系の全履歴を常時検索せず、近傍と有限の状態から創発的な影響を作ります。</p>")}</div>`,
+      S.PersistentInformation?.enabled(world)?persistentGuideHTML():`<h2>情報は、外に残った行動の作用。</h2><div class="flow">実際の経験 → 有償の情報分泌 → 局所B3/S23 → 鮮度・環境文脈・Q媒介 → 別個体の行動へ</div><div class="sheet-grid">${card("延長された表現型", "<p>情報は滞留・浮遊するエネルギー体として表現します。生物の実成果が環境に残り、別の個体の行動へ作用するモデルです。遺伝子の水平伝播ではなく、系統・DNA・繁殖条件・進化枝を直接書き換えません。</p>")}${card("系統を越えた局所伝達", "<p>本人の経験変化から絶対値の大きい2成分を候補にし、発信元のEを支払って近くへ生成。受け手の系統は問いません。世界全体へ一瞬で共有せず、元の発信時刻・環境文脈・発信者IDを保ちます。</p>")}${card("文脈と鮮度", "<p>同環境は文脈1、異環境は0.5。鮮度は経過0〜4/5〜9/10〜14/15〜19で1/0.75/0.5/0.25、20で失効。感度DNAと掛け、行動重みへの変化は成分±3以内。摂取待機5、既読ID4件で同じ情報の無限取得を防ぎます。</p>")}${card("撹乱も生態の一部", "<p>90%は実経験、10%は同じ成分の符号を反転し大きさ3へ変える撹乱情報。Qの変調も別に作用し得ます。情報が常に正しいとは限らず、同じ生態からどの動きが残るかを観測します。</p>")}${card("少ない栄養、行動への作用", "<p>情報餌は独立項目。Eは1単位0.05相当、Gはありません。有機餌や鉱物の代わりにして全生活を支えることはできません。光輪の濃さと選択表示で鮮度・発信源・媒介を区別します。</p>")}${card("固定長で計算する", "<p>情報イベントは期限付き、記憶は少数ID、Qの経験は3カウンタ。系統全体や家系の全履歴を常時検索せず、近傍と有限の状態から創発的な影響を作ります。</p>")}</div>`,
   };
   function drawIndependentTree(s,o){
     const conditions=[['好条件の高生産と省資源維持','光入力と維持の配分'],['一回の親費用と子の蓄え','近傍の適地・空き枠への定着'],['被食されにくい組織と被食後の更新','形成・再生へ実際に支払った量']],

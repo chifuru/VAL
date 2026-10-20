@@ -1,0 +1,12 @@
+✔ Persistent information definitions, stock, flow and finite conditions survive all-turn archive replay (2532.041667ms)
+✔ pre-information biological signatures cannot claim the new information rules (114.923846ms)
+✔ I06 worlds retain exact replay without converting legacy information (648.21296ms)
+✔ Worker transports information origin/cell changes and committed phases before restart (2428.917303ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5728.732851

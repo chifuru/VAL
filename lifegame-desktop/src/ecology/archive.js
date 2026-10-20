@@ -15,7 +15,9 @@
  const ryoukiBuildSignature="952b362eb16d6822343c6e739f37e6057fed6eef9067cb7c684bc3e224169efb";
  const primaryBuildSignature="0789b6828052dfc261fd4d7ebe290deedb1f8375506e7bb19e9073a8ee12aba8";
  const hyperBuildSignature="32595746fbb53881d5bcda4c42a98f062540cf73d91c85125d5b7dd73df600b1";
+ const informationBuildSignature="cc602920ce515db5502edec9d74233a0f397735ff5707ea7ae71fa81eb5fc50d";
  function canonicalSignature(s,config){
+  if(s===informationBuildSignature&&config.informationModel===undefined&&config.informationSettings===undefined)s=hyperBuildSignature;
   if(s===hyperBuildSignature&&config.hyperParasiteModel===undefined&&config.hyperParasiteSettings===undefined)s=primaryBuildSignature;
   if(s===primaryBuildSignature&&config.primaryParasiteModel===undefined&&config.primaryParasiteSettings===undefined)s=ryoukiBuildSignature;
   if(s===ryoukiBuildSignature&&config.ryoukiModel===undefined&&config.ryoukiSettings===undefined)s=independentBuildSignature;
@@ -33,6 +35,10 @@
   function capture(world,reason,observation,originRecordId=null){
     const fingerprint=engine.fingerprint(world),record={schema:1,id:fingerprint,signature,config:structuredClone(world.config),turn:world.turn,reason,created:new Date().toISOString(),final:{counts:{...world.stats.counts},main:world.stats.main,food:world.stats.food,P:world.stats.P,Q:world.stats.Q}};
     if(observation){
+      const informationModel=world.config.informationModel==='persistent/1',informationDefinition=observation.definitions?.persistentInformation,informationFlow=observation.definitions?.persistentInformationFlow;
+      if((informationDefinition!==undefined&&informationDefinition!=="persistent-information-observed/1")||(informationFlow!==undefined&&informationFlow!=="persistent-information-flow/1")||
+        informationModel!==(informationDefinition!==undefined)||informationModel!==(informationFlow!==undefined)||
+        (informationModel&&(!Array.isArray(observation.rows)||observation.rows.some(r=>r.persistentInformation?.definition!==informationDefinition||r.persistentInformation.turn!==r.turn||r.persistentInformationFlow?.definition!==informationFlow||r.persistentInformationFlow.turn!==r.turn||r.information!==undefined))))throw Error("持続情報の全期間観測・定義版が揃っていないため保存できません。");
       const hyperModel=world.config.hyperParasiteModel==='hyper/1',hyperDefinition=observation.definitions?.hyperParasite,hyperFlow=observation.definitions?.hyperParasiteFlow;
       if((hyperDefinition!==undefined&&hyperDefinition!=="hyper-parasite-observed/1")||(hyperFlow!==undefined&&hyperFlow!=="hyper-parasite-flow/1")||
         hyperModel!==(hyperDefinition!==undefined)||hyperModel!==(hyperFlow!==undefined)||
@@ -56,6 +62,7 @@
       if(ryoukiModel)record.final.ryouki=structuredClone(observation.rows.at(-1).ryouki);
       if(primaryModel){record.final.primaryParasite=structuredClone(observation.rows.at(-1).primaryParasite);record.final.primaryParasiteFlow=structuredClone(observation.rows.at(-1).primaryParasiteFlow);}
       if(hyperModel){record.final.hyperParasite=structuredClone(observation.rows.at(-1).hyperParasite);record.final.hyperParasiteFlow=structuredClone(observation.rows.at(-1).hyperParasiteFlow);}
+      if(informationModel){record.final.persistentInformation=structuredClone(observation.rows.at(-1).persistentInformation);record.final.persistentInformationFlow=structuredClone(observation.rows.at(-1).persistentInformationFlow);}
       const current=observation.rows.at(-1).current;record.final.counts={...current.counts};record.final.P=current.groups.find(g=>g.id==='P')?.count||0;record.final.Q=current.groups.find(g=>g.id==='Q')?.count||0;
       Object.assign(record.final,{stats:structuredClone(world.stats),ledger:structuredClone(world.ledger),tallies:structuredClone(world.tallies),demography:structuredClone(world.demography),current:structuredClone(observation.rows.at(-1).current)});
     }

@@ -157,6 +157,7 @@
   const markSprites=new Map(),markLabels={attack:'攻撃',defend:'防御',graze:'植物食',predate:'捕食',scavenge:'屍肉食',fungal:'分解食',absorb:'吸収',care:'育児',infection:'寄生',clear:'除去',birth:'出生',growth:'進化',death:'死亡'};
   const markColors={attack:'#ff9978',defend:'#9edfff',graze:'#b1e59a',predate:'#ffcb88',scavenge:'#d9ad91',fungal:'#d7bbef',absorb:'#b6e8dc',care:'#bce7b1',infection:'#d3a2ff',clear:'#eff7ed',birth:'#ffe3a0',growth:'#a7eeef',death:'#c6b7ad'};
   function actionKind(e,w){
+    if(e.type==='information-effect'&&w?.config?.informationModel==='persistent/1')return null;
     if(e.type.startsWith('primary-'))return w?.config?.primaryParasiteModel==='primary/1'?({'primary-established':'infection','primary-transferred':'infection','primary-clear':'clear'}[e.type]||null):null;
     if(e.type.startsWith('hyper-'))return w?.config?.hyperParasiteModel==='hyper/1'?({'hyper-established':'infection','hyper-emerged':'growth','hyper-cleared':'clear'}[e.type]||null):null;
     return e.type==='feed'?(e.sourceType==='carcass'?'scavenge':e.sourceType==='plant'?(e.tag==='plant'?'graze':e.tag==='fungal'?'fungal':'predate'):'absorb'):e.type;
@@ -208,7 +209,7 @@
     };
     const deathAppearances=new Map(),actionMarks=new Map();
     Art.ready.then(()=>{groundShadow();for(const kind of Object.keys(markLabels))markSprite(kind);});
-    let livingById=new Map(),freeQById=new Map(),eventPlan=null,frameCandidates=null,objectIndex=null;
+    let livingById=new Map(),freeQById=new Map(),informationCells=new Map(),informationIndex=null,informationHitRegions=[],eventPlan=null,frameCandidates=null,objectIndex=null;
     let world = null,
       P = null,
       scene = null,
@@ -315,6 +316,12 @@
     function setWorld(w, restartMotion = false) {
       revision++;livingById=new Map(w.organisms.map(o=>[o.id,o]));eventPlan=null;frameCandidates=null;
       freeQById=new Map(w.config.hyperParasiteModel==='hyper/1'?(w.searchQ||[]).filter(q=>S.HyperParasite?.is(q)).map(q=>[q.id,q]):[]);
+      informationCells=new Map();informationIndex=null;
+      if(S.PersistentInformation?.enabled(w))for(const record of w.informationField||[]){
+        if(!(record.expires>w.turn&&record.amount>=S.PersistentInformation.settings(w).minimumAmount))continue;
+        if(!informationCells.has(record.cell))informationCells.set(record.cell,{cell:record.cell,amount:0,origins:new Set(),records:0});
+        const cell=informationCells.get(record.cell);cell.amount+=record.amount;cell.origins.add(record.originId);cell.records++;
+      }
       const time=performance.now();
       if(world&&(w.turn<world.turn||w.config.seed!==world.config.seed))actionMarks.clear();
       for(const [key,m]of actionMarks)if(time-m.at>850)actionMarks.delete(key);
@@ -432,7 +439,7 @@
       // Cover every backing pixel so repeated draws cannot accumulate edge alpha.
       g.save();g.setTransform(1,0,0,1,0,0);g.fillRect(0,0,canvas.width,canvas.height);g.restore();
       if (!world) return;
-      hitRegions=[];
+      hitRegions=[];informationHitRegions=[];
       const coordinates=displayLayout();
       const w = world,
         z = view.scale,
@@ -463,6 +470,7 @@
         criticalMarkers: 0,
         elevated: 0,
         selectedMotionEndpoints: null,
+        informationFields: [],
       });
       const visible = (p, margin = 1) =>
         p[0] * z + view.x >= -z * margin &&
@@ -644,6 +652,24 @@
               a.kind === "info" ? "#8be9ff" : "#e5d4a1",
             );
         }
+      const fieldPoint=field=>{const kind=resourceKinds.indexOf('info');return position(field.cell,.12+(kind%4)*.23,.12+Math.floor(kind/4)*.2);};
+      if(view.resources&&informationCells.size)for(const field of (frameCandidates.information ||= near
+        ? (informationIndex ||= globalThis.EcoDisplayPlane.spatial([...informationCells.values()],field=>{const p=fieldPoint(field);return [p[0]-.5,p[1]-.5,p[0]+.5,p[1]+.5];}))([-view.x/z-1,-view.y/z-1,(b.width-view.x)/z+1,(b.height-view.y)/z+1])
+        : [...informationCells.values()])){
+        const p=fieldPoint(field);
+        if(!visible(p))continue;
+        // Amount changes only the bounded footprint/particle count. The fixed
+        // information colour never encodes truth, evidence, nutrition or E.
+        const r=.05+.04*field.amount/(1+field.amount);
+        if(detail)Art.resource(g,{kind:'info',informationField:true,amount:field.amount},...p,r,w.tiles[field.cell].env,w.turn);
+        else symbol(g,'info',...p,r,'#8be9ff');
+        informationHitRegions.push({cell:field.cell,x:p[0],y:p[1],r:Math.max(r,3/z)});
+        diagnostics.informationFields.push({cell:field.cell,amount:field.amount,origins:field.origins.size,records:field.records,x:p[0]*z+view.x,y:p[1]*z+view.y});
+        if(near&&(view.names.resource||field.cell===view.selected)){
+          annotations.push(()=>{g.save();g.fillStyle='#fff1cd';g.font='.055px sans-serif';g.textAlign='center';g.fillText('情報量 '+Number(field.amount.toFixed(2))+' · '+field.origins.size+'由来',p[0],p[1]-.10);g.restore();});
+          diagnostics.nameLabels.resource++;
+        }
+      }
       function corpsePayload(a){
         if(!a.infection || !(a.payloadExpires>w.turn))return;
         for(const [kind,o]of [["P",a.infection],["Q",a.infection.q]]){
@@ -1053,6 +1079,10 @@
           }
         }
         if(closest)return {cell:closest.cell,id:closest.id};
+        // Nonliving field references never compete with organism/carcass IDs.
+        let field=null,distance=Infinity;
+        for(const a of informationHitRegions){const d=(x-a.x)**2+(y-a.y)**2;if(d<=a.r*a.r&&d<distance){field=a;distance=d;}}
+        if(field)return {cell:field.cell,id:null,kind:'information',information:true};
       }
       if(cell===null)return null;
       return {cell,id:groundOnly?world.organisms.find(o=>o.cell===cell&&o.slot!=='main')?.id:null,groundOnly};

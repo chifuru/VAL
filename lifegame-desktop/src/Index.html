@@ -128,7 +128,8 @@ ECOSYSTEM-2026</textarea
               <label>下層の分布<select id="lower-distribution"><option value="habitat">適地内に散在</option><option value="cluster">適地内に集落</option></select></label>
               <label>鉱物の初期量（基準比%）<input id="resource-mineral" type="number" required min="0" max="400" step="10" value="100"></label>
               <label>水分の初期量（基準比%）<input id="resource-droplet" type="number" required min="0" max="400" step="10" value="100"></label>
-              <label>情報の初期量（基準比%）<input id="resource-info" type="number" required min="0" max="400" step="10" value="100"></label>
+              <label>情報の初期量（新方式は非該当）<input id="resource-info" type="number" min="0" max="400" step="10" value="0" disabled></label>
+              <label>情報の行動への影響度 k<input id="information-influence" type="number" required min="0" max="4" step="any" value="1"></label><p class="note">情報は非栄養の痕跡です。由来のない初期情報は置きません。k=0でも生成・受容・費用を記録し、学習と場所への作用を0にします。</p>
               </div><details id="founder-settings"><summary>種別の初期個体数・寄生群体数</summary><p class="hint">空欄は自動、0は初期配置なし。指定種は群密度からの割当を置き換え、未指定種は自動のままです。初期数だけの指定なので、開始後の出生・供給・感染は通常どおりです。種別数を指定する場合は初期餌保証をOFFにしてください。寄生虫は宿主が必要で、新しい高次寄生モデルは適合する一次寄生虫に応じた少数を、寄生中と第四相の自立群体へ分けて配置します。</p><div id="founder-inputs" class="setup-more"></div></details><div class="setup-more">
               <button id="reset-lower-settings" type="button" class="secondary">下層の初期量を基準に戻す</button>
             </div></details>
@@ -373,7 +374,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.38 · 外部通信なし</span>
+        ><span>v4.2.39 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">

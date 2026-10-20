@@ -96,6 +96,10 @@
       ctx.primaryFlow=P.emptyPrimaryFlow(w);
     }
     if(S.HyperParasite?.enabled(w))ctx.hyperFlow=P.emptyHyperFlow(w);
+    if(S.PersistentInformation?.enabled(w)){
+      ctx.informationHooks=P;
+      ctx.persistentInformationFlow=P.emptyInformationFlow(w);
+    }
     for (const o of w.organisms) {
       ctx.traits.set(o.id, S.phenotype(w, o));
       ctx.old.set(o.id, {
@@ -344,9 +348,10 @@
     flowTelemetry.combat=combat;
     flowTelemetry.information={definition:"information-observed/1",emissions:ctx.infoEmissions||[],receipts:ctx.infoReceipts||[],effects:ctx.infoEffects||[],origins:[]};
     for(const a of w.resources)if(a.kind==="info"&&a.event&&refs.has(a.event.sourceId))flowTelemetry.information.origins.push({id:a.event.id,species:refs.get(a.event.sourceId),time:a.event.time});
-    return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),...(S.HyperParasite?.enabled(w)?{hyperParasite:structuredClone(ctx.hyperFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
+    return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),...(S.HyperParasite?.enabled(w)?{hyperParasite:structuredClone(ctx.hyperFlow)}:{}),...(S.PersistentInformation?.enabled(w)?{persistentInformation:structuredClone(ctx.persistentInformationFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
+    if(S.PersistentInformation?.enabled(w))w.persistentInformationSummary=S.PersistentInformation.summary(w);
     if(S.HyperParasite?.enabled(w))S.HyperParasite.summary(w);
     if(S.PrimaryParasite?.enabled(w))S.PrimaryParasite.summary(w);
     S.Ryouki.summary(w);
@@ -423,6 +428,7 @@
   }
   function create(input = {}) {
     const w = S.create(input);
+    if(S.PersistentInformation?.enabled(w))w.persistentInformationSummary=S.PersistentInformation.summary(w);
     if(S.HyperParasite?.enabled(w))S.HyperParasite.summary(w);
     if(S.PrimaryParasite?.enabled(w))S.PrimaryParasite.summary(w);
     S.Ryouki.summary(w);
@@ -458,6 +464,7 @@
     if(S.LargePlant?.enabled(w))S.LargePlant.begin(w);
     S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
+    if(S.PersistentInformation?.enabled(w))P.informationTrack(w,ctx);
     if(S.Ryouki.enabled(w))for(const o of w.organisms)if(S.Ryouki.is(o)&&o.ryouki.last.transition)S.record(ctx,o,"phase-variation",{state:o.ryouki.mutated?"mutated":"normal",transition:o.ryouki.last.transition});
     const labels = ["資源更新", "移動・採食・戦闘", "成長・繁殖"];
     function ensure() {
@@ -471,6 +478,10 @@
           N.expireAndCA(w, ctx);
           if(S.PrimaryParasite?.enabled(w))P.begin(w,ctx);
           prepare(w, ctx);
+          if(S.PersistentInformation?.enabled(w)){
+            P.informationTrack(w,ctx);
+            P.informationBegin(w,ctx);
+          }
         } else if (stage === 1) {
           B.choose(w, ctx, w.config.ecologyRevision === "observation/4.1" ? "move" : null);
           B.move(w, ctx);
@@ -494,6 +505,7 @@
             R.growth(w, ctx);
             // Birth arbitration reads the frozen parent topology; append is its last step.
             R.reproduce(w, ctx);
+            if(S.PersistentInformation?.enabled(w))P.informationTrack(w,ctx);
           });
           // Rebuild after births. Supply reads one snapshot, then appends resources at the end.
           S.withMapScope(w, () => {
@@ -505,6 +517,7 @@
           P.reproduce(w, ctx);
           if(S.LargePlant?.enabled(w))S.LargePlant.finalize(w,ctx);
           S.settleAge(w,ctx);
+          if(S.PersistentInformation?.enabled(w))P.informationFinalize(w,ctx);
           finish(w, ctx);
         }
         stage++;
@@ -555,6 +568,7 @@
       resourceKinds = new Map();
     if(S.PrimaryParasite?.enabled(w))errors.push(...S.PrimaryParasite.validate(w));
     if(S.HyperParasite?.enabled(w))errors.push(...S.HyperParasite.validate(w));
+    if(S.PersistentInformation?.enabled(w))errors.push(...S.PersistentInformation.validate(w));
     for (const o of w.organisms) {
       const occupied = o.slot === "main" ? main : food;
       if(o.slot === "producer"){

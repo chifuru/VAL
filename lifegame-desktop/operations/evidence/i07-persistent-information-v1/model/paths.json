@@ -1,0 +1,394 @@
+{
+  "baseline": "836e4fd / 4.2.38",
+  "legacyStates": 336,
+  "hyperStates": 40,
+  "scope": "legacy/I02/I03/I04/I05/I06 exact world/CSV parity; all8 persistent-information static/dynamic profiles",
+  "legacy": [
+    {
+      "bits": 0,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "da7087c55834c8dbd7a4368414b785077382e5e185fb9ac6c5fb887e49a584b0"
+    },
+    {
+      "bits": 0,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "c38a868baf5c380d720e4245b3874e92d0566da47fa1af79ec226e5c3cdbf899"
+    },
+    {
+      "bits": 0,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "f5bc8dc554168c504bc93cfe986797fe1e0ea747d014a754bd20f66f9cbe8fe0"
+    },
+    {
+      "bits": 0,
+      "mode": 3,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "5c1500bdd0f4206db457d2933fa4517435cfd99888660e1d7a84132d7972664e"
+    },
+    {
+      "bits": 0,
+      "mode": 4,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "c4ea31cc61a5b33b4bb7c5f93fdbab1f4fa7c96e7a35828e0e88be6504faac20"
+    },
+    {
+      "bits": 0,
+      "mode": 5,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "272bd11ef5a24a4c5d59a06096f88a6f205400ebb6aa1fa8a43431be636a304c"
+    },
+    {
+      "bits": 1,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "46dd2e06fe375523369ba518ebde46f9a40c314cc7a2756c9be43025118b8624"
+    },
+    {
+      "bits": 1,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "de7a285747eeb4d153b4675d7b2adf8c520e4e3d4ecbf21e3c39906a2ad7d8df"
+    },
+    {
+      "bits": 1,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "5ebf1222157a42eb851b6915a52dbd8799318b89f29ac9d9c9fa20c144585960"
+    },
+    {
+      "bits": 1,
+      "mode": 3,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "b446ba7b1d8469cb0ae385d50abd5d2459a69d8354bbf366b6805da382e7bbca"
+    },
+    {
+      "bits": 1,
+      "mode": 4,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "41d69014ca5b4174a32acc7391aaa4a1705b6e843f72a5b5d6e79c3890742c7d"
+    },
+    {
+      "bits": 1,
+      "mode": 5,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "620b56d51f79df98bd7cd2d4d36ecde5ff6cdc40099ac4aed26a6d94dece4523"
+    },
+    {
+      "bits": 2,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "0bf4fc0c4aba9d980121ee00936d04ac8e8eb267290b35c1f5c8f98ea2afc8b9"
+    },
+    {
+      "bits": 2,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "f57c2ce70a9b0c6376681ef84c6ea134de22a32755c0fdb9a07eaa9f8e795337"
+    },
+    {
+      "bits": 2,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "1b972af64e7ce7dd2f301479094508d8a5591c22e9221c0c99a86aec9e7677b7"
+    },
+    {
+      "bits": 2,
+      "mode": 3,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "050cd368dbd65187a7be517fc10c64d79c59bd63f54a5f2751358d13b23bbdf5"
+    },
+    {
+      "bits": 2,
+      "mode": 4,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "304ed22abe1fd2adc0aba9270c2a05f0f8437516c2e15c48179fb019cd5ff208"
+    },
+    {
+      "bits": 2,
+      "mode": 5,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "c00ed58882d2b41e1b941b48dce596e5a095bfcf3688d14736c6860370436f86"
+    },
+    {
+      "bits": 3,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "561a2a497e5d154fd40e0c470acf1824aa084885dd79c38be4a95b036a0e88b1"
+    },
+    {
+      "bits": 3,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "16d9c5105f99a8650de4db0bae86fbfb9153d88702b1499f8f626b38a12c1012"
+    },
+    {
+      "bits": 3,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "10b9f1cb4b13ee29f3b4fc1ed1c3c2ad121be96106164485644d613df8d047a8"
+    },
+    {
+      "bits": 3,
+      "mode": 3,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "017bb7f0a73ca18b89c134b0c4d842eb71885db6f4cad0b91412708abb1bf46c"
+    },
+    {
+      "bits": 3,
+      "mode": 4,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "4b645166ab8d0906752b5d6491711d0eb47eead60896b9f992becf541f880c03"
+    },
+    {
+      "bits": 3,
+      "mode": 5,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "3b60bb4be820dbe38652af8a84b1235b8eb8f17245e772c7df27d2cabf9b36ee"
+    },
+    {
+      "bits": 4,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "35cbdc156ae6d85796a590388f4cd06d781fd3350e0002e1fa8070262d8f852b"
+    },
+    {
+      "bits": 4,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "13e0850aaf579149c84507a521176a35389c7edadbc020ac1942f6d81062f15c"
+    },
+    {
+      "bits": 4,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "e7f01dcecd42398fc27d3caa5c9025ae506a9e5f85b1ada009c687a7e48f8bae"
+    },
+    {
+      "bits": 4,
+      "mode": 3,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "b61461a3422c3dfdb2b40e648818520e3884759f3ccef542dd9a55b6532bd3e7"
+    },
+    {
+      "bits": 4,
+      "mode": 4,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "b4d73800c954ca1253e6fcfcd6b909e47b0aeee9d34b8da3a8a6076204c23522"
+    },
+    {
+      "bits": 4,
+      "mode": 5,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "a905bd2b9d4ebcb2dc89c7af670347ce9657275a38d84c4b4060f6f0a2989da6"
+    },
+    {
+      "bits": 5,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "035e2a5f1c3b45175ac0c4b4549b45f264dba3c3fc6a675e9b0d8b46fcc4c1af"
+    },
+    {
+      "bits": 5,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "928a48600317cf184dd20626106494a6b9075acf3766cc2685465cdb6d7a09f5"
+    },
+    {
+      "bits": 5,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "9e71b0237b54e60e21ce1fecc723a2e4a6a078c46b09db4158ef59ce17eea45a"
+    },
+    {
+      "bits": 5,
+      "mode": 3,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "5b4a5c6c8c648943cc0de7668a0ebe0540321090af6b7c0757f4cccdb98903af"
+    },
+    {
+      "bits": 5,
+      "mode": 4,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "0ba694f2dd586b13537c8487f8de5cb758f843cd340635bcf79235d8ed2cff4d"
+    },
+    {
+      "bits": 5,
+      "mode": 5,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "6b0fb4e871f1f20dd4ddcbac8ca22c1a1a65c52e8c1f4b45c2809047fb03f7bd"
+    },
+    {
+      "bits": 6,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "362a7dc5a422af0a7d5a0285e8b681538b2b09b41e573bce430805f1c2aa25d8"
+    },
+    {
+      "bits": 6,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "90e7e6ac00c4f2cbd49431744dad4356f73c42ea75207198e1f69e222f2ff350"
+    },
+    {
+      "bits": 6,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "488ab4c7f7fbfe28cbdcd0ff65b5f350e1b2827873f969ed4a23424614016439"
+    },
+    {
+      "bits": 6,
+      "mode": 3,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "64d9d49ae87fc5c6ab651d4b9b63c74f170d3b62c1c13249bcd734804c78b7a4"
+    },
+    {
+      "bits": 6,
+      "mode": 4,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "b8df2c3a08d9ea46d5f972f9fe94b4518e17b351a09195114d66042e323e276f"
+    },
+    {
+      "bits": 6,
+      "mode": 5,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "782ca63c1cbbf7abafd233f4b8afe227981fa9ba35c59eece781facf56d6fec8"
+    },
+    {
+      "bits": 7,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "dc1ef93431a0e3e334aa85acdd35b0421bb8c9965c80e0726fccad9580e46078"
+    },
+    {
+      "bits": 7,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "a1aa4f7e000d9a7c5dadffdd9e36fb618590f887041011ffb45c04fbf0a43dfb"
+    },
+    {
+      "bits": 7,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "276b423894fc546690eef32cc90e29469a30051538b2f4eecb22d17fff21f0a9"
+    },
+    {
+      "bits": 7,
+      "mode": 3,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "c744d40f4304701433c42f0c5c3eb7772564bb167fe095c05ae592fca9f88fa6"
+    },
+    {
+      "bits": 7,
+      "mode": 4,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "fb4777aca3ffac042affac902cb75af427960b6822f1048d0185b9fb3ca04984"
+    },
+    {
+      "bits": 7,
+      "mode": 5,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "39a8b8214fa44ef05a225ff905bba83c949b3529fde9cd8d40754177a2ff4a4f"
+    }
+  ],
+  "information": [
+    {
+      "bits": 0,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "eff82cdde6574c3a4d013d8ada98468fcd8f5c511b9af50b899b55e48293d76c"
+    },
+    {
+      "bits": 1,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "e000cdc89f5aceff39eaf933df1627ff0249073c911e149024ee445bc3484b5a"
+    },
+    {
+      "bits": 2,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "576d224aba8eb6dbfd6fc6c7fbe32699c003513a4ca1fd1971d44b1064ef037d"
+    },
+    {
+      "bits": 3,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "3e09ddff82ac1454fa84818a67a829c187d6bcc905a8d7f972d28c09123071ef"
+    },
+    {
+      "bits": 4,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "e552d359471031d28ef47d1cecf0a46b21fae8ae550a1afe7f31211b2179268c"
+    },
+    {
+      "bits": 5,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "121a21f79d9cd0d5c3dde315451e6b3163a0af8b4735b41ed6658f6dd247bcb0"
+    },
+    {
+      "bits": 6,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "502395426d39ecc18cb54888a705e7fded24854ca5279e4ed89029c774352c27"
+    },
+    {
+      "bits": 7,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "c21894512742fb78a8e560660eea3a9ee839d55f698420f3c4e2070229b78d6f"
+    }
+  ]
+}

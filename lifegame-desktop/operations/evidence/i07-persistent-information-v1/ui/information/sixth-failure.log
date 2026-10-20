@@ -1,0 +1,11 @@
+page.evaluate: Error: SETTINGS_INVALID: 生物群を一つ以上有効にしてください
+    at validate (http://127.0.0.1:34757/ecology/observation-modules.js:25113:13)
+    at Object.create (http://127.0.0.1:34757/ecology/observation-modules.js:25431:20)
+    at create (http://127.0.0.1:34757/ecology/observation-modules.js:12834:17)
+    at E.create (http://127.0.0.1:34757/ecology/observation-model.js:28:12)
+    at Proxy.value (http://127.0.0.1:34757/ecology/observation-model.js:40:90)
+    at Object.prepare (http://127.0.0.1:34757/app.js:362:20)
+    at eval (eval at evaluate (:290:30), <anonymous>:1:83)
+    at UtilityScript.evaluate (<anonymous>:292:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at /workspace/VAL/lifegame-desktop/tests/persistent-information-ui.cjs:33:14

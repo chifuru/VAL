@@ -2,12 +2,13 @@
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.EcoTransport=api;})(globalThis,()=>{
   'use strict';
   const baseLists=['organisms','resources','carcasses','messages','pending'];
-  const key=(name,row)=>name==='resources'?row.cell+':'+row.kind:name==='messages'?String(row.cell):row.id;
+  const key=(name,row)=>name==='resources'?row.cell+':'+row.kind:name==='messages'?String(row.cell):name==='informationField'?row.cell+':'+row.originId:row.id;
   const copy=v=>v&&typeof v==='object'?(Array.isArray(v)?v.map(copy):Object.fromEntries(Object.keys(v).map(k=>[k,copy(v[k])]))):v;
   function same(a,b){if(Object.is(a,b))return true;if(!a||!b||typeof a!=='object'||typeof b!=='object'||Array.isArray(a)!==Array.isArray(b))return false;const keys=Object.keys(a);return keys.length===Object.keys(b).length&&keys.every(k=>Object.hasOwn(b,k)&&same(a[k],b[k]));}
   function encoder(initial){
     const primaryLists=initial.config?.primaryParasiteModel==='primary/1'?[...baseLists,'primaryInocula']:baseLists;
-    const lists=initial.config?.hyperParasiteModel==='hyper/1'?[...primaryLists,'searchQ','hyperInocula']:primaryLists;
+    const hyperLists=initial.config?.hyperParasiteModel==='hyper/1'?[...primaryLists,'searchQ','hyperInocula']:primaryLists;
+    const lists=initial.config?.informationModel==='persistent/1'?[...hyperLists,'informationField']:hyperLists;
     const signatures=new Map(lists.map(name=>[name,new Map(initial[name].map(row=>[key(name,row),{values:copy(row),stamp:0}]))]));
     const soil=Float64Array.from(initial.tiles,t=>t.soilM),orders=new Map(lists.map(name=>[name,initial[name].map(row=>key(name,row))]));let stamp=0;
     return function encode(w,final=false){

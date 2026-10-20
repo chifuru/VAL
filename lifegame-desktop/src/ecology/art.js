@@ -691,11 +691,11 @@
   }
   function resource(g, a, x, y, r, env, turn) {
     g.save();
-    const n=Math.min(6,Math.max(1,Math.ceil(a.q))),
+    const n=Math.min(6,Math.max(1,Math.ceil(a.informationField===true?a.amount:a.q))),
       c=({info:"#73e9ff",seed:"#d5cf83",spore:"#cf9aee",egg:"#ffddaa",organic:"#ba9374",mineral:"#a8d8ed",droplet:"#76d9f3",factor:"#f5c986"})[a.kind]||"#d6e5b5",
       habitat=["#78cee2","#f1a36a","#b9a8ff","#d0db89","#d6edff","#94d6a5","#d0ac7d","#ccdc7a"][env]||"#b5d0c5";
     if(a.kind==="info"){
-      const elapsed=Math.max(0,turn-(a.event?.time??a.created??turn)),fresh=Math.max(0,1-Math.floor(elapsed/5)*.25);
+      const elapsed=Math.max(0,turn-(a.event?.time??a.created??turn)),fresh=a.informationField===true?1:Math.max(0,1-Math.floor(elapsed/5)*.25);
       if(!fresh){g.restore();return;}
       g.globalAlpha=fresh;glow(g,x,y,r*(2+n*.12),c);g.strokeStyle=c;g.lineWidth=r*.09;
       for(let j=0;j<3;j++){g.beginPath();g.ellipse(x,y,r*(.8+j*.35),r*(.25+j*.12),j*.9-.5+env*.035,.2,Math.PI*1.8);g.stroke();}

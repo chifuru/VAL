@@ -1,0 +1,34 @@
+✔ persistent information is explicit, initially empty and non-nutritional without converting legacy information (222.911844ms)
+✔ holding eligibility counts actual content-specific outcomes on distinct turns without same-peer or received duplication (3.514722ms)
+✔ each content and context keeps its own same-peer outcome rather than borrowing another summary's evidence (2.53395ms)
+✔ role-specific evaluation uses fixed bounded benchmarks rather than age, population rank or summed omnivore roles (3.267068ms)
+✔ experience and learned-state capacities are finite and do not turn accepted information into owned outcomes (3.838722ms)
+✔ content freshness uses the original experience clock with smooth independent half-lives (0.222756ms)
+✔ roles are fixed ecological sets for mixed diets and P or Q never inherit their physical host's role (3.754124ms)
+✔ maintained time and real relation time count once per turn while elapsed age alone supplies no role outcome (3.524076ms)
+✔ environment reading is nonconsuming, pays finite upkeep once and cannot become owned experience or repeat learning (5.877323ms)
+✔ one origin with two contents pays once and leaves room for one more origin across the shared reception limit (3.329342ms)
+✔ ordinary live transmission is quarter-strength while only a local actual parent or caregiver reaches a juvenile at full strength (12.391028ms)
+✔ k zero preserves real reads and fees while preventing both learning and place stimulation (2.729445ms)
+✔ low evidence halves a content's initial learning effect once without consuming or shortening its information (4.456476ms)
+✔ content scopes are independent inside a bundle and overlapping receiver roles never multiply one content (7.589351ms)
+✔ an unfunded receiver cannot borrow future nutrition and a full cache preserves all active dedup records (5.211256ms)
+✔ information diffusion moves one synchronous neighboring twenty-percent budget without copying mass or clocks (2.403463ms)
+✔ cell capacity and microscopic or expired amounts are lost explicitly while surviving origins retain separate metadata (6.156745ms)
+✔ nearby concentration counts fragmented origins once, stays bounded and keeps attraction separate from warning (5.212608ms)
+✔ death uses its own three-outcome two-turn threshold and one draw for normal, low or no generation (12.858905ms)
+✔ only an actual harmful outcome supplies the forty-percent normal-generation floor, including at k zero (3.930951ms)
+✔ a living summary and its death bundle share dedup identity and the original experience clock (2.692729ms)
+✔ newly generated information is unavailable during that turn and becomes readable only at the next resource phase (2.764999ms)
+✔ Q information traces require an actual finite payment and death processing does not charge that payment again (5.977245ms)
+✔ Q traces combine as a bounded weighted mean, decay from detachment and leave fixed generated contents unchanged (14.326393ms)
+✔ place information changes an actual legal movement choice and candidate inspection alone does not count as use (13.41133ms)
+✔ whole-turn and three committed phases reproduce the same coupled information world with finite budgets (699.255782ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1073.121804

@@ -37,6 +37,7 @@
         );
   }
   function absorb(w, o, amount, tag, ctx, options = {}) {
+    if(tag==="info"&&S.PersistentInformation?.enabled(w))return {e:0,m:0,organic:false,healed:0};
     const beforeE = o.E,
       beforeHP = o.HP,
       p = ctx.traits.get(o.id) || S.phenotype(w, o),
@@ -166,6 +167,7 @@
     }
     const keep = new Set(w.resources);
     for (const kind of ["mineral", "droplet", "info"]) {
+      if(kind==="info"&&S.PersistentInformation?.enabled(w))continue;
       const f = S.FOOD[kind];
       if (t % f.period) continue;
       const cells = new Set(byKind.get(kind) || []);
@@ -214,6 +216,7 @@
       : [o.cell];
     for (const p of cells) {
       for (const a of m.resources.get(p) || []) {
+        if(a.kind==="info"&&S.PersistentInformation?.enabled(w))continue;
         const f = S.FOOD[a.kind];
         if(isRyouki(w,o)&&f.tag!=="mineral")continue;
         if (a.q <= 0 || (a.E <= 0 && a.M <= 0 && a.kind !== "factor")) continue;
@@ -406,10 +409,12 @@
       else if (organic && (o.E < p.capE || o.HP < p.maxHP)) priority = 6;
       else if (a.tag === "mineral") priority = 7;
       const visible = a.amount <= 1 / 3 ? 1 / 3 : a.amount <= 2 / 3 ? 2 / 3 : 1;
+      if(S.PersistentInformation?.enabled(w)&&ctx.informationHooks)
+        a.informationPlace=ctx.informationHooks.informationPlace(w,ctx,o,a.cell);
       return {
         a,
         priority,
-        value:
+        value: (a.informationPlace?.value||0)*.1+
           visible *
           efficiency(o, a.tag, p.phase) *
           (a.type === "carcass" ? S.D.diets[s.diet]?.carcass || 1 : 1) *
@@ -521,6 +526,8 @@
           if (!obj.q) ctx.exhausted.add(obj.cell + ":" + obj.kind);
         }
         let assimilated=0;
+        if((amount.E>0||amount.M>0)&&a.informationPlace)
+          ctx.informationHooks.informationUsed(w,ctx,o,a.cell,a.informationPlace);
         if (a.tag === "info") {
           (ctx.infoReceipts??=[]).push({recipient:o.id,species:o.species,event:obj.event?{id:obj.event.id,sourceId:obj.event.sourceId,time:obj.event.time,mediated:!!obj.event.mediator,noise:!!obj.event.noise}:null});
           const add = Math.min(ctx.traits.get(o.id).capE - o.E, amount.E);
@@ -646,6 +653,7 @@
       if (["stop", "defend"].includes(intent.type))
         base *= 1 + S.trait(o, "rest", p.phase);
       const paidBase=spend(w, o, base);
+      if(S.PersistentInformation?.enabled(w))ctx.records.get(o.id).informationMaintained=paidBase+1e-8>=S.round(base)&&o.HP>0;
       if(isRyouki(w,o))ctx.records.get(o.id).ryoukiMaintained=paidBase>=S.round(base)&&o.HP>0;
       if(S.Colony.is(o)){
         const maintained=paidBase>=S.round(base)&&o.HP>0;
@@ -669,6 +677,7 @@
       if(!reason&&S.LargePlant.is(o)&&o.plant.activity<=0)reason="starvation";
       if (!reason && !S.Colony.is(o) && o.age >= p.life) reason = "age";
       if (reason) {
+        if(ctx.informationHooks)ctx.informationHooks.informationDeath(w,ctx,o,{reason,cell:o.cell});
         S.record(ctx, o, "death", { reason, appearance: deathAppearance(w,o) });
         ctx.deaths.push({ species: o.species, reason, ...(o.producerReserve===0?{environmentCause:"basal-nutrition-exhausted"}:{}), ...(w.config.ecologyRevision === "observation/4.1" ? {id:o.id,generation:o.generation,ageStage:ctx.traits.get(o.id).ageStage} : {}) });
         carcass(w, o, ctx);

@@ -1,0 +1,137 @@
+{
+  "status": "passed-with-deferred-scope",
+  "version": "4.2.39",
+  "baseline": "836e4fd / 4.2.38",
+  "dateUTC": "2026-10-20T16:03:08.122325+00:00",
+  "biologicalSignature": "cc602920ce515db5502edec9d74233a0f397735ff5707ea7ae71fa81eb5fc50d",
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "unitFullRun": {
+    "status": "passed",
+    "command": "node --test --test-concurrency=2 tests/*.test.cjs",
+    "files": 72,
+    "sourceSignature": "cc602920ce515db5502edec9d74233a0f397735ff5707ea7ae71fa81eb5fc50d",
+    "log": "model/unit.log",
+    "tests": 72,
+    "pass": 72,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 299176.333199
+  },
+  "newDedicated": {
+    "boundaryCases": 26,
+    "flowArchiveWorkerCases": 4,
+    "observationCases": 6,
+    "totalCases": 36,
+    "logs": [
+      "model/boundaries.log",
+      "model/flow-tests.log",
+      "model/observation-tests.log"
+    ],
+    "scope": "finite nonnutritional state, role benchmarks, actual experience, per-origin reception budget, parent/ordinary transmission, one-death draw/normal-low-harm, immutable clocks, next-turn generation, concentration, paid Q/distortion, actual choice, coupled three-phase/Worker and archive replay",
+    "allPassedInFinalFullRun": true
+  },
+  "legacyComparison": {
+    "cases": 48,
+    "states": 336,
+    "worldFingerprintAndCSVEqual": true,
+    "models": [
+      "legacy",
+      "colony",
+      "independent plants",
+      "Ryouki",
+      "primary P",
+      "hyper Q"
+    ],
+    "report": "model/paths.json"
+  },
+  "newProfileComparison": {
+    "cases": 8,
+    "states": 40,
+    "staticDynamicWorldFingerprintAndCSVEqual": true,
+    "report": "model/paths.json"
+  },
+  "circulation": {
+    "cases": 3,
+    "turnsEach": 180,
+    "states": 543,
+    "allInvariantsPassed": true,
+    "report": "model/circulation.json",
+    "information": {
+      "river-free": {
+        "normalGenerated": 111,
+        "lowGenerated": 16,
+        "originsRead": 17243,
+        "nonzeroLearning": 16238,
+        "placeApplications": 24534,
+        "receptionCostE": 40.265824,
+        "qPromoted": 0,
+        "qDistorted": 0
+      },
+      "lake-free": {
+        "normalGenerated": 153,
+        "lowGenerated": 15,
+        "originsRead": 20593,
+        "nonzeroLearning": 20029,
+        "placeApplications": 31735,
+        "receptionCostE": 40.078159,
+        "qPromoted": 0,
+        "qDistorted": 0
+      },
+      "river-supported": {
+        "normalGenerated": 204,
+        "lowGenerated": 17,
+        "originsRead": 20670,
+        "nonzeroLearning": 19742,
+        "placeApplications": 36572,
+        "receptionCostE": 47.05368,
+        "qPromoted": 0,
+        "qDistorted": 0
+      }
+    },
+    "finalP": {
+      "river-free": 0,
+      "lake-free": 0,
+      "river-supported": 0
+    },
+    "finalQ": {
+      "river-free": 0,
+      "lake-free": 0,
+      "river-supported": 0
+    },
+    "newQ": {
+      "river-free": 0,
+      "lake-free": 0,
+      "river-supported": 0
+    },
+    "scope": "all fixed diagnostics retained, actual generation/read/nonzero learning/place reported separately; natural Q trace or long-term lifecycle not established"
+  },
+  "ui": [
+    {
+      "report": "ui/information/ui-report.json",
+      "checks": 48,
+      "sourceSignature": "cc602920ce515db5502edec9d74233a0f397735ff5707ea7ae71fa81eb5fc50d",
+      "scope": "Linux Chromium; explicit nonnutritional information model and k input, empty initial field, full committed stock/flow CSV/archive/exact replay, bounded prepared state with actual reception and place handlers, original content versus Q distortion and separate clocks, H/P/Q subject history, real nonliving field click, old I06 model and initial resource preservation; no natural long-term benefit or final I10 image claim",
+      "errors": []
+    },
+    {
+      "report": "graphics/graphics-report.json",
+      "checks": 55,
+      "sourceSignature": "cc602920ce515db5502edec9d74233a0f397735ff5707ea7ae71fa81eb5fc50d",
+      "scope": "Linux Chromium; legacy info art/board pixels; explicit persistent-field sparse/dense/multiple-origin/expiry and no-truth-colour fixtures; actual app cell selection and six-ID coexistence; no new artwork or final I10 field material/performance claim",
+      "errors": []
+    }
+  ],
+  "uiChecks": 103,
+  "limits": [
+    "Natural P/Q long-term circulation not achieved: all three finalP0/finalQ0/newQ0. Adjust in I11; controlled Q trace generation tests do not certify natural circulation.",
+    "No adaptive-fitness benefit, ecological emergence or500T/R1-R6 certification from nonzero influence alone.",
+    "Existing information art/symbol is reused without image generation. Final material I10, whole UI I09.",
+    "No whole-device performance, Windows or newZIP certification; distributed4.2.32 unchanged."
+  ],
+  "next": "I08 initial settings/archive/replay"
+}

@@ -11,7 +11,7 @@
   else root.EcoBehavior = api;
 })(globalThis, function (S, Nutrition) {
   "use strict";
-  function primaryInduction(w,o,c,v,score){
+  function primaryInduction(w,o,c,v,score,ctx){
     const p=o.infection,k=p?.primary?.last?.induction;
     if(!S.PrimaryParasite?.enabled(w)||!k||c.type!=="move")return score;
     const intermediate=["middle","extra"].includes(p.stage),cues=[];
@@ -25,7 +25,8 @@
         if(visibleKind)cues.push(target);
       }
     }
-    const preference=target=>(p.primary.hostPreference?.[target.species]??.5)/(1+S.distance(w,o.cell,target.cell));
+    const preference=target=>(p.primary.hostPreference?.[target.species]??.5)*
+      (ctx?.informationHooks?.informationHostFactor(w,p,target.species)??1)/(1+S.distance(w,o.cell,target.cell));
     cues.sort((a,b)=>preference(b)-preference(a)||S.compare(a.id,b.id));
     if(!cues.length)return score;
     // Only a visible body/plant is a cue. No access to its DNA, reserves or exact maturity.
@@ -207,6 +208,7 @@
       : floatingCandidates(w,o,ctx,m);
     for (const c of list) {
       c.score = c.noRandom = score(c.cell)-c.cost;
+      informationChoice(w,o,c,ctx);
       c.features=[];c.xi=0;
       c.h=S.hash(w,"behavior/tie",w.turn,o.id,[c.type,null,c.path,c.cell]);
     }
@@ -215,8 +217,23 @@
       if (c.score > chosen.score+1e-8 ||
           (chosen.type === "move" && Math.abs(c.score-chosen.score)<=1e-8 && c.h < chosen.h)) chosen=c;
     ctx.intents.set(o.id,chosen);ctx.records.get(o.id).randomChanged=false;
+    if(chosen.informationPlace)ctx.informationHooks.informationUsed(w,ctx,o,chosen.cell,chosen.informationPlace);
     if (o.id === ctx.observeId) ctx.diagnostics={id:o.id,candidates:list.slice().sort((a,b)=>b.score-a.score||a.h-b.h).slice(0,3)
       .map(c=>({type:c.type,target:undefined,cell:c.cell,score:c.score,cost:c.cost,features:[]}))};
+  }
+  // Information changes only the ranking of already legal choices. Candidate
+  // reads are pure; one selected choice, rather than every scan, is observed.
+  function informationChoice(w,o,c,ctx){
+    if(!S.PersistentInformation?.enabled(w)||!ctx.informationHooks)return;
+    const place=ctx.informationHooks.informationPlace(w,ctx,o,c.cell),
+      group=S.spec(o).group,pref=axis=>S.PersistentInformation.preference(w,o,axis)/100;
+    let delta=place.value;
+    if(group!=="main"){
+      if(c.type==="move")delta+=pref(6)+pref(4)+pref(7)*(c.direction===o.facing?1:-.25);
+      else delta+=pref(5);
+      if(c.informationFeatures){delta+=pref(2)*c.informationFeatures.food-pref(1)*c.informationFeatures.threat;}
+    }
+    c.informationPlace=place;c.score+=delta;c.noRandom+=delta;
   }
   function candidates(w, o, ctx, m) {
     const s = S.spec(o),
@@ -538,8 +555,9 @@
           (leaf ? -0.03 * scale * (c.type === "move" ? -0.5 : 0.5) : 0) -
           c.cost / 5 +
           lure;
-      const induced=primaryInduction(w,o,c,v,score);
-      return { score:induced, noRandom: induced - 0.1 * xi, features: [], xi };
+      const induced=primaryInduction(w,o,c,v,score,ctx);
+      return { score:induced, noRandom: induced - 0.1 * xi, features: [], xi,
+        ...(S.PersistentInformation?.enabled(w)?{informationFeatures:{food:Q,threat:T}}:{}) };
     }
     if (s.group !== "main") return { score: 0, noRandom: 0, features: [], xi };
     const nearest = v.nearest;
@@ -728,7 +746,7 @@
         if(preparation>0){score+=(w.config.ryoukiSettings.preparationWeight-1)*preparation;c.ryoukiGoal="繁殖準備";}
       }
     }
-    score=primaryInduction(w,o,c,v,score);
+    score=primaryInduction(w,o,c,v,score,ctx);
     const noRandom = score;
     score += (weights[8] / 100) * xi;
     return { score, noRandom, features, xi };
@@ -757,6 +775,7 @@
         v = view(w, o, ctx, m);
       for (const c of list) {
         Object.assign(c, evaluate(w, o, c, ctx, v));
+        informationChoice(w,o,c,ctx);
         c.h = S.hash(w, "behavior/tie", w.turn, o.id, [
           c.type,
           c.target || null,
@@ -772,6 +791,7 @@
       }
       if(o.id===ctx.observeId)list.sort((a,b)=>b.score-a.score||a.h-b.h);
       ctx.intents.set(o.id, chosen);
+      if(chosen.informationPlace)ctx.informationHooks.informationUsed(w,ctx,o,chosen.cell,chosen.informationPlace);
       if(isRyouki(w,o)){
         const rec=ctx.records.get(o.id);
         if(stage!=="effect"||chosen.type!=="stop"||!rec.ryoukiGoal)rec.ryoukiGoal=chosen.ryoukiGoal||"探索";
@@ -1055,7 +1075,7 @@
       if (o.slot !== "main") continue;
       const rec = ctx.records.get(o.id),
         delta = own.get(o.id).slice();
-      if (o.contactReady <= w.turn) {
+      if (!S.PersistentInformation?.enabled(w) && o.contactReady <= w.turn) {
         const contacts = [];
         for (const p of S.nearby(w, o.cell))
           if (S.oneStep(w, o.cell, p)) {
@@ -1080,7 +1100,7 @@
       o.weights = o.weights.map((v, i) =>
         S.clamp(v + S.clamp(delta[i], -2, 2), 0, 100),
       );
-      for (const event of rec.information) {
+      for (const event of S.PersistentInformation?.enabled(w)?[]:rec.information) {
         let deltaAbs=0;
         const age = w.turn - event.time,
           fresh =

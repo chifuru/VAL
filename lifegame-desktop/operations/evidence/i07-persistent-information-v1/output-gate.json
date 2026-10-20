@@ -1,0 +1,33 @@
+{
+  "dateUTC": "2026-10-20T16:03:42.332018+00:00",
+  "baseline": "836e4fd",
+  "version": "4.2.39",
+  "biologicalSignature": "cc602920ce515db5502edec9d74233a0f397735ff5707ea7ae71fa81eb5fc50d",
+  "mainFlow": "FLOW-05",
+  "evidenceFlow": "FLOW-08",
+  "premiseFeedback": "authorized continuation of I07; adopted meaning, limits, original assets and formal statuses preserved; no unresolved human input",
+  "coreReadOrder": "project-local Operation first, Summary and Flow under Operation",
+  "coreHashes": {
+    "VALIS Flow Definition.md": "911ae9f4a09ebfc6a886970eb73a1f72789047f04a28f2e83e2ea1cc584637da",
+    "VALIS Operation Definition.md": "30174a1cf1a4c2d46911db0be7a975651390d6f0bc51d64eb7391560f6ca3b50",
+    "VALIS Summary Manifest.md": "8d786bfe106c1a479ae03d7da4c44e1df593d41794bc9315e91a181889f6271f"
+  },
+  "executionContract": "operations/plans/i07-persistent-information-v1.md",
+  "structureGate": "existing16 C/D/E responsibilities; no node split or new node required",
+  "manifestInitialRegistration": "not required; no new node",
+  "manifestReflection": "current structure/version/implementation/evidence and next I08 updated",
+  "resultReconciliation": {
+    "sourcesAndGeneratedModules": true,
+    "sourceHashes": 47,
+    "nodeCount": 61,
+    "updatedNodes": 16,
+    "references": 3655,
+    "formalStateAndHierarchyUnchanged": true,
+    "coreAndABUnchanged": true,
+    "priorImagesUnchanged": true,
+    "evidenceScope": "limited I07 only; actual successful runs, failed natural P/Q trials and deferred scopes retained"
+  },
+  "outputGate": "passed",
+  "userInput": "none",
+  "next": "I08 initial settings/archive/replay; I11 P/Q natural long-term survival remains unmet; I12 Windows/newZIP deferred"
+}

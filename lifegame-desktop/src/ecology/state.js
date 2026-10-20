@@ -595,11 +595,12 @@ return {settings,attach,region,level,factor,begin,finish};
     function infection(w,species,hostId,turn=w.turn,origin=hostId,parent=null){
       if(!enabled(w)||!hostTable[species])throw Error("SETTINGS_INVALID: 一次寄生モデル/系統");
       const inherited=parent?childAdaptation(w,parent,origin):{adaptation:defaultAdaptation(species),mutation:{occurred:false,changes:[]}},p=settings(w);
-      return {id:"p:"+origin+":"+turn,species,hostId,location:species==="leafparasite"?"external":"internal",load:.5,
+      const o={id:"p:"+origin+":"+turn,species,hostId,location:species==="leafparasite"?"external":"internal",load:.5,
         stage:"first",counter:0,phase:1,age:0,bornAt:turn,birthLife:p.life,B:p.biomass[1],E:0,ready:0,q:null,
         primary:{version:VERSION,form:["A","B","C"][form(w,inherited.adaptation,origin)],formVersion:"primary-form/1",carrier:false,successT:0,pauseUntil:turn,carrierUntil:null,starvationRun:0,settledAt:turn,
           adaptation:inherited.adaptation,hostPreference:hostPreference(w,species,origin,parent),parents:parent?[parent.parentId??parent.id]:[],generation:parent?(parent.primary?.generation??parent.generation??0)+1:0,
           mutation:inherited.mutation,origin:parent?"descendant":"initial",last:{turn,maintenanceE:0,developmentE:0,progress:0,metaE:0,metaRatio:0}}};
+      return PersistentInformation.attach(w,o);
     }
     function inoculum(w,parent,options={}){
       const p=settings(w),createdAt=options.createdAt??w.turn,kind=options.kind??"contact",E=H.round(options.E??p.standardReserve);
@@ -748,8 +749,11 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     const settings=w=>w.config.hyperParasiteSettings;
     const defaultGenes=()=>({hosts:{leafparasite:.5,tideparasite:.5},routes:{contact:.5},stages:{terminal:.5},investment:{promotion:.5,distortion:.5}});
-    function initialTraits(w,origin){return {genes:defaultGenes(),preference:Object.fromEntries(P_SPECIES.map(id=>[id,H.round(.25+.5*r(w,"hyper/host-preference",0,origin,id))])),
-      bias:{axis:Math.floor(r(w,"hyper/bias-axis",0,origin)*5),sign:r(w,"hyper/bias-sign",0,origin)<.5?-1:1},parents:[],generation:0,mutation:{occurred:false,changes:[]}};}
+    const directionVector=bias=>Array.isArray(bias?.vector9)?bias.vector9.slice():Array.from({length:9},(_,axis)=>axis===bias?.axis?bias.sign:0);
+    function initialTraits(w,origin){const traits={genes:defaultGenes(),preference:Object.fromEntries(P_SPECIES.map(id=>[id,H.round(.25+.5*r(w,"hyper/host-preference",0,origin,id))])),
+      bias:{axis:Math.floor(r(w,"hyper/bias-axis",0,origin)*5),sign:r(w,"hyper/bias-sign",0,origin)<.5?-1:1},parents:[],generation:0,mutation:{occurred:false,changes:[]}};
+      if(w.config.informationModel==="persistent/1")traits.bias.vector9=directionVector(traits.bias);return traits;
+    }
     function childTraits(w,parent,origin,turn=w.turn){
       const a=parent.hyper??parent.traits??parent,p=settings(w),traits={genes:structuredClone(a.genes??defaultGenes()),preference:structuredClone(a.preference??initialTraits(w,origin).preference),
         bias:structuredClone(a.bias??initialTraits(w,origin).bias),parents:[parent.parentId??parent.id],generation:(a.generation??parent.generation??0)+1,mutation:{occurred:false,changes:[]}};
@@ -760,17 +764,31 @@ return {settings,attach,region,level,factor,begin,finish};
         if(second){const value=g[first[0]][first[1]],other=g[second[0]][second[1]],step=Math.min(p.mutationStep,sign>0?1-value:value,sign>0?other:1-other);
           if(step>0){g[first[0]][first[1]]=H.round(value+sign*step);g[second[0]][second[1]]=H.round(other-sign*step);traits.mutation={occurred:true,changes:[{key:first.join("/"),delta:sign*step},{key:second.join("/"),delta:-sign*step}]};}}
       }
+      if(w.config.informationModel==="persistent/1"){
+        traits.bias.vector9=directionVector(traits.bias);const z=w.config.informationSettings;
+        if(r(w,"hyper/direction-mutation",turn,origin)<z.directionMutationRate){
+          const v=traits.bias.vector9,donors=v.map((value,axis)=>({value,axis})).filter(a=>a.value!==0),
+            donor=donors[Math.floor(r(w,"hyper/direction-donor",turn,origin)*donors.length)];
+          if(donor){const targets=Array.from({length:9},(_,axis)=>axis).filter(axis=>axis!==donor.axis),target=targets[Math.floor(r(w,"hyper/direction-target",turn,origin)*targets.length)],
+            delta=H.round(Math.sign(donor.value)*Math.min(z.directionMutationStep,Math.abs(donor.value)));
+            v[donor.axis]=H.round(v[donor.axis]-delta);v[target]=H.round(v[target]+delta);traits.mutation.occurred=true;
+            traits.mutation.changes.push({key:"bias/vector9/"+donor.axis,delta:-delta},{key:"bias/vector9/"+target,delta});
+          }
+        }
+      }
       return traits;
     }
     function create(w,pId,turn=w.turn,origin=pId,traits=null){
       if(!enabled(w))throw Error("SETTINGS_INVALID: 高次寄生モデルの指定が必要です");
-      const t=traits?.traits??traits??initialTraits(w,origin),p=settings(w);
-      return {id:"q:"+origin+":"+turn,species:"hyperparasite",hostId:pId,phase:1,age:0,bornAt:turn,birthLife:p.life,maturity:p.maturity,E:0,B:p.biomass[1],
+      const t=traits?.traits??traits??initialTraits(w,origin),p=settings(w),bias=structuredClone(t.bias??initialTraits(w,origin).bias);
+      if(w.config.informationModel==="persistent/1")bias.vector9=directionVector(bias);
+      const q={id:"q:"+origin+":"+turn,species:"hyperparasite",hostId:pId,phase:1,age:0,bornAt:turn,birthLife:p.life,maturity:p.maturity,E:0,B:p.biomass[1],
         ready:0,counter:0,special:null,modulation:null,counts:[0,0,0],seen:[],
         hyper:{version:VERSION,state:"egg",development:0,experience:0,settledAt:turn,pauseUntil:turn,starvationRun:0,prepareUntil:0,
-          genes:structuredClone(t.genes??defaultGenes()),preference:structuredClone(t.preference??initialTraits(w,origin).preference),bias:structuredClone(t.bias??initialTraits(w,origin).bias),
+          genes:structuredClone(t.genes??defaultGenes()),preference:structuredClone(t.preference??initialTraits(w,origin).preference),bias,
           parents:structuredClone(t.parents??[]),generation:t.generation??0,mutation:structuredClone(t.mutation??{occurred:false,changes:[]}),
           origin:traits?"descendant":"initial",last:{turn,maintenanceE:0,developmentE:0,metaE:0,informationE:0,maintained:false,developed:false,progress:0,blockers:[]}}};
+      return PersistentInformation.attach(w,q);
     }
     function adaptation(q,species,route="contact",stage="terminal"){const g=(q.hyper??q.traits??q).genes;return ((g?.hosts[species]??.5)+(g?.routes[route]??.5)+(g?.stages[stage]??.5))/3;}
     function acquireResistance(w,p){
@@ -834,7 +852,8 @@ return {settings,attach,region,level,factor,begin,finish};
       const validTraits=a=>{
         const expected=defaultGenes();return a&&sameKeys(a.genes,expected)&&Object.keys(expected).every(key=>sameKeys(a.genes[key],expected[key]))&&
           Object.values(a.genes).flatMap(g=>Object.values(g)).every(n=>Number.isFinite(n)&&n>=0&&n<=1)&&a.genes.investment.promotion+a.genes.investment.distortion<=1+1e-6&&
-          sameKeys(a.preference,expected.hosts)&&Object.values(a.preference).every(n=>Number.isFinite(n)&&n>=0&&n<=1)&&Number.isInteger(a.bias?.axis)&&a.bias.axis>=0&&a.bias.axis<5&&[-1,1].includes(a.bias?.sign);
+          sameKeys(a.preference,expected.hosts)&&Object.values(a.preference).every(n=>Number.isFinite(n)&&n>=0&&n<=1)&&Number.isInteger(a.bias?.axis)&&a.bias.axis>=0&&a.bias.axis<5&&[-1,1].includes(a.bias?.sign)&&
+          (w.config.informationModel!=="persistent/1"||(Array.isArray(a.bias.vector9)&&a.bias.vector9.length===9&&a.bias.vector9.every(Number.isFinite)&&a.bias.vector9.reduce((n,v)=>n+Math.abs(v),0)<=1+1e-6));
       };
       for(const holder of [...w.organisms,...w.carcasses,...w.pending])if(holder.infection?.q){const q=holder.infection.q;if(!is(q))errors.push("HYPER_STATE:"+q.id);if(seen.has(q.id))errors.push("HYPER_ID:"+q.id);seen.add(q.id);}
       for(const q of w.searchQ||[]){if(!is(q))errors.push("HYPER_STATE:"+q.id);if(seen.has(q.id))errors.push("HYPER_ID:"+q.id);seen.add(q.id);}
@@ -846,6 +865,175 @@ return {settings,attach,region,level,factor,begin,finish};
       return errors;
     }
     return {enabled,is,parameters,settings,create,childTraits,adaptation,entries,locate,ageInfo:qAge,summary,initial,validate,resistance,acquireResistance,beginResistance};
+  })();
+  const PersistentInformation = (() => {
+    const VERSION="persistent-information-state/1",ROLES=["producer","primary-consumer","secondary-consumer","higher-consumer","decomposer","P","Q"],fieldIndices=new WeakMap();
+    const enabled=w=>w?.config?.informationModel==="persistent/1";
+    function parameters(input={}){
+      const defaults={version:"persistent-information-parameters/1",roleDefinition:"persistent-information-roles/1",influence:1,qEffects:true,experienceCapacity:16,learnedCapacity:64,turnDedupeCapacity:64,
+        holdingCount:6,holdingTurns:3,normalCount:3,normalTurns:2,receiveLimit:2,receiveCostFraction:.01,
+        transmission:{environment:1,ordinary:.25,caregiver:1},evaluationWeights:[.4,.4,.2],baseProbability:.1,scoreProbability:.6,
+        harmMinimum:.4,lowProbability:.05,lowWeight:.5,halfLives:{fast:25,relation:50,place:100},minimumLifetime:100,scoreLifetime:100,
+        initialAmount:1,minimumAmount:.01,diffusionFraction:.2,cellOrigins:4,originContents:2,concentrationRadius:2,distanceWeights:[1,.5,.25],
+        traceCapacity:2,traceHalfLife:50,traceLifetime:100,directionMutationRate:.1,directionMutationStep:.05};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 持続情報の比較値");
+      const out={...structuredClone(defaults),...structuredClone(input)};
+      if(typeof out.influence!=="number"||!Number.isFinite(out.influence)||out.influence<0||out.influence>4)throw Error("SETTINGS_INVALID: 情報影響度は0〜4");
+      if(typeof out.qEffects!=="boolean")throw Error("SETTINGS_INVALID: Q情報作用");
+      for(const key of Object.keys(defaults))if(!["influence","qEffects"].includes(key)&&H.stable(out[key])!==H.stable(defaults[key]))throw Error("SETTINGS_INVALID: 持続情報の定義値 "+key);
+      return out;
+    }
+    const settings=w=>w.config.informationSettings;
+    function roles(w,o){
+      const s=spec(o);if(!s)return [];
+      if(s.group==="P"||s.group==="Q")return [s.group];
+      if(s.group==="plant")return ["producer"];
+      if(s.group==="fungus")return ["decomposer"];
+      if(s.group==="prey")return ["primary-consumer"];
+      if(s.group!=="main")return [];
+      const out=[];if(s.id==="kelp")out.push("producer");
+      if(["plant","fungal","general","mineral"].includes(s.diet))out.push("primary-consumer");
+      if(["animal","general","scavenger","mineral"].includes(s.diet))out.push("secondary-consumer","higher-consumer");
+      return [...new Set(out)];
+    }
+    function parents(o){return structuredClone(o.primary?.parents??o.hyper?.parents??o.parents??[]);}
+    function state(o){
+      if(!o.informationState)o.informationState={version:VERSION,experience:[],learned:[],progress:{maintained:0,roleAmount:0,roleAmounts:{},relationTurns:0,offspringSuccess:0},
+        learnedPreferences:Array(9).fill(0),eventDedupe:{turn:-1,keys:[]},progressTurn:{turn:-1,maintained:false,relation:false},last:null};
+      return o.informationState;
+    }
+    function attach(w,o){if(enabled(w))state(o);return o;}
+    function entries(w){
+      if(!enabled(w))return [];
+      const out=[],seen=new Set(),push=(subject,kind,host,carrier,cell)=>{if(subject&&!seen.has(subject.id)){seen.add(subject.id);out.push({subject,kind,host,carrier,cell,roles:roles(w,subject)});}};
+      for(const o of w.organisms||[])push(o,"organism",o,o,o.cell);
+      if(PrimaryParasite.enabled(w))for(const e of PrimaryParasite.entries(w))push(e.p,"P",e.host,e.carrier,e.cell);
+      else for(const carrier of [...w.organisms||[],...w.carcasses||[],...w.pending||[]])if(carrier.infection)push(carrier.infection,"P",carrier,carrier,carrier.cell);
+      if(HyperParasite.enabled(w))for(const e of HyperParasite.entries(w))push(e.q,"Q",e.host,e.carrier,e.cell);
+      else {
+        for(const e of out.slice())if(e.kind==="P"&&e.subject.q)push(e.subject.q,"Q",e.host,e.carrier,e.cell);
+        for(const q of w.searchQ||[])push(q,"Q",null,q,q.cell);
+      }
+      return out;
+    }
+    const locate=(w,id)=>entries(w).find(e=>e.subject.id===id)??null;
+    function fieldAt(w,cell){
+      if(!enabled(w))return [];
+      const field=w.informationField||[];let cached=fieldIndices.get(w);
+      if(!cached||cached.field!==field||cached.turn!==w.turn||cached.length!==field.length){
+        const index=new Map();for(const e of field){if(!index.has(e.cell))index.set(e.cell,[]);index.get(e.cell).push(e);}cached={field,turn:w.turn,length:field.length,index};fieldIndices.set(w,cached);
+      }
+      return (cached.index.get(cell)||[]).filter(e=>e.expires>w.turn&&e.amount>=settings(w).minimumAmount);
+    }
+    function maintenance(w,o){
+      if(PrimaryParasite.is(o))return PrimaryParasite.settings(w).maintenance[o.phase];
+      if(HyperParasite.is(o))return HyperParasite.settings(w).maintenance[o.phase];
+      if(["P","Q"].includes(spec(o)?.group))return null;
+      const p=phenotype(w,o),env=w.tiles[o.cell]?.env;
+      return H.round(p.maintenance*(env===undefined?1:adjustment(w,o,"maintenance",env,p.phase))/(1+trait(o,"maintenance",p.phase))*
+        (w.config.ecologyRevision==="observation/4.1"&&spec(o).group==="main"&&!Ryouki.is(o)?.65:1));
+    }
+    function traits(w,o){return {roles:roles(w,o),sensitivity:H.round(.8+.4*(o.dna?.sensitivity??.5)),maintenance:maintenance(w,o),parents:parents(o)};}
+    function preference(w,o,axis){return enabled(w)&&Number.isInteger(axis)&&axis>=0&&axis<9?H.clamp(o.informationState?.learnedPreferences?.[axis]??0,-20,20):0;}
+    function benchmark(w,s,role=null){
+      const colony=Colony.enabled(w)&&s.group==="plant"&&s.kind!=="independent",queen=s.id==="swarm"&&role==="queen";
+      const life=colony?null:s.group==="P"?(PrimaryParasite.enabled(w)?PrimaryParasite.settings(w).life:null):s.group==="Q"?(HyperParasite.enabled(w)?HyperParasite.settings(w).life:null):s.life*(queen?3:1);
+      let standardMaintenance=s.maintenance??null;
+      if(s.group==="P"&&PrimaryParasite.enabled(w))standardMaintenance=PrimaryParasite.settings(w).maintenance[1];
+      else if(s.group==="Q"&&HyperParasite.enabled(w))standardMaintenance=HyperParasite.settings(w).maintenance[1];
+      else if(s.group==="main")standardMaintenance*=w.config.ecologyRevision==="observation/4.1"&&s.id!=="ryouki"?.65:1;
+      const lightLimit=s.group==="plant"?(s.kind==="independent"?s.lightInput:s.id==="phytoplankton"?8:4):s.id==="kelp"?1.5:null;
+      const roleAmounts={};for(const id of roles(w,{species:s.id}))roleAmounts[id]=id==="producer"?H.round(10*Math.max(0,lightLimit-standardMaintenance)/1.2):id==="decomposer"?20:["P","Q"].includes(id)?10:standardMaintenance===null?null:H.round(10*standardMaintenance);
+      return {species:s.id,role,roles:Object.keys(roleAmounts),life,maintenance:standardMaintenance,lightLimit,maintainedTurns:colony?100:life===null?null:life/2,
+        roleAmounts,relationTurns:10,offspringSuccess:1};
+    }
+    function benchmarks(w){return Object.fromEntries(activeSpecies(w).flatMap(s=>[[s.id,benchmark(w,s)],...(s.id==="swarm"?[[s.id+":queen",benchmark(w,s,"queen")]]:[])]));}
+    function basis(w,o){return w.config.informationBenchmarks?.[o.species+(o.species==="swarm"&&o.role==="queen"?":queen":"")]??null;}
+    function evaluate(w,o){
+      const a=o.informationState,b=basis(w,o),p=a?.progress;
+      if(!b||!p)return {resolved:false,A:null,B:null,C:null,S:null,pBase:null,lifetime:null,benchmarks:b};
+      const A=b.maintainedTurns>0?H.clamp(p.maintained/b.maintainedTurns,0,1):null,
+        amounts=Object.entries(b.roleAmounts).filter(([,n])=>n>0),values=amounts.map(([role,n])=>(p.roleAmounts?.[role]??(amounts.length===1?p.roleAmount:0))/n),
+        B=values.length?H.clamp(Math.max(...values),0,1):null,
+        C=H.clamp(Math.max(p.relationTurns/b.relationTurns,p.offspringSuccess/b.offspringSuccess),0,1),resolved=[A,B,C].every(Number.isFinite),
+        S=resolved?H.round(.4*A+.4*B+.2*C):null;
+      return {resolved,A:A===null?null:H.round(A),B:B===null?null:H.round(B),C:H.round(C),S,pBase:resolved?H.round(.1+.6*S):null,lifetime:resolved?Math.round(100+100*S):null,benchmarks:b};
+    }
+    function freshness(component,turn){const t=component.experienceAt??component.lastExperienceAt,h=component.halfLife;return Number.isFinite(t)&&Number.isFinite(h)&&h>0?Math.pow(2,-Math.max(0,turn-t)/h):0;}
+    function recordProgress(w,o,event={}){
+      if(!enabled(w))return null;const a=state(o),p=a.progress;
+      if(a.progressTurn.turn!==w.turn)a.progressTurn={turn:w.turn,maintained:false,relation:false};
+      if(event.maintained&&!a.progressTurn.maintained){p.maintained++;a.progressTurn.maintained=true;}
+      if(event.relation&&!a.progressTurn.relation){p.relationTurns++;a.progressTurn.relation=true;}
+      for(const key of ["roleAmount","offspringSuccess"])if(Number.isFinite(event[key])&&event[key]>0)p[key]=H.round(p[key]+event[key]);
+      for(const [role,amount]of Object.entries(event.roleAmounts??{}))if(ROLES.includes(role)&&Number.isFinite(amount)&&amount>0)p.roleAmounts[role]=H.round((p.roleAmounts[role]??0)+amount);
+      return p;
+    }
+    function addExperience(w,o,event){
+      if(!enabled(w)||!event||event.received||event.actual===false)return null;
+      const a=state(o),z=settings(w),turn=event.turn??w.turn;
+      if(!Number.isSafeInteger(turn)||turn<0||turn>w.turn||!Number.isFinite(event.amount)||event.amount<=0||typeof event.result!=="string")return null;
+      if(a.eventDedupe.turn!==turn)a.eventDedupe={turn,keys:[]};
+      const contentId=event.contentId??event.meaning,context=structuredClone(event.context??{cell:event.cell??o.cell,env:w.tiles[event.cell??o.cell]?.env??null}),key=H.stable([contentId,context,event.peerSpecies??null,event.result,event.scope??"layer"]),
+        dedupe=H.stable([contentId,context,event.peerId??null,event.result]);if(a.eventDedupe.keys.includes(dedupe)||a.eventDedupe.keys.length>=z.turnDedupeCapacity)return null;
+      a.eventDedupe.keys.push(dedupe);
+      let item=a.experience.find(e=>e.key===key);
+      if(!item){
+        if(a.experience.length>=z.experienceCapacity){a.experience.sort((x,y)=>freshness(x,w.turn)*x.amount-freshness(y,w.turn)*y.amount||H.compare(x.key,y.key));a.experience.shift();}
+        const kind=event.kind??"relation";item={key,originId:"experience:"+o.id+":"+turn+":"+H.sha256(key).slice(0,16),contentId,meaning:event.meaning,kind,
+          count:0,distinctTurns:0,amount:0,firstAt:turn,lastExperienceAt:turn-1,experienceAt:turn,cell:event.cell??o.cell,context,
+          halfLife:event.halfLife??z.halfLives[kind],values:structuredClone(event.values??[]),scope:event.scope??"layer",roles:roles(w,o),peerSpecies:event.peerSpecies??null,confirmedHarm:false};
+        a.experience.push(item);
+      }
+      item.count++;if(item.lastExperienceAt!==turn)item.distinctTurns++;item.amount=H.round(item.amount+event.amount);item.lastExperienceAt=turn;item.experienceAt=turn;
+      item.values=structuredClone(event.values??item.values);item.confirmedHarm ||= event.confirmedHarm===true;return item;
+    }
+    const qualified=(w,item)=>item.count>=settings(w).holdingCount&&item.distinctTurns>=settings(w).holdingTurns;
+    function snapshot(w,entry,extra={}){
+      const o=entry.subject??entry,cell=entry.cell??o.cell;
+      return {id:o.id,species:o.species,cell,roles:roles(w,o),roleDefinition:settings(w).roleDefinition,parents:parents(o),informationState:structuredClone(o.informationState??null),
+        evaluation:structuredClone(evaluate(w,o)),hyperTraces:structuredClone(o.hyperTraces??[]),...structuredClone(extra)};
+    }
+    function initialize(w){
+      if(!enabled(w))return;
+      w.config.informationBenchmarks=benchmarks(w);w.informationField=[];w.informationLedger={initialAmount:0,generatedAmount:0,inactivatedAmount:0};
+      for(const {subject}of entries(w))attach(w,subject);w.persistentInformationSummary=summary(w);
+    }
+    function summary(w){
+      if(!enabled(w))return;
+      const actors=entries(w),out={definition:"persistent-information-observed/1",turn:w.turn,subjects:actors.length,experiencedSubjects:0,holdingSubjects:0,ownSummaries:0,learnedOrigins:0,
+        field:{records:0,cells:0,origins:0,contents:0,amount:0},ledger:{...w.informationLedger,remainingAmount:0}};
+      for(const {subject}of actors){const a=subject.informationState;if(!a)continue;out.ownSummaries+=a.experience.length;out.learnedOrigins+=a.learned.length;if(a.experience.length)out.experiencedSubjects++;if(a.experience.some(e=>qualified(w,e)))out.holdingSubjects++;}
+      const cells=new Set(),origins=new Set();for(const e of w.informationField||[]){out.field.records++;cells.add(e.cell);origins.add(e.originId);out.field.contents+=e.contents?.length||0;out.field.amount+=e.amount;}
+      out.field.cells=cells.size;out.field.origins=origins.size;out.field.amount=H.round(out.field.amount);out.ledger.remainingAmount=out.field.amount;return out;
+    }
+    function validate(w){
+      if(!enabled(w))return [];
+      const errors=[],z=settings(w),nonnegative=n=>typeof n==="number"&&Number.isFinite(n)&&n>=0,vector=v=>Array.isArray(v)&&v.length<=9&&new Set(v.map(a=>a.axis)).size===v.length&&v.every(a=>Number.isInteger(a.axis)&&a.axis>=0&&a.axis<9&&Number.isFinite(a.value)),cells=new Map(),ids=new Set();
+      if(!Array.isArray(w.informationField)||!w.informationLedger)errors.push("INFORMATION_WORLD");
+      for(const {subject:o}of entries(w)){
+        const a=o.informationState;if(ids.has(o.id))errors.push("INFORMATION_ID:"+o.id);ids.add(o.id);
+        if(a?.version!==VERSION||!Array.isArray(a.experience)||a.experience.length>z.experienceCapacity||!Array.isArray(a.learned)||a.learned.length>z.learnedCapacity||
+          !Array.isArray(a.learnedPreferences)||a.learnedPreferences.length!==9||!a.learnedPreferences.every(n=>Number.isFinite(n)&&n>=-100&&n<=100)||!["maintained","roleAmount","relationTurns","offspringSuccess"].every(k=>nonnegative(a.progress?.[k]))||!Object.values(a.progress?.roleAmounts??{}).every(nonnegative)||
+          !Array.isArray(a.eventDedupe?.keys)||a.eventDedupe.keys.length>z.turnDedupeCapacity){errors.push("INFORMATION_STATE:"+o.id);continue;}
+        const origins=new Set();for(const e of a.experience){if(origins.has(e.originId)||!Number.isSafeInteger(e.count)||e.count<1||!Number.isSafeInteger(e.distinctTurns)||e.distinctTurns<1||e.distinctTurns>e.count||!nonnegative(e.amount)||
+          !Number.isSafeInteger(e.firstAt)||!Number.isSafeInteger(e.lastExperienceAt)||e.firstAt>e.lastExperienceAt||e.lastExperienceAt>w.turn||!vector(e.values)||!Array.isArray(e.roles)||!e.roles.every(r=>ROLES.includes(r)))errors.push("INFORMATION_EXPERIENCE:"+o.id);origins.add(e.originId);}
+        for(const e of a.learned)if(typeof e.originId!=="string"||!Number.isSafeInteger(e.expires))errors.push("INFORMATION_LEARNED:"+o.id);
+      }
+      let amount=0;
+      for(const e of w.informationField||[]){
+        const origins=cells.get(e.cell)??new Set();origins.add(e.originId);cells.set(e.cell,origins);
+        if(typeof e.originId!=="string"||!Number.isInteger(e.cell)||!w.tiles[e.cell]||!nonnegative(e.amount)||e.amount<z.minimumAmount-1e-9||
+          !Number.isSafeInteger(e.generatedAt)||!Number.isSafeInteger(e.expires)||e.generatedAt>e.expires||e.generatedAt>w.turn||e.expires<=w.turn||!Array.isArray(e.contents)||!e.contents.length||e.contents.length>z.originContents||
+          ["E","B","M"].some(k=>Object.hasOwn(e,k)))errors.push("INFORMATION_FIELD:"+e.originId);
+        for(const c of e.contents||[])if(!vector(c.values)||!vector(c.originalValues)||!Number.isSafeInteger(c.experienceAt)||c.experienceAt>e.generatedAt||!Object.values(z.halfLives).includes(c.halfLife)||!["normal","low","confirmed-harm"].includes(c.evidence))errors.push("INFORMATION_CONTENT:"+e.originId);
+        if(nonnegative(e.amount))amount+=e.amount;
+      }
+      for(const [cell,origins]of cells)if(origins.size>z.cellOrigins)errors.push("INFORMATION_CAPACITY:"+cell);
+      const ledger=w.informationLedger;if(ledger&&(![ledger.initialAmount,ledger.generatedAmount,ledger.inactivatedAmount].every(nonnegative)||Math.abs(ledger.initialAmount+ledger.generatedAmount-ledger.inactivatedAmount-amount)>1e-4))errors.push("INFORMATION_BALANCE");
+      if((w.resources||[]).some(a=>a.kind==="info"))errors.push("INFORMATION_NUTRITION");return errors;
+    }
+    return {enabled,parameters,settings,state,attach,entries,locate,fieldAt,roles,parents,maintenance,traits,preference,benchmarks,basis,evaluate,freshness,recordProgress,addExperience,qualified,snapshot,initialize,initial:initialize,summary,validate};
   })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
@@ -1169,6 +1357,9 @@ return {settings,attach,region,level,factor,begin,finish};
       if(c.primaryParasiteModel!=="primary/1")throw Error("SETTINGS_INVALID: 高次寄生には一次寄生モデルが必要です");
       c.hyperParasiteSettings=HyperParasite.parameters(c.hyperParasiteSettings);
     }else if(c.hyperParasiteSettings!==undefined)throw Error("SETTINGS_INVALID: 高次寄生モデルの指定が必要です");
+    if(c.informationModel!==undefined&&c.informationModel!=="persistent/1")throw Error("SETTINGS_INVALID: 持続情報モデル");
+    if(c.informationModel==="persistent/1")c.informationSettings=PersistentInformation.parameters(c.informationSettings);
+    else if(c.informationSettings!==undefined)throw Error("SETTINGS_INVALID: 持続情報モデルの指定が必要です");
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
@@ -1320,7 +1511,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
     delete o.plantOrigin;
-    return initializeAge(w,o);
+    return PersistentInformation.attach(w,initializeAge(w,o));
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
     if(Ryouki.is(o))return Ryouki.phenotype(w,o,phase,branch);
@@ -1741,6 +1932,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     LargePlant.initialize(w);
     for (const kind of ["mineral", "droplet", "info"]) {
+      if(kind==="info"&&PersistentInformation.enabled(w))continue;
       const target = usable.filter(
         (p) =>
           r(w, "init/resource-count", 0, kind, p) < (config.initialConditions?.resources[kind] ?? 1) *
@@ -1952,6 +2144,7 @@ return {settings,attach,region,level,factor,begin,finish};
     LargePlant.summary(w);
     PrimaryParasite.summary(w);
     HyperParasite.summary(w);
+    PersistentInformation.initialize(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -1959,7 +2152,7 @@ return {settings,attach,region,level,factor,begin,finish};
   }
   function infection(w, species, hostId, turn = w.turn, origin = hostId) {
     if(PrimaryParasite.enabled(w))return PrimaryParasite.infection(w,species,hostId,turn,origin);
-    return {
+    return PersistentInformation.attach(w,{
       id: "p:" + origin + ":" + turn,
       species,
       hostId,
@@ -1969,11 +2162,11 @@ return {settings,attach,region,level,factor,begin,finish};
       E: 0,
       ready: 0,
       q: null,
-    };
+    });
   }
   function hyper(w, pId, turn = w.turn) {
     if(HyperParasite.enabled(w))return HyperParasite.create(w,pId,turn,pId);
-    return {
+    return PersistentInformation.attach(w,{
       id: "q:" + pId + ":" + turn,
       species: "hyperparasite",
       hostId: pId,
@@ -1985,7 +2178,7 @@ return {settings,attach,region,level,factor,begin,finish};
       modulation: null,
       counts: [0, 0, 0],
       seen: [],
-    };
+    });
   }
   function loseInfection(w, p) {
     if (p) {
@@ -2009,6 +2202,7 @@ return {settings,attach,region,level,factor,begin,finish};
     Ryouki,
     PrimaryParasite,
     HyperParasite,
+    PersistentInformation,
     activeSpecies,
     activeMain,
     initialRank,

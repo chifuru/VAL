@@ -267,6 +267,11 @@
               });
         }
       for (const c of local) {
+        if(S.PersistentInformation?.enabled(w)&&ctx.informationHooks){
+          c.informationChoices=c.parents.map(parent=>({parent,place:ctx.informationHooks.informationPlace(w,ctx,parent,cell)}));
+          c.informationScore=c.informationChoices.reduce((sum,{parent,place})=>sum+place.value+
+            (S.spec(parent).group!=="main"?S.PersistentInformation.preference(w,parent,5)/100:0),0)/c.parents.length;
+        }
         c.h = S.hash(w, "birth/arbitration", w.turn, c.species, [
           cell,
           c.kind,
@@ -288,7 +293,7 @@
     return out;
   }
   function compare(a, b) {
-    return a.kind - b.kind || a.h - b.h || S.compare(a.key, b.key);
+    return a.kind - b.kind || (b.informationScore||0)-(a.informationScore||0) || a.h - b.h || S.compare(a.key, b.key);
   }
   function child(w, c, ctx) {
     if(c.species==="ryouki")return ryoukiChild(w,c,ctx);
@@ -458,6 +463,7 @@
       if (keys.every((k) => votes.get(k) === c)) {
         if(S.Colony.is(c.parents[0])&&!S.Colony.room(w,c.cell,ctx.colonyCounts??=S.Colony.occupancy(w)))continue;
         children.push(child(w, c, ctx));
+        for(const {parent,place}of c.informationChoices||[])ctx.informationHooks.informationUsed(w,ctx,parent,c.cell,place);
         if(S.Colony.is(c.parents[0]))ctx.colonyCounts[S.Colony.region(w,c.cell)]++;
         ctx.births.push(c.species);
       }
