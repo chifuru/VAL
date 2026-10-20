@@ -53,6 +53,7 @@
 
 ## 資料・実装状況・後続
 
+- [実装開始値と判定条件の具体案](../implementation-start-v1/README.md)は未選定値を埋める**採用前・未実測の提案**。量機/独立植物/PQ/情報/自動初期条件を同じ尺度で具体化している。対象別の採用正本を自動で置換せず、実装前は設計の具体化、C/D整理・素材化・検査・調整は実装内として扱う。
 - [一枚の全体説明画像と索引](atlas-v1.3/README.md)、[採用画像と本文の対応](ab-visual-reference-v1.md)。旧画像内の仮表記や旧ルールを現在の仕様にしない。
 - [現在の構造](../../valis/summary/lifegame-desktop.summary.md)、[既存製品の実測範囲](../../operations/evidence/optimization-v4.2.32/README.md)。製品4.2.32と追加A/Bの成立範囲は別に確認する。
 - [現在の残作業と実行順](../../operations/plans/completion-roadmap-v1.md)は作業計画でありゲーム仕様の正本ではない。[既存工程の参照](../../operations/plans/remaining-completion-v4.2.md)にある旧条件より、対象別正本と現在ロードマップを優先する。[採用表](decision-register-v1.md)と[実装引継ぎ](observation-state-contract-v1.md#10-実装への引継ぎ順序)に従い、量機を含む初期表/差分・データ対応からC/Dへ接続する。今回の残件整理からゲーム実装や画像制作を自動開始しない。
