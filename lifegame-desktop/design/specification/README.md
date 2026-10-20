@@ -1,8 +1,8 @@
 # 生態シミュレーション：現在のA・B仕様
 
-管理版 `specification-index/11`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
+管理版 `specification-index/12`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
 
-第1〜第4組と[境界規則・比較開始値/1](initial-comparison-v1.md)を既存A/B21Nodeへ反映済み。移行/羽化/群落更新の境界、適応/抵抗、Q初期数/羽化費、群落初期量/植物経験、情報評価基準を採用した。数値は比較開始値で未実測。造形と系統/相/枝の対応は利用者と別途議論する。次は実装差分/データ対応・C/D接続要否の整理。[今回の契約](../../operations/plans/initial-comparison-ab-v1.md)。製品は4.2.32のまま。
+第1〜第4組と[境界規則・比較開始値/1](initial-comparison-v1.md)は採用済み。今回[植物・P・Qの造形対応/1](appearance-correspondence-v1.md)を既存A/B17Nodeへ反映し、[採用8画像・区画台帳](../appearance-baseline-v1/README.md)を保存した。森冠/星冠の独立生産者、移動する淡水系統、P形態×相、Qの最終IVを固定する。数値は比較開始値で未実測。次は実装差分/データ対応・C/D接続要否の整理。[今回の契約](../../operations/plans/appearance-correspondence-ab-v1.md)。製品は4.2.32のまま。
 
 ## 読む順序と優先順位
 
@@ -18,7 +18,8 @@
 
 | 対象 | 読む正本 | 優先する内容・境界 |
 | --- | --- | --- |
-| 境界規則/比較開始値 | [比較開始値/1](initial-comparison-v1.md) | 同P/Q移行・死亡/羽化順・適応/抵抗・羽化費と初期Q・群落量/感染量・植物経験・評価基準を採用。明示範囲だけ既存の未選定記述を置換。造形対応は別議論、実装/実測は未完 |
+| 植物/P/Qの造形と系統/相/形態 | [造形対応/1](appearance-correspondence-v1.md)、[採用画像と区画](../appearance-baseline-v1/README.md) | 森冠/星冠は別系統の定着生産者、淡水は浮遊/移動生産者。三植物の本体一個体/有限可食量/III3→IV6、既存P二系統A/B/C×I〜III、Q I〜IIIと翅なし最終IV。海生02/泳法/旧Q IVを除外。実装/素材化は未完 |
+| 境界規則/比較開始値 | [比較開始値/1](initial-comparison-v1.md) | 同P/Q移行・死亡/羽化順・適応/抵抗・羽化費と初期Q・群落量/感染量・植物経験・評価基準を採用。明示範囲だけ既存の未選定記述を置換。実装/実測は未完 |
 | 採用範囲/未確定事項 | [採用状況](decision-register-v1.md) | 採用済み・保留・撤回・提案のみと具体化C01〜C13。ゲームの具体規則は各正本 |
 | 情報の定義/作用 | [持続する情報/9](persistent-information-v1.md)、[死亡情報/10](death-information-v1.md) | 関係性と意味、経験蓄積、通常/親養育者、学習/場所作用、集中/反復。全生物に非栄養、死亡地点/実績と同層/全層は維持。旧一回消費/重み補正だけの作用を置換 |
 | 情報の経験条件/実績評価 | [情報評価/5](information-evaluation-v1.md) | C02の暫定値と重複抑制、保持資格と死亡生成の分離、役割別評価。実測済み値や調整不要の確定値とはしない |
@@ -47,7 +48,7 @@
 
 基礎の適用順は[統合v1.3](ab-system-specification-v1.3.md)→[着手前調整v1.4](ab-readiness-v1.4.md)→[生態調整v1.5](ab-balance-v1.5.md)→[地形v1.6](ab-map-visual-v1.6.md)→[年齢/独立植物v1.7](ab-life-age-plant-v1.7.md)→[能力v1.8](ab-age-abilities-v1.8.md)。対象別の追加は[食性v1.9](diet-survival-v1.9.md)、[接触寄生v2.0](parasite-contact-v2.0.md)、[通常生存v2.1](ordinary-survival-v2.1.md)、[社会性v2.2](colony-survival-v2.2.md)、[観察速度v2.3](observation-session-v2.3.md)。上表で変更した条件は基礎へ戻さない。
 
-[系統付表](ab-catalogue-v1.md)と[84候補の採否](ab-feature-scope-v1.md)も未変更部分の付表。古いF71接触感染の初回外、情報栄養、III相繁殖、群落化の一律不採用等は追加正本の該当条件で置換される。独立植物の機能分岐は採用済みだが、専用値/正式ID/造形割当と寄生造形の未確定を、既存の全採用方針の撤回と解釈しない。
+[系統付表](ab-catalogue-v1.md)と[84候補の採否](ab-feature-scope-v1.md)も未変更部分の付表。古いF71接触感染の初回外、情報栄養、III相繁殖、群落化の一律不採用、光樹一系統/主生物枠、今回の淡水への海生02使用等は追加正本の明示範囲で置換される。植物/P/Qの造形対応は採用済み。未提示の専用値/機械ID/配置容量/素材化は実装接続として区別する。
 
 ## 資料・実装状況・後続
 

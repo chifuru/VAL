@@ -1,0 +1,142 @@
+{
+  "version": "appearance-baseline/1",
+  "specification": "../specification/appearance-correspondence-v1.md",
+  "kind": "adopted-concept-reference-not-runtime-atlas",
+  "artifacts": [
+    {
+      "file": "01-freshwater-phases.png",
+      "title": "淡水光合成体・四相",
+      "source_filename": "exec-b8030f10-0c69-4c25-b8b3-fa9dbeb6179f.png",
+      "sha256": "dccae29ada2c06d2ed3e701d27faf48181180b66aa0cba17e9c8feacb33c5b6d",
+      "bytes": 3024417,
+      "selected_panels": [
+        "I",
+        "II",
+        "III",
+        "IV"
+      ],
+      "excluded_panels": []
+    },
+    {
+      "file": "02-freshwater-branches.png",
+      "title": "淡水光合成体・元の分岐案",
+      "source_filename": "exec-ba1de076-0525-4ed6-8743-f3774936685b.png",
+      "sha256": "3b948cb85233b936fb08e8d48c289af81f437343b5207d8fae2aa64936f25dcb",
+      "bytes": 3316373,
+      "selected_panels": [
+        "III-1",
+        "IV-1a",
+        "IV-1b",
+        "III-2",
+        "IV-2a",
+        "IV-2b",
+        "III-3",
+        "IV-3a",
+        "IV-3b"
+      ],
+      "excluded_panels": []
+    },
+    {
+      "file": "03-tideparasite-phases.png",
+      "title": "潮環・形態と相",
+      "source_filename": "exec-1e0e7122-9889-4430-8e22-3cda0a9b085e.png",
+      "sha256": "861f26815edb8477968cdce8d49b5a683d11b049cdbadc5699b3c223283c45c6",
+      "bytes": 3047466,
+      "selected_panels": [
+        "A-I",
+        "A-II",
+        "A-III",
+        "B-I",
+        "B-II",
+        "B-III",
+        "C-I",
+        "C-II",
+        "C-III"
+      ],
+      "excluded_panels": []
+    },
+    {
+      "file": "04-leafparasite-phases.png",
+      "title": "葉環・形態と相",
+      "source_filename": "exec-c679e7b7-0dc3-48b2-a41c-8c2ac13cd1bc.png",
+      "sha256": "39ed308b748c6214e2e502a1dcdb817f04fd02460a2c22f44411be8c8a99d0c6",
+      "bytes": 3020579,
+      "selected_panels": [
+        "A-I",
+        "A-II",
+        "A-III",
+        "B-I",
+        "B-II",
+        "B-III",
+        "C-I",
+        "C-II",
+        "C-III"
+      ],
+      "excluded_panels": []
+    },
+    {
+      "file": "05-hyperparasite-source-i-iii-only.png",
+      "title": "Q寄生期・区画I〜IIIのみ",
+      "source_filename": "exec-22e5343c-11ab-44b8-bba5-fe3a0fd5f364.png",
+      "sha256": "62d507d946462dab173f28ebdfbfba3d55182540a891d8fad9d64ebb2986306c",
+      "bytes": 2999097,
+      "selected_panels": [
+        "I",
+        "II",
+        "III"
+      ],
+      "excluded_panels": [
+        "IV"
+      ]
+    },
+    {
+      "file": "06-hyperparasite-adult.png",
+      "title": "Q自立形・最終決定稿",
+      "source_filename": "exec-4ca25d0c-c931-4985-a877-1bde31bc153c.png",
+      "sha256": "71ba0d25891b64e790cac4538d82b2b479a4581e4592156e8a0e8c22c17b05f3",
+      "bytes": 3234439,
+      "selected_panels": [
+        "whole"
+      ],
+      "excluded_panels": []
+    },
+    {
+      "file": "07-forestcrown-branches.png",
+      "title": "森冠・分岐",
+      "source_filename": "exec-fb38b048-2e01-4166-9079-9957437ee040.png",
+      "sha256": "a485aaf6d9ea40c5cbe524604114b6e2ae5b1a242cb070c97371db3682067edb",
+      "bytes": 3794500,
+      "selected_panels": [
+        "III-1",
+        "IV-1a",
+        "IV-1b",
+        "III-2",
+        "IV-2a",
+        "IV-2b",
+        "III-3",
+        "IV-3a",
+        "IV-3b"
+      ],
+      "excluded_panels": []
+    },
+    {
+      "file": "08-starcrown-branches.png",
+      "title": "星冠・分岐",
+      "source_filename": "exec-54268814-ebb2-4f31-85f8-19b26a6eae10.png",
+      "sha256": "5f83f1e260e9d6618dd30e51322fdc6de676b8b154d428dd36c9fd8bd15380d7",
+      "bytes": 2997347,
+      "selected_panels": [
+        "III-1",
+        "IV-1a",
+        "IV-1b",
+        "III-2",
+        "IV-2a",
+        "IV-2b",
+        "III-3",
+        "IV-3a",
+        "IV-3b"
+      ],
+      "excluded_panels": []
+    }
+  ]
+}

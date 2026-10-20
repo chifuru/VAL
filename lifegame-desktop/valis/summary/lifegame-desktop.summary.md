@@ -2,7 +2,7 @@
 
 lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Node、仕様と資料の入口は `design/specification/README.md`。
 
-現在入口: `design/specification/README.md`。状態対応: `design/specification/observation-state-contract-v1.md`。境界規則/比較開始値: `design/specification/initial-comparison-v1.md`（initial-comparison/1）。既存A/B21Nodeへ第1〜第4組と提示済みの比較開始値を反映。造形と系統/相/枝の対応は別議論。数値は未実測、実装/素材/データ接続は未完。全Node草案、新規登録・状態遷移なし。
+現在入口: `design/specification/README.md`。造形対応: `design/specification/appearance-correspondence-v1.md`（appearance-correspondence/1）。採用資料: `design/appearance-baseline-v1/README.md`。第1〜第4組/比較開始値を維持し、対象A/B17Nodeへ植物/P/Qの系統・相・形態/生産者の扱いを反映。次は実装差分/データ/配置容量/保存の接続整理。実装/素材化/実測は未完、全Node草案、新規登録・状態遷移なし。
 
 製品は4.2.32。既存最適化の適用/実測範囲は `operations/evidence/optimization-v4.2.32/README.md`。Windows配布の現状はE7。今回C/D/E・src/tests・製品/配布版は変更しない。既存の対象版付き証跡は今回の追加仕様の合格根拠ではない。
 
@@ -11,27 +11,27 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 ```text
 A1:（起点 / 生態系の成長と生存観測）［草案］
 	構成（要素・関係）:
-		valis/nodes/A/A1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+		valis/nodes/A/A1.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 	ロジック:
-		第1〜第4組の構造を採用し、状態/計数/表示/説明/保存を同じID/単位/確定時点に揃える。
+		第1〜第4組の構造を採用し、状態/計数/表示/説明/保存を同じID/単位/確定時点に揃える。植物の生産者役割/個体単位、P/Qの形態/相と採用画像を既存観測・保存へ対応させる。
 	実態:
-		第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+		植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	A1.1:（A1 / 個体・系統・段階進化）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/A/A1.1.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			通常の相/枝/年齢とQ第四相の成熟羽化例外を、盤面/横詳細/構成集計で一貫させる。
+			通常の相/枝/年齢とQ第四相の成熟羽化例外を、盤面/横詳細/構成集計で一貫させる。三植物のIII3→IV6、P形態×三相、Q四相を年齢/宿主段階と区別する。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	A1.2:（A1 / 各マスの環境・餌資源）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.2.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/A/A1.2.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			生体/群落/体外感染量/死骸/情報を描画・選択・計数で区別し、同居/基部残存/可食部0を識別する。
+			生体/群落/体外感染量/死骸/情報を描画・選択・計数で区別し、同居/基部残存/可食部0を識別する。大型植物と基底群落、同居容量、本体/可食部、浮遊する淡水個体の局所位置を区別する。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	A1.3:（A1 / 性別・繁殖・遺伝）［草案］
 		構成（要素・関係）:
@@ -39,7 +39,7 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 		ロジック:
 			性別/無性別/階級、年齢成熟/繁殖待機と相を別に表示する。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			第1〜第4組と比較開始値をA/B反映済み。比較値は未実測。追加仕様の実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	A1.4:（A1 / 局所経験と系統戦略）［草案］
 		構成（要素・関係）:
@@ -47,31 +47,31 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 		ロジック:
 			観察者の情報/適応/抵抗解析と、生物が局所的に知る情報を分離する。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			第1〜第4組と比較開始値をA/B反映済み。比較値は未実測。追加仕様の実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	A1.5:（A1 / 寄生と宿主の生活環）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.5.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/A/A1.5.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			H→P→Qの付随とP→H/Q→Pの関係線、Qの発育/羽化失敗/成功/IV自立を区別する。
+			H→P→Qの付随とP→H/Q→Pの関係線、Qの発育/羽化失敗/成功/IV自立を区別する。既存P二系統の形態とQの翅なしIVを対応させ、感染経路/成熟羽化/群体単位を維持する。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	A1.6:（A1 / 光合成と共生の栄養）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.6.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/A/A1.6.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			記録数/生物量B/可食量/基部/蓄え/生産/再生/感染量/情報量を別尺度で表示保存する。
+			記録数/生物量B/可食量/基部/蓄え/生産/再生/感染量/情報量を別尺度で表示保存する。森冠/星冠/淡水系統を生産者とし、本体一個体・有限可食量・有償再生を分ける。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	A1.7:（A1 / 共通生物モデルと栄養関係）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.7.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/A/A1.7.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			動物個体/植物群落/寄生群体を各IDで一度計数し、体外感染量/情報/死骸は生体数へ加えない。
+			動物個体/植物群落/寄生群体を各IDで一度計数し、体外感染量/情報/死骸は生体数へ加えない。三植物は生産者として一回集計し、基底群落/動物/P/Qと有限収支へ接続する。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 A2:（起点 / 独立した Windows ローカル実行）［草案］
 	構成（要素・関係）:
@@ -79,7 +79,7 @@ A2:（起点 / 独立した Windows ローカル実行）［草案］
 	ロジック:
 		上部一体サマリ/右常設3パネル/独立横詳細と、作成画面非表示・同画面操作での進行維持を統一する。
 	実態:
-		第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+		第1〜第4組と比較開始値をA/B反映済み。比較値は未実測。追加仕様の実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 ```
 
@@ -132,95 +132,95 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 	ロジック:
 		生態確定/観測/描画/保存の時点とIDを一致させ、UI操作/補間でターンや抽選を進めない。
 	実態:
-		第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+		第1〜第4組と比較開始値をA/B反映済み。比較値は未実測。追加仕様の実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	B4.1:（A1.4, A1.2, A1.1 / 局所パラメータによる動作判断）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B4.1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/B/B4.1.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			宿主選好/実適合/遺伝適応/抵抗の条件付き値を観察者詳細へ渡し、生物自身の透視知識にはしない。
+			宿主選好/実適合/遺伝適応/抵抗の条件付き値を観察者詳細へ渡し、生物自身の透視知識にはしない。淡水植物は全相で合法な局所移動を行い、位置変化だけで栄養/経験を生成しない。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	B4.2:（A1.5, A1.2, A1.4 / 寄生の遷移）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B4.2.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/B/B4.2.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			寄生の各段階/Q発育/羽化準備/失敗/成功/IV自立とP死亡の確定記録を表示保存へ渡す。
+			寄生の各段階/Q発育/羽化準備/失敗/成功/IV自立とP死亡の確定記録を表示保存へ渡す。P形態/本人相/宿主段階とQ羽化状態を別に扱い、絵から感染経路/飛翔を追加しない。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	B4.3:（A1.6, A1.2 / 非採食の栄養収支）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B4.3.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/B/B4.3.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			図のB/可食量/生産・再生量と有限な入力/移転/費用を対応させる。
+			図のB/可食量/生産・再生量と有限な入力/移転/費用を対応させる。三植物の生産/可食部再生/維持を有限入力と費用へ接続し、本体損傷/寿命を残す。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	B4.4:（A1.7, A1.2, A1.6 / 生産者・餌生物の共通生活処理）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B4.4.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/B/B4.4.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			群落の基部/可食部/活性/蓄えと個体年齢/代表状態を表示へ渡す。
+			群落の基部/可食部/活性/蓄えと個体年齢/代表状態を表示へ渡す。基底群落の更新と大型植物一個体の成長/成熟繁殖を区別し、再生を出生にしない。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案］
 	構成（要素・関係）:
-		valis/nodes/B/B5.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+		valis/nodes/B/B5.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 	ロジック:
-		上部一体サマリ・右常設3パネル・独立横詳細を維持し、選択/追跡/表示/グラフ対象で停止しない。
+		上部一体サマリ・右常設3パネル・独立横詳細を維持し、選択/追跡/表示/グラフ対象で停止しない。採用形/相/年齢/生活状態を同じ確定IDから盤面/詳細/グラフ/保存へ渡す。
 	実態:
-		第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+		植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/B/B5.1.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			系統樹の相/枝/年齢成熟と寄生生活状態/Q第四相例外、植物の機能3→6分岐/未選定閾値を区別する。
+			系統樹の相/枝/年齢成熟と寄生生活状態/Q第四相例外、植物の機能3→6分岐/比較閾値/未提示値を区別する。三植物の3→6分岐、PのA/B/C×I〜III、QのI〜IVを採用区画と対応させる。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	B5.2:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 進化・繁殖・生態関係の説明シート）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.2.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/B/B5.2.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			短い通常要約と必要な横詳細で、群落/個体/群体/感染量/情報/死骸、選好/遺伝適応/抵抗、鮮度/期限/Q痕跡を説明する。
+			短い通常要約と必要な横詳細で、群落/個体/群体/感染量/情報/死骸、選好/遺伝適応/抵抗、鮮度/期限/Q痕跡を説明する。植物の本体/可食量と移動、P形態、Q最終IVの採用範囲と未実装を説明する。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	B5.3:（A1.1, A1.2, A1.3, A1.5, A1.6 / 確定した行動のモーション表示）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.3.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/B/B5.3.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			既存遠景記号/近景絵柄/事前陰影を保ち、確定した採食/捕食/攻撃/防御/排除/感染/羽化を区別して描く。
+			既存遠景記号/近景絵柄/事前陰影を保ち、確定した採食/捕食/攻撃/防御/排除/感染/羽化を区別して描く。陸生二系統/浮遊淡水系統/P形態/翅なしQを採用図で描き、年齢・状態差を重ねる。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	B5.4:（A1, A2, A1.2 / 最終結果図鑑と再生・新規保存）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.4.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/B/B5.4.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			初期/実効条件・定義版・最終集計/状態要約・全ターン原値/100T要約を保存する。
+			初期/実効条件・定義版・最終集計/状態要約・全ターン原値/100T要約を保存する。採用形と機械ID/状態/版を保存へ対応させ、旧光樹/海生/旧Q記録を黙って変換しない。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	B5.5:（A1, A1.1, A1.3, A1.5, A1.7 / 個体数・集団構成・生態関係のグラフ）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.5.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/B/B5.5.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			全期間3パネルと現在一体サマリで記録数/B/量/期間/欠測を分離する。
+			全期間3パネルと現在一体サマリで記録数/B/量/期間/欠測を分離する。大型植物本体は生産者へ一回、P/Qは群体で計数し、可食量/実B/器官数を混同しない。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.6.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/B/B5.6.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
 		ロジック:
-			分類別折返し/複数固有色の所在強調/0数項目整理/名札切替と独立横詳細を維持する。
+			分類別折返し/複数固有色の所在強調/0数項目整理/名札切替と独立横詳細を維持する。大型植物を主生物同等に選択/追跡し、再生/宿主付随/離脱でも同じIDへ接続する。
 		実態:
-			第1〜第4組と比較開始値をA/B反映済み。数値は未実測、造形対応は別議論。実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+			植物/P/Qの造形対応をA/B反映済み。採用資料は決定稿、実装/素材化/実測は未完。後続修正/検証要否・草案/階層/参照は維持。
 
 ```
 
