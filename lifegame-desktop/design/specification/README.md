@@ -1,8 +1,8 @@
 # 生態シミュレーション：現在のA・B仕様
 
-管理版 `specification-index/13`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
+管理版 `specification-index/14`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
 
-第1〜第4組、[境界規則・比較開始値/1](initial-comparison-v1.md)、[植物・P・Qの造形対応/1](appearance-correspondence-v1.md)を維持し、今回[量機/1](ryouki-v1.md)を既存15A/B Nodeへ反映する。通常型の平たい菱形/長い脚、相変異1〜3の背面黒/4の黒と深緑、全相3マス/同居2〜3体/繁殖力据え置きと4の繁殖目的、低密度が続いた後の通常復帰を採用条件とする。[採用造形3点・原案5点と分岐造形提案](../ryouki-v1/README.md)を区別して保存した。閾値/倍率は設計側の比較案で未実測。次は量機の残るデータ対応とC/D接続要否の整理。[今回の契約](../../operations/plans/ryouki-ab-v1.md)。製品は4.2.32のまま。
+第1〜第4組、[境界規則・比較開始値/1](initial-comparison-v1.md)、[植物・P・Qの造形対応/1](appearance-correspondence-v1.md)を維持し、[量機/2](ryouki-v1.md)へ[通常型の第三相3枝・第四相6枝の2画像](../ryouki-branches-v2/README.md)の採用を反映する。通常I/II・相変異2区分と合わせて採用5画像、旧9区画提案1、原案5点を区別する。既定の移動/可逆相変異/繁殖/同居は維持し、閾値/倍率は設計側の比較案で未実測。造形確認待ちは解消し、次は専用データとC/D接続の整理。[今回の契約](../../operations/plans/ryouki-branches-adoption-v1.md)。製品は4.2.32のまま。
 
 ## 読む順序と優先順位
 
@@ -18,7 +18,7 @@
 
 | 対象 | 読む正本 | 優先する内容・境界 |
 | --- | --- | --- |
-| 量機の系統/分岐/相変異 | [量機/1](ryouki-v1.md)、[原案・採用造形・提案](../ryouki-v1/README.md) | 独立した弱戦闘/高移動/高繁殖の主生物。草と虫、通常I1/II2/III3/IV4、III3→IV6。相変異は可逆で全相3マス/2〜3独立個体同居、1〜3は背面黒/4は黒と深緑・繁殖目的。継続低密度で解除。数値/追加分岐絵は比較案/提案、実装未完 |
+| 量機の系統/分岐/相変異 | [量機/2](ryouki-v1.md)、[原案・採用資料](../ryouki-v1/README.md)、[採用分岐対応](../ryouki-branches-v2/README.md) | 草と虫、通常I1/II2/III3/IV4、III3→IV6。相変異は可逆で全相3マス/2〜3独立個体同居、1〜3は背面黒/4は黒と深緑・繁殖目的。継続低密度で解除。通常分岐2画像は採用済み、旧9区画図は採用外。数値は比較案、実装未完 |
 | 植物/P/Qの造形と系統/相/形態 | [造形対応/1](appearance-correspondence-v1.md)、[採用画像と区画](../appearance-baseline-v1/README.md) | 森冠/星冠は別系統の定着生産者、淡水は浮遊/移動生産者。三植物の本体一個体/有限可食量/III3→IV6、既存P二系統A/B/C×I〜III、Q I〜IIIと翅なし最終IV。海生02/泳法/旧Q IVを除外。実装/素材化は未完 |
 | 境界規則/比較開始値 | [比較開始値/1](initial-comparison-v1.md) | 同P/Q移行・死亡/羽化順・適応/抵抗・羽化費と初期Q・群落量/感染量・植物経験・評価基準を採用。明示範囲だけ既存の未選定記述を置換。実装/実測は未完 |
 | 採用範囲/未確定事項 | [採用状況](decision-register-v1.md) | 採用済み・保留・撤回・提案のみと具体化C01〜C14。ゲームの具体規則は各正本 |
