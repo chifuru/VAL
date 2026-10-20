@@ -1,0 +1,313 @@
+{
+  "definition": "i11d-fungal-colony-comparison/1",
+  "rows": [
+    {
+      "case": "river-0",
+      "turns": 50,
+      "final": {
+        "grassbug": 0,
+        "waterbug": 47,
+        "fungus": 37
+      },
+      "fungalBirths": 5,
+      "generations": {
+        "0": 32,
+        "1": 4,
+        "2": 1
+      },
+      "founderBasesRemaining": 32,
+      "end": {
+        "turn": 50,
+        "main": 117,
+        "grassbug": 0,
+        "waterbug": 47,
+        "fungus": 37,
+        "initialFungalBases": 32,
+        "B": 261.301759,
+        "baseB": 37,
+        "edibleB": 224.301759,
+        "reserveE": 78.671082,
+        "reserveM": 8.696648,
+        "consumedB": 0,
+        "regrowthB": 1.558067,
+        "regrowthCostE": 1.86968,
+        "assimilatedE": 4.55,
+        "dormantCount": 9,
+        "producerCount": 252,
+        "producerEdibleB": 1195.910633,
+        "carcassE": 13.914032
+      },
+      "flows": {
+        "consumedB": 155.327728,
+        "regrowthB": 227.629487,
+        "regrowthCostE": 273.155383,
+        "assimilatedE": 229.37119
+      },
+      "late450to500": null,
+      "minFungal450to500": null,
+      "invariantStates": 51,
+      "fingerprint": "731fbc220fcfbfbd20de22cf9e16eb270d92c3b07a2b0b38fbd796cc6064d32f"
+    },
+    {
+      "case": "river-0",
+      "turns": 150,
+      "final": {
+        "grassbug": 0,
+        "waterbug": 46,
+        "fungus": 27
+      },
+      "fungalBirths": 7,
+      "generations": {
+        "0": 20,
+        "1": 5,
+        "2": 2
+      },
+      "founderBasesRemaining": 20,
+      "end": {
+        "turn": 150,
+        "main": 151,
+        "grassbug": 0,
+        "waterbug": 46,
+        "fungus": 27,
+        "initialFungalBases": 20,
+        "B": 105.394242,
+        "baseB": 27,
+        "edibleB": 78.394242,
+        "reserveE": 66.933825,
+        "reserveM": 4.459248,
+        "consumedB": 0,
+        "regrowthB": 1.041667,
+        "regrowthCostE": 1.25,
+        "assimilatedE": 2.8,
+        "dormantCount": 13,
+        "producerCount": 299,
+        "producerEdibleB": 1493.197858,
+        "carcassE": 51.956422
+      },
+      "flows": {
+        "consumedB": 353.725094,
+        "regrowthB": 363.726705,
+        "regrowthCostE": 436.472033,
+        "assimilatedE": 466.105769
+      },
+      "late450to500": null,
+      "minFungal450to500": null,
+      "invariantStates": 151,
+      "fingerprint": "35f34c0b06aeee12a145db15821d8bda925e73156c3c8ccdb340e98c1f73b72b"
+    },
+    {
+      "case": "river-0",
+      "turns": 500,
+      "final": {
+        "grassbug": 0,
+        "waterbug": 57,
+        "fungus": 34
+      },
+      "fungalBirths": 32,
+      "generations": {
+        "0": 10,
+        "1": 13,
+        "2": 9,
+        "3": 2
+      },
+      "founderBasesRemaining": 10,
+      "end": {
+        "turn": 500,
+        "main": 152,
+        "grassbug": 0,
+        "waterbug": 57,
+        "fungus": 34,
+        "initialFungalBases": 10,
+        "B": 138.072089,
+        "baseB": 34,
+        "edibleB": 104.072089,
+        "reserveE": 58.290757,
+        "reserveM": 9.694793,
+        "consumedB": 2,
+        "regrowthB": 1.6491,
+        "regrowthCostE": 1.97892,
+        "assimilatedE": 2.92892,
+        "dormantCount": 7,
+        "producerCount": 657,
+        "producerEdibleB": 6437.348308,
+        "carcassE": 333.021754
+      },
+      "flows": {
+        "consumedB": 887.391951,
+        "regrowthB": 1026.619195,
+        "regrowthCostE": 1231.942996,
+        "assimilatedE": 1588.225932
+      },
+      "late450to500": {
+        "consumedB": 31.59375,
+        "regrowthB": 107.861768,
+        "regrowthCostE": 129.434122,
+        "assimilatedE": 222.674725
+      },
+      "minFungal450to500": 28,
+      "invariantStates": 501,
+      "fingerprint": "f5fc9c48ee8fc16fdc200624066eecbc86f8a8c4c148c895e784b27d13f430d1"
+    },
+    {
+      "case": "lake-1",
+      "turns": 50,
+      "final": {
+        "grassbug": 22,
+        "waterbug": 80,
+        "fungus": 49
+      },
+      "fungalBirths": 16,
+      "generations": {
+        "0": 33,
+        "1": 10,
+        "2": 3,
+        "3": 2,
+        "4": 1
+      },
+      "founderBasesRemaining": 33,
+      "end": {
+        "turn": 50,
+        "main": 91,
+        "grassbug": 22,
+        "waterbug": 80,
+        "fungus": 49,
+        "initialFungalBases": 33,
+        "B": 210.477838,
+        "baseB": 49,
+        "edibleB": 161.477838,
+        "reserveE": 113.435253,
+        "reserveM": 8.831965,
+        "consumedB": 4,
+        "regrowthB": 5.979167,
+        "regrowthCostE": 7.175,
+        "assimilatedE": 5.6,
+        "dormantCount": 16,
+        "producerCount": 251,
+        "producerEdibleB": 1615.734849,
+        "carcassE": 48.390116
+      },
+      "flows": {
+        "consumedB": 248.373944,
+        "regrowthB": 243.051782,
+        "regrowthCostE": 291.662136,
+        "assimilatedE": 296.630639
+      },
+      "late450to500": null,
+      "minFungal450to500": null,
+      "invariantStates": 51,
+      "fingerprint": "62cfc5fb90e609e5055c4610304dc66470536c2a514953edd2c85d93404f40af"
+    },
+    {
+      "case": "lake-1",
+      "turns": 150,
+      "final": {
+        "grassbug": 23,
+        "waterbug": 92,
+        "fungus": 51
+      },
+      "fungalBirths": 27,
+      "generations": {
+        "0": 28,
+        "1": 12,
+        "2": 6,
+        "3": 4,
+        "4": 1
+      },
+      "founderBasesRemaining": 28,
+      "end": {
+        "turn": 150,
+        "main": 100,
+        "grassbug": 23,
+        "waterbug": 92,
+        "fungus": 51,
+        "initialFungalBases": 28,
+        "B": 133.832772,
+        "baseB": 51,
+        "edibleB": 82.832772,
+        "reserveE": 87.116,
+        "reserveM": 8.259705,
+        "consumedB": 0.079167,
+        "regrowthB": 1.010417,
+        "regrowthCostE": 1.2125,
+        "assimilatedE": 2.358136,
+        "dormantCount": 29,
+        "producerCount": 385,
+        "producerEdibleB": 3325.853585,
+        "carcassE": 55.885815
+      },
+      "flows": {
+        "consumedB": 600.345639,
+        "regrowthB": 599.348537,
+        "regrowthCostE": 719.218202,
+        "assimilatedE": 862.285583
+      },
+      "late450to500": null,
+      "minFungal450to500": null,
+      "invariantStates": 151,
+      "fingerprint": "62d6b38c7fcd99f43117ab98cb9fc8923eceaa668e7c974d6d1e89895894d86c"
+    },
+    {
+      "case": "lake-1",
+      "turns": 500,
+      "final": {
+        "grassbug": 42,
+        "waterbug": 103,
+        "fungus": 78
+      },
+      "fungalBirths": 84,
+      "generations": {
+        "0": 10,
+        "1": 15,
+        "2": 6,
+        "3": 7,
+        "4": 9,
+        "5": 7,
+        "6": 6,
+        "7": 8,
+        "8": 6,
+        "9": 3,
+        "10": 1
+      },
+      "founderBasesRemaining": 10,
+      "end": {
+        "turn": 500,
+        "main": 209,
+        "grassbug": 42,
+        "waterbug": 103,
+        "fungus": 78,
+        "initialFungalBases": 10,
+        "B": 95.376283,
+        "baseB": 78,
+        "edibleB": 17.376283,
+        "reserveE": 176.348242,
+        "reserveM": 6.766193,
+        "consumedB": 6.863023,
+        "regrowthB": 6.901013,
+        "regrowthCostE": 8.281216,
+        "assimilatedE": 48.154532,
+        "dormantCount": 65,
+        "producerCount": 476,
+        "producerEdibleB": 1714.912973,
+        "carcassE": 217.586586
+      },
+      "flows": {
+        "consumedB": 2839.584942,
+        "regrowthB": 2811.824523,
+        "regrowthCostE": 3374.189388,
+        "assimilatedE": 4199.580574
+      },
+      "late450to500": {
+        "consumedB": 719.533239,
+        "regrowthB": 648.710335,
+        "regrowthCostE": 778.452409,
+        "assimilatedE": 875.275764
+      },
+      "minFungal450to500": 72,
+      "invariantStates": 501,
+      "fingerprint": "5533bb8ff185242386af86d0f47f520530d31fe2f146b99ee6d791a1ed530906"
+    }
+  ],
+  "measuredStates": 1406,
+  "sourceHash": "f31c792d19822c766b2703dc41826d975f3f3cc45bef23dbb9a727e2107f8ef2",
+  "note": "Same initial counts/stock and requested config except new balance model. Count units changed intentionally.50/150T prefixes match500T exactly; reported states include rerun prefixes. No private grass coefficients adopted, no general survival probability/R1-R6 claim."
+}

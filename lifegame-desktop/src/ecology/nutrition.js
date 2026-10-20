@@ -504,6 +504,7 @@
           obj.M = S.round(obj.M - M);
           amount = { E: B, M, G: 0 };
           if(S.Colony.is(obj))S.Colony.consumed(w,obj,B);
+          if(S.FungalColony.is(obj))S.FungalColony.increment(obj,"consumedB",B);
           if(S.LargePlant.is(obj))S.LargePlant.consumed(w,obj,B);
           if (obj.B <= 0) ctx.harvestDead.add(obj.id);
         } else {
@@ -549,6 +550,7 @@
             carcass: a.type === "carcass",
           });
           assimilated=result.e;
+          if(S.FungalColony.is(o)&&result.organic)S.FungalColony.increment(o,"assimilatedE",result.e);
           if (result.organic && amount.E > 0) transfer(w, ctx, obj, o, a.type, harvest);
         }
         S.record(ctx, o, "feed", {
@@ -660,6 +662,7 @@
         o.colony.activity=S.round(S.clamp(o.colony.activity+(maintained?.02:-.05),0,1));
         if(maintained)S.Colony.increment(o,"maintainedTurns",1);
       }
+      if(S.FungalColony.is(o))S.FungalColony.maintained(w,o,paidBase,base);
       if(S.LargePlant.is(o))S.LargePlant.maintained(w,o,paidBase,base);
       const paidDensity = spend(w, o, c.density);
       ctx.records.get(o.id).crowding = c.neighborCount >= 5 && paidDensity > 0;
@@ -675,7 +678,8 @@
       if (ctx.harvestDead.has(o.id)) reason = "harvest";
       if(!reason&&S.Colony.is(o)&&o.colony.activity<=0)reason="starvation";
       if(!reason&&S.LargePlant.is(o)&&o.plant.activity<=0)reason="starvation";
-      if (!reason && !S.Colony.is(o) && o.age >= p.life) reason = "age";
+      if(!reason&&S.FungalColony.is(o)&&o.colony.activity<=0)reason="starvation";
+      if (!reason && !S.Colony.is(o) && !S.FungalColony.is(o) && o.age >= p.life) reason = "age";
       if (reason) {
         if(ctx.informationHooks)ctx.informationHooks.informationDeath(w,ctx,o,{reason,cell:o.cell});
         S.record(ctx, o, "death", { reason, appearance: deathAppearance(w,o) });
@@ -715,8 +719,8 @@
               S.phenotype(w, o).capB - o.B,
             ),
           );
-        o.E = S.round(o.E - amount);
-        o.B = S.round(o.B + amount);
+        if(S.FungalColony.is(o))S.FungalColony.regrow(w,o,hasBirth);
+        else {o.E = S.round(o.E - amount);o.B = S.round(o.B + amount);}
       }
       if (
         o.phase < 2 ||
@@ -741,7 +745,7 @@
       const B = kind === "factor" ? 0.2 : 2,
         M = kind === "factor" ? 0 : 0.1;
       if (S.edibleB(o) < B || o.M < M) continue;
-      if(["survival/2","survival/3"].includes(w.config.balanceModel)&&s.id==="fungus"&&(S.round(S.edibleB(o)-B)<3||S.round(o.M-M)<.2))continue;
+      if(["survival/2","survival/3","survival/4"].includes(w.config.balanceModel)&&s.id==="fungus"&&(S.round(S.edibleB(o)-B)<3||S.round(o.M-M)<.2))continue;
       const places = S.nearby(w, o.cell, 1, true)
         .filter((p) => !w.tiles[p].blocked)
         .map((cell) => ({

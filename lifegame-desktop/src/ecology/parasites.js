@@ -12,7 +12,7 @@
   const primaryEnabled=w=>S.PrimaryParasite?.enabled(w)===true;
   const hyperEnabled=w=>S.HyperParasite?.enabled(w)===true;
   const informationEnabled=w=>S.PersistentInformation?.enabled(w)===true;
-  const survivalEnabled=w=>["survival/1","survival/2","survival/3"].includes(w?.config?.balanceModel);
+  const survivalEnabled=w=>["survival/1","survival/2","survival/3","survival/4"].includes(w?.config?.balanceModel);
   const informationKeys=["ownExperiences","holdingQualified","deathDecisions","candidateDeaths","normalGenerated","lowGenerated","noGeneration","generatedAmount","expiredAmount","capacityLostAmount","microLostAmount","movedAmount","originsRead","contentsRead","rejectedScope","rejectedContext","rejectedBudget","deduplicated","learned","learningDeltaAbs","placeApplications","placeMagnitude","receptionCostE","qPromoted","qDistorted","environmentRead","ordinaryRead","caregiverRead"];
   function emptyInformationFlow(w){return {definition:"persistent-information-flow/1",turn:w.turn,all:Object.fromEntries(informationKeys.map(key=>[key,0]))};}
   function informationFlow(w,ctx,key,n=1){ctx.persistentInformationFlow??=emptyInformationFlow(w);const a=ctx.persistentInformationFlow.all;a[key]=S.round(a[key]+n);}
@@ -521,7 +521,7 @@
       // maturity clock, genes and energy are not privileged search knowledge.
       // v3 ranks the observed external cue before bodies with no such cue;
       // inherited preference still ranks the visibly infested candidates.
-      const preference=host=>host.infection?.location==="external"?(w.config.balanceModel==="survival/3"?1:0)+(q.hyper.preference?.[host.infection.species]??.5)*informationHostFactor(w,q,host.infection.species):.5;
+      const preference=host=>host.infection?.location==="external"?(["survival/3","survival/4"].includes(w.config.balanceModel)?1:0)+(q.hyper.preference?.[host.infection.species]??.5)*informationHostFactor(w,q,host.infection.species):.5;
       const local=candidates.filter(host=>S.oneStep(w,q.cell,host.cell)).sort((a,b)=>preference(b)-preference(a)||S.hash(w,"hyper/contact-choice",w.turn,q.id,a.id)-S.hash(w,"hyper/contact-choice",w.turn,q.id,b.id));
       if(q.ready<=w.turn&&q.age>=(q.maturity??z.maturity)&&local.length)hyperExpose(w,ctx,q,local[0]);
       const predator=host=>S.spec(host).group==="main"&&host.species!=="ryouki"&&
@@ -543,7 +543,7 @@
           if(amount>0)forage.push({cell,amount});
         }
         const hunger=S.clamp(1-q.E/Math.max(z.eggCost+4*z.maintenance[4],1e-6),0,1),
-          v2=["survival/2","survival/3"].includes(w.config.balanceModel),
+          v2=["survival/2","survival/3","survival/4"].includes(w.config.balanceModel),
           // A finite food stock is not another reward after the adult has
           // reserved one laying attempt and the existing four-turn upkeep.
           needed=Math.max(0,Math.min(z.capE,z.eggCost+4*z.maintenance[4])-q.E),
@@ -551,7 +551,7 @@
           // With no visible cue, or after an unproductive body contact, keep
           // a small paid exploration option. Food and danger still compete;
           // depleted adults retain stop and never borrow future upkeep.
-          exploring=w.config.balanceModel==="survival/3"&&(!cue||(cue.infection?.location!=="external"&&S.distance(w,q.cell,cue.cell)===0))&&q.hyper.starvationRun===0&&q.E>=2*z.maintenance[4]+z.adultMoveCost,
+          exploring=["survival/3","survival/4"].includes(w.config.balanceModel)&&(!cue||(cue.infection?.location!=="external"&&S.distance(w,q.cell,cue.cell)===0))&&q.hyper.starvationRun===0&&q.E>=2*z.maintenance[4]+z.adultMoveCost,
           score=cell=>{
             const nutrition=forage.reduce((n,a)=>Math.max(n,(v2?
                 Math.min(needed,Math.min(z.adultFoodCap,a.amount)*z.adultAssimilation)/Math.max(z.adultFoodCap*z.adultAssimilation,1e-6):

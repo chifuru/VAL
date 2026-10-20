@@ -1,0 +1,30 @@
+{
+  "baseline": "803f677",
+  "screen": "Fixed river/lake, 50T, baseline and six prespecified single/limited combinations",
+  "chosen": "joint = grass-swift + fungus-quarter",
+  "reason": "Grass swift increased lake late counts7→18/birth26→46; river remained0. Fungus quarter increased river3→8 and lake5→9 with real births/generations. No long-term benefit assumed.",
+  "next": "Compare baseline and joint at150T for all three original cases, retaining all outcomes. Extend only after inspecting renewal, feeding/harvest and adverse shifts.",
+  "notAdoptedYet": true,
+  "separateCheckGroup": {
+    "note": "40x28/initial80 has the same main density as UI standard80x56/320; distinct from original stress160, not pooled with stress cases. Same supplied ecological conditions except specified seeds/initial.",
+    "cases": [
+      {
+        "base": "river-0",
+        "seed": "i11d/lower/check/river",
+        "terrainSeed": "i11d/lower/check/river/terrain",
+        "initial": 80
+      },
+      {
+        "base": "lake-1",
+        "seed": "i11d/lower/check/lake",
+        "terrainSeed": "i11d/lower/check/lake/terrain",
+        "initial": 80
+      }
+    ]
+  },
+  "midDecision": {
+    "stress160": "At150T joint all three stress cases lost grass and fungus; do not certify stability or extend those unsuccessful cases to500T.",
+    "separate80": "River water/fungus23/0→42/3; lake grass/water/fungus0/101/2→53/89/12. Real births and generations present.",
+    "next": "Extend both prespecified separate80 seeds with baseline and joint to500T. No additional parameter candidate yet; first check whether this observed route lasts."
+  }
+}

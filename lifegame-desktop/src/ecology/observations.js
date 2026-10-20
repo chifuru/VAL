@@ -2,6 +2,7 @@
 (function(root,factory){const node=typeof module==='object'&&module.exports,api=factory(()=>node?require('./state.js').PrimaryParasite:root.EcoState?.PrimaryParasite,()=>node?require('./state.js').HyperParasite:root.EcoState?.HyperParasite,()=>node?require('./relationship-network.js'):root.EcoRelationshipNetwork);if(node)module.exports=api;else root.EcoObservations=api;})(globalThis,(primaryAPI,hyperAPI,relationshipAPI)=>{
   'use strict';
   const colonyDefinition='producer-colony-observed/1',colonyFields=['count','B','baseB','edibleB','reserveE','reserveM','activitySum','occupiedCells','eligibleCells','solarInputE','productionB','regrowthB','consumedB'];
+  const fungalDefinition='fungal-colony-observed/1',fungalFields=['count','B','baseB','edibleB','capacityB','reserveE','reserveM','consumedB','regrowthB','regrowthCostE','assimilatedE','dormantCount'];
   const independentDefinition='independent-plant-observed/1',independentFields=[...colonyFields,'capacityB'];
   const ryoukiDefinition='ryouki-observed/1',ryoukiFields=['count','normal','mutated','mutatedEarly','mutatedIV','occupiedCells','cohabitingIndividuals','maxOccupancy'];
   const primaryDefinition='primary-parasite-observed/1',primaryFlowDefinition='primary-parasite-flow/1',primarySpecies=['leafparasite','tideparasite'],primaryRoutes=['contact','feeding','carcass','water'],primaryFlowFields=['exposureE','exposures','invasionAttempts','invaded','established','cleared','transferred','releasedE'];
@@ -42,6 +43,9 @@
       return r.eligibleCells===0?r.occupancy===null:Number.isFinite(r.occupancy)&&Math.abs(r.occupancy-r.occupiedCells/r.eligibleCells)<1e-12;
     });
   }
+  function validFungal(row,turn,count){
+    return row?.definition===fungalDefinition&&row.turn===turn&&row.count===count&&Number.isSafeInteger(row.count)&&Number.isSafeInteger(row.dormantCount)&&row.dormantCount<=row.count&&fungalFields.every(k=>Number.isFinite(row[k])&&row[k]>=0)&&Math.abs(row.B-row.baseB-row.edibleB)<.00001&&row.edibleB<=row.capacityB+.00001;
+  }
   function validIndependent(row,turn){
     return row?.definition===independentDefinition&&validColony({...row,definition:colonyDefinition},turn)&&['land','water'].every(r=>Number.isFinite(row[r].capacityB)&&row[r].capacityB>=row[r].edibleB);
   }
@@ -54,7 +58,7 @@
   }
   function create(config,version,{maxBytes=256*1024*1024,species=[]}={}){
     if(config.relationshipModel!==undefined&&config.relationshipModel!=='network/1')throw Error('未知の関係図観測モデルです。');
-    const rows=[],levels=[],metadata={schema:'ecology-observation/1',version,config:structuredClone(config),...(config.producerModel==='colony/1'?{producerColonyDefinition:colonyDefinition}:{}),...(config.largePlantModel==='independent/1'?{independentPlantDefinition:independentDefinition}:{}),...(config.ryoukiModel==='ryouki/1'?{ryoukiDefinition}:{}),...(config.primaryParasiteModel==='primary/1'?{primaryParasiteDefinition:primaryDefinition,primaryParasiteFlowDefinition:primaryFlowDefinition}:{}),...(config.hyperParasiteModel==='hyper/1'?{hyperParasiteDefinition:hyperDefinition,hyperParasiteFlowDefinition:hyperFlowDefinition}:{}),...(config.informationModel==='persistent/1'?{persistentInformationDefinition:persistentDefinition,persistentInformationFlowDefinition:persistentFlowDefinition}:{}),species:species.map(({id,name,group,kind,slot})=>({id,name,group,...(config.largePlantModel==='independent/1'?{...(kind!==undefined?{kind}:{}),...(slot!==undefined?{slot}:{})}:{})}))};
+    const rows=[],levels=[],metadata={schema:'ecology-observation/1',version,config:structuredClone(config),...(config.balanceModel==='survival/4'?{fungalColonyDefinition:fungalDefinition}:{}),...(config.producerModel==='colony/1'?{producerColonyDefinition:colonyDefinition}:{}),...(config.largePlantModel==='independent/1'?{independentPlantDefinition:independentDefinition}:{}),...(config.ryoukiModel==='ryouki/1'?{ryoukiDefinition}:{}),...(config.primaryParasiteModel==='primary/1'?{primaryParasiteDefinition:primaryDefinition,primaryParasiteFlowDefinition:primaryFlowDefinition}:{}),...(config.hyperParasiteModel==='hyper/1'?{hyperParasiteDefinition:hyperDefinition,hyperParasiteFlowDefinition:hyperFlowDefinition}:{}),...(config.informationModel==='persistent/1'?{persistentInformationDefinition:persistentDefinition,persistentInformationFlowDefinition:persistentFlowDefinition}:{}),species:species.map(({id,name,group,kind,slot})=>({id,name,group,...(config.largePlantModel==='independent/1'?{...(kind!==undefined?{kind}:{}),...(slot!==undefined?{slot}:{})}:{})}))};
     if(config.relationshipModel==='network/1')metadata.relationshipDefinition=relationshipAPI().definition;
     const byId=Object.fromEntries(species.map(s=>[s.id,s])),groupOrder=['plant','prey','main','fungus','P','Q'],groupNames={plant:'生産者',prey:'一次消費者',main:'主生物',fungus:'分解者',P:'P',Q:'Q'};
     let exportedThrough=-1,estimatedBytes=0,dietFrames=[],dietFrameBytes=[],allocations=new Map(),informationOrigins=new Map(),rolling={queue:[],edges:new Map(),units:{},events:{}};
@@ -177,6 +181,11 @@
         }))};
         if(!validColony(producerColony,w.turn))throw Error('群落観測に欠測・破損があります。');
       }
+      let fungalColony;
+      if(config.balanceModel==='survival/4'){
+        fungalColony=structuredClone(w.fungalColonySummary);
+        if(!validFungal(fungalColony,w.turn,w.stats.counts.fungus))throw Error('菌膜群落観測に欠測・破損があります。');
+      }
       let independentPlants;
       if(config.largePlantModel==='independent/1'){
         const summary=w.largePlantSummary;
@@ -215,7 +224,7 @@
       let interactions=0,bondTurns=0;
       for(const [key,n] of Object.entries(relations))if(key.endsWith('|bond'))bondTurns+=n;else if(!key.endsWith('|contact'))interactions+=n;
       const contacts=Object.values(o.contactEpisodes||{}).reduce((a,n)=>a+n,0), contactTurns=Object.values(o.contactTurns||{}).reduce((a,n)=>a+n,0);
-      const row={...(producerColony?{producerColony}:{}),...(independentPlants?{independentPlants}:{}),...(ryouki?{ryouki}:{}),...(primaryParasite?{primaryParasite,primaryParasiteFlow}:{}),...(hyperParasite?{hyperParasite,hyperParasiteFlow}:{}),...(information?{information}:{}),...(persistentInformation?{persistentInformation,persistentInformationFlow}:{}),...(o.flowTelemetry?.combat?.definition==="combat-observed/1"?{combatKills:{...o.flowTelemetry.combat.kills}}:{}),environmentEstablished:{...o.environmentEstablished},externalInput:{...o.externalInput},contacts,contactTurns,contactEpisodes:{...o.contactEpisodes},contactPairs:{...o.contactTurns},turn:w.turn,counts:{...w.stats.counts},composition,birthReasons:structuredClone(o.birthReasons||{}),funnel:structuredClone(o.funnel||{}),relations,links,
+      const row={...(fungalColony?{fungalColony}:{}),...(producerColony?{producerColony}:{}),...(independentPlants?{independentPlants}:{}),...(ryouki?{ryouki}:{}),...(primaryParasite?{primaryParasite,primaryParasiteFlow}:{}),...(hyperParasite?{hyperParasite,hyperParasiteFlow}:{}),...(information?{information}:{}),...(persistentInformation?{persistentInformation,persistentInformationFlow}:{}),...(o.flowTelemetry?.combat?.definition==="combat-observed/1"?{combatKills:{...o.flowTelemetry.combat.kills}}:{}),environmentEstablished:{...o.environmentEstablished},externalInput:{...o.externalInput},contacts,contactTurns,contactEpisodes:{...o.contactEpisodes},contactPairs:{...o.contactTurns},turn:w.turn,counts:{...w.stats.counts},composition,birthReasons:structuredClone(o.birthReasons||{}),funnel:structuredClone(o.funnel||{}),relations,links,
         births:o.births||0,deaths:o.deaths||0,transfers:o.transfers||0,interactions,bondTurns,
         main:w.stats.main,food:w.stats.food,P:w.stats.P,Q:w.stats.Q,Qsearch:w.stats.Qsearch||0,
         richness:Object.values(w.stats.counts).filter(n=>n>0).length,activeEdges:0,continuous:0,activeTurns:0,window:Math.min(50,w.turn)};
@@ -274,7 +283,7 @@
       out.push([-1,'metadata','reproduction_config',JSON.stringify(metadata),'json','','observed'].map(quote).join(','));
       if(!header)out=[];
       const emit=(r,metric,id,n,unit,den='')=>out.push([r.turn,metric,id,n,unit,den,'observed'].map(quote).join(','));
-      const populationUnit=id=>['hyperparasite','tideparasite','leafparasite'].includes(id)?'colony':metadata.config.producerModel==='colony/1'&&byId[id]?.group==='plant'&&!(byId[id]?.kind==='independent'&&byId[id].slot==='producer')?'producer_colony':'individual';
+      const populationUnit=id=>metadata.config.balanceModel==='survival/4'&&id==='fungus'?'fungal_colony':['hyperparasite','tideparasite','leafparasite'].includes(id)?'colony':metadata.config.producerModel==='colony/1'&&byId[id]?.group==='plant'&&!(byId[id]?.kind==='independent'&&byId[id].slot==='producer')?'producer_colony':'individual';
       let rowIndex=0;for(const r of rows){
         if(r.relationship){
           const network=r.relationship,emitNetwork=(metric,id,value,unit,status='observed')=>out.push([r.turn,metric,id,value,unit,'',status].map(quote).join(','));
@@ -303,6 +312,7 @@
           for(const key of colonyFields)emit(r,'producer_colony_'+key,region,c[key],units[key]);
           if(c.occupancy!==null)emit(r,'producer_colony_occupancy',region,c.occupancy,'fraction',c.eligibleCells);
         }
+        if(r.fungalColony)for(const k of fungalFields)emit(r,'fungal_colony_'+k,'fungus',r.fungalColony[k],['count','dormantCount'].includes(k)?'fungal_colony':k.includes('E')?'model_E':k.includes('M')?'model_M':'model_B');
         if(r.independentPlants)for(const region of ['land','water']){
           const p=r.independentPlants[region],units={count:'individual',B:'model_B',baseB:'model_B',edibleB:'model_B',capacityB:'model_B',reserveE:'model_E',reserveM:'model_M',activitySum:'activity_sum',occupiedCells:'cell',eligibleCells:'cell',solarInputE:'model_E',productionB:'model_B',regrowthB:'model_B',consumedB:'model_B'};
           for(const key of independentFields)emit(r,'independent_plant_'+key,region,p[key],units[key]);
@@ -336,10 +346,12 @@
       if(out.length)yield (first?'\ufeff':'')+out.join('\r\n')+'\r\n';
     }
     function csv(){return [...csvChunks()].join('');}
-    return {rows,metadata,append,bins,csv,csvChunks,series,snapshot({copy=true}={}){return {schema:"observation-snapshot/1",...(config.relationshipModel==='network/1'?{relationshipIntervals:relationshipAPI().intervals(rows)}:{}),definitions:{current:"ecosystem-current/1",trophic:"trophic-observed/1",nutrition:"nutrition-observed/1",...(config.relationshipModel==='network/1'?{relationship:relationshipAPI().definition}:{}),...(metadata.config.producerModel==='colony/1'?{producerColony:colonyDefinition}:{}),...(metadata.config.largePlantModel==='independent/1'?{independentPlants:independentDefinition}:{}),...(metadata.config.ryoukiModel==='ryouki/1'?{ryouki:ryoukiDefinition}:{}),...(metadata.config.primaryParasiteModel==='primary/1'?{primaryParasite:primaryDefinition,primaryParasiteFlow:primaryFlowDefinition}:{}),...(metadata.config.hyperParasiteModel==='hyper/1'?{hyperParasite:hyperDefinition,hyperParasiteFlow:hyperFlowDefinition}:{}),...(metadata.config.informationModel==='persistent/1'?{persistentInformation:persistentDefinition,persistentInformationFlow:persistentFlowDefinition}:{}),...(rows.some(r=>r.combatKills!==undefined)?{combat:"combat-observed/1"}:{}),...(rows.some(r=>r.information!==undefined)?{information:"information-observed/1"}:{})},metadata:structuredClone(metadata),rows:copy?structuredClone(rows):rows};},markExported(turn=rows.at(-1)?.turn??-1){exportedThrough=Math.max(exportedThrough,Math.min(turn,rows.at(-1)?.turn??-1));},get unexported(){return exportedThrough<(rows.at(-1)?.turn??-1);}};
+    return {rows,metadata,append,bins,csv,csvChunks,series,snapshot({copy=true}={}){return {schema:"observation-snapshot/1",...(config.relationshipModel==='network/1'?{relationshipIntervals:relationshipAPI().intervals(rows)}:{}),definitions:{...(config.balanceModel==='survival/4'?{fungalColony:fungalDefinition}:{}),current:"ecosystem-current/1",trophic:"trophic-observed/1",nutrition:"nutrition-observed/1",...(config.relationshipModel==='network/1'?{relationship:relationshipAPI().definition}:{}),...(metadata.config.producerModel==='colony/1'?{producerColony:colonyDefinition}:{}),...(metadata.config.largePlantModel==='independent/1'?{independentPlants:independentDefinition}:{}),...(metadata.config.ryoukiModel==='ryouki/1'?{ryouki:ryoukiDefinition}:{}),...(metadata.config.primaryParasiteModel==='primary/1'?{primaryParasite:primaryDefinition,primaryParasiteFlow:primaryFlowDefinition}:{}),...(metadata.config.hyperParasiteModel==='hyper/1'?{hyperParasite:hyperDefinition,hyperParasiteFlow:hyperFlowDefinition}:{}),...(metadata.config.informationModel==='persistent/1'?{persistentInformation:persistentDefinition,persistentInformationFlow:persistentFlowDefinition}:{}),...(rows.some(r=>r.combatKills!==undefined)?{combat:"combat-observed/1"}:{}),...(rows.some(r=>r.information!==undefined)?{information:"information-observed/1"}:{})},metadata:structuredClone(metadata),rows:copy?structuredClone(rows):rows};},markExported(turn=rows.at(-1)?.turn??-1){exportedThrough=Math.max(exportedThrough,Math.min(turn,rows.at(-1)?.turn??-1));},get unexported(){return exportedThrough<(rows.at(-1)?.turn??-1);}};
   }
   function restore(snapshot,{species=[],validateOnly=false}={}){
     if(!snapshot||snapshot.schema!=="observation-snapshot/1"||snapshot.metadata?.schema!=="ecology-observation/1"||snapshot.definitions?.current!=="ecosystem-current/1"||snapshot.definitions?.trophic!=="trophic-observed/1"||snapshot.definitions?.nutrition!=="nutrition-observed/1"||(snapshot.definitions.information!==undefined&&snapshot.definitions.information!=="information-observed/1")||(snapshot.definitions.combat!==undefined&&snapshot.definitions.combat!=="combat-observed/1")||!Array.isArray(snapshot.rows)||!snapshot.rows.length)throw Error("保存された観測の形式・指標版を読み取れません。");
+    const fungi=snapshot.metadata.config?.balanceModel==='survival/4';
+    if(fungi?(snapshot.definitions.fungalColony!==fungalDefinition||snapshot.metadata.fungalColonyDefinition!==fungalDefinition||snapshot.rows.some(r=>!validFungal(r.fungalColony,r.turn,r.counts?.fungus))):(snapshot.definitions.fungalColony!==undefined||snapshot.metadata.fungalColonyDefinition!==undefined||snapshot.rows.some(r=>r.fungalColony!==undefined)))throw Error('保存された菌膜群落観測に欠測・破損があります。');
     const colonies=snapshot.metadata.config?.producerModel==='colony/1';
     if((snapshot.definitions.producerColony!==undefined&&(snapshot.definitions.producerColony!==colonyDefinition||!colonies))||(colonies&&snapshot.definitions.producerColony!==colonyDefinition)||(snapshot.metadata.producerColonyDefinition!==undefined&&snapshot.metadata.producerColonyDefinition!==colonyDefinition))throw Error('保存された群落観測の指標版を読み取れません。');
     const text=JSON.stringify(snapshot,(_key,value)=>{if(typeof value==="number"&&!Number.isFinite(value))throw Error("保存された観測に非有限値があります。");return value;});if(text.length*2>256*1024*1024)throw Error("観測の読込上限を超えています。");

@@ -8,7 +8,7 @@
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
-  const survival = (w) => ["survival/1","survival/2","survival/3"].includes(w.config.balanceModel);
+  const survival = (w) => ["survival/1","survival/2","survival/3","survival/4"].includes(w.config.balanceModel);
   function sparseMainBirths(w, ctx) {
     if (!survival(w)) return false;
     if (ctx.sparseMainBirths === undefined) {
@@ -41,7 +41,7 @@
       if(S.LargePlant.is(o))continue;
       if(S.Ryouki.is(o))continue;
       if (s.group !== "main") {
-        if(S.Colony.is(o)){
+        if(S.Colony.is(o)||S.FungalColony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
           continue;
         }
@@ -354,7 +354,7 @@
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
       ...(independent?{phase:1,age:0,plantOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
-      ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
+      ...((S.Colony.is(mother)||S.FungalColony.is(mother))?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       E: independent ? T-4 : main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,

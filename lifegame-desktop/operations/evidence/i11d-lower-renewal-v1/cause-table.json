@@ -1,0 +1,170 @@
+{
+  "baseline": "803f677",
+  "productSourceParity": "model/observer-parity.json",
+  "cases": [
+    {
+      "case": "lake-1",
+      "producerAtStartAndEnd": [
+        {
+          "turn": 0,
+          "main": 160,
+          "grassbug": 33,
+          "waterbug": 34,
+          "fungus": 33,
+          "producerCount": 232,
+          "edibleB": 3186.4,
+          "depletedProducers": 0,
+          "carcassE": 0
+        },
+        {
+          "turn": 50,
+          "main": 205,
+          "grassbug": 7,
+          "waterbug": 74,
+          "fungus": 5,
+          "producerCount": 245,
+          "edibleB": 730.828626,
+          "depletedProducers": 2,
+          "carcassE": 39.752782
+        }
+      ],
+      "lowerMetrics": {
+        "grassbug": {
+          "individualTurns": 1035,
+          "reserveGain": 813.6921980000003,
+          "materialGain": 0,
+          "fedTurns": 506,
+          "assimilatedE": 856.6739959999893,
+          "source:plant:plant": 767,
+          "plannedMaintenance": 205.51999999999884,
+          "birthEnergyLow": 579,
+          "source:resource:plant": 14
+        },
+        "waterbug": {
+          "individualTurns": 3238,
+          "fedTurns": 659,
+          "assimilatedE": 611.579435000003,
+          "source:plant:plant": 726,
+          "reserveGain": 578.0264350000028,
+          "materialGain": 0,
+          "plannedMaintenance": 96.49800000000289,
+          "birthEnergyLow": 2100,
+          "source:resource:plant": 4
+        },
+        "fungus": {
+          "individualTurns": 784,
+          "reserveGain": 162.8818320000003,
+          "materialGain": -3.6249990000000114,
+          "harvestedB": 213.21999899999997,
+          "harvestedToZero": 33,
+          "plannedMaintenance": 116.61750000000079,
+          "birthEnergyLow": 706,
+          "birthMaterialLow": 186,
+          "birthBodyLow": 212,
+          "fedTurns": 109,
+          "assimilatedE": 162.88183200000032,
+          "source:resource:plant": 102,
+          "source:carcass:fungal": 22,
+          "source:resource:fungal": 6
+        }
+      },
+      "deaths": {
+        "fungus:harvest": 33,
+        "grassbug:combat": 30,
+        "grassbug:starvation": 3,
+        "grassbug:age": 19,
+        "waterbug:combat": 15,
+        "fungus:age": 3,
+        "fungus:starvation": 1
+      }
+    },
+    {
+      "case": "river-0",
+      "producerAtStartAndEnd": [
+        {
+          "turn": 0,
+          "main": 160,
+          "grassbug": 33,
+          "waterbug": 33,
+          "fungus": 33,
+          "producerCount": 234,
+          "edibleB": 3214.4,
+          "depletedProducers": 0,
+          "carcassE": 0
+        },
+        {
+          "turn": 50,
+          "main": 208,
+          "grassbug": 0,
+          "waterbug": 33,
+          "fungus": 3,
+          "producerCount": 238,
+          "edibleB": 396.522609,
+          "depletedProducers": 3,
+          "carcassE": 31.747431
+        }
+      ],
+      "lowerMetrics": {
+        "grassbug": {
+          "individualTurns": 232,
+          "reserveGain": 97.93599999999999,
+          "materialGain": 0,
+          "fedTurns": 50,
+          "assimilatedE": 100.35999999999989,
+          "source:plant:plant": 81,
+          "plannedMaintenance": 45.480000000000075,
+          "birthEnergyLow": 162,
+          "source:resource:plant": 2,
+          "harvestedB": 4,
+          "harvestedToZero": 2
+        },
+        "waterbug": {
+          "individualTurns": 2182,
+          "reserveGain": 624.5642900000015,
+          "materialGain": 0,
+          "fedTurns": 683,
+          "assimilatedE": 744.7431230000077,
+          "source:plant:plant": 918,
+          "plannedMaintenance": 64.84800000000169,
+          "birthEnergyLow": 1210,
+          "harvestedB": 134,
+          "source:resource:plant": 5,
+          "harvestedToZero": 50
+        },
+        "fungus": {
+          "individualTurns": 646,
+          "reserveGain": 98.88352900000002,
+          "materialGain": -5.7577530000000054,
+          "harvestedB": 215.53045099999994,
+          "harvestedToZero": 35,
+          "plannedMaintenance": 96.07500000000032,
+          "birthEnergyLow": 596,
+          "birthMaterialLow": 171,
+          "birthBodyLow": 176,
+          "fedTurns": 71,
+          "assimilatedE": 98.88352900000002,
+          "source:resource:plant": 54,
+          "source:resource:mineral": 1,
+          "source:carcass:animal": 15,
+          "source:resource:fungal": 2,
+          "source:carcass:fungal": 13
+        }
+      },
+      "deaths": {
+        "grassbug:combat": 36,
+        "fungus:harvest": 35,
+        "waterbug:harvest": 50,
+        "waterbug:combat": 9,
+        "grassbug:harvest": 2,
+        "fungus:starvation": 1,
+        "fungus:age": 1
+      }
+    }
+  ],
+  "findings": [
+    "Producer colony counts remain while edible stocks decline, so global stock is not a guarantee of local access.",
+    "Grassbug birth gains do not alone imply persistence; movement is evaluated with real energy expense and predation.",
+    "Fungus assimilated energy is close to maintenance; reduced maintenance is evaluated without adding food or lengthening life."
+  ],
+  "scope": "Lower only; no P/Q parameter or behavior tuning."
+}

@@ -1,0 +1,1240 @@
+{
+  "baseline": "803f677",
+  "definition": "i11d-lower-comparison/1",
+  "rows": [
+    {
+      "group": "screen",
+      "case": "river-0",
+      "variant": "baseline",
+      "turns": 50,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 33,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 33,
+        "fungus": 3
+      },
+      "births": {
+        "grassbug": 5,
+        "waterbug": 59,
+        "fungus": 7
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 12,
+          "1": 13,
+          "2": 4,
+          "3": 1,
+          "6": 2,
+          "7": 1
+        },
+        "fungus": {
+          "0": 3
+        }
+      },
+      "main": 208,
+      "producerCount": 238,
+      "edibleB": 396.522609,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 51,
+      "fingerprint": "f11b7f4cf674fa44da60af82961977f6c1502cb46a7c86bba385bab9350a252f"
+    },
+    {
+      "group": "screen",
+      "case": "river-0",
+      "variant": "grass-sense",
+      "turns": 50,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 33,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 36,
+        "fungus": 4
+      },
+      "births": {
+        "grassbug": 12,
+        "waterbug": 66,
+        "fungus": 8
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 13,
+          "1": 11,
+          "2": 7,
+          "3": 3,
+          "5": 1,
+          "6": 1
+        },
+        "fungus": {
+          "0": 4
+        }
+      },
+      "main": 198,
+      "producerCount": 238,
+      "edibleB": 461.745045,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 51,
+      "fingerprint": "9ff4b352eb6c11d14573866bcf8921ef7cd273dceee83f04e8151d3db01310e2"
+    },
+    {
+      "group": "screen",
+      "case": "river-0",
+      "variant": "grass-move",
+      "turns": 50,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 33,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 30,
+        "fungus": 2
+      },
+      "births": {
+        "grassbug": 10,
+        "waterbug": 60,
+        "fungus": 8
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 9,
+          "1": 11,
+          "2": 7,
+          "3": 2,
+          "4": 1
+        },
+        "fungus": {
+          "0": 1,
+          "1": 1
+        }
+      },
+      "main": 200,
+      "producerCount": 240,
+      "edibleB": 472.975097,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 51,
+      "fingerprint": "4aa7235fad81d80f91bb5751065ada621754b3c62d679043f9db1367687145f5"
+    },
+    {
+      "group": "screen",
+      "case": "river-0",
+      "variant": "grass-both",
+      "turns": 50,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 33,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 37,
+        "fungus": 3
+      },
+      "births": {
+        "grassbug": 9,
+        "waterbug": 57,
+        "fungus": 8
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 15,
+          "1": 11,
+          "2": 5,
+          "3": 5,
+          "4": 1
+        },
+        "fungus": {
+          "0": 3
+        }
+      },
+      "main": 201,
+      "producerCount": 238,
+      "edibleB": 413.04575,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 51,
+      "fingerprint": "85e7071e8ade085db12da146943a0b96ae40cfa4fd0e8cd805f3b4faeb6f94cb"
+    },
+    {
+      "group": "screen",
+      "case": "river-0",
+      "variant": "grass-swift",
+      "turns": 50,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 33,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 39,
+        "fungus": 4
+      },
+      "births": {
+        "grassbug": 16,
+        "waterbug": 61,
+        "fungus": 10
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 15,
+          "1": 12,
+          "2": 9,
+          "3": 2,
+          "4": 1
+        },
+        "fungus": {
+          "0": 4
+        }
+      },
+      "main": 199,
+      "producerCount": 239,
+      "edibleB": 495.656437,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 51,
+      "fingerprint": "ac1c8003e1d9c311224a720d30c77baf15b72607159b9db0df8556218c8160ae"
+    },
+    {
+      "group": "screen",
+      "case": "river-0",
+      "variant": "fungus-half",
+      "turns": 50,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 33,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 22,
+        "fungus": 7
+      },
+      "births": {
+        "grassbug": 5,
+        "waterbug": 53,
+        "fungus": 11
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 8,
+          "1": 11,
+          "2": 2,
+          "5": 1
+        },
+        "fungus": {
+          "0": 4,
+          "1": 2,
+          "2": 1
+        }
+      },
+      "main": 204,
+      "producerCount": 238,
+      "edibleB": 361.839537,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 51,
+      "fingerprint": "5d0ca52b4a88a83674b396a728620dd989f611f98ab124fab401407e70358fe2"
+    },
+    {
+      "group": "screen",
+      "case": "river-0",
+      "variant": "fungus-quarter",
+      "turns": 50,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 33,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 21,
+        "fungus": 8
+      },
+      "births": {
+        "grassbug": 5,
+        "waterbug": 57,
+        "fungus": 11
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 9,
+          "1": 10,
+          "2": 2
+        },
+        "fungus": {
+          "0": 5,
+          "1": 2,
+          "2": 1
+        }
+      },
+      "main": 204,
+      "producerCount": 238,
+      "edibleB": 364.676381,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 51,
+      "fingerprint": "7e0a488eea3e4a1165ad9337c1fe31ce1990f95a4861e47c0e368c7a9fc2936a"
+    },
+    {
+      "group": "screen",
+      "case": "lake-1",
+      "variant": "baseline",
+      "turns": 50,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 7,
+        "waterbug": 74,
+        "fungus": 5
+      },
+      "births": {
+        "grassbug": 26,
+        "waterbug": 55,
+        "fungus": 9
+      },
+      "generations": {
+        "grassbug": {
+          "1": 2,
+          "2": 3,
+          "3": 1,
+          "4": 1
+        },
+        "waterbug": {
+          "0": 27,
+          "1": 35,
+          "2": 12
+        },
+        "fungus": {
+          "0": 2,
+          "1": 2,
+          "2": 1
+        }
+      },
+      "main": 205,
+      "producerCount": 245,
+      "edibleB": 730.828626,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 51,
+      "fingerprint": "7fe721e1c1c9c768fd571d10ee5c70ab8bae56bed38d7a440d2d9c1d6e354dc2"
+    },
+    {
+      "group": "screen",
+      "case": "lake-1",
+      "variant": "grass-sense",
+      "turns": 50,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 8,
+        "waterbug": 67,
+        "fungus": 5
+      },
+      "births": {
+        "grassbug": 36,
+        "waterbug": 59,
+        "fungus": 9
+      },
+      "generations": {
+        "grassbug": {
+          "2": 1,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 1
+        },
+        "waterbug": {
+          "0": 20,
+          "1": 32,
+          "2": 14,
+          "3": 1
+        },
+        "fungus": {
+          "0": 2,
+          "1": 2,
+          "2": 1
+        }
+      },
+      "main": 204,
+      "producerCount": 245,
+      "edibleB": 701.38243,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 51,
+      "fingerprint": "b84e0d81eb7efef2999c243462ce4a1ce3119bfcd2a3368009c4e409566c5419"
+    },
+    {
+      "group": "screen",
+      "case": "lake-1",
+      "variant": "grass-move",
+      "turns": 50,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 13,
+        "waterbug": 66,
+        "fungus": 5
+      },
+      "births": {
+        "grassbug": 39,
+        "waterbug": 57,
+        "fungus": 9
+      },
+      "generations": {
+        "grassbug": {
+          "1": 2,
+          "2": 5,
+          "3": 5,
+          "4": 1
+        },
+        "waterbug": {
+          "0": 24,
+          "1": 30,
+          "2": 12
+        },
+        "fungus": {
+          "0": 2,
+          "1": 2,
+          "2": 1
+        }
+      },
+      "main": 205,
+      "producerCount": 243,
+      "edibleB": 738.311812,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 51,
+      "fingerprint": "b32e4a84b922e47fc2322f57027a1a8098332d2a2bcbb50c4236d6fb53f918a9"
+    },
+    {
+      "group": "screen",
+      "case": "lake-1",
+      "variant": "grass-both",
+      "turns": 50,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 69,
+        "fungus": 4
+      },
+      "births": {
+        "grassbug": 36,
+        "waterbug": 57,
+        "fungus": 9
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 25,
+          "1": 32,
+          "2": 11,
+          "3": 1
+        },
+        "fungus": {
+          "0": 1,
+          "1": 2,
+          "2": 1
+        }
+      },
+      "main": 203,
+      "producerCount": 244,
+      "edibleB": 816.941053,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 51,
+      "fingerprint": "3e7f1d5380978c34d8e194b6825779fc8b43718017be6eaa215c8d11eb9dc5ad"
+    },
+    {
+      "group": "screen",
+      "case": "lake-1",
+      "variant": "grass-swift",
+      "turns": 50,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 18,
+        "waterbug": 68,
+        "fungus": 6
+      },
+      "births": {
+        "grassbug": 46,
+        "waterbug": 56,
+        "fungus": 9
+      },
+      "generations": {
+        "grassbug": {
+          "1": 1,
+          "2": 6,
+          "3": 5,
+          "4": 4,
+          "5": 2
+        },
+        "waterbug": {
+          "0": 26,
+          "1": 34,
+          "2": 8
+        },
+        "fungus": {
+          "0": 3,
+          "1": 2,
+          "2": 1
+        }
+      },
+      "main": 203,
+      "producerCount": 243,
+      "edibleB": 752.771564,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 51,
+      "fingerprint": "b840a5b5562566e33dd9bd98da5482547a0aa1c3cbafc033aff3aee206ece707"
+    },
+    {
+      "group": "screen",
+      "case": "lake-1",
+      "variant": "fungus-half",
+      "turns": 50,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 7,
+        "waterbug": 73,
+        "fungus": 8
+      },
+      "births": {
+        "grassbug": 26,
+        "waterbug": 55,
+        "fungus": 9
+      },
+      "generations": {
+        "grassbug": {
+          "1": 2,
+          "2": 3,
+          "3": 1,
+          "4": 1
+        },
+        "waterbug": {
+          "0": 29,
+          "1": 33,
+          "2": 11
+        },
+        "fungus": {
+          "0": 4,
+          "1": 3,
+          "2": 1
+        }
+      },
+      "main": 208,
+      "producerCount": 245,
+      "edibleB": 687.194172,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 51,
+      "fingerprint": "fb06cc16b6a110c30753637d4a7254a6f276d6f9fb2a58ec62e8ccb68e5d8141"
+    },
+    {
+      "group": "screen",
+      "case": "lake-1",
+      "variant": "fungus-quarter",
+      "turns": 50,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 9,
+        "waterbug": 71,
+        "fungus": 9
+      },
+      "births": {
+        "grassbug": 30,
+        "waterbug": 55,
+        "fungus": 10
+      },
+      "generations": {
+        "grassbug": {
+          "1": 1,
+          "2": 1,
+          "3": 3,
+          "4": 3,
+          "5": 1
+        },
+        "waterbug": {
+          "0": 28,
+          "1": 33,
+          "2": 10
+        },
+        "fungus": {
+          "0": 4,
+          "1": 3,
+          "2": 1,
+          "3": 1
+        }
+      },
+      "main": 209,
+      "producerCount": 246,
+      "edibleB": 747.481459,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 51,
+      "fingerprint": "fe538eed64f9900cc3c582d7b5270e2dad110becaf569be62b6deeb4de5b132d"
+    },
+    {
+      "group": "mid",
+      "case": "river-0",
+      "variant": "baseline",
+      "turns": 150,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 33,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 0,
+        "fungus": 0
+      },
+      "births": {
+        "grassbug": 5,
+        "waterbug": 101,
+        "fungus": 7
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {},
+        "fungus": {}
+      },
+      "main": 189,
+      "producerCount": 249,
+      "edibleB": 561.169316,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 151,
+      "fingerprint": "7d978785418c8169870de1f7efb832ed77e13f98371ddd99b76a4ac20c39b9b5"
+    },
+    {
+      "group": "mid",
+      "case": "river-0",
+      "variant": "joint",
+      "turns": 150,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 33,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 36,
+        "fungus": 0
+      },
+      "births": {
+        "grassbug": 16,
+        "waterbug": 148,
+        "fungus": 9
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 4,
+          "1": 4,
+          "2": 6,
+          "3": 5,
+          "4": 3,
+          "5": 2,
+          "6": 2,
+          "8": 1,
+          "9": 1,
+          "10": 2,
+          "11": 4,
+          "12": 2
+        },
+        "fungus": {}
+      },
+      "main": 177,
+      "producerCount": 249,
+      "edibleB": 541.81421,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 151,
+      "fingerprint": "5f07e9b2b30c86ec421eb668bb2dd865becfdd890d8de5f51e35e55a21c20f64"
+    },
+    {
+      "group": "mid",
+      "case": "lake-1",
+      "variant": "baseline",
+      "turns": 150,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 3,
+        "waterbug": 85,
+        "fungus": 0
+      },
+      "births": {
+        "grassbug": 72,
+        "waterbug": 130,
+        "fungus": 10
+      },
+      "generations": {
+        "grassbug": {
+          "8": 1,
+          "9": 1,
+          "10": 1
+        },
+        "waterbug": {
+          "0": 11,
+          "1": 19,
+          "2": 22,
+          "3": 15,
+          "4": 13,
+          "5": 3,
+          "6": 1,
+          "7": 1
+        },
+        "fungus": {}
+      },
+      "main": 211,
+      "producerCount": 278,
+      "edibleB": 1011.306731,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 151,
+      "fingerprint": "c4cbf9376a222fc41fec97eb5e772ef379852c885745603fc55869c529e70bb9"
+    },
+    {
+      "group": "mid",
+      "case": "lake-1",
+      "variant": "joint",
+      "turns": 150,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 79,
+        "fungus": 0
+      },
+      "births": {
+        "grassbug": 30,
+        "waterbug": 130,
+        "fungus": 14
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 13,
+          "1": 19,
+          "2": 9,
+          "3": 12,
+          "4": 8,
+          "5": 11,
+          "6": 7
+        },
+        "fungus": {}
+      },
+      "main": 219,
+      "producerCount": 276,
+      "edibleB": 906.562832,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 151,
+      "fingerprint": "80db4815d39a9b3dcc9099483303d42188b86aa39d2f19773d835536946864f6"
+    },
+    {
+      "group": "mid",
+      "case": "woodland-2",
+      "variant": "baseline",
+      "turns": 150,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 10,
+        "fungus": 0
+      },
+      "births": {
+        "grassbug": 33,
+        "waterbug": 33,
+        "fungus": 1
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 1,
+          "1": 1,
+          "2": 2,
+          "3": 1,
+          "4": 3,
+          "5": 2
+        },
+        "fungus": {}
+      },
+      "main": 178,
+      "producerCount": 259,
+      "edibleB": 772.177147,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 151,
+      "fingerprint": "7a41c84836275e249c6ac3fcfd3db8386d62685753f8dbc0b18b6b7682e4a705"
+    },
+    {
+      "group": "mid",
+      "case": "woodland-2",
+      "variant": "joint",
+      "turns": 150,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 11,
+        "fungus": 0
+      },
+      "births": {
+        "grassbug": 26,
+        "waterbug": 32,
+        "fungus": 1
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 1,
+          "1": 1,
+          "2": 3,
+          "3": 3,
+          "4": 2,
+          "5": 1
+        },
+        "fungus": {}
+      },
+      "main": 183,
+      "producerCount": 285,
+      "edibleB": 1031.611037,
+      "min450To500": null,
+      "initialDensityGroup": "160",
+      "stateChecks": 151,
+      "fingerprint": "bc4053f08acd8efeb937a30a7ed77ebbdf44c481577d7c87da535d9d267eb02c"
+    },
+    {
+      "group": "check",
+      "case": "river-0",
+      "variant": "baseline",
+      "turns": 150,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 23,
+        "fungus": 0
+      },
+      "births": {
+        "grassbug": 54,
+        "waterbug": 112,
+        "fungus": 12
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 6,
+          "1": 6,
+          "2": 6,
+          "3": 2,
+          "5": 2,
+          "6": 1
+        },
+        "fungus": {}
+      },
+      "main": 154,
+      "producerCount": 331,
+      "edibleB": 2064.162202,
+      "min450To500": null,
+      "initialDensityGroup": "80",
+      "stateChecks": 151,
+      "fingerprint": "b8dc3bbd9b70819419da31ca3340a1428ab99e73341781096f4f7b15ea32a681"
+    },
+    {
+      "group": "check",
+      "case": "river-0",
+      "variant": "joint",
+      "turns": 150,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 42,
+        "fungus": 3
+      },
+      "births": {
+        "grassbug": 142,
+        "waterbug": 118,
+        "fungus": 24
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 8,
+          "1": 8,
+          "2": 7,
+          "3": 7,
+          "4": 3,
+          "5": 2,
+          "6": 3,
+          "7": 1,
+          "8": 2,
+          "9": 1
+        },
+        "fungus": {
+          "2": 2,
+          "3": 1
+        }
+      },
+      "main": 148,
+      "producerCount": 257,
+      "edibleB": 728.786051,
+      "min450To500": null,
+      "initialDensityGroup": "80",
+      "stateChecks": 151,
+      "fingerprint": "3fa8560c1bb361dbcdae5771807c01f0c2b0552320bc2bd10046605bdc6d7c0e"
+    },
+    {
+      "group": "check",
+      "case": "lake-1",
+      "variant": "baseline",
+      "turns": 150,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 101,
+        "fungus": 2
+      },
+      "births": {
+        "grassbug": 49,
+        "waterbug": 96,
+        "fungus": 24
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 24,
+          "1": 33,
+          "2": 24,
+          "3": 14,
+          "4": 5,
+          "5": 1
+        },
+        "fungus": {
+          "2": 1,
+          "3": 1
+        }
+      },
+      "main": 104,
+      "producerCount": 362,
+      "edibleB": 3004.441928,
+      "min450To500": null,
+      "initialDensityGroup": "80",
+      "stateChecks": 151,
+      "fingerprint": "4e9b1044a830133a4e4cd23a1da5a8889112f82b37397d2272ede96d4a3c5f22"
+    },
+    {
+      "group": "check",
+      "case": "lake-1",
+      "variant": "joint",
+      "turns": 150,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 53,
+        "waterbug": 89,
+        "fungus": 12
+      },
+      "births": {
+        "grassbug": 245,
+        "waterbug": 84,
+        "fungus": 48
+      },
+      "generations": {
+        "grassbug": {
+          "6": 7,
+          "7": 7,
+          "8": 8,
+          "9": 14,
+          "10": 12,
+          "11": 5
+        },
+        "waterbug": {
+          "0": 25,
+          "1": 25,
+          "2": 18,
+          "3": 12,
+          "4": 7,
+          "5": 2
+        },
+        "fungus": {
+          "2": 4,
+          "3": 5,
+          "4": 2,
+          "5": 1
+        }
+      },
+      "main": 104,
+      "producerCount": 303,
+      "edibleB": 1549.818287,
+      "min450To500": null,
+      "initialDensityGroup": "80",
+      "stateChecks": 151,
+      "fingerprint": "7db1d9ef0e7e4f2a759623bbc026511d88bed7ffc45bd334f4dc6b2bbf91440e"
+    },
+    {
+      "group": "long",
+      "case": "river-0",
+      "variant": "baseline",
+      "turns": 500,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 11,
+        "fungus": 0
+      },
+      "births": {
+        "grassbug": 54,
+        "waterbug": 289,
+        "fungus": 12
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "3": 1,
+          "5": 2,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 1,
+          "10": 1
+        },
+        "fungus": {}
+      },
+      "main": 154,
+      "producerCount": 385,
+      "edibleB": 529.349663,
+      "min450To500": {
+        "grassbug": 0,
+        "waterbug": 10,
+        "fungus": 0
+      },
+      "initialDensityGroup": "80",
+      "stateChecks": 501,
+      "fingerprint": "a9056c3bf0db8f34967e8fc5753b0c9d63bf6bb1bbb6d97981985c3421b1f37c"
+    },
+    {
+      "group": "long",
+      "case": "river-0",
+      "variant": "joint",
+      "turns": 500,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 22,
+        "fungus": 0
+      },
+      "births": {
+        "grassbug": 142,
+        "waterbug": 365,
+        "fungus": 24
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 1,
+          "1": 1,
+          "2": 4,
+          "3": 4,
+          "4": 3,
+          "7": 1,
+          "8": 1,
+          "9": 3,
+          "10": 2,
+          "11": 1,
+          "13": 1
+        },
+        "fungus": {}
+      },
+      "main": 87,
+      "producerCount": 362,
+      "edibleB": 1749.641643,
+      "min450To500": {
+        "grassbug": 0,
+        "waterbug": 20,
+        "fungus": 0
+      },
+      "initialDensityGroup": "80",
+      "stateChecks": 501,
+      "fingerprint": "87c09bbca101c491bb8449cf3c0d7a5cdb4214c7ae20535781a86b65481ab500"
+    },
+    {
+      "group": "long",
+      "case": "lake-1",
+      "variant": "baseline",
+      "turns": 500,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 114,
+        "fungus": 0
+      },
+      "births": {
+        "grassbug": 49,
+        "waterbug": 152,
+        "fungus": 24
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 2,
+          "1": 34,
+          "2": 33,
+          "3": 23,
+          "4": 16,
+          "5": 5,
+          "6": 1
+        },
+        "fungus": {}
+      },
+      "main": 232,
+      "producerCount": 526,
+      "edibleB": 2711.683327,
+      "min450To500": {
+        "grassbug": 0,
+        "waterbug": 112,
+        "fungus": 0
+      },
+      "initialDensityGroup": "80",
+      "stateChecks": 501,
+      "fingerprint": "05290af93c57fe3ec6634574809872a7ddec62ed68621b2410345b11a9f4db56"
+    },
+    {
+      "group": "long",
+      "case": "lake-1",
+      "variant": "joint",
+      "turns": 500,
+      "actualInitial": {
+        "grassbug": 33,
+        "waterbug": 34,
+        "fungus": 33
+      },
+      "final": {
+        "grassbug": 15,
+        "waterbug": 87,
+        "fungus": 0
+      },
+      "births": {
+        "grassbug": 685,
+        "waterbug": 140,
+        "fungus": 64
+      },
+      "generations": {
+        "grassbug": {
+          "26": 2,
+          "27": 1,
+          "31": 2,
+          "32": 5,
+          "33": 5
+        },
+        "waterbug": {
+          "0": 2,
+          "1": 16,
+          "2": 24,
+          "3": 21,
+          "4": 15,
+          "5": 7,
+          "6": 2
+        },
+        "fungus": {}
+      },
+      "main": 142,
+      "producerCount": 315,
+      "edibleB": 471.680585,
+      "min450To500": {
+        "grassbug": 15,
+        "waterbug": 85,
+        "fungus": 0
+      },
+      "initialDensityGroup": "80",
+      "stateChecks": 501,
+      "fingerprint": "3767da227c7f20e177e794b7775c403f96c90057ac7ab76dcc61eddd0d190a1f"
+    }
+  ],
+  "measuredStates": 4228,
+  "note": "Includes rerun prefixes; density groups and exploratory/confirmatory cases are separate. Not a general survival probability or R1-R6 certification."
+}

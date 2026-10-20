@@ -314,7 +314,7 @@
     for(const o of w.organisms){const c=cohort(o.species,o.generation);
       if(w.turn===0)c.initial++;
       if(childIds.has(o.id))c.born++;
-      if(!S.Colony.is(o)&&ctx.traits.get(o.id)?.ageStage==="juvenile" && S.ageInfo(o).stage!=="juvenile")c.matured++;
+      if(!S.Colony.is(o)&&!S.FungalColony.is(o)&&ctx.traits.get(o.id)?.ageStage==="juvenile" && S.ageInfo(o).stage!=="juvenile")c.matured++;
       if(o.firstBirthAt===w.turn && ctx.parents.has(o.id))c.reproduced++;
     }
     for(const d of ctx.deaths)if(d.ageStage==="juvenile")cohort(d.species,d.generation).juvenileDeaths++;
@@ -322,7 +322,7 @@
     for(const o of w.organisms) {
       const row=composition[o.species]??={phases:[0,0,0,0],ages:{juvenile:0,adult:0,elderly:0},sex:{female:0,male:0,none:0},roles:{}};
       row.phases[o.phase-1]++;
-      if(S.Colony.is(o)){row.ages.nonapplicable=(row.ages.nonapplicable||0)+1;row.sex.nonapplicable=(row.sex.nonapplicable||0)+1;}
+      if(S.Colony.is(o)||S.FungalColony.is(o)){row.ages.nonapplicable=(row.ages.nonapplicable||0)+1;row.sex.nonapplicable=(row.sex.nonapplicable||0)+1;}
       else{row.ages[S.ageInfo(o).stage]++;row.sex[o.sex in row.sex ? o.sex : "none"]++;}
       if(o.birthBlockers){const reasons=birthReasons[o.species]??={};for(const reason of o.birthBlockers)reasons[reason]=(reasons[reason]||0)+1;}
       if(o.role)row.roles[o.role]=(row.roles[o.role]||0)+1;
@@ -374,6 +374,7 @@
     if(S.PrimaryParasite?.enabled(w))S.PrimaryParasite.summary(w);
     S.Ryouki.summary(w);
     S.Colony.summary(w);
+    S.FungalColony.summary(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.summary(w);
     S.ProducerSupport.finish(w,ctx,S);
     w.tallies = w.tallies || emptyTallies(w);
@@ -479,6 +480,7 @@
     w.turn++;
     S.Ryouki.begin(w);
     S.Colony.begin(w);
+    S.FungalColony.begin(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.begin(w);
     S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
@@ -613,9 +615,12 @@
         )
       )
         errors.push("BUDGET:" + o.id);
-      if(w.config.ageModel==="life/1"&&!S.Colony.is(o)){
+      if(w.config.ageModel==="life/1"&&!S.Colony.is(o)&&!S.FungalColony.is(o)){
         if(!Number.isFinite(o.birthLife)||o.birthLife<=0)errors.push("AGE_BASIS:"+o.id);
         else if(o.HP>S.phenotype(w,o).maxHP+.000001)errors.push("AGE_HP:"+o.id);
+      }
+      if(S.FungalColony.is(o)){const c=o.colony;
+        if(!S.FungalColony.enabled(w)||o.B<c.baseB-1e-6||S.edibleB(o)>c.capacityB+1e-6||c.baseB!==1||c.activity<0||c.activity>1||!Number.isSafeInteger(c.starvationRun)||c.starvationRun<0||![c.capacityB,c.activity,...Object.values(c.last),...Object.values(c.cumulative)].every(n=>Number.isFinite(n)&&n>=0))errors.push("FUNGAL_COLONY:"+o.id);
       }
       if(S.Colony.is(o)){
         const c=o.colony,e=c.edibleExposure;

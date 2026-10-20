@@ -1,0 +1,146 @@
+{
+  "definition": "i11d-lower-check/1",
+  "note": "Independent preregistered seed group, initial80 per40x28 matching main density320 per80x56 only; separate from original stress160, supplied settings retained.",
+  "cases": [
+    {
+      "id": "river-0",
+      "config": {
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "manual",
+        "landscape": "templates",
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "randomModel": "table/1",
+        "blockTurns": 500,
+        "populationRegulation": {
+          "version": 1
+        },
+        "producerModel": "colony/1",
+        "largePlantModel": "independent/1",
+        "ryoukiModel": "ryouki/1",
+        "primaryParasiteModel": "primary/1",
+        "hyperParasiteModel": "hyper/1",
+        "informationModel": "persistent/1",
+        "relationshipModel": "network/1",
+        "generationModel": "diverse/1",
+        "generationSettings": {
+          "mode": "manual",
+          "profile": "standard"
+        },
+        "observationMode": "custom",
+        "producerSupport": {
+          "enabled": true
+        },
+        "initialConditions": {
+          "version": 1,
+          "density": {
+            "plant": 0,
+            "fungus": 0.03,
+            "prey": 0.06
+          },
+          "resources": {
+            "mineral": 1,
+            "droplet": 1,
+            "info": 0
+          },
+          "distribution": "habitat"
+        },
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "mapId": "river",
+        "selected": [
+          "ryouki",
+          "solar",
+          "myth",
+          "crystal",
+          "swarm",
+          "kelp",
+          "whale"
+        ],
+        "balanceModel": "survival/2",
+        "seed": "i11d/lower/check/river",
+        "terrainSeed": "i11d/lower/check/river/terrain"
+      }
+    },
+    {
+      "id": "lake-1",
+      "config": {
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "manual",
+        "landscape": "templates",
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "randomModel": "table/1",
+        "blockTurns": 500,
+        "populationRegulation": {
+          "version": 1
+        },
+        "producerModel": "colony/1",
+        "largePlantModel": "independent/1",
+        "ryoukiModel": "ryouki/1",
+        "primaryParasiteModel": "primary/1",
+        "hyperParasiteModel": "hyper/1",
+        "informationModel": "persistent/1",
+        "relationshipModel": "network/1",
+        "generationModel": "diverse/1",
+        "generationSettings": {
+          "mode": "manual",
+          "profile": "standard"
+        },
+        "observationMode": "custom",
+        "producerSupport": {
+          "enabled": true
+        },
+        "initialConditions": {
+          "version": 1,
+          "density": {
+            "plant": 0,
+            "fungus": 0.03,
+            "prey": 0.06
+          },
+          "resources": {
+            "mineral": 1,
+            "droplet": 1,
+            "info": 0
+          },
+          "distribution": "habitat"
+        },
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "mapId": "lake",
+        "selected": [
+          "abyss",
+          "abyssshell",
+          "jelly",
+          "kelp",
+          "whale"
+        ],
+        "balanceModel": "survival/2",
+        "seed": "i11d/lower/check/lake",
+        "terrainSeed": "i11d/lower/check/lake/terrain"
+      }
+    }
+  ]
+}

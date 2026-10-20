@@ -1037,7 +1037,7 @@
         if (showStatus) {
           annotations.push(() => {
           const sex = o.sex === "male" ? "♂" : o.sex === "female" ? "♀" : "—",
-            stage = o.colony?.version === 'colony-state/1' ? "群落" : a.enabled ? ({ juvenile: "幼体", adult: "成体", elderly: "老齢" }[a.stage]) : "未判定",
+            stage = ['colony-state/1','fungal-colony-state/1'].includes(o.colony?.version) ? "群落" : a.enabled ? ({ juvenile: "幼体", adult: "成体", elderly: "老齢" }[a.stage]) : "未判定",
             branch = o.phase >= 3 && Number.isInteger(o.branch3)
               ? "-" + ["A", "B", "C"][o.branch3] + (o.phase === 4 && Number.isInteger(o.branch4) ? o.branch4 + 1 : "") : "",
             phase = ["I", "II", "III", "IV"][o.phase - 1] + branch,

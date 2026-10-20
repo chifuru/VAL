@@ -1,0 +1,2 @@
+{"variant":"baseline","case":"river-0","turns":500,"final":{"grassbug":0,"waterbug":11,"fungus":0},"tail":{"grassbug":0,"waterbug":11.4,"fungus":0},"births":{"grassbug":54,"waterbug":289,"fungus":12},"wallMs":157481.12748300002}
+{"variant":"baseline","case":"lake-1","turns":500,"final":{"grassbug":0,"waterbug":114,"fungus":0},"tail":{"grassbug":0,"waterbug":114,"fungus":0},"births":{"grassbug":49,"waterbug":152,"fungus":24},"wallMs":143365.607449}

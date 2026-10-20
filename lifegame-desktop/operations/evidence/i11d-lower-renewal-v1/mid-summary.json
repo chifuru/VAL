@@ -1,0 +1,334 @@
+{
+  "baseline": "803f677",
+  "rows": [
+    {
+      "group": "stress160",
+      "variant": "baseline",
+      "case": "lake-1",
+      "turns": 150,
+      "final": {
+        "grassbug": 3,
+        "waterbug": 85,
+        "fungus": 0
+      },
+      "generations": {
+        "grassbug": {
+          "8": 1,
+          "9": 1,
+          "10": 1
+        },
+        "waterbug": {
+          "0": 11,
+          "1": 19,
+          "2": 22,
+          "3": 15,
+          "4": 13,
+          "5": 3,
+          "6": 1,
+          "7": 1
+        },
+        "fungus": {}
+      },
+      "main": 211,
+      "births": {
+        "grassbug": 72,
+        "waterbug": 130,
+        "fungus": 10
+      },
+      "allFiniteInvariants": 151
+    },
+    {
+      "group": "stress160",
+      "variant": "baseline",
+      "case": "river-0",
+      "turns": 150,
+      "final": {
+        "grassbug": 0,
+        "waterbug": 0,
+        "fungus": 0
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {},
+        "fungus": {}
+      },
+      "main": 189,
+      "births": {
+        "grassbug": 5,
+        "waterbug": 101,
+        "fungus": 7
+      },
+      "allFiniteInvariants": 151
+    },
+    {
+      "group": "stress160",
+      "variant": "baseline",
+      "case": "woodland-2",
+      "turns": 150,
+      "final": {
+        "grassbug": 0,
+        "waterbug": 10,
+        "fungus": 0
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 1,
+          "1": 1,
+          "2": 2,
+          "3": 1,
+          "4": 3,
+          "5": 2
+        },
+        "fungus": {}
+      },
+      "main": 178,
+      "births": {
+        "grassbug": 33,
+        "waterbug": 33,
+        "fungus": 1
+      },
+      "allFiniteInvariants": 151
+    },
+    {
+      "group": "stress160",
+      "variant": "joint",
+      "case": "lake-1",
+      "turns": 150,
+      "final": {
+        "grassbug": 0,
+        "waterbug": 79,
+        "fungus": 0
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 13,
+          "1": 19,
+          "2": 9,
+          "3": 12,
+          "4": 8,
+          "5": 11,
+          "6": 7
+        },
+        "fungus": {}
+      },
+      "main": 219,
+      "births": {
+        "grassbug": 30,
+        "waterbug": 130,
+        "fungus": 14
+      },
+      "allFiniteInvariants": 151
+    },
+    {
+      "group": "stress160",
+      "variant": "joint",
+      "case": "river-0",
+      "turns": 150,
+      "final": {
+        "grassbug": 0,
+        "waterbug": 36,
+        "fungus": 0
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 4,
+          "1": 4,
+          "2": 6,
+          "3": 5,
+          "4": 3,
+          "5": 2,
+          "6": 2,
+          "8": 1,
+          "9": 1,
+          "10": 2,
+          "11": 4,
+          "12": 2
+        },
+        "fungus": {}
+      },
+      "main": 177,
+      "births": {
+        "grassbug": 16,
+        "waterbug": 148,
+        "fungus": 9
+      },
+      "allFiniteInvariants": 151
+    },
+    {
+      "group": "stress160",
+      "variant": "joint",
+      "case": "woodland-2",
+      "turns": 150,
+      "final": {
+        "grassbug": 0,
+        "waterbug": 11,
+        "fungus": 0
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 1,
+          "1": 1,
+          "2": 3,
+          "3": 3,
+          "4": 2,
+          "5": 1
+        },
+        "fungus": {}
+      },
+      "main": 183,
+      "births": {
+        "grassbug": 26,
+        "waterbug": 32,
+        "fungus": 1
+      },
+      "allFiniteInvariants": 151
+    },
+    {
+      "group": "standardDensity80",
+      "variant": "baseline",
+      "case": "lake-1",
+      "turns": 150,
+      "final": {
+        "grassbug": 0,
+        "waterbug": 101,
+        "fungus": 2
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 24,
+          "1": 33,
+          "2": 24,
+          "3": 14,
+          "4": 5,
+          "5": 1
+        },
+        "fungus": {
+          "2": 1,
+          "3": 1
+        }
+      },
+      "main": 104,
+      "births": {
+        "grassbug": 49,
+        "waterbug": 96,
+        "fungus": 24
+      },
+      "allFiniteInvariants": 151
+    },
+    {
+      "group": "standardDensity80",
+      "variant": "baseline",
+      "case": "river-0",
+      "turns": 150,
+      "final": {
+        "grassbug": 0,
+        "waterbug": 23,
+        "fungus": 0
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 6,
+          "1": 6,
+          "2": 6,
+          "3": 2,
+          "5": 2,
+          "6": 1
+        },
+        "fungus": {}
+      },
+      "main": 154,
+      "births": {
+        "grassbug": 54,
+        "waterbug": 112,
+        "fungus": 12
+      },
+      "allFiniteInvariants": 151
+    },
+    {
+      "group": "standardDensity80",
+      "variant": "joint",
+      "case": "lake-1",
+      "turns": 150,
+      "final": {
+        "grassbug": 53,
+        "waterbug": 89,
+        "fungus": 12
+      },
+      "generations": {
+        "grassbug": {
+          "6": 7,
+          "7": 7,
+          "8": 8,
+          "9": 14,
+          "10": 12,
+          "11": 5
+        },
+        "waterbug": {
+          "0": 25,
+          "1": 25,
+          "2": 18,
+          "3": 12,
+          "4": 7,
+          "5": 2
+        },
+        "fungus": {
+          "2": 4,
+          "3": 5,
+          "4": 2,
+          "5": 1
+        }
+      },
+      "main": 104,
+      "births": {
+        "grassbug": 245,
+        "waterbug": 84,
+        "fungus": 48
+      },
+      "allFiniteInvariants": 151
+    },
+    {
+      "group": "standardDensity80",
+      "variant": "joint",
+      "case": "river-0",
+      "turns": 150,
+      "final": {
+        "grassbug": 0,
+        "waterbug": 42,
+        "fungus": 3
+      },
+      "generations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 8,
+          "1": 8,
+          "2": 7,
+          "3": 7,
+          "4": 3,
+          "5": 2,
+          "6": 3,
+          "7": 1,
+          "8": 2,
+          "9": 1
+        },
+        "fungus": {
+          "2": 2,
+          "3": 1
+        }
+      },
+      "main": 148,
+      "births": {
+        "grassbug": 142,
+        "waterbug": 118,
+        "fungus": 24
+      },
+      "allFiniteInvariants": 151
+    }
+  ],
+  "note": "Groups differ in initial density and seeds; not pooled or equivalent conditions."
+}

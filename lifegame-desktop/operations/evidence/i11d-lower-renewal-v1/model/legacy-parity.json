@@ -1,0 +1,1239 @@
+{
+  "schema": "i11d-legacy-parity/1",
+  "baselineCommit": "803f677",
+  "baselineSignature": "c78400a515eba25515dd699c1f3f5ba6cc2004c5dc4b992fbf3e4c2d1c6082d9",
+  "currentSignature": "90daa5c38dfbc78aa12c79176ff54d5e70f6e90590ff4d2dbcaf2ef5647b56e4",
+  "model": "generated-product-eight-profiles",
+  "config": {
+    "seed": "i11c/legacy-profiles",
+    "width": 16,
+    "height": 12,
+    "initial": 24,
+    "lineages": "manual",
+    "selected": [
+      "solar",
+      "ryouki",
+      "swarm"
+    ],
+    "placement": "natural",
+    "ageModel": "life/1",
+    "ecologyRevision": "observation/4.1",
+    "randomModel": "table/1",
+    "populationRegulation": {
+      "version": 1
+    },
+    "producerModel": "colony/1",
+    "largePlantModel": "independent/1",
+    "ryoukiModel": "ryouki/1",
+    "primaryParasiteModel": "primary/1",
+    "hyperParasiteModel": "hyper/1",
+    "informationModel": "persistent/1",
+    "relationshipModel": "network/1",
+    "generationModel": "diverse/1",
+    "generationSettings": {
+      "mode": "manual",
+      "profile": "standard"
+    },
+    "enabled": {
+      "main": true,
+      "plant": true,
+      "fungus": true,
+      "prey": true,
+      "P": true,
+      "Q": true
+    }
+  },
+  "turns": [
+    0,
+    4
+  ],
+  "versions": [
+    null,
+    "survival/1",
+    "survival/2",
+    "survival/3"
+  ],
+  "matchedWorlds": 160,
+  "matchedFullStates": 160,
+  "matchedObservationRows": 160,
+  "matchedAllObservations": 32,
+  "runs": [
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": null,
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "dec307b1c53df8100192224298a9785ebecf4fc32b4ed06932adc3a7c9a17d74",
+          "observationSha256": "df1d2ab95be4afb64b26cb72de20cd6484501c752f62d039c90207a80d6be4f0"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "ff7f5a0e0f49ab979270690cbe864934882b0409d2de56d7433220e807e40952",
+          "observationSha256": "b98adf1d6cb3bc7c2bfb4bbd252bb4e0108446a9f5713a44811255a2c56cec75"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "88e2d5492b7f641a422c70fd05e3a722ce2423f3ff4da7e8b67c5b43ea7f866f",
+          "observationSha256": "b9563f968471519783b03a82e4212a5de1903975c371be4b2acae1ad68968afd"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "e88d714a38827db27f343f3b7942191dc539ac4904e583b60e60aeda4b35d9a7",
+          "observationSha256": "e39c95d93f7351f1f80b2be6827c8691174f0f17ed07dc07ec39842d3f9e53ee"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "d7803eb87863450f666f6f6175e5c2a08a84cc1a2b12c7e300d297a09ff6d2f2",
+          "observationSha256": "f843b1818e2e8ba4df5852546a2d2e4fc215bb92baa31d1ab7109860bab09f5e"
+        }
+      ],
+      "allObservationsSha256": "b1f33d4ffeb6fa001809205130526881c808ef677b62b076f30481925d8dc47c"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": null,
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "6ac592333051c4a7faf1deb144c16e198516f521cf8b3eaa4f1015f1fe61248c",
+          "observationSha256": "1ca61e50889447a71791f3843b5191fcf5aa8ed370093db92b9202f000aacc12"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "a7a0f8c0b7c71b4db79a12bfbcbae2505a5d456770fe6184ef67e3929021289c",
+          "observationSha256": "270adf857c9e8a66a360271e6ca2ca8f338af26596950de2f61423de0f2e9f2e"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "3f97d494af8f50ba0be21de18b46b9e8dd25ee23980b22b1810f1a1bcdfb4f6d",
+          "observationSha256": "c4dbf68cb3816b9a4ae0a434c565f45133d645b162f136a7311bf9d16f8624c9"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "67be755d8d6494a2fc58515dd180ea0f010a33a2d44a50daee49322905eeef10",
+          "observationSha256": "5c85e0cd4d878f2b004b9dd298e4df639dbe8bf48fa903f97384d6645bf00537"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "38ece01c961cda9c584e6d9ecfa651d23c4bcb74fa7105251b273e017391db76",
+          "observationSha256": "96968094c7b739c3b401c5dc202a129765a4f344ad8c6101e6d695f82a721d7c"
+        }
+      ],
+      "allObservationsSha256": "1cc82ae2589e5810b8676d3cd663199f6f0c70006a65f5653831c4b03fc0360d"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": true,
+        "hyperparasite": false
+      },
+      "balanceModel": null,
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "07e638d236aeaad6e958c1a5d7b5f846a48040811ffc0cc5f8b6774b401517b0",
+          "observationSha256": "e21eca80369ade8b1ca997d46279ad07c960f60aab17e155d44ccadf9500a1dc"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "7cf1a8143c94b71056c04435502aeb33bcc1147ab5d6132a0e5fb846eb44d6a0",
+          "observationSha256": "ffbfb40089a44e6618102070239ac75b8f4026b2ce43c5e036b3328d43bd9034"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "4f43be2aecfb4a0db338b91b09449764eb542eaf15805f3e91f4b1191479a46c",
+          "observationSha256": "244407ac86d049db3fdbd38033cff34884e66f91cdc7082da01121d7f26be85e"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "c520a7f11e4b7e0e0c85f68d7f804a91442c4efca12f386fa5f4336df9440188",
+          "observationSha256": "a5c2bce943c7ca62cf6acfcfded57ffe6739756740925eb33a4a60bb77076c50"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "a3e84152d82ae45986cfd2c988af4f02648753bfa367c529ebdf8ce5297f9894",
+          "observationSha256": "f4ffff23c1ce4f30657b62b1069c5d7cbe1556294276d69f7094692ccd5b74b6"
+        }
+      ],
+      "allObservationsSha256": "ae550f6bb7316da582080bd74197db946eab2e37d6ef44033915db020ee13bb1"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": false
+      },
+      "balanceModel": null,
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "7b4b2e2f0d55b5117f6d7b6fcd27011a8e4d1fa3006506975cb99f423bb01c74",
+          "observationSha256": "ba92db3f80ac2daa4c76e965d51323b3427c59f138f668887da237a5eb327337"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "7f3fbf9cf06e938a4718a1d95bd5e15cb03f4b1a10d0b0e89e3eb2538ba0011e",
+          "observationSha256": "577f5a0d17029ed10ed354477c9e54724d98f2a3e8976644fcf5f7883fac2bf4"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "7f8d042f99ecd02a4edeb2d505e4613d7b6380427089658e0da1db47b24a19bc",
+          "observationSha256": "3d6705e454b5bf279e0308a82abafb648ba8d2c472695ccc6efaa7a000dee3b2"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "5fdbab1186ca92d255d4fdedda42ebb26d727a2e65501303870180cb5b3f81eb",
+          "observationSha256": "491d78dd0b44660847ec3b747ad4ea570498d0e2ee73f1fb1ec4255d8ba544f4"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "878a87e90be3ae3e38fd58151fdc43fa439e90ed2568e39ef317c158955f8f97",
+          "observationSha256": "f56f7fa2a49883d5e88da234b41e18b40d1e7e030ace65ab98c34b625acb2801"
+        }
+      ],
+      "allObservationsSha256": "42fba01e0ed9d2179e17807718a4685bf91cdbc5d5184665ec7487bbfccb0f46"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": true
+      },
+      "balanceModel": null,
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "172732496f6010d29b729490c483ca4b4c22de681645680762b7da0d79fc8c5a",
+          "observationSha256": "df1d2ab95be4afb64b26cb72de20cd6484501c752f62d039c90207a80d6be4f0"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "ae71c3b8009db630fa7ecef3e6fc3eb433db9052686b4b0356d8ed49714082d6",
+          "observationSha256": "b98adf1d6cb3bc7c2bfb4bbd252bb4e0108446a9f5713a44811255a2c56cec75"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "2ac67fc338da37a064f127da3a90ecd5404ea51d0693a36c67c05369308be3a4",
+          "observationSha256": "b9563f968471519783b03a82e4212a5de1903975c371be4b2acae1ad68968afd"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "28b0c702d836d2d8e953398ff926295e74f1eae4b407c1895f88eff0ca91c08b",
+          "observationSha256": "e39c95d93f7351f1f80b2be6827c8691174f0f17ed07dc07ec39842d3f9e53ee"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "944f23d64c21fa20f9d63de7dffd01789e9d9e1b38e403c0d206fa7304818a1e",
+          "observationSha256": "f843b1818e2e8ba4df5852546a2d2e4fc215bb92baa31d1ab7109860bab09f5e"
+        }
+      ],
+      "allObservationsSha256": "cadad2fb1589d90bee44c33a180a096fbbf59c6ca413ddfca36a109ed6acd087"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": false,
+        "hyperparasite": true
+      },
+      "balanceModel": null,
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "7ed707babedae8ede66c0e15f1725aaf056bb8da1f14485fb48b01249ad33a43",
+          "observationSha256": "1ca61e50889447a71791f3843b5191fcf5aa8ed370093db92b9202f000aacc12"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "1445e6042d6fe0868aebac811449c281d4fc0ea4947d1fab6d01f2a3ca1cdaeb",
+          "observationSha256": "270adf857c9e8a66a360271e6ca2ca8f338af26596950de2f61423de0f2e9f2e"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "f97ee8de86d9165bb8ef37f1bd292901847c007fbc282f65f8dd3a0de692cc05",
+          "observationSha256": "c4dbf68cb3816b9a4ae0a434c565f45133d645b162f136a7311bf9d16f8624c9"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "06784c233a4ba78bb39d522a256bddabb4865100047e60486c7cb7437a692491",
+          "observationSha256": "5c85e0cd4d878f2b004b9dd298e4df639dbe8bf48fa903f97384d6645bf00537"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "e4918aa4344054d2bc1f66bb36a72460b3e83376eab6c31fe7bbb77763fdeb1f",
+          "observationSha256": "96968094c7b739c3b401c5dc202a129765a4f344ad8c6101e6d695f82a721d7c"
+        }
+      ],
+      "allObservationsSha256": "185cb72db2c18d53ae1d8106e25c40ee4b72fe44702b1bccfdb159434261fdb6"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "balanceModel": null,
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "842d45b629eca1f89915777a1334bf7a618f7642af7e7cd059dba0e96fab632b",
+          "observationSha256": "e21eca80369ade8b1ca997d46279ad07c960f60aab17e155d44ccadf9500a1dc"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "ae58a22e7a2d2f2f61efe4fbb303215abdbd24dbf22ca265f0a5d6f47a1825ae",
+          "observationSha256": "ffbfb40089a44e6618102070239ac75b8f4026b2ce43c5e036b3328d43bd9034"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "2944e456eca61b8af93d2436620126a2f2affe61f950e4bc7c270240be99fef0",
+          "observationSha256": "244407ac86d049db3fdbd38033cff34884e66f91cdc7082da01121d7f26be85e"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "69fb5a337882dca450bd4df21d93385f68ebfae163dd9b818df2a31c8c7fd66a",
+          "observationSha256": "a5c2bce943c7ca62cf6acfcfded57ffe6739756740925eb33a4a60bb77076c50"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "0719a3c36b082c02d868489870344972d79b1d2be3d649db6a19d2c9a55d8c3f",
+          "observationSha256": "f4ffff23c1ce4f30657b62b1069c5d7cbe1556294276d69f7094692ccd5b74b6"
+        }
+      ],
+      "allObservationsSha256": "879a96c379e75599bb11b0f33d4e23fa339e3ff3bc81717116e77bef18e09ab0"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "balanceModel": null,
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "e41ecc4178cdd84321f85248fbfd8f3add2d848cd3a3c015a01ef9f659ee17b4",
+          "observationSha256": "ba92db3f80ac2daa4c76e965d51323b3427c59f138f668887da237a5eb327337"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "6cc959d226df8903a3f11c9fa4a1f62dd326b4cef4787f73d29e9793a93947c2",
+          "observationSha256": "577f5a0d17029ed10ed354477c9e54724d98f2a3e8976644fcf5f7883fac2bf4"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "a11d55d60577dee0a7b3eeb138f9ef6aab69fd7dd023ffc16bf3262dce7697a2",
+          "observationSha256": "3d6705e454b5bf279e0308a82abafb648ba8d2c472695ccc6efaa7a000dee3b2"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "fabd3627f76c7ad8da340b70db0757a73b642d0a0be987d06490e51e5b76afdd",
+          "observationSha256": "491d78dd0b44660847ec3b747ad4ea570498d0e2ee73f1fb1ec4255d8ba544f4"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "88e5445689d876e3af9bc81085904321f8a4b44b5051daa1c8c8b4a59575ae22",
+          "observationSha256": "f56f7fa2a49883d5e88da234b41e18b40d1e7e030ace65ab98c34b625acb2801"
+        }
+      ],
+      "allObservationsSha256": "b7c722d87af355f470643ef72bb98e85fa03e8c63354dc40e01c47443e1d1a14"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/1",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "35d1f294cc6d970c9b35b28b6dedb8ed0a4fb2174dacfce0b2f43e37aa51db23",
+          "observationSha256": "df1d2ab95be4afb64b26cb72de20cd6484501c752f62d039c90207a80d6be4f0"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "3242ec2a32f86d65e5e132fe26324f962d4c5872f41fc16a13b72c0074eda2f2",
+          "observationSha256": "2780d9bd623d422dbc00dfad3f1019d22ce82209acd6bcbc953de8f43c82aacf"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "59efa7581f413d1e1622bc7d0eb307cded911928418f78e036eb696bc68073e7",
+          "observationSha256": "42d53df7427c392ae9c041b7664bfd44ad109f9eb970bf41d46eb053568ff218"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "cf9ee95fabd3789aba12bde150107c3bbceacdf9f818a45c4f9a1d9083a199fd",
+          "observationSha256": "e0a299a5fff482e50f8103e9872ee2a5daa843759168fea60fc7a6d25e43ce9e"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "a3716a08d824cff6339adee1e9f9afde78db6ec83ee8fc4d0fc35ee63ff35302",
+          "observationSha256": "f1b463d100bce8c2aa292ad167094fe2ef8209ef7351f1d6a6278f3bf7da94e8"
+        }
+      ],
+      "allObservationsSha256": "f4b642cfadaf50093486173d8ec6eed7ea304da811089901068749c11332f0db"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/1",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "ff3e97cb1d788da8470751075adb44183682bced684227c7223cb751b429e1e7",
+          "observationSha256": "1ca61e50889447a71791f3843b5191fcf5aa8ed370093db92b9202f000aacc12"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "7ef607401f0a152397280e7fe320ce67becbc224d15217035784337edc98077d",
+          "observationSha256": "7bbbf76e8695dc9cf1930d46de127508234ff085f5a9854ca70812504f4a995d"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "f173187ccc5e87a64d646b912b56786927ff021ab2712ce532a64c177a67cf12",
+          "observationSha256": "5b1171255886329a989a6b94f8e6f790ff80c0f35f9082e48aca22413574be8c"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "b7e778459d7ef59b876c4531963e39455eae2751c063ec6e76dac1f19f48c21a",
+          "observationSha256": "092f064effcae84fa9e7e925b8ca4298b6aec78cff23f4864c43cdeefa0ffefb"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "a3666dcd27899629d7366d626d44e02680dd3d57355701df8c8f8bd30fbf0e81",
+          "observationSha256": "af926554f4fc126d85a34a0946f541ed0f4f2117d1210c3fe89ae60e620a7713"
+        }
+      ],
+      "allObservationsSha256": "3410b0a1ce0630fec05fcbefa7f5567ee038daf97e178d9070c1e9976a01f9b8"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": true,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/1",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "a7f065477d417a01fa30e74cfb6209960eefae19402c629c2bfe81c341e3484e",
+          "observationSha256": "e21eca80369ade8b1ca997d46279ad07c960f60aab17e155d44ccadf9500a1dc"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "675b3c5574d8c2ed740b16aa7443da89e7a91f6961bd46fcd27b08b5e5f93d59",
+          "observationSha256": "7bc4daed6aa1018859109355f2538ac4e7a70f0cc06ff87c457a3a2d64f94813"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "1158f99ef6a052dff3b6701454b06b6142ca843baa3690010d4a887d18f72518",
+          "observationSha256": "bd2c77974fb4a4d87aceb715052eab9bc652263f3245a14a263bd16c158f1778"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "2165c1c1afeb79432b3326619321463ee49ff869f522c779a007d18f9e6a2f61",
+          "observationSha256": "63ef9fea3934a6af54aed89027d27c98e0ddb4b38e49a579e6bfdd2f5c5da69a"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "53a12b919b7a376f708db4408ab7b31149ddfee293f0be95263066dfca9319e5",
+          "observationSha256": "990f38e42313aa61c064c3341b4f7e75a99d487ab245a52ea1dfda2df591f8a1"
+        }
+      ],
+      "allObservationsSha256": "ac55efb3f20ce5e73792cb998bc61a5b67fa019c117ef8e6e909ecf7f2a2018f"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/1",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "94c6ab9aa2d0f02bb3a29eb925c9ff6eb8dccb44d52416891b9eeba8a7cdb691",
+          "observationSha256": "ba92db3f80ac2daa4c76e965d51323b3427c59f138f668887da237a5eb327337"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "39bf664f86a4ea6d7362be2372aafd099b7a3ec0613315dacdc839e769e9698f",
+          "observationSha256": "58f946d10d30b714c490a71b8750a0473248cbe25383fc90d1c6ab595d06d421"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "e5b67772f1f77fccc7a41e0f4819a25a130981d2659fa3e208f7193dd671871b",
+          "observationSha256": "099194004dbc27db17550add01cbd4d36b4e20b5bba337a74e19def8098d670e"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "60b7628d9c5669b52cf7954abbb2a377344da03c42753598442d36d21b8410b8",
+          "observationSha256": "13b43ca472e30267d3f1f31898bf712752638c924be023bf6943054a4acb6118"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "69a67abf3314b4da1a347cc5c143e416b2e43ba7f49764b08f3d633733382618",
+          "observationSha256": "b134396e7ae6d9b02859e0ec91ec69895f71bda852bd7befe0bf2de7479716ac"
+        }
+      ],
+      "allObservationsSha256": "bf274d46a47ce5878ead00530cdf306801bc11b9ffcc16276d884d590b6bf1c4"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/1",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "9bd79045794463755565bc22ec4d0ab1fcfbf153cc3df99d72e4e8d8ebc232cc",
+          "observationSha256": "df1d2ab95be4afb64b26cb72de20cd6484501c752f62d039c90207a80d6be4f0"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "dff6ba04fc96d52a6b6af786c9d2d2a1b7f747de2fc25d8e60b036b35c27228b",
+          "observationSha256": "2780d9bd623d422dbc00dfad3f1019d22ce82209acd6bcbc953de8f43c82aacf"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "f4b04bf88884d43cb386dfd2ee5db08e7a8d94559fdd71b99c2244e79dbb5dec",
+          "observationSha256": "42d53df7427c392ae9c041b7664bfd44ad109f9eb970bf41d46eb053568ff218"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "e411bbdf3cdb7bf94580ca6f5cdd17a4c24a44151a3024f596809ee12f52c108",
+          "observationSha256": "e0a299a5fff482e50f8103e9872ee2a5daa843759168fea60fc7a6d25e43ce9e"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "22bc4a721342d4b529469de9aeca87bf16529cdeafb8596eae83f13ee399d9f1",
+          "observationSha256": "f1b463d100bce8c2aa292ad167094fe2ef8209ef7351f1d6a6278f3bf7da94e8"
+        }
+      ],
+      "allObservationsSha256": "a406c01ca3628887292e6c953bfb6a1482c91dbd1f609442c49e2f4626364e8a"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": false,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/1",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "4faa4241dda9bb2f7bdd139bf5eec4c14b752f5b3ea6560ced5a7c43c0d98626",
+          "observationSha256": "1ca61e50889447a71791f3843b5191fcf5aa8ed370093db92b9202f000aacc12"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "3aa3cadeb53e7c80e95b6d9125020ce895f3d9eca11aa60c2b42c78074cc0a53",
+          "observationSha256": "7bbbf76e8695dc9cf1930d46de127508234ff085f5a9854ca70812504f4a995d"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "16aec801313d75879df63a0eeaa3fe3ba9f80add558e2dea7c755149f368d78b",
+          "observationSha256": "5b1171255886329a989a6b94f8e6f790ff80c0f35f9082e48aca22413574be8c"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "8d4d3135120c64acaff6e0c177ee18cdd8f2677705f5a7454f1eaa4cff5635d0",
+          "observationSha256": "092f064effcae84fa9e7e925b8ca4298b6aec78cff23f4864c43cdeefa0ffefb"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "1056ea19fc8888ab35a26f931180db9632c8701f620652a38345a9bab6bb4479",
+          "observationSha256": "af926554f4fc126d85a34a0946f541ed0f4f2117d1210c3fe89ae60e620a7713"
+        }
+      ],
+      "allObservationsSha256": "fc45e739d330ca61a83bce7d6cc55935ac0344c8a41784f99a80eaaf3a683e0d"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/1",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "c9dd6a45aade6acc762bec7f2f3cffdd35f180be048e44929244036611cc0c86",
+          "observationSha256": "e21eca80369ade8b1ca997d46279ad07c960f60aab17e155d44ccadf9500a1dc"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "cd1a22025f798341033417a1725c02acc181ecd96359fbe47270472160c864a8",
+          "observationSha256": "7bc4daed6aa1018859109355f2538ac4e7a70f0cc06ff87c457a3a2d64f94813"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "352044658c030f0d6a6ae8cdbfd32529b518cd22f71e222f6f080f21ad24afa9",
+          "observationSha256": "bd2c77974fb4a4d87aceb715052eab9bc652263f3245a14a263bd16c158f1778"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "705874488fe86ab66f3e2fc364151bc53f68a127f5baf99227df19037f157f95",
+          "observationSha256": "63ef9fea3934a6af54aed89027d27c98e0ddb4b38e49a579e6bfdd2f5c5da69a"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "77200f3d0ef4049ff47c7e045f87effd26b9b1e746c46b7bd32f8474988d6c86",
+          "observationSha256": "990f38e42313aa61c064c3341b4f7e75a99d487ab245a52ea1dfda2df591f8a1"
+        }
+      ],
+      "allObservationsSha256": "bf2ea526d528daa32e17e97dd2836476b2aea852c9ebc17f25fb226e47aea568"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/1",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "b816d3fffbfdf556f3a344695eba32086ece39a9673675f30c58bdec4bbc086a",
+          "observationSha256": "ba92db3f80ac2daa4c76e965d51323b3427c59f138f668887da237a5eb327337"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "409ff4a6749e24aad04ce7215ea17f8f3fcbdb9a5233ddc4832b01ec486723e8",
+          "observationSha256": "58f946d10d30b714c490a71b8750a0473248cbe25383fc90d1c6ab595d06d421"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "ed38ae4c27c2b88ab3f1fd32b79dcfae6b9a0ae6d99f37ad8b9ff3215020926d",
+          "observationSha256": "099194004dbc27db17550add01cbd4d36b4e20b5bba337a74e19def8098d670e"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "9d2d34384b1aa55399b2128439ce22cc58521fc9817e1c9cba678c2685fd1c13",
+          "observationSha256": "13b43ca472e30267d3f1f31898bf712752638c924be023bf6943054a4acb6118"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "eb076df002039ab50047ffd4d6e72f6038f70a85cefd8936750875f63dc87e87",
+          "observationSha256": "b134396e7ae6d9b02859e0ec91ec69895f71bda852bd7befe0bf2de7479716ac"
+        }
+      ],
+      "allObservationsSha256": "6fbd2afe4c652cb14c59541d4cf3de1ff12853cc5769828dc145e762b05e1c23"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/2",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "27e5b2ba61e6a66fb9a0b9cf6d161091a022276ea1133dbd29319c2c5c703251",
+          "observationSha256": "414a96fdaac8eb1081baf8c5c8fe91eebd56aa82e89f64bb833fa715331f2a89"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "fe3649effd57fbbecba6f9a9e16d80ded5ef7414fb752a84eb329ab45fe32d06",
+          "observationSha256": "83ca5108915b7d279b51281d4310f6f23a5ce07c219a93d691a6c8da490a0343"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "eb4e0dc5e15289b4aca364cbdbeb16fd847b869cf2fc54a2d129126e99530110",
+          "observationSha256": "dbaaa34b94bbc3dd1d802df7d0bdd1ab649ce296e62a81e45586178500dad151"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "169c69ac339c49f4a30a4ac6f55a586243aed391ee44ea358c0078c73f7ba7f7",
+          "observationSha256": "50dc9b66ef5fcaa7b55d354beb81a68c8f03075e0afa82524308282b988bb945"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "a3b88bc9f153238e5223ccb45b1001f8437e6f23b08f6921bcd2a4b144ab1bac",
+          "observationSha256": "5b3bffde8a618cc62685324d48e432da31064141e048c56146fe44f722a223fc"
+        }
+      ],
+      "allObservationsSha256": "d760421657b5de58cc4476e96e2f4e4457f9a6dd3867570a53a0e64fa8e2269a"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/2",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "cdecb05e0553494ed30e5aa5ba340becfb9ec8f2c70f30a834f2316a11d48baa",
+          "observationSha256": "e15eff87fbb5f4ca88aff8412a1154f4b91ceb59c94a08587ced35392401ecb8"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "e726c31162457eebde47fd21c241c02d75ae622a8d2418077d23c839704cf368",
+          "observationSha256": "526116fce753e61ef16852b7d865d17498a941a0e4f4406758b3bbe3137de0a4"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "873dd67d55c0490790b57d644eeb049ae7f44d53691c610bfa0951223bf1da61",
+          "observationSha256": "352de8553f330c642e247b5cf7938f97fd3bde11034b5188f128abc3888beb1e"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "45d28741371eec43b1479254fb8e017dc93bb0ba878d09cd097f7b04619e22b2",
+          "observationSha256": "be616202ed3de724d0aabfb7c63befb75b3006e527ab4ef081c15dc14de76a8c"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "6e1beffe70c77643d2e6740aecacd25889b0f3db9ff7bedf9d2f5e0f31ef08ac",
+          "observationSha256": "027f1b3cf242f6149b4c761492a952a72c12846188af59e49b2027a22248e396"
+        }
+      ],
+      "allObservationsSha256": "558b5583c648766d97bce45a8686f8db3d97bcc87b5244261ab0d79c99bf7a1b"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": true,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/2",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "4a66d85bb33e74dd96ccd620391213dcfbb1649988370782f776fccedb721f5e",
+          "observationSha256": "be7380d99ef199e279035e8cf44b8519f8c343de3fd64cdb475228f86ee74cbd"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "f41fe97684614ba6048085b915173f10a6b292ca3b84adff402deced8d3c862a",
+          "observationSha256": "bf2c67b7203cf0b71a2d413299a72abe474b31fa586c09cf32cfc527b3e391ff"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "7a7fceffa047abad501c34f4d7752cbb839d42c8de78251d2af0301d67051890",
+          "observationSha256": "1277b1097dd621f7e79c48a3c973e9110af7c5fa53641e96d0735d51df3743c9"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "cf09d9b1ebdb891914d1d8bf324a3a081ca47a73bea9f58362845af427b3ac1a",
+          "observationSha256": "0511209c5d9b9703e4e76299591aac03198e3d8d980bd42c9313dabe2021e938"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "e77606e54c8dbfe152f8d0b39d0a8b47cbd117231dd425db03bd78fe17daa605",
+          "observationSha256": "1a68a8a9625ccbeb2b0d30eb4794b98fd2f03655826947664507572d9e35ba2f"
+        }
+      ],
+      "allObservationsSha256": "bf238443c0cf15b7782a62dcec60bbfb28cc420f55953a7ba43f29e8b5860415"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/2",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "c9811ce4c5c20caf4b6e8b00567f247f0c226155ac967ff53803a548a04169c3",
+          "observationSha256": "7182f1e2ab9e5e3be5878284eafb923296016064b19c887b352c0d87a8f9d64b"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "083559803a1dafb2a02c22b2276acb4af4af8eef13916ffb1168232de53858d5",
+          "observationSha256": "90aa9a7806598894b4e626bbb0e0018bb8878053dc4ad011d62d2daeff817032"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "34612c23a8c575f2d22ac15155024d0162ea27c217b059dcfd88e43db20cb47f",
+          "observationSha256": "34170ebad1fe63cb9dbb0f50b227f47404ccbdbb273e3c52fc8b419e348019fe"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "5fdc958459a0697392626fce579b1aea33ef2c6986a8678b00dee203bf3dad83",
+          "observationSha256": "3950001b10aa704c0e86471300bda02ff05325a29abbc69547cfc6d5e85fb37b"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "7a31aeace5f5c284143871769fc2c5423ea0b5badc7ef724d505704fffca3906",
+          "observationSha256": "30832b4e9fd3d131d2f8f3b1d17d4807fe93d58793f67b4a3ec96b2e59017274"
+        }
+      ],
+      "allObservationsSha256": "1c7ec27b1129ddff09340d2c08ceef673e159b55ae05a56111f8cc161e855bfd"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/2",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "3d6c4f56131f6617b24222ee59dfbdee8ac4695d3e0305976c87cd94ffb9d409",
+          "observationSha256": "414a96fdaac8eb1081baf8c5c8fe91eebd56aa82e89f64bb833fa715331f2a89"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "ba1d98434e9647bb64bb5f2f0da96a51688917114976ca08ef1dd0e3ed0fad69",
+          "observationSha256": "83ca5108915b7d279b51281d4310f6f23a5ce07c219a93d691a6c8da490a0343"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "137d3c05a682f7f9956579d1f731551af9c668999777a32026cfe3427bcd220f",
+          "observationSha256": "dbaaa34b94bbc3dd1d802df7d0bdd1ab649ce296e62a81e45586178500dad151"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "74beeb51ad22bd2e6cc8bc995793488f67ff24b5f2dc03a96383cd4ec3958636",
+          "observationSha256": "50dc9b66ef5fcaa7b55d354beb81a68c8f03075e0afa82524308282b988bb945"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "7f3a1e51697faf2262de5025f05608cbf974b47e3cde77f81f9fd4cbf4c5a082",
+          "observationSha256": "5b3bffde8a618cc62685324d48e432da31064141e048c56146fe44f722a223fc"
+        }
+      ],
+      "allObservationsSha256": "b471323c498d31fb366f788952f0cf03981a3ed11d342a63697e0251a797b363"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": false,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/2",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "a56edcc95d24dd1c87b4d1274fdb8eb22d56ae1b90ca5c9d0f752a11dcae7d24",
+          "observationSha256": "e15eff87fbb5f4ca88aff8412a1154f4b91ceb59c94a08587ced35392401ecb8"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "14473f1e317f39b96beb1f9526b4391bc8d88cd15360f3091613dced3014ec03",
+          "observationSha256": "526116fce753e61ef16852b7d865d17498a941a0e4f4406758b3bbe3137de0a4"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "60a41b036adf4863a2f81b4dcc50c68fd384c1bf7b4193c3dac21ad25c77c439",
+          "observationSha256": "352de8553f330c642e247b5cf7938f97fd3bde11034b5188f128abc3888beb1e"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "2c8464f21a382d89675c7a4f13bfd44dfb76d0847ebb7af64c33a3bedf8f4e15",
+          "observationSha256": "be616202ed3de724d0aabfb7c63befb75b3006e527ab4ef081c15dc14de76a8c"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "10f94fb3ca0b9999101420ea1537d72123071828632129ed9162750f3bbf1b03",
+          "observationSha256": "027f1b3cf242f6149b4c761492a952a72c12846188af59e49b2027a22248e396"
+        }
+      ],
+      "allObservationsSha256": "efe8fd13b9380b04bd802f5b5ba6bf9941e18ef2c2897eef2336a19797d4dce5"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/2",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "106292631066011a91f9030b108a77c386c016c6c8a34f5bc03e17c8624049db",
+          "observationSha256": "be7380d99ef199e279035e8cf44b8519f8c343de3fd64cdb475228f86ee74cbd"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "67778bb65a254274ecf2b38873ac2187809f3134eb9bd928d4a2314e6858cce0",
+          "observationSha256": "bf2c67b7203cf0b71a2d413299a72abe474b31fa586c09cf32cfc527b3e391ff"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "33d6d7b79698bed39cf2baea1835f8485080c3d3ddac1cb0ab909381683baf53",
+          "observationSha256": "1277b1097dd621f7e79c48a3c973e9110af7c5fa53641e96d0735d51df3743c9"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "884e46a286843b3357a7fb2d99889b252d32adece0f70ef70d4259eda3c2ee82",
+          "observationSha256": "0511209c5d9b9703e4e76299591aac03198e3d8d980bd42c9313dabe2021e938"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "a2e534d26725538298328595c87afa2f597a3751dacc16acadb3b2b33fb7a589",
+          "observationSha256": "1a68a8a9625ccbeb2b0d30eb4794b98fd2f03655826947664507572d9e35ba2f"
+        }
+      ],
+      "allObservationsSha256": "a1efc287e9d2d620bd597356c628541886d757fd8bb397509ee957783e1c2d4d"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/2",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "35d7c101f1cb70a392db8f9314977d95b18ef68f41f9410f048f353322a7bfe1",
+          "observationSha256": "7182f1e2ab9e5e3be5878284eafb923296016064b19c887b352c0d87a8f9d64b"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "b2a706470ab8d9672f9c5552708d6612fb0f55764dd99bf5e61375015751c415",
+          "observationSha256": "90aa9a7806598894b4e626bbb0e0018bb8878053dc4ad011d62d2daeff817032"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "ad26396c4237773b9abcccf7f2bbd9c65497b548b6bbde8198382a26b89977ea",
+          "observationSha256": "34170ebad1fe63cb9dbb0f50b227f47404ccbdbb273e3c52fc8b419e348019fe"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "a02d90a583776466a7956b65048df3166de185b24da5b6116b81b6f2b5c2719f",
+          "observationSha256": "3950001b10aa704c0e86471300bda02ff05325a29abbc69547cfc6d5e85fb37b"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "3ce2d4d2fca5f89f8678a5da19a5bfef678da5fb748d8d2751d1ec27221b4c46",
+          "observationSha256": "30832b4e9fd3d131d2f8f3b1d17d4807fe93d58793f67b4a3ec96b2e59017274"
+        }
+      ],
+      "allObservationsSha256": "70d0b1f0331d25ea74f36df3aa535dd5ae39c7899bf1b4b99abeea91983d8d26"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/3",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "c5bcfe5c018a9c2bf5e711832638d288fbd8f317e72b4bb04d634768de2da458",
+          "observationSha256": "414a96fdaac8eb1081baf8c5c8fe91eebd56aa82e89f64bb833fa715331f2a89"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "626f4773743ef001174f4e538f41aa16478859ef39fbd6a706088f35008f53ef",
+          "observationSha256": "83ca5108915b7d279b51281d4310f6f23a5ce07c219a93d691a6c8da490a0343"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "e244fd930cb4c1af29461b896eb6c2dfdc4f223ef01793311c19ca47ab048425",
+          "observationSha256": "dbaaa34b94bbc3dd1d802df7d0bdd1ab649ce296e62a81e45586178500dad151"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "27c7a7aa91ae6ff6751abc39832833b61de106e90c8b372f3deaee1fe2805e72",
+          "observationSha256": "50dc9b66ef5fcaa7b55d354beb81a68c8f03075e0afa82524308282b988bb945"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "c22e3565b71072dd81eaad633b55090ba9f7f3093e9e39a95fb41275b9087b94",
+          "observationSha256": "5b3bffde8a618cc62685324d48e432da31064141e048c56146fe44f722a223fc"
+        }
+      ],
+      "allObservationsSha256": "666ed30aa98aad6211d38cb147d6c8050ae02bbe52f7603fe2742be3a0725db2"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/3",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "fa9f78f85b6109dff4bffe5eba235524c3dff74ffaa95c1030f0a00d560b8cc8",
+          "observationSha256": "e15eff87fbb5f4ca88aff8412a1154f4b91ceb59c94a08587ced35392401ecb8"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "028371f55850ce752ad069a935680ae108d2b94fcdc450d5ac895d3019d2b830",
+          "observationSha256": "526116fce753e61ef16852b7d865d17498a941a0e4f4406758b3bbe3137de0a4"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "02f71efeed430c6342e26c49f41691327523bf2ec5b22d5c5aabd1cb92c5ccde",
+          "observationSha256": "352de8553f330c642e247b5cf7938f97fd3bde11034b5188f128abc3888beb1e"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "014717f03c361e9a1816220eec3c2d078c8933e42444bd072892ec613e44a7c6",
+          "observationSha256": "be616202ed3de724d0aabfb7c63befb75b3006e527ab4ef081c15dc14de76a8c"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "93eb79457acb7af997858dd6714cd6adcd91d2ad3962ddddbe10f6388d772b32",
+          "observationSha256": "027f1b3cf242f6149b4c761492a952a72c12846188af59e49b2027a22248e396"
+        }
+      ],
+      "allObservationsSha256": "14d166ed43578467696a4c53154ed8cd2d3e7f6cd36840e27a79d47d41cc9b37"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": true,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/3",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "add1c79d913ae9b5ab283475201d50dac90968d7ba275ffa6002cd32ca94901d",
+          "observationSha256": "be7380d99ef199e279035e8cf44b8519f8c343de3fd64cdb475228f86ee74cbd"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "7de67753dad4b632b4efb90e69d0b15e1bc0efc2640834b3c31da38ed088d9ee",
+          "observationSha256": "bf2c67b7203cf0b71a2d413299a72abe474b31fa586c09cf32cfc527b3e391ff"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "71d3219a88dc16d0cf1bf8a6ea28c773a0a1a04ca3d3c3f3e3062623c8a9f103",
+          "observationSha256": "1277b1097dd621f7e79c48a3c973e9110af7c5fa53641e96d0735d51df3743c9"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "6df5294050ae4d09d2dbfd28fcad26d9663dc65477a2241715559e3337b49461",
+          "observationSha256": "0511209c5d9b9703e4e76299591aac03198e3d8d980bd42c9313dabe2021e938"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "211dc661d5bf8d532cf7b0ad37f6babb9ff7223a76dcaed1bc6a592a24abb1eb",
+          "observationSha256": "1a68a8a9625ccbeb2b0d30eb4794b98fd2f03655826947664507572d9e35ba2f"
+        }
+      ],
+      "allObservationsSha256": "a480010fc0a7681b214eb04e062888c6d0cfff179ad1796a91b5776cb860a9ba"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/3",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "fb004dab5bdcd3992ca705414293a22ab7e0f36b68c4028838f1d1f06920e6c5",
+          "observationSha256": "7182f1e2ab9e5e3be5878284eafb923296016064b19c887b352c0d87a8f9d64b"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "5f08d77051424f2c168d3e458287f8f3d9d7bed131c06fe97770b1099c912600",
+          "observationSha256": "90aa9a7806598894b4e626bbb0e0018bb8878053dc4ad011d62d2daeff817032"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "43adf3182c32319500cccdeb4a49d6c7b025afdf402bca89b21a00d1d1d01d9d",
+          "observationSha256": "34170ebad1fe63cb9dbb0f50b227f47404ccbdbb273e3c52fc8b419e348019fe"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "a9e817b138357466cce7a658a62c264e81f41a50f66f3f7f6a5f0e2066b3a357",
+          "observationSha256": "3950001b10aa704c0e86471300bda02ff05325a29abbc69547cfc6d5e85fb37b"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "fafc7c229072379afcdc69a34ece1109eeee3d0b635ac4adc443ca8463cd03e9",
+          "observationSha256": "30832b4e9fd3d131d2f8f3b1d17d4807fe93d58793f67b4a3ec96b2e59017274"
+        }
+      ],
+      "allObservationsSha256": "e1780d2260ebd428382f11a59ddd7794a1be8a5d20929db1014e84904ef97990"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/3",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "550d34c88ac38edc731697a9b3bc091c6995c92c5050c1a1a0a7c2cd579a7f29",
+          "observationSha256": "414a96fdaac8eb1081baf8c5c8fe91eebd56aa82e89f64bb833fa715331f2a89"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "680deeb35822d97ad5bd5b93cc4c33836a9b184ace45401b0d4e22a44bc705cd",
+          "observationSha256": "83ca5108915b7d279b51281d4310f6f23a5ce07c219a93d691a6c8da490a0343"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "65759cc0b61379a1fc6d12d5ce20aec0688a88406c64128853246ebb29e67fcd",
+          "observationSha256": "dbaaa34b94bbc3dd1d802df7d0bdd1ab649ce296e62a81e45586178500dad151"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "d92b4624838956001eaa03c316dc5c7d43f444d231071446375594135c13ca42",
+          "observationSha256": "50dc9b66ef5fcaa7b55d354beb81a68c8f03075e0afa82524308282b988bb945"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "c13983386120245a8b84ead4038563c06dc4689c0e30d7e9de09b0cee8b54018",
+          "observationSha256": "5b3bffde8a618cc62685324d48e432da31064141e048c56146fe44f722a223fc"
+        }
+      ],
+      "allObservationsSha256": "f1f9ea732752d2acd3013d298beeb4b809a938527ce8c40b2fe932595e10b59c"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": false,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/3",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "b5a6777d6a6af46bce7e772450dd10f7fb5b509d8f0c67ca2e073bcbbf0d6565",
+          "observationSha256": "e15eff87fbb5f4ca88aff8412a1154f4b91ceb59c94a08587ced35392401ecb8"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "37ed662e220076b35475e6c563506fa4e723b8808dc5e87cc3bbd1fe5ba7e6ef",
+          "observationSha256": "526116fce753e61ef16852b7d865d17498a941a0e4f4406758b3bbe3137de0a4"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "db333abf558f53b29398be4b8e487208068a9975329a942debe162d92268a37c",
+          "observationSha256": "352de8553f330c642e247b5cf7938f97fd3bde11034b5188f128abc3888beb1e"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "560fdf1dc38d1df170b713341fdb18c5894dac7039232200cc79d51727e8411c",
+          "observationSha256": "be616202ed3de724d0aabfb7c63befb75b3006e527ab4ef081c15dc14de76a8c"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "6f2a37187a3d62b652e0bfb8d0606b4f3932279aed765bdffa100c50070c85d5",
+          "observationSha256": "027f1b3cf242f6149b4c761492a952a72c12846188af59e49b2027a22248e396"
+        }
+      ],
+      "allObservationsSha256": "e6ca91e534ff70fa8dfe88e25beb118d655f629b5aeba4fdb5b8e8b07ee42fea"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/3",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "1750abdad1a690d6f04d62bb734dffd1f3f116f4721a323afbab6fce0e9e09b3",
+          "observationSha256": "be7380d99ef199e279035e8cf44b8519f8c343de3fd64cdb475228f86ee74cbd"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "16ef6018136acee97039ae2e958354db9a38714228cdfbcb2f3a0475186cf1ed",
+          "observationSha256": "bf2c67b7203cf0b71a2d413299a72abe474b31fa586c09cf32cfc527b3e391ff"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "f1f4035a196987250cb2feb4339e5c8c074ce6b0b10fedc5df51d719a457d4c7",
+          "observationSha256": "1277b1097dd621f7e79c48a3c973e9110af7c5fa53641e96d0735d51df3743c9"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "438c47470f05b49bd8e5385ea43dda7b622911362808a47ba8a000cb7a5ea49c",
+          "observationSha256": "0511209c5d9b9703e4e76299591aac03198e3d8d980bd42c9313dabe2021e938"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "556c717185e231d7fcc3cb571941d56decfb2fdc39a0ae1e7b66b04cf36a1249",
+          "observationSha256": "1a68a8a9625ccbeb2b0d30eb4794b98fd2f03655826947664507572d9e35ba2f"
+        }
+      ],
+      "allObservationsSha256": "7252e20f5c43c0d9a2e10e05b676a307167201e4931605b5000ee5ad5859074b"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/3",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "f71ea02b45c1b025a17f904a6644aced8e7ef570d8370e8aac79b5ea218f046a",
+          "observationSha256": "7182f1e2ab9e5e3be5878284eafb923296016064b19c887b352c0d87a8f9d64b"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "7010f9f716b6317e083b45b5ac1d325bfb7d0c0276f708e0217e7eb8fe9778ee",
+          "observationSha256": "90aa9a7806598894b4e626bbb0e0018bb8878053dc4ad011d62d2daeff817032"
+        },
+        {
+          "turn": 2,
+          "fingerprint": "6b7d07e0b5b139b05f7af6ffa1bc185e7c163c96b9151cc9e95f12689124be2a",
+          "observationSha256": "34170ebad1fe63cb9dbb0f50b227f47404ccbdbb273e3c52fc8b419e348019fe"
+        },
+        {
+          "turn": 3,
+          "fingerprint": "b3eaf24da775f4457cbdaab80b3645e0cbc74a71fc4592f4c93c074c4f03ef7c",
+          "observationSha256": "3950001b10aa704c0e86471300bda02ff05325a29abbc69547cfc6d5e85fb37b"
+        },
+        {
+          "turn": 4,
+          "fingerprint": "a8a8e6447579db295db2ddac859f42a5e1425e31050f64d47d1b69a4998ed693",
+          "observationSha256": "30832b4e9fd3d131d2f8f3b1d17d4807fe93d58793f67b4a3ec96b2e59017274"
+        }
+      ],
+      "allObservationsSha256": "c16305546a611e829c92cfec41d64fed2fddabaa65cfa9c158e8829952d59686"
+    }
+  ],
+  "sourceHashes": {
+    "baseline": {
+      "observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+      "observation-modules.js": "2e6643e2d277b4755bcb0973f77bdd6044805a508e4670886c1344f013c89654",
+      "observations.js": "ddcb0dc63989f4c2d0544736d98228b020e451dc9a14d715e813ae2c9a49bcf5",
+      "replay-version.js": "6caf9bd0e166750da5cdf93cd01e0dc8c6b5fe95ca2d585b8cf23cc2f32ce464",
+      "hash.js": "a2af1afe8540aa56834b8c26255f4a4b3da80104a27a9471cace70a65670f39c",
+      "landscape.js": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+      "map-data.js": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+      "map-templates.js": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e"
+    },
+    "current": {
+      "observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+      "observation-modules.js": "a52322f0ac350232e3524fed110dc1c6b31128793083df7c25156eb1e70b63a9",
+      "observations.js": "c680c18cf93534d385d1bec0fce2ec654c29ad6fa79a8cf5de56611e38ed74ec",
+      "replay-version.js": "542b80fb51a347a296cd610fce14bb3ff278d4e7c40c8ec329d2f8c37754470c",
+      "hash.js": "a2af1afe8540aa56834b8c26255f4a4b3da80104a27a9471cace70a65670f39c",
+      "landscape.js": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+      "map-data.js": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+      "map-templates.js": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e"
+    },
+    "runner": "1f50ee022e8544f61cbb43618c7d3e2a8e3e4f0bccdf317c0da605868f2e8806"
+  },
+  "scope": "Four old versions; all eight advantage profiles; five consecutive states each. Exact complete biological world, fingerprint, finite accounting, and separate baseline/current product O snapshots. Not a long-term survival or performance certification.",
+  "passed": true
+}

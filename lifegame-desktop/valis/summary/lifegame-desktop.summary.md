@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-開発版は4.2.45、Windows配布済み版は4.2.32。現在の対象は `operations/evidence/i11c-local-survival-v1/README.md`。survival/3のQ局所探索・可視手掛かりと旧3方式の互換を既存15のC/D/Eへ接続。下層3候補は50T比較で見送り。事前固定3条件の60→120T比較では初期寄生Qの同ID羽化2/1/0、新規Q感染/産卵/子の定着0。関連138検査、旧120状態、実画面49項目の限定照合済み。I11継続: 下層更新、P/Qの自然長期循環、全22系統/R1〜R6・全端末性能は未認定。新Windows/ZIPはI12、画面構成の追加修正は実稼働後。
+開発版は4.2.46、Windows配布済み版は4.2.32。現在の対象は `operations/evidence/i11d-lower-renewal-v1/README.md`。菌膜を有限の基部/可食部を持つ群落へ変更し、survival/4で実費再生・維持不足消滅・群落単位/保存互換を接続。前半の個体係数探索は製品へ一括採用しない。限定検査と固定陸水実測の結果は同証跡を参照。I11継続：下層の未達経路、P/Q自然循環、全系統R1〜R6・性能は未認定。新Windows/ZIPはI12、構成修正は実稼働後。
 
 ## A：仕様
 
@@ -27,11 +27,11 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 
 	A1.2:（A1 / 各マスの環境・餌資源）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.2.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
+			valis/nodes/A/A1.2.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			生体/群落/体外感染量/死骸/情報を描画・選択・計数で区別し、同居/基部残存/可食部0を識別する。大型植物と基底群落、同居容量、本体/可食部、浮遊する淡水個体の局所位置を区別する。 草と虫の有限在庫、相変異時の摂食増加、主生物側最大3体同居の量機限定例外を定義する。
+			菌膜は1マス1群落。基部/有限可食部/蓄えE・Mを区別し、通常採食は基部を残す。光合成・無条件補充は行わない。
 		実態:
-			既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 	A1.3:（A1 / 性別・繁殖・遺伝）［草案］
 		構成（要素・関係）:
@@ -67,11 +67,11 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 
 	A1.7:（A1 / 共通生物モデルと栄養関係）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.7.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
+			valis/nodes/A/A1.7.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			動物個体/植物群落/寄生群体を各IDで一度計数し、体外感染量/情報/死骸は生体数へ加えない。三植物は生産者として一回集計し、基底群落/動物/P/Qと有限収支へ接続する。 相変異型2〜3体同居でも各個体のID/栄養/生死/寄生参照/食物網配分を保ち、在庫を複製しない。
+			分解者の群落数と体量Bを分離し、栄養切れによる消滅と同ID再生/別ID成立を区別する。草棲虫・水游虫は個体のまま。
 		実態:
-			既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 A2:（起点 / 独立した Windows ローカル実行）［草案］
 	構成（要素・関係）:
@@ -152,19 +152,19 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 
 	B4.3:（A1.6, A1.2 / 非採食の栄養収支）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B4.3.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/B/B4.3.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			図のB/可食量/生産・再生量と有限な入力/移転/費用を対応させる。三植物の生産/可食部再生/維持を有限入力と費用へ接続し、本体損傷/寿命を残す。
+			菌膜は実有機物を分解・同化し、Eを支払って可食部を再生する。維持不足の連続で基部も消滅する。
 		実態:
-			植物/P/Qの造形対応をA/B反映済み。独立植物はI03、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。後続修正/検証要否・草案/階層/参照は維持。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 	B4.4:（A1.7, A1.2, A1.6 / 生産者・餌生物の共通生活処理）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B4.4.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/B/B4.4.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			群落の基部/可食部/活性/蓄えと個体年齢/代表状態を表示へ渡す。基底群落の更新と大型植物一個体の成長/成熟繁殖を区別し、再生を出生にしない。
+			同ID再生と近傍CAによる新ID/親/世代付きの群落成立を別処理とする。個体寿命は適用せず、出生費と有限材料を維持する。
 		実態:
-			植物/P/Qの造形対応をA/B反映済み。独立植物はI03、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。後続修正/検証要否・草案/階層/参照は維持。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案］
 	構成（要素・関係）:
@@ -184,11 +184,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.2:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 進化・繁殖・生態関係の説明シート）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.2.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
+			valis/nodes/B/B5.2.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			短い通常要約と必要な横詳細で、群落/個体/群体/感染量/情報/死骸、選好/遺伝適応/抵抗、鮮度/期限/Q痕跡を説明する。植物の本体/可食量と移動、P形態、Q最終IVの採用範囲と未実装を説明する。 背中だけ黒の1〜3、黒と深緑の4、移動全相3、同居2〜3と繁殖目的/繁殖力の違いを説明する。通常分岐は採用2画像と正本の名称/親子対応を使う。
+			菌膜の説明は群落単位とし、基部/可食部・蓄え・実分解/実費再生・成立後Tを表示。個体年齢/雌雄は適用しない。
 		実態:
-			既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 	B5.3:（A1.1, A1.2, A1.3, A1.5, A1.6 / 確定した行動のモーション表示）［草案］
 		構成（要素・関係）:
@@ -208,19 +208,19 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.5:（A1, A1.1, A1.3, A1.5, A1.7 / 個体数・集団構成・生態関係のグラフ）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.5.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
+			valis/nodes/B/B5.5.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			全期間3パネルと現在一体サマリで記録数/B/量/期間/欠測を分離する。大型植物本体は生産者へ一回、P/Qは群体で計数し、可食量/実B/器官数を混同しない。 同セル3体は3個体、相変異は出生/死亡ではない。全期間集計/実B/役割配分の重複を防ぐ。
+			菌膜を群落数、身体B、可食B、実分解/再生Eへ分けて全ターン観測する。年齢/雌雄の構成は非適用として集計する。
 		実態:
-			既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.6.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
+			valis/nodes/B/B5.6.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			分類別折返し/複数固有色の所在強調/0数項目整理/名札切替と独立横詳細を維持する。大型植物を主生物同等に選択/追跡し、再生/宿主付随/離脱でも同じIDへ接続する。 同居する各個体の所在強調/選択/追跡を保ち、セル全体と単一個体の対象を区別する。
+			菌膜の再生中も同じIDを追跡し、群落の消滅後は別IDへ追跡を移さない。新群落は別の成立として扱う。
 		実態:
-			既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 ```
 
@@ -293,59 +293,59 @@ C6:（B5 / モックの造形投影・観測画面・配布）［草案］
 
 C7:（B4 / 同期ターン接合と世界確定）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C7.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+		valis/nodes/C/C7.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 	ロジック:
-		survival/3を生成8経路/直接計算/Workerへ接続。有限収支・確定時点と旧無指定/1/2の計算を保持する。
+		survival/4へ菌膜群落の有限収支・基部保護・再生/消滅を同期更新へ接合。旧3/2/1/無指定の計算経路を維持する。
 	実態:
-		4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+		採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 	C7.1:（B4, B4.4 / 初期値・固定世界・31種の共通状態）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.1.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+			valis/nodes/C/C7.1.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			新規則の実効設定を保存し、初期数/年齢/明示0・旧3方式の初期状態を保持する。探索差以外の初期優遇を追加しない。
+			版付き菌膜群落設定/状態を追加。初期の総E/B/Mと明示0を保ち、個体寿命/年齢非適用を設定・生成・不変条件へ接続する。
 		実態:
-			4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 	C7.2:（B4.3, B4.4 / 有限栄養・資源CA・生産と死骸）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.2.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+			valis/nodes/C/C7.2.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			菌の体量再建候補は50T比較で存続/出生改善なしのため見送る。既存の有限採食・材料留保をv3へ引き継ぐ。
+			通常採食は共有する可食在庫のみ。分解・同化Eから上限付き再生費を払い、維持不足で消滅して有限死骸へ一度移す。
 		実態:
-			4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 	C7.3:（B4.1 / 局所行動・同時移動戦闘・学習）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.3.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+			valis/nodes/C/C7.3.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			草棲虫の危険変換は50T比較で見送る。Qだけ可視な体外寄生を優先し、手掛かりなし/見込みのない接触後の有料探索を追加。
+			菌膜以外の行動係数は追加採用しない。前半の草棲虫の視野/移動費/速度の比較は探索証跡に限定する。
 		実態:
-			4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 	C7.4:（B4, B4.4 / 成長・遺伝・出生と繁殖例外）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.4.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+			valis/nodes/C/C7.4.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			種別出生圧候補は出生増が被食増へ流れたため見送る。成熟/実材料/局所密度/実費と子の年齢0を保持する。
+			群落のI/II成長と有償隣接成立を接続。基部Bは出生時Bに内包し、同ID回復と新ID/親/世代を混同しない。
 		実態:
-			4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 	C7.5:（B4.2 / 寄生生活環と外部情報）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.5.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+			valis/nodes/C/C7.5.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			Qの手掛かり順位と局所探索を修正。維持2回と移動実費を留保し、内部感染/時計の透視、窓延長、新栄養はない。自然次世代は未達。
+			P/Qは旧survival/3の局所探索等を新4にも継承するだけで係数/宿主/生活環を変更しない。菌膜以外の自然循環認定は行わない。
 		実態:
-			4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+		valis/nodes/C/C8.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 	ロジック:
-		新規世界をsurvival/3で作成・保存し、旧記録は元の計算で再生する。現行UI構成と全期間原値を保持する。
+		既存画面の菌膜単位と専用詳細のみ接続。UI構成・採用画像・遠近の造形/背景は維持する。
 	実態:
-		4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+		採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -357,11 +357,11 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.2.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+			valis/nodes/C/C8.2.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			v3の新署名と旧3方式の署名正規化を分離。偽装したv3の旧署名を拒否し、旧原記録・全T観測・再保存の別IDを保持する。
+			全Tの菌膜群落原値・CSV単位・終端要約/実効設定を保存。新4/旧3以下の署名を分離し旧再生を守る。
 		実態:
-			4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 ```
 
@@ -418,43 +418,43 @@ D6:（A1.1, A1.2, A1.3, B5, C6 / モックの画面・描画・実行検証計�
 
 D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D7.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+		valis/nodes/D/D7.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 	ロジック:
-		3版×8生成経路の72状態でsource一致、旧3版×8×5の120状態と全T原値を基準mainへ照合する。
+		有限基部/再生費/出生費を境界検査。新旧4版×8生成profile×T0〜2の96状態でsource一致、旧4版160状態/32全期間snapshotの完全一致を照合する。
 	実態:
-		4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+		採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 D8:（C7 / 生態循環と結合進行）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D8.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+		valis/nodes/D/D8.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 	ロジック:
-		採用Q境界・有限収支と下層3候補の負の比較を分ける。3固定寄生条件を両版60→120Tへ拡張し、全T原値を照合する。
+		下層の死因・短期候補・棄却した組合せと菌膜群落の実分解/再生を分けて実測する。500Tを全系統生存認定へ一般化しない。
 	実態:
-		4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+		採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 	D8.1:（C7.4 / 相・出生・遺伝と繁殖例外）［草案］
 		構成（要素・関係）:
-			valis/nodes/D/D8.1.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+			valis/nodes/D/D8.1.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			河川/湖50Tの3単独候補を比較し、存続改善を示さない案を採用しない。材料再建と実摂取/被食を区別する。
+			菌膜の有償隣接成立でID/親/世代と有限収支を検査。同ID再生を出生数へ加えず、年齢・雌雄は非適用とする。
 		実態:
-			4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 	D8.2:（C7.5 / 寄生・高次寄生と情報）［草案］
 		構成（要素・関係）:
-			valis/nodes/D/D8.2.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+			valis/nodes/D/D8.2.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 		ロジック:
-			局所Q境界と旧方式を検査。120Tで同Q羽化2/1/0、新規曝露/定着/産卵/子0を区別し、生活環完成を認定しない。
+			旧版完全一致を用いてP/Qの計算維持を確認。今回の群落実測をP/Q自然生活環の合格へ転用しない。
 		実態:
-			4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 	ロジック:
-		実画面49項目・実Worker4Tの全FP/O、停止再開/選択/保存再生を照合。UI/絵柄の再設計と500T画面は対象外。
+		Linux Chromiumの短期実Worker・停止再開/選択・菌膜横詳細・全T保存/再生を照合。Windows/500T画面は対象外。
 	実態:
-		4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+		採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 ```
 
@@ -495,19 +495,19 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 
 E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E5.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+		valis/nodes/E/E5.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 	ロジック:
-		4.2.45の短期下層3候補・寄生3条件60→120T・関連138検査・旧120状態の限定証跡を保持。R1〜R6/自然Q世代は未認定。
+		菌膜の死因調査、前半候補の採否、群落の固定陸水実測、関連検査と旧版完全一致を版付きで記録する。
 	実態:
-		4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+		採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。契約: operations/plans/i11c-local-survival-v1.md。証跡: operations/evidence/i11c-local-survival-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
 	ロジック:
-		Linux実画面49項目とWorker4TのFP/O一致を記録。新Windows/500T画面/全端末性能へ一般化しない。
+		菌膜群落単位/横詳細・実Worker・全T保存/旧再生のLinux実画面証跡を記録。新Windows/全端末性能へ一般化しない。
 	実態:
-		4.2.45 I11c限定修正/照合。草案。I11継続: 下層の実摂取/被食と更新、Pの循環持続、Qの新規接触/定着と次世代、未評価系統/R1〜R6・性能。新WindowsはI12。
+		採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

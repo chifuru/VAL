@@ -1,0 +1,615 @@
+{
+  "baseline": "803f677",
+  "turns": 50,
+  "rows": [
+    {
+      "privateVariant": "baseline",
+      "case": "lake-1",
+      "tailMean": {
+        "grassbug": 8.4,
+        "waterbug": 75.5,
+        "fungus": 7.1
+      },
+      "finalGenerations": {
+        "grassbug": {
+          "1": 2,
+          "2": 3,
+          "3": 1,
+          "4": 1
+        },
+        "waterbug": {
+          "0": 27,
+          "1": 35,
+          "2": 12
+        },
+        "fungus": {
+          "0": 2,
+          "1": 2,
+          "2": 1
+        }
+      },
+      "deaths": {
+        "fungus:harvest": 33,
+        "grassbug:combat": 30,
+        "grassbug:starvation": 3,
+        "grassbug:age": 19,
+        "waterbug:combat": 15,
+        "fungus:age": 3,
+        "fungus:starvation": 1
+      },
+      "final": {
+        "grassbug": 7,
+        "waterbug": 74,
+        "fungus": 5
+      },
+      "births": {
+        "grassbug": 26,
+        "waterbug": 55,
+        "fungus": 9
+      }
+    },
+    {
+      "privateVariant": "baseline",
+      "case": "river-0",
+      "tailMean": {
+        "grassbug": 0,
+        "waterbug": 37.7,
+        "fungus": 4
+      },
+      "finalGenerations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 12,
+          "1": 13,
+          "2": 4,
+          "3": 1,
+          "6": 2,
+          "7": 1
+        },
+        "fungus": {
+          "0": 3
+        }
+      },
+      "deaths": {
+        "grassbug:combat": 36,
+        "fungus:harvest": 35,
+        "waterbug:harvest": 50,
+        "waterbug:combat": 9,
+        "grassbug:harvest": 2,
+        "fungus:starvation": 1,
+        "fungus:age": 1
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 33,
+        "fungus": 3
+      },
+      "births": {
+        "grassbug": 5,
+        "waterbug": 59,
+        "fungus": 7
+      }
+    },
+    {
+      "privateVariant": "fungus-half",
+      "case": "lake-1",
+      "tailMean": {
+        "grassbug": 8.4,
+        "waterbug": 73.8,
+        "fungus": 9.9
+      },
+      "finalGenerations": {
+        "grassbug": {
+          "1": 2,
+          "2": 3,
+          "3": 1,
+          "4": 1
+        },
+        "waterbug": {
+          "0": 29,
+          "1": 33,
+          "2": 11
+        },
+        "fungus": {
+          "0": 4,
+          "1": 3,
+          "2": 1
+        }
+      },
+      "deaths": {
+        "fungus:harvest": 31,
+        "grassbug:combat": 30,
+        "grassbug:starvation": 3,
+        "grassbug:age": 19,
+        "waterbug:combat": 16,
+        "fungus:age": 3
+      },
+      "final": {
+        "grassbug": 7,
+        "waterbug": 73,
+        "fungus": 8
+      },
+      "births": {
+        "grassbug": 26,
+        "waterbug": 55,
+        "fungus": 9
+      }
+    },
+    {
+      "privateVariant": "fungus-half",
+      "case": "river-0",
+      "tailMean": {
+        "grassbug": 0,
+        "waterbug": 28.1,
+        "fungus": 8.6
+      },
+      "finalGenerations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 8,
+          "1": 11,
+          "2": 2,
+          "5": 1
+        },
+        "fungus": {
+          "0": 4,
+          "1": 2,
+          "2": 1
+        }
+      },
+      "deaths": {
+        "grassbug:combat": 36,
+        "fungus:harvest": 37,
+        "waterbug:harvest": 53,
+        "waterbug:combat": 11,
+        "grassbug:harvest": 2
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 22,
+        "fungus": 7
+      },
+      "births": {
+        "grassbug": 5,
+        "waterbug": 53,
+        "fungus": 11
+      }
+    },
+    {
+      "privateVariant": "fungus-quarter",
+      "case": "lake-1",
+      "tailMean": {
+        "grassbug": 7.6,
+        "waterbug": 73.6,
+        "fungus": 10.2
+      },
+      "finalGenerations": {
+        "grassbug": {
+          "1": 1,
+          "2": 1,
+          "3": 3,
+          "4": 3,
+          "5": 1
+        },
+        "waterbug": {
+          "0": 28,
+          "1": 33,
+          "2": 10
+        },
+        "fungus": {
+          "0": 4,
+          "1": 3,
+          "2": 1,
+          "3": 1
+        }
+      },
+      "deaths": {
+        "fungus:harvest": 31,
+        "grassbug:combat": 28,
+        "grassbug:starvation": 3,
+        "grassbug:age": 23,
+        "waterbug:combat": 18,
+        "fungus:age": 3
+      },
+      "final": {
+        "grassbug": 9,
+        "waterbug": 71,
+        "fungus": 9
+      },
+      "births": {
+        "grassbug": 30,
+        "waterbug": 55,
+        "fungus": 10
+      }
+    },
+    {
+      "privateVariant": "fungus-quarter",
+      "case": "river-0",
+      "tailMean": {
+        "grassbug": 0,
+        "waterbug": 26.8,
+        "fungus": 11.3
+      },
+      "finalGenerations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 9,
+          "1": 10,
+          "2": 2
+        },
+        "fungus": {
+          "0": 5,
+          "1": 2,
+          "2": 1
+        }
+      },
+      "deaths": {
+        "grassbug:combat": 36,
+        "fungus:harvest": 36,
+        "waterbug:harvest": 58,
+        "waterbug:combat": 11,
+        "grassbug:harvest": 2
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 21,
+        "fungus": 8
+      },
+      "births": {
+        "grassbug": 5,
+        "waterbug": 57,
+        "fungus": 11
+      }
+    },
+    {
+      "privateVariant": "grass-both",
+      "case": "lake-1",
+      "tailMean": {
+        "grassbug": 3.6,
+        "waterbug": 68.6,
+        "fungus": 5.7
+      },
+      "finalGenerations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 25,
+          "1": 32,
+          "2": 11,
+          "3": 1
+        },
+        "fungus": {
+          "0": 1,
+          "1": 2,
+          "2": 1
+        }
+      },
+      "deaths": {
+        "fungus:harvest": 34,
+        "grassbug:combat": 52,
+        "waterbug:combat": 22,
+        "grassbug:age": 15,
+        "grassbug:starvation": 2,
+        "fungus:age": 3,
+        "fungus:starvation": 1
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 69,
+        "fungus": 4
+      },
+      "births": {
+        "grassbug": 36,
+        "waterbug": 57,
+        "fungus": 9
+      }
+    },
+    {
+      "privateVariant": "grass-both",
+      "case": "river-0",
+      "tailMean": {
+        "grassbug": 0,
+        "waterbug": 45.5,
+        "fungus": 3.9
+      },
+      "finalGenerations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 15,
+          "1": 11,
+          "2": 5,
+          "3": 5,
+          "4": 1
+        },
+        "fungus": {
+          "0": 3
+        }
+      },
+      "deaths": {
+        "grassbug:combat": 39,
+        "fungus:harvest": 36,
+        "waterbug:harvest": 43,
+        "waterbug:combat": 10,
+        "grassbug:harvest": 2,
+        "grassbug:starvation": 1,
+        "fungus:age": 2
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 37,
+        "fungus": 3
+      },
+      "births": {
+        "grassbug": 9,
+        "waterbug": 57,
+        "fungus": 8
+      }
+    },
+    {
+      "privateVariant": "grass-move",
+      "case": "lake-1",
+      "tailMean": {
+        "grassbug": 11.6,
+        "waterbug": 67.7,
+        "fungus": 7.5
+      },
+      "finalGenerations": {
+        "grassbug": {
+          "1": 2,
+          "2": 5,
+          "3": 5,
+          "4": 1
+        },
+        "waterbug": {
+          "0": 24,
+          "1": 30,
+          "2": 12
+        },
+        "fungus": {
+          "0": 2,
+          "1": 2,
+          "2": 1
+        }
+      },
+      "deaths": {
+        "fungus:harvest": 33,
+        "grassbug:combat": 38,
+        "grassbug:age": 19,
+        "waterbug:combat": 25,
+        "grassbug:starvation": 2,
+        "fungus:age": 3,
+        "fungus:starvation": 1
+      },
+      "final": {
+        "grassbug": 13,
+        "waterbug": 66,
+        "fungus": 5
+      },
+      "births": {
+        "grassbug": 39,
+        "waterbug": 57,
+        "fungus": 9
+      }
+    },
+    {
+      "privateVariant": "grass-move",
+      "case": "river-0",
+      "tailMean": {
+        "grassbug": 0,
+        "waterbug": 36,
+        "fungus": 5.8
+      },
+      "finalGenerations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 9,
+          "1": 11,
+          "2": 7,
+          "3": 2,
+          "4": 1
+        },
+        "fungus": {
+          "0": 1,
+          "1": 1
+        }
+      },
+      "deaths": {
+        "grassbug:combat": 42,
+        "fungus:harvest": 36,
+        "waterbug:harvest": 56,
+        "grassbug:harvest": 1,
+        "waterbug:combat": 7,
+        "fungus:starvation": 1,
+        "fungus:age": 2
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 30,
+        "fungus": 2
+      },
+      "births": {
+        "grassbug": 10,
+        "waterbug": 60,
+        "fungus": 8
+      }
+    },
+    {
+      "privateVariant": "grass-sense",
+      "case": "lake-1",
+      "tailMean": {
+        "grassbug": 7.4,
+        "waterbug": 67.5,
+        "fungus": 5.9
+      },
+      "finalGenerations": {
+        "grassbug": {
+          "2": 1,
+          "3": 2,
+          "4": 2,
+          "5": 2,
+          "6": 1
+        },
+        "waterbug": {
+          "0": 20,
+          "1": 32,
+          "2": 14,
+          "3": 1
+        },
+        "fungus": {
+          "0": 2,
+          "1": 2,
+          "2": 1
+        }
+      },
+      "deaths": {
+        "fungus:harvest": 34,
+        "grassbug:combat": 38,
+        "grassbug:age": 18,
+        "grassbug:starvation": 5,
+        "waterbug:combat": 26,
+        "fungus:age": 2,
+        "fungus:starvation": 1
+      },
+      "final": {
+        "grassbug": 8,
+        "waterbug": 67,
+        "fungus": 5
+      },
+      "births": {
+        "grassbug": 36,
+        "waterbug": 59,
+        "fungus": 9
+      }
+    },
+    {
+      "privateVariant": "grass-sense",
+      "case": "river-0",
+      "tailMean": {
+        "grassbug": 0,
+        "waterbug": 42.8,
+        "fungus": 4.3
+      },
+      "finalGenerations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 13,
+          "1": 11,
+          "2": 7,
+          "3": 3,
+          "5": 1,
+          "6": 1
+        },
+        "fungus": {
+          "0": 4
+        }
+      },
+      "deaths": {
+        "grassbug:combat": 41,
+        "fungus:harvest": 36,
+        "waterbug:harvest": 56,
+        "grassbug:harvest": 2,
+        "waterbug:combat": 7,
+        "grassbug:age": 2,
+        "fungus:age": 1
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 36,
+        "fungus": 4
+      },
+      "births": {
+        "grassbug": 12,
+        "waterbug": 66,
+        "fungus": 8
+      }
+    },
+    {
+      "privateVariant": "grass-swift",
+      "case": "lake-1",
+      "tailMean": {
+        "grassbug": 17.6,
+        "waterbug": 69,
+        "fungus": 7.7
+      },
+      "finalGenerations": {
+        "grassbug": {
+          "1": 1,
+          "2": 6,
+          "3": 5,
+          "4": 4,
+          "5": 2
+        },
+        "waterbug": {
+          "0": 26,
+          "1": 34,
+          "2": 8
+        },
+        "fungus": {
+          "0": 3,
+          "1": 2,
+          "2": 1
+        }
+      },
+      "deaths": {
+        "fungus:harvest": 32,
+        "grassbug:combat": 40,
+        "waterbug:combat": 22,
+        "grassbug:age": 19,
+        "grassbug:starvation": 2,
+        "fungus:age": 3,
+        "fungus:starvation": 1
+      },
+      "final": {
+        "grassbug": 18,
+        "waterbug": 68,
+        "fungus": 6
+      },
+      "births": {
+        "grassbug": 46,
+        "waterbug": 56,
+        "fungus": 9
+      }
+    },
+    {
+      "privateVariant": "grass-swift",
+      "case": "river-0",
+      "tailMean": {
+        "grassbug": 0,
+        "waterbug": 40,
+        "fungus": 5.8
+      },
+      "finalGenerations": {
+        "grassbug": {},
+        "waterbug": {
+          "0": 15,
+          "1": 12,
+          "2": 9,
+          "3": 2,
+          "4": 1
+        },
+        "fungus": {
+          "0": 4
+        }
+      },
+      "deaths": {
+        "grassbug:combat": 43,
+        "fungus:harvest": 38,
+        "waterbug:harvest": 44,
+        "waterbug:combat": 11,
+        "grassbug:age": 2,
+        "grassbug:harvest": 3,
+        "grassbug:starvation": 1,
+        "fungus:age": 1
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 39,
+        "fungus": 4
+      },
+      "births": {
+        "grassbug": 16,
+        "waterbug": 61,
+        "fungus": 10
+      }
+    }
+  ]
+}

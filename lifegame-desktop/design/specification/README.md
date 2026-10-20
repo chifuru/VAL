@@ -1,8 +1,8 @@
 # 生態シミュレーション：現在のA・B仕様
 
-管理版 `specification-index/15`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
+管理版 `specification-index/16`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
 
-第1〜第4組、[境界規則・比較開始値/1](initial-comparison-v1.md)、[植物・P・Qの造形対応/1](appearance-correspondence-v1.md)を維持し、[量機/3](ryouki-v1.md)へ[通常型の第三相3枝・第四相6枝の2画像](../ryouki-branches-v2/README.md)の採用を反映する。通常I/II・相変異2区分と合わせて採用5画像、旧9区画提案1、原案5点を区別する。既定の移動/可逆相変異/繁殖/同居は維持し、戦闘の攻撃45%/防御60%/HP80%は採用済み・未実測、密度閾値/摂食等の倍率は設計側の比較案。造形確認待ちは解消し、次は専用データとC/D接続の整理。[現在の契約](../../operations/plans/completion-roadmap-v1.md#今回の整理範囲)。製品は4.2.32のまま。
+第1〜第4組、量機/3と採用分岐、植物/P/Qの造形対応は採用済み。新たに[菌膜群落/1](fungal-colonies-v1.md)を既存A1.2/A1.7・B4.3/B4.4/B5.2/B5.5/B5.6へ反映し、開発版4.2.46の `survival/4` へ接続する。既存の個体単位・寿命規則のうち、菌膜だけを基部/可食部・有償再生・連続維持不足による消滅へ置き換える。他の動物は個体のまま。採用済みの造形と版付き比較値を区別し、実測範囲は[I11d証跡](../../operations/evidence/i11d-lower-renewal-v1/README.md)。配布済みWindowsは4.2.32、新配布はI12。
 
 ## 読む順序と優先順位
 
@@ -18,6 +18,7 @@
 
 | 対象 | 読む正本 | 優先する内容・境界 |
 | --- | --- | --- |
+| 菌膜の群落単位/有限再生 | [菌膜群落/1](fungal-colonies-v1.md) | 1マス1群落、基部/可食部、有機物の分解と実費再生、維持不足消滅。菌膜の個体寿命/年齢を置換し旧再生は維持 |
 | 量機の系統/分岐/相変異 | [量機/3](ryouki-v1.md)、[原案・採用資料](../ryouki-v1/README.md)、[採用分岐対応](../ryouki-branches-v2/README.md) | 草と虫、通常I1/II2/III3/IV4、III3→IV6。相変異は可逆で全相3マス/2〜3独立個体同居、1〜3は背面黒/4は黒と深緑・繁殖目的。継続低密度で解除。通常分岐2画像は採用済み、旧9区画図は採用外。戦闘3倍率は採用済み、その他の未選定数値は比較案。実装未完 |
 | 植物/P/Qの造形と系統/相/形態 | [造形対応/1](appearance-correspondence-v1.md)、[採用画像と区画](../appearance-baseline-v1/README.md) | 森冠/星冠は別系統の定着生産者、淡水は浮遊/移動生産者。三植物の本体一個体/有限可食量/III3→IV6、既存P二系統A/B/C×I〜III、Q I〜IIIと翅なし最終IV。海生02/泳法/旧Q IVを除外。実装/素材化は未完 |
 | 境界規則/比較開始値 | [比較開始値/1](initial-comparison-v1.md) | 同P/Q移行・死亡/羽化順・適応/抵抗・羽化費と初期Q・群落量/感染量・植物経験・評価基準を採用。明示範囲だけ既存の未選定記述を置換。実装/実測は未完 |

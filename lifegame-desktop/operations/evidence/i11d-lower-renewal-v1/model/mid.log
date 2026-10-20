@@ -1,0 +1,6 @@
+{"variant":"baseline","case":"river-0","turns":150,"final":{"grassbug":0,"waterbug":0,"fungus":0},"tail":{"grassbug":0,"waterbug":1.2,"fungus":0},"births":{"grassbug":5,"waterbug":101,"fungus":7},"wallMs":27552.255257}
+{"variant":"baseline","case":"lake-1","turns":150,"final":{"grassbug":3,"waterbug":85,"fungus":0},"tail":{"grassbug":4.4,"waterbug":85,"fungus":0},"births":{"grassbug":72,"waterbug":130,"fungus":10},"wallMs":28397.346041999997}
+{"variant":"baseline","case":"woodland-2","turns":150,"final":{"grassbug":0,"waterbug":10,"fungus":0},"tail":{"grassbug":0,"waterbug":10,"fungus":0},"births":{"grassbug":33,"waterbug":33,"fungus":1},"wallMs":23604.811192}
+{"variant":"joint","case":"river-0","turns":150,"final":{"grassbug":0,"waterbug":36,"fungus":0},"tail":{"grassbug":0,"waterbug":32.7,"fungus":0},"births":{"grassbug":16,"waterbug":148,"fungus":9},"wallMs":29185.012191}
+{"variant":"joint","case":"lake-1","turns":150,"final":{"grassbug":0,"waterbug":79,"fungus":0},"tail":{"grassbug":0,"waterbug":77.6,"fungus":0},"births":{"grassbug":30,"waterbug":130,"fungus":14},"wallMs":35695.634051}
+{"variant":"joint","case":"woodland-2","turns":150,"final":{"grassbug":0,"waterbug":11,"fungus":0},"tail":{"grassbug":0,"waterbug":11,"fungus":0},"births":{"grassbug":26,"waterbug":32,"fungus":1},"wallMs":32216.781092999998}

@@ -1004,9 +1004,50 @@ return {settings,attach,region,level,factor,begin,finish};
   const spec = (o) => D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
-    Math.max(0, o.B - (spec(o).group === "plant" ? PLANT_BASE : 0));
+    Math.max(0, o.B - (FungalColony.is(o) ? o.colony.baseB : spec(o).group === "plant" ? PLANT_BASE : 0));
   const leafFactor = (o) =>
     0.5 + 0.5 * H.clamp((o.B - PLANT_BASE) / 10, 0, 1);
+  const FungalColony = (() => {
+    const VERSION="fungal-colony-state/1",enabled=w=>w.config.balanceModel==="survival/4",
+      is=o=>o?.species==="fungus"&&o.colony?.version===VERSION;
+    function settings(input={}){
+      const defaults={version:"fungal-colony-parameters/1",baseB:1,capacityB:12,maintenance:.0375,dormantMaintenance:.01,regrowthB:1,regrowthCost:1.2,reserveE:2,starvationTurns:12};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 菌膜群落の設定");
+      const z={...defaults,...input};
+      if(z.version!==defaults.version||z.baseB!==1||!Number.isInteger(z.starvationTurns))throw Error("SETTINGS_INVALID: 菌膜群落の定義版/基部");
+      for(const [k,lo,hi]of [["capacityB",5,200],["maintenance",0,1],["dormantMaintenance",0,z.maintenance],["regrowthB",0,z.capacityB],["regrowthCost",1,10],["reserveE",0,30],["starvationTurns",1,100]])
+        if(typeof z[k]!=="number"||!Number.isFinite(z[k])||z[k]<lo||z[k]>hi)throw Error("SETTINGS_INVALID: 菌膜群落 "+k);
+      return z;
+    }
+    function attach(w,o,origin={kind:"initial"}){
+      if(!enabled(w)||o.species!=="fungus"||is(o))return;
+      const z=w.config.fungalColonySettings;
+      o.colony={version:VERSION,origin:structuredClone(origin),establishedAt:w.turn,baseB:z.baseB,capacityB:z.capacityB,activity:1,starvationRun:0,
+        last:{turn:w.turn,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0},
+        cumulative:{consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0,maintainedTurns:0}};
+      delete o.birthLife;
+    }
+    const increment=(o,k,n)=>{o.colony.last[k]=H.round(o.colony.last[k]+n);o.colony.cumulative[k]=H.round(Math.min(1e12,o.colony.cumulative[k]+n));};
+    function begin(w){if(enabled(w))for(const o of w.organisms)if(is(o))o.colony.last={turn:w.turn,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0};}
+    function maintained(w,o,paid,cost){const z=w.config.fungalColonySettings,c=o.colony;
+      c.starvationRun=paid+1e-8>=H.round(cost)?0:c.starvationRun+1;
+      if(c.starvationRun===0)c.cumulative.maintainedTurns=Math.min(1e12,c.cumulative.maintainedTurns+1);
+      c.activity=H.round(Math.max(0,1-c.starvationRun/z.starvationTurns));
+    }
+    function regrow(w,o,hasBirth){const z=w.config.fungalColonySettings,c=o.colony;
+      const reserve=hasBirth&&o.phase>=2&&o.B>=3&&o.M>=.2?Math.max(8,z.reserveE):z.reserveE,
+        amount=H.round(Math.max(0,Math.min(z.regrowthB*c.activity-c.last.regrowthB,c.capacityB-edibleB(o),Math.max(0,o.E-reserve)/z.regrowthCost)));
+      if(!amount)return;
+      const cost=H.round(amount*z.regrowthCost);o.E=H.round(o.E-cost);o.B=H.round(o.B+amount);dissipate(w,H.round(cost-amount));
+      increment(o,"regrowthB",amount);increment(o,"regrowthCostE",cost);
+    }
+    function summary(w){if(!enabled(w))return;
+      const out={definition:"fungal-colony-observed/1",turn:w.turn,count:0,B:0,baseB:0,edibleB:0,capacityB:0,reserveE:0,reserveM:0,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0,dormantCount:0};
+      for(const o of w.organisms)if(is(o)){out.count++;out.B+=o.B;out.baseB+=o.colony.baseB;out.edibleB+=edibleB(o);out.capacityB+=o.colony.capacityB;out.reserveE+=o.E;out.reserveM+=o.M;if(edibleB(o)<=1e-8)out.dormantCount++;for(const k of ["consumedB","regrowthB","regrowthCostE","assimilatedE"])out[k]+=o.colony.last[k];}
+      for(const k of Object.keys(out))if(typeof out[k]==="number")out[k]=H.round(out[k]);w.fungalColonySummary=out;
+    }
+    return {enabled,is,settings,attach,begin,maintained,regrow,summary,increment};
+  })();
   // Opt-in basal colonies keep their actual E/B/M in the ordinary organism ledger.
   const Colony = (() => {
     const VERSION = "colony-state/1", LIMIT = 1e12;
@@ -2233,8 +2274,10 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3"].includes(c.balanceModel))
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3","survival/4"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
+    if(FungalColony.enabled({config:c}))c.fungalColonySettings=FungalColony.settings(c.fungalColonySettings);
+    else if(c.fungalColonySettings!==undefined)throw Error("SETTINGS_INVALID: 菌膜群落にはsurvival/4が必要です");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
       c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
@@ -2455,7 +2498,7 @@ return {settings,attach,region,level,factor,begin,finish};
     precocial:Object.freeze({attack:.90,defense:.95,hp:.90,move:1,maintenance:.90,healing:1,birth:1,light:.65}),
   });
   function ageInfo(o) {
-    if (Colony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
+    if (Colony.is(o)||FungalColony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
     if (!Number.isFinite(o.birthLife)) return {enabled:false,stage:"adult",factors:ageFactors.adult};
     const s=spec(o),matureAt=s.group==="main"?Math.ceil(o.birthLife*(s.id==="precocial"?.03:s.id==="swarm"&&o.role==="queen"?1/30:.10)):s.maturity,
       elderlyAt=Math.max(matureAt+1,Math.floor(.75*o.birthLife)),
@@ -2472,7 +2515,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if(LargePlant.is(o)){
       o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
     }
-    if(Colony.is(o)){delete o.birthLife;return o;}
+    if(Colony.is(o)||FungalColony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
@@ -2551,12 +2594,13 @@ return {settings,attach,region,level,factor,begin,finish};
     Ryouki.attach(w,o,options);
     LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
+    FungalColony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
     delete o.plantOrigin;
     // Only initial main founders receive a mixed age cohort. Births and explicit
     // ages retain their own clocks, and evolution phase is independent of age.
-    const initialFraction=w.turn===0&&["survival/2","survival/3"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
+    const initialFraction=w.turn===0&&["survival/2","survival/3","survival/4"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
       id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
     return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
@@ -2573,7 +2617,7 @@ return {settings,attach,region,level,factor,begin,finish};
       phase,
       u,
       capE: main ? 100 + (tr.capacity || 0) * u : s.capacity[0],
-      capB: Colony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
+      capB: Colony.is(o)||FungalColony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
       capM: main ? 30 : 2,
       maxHP: main ? 100 : s.capacity[3],
       life: main
@@ -2586,7 +2630,7 @@ return {settings,attach,region,level,factor,begin,finish};
           )
         : s.life,
       maintenance:
-        s.maintenance *
+        (FungalColony.is(o)?(edibleB(o)>0?w.config.fungalColonySettings.maintenance:w.config.fungalColonySettings.dormantMaintenance):s.maintenance) *
         (main
           ? (0.95 + 0.1 * body) *
             (s.id === "precocial"
@@ -3129,6 +3173,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
     if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
+    if(FungalColony.enabled(w))for(const o of w.organisms)if(FungalColony.is(o)){o.age=0;o.phase=1;}
     if(LargePlant.enabled(w))for(const o of w.organisms)if(LargePlant.is(o)){o.age=Math.floor(o.birthLife*config.largePlantSettings.initial.ageFraction);o.phase=config.largePlantSettings.initial.phase;}
     if (config.enabled.P && !PrimaryParasite.enabled(w))
       for (const o of w.organisms)
@@ -3189,6 +3234,7 @@ return {settings,attach,region,level,factor,begin,finish};
       }
     }
     Colony.summary(w);
+    FungalColony.summary(w);
     LargePlant.summary(w);
     PrimaryParasite.summary(w);
     HyperParasite.summary(w);
@@ -3246,6 +3292,7 @@ return {settings,attach,region,level,factor,begin,finish};
     D,
     ProducerSupport,
     Colony,
+    FungalColony,
     LargePlant,
     Ryouki,
     PrimaryParasite,
@@ -3806,6 +3853,7 @@ function(require,module){
           obj.M = S.round(obj.M - M);
           amount = { E: B, M, G: 0 };
           if(S.Colony.is(obj))S.Colony.consumed(w,obj,B);
+          if(S.FungalColony.is(obj))S.FungalColony.increment(obj,"consumedB",B);
           if(S.LargePlant.is(obj))S.LargePlant.consumed(w,obj,B);
           if (obj.B <= 0) ctx.harvestDead.add(obj.id);
         } else {
@@ -3851,6 +3899,7 @@ function(require,module){
             carcass: a.type === "carcass",
           });
           assimilated=result.e;
+          if(S.FungalColony.is(o)&&result.organic)S.FungalColony.increment(o,"assimilatedE",result.e);
           if (result.organic && amount.E > 0) transfer(w, ctx, obj, o, a.type, harvest);
         }
         S.record(ctx, o, "feed", {
@@ -3962,6 +4011,7 @@ function(require,module){
         o.colony.activity=S.round(S.clamp(o.colony.activity+(maintained?.02:-.05),0,1));
         if(maintained)S.Colony.increment(o,"maintainedTurns",1);
       }
+      if(S.FungalColony.is(o))S.FungalColony.maintained(w,o,paidBase,base);
       if(S.LargePlant.is(o))S.LargePlant.maintained(w,o,paidBase,base);
       const paidDensity = spend(w, o, c.density);
       ctx.records.get(o.id).crowding = c.neighborCount >= 5 && paidDensity > 0;
@@ -3977,7 +4027,8 @@ function(require,module){
       if (ctx.harvestDead.has(o.id)) reason = "harvest";
       if(!reason&&S.Colony.is(o)&&o.colony.activity<=0)reason="starvation";
       if(!reason&&S.LargePlant.is(o)&&o.plant.activity<=0)reason="starvation";
-      if (!reason && !S.Colony.is(o) && o.age >= p.life) reason = "age";
+      if(!reason&&S.FungalColony.is(o)&&o.colony.activity<=0)reason="starvation";
+      if (!reason && !S.Colony.is(o) && !S.FungalColony.is(o) && o.age >= p.life) reason = "age";
       if (reason) {
         if(ctx.informationHooks)ctx.informationHooks.informationDeath(w,ctx,o,{reason,cell:o.cell});
         S.record(ctx, o, "death", { reason, appearance: deathAppearance(w,o) });
@@ -4017,8 +4068,8 @@ function(require,module){
               S.phenotype(w, o).capB - o.B,
             ),
           );
-        o.E = S.round(o.E - amount);
-        o.B = S.round(o.B + amount);
+        if(S.FungalColony.is(o))S.FungalColony.regrow(w,o,hasBirth);
+        else {o.E = S.round(o.E - amount);o.B = S.round(o.B + amount);}
       }
       if (
         o.phase < 2 ||
@@ -4043,7 +4094,7 @@ function(require,module){
       const B = kind === "factor" ? 0.2 : 2,
         M = kind === "factor" ? 0 : 0.1;
       if (S.edibleB(o) < B || o.M < M) continue;
-      if(["survival/2","survival/3"].includes(w.config.balanceModel)&&s.id==="fungus"&&(S.round(S.edibleB(o)-B)<3||S.round(o.M-M)<.2))continue;
+      if(["survival/2","survival/3","survival/4"].includes(w.config.balanceModel)&&s.id==="fungus"&&(S.round(S.edibleB(o)-B)<3||S.round(o.M-M)<.2))continue;
       const places = S.nearby(w, o.cell, 1, true)
         .filter((p) => !w.tiles[p].blocked)
         .map((cell) => ({
@@ -4735,7 +4786,7 @@ function(require,module){
       t +=
         (((9 * phaseA[enemy.phase]) / 24) * hp) /
         (1 + S.distance(w, cell, enemy.cell)) ** 2;
-      if(["survival/2","survival/3"].includes(w.config.balanceModel)&&o.species==="grassbug"&&enemy.HP>0&&v.visibleCells.has(enemy.cell)){
+      if(["survival/2","survival/3","survival/4"].includes(w.config.balanceModel)&&o.species==="grassbug"&&enemy.HP>0&&v.visibleCells.has(enemy.cell)){
         const p=v.traits?.get(enemy.id)||S.phenotype(w,enemy),distance=S.distance(w,cell,enemy.cell),
           attackCost=(distance===2?4:3)*S.adjustment(w,enemy,"attackCost",w.tiles[enemy.cell].env,p.phase),
           costs=v.costs?.get(enemy.id),available=costs?costs.budget-costs.action:Math.max(0,enemy.E-p.maintenance);
@@ -5440,7 +5491,7 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
-  const survival = (w) => ["survival/1","survival/2","survival/3"].includes(w.config.balanceModel);
+  const survival = (w) => ["survival/1","survival/2","survival/3","survival/4"].includes(w.config.balanceModel);
   function sparseMainBirths(w, ctx) {
     if (!survival(w)) return false;
     if (ctx.sparseMainBirths === undefined) {
@@ -5473,7 +5524,7 @@ function(require,module){
       if(S.LargePlant.is(o))continue;
       if(S.Ryouki.is(o))continue;
       if (s.group !== "main") {
-        if(S.Colony.is(o)){
+        if(S.Colony.is(o)||S.FungalColony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
           continue;
         }
@@ -5785,7 +5836,7 @@ function(require,module){
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
       ...(independent?{phase:1,age:0,plantOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
-      ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
+      ...((S.Colony.is(mother)||S.FungalColony.is(mother))?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       E: independent ? T-4 : main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
@@ -5937,7 +5988,7 @@ function(require,module){
   const primaryEnabled=w=>S.PrimaryParasite?.enabled(w)===true;
   const hyperEnabled=w=>S.HyperParasite?.enabled(w)===true;
   const informationEnabled=w=>S.PersistentInformation?.enabled(w)===true;
-  const survivalEnabled=w=>["survival/1","survival/2","survival/3"].includes(w?.config?.balanceModel);
+  const survivalEnabled=w=>["survival/1","survival/2","survival/3","survival/4"].includes(w?.config?.balanceModel);
   const informationKeys=["ownExperiences","holdingQualified","deathDecisions","candidateDeaths","normalGenerated","lowGenerated","noGeneration","generatedAmount","expiredAmount","capacityLostAmount","microLostAmount","movedAmount","originsRead","contentsRead","rejectedScope","rejectedContext","rejectedBudget","deduplicated","learned","learningDeltaAbs","placeApplications","placeMagnitude","receptionCostE","qPromoted","qDistorted","environmentRead","ordinaryRead","caregiverRead"];
   function emptyInformationFlow(w){return {definition:"persistent-information-flow/1",turn:w.turn,all:Object.fromEntries(informationKeys.map(key=>[key,0]))};}
   function informationFlow(w,ctx,key,n=1){ctx.persistentInformationFlow??=emptyInformationFlow(w);const a=ctx.persistentInformationFlow.all;a[key]=S.round(a[key]+n);}
@@ -6446,7 +6497,7 @@ function(require,module){
       // maturity clock, genes and energy are not privileged search knowledge.
       // v3 ranks the observed external cue before bodies with no such cue;
       // inherited preference still ranks the visibly infested candidates.
-      const preference=host=>host.infection?.location==="external"?(w.config.balanceModel==="survival/3"?1:0)+(q.hyper.preference?.[host.infection.species]??.5)*informationHostFactor(w,q,host.infection.species):.5;
+      const preference=host=>host.infection?.location==="external"?(["survival/3","survival/4"].includes(w.config.balanceModel)?1:0)+(q.hyper.preference?.[host.infection.species]??.5)*informationHostFactor(w,q,host.infection.species):.5;
       const local=candidates.filter(host=>S.oneStep(w,q.cell,host.cell)).sort((a,b)=>preference(b)-preference(a)||S.hash(w,"hyper/contact-choice",w.turn,q.id,a.id)-S.hash(w,"hyper/contact-choice",w.turn,q.id,b.id));
       if(q.ready<=w.turn&&q.age>=(q.maturity??z.maturity)&&local.length)hyperExpose(w,ctx,q,local[0]);
       const predator=host=>S.spec(host).group==="main"&&host.species!=="ryouki"&&
@@ -6468,7 +6519,7 @@ function(require,module){
           if(amount>0)forage.push({cell,amount});
         }
         const hunger=S.clamp(1-q.E/Math.max(z.eggCost+4*z.maintenance[4],1e-6),0,1),
-          v2=["survival/2","survival/3"].includes(w.config.balanceModel),
+          v2=["survival/2","survival/3","survival/4"].includes(w.config.balanceModel),
           // A finite food stock is not another reward after the adult has
           // reserved one laying attempt and the existing four-turn upkeep.
           needed=Math.max(0,Math.min(z.capE,z.eggCost+4*z.maintenance[4])-q.E),
@@ -6476,7 +6527,7 @@ function(require,module){
           // With no visible cue, or after an unproductive body contact, keep
           // a small paid exploration option. Food and danger still compete;
           // depleted adults retain stop and never borrow future upkeep.
-          exploring=w.config.balanceModel==="survival/3"&&(!cue||(cue.infection?.location!=="external"&&S.distance(w,q.cell,cue.cell)===0))&&q.hyper.starvationRun===0&&q.E>=2*z.maintenance[4]+z.adultMoveCost,
+          exploring=["survival/3","survival/4"].includes(w.config.balanceModel)&&(!cue||(cue.infection?.location!=="external"&&S.distance(w,q.cell,cue.cell)===0))&&q.hyper.starvationRun===0&&q.E>=2*z.maintenance[4]+z.adultMoveCost,
           score=cell=>{
             const nutrition=forage.reduce((n,a)=>Math.max(n,(v2?
                 Math.min(needed,Math.min(z.adultFoodCap,a.amount)*z.adultAssimilation)/Math.max(z.adultFoodCap*z.adultAssimilation,1e-6):
@@ -7719,7 +7770,7 @@ function(require,module){
     for(const o of w.organisms){const c=cohort(o.species,o.generation);
       if(w.turn===0)c.initial++;
       if(childIds.has(o.id))c.born++;
-      if(!S.Colony.is(o)&&ctx.traits.get(o.id)?.ageStage==="juvenile" && S.ageInfo(o).stage!=="juvenile")c.matured++;
+      if(!S.Colony.is(o)&&!S.FungalColony.is(o)&&ctx.traits.get(o.id)?.ageStage==="juvenile" && S.ageInfo(o).stage!=="juvenile")c.matured++;
       if(o.firstBirthAt===w.turn && ctx.parents.has(o.id))c.reproduced++;
     }
     for(const d of ctx.deaths)if(d.ageStage==="juvenile")cohort(d.species,d.generation).juvenileDeaths++;
@@ -7727,7 +7778,7 @@ function(require,module){
     for(const o of w.organisms) {
       const row=composition[o.species]??={phases:[0,0,0,0],ages:{juvenile:0,adult:0,elderly:0},sex:{female:0,male:0,none:0},roles:{}};
       row.phases[o.phase-1]++;
-      if(S.Colony.is(o)){row.ages.nonapplicable=(row.ages.nonapplicable||0)+1;row.sex.nonapplicable=(row.sex.nonapplicable||0)+1;}
+      if(S.Colony.is(o)||S.FungalColony.is(o)){row.ages.nonapplicable=(row.ages.nonapplicable||0)+1;row.sex.nonapplicable=(row.sex.nonapplicable||0)+1;}
       else{row.ages[S.ageInfo(o).stage]++;row.sex[o.sex in row.sex ? o.sex : "none"]++;}
       if(o.birthBlockers){const reasons=birthReasons[o.species]??={};for(const reason of o.birthBlockers)reasons[reason]=(reasons[reason]||0)+1;}
       if(o.role)row.roles[o.role]=(row.roles[o.role]||0)+1;
@@ -7779,6 +7830,7 @@ function(require,module){
     if(S.PrimaryParasite?.enabled(w))S.PrimaryParasite.summary(w);
     S.Ryouki.summary(w);
     S.Colony.summary(w);
+    S.FungalColony.summary(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.summary(w);
     S.ProducerSupport.finish(w,ctx,S);
     w.tallies = w.tallies || emptyTallies(w);
@@ -7884,6 +7936,7 @@ function(require,module){
     w.turn++;
     S.Ryouki.begin(w);
     S.Colony.begin(w);
+    S.FungalColony.begin(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.begin(w);
     S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
@@ -8018,9 +8071,12 @@ function(require,module){
         )
       )
         errors.push("BUDGET:" + o.id);
-      if(w.config.ageModel==="life/1"&&!S.Colony.is(o)){
+      if(w.config.ageModel==="life/1"&&!S.Colony.is(o)&&!S.FungalColony.is(o)){
         if(!Number.isFinite(o.birthLife)||o.birthLife<=0)errors.push("AGE_BASIS:"+o.id);
         else if(o.HP>S.phenotype(w,o).maxHP+.000001)errors.push("AGE_HP:"+o.id);
+      }
+      if(S.FungalColony.is(o)){const c=o.colony;
+        if(!S.FungalColony.enabled(w)||o.B<c.baseB-1e-6||S.edibleB(o)>c.capacityB+1e-6||c.baseB!==1||c.activity<0||c.activity>1||!Number.isSafeInteger(c.starvationRun)||c.starvationRun<0||![c.capacityB,c.activity,...Object.values(c.last),...Object.values(c.cumulative)].every(n=>Number.isFinite(n)&&n>=0))errors.push("FUNGAL_COLONY:"+o.id);
       }
       if(S.Colony.is(o)){
         const c=o.colony,e=c.edibleExposure;
@@ -9117,9 +9173,50 @@ return {settings,attach,region,level,factor,begin,finish};
   const spec = (o) => D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
-    Math.max(0, o.B - (spec(o).group === "plant" ? PLANT_BASE : 0));
+    Math.max(0, o.B - (FungalColony.is(o) ? o.colony.baseB : spec(o).group === "plant" ? PLANT_BASE : 0));
   const leafFactor = (o) =>
     0.5 + 0.5 * H.clamp((o.B - PLANT_BASE) / 10, 0, 1);
+  const FungalColony = (() => {
+    const VERSION="fungal-colony-state/1",enabled=w=>w.config.balanceModel==="survival/4",
+      is=o=>o?.species==="fungus"&&o.colony?.version===VERSION;
+    function settings(input={}){
+      const defaults={version:"fungal-colony-parameters/1",baseB:1,capacityB:12,maintenance:.0375,dormantMaintenance:.01,regrowthB:1,regrowthCost:1.2,reserveE:2,starvationTurns:12};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 菌膜群落の設定");
+      const z={...defaults,...input};
+      if(z.version!==defaults.version||z.baseB!==1||!Number.isInteger(z.starvationTurns))throw Error("SETTINGS_INVALID: 菌膜群落の定義版/基部");
+      for(const [k,lo,hi]of [["capacityB",5,200],["maintenance",0,1],["dormantMaintenance",0,z.maintenance],["regrowthB",0,z.capacityB],["regrowthCost",1,10],["reserveE",0,30],["starvationTurns",1,100]])
+        if(typeof z[k]!=="number"||!Number.isFinite(z[k])||z[k]<lo||z[k]>hi)throw Error("SETTINGS_INVALID: 菌膜群落 "+k);
+      return z;
+    }
+    function attach(w,o,origin={kind:"initial"}){
+      if(!enabled(w)||o.species!=="fungus"||is(o))return;
+      const z=w.config.fungalColonySettings;
+      o.colony={version:VERSION,origin:structuredClone(origin),establishedAt:w.turn,baseB:z.baseB,capacityB:z.capacityB,activity:1,starvationRun:0,
+        last:{turn:w.turn,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0},
+        cumulative:{consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0,maintainedTurns:0}};
+      delete o.birthLife;
+    }
+    const increment=(o,k,n)=>{o.colony.last[k]=H.round(o.colony.last[k]+n);o.colony.cumulative[k]=H.round(Math.min(1e12,o.colony.cumulative[k]+n));};
+    function begin(w){if(enabled(w))for(const o of w.organisms)if(is(o))o.colony.last={turn:w.turn,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0};}
+    function maintained(w,o,paid,cost){const z=w.config.fungalColonySettings,c=o.colony;
+      c.starvationRun=paid+1e-8>=H.round(cost)?0:c.starvationRun+1;
+      if(c.starvationRun===0)c.cumulative.maintainedTurns=Math.min(1e12,c.cumulative.maintainedTurns+1);
+      c.activity=H.round(Math.max(0,1-c.starvationRun/z.starvationTurns));
+    }
+    function regrow(w,o,hasBirth){const z=w.config.fungalColonySettings,c=o.colony;
+      const reserve=hasBirth&&o.phase>=2&&o.B>=3&&o.M>=.2?Math.max(8,z.reserveE):z.reserveE,
+        amount=H.round(Math.max(0,Math.min(z.regrowthB*c.activity-c.last.regrowthB,c.capacityB-edibleB(o),Math.max(0,o.E-reserve)/z.regrowthCost)));
+      if(!amount)return;
+      const cost=H.round(amount*z.regrowthCost);o.E=H.round(o.E-cost);o.B=H.round(o.B+amount);dissipate(w,H.round(cost-amount));
+      increment(o,"regrowthB",amount);increment(o,"regrowthCostE",cost);
+    }
+    function summary(w){if(!enabled(w))return;
+      const out={definition:"fungal-colony-observed/1",turn:w.turn,count:0,B:0,baseB:0,edibleB:0,capacityB:0,reserveE:0,reserveM:0,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0,dormantCount:0};
+      for(const o of w.organisms)if(is(o)){out.count++;out.B+=o.B;out.baseB+=o.colony.baseB;out.edibleB+=edibleB(o);out.capacityB+=o.colony.capacityB;out.reserveE+=o.E;out.reserveM+=o.M;if(edibleB(o)<=1e-8)out.dormantCount++;for(const k of ["consumedB","regrowthB","regrowthCostE","assimilatedE"])out[k]+=o.colony.last[k];}
+      for(const k of Object.keys(out))if(typeof out[k]==="number")out[k]=H.round(out[k]);w.fungalColonySummary=out;
+    }
+    return {enabled,is,settings,attach,begin,maintained,regrow,summary,increment};
+  })();
   // Opt-in basal colonies keep their actual E/B/M in the ordinary organism ledger.
   const Colony = (() => {
     const VERSION = "colony-state/1", LIMIT = 1e12;
@@ -10346,8 +10443,10 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3"].includes(c.balanceModel))
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3","survival/4"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
+    if(FungalColony.enabled({config:c}))c.fungalColonySettings=FungalColony.settings(c.fungalColonySettings);
+    else if(c.fungalColonySettings!==undefined)throw Error("SETTINGS_INVALID: 菌膜群落にはsurvival/4が必要です");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
       c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
@@ -10568,7 +10667,7 @@ return {settings,attach,region,level,factor,begin,finish};
     precocial:Object.freeze({attack:.90,defense:.95,hp:.90,move:1,maintenance:.90,healing:1,birth:1,light:.65}),
   });
   function ageInfo(o) {
-    if (Colony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
+    if (Colony.is(o)||FungalColony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
     if (!Number.isFinite(o.birthLife)) return {enabled:false,stage:"adult",factors:ageFactors.adult};
     const s=spec(o),matureAt=s.group==="main"?Math.ceil(o.birthLife*(s.id==="precocial"?.03:s.id==="swarm"&&o.role==="queen"?1/30:.10)):s.maturity,
       elderlyAt=Math.max(matureAt+1,Math.floor(.75*o.birthLife)),
@@ -10585,7 +10684,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if(LargePlant.is(o)){
       o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
     }
-    if(Colony.is(o)){delete o.birthLife;return o;}
+    if(Colony.is(o)||FungalColony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
@@ -10664,12 +10763,13 @@ return {settings,attach,region,level,factor,begin,finish};
     Ryouki.attach(w,o,options);
     LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
+    FungalColony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
     delete o.plantOrigin;
     // Only initial main founders receive a mixed age cohort. Births and explicit
     // ages retain their own clocks, and evolution phase is independent of age.
-    const initialFraction=w.turn===0&&["survival/2","survival/3"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
+    const initialFraction=w.turn===0&&["survival/2","survival/3","survival/4"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
       id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
     return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
@@ -10686,7 +10786,7 @@ return {settings,attach,region,level,factor,begin,finish};
       phase,
       u,
       capE: main ? 100 + (tr.capacity || 0) * u : s.capacity[0],
-      capB: Colony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
+      capB: Colony.is(o)||FungalColony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
       capM: main ? 30 : 2,
       maxHP: main ? 100 : s.capacity[3],
       life: main
@@ -10699,7 +10799,7 @@ return {settings,attach,region,level,factor,begin,finish};
           )
         : s.life,
       maintenance:
-        s.maintenance *
+        (FungalColony.is(o)?(edibleB(o)>0?w.config.fungalColonySettings.maintenance:w.config.fungalColonySettings.dormantMaintenance):s.maintenance) *
         (main
           ? (0.95 + 0.1 * body) *
             (s.id === "precocial"
@@ -11243,6 +11343,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
     if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
+    if(FungalColony.enabled(w))for(const o of w.organisms)if(FungalColony.is(o)){o.age=0;o.phase=1;}
     if(LargePlant.enabled(w))for(const o of w.organisms)if(LargePlant.is(o)){o.age=Math.floor(o.birthLife*config.largePlantSettings.initial.ageFraction);o.phase=config.largePlantSettings.initial.phase;}
     if (config.enabled.P && !PrimaryParasite.enabled(w))
       for (const o of w.organisms)
@@ -11303,6 +11404,7 @@ return {settings,attach,region,level,factor,begin,finish};
       }
     }
     Colony.summary(w);
+    FungalColony.summary(w);
     LargePlant.summary(w);
     PrimaryParasite.summary(w);
     HyperParasite.summary(w);
@@ -11360,6 +11462,7 @@ return {settings,attach,region,level,factor,begin,finish};
     D,
     ProducerSupport,
     Colony,
+    FungalColony,
     LargePlant,
     Ryouki,
     PrimaryParasite,
@@ -11920,6 +12023,7 @@ function(require,module){
           obj.M = S.round(obj.M - M);
           amount = { E: B, M, G: 0 };
           if(S.Colony.is(obj))S.Colony.consumed(w,obj,B);
+          if(S.FungalColony.is(obj))S.FungalColony.increment(obj,"consumedB",B);
           if(S.LargePlant.is(obj))S.LargePlant.consumed(w,obj,B);
           if (obj.B <= 0) ctx.harvestDead.add(obj.id);
         } else {
@@ -11965,6 +12069,7 @@ function(require,module){
             carcass: a.type === "carcass",
           });
           assimilated=result.e;
+          if(S.FungalColony.is(o)&&result.organic)S.FungalColony.increment(o,"assimilatedE",result.e);
           if (result.organic && amount.E > 0) transfer(w, ctx, obj, o, a.type, harvest);
         }
         S.record(ctx, o, "feed", {
@@ -12076,6 +12181,7 @@ function(require,module){
         o.colony.activity=S.round(S.clamp(o.colony.activity+(maintained?.02:-.05),0,1));
         if(maintained)S.Colony.increment(o,"maintainedTurns",1);
       }
+      if(S.FungalColony.is(o))S.FungalColony.maintained(w,o,paidBase,base);
       if(S.LargePlant.is(o))S.LargePlant.maintained(w,o,paidBase,base);
       const paidDensity = spend(w, o, c.density);
       ctx.records.get(o.id).crowding = c.neighborCount >= 5 && paidDensity > 0;
@@ -12091,7 +12197,8 @@ function(require,module){
       if (ctx.harvestDead.has(o.id)) reason = "harvest";
       if(!reason&&S.Colony.is(o)&&o.colony.activity<=0)reason="starvation";
       if(!reason&&S.LargePlant.is(o)&&o.plant.activity<=0)reason="starvation";
-      if (!reason && !S.Colony.is(o) && o.age >= p.life) reason = "age";
+      if(!reason&&S.FungalColony.is(o)&&o.colony.activity<=0)reason="starvation";
+      if (!reason && !S.Colony.is(o) && !S.FungalColony.is(o) && o.age >= p.life) reason = "age";
       if (reason) {
         if(ctx.informationHooks)ctx.informationHooks.informationDeath(w,ctx,o,{reason,cell:o.cell});
         S.record(ctx, o, "death", { reason, appearance: deathAppearance(w,o) });
@@ -12131,8 +12238,8 @@ function(require,module){
               S.phenotype(w, o).capB - o.B,
             ),
           );
-        o.E = S.round(o.E - amount);
-        o.B = S.round(o.B + amount);
+        if(S.FungalColony.is(o))S.FungalColony.regrow(w,o,hasBirth);
+        else {o.E = S.round(o.E - amount);o.B = S.round(o.B + amount);}
       }
       if (
         o.phase < 2 ||
@@ -12157,7 +12264,7 @@ function(require,module){
       const B = kind === "factor" ? 0.2 : 2,
         M = kind === "factor" ? 0 : 0.1;
       if (S.edibleB(o) < B || o.M < M) continue;
-      if(["survival/2","survival/3"].includes(w.config.balanceModel)&&s.id==="fungus"&&(S.round(S.edibleB(o)-B)<3||S.round(o.M-M)<.2))continue;
+      if(["survival/2","survival/3","survival/4"].includes(w.config.balanceModel)&&s.id==="fungus"&&(S.round(S.edibleB(o)-B)<3||S.round(o.M-M)<.2))continue;
       const places = S.nearby(w, o.cell, 1, true)
         .filter((p) => !w.tiles[p].blocked)
         .map((cell) => ({
@@ -12371,7 +12478,7 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
-  const survival = (w) => ["survival/1","survival/2","survival/3"].includes(w.config.balanceModel);
+  const survival = (w) => ["survival/1","survival/2","survival/3","survival/4"].includes(w.config.balanceModel);
   function sparseMainBirths(w, ctx) {
     if (!survival(w)) return false;
     if (ctx.sparseMainBirths === undefined) {
@@ -12404,7 +12511,7 @@ function(require,module){
       if(S.LargePlant.is(o))continue;
       if(S.Ryouki.is(o))continue;
       if (s.group !== "main") {
-        if(S.Colony.is(o)){
+        if(S.Colony.is(o)||S.FungalColony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
           continue;
         }
@@ -12716,7 +12823,7 @@ function(require,module){
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
       ...(independent?{phase:1,age:0,plantOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
-      ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
+      ...((S.Colony.is(mother)||S.FungalColony.is(mother))?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       E: independent ? T-4 : main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
@@ -13171,7 +13278,7 @@ function(require,module){
     for(const o of w.organisms){const c=cohort(o.species,o.generation);
       if(w.turn===0)c.initial++;
       if(childIds.has(o.id))c.born++;
-      if(!S.Colony.is(o)&&ctx.traits.get(o.id)?.ageStage==="juvenile" && S.ageInfo(o).stage!=="juvenile")c.matured++;
+      if(!S.Colony.is(o)&&!S.FungalColony.is(o)&&ctx.traits.get(o.id)?.ageStage==="juvenile" && S.ageInfo(o).stage!=="juvenile")c.matured++;
       if(o.firstBirthAt===w.turn && ctx.parents.has(o.id))c.reproduced++;
     }
     for(const d of ctx.deaths)if(d.ageStage==="juvenile")cohort(d.species,d.generation).juvenileDeaths++;
@@ -13179,7 +13286,7 @@ function(require,module){
     for(const o of w.organisms) {
       const row=composition[o.species]??={phases:[0,0,0,0],ages:{juvenile:0,adult:0,elderly:0},sex:{female:0,male:0,none:0},roles:{}};
       row.phases[o.phase-1]++;
-      if(S.Colony.is(o)){row.ages.nonapplicable=(row.ages.nonapplicable||0)+1;row.sex.nonapplicable=(row.sex.nonapplicable||0)+1;}
+      if(S.Colony.is(o)||S.FungalColony.is(o)){row.ages.nonapplicable=(row.ages.nonapplicable||0)+1;row.sex.nonapplicable=(row.sex.nonapplicable||0)+1;}
       else{row.ages[S.ageInfo(o).stage]++;row.sex[o.sex in row.sex ? o.sex : "none"]++;}
       if(o.birthBlockers){const reasons=birthReasons[o.species]??={};for(const reason of o.birthBlockers)reasons[reason]=(reasons[reason]||0)+1;}
       if(o.role)row.roles[o.role]=(row.roles[o.role]||0)+1;
@@ -13231,6 +13338,7 @@ function(require,module){
     if(S.PrimaryParasite?.enabled(w))S.PrimaryParasite.summary(w);
     S.Ryouki.summary(w);
     S.Colony.summary(w);
+    S.FungalColony.summary(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.summary(w);
     S.ProducerSupport.finish(w,ctx,S);
     w.tallies = w.tallies || emptyTallies(w);
@@ -13336,6 +13444,7 @@ function(require,module){
     w.turn++;
     S.Ryouki.begin(w);
     S.Colony.begin(w);
+    S.FungalColony.begin(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.begin(w);
     S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
@@ -13470,9 +13579,12 @@ function(require,module){
         )
       )
         errors.push("BUDGET:" + o.id);
-      if(w.config.ageModel==="life/1"&&!S.Colony.is(o)){
+      if(w.config.ageModel==="life/1"&&!S.Colony.is(o)&&!S.FungalColony.is(o)){
         if(!Number.isFinite(o.birthLife)||o.birthLife<=0)errors.push("AGE_BASIS:"+o.id);
         else if(o.HP>S.phenotype(w,o).maxHP+.000001)errors.push("AGE_HP:"+o.id);
+      }
+      if(S.FungalColony.is(o)){const c=o.colony;
+        if(!S.FungalColony.enabled(w)||o.B<c.baseB-1e-6||S.edibleB(o)>c.capacityB+1e-6||c.baseB!==1||c.activity<0||c.activity>1||!Number.isSafeInteger(c.starvationRun)||c.starvationRun<0||![c.capacityB,c.activity,...Object.values(c.last),...Object.values(c.cumulative)].every(n=>Number.isFinite(n)&&n>=0))errors.push("FUNGAL_COLONY:"+o.id);
       }
       if(S.Colony.is(o)){
         const c=o.colony,e=c.edibleExposure;
@@ -14940,7 +15052,7 @@ function(require,module){
       t +=
         (((9 * phaseA[enemy.phase]) / 24) * hp) /
         (1 + S.distance(w, cell, enemy.cell)) ** 2;
-      if(["survival/2","survival/3"].includes(w.config.balanceModel)&&o.species==="grassbug"&&enemy.HP>0&&v.visibleCells.has(enemy.cell)){
+      if(["survival/2","survival/3","survival/4"].includes(w.config.balanceModel)&&o.species==="grassbug"&&enemy.HP>0&&v.visibleCells.has(enemy.cell)){
         const p=v.traits?.get(enemy.id)||S.phenotype(w,enemy),distance=S.distance(w,cell,enemy.cell),
           attackCost=(distance===2?4:3)*S.adjustment(w,enemy,"attackCost",w.tiles[enemy.cell].env,p.phase),
           costs=v.costs?.get(enemy.id),available=costs?costs.budget-costs.action:Math.max(0,enemy.E-p.maintenance);
@@ -15645,7 +15757,7 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
-  const survival = (w) => ["survival/1","survival/2","survival/3"].includes(w.config.balanceModel);
+  const survival = (w) => ["survival/1","survival/2","survival/3","survival/4"].includes(w.config.balanceModel);
   function sparseMainBirths(w, ctx) {
     if (!survival(w)) return false;
     if (ctx.sparseMainBirths === undefined) {
@@ -15678,7 +15790,7 @@ function(require,module){
       if(S.LargePlant.is(o))continue;
       if(S.Ryouki.is(o))continue;
       if (s.group !== "main") {
-        if(S.Colony.is(o)){
+        if(S.Colony.is(o)||S.FungalColony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
           continue;
         }
@@ -15990,7 +16102,7 @@ function(require,module){
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
       ...(independent?{phase:1,age:0,plantOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
-      ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
+      ...((S.Colony.is(mother)||S.FungalColony.is(mother))?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       E: independent ? T-4 : main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
@@ -17024,7 +17136,7 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
-  const survival = (w) => ["survival/1","survival/2","survival/3"].includes(w.config.balanceModel);
+  const survival = (w) => ["survival/1","survival/2","survival/3","survival/4"].includes(w.config.balanceModel);
   function sparseMainBirths(w, ctx) {
     if (!survival(w)) return false;
     if (ctx.sparseMainBirths === undefined) {
@@ -17057,7 +17169,7 @@ function(require,module){
       if(S.LargePlant.is(o))continue;
       if(S.Ryouki.is(o))continue;
       if (s.group !== "main") {
-        if(S.Colony.is(o)){
+        if(S.Colony.is(o)||S.FungalColony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
           continue;
         }
@@ -17369,7 +17481,7 @@ function(require,module){
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
       ...(independent?{phase:1,age:0,plantOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
-      ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
+      ...((S.Colony.is(mother)||S.FungalColony.is(mother))?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       E: independent ? T-4 : main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
@@ -17624,9 +17736,50 @@ return {settings,attach,region,level,factor,begin,finish};
   const spec = (o) => D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
-    Math.max(0, o.B - (spec(o).group === "plant" ? PLANT_BASE : 0));
+    Math.max(0, o.B - (FungalColony.is(o) ? o.colony.baseB : spec(o).group === "plant" ? PLANT_BASE : 0));
   const leafFactor = (o) =>
     0.5 + 0.5 * H.clamp((o.B - PLANT_BASE) / 10, 0, 1);
+  const FungalColony = (() => {
+    const VERSION="fungal-colony-state/1",enabled=w=>w.config.balanceModel==="survival/4",
+      is=o=>o?.species==="fungus"&&o.colony?.version===VERSION;
+    function settings(input={}){
+      const defaults={version:"fungal-colony-parameters/1",baseB:1,capacityB:12,maintenance:.0375,dormantMaintenance:.01,regrowthB:1,regrowthCost:1.2,reserveE:2,starvationTurns:12};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 菌膜群落の設定");
+      const z={...defaults,...input};
+      if(z.version!==defaults.version||z.baseB!==1||!Number.isInteger(z.starvationTurns))throw Error("SETTINGS_INVALID: 菌膜群落の定義版/基部");
+      for(const [k,lo,hi]of [["capacityB",5,200],["maintenance",0,1],["dormantMaintenance",0,z.maintenance],["regrowthB",0,z.capacityB],["regrowthCost",1,10],["reserveE",0,30],["starvationTurns",1,100]])
+        if(typeof z[k]!=="number"||!Number.isFinite(z[k])||z[k]<lo||z[k]>hi)throw Error("SETTINGS_INVALID: 菌膜群落 "+k);
+      return z;
+    }
+    function attach(w,o,origin={kind:"initial"}){
+      if(!enabled(w)||o.species!=="fungus"||is(o))return;
+      const z=w.config.fungalColonySettings;
+      o.colony={version:VERSION,origin:structuredClone(origin),establishedAt:w.turn,baseB:z.baseB,capacityB:z.capacityB,activity:1,starvationRun:0,
+        last:{turn:w.turn,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0},
+        cumulative:{consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0,maintainedTurns:0}};
+      delete o.birthLife;
+    }
+    const increment=(o,k,n)=>{o.colony.last[k]=H.round(o.colony.last[k]+n);o.colony.cumulative[k]=H.round(Math.min(1e12,o.colony.cumulative[k]+n));};
+    function begin(w){if(enabled(w))for(const o of w.organisms)if(is(o))o.colony.last={turn:w.turn,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0};}
+    function maintained(w,o,paid,cost){const z=w.config.fungalColonySettings,c=o.colony;
+      c.starvationRun=paid+1e-8>=H.round(cost)?0:c.starvationRun+1;
+      if(c.starvationRun===0)c.cumulative.maintainedTurns=Math.min(1e12,c.cumulative.maintainedTurns+1);
+      c.activity=H.round(Math.max(0,1-c.starvationRun/z.starvationTurns));
+    }
+    function regrow(w,o,hasBirth){const z=w.config.fungalColonySettings,c=o.colony;
+      const reserve=hasBirth&&o.phase>=2&&o.B>=3&&o.M>=.2?Math.max(8,z.reserveE):z.reserveE,
+        amount=H.round(Math.max(0,Math.min(z.regrowthB*c.activity-c.last.regrowthB,c.capacityB-edibleB(o),Math.max(0,o.E-reserve)/z.regrowthCost)));
+      if(!amount)return;
+      const cost=H.round(amount*z.regrowthCost);o.E=H.round(o.E-cost);o.B=H.round(o.B+amount);dissipate(w,H.round(cost-amount));
+      increment(o,"regrowthB",amount);increment(o,"regrowthCostE",cost);
+    }
+    function summary(w){if(!enabled(w))return;
+      const out={definition:"fungal-colony-observed/1",turn:w.turn,count:0,B:0,baseB:0,edibleB:0,capacityB:0,reserveE:0,reserveM:0,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0,dormantCount:0};
+      for(const o of w.organisms)if(is(o)){out.count++;out.B+=o.B;out.baseB+=o.colony.baseB;out.edibleB+=edibleB(o);out.capacityB+=o.colony.capacityB;out.reserveE+=o.E;out.reserveM+=o.M;if(edibleB(o)<=1e-8)out.dormantCount++;for(const k of ["consumedB","regrowthB","regrowthCostE","assimilatedE"])out[k]+=o.colony.last[k];}
+      for(const k of Object.keys(out))if(typeof out[k]==="number")out[k]=H.round(out[k]);w.fungalColonySummary=out;
+    }
+    return {enabled,is,settings,attach,begin,maintained,regrow,summary,increment};
+  })();
   // Opt-in basal colonies keep their actual E/B/M in the ordinary organism ledger.
   const Colony = (() => {
     const VERSION = "colony-state/1", LIMIT = 1e12;
@@ -18853,8 +19006,10 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3"].includes(c.balanceModel))
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3","survival/4"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
+    if(FungalColony.enabled({config:c}))c.fungalColonySettings=FungalColony.settings(c.fungalColonySettings);
+    else if(c.fungalColonySettings!==undefined)throw Error("SETTINGS_INVALID: 菌膜群落にはsurvival/4が必要です");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
       c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
@@ -19075,7 +19230,7 @@ return {settings,attach,region,level,factor,begin,finish};
     precocial:Object.freeze({attack:.90,defense:.95,hp:.90,move:1,maintenance:.90,healing:1,birth:1,light:.65}),
   });
   function ageInfo(o) {
-    if (Colony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
+    if (Colony.is(o)||FungalColony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
     if (!Number.isFinite(o.birthLife)) return {enabled:false,stage:"adult",factors:ageFactors.adult};
     const s=spec(o),matureAt=s.group==="main"?Math.ceil(o.birthLife*(s.id==="precocial"?.03:s.id==="swarm"&&o.role==="queen"?1/30:.10)):s.maturity,
       elderlyAt=Math.max(matureAt+1,Math.floor(.75*o.birthLife)),
@@ -19092,7 +19247,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if(LargePlant.is(o)){
       o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
     }
-    if(Colony.is(o)){delete o.birthLife;return o;}
+    if(Colony.is(o)||FungalColony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
@@ -19171,12 +19326,13 @@ return {settings,attach,region,level,factor,begin,finish};
     Ryouki.attach(w,o,options);
     LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
+    FungalColony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
     delete o.plantOrigin;
     // Only initial main founders receive a mixed age cohort. Births and explicit
     // ages retain their own clocks, and evolution phase is independent of age.
-    const initialFraction=w.turn===0&&["survival/2","survival/3"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
+    const initialFraction=w.turn===0&&["survival/2","survival/3","survival/4"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
       id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
     return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
@@ -19193,7 +19349,7 @@ return {settings,attach,region,level,factor,begin,finish};
       phase,
       u,
       capE: main ? 100 + (tr.capacity || 0) * u : s.capacity[0],
-      capB: Colony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
+      capB: Colony.is(o)||FungalColony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
       capM: main ? 30 : 2,
       maxHP: main ? 100 : s.capacity[3],
       life: main
@@ -19206,7 +19362,7 @@ return {settings,attach,region,level,factor,begin,finish};
           )
         : s.life,
       maintenance:
-        s.maintenance *
+        (FungalColony.is(o)?(edibleB(o)>0?w.config.fungalColonySettings.maintenance:w.config.fungalColonySettings.dormantMaintenance):s.maintenance) *
         (main
           ? (0.95 + 0.1 * body) *
             (s.id === "precocial"
@@ -19749,6 +19905,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
     if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
+    if(FungalColony.enabled(w))for(const o of w.organisms)if(FungalColony.is(o)){o.age=0;o.phase=1;}
     if(LargePlant.enabled(w))for(const o of w.organisms)if(LargePlant.is(o)){o.age=Math.floor(o.birthLife*config.largePlantSettings.initial.ageFraction);o.phase=config.largePlantSettings.initial.phase;}
     if (config.enabled.P && !PrimaryParasite.enabled(w))
       for (const o of w.organisms)
@@ -19809,6 +19966,7 @@ return {settings,attach,region,level,factor,begin,finish};
       }
     }
     Colony.summary(w);
+    FungalColony.summary(w);
     LargePlant.summary(w);
     PrimaryParasite.summary(w);
     HyperParasite.summary(w);
@@ -19866,6 +20024,7 @@ return {settings,attach,region,level,factor,begin,finish};
     D,
     ProducerSupport,
     Colony,
+    FungalColony,
     LargePlant,
     Ryouki,
     PrimaryParasite,
@@ -19934,7 +20093,7 @@ function(require,module){
   const primaryEnabled=w=>S.PrimaryParasite?.enabled(w)===true;
   const hyperEnabled=w=>S.HyperParasite?.enabled(w)===true;
   const informationEnabled=w=>S.PersistentInformation?.enabled(w)===true;
-  const survivalEnabled=w=>["survival/1","survival/2","survival/3"].includes(w?.config?.balanceModel);
+  const survivalEnabled=w=>["survival/1","survival/2","survival/3","survival/4"].includes(w?.config?.balanceModel);
   const informationKeys=["ownExperiences","holdingQualified","deathDecisions","candidateDeaths","normalGenerated","lowGenerated","noGeneration","generatedAmount","expiredAmount","capacityLostAmount","microLostAmount","movedAmount","originsRead","contentsRead","rejectedScope","rejectedContext","rejectedBudget","deduplicated","learned","learningDeltaAbs","placeApplications","placeMagnitude","receptionCostE","qPromoted","qDistorted","environmentRead","ordinaryRead","caregiverRead"];
   function emptyInformationFlow(w){return {definition:"persistent-information-flow/1",turn:w.turn,all:Object.fromEntries(informationKeys.map(key=>[key,0]))};}
   function informationFlow(w,ctx,key,n=1){ctx.persistentInformationFlow??=emptyInformationFlow(w);const a=ctx.persistentInformationFlow.all;a[key]=S.round(a[key]+n);}
@@ -20443,7 +20602,7 @@ function(require,module){
       // maturity clock, genes and energy are not privileged search knowledge.
       // v3 ranks the observed external cue before bodies with no such cue;
       // inherited preference still ranks the visibly infested candidates.
-      const preference=host=>host.infection?.location==="external"?(w.config.balanceModel==="survival/3"?1:0)+(q.hyper.preference?.[host.infection.species]??.5)*informationHostFactor(w,q,host.infection.species):.5;
+      const preference=host=>host.infection?.location==="external"?(["survival/3","survival/4"].includes(w.config.balanceModel)?1:0)+(q.hyper.preference?.[host.infection.species]??.5)*informationHostFactor(w,q,host.infection.species):.5;
       const local=candidates.filter(host=>S.oneStep(w,q.cell,host.cell)).sort((a,b)=>preference(b)-preference(a)||S.hash(w,"hyper/contact-choice",w.turn,q.id,a.id)-S.hash(w,"hyper/contact-choice",w.turn,q.id,b.id));
       if(q.ready<=w.turn&&q.age>=(q.maturity??z.maturity)&&local.length)hyperExpose(w,ctx,q,local[0]);
       const predator=host=>S.spec(host).group==="main"&&host.species!=="ryouki"&&
@@ -20465,7 +20624,7 @@ function(require,module){
           if(amount>0)forage.push({cell,amount});
         }
         const hunger=S.clamp(1-q.E/Math.max(z.eggCost+4*z.maintenance[4],1e-6),0,1),
-          v2=["survival/2","survival/3"].includes(w.config.balanceModel),
+          v2=["survival/2","survival/3","survival/4"].includes(w.config.balanceModel),
           // A finite food stock is not another reward after the adult has
           // reserved one laying attempt and the existing four-turn upkeep.
           needed=Math.max(0,Math.min(z.capE,z.eggCost+4*z.maintenance[4])-q.E),
@@ -20473,7 +20632,7 @@ function(require,module){
           // With no visible cue, or after an unproductive body contact, keep
           // a small paid exploration option. Food and danger still compete;
           // depleted adults retain stop and never borrow future upkeep.
-          exploring=w.config.balanceModel==="survival/3"&&(!cue||(cue.infection?.location!=="external"&&S.distance(w,q.cell,cue.cell)===0))&&q.hyper.starvationRun===0&&q.E>=2*z.maintenance[4]+z.adultMoveCost,
+          exploring=["survival/3","survival/4"].includes(w.config.balanceModel)&&(!cue||(cue.infection?.location!=="external"&&S.distance(w,q.cell,cue.cell)===0))&&q.hyper.starvationRun===0&&q.E>=2*z.maintenance[4]+z.adultMoveCost,
           score=cell=>{
             const nutrition=forage.reduce((n,a)=>Math.max(n,(v2?
                 Math.min(needed,Math.min(z.adultFoodCap,a.amount)*z.adultAssimilation)/Math.max(z.adultFoodCap*z.adultAssimilation,1e-6):
@@ -21516,9 +21675,50 @@ return {settings,attach,region,level,factor,begin,finish};
   const spec = (o) => D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
-    Math.max(0, o.B - (spec(o).group === "plant" ? PLANT_BASE : 0));
+    Math.max(0, o.B - (FungalColony.is(o) ? o.colony.baseB : spec(o).group === "plant" ? PLANT_BASE : 0));
   const leafFactor = (o) =>
     0.5 + 0.5 * H.clamp((o.B - PLANT_BASE) / 10, 0, 1);
+  const FungalColony = (() => {
+    const VERSION="fungal-colony-state/1",enabled=w=>w.config.balanceModel==="survival/4",
+      is=o=>o?.species==="fungus"&&o.colony?.version===VERSION;
+    function settings(input={}){
+      const defaults={version:"fungal-colony-parameters/1",baseB:1,capacityB:12,maintenance:.0375,dormantMaintenance:.01,regrowthB:1,regrowthCost:1.2,reserveE:2,starvationTurns:12};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 菌膜群落の設定");
+      const z={...defaults,...input};
+      if(z.version!==defaults.version||z.baseB!==1||!Number.isInteger(z.starvationTurns))throw Error("SETTINGS_INVALID: 菌膜群落の定義版/基部");
+      for(const [k,lo,hi]of [["capacityB",5,200],["maintenance",0,1],["dormantMaintenance",0,z.maintenance],["regrowthB",0,z.capacityB],["regrowthCost",1,10],["reserveE",0,30],["starvationTurns",1,100]])
+        if(typeof z[k]!=="number"||!Number.isFinite(z[k])||z[k]<lo||z[k]>hi)throw Error("SETTINGS_INVALID: 菌膜群落 "+k);
+      return z;
+    }
+    function attach(w,o,origin={kind:"initial"}){
+      if(!enabled(w)||o.species!=="fungus"||is(o))return;
+      const z=w.config.fungalColonySettings;
+      o.colony={version:VERSION,origin:structuredClone(origin),establishedAt:w.turn,baseB:z.baseB,capacityB:z.capacityB,activity:1,starvationRun:0,
+        last:{turn:w.turn,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0},
+        cumulative:{consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0,maintainedTurns:0}};
+      delete o.birthLife;
+    }
+    const increment=(o,k,n)=>{o.colony.last[k]=H.round(o.colony.last[k]+n);o.colony.cumulative[k]=H.round(Math.min(1e12,o.colony.cumulative[k]+n));};
+    function begin(w){if(enabled(w))for(const o of w.organisms)if(is(o))o.colony.last={turn:w.turn,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0};}
+    function maintained(w,o,paid,cost){const z=w.config.fungalColonySettings,c=o.colony;
+      c.starvationRun=paid+1e-8>=H.round(cost)?0:c.starvationRun+1;
+      if(c.starvationRun===0)c.cumulative.maintainedTurns=Math.min(1e12,c.cumulative.maintainedTurns+1);
+      c.activity=H.round(Math.max(0,1-c.starvationRun/z.starvationTurns));
+    }
+    function regrow(w,o,hasBirth){const z=w.config.fungalColonySettings,c=o.colony;
+      const reserve=hasBirth&&o.phase>=2&&o.B>=3&&o.M>=.2?Math.max(8,z.reserveE):z.reserveE,
+        amount=H.round(Math.max(0,Math.min(z.regrowthB*c.activity-c.last.regrowthB,c.capacityB-edibleB(o),Math.max(0,o.E-reserve)/z.regrowthCost)));
+      if(!amount)return;
+      const cost=H.round(amount*z.regrowthCost);o.E=H.round(o.E-cost);o.B=H.round(o.B+amount);dissipate(w,H.round(cost-amount));
+      increment(o,"regrowthB",amount);increment(o,"regrowthCostE",cost);
+    }
+    function summary(w){if(!enabled(w))return;
+      const out={definition:"fungal-colony-observed/1",turn:w.turn,count:0,B:0,baseB:0,edibleB:0,capacityB:0,reserveE:0,reserveM:0,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0,dormantCount:0};
+      for(const o of w.organisms)if(is(o)){out.count++;out.B+=o.B;out.baseB+=o.colony.baseB;out.edibleB+=edibleB(o);out.capacityB+=o.colony.capacityB;out.reserveE+=o.E;out.reserveM+=o.M;if(edibleB(o)<=1e-8)out.dormantCount++;for(const k of ["consumedB","regrowthB","regrowthCostE","assimilatedE"])out[k]+=o.colony.last[k];}
+      for(const k of Object.keys(out))if(typeof out[k]==="number")out[k]=H.round(out[k]);w.fungalColonySummary=out;
+    }
+    return {enabled,is,settings,attach,begin,maintained,regrow,summary,increment};
+  })();
   // Opt-in basal colonies keep their actual E/B/M in the ordinary organism ledger.
   const Colony = (() => {
     const VERSION = "colony-state/1", LIMIT = 1e12;
@@ -22745,8 +22945,10 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3"].includes(c.balanceModel))
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3","survival/4"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
+    if(FungalColony.enabled({config:c}))c.fungalColonySettings=FungalColony.settings(c.fungalColonySettings);
+    else if(c.fungalColonySettings!==undefined)throw Error("SETTINGS_INVALID: 菌膜群落にはsurvival/4が必要です");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
       c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
@@ -22967,7 +23169,7 @@ return {settings,attach,region,level,factor,begin,finish};
     precocial:Object.freeze({attack:.90,defense:.95,hp:.90,move:1,maintenance:.90,healing:1,birth:1,light:.65}),
   });
   function ageInfo(o) {
-    if (Colony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
+    if (Colony.is(o)||FungalColony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
     if (!Number.isFinite(o.birthLife)) return {enabled:false,stage:"adult",factors:ageFactors.adult};
     const s=spec(o),matureAt=s.group==="main"?Math.ceil(o.birthLife*(s.id==="precocial"?.03:s.id==="swarm"&&o.role==="queen"?1/30:.10)):s.maturity,
       elderlyAt=Math.max(matureAt+1,Math.floor(.75*o.birthLife)),
@@ -22984,7 +23186,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if(LargePlant.is(o)){
       o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
     }
-    if(Colony.is(o)){delete o.birthLife;return o;}
+    if(Colony.is(o)||FungalColony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
@@ -23063,12 +23265,13 @@ return {settings,attach,region,level,factor,begin,finish};
     Ryouki.attach(w,o,options);
     LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
+    FungalColony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
     delete o.plantOrigin;
     // Only initial main founders receive a mixed age cohort. Births and explicit
     // ages retain their own clocks, and evolution phase is independent of age.
-    const initialFraction=w.turn===0&&["survival/2","survival/3"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
+    const initialFraction=w.turn===0&&["survival/2","survival/3","survival/4"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
       id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
     return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
@@ -23085,7 +23288,7 @@ return {settings,attach,region,level,factor,begin,finish};
       phase,
       u,
       capE: main ? 100 + (tr.capacity || 0) * u : s.capacity[0],
-      capB: Colony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
+      capB: Colony.is(o)||FungalColony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
       capM: main ? 30 : 2,
       maxHP: main ? 100 : s.capacity[3],
       life: main
@@ -23098,7 +23301,7 @@ return {settings,attach,region,level,factor,begin,finish};
           )
         : s.life,
       maintenance:
-        s.maintenance *
+        (FungalColony.is(o)?(edibleB(o)>0?w.config.fungalColonySettings.maintenance:w.config.fungalColonySettings.dormantMaintenance):s.maintenance) *
         (main
           ? (0.95 + 0.1 * body) *
             (s.id === "precocial"
@@ -23642,6 +23845,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
     if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
+    if(FungalColony.enabled(w))for(const o of w.organisms)if(FungalColony.is(o)){o.age=0;o.phase=1;}
     if(LargePlant.enabled(w))for(const o of w.organisms)if(LargePlant.is(o)){o.age=Math.floor(o.birthLife*config.largePlantSettings.initial.ageFraction);o.phase=config.largePlantSettings.initial.phase;}
     if (config.enabled.P && !PrimaryParasite.enabled(w))
       for (const o of w.organisms)
@@ -23702,6 +23906,7 @@ return {settings,attach,region,level,factor,begin,finish};
       }
     }
     Colony.summary(w);
+    FungalColony.summary(w);
     LargePlant.summary(w);
     PrimaryParasite.summary(w);
     HyperParasite.summary(w);
@@ -23759,6 +23964,7 @@ return {settings,attach,region,level,factor,begin,finish};
     D,
     ProducerSupport,
     Colony,
+    FungalColony,
     LargePlant,
     Ryouki,
     PrimaryParasite,
@@ -24815,9 +25021,50 @@ return {settings,attach,region,level,factor,begin,finish};
   const spec = (o) => D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
-    Math.max(0, o.B - (spec(o).group === "plant" ? PLANT_BASE : 0));
+    Math.max(0, o.B - (FungalColony.is(o) ? o.colony.baseB : spec(o).group === "plant" ? PLANT_BASE : 0));
   const leafFactor = (o) =>
     0.5 + 0.5 * H.clamp((o.B - PLANT_BASE) / 10, 0, 1);
+  const FungalColony = (() => {
+    const VERSION="fungal-colony-state/1",enabled=w=>w.config.balanceModel==="survival/4",
+      is=o=>o?.species==="fungus"&&o.colony?.version===VERSION;
+    function settings(input={}){
+      const defaults={version:"fungal-colony-parameters/1",baseB:1,capacityB:12,maintenance:.0375,dormantMaintenance:.01,regrowthB:1,regrowthCost:1.2,reserveE:2,starvationTurns:12};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 菌膜群落の設定");
+      const z={...defaults,...input};
+      if(z.version!==defaults.version||z.baseB!==1||!Number.isInteger(z.starvationTurns))throw Error("SETTINGS_INVALID: 菌膜群落の定義版/基部");
+      for(const [k,lo,hi]of [["capacityB",5,200],["maintenance",0,1],["dormantMaintenance",0,z.maintenance],["regrowthB",0,z.capacityB],["regrowthCost",1,10],["reserveE",0,30],["starvationTurns",1,100]])
+        if(typeof z[k]!=="number"||!Number.isFinite(z[k])||z[k]<lo||z[k]>hi)throw Error("SETTINGS_INVALID: 菌膜群落 "+k);
+      return z;
+    }
+    function attach(w,o,origin={kind:"initial"}){
+      if(!enabled(w)||o.species!=="fungus"||is(o))return;
+      const z=w.config.fungalColonySettings;
+      o.colony={version:VERSION,origin:structuredClone(origin),establishedAt:w.turn,baseB:z.baseB,capacityB:z.capacityB,activity:1,starvationRun:0,
+        last:{turn:w.turn,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0},
+        cumulative:{consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0,maintainedTurns:0}};
+      delete o.birthLife;
+    }
+    const increment=(o,k,n)=>{o.colony.last[k]=H.round(o.colony.last[k]+n);o.colony.cumulative[k]=H.round(Math.min(1e12,o.colony.cumulative[k]+n));};
+    function begin(w){if(enabled(w))for(const o of w.organisms)if(is(o))o.colony.last={turn:w.turn,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0};}
+    function maintained(w,o,paid,cost){const z=w.config.fungalColonySettings,c=o.colony;
+      c.starvationRun=paid+1e-8>=H.round(cost)?0:c.starvationRun+1;
+      if(c.starvationRun===0)c.cumulative.maintainedTurns=Math.min(1e12,c.cumulative.maintainedTurns+1);
+      c.activity=H.round(Math.max(0,1-c.starvationRun/z.starvationTurns));
+    }
+    function regrow(w,o,hasBirth){const z=w.config.fungalColonySettings,c=o.colony;
+      const reserve=hasBirth&&o.phase>=2&&o.B>=3&&o.M>=.2?Math.max(8,z.reserveE):z.reserveE,
+        amount=H.round(Math.max(0,Math.min(z.regrowthB*c.activity-c.last.regrowthB,c.capacityB-edibleB(o),Math.max(0,o.E-reserve)/z.regrowthCost)));
+      if(!amount)return;
+      const cost=H.round(amount*z.regrowthCost);o.E=H.round(o.E-cost);o.B=H.round(o.B+amount);dissipate(w,H.round(cost-amount));
+      increment(o,"regrowthB",amount);increment(o,"regrowthCostE",cost);
+    }
+    function summary(w){if(!enabled(w))return;
+      const out={definition:"fungal-colony-observed/1",turn:w.turn,count:0,B:0,baseB:0,edibleB:0,capacityB:0,reserveE:0,reserveM:0,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0,dormantCount:0};
+      for(const o of w.organisms)if(is(o)){out.count++;out.B+=o.B;out.baseB+=o.colony.baseB;out.edibleB+=edibleB(o);out.capacityB+=o.colony.capacityB;out.reserveE+=o.E;out.reserveM+=o.M;if(edibleB(o)<=1e-8)out.dormantCount++;for(const k of ["consumedB","regrowthB","regrowthCostE","assimilatedE"])out[k]+=o.colony.last[k];}
+      for(const k of Object.keys(out))if(typeof out[k]==="number")out[k]=H.round(out[k]);w.fungalColonySummary=out;
+    }
+    return {enabled,is,settings,attach,begin,maintained,regrow,summary,increment};
+  })();
   // Opt-in basal colonies keep their actual E/B/M in the ordinary organism ledger.
   const Colony = (() => {
     const VERSION = "colony-state/1", LIMIT = 1e12;
@@ -26044,8 +26291,10 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3"].includes(c.balanceModel))
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3","survival/4"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
+    if(FungalColony.enabled({config:c}))c.fungalColonySettings=FungalColony.settings(c.fungalColonySettings);
+    else if(c.fungalColonySettings!==undefined)throw Error("SETTINGS_INVALID: 菌膜群落にはsurvival/4が必要です");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
       c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
@@ -26266,7 +26515,7 @@ return {settings,attach,region,level,factor,begin,finish};
     precocial:Object.freeze({attack:.90,defense:.95,hp:.90,move:1,maintenance:.90,healing:1,birth:1,light:.65}),
   });
   function ageInfo(o) {
-    if (Colony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
+    if (Colony.is(o)||FungalColony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
     if (!Number.isFinite(o.birthLife)) return {enabled:false,stage:"adult",factors:ageFactors.adult};
     const s=spec(o),matureAt=s.group==="main"?Math.ceil(o.birthLife*(s.id==="precocial"?.03:s.id==="swarm"&&o.role==="queen"?1/30:.10)):s.maturity,
       elderlyAt=Math.max(matureAt+1,Math.floor(.75*o.birthLife)),
@@ -26283,7 +26532,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if(LargePlant.is(o)){
       o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
     }
-    if(Colony.is(o)){delete o.birthLife;return o;}
+    if(Colony.is(o)||FungalColony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
@@ -26362,12 +26611,13 @@ return {settings,attach,region,level,factor,begin,finish};
     Ryouki.attach(w,o,options);
     LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
+    FungalColony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
     delete o.plantOrigin;
     // Only initial main founders receive a mixed age cohort. Births and explicit
     // ages retain their own clocks, and evolution phase is independent of age.
-    const initialFraction=w.turn===0&&["survival/2","survival/3"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
+    const initialFraction=w.turn===0&&["survival/2","survival/3","survival/4"].includes(w.config.balanceModel)&&w.config.ageModel==="life/1"&&main&&
       id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
     return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
@@ -26384,7 +26634,7 @@ return {settings,attach,region,level,factor,begin,finish};
       phase,
       u,
       capE: main ? 100 + (tr.capacity || 0) * u : s.capacity[0],
-      capB: Colony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
+      capB: Colony.is(o)||FungalColony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
       capM: main ? 30 : 2,
       maxHP: main ? 100 : s.capacity[3],
       life: main
@@ -26397,7 +26647,7 @@ return {settings,attach,region,level,factor,begin,finish};
           )
         : s.life,
       maintenance:
-        s.maintenance *
+        (FungalColony.is(o)?(edibleB(o)>0?w.config.fungalColonySettings.maintenance:w.config.fungalColonySettings.dormantMaintenance):s.maintenance) *
         (main
           ? (0.95 + 0.1 * body) *
             (s.id === "precocial"
@@ -26942,6 +27192,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
     if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
+    if(FungalColony.enabled(w))for(const o of w.organisms)if(FungalColony.is(o)){o.age=0;o.phase=1;}
     if(LargePlant.enabled(w))for(const o of w.organisms)if(LargePlant.is(o)){o.age=Math.floor(o.birthLife*config.largePlantSettings.initial.ageFraction);o.phase=config.largePlantSettings.initial.phase;}
     if (config.enabled.P && !PrimaryParasite.enabled(w))
       for (const o of w.organisms)
@@ -27002,6 +27253,7 @@ return {settings,attach,region,level,factor,begin,finish};
       }
     }
     Colony.summary(w);
+    FungalColony.summary(w);
     LargePlant.summary(w);
     PrimaryParasite.summary(w);
     HyperParasite.summary(w);
@@ -27059,6 +27311,7 @@ return {settings,attach,region,level,factor,begin,finish};
     D,
     ProducerSupport,
     Colony,
+    FungalColony,
     LargePlant,
     Ryouki,
     PrimaryParasite,
