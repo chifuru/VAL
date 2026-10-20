@@ -17,7 +17,33 @@
         )
       : ["plant", "general"].includes(S.spec(o).diet);
   }
-  function transfer(w, ctx, source, target, type) {
+  // I02 bridge: finite edible inoculum, not a split or transfer of the resident P/Q.
+  // Route adaptation, multistep establishment and parasite biomass belong to I05.
+  function colonyExposure(w,ctx,source,target,harvest) {
+    if(!harvest||harvest.consumedB<=0||harvest.beforeEdibleB<=0)return;
+    const colony=source.colony,p=source.infection;
+    if(!colony.edibleExposure&&p&&p.stage==="first"&&p.counter>=4&&p.E>=.12&&
+       (p.edibleReady||0)<=w.turn&&ctx.byParasite.has(p.id)&&!ctx.movedInfections.has(p.id)){
+      p.E=S.round(p.E-.12);S.dissipate(w,.06);p.edibleReady=w.turn+6;
+      colony.edibleExposure={id:"edible:"+p.id+":"+w.turn,sourceParasiteId:p.id,species:p.species,
+        E:.06,amount:1,created:w.turn,expires:w.turn+6};
+    }
+    const exposure=colony.edibleExposure;
+    if(!exposure||exposure.created>w.turn||exposure.expires<=w.turn)return;
+    const budget=S.round(exposure.E*Math.min(1,harvest.consumedB/harvest.beforeEdibleB));
+    exposure.E=S.round(exposure.E-budget);exposure.amount=S.round(exposure.E/.06);
+    const compatible=(exposure.species==="tideparasite"&&target.species==="waterbug")||
+      (exposure.species==="leafparasite"&&target.species==="grassbug");
+    if(compatible&&!target.infection&&budget>=.03){
+      const child=S.infection(w,exposure.species,target.id,w.turn,S.sha256(exposure.id+":"+target.id).slice(0,16));
+      child.stage="middle";child.E=budget;target.infection=child;
+      ctx.movedInfections.add(child.id);ctx.transfers++;ctx.births.push(child.species);
+      S.record(ctx,target,"infection",{parasite:child.id,stage:"middle",sourceParasite:exposure.sourceParasiteId,exposure:budget});
+    }else S.dissipate(w,budget);
+    if(exposure.E<=0)colony.edibleExposure=null;
+  }
+  function transfer(w, ctx, source, target, type, harvest = null) {
+    if(type==="plant"&&S.Colony.is(source)){colonyExposure(w,ctx,source,target,harvest);return;}
     const p = source.infection;
     if (!p) return;
     let stage = null;

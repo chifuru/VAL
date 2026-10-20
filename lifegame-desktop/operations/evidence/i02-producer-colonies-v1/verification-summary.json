@@ -1,0 +1,53 @@
+{
+  "version": "4.2.34",
+  "baseline": "aafc614 / 4.2.33",
+  "dateUTC": "2026-10-20T12:19:26.988294+00:00",
+  "biologicalSignature": "29d8a966b7f9dcf86b26c5f40bd11967633dc9d8c52971720e584e8f0f7e23d5",
+  "unitFullRun": {
+    "files": 57,
+    "pass": 57,
+    "fail": 0,
+    "log": "model/unit.log"
+  },
+  "finalRelatedRechecks": {
+    "colonyCases": 16,
+    "relatedFiles": 3,
+    "logs": [
+      "model/colony-final.log",
+      "model/final-related.log"
+    ]
+  },
+  "legacyComparison": {
+    "cases": 10,
+    "states": 180,
+    "worldAndCSVEqual": true
+  },
+  "newProfileComparison": {
+    "cases": 8,
+    "states": 48,
+    "dynamicStaticEqual": true
+  },
+  "circulation": {
+    "cases": 3,
+    "turnsEach": 120,
+    "states": 363,
+    "finiteBudgets": true
+  },
+  "browser": {
+    "producer-colony": {
+      "checks": 23,
+      "errors": 0
+    },
+    "initial-supply": {
+      "checks": 24,
+      "errors": 0
+    }
+  },
+  "limits": [
+    "No final 500T survival/R1-R6 certification",
+    "No browser performance comparison",
+    "No native Windows execution or new ZIP",
+    "No full GUI replay of older saved records",
+    "Decomposer final0 in all3 circulation cases; grassbug final0 in river-on"
+  ]
+}

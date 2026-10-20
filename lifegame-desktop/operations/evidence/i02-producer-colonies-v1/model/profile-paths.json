@@ -1,0 +1,95 @@
+{
+  "states": 48,
+  "cases": 8,
+  "scope": "new colony worlds; dynamic generation equals shipped static model",
+  "reports": [
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "states": 6,
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "fingerprint": "a99d782db498154d2b80d8126734616ee6ccce2f1e84cfa37120e81a1eadc480"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "states": 6,
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "fingerprint": "dc4b3d3cdd4345e9ad63c1e655ccd983f17c17385b46205730fc7b3a746b818e"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": true,
+        "hyperparasite": false
+      },
+      "states": 6,
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "fingerprint": "c51bec8b7bc3c5f25f2d13045f19146b25661f6234189c55bdbfb72fe400ef71"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": false
+      },
+      "states": 6,
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "fingerprint": "0bdacdb7896f9c6a59606a4d7c88deaf2a6b4d20d0c6671abaa4e293f7afec3b"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": true
+      },
+      "states": 6,
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "fingerprint": "97bdbef43f84eb0b260b15921715e33838e580a29b37fdd1e17662986c488be1"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": false,
+        "hyperparasite": true
+      },
+      "states": 6,
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "fingerprint": "e912dbd37c295bcfb7e105e1f4b1b5a232de673b8edeaf3c89a368612de7e190"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "states": 6,
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "fingerprint": "dd709597e606fdc502138b89e6c72d08efc502618b168ca197ff5b540c6b1ed9"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "states": 6,
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "fingerprint": "2bbef547c511aa834eda34b7092369c9f4ff5f7bd8ff59488767102c90cd70b6"
+    }
+  ]
+}

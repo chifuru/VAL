@@ -24,6 +24,10 @@
         rec = ctx.records.get(o.id),
         old = p.phase;
       if (s.group !== "main") {
+        if(S.Colony.is(o)){
+          if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
+          continue;
+        }
         if (old === 1 && o.age >= s.maturity && o.E >= 6) o.phase = 2;
         continue;
       }
@@ -133,6 +137,7 @@
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
     if(!birthPressure(w,o,ctx).allowed)return false;
+    if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
     if (s.group !== "main")
       return (
         ctx.traits.get(o.id).phase >= 2 &&
@@ -217,7 +222,9 @@
         for (const s of enabledSpecies) {
           if (!S.validHabitat(w, s, cell)) continue;
           const same = food.filter((o) => o.species === s.id);
-          if (
+          if(S.Colony.enabled(w)&&s.group==="plant"){
+            if(!S.Colony.allowed(w,s)||!S.Colony.room(w,cell,ctx.colonyCounts??=S.Colony.occupancy(w))||!same.length)continue;
+          }else if (
             s.group === "prey"
               ? ![2, 3].includes(same.length)
               : w.config.ecologyRevision === "observation/4.1" ? !(s.group === "fungus" ? [1,2,3] : [2,3]).includes(same.length) : same.length !== 3
@@ -299,6 +306,7 @@
       role,
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
+      ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       E: main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
@@ -338,6 +346,7 @@
           (main ? ([1,3].includes(c.kind) ? 4 : 2) : s.group === "prey" ? 0 : 0.2),
       );
       ctx.parents.add(parent.id);
+      if(S.Colony.is(parent))S.Colony.increment(parent,"settlements",1);
       const cooldown = ctx.traits.get(parent.id).cooldown;
       parent.birthReady =
         w.turn + Math.ceil(cooldown * (c.kind === 1 ? 1.5 : 1)) + 1;
@@ -386,7 +395,9 @@
         "slot:" + c.slot + ":" + c.cell,
       ];
       if (keys.every((k) => votes.get(k) === c)) {
+        if(S.Colony.is(c.parents[0])&&!S.Colony.room(w,c.cell,ctx.colonyCounts??=S.Colony.occupancy(w)))continue;
         children.push(child(w, c, ctx));
+        if(S.Colony.is(c.parents[0]))ctx.colonyCounts[S.Colony.region(w,c.cell)]++;
         ctx.births.push(c.species);
       }
     }

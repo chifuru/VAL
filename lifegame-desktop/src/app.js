@@ -166,22 +166,38 @@
     .map((m) => `<option value="${escape(m.id)}">${escape(m.name)}</option>`)
     .join("");
   const founderSpecies=D.species.filter(s=>["plant","fungus","prey","P","Q"].includes(s.group));
-  $("founder-inputs").innerHTML=founderSpecies.map(s=>`<label>${escape(s.name)} · ${s.group==="P"?"一次寄生":s.group==="Q"?"高次寄生":s.group==="plant"?"生産者":s.group==="fungus"?"分解者":"一次消費者"}（${["P","Q"].includes(s.group)?"群体":"体"}）<input id="founder-${escape(s.id)}" type="number" min="0" max="${s.group==="Q"?1024:17920}" step="1" placeholder="自動"></label>`).join("");
+  $("founder-inputs").innerHTML=founderSpecies.map(s=>`<label>${escape(s.name)} · ${s.group==="P"?"一次寄生":s.group==="Q"?"高次寄生":s.group==="plant"?"生産者":s.group==="fungus"?"分解者":"一次消費者"}（${["P","Q"].includes(s.group)?"群体":s.group==='plant'?'群落':"体"}）<input id="founder-${escape(s.id)}" type="number" min="0" max="${s.group==="Q"?1024:17920}" step="1" placeholder="自動"></label>`).join("");
   function readFounders(){
     const result={version:1,species:{},parasites:{}};
     for(const s of founderSpecies){const input=$("founder-"+s.id);if(input.value!=="")result[["P","Q"].includes(s.group)?"parasites":"species"][s.id]=Number(input.value);}
     return Object.keys(result.species).length||Object.keys(result.parasites).length?{founderCounts:result}:{};
   }
+  function readProducerSettings(){
+    return {version:'colony-parameters/1',standardBiteB:2,...Object.fromEntries(['land','water'].map(region=>{
+      const capacityB=Number($('colony-'+region+'-capacity').value);
+      return [region,{occupancy:Number($(region==='land'?'density-plant':'density-plant-water').value)/100,capacityB,initialFraction:Number($('colony-'+region+'-initial').value)/100,regrowthB:capacityB*Number($('colony-'+region+'-regrowth').value)/100}];
+    }))};
+  }
+  function showProducerSettings(settings,scale=1){
+    for(const region of ['land','water']){
+      const values=settings?.[region]||{occupancy:region==='land'?.20:.15,capacityB:20*scale,initialFraction:.7,regrowthB:2*scale};
+      $(region==='land'?'density-plant':'density-plant-water').value=values.occupancy*100;
+      $('colony-'+region+'-capacity').value=values.capacityB;
+      $('colony-'+region+'-initial').value=values.initialFraction*100;
+      $('colony-'+region+'-regrowth').value=values.regrowthB/values.capacityB*100;
+    }
+  }
   function resetLowerSettings(){
     const [w,h]=$("size").value.split(",").map(Number),mode=S.observationPreset($("observation-mode").value,w,h);
-    for(const [k,v]of Object.entries({plant:35,fungus:3,prey:6}))$("density-"+k).value=+(v*mode.initialFoodScale).toFixed(1);
+    showProducerSettings(null,mode.initialFoodScale);
+    for(const [k,v]of Object.entries({fungus:3,prey:6}))$("density-"+k).value=+(v*mode.initialFoodScale).toFixed(1);
     for(const k of ["mineral","droplet","info"])$("resource-"+k).value=100;
     $("lower-distribution").value="habitat";
     for(const s of founderSpecies)$("founder-"+s.id).value="";
   }
   $("reset-lower-settings").onclick=resetLowerSettings;
   $("producer-supply").onchange=()=>{for(const e of $("supply-inputs").querySelectorAll("input"))e.disabled=!$("producer-supply").checked;};
-  function applyObservationMode() {
+  function applyObservationMode({resetLower=true}={}) {
     const id = $("observation-mode").value,
       [width,height] = $("size").value.split(",").map(Number),
       mode = S.observationPreset(id,width,height), fixed = id !== "custom";
@@ -189,7 +205,7 @@
       $(id).disabled = fixed;
     for (const input of document.querySelectorAll("#groups input,#lineage-options input,#weight-options input")) input.disabled = fixed;
     if (fixed) {
-      resetLowerSettings();
+      if(resetLower)resetLowerSettings();
       $("map-id").value = mode.mapId; $("initial").value = mode.initial;
       $("lineages").value = "manual"; $("distribution").value = mode.distribution;
       $("placement").value = mode.placement; $("guarantee").checked = false;
@@ -218,10 +234,12 @@
     return {
       blockTurns: 500,
       randomModel: "table/1",
+      producerModel:'colony/1',
+      producerSettings:readProducerSettings(),
       ...readFounders(),
       observationMode: $("observation-mode").value,
       producerSupport: $("producer-supply").checked ? {enabled:true,...Object.fromEntries(["land","water"].map(r=>[r,Object.fromEntries(["nutrition","capacity","regrowth"].map(k=>[k,Number($("supply-"+r+"-"+k).value)/(k==="capacity"?100:1)]))]))} : {enabled:false},
-      initialConditions:{version:1,density:Object.fromEntries(["plant","fungus","prey"].map(k=>[k,Number($("density-"+k).value)/100])),resources:Object.fromEntries(["mineral","droplet","info"].map(k=>[k,Number($("resource-"+k).value)/100])),distribution:$("lower-distribution").value},
+      initialConditions:{version:1,density:{plant:0,...Object.fromEntries(["fungus","prey"].map(k=>[k,Number($("density-"+k).value)/100]))},resources:Object.fromEntries(["mineral","droplet","info"].map(k=>[k,Number($("resource-"+k).value)/100])),distribution:$("lower-distribution").value},
       advantageSettings: window.EcoObservationModel.settings(Object.fromEntries(
         ["producer","waterbug","hyperparasite"].map(k=>[k,$("advantage-"+k).checked]))),
       seed: crypto.randomUUID(),
@@ -357,16 +375,22 @@
     $("producer-supply").onchange();
     $("active-mode").textContent+=support?.enabled?` 生産者供給あり（陸: 栄養${support.land.nutrition}・地点${support.land.capacity*100}%・再生${support.land.regrowth} / 水: 栄養${support.water.nutrition}・地点${support.water.capacity*100}%・再生${support.water.regrowth}）。外部入力は収支へ記録。`:" 生産者供給なし（途中の外部栄養入力なし）。";
     const lower=next.config.initialConditions;
-    if(lower){for(const k of ["plant","fungus","prey"])$("density-"+k).value=+(lower.density[k]*100).toFixed(1);for(const k of ["mineral","droplet","info"])$("resource-"+k).value=lower.resources[k]*100;$("lower-distribution").value=lower.distribution;}
-    else {for(const [k,v]of Object.entries({plant:35,fungus:3,prey:6}))$("density-"+k).value=+(v*(next.config.initialFoodScale||1)).toFixed(1);for(const k of ["mineral","droplet","info"])$("resource-"+k).value=100;$("lower-distribution").value="habitat";}
-    if(lower){const baseline={plant:.35,fungus:.03,prey:.06},changed=Object.entries(baseline).some(([k,v])=>Math.abs(lower.density[k]-v*(next.config.initialFoodScale||1))>1e-8)||Object.values(lower.resources).some(v=>v!==1)||lower.distribution!=="habitat"||!support?.enabled||["land","water"].some(r=>Object.entries({nutrition:1,capacity:.35,regrowth:1}).some(([k,v])=>support[r][k]!==v));$("active-mode").textContent+=changed?" 下層・供給：調整あり。":" 下層・供給：基準設定。";}
+    const colonies=next.config.producerModel==='colony/1',foodScale=next.config.initialFoodScale||1;
+    showProducerSettings(colonies?next.config.producerSettings:null,foodScale);
+    if(lower){for(const k of ["fungus","prey"])$("density-"+k).value=+(lower.density[k]*100).toFixed(1);for(const k of ["mineral","droplet","info"])$("resource-"+k).value=lower.resources[k]*100;$("lower-distribution").value=lower.distribution;}
+    else {for(const [k,v]of Object.entries({fungus:3,prey:6}))$("density-"+k).value=+(v*foodScale).toFixed(1);for(const k of ["mineral","droplet","info"])$("resource-"+k).value=100;$("lower-distribution").value="habitat";}
+    if(colonies)$("active-mode").textContent+=' 生産者は個体と区別した群落。陸'+next.config.producerSettings.land.occupancy*100+'%／水'+next.config.producerSettings.water.occupancy*100+'%の適地を目標に配置。';
+    if(lower){const baseline=colonies?{plant:0,fungus:.03,prey:.06}:{plant:.35,fungus:.03,prey:.06},colonyChanged=colonies&&['land','water'].some(r=>{const c=next.config.producerSettings[r];return c.occupancy!==(r==='land'?.20:.15)||c.capacityB!==20*foodScale||c.initialFraction!==.7||Math.abs(c.regrowthB-c.capacityB*.1)>1e-8;}),changed=colonyChanged||Object.entries(baseline).some(([k,v])=>Math.abs(lower.density[k]-v*foodScale)>1e-8)||Object.values(lower.resources).some(v=>v!==1)||lower.distribution!=="habitat"||!support?.enabled||["land","water"].some(r=>Object.entries({nutrition:1,capacity:.35,regrowth:1}).some(([k,v])=>support[r][k]!==v));$("active-mode").textContent+=changed?" 下層・供給：調整あり。":" 下層・供給：基準設定。";}
     for(const s of founderSpecies)$("founder-"+s.id).value=next.config.founderCounts?.[["P","Q"].includes(s.group)?"parasites":"species"]?.[s.id]??"";
     const founders=next.config.founderReport;$("founder-report").hidden=!founders;
     if(founders){
       $("active-mode").textContent+=" 種別・寄生初期数：調整あり。";
-      $("founder-report-content").innerHTML=founderSpecies.map(s=>{const row=founders[["P","Q"].includes(s.group)?"parasites":"species"][s.id],unit=["P","Q"].includes(s.group)?"群体":"体";return `<p>${escape(s.name)}：${row.actual}${unit}（${row.requested===null?"自動":"指定 "+row.requested+unit}）</p>`;}).join("");
+      $("founder-report-content").innerHTML=founderSpecies.map(s=>{const row=founders[["P","Q"].includes(s.group)?"parasites":"species"][s.id],unit=["P","Q"].includes(s.group)?"群体":colonies&&s.group==='plant'?'群落':"体";return `<p>${escape(s.name)}：${row.actual}${unit}（${row.requested===null?"自動":"指定 "+row.requested+unit}）</p>`;}).join("");
     }else $("founder-report-content").textContent="";
-    const report=next.config.initialReport;if(report)$("active-mode").textContent+=` 初期配置: 生産者${report.groups.plant.actual}/${report.groups.plant.requested}・分解者${report.groups.fungus.actual}/${report.groups.fungus.requested}・一次消費者${report.groups.prey.actual}/${report.groups.prey.requested}（実数/目標）。資源: 鉱物${report.resources.mineral}・水分${report.resources.droplet}・情報${report.resources.info}地点。`;
+    const report=next.config.initialReport;if(report){
+      const placement=colonies?['land','water'].map(r=>{const c=next.colonyRegions?.[r];return (r==='land'?'陸':'水')+(Number.isSafeInteger(c?.initial)?c.initial:'未記録')+'/'+(Number.isSafeInteger(c?.target)?c.target:'未記録');}).join('・'):report.groups.plant.actual+'/'+report.groups.plant.requested;
+      $("active-mode").textContent+=` 初期配置: 生産者${colonies?'群落 ':''}${placement}・分解者${report.groups.fungus.actual}/${report.groups.fungus.requested}・一次消費者${report.groups.prey.actual}/${report.groups.prey.requested}（実数/目標）。資源: 鉱物${report.resources.mineral}・水分${report.resources.droplet}・情報${report.resources.info}地点。`;
+    }
     $("seed").value = next.config.seed;
     $("terrain-seed").value = next.config.terrainSeed ?? next.config.seed;
     $("map-id").value = next.config.mapId || "auto";
@@ -418,7 +442,7 @@
           return distance(a) - distance(b);
         })[0] || world.organisms[0];
     // Keep the graphs visible initially; focusing the camera does not select an individual.
-    applyObservationMode();
+    applyObservationMode({resetLower:false});
     if(next.config.populationRegulation)$("active-mode").textContent+=" 出生：局所混雑・栄養収支で調整。";
     R.assets.warmWorld?.(world);
     render();
@@ -556,7 +580,7 @@
       $("setup").removeAttribute("aria-busy");
     }
   });
-  function returnSetup(){stop();closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;syncSetupFields();message("初期設定に戻りました。現在の結果や全ターンCSVを残す場合は、新しい世界を作る前に保存してください。");}
+  function returnSetup(){stop();closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;if(world)showProducerSettings(world.config.producerModel==='colony/1'?world.config.producerSettings:null,world.config.initialFoodScale||1);syncSetupFields();message("初期設定に戻りました。現在の結果や全ターンCSVを残す場合は、新しい世界を作る前に保存してください。");}
   $("change-world").onclick=returnSetup;
   $("start").addEventListener("click", () => {
     if (running) {
@@ -830,8 +854,8 @@
   }
   function renderSpeciesDescription(id){
     const s=D.byId[id];
-    const group=groups[s.group],diet=D.diets[s.diet];
-    $('species-description').innerHTML=`<p class="eyebrow">${escape(group)}</p><h2>${escape(s.name)}</h2><canvas id="species-symbol" width="120" height="120"></canvas><p>現在 ${world.stats.counts[id]||0} ${['P','Q'].includes(s.group)?'群体':'個体'}</p><p>${s.dietName ? escape(s.dietName) + ' · ' : ''}${escape(s.dietDescription || diet?.description || (s.group==='plant'?'光合成を行い、他生物を支える生産者。':s.group==='fungus'?'有限の有機物を利用する分解者。':s.group==='prey'?'主生物の食物網を支える小型の一次消費者。':s.group==='P'?'宿主を移り生活環を進める一次寄生群体。維持費と排除により失われます。':'一次寄生虫の成熟移行期だけ感染。行動や局所情報へ作用する高次寄生群体。'))}</p><p>${s.good?'得意環境: '+s.good.map(i=>D.environments[i].name).join(' / '):'適合する宿主・生息条件で活動'}${Number.isInteger(s.bad)?' / 苦手: '+D.environments[s.bad].name:''}</p><p>${s.phases?'成長: '+s.phases.join(' → '):'進化相と寄生生活環は別の状態です。'} / ${world.stats.counts[id]?'盤面のチェックで全所在を強調できます。':world.config.enabled[s.group]?'現在の生体は0です。':'この観察では未参加です。'}</p>`;
+    const group=groups[s.group],diet=D.diets[s.diet],unit=['P','Q'].includes(s.group)?'群体':world.config.producerModel==='colony/1'&&s.group==='plant'?'群落':'個体';
+    $('species-description').innerHTML=`<p class="eyebrow">${escape(group)}</p><h2>${escape(s.name)}</h2><canvas id="species-symbol" width="120" height="120"></canvas><p>現在 ${world.stats.counts[id]||0} ${unit}</p><p>${s.dietName ? escape(s.dietName) + ' · ' : ''}${escape(s.dietDescription || diet?.description || (s.group==='plant'?'光合成を行い、他生物を支える生産者。':s.group==='fungus'?'有限の有機物を利用する分解者。':s.group==='prey'?'主生物の食物網を支える小型の一次消費者。':s.group==='P'?'宿主を移り生活環を進める一次寄生群体。維持費と排除により失われます。':'一次寄生虫の成熟移行期だけ感染。行動や局所情報へ作用する高次寄生群体。'))}</p><p>${s.good?'得意環境: '+s.good.map(i=>D.environments[i].name).join(' / '):'適合する宿主・生息条件で活動'}${Number.isInteger(s.bad)?' / 苦手: '+D.environments[s.bad].name:''}</p><p>${s.phases?'成長: '+s.phases.join(' → '):'進化相と寄生生活環は別の状態です。'} / ${world.stats.counts[id]?'盤面のチェックで全所在を強調できます。':world.config.enabled[s.group]?'現在の生体は0です。':'この観察では未参加です。'}</p>`;
     R.symbol($('species-symbol').getContext('2d'),id,60,60,42,R.symbolColor(s));
   }
   function parasiteDetails(id){const a=locate(id);if(!a)return '<p>対象は消失しました。別個体へ切り替えません。</p>';const q=a.entity,s=D.byId[q.species];return `<article class="specimen parasite"><h3>${escape(s.name)}</h3><p>${escape(q.id)}<br>宿主: ${escape(q.hostId || 'なし・探索中')}${a.carcass?"（感染性死骸・地表） / 残り"+Math.max(0,a.host.payloadExpires-world.turn)+"T":""}<br>${q.stage?stages[q.stage]+' / 成熟 '+q.counter+'/'+E.P.required[q.stage]+' / 負荷 '+fmt(q.load??.5):'Q '+phase(q.phase)+' / '+(q.cell!==undefined?'探索':'定着')}<br>E ${fmt(q.E)}${q.matureAt!==undefined?'<br>成熟移行 '+q.matureAt+'T / 感染窓 '+(q.matureAt+1)+'〜'+(q.matureAt+3)+'T':''}</p></article>`;}
@@ -899,7 +923,7 @@
     $('graph-turn').max=last;$('graph-turn').disabled=running&&!analysisData;if(graphFollow||running&&!analysisData)$('graph-turn').value=last;
     const t=Math.max(0,Math.min(last,Number($('graph-turn').value)||0)),r=rows[t],target=$('graph-species').value;graphInspect=t;
     $('graph-range').textContent=`0–${last}T`;
-    $('graph-readout').textContent=`参照 ${t}T / 主 ${r.main}・下層 ${r.food}個体 / P ${r.P}・Q ${r.Q}群体。全${rows.length}時点を保持。`;
+    $('graph-readout').textContent=`参照 ${t}T / 主 ${r.main}・下層 ${r.food}${graphObservation().metadata.config.producerModel==='colony/1'?'記録（個体・群落）':'個体'} / P ${r.P}・Q ${r.Q}群体。全${rows.length}時点を保持。`;
     const population=graphObservation().series(target);paintStack($('graph-stacked'),population,id=>chartColor(graphById[id]));
     $('population-legend').innerHTML=Object.entries(population.at(-1).values).filter(([,n])=>n>0).map(([id,n])=>`<span><i style="background:${chartColor(graphById[id])}"></i>${escape(graphById[id]?.name||id)} ${n}</span>`).join('')||'現在の対象は0です';
     const series=Object.fromEntries(['phases','sex','ages'].map(k=>[k,graphObservation().series(target,k)])),max=Math.max(1,...series.phases.map(r=>r.total)),palettes={phases:['#80c9c0','#7ba9db','#a698d9','#e0bc76'],sex:['#e4acc5','#87c7e6','#c4d3b1'],ages:['#d8c779','#8dc5ae','#b9a6ca']};
@@ -954,7 +978,14 @@
     const q = p.q;
     return `<details open><summary>宿主 H → ${D.byId[p.species].name} P ${q ? "→ 抑環 Q" : ""}</summary><p class="stats-line">P: ${escape(p.id)}<br>${stages[p.stage]} / 成熟 ${p.counter}/${E.P.required[p.stage]} / E ${fmt(p.E)}<br>宿主: ${escape(p.hostId)}<br>出産待機 ${Math.max(0, p.ready - world.turn)}</p>${q ? `<p class="stats-line">Q: ${escape(q.id)}<br>${phase(q.phase)}相 / E ${fmt(q.E)} / ${escape({ rectify: "整流", retain: "鮮度保持", modulate: "変調" }[q.special] || "未特化")}<br>宿主: ${escape(q.hostId)}<br>累積 発信/接触/取得: ${q.counts.join(" / ")}</p>` : ""}</details>`;
   }
+  function producerColonyHTML(o){
+    const c=o.colony,s=S.spec(o),elapsed=Number.isSafeInteger(c.establishedAt)?world.turn-c.establishedAt:null,
+      value=n=>Number.isFinite(n)?fmt(n):'未記録',edible=Math.max(0,o.B-c.baseB),
+      origin={initial:'初期配置',parent:'周辺群落から成立',environment:'環境から成立'}[c.origin?.kind]||'未記録';
+    return `<article class="specimen producer-colony" data-colony-id="${escape(o.id)}"><h3>${escape(s.name)} · 1群落</h3><canvas class="portrait" width="116" height="116" data-portrait="${escape(o.id)}"></canvas><p class="micro">${escape(o.id)}<br>成立後経過 ${elapsed===null?'未記録':elapsed+'T'} / ${origin}<br>代表成長段階 ${phase(o.phase)}（内部株の年齢ではありません）</p><p class="stats-line">総B ${value(o.B)}<br>基部 ${value(c.baseB)} B / 可食量 ${value(edible)} B<br>可食容量 ${value(c.capacityB)} B<br>蓄え E ${value(o.E)} / M ${value(o.M)}<br>活性 ${Number.isFinite(c.activity)?value(c.activity*100)+'%':'未記録'}${edible===0?' / 基部が残存':c.activity===0?' / 衰退':''}<br>直近再生 ${value(c.last?.regrowthB)} B${Number.isSafeInteger(c.last?.turn)?'（'+c.last.turn+'T）':''}</p><p class="note">可食部の回復は同じIDの群落です。完全消失後の再成立は別IDとして記録します。内部株の寿命・年齢・性別は記録していません。</p>${infectionHTML(o)}</article>`;
+  }
   function organismHTML(o) {
+    if(world.config.producerModel==='colony/1'&&o.colony?.version==='colony-state/1')return producerColonyHTML(o);
     const s = S.spec(o),
       p = S.phenotype(world, o),
       main = o.slot === "main",
@@ -1119,7 +1150,7 @@
     $("main-count").textContent = s.main.toLocaleString();
     $("food-count").textContent = s.food.toLocaleString();
     const lower={plant:0,prey:0,fungus:0};for(const group of observations?.rows.at(-1)?.current.groups||[])if(group.id in lower)lower[group.id]=group.count;
-    $("food-breakdown").textContent=`生産者 ${lower.plant} / 一次消費者 ${lower.prey} / 分解者 ${lower.fungus}`;
+    $("food-breakdown").textContent=`生産者 ${lower.plant}${world.config.producerModel==='colony/1'?'群落':''} / 一次消費者 ${lower.prey} / 分解者 ${lower.fungus}`;
     $("parasite-count").textContent = s.P + " / " + s.Q;
     $("timing").textContent = lastMs ? Math.round(lastMs) + " ms" : "—";
     renderPopulation();

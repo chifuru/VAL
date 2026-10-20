@@ -1,0 +1,10 @@
+AssertionError [ERR_ASSERTION]: Worker applies accounted external input
+    at check (/workspace/VAL/lifegame-desktop/tests/initial-supply-ui.cjs:7:25)
+    at /workspace/VAL/lifegame-desktop/tests/initial-supply-ui.cjs:26:225 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

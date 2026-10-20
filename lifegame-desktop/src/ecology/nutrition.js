@@ -423,7 +423,7 @@
           (a.type === "plant" && (S.edibleB(obj) <= 0 || obj.HP <= 0))
         )
           continue;
-        let amount;
+        let amount, harvest = null;
         if (a.type === "soil") {
           amount = {
             E: 0,
@@ -452,9 +452,11 @@
             ),
             M = obj.B > 0 ? S.round((obj.M * B) / obj.B) : 0;
           if (B <= 0) continue;
+          harvest = {consumedB:B,beforeEdibleB:S.edibleB(obj)};
           obj.B = S.round(obj.B - B);
           obj.M = S.round(obj.M - M);
           amount = { E: B, M, G: 0 };
+          if(S.Colony.is(obj))S.Colony.consumed(w,obj,B);
           if (obj.B <= 0) ctx.harvestDead.add(obj.id);
         } else {
           amount = {
@@ -490,7 +492,7 @@
             carcass: a.type === "carcass",
           });
           assimilated=result.e;
-          if (result.organic && amount.E > 0) transfer(w, ctx, obj, o, a.type);
+          if (result.organic && amount.E > 0) transfer(w, ctx, obj, o, a.type, harvest);
         }
         S.record(ctx, o, "feed", {
           source: a.id,
@@ -525,6 +527,7 @@
     return paid;
   }
   function carcass(w, o, ctx) {
+    if(S.Colony.is(o)&&o.colony.edibleExposure){S.dissipate(w,o.colony.edibleExposure.E);o.colony.edibleExposure=null;}
     const same = w.carcasses.find(
       (a) => a.cell === o.cell && a.slot === o.slot,
     );
@@ -579,7 +582,12 @@
       let base = c.base;
       if (["stop", "defend"].includes(intent.type))
         base *= 1 + S.trait(o, "rest", p.phase);
-      spend(w, o, base);
+      const paidBase=spend(w, o, base);
+      if(S.Colony.is(o)){
+        const maintained=paidBase>=S.round(base)&&o.HP>0;
+        o.colony.activity=S.round(S.clamp(o.colony.activity+(maintained?.02:-.05),0,1));
+        if(maintained)S.Colony.increment(o,"maintainedTurns",1);
+      }
       const paidDensity = spend(w, o, c.density);
       ctx.records.get(o.id).crowding = c.neighborCount >= 5 && paidDensity > 0;
       parasiteFee(w, ctx, o);
@@ -592,7 +600,8 @@
       if (o.HP <= 0)
         reason = ctx.records.get(o.id).damage > 0 ? "combat" : "starvation";
       if (ctx.harvestDead.has(o.id)) reason = "harvest";
-      if (!reason && o.age >= p.life) reason = "age";
+      if(!reason&&S.Colony.is(o)&&o.colony.activity<=0)reason="starvation";
+      if (!reason && !S.Colony.is(o) && o.age >= p.life) reason = "age";
       if (reason) {
         S.record(ctx, o, "death", { reason, appearance: {
           species:o.species,phase:o.phase,branch3:o.branch3,branch4:o.branch4,
@@ -611,7 +620,8 @@
     for (const o of w.organisms) {
       if (!ctx.traits.has(o.id)) continue;
       const s = S.spec(o);
-      if (["plant", "fungus"].includes(s.group)) {
+      if(S.Colony.is(o))S.Colony.regrow(w,o);
+      else if (["plant", "fungus"].includes(s.group)) {
         const hasBirth = S.nearby(w, o.cell).some(
             (p) =>
               !m.food.has(p) &&

@@ -1,0 +1,24 @@
+✔ colony settings are explicit, versioned and finite; old worlds retain their rules (129.563122ms)
+✔ regional placement counts union habitats once and fixes actual edible stock after advantage transforms (150.024115ms)
+✔ explicit zero controls initial placement, while later legal support and direct counts retain their contracts (151.278862ms)
+✔ initial food guarantees cannot bypass a zero colony occupancy limit (31.211161ms)
+✔ regrowth spends finite E and soil M exactly once, honors its per-turn ceiling, and preserves identity (2.457399ms)
+✔ darkness, absent mineral, exhausted E and absent base activity cannot create new leaves (6.847294ms)
+✔ support regrowth multiplier honors zero and low values and cannot exceed ten percent of capacity (5.434942ms)
+✔ habitat and cluster initial placement retain equal finite regional targets but choose distinct repeatable cells (118.701685ms)
+✔ finite competing grazers consume one shared stock and never count leaf loss as a colony death (2.876952ms)
+✔ partial edible exposure is paid, proportional and leaves resident P/Q unchanged (2.513434ms)
+✔ zero edible stock produces zero exposure and expired or dead-host exposure dissipates once (2.548606ms)
+✔ colony elapsed time is not a lifetime; extinction and supported reestablishment use distinct IDs (2.423668ms)
+✔ local paid establishment respects one parent budget and regional occupancy (2.234533ms)
+✔ supported growth has only explicit E/M inputs and cannot bypass regional capacity (1.773968ms)
+✔ land and freshwater short runs conserve finite budgets and repeat exactly (11703.687706ms)
+✔ generated static model and dynamic model agree on new colony worlds (1055.984794ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13406.001587

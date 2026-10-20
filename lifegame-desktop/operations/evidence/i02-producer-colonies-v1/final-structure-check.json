@@ -1,0 +1,29 @@
+{
+  "dateUTC": "2026-10-20T12:20:07.271079+00:00",
+  "nodes": 61,
+  "updatedNodes": [
+    "valis/nodes/C/C7.1.md",
+    "valis/nodes/C/C7.2.md",
+    "valis/nodes/C/C7.4.md",
+    "valis/nodes/C/C7.5.md",
+    "valis/nodes/C/C7.md",
+    "valis/nodes/C/C8.2.md",
+    "valis/nodes/C/C8.md",
+    "valis/nodes/D/D7.md",
+    "valis/nodes/D/D8.md",
+    "valis/nodes/D/D9.md",
+    "valis/nodes/E/E5.md",
+    "valis/nodes/E/E6.md"
+  ],
+  "formalFieldsUnchanged": true,
+  "scope": "I02 only; no A/B/core/art asset change or native/500T certification",
+  "markdownLinkFiles": [
+    "operations/evidence/i02-producer-colonies-v1/README.md",
+    "operations/plans/i02-producer-colonies-v1.md",
+    "operations/plans/implementation-sequence-v1.md",
+    "operations/plans/completion-roadmap-v1.md",
+    "README.md"
+  ],
+  "sourceHashEntries": 85,
+  "sourceHashesMatch": true
+}

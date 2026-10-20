@@ -902,7 +902,7 @@ function level(w,cell){const c=w.config.producerSupport;if(!c?.enabled)return 1;
 function factor(w,o,S){return S.spec(o).group==='plant'&&w.config.producerSupport?.enabled?level(w,o.cell):1;}
 function begin(w,S){
  const c=w.config.producerSupport;if(!c?.enabled||!w.config.enabled.plant)return;
- const plants=S.D.species.filter(s=>s.group==='plant');
+ const plants=S.D.species.filter(s=>s.group==='plant'&&(!S.Colony.enabled(w)||S.Colony.allowed(w,s)));
  if(!w.producerSupport){
   const sites=[];
   for(let cell=0;cell<w.tiles.length;cell++){
@@ -914,21 +914,23 @@ function begin(w,S){
  }
  const state=w.producerSupport,last=state.last={inputE:0,inputM:0,regrownB:0,established:{},births:[],stressed:0};
  function input(o,key,amount){amount=S.round(Math.max(0,amount));o[key]=S.round(o[key]+amount);const ledger=key==='M'?'producerM':'producerE',meter=key==='M'?'inputM':'inputE';w.ledger[ledger]=S.round(w.ledger[ledger]+amount);last[meter]=S.round(last[meter]+amount);}
- const m=S.maps(w);
+ const m=S.maps(w),colonyCounts=S.Colony.enabled(w)?S.Colony.occupancy(w):null;
  for(const site of state.sites){
   const n=level(w,site.cell),light=w.tiles[site.cell].light;if(n<=0||light<=0)continue;
   let o=m.food.get(site.cell);
-  if(!o&&S.r(w,'producer/establish',w.turn,site.species,site.cell)<Math.min(1,c.establishment*n)){
-   o=S.organism(w,S.D.byId[site.species],site.cell,'env:producer:'+site.species+':'+w.turn+':'+site.cell,{E:0,B:0,M:0,phase:1,age:0});
+  if(!o&&(!colonyCounts||S.Colony.room(w,site.cell,colonyCounts))&&S.r(w,'producer/establish',w.turn,site.species,site.cell)<Math.min(1,c.establishment*n)){
+   o=S.organism(w,S.D.byId[site.species],site.cell,'env:producer:'+site.species+':'+w.turn+':'+site.cell,{E:0,B:0,M:0,phase:1,age:0,colonyOrigin:{kind:'environment',turn:w.turn,cell:site.cell}});
    o.origin={kind:'environment',turn:w.turn,cell:site.cell};o.producerReserve=1;
-   input(o,'E',6);input(o,'B',S.PLANT_BASE);input(o,'M',.2);w.organisms.push(o);m.food.set(site.cell,o);
+   if(colonyCounts){input(o,'E',8);o.E=S.round(o.E-S.PLANT_BASE);o.B=S.PLANT_BASE;colonyCounts[S.Colony.region(w,site.cell)]++;}
+   else{input(o,'E',6);input(o,'B',S.PLANT_BASE);}
+   input(o,'M',.2);w.organisms.push(o);m.food.set(site.cell,o);
    state.established[o.species]=(state.established[o.species]||0)+1;last.established[o.species]=(last.established[o.species]||0)+1;last.births.push({id:o.id,species:o.species,cell:o.cell});
   }
   if(!o||S.spec(o).group!=='plant')continue;
   const p=S.phenotype(w,o),fraction=Math.min(1,n),energy=Math.min(1,Math.max(0,light));
   input(o,'E',Math.max(0,Math.min(c.targetE,p.capE)-o.E)*fraction*energy);
   input(o,'M',Math.max(0,Math.min(c.targetM,p.capM)-o.M)*fraction);
-  const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);
+  if(!colonyCounts){const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);}
  }
  for(const o of w.organisms)if(S.spec(o).group==='plant'){
   const n=level(w,o.cell)*(w.tiles[o.cell].light>0?1:0);o.producerReserve=S.round(S.clamp((o.producerReserve??1)+(Math.min(1,n)-.5)*2/c.grace,0,1));
@@ -984,6 +986,156 @@ return {settings,attach,region,level,factor,begin,finish};
     Math.max(0, o.B - (spec(o).group === "plant" ? PLANT_BASE : 0));
   const leafFactor = (o) =>
     0.5 + 0.5 * H.clamp((o.B - PLANT_BASE) / 10, 0, 1);
+  // Opt-in basal colonies keep their actual E/B/M in the ordinary organism ledger.
+  const Colony = (() => {
+    const VERSION = "colony-state/1", LIMIT = 1e12;
+    const enabled = (w) => w.config.producerModel === "colony/1";
+    const is = (o) => o.colony?.version === VERSION;
+    const region = (w, cell) => ["shallow", "deep"].includes(w.tiles[cell].terrain) ? "water" : "land";
+    function settings(input = {}) {
+      const check = (o, keys) => {
+        if (!o || typeof o !== "object" || Array.isArray(o) || Object.keys(o).some(k => !keys.includes(k)))
+          throw Error("SETTINGS_INVALID: 群落の比較値");
+      };
+      check(input, ["version", "standardBiteB", "land", "water"]);
+      if ((input.version !== undefined && input.version !== "colony-parameters/1") ||
+          (input.standardBiteB !== undefined && input.standardBiteB !== 2)) throw Error("SETTINGS_INVALID: 群落の定義版/標準量");
+      const result = {version:"colony-parameters/1", standardBiteB:2};
+      for (const name of ["land", "water"]) {
+        const value = input[name] ?? {};
+        check(value, ["occupancy", "capacityB", "initialFraction", "regrowthB"]);
+        const out = result[name] = {occupancy:name === "land" ? .20 : .15, capacityB:20, initialFraction:.70, regrowthB:2, ...value};
+        for (const [key, low, high] of [["occupancy",0,1],["capacityB",.02,200],["initialFraction",0,1],["regrowthB",0,out.capacityB*.1]])
+          if (typeof out[key] !== "number" || !Number.isFinite(out[key]) || out[key] < low || out[key] > high + 1e-9)
+            throw Error("SETTINGS_INVALID: 群落 " + name + "/" + key);
+      }
+      return result;
+    }
+    const parameters = (w, cell) => w.config.producerSettings[region(w, cell)];
+    function attach(w, o, origin = {kind:"initial"}) {
+      if (!enabled(w) || spec(o).group !== "plant" || is(o)) return o;
+      o.colony = {version:VERSION, origin:structuredClone(origin), establishedAt:w.turn,
+        baseB:PLANT_BASE, capacityB:parameters(w,o.cell).capacityB, activity:1,
+        replacementDebtB:0, edibleExposure:null,
+        last:{turn:w.turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0},
+        cumulative:{productionB:0,regrowthB:0,consumedB:0,maintainedTurns:0,settlements:0}};
+      delete o.birthLife;
+      return o;
+    }
+    function increment(o, key, value) {
+      o.colony.cumulative[key] = H.round(Math.min(LIMIT, o.colony.cumulative[key] + value));
+    }
+    function begin(w) {
+      if (!enabled(w)) return;
+      w.colonyFlows = {turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0},water:{productionB:0,regrowthB:0,consumedB:0}};
+      for (const o of w.organisms) if (is(o)) {
+        o.colony.last = {turn:w.turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0};
+        const exposure = o.colony.edibleExposure;
+        if (exposure && exposure.expires <= w.turn) {
+          dissipate(w, exposure.E);
+          o.colony.edibleExposure = null;
+        }
+      }
+    }
+    function regional(w) {
+      const species = D.species.filter(s => s.group === "plant"), out = {};
+      for (const name of ["land", "water"]) {
+        const cells = w.tiles.map((_,i) => i).filter(cell => region(w,cell) === name && species.some(s => validHabitat(w,s,cell)));
+        out[name] = {eligibleCells:cells.length, target:Math.round(cells.length*w.config.producerSettings[name].occupancy)};
+      }
+      return out;
+    }
+    function occupancy(w) {
+      const counts = {land:0,water:0};
+      for (const o of w.organisms) if (is(o) && o.HP > 0) counts[region(w,o.cell)]++;
+      return counts;
+    }
+    function room(w, cell, counts = occupancy(w)) {
+      const name = region(w,cell);
+      return counts[name] < (w.colonyRegions ??= regional(w))[name].target;
+    }
+    function allowed(w, s) { return !!w.config.enabled.plant && (w.turn > 0 || w.config.founderCounts?.species[s.id] !== 0); }
+    function initialize(w) {
+      if (!enabled(w)) return;
+      w.colonyRegions = regional(w);
+      if (!w.config.enabled.plant) return;
+      const species = D.species.filter(s => s.group === "plant"), occupied = new Set(w.organisms.filter(o => o.slot === "food").map(o => o.cell));
+      const counts = {land:0,water:0};
+      function place(s, cell) {
+        const o = organism(w,s,cell,"i:colony:"+cell+":"+s.id);
+        o.B = H.round(PLANT_BASE + parameters(w,cell).capacityB*parameters(w,cell).initialFraction);
+        w.organisms.push(o); occupied.add(cell); counts[region(w,cell)]++;
+      }
+      const candidates = s => w.tiles.map((_,i) => i).filter(cell => !occupied.has(cell) && validHabitat(w,s,cell))
+        .sort((a,b) => initialRank(w,s,a)-initialRank(w,s,b) || a-b);
+      for (const s of species) {
+        const direct = w.config.founderCounts?.species[s.id];
+        if (direct === undefined) continue;
+        const cells = candidates(s);
+        if (cells.length < direct) throw Error("PLACEMENT_SHORTAGE: " + s.name + " 群落の指定数に対する適地/空き枠が不足しています");
+        for (const cell of cells.slice(0,direct)) place(s,cell);
+      }
+      for (const name of ["land","water"]) {
+        const clustered=w.config.initialConditions?.distribution==="cluster";
+        const sites = w.tiles.map((_,i) => i).filter(cell => region(w,cell) === name && !occupied.has(cell))
+          .map(cell => ({cell,species:species.filter(s => w.config.founderCounts?.species[s.id] === undefined && validHabitat(w,s,cell))}))
+          .map(site => ({...site,rank:clustered&&site.species.length?Math.min(...site.species.map(s=>initialRank(w,s,site.cell))):0}))
+          .filter(a => a.species.length).sort((a,b) => {
+            const rank = x => hash(w,"colony/initial-block",0,null,[Math.floor((x.cell%w.config.width)/3),Math.floor(Math.floor(x.cell/w.config.width)/3)]);
+            return a.rank-b.rank || rank(a)-rank(b) || hash(w,"colony/initial-cell",0,null,a.cell)-hash(w,"colony/initial-cell",0,null,b.cell);
+          });
+        for (const site of sites) {
+          if (counts[name] >= w.colonyRegions[name].target) break;
+          site.species.sort((a,b) => (clustered?initialRank(w,a,site.cell)-initialRank(w,b,site.cell):0) || hash(w,"colony/initial-species",0,a.id,site.cell)-hash(w,"colony/initial-species",0,b.id,site.cell));
+          place(site.species[0],site.cell);
+        }
+      }
+      for (const name of ["land","water"]) w.colonyRegions[name].initial = counts[name];
+    }
+    function flow(w,o,key,amount) {
+      if(!w.colonyFlows || w.colonyFlows.turn !== w.turn)
+        w.colonyFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0},water:{productionB:0,regrowthB:0,consumedB:0}};
+      const row=w.colonyFlows[region(w,o.cell)];row[key]=H.round((row[key]||0)+amount);
+    }
+    function solar(w,o,amount){o.colony.last.solarInputE=H.round(o.colony.last.solarInputE+amount);flow(w,o,"solarInputE",amount);}
+    function consumed(w, o, amount) {
+      o.colony.last.consumedB = H.round(o.colony.last.consumedB + amount);
+      increment(o,"consumedB",amount);
+      flow(w,o,"consumedB",amount);
+      o.colony.replacementDebtB = H.round(Math.min(o.colony.capacityB,o.colony.replacementDebtB+amount));
+    }
+    function regrow(w, o) {
+      if (!is(o) || o.HP <= 0 || w.tiles[o.cell].light <= 0 || ProducerSupport.factor(w,o,{spec}) <= 0) return;
+      const c = o.colony, p = phenotype(w,o), tile = w.tiles[o.cell], options = parameters(w,o.cell);
+      const multiplier=w.config.producerSupport?.enabled?w.config.producerSupport[region(w,o.cell)].regrowth:1;
+      const ceiling=Math.min(c.capacityB*.1,options.regrowthB*multiplier);
+      const amount = H.round(Math.max(0,Math.min(Math.max(0,ceiling*c.activity*Math.min(1,tile.light)-c.last.productionB),
+        c.capacityB-edibleB(o),Math.max(0,o.E-2)/1.2,tile.soilM/.02,Math.max(0,p.capM-o.M)/.02)));
+      if (!amount) return;
+      const expense = H.round(1.2*amount), material = H.round(.02*amount), replacement = Math.min(amount,c.replacementDebtB);
+      o.E = H.round(o.E-expense); o.B = H.round(o.B+amount);
+      tile.soilM = H.round(tile.soilM-material); o.M = H.round(o.M+material);
+      dissipate(w,H.round(expense-amount));
+      c.last.productionB = H.round(c.last.productionB+amount); c.last.regrowthB = H.round(c.last.regrowthB+replacement);
+      c.replacementDebtB = H.round(c.replacementDebtB-replacement);
+      increment(o,"productionB",amount); increment(o,"regrowthB",replacement);
+      flow(w,o,"productionB",amount);flow(w,o,"regrowthB",replacement);
+    }
+    function summary(w) {
+      if (!enabled(w)) return;
+      const out = {definition:"colony-observed/1",turn:w.turn};
+      for (const name of ["land","water"]) out[name] = {count:0,B:0,edibleB:0,occupiedCells:0,
+        eligibleCells:(w.colonyRegions ??= regional(w))[name].eligibleCells,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,reserveE:0,reserveM:0,baseB:0,activitySum:0};
+      for (const o of w.organisms) if (is(o)) {
+        const row = out[region(w,o.cell)];row.count++;row.occupiedCells++;row.B+=o.B;row.edibleB+=edibleB(o);
+        row.reserveE+=o.E;row.reserveM+=o.M;row.baseB+=o.colony.baseB;row.activitySum+=o.colony.activity;
+      }
+      if(w.colonyFlows?.turn===w.turn)for(const name of ["land","water"]){const flow=w.colonyFlows[name];out[name].productionB=flow.productionB;out[name].regrowthB=flow.regrowthB;out[name].consumedB=flow.consumedB;out[name].solarInputE=flow.solarInputE||0;}
+      for (const name of ["land","water"]) for (const key of Object.keys(out[name])) out[name][key]=H.round(out[name][key]);
+      w.colonySummary=out;
+    }
+    return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
+  })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
   // Explicitly enabled only for fixed production worlds; never serialized.
@@ -1276,6 +1428,9 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
+    if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
+    else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
     if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
@@ -1322,6 +1477,7 @@ return {settings,attach,region,level,factor,begin,finish};
     precocial:Object.freeze({attack:.90,defense:.95,hp:.90,move:1,maintenance:.90,healing:1,birth:1,light:.65}),
   });
   function ageInfo(o) {
+    if (Colony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
     if (!Number.isFinite(o.birthLife)) return {enabled:false,stage:"adult",factors:ageFactors.adult};
     const s=spec(o),matureAt=s.group==="main"?Math.ceil(o.birthLife*(s.id==="precocial"?.03:s.id==="swarm"&&o.role==="queen"?1/30:.10)):s.maturity,
       elderlyAt=Math.max(matureAt+1,Math.floor(.75*o.birthLife)),
@@ -1330,6 +1486,7 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(Colony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
@@ -1404,6 +1561,9 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
+    if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
+    delete o.colonyOrigin;
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
@@ -1417,7 +1577,7 @@ return {settings,attach,region,level,factor,begin,finish};
       phase,
       u,
       capE: main ? 100 + (tr.capacity || 0) * u : s.capacity[0],
-      capB: main ? 32 : s.capacity[1],
+      capB: Colony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
       capM: main ? 30 : 2,
       maxHP: main ? 100 : s.capacity[3],
       life: main
@@ -1492,6 +1652,7 @@ return {settings,attach,region,level,factor,begin,finish};
     };
     for (const o of w.organisms) {
       E += o.E + o.B;
+      if(Colony.is(o))E += o.colony.edibleExposure?.E || 0;
       M += o.M;
       infection(o.infection);
     }
@@ -1619,6 +1780,8 @@ return {settings,attach,region,level,factor,begin,finish};
           w.tiles[q].walls.push(p);
         }
     }
+    const colonyPlants = Colony.enabled(w) && config.enabled.plant;
+    if(colonyPlants)config.enabled.plant=false;
     const usable = w.tiles
         .map((t, i) => (!t.blocked ? i : -1))
         .filter((i) => i >= 0),
@@ -1666,6 +1829,8 @@ return {settings,attach,region,level,factor,begin,finish};
       config.lineages === "manual"
         ? config.selected.map((id) => D.byId[id])
         : D.main.slice(0, 20);
+    if(colonyPlants)config.enabled.plant=true;
+    Colony.initialize(w);
     if (!config.enabled.main) mains = [];
     if (config.lineages === "few")
       mains = mains
@@ -1906,7 +2071,8 @@ return {settings,attach,region,level,factor,begin,finish};
                     ["plant", "fungus"].includes(f.group) &&
                     config.enabled[f.group],
                 ))
-                  if (validHabitat(w, f, p)) {
+                  if (validHabitat(w, f, p) && (!Colony.enabled(w) || f.group !== "plant" ||
+                      (Colony.allowed(w,f) && Colony.room(w,p)))) {
                     const o = organism(
                       w,
                       f,
@@ -1953,6 +2119,7 @@ return {settings,attach,region,level,factor,begin,finish};
       }
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
+    if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
     if (config.enabled.P)
       for (const o of w.organisms)
         if (
@@ -2009,6 +2176,7 @@ return {settings,attach,region,level,factor,begin,finish};
         config.initialReport.groups[g].requested=species.reduce((sum,s,i)=>sum+(config.enabled[g]?(requested.species[s.id]??(Math.floor(target/species.length)+(i<target%species.length?1:0))):0),0);
       }
     }
+    Colony.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -2059,6 +2227,7 @@ return {settings,attach,region,level,factor,begin,finish};
     ...H,
     D,
     ProducerSupport,
+    Colony,
     initialRank,
     DIRS,
     DNA,
@@ -2528,7 +2697,7 @@ function(require,module){
           (a.type === "plant" && (S.edibleB(obj) <= 0 || obj.HP <= 0))
         )
           continue;
-        let amount;
+        let amount, harvest = null;
         if (a.type === "soil") {
           amount = {
             E: 0,
@@ -2557,9 +2726,11 @@ function(require,module){
             ),
             M = obj.B > 0 ? S.round((obj.M * B) / obj.B) : 0;
           if (B <= 0) continue;
+          harvest = {consumedB:B,beforeEdibleB:S.edibleB(obj)};
           obj.B = S.round(obj.B - B);
           obj.M = S.round(obj.M - M);
           amount = { E: B, M, G: 0 };
+          if(S.Colony.is(obj))S.Colony.consumed(w,obj,B);
           if (obj.B <= 0) ctx.harvestDead.add(obj.id);
         } else {
           amount = {
@@ -2595,7 +2766,7 @@ function(require,module){
             carcass: a.type === "carcass",
           });
           assimilated=result.e;
-          if (result.organic && amount.E > 0) transfer(w, ctx, obj, o, a.type);
+          if (result.organic && amount.E > 0) transfer(w, ctx, obj, o, a.type, harvest);
         }
         S.record(ctx, o, "feed", {
           source: a.id,
@@ -2630,6 +2801,7 @@ function(require,module){
     return paid;
   }
   function carcass(w, o, ctx) {
+    if(S.Colony.is(o)&&o.colony.edibleExposure){S.dissipate(w,o.colony.edibleExposure.E);o.colony.edibleExposure=null;}
     const same = w.carcasses.find(
       (a) => a.cell === o.cell && a.slot === o.slot,
     );
@@ -2684,7 +2856,12 @@ function(require,module){
       let base = c.base;
       if (["stop", "defend"].includes(intent.type))
         base *= 1 + S.trait(o, "rest", p.phase);
-      spend(w, o, base);
+      const paidBase=spend(w, o, base);
+      if(S.Colony.is(o)){
+        const maintained=paidBase>=S.round(base)&&o.HP>0;
+        o.colony.activity=S.round(S.clamp(o.colony.activity+(maintained?.02:-.05),0,1));
+        if(maintained)S.Colony.increment(o,"maintainedTurns",1);
+      }
       const paidDensity = spend(w, o, c.density);
       ctx.records.get(o.id).crowding = c.neighborCount >= 5 && paidDensity > 0;
       parasiteFee(w, ctx, o);
@@ -2697,7 +2874,8 @@ function(require,module){
       if (o.HP <= 0)
         reason = ctx.records.get(o.id).damage > 0 ? "combat" : "starvation";
       if (ctx.harvestDead.has(o.id)) reason = "harvest";
-      if (!reason && o.age >= p.life) reason = "age";
+      if(!reason&&S.Colony.is(o)&&o.colony.activity<=0)reason="starvation";
+      if (!reason && !S.Colony.is(o) && o.age >= p.life) reason = "age";
       if (reason) {
         S.record(ctx, o, "death", { reason, appearance: {
           species:o.species,phase:o.phase,branch3:o.branch3,branch4:o.branch4,
@@ -2716,7 +2894,8 @@ function(require,module){
     for (const o of w.organisms) {
       if (!ctx.traits.has(o.id)) continue;
       const s = S.spec(o);
-      if (["plant", "fungus"].includes(s.group)) {
+      if(S.Colony.is(o))S.Colony.regrow(w,o);
+      else if (["plant", "fungus"].includes(s.group)) {
         const hasBirth = S.nearby(w, o.cell).some(
             (p) =>
               !m.food.has(p) &&
@@ -3936,6 +4115,10 @@ function(require,module){
         rec = ctx.records.get(o.id),
         old = p.phase;
       if (s.group !== "main") {
+        if(S.Colony.is(o)){
+          if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
+          continue;
+        }
         if (old === 1 && (s.id === "phytoplankton" ? (o.photoGrowth||0) >= 4 : o.age >= s.maturity) && o.E >= 6) o.phase = 2;
         continue;
       }
@@ -4045,6 +4228,7 @@ function(require,module){
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
     if(!birthPressure(w,o,ctx).allowed)return false;
+    if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
     if (s.group !== "main")
       return (
         ctx.traits.get(o.id).phase >= 2 &&
@@ -4128,7 +4312,9 @@ function(require,module){
       for (const s of enabledSpecies) {
           if ((s.slot === "prey" ? m.prey : m.food).has(cell) || !S.validHabitat(w, s, cell)) continue;
           const same = food.filter((o) => o.species === s.id);
-          if (
+          if(S.Colony.enabled(w)&&s.group==="plant"){
+            if(!S.Colony.allowed(w,s)||!S.Colony.room(w,cell,ctx.colonyCounts??=S.Colony.occupancy(w))||!same.length)continue;
+          }else if (
             s.group === "prey"
               ? ![2, 3].includes(same.length)
               : w.config.ecologyRevision === "observation/4.1" ? !(["fungus","phytoplankton"].includes(s.id) ? [1,2,3] : [2,3]).includes(same.length) : same.length !== 3
@@ -4210,6 +4396,7 @@ function(require,module){
       role,
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
+      ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       E: main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
@@ -4249,6 +4436,7 @@ function(require,module){
           (main ? ([1,3].includes(c.kind) ? 4 : 2) : s.group === "prey" ? 0 : 0.2),
       );
       ctx.parents.add(parent.id);
+      if(S.Colony.is(parent))S.Colony.increment(parent,"settlements",1);
       const cooldown = ctx.traits.get(parent.id).cooldown;
       parent.birthReady =
         w.turn + Math.ceil(cooldown * (c.kind === 1 ? 1.5 : 1)) + 1;
@@ -4297,7 +4485,9 @@ function(require,module){
         "slot:" + c.slot + ":" + c.cell,
       ];
       if (keys.every((k) => votes.get(k) === c)) {
+        if(S.Colony.is(c.parents[0])&&!S.Colony.room(w,c.cell,ctx.colonyCounts??=S.Colony.occupancy(w)))continue;
         children.push(child(w, c, ctx));
+        if(S.Colony.is(c.parents[0]))ctx.colonyCounts[S.Colony.region(w,c.cell)]++;
         ctx.births.push(c.species);
       }
     }
@@ -4329,7 +4519,33 @@ function(require,module){
         )
       : ["plant", "general"].includes(S.spec(o).diet);
   }
-  function transfer(w, ctx, source, target, type) {
+  // I02 bridge: finite edible inoculum, not a split or transfer of the resident P/Q.
+  // Route adaptation, multistep establishment and parasite biomass belong to I05.
+  function colonyExposure(w,ctx,source,target,harvest) {
+    if(!harvest||harvest.consumedB<=0||harvest.beforeEdibleB<=0)return;
+    const colony=source.colony,p=source.infection;
+    if(!colony.edibleExposure&&p&&p.stage==="first"&&p.counter>=4&&p.E>=.12&&
+       (p.edibleReady||0)<=w.turn&&ctx.byParasite.has(p.id)&&!ctx.movedInfections.has(p.id)){
+      p.E=S.round(p.E-.12);S.dissipate(w,.06);p.edibleReady=w.turn+6;
+      colony.edibleExposure={id:"edible:"+p.id+":"+w.turn,sourceParasiteId:p.id,species:p.species,
+        E:.06,amount:1,created:w.turn,expires:w.turn+6};
+    }
+    const exposure=colony.edibleExposure;
+    if(!exposure||exposure.created>w.turn||exposure.expires<=w.turn)return;
+    const budget=S.round(exposure.E*Math.min(1,harvest.consumedB/harvest.beforeEdibleB));
+    exposure.E=S.round(exposure.E-budget);exposure.amount=S.round(exposure.E/.06);
+    const compatible=(exposure.species==="tideparasite"&&target.species==="waterbug")||
+      (exposure.species==="leafparasite"&&target.species==="grassbug");
+    if(compatible&&!target.infection&&budget>=.03){
+      const child=S.infection(w,exposure.species,target.id,w.turn,S.sha256(exposure.id+":"+target.id).slice(0,16));
+      child.stage="middle";child.E=budget;target.infection=child;
+      ctx.movedInfections.add(child.id);ctx.transfers++;ctx.births.push(child.species);
+      S.record(ctx,target,"infection",{parasite:child.id,stage:"middle",sourceParasite:exposure.sourceParasiteId,exposure:budget});
+    }else S.dissipate(w,budget);
+    if(exposure.E<=0)colony.edibleExposure=null;
+  }
+  function transfer(w, ctx, source, target, type, harvest = null) {
+    if(type==="plant"&&S.Colony.is(source)){colonyExposure(w,ctx,source,target,harvest);return;}
     const p = source.infection;
     if (!p) return;
     let stage = null;
@@ -4996,6 +5212,7 @@ function(require,module){
         S.dissipate(w, ageLight - add);
         if(s.id === "phytoplankton")o.photoGrowth=S.round((o.photoGrowth||0)+add);
         ctx.records.get(o.id).light = ageLight;
+        if(S.Colony.is(o))S.Colony.solar(w,o,add);
         S.record(ctx, o, "light", { amount: add });
       }
       ctx.old.get(o.id).E = o.E;
@@ -5125,14 +5342,16 @@ function(require,module){
     for(const o of w.organisms){const c=cohort(o.species,o.generation);
       if(w.turn===0)c.initial++;
       if(childIds.has(o.id))c.born++;
-      if(ctx.traits.get(o.id)?.ageStage==="juvenile" && S.ageInfo(o).stage!=="juvenile")c.matured++;
+      if(!S.Colony.is(o)&&ctx.traits.get(o.id)?.ageStage==="juvenile" && S.ageInfo(o).stage!=="juvenile")c.matured++;
       if(o.firstBirthAt===w.turn && ctx.parents.has(o.id))c.reproduced++;
     }
     for(const d of ctx.deaths)if(d.ageStage==="juvenile")cohort(d.species,d.generation).juvenileDeaths++;
 
     for(const o of w.organisms) {
       const row=composition[o.species]??={phases:[0,0,0,0],ages:{juvenile:0,adult:0,elderly:0},sex:{female:0,male:0,none:0},roles:{}};
-      row.phases[o.phase-1]++;row.ages[S.ageInfo(o).stage]++;row.sex[o.sex in row.sex ? o.sex : "none"]++;
+      row.phases[o.phase-1]++;
+      if(S.Colony.is(o)){row.ages.nonapplicable=(row.ages.nonapplicable||0)+1;row.sex.nonapplicable=(row.sex.nonapplicable||0)+1;}
+      else{row.ages[S.ageInfo(o).stage]++;row.sex[o.sex in row.sex ? o.sex : "none"]++;}
       if(o.birthBlockers){const reasons=birthReasons[o.species]??={};for(const reason of o.birthBlockers)reasons[reason]=(reasons[reason]||0)+1;}
       if(o.role)row.roles[o.role]=(row.roles[o.role]||0)+1;
       if(o.infection){const p=o.infection;add(p.species,o.species,"bond");links[p.species+"|"+o.species+"|bond"]=(links[p.species+"|"+o.species+"|bond"]||0)+1;if(p.q){add("hyperparasite",p.species,"bond");links["hyperparasite|"+p.species+"|bond"]=(links["hyperparasite|"+p.species+"|bond"]||0)+1;}}
@@ -5160,6 +5379,7 @@ function(require,module){
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
+    S.Colony.summary(w);
     S.ProducerSupport.finish(w,ctx,S);
     w.tallies = w.tallies || emptyTallies();
     for (const id of ctx.births) w.tallies.births[id]++;
@@ -5258,6 +5478,7 @@ function(require,module){
       w.checkpoints = [...(initial ? [initial] : []), checkpoint(w)];
     }
     w.turn++;
+    S.Colony.begin(w);
     S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
     const labels = ["資源更新", "移動・採食・戦闘", "成長・繁殖"];
@@ -5364,9 +5585,14 @@ function(require,module){
         )
       )
         errors.push("BUDGET:" + o.id);
-      if(w.config.ageModel==="life/1"){
+      if(w.config.ageModel==="life/1"&&!S.Colony.is(o)){
         if(!Number.isFinite(o.birthLife)||o.birthLife<=0)errors.push("AGE_BASIS:"+o.id);
         else if(o.HP>S.phenotype(w,o).maxHP+.000001)errors.push("AGE_HP:"+o.id);
+      }
+      if(S.Colony.is(o)){
+        const c=o.colony,e=c.edibleExposure;
+        if(!S.Colony.enabled(w)||S.spec(o).group!=="plant"||![c.baseB,c.capacityB,c.activity,c.replacementDebtB,...Object.values(c.last),...Object.values(c.cumulative)].every(Number.isFinite)||c.baseB!==S.PLANT_BASE||c.activity<0||c.activity>1||o.B<c.baseB-1e-6||S.edibleB(o)>c.capacityB+1e-6||Object.values(c.cumulative).some(v=>v<0))errors.push("COLONY:"+o.id);
+        if(e&&(!Number.isFinite(e.E)||e.E<0||!Number.isFinite(e.amount)||e.amount<0||e.amount>1+1e-6||!Number.isSafeInteger(e.expires)))errors.push("COLONY_EXPOSURE:"+o.id);
       }
       if (o.infection) {
         const p = o.infection;
@@ -6328,7 +6554,7 @@ function level(w,cell){const c=w.config.producerSupport;if(!c?.enabled)return 1;
 function factor(w,o,S){return S.spec(o).group==='plant'&&w.config.producerSupport?.enabled?level(w,o.cell):1;}
 function begin(w,S){
  const c=w.config.producerSupport;if(!c?.enabled||!w.config.enabled.plant)return;
- const plants=S.D.species.filter(s=>s.group==='plant');
+ const plants=S.D.species.filter(s=>s.group==='plant'&&(!S.Colony.enabled(w)||S.Colony.allowed(w,s)));
  if(!w.producerSupport){
   const sites=[];
   for(let cell=0;cell<w.tiles.length;cell++){
@@ -6340,21 +6566,23 @@ function begin(w,S){
  }
  const state=w.producerSupport,last=state.last={inputE:0,inputM:0,regrownB:0,established:{},births:[],stressed:0};
  function input(o,key,amount){amount=S.round(Math.max(0,amount));o[key]=S.round(o[key]+amount);const ledger=key==='M'?'producerM':'producerE',meter=key==='M'?'inputM':'inputE';w.ledger[ledger]=S.round(w.ledger[ledger]+amount);last[meter]=S.round(last[meter]+amount);}
- const m=S.maps(w);
+ const m=S.maps(w),colonyCounts=S.Colony.enabled(w)?S.Colony.occupancy(w):null;
  for(const site of state.sites){
   const n=level(w,site.cell),light=w.tiles[site.cell].light;if(n<=0||light<=0)continue;
   let o=m.food.get(site.cell);
-  if(!o&&S.r(w,'producer/establish',w.turn,site.species,site.cell)<Math.min(1,c.establishment*n)){
-   o=S.organism(w,S.D.byId[site.species],site.cell,'env:producer:'+site.species+':'+w.turn+':'+site.cell,{E:0,B:0,M:0,phase:1,age:0});
+  if(!o&&(!colonyCounts||S.Colony.room(w,site.cell,colonyCounts))&&S.r(w,'producer/establish',w.turn,site.species,site.cell)<Math.min(1,c.establishment*n)){
+   o=S.organism(w,S.D.byId[site.species],site.cell,'env:producer:'+site.species+':'+w.turn+':'+site.cell,{E:0,B:0,M:0,phase:1,age:0,colonyOrigin:{kind:'environment',turn:w.turn,cell:site.cell}});
    o.origin={kind:'environment',turn:w.turn,cell:site.cell};o.producerReserve=1;
-   input(o,'E',6);input(o,'B',S.PLANT_BASE);input(o,'M',.2);w.organisms.push(o);m.food.set(site.cell,o);
+   if(colonyCounts){input(o,'E',8);o.E=S.round(o.E-S.PLANT_BASE);o.B=S.PLANT_BASE;colonyCounts[S.Colony.region(w,site.cell)]++;}
+   else{input(o,'E',6);input(o,'B',S.PLANT_BASE);}
+   input(o,'M',.2);w.organisms.push(o);m.food.set(site.cell,o);
    state.established[o.species]=(state.established[o.species]||0)+1;last.established[o.species]=(last.established[o.species]||0)+1;last.births.push({id:o.id,species:o.species,cell:o.cell});
   }
   if(!o||S.spec(o).group!=='plant')continue;
   const p=S.phenotype(w,o),fraction=Math.min(1,n),energy=Math.min(1,Math.max(0,light));
   input(o,'E',Math.max(0,Math.min(c.targetE,p.capE)-o.E)*fraction*energy);
   input(o,'M',Math.max(0,Math.min(c.targetM,p.capM)-o.M)*fraction);
-  const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);
+  if(!colonyCounts){const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);}
  }
  for(const o of w.organisms)if(S.spec(o).group==='plant'){
   const n=level(w,o.cell)*(w.tiles[o.cell].light>0?1:0);o.producerReserve=S.round(S.clamp((o.producerReserve??1)+(Math.min(1,n)-.5)*2/c.grace,0,1));
@@ -6410,6 +6638,156 @@ return {settings,attach,region,level,factor,begin,finish};
     Math.max(0, o.B - (spec(o).group === "plant" ? PLANT_BASE : 0));
   const leafFactor = (o) =>
     0.5 + 0.5 * H.clamp((o.B - PLANT_BASE) / 10, 0, 1);
+  // Opt-in basal colonies keep their actual E/B/M in the ordinary organism ledger.
+  const Colony = (() => {
+    const VERSION = "colony-state/1", LIMIT = 1e12;
+    const enabled = (w) => w.config.producerModel === "colony/1";
+    const is = (o) => o.colony?.version === VERSION;
+    const region = (w, cell) => ["shallow", "deep"].includes(w.tiles[cell].terrain) ? "water" : "land";
+    function settings(input = {}) {
+      const check = (o, keys) => {
+        if (!o || typeof o !== "object" || Array.isArray(o) || Object.keys(o).some(k => !keys.includes(k)))
+          throw Error("SETTINGS_INVALID: 群落の比較値");
+      };
+      check(input, ["version", "standardBiteB", "land", "water"]);
+      if ((input.version !== undefined && input.version !== "colony-parameters/1") ||
+          (input.standardBiteB !== undefined && input.standardBiteB !== 2)) throw Error("SETTINGS_INVALID: 群落の定義版/標準量");
+      const result = {version:"colony-parameters/1", standardBiteB:2};
+      for (const name of ["land", "water"]) {
+        const value = input[name] ?? {};
+        check(value, ["occupancy", "capacityB", "initialFraction", "regrowthB"]);
+        const out = result[name] = {occupancy:name === "land" ? .20 : .15, capacityB:20, initialFraction:.70, regrowthB:2, ...value};
+        for (const [key, low, high] of [["occupancy",0,1],["capacityB",.02,200],["initialFraction",0,1],["regrowthB",0,out.capacityB*.1]])
+          if (typeof out[key] !== "number" || !Number.isFinite(out[key]) || out[key] < low || out[key] > high + 1e-9)
+            throw Error("SETTINGS_INVALID: 群落 " + name + "/" + key);
+      }
+      return result;
+    }
+    const parameters = (w, cell) => w.config.producerSettings[region(w, cell)];
+    function attach(w, o, origin = {kind:"initial"}) {
+      if (!enabled(w) || spec(o).group !== "plant" || is(o)) return o;
+      o.colony = {version:VERSION, origin:structuredClone(origin), establishedAt:w.turn,
+        baseB:PLANT_BASE, capacityB:parameters(w,o.cell).capacityB, activity:1,
+        replacementDebtB:0, edibleExposure:null,
+        last:{turn:w.turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0},
+        cumulative:{productionB:0,regrowthB:0,consumedB:0,maintainedTurns:0,settlements:0}};
+      delete o.birthLife;
+      return o;
+    }
+    function increment(o, key, value) {
+      o.colony.cumulative[key] = H.round(Math.min(LIMIT, o.colony.cumulative[key] + value));
+    }
+    function begin(w) {
+      if (!enabled(w)) return;
+      w.colonyFlows = {turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0},water:{productionB:0,regrowthB:0,consumedB:0}};
+      for (const o of w.organisms) if (is(o)) {
+        o.colony.last = {turn:w.turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0};
+        const exposure = o.colony.edibleExposure;
+        if (exposure && exposure.expires <= w.turn) {
+          dissipate(w, exposure.E);
+          o.colony.edibleExposure = null;
+        }
+      }
+    }
+    function regional(w) {
+      const species = D.species.filter(s => s.group === "plant"), out = {};
+      for (const name of ["land", "water"]) {
+        const cells = w.tiles.map((_,i) => i).filter(cell => region(w,cell) === name && species.some(s => validHabitat(w,s,cell)));
+        out[name] = {eligibleCells:cells.length, target:Math.round(cells.length*w.config.producerSettings[name].occupancy)};
+      }
+      return out;
+    }
+    function occupancy(w) {
+      const counts = {land:0,water:0};
+      for (const o of w.organisms) if (is(o) && o.HP > 0) counts[region(w,o.cell)]++;
+      return counts;
+    }
+    function room(w, cell, counts = occupancy(w)) {
+      const name = region(w,cell);
+      return counts[name] < (w.colonyRegions ??= regional(w))[name].target;
+    }
+    function allowed(w, s) { return !!w.config.enabled.plant && (w.turn > 0 || w.config.founderCounts?.species[s.id] !== 0); }
+    function initialize(w) {
+      if (!enabled(w)) return;
+      w.colonyRegions = regional(w);
+      if (!w.config.enabled.plant) return;
+      const species = D.species.filter(s => s.group === "plant"), occupied = new Set(w.organisms.filter(o => o.slot === "food").map(o => o.cell));
+      const counts = {land:0,water:0};
+      function place(s, cell) {
+        const o = organism(w,s,cell,"i:colony:"+cell+":"+s.id);
+        o.B = H.round(PLANT_BASE + parameters(w,cell).capacityB*parameters(w,cell).initialFraction);
+        w.organisms.push(o); occupied.add(cell); counts[region(w,cell)]++;
+      }
+      const candidates = s => w.tiles.map((_,i) => i).filter(cell => !occupied.has(cell) && validHabitat(w,s,cell))
+        .sort((a,b) => initialRank(w,s,a)-initialRank(w,s,b) || a-b);
+      for (const s of species) {
+        const direct = w.config.founderCounts?.species[s.id];
+        if (direct === undefined) continue;
+        const cells = candidates(s);
+        if (cells.length < direct) throw Error("PLACEMENT_SHORTAGE: " + s.name + " 群落の指定数に対する適地/空き枠が不足しています");
+        for (const cell of cells.slice(0,direct)) place(s,cell);
+      }
+      for (const name of ["land","water"]) {
+        const clustered=w.config.initialConditions?.distribution==="cluster";
+        const sites = w.tiles.map((_,i) => i).filter(cell => region(w,cell) === name && !occupied.has(cell))
+          .map(cell => ({cell,species:species.filter(s => w.config.founderCounts?.species[s.id] === undefined && validHabitat(w,s,cell))}))
+          .map(site => ({...site,rank:clustered&&site.species.length?Math.min(...site.species.map(s=>initialRank(w,s,site.cell))):0}))
+          .filter(a => a.species.length).sort((a,b) => {
+            const rank = x => hash(w,"colony/initial-block",0,null,[Math.floor((x.cell%w.config.width)/3),Math.floor(Math.floor(x.cell/w.config.width)/3)]);
+            return a.rank-b.rank || rank(a)-rank(b) || hash(w,"colony/initial-cell",0,null,a.cell)-hash(w,"colony/initial-cell",0,null,b.cell);
+          });
+        for (const site of sites) {
+          if (counts[name] >= w.colonyRegions[name].target) break;
+          site.species.sort((a,b) => (clustered?initialRank(w,a,site.cell)-initialRank(w,b,site.cell):0) || hash(w,"colony/initial-species",0,a.id,site.cell)-hash(w,"colony/initial-species",0,b.id,site.cell));
+          place(site.species[0],site.cell);
+        }
+      }
+      for (const name of ["land","water"]) w.colonyRegions[name].initial = counts[name];
+    }
+    function flow(w,o,key,amount) {
+      if(!w.colonyFlows || w.colonyFlows.turn !== w.turn)
+        w.colonyFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0},water:{productionB:0,regrowthB:0,consumedB:0}};
+      const row=w.colonyFlows[region(w,o.cell)];row[key]=H.round((row[key]||0)+amount);
+    }
+    function solar(w,o,amount){o.colony.last.solarInputE=H.round(o.colony.last.solarInputE+amount);flow(w,o,"solarInputE",amount);}
+    function consumed(w, o, amount) {
+      o.colony.last.consumedB = H.round(o.colony.last.consumedB + amount);
+      increment(o,"consumedB",amount);
+      flow(w,o,"consumedB",amount);
+      o.colony.replacementDebtB = H.round(Math.min(o.colony.capacityB,o.colony.replacementDebtB+amount));
+    }
+    function regrow(w, o) {
+      if (!is(o) || o.HP <= 0 || w.tiles[o.cell].light <= 0 || ProducerSupport.factor(w,o,{spec}) <= 0) return;
+      const c = o.colony, p = phenotype(w,o), tile = w.tiles[o.cell], options = parameters(w,o.cell);
+      const multiplier=w.config.producerSupport?.enabled?w.config.producerSupport[region(w,o.cell)].regrowth:1;
+      const ceiling=Math.min(c.capacityB*.1,options.regrowthB*multiplier);
+      const amount = H.round(Math.max(0,Math.min(Math.max(0,ceiling*c.activity*Math.min(1,tile.light)-c.last.productionB),
+        c.capacityB-edibleB(o),Math.max(0,o.E-2)/1.2,tile.soilM/.02,Math.max(0,p.capM-o.M)/.02)));
+      if (!amount) return;
+      const expense = H.round(1.2*amount), material = H.round(.02*amount), replacement = Math.min(amount,c.replacementDebtB);
+      o.E = H.round(o.E-expense); o.B = H.round(o.B+amount);
+      tile.soilM = H.round(tile.soilM-material); o.M = H.round(o.M+material);
+      dissipate(w,H.round(expense-amount));
+      c.last.productionB = H.round(c.last.productionB+amount); c.last.regrowthB = H.round(c.last.regrowthB+replacement);
+      c.replacementDebtB = H.round(c.replacementDebtB-replacement);
+      increment(o,"productionB",amount); increment(o,"regrowthB",replacement);
+      flow(w,o,"productionB",amount);flow(w,o,"regrowthB",replacement);
+    }
+    function summary(w) {
+      if (!enabled(w)) return;
+      const out = {definition:"colony-observed/1",turn:w.turn};
+      for (const name of ["land","water"]) out[name] = {count:0,B:0,edibleB:0,occupiedCells:0,
+        eligibleCells:(w.colonyRegions ??= regional(w))[name].eligibleCells,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,reserveE:0,reserveM:0,baseB:0,activitySum:0};
+      for (const o of w.organisms) if (is(o)) {
+        const row = out[region(w,o.cell)];row.count++;row.occupiedCells++;row.B+=o.B;row.edibleB+=edibleB(o);
+        row.reserveE+=o.E;row.reserveM+=o.M;row.baseB+=o.colony.baseB;row.activitySum+=o.colony.activity;
+      }
+      if(w.colonyFlows?.turn===w.turn)for(const name of ["land","water"]){const flow=w.colonyFlows[name];out[name].productionB=flow.productionB;out[name].regrowthB=flow.regrowthB;out[name].consumedB=flow.consumedB;out[name].solarInputE=flow.solarInputE||0;}
+      for (const name of ["land","water"]) for (const key of Object.keys(out[name])) out[name][key]=H.round(out[name][key]);
+      w.colonySummary=out;
+    }
+    return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
+  })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
   // Explicitly enabled only for fixed production worlds; never serialized.
@@ -6702,6 +7080,9 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
+    if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
+    else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
     if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
@@ -6748,6 +7129,7 @@ return {settings,attach,region,level,factor,begin,finish};
     precocial:Object.freeze({attack:.90,defense:.95,hp:.90,move:1,maintenance:.90,healing:1,birth:1,light:.65}),
   });
   function ageInfo(o) {
+    if (Colony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
     if (!Number.isFinite(o.birthLife)) return {enabled:false,stage:"adult",factors:ageFactors.adult};
     const s=spec(o),matureAt=s.group==="main"?Math.ceil(o.birthLife*(s.id==="precocial"?.03:s.id==="swarm"&&o.role==="queen"?1/30:.10)):s.maturity,
       elderlyAt=Math.max(matureAt+1,Math.floor(.75*o.birthLife)),
@@ -6756,6 +7138,7 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(Colony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
@@ -6830,6 +7213,9 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
+    if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
+    delete o.colonyOrigin;
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
@@ -6843,7 +7229,7 @@ return {settings,attach,region,level,factor,begin,finish};
       phase,
       u,
       capE: main ? 100 + (tr.capacity || 0) * u : s.capacity[0],
-      capB: main ? 32 : s.capacity[1],
+      capB: Colony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
       capM: main ? 30 : 2,
       maxHP: main ? 100 : s.capacity[3],
       life: main
@@ -6918,6 +7304,7 @@ return {settings,attach,region,level,factor,begin,finish};
     };
     for (const o of w.organisms) {
       E += o.E + o.B;
+      if(Colony.is(o))E += o.colony.edibleExposure?.E || 0;
       M += o.M;
       infection(o.infection);
     }
@@ -7045,6 +7432,8 @@ return {settings,attach,region,level,factor,begin,finish};
           w.tiles[q].walls.push(p);
         }
     }
+    const colonyPlants = Colony.enabled(w) && config.enabled.plant;
+    if(colonyPlants)config.enabled.plant=false;
     for(const t of w.tiles)t.soilM=H.round(t.soilM*3);
     const usable = w.tiles
         .map((t, i) => (!t.blocked ? i : -1))
@@ -7093,6 +7482,8 @@ return {settings,attach,region,level,factor,begin,finish};
       config.lineages === "manual"
         ? config.selected.map((id) => D.byId[id])
         : D.main.slice(0, 20);
+    if(colonyPlants)config.enabled.plant=true;
+    Colony.initialize(w);
     if (!config.enabled.main) mains = [];
     if (config.lineages === "few")
       mains = mains
@@ -7333,7 +7724,8 @@ return {settings,attach,region,level,factor,begin,finish};
                     ["plant", "fungus"].includes(f.group) &&
                     config.enabled[f.group],
                 ))
-                  if (validHabitat(w, f, p)) {
+                  if (validHabitat(w, f, p) && (!Colony.enabled(w) || f.group !== "plant" ||
+                      (Colony.allowed(w,f) && Colony.room(w,p)))) {
                     const o = organism(
                       w,
                       f,
@@ -7380,6 +7772,7 @@ return {settings,attach,region,level,factor,begin,finish};
       }
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
+    if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
     if (config.enabled.P)
       for (const o of w.organisms)
         if (
@@ -7436,6 +7829,7 @@ return {settings,attach,region,level,factor,begin,finish};
         config.initialReport.groups[g].requested=species.reduce((sum,s,i)=>sum+(config.enabled[g]?(requested.species[s.id]??(Math.floor(target/species.length)+(i<target%species.length?1:0))):0),0);
       }
     }
+    Colony.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -7486,6 +7880,7 @@ return {settings,attach,region,level,factor,begin,finish};
     ...H,
     D,
     ProducerSupport,
+    Colony,
     initialRank,
     DIRS,
     DNA,
@@ -7955,7 +8350,7 @@ function(require,module){
           (a.type === "plant" && (S.edibleB(obj) <= 0 || obj.HP <= 0))
         )
           continue;
-        let amount;
+        let amount, harvest = null;
         if (a.type === "soil") {
           amount = {
             E: 0,
@@ -7984,9 +8379,11 @@ function(require,module){
             ),
             M = obj.B > 0 ? S.round((obj.M * B) / obj.B) : 0;
           if (B <= 0) continue;
+          harvest = {consumedB:B,beforeEdibleB:S.edibleB(obj)};
           obj.B = S.round(obj.B - B);
           obj.M = S.round(obj.M - M);
           amount = { E: B, M, G: 0 };
+          if(S.Colony.is(obj))S.Colony.consumed(w,obj,B);
           if (obj.B <= 0) ctx.harvestDead.add(obj.id);
         } else {
           amount = {
@@ -8022,7 +8419,7 @@ function(require,module){
             carcass: a.type === "carcass",
           });
           assimilated=result.e;
-          if (result.organic && amount.E > 0) transfer(w, ctx, obj, o, a.type);
+          if (result.organic && amount.E > 0) transfer(w, ctx, obj, o, a.type, harvest);
         }
         S.record(ctx, o, "feed", {
           source: a.id,
@@ -8057,6 +8454,7 @@ function(require,module){
     return paid;
   }
   function carcass(w, o, ctx) {
+    if(S.Colony.is(o)&&o.colony.edibleExposure){S.dissipate(w,o.colony.edibleExposure.E);o.colony.edibleExposure=null;}
     const same = w.carcasses.find(
       (a) => a.cell === o.cell && a.slot === o.slot,
     );
@@ -8111,7 +8509,12 @@ function(require,module){
       let base = c.base;
       if (["stop", "defend"].includes(intent.type))
         base *= 1 + S.trait(o, "rest", p.phase);
-      spend(w, o, base);
+      const paidBase=spend(w, o, base);
+      if(S.Colony.is(o)){
+        const maintained=paidBase>=S.round(base)&&o.HP>0;
+        o.colony.activity=S.round(S.clamp(o.colony.activity+(maintained?.02:-.05),0,1));
+        if(maintained)S.Colony.increment(o,"maintainedTurns",1);
+      }
       const paidDensity = spend(w, o, c.density);
       ctx.records.get(o.id).crowding = c.neighborCount >= 5 && paidDensity > 0;
       parasiteFee(w, ctx, o);
@@ -8124,7 +8527,8 @@ function(require,module){
       if (o.HP <= 0)
         reason = ctx.records.get(o.id).damage > 0 ? "combat" : "starvation";
       if (ctx.harvestDead.has(o.id)) reason = "harvest";
-      if (!reason && o.age >= p.life) reason = "age";
+      if(!reason&&S.Colony.is(o)&&o.colony.activity<=0)reason="starvation";
+      if (!reason && !S.Colony.is(o) && o.age >= p.life) reason = "age";
       if (reason) {
         S.record(ctx, o, "death", { reason, appearance: {
           species:o.species,phase:o.phase,branch3:o.branch3,branch4:o.branch4,
@@ -8143,7 +8547,8 @@ function(require,module){
     for (const o of w.organisms) {
       if (!ctx.traits.has(o.id)) continue;
       const s = S.spec(o);
-      if (["plant", "fungus"].includes(s.group)) {
+      if(S.Colony.is(o))S.Colony.regrow(w,o);
+      else if (["plant", "fungus"].includes(s.group)) {
         const hasBirth = S.nearby(w, o.cell).some(
             (p) =>
               !m.food.has(p) &&
@@ -8420,6 +8825,10 @@ function(require,module){
         rec = ctx.records.get(o.id),
         old = p.phase;
       if (s.group !== "main") {
+        if(S.Colony.is(o)){
+          if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
+          continue;
+        }
         if (old === 1 && (s.id === "phytoplankton" ? (o.photoGrowth||0) >= 4 : o.age >= s.maturity) && o.E >= 6) o.phase = 2;
         continue;
       }
@@ -8529,6 +8938,7 @@ function(require,module){
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
     if(!birthPressure(w,o,ctx).allowed)return false;
+    if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
     if (s.group !== "main")
       return (
         ctx.traits.get(o.id).phase >= 2 &&
@@ -8612,7 +9022,9 @@ function(require,module){
       for (const s of enabledSpecies) {
           if ((s.slot === "prey" ? m.prey : m.food).has(cell) || !S.validHabitat(w, s, cell)) continue;
           const same = food.filter((o) => o.species === s.id);
-          if (
+          if(S.Colony.enabled(w)&&s.group==="plant"){
+            if(!S.Colony.allowed(w,s)||!S.Colony.room(w,cell,ctx.colonyCounts??=S.Colony.occupancy(w))||!same.length)continue;
+          }else if (
             s.group === "prey"
               ? ![2, 3].includes(same.length)
               : w.config.ecologyRevision === "observation/4.1" ? ![1,2,3].includes(same.length) : same.length !== 3
@@ -8694,6 +9106,7 @@ function(require,module){
       role,
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
+      ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       E: main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
@@ -8733,6 +9146,7 @@ function(require,module){
           (main ? ([1,3].includes(c.kind) ? 4 : 2) : s.group === "prey" ? 0 : 0.2),
       );
       ctx.parents.add(parent.id);
+      if(S.Colony.is(parent))S.Colony.increment(parent,"settlements",1);
       const cooldown = ctx.traits.get(parent.id).cooldown;
       parent.birthReady =
         w.turn + Math.ceil(cooldown * (c.kind === 1 ? 1.5 : 1)) + 1;
@@ -8781,7 +9195,9 @@ function(require,module){
         "slot:" + c.slot + ":" + c.cell,
       ];
       if (keys.every((k) => votes.get(k) === c)) {
+        if(S.Colony.is(c.parents[0])&&!S.Colony.room(w,c.cell,ctx.colonyCounts??=S.Colony.occupancy(w)))continue;
         children.push(child(w, c, ctx));
+        if(S.Colony.is(c.parents[0]))ctx.colonyCounts[S.Colony.region(w,c.cell)]++;
         ctx.births.push(c.species);
       }
     }
@@ -8946,6 +9362,7 @@ function(require,module){
         S.dissipate(w, ageLight - add);
         if(s.id === "phytoplankton")o.photoGrowth=S.round((o.photoGrowth||0)+add);
         ctx.records.get(o.id).light = ageLight;
+        if(S.Colony.is(o))S.Colony.solar(w,o,add);
         S.record(ctx, o, "light", { amount: add });
       }
       ctx.old.get(o.id).E = o.E;
@@ -9075,14 +9492,16 @@ function(require,module){
     for(const o of w.organisms){const c=cohort(o.species,o.generation);
       if(w.turn===0)c.initial++;
       if(childIds.has(o.id))c.born++;
-      if(ctx.traits.get(o.id)?.ageStage==="juvenile" && S.ageInfo(o).stage!=="juvenile")c.matured++;
+      if(!S.Colony.is(o)&&ctx.traits.get(o.id)?.ageStage==="juvenile" && S.ageInfo(o).stage!=="juvenile")c.matured++;
       if(o.firstBirthAt===w.turn && ctx.parents.has(o.id))c.reproduced++;
     }
     for(const d of ctx.deaths)if(d.ageStage==="juvenile")cohort(d.species,d.generation).juvenileDeaths++;
 
     for(const o of w.organisms) {
       const row=composition[o.species]??={phases:[0,0,0,0],ages:{juvenile:0,adult:0,elderly:0},sex:{female:0,male:0,none:0},roles:{}};
-      row.phases[o.phase-1]++;row.ages[S.ageInfo(o).stage]++;row.sex[o.sex in row.sex ? o.sex : "none"]++;
+      row.phases[o.phase-1]++;
+      if(S.Colony.is(o)){row.ages.nonapplicable=(row.ages.nonapplicable||0)+1;row.sex.nonapplicable=(row.sex.nonapplicable||0)+1;}
+      else{row.ages[S.ageInfo(o).stage]++;row.sex[o.sex in row.sex ? o.sex : "none"]++;}
       if(o.birthBlockers){const reasons=birthReasons[o.species]??={};for(const reason of o.birthBlockers)reasons[reason]=(reasons[reason]||0)+1;}
       if(o.role)row.roles[o.role]=(row.roles[o.role]||0)+1;
       if(o.infection){const p=o.infection;add(p.species,o.species,"bond");links[p.species+"|"+o.species+"|bond"]=(links[p.species+"|"+o.species+"|bond"]||0)+1;if(p.q){add("hyperparasite",p.species,"bond");links["hyperparasite|"+p.species+"|bond"]=(links["hyperparasite|"+p.species+"|bond"]||0)+1;}}
@@ -9110,6 +9529,7 @@ function(require,module){
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
+    S.Colony.summary(w);
     S.ProducerSupport.finish(w,ctx,S);
     w.tallies = w.tallies || emptyTallies();
     for (const id of ctx.births) w.tallies.births[id]++;
@@ -9208,6 +9628,7 @@ function(require,module){
       w.checkpoints = [...(initial ? [initial] : []), checkpoint(w)];
     }
     w.turn++;
+    S.Colony.begin(w);
     S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
     const labels = ["資源更新", "移動・採食・戦闘", "成長・繁殖"];
@@ -9314,9 +9735,14 @@ function(require,module){
         )
       )
         errors.push("BUDGET:" + o.id);
-      if(w.config.ageModel==="life/1"){
+      if(w.config.ageModel==="life/1"&&!S.Colony.is(o)){
         if(!Number.isFinite(o.birthLife)||o.birthLife<=0)errors.push("AGE_BASIS:"+o.id);
         else if(o.HP>S.phenotype(w,o).maxHP+.000001)errors.push("AGE_HP:"+o.id);
+      }
+      if(S.Colony.is(o)){
+        const c=o.colony,e=c.edibleExposure;
+        if(!S.Colony.enabled(w)||S.spec(o).group!=="plant"||![c.baseB,c.capacityB,c.activity,c.replacementDebtB,...Object.values(c.last),...Object.values(c.cumulative)].every(Number.isFinite)||c.baseB!==S.PLANT_BASE||c.activity<0||c.activity>1||o.B<c.baseB-1e-6||S.edibleB(o)>c.capacityB+1e-6||Object.values(c.cumulative).some(v=>v<0))errors.push("COLONY:"+o.id);
+        if(e&&(!Number.isFinite(e.E)||e.E<0||!Number.isFinite(e.amount)||e.amount<0||e.amount>1+1e-6||!Number.isSafeInteger(e.expires)))errors.push("COLONY_EXPOSURE:"+o.id);
       }
       if (o.infection) {
         const p = o.infection;
@@ -11211,6 +11637,10 @@ function(require,module){
         rec = ctx.records.get(o.id),
         old = p.phase;
       if (s.group !== "main") {
+        if(S.Colony.is(o)){
+          if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
+          continue;
+        }
         if (old === 1 && (s.id === "phytoplankton" ? (o.photoGrowth||0) >= 4 : o.age >= s.maturity) && o.E >= 6) o.phase = 2;
         continue;
       }
@@ -11320,6 +11750,7 @@ function(require,module){
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
     if(!birthPressure(w,o,ctx).allowed)return false;
+    if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
     if (s.group !== "main")
       return (
         ctx.traits.get(o.id).phase >= 2 &&
@@ -11403,7 +11834,9 @@ function(require,module){
       for (const s of enabledSpecies) {
           if ((s.slot === "prey" ? m.prey : m.food).has(cell) || !S.validHabitat(w, s, cell)) continue;
           const same = food.filter((o) => o.species === s.id);
-          if (
+          if(S.Colony.enabled(w)&&s.group==="plant"){
+            if(!S.Colony.allowed(w,s)||!S.Colony.room(w,cell,ctx.colonyCounts??=S.Colony.occupancy(w))||!same.length)continue;
+          }else if (
             s.group === "prey"
               ? !(s.id === "waterbug" ? [1,2,3] : [2,3]).includes(same.length)
               : w.config.ecologyRevision === "observation/4.1" ? !(["fungus","phytoplankton"].includes(s.id) ? [1,2,3] : [2,3]).includes(same.length) : same.length !== 3
@@ -11485,6 +11918,7 @@ function(require,module){
       role,
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
+      ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       E: main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
@@ -11524,6 +11958,7 @@ function(require,module){
           (main ? ([1,3].includes(c.kind) ? 4 : 2) : s.group === "prey" ? 0 : 0.2),
       );
       ctx.parents.add(parent.id);
+      if(S.Colony.is(parent))S.Colony.increment(parent,"settlements",1);
       const cooldown = ctx.traits.get(parent.id).cooldown;
       parent.birthReady =
         w.turn + Math.ceil(cooldown * (c.kind === 1 ? 1.5 : 1)) + 1;
@@ -11572,7 +12007,9 @@ function(require,module){
         "slot:" + c.slot + ":" + c.cell,
       ];
       if (keys.every((k) => votes.get(k) === c)) {
+        if(S.Colony.is(c.parents[0])&&!S.Colony.room(w,c.cell,ctx.colonyCounts??=S.Colony.occupancy(w)))continue;
         children.push(child(w, c, ctx));
+        if(S.Colony.is(c.parents[0]))ctx.colonyCounts[S.Colony.region(w,c.cell)]++;
         ctx.births.push(c.species);
       }
     }
@@ -12476,6 +12913,10 @@ function(require,module){
         rec = ctx.records.get(o.id),
         old = p.phase;
       if (s.group !== "main") {
+        if(S.Colony.is(o)){
+          if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
+          continue;
+        }
         if (old === 1 && (s.id === "phytoplankton" ? (o.photoGrowth||0) >= 4 : o.age >= s.maturity) && o.E >= 6) o.phase = 2;
         continue;
       }
@@ -12585,6 +13026,7 @@ function(require,module){
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
     if(!birthPressure(w,o,ctx).allowed)return false;
+    if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
     if (s.group !== "main")
       return (
         ctx.traits.get(o.id).phase >= 2 &&
@@ -12668,7 +13110,9 @@ function(require,module){
       for (const s of enabledSpecies) {
           if ((s.slot === "prey" ? m.prey : m.food).has(cell) || !S.validHabitat(w, s, cell)) continue;
           const same = food.filter((o) => o.species === s.id);
-          if (
+          if(S.Colony.enabled(w)&&s.group==="plant"){
+            if(!S.Colony.allowed(w,s)||!S.Colony.room(w,cell,ctx.colonyCounts??=S.Colony.occupancy(w))||!same.length)continue;
+          }else if (
             s.group === "prey"
               ? !(s.id === "waterbug" ? [1,2,3] : [2,3]).includes(same.length)
               : w.config.ecologyRevision === "observation/4.1" ? ![1,2,3].includes(same.length) : same.length !== 3
@@ -12750,6 +13194,7 @@ function(require,module){
       role,
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
+      ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       E: main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
@@ -12789,6 +13234,7 @@ function(require,module){
           (main ? ([1,3].includes(c.kind) ? 4 : 2) : s.group === "prey" ? 0 : 0.2),
       );
       ctx.parents.add(parent.id);
+      if(S.Colony.is(parent))S.Colony.increment(parent,"settlements",1);
       const cooldown = ctx.traits.get(parent.id).cooldown;
       parent.birthReady =
         w.turn + Math.ceil(cooldown * (c.kind === 1 ? 1.5 : 1)) + 1;
@@ -12837,7 +13283,9 @@ function(require,module){
         "slot:" + c.slot + ":" + c.cell,
       ];
       if (keys.every((k) => votes.get(k) === c)) {
+        if(S.Colony.is(c.parents[0])&&!S.Colony.room(w,c.cell,ctx.colonyCounts??=S.Colony.occupancy(w)))continue;
         children.push(child(w, c, ctx));
+        if(S.Colony.is(c.parents[0]))ctx.colonyCounts[S.Colony.region(w,c.cell)]++;
         ctx.births.push(c.species);
       }
     }
@@ -12886,7 +13334,7 @@ function level(w,cell){const c=w.config.producerSupport;if(!c?.enabled)return 1;
 function factor(w,o,S){return S.spec(o).group==='plant'&&w.config.producerSupport?.enabled?level(w,o.cell):1;}
 function begin(w,S){
  const c=w.config.producerSupport;if(!c?.enabled||!w.config.enabled.plant)return;
- const plants=S.D.species.filter(s=>s.group==='plant');
+ const plants=S.D.species.filter(s=>s.group==='plant'&&(!S.Colony.enabled(w)||S.Colony.allowed(w,s)));
  if(!w.producerSupport){
   const sites=[];
   for(let cell=0;cell<w.tiles.length;cell++){
@@ -12898,21 +13346,23 @@ function begin(w,S){
  }
  const state=w.producerSupport,last=state.last={inputE:0,inputM:0,regrownB:0,established:{},births:[],stressed:0};
  function input(o,key,amount){amount=S.round(Math.max(0,amount));o[key]=S.round(o[key]+amount);const ledger=key==='M'?'producerM':'producerE',meter=key==='M'?'inputM':'inputE';w.ledger[ledger]=S.round(w.ledger[ledger]+amount);last[meter]=S.round(last[meter]+amount);}
- const m=S.maps(w);
+ const m=S.maps(w),colonyCounts=S.Colony.enabled(w)?S.Colony.occupancy(w):null;
  for(const site of state.sites){
   const n=level(w,site.cell),light=w.tiles[site.cell].light;if(n<=0||light<=0)continue;
   let o=m.food.get(site.cell);
-  if(!o&&S.r(w,'producer/establish',w.turn,site.species,site.cell)<Math.min(1,c.establishment*n)){
-   o=S.organism(w,S.D.byId[site.species],site.cell,'env:producer:'+site.species+':'+w.turn+':'+site.cell,{E:0,B:0,M:0,phase:1,age:0});
+  if(!o&&(!colonyCounts||S.Colony.room(w,site.cell,colonyCounts))&&S.r(w,'producer/establish',w.turn,site.species,site.cell)<Math.min(1,c.establishment*n)){
+   o=S.organism(w,S.D.byId[site.species],site.cell,'env:producer:'+site.species+':'+w.turn+':'+site.cell,{E:0,B:0,M:0,phase:1,age:0,colonyOrigin:{kind:'environment',turn:w.turn,cell:site.cell}});
    o.origin={kind:'environment',turn:w.turn,cell:site.cell};o.producerReserve=1;
-   input(o,'E',6);input(o,'B',S.PLANT_BASE);input(o,'M',.2);w.organisms.push(o);m.food.set(site.cell,o);
+   if(colonyCounts){input(o,'E',8);o.E=S.round(o.E-S.PLANT_BASE);o.B=S.PLANT_BASE;colonyCounts[S.Colony.region(w,site.cell)]++;}
+   else{input(o,'E',6);input(o,'B',S.PLANT_BASE);}
+   input(o,'M',.2);w.organisms.push(o);m.food.set(site.cell,o);
    state.established[o.species]=(state.established[o.species]||0)+1;last.established[o.species]=(last.established[o.species]||0)+1;last.births.push({id:o.id,species:o.species,cell:o.cell});
   }
   if(!o||S.spec(o).group!=='plant')continue;
   const p=S.phenotype(w,o),fraction=Math.min(1,n),energy=Math.min(1,Math.max(0,light));
   input(o,'E',Math.max(0,Math.min(c.targetE,p.capE)-o.E)*fraction*energy);
   input(o,'M',Math.max(0,Math.min(c.targetM,p.capM)-o.M)*fraction);
-  const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);
+  if(!colonyCounts){const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);}
  }
  for(const o of w.organisms)if(S.spec(o).group==='plant'){
   const n=level(w,o.cell)*(w.tiles[o.cell].light>0?1:0);o.producerReserve=S.round(S.clamp((o.producerReserve??1)+(Math.min(1,n)-.5)*2/c.grace,0,1));
@@ -12968,6 +13418,156 @@ return {settings,attach,region,level,factor,begin,finish};
     Math.max(0, o.B - (spec(o).group === "plant" ? PLANT_BASE : 0));
   const leafFactor = (o) =>
     0.5 + 0.5 * H.clamp((o.B - PLANT_BASE) / 10, 0, 1);
+  // Opt-in basal colonies keep their actual E/B/M in the ordinary organism ledger.
+  const Colony = (() => {
+    const VERSION = "colony-state/1", LIMIT = 1e12;
+    const enabled = (w) => w.config.producerModel === "colony/1";
+    const is = (o) => o.colony?.version === VERSION;
+    const region = (w, cell) => ["shallow", "deep"].includes(w.tiles[cell].terrain) ? "water" : "land";
+    function settings(input = {}) {
+      const check = (o, keys) => {
+        if (!o || typeof o !== "object" || Array.isArray(o) || Object.keys(o).some(k => !keys.includes(k)))
+          throw Error("SETTINGS_INVALID: 群落の比較値");
+      };
+      check(input, ["version", "standardBiteB", "land", "water"]);
+      if ((input.version !== undefined && input.version !== "colony-parameters/1") ||
+          (input.standardBiteB !== undefined && input.standardBiteB !== 2)) throw Error("SETTINGS_INVALID: 群落の定義版/標準量");
+      const result = {version:"colony-parameters/1", standardBiteB:2};
+      for (const name of ["land", "water"]) {
+        const value = input[name] ?? {};
+        check(value, ["occupancy", "capacityB", "initialFraction", "regrowthB"]);
+        const out = result[name] = {occupancy:name === "land" ? .20 : .15, capacityB:20, initialFraction:.70, regrowthB:2, ...value};
+        for (const [key, low, high] of [["occupancy",0,1],["capacityB",.02,200],["initialFraction",0,1],["regrowthB",0,out.capacityB*.1]])
+          if (typeof out[key] !== "number" || !Number.isFinite(out[key]) || out[key] < low || out[key] > high + 1e-9)
+            throw Error("SETTINGS_INVALID: 群落 " + name + "/" + key);
+      }
+      return result;
+    }
+    const parameters = (w, cell) => w.config.producerSettings[region(w, cell)];
+    function attach(w, o, origin = {kind:"initial"}) {
+      if (!enabled(w) || spec(o).group !== "plant" || is(o)) return o;
+      o.colony = {version:VERSION, origin:structuredClone(origin), establishedAt:w.turn,
+        baseB:PLANT_BASE, capacityB:parameters(w,o.cell).capacityB, activity:1,
+        replacementDebtB:0, edibleExposure:null,
+        last:{turn:w.turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0},
+        cumulative:{productionB:0,regrowthB:0,consumedB:0,maintainedTurns:0,settlements:0}};
+      delete o.birthLife;
+      return o;
+    }
+    function increment(o, key, value) {
+      o.colony.cumulative[key] = H.round(Math.min(LIMIT, o.colony.cumulative[key] + value));
+    }
+    function begin(w) {
+      if (!enabled(w)) return;
+      w.colonyFlows = {turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0},water:{productionB:0,regrowthB:0,consumedB:0}};
+      for (const o of w.organisms) if (is(o)) {
+        o.colony.last = {turn:w.turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0};
+        const exposure = o.colony.edibleExposure;
+        if (exposure && exposure.expires <= w.turn) {
+          dissipate(w, exposure.E);
+          o.colony.edibleExposure = null;
+        }
+      }
+    }
+    function regional(w) {
+      const species = D.species.filter(s => s.group === "plant"), out = {};
+      for (const name of ["land", "water"]) {
+        const cells = w.tiles.map((_,i) => i).filter(cell => region(w,cell) === name && species.some(s => validHabitat(w,s,cell)));
+        out[name] = {eligibleCells:cells.length, target:Math.round(cells.length*w.config.producerSettings[name].occupancy)};
+      }
+      return out;
+    }
+    function occupancy(w) {
+      const counts = {land:0,water:0};
+      for (const o of w.organisms) if (is(o) && o.HP > 0) counts[region(w,o.cell)]++;
+      return counts;
+    }
+    function room(w, cell, counts = occupancy(w)) {
+      const name = region(w,cell);
+      return counts[name] < (w.colonyRegions ??= regional(w))[name].target;
+    }
+    function allowed(w, s) { return !!w.config.enabled.plant && (w.turn > 0 || w.config.founderCounts?.species[s.id] !== 0); }
+    function initialize(w) {
+      if (!enabled(w)) return;
+      w.colonyRegions = regional(w);
+      if (!w.config.enabled.plant) return;
+      const species = D.species.filter(s => s.group === "plant"), occupied = new Set(w.organisms.filter(o => o.slot === "food").map(o => o.cell));
+      const counts = {land:0,water:0};
+      function place(s, cell) {
+        const o = organism(w,s,cell,"i:colony:"+cell+":"+s.id);
+        o.B = H.round(PLANT_BASE + parameters(w,cell).capacityB*parameters(w,cell).initialFraction);
+        w.organisms.push(o); occupied.add(cell); counts[region(w,cell)]++;
+      }
+      const candidates = s => w.tiles.map((_,i) => i).filter(cell => !occupied.has(cell) && validHabitat(w,s,cell))
+        .sort((a,b) => initialRank(w,s,a)-initialRank(w,s,b) || a-b);
+      for (const s of species) {
+        const direct = w.config.founderCounts?.species[s.id];
+        if (direct === undefined) continue;
+        const cells = candidates(s);
+        if (cells.length < direct) throw Error("PLACEMENT_SHORTAGE: " + s.name + " 群落の指定数に対する適地/空き枠が不足しています");
+        for (const cell of cells.slice(0,direct)) place(s,cell);
+      }
+      for (const name of ["land","water"]) {
+        const clustered=w.config.initialConditions?.distribution==="cluster";
+        const sites = w.tiles.map((_,i) => i).filter(cell => region(w,cell) === name && !occupied.has(cell))
+          .map(cell => ({cell,species:species.filter(s => w.config.founderCounts?.species[s.id] === undefined && validHabitat(w,s,cell))}))
+          .map(site => ({...site,rank:clustered&&site.species.length?Math.min(...site.species.map(s=>initialRank(w,s,site.cell))):0}))
+          .filter(a => a.species.length).sort((a,b) => {
+            const rank = x => hash(w,"colony/initial-block",0,null,[Math.floor((x.cell%w.config.width)/3),Math.floor(Math.floor(x.cell/w.config.width)/3)]);
+            return a.rank-b.rank || rank(a)-rank(b) || hash(w,"colony/initial-cell",0,null,a.cell)-hash(w,"colony/initial-cell",0,null,b.cell);
+          });
+        for (const site of sites) {
+          if (counts[name] >= w.colonyRegions[name].target) break;
+          site.species.sort((a,b) => (clustered?initialRank(w,a,site.cell)-initialRank(w,b,site.cell):0) || hash(w,"colony/initial-species",0,a.id,site.cell)-hash(w,"colony/initial-species",0,b.id,site.cell));
+          place(site.species[0],site.cell);
+        }
+      }
+      for (const name of ["land","water"]) w.colonyRegions[name].initial = counts[name];
+    }
+    function flow(w,o,key,amount) {
+      if(!w.colonyFlows || w.colonyFlows.turn !== w.turn)
+        w.colonyFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0},water:{productionB:0,regrowthB:0,consumedB:0}};
+      const row=w.colonyFlows[region(w,o.cell)];row[key]=H.round((row[key]||0)+amount);
+    }
+    function solar(w,o,amount){o.colony.last.solarInputE=H.round(o.colony.last.solarInputE+amount);flow(w,o,"solarInputE",amount);}
+    function consumed(w, o, amount) {
+      o.colony.last.consumedB = H.round(o.colony.last.consumedB + amount);
+      increment(o,"consumedB",amount);
+      flow(w,o,"consumedB",amount);
+      o.colony.replacementDebtB = H.round(Math.min(o.colony.capacityB,o.colony.replacementDebtB+amount));
+    }
+    function regrow(w, o) {
+      if (!is(o) || o.HP <= 0 || w.tiles[o.cell].light <= 0 || ProducerSupport.factor(w,o,{spec}) <= 0) return;
+      const c = o.colony, p = phenotype(w,o), tile = w.tiles[o.cell], options = parameters(w,o.cell);
+      const multiplier=w.config.producerSupport?.enabled?w.config.producerSupport[region(w,o.cell)].regrowth:1;
+      const ceiling=Math.min(c.capacityB*.1,options.regrowthB*multiplier);
+      const amount = H.round(Math.max(0,Math.min(Math.max(0,ceiling*c.activity*Math.min(1,tile.light)-c.last.productionB),
+        c.capacityB-edibleB(o),Math.max(0,o.E-2)/1.2,tile.soilM/.02,Math.max(0,p.capM-o.M)/.02)));
+      if (!amount) return;
+      const expense = H.round(1.2*amount), material = H.round(.02*amount), replacement = Math.min(amount,c.replacementDebtB);
+      o.E = H.round(o.E-expense); o.B = H.round(o.B+amount);
+      tile.soilM = H.round(tile.soilM-material); o.M = H.round(o.M+material);
+      dissipate(w,H.round(expense-amount));
+      c.last.productionB = H.round(c.last.productionB+amount); c.last.regrowthB = H.round(c.last.regrowthB+replacement);
+      c.replacementDebtB = H.round(c.replacementDebtB-replacement);
+      increment(o,"productionB",amount); increment(o,"regrowthB",replacement);
+      flow(w,o,"productionB",amount);flow(w,o,"regrowthB",replacement);
+    }
+    function summary(w) {
+      if (!enabled(w)) return;
+      const out = {definition:"colony-observed/1",turn:w.turn};
+      for (const name of ["land","water"]) out[name] = {count:0,B:0,edibleB:0,occupiedCells:0,
+        eligibleCells:(w.colonyRegions ??= regional(w))[name].eligibleCells,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,reserveE:0,reserveM:0,baseB:0,activitySum:0};
+      for (const o of w.organisms) if (is(o)) {
+        const row = out[region(w,o.cell)];row.count++;row.occupiedCells++;row.B+=o.B;row.edibleB+=edibleB(o);
+        row.reserveE+=o.E;row.reserveM+=o.M;row.baseB+=o.colony.baseB;row.activitySum+=o.colony.activity;
+      }
+      if(w.colonyFlows?.turn===w.turn)for(const name of ["land","water"]){const flow=w.colonyFlows[name];out[name].productionB=flow.productionB;out[name].regrowthB=flow.regrowthB;out[name].consumedB=flow.consumedB;out[name].solarInputE=flow.solarInputE||0;}
+      for (const name of ["land","water"]) for (const key of Object.keys(out[name])) out[name][key]=H.round(out[name][key]);
+      w.colonySummary=out;
+    }
+    return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
+  })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
   // Explicitly enabled only for fixed production worlds; never serialized.
@@ -13260,6 +13860,9 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
+    if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
+    else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
     if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
@@ -13306,6 +13909,7 @@ return {settings,attach,region,level,factor,begin,finish};
     precocial:Object.freeze({attack:.90,defense:.95,hp:.90,move:1,maintenance:.90,healing:1,birth:1,light:.65}),
   });
   function ageInfo(o) {
+    if (Colony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
     if (!Number.isFinite(o.birthLife)) return {enabled:false,stage:"adult",factors:ageFactors.adult};
     const s=spec(o),matureAt=s.group==="main"?Math.ceil(o.birthLife*(s.id==="precocial"?.03:s.id==="swarm"&&o.role==="queen"?1/30:.10)):s.maturity,
       elderlyAt=Math.max(matureAt+1,Math.floor(.75*o.birthLife)),
@@ -13314,6 +13918,7 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(Colony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
@@ -13388,6 +13993,9 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
+    if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
+    delete o.colonyOrigin;
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
@@ -13401,7 +14009,7 @@ return {settings,attach,region,level,factor,begin,finish};
       phase,
       u,
       capE: main ? 100 + (tr.capacity || 0) * u : s.capacity[0],
-      capB: main ? 32 : s.capacity[1],
+      capB: Colony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
       capM: main ? 30 : 2,
       maxHP: main ? 100 : s.capacity[3],
       life: main
@@ -13476,6 +14084,7 @@ return {settings,attach,region,level,factor,begin,finish};
     };
     for (const o of w.organisms) {
       E += o.E + o.B;
+      if(Colony.is(o))E += o.colony.edibleExposure?.E || 0;
       M += o.M;
       infection(o.infection);
     }
@@ -13603,6 +14212,8 @@ return {settings,attach,region,level,factor,begin,finish};
           w.tiles[q].walls.push(p);
         }
     }
+    const colonyPlants = Colony.enabled(w) && config.enabled.plant;
+    if(colonyPlants)config.enabled.plant=false;
     const usable = w.tiles
         .map((t, i) => (!t.blocked ? i : -1))
         .filter((i) => i >= 0),
@@ -13650,6 +14261,8 @@ return {settings,attach,region,level,factor,begin,finish};
       config.lineages === "manual"
         ? config.selected.map((id) => D.byId[id])
         : D.main.slice(0, 20);
+    if(colonyPlants)config.enabled.plant=true;
+    Colony.initialize(w);
     if (!config.enabled.main) mains = [];
     if (config.lineages === "few")
       mains = mains
@@ -13890,7 +14503,8 @@ return {settings,attach,region,level,factor,begin,finish};
                     ["plant", "fungus"].includes(f.group) &&
                     config.enabled[f.group],
                 ))
-                  if (validHabitat(w, f, p)) {
+                  if (validHabitat(w, f, p) && (!Colony.enabled(w) || f.group !== "plant" ||
+                      (Colony.allowed(w,f) && Colony.room(w,p)))) {
                     const o = organism(
                       w,
                       f,
@@ -13937,6 +14551,7 @@ return {settings,attach,region,level,factor,begin,finish};
       }
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
+    if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
     if (config.enabled.P)
       for (const o of w.organisms)
         if (
@@ -13993,6 +14608,7 @@ return {settings,attach,region,level,factor,begin,finish};
         config.initialReport.groups[g].requested=species.reduce((sum,s,i)=>sum+(config.enabled[g]?(requested.species[s.id]??(Math.floor(target/species.length)+(i<target%species.length?1:0))):0),0);
       }
     }
+    Colony.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -14043,6 +14659,7 @@ return {settings,attach,region,level,factor,begin,finish};
     ...H,
     D,
     ProducerSupport,
+    Colony,
     initialRank,
     DIRS,
     DNA,
@@ -14106,7 +14723,33 @@ function(require,module){
         )
       : ["plant", "general"].includes(S.spec(o).diet);
   }
-  function transfer(w, ctx, source, target, type) {
+  // I02 bridge: finite edible inoculum, not a split or transfer of the resident P/Q.
+  // Route adaptation, multistep establishment and parasite biomass belong to I05.
+  function colonyExposure(w,ctx,source,target,harvest) {
+    if(!harvest||harvest.consumedB<=0||harvest.beforeEdibleB<=0)return;
+    const colony=source.colony,p=source.infection;
+    if(!colony.edibleExposure&&p&&p.stage==="first"&&p.counter>=4&&p.E>=.12&&
+       (p.edibleReady||0)<=w.turn&&ctx.byParasite.has(p.id)&&!ctx.movedInfections.has(p.id)){
+      p.E=S.round(p.E-.12);S.dissipate(w,.06);p.edibleReady=w.turn+6;
+      colony.edibleExposure={id:"edible:"+p.id+":"+w.turn,sourceParasiteId:p.id,species:p.species,
+        E:.06,amount:1,created:w.turn,expires:w.turn+6};
+    }
+    const exposure=colony.edibleExposure;
+    if(!exposure||exposure.created>w.turn||exposure.expires<=w.turn)return;
+    const budget=S.round(exposure.E*Math.min(1,harvest.consumedB/harvest.beforeEdibleB));
+    exposure.E=S.round(exposure.E-budget);exposure.amount=S.round(exposure.E/.06);
+    const compatible=(exposure.species==="tideparasite"&&target.species==="waterbug")||
+      (exposure.species==="leafparasite"&&target.species==="grassbug");
+    if(compatible&&!target.infection&&budget>=.03){
+      const child=S.infection(w,exposure.species,target.id,w.turn,S.sha256(exposure.id+":"+target.id).slice(0,16));
+      child.stage="middle";child.E=budget;target.infection=child;
+      ctx.movedInfections.add(child.id);ctx.transfers++;ctx.births.push(child.species);
+      S.record(ctx,target,"infection",{parasite:child.id,stage:"middle",sourceParasite:exposure.sourceParasiteId,exposure:budget});
+    }else S.dissipate(w,budget);
+    if(exposure.E<=0)colony.edibleExposure=null;
+  }
+  function transfer(w, ctx, source, target, type, harvest = null) {
+    if(type==="plant"&&S.Colony.is(source)){colonyExposure(w,ctx,source,target,harvest);return;}
     const p = source.infection;
     if (!p) return;
     let stage = null;
@@ -14657,7 +15300,7 @@ function level(w,cell){const c=w.config.producerSupport;if(!c?.enabled)return 1;
 function factor(w,o,S){return S.spec(o).group==='plant'&&w.config.producerSupport?.enabled?level(w,o.cell):1;}
 function begin(w,S){
  const c=w.config.producerSupport;if(!c?.enabled||!w.config.enabled.plant)return;
- const plants=S.D.species.filter(s=>s.group==='plant');
+ const plants=S.D.species.filter(s=>s.group==='plant'&&(!S.Colony.enabled(w)||S.Colony.allowed(w,s)));
  if(!w.producerSupport){
   const sites=[];
   for(let cell=0;cell<w.tiles.length;cell++){
@@ -14669,21 +15312,23 @@ function begin(w,S){
  }
  const state=w.producerSupport,last=state.last={inputE:0,inputM:0,regrownB:0,established:{},births:[],stressed:0};
  function input(o,key,amount){amount=S.round(Math.max(0,amount));o[key]=S.round(o[key]+amount);const ledger=key==='M'?'producerM':'producerE',meter=key==='M'?'inputM':'inputE';w.ledger[ledger]=S.round(w.ledger[ledger]+amount);last[meter]=S.round(last[meter]+amount);}
- const m=S.maps(w);
+ const m=S.maps(w),colonyCounts=S.Colony.enabled(w)?S.Colony.occupancy(w):null;
  for(const site of state.sites){
   const n=level(w,site.cell),light=w.tiles[site.cell].light;if(n<=0||light<=0)continue;
   let o=m.food.get(site.cell);
-  if(!o&&S.r(w,'producer/establish',w.turn,site.species,site.cell)<Math.min(1,c.establishment*n)){
-   o=S.organism(w,S.D.byId[site.species],site.cell,'env:producer:'+site.species+':'+w.turn+':'+site.cell,{E:0,B:0,M:0,phase:1,age:0});
+  if(!o&&(!colonyCounts||S.Colony.room(w,site.cell,colonyCounts))&&S.r(w,'producer/establish',w.turn,site.species,site.cell)<Math.min(1,c.establishment*n)){
+   o=S.organism(w,S.D.byId[site.species],site.cell,'env:producer:'+site.species+':'+w.turn+':'+site.cell,{E:0,B:0,M:0,phase:1,age:0,colonyOrigin:{kind:'environment',turn:w.turn,cell:site.cell}});
    o.origin={kind:'environment',turn:w.turn,cell:site.cell};o.producerReserve=1;
-   input(o,'E',6);input(o,'B',S.PLANT_BASE);input(o,'M',.2);w.organisms.push(o);m.food.set(site.cell,o);
+   if(colonyCounts){input(o,'E',8);o.E=S.round(o.E-S.PLANT_BASE);o.B=S.PLANT_BASE;colonyCounts[S.Colony.region(w,site.cell)]++;}
+   else{input(o,'E',6);input(o,'B',S.PLANT_BASE);}
+   input(o,'M',.2);w.organisms.push(o);m.food.set(site.cell,o);
    state.established[o.species]=(state.established[o.species]||0)+1;last.established[o.species]=(last.established[o.species]||0)+1;last.births.push({id:o.id,species:o.species,cell:o.cell});
   }
   if(!o||S.spec(o).group!=='plant')continue;
   const p=S.phenotype(w,o),fraction=Math.min(1,n),energy=Math.min(1,Math.max(0,light));
   input(o,'E',Math.max(0,Math.min(c.targetE,p.capE)-o.E)*fraction*energy);
   input(o,'M',Math.max(0,Math.min(c.targetM,p.capM)-o.M)*fraction);
-  const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);
+  if(!colonyCounts){const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);}
  }
  for(const o of w.organisms)if(S.spec(o).group==='plant'){
   const n=level(w,o.cell)*(w.tiles[o.cell].light>0?1:0);o.producerReserve=S.round(S.clamp((o.producerReserve??1)+(Math.min(1,n)-.5)*2/c.grace,0,1));
@@ -14739,6 +15384,156 @@ return {settings,attach,region,level,factor,begin,finish};
     Math.max(0, o.B - (spec(o).group === "plant" ? PLANT_BASE : 0));
   const leafFactor = (o) =>
     0.5 + 0.5 * H.clamp((o.B - PLANT_BASE) / 10, 0, 1);
+  // Opt-in basal colonies keep their actual E/B/M in the ordinary organism ledger.
+  const Colony = (() => {
+    const VERSION = "colony-state/1", LIMIT = 1e12;
+    const enabled = (w) => w.config.producerModel === "colony/1";
+    const is = (o) => o.colony?.version === VERSION;
+    const region = (w, cell) => ["shallow", "deep"].includes(w.tiles[cell].terrain) ? "water" : "land";
+    function settings(input = {}) {
+      const check = (o, keys) => {
+        if (!o || typeof o !== "object" || Array.isArray(o) || Object.keys(o).some(k => !keys.includes(k)))
+          throw Error("SETTINGS_INVALID: 群落の比較値");
+      };
+      check(input, ["version", "standardBiteB", "land", "water"]);
+      if ((input.version !== undefined && input.version !== "colony-parameters/1") ||
+          (input.standardBiteB !== undefined && input.standardBiteB !== 2)) throw Error("SETTINGS_INVALID: 群落の定義版/標準量");
+      const result = {version:"colony-parameters/1", standardBiteB:2};
+      for (const name of ["land", "water"]) {
+        const value = input[name] ?? {};
+        check(value, ["occupancy", "capacityB", "initialFraction", "regrowthB"]);
+        const out = result[name] = {occupancy:name === "land" ? .20 : .15, capacityB:20, initialFraction:.70, regrowthB:2, ...value};
+        for (const [key, low, high] of [["occupancy",0,1],["capacityB",.02,200],["initialFraction",0,1],["regrowthB",0,out.capacityB*.1]])
+          if (typeof out[key] !== "number" || !Number.isFinite(out[key]) || out[key] < low || out[key] > high + 1e-9)
+            throw Error("SETTINGS_INVALID: 群落 " + name + "/" + key);
+      }
+      return result;
+    }
+    const parameters = (w, cell) => w.config.producerSettings[region(w, cell)];
+    function attach(w, o, origin = {kind:"initial"}) {
+      if (!enabled(w) || spec(o).group !== "plant" || is(o)) return o;
+      o.colony = {version:VERSION, origin:structuredClone(origin), establishedAt:w.turn,
+        baseB:PLANT_BASE, capacityB:parameters(w,o.cell).capacityB, activity:1,
+        replacementDebtB:0, edibleExposure:null,
+        last:{turn:w.turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0},
+        cumulative:{productionB:0,regrowthB:0,consumedB:0,maintainedTurns:0,settlements:0}};
+      delete o.birthLife;
+      return o;
+    }
+    function increment(o, key, value) {
+      o.colony.cumulative[key] = H.round(Math.min(LIMIT, o.colony.cumulative[key] + value));
+    }
+    function begin(w) {
+      if (!enabled(w)) return;
+      w.colonyFlows = {turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0},water:{productionB:0,regrowthB:0,consumedB:0}};
+      for (const o of w.organisms) if (is(o)) {
+        o.colony.last = {turn:w.turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0};
+        const exposure = o.colony.edibleExposure;
+        if (exposure && exposure.expires <= w.turn) {
+          dissipate(w, exposure.E);
+          o.colony.edibleExposure = null;
+        }
+      }
+    }
+    function regional(w) {
+      const species = D.species.filter(s => s.group === "plant"), out = {};
+      for (const name of ["land", "water"]) {
+        const cells = w.tiles.map((_,i) => i).filter(cell => region(w,cell) === name && species.some(s => validHabitat(w,s,cell)));
+        out[name] = {eligibleCells:cells.length, target:Math.round(cells.length*w.config.producerSettings[name].occupancy)};
+      }
+      return out;
+    }
+    function occupancy(w) {
+      const counts = {land:0,water:0};
+      for (const o of w.organisms) if (is(o) && o.HP > 0) counts[region(w,o.cell)]++;
+      return counts;
+    }
+    function room(w, cell, counts = occupancy(w)) {
+      const name = region(w,cell);
+      return counts[name] < (w.colonyRegions ??= regional(w))[name].target;
+    }
+    function allowed(w, s) { return !!w.config.enabled.plant && (w.turn > 0 || w.config.founderCounts?.species[s.id] !== 0); }
+    function initialize(w) {
+      if (!enabled(w)) return;
+      w.colonyRegions = regional(w);
+      if (!w.config.enabled.plant) return;
+      const species = D.species.filter(s => s.group === "plant"), occupied = new Set(w.organisms.filter(o => o.slot === "food").map(o => o.cell));
+      const counts = {land:0,water:0};
+      function place(s, cell) {
+        const o = organism(w,s,cell,"i:colony:"+cell+":"+s.id);
+        o.B = H.round(PLANT_BASE + parameters(w,cell).capacityB*parameters(w,cell).initialFraction);
+        w.organisms.push(o); occupied.add(cell); counts[region(w,cell)]++;
+      }
+      const candidates = s => w.tiles.map((_,i) => i).filter(cell => !occupied.has(cell) && validHabitat(w,s,cell))
+        .sort((a,b) => initialRank(w,s,a)-initialRank(w,s,b) || a-b);
+      for (const s of species) {
+        const direct = w.config.founderCounts?.species[s.id];
+        if (direct === undefined) continue;
+        const cells = candidates(s);
+        if (cells.length < direct) throw Error("PLACEMENT_SHORTAGE: " + s.name + " 群落の指定数に対する適地/空き枠が不足しています");
+        for (const cell of cells.slice(0,direct)) place(s,cell);
+      }
+      for (const name of ["land","water"]) {
+        const clustered=w.config.initialConditions?.distribution==="cluster";
+        const sites = w.tiles.map((_,i) => i).filter(cell => region(w,cell) === name && !occupied.has(cell))
+          .map(cell => ({cell,species:species.filter(s => w.config.founderCounts?.species[s.id] === undefined && validHabitat(w,s,cell))}))
+          .map(site => ({...site,rank:clustered&&site.species.length?Math.min(...site.species.map(s=>initialRank(w,s,site.cell))):0}))
+          .filter(a => a.species.length).sort((a,b) => {
+            const rank = x => hash(w,"colony/initial-block",0,null,[Math.floor((x.cell%w.config.width)/3),Math.floor(Math.floor(x.cell/w.config.width)/3)]);
+            return a.rank-b.rank || rank(a)-rank(b) || hash(w,"colony/initial-cell",0,null,a.cell)-hash(w,"colony/initial-cell",0,null,b.cell);
+          });
+        for (const site of sites) {
+          if (counts[name] >= w.colonyRegions[name].target) break;
+          site.species.sort((a,b) => (clustered?initialRank(w,a,site.cell)-initialRank(w,b,site.cell):0) || hash(w,"colony/initial-species",0,a.id,site.cell)-hash(w,"colony/initial-species",0,b.id,site.cell));
+          place(site.species[0],site.cell);
+        }
+      }
+      for (const name of ["land","water"]) w.colonyRegions[name].initial = counts[name];
+    }
+    function flow(w,o,key,amount) {
+      if(!w.colonyFlows || w.colonyFlows.turn !== w.turn)
+        w.colonyFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0},water:{productionB:0,regrowthB:0,consumedB:0}};
+      const row=w.colonyFlows[region(w,o.cell)];row[key]=H.round((row[key]||0)+amount);
+    }
+    function solar(w,o,amount){o.colony.last.solarInputE=H.round(o.colony.last.solarInputE+amount);flow(w,o,"solarInputE",amount);}
+    function consumed(w, o, amount) {
+      o.colony.last.consumedB = H.round(o.colony.last.consumedB + amount);
+      increment(o,"consumedB",amount);
+      flow(w,o,"consumedB",amount);
+      o.colony.replacementDebtB = H.round(Math.min(o.colony.capacityB,o.colony.replacementDebtB+amount));
+    }
+    function regrow(w, o) {
+      if (!is(o) || o.HP <= 0 || w.tiles[o.cell].light <= 0 || ProducerSupport.factor(w,o,{spec}) <= 0) return;
+      const c = o.colony, p = phenotype(w,o), tile = w.tiles[o.cell], options = parameters(w,o.cell);
+      const multiplier=w.config.producerSupport?.enabled?w.config.producerSupport[region(w,o.cell)].regrowth:1;
+      const ceiling=Math.min(c.capacityB*.1,options.regrowthB*multiplier);
+      const amount = H.round(Math.max(0,Math.min(Math.max(0,ceiling*c.activity*Math.min(1,tile.light)-c.last.productionB),
+        c.capacityB-edibleB(o),Math.max(0,o.E-2)/1.2,tile.soilM/.02,Math.max(0,p.capM-o.M)/.02)));
+      if (!amount) return;
+      const expense = H.round(1.2*amount), material = H.round(.02*amount), replacement = Math.min(amount,c.replacementDebtB);
+      o.E = H.round(o.E-expense); o.B = H.round(o.B+amount);
+      tile.soilM = H.round(tile.soilM-material); o.M = H.round(o.M+material);
+      dissipate(w,H.round(expense-amount));
+      c.last.productionB = H.round(c.last.productionB+amount); c.last.regrowthB = H.round(c.last.regrowthB+replacement);
+      c.replacementDebtB = H.round(c.replacementDebtB-replacement);
+      increment(o,"productionB",amount); increment(o,"regrowthB",replacement);
+      flow(w,o,"productionB",amount);flow(w,o,"regrowthB",replacement);
+    }
+    function summary(w) {
+      if (!enabled(w)) return;
+      const out = {definition:"colony-observed/1",turn:w.turn};
+      for (const name of ["land","water"]) out[name] = {count:0,B:0,edibleB:0,occupiedCells:0,
+        eligibleCells:(w.colonyRegions ??= regional(w))[name].eligibleCells,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,reserveE:0,reserveM:0,baseB:0,activitySum:0};
+      for (const o of w.organisms) if (is(o)) {
+        const row = out[region(w,o.cell)];row.count++;row.occupiedCells++;row.B+=o.B;row.edibleB+=edibleB(o);
+        row.reserveE+=o.E;row.reserveM+=o.M;row.baseB+=o.colony.baseB;row.activitySum+=o.colony.activity;
+      }
+      if(w.colonyFlows?.turn===w.turn)for(const name of ["land","water"]){const flow=w.colonyFlows[name];out[name].productionB=flow.productionB;out[name].regrowthB=flow.regrowthB;out[name].consumedB=flow.consumedB;out[name].solarInputE=flow.solarInputE||0;}
+      for (const name of ["land","water"]) for (const key of Object.keys(out[name])) out[name][key]=H.round(out[name][key]);
+      w.colonySummary=out;
+    }
+    return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
+  })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
   // Explicitly enabled only for fixed production worlds; never serialized.
@@ -15031,6 +15826,9 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
+    if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
+    else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
     if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
@@ -15077,6 +15875,7 @@ return {settings,attach,region,level,factor,begin,finish};
     precocial:Object.freeze({attack:.90,defense:.95,hp:.90,move:1,maintenance:.90,healing:1,birth:1,light:.65}),
   });
   function ageInfo(o) {
+    if (Colony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
     if (!Number.isFinite(o.birthLife)) return {enabled:false,stage:"adult",factors:ageFactors.adult};
     const s=spec(o),matureAt=s.group==="main"?Math.ceil(o.birthLife*(s.id==="precocial"?.03:s.id==="swarm"&&o.role==="queen"?1/30:.10)):s.maturity,
       elderlyAt=Math.max(matureAt+1,Math.floor(.75*o.birthLife)),
@@ -15085,6 +15884,7 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(Colony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
@@ -15159,6 +15959,9 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
+    if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
+    delete o.colonyOrigin;
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
@@ -15172,7 +15975,7 @@ return {settings,attach,region,level,factor,begin,finish};
       phase,
       u,
       capE: main ? 100 + (tr.capacity || 0) * u : s.capacity[0],
-      capB: main ? 32 : s.capacity[1],
+      capB: Colony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
       capM: main ? 30 : 2,
       maxHP: main ? 100 : s.capacity[3],
       life: main
@@ -15247,6 +16050,7 @@ return {settings,attach,region,level,factor,begin,finish};
     };
     for (const o of w.organisms) {
       E += o.E + o.B;
+      if(Colony.is(o))E += o.colony.edibleExposure?.E || 0;
       M += o.M;
       infection(o.infection);
     }
@@ -15374,6 +16178,8 @@ return {settings,attach,region,level,factor,begin,finish};
           w.tiles[q].walls.push(p);
         }
     }
+    const colonyPlants = Colony.enabled(w) && config.enabled.plant;
+    if(colonyPlants)config.enabled.plant=false;
     for(const t of w.tiles)t.soilM=H.round(t.soilM*3);
     const usable = w.tiles
         .map((t, i) => (!t.blocked ? i : -1))
@@ -15422,6 +16228,8 @@ return {settings,attach,region,level,factor,begin,finish};
       config.lineages === "manual"
         ? config.selected.map((id) => D.byId[id])
         : D.main.slice(0, 20);
+    if(colonyPlants)config.enabled.plant=true;
+    Colony.initialize(w);
     if (!config.enabled.main) mains = [];
     if (config.lineages === "few")
       mains = mains
@@ -15662,7 +16470,8 @@ return {settings,attach,region,level,factor,begin,finish};
                     ["plant", "fungus"].includes(f.group) &&
                     config.enabled[f.group],
                 ))
-                  if (validHabitat(w, f, p)) {
+                  if (validHabitat(w, f, p) && (!Colony.enabled(w) || f.group !== "plant" ||
+                      (Colony.allowed(w,f) && Colony.room(w,p)))) {
                     const o = organism(
                       w,
                       f,
@@ -15709,6 +16518,7 @@ return {settings,attach,region,level,factor,begin,finish};
       }
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
+    if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
     if (config.enabled.P)
       for (const o of w.organisms)
         if (
@@ -15765,6 +16575,7 @@ return {settings,attach,region,level,factor,begin,finish};
         config.initialReport.groups[g].requested=species.reduce((sum,s,i)=>sum+(config.enabled[g]?(requested.species[s.id]??(Math.floor(target/species.length)+(i<target%species.length?1:0))):0),0);
       }
     }
+    Colony.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -15815,6 +16626,7 @@ return {settings,attach,region,level,factor,begin,finish};
     ...H,
     D,
     ProducerSupport,
+    Colony,
     initialRank,
     DIRS,
     DNA,
@@ -16759,7 +17571,7 @@ function level(w,cell){const c=w.config.producerSupport;if(!c?.enabled)return 1;
 function factor(w,o,S){return S.spec(o).group==='plant'&&w.config.producerSupport?.enabled?level(w,o.cell):1;}
 function begin(w,S){
  const c=w.config.producerSupport;if(!c?.enabled||!w.config.enabled.plant)return;
- const plants=S.D.species.filter(s=>s.group==='plant');
+ const plants=S.D.species.filter(s=>s.group==='plant'&&(!S.Colony.enabled(w)||S.Colony.allowed(w,s)));
  if(!w.producerSupport){
   const sites=[];
   for(let cell=0;cell<w.tiles.length;cell++){
@@ -16771,21 +17583,23 @@ function begin(w,S){
  }
  const state=w.producerSupport,last=state.last={inputE:0,inputM:0,regrownB:0,established:{},births:[],stressed:0};
  function input(o,key,amount){amount=S.round(Math.max(0,amount));o[key]=S.round(o[key]+amount);const ledger=key==='M'?'producerM':'producerE',meter=key==='M'?'inputM':'inputE';w.ledger[ledger]=S.round(w.ledger[ledger]+amount);last[meter]=S.round(last[meter]+amount);}
- const m=S.maps(w);
+ const m=S.maps(w),colonyCounts=S.Colony.enabled(w)?S.Colony.occupancy(w):null;
  for(const site of state.sites){
   const n=level(w,site.cell),light=w.tiles[site.cell].light;if(n<=0||light<=0)continue;
   let o=m.food.get(site.cell);
-  if(!o&&S.r(w,'producer/establish',w.turn,site.species,site.cell)<Math.min(1,c.establishment*n)){
-   o=S.organism(w,S.D.byId[site.species],site.cell,'env:producer:'+site.species+':'+w.turn+':'+site.cell,{E:0,B:0,M:0,phase:1,age:0});
+  if(!o&&(!colonyCounts||S.Colony.room(w,site.cell,colonyCounts))&&S.r(w,'producer/establish',w.turn,site.species,site.cell)<Math.min(1,c.establishment*n)){
+   o=S.organism(w,S.D.byId[site.species],site.cell,'env:producer:'+site.species+':'+w.turn+':'+site.cell,{E:0,B:0,M:0,phase:1,age:0,colonyOrigin:{kind:'environment',turn:w.turn,cell:site.cell}});
    o.origin={kind:'environment',turn:w.turn,cell:site.cell};o.producerReserve=1;
-   input(o,'E',6);input(o,'B',S.PLANT_BASE);input(o,'M',.2);w.organisms.push(o);m.food.set(site.cell,o);
+   if(colonyCounts){input(o,'E',8);o.E=S.round(o.E-S.PLANT_BASE);o.B=S.PLANT_BASE;colonyCounts[S.Colony.region(w,site.cell)]++;}
+   else{input(o,'E',6);input(o,'B',S.PLANT_BASE);}
+   input(o,'M',.2);w.organisms.push(o);m.food.set(site.cell,o);
    state.established[o.species]=(state.established[o.species]||0)+1;last.established[o.species]=(last.established[o.species]||0)+1;last.births.push({id:o.id,species:o.species,cell:o.cell});
   }
   if(!o||S.spec(o).group!=='plant')continue;
   const p=S.phenotype(w,o),fraction=Math.min(1,n),energy=Math.min(1,Math.max(0,light));
   input(o,'E',Math.max(0,Math.min(c.targetE,p.capE)-o.E)*fraction*energy);
   input(o,'M',Math.max(0,Math.min(c.targetM,p.capM)-o.M)*fraction);
-  const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);
+  if(!colonyCounts){const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);}
  }
  for(const o of w.organisms)if(S.spec(o).group==='plant'){
   const n=level(w,o.cell)*(w.tiles[o.cell].light>0?1:0);o.producerReserve=S.round(S.clamp((o.producerReserve??1)+(Math.min(1,n)-.5)*2/c.grace,0,1));
@@ -16841,6 +17655,156 @@ return {settings,attach,region,level,factor,begin,finish};
     Math.max(0, o.B - (spec(o).group === "plant" ? PLANT_BASE : 0));
   const leafFactor = (o) =>
     0.5 + 0.5 * H.clamp((o.B - PLANT_BASE) / 10, 0, 1);
+  // Opt-in basal colonies keep their actual E/B/M in the ordinary organism ledger.
+  const Colony = (() => {
+    const VERSION = "colony-state/1", LIMIT = 1e12;
+    const enabled = (w) => w.config.producerModel === "colony/1";
+    const is = (o) => o.colony?.version === VERSION;
+    const region = (w, cell) => ["shallow", "deep"].includes(w.tiles[cell].terrain) ? "water" : "land";
+    function settings(input = {}) {
+      const check = (o, keys) => {
+        if (!o || typeof o !== "object" || Array.isArray(o) || Object.keys(o).some(k => !keys.includes(k)))
+          throw Error("SETTINGS_INVALID: 群落の比較値");
+      };
+      check(input, ["version", "standardBiteB", "land", "water"]);
+      if ((input.version !== undefined && input.version !== "colony-parameters/1") ||
+          (input.standardBiteB !== undefined && input.standardBiteB !== 2)) throw Error("SETTINGS_INVALID: 群落の定義版/標準量");
+      const result = {version:"colony-parameters/1", standardBiteB:2};
+      for (const name of ["land", "water"]) {
+        const value = input[name] ?? {};
+        check(value, ["occupancy", "capacityB", "initialFraction", "regrowthB"]);
+        const out = result[name] = {occupancy:name === "land" ? .20 : .15, capacityB:20, initialFraction:.70, regrowthB:2, ...value};
+        for (const [key, low, high] of [["occupancy",0,1],["capacityB",.02,200],["initialFraction",0,1],["regrowthB",0,out.capacityB*.1]])
+          if (typeof out[key] !== "number" || !Number.isFinite(out[key]) || out[key] < low || out[key] > high + 1e-9)
+            throw Error("SETTINGS_INVALID: 群落 " + name + "/" + key);
+      }
+      return result;
+    }
+    const parameters = (w, cell) => w.config.producerSettings[region(w, cell)];
+    function attach(w, o, origin = {kind:"initial"}) {
+      if (!enabled(w) || spec(o).group !== "plant" || is(o)) return o;
+      o.colony = {version:VERSION, origin:structuredClone(origin), establishedAt:w.turn,
+        baseB:PLANT_BASE, capacityB:parameters(w,o.cell).capacityB, activity:1,
+        replacementDebtB:0, edibleExposure:null,
+        last:{turn:w.turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0},
+        cumulative:{productionB:0,regrowthB:0,consumedB:0,maintainedTurns:0,settlements:0}};
+      delete o.birthLife;
+      return o;
+    }
+    function increment(o, key, value) {
+      o.colony.cumulative[key] = H.round(Math.min(LIMIT, o.colony.cumulative[key] + value));
+    }
+    function begin(w) {
+      if (!enabled(w)) return;
+      w.colonyFlows = {turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0},water:{productionB:0,regrowthB:0,consumedB:0}};
+      for (const o of w.organisms) if (is(o)) {
+        o.colony.last = {turn:w.turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0};
+        const exposure = o.colony.edibleExposure;
+        if (exposure && exposure.expires <= w.turn) {
+          dissipate(w, exposure.E);
+          o.colony.edibleExposure = null;
+        }
+      }
+    }
+    function regional(w) {
+      const species = D.species.filter(s => s.group === "plant"), out = {};
+      for (const name of ["land", "water"]) {
+        const cells = w.tiles.map((_,i) => i).filter(cell => region(w,cell) === name && species.some(s => validHabitat(w,s,cell)));
+        out[name] = {eligibleCells:cells.length, target:Math.round(cells.length*w.config.producerSettings[name].occupancy)};
+      }
+      return out;
+    }
+    function occupancy(w) {
+      const counts = {land:0,water:0};
+      for (const o of w.organisms) if (is(o) && o.HP > 0) counts[region(w,o.cell)]++;
+      return counts;
+    }
+    function room(w, cell, counts = occupancy(w)) {
+      const name = region(w,cell);
+      return counts[name] < (w.colonyRegions ??= regional(w))[name].target;
+    }
+    function allowed(w, s) { return !!w.config.enabled.plant && (w.turn > 0 || w.config.founderCounts?.species[s.id] !== 0); }
+    function initialize(w) {
+      if (!enabled(w)) return;
+      w.colonyRegions = regional(w);
+      if (!w.config.enabled.plant) return;
+      const species = D.species.filter(s => s.group === "plant"), occupied = new Set(w.organisms.filter(o => o.slot === "food").map(o => o.cell));
+      const counts = {land:0,water:0};
+      function place(s, cell) {
+        const o = organism(w,s,cell,"i:colony:"+cell+":"+s.id);
+        o.B = H.round(PLANT_BASE + parameters(w,cell).capacityB*parameters(w,cell).initialFraction);
+        w.organisms.push(o); occupied.add(cell); counts[region(w,cell)]++;
+      }
+      const candidates = s => w.tiles.map((_,i) => i).filter(cell => !occupied.has(cell) && validHabitat(w,s,cell))
+        .sort((a,b) => initialRank(w,s,a)-initialRank(w,s,b) || a-b);
+      for (const s of species) {
+        const direct = w.config.founderCounts?.species[s.id];
+        if (direct === undefined) continue;
+        const cells = candidates(s);
+        if (cells.length < direct) throw Error("PLACEMENT_SHORTAGE: " + s.name + " 群落の指定数に対する適地/空き枠が不足しています");
+        for (const cell of cells.slice(0,direct)) place(s,cell);
+      }
+      for (const name of ["land","water"]) {
+        const clustered=w.config.initialConditions?.distribution==="cluster";
+        const sites = w.tiles.map((_,i) => i).filter(cell => region(w,cell) === name && !occupied.has(cell))
+          .map(cell => ({cell,species:species.filter(s => w.config.founderCounts?.species[s.id] === undefined && validHabitat(w,s,cell))}))
+          .map(site => ({...site,rank:clustered&&site.species.length?Math.min(...site.species.map(s=>initialRank(w,s,site.cell))):0}))
+          .filter(a => a.species.length).sort((a,b) => {
+            const rank = x => hash(w,"colony/initial-block",0,null,[Math.floor((x.cell%w.config.width)/3),Math.floor(Math.floor(x.cell/w.config.width)/3)]);
+            return a.rank-b.rank || rank(a)-rank(b) || hash(w,"colony/initial-cell",0,null,a.cell)-hash(w,"colony/initial-cell",0,null,b.cell);
+          });
+        for (const site of sites) {
+          if (counts[name] >= w.colonyRegions[name].target) break;
+          site.species.sort((a,b) => (clustered?initialRank(w,a,site.cell)-initialRank(w,b,site.cell):0) || hash(w,"colony/initial-species",0,a.id,site.cell)-hash(w,"colony/initial-species",0,b.id,site.cell));
+          place(site.species[0],site.cell);
+        }
+      }
+      for (const name of ["land","water"]) w.colonyRegions[name].initial = counts[name];
+    }
+    function flow(w,o,key,amount) {
+      if(!w.colonyFlows || w.colonyFlows.turn !== w.turn)
+        w.colonyFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0},water:{productionB:0,regrowthB:0,consumedB:0}};
+      const row=w.colonyFlows[region(w,o.cell)];row[key]=H.round((row[key]||0)+amount);
+    }
+    function solar(w,o,amount){o.colony.last.solarInputE=H.round(o.colony.last.solarInputE+amount);flow(w,o,"solarInputE",amount);}
+    function consumed(w, o, amount) {
+      o.colony.last.consumedB = H.round(o.colony.last.consumedB + amount);
+      increment(o,"consumedB",amount);
+      flow(w,o,"consumedB",amount);
+      o.colony.replacementDebtB = H.round(Math.min(o.colony.capacityB,o.colony.replacementDebtB+amount));
+    }
+    function regrow(w, o) {
+      if (!is(o) || o.HP <= 0 || w.tiles[o.cell].light <= 0 || ProducerSupport.factor(w,o,{spec}) <= 0) return;
+      const c = o.colony, p = phenotype(w,o), tile = w.tiles[o.cell], options = parameters(w,o.cell);
+      const multiplier=w.config.producerSupport?.enabled?w.config.producerSupport[region(w,o.cell)].regrowth:1;
+      const ceiling=Math.min(c.capacityB*.1,options.regrowthB*multiplier);
+      const amount = H.round(Math.max(0,Math.min(Math.max(0,ceiling*c.activity*Math.min(1,tile.light)-c.last.productionB),
+        c.capacityB-edibleB(o),Math.max(0,o.E-2)/1.2,tile.soilM/.02,Math.max(0,p.capM-o.M)/.02)));
+      if (!amount) return;
+      const expense = H.round(1.2*amount), material = H.round(.02*amount), replacement = Math.min(amount,c.replacementDebtB);
+      o.E = H.round(o.E-expense); o.B = H.round(o.B+amount);
+      tile.soilM = H.round(tile.soilM-material); o.M = H.round(o.M+material);
+      dissipate(w,H.round(expense-amount));
+      c.last.productionB = H.round(c.last.productionB+amount); c.last.regrowthB = H.round(c.last.regrowthB+replacement);
+      c.replacementDebtB = H.round(c.replacementDebtB-replacement);
+      increment(o,"productionB",amount); increment(o,"regrowthB",replacement);
+      flow(w,o,"productionB",amount);flow(w,o,"regrowthB",replacement);
+    }
+    function summary(w) {
+      if (!enabled(w)) return;
+      const out = {definition:"colony-observed/1",turn:w.turn};
+      for (const name of ["land","water"]) out[name] = {count:0,B:0,edibleB:0,occupiedCells:0,
+        eligibleCells:(w.colonyRegions ??= regional(w))[name].eligibleCells,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,reserveE:0,reserveM:0,baseB:0,activitySum:0};
+      for (const o of w.organisms) if (is(o)) {
+        const row = out[region(w,o.cell)];row.count++;row.occupiedCells++;row.B+=o.B;row.edibleB+=edibleB(o);
+        row.reserveE+=o.E;row.reserveM+=o.M;row.baseB+=o.colony.baseB;row.activitySum+=o.colony.activity;
+      }
+      if(w.colonyFlows?.turn===w.turn)for(const name of ["land","water"]){const flow=w.colonyFlows[name];out[name].productionB=flow.productionB;out[name].regrowthB=flow.regrowthB;out[name].consumedB=flow.consumedB;out[name].solarInputE=flow.solarInputE||0;}
+      for (const name of ["land","water"]) for (const key of Object.keys(out[name])) out[name][key]=H.round(out[name][key]);
+      w.colonySummary=out;
+    }
+    return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
+  })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
   // Explicitly enabled only for fixed production worlds; never serialized.
@@ -17133,6 +18097,9 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
+    if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
+    else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
     if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
@@ -17179,6 +18146,7 @@ return {settings,attach,region,level,factor,begin,finish};
     precocial:Object.freeze({attack:.90,defense:.95,hp:.90,move:1,maintenance:.90,healing:1,birth:1,light:.65}),
   });
   function ageInfo(o) {
+    if (Colony.is(o)) return {enabled:false,applicable:false,stage:"adult",factors:ageFactors.adult};
     if (!Number.isFinite(o.birthLife)) return {enabled:false,stage:"adult",factors:ageFactors.adult};
     const s=spec(o),matureAt=s.group==="main"?Math.ceil(o.birthLife*(s.id==="precocial"?.03:s.id==="swarm"&&o.role==="queen"?1/30:.10)):s.maturity,
       elderlyAt=Math.max(matureAt+1,Math.floor(.75*o.birthLife)),
@@ -17187,6 +18155,7 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(Colony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
@@ -17261,6 +18230,9 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
+    if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
+    delete o.colonyOrigin;
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
@@ -17274,7 +18246,7 @@ return {settings,attach,region,level,factor,begin,finish};
       phase,
       u,
       capE: main ? 100 + (tr.capacity || 0) * u : s.capacity[0],
-      capB: main ? 32 : s.capacity[1],
+      capB: Colony.is(o) ? o.colony.baseB+o.colony.capacityB : main ? 32 : s.capacity[1],
       capM: main ? 30 : 2,
       maxHP: main ? 100 : s.capacity[3],
       life: main
@@ -17349,6 +18321,7 @@ return {settings,attach,region,level,factor,begin,finish};
     };
     for (const o of w.organisms) {
       E += o.E + o.B;
+      if(Colony.is(o))E += o.colony.edibleExposure?.E || 0;
       M += o.M;
       infection(o.infection);
     }
@@ -17476,6 +18449,8 @@ return {settings,attach,region,level,factor,begin,finish};
           w.tiles[q].walls.push(p);
         }
     }
+    const colonyPlants = Colony.enabled(w) && config.enabled.plant;
+    if(colonyPlants)config.enabled.plant=false;
     for(const t of w.tiles)t.soilM=H.round(t.soilM*3);
     config.freeAdvantage={version:"favored-free/3",externalSupply:false,producerLife:2400,producerLight:2,soilM:3,waterbugLife:600,waterbugBirth:"B123/E8/cost8",QsearchLife:480,QsearchRange:3,Qgrowth:[1,2],Qinitial:"half-primary/1"};
     const usable = w.tiles
@@ -17525,6 +18500,8 @@ return {settings,attach,region,level,factor,begin,finish};
       config.lineages === "manual"
         ? config.selected.map((id) => D.byId[id])
         : D.main.slice(0, 20);
+    if(colonyPlants)config.enabled.plant=true;
+    Colony.initialize(w);
     if (!config.enabled.main) mains = [];
     if (config.lineages === "few")
       mains = mains
@@ -17765,7 +18742,8 @@ return {settings,attach,region,level,factor,begin,finish};
                     ["plant", "fungus"].includes(f.group) &&
                     config.enabled[f.group],
                 ))
-                  if (validHabitat(w, f, p)) {
+                  if (validHabitat(w, f, p) && (!Colony.enabled(w) || f.group !== "plant" ||
+                      (Colony.allowed(w,f) && Colony.room(w,p)))) {
                     const o = organism(
                       w,
                       f,
@@ -17812,6 +18790,7 @@ return {settings,attach,region,level,factor,begin,finish};
       }
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
+    if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
     if (config.enabled.P)
       for (const o of w.organisms)
         if (
@@ -17868,6 +18847,7 @@ return {settings,attach,region,level,factor,begin,finish};
         config.initialReport.groups[g].requested=species.reduce((sum,s,i)=>sum+(config.enabled[g]?(requested.species[s.id]??(Math.floor(target/species.length)+(i<target%species.length?1:0))):0),0);
       }
     }
+    Colony.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -17918,6 +18898,7 @@ return {settings,attach,region,level,factor,begin,finish};
     ...H,
     D,
     ProducerSupport,
+    Colony,
     initialRank,
     DIRS,
     DNA,

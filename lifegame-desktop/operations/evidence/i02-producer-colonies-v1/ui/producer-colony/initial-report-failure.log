@@ -1,0 +1,10 @@
+AssertionError [ERR_ASSERTION]: initial report uses regional colony actual and target counts
+    at check (/workspace/VAL/lifegame-desktop/tests/producer-colony-ui.cjs:7:29)
+    at /workspace/VAL/lifegame-desktop/tests/producer-colony-ui.cjs:27:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

@@ -474,7 +474,7 @@
     if(!im)return false;
     const spec=root.EcoState.spec(o), age=root.EcoState.ageInfo(o),
       stage=age.enabled?age.stage:"adult", animal=spec.group==="prey",
-      capacity=Math.max(1,spec.capacity[1]),
+      capacity=Math.max(1,o.colony?.version === 'colony-state/1' ? o.colony.baseB + o.colony.capacityB : spec.capacity[1]),
       stock=Math.max(0,Math.min(1,(Number.isFinite(o.B)?o.B:spec.initial[1])/capacity)),
       density=Math.min(3,Math.floor(stock*4)), phase=Math.max(1,Math.min(2,o.phase||1)),
       climate=[1,4,5,7].includes(env)?env:0,

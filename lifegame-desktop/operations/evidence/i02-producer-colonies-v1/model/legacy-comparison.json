@@ -1,0 +1,1348 @@
+{
+  "baseline": "aafc614 / development 4.2.33",
+  "current": "I02 legacy path",
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "cases": 10,
+  "states": 180,
+  "worldAndCSVEqual": true,
+  "measurements": [
+    {
+      "id": "flags-0",
+      "config": {
+        "seed": "i02/legacy/flags-0",
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "mapId": "river",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "randomModel": "table/1",
+        "terrainSeed": "i02/legacy/flags-0",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 40,
+          "height": 28,
+          "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+          "pattern": [
+            3,
+            1,
+            2,
+            2,
+            3,
+            2,
+            1,
+            1,
+            0,
+            2,
+            1,
+            0,
+            0,
+            1,
+            3,
+            0,
+            3,
+            3,
+            1,
+            2,
+            3,
+            2,
+            2,
+            0,
+            2,
+            3,
+            3,
+            3,
+            3,
+            0,
+            1,
+            3,
+            1
+          ],
+          "fallback": false,
+          "terrainHash": "7f9ff8881ea47e083b7d3b6964d0b07a22bd3de9da317bb818132a780c463523"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 4,
+          "createdSearchQ": 4
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": false,
+          "waterbug": false,
+          "hyperparasite": false
+        }
+      },
+      "turns": 20,
+      "states": 21,
+      "finalPopulation": 1230,
+      "finalFingerprint": "fa0002fb77b26b2d5d091c22311028b568903a2267de25b24e43cdd4ad8b71b4",
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "index": {
+        "current": {
+          "requests": 400,
+          "distinctMaps": 200
+        },
+        "baseline": {
+          "requests": 400,
+          "distinctMaps": 200
+        }
+      },
+      "timing": {
+        "current": {
+          "count": 20,
+          "medianMs": 143.81773100000004,
+          "meanMs": 150.09717204999998,
+          "maxMs": 338.09993399999985
+        },
+        "baseline": {
+          "count": 20,
+          "medianMs": 124.24014599999998,
+          "meanMs": 156.43378,
+          "maxMs": 582.337133
+        },
+        "note": "Short alternating Node calculation samples, not browser FPS or a performance guarantee."
+      }
+    },
+    {
+      "id": "flags-1",
+      "config": {
+        "seed": "i02/legacy/flags-1",
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "mapId": "river",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "randomModel": "table/1",
+        "terrainSeed": "i02/legacy/flags-1",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 40,
+          "height": 28,
+          "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+          "pattern": [
+            2,
+            3,
+            1,
+            1,
+            1,
+            0,
+            3,
+            2,
+            0,
+            3,
+            1,
+            3,
+            0,
+            2,
+            1,
+            3,
+            3,
+            2,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            3,
+            0,
+            1,
+            2,
+            3,
+            2,
+            3,
+            1,
+            0
+          ],
+          "fallback": false,
+          "terrainHash": "615a0d0116c5063eee65c169a4d6a18fe8cc45ee3b90eb6ceecf8eac5d1fd5cd"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 4,
+          "createdSearchQ": 4
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": true,
+          "waterbug": false,
+          "hyperparasite": false
+        }
+      },
+      "turns": 20,
+      "states": 21,
+      "finalPopulation": 1409,
+      "finalFingerprint": "3a96637c2d33d3c52a832ec04c37e6b2d69774d3bdf2b8217f956bf78d476a7d",
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "index": {
+        "current": {
+          "requests": 400,
+          "distinctMaps": 200
+        },
+        "baseline": {
+          "requests": 400,
+          "distinctMaps": 200
+        }
+      },
+      "timing": {
+        "current": {
+          "count": 20,
+          "medianMs": 193.60001899999952,
+          "meanMs": 212.39464919999983,
+          "maxMs": 391.44481599999926
+        },
+        "baseline": {
+          "count": 20,
+          "medianMs": 210.2776699999995,
+          "meanMs": 199.9244913499997,
+          "maxMs": 319.2015509999983
+        },
+        "note": "Short alternating Node calculation samples, not browser FPS or a performance guarantee."
+      }
+    },
+    {
+      "id": "flags-2",
+      "config": {
+        "seed": "i02/legacy/flags-2",
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "mapId": "river",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "randomModel": "table/1",
+        "terrainSeed": "i02/legacy/flags-2",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 40,
+          "height": 28,
+          "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+          "pattern": [
+            3,
+            0,
+            0,
+            2,
+            0,
+            1,
+            1,
+            1,
+            1,
+            2,
+            0,
+            3,
+            2,
+            1,
+            1,
+            3,
+            2,
+            1,
+            1,
+            0,
+            2,
+            0,
+            1,
+            3,
+            1,
+            1,
+            2,
+            3,
+            2,
+            1,
+            0,
+            1,
+            3
+          ],
+          "fallback": false,
+          "terrainHash": "fdf12a7acdfd079aacbe130004f6282bcb57a4aeefacac20933710085c974ee5"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 4,
+          "createdSearchQ": 0
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": false,
+          "waterbug": true,
+          "hyperparasite": false
+        }
+      },
+      "turns": 20,
+      "states": 21,
+      "finalPopulation": 1254,
+      "finalFingerprint": "66787bf42961113c248a83b3947080a750799afafa0362fcb6327d51863cbffa",
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "index": {
+        "current": {
+          "requests": 400,
+          "distinctMaps": 200
+        },
+        "baseline": {
+          "requests": 400,
+          "distinctMaps": 200
+        }
+      },
+      "timing": {
+        "current": {
+          "count": 20,
+          "medianMs": 154.9039100000009,
+          "meanMs": 178.33598880000008,
+          "maxMs": 365.6671319999987
+        },
+        "baseline": {
+          "count": 20,
+          "medianMs": 193.3077450000019,
+          "meanMs": 190.08016480000023,
+          "maxMs": 386.3590629999999
+        },
+        "note": "Short alternating Node calculation samples, not browser FPS or a performance guarantee."
+      }
+    },
+    {
+      "id": "flags-3",
+      "config": {
+        "seed": "i02/legacy/flags-3",
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "mapId": "river",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "randomModel": "table/1",
+        "terrainSeed": "i02/legacy/flags-3",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 40,
+          "height": 28,
+          "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+          "pattern": [
+            3,
+            0,
+            0,
+            1,
+            3,
+            2,
+            1,
+            3,
+            0,
+            3,
+            2,
+            2,
+            1,
+            3,
+            3,
+            0,
+            0,
+            2,
+            1,
+            1,
+            2,
+            3,
+            2,
+            1,
+            0,
+            3,
+            3,
+            0,
+            0,
+            0,
+            0,
+            3,
+            1
+          ],
+          "fallback": false,
+          "terrainHash": "f7ad5fd4556fc24be139a2cf6cbbc55529be03d1c93a6ce62bd8aa7d548a10e9"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 4,
+          "createdSearchQ": 4
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": true,
+          "waterbug": true,
+          "hyperparasite": false
+        }
+      },
+      "turns": 20,
+      "states": 21,
+      "finalPopulation": 1422,
+      "finalFingerprint": "737a41a6f9fc3669d170cf3610273c4e684207598fae97f98e37bc1f13f8c05a",
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "index": {
+        "current": {
+          "requests": 400,
+          "distinctMaps": 200
+        },
+        "baseline": {
+          "requests": 400,
+          "distinctMaps": 200
+        }
+      },
+      "timing": {
+        "current": {
+          "count": 20,
+          "medianMs": 106.51327400000082,
+          "meanMs": 113.18074469999956,
+          "maxMs": 197.28666099999828
+        },
+        "baseline": {
+          "count": 20,
+          "medianMs": 111.36040499999945,
+          "meanMs": 120.18669454999963,
+          "maxMs": 291.765245999999
+        },
+        "note": "Short alternating Node calculation samples, not browser FPS or a performance guarantee."
+      }
+    },
+    {
+      "id": "flags-4",
+      "config": {
+        "seed": "i02/legacy/flags-4",
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "mapId": "river",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "randomModel": "table/1",
+        "terrainSeed": "i02/legacy/flags-4",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 40,
+          "height": 28,
+          "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+          "pattern": [
+            1,
+            1,
+            2,
+            2,
+            3,
+            3,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            2,
+            3,
+            2,
+            0,
+            1,
+            0,
+            2,
+            2,
+            1,
+            2,
+            2,
+            1,
+            3,
+            0,
+            2,
+            2,
+            0,
+            3,
+            1,
+            3,
+            3
+          ],
+          "fallback": false,
+          "terrainHash": "d7598da926f6d77d7b5ae352fb3a55686d04256abaa89ccec4d38970b76488be"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 10,
+          "createdSearchQ": 10
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": false,
+          "waterbug": false,
+          "hyperparasite": true
+        }
+      },
+      "turns": 20,
+      "states": 21,
+      "finalPopulation": 1247,
+      "finalFingerprint": "59e0c9c95198e4a69ef42d6cdc2a3cf8f8ff205095191b66c6e55222aa2aa326",
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "index": {
+        "current": {
+          "requests": 400,
+          "distinctMaps": 200
+        },
+        "baseline": {
+          "requests": 400,
+          "distinctMaps": 200
+        }
+      },
+      "timing": {
+        "current": {
+          "count": 20,
+          "medianMs": 163.8758650000018,
+          "meanMs": 162.05538945000006,
+          "maxMs": 287.23761699999886
+        },
+        "baseline": {
+          "count": 20,
+          "medianMs": 166.11359199999424,
+          "meanMs": 167.88906194999782,
+          "maxMs": 250.5861440000008
+        },
+        "note": "Short alternating Node calculation samples, not browser FPS or a performance guarantee."
+      }
+    },
+    {
+      "id": "flags-5",
+      "config": {
+        "seed": "i02/legacy/flags-5",
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "mapId": "river",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "randomModel": "table/1",
+        "terrainSeed": "i02/legacy/flags-5",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 40,
+          "height": 28,
+          "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+          "pattern": [
+            2,
+            2,
+            0,
+            0,
+            2,
+            3,
+            0,
+            3,
+            2,
+            0,
+            2,
+            2,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            3,
+            3,
+            3,
+            0,
+            1,
+            2,
+            1,
+            0,
+            2,
+            3,
+            1,
+            1,
+            3,
+            0,
+            3
+          ],
+          "fallback": false,
+          "terrainHash": "a6ff49c794e8c81fdeff9a332a376aeced2ed17f50329e97e6fb019ab207efe1"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 9,
+          "createdSearchQ": 9
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": true,
+          "waterbug": false,
+          "hyperparasite": true
+        }
+      },
+      "turns": 20,
+      "states": 21,
+      "finalPopulation": 1350,
+      "finalFingerprint": "5a3e0553b0b3a70afe30fe6035b7882d3c305332bccc30d510a2b345682505c9",
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "index": {
+        "current": {
+          "requests": 400,
+          "distinctMaps": 200
+        },
+        "baseline": {
+          "requests": 400,
+          "distinctMaps": 200
+        }
+      },
+      "timing": {
+        "current": {
+          "count": 20,
+          "medianMs": 171.49808900000062,
+          "meanMs": 173.3482390000001,
+          "maxMs": 233.66079300000274
+        },
+        "baseline": {
+          "count": 20,
+          "medianMs": 195.51303299999563,
+          "meanMs": 195.67774920000048,
+          "maxMs": 305.490641999997
+        },
+        "note": "Short alternating Node calculation samples, not browser FPS or a performance guarantee."
+      }
+    },
+    {
+      "id": "flags-6",
+      "config": {
+        "seed": "i02/legacy/flags-6",
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "mapId": "river",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "randomModel": "table/1",
+        "terrainSeed": "i02/legacy/flags-6",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 40,
+          "height": 28,
+          "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+          "pattern": [
+            2,
+            0,
+            3,
+            0,
+            0,
+            1,
+            1,
+            2,
+            2,
+            0,
+            1,
+            3,
+            1,
+            3,
+            2,
+            0,
+            1,
+            1,
+            1,
+            2,
+            3,
+            2,
+            1,
+            3,
+            3,
+            1,
+            1,
+            3,
+            2,
+            1,
+            2,
+            0,
+            3
+          ],
+          "fallback": false,
+          "terrainHash": "c8f84fc21725427ed1edfa5220d44f5c1b8bd257f02a2473ec42254b97cf739c"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 5,
+          "createdSearchQ": 5
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": false,
+          "waterbug": true,
+          "hyperparasite": true
+        }
+      },
+      "turns": 20,
+      "states": 21,
+      "finalPopulation": 1246,
+      "finalFingerprint": "63507d368536f2b2b8ac7849d129b297c95bc40a6ce6d71678ef0e63be599911",
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "index": {
+        "current": {
+          "requests": 400,
+          "distinctMaps": 200
+        },
+        "baseline": {
+          "requests": 400,
+          "distinctMaps": 200
+        }
+      },
+      "timing": {
+        "current": {
+          "count": 20,
+          "medianMs": 127.55837900000188,
+          "meanMs": 134.78454524999978,
+          "maxMs": 298.8173119999992
+        },
+        "baseline": {
+          "count": 20,
+          "medianMs": 124.24352599999838,
+          "meanMs": 147.96325819999984,
+          "maxMs": 270.36661399999866
+        },
+        "note": "Short alternating Node calculation samples, not browser FPS or a performance guarantee."
+      }
+    },
+    {
+      "id": "flags-7",
+      "config": {
+        "seed": "i02/legacy/flags-7",
+        "width": 40,
+        "height": 28,
+        "initial": 80,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "mapId": "river",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "randomModel": "table/1",
+        "terrainSeed": "i02/legacy/flags-7",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 40,
+          "height": 28,
+          "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+          "pattern": [
+            1,
+            3,
+            2,
+            2,
+            2,
+            1,
+            3,
+            2,
+            1,
+            1,
+            2,
+            0,
+            1,
+            2,
+            1,
+            1,
+            1,
+            1,
+            2,
+            3,
+            3,
+            1,
+            1,
+            2,
+            0,
+            2,
+            0,
+            2,
+            0,
+            2,
+            1,
+            2,
+            1
+          ],
+          "fallback": false,
+          "terrainHash": "9e89a05ecdb5e53f01bdd10b2af979e10f5fb2d694f8bea857e3074a6163f2dc"
+        },
+        "freeAdvantage": {
+          "version": "favored-free/3",
+          "externalSupply": false,
+          "producerLife": 2400,
+          "producerLight": 2,
+          "soilM": 3,
+          "waterbugLife": 600,
+          "waterbugBirth": "B123/E8/cost8",
+          "QsearchLife": 480,
+          "QsearchRange": 3,
+          "Qgrowth": [
+            1,
+            2
+          ],
+          "Qinitial": "half-primary/1"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 10,
+          "createdSearchQ": 10
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": true,
+          "waterbug": true,
+          "hyperparasite": true
+        }
+      },
+      "turns": 20,
+      "states": 21,
+      "finalPopulation": 1407,
+      "finalFingerprint": "8e601f7760ef1e5e1830c35ecfd001ace66f603438088f69efccdaa9d9e844b1",
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "index": {
+        "current": {
+          "requests": 400,
+          "distinctMaps": 200
+        },
+        "baseline": {
+          "requests": 400,
+          "distinctMaps": 200
+        }
+      },
+      "timing": {
+        "current": {
+          "count": 20,
+          "medianMs": 118.18149699999776,
+          "meanMs": 120.13614044999959,
+          "maxMs": 169.6226749999987
+        },
+        "baseline": {
+          "count": 20,
+          "medianMs": 103.44685200000094,
+          "meanMs": 108.64928749999999,
+          "maxMs": 172.14262400000007
+        },
+        "note": "Short alternating Node calculation samples, not browser FPS or a performance guarantee."
+      }
+    },
+    {
+      "id": "scale-80",
+      "config": {
+        "seed": "i02/legacy/scale-80",
+        "width": 80,
+        "height": 56,
+        "initial": 320,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "mapId": "river",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "randomModel": "table/1",
+        "terrainSeed": "i02/legacy/scale-80",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 80,
+          "height": 56,
+          "dataHash": "23f011e8114c6c76ac84aa387f21830014f3991b0c1095300b921d2f702a4a66",
+          "pattern": [
+            3,
+            2,
+            3,
+            2,
+            0,
+            0,
+            2,
+            1,
+            1,
+            3,
+            1,
+            2,
+            2,
+            3,
+            0,
+            2,
+            2,
+            3,
+            3,
+            2,
+            0,
+            3,
+            1,
+            1,
+            3,
+            1,
+            0,
+            2,
+            0,
+            0,
+            3,
+            0,
+            3,
+            1,
+            2,
+            1
+          ],
+          "fallback": false,
+          "terrainHash": "53b6eae8dde06d482c37769cf120c470977e96fdcfa1932ca7657116f6a64536"
+        },
+        "freeAdvantage": {
+          "version": "favored-free/3",
+          "externalSupply": false,
+          "producerLife": 2400,
+          "producerLight": 2,
+          "soilM": 3,
+          "waterbugLife": 600,
+          "waterbugBirth": "B123/E8/cost8",
+          "QsearchLife": 480,
+          "QsearchRange": 3,
+          "Qgrowth": [
+            1,
+            2
+          ],
+          "Qinitial": "half-primary/1"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 29,
+          "createdSearchQ": 29
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": true,
+          "waterbug": true,
+          "hyperparasite": true
+        }
+      },
+      "turns": 6,
+      "states": 7,
+      "finalPopulation": 4130,
+      "finalFingerprint": "0d62020537c40c5818aa0c55494a50f4df344ac2ae9fe444187a0c6480506fbd",
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "index": {
+        "current": {
+          "requests": 120,
+          "distinctMaps": 60
+        },
+        "baseline": {
+          "requests": 120,
+          "distinctMaps": 60
+        }
+      },
+      "timing": {
+        "current": {
+          "count": 6,
+          "medianMs": 410.59954899999866,
+          "meanMs": 408.98683283333474,
+          "maxMs": 459.8072620000021
+        },
+        "baseline": {
+          "count": 6,
+          "medianMs": 379.7658470000024,
+          "meanMs": 392.73763533333357,
+          "maxMs": 450.043190999997
+        },
+        "note": "Short alternating Node calculation samples, not browser FPS or a performance guarantee."
+      }
+    },
+    {
+      "id": "scale-160",
+      "config": {
+        "seed": "i02/legacy/scale-160",
+        "width": 160,
+        "height": 112,
+        "initial": 1280,
+        "lineages": "few",
+        "selected": [],
+        "weights": {},
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "landscape": "templates",
+        "mapId": "river",
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "blockTurns": 500,
+        "randomModel": "table/1",
+        "terrainSeed": "i02/legacy/scale-160",
+        "mapResolved": {
+          "setVersion": "terrain-set/1",
+          "id": "river",
+          "version": 1,
+          "width": 160,
+          "height": 112,
+          "dataHash": "51470f336c30c786a21b7818c4b1611bff68dc6d05702c9e3c52ada8d5281878",
+          "pattern": [
+            1,
+            2,
+            1,
+            3,
+            3,
+            0,
+            1,
+            2,
+            3,
+            2,
+            1,
+            3,
+            2,
+            3,
+            1,
+            0,
+            2,
+            0,
+            2,
+            1,
+            2,
+            1,
+            0,
+            1,
+            2,
+            1,
+            2,
+            2,
+            2,
+            0,
+            0,
+            2,
+            0,
+            0,
+            0
+          ],
+          "fallback": false,
+          "terrainHash": "f5a8f86c4d974444b44a0a6efba62143511c2a7effac11ef85be2fa10643547f"
+        },
+        "freeAdvantage": {
+          "version": "favored-free/3",
+          "externalSupply": false,
+          "producerLife": 2400,
+          "producerLight": 2,
+          "soilM": 3,
+          "waterbugLife": 600,
+          "waterbugBirth": "B123/E8/cost8",
+          "QsearchLife": 480,
+          "QsearchRange": 3,
+          "Qgrowth": [
+            1,
+            2
+          ],
+          "Qinitial": "half-primary/1"
+        },
+        "ecologyParameters": {
+          "version": 1,
+          "mainMaintenance": 0.65,
+          "mainMovement": 0.6,
+          "sexualThreshold": 0.65,
+          "sexualMineral": 2,
+          "producerBirth": "B23",
+          "fungusBirth": "B123",
+          "initialFoodAgeFraction": 0.5
+        },
+        "parasiteInitial": {
+          "policy": "local-search/1",
+          "unit": "colony",
+          "targetSearchQ": 124,
+          "createdSearchQ": 124
+        },
+        "advantageSettings": {
+          "version": "advantage-switches/1",
+          "producer": true,
+          "waterbug": true,
+          "hyperparasite": true
+        }
+      },
+      "turns": 4,
+      "states": 5,
+      "finalPopulation": 15388,
+      "finalFingerprint": "86b8eef6d417c34c78be5f682a2e587f9f262350bd5e1fe0f03221d082216ed7",
+      "worldAndCSVEqual": true,
+      "invariants": true,
+      "index": {
+        "current": {
+          "requests": 80,
+          "distinctMaps": 40
+        },
+        "baseline": {
+          "requests": 80,
+          "distinctMaps": 40
+        }
+      },
+      "timing": {
+        "current": {
+          "count": 4,
+          "medianMs": 1554.921119999999,
+          "meanMs": 1458.5687504999987,
+          "maxMs": 1615.9348969999992
+        },
+        "baseline": {
+          "count": 4,
+          "medianMs": 1423.6154289999977,
+          "meanMs": 1394.0511677499962,
+          "maxMs": 1594.3700769999996
+        },
+        "note": "Short alternating Node calculation samples, not browser FPS or a performance guarantee."
+      }
+    }
+  ],
+  "scope": "8 advantage profiles and three sizes; not a 500T survival, visual, or Windows verification."
+}
