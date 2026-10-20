@@ -1,5 +1,5 @@
 /* Final results and aggregate turn observations; no per-turn world snapshots. */
-(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.EcoArchive=api;})(globalThis,function(){
+(function(root,factory){const node=typeof module==='object'&&module.exports,api=factory(()=>node?require('./observations.js'):root.EcoObservations);if(node)module.exports=api;else root.EcoArchive=api;})(globalThis,function(observationsAPI){
  'use strict';
  const KEY='lifegame.results.v1',LIMIT=100;
  // Legacy aliases are gated by the features absent from their source version.
@@ -16,7 +16,9 @@
  const primaryBuildSignature="0789b6828052dfc261fd4d7ebe290deedb1f8375506e7bb19e9073a8ee12aba8";
  const hyperBuildSignature="32595746fbb53881d5bcda4c42a98f062540cf73d91c85125d5b7dd73df600b1";
  const informationBuildSignature="cc602920ce515db5502edec9d74233a0f397735ff5707ea7ae71fa81eb5fc50d";
+ const generationBuildSignature='2789e4711fd87f4824e11ff10762fde9a26880fa322db3a1bfbeb808b094d85d';
  function canonicalSignature(s,config){
+  if(s===generationBuildSignature&&config.generationModel===undefined&&config.generationSettings===undefined&&config.generationResolved===undefined)s=informationBuildSignature;
   if(s===informationBuildSignature&&config.informationModel===undefined&&config.informationSettings===undefined)s=hyperBuildSignature;
   if(s===hyperBuildSignature&&config.hyperParasiteModel===undefined&&config.hyperParasiteSettings===undefined)s=primaryBuildSignature;
   if(s===primaryBuildSignature&&config.primaryParasiteModel===undefined&&config.primaryParasiteSettings===undefined)s=ryoukiBuildSignature;
@@ -25,14 +27,94 @@
   return s===colonyBuildSignature&&config.producerModel===undefined&&config.producerSettings===undefined
    ? "8d7f6fbd94128cebf77ab6032098e09a432bc13d8cb2552222b0546971e84745" : equivalentReplaySignatures[s]||s;
  }
+ const terminalDefinition='ecosystem-terminal-state/1',sampleLimit=4;
+ const modelKeys=['generationModel','producerModel','largePlantModel','ryoukiModel','primaryParasiteModel','hyperParasiteModel','informationModel'];
+ const sampleKeys=['organisms','colonies','independentPlants','ryouki','primaryParasites','hyperParasites','informationField','informationSubjects'];
+ const pick=(o,keys)=>Object.fromEntries(keys.filter(k=>o?.[k]!==undefined).map(k=>[k,structuredClone(o[k])]));
+ function same(a,b){if(Object.is(a,b))return true;if(!a||!b||typeof a!=='object'||typeof b!=='object'||Array.isArray(a)!==Array.isArray(b))return false;const keys=Object.keys(a);return keys.length===Object.keys(b).length&&keys.every(k=>Object.hasOwn(b,k)&&same(a[k],b[k]));}
+ function finiteData(value,seen=new Set(),depth=0){
+  if(typeof value==='number'){if(!Number.isFinite(value))throw Error('保存記録に非有限値があります。');return;}
+  if(['bigint','function','symbol'].includes(typeof value))throw Error('保存記録に読み取れない値があります。');
+  if(!value||typeof value!=='object')return;
+  if(depth>128||seen.has(value))throw Error('保存記録に循環または過大な階層があります。');seen.add(value);
+  if(Array.isArray(value)&&Array.from({length:value.length},(_,i)=>!Object.hasOwn(value,i)||value[i]===undefined).some(Boolean))throw Error('保存記録の配列に欠測があります。');
+  for(const v of Object.values(value))finiteData(v,seen,depth+1);seen.delete(value);
+ }
+ const nonnegative=n=>typeof n==='number'&&Number.isFinite(n)&&n>=0,integer=n=>Number.isSafeInteger(n)&&n>=0;
+ function terminalState(world,row,S){
+  const organisms=world.organisms,primary=S.PrimaryParasite?.enabled(world)?S.PrimaryParasite.entries(world):[],hyper=S.HyperParasite?.enabled(world)?S.HyperParasite.entries(world):[],
+    information=S.PersistentInformation?.enabled(world)?S.PersistentInformation.entries(world):[],basic=o=>pick(o,['id','species','slot','cell','phase','branch3','branch4','age','bornAt','birthLife','sex','role','generation','parents','B','E','M','G','HP']),
+    samples=(rows,build)=>{const ordered=rows.slice().sort((a,b)=>{const x=String(a.subject?.id??a.p?.id??a.q?.id??a.id),y=String(b.subject?.id??b.p?.id??b.q?.id??b.id);return x<y?-1:x>y?1:0;});return {total:rows.length,retained:Math.min(sampleLimit,rows.length),truncated:rows.length>sampleLimit,items:ordered.slice(0,sampleLimit).map(build)};},
+    aggregate=(rows,keys)=>({records:rows.length,...Object.fromEntries(keys.map(k=>[k,rows.every(r=>nonnegative(r[k]))?rows.reduce((n,r)=>n+r[k],0):null]))});
+  return {definition:terminalDefinition,turn:world.turn,sampleLimit,models:pick(world.config,modelKeys),counts:structuredClone(row.counts),groups:structuredClone(row.current.groups),
+    totals:{E:world.stats.totals.E,M:world.stats.totals.M,biomassB:row.current.biomass.total},
+    nutrition:{resources:aggregate(world.resources,['q','E','M','G']),byResource:Object.fromEntries([...new Set(world.resources.map(r=>r.kind))].sort().map(k=>[k,aggregate(world.resources.filter(r=>r.kind===k),['q','E','M','G'])])),carcasses:aggregate(world.carcasses,['q','E','M','G'])},
+    summaries:pick(row,['producerColony','independentPlants','ryouki','primaryParasite','primaryParasiteFlow','hyperParasite','hyperParasiteFlow','persistentInformation','persistentInformationFlow']),
+    examples:{organisms:samples(organisms,basic),colonies:samples(organisms.filter(o=>S.Colony?.is(o)),o=>({...basic(o),state:structuredClone(o.colony)})),
+      independentPlants:samples(organisms.filter(o=>S.LargePlant?.is(o)),o=>({...basic(o),state:structuredClone(o.plant)})),ryouki:samples(organisms.filter(o=>S.Ryouki?.is(o)),o=>({...basic(o),state:structuredClone(o.ryouki)})),
+      primaryParasites:samples(primary,e=>({...basic(e.p),cell:e.cell,hostId:e.host?.id??null,carrierId:e.carrier?.id??null,location:e.kind,hostResistance:structuredClone(e.host?.primaryResistance??null),...pick(e.p,['stage','counter','matureAt']),state:structuredClone(e.p.primary),...pick(e.p,['hyperResistance','informationState'])})),
+      hyperParasites:samples(hyper,e=>({...basic(e.q),cell:e.cell,pId:e.p?.id??null,hostId:e.host?.id??null,carrierId:e.carrier?.id??null,location:e.location,pResistance:structuredClone(e.p?.hyperResistance??null),...pick(e.q,['maturity']),state:structuredClone(e.q.hyper),...pick(e.q,['informationState'])})),
+      informationField:samples(world.informationField||[],r=>structuredClone(r)),informationSubjects:samples(information,e=>({id:e.subject.id,species:e.subject.species,cell:e.cell,kind:e.kind,hostId:e.host?.id??null,roles:structuredClone(e.roles),state:structuredClone(e.subject.informationState),...pick(e.subject,['hyperTraces','primaryResistance'])}))}};
+ }
+ function validateTerminal(record){
+  const s=record.final?.state,last=record.observation.rows.at(-1),error=()=>{throw Error('最終状態要約の定義・欠測・計数が不正です。');};
+  if(s?.definition!==terminalDefinition||s.turn!==record.turn||s.sampleLimit!==sampleLimit||!same(s.models,pick(record.config,modelKeys))||!same(s.counts,last.counts)||!same(s.groups,last.current.groups)||!same(s.summaries,pick(last,['producerColony','independentPlants','ryouki','primaryParasite','primaryParasiteFlow','hyperParasite','hyperParasiteFlow','persistentInformation','persistentInformationFlow']))||!s.totals||!nonnegative(s.totals.E)||!nonnegative(s.totals.M)||!nonnegative(s.totals.biomassB)||s.totals.E!==record.final.stats?.totals?.E||s.totals.M!==record.final.stats?.totals?.M||s.totals.biomassB!==last.current.biomass.total)error();
+  if(!s.nutrition?.resources||!s.nutrition?.carcasses||!s.nutrition.byResource)error();
+  for(const aggregate of [s.nutrition.resources,s.nutrition.carcasses,...Object.values(s.nutrition.byResource)])if(!integer(aggregate.records)||['q','E','M','G'].some(k=>aggregate[k]!==null&&!nonnegative(aggregate[k])))error();
+  for(const key of sampleKeys){const a=s.examples?.[key];if(!a||!integer(a.total)||!integer(a.retained)||a.retained!==Math.min(sampleLimit,a.total)||a.truncated!==(a.total>sampleLimit)||!Array.isArray(a.items)||a.items.length!==a.retained||new Set(a.items.map(o=>o.id)).size!==a.retained)error();for(const o of a.items){if(typeof o.id!=='string'||!o.id||!Number.isInteger(o.cell)||o.cell<0||o.cell>=record.config.width*record.config.height)error();if(key!=='informationField'&&(typeof o.species!=='string'||!record.observation.metadata.species.some(s=>s.id===o.species)))error();}}
+  for(const [key,version]of [['colonies','colony-state/1'],['independentPlants','independent-plant-state/1'],['ryouki','ryouki-state/1'],['primaryParasites','primary-state/1'],['hyperParasites','hyper-state/1'],['informationSubjects','persistent-information-state/1']])for(const o of s.examples[key].items)if(o.state?.version!==version)error();
+  for(const key of ['organisms','colonies','independentPlants','ryouki'])for(const o of s.examples[key].items)if(!integer(o.age)||!Number.isInteger(o.phase)||o.phase<1||o.phase>4||['B','E','M','G','HP'].some(k=>!nonnegative(o[k])))error();
+  for(const key of ['primaryParasites','hyperParasites'])for(const o of s.examples[key].items)if(!integer(o.age)||!nonnegative(o.birthLife)||!nonnegative(o.B)||!nonnegative(o.E)||!Number.isInteger(o.phase)||o.phase<1||o.phase>(key==='primaryParasites'?3:4)||!Array.isArray(o.state.parents)||!o.state.last)error();
+  for(const key of ['colonies','independentPlants'])for(const o of s.examples[key].items)if(['baseB','capacityB','activity'].some(k=>!nonnegative(o.state[k]))||o.state.activity>1||!o.state.origin||!integer(o.state.establishedAt)||!o.state.last||!o.state.cumulative)error();
+  for(const o of s.examples.ryouki.items)if(typeof o.state.mutated!=='boolean'||!integer(o.state.highRun)||!integer(o.state.lowRun)||!Array.isArray(o.state.window)||o.state.window.length>32||!Array.isArray(o.state.recentCells)||o.state.recentCells.length>64)error();
+  for(const o of s.examples.primaryParasites.items)if(!o.state.adaptation?.hosts||!o.state.adaptation.routes||!o.state.adaptation.stages||!o.state.hostPreference||!['A','B','C'].includes(o.state.form)||o.state.formVersion!=='primary-form/1')error();
+  for(const o of s.examples.hyperParasites.items)if(!['egg','larva','preparation','adult'].includes(o.state.state)||!o.state.genes?.hosts||!o.state.genes.routes||!o.state.genes.stages||!o.state.genes.investment||!o.state.preference||!nonnegative(o.state.development)||!nonnegative(o.state.experience))error();
+  for(const o of s.examples.primaryParasites.items)if(o.hostResistance!==null&&o.hostResistance?.version!=='primary-resistance/1'||o.hyperResistance!==undefined&&o.hyperResistance.version!=='hyper-resistance/1')error();
+  for(const o of s.examples.hyperParasites.items)if(o.pResistance!==null&&o.pResistance?.version!=='hyper-resistance/1')error();
+  const vector=values=>Array.isArray(values)&&values.length<=9&&values.every(v=>Number.isInteger(v.axis)&&v.axis>=0&&v.axis<9&&Number.isFinite(v.value));
+  for(const o of s.examples.informationField.items)if(typeof o.originId!=='string'||typeof o.sourceId!=='string'||!nonnegative(o.amount)||!integer(o.generatedAt)||!integer(o.expires)||o.generatedAt>record.turn||o.expires<=record.turn||!Array.isArray(o.sourceRoles)||!Array.isArray(o.contents)||!o.contents.length||o.contents.length>2||['E','B','M'].some(k=>Object.hasOwn(o,k))||o.contents.some(c=>!vector(c.originalValues)||!vector(c.values)||!integer(c.experienceAt)||c.experienceAt>o.generatedAt||!nonnegative(c.halfLife)||!['normal','low','confirmed-harm'].includes(c.evidence)||!['all','layer'].includes(c.scope)||!Array.isArray(c.roles))||!o.generation?.evaluation||!['normal','low'].includes(o.generation.kind)||['pN','pL','u'].some(k=>!nonnegative(o.generation[k])||o.generation[k]>1))error();
+  for(const o of s.examples.informationSubjects.items)if(!Array.isArray(o.roles)||!Array.isArray(o.state.experience)||o.state.experience.length>16||!Array.isArray(o.state.learned)||o.state.learned.length>64||!Array.isArray(o.state.learnedPreferences)||o.state.learnedPreferences.length!==9||!o.state.progress)error();
+  if(s.examples.organisms.total!==record.final.stats.population||s.examples.primaryParasites.total!==(last.primaryParasite?.count??0)||s.examples.hyperParasites.total!==(last.hyperParasite?.count??0)||s.examples.informationField.total!==(last.persistentInformation?.field.records??0)||s.examples.informationSubjects.total!==(last.persistentInformation?.subjects??0))error();
+ }
+ function validateFullRecord(record,engine){
+  if(!record||![1,2,3].includes(record.schema)||typeof record.id!=='string'||typeof record.signature!=='string'||!integer(record.turn)||typeof record.config?.seed!=='string'||!record.final)throw Error('保存本文の形式が不正です。');
+  const generation=record?.config?.generationModel!==undefined||record?.config?.generationSettings!==undefined||record?.config?.generationResolved!==undefined;
+  if(record?.schema!==3){if(generation)throw Error('多様生成の保存形式・状態版を読み取れません。');return record;}
+  finiteData(record);
+  if(!record||record.config?.generationModel!=='diverse/1'||record.config.generationSettings?.version!=='diverse-generation-parameters/1'||record.config.generationResolved?.version!=='diverse-generation-resolved/1'||typeof record.id!=='string'||!record.id.startsWith('record:')||typeof record.signature!=='string'||!record.signature||!integer(record.turn)||!/^[0-9a-f]{64}$/.test(record.finalFingerprint)||record.hasObservations!==true||typeof record.created!=='string'||!Number.isFinite(Date.parse(record.created))||!(record.originRecordId===null||typeof record.originRecordId==='string'))throw Error('新しい保存本文の形式・生成定義が不正です。');
+  const S=engine.S;if(!S.WorldGeneration?.validateResolved)throw Error('多様生成の保存条件を検証できません。');S.WorldGeneration.validateResolved(record.config);
+  const normalized=S.validate(record.config);for(const key of ['producerSettings','largePlantSettings','ryoukiSettings','primaryParasiteSettings','hyperParasiteSettings','informationSettings'])if(!same(normalized[key],record.config[key]))throw Error('保存された全実効条件に欠測があります。');
+  const o=record.observation;if(o?.metadata?.version!==record.signature||!same(o.metadata.config,record.config)||!Array.isArray(o.rows)||o.rows.length!==record.turn+1)throw Error('保存された全期間記録の条件・署名・時点が一致しません。');
+  const definitions=['current','trophic','nutrition','producerColony','independentPlants','ryouki','primaryParasite','primaryParasiteFlow','hyperParasite','hyperParasiteFlow','persistentInformation','persistentInformationFlow','combat','information'];
+  if(Object.keys(o.definitions||{}).some(k=>!definitions.includes(k)))throw Error('保存された観測に未知の定義があります。');
+  const O=observationsAPI();if(!O?.restore)throw Error('保存された観測の検証APIを読み取れません。');O.restore(o,{validateOnly:true});
+  const ids=o.metadata.species?.map(s=>s.id);if(!ids?.length||new Set(ids).size!==ids.length)throw Error('保存された系統定義に欠測があります。');
+  for(const row of o.rows){if(ids.some(id=>!integer(row.counts?.[id]))||!integer(row.births)||!integer(row.deaths)||!integer(row.main)||!integer(row.food)||!integer(row.P)||!integer(row.Q)||!same(row.counts,row.current.counts))throw Error('全ターン原値の計数に欠測・不整合があります。');}
+  const last=o.rows.at(-1);if(!same(record.final?.counts,last.counts)||!same(record.final.current,last.current)||record.final.P!==last.P||record.final.Q!==last.Q||!record.final.stats||!record.final.ledger||!record.final.tallies||!record.final.demography)throw Error('最終集計と全ターン原値が一致しません。');
+  for(const key of ['independentPlants','ryouki','primaryParasite','primaryParasiteFlow','hyperParasite','hyperParasiteFlow','persistentInformation','persistentInformationFlow'])if(!same(record.final[key],last[key]))throw Error('最終状態の観測が一致しません。');
+  validateTerminal(record);return record;
+ }
+ function headerFor(record){
+  if(record.schema!==3){const header=structuredClone({...record,observation:undefined});delete header.observation;return header;}
+  return {...pick(record,['schema','id','signature','turn','reason','created','finalFingerprint','originRecordId','replayMatch','hasObservations']),config:pick(record.config,['seed','modeResolved','mapResolved','generationSettings',...modelKeys]),generation:{profile:record.config.generationResolved.profile,selectedAttempt:record.config.generationResolved.selectedAttempt},final:pick(record.final,['counts','main','food','P','Q'])};
+ }
  function create(storage,engine,signature){
   function list(){
    const raw=storage.getItem(KEY);if(!raw)return [];
    const rows=JSON.parse(raw);if(!Array.isArray(rows))throw Error('観測記録が破損しています。保存を中止しました。');
-   if(rows.some(r=>!r||![1,2].includes(r.schema)||typeof r.id!=='string'||typeof r.signature!=='string'||!Number.isSafeInteger(r.turn)||r.turn<0||!r.config||typeof r.config.seed!=='string'||!r.final))throw Error('読み取れない観測記録があります。上書きせず保存を中止しました。');
+   if(rows.some(r=>!r||![1,2,3].includes(r.schema)||typeof r.id!=='string'||typeof r.signature!=='string'||!Number.isSafeInteger(r.turn)||r.turn<0||!r.config||typeof r.config.seed!=='string'||!r.final))throw Error('読み取れない観測記録があります。上書きせず保存を中止しました。');
    return rows;
   }
+  const validateRecord=record=>validateFullRecord(record,engine);
+  function validateLoadedRecord(record){
+    validateRecord(record);
+    if(record.schema===2){finiteData(record);const o=record.observation;if(!o||o.rows?.length!==record.turn+1||o.metadata?.version!==record.signature||!same(o.metadata.config,record.config))throw Error('保存された全期間記録が破損しています。上書きしません。');observationsAPI().restore(o,{validateOnly:true});}
+    return record;
+  }
   function capture(world,reason,observation,originRecordId=null){
+    const generation=world.config.generationModel!==undefined||world.config.generationSettings!==undefined||world.config.generationResolved!==undefined;
+    if(generation&&!observation)throw Error('多様生成の保存には全ターン観測が必要です。');
+    if(generation)finiteData(world);
     const fingerprint=engine.fingerprint(world),record={schema:1,id:fingerprint,signature,config:structuredClone(world.config),turn:world.turn,reason,created:new Date().toISOString(),final:{counts:{...world.stats.counts},main:world.stats.main,food:world.stats.food,P:world.stats.P,Q:world.stats.Q}};
     if(observation){
       const informationModel=world.config.informationModel==='persistent/1',informationDefinition=observation.definitions?.persistentInformation,informationFlow=observation.definitions?.persistentInformationFlow;
@@ -66,20 +148,23 @@
       const current=observation.rows.at(-1).current;record.final.counts={...current.counts};record.final.P=current.groups.find(g=>g.id==='P')?.count||0;record.final.Q=current.groups.find(g=>g.id==='Q')?.count||0;
       Object.assign(record.final,{stats:structuredClone(world.stats),ledger:structuredClone(world.ledger),tallies:structuredClone(world.tallies),demography:structuredClone(world.demography),current:structuredClone(observation.rows.at(-1).current)});
     }
+    if(generation){record.schema=3;record.final.state=terminalState(world,observation.rows.at(-1),engine.S);validateRecord(record);}
     return record;
   }
   function save(record,mode='normal'){
    if(!['normal','replay-new'].includes(mode)||record.originRecordId&&mode!=='replay-new')return false;
-   if(mode==='replay-new'&&(!record.originRecordId||record.schema!==2))throw Error('新規保存する再生元がありません。');
+   if(mode==='replay-new'&&(!record.originRecordId||![2,3].includes(record.schema)))throw Error('新規保存する再生元がありません。');
+   validateRecord(record);
    const rows=list();if(rows.some(r=>r.id===record.id&&r.signature===record.signature))return false;
    if(rows.length>=LIMIT)throw Error('観測記録が100件に達しました。不要な記録を削除してから保存を再試行してください。');
    storage.setItem(KEY,JSON.stringify([record,...rows]));return true;
   }
   function remove(id){storage.setItem(KEY,JSON.stringify(list().filter(r=>r.id!==id)));}
-  function replay(id){const r=list().find(r=>r.id===id);if(!r)throw Error('観測記録が見つかりません。');const targetSignature=canonicalSignature(signature,r.config),sourceSignature=canonicalSignature(r.signature,r.config);if(sourceSignature!==targetSignature&&(!replayAliases[targetSignature]?.includes(sourceSignature)||
+  function replay(id){return replayRecord(list().find(r=>r.id===id));}
+  function replayRecord(r){if(!r)throw Error('観測記録が見つかりません。');validateLoadedRecord(r);const targetSignature=canonicalSignature(signature,r.config),sourceSignature=canonicalSignature(r.signature,r.config);if(sourceSignature!==targetSignature&&(!replayAliases[targetSignature]?.includes(sourceSignature)||
     (!["256f304140d755becefb723937fff7c85f927ea839b26af28f11bb34834f7303", "8fca29559d94f405a0022c5f86d8d15c400204ddae3f71a40a7a261b5bd2552a"].includes(sourceSignature)&&(r.config.founderCounts!==undefined||r.config.founderReport!==undefined))||
     (["fd86e3845849b8fb1432d48e6608098b5028ecf97ac7337956415c7b34ef8091", "256f304140d755becefb723937fff7c85f927ea839b26af28f11bb34834f7303", "8fca29559d94f405a0022c5f86d8d15c400204ddae3f71a40a7a261b5bd2552a", "9e94eea06cc9c1f640fecb88faaf25bc205d3f3e34b57b042a0d7c1160fef0ab"].includes(targetSignature)&&!["256f304140d755becefb723937fff7c85f927ea839b26af28f11bb34834f7303", "8fca29559d94f405a0022c5f86d8d15c400204ddae3f71a40a7a261b5bd2552a", "9e94eea06cc9c1f640fecb88faaf25bc205d3f3e34b57b042a0d7c1160fef0ab"].includes(sourceSignature)&&(r.config.producerSupport!==undefined||r.config.initialConditions!==undefined||r.config.initialReport!==undefined))))throw Error('計算版が異なるため同じ結果を再現できません。この記録は再生できません。');if(r.config.landscape==='templates'&&!r.config.mapResolved)throw Error('地形の識別情報がないため再生できません。');return structuredClone(r);}
-  return {list,capture,save,remove,replay,get:id=>structuredClone(list().find(r=>r.id===id)),limit:LIMIT};
+  return {list,capture,save,remove,replay,replayRecord,validateFullRecord:validateLoadedRecord,get(id){const record=list().find(r=>r.id===id);if(record)validateLoadedRecord(record);return structuredClone(record);},limit:LIMIT};
  }
  function persistent(storage,engine,signature,{indexedDB=globalThis.indexedDB,name='lifegame.results.v2'}={}){
    const legacy=create(storage,engine,signature);let headers=[],loaded=false,opening=null;
@@ -92,18 +177,24 @@
      request.onerror=()=>{clearTimeout(timer);reject(request.error);};request.onsuccess=()=>{clearTimeout(timer);if(expired){request.result.close();return;}const db=request.result;db.onversionchange=()=>{db.close();opening=null;};resolve(db);};
    }).catch(e=>{opening=null;throw e;});return opening;}
    const requestValue=request=>new Promise((resolve,reject)=>{request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);});
-   async function ready(){const db=await open();headers=await requestValue(db.transaction('headers').objectStore('headers').getAll());loaded=true;cached.list();}
+   async function ready(){
+     const db=await open(),next=await requestValue(db.transaction('headers').objectStore('headers').getAll());
+     create({getItem:()=>JSON.stringify([...next,...legacy.list()])},engine,signature).list();
+     for(const header of next)if(header.schema===3){finiteData(header);if(header.config?.generationModel!=='diverse/1'||header.config.generationSettings?.version!=='diverse-generation-parameters/1'||header.config.generationResolved!==undefined||header.final?.state!==undefined||header.observation!==undefined||!Object.values(header.final?.counts||{}).every(integer)||typeof header.generation?.profile!=='string'||!integer(header.generation?.selectedAttempt))throw Error('保存された一覧の形式が不正です。');}
+     headers=next;loaded=true;
+   }
    let readyPromise=ready();readyPromise.catch(()=>{});
    const api={capture:legacy.capture,limit:LIMIT,get ready(){return readyPromise;},retry(){readyPromise=ready();readyPromise.catch(()=>{});return readyPromise;},
      list(){if(!loaded)throw Error('図鑑を読み込み中です。');return cached.list().sort((a,b)=>b.created.localeCompare(a.created)||a.id.localeCompare(b.id));},
-     replay:id=>cached.replay(id),
-     async get(id){await api.ready;let record=legacy.get(id);if(!record){const db=await open();record=await requestValue(db.transaction('records').objectStore('records').get(id));}if(!record)throw Error('観測記録が見つかりません。');if(record.schema===2&&(!record.observation||record.observation.rows?.length!==record.turn+1||record.observation.metadata?.version!==record.signature||JSON.stringify(record.observation.metadata.config)!==JSON.stringify(record.config)))throw Error('保存された全期間記録が破損しています。上書きしません。');return record;},
+     replay:id=>cached.replay(id),replayRecord:legacy.replayRecord,validateFullRecord:legacy.validateFullRecord,
+     async get(id){await api.ready;let record=legacy.get(id);if(!record){const db=await open();record=await requestValue(db.transaction('records').objectStore('records').get(id));}if(!record)throw Error('観測記録が見つかりません。');if(record.id!==id)throw Error('保存本文のIDが一致しません。');legacy.validateFullRecord(record);if(record.schema===3){const header=headers.find(h=>h.id===id);if(header&&!same(header,headerFor(record)))throw Error('保存本文と一覧の条件・署名・最終結果が一致しません。');}if(record.schema===2&&(!record.observation||record.observation.rows?.length!==record.turn+1||record.observation.metadata?.version!==record.signature||JSON.stringify(record.observation.metadata.config)!==JSON.stringify(record.config)))throw Error('保存された全期間記録が破損しています。上書きしません。');return record;},
      async save(record,mode='normal'){
        await api.ready;
        if(!['normal','replay-new'].includes(mode)||record.originRecordId&&mode!=='replay-new')return false;
-       if(mode==='replay-new'&&(!record.originRecordId||record.schema!==2))throw Error('新規保存する再生元がありません。');
-       if(record.schema!==2||!record.observation||record.finalFingerprint?.length!==64)throw Error('保存する全期間記録を読み取れません。');
-       const oldCount=legacy.list().length,db=await open(),header=structuredClone({...record,observation:undefined});delete header.observation;
+       if(mode==='replay-new'&&(!record.originRecordId||![2,3].includes(record.schema)))throw Error('新規保存する再生元がありません。');
+       if(![2,3].includes(record.schema)||!record.observation||record.finalFingerprint?.length!==64)throw Error('保存する全期間記録を読み取れません。');
+       legacy.validateFullRecord(record);
+       const oldCount=legacy.list().length,db=await open(),header=headerFor(record);
        const saved=await new Promise((resolve,reject)=>{const tx=db.transaction(['headers','records'],'readwrite'),hs=tx.objectStore('headers');let duplicate=false,limit=false,failure=null;
          const existing=hs.get(record.id);existing.onsuccess=()=>{try{if(existing.result){duplicate=true;return;}const count=hs.count();count.onsuccess=()=>{try{if(count.result+oldCount>=LIMIT){limit=true;tx.abort();return;}hs.put(header);tx.objectStore('records').put(record);}catch(e){failure=e;tx.abort();}};}catch(e){failure=e;tx.abort();}};
          tx.oncomplete=()=>resolve(!duplicate);tx.onabort=()=>reject(Error(limit?'観測記録が100件に達しました。不要な記録を削除してから再試行してください。':(failure||tx.error)?.name==='QuotaExceededError'?'保存容量が不足しています。結果JSONを書き出すか、不要な記録を削除して再試行してください。':'図鑑に保存できませんでした。記録を保護し、同じ結果を再試行できます。'));tx.onerror=()=>{};

@@ -37,6 +37,7 @@
     state=new Proxy({}, {get:(_,k)=>k==='D'?data:active.S[k]}),
     engine=new Proxy({}, {get:(_,k)=>{
       if(k==='S')return state;
+      if(k==='activate')return config=>{active=choose(config?.advantageSettings);};
       if(k==='create')return config=>{const next=choose(config.advantageSettings),w=next.create(config);active=next;return w;};
       const value=active[k];
       if(typeof value!=='function')return value;

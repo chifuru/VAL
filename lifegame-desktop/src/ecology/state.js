@@ -1405,8 +1405,157 @@ return {settings,attach,region,level,factor,begin,finish};
       if(Object.keys(a.parasites).length&&c.ecologyRevision!=="observation/4.1")throw Error("SETTINGS_INVALID: 寄生群体の初期数は観察モデル専用です");
       c.founderCounts=structuredClone(a);
     }
+    WorldGeneration.validateConfig(c);
     return c;
   }
+  // Initial-condition resolution is opt-in and never executes an ecological turn.
+  const WorldGeneration = (() => {
+    const version="diverse-generation/1", resolvedVersion="diverse-generation-resolved/1", coefficientsVersion="implementation-start/2.6";
+    const profiles=Object.freeze([
+      {id:"standard",name:"標準"},{id:"high-production",name:"高生産"},{id:"resource-localized",name:"資源局在"},
+      {id:"water-focused",name:"水辺中心"},{id:"land-focused",name:"陸域中心"},{id:"information-strong",name:"情報作用強め"},
+    ].map(Object.freeze));
+    const paths=Object.freeze(["mapId","initial",...['land','water'].flatMap(r=>['occupancy','capacityB','regrowthB','initialFraction'].map(k=>'producerSettings.'+r+'.'+k)),
+      "initialConditions.distribution","initialConditions.density.fungus","initialConditions.density.prey","initialConditions.resources.mineral","initialConditions.resources.droplet",
+      "largePlantSettings.autoDensity.land","largePlantSettings.autoDensity.water","largePlantSettings.initial.phase","largePlantSettings.initial.ageFraction","largePlantSettings.initial.energyFraction","informationSettings.influence"]);
+    const enabled=c=>(c.config??c).generationModel==="diverse/1";
+    const fail=message=>{throw Error("GENERATION_INVALID: "+message);};
+    const object=x=>x&&typeof x==="object"&&!Array.isArray(x);
+    const get=(o,path)=>path.split('.').reduce((a,k)=>a?.[k],o);
+    function set(o,path,value){const parts=path.split('.'),key=parts.pop();let at=o;for(const p of parts)at=at[p]??={};at[key]=structuredClone(value);}
+    function normalize(input={}){
+      if(!object(input)||Object.keys(input).some(k=>!['version','mode','profile','locks'].includes(k))||(input.version!==undefined&&input.version!=="diverse-generation-parameters/1"))fail("生成設定の版/項目");
+      const out={version:"diverse-generation-parameters/1",mode:input.mode??"auto",profile:input.profile??"auto",locks:input.locks??[]};
+      if(!['auto','manual'].includes(out.mode)||!['auto',...profiles.map(p=>p.id)].includes(out.profile)||!Array.isArray(out.locks)||out.locks.some(p=>!paths.includes(p)))fail("生成方式/プロファイル/固定項目");
+      out.locks=[...new Set(out.locks)].sort();return out;
+    }
+    function validateConfig(c){
+      if(c.generationModel!==undefined&&c.generationModel!=="diverse/1")fail("生成モデルの版");
+      if(!enabled(c)){if(c.generationSettings!==undefined||c.generationResolved!==undefined)fail("生成モデルの指定が必要です");return;}
+      c.generationSettings=normalize(c.generationSettings);
+      if(c.generationSettings.mode==="auto"&&c.mapId==="auto"&&c.generationSettings.locks.includes('mapId'))fail("地形おまかせは固定できません");
+    }
+    function values(c){return Object.fromEntries(paths.filter(p=>get(c,p)!==undefined).map(p=>[p,structuredClone(get(c,p))]));}
+    function configHash(c){const copy=structuredClone(c);delete copy.generationResolved;delete copy.advantageSettings;return H.sha256(H.stable(copy));}
+    function digest(value){return H.sha256(H.stable(value));}
+    function finite(value){if(typeof value==='number'&&!Number.isFinite(value))fail("非有限値");if(Array.isArray(value))value.forEach(finite);else if(object(value))Object.values(value).forEach(finite);}
+    function validateResolved(c){
+      if(!enabled(c))fail("解決済み条件には生成モデルが必要です");
+      const a=c.generationResolved,s=normalize(c.generationSettings);
+      if(!object(a)||a.version!==resolvedVersion||a.coefficientsVersion!==coefficientsVersion||!profiles.some(p=>p.id===a.profile)||H.stable(a.settings)!==H.stable(s))fail("解決済み条件の版/方式");
+      finite(a);
+      if(!Array.isArray(a.locks)||a.locks.some(p=>!paths.includes(p))||!Array.isArray(a.automatic)||a.automatic.some(p=>!paths.includes(p)||a.locks.includes(p))||!object(a.base)||!object(a.effective)||H.stable(a.effective)!==H.stable(values(c)))fail("解決済み自動/固定/実効値");
+      if(Object.keys(a.base).some(p=>!paths.includes(p))||Object.keys(a.effective).some(p=>!Object.hasOwn(a.base,p))||s.locks.some(p=>!a.locks.includes(p)&&!(s.mode==='manual'&&p==='mapId'&&a.base.mapId==='auto'))||
+        (s.mode==='manual'&&a.profile!=='standard')||(s.mode==='auto'&&s.profile!=='auto'&&s.profile!==a.profile))fail("解決済み指定条件");
+      const reconstructed=structuredClone(c);for(const [path,value]of Object.entries(a.base))set(reconstructed,path,value);
+      const expected=profileValues(reconstructed,a.profile,new Set(a.locks));
+      for(const [path,value]of Object.entries(a.effective))if(!(path==='mapId'&&a.base.mapId==='auto'&&!a.locks.includes(path))&&H.stable(value)!==H.stable(get(expected,path)))fail("保存倍率/固定値の不一致: "+path);
+      if(!Array.isArray(a.candidates)||!a.candidates.length||a.candidates.length>8||!Number.isSafeInteger(a.selectedAttempt)||a.selectedAttempt<0||a.selectedAttempt>=a.candidates.length)fail("有限候補の記録");
+      if(a.candidates.some((v,i)=>!object(v)||v.attempt!==i||v.profile!==a.profile||typeof v.accepted!=="boolean"||!Array.isArray(v.reasons)||v.reasons.some(x=>typeof x!=="string"))||a.candidates.filter(v=>v.accepted).length!==1||!a.candidates[a.selectedAttempt].accepted||a.selectedAttempt!==a.candidates.length-1)fail("候補採否の整合");
+      if(!object(a.actual)||a.actual.version!=="diverse-initial-placement/1"||typeof a.actual.hash!=="string"||!Array.isArray(a.actual.placements)||!object(a.actual.bySpecies)||a.configHash!==configHash(c))fail("初期実配置/実効条件の整合");
+      const copy=structuredClone(a);delete copy.resolutionHash;if(a.resolutionHash!==digest(copy))fail("解決済み条件の指紋");
+      return a;
+    }
+    function terrainStats(tiles){const usable=tiles.filter(t=>!t.blocked),water=usable.filter(t=>['shallow','deep'].includes(t.terrain)).length;return {usable:usable.length,water,land:usable.length-water,waterFraction:usable.length?H.round(water/usable.length):0,landFraction:usable.length?H.round((usable.length-water)/usable.length):0};}
+    function compatible(profile,t){return profile!=="water-focused"&&profile!=="land-focused"||profile==="water-focused"&&t.waterFraction>=.35||profile==="land-focused"&&t.landFraction>=.70;}
+    function staticChecks(w){
+      // One initial spatial pass, no simulated future and no all-pairs history.
+      const components=new Int32Array(w.tiles.length).fill(-1),groups=[];
+      for(let start=0;start<w.tiles.length;start++)if(!w.tiles[start].blocked&&components[start]<0){
+        const id=groups.length,queue=[start],group={cells:0,organisms:0,producers:0,consumers:0,organicStocks:0,mineral:0,droplet:0};components[start]=id;groups.push(group);
+        for(let head=0;head<queue.length;head++){const cell=queue[head];group.cells++;const x=cell%w.config.width,y=Math.floor(cell/w.config.width);
+          for(const [dx,dy]of DIRS){const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=w.config.width||ny>=w.config.height)continue;const other=ny*w.config.width+nx;if(components[other]<0&&!w.tiles[other].blocked&&oneStep(w,cell,other)){components[other]=id;queue.push(other);}}
+        }
+      }
+      for(const o of w.organisms){const group=groups[components[o.cell]];if(!group)throw Error("PLACEMENT_SHORTAGE: 通行不能セルへの初期配置");group.organisms++;if(spec(o).group==='plant')group.producers++;else group.consumers++;if(o.slot==='food'&&(o.E>0||edibleB(o)>0))group.organicStocks++;}
+      for(const a of w.resources){const group=groups[components[a.cell]];if(group&&['mineral','droplet'].includes(a.kind))group[a.kind]++;}
+      const habitats={};for(const s of activeSpecies(w).filter(s=>['plant','fungus','prey'].includes(s.group)))habitats[s.id]={eligible:w.tiles.reduce((n,_,p)=>n+Number(validHabitat(w,s,p)),0),requested:w.config.founderCounts?.species[s.id]??null,actual:w.organisms.filter(o=>o.species===s.id).length};
+      const resourcePaths={};for(const o of w.organisms.filter(o=>o.slot==='main')){
+        const g=groups[components[o.cell]],item=resourcePaths[o.species]??={subjects:0,organicReachable:0,mineralReachable:0,missingInitialOrganic:0,missingInitialMineral:0};item.subjects++;
+        if(g.organicStocks>0)item.organicReachable++;else item.missingInitialOrganic++;
+        if(g.mineral>0)item.mineralReachable++;else item.missingInitialMineral++;
+      }
+      const hosts={};if(PrimaryParasite.enabled(w))for(const [id,table]of Object.entries(PrimaryParasite.hostTable)){
+        const stages=Object.fromEntries(Object.entries(table).map(([stage,ids])=>[stage,w.organisms.filter(o=>ids.includes(o.species)).length])),ps=PrimaryParasite.entries(w).filter(e=>e.p.species===id);
+        hosts[id]={...stages,actualP:ps.length,terminalP:ps.filter(e=>e.p.stage==='terminal').length,currentQWindows:ps.filter(e=>e.kind==='host'&&e.p.stage==='terminal'&&Number.isInteger(e.p.matureAt)&&0-e.p.matureAt>=1&&0-e.p.matureAt<=3).length,
+          futureWindowCandidates:ps.filter(e=>e.kind==='host'&&e.p.stage==='terminal'&&(e.p.matureAt===undefined||e.p.matureAt+3>=0)).length,
+          reasons:[...(!stages.first?['第一宿主は初期不在']:[]),...(!stages.middle?['中間宿主は初期不在']:[]),...(!stages.terminal?['終宿主は初期不在']:[])]};
+      }
+      return {definition:'diverse-initial-static-checks/1',futureTurns:0,status:'initial-placement-only',resourcePathMeaning:'同じ通行連結成分の初期在庫。将来の採食/到達/成熟/生存の保証ではありません。固定0と自動寄生不足を救済しません。',capacity:{mainRequested:w.config.initial,mainSlots:groups.reduce((n,g)=>n+g.cells,0),foodOccupied:w.organisms.filter(o=>o.slot==='food').length},habitats,components:groups,resourcePaths,hosts,
+        parasiteShortage:{P:w.config.primaryParasiteInitial?.shortage??null,Q:w.config.hyperParasiteInitial?.shortage??null}};
+    }
+    function actual(w){
+      const placements=w.organisms.map(o=>({id:o.id,species:o.species,cell:o.cell,slot:o.slot,phase:o.phase,age:o.age,sex:o.sex??null}));
+      if(PrimaryParasite.enabled(w))for(const e of PrimaryParasite.entries(w))placements.push({id:e.p.id,species:e.p.species,cell:e.cell,hostId:e.p.hostId,phase:e.p.phase,age:e.p.age,stage:e.p.stage});
+      else for(const h of w.organisms)if(h.infection)placements.push({id:h.infection.id,species:h.infection.species,cell:h.cell,hostId:h.id,stage:h.infection.stage});
+      if(HyperParasite.enabled(w))for(const e of HyperParasite.entries(w))placements.push({id:e.q.id,species:e.q.species,cell:e.cell,hostId:e.q.hostId,phase:e.q.phase,age:e.q.age,state:e.q.hyper.state});
+      else{for(const h of w.organisms)if(h.infection?.q)placements.push({id:h.infection.q.id,species:"hyperparasite",cell:h.cell,hostId:h.infection.id,phase:h.infection.q.phase});for(const q of w.searchQ||[])placements.push({id:q.id,species:"hyperparasite",cell:q.cell,phase:q.phase});}
+      for(const placement of placements)for(const key of Object.keys(placement))if(placement[key]===undefined)delete placement[key];
+      placements.sort((a,b)=>H.compare(a.id,b.id));
+      const bySpecies={};for(const p of placements)bySpecies[p.species]=(bySpecies[p.species]||0)+1;
+      return {version:"diverse-initial-placement/1",bySpecies,placements,terrain:{...terrainStats(w.tiles),map:w.config.mapResolved??null},resources:Object.fromEntries(['mineral','droplet','info'].map(k=>[k,w.resources.filter(a=>a.kind===k).length])),
+        parasites:{P:w.config.primaryParasiteInitial??null,Q:w.config.hyperParasiteInitial??null},warnings:[...w.warnings],reserves:totals(w),
+        hash:digest({tiles:w.tiles,organisms:w.organisms,resources:w.resources,carcasses:w.carcasses,pending:w.pending,primaryInocula:w.primaryInocula??null,hyperInocula:w.hyperInocula??null,searchQ:w.searchQ??null,informationField:w.informationField??null,ledger:w.ledger})};
+    }
+    function profileValues(base,profile,locks){
+      const c=structuredClone(base),change=(p,m)=>{if(!locks.has(p)&&typeof get(c,p)==='number')set(c,p,H.round(get(base,p)*m));};
+      if(profile==='high-production'){for(const r of ['land','water']){change('producerSettings.'+r+'.capacityB',1.5);change('producerSettings.'+r+'.regrowthB',1.25);}if(!locks.has('initial')&&c.enabled.main)c.initial=Math.max(4,Math.round(base.initial*1.2/4)*4);}
+      if(profile==='resource-localized'){for(const r of ['land','water']){change('producerSettings.'+r+'.occupancy',.6);change('producerSettings.'+r+'.capacityB',1.5);}if(!locks.has('initialConditions.distribution'))c.initialConditions.distribution='cluster';}
+      if(profile==='water-focused')change('producerSettings.water.capacityB',1.25);
+      if(profile==='land-focused')change('producerSettings.land.capacityB',1.25);
+      if(profile==='information-strong')change('informationSettings.influence',1.25);
+      return c;
+    }
+    function create(input){
+      if(input.generationResolved!==undefined){
+        const saved=validateResolved(input),request=structuredClone(input);delete request.generationResolved;
+        const w=createBase(request);if(H.stable(actual(w))!==H.stable(saved.actual)||configHash(w.config)!==saved.configHash)fail("保存した初期実配置を再現できません");
+        w.config.generationResolved=structuredClone(saved);return w;
+      }
+      const original=structuredClone(input),settings=normalize(input.generationSettings);
+      // A preset is a fixed contract. Explicit disabled groups cannot be silently enabled.
+      if(input.observationMode&&input.observationMode!=='custom'){
+        const preset=observationPreset(input.observationMode,input.width??80,input.height??56);
+        if(Object.entries(input.enabled??{}).some(([k,v])=>v!==preset.enabled[k]))fail("固定観察モードと生物群の指定が矛盾しています");
+        for(const path of ['initial','mapId']){
+          const value=get(input,path),explicitLock=settings.locks.includes(path),manualLock=settings.mode==='manual'&&!(path==='mapId'&&value==='auto');
+          if(value!==undefined&&(explicitLock||manualLock)&&H.stable(value)!==H.stable(preset[path]))fail("固定観察モードと固定項目が矛盾しています: "+path);
+        }
+      }
+      const base=validate({...input,generationSettings:settings});
+      if(!base.initialConditions)base.initialConditions={version:1,density:{plant:.35*(base.initialFoodScale||1),fungus:.03*(base.initialFoodScale||1),prey:.1*(base.initialFoodScale||1)},resources:{mineral:1,droplet:1,info:PersistentInformation.enabled({config:base})?0:1},distribution:'habitat'};
+      const locks=new Set(settings.mode==='manual'?paths.filter(p=>get(base,p)!==undefined&&!(p==='mapId'&&base.mapId==='auto')):settings.locks);
+      for(const p of paths)if(get(original,p)===0)locks.add(p);
+      if(base.observationMode&&base.observationMode!=='custom')for(const p of ['mapId','initial'])locks.add(p);
+      // A specific map is always a manual choice, even without a UI checkbox.
+      if(base.mapId&&base.mapId!=='auto')locks.add('mapId');
+      const fixedMap=base.landscape==='templates'&&(locks.has('mapId')||base.mapResolved),fixedTerrain=fixedMap?Landscape.templates.resolve(base,D,H):null;
+      let eligible=profiles.filter(p=>!fixedTerrain||compatible(p.id,terrainStats(fixedTerrain.tiles)));
+      const profile=settings.mode==='manual'?'standard':settings.profile==='auto'?eligible[Math.floor(H.random(base.seed,'generation/profile')*eligible.length)].id:settings.profile;
+      if(!eligible.some(p=>p.id===profile)&&settings.mode!=='manual')fail("固定地形がプロファイルの陸水条件を満たしません");
+      const templateOrder=Landscape.templates.list().map(m=>m.id).sort((a,b)=>H.hash(base.terrainSeed??base.seed,'generation/map',0,a)-H.hash(base.terrainSeed??base.seed,'generation/map',0,b)||H.compare(a,b));
+      const candidates=[];
+      for(let attempt=0;attempt<8;attempt++){
+        const c=profileValues(base,profile,locks),entry={attempt,profile,mapId:c.mapId??null,terrainSeed:c.terrainSeed??null,accepted:false,reasons:[]};c.generationSettings=settings;
+        if(c.landscape==='templates'&&!fixedMap){c.mapId=templateOrder[attempt%templateOrder.length];c.terrainSeed=(base.terrainSeed??base.seed)+(attempt>=templateOrder.length?'::generation:'+attempt:'');delete c.mapResolved;entry.mapId=c.mapId;entry.terrainSeed=c.terrainSeed;}
+        candidates.push(entry);
+        try{
+          if(c.landscape==='templates'){
+            const map=fixedTerrain??Landscape.templates.resolve(c,D,H);entry.terrain=terrainStats(map.tiles);entry.map=map.metadata;
+            if(!compatible(profile,entry.terrain))throw Error("PROFILE_TERRAIN: 必要な陸水比率を満たしません");
+          }
+          const w=createBase(c),terrain=terrainStats(w.tiles);entry.terrain=terrain;
+          if(!compatible(profile,terrain))throw Error("PROFILE_TERRAIN: 必要な陸水比率を満たしません");
+          const initial=actual(w);entry.checks=staticChecks(w);entry.accepted=true;entry.warnings=[...w.warnings];
+          const effective=values(w.config),resolution={version:resolvedVersion,coefficientsVersion,settings:structuredClone(settings),profile,locks:[...locks].sort(),automatic:paths.filter(p=>get(base,p)!==undefined&&!locks.has(p)),base:values(base),effective,
+            protected:['enabled','selected','weights','lineages','placement','distribution','guarantee','producerSupport','advantageSettings','founderCounts','observationMode'].filter(k=>base[k]!==undefined),candidates,selectedAttempt:attempt,actual:initial,configHash:configHash(w.config)};
+          resolution.resolutionHash=digest(resolution);w.config.generationResolved=resolution;return w;
+        }catch(error){entry.reasons.push(String(error.message));if(!/^(MAP_INVALID|PLACEMENT_SHORTAGE|GUARANTEE_FAILED|PROFILE_TERRAIN):/.test(error.message)||fixedMap||base.landscape!=='templates')break;}
+      }
+      const error=Error("GENERATION_FAILED: 最大8候補以内で初期条件が成立しません（"+candidates.map(a=>a.reasons.join('、')).join(' / ')+"）");error.generationCandidates=candidates;throw error;
+    }
+    return {version,profiles,paths,normalize,enabled,validateConfig,validateResolved,create};
+  })();
   const ageFactors = Object.freeze({
     juvenile:Object.freeze({attack:.65,defense:.75,hp:.70,move:1.10,maintenance:.80,healing:1.10,birth:1,light:.65}),
     adult:Object.freeze({attack:1,defense:1,hp:1,move:1,maintenance:1,healing:1,birth:1,light:1}),
@@ -1631,6 +1780,13 @@ return {settings,attach,region,level,factor,begin,finish};
     w.ledger.sinks = H.round(w.ledger.sinks + e);
   }
   function create(input = {}) {
+    if(input.generationModel!==undefined||input.generationSettings!==undefined||input.generationResolved!==undefined){
+      if(input.generationModel!=="diverse/1")throw Error("GENERATION_INVALID: 生成モデルの版/指定");
+      return WorldGeneration.create(input);
+    }
+    return createBase(input);
+  }
+  function createBase(input = {}) {
     const config = validate(input),
       w = {
         version: H.VERSION,
@@ -1883,6 +2039,7 @@ return {settings,attach,region,level,factor,begin,finish};
             cohort =
               naturalCohort(true) ||
               naturalCohort(false) ||
+              (WorldGeneration.enabled(config)?(()=>{throw Error("PLACEMENT_SHORTAGE: 連結した4体集団の主枠");})():null) ||
               candidates
                 .filter((c) => !mainTaken.has(c.p))
                 .slice(0, 4)
@@ -2203,6 +2360,7 @@ return {settings,attach,region,level,factor,begin,finish};
     PrimaryParasite,
     HyperParasite,
     PersistentInformation,
+    WorldGeneration,
     activeSpecies,
     activeMain,
     initialRank,

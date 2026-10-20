@@ -41,6 +41,11 @@
           <button id="open-results-setup" type="button" class="secondary">保存した結果を見る</button>
           <form id="setup">
             <p id="setup-message" class="note" role="status" aria-live="polite" tabindex="-1" hidden></p>
+            <div class="setup-main" id="generation-settings">
+              <label>条件の作り方<select id="generation-mode"><option value="auto">おまかせ・多様生成</option><option value="manual">条件を指定</option></select></label>
+              <label>観察条件の傾向<select id="generation-profile"><option value="auto">おまかせ</option></select></label>
+            </div>
+            <p id="generation-help" class="note">関連する条件を組で選びます。値を変更すると固定になり、0・供給OFF・指定系統は保持します。</p>
             <label class="observation-mode-label">観察モード<select id="observation-mode"><option value="custom">自由設定</option><option value="river-settlement">河畔・定着観察（高生産・初期集団多め）</option><option value="lake-foodweb">湖沼・食物網観察（高生産・初期集団多め）</option></select></label>
           <fieldset id="advantage-settings"><legend>追加の生存優遇</legend>
             <label class="check"><input type="checkbox" id="advantage-producer" checked>生産者を強くする</label>
@@ -374,7 +379,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.39 · 外部通信なし</span>
+        ><span>v4.2.40 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">
@@ -430,14 +435,6 @@ ECOSYSTEM-2026</textarea
     <script src="ecology/transport.js"></script>
     <script src="ecology/compute-client.js"></script>
     <script src="ecology/observations.js"></script>
-    <dialog id="world-confirm" aria-labelledby="world-confirm-title">
-      <h2 id="world-confirm-title">新しい世界へ進みますか？</h2>
-      <p id="world-confirm-text"></p>
-      <form method="dialog" class="transport">
-        <button value="cancel" class="secondary" autofocus>キャンセル</button>
-        <button value="proceed" class="primary">続行する</button>
-      </form>
-    </dialog>
     <script src="ecology/export-client.js"></script>
     <script src="app.js"></script>
   </body>

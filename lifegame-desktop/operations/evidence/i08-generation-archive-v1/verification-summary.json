@@ -1,0 +1,118 @@
+{
+  "status": "passed-with-deferred-scope",
+  "version": "4.2.40",
+  "baseline": "431fc1a / 4.2.39",
+  "dateUTC": "2026-10-20T16:36:29.735469+00:00",
+  "biologicalSignature": "2789e4711fd87f4824e11ff10762fde9a26880fa322db3a1bfbeb808b094d85d",
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "unitFullRun": {
+    "status": "passed",
+    "command": "node --test --test-concurrency=2 tests/*.test.cjs",
+    "files": 75,
+    "countMeaning": "file-level runner entries; not75 individual assertions",
+    "sourceSignature": "2789e4711fd87f4824e11ff10762fde9a26880fa322db3a1bfbeb808b094d85d",
+    "log": "model/unit.log",
+    "tests": 75,
+    "pass": 75,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 263718.817279
+  },
+  "newDedicated": {
+    "generationBoundaryCases": 15,
+    "archiveCases": 9,
+    "workerCases": 1,
+    "totalCases": 25,
+    "allPassedInFinalFullRun": true,
+    "files": [
+      "tests/diverse-generation.test.cjs",
+      "tests/generation-archive.test.cjs",
+      "tests/diverse-generation-flow.test.cjs"
+    ]
+  },
+  "legacyComparison": {
+    "cases": 56,
+    "states": 392,
+    "worldFingerprintAndCSVEqual": true,
+    "models": [
+      "legacy",
+      "colony",
+      "independent plants",
+      "Ryouki",
+      "primary P",
+      "hyper Q",
+      "persistent information"
+    ],
+    "report": "model/paths.json"
+  },
+  "newProfileComparison": {
+    "cases": 8,
+    "states": 40,
+    "staticDynamicWorldFingerprintAndCSVEqual": true,
+    "report": "model/paths.json"
+  },
+  "initialGenerationMatrix": {
+    "cases": 3,
+    "states": 11,
+    "reports": [
+      {
+        "id": "small-standard",
+        "creationMs": 235.57288699999998,
+        "turnsSimulated": 8,
+        "allInvariantsPassed": true,
+        "replayInitialExact": true,
+        "profile": "standard",
+        "candidates": 1
+      },
+      {
+        "id": "medium-manual",
+        "creationMs": 629.779442,
+        "turnsSimulated": 0,
+        "allInvariantsPassed": true,
+        "replayInitialExact": true,
+        "profile": "standard",
+        "candidates": 1
+      },
+      {
+        "id": "large-water",
+        "creationMs": 2950.388444,
+        "turnsSimulated": 0,
+        "allInvariantsPassed": true,
+        "replayInitialExact": true,
+        "profile": "water-focused",
+        "candidates": 6
+      }
+    ],
+    "scope": "Three predeclared initial-generation conditions; medium/large T0 only, small8T coupling; no500T, survival, preparation deadline or device-performance certification",
+    "report": "model/initial-matrix.json"
+  },
+  "ui": {
+    "checks": 49,
+    "errors": [],
+    "report": "ui/ui-report.json",
+    "sourceSignature": "2789e4711fd87f4824e11ff10762fde9a26880fa322db3a1bfbeb808b094d85d",
+    "scope": "Linux Chromium; automatic/fixed/zero inputs, repeated-profile base values, schema3 lightweight list and actual IndexedDB body, bounded terminal examples, full-turn analysis, resolved exact replay and child IDs, missing/corrupt body rejection, quota rollback/rescue/retry, T0 failure isolation and old schema2 configuration preservation",
+    "screenshots": 3
+  },
+  "structure": {
+    "report": "final-structure-check.json",
+    "nodes": 61,
+    "updatedNodes": 9,
+    "sourceHashes": 46,
+    "references": 3718,
+    "coreABFormalStateAndPriorImagesUnchanged": true
+  },
+  "limits": [
+    "Static candidates inspect only initial placement: no future500T screening, no automatic host rescue, no guarantee of future lifecycle or survival.",
+    "Final individual examples are bounded to4 per category with totals/omissions; all-turn aggregates remain complete, not full individual histories.",
+    "Digests detect configuration mismatch and reproduce generation; they are not authentication. Persistent replay requires validated full body, not only list headers.",
+    "Natural P/Q long-term circulation remains unmet from I07 and is deferred to I11; I08 does not certify500T/R1-R6, emergence or whole-device performance.",
+    "No renderer/art changes or final whole UI approval; I09/I10 remain. No new Windows/ZIP; distributed4.2.32 unchanged."
+  ],
+  "next": "I09 observation UI/graphs/controls"
+}

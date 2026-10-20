@@ -152,8 +152,11 @@
     )
     .join("");
   $("size").addEventListener("change", () => {
+    if($("observation-mode").value==='custom'&&
+      (generationLocks.has('initial')||$('generation-mode').value==='manual'))return;
     const initial={ "40,28": 80, "80,56": 320, "160,112": 1280 }[$("size").value];
     $("initial").value=Math.max(initial,$("lineages").value==='all'?(20+(D.ryouki?1:0))*4:0);
+    generationBase.initial=Number($("initial").value);
   });
   $("lineages").addEventListener("change", () => {
     $("lineage-options").hidden = $("lineages").value !== "manual";
@@ -177,6 +180,58 @@
     for(const s of founderSpecies){const input=$("founder-"+s.id);if(input.value!=="")result[["P","Q"].includes(s.group)?"parasites":"species"][s.id]=Number(input.value);}
     return Object.keys(result.species).length||Object.keys(result.parasites).length?{founderCounts:result}:{};
   }
+  const generationFields={
+    mapId:'map-id',initial:'initial',
+    'producerSettings.land.occupancy':'density-plant','producerSettings.water.occupancy':'density-plant-water',
+    'producerSettings.land.capacityB':'colony-land-capacity','producerSettings.water.capacityB':'colony-water-capacity',
+    'producerSettings.land.initialFraction':'colony-land-initial','producerSettings.water.initialFraction':'colony-water-initial',
+    'producerSettings.land.regrowthB':'colony-land-regrowth','producerSettings.water.regrowthB':'colony-water-regrowth',
+    'initialConditions.density.fungus':'density-fungus','initialConditions.density.prey':'density-prey',
+    'initialConditions.resources.mineral':'resource-mineral','initialConditions.resources.droplet':'resource-droplet',
+    'initialConditions.distribution':'lower-distribution',
+    'largePlantSettings.autoDensity.land':'large-plant-land-density','largePlantSettings.autoDensity.water':'large-plant-water-density',
+    'largePlantSettings.initial.phase':'large-plant-phase','largePlantSettings.initial.ageFraction':'large-plant-age',
+    'largePlantSettings.initial.energyFraction':'large-plant-energy','informationSettings.influence':'information-influence',
+  };
+  const generationLocks=new Set();
+  let generationBase={};
+  function syncGenerationFields(){
+    const automatic=$('generation-mode').value==='auto',preset=$('observation-mode').value!=='custom';
+    $('generation-profile').disabled=!automatic;
+    for(const [path,id]of Object.entries(generationFields)){
+      const check=document.querySelector('[data-generation-lock="'+path+'"]'),input=$(id);
+      if(!check)continue;
+      const imposed=preset&&['mapId','initial'].includes(path);
+      check.checked=!automatic||imposed||generationLocks.has(path);
+      check.disabled=!automatic||imposed||(path==='mapId'&&input.value==='auto');
+      check.closest('.generation-lock-control').hidden=!automatic;
+    }
+    const profileNotes={'standard':'基準の条件。','high-production':'容量1.5倍・再生上限1.25倍・初期主生物数1.2倍。','resource-localized':'占有率0.6倍・容量1.5倍・集落分布。','water-focused':'水域35%以上の地形・水の容量1.25倍。','land-focused':'陸域70%以上の地形・陸の容量1.25倍。','information-strong':'情報影響度1.25倍。出現条件と期限は変えません。'};
+    $('generation-profile').title=profileNotes[$('generation-profile').value]||'6つの傾向から、固定した条件に適合するものを選びます。';
+    $('generation-help').textContent=automatic?($('generation-profile').value==='auto'?'6つの傾向から関連する条件を組で選びます。':profileNotes[$('generation-profile').value]+' 自動項目だけへ適用します。')+' 値の変更は固定になり、0・供給OFF・指定系統を保持します。固定を外すと次の生成で自動になります。':'表示中の値をそのまま使います。地形のおまかせは代表地形から選び、生成後の条件を保存します。';
+  }
+  function generationSettings(){
+    const mode=$('generation-mode').value;
+    return {version:'diverse-generation-parameters/1',mode,profile:mode==='auto'?$('generation-profile').value:'auto',
+      locks:[...generationLocks].filter(path=>path!=='mapId'||$('map-id').value!=='auto').sort()};
+  }
+  function showGenerationSettings(config){
+    const settings=config.generationSettings;
+    $('generation-mode').value=settings?.mode||'auto';$('generation-profile').value=settings?.profile||'auto';
+    generationLocks.clear();for(const path of settings?.locks||[])generationLocks.add(path);
+    generationBase=structuredClone(config.generationResolved?.base||{});
+    syncGenerationFields();
+  }
+  for(const profile of S.WorldGeneration?.profiles||[]){const option=document.createElement('option');option.value=profile.id;option.textContent=profile.name;$('generation-profile').append(option);}
+  for(const [path,id]of Object.entries(generationFields)){
+    const input=$(id),label=input.closest('label'),row=document.createElement('div'),control=document.createElement('label');
+    row.className='generation-field';label.replaceWith(row);row.append(label);
+    control.className='check generation-lock-control';control.innerHTML='<input type="checkbox" data-generation-lock="'+path+'" aria-label="'+escape(label.textContent.trim())+'を固定">固定';row.append(control);
+    control.firstChild.addEventListener('change',()=>{if(control.firstChild.checked)generationLocks.add(path);else generationLocks.delete(path);syncGenerationFields();});
+    input.addEventListener('input',()=>{if(path==='mapId'&&input.value==='auto')generationLocks.delete(path);else generationLocks.add(path);syncGenerationFields();});
+    input.addEventListener('change',()=>{if(path==='mapId'&&input.value==='auto')generationLocks.delete(path);else generationLocks.add(path);syncGenerationFields();});
+  }
+  $('generation-mode').addEventListener('change',syncGenerationFields);$('generation-profile').addEventListener('change',syncGenerationFields);
   function readProducerSettings(){
     return {version:'colony-parameters/1',standardBiteB:2,...Object.fromEntries(['land','water'].map(region=>{
       const capacityB=Number($('colony-'+region+'-capacity').value);
@@ -219,20 +274,27 @@
       mode = S.observationPreset(id,width,height), fixed = id !== "custom";
     for (const id of ["map-id","initial","lineages","distribution","placement","guarantee"])
       $(id).disabled = fixed;
-    for (const input of document.querySelectorAll("#groups input,#lineage-options input,#weight-options input")) input.disabled = fixed;
+    for(const input of document.querySelectorAll("#lineage-options input,#weight-options input"))input.disabled=fixed;
+    for(const input of document.querySelectorAll("#groups input"))input.disabled=false;
     if (fixed) {
-      if(resetLower)resetLowerSettings();
-      $("map-id").value = mode.mapId; $("initial").value = mode.initial;
+      if(resetLower){
+        const kept=Object.entries(generationFields).filter(([path])=>generationLocks.has(path)&&!["mapId","initial"].includes(path)).map(([path,id])=>[path,id,$(id).value,path.endsWith("regrowthB")?Number($(id.replace("regrowth","capacity")).value)*Number($(id).value)/100:null]);
+        const founders=founderSpecies.map(s=>[s.id,$("founder-"+s.id).value]);
+        resetLowerSettings();for(const [path,id,value,absolute]of kept)$(id).value=absolute===null?value:100*absolute/Number($(id.replace("regrowth","capacity")).value);for(const [id,value]of founders)$("founder-"+id).value=value;
+      }
+      if(!generationLocks.has("mapId"))$("map-id").value=mode.mapId;
+      if(!generationLocks.has("initial"))$("initial").value=mode.initial;
       $("lineages").value = "manual"; $("distribution").value = mode.distribution;
       $("placement").value = mode.placement; $("guarantee").checked = false;
       for (const input of $("lineage-options").querySelectorAll("input")) input.checked = mode.selected.includes(input.value);
-      for (const id of Object.keys(groups)) $("group-"+id).checked = true;
+      // Explicitly disabled groups survive preset selection; conflicting mode
+      // promises are explained by the generation validator rather than enabled silently.
     }
     $("lineage-options").hidden = $("lineages").value !== "manual";
     $("weight-options").hidden = $("distribution").value !== "weighted";
     syncSetupFields();
     $("mode-help").textContent = mode.description.replace("途中の生体補充はありません。","動物の救済補充はありません。") + (fixed ? ` 主生物${mode.initial}体、${mode.selected.length}系統（${mode.selected.map(id=>D.byId[id].name).join(" / ")}）。自然配置・均等配分。固定項目を編集する場合は自由設定へ戻してください。` : "") + " 条件は開始時に固定され、観測中も同じ倍率で計算します。動物・寄生虫の救済補充はありません。生産者の環境供給は別欄で選択できます。";
-    updateCohortHint();
+    updateCohortHint();syncGenerationFields();
   }
   $("observation-mode").addEventListener("change",applyObservationMode);
   $("size").addEventListener("change",applyObservationMode);
@@ -247,7 +309,8 @@
   }
   function readConfig() {
     const [width, height] = $("size").value.split(",").map(Number);
-    return {
+    const config = {
+      generationModel:'diverse/1',generationSettings:generationSettings(),
       blockTurns: 500,
       randomModel: "table/1",
       producerModel:'colony/1',
@@ -294,6 +357,12 @@
         Object.keys(groups).map((id) => [id, $("group-" + id).checked]),
       ),
     };
+    if(config.generationSettings.mode==='auto')for(const [path,value]of Object.entries(generationBase)){
+      if(generationLocks.has(path)||config.observationMode!=='custom'&&['mapId','initial'].includes(path))continue;
+      const parts=path.split('.'),key=parts.pop();let at=config;
+      for(const part of parts)at=at[part]??={};at[key]=structuredClone(value);
+    }
+    return config;
   }
   function message(text) {
     $("message").textContent = text;
@@ -323,16 +392,6 @@
     for (const id of ["guide", "results"])
       if ($(id).open){if(id==="results")closeAnalysis();$(id).close();}
   }
-  function confirmWorldChange(text) {
-    const dialog = $("world-confirm");
-    if (dialog.open) return Promise.resolve(false);
-    $("world-confirm-text").textContent = text;
-    dialog.returnValue = "cancel";
-    return new Promise(resolve => {
-      dialog.addEventListener("close", () => resolve(dialog.returnValue === "proceed"), {once:true});
-      dialog.showModal();
-    });
-  }
   function stop() {
     clearTimeout(interactionTimer);holds.clear();updateHold();
     compute.close();prewarming=true;
@@ -359,14 +418,21 @@
     $("status").textContent = world ? "一時停止" : "未準備";
   }
   function prepare(config, playback = null) {
-    const next = E.create({
-      landscape: "templates",
-      ageModel: "life/1",
-      ecologyRevision: "observation/4.1",
-      blockTurns: 500,
-      populationRegulation:{version:1},
-      ...config,
-    });
+    const previousActivation=world?.config||{advantageSettings:window.EcoObservationModel.settings()};
+    let next, nextObservations, nextInitialConfig;
+    try {
+      next = E.create(playback ? structuredClone(config) : {
+        landscape:"templates",ageModel:"life/1",ecologyRevision:"observation/4.1",
+        blockTurns:500,populationRegulation:{version:1},...config,
+      });
+      nextObservations=window.EcoObservations.create(next.config,window.EcoReplayVersion,{species:S.activeSpecies(next)});
+      nextObservations.append(next);
+      nextInitialConfig=structuredClone(next.config);
+    } catch(error) {
+      E.activate(previousActivation);
+      throw error;
+    }
+    resultReadEpoch++;
     stop();
     closeWorldDetails();
     setupMessage("");
@@ -382,14 +448,15 @@
     world = next;
     graphicsPrepared=false;observationPreparationAt=null;
     populationHistory = [];
-    observations=window.EcoObservations.create(next.config,window.EcoReplayVersion,{species:activeCatalogue()});observations.append(next);graphFollow=true;followId=null;lastTracked=null;legendKey=null;
+    observations=nextObservations;graphFollow=true;followId=null;lastTracked=null;legendKey=null;
     if(!activeCatalogue().some(s=>s.id===activeLineage))activeLineage='abyss';
     document.body.classList.remove("setup-screen");
     checkpointKey = null;
     $("load").textContent = "この設定で新しい世界を作る ↗";
     $("setup-help").textContent =
-      "新しい世界では配置を再生成します。結果図鑑とデバッグCSVは別の保存です。";
-    initialConfig = structuredClone(next.config);
+      "新しい世界はこの設定から作成します。保存した結果は結果図鑑に残ります。";
+    initialConfig = nextInitialConfig;
+    showGenerationSettings(next.config);
     $("observation-mode").value = next.config.observationMode || "custom";
     const mode = next.config.modeResolved;
     $("active-mode").textContent = mode ? mode.name + " · " + mode.description.replace("途中の生体補充はありません。","動物の救済補充はありません。") +
@@ -476,6 +543,7 @@
         })[0] || world.organisms[0];
     // Keep the graphs visible initially; focusing the camera does not select an individual.
     applyObservationMode({resetLower:false});
+    if(next.config.generationResolved){const g=next.config.generationResolved;$("active-mode").textContent+=' 条件生成: '+(S.WorldGeneration.profiles.find(p=>p.id===g.profile)?.name||g.profile)+' / 固定'+g.locks.length+'項目。供給・優遇・指定数は保持。';}
     if(next.config.populationRegulation)$("active-mode").textContent+=" 出生：局所混雑・栄養収支で調整。";
     R.assets.warmWorld?.(world);
     render();
@@ -593,14 +661,10 @@
     $("load").disabled = true;
     $("setup").setAttribute("aria-busy", "true");
     try {
-      const config = S.validate(readConfig());
-      const count = config.lineages === "all" ? 20 : config.lineages === "few" ? 5 : config.selected.length;
+      const config = readConfig();
+      const count = config.lineages === "all" ? setupMain.length : config.lineages === "few" ? 5 : config.selected.length;
       if (config.enabled.main && (!count || config.initial < count * 4))
         throw Error("参加系統を選び、系統ごとに最低4体の主生物を設定してください。");
-      if(world && world.turn>0 && observations?.unexported && !await confirmWorldChange("未出力の全ターン観測データを破棄して新しい世界を作ります。必要ならキャンセルしてCSVを保存してください。")) {
-        setupMessage("生成を取り消しました。現在の世界と観測履歴は保持しています。");
-        return;
-      }
       setupMessage("世界を生成しています…");
       prepare(config);
       if (!document.body.classList.contains("observatory"))
@@ -613,7 +677,7 @@
       $("setup").removeAttribute("aria-busy");
     }
   });
-  function returnSetup(){stop();closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;if(world){showProducerSettings(world.config.producerModel==='colony/1'?world.config.producerSettings:null,world.config.initialFoodScale||1);showLargePlantSettings(world.config.largePlantModel==='independent/1'?world.config.largePlantSettings:undefined);}$("resource-info").value=0;$("information-influence").value=world?.config.informationModel==='persistent/1'?world.config.informationSettings.influence:1;syncSetupFields();message("初期設定に戻りました。現在の結果や全ターンCSVを残す場合は、新しい世界を作る前に保存してください。");}
+  function returnSetup(){resultReadEpoch++;stop();closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;if(world){showProducerSettings(world.config.producerModel==='colony/1'?world.config.producerSettings:null,world.config.initialFoodScale||1);showLargePlantSettings(world.config.largePlantModel==='independent/1'?world.config.largePlantSettings:undefined);}showGenerationSettings(world?.config||{});$("resource-info").value=0;$("information-influence").value=world?.config.informationModel==='persistent/1'?world.config.informationSettings.influence:1;syncSetupFields();message("初期設定に戻りました。条件を選んで新しい世界を作れます。取消すと現在の観測へ戻ります。");}
   $("change-world").onclick=returnSetup;
   $("start").addEventListener("click", () => {
     if (running) {
@@ -632,7 +696,7 @@
   $("reset").addEventListener("click", () => {
     returnSetup();
   });
-  $("restart-world").onclick=async()=>{if(initialConfig && (!observations?.unexported || world.turn===0 || await confirmWorldChange("未出力の観測履歴を破棄して同じ世界を最初から再生しますか？")))prepare(initialConfig,replayEntry);};
+  $("restart-world").onclick=()=>{if(initialConfig){try{prepare(initialConfig,replayEntry);}catch(error){message("再作成できませんでした："+error.message);}}};
   async function downloadJSON(record){
     if(!record)return;try{const blob=await EcoExport.json(record),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`lifegame-result-${record.turn}T-${record.id.slice(-8)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);}catch(e){message('結果を書き出せませんでした：'+e.message);}
   }
@@ -650,8 +714,12 @@
     }catch(error){if(world!==finishedWorld)return;$("finish-run").disabled=false;$("finish-run").textContent="保存を再試行";$("export-result").hidden=!pendingResult;message("保存できませんでした："+error.message+" 結果は保持しています。");}
   }
   $("export-result").onclick=()=>downloadJSON(pendingResult);
-  function replayResult(id) {
-    const entry = archive.replay(id);
+  let resultReadEpoch=0;
+  async function replayResult(id) {
+    const epoch=++resultReadEpoch, previous=world;
+    const record=await archive.get(id);
+    if(epoch!==resultReadEpoch||world!==previous)return false;
+    const entry = archive.replayRecord(record);
     prepare(entry.config, entry);
     if (entry.turn === 0) {
       ended = true;
@@ -664,6 +732,11 @@
         "ターンまで同じ初期条件から再計算します。",
     );
     $("start").textContent = "再生を開始 ▶";
+    return true;
+  }
+  function resultName(record){
+    const profile=record.generation?.profile||record.config.generationResolved?.profile;
+    return (profile?(S.WorldGeneration.profiles.find(p=>p.id===profile)?.name||profile)+' / ':'')+(record.config.modeResolved?.name||'自由設定');
   }
   async function showResults() {
     $("results-error").textContent="";
@@ -674,16 +747,15 @@
           .list()
           .map(
             (r) =>
-              `<article class="result-entry"><h3>${escape(r.config.modeResolved?.name || "自由設定")} · ${r.turn}T</h3><p>${escape(r.config.modeResolved?.name || "自由設定")} · ${r.turn}ターン · 主生物 ${fmt(r.final.main)} · ${escape(r.config.mapResolved?.id || "従来地形")} · ${escape(Number.isFinite(Date.parse(r.created))?new Date(r.created).toLocaleString("ja-JP",{timeZone:"Asia/Tokyo"}):"日時不明")}</p><button class="small" data-analyze="${escape(r.id)}">最終結果・全期間グラフ</button> <button class="small" data-replay="${escape(r.id)}">初期条件から再生（記録なし）</button> <button class="small secondary" data-remove="${escape(r.id)}">削除</button></article>`,
+              `<article class="result-entry"><h3>${escape(resultName(r))} · ${r.turn}T</h3><p>${escape(resultName(r))} · ${r.turn}ターン · 主生物 ${fmt(r.final.main)} · ${escape(r.config.mapResolved?.id || "従来地形")} · ${escape(Number.isFinite(Date.parse(r.created))?new Date(r.created).toLocaleString("ja-JP",{timeZone:"Asia/Tokyo"}):"日時不明")}</p><button class="small" data-analyze="${escape(r.id)}">最終結果・全期間グラフ</button> <button class="small" data-replay="${escape(r.id)}">初期条件から再生（記録なし）</button> <button class="small secondary" data-remove="${escape(r.id)}">削除</button></article>`,
           )
           .join("") ||
         "<p>終了した観測はまだありません。一時停止では保存されません。</p>";
       for(const b of $("results-list").querySelectorAll("[data-analyze]"))b.onclick=()=>analyzeResult(b.dataset.analyze);
       for (const b of $("results-list").querySelectorAll("[data-replay]"))
-        b.onclick = () => {
+        b.onclick = async () => {
           try {
-            replayResult(b.dataset.replay);
-            $("results").close();
+            if(await replayResult(b.dataset.replay))$("results").close();
           } catch (e) {
             $("results-error").textContent = e.message;
           }
@@ -708,15 +780,17 @@
     showResults();
   };
   function closeAnalysis(){
+    resultReadEpoch++;
     if(analysisState){summaryHome.after($("current-summary"));$("inspector-graphs").append($("graphs-panel"));$("graph-species").value=analysisState.target;$("graph-turn").value=analysisState.turn;graphFollow=analysisState.follow;}
     analysisData=null;analysisRecord=null;analysisState=null;$("results-analysis").hidden=true;$("results-list").hidden=false;if(observations?.rows.length){renderCurrentSummary(observations.rows.at(-1),activeCatalogue());renderGraphs();}
   }
   async function analyzeResult(id){
-    try{const record=await archive.get(id);let data=null;if(record.schema===2)data=window.EcoObservations.restore(record.observation,{species:D.species});
+    const epoch=++resultReadEpoch, previous=world;
+    try{const record=await archive.get(id);if(epoch!==resultReadEpoch||world!==previous)return;let data=null;if([2,3].includes(record.schema))data=window.EcoObservations.restore(record.observation,{species:D.species});
       if(!analysisState)analysisState={target:$("graph-species").value,turn:$("graph-turn").value,follow:graphFollow};
       analysisRecord=record;analysisData=data;$("results-list").hidden=true;$("results-analysis").hidden=false;
       $("result-analysis-title").textContent=`保存した最終結果 · ${record.turn}T`;
-      $("result-analysis-summary").textContent=`主生物 ${record.final.main} / 下層 ${record.final.food} / P ${record.final.P} / Q ${record.final.Q}。`+(data?'記録時の指標と全確定ターンを参照しています。':'旧記録には全期間グラフが保存されていません。値を再計算して補いません。');
+      $("result-analysis-summary").textContent=`主生物 ${record.final.main} / 下層 ${record.final.food} / P ${record.final.P} / Q ${record.final.Q}。`+(record.schema===3?" 最終状態の個別例は分類ごとの一部で、全個体の履歴ではありません。":"")+(data?'記録時の指標と全確定ターンを参照しています。':'旧記録には全期間グラフが保存されていません。値を再計算して補いません。');
       $("result-final-values").textContent=JSON.stringify({final:record.final,conditions:record.config,originRecordId:record.originRecordId||null,replayMatch:record.replayMatch??null,definitions:record.observation?.definitions||null},null,2);
       $("results-graph-host").hidden=!data;if(data){$("results-graph-host").append($("current-summary"),$("graphs-panel"));graphFollow=true;$("graph-turn").value=record.turn;renderGraphs();}
     }catch(e){$("results-error").textContent=e.message;}
@@ -1750,6 +1824,8 @@
   if (new URLSearchParams(location.search).has("smoke"))
     window.__LIFE_TEST__ = {
       observations:()=>observations,
+      archive:()=>archive,
+      readConfig,
       screenForCell: (cell, id = null) => renderer.screen(cell,id),
       hitAt: renderer.hitAt,
       prepare,
