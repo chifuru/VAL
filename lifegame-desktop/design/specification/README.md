@@ -1,4 +1,4 @@
-[寄生メタ/2](parasite-meta-v1.md) / [死亡情報/2](death-information-v1.md)へ確認回答を反映。情報に餌要素はなく、Q成体は通常の生物として採食。Q主作用は寄生先由来の死亡情報の出現率上昇と内容歪曲。全生物に同層/全層の情報を用意し、層区分のみ最終確認待ち。[補完契約](../../operations/plans/information-scope-ab-v1.md)。既存A/B19Nodeへ反映、製品4.2.32・C/D/E・src/tests・画像は未変更。以下の旧確認3点は回答済みで、本段の条件を優先する。
+[寄生メタ/2](parasite-meta-v1.md) / [死亡情報/3](death-information-v1.md)へ確認回答を反映。情報に餌要素はなく、Q成体は通常の生物として採食。Q主作用は寄生先由来の死亡情報の出現率上昇と内容歪曲。全生物に同層/全層の情報を用意し、層はピラミッド役割＋分解者/P/Qで確定。複数食性は役割集合で扱い、一情報一回だけ適用。[層確定の契約](../../operations/plans/information-layer-ab-v1.md)。既存A/B19Nodeへ反映、製品4.2.32・C/D/E・src/tests・画像は未変更。以下の旧確認3点は回答済みで、本段の条件を優先する。
 
 [寄生のメタ/メタメタ操作](parasite-meta-v1.md)、[死亡地点の実績由来情報](death-information-v1.md)、[おまかせ多様生成](diverse-world-generation-v1.md)を現在の追加正本とする。Pの感染/遺伝、Q羽化/自立、相別負担、情報影響度・死亡抽選・全実効条件の再現をA/B17Nodeへ反映。Q成体の餌/離脱後加工/死亡情報対象は確認待ち。[契約と後続](../../operations/plans/parasite-information-ab-v1.md)。製品4.2.32・C/D/E・src/tests・画像は未変更。以下の群落/R1〜R6/観測UIは未変更部分を維持する。
 
