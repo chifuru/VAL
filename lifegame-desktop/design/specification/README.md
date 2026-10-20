@@ -1,8 +1,8 @@
 # 生態シミュレーション：現在のA・B仕様
 
-管理版 `specification-index/9`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
+管理版 `specification-index/10`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
 
-第1・第2組を維持し、[第3組・群落更新/1](producer-renewal-v1.md)を既存A/B21Nodeへ反映済み。群落の成立/再生/消失/再成立、独立植物の四相・成熟繁殖・機能3→6分岐、陸水生産/情報/寄生/集計を採用した。数値/正式ID/造形割当は初期比較表と観察で調整する。次は第4組C13/表示説明保存。[今回の契約](../../operations/plans/producer-renewal-ab-v1.md)。製品は4.2.32のまま。
+第1〜第4組の構造を既存A/B21Nodeへ反映済み。[第4組・状態対応/1](observation-state-contract-v1.md)へ盤面/横詳細/計数/グラフ/保存の対応と実装引継ぎを整理した。細かな係数/正式ID/造形割当・未計測フィールド/スキーマ接続は後続。次は初期比較表と実装差分/データ対応・C/D接続要否を整理する。[今回の契約](../../operations/plans/observation-state-ab-v1.md)。製品は4.2.32のまま。
 
 ## 読む順序と優先順位
 
@@ -19,7 +19,7 @@
 | 対象 | 読む正本 | 優先する内容・境界 |
 | --- | --- | --- |
 | 採用範囲/未確定事項 | [採用状況](decision-register-v1.md) | 採用済み・保留・撤回・提案のみと具体化C01〜C13。ゲームの具体規則は各正本 |
-| 情報の定義/作用 | [持続する情報/8](persistent-information-v1.md)、[死亡情報/10](death-information-v1.md) | 関係性と意味、経験蓄積、通常/親養育者、学習/場所作用、集中/反復。全生物に非栄養、死亡地点/実績と同層/全層は維持。旧一回消費/重み補正だけの作用を置換 |
+| 情報の定義/作用 | [持続する情報/9](persistent-information-v1.md)、[死亡情報/10](death-information-v1.md) | 関係性と意味、経験蓄積、通常/親養育者、学習/場所作用、集中/反復。全生物に非栄養、死亡地点/実績と同層/全層は維持。旧一回消費/重み補正だけの作用を置換 |
 | 情報の経験条件/実績評価 | [情報評価/5](information-evaluation-v1.md) | C02の暫定値と重複抑制、保持資格と死亡生成の分離、役割別評価。実測済み値や調整不要の確定値とはしない |
 | 情報の鮮度/残存 | [情報鮮度/4](information-freshness-v1.md) | 内容別半減期25/50/100Tと痕跡の基本100/最大200T。元経験時刻/生成時刻/既存学習を分け、再読取やQで若返らせない。暫定値 |
 | 情報の通常/根拠不足候補 | [情報生成/3](information-generation-v1.md) | C04の3件/2ターン、残余最大5%/半重み、一死亡最大1件/一回抽選。元経験を保持し、根拠の薄さと虚偽を区別。被害下限は維持 |
@@ -31,8 +31,9 @@
 | 陸水の食物網/供給 | [生産基盤v2.7](producer-pyramid-v2.7.md)、[陸水v2.6](trophic-foundation-v2.6.md)、[食性訂正v2.5](ab-visual-ecology-v2.5.md) | 基底生産者→一次消費者→上位、通常植物非捕食/植物共生体食虫型、分解/還元。生産者の記録単位は群落仕様を優先 |
 | 初期量/優遇/自由設定 | [供給](initial-supply-v1.md)、[種別数](founder-counts-v1.md)、[観測整理](observation-clarity-v4.2.30.md)、[製品モデル](observation-model-v4.2.md) | 供給と優遇の選択、非主生物/PQ直接数、QをPに応じて減らす。旧探索Qの初期状態を新生活環へ黙って変換しない（C12） |
 | 年齢/繁殖/行動 | [生態観察v2.4](ab-ecology-observation-v2.4.md)、[複数行動/境界v2.5](ab-visual-ecology-v2.5.md)、[年齢能力v1.8](ab-age-abilities-v1.8.md) | 年齢成熟で繁殖・第三相ゲートなし。進化相と年齢は独立。移動/戦闘/採食は条件別に同一ターン成立可能 |
-| 停止/遷移/配置/グラフ | [観測UI/11](observation-ui-v1.md) | 右上開始/停止、別画面で停止、同画面操作で進行、無確認再生成と失敗保護、右の常設3グラフと独立詳細、作成画面で非表示 |
-| 現在像サマリ | [サマリ/2](ecosystem-summary-v1.md)、[関係面/1](relationship-network-v1.md) | 上部一体サマリ、総括と関係面→Bピラミッド→円。関係面は上1/下4の100T区間、共通記号、線幅＋単位付き数値。50T指標と混同しない |
+| 第4組：状態/計数/表示/保存 | [状態対応/1](observation-state-contract-v1.md) | 同じID/単位/確定時点で盤面・詳細・演出・グラフ・図鑑を接続。感染量/情報/死骸は生体数と別。観察者解析と生物の知識を分離 |
+| 停止/遷移/配置/グラフ | [観測UI/12](observation-ui-v1.md) | 右上開始/停止、別画面で停止、同画面操作で進行、無確認再生成と失敗保護、右の常設3グラフと独立詳細、作成画面で非表示 |
+| 現在像サマリ | [サマリ/3](ecosystem-summary-v1.md)、[関係面/2](relationship-network-v1.md) | 上部一体サマリ、総括と関係面→Bピラミッド→円。関係面は上1/下4の100T区間、共通記号、線幅＋単位付き数値。50T指標と混同しない |
 | 個体/系統の選択 | [選択v2.5](ab-visual-ecology-v2.5.md)、[分類一覧31](optimization-v4.2.31.md)、[観測UI](observation-ui-v1.md) | 分類別折返し、複数色の所在強調、横詳細/追跡、0数項目非表示、非主名札切替 |
 | 記録/結果分析/再生 | [図鑑と全期間記録](archive-history-v1.md) | 初期条件・最終集計・全ターン原値、明示保存、再生後は別ID。旧版/欠測/保存失敗を保護。追加モデルの保存項目も同書 |
 | 描画/採用した形 | [描画条件v2.5](ab-visual-ecology-v2.5.md)、[モック対応表](ab-visual-reference-v1.md)、[固有差の現在対応](../../operations/plans/remaining-completion-v4.2.md) | 既存遠景記号/近景絵柄、主生物の識別・地形奥行き、系統固有の相/枝/雌雄/年齢/階級。群体節足は942.png、多頭蛇は承認体制 |
@@ -51,4 +52,4 @@
 
 - [一枚の全体説明画像と索引](atlas-v1.3/README.md)、[採用画像と本文の対応](ab-visual-reference-v1.md)。旧画像内の仮表記や旧ルールを現在の仕様にしない。
 - [現在の構造](../../valis/summary/lifegame-desktop.summary.md)、[既存製品の実測範囲](../../operations/evidence/optimization-v4.2.32/README.md)。製品4.2.32と追加A/Bの成立範囲は別に確認する。
-- [既存の全工程計画](../../operations/plans/remaining-completion-v4.2.md)は作業計画でありゲーム仕様の正本ではない。第1〜第3組を反映し、現在は[残る第4組](decision-register-v1.md)を関連項目ごとにまとめて具体化する。今回の整理からC/D/E・src/tests・画像制作を自動開始しない。
+- [既存の全工程計画](../../operations/plans/remaining-completion-v4.2.md)は作業計画でありゲーム仕様の正本ではない。第1〜第4組を反映し、現在は[採用表](decision-register-v1.md)と[実装引継ぎ](observation-state-contract-v1.md#10-実装への引継ぎ順序)に従って初期表/差分/データ対応を整理する。今回の整理からC/D/E・src/tests・画像制作を自動開始しない。
