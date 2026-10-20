@@ -1,12 +1,12 @@
 # 完成へ向けた現在の残作業と実行順
 
-照合基準はmain `803f677`、開発版4.2.46 / 配布済み4.2.32、[現在のA/B仕様索引](../../design/specification/README.md)。本書は対象範囲の作業計画であり、具体的な着手/統合単位は[実装12単位](implementation-sequence-v1.md)を参照する。仕様/Node/証跡の代替ではない。旧[全工程計画](remaining-completion-v4.2.md)に残る過去条件より、現行の対象別正本と本書の作業順を優先する。
+照合基準はmain `23b2e18`、開発版4.2.47 / 配布済み4.2.32、[現在のA/B仕様索引](../../design/specification/README.md)。本書は対象範囲の作業計画であり、具体的な着手/統合単位は[実装12単位](implementation-sequence-v1.md)を参照する。仕様/Node/証跡の代替ではない。旧[全工程計画](remaining-completion-v4.2.md)に残る過去条件より、現行の対象別正本と本書の作業順を優先する。
 
 ## 今回の整理範囲
 
-FLOW-05/08。[下層探索](i11d-lower-renewal-v1.md)から[菌膜群落化](i11d-fungal-colonies-v1.md)へ利用者指示で接続する。A1.2/A1.7・関連Bと既存C/D/Eを更新し、正式草案状態・階層・層間参照を維持。新Node/分割/初期登録なし。
+FLOW-04/05→07/08。[一次消費者の小集団化](i11e-consumer-groups-v1.md)を既存A/B/C/D/Eへ接続。群落/小集団/個体の単位、有限収支、内部更新、旧再生と現在の表示を照合する。正式草案状態・階層は維持し新Node/初期登録なし。
 
-[現在の限定実測](../evidence/i11d-lower-renewal-v1/README.md)。survival/4では菌膜の基部保護/有機物からの有限再生・維持不足消滅/群落単位と保存を接続し、旧4方式の計算と全期間原値を維持する。全系統生存率、P/Q自然長期循環、R1〜R6・性能は別の未完として残す。UI構成・採用画像/絵柄/背景は維持し、新Windows/ZIPはI12。
+[現在の限定実測](../evidence/i11e-consumer-groups-v1/README.md)では湖500Tの水游虫は存続し、草棲虫は269Tで絶滅した。川でも未達。バランス完成とはせず、次の係数/行動変更は利用者と相談する。全系統R1〜R6・自然P/Q循環・性能と新Windowsは別の未完。
 
 ## 現在地
 
@@ -73,4 +73,4 @@ FLOW-05/08。[下層探索](i11d-lower-renewal-v1.md)から[菌膜群落化](i11
 - UI/保存：[app.js](../../src/app.js)、[Index.html](../../src/Index.html)、[styles.css](../../src/styles.css)、[観測UI](../../design/specification/observation-ui-v1.md)、[関係面](../../design/specification/relationship-network-v1.md)、[保存](../../design/specification/archive-history-v1.md)。ソース上の差分と実際の画面確認は分ける。
 - 既存実測：[4.2.32証跡](../evidence/optimization-v4.2.32/README.md)、[E7](../../valis/nodes/E/E7.md)。現在のWindows起動未確認を残件として復活させず、変更後の再検査を残す。
 
-今回の完了条件は[I11d実測](../evidence/i11d-lower-renewal-v1/README.md)とA/B/C/D/E・Manifest・実体の照合。前半探索の失敗も残し、菌膜の有限基部/実費再生・出生/飢餓消滅、旧記録互換、必要な画面/Worker検査を含む。全系統の生存率・P/Q自然循環・R1〜R6、全条件性能/外観の最終判定、新Windows/配布は未完。新分割や大きな意味/造形変更が必要な場合だけ具体案を確認する。
+今回の完了条件は[I11e実測](../evidence/i11e-consumer-groups-v1/README.md)とA/B/C/D/E・Manifestの照合。群れ化の成立と生存バランスを区別し、草棲虫の未達を残す。次は追加調整を相談し、全系統認定・性能・Windows配布へ一足飛びに進めない。

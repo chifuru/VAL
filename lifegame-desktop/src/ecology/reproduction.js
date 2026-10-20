@@ -38,6 +38,7 @@
         p = ctx.traits.get(o.id),
         rec = ctx.records.get(o.id),
         old = p.phase;
+      if(S.ConsumerGroup.is(o)){S.ConsumerGroup.grow(w,o);continue;}
       if(S.LargePlant.is(o))continue;
       if(S.Ryouki.is(o))continue;
       if (s.group !== "main") {
@@ -132,11 +133,11 @@
     if(!w.config.populationRegulation||!["main","prey"].includes(group))return {allowed:true,chance:1,density:0,foodFactor:1};
     const cache=ctx.birthPressure??=new Map();if(cache.has(o.id))return cache.get(o.id);
     let counts=ctx.birthPressureCounts;
-    if(!counts){counts=ctx.birthPressureCounts={main:new Map(),prey:new Map()};for(const a of w.organisms){const g=S.spec(a).group;if(counts[g])counts[g].set(a.cell,(counts[g].get(a.cell)||0)+1);}}
+    if(!counts){counts=ctx.birthPressureCounts={main:new Map(),prey:new Map()};for(const a of w.organisms){const g=S.spec(a).group;if(counts[g])counts[g].set(a.cell,(counts[g].get(a.cell)||0)+S.ConsumerGroup.count(a));}}
     const area=ctx.birthPressureArea??=Math.max(1,w.tiles.filter(t=>!t.blocked).length);
     const cells=S.nearby(w,o.cell,2,true).filter(c=>!w.tiles[c].blocked&&S.validHabitat(w,S.spec(o),c)),
       peers=cells.reduce((n,c)=>n+(counts[group].get(c)||0),0),
-      localDensity=peers/Math.max(1,cells.length),
+      localDensity=peers/Math.max(1,cells.length)/(S.ConsumerGroup.is(o)?w.config.consumerGroupSettings.capacity:1),
       density=group==="prey"?Math.min(localDensity,counts.prey.size/area*2):localDensity,
       target=group==="main"?(survival(w)?.20:.16):.08,
       rec=ctx.records.get(o.id),maintenance=ctx.traits.get(o.id)?.maintenance||1,
@@ -147,6 +148,7 @@
     cache.set(o.id,result);return result;
   }
   function eligible(w, o, ctx, asexual = false) {
+    if(S.ConsumerGroup.is(o))return false;
     const s = S.spec(o),
       rec = ctx.records.get(o.id),
       p = ctx.traits.get(o.id);
@@ -451,6 +453,7 @@
   }
   function reproduce(w, ctx) {
     if(w.config.ecologyRevision === "observation/4.1"){const m=S.maps(w);for(const o of w.organisms)if(o.slot === "main")o.birthBlockers=blockers(w,o,ctx,m);}
+    S.ConsumerGroup.reproduce(w,ctx,birthPressure);
     const matingMap=S.maps(w),usedMales=new Set();
     for(const queen of w.organisms){
       if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||(w.config.ecologyRevision!=="observation/4.1"&&ctx.traits.get(queen.id)?.phase<3)||queen.HP<70||queen.E<47||ctx.traits.get(queen.id)?.ageStage==="juvenile"||ctx.records.get(queen.id)?.damage>0)continue;

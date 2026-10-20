@@ -1,0 +1,340 @@
+{
+  "schema": "i11e-legacy-parity/1",
+  "baselineCommit": "23b2e18",
+  "baselineSignature": "90daa5c38dfbc78aa12c79176ff54d5e70f6e90590ff4d2dbcaf2ef5647b56e4",
+  "currentSignature": "6db4142a9987079b6e0a4f6f1f06623fe9b1dd5096763ce2682993aefbb3316c",
+  "model": "generated-product-eight-profiles",
+  "config": {
+    "seed": "i11c/legacy-profiles",
+    "width": 16,
+    "height": 12,
+    "initial": 24,
+    "lineages": "manual",
+    "selected": [
+      "solar",
+      "ryouki",
+      "swarm"
+    ],
+    "placement": "natural",
+    "ageModel": "life/1",
+    "ecologyRevision": "observation/4.1",
+    "randomModel": "table/1",
+    "populationRegulation": {
+      "version": 1
+    },
+    "producerModel": "colony/1",
+    "largePlantModel": "independent/1",
+    "ryoukiModel": "ryouki/1",
+    "primaryParasiteModel": "primary/1",
+    "hyperParasiteModel": "hyper/1",
+    "informationModel": "persistent/1",
+    "relationshipModel": "network/1",
+    "generationModel": "diverse/1",
+    "generationSettings": {
+      "mode": "manual",
+      "profile": "standard"
+    },
+    "enabled": {
+      "main": true,
+      "plant": true,
+      "fungus": true,
+      "prey": true,
+      "P": true,
+      "Q": true
+    }
+  },
+  "turns": [
+    0,
+    1
+  ],
+  "versions": [
+    null,
+    "survival/1",
+    "survival/2",
+    "survival/3",
+    "survival/4"
+  ],
+  "matchedWorlds": 24,
+  "matchedFullStates": 24,
+  "matchedObservationRows": 24,
+  "matchedAllObservations": 12,
+  "runs": [
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": null,
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "dec307b1c53df8100192224298a9785ebecf4fc32b4ed06932adc3a7c9a17d74",
+          "observationSha256": "df1d2ab95be4afb64b26cb72de20cd6484501c752f62d039c90207a80d6be4f0"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "ff7f5a0e0f49ab979270690cbe864934882b0409d2de56d7433220e807e40952",
+          "observationSha256": "b98adf1d6cb3bc7c2bfb4bbd252bb4e0108446a9f5713a44811255a2c56cec75"
+        }
+      ],
+      "allObservationsSha256": "70c27b7e8e980236dda88b7ed89db7c1c0d7003f7ac0c734e5237edfa85d71a3"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/1",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "35d1f294cc6d970c9b35b28b6dedb8ed0a4fb2174dacfce0b2f43e37aa51db23",
+          "observationSha256": "df1d2ab95be4afb64b26cb72de20cd6484501c752f62d039c90207a80d6be4f0"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "3242ec2a32f86d65e5e132fe26324f962d4c5872f41fc16a13b72c0074eda2f2",
+          "observationSha256": "2780d9bd623d422dbc00dfad3f1019d22ce82209acd6bcbc953de8f43c82aacf"
+        }
+      ],
+      "allObservationsSha256": "4be221b9b0a335f974c7f30741e778eab73bb701d333903678559d0575489225"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/2",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "27e5b2ba61e6a66fb9a0b9cf6d161091a022276ea1133dbd29319c2c5c703251",
+          "observationSha256": "414a96fdaac8eb1081baf8c5c8fe91eebd56aa82e89f64bb833fa715331f2a89"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "fe3649effd57fbbecba6f9a9e16d80ded5ef7414fb752a84eb329ab45fe32d06",
+          "observationSha256": "83ca5108915b7d279b51281d4310f6f23a5ce07c219a93d691a6c8da490a0343"
+        }
+      ],
+      "allObservationsSha256": "5749a584ce3136c4379df85cdcc242ccfc666758a023477335a432f16b743fb8"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/3",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "c5bcfe5c018a9c2bf5e711832638d288fbd8f317e72b4bb04d634768de2da458",
+          "observationSha256": "414a96fdaac8eb1081baf8c5c8fe91eebd56aa82e89f64bb833fa715331f2a89"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "626f4773743ef001174f4e538f41aa16478859ef39fbd6a706088f35008f53ef",
+          "observationSha256": "83ca5108915b7d279b51281d4310f6f23a5ce07c219a93d691a6c8da490a0343"
+        }
+      ],
+      "allObservationsSha256": "6438b2c34c07a654dc7d6796a52e18ae0b928f77bf5de3c46f37e1c5e1dea8bc"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/4",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "9bbc63bd2874f35920251735659cac44e860816e98fd5ee3aa1ce6354d4a5b55",
+          "observationSha256": "e6b4f2bc67d54af901664ce6b3798348dcca5f7dd147bf307c5aa8cf8b3bac5d"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "92941a2a16a209198ab7ecc1c1ae85b6dcb60e428b1cdfb58b8fb6ca731b825f",
+          "observationSha256": "d37b46b30f3c76c4d383f0caa9a4e86fe752f962295446fdc6add030134130b4"
+        }
+      ],
+      "allObservationsSha256": "31abafaf56876ccce0b1243c51d1d538330665b9729a2d717259c415f5ac3a2a"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/4",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "9d7c4973b7e83512b7920524e9402f44f06e62501fae3307f683eb8adc7fca35",
+          "observationSha256": "12a246bd3fe3cf5ad1b444defda30dd0a0d08e787f909baabd45fc23690ed9e6"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "5897bebd09e8e7e6270273de755e253048ba6cb99a40ee69a192f14b6d339a36",
+          "observationSha256": "9a48b0e27505ccd1a1947e20ee35880f87d0651ebdd3d35509e7b5ad7e7b23ba"
+        }
+      ],
+      "allObservationsSha256": "48587f1b1bf106f033767cb79f7be08122b9f1aef261d13ec12f589e24122aec"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": true,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/4",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "4a4e473d291274cadf66081c52aa98be0243b662ec7820962a4ed11df15b3dde",
+          "observationSha256": "9fe0cded8ca8c8248836e6a02f29d0f8c2de8f41d2c938869325ed5bc00d4aed"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "43035478e07fa958c5533363fe8e9829765bc37bb729f4a995a9997aba582bf2",
+          "observationSha256": "1424ca3af6ec6224b6344997c74fcfb55bae9dbdbfcf29ac8fd6f9a8a9021f13"
+        }
+      ],
+      "allObservationsSha256": "eaab5f61874d4050861230577ad98eb4b3d8ce2b4744af2d98285cd3ca752853"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/4",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "5e62b15d98f305327aea9f41c03787e77284aa389f90a9b2100478d8c7faf2b4",
+          "observationSha256": "c14121180af281fbfc881387edd23043bd7a103ef62efe26567ce3f95771336a"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "fac5c2bcc1d97c9a33206e5402d5b0066f5fd5b38f549fe9e9761accafa5f38e",
+          "observationSha256": "c07bf4cf0faa05354d0c2183c615ff6494c2d3b544cae8c6229ca9b2e385236b"
+        }
+      ],
+      "allObservationsSha256": "9eb064b477caab55f9cc0f36a811464f18ce14ac90d3b8f561af8f278d7650fa"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/4",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "7bf916c76e2d17cd5285326d2f0aa41557933d7504f06b1b39c9efc4a91525da",
+          "observationSha256": "e6b4f2bc67d54af901664ce6b3798348dcca5f7dd147bf307c5aa8cf8b3bac5d"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "67d225e436e06d3a797aae0fce702f9d058b8ecd3e1928ea067c8e4751ea4452",
+          "observationSha256": "d37b46b30f3c76c4d383f0caa9a4e86fe752f962295446fdc6add030134130b4"
+        }
+      ],
+      "allObservationsSha256": "d85ff2f600fa8cf68fb111add0cf15d7a40b983f7bd3424989b50151a99faaa0"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": false,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/4",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "3dbf9ddfba6c4590ffcd409b96729181c3c965fbe4a0af3d75fc69b5d7fe245c",
+          "observationSha256": "12a246bd3fe3cf5ad1b444defda30dd0a0d08e787f909baabd45fc23690ed9e6"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "9d9bd1ff4d7116d2c989e0690e0d4edb0a9f38f3b701f0658fc67ed08d5af08f",
+          "observationSha256": "9a48b0e27505ccd1a1947e20ee35880f87d0651ebdd3d35509e7b5ad7e7b23ba"
+        }
+      ],
+      "allObservationsSha256": "5583018465fc189b234b24e7a3c231c057178824ca6119ad3371acfd122bce7d"
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/4",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "f4aa025c17b5558c9e25b8871941293e703f9b6e8315d598bfe6a54f0f156f1c",
+          "observationSha256": "9fe0cded8ca8c8248836e6a02f29d0f8c2de8f41d2c938869325ed5bc00d4aed"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "5a3a31ad76b3070cfd664275f7e1d1eb6886c4aadb7450e906617994cce927e2",
+          "observationSha256": "1424ca3af6ec6224b6344997c74fcfb55bae9dbdbfcf29ac8fd6f9a8a9021f13"
+        }
+      ],
+      "allObservationsSha256": "409b12ca6a226fa609f729cb12fb831f0d6e5acd3bcc1d45c95c9faa17b9b931"
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/4",
+      "states": [
+        {
+          "turn": 0,
+          "fingerprint": "8a27af40e9e450f5ac37a8295476e7f96b8e2818b65cf6c15c5dda19fa2e2661",
+          "observationSha256": "c14121180af281fbfc881387edd23043bd7a103ef62efe26567ce3f95771336a"
+        },
+        {
+          "turn": 1,
+          "fingerprint": "c7b29b8b9f055523a864acbbff1fc44f0db62c9b3323ef1bc91b24d4e896002a",
+          "observationSha256": "c07bf4cf0faa05354d0c2183c615ff6494c2d3b544cae8c6229ca9b2e385236b"
+        }
+      ],
+      "allObservationsSha256": "77038e7a16d2390ffa505481ced61400b380c3a9c31adac425014dcdd2ae30be"
+    }
+  ],
+  "sourceHashes": {
+    "baseline": {
+      "observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+      "observation-modules.js": "a52322f0ac350232e3524fed110dc1c6b31128793083df7c25156eb1e70b63a9",
+      "observations.js": "c680c18cf93534d385d1bec0fce2ec654c29ad6fa79a8cf5de56611e38ed74ec",
+      "replay-version.js": "542b80fb51a347a296cd610fce14bb3ff278d4e7c40c8ec329d2f8c37754470c",
+      "hash.js": "a2af1afe8540aa56834b8c26255f4a4b3da80104a27a9471cace70a65670f39c",
+      "landscape.js": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+      "map-data.js": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+      "map-templates.js": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e"
+    },
+    "current": {
+      "observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+      "observation-modules.js": "1577060208a90a5f1d8fe880769fcebdba78b68eb8b3b005d160c3a7d53af595",
+      "observations.js": "696bf8007fefa9f60f08f0212131728906fce2f82b4ba1708dc9b812570d30c2",
+      "replay-version.js": "d9ce87a95b9f042e548dfcfc67ecd519b0276b7dd4aba6d8b96e5d6f8187c82c",
+      "hash.js": "a2af1afe8540aa56834b8c26255f4a4b3da80104a27a9471cace70a65670f39c",
+      "landscape.js": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+      "map-data.js": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+      "map-templates.js": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e"
+    },
+    "runner": "2be580332d30033cf71cbbd323f2c03bce0ce70d8c4ec2182d817b7f68e802e5"
+  },
+  "scope": "survival/4 across eight profiles and one profile for each older version; two consecutive states each. Exact complete biological world, fingerprint, finite accounting, and separate baseline/current product O snapshots. Not a long-term survival or performance certification.",
+  "passed": true
+}

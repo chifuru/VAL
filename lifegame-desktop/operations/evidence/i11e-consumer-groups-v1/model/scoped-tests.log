@@ -1,0 +1,13 @@
+✔ tests/consumer-groups.test.cjs (5979.579536ms)
+✔ tests/energy-budget-audit.test.cjs (4817.171627ms)
+✔ tests/fungal-colonies.test.cjs (2616.911802ms)
+✔ tests/local-survival-archive.test.cjs (12411.154441ms)
+✔ tests/producer-colony-observation.test.cjs (236.208402ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 26076.610198

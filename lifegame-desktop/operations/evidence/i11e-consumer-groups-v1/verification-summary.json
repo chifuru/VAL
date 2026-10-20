@@ -1,0 +1,145 @@
+{
+  "definition": "i11e-verification/1",
+  "version": "4.2.47",
+  "baselineCommit": "23b2e18",
+  "biologicalSignature": "6db4142a9987079b6e0a4f6f1f06623fe9b1dd5096763ce2682993aefbb3316c",
+  "scopedRegression": {
+    "passed": true,
+    "files": [
+      "tests/consumer-groups.test.cjs",
+      "tests/fungal-colonies.test.cjs",
+      "tests/producer-colony-observation.test.cjs",
+      "tests/energy-budget-audit.test.cjs",
+      "tests/local-survival-archive.test.cjs"
+    ],
+    "groupContractCases": 9
+  },
+  "oldParity": {
+    "worlds": 24,
+    "fullObservationSnapshots": 12,
+    "versions": [
+      "survival/4 (8 profiles)",
+      "survival/3",
+      "survival/2",
+      "survival/1",
+      "unversioned"
+    ]
+  },
+  "sourceParity": {
+    "states": 16,
+    "advantageProfiles": 8
+  },
+  "browser": {
+    "checks": 16,
+    "report": "browser/report.json"
+  },
+  "comparison": {
+    "river-0": {
+      "turns": 50,
+      "invariantChecks": 51,
+      "initial": {
+        "grassbug": 33,
+        "waterbug": 34
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 123,
+        "fungus": 36
+      },
+      "main": 113,
+      "finalGroups": {
+        "grassbug": 0,
+        "waterbug": 42
+      },
+      "perSpecies": {
+        "grassbug": {
+          "extinctionTurn": 40,
+          "flows": {
+            "born": 17,
+            "combat": 16,
+            "harvest": 8,
+            "starvation": 15,
+            "age": 11,
+            "dispersed": 20,
+            "joined": 20,
+            "assimilatedE": 123.6664
+          }
+        },
+        "waterbug": {
+          "extinctionTurn": null,
+          "flows": {
+            "born": 153,
+            "combat": 0,
+            "harvest": 64,
+            "starvation": 0,
+            "age": 0,
+            "dispersed": 526,
+            "joined": 526,
+            "assimilatedE": 1190.3937
+          }
+        }
+      },
+      "fingerprint": "af7a370bb8562188a1278bc2a23136bf77be136b5a0cd39357b5815c9a46d418",
+      "modelHash": "1577060208a90a5f1d8fe880769fcebdba78b68eb8b3b005d160c3a7d53af595",
+      "elapsedMs": 19659.08595
+    },
+    "lake-1": {
+      "turns": 500,
+      "invariantChecks": 501,
+      "initial": {
+        "grassbug": 33,
+        "waterbug": 34
+      },
+      "final": {
+        "grassbug": 0,
+        "waterbug": 490,
+        "fungus": 29
+      },
+      "main": 256,
+      "finalGroups": {
+        "grassbug": 0,
+        "waterbug": 134
+      },
+      "perSpecies": {
+        "grassbug": {
+          "extinctionTurn": 269,
+          "flows": {
+            "born": 282,
+            "combat": 51,
+            "harvest": 0,
+            "starvation": 18,
+            "age": 246,
+            "dispersed": 294,
+            "joined": 294,
+            "assimilatedE": 4980.7473
+          }
+        },
+        "waterbug": {
+          "extinctionTurn": null,
+          "flows": {
+            "born": 579,
+            "combat": 68,
+            "harvest": 0,
+            "starvation": 52,
+            "age": 3,
+            "dispersed": 9310,
+            "joined": 9310,
+            "assimilatedE": 15369.5212
+          }
+        }
+      },
+      "fingerprint": "d85f5a5632ebc97236ad2a4f8940f1daa40b52c7751789a51739693a7b8f6f06",
+      "modelHash": "1577060208a90a5f1d8fe880769fcebdba78b68eb8b3b005d160c3a7d53af595",
+      "elapsedMs": 138899.562068
+    }
+  },
+  "balanceCertified": false,
+  "limitations": [
+    "Two fixed conditions, not independent survival probabilities. Existing producer support and advantages retained.",
+    "River grassbug dies by T40; lake grassbug dies T269, worse than individual baseline42 at T500.",
+    "Waterbug still uses prior advantaged lifespan and maintenance; 490 members are134 group records, not134 individuals.",
+    "P/Q life-cycle rates and all-lineage R1-R6 not certified.",
+    "No broad performance claim, Windows build or new ZIP."
+  ],
+  "nextProposal": "Discuss grassbug food access, paid dispersal frequency and renewal before modifying coefficients. Do not silently tune."
+}

@@ -948,6 +948,10 @@
             symbolColor(S.spec(o)),
           );
         if(!detail&&actor.cohabit>1&&actor.rank===0){g.save();g.font=`bold ${Math.max(.10,9/z)}px sans-serif`;g.textAlign='center';g.lineWidth=3/z;g.strokeStyle='#071a22';g.fillStyle='#ffedb4';g.strokeText('×'+actor.cohabit,cx,cy-.23);g.fillText('×'+actor.cohabit,cx,cy-.23);g.restore();}
+        if(near&&S.ConsumerGroup?.is(o)&&(z>=70||o.id===view.selectedEntity))annotations.push(()=>{
+          g.save();g.font=`bold ${Math.max(.07,9/z)}px sans-serif`;g.textAlign='center';g.lineWidth=3/z;g.strokeStyle='#071a22';g.fillStyle='#e4f3cd';
+          const text='×'+S.ConsumerGroup.count(o);g.strokeText(text,cx,cy-.19);g.fillText(text,cx,cy-.19);g.restore();
+        });
         const ages=frameCandidates.ages ||= new Map();if(!ages.has(o.id))ages.set(o.id,S.ageInfo(o));
         const a = ages.get(o.id),
           showStatus = view.statusMarks && near &&
@@ -1026,7 +1030,7 @@
           g.fillText(
             S.spec(o).name +
               " · " +
-              ["I", "II", "III", "IV"][o.phase - 1] +
+              (S.ConsumerGroup?.is(o)?S.ConsumerGroup.count(o)+"体の群れ":["I", "II", "III", "IV"][o.phase - 1]) +
               (action ? " / " + name[action.type] : "")+(actor.cohabit>1?' · #'+(actor.rank+1)+' '+String(o.id).replace(/:ryouki$/,'').slice(-5):''),
             labelX,
             nameBaseline,

@@ -31,7 +31,7 @@
     if(!cues.length)return score;
     // Only a visible body/plant is a cue. No access to its DNA, reserves or exact maturity.
     const cue=S.clamp(approach(w,o.cell,c.cell,cues[0].cell),-1,1),
-      delta=Math.abs(score)*Math.min(k,[0,.1,.2,.3][p.phase]||0)*cue;
+      delta=Math.abs(score)*Math.min(k,[0,.1,.2,.3][p.phase]||0)*cue/S.ConsumerGroup.count(o);
     c.primaryInduction={parasite:p.id,cue:cue,target:cues[0].id,delta};
     return score+delta;
   }
@@ -96,6 +96,7 @@
           ? 0.95
           : 1;
     return (
+      S.ConsumerGroup.count(o) *
       ageMove *
       (w.config.ecologyRevision === "observation/4.1" && s.group === "main" ? .6 : 1) *
       (s.group === "main" ? 0.65 : 1) *
@@ -571,7 +572,7 @@
           0.1 * xi +
           (tide && c.type === "move" ? 0.015 * scale : 0) +
           (leaf ? -0.03 * scale * (c.type === "move" ? -0.5 : 0.5) : 0) -
-          c.cost / 5 +
+          c.cost / (5*S.ConsumerGroup.count(o)) +
           lure;
       const induced=primaryInduction(w,o,c,v,score,ctx);
       return { score:induced, noRandom: induced - 0.1 * xi, features: [], xi,
@@ -990,7 +991,8 @@
         .sort(
           (a, b) => b.damage - a.damage || S.compare(a.o.id, b.o.id),
         )[0].o.id;
-      target.HP = S.round(Math.max(0, target.HP - total));
+      if(S.ConsumerGroup.is(target))S.ConsumerGroup.damage(w,target,actual);
+      else target.HP = S.round(Math.max(0, target.HP - total));
     }
   }
   function care(w, ctx) {

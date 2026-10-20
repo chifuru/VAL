@@ -23,7 +23,7 @@
       Pcount = 0,
       Qcount = 0;
     for (const o of w.organisms) {
-      counts[o.species]++;
+      counts[o.species]+=S.ConsumerGroup.count(o);
       if (o.slot === "main") {
         main++;
         phases[o.phase - 1]++;
@@ -32,7 +32,7 @@
           colonies[o.colony] = (colonies[o.colony] || 0) + 1;
         }
       } else if(S.LargePlant?.is(o))producer++;
-      else food++;
+      else food+=S.ConsumerGroup.count(o);
       if (o.infection) {
         Pcount++;
         counts[o.infection.species]++;
@@ -50,7 +50,8 @@
     }
     counts.hyperparasite += w.searchQ?.length || 0;
     return {
-      population: w.organisms.length,
+      population: S.ConsumerGroup.enabled(w)?w.organisms.reduce((n,o)=>n+S.ConsumerGroup.count(o),0):w.organisms.length,
+      ...(S.ConsumerGroup.enabled(w)?{agents:w.organisms.length}:{}),
       main,
       food,
       ...(S.LargePlant?.enabled(w)?{producer}:{}),
@@ -91,6 +92,7 @@
       transfers: 0,
       infectionFailures: 0,
     };
+    if(S.ConsumerGroup.enabled(w))ctx.consumerGroupFlows=Object.fromEntries(S.ConsumerGroup.species.map(id=>[id,{born:0,combat:0,harvest:0,starvation:0,age:0,dispersed:0,joined:0,assimilatedE:0}]));
     if(S.PrimaryParasite?.enabled(w)){
       ctx.primaryHooks=P;
       ctx.primaryFlow=P.emptyPrimaryFlow(w);
@@ -104,6 +106,7 @@
       ctx.traits.set(o.id, S.phenotype(w, o));
       ctx.old.set(o.id, {
         phase: o.phase,
+        ...(S.ConsumerGroup.is(o)?{members:S.ConsumerGroup.count(o)}:{}),
         species: o.species,
         HP: o.HP,
         E: o.E,
@@ -311,7 +314,8 @@
     w.demography ??= {};
     const cohort=(species,generation)=>w.demography[species+"|"+generation]??={species,generation,initial:0,born:0,matured:0,reproduced:0,juvenileDeaths:0};
     const childIds=new Set((ctx.children||[]).map(a=>a.id));
-    for(const o of w.organisms){const c=cohort(o.species,o.generation);
+    // Mixed local generations have member flows, not an individual family funnel.
+    for(const o of w.organisms){if(S.ConsumerGroup.is(o))continue;const c=cohort(o.species,o.generation);
       if(w.turn===0)c.initial++;
       if(childIds.has(o.id))c.born++;
       if(!S.Colony.is(o)&&!S.FungalColony.is(o)&&ctx.traits.get(o.id)?.ageStage==="juvenile" && S.ageInfo(o).stage!=="juvenile")c.matured++;
@@ -321,9 +325,15 @@
 
     for(const o of w.organisms) {
       const row=composition[o.species]??={phases:[0,0,0,0],ages:{juvenile:0,adult:0,elderly:0},sex:{female:0,male:0,none:0},roles:{}};
-      row.phases[o.phase-1]++;
-      if(S.Colony.is(o)||S.FungalColony.is(o)){row.ages.nonapplicable=(row.ages.nonapplicable||0)+1;row.sex.nonapplicable=(row.sex.nonapplicable||0)+1;}
-      else{row.ages[S.ageInfo(o).stage]++;row.sex[o.sex in row.sex ? o.sex : "none"]++;}
+      if(S.ConsumerGroup.is(o)){
+        for(const c of o.consumerGroup.cohorts)row.phases[c.phase-1]+=c.n;
+        for(const [stage,n]of Object.entries(S.ConsumerGroup.ages(o)))row.ages[stage]+=n;
+        row.sex.none+=S.ConsumerGroup.count(o);
+      }else{
+        row.phases[o.phase-1]++;
+        if(S.Colony.is(o)||S.FungalColony.is(o)){row.ages.nonapplicable=(row.ages.nonapplicable||0)+1;row.sex.nonapplicable=(row.sex.nonapplicable||0)+1;}
+        else{row.ages[S.ageInfo(o).stage]++;row.sex[o.sex in row.sex ? o.sex : "none"]++;}
+      }
       if(o.birthBlockers){const reasons=birthReasons[o.species]??={};for(const reason of o.birthBlockers)reasons[reason]=(reasons[reason]||0)+1;}
       if(o.role)row.roles[o.role]=(row.roles[o.role]||0)+1;
       if(o.infection){const p=o.infection;add(p.species,o.species,"bond");links[p.species+"|"+o.species+"|bond"]=(links[p.species+"|"+o.species+"|bond"]||0)+1;if(p.q){add("hyperparasite",p.species,"bond");links["hyperparasite|"+p.species+"|bond"]=(links["hyperparasite|"+p.species+"|bond"]||0)+1;}}
@@ -343,7 +353,7 @@
     for(const death of ctx.deaths){
       if(death.reason!=="combat")continue;
       const attacker=ctx.records.get(death.id)?.hitBy,credited=refs.get(attacker);
-      if(credited)combat.kills[credited]=(combat.kills[credited]||0)+1;
+      if(credited)combat.kills[credited]=(combat.kills[credited]||0)+(death.count??1);
     }
     flowTelemetry.combat=combat;
     if(w.config.relationshipModel==="network/1"){
@@ -360,13 +370,13 @@
           if(e.type==="primary-clear"&&["groom","immunity"].includes(e.reason))pair(relationship.clear,from,from);
           if(e.type==="hyper-cleared"&&["groom","immunity"].includes(e.reason))pair(relationship.clear,e.hostSpecies,e.hostSpecies);
         }
-        for(const death of ctx.deaths)if(death.reason==="combat")pair(relationship.kills,refs.get(ctx.records.get(death.id)?.hitBy),death.species||refs.get(death.id));
+        for(const death of ctx.deaths)if(death.reason==="combat")pair(relationship.kills,refs.get(ctx.records.get(death.id)?.hitBy),death.species||refs.get(death.id),death.count??1);
       }
       flowTelemetry.relationship=relationship;
     }
     flowTelemetry.information={definition:"information-observed/1",emissions:ctx.infoEmissions||[],receipts:ctx.infoReceipts||[],effects:ctx.infoEffects||[],origins:[]};
     for(const a of w.resources)if(a.kind==="info"&&a.event&&refs.has(a.event.sourceId))flowTelemetry.information.origins.push({id:a.event.id,species:refs.get(a.event.sourceId),time:a.event.time});
-    return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),...(S.HyperParasite?.enabled(w)?{hyperParasite:structuredClone(ctx.hyperFlow)}:{}),...(S.PersistentInformation?.enabled(w)?{persistentInformation:structuredClone(ctx.persistentInformationFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
+    return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),...(S.HyperParasite?.enabled(w)?{hyperParasite:structuredClone(ctx.hyperFlow)}:{}),...(S.PersistentInformation?.enabled(w)?{persistentInformation:structuredClone(ctx.persistentInformationFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.reduce((n,d)=>n+(d.count??1),0),transfers:ctx.transfers};
   }
   function finish(w, ctx) {
     if(S.PersistentInformation?.enabled(w))w.persistentInformationSummary=S.PersistentInformation.summary(w);
@@ -375,13 +385,14 @@
     S.Ryouki.summary(w);
     S.Colony.summary(w);
     S.FungalColony.summary(w);
+    S.ConsumerGroup.summary(w,ctx);
     if(S.LargePlant?.enabled(w))S.LargePlant.summary(w);
     S.ProducerSupport.finish(w,ctx,S);
     w.tallies = w.tallies || emptyTallies(w);
     for (const id of ctx.births) w.tallies.births[id]++;
     for (const death of ctx.deaths) {
-      w.tallies.deaths[death.species]++;
-      w.tallies.causes[death.reason]=(w.tallies.causes[death.reason]??0)+1;
+      w.tallies.deaths[death.species]+=death.count??1;
+      w.tallies.causes[death.reason]=(w.tallies.causes[death.reason]??0)+(death.count??1);
     }
     for (const list of ctx.events.values())
       for (const event of list)
@@ -420,7 +431,7 @@
     w.diagnostics = ctx.diagnostics || null;
     w.last = {
       births: ctx.births.length,
-      deaths: ctx.deaths.length,
+      deaths: ctx.deaths.reduce((n,d)=>n+(d.count??1),0),
       transfers: ctx.transfers,
       infectionFailures: ctx.infectionFailures,
       deathCauses: ctx.deaths,
@@ -481,6 +492,7 @@
     S.Ryouki.begin(w);
     S.Colony.begin(w);
     S.FungalColony.begin(w);
+    S.ConsumerGroup.begin(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.begin(w);
     S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
@@ -509,6 +521,7 @@
           S.withMapScope(w, () => {
             if(w.config.ecologyRevision === "observation/4.1") B.choose(w,ctx,"effect");
             B.combat(w, ctx);
+            N.groupDamage(w,ctx,"combat");
             B.care(w, ctx);
             if(w.config.ecologyRevision === "observation/4.1") P.clear(w,ctx);
             if(w.config.ecologyRevision === "observation/4.1") N.payActions(w,ctx);
@@ -527,6 +540,7 @@
             R.reproduce(w, ctx);
             if(S.PersistentInformation?.enabled(w))P.informationTrack(w,ctx);
           });
+          S.ConsumerGroup.disperse(w,ctx,B.moveCost);
           // Rebuild after births. Supply reads one snapshot, then appends resources at the end.
           S.withMapScope(w, () => {
             const drops = N.investAndDrops(w, ctx),
@@ -615,10 +629,11 @@
         )
       )
         errors.push("BUDGET:" + o.id);
-      if(w.config.ageModel==="life/1"&&!S.Colony.is(o)&&!S.FungalColony.is(o)){
+      if(w.config.ageModel==="life/1"&&!S.Colony.is(o)&&!S.FungalColony.is(o)&&!S.ConsumerGroup.is(o)){
         if(!Number.isFinite(o.birthLife)||o.birthLife<=0)errors.push("AGE_BASIS:"+o.id);
         else if(o.HP>S.phenotype(w,o).maxHP+.000001)errors.push("AGE_HP:"+o.id);
       }
+      if(S.ConsumerGroup.is(o)&&!S.ConsumerGroup.validate(w,o))errors.push("CONSUMER_GROUP:"+o.id);
       if(S.FungalColony.is(o)){const c=o.colony;
         if(!S.FungalColony.enabled(w)||o.B<c.baseB-1e-6||S.edibleB(o)>c.capacityB+1e-6||c.baseB!==1||c.activity<0||c.activity>1||!Number.isSafeInteger(c.starvationRun)||c.starvationRun<0||![c.capacityB,c.activity,...Object.values(c.last),...Object.values(c.cumulative)].every(n=>Number.isFinite(n)&&n>=0))errors.push("FUNGAL_COLONY:"+o.id);
       }

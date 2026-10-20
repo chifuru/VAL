@@ -1,0 +1,111 @@
+{
+  "definition": "i11e-source-parity/1",
+  "config": {
+    "seed": "i11e-source-parity",
+    "width": 16,
+    "height": 12,
+    "initial": 8,
+    "lineages": "manual",
+    "selected": [
+      "solar",
+      "ryouki"
+    ],
+    "ryoukiModel": "ryouki/1",
+    "ageModel": "life/1",
+    "balanceModel": "survival/4",
+    "consumerModel": "group/1",
+    "ecologyRevision": "observation/4.1",
+    "producerModel": "colony/1",
+    "enabled": {
+      "main": true,
+      "plant": true,
+      "fungus": true,
+      "prey": true,
+      "P": true,
+      "Q": true
+    }
+  },
+  "checks": [
+    {
+      "bits": 0,
+      "turn": 0,
+      "sha256": "e59cf5024d9e4bfc67d1b889233395f61fc8cb9fdbf4500f1810d5c24ecebed8"
+    },
+    {
+      "bits": 0,
+      "turn": 1,
+      "sha256": "5c3de739d8188d85fcf914733b9109f1cd677453a5a7b66831c6f503667b833b"
+    },
+    {
+      "bits": 1,
+      "turn": 0,
+      "sha256": "91e4c28347ea910bba9b9625b464a1eebd54eee158e068bcbe18e47fe4d12b53"
+    },
+    {
+      "bits": 1,
+      "turn": 1,
+      "sha256": "b1b5b402cb5d37335688862f03cc6abb54c65807547dbd07367d53ad43372a76"
+    },
+    {
+      "bits": 2,
+      "turn": 0,
+      "sha256": "a11fd2437c8ed8fbd7c90d29468b856752118fa7c4e8c25bf0a71cd9bde26c15"
+    },
+    {
+      "bits": 2,
+      "turn": 1,
+      "sha256": "9ecf1d03859f769730e56bd67e57a5853fdd974e9c96122eb246be5a3be8d4b8"
+    },
+    {
+      "bits": 3,
+      "turn": 0,
+      "sha256": "5479b1994d96695936d24b3e8e9f0e9fca4415a9b436f72e73fc6210cce2d755"
+    },
+    {
+      "bits": 3,
+      "turn": 1,
+      "sha256": "779e2a7ac40775d11944a9d204055c382c2b549310edc817a3be8b610ff3c75c"
+    },
+    {
+      "bits": 4,
+      "turn": 0,
+      "sha256": "c226ececed2749a97d83cabfe36b8bd8442a8761d993f9a5204e59cdaa642953"
+    },
+    {
+      "bits": 4,
+      "turn": 1,
+      "sha256": "0e02c7ace48a9d1a01b974fc3d46757697f485b9e55f03edf8758d1292bad443"
+    },
+    {
+      "bits": 5,
+      "turn": 0,
+      "sha256": "fed905ac17c2543dceba473eb4c97c2765ad6d5f85cbfc9958bb26fde5144298"
+    },
+    {
+      "bits": 5,
+      "turn": 1,
+      "sha256": "eba8b84959f5e52cecbb9c044ef21befb79b531d48c2d710704c7dbe93c5d69c"
+    },
+    {
+      "bits": 6,
+      "turn": 0,
+      "sha256": "81dcb62a79d05a07d31e785c6ecdcdf33224ad323256a8bc2db274c17c34afef"
+    },
+    {
+      "bits": 6,
+      "turn": 1,
+      "sha256": "593d20dcfff0ded0cdb7528724518c422f6f9b38ed23fffdd70056a701ceeabd"
+    },
+    {
+      "bits": 7,
+      "turn": 0,
+      "sha256": "015f9b73eb3a15dd94bd8f9d2b3fb8c4ff28a7652d40ea0504bca244b430d45e"
+    },
+    {
+      "bits": 7,
+      "turn": 1,
+      "sha256": "b512d1a5d19cb19dccc54b5bba6f3665ff974ffff4f6e7d496d2a16f564fd9a8"
+    }
+  ],
+  "passed": true
+}

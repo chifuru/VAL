@@ -751,7 +751,7 @@
         else if(w.turn>=p.primary.carrierUntil){exclude(w,ctx,host,"carrier-expired");continue;}
       }
       const phase=Math.min(3,p.phase),factor=primaryCost(w,p,host),last=p.primary.last;
-      if(alive){const paid=Math.min(host.E,settings.hostTax[phase],settings.capE-p.E);host.E=S.round(host.E-paid);p.E=S.round(p.E+paid);last.taxE=paid;}
+      if(alive){const paid=Math.min(host.E/S.ConsumerGroup.count(host),settings.hostTax[phase],settings.capE-p.E);host.E=S.round(host.E-paid);p.E=S.round(p.E+paid);last.taxE=paid;}
       const maintenance=S.round(settings.maintenance[phase]*factor),paid=primarySpend(w,p,maintenance);
       last.maintenanceE=paid;last.maintained=paid+1e-8>=maintenance;entry.full=last.maintained;
       if(!last.maintained)last.blockers.push("maintenance");

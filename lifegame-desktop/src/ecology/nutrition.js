@@ -121,6 +121,7 @@
       if (!o.factor || o.factor.expires <= w.turn || level > o.factor.level)
         o.factor = { level, expires: w.turn + 3 };
     }
+    if(S.ConsumerGroup.is(o)){S.ConsumerGroup.heal(o,healed);if(organic&&ctx.consumerGroupFlows)ctx.consumerGroupFlows[o.species].assimilatedE=S.round(ctx.consumerGroupFlows[o.species].assimilatedE+e);}
     return { e, m, organic, healed };
   }
   function removeResource(w, a) {
@@ -456,8 +457,15 @@
             });
         }
       requests.sort((a, b) => a.h - b.h || S.compare(a.o.id, b.o.id));
-      for (const { o, source: a } of requests) {
-        if (ctx.harvestDead.has(o.id)) continue;
+      for (const request of requests) {
+        const o=request.o;let a=request.source;
+        if (ctx.harvestDead.has(o.id)||o.HP<=0) continue;
+        if(a.type==='plant'&&S.ConsumerGroup.is(a.obj)){
+          const prey=a.obj;if(!S.ConsumerGroup.count(prey)||prey.HP<=0)continue;
+          const remains=groupLoss(w,prey,1,'harvest',ctx);
+          if(!remains)continue;
+          a={...a,type:'carcass',obj:remains,id:remains.id};
+        }
         const obj = a.obj;
         if (
           (obj.q !== undefined && obj.q <= 0) ||
@@ -490,7 +498,7 @@
               o.E +
               (2 * (p.maxHP - o.HP)) / (a.healing * p.ageFactors.healing);
           const B = Math.min(
-              isRyouki(w,o)?(o.ryouki.mutated?w.config.ryoukiSettings.mutatedBiteB:w.config.ryoukiSettings.biteB)*(S.LargePlant.is(obj)?S.phenotype(w,obj).biteFactor:1):S.LargePlant.is(obj)?2*S.phenotype(w,obj).biteFactor:2,
+              S.ConsumerGroup.is(o)?2*S.ConsumerGroup.count(o):isRyouki(w,o)?(o.ryouki.mutated?w.config.ryoukiSettings.mutatedBiteB:w.config.ryoukiSettings.biteB)*(S.LargePlant.is(obj)?S.phenotype(w,obj).biteFactor:1):S.LargePlant.is(obj)?2*S.phenotype(w,obj).biteFactor:2,
               S.edibleB(obj),
               S.spec(o).group === "prey"
                 ? Math.max(0, S.round(need / efficiency(o, a.tag, p.phase)))
@@ -583,7 +591,8 @@
     cost = S.round(cost);
     const paid = Math.min(o.E, cost);
     o.E = S.round(o.E - paid);
-    o.HP = S.round(Math.max(0, o.HP - 2 * (cost - paid)));
+    if(S.ConsumerGroup.is(o))S.ConsumerGroup.damage(w,o,2*(cost-paid));
+    else o.HP = S.round(Math.max(0, o.HP - 2 * (cost - paid)));
     S.dissipate(w, paid);
     return paid;
   }
@@ -598,7 +607,7 @@
   function carcass(w, o, ctx) {
     if(S.Colony.is(o)&&o.colony.edibleExposure){S.dissipate(w,o.colony.edibleExposure.E);o.colony.edibleExposure=null;}
     const same = w.carcasses.find(
-      (a) => a.cell === o.cell && a.slot === o.slot &&
+      (a) => !o.groupRemains && a.cell === o.cell && a.slot === o.slot &&
         (!(S.Ryouki?.enabled(w)&&o.slot==="main")||a.id==="c:"+o.id+":"+w.turn),
     );
     if (same) {
@@ -640,6 +649,21 @@
     } else S.loseInfection(w, p);
     o.infection = null;
     w.carcasses.push(a);
+    return a;
+  }
+  function groupLoss(w,o,n,reason,ctx,ageOnly=null){
+    const piece=S.ConsumerGroup.extract(w,o,n,reason,ctx,ageOnly);if(!piece)return null;
+    S.ConsumerGroup.recordLoss(w,o,piece,reason,ctx);
+    const remains=carcass(w,piece.part,ctx);
+    if(!S.ConsumerGroup.count(o)&&ctx.informationHooks)ctx.informationHooks.informationDeath(w,ctx,o,{reason,cell:o.cell});
+    S.ConsumerGroup.refresh(w,o,ctx);return remains;
+  }
+  function groupDamage(w,ctx,reason){
+    for(const o of w.organisms)if(S.ConsumerGroup.is(o)&&S.ConsumerGroup.count(o)){
+      const g=o.consumerGroup,unit=S.spec(o).capacity[3],n=S.ConsumerGroup.count(o),
+        lost=o.HP<=0?n:Math.min(n,Math.floor((g.wounds+1e-8)/unit));
+      if(lost){g.wounds=S.round(Math.max(0,g.wounds-lost*unit));groupLoss(w,o,lost,reason,ctx);}
+    }
   }
   function payActions(w,ctx) {
     for(const o of w.organisms){const c=ctx.costs.get(o.id);if(!c)continue;spend(w,o,c.action);c.action=0;}
@@ -650,8 +674,10 @@
         p = ctx.traits.get(o.id),
         s = S.spec(o),
         intent = ctx.intents.get(o.id);
+      if(S.ConsumerGroup.is(o)&&S.ConsumerGroup.count(o)===0)continue;
       spend(w, o, c.action);
       let base = c.base;
+      if(S.ConsumerGroup.is(o))base*=S.ConsumerGroup.count(o)/(ctx.old.get(o.id)?.members||S.ConsumerGroup.count(o));
       if (["stop", "defend"].includes(intent.type))
         base *= 1 + S.trait(o, "rest", p.phase);
       const paidBase=spend(w, o, base);
@@ -666,11 +692,22 @@
       if(S.LargePlant.is(o))S.LargePlant.maintained(w,o,paidBase,base);
       const paidDensity = spend(w, o, c.density);
       ctx.records.get(o.id).crowding = c.neighborCount >= 5 && paidDensity > 0;
-      parasiteFee(w, ctx, o);
+      const beforeFeeHP=o.HP;parasiteFee(w, ctx, o);
+      if(S.ConsumerGroup.is(o)){S.ConsumerGroup.damage(w,o,Math.max(0,beforeFeeHP-o.HP));S.ConsumerGroup.bindInfection(w,o);}
       o.age++;
     }
+    groupDamage(w,ctx,'starvation');
     const survivors = [];
     for (const o of w.organisms) {
+      if(S.ConsumerGroup.is(o)){
+        const g=o.consumerGroup;
+        for(const cohort of g.cohorts)cohort.age++;
+        if(g.infectedAge!==null)g.infectedAge++;
+        const expired=new Map();for(const c of g.cohorts)if(c.age>=S.spec(o).life)expired.set(c.age,(expired.get(c.age)||0)+c.n);
+        for(const [age,n]of expired)groupLoss(w,o,n,'age',ctx,age);
+        if(S.ConsumerGroup.count(o)>0){S.ConsumerGroup.refresh(w,o,ctx);survivors.push(o);}
+        continue;
+      }
       const p = ctx.traits.get(o.id);
       let reason = null;
       if (o.HP <= 0)
@@ -695,6 +732,7 @@
     for (const o of w.organisms) {
       if (!ctx.traits.has(o.id)) continue;
       const s = S.spec(o);
+      if(S.ConsumerGroup.is(o))continue;
       if(S.LargePlant.is(o))S.LargePlant.regrow(w,o,ctx);
       else if(S.Colony.is(o))S.Colony.regrow(w,o);
       else if (["plant", "fungus"].includes(s.group)) {
@@ -930,7 +968,7 @@
       }
     }
   }
-  return {
+  return { groupLoss, groupDamage,
     efficiency,
     absorb,
     expireAndCA,

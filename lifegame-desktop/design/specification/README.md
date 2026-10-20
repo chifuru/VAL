@@ -1,8 +1,8 @@
 # 生態シミュレーション：現在のA・B仕様
 
-管理版 `specification-index/16`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
+管理版 `specification-index/17`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
 
-第1〜第4組、量機/3と採用分岐、植物/P/Qの造形対応は採用済み。新たに[菌膜群落/1](fungal-colonies-v1.md)を既存A1.2/A1.7・B4.3/B4.4/B5.2/B5.5/B5.6へ反映し、開発版4.2.46の `survival/4` へ接続する。既存の個体単位・寿命規則のうち、菌膜だけを基部/可食部・有償再生・連続維持不足による消滅へ置き換える。他の動物は個体のまま。採用済みの造形と版付き比較値を区別し、実測範囲は[I11d証跡](../../operations/evidence/i11d-lower-renewal-v1/README.md)。配布済みWindowsは4.2.32、新配布はI12。
+第1〜第4組、量機/3と採用分岐、植物/P/Qの造形対応は採用済み。[菌膜群落/1](fungal-colonies-v1.md)を維持し、新たに[一次消費者の小集団/1](consumer-groups-v1.md)をA1.2/A1.7・B4.4/B5.2/B5.5/B5.6へ反映。開発版4.2.47の `consumerModel: group/1` へ接続する。実測と草棲虫の未達は[I11e証跡](../../operations/evidence/i11e-consumer-groups-v1/README.md)。追加バランス調整は実測を共有して利用者と相談する。
 
 ## 読む順序と優先順位
 
@@ -18,6 +18,7 @@
 
 | 対象 | 読む正本 | 優先する内容・境界 |
 | --- | --- | --- |
+| 一次消費者の小集団 | [小集団/1](consumer-groups-v1.md) | 草棲虫/水游虫の内部人数・相/年齢、有償出生、部分死亡、局所分散/合流。主生物は個体を維持し、内部人数/集団数/体量を区別 |
 | 菌膜の群落単位/有限再生 | [菌膜群落/1](fungal-colonies-v1.md) | 1マス1群落、基部/可食部、有機物の分解と実費再生、維持不足消滅。菌膜の個体寿命/年齢を置換し旧再生は維持 |
 | 量機の系統/分岐/相変異 | [量機/3](ryouki-v1.md)、[原案・採用資料](../ryouki-v1/README.md)、[採用分岐対応](../ryouki-branches-v2/README.md) | 草と虫、通常I1/II2/III3/IV4、III3→IV6。相変異は可逆で全相3マス/2〜3独立個体同居、1〜3は背面黒/4は黒と深緑・繁殖目的。継続低密度で解除。通常分岐2画像は採用済み、旧9区画図は採用外。戦闘3倍率は採用済み、その他の未選定数値は比較案。実装未完 |
 | 植物/P/Qの造形と系統/相/形態 | [造形対応/1](appearance-correspondence-v1.md)、[採用画像と区画](../appearance-baseline-v1/README.md) | 森冠/星冠は別系統の定着生産者、淡水は浮遊/移動生産者。三植物の本体一個体/有限可食量/III3→IV6、既存P二系統A/B/C×I〜III、Q I〜IIIと翅なし最終IV。海生02/泳法/旧Q IVを除外。実装/素材化は未完 |
@@ -44,7 +45,7 @@
 | 地形/環境 | [事前地形v1.6](ab-map-visual-v1.6.md)、[渡河/領域v2.5](ab-visual-ecology-v2.5.md) | 代表6地形×対応寸法、自然な接続/浅瀬等、許可部分の変化、環境固定。旧seed入力UI・1000T・III相繁殖等は対象別正本で置換 |
 | 軽量化/演出 | [最適化31](optimization-v4.2.31.md)、[32](optimization-v4.2.32.md)、[処理軽減/2](display-load-reduction-v1.md) | 乱数表/索引/差分/背景部品合成/事前陰影/行動マーク。最大軽減でも近景を強制記号化しない。操作中画質低下は任意で既定OFF |
 
-層分離は[観測整理](observation-clarity-v4.2.30.md)により通常UIから撤去しOFF固定。通常の「1ターン確定」は[最適化31](optimization-v4.2.31.md)で撤去。下層の一括集団化案ではなく、生産者だけ[群落仕様](balance-restoration-v1.md)を適用する。量機の相変異2〜3体同居は個体を束ねる集団化ではなく、独立IDの占有例外。旧計画の未完項目をそのまま復活させない。
+層分離は[観測整理](observation-clarity-v4.2.30.md)により通常UIから撤去しOFF固定。通常の「1ターン確定」は[最適化31](optimization-v4.2.31.md)で撤去。現在は生産者へ[群落仕様](balance-restoration-v1.md)、菌膜へ[菌膜群落](fungal-colonies-v1.md)、草棲虫/水游虫へ[小集団仕様](consumer-groups-v1.md)を適用する。量機の相変異2〜3体同居は個体を束ねる集団化ではなく、独立IDの占有例外。旧計画の未完項目をそのまま復活させない。
 
 ## 未変更部分の基礎仕様
 
