@@ -11,6 +11,29 @@
   else root.EcoBehavior = api;
 })(globalThis, function (S, Nutrition) {
   "use strict";
+  function primaryInduction(w,o,c,v,score){
+    const p=o.infection,k=p?.primary?.last?.induction;
+    if(!S.PrimaryParasite?.enabled(w)||!k||c.type!=="move")return score;
+    const intermediate=["middle","extra"].includes(p.stage),cues=[];
+    for(const cell of v.visibleCells){
+      const candidates=intermediate?mainMembers(w,v.m,cell):[v.m.food.get(cell),v.m.producer?.get(cell)];
+      for(const target of candidates){
+        if(!target||target.id===o.id)continue;
+        const s=S.spec(target),visibleKind=intermediate?
+          s.group==="main"&&Object.hasOwn(p.primary.hostPreference||{},s.id):
+          p.species==="tideparasite"?["algae","freshwaterlight"].includes(s.id):["grass","moss","forestcrown","starcrown"].includes(s.id);
+        if(visibleKind)cues.push(target);
+      }
+    }
+    const preference=target=>(p.primary.hostPreference?.[target.species]??.5)/(1+S.distance(w,o.cell,target.cell));
+    cues.sort((a,b)=>preference(b)-preference(a)||S.compare(a.id,b.id));
+    if(!cues.length)return score;
+    // Only a visible body/plant is a cue. No access to its DNA, reserves or exact maturity.
+    const cue=S.clamp(approach(w,o.cell,c.cell,cues[0].cell),-1,1),
+      delta=Math.abs(score)*Math.min(k,[0,.1,.2,.3][p.phase]||0)*cue;
+    c.primaryInduction={parasite:p.id,cue:cue,target:cues[0].id,delta};
+    return score+delta;
+  }
   const phaseA = [0, 1, 1.15, 1.35, 1.6];
   const grouped = w => S.Ryouki?.enabled(w) === true;
   const isRyouki = (w,o) => grouped(w) && S.Ryouki.is(o);
@@ -492,7 +515,7 @@
         ]) -
       1;
     const p = o.infection,
-      middle = p && ["middle", "extra"].includes(p.stage),
+      middle = p && !S.PrimaryParasite?.enabled(w) && ["middle", "extra"].includes(p.stage),
       scale = p?.q?.phase >= 2 ? 0.5 : 1;
     let lure = 0;
     if (middle) {
@@ -515,7 +538,8 @@
           (leaf ? -0.03 * scale * (c.type === "move" ? -0.5 : 0.5) : 0) -
           c.cost / 5 +
           lure;
-      return { score, noRandom: score - 0.1 * xi, features: [], xi };
+      const induced=primaryInduction(w,o,c,v,score);
+      return { score:induced, noRandom: induced - 0.1 * xi, features: [], xi };
     }
     if (s.group !== "main") return { score: 0, noRandom: 0, features: [], xi };
     const nearest = v.nearest;
@@ -704,6 +728,7 @@
         if(preparation>0){score+=(w.config.ryoukiSettings.preparationWeight-1)*preparation;c.ryoukiGoal="繁殖準備";}
       }
     }
+    score=primaryInduction(w,o,c,v,score);
     const noRandom = score;
     score += (weights[8] / 100) * xi;
     return { score, noRandom, features, xi };

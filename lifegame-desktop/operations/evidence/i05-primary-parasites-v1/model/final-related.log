@@ -1,0 +1,11 @@
+✔ tests/primary-parasite-flow.test.cjs (4696.597482ms)
+✔ tests/primary-parasite-observation.test.cjs (172.469032ms)
+✔ tests/primary-parasite.test.cjs (1141.098719ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6021.049393

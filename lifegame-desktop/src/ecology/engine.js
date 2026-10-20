@@ -43,6 +43,11 @@
         }
       }
     }
+    if(S.PrimaryParasite?.enabled(w))for(const {p,carrier} of S.PrimaryParasite.entries(w)){
+      if(carrier?.infection!==p||w.organisms.includes(carrier))continue;
+      Pcount++;counts[p.species]++;infectionStages[p.stage]++;
+      if(p.q){Qcount++;counts.hyperparasite++;}
+    }
     counts.hyperparasite += w.searchQ?.length || 0;
     return {
       population: w.organisms.length,
@@ -86,6 +91,10 @@
       transfers: 0,
       infectionFailures: 0,
     };
+    if(S.PrimaryParasite?.enabled(w)){
+      ctx.primaryHooks=P;
+      ctx.primaryFlow=P.emptyPrimaryFlow(w);
+    }
     for (const o of w.organisms) {
       ctx.traits.set(o.id, S.phenotype(w, o));
       ctx.old.set(o.id, {
@@ -188,7 +197,7 @@
         base: base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" && !S.Ryouki.is(o) ? .65 : 1),
         density,
         neighborCount,
-        budget: Math.max(0, o.E - base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" && !S.Ryouki.is(o) ? .65 : 1) - density - (o.infection ? 0.2 : 0)),
+        budget: Math.max(0, o.E - base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" && !S.Ryouki.is(o) ? .65 : 1) - density - (o.infection && !S.PrimaryParasite?.enabled(w) ? 0.2 : 0)),
       });
     }
   }
@@ -197,6 +206,9 @@
     birth: 1,
     growth: 1,
     infection: 2,
+    "primary-established": 2,
+    "primary-transferred": 2,
+    "primary-clear": 2,
     attack: 3,
     feed: 4,
     care: 4,
@@ -263,6 +275,10 @@
       if(e.type==="feed")add(refs.get(id),e.sourceSpecies || refs.get(e.source),"feeding");
       if(e.type==="care"||e.type==="clear")add(refs.get(id),refs.get(e.target),e.type);
       if(e.type==="infection")add(e.species || refs.get(e.parasite),refs.get(e.target)||refs.get(id),"infection");
+      if(S.PrimaryParasite?.enabled(w)){
+        if(["primary-established","primary-transferred"].includes(e.type))add(e.species,refs.get(id),"infection");
+        if(e.type==="primary-clear")add(refs.get(id),e.species,"clear");
+      }
     }
     const map=S.maps(w),last=new Set(w.contactPairs||[]),pairs=[],contactEpisodes={},contactTurns={};
     const contactAdd=(out,key)=>out[key]=(out[key]||0)+1;
@@ -319,9 +335,10 @@
     flowTelemetry.combat=combat;
     flowTelemetry.information={definition:"information-observed/1",emissions:ctx.infoEmissions||[],receipts:ctx.infoReceipts||[],effects:ctx.infoEffects||[],origins:[]};
     for(const a of w.resources)if(a.kind==="info"&&a.event&&refs.has(a.event.sourceId))flowTelemetry.information.origins.push({id:a.event.id,species:refs.get(a.event.sourceId),time:a.event.time});
-    return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
+    return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
+    if(S.PrimaryParasite?.enabled(w))S.PrimaryParasite.summary(w);
     S.Ryouki.summary(w);
     S.Colony.summary(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.summary(w);
@@ -396,6 +413,7 @@
   }
   function create(input = {}) {
     const w = S.create(input);
+    if(S.PrimaryParasite?.enabled(w))S.PrimaryParasite.summary(w);
     S.Ryouki.summary(w);
     w.stats = summarize(w);
     if(w.config.ecologyRevision === "observation/4.1") w.observation=observation(w,context(w));
@@ -440,6 +458,7 @@
       try {
         if (stage === 0) {
           N.expireAndCA(w, ctx);
+          if(S.PrimaryParasite?.enabled(w))P.begin(w,ctx);
           prepare(w, ctx);
         } else if (stage === 1) {
           B.choose(w, ctx, w.config.ecologyRevision === "observation/4.1" ? "move" : null);
@@ -523,6 +542,7 @@
       producer = new Set(),
       ids = new Set(),
       resourceKinds = new Map();
+    if(S.PrimaryParasite?.enabled(w))errors.push(...S.PrimaryParasite.validate(w));
     for (const o of w.organisms) {
       const occupied = o.slot === "main" ? main : food;
       if(o.slot === "producer"){
@@ -584,6 +604,17 @@
     }
     if(S.Ryouki.enabled(w))for(const list of S.maps(w).mainByCell.values())if(list.length>1&&
       (list.length>3||list.some(o=>!S.Ryouki.is(o)||!o.ryouki.mutated)))errors.push("SLOT_DUPLICATE:"+list.map(o=>o.id).join(","));
+    if(S.PrimaryParasite?.enabled(w)){
+      for(const carrier of [...w.organisms,...w.carcasses,...w.pending]){
+        const p=carrier.infection;if(!p)continue;
+        if(!S.PrimaryParasite.is(p))errors.push("PRIMARY_VERSION:"+p.id);
+        if(w.organisms.includes(carrier))continue;
+        for(const a of [p,p.q].filter(Boolean)){
+          if(ids.has(a.id))errors.push("ID_DUPLICATE:"+a.id);ids.add(a.id);
+        }
+      }
+      for(const i of w.primaryInocula||[]){if(ids.has(i.id))errors.push("ID_DUPLICATE:"+i.id);ids.add(i.id);}
+    }
     for(const q of w.searchQ||[]){
       if(ids.has(q.id))errors.push("ID_DUPLICATE:"+q.id);ids.add(q.id);
       if(!Number.isFinite(q.E)||q.E<0||!Number.isInteger(q.cell)||!w.tiles[q.cell]||w.tiles[q.cell].blocked)errors.push("SEARCH_Q:"+q.id);

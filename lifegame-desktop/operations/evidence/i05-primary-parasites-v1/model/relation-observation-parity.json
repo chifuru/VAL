@@ -1,0 +1,9 @@
+{
+  "beforeSignature": "18f0f22973f2f9d0ae3e47672f234e83f0835aa69afce2ffe1310dbe5682a66f",
+  "afterSignature": "0789b6828052dfc261fd4d7ebe290deedb1f8375506e7bb19e9073a8ee12aba8",
+  "cases": 3,
+  "states": 543,
+  "allDiagnosticReportsAndFingerprintsUnchanged": true,
+  "change": "new primary success and exclusion events also enter existing relation counters; CSV relation rows intentionally change",
+  "scope": "observation-only last correction after initial terminal eligibility correction"
+}

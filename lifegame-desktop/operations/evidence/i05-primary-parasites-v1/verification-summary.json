@@ -1,0 +1,97 @@
+{
+  "version": "4.2.37",
+  "baseline": "3167a2d / 4.2.36",
+  "dateUTC": "2026-10-20T14:33:41.940532+00:00",
+  "biologicalSignature": "0789b6828052dfc261fd4d7ebe290deedb1f8375506e7bb19e9073a8ee12aba8",
+  "unitFullRun": {
+    "files": 66,
+    "pass": 66,
+    "fail": 0,
+    "sourceSignature": "c877e5e1159a0a92523a00be315798f9c4ad7f44379fe30518d54ca6d9689ad5",
+    "scope": "before automatic mature-terminal eligibility and new-event relation-count aliases; final related checks below cover both corrections",
+    "log": "model/unit.log"
+  },
+  "finalTargetedRechecks": {
+    "files": 3,
+    "primaryCases": 30,
+    "flowCases": 5,
+    "observationCases": 5,
+    "log": "model/final-related.log",
+    "scope": "after both final corrections; includes actual streamed Worker/restart and graph-relation success-versus-attempt counts",
+    "manifestFiles": 1,
+    "manifestLog": "model/manifest-final.log"
+  },
+  "legacyComparison": {
+    "cases": 32,
+    "states": 224,
+    "worldFingerprintAndCSVEqual": true,
+    "models": [
+      "legacy",
+      "colony",
+      "independent plants",
+      "Ryouki"
+    ]
+  },
+  "newProfileComparison": {
+    "cases": 8,
+    "states": 40,
+    "dynamicStaticWorldFingerprintAndCSVEqual": true
+  },
+  "circulation": {
+    "cases": 3,
+    "turnsEach": 180,
+    "states": 543,
+    "allInvariantsPassed": true,
+    "initialP": {
+      "river-free": 35,
+      "lake-free": 32,
+      "river-supported": 35
+    },
+    "newP": {
+      "river-free": 3,
+      "lake-free": 11,
+      "river-supported": 2
+    },
+    "finalP": {
+      "river-free": 0,
+      "lake-free": 0,
+      "river-supported": 0
+    },
+    "scope": "new establishment and same-P transfers observed; final long-lived P cycle NOT achieved; grooming and maturation/survival remain I11",
+    "relationOnlyCorrectionPreservesDynamics": true
+  },
+  "ui": [
+    {
+      "report": "ui/primary/ui-report.json",
+      "checks": 56,
+      "sourceSignature": "0789b6828052dfc261fd4d7ebe290deedb1f8375506e7bb19e9073a8ee12aba8",
+      "scope": "Linux Chromium; primary model settings, real initial P IDs, own phases/age versus host stages, adaptation/preference/resistance, existing art and graph placement, external/exposed/invaded and migrating display fixtures, all-turn save/CSV/replay, old-world non-adoption; no final I10 art or natural-emergence claim",
+      "errors": []
+    },
+    {
+      "report": "ui/ryouki/ui-report.json",
+      "checks": 54,
+      "sourceSignature": "0789b6828052dfc261fd4d7ebe290deedb1f8375506e7bb19e9073a8ee12aba8",
+      "scope": "Linux Chromium; main allocation and zero weight, normal/mutated details and13 art references, three-cohabitant display fixture with real clicks, all-turn save/replay and old-world non-adoption; no survival or natural mutation claim",
+      "errors": []
+    },
+    {
+      "report": "graphics/report.json",
+      "checks": 117,
+      "sourceSignature": "18f0f22973f2f9d0ae3e47672f234e83f0835aa69afce2ffe1310dbe5682a66f",
+      "scope": "Linux Chromium / preserved legacy pixel/art/hit fixtures plus explicit primary/1 display fixtures, actual runtime establishment/transfer/exclusion events, own phase/age, pending and finite-amount boundaries; no long biology or final I10 art",
+      "errors": []
+    }
+  ],
+  "limits": [
+    "P extinct in all three fixed180T conditions; terminal maturity/re-release and long-term circulation unresolved",
+    "Automatic mature-terminal shortage is recorded; host ages or missing founders are not fabricated",
+    "Q new lifecycle/lethal emergence/IV biomass not implemented here; old bridge only",
+    "Information traces remain I07; all-form final art and external inoculum markers remain I10",
+    "No500T/R1-R6 or all-device performance certification; no new Windows build/ZIP; distributed4.2.32 unchanged"
+  ],
+  "next": "I06 hyperparasites Q",
+  "uiChecks": 227,
+  "graphicsReusedScope": "renderer/art/fixture unchanged after18f0f229; last0789b682 correction is only passive engine relation aggregation",
+  "structureCheck": "final-structure-check.json"
+}

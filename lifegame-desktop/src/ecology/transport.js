@@ -1,11 +1,12 @@
 /* Bounded Worker wire format. Immutable terrain/config never cross per frame. */
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.EcoTransport=api;})(globalThis,()=>{
   'use strict';
-  const lists=['organisms','resources','carcasses','messages','pending'];
+  const baseLists=['organisms','resources','carcasses','messages','pending'];
   const key=(name,row)=>name==='resources'?row.cell+':'+row.kind:name==='messages'?String(row.cell):row.id;
   const copy=v=>v&&typeof v==='object'?(Array.isArray(v)?v.map(copy):Object.fromEntries(Object.keys(v).map(k=>[k,copy(v[k])]))):v;
   function same(a,b){if(Object.is(a,b))return true;if(!a||!b||typeof a!=='object'||typeof b!=='object'||Array.isArray(a)!==Array.isArray(b))return false;const keys=Object.keys(a);return keys.length===Object.keys(b).length&&keys.every(k=>Object.hasOwn(b,k)&&same(a[k],b[k]));}
   function encoder(initial){
+    const lists=initial.config?.primaryParasiteModel==='primary/1'?[...baseLists,'primaryInocula']:baseLists;
     const signatures=new Map(lists.map(name=>[name,new Map(initial[name].map(row=>[key(name,row),{values:copy(row),stamp:0}]))]));
     const soil=Float64Array.from(initial.tiles,t=>t.soilM),orders=new Map(lists.map(name=>[name,initial[name].map(row=>key(name,row))]));let stamp=0;
     return function encode(w,final=false){
@@ -31,7 +32,7 @@
   function update(row,delta){if(!row)throw Error('WIRE_MISSING:'+delta.id);const next={...row,...delta.values};for(const k of delta.removed)delete next[k];return next;}
   function apply(base,patch){
     const w={...base,...patch.meta,events:patch.events};
-    for(const name of lists){
+    for(const name of Object.keys(patch.lists)){
       const {changed,order,updates=[]}=patch.lists[name];
       if(order===null){
         if(!changed.length&&!updates.length){w[name]=base[name];continue;}

@@ -614,6 +614,7 @@
   // Parasite colonies use their actual lifecycle, never host age or sex transforms.
   function parasitePhase(p) {
     if (p.species === "hyperparasite") return Math.max(1, Math.min(3, p.phase || 1));
+    if (p.primary?.version === "primary-state/1") return p.phase;
     return p.stage === "first" ? 1 : p.stage === "terminal" && p.counter >= 8 ? 3 : 2;
   }
   function parasite(g, p, x, y, r) {

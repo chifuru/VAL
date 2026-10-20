@@ -156,7 +156,10 @@
   let contactShadow=null;
   const markSprites=new Map(),markLabels={attack:'攻撃',defend:'防御',graze:'植物食',predate:'捕食',scavenge:'屍肉食',fungal:'分解食',absorb:'吸収',care:'育児',infection:'寄生',clear:'除去',birth:'出生',growth:'進化',death:'死亡'};
   const markColors={attack:'#ff9978',defend:'#9edfff',graze:'#b1e59a',predate:'#ffcb88',scavenge:'#d9ad91',fungal:'#d7bbef',absorb:'#b6e8dc',care:'#bce7b1',infection:'#d3a2ff',clear:'#eff7ed',birth:'#ffe3a0',growth:'#a7eeef',death:'#c6b7ad'};
-  function actionKind(e){return e.type==='feed'?(e.sourceType==='carcass'?'scavenge':e.sourceType==='plant'?(e.tag==='plant'?'graze':e.tag==='fungal'?'fungal':'predate'):'absorb'):e.type;}
+  function actionKind(e,w){
+    if(e.type.startsWith('primary-'))return w?.config?.primaryParasiteModel==='primary/1'?({'primary-established':'infection','primary-transferred':'infection','primary-clear':'clear'}[e.type]||null):null;
+    return e.type==='feed'?(e.sourceType==='carcass'?'scavenge':e.sourceType==='plant'?(e.tag==='plant'?'graze':e.tag==='fungal'?'fungal':'predate'):'absorb'):e.type;
+  }
   function markSprite(kind){
     if(markSprites.has(kind))return markSprites.get(kind);
     const c=document.createElement('canvas');c.width=112;c.height=34;const g=c.getContext('2d');
@@ -313,7 +316,7 @@
       const time=performance.now();
       if(world&&(w.turn<world.turn||w.config.seed!==world.config.seed))actionMarks.clear();
       for(const [key,m]of actionMarks)if(time-m.at>850)actionMarks.delete(key);
-      for(const ev of w.events||[]){const kind=actionKind(ev);if(!markLabels[kind])continue;
+      for(const ev of w.events||[]){const kind=actionKind(ev,w);if(!markLabels[kind])continue;
         const key=[w.turn,ev.id,kind,ev.target||ev.source||''].join('|');
         if(!actionMarks.has(key)){if(actionMarks.size>=256)actionMarks.delete(actionMarks.keys().next().value);actionMarks.set(key,{id:ev.id,cell:ev.cell??livingById.get(ev.id)?.cell,kind,at:time});}
       }
@@ -524,7 +527,7 @@
           const o = previousActors.get(ev.id);departed.set(ev.id,o);living.set(ev.id,o);
         }
         for (const ev of w.events) {
-          if(ev.type === "death"||ev.type === "light") continue;
+          if(ev.type === "death"||ev.type === "light"||actionKind(ev,w)===null) continue;
           const o = living.get(ev.id);
           if (!o || !visible(coordinates.anchor(o).point, 1.6)) continue;
           if (!grouped.has(ev.id)) grouped.set(ev.id, []);
@@ -533,13 +536,13 @@
         // Keep interpolation and distinct confirmed actions within the existing budget.
         // Repeated feeding must not crowd out combat recorded later in the turn.
         const priority = (ev) => ({move:100,attack:90,defend:85,clear:80,
-          infection:75,birth:70,growth:65,care:60,feed:50}[ev.type] || 10);
+          infection:75,birth:70,growth:65,care:60,feed:50}[ev.type.startsWith('primary-')?actionKind(ev,w):ev.type] || 10);
         for (const [id, list] of grouped) {
           const seen = new Set();
           grouped.set(id, list.map((ev,index)=>({ev,index}))
             .sort((a,b)=>priority(b.ev)-priority(a.ev)||a.index-b.index)
             .filter(({ev})=>{
-              const key=ev.type==='feed'?`feed:${ev.sourceType}:${ev.tag}`:ev.type;
+              const key=ev.type==='feed'?`feed:${ev.sourceType}:${ev.tag}`:ev.type.startsWith('primary-')?actionKind(ev,w):ev.type;
               if(seen.has(key))return false;
               seen.add(key);return true;
             }).slice(0,4).map(({ev})=>ev));
@@ -575,8 +578,8 @@
           if (ev.type === "move") continue;
           g.save();
           g.globalAlpha = 1 - age;
-          const feedKind=ev.sourceType==="carcass"?"scavenge":ev.sourceType==="plant"?(ev.tag==="plant"?"graze":ev.tag==="fungal"?"fungal":"predate"):"absorb",
-            kind=ev.type==="feed"?feedKind:ev.type;
+          const kind=actionKind(ev,w);
+          if(kind===null){g.restore();continue;}
           diagnostics.motionKinds[kind]=(diagnostics.motionKinds[kind]||0)+1;
           g.strokeStyle=({attack:"#ffa47c",defend:"#9edfff",graze:"#b1e59a",predate:"#ffcb88",scavenge:"#d9ad91",fungal:"#d7bbef",absorb:"#b6e8dc",care:"#bce7b1",infection:"#d3a2ff",clear:"#eff7ed",birth:"#ffe3a0",growth:"#a7eeef"})[kind]||"#e9eab0";g.lineWidth=.025;
           if(["attack","feed","care"].includes(ev.type)){
@@ -598,7 +601,7 @@
             }
           }else if(ev.type==="defend"){
             g.beginPath();g.moveTo(cx-.12,cy-.10);g.lineTo(cx+.12,cy-.10);g.lineTo(cx+.10,cy+.06);g.lineTo(cx,cy+.15);g.lineTo(cx-.10,cy+.06);g.closePath();g.stroke();
-          }else if(ev.type==="clear"){
+          }else if(kind==="clear"){
             for(const d of [-1,1]){g.beginPath();g.moveTo(cx+d*.06,cy-.03);g.lineTo(cx+d*(.13+age*.12),cy-.15);g.stroke();}
           }else if(ev.type==="growth"){
             for(const dy of [0,.10]){g.beginPath();g.moveTo(cx-.10,cy+dy);g.lineTo(cx,cy-.10+dy);g.lineTo(cx+.10,cy+dy);g.stroke();}
@@ -660,7 +663,7 @@
         fixed.sort((a,b)=>a.depth-b.depth);frameCandidates.fixed=fixed;frameCandidates.moving=moving;frameCandidates.actorKey=actorKey;
       }
       for(const o of [...frameCandidates.moving,...departed.values()]){const list=activeEvents.get(o.id)||[],ev=list.find(e=>e.type==='move'),a=coordinates.anchor(o,age,ev),remnant=departed.has(o.id);
-        if(remnant&&!list.some(e=>['move','attack','defend','feed','care','clear'].includes(e.type)))continue;
+        if(remnant&&!list.some(e=>['move','attack','defend','feed','care','clear'].includes(e.type)||(e.type.startsWith('primary-')&&actionKind(e,w))))continue;
         if(visible(a.point,1.6)||visible(a.ground,1.6))dynamic.push({depth:a.depth,o,p:a.point,list,ground:a.ground,elevated:a.elevated,cohabit:a.cohabit,rank:a.rank,scale:a.scale,remnant});}
       dynamic.sort((a,b)=>a.depth-b.depth);const actors=[];let fixedAt=0,movingAt=0;
       while(fixedAt<fixed.length||movingAt<dynamic.length){if(movingAt===dynamic.length||(fixedAt<fixed.length&&fixed[fixedAt].depth<=dynamic[movingAt].depth))actors.push(fixed[fixedAt++]);else actors.push(dynamic[movingAt++]);}
@@ -868,7 +871,7 @@
             const pName=nameEnabled("P",o.infection.id),qName=o.infection.q&&nameEnabled("Q",o.infection.q.id);
             if(pName)diagnostics.nameLabels.P++;
             if(qName)diagnostics.nameLabels.Q++;
-            annotations.push(()=>{g.save();g.font=".055px sans-serif";g.textAlign="left";if(pName){g.fillStyle="#ffd1a3";g.fillText(S.D.byId[o.infection.species].name+" P · "+o.infection.stage,cx+.1,cy-.43);}if(qName){g.fillStyle="#d9b9ff";g.fillText(S.D.byId.hyperparasite.name+" Q · "+o.infection.q.phase,cx+.1,cy-.51);}g.restore();});
+            annotations.push(()=>{g.save();g.font=".055px sans-serif";g.textAlign="left";if(pName){const p=o.infection,state=w.config.primaryParasiteModel==='primary/1'&&p.primary?.version==='primary-state/1'?p.phase+'相 · 年齢'+(Number.isFinite(p.age)?p.age+'T':'未記録'):p.stage;g.fillStyle="#ffd1a3";g.fillText(S.D.byId[p.species].name+" P · "+state,cx+.1,cy-.43);}if(qName){g.fillStyle="#d9b9ff";g.fillText(S.D.byId.hyperparasite.name+" Q · "+o.infection.q.phase,cx+.1,cy-.51);}g.restore();});
           }
           const [bx, by] = globalThis.EcoDisplayPlane.parasitePoint([cx,cy],"P",detail,actor.rank,actor.cohabit);
           if (detail && Art.parasite(g, o.infection, bx, by, .105)) {

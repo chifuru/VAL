@@ -137,12 +137,14 @@
     });
     w.carcasses = w.carcasses.filter((a) => {
       if (a.payloadExpires && a.payloadExpires <= t) {
-        S.loseInfection(w, a.infection);
+        if(ctx.primaryHooks)ctx.primaryHooks.expireCarrier(w,ctx,a);
+        else S.loseInfection(w, a.infection);
         a.infection = null;
       }
       if (a.expires <= t) {
         removeResource(w, a);
-        S.loseInfection(w, a.infection);
+        if(ctx.primaryHooks)ctx.primaryHooks.expireCarrier(w,ctx,a);
+        else S.loseInfection(w, a.infection);
         return false;
       }
       return true;
@@ -472,6 +474,7 @@
             M = obj.B > 0 ? S.round((obj.M * B) / obj.B) : 0;
           if (B <= 0) continue;
           harvest = {consumedB:B,beforeEdibleB:S.edibleB(obj)};
+          if(ctx.primaryHooks)harvest.fraction=B/harvest.beforeEdibleB;
           obj.B = S.round(obj.B - B);
           obj.M = S.round(obj.M - M);
           amount = { E: B, M, G: 0 };
@@ -479,6 +482,7 @@
           if(S.LargePlant.is(obj))S.LargePlant.consumed(w,obj,B);
           if (obj.B <= 0) ctx.harvestDead.add(obj.id);
         } else {
+          if(ctx.primaryHooks&&a.type==="carcass")harvest={beforeQ:obj.q,beforeE:obj.E,beforeG:obj.G};
           amount = {
             E: S.round((obj.E || 0) / obj.q),
             M: S.round((obj.M || 0) / obj.q),
@@ -493,6 +497,7 @@
           obj.M = S.round(Math.max(0, (obj.M || 0) - amount.M));
           obj.G = S.round(Math.max(0, (obj.G || 0) - amount.G));
           if(fraction<1)obj.q=S.round(obj.q-fraction);else obj.q--;
+          if(harvest&&ctx.primaryHooks&&a.type==="carcass")Object.assign(harvest,{fraction:fraction/harvest.beforeQ,consumedE:amount.E,consumedB:amount.G});
           if (!obj.q) ctx.exhausted.add(obj.cell + ":" + obj.kind);
         }
         let assimilated=0;
@@ -536,7 +541,8 @@
       w.carcasses = w.carcasses.filter((a) => {
         if (a.q > 0) return true;
         removeResource(w, a);
-        S.loseInfection(w, a.infection);
+        if(ctx.primaryHooks)ctx.primaryHooks.expireCarrier(w,ctx,a);
+        else S.loseInfection(w, a.infection);
         a.infection = null;
         return false;
       });
@@ -597,7 +603,8 @@
     S.dissipate(w, o.E + o.B - a.E);
     S.addSoil(w, o.cell, o.M - a.M);
     const p = o.infection;
-    if (p && (w.config.ecologyRevision === "observation/4.1" ? p.counter >= ({first:4,middle:6,extra:6,terminal:8}[p.stage]) : ["middle", "extra"].includes(p.stage) && p.counter >= 6)) {
+    if(ctx.primaryHooks)ctx.primaryHooks.hostDeath(w,ctx,o,a);
+    else if (p && (w.config.ecologyRevision === "observation/4.1" ? p.counter >= ({first:4,middle:6,extra:6,terminal:8}[p.stage]) : ["middle", "extra"].includes(p.stage) && p.counter >= 6)) {
       a.infection = p;
       p.hostId = a.id;
       a.payloadExpires = w.turn + 4;

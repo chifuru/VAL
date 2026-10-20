@@ -508,6 +508,211 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return {enabled,is,definition,region,settings,attach,phenotype,increment,allocation,begin,initialize,prepareLight,consumed,maintained,regrow,finalize,summary};
   })();
+  const PrimaryParasite = (() => {
+    const VERSION="primary-state/1",ROUTES=["contact","feeding","carcass","water"],STAGES=["first","middle","terminal"];
+    const hostTable={
+      leafparasite:{first:["grass","moss","forestcrown","starcrown"],middle:["grassbug"],terminal:["recursive","sail","parallel","solar","valis","whale","precocial","ryouki"]},
+      tideparasite:{first:["algae","freshwaterlight"],middle:["waterbug"],terminal:["abyss","abyssshell","jelly","whale","cephalopod"]},
+    };
+    const enabled=w=>w?.config?.primaryParasiteModel==="primary/1";
+    const is=p=>!!hostTable[p?.species]&&p?.primary?.version===VERSION;
+    function parameters(input={}){
+      const defaults={version:"primary-parameters/1",life:120,capE:2,maintenance:[0,.03,.04,.06],hostTax:[0,.06,.08,.10],biomass:[0,.02,.03,.04],
+        developmentCost:.01,development:{first:4,middle:6,terminal:8},phaseThresholds:[0,0,8,20],starvationTurns:8,carrierTurns:12,
+        entryRates:{contact:.60,feeding:.80,carcass:.60,water:.40},establishmentRate:.70,standardReserve:.06,minimumReserve:.03,
+        emissionCost:.12,emissionReserve:.06,emissionCooldown:6,inoculumLifetime:{contact:4,water:4,edible:4,carcass:12},
+        mutationRate:.10,mutationStep:.05,resistanceGain:.4,resistanceCap:.8,resistanceHalfLife:40,resistanceMaintenance:.005,
+        exclusionCost:.04,exclusionRate:.006,metaCaps:[0,.10,.20,.30],metaCosts:[0,.005,.010,.020],
+        initialFraction:.20,initialDistribution:[.4,.4,.2],initialEnergy:.20};
+      const object=(value,keys)=>{if(!value||typeof value!=="object"||Array.isArray(value)||Object.keys(value).some(k=>!keys.includes(k)))throw Error("SETTINGS_INVALID: 一次寄生の比較値");};
+      object(input,Object.keys(defaults));const out=structuredClone(defaults);
+      for(const [key,value]of Object.entries(input)){
+        if(["development","entryRates","inoculumLifetime"].includes(key)){object(value,Object.keys(defaults[key]));Object.assign(out[key],value);}
+        else out[key]=structuredClone(value);
+      }
+      if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 一次寄生の定義版");
+      const number=(n,low,high)=>typeof n==="number"&&Number.isFinite(n)&&n>=low&&n<=high;
+      for(const [key,value]of Object.entries(out)){
+        if(key==="version")continue;
+        if(Array.isArray(value)){
+          if(value.length!==defaults[key].length||value.some(n=>!number(n,0,10000)))throw Error("SETTINGS_INVALID: 一次寄生 "+key);
+        }else if(value&&typeof value==="object"){
+          if(Object.values(value).some(n=>!number(n,0,10000)))throw Error("SETTINGS_INVALID: 一次寄生 "+key);
+        }else if(!number(value,0,10000))throw Error("SETTINGS_INVALID: 一次寄生 "+key);
+      }
+      for(const key of ["life","starvationTurns","carrierTurns","emissionCooldown"])if(!Number.isSafeInteger(out[key])||out[key]<1)throw Error("SETTINGS_INVALID: 一次寄生のT");
+      if(Object.values(out.inoculumLifetime).some(n=>!Number.isSafeInteger(n)||n<1)||Object.values(out.development).some(n=>n<=0)||out.phaseThresholds.some(n=>!Number.isSafeInteger(n)))throw Error("SETTINGS_INVALID: 一次寄生の発育/期限");
+      for(const key of ["establishmentRate","mutationRate","mutationStep","resistanceGain","resistanceCap","exclusionRate","initialFraction"])if(out[key]>1)throw Error("SETTINGS_INVALID: 一次寄生の率");
+      if(Object.values(out.entryRates).some(n=>n>1)||out.standardReserve<=0||out.minimumReserve<out.biomass[1]||out.minimumReserve>out.standardReserve||
+        out.emissionReserve>out.emissionCost*.75||out.emissionReserve!==out.standardReserve||out.capE<out.initialEnergy||out.resistanceHalfLife<=0||out.resistanceCap>.8||
+        out.maintenance.slice(1).some(n=>n<=0)||out.metaCosts.slice(1).some(n=>n<=0)||
+        [out.developmentCost,out.resistanceMaintenance,out.exclusionCost,out.emissionCost].some(n=>n<=0)||
+        out.initialDistribution.length!==3||Math.abs(out.initialDistribution.reduce((a,b)=>a+b,0)-1)>1e-8||
+        out.biomass[0]!==0||out.biomass.slice(1).some((n,i)=>n<=0||(i>0&&n<out.biomass[i]))||
+        out.phaseThresholds[0]!==0||out.phaseThresholds[1]!==0||out.phaseThresholds[2]<1||out.phaseThresholds[3]<=out.phaseThresholds[2])throw Error("SETTINGS_INVALID: 一次寄生の収支/配分");
+      return out;
+    }
+    const settings=w=>w.config.primaryParasiteSettings;
+    function hostRule(species,host,route=null,sourceStage=null){
+      const table=hostTable[species],id=typeof host==="string"?host:host?.species;
+      const role=table&&STAGES.find(stage=>table[stage].includes(id));
+      if(!role)return {allowed:false,stage:null,develops:false,reason:"非宿主"};
+      if(route){
+        const allowed=role==="first"?["contact",...(species==="tideparasite"?["water"]:[])].includes(route):
+          ["feeding","carcass"].includes(route)&&(sourceStage===null||(role==="middle"?sourceStage==="first":["middle","extra"].includes(sourceStage)));
+        if(!allowed)return {allowed:false,stage:null,develops:false,reason:"経路・前宿主段階不適合"};
+      }
+      const carrier=role==="terminal"&&typeof host!=="string"&&ageInfo(host).stage==="juvenile";
+      return {allowed:true,stage:carrier?"extra":role,develops:!carrier,reason:carrier?"未成熟終宿主の運搬":"適合",role};
+    }
+    function defaultAdaptation(species){return {hosts:Object.fromEntries(STAGES.flatMap(stage=>hostTable[species][stage]).map(id=>[id,.5])),routes:Object.fromEntries(ROUTES.map(id=>[id,.5])),stages:Object.fromEntries(STAGES.map(id=>[id,.5]))};}
+    function hostPreference(w,species,origin,parent=null){
+      const inherited=parent?.primary?.hostPreference??parent?.hostPreference;
+      return inherited?structuredClone(inherited):Object.fromEntries(STAGES.flatMap(stage=>hostTable[species][stage])
+        .map(id=>[id,H.round(.25+.5*r(w,"primary/host-preference",0,species,[origin,id]))]));
+    }
+    const genes=p=>p?.primary?.adaptation??p?.adaptation;
+    function adaptation(p,hostSpecies,route,stage){const a=genes(p),key=stage==="extra"?"terminal":stage;return ((a?.hosts[hostSpecies]??.5)+(a?.routes[route]??.5)+(a?.stages[key]??.5))/3;}
+    function childAdaptation(w,parent,origin){
+      const a=structuredClone(genes(parent)??defaultAdaptation(parent.species)),p=settings(w),mutation={occurred:false,changes:[]};
+      if(r(w,"primary/mutation",w.turn,origin)<p.mutationRate){
+        const keys=Object.keys(a).flatMap(group=>Object.keys(a[group]).map(key=>[group,key])),first=keys[Math.floor(r(w,"primary/mutation-key",w.turn,origin)*keys.length)],direction=r(w,"primary/mutation-sign",w.turn,origin)<.5?-1:1;
+        const candidates=keys.filter(key=>key!==first&&(direction>0?a[key[0]][key[1]]>0:a[key[0]][key[1]]<1))
+          .sort((x,y)=>hash(w,"primary/mutation-tradeoff",w.turn,origin,x)-hash(w,"primary/mutation-tradeoff",w.turn,origin,y));
+        const second=candidates[0];
+        if(second){const value=a[first[0]][first[1]],other=a[second[0]][second[1]],amount=Math.min(p.mutationStep,direction>0?1-value:value,direction>0?other:1-other);
+          if(amount>0){a[first[0]][first[1]]=H.round(value+direction*amount);a[second[0]][second[1]]=H.round(other-direction*amount);mutation.occurred=true;mutation.changes=[{key:first.join("/"),delta:direction*amount},{key:second.join("/"),delta:-direction*amount}];}}
+      }
+      return {adaptation:a,mutation};
+    }
+    function form(w,a,origin){
+      // primary-form/1: A/B/C compare route/host/stage birth-DNA means only.
+      const mean=group=>Object.values(group).reduce((n,v)=>n+v,0)/Object.keys(group).length,
+        scores=[mean(a.routes),mean(a.hosts),mean(a.stages)],largest=Math.max(...scores);
+      return scores.map((value,index)=>({value,index})).filter(a=>Math.abs(a.value-largest)<1e-8)
+        .sort((a,b)=>hash(w,"primary/birth-form",0,origin,a.index)-hash(w,"primary/birth-form",0,origin,b.index))[0].index;
+    }
+    function infection(w,species,hostId,turn=w.turn,origin=hostId,parent=null){
+      if(!enabled(w)||!hostTable[species])throw Error("SETTINGS_INVALID: 一次寄生モデル/系統");
+      const inherited=parent?childAdaptation(w,parent,origin):{adaptation:defaultAdaptation(species),mutation:{occurred:false,changes:[]}},p=settings(w);
+      return {id:"p:"+origin+":"+turn,species,hostId,location:species==="leafparasite"?"external":"internal",load:.5,
+        stage:"first",counter:0,phase:1,age:0,bornAt:turn,birthLife:p.life,B:p.biomass[1],E:0,ready:0,q:null,
+        primary:{version:VERSION,form:["A","B","C"][form(w,inherited.adaptation,origin)],formVersion:"primary-form/1",carrier:false,successT:0,pauseUntil:turn,carrierUntil:null,starvationRun:0,settledAt:turn,
+          adaptation:inherited.adaptation,hostPreference:hostPreference(w,species,origin,parent),parents:parent?[parent.parentId??parent.id]:[],generation:parent?(parent.primary?.generation??parent.generation??0)+1:0,
+          mutation:inherited.mutation,origin:parent?"descendant":"initial",last:{turn,maintenanceE:0,developmentE:0,progress:0,metaE:0,metaRatio:0}}};
+    }
+    function inoculum(w,parent,options={}){
+      const p=settings(w),createdAt=options.createdAt??w.turn,kind=options.kind??"contact",E=H.round(options.E??p.standardReserve);
+      return {id:options.id??"inoculum:"+parent.id+":"+w.turn+":"+kind+":"+options.cell,species:parent.species,kind,cell:options.cell,
+        sourceId:parent.id,parentId:parent.id,generation:parent.primary?.generation??0,adaptation:structuredClone(genes(parent)??defaultAdaptation(parent.species)),hostPreference:hostPreference(w,parent.species,parent.id,parent),
+        createdAt,expires:options.expires??createdAt+(p.inoculumLifetime[kind]??4),route:options.route??(kind==="water"?"water":"contact"),stage:parent.stage,
+        ...options,E,amount:H.round(E/p.standardReserve)};
+    }
+    function takeInoculum(w,i,requested){const E=H.round(Math.max(0,Math.min(i.E,requested)));i.E=H.round(i.E-E);i.amount=H.round(i.E/settings(w).standardReserve);return E;}
+    function acquireResistance(w,host,species,route){
+      if(!enabled(w)||!hostTable[species]||!ROUTES.includes(route))return;
+      const p=settings(w),state=host.primaryResistance??={version:"primary-resistance/1",entries:[],paidAt:-1,lastPaidE:0};
+      let entry=state.entries.find(a=>a.species===species&&a.route===route);
+      if(!entry){entry={species,route,value:0,effective:0,updatedAt:w.turn};state.entries.push(entry);}
+      entry.value=H.round(Math.min(p.resistanceCap,entry.value*Math.pow(.5,Math.max(0,w.turn-entry.updatedAt)/p.resistanceHalfLife)+p.resistanceGain));entry.updatedAt=w.turn;
+      return entry;
+    }
+    function beginResistance(w,host){
+      const a=host.primaryResistance;if(!enabled(w)||!a||a.paidAt===w.turn)return {paid:0,required:0};
+      const p=settings(w);a.paidAt=w.turn;a.lastPaidE=0;let required=0;
+      for(const entry of a.entries){
+        entry.value=H.round(entry.value*Math.pow(.5,Math.max(0,w.turn-entry.updatedAt)/p.resistanceHalfLife));entry.updatedAt=w.turn;
+        const expense=H.round(p.resistanceMaintenance*entry.value),paid=H.round(Math.min(host.E,expense));
+        host.E=H.round(host.E-paid);dissipate(w,paid);entry.effective=expense>0?H.round(entry.value*paid/expense):entry.value;
+        a.lastPaidE=H.round(a.lastPaidE+paid);required=H.round(required+expense);
+      }
+      a.entries=a.entries.filter(entry=>entry.value>0);return {paid:a.lastPaidE,required};
+    }
+    function resistance(w,host,species,route){
+      const a=host.primaryResistance;if(!a||a.paidAt!==w.turn)return 0;
+      const near={contact:"water",water:"contact",feeding:"carcass",carcass:"feeding"};
+      return H.round(Math.max(0,...a.entries.filter(e=>e.species===species).map(e=>e.route===route?e.effective:e.route===near[route]?e.effective*.5:0)));
+    }
+    function entries(w){
+      if(!enabled(w))return [];
+      const out=[],seen=new Set(),add=(carrier,kind)=>{
+        const p=carrier.infection;if(!is(p)||seen.has(p.id))return;
+        if(kind!=="host"&&(carrier.payloadExpires??p.primary.bodyExpires??carrier.expires??0)<=w.turn)return;
+        seen.add(p.id);out.push({p,host:kind==="host"?carrier:null,carrier,kind,cell:carrier.cell});
+      };
+      for(const host of w.organisms)add(host,"host");for(const carcass of w.carcasses)add(carcass,"carcass");for(const pending of w.pending)add(pending,"pending");return out;
+    }
+    function locate(w,id){return entries(w).find(e=>e.p.id===id||e.host?.id===id||e.p.q?.id===id)??null;}
+    function parasiteAge(p){return {enabled:is(p),applicable:is(p),age:p.age,birthLife:p.birthLife,life:p.birthLife,matureAt:null,elderlyAt:Math.floor(p.birthLife*.75),stage:p.age>=p.birthLife*.75?"elderly":"nonapplicable"};}
+    function initial(w){
+      if(!enabled(w))return;
+      w.primaryInocula=[];
+      const p=settings(w),report={version:"primary-initial/1",definition:"primary/1",bySpecies:{},planned:0,actual:0,shortage:0};
+      const available=new Set();
+      for(const species of Object.keys(hostTable)){
+        const direct=w.config.founderCounts?.parasites?.[species],first=w.organisms.filter(o=>hostTable[species].first.includes(o.species));
+        const requested=w.config.enabled.P?(direct??Math.floor(first.length*p.initialFraction)):0;
+        const raw=(direct===undefined?p.initialDistribution:[1,0,0]).map(n=>n*requested),counts=raw.map(Math.floor);
+        for(const i of raw.map((n,i)=>({n:n-counts[i],i})).sort((a,b)=>b.n-a.n||a.i-b.i).slice(0,requested-counts.reduce((a,b)=>a+b,0)))counts[i.i]++;
+        const item=report.bySpecies[species]={requested:direct??null,firstHosts:first.length,planned:requested,actual:0,shortage:0,stages:{},reasons:[]};
+        for(const [index,role]of STAGES.entries()){
+          const hosts=w.organisms.filter(o=>!o.infection&&!available.has(o.id)&&hostTable[species][role].includes(o.species)&&(role!=="terminal"||hostRule(species,o).stage==="terminal"))
+            .sort((a,b)=>hash(w,"primary/initial-host",0,species,[role,a.id])-hash(w,"primary/initial-host",0,species,[role,b.id])||H.compare(a.id,b.id));
+          const count=Math.min(counts[index],hosts.length),stageReport=item.stages[role]={planned:counts[index],actual:count,shortage:counts[index]-count};
+          for(const host of hosts.slice(0,count)){
+            const id="initial:"+species+":"+host.id,created=infection(w,species,host.id,0,id);
+            Object.assign(created,{E:p.initialEnergy,stage:hostRule(species,host).stage,counter:0});
+            created.primary.origin="initial";created.primary.carrier=created.stage==="extra";
+            if(created.stage==="extra")created.primary.carrierUntil=p.carrierTurns;
+            else {created.counter=Math.floor(r(w,"primary/initial-progress",0,id)*(p.development[role]+1));
+              if(role==="terminal"&&created.counter>=p.development.terminal)created.matureAt=-Math.floor(r(w,"primary/initial-mature",0,id)*4);}
+            const age=Math.min(p.life-1,Math.max(created.counter+Math.max(0,-(created.matureAt??0)),Math.floor(r(w,"primary/initial-age",0,id)*32))),successT=Math.min(p.phaseThresholds[3],age),phase=successT>=p.phaseThresholds[3]?3:successT>=p.phaseThresholds[2]?2:1;
+            created.counter=Math.min(created.counter,age);if(created.counter<p.development.terminal&&created.matureAt!==undefined)delete created.matureAt;
+            Object.assign(created,{age,bornAt:-age,phase,B:p.biomass[phase]});created.primary.successT=successT;created.primary.initialSuccessT=successT;
+            host.infection=created;available.add(host.id);item.actual++;
+          }
+          if(stageReport.shortage)item.reasons.push(role+":"+(role==="terminal"?"成熟済み適合終宿主枠不足 ":"適合宿主枠不足 ")+stageReport.shortage);
+        }
+        item.shortage=item.planned-item.actual;report.planned+=item.planned;report.actual+=item.actual;report.shortage+=item.shortage;
+        if(direct!==undefined&&item.shortage)throw Error("PLACEMENT_SHORTAGE: "+D.byId[species].name+" 指定"+direct+" / 配置可能"+item.actual+"（"+item.reasons.join("、")+"）");
+      }
+      w.config.primaryParasiteInitial=report;
+      if(report.shortage)w.warnings.push("一次寄生:予定"+report.planned+" / 実配置"+report.actual+"。適合宿主枠不足"+report.shortage);
+      summary(w);return report;
+    }
+    function summary(w){
+      if(!enabled(w))return;
+      const out={definition:"primary-parasite-observed/1",turn:w.turn,count:0,hosted:0,external:0,migrating:0,bySpecies:{leafparasite:0,tideparasite:0},phases:[0,0,0],stages:{first:0,middle:0,extra:0,terminal:0},mature:0,biomassB:0,reserveE:0,
+        inocula:{records:0,amount:0,reserveE:0,byKind:{contact:0,water:0,edible:0,carcass:0}},exposed:{records:0,amount:0,reserveE:0},invading:{records:0,amount:0,reserveE:0},resistance:{hosts:0,entries:0,stored:0,effective:0,paidE:0}};
+      for(const e of entries(w)){const p=e.p;out.count++;out[e.kind==="host"?"hosted":"external"]++;if(e.carrier.kind==="primary-migration")out.migrating++;out.bySpecies[p.species]++;out.phases[p.phase-1]++;out.stages[p.stage]++;if(p.matureAt!==undefined)out.mature++;out.biomassB+=p.B;out.reserveE+=p.E;}
+      for(const i of w.primaryInocula||[]){const target=i.kind==="invading"?(i.status==="exposed"?out.exposed:out.invading):out.inocula;target.records++;target.amount+=i.amount;target.reserveE+=i.E;if(target.byKind)target.byKind[i.kind]+=i.amount;}
+      for(const host of w.organisms)if(host.primaryResistance?.entries.length){const a=host.primaryResistance;out.resistance.hosts++;out.resistance.entries+=a.entries.length;for(const e of a.entries){out.resistance.stored+=e.value;out.resistance.effective+=a.paidAt===w.turn?e.effective:0;}if(a.paidAt===w.turn)out.resistance.paidE+=a.lastPaidE;}
+      const round=value=>{for(const key of Object.keys(value))if(typeof value[key]==="number")value[key]=H.round(value[key]);else if(value[key]&&typeof value[key]==="object")round(value[key]);};round(out);w.primaryParasiteSummary=out;return out;
+    }
+    function validate(w){
+      if(!enabled(w))return [];
+      const errors=[],ids=new Set();
+      const correctKeys=(object,reference)=>object&&typeof object==="object"&&!Array.isArray(object)&&Object.keys(object).sort().join("|")===Object.keys(reference).sort().join("|");
+      for(const carrier of [...w.organisms,...w.carcasses,...w.pending])if(is(carrier.infection)){
+        if(ids.has(carrier.infection.id))errors.push("PRIMARY_ID:"+carrier.infection.id);ids.add(carrier.infection.id);
+      }
+      for(const {p,host}of entries(w)){
+        const a=p.primary,expected=defaultAdaptation(p.species),values=a.adaptation&&typeof a.adaptation==="object"?Object.values(a.adaptation).flatMap(v=>v&&typeof v==="object"?Object.values(v):[NaN]):[NaN];
+        const correctGenes=correctKeys(a.adaptation,expected)&&Object.keys(expected).every(key=>correctKeys(a.adaptation[key],expected[key]));
+        if(![p.E,p.B,p.age,p.counter,a.successT,a.starvationRun].every(n=>Number.isFinite(n)&&n>=0)||p.E>settings(w).capE+1e-6||
+          !Number.isInteger(p.phase)||p.phase<1||p.phase>3||!Object.keys(hostTable).includes(p.species)||
+          !["first","middle","extra","terminal"].includes(p.stage)||!["A","B","C"].includes(a.form)||a.formVersion!=="primary-form/1"||!correctGenes||values.some(n=>!Number.isFinite(n)||n<0||n>1)||
+          !correctKeys(a.hostPreference,expected.hosts)||Object.values(a.hostPreference??{}).some(n=>!Number.isFinite(n)||n<0||n>1)||
+          !Number.isFinite(p.bornAt)||!Number.isFinite(p.birthLife)||p.birthLife<=0||
+          (host&&p.hostId!==host.id)||(p.q&&p.q.hostId!==p.id))errors.push("PRIMARY_STATE:"+p.id);
+      }
+      for(const i of w.primaryInocula||[])if(!Number.isFinite(i.E)||i.E<0||!Number.isFinite(i.amount)||i.amount<0||Math.abs(i.amount-i.E/settings(w).standardReserve)>1e-5||
+        !["contact","water","edible","carcass","invading"].includes(i.kind)||!Number.isSafeInteger(i.expires)||!hostTable[i.species]||
+        !correctKeys(i.hostPreference,hostTable[i.species]?defaultAdaptation(i.species).hosts:{})||Object.values(i.hostPreference??{}).some(n=>!Number.isFinite(n)||n<0||n>1))errors.push("PRIMARY_INOCULUM:"+i.id);
+      return errors;
+    }
+    return {enabled,is,parameters,settings,hostTable,hostRule,adaptation,childAdaptation,infection,inoculum,takeInoculum,resistance,acquireResistance,beginResistance,entries,locate,ageInfo:parasiteAge,initial,summary,validate};
+  })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
   // Explicitly enabled only for fixed production worlds; never serialized.
@@ -821,6 +1026,10 @@ return {settings,attach,region,level,factor,begin,finish};
       c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
       c.ageModel="life/1";
     }else if(c.ryoukiSettings!==undefined)throw Error("SETTINGS_INVALID: 量機モデルの指定が必要です");
+    if(c.primaryParasiteModel!==undefined&&c.primaryParasiteModel!=="primary/1")throw Error("SETTINGS_INVALID: 一次寄生モデル");
+    if(c.primaryParasiteModel==="primary/1"){
+      c.primaryParasiteSettings=PrimaryParasite.parameters(c.primaryParasiteSettings);c.ageModel="life/1";
+    }else if(c.primaryParasiteSettings!==undefined)throw Error("SETTINGS_INVALID: 一次寄生モデルの指定が必要です");
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
@@ -1056,7 +1265,7 @@ return {settings,attach,region,level,factor,begin,finish};
       M = 0;
     const infection = (p) => {
       if (p) {
-        E += p.E;
+        E += p.E+(PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0);
         if (p.q) E += p.q.E;
       }
     };
@@ -1077,6 +1286,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     for (const a of w.pending) infection(a.infection);
     for (const q of w.searchQ || []) E += q.E;
+    if(PrimaryParasite.enabled(w))for(const i of w.primaryInocula||[])E+=i.E;
     for (const t of w.tiles) M += t.soilM;
     return { E: H.round(E), M: H.round(M) };
   }
@@ -1540,7 +1750,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot === "food"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
     if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
     if(LargePlant.enabled(w))for(const o of w.organisms)if(LargePlant.is(o)){o.age=Math.floor(o.birthLife*config.largePlantSettings.initial.ageFraction);o.phase=config.largePlantSettings.initial.phase;}
-    if (config.enabled.P)
+    if (config.enabled.P && !PrimaryParasite.enabled(w))
       for (const o of w.organisms)
         if (
           ["algae", "grass"].includes(o.species) &&
@@ -1556,18 +1766,19 @@ return {settings,attach,region,level,factor,begin,finish};
           if (config.ecologyRevision !== "observation/4.1" && config.enabled.Q && r(w, "init/hyper", 0, o.id) < 0.01)
             o.infection.q = hyper(w, o.infection.id, 0);
         }
-    for(const [id,count]of Object.entries(config.founderCounts?.parasites||{}))if(["tideparasite","leafparasite"].includes(id)){
+    for(const [id,count]of Object.entries(config.founderCounts?.parasites||{}))if(!PrimaryParasite.enabled(w)&&["tideparasite","leafparasite"].includes(id)){
       const hostSpecies=id==="tideparasite"?"algae":"grass",hosts=w.organisms.filter(o=>o.species===hostSpecies&&!o.infection).sort((a,b)=>hash(w,"init/manual-P",0,id,a.id)-hash(w,"init/manual-P",0,id,b.id)||a.id.localeCompare(b.id));
       if(hosts.length<count)throw Error("PLACEMENT_SHORTAGE: "+D.byId[id].name+" 指定"+count+"群体に対し第一宿主は"+hosts.length+"体です");
       for(const o of hosts.slice(0,count))o.infection=infection(w,id,o.id,0);
     }
     if (
-      config.enabled.P &&
+      config.enabled.P && !PrimaryParasite.enabled(w) &&
       !w.organisms.some((o) => ["algae", "grass"].includes(o.species))
     )
       w.warnings.push("第一宿主不在：寄生虫は初期0です");
     if (config.enabled.Q && !config.enabled.P)
       w.warnings.push("一次寄生虫が無効なため高次寄生虫は初期0です");
+    if(PrimaryParasite.enabled(w))PrimaryParasite.initial(w);
     if(config.ecologyRevision === "observation/4.1") {
       w.searchQ=[];
       config.ecologyParameters={version:1,mainMaintenance:.65,mainMovement:.6,sexualThreshold:.65,sexualMineral:2,producerBirth:"B23",fungusBirth:"B123",initialFoodAgeFraction:.5};
@@ -1598,12 +1809,14 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     Colony.summary(w);
     LargePlant.summary(w);
+    PrimaryParasite.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
     return w;
   }
   function infection(w, species, hostId, turn = w.turn, origin = hostId) {
+    if(PrimaryParasite.enabled(w))return PrimaryParasite.infection(w,species,hostId,turn,origin);
     return {
       id: "p:" + origin + ":" + turn,
       species,
@@ -1633,7 +1846,7 @@ return {settings,attach,region,level,factor,begin,finish};
   }
   function loseInfection(w, p) {
     if (p) {
-      dissipate(w, p.E + (p.q?.E || 0));
+      dissipate(w, p.E + (PrimaryParasite.enabled(w)&&PrimaryParasite.is(p)?p.B:0) + (p.q?.E || 0));
       if (w.tallies) {
         w.tallies.deaths[p.species]++;
         if (p.q) w.tallies.deaths.hyperparasite++;
@@ -1651,6 +1864,7 @@ return {settings,attach,region,level,factor,begin,finish};
     Colony,
     LargePlant,
     Ryouki,
+    PrimaryParasite,
     activeSpecies,
     activeMain,
     initialRank,

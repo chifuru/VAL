@@ -6,7 +6,8 @@ const server=http.createServer(async(req,res)=>{try{const f=path.resolve(root,'.
 await new Promise((r,j)=>{server.once('error',j);server.listen(0,'127.0.0.1',r);});let browser;
 try{
 browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',headless:true,args:['--no-sandbox']});const page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>errors.push(String(e)));await page.goto('http://127.0.0.1:'+server.address().port+'/Index.html?smoke=1');await page.evaluate(()=>EcoArt.ready);
-const beforePath=path.resolve('operations/evidence/parasite-remains-v4.2.5/before-renderer.js');await page.evaluate(source=>(0,eval)(source.replace('root.EcoRenderer = api','root.EcoRendererBefore = api')),await fs.readFile(beforePath,'utf8'));
+// Compare unchanged modes with the accepted renderer immediately before I05.
+const beforePath=path.resolve('operations/evidence/i05-primary-parasites-v1/graphics/before-renderer.js');await page.evaluate(source=>(0,eval)(source.replace('root.EcoRenderer = api','root.EcoRendererBefore = api')),await fs.readFile(beforePath,'utf8'));
 const result=await page.evaluate(()=>{
 const checks=[],check=(v,n)=>{if(!v)throw Error(n);checks.push(n);},A=EcoArt,S=EcoState;
 const w=__LIFE_TEST__.prepare({seed:'remains-pq',width:40,height:28,initial:32,lineages:'few',landscape:'templates',mapId:'river'});__LIFE_TEST__.stop();
@@ -29,6 +30,55 @@ let ix=0;for(const species of ['tideparasite','leafparasite','hyperparasite']){c
 let row=0;for(const species of ['serpent','grass','waterbug']){const stock=[],weather=[];for(let j=0;j<6;j++){const a={species,slot:species==='grass'?'food':'main',q:[4,2,1][j%3],created:0,expires:12},c=document.createElement('canvas');c.width=c.height=140;const before=JSON.stringify(a);check(A.remains(c.getContext('2d'),a,70,70,34,species==='waterbug',j<3?0:10),'remains render '+species+'/'+j);check(before===JSON.stringify(a),'remains input unchanged '+species+'/'+j);const data=c.toDataURL();(j<3?stock:weather).push(data);g.drawImage(c,120+j*135,195+row*145);g.fillStyle='#b9d9d4';g.font='11px sans-serif';g.fillText(S.D.byId[species].name+' 量'+a.q+' '+(j<3?'直後':'経時'),120+j*135,330+row*145);}check(new Set(stock).size===3,'stock changes remains '+species);check(stock.every((s,i)=>s!==weather[i]),'weather changes remains '+species);row++;}
 images['lifecycle-remains.png']=sheet.toDataURL().split(',')[1];check(JSON.stringify(w)===input,'all rendering keeps world byte-for-byte unchanged');for(const c of canvases)c.remove();return{checks,images};
 });
-for(const[n,b64]of Object.entries(result.images))await fs.writeFile(path.join(out,n),Buffer.from(b64,'base64'));assert.equal(errors.length,0);await fs.writeFile(path.join(out,'report.json'),JSON.stringify({checks:result.checks,errors,scope:'Linux Chromium / explicit fixture / no long biology'},null,2)+'\n');console.log(JSON.stringify({checks:result.checks.length,errors}));
+const primary=await page.evaluate(async()=>{
+const checks=[],check=(value,name)=>{if(!value)throw Error(name);checks.push(name);},S=EcoState,E=EcoEngine,P=EcoEngine.P,images={};
+const config={seed:'primary-graphics',width:40,height:28,initial:0,lineages:'few',landscape:'templates',mapId:'river',ageModel:'life/1',primaryParasiteModel:'primary/1',enabled:{main:false,plant:false,fungus:false,prey:false,P:true,Q:true}};
+function fixture(){const w=E.create(config);w.organisms=[];w.resources=[];w.carcasses=[];w.pending=[];w.searchQ=[];w.events=[];w.primaryInocula=[];w.turn=0;w.config.enabled={main:true,plant:true,fungus:true,prey:true,P:true,Q:true};return w;}
+function add(w,id,species,dx=0){const o=S.organism(w,S.D.byId[species],S.index(w,20+dx,14),id,{phase:2,age:40,E:60,HP:100,dna:Object.fromEntries(S.DNA.map(k=>[k,.5]))});w.organisms.push(o);return o;}
+function infect(w,host,origin,stage='terminal'){const p=S.infection(w,'leafparasite',host.id,0,origin);Object.assign(p,{stage,counter:stage==='terminal'?8:6,E:1});p.primary.settledAt=-1;p.primary.pauseUntil=-1;host.infection=p;return p;}
+const events=ctx=>[...ctx.events.values()].flat();
+let established,transfer,pending;
+for(let n=0;n<128&&!established;n++){
+ const w=fixture(),source=add(w,'establishment-source','solar'),target=add(w,'establishment-target','grass',1),p=infect(w,source,'establishment:'+n),i=S.PrimaryParasite.inoculum(w,p,{id:'entry:'+n,kind:'contact',cell:target.cell,E:.06,route:'contact',createdAt:-1,expires:4});
+ w.primaryInocula.push(i);const ctx=E.context(w);if(!P.expose(w,ctx,i,target,'contact',1).invaded)continue;
+ w.turn=1;const next=E.context(w);P.begin(w,next);if(!target.infection)continue;
+ w.events=events(next);established={w,host:target.id,p:target.infection.id,event:w.events.find(e=>e.type==='primary-established')};
+}
+check(!!established?.event&&established.w.organisms.find(o=>o.id===established.host)?.infection.id===established.p,'runtime establishment records only a real attached daughter P');
+for(let n=0;n<128&&!transfer;n++){
+ const w=fixture(),source=add(w,'transfer-source','grassbug'),target=add(w,'transfer-target','solar',1),p=infect(w,source,'transfer:'+n,'middle');p.phase=2;p.age=30;p.bornAt=-30;p.q=S.hyper(w,p.id);p.q.E=.2;
+ w.turn=1;const ctx=E.context(w);P.begin(w,ctx);source.HP=0;ctx.harvestDead.add(source.id);P.transfer(w,ctx,source,target,'plant',{fraction:1});
+ if(!w.pending.some(i=>i.kind==='primary-migration'))continue;
+ w.organisms=w.organisms.filter(o=>o!==source);w.events=events(ctx);const waiting=structuredClone(w);
+ w.turn=2;const next=E.context(w);P.begin(w,next);if(target.infection!==p)continue;
+ w.events=events(next);transfer={w,host:target.id,p:p.id,q:p.q.id,event:w.events.find(e=>e.type==='primary-transferred')};pending={w:waiting,host:target.id,p:p.id,q:p.q.id};
+}
+check(!!transfer?.event&&transfer.w.organisms.find(o=>o.id===transfer.host)?.infection.id===transfer.p,'runtime transfer records the same P only after next-turn attachment');
+const cleared=structuredClone(transfer.w),clearHost=cleared.organisms.find(o=>o.id===transfer.host),clearContext=E.context(cleared);P.exclude(cleared,clearContext,clearHost,'immunity');cleared.events=events(clearContext);
+check(clearHost.infection===null&&cleared.events.some(e=>e.type==='primary-clear'),'runtime clearance records an actual exclusion');
+const canvas=document.createElement('canvas');canvas.style.width='900px';canvas.style.height='650px';document.body.append(canvas);const r=EcoRenderer.create(canvas),g=canvas.getContext('2d'),texts=[],fillText=g.fillText;
+g.fillText=function(text,...args){texts.push(String(text));return fillText.call(this,text,...args);};
+r.setWorld(established.w);r.view.mode='detail';r.view.scale=240;r.focus(established.w.organisms.find(o=>o.id===established.host).cell,established.host);r.draw();
+for(let attempt=0;attempt<900&&!r.diagnostics.overviewBuildMs&&!r.diagnostics.terrainBuildMs;attempt++){await new Promise(resolve=>setTimeout(resolve,50));r.draw();}
+check(r.diagnostics.overviewBuildMs>0||r.diagnostics.terrainBuildMs>0,'existing terrain fallback or refined surface is prepared before evidence capture');
+const nowDescriptor=Object.getOwnPropertyDescriptor(performance,'now');let clock=100000;Object.defineProperty(performance,'now',{configurable:true,value:()=>clock});
+const input=[];
+function draw(w,id,label){clock+=1000;input.push([w,JSON.stringify(w)]);r.setWorld(w,true);r.view.mode='detail';r.view.scale=240;r.view.duration=10000;r.view.animate=true;r.view.motion=true;r.view.names.P=true;r.view.names.Q=true;r.view.statusMarks=false;r.focus(w.organisms.find(o=>o.id===id)?.cell??S.index(w,21,14),id);texts.length=0;r.draw();if(label)images[label]=canvas.toDataURL().split(',')[1];return structuredClone(r.diagnostics);}
+try{
+ for(const [fixture,name]of [[established,'established'],[transfer,'transferred']]){const d=draw(fixture.w,fixture.host,'primary-'+name+'.png');check(d.actionMarks.some(m=>m.id===fixture.host&&m.kind==='infection')&&d.motionKinds.infection===1,'actual '+name+' reuses the short infection mark and motion');check(!Object.keys(d.motionKinds).some(k=>k.startsWith('primary-')),'actual '+name+' does not introduce a second effect kind');}
+ const d=draw(cleared,transfer.host,'primary-cleared.png');check(d.actionMarks.some(m=>m.id===transfer.host&&m.kind==='clear')&&d.motionKinds.clear===1,'actual exclusion reuses the short clear mark and motion');
+ const waiting=draw(pending.w,pending.host,'primary-migration-wait.png');check(pending.w.pending.some(i=>i.kind==='primary-migration'&&i.infection?.id===pending.p)&&pending.w.organisms.every(o=>!o.infection),'preparation fixture retains the living same-ID P/Q only in transit');check(waiting.infectedHosts===0&&waiting.parasiteArt===0&&waiting.highParasites===0&&waiting.actionMarks.length===0&&!waiting.motionKinds.infection&&!waiting.motionKinds.clear,'migration preparation does not become attached P/Q or a success effect');
+ const stages=structuredClone(pending.w);stages.turn=3;stages.events=['primary-exposure','primary-invasion','primary-transferring','primary-establishment-failed','primary-migration-failed','primary-release'].map(type=>({id:pending.host,cell:stages.organisms[0].cell,type}));stages.primaryInocula=[{id:'graphics-external',species:'leafparasite',kind:'contact',route:'contact',cell:stages.organisms[0].cell,amount:1,E:.06,createdAt:2,expires:8},{id:'graphics-invading',species:'leafparasite',kind:'invading',status:'invaded',route:'contact',cell:stages.organisms[0].cell,hostId:pending.host,amount:.5,E:.03,createdAt:2,expires:8,establishAt:4}];
+ const quiet=draw(stages,pending.host,'primary-amounts-no-success.png');check(quiet.actionMarks.length===0&&Object.keys(quiet.motionKinds).length===0,'exposure invasion release waiting and failed attempts never play success effects');check(quiet.infectedHosts===0&&quiet.parasiteArt===0&&quiet.highParasites===0,'finite external and invading quantities do not acquire living attached P/Q art');
+ const layout=EcoDisplayPlane.create(stages,EcoProjection.build(stages),false,true);check([pending.p,pending.q,'graphics-external','graphics-invading'].every(id=>!layout.entity(id)),'pending P/Q and finite infection amounts have no attached living-ID hit anchors');
+ const own=structuredClone(established.w),ownP=own.organisms.find(o=>o.id===established.host).infection;own.turn=4;own.events=[];ownP.phase=3;ownP.age=37;ownP.stage='first';ownP.counter=0;const ownState=draw(own,ownP.hostId,'primary-own-phase-age.png');check(texts.some(t=>t.includes(' P · 3相 · 年齢37T'))&&!texts.some(t=>t.includes(' P · first')),'new P annotation uses its own phase and separate recorded age rather than host stage');check(ownState.parasiteArt===2&&ownState.infectedHosts===2,'own-phase labels preserve real attached host counts');
+ const old=structuredClone(own);old.turn=5;delete old.config.primaryParasiteModel;old.events=[{id:established.host,cell:own.organisms.find(o=>o.id===established.host).cell,type:'primary-established'},{id:established.host,cell:own.organisms.find(o=>o.id===established.host).cell,type:'primary-clear'}];const legacy=draw(old,established.host);check(legacy.actionMarks.length===0&&Object.keys(legacy.motionKinds).length===0,'flagless worlds do not adopt primary event effects');check(texts.some(t=>t.includes(' P · first'))&&!texts.some(t=>t.includes(' P · 3相')),'flagless annotation keeps the existing host-stage text');
+ const budget=structuredClone(established.w);budget.turn=6;const actual=budget.events.find(e=>e.type==='primary-established'),common={id:actual.id,cell:actual.cell};budget.events=[{...common,type:'feed',sourceType:'resource'},{...common,type:'care'},{...common,type:'birth'},{...common,type:'attack'},actual,{...common,type:'primary-exposure'}];const prioritized=draw(budget,actual.id);check(prioritized.motionKinds.infection===1&&prioritized.motionKinds.attack===1&&prioritized.motionKinds.birth===1&&prioritized.motionKinds.care===1&&!prioritized.motionKinds.absorb,'actual infection survives the four-action animation budget ahead of feeding and preparation');
+ check(input.every(([w,before])=>JSON.stringify(w)===before),'primary rendering and selection planning keep each biological fixture byte-for-byte unchanged');
+}finally{g.fillText=fillText;if(nowDescriptor)Object.defineProperty(performance,'now',nowDescriptor);else delete performance.now;canvas.remove();}
+return{checks,images};
+});
+result.checks.push(...primary.checks);Object.assign(result.images,primary.images);
+for(const[n,b64]of Object.entries(result.images))await fs.writeFile(path.join(out,n),Buffer.from(b64,'base64'));assert.equal(errors.length,0);const sourceSignature=await page.evaluate(()=>EcoReplayVersion);await fs.writeFile(path.join(out,'report.json'),JSON.stringify({checks:result.checks,errors,sourceSignature,scope:'Linux Chromium / preserved legacy pixel/art/hit fixtures plus explicit primary/1 display fixtures, actual runtime establishment/transfer/exclusion events, own phase/age, pending and finite-amount boundaries; no long biology or final I10 art'},null,2)+'\n');console.log(JSON.stringify({checks:result.checks.length,errors}));
 }finally{if(browser)await browser.close();await new Promise(r=>server.close(r));}
 })().catch(e=>{console.error(e);process.exitCode=1;});
