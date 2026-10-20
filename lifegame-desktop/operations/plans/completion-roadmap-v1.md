@@ -1,6 +1,6 @@
 # 完成へ向けた現在の残作業と実行順
 
-照合基準はmain `af9ae14`、開発版4.2.43 / 配布済み4.2.32、[現在のA/B仕様索引](../../design/specification/README.md)。本書は対象範囲の作業計画であり、具体的な着手/統合単位は[実装12単位](implementation-sequence-v1.md)を参照する。仕様/Node/証跡の代替ではない。旧[全工程計画](remaining-completion-v4.2.md)に残る過去条件より、現行の対象別正本と本書の作業順を優先する。
+照合基準はmain `1b248aa`、開発版4.2.44 / 配布済み4.2.32、[現在のA/B仕様索引](../../design/specification/README.md)。本書は対象範囲の作業計画であり、具体的な着手/統合単位は[実装12単位](implementation-sequence-v1.md)を参照する。仕様/Node/証跡の代替ではない。旧[全工程計画](remaining-completion-v4.2.md)に残る過去条件より、現行の対象別正本と本書の作業順を優先する。
 
 ## 今回の整理範囲
 
@@ -73,4 +73,4 @@ FLOW-05/08。[I11実行契約](i11-survival-performance-v1.md)に従い、製品
 - UI/保存：[app.js](../../src/app.js)、[Index.html](../../src/Index.html)、[styles.css](../../src/styles.css)、[観測UI](../../design/specification/observation-ui-v1.md)、[関係面](../../design/specification/relationship-network-v1.md)、[保存](../../design/specification/archive-history-v1.md)。ソース上の差分と実際の画面確認は分ける。
 - 既存実測：[4.2.32証跡](../evidence/optimization-v4.2.32/README.md)、[E7](../../valis/nodes/E/E7.md)。現在のWindows起動未確認を残件として復活させず、変更後の再検査を残す。
 
-今回の完了条件はI11初回調整/限定実測とC/D/E・Manifest・実体の照合。全22主系統の生存率・P/Q自然循環・R1〜R6、全条件の性能/外観の最終判定、新Windows/配布は未完として残す。意味/上限/再現性や大きな造形変更、新分割が必要になった場合に限り、具体案を提示して確認する。
+今回の完了条件は[I11b限定調整/実測](../evidence/i11b-foodweb-routes-v1/README.md)とC/D/E・Manifest・実体の照合。初期齢混在と下層/寄生の局所修正、旧記録保持、背景の空処理削減を含む。全22主系統の生存率・P/Q自然循環・R1〜R6、全条件の性能/外観の最終判定、新Windows/配布は未完として残す。意味/上限/再現性や大きな造形変更、新分割が必要になった場合に限り、具体案を提示して確認する。

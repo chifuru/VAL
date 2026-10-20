@@ -319,7 +319,8 @@
           else d.bitmap?.close?.();
           pumpTerrain();
         };
-        Promise.all(Object.entries(Art.images).filter(([key])=>key.startsWith("habitat-")).map(async([key,im])=>[key,await createImageBitmap(im)])).then(entries=>{
+        const terrainSheets=new Set(Object.values(Art.manifest.terrain).map(entry=>entry.sheet));
+        Promise.all(Object.entries(Art.images).filter(([key])=>terrainSheets.has(key)).map(async([key,im])=>[key,await createImageBitmap(im)])).then(entries=>{
           if(epoch!==terrainEpoch||terrainFailed){for(const [,im]of entries)im.close();return;}
           const images=Object.fromEntries(entries);
           terrainWorker.postMessage({type:"init",epoch,world:{config:w.config,tiles:w.tiles},images},Object.values(images));
@@ -416,7 +417,6 @@
         scene = globalThis.EcoScenery.build(w, P);
         const projected=scene.objects.map(obj=>({obj,p:P.point(obj.x,obj.y)}));objectIndex=globalThis.EcoDisplayPlane.spatial(projected,a=>[a.p[0]-a.obj.size,a.p[1]-a.obj.size,a.p[0]+a.obj.size,a.p[1]+a.obj.size]);
         geometryKey = key;
-        cache = null;
         cacheKey = null;
         resetTerrain(w);
       }

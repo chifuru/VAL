@@ -1,0 +1,58 @@
+{
+  "definition": "i11b-parasite-diagnostic/1",
+  "baseline": "1b248aa",
+  "sourceFactory": true,
+  "generatedV2VerificationOwnedByRoot": true,
+  "unit": {
+    "new": 5,
+    "previous": 6,
+    "passed": 11,
+    "failed": 0,
+    "log": "unit.log",
+    "flaglessAndSurvival1Exact8TEach": true
+  },
+  "adopted": "survival/2 finite-needed-energy Q forage score only; root owns initial main-age mixture and version integration",
+  "notAdopted": [
+    "initial Q E.35",
+    "P III hostTax .12",
+    "edible inoculum8T",
+    "groom or immunity changes",
+    "emergence reserve change"
+  ],
+  "natural50T": [
+    {
+      "id": "land",
+      "initialP": 103,
+      "initialQ": 7,
+      "finalP": 39,
+      "finalQ": 0,
+      "windowPTurns": 5,
+      "contactOpportunities": 0,
+      "Pestablished": 10,
+      "Qestablished": 0,
+      "Qemerged": 0,
+      "QoffspringEstablished": 0,
+      "Qpreyed": 5
+    },
+    {
+      "id": "water",
+      "initialP": 50,
+      "initialQ": 3,
+      "finalP": 71,
+      "finalQ": 2,
+      "windowPTurns": 28,
+      "contactOpportunities": 0,
+      "Pestablished": 40,
+      "Qestablished": 0,
+      "Qemerged": 0,
+      "QoffspringEstablished": 0,
+      "Qpreyed": 0
+    }
+  ],
+  "R5": "not-established",
+  "sourceHashes": {
+    "src/ecology/parasites.js": "ba73356650e9ec568c886971e2927ff5ca8208e0d85e20b8d8e546e590a0a918",
+    "tests/survival2-parasites.test.cjs": "6830eeafc2503e8be4244056bd31fe217800ec5ff3c44b4c2c934772777e0900",
+    "tests/survival-parasites.test.cjs": "4a56df1f35f09a44bb252584b02cc8fa28cc9a6afdf502c5ea3c2bf512894bfd"
+  }
+}

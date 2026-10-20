@@ -1,0 +1,35 @@
+{
+  "createdAt": "2026-10-20T19:12:42.972Z",
+  "files": {
+    "behavior.js": "4d4b98daa58cd2a4de42adcc8981736c3e16b7073b2648463101c4c149e4541d",
+    "catalogue.js": "73d0761e892b2ce5562b6869343a035b467aac375cfa20019522609a783ad13c",
+    "engine.js": "10fe37981c5dda2865fb955d3c11d3bfed5359daf1e8038d43d1b917ea96cf07",
+    "hash.js": "a2af1afe8540aa56834b8c26255f4a4b3da80104a27a9471cace70a65670f39c",
+    "landscape.js": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+    "map-data.js": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+    "map-templates.js": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e",
+    "nutrition.js": "bc2a5a1ce59173214feb8ebaeca350186e71a3c253ab4543c6ad012eda02028c",
+    "parasites.js": "ba73356650e9ec568c886971e2927ff5ca8208e0d85e20b8d8e546e590a0a918",
+    "reproduction.js": "f75a4617831a2f142bbc06b1285d66eb3ea4fc01a75b3168202a4f6ffc32eeae",
+    "state.js": "4a5af035523483d02f259150fca43ef38abbcaec2a3fe672f50326d88ef797c1"
+  },
+  "removedUnusedFiles": [
+    "habitat.js",
+    "observations.js",
+    "terrain-worker.js",
+    "relationship-network.js",
+    "art.js",
+    "scenery.js",
+    "compute-client.js",
+    "observation-main.js",
+    "renderer.js",
+    "compute-worker.js",
+    "display-plane.js",
+    "export-client.js",
+    "transport.js",
+    "archive.js",
+    "projection.js",
+    "export-worker.js"
+  ],
+  "scope": "Only ecology JavaScript files actually read by the source model during the paired comparison; no renderer/transport/observation UI copies."
+}

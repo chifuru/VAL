@@ -1,0 +1,4 @@
+{"event":"progress","variant":"v1","case":"river-0","turn":25,"main":166,"grassbug":5,"fungus":8,"P":19,"Q":1,"elapsedMs":9380.193860000001}
+{"event":"progress","variant":"v1","case":"river-0","turn":50,"main":187,"grassbug":0,"fungus":4,"P":16,"Q":1,"elapsedMs":20310.008652}
+{"event":"progress","variant":"v1","case":"river-0","turn":75,"main":196,"grassbug":0,"fungus":0,"P":16,"Q":0,"elapsedMs":33183.174812000005}
+{"event":"progress","variant":"v1","case":"river-0","turn":100,"main":196,"grassbug":0,"fungus":0,"P":9,"Q":0,"elapsedMs":48116.771499}

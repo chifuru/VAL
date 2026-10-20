@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "exitCode": 0,
+  "completedUTC": "2026-10-20T19:32:40.025318+00:00",
+  "version": "4.2.44",
+  "signature": "ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97",
+  "files": 86,
+  "excludedBrowserFiles": [
+    "action-mark-receipts.test.cjs",
+    "display-load-reduction.test.cjs",
+    "terrain-zero-work.test.cjs"
+  ],
+  "metrics": {
+    "tests": 621,
+    "suites": 0,
+    "pass": 616,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 5,
+    "todo": 0,
+    "duration_ms": 659490.536589
+  },
+  "sourceChangesDuringRun": {
+    "tests": [],
+    "src": []
+  },
+  "skipPolicy": "Existing historical experiment tests retain their pre-existing skips; no test expectation or fixture was edited by this verification task.",
+  "log": "unit-all.log",
+  "selection": "unit-selection.json",
+  "scope": "86 non-browser unit test files, one Node process, --test-isolation=none --test-concurrency=1; not browser/Windows/full ecological target certification"
+}

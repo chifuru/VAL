@@ -12,7 +12,7 @@
   const primaryEnabled=w=>S.PrimaryParasite?.enabled(w)===true;
   const hyperEnabled=w=>S.HyperParasite?.enabled(w)===true;
   const informationEnabled=w=>S.PersistentInformation?.enabled(w)===true;
-  const survivalEnabled=w=>w?.config?.balanceModel==="survival/1";
+  const survivalEnabled=w=>["survival/1","survival/2"].includes(w?.config?.balanceModel);
   const informationKeys=["ownExperiences","holdingQualified","deathDecisions","candidateDeaths","normalGenerated","lowGenerated","noGeneration","generatedAmount","expiredAmount","capacityLostAmount","microLostAmount","movedAmount","originsRead","contentsRead","rejectedScope","rejectedContext","rejectedBudget","deduplicated","learned","learningDeltaAbs","placeApplications","placeMagnitude","receptionCostE","qPromoted","qDistorted","environmentRead","ordinaryRead","caregiverRead"];
   function emptyInformationFlow(w){return {definition:"persistent-information-flow/1",turn:w.turn,all:Object.fromEntries(informationKeys.map(key=>[key,0]))};}
   function informationFlow(w,ctx,key,n=1){ctx.persistentInformationFlow??=emptyInformationFlow(w);const a=ctx.persistentInformationFlow.all;a[key]=S.round(a[key]+n);}
@@ -541,12 +541,18 @@
           if(amount>0)forage.push({cell,amount});
         }
         const hunger=S.clamp(1-q.E/Math.max(z.eggCost+4*z.maintenance[4],1e-6),0,1),
+          v2=w.config.balanceModel==="survival/2",
+          // A finite food stock is not another reward after the adult has
+          // reserved one laying attempt and the existing four-turn upkeep.
+          needed=Math.max(0,Math.min(z.capE,z.eggCost+4*z.maintenance[4])-q.E),
           readyToLay=q.E>=z.eggCost&&q.ready<=w.turn?1:.15,
           score=cell=>{
-            const nutrition=forage.reduce((n,a)=>Math.max(n,Math.min(1,a.amount/Math.max(z.adultFoodCap,1e-6))/(1+S.distance(w,cell,a.cell))),0),
+            const nutrition=forage.reduce((n,a)=>Math.max(n,(v2?
+                Math.min(needed,Math.min(z.adultFoodCap,a.amount)*z.adultAssimilation)/Math.max(z.adultFoodCap*z.adultAssimilation,1e-6):
+                Math.min(1,a.amount/Math.max(z.adultFoodCap,1e-6)))/(1+S.distance(w,cell,a.cell))),0),
               approach=cue?(3-S.distance(w,cell,cue.cell))/3:0,
               movement=cell===q.cell?0:z.adultMoveCost/Math.max(q.E,z.maintenance[4],1e-6);
-            return nutrition*(.5+1.5*hunger)+approach*.45*readyToLay-
+            return nutrition*(v2?2:.5+1.5*hunger)+approach*.45*readyToLay-
               threat(cell)*(.65+learned)+(places?.get(cell).value||0)*.1-movement*.1;
           },scores=new Map(moves.map(cell=>[cell,score(cell)]));
         moves.sort((a,b)=>scores.get(b)-scores.get(a)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b));

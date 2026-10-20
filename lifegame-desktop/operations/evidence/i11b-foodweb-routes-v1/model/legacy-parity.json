@@ -1,0 +1,169 @@
+{
+  "baseline": "1b248aa",
+  "currentModel": "source factory",
+  "biologicalSignature": "ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97",
+  "matchedWorlds": 50,
+  "matchedAllObservations": true,
+  "runs": [
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/1",
+      "states": 5,
+      "fingerprints": [
+        "06fbea9dae51cc2b7eee55389e7a7e52d267c446ae262c17ecc230b4f9bdb572",
+        "4055eeb93329736fa08c3b0204c871447d9092c553f35c695e2599b3a4b285f8",
+        "9b73a24ab989578356959614549efdfc99d7fb5f59d64bc09ff5d118f8e2fc17",
+        "c91c72d9e9362de386c4a3d06d8759334c0174ab77f727aef3f85a7444065821",
+        "bf27b478fbb14393e356a5ffe9a6977d125b0eea2fda14522872f6a9f2db5ac4"
+      ]
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": null,
+      "states": 5,
+      "fingerprints": [
+        "243868743c66f59431b8d19bbb4ab76c0d59d63d62a2dbbc0b090381dd0ac57d",
+        "3474e63e3a1c3d7646358cb37fd755bf9d66d492570e521a05dd303df03cb6ce",
+        "c47048a91fc5b6d302e75ceb575bfe4566bf0940a9a7452af51f800b29fa5965",
+        "c5ea71b512f89a3fcd39ec1b91c144b2818b595a58274be57c2e99120f9f94db",
+        "8c2424e1b38f7e1a616afd863c869b800670c2637713baf6162022f180cf5803"
+      ]
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": false,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/1",
+      "states": 5,
+      "fingerprints": [
+        "5d5541ab6d57bc7cd0d3a7cafa0676e86b3096c483cf88a52f63eb0c56860f7f",
+        "18d95923919643a50e38d030e491f0f34b232225e39e04802e70312ff754eb69",
+        "9adaf2c36642aecb0baff2a9ec8098e2e2fc55c1b9404d70d8f89c2024890e0e",
+        "b005e65c811899474c0c445d5e57ba44d9cbfbacc47bbc866b0f246efbe132e0",
+        "890f35704a6638e6678410a52544e7e66bca228e40d444e420679e6282f0f9d2"
+      ]
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": true,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/1",
+      "states": 5,
+      "fingerprints": [
+        "5dc7eb295bad9def090c35c30d86c2eedb50da2054edc6e40812f5b0e96656cb",
+        "58c84bc0712a892915ba6891bed16342d0d8212041fb58099261dad73f254315",
+        "c437d06b426b54933a8862622c1842d5150d3425c9220c9c5a98f96a3c9feaff",
+        "c50d1cde18e262d348a745991c775978cd0122502867943ac05a63356e03c851",
+        "143238db5795fa983a1051dfa5ed451533c05139a173517182e63a62e2f5834c"
+      ]
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": false
+      },
+      "balanceModel": "survival/1",
+      "states": 5,
+      "fingerprints": [
+        "67b7ffb16da93f6866bcea0b56373cacd01ed339a6e0bf4e9656e4acf9d65131",
+        "e43d9b565fdb80a9395c7d5b15a3d8acdb607e3449f295122cc825db675083d9",
+        "cebcdcebd638f43eb7d8be51b6f2680d76cbb9ca4454575d0873027416bd8cb2",
+        "7ed33b59554c561cf8324f9ae5b31a4abaa76ed330c7c521e69e224eb66c750a",
+        "a8f1b9f495ba8159db8fc483afbcf8514f6d9e9a5f21777229d3bf181c26a559"
+      ]
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": false,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/1",
+      "states": 5,
+      "fingerprints": [
+        "7bb10b136daeb67bfe736fda0ae0973827b19d9b48cb06ac371f78602186ea70",
+        "44a69f62ca98e9cf5ffef451d5c50e8de90b5ebb3cabd6a16521e4f6a308c473",
+        "845fb0127a21a2624c1166473bed5364a052ec9d8eb8fa08cde287bdb8279997",
+        "6149ea18eddd9b8dc7b0dc675f15c264430cd78904b0382a8d8419489b073dd3",
+        "2090abd67e49d79551b484a0a78e2d8f6491ce6cc056fb6bace06080d7d9c212"
+      ]
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": false,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/1",
+      "states": 5,
+      "fingerprints": [
+        "5c3823e53aeb3f1c2e756f3f5ef027544e2782e1ac62bd082055f913796a665d",
+        "baab4820cedd9af2ea6b463f8bf6eeaffd4d26247439127457977e631286a0c5",
+        "a647f6d1df0d22043122a0c063fcadda285d44d4f0c70988c213f91fc327b3b3",
+        "565fb4c0c8958276986f9aafdd80a88d2e77d80f4d22291f81b9233249d02e8c",
+        "d66e965057768643368337accd7cac014f2a70204125b95cc65fad79d8af793a"
+      ]
+    },
+    {
+      "flags": {
+        "producer": false,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/1",
+      "states": 5,
+      "fingerprints": [
+        "dfbe67d73a5805884c598c161adc7a65812f334b5832c36ee2c7ba29ae398715",
+        "1e4eb62e6b39e438c2fa22898819adf73fcdf7ff4d8a8971ed264020fde819c4",
+        "339c9cd86797ca60492677b3498eac1de8dd1f32dd1909a2a72b9ab3e4cc8fd5",
+        "d8b874514664ee62a89ca17d307a83ab0d0c801e3340e5a8f9179f8735d109bb",
+        "7e1b17fadc13de265f0d1f22627c7cf6ebd6c3751fd816cd6bd4e114077d919f"
+      ]
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "balanceModel": "survival/1",
+      "states": 5,
+      "fingerprints": [
+        "e5db764f0759ac40437215fd18dc806d94359aa872c4507a974e464e7d75e655",
+        "c9b4ed3807e4ff9e3a09012cb3be2dae8ac43705fa3ed9537600ab8d8c2494a5",
+        "993e023f84db49583b75609e2cd2656e84067a9efc369da1e01be2ee95814dca",
+        "eba64a73d8cb089f3969e68aac9e7f85d5caa5c8838afcd127c5d73e3b7b6c29",
+        "0b797f449efd19aaee441eb0955c79ec4d46767204ae84f86389807cf6c2ca46"
+      ]
+    },
+    {
+      "flags": {
+        "producer": true,
+        "waterbug": true,
+        "hyperparasite": true
+      },
+      "balanceModel": null,
+      "states": 5,
+      "fingerprints": [
+        "178970e02ee9bff2e0c56be8e96772d3fa3011bb8759dbbe23dc2d269a6b36b0",
+        "7becd67715088198d5576d4ee9f20cda5c35e1bb5ef02ba3f4e2629d264d99d3",
+        "dee5b7065c98356a69d4609394112451a3f719e2923e0ddc27ebbb84df14ac30",
+        "337e3ea950b857051587edbc19bc8cc4f9f51289d4aea8b3bcf14533567631e2",
+        "4505da4560d147c739bcb7c0a58a558329e85fce649d9eaf6396c7a3e774eabb"
+      ]
+    }
+  ]
+}

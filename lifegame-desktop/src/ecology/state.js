@@ -1343,7 +1343,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&c.balanceModel!=="survival/1")
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
@@ -1573,9 +1573,10 @@ return {settings,attach,region,level,factor,begin,finish};
     return {enabled:true,stage,matureAt,elderlyAt,birthLife:o.birthLife,
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
-  function initializeAge(w,o) {
+  function initializeAge(w,o,initialFraction=null) {
     if(Ryouki.is(o)){
       o.birthLife=Math.floor(D.ryouki.life*(.95+.1*o.dna.skin));
+      if(initialFraction!==null)o.age=Math.floor(o.birthLife*initialFraction);
       o.HP=H.round(Math.min(o.HP,Ryouki.phenotype(w,o).maxHP));return o;
     }
     if(LargePlant.is(o)){
@@ -1586,6 +1587,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
     o.birthLife=s.group==="main"?Math.floor(s.life*(.95+.1*o.dna.skin)*(s.id==="swarm"&&o.role==="queen"?3:1)):s.life;
+    if(initialFraction!==null)o.age=Math.floor(o.birthLife*initialFraction);
     const a=ageInfo(o);
     if(!(0<a.matureAt&&a.matureAt<a.elderlyAt&&a.elderlyAt<o.birthLife))throw Error("AGE_INVALID: "+s.id);
     o.HP=H.round(Math.min(o.HP,Math.max(1,(s.group==="main"?100:s.capacity[3])*a.factors.hp)));
@@ -1662,7 +1664,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
     delete o.plantOrigin;
-    return PersistentInformation.attach(w,initializeAge(w,o));
+    // Only initial main founders receive a mixed age cohort. Births and explicit
+    // ages retain their own clocks, and evolution phase is independent of age.
+    const initialFraction=w.turn===0&&w.config.balanceModel==="survival/2"&&w.config.ageModel==="life/1"&&main&&
+      id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
+    return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
     if(Ryouki.is(o))return Ryouki.phenotype(w,o,phase,branch);

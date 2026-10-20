@@ -1,0 +1,489 @@
+{
+  "definition": "i11b-lower-factorial/1",
+  "turns": 50,
+  "variants": {
+    "baseline": {
+      "escape": false,
+      "reserve": false
+    },
+    "escape": {
+      "escape": true,
+      "reserve": false
+    },
+    "reserve": {
+      "escape": false,
+      "reserve": true
+    },
+    "combined": {
+      "escape": true,
+      "reserve": true
+    }
+  },
+  "results": [
+    {
+      "id": "river-0",
+      "variants": {
+        "baseline": {
+          "main": 195,
+          "counts": {
+            "grassbug": 0,
+            "fungus": 6,
+            "waterbug": 29
+          },
+          "births": {
+            "grassbug": 14,
+            "fungus": 6
+          },
+          "deaths": {
+            "grassbug": {
+              "combat": 45,
+              "harvest": 2
+            },
+            "fungus": {
+              "harvest": 31,
+              "age": 2
+            }
+          },
+          "grassMove": {
+            "move": 72,
+            "withinVisibleAttackRange": 233,
+            "stayedWithinAttackRange": 220,
+            "stop": 215,
+            "escapedVisibleAttackRange": 13
+          },
+          "fungalDrops": {
+            "proposed": 35,
+            "wouldLoseBirthMaterial": 31,
+            "actualTurns": 35,
+            "spentB": 59.20000000000001,
+            "spentM": 2.9000000000000012,
+            "wouldLoseBirthBody": 18
+          },
+          "elapsedMs": 9480.255833
+        },
+        "escape": {
+          "main": 199,
+          "counts": {
+            "grassbug": 0,
+            "fungus": 6,
+            "waterbug": 31
+          },
+          "births": {
+            "grassbug": 5,
+            "fungus": 7
+          },
+          "deaths": {
+            "grassbug": {
+              "combat": 36,
+              "harvest": 2
+            },
+            "fungus": {
+              "harvest": 32,
+              "age": 2
+            }
+          },
+          "grassMove": {
+            "stop": 133,
+            "withinVisibleAttackRange": 158,
+            "stayedWithinAttackRange": 88,
+            "move": 99,
+            "escapedVisibleAttackRange": 70
+          },
+          "fungalDrops": {
+            "proposed": 37,
+            "wouldLoseBirthMaterial": 33,
+            "actualTurns": 37,
+            "spentB": 61.400000000000006,
+            "spentM": 3.0000000000000013,
+            "wouldLoseBirthBody": 20
+          },
+          "elapsedMs": 8905.229541
+        },
+        "reserve": {
+          "main": 196,
+          "counts": {
+            "grassbug": 0,
+            "fungus": 2,
+            "waterbug": 21
+          },
+          "births": {
+            "grassbug": 14,
+            "fungus": 5
+          },
+          "deaths": {
+            "grassbug": {
+              "combat": 45,
+              "harvest": 2
+            },
+            "fungus": {
+              "harvest": 36
+            }
+          },
+          "grassMove": {
+            "move": 72,
+            "withinVisibleAttackRange": 233,
+            "stayedWithinAttackRange": 220,
+            "stop": 215,
+            "escapedVisibleAttackRange": 13
+          },
+          "fungalDrops": {
+            "proposed": 3,
+            "actualTurns": 3,
+            "spentB": 2.4000000000000004,
+            "spentM": 0.09999999999999998
+          },
+          "elapsedMs": 9702.122796999996
+        },
+        "combined": {
+          "main": 207,
+          "counts": {
+            "grassbug": 0,
+            "fungus": 4,
+            "waterbug": 36
+          },
+          "births": {
+            "grassbug": 5,
+            "fungus": 8
+          },
+          "deaths": {
+            "grassbug": {
+              "combat": 36,
+              "harvest": 2
+            },
+            "fungus": {
+              "harvest": 35,
+              "starvation": 1,
+              "age": 1
+            }
+          },
+          "grassMove": {
+            "stop": 133,
+            "withinVisibleAttackRange": 158,
+            "stayedWithinAttackRange": 88,
+            "move": 99,
+            "escapedVisibleAttackRange": 70
+          },
+          "fungalDrops": {
+            "proposed": 4,
+            "actualTurns": 4,
+            "spentB": 4.4,
+            "spentM": 0.19999999999999996,
+            "wouldLoseBirthMaterial": 2
+          },
+          "elapsedMs": 9062.269866999995
+        }
+      }
+    },
+    {
+      "id": "lake-1",
+      "variants": {
+        "baseline": {
+          "main": 208,
+          "counts": {
+            "grassbug": 0,
+            "fungus": 6,
+            "waterbug": 73
+          },
+          "births": {
+            "grassbug": 20,
+            "fungus": 9
+          },
+          "deaths": {
+            "fungus": {
+              "harvest": 33,
+              "age": 3
+            },
+            "grassbug": {
+              "combat": 40,
+              "age": 11,
+              "starvation": 2
+            }
+          },
+          "grassMove": {
+            "stop": 676,
+            "move": 91,
+            "withinVisibleAttackRange": 578,
+            "stayedWithinAttackRange": 560,
+            "escapedVisibleAttackRange": 18
+          },
+          "fungalDrops": {
+            "proposed": 49,
+            "wouldLoseBirthMaterial": 43,
+            "wouldLoseBirthBody": 27,
+            "actualTurns": 49,
+            "spentB": 85.4,
+            "spentM": 4.200000000000001
+          },
+          "elapsedMs": 9303.103477
+        },
+        "escape": {
+          "main": 204,
+          "counts": {
+            "grassbug": 10,
+            "fungus": 7,
+            "waterbug": 74
+          },
+          "births": {
+            "grassbug": 28,
+            "fungus": 9
+          },
+          "deaths": {
+            "fungus": {
+              "harvest": 32,
+              "age": 3
+            },
+            "grassbug": {
+              "combat": 23,
+              "starvation": 3,
+              "age": 25
+            }
+          },
+          "grassMove": {
+            "stop": 895,
+            "withinVisibleAttackRange": 701,
+            "stayedWithinAttackRange": 496,
+            "move": 270,
+            "escapedVisibleAttackRange": 205
+          },
+          "fungalDrops": {
+            "proposed": 49,
+            "wouldLoseBirthMaterial": 43,
+            "wouldLoseBirthBody": 27,
+            "actualTurns": 49,
+            "spentB": 87.2,
+            "spentM": 4.300000000000001
+          },
+          "elapsedMs": 7943.690533000001
+        },
+        "reserve": {
+          "main": 205,
+          "counts": {
+            "grassbug": 0,
+            "fungus": 5,
+            "waterbug": 65
+          },
+          "births": {
+            "grassbug": 19,
+            "fungus": 10
+          },
+          "deaths": {
+            "fungus": {
+              "harvest": 34,
+              "age": 3,
+              "starvation": 1
+            },
+            "grassbug": {
+              "combat": 41,
+              "age": 10,
+              "starvation": 1
+            }
+          },
+          "grassMove": {
+            "stop": 664,
+            "move": 91,
+            "withinVisibleAttackRange": 565,
+            "stayedWithinAttackRange": 547,
+            "escapedVisibleAttackRange": 18
+          },
+          "fungalDrops": {
+            "proposed": 7,
+            "actualTurns": 7,
+            "spentB": 6.800000000000001,
+            "spentM": 0.3
+          },
+          "elapsedMs": 8304.775496000002
+        },
+        "combined": {
+          "main": 205,
+          "counts": {
+            "grassbug": 7,
+            "fungus": 5,
+            "waterbug": 74
+          },
+          "births": {
+            "grassbug": 26,
+            "fungus": 9
+          },
+          "deaths": {
+            "fungus": {
+              "harvest": 33,
+              "age": 3,
+              "starvation": 1
+            },
+            "grassbug": {
+              "combat": 30,
+              "starvation": 3,
+              "age": 19
+            }
+          },
+          "grassMove": {
+            "stop": 747,
+            "withinVisibleAttackRange": 590,
+            "stayedWithinAttackRange": 376,
+            "move": 288,
+            "escapedVisibleAttackRange": 214
+          },
+          "fungalDrops": {
+            "proposed": 10,
+            "wouldLoseBirthMaterial": 3,
+            "actualTurns": 10,
+            "spentB": 12.8,
+            "spentM": 0.5999999999999999
+          },
+          "elapsedMs": 7844.86811000001
+        }
+      }
+    },
+    {
+      "id": "woodland-2",
+      "variants": {
+        "baseline": {
+          "main": 192,
+          "counts": {
+            "grassbug": 7,
+            "fungus": 0,
+            "waterbug": 11
+          },
+          "births": {
+            "grassbug": 33,
+            "fungus": 1
+          },
+          "deaths": {
+            "fungus": {
+              "harvest": 34
+            },
+            "grassbug": {
+              "combat": 39,
+              "age": 20
+            }
+          },
+          "grassMove": {
+            "stop": 1177,
+            "withinVisibleAttackRange": 783,
+            "stayedWithinAttackRange": 773,
+            "move": 125,
+            "escapedVisibleAttackRange": 10
+          },
+          "fungalDrops": {
+            "proposed": 13,
+            "wouldLoseBirthMaterial": 11,
+            "wouldLoseBirthBody": 3,
+            "actualTurns": 13,
+            "spentB": 26,
+            "spentM": 1.2999999999999998
+          },
+          "elapsedMs": 8800.201886000003
+        },
+        "escape": {
+          "main": 192,
+          "counts": {
+            "grassbug": 5,
+            "fungus": 0,
+            "waterbug": 10
+          },
+          "births": {
+            "grassbug": 36,
+            "fungus": 1
+          },
+          "deaths": {
+            "fungus": {
+              "harvest": 34
+            },
+            "grassbug": {
+              "combat": 24,
+              "age": 36,
+              "starvation": 4
+            }
+          },
+          "grassMove": {
+            "stop": 1285,
+            "withinVisibleAttackRange": 687,
+            "stayedWithinAttackRange": 580,
+            "move": 207,
+            "escapedVisibleAttackRange": 107
+          },
+          "fungalDrops": {
+            "proposed": 14,
+            "wouldLoseBirthMaterial": 12,
+            "wouldLoseBirthBody": 4,
+            "actualTurns": 14,
+            "spentB": 28,
+            "spentM": 1.4
+          },
+          "elapsedMs": 7904.412196000005
+        },
+        "reserve": {
+          "main": 191,
+          "counts": {
+            "grassbug": 1,
+            "fungus": 0,
+            "waterbug": 11
+          },
+          "births": {
+            "grassbug": 34,
+            "fungus": 1
+          },
+          "deaths": {
+            "fungus": {
+              "harvest": 34
+            },
+            "grassbug": {
+              "combat": 45,
+              "age": 21
+            }
+          },
+          "grassMove": {
+            "stop": 1144,
+            "withinVisibleAttackRange": 749,
+            "stayedWithinAttackRange": 740,
+            "move": 118,
+            "escapedVisibleAttackRange": 9
+          },
+          "fungalDrops": {
+            "proposed": 2,
+            "actualTurns": 2,
+            "spentB": 4,
+            "spentM": 0.19999999999999984
+          },
+          "elapsedMs": 8835.460187999997
+        },
+        "combined": {
+          "main": 193,
+          "counts": {
+            "grassbug": 2,
+            "fungus": 0,
+            "waterbug": 10
+          },
+          "births": {
+            "grassbug": 33,
+            "fungus": 1
+          },
+          "deaths": {
+            "fungus": {
+              "harvest": 34
+            },
+            "grassbug": {
+              "combat": 26,
+              "age": 34,
+              "starvation": 4
+            }
+          },
+          "grassMove": {
+            "stop": 1256,
+            "withinVisibleAttackRange": 617,
+            "stayedWithinAttackRange": 515,
+            "move": 195,
+            "escapedVisibleAttackRange": 102
+          },
+          "fungalDrops": {
+            "proposed": 2,
+            "actualTurns": 2,
+            "spentB": 4,
+            "spentM": 0.19999999999999984
+          },
+          "elapsedMs": 7701.041943999997
+        }
+      }
+    }
+  ]
+}

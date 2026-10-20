@@ -1,0 +1,186 @@
+{
+  "status": "passed-limited-change-with-unmet-ecology-targets",
+  "version": "4.2.44",
+  "baseline": "1b248aa",
+  "recordedAtUTC": "2026-10-20T19:34:54.829643+00:00",
+  "biologicalSignature": "ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97",
+  "newRuleGate": "balanceModel: survival/2",
+  "formalNodeStatusesChanged": false,
+  "newNodes": 0,
+  "manifestOperation": "reflection-only",
+  "updatedNodes": [
+    "C7",
+    "C7.1",
+    "C7.2",
+    "C7.3",
+    "C7.4",
+    "C7.5",
+    "C8",
+    "C8.1",
+    "C8.2",
+    "D7",
+    "D8",
+    "D8.1",
+    "D8.2",
+    "D9",
+    "E5",
+    "E6"
+  ],
+  "fixedDiagnosticPairedCases": 3,
+  "completed500TurnRuns": 6,
+  "productObservationRows": 3006,
+  "productInvariantErrors": 0,
+  "allCasesSameFrozenProductHash": true,
+  "independentEvaluation": false,
+  "newHoldout": false,
+  "priorV1SameThreeCasesExactlyReproduced": true,
+  "legacyCompatibility": {
+    "states": 50,
+    "allObservationsExact": true,
+    "generatedProfilesBothVersions": 16,
+    "generatedComparedStates": 48
+  },
+  "main500BeforeAfter": {
+    "river": [
+      73,
+      60
+    ],
+    "lake": [
+      124,
+      130
+    ],
+    "woodland": [
+      62,
+      88
+    ]
+  },
+  "grassbugBirthsBeforeAfter": [
+    [
+      12,
+      5
+    ],
+    [
+      47,
+      59
+    ],
+    [
+      37,
+      33
+    ]
+  ],
+  "fungusBirthsBeforeAfter": [
+    [
+      5,
+      8
+    ],
+    [
+      11,
+      10
+    ],
+    [
+      1,
+      1
+    ]
+  ],
+  "newInitialPAndQ": [
+    [
+      42,
+      3
+    ],
+    [
+      41,
+      2
+    ],
+    [
+      46,
+      3
+    ]
+  ],
+  "lowerAndParasites500": "grassbug/fungus/P/Q absent at500 in all three paired conditions; waterbug persists in all; this is not general balance acceptance",
+  "QNaturalLifecycle": "new invasion/establishment/emergence/offspring not established in the three diagnostic cases; initial presence distinguished from maintenance",
+  "R1toR6": "not-certified for survival/2; previous survival/1 W outcomes not transferred",
+  "tests": {
+    "distinctFiles": 89,
+    "distinctNodeTests": 624,
+    "passedIncludingAttributedBrowserRecheck": 619,
+    "intentionalLegacySkips": 5,
+    "unresolvedFailures": 0,
+    "unit": {
+      "tests": 621,
+      "suites": 0,
+      "pass": 616,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 5,
+      "todo": 0,
+      "duration_ms": 659490.536589
+    },
+    "browser": {
+      "nodeTests": 3,
+      "passed": 3,
+      "originalActionReceiptAssertions": 38,
+      "terrainPixelAndOwnershipAssertions": 45,
+      "initialDisplayControlFailure": "cold asset preparation can exceed independent850ms action-mark TTL; original log retained",
+      "attribution": "baseline and current receive/display same mark inside TTL and expire after900ms; isolate test frame clock, retain every existing assertion and actual separate TTL boundaries",
+      "recheck": {
+        "passed": true,
+        "nodeTests": 1,
+        "failed": 0,
+        "allExistingAssertionsRetained": true,
+        "productSourceChanged": false,
+        "fixtureChanges": [
+          "fixed display-frame clock",
+          "explicit210ms interaction-release clock advance",
+          "UTF-8 HTML"
+        ],
+        "baselineFixtureSha256": "8af54212ac36ec1b70e935e880152aec8aa9c5eedf668a860b24f97b979d80c1",
+        "sourceHashes": {
+          "tests/display-load-reduction.test.cjs": "715b5bf6ac3c343e574aee3d39fb2357db66de4f3ddd28e2202266555c51f2fb",
+          "src/ecology/renderer.js": "d3ef6bec130d754866b2259f6715b501ab0e67ab6b77f53fbbb92a515e33e6e9",
+          "src/ecology/habitat.js": "6f7c68aac59c369d47d5bb3df62499360d6f421e6b687a07f661158b3cac570c",
+          "operations/evidence/i11b-foodweb-routes-v1/rendering/display-controls-probe.cjs": "a5fb325935ef6c3dfd6ec38ac3f64bb8b5360e88fdb5a7b594019ba3654bec88"
+        },
+        "log": "display-controls-final.log",
+        "probe": "display-controls-probe.json"
+      }
+    }
+  },
+  "runtime": {
+    "committedTurns": 4,
+    "observationRows": 5,
+    "functionalAssertions": 43,
+    "exactDirectWorldFingerprints": 5,
+    "exactAllObservations": true,
+    "pageExceptions": 0,
+    "consoleErrors": 0,
+    "workerErrors": 0,
+    "scope": "one small Linux Chromium world; no500T playback or general performance claim"
+  },
+  "rendering": {
+    "pixelComparisons": 12,
+    "differentRGBAChannels": 0,
+    "terrainSheetsTransferred": [
+      12,
+      11
+    ],
+    "unusedSheetRGBAEquivalentMiB": 6,
+    "actualRSSReductionMeasured": false,
+    "coldMixedPreparationImproved": false,
+    "sameAdoptedArtworkAndUI": true
+  },
+  "windowsDistributionVersion": "4.2.32",
+  "newWindowsPackage": false,
+  "next": "Continue I11 lower renewal, P/Q removal pressure/window/offspring, remaining lineages/R1-R6, initial rendering and retained memory; new Windows I12",
+  "finalManifestRecheck": {
+    "passed": 1,
+    "failed": 0,
+    "log": "model/final-manifest.log"
+  },
+  "resultReconciliation": {
+    "manifestIndexedNodes": 61,
+    "modifiedExistingNodes": 16,
+    "newNodes": 0,
+    "sourceHashes": 208,
+    "pendingFinalGate": false
+  }
+}

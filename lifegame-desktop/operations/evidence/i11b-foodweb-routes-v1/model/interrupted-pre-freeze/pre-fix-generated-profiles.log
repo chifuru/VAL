@@ -1,0 +1,12 @@
+✔ initial main founders have deterministic mixed ages with valid age-based capabilities and unchanged phase/lineage (268.977016ms)
+✔ explicit ages and later-born organisms never acquire an initial founder age (52.338587ms)
+✔ terminal P initial placement is limited to genuinely mature founders and keeps valid Q windows (120.28759ms)
+✔ all eight generated product profiles preserve the versioned source model including full states and finite accounting (3230.024657ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3768.782639

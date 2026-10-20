@@ -1,0 +1,5 @@
+{
+  "status": "interrupted-not-acceptance",
+  "reason": "Review identified v2 grassbug candidate self-occlusion before500T completion. Stopped both processes, fix and signature regeneration required.",
+  "biologicalSignature": "93bf67eaac27de584f4bc6d9762027d83dba7017897a380c865441ba520086db"
+}

@@ -1,0 +1,20 @@
+{
+  "definition": "i11b-foodweb-aggregation/1",
+  "status": "complete",
+  "verifiedRuns": 6,
+  "verifiedInputArtifacts": 18,
+  "rowsPerRun": 501,
+  "replaySignature": "ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97",
+  "modelHash": "10f80f38829cdd22364ace430e80b080dbf3b272a40ea59fc2c4ed4e05b40034",
+  "outputs": [
+    {
+      "file": "paired-comparison.json",
+      "sha256": "30ae9c92cc8d0fcb0c32c1a7683e49f215f3e9d30018244a1ebd1abfdbafc833"
+    },
+    {
+      "file": "500T-species-summary.md",
+      "sha256": "9d76434f0636c8372fa30207320a275555eadffa9b01b5015dcf19b935793d46"
+    }
+  ],
+  "R1toR6": "not-certified"
+}

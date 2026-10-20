@@ -1,0 +1,526 @@
+{
+  "definition": "i11b-ray-fix-paired/1",
+  "commonSourcesMatched": true,
+  "beforeSource": {
+    "observation-model": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+    "observation-modules": "8fd38c811a00431312d156fbf811fee09758faf780381162f2770d4fd0fbceb2",
+    "replay-version": "2f47200b1d4067553240a03a7b06bb9d54f29fcb1c9e31d77fa4212be7bfc790",
+    "behavior": "4d4b98daa58cd2a4de42adcc8981736c3e16b7073b2648463101c4c149e4541d",
+    "nutrition": "bc2a5a1ce59173214feb8ebaeca350186e71a3c253ab4543c6ad012eda02028c",
+    "reproduction": "f75a4617831a2f142bbc06b1285d66eb3ea4fc01a75b3168202a4f6ffc32eeae",
+    "state": "4a5af035523483d02f259150fca43ef38abbcaec2a3fe672f50326d88ef797c1",
+    "engine": "10fe37981c5dda2865fb955d3c11d3bfed5359daf1e8038d43d1b917ea96cf07",
+    "hash": "a2af1afe8540aa56834b8c26255f4a4b3da80104a27a9471cace70a65670f39c",
+    "catalogue": "73d0761e892b2ce5562b6869343a035b467aac375cfa20019522609a783ad13c",
+    "landscape": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+    "map-templates": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e",
+    "map-data": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+    "parasites": "ba73356650e9ec568c886971e2927ff5ca8208e0d85e20b8d8e546e590a0a918"
+  },
+  "afterSource": {
+    "observation-model": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+    "observation-modules": "e8eaf9b9e3ef9ac71f3d319ed371cfbe57ff3fe565292016f8241b6481ea31da",
+    "replay-version": "41035d9d9eac0ddb5a259fede4bfe97c4d0e3e1c66675a970d0fd97c217f91b7",
+    "behavior": "dc5be81640450347eaa53669760bcf1d8369da327f36b8a8dfc319480bc03d9c",
+    "nutrition": "bc2a5a1ce59173214feb8ebaeca350186e71a3c253ab4543c6ad012eda02028c",
+    "reproduction": "f75a4617831a2f142bbc06b1285d66eb3ea4fc01a75b3168202a4f6ffc32eeae",
+    "state": "4a5af035523483d02f259150fca43ef38abbcaec2a3fe672f50326d88ef797c1",
+    "engine": "10fe37981c5dda2865fb955d3c11d3bfed5359daf1e8038d43d1b917ea96cf07",
+    "hash": "a2af1afe8540aa56834b8c26255f4a4b3da80104a27a9471cace70a65670f39c",
+    "catalogue": "73d0761e892b2ce5562b6869343a035b467aac375cfa20019522609a783ad13c",
+    "landscape": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+    "map-templates": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e",
+    "map-data": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+    "parasites": "ba73356650e9ec568c886971e2927ff5ca8208e0d85e20b8d8e546e590a0a918"
+  },
+  "results": [
+    {
+      "variant": "ray-before",
+      "id": "river-0",
+      "final": {
+        "turn": 50,
+        "grassbug": 0,
+        "fungus": 4,
+        "births": {
+          "grassbug": 5,
+          "fungus": 8
+        },
+        "carcasses": 8,
+        "resources": 64
+      },
+      "deaths": {
+        "grassbug": {
+          "combat": 36,
+          "harvest": 2
+        },
+        "fungus": {
+          "harvest": 35,
+          "starvation": 1,
+          "age": 1
+        }
+      },
+      "metrics": {
+        "fungus": {
+          "individualTurns": 613,
+          "reasons": {
+            "energy": 599,
+            "juvenile": 44,
+            "phaseI": 161,
+            "material": 172,
+            "body": 178,
+            "noLegalEmptyCell": 15,
+            "cooldown": 34
+          },
+          "move": {
+            "stop": 650
+          },
+          "feed": {
+            "opportunities": 650,
+            "bites": 88,
+            "withSource": 82,
+            "source:resource:plant": 64,
+            "source:carcass:fungal": 11,
+            "ateTurns": 72,
+            "assimilatedE": 101.32043500000003,
+            "withdrawnM": 6.608332999999993,
+            "from:resource:plant": 54,
+            "source:resource:mineral": 2,
+            "from:resource:mineral": 1,
+            "source:carcass:animal": 14,
+            "from:carcass:animal": 18,
+            "source:resource:fungal": 2,
+            "from:resource:fungal": 2,
+            "from:carcass:fungal": 13
+          },
+          "drops": {
+            "proposed": 4,
+            "actualTurns": 4,
+            "spentB": 4.4,
+            "spentM": 0.19999999999999996,
+            "wouldLoseBirthMaterial": 2
+          },
+          "birthOpportunities": 8,
+          "examples": [
+            {
+              "turn": 1,
+              "id": "i:food:2:31:fungus",
+              "E": 5.88,
+              "B": 4,
+              "M": 0.133333,
+              "age": 2,
+              "phase": 1,
+              "reasons": [
+                "juvenile",
+                "phaseI",
+                "energy",
+                "material"
+              ],
+              "empty": 8,
+              "ca": 8,
+              "candidates": 0
+            },
+            {
+              "turn": 1,
+              "id": "i:food:18:2:fungus",
+              "E": 5.85,
+              "B": 2,
+              "M": 0.066666,
+              "age": 16,
+              "phase": 2,
+              "reasons": [
+                "energy",
+                "material",
+                "body"
+              ],
+              "empty": 6,
+              "ca": 6,
+              "candidates": 0
+            },
+            {
+              "turn": 1,
+              "id": "i:food:14:22:fungus",
+              "E": 5.85,
+              "B": 2,
+              "M": 0.066666,
+              "age": 21,
+              "phase": 2,
+              "reasons": [
+                "energy",
+                "material",
+                "body"
+              ],
+              "empty": 8,
+              "ca": 8,
+              "candidates": 0
+            },
+            {
+              "turn": 1,
+              "id": "i:food:26:5:fungus",
+              "E": 5.85,
+              "B": 2,
+              "M": 0.066666,
+              "age": 30,
+              "phase": 2,
+              "reasons": [
+                "energy",
+                "material",
+                "body"
+              ],
+              "empty": 5,
+              "ca": 5,
+              "candidates": 0
+            },
+            {
+              "turn": 1,
+              "id": "i:food:26:25:fungus",
+              "E": 5.88,
+              "B": 2,
+              "M": 0.066666,
+              "age": 3,
+              "phase": 1,
+              "reasons": [
+                "juvenile",
+                "phaseI",
+                "energy",
+                "material",
+                "body"
+              ],
+              "empty": 6,
+              "ca": 6,
+              "candidates": 0
+            },
+            {
+              "turn": 1,
+              "id": "i:food:2:18:fungus",
+              "E": 5.85,
+              "B": 2,
+              "M": 0.066666,
+              "age": 39,
+              "phase": 2,
+              "reasons": [
+                "energy",
+                "material",
+                "body"
+              ],
+              "empty": 5,
+              "ca": 5,
+              "candidates": 0
+            },
+            {
+              "turn": 1,
+              "id": "i:food:6:37:fungus",
+              "E": 5.85,
+              "B": 2,
+              "M": 0.066666,
+              "age": 26,
+              "phase": 2,
+              "reasons": [
+                "energy",
+                "material",
+                "body"
+              ],
+              "empty": 5,
+              "ca": 5,
+              "candidates": 0
+            },
+            {
+              "turn": 1,
+              "id": "i:food:3:37:fungus",
+              "E": 5.85,
+              "B": 2,
+              "M": 0.066666,
+              "age": 6,
+              "phase": 2,
+              "reasons": [
+                "energy",
+                "material",
+                "body"
+              ],
+              "empty": 8,
+              "ca": 8,
+              "candidates": 0
+            }
+          ]
+        },
+        "grassbug": {
+          "individualTurns": 194,
+          "reasons": {
+            "juvenile": 24,
+            "phaseI": 32,
+            "energy": 162,
+            "pressure": 174,
+            "neighborRule": 14,
+            "cooldown": 11
+          },
+          "move": {
+            "stop": 133,
+            "withinVisibleAttackRange": 158,
+            "stayedWithinAttackRange": 88,
+            "move": 99,
+            "escapedVisibleAttackRange": 70
+          },
+          "feed": {
+            "opportunities": 232,
+            "withSource": 72,
+            "source:plant:plant": 310,
+            "bites": 83,
+            "ateTurns": 50,
+            "assimilatedE": 100.35999999999989,
+            "withdrawnM": 15.865423000000003,
+            "from:plant:plant": 81,
+            "source:resource:plant": 5,
+            "from:resource:plant": 2
+          },
+          "drops": {},
+          "birthOpportunities": 5,
+          "examples": []
+        }
+      },
+      "elapsedMs": 14601.121215
+    },
+    {
+      "variant": "ray-after",
+      "id": "river-0",
+      "final": {
+        "turn": 50,
+        "grassbug": 0,
+        "fungus": 4,
+        "births": {
+          "grassbug": 5,
+          "fungus": 8
+        },
+        "carcasses": 8,
+        "resources": 64
+      },
+      "deaths": {
+        "grassbug": {
+          "combat": 36,
+          "harvest": 2
+        },
+        "fungus": {
+          "harvest": 35,
+          "starvation": 1,
+          "age": 1
+        }
+      },
+      "metrics": {
+        "fungus": {
+          "individualTurns": 613,
+          "reasons": {
+            "energy": 599,
+            "juvenile": 44,
+            "phaseI": 161,
+            "material": 172,
+            "body": 178,
+            "noLegalEmptyCell": 15,
+            "cooldown": 34
+          },
+          "move": {
+            "stop": 650
+          },
+          "feed": {
+            "opportunities": 650,
+            "bites": 88,
+            "withSource": 82,
+            "source:resource:plant": 64,
+            "source:carcass:fungal": 11,
+            "ateTurns": 72,
+            "assimilatedE": 101.32043500000003,
+            "withdrawnM": 6.608332999999993,
+            "from:resource:plant": 54,
+            "source:resource:mineral": 2,
+            "from:resource:mineral": 1,
+            "source:carcass:animal": 14,
+            "from:carcass:animal": 18,
+            "source:resource:fungal": 2,
+            "from:resource:fungal": 2,
+            "from:carcass:fungal": 13
+          },
+          "drops": {
+            "proposed": 4,
+            "actualTurns": 4,
+            "spentB": 4.4,
+            "spentM": 0.19999999999999996,
+            "wouldLoseBirthMaterial": 2
+          },
+          "birthOpportunities": 8,
+          "examples": [
+            {
+              "turn": 1,
+              "id": "i:food:2:31:fungus",
+              "E": 5.88,
+              "B": 4,
+              "M": 0.133333,
+              "age": 2,
+              "phase": 1,
+              "reasons": [
+                "juvenile",
+                "phaseI",
+                "energy",
+                "material"
+              ],
+              "empty": 8,
+              "ca": 8,
+              "candidates": 0
+            },
+            {
+              "turn": 1,
+              "id": "i:food:18:2:fungus",
+              "E": 5.85,
+              "B": 2,
+              "M": 0.066666,
+              "age": 16,
+              "phase": 2,
+              "reasons": [
+                "energy",
+                "material",
+                "body"
+              ],
+              "empty": 6,
+              "ca": 6,
+              "candidates": 0
+            },
+            {
+              "turn": 1,
+              "id": "i:food:14:22:fungus",
+              "E": 5.85,
+              "B": 2,
+              "M": 0.066666,
+              "age": 21,
+              "phase": 2,
+              "reasons": [
+                "energy",
+                "material",
+                "body"
+              ],
+              "empty": 8,
+              "ca": 8,
+              "candidates": 0
+            },
+            {
+              "turn": 1,
+              "id": "i:food:26:5:fungus",
+              "E": 5.85,
+              "B": 2,
+              "M": 0.066666,
+              "age": 30,
+              "phase": 2,
+              "reasons": [
+                "energy",
+                "material",
+                "body"
+              ],
+              "empty": 5,
+              "ca": 5,
+              "candidates": 0
+            },
+            {
+              "turn": 1,
+              "id": "i:food:26:25:fungus",
+              "E": 5.88,
+              "B": 2,
+              "M": 0.066666,
+              "age": 3,
+              "phase": 1,
+              "reasons": [
+                "juvenile",
+                "phaseI",
+                "energy",
+                "material",
+                "body"
+              ],
+              "empty": 6,
+              "ca": 6,
+              "candidates": 0
+            },
+            {
+              "turn": 1,
+              "id": "i:food:2:18:fungus",
+              "E": 5.85,
+              "B": 2,
+              "M": 0.066666,
+              "age": 39,
+              "phase": 2,
+              "reasons": [
+                "energy",
+                "material",
+                "body"
+              ],
+              "empty": 5,
+              "ca": 5,
+              "candidates": 0
+            },
+            {
+              "turn": 1,
+              "id": "i:food:6:37:fungus",
+              "E": 5.85,
+              "B": 2,
+              "M": 0.066666,
+              "age": 26,
+              "phase": 2,
+              "reasons": [
+                "energy",
+                "material",
+                "body"
+              ],
+              "empty": 5,
+              "ca": 5,
+              "candidates": 0
+            },
+            {
+              "turn": 1,
+              "id": "i:food:3:37:fungus",
+              "E": 5.85,
+              "B": 2,
+              "M": 0.066666,
+              "age": 6,
+              "phase": 2,
+              "reasons": [
+                "energy",
+                "material",
+                "body"
+              ],
+              "empty": 8,
+              "ca": 8,
+              "candidates": 0
+            }
+          ]
+        },
+        "grassbug": {
+          "individualTurns": 194,
+          "reasons": {
+            "juvenile": 24,
+            "phaseI": 32,
+            "energy": 162,
+            "pressure": 174,
+            "neighborRule": 14,
+            "cooldown": 11
+          },
+          "move": {
+            "stop": 133,
+            "withinVisibleAttackRange": 158,
+            "stayedWithinAttackRange": 88,
+            "move": 99,
+            "escapedVisibleAttackRange": 70
+          },
+          "feed": {
+            "opportunities": 232,
+            "withSource": 72,
+            "source:plant:plant": 310,
+            "bites": 83,
+            "ateTurns": 50,
+            "assimilatedE": 100.35999999999989,
+            "withdrawnM": 15.865423000000003,
+            "from:plant:plant": 81,
+            "source:resource:plant": 5,
+            "from:resource:plant": 2
+          },
+          "drops": {},
+          "birthOpportunities": 5,
+          "examples": []
+        }
+      },
+      "elapsedMs": 29957.517467
+    }
+  ]
+}

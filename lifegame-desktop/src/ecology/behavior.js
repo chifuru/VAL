@@ -396,6 +396,7 @@
       qualityCache: new Map(),
       dangerCache: new Map(),
       neighborhoodCache: new Map(),
+      costs: ctx.costs,
     };
   }
   function quality(w, o, cell, v) {
@@ -484,6 +485,23 @@
       t +=
         (((9 * phaseA[enemy.phase]) / 24) * hp) /
         (1 + S.distance(w, cell, enemy.cell)) ** 2;
+      if(w.config.balanceModel==="survival/2"&&o.species==="grassbug"&&enemy.HP>0&&v.visibleCells.has(enemy.cell)){
+        const p=v.traits?.get(enemy.id)||S.phenotype(w,enemy),distance=S.distance(w,cell,enemy.cell),
+          attackCost=(distance===2?4:3)*S.adjustment(w,enemy,"attackCost",w.tiles[enemy.cell].env,p.phase),
+          costs=v.costs?.get(enemy.id),available=costs?costs.budget-costs.action:Math.max(0,enemy.E-p.maintenance);
+        if(distance<=Math.min(p.range,p.sense)&&enemy.attackReady<=w.turn&&available>=attackCost){
+          let blockers=null;
+          if(distance===2){
+            if(!v.attackBlockers){
+              const prey=v.m.prey||v.m.food;
+              v.attackBlockers=new Set([...v.m.main.keys(),...prey.keys()]);
+              if(!S.mainAt(v.m,o.cell).some(a=>a.id!==o.id)&&(!prey.has(o.cell)||prey.get(o.cell).id===o.id))v.attackBlockers.delete(o.cell);
+            }
+            blockers=v.attackBlockers;
+          }
+          if(S.sight(w,enemy.cell,cell,blockers))t+=1;
+        }
+      }
     }
     const result = Math.min(1, t);
     v.dangerCache?.set(cell, result);

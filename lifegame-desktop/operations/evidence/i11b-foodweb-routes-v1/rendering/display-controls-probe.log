@@ -1,0 +1,80 @@
+[
+  {
+    "version": "old",
+    "species": "solar",
+    "natural": {
+      "setMs": 686.3000000119209,
+      "focusMs": 6.300000011920929,
+      "drawMs": 147.59999999403954,
+      "elapsedMs": 840.2000000178814,
+      "received": 1,
+      "receiptKeys": 1,
+      "marks": [
+        {
+          "id": "i:main:21:7:solar",
+          "kind": "attack",
+          "x": 467,
+          "y": 264
+        }
+      ],
+      "drawn": 2,
+      "screen": [
+        490,
+        316.8000000000002
+      ],
+      "assetLoaded": true,
+      "terrainPending": true
+    },
+    "delayed": {
+      "elapsedMs": 940.3000000119209,
+      "received": 1,
+      "marks": 0,
+      "drawn": 2
+    },
+    "frozen": {
+      "received": 1,
+      "marks": 1,
+      "drawn": 2
+    },
+    "errors": []
+  },
+  {
+    "version": "current",
+    "species": "solar",
+    "natural": {
+      "setMs": 439,
+      "focusMs": 42.400000005960464,
+      "drawMs": 256.5,
+      "elapsedMs": 737.9000000059605,
+      "received": 1,
+      "receiptKeys": 1,
+      "marks": [
+        {
+          "id": "i:main:21:7:solar",
+          "kind": "attack",
+          "x": 467,
+          "y": 264
+        }
+      ],
+      "drawn": 2,
+      "screen": [
+        490,
+        316.8000000000002
+      ],
+      "assetLoaded": true,
+      "terrainPending": true
+    },
+    "delayed": {
+      "elapsedMs": 901.2000000178814,
+      "received": 1,
+      "marks": 0,
+      "drawn": 2
+    },
+    "frozen": {
+      "received": 1,
+      "marks": 1,
+      "drawn": 2
+    },
+    "errors": []
+  }
+]

@@ -1,0 +1,30 @@
+{"checks":38,"maximumReceiptKeys":1536,"errors":[]}
+✔ confirmed action receipts survive refresh, phase commit and pause rollback with bounded memory (30860.287226ms)
+✖ real renderer keeps display controls independent, preserves detailed bodies and does not mutate the world (9012.133464ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 39906.585426
+
+✖ failing tests:
+
+test at tests/display-load-reduction.test.cjs:4:1
+✖ real renderer keeps display controls independent, preserves detailed bodies and does not mutate the world (9012.133464ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(result.marks.actionMarks.length>0)
+
+      at TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/display-load-reduction.test.cjs:42:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

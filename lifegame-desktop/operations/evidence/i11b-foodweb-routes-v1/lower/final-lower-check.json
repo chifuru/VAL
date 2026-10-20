@@ -1,0 +1,14 @@
+{
+  "scope": "lower implementation and final short diagnostic; product500 runs owned by root",
+  "finalSourceSHA": {
+    "src/ecology/behavior.js": "dc5be81640450347eaa53669760bcf1d8369da327f36b8a8dfc319480bc03d9c",
+    "src/ecology/nutrition.js": "bc2a5a1ce59173214feb8ebaeca350186e71a3c253ab4543c6ad012eda02028c",
+    "tests/lower-foodweb-routes.test.cjs": "061156d5c1035dec26c9a959b887d2dc90e6c465f3f8a21416b0ba23d163ba00",
+    "tools/i11b-foodweb-evaluate.cjs": "5554c2f829a182b396237c7a009478b7f28c0b7dfdf46188aae0d8a7ab52a063"
+  },
+  "rayFix": {
+    "all50TurnAggregateRowsEqual": true,
+    "sameFinalFingerprint": true
+  },
+  "beforeSourcesVerifiedAgainst": "1b248aa"
+}

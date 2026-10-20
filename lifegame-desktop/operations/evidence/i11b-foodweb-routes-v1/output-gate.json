@@ -1,0 +1,82 @@
+{
+  "passed": true,
+  "recordedAtUTC": "2026-10-20T19:36:57.345228+00:00",
+  "flows": [
+    "FLOW-05",
+    "FLOW-08"
+  ],
+  "contract": "operations/plans/i11b-foodweb-routes-v1.md",
+  "projectLocalCoreReadInOrder": [
+    "VALIS Operation Definition.md",
+    "VALIS Summary Manifest.md",
+    "VALIS Flow Definition.md"
+  ],
+  "zerothPremiseAndIdentityAndFeedback": "active within adopted core and authorized scope",
+  "ABStructure": "retained; no specification or formal state change",
+  "existingCDEReconciled": [
+    "C7",
+    "C7.1",
+    "C7.2",
+    "C7.3",
+    "C7.4",
+    "C7.5",
+    "C8",
+    "C8.1",
+    "C8.2",
+    "D7",
+    "D8",
+    "D8.1",
+    "D8.2",
+    "D9",
+    "E5",
+    "E6"
+  ],
+  "newNodeSplit": false,
+  "manifestInitialRegistration": false,
+  "manifestReflection": true,
+  "manifestCurrentOnly": true,
+  "allNodeStatusDraft": true,
+  "productSourceAndTestsAndEvidenceReconciled": true,
+  "frozenProductSignature": "ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97",
+  "fixedArtifactVerification": {
+    "runs": 6,
+    "allTurnRows": 3006,
+    "inputArtifacts": 18,
+    "sameModel": true
+  },
+  "tests": {
+    "distinct": 624,
+    "passed": 619,
+    "existingSkipped": 5,
+    "unresolvedFailures": 0,
+    "attributedBrowserFixtureCorrection": true,
+    "finalManifestPassed": true
+  },
+  "readOnlyDefinitionsAndArtworkRetained": [
+    "valis/core",
+    "valis/nodes/A",
+    "valis/nodes/B",
+    "design",
+    "src/assets",
+    "src/styles.css",
+    "src/ecology/art.js",
+    "src/ecology/scenery.js"
+  ],
+  "limitsRetained": [
+    "No survival/2 R1-R6 certification",
+    "Grassbug/fungus/P/Q final0 in three diagnostic cases",
+    "Q placement is not Q lifecycle maintenance",
+    "Old survival/1 W outcomes not transferred",
+    "No general cold rendering or RSS improvement certification",
+    "No new Windows package; distribution4.2.32"
+  ],
+  "reportFormat": [
+    "VALIS",
+    "READ",
+    "TASK",
+    "INPUT",
+    "NEXT"
+  ],
+  "requiredUserInput": "none",
+  "mainIntegration": "authorized; commit/push follows this gate"
+}

@@ -1,0 +1,11 @@
+{
+  "status": "interrupted-not-accepted",
+  "exitCode": 130,
+  "stoppedUTC": "2026-10-20T19:19:12.231376+00:00",
+  "reason": "Parent review found hypothetical prey movement could self-occlude threat sight; biology freeze lifted for correction. This mixed/pre-final run is not a release verification.",
+  "completedReportedSubtests": 351,
+  "reportedFailures": 0,
+  "completedSuite": false,
+  "signal": "SIGTERM to owned node PID342458 after the console session had ended but its child remained alive",
+  "terminatedUTC": "2026-10-20T19:20:22.417961+00:00"
+}

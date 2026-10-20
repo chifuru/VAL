@@ -1,0 +1,19 @@
+✔ hungry autonomous Q approaches sensed finite food, consumes it next turn, and stays while it remains useful (21.844405ms)
+✔ Q avoids true predators without treating mineral-only non-hunters as predators (10.57948ms)
+✔ nutrition search excludes information and unseen distant stocks, and does not waste movement with no local opportunity (4.965615ms)
+✔ P optional induction preserves finite next-turn maintenance and release budget (12.77226ms)
+✔ Q optional manipulation and information investment cannot consume the paid emergence reserve (6.786775ms)
+✔ unversioned worlds preserve the exact prior parasite execution and random outcomes (624.223607ms)
+✔ survival/2 full Q leaves finite food for a visible safe host while survival/1 keeps its recorded ranking (30.761886ms)
+✔ survival/2 hungry Q stays to eat real stock and starts seeking a host after its finite reserve is sufficient (3.737031ms)
+✔ new Q ranking cannot create nutrition from information or invisible distant stock (2.390559ms)
+✔ survival/2 host approach preserves the one-use window and paid finite egg cost (5.003673ms)
+✔ flagless and survival/1 worlds keep the exact1b248aa parasite states and random outcomes (1332.836862ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2181.626878

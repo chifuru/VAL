@@ -1,0 +1,218 @@
+{
+  "version": "i11b-fixed-foodweb/1",
+  "baselineCommit": "1b248aa",
+  "scope": "Three pre-observed diagnostic cases; paired v1/v2 comparison, not independent evaluation or holdout. All initial160, 40x28; no new lightweight conditions selected.",
+  "cases": [
+    {
+      "id": "river-0",
+      "config": {
+        "width": 40,
+        "height": 28,
+        "initial": 160,
+        "lineages": "manual",
+        "landscape": "templates",
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "randomModel": "table/1",
+        "blockTurns": 500,
+        "populationRegulation": {
+          "version": 1
+        },
+        "producerModel": "colony/1",
+        "largePlantModel": "independent/1",
+        "ryoukiModel": "ryouki/1",
+        "primaryParasiteModel": "primary/1",
+        "hyperParasiteModel": "hyper/1",
+        "informationModel": "persistent/1",
+        "relationshipModel": "network/1",
+        "generationModel": "diverse/1",
+        "generationSettings": {
+          "mode": "manual",
+          "profile": "standard"
+        },
+        "observationMode": "custom",
+        "producerSupport": {
+          "enabled": true
+        },
+        "initialConditions": {
+          "version": 1,
+          "density": {
+            "plant": 0,
+            "fungus": 0.03,
+            "prey": 0.06
+          },
+          "resources": {
+            "mineral": 1,
+            "droplet": 1,
+            "info": 0
+          },
+          "distribution": "habitat"
+        },
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "mapId": "river",
+        "selected": [
+          "ryouki",
+          "solar",
+          "myth",
+          "crystal",
+          "swarm",
+          "kelp",
+          "whale"
+        ],
+        "balanceModel": "survival/1",
+        "seed": "i11/baseline/river-0",
+        "terrainSeed": "i11/baseline/map/river-0"
+      }
+    },
+    {
+      "id": "lake-1",
+      "config": {
+        "width": 40,
+        "height": 28,
+        "initial": 160,
+        "lineages": "manual",
+        "landscape": "templates",
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "randomModel": "table/1",
+        "blockTurns": 500,
+        "populationRegulation": {
+          "version": 1
+        },
+        "producerModel": "colony/1",
+        "largePlantModel": "independent/1",
+        "ryoukiModel": "ryouki/1",
+        "primaryParasiteModel": "primary/1",
+        "hyperParasiteModel": "hyper/1",
+        "informationModel": "persistent/1",
+        "relationshipModel": "network/1",
+        "generationModel": "diverse/1",
+        "generationSettings": {
+          "mode": "manual",
+          "profile": "standard"
+        },
+        "observationMode": "custom",
+        "producerSupport": {
+          "enabled": true
+        },
+        "initialConditions": {
+          "version": 1,
+          "density": {
+            "plant": 0,
+            "fungus": 0.03,
+            "prey": 0.06
+          },
+          "resources": {
+            "mineral": 1,
+            "droplet": 1,
+            "info": 0
+          },
+          "distribution": "habitat"
+        },
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "mapId": "lake",
+        "selected": [
+          "abyss",
+          "abyssshell",
+          "jelly",
+          "kelp",
+          "whale"
+        ],
+        "balanceModel": "survival/1",
+        "seed": "i11/baseline/lake-1",
+        "terrainSeed": "i11/baseline/map/lake-1"
+      }
+    },
+    {
+      "id": "woodland-2",
+      "config": {
+        "width": 40,
+        "height": 28,
+        "initial": 160,
+        "lineages": "manual",
+        "landscape": "templates",
+        "placement": "natural",
+        "distribution": "balanced",
+        "guarantee": false,
+        "ageModel": "life/1",
+        "ecologyRevision": "observation/4.1",
+        "randomModel": "table/1",
+        "blockTurns": 500,
+        "populationRegulation": {
+          "version": 1
+        },
+        "producerModel": "colony/1",
+        "largePlantModel": "independent/1",
+        "ryoukiModel": "ryouki/1",
+        "primaryParasiteModel": "primary/1",
+        "hyperParasiteModel": "hyper/1",
+        "informationModel": "persistent/1",
+        "relationshipModel": "network/1",
+        "generationModel": "diverse/1",
+        "generationSettings": {
+          "mode": "manual",
+          "profile": "standard"
+        },
+        "observationMode": "custom",
+        "producerSupport": {
+          "enabled": true
+        },
+        "initialConditions": {
+          "version": 1,
+          "density": {
+            "plant": 0,
+            "fungus": 0.03,
+            "prey": 0.06
+          },
+          "resources": {
+            "mineral": 1,
+            "droplet": 1,
+            "info": 0
+          },
+          "distribution": "habitat"
+        },
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": true,
+          "Q": true
+        },
+        "mapId": "woodland",
+        "selected": [
+          "recursive",
+          "gravity",
+          "memory",
+          "serpent",
+          "antimeme",
+          "cephalopod",
+          "precocial"
+        ],
+        "balanceModel": "survival/1",
+        "seed": "i11/baseline/woodland-2",
+        "terrainSeed": "i11/baseline/map/woodland-2"
+      }
+    }
+  ]
+}

@@ -1,0 +1,306 @@
+{
+  "passed": true,
+  "baseline": "1b248aa",
+  "checks": [
+    "land baseline cached patch remains reused",
+    "land current cached patch remains reused",
+    "land cold128px patch pixels exactly match baseline",
+    "land reused mask at a second resolution keeps exact pixels",
+    "land omits at least one empty material quilt",
+    "land records exact-empty work omitted",
+    "land far projected background pixels exactly match baseline",
+    "land near projected background pixels exactly match baseline",
+    "water baseline cached patch remains reused",
+    "water current cached patch remains reused",
+    "water cold128px patch pixels exactly match baseline",
+    "water reused mask at a second resolution keeps exact pixels",
+    "water omits at least one empty material quilt",
+    "water records exact-empty work omitted",
+    "all-zero dry mask omits the entire transparent land canvas",
+    "water far projected background pixels exactly match baseline",
+    "water near projected background pixels exactly match baseline",
+    "mixed baseline cached patch remains reused",
+    "mixed current cached patch remains reused",
+    "mixed cold128px patch pixels exactly match baseline",
+    "mixed reused mask at a second resolution keeps exact pixels",
+    "mixed omits at least one empty material quilt",
+    "mixed records exact-empty work omitted",
+    "mixed comparison contains a fractional water/land boundary rather than only binary masks",
+    "mixed far projected background pixels exactly match baseline",
+    "mixed near projected background pixels exactly match baseline",
+    "terrain preparation and near/far projection leave all biological inputs byte-identical",
+    "all retained source artwork decodes",
+    "baseline bitmap probe initialized",
+    "baseline reproduces the unnecessary props transfer",
+    "baseline image bitmaps are passed in the transfer list",
+    "baseline transfer detaches sender bitmap ownership",
+    "baseline replaced near bitmap closes once",
+    "baseline world-reset overview close matches the observed old/new ownership boundary",
+    "baseline reset closes the latest near bitmap",
+    "baseline stale worker response bitmap closes once",
+    "current bitmap probe initialized",
+    "only eleven manifest terrain sheets cross into the worker",
+    "current image bitmaps are passed in the transfer list",
+    "current transfer detaches sender bitmap ownership",
+    "current replaced near bitmap closes once",
+    "current world-reset overview close matches the observed old/new ownership boundary",
+    "current reset closes the latest near bitmap",
+    "current stale worker response bitmap closes once",
+    "no browser exceptions"
+  ],
+  "patches": [
+    {
+      "name": "land",
+      "cold": {
+        "baseline": 483.10000002384186,
+        "current": 88.89999997615814
+      },
+      "samples": {
+        "baseline": [
+          112.7999999821186,
+          84.2000000178814,
+          83.7999999821186
+        ],
+        "current": [
+          41.099999994039536,
+          31,
+          25.19999998807907
+        ],
+        "baselineMedianMs": 84.2000000178814,
+        "currentMedianMs": 31
+      },
+      "metrics": {
+        "baseline": {
+          "unit": 128,
+          "patchPixels": 262144,
+          "cacheHits": 0,
+          "builds": 1,
+          "paintedMaterials": 11,
+          "cachedImageBytes": 1048576,
+          "cachedMaskBytes": 108800
+        },
+        "current": {
+          "unit": 128,
+          "patchPixels": 262144,
+          "cacheHits": 0,
+          "builds": 1,
+          "paintedMaterials": 11,
+          "quiltCalls": 3,
+          "skippedLayers": 9,
+          "skippedOverlays": 4,
+          "skippedLandPatches": 0,
+          "cachedImageBytes": 1048576,
+          "cachedMaskBytes": 108800
+        }
+      },
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelError": 0
+      }
+    },
+    {
+      "name": "water",
+      "cold": {
+        "baseline": 95.09999999403954,
+        "current": 49.80000001192093
+      },
+      "samples": {
+        "baseline": [
+          85.5,
+          95.19999998807907,
+          77.90000000596046
+        ],
+        "current": [
+          20.400000005960464,
+          18,
+          16
+        ],
+        "baselineMedianMs": 85.5,
+        "currentMedianMs": 18
+      },
+      "metrics": {
+        "baseline": {
+          "unit": 128,
+          "patchPixels": 262144,
+          "cacheHits": 0,
+          "builds": 1,
+          "paintedMaterials": 11,
+          "cachedImageBytes": 1048576,
+          "cachedMaskBytes": 108800
+        },
+        "current": {
+          "unit": 128,
+          "patchPixels": 262144,
+          "cacheHits": 0,
+          "builds": 1,
+          "paintedMaterials": 11,
+          "quiltCalls": 2,
+          "skippedLayers": 2,
+          "skippedOverlays": 6,
+          "skippedLandPatches": 1,
+          "cachedImageBytes": 1048576,
+          "cachedMaskBytes": 108800
+        }
+      },
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelError": 0
+      }
+    },
+    {
+      "name": "mixed",
+      "cold": {
+        "baseline": 89.09999999403954,
+        "current": 190.40000000596046
+      },
+      "samples": {
+        "baseline": [
+          91.7999999821186,
+          92,
+          76
+        ],
+        "current": [
+          74.90000000596046,
+          90.80000001192093,
+          74.69999998807907
+        ],
+        "baselineMedianMs": 91.7999999821186,
+        "currentMedianMs": 74.90000000596046
+      },
+      "metrics": {
+        "baseline": {
+          "unit": 128,
+          "patchPixels": 262144,
+          "cacheHits": 0,
+          "builds": 1,
+          "paintedMaterials": 11,
+          "cachedImageBytes": 1048576,
+          "cachedMaskBytes": 108800
+        },
+        "current": {
+          "unit": 128,
+          "patchPixels": 262144,
+          "cacheHits": 0,
+          "builds": 1,
+          "paintedMaterials": 11,
+          "quiltCalls": 11,
+          "skippedLayers": 1,
+          "skippedOverlays": 1,
+          "skippedLandPatches": 0,
+          "cachedImageBytes": 1048576,
+          "cachedMaskBytes": 108800
+        }
+      },
+      "comparison": {
+        "differentChannels": 0,
+        "maxChannelError": 0
+      }
+    }
+  ],
+  "projections": [
+    {
+      "name": "land",
+      "mode": "far",
+      "scale": 24,
+      "baselineMs": 83.09999999403954,
+      "currentMs": 66.7999999821186,
+      "differentChannels": 0,
+      "maxChannelError": 0
+    },
+    {
+      "name": "land",
+      "mode": "near",
+      "scale": 96,
+      "baselineMs": 615.4000000059605,
+      "currentMs": 212.80000001192093,
+      "differentChannels": 0,
+      "maxChannelError": 0
+    },
+    {
+      "name": "water",
+      "mode": "far",
+      "scale": 24,
+      "baselineMs": 62.900000005960464,
+      "currentMs": 49.5,
+      "differentChannels": 0,
+      "maxChannelError": 0
+    },
+    {
+      "name": "water",
+      "mode": "near",
+      "scale": 96,
+      "baselineMs": 565.8999999761581,
+      "currentMs": 110.09999999403954,
+      "differentChannels": 0,
+      "maxChannelError": 0
+    },
+    {
+      "name": "mixed",
+      "mode": "far",
+      "scale": 24,
+      "baselineMs": 66.09999999403954,
+      "currentMs": 75.39999997615814,
+      "differentChannels": 0,
+      "maxChannelError": 0
+    },
+    {
+      "name": "mixed",
+      "mode": "near",
+      "scale": 96,
+      "baselineMs": 590.9000000059605,
+      "currentMs": 525.9000000059605,
+      "differentChannels": 0,
+      "maxChannelError": 0
+    }
+  ],
+  "ownership": [
+    {
+      "label": "baseline",
+      "sheets": [
+        "habitat-props",
+        "habitat-meadow",
+        "habitat-rock",
+        "habitat-forest",
+        "habitat-earth",
+        "habitat-water",
+        "habitat-deep",
+        "habitat-rapids",
+        "habitat-frost",
+        "habitat-signal",
+        "habitat-corrosion",
+        "habitat-thermal"
+      ],
+      "overviewClosed": 0,
+      "nearClosed": 1,
+      "sourceRgbaBytes": 75483552,
+      "probeTransferredBytes": 192
+    },
+    {
+      "label": "current",
+      "sheets": [
+        "habitat-meadow",
+        "habitat-rock",
+        "habitat-forest",
+        "habitat-earth",
+        "habitat-water",
+        "habitat-deep",
+        "habitat-rapids",
+        "habitat-frost",
+        "habitat-signal",
+        "habitat-corrosion",
+        "habitat-thermal"
+      ],
+      "overviewClosed": 1,
+      "nearClosed": 1,
+      "sourceRgbaBytes": 69192096,
+      "probeTransferredBytes": 176
+    }
+  ],
+  "errors": [],
+  "sourceHashes": {
+    "src/ecology/habitat.js": "6f7c68aac59c369d47d5bb3df62499360d6f421e6b687a07f661158b3cac570c",
+    "src/ecology/renderer.js": "d3ef6bec130d754866b2259f6715b501ab0e67ab6b77f53fbbb92a515e33e6e9",
+    "tests/terrain-zero-work.test.cjs": "f8edcaa9b88d8574ac174ecf3857be465f7fe004c2db427a7659c3c74b957eb9"
+  },
+  "scope": "Single Linux Chromium process; three fixed8x8 terrain fixtures; exact RGBA patch and near/far projection comparison; real tiny transferable ImageBitmaps with instrumented worker ownership; no500T or ecology model/performance generalization"
+}

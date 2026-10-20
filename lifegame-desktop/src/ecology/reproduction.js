@@ -8,7 +8,7 @@
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
-  const survival = (w) => w.config.balanceModel === "survival/1";
+  const survival = (w) => ["survival/1","survival/2"].includes(w.config.balanceModel);
   function sparseMainBirths(w, ctx) {
     if (!survival(w)) return false;
     if (ctx.sparseMainBirths === undefined) {

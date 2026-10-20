@@ -1,0 +1,17 @@
+✔ fungal optional release preserves paid-birth material and body reserves without creating nutrients (20.06926ms)
+✔ surplus fungus still releases finite spores and pays the original costs (26.434579ms)
+✔ exact fungal reserve boundaries remain legal after the shared nutrient quantization (5.290124ms)
+✔ reserve retention alone neither grants soil nutrition nor bypasses a real parent and maturity (4.843821ms)
+✔ a visible funded attacker adds danger to existing choices and a legal escape still pays movement (17.106298ms)
+✔ invisible, cooldown or unfunded attackers do not trigger the added immediate danger (16.820347ms)
+✔ danger never creates an unaffordable escape or an illegal path (4.182633ms)
+✔ range-two danger vacates the moving animal's origin but retains a different organism sharing it (46.939895ms)
+✔ survival/1 and unversioned worlds retain their former optional release and movement choices (14.670664ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 219.107599

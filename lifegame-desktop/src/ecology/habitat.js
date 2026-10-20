@@ -62,7 +62,7 @@
   function create(w, P, art) {
     const W = w.config.width,
       H = w.config.height,
-      cache = new Map(), maskCache=new Map(),
+      cache = new Map(), maskCache=new Map(), maskSupport=new WeakMap(),
       maskBudget=24*1024*1024, imageBudget=96*1024*1024,
       cacheBytes={images:0,masks:0},
       metrics = {
@@ -71,6 +71,10 @@
         cacheHits: 0,
         builds: 0,
         paintedMaterials: 0,
+        quiltCalls: 0,
+        skippedLayers: 0,
+        skippedOverlays: 0,
+        skippedLandPatches: 0,
       };
     const tile = (x, y) =>
       w.tiles[
@@ -154,6 +158,7 @@
       return r;
     }
     function quilt(g, name, rect, unit) {
+      metrics.quiltCalls++;
       const im = art.images["habitat-" + name],
         fallback = {
           meadow: "#7d9450",
@@ -214,8 +219,6 @@
         height = rect.h * unit,
         c = canvas(width, height),
         g = c.getContext("2d"),
-        land = canvas(width, height),
-        l = land.getContext("2d"),
         scratch = canvas(width, height),
         s = scratch.getContext("2d"),
         mu = Math.min(20, unit),
@@ -245,7 +248,7 @@
         maskKey=[rect.x,rect.y,rect.w,rect.h,mu].join("/"),
         data = maskCache.get(maskKey) || Object.fromEntries(
           fields.map((k) => [k, new Uint8Array(mw*mh)]),
-        );
+        ), activeFields=maskSupport.get(data)||new Set();
       if(!maskCache.has(maskKey)){
       for (let py = 0; py < mh; py++)
         for (let px = 0; px < mw; px++) {
@@ -281,8 +284,9 @@
             shade: lighting.shade * (1 - wet) + coast * 0.14,
             light: lighting.light * (1 - wet),
           };
-          const i=py*mw+px;for(const k of fields)data[k][i]=Math.round(clamp(values[k])*255);
+          const i=py*mw+px;for(const k of fields){const alpha=Math.round(clamp(values[k])*255);data[k][i]=alpha;if(alpha!==0)activeFields.add(k);}
         }
+      maskSupport.set(data,activeFields);
       const bytes=mw*mh*fields.length;if(bytes<=maskBudget){maskCache.set(maskKey,data);cacheBytes.masks+=bytes;
       while(cacheBytes.masks>maskBudget&&maskCache.size>1){const k=maskCache.keys().next().value,d=maskCache.get(k);maskCache.delete(k);cacheBytes.masks-=d.dry.byteLength*fields.length;}
       }
@@ -299,6 +303,9 @@
         target.globalCompositeOperation = "source-over";
       }
       function layer(target, name, field) {
+        // Only the exact all-zero quantized mask is empty. Faint/partial masks
+        // retain the existing quilting and interpolation unchanged.
+        if(!activeFields.has(field)){metrics.skippedLayers++;return;}
         s.clearRect(0, 0, width, height);
         quilt(s, name, rect, unit);
         applyMask(s, field);
@@ -307,18 +314,22 @@
       quilt(g, "water", rect, unit);
       layer(g, "rapids", "flow");
       layer(g, "deep", "deep");
-      quilt(l, "meadow", rect, unit);
-      layer(l, "forest", "forest");
-      layer(l, "rock", "rock");
-      layer(l, "earth", "earth");
-      layer(l, "frost", "frost");
-      layer(l, "thermal", "hot");
-      layer(l, "signal", "info");
-      layer(l, "corrosion", "corrosion");
-      applyMask(l, "dry");
-      g.drawImage(land, 0, 0);
+      if(activeFields.has("dry")){
+        const land=canvas(width,height),l=land.getContext("2d");
+        quilt(l, "meadow", rect, unit);
+        layer(l, "forest", "forest");
+        layer(l, "rock", "rock");
+        layer(l, "earth", "earth");
+        layer(l, "frost", "frost");
+        layer(l, "thermal", "hot");
+        layer(l, "signal", "info");
+        layer(l, "corrosion", "corrosion");
+        applyMask(l, "dry");
+        g.drawImage(land, 0, 0);
+      }else metrics.skippedLandPatches++;
       layer(g, "earth", "shore");
       for (const k of ["shallows", "wetbank", "shade", "bankshade", "light", "banklight"]) {
+        if(!activeFields.has(k)){metrics.skippedOverlays++;continue;}
         paintMask(k);
         g.drawImage(mask, 0, 0, width, height);
       }

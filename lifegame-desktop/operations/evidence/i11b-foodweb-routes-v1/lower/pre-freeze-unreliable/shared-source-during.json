@@ -1,0 +1,6 @@
+{
+  "inspectedAt": "2026-10-20T19:11:09.661815+00:00",
+  "PStillBaseline1b248aa": false,
+  "parasitesSHA": "5d2248da0c4a464308d8a655daa74d1fcb8b5c397a7e8da52e08d0af4e40dbfd",
+  "note": "During sequential factor comparison; baseline/escape/reserve already loaded."
+}

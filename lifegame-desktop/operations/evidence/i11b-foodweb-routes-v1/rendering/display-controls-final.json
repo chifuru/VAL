@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "nodeTests": 1,
+  "failed": 0,
+  "allExistingAssertionsRetained": true,
+  "productSourceChanged": false,
+  "fixtureChanges": [
+    "fixed display-frame clock",
+    "explicit210ms interaction-release clock advance",
+    "UTF-8 HTML"
+  ],
+  "baselineFixtureSha256": "8af54212ac36ec1b70e935e880152aec8aa9c5eedf668a860b24f97b979d80c1",
+  "sourceHashes": {
+    "tests/display-load-reduction.test.cjs": "715b5bf6ac3c343e574aee3d39fb2357db66de4f3ddd28e2202266555c51f2fb",
+    "src/ecology/renderer.js": "d3ef6bec130d754866b2259f6715b501ab0e67ab6b77f53fbbb92a515e33e6e9",
+    "src/ecology/habitat.js": "6f7c68aac59c369d47d5bb3df62499360d6f421e6b687a07f661158b3cac570c",
+    "operations/evidence/i11b-foodweb-routes-v1/rendering/display-controls-probe.cjs": "a5fb325935ef6c3dfd6ec38ac3f64bb8b5360e88fdb5a7b594019ba3654bec88"
+  },
+  "log": "display-controls-final.log",
+  "probe": "display-controls-probe.json"
+}

@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "baseline": "1b248aa",
+  "version": "4.2.44",
+  "biologicalSignature": "ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97",
+  "dateUTC": "2026-10-20T19:37:20.280957+00:00",
+  "nodes": 61,
+  "updatedNodes": [
+    "valis/nodes/C/C7.1.md",
+    "valis/nodes/C/C7.2.md",
+    "valis/nodes/C/C7.3.md",
+    "valis/nodes/C/C7.4.md",
+    "valis/nodes/C/C7.5.md",
+    "valis/nodes/C/C7.md",
+    "valis/nodes/C/C8.1.md",
+    "valis/nodes/C/C8.2.md",
+    "valis/nodes/C/C8.md",
+    "valis/nodes/D/D7.md",
+    "valis/nodes/D/D8.1.md",
+    "valis/nodes/D/D8.2.md",
+    "valis/nodes/D/D8.md",
+    "valis/nodes/D/D9.md",
+    "valis/nodes/E/E5.md",
+    "valis/nodes/E/E6.md"
+  ],
+  "unchangedFormalFields": [
+    "id",
+    "title",
+    "layer",
+    "status",
+    "parent_id",
+    "implements",
+    "derived_from",
+    "verifies",
+    "related_to",
+    "evidence_for"
+  ],
+  "nodeReferencesChecked": 3865,
+  "unchangedMaterialAndDefinitionPaths": [
+    "valis/core",
+    "valis/nodes/A",
+    "valis/nodes/B",
+    "design",
+    "src/assets",
+    "src/styles.css",
+    "src/ecology/art.js",
+    "src/ecology/scenery.js"
+  ],
+  "manifestCurrentOnly": true,
+  "markdownLinksChecked": 65,
+  "noNewWindowsPackage": true,
+  "next": "Continue I11: remaining lineage and P/Q routes, R1-R6, performance"
+}

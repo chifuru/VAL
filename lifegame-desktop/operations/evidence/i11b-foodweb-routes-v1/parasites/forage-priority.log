@@ -1,0 +1,35 @@
+[
+  {
+    name: 'hungry-with-food',
+    end: {
+      turn: 8,
+      cell: 27,
+      distance: 2,
+      E: 0.31,
+      foodE: 1.2,
+      last: [Object]
+    }
+  },
+  {
+    name: 'full-with-food',
+    end: {
+      turn: 8,
+      cell: 27,
+      distance: 2,
+      E: 1,
+      foodE: 1.68,
+      last: [Object]
+    }
+  },
+  {
+    name: 'full-without-food',
+    end: {
+      turn: 8,
+      cell: 29,
+      distance: 0,
+      E: 0.836,
+      foodE: undefined,
+      last: [Object]
+    }
+  }
+]

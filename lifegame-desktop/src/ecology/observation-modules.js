@@ -2233,7 +2233,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&c.balanceModel!=="survival/1")
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
@@ -2463,9 +2463,10 @@ return {settings,attach,region,level,factor,begin,finish};
     return {enabled:true,stage,matureAt,elderlyAt,birthLife:o.birthLife,
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
-  function initializeAge(w,o) {
+  function initializeAge(w,o,initialFraction=null) {
     if(Ryouki.is(o)){
       o.birthLife=Math.floor(D.ryouki.life*(.95+.1*o.dna.skin));
+      if(initialFraction!==null)o.age=Math.floor(o.birthLife*initialFraction);
       o.HP=H.round(Math.min(o.HP,Ryouki.phenotype(w,o).maxHP));return o;
     }
     if(LargePlant.is(o)){
@@ -2476,6 +2477,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
     o.birthLife=s.group==="main"?Math.floor(s.life*(.95+.1*o.dna.skin)*(s.id==="swarm"&&o.role==="queen"?3:1)):s.life;
+    if(initialFraction!==null)o.age=Math.floor(o.birthLife*initialFraction);
     const a=ageInfo(o);
     if(!(0<a.matureAt&&a.matureAt<a.elderlyAt&&a.elderlyAt<o.birthLife))throw Error("AGE_INVALID: "+s.id);
     o.HP=H.round(Math.min(o.HP,Math.max(1,(s.group==="main"?100:s.capacity[3])*a.factors.hp)));
@@ -2552,7 +2554,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
     delete o.plantOrigin;
-    return PersistentInformation.attach(w,initializeAge(w,o));
+    // Only initial main founders receive a mixed age cohort. Births and explicit
+    // ages retain their own clocks, and evolution phase is independent of age.
+    const initialFraction=w.turn===0&&w.config.balanceModel==="survival/2"&&w.config.ageModel==="life/1"&&main&&
+      id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
+    return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
     if(Ryouki.is(o))return Ryouki.phenotype(w,o,phase,branch);
@@ -4037,6 +4043,7 @@ function(require,module){
       const B = kind === "factor" ? 0.2 : 2,
         M = kind === "factor" ? 0 : 0.1;
       if (S.edibleB(o) < B || o.M < M) continue;
+      if(w.config.balanceModel==="survival/2"&&s.id==="fungus"&&(S.round(S.edibleB(o)-B)<3||S.round(o.M-M)<.2))continue;
       const places = S.nearby(w, o.cell, 1, true)
         .filter((p) => !w.tiles[p].blocked)
         .map((cell) => ({
@@ -4639,6 +4646,7 @@ function(require,module){
       qualityCache: new Map(),
       dangerCache: new Map(),
       neighborhoodCache: new Map(),
+      costs: ctx.costs,
     };
   }
   function quality(w, o, cell, v) {
@@ -4727,6 +4735,23 @@ function(require,module){
       t +=
         (((9 * phaseA[enemy.phase]) / 24) * hp) /
         (1 + S.distance(w, cell, enemy.cell)) ** 2;
+      if(w.config.balanceModel==="survival/2"&&o.species==="grassbug"&&enemy.HP>0&&v.visibleCells.has(enemy.cell)){
+        const p=v.traits?.get(enemy.id)||S.phenotype(w,enemy),distance=S.distance(w,cell,enemy.cell),
+          attackCost=(distance===2?4:3)*S.adjustment(w,enemy,"attackCost",w.tiles[enemy.cell].env,p.phase),
+          costs=v.costs?.get(enemy.id),available=costs?costs.budget-costs.action:Math.max(0,enemy.E-p.maintenance);
+        if(distance<=Math.min(p.range,p.sense)&&enemy.attackReady<=w.turn&&available>=attackCost){
+          let blockers=null;
+          if(distance===2){
+            if(!v.attackBlockers){
+              const prey=v.m.prey||v.m.food;
+              v.attackBlockers=new Set([...v.m.main.keys(),...prey.keys()]);
+              if(!S.mainAt(v.m,o.cell).some(a=>a.id!==o.id)&&(!prey.has(o.cell)||prey.get(o.cell).id===o.id))v.attackBlockers.delete(o.cell);
+            }
+            blockers=v.attackBlockers;
+          }
+          if(S.sight(w,enemy.cell,cell,blockers))t+=1;
+        }
+      }
     }
     const result = Math.min(1, t);
     v.dangerCache?.set(cell, result);
@@ -5415,7 +5440,7 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
-  const survival = (w) => w.config.balanceModel === "survival/1";
+  const survival = (w) => ["survival/1","survival/2"].includes(w.config.balanceModel);
   function sparseMainBirths(w, ctx) {
     if (!survival(w)) return false;
     if (ctx.sparseMainBirths === undefined) {
@@ -5912,7 +5937,7 @@ function(require,module){
   const primaryEnabled=w=>S.PrimaryParasite?.enabled(w)===true;
   const hyperEnabled=w=>S.HyperParasite?.enabled(w)===true;
   const informationEnabled=w=>S.PersistentInformation?.enabled(w)===true;
-  const survivalEnabled=w=>w?.config?.balanceModel==="survival/1";
+  const survivalEnabled=w=>["survival/1","survival/2"].includes(w?.config?.balanceModel);
   const informationKeys=["ownExperiences","holdingQualified","deathDecisions","candidateDeaths","normalGenerated","lowGenerated","noGeneration","generatedAmount","expiredAmount","capacityLostAmount","microLostAmount","movedAmount","originsRead","contentsRead","rejectedScope","rejectedContext","rejectedBudget","deduplicated","learned","learningDeltaAbs","placeApplications","placeMagnitude","receptionCostE","qPromoted","qDistorted","environmentRead","ordinaryRead","caregiverRead"];
   function emptyInformationFlow(w){return {definition:"persistent-information-flow/1",turn:w.turn,all:Object.fromEntries(informationKeys.map(key=>[key,0]))};}
   function informationFlow(w,ctx,key,n=1){ctx.persistentInformationFlow??=emptyInformationFlow(w);const a=ctx.persistentInformationFlow.all;a[key]=S.round(a[key]+n);}
@@ -6441,12 +6466,18 @@ function(require,module){
           if(amount>0)forage.push({cell,amount});
         }
         const hunger=S.clamp(1-q.E/Math.max(z.eggCost+4*z.maintenance[4],1e-6),0,1),
+          v2=w.config.balanceModel==="survival/2",
+          // A finite food stock is not another reward after the adult has
+          // reserved one laying attempt and the existing four-turn upkeep.
+          needed=Math.max(0,Math.min(z.capE,z.eggCost+4*z.maintenance[4])-q.E),
           readyToLay=q.E>=z.eggCost&&q.ready<=w.turn?1:.15,
           score=cell=>{
-            const nutrition=forage.reduce((n,a)=>Math.max(n,Math.min(1,a.amount/Math.max(z.adultFoodCap,1e-6))/(1+S.distance(w,cell,a.cell))),0),
+            const nutrition=forage.reduce((n,a)=>Math.max(n,(v2?
+                Math.min(needed,Math.min(z.adultFoodCap,a.amount)*z.adultAssimilation)/Math.max(z.adultFoodCap*z.adultAssimilation,1e-6):
+                Math.min(1,a.amount/Math.max(z.adultFoodCap,1e-6)))/(1+S.distance(w,cell,a.cell))),0),
               approach=cue?(3-S.distance(w,cell,cue.cell))/3:0,
               movement=cell===q.cell?0:z.adultMoveCost/Math.max(q.E,z.maintenance[4],1e-6);
-            return nutrition*(.5+1.5*hunger)+approach*.45*readyToLay-
+            return nutrition*(v2?2:.5+1.5*hunger)+approach*.45*readyToLay-
               threat(cell)*(.65+learned)+(places?.get(cell).value||0)*.1-movement*.1;
           },scores=new Map(moves.map(cell=>[cell,score(cell)]));
         moves.sort((a,b)=>scores.get(b)-scores.get(a)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b));
@@ -10309,7 +10340,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&c.balanceModel!=="survival/1")
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
@@ -10539,9 +10570,10 @@ return {settings,attach,region,level,factor,begin,finish};
     return {enabled:true,stage,matureAt,elderlyAt,birthLife:o.birthLife,
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
-  function initializeAge(w,o) {
+  function initializeAge(w,o,initialFraction=null) {
     if(Ryouki.is(o)){
       o.birthLife=Math.floor(D.ryouki.life*(.95+.1*o.dna.skin));
+      if(initialFraction!==null)o.age=Math.floor(o.birthLife*initialFraction);
       o.HP=H.round(Math.min(o.HP,Ryouki.phenotype(w,o).maxHP));return o;
     }
     if(LargePlant.is(o)){
@@ -10552,6 +10584,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
     o.birthLife=s.group==="main"?Math.floor(s.life*(.95+.1*o.dna.skin)*(s.id==="swarm"&&o.role==="queen"?3:1)):s.life;
+    if(initialFraction!==null)o.age=Math.floor(o.birthLife*initialFraction);
     const a=ageInfo(o);
     if(!(0<a.matureAt&&a.matureAt<a.elderlyAt&&a.elderlyAt<o.birthLife))throw Error("AGE_INVALID: "+s.id);
     o.HP=H.round(Math.min(o.HP,Math.max(1,(s.group==="main"?100:s.capacity[3])*a.factors.hp)));
@@ -10628,7 +10661,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
     delete o.plantOrigin;
-    return PersistentInformation.attach(w,initializeAge(w,o));
+    // Only initial main founders receive a mixed age cohort. Births and explicit
+    // ages retain their own clocks, and evolution phase is independent of age.
+    const initialFraction=w.turn===0&&w.config.balanceModel==="survival/2"&&w.config.ageModel==="life/1"&&main&&
+      id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
+    return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
     if(Ryouki.is(o))return Ryouki.phenotype(w,o,phase,branch);
@@ -12114,6 +12151,7 @@ function(require,module){
       const B = kind === "factor" ? 0.2 : 2,
         M = kind === "factor" ? 0 : 0.1;
       if (S.edibleB(o) < B || o.M < M) continue;
+      if(w.config.balanceModel==="survival/2"&&s.id==="fungus"&&(S.round(S.edibleB(o)-B)<3||S.round(o.M-M)<.2))continue;
       const places = S.nearby(w, o.cell, 1, true)
         .filter((p) => !w.tiles[p].blocked)
         .map((cell) => ({
@@ -12327,7 +12365,7 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
-  const survival = (w) => w.config.balanceModel === "survival/1";
+  const survival = (w) => ["survival/1","survival/2"].includes(w.config.balanceModel);
   function sparseMainBirths(w, ctx) {
     if (!survival(w)) return false;
     if (ctx.sparseMainBirths === undefined) {
@@ -14807,6 +14845,7 @@ function(require,module){
       qualityCache: new Map(),
       dangerCache: new Map(),
       neighborhoodCache: new Map(),
+      costs: ctx.costs,
     };
   }
   function quality(w, o, cell, v) {
@@ -14895,6 +14934,23 @@ function(require,module){
       t +=
         (((9 * phaseA[enemy.phase]) / 24) * hp) /
         (1 + S.distance(w, cell, enemy.cell)) ** 2;
+      if(w.config.balanceModel==="survival/2"&&o.species==="grassbug"&&enemy.HP>0&&v.visibleCells.has(enemy.cell)){
+        const p=v.traits?.get(enemy.id)||S.phenotype(w,enemy),distance=S.distance(w,cell,enemy.cell),
+          attackCost=(distance===2?4:3)*S.adjustment(w,enemy,"attackCost",w.tiles[enemy.cell].env,p.phase),
+          costs=v.costs?.get(enemy.id),available=costs?costs.budget-costs.action:Math.max(0,enemy.E-p.maintenance);
+        if(distance<=Math.min(p.range,p.sense)&&enemy.attackReady<=w.turn&&available>=attackCost){
+          let blockers=null;
+          if(distance===2){
+            if(!v.attackBlockers){
+              const prey=v.m.prey||v.m.food;
+              v.attackBlockers=new Set([...v.m.main.keys(),...prey.keys()]);
+              if(!S.mainAt(v.m,o.cell).some(a=>a.id!==o.id)&&(!prey.has(o.cell)||prey.get(o.cell).id===o.id))v.attackBlockers.delete(o.cell);
+            }
+            blockers=v.attackBlockers;
+          }
+          if(S.sight(w,enemy.cell,cell,blockers))t+=1;
+        }
+      }
     }
     const result = Math.min(1, t);
     v.dangerCache?.set(cell, result);
@@ -15583,7 +15639,7 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
-  const survival = (w) => w.config.balanceModel === "survival/1";
+  const survival = (w) => ["survival/1","survival/2"].includes(w.config.balanceModel);
   function sparseMainBirths(w, ctx) {
     if (!survival(w)) return false;
     if (ctx.sparseMainBirths === undefined) {
@@ -16962,7 +17018,7 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
-  const survival = (w) => w.config.balanceModel === "survival/1";
+  const survival = (w) => ["survival/1","survival/2"].includes(w.config.balanceModel);
   function sparseMainBirths(w, ctx) {
     if (!survival(w)) return false;
     if (ctx.sparseMainBirths === undefined) {
@@ -18791,7 +18847,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&c.balanceModel!=="survival/1")
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
@@ -19021,9 +19077,10 @@ return {settings,attach,region,level,factor,begin,finish};
     return {enabled:true,stage,matureAt,elderlyAt,birthLife:o.birthLife,
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
-  function initializeAge(w,o) {
+  function initializeAge(w,o,initialFraction=null) {
     if(Ryouki.is(o)){
       o.birthLife=Math.floor(D.ryouki.life*(.95+.1*o.dna.skin));
+      if(initialFraction!==null)o.age=Math.floor(o.birthLife*initialFraction);
       o.HP=H.round(Math.min(o.HP,Ryouki.phenotype(w,o).maxHP));return o;
     }
     if(LargePlant.is(o)){
@@ -19034,6 +19091,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
     o.birthLife=s.group==="main"?Math.floor(s.life*(.95+.1*o.dna.skin)*(s.id==="swarm"&&o.role==="queen"?3:1)):s.life;
+    if(initialFraction!==null)o.age=Math.floor(o.birthLife*initialFraction);
     const a=ageInfo(o);
     if(!(0<a.matureAt&&a.matureAt<a.elderlyAt&&a.elderlyAt<o.birthLife))throw Error("AGE_INVALID: "+s.id);
     o.HP=H.round(Math.min(o.HP,Math.max(1,(s.group==="main"?100:s.capacity[3])*a.factors.hp)));
@@ -19110,7 +19168,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
     delete o.plantOrigin;
-    return PersistentInformation.attach(w,initializeAge(w,o));
+    // Only initial main founders receive a mixed age cohort. Births and explicit
+    // ages retain their own clocks, and evolution phase is independent of age.
+    const initialFraction=w.turn===0&&w.config.balanceModel==="survival/2"&&w.config.ageModel==="life/1"&&main&&
+      id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
+    return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
     if(Ryouki.is(o))return Ryouki.phenotype(w,o,phase,branch);
@@ -19866,7 +19928,7 @@ function(require,module){
   const primaryEnabled=w=>S.PrimaryParasite?.enabled(w)===true;
   const hyperEnabled=w=>S.HyperParasite?.enabled(w)===true;
   const informationEnabled=w=>S.PersistentInformation?.enabled(w)===true;
-  const survivalEnabled=w=>w?.config?.balanceModel==="survival/1";
+  const survivalEnabled=w=>["survival/1","survival/2"].includes(w?.config?.balanceModel);
   const informationKeys=["ownExperiences","holdingQualified","deathDecisions","candidateDeaths","normalGenerated","lowGenerated","noGeneration","generatedAmount","expiredAmount","capacityLostAmount","microLostAmount","movedAmount","originsRead","contentsRead","rejectedScope","rejectedContext","rejectedBudget","deduplicated","learned","learningDeltaAbs","placeApplications","placeMagnitude","receptionCostE","qPromoted","qDistorted","environmentRead","ordinaryRead","caregiverRead"];
   function emptyInformationFlow(w){return {definition:"persistent-information-flow/1",turn:w.turn,all:Object.fromEntries(informationKeys.map(key=>[key,0]))};}
   function informationFlow(w,ctx,key,n=1){ctx.persistentInformationFlow??=emptyInformationFlow(w);const a=ctx.persistentInformationFlow.all;a[key]=S.round(a[key]+n);}
@@ -20395,12 +20457,18 @@ function(require,module){
           if(amount>0)forage.push({cell,amount});
         }
         const hunger=S.clamp(1-q.E/Math.max(z.eggCost+4*z.maintenance[4],1e-6),0,1),
+          v2=w.config.balanceModel==="survival/2",
+          // A finite food stock is not another reward after the adult has
+          // reserved one laying attempt and the existing four-turn upkeep.
+          needed=Math.max(0,Math.min(z.capE,z.eggCost+4*z.maintenance[4])-q.E),
           readyToLay=q.E>=z.eggCost&&q.ready<=w.turn?1:.15,
           score=cell=>{
-            const nutrition=forage.reduce((n,a)=>Math.max(n,Math.min(1,a.amount/Math.max(z.adultFoodCap,1e-6))/(1+S.distance(w,cell,a.cell))),0),
+            const nutrition=forage.reduce((n,a)=>Math.max(n,(v2?
+                Math.min(needed,Math.min(z.adultFoodCap,a.amount)*z.adultAssimilation)/Math.max(z.adultFoodCap*z.adultAssimilation,1e-6):
+                Math.min(1,a.amount/Math.max(z.adultFoodCap,1e-6)))/(1+S.distance(w,cell,a.cell))),0),
               approach=cue?(3-S.distance(w,cell,cue.cell))/3:0,
               movement=cell===q.cell?0:z.adultMoveCost/Math.max(q.E,z.maintenance[4],1e-6);
-            return nutrition*(.5+1.5*hunger)+approach*.45*readyToLay-
+            return nutrition*(v2?2:.5+1.5*hunger)+approach*.45*readyToLay-
               threat(cell)*(.65+learned)+(places?.get(cell).value||0)*.1-movement*.1;
           },scores=new Map(moves.map(cell=>[cell,score(cell)]));
         moves.sort((a,b)=>scores.get(b)-scores.get(a)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b));
@@ -22665,7 +22733,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&c.balanceModel!=="survival/1")
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
@@ -22895,9 +22963,10 @@ return {settings,attach,region,level,factor,begin,finish};
     return {enabled:true,stage,matureAt,elderlyAt,birthLife:o.birthLife,
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
-  function initializeAge(w,o) {
+  function initializeAge(w,o,initialFraction=null) {
     if(Ryouki.is(o)){
       o.birthLife=Math.floor(D.ryouki.life*(.95+.1*o.dna.skin));
+      if(initialFraction!==null)o.age=Math.floor(o.birthLife*initialFraction);
       o.HP=H.round(Math.min(o.HP,Ryouki.phenotype(w,o).maxHP));return o;
     }
     if(LargePlant.is(o)){
@@ -22908,6 +22977,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
     o.birthLife=s.group==="main"?Math.floor(s.life*(.95+.1*o.dna.skin)*(s.id==="swarm"&&o.role==="queen"?3:1)):s.life;
+    if(initialFraction!==null)o.age=Math.floor(o.birthLife*initialFraction);
     const a=ageInfo(o);
     if(!(0<a.matureAt&&a.matureAt<a.elderlyAt&&a.elderlyAt<o.birthLife))throw Error("AGE_INVALID: "+s.id);
     o.HP=H.round(Math.min(o.HP,Math.max(1,(s.group==="main"?100:s.capacity[3])*a.factors.hp)));
@@ -22984,7 +23054,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
     delete o.plantOrigin;
-    return PersistentInformation.attach(w,initializeAge(w,o));
+    // Only initial main founders receive a mixed age cohort. Births and explicit
+    // ages retain their own clocks, and evolution phase is independent of age.
+    const initialFraction=w.turn===0&&w.config.balanceModel==="survival/2"&&w.config.ageModel==="life/1"&&main&&
+      id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
+    return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
     if(Ryouki.is(o))return Ryouki.phenotype(w,o,phase,branch);
@@ -25958,7 +26032,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
-    if(c.balanceModel!==undefined&&c.balanceModel!=="survival/1")
+    if(c.balanceModel!==undefined&&!["survival/1","survival/2"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
@@ -26188,9 +26262,10 @@ return {settings,attach,region,level,factor,begin,finish};
     return {enabled:true,stage,matureAt,elderlyAt,birthLife:o.birthLife,
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
-  function initializeAge(w,o) {
+  function initializeAge(w,o,initialFraction=null) {
     if(Ryouki.is(o)){
       o.birthLife=Math.floor(D.ryouki.life*(.95+.1*o.dna.skin));
+      if(initialFraction!==null)o.age=Math.floor(o.birthLife*initialFraction);
       o.HP=H.round(Math.min(o.HP,Ryouki.phenotype(w,o).maxHP));return o;
     }
     if(LargePlant.is(o)){
@@ -26201,6 +26276,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const s=spec(o);
     if(["P","Q"].includes(s.group))return o;
     o.birthLife=s.group==="main"?Math.floor(s.life*(.95+.1*o.dna.skin)*(s.id==="swarm"&&o.role==="queen"?3:1)):s.life;
+    if(initialFraction!==null)o.age=Math.floor(o.birthLife*initialFraction);
     const a=ageInfo(o);
     if(!(0<a.matureAt&&a.matureAt<a.elderlyAt&&a.elderlyAt<o.birthLife))throw Error("AGE_INVALID: "+s.id);
     o.HP=H.round(Math.min(o.HP,Math.max(1,(s.group==="main"?100:s.capacity[3])*a.factors.hp)));
@@ -26277,7 +26353,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
     delete o.plantOrigin;
-    return PersistentInformation.attach(w,initializeAge(w,o));
+    // Only initial main founders receive a mixed age cohort. Births and explicit
+    // ages retain their own clocks, and evolution phase is independent of age.
+    const initialFraction=w.turn===0&&w.config.balanceModel==="survival/2"&&w.config.ageModel==="life/1"&&main&&
+      id.startsWith("i:main:")&&!Object.hasOwn(options,"age")?r(w,"init/main-age",0,id)*.5:null;
+    return PersistentInformation.attach(w,initializeAge(w,o,initialFraction));
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
     if(Ryouki.is(o))return Ryouki.phenotype(w,o,phase,branch);

@@ -1,0 +1,10 @@
+{"checks":45,"patches":[{"name":"land","cold":{"baseline":483.10000002384186,"current":88.89999997615814},"baselineMedianMs":84.2000000178814,"currentMedianMs":31,"metrics":{"unit":128,"patchPixels":262144,"cacheHits":0,"builds":1,"paintedMaterials":11,"quiltCalls":3,"skippedLayers":9,"skippedOverlays":4,"skippedLandPatches":0,"cachedImageBytes":1048576,"cachedMaskBytes":108800}},{"name":"water","cold":{"baseline":95.09999999403954,"current":49.80000001192093},"baselineMedianMs":85.5,"currentMedianMs":18,"metrics":{"unit":128,"patchPixels":262144,"cacheHits":0,"builds":1,"paintedMaterials":11,"quiltCalls":2,"skippedLayers":2,"skippedOverlays":6,"skippedLandPatches":1,"cachedImageBytes":1048576,"cachedMaskBytes":108800}},{"name":"mixed","cold":{"baseline":89.09999999403954,"current":190.40000000596046},"baselineMedianMs":91.7999999821186,"currentMedianMs":74.90000000596046,"metrics":{"unit":128,"patchPixels":262144,"cacheHits":0,"builds":1,"paintedMaterials":11,"quiltCalls":11,"skippedLayers":1,"skippedOverlays":1,"skippedLandPatches":0,"cachedImageBytes":1048576,"cachedMaskBytes":108800}}],"ownership":[{"label":"baseline","sheets":["habitat-props","habitat-meadow","habitat-rock","habitat-forest","habitat-earth","habitat-water","habitat-deep","habitat-rapids","habitat-frost","habitat-signal","habitat-corrosion","habitat-thermal"],"overviewClosed":0,"nearClosed":1,"sourceRgbaBytes":75483552,"probeTransferredBytes":192},{"label":"current","sheets":["habitat-meadow","habitat-rock","habitat-forest","habitat-earth","habitat-water","habitat-deep","habitat-rapids","habitat-frost","habitat-signal","habitat-corrosion","habitat-thermal"],"overviewClosed":1,"nearClosed":1,"sourceRgbaBytes":69192096,"probeTransferredBytes":176}]}
+✔ empty terrain work is skipped with exact pixels and terrain bitmap ownership stays bounded (8572.687827ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8640.461955

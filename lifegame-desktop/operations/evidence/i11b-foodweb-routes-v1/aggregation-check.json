@@ -1,0 +1,21 @@
+{
+  "scope": "Metadata aggregation fixtures only; no ecological simulation, no biological performance or survival claim",
+  "tests": [
+    {
+      "name": "501 states required, ordered and gap-free",
+      "pass": true
+    },
+    {
+      "name": "missing inputs stop without biological aggregate",
+      "pass": true
+    },
+    {
+      "name": "old v1 only compared when configs are exact",
+      "pass": true
+    },
+    {
+      "name": "checksum tampering fails before model data are accepted",
+      "pass": true
+    }
+  ]
+}

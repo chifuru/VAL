@@ -1,0 +1,264 @@
+river-0 {"fungus":{"individualTurns":613,"reasons":{"energy":593,"juvenile":41,"phaseI":129,"material":398,"body":298,"noLegalEmptyCell":15,"cooldown":30},"move":{"stop":646},"feed":{"opportunities":646,"bites":112,"withSource":114,"source:resource:fungal":33,"source:resource:plant":67,"source:carcass:fungal":8,"ateTurns":97,"assimilatedE":134.03895900000015,"withdrawnM":9.299999999999983,"from:resource:fungal":29,"from:resource:plant":54,"source:resource:mineral":2,"from:resource:mineral":1,"source:carcass:animal":15,"from:carcass:animal":18,"from:carcass:fungal":10},"drops":{"proposed":34,"wouldLoseBirthMaterial":31,"actualTurns":34,"spentB":59.00000000000001,"spentM":2.9000000000000012,"wouldLoseBirthBody":17},"birthOpportunities":6,"examples":[{"turn":1,"id":"i:food:2:31:fungus","E":5.88,"B":4,"M":0.133333,"age":2,"phase":1,"reasons":["juvenile","phaseI","energy","material"],"empty":8,"ca":8,"candidates":0},{"turn":1,"id":"i:food:18:2:fungus","E":5.85,"B":2,"M":0.066666,"age":16,"phase":2,"reasons":["energy","material","body"],"empty":6,"ca":6,"candidates":0},{"turn":1,"id":"i:food:14:22:fungus","E":5.85,"B":2,"M":0.066666,"age":21,"phase":2,"reasons":["energy","material","body"],"empty":8,"ca":8,"candidates":0},{"turn":1,"id":"i:food:26:5:fungus","E":5.85,"B":2,"M":0.066666,"age":30,"phase":2,"reasons":["energy","material","body"],"empty":5,"ca":5,"candidates":0},{"turn":1,"id":"i:food:26:25:fungus","E":5.88,"B":2,"M":0.066666,"age":3,"phase":1,"reasons":["juvenile","phaseI","energy","material","body"],"empty":6,"ca":6,"candidates":0},{"turn":1,"id":"i:food:2:18:fungus","E":5.85,"B":2,"M":0.066666,"age":39,"phase":2,"reasons":["energy","material","body"],"empty":5,"ca":5,"candidates":0},{"turn":1,"id":"i:food:6:37:fungus","E":5.85,"B":2,"M":0.066666,"age":26,"phase":2,"reasons":["energy","material","body"],"empty":5,"ca":5,"candidates":0},{"turn":1,"id":"i:food:3:37:fungus","E":5.85,"B":2,"M":0.066666,"age":6,"phase":2,"reasons":["energy","material","body"],"empty":8,"ca":8,"candidates":0}]},"grassbug":{"individualTurns":240,"reasons":{"juvenile":36,"phaseI":36,"energy":165,"pressure":205,"neighborRule":17,"noLegalEmptyCell":1,"cooldown":29},"move":{"move":72,"withinVisibleAttackRange":233,"stayedWithinAttackRange":220,"stop":215,"escapedVisibleAttackRange":13},"feed":{"opportunities":287,"withSource":183,"source:plant:plant":748,"bites":174,"ateTurns":115,"assimilatedE":187.9279999999999,"withdrawnM":28.910126999999985,"from:plant:plant":170,"source:resource:plant":13,"from:resource:plant":4},"drops":{},"birthOpportunities":14,"examples":[]}}
+lake-1 {"fungus":{"individualTurns":765,"reasons":{"juvenile":58,"phaseI":152,"energy":709,"material":438,"body":494,"noLegalEmptyCell":46,"arbitrationOther":1,"cooldown":45},"move":{"stop":801},"feed":{"opportunities":801,"bites":157,"withSource":159,"source:resource:plant":121,"source:resource:fungal":49,"ateTurns":135,"assimilatedE":207.44817200000048,"withdrawnM":13.799999999999967,"from:resource:plant":96,"from:resource:fungal":42,"source:carcass:fungal":14,"from:carcass:fungal":17,"source:carcass:animal":2,"from:carcass:animal":2},"drops":{"proposed":49,"wouldLoseBirthMaterial":43,"wouldLoseBirthBody":27,"actualTurns":49,"spentB":85.4,"spentM":4.200000000000001},"birthOpportunities":9,"examples":[{"turn":1,"id":"i:food:1:38:fungus","E":5.88,"B":2,"M":0.066666,"age":1,"phase":1,"reasons":["juvenile","phaseI","energy","material","body"],"empty":7,"ca":7,"candidates":0},{"turn":1,"id":"i:food:21:14:fungus","E":5.85,"B":4,"M":0.133333,"age":25,"phase":2,"reasons":["energy","material"],"empty":5,"ca":5,"candidates":0},{"turn":1,"id":"i:food:24:7:fungus","E":5.85,"B":2,"M":0.066666,"age":40,"phase":2,"reasons":["energy","material","body"],"empty":8,"ca":8,"candidates":0},{"turn":1,"id":"i:food:2:35:fungus","E":5.85,"B":2,"M":0.066666,"age":6,"phase":2,"reasons":["energy","material","body"],"empty":7,"ca":7,"candidates":0},{"turn":1,"id":"i:food:16:2:fungus","E":5.85,"B":2,"M":0.066666,"age":10,"phase":2,"reasons":["energy","material","body"],"empty":3,"ca":3,"candidates":0},{"turn":1,"id":"i:food:16:8:fungus","E":5.85,"B":4,"M":0.133333,"age":31,"phase":2,"reasons":["energy","material"],"empty":2,"ca":2,"candidates":0},{"turn":1,"id":"i:food:6:33:fungus","E":5.88,"B":4,"M":0.133333,"age":3,"phase":1,"reasons":["juvenile","phaseI","energy","material"],"empty":6,"ca":6,"candidates":0},{"turn":1,"id":"i:food:13:36:fungus","E":5.88,"B":2,"M":0.066666,"age":2,"phase":1,"reasons":["juvenile","phaseI","energy","material","body"],"empty":3,"ca":3,"candidates":0}]},"grassbug":{"individualTurns":714,"reasons":{"energy":356,"pressure":649,"neighborRule":125,"noLegalEmptyCell":9,"juvenile":52,"phaseI":122,"cooldown":49,"damagedThisTurn":6},"move":{"stop":676,"move":91,"withinVisibleAttackRange":578,"stayedWithinAttackRange":560,"escapedVisibleAttackRange":18},"feed":{"opportunities":767,"withSource":589,"source:plant:plant":2989,"bites":589,"ateTurns":409,"assimilatedE":553.9576930000009,"withdrawnM":92.56996399999996,"from:plant:plant":584,"source:resource:plant":39,"from:resource:plant":5},"drops":{},"birthOpportunities":20,"examples":[]}}
+woodland-2 {"fungus":{"individualTurns":157,"reasons":{"energy":149,"juvenile":14,"phaseI":38,"material":95,"body":62,"cooldown":5},"move":{"stop":191},"feed":{"opportunities":191,"withSource":45,"source:resource:mineral":2,"bites":44,"ateTurns":36,"assimilatedE":50.61669899999996,"withdrawnM":4.899999999999999,"from:resource:mineral":2,"source:resource:fungal":16,"source:resource:plant":25,"source:carcass:fungal":6,"from:resource:fungal":13,"from:resource:plant":16,"from:carcass:fungal":10,"source:carcass:animal":3,"from:carcass:animal":3},"drops":{"proposed":13,"wouldLoseBirthMaterial":11,"wouldLoseBirthBody":3,"actualTurns":13,"spentB":26,"spentM":1.2999999999999998},"birthOpportunities":1,"examples":[{"turn":1,"id":"i:food:4:2:fungus","E":5.85,"B":4,"M":0.133333,"age":6,"phase":2,"reasons":["energy","material"],"empty":5,"ca":5,"candidates":0},{"turn":1,"id":"i:food:12:22:fungus","E":5.85,"B":2,"M":0.066666,"age":9,"phase":2,"reasons":["energy","material","body"],"empty":8,"ca":8,"candidates":0},{"turn":1,"id":"i:food:1:31:fungus","E":5.85,"B":4,"M":0.133333,"age":37,"phase":2,"reasons":["energy","material"],"empty":4,"ca":4,"candidates":0},{"turn":1,"id":"i:food:20:28:fungus","E":5.85,"B":2,"M":0.066666,"age":14,"phase":2,"reasons":["energy","material","body"],"empty":7,"ca":7,"candidates":0},{"turn":1,"id":"i:food:10:23:fungus","E":5.85,"B":2,"M":0.066666,"age":34,"phase":2,"reasons":["energy","material","body"],"empty":8,"ca":8,"candidates":0},{"turn":1,"id":"i:food:15:6:fungus","E":5.85,"B":4,"M":0.133333,"age":39,"phase":2,"reasons":["energy","material"],"empty":8,"ca":8,"candidates":0},{"turn":1,"id":"i:food:12:6:fungus","E":5.85,"B":2,"M":0.066666,"age":30,"phase":2,"reasons":["energy","material","body"],"empty":8,"ca":8,"candidates":0},{"turn":1,"id":"i:food:20:15:fungus","E":5.85,"B":2,"M":0.066666,"age":22,"phase":2,"reasons":["energy","material","body"],"empty":4,"ca":4,"candidates":0}]},"grassbug":{"individualTurns":1243,"reasons":{"pressure":1040,"energy":947,"juvenile":117,"phaseI":193,"neighborRule":328,"noLegalEmptyCell":18,"cooldown":90},"move":{"stop":1177,"withinVisibleAttackRange":783,"stayedWithinAttackRange":773,"move":125,"escapedVisibleAttackRange":10},"feed":{"opportunities":1302,"withSource":834,"source:plant:plant":3966,"ateTurns":463,"bites":589,"assimilatedE":582.5811550000014,"withdrawnM":97.09831700000005,"from:plant:plant":580,"source:resource:plant":27,"from:resource:plant":9},"drops":{},"birthOpportunities":33,"examples":[]}}
+river-0 {"fungus":{"individualTurns":613,"reasons":{"energy":599,"juvenile":44,"phaseI":161,"material":172,"body":178,"noLegalEmptyCell":15,"cooldown":34},"move":{"stop":650},"feed":{"opportunities":650,"bites":88,"withSource":82,"source:resource:plant":64,"source:carcass:fungal":11,"ateTurns":72,"assimilatedE":101.32043500000003,"withdrawnM":6.608332999999993,"from:resource:plant":54,"source:resource:mineral":2,"from:resource:mineral":1,"source:carcass:animal":14,"from:carcass:animal":18,"source:resource:fungal":2,"from:resource:fungal":2,"from:carcass:fungal":13},"drops":{"proposed":4,"actualTurns":4,"spentB":4.4,"spentM":0.19999999999999996,"wouldLoseBirthMaterial":2},"birthOpportunities":8,"examples":[{"turn":1,"id":"i:food:2:31:fungus","E":5.88,"B":4,"M":0.133333,"age":2,"phase":1,"reasons":["juvenile","phaseI","energy","material"],"empty":8,"ca":8,"candidates":0},{"turn":1,"id":"i:food:18:2:fungus","E":5.85,"B":2,"M":0.066666,"age":16,"phase":2,"reasons":["energy","material","body"],"empty":6,"ca":6,"candidates":0},{"turn":1,"id":"i:food:14:22:fungus","E":5.85,"B":2,"M":0.066666,"age":21,"phase":2,"reasons":["energy","material","body"],"empty":8,"ca":8,"candidates":0},{"turn":1,"id":"i:food:26:5:fungus","E":5.85,"B":2,"M":0.066666,"age":30,"phase":2,"reasons":["energy","material","body"],"empty":5,"ca":5,"candidates":0},{"turn":1,"id":"i:food:26:25:fungus","E":5.88,"B":2,"M":0.066666,"age":3,"phase":1,"reasons":["juvenile","phaseI","energy","material","body"],"empty":6,"ca":6,"candidates":0},{"turn":1,"id":"i:food:2:18:fungus","E":5.85,"B":2,"M":0.066666,"age":39,"phase":2,"reasons":["energy","material","body"],"empty":5,"ca":5,"candidates":0},{"turn":1,"id":"i:food:6:37:fungus","E":5.85,"B":2,"M":0.066666,"age":26,"phase":2,"reasons":["energy","material","body"],"empty":5,"ca":5,"candidates":0},{"turn":1,"id":"i:food:3:37:fungus","E":5.85,"B":2,"M":0.066666,"age":6,"phase":2,"reasons":["energy","material","body"],"empty":8,"ca":8,"candidates":0}]},"grassbug":{"individualTurns":194,"reasons":{"juvenile":24,"phaseI":32,"energy":162,"pressure":174,"neighborRule":14,"cooldown":11},"move":{"stop":133,"withinVisibleAttackRange":158,"stayedWithinAttackRange":88,"move":99,"escapedVisibleAttackRange":70},"feed":{"opportunities":232,"withSource":72,"source:plant:plant":310,"bites":83,"ateTurns":50,"assimilatedE":100.35999999999989,"withdrawnM":15.865423000000003,"from:plant:plant":81,"source:resource:plant":5,"from:resource:plant":2},"drops":{},"birthOpportunities":5,"examples":[]}}
+lake-1 {"fungus":{"individualTurns":747,"reasons":{"juvenile":56,"phaseI":131,"energy":706,"material":186,"body":212,"noLegalEmptyCell":44,"arbitrationOther":1,"cooldown":42},"move":{"stop":784},"feed":{"opportunities":784,"bites":130,"withSource":129,"source:resource:plant":128,"ateTurns":109,"assimilatedE":162.88183200000032,"withdrawnM":10.899999999999979,"from:resource:plant":102,"source:carcass:fungal":16,"source:resource:fungal":6,"from:carcass:fungal":22,"from:resource:fungal":6},"drops":{"proposed":10,"wouldLoseBirthMaterial":3,"actualTurns":10,"spentB":12.8,"spentM":0.5999999999999999},"birthOpportunities":9,"examples":[{"turn":1,"id":"i:food:1:38:fungus","E":5.88,"B":2,"M":0.066666,"age":1,"phase":1,"reasons":["juvenile","phaseI","energy","material","body"],"empty":7,"ca":7,"candidates":0},{"turn":1,"id":"i:food:21:14:fungus","E":5.85,"B":4,"M":0.133333,"age":25,"phase":2,"reasons":["energy","material"],"empty":5,"ca":5,"candidates":0},{"turn":1,"id":"i:food:24:7:fungus","E":5.85,"B":2,"M":0.066666,"age":40,"phase":2,"reasons":["energy","material","body"],"empty":8,"ca":8,"candidates":0},{"turn":1,"id":"i:food:2:35:fungus","E":5.85,"B":2,"M":0.066666,"age":6,"phase":2,"reasons":["energy","material","body"],"empty":7,"ca":7,"candidates":0},{"turn":1,"id":"i:food:16:2:fungus","E":5.85,"B":2,"M":0.066666,"age":10,"phase":2,"reasons":["energy","material","body"],"empty":3,"ca":3,"candidates":0},{"turn":1,"id":"i:food:16:8:fungus","E":5.85,"B":4,"M":0.133333,"age":31,"phase":2,"reasons":["energy","material"],"empty":2,"ca":2,"candidates":0},{"turn":1,"id":"i:food:6:33:fungus","E":5.88,"B":4,"M":0.133333,"age":3,"phase":1,"reasons":["juvenile","phaseI","energy","material"],"empty":6,"ca":6,"candidates":0},{"turn":1,"id":"i:food:13:36:fungus","E":5.88,"B":2,"M":0.066666,"age":2,"phase":1,"reasons":["juvenile","phaseI","energy","material","body"],"empty":3,"ca":3,"candidates":0}]},"grassbug":{"individualTurns":983,"reasons":{"energy":579,"pressure":914,"neighborRule":98,"noLegalEmptyCell":4,"juvenile":84,"phaseI":186,"cooldown":70},"move":{"stop":747,"withinVisibleAttackRange":590,"stayedWithinAttackRange":376,"move":288,"escapedVisibleAttackRange":214},"feed":{"opportunities":1035,"withSource":646,"source:plant:plant":3042,"bites":781,"ateTurns":506,"assimilatedE":856.6739959999893,"withdrawnM":129.2884789999997,"from:plant:plant":767,"source:resource:plant":83,"from:resource:plant":14},"drops":{},"birthOpportunities":26,"examples":[]}}
+woodland-2 {"fungus":{"individualTurns":185,"reasons":{"energy":183,"juvenile":14,"phaseI":48,"material":68,"body":50,"cooldown":5},"move":{"stop":219},"feed":{"opportunities":219,"withSource":38,"source:resource:mineral":2,"bites":40,"ateTurns":31,"assimilatedE":43.69107799999999,"withdrawnM":3.9000000000000017,"from:resource:mineral":2,"source:resource:plant":26,"source:carcass:fungal":4,"source:resource:fungal":2,"from:resource:plant":17,"from:carcass:fungal":7,"from:resource:fungal":2,"source:carcass:animal":8,"from:carcass:animal":12},"drops":{"proposed":2,"actualTurns":2,"spentB":4,"spentM":0.19999999999999984},"birthOpportunities":1,"examples":[{"turn":1,"id":"i:food:4:2:fungus","E":5.85,"B":4,"M":0.133333,"age":6,"phase":2,"reasons":["energy","material"],"empty":5,"ca":5,"candidates":0},{"turn":1,"id":"i:food:12:22:fungus","E":5.85,"B":2,"M":0.066666,"age":9,"phase":2,"reasons":["energy","material","body"],"empty":8,"ca":8,"candidates":0},{"turn":1,"id":"i:food:1:31:fungus","E":5.85,"B":4,"M":0.133333,"age":37,"phase":2,"reasons":["energy","material"],"empty":4,"ca":4,"candidates":0},{"turn":1,"id":"i:food:20:28:fungus","E":5.85,"B":2,"M":0.066666,"age":14,"phase":2,"reasons":["energy","material","body"],"empty":7,"ca":7,"candidates":0},{"turn":1,"id":"i:food:1:26:fungus","E":5.85,"B":2,"M":0.066666,"age":6,"phase":2,"reasons":["energy","material","body"],"empty":5,"ca":5,"candidates":0},{"turn":1,"id":"i:food:10:23:fungus","E":5.85,"B":2,"M":0.066666,"age":34,"phase":2,"reasons":["energy","material","body"],"empty":8,"ca":8,"candidates":0},{"turn":1,"id":"i:food:15:6:fungus","E":5.85,"B":4,"M":0.133333,"age":39,"phase":2,"reasons":["energy","material"],"empty":8,"ca":8,"candidates":0},{"turn":1,"id":"i:food:12:6:fungus","E":5.85,"B":2,"M":0.066666,"age":30,"phase":2,"reasons":["energy","material","body"],"empty":8,"ca":8,"candidates":0}]},"grassbug":{"individualTurns":1387,"reasons":{"pressure":1197,"energy":1099,"juvenile":120,"phaseI":392,"neighborRule":234,"noLegalEmptyCell":18,"cooldown":93},"move":{"stop":1256,"withinVisibleAttackRange":617,"stayedWithinAttackRange":515,"move":195,"escapedVisibleAttackRange":102},"feed":{"opportunities":1451,"withSource":698,"source:plant:plant":3533,"ateTurns":424,"bites":556,"assimilatedE":542.2307210000034,"withdrawnM":90.20589600000002,"from:plant:plant":546,"source:resource:plant":29,"from:resource:plant":10},"drops":{},"birthOpportunities":33,"examples":[]}}
+{
+  "definition": "i11b-lower-factorial/1",
+  "turns": 50,
+  "variants": {
+    "baseline": {
+      "escape": false,
+      "reserve": false
+    },
+    "combined": {
+      "escape": true,
+      "reserve": true
+    }
+  },
+  "results": [
+    {
+      "id": "river-0",
+      "variants": {
+        "baseline": {
+          "main": 195,
+          "counts": {
+            "grassbug": 0,
+            "fungus": 6,
+            "waterbug": 31
+          },
+          "births": {
+            "grassbug": 14,
+            "fungus": 6
+          },
+          "deaths": {
+            "grassbug": {
+              "combat": 45,
+              "harvest": 2
+            },
+            "fungus": {
+              "harvest": 31,
+              "age": 2
+            }
+          },
+          "grassMove": {
+            "move": 72,
+            "withinVisibleAttackRange": 233,
+            "stayedWithinAttackRange": 220,
+            "stop": 215,
+            "escapedVisibleAttackRange": 13
+          },
+          "fungalDrops": {
+            "proposed": 34,
+            "wouldLoseBirthMaterial": 31,
+            "actualTurns": 34,
+            "spentB": 59.00000000000001,
+            "spentM": 2.9000000000000012,
+            "wouldLoseBirthBody": 17
+          },
+          "elapsedMs": 9713.900364000001
+        },
+        "combined": {
+          "main": 207,
+          "counts": {
+            "grassbug": 0,
+            "fungus": 4,
+            "waterbug": 36
+          },
+          "births": {
+            "grassbug": 5,
+            "fungus": 8
+          },
+          "deaths": {
+            "grassbug": {
+              "combat": 36,
+              "harvest": 2
+            },
+            "fungus": {
+              "harvest": 35,
+              "starvation": 1,
+              "age": 1
+            }
+          },
+          "grassMove": {
+            "stop": 133,
+            "withinVisibleAttackRange": 158,
+            "stayedWithinAttackRange": 88,
+            "move": 99,
+            "escapedVisibleAttackRange": 70
+          },
+          "fungalDrops": {
+            "proposed": 4,
+            "actualTurns": 4,
+            "spentB": 4.4,
+            "spentM": 0.19999999999999996,
+            "wouldLoseBirthMaterial": 2
+          },
+          "elapsedMs": 9584.605929999998
+        }
+      }
+    },
+    {
+      "id": "lake-1",
+      "variants": {
+        "baseline": {
+          "main": 208,
+          "counts": {
+            "grassbug": 0,
+            "fungus": 6,
+            "waterbug": 73
+          },
+          "births": {
+            "grassbug": 20,
+            "fungus": 9
+          },
+          "deaths": {
+            "fungus": {
+              "harvest": 33,
+              "age": 3
+            },
+            "grassbug": {
+              "combat": 40,
+              "age": 11,
+              "starvation": 2
+            }
+          },
+          "grassMove": {
+            "stop": 676,
+            "move": 91,
+            "withinVisibleAttackRange": 578,
+            "stayedWithinAttackRange": 560,
+            "escapedVisibleAttackRange": 18
+          },
+          "fungalDrops": {
+            "proposed": 49,
+            "wouldLoseBirthMaterial": 43,
+            "wouldLoseBirthBody": 27,
+            "actualTurns": 49,
+            "spentB": 85.4,
+            "spentM": 4.200000000000001
+          },
+          "elapsedMs": 11919.864478000001
+        },
+        "combined": {
+          "main": 205,
+          "counts": {
+            "grassbug": 7,
+            "fungus": 5,
+            "waterbug": 74
+          },
+          "births": {
+            "grassbug": 26,
+            "fungus": 9
+          },
+          "deaths": {
+            "fungus": {
+              "harvest": 33,
+              "age": 3,
+              "starvation": 1
+            },
+            "grassbug": {
+              "combat": 30,
+              "starvation": 3,
+              "age": 19
+            }
+          },
+          "grassMove": {
+            "stop": 747,
+            "withinVisibleAttackRange": 590,
+            "stayedWithinAttackRange": 376,
+            "move": 288,
+            "escapedVisibleAttackRange": 214
+          },
+          "fungalDrops": {
+            "proposed": 10,
+            "wouldLoseBirthMaterial": 3,
+            "actualTurns": 10,
+            "spentB": 12.8,
+            "spentM": 0.5999999999999999
+          },
+          "elapsedMs": 8332.339372000002
+        }
+      }
+    },
+    {
+      "id": "woodland-2",
+      "variants": {
+        "baseline": {
+          "main": 192,
+          "counts": {
+            "grassbug": 7,
+            "fungus": 0,
+            "waterbug": 11
+          },
+          "births": {
+            "grassbug": 33,
+            "fungus": 1
+          },
+          "deaths": {
+            "fungus": {
+              "harvest": 34
+            },
+            "grassbug": {
+              "combat": 39,
+              "age": 20
+            }
+          },
+          "grassMove": {
+            "stop": 1177,
+            "withinVisibleAttackRange": 783,
+            "stayedWithinAttackRange": 773,
+            "move": 125,
+            "escapedVisibleAttackRange": 10
+          },
+          "fungalDrops": {
+            "proposed": 13,
+            "wouldLoseBirthMaterial": 11,
+            "wouldLoseBirthBody": 3,
+            "actualTurns": 13,
+            "spentB": 26,
+            "spentM": 1.2999999999999998
+          },
+          "elapsedMs": 8483.834295
+        },
+        "combined": {
+          "main": 193,
+          "counts": {
+            "grassbug": 2,
+            "fungus": 0,
+            "waterbug": 10
+          },
+          "births": {
+            "grassbug": 33,
+            "fungus": 1
+          },
+          "deaths": {
+            "fungus": {
+              "harvest": 34
+            },
+            "grassbug": {
+              "combat": 26,
+              "age": 34,
+              "starvation": 4
+            }
+          },
+          "grassMove": {
+            "stop": 1256,
+            "withinVisibleAttackRange": 617,
+            "stayedWithinAttackRange": 515,
+            "move": 195,
+            "escapedVisibleAttackRange": 102
+          },
+          "fungalDrops": {
+            "proposed": 2,
+            "actualTurns": 2,
+            "spentB": 4,
+            "spentM": 0.19999999999999984
+          },
+          "elapsedMs": 8030.4687209999975
+        }
+      }
+    }
+  ]
+}

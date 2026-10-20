@@ -5,7 +5,7 @@ test('real renderer keeps display controls independent, preserves detailed bodie
   const root=path.resolve(__dirname,'../src'),index=await fs.readFile(path.join(root,'Index.html'),'utf8');
   const scripts=[...index.matchAll(/<script src="([^"]+)"/g)].map(m=>m[1]);
   const rendererAt=scripts.indexOf('ecology/renderer.js');assert(rendererAt>=0);
-  const document='<!doctype html><body style="margin:0"><canvas id="board" style="display:block;width:980px;height:720px"></canvas>'+scripts.slice(0,rendererAt+1).map(src=>'<script src="'+src+'"></script>').join('');
+  const document='<!doctype html><meta charset="utf-8"><body style="margin:0"><canvas id="board" style="display:block;width:980px;height:720px"></canvas>'+scripts.slice(0,rendererAt+1).map(src=>'<script src="'+src+'"></script>').join('');
   const server=http.createServer(async(req,res)=>{
     if(req.url==='/fixture.html'){res.setHeader('Content-Type','text/html');res.end(document);return;}
     try{const file=path.resolve(root,'.'+new URL(req.url,'http://localhost').pathname);if(!file.startsWith(root+path.sep))return res.writeHead(403).end();res.setHeader('Content-Type',file.endsWith('.js')?'application/javascript':file.endsWith('.png')?'image/png':'application/octet-stream');res.end(await fs.readFile(file));}catch{res.writeHead(404).end();}
@@ -22,6 +22,12 @@ test('real renderer keeps display controls independent, preserves detailed bodie
       o.age=0;o.birthLife=300;target.cell=o.cell+1;target.age=290;target.birthLife=300;
       w.organisms=[o,target];w.resources=[];w.carcasses=[];w.searchQ=[];w.turn=10;
       w.events=[{id:o.id,cell:o.cell,type:'move',from:o.cell-1,to:o.cell},{id:o.id,cell:o.cell,type:'attack',target:target.id,to:target.cell,actualDamage:2,mitigated:1}];
+      // This test compares controls in one display frame, not cold asset latency
+      // against the independent850ms mark lifetime. Its TTL boundary is covered
+      // by action-mark-receipts; keep this frame's clock deterministic.
+      const nowDescriptor=Object.getOwnPropertyDescriptor(performance,'now');let clock=performance.now();
+      Object.defineProperty(performance,'now',{configurable:true,value:()=>clock});
+      try{
       const before=JSON.stringify(w),fingerprint=E.fingerprint(w);r.setWorld(w,true);r.focus(o.cell,o.id);r.view.animate=true;r.view.duration=1000000;r.view.selected=o.cell;r.view.selectedEntity=o.id;
       const read=()=>{r.draw();return structuredClone(r.diagnostics);};
       r.view.motion=false;r.view.effects=false;r.view.actionMarks=true;const marks=read();
@@ -35,9 +41,10 @@ test('real renderer keeps display controls independent, preserves detailed bodie
       r.view.grid=true;const grid=read();r.view.grid=false;const noGrid=read();
       r.focus(o.cell,o.id);r.view.interactionSimplify=false;r.interact(true);const normalDrag=read();
       r.view.interactionSimplify=true;const reducedDrag=read();
-      r.interact(false);await new Promise(resolve=>setTimeout(resolve,210));const released=read();
+      r.interact(false);clock+=210;const released=read();
       r.view.interactionSimplify=false;const restored=read();
       return {marks,none,effects,ageOff,ageOn,noStatus,simpleAge,farOff,farOn,grid,noGrid,normalDrag,reducedDrag,released,restored,unchanged:before===JSON.stringify(w)&&fingerprint===E.fingerprint(w),assets:EcoArt.errors};
+      }finally{if(nowDescriptor)Object.defineProperty(performance,'now',nowDescriptor);else delete performance.now;}
     });
     assert(result.marks.actionMarks.length>0);assert.equal(result.marks.mode,'detail');assert.equal(result.marks.motionActors,0);assert.deepEqual(result.marks.motionKinds,{});
     assert.equal(result.none.actionMarks.length,0);assert.equal(result.none.drawn,result.marks.drawn);
