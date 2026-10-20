@@ -1,8 +1,8 @@
 # 生態シミュレーション：現在のA・B仕様
 
-管理版 `specification-index/8`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
+管理版 `specification-index/9`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
 
-第1組の情報循環を維持し、[第2組・寄生生活環/1](parasite-lifecycle-v1.md)を既存A/B20Nodeへ反映済み。宿主選択/遺伝適応/再寄生抵抗、Pの生活環、QのPを殺す羽化と第四相、初期整合を採用した。細かな係数は実際の動きで調整する。次は第3組C09/独立四相植物、その後に第4組C13/表示説明保存。[今回の契約](../../operations/plans/parasite-lifecycle-ab-v1.md)。製品は4.2.32のまま。
+第1・第2組を維持し、[第3組・群落更新/1](producer-renewal-v1.md)を既存A/B21Nodeへ反映済み。群落の成立/再生/消失/再成立、独立植物の四相・成熟繁殖・機能3→6分岐、陸水生産/情報/寄生/集計を採用した。数値/正式ID/造形割当は初期比較表と観察で調整する。次は第4組C13/表示説明保存。[今回の契約](../../operations/plans/producer-renewal-ab-v1.md)。製品は4.2.32のまま。
 
 ## 読む順序と優先順位
 
@@ -19,19 +19,19 @@
 | 対象 | 読む正本 | 優先する内容・境界 |
 | --- | --- | --- |
 | 採用範囲/未確定事項 | [採用状況](decision-register-v1.md) | 採用済み・保留・撤回・提案のみと具体化C01〜C13。ゲームの具体規則は各正本 |
-| 情報の定義/作用 | [持続する情報/7](persistent-information-v1.md)、[死亡情報/10](death-information-v1.md) | 関係性と意味、経験蓄積、通常/親養育者、学習/場所作用、集中/反復。全生物に非栄養、死亡地点/実績と同層/全層は維持。旧一回消費/重み補正だけの作用を置換 |
+| 情報の定義/作用 | [持続する情報/8](persistent-information-v1.md)、[死亡情報/10](death-information-v1.md) | 関係性と意味、経験蓄積、通常/親養育者、学習/場所作用、集中/反復。全生物に非栄養、死亡地点/実績と同層/全層は維持。旧一回消費/重み補正だけの作用を置換 |
 | 情報の経験条件/実績評価 | [情報評価/5](information-evaluation-v1.md) | C02の暫定値と重複抑制、保持資格と死亡生成の分離、役割別評価。実測済み値や調整不要の確定値とはしない |
 | 情報の鮮度/残存 | [情報鮮度/4](information-freshness-v1.md) | 内容別半減期25/50/100Tと痕跡の基本100/最大200T。元経験時刻/生成時刻/既存学習を分け、再読取やQで若返らせない。暫定値 |
 | 情報の通常/根拠不足候補 | [情報生成/3](information-generation-v1.md) | C04の3件/2ターン、残余最大5%/半重み、一死亡最大1件/一回抽選。元経験を保持し、根拠の薄さと虚偽を区別。被害下限は維持 |
 | 第1組：情報の一連の処理 | [情報循環/1](information-cycle-v1.md) | 評価写像/鮮度/順次Q痕跡/受容と費用/近傍集中。暫定採用済み、細部は実装比較・観察で調整 |
 | Qの情報歪曲/遺伝/選択 | [Q情報歪曲/3](q-information-bias-v1.md) | C05の遺伝傾向→情報の偏り→実際の子の定着等。相/栄養/費用で制限、具体係数は未選定。順次痕跡C06は第1組へ採用済み。生活環連鎖C07/C08は第2組へ採用済み |
 | 寄生/遺伝/抵抗/メタ操作 | [第2組・寄生生活環/1](parasite-lifecycle-v1.md)、[寄生メタ/5](parasite-meta-v1.md) | 宿主選択と実適合、遺伝的な費用/成功率、獲得抵抗、P生活環、QのPだけを殺す羽化/第四相/初期整合。係数は観察調整 |
-| 生産者の群落/生存目標 | [群落・R1〜R6](balance-restoration-v1.md) | 生産者のみ群落、面積と可食量分離。500T/150〜250T窓、低競争8/10・混合最低1/10/目標3/10等。R0だけの完成を置換 |
+| 群落更新/独立四相植物/生存目標 | [第3組・群落更新/1](producer-renewal-v1.md)、[群落・R1〜R6](balance-restoration-v1.md) | 群落と個体を分離、同ID回復/新ID再成立、成熟繁殖/植物の実績/機能3→6分岐、陸水別生産。R1〜R6の数値は維持 |
 | 多様な初期条件 | [多様生成/2](diverse-world-generation-v1.md) | おまかせの関連条件、手動ロック/明示0、有限候補、全実効値保存、再抽選なし再生 |
 | 陸水の食物網/供給 | [生産基盤v2.7](producer-pyramid-v2.7.md)、[陸水v2.6](trophic-foundation-v2.6.md)、[食性訂正v2.5](ab-visual-ecology-v2.5.md) | 基底生産者→一次消費者→上位、通常植物非捕食/植物共生体食虫型、分解/還元。生産者の記録単位は群落仕様を優先 |
 | 初期量/優遇/自由設定 | [供給](initial-supply-v1.md)、[種別数](founder-counts-v1.md)、[観測整理](observation-clarity-v4.2.30.md)、[製品モデル](observation-model-v4.2.md) | 供給と優遇の選択、非主生物/PQ直接数、QをPに応じて減らす。旧探索Qの初期状態を新生活環へ黙って変換しない（C12） |
 | 年齢/繁殖/行動 | [生態観察v2.4](ab-ecology-observation-v2.4.md)、[複数行動/境界v2.5](ab-visual-ecology-v2.5.md)、[年齢能力v1.8](ab-age-abilities-v1.8.md) | 年齢成熟で繁殖・第三相ゲートなし。進化相と年齢は独立。移動/戦闘/採食は条件別に同一ターン成立可能 |
-| 停止/遷移/配置/グラフ | [観測UI/8](observation-ui-v1.md) | 右上開始/停止、別画面で停止、同画面操作で進行、無確認再生成と失敗保護、右の常設3グラフと独立詳細、作成画面で非表示 |
+| 停止/遷移/配置/グラフ | [観測UI/11](observation-ui-v1.md) | 右上開始/停止、別画面で停止、同画面操作で進行、無確認再生成と失敗保護、右の常設3グラフと独立詳細、作成画面で非表示 |
 | 現在像サマリ | [サマリ/2](ecosystem-summary-v1.md)、[関係面/1](relationship-network-v1.md) | 上部一体サマリ、総括と関係面→Bピラミッド→円。関係面は上1/下4の100T区間、共通記号、線幅＋単位付き数値。50T指標と混同しない |
 | 個体/系統の選択 | [選択v2.5](ab-visual-ecology-v2.5.md)、[分類一覧31](optimization-v4.2.31.md)、[観測UI](observation-ui-v1.md) | 分類別折返し、複数色の所在強調、横詳細/追跡、0数項目非表示、非主名札切替 |
 | 記録/結果分析/再生 | [図鑑と全期間記録](archive-history-v1.md) | 初期条件・最終集計・全ターン原値、明示保存、再生後は別ID。旧版/欠測/保存失敗を保護。追加モデルの保存項目も同書 |
@@ -45,10 +45,10 @@
 
 基礎の適用順は[統合v1.3](ab-system-specification-v1.3.md)→[着手前調整v1.4](ab-readiness-v1.4.md)→[生態調整v1.5](ab-balance-v1.5.md)→[地形v1.6](ab-map-visual-v1.6.md)→[年齢/独立植物v1.7](ab-life-age-plant-v1.7.md)→[能力v1.8](ab-age-abilities-v1.8.md)。対象別の追加は[食性v1.9](diet-survival-v1.9.md)、[接触寄生v2.0](parasite-contact-v2.0.md)、[通常生存v2.1](ordinary-survival-v2.1.md)、[社会性v2.2](colony-survival-v2.2.md)、[観察速度v2.3](observation-session-v2.3.md)。上表で変更した条件は基礎へ戻さない。
 
-[系統付表](ab-catalogue-v1.md)と[84候補の採否](ab-feature-scope-v1.md)も未変更部分の付表。古いF71接触感染の初回外、情報栄養、III相繁殖、群落化の一律不採用等は追加正本の該当条件で置換される。独立四相植物・寄生造形の専用値/割当の未確定を、既存の全採用方針の撤回と解釈しない。
+[系統付表](ab-catalogue-v1.md)と[84候補の採否](ab-feature-scope-v1.md)も未変更部分の付表。古いF71接触感染の初回外、情報栄養、III相繁殖、群落化の一律不採用等は追加正本の該当条件で置換される。独立植物の機能分岐は採用済みだが、専用値/正式ID/造形割当と寄生造形の未確定を、既存の全採用方針の撤回と解釈しない。
 
 ## 資料・実装状況・後続
 
 - [一枚の全体説明画像と索引](atlas-v1.3/README.md)、[採用画像と本文の対応](ab-visual-reference-v1.md)。旧画像内の仮表記や旧ルールを現在の仕様にしない。
 - [現在の構造](../../valis/summary/lifegame-desktop.summary.md)、[既存製品の実測範囲](../../operations/evidence/optimization-v4.2.32/README.md)。製品4.2.32と追加A/Bの成立範囲は別に確認する。
-- [既存の全工程計画](../../operations/plans/remaining-completion-v4.2.md)は作業計画でありゲーム仕様の正本ではない。第1・第2組を反映し、現在は[残る第3・第4組](decision-register-v1.md)を関連項目ごとにまとめて具体化する。今回の整理からC/D/E・src/tests・画像制作を自動開始しない。
+- [既存の全工程計画](../../operations/plans/remaining-completion-v4.2.md)は作業計画でありゲーム仕様の正本ではない。第1〜第3組を反映し、現在は[残る第4組](decision-register-v1.md)を関連項目ごとにまとめて具体化する。今回の整理からC/D/E・src/tests・画像制作を自動開始しない。
