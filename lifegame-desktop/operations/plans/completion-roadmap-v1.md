@@ -1,12 +1,12 @@
 # 完成へ向けた現在の残作業と実行順
 
-照合基準はmain `a196f8b`、開発版4.2.42 / 配布済み4.2.32、[現在のA/B仕様索引](../../design/specification/README.md)。本書は対象範囲の作業計画であり、具体的な着手/統合単位は[実装12単位](implementation-sequence-v1.md)を参照する。仕様/Node/証跡の代替ではない。旧[全工程計画](remaining-completion-v4.2.md)に残る過去条件より、現行の対象別正本と本書の作業順を優先する。
+照合基準はmain `af9ae14`、開発版4.2.43 / 配布済み4.2.32、[現在のA/B仕様索引](../../design/specification/README.md)。本書は対象範囲の作業計画であり、具体的な着手/統合単位は[実装12単位](implementation-sequence-v1.md)を参照する。仕様/Node/証跡の代替ではない。旧[全工程計画](remaining-completion-v4.2.md)に残る過去条件より、現行の対象別正本と本書の作業順を優先する。
 
 ## 今回の整理範囲
 
-FLOW-05/08。[I10実行契約](i10-rendering-materials-v1.md)に従い、P18形態/Q4相の採用透明素材と予熱/旧経路、確定行動マークの一回受領・明示世界世代を接続する。既存C8/C8.1/D9/E6とManifestを更新し、新Node/分割/初期登録/正式状態変更はない。
+FLOW-05/08。[I11実行契約](i11-survival-performance-v1.md)に従い、製品と同じ計算で生存・世代更新・寄生・性能を分離して測る。新規則 `survival/1` の低密度繁殖・草棲虫の更新・Q局所採食/回避・有限費用留保と、旧記録の互換を既存C7/C7.1〜C7.5/C8/C8.2/D7/D8/D8.1/D8.2/D9/E5/E6へ接続する。新Node/分割/初期登録/正式状態変更はない。
 
-対象と限定検証は[I10証跡](../evidence/i10-rendering-materials-v1/README.md)へ分離。A/B/core・採用原画/絵柄・マップと常設3グラフ/独立詳細の構造を維持し、構成修正は実稼働後へ回す。次はI11生存・創発・性能調整。新モデル全体500T/Windows/新ZIPは認定しない。
+対象と限定実測は[I11証跡](../evidence/i11-survival-performance-v1/README.md)へ分離。A/B/core・採用原画/絵柄・現行UI構成を維持し、構成修正は実稼働後へ回す。初回調整をR1〜R6全体の合格へ読み替えず、I11の生存経路・P/Q自然循環・性能を継続する。新Windows/ZIPはI12。
 
 ## 現在地
 
@@ -73,4 +73,4 @@ FLOW-05/08。[I10実行契約](i10-rendering-materials-v1.md)に従い、P18形�
 - UI/保存：[app.js](../../src/app.js)、[Index.html](../../src/Index.html)、[styles.css](../../src/styles.css)、[観測UI](../../design/specification/observation-ui-v1.md)、[関係面](../../design/specification/relationship-network-v1.md)、[保存](../../design/specification/archive-history-v1.md)。ソース上の差分と実際の画面確認は分ける。
 - 既存実測：[4.2.32証跡](../evidence/optimization-v4.2.32/README.md)、[E7](../../valis/nodes/E/E7.md)。現在のWindows起動未確認を残件として復活させず、変更後の再検査を残す。
 
-今回の完了条件はI10の実装/限定検査とC/D/E・Manifest・実体の照合。I11以降、新しい生態全体の生存率・性能/外観の最終判定・Windows/配布は未完として残す。意味/上限/再現性や大きな造形変更、新分割が必要になった場合に限り、具体案を提示して確認する。
+今回の完了条件はI11初回調整/限定実測とC/D/E・Manifest・実体の照合。全22主系統の生存率・P/Q自然循環・R1〜R6、全条件の性能/外観の最終判定、新Windows/配布は未完として残す。意味/上限/再現性や大きな造形変更、新分割が必要になった場合に限り、具体案を提示して確認する。

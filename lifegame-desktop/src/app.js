@@ -334,7 +334,7 @@
   function readConfig() {
     const [width, height] = $("size").value.split(",").map(Number);
     const config = {
-      generationModel:'diverse/1',generationSettings:generationSettings(),relationshipModel:'network/1',
+      generationModel:'diverse/1',generationSettings:generationSettings(),relationshipModel:'network/1',balanceModel:'survival/1',
       blockTurns: 500,
       randomModel: "table/1",
       producerModel:'colony/1',
@@ -562,7 +562,7 @@
     // Keep the graphs visible initially; focusing the camera does not select an individual.
     applyObservationMode({resetLower:false});
     if(next.config.generationResolved){const g=next.config.generationResolved;$("active-mode").textContent+=' 条件生成: '+(S.WorldGeneration.profiles.find(p=>p.id===g.profile)?.name||g.profile)+' / 固定'+g.locks.length+'項目。供給・優遇・指定数は保持。';}
-    if(next.config.populationRegulation)$("active-mode").textContent+=" 出生：局所混雑・栄養収支で調整。";
+    if(next.config.populationRegulation)$("active-mode").textContent+=next.config.balanceModel==='survival/1'?" 出生：低密度では繁殖しやすく、局所混雑・栄養収支で調整。":" 出生：局所混雑・栄養収支で調整。";
     R.assets.warmWorld?.(world);
     render();
     message(

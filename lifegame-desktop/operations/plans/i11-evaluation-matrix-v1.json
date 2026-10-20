@@ -1,0 +1,1741 @@
+{
+  "version": "i11-evaluation-matrix/1",
+  "status": "predeclared-initial-candidate-not-measured-or-approved-optimum",
+  "baselineCommit": "af9ae14da7e22d3ae50b5571f053b68c79fc22b2",
+  "baselineApp": "4.2.42",
+  "source": {
+    "file": "/tmp/i11-ecology-baseline.cjs",
+    "sha256": "11f590c5056a76eafa6fb4eddf59ab749f63889db0fc49bf64a74a07cf31739c",
+    "commonConfig": "copied from the diagnostic runner; UI model setting defaults expanded explicitly from baseline APIs",
+    "trainingSeedRule": "train names are disjoint from evaluation and holdout; sourceBaselineSeed records the already-observed diagnostic seed separately, not another acceptance case"
+  },
+  "commonConfig": {
+    "width": 40,
+    "height": 28,
+    "initial": 160,
+    "lineages": "manual",
+    "landscape": "templates",
+    "placement": "natural",
+    "distribution": "balanced",
+    "guarantee": false,
+    "ageModel": "life/1",
+    "ecologyRevision": "observation/4.1",
+    "randomModel": "table/1",
+    "blockTurns": 500,
+    "populationRegulation": {
+      "version": 1
+    },
+    "producerModel": "colony/1",
+    "largePlantModel": "independent/1",
+    "ryoukiModel": "ryouki/1",
+    "primaryParasiteModel": "primary/1",
+    "hyperParasiteModel": "hyper/1",
+    "informationModel": "persistent/1",
+    "relationshipModel": "network/1",
+    "generationModel": "diverse/1",
+    "generationSettings": {
+      "mode": "manual",
+      "profile": "standard"
+    },
+    "observationMode": "custom",
+    "producerSupport": {
+      "enabled": true,
+      "land": {
+        "nutrition": 1,
+        "capacity": 0.35,
+        "regrowth": 1
+      },
+      "water": {
+        "nutrition": 1,
+        "capacity": 0.35,
+        "regrowth": 1
+      },
+      "grace": 20,
+      "establishment": 0.1,
+      "targetE": 8,
+      "targetM": 0.5,
+      "schedule": []
+    },
+    "initialConditions": {
+      "version": 1,
+      "density": {
+        "plant": 0,
+        "fungus": 0.03,
+        "prey": 0.06
+      },
+      "resources": {
+        "mineral": 1,
+        "droplet": 1,
+        "info": 0
+      },
+      "distribution": "habitat"
+    },
+    "enabled": {
+      "main": true,
+      "plant": true,
+      "fungus": true,
+      "prey": true,
+      "P": true,
+      "Q": true
+    },
+    "advantageSettings": {
+      "version": "advantage-switches/1",
+      "producer": true,
+      "waterbug": true,
+      "hyperparasite": true
+    },
+    "producerSettings": {
+      "version": "colony-parameters/1",
+      "standardBiteB": 2,
+      "land": {
+        "occupancy": 0.2,
+        "capacityB": 20,
+        "initialFraction": 0.7,
+        "regrowthB": 2
+      },
+      "water": {
+        "occupancy": 0.15,
+        "capacityB": 20,
+        "initialFraction": 0.7,
+        "regrowthB": 2
+      }
+    },
+    "largePlantSettings": {
+      "version": "independent-plant-parameters/1",
+      "autoDensity": {
+        "land": 0.02,
+        "water": 0.02
+      },
+      "initial": {
+        "phase": 1,
+        "ageFraction": 0,
+        "energyFraction": 0.5
+      }
+    },
+    "ryoukiSettings": {
+      "version": "ryouki-parameters/1",
+      "densityHigh": 6,
+      "highTurns": 3,
+      "densityLow": 2,
+      "lowTurns": 6,
+      "biteB": 2,
+      "mutatedBiteB": 2.4,
+      "preparationWeight": 1.5
+    },
+    "primaryParasiteSettings": {
+      "version": "primary-parameters/1",
+      "life": 120,
+      "capE": 2,
+      "maintenance": [
+        0,
+        0.03,
+        0.04,
+        0.06
+      ],
+      "hostTax": [
+        0,
+        0.06,
+        0.08,
+        0.1
+      ],
+      "biomass": [
+        0,
+        0.02,
+        0.03,
+        0.04
+      ],
+      "developmentCost": 0.01,
+      "development": {
+        "first": 4,
+        "middle": 6,
+        "terminal": 8
+      },
+      "phaseThresholds": [
+        0,
+        0,
+        8,
+        20
+      ],
+      "starvationTurns": 8,
+      "carrierTurns": 12,
+      "entryRates": {
+        "contact": 0.6,
+        "feeding": 0.8,
+        "carcass": 0.6,
+        "water": 0.4
+      },
+      "establishmentRate": 0.7,
+      "standardReserve": 0.06,
+      "minimumReserve": 0.03,
+      "emissionCost": 0.12,
+      "emissionReserve": 0.06,
+      "emissionCooldown": 6,
+      "inoculumLifetime": {
+        "contact": 4,
+        "water": 4,
+        "edible": 4,
+        "carcass": 12
+      },
+      "mutationRate": 0.1,
+      "mutationStep": 0.05,
+      "resistanceGain": 0.4,
+      "resistanceCap": 0.8,
+      "resistanceHalfLife": 40,
+      "resistanceMaintenance": 0.005,
+      "exclusionCost": 0.04,
+      "exclusionRate": 0.006,
+      "metaCaps": [
+        0,
+        0.1,
+        0.2,
+        0.3
+      ],
+      "metaCosts": [
+        0,
+        0.005,
+        0.01,
+        0.02
+      ],
+      "initialFraction": 0.2,
+      "initialDistribution": [
+        0.4,
+        0.4,
+        0.2
+      ],
+      "initialEnergy": 0.2
+    },
+    "hyperParasiteSettings": {
+      "version": "hyper-parameters/1",
+      "maintenance": [
+        0,
+        0.005,
+        0.01,
+        0.015,
+        0.02
+      ],
+      "hostTax": [
+        0,
+        0.02,
+        0.03,
+        0.04,
+        0
+      ],
+      "developmentCost": [
+        0,
+        0.005,
+        0.01,
+        0.015,
+        0
+      ],
+      "biomass": [
+        0,
+        0.01,
+        0.015,
+        0.02,
+        0.03
+      ],
+      "phaseThresholds": [
+        0,
+        0,
+        4,
+        12
+      ],
+      "maturity": 12,
+      "life": 80,
+      "development": 12,
+      "starvationTurns": 8,
+      "entryRate": 0.6,
+      "entryDefense": 0.2,
+      "establishmentRate": 0.7,
+      "exclusionCost": 0.01,
+      "exclusionRate": 0.006,
+      "emergenceMultiplier": 6,
+      "emergenceRate": 0.6,
+      "prepareTurns": 4,
+      "eggCost": 0.1,
+      "eggReserve": 0.09,
+      "eggCooldown": 12,
+      "eggLifetime": 4,
+      "adultMoveCost": 0.002,
+      "adultFoodCap": 0.1,
+      "adultAssimilation": 0.5,
+      "capE": 1,
+      "metaCosts": [
+        0,
+        0.001,
+        0.002,
+        0.004,
+        0
+      ],
+      "metaCaps": [
+        0,
+        0.03,
+        0.05,
+        0.08,
+        0
+      ],
+      "informationCosts": [
+        0,
+        0.002,
+        0.004,
+        0.008,
+        0
+      ],
+      "promotionCaps": [
+        0,
+        0.02,
+        0.05,
+        0.1,
+        0
+      ],
+      "distortionCaps": [
+        0,
+        0.05,
+        0.1,
+        0.2,
+        0
+      ],
+      "mutationRate": 0.1,
+      "mutationStep": 0.05,
+      "resistanceGain": 0.4,
+      "resistanceCap": 0.8,
+      "resistanceHalfLife": 40,
+      "resistanceMaintenance": 0.005,
+      "initialFraction": 0.2,
+      "initialAttachedFraction": 0.75,
+      "initialEnergy": 0.08
+    },
+    "informationSettings": {
+      "version": "persistent-information-parameters/1",
+      "roleDefinition": "persistent-information-roles/1",
+      "influence": 1,
+      "qEffects": true,
+      "experienceCapacity": 16,
+      "learnedCapacity": 64,
+      "turnDedupeCapacity": 64,
+      "holdingCount": 6,
+      "holdingTurns": 3,
+      "normalCount": 3,
+      "normalTurns": 2,
+      "receiveLimit": 2,
+      "receiveCostFraction": 0.01,
+      "transmission": {
+        "environment": 1,
+        "ordinary": 0.25,
+        "caregiver": 1
+      },
+      "evaluationWeights": [
+        0.4,
+        0.4,
+        0.2
+      ],
+      "baseProbability": 0.1,
+      "scoreProbability": 0.6,
+      "harmMinimum": 0.4,
+      "lowProbability": 0.05,
+      "lowWeight": 0.5,
+      "halfLives": {
+        "fast": 25,
+        "relation": 50,
+        "place": 100
+      },
+      "minimumLifetime": 100,
+      "scoreLifetime": 100,
+      "initialAmount": 1,
+      "minimumAmount": 0.01,
+      "diffusionFraction": 0.2,
+      "cellOrigins": 4,
+      "originContents": 2,
+      "concentrationRadius": 2,
+      "distanceWeights": [
+        1,
+        0.5,
+        0.25
+      ],
+      "traceCapacity": 2,
+      "traceHalfLife": 50,
+      "traceLifetime": 100,
+      "directionMutationRate": 0.1,
+      "directionMutationStep": 0.05
+    }
+  },
+  "mergeRule": "deep clone commonConfig; replace each top-level configOverrides key as a whole; then set config.seed to the selected listed seed; never merge a different cohort or seed after execution",
+  "evaluationTurns": 500,
+  "saveEveryCommittedTurn": true,
+  "screeningCases": [
+    {
+      "id": "train-river",
+      "kind": "training-diagnostic",
+      "seed": "i11/train/river-0",
+      "sourceBaselineSeed": "i11/baseline/river-0",
+      "maximumTurns": 100,
+      "configOverrides": {
+        "mapId": "river",
+        "terrainSeed": "i11/baseline/map/river-0",
+        "selected": [
+          "ryouki",
+          "solar",
+          "myth",
+          "crystal",
+          "swarm",
+          "kelp",
+          "whale"
+        ]
+      }
+    },
+    {
+      "id": "train-lake",
+      "kind": "training-diagnostic",
+      "seed": "i11/train/lake-1",
+      "sourceBaselineSeed": "i11/baseline/lake-1",
+      "maximumTurns": 100,
+      "configOverrides": {
+        "mapId": "lake",
+        "terrainSeed": "i11/baseline/map/lake-1",
+        "selected": [
+          "abyss",
+          "abyssshell",
+          "jelly",
+          "kelp",
+          "whale"
+        ]
+      }
+    },
+    {
+      "id": "train-woodland",
+      "kind": "training-diagnostic",
+      "seed": "i11/train/woodland-2",
+      "sourceBaselineSeed": "i11/baseline/woodland-2",
+      "maximumTurns": 100,
+      "configOverrides": {
+        "mapId": "woodland",
+        "terrainSeed": "i11/baseline/map/woodland-2",
+        "selected": [
+          "recursive",
+          "gravity",
+          "memory",
+          "serpent",
+          "antimeme",
+          "cephalopod",
+          "precocial"
+        ]
+      }
+    }
+  ],
+  "mixedGroups": [
+    {
+      "id": "W",
+      "name": "河川・水域食物網",
+      "kind": "mixed",
+      "configOverrides": {
+        "mapId": "river",
+        "terrainSeed": "i11/terrain/mixed/W",
+        "selected": [
+          "abyss",
+          "abyssshell",
+          "jelly",
+          "whale",
+          "cephalopod",
+          "ryouki"
+        ],
+        "founderCounts": {
+          "version": 1,
+          "species": {
+            "forestcrown": 0,
+            "starcrown": 0
+          },
+          "parasites": {
+            "leafparasite": 0
+          }
+        }
+      },
+      "specialLineages": [
+        "tideparasite",
+        "hyperparasite",
+        "freshwaterlight"
+      ],
+      "parasiteTarget": "tideparasite",
+      "evaluationSeeds": [
+        "i11/evaluation/mixed/W/00",
+        "i11/evaluation/mixed/W/01",
+        "i11/evaluation/mixed/W/02",
+        "i11/evaluation/mixed/W/03",
+        "i11/evaluation/mixed/W/04",
+        "i11/evaluation/mixed/W/05",
+        "i11/evaluation/mixed/W/06",
+        "i11/evaluation/mixed/W/07",
+        "i11/evaluation/mixed/W/08",
+        "i11/evaluation/mixed/W/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/mixed/W/00",
+        "i11/holdout/mixed/W/01",
+        "i11/holdout/mixed/W/02"
+      ]
+    },
+    {
+      "id": "D",
+      "name": "岩地・捕食と鉱物併用",
+      "kind": "mixed",
+      "configOverrides": {
+        "mapId": "ridge",
+        "terrainSeed": "i11/terrain/mixed/D",
+        "selected": [
+          "myth",
+          "sail",
+          "serpent",
+          "solar",
+          "plasma",
+          "crystal"
+        ],
+        "founderCounts": {
+          "version": 1,
+          "species": {
+            "starcrown": 0,
+            "freshwaterlight": 0
+          },
+          "parasites": {
+            "tideparasite": 0
+          }
+        }
+      },
+      "specialLineages": [
+        "leafparasite",
+        "hyperparasite",
+        "forestcrown"
+      ],
+      "parasiteTarget": "leafparasite",
+      "evaluationSeeds": [
+        "i11/evaluation/mixed/D/00",
+        "i11/evaluation/mixed/D/01",
+        "i11/evaluation/mixed/D/02",
+        "i11/evaluation/mixed/D/03",
+        "i11/evaluation/mixed/D/04",
+        "i11/evaluation/mixed/D/05",
+        "i11/evaluation/mixed/D/06",
+        "i11/evaluation/mixed/D/07",
+        "i11/evaluation/mixed/D/08",
+        "i11/evaluation/mixed/D/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/mixed/D/00",
+        "i11/holdout/mixed/D/01",
+        "i11/holdout/mixed/D/02"
+      ]
+    },
+    {
+      "id": "F",
+      "name": "疎林・防衛と多様な採食",
+      "kind": "mixed",
+      "configOverrides": {
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/mixed/F",
+        "selected": [
+          "recursive",
+          "gravity",
+          "manyeyes",
+          "parallel",
+          "memory",
+          "precocial"
+        ],
+        "founderCounts": {
+          "version": 1,
+          "species": {
+            "forestcrown": 0,
+            "freshwaterlight": 0
+          },
+          "parasites": {
+            "tideparasite": 0
+          }
+        }
+      },
+      "specialLineages": [
+        "leafparasite",
+        "hyperparasite",
+        "starcrown"
+      ],
+      "parasiteTarget": "leafparasite",
+      "evaluationSeeds": [
+        "i11/evaluation/mixed/F/00",
+        "i11/evaluation/mixed/F/01",
+        "i11/evaluation/mixed/F/02",
+        "i11/evaluation/mixed/F/03",
+        "i11/evaluation/mixed/F/04",
+        "i11/evaluation/mixed/F/05",
+        "i11/evaluation/mixed/F/06",
+        "i11/evaluation/mixed/F/07",
+        "i11/evaluation/mixed/F/08",
+        "i11/evaluation/mixed/F/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/mixed/F/00",
+        "i11/holdout/mixed/F/01",
+        "i11/holdout/mixed/F/02"
+      ]
+    },
+    {
+      "id": "S",
+      "name": "湿地・社会性と共生",
+      "kind": "mixed",
+      "configOverrides": {
+        "mapId": "wetland",
+        "terrainSeed": "i11/terrain/mixed/S",
+        "selected": [
+          "antimeme",
+          "valis",
+          "kelp",
+          "swarm",
+          "ryouki",
+          "solar"
+        ],
+        "founderCounts": {
+          "version": 1,
+          "species": {
+            "starcrown": 0,
+            "freshwaterlight": 0
+          },
+          "parasites": {
+            "tideparasite": 0
+          }
+        }
+      },
+      "specialLineages": [
+        "leafparasite",
+        "hyperparasite",
+        "forestcrown"
+      ],
+      "parasiteTarget": "leafparasite",
+      "evaluationSeeds": [
+        "i11/evaluation/mixed/S/00",
+        "i11/evaluation/mixed/S/01",
+        "i11/evaluation/mixed/S/02",
+        "i11/evaluation/mixed/S/03",
+        "i11/evaluation/mixed/S/04",
+        "i11/evaluation/mixed/S/05",
+        "i11/evaluation/mixed/S/06",
+        "i11/evaluation/mixed/S/07",
+        "i11/evaluation/mixed/S/08",
+        "i11/evaluation/mixed/S/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/mixed/S/00",
+        "i11/holdout/mixed/S/01",
+        "i11/holdout/mixed/S/02"
+      ]
+    }
+  ],
+  "r1SingleMainCases": [
+    {
+      "id": "R1-abyss",
+      "name": "深淵触手",
+      "kind": "low-competition-single-main",
+      "target": "abyss",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "lake",
+        "terrainSeed": "i11/terrain/r1/abyss",
+        "selected": [
+          "abyss"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/abyss/00",
+        "i11/evaluation/r1/abyss/01",
+        "i11/evaluation/r1/abyss/02",
+        "i11/evaluation/r1/abyss/03",
+        "i11/evaluation/r1/abyss/04",
+        "i11/evaluation/r1/abyss/05",
+        "i11/evaluation/r1/abyss/06",
+        "i11/evaluation/r1/abyss/07",
+        "i11/evaluation/r1/abyss/08",
+        "i11/evaluation/r1/abyss/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/abyss/00",
+        "i11/holdout/r1/abyss/01",
+        "i11/holdout/r1/abyss/02"
+      ]
+    },
+    {
+      "id": "R1-myth",
+      "name": "神鳥",
+      "kind": "low-competition-single-main",
+      "target": "myth",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/r1/myth",
+        "selected": [
+          "myth"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/myth/00",
+        "i11/evaluation/r1/myth/01",
+        "i11/evaluation/r1/myth/02",
+        "i11/evaluation/r1/myth/03",
+        "i11/evaluation/r1/myth/04",
+        "i11/evaluation/r1/myth/05",
+        "i11/evaluation/r1/myth/06",
+        "i11/evaluation/r1/myth/07",
+        "i11/evaluation/r1/myth/08",
+        "i11/evaluation/r1/myth/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/myth/00",
+        "i11/holdout/r1/myth/01",
+        "i11/holdout/r1/myth/02"
+      ]
+    },
+    {
+      "id": "R1-recursive",
+      "name": "再帰知性",
+      "kind": "low-competition-single-main",
+      "target": "recursive",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/r1/recursive",
+        "selected": [
+          "recursive"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/recursive/00",
+        "i11/evaluation/r1/recursive/01",
+        "i11/evaluation/r1/recursive/02",
+        "i11/evaluation/r1/recursive/03",
+        "i11/evaluation/r1/recursive/04",
+        "i11/evaluation/r1/recursive/05",
+        "i11/evaluation/r1/recursive/06",
+        "i11/evaluation/r1/recursive/07",
+        "i11/evaluation/r1/recursive/08",
+        "i11/evaluation/r1/recursive/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/recursive/00",
+        "i11/holdout/r1/recursive/01",
+        "i11/holdout/r1/recursive/02"
+      ]
+    },
+    {
+      "id": "R1-sail",
+      "name": "光帆",
+      "kind": "low-competition-single-main",
+      "target": "sail",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/r1/sail",
+        "selected": [
+          "sail"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/sail/00",
+        "i11/evaluation/r1/sail/01",
+        "i11/evaluation/r1/sail/02",
+        "i11/evaluation/r1/sail/03",
+        "i11/evaluation/r1/sail/04",
+        "i11/evaluation/r1/sail/05",
+        "i11/evaluation/r1/sail/06",
+        "i11/evaluation/r1/sail/07",
+        "i11/evaluation/r1/sail/08",
+        "i11/evaluation/r1/sail/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/sail/00",
+        "i11/holdout/r1/sail/01",
+        "i11/holdout/r1/sail/02"
+      ]
+    },
+    {
+      "id": "R1-gravity",
+      "name": "重力環",
+      "kind": "low-competition-single-main",
+      "target": "gravity",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "ridge",
+        "terrainSeed": "i11/terrain/r1/gravity",
+        "selected": [
+          "gravity"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/gravity/00",
+        "i11/evaluation/r1/gravity/01",
+        "i11/evaluation/r1/gravity/02",
+        "i11/evaluation/r1/gravity/03",
+        "i11/evaluation/r1/gravity/04",
+        "i11/evaluation/r1/gravity/05",
+        "i11/evaluation/r1/gravity/06",
+        "i11/evaluation/r1/gravity/07",
+        "i11/evaluation/r1/gravity/08",
+        "i11/evaluation/r1/gravity/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/gravity/00",
+        "i11/holdout/r1/gravity/01",
+        "i11/holdout/r1/gravity/02"
+      ]
+    },
+    {
+      "id": "R1-crystal",
+      "name": "星晶",
+      "kind": "low-competition-single-main",
+      "target": "crystal",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "ridge",
+        "terrainSeed": "i11/terrain/r1/crystal",
+        "selected": [
+          "crystal"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/crystal/00",
+        "i11/evaluation/r1/crystal/01",
+        "i11/evaluation/r1/crystal/02",
+        "i11/evaluation/r1/crystal/03",
+        "i11/evaluation/r1/crystal/04",
+        "i11/evaluation/r1/crystal/05",
+        "i11/evaluation/r1/crystal/06",
+        "i11/evaluation/r1/crystal/07",
+        "i11/evaluation/r1/crystal/08",
+        "i11/evaluation/r1/crystal/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/crystal/00",
+        "i11/holdout/r1/crystal/01",
+        "i11/holdout/r1/crystal/02"
+      ]
+    },
+    {
+      "id": "R1-manyeyes",
+      "name": "多眼知覚",
+      "kind": "low-competition-single-main",
+      "target": "manyeyes",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/r1/manyeyes",
+        "selected": [
+          "manyeyes"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/manyeyes/00",
+        "i11/evaluation/r1/manyeyes/01",
+        "i11/evaluation/r1/manyeyes/02",
+        "i11/evaluation/r1/manyeyes/03",
+        "i11/evaluation/r1/manyeyes/04",
+        "i11/evaluation/r1/manyeyes/05",
+        "i11/evaluation/r1/manyeyes/06",
+        "i11/evaluation/r1/manyeyes/07",
+        "i11/evaluation/r1/manyeyes/08",
+        "i11/evaluation/r1/manyeyes/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/manyeyes/00",
+        "i11/holdout/r1/manyeyes/01",
+        "i11/holdout/r1/manyeyes/02"
+      ]
+    },
+    {
+      "id": "R1-abyssshell",
+      "name": "深殻",
+      "kind": "low-competition-single-main",
+      "target": "abyssshell",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "lake",
+        "terrainSeed": "i11/terrain/r1/abyssshell",
+        "selected": [
+          "abyssshell"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/abyssshell/00",
+        "i11/evaluation/r1/abyssshell/01",
+        "i11/evaluation/r1/abyssshell/02",
+        "i11/evaluation/r1/abyssshell/03",
+        "i11/evaluation/r1/abyssshell/04",
+        "i11/evaluation/r1/abyssshell/05",
+        "i11/evaluation/r1/abyssshell/06",
+        "i11/evaluation/r1/abyssshell/07",
+        "i11/evaluation/r1/abyssshell/08",
+        "i11/evaluation/r1/abyssshell/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/abyssshell/00",
+        "i11/holdout/r1/abyssshell/01",
+        "i11/holdout/r1/abyssshell/02"
+      ]
+    },
+    {
+      "id": "R1-parallel",
+      "name": "並列生命",
+      "kind": "low-competition-single-main",
+      "target": "parallel",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/r1/parallel",
+        "selected": [
+          "parallel"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/parallel/00",
+        "i11/evaluation/r1/parallel/01",
+        "i11/evaluation/r1/parallel/02",
+        "i11/evaluation/r1/parallel/03",
+        "i11/evaluation/r1/parallel/04",
+        "i11/evaluation/r1/parallel/05",
+        "i11/evaluation/r1/parallel/06",
+        "i11/evaluation/r1/parallel/07",
+        "i11/evaluation/r1/parallel/08",
+        "i11/evaluation/r1/parallel/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/parallel/00",
+        "i11/holdout/r1/parallel/01",
+        "i11/holdout/r1/parallel/02"
+      ]
+    },
+    {
+      "id": "R1-memory",
+      "name": "記憶殻",
+      "kind": "low-competition-single-main",
+      "target": "memory",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/r1/memory",
+        "selected": [
+          "memory"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/memory/00",
+        "i11/evaluation/r1/memory/01",
+        "i11/evaluation/r1/memory/02",
+        "i11/evaluation/r1/memory/03",
+        "i11/evaluation/r1/memory/04",
+        "i11/evaluation/r1/memory/05",
+        "i11/evaluation/r1/memory/06",
+        "i11/evaluation/r1/memory/07",
+        "i11/evaluation/r1/memory/08",
+        "i11/evaluation/r1/memory/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/memory/00",
+        "i11/holdout/r1/memory/01",
+        "i11/holdout/r1/memory/02"
+      ]
+    },
+    {
+      "id": "R1-serpent",
+      "name": "多頭蛇",
+      "kind": "low-competition-single-main",
+      "target": "serpent",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/r1/serpent",
+        "selected": [
+          "serpent"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/serpent/00",
+        "i11/evaluation/r1/serpent/01",
+        "i11/evaluation/r1/serpent/02",
+        "i11/evaluation/r1/serpent/03",
+        "i11/evaluation/r1/serpent/04",
+        "i11/evaluation/r1/serpent/05",
+        "i11/evaluation/r1/serpent/06",
+        "i11/evaluation/r1/serpent/07",
+        "i11/evaluation/r1/serpent/08",
+        "i11/evaluation/r1/serpent/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/serpent/00",
+        "i11/holdout/r1/serpent/01",
+        "i11/holdout/r1/serpent/02"
+      ]
+    },
+    {
+      "id": "R1-solar",
+      "name": "日輪",
+      "kind": "low-competition-single-main",
+      "target": "solar",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/r1/solar",
+        "selected": [
+          "solar"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/solar/00",
+        "i11/evaluation/r1/solar/01",
+        "i11/evaluation/r1/solar/02",
+        "i11/evaluation/r1/solar/03",
+        "i11/evaluation/r1/solar/04",
+        "i11/evaluation/r1/solar/05",
+        "i11/evaluation/r1/solar/06",
+        "i11/evaluation/r1/solar/07",
+        "i11/evaluation/r1/solar/08",
+        "i11/evaluation/r1/solar/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/solar/00",
+        "i11/holdout/r1/solar/01",
+        "i11/holdout/r1/solar/02"
+      ]
+    },
+    {
+      "id": "R1-antimeme",
+      "name": "反記銘生命",
+      "kind": "low-competition-single-main",
+      "target": "antimeme",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/r1/antimeme",
+        "selected": [
+          "antimeme"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/antimeme/00",
+        "i11/evaluation/r1/antimeme/01",
+        "i11/evaluation/r1/antimeme/02",
+        "i11/evaluation/r1/antimeme/03",
+        "i11/evaluation/r1/antimeme/04",
+        "i11/evaluation/r1/antimeme/05",
+        "i11/evaluation/r1/antimeme/06",
+        "i11/evaluation/r1/antimeme/07",
+        "i11/evaluation/r1/antimeme/08",
+        "i11/evaluation/r1/antimeme/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/antimeme/00",
+        "i11/holdout/r1/antimeme/01",
+        "i11/holdout/r1/antimeme/02"
+      ]
+    },
+    {
+      "id": "R1-valis",
+      "name": "異化通信生命",
+      "kind": "low-competition-single-main",
+      "target": "valis",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/r1/valis",
+        "selected": [
+          "valis"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/valis/00",
+        "i11/evaluation/r1/valis/01",
+        "i11/evaluation/r1/valis/02",
+        "i11/evaluation/r1/valis/03",
+        "i11/evaluation/r1/valis/04",
+        "i11/evaluation/r1/valis/05",
+        "i11/evaluation/r1/valis/06",
+        "i11/evaluation/r1/valis/07",
+        "i11/evaluation/r1/valis/08",
+        "i11/evaluation/r1/valis/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/valis/00",
+        "i11/holdout/r1/valis/01",
+        "i11/holdout/r1/valis/02"
+      ]
+    },
+    {
+      "id": "R1-jelly",
+      "name": "浮遊傘",
+      "kind": "low-competition-single-main",
+      "target": "jelly",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "lake",
+        "terrainSeed": "i11/terrain/r1/jelly",
+        "selected": [
+          "jelly"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/jelly/00",
+        "i11/evaluation/r1/jelly/01",
+        "i11/evaluation/r1/jelly/02",
+        "i11/evaluation/r1/jelly/03",
+        "i11/evaluation/r1/jelly/04",
+        "i11/evaluation/r1/jelly/05",
+        "i11/evaluation/r1/jelly/06",
+        "i11/evaluation/r1/jelly/07",
+        "i11/evaluation/r1/jelly/08",
+        "i11/evaluation/r1/jelly/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/jelly/00",
+        "i11/holdout/r1/jelly/01",
+        "i11/holdout/r1/jelly/02"
+      ]
+    },
+    {
+      "id": "R1-kelp",
+      "name": "植物共生",
+      "kind": "low-competition-single-main",
+      "target": "kelp",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/r1/kelp",
+        "selected": [
+          "kelp"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/kelp/00",
+        "i11/evaluation/r1/kelp/01",
+        "i11/evaluation/r1/kelp/02",
+        "i11/evaluation/r1/kelp/03",
+        "i11/evaluation/r1/kelp/04",
+        "i11/evaluation/r1/kelp/05",
+        "i11/evaluation/r1/kelp/06",
+        "i11/evaluation/r1/kelp/07",
+        "i11/evaluation/r1/kelp/08",
+        "i11/evaluation/r1/kelp/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/kelp/00",
+        "i11/holdout/r1/kelp/01",
+        "i11/holdout/r1/kelp/02"
+      ]
+    },
+    {
+      "id": "R1-whale",
+      "name": "星海鯨",
+      "kind": "low-competition-single-main",
+      "target": "whale",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "lake",
+        "terrainSeed": "i11/terrain/r1/whale",
+        "selected": [
+          "whale"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/whale/00",
+        "i11/evaluation/r1/whale/01",
+        "i11/evaluation/r1/whale/02",
+        "i11/evaluation/r1/whale/03",
+        "i11/evaluation/r1/whale/04",
+        "i11/evaluation/r1/whale/05",
+        "i11/evaluation/r1/whale/06",
+        "i11/evaluation/r1/whale/07",
+        "i11/evaluation/r1/whale/08",
+        "i11/evaluation/r1/whale/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/whale/00",
+        "i11/holdout/r1/whale/01",
+        "i11/holdout/r1/whale/02"
+      ]
+    },
+    {
+      "id": "R1-swarm",
+      "name": "群体節足",
+      "kind": "low-competition-single-main",
+      "target": "swarm",
+      "configOverrides": {
+        "initial": 80,
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/r1/swarm",
+        "selected": [
+          "swarm"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値80: 繁殖雌・働育雌・雄を要する既存真社会性の初期構成を確認する。他系統との圧力を加えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/swarm/00",
+        "i11/evaluation/r1/swarm/01",
+        "i11/evaluation/r1/swarm/02",
+        "i11/evaluation/r1/swarm/03",
+        "i11/evaluation/r1/swarm/04",
+        "i11/evaluation/r1/swarm/05",
+        "i11/evaluation/r1/swarm/06",
+        "i11/evaluation/r1/swarm/07",
+        "i11/evaluation/r1/swarm/08",
+        "i11/evaluation/r1/swarm/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/swarm/00",
+        "i11/holdout/r1/swarm/01",
+        "i11/holdout/r1/swarm/02"
+      ]
+    },
+    {
+      "id": "R1-plasma",
+      "name": "プラズマ生命",
+      "kind": "low-competition-single-main",
+      "target": "plasma",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "ridge",
+        "terrainSeed": "i11/terrain/r1/plasma",
+        "selected": [
+          "plasma"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/plasma/00",
+        "i11/evaluation/r1/plasma/01",
+        "i11/evaluation/r1/plasma/02",
+        "i11/evaluation/r1/plasma/03",
+        "i11/evaluation/r1/plasma/04",
+        "i11/evaluation/r1/plasma/05",
+        "i11/evaluation/r1/plasma/06",
+        "i11/evaluation/r1/plasma/07",
+        "i11/evaluation/r1/plasma/08",
+        "i11/evaluation/r1/plasma/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/plasma/00",
+        "i11/holdout/r1/plasma/01",
+        "i11/holdout/r1/plasma/02"
+      ]
+    },
+    {
+      "id": "R1-cephalopod",
+      "name": "深淵頭足",
+      "kind": "low-competition-single-main",
+      "target": "cephalopod",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "lake",
+        "terrainSeed": "i11/terrain/r1/cephalopod",
+        "selected": [
+          "cephalopod"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/cephalopod/00",
+        "i11/evaluation/r1/cephalopod/01",
+        "i11/evaluation/r1/cephalopod/02",
+        "i11/evaluation/r1/cephalopod/03",
+        "i11/evaluation/r1/cephalopod/04",
+        "i11/evaluation/r1/cephalopod/05",
+        "i11/evaluation/r1/cephalopod/06",
+        "i11/evaluation/r1/cephalopod/07",
+        "i11/evaluation/r1/cephalopod/08",
+        "i11/evaluation/r1/cephalopod/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/cephalopod/00",
+        "i11/holdout/r1/cephalopod/01",
+        "i11/holdout/r1/cephalopod/02"
+      ]
+    },
+    {
+      "id": "R1-precocial",
+      "name": "早成甲殻",
+      "kind": "low-competition-single-main",
+      "target": "precocial",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/r1/precocial",
+        "selected": [
+          "precocial"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/precocial/00",
+        "i11/evaluation/r1/precocial/01",
+        "i11/evaluation/r1/precocial/02",
+        "i11/evaluation/r1/precocial/03",
+        "i11/evaluation/r1/precocial/04",
+        "i11/evaluation/r1/precocial/05",
+        "i11/evaluation/r1/precocial/06",
+        "i11/evaluation/r1/precocial/07",
+        "i11/evaluation/r1/precocial/08",
+        "i11/evaluation/r1/precocial/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/precocial/00",
+        "i11/holdout/r1/precocial/01",
+        "i11/holdout/r1/precocial/02"
+      ]
+    },
+    {
+      "id": "R1-ryouki",
+      "name": "量機",
+      "kind": "low-competition-single-main",
+      "target": "ryouki",
+      "configOverrides": {
+        "initial": 40,
+        "mapId": "woodland",
+        "terrainSeed": "i11/terrain/r1/ryouki",
+        "selected": [
+          "ryouki"
+        ],
+        "enabled": {
+          "main": true,
+          "plant": true,
+          "fungus": true,
+          "prey": true,
+          "P": false,
+          "Q": false
+        }
+      },
+      "initialRationale": "比較開始値40: 既存4体単位、配偶者/必要食性を備える。寿命・能力・出生費用は変えない。",
+      "evaluationSeeds": [
+        "i11/evaluation/r1/ryouki/00",
+        "i11/evaluation/r1/ryouki/01",
+        "i11/evaluation/r1/ryouki/02",
+        "i11/evaluation/r1/ryouki/03",
+        "i11/evaluation/r1/ryouki/04",
+        "i11/evaluation/r1/ryouki/05",
+        "i11/evaluation/r1/ryouki/06",
+        "i11/evaluation/r1/ryouki/07",
+        "i11/evaluation/r1/ryouki/08",
+        "i11/evaluation/r1/ryouki/09"
+      ],
+      "holdoutSeeds": [
+        "i11/holdout/r1/ryouki/00",
+        "i11/holdout/r1/ryouki/01",
+        "i11/holdout/r1/ryouki/02"
+      ]
+    }
+  ],
+  "partitions": {
+    "training": {
+      "acceptanceDenominator": false,
+      "mayTuneParameters": true
+    },
+    "evaluation": {
+      "casesPerGroup": 10,
+      "acceptanceDenominator": 10
+    },
+    "holdout": {
+      "casesPerGroup": 3,
+      "acceptanceDenominator": false,
+      "mayTuneParameters": false,
+      "runAfterCandidateAndSignatureFrozen": true,
+      "neverMergeIntoTenCaseRates": true
+    }
+  },
+  "coverage": {
+    "mainLineages": [
+      "abyss",
+      "myth",
+      "recursive",
+      "sail",
+      "gravity",
+      "crystal",
+      "manyeyes",
+      "abyssshell",
+      "parallel",
+      "memory",
+      "serpent",
+      "solar",
+      "antimeme",
+      "valis",
+      "jelly",
+      "kelp",
+      "whale",
+      "swarm",
+      "plasma",
+      "cephalopod",
+      "precocial",
+      "ryouki"
+    ],
+    "mixedGroupByMain": {
+      "abyss": [
+        "W"
+      ],
+      "myth": [
+        "D"
+      ],
+      "recursive": [
+        "F"
+      ],
+      "sail": [
+        "D"
+      ],
+      "gravity": [
+        "F"
+      ],
+      "crystal": [
+        "D"
+      ],
+      "manyeyes": [
+        "F"
+      ],
+      "abyssshell": [
+        "W"
+      ],
+      "parallel": [
+        "F"
+      ],
+      "memory": [
+        "F"
+      ],
+      "serpent": [
+        "D"
+      ],
+      "solar": [
+        "D",
+        "S"
+      ],
+      "antimeme": [
+        "S"
+      ],
+      "valis": [
+        "S"
+      ],
+      "jelly": [
+        "W"
+      ],
+      "kelp": [
+        "S"
+      ],
+      "whale": [
+        "W"
+      ],
+      "swarm": [
+        "S"
+      ],
+      "plasma": [
+        "D"
+      ],
+      "cephalopod": [
+        "W"
+      ],
+      "precocial": [
+        "F"
+      ],
+      "ryouki": [
+        "W",
+        "S"
+      ]
+    },
+    "mixedEvaluationRuns": 40,
+    "mixedHoldoutRuns": 12,
+    "r1EvaluationRuns": 220,
+    "r1HoldoutRuns": 66,
+    "trainingRuns": 3,
+    "r1Meaning": "Each main lineage has its own ten conditions. Other lineages in a shared cohort cannot increase its denominator.",
+    "scope": "40x28, producer supply ON, all three advantages ON only. Supply-OFF or different modes, terrain seeds or board sizes are separate experiments, not inferred passes."
+  },
+  "preflight": {
+    "validateBeforeTurnOne": [
+      "config/model and finite values",
+      "requested and actual selected main counts, per-species actual initial counts",
+      "positive food/producer inputs appropriate to each selected diet",
+      "mating/caste support required by actual reproduction mode",
+      "P first/middle/terminal host availability and actual initial stage distribution",
+      "Q actual attached/free count and the eligible primary maturation windows",
+      "land/water applicable placement and finite stock/supply settings"
+    ],
+    "alwaysRecord": [
+      "requestedConfig",
+      "resolvedConfig",
+      "initialFingerprint",
+      "actualInitialCounts",
+      "generationResolved",
+      "warnings",
+      "preflightStatus",
+      "preflightReason"
+    ],
+    "noSeedReplacement": true,
+    "noPostCreationPopulationInjection": true,
+    "invalidStart": "record as preflight-invalid separately, never count as biological success, never silently remove or replace the scheduled seed; if fixture must change, version the matrix and rerun the full affected group"
+  },
+  "criteria": {
+    "R1": {
+      "scope": "each r1SingleMainCase, evaluation ten",
+      "continuousPresenceFrom": 150,
+      "continuousPresenceTo": 250,
+      "minimumPassCount": 8,
+      "requiredLineageEvidence": "birth -> the child reaches age maturity -> that child reproduces, at least one documented path; initial long life alone is not generation renewal"
+    },
+    "R2": {
+      "scope": "each initially placed main species within its assigned mixed group, evaluation ten only",
+      "continuousPresenceFrom": 150,
+      "continuousPresenceTo": 250,
+      "minimumPassCount": 1,
+      "targetPassCount": 3,
+      "minimumTurn500PresenceExamples": 1,
+      "reportMinimumAndTargetSeparately": true
+    },
+    "R3": {
+      "scope": "each fixed mixed group, evaluation ten only",
+      "from": 450,
+      "to": 500,
+      "minimumPassCount": 7,
+      "required": "main lineage plus an actually functioning supporting production/acquisition/maintenance and birth or basal-regrowth path throughout the final window; stock-only carryover fails"
+    },
+    "R4": {
+      "scope": "each fixed mixed group, evaluation ten only",
+      "from": 450,
+      "to": 500,
+      "minimumValidSignatures": 3,
+      "maximumSameSignatureCount": 6,
+      "dominantShare": 0.6,
+      "majorSurvivorMeanShare": 0.05,
+      "majorSurvivorRequiresTurn500Presence": true,
+      "signature": "dominance category + sorted major survivor set",
+      "invalidOutcomes": [
+        "all-main-extinct",
+        "food-web-collapse",
+        "computation-failed",
+        "missing"
+      ]
+    },
+    "R5": {
+      "scope": "suitable P/Q groups, keep species and lifecycle stages separate",
+      "required": [
+        "each P matures and transmits to a next actual host",
+        "Q infects the allowed primary maturation-transition window and produces actual behavior influence",
+        "Q pays emergence cost, kills only P, remains the same Q ID in IV, then offspring establish as a later generation"
+      ],
+      "notSuccess": [
+        "only initial adult/search-Q persistence",
+        "only information/trace counts",
+        "host attachment without development or next generation"
+      ]
+    },
+    "R6": {
+      "scope": "each fixed mixed cohort across distinct initial seeds",
+      "minimumDifferentPhenomena": 3,
+      "minimumPhenomenaRepeatedAcrossOtherSeeds": 2,
+      "evidenceFields": [
+        "individual-or-colony IDs",
+        "species",
+        "start/end turns",
+        "locations",
+        "actual relations",
+        "resource/damage/parameter context"
+      ],
+      "notSuccess": [
+        "only random motion",
+        "initial crowding alone",
+        "fixed strategy commands",
+        "quantity-only relation or information counts"
+      ]
+    }
+  },
+  "measurementBoundaries": {
+    "performance": "small/medium/large and far/near, cold/warm; actual browser wall time versus calculation CPU time separated;500T5-15minutes and preparation<=60seconds are measured targets, not claims",
+    "reproducibility": "same product model flags and complete effective settings; representative direct/Worker/all501-observation/replay equality; raw rows never downsampled",
+    "resourceAccounting": "finite E/B/M and occupancy checks; no animal or parasite rescue supply; environmental producer support explicitly logged",
+    "completion": "R1-R6 each pass/fail/unmeasured. This matrix is a plan; none of its criteria is certified by writing the plan."
+  },
+  "validation": {
+    "mainIds": 22,
+    "mixedCohorts": 4,
+    "r1Cases": 22,
+    "allSpeciesAndMapIdsPresent": true,
+    "listedSeeds": 341,
+    "listedSeedsUnique": true
+  }
+}

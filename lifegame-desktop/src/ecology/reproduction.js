@@ -8,6 +8,20 @@
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
+  const survival = (w) => w.config.balanceModel === "survival/1";
+  function sparseMainBirths(w, ctx) {
+    if (!survival(w)) return false;
+    if (ctx.sparseMainBirths === undefined) {
+      const area = Math.max(1, w.tiles.filter((tile) => !tile.blocked).length),
+        count = w.organisms.reduce((n, o) => n + (S.spec(o).group === "main" ? 1 : 0), 0);
+      ctx.sparseMainBirths = count / area < .20;
+    }
+    return ctx.sparseMainBirths;
+  }
+  function mainNeighborAllowed(w, ctx, count, storedFather = false) {
+    return [2, 3].includes(count) ||
+      (sparseMainBirths(w, ctx) && count >= (storedFather ? 1 : 2) && count <= 5);
+  }
   function lead(values, minimum) {
     const ranked = values
       .map((value, i) => ({ value, i }))
@@ -124,11 +138,11 @@
       peers=cells.reduce((n,c)=>n+(counts[group].get(c)||0),0),
       localDensity=peers/Math.max(1,cells.length),
       density=group==="prey"?Math.min(localDensity,counts.prey.size/area*2):localDensity,
-      target=group==="main"?.16:.08,
+      target=group==="main"?(survival(w)?.20:.16):.08,
       rec=ctx.records.get(o.id),maintenance=ctx.traits.get(o.id)?.maintenance||1,
       reserve=Math.max(0,o.E-(group==="main"?(S.spec(o).birthEnergy||60)*.65:8)),
       foodFactor=Math.max(.25,Math.min(1,((rec?.organic||0)+(rec?.light||0)+reserve)/(maintenance*2))),
-      chance=foodFactor/(1+(group==="main"?8:12)*Math.max(0,density-target)/target),
+      chance=foodFactor/(1+(group==="main"?(survival(w)?4:8):12)*Math.max(0,density-target)/target),
       result={chance,density,foodFactor,allowed:S.r(w,"birth/local-pressure",w.turn,o.id)<chance};
     cache.set(o.id,result);return result;
   }
@@ -150,6 +164,7 @@
       return p.ageStage!=="juvenile"&&o.plant.activity>0&&o.HP>=.7*p.maxHP&&o.E>=cost+4*p.maintenance&&o.M>=.2;
     }
     if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
+    if(survival(w)&&s.id==="grassbug")return p.phase>=2&&o.E>=10;
     if (s.group !== "main")
       return (
         ctx.traits.get(o.id).phase >= 2 &&
@@ -193,10 +208,10 @@
             for(const father of peers)if(father.sex==="male"&&eligible(w,father,ctx)&&S.oneStep(w,father.cell,cell)&&S.oneStep(w,mother.cell,father.cell))
               local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
         }
-        if([2,3].includes(mains.length))for(const mother of mains)
+        if(mainNeighborAllowed(w,ctx,mains.length,true))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
             local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
-        if ([2, 3].includes(mains.length))
+        if (mainNeighborAllowed(w,ctx,mains.length))
           for (const mother of mains)
             if (
               !S.Ryouki.is(mother) && mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
@@ -251,7 +266,7 @@
             if(!S.Colony.allowed(w,s)||!S.Colony.room(w,cell,ctx.colonyCounts??=S.Colony.occupancy(w))||!same.length)continue;
           }else if (
             s.group === "prey"
-              ? ![2, 3].includes(same.length)
+              ? ![2, 3].includes(same.length) && !(survival(w)&&s.id==="grassbug"&&same.length===1)
               : w.config.ecologyRevision === "observation/4.1" ? !(s.group === "fungus" ? [1,2,3] : [2,3]).includes(same.length) : same.length !== 3
           )
             continue;
@@ -430,7 +445,7 @@
     if(o.birthReady>w.turn)reasons.push("待機中");if(o.role==="worker")reasons.push("非繁殖階級");if(ctx.records.get(o.id)?.damage>0)reasons.push("当日被害");
     const near=S.nearby(w,o.cell).map(c=>m.main.get(c)).filter(Boolean);
     if(o.sex==="female" && !(o.sperm?.uses>0) && !(s.id==="jelly"&&o.maleAbsent>=8) && !near.some(a=>a.species===o.species && a.sex!==o.sex && S.ageInfo(a).stage!=="juvenile" && S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
-    if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&[2,3].includes(S.nearby(w,c).filter(k=>m.main.has(k)).length)))reasons.push("出生場所不足");
+    if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&mainNeighborAllowed(w,ctx,S.nearby(w,c).filter(k=>m.main.has(k)).length,o.sperm?.uses>0)))reasons.push("出生場所不足");
     if(!birthPressure(w,o,ctx).allowed)reasons.push("混雑・栄養収支による出生調整");
     return reasons;
   }

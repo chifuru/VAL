@@ -1343,6 +1343,8 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.balanceModel!==undefined&&c.balanceModel!=="survival/1")
+      throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
       c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);

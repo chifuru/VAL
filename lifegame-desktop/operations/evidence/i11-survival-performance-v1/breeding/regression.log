@@ -1,0 +1,32 @@
+✔ age is independent of all four phases and frozen to birth DNA lifetime (13.406475ms)
+✔ age changes effective combat, movement and maintenance without changing range or free resources (37.956962ms)
+✔ crossing age boundaries does not heal, pay resources, or create combat damage (22.997542ms)
+✔ maturity is checked at turn start and newborns are first-phase juveniles with inherited birth basis (5.615786ms)
+✔ elderly reproduction remains possible and its cooldown is applied once at actual birth (2.541736ms)
+✔ age affects real solar input and paid healing while finite budgets and colony life remain intact (12.767091ms)
+✔ age-enabled natural worlds remain deterministic and conserve budgets across repeated runs (61077.132951ms)
+✔ sexual birth has two parents, B3, paid E/M, phaseI and bounded fixed DNA (3.675517ms)
+✔ same parent cannot fund two children; blocked parent-to-child contact cannot give birth (3.819665ms)
+✔ early-completing lineage births a competent phaseI and has no phaseIV (2.218238ms)
+✔ plant B3 uses one paying mature parent and a separate food slot (1.981832ms)
+✔ facultative parthenogenesis requires eight turns without a visible mature male (1.919056ms)
+✔ worker caste never reproduces, and care remains paid if its recipient later dies (2.588968ms)
+✔ growth is at most one phase and phaseIII gives a fresh four-turn breeding wait (1.748689ms)
+✔ plant-only actual intake and recovery can qualify the two foraging IV branches (3.501345ms)
+✔ food maturity becomes reproductive ability on the next turn, not the maturity day (2.341104ms)
+✔ a qualified adjacent pair can reproduce with two neighbors and cannot reproduce alone (4.044424ms)
+✔ sparse main births admit four or five neighbors while retaining two real adjacent parents (50.324915ms)
+✔ the sparse-neighbor relaxation stops at twenty percent density and six local neighbors (3.990793ms)
+✔ main births retain real energy and mineral payment, juvenile exclusion, and impassable contact (8.687001ms)
+✔ a sparse isolated queen uses previously paid stored paternity and cannot conjure sperm or resources (12.745026ms)
+✔ one mature terrestrial primary consumer can pay eight energy from ten without free replenishment (10.636804ms)
+✔ birth pressure stays finite, resource dependent and suppresses dense growth (4.082401ms)
+✔ unversioned worlds preserve the prior reproduction execution, complete states and random outcomes (8998.13057ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 70495.503877

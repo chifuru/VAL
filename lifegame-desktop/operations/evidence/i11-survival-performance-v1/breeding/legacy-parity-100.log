@@ -1,0 +1,15 @@
+river-0 25 162 468 4943ms
+river-0 50 174 476 9369ms
+river-0 75 179 480 13765ms
+river-0 100 180 469 18678ms
+river-0 DONE {"main":180,"counts":{"abyss":0,"myth":22,"recursive":0,"sail":0,"gravity":0,"crystal":24,"manyeyes":0,"abyssshell":0,"parallel":0,"memory":0,"serpent":0,"solar":25,"antimeme":0,"valis":0,"jelly":0,"kelp":24,"whale":26,"swarm":29,"plasma":0,"cephalopod":0,"precocial":0,"algae":3,"moss":0,"grass":189,"fungus":0,"waterbug":41,"grassbug":0,"tideparasite":1,"leafparasite":9,"hyperparasite":0,"phytoplankton":20,"forestcrown":23,"starcrown":10,"freshwaterlight":3,"ryouki":30},"ms":18678.259287999997}
+lake-1 25 164 517 3651ms
+lake-1 50 181 508 7950ms
+lake-1 75 190 518 12565ms
+lake-1 100 201 542 17992ms
+lake-1 DONE {"main":201,"counts":{"abyss":35,"myth":0,"recursive":0,"sail":0,"gravity":0,"crystal":0,"manyeyes":0,"abyssshell":35,"parallel":0,"memory":0,"serpent":0,"solar":0,"antimeme":0,"valis":0,"jelly":51,"kelp":38,"whale":42,"swarm":0,"plasma":0,"cephalopod":0,"precocial":0,"algae":8,"moss":0,"grass":178,"fungus":3,"waterbug":69,"grassbug":0,"tideparasite":0,"leafparasite":7,"hyperparasite":0,"phytoplankton":24,"forestcrown":14,"starcrown":40,"freshwaterlight":5,"ryouki":0},"ms":17992.803473999997}
+woodland-2 25 161 483 3117ms
+woodland-2 50 169 462 7256ms
+woodland-2 75 172 467 11294ms
+woodland-2 100 165 462 15029ms
+woodland-2 DONE {"main":165,"counts":{"abyss":0,"myth":0,"recursive":28,"sail":0,"gravity":20,"crystal":0,"manyeyes":0,"abyssshell":0,"parallel":0,"memory":22,"serpent":20,"solar":0,"antimeme":31,"valis":0,"jelly":0,"kelp":0,"whale":0,"swarm":0,"plasma":0,"cephalopod":17,"precocial":27,"algae":5,"moss":0,"grass":205,"fungus":0,"waterbug":36,"grassbug":0,"tideparasite":0,"leafparasite":9,"hyperparasite":0,"phytoplankton":7,"forestcrown":16,"starcrown":26,"freshwaterlight":2,"ryouki":0},"ms":15028.863349}

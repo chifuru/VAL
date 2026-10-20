@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "runs": [
+    {
+      "favicon204": false,
+      "errors": [],
+      "consoleErrors": [
+        {
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "url": "http://127.0.0.1:44775/favicon.ico"
+        }
+      ],
+      "state": {
+        "signature": "95b7405d3e4513acabf2194ed0ed1b9eb79c9ffd566bcc9e0b5f1edc3ca1b889",
+        "loaded": true,
+        "artErrors": []
+      }
+    },
+    {
+      "favicon204": true,
+      "errors": [],
+      "consoleErrors": [],
+      "state": {
+        "signature": "95b7405d3e4513acabf2194ed0ed1b9eb79c9ffd566bcc9e0b5f1edc3ca1b889",
+        "loaded": true,
+        "artErrors": [],
+        "turn": 3,
+        "rows": 4
+      }
+    }
+  ],
+  "missing": [
+    {
+      "path": "/favicon.ico",
+      "favicon204": false
+    }
+  ],
+  "scope": "Same frozen app, no product-source changes; first reproduce404URL, then favicon204 harness and a real3T Worker run. The500T equality/performance evidence remains the original run, not this3T check."
+}

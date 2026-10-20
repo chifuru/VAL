@@ -1,0 +1,12 @@
+✔ new survival rules and all committed observations remain exact through archive and replay (3438.453721ms)
+✔ previous relationship records replay without silently enabling new survival rules (678.227183ms)
+✔ new survival records cannot use the former biological signature as an equivalent model (214.081842ms)
+✔ unknown survival model versions fail world creation capture and every archive entrance (158.449527ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4687.15121

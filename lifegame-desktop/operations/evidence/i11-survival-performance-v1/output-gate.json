@@ -1,0 +1,19 @@
+{
+  "status": "passed-limited-scope-ready-for-main",
+  "dateUTC": "2026-10-20T18:53:05.375328+00:00",
+  "version": "4.2.43",
+  "biologicalSignature": "95b7405d3e4513acabf2194ed0ed1b9eb79c9ffd566bcc9e0b5f1edc3ca1b889",
+  "coreReadFromProject": true,
+  "contract": "operations/plans/i11-survival-performance-v1.md",
+  "manifestReflectionAndNodeReconciliation": true,
+  "formalStatusesUnchanged": true,
+  "newNodeRegistration": false,
+  "sourceAndEvidenceAligned": true,
+  "productTestFailuresUnresolved": 0,
+  "oldReplayAndNewVersionSeparated": true,
+  "all6513HeadlessRowsAnd501BrowserRowsRetained": true,
+  "uiAndAdoptedArtRetained": true,
+  "R1_R6_FullAcceptanceClaimed": false,
+  "windowsPackageClaimed": false,
+  "remaining": "Continue I11: lower consumers/decomposer, P-Q full routes, remaining lineages and R1-R6, near background and retained memory"
+}

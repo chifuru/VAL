@@ -1,0 +1,243 @@
+{
+  "status": "passed-limited-change-with-unmet-ecology-targets",
+  "version": "4.2.43",
+  "baseline": "af9ae14da7e22d3ae50b5571f053b68c79fc22b2",
+  "recordedAtUTC": "2026-10-20T18:52:06.170936+00:00",
+  "biologicalSignature": "95b7405d3e4513acabf2194ed0ed1b9eb79c9ffd566bcc9e0b5f1edc3ca1b889",
+  "newRuleGate": "balanceModel: survival/1",
+  "formalNodeStatusesChanged": false,
+  "newNodes": 0,
+  "manifestOperation": "reflection-only",
+  "updatedNodes": [
+    "C7",
+    "C7.1",
+    "C7.2",
+    "C7.3",
+    "C7.4",
+    "C7.5",
+    "C8",
+    "C8.2",
+    "D7",
+    "D8",
+    "D8.1",
+    "D8.2",
+    "D9",
+    "E5",
+    "E6"
+  ],
+  "fixedDiagnosticPairedCases": 3,
+  "diagnosticTurnsPerVariant": 1500,
+  "productEvaluationCases": 10,
+  "separateHoldoutCases": 3,
+  "productObservationRows": 6513,
+  "productInvariantErrors": 0,
+  "allCasesSameFrozenProductHash": true,
+  "R2_W_evaluation": {
+    "abyss": {
+      "scheduled": 10,
+      "completed": 10,
+      "missing": 0,
+      "initiallyUnplaced": 0,
+      "continuous150to250": 10,
+      "present500": 3,
+      "renewal": 1,
+      "R2": {
+        "minimum": true,
+        "target": true,
+        "continuousMinimum": 1,
+        "continuousTarget": 3,
+        "turn500ExampleRequired": 1
+      }
+    },
+    "abyssshell": {
+      "scheduled": 10,
+      "completed": 10,
+      "missing": 0,
+      "initiallyUnplaced": 0,
+      "continuous150to250": 10,
+      "present500": 10,
+      "renewal": 7,
+      "R2": {
+        "minimum": true,
+        "target": true,
+        "continuousMinimum": 1,
+        "continuousTarget": 3,
+        "turn500ExampleRequired": 1
+      }
+    },
+    "jelly": {
+      "scheduled": 10,
+      "completed": 10,
+      "missing": 0,
+      "initiallyUnplaced": 0,
+      "continuous150to250": 10,
+      "present500": 9,
+      "renewal": 10,
+      "R2": {
+        "minimum": true,
+        "target": true,
+        "continuousMinimum": 1,
+        "continuousTarget": 3,
+        "turn500ExampleRequired": 1
+      }
+    },
+    "whale": {
+      "scheduled": 10,
+      "completed": 10,
+      "missing": 0,
+      "initiallyUnplaced": 0,
+      "continuous150to250": 10,
+      "present500": 10,
+      "renewal": 6,
+      "R2": {
+        "minimum": true,
+        "target": true,
+        "continuousMinimum": 1,
+        "continuousTarget": 3,
+        "turn500ExampleRequired": 1
+      }
+    },
+    "cephalopod": {
+      "scheduled": 10,
+      "completed": 10,
+      "missing": 0,
+      "initiallyUnplaced": 0,
+      "continuous150to250": 10,
+      "present500": 5,
+      "renewal": 5,
+      "R2": {
+        "minimum": true,
+        "target": true,
+        "continuousMinimum": 1,
+        "continuousTarget": 3,
+        "turn500ExampleRequired": 1
+      }
+    },
+    "ryouki": {
+      "scheduled": 10,
+      "completed": 10,
+      "missing": 0,
+      "initiallyUnplaced": 0,
+      "continuous150to250": 10,
+      "present500": 3,
+      "renewal": 5,
+      "R2": {
+        "minimum": true,
+        "target": true,
+        "continuousMinimum": 1,
+        "continuousTarget": 3,
+        "turn500ExampleRequired": 1
+      }
+    }
+  },
+  "holdout_W": {
+    "abyss": {
+      "scheduled": 3,
+      "completed": 3,
+      "missing": 0,
+      "initiallyUnplaced": 0,
+      "continuous150to250": 3,
+      "present500": 0,
+      "renewal": 0
+    },
+    "abyssshell": {
+      "scheduled": 3,
+      "completed": 3,
+      "missing": 0,
+      "initiallyUnplaced": 0,
+      "continuous150to250": 3,
+      "present500": 3,
+      "renewal": 2
+    },
+    "jelly": {
+      "scheduled": 3,
+      "completed": 3,
+      "missing": 0,
+      "initiallyUnplaced": 0,
+      "continuous150to250": 3,
+      "present500": 3,
+      "renewal": 3
+    },
+    "whale": {
+      "scheduled": 3,
+      "completed": 3,
+      "missing": 0,
+      "initiallyUnplaced": 0,
+      "continuous150to250": 3,
+      "present500": 3,
+      "renewal": 3
+    },
+    "cephalopod": {
+      "scheduled": 3,
+      "completed": 3,
+      "missing": 0,
+      "initiallyUnplaced": 0,
+      "continuous150to250": 3,
+      "present500": 2,
+      "renewal": 2
+    },
+    "ryouki": {
+      "scheduled": 3,
+      "completed": 3,
+      "missing": 0,
+      "initiallyUnplaced": 0,
+      "continuous150to250": 3,
+      "present500": 0,
+      "renewal": 1
+    }
+  },
+  "R1": "not-evaluated: all22 low-competition cases remain",
+  "R3": "necessary conditions in10 evaluation and3 holdout; particular continuing maintenance paths not certified",
+  "R4": {
+    "status": "unverified-validity",
+    "evaluationProvisionalTypes": 7,
+    "evaluationMostCommonProvisionalCount": 2
+  },
+  "R5": "unmet/unassessed by condition: W initialQ=0 in13/13; separate diagnostic Q/P long-term cycles not established",
+  "R6": "observed candidates only; no causal/repeated-phenomena certification",
+  "tests": {
+    "totalDistinctInFullRun": 600,
+    "productPassesIncludingPermissionRechecks": 595,
+    "intentionalLegacySkips": 5,
+    "unresolvedFailures": 0,
+    "initialFullRun": {
+      "passed": 593,
+      "failed": 2,
+      "skipped": 5,
+      "failureReason": "local HTTP listen EPERM under restricted network sandbox"
+    },
+    "browserPermissionRecheck": {
+      "passed": 2,
+      "failed": 0
+    },
+    "finalManifestRunner": {
+      "passed": 4,
+      "failed": 0
+    },
+    "newVersionedEightProfileParity": {
+      "passed": 1,
+      "failed": 0
+    },
+    "relatedIntegration": {
+      "passed": 31,
+      "failed": 0
+    }
+  },
+  "runtime": {
+    "passedAfterAttributedHarnessCorrection": true,
+    "functionalAssertions": 526,
+    "playbackWallMs": 546416.237696,
+    "activePlaybackMs": 545020.074048,
+    "rows": 501,
+    "exactDirectFingerprintAndAllTurnObservations": true,
+    "pageExceptions": 0,
+    "assetErrors": 0,
+    "initialHarnessIssue": "favicon404 in local test server; preserved original report, attributed and corrected with separate3T check; no500T rerun",
+    "sourceHashesChecked": 11,
+    "noUserVisualApprovalClaimed": true
+  },
+  "uiStructureAndAdoptedArtworkUnchanged": true,
+  "windowsDistributionVersion": "4.2.32",
+  "newWindowsPackage": false,
+  "next": "Continue I11: lower consumers/decomposer, P-Q full routes, remaining lineages and R1-R6, near background and retained memory"
+}

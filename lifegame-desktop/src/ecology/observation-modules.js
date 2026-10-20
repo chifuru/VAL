@@ -2233,6 +2233,8 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.balanceModel!==undefined&&c.balanceModel!=="survival/1")
+      throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
       c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
@@ -5413,6 +5415,20 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
+  const survival = (w) => w.config.balanceModel === "survival/1";
+  function sparseMainBirths(w, ctx) {
+    if (!survival(w)) return false;
+    if (ctx.sparseMainBirths === undefined) {
+      const area = Math.max(1, w.tiles.filter((tile) => !tile.blocked).length),
+        count = w.organisms.reduce((n, o) => n + (S.spec(o).group === "main" ? 1 : 0), 0);
+      ctx.sparseMainBirths = count / area < .20;
+    }
+    return ctx.sparseMainBirths;
+  }
+  function mainNeighborAllowed(w, ctx, count, storedFather = false) {
+    return [2, 3].includes(count) ||
+      (sparseMainBirths(w, ctx) && count >= (storedFather ? 1 : 2) && count <= 5);
+  }
   function lead(values, minimum) {
     const ranked = values
       .map((value, i) => ({ value, i }))
@@ -5529,11 +5545,11 @@ function(require,module){
       peers=cells.reduce((n,c)=>n+(counts[group].get(c)||0),0),
       localDensity=peers/Math.max(1,cells.length),
       density=group==="prey"?Math.min(localDensity,counts.prey.size/area*2):localDensity,
-      target=group==="main"?.16:.08,
+      target=group==="main"?(survival(w)?.20:.16):.08,
       rec=ctx.records.get(o.id),maintenance=ctx.traits.get(o.id)?.maintenance||1,
       reserve=Math.max(0,o.E-(group==="main"?(S.spec(o).birthEnergy||60)*.65:8)),
       foodFactor=Math.max(.25,Math.min(1,((rec?.organic||0)+(rec?.light||0)+reserve)/(maintenance*2))),
-      chance=foodFactor/(1+(group==="main"?8:12)*Math.max(0,density-target)/target),
+      chance=foodFactor/(1+(group==="main"?(survival(w)?4:8):12)*Math.max(0,density-target)/target),
       result={chance,density,foodFactor,allowed:S.r(w,"birth/local-pressure",w.turn,o.id)<chance};
     cache.set(o.id,result);return result;
   }
@@ -5555,6 +5571,7 @@ function(require,module){
       return p.ageStage!=="juvenile"&&o.plant.activity>0&&o.HP>=.7*p.maxHP&&o.E>=cost+4*p.maintenance&&o.M>=.2;
     }
     if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
+    if(survival(w)&&s.id==="grassbug")return p.phase>=2&&o.E>=10;
     if (s.group !== "main")
       return (
         ctx.traits.get(o.id).phase >= 2 &&
@@ -5598,10 +5615,10 @@ function(require,module){
             for(const father of peers)if(father.sex==="male"&&eligible(w,father,ctx)&&S.oneStep(w,father.cell,cell)&&S.oneStep(w,mother.cell,father.cell))
               local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
         }
-        if([2,3].includes(mains.length))for(const mother of mains)
+        if(mainNeighborAllowed(w,ctx,mains.length,true))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
             local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
-        if ([2, 3].includes(mains.length))
+        if (mainNeighborAllowed(w,ctx,mains.length))
           for (const mother of mains)
             if (
               !S.Ryouki.is(mother) && mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
@@ -5655,7 +5672,7 @@ function(require,module){
             if(!S.Colony.allowed(w,s)||!S.Colony.room(w,cell,ctx.colonyCounts??=S.Colony.occupancy(w))||!same.length)continue;
           }else if (
             s.group === "prey"
-              ? ![2, 3].includes(same.length)
+              ? ![2, 3].includes(same.length) && !(survival(w)&&s.id==="grassbug"&&same.length===1)
               : w.config.ecologyRevision === "observation/4.1" ? !(["fungus","phytoplankton"].includes(s.id) ? [1,2,3] : [2,3]).includes(same.length) : same.length !== 3
           )
             continue;
@@ -5834,7 +5851,7 @@ function(require,module){
     if(o.birthReady>w.turn)reasons.push("待機中");if(o.role==="worker")reasons.push("非繁殖階級");if(ctx.records.get(o.id)?.damage>0)reasons.push("当日被害");
     const near=S.nearby(w,o.cell).map(c=>m.main.get(c)).filter(Boolean);
     if(o.sex==="female" && !(o.sperm?.uses>0) && !(s.id==="jelly"&&o.maleAbsent>=8) && !near.some(a=>a.species===o.species && a.sex!==o.sex && S.ageInfo(a).stage!=="juvenile" && S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
-    if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&[2,3].includes(S.nearby(w,c).filter(k=>m.main.has(k)).length)))reasons.push("出生場所不足");
+    if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&mainNeighborAllowed(w,ctx,S.nearby(w,c).filter(k=>m.main.has(k)).length,o.sperm?.uses>0)))reasons.push("出生場所不足");
     if(!birthPressure(w,o,ctx).allowed)reasons.push("混雑・栄養収支による出生調整");
     return reasons;
   }
@@ -5895,6 +5912,7 @@ function(require,module){
   const primaryEnabled=w=>S.PrimaryParasite?.enabled(w)===true;
   const hyperEnabled=w=>S.HyperParasite?.enabled(w)===true;
   const informationEnabled=w=>S.PersistentInformation?.enabled(w)===true;
+  const survivalEnabled=w=>w?.config?.balanceModel==="survival/1";
   const informationKeys=["ownExperiences","holdingQualified","deathDecisions","candidateDeaths","normalGenerated","lowGenerated","noGeneration","generatedAmount","expiredAmount","capacityLostAmount","microLostAmount","movedAmount","originsRead","contentsRead","rejectedScope","rejectedContext","rejectedBudget","deduplicated","learned","learningDeltaAbs","placeApplications","placeMagnitude","receptionCostE","qPromoted","qDistorted","environmentRead","ordinaryRead","caregiverRead"];
   function emptyInformationFlow(w){return {definition:"persistent-information-flow/1",turn:w.turn,all:Object.fromEntries(informationKeys.map(key=>[key,0]))};}
   function informationFlow(w,ctx,key,n=1){ctx.persistentInformationFlow??=emptyInformationFlow(w);const a=ctx.persistentInformationFlow.all;a[key]=S.round(a[key]+n);}
@@ -6334,9 +6352,17 @@ function(require,module){
         if(last.developed)last.progress=S.round(1-.5*S.HyperParasite.resistance(w,p));else last.blockers.push("development");
       }
       if(last.maintained&&(!developing||last.developed)&&w.organisms.includes(host)&&host.HP>0){
-        const meta=S.round(z.metaCosts[phase]*factor),paid=hyperSpend(w,q,S.round(meta*informationAllocation(w,q,2)));last.metaE=paid;hyperFlow(w,ctx,"metaE",paid);
+        const meta=S.round(z.metaCosts[phase]*factor),info=S.round(z.informationCosts[phase]*factor),
+          requestedMeta=S.round(meta*informationAllocation(w,q,2)),requestedInfo=S.round(info*informationAllocation(w,q,3));
+        // Optional manipulation never spends the same finite reserve needed for
+        // survival, further development, and a paid emergence attempt.
+        const reserve=survivalEnabled(w)?S.round(z.maintenance[phase]*factor+
+          (q.hyper.development<z.development?z.developmentCost[phase]*factor:0)+
+          (phase===3?z.maintenance[phase]*factor*z.emergenceMultiplier+Math.max(0,z.biomass[4]-q.B):Math.max(0,z.biomass[phase+1]-q.B))):0,
+          share=survivalEnabled(w)?Math.min(1,Math.max(0,q.E-reserve)/Math.max(1e-9,requestedMeta+requestedInfo)):1;
+        const paid=hyperSpend(w,q,S.round(requestedMeta*share));last.metaE=paid;hyperFlow(w,ctx,"metaE",paid);
         const sign=q.hyper.bias?.sign??(q.modulation||1);last.modulation=meta>0?S.round(sign*z.metaCaps[phase]*Math.min(1,paid/meta)):0;
-        const info=S.round(z.informationCosts[phase]*factor),invest=hyperSpend(w,q,S.round(info*informationAllocation(w,q,3)));last.informationE=invest;hyperFlow(w,ctx,"informationE",invest);hyperTrace(w,host,p,q,invest);
+        const invest=hyperSpend(w,q,S.round(requestedInfo*share));last.informationE=invest;hyperFlow(w,ctx,"informationE",invest);hyperTrace(w,host,p,q,invest);
         if(p.primary.last)p.primary.last.induction=S.round(S.clamp(p.primary.last.induction*(1+last.modulation),0,1));
       }
     }
@@ -6396,16 +6422,38 @@ function(require,module){
       const preference=host=>host.infection?.location==="external"?(q.hyper.preference?.[host.infection.species]??.5)*informationHostFactor(w,q,host.infection.species):.5;
       const local=candidates.filter(host=>S.oneStep(w,q.cell,host.cell)).sort((a,b)=>preference(b)-preference(a)||S.hash(w,"hyper/contact-choice",w.turn,q.id,a.id)-S.hash(w,"hyper/contact-choice",w.turn,q.id,b.id));
       if(q.ready<=w.turn&&q.age>=(q.maturity??z.maturity)&&local.length)hyperExpose(w,ctx,q,local[0]);
-      const predator=host=>S.spec(host).group==="main"&&!["plant"].includes(S.spec(host).diet)&&host.species!=="ryouki";
+      const predator=host=>S.spec(host).group==="main"&&host.species!=="ryouki"&&
+        (survivalEnabled(w)?(S.D.diets[S.spec(host).diet]?.hunt||0)>=0:!["plant"].includes(S.spec(host).diet));
       const threat=cell=>candidates.reduce((n,host)=>n+(predator(host)&&S.distance(w,cell,host.cell)<=1?1:0),0);
       const cue=candidates.slice().sort((a,b)=>preference(b)-preference(a)||S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
       const moves=[q.cell,...S.nearby(w,q.cell).filter(cell=>S.oneStep(w,q.cell,cell))];
       const places=informationEnabled(w)?new Map(moves.map(cell=>[cell,informationPlace(w,ctx,q,cell)])):null,
         learned=informationEnabled(w)&&S.PersistentInformation.settings(w).influence!==0?S.PersistentInformation.preference(w,q,1)/200:0;
-      moves.sort((a,b)=>{
-        const information=(places?.get(b).value||0)-(places?.get(a).value||0),danger=threat(a)-threat(b);
-        return danger*(1+learned)+information*.1||(cue?S.distance(w,a,cue.cell)-S.distance(w,b,cue.cell):0)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b);
-      });
+      if(survivalEnabled(w)){
+        // Search only the already-sensed local area. Exact P maturity/genes are
+        // still unavailable; the real contact window remains in hyperExpose.
+        const forage=[];
+        for(const cell of cells){
+          if(!S.sight(w,q.cell,cell))continue;
+          let amount=0;
+          for(const a of resourceMap.get(cell)||[])if(["plant","fungal","animal"].includes(S.FOOD[a.kind]?.tag))amount+=Math.max(0,a.E);
+          for(const a of carcassMap.get(cell)||[])amount+=Math.max(0,a.E);
+          if(amount>0)forage.push({cell,amount});
+        }
+        const hunger=S.clamp(1-q.E/Math.max(z.eggCost+4*z.maintenance[4],1e-6),0,1),
+          readyToLay=q.E>=z.eggCost&&q.ready<=w.turn?1:.15,
+          score=cell=>{
+            const nutrition=forage.reduce((n,a)=>Math.max(n,Math.min(1,a.amount/Math.max(z.adultFoodCap,1e-6))/(1+S.distance(w,cell,a.cell))),0),
+              approach=cue?(3-S.distance(w,cell,cue.cell))/3:0,
+              movement=cell===q.cell?0:z.adultMoveCost/Math.max(q.E,z.maintenance[4],1e-6);
+            return nutrition*(.5+1.5*hunger)+approach*.45*readyToLay-
+              threat(cell)*(.65+learned)+(places?.get(cell).value||0)*.1-movement*.1;
+          },scores=new Map(moves.map(cell=>[cell,score(cell)]));
+        moves.sort((a,b)=>scores.get(b)-scores.get(a)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b));
+      }else moves.sort((a,b)=>{
+          const information=(places?.get(b).value||0)-(places?.get(a).value||0),danger=threat(a)-threat(b);
+          return danger*(1+learned)+information*.1||(cue?S.distance(w,a,cue.cell)-S.distance(w,b,cue.cell):0)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b);
+        });
       if(moves[0]!==q.cell&&q.E>=z.adultMoveCost){const from=q.cell;q.cell=moves[0];last.movementE=hyperSpend(w,q,z.adultMoveCost);hyperFlow(w,ctx,"moved");hyperFlow(w,ctx,"movementE",last.movementE);S.record(ctx,q,"move",{from,to:q.cell,species:"hyperparasite"});if(places)informationUsed(w,ctx,q,q.cell,places.get(q.cell));}
     }
   }
@@ -6605,7 +6653,17 @@ function(require,module){
         if(last.developed)last.progress=S.round(1-.5*S.PrimaryParasite.resistance(w,host,p.species,p.primary.route||"contact"));
       }
       if(p.q&&!hyperEnabled(w)){primaryBridgeQ(w,p.q,host.cell,p);entry.qFull=p.q.E>=.01;}
-      if(alive&&p.stage!=="extra"&&last.maintained&&(!canDevelop||last.developed)&&w.turn>p.primary.pauseUntil){const cost=settings.metaCosts[phase],paid=primarySpend(w,p,S.round(cost*informationAllocation(w,p,2)));last.metaE=paid;last.induction=cost>0?S.round(settings.metaCaps[phase]*Math.min(1,paid/cost)):0;}
+      if(alive&&p.stage!=="extra"&&last.maintained&&(!canDevelop||last.developed)&&w.turn>p.primary.pauseUntil){
+        const cost=settings.metaCosts[phase],factor=primaryCost(w,p,host),
+          releaseRoute=p.stage==="first"?"feeding":p.species==="tideparasite"&&["shallow","deep"].includes(w.tiles[host.cell].terrain)?"water":"contact",
+          releaseAllocation=survivalEnabled(w)?informationAllocation(w,p,3):1,
+          releaseCost=survivalEnabled(w)?Math.max(settings.emissionReserve*releaseAllocation,settings.emissionCost*primaryCost(w,p,host,releaseRoute)*releaseAllocation):0,
+          reserve=survivalEnabled(w)?S.round(settings.maintenance[phase]*factor+(canDevelop?settings.developmentCost*factor:0)+
+            (["first","terminal"].includes(p.stage)&&p.counter>=settings.development[p.stage]?releaseCost:0)+
+            (hyperEnabled(w)&&S.HyperParasite.is(p.q)?S.HyperParasite.settings(w).hostTax[p.q.phase]+S.HyperParasite.settings(w).exclusionCost:0)):0,
+          wanted=S.round(cost*informationAllocation(w,p,2)),paid=primarySpend(w,p,survivalEnabled(w)?Math.min(wanted,Math.max(0,p.E-reserve)):wanted);
+        last.metaE=paid;last.induction=cost>0?S.round(settings.metaCaps[phase]*Math.min(1,paid/cost)):0;
+      }
     }
     if(hyperEnabled(w))hyperBegin(w,ctx);
   }
@@ -10251,6 +10309,8 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.balanceModel!==undefined&&c.balanceModel!=="survival/1")
+      throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
       c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
@@ -12267,6 +12327,20 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
+  const survival = (w) => w.config.balanceModel === "survival/1";
+  function sparseMainBirths(w, ctx) {
+    if (!survival(w)) return false;
+    if (ctx.sparseMainBirths === undefined) {
+      const area = Math.max(1, w.tiles.filter((tile) => !tile.blocked).length),
+        count = w.organisms.reduce((n, o) => n + (S.spec(o).group === "main" ? 1 : 0), 0);
+      ctx.sparseMainBirths = count / area < .20;
+    }
+    return ctx.sparseMainBirths;
+  }
+  function mainNeighborAllowed(w, ctx, count, storedFather = false) {
+    return [2, 3].includes(count) ||
+      (sparseMainBirths(w, ctx) && count >= (storedFather ? 1 : 2) && count <= 5);
+  }
   function lead(values, minimum) {
     const ranked = values
       .map((value, i) => ({ value, i }))
@@ -12383,11 +12457,11 @@ function(require,module){
       peers=cells.reduce((n,c)=>n+(counts[group].get(c)||0),0),
       localDensity=peers/Math.max(1,cells.length),
       density=group==="prey"?Math.min(localDensity,counts.prey.size/area*2):localDensity,
-      target=group==="main"?.16:.08,
+      target=group==="main"?(survival(w)?.20:.16):.08,
       rec=ctx.records.get(o.id),maintenance=ctx.traits.get(o.id)?.maintenance||1,
       reserve=Math.max(0,o.E-(group==="main"?(S.spec(o).birthEnergy||60)*.65:8)),
       foodFactor=Math.max(.25,Math.min(1,((rec?.organic||0)+(rec?.light||0)+reserve)/(maintenance*2))),
-      chance=foodFactor/(1+(group==="main"?8:12)*Math.max(0,density-target)/target),
+      chance=foodFactor/(1+(group==="main"?(survival(w)?4:8):12)*Math.max(0,density-target)/target),
       result={chance,density,foodFactor,allowed:S.r(w,"birth/local-pressure",w.turn,o.id)<chance};
     cache.set(o.id,result);return result;
   }
@@ -12409,6 +12483,7 @@ function(require,module){
       return p.ageStage!=="juvenile"&&o.plant.activity>0&&o.HP>=.7*p.maxHP&&o.E>=cost+4*p.maintenance&&o.M>=.2;
     }
     if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
+    if(survival(w)&&s.id==="grassbug")return p.phase>=2&&o.E>=10;
     if (s.group !== "main")
       return (
         ctx.traits.get(o.id).phase >= 2 &&
@@ -12452,10 +12527,10 @@ function(require,module){
             for(const father of peers)if(father.sex==="male"&&eligible(w,father,ctx)&&S.oneStep(w,father.cell,cell)&&S.oneStep(w,mother.cell,father.cell))
               local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
         }
-        if([2,3].includes(mains.length))for(const mother of mains)
+        if(mainNeighborAllowed(w,ctx,mains.length,true))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
             local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
-        if ([2, 3].includes(mains.length))
+        if (mainNeighborAllowed(w,ctx,mains.length))
           for (const mother of mains)
             if (
               !S.Ryouki.is(mother) && mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
@@ -12509,7 +12584,7 @@ function(require,module){
             if(!S.Colony.allowed(w,s)||!S.Colony.room(w,cell,ctx.colonyCounts??=S.Colony.occupancy(w))||!same.length)continue;
           }else if (
             s.group === "prey"
-              ? ![2, 3].includes(same.length)
+              ? ![2, 3].includes(same.length) && !(survival(w)&&s.id==="grassbug"&&same.length===1)
               : w.config.ecologyRevision === "observation/4.1" ? ![1,2,3].includes(same.length) : same.length !== 3
           )
             continue;
@@ -12688,7 +12763,7 @@ function(require,module){
     if(o.birthReady>w.turn)reasons.push("待機中");if(o.role==="worker")reasons.push("非繁殖階級");if(ctx.records.get(o.id)?.damage>0)reasons.push("当日被害");
     const near=S.nearby(w,o.cell).map(c=>m.main.get(c)).filter(Boolean);
     if(o.sex==="female" && !(o.sperm?.uses>0) && !(s.id==="jelly"&&o.maleAbsent>=8) && !near.some(a=>a.species===o.species && a.sex!==o.sex && S.ageInfo(a).stage!=="juvenile" && S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
-    if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&[2,3].includes(S.nearby(w,c).filter(k=>m.main.has(k)).length)))reasons.push("出生場所不足");
+    if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&mainNeighborAllowed(w,ctx,S.nearby(w,c).filter(k=>m.main.has(k)).length,o.sperm?.uses>0)))reasons.push("出生場所不足");
     if(!birthPressure(w,o,ctx).allowed)reasons.push("混雑・栄養収支による出生調整");
     return reasons;
   }
@@ -15508,6 +15583,20 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
+  const survival = (w) => w.config.balanceModel === "survival/1";
+  function sparseMainBirths(w, ctx) {
+    if (!survival(w)) return false;
+    if (ctx.sparseMainBirths === undefined) {
+      const area = Math.max(1, w.tiles.filter((tile) => !tile.blocked).length),
+        count = w.organisms.reduce((n, o) => n + (S.spec(o).group === "main" ? 1 : 0), 0);
+      ctx.sparseMainBirths = count / area < .20;
+    }
+    return ctx.sparseMainBirths;
+  }
+  function mainNeighborAllowed(w, ctx, count, storedFather = false) {
+    return [2, 3].includes(count) ||
+      (sparseMainBirths(w, ctx) && count >= (storedFather ? 1 : 2) && count <= 5);
+  }
   function lead(values, minimum) {
     const ranked = values
       .map((value, i) => ({ value, i }))
@@ -15624,11 +15713,11 @@ function(require,module){
       peers=cells.reduce((n,c)=>n+(counts[group].get(c)||0),0),
       localDensity=peers/Math.max(1,cells.length),
       density=group==="prey"?Math.min(localDensity,counts.prey.size/area*2):localDensity,
-      target=group==="main"?.16:.08,
+      target=group==="main"?(survival(w)?.20:.16):.08,
       rec=ctx.records.get(o.id),maintenance=ctx.traits.get(o.id)?.maintenance||1,
       reserve=Math.max(0,o.E-(group==="main"?(S.spec(o).birthEnergy||60)*.65:8)),
       foodFactor=Math.max(.25,Math.min(1,((rec?.organic||0)+(rec?.light||0)+reserve)/(maintenance*2))),
-      chance=foodFactor/(1+(group==="main"?8:12)*Math.max(0,density-target)/target),
+      chance=foodFactor/(1+(group==="main"?(survival(w)?4:8):12)*Math.max(0,density-target)/target),
       result={chance,density,foodFactor,allowed:S.r(w,"birth/local-pressure",w.turn,o.id)<chance};
     cache.set(o.id,result);return result;
   }
@@ -15650,6 +15739,7 @@ function(require,module){
       return p.ageStage!=="juvenile"&&o.plant.activity>0&&o.HP>=.7*p.maxHP&&o.E>=cost+4*p.maintenance&&o.M>=.2;
     }
     if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
+    if(survival(w)&&s.id==="grassbug")return p.phase>=2&&o.E>=10;
     if (s.group !== "main")
       return (
         ctx.traits.get(o.id).phase >= 2 &&
@@ -15693,10 +15783,10 @@ function(require,module){
             for(const father of peers)if(father.sex==="male"&&eligible(w,father,ctx)&&S.oneStep(w,father.cell,cell)&&S.oneStep(w,mother.cell,father.cell))
               local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
         }
-        if([2,3].includes(mains.length))for(const mother of mains)
+        if(mainNeighborAllowed(w,ctx,mains.length,true))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
             local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
-        if ([2, 3].includes(mains.length))
+        if (mainNeighborAllowed(w,ctx,mains.length))
           for (const mother of mains)
             if (
               !S.Ryouki.is(mother) && mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
@@ -15750,7 +15840,7 @@ function(require,module){
             if(!S.Colony.allowed(w,s)||!S.Colony.room(w,cell,ctx.colonyCounts??=S.Colony.occupancy(w))||!same.length)continue;
           }else if (
             s.group === "prey"
-              ? !(s.id === "waterbug" ? [1,2,3] : [2,3]).includes(same.length)
+              ? !(s.id === "waterbug" ? [1,2,3] : [2,3]).includes(same.length) && !(survival(w)&&s.id==="grassbug"&&same.length===1)
               : w.config.ecologyRevision === "observation/4.1" ? !(["fungus","phytoplankton"].includes(s.id) ? [1,2,3] : [2,3]).includes(same.length) : same.length !== 3
           )
             continue;
@@ -15929,7 +16019,7 @@ function(require,module){
     if(o.birthReady>w.turn)reasons.push("待機中");if(o.role==="worker")reasons.push("非繁殖階級");if(ctx.records.get(o.id)?.damage>0)reasons.push("当日被害");
     const near=S.nearby(w,o.cell).map(c=>m.main.get(c)).filter(Boolean);
     if(o.sex==="female" && !(o.sperm?.uses>0) && !(s.id==="jelly"&&o.maleAbsent>=8) && !near.some(a=>a.species===o.species && a.sex!==o.sex && S.ageInfo(a).stage!=="juvenile" && S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
-    if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&[2,3].includes(S.nearby(w,c).filter(k=>m.main.has(k)).length)))reasons.push("出生場所不足");
+    if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&mainNeighborAllowed(w,ctx,S.nearby(w,c).filter(k=>m.main.has(k)).length,o.sperm?.uses>0)))reasons.push("出生場所不足");
     if(!birthPressure(w,o,ctx).allowed)reasons.push("混雑・栄養収支による出生調整");
     return reasons;
   }
@@ -16872,6 +16962,20 @@ function(require,module){
   else root.EcoReproduction = api;
 })(globalThis, function (S) {
   "use strict";
+  const survival = (w) => w.config.balanceModel === "survival/1";
+  function sparseMainBirths(w, ctx) {
+    if (!survival(w)) return false;
+    if (ctx.sparseMainBirths === undefined) {
+      const area = Math.max(1, w.tiles.filter((tile) => !tile.blocked).length),
+        count = w.organisms.reduce((n, o) => n + (S.spec(o).group === "main" ? 1 : 0), 0);
+      ctx.sparseMainBirths = count / area < .20;
+    }
+    return ctx.sparseMainBirths;
+  }
+  function mainNeighborAllowed(w, ctx, count, storedFather = false) {
+    return [2, 3].includes(count) ||
+      (sparseMainBirths(w, ctx) && count >= (storedFather ? 1 : 2) && count <= 5);
+  }
   function lead(values, minimum) {
     const ranked = values
       .map((value, i) => ({ value, i }))
@@ -16988,11 +17092,11 @@ function(require,module){
       peers=cells.reduce((n,c)=>n+(counts[group].get(c)||0),0),
       localDensity=peers/Math.max(1,cells.length),
       density=group==="prey"?Math.min(localDensity,counts.prey.size/area*2):localDensity,
-      target=group==="main"?.16:.08,
+      target=group==="main"?(survival(w)?.20:.16):.08,
       rec=ctx.records.get(o.id),maintenance=ctx.traits.get(o.id)?.maintenance||1,
       reserve=Math.max(0,o.E-(group==="main"?(S.spec(o).birthEnergy||60)*.65:8)),
       foodFactor=Math.max(.25,Math.min(1,((rec?.organic||0)+(rec?.light||0)+reserve)/(maintenance*2))),
-      chance=foodFactor/(1+(group==="main"?8:12)*Math.max(0,density-target)/target),
+      chance=foodFactor/(1+(group==="main"?(survival(w)?4:8):12)*Math.max(0,density-target)/target),
       result={chance,density,foodFactor,allowed:S.r(w,"birth/local-pressure",w.turn,o.id)<chance};
     cache.set(o.id,result);return result;
   }
@@ -17014,6 +17118,7 @@ function(require,module){
       return p.ageStage!=="juvenile"&&o.plant.activity>0&&o.HP>=.7*p.maxHP&&o.E>=cost+4*p.maintenance&&o.M>=.2;
     }
     if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
+    if(survival(w)&&s.id==="grassbug")return p.phase>=2&&o.E>=10;
     if (s.group !== "main")
       return (
         ctx.traits.get(o.id).phase >= 2 &&
@@ -17057,10 +17162,10 @@ function(require,module){
             for(const father of peers)if(father.sex==="male"&&eligible(w,father,ctx)&&S.oneStep(w,father.cell,cell)&&S.oneStep(w,mother.cell,father.cell))
               local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
         }
-        if([2,3].includes(mains.length))for(const mother of mains)
+        if(mainNeighborAllowed(w,ctx,mains.length,true))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
             local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
-        if ([2, 3].includes(mains.length))
+        if (mainNeighborAllowed(w,ctx,mains.length))
           for (const mother of mains)
             if (
               !S.Ryouki.is(mother) && mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
@@ -17114,7 +17219,7 @@ function(require,module){
             if(!S.Colony.allowed(w,s)||!S.Colony.room(w,cell,ctx.colonyCounts??=S.Colony.occupancy(w))||!same.length)continue;
           }else if (
             s.group === "prey"
-              ? !(s.id === "waterbug" ? [1,2,3] : [2,3]).includes(same.length)
+              ? !(s.id === "waterbug" ? [1,2,3] : [2,3]).includes(same.length) && !(survival(w)&&s.id==="grassbug"&&same.length===1)
               : w.config.ecologyRevision === "observation/4.1" ? ![1,2,3].includes(same.length) : same.length !== 3
           )
             continue;
@@ -17293,7 +17398,7 @@ function(require,module){
     if(o.birthReady>w.turn)reasons.push("待機中");if(o.role==="worker")reasons.push("非繁殖階級");if(ctx.records.get(o.id)?.damage>0)reasons.push("当日被害");
     const near=S.nearby(w,o.cell).map(c=>m.main.get(c)).filter(Boolean);
     if(o.sex==="female" && !(o.sperm?.uses>0) && !(s.id==="jelly"&&o.maleAbsent>=8) && !near.some(a=>a.species===o.species && a.sex!==o.sex && S.ageInfo(a).stage!=="juvenile" && S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
-    if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&[2,3].includes(S.nearby(w,c).filter(k=>m.main.has(k)).length)))reasons.push("出生場所不足");
+    if(!S.nearby(w,o.cell).some(c=>!m.main.has(c)&&S.oneStep(w,o.cell,c)&&mainNeighborAllowed(w,ctx,S.nearby(w,c).filter(k=>m.main.has(k)).length,o.sperm?.uses>0)))reasons.push("出生場所不足");
     if(!birthPressure(w,o,ctx).allowed)reasons.push("混雑・栄養収支による出生調整");
     return reasons;
   }
@@ -18686,6 +18791,8 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.balanceModel!==undefined&&c.balanceModel!=="survival/1")
+      throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
       c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
@@ -19759,6 +19866,7 @@ function(require,module){
   const primaryEnabled=w=>S.PrimaryParasite?.enabled(w)===true;
   const hyperEnabled=w=>S.HyperParasite?.enabled(w)===true;
   const informationEnabled=w=>S.PersistentInformation?.enabled(w)===true;
+  const survivalEnabled=w=>w?.config?.balanceModel==="survival/1";
   const informationKeys=["ownExperiences","holdingQualified","deathDecisions","candidateDeaths","normalGenerated","lowGenerated","noGeneration","generatedAmount","expiredAmount","capacityLostAmount","microLostAmount","movedAmount","originsRead","contentsRead","rejectedScope","rejectedContext","rejectedBudget","deduplicated","learned","learningDeltaAbs","placeApplications","placeMagnitude","receptionCostE","qPromoted","qDistorted","environmentRead","ordinaryRead","caregiverRead"];
   function emptyInformationFlow(w){return {definition:"persistent-information-flow/1",turn:w.turn,all:Object.fromEntries(informationKeys.map(key=>[key,0]))};}
   function informationFlow(w,ctx,key,n=1){ctx.persistentInformationFlow??=emptyInformationFlow(w);const a=ctx.persistentInformationFlow.all;a[key]=S.round(a[key]+n);}
@@ -20198,9 +20306,17 @@ function(require,module){
         if(last.developed)last.progress=S.round(1-.5*S.HyperParasite.resistance(w,p));else last.blockers.push("development");
       }
       if(last.maintained&&(!developing||last.developed)&&w.organisms.includes(host)&&host.HP>0){
-        const meta=S.round(z.metaCosts[phase]*factor),paid=hyperSpend(w,q,S.round(meta*informationAllocation(w,q,2)));last.metaE=paid;hyperFlow(w,ctx,"metaE",paid);
+        const meta=S.round(z.metaCosts[phase]*factor),info=S.round(z.informationCosts[phase]*factor),
+          requestedMeta=S.round(meta*informationAllocation(w,q,2)),requestedInfo=S.round(info*informationAllocation(w,q,3));
+        // Optional manipulation never spends the same finite reserve needed for
+        // survival, further development, and a paid emergence attempt.
+        const reserve=survivalEnabled(w)?S.round(z.maintenance[phase]*factor+
+          (q.hyper.development<z.development?z.developmentCost[phase]*factor:0)+
+          (phase===3?z.maintenance[phase]*factor*z.emergenceMultiplier+Math.max(0,z.biomass[4]-q.B):Math.max(0,z.biomass[phase+1]-q.B))):0,
+          share=survivalEnabled(w)?Math.min(1,Math.max(0,q.E-reserve)/Math.max(1e-9,requestedMeta+requestedInfo)):1;
+        const paid=hyperSpend(w,q,S.round(requestedMeta*share));last.metaE=paid;hyperFlow(w,ctx,"metaE",paid);
         const sign=q.hyper.bias?.sign??(q.modulation||1);last.modulation=meta>0?S.round(sign*z.metaCaps[phase]*Math.min(1,paid/meta)):0;
-        const info=S.round(z.informationCosts[phase]*factor),invest=hyperSpend(w,q,S.round(info*informationAllocation(w,q,3)));last.informationE=invest;hyperFlow(w,ctx,"informationE",invest);hyperTrace(w,host,p,q,invest);
+        const invest=hyperSpend(w,q,S.round(requestedInfo*share));last.informationE=invest;hyperFlow(w,ctx,"informationE",invest);hyperTrace(w,host,p,q,invest);
         if(p.primary.last)p.primary.last.induction=S.round(S.clamp(p.primary.last.induction*(1+last.modulation),0,1));
       }
     }
@@ -20260,16 +20376,38 @@ function(require,module){
       const preference=host=>host.infection?.location==="external"?(q.hyper.preference?.[host.infection.species]??.5)*informationHostFactor(w,q,host.infection.species):.5;
       const local=candidates.filter(host=>S.oneStep(w,q.cell,host.cell)).sort((a,b)=>preference(b)-preference(a)||S.hash(w,"hyper/contact-choice",w.turn,q.id,a.id)-S.hash(w,"hyper/contact-choice",w.turn,q.id,b.id));
       if(q.ready<=w.turn&&q.age>=(q.maturity??z.maturity)&&local.length)hyperExpose(w,ctx,q,local[0]);
-      const predator=host=>S.spec(host).group==="main"&&!["plant"].includes(S.spec(host).diet)&&host.species!=="ryouki";
+      const predator=host=>S.spec(host).group==="main"&&host.species!=="ryouki"&&
+        (survivalEnabled(w)?(S.D.diets[S.spec(host).diet]?.hunt||0)>=0:!["plant"].includes(S.spec(host).diet));
       const threat=cell=>candidates.reduce((n,host)=>n+(predator(host)&&S.distance(w,cell,host.cell)<=1?1:0),0);
       const cue=candidates.slice().sort((a,b)=>preference(b)-preference(a)||S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
       const moves=[q.cell,...S.nearby(w,q.cell).filter(cell=>S.oneStep(w,q.cell,cell))];
       const places=informationEnabled(w)?new Map(moves.map(cell=>[cell,informationPlace(w,ctx,q,cell)])):null,
         learned=informationEnabled(w)&&S.PersistentInformation.settings(w).influence!==0?S.PersistentInformation.preference(w,q,1)/200:0;
-      moves.sort((a,b)=>{
-        const information=(places?.get(b).value||0)-(places?.get(a).value||0),danger=threat(a)-threat(b);
-        return danger*(1+learned)+information*.1||(cue?S.distance(w,a,cue.cell)-S.distance(w,b,cue.cell):0)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b);
-      });
+      if(survivalEnabled(w)){
+        // Search only the already-sensed local area. Exact P maturity/genes are
+        // still unavailable; the real contact window remains in hyperExpose.
+        const forage=[];
+        for(const cell of cells){
+          if(!S.sight(w,q.cell,cell))continue;
+          let amount=0;
+          for(const a of resourceMap.get(cell)||[])if(["plant","fungal","animal"].includes(S.FOOD[a.kind]?.tag))amount+=Math.max(0,a.E);
+          for(const a of carcassMap.get(cell)||[])amount+=Math.max(0,a.E);
+          if(amount>0)forage.push({cell,amount});
+        }
+        const hunger=S.clamp(1-q.E/Math.max(z.eggCost+4*z.maintenance[4],1e-6),0,1),
+          readyToLay=q.E>=z.eggCost&&q.ready<=w.turn?1:.15,
+          score=cell=>{
+            const nutrition=forage.reduce((n,a)=>Math.max(n,Math.min(1,a.amount/Math.max(z.adultFoodCap,1e-6))/(1+S.distance(w,cell,a.cell))),0),
+              approach=cue?(3-S.distance(w,cell,cue.cell))/3:0,
+              movement=cell===q.cell?0:z.adultMoveCost/Math.max(q.E,z.maintenance[4],1e-6);
+            return nutrition*(.5+1.5*hunger)+approach*.45*readyToLay-
+              threat(cell)*(.65+learned)+(places?.get(cell).value||0)*.1-movement*.1;
+          },scores=new Map(moves.map(cell=>[cell,score(cell)]));
+        moves.sort((a,b)=>scores.get(b)-scores.get(a)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b));
+      }else moves.sort((a,b)=>{
+          const information=(places?.get(b).value||0)-(places?.get(a).value||0),danger=threat(a)-threat(b);
+          return danger*(1+learned)+information*.1||(cue?S.distance(w,a,cue.cell)-S.distance(w,b,cue.cell):0)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b);
+        });
       if(moves[0]!==q.cell&&q.E>=z.adultMoveCost){const from=q.cell;q.cell=moves[0];last.movementE=hyperSpend(w,q,z.adultMoveCost);hyperFlow(w,ctx,"moved");hyperFlow(w,ctx,"movementE",last.movementE);S.record(ctx,q,"move",{from,to:q.cell,species:"hyperparasite"});if(places)informationUsed(w,ctx,q,q.cell,places.get(q.cell));}
     }
   }
@@ -20469,7 +20607,17 @@ function(require,module){
         if(last.developed)last.progress=S.round(1-.5*S.PrimaryParasite.resistance(w,host,p.species,p.primary.route||"contact"));
       }
       if(p.q&&!hyperEnabled(w)){primaryBridgeQ(w,p.q,host.cell,p);entry.qFull=p.q.E>=.01;}
-      if(alive&&p.stage!=="extra"&&last.maintained&&(!canDevelop||last.developed)&&w.turn>p.primary.pauseUntil){const cost=settings.metaCosts[phase],paid=primarySpend(w,p,S.round(cost*informationAllocation(w,p,2)));last.metaE=paid;last.induction=cost>0?S.round(settings.metaCaps[phase]*Math.min(1,paid/cost)):0;}
+      if(alive&&p.stage!=="extra"&&last.maintained&&(!canDevelop||last.developed)&&w.turn>p.primary.pauseUntil){
+        const cost=settings.metaCosts[phase],factor=primaryCost(w,p,host),
+          releaseRoute=p.stage==="first"?"feeding":p.species==="tideparasite"&&["shallow","deep"].includes(w.tiles[host.cell].terrain)?"water":"contact",
+          releaseAllocation=survivalEnabled(w)?informationAllocation(w,p,3):1,
+          releaseCost=survivalEnabled(w)?Math.max(settings.emissionReserve*releaseAllocation,settings.emissionCost*primaryCost(w,p,host,releaseRoute)*releaseAllocation):0,
+          reserve=survivalEnabled(w)?S.round(settings.maintenance[phase]*factor+(canDevelop?settings.developmentCost*factor:0)+
+            (["first","terminal"].includes(p.stage)&&p.counter>=settings.development[p.stage]?releaseCost:0)+
+            (hyperEnabled(w)&&S.HyperParasite.is(p.q)?S.HyperParasite.settings(w).hostTax[p.q.phase]+S.HyperParasite.settings(w).exclusionCost:0)):0,
+          wanted=S.round(cost*informationAllocation(w,p,2)),paid=primarySpend(w,p,survivalEnabled(w)?Math.min(wanted,Math.max(0,p.E-reserve)):wanted);
+        last.metaE=paid;last.induction=cost>0?S.round(settings.metaCaps[phase]*Math.min(1,paid/cost)):0;
+      }
     }
     if(hyperEnabled(w))hyperBegin(w,ctx);
   }
@@ -22517,6 +22665,8 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.balanceModel!==undefined&&c.balanceModel!=="survival/1")
+      throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
       c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
@@ -25808,6 +25958,8 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.balanceModel!==undefined&&c.balanceModel!=="survival/1")
+      throw Error("SETTINGS_INVALID: 生存調整モデル");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
     if(c.ryoukiModel==="ryouki/1"){
       c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);

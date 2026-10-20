@@ -1,0 +1,15 @@
+✔ sparse main births admit four or five neighbors while retaining two real adjacent parents (22.378976ms)
+✔ the sparse-neighbor relaxation stops at twenty percent density and six local neighbors (4.627531ms)
+✔ main births retain real energy and mineral payment, juvenile exclusion, and impassable contact (11.738222ms)
+✔ a sparse isolated queen uses previously paid stored paternity and cannot conjure sperm or resources (7.953615ms)
+✔ one mature terrestrial primary consumer can pay eight energy from ten without free replenishment (9.244235ms)
+✔ birth pressure stays finite, resource dependent and suppresses dense growth (3.270941ms)
+✔ unversioned worlds preserve the prior reproduction execution, complete states and random outcomes (5921.106619ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6025.140676

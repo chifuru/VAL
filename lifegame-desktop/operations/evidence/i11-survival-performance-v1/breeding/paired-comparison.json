@@ -1,0 +1,678 @@
+{
+  "baseline": "af9ae14",
+  "candidate": "survival/1",
+  "sourceSHA": {
+    "src/ecology/archive.js": "a302c8a23d25f74bd85108bee3544077201c29d8c31b677490ab63a6003f2ba3",
+    "src/ecology/art.js": "e1c489c848aa424dc6443805c929574eefdc8ad13d8bb1ae81b261779bbd4677",
+    "src/ecology/behavior.js": "09f7aaaac775b2f09b4ff616ef01ceaa51063a580a44f8f6289d1de1f88233e3",
+    "src/ecology/catalogue.js": "73d0761e892b2ce5562b6869343a035b467aac375cfa20019522609a783ad13c",
+    "src/ecology/compute-client.js": "6037336253b3ed003694f5bd97c4ce4e4d8feaf54ac7ebb80b70cb07c94242f2",
+    "src/ecology/compute-worker.js": "9fb3b447f9d47e61e971d0e73248284c29eff7b70513985fd5bb1cbd65f7444b",
+    "src/ecology/display-plane.js": "6a176d32d6bff5289d72aa89f5c169da63d600e3482abd86d2a419aff80df4de",
+    "src/ecology/engine.js": "10fe37981c5dda2865fb955d3c11d3bfed5359daf1e8038d43d1b917ea96cf07",
+    "src/ecology/export-client.js": "4c0a53a5b928c26e0f82d505d4c48faeddd753ebdd8d0ea8007b4033dc717675",
+    "src/ecology/export-worker.js": "55deec96b384debda43a2dd31731a1c37545cb4e1e4287507ffe22fca976feaf",
+    "src/ecology/habitat.js": "60a50584d274022741312320dcab8fbebf07d7b3edb4af48edf6878b1038f470",
+    "src/ecology/hash.js": "a2af1afe8540aa56834b8c26255f4a4b3da80104a27a9471cace70a65670f39c",
+    "src/ecology/landscape.js": "18ba0b9b829a0a9ef3a4dc92c46b59a88b496c63dc309b943f8fcadc65873734",
+    "src/ecology/map-data.js": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+    "src/ecology/map-templates.js": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e",
+    "src/ecology/nutrition.js": "d9d2b073ca0fc3edbd7cca30d1058229a030a27e037566c9fb4d3e3fc1a4c595",
+    "src/ecology/observation-main.js": "a99d4e5cc0cfcc431c8992e592e19e10f890a54a098985f9c3b3edb817e4bf31",
+    "src/ecology/observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+    "src/ecology/observation-modules.js": "39c7152c5c791f57a234d35d172da1b19b56d7b749403f29fa512558e0f1e609",
+    "src/ecology/observations.js": "ddcb0dc63989f4c2d0544736d98228b020e451dc9a14d715e813ae2c9a49bcf5",
+    "src/ecology/parasites.js": "67b761379223b571078de5ec527f38d1c5506789a7e5964608d9fb309f7b9da0",
+    "src/ecology/projection.js": "92da3a931bdc5688e677d4393025a526b31e5e601de0ec7c00f134c9bf5816c1",
+    "src/ecology/relationship-network.js": "b26b46f9fb93a801dc82b4dd69b0b3946557102d468b09a50a9bf20c181e042b",
+    "src/ecology/renderer.js": "820f295846827c2d519180bfed165dc5a3a996a86aaa43623f5533696375fc97",
+    "src/ecology/replay-version.js": "3f23c1b214d753730e84042aa00691513bb238918c46042fbd7e47b4950ca788",
+    "src/ecology/reproduction.js": "4b1014d7170c73b7730020019142c31258ecdc91c0e6848ded58a250bfe43db8",
+    "src/ecology/scenery.js": "c0e5622164f9e3b1c4bc2ed056b19a57799dbfea8d8ebbcff1f2790bbd894f3a",
+    "src/ecology/state.js": "2a36da9fa4abb94b8312100f5c28fc2135f6065a6c354b711198f4021cae1a25",
+    "src/ecology/terrain-worker.js": "2fafbc463e1cf35097cdd0524045871c15460982d8a3280a608453e752994220",
+    "src/ecology/transport.js": "9af950c3804684365644cd79397466051d824fbca06149e84d62bbe1b1c64afd",
+    "design/advantage-switches/model.cjs": "67e5c8851891be3b4a5a0c0003853263e3706d4c1cd16f89c00c24d4f2c1fb28",
+    "design/advantage-switches/transform.cjs": "2397fb9546239f6b4db02d70051826ab58097fb2da4311ad6113ee6e1c0a7745",
+    "design/aquatic-producer/transform.cjs": "1daac3bbae68f874308a007d30e7bd317bb6f35c22a8e4e0ea3e3001900ef474",
+    "design/layered-primary/model.cjs": "84fc595c44c080251d2a9e4f9d8a58ea30eb949e2da44e374a977d9eea73bd11",
+    "design/renewal-screen-v2/allocation.txt": "3a81f041334be95d1b9657749528a3c5547d34ee8c040f4a08a425dce80b87ba"
+  },
+  "limitations": [
+    "Diagnostic seeds were already observed; these are paired effects, not acceptance rates.",
+    "Different participant sets cannot establish final-pattern variety for one fixed condition.",
+    "Candidate includes current survival/1 parasite changes, not a reproduction-only ablation.",
+    "All 1500 candidate steps passed E.invariants; this does not establish R1-R6 acceptance."
+  ],
+  "results": [
+    {
+      "id": "river-0",
+      "selected": [
+        "ryouki",
+        "solar",
+        "myth",
+        "crystal",
+        "swarm",
+        "kelp",
+        "whale"
+      ],
+      "main100": [
+        180,
+        196
+      ],
+      "main250": [
+        138,
+        160
+      ],
+      "main500": [
+        69,
+        73
+      ],
+      "mainBirths500": {
+        "ryouki": [
+          31,
+          27
+        ],
+        "solar": [
+          24,
+          51
+        ],
+        "myth": [
+          2,
+          2
+        ],
+        "crystal": [
+          21,
+          30
+        ],
+        "swarm": [
+          5,
+          4
+        ],
+        "kelp": [
+          2,
+          3
+        ],
+        "whale": [
+          14,
+          9
+        ]
+      },
+      "mainCounts500": {
+        "ryouki": [
+          11,
+          2
+        ],
+        "solar": [
+          14,
+          33
+        ],
+        "myth": [
+          0,
+          0
+        ],
+        "crystal": [
+          20,
+          27
+        ],
+        "swarm": [
+          2,
+          0
+        ],
+        "kelp": [
+          2,
+          1
+        ],
+        "whale": [
+          20,
+          10
+        ]
+      },
+      "birthsLast50": {
+        "ryouki": [
+          5,
+          0
+        ],
+        "solar": [
+          2,
+          9
+        ],
+        "myth": [
+          0,
+          0
+        ],
+        "crystal": [
+          1,
+          4
+        ],
+        "swarm": [
+          0,
+          0
+        ],
+        "kelp": [
+          0,
+          0
+        ],
+        "whale": [
+          4,
+          0
+        ]
+      },
+      "grassbug": {
+        "initial": 33,
+        "births": [
+          8,
+          12
+        ],
+        "survivors100": [
+          0,
+          0
+        ],
+        "survivors500": [
+          0,
+          0
+        ],
+        "deaths": {
+          "baseline": {
+            "combat": 39,
+            "age": 2
+          },
+          "candidate": {
+            "combat": 40,
+            "age": 2,
+            "harvest": 3
+          }
+        },
+        "generations": [
+          {
+            "species": "grassbug",
+            "generation": 0,
+            "initial": 33,
+            "born": 0,
+            "matured": 4,
+            "reproduced": 6,
+            "juvenileDeaths": 2
+          },
+          {
+            "species": "grassbug",
+            "generation": 1,
+            "initial": 0,
+            "born": 10,
+            "matured": 6,
+            "reproduced": 1,
+            "juvenileDeaths": 4
+          },
+          {
+            "species": "grassbug",
+            "generation": 2,
+            "initial": 0,
+            "born": 2,
+            "matured": 1,
+            "reproduced": 0,
+            "juvenileDeaths": 1
+          }
+        ]
+      },
+      "fungus": {
+        "births": [
+          4,
+          5
+        ],
+        "survivors": [
+          0,
+          0
+        ]
+      },
+      "allSelectedPresent150To250": true,
+      "totalMs": [
+        85351.630475,
+        81137.85381999999
+      ],
+      "stepMedianMs": [
+        162.747971,
+        157.56874400000015
+      ]
+    },
+    {
+      "id": "lake-1",
+      "selected": [
+        "abyss",
+        "abyssshell",
+        "jelly",
+        "kelp",
+        "whale"
+      ],
+      "main100": [
+        201,
+        211
+      ],
+      "main250": [
+        188,
+        196
+      ],
+      "main500": [
+        73,
+        124
+      ],
+      "mainBirths500": {
+        "abyss": [
+          3,
+          7
+        ],
+        "abyssshell": [
+          14,
+          4
+        ],
+        "jelly": [
+          62,
+          138
+        ],
+        "kelp": [
+          8,
+          10
+        ],
+        "whale": [
+          34,
+          45
+        ]
+      },
+      "mainCounts500": {
+        "abyss": [
+          0,
+          0
+        ],
+        "abyssshell": [
+          13,
+          0
+        ],
+        "jelly": [
+          20,
+          79
+        ],
+        "kelp": [
+          0,
+          3
+        ],
+        "whale": [
+          40,
+          42
+        ]
+      },
+      "birthsLast50": {
+        "abyss": [
+          0,
+          0
+        ],
+        "abyssshell": [
+          1,
+          0
+        ],
+        "jelly": [
+          2,
+          19
+        ],
+        "kelp": [
+          0,
+          0
+        ],
+        "whale": [
+          5,
+          3
+        ]
+      },
+      "grassbug": {
+        "initial": 33,
+        "births": [
+          36,
+          47
+        ],
+        "survivors100": [
+          0,
+          0
+        ],
+        "survivors500": [
+          0,
+          0
+        ],
+        "deaths": {
+          "baseline": {
+            "age": 46,
+            "combat": 23
+          },
+          "candidate": {
+            "age": 53,
+            "starvation": 1,
+            "combat": 26
+          }
+        },
+        "generations": [
+          {
+            "species": "grassbug",
+            "generation": 0,
+            "initial": 33,
+            "born": 0,
+            "matured": 7,
+            "reproduced": 12,
+            "juvenileDeaths": 0
+          },
+          {
+            "species": "grassbug",
+            "generation": 1,
+            "initial": 0,
+            "born": 16,
+            "matured": 16,
+            "reproduced": 9,
+            "juvenileDeaths": 0
+          },
+          {
+            "species": "grassbug",
+            "generation": 2,
+            "initial": 0,
+            "born": 12,
+            "matured": 12,
+            "reproduced": 5,
+            "juvenileDeaths": 0
+          },
+          {
+            "species": "grassbug",
+            "generation": 3,
+            "initial": 0,
+            "born": 8,
+            "matured": 8,
+            "reproduced": 6,
+            "juvenileDeaths": 0
+          },
+          {
+            "species": "grassbug",
+            "generation": 4,
+            "initial": 0,
+            "born": 9,
+            "matured": 5,
+            "reproduced": 2,
+            "juvenileDeaths": 4
+          },
+          {
+            "species": "grassbug",
+            "generation": 5,
+            "initial": 0,
+            "born": 2,
+            "matured": 2,
+            "reproduced": 0,
+            "juvenileDeaths": 0
+          }
+        ]
+      },
+      "fungus": {
+        "births": [
+          12,
+          11
+        ],
+        "survivors": [
+          0,
+          0
+        ]
+      },
+      "allSelectedPresent150To250": true,
+      "totalMs": [
+        88754.07789199999,
+        118776.417028
+      ],
+      "stepMedianMs": [
+        177.1919510000007,
+        219.43051500001457
+      ]
+    },
+    {
+      "id": "woodland-2",
+      "selected": [
+        "recursive",
+        "gravity",
+        "memory",
+        "serpent",
+        "antimeme",
+        "cephalopod",
+        "precocial"
+      ],
+      "main100": [
+        165,
+        180
+      ],
+      "main250": [
+        148,
+        162
+      ],
+      "main500": [
+        78,
+        62
+      ],
+      "mainBirths500": {
+        "recursive": [
+          53,
+          38
+        ],
+        "gravity": [
+          8,
+          12
+        ],
+        "memory": [
+          9,
+          24
+        ],
+        "serpent": [
+          1,
+          1
+        ],
+        "antimeme": [
+          17,
+          15
+        ],
+        "cephalopod": [
+          1,
+          1
+        ],
+        "precocial": [
+          5,
+          7
+        ]
+      },
+      "mainCounts500": {
+        "recursive": [
+          40,
+          23
+        ],
+        "gravity": [
+          6,
+          4
+        ],
+        "memory": [
+          21,
+          29
+        ],
+        "serpent": [
+          0,
+          0
+        ],
+        "antimeme": [
+          10,
+          3
+        ],
+        "cephalopod": [
+          0,
+          0
+        ],
+        "precocial": [
+          1,
+          3
+        ]
+      },
+      "birthsLast50": {
+        "recursive": [
+          6,
+          3
+        ],
+        "gravity": [
+          0,
+          0
+        ],
+        "memory": [
+          2,
+          6
+        ],
+        "serpent": [
+          0,
+          0
+        ],
+        "antimeme": [
+          2,
+          0
+        ],
+        "cephalopod": [
+          0,
+          0
+        ],
+        "precocial": [
+          0,
+          0
+        ]
+      },
+      "grassbug": {
+        "initial": 33,
+        "births": [
+          26,
+          37
+        ],
+        "survivors100": [
+          0,
+          3
+        ],
+        "survivors500": [
+          0,
+          0
+        ],
+        "deaths": {
+          "baseline": {
+            "age": 45,
+            "starvation": 3,
+            "combat": 11
+          },
+          "candidate": {
+            "age": 53,
+            "starvation": 3,
+            "combat": 14
+          }
+        },
+        "generations": [
+          {
+            "species": "grassbug",
+            "generation": 0,
+            "initial": 33,
+            "born": 0,
+            "matured": 9,
+            "reproduced": 13,
+            "juvenileDeaths": 0
+          },
+          {
+            "species": "grassbug",
+            "generation": 1,
+            "initial": 0,
+            "born": 14,
+            "matured": 14,
+            "reproduced": 8,
+            "juvenileDeaths": 0
+          },
+          {
+            "species": "grassbug",
+            "generation": 2,
+            "initial": 0,
+            "born": 10,
+            "matured": 10,
+            "reproduced": 3,
+            "juvenileDeaths": 0
+          },
+          {
+            "species": "grassbug",
+            "generation": 3,
+            "initial": 0,
+            "born": 6,
+            "matured": 6,
+            "reproduced": 2,
+            "juvenileDeaths": 0
+          },
+          {
+            "species": "grassbug",
+            "generation": 4,
+            "initial": 0,
+            "born": 2,
+            "matured": 2,
+            "reproduced": 1,
+            "juvenileDeaths": 0
+          },
+          {
+            "species": "grassbug",
+            "generation": 5,
+            "initial": 0,
+            "born": 1,
+            "matured": 1,
+            "reproduced": 1,
+            "juvenileDeaths": 0
+          },
+          {
+            "species": "grassbug",
+            "generation": 6,
+            "initial": 0,
+            "born": 1,
+            "matured": 1,
+            "reproduced": 1,
+            "juvenileDeaths": 0
+          },
+          {
+            "species": "grassbug",
+            "generation": 7,
+            "initial": 0,
+            "born": 1,
+            "matured": 1,
+            "reproduced": 1,
+            "juvenileDeaths": 0
+          },
+          {
+            "species": "grassbug",
+            "generation": 8,
+            "initial": 0,
+            "born": 1,
+            "matured": 1,
+            "reproduced": 1,
+            "juvenileDeaths": 0
+          },
+          {
+            "species": "grassbug",
+            "generation": 9,
+            "initial": 0,
+            "born": 1,
+            "matured": 1,
+            "reproduced": 0,
+            "juvenileDeaths": 0
+          }
+        ]
+      },
+      "fungus": {
+        "births": [
+          1,
+          1
+        ],
+        "survivors": [
+          0,
+          0
+        ]
+      },
+      "allSelectedPresent150To250": true,
+      "totalMs": [
+        93446.64658100001,
+        118601.29106399999
+      ],
+      "stepMedianMs": [
+        176.65031700002146,
+        216.19261999998707
+      ]
+    }
+  ]
+}

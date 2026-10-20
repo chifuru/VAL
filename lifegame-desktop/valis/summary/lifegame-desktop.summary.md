@@ -2,9 +2,9 @@
 
 lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Node、仕様と資料の入口は `design/specification/README.md`。
 
-現在入口: `design/specification/README.md`。量機仕様: `design/specification/ryouki-v1.md`、採用分岐: `design/ryouki-branches-v2/README.md`。第三相3枝/第四相6枝の2画像は採用済みで、造形確認待ちは解消。比較係数と未採用の旧9区画図を区別する。実装順序は `operations/plans/implementation-sequence-v1.md`。I07持続する情報の非栄養場・本人実経験/受取学習・死亡地点生成・有限受容/集中・Q痕跡作用・観察保存を接続し、I08初期条件・図鑑・再生を接続し、I09観測UI・グラフ・操作を接続した。I10で採用P18形態/Q4相の透過素材と確定行動表示を接続した。次はI11生存・創発・性能調整。追加生態の長期循環・全体実測は未完、全Node草案、新規登録・状態遷移なし。
+現在入口: `design/specification/README.md`。量機仕様: `design/specification/ryouki-v1.md`、採用分岐: `design/ryouki-branches-v2/README.md`。第三相3枝/第四相6枝の2画像は採用済みで、造形確認待ちは解消。比較係数と未採用の旧9区画図を区別する。実装順序は `operations/plans/implementation-sequence-v1.md`。I07持続する情報の非栄養場・本人実経験/受取学習・死亡地点生成・有限受容/集中・Q痕跡作用・観察保存を接続し、I08初期条件・図鑑・再生を接続し、I09観測UI・グラフ・操作を接続した。I10で採用P18形態/Q4相の透過素材と確定行動表示を接続した。I11初回調整と限定実測を接続。I11継続: 下層/寄生の長期循環・全22系統の評価・性能調整は未完、全Node草案、新規登録・状態遷移なし。
 
-開発版は4.2.42、Windows配布済み版は4.2.32。今回のC8/C8.1/D9/E6・src/testsと限定検証の範囲は `operations/evidence/i10-rendering-materials-v1/README.md`。Windows配布の現状はE7、新ZIPは未作成。既存最適化の対象は `operations/evidence/optimization-v4.2.32/README.md`。対象版付き証跡は未確認の長期生存・全端末性能の合格根拠ではない。画面構成の追加修正は実稼働後へ回す。各Nodeの対象版別結果と現在全体の次工程を区別する。
+開発版は4.2.43、Windows配布済み版は4.2.32。現在の対象は `operations/evidence/i11-survival-performance-v1/README.md`。survival/1の新旧計算分離、固定条件500T/世代更新、Worker/全T保存再生と限定性能を既存C/D/Eへ接続。W群のR2成立を全22系統/R1〜R6の合格へ一般化しない。P/Q自然長期循環と全端末性能は未認定、新Windows/ZIPはI12。画面構成の追加修正は実稼働後へ回す。
 
 ## A：仕様
 
@@ -293,59 +293,59 @@ C6:（B5 / モックの造形投影・観測画面・配布）［草案］
 
 C7:（B4 / 同期ターン接合と世界確定）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C7.md。契約: operations/plans/i09-observation-interface-v1.md。証跡: operations/evidence/i09-observation-interface-v1/README.md。
+		valis/nodes/C/C7.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 	ロジック:
-		network/1の表示用テレメトリを成立イベントから取得。同期確定/収支/乱数・既存原値と旧無指定経路を保持する。
+		survival/1を新規観測だけへ接続し、旧無指定の計算と有限収支・同期確定を維持。生成8経路と保存再生を照合。
 	実態:
-		4.2.41 I09接続・限定検査済み。最終合否/対象版はI09証跡を参照。草案。全体の次工程はI11。P/Q自然長期循環・500T/R1〜R6と全端末性能I11、新Windows/ZIP I12は未達として残す。
+		4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 	C7.1:（B4, B4.4 / 初期値・固定世界・31種の共通状態）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.1.md。契約: operations/plans/i08-generation-archive-v1.md。証跡: operations/evidence/i08-generation-archive-v1/README.md。
+			valis/nodes/C/C7.1.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 		ロジック:
-			6関連プロファイル・項目別自動/固定・明示0/無効/供給OFF・固定presetの矛盾拒否。最大8候補の適地/初期資源経路/実宿主と初期実配置を保存。
+			survival/1の厳密な版検証を追加。既存の初期値・地形・宿主窓・実配置不足を保持し、進行中の無親補充をしない。
 		実態:
-			4.2.40 I08接続・限定検証。草案。全体の次工程はI11。P/Q長期循環と500T/R1〜R6、採用素材はI10接続、新配布はI12。
+			4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 	C7.2:（B4.3, B4.4 / 有限栄養・資源CA・生産と死骸）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.2.md。契約: operations/plans/i07-persistent-information-v1.md。証跡: operations/evidence/i07-persistent-information-v1/README.md。
+			valis/nodes/C/C7.2.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 		ロジック:
-			情報を全生物のE/B/Mから分離。実死亡通知と有限受容費を接続し、実量の採食と局所情報による既存候補順位を区別。
+			栄養規則は変更せず、出生費/材料と下層の捕食損失を計測。草棲虫・菌膜・寄生の終盤維持は未達。
 		実態:
-			I07の接続・検証範囲を維持しI08から利用。草案。全体の次工程はI11。P/Q自然条件の長期循環と500T/R1〜R6、採用素材はI10接続、新配布はI12。
+			4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 	C7.3:（B4.1 / 局所行動・同時移動戦闘・学習）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.3.md。契約: operations/plans/i07-persistent-information-v1.md。証跡: operations/evidence/i07-persistent-information-v1/README.md。
+			valis/nodes/C/C7.3.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 		ロジック:
-			主九重み・一次消費者の採食/回避/移動と局所場所刺激を既存合法候補へ接続。候補走査を利用回数にせず、本人実経験と受取を分離。
+			自立Qの局所採食/滞在・実捕食者に応じた回避を既存処理へ接続。主生物の行動・感知や描画からの生態介入は変更しない。
 		実態:
-			I07の接続・検証範囲を維持しI08から利用。草案。全体の次工程はI11。P/Q自然条件の長期循環と500T/R1〜R6、採用素材はI10接続、新配布はI12。
+			4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 	C7.4:（B4, B4.4 / 成長・遺伝・出生と繁殖例外）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.4.md。契約: operations/plans/i07-persistent-information-v1.md。証跡: operations/evidence/i07-persistent-information-v1/README.md。
+			valis/nodes/C/C7.4.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 		ロジック:
-			合法定着先の場所選好、親が局所で確認した子の成熟成果、Q方向小変異を接続。出生/成熟/費用/能力上限は維持。
+			低密度の有償出生、有精女王の保存父系、草棲虫の有限更新を調整。実親/成熟/待機/壁/空き枠/E-M会計と過密抑制を維持。
 		実態:
-			I07の接続・検証範囲を維持しI08から利用。草案。全体の次工程はI11。P/Q自然条件の長期循環と500T/R1〜R6、採用素材はI10接続、新配布はI12。
+			4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 	C7.5:（B4.2 / 寄生生活環と外部情報）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.5.md。契約: operations/plans/i07-persistent-information-v1.md。証跡: operations/evidence/i07-persistent-information-v1/README.md。
+			valis/nodes/C/C7.5.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 		ロジック:
-			一死亡一回の通常/低根拠抽選、元経験時計/由来、同期拡散/集中、有料Q痕跡の通常生成促進/歪曲とP/Q既存選択への有界接続。
+			P/Qの次の維持/発育・放出/羽化費用を任意投資より優先。Qの既存可食物探索を追加し、限定窓/抵抗/同QのP致死羽化は維持。
 		実態:
-			I07の接続・検証範囲を維持しI08から利用。草案。全体の次工程はI11。P/Q自然条件の長期循環と500T/R1〜R6、採用素材はI10接続、新配布はI12。
+			4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。契約: operations/plans/i10-rendering-materials-v1.md。対象実体/検査/証跡: operations/evidence/i10-rendering-materials-v1/README.md。
+		valis/nodes/C/C8.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 	ロジック:
-		現行マップ/右常設3グラフ/一体サマリ/独立詳細と同画面の進行を維持し、採用P/Qの盤面・肖像・同居選択を接続する。
+		新規観測の生存調整版と低密度出生の説明を接続。現行UI構成・遠近描画・選択中の進行と全T観測を保持。
 	実態:
-		4.2.42 I10。既存操作の停止/復帰24項目を限定回帰。配置再設計は行わず、次I11。
+		4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -357,12 +357,11 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.2.md。契約: operations/plans/i09-observation-interface-v1.md。証跡: operations/evidence/i09-observation-interface-v1/README.md。
+			valis/nodes/C/C8.2.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 		ロジック:
-			全T原値・版付き100T関係区間/境界値を保存し、本文検証/結果分析/初期条件からの再実行へ接続。旧欠測・原子的保存/再試行・明示保存だけ新IDを保持する。
+			生存調整版を設定/最終状態へ保存。版なし記録だけ旧署名互換を許し、未知版を全入口で拒否。新旧再生の完全一致を確認。
 		実態:
-			4.2.41 I09接続・限定検査済み。最終合否/対象版はI09証跡を参照。草案。全体の次工程はI11。P/Q自然長期循環・500T/R1〜R6と全端末性能I11、新Windows/ZIP I12は未達として残す。
-
+			4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 ```
 
@@ -419,43 +418,43 @@ D6:（A1.1, A1.2, A1.3, B5, C6 / モックの画面・描画・実行検証計�
 
 D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D7.md。契約: operations/plans/i09-observation-interface-v1.md。証跡: operations/evidence/i09-observation-interface-v1/README.md。
+		valis/nodes/D/D7.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 	ロジック:
-		旧/新観測出口と表示軽減切替で世界指紋・既存原値・同期収支/ID/抽選を照合し、追加の区間量と生態計算を分離する。
+		新旧規則を分離し、8生成モデル・固定条件の有限収支/決定性と保存互換を照合。短期/診断とR1〜R6を分ける。
 	実態:
-		4.2.41 I09接続・限定検査済み。最終合否/対象版はI09証跡を参照。草案。全体の次工程はI11。P/Q自然長期循環・500T/R1〜R6と全端末性能I11、新Windows/ZIP I12は未達として残す。
+		4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 D8:（C7 / 生態循環と結合進行）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D8.md。契約: operations/plans/i08-generation-archive-v1.md。証跡: operations/evidence/i08-generation-archive-v1/README.md。
+		valis/nodes/D/D8.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 	ロジック:
-		6プロファイルと倍率/自動固定/0/無効/有限候補・実配置/不足、固定3条件の初期生成と短期接合を検査。静的経路を将来生存成功にしない。
+		固定3条件500Tの対比較、W群10条件と未使用3条件を分離して全T評価。W群のR2成立と全22系統/R1〜R6未認定を区別。
 	実態:
-		4.2.40 I08接続・限定検証。草案。全体の次工程はI11。P/Q長期循環と500T/R1〜R6、採用素材はI10接続、新配布はI12。
+		4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 	D8.1:（C7.4 / 相・出生・遺伝と繁殖例外）［草案］
 		構成（要素・関係）:
-			valis/nodes/D/D8.1.md。契約: operations/plans/i07-persistent-information-v1.md。証跡: operations/evidence/i07-persistent-information-v1/README.md。
+			valis/nodes/D/D8.1.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 		ロジック:
-			情報を出生資格へ変換せず、実親/実養育者の幼体伝達と実子を局所で確認した世代成果を検査。
+			実親・保存父系・成熟/待機・近傍/密度・有限費用を検査。出生/成熟/再繁殖を記録し、初期個体の残存を世代更新へ数えない。
 		実態:
-			I07の接続・検証範囲を維持しI08から利用。草案。全体の次工程はI11。P/Q自然条件の長期循環と500T/R1〜R6、採用素材はI10接続、新配布はI12。
+			4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 	D8.2:（C7.5 / 寄生・高次寄生と情報）［草案］
 		構成（要素・関係）:
-			valis/nodes/D/D8.2.md。契約: operations/plans/i07-persistent-information-v1.md。証跡: operations/evidence/i07-persistent-information-v1/README.md。
+			valis/nodes/D/D8.2.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 		ロジック:
-			Q有料痕跡/上限平均/離脱時計・通常生成促進/歪曲とk0/Qoffを検査。予定発育や前T実績を新経験にしない。
+			専用6件と既存69件で有限採食・回避・留保/窓/抵抗を確認。Qの未配置と配置後消失を区別し、P/Q自然長期循環は未達。
 		実態:
-			I07の接続・検証範囲を維持しI08から利用。草案。全体の次工程はI11。P/Q自然条件の長期循環と500T/R1〜R6、採用素材はI10接続、新配布はI12。
+			4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。契約: operations/plans/i10-rendering-materials-v1.md。対象実体/検査/証跡: operations/evidence/i10-rendering-materials-v1/README.md。
+		valis/nodes/D/D9.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 	ロジック:
-		原画/編集/atlasの対応・新旧画素/本人相と齢・同居exact-ID・行動受領/飽和・同seed新世界・操作背景保持を検査する。
+		同W00の実Worker通常500Tを直接計算と照合。停止再開/選択中進行・遠近品質・全501原値/保存再生と初回負荷を記録。
 	実態:
-		4.2.42 I10。I10の限定検査をE6へ接続。自然長期循環/500T/R1〜R6・全端末性能はI11、新WindowsはI12。
+		4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 ```
 
@@ -496,19 +495,19 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 
 E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E5.md。契約: operations/plans/i09-observation-interface-v1.md。証跡: operations/evidence/i09-observation-interface-v1/README.md。
+		valis/nodes/E/E5.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 	ロジック:
-		表示用テレメトリ/区間集計の追加による世界/既存原値不変、Worker/保存再生を集約。最終署名/条件/件数/合否/未達はI09証跡を正とする。
+		固定3条件500Tの主終数は69→73/73→124/78→62。W群6系統は全10例150〜250T存続し、各系統に500T存続例。全R未認定、草棲虫/菌膜/P/Q維持は未達。
 	実態:
-		4.2.41 I09接続・限定検査済み。最終合否/対象版はI09証跡を参照。草案。全体の次工程はI11。P/Q自然長期循環・500T/R1〜R6と全端末性能I11、新Windows/ZIP I12は未達として残す。
+		4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。契約: operations/plans/i10-rendering-materials-v1.md。対象実体/検査/証跡: operations/evidence/i10-rendering-materials-v1/README.md。
+		valis/nodes/E/E6.md。契約: operations/plans/i11-survival-performance-v1.md。証跡: operations/evidence/i11-survival-performance-v1/README.md。
 	ロジック:
-		Linux ChromiumのP18/Q4素材・確定マーク一回性・既存固有差/同居/背景・操作復帰の実測を集約。条件/件数/合否/未達はI10証跡を正とする。
+		実Worker通常500Tは546.4秒、全501原値と最終指紋が直接計算に一致。現行描画/操作を保持。初回近景構築とRSSは重く、全端末性能は未認定。
 	実態:
-		4.2.42 I10。開発版4.2.42の限定証跡。正式状態は草案。生態署名不変、採用原画/旧画像/UI構成を維持。次I11、Windows配布は4.2.32。
+		4.2.43 I11初回調整。草案。I11継続: 下層の回避/更新、P/Q自然循環、他担当群とR1〜R6、近景準備/保持メモリを調整する。新WindowsはI12。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

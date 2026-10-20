@@ -1,0 +1,24 @@
+{
+  "reference": "af9ae14 checked-in product all-advantages baseline",
+  "candidate": "current source factory with balanceModel absent",
+  "results": [
+    {
+      "id": "river-0",
+      "finalFingerprint": "9bedc38f4163278d816a15e90facd554e04d944040d8cd71681d71d8a3b17aca",
+      "fullObservationSnapshotsEqual": true,
+      "turns": 100
+    },
+    {
+      "id": "lake-1",
+      "finalFingerprint": "848e2204cf857454cc562e84c034521f1a47383c2929a08dab1ac7d235691883",
+      "fullObservationSnapshotsEqual": true,
+      "turns": 100
+    },
+    {
+      "id": "woodland-2",
+      "finalFingerprint": "b49452b8f9f0dc13fdd2159a471eb3d403c5a3cf9b22faa2fa01fe8d71ea5845",
+      "fullObservationSnapshotsEqual": true,
+      "turns": 100
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+PROGRESS {"turn":5,"rows":6,"elapsedMs":9413.353153,"mode":"simple","running":true}
+PROGRESS {"turn":100,"rows":101,"elapsedMs":110590.19906200001,"mode":"simple","running":true}
+PROGRESS {"turn":250,"rows":251,"elapsedMs":271868.19071,"mode":"simple","running":true}
+PROGRESS {"turn":400,"rows":401,"elapsedMs":435558.36039,"mode":"simple","running":true}
+Debugger listening on ws://127.0.0.1:9229/57aaae9f-f022-4a80-9c0e-235e10292e93
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger attached.
+PROGRESS {"turn":500,"rows":501,"elapsedMs":546416.08854,"mode":"simple","running":false}
+Debugger ending on ws://127.0.0.1:9229/57aaae9f-f022-4a80-9c0e-235e10292e93
+For help, see: https://nodejs.org/learn/getting-started/debugging
+AssertionError [ERR_ASSERTION]: no uncaught browser errors console errors or native dialogs
+    at check (/workspace/VAL/lifegame-desktop/tests/i11-survival-runtime.cjs:6:67)
+    at /workspace/VAL/lifegame-desktop/tests/i11-survival-runtime.cjs:54:40 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

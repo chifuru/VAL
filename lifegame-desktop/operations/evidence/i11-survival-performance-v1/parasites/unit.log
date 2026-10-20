@@ -1,0 +1,14 @@
+✔ hungry autonomous Q approaches sensed finite food, consumes it next turn, and stays while it remains useful (18.796051ms)
+✔ Q avoids true predators without treating mineral-only non-hunters as predators (8.73842ms)
+✔ nutrition search excludes information and unseen distant stocks, and does not waste movement with no local opportunity (5.362064ms)
+✔ P optional induction preserves finite next-turn maintenance and release budget (8.783389ms)
+✔ Q optional manipulation and information investment cannot consume the paid emergence reserve (8.043341ms)
+✔ unversioned worlds preserve the exact prior parasite execution and random outcomes (462.106463ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 554.142347

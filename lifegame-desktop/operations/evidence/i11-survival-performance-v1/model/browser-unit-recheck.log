@@ -1,0 +1,11 @@
+{"checks":38,"maximumReceiptKeys":1536,"errors":[]}
+✔ confirmed action receipts survive refresh, phase commit and pause rollback with bounded memory (17225.825666ms)
+✔ real renderer keeps display controls independent, preserves detailed bodies and does not mutate the world (4169.11465ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 21414.763138

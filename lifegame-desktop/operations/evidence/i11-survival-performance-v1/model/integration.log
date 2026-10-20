@@ -1,0 +1,39 @@
+✔ schema3 keeps effective resolved conditions exact turn rows and a clearly bounded terminal state without world history (983.565868ms)
+✔ resolved replay keeps the exact initial placement and endpoint and explicit replay saving creates a different child ID (766.652478ms)
+✔ schema3 requires a real all-turn observation and rejects missing definitions values and mismatched final summaries (470.628983ms)
+✔ bounded nonliving information examples retain original and generation clocks content and paid Q provenance (128.09149ms)
+✔ every new full-record entrance rejects unknown terminal versions missing state facts and inconsistent counters (427.009427ms)
+✔ nonfinite or unknown metrics in a stored schema3 body fail read and retain the original bytes (162.956249ms)
+✔ failed persistence retains the same pending ID and previous record bytes for retry (167.177852ms)
+✔ old schema2 keeps its shape while full body read and replay reject corruption consistently with analysis (84.938628ms)
+✔ the new signature aliases I07 only with all three generation keys absent (86.082966ms)
+✔ production static profiles exactly match all eight comparison models and isolate catalogues (22600.128291ms)
+✔ profile selection rejects corrupt/versioned settings and cannot silently change replay flags (684.62159ms)
+✔ relationship observations and interval boundary values survive a full schema3 save and exact replay (2458.927985ms)
+✔ missing per-turn facts, foreign definitions and inconsistent saved intervals cannot pass body validation (205.171843ms)
+✔ prior generation records keep their original signature and missing relationship data (390.290589ms)
+✔ new survival rules and all committed observations remain exact through archive and replay (2306.110445ms)
+✔ previous relationship records replay without silently enabling new survival rules (359.560202ms)
+✔ new survival records cannot use the former biological signature as an equivalent model (188.347665ms)
+✔ unknown survival model versions fail world creation capture and every archive entrance (187.368545ms)
+✔ sparse main births admit four or five neighbors while retaining two real adjacent parents (68.579783ms)
+✔ the sparse-neighbor relaxation stops at twenty percent density and six local neighbors (8.527463ms)
+✔ main births retain real energy and mineral payment, juvenile exclusion, and impassable contact (11.147312ms)
+✔ a sparse isolated queen uses previously paid stored paternity and cannot conjure sperm or resources (11.032474ms)
+✔ one mature terrestrial primary consumer can pay eight energy from ten without free replenishment (7.598389ms)
+✔ birth pressure stays finite, resource dependent and suppresses dense growth (3.241543ms)
+✔ unversioned worlds preserve the prior reproduction execution, complete states and random outcomes (12870.994037ms)
+✔ hungry autonomous Q approaches sensed finite food, consumes it next turn, and stays while it remains useful (5.085209ms)
+✔ Q avoids true predators without treating mineral-only non-hunters as predators (6.150468ms)
+✔ nutrition search excludes information and unseen distant stocks, and does not waste movement with no local opportunity (3.353885ms)
+✔ P optional induction preserves finite next-turn maintenance and release budget (5.114583ms)
+✔ Q optional manipulation and information investment cannot consume the paid emergence reserve (7.342457ms)
+✔ unversioned worlds preserve the exact prior parasite execution and random outcomes (778.131646ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 46598.69281

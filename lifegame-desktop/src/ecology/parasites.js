@@ -12,6 +12,7 @@
   const primaryEnabled=w=>S.PrimaryParasite?.enabled(w)===true;
   const hyperEnabled=w=>S.HyperParasite?.enabled(w)===true;
   const informationEnabled=w=>S.PersistentInformation?.enabled(w)===true;
+  const survivalEnabled=w=>w?.config?.balanceModel==="survival/1";
   const informationKeys=["ownExperiences","holdingQualified","deathDecisions","candidateDeaths","normalGenerated","lowGenerated","noGeneration","generatedAmount","expiredAmount","capacityLostAmount","microLostAmount","movedAmount","originsRead","contentsRead","rejectedScope","rejectedContext","rejectedBudget","deduplicated","learned","learningDeltaAbs","placeApplications","placeMagnitude","receptionCostE","qPromoted","qDistorted","environmentRead","ordinaryRead","caregiverRead"];
   function emptyInformationFlow(w){return {definition:"persistent-information-flow/1",turn:w.turn,all:Object.fromEntries(informationKeys.map(key=>[key,0]))};}
   function informationFlow(w,ctx,key,n=1){ctx.persistentInformationFlow??=emptyInformationFlow(w);const a=ctx.persistentInformationFlow.all;a[key]=S.round(a[key]+n);}
@@ -451,9 +452,17 @@
         if(last.developed)last.progress=S.round(1-.5*S.HyperParasite.resistance(w,p));else last.blockers.push("development");
       }
       if(last.maintained&&(!developing||last.developed)&&w.organisms.includes(host)&&host.HP>0){
-        const meta=S.round(z.metaCosts[phase]*factor),paid=hyperSpend(w,q,S.round(meta*informationAllocation(w,q,2)));last.metaE=paid;hyperFlow(w,ctx,"metaE",paid);
+        const meta=S.round(z.metaCosts[phase]*factor),info=S.round(z.informationCosts[phase]*factor),
+          requestedMeta=S.round(meta*informationAllocation(w,q,2)),requestedInfo=S.round(info*informationAllocation(w,q,3));
+        // Optional manipulation never spends the same finite reserve needed for
+        // survival, further development, and a paid emergence attempt.
+        const reserve=survivalEnabled(w)?S.round(z.maintenance[phase]*factor+
+          (q.hyper.development<z.development?z.developmentCost[phase]*factor:0)+
+          (phase===3?z.maintenance[phase]*factor*z.emergenceMultiplier+Math.max(0,z.biomass[4]-q.B):Math.max(0,z.biomass[phase+1]-q.B))):0,
+          share=survivalEnabled(w)?Math.min(1,Math.max(0,q.E-reserve)/Math.max(1e-9,requestedMeta+requestedInfo)):1;
+        const paid=hyperSpend(w,q,S.round(requestedMeta*share));last.metaE=paid;hyperFlow(w,ctx,"metaE",paid);
         const sign=q.hyper.bias?.sign??(q.modulation||1);last.modulation=meta>0?S.round(sign*z.metaCaps[phase]*Math.min(1,paid/meta)):0;
-        const info=S.round(z.informationCosts[phase]*factor),invest=hyperSpend(w,q,S.round(info*informationAllocation(w,q,3)));last.informationE=invest;hyperFlow(w,ctx,"informationE",invest);hyperTrace(w,host,p,q,invest);
+        const invest=hyperSpend(w,q,S.round(requestedInfo*share));last.informationE=invest;hyperFlow(w,ctx,"informationE",invest);hyperTrace(w,host,p,q,invest);
         if(p.primary.last)p.primary.last.induction=S.round(S.clamp(p.primary.last.induction*(1+last.modulation),0,1));
       }
     }
@@ -513,16 +522,38 @@
       const preference=host=>host.infection?.location==="external"?(q.hyper.preference?.[host.infection.species]??.5)*informationHostFactor(w,q,host.infection.species):.5;
       const local=candidates.filter(host=>S.oneStep(w,q.cell,host.cell)).sort((a,b)=>preference(b)-preference(a)||S.hash(w,"hyper/contact-choice",w.turn,q.id,a.id)-S.hash(w,"hyper/contact-choice",w.turn,q.id,b.id));
       if(q.ready<=w.turn&&q.age>=(q.maturity??z.maturity)&&local.length)hyperExpose(w,ctx,q,local[0]);
-      const predator=host=>S.spec(host).group==="main"&&!["plant"].includes(S.spec(host).diet)&&host.species!=="ryouki";
+      const predator=host=>S.spec(host).group==="main"&&host.species!=="ryouki"&&
+        (survivalEnabled(w)?(S.D.diets[S.spec(host).diet]?.hunt||0)>=0:!["plant"].includes(S.spec(host).diet));
       const threat=cell=>candidates.reduce((n,host)=>n+(predator(host)&&S.distance(w,cell,host.cell)<=1?1:0),0);
       const cue=candidates.slice().sort((a,b)=>preference(b)-preference(a)||S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
       const moves=[q.cell,...S.nearby(w,q.cell).filter(cell=>S.oneStep(w,q.cell,cell))];
       const places=informationEnabled(w)?new Map(moves.map(cell=>[cell,informationPlace(w,ctx,q,cell)])):null,
         learned=informationEnabled(w)&&S.PersistentInformation.settings(w).influence!==0?S.PersistentInformation.preference(w,q,1)/200:0;
-      moves.sort((a,b)=>{
-        const information=(places?.get(b).value||0)-(places?.get(a).value||0),danger=threat(a)-threat(b);
-        return danger*(1+learned)+information*.1||(cue?S.distance(w,a,cue.cell)-S.distance(w,b,cue.cell):0)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b);
-      });
+      if(survivalEnabled(w)){
+        // Search only the already-sensed local area. Exact P maturity/genes are
+        // still unavailable; the real contact window remains in hyperExpose.
+        const forage=[];
+        for(const cell of cells){
+          if(!S.sight(w,q.cell,cell))continue;
+          let amount=0;
+          for(const a of resourceMap.get(cell)||[])if(["plant","fungal","animal"].includes(S.FOOD[a.kind]?.tag))amount+=Math.max(0,a.E);
+          for(const a of carcassMap.get(cell)||[])amount+=Math.max(0,a.E);
+          if(amount>0)forage.push({cell,amount});
+        }
+        const hunger=S.clamp(1-q.E/Math.max(z.eggCost+4*z.maintenance[4],1e-6),0,1),
+          readyToLay=q.E>=z.eggCost&&q.ready<=w.turn?1:.15,
+          score=cell=>{
+            const nutrition=forage.reduce((n,a)=>Math.max(n,Math.min(1,a.amount/Math.max(z.adultFoodCap,1e-6))/(1+S.distance(w,cell,a.cell))),0),
+              approach=cue?(3-S.distance(w,cell,cue.cell))/3:0,
+              movement=cell===q.cell?0:z.adultMoveCost/Math.max(q.E,z.maintenance[4],1e-6);
+            return nutrition*(.5+1.5*hunger)+approach*.45*readyToLay-
+              threat(cell)*(.65+learned)+(places?.get(cell).value||0)*.1-movement*.1;
+          },scores=new Map(moves.map(cell=>[cell,score(cell)]));
+        moves.sort((a,b)=>scores.get(b)-scores.get(a)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b));
+      }else moves.sort((a,b)=>{
+          const information=(places?.get(b).value||0)-(places?.get(a).value||0),danger=threat(a)-threat(b);
+          return danger*(1+learned)+information*.1||(cue?S.distance(w,a,cue.cell)-S.distance(w,b,cue.cell):0)||S.hash(w,"hyper/adult-move",w.turn,q.id,a)-S.hash(w,"hyper/adult-move",w.turn,q.id,b);
+        });
       if(moves[0]!==q.cell&&q.E>=z.adultMoveCost){const from=q.cell;q.cell=moves[0];last.movementE=hyperSpend(w,q,z.adultMoveCost);hyperFlow(w,ctx,"moved");hyperFlow(w,ctx,"movementE",last.movementE);S.record(ctx,q,"move",{from,to:q.cell,species:"hyperparasite"});if(places)informationUsed(w,ctx,q,q.cell,places.get(q.cell));}
     }
   }
@@ -722,7 +753,17 @@
         if(last.developed)last.progress=S.round(1-.5*S.PrimaryParasite.resistance(w,host,p.species,p.primary.route||"contact"));
       }
       if(p.q&&!hyperEnabled(w)){primaryBridgeQ(w,p.q,host.cell,p);entry.qFull=p.q.E>=.01;}
-      if(alive&&p.stage!=="extra"&&last.maintained&&(!canDevelop||last.developed)&&w.turn>p.primary.pauseUntil){const cost=settings.metaCosts[phase],paid=primarySpend(w,p,S.round(cost*informationAllocation(w,p,2)));last.metaE=paid;last.induction=cost>0?S.round(settings.metaCaps[phase]*Math.min(1,paid/cost)):0;}
+      if(alive&&p.stage!=="extra"&&last.maintained&&(!canDevelop||last.developed)&&w.turn>p.primary.pauseUntil){
+        const cost=settings.metaCosts[phase],factor=primaryCost(w,p,host),
+          releaseRoute=p.stage==="first"?"feeding":p.species==="tideparasite"&&["shallow","deep"].includes(w.tiles[host.cell].terrain)?"water":"contact",
+          releaseAllocation=survivalEnabled(w)?informationAllocation(w,p,3):1,
+          releaseCost=survivalEnabled(w)?Math.max(settings.emissionReserve*releaseAllocation,settings.emissionCost*primaryCost(w,p,host,releaseRoute)*releaseAllocation):0,
+          reserve=survivalEnabled(w)?S.round(settings.maintenance[phase]*factor+(canDevelop?settings.developmentCost*factor:0)+
+            (["first","terminal"].includes(p.stage)&&p.counter>=settings.development[p.stage]?releaseCost:0)+
+            (hyperEnabled(w)&&S.HyperParasite.is(p.q)?S.HyperParasite.settings(w).hostTax[p.q.phase]+S.HyperParasite.settings(w).exclusionCost:0)):0,
+          wanted=S.round(cost*informationAllocation(w,p,2)),paid=primarySpend(w,p,survivalEnabled(w)?Math.min(wanted,Math.max(0,p.E-reserve)):wanted);
+        last.metaE=paid;last.induction=cost>0?S.round(settings.metaCaps[phase]*Math.min(1,paid/cost)):0;
+      }
     }
     if(hyperEnabled(w))hyperBegin(w,ctx);
   }
