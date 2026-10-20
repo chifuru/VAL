@@ -1,8 +1,8 @@
 # 生態シミュレーション：現在のA・B仕様
 
-管理版 `specification-index/10`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
+管理版 `specification-index/11`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
 
-第1〜第4組の構造を既存A/B21Nodeへ反映済み。[第4組・状態対応/1](observation-state-contract-v1.md)へ盤面/横詳細/計数/グラフ/保存の対応と実装引継ぎを整理した。細かな係数/正式ID/造形割当・未計測フィールド/スキーマ接続は後続。次は初期比較表と実装差分/データ対応・C/D接続要否を整理する。[今回の契約](../../operations/plans/observation-state-ab-v1.md)。製品は4.2.32のまま。
+第1〜第4組と[境界規則・比較開始値/1](initial-comparison-v1.md)を既存A/B21Nodeへ反映済み。移行/羽化/群落更新の境界、適応/抵抗、Q初期数/羽化費、群落初期量/植物経験、情報評価基準を採用した。数値は比較開始値で未実測。造形と系統/相/枝の対応は利用者と別途議論する。次は実装差分/データ対応・C/D接続要否の整理。[今回の契約](../../operations/plans/initial-comparison-ab-v1.md)。製品は4.2.32のまま。
 
 ## 読む順序と優先順位
 
@@ -18,6 +18,7 @@
 
 | 対象 | 読む正本 | 優先する内容・境界 |
 | --- | --- | --- |
+| 境界規則/比較開始値 | [比較開始値/1](initial-comparison-v1.md) | 同P/Q移行・死亡/羽化順・適応/抵抗・羽化費と初期Q・群落量/感染量・植物経験・評価基準を採用。明示範囲だけ既存の未選定記述を置換。造形対応は別議論、実装/実測は未完 |
 | 採用範囲/未確定事項 | [採用状況](decision-register-v1.md) | 採用済み・保留・撤回・提案のみと具体化C01〜C13。ゲームの具体規則は各正本 |
 | 情報の定義/作用 | [持続する情報/9](persistent-information-v1.md)、[死亡情報/10](death-information-v1.md) | 関係性と意味、経験蓄積、通常/親養育者、学習/場所作用、集中/反復。全生物に非栄養、死亡地点/実績と同層/全層は維持。旧一回消費/重み補正だけの作用を置換 |
 | 情報の経験条件/実績評価 | [情報評価/5](information-evaluation-v1.md) | C02の暫定値と重複抑制、保持資格と死亡生成の分離、役割別評価。実測済み値や調整不要の確定値とはしない |
@@ -52,4 +53,4 @@
 
 - [一枚の全体説明画像と索引](atlas-v1.3/README.md)、[採用画像と本文の対応](ab-visual-reference-v1.md)。旧画像内の仮表記や旧ルールを現在の仕様にしない。
 - [現在の構造](../../valis/summary/lifegame-desktop.summary.md)、[既存製品の実測範囲](../../operations/evidence/optimization-v4.2.32/README.md)。製品4.2.32と追加A/Bの成立範囲は別に確認する。
-- [既存の全工程計画](../../operations/plans/remaining-completion-v4.2.md)は作業計画でありゲーム仕様の正本ではない。第1〜第4組を反映し、現在は[採用表](decision-register-v1.md)と[実装引継ぎ](observation-state-contract-v1.md#10-実装への引継ぎ順序)に従って初期表/差分/データ対応を整理する。今回の整理からC/D/E・src/tests・画像制作を自動開始しない。
+- [既存の全工程計画](../../operations/plans/remaining-completion-v4.2.md)は作業計画でありゲーム仕様の正本ではない。第1〜第4組と比較開始値を反映し、現在は[採用表](decision-register-v1.md)と[実装引継ぎ](observation-state-contract-v1.md#10-実装への引継ぎ順序)に従って採用した初期表と差分/データ対応を接続する。今回の整理からC/D/E・src/tests・画像制作を自動開始しない。
