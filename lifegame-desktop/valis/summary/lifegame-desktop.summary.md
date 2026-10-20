@@ -2,9 +2,9 @@
 
 lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Node、仕様と資料の入口は `design/specification/README.md`。
 
-現在入口: `design/specification/README.md`。量機/2: `design/specification/ryouki-v1.md`、採用分岐: `design/ryouki-branches-v2/README.md`。第三相3枝/第四相6枝の2画像は採用済みで、造形確認待ちは解消。比較係数と未採用の旧9区画図を区別する。次は専用データ/状態・占有/保存版/実寸素材とC/Dの接続整理。追加分の実装/素材化/実測は未完、全Node草案、新規登録・状態遷移なし。
+現在入口: `design/specification/README.md`。量機/2: `design/specification/ryouki-v1.md`、採用分岐: `design/ryouki-branches-v2/README.md`。第三相3枝/第四相6枝の2画像は採用済みで、造形確認待ちは解消。比較係数と未採用の旧9区画図を区別する。実装順序は `operations/plans/implementation-sequence-v1.md`。I01の同期索引共有・Worker境界を実装し、次はI02の群落・生産基盤。追加生態の実装/素材化/実測は未完、全Node草案、新規登録・状態遷移なし。
 
-製品は4.2.32。既存最適化の適用/実測範囲は `operations/evidence/optimization-v4.2.32/README.md`。Windows配布の現状はE7。今回C/D/E・src/tests・製品/配布版は変更しない。既存の対象版付き証跡は今回の追加仕様の合格根拠ではない。
+開発版は4.2.33、Windows配布済み版は4.2.32。今回のC/D/E・src/testsと限定検証の範囲は `operations/evidence/i01-runtime-foundation-v1/README.md`。Windows配布の現状はE7、新ZIPは未作成。既存最適化の対象は `operations/evidence/optimization-v4.2.32/README.md`。対象版付き証跡は未実装の追加生態仕様の合格根拠ではない。
 
 ## A：仕様
 
@@ -297,7 +297,7 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 	ロジック:
 		C7.1〜C7.5を接合し、前状態と有限予算から次状態を確定する。
 	実態:
-		4.2.32: 前ターンの読取専用観測/診断の複製を省略。通信の比較値・ID索引・土壌領域を再利用し、全8モデルと代表条件の結果一致を照合。 範囲/未確認: operations/evidence/optimization-v4.2.32/README.md。草案。
+		4.2.33 I01: engineの3同期区間だけ索引を共有。移動/採食除去/死亡/出生/供給の境界で破棄し、通常/比較/Workerの生成経路を維持。旧版10条件180状態の世界/指紋/CSVが一致。 範囲/制約: operations/evidence/i01-runtime-foundation-v1/README.md。草案。
 
 	C7.1:（B4, B4.4 / 初期値・固定世界・31種の共通状態）［草案］
 		構成（要素・関係）:
@@ -305,7 +305,7 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 		ロジック:
 			目的別の決定的乱数と、独立した占有枠・有限台帳を保持する。
 		実態:
-			4.2.31: 固定地形属性の共有とrandomModel=table/1の明示保存/開始時準備。 範囲/未確認: operations/evidence/optimization-v4.2.31/README.md。草案。
+			4.2.33 I01: WeakMap内の同期索引だけ再利用。共有外は独立Map、finallyで破棄、world/保存へ追加なし。同セルの全IDはbyIdで保持するが現行占有規則は変更しない。 範囲/制約: operations/evidence/i01-runtime-foundation-v1/README.md。草案。
 
 	C7.2:（B4.3, B4.4 / 有限栄養・資源CA・生産と死骸）［草案］
 		構成（要素・関係）:
@@ -345,7 +345,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 	ロジック:
 		確定世界を観察し、操作や拡大を生態計算から分ける。
 	実態:
-		4.2.32: 開始前に背景/外観と先行計算を順に準備。非同期出力と観測集計へ接続し、明示保留中の準備時間を除外。 範囲/未確認: operations/evidence/optimization-v4.2.32/README.md。草案。
+		4.2.33 I01: Workerの連続turn/要求数/phase順/3段階完備/meta.turn/予約込み6件を検査。旧epoch無視と確定world再initを保持。Linux画面40項目を確認。 範囲/制約: operations/evidence/i01-runtime-foundation-v1/README.md。草案。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -361,7 +361,7 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 		ロジック:
 			初期条件・最終結果・全期間原値を保持し、暗黙再生保存を拒否。明示保存は新規記録とする。
 		実態:
-			4.2.32: CSV/JSON出力Workerと分割送信、出力開始時点の履歴境界を保持。4.2.31の再生互換を結果一致の範囲で接続。 範囲/未確認: operations/evidence/optimization-v4.2.32/README.md。草案。
+			4.2.33 I01: 生成後の再生署名を更新し、同値確認した4.2.32だけ明示同値へ接続。手動初期数付き旧記録を再生し、未知署名と旧形式の条件制限を維持。 範囲/制約: operations/evidence/i01-runtime-foundation-v1/README.md。草案。
 
 ```
 
@@ -422,7 +422,7 @@ D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案
 	ロジック:
 		C7系列の状態と調停条件を検査する。
 	実態:
-		4.2.32: 全8優遇モデル/小中大の世界・観測・CSV一致、500Tの有限収支と全501行、差分復元を検査。 範囲/未確認: operations/evidence/optimization-v4.2.32/README.md。草案。
+		4.2.33 I01: 共有区間/構造変更境界、動的/静的各8設定の段階一致、旧版10条件180状態と世界/指紋/CSV/収支を検査。単体全54ファイルはfixture修正後のarchive再検査を合わせて通過。 範囲/制約: operations/evidence/i01-runtime-foundation-v1/README.md。草案。
 
 D8:（C7 / 生態循環と結合進行）［草案］
 	構成（要素・関係）:
@@ -452,7 +452,7 @@ D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	ロジック:
 		実状態と表示・選択・保存数を照合し、観測独立を調べる。
 	実態:
-		4.2.32: 原画処理の画素一致・位置索引の全件走査との一致、遠景の全個体/選択、背景失敗復旧、出力/停止再開、遠近性能を検査。 範囲/未確認: operations/evidence/optimization-v4.2.32/README.md。草案。
+		4.2.33 I01: 不正通知/予約/epochを単体検査し、Linux Chromiumで段階観測26・生態観察14項目が成功。保存互換の追加検査を実施。画風/Windows/新性能の認定は含まない。 範囲/制約: operations/evidence/i01-runtime-foundation-v1/README.md。草案。
 
 ```
 
@@ -493,19 +493,19 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 
 E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E5.md。operations/evidence/optimization-v4.2.32/model/、rendered-500/、全ターン原値と各実測時hash。
+		valis/nodes/E/E5.md。operations/evidence/i01-runtime-foundation-v1/model/、対象hashと検証範囲。旧4.2.32証跡は元対象版として保持。
 	ロジック:
 		各対象の実装・仕様・環境と一致する記録範囲に限定して参照する。
 	実態:
-		4.2.32: 通常描画500Tを約8分37秒で完走、保存/全501行/最終指紋が旧版に一致。8モデル/小中大の世界一致、有限収支と旧記録再生を限定確認。 範囲/未確認: operations/evidence/optimization-v4.2.32/README.md。草案。
+		4.2.33 I01: 旧版8優遇＋代表小中大の10条件180状態で世界/指紋/CSV/収支が一致。検査中のMap新規結果数は半減。全54単体ファイルを実行、初回fixture失敗は修正後5検査の再実行で通過。 範囲/制約: operations/evidence/i01-runtime-foundation-v1/README.md。草案。
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。operations/evidence/optimization-v4.2.32/ui/、performance/、対象hashと反例。
+		valis/nodes/E/E6.md。operations/evidence/i01-runtime-foundation-v1/ui/、対象hashと検証範囲。旧4.2.32証跡は元対象版として保持。
 	ロジック:
 		対象ハッシュとLinux/Chromiumの記録範囲に限定する。
 	実態:
-		4.2.32: 描画/索引/全期間出力/背景復旧/通常500Tを限定確認。中・大遠景は改善、大近景95%点と確定負荷は未改善。 範囲/未確認: operations/evidence/optimization-v4.2.32/README.md。草案。
+		4.2.33 I01: Linux Chromiumの段階観測26＋生態観察14項目、ブラウザ例外0。途中停止/確定状態復帰/再開/選択/拡縮/保存再生/遷移を限定確認。 範囲/制約: operations/evidence/i01-runtime-foundation-v1/README.md。草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

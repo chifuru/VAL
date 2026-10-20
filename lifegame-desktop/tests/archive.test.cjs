@@ -27,3 +27,21 @@ test('template records require resolved map identity before replay',()=>{
  const r=a.capture(w,'user-ended');a.save(r);const rows=JSON.parse(s.getItem());delete rows[0].config.mapResolved;s.setItem('',JSON.stringify(rows));
  assert.throws(()=>a.replay(r.id),/地形の識別/);
 });
+
+
+test('I01 source-only optimization replays 4.2.32 manual conditions without broadening legacy aliases',()=>{
+ require('../src/ecology/replay-version.js');
+ const previous='8d7f6fbd94128cebf77ab6032098e09a432bc13d8cb2552222b0546971e84745';
+ const M=require('../src/ecology/observation-model.js'),engine=M.model(),s=storage();
+ let world=engine.create({seed:'founder',width:16,height:12,initial:24,lineages:'few',ecologyRevision:'observation/4.1',ageModel:'life/1',randomModel:'table/1',founderCounts:{version:1,species:{grass:12,algae:10,moss:0},parasites:{leafparasite:3,hyperparasite:0}}});
+ for(let n=0;n<4;n++)world=engine.step(world);
+ const oldArchive=A.create(s,engine,previous),record=oldArchive.capture(world,'user-ended');oldArchive.save(record);
+ const current=A.create(s,engine,globalThis.EcoReplayVersion),replay=current.replay(record.id);
+ assert.equal(replay.signature,previous);let again=engine.create(replay.config);
+ for(let n=0;n<replay.turn;n++)again=engine.step(again);
+ assert.equal(engine.fingerprint(again),record.id);assert.equal(current.list().length,1);
+ const rows=JSON.parse(s.getItem());rows[0].signature='unknown-biological-version';s.setItem('',JSON.stringify(rows));
+ assert.throws(()=>current.replay(record.id),/計算版/);
+ rows[0].signature='521df4a778be285f5d45548c265e3f4364744e9a10037bddf40beb34e5c65217';s.setItem('',JSON.stringify(rows));
+ assert.throws(()=>current.replay(record.id),/計算版/,'older alias cannot acquire founder support via I01');
+});

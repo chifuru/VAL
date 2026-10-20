@@ -62,3 +62,68 @@ test('streaming sends each phase once and reconstructs the same table-world fina
   const result=await worker.next();assert.equal(result.type,'turn');assert.equal(result.patches,null);assert.deepEqual(view,E.step(world));assert.equal((await worker.next()).type,'idle');
  }finally{await worker.close();}
 });
+
+test('Worker caps an oversized batch at six continuous turns in legacy and stream modes',{timeout:30000},async()=>{
+ for(const stream of [false,true]){
+  const worker=thread();try{
+   let world=E.create({...config,randomModel:'table/1'});worker.post({type:'init',epoch:40,world,stream});assert.equal((await worker.next()).type,'ready');
+   worker.post({type:'compute',epoch:40,count:99,limit:500});
+   for(let turn=1;turn<=6;turn++){
+    const patches=[];
+    if(stream)for(let phase=0;phase<3;phase++){
+     const d=await worker.next();assert.equal(d.type,'phase');assert.equal(d.turn,turn);assert.equal(d.phase,phase);assert.equal(d.patch.meta.turn,turn);patches.push(d.patch);
+    }
+    const packet=await worker.next();assert.equal(packet.type,'turn');assert.equal(packet.turn,turn);assert.equal(packet.epoch,40);
+    if(stream)assert.equal(packet.patches,null);else {assert.equal(packet.patches.length,3);patches.push(...packet.patches);}
+    let view=world;for(const patch of patches){assert.equal(patch.meta.turn,turn);view=T.apply(view,patch);}
+    assert.deepEqual(view,E.step(world));world=view;
+   }
+   assert.equal((await worker.next()).type,'idle');
+  }finally{await worker.close();}
+ }
+});
+
+test('invalid batch counts do not advance the Worker world',{timeout:30000},async()=>{
+ const worker=thread();try{
+  const world=E.create(config);worker.post({type:'init',epoch:50,world});assert.equal((await worker.next()).type,'ready');
+  for(const count of [0,-1,.5,NaN,Infinity,Number.MAX_SAFE_INTEGER+1,'2']){
+   worker.post({type:'compute',epoch:50,count,limit:500});const error=await worker.next();assert.equal(error.type,'error');assert.equal(error.epoch,50);assert.match(error.message,/件数/);
+  }
+  worker.post({type:'compute',epoch:50,count:1,limit:500});const packet=await worker.next();assert.equal(packet.type,'turn');assert.equal(packet.turn,1);
+  let view=world;for(const patch of packet.patches)view=T.apply(view,patch);assert.deepEqual(view,E.step(world));assert.equal((await worker.next()).type,'idle');
+ }finally{await worker.close();}
+});
+
+test('a checkpoint ends the batch and a later request continues a longer replay',{timeout:30000},async()=>{
+ const worker=thread();try{
+  let world=E.create(config);world.turn=499;worker.post({type:'init',epoch:60,world});assert.equal((await worker.next()).type,'ready');
+  worker.post({type:'compute',epoch:60,count:3,limit:502});const checkpoint=await worker.next();assert.equal(checkpoint.type,'turn');assert.equal(checkpoint.turn,500);
+  for(const patch of checkpoint.patches)world=T.apply(world,patch);assert.equal(world.stopReason,'checkpoint');assert.equal((await worker.next()).type,'idle');
+  worker.post({type:'compute',epoch:60,count:3,limit:502});
+  for(let turn=501;turn<=502;turn++){
+   const packet=await worker.next();assert.equal(packet.type,'turn');assert.equal(packet.turn,turn);let view=world;
+   for(const patch of packet.patches)view=T.apply(view,patch);assert.deepEqual(view,E.step(world));world=view;
+  }
+  assert.equal((await worker.next()).type,'idle');assert.equal(world.blockEnd,1000);
+ }finally{await worker.close();}
+});
+
+test('reinit after a partial preview starts from the supplied committed world and ignores old requests',{timeout:30000},async()=>{
+ const worker=thread();try{
+  const committed=E.create({...config,randomModel:'table/1'}),fingerprint=E.fingerprint(committed);
+  worker.post({type:'init',epoch:70,world:committed,stream:true});assert.equal((await worker.next()).type,'ready');worker.post({type:'compute',epoch:70,count:3,limit:500});
+  const preview=await worker.next();assert.equal(preview.type,'phase');assert.equal(preview.turn,1);assert.equal(preview.phase,0);
+  worker.post({type:'init',epoch:71,world:committed,stream:true});
+  let ready;
+  for(let count=0;count<14;count++){
+   const d=await worker.next();if(d.type==='ready'&&d.epoch===71){ready=d;break;}assert.equal(d.epoch,70);
+  }
+  assert(ready);assert.equal(ready.cache.reused,true);
+  worker.post({type:'compute',epoch:70,count:6,limit:500});worker.post({type:'compute',epoch:71,count:1,limit:500});
+  let view=committed;for(let phase=0;phase<3;phase++){
+   const d=await worker.next();assert.equal(d.epoch,71);assert.equal(d.type,'phase');assert.equal(d.turn,1);assert.equal(d.phase,phase);view=T.apply(view,d.patch);
+  }
+  const packet=await worker.next();assert.equal(packet.type,'turn');assert.equal(packet.epoch,71);assert.equal(packet.turn,1);assert.deepEqual(view,E.step(committed));
+  assert.equal((await worker.next()).type,'idle');assert.equal(E.fingerprint(committed),fingerprint);
+ }finally{await worker.close();}
+});

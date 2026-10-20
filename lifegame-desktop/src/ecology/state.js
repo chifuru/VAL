@@ -248,6 +248,23 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return true;
   }
+  // Engine-owned synchronous scopes share topology only. Row values remain live.
+  // Outside a scope, callers may edit their private Maps (initial/support placement).
+  const mapScopes = new WeakMap();
+  function withMapScope(w, run, initialMaps = null) {
+    if (mapScopes.has(w)) throw Error("MAP_SCOPE_NESTED");
+    mapScopes.set(w, { maps: initialMaps });
+    try {
+      return run();
+    } finally {
+      mapScopes.delete(w);
+    }
+  }
+  function sharedMaps(w) {
+    const scope = mapScopes.get(w);
+    if (!scope) return maps(w);
+    return scope.maps || (scope.maps = maps(w));
+  }
   function maps(w) {
     const main = new Map(),
       food = new Map(),
@@ -1198,7 +1215,8 @@ return {settings,attach,region,level,factor,begin,finish};
     distance,
     oneStep,
     sight,
-    maps,
+    maps: sharedMaps,
+    withMapScope,
     validHabitat,
     validate,
     OBSERVATION_MODES,

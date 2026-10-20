@@ -427,24 +427,34 @@
         } else if (stage === 1) {
           B.choose(w, ctx, w.config.ecologyRevision === "observation/4.1" ? "move" : null);
           B.move(w, ctx);
-          if(w.config.ecologyRevision === "observation/4.1") B.choose(w,ctx,"effect");
-          B.combat(w, ctx);
-          B.care(w, ctx);
-          if(w.config.ecologyRevision === "observation/4.1") P.clear(w,ctx);
-          if(w.config.ecologyRevision === "observation/4.1") N.payActions(w,ctx);
+          // Movement has finished; effects change row values, not indexed topology.
+          S.withMapScope(w, () => {
+            if(w.config.ecologyRevision === "observation/4.1") B.choose(w,ctx,"effect");
+            B.combat(w, ctx);
+            B.care(w, ctx);
+            if(w.config.ecologyRevision === "observation/4.1") P.clear(w,ctx);
+            if(w.config.ecologyRevision === "observation/4.1") N.payActions(w,ctx);
+          }, ctx.current);
+          // Feeding removes resources between rounds; settlement adds carcasses/removes life.
           N.feed(w, ctx, P.transfer);
           N.settle(w, ctx, P.fee);
         } else {
-          B.learn(w, ctx);
-          P.contacts(w, ctx);
-          P.mature(w, ctx);
-          if(w.config.ecologyRevision === "observation/4.1") P.search(w,ctx);
-          R.growth(w, ctx);
-          R.reproduce(w, ctx);
-          const drops = N.investAndDrops(w, ctx),
-            minerals = N.mineralCandidates(w, ctx),
-            information = P.infoCandidates(w, ctx);
-          N.supply(w, ctx, [...drops, ...minerals, ...information]);
+          S.withMapScope(w, () => {
+            B.learn(w, ctx);
+            P.contacts(w, ctx);
+            P.mature(w, ctx);
+            if(w.config.ecologyRevision === "observation/4.1") P.search(w,ctx);
+            R.growth(w, ctx);
+            // Birth arbitration reads the frozen parent topology; append is its last step.
+            R.reproduce(w, ctx);
+          });
+          // Rebuild after births. Supply reads one snapshot, then appends resources at the end.
+          S.withMapScope(w, () => {
+            const drops = N.investAndDrops(w, ctx),
+              minerals = N.mineralCandidates(w, ctx),
+              information = P.infoCandidates(w, ctx);
+            N.supply(w, ctx, [...drops, ...minerals, ...information]);
+          });
           P.reproduce(w, ctx);
           S.settleAge(w,ctx);
           finish(w, ctx);

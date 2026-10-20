@@ -1,0 +1,11 @@
+{"id":"flags-0","states":21,"maps":200,"baselineMaps":400,"passed":true}
+{"id":"flags-1","states":21,"maps":200,"baselineMaps":400,"passed":true}
+{"id":"flags-2","states":21,"maps":200,"baselineMaps":400,"passed":true}
+{"id":"flags-3","states":21,"maps":200,"baselineMaps":400,"passed":true}
+{"id":"flags-4","states":21,"maps":200,"baselineMaps":400,"passed":true}
+{"id":"flags-5","states":21,"maps":200,"baselineMaps":400,"passed":true}
+{"id":"flags-6","states":21,"maps":200,"baselineMaps":400,"passed":true}
+{"id":"flags-7","states":21,"maps":200,"baselineMaps":400,"passed":true}
+{"id":"scale-80","states":7,"maps":60,"baselineMaps":120,"passed":true}
+{"id":"scale-160","states":5,"maps":40,"baselineMaps":80,"passed":true}
+{"cases":10,"states":180,"passed":true}

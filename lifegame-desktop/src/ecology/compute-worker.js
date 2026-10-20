@@ -15,7 +15,9 @@ onmessage=({data:d})=>{
       encode=EcoTransport.encoder(world);
       postMessage({type:'ready',epoch,cache,prepareMs:performance.now()-start});
     } else if(d.type==='compute'&&d.epoch===epoch&&world) {
-      for(let n=0;n<d.count&&world.turn<d.limit;n++) {
+      if(!Number.isSafeInteger(d.count)||d.count<=0)throw Error('計算要求の件数が不正です');
+      const count=Math.min(d.count,6);
+      for(let n=0;n<count&&world.turn<d.limit;n++) {
         const start=performance.now(),job=engine.beginTurn(world,{observeId}),patches=[],costs=[];
         for(let i=0;i<3;i++) {
           const t=performance.now(),r=job.advance(),patch=encode(job.display(),r.done);

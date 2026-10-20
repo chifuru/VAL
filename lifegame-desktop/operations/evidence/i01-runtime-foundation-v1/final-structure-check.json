@@ -1,0 +1,24 @@
+{
+  "dateUTC": "2026-10-20T11:47:46.279661+00:00",
+  "nodes": 61,
+  "updatedNodes": [
+    "valis/nodes/C/C7.1.md",
+    "valis/nodes/C/C7.md",
+    "valis/nodes/C/C8.2.md",
+    "valis/nodes/C/C8.md",
+    "valis/nodes/D/D7.md",
+    "valis/nodes/D/D9.md",
+    "valis/nodes/E/E5.md",
+    "valis/nodes/E/E6.md"
+  ],
+  "formalFieldsUnchanged": true,
+  "markdownLinkFiles": [
+    "operations/evidence/i01-runtime-foundation-v1/README.md",
+    "operations/plans/i01-runtime-foundation-v1.md",
+    "operations/plans/implementation-sequence-v1.md",
+    "operations/plans/completion-roadmap-v1.md"
+  ],
+  "sourceHashEntries": 83,
+  "sourceHashesMatch": true,
+  "scope": "I01 foundation only; no new native/500-turn performance certification"
+}

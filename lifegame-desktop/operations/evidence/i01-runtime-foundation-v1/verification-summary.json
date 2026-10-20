@@ -1,0 +1,29 @@
+{
+  "version": "4.2.33",
+  "unitFullRun": {
+    "tests": 54,
+    "pass": 53,
+    "fail": 1,
+    "countUnit": "test files",
+    "failure": "New archive fixture had insufficient placement in a small random world; product was not changed for this correction.",
+    "log": "model/unit.log"
+  },
+  "archiveFinalRecheck": {
+    "tests": 5,
+    "pass": 5,
+    "fail": 0,
+    "log": "model/archive-final.log"
+  },
+  "all54FilesPassedAfterRecheck": true,
+  "browser": {
+    "staged": 26,
+    "observation": 14,
+    "errors": 0
+  },
+  "dateUTC": "2026-10-20T11:40:07.128038+00:00",
+  "limits": [
+    "No new 500-turn survival certification",
+    "No browser performance comparison",
+    "No Windows execution or new ZIP"
+  ]
+}

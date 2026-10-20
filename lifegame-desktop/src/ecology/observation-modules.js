@@ -1116,6 +1116,23 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return true;
   }
+  // Engine-owned synchronous scopes share topology only. Row values remain live.
+  // Outside a scope, callers may edit their private Maps (initial/support placement).
+  const mapScopes = new WeakMap();
+  function withMapScope(w, run, initialMaps = null) {
+    if (mapScopes.has(w)) throw Error("MAP_SCOPE_NESTED");
+    mapScopes.set(w, { maps: initialMaps });
+    try {
+      return run();
+    } finally {
+      mapScopes.delete(w);
+    }
+  }
+  function sharedMaps(w) {
+    const scope = mapScopes.get(w);
+    if (!scope) return maps(w);
+    return scope.maps || (scope.maps = maps(w));
+  }
   function maps(w) {
     const main = new Map(),
       food = new Map(), prey = new Map(),
@@ -2060,7 +2077,8 @@ return {settings,attach,region,level,factor,begin,finish};
     distance,
     oneStep,
     sight,
-    maps,
+    maps: sharedMaps,
+    withMapScope,
     validHabitat,
     validate,
     OBSERVATION_MODES,
@@ -5256,24 +5274,34 @@ function(require,module){
         } else if (stage === 1) {
           B.choose(w, ctx, w.config.ecologyRevision === "observation/4.1" ? "move" : null);
           B.move(w, ctx);
-          if(w.config.ecologyRevision === "observation/4.1") B.choose(w,ctx,"effect");
-          B.combat(w, ctx);
-          B.care(w, ctx);
-          if(w.config.ecologyRevision === "observation/4.1") P.clear(w,ctx);
-          if(w.config.ecologyRevision === "observation/4.1") N.payActions(w,ctx);
+          // Movement has finished; effects change row values, not indexed topology.
+          S.withMapScope(w, () => {
+            if(w.config.ecologyRevision === "observation/4.1") B.choose(w,ctx,"effect");
+            B.combat(w, ctx);
+            B.care(w, ctx);
+            if(w.config.ecologyRevision === "observation/4.1") P.clear(w,ctx);
+            if(w.config.ecologyRevision === "observation/4.1") N.payActions(w,ctx);
+          }, ctx.current);
+          // Feeding removes resources between rounds; settlement adds carcasses/removes life.
           N.feed(w, ctx, P.transfer);
           N.settle(w, ctx, P.fee);
         } else {
-          B.learn(w, ctx);
-          P.contacts(w, ctx);
-          P.mature(w, ctx);
-          if(w.config.ecologyRevision === "observation/4.1") P.search(w,ctx);
-          R.growth(w, ctx);
-          R.reproduce(w, ctx);
-          const drops = N.investAndDrops(w, ctx),
-            minerals = N.mineralCandidates(w, ctx),
-            information = P.infoCandidates(w, ctx);
-          N.supply(w, ctx, [...drops, ...minerals, ...information]);
+          S.withMapScope(w, () => {
+            B.learn(w, ctx);
+            P.contacts(w, ctx);
+            P.mature(w, ctx);
+            if(w.config.ecologyRevision === "observation/4.1") P.search(w,ctx);
+            R.growth(w, ctx);
+            // Birth arbitration reads the frozen parent topology; append is its last step.
+            R.reproduce(w, ctx);
+          });
+          // Rebuild after births. Supply reads one snapshot, then appends resources at the end.
+          S.withMapScope(w, () => {
+            const drops = N.investAndDrops(w, ctx),
+              minerals = N.mineralCandidates(w, ctx),
+              information = P.infoCandidates(w, ctx);
+            N.supply(w, ctx, [...drops, ...minerals, ...information]);
+          });
           P.reproduce(w, ctx);
           S.settleAge(w,ctx);
           finish(w, ctx);
@@ -6514,6 +6542,23 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return true;
   }
+  // Engine-owned synchronous scopes share topology only. Row values remain live.
+  // Outside a scope, callers may edit their private Maps (initial/support placement).
+  const mapScopes = new WeakMap();
+  function withMapScope(w, run, initialMaps = null) {
+    if (mapScopes.has(w)) throw Error("MAP_SCOPE_NESTED");
+    mapScopes.set(w, { maps: initialMaps });
+    try {
+      return run();
+    } finally {
+      mapScopes.delete(w);
+    }
+  }
+  function sharedMaps(w) {
+    const scope = mapScopes.get(w);
+    if (!scope) return maps(w);
+    return scope.maps || (scope.maps = maps(w));
+  }
   function maps(w) {
     const main = new Map(),
       food = new Map(), prey = new Map(),
@@ -7459,7 +7504,8 @@ return {settings,attach,region,level,factor,begin,finish};
     distance,
     oneStep,
     sight,
-    maps,
+    maps: sharedMaps,
+    withMapScope,
     validHabitat,
     validate,
     OBSERVATION_MODES,
@@ -9178,24 +9224,34 @@ function(require,module){
         } else if (stage === 1) {
           B.choose(w, ctx, w.config.ecologyRevision === "observation/4.1" ? "move" : null);
           B.move(w, ctx);
-          if(w.config.ecologyRevision === "observation/4.1") B.choose(w,ctx,"effect");
-          B.combat(w, ctx);
-          B.care(w, ctx);
-          if(w.config.ecologyRevision === "observation/4.1") P.clear(w,ctx);
-          if(w.config.ecologyRevision === "observation/4.1") N.payActions(w,ctx);
+          // Movement has finished; effects change row values, not indexed topology.
+          S.withMapScope(w, () => {
+            if(w.config.ecologyRevision === "observation/4.1") B.choose(w,ctx,"effect");
+            B.combat(w, ctx);
+            B.care(w, ctx);
+            if(w.config.ecologyRevision === "observation/4.1") P.clear(w,ctx);
+            if(w.config.ecologyRevision === "observation/4.1") N.payActions(w,ctx);
+          }, ctx.current);
+          // Feeding removes resources between rounds; settlement adds carcasses/removes life.
           N.feed(w, ctx, P.transfer);
           N.settle(w, ctx, P.fee);
         } else {
-          B.learn(w, ctx);
-          P.contacts(w, ctx);
-          P.mature(w, ctx);
-          if(w.config.ecologyRevision === "observation/4.1") P.search(w,ctx);
-          R.growth(w, ctx);
-          R.reproduce(w, ctx);
-          const drops = N.investAndDrops(w, ctx),
-            minerals = N.mineralCandidates(w, ctx),
-            information = P.infoCandidates(w, ctx);
-          N.supply(w, ctx, [...drops, ...minerals, ...information]);
+          S.withMapScope(w, () => {
+            B.learn(w, ctx);
+            P.contacts(w, ctx);
+            P.mature(w, ctx);
+            if(w.config.ecologyRevision === "observation/4.1") P.search(w,ctx);
+            R.growth(w, ctx);
+            // Birth arbitration reads the frozen parent topology; append is its last step.
+            R.reproduce(w, ctx);
+          });
+          // Rebuild after births. Supply reads one snapshot, then appends resources at the end.
+          S.withMapScope(w, () => {
+            const drops = N.investAndDrops(w, ctx),
+              minerals = N.mineralCandidates(w, ctx),
+              information = P.infoCandidates(w, ctx);
+            N.supply(w, ctx, [...drops, ...minerals, ...information]);
+          });
           P.reproduce(w, ctx);
           S.settleAge(w,ctx);
           finish(w, ctx);
@@ -13044,6 +13100,23 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return true;
   }
+  // Engine-owned synchronous scopes share topology only. Row values remain live.
+  // Outside a scope, callers may edit their private Maps (initial/support placement).
+  const mapScopes = new WeakMap();
+  function withMapScope(w, run, initialMaps = null) {
+    if (mapScopes.has(w)) throw Error("MAP_SCOPE_NESTED");
+    mapScopes.set(w, { maps: initialMaps });
+    try {
+      return run();
+    } finally {
+      mapScopes.delete(w);
+    }
+  }
+  function sharedMaps(w) {
+    const scope = mapScopes.get(w);
+    if (!scope) return maps(w);
+    return scope.maps || (scope.maps = maps(w));
+  }
   function maps(w) {
     const main = new Map(),
       food = new Map(), prey = new Map(),
@@ -13988,7 +14061,8 @@ return {settings,attach,region,level,factor,begin,finish};
     distance,
     oneStep,
     sight,
-    maps,
+    maps: sharedMaps,
+    withMapScope,
     validHabitat,
     validate,
     OBSERVATION_MODES,
@@ -14796,6 +14870,23 @@ return {settings,attach,region,level,factor,begin,finish};
       p = q;
     }
     return true;
+  }
+  // Engine-owned synchronous scopes share topology only. Row values remain live.
+  // Outside a scope, callers may edit their private Maps (initial/support placement).
+  const mapScopes = new WeakMap();
+  function withMapScope(w, run, initialMaps = null) {
+    if (mapScopes.has(w)) throw Error("MAP_SCOPE_NESTED");
+    mapScopes.set(w, { maps: initialMaps });
+    try {
+      return run();
+    } finally {
+      mapScopes.delete(w);
+    }
+  }
+  function sharedMaps(w) {
+    const scope = mapScopes.get(w);
+    if (!scope) return maps(w);
+    return scope.maps || (scope.maps = maps(w));
   }
   function maps(w) {
     const main = new Map(),
@@ -15742,7 +15833,8 @@ return {settings,attach,region,level,factor,begin,finish};
     distance,
     oneStep,
     sight,
-    maps,
+    maps: sharedMaps,
+    withMapScope,
     validHabitat,
     validate,
     OBSERVATION_MODES,
@@ -16881,6 +16973,23 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return true;
   }
+  // Engine-owned synchronous scopes share topology only. Row values remain live.
+  // Outside a scope, callers may edit their private Maps (initial/support placement).
+  const mapScopes = new WeakMap();
+  function withMapScope(w, run, initialMaps = null) {
+    if (mapScopes.has(w)) throw Error("MAP_SCOPE_NESTED");
+    mapScopes.set(w, { maps: initialMaps });
+    try {
+      return run();
+    } finally {
+      mapScopes.delete(w);
+    }
+  }
+  function sharedMaps(w) {
+    const scope = mapScopes.get(w);
+    if (!scope) return maps(w);
+    return scope.maps || (scope.maps = maps(w));
+  }
   function maps(w) {
     const main = new Map(),
       food = new Map(), prey = new Map(),
@@ -17827,7 +17936,8 @@ return {settings,attach,region,level,factor,begin,finish};
     distance,
     oneStep,
     sight,
-    maps,
+    maps: sharedMaps,
+    withMapScope,
     validHabitat,
     validate,
     OBSERVATION_MODES,
