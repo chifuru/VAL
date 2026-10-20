@@ -2,7 +2,7 @@
 
 lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Node、仕様と資料の入口は `design/specification/README.md`。
 
-現在入口: `design/specification/parasite-meta-v1.md` / `design/specification/death-information-v1.md` / `design/specification/diverse-world-generation-v1.md`。情報非栄養化、Q通常採食/死亡情報の出現率上昇・歪曲、全生物の同層/全層情報を既存A/B19Nodeへ仕様補完。層はピラミッド役割＋分解者/P/Qで確定。群落/R1〜R6/観測UIを維持。追加分未実装、全Node草案。新規登録・状態遷移なし、次FLOW-04/05。
+現在入口: `design/specification/README.md`。採用状況・具体化待ち: `design/specification/decision-register-v1.md`。既存A1/B5.2へ入口/優先順位と採用・保留・撤回・提案のみの区別を反映。次はC01「各生物への情報作用」を一項目ずつ利用者確認。C02〜C13は未確認、具体ルールは未変更。全Node草案、新規登録・状態遷移なし。
 
 製品は4.2.32。既存最適化の適用/実測範囲は `operations/evidence/optimization-v4.2.32/README.md`。Windows配布の現状はE7。今回C/D/E・src/tests・製品/配布版は変更しない。既存の対象版付き証跡は今回の追加仕様の合格根拠ではない。
 
@@ -11,11 +11,11 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 ```text
 A1:（起点 / 生態系の成長と生存観測）［草案］
 	構成（要素・関係）:
-		valis/nodes/A/A1.md。生態系の成長と生存観測。差分正本: design/specification/balance-restoration-v1.md。 残件の作業順: operations/plans/remaining-completion-v4.2.md。
+		valis/nodes/A/A1.md。現在正本の入口: design/specification/README.md。採用範囲/具体化待ち: design/specification/decision-register-v1.md。
 	ロジック:
-		全生物の同層/全層情報とQの出現率上昇/歪曲をR1〜R6へ接続。情報は非栄養で、栄養取得と行動作用の達成を分ける。
+		対象別正本と明示的な置換範囲を優先し、採用状況を実装/検証/正式状態から分離する。既存の生態条件と未解決項目を保持する。
 	実態:
-		A/B仕様補完。追加分未実装・未検証、層はピラミッド役割＋分解者/P/Qで確定。後続修正/影響探索/検証計画更新/再検証要否あり。正式状態/階層/参照維持、次FLOW-04/05。
+		仕様入口と採用状況のA/B反映。具体化C01から利用者確認、C02〜C13未確認。既存実装/検証要否を維持、正式状態/階層/参照は不変。
 
 	A1.1:（A1 / 個体・系統・段階進化）［草案］
 		構成（要素・関係）:
@@ -184,11 +184,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.2:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 進化・繁殖・生態関係の説明シート）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.2.md。仕様/資料の入口は本体のfiles。
+			valis/nodes/B/B5.2.md。説明参照: design/specification/README.md / design/specification/decision-register-v1.md。
 		ロジック:
-			情報は餌ではなく、全生物の同層/全層向けの経験痕跡として説明。読取/適用/実際の行動と栄養取得を区別する。
+			採用/保留/撤回/提案を区別し、説明・画像・対象版付き証跡を現行正本へ照合。旧条件や仮の造形から新ルールを作らない。
 		実態:
-			A/B仕様補完。追加分未実装・未検証、層はピラミッド役割＋分解者/P/Qで確定。後続修正/影響探索/検証計画更新/再検証要否あり。正式状態/階層/参照維持、次FLOW-04/05。
+			仕様参照と採用状況のA/B反映。次は具体化C01の案を説明して利用者確認。既存実装/検証要否を維持し、ゲーム内説明の新実装は未実施。
 
 	B5.3:（A1.1, A1.2, A1.3, A1.5, A1.6 / 確定した行動のモーション表示）［草案］
 		構成（要素・関係）:
