@@ -1,0 +1,122 @@
+{
+  "version": "ryouki-art/1",
+  "specification": "../specification/ryouki-v1.md",
+  "kind": "concept-reference-not-runtime-atlas",
+  "artifacts": [
+    {
+      "file": "01-normal-i-ii.png",
+      "source_filename": "exec-2cd4b953-28fa-41e9-8dae-5db3a6da6926.png",
+      "status": "adopted-reference",
+      "title": "通常型I/II：初回の平たい菱形・長い脚",
+      "bytes": 2262843,
+      "sha256": "b26e4909f0a666422bf3cd972747b4c280b77bb9b9d67b470d1203d49e4f1773",
+      "selected_content": [
+        "第一相",
+        "第二相"
+      ],
+      "excluded_content": []
+    },
+    {
+      "file": "02-density-i-iii.png",
+      "source_filename": "exec-3f473a5b-0d01-4eef-91d0-7427958be605.png",
+      "status": "adopted-reference",
+      "title": "相変異1〜3：背中だけ黒",
+      "bytes": 2319714,
+      "sha256": "ec4ef9f44918b4a53ab86df7e71ae0b9e096ec09c9297710db92b2fb609bbb10",
+      "selected_content": [
+        "相変異型の身体/俯瞰/側面/同居例"
+      ],
+      "excluded_content": [
+        "通常型の小見本を通常型の正本にしない"
+      ]
+    },
+    {
+      "file": "03-density-iv.png",
+      "source_filename": "exec-4042317d-def0-4193-956f-5cf06383879c.png",
+      "status": "adopted-reference",
+      "title": "相変異4：黒と深緑",
+      "bytes": 2163613,
+      "sha256": "2107e77f7f35dd1d1ee2cacf837f802dc2caf862a34af3eded9064dcfdc67544",
+      "selected_content": [
+        "相変異型の身体/俯瞰/側面/同居例"
+      ],
+      "excluded_content": [
+        "通常型の小見本を通常型の正本にしない"
+      ]
+    },
+    {
+      "file": "04-normal-branches-proposal.png",
+      "source_filename": "exec-b5535971-994f-498c-a990-f3da7f6990bf.png",
+      "status": "proposal",
+      "title": "通常型III3枝/IV6枝の追加造形案",
+      "bytes": 2436447,
+      "sha256": "fa5080cf718711a7fb629d9d4ff6b49d1b2ec56871706b50f9fb59fd912e85b4",
+      "selected_content": [
+        "9区画の身体とラベル"
+      ],
+      "excluded_content": [
+        "画像内の接続線/矢印。親子は仕様表を正とする"
+      ]
+    },
+    {
+      "file": "sketches/945.jpg",
+      "source_filename": "1-945.jpg",
+      "status": "user-sketch",
+      "title": "利用者原案：全相の身体と第一相具体図",
+      "bytes": 56076,
+      "sha256": "f4bf96466abb57b4299853b1cb7a9ec077f6254b77dcd86925289b2747de0333",
+      "selected_content": [
+        "全体"
+      ],
+      "excluded_content": []
+    },
+    {
+      "file": "sketches/948.jpg",
+      "source_filename": "1-948.jpg",
+      "status": "user-sketch",
+      "title": "利用者原案：第一相と第二相の具体図",
+      "bytes": 42755,
+      "sha256": "31ac690a1dce1fbf738abcf87b5598cdfa5c7aec9f4c267267b1cbdafec64646",
+      "selected_content": [
+        "全体"
+      ],
+      "excluded_content": []
+    },
+    {
+      "file": "sketches/949.jpg",
+      "source_filename": "1-949.jpg",
+      "status": "user-sketch",
+      "title": "利用者原案：個体増加と相変異",
+      "bytes": 35524,
+      "sha256": "91806000e76d72fc67bd13073e3fe328baed45ec63f7af0ad5614ab7f96b711c",
+      "selected_content": [
+        "全体"
+      ],
+      "excluded_content": []
+    },
+    {
+      "file": "sketches/950.jpg",
+      "source_filename": "1-950.jpg",
+      "status": "user-sketch",
+      "title": "利用者原案：中央の窪み/相変異",
+      "bytes": 39637,
+      "sha256": "f05762233bf5a7124c9861fdcc519c68284088abef1a7cd3d9e049161a7c7b2a",
+      "selected_content": [
+        "全体"
+      ],
+      "excluded_content": []
+    },
+    {
+      "file": "sketches/first-phase-closeup.jpg",
+      "source_filename": "1-image-1792485268094.jpg",
+      "status": "user-sketch",
+      "title": "利用者原案：第一相具体図の近影",
+      "bytes": 53844,
+      "sha256": "d9afaefd2bc2d94df164a2f8d8ce07f790dbe22a7b54bcf0e5e61c011ab24f51",
+      "selected_content": [
+        "全体"
+      ],
+      "excluded_content": []
+    }
+  ]
+}
