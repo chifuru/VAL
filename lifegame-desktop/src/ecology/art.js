@@ -398,6 +398,7 @@
     g.drawImage(lighting ? litFrame(frame) : frame, x, y, width, height);
   }
   function creature(g, o, x, y, r) {
+    if(o.species==='ryouki')return ryouki(g,o,x,y,r);
     const frames = manifest.creatures.regions[o.species],
       im = images[manifest.creatures.sheetBySpecies[o.species]];
     if (!frames || !im) return false;
@@ -508,6 +509,37 @@
     g.drawImage(im,...f,x-width/2,y-height/2,width,height);
     return true;
   }
+  const ryoukiFrames=new Map();
+  function ryoukiIndex(o){
+    const phase=Math.max(1,Math.min(4,Math.trunc(o.phase||1))),
+      branch=Math.max(0,Math.min(2,Math.trunc(o.branch3||0))),
+      child=Math.max(0,Math.min(1,Math.trunc(o.branch4||0)));
+    return o.ryouki?.mutated?(phase===4?12:11):phase<3?phase-1:phase===3?2+branch:5+branch*2+child;
+  }
+  function ryoukiGeometry(o,r){
+    const index=ryoukiIndex(o),age=root.EcoState.ageInfo(o),stage=age.enabled?age.stage:'adult',
+      scale=stage==='juvenile'?.78:stage==='elderly'?.94:1,
+      size=r*2.8*scale,bounds=manifest.ryouki?.bodyBounds[index]||[16,16,352,200];
+    return {index,stage,size,rx:size*bounds[2]/768,ry:size*bounds[3]/768};
+  }
+  function ryouki(g,o,x,y,r,time=0){
+    const entry=manifest.ryouki,im=images[entry?.sheet];if(!entry||!im)return false;
+    const geometry=ryoukiGeometry(o,r),f=entry.regions[geometry.index],key=geometry.index+'/'+geometry.stage;
+    let frame=cachedFrame(ryoukiFrames,key);
+    if(!frame){frame=document.createElement('canvas');frame.width=f[2];frame.height=f[3];const n=frame.getContext('2d');
+      n.filter=geometry.stage==='elderly'?'saturate(.65) brightness(.91)':'none';
+      n.drawImage(im,...f,0,0,f[2],f[3]);storeFrame('ryouki',ryoukiFrames,key,frame,32);}
+    g.save();g.translate(x,y);
+    if(o.renderPose){g.rotate(o.renderPose.lean||0);g.scale(1,o.renderPose.squash||1);}
+    if(Math.cos(((o.facing||0)*Math.PI)/4)<0)g.scale(-1,1);
+    // Black dorsal tissue is part of the adopted static painting, never a mask.
+    g.drawImage(frame,-geometry.size/2,-geometry.size/2,geometry.size,geometry.size);g.restore();return true;
+  }
+  function ryoukiPortrait(g,o,x,y,r){
+    const reference=manifest.ryouki?.references[ryoukiIndex(o)],im=images[reference?.sheet];if(!reference||!im)return false;
+    const f=reference.region,aspect=f[2]/f[3],size=r*2.8,width=size*Math.min(1,aspect),height=size*Math.min(1,1/aspect);
+    g.drawImage(im,...f,x-width/2,y-height/2,width,height);return true;
+  }
   const foodMetrics = { builds: 0, hits: 0, cached: 0 };
   function food(g, o, x, y, r, env) {
     const id=o.species, floating=id==="phytoplankton",
@@ -597,9 +629,9 @@
   const remainsFrames = new Map();
   function remains(g, a, x, y, r, water, turn) {
     const foodFrames = manifest.food.regions[a.species === "phytoplankton" ? "algae" : a.species],
-      plant=manifest.producers?.[a.species],
-      f = foodFrames?.[0] || plant?.regions[producerIndex(a.appearance||a)] || manifest.creatures.regions[a.species]?.[0],
-      im = images[foodFrames ? "food-atlas" : plant?.sheet||manifest.creatures.sheetBySpecies[a.species]];
+      plant=manifest.producers?.[a.species],ry=a.species==='ryouki'?manifest.ryouki:null,
+      f = foodFrames?.[0] || plant?.regions[producerIndex(a.appearance||a)] || ry?.regions[ryoukiIndex(a.appearance||a)] || manifest.creatures.regions[a.species]?.[0],
+      im = images[foodFrames ? "food-atlas" : plant?.sheet||ry?.sheet||manifest.creatures.sheetBySpecies[a.species]];
     if (!f || !im) return false;
     // q is an absolute existing stock, not a guessed percentage of original biomass.
     const amount = Math.max(1, Math.min(4, Math.ceil(a.q || 1))),
@@ -765,7 +797,7 @@
       while(warmExtras.length){const p=warmExtras.shift(),key='parasite/'+p.species+'/'+parasitePhase(p);if(!warmKeys.has(key)){warmKeys.add(key);parasite(g,p,0,0,1);schedule(next);return;}}
       for(let count=0;count<128&&warmCursor<warmCurrent.organisms.length;count++){
         const o=warmCurrent.organisms[warmCursor++],stage=root.EcoState.ageInfo(o).stage,env=warmCurrent.tiles[o.cell].env;let key,paint;
-        if(o.slot==='main'){key=['m',o.species,o.phase,o.branch3,o.branch4,stage,o.sex,o.role].join('/');paint=()=>creature(g,{...o,renderLighting:true,renderEmphasis:false},0,0,1);}
+        if(o.slot==='main'){key=['m',o.species,o.phase,o.branch3,o.branch4,stage,o.sex,o.role,!!o.ryouki?.mutated].join('/');paint=()=>creature(g,{...o,renderLighting:true,renderEmphasis:false},0,0,1);}
         else if(o.slot==='producer'){key=['producer',o.species,producerIndex(o),stage].join('/');paint=()=>producer(g,o,0,0,1);}
         else {const spec=root.EcoState.spec(o),density=Math.min(3,Math.floor(Math.max(0,Math.min(1,o.B/Math.max(1,spec.capacity[1])))*4));key=['f',o.species,o.phase,stage,density,[1,4,5,7].includes(env)?env:0].join('/');paint=()=>food(g,o,0,0,1,env);}
         if(!warmKeys.has(key)){warmKeys.add(key);paint();break;}
@@ -791,6 +823,10 @@
     producerPortrait,
     producerIndex,
     producerGeometry,
+    ryouki,
+    ryoukiPortrait,
+    ryoukiIndex,
+    ryoukiGeometry,
     food,
     foodMetrics,
     resource,

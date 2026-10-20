@@ -33,3 +33,5 @@
 4.2.4: 群体節足Cは取り下げ、添付942.pngと同一のswarm-branches-v423を維持。多頭蛇だけserpent-approved-v424の11枠へ接続し、I/II相も縦横比保持を指定。現行宣言35PNG。詳細: operations/evidence/approved-body-art-v4.2.4/README.md。
 
 I03: 森冠・星冠・淡水光合成体を各11形態の静的RGBA atlas3枚へ接続。原画5枚の同一コピーは正確な肖像/系統樹用の参照として別登録した。計43PNG。`producers` の区画順はI/II/III3枝/IV6枝で、旧31種の素材・枝・記号は保持する。出典・採用区画・派生SHA・保持した透過編集と再現手順は `design/appearance-runtime-v1/README.md` と同registryへ記録。発光縁のマット、全方向/全年齢の専用素材はI10の残件。近景は準備済み画像の描画のみで、背景除去や被食穴のマスクを毎フレーム行わない。
+
+I04: 量機の通常11形態＋相変異2区分を静的RGBA atlas1枚へ接続し、正確な肖像用に採用原画5枚の同一コピーを別登録。計49PNG。`ryouki` は本人の相/枝と確定した相変異状態を読む。通常IVは青緑/金を維持し、相変異I〜IIIは背面だけ黒、相変異IVは黒/深緑。黒い背面を描画中の上マスクで作らない。由来/区画/hash/保持した透過編集と静的packは `design/ryouki-runtime-v1/README.md` と同registryを参照。全方向/全年齢とマット仕上げはI10の残件。

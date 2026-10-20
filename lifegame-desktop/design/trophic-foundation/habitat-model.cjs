@@ -13,8 +13,8 @@ function model(flags={}){
    source=source.slice(0,start)+fs.readFileSync(path.join(__dirname,'../renewal-screen-v2/allocation.txt'),'utf8')+source.slice(end);
   }
   if(name==='behavior'){
-   const from='occupied.has(cell) ||';if(source.split(from).length!==2)throw Error('Movement source contract moved');
-   source=source.replace(from,'occupied.has(cell) || !S.validHabitat(w, s, cell) ||');
+   const from='            !S.oneStep(w, prev, cell)';if(source.split(from).length!==2)throw Error('Movement source contract moved');
+   source=source.replace(from,'            !S.validHabitat(w, s, cell) ||\n            !S.oneStep(w, prev, cell)');
   }
   const normal=m.require.bind(m);m.require=id=>/^\.\/[^/]+\.js$/.test(id)?load(id.slice(2,-3)):normal(id);m._compile(source,file);return m.exports;
  }

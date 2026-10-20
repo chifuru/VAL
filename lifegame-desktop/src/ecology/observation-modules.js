@@ -866,9 +866,21 @@ function(require,module){
   ].map(s=>({...s,group:"plant",kind:"independent",recordUnit:"individual",slot:"producer",tag:"plant",
     phases:["第一相","第二相","第三相","第四相"],branches:["生産","繁殖拡散","耐食"],
     initial:[s.capacity[0]*.5,13.2,1,s.capacity[3]],traits:{},senseAt:1,rangeAt:1,speedAt:1}));
+  // I04 comparison definition stays outside all legacy species/main lists.
+  data.ryouki = {id:"ryouki",name:"量機",group:"main",slot:"main",tag:"animal",recordUnit:"individual",
+    definition:"ryouki/3",parameters:"implementation-start/2",phases:["第一相","第二相","第三相","第四相"],
+    branches:["広域探索","周辺探索","障害踏破"],
+    fourthBranches:[["広域探索・直進","広域探索・ランダム"],["周辺探索・近め","周辺探索・広め"],["障害踏破・水域","障害踏破・火山"]],
+    life:180,maturity:18,maintenance:.48,birthCooldown:8,birthEnergy:30,M3:2,M4:4,
+    initial:[40,8,1,80],capacity:[100,32,30,80],combat:{attack:.45,defense:.60,hp:.80},
+    birth:{motherE:30,fatherE:12,motherM:.75,fatherM:.25,costsE:[18,6],costsM:[.75,.25],childE:16,childB:6,childM:1,dissipatedE:2},
+    experience:{II:20,III:60,IV:140},weights:[35,65,75,65,55,55,75,60,40],
+    good:[],bad:-1,type:"move",diet:"general",traits:{},traitText:["低戦闘・高移動・高繁殖","密度による可逆相変異"],
+    senseAt:1,rangeAt:99,speedAt:1,aquatic:false,color:"#438e80"};
   data.species.push({id:'phytoplankton',name:'浮遊微藻',group:'plant',slot:'food',tag:'plant',phases:['微小体','分裂体'],life:80,maturity:2,maintenance:.1,birthCooldown:2,initial:[6,8,.5,6],capacity:[20,16,2,6],color:'#73d2bf'});
   data.byId = Object.fromEntries(data.species.map((s) => [s.id, s]));
   Object.assign(data.byId,Object.fromEntries(data.independentPlants.map(s=>[s.id,s])));
+  data.byId.ryouki=data.ryouki;
   data.main = data.species.filter((s) => s.group === "main");
   return data;
 });
@@ -1145,7 +1157,105 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
   })();
-  const activeSpecies = (w) => w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const activeSpecies = (w) => w?.config?.ryoukiModel === "ryouki/1" ? [...D.species,...(w?.config?.largePlantModel === "independent/1"?D.independentPlants:[]),D.ryouki] : w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const activeMain = (w) => w?.config?.ryoukiModel === "ryouki/1" ? [...D.main,D.ryouki] : D.main;
+  const Ryouki = (() => {
+    const VERSION="ryouki-state/1",LIMIT=1e12;
+    const enabled=w=>w?.config?.ryoukiModel==="ryouki/1";
+    const is=o=>o?.species==="ryouki"&&o.ryouki?.version===VERSION;
+    function settings(input={}){
+      const defaults={version:"ryouki-parameters/1",densityHigh:6,highTurns:3,densityLow:2,lowTurns:6,biteB:2,mutatedBiteB:2.4,preparationWeight:1.5};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 量機の比較値");
+      const out={...defaults,...input};
+      if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 量機の定義版");
+      for(const key of ["densityHigh","densityLow","highTurns","lowTurns"])if(!Number.isSafeInteger(out[key])||out[key]<(key.endsWith("Turns")?1:0)||out[key]>1000)throw Error("SETTINGS_INVALID: 量機の密度/継続T");
+      if(out.densityLow>=out.densityHigh)throw Error("SETTINGS_INVALID: 量機の密度境界");
+      for(const key of ["biteB","mutatedBiteB","preparationWeight"])if(typeof out[key]!=="number"||!Number.isFinite(out[key])||out[key]<=0||out[key]>20)throw Error("SETTINGS_INVALID: 量機の採食/評価値");
+      if(out.mutatedBiteB<out.biteB)throw Error("SETTINGS_INVALID: 量機の相変異採食量");
+      return out;
+    }
+    function attach(w,o,options={}){
+      if(o.species!=="ryouki")return o;
+      if(!enabled(w))throw Error("SETTINGS_INVALID: 量機モデルの指定が必要です");
+      if(is(o))return o;
+      o.ryouki={version:VERSION,mutated:false,highRun:0,lowRun:0,window:[],recentCells:[{turn:w.turn,cell:o.cell}],finalizedAt:-1,
+        last:{turn:w.turn,density:0,experience:0,steps:0,transition:null}};
+      const initial=D.ryouki.initial;
+      for(const [i,key]of ["E","B","M","HP"].entries())if(!Object.hasOwn(options,key))o[key]=initial[i];
+      return o;
+    }
+    function begin(w){
+      if(!enabled(w))return;
+      const m=maps(w),p=w.config.ryoukiSettings;
+      for(const o of w.organisms)if(is(o)){
+        const a=o.ryouki,density=nearby(w,o.cell,1,true).reduce((n,cell)=>n+mainAt(m,cell).filter(t=>t.id!==o.id&&t.species==="ryouki"&&t.HP>0).length,0);
+        a.last={turn:w.turn,density,experience:0,steps:0,transition:null};
+        a.highRun=density>=p.densityHigh?Math.min(p.highTurns,a.highRun+1):0;
+        a.lowRun=density<=p.densityLow?Math.min(p.lowTurns,a.lowRun+1):0;
+        if(!a.mutated&&a.highRun>=p.highTurns){a.mutated=true;a.lowRun=0;a.last.transition="entered";}
+        else if(a.mutated&&a.lowRun>=p.lowTurns&&mainAt(m,o.cell).filter(t=>t.HP>0).every(t=>t.id===o.id)){a.mutated=false;a.highRun=0;a.last.transition="released";}
+      }
+    }
+    function phenotype(w,o,phase=o.phase,branch=o.branch4){
+      const s=D.ryouki,a=ageInfo(o),f=a.factors,skin=o.dna.skin,body=o.dna.body;
+      const life=Math.floor(s.life*(.95+.1*skin)*[0,1,1.1,1.25,1.4][phase]),maintenance=s.maintenance*(.95+.1*body)*[0,1,.98,.95,.9][phase];
+      const cooldown=Math.max(4,Math.ceil(s.birthCooldown*(.95+.1*body)*(phase===4?.85:1)));
+      return {phase,u:phase/4,capE:100,capB:32,capM:30,maxHP:H.round(80*f.hp),baseMaxHP:80,life,
+        maintenance:maintenance*f.maintenance,baseMaintenance:maintenance,cooldown:cooldown*f.birth,baseCooldown:cooldown,
+        sense:phase,speed:o.ryouki.mutated?3:phase,range:1,M3:s.M3*(.95+.1*skin),M4:s.M4*(.95+.1*skin),branch,
+        ageEnabled:a.enabled,ageStage:a.stage,ageFactors:f};
+    }
+    function difficult(w,cell){const t=w.tiles[cell];return ["shallow","deep","rock","mud"].includes(t.terrain)||t.env===1;}
+    function choose(w,o,scores,purpose){
+      const largest=Math.max(...scores),dna=[o.dna.aptitude,o.dna.sensitivity,o.dna.appendage];
+      return scores.map((n,i)=>({n,i})).filter(a=>Math.abs(a.n-largest)<1e-8)
+        .sort((a,b)=>(purpose==="III"?dna[b.i]-dna[a.i]:0)||hash(w,"ryouki/branch",0,o.id,[purpose,a.i])-hash(w,"ryouki/branch",0,o.id,[purpose,b.i]))[0].i;
+    }
+    function finalize(w,ctx){
+      if(!enabled(w))return;
+      for(const o of w.organisms)if(is(o)&&ctx.traits.has(o.id)&&o.ryouki.finalizedAt!==w.turn){
+        const a=o.ryouki,rec=ctx.records.get(o.id),before=ctx.old.get(o.id);a.finalizedAt=w.turn;
+        a.window=a.window.filter(r=>r.turn>w.turn-32);a.recentCells=a.recentCells.filter(r=>r.turn>w.turn-16);
+        const steps=rec.ryoukiSteps||[],known=new Set(a.recentCells.map(r=>r.cell));let fresh=0;
+        for(const cell of steps){if(!known.has(cell)){fresh++;known.add(cell);}a.recentCells.push({turn:w.turn,cell});}
+        a.recentCells=a.recentCells.slice(-64);
+        const previous=a.window.filter(r=>r.steps>0).at(-1),dir=o.facing,previousVector=previous?DIRS[previous.direction]:null,vector=DIRS[dir];
+        const aligned=previousVector&&(previousVector[0]*vector[0]+previousVector[1]*vector[1])/Math.hypot(...previousVector)/Math.hypot(...vector)>=Math.SQRT1_2-1e-8;
+        const row={turn:w.turn,cell:o.cell,fromCell:before.cell,steps:steps.length,fresh,difficult:steps.filter(c=>difficult(w,c)).length,
+          water:steps.filter(c=>["shallow","deep"].includes(w.tiles[c].terrain)).length,hot:steps.filter(c=>w.tiles[c].env===1).length,
+          adapted:steps.filter(c=>["shallow","deep"].includes(w.tiles[c].terrain)||w.tiles[c].env===1).length,
+          fed:rec.organic>0?1:0,direction:dir,straight:steps.length&&aligned?1:0,compared:steps.length&&previous?1:0};
+        a.window.push(row);
+        const healthy=rec.ryoukiMaintained===true&&o.HP>=.7*phenotype(w,o).maxHP;
+        const gained=H.round(Math.min(2,(healthy?.5:0)+Math.max(0,rec.organic)/2+Math.min(.4,steps.length*.1)));
+        o.G=H.round(Math.min(LIMIT,o.G+gained));a.last.experience=gained;a.last.steps=steps.length;
+        a.last.goal=rec.ryoukiGoal??ctx.intents.get(o.id)?.ryoukiGoal??"探索";a.last.moveCost=rec.ryoukiMoveCost||0;a.last.moveBudgetLimited=!!rec.ryoukiMoveBudgetLimited;
+        const old=o.phase,origin=a.window[0]?.fromCell??a.window[0]?.cell??before.cell,sum=k=>a.window.reduce((n,r)=>n+r[k],0);
+        if(old===1&&o.G>=D.ryouki.experience.II)o.phase=2;
+        else if(old===2&&o.G>=D.ryouki.experience.III&&o.M>=phenotype(w,o).M3){
+          const hard=sum("difficult"),scores=[Math.min(1,sum("fresh")/16),Math.min(1,a.window.filter(r=>r.fed&&distance(w,origin,r.cell)<=2).length/8),hard>=3?Math.min(1,hard/8):-1];
+          o.branch3=choose(w,o,scores,"III");o.phase=3;
+        }else if(old===3&&o.G>=D.ryouki.experience.IV&&o.M>=phenotype(w,o).M4){
+          if(o.branch3===0&&a.window.filter(r=>r.steps>0).length>=8){o.branch4=sum("straight")/Math.max(1,sum("compared"))>=.65?0:1;o.phase=4;}
+          if(o.branch3===1&&sum("fed")>=8){o.branch4=a.window.filter(r=>r.fed).reduce((n,r)=>n+distance(w,origin,r.cell),0)/sum("fed")<=1.5?0:1;o.phase=4;}
+          if(o.branch3===2&&a.window.reduce((n,r)=>n+(r.adapted??r.water+r.hot),0)>=8){o.branch4=choose(w,o,[sum("water"),sum("hot")],"IV/terrain");o.phase=4;}
+        }
+        if(o.phase!==old)record(ctx,o,"growth",{fromPhase:old,phase:o.phase});
+      }
+    }
+    function summary(w){
+      if(!enabled(w))return;
+      const groups=new Map(),out={definition:"ryouki-observed/1",turn:w.turn,count:0,normal:0,mutated:0,mutatedEarly:0,mutatedIV:0,occupiedCells:0,cohabitingIndividuals:0,maxOccupancy:0};
+      for(const o of w.organisms)if(is(o)){
+        out.count++;if(o.ryouki.mutated){out.mutated++;out[o.phase===4?"mutatedIV":"mutatedEarly"]++;}else out.normal++;
+        groups.set(o.cell,(groups.get(o.cell)||0)+1);
+      }
+      out.occupiedCells=groups.size;
+      for(const size of groups.values()){out.maxOccupancy=Math.max(out.maxOccupancy,size);if(size>1)out.cohabitingIndividuals+=size;}
+      w.ryoukiSummary=out;return out;
+    }
+    return {enabled,is,settings,attach,begin,phenotype,finalize,difficult,summary};
+  })();
   const LargePlant = (() => {
     const VERSION="independent-plant-state/1", factors=[0,1,1.15,1.35,1.6], edible=[0,16,20,24,32], LIMIT=1e12;
     const enabled=w=>w.config.largePlantModel==="independent/1";
@@ -1457,8 +1567,20 @@ return {settings,attach,region,level,factor,begin,finish};
       carcasses.get(a.cell).push(a);
     }
     const result=(()=>{return { main, food, prey, byId, resources, carcasses };})();
+    if(Ryouki.enabled(w)){
+      result.mainByCell=new Map();
+      for(const o of w.organisms)if(o.slot==="main"){
+        if(!result.mainByCell.has(o.cell))result.mainByCell.set(o.cell,[]);
+        result.mainByCell.get(o.cell).push(o);
+      }
+    }
     if(producer)result.producer=producer;
     return result;
+  }
+  function mainAt(m,cell){return m.mainByCell?.get(cell)??(m.main.has(cell)?[m.main.get(cell)]:[]);}
+  function mainRoom(w,o,cell,m=sharedMaps(w)){
+    const occupants=mainAt(m,cell).filter(a=>a.id!==o.id);
+    return occupants.length===0||(Ryouki.enabled(w)&&Ryouki.is(o)&&o.ryouki.mutated&&occupants.length<3&&occupants.every(a=>Ryouki.is(a)&&a.ryouki.mutated));
   }
   function validHabitat(w, s, p) {
     const t = w.tiles[p];
@@ -1566,12 +1688,12 @@ return {settings,attach,region,level,factor,begin,finish};
     if (!c.enabled.main) c.initial = 0;
     if (
       !Array.isArray(c.selected) ||
-      c.selected.some((id) => !D.main.some((s) => s.id === id))
+      c.selected.some((id) => !activeMain({config:c}).some((s) => s.id === id))
     )
       throw Error("SETTINGS_INVALID: 系統");
     c.selected = [...new Set(c.selected)];
-    for (const weight of Object.values(c.weights))
-      if (!Number.isInteger(weight) || weight < 1 || weight > 4)
+    for (const [id,weight] of Object.entries(c.weights))
+      if (!Number.isInteger(weight) || weight < (c.ryoukiModel==="ryouki/1"&&id==="ryouki"?0:1) || weight > 4)
         throw Error("SETTINGS_INVALID: 配分重みは1〜4");
     if (c.landscape !== undefined && !["watershed", "templates"].includes(c.landscape))
       throw Error("SETTINGS_INVALID: 地形方式");
@@ -1584,6 +1706,11 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
+    if(c.ryoukiModel==="ryouki/1"){
+      c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
+      c.ageModel="life/1";
+    }else if(c.ryoukiSettings!==undefined)throw Error("SETTINGS_INVALID: 量機モデルの指定が必要です");
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
@@ -1647,6 +1774,10 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(Ryouki.is(o)){
+      o.birthLife=Math.floor(D.ryouki.life*(.95+.1*o.dna.skin));
+      o.HP=H.round(Math.min(o.HP,Ryouki.phenotype(w,o).maxHP));return o;
+    }
     if(LargePlant.is(o)){
       o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
     }
@@ -1725,6 +1856,7 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    Ryouki.attach(w,o,options);
     LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
@@ -1733,6 +1865,7 @@ return {settings,attach,region,level,factor,begin,finish};
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
+    if(Ryouki.is(o))return Ryouki.phenotype(w,o,phase,branch);
     if(LargePlant.is(o))return LargePlant.phenotype(w,o,phase,branch);
     const s = spec(o),
       main = s.group === "main",
@@ -1995,10 +2128,11 @@ return {settings,attach,region,level,factor,begin,finish};
     let mains =
       config.lineages === "manual"
         ? config.selected.map((id) => D.byId[id])
-        : D.main.slice(0, 20);
+        : Ryouki.enabled(w) ? [...D.main.slice(0,20),D.ryouki] : D.main.slice(0, 20);
     if(colonyPlants)config.enabled.plant=true;
     Colony.initialize(w);
     if (!config.enabled.main) mains = [];
+    if(Ryouki.enabled(w)&&config.distribution==="weighted"&&config.weights.ryouki===0)mains=mains.filter(s=>s.id!=="ryouki");
     if (config.lineages === "few")
       mains = mains
         .map((s) => ({ s, h: hash(w, "init/group", 0, s.id) }))
@@ -2133,7 +2267,7 @@ return {settings,attach,region,level,factor,begin,finish};
                 : null,
             colony: s.id === "swarm" ? group : null,
             founder: s.id === "swarm" ? group : null,
-            B: s.id === "swarm" && j % 4 === 3 ? 8 : 16,
+            B: s.id === "ryouki" ? 8 : s.id === "swarm" && j % 4 === 3 ? 8 : 16,
           }),
         );
       }
@@ -2399,7 +2533,9 @@ return {settings,attach,region,level,factor,begin,finish};
     ProducerSupport,
     Colony,
     LargePlant,
+    Ryouki,
     activeSpecies,
+    activeMain,
     initialRank,
     DIRS,
     DNA,
@@ -2419,6 +2555,8 @@ return {settings,attach,region,level,factor,begin,finish};
     oneStep,
     sight,
     maps: sharedMaps,
+    mainAt,
+    mainRoom,
     withMapScope,
     validHabitat,
     validate,
@@ -2454,6 +2592,7 @@ function(require,module){
   else root.EcoNutrition = api;
 })(globalThis, function (S) {
   "use strict";
+  const isRyouki=(w,o)=>S.Ryouki?.enabled(w)===true&&S.Ryouki.is(o);
   function efficiency(o, tag, phase = o.phase) {
     const s = S.spec(o);
     if (s.group === "prey") return tag === "plant" ? 0.65 : 0;
@@ -2475,7 +2614,7 @@ function(require,module){
             factor *
             (0.9 + 0.2 * o.dna.aptitude) *
             (tag === "plant" ? 1 + S.trait(o, "plant", phase) : 1) *
-            (o.branch3 === 0 && o.branch4 === 0 ? 1.1 : 1) *
+            (!S.Ryouki?.is(o) && o.branch3 === 0 && o.branch4 === 0 ? 1.1 : 1) *
             (s.id === "precocial" && o.phase === 3 && o.branch3 === 0
               ? 1.05
               : 1),
@@ -2515,7 +2654,7 @@ function(require,module){
           (options.healing || 1) *
           p.ageFactors.healing *
           (1 + S.trait(o, "healing", phase)) *
-          (o.branch3 === 0 && o.branch4 === 1 ? 1.2 : 1),
+          (!isRyouki(w,o) && o.branch3 === 0 && o.branch4 === 1 ? 1.2 : 1),
       );
       healed = Math.min(p.maxHP - o.HP, remaining * rate);
       const used = S.round(healed / rate);
@@ -2546,11 +2685,11 @@ function(require,module){
       let g = options.carcass
         ? amount.G * eta
         : e * (tag === "animal" ? 1 + S.trait(o, "animalG", phase) : 1);
-      if (o.factor && o.factor.expires > w.turn && e > 0) {
+      if (!isRyouki(w,o) && o.factor && o.factor.expires > w.turn && e > 0) {
         g += o.factor.level;
         o.factor = null;
       }
-      const addG = Math.min(300 - o.G, g);
+      const addG = isRyouki(w,o)?0:Math.min(300 - o.G, g);
       o.G = S.round(o.G + addG);
       if (rec) {
         rec.relieved = rec.relieved || (beforeE < 35 && o.E >= 35);
@@ -2646,6 +2785,7 @@ function(require,module){
     if(plant && S.ProducerSupport.factor(w,o,S)===0)return list;
     function organicAllowed(tag) {
       if (plant) return false;
+      if (isRyouki(w,o)) return ["plant","animal"].includes(tag);
       if (spec.id === "kelp") return tag === "animal";
       return main || fungus || (spec.group === "prey" && tag === "plant");
     }
@@ -2657,6 +2797,7 @@ function(require,module){
     for (const p of cells) {
       for (const a of m.resources.get(p) || []) {
         const f = S.FOOD[a.kind];
+        if(isRyouki(w,o)&&f.tag!=="mineral")continue;
         if (a.q <= 0 || (a.E <= 0 && a.M <= 0 && a.kind !== "factor")) continue;
         if (plant && f.tag !== "mineral") continue;
         if (["plant", "fungal", "animal"].includes(f.tag) && !organicAllowed(f.tag)) continue;
@@ -2708,6 +2849,7 @@ function(require,module){
         });
       }
       for (const a of m.carcasses.get(p) || []) {
+        if(isRyouki(w,o)&&(S.D.byId[a.species]?.group!=="prey"||!(a.G>0)))continue;
         if (
           !organicAllowed(a.tag) ||
           (a.species === o.species && !fungus) ||
@@ -2773,6 +2915,7 @@ function(require,module){
       const target = m.byId.get(intent.target);
       if (
         target &&
+        (!isRyouki(w,o)||["plant","prey"].includes(S.spec(target).group)) &&
         organicAllowed(S.spec(target).tag) &&
         target.HP > 0 &&
         S.edibleB(target) > 0 &&
@@ -2798,6 +2941,12 @@ function(require,module){
         if(!target||target.HP<=0||S.edibleB(target)<=0||!organicAllowed("plant")||!S.oneStep(w,o.cell,cell)||list.some(a=>a.id===target.id))continue;
         list.push({type:"plant",id:target.id,obj:target,cell,tag:"plant",amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB-S.PLANT_BASE),healing:1});
       }
+    }
+    if(isRyouki(w,o))for(const cell of S.nearby(w,o.cell,1,true)){
+      const target=(m.prey||m.food).get(cell);
+      if(!target||target.HP<=0||S.spec(target).group!=="prey"||S.edibleB(target)<=0||
+          !S.oneStep(w,o.cell,cell)||list.some(a=>a.id===target.id))continue;
+      list.push({type:"plant",id:target.id,obj:target,cell,tag:"animal",amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB),healing:1});
     }
     return list;
   }
@@ -2835,7 +2984,8 @@ function(require,module){
           visible *
           efficiency(o, a.tag, p.phase) *
           (a.type === "carcass" ? S.D.diets[s.diet]?.carcass || 1 : 1) *
-          (o.HP < 50 ? a.healing : 1),
+          (o.HP < 50 ? a.healing : 1) *
+          (isRyouki(w,o)?a.tag==="plant"?.65:a.tag==="animal"?.35:1:1),
         h: S.hash(w, "feeding/choice", w.turn, o.id, a.id),
       };
     }
@@ -2897,7 +3047,7 @@ function(require,module){
               o.E +
               (2 * (p.maxHP - o.HP)) / (a.healing * p.ageFactors.healing);
           const B = Math.min(
-              S.LargePlant.is(obj)?2*S.phenotype(w,obj).biteFactor:2,
+              isRyouki(w,o)?(o.ryouki.mutated?w.config.ryoukiSettings.mutatedBiteB:w.config.ryoukiSettings.biteB)*(S.LargePlant.is(obj)?S.phenotype(w,obj).biteFactor:1):S.LargePlant.is(obj)?2*S.phenotype(w,obj).biteFactor:2,
               S.edibleB(obj),
               S.spec(o).group === "prey"
                 ? Math.max(0, S.round(need / efficiency(o, a.tag, p.phase)))
@@ -2918,10 +3068,15 @@ function(require,module){
             M: S.round((obj.M || 0) / obj.q),
             G: S.round((obj.G || 0) / obj.q),
           };
+          // Existing carcass G is the finite transferred body B. Reserve E and M
+          // follow the same partial ration; neither a roommate nor a second bite copies it.
+          const fraction=isRyouki(w,o)&&a.type==="carcass"?
+            Math.min(1,(o.ryouki.mutated?w.config.ryoukiSettings.mutatedBiteB:w.config.ryoukiSettings.biteB)/amount.G):1;
+          if(fraction<1)for(const k of ["E","M","G"])amount[k]=S.round(amount[k]*fraction);
           obj.E = S.round(Math.max(0, (obj.E || 0) - amount.E));
           obj.M = S.round(Math.max(0, (obj.M || 0) - amount.M));
           obj.G = S.round(Math.max(0, (obj.G || 0) - amount.G));
-          obj.q--;
+          if(fraction<1)obj.q=S.round(obj.q-fraction);else obj.q--;
           if (!obj.q) ctx.exhausted.add(obj.cell + ":" + obj.kind);
         }
         let assimilated=0;
@@ -2957,6 +3112,7 @@ function(require,module){
           amount: amount.E,
           material: amount.M,
           tag: a.tag,
+          ...(isRyouki(w,o)?{consumedB:a.type==="plant"?harvest.consumedB:a.type==="carcass"?amount.G:0}:{}),
         });
         ctx.records.get(o.id).bites++;
       }
@@ -2980,10 +3136,19 @@ function(require,module){
     S.dissipate(w, paid);
     return paid;
   }
+  function deathAppearance(w, o) {
+    return {
+      species:o.species,phase:o.phase,branch3:o.branch3,branch4:o.branch4,
+      sex:o.sex,role:o.role,age:o.age,birthLife:o.birthLife,facing:o.facing,
+      dna:{...o.dna},
+      ...(isRyouki(w,o)?{ryouki:{version:o.ryouki.version,mutated:o.ryouki.mutated}}:{})
+    };
+  }
   function carcass(w, o, ctx) {
     if(S.Colony.is(o)&&o.colony.edibleExposure){S.dissipate(w,o.colony.edibleExposure.E);o.colony.edibleExposure=null;}
     const same = w.carcasses.find(
-      (a) => a.cell === o.cell && a.slot === o.slot,
+      (a) => a.cell === o.cell && a.slot === o.slot &&
+        (!(S.Ryouki?.enabled(w)&&o.slot==="main")||a.id==="c:"+o.id+":"+w.turn),
     );
     if (same) {
       removeResource(w, same);
@@ -3012,6 +3177,7 @@ function(require,module){
       infection: null,
       payloadExpires: null,
     };
+    if(isRyouki(w,o))a.appearance=deathAppearance(w,o);
     S.dissipate(w, o.E + o.B - a.E);
     S.addSoil(w, o.cell, o.M - a.M);
     const p = o.infection;
@@ -3037,6 +3203,7 @@ function(require,module){
       if (["stop", "defend"].includes(intent.type))
         base *= 1 + S.trait(o, "rest", p.phase);
       const paidBase=spend(w, o, base);
+      if(isRyouki(w,o))ctx.records.get(o.id).ryoukiMaintained=paidBase>=S.round(base)&&o.HP>0;
       if(S.Colony.is(o)){
         const maintained=paidBase>=S.round(base)&&o.HP>0;
         o.colony.activity=S.round(S.clamp(o.colony.activity+(maintained?.02:-.05),0,1));
@@ -3059,11 +3226,7 @@ function(require,module){
       if(!reason&&S.LargePlant.is(o)&&o.plant.activity<=0)reason="starvation";
       if (!reason && !S.Colony.is(o) && o.age >= p.life) reason = "age";
       if (reason) {
-        S.record(ctx, o, "death", { reason, appearance: {
-          species:o.species,phase:o.phase,branch3:o.branch3,branch4:o.branch4,
-          sex:o.sex,role:o.role,age:o.age,birthLife:o.birthLife,facing:o.facing,
-          dna:{...o.dna}
-        } });
+        S.record(ctx, o, "death", { reason, appearance: deathAppearance(w,o) });
         ctx.deaths.push({ species: o.species, reason, ...(o.producerReserve===0?{environmentCause:"basal-nutrition-exhausted"}:{}), ...(w.config.ecologyRevision === "observation/4.1" ? {id:o.id,generation:o.generation,ageStage:ctx.traits.get(o.id).ageStage} : {}) });
         carcass(w, o, ctx);
       } else survivors.push(o);
@@ -3343,6 +3506,12 @@ function(require,module){
 })(globalThis, function (S, Nutrition) {
   "use strict";
   const phaseA = [0, 1, 1.15, 1.35, 1.6];
+  const grouped = w => S.Ryouki?.enabled(w) === true;
+  const isRyouki = (w,o) => grouped(w) && S.Ryouki.is(o);
+  function mainMembers(w,m,cell) {
+    if (grouped(w)) return S.mainAt(m,cell);
+    const o=m.main.get(cell);return o?[o]:[];
+  }
   function environmental(w, o, kind, cell = o.cell) {
     const s = S.spec(o),
       env = w.tiles[cell].env;
@@ -3379,6 +3548,16 @@ function(require,module){
       terrain * (["log", "bush"].includes(t.cover) ? 1.2 : 1),
     );
     if (S.LargePlant?.is(o)) return .3 * ageMove * terrain;
+    if (isRyouki(w,o)) {
+      let extra=1;
+      if (phase>=3 && o.branch3===2) {
+        extra=.8;
+        if (phase===4 && ((o.branch4===0 && ["shallow","deep"].includes(t.terrain)) ||
+            (o.branch4===1 && t.env===1))) extra=.65;
+      }
+      terrain=1+(terrain-1)*extra;
+      return .39*ageMove*terrain*environmental(w,o,"move",to)*S.adjustment(w,o,"move",t.env,phase);
+    }
     if (o.branch3 === 1 && o.branch4 === 1) terrain = 1 + 0.75 * (terrain - 1);
     let branch =
       o.branch3 === 1 && o.branch4 === 0
@@ -3414,23 +3593,23 @@ function(require,module){
         : value;
     }
     const m = ctx.current || S.maps(w),
-      friends = S.nearby(w, o.cell).filter(
-        (c) => m.main.get(c)?.species === o.species,
-      ).length;
+      friends = S.nearby(w, o.cell).reduce((n,c) => n+mainMembers(w,m,c).filter(a=>a.species===o.species).length,0);
     const common =
       s.id === "precocial" ? [0, 1.2, 1.35, 1.6][phase] : phaseA[phase];
     let value =
       kind === "attack"
         ? 6 + (6 * (2 * o.dna.body + o.dna.appendage)) / 3
         : 4 + 4 * o.dna.skin;
-    const baseValue = value * common;
+    const combatScale=isRyouki(w,o)?(kind==="attack"?.45:.60):1,
+      baseValue = value * common * combatScale;
     value *=
+      combatScale *
       p.ageFactors[kind] *
       common *
       S.adjustment(w, o, kind, w.tiles[o.cell].env, phase);
     if (kind === "attack") {
       value *= 1 + Math.min(3, friends) * S.trait(o, "packAttack", phase);
-      if (o.branch3 === 2 && o.branch4 === 0) value *= 1.1;
+      if (!isRyouki(w,o) && o.branch3 === 2 && o.branch4 === 0) value *= 1.1;
       value *= environmental(w, o, "attack");
     } else {
       let env = environmental(w, o, "defense");
@@ -3441,7 +3620,7 @@ function(require,module){
       value *= Math.min(1.6, env);
       if (guarded) value *= 1 + S.trait(o, "guard", phase);
       if (cover) value *= 1 + S.trait(o, "coverDefense", phase);
-      if (o.branch3 === 2 && o.branch4 === 1) value *= 1.1;
+      if (!isRyouki(w,o) && o.branch3 === 2 && o.branch4 === 1) value *= 1.1;
       if (s.id === "precocial" && phase === 3 && o.branch3 === 2) value *= 1.05;
     }
     return breakdown
@@ -3484,7 +3663,7 @@ function(require,module){
   }
   function chooseFloating(w, o, ctx, m, stage) {
     const sensed = S.nearby(w,o.cell,1,true).filter(cell => S.sight(w,o.cell,cell)),
-      consumers = sensed.flatMap(cell => [m.main.get(cell),m.prey?.get(cell)])
+      consumers = sensed.flatMap(cell => [...mainMembers(w,m,cell),m.prey?.get(cell)])
         .filter(a => a && a.HP > 0 &&
           (S.spec(a).group === "prey" || (S.spec(a).group === "main" && a.species !== "kelp")));
     const score = cell => {
@@ -3517,9 +3696,7 @@ function(require,module){
       out = [{ type: "stop", cell: o.cell, cost: 0, path: [] }];
     if (S.LargePlant?.is(o)) return floatingCandidates(w,o,ctx,m);
     if (s.group === "plant" || s.group === "fungus") return out;
-    const friend = S.nearby(w, o.cell).some(
-      (c) => m.main.get(c)?.species === o.species,
-    );
+    const friend = S.nearby(w, o.cell).some(c => mainMembers(w,m,c).some(a=>a.species===o.species));
     if (s.group === "main")
       out.push({ type: "defend", cell: o.cell, cost: 0, path: [] });
     if (s.group !== "prey" || s.id !== "waterbug" || w.turn % 2 === 0) {
@@ -3537,8 +3714,9 @@ function(require,module){
             break;
           const cell = S.index(w, tx, ty);
           if (
-            occupied.has(cell) || !S.validHabitat(w, s, cell) ||
-            !visible(w, o, cell, ctx) ||
+            (grouped(w) && o.slot==="main" ? !S.mainRoom(w,o,cell,m) : occupied.has(cell)) ||
+            !(isRyouki(w,o)?S.sight(w,prev,cell):visible(w, o, cell, ctx)) ||
+            !S.validHabitat(w, s, cell) ||
             !S.oneStep(w, prev, cell)
           )
             break;
@@ -3552,6 +3730,7 @@ function(require,module){
               path: path.slice(),
               direction: d,
             });
+          else if(isRyouki(w,o)) ctx.records.get(o.id).ryoukiMoveBudgetLimited=true;
           prev = cell;
         }
       }
@@ -3561,11 +3740,12 @@ function(require,module){
       const main = m.main.get(cell),
         food = m.food.get(cell);
       if (s.group === "main" && o.attackReady <= w.turn)
-        for (const target of [main, m.prey.get(cell)])
+        for (const target of (grouped(w)?[...S.mainAt(m,cell),(m.prey||m.food).get(cell)]:[main, m.prey.get(cell)]))
           if (
             target &&
             target.id !== o.id &&
             target.species !== o.species &&
+            (!isRyouki(w,o) || S.spec(target).group === "prey") &&
             !(w.config.ecologyRevision === "observation/4.1" && ["solar","kelp"].includes(o.species) && ["solar","kelp"].includes(target.species)) &&
             ["main", "prey"].includes(S.spec(target).group) &&
             !(s.id === "kelp" && S.spec(target).group !== "prey") &&
@@ -3588,6 +3768,7 @@ function(require,module){
         food &&
         s.id !== "kelp" &&
         ["plant", "fungus"].includes(S.spec(food).group) &&
+        (!isRyouki(w,o) || S.spec(food).group === "plant") &&
         S.edibleB(food) > 0 &&
         (s.group === "main" || S.spec(food).group === "plant") &&
         S.distance(w, o.cell, cell) <= 1 &&
@@ -3604,31 +3785,31 @@ function(require,module){
       if (producer && s.id !== "kelp" && S.edibleB(producer)>0 && producer.HP>0 &&
           (s.group === "main" || s.group === "prey") && S.distance(w,o.cell,cell)<=1 && S.oneStep(w,o.cell,cell))
         out.push({type:"harvest",cell:o.cell,target:producer.id,cost:0,path:[]});
-      if (
+      for (const ward of (grouped(w)?S.mainAt(m,cell):[main])) if (
         s.id === "swarm" &&
         o.role === "worker" &&
         o.E >= 25 &&
         budget >= 2 &&
-        main &&
-        main.id !== o.id &&
-        main.colony === o.colony &&
-        ((ctx.traits.get(main.id).ageEnabled
-          ? ctx.traits.get(main.id).ageStage === "juvenile"
-          : main.phase <= 2) || (main.role === "queen" && main.E < 65)) &&
+        ward &&
+        ward.id !== o.id &&
+        ward.colony === o.colony &&
+        ((ctx.traits.get(ward.id).ageEnabled
+          ? ctx.traits.get(ward.id).ageStage === "juvenile"
+          : ward.phase <= 2) || (ward.role === "queen" && ward.E < 65)) &&
         S.distance(w, o.cell, cell) === 1 &&
         S.oneStep(w, o.cell, cell)
       )
         out.push({
           type: "care",
           cell: o.cell,
-          target: main.id,
+          target: ward.id,
           cost: 2,
           path: [],
         });
     }
     if (w.config.ecologyRevision === "observation/4.1" && s.group === "main" && budget >= 0.3) {
       for (const cell of S.nearby(w,o.cell,1,true)) {
-        const target=m.main.get(cell);
+        for (const target of mainMembers(w,m,cell))
         if(target?.infection?.location === "external" && target.species===o.species && S.oneStep(w,o.cell,cell))
           out.push({type:"groom",cell:o.cell,target:target.id,cost:0.3,path:[]});
       }
@@ -3643,7 +3824,7 @@ function(require,module){
       ),
       enemies = [];
     for (const p of visibleCells)
-      for (const t of [m.main.get(p), m.prey.get(p)])
+      for (const t of (grouped(w)?[...S.mainAt(m,p),(m.prey||m.food).get(p)]:[m.main.get(p), m.prey.get(p)]))
         if (
           t &&
           t.id !== o.id &&
@@ -3674,6 +3855,18 @@ function(require,module){
   }
   function quality(w, o, cell, v) {
     if (v.qualityCache?.has(cell)) return v.qualityCache.get(cell);
+    if (isRyouki(w,o)) {
+      if (!v.visibleCells.has(cell)) return 0;
+      let leaves=0,insects=0;
+      for(const target of [v.m.food.get(cell),v.m.producer?.get(cell)])
+        if(target&&target.HP>0&&S.spec(target).group==="plant")leaves=Math.max(leaves,Math.min(1,S.edibleB(target)/4));
+      const prey=(v.m.prey||v.m.food).get(cell);
+      if(prey&&prey.HP>0&&S.spec(prey).group==="prey")insects=Math.min(1,S.edibleB(prey)/4);
+      for(const a of v.m.carcasses.get(cell)||[])
+        if(S.D.byId[a.species]?.group==="prey"&&a.q>0)insects=Math.max(insects,Math.min(1,a.q/4));
+      const q=Math.min(1,(.65*leaves+.35*insects)*(.9+.2*o.dna.senses));
+      v.qualityCache?.set(cell,q);return q;
+    }
     const s = S.spec(o);
     const stage = (amount) =>
       amount <= 0 ? 0 : amount <= 1 / 3 ? 1 / 3 : amount <= 2 / 3 ? 2 / 3 : 1;
@@ -3758,13 +3951,12 @@ function(require,module){
       empty = 0;
     for (const p of S.nearby(w, cell)) {
       if (!v.visibleCells.has(p)) continue;
-      const main = v.m.main.get(p);
-      if (main && main.id !== o.id) {
+      for(const main of mainMembers(w,v.m,p))if (main.id !== o.id) {
         crowd++;
         if (main.species === o.species) friends++;
       }
       const occupant = (o.slot === "main" ? v.m.main : v.m.prey).get(p);
-      if ((!occupant || occupant.id === o.id) && S.oneStep(w, cell, p)) empty++;
+      if ((grouped(w)&&o.slot==="main"?S.mainRoom(w,o,p,v.m):(!occupant || occupant.id === o.id)) && S.oneStep(w, cell, p)) empty++;
     }
     const result = { C: friends / 8, D: crowd / 8, O: empty / 8 };
     v.neighborhoodCache?.set(cell, result);
@@ -3825,14 +4017,23 @@ function(require,module){
     const move = c.type === "move",
       attack = c.type === "attack",
       guard = c.type === "defend";
-    const pairReady = (a) => a.species !== "swarm" && (w.config.ecologyRevision === "observation/4.1" || a.phase >= 3) &&
+    const pairReady = (a) => {
+      if(isRyouki(w,a)){
+        const p=ctx.traits.get(a.id),b=S.spec(a).birth,male=a.sex==="male";
+        return p.ageStage!=="juvenile"&&a.HP>=.7*p.maxHP&&a.E>=(male?b.fatherE:b.motherE)&&
+          a.M>=(male?b.fatherM:b.motherM)&&a.birthReady<=w.turn;
+      }
+      return a.species !== "swarm" && (w.config.ecologyRevision === "observation/4.1" || a.phase >= 3) &&
       ctx.traits.get(a.id)?.ageStage !== "juvenile" && a.role !== "worker" &&
       a.HP >= 70 && a.E >= S.spec(a).birthEnergy*(w.config.ecologyRevision === "observation/4.1"?.65:1) && a.M >= (w.config.ecologyRevision === "observation/4.1"?2:4) && a.birthReady <= w.turn;
+    };
     let mateBonus = 0,
       pairApproach = 0,
       shelterBonus = 0;
     for (const p of v.visibleCells) {
       const a = v.m.main.get(p);
+      const actors=grouped(w)?S.mainAt(v.m,p):[a];
+      for(const a of actors){
       if (!a || a.id === o.id || a.species !== o.species) continue;
       if (
         (o.phase < 3 || a.phase < 3) &&
@@ -3866,6 +4067,7 @@ function(require,module){
       }
       if (o.phase <= 2 && a.phase >= 3 && S.distance(w, to, p) <= 1)
         shelterBonus = Math.max(shelterBonus, 0.1);
+      }
     }
     const direction = move
       ? (() => {
@@ -3901,8 +4103,7 @@ function(require,module){
     if (
       attack &&
       S.nearby(w, here).some((p) => {
-        const a = v.m.main.get(p);
-        return a?.species === o.species && a.phase <= 2;
+        return mainMembers(w,v.m,p).some(a=>a.species===o.species&&a.phase<=2);
       })
     )
       features[0] += 0.1;
@@ -3972,6 +4173,32 @@ function(require,module){
     )
       score += 0.1 * hunger;
     if(c.type === "groom") score += 0.3 + 0.4*(o.weights[4]/100);
+    if(isRyouki(w,o)){
+      const known=cell=>o.ryouki.recentCells.some(a=>a.cell===cell),foodCell=target?.cell??to,
+        foodDistance=S.distance(w,here,foodCell);
+      let branchWeight=1;
+      if(o.phase>=3&&move){
+        if(o.branch3===0&&c.path.some(cell=>!known(cell)))branchWeight*=1.2;
+        else if(o.branch3===1&&Q>0&&known(foodCell))branchWeight*=1.2;
+      }else if(o.phase>=3&&o.branch3===1&&Q>0&&known(foodCell))branchWeight*=1.2;
+      if(o.phase===4){
+        if(o.branch3===0&&move){
+          if(o.branch4===0&&direction>=Math.SQRT1_2-1e-8)branchWeight*=1.3;
+          else if(o.branch4===1&&direction<Math.SQRT1_2-1e-8)branchWeight*=1.2;
+        }else if(o.branch3===1&&Q>0&&
+          ((o.branch4===0&&foodDistance<=1)||(o.branch4===1&&foodDistance>=2&&foodDistance<=3)))branchWeight*=1.25;
+      }
+      // A branch strengthens a useful candidate, without reversing a negative
+      // danger/cost balance or changing the finite cost paid for that action.
+      score+=Math.max(0,score)*(branchWeight-1);c.ryoukiBranchMultiplier=branchWeight;
+      c.ryoukiGoal=(move&&oldT>T)?"回避":(c.type==="harvest"||attack||Q>0)?"採食":"探索";
+      if(o.ryouki.mutated&&o.phase===4&&ctx.traits.get(o.id).ageStage!=="juvenile"){
+        const b=S.spec(o).birth,neededE=o.sex==="male"?b.fatherE:b.motherE;
+        const preparation=pairApproach*Math.max(0,1-oldT)+
+          (o.E<neededE&&(c.type==="harvest"||move)&&Q>0?.25*Q:0);
+        if(preparation>0){score+=(w.config.ryoukiSettings.preparationWeight-1)*preparation;c.ryoukiGoal="繁殖準備";}
+      }
+    }
     const noRandom = score;
     score += (weights[8] / 100) * xi;
     return { score, noRandom, features, xi };
@@ -4015,6 +4242,10 @@ function(require,module){
       }
       if(o.id===ctx.observeId)list.sort((a,b)=>b.score-a.score||a.h-b.h);
       ctx.intents.set(o.id, chosen);
+      if(isRyouki(w,o)){
+        const rec=ctx.records.get(o.id);
+        if(stage!=="effect"||chosen.type!=="stop"||!rec.ryoukiGoal)rec.ryoukiGoal=chosen.ryoukiGoal||"探索";
+      }
       if (chosen.type === "defend") S.record(ctx, o, "defend");
       ctx.records.get(o.id).randomChanged = chosen !== without;
       if (o.id === ctx.observeId)
@@ -4036,19 +4267,70 @@ function(require,module){
         ctx.traits.get(o.id).ageStage !== "juvenile"
       )
         o.maleAbsent = [...v.visibleCells].some((p) => {
-          const t = m.main.get(p);
-          return (
-            t?.species === o.species &&
+          return mainMembers(w,m,p).some(t => (
+            t.species === o.species &&
             t.sex === "male" &&
             (w.config.ecologyRevision === "observation/4.1" || t.phase >= 3) &&
             ctx.traits.get(t.id).ageStage !== "juvenile"
-          );
+          ));
         })
           ? 0
           : Math.min(8, o.maleAbsent + 1);
     }
   }
+  function moveGrouped(w,ctx){
+    const initial=S.maps(w),positions=new Map(),entries=[];
+    for(const o of w.organisms){
+      if(!positions.has(o.slot))positions.set(o.slot,new Map());
+      const cells=positions.get(o.slot);if(!cells.has(o.cell))cells.set(o.cell,[]);cells.get(o.cell).push(o);
+      const c=ctx.intents.get(o.id);
+      if(c.type==="move"&&o.HP>0)entries.push({o,c,from:o.cell,steps:[],cost:0,active:true,limit:ctx.traits.get(o.id).speed,
+        friend:S.nearby(w,o.cell).some(cell=>mainMembers(w,initial,cell).some(a=>a.species===o.species)),
+        h:S.hash(w,"movement/arbitration",w.turn,o.id,c.path)});
+    }
+    const order=entries.slice().sort((a,b)=>a.h-b.h||S.compare(a.o.id,b.o.id));
+    const maximum=Math.max(0,...entries.map(e=>Math.min(e.limit,e.c.path.length)));
+    for(let step=0;step<maximum;step++){
+      const reserved=new Map([...positions].map(([slot,cells])=>[slot,new Map([...cells].map(([cell,list])=>[cell,list.slice()]))])),accepted=[];
+      const mains=reserved.get("main")||new Map(),index={mainByCell:mains,main:new Map([...mains].map(([cell,list])=>[cell,list.at(-1)]))};
+      for(const e of order){
+        if(!e.active||step>=e.c.path.length||step>=e.limit)continue;
+        const cell=e.c.path[step],p=ctx.traits.get(e.o.id),rec=ctx.records.get(e.o.id),budget=ctx.costs.get(e.o.id);
+        if(cell===e.o.cell||!w.tiles[cell]||!S.oneStep(w,e.o.cell,cell)||!S.validHabitat(w,S.spec(e.o),cell)||!S.sight(w,e.o.cell,cell)){
+          e.active=false;rec.failure="RESERVATION_LOST";continue;
+        }
+        const cost=moveCost(w,e.o,cell,p.phase,e.friend,p.ageFactors.move);
+        if(cost>budget.budget-budget.action+1e-8){
+          e.active=false;rec.failure="RESERVATION_LOST";if(isRyouki(w,e.o))rec.ryoukiMoveBudgetLimited=true;continue;
+        }
+        if(!reserved.has(e.o.slot))reserved.set(e.o.slot,new Map());
+        const cells=reserved.get(e.o.slot),occupants=cells.get(cell)||[];
+        if(e.o.slot==="main"?!S.mainRoom(w,e.o,cell,index):occupants.some(a=>a.id!==e.o.id)){
+          e.active=false;rec.failure="RESERVATION_LOST";continue;
+        }
+        cells.set(cell,[...occupants,e.o]);if(e.o.slot==="main")index.main.set(cell,e.o);
+        accepted.push({e,cell,cost});
+      }
+      for(const {e,cell,cost}of accepted){
+        const cells=positions.get(e.o.slot),old=cells.get(e.o.cell).filter(a=>a.id!==e.o.id);
+        if(old.length)cells.set(e.o.cell,old);else cells.delete(e.o.cell);
+        cells.set(cell,[...(cells.get(cell)||[]),e.o]);e.o.cell=cell;e.steps.push(cell);e.cost+=cost;
+        ctx.costs.get(e.o.id).action+=cost;
+      }
+    }
+    for(const e of entries){
+      const {o,c,steps}=e,rec=ctx.records.get(o.id);
+      if(isRyouki(w,o)){rec.ryoukiSteps=steps.slice();rec.ryoukiMoveCost=e.cost;}
+      if(!steps.length)continue;
+      rec.moved=true;rec.newPlace=!o.history.includes(o.cell);o.facing=c.direction;
+      if(rec.newPlace)o.pendingMove={turn:w.turn,expires:w.turn+3,cell:o.cell};
+      o.history.push(o.cell);o.history=o.history.slice(-4);
+      S.record(ctx,o,"move",{from:e.from,to:o.cell,path:steps.slice()});
+    }
+    ctx.current=S.maps(w);
+  }
   function move(w, ctx) {
+    if(grouped(w))return moveGrouped(w,ctx);
     const votes = new Map(),
       list = [];
     for (const o of w.organisms) {
@@ -4202,7 +4484,7 @@ function(require,module){
       if (rec.cared) delta[3] += 2;
       if (
         rec.mitigated >= 2 &&
-        S.nearby(w, o.cell).some((p) => m.main.get(p)?.species === o.species)
+        S.nearby(w, o.cell).some(p => mainMembers(w,m,p).some(a=>a.species===o.species))
       )
         delta[3]++;
       const previous = o.survival;
@@ -4230,7 +4512,7 @@ function(require,module){
         o.survival = { enemy: rec.hitBy, turn: w.turn, escaped: false };
       rec.delta = delta.map((v) => S.clamp(v, -2, 2));
       own.set(o.id, rec.delta);
-      rec.category =
+      rec.category = isRyouki(w,o)?null:
         rec.dealt >= 2 || rec.mitigated >= 2
           ? 2
           : rec.escaped || (rec.moved && rec.organic > 0)
@@ -4247,7 +4529,7 @@ function(require,module){
         const contacts = [];
         for (const p of S.nearby(w, o.cell))
           if (S.oneStep(w, o.cell, p)) {
-            const a = m.main.get(p);
+            for(const a of mainMembers(w,m,p))
             if (a?.species === o.species && own.has(a.id))
               own.get(a.id).forEach((v, i) => {
                 if (v)
@@ -4349,6 +4631,7 @@ function(require,module){
       : null;
   }
   function growth(w, ctx) {
+    S.Ryouki.finalize(w,ctx);
     for (const o of w.organisms) {
       if (!ctx.traits.has(o.id)) continue;
       const s = S.spec(o),
@@ -4356,6 +4639,7 @@ function(require,module){
         rec = ctx.records.get(o.id),
         old = p.phase;
       if(S.LargePlant.is(o))continue;
+      if(S.Ryouki.is(o))continue;
       if (s.group !== "main") {
         if(S.Colony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
@@ -4466,6 +4750,11 @@ function(require,module){
     const s = S.spec(o),
       rec = ctx.records.get(o.id),
       p = ctx.traits.get(o.id);
+    if(S.Ryouki.is(o)){
+      const b=s.birth,mother=o.sex==="female";
+      return !asexual&&!!rec&&o.HP>0&&p.ageStage!=="juvenile"&&o.HP>=.7*p.maxHP&&o.birthReady<=w.turn&&
+        o.E>=(mother?b.motherE:b.fatherE)&&o.M>=(mother?b.motherM:b.fatherM)&&birthPressure(w,o,ctx).allowed;
+    }
     if(p?.ageStage === "juvenile" || (s.group === "plant" && S.ProducerSupport.factor(w,o,S)===0))return false;
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
@@ -4512,13 +4801,19 @@ function(require,module){
           }
       }
       if (!m.main.has(cell) && w.config.enabled.main) {
+        if(S.Ryouki.enabled(w)&&S.validHabitat(w,S.D.ryouki,cell)){
+          const peers=near.flatMap(p=>S.mainAt(m,p)).filter(o=>S.Ryouki.is(o));
+          for(const mother of peers)if(mother.sex==="female"&&eligible(w,mother,ctx)&&S.oneStep(w,mother.cell,cell))
+            for(const father of peers)if(father.sex==="male"&&eligible(w,father,ctx)&&S.oneStep(w,father.cell,cell)&&S.oneStep(w,mother.cell,father.cell))
+              local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
+        }
         if([2,3].includes(mains.length))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
             local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
         if ([2, 3].includes(mains.length))
           for (const mother of mains)
             if (
-              mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
+              !S.Ryouki.is(mother) && mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
               eligible(w, mother, ctx) &&
               S.oneStep(w, mother.cell, cell)
             )
@@ -4609,6 +4904,7 @@ function(require,module){
     return a.kind - b.kind || a.h - b.h || S.compare(a.key, b.key);
   }
   function child(w, c, ctx) {
+    if(c.species==="ryouki")return ryoukiChild(w,c,ctx);
     const s = S.D.byId[c.species],
       mother = c.parents[0],
       father = c.parents[1] || c.fatherReference || mother,
@@ -4706,8 +5002,37 @@ function(require,module){
     if(c.kind===3){mother.sperm.uses--;w.colonyMating.storedBirths++;}
     return o;
   }
+  function ryoukiChild(w,c,ctx){
+    const s=S.D.ryouki,b=s.birth,mother=c.parents[0],father=c.parents[1],
+      id="b:"+w.turn+":"+c.slot+":"+Math.floor(c.cell/w.config.width)+":"+(c.cell%w.config.width),dna={};
+    for(const [i,axis]of S.DNA.entries()){
+      const big=S.r(w,"birth/mutation-kind",w.turn,id,null,i)<.01,range=big?.05:.02;
+      dna[axis]=S.round(S.clamp((mother.dna[axis]+father.dna[axis])/2+(2*S.r(w,"birth/dna",w.turn,id,null,i)-1)*range));
+    }
+    const birthWeights=s.weights.map((v,i)=>S.round(S.clamp(.75*v+.25*(mother.birthWeights[i]+father.birthWeights[i])/2+(4*S.r(w,"birth/weights",w.turn,id,null,i)-2),0,100)));
+    const o=S.organism(w,s,c.cell,id,{phase:1,age:0,G:0,dna,birthWeights,weights:birthWeights.slice(),
+      sex:S.r(w,"birth/sex",w.turn,id)<.5?"female":"male",E:b.childE,B:b.childB,M:b.childM,HP:s.capacity[3],
+      generation:Math.max(mother.generation,father.generation)+1,parents:[mother.id,father.id]});
+    c.parents.forEach((parent,i)=>{
+      parent.E=S.round(parent.E-b.costsE[i]);parent.M=S.round(parent.M-b.costsM[i]);ctx.parents.add(parent.id);
+      parent.birthReady=w.turn+Math.ceil(ctx.traits.get(parent.id).cooldown)+1;parent.firstBirthAt??=w.turn;
+    });
+    S.dissipate(w,b.dissipatedE);S.record(ctx,o,"birth",{parents:o.parents});return o;
+  }
   function blockers(w,o,ctx,m=S.maps(w)) {
     const s=S.spec(o),p=ctx.traits.get(o.id)||S.phenotype(w,o),reasons=[];
+    if(S.Ryouki.is(o)){
+      const b=s.birth,mother=o.sex==="female",near=S.nearby(w,o.cell,1,true).flatMap(cell=>S.mainAt(m,cell));
+      if(p.ageStage==="juvenile")reasons.push("未成熟");
+      if(o.HP<.7*p.maxHP)reasons.push("健康不足");
+      if(o.E<(mother?b.motherE:b.fatherE))reasons.push("栄養不足");
+      if(o.M<(mother?b.motherM:b.fatherM))reasons.push("鉱物不足");
+      if(o.birthReady>w.turn)reasons.push("待機中");
+      if(!near.some(a=>a.id!==o.id&&S.Ryouki.is(a)&&a.sex!==o.sex&&eligible(w,a,ctx)&&S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
+      if(!S.nearby(w,o.cell).some(cell=>!m.main.has(cell)&&S.validHabitat(w,s,cell)&&S.oneStep(w,o.cell,cell)))reasons.push("出生場所不足");
+      if(!birthPressure(w,o,ctx).allowed)reasons.push("混雑・栄養収支による出生調整");
+      return reasons;
+    }
     if(p.ageStage==="juvenile")reasons.push("未成熟");
     if(o.HP<70)reasons.push("健康不足");if(o.E<s.birthEnergy*(w.config.ecologyRevision === "observation/4.1"?.65:1))reasons.push("栄養不足");if(o.M<(o.sperm?.uses>0?4:2))reasons.push("鉱物不足");
     if(o.birthReady>w.turn)reasons.push("待機中");if(o.role==="worker")reasons.push("非繁殖階級");if(ctx.records.get(o.id)?.damage>0)reasons.push("当日被害");
@@ -4871,7 +5196,7 @@ function(require,module){
       if (!entry || source.HP <= 0 || ctx.movedInfections.has(p.id) || entry.counter < required[entry.stage] || (p.contactReady || 0) > w.turn) continue;
       const matureTerminal = entry.stage === "terminal", radius = matureTerminal ? 2 : 1;
       for (const cell of S.nearby(w, source.cell, radius, true)) {
-        for (const target of [m.main.get(cell), m.food.get(cell), m.prey.get(cell)]) {
+        for (const target of (S.Ryouki?.enabled(w)?[...S.mainAt(m,cell),m.food.get(cell),m.prey?.get(cell)]:[m.main.get(cell), m.food.get(cell), m.prey.get(cell)])) {
           if (!target || target.HP <= 0 || target.infection || !S.sight(w, source.cell, target.cell)) continue;
           const stage = contactStage(p, target, matureTerminal, w.config.ecologyRevision === "observation/4.1");
           if (!stage) continue;
@@ -5292,7 +5617,7 @@ function(require,module){
       if(q.E<=0 || q.expires<=w.turn){S.dissipate(w,q.E);ctx.deaths.push({species:"hyperparasite",reason:"age"});continue;}
       const target=infected.filter(o=>!occupied.has(o.id)&&S.distance(w,q.cell,o.cell)<=1&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.compare(a.id,b.id))[0];
       if(target && q.E>=.02){q.E=S.round(q.E-.02);S.dissipate(w,.02);q.hostId=target.infection.id;delete q.cell;delete q.expires;target.infection.q=q;occupied.add(target.id);S.record(ctx,target,"infection",{parasite:q.id,species:"hyperparasite",stage:"window",target:target.infection.id});continue;}
-      const map=searchMap,cue=S.nearby(w,q.cell,3,true).map(c=>map.main.get(c)).filter(o=>o?.infection?.stage==="terminal"&&o.infection.counter>=5&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
+      const map=searchMap,cue=(S.Ryouki?.enabled(w)?S.nearby(w,q.cell,3,true).flatMap(c=>S.mainAt(map,c)):S.nearby(w,q.cell,3,true).map(c=>map.main.get(c))).filter(o=>o?.infection?.stage==="terminal"&&o.infection.counter>=5&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
       const moves=S.nearby(w,q.cell).filter(c=>S.oneStep(w,q.cell,c));
       if(moves.length && q.E>.001){const c=moves.sort((a,b)=>(cue?S.distance(w,a,cue.cell)-S.distance(w,b,cue.cell):0)||S.hash(w,"hyper/search",w.turn,q.id,a)-S.hash(w,"hyper/search",w.turn,q.id,b))[0];q.cell=c;q.E=S.round(q.E-.001);S.dissipate(w,.001);}
       next.push(q);
@@ -5508,10 +5833,10 @@ function(require,module){
         (1 + S.trait(o, "maintenance", p.phase));
       ctx.costs.set(o.id, {
         action: 0,
-        base: base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" ? .65 : 1),
+        base: base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" && !S.Ryouki.is(o) ? .65 : 1),
         density,
         neighborCount,
-        budget: Math.max(0, o.E - base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" ? .65 : 1) - density - (o.infection ? 0.2 : 0)),
+        budget: Math.max(0, o.E - base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" && !S.Ryouki.is(o) ? .65 : 1) - density - (o.infection ? 0.2 : 0)),
       });
     }
   }
@@ -5591,7 +5916,7 @@ function(require,module){
     const contactAdd=(out,key)=>out[key]=(out[key]||0)+1;
     for(const a of w.organisms)for(const cell of S.nearby(w,a.cell,1,true)){
       if(!S.oneStep(w,a.cell,cell))continue;
-      for(const b of [map.main.get(cell),map.food.get(cell),map.prey.get(cell)]){
+      for(const b of (S.Ryouki.enabled(w)?[...S.mainAt(map,cell),map.food.get(cell),map.prey?.get(cell)]:[map.main.get(cell),map.food.get(cell),map.prey.get(cell)])){
         if(!b || S.compare(a.id,b.id)>=0)continue;
         const pair=a.id+"|"+b.id,pairSpecies=[a.species,b.species].sort().join("|")+"|contact";
         pairs.push(pair);contactAdd(contactTurns,pairSpecies);
@@ -5645,6 +5970,7 @@ function(require,module){
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
+    S.Ryouki.summary(w);
     S.Colony.summary(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.summary(w);
     S.ProducerSupport.finish(w,ctx,S);
@@ -5718,6 +6044,7 @@ function(require,module){
   }
   function create(input = {}) {
     const w = S.create(input);
+    S.Ryouki.summary(w);
     w.stats = summarize(w);
     if(w.config.ecologyRevision === "observation/4.1") w.observation=observation(w,context(w));
     w.last = {
@@ -5745,10 +6072,12 @@ function(require,module){
       w.checkpoints = [...(initial ? [initial] : []), checkpoint(w)];
     }
     w.turn++;
+    S.Ryouki.begin(w);
     S.Colony.begin(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.begin(w);
     S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
+    if(S.Ryouki.enabled(w))for(const o of w.organisms)if(S.Ryouki.is(o)&&o.ryouki.last.transition)S.record(ctx,o,"phase-variation",{state:o.ryouki.mutated?"mutated":"normal",transition:o.ryouki.last.transition});
     const labels = ["資源更新", "移動・採食・戦闘", "成長・繁殖"];
     function ensure() {
       if (cancelled || failed) throw Error("TURN_DISCARDED: 未確定の計算は破棄されました");
@@ -5848,11 +6177,19 @@ function(require,module){
         if(producer.has(o.cell))errors.push("SLOT_DUPLICATE:"+o.id);
         producer.add(o.cell);
       }else{
-        if (occupied.has(o.cell)) errors.push("SLOT_DUPLICATE:" + o.id);
+        if (occupied.has(o.cell)&&!(o.slot==="main"&&S.Ryouki.enabled(w))) errors.push("SLOT_DUPLICATE:" + o.id);
         occupied.add(o.cell);
       }
       if (ids.has(o.id)) errors.push("ID_DUPLICATE:" + o.id);
       ids.add(o.id);
+      if(o.species==="ryouki"||o.ryouki){
+        const a=o.ryouki;
+        if(!S.Ryouki.enabled(w)||!S.Ryouki.is(o)||o.slot!=="main"||!Number.isInteger(o.phase)||o.phase<1||o.phase>4||
+          (o.phase>=3&&![0,1,2].includes(o.branch3))||(o.phase===4&&![0,1].includes(o.branch4))||
+          !Number.isFinite(o.birthLife)||o.birthLife<=0||typeof a?.mutated!=="boolean"||
+          ![a?.highRun,a?.lowRun].every(n=>Number.isSafeInteger(n)&&n>=0)||
+          !Array.isArray(a?.window)||a.window.length>32||!Array.isArray(a?.recentCells)||a.recentCells.length>64)errors.push("RYOUKI_STATE:"+o.id);
+      }
       if (w.tiles[o.cell]?.blocked) errors.push("BLOCKED:" + o.id);
       if (
         [o.E, o.B, o.M, o.HP, o.G].some(
@@ -5893,6 +6230,8 @@ function(require,module){
         }
       }
     }
+    if(S.Ryouki.enabled(w))for(const list of S.maps(w).mainByCell.values())if(list.length>1&&
+      (list.length>3||list.some(o=>!S.Ryouki.is(o)||!o.ryouki.mutated)))errors.push("SLOT_DUPLICATE:"+list.map(o=>o.id).join(","));
     for(const q of w.searchQ||[]){
       if(ids.has(q.id))errors.push("ID_DUPLICATE:"+q.id);ids.add(q.id);
       if(!Number.isFinite(q.E)||q.E<0||!Number.isInteger(q.cell)||!w.tiles[q.cell]||w.tiles[q.cell].blocked)errors.push("SEARCH_Q:"+q.id);
@@ -6804,10 +7143,22 @@ function(require,module){
   ].map(s=>({...s,group:"plant",kind:"independent",recordUnit:"individual",slot:"producer",tag:"plant",
     phases:["第一相","第二相","第三相","第四相"],branches:["生産","繁殖拡散","耐食"],
     initial:[s.capacity[0]*.5,13.2,1,s.capacity[3]],traits:{},senseAt:1,rangeAt:1,speedAt:1}));
+  // I04 comparison definition stays outside all legacy species/main lists.
+  data.ryouki = {id:"ryouki",name:"量機",group:"main",slot:"main",tag:"animal",recordUnit:"individual",
+    definition:"ryouki/3",parameters:"implementation-start/2",phases:["第一相","第二相","第三相","第四相"],
+    branches:["広域探索","周辺探索","障害踏破"],
+    fourthBranches:[["広域探索・直進","広域探索・ランダム"],["周辺探索・近め","周辺探索・広め"],["障害踏破・水域","障害踏破・火山"]],
+    life:180,maturity:18,maintenance:.48,birthCooldown:8,birthEnergy:30,M3:2,M4:4,
+    initial:[40,8,1,80],capacity:[100,32,30,80],combat:{attack:.45,defense:.60,hp:.80},
+    birth:{motherE:30,fatherE:12,motherM:.75,fatherM:.25,costsE:[18,6],costsM:[.75,.25],childE:16,childB:6,childM:1,dissipatedE:2},
+    experience:{II:20,III:60,IV:140},weights:[35,65,75,65,55,55,75,60,40],
+    good:[],bad:-1,type:"move",diet:"general",traits:{},traitText:["低戦闘・高移動・高繁殖","密度による可逆相変異"],
+    senseAt:1,rangeAt:99,speedAt:1,aquatic:false,color:"#438e80"};
   data.species.push({id:'phytoplankton',name:'浮遊微藻',group:'plant',slot:'food',tag:'plant',phases:['微小体','分裂体'],life:80,maturity:2,maintenance:.1,birthCooldown:2,initial:[6,8,.5,6],capacity:[20,16,2,6],color:'#73d2bf'});
   for(const s of data.species)if(s.group==='plant')Object.assign(s,{life:2400,maintenance:.02,birthCooldown:1,initial:[12,s.id==='phytoplankton'?16:20,1,12],capacity:[32,48,4,12]});
   data.byId = Object.fromEntries(data.species.map((s) => [s.id, s]));
   Object.assign(data.byId,Object.fromEntries(data.independentPlants.map(s=>[s.id,s])));
+  data.byId.ryouki=data.ryouki;
   data.main = data.species.filter((s) => s.group === "main");
   return data;
 });
@@ -7084,7 +7435,105 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
   })();
-  const activeSpecies = (w) => w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const activeSpecies = (w) => w?.config?.ryoukiModel === "ryouki/1" ? [...D.species,...(w?.config?.largePlantModel === "independent/1"?D.independentPlants:[]),D.ryouki] : w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const activeMain = (w) => w?.config?.ryoukiModel === "ryouki/1" ? [...D.main,D.ryouki] : D.main;
+  const Ryouki = (() => {
+    const VERSION="ryouki-state/1",LIMIT=1e12;
+    const enabled=w=>w?.config?.ryoukiModel==="ryouki/1";
+    const is=o=>o?.species==="ryouki"&&o.ryouki?.version===VERSION;
+    function settings(input={}){
+      const defaults={version:"ryouki-parameters/1",densityHigh:6,highTurns:3,densityLow:2,lowTurns:6,biteB:2,mutatedBiteB:2.4,preparationWeight:1.5};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 量機の比較値");
+      const out={...defaults,...input};
+      if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 量機の定義版");
+      for(const key of ["densityHigh","densityLow","highTurns","lowTurns"])if(!Number.isSafeInteger(out[key])||out[key]<(key.endsWith("Turns")?1:0)||out[key]>1000)throw Error("SETTINGS_INVALID: 量機の密度/継続T");
+      if(out.densityLow>=out.densityHigh)throw Error("SETTINGS_INVALID: 量機の密度境界");
+      for(const key of ["biteB","mutatedBiteB","preparationWeight"])if(typeof out[key]!=="number"||!Number.isFinite(out[key])||out[key]<=0||out[key]>20)throw Error("SETTINGS_INVALID: 量機の採食/評価値");
+      if(out.mutatedBiteB<out.biteB)throw Error("SETTINGS_INVALID: 量機の相変異採食量");
+      return out;
+    }
+    function attach(w,o,options={}){
+      if(o.species!=="ryouki")return o;
+      if(!enabled(w))throw Error("SETTINGS_INVALID: 量機モデルの指定が必要です");
+      if(is(o))return o;
+      o.ryouki={version:VERSION,mutated:false,highRun:0,lowRun:0,window:[],recentCells:[{turn:w.turn,cell:o.cell}],finalizedAt:-1,
+        last:{turn:w.turn,density:0,experience:0,steps:0,transition:null}};
+      const initial=D.ryouki.initial;
+      for(const [i,key]of ["E","B","M","HP"].entries())if(!Object.hasOwn(options,key))o[key]=initial[i];
+      return o;
+    }
+    function begin(w){
+      if(!enabled(w))return;
+      const m=maps(w),p=w.config.ryoukiSettings;
+      for(const o of w.organisms)if(is(o)){
+        const a=o.ryouki,density=nearby(w,o.cell,1,true).reduce((n,cell)=>n+mainAt(m,cell).filter(t=>t.id!==o.id&&t.species==="ryouki"&&t.HP>0).length,0);
+        a.last={turn:w.turn,density,experience:0,steps:0,transition:null};
+        a.highRun=density>=p.densityHigh?Math.min(p.highTurns,a.highRun+1):0;
+        a.lowRun=density<=p.densityLow?Math.min(p.lowTurns,a.lowRun+1):0;
+        if(!a.mutated&&a.highRun>=p.highTurns){a.mutated=true;a.lowRun=0;a.last.transition="entered";}
+        else if(a.mutated&&a.lowRun>=p.lowTurns&&mainAt(m,o.cell).filter(t=>t.HP>0).every(t=>t.id===o.id)){a.mutated=false;a.highRun=0;a.last.transition="released";}
+      }
+    }
+    function phenotype(w,o,phase=o.phase,branch=o.branch4){
+      const s=D.ryouki,a=ageInfo(o),f=a.factors,skin=o.dna.skin,body=o.dna.body;
+      const life=Math.floor(s.life*(.95+.1*skin)*[0,1,1.1,1.25,1.4][phase]),maintenance=s.maintenance*(.95+.1*body)*[0,1,.98,.95,.9][phase];
+      const cooldown=Math.max(4,Math.ceil(s.birthCooldown*(.95+.1*body)*(phase===4?.85:1)));
+      return {phase,u:phase/4,capE:100,capB:32,capM:30,maxHP:H.round(80*f.hp),baseMaxHP:80,life,
+        maintenance:maintenance*f.maintenance,baseMaintenance:maintenance,cooldown:cooldown*f.birth,baseCooldown:cooldown,
+        sense:phase,speed:o.ryouki.mutated?3:phase,range:1,M3:s.M3*(.95+.1*skin),M4:s.M4*(.95+.1*skin),branch,
+        ageEnabled:a.enabled,ageStage:a.stage,ageFactors:f};
+    }
+    function difficult(w,cell){const t=w.tiles[cell];return ["shallow","deep","rock","mud"].includes(t.terrain)||t.env===1;}
+    function choose(w,o,scores,purpose){
+      const largest=Math.max(...scores),dna=[o.dna.aptitude,o.dna.sensitivity,o.dna.appendage];
+      return scores.map((n,i)=>({n,i})).filter(a=>Math.abs(a.n-largest)<1e-8)
+        .sort((a,b)=>(purpose==="III"?dna[b.i]-dna[a.i]:0)||hash(w,"ryouki/branch",0,o.id,[purpose,a.i])-hash(w,"ryouki/branch",0,o.id,[purpose,b.i]))[0].i;
+    }
+    function finalize(w,ctx){
+      if(!enabled(w))return;
+      for(const o of w.organisms)if(is(o)&&ctx.traits.has(o.id)&&o.ryouki.finalizedAt!==w.turn){
+        const a=o.ryouki,rec=ctx.records.get(o.id),before=ctx.old.get(o.id);a.finalizedAt=w.turn;
+        a.window=a.window.filter(r=>r.turn>w.turn-32);a.recentCells=a.recentCells.filter(r=>r.turn>w.turn-16);
+        const steps=rec.ryoukiSteps||[],known=new Set(a.recentCells.map(r=>r.cell));let fresh=0;
+        for(const cell of steps){if(!known.has(cell)){fresh++;known.add(cell);}a.recentCells.push({turn:w.turn,cell});}
+        a.recentCells=a.recentCells.slice(-64);
+        const previous=a.window.filter(r=>r.steps>0).at(-1),dir=o.facing,previousVector=previous?DIRS[previous.direction]:null,vector=DIRS[dir];
+        const aligned=previousVector&&(previousVector[0]*vector[0]+previousVector[1]*vector[1])/Math.hypot(...previousVector)/Math.hypot(...vector)>=Math.SQRT1_2-1e-8;
+        const row={turn:w.turn,cell:o.cell,fromCell:before.cell,steps:steps.length,fresh,difficult:steps.filter(c=>difficult(w,c)).length,
+          water:steps.filter(c=>["shallow","deep"].includes(w.tiles[c].terrain)).length,hot:steps.filter(c=>w.tiles[c].env===1).length,
+          adapted:steps.filter(c=>["shallow","deep"].includes(w.tiles[c].terrain)||w.tiles[c].env===1).length,
+          fed:rec.organic>0?1:0,direction:dir,straight:steps.length&&aligned?1:0,compared:steps.length&&previous?1:0};
+        a.window.push(row);
+        const healthy=rec.ryoukiMaintained===true&&o.HP>=.7*phenotype(w,o).maxHP;
+        const gained=H.round(Math.min(2,(healthy?.5:0)+Math.max(0,rec.organic)/2+Math.min(.4,steps.length*.1)));
+        o.G=H.round(Math.min(LIMIT,o.G+gained));a.last.experience=gained;a.last.steps=steps.length;
+        a.last.goal=rec.ryoukiGoal??ctx.intents.get(o.id)?.ryoukiGoal??"探索";a.last.moveCost=rec.ryoukiMoveCost||0;a.last.moveBudgetLimited=!!rec.ryoukiMoveBudgetLimited;
+        const old=o.phase,origin=a.window[0]?.fromCell??a.window[0]?.cell??before.cell,sum=k=>a.window.reduce((n,r)=>n+r[k],0);
+        if(old===1&&o.G>=D.ryouki.experience.II)o.phase=2;
+        else if(old===2&&o.G>=D.ryouki.experience.III&&o.M>=phenotype(w,o).M3){
+          const hard=sum("difficult"),scores=[Math.min(1,sum("fresh")/16),Math.min(1,a.window.filter(r=>r.fed&&distance(w,origin,r.cell)<=2).length/8),hard>=3?Math.min(1,hard/8):-1];
+          o.branch3=choose(w,o,scores,"III");o.phase=3;
+        }else if(old===3&&o.G>=D.ryouki.experience.IV&&o.M>=phenotype(w,o).M4){
+          if(o.branch3===0&&a.window.filter(r=>r.steps>0).length>=8){o.branch4=sum("straight")/Math.max(1,sum("compared"))>=.65?0:1;o.phase=4;}
+          if(o.branch3===1&&sum("fed")>=8){o.branch4=a.window.filter(r=>r.fed).reduce((n,r)=>n+distance(w,origin,r.cell),0)/sum("fed")<=1.5?0:1;o.phase=4;}
+          if(o.branch3===2&&a.window.reduce((n,r)=>n+(r.adapted??r.water+r.hot),0)>=8){o.branch4=choose(w,o,[sum("water"),sum("hot")],"IV/terrain");o.phase=4;}
+        }
+        if(o.phase!==old)record(ctx,o,"growth",{fromPhase:old,phase:o.phase});
+      }
+    }
+    function summary(w){
+      if(!enabled(w))return;
+      const groups=new Map(),out={definition:"ryouki-observed/1",turn:w.turn,count:0,normal:0,mutated:0,mutatedEarly:0,mutatedIV:0,occupiedCells:0,cohabitingIndividuals:0,maxOccupancy:0};
+      for(const o of w.organisms)if(is(o)){
+        out.count++;if(o.ryouki.mutated){out.mutated++;out[o.phase===4?"mutatedIV":"mutatedEarly"]++;}else out.normal++;
+        groups.set(o.cell,(groups.get(o.cell)||0)+1);
+      }
+      out.occupiedCells=groups.size;
+      for(const size of groups.values()){out.maxOccupancy=Math.max(out.maxOccupancy,size);if(size>1)out.cohabitingIndividuals+=size;}
+      w.ryoukiSummary=out;return out;
+    }
+    return {enabled,is,settings,attach,begin,phenotype,finalize,difficult,summary};
+  })();
   const LargePlant = (() => {
     const VERSION="independent-plant-state/1", factors=[0,1,1.15,1.35,1.6], edible=[0,16,20,24,32], LIMIT=1e12;
     const enabled=w=>w.config.largePlantModel==="independent/1";
@@ -7396,8 +7845,20 @@ return {settings,attach,region,level,factor,begin,finish};
       carcasses.get(a.cell).push(a);
     }
     const result=(()=>{return { main, food, prey, byId, resources, carcasses };})();
+    if(Ryouki.enabled(w)){
+      result.mainByCell=new Map();
+      for(const o of w.organisms)if(o.slot==="main"){
+        if(!result.mainByCell.has(o.cell))result.mainByCell.set(o.cell,[]);
+        result.mainByCell.get(o.cell).push(o);
+      }
+    }
     if(producer)result.producer=producer;
     return result;
+  }
+  function mainAt(m,cell){return m.mainByCell?.get(cell)??(m.main.has(cell)?[m.main.get(cell)]:[]);}
+  function mainRoom(w,o,cell,m=sharedMaps(w)){
+    const occupants=mainAt(m,cell).filter(a=>a.id!==o.id);
+    return occupants.length===0||(Ryouki.enabled(w)&&Ryouki.is(o)&&o.ryouki.mutated&&occupants.length<3&&occupants.every(a=>Ryouki.is(a)&&a.ryouki.mutated));
   }
   function validHabitat(w, s, p) {
     const t = w.tiles[p];
@@ -7505,12 +7966,12 @@ return {settings,attach,region,level,factor,begin,finish};
     if (!c.enabled.main) c.initial = 0;
     if (
       !Array.isArray(c.selected) ||
-      c.selected.some((id) => !D.main.some((s) => s.id === id))
+      c.selected.some((id) => !activeMain({config:c}).some((s) => s.id === id))
     )
       throw Error("SETTINGS_INVALID: 系統");
     c.selected = [...new Set(c.selected)];
-    for (const weight of Object.values(c.weights))
-      if (!Number.isInteger(weight) || weight < 1 || weight > 4)
+    for (const [id,weight] of Object.entries(c.weights))
+      if (!Number.isInteger(weight) || weight < (c.ryoukiModel==="ryouki/1"&&id==="ryouki"?0:1) || weight > 4)
         throw Error("SETTINGS_INVALID: 配分重みは1〜4");
     if (c.landscape !== undefined && !["watershed", "templates"].includes(c.landscape))
       throw Error("SETTINGS_INVALID: 地形方式");
@@ -7523,6 +7984,11 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
+    if(c.ryoukiModel==="ryouki/1"){
+      c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
+      c.ageModel="life/1";
+    }else if(c.ryoukiSettings!==undefined)throw Error("SETTINGS_INVALID: 量機モデルの指定が必要です");
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
@@ -7586,6 +8052,10 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(Ryouki.is(o)){
+      o.birthLife=Math.floor(D.ryouki.life*(.95+.1*o.dna.skin));
+      o.HP=H.round(Math.min(o.HP,Ryouki.phenotype(w,o).maxHP));return o;
+    }
     if(LargePlant.is(o)){
       o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
     }
@@ -7664,6 +8134,7 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    Ryouki.attach(w,o,options);
     LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
@@ -7672,6 +8143,7 @@ return {settings,attach,region,level,factor,begin,finish};
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
+    if(Ryouki.is(o))return Ryouki.phenotype(w,o,phase,branch);
     if(LargePlant.is(o))return LargePlant.phenotype(w,o,phase,branch);
     const s = spec(o),
       main = s.group === "main",
@@ -7935,10 +8407,11 @@ return {settings,attach,region,level,factor,begin,finish};
     let mains =
       config.lineages === "manual"
         ? config.selected.map((id) => D.byId[id])
-        : D.main.slice(0, 20);
+        : Ryouki.enabled(w) ? [...D.main.slice(0,20),D.ryouki] : D.main.slice(0, 20);
     if(colonyPlants)config.enabled.plant=true;
     Colony.initialize(w);
     if (!config.enabled.main) mains = [];
+    if(Ryouki.enabled(w)&&config.distribution==="weighted"&&config.weights.ryouki===0)mains=mains.filter(s=>s.id!=="ryouki");
     if (config.lineages === "few")
       mains = mains
         .map((s) => ({ s, h: hash(w, "init/group", 0, s.id) }))
@@ -8073,7 +8546,7 @@ return {settings,attach,region,level,factor,begin,finish};
                 : null,
             colony: s.id === "swarm" ? group : null,
             founder: s.id === "swarm" ? group : null,
-            B: s.id === "swarm" && j % 4 === 3 ? 8 : 16,
+            B: s.id === "ryouki" ? 8 : s.id === "swarm" && j % 4 === 3 ? 8 : 16,
           }),
         );
       }
@@ -8339,7 +8812,9 @@ return {settings,attach,region,level,factor,begin,finish};
     ProducerSupport,
     Colony,
     LargePlant,
+    Ryouki,
     activeSpecies,
+    activeMain,
     initialRank,
     DIRS,
     DNA,
@@ -8359,6 +8834,8 @@ return {settings,attach,region,level,factor,begin,finish};
     oneStep,
     sight,
     maps: sharedMaps,
+    mainAt,
+    mainRoom,
     withMapScope,
     validHabitat,
     validate,
@@ -8394,6 +8871,7 @@ function(require,module){
   else root.EcoNutrition = api;
 })(globalThis, function (S) {
   "use strict";
+  const isRyouki=(w,o)=>S.Ryouki?.enabled(w)===true&&S.Ryouki.is(o);
   function efficiency(o, tag, phase = o.phase) {
     const s = S.spec(o);
     if (s.group === "prey") return tag === "plant" ? 0.65 : 0;
@@ -8415,7 +8893,7 @@ function(require,module){
             factor *
             (0.9 + 0.2 * o.dna.aptitude) *
             (tag === "plant" ? 1 + S.trait(o, "plant", phase) : 1) *
-            (o.branch3 === 0 && o.branch4 === 0 ? 1.1 : 1) *
+            (!S.Ryouki?.is(o) && o.branch3 === 0 && o.branch4 === 0 ? 1.1 : 1) *
             (s.id === "precocial" && o.phase === 3 && o.branch3 === 0
               ? 1.05
               : 1),
@@ -8455,7 +8933,7 @@ function(require,module){
           (options.healing || 1) *
           p.ageFactors.healing *
           (1 + S.trait(o, "healing", phase)) *
-          (o.branch3 === 0 && o.branch4 === 1 ? 1.2 : 1),
+          (!isRyouki(w,o) && o.branch3 === 0 && o.branch4 === 1 ? 1.2 : 1),
       );
       healed = Math.min(p.maxHP - o.HP, remaining * rate);
       const used = S.round(healed / rate);
@@ -8486,11 +8964,11 @@ function(require,module){
       let g = options.carcass
         ? amount.G * eta
         : e * (tag === "animal" ? 1 + S.trait(o, "animalG", phase) : 1);
-      if (o.factor && o.factor.expires > w.turn && e > 0) {
+      if (!isRyouki(w,o) && o.factor && o.factor.expires > w.turn && e > 0) {
         g += o.factor.level;
         o.factor = null;
       }
-      const addG = Math.min(300 - o.G, g);
+      const addG = isRyouki(w,o)?0:Math.min(300 - o.G, g);
       o.G = S.round(o.G + addG);
       if (rec) {
         rec.relieved = rec.relieved || (beforeE < 35 && o.E >= 35);
@@ -8586,6 +9064,7 @@ function(require,module){
     if(plant && S.ProducerSupport.factor(w,o,S)===0)return list;
     function organicAllowed(tag) {
       if (plant) return false;
+      if (isRyouki(w,o)) return ["plant","animal"].includes(tag);
       if (spec.id === "kelp") return tag === "animal";
       return main || fungus || (spec.group === "prey" && tag === "plant");
     }
@@ -8597,6 +9076,7 @@ function(require,module){
     for (const p of cells) {
       for (const a of m.resources.get(p) || []) {
         const f = S.FOOD[a.kind];
+        if(isRyouki(w,o)&&f.tag!=="mineral")continue;
         if (a.q <= 0 || (a.E <= 0 && a.M <= 0 && a.kind !== "factor")) continue;
         if (plant && f.tag !== "mineral") continue;
         if (["plant", "fungal", "animal"].includes(f.tag) && !organicAllowed(f.tag)) continue;
@@ -8648,6 +9128,7 @@ function(require,module){
         });
       }
       for (const a of m.carcasses.get(p) || []) {
+        if(isRyouki(w,o)&&(S.D.byId[a.species]?.group!=="prey"||!(a.G>0)))continue;
         if (
           !organicAllowed(a.tag) ||
           (a.species === o.species && !fungus) ||
@@ -8713,6 +9194,7 @@ function(require,module){
       const target = m.byId.get(intent.target);
       if (
         target &&
+        (!isRyouki(w,o)||["plant","prey"].includes(S.spec(target).group)) &&
         organicAllowed(S.spec(target).tag) &&
         target.HP > 0 &&
         S.edibleB(target) > 0 &&
@@ -8738,6 +9220,12 @@ function(require,module){
         if(!target||target.HP<=0||S.edibleB(target)<=0||!organicAllowed("plant")||!S.oneStep(w,o.cell,cell)||list.some(a=>a.id===target.id))continue;
         list.push({type:"plant",id:target.id,obj:target,cell,tag:"plant",amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB-S.PLANT_BASE),healing:1});
       }
+    }
+    if(isRyouki(w,o))for(const cell of S.nearby(w,o.cell,1,true)){
+      const target=(m.prey||m.food).get(cell);
+      if(!target||target.HP<=0||S.spec(target).group!=="prey"||S.edibleB(target)<=0||
+          !S.oneStep(w,o.cell,cell)||list.some(a=>a.id===target.id))continue;
+      list.push({type:"plant",id:target.id,obj:target,cell,tag:"animal",amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB),healing:1});
     }
     return list;
   }
@@ -8775,7 +9263,8 @@ function(require,module){
           visible *
           efficiency(o, a.tag, p.phase) *
           (a.type === "carcass" ? S.D.diets[s.diet]?.carcass || 1 : 1) *
-          (o.HP < 50 ? a.healing : 1),
+          (o.HP < 50 ? a.healing : 1) *
+          (isRyouki(w,o)?a.tag==="plant"?.65:a.tag==="animal"?.35:1:1),
         h: S.hash(w, "feeding/choice", w.turn, o.id, a.id),
       };
     }
@@ -8837,7 +9326,7 @@ function(require,module){
               o.E +
               (2 * (p.maxHP - o.HP)) / (a.healing * p.ageFactors.healing);
           const B = Math.min(
-              S.LargePlant.is(obj)?2*S.phenotype(w,obj).biteFactor:2,
+              isRyouki(w,o)?(o.ryouki.mutated?w.config.ryoukiSettings.mutatedBiteB:w.config.ryoukiSettings.biteB)*(S.LargePlant.is(obj)?S.phenotype(w,obj).biteFactor:1):S.LargePlant.is(obj)?2*S.phenotype(w,obj).biteFactor:2,
               S.edibleB(obj),
               S.spec(o).group === "prey"
                 ? Math.max(0, S.round(need / efficiency(o, a.tag, p.phase)))
@@ -8858,10 +9347,15 @@ function(require,module){
             M: S.round((obj.M || 0) / obj.q),
             G: S.round((obj.G || 0) / obj.q),
           };
+          // Existing carcass G is the finite transferred body B. Reserve E and M
+          // follow the same partial ration; neither a roommate nor a second bite copies it.
+          const fraction=isRyouki(w,o)&&a.type==="carcass"?
+            Math.min(1,(o.ryouki.mutated?w.config.ryoukiSettings.mutatedBiteB:w.config.ryoukiSettings.biteB)/amount.G):1;
+          if(fraction<1)for(const k of ["E","M","G"])amount[k]=S.round(amount[k]*fraction);
           obj.E = S.round(Math.max(0, (obj.E || 0) - amount.E));
           obj.M = S.round(Math.max(0, (obj.M || 0) - amount.M));
           obj.G = S.round(Math.max(0, (obj.G || 0) - amount.G));
-          obj.q--;
+          if(fraction<1)obj.q=S.round(obj.q-fraction);else obj.q--;
           if (!obj.q) ctx.exhausted.add(obj.cell + ":" + obj.kind);
         }
         let assimilated=0;
@@ -8897,6 +9391,7 @@ function(require,module){
           amount: amount.E,
           material: amount.M,
           tag: a.tag,
+          ...(isRyouki(w,o)?{consumedB:a.type==="plant"?harvest.consumedB:a.type==="carcass"?amount.G:0}:{}),
         });
         ctx.records.get(o.id).bites++;
       }
@@ -8920,10 +9415,19 @@ function(require,module){
     S.dissipate(w, paid);
     return paid;
   }
+  function deathAppearance(w, o) {
+    return {
+      species:o.species,phase:o.phase,branch3:o.branch3,branch4:o.branch4,
+      sex:o.sex,role:o.role,age:o.age,birthLife:o.birthLife,facing:o.facing,
+      dna:{...o.dna},
+      ...(isRyouki(w,o)?{ryouki:{version:o.ryouki.version,mutated:o.ryouki.mutated}}:{})
+    };
+  }
   function carcass(w, o, ctx) {
     if(S.Colony.is(o)&&o.colony.edibleExposure){S.dissipate(w,o.colony.edibleExposure.E);o.colony.edibleExposure=null;}
     const same = w.carcasses.find(
-      (a) => a.cell === o.cell && a.slot === o.slot,
+      (a) => a.cell === o.cell && a.slot === o.slot &&
+        (!(S.Ryouki?.enabled(w)&&o.slot==="main")||a.id==="c:"+o.id+":"+w.turn),
     );
     if (same) {
       removeResource(w, same);
@@ -8952,6 +9456,7 @@ function(require,module){
       infection: null,
       payloadExpires: null,
     };
+    if(isRyouki(w,o))a.appearance=deathAppearance(w,o);
     S.dissipate(w, o.E + o.B - a.E);
     S.addSoil(w, o.cell, o.M - a.M);
     const p = o.infection;
@@ -8977,6 +9482,7 @@ function(require,module){
       if (["stop", "defend"].includes(intent.type))
         base *= 1 + S.trait(o, "rest", p.phase);
       const paidBase=spend(w, o, base);
+      if(isRyouki(w,o))ctx.records.get(o.id).ryoukiMaintained=paidBase>=S.round(base)&&o.HP>0;
       if(S.Colony.is(o)){
         const maintained=paidBase>=S.round(base)&&o.HP>0;
         o.colony.activity=S.round(S.clamp(o.colony.activity+(maintained?.02:-.05),0,1));
@@ -8999,11 +9505,7 @@ function(require,module){
       if(!reason&&S.LargePlant.is(o)&&o.plant.activity<=0)reason="starvation";
       if (!reason && !S.Colony.is(o) && o.age >= p.life) reason = "age";
       if (reason) {
-        S.record(ctx, o, "death", { reason, appearance: {
-          species:o.species,phase:o.phase,branch3:o.branch3,branch4:o.branch4,
-          sex:o.sex,role:o.role,age:o.age,birthLife:o.birthLife,facing:o.facing,
-          dna:{...o.dna}
-        } });
+        S.record(ctx, o, "death", { reason, appearance: deathAppearance(w,o) });
         ctx.deaths.push({ species: o.species, reason, ...(o.producerReserve===0?{environmentCause:"basal-nutrition-exhausted"}:{}), ...(w.config.ecologyRevision === "observation/4.1" ? {id:o.id,generation:o.generation,ageStage:ctx.traits.get(o.id).ageStage} : {}) });
         carcass(w, o, ctx);
       } else survivors.push(o);
@@ -9288,6 +9790,7 @@ function(require,module){
       : null;
   }
   function growth(w, ctx) {
+    S.Ryouki.finalize(w,ctx);
     for (const o of w.organisms) {
       if (!ctx.traits.has(o.id)) continue;
       const s = S.spec(o),
@@ -9295,6 +9798,7 @@ function(require,module){
         rec = ctx.records.get(o.id),
         old = p.phase;
       if(S.LargePlant.is(o))continue;
+      if(S.Ryouki.is(o))continue;
       if (s.group !== "main") {
         if(S.Colony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
@@ -9405,6 +9909,11 @@ function(require,module){
     const s = S.spec(o),
       rec = ctx.records.get(o.id),
       p = ctx.traits.get(o.id);
+    if(S.Ryouki.is(o)){
+      const b=s.birth,mother=o.sex==="female";
+      return !asexual&&!!rec&&o.HP>0&&p.ageStage!=="juvenile"&&o.HP>=.7*p.maxHP&&o.birthReady<=w.turn&&
+        o.E>=(mother?b.motherE:b.fatherE)&&o.M>=(mother?b.motherM:b.fatherM)&&birthPressure(w,o,ctx).allowed;
+    }
     if(p?.ageStage === "juvenile" || (s.group === "plant" && S.ProducerSupport.factor(w,o,S)===0))return false;
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
@@ -9451,13 +9960,19 @@ function(require,module){
           }
       }
       if (!m.main.has(cell) && w.config.enabled.main) {
+        if(S.Ryouki.enabled(w)&&S.validHabitat(w,S.D.ryouki,cell)){
+          const peers=near.flatMap(p=>S.mainAt(m,p)).filter(o=>S.Ryouki.is(o));
+          for(const mother of peers)if(mother.sex==="female"&&eligible(w,mother,ctx)&&S.oneStep(w,mother.cell,cell))
+            for(const father of peers)if(father.sex==="male"&&eligible(w,father,ctx)&&S.oneStep(w,father.cell,cell)&&S.oneStep(w,mother.cell,father.cell))
+              local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
+        }
         if([2,3].includes(mains.length))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
             local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
         if ([2, 3].includes(mains.length))
           for (const mother of mains)
             if (
-              mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
+              !S.Ryouki.is(mother) && mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
               eligible(w, mother, ctx) &&
               S.oneStep(w, mother.cell, cell)
             )
@@ -9548,6 +10063,7 @@ function(require,module){
     return a.kind - b.kind || a.h - b.h || S.compare(a.key, b.key);
   }
   function child(w, c, ctx) {
+    if(c.species==="ryouki")return ryoukiChild(w,c,ctx);
     const s = S.D.byId[c.species],
       mother = c.parents[0],
       father = c.parents[1] || c.fatherReference || mother,
@@ -9645,8 +10161,37 @@ function(require,module){
     if(c.kind===3){mother.sperm.uses--;w.colonyMating.storedBirths++;}
     return o;
   }
+  function ryoukiChild(w,c,ctx){
+    const s=S.D.ryouki,b=s.birth,mother=c.parents[0],father=c.parents[1],
+      id="b:"+w.turn+":"+c.slot+":"+Math.floor(c.cell/w.config.width)+":"+(c.cell%w.config.width),dna={};
+    for(const [i,axis]of S.DNA.entries()){
+      const big=S.r(w,"birth/mutation-kind",w.turn,id,null,i)<.01,range=big?.05:.02;
+      dna[axis]=S.round(S.clamp((mother.dna[axis]+father.dna[axis])/2+(2*S.r(w,"birth/dna",w.turn,id,null,i)-1)*range));
+    }
+    const birthWeights=s.weights.map((v,i)=>S.round(S.clamp(.75*v+.25*(mother.birthWeights[i]+father.birthWeights[i])/2+(4*S.r(w,"birth/weights",w.turn,id,null,i)-2),0,100)));
+    const o=S.organism(w,s,c.cell,id,{phase:1,age:0,G:0,dna,birthWeights,weights:birthWeights.slice(),
+      sex:S.r(w,"birth/sex",w.turn,id)<.5?"female":"male",E:b.childE,B:b.childB,M:b.childM,HP:s.capacity[3],
+      generation:Math.max(mother.generation,father.generation)+1,parents:[mother.id,father.id]});
+    c.parents.forEach((parent,i)=>{
+      parent.E=S.round(parent.E-b.costsE[i]);parent.M=S.round(parent.M-b.costsM[i]);ctx.parents.add(parent.id);
+      parent.birthReady=w.turn+Math.ceil(ctx.traits.get(parent.id).cooldown)+1;parent.firstBirthAt??=w.turn;
+    });
+    S.dissipate(w,b.dissipatedE);S.record(ctx,o,"birth",{parents:o.parents});return o;
+  }
   function blockers(w,o,ctx,m=S.maps(w)) {
     const s=S.spec(o),p=ctx.traits.get(o.id)||S.phenotype(w,o),reasons=[];
+    if(S.Ryouki.is(o)){
+      const b=s.birth,mother=o.sex==="female",near=S.nearby(w,o.cell,1,true).flatMap(cell=>S.mainAt(m,cell));
+      if(p.ageStage==="juvenile")reasons.push("未成熟");
+      if(o.HP<.7*p.maxHP)reasons.push("健康不足");
+      if(o.E<(mother?b.motherE:b.fatherE))reasons.push("栄養不足");
+      if(o.M<(mother?b.motherM:b.fatherM))reasons.push("鉱物不足");
+      if(o.birthReady>w.turn)reasons.push("待機中");
+      if(!near.some(a=>a.id!==o.id&&S.Ryouki.is(a)&&a.sex!==o.sex&&eligible(w,a,ctx)&&S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
+      if(!S.nearby(w,o.cell).some(cell=>!m.main.has(cell)&&S.validHabitat(w,s,cell)&&S.oneStep(w,o.cell,cell)))reasons.push("出生場所不足");
+      if(!birthPressure(w,o,ctx).allowed)reasons.push("混雑・栄養収支による出生調整");
+      return reasons;
+    }
     if(p.ageStage==="juvenile")reasons.push("未成熟");
     if(o.HP<70)reasons.push("健康不足");if(o.E<s.birthEnergy*(w.config.ecologyRevision === "observation/4.1"?.65:1))reasons.push("栄養不足");if(o.M<(o.sperm?.uses>0?4:2))reasons.push("鉱物不足");
     if(o.birthReady>w.turn)reasons.push("待機中");if(o.role==="worker")reasons.push("非繁殖階級");if(ctx.records.get(o.id)?.damage>0)reasons.push("当日被害");
@@ -9886,10 +10431,10 @@ function(require,module){
         (1 + S.trait(o, "maintenance", p.phase));
       ctx.costs.set(o.id, {
         action: 0,
-        base: base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" ? .65 : 1),
+        base: base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" && !S.Ryouki.is(o) ? .65 : 1),
         density,
         neighborCount,
-        budget: Math.max(0, o.E - base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" ? .65 : 1) - density - (o.infection ? 0.2 : 0)),
+        budget: Math.max(0, o.E - base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" && !S.Ryouki.is(o) ? .65 : 1) - density - (o.infection ? 0.2 : 0)),
       });
     }
   }
@@ -9969,7 +10514,7 @@ function(require,module){
     const contactAdd=(out,key)=>out[key]=(out[key]||0)+1;
     for(const a of w.organisms)for(const cell of S.nearby(w,a.cell,1,true)){
       if(!S.oneStep(w,a.cell,cell))continue;
-      for(const b of [map.main.get(cell),map.food.get(cell),map.prey.get(cell)]){
+      for(const b of (S.Ryouki.enabled(w)?[...S.mainAt(map,cell),map.food.get(cell),map.prey?.get(cell)]:[map.main.get(cell),map.food.get(cell),map.prey.get(cell)])){
         if(!b || S.compare(a.id,b.id)>=0)continue;
         const pair=a.id+"|"+b.id,pairSpecies=[a.species,b.species].sort().join("|")+"|contact";
         pairs.push(pair);contactAdd(contactTurns,pairSpecies);
@@ -10023,6 +10568,7 @@ function(require,module){
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
+    S.Ryouki.summary(w);
     S.Colony.summary(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.summary(w);
     S.ProducerSupport.finish(w,ctx,S);
@@ -10096,6 +10642,7 @@ function(require,module){
   }
   function create(input = {}) {
     const w = S.create(input);
+    S.Ryouki.summary(w);
     w.stats = summarize(w);
     if(w.config.ecologyRevision === "observation/4.1") w.observation=observation(w,context(w));
     w.last = {
@@ -10123,10 +10670,12 @@ function(require,module){
       w.checkpoints = [...(initial ? [initial] : []), checkpoint(w)];
     }
     w.turn++;
+    S.Ryouki.begin(w);
     S.Colony.begin(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.begin(w);
     S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
+    if(S.Ryouki.enabled(w))for(const o of w.organisms)if(S.Ryouki.is(o)&&o.ryouki.last.transition)S.record(ctx,o,"phase-variation",{state:o.ryouki.mutated?"mutated":"normal",transition:o.ryouki.last.transition});
     const labels = ["資源更新", "移動・採食・戦闘", "成長・繁殖"];
     function ensure() {
       if (cancelled || failed) throw Error("TURN_DISCARDED: 未確定の計算は破棄されました");
@@ -10226,11 +10775,19 @@ function(require,module){
         if(producer.has(o.cell))errors.push("SLOT_DUPLICATE:"+o.id);
         producer.add(o.cell);
       }else{
-        if (occupied.has(o.cell)) errors.push("SLOT_DUPLICATE:" + o.id);
+        if (occupied.has(o.cell)&&!(o.slot==="main"&&S.Ryouki.enabled(w))) errors.push("SLOT_DUPLICATE:" + o.id);
         occupied.add(o.cell);
       }
       if (ids.has(o.id)) errors.push("ID_DUPLICATE:" + o.id);
       ids.add(o.id);
+      if(o.species==="ryouki"||o.ryouki){
+        const a=o.ryouki;
+        if(!S.Ryouki.enabled(w)||!S.Ryouki.is(o)||o.slot!=="main"||!Number.isInteger(o.phase)||o.phase<1||o.phase>4||
+          (o.phase>=3&&![0,1,2].includes(o.branch3))||(o.phase===4&&![0,1].includes(o.branch4))||
+          !Number.isFinite(o.birthLife)||o.birthLife<=0||typeof a?.mutated!=="boolean"||
+          ![a?.highRun,a?.lowRun].every(n=>Number.isSafeInteger(n)&&n>=0)||
+          !Array.isArray(a?.window)||a.window.length>32||!Array.isArray(a?.recentCells)||a.recentCells.length>64)errors.push("RYOUKI_STATE:"+o.id);
+      }
       if (w.tiles[o.cell]?.blocked) errors.push("BLOCKED:" + o.id);
       if (
         [o.E, o.B, o.M, o.HP, o.G].some(
@@ -10271,6 +10828,8 @@ function(require,module){
         }
       }
     }
+    if(S.Ryouki.enabled(w))for(const list of S.maps(w).mainByCell.values())if(list.length>1&&
+      (list.length>3||list.some(o=>!S.Ryouki.is(o)||!o.ryouki.mutated)))errors.push("SLOT_DUPLICATE:"+list.map(o=>o.id).join(","));
     for(const q of w.searchQ||[]){
       if(ids.has(q.id))errors.push("ID_DUPLICATE:"+q.id);ids.add(q.id);
       if(!Number.isFinite(q.E)||q.E<0||!Number.isInteger(q.cell)||!w.tiles[q.cell]||w.tiles[q.cell].blocked)errors.push("SEARCH_Q:"+q.id);
@@ -11182,10 +11741,22 @@ function(require,module){
   ].map(s=>({...s,group:"plant",kind:"independent",recordUnit:"individual",slot:"producer",tag:"plant",
     phases:["第一相","第二相","第三相","第四相"],branches:["生産","繁殖拡散","耐食"],
     initial:[s.capacity[0]*.5,13.2,1,s.capacity[3]],traits:{},senseAt:1,rangeAt:1,speedAt:1}));
+  // I04 comparison definition stays outside all legacy species/main lists.
+  data.ryouki = {id:"ryouki",name:"量機",group:"main",slot:"main",tag:"animal",recordUnit:"individual",
+    definition:"ryouki/3",parameters:"implementation-start/2",phases:["第一相","第二相","第三相","第四相"],
+    branches:["広域探索","周辺探索","障害踏破"],
+    fourthBranches:[["広域探索・直進","広域探索・ランダム"],["周辺探索・近め","周辺探索・広め"],["障害踏破・水域","障害踏破・火山"]],
+    life:180,maturity:18,maintenance:.48,birthCooldown:8,birthEnergy:30,M3:2,M4:4,
+    initial:[40,8,1,80],capacity:[100,32,30,80],combat:{attack:.45,defense:.60,hp:.80},
+    birth:{motherE:30,fatherE:12,motherM:.75,fatherM:.25,costsE:[18,6],costsM:[.75,.25],childE:16,childB:6,childM:1,dissipatedE:2},
+    experience:{II:20,III:60,IV:140},weights:[35,65,75,65,55,55,75,60,40],
+    good:[],bad:-1,type:"move",diet:"general",traits:{},traitText:["低戦闘・高移動・高繁殖","密度による可逆相変異"],
+    senseAt:1,rangeAt:99,speedAt:1,aquatic:false,color:"#438e80"};
   data.species.push({id:'phytoplankton',name:'浮遊微藻',group:'plant',slot:'food',tag:'plant',phases:['微小体','分裂体'],life:80,maturity:2,maintenance:.1,birthCooldown:2,initial:[6,8,.5,6],capacity:[20,16,2,6],color:'#73d2bf'});
   Object.assign(data.species.find(s=>s.id==='waterbug'),{life:600,maturity:2,maintenance:.03,birthCooldown:1,initial:[12,4,0,40],capacity:[24,8,2,40]});
   data.byId = Object.fromEntries(data.species.map((s) => [s.id, s]));
   Object.assign(data.byId,Object.fromEntries(data.independentPlants.map(s=>[s.id,s])));
+  data.byId.ryouki=data.ryouki;
   data.main = data.species.filter((s) => s.group === "main");
   return data;
 });
@@ -11206,6 +11777,12 @@ function(require,module){
 })(globalThis, function (S, Nutrition) {
   "use strict";
   const phaseA = [0, 1, 1.15, 1.35, 1.6];
+  const grouped = w => S.Ryouki?.enabled(w) === true;
+  const isRyouki = (w,o) => grouped(w) && S.Ryouki.is(o);
+  function mainMembers(w,m,cell) {
+    if (grouped(w)) return S.mainAt(m,cell);
+    const o=m.main.get(cell);return o?[o]:[];
+  }
   function environmental(w, o, kind, cell = o.cell) {
     const s = S.spec(o),
       env = w.tiles[cell].env;
@@ -11242,6 +11819,16 @@ function(require,module){
       terrain * (["log", "bush"].includes(t.cover) ? 1.2 : 1),
     );
     if (S.LargePlant?.is(o)) return .3 * ageMove * terrain;
+    if (isRyouki(w,o)) {
+      let extra=1;
+      if (phase>=3 && o.branch3===2) {
+        extra=.8;
+        if (phase===4 && ((o.branch4===0 && ["shallow","deep"].includes(t.terrain)) ||
+            (o.branch4===1 && t.env===1))) extra=.65;
+      }
+      terrain=1+(terrain-1)*extra;
+      return .39*ageMove*terrain*environmental(w,o,"move",to)*S.adjustment(w,o,"move",t.env,phase);
+    }
     if (o.branch3 === 1 && o.branch4 === 1) terrain = 1 + 0.75 * (terrain - 1);
     let branch =
       o.branch3 === 1 && o.branch4 === 0
@@ -11277,23 +11864,23 @@ function(require,module){
         : value;
     }
     const m = ctx.current || S.maps(w),
-      friends = S.nearby(w, o.cell).filter(
-        (c) => m.main.get(c)?.species === o.species,
-      ).length;
+      friends = S.nearby(w, o.cell).reduce((n,c) => n+mainMembers(w,m,c).filter(a=>a.species===o.species).length,0);
     const common =
       s.id === "precocial" ? [0, 1.2, 1.35, 1.6][phase] : phaseA[phase];
     let value =
       kind === "attack"
         ? 6 + (6 * (2 * o.dna.body + o.dna.appendage)) / 3
         : 4 + 4 * o.dna.skin;
-    const baseValue = value * common;
+    const combatScale=isRyouki(w,o)?(kind==="attack"?.45:.60):1,
+      baseValue = value * common * combatScale;
     value *=
+      combatScale *
       p.ageFactors[kind] *
       common *
       S.adjustment(w, o, kind, w.tiles[o.cell].env, phase);
     if (kind === "attack") {
       value *= 1 + Math.min(3, friends) * S.trait(o, "packAttack", phase);
-      if (o.branch3 === 2 && o.branch4 === 0) value *= 1.1;
+      if (!isRyouki(w,o) && o.branch3 === 2 && o.branch4 === 0) value *= 1.1;
       value *= environmental(w, o, "attack");
     } else {
       let env = environmental(w, o, "defense");
@@ -11304,7 +11891,7 @@ function(require,module){
       value *= Math.min(1.6, env);
       if (guarded) value *= 1 + S.trait(o, "guard", phase);
       if (cover) value *= 1 + S.trait(o, "coverDefense", phase);
-      if (o.branch3 === 2 && o.branch4 === 1) value *= 1.1;
+      if (!isRyouki(w,o) && o.branch3 === 2 && o.branch4 === 1) value *= 1.1;
       if (s.id === "precocial" && phase === 3 && o.branch3 === 2) value *= 1.05;
     }
     return breakdown
@@ -11347,7 +11934,7 @@ function(require,module){
   }
   function chooseFloating(w, o, ctx, m, stage) {
     const sensed = S.nearby(w,o.cell,1,true).filter(cell => S.sight(w,o.cell,cell)),
-      consumers = sensed.flatMap(cell => [m.main.get(cell),m.prey?.get(cell)])
+      consumers = sensed.flatMap(cell => [...mainMembers(w,m,cell),m.prey?.get(cell)])
         .filter(a => a && a.HP > 0 &&
           (S.spec(a).group === "prey" || (S.spec(a).group === "main" && a.species !== "kelp")));
     const score = cell => {
@@ -11380,9 +11967,7 @@ function(require,module){
       out = [{ type: "stop", cell: o.cell, cost: 0, path: [] }];
     if (S.LargePlant?.is(o)) return floatingCandidates(w,o,ctx,m);
     if (s.group === "plant" || s.group === "fungus") return out;
-    const friend = S.nearby(w, o.cell).some(
-      (c) => m.main.get(c)?.species === o.species,
-    );
+    const friend = S.nearby(w, o.cell).some(c => mainMembers(w,m,c).some(a=>a.species===o.species));
     if (s.group === "main")
       out.push({ type: "defend", cell: o.cell, cost: 0, path: [] });
     if (s.group !== "prey" || s.id !== "waterbug" || w.turn % 2 === 0) {
@@ -11400,8 +11985,9 @@ function(require,module){
             break;
           const cell = S.index(w, tx, ty);
           if (
-            occupied.has(cell) || !S.validHabitat(w, s, cell) ||
-            !visible(w, o, cell, ctx) ||
+            (grouped(w) && o.slot==="main" ? !S.mainRoom(w,o,cell,m) : occupied.has(cell)) ||
+            !(isRyouki(w,o)?S.sight(w,prev,cell):visible(w, o, cell, ctx)) ||
+            !S.validHabitat(w, s, cell) ||
             !S.oneStep(w, prev, cell)
           )
             break;
@@ -11415,6 +12001,7 @@ function(require,module){
               path: path.slice(),
               direction: d,
             });
+          else if(isRyouki(w,o)) ctx.records.get(o.id).ryoukiMoveBudgetLimited=true;
           prev = cell;
         }
       }
@@ -11424,11 +12011,12 @@ function(require,module){
       const main = m.main.get(cell),
         food = m.food.get(cell);
       if (s.group === "main" && o.attackReady <= w.turn)
-        for (const target of [main, m.prey.get(cell)])
+        for (const target of (grouped(w)?[...S.mainAt(m,cell),(m.prey||m.food).get(cell)]:[main, m.prey.get(cell)]))
           if (
             target &&
             target.id !== o.id &&
             target.species !== o.species &&
+            (!isRyouki(w,o) || S.spec(target).group === "prey") &&
             !(w.config.ecologyRevision === "observation/4.1" && ["solar","kelp"].includes(o.species) && ["solar","kelp"].includes(target.species)) &&
             ["main", "prey"].includes(S.spec(target).group) &&
             !(s.id === "kelp" && S.spec(target).group !== "prey") &&
@@ -11451,6 +12039,7 @@ function(require,module){
         food &&
         s.id !== "kelp" &&
         ["plant", "fungus"].includes(S.spec(food).group) &&
+        (!isRyouki(w,o) || S.spec(food).group === "plant") &&
         S.edibleB(food) > 0 &&
         (s.group === "main" || S.spec(food).group === "plant") &&
         S.distance(w, o.cell, cell) <= 1 &&
@@ -11467,31 +12056,31 @@ function(require,module){
       if (producer && s.id !== "kelp" && S.edibleB(producer)>0 && producer.HP>0 &&
           (s.group === "main" || s.group === "prey") && S.distance(w,o.cell,cell)<=1 && S.oneStep(w,o.cell,cell))
         out.push({type:"harvest",cell:o.cell,target:producer.id,cost:0,path:[]});
-      if (
+      for (const ward of (grouped(w)?S.mainAt(m,cell):[main])) if (
         s.id === "swarm" &&
         o.role === "worker" &&
         o.E >= 25 &&
         budget >= 2 &&
-        main &&
-        main.id !== o.id &&
-        main.colony === o.colony &&
-        ((ctx.traits.get(main.id).ageEnabled
-          ? ctx.traits.get(main.id).ageStage === "juvenile"
-          : main.phase <= 2) || (main.role === "queen" && main.E < 65)) &&
+        ward &&
+        ward.id !== o.id &&
+        ward.colony === o.colony &&
+        ((ctx.traits.get(ward.id).ageEnabled
+          ? ctx.traits.get(ward.id).ageStage === "juvenile"
+          : ward.phase <= 2) || (ward.role === "queen" && ward.E < 65)) &&
         S.distance(w, o.cell, cell) === 1 &&
         S.oneStep(w, o.cell, cell)
       )
         out.push({
           type: "care",
           cell: o.cell,
-          target: main.id,
+          target: ward.id,
           cost: 2,
           path: [],
         });
     }
     if (w.config.ecologyRevision === "observation/4.1" && s.group === "main" && budget >= 0.3) {
       for (const cell of S.nearby(w,o.cell,1,true)) {
-        const target=m.main.get(cell);
+        for (const target of mainMembers(w,m,cell))
         if(target?.infection?.location === "external" && target.species===o.species && S.oneStep(w,o.cell,cell))
           out.push({type:"groom",cell:o.cell,target:target.id,cost:0.3,path:[]});
       }
@@ -11506,7 +12095,7 @@ function(require,module){
       ),
       enemies = [];
     for (const p of visibleCells)
-      for (const t of [m.main.get(p), m.prey.get(p)])
+      for (const t of (grouped(w)?[...S.mainAt(m,p),(m.prey||m.food).get(p)]:[m.main.get(p), m.prey.get(p)]))
         if (
           t &&
           t.id !== o.id &&
@@ -11537,6 +12126,18 @@ function(require,module){
   }
   function quality(w, o, cell, v) {
     if (v.qualityCache?.has(cell)) return v.qualityCache.get(cell);
+    if (isRyouki(w,o)) {
+      if (!v.visibleCells.has(cell)) return 0;
+      let leaves=0,insects=0;
+      for(const target of [v.m.food.get(cell),v.m.producer?.get(cell)])
+        if(target&&target.HP>0&&S.spec(target).group==="plant")leaves=Math.max(leaves,Math.min(1,S.edibleB(target)/4));
+      const prey=(v.m.prey||v.m.food).get(cell);
+      if(prey&&prey.HP>0&&S.spec(prey).group==="prey")insects=Math.min(1,S.edibleB(prey)/4);
+      for(const a of v.m.carcasses.get(cell)||[])
+        if(S.D.byId[a.species]?.group==="prey"&&a.q>0)insects=Math.max(insects,Math.min(1,a.q/4));
+      const q=Math.min(1,(.65*leaves+.35*insects)*(.9+.2*o.dna.senses));
+      v.qualityCache?.set(cell,q);return q;
+    }
     const s = S.spec(o);
     const stage = (amount) =>
       amount <= 0 ? 0 : amount <= 1 / 3 ? 1 / 3 : amount <= 2 / 3 ? 2 / 3 : 1;
@@ -11621,13 +12222,12 @@ function(require,module){
       empty = 0;
     for (const p of S.nearby(w, cell)) {
       if (!v.visibleCells.has(p)) continue;
-      const main = v.m.main.get(p);
-      if (main && main.id !== o.id) {
+      for(const main of mainMembers(w,v.m,p))if (main.id !== o.id) {
         crowd++;
         if (main.species === o.species) friends++;
       }
       const occupant = (o.slot === "main" ? v.m.main : v.m.prey).get(p);
-      if ((!occupant || occupant.id === o.id) && S.oneStep(w, cell, p)) empty++;
+      if ((grouped(w)&&o.slot==="main"?S.mainRoom(w,o,p,v.m):(!occupant || occupant.id === o.id)) && S.oneStep(w, cell, p)) empty++;
     }
     const result = { C: friends / 8, D: crowd / 8, O: empty / 8 };
     v.neighborhoodCache?.set(cell, result);
@@ -11688,14 +12288,23 @@ function(require,module){
     const move = c.type === "move",
       attack = c.type === "attack",
       guard = c.type === "defend";
-    const pairReady = (a) => a.species !== "swarm" && (w.config.ecologyRevision === "observation/4.1" || a.phase >= 3) &&
+    const pairReady = (a) => {
+      if(isRyouki(w,a)){
+        const p=ctx.traits.get(a.id),b=S.spec(a).birth,male=a.sex==="male";
+        return p.ageStage!=="juvenile"&&a.HP>=.7*p.maxHP&&a.E>=(male?b.fatherE:b.motherE)&&
+          a.M>=(male?b.fatherM:b.motherM)&&a.birthReady<=w.turn;
+      }
+      return a.species !== "swarm" && (w.config.ecologyRevision === "observation/4.1" || a.phase >= 3) &&
       ctx.traits.get(a.id)?.ageStage !== "juvenile" && a.role !== "worker" &&
       a.HP >= 70 && a.E >= S.spec(a).birthEnergy*(w.config.ecologyRevision === "observation/4.1"?.65:1) && a.M >= (w.config.ecologyRevision === "observation/4.1"?2:4) && a.birthReady <= w.turn;
+    };
     let mateBonus = 0,
       pairApproach = 0,
       shelterBonus = 0;
     for (const p of v.visibleCells) {
       const a = v.m.main.get(p);
+      const actors=grouped(w)?S.mainAt(v.m,p):[a];
+      for(const a of actors){
       if (!a || a.id === o.id || a.species !== o.species) continue;
       if (
         (o.phase < 3 || a.phase < 3) &&
@@ -11729,6 +12338,7 @@ function(require,module){
       }
       if (o.phase <= 2 && a.phase >= 3 && S.distance(w, to, p) <= 1)
         shelterBonus = Math.max(shelterBonus, 0.1);
+      }
     }
     const direction = move
       ? (() => {
@@ -11764,8 +12374,7 @@ function(require,module){
     if (
       attack &&
       S.nearby(w, here).some((p) => {
-        const a = v.m.main.get(p);
-        return a?.species === o.species && a.phase <= 2;
+        return mainMembers(w,v.m,p).some(a=>a.species===o.species&&a.phase<=2);
       })
     )
       features[0] += 0.1;
@@ -11835,6 +12444,32 @@ function(require,module){
     )
       score += 0.1 * hunger;
     if(c.type === "groom") score += 0.3 + 0.4*(o.weights[4]/100);
+    if(isRyouki(w,o)){
+      const known=cell=>o.ryouki.recentCells.some(a=>a.cell===cell),foodCell=target?.cell??to,
+        foodDistance=S.distance(w,here,foodCell);
+      let branchWeight=1;
+      if(o.phase>=3&&move){
+        if(o.branch3===0&&c.path.some(cell=>!known(cell)))branchWeight*=1.2;
+        else if(o.branch3===1&&Q>0&&known(foodCell))branchWeight*=1.2;
+      }else if(o.phase>=3&&o.branch3===1&&Q>0&&known(foodCell))branchWeight*=1.2;
+      if(o.phase===4){
+        if(o.branch3===0&&move){
+          if(o.branch4===0&&direction>=Math.SQRT1_2-1e-8)branchWeight*=1.3;
+          else if(o.branch4===1&&direction<Math.SQRT1_2-1e-8)branchWeight*=1.2;
+        }else if(o.branch3===1&&Q>0&&
+          ((o.branch4===0&&foodDistance<=1)||(o.branch4===1&&foodDistance>=2&&foodDistance<=3)))branchWeight*=1.25;
+      }
+      // A branch strengthens a useful candidate, without reversing a negative
+      // danger/cost balance or changing the finite cost paid for that action.
+      score+=Math.max(0,score)*(branchWeight-1);c.ryoukiBranchMultiplier=branchWeight;
+      c.ryoukiGoal=(move&&oldT>T)?"回避":(c.type==="harvest"||attack||Q>0)?"採食":"探索";
+      if(o.ryouki.mutated&&o.phase===4&&ctx.traits.get(o.id).ageStage!=="juvenile"){
+        const b=S.spec(o).birth,neededE=o.sex==="male"?b.fatherE:b.motherE;
+        const preparation=pairApproach*Math.max(0,1-oldT)+
+          (o.E<neededE&&(c.type==="harvest"||move)&&Q>0?.25*Q:0);
+        if(preparation>0){score+=(w.config.ryoukiSettings.preparationWeight-1)*preparation;c.ryoukiGoal="繁殖準備";}
+      }
+    }
     const noRandom = score;
     score += (weights[8] / 100) * xi;
     return { score, noRandom, features, xi };
@@ -11878,6 +12513,10 @@ function(require,module){
       }
       if(o.id===ctx.observeId)list.sort((a,b)=>b.score-a.score||a.h-b.h);
       ctx.intents.set(o.id, chosen);
+      if(isRyouki(w,o)){
+        const rec=ctx.records.get(o.id);
+        if(stage!=="effect"||chosen.type!=="stop"||!rec.ryoukiGoal)rec.ryoukiGoal=chosen.ryoukiGoal||"探索";
+      }
       if (chosen.type === "defend") S.record(ctx, o, "defend");
       ctx.records.get(o.id).randomChanged = chosen !== without;
       if (o.id === ctx.observeId)
@@ -11899,19 +12538,70 @@ function(require,module){
         ctx.traits.get(o.id).ageStage !== "juvenile"
       )
         o.maleAbsent = [...v.visibleCells].some((p) => {
-          const t = m.main.get(p);
-          return (
-            t?.species === o.species &&
+          return mainMembers(w,m,p).some(t => (
+            t.species === o.species &&
             t.sex === "male" &&
             (w.config.ecologyRevision === "observation/4.1" || t.phase >= 3) &&
             ctx.traits.get(t.id).ageStage !== "juvenile"
-          );
+          ));
         })
           ? 0
           : Math.min(8, o.maleAbsent + 1);
     }
   }
+  function moveGrouped(w,ctx){
+    const initial=S.maps(w),positions=new Map(),entries=[];
+    for(const o of w.organisms){
+      if(!positions.has(o.slot))positions.set(o.slot,new Map());
+      const cells=positions.get(o.slot);if(!cells.has(o.cell))cells.set(o.cell,[]);cells.get(o.cell).push(o);
+      const c=ctx.intents.get(o.id);
+      if(c.type==="move"&&o.HP>0)entries.push({o,c,from:o.cell,steps:[],cost:0,active:true,limit:ctx.traits.get(o.id).speed,
+        friend:S.nearby(w,o.cell).some(cell=>mainMembers(w,initial,cell).some(a=>a.species===o.species)),
+        h:S.hash(w,"movement/arbitration",w.turn,o.id,c.path)});
+    }
+    const order=entries.slice().sort((a,b)=>a.h-b.h||S.compare(a.o.id,b.o.id));
+    const maximum=Math.max(0,...entries.map(e=>Math.min(e.limit,e.c.path.length)));
+    for(let step=0;step<maximum;step++){
+      const reserved=new Map([...positions].map(([slot,cells])=>[slot,new Map([...cells].map(([cell,list])=>[cell,list.slice()]))])),accepted=[];
+      const mains=reserved.get("main")||new Map(),index={mainByCell:mains,main:new Map([...mains].map(([cell,list])=>[cell,list.at(-1)]))};
+      for(const e of order){
+        if(!e.active||step>=e.c.path.length||step>=e.limit)continue;
+        const cell=e.c.path[step],p=ctx.traits.get(e.o.id),rec=ctx.records.get(e.o.id),budget=ctx.costs.get(e.o.id);
+        if(cell===e.o.cell||!w.tiles[cell]||!S.oneStep(w,e.o.cell,cell)||!S.validHabitat(w,S.spec(e.o),cell)||!S.sight(w,e.o.cell,cell)){
+          e.active=false;rec.failure="RESERVATION_LOST";continue;
+        }
+        const cost=moveCost(w,e.o,cell,p.phase,e.friend,p.ageFactors.move);
+        if(cost>budget.budget-budget.action+1e-8){
+          e.active=false;rec.failure="RESERVATION_LOST";if(isRyouki(w,e.o))rec.ryoukiMoveBudgetLimited=true;continue;
+        }
+        if(!reserved.has(e.o.slot))reserved.set(e.o.slot,new Map());
+        const cells=reserved.get(e.o.slot),occupants=cells.get(cell)||[];
+        if(e.o.slot==="main"?!S.mainRoom(w,e.o,cell,index):occupants.some(a=>a.id!==e.o.id)){
+          e.active=false;rec.failure="RESERVATION_LOST";continue;
+        }
+        cells.set(cell,[...occupants,e.o]);if(e.o.slot==="main")index.main.set(cell,e.o);
+        accepted.push({e,cell,cost});
+      }
+      for(const {e,cell,cost}of accepted){
+        const cells=positions.get(e.o.slot),old=cells.get(e.o.cell).filter(a=>a.id!==e.o.id);
+        if(old.length)cells.set(e.o.cell,old);else cells.delete(e.o.cell);
+        cells.set(cell,[...(cells.get(cell)||[]),e.o]);e.o.cell=cell;e.steps.push(cell);e.cost+=cost;
+        ctx.costs.get(e.o.id).action+=cost;
+      }
+    }
+    for(const e of entries){
+      const {o,c,steps}=e,rec=ctx.records.get(o.id);
+      if(isRyouki(w,o)){rec.ryoukiSteps=steps.slice();rec.ryoukiMoveCost=e.cost;}
+      if(!steps.length)continue;
+      rec.moved=true;rec.newPlace=!o.history.includes(o.cell);o.facing=c.direction;
+      if(rec.newPlace)o.pendingMove={turn:w.turn,expires:w.turn+3,cell:o.cell};
+      o.history.push(o.cell);o.history=o.history.slice(-4);
+      S.record(ctx,o,"move",{from:e.from,to:o.cell,path:steps.slice()});
+    }
+    ctx.current=S.maps(w);
+  }
   function move(w, ctx) {
+    if(grouped(w))return moveGrouped(w,ctx);
     const votes = new Map(),
       list = [];
     for (const o of w.organisms) {
@@ -12065,7 +12755,7 @@ function(require,module){
       if (rec.cared) delta[3] += 2;
       if (
         rec.mitigated >= 2 &&
-        S.nearby(w, o.cell).some((p) => m.main.get(p)?.species === o.species)
+        S.nearby(w, o.cell).some(p => mainMembers(w,m,p).some(a=>a.species===o.species))
       )
         delta[3]++;
       const previous = o.survival;
@@ -12093,7 +12783,7 @@ function(require,module){
         o.survival = { enemy: rec.hitBy, turn: w.turn, escaped: false };
       rec.delta = delta.map((v) => S.clamp(v, -2, 2));
       own.set(o.id, rec.delta);
-      rec.category =
+      rec.category = isRyouki(w,o)?null:
         rec.dealt >= 2 || rec.mitigated >= 2
           ? 2
           : rec.escaped || (rec.moved && rec.organic > 0)
@@ -12110,7 +12800,7 @@ function(require,module){
         const contacts = [];
         for (const p of S.nearby(w, o.cell))
           if (S.oneStep(w, o.cell, p)) {
-            const a = m.main.get(p);
+            for(const a of mainMembers(w,m,p))
             if (a?.species === o.species && own.has(a.id))
               own.get(a.id).forEach((v, i) => {
                 if (v)
@@ -12212,6 +12902,7 @@ function(require,module){
       : null;
   }
   function growth(w, ctx) {
+    S.Ryouki.finalize(w,ctx);
     for (const o of w.organisms) {
       if (!ctx.traits.has(o.id)) continue;
       const s = S.spec(o),
@@ -12219,6 +12910,7 @@ function(require,module){
         rec = ctx.records.get(o.id),
         old = p.phase;
       if(S.LargePlant.is(o))continue;
+      if(S.Ryouki.is(o))continue;
       if (s.group !== "main") {
         if(S.Colony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
@@ -12329,6 +13021,11 @@ function(require,module){
     const s = S.spec(o),
       rec = ctx.records.get(o.id),
       p = ctx.traits.get(o.id);
+    if(S.Ryouki.is(o)){
+      const b=s.birth,mother=o.sex==="female";
+      return !asexual&&!!rec&&o.HP>0&&p.ageStage!=="juvenile"&&o.HP>=.7*p.maxHP&&o.birthReady<=w.turn&&
+        o.E>=(mother?b.motherE:b.fatherE)&&o.M>=(mother?b.motherM:b.fatherM)&&birthPressure(w,o,ctx).allowed;
+    }
     if(p?.ageStage === "juvenile" || (s.group === "plant" && S.ProducerSupport.factor(w,o,S)===0))return false;
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
@@ -12375,13 +13072,19 @@ function(require,module){
           }
       }
       if (!m.main.has(cell) && w.config.enabled.main) {
+        if(S.Ryouki.enabled(w)&&S.validHabitat(w,S.D.ryouki,cell)){
+          const peers=near.flatMap(p=>S.mainAt(m,p)).filter(o=>S.Ryouki.is(o));
+          for(const mother of peers)if(mother.sex==="female"&&eligible(w,mother,ctx)&&S.oneStep(w,mother.cell,cell))
+            for(const father of peers)if(father.sex==="male"&&eligible(w,father,ctx)&&S.oneStep(w,father.cell,cell)&&S.oneStep(w,mother.cell,father.cell))
+              local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
+        }
         if([2,3].includes(mains.length))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
             local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
         if ([2, 3].includes(mains.length))
           for (const mother of mains)
             if (
-              mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
+              !S.Ryouki.is(mother) && mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
               eligible(w, mother, ctx) &&
               S.oneStep(w, mother.cell, cell)
             )
@@ -12472,6 +13175,7 @@ function(require,module){
     return a.kind - b.kind || a.h - b.h || S.compare(a.key, b.key);
   }
   function child(w, c, ctx) {
+    if(c.species==="ryouki")return ryoukiChild(w,c,ctx);
     const s = S.D.byId[c.species],
       mother = c.parents[0],
       father = c.parents[1] || c.fatherReference || mother,
@@ -12569,8 +13273,37 @@ function(require,module){
     if(c.kind===3){mother.sperm.uses--;w.colonyMating.storedBirths++;}
     return o;
   }
+  function ryoukiChild(w,c,ctx){
+    const s=S.D.ryouki,b=s.birth,mother=c.parents[0],father=c.parents[1],
+      id="b:"+w.turn+":"+c.slot+":"+Math.floor(c.cell/w.config.width)+":"+(c.cell%w.config.width),dna={};
+    for(const [i,axis]of S.DNA.entries()){
+      const big=S.r(w,"birth/mutation-kind",w.turn,id,null,i)<.01,range=big?.05:.02;
+      dna[axis]=S.round(S.clamp((mother.dna[axis]+father.dna[axis])/2+(2*S.r(w,"birth/dna",w.turn,id,null,i)-1)*range));
+    }
+    const birthWeights=s.weights.map((v,i)=>S.round(S.clamp(.75*v+.25*(mother.birthWeights[i]+father.birthWeights[i])/2+(4*S.r(w,"birth/weights",w.turn,id,null,i)-2),0,100)));
+    const o=S.organism(w,s,c.cell,id,{phase:1,age:0,G:0,dna,birthWeights,weights:birthWeights.slice(),
+      sex:S.r(w,"birth/sex",w.turn,id)<.5?"female":"male",E:b.childE,B:b.childB,M:b.childM,HP:s.capacity[3],
+      generation:Math.max(mother.generation,father.generation)+1,parents:[mother.id,father.id]});
+    c.parents.forEach((parent,i)=>{
+      parent.E=S.round(parent.E-b.costsE[i]);parent.M=S.round(parent.M-b.costsM[i]);ctx.parents.add(parent.id);
+      parent.birthReady=w.turn+Math.ceil(ctx.traits.get(parent.id).cooldown)+1;parent.firstBirthAt??=w.turn;
+    });
+    S.dissipate(w,b.dissipatedE);S.record(ctx,o,"birth",{parents:o.parents});return o;
+  }
   function blockers(w,o,ctx,m=S.maps(w)) {
     const s=S.spec(o),p=ctx.traits.get(o.id)||S.phenotype(w,o),reasons=[];
+    if(S.Ryouki.is(o)){
+      const b=s.birth,mother=o.sex==="female",near=S.nearby(w,o.cell,1,true).flatMap(cell=>S.mainAt(m,cell));
+      if(p.ageStage==="juvenile")reasons.push("未成熟");
+      if(o.HP<.7*p.maxHP)reasons.push("健康不足");
+      if(o.E<(mother?b.motherE:b.fatherE))reasons.push("栄養不足");
+      if(o.M<(mother?b.motherM:b.fatherM))reasons.push("鉱物不足");
+      if(o.birthReady>w.turn)reasons.push("待機中");
+      if(!near.some(a=>a.id!==o.id&&S.Ryouki.is(a)&&a.sex!==o.sex&&eligible(w,a,ctx)&&S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
+      if(!S.nearby(w,o.cell).some(cell=>!m.main.has(cell)&&S.validHabitat(w,s,cell)&&S.oneStep(w,o.cell,cell)))reasons.push("出生場所不足");
+      if(!birthPressure(w,o,ctx).allowed)reasons.push("混雑・栄養収支による出生調整");
+      return reasons;
+    }
     if(p.ageStage==="juvenile")reasons.push("未成熟");
     if(o.HP<70)reasons.push("健康不足");if(o.E<s.birthEnergy*(w.config.ecologyRevision === "observation/4.1"?.65:1))reasons.push("栄養不足");if(o.M<(o.sperm?.uses>0?4:2))reasons.push("鉱物不足");
     if(o.birthReady>w.turn)reasons.push("待機中");if(o.role==="worker")reasons.push("非繁殖階級");if(ctx.records.get(o.id)?.damage>0)reasons.push("当日被害");
@@ -13485,11 +14218,23 @@ function(require,module){
   ].map(s=>({...s,group:"plant",kind:"independent",recordUnit:"individual",slot:"producer",tag:"plant",
     phases:["第一相","第二相","第三相","第四相"],branches:["生産","繁殖拡散","耐食"],
     initial:[s.capacity[0]*.5,13.2,1,s.capacity[3]],traits:{},senseAt:1,rangeAt:1,speedAt:1}));
+  // I04 comparison definition stays outside all legacy species/main lists.
+  data.ryouki = {id:"ryouki",name:"量機",group:"main",slot:"main",tag:"animal",recordUnit:"individual",
+    definition:"ryouki/3",parameters:"implementation-start/2",phases:["第一相","第二相","第三相","第四相"],
+    branches:["広域探索","周辺探索","障害踏破"],
+    fourthBranches:[["広域探索・直進","広域探索・ランダム"],["周辺探索・近め","周辺探索・広め"],["障害踏破・水域","障害踏破・火山"]],
+    life:180,maturity:18,maintenance:.48,birthCooldown:8,birthEnergy:30,M3:2,M4:4,
+    initial:[40,8,1,80],capacity:[100,32,30,80],combat:{attack:.45,defense:.60,hp:.80},
+    birth:{motherE:30,fatherE:12,motherM:.75,fatherM:.25,costsE:[18,6],costsM:[.75,.25],childE:16,childB:6,childM:1,dissipatedE:2},
+    experience:{II:20,III:60,IV:140},weights:[35,65,75,65,55,55,75,60,40],
+    good:[],bad:-1,type:"move",diet:"general",traits:{},traitText:["低戦闘・高移動・高繁殖","密度による可逆相変異"],
+    senseAt:1,rangeAt:99,speedAt:1,aquatic:false,color:"#438e80"};
   data.species.push({id:'phytoplankton',name:'浮遊微藻',group:'plant',slot:'food',tag:'plant',phases:['微小体','分裂体'],life:80,maturity:2,maintenance:.1,birthCooldown:2,initial:[6,8,.5,6],capacity:[20,16,2,6],color:'#73d2bf'});
   for(const s of data.species)if(s.group==='plant')Object.assign(s,{life:2400,maintenance:.02,birthCooldown:1,initial:[12,s.id==='phytoplankton'?16:20,1,12],capacity:[32,48,4,12]});
   Object.assign(data.species.find(s=>s.id==='waterbug'),{life:600,maturity:2,maintenance:.03,birthCooldown:1,initial:[12,4,0,40],capacity:[24,8,2,40]});
   data.byId = Object.fromEntries(data.species.map((s) => [s.id, s]));
   Object.assign(data.byId,Object.fromEntries(data.independentPlants.map(s=>[s.id,s])));
+  data.byId.ryouki=data.ryouki;
   data.main = data.species.filter((s) => s.group === "main");
   return data;
 });
@@ -13515,6 +14260,7 @@ function(require,module){
       : null;
   }
   function growth(w, ctx) {
+    S.Ryouki.finalize(w,ctx);
     for (const o of w.organisms) {
       if (!ctx.traits.has(o.id)) continue;
       const s = S.spec(o),
@@ -13522,6 +14268,7 @@ function(require,module){
         rec = ctx.records.get(o.id),
         old = p.phase;
       if(S.LargePlant.is(o))continue;
+      if(S.Ryouki.is(o))continue;
       if (s.group !== "main") {
         if(S.Colony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
@@ -13632,6 +14379,11 @@ function(require,module){
     const s = S.spec(o),
       rec = ctx.records.get(o.id),
       p = ctx.traits.get(o.id);
+    if(S.Ryouki.is(o)){
+      const b=s.birth,mother=o.sex==="female";
+      return !asexual&&!!rec&&o.HP>0&&p.ageStage!=="juvenile"&&o.HP>=.7*p.maxHP&&o.birthReady<=w.turn&&
+        o.E>=(mother?b.motherE:b.fatherE)&&o.M>=(mother?b.motherM:b.fatherM)&&birthPressure(w,o,ctx).allowed;
+    }
     if(p?.ageStage === "juvenile" || (s.group === "plant" && S.ProducerSupport.factor(w,o,S)===0))return false;
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
@@ -13678,13 +14430,19 @@ function(require,module){
           }
       }
       if (!m.main.has(cell) && w.config.enabled.main) {
+        if(S.Ryouki.enabled(w)&&S.validHabitat(w,S.D.ryouki,cell)){
+          const peers=near.flatMap(p=>S.mainAt(m,p)).filter(o=>S.Ryouki.is(o));
+          for(const mother of peers)if(mother.sex==="female"&&eligible(w,mother,ctx)&&S.oneStep(w,mother.cell,cell))
+            for(const father of peers)if(father.sex==="male"&&eligible(w,father,ctx)&&S.oneStep(w,father.cell,cell)&&S.oneStep(w,mother.cell,father.cell))
+              local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
+        }
         if([2,3].includes(mains.length))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
             local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
         if ([2, 3].includes(mains.length))
           for (const mother of mains)
             if (
-              mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
+              !S.Ryouki.is(mother) && mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
               eligible(w, mother, ctx) &&
               S.oneStep(w, mother.cell, cell)
             )
@@ -13775,6 +14533,7 @@ function(require,module){
     return a.kind - b.kind || a.h - b.h || S.compare(a.key, b.key);
   }
   function child(w, c, ctx) {
+    if(c.species==="ryouki")return ryoukiChild(w,c,ctx);
     const s = S.D.byId[c.species],
       mother = c.parents[0],
       father = c.parents[1] || c.fatherReference || mother,
@@ -13872,8 +14631,37 @@ function(require,module){
     if(c.kind===3){mother.sperm.uses--;w.colonyMating.storedBirths++;}
     return o;
   }
+  function ryoukiChild(w,c,ctx){
+    const s=S.D.ryouki,b=s.birth,mother=c.parents[0],father=c.parents[1],
+      id="b:"+w.turn+":"+c.slot+":"+Math.floor(c.cell/w.config.width)+":"+(c.cell%w.config.width),dna={};
+    for(const [i,axis]of S.DNA.entries()){
+      const big=S.r(w,"birth/mutation-kind",w.turn,id,null,i)<.01,range=big?.05:.02;
+      dna[axis]=S.round(S.clamp((mother.dna[axis]+father.dna[axis])/2+(2*S.r(w,"birth/dna",w.turn,id,null,i)-1)*range));
+    }
+    const birthWeights=s.weights.map((v,i)=>S.round(S.clamp(.75*v+.25*(mother.birthWeights[i]+father.birthWeights[i])/2+(4*S.r(w,"birth/weights",w.turn,id,null,i)-2),0,100)));
+    const o=S.organism(w,s,c.cell,id,{phase:1,age:0,G:0,dna,birthWeights,weights:birthWeights.slice(),
+      sex:S.r(w,"birth/sex",w.turn,id)<.5?"female":"male",E:b.childE,B:b.childB,M:b.childM,HP:s.capacity[3],
+      generation:Math.max(mother.generation,father.generation)+1,parents:[mother.id,father.id]});
+    c.parents.forEach((parent,i)=>{
+      parent.E=S.round(parent.E-b.costsE[i]);parent.M=S.round(parent.M-b.costsM[i]);ctx.parents.add(parent.id);
+      parent.birthReady=w.turn+Math.ceil(ctx.traits.get(parent.id).cooldown)+1;parent.firstBirthAt??=w.turn;
+    });
+    S.dissipate(w,b.dissipatedE);S.record(ctx,o,"birth",{parents:o.parents});return o;
+  }
   function blockers(w,o,ctx,m=S.maps(w)) {
     const s=S.spec(o),p=ctx.traits.get(o.id)||S.phenotype(w,o),reasons=[];
+    if(S.Ryouki.is(o)){
+      const b=s.birth,mother=o.sex==="female",near=S.nearby(w,o.cell,1,true).flatMap(cell=>S.mainAt(m,cell));
+      if(p.ageStage==="juvenile")reasons.push("未成熟");
+      if(o.HP<.7*p.maxHP)reasons.push("健康不足");
+      if(o.E<(mother?b.motherE:b.fatherE))reasons.push("栄養不足");
+      if(o.M<(mother?b.motherM:b.fatherM))reasons.push("鉱物不足");
+      if(o.birthReady>w.turn)reasons.push("待機中");
+      if(!near.some(a=>a.id!==o.id&&S.Ryouki.is(a)&&a.sex!==o.sex&&eligible(w,a,ctx)&&S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
+      if(!S.nearby(w,o.cell).some(cell=>!m.main.has(cell)&&S.validHabitat(w,s,cell)&&S.oneStep(w,o.cell,cell)))reasons.push("出生場所不足");
+      if(!birthPressure(w,o,ctx).allowed)reasons.push("混雑・栄養収支による出生調整");
+      return reasons;
+    }
     if(p.ageStage==="juvenile")reasons.push("未成熟");
     if(o.HP<70)reasons.push("健康不足");if(o.E<s.birthEnergy*(w.config.ecologyRevision === "observation/4.1"?.65:1))reasons.push("栄養不足");if(o.M<(o.sperm?.uses>0?4:2))reasons.push("鉱物不足");
     if(o.birthReady>w.turn)reasons.push("待機中");if(o.role==="worker")reasons.push("非繁殖階級");if(ctx.records.get(o.id)?.damage>0)reasons.push("当日被害");
@@ -14195,7 +14983,105 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
   })();
-  const activeSpecies = (w) => w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const activeSpecies = (w) => w?.config?.ryoukiModel === "ryouki/1" ? [...D.species,...(w?.config?.largePlantModel === "independent/1"?D.independentPlants:[]),D.ryouki] : w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const activeMain = (w) => w?.config?.ryoukiModel === "ryouki/1" ? [...D.main,D.ryouki] : D.main;
+  const Ryouki = (() => {
+    const VERSION="ryouki-state/1",LIMIT=1e12;
+    const enabled=w=>w?.config?.ryoukiModel==="ryouki/1";
+    const is=o=>o?.species==="ryouki"&&o.ryouki?.version===VERSION;
+    function settings(input={}){
+      const defaults={version:"ryouki-parameters/1",densityHigh:6,highTurns:3,densityLow:2,lowTurns:6,biteB:2,mutatedBiteB:2.4,preparationWeight:1.5};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 量機の比較値");
+      const out={...defaults,...input};
+      if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 量機の定義版");
+      for(const key of ["densityHigh","densityLow","highTurns","lowTurns"])if(!Number.isSafeInteger(out[key])||out[key]<(key.endsWith("Turns")?1:0)||out[key]>1000)throw Error("SETTINGS_INVALID: 量機の密度/継続T");
+      if(out.densityLow>=out.densityHigh)throw Error("SETTINGS_INVALID: 量機の密度境界");
+      for(const key of ["biteB","mutatedBiteB","preparationWeight"])if(typeof out[key]!=="number"||!Number.isFinite(out[key])||out[key]<=0||out[key]>20)throw Error("SETTINGS_INVALID: 量機の採食/評価値");
+      if(out.mutatedBiteB<out.biteB)throw Error("SETTINGS_INVALID: 量機の相変異採食量");
+      return out;
+    }
+    function attach(w,o,options={}){
+      if(o.species!=="ryouki")return o;
+      if(!enabled(w))throw Error("SETTINGS_INVALID: 量機モデルの指定が必要です");
+      if(is(o))return o;
+      o.ryouki={version:VERSION,mutated:false,highRun:0,lowRun:0,window:[],recentCells:[{turn:w.turn,cell:o.cell}],finalizedAt:-1,
+        last:{turn:w.turn,density:0,experience:0,steps:0,transition:null}};
+      const initial=D.ryouki.initial;
+      for(const [i,key]of ["E","B","M","HP"].entries())if(!Object.hasOwn(options,key))o[key]=initial[i];
+      return o;
+    }
+    function begin(w){
+      if(!enabled(w))return;
+      const m=maps(w),p=w.config.ryoukiSettings;
+      for(const o of w.organisms)if(is(o)){
+        const a=o.ryouki,density=nearby(w,o.cell,1,true).reduce((n,cell)=>n+mainAt(m,cell).filter(t=>t.id!==o.id&&t.species==="ryouki"&&t.HP>0).length,0);
+        a.last={turn:w.turn,density,experience:0,steps:0,transition:null};
+        a.highRun=density>=p.densityHigh?Math.min(p.highTurns,a.highRun+1):0;
+        a.lowRun=density<=p.densityLow?Math.min(p.lowTurns,a.lowRun+1):0;
+        if(!a.mutated&&a.highRun>=p.highTurns){a.mutated=true;a.lowRun=0;a.last.transition="entered";}
+        else if(a.mutated&&a.lowRun>=p.lowTurns&&mainAt(m,o.cell).filter(t=>t.HP>0).every(t=>t.id===o.id)){a.mutated=false;a.highRun=0;a.last.transition="released";}
+      }
+    }
+    function phenotype(w,o,phase=o.phase,branch=o.branch4){
+      const s=D.ryouki,a=ageInfo(o),f=a.factors,skin=o.dna.skin,body=o.dna.body;
+      const life=Math.floor(s.life*(.95+.1*skin)*[0,1,1.1,1.25,1.4][phase]),maintenance=s.maintenance*(.95+.1*body)*[0,1,.98,.95,.9][phase];
+      const cooldown=Math.max(4,Math.ceil(s.birthCooldown*(.95+.1*body)*(phase===4?.85:1)));
+      return {phase,u:phase/4,capE:100,capB:32,capM:30,maxHP:H.round(80*f.hp),baseMaxHP:80,life,
+        maintenance:maintenance*f.maintenance,baseMaintenance:maintenance,cooldown:cooldown*f.birth,baseCooldown:cooldown,
+        sense:phase,speed:o.ryouki.mutated?3:phase,range:1,M3:s.M3*(.95+.1*skin),M4:s.M4*(.95+.1*skin),branch,
+        ageEnabled:a.enabled,ageStage:a.stage,ageFactors:f};
+    }
+    function difficult(w,cell){const t=w.tiles[cell];return ["shallow","deep","rock","mud"].includes(t.terrain)||t.env===1;}
+    function choose(w,o,scores,purpose){
+      const largest=Math.max(...scores),dna=[o.dna.aptitude,o.dna.sensitivity,o.dna.appendage];
+      return scores.map((n,i)=>({n,i})).filter(a=>Math.abs(a.n-largest)<1e-8)
+        .sort((a,b)=>(purpose==="III"?dna[b.i]-dna[a.i]:0)||hash(w,"ryouki/branch",0,o.id,[purpose,a.i])-hash(w,"ryouki/branch",0,o.id,[purpose,b.i]))[0].i;
+    }
+    function finalize(w,ctx){
+      if(!enabled(w))return;
+      for(const o of w.organisms)if(is(o)&&ctx.traits.has(o.id)&&o.ryouki.finalizedAt!==w.turn){
+        const a=o.ryouki,rec=ctx.records.get(o.id),before=ctx.old.get(o.id);a.finalizedAt=w.turn;
+        a.window=a.window.filter(r=>r.turn>w.turn-32);a.recentCells=a.recentCells.filter(r=>r.turn>w.turn-16);
+        const steps=rec.ryoukiSteps||[],known=new Set(a.recentCells.map(r=>r.cell));let fresh=0;
+        for(const cell of steps){if(!known.has(cell)){fresh++;known.add(cell);}a.recentCells.push({turn:w.turn,cell});}
+        a.recentCells=a.recentCells.slice(-64);
+        const previous=a.window.filter(r=>r.steps>0).at(-1),dir=o.facing,previousVector=previous?DIRS[previous.direction]:null,vector=DIRS[dir];
+        const aligned=previousVector&&(previousVector[0]*vector[0]+previousVector[1]*vector[1])/Math.hypot(...previousVector)/Math.hypot(...vector)>=Math.SQRT1_2-1e-8;
+        const row={turn:w.turn,cell:o.cell,fromCell:before.cell,steps:steps.length,fresh,difficult:steps.filter(c=>difficult(w,c)).length,
+          water:steps.filter(c=>["shallow","deep"].includes(w.tiles[c].terrain)).length,hot:steps.filter(c=>w.tiles[c].env===1).length,
+          adapted:steps.filter(c=>["shallow","deep"].includes(w.tiles[c].terrain)||w.tiles[c].env===1).length,
+          fed:rec.organic>0?1:0,direction:dir,straight:steps.length&&aligned?1:0,compared:steps.length&&previous?1:0};
+        a.window.push(row);
+        const healthy=rec.ryoukiMaintained===true&&o.HP>=.7*phenotype(w,o).maxHP;
+        const gained=H.round(Math.min(2,(healthy?.5:0)+Math.max(0,rec.organic)/2+Math.min(.4,steps.length*.1)));
+        o.G=H.round(Math.min(LIMIT,o.G+gained));a.last.experience=gained;a.last.steps=steps.length;
+        a.last.goal=rec.ryoukiGoal??ctx.intents.get(o.id)?.ryoukiGoal??"探索";a.last.moveCost=rec.ryoukiMoveCost||0;a.last.moveBudgetLimited=!!rec.ryoukiMoveBudgetLimited;
+        const old=o.phase,origin=a.window[0]?.fromCell??a.window[0]?.cell??before.cell,sum=k=>a.window.reduce((n,r)=>n+r[k],0);
+        if(old===1&&o.G>=D.ryouki.experience.II)o.phase=2;
+        else if(old===2&&o.G>=D.ryouki.experience.III&&o.M>=phenotype(w,o).M3){
+          const hard=sum("difficult"),scores=[Math.min(1,sum("fresh")/16),Math.min(1,a.window.filter(r=>r.fed&&distance(w,origin,r.cell)<=2).length/8),hard>=3?Math.min(1,hard/8):-1];
+          o.branch3=choose(w,o,scores,"III");o.phase=3;
+        }else if(old===3&&o.G>=D.ryouki.experience.IV&&o.M>=phenotype(w,o).M4){
+          if(o.branch3===0&&a.window.filter(r=>r.steps>0).length>=8){o.branch4=sum("straight")/Math.max(1,sum("compared"))>=.65?0:1;o.phase=4;}
+          if(o.branch3===1&&sum("fed")>=8){o.branch4=a.window.filter(r=>r.fed).reduce((n,r)=>n+distance(w,origin,r.cell),0)/sum("fed")<=1.5?0:1;o.phase=4;}
+          if(o.branch3===2&&a.window.reduce((n,r)=>n+(r.adapted??r.water+r.hot),0)>=8){o.branch4=choose(w,o,[sum("water"),sum("hot")],"IV/terrain");o.phase=4;}
+        }
+        if(o.phase!==old)record(ctx,o,"growth",{fromPhase:old,phase:o.phase});
+      }
+    }
+    function summary(w){
+      if(!enabled(w))return;
+      const groups=new Map(),out={definition:"ryouki-observed/1",turn:w.turn,count:0,normal:0,mutated:0,mutatedEarly:0,mutatedIV:0,occupiedCells:0,cohabitingIndividuals:0,maxOccupancy:0};
+      for(const o of w.organisms)if(is(o)){
+        out.count++;if(o.ryouki.mutated){out.mutated++;out[o.phase===4?"mutatedIV":"mutatedEarly"]++;}else out.normal++;
+        groups.set(o.cell,(groups.get(o.cell)||0)+1);
+      }
+      out.occupiedCells=groups.size;
+      for(const size of groups.values()){out.maxOccupancy=Math.max(out.maxOccupancy,size);if(size>1)out.cohabitingIndividuals+=size;}
+      w.ryoukiSummary=out;return out;
+    }
+    return {enabled,is,settings,attach,begin,phenotype,finalize,difficult,summary};
+  })();
   const LargePlant = (() => {
     const VERSION="independent-plant-state/1", factors=[0,1,1.15,1.35,1.6], edible=[0,16,20,24,32], LIMIT=1e12;
     const enabled=w=>w.config.largePlantModel==="independent/1";
@@ -14507,8 +15393,20 @@ return {settings,attach,region,level,factor,begin,finish};
       carcasses.get(a.cell).push(a);
     }
     const result=(()=>{return { main, food, prey, byId, resources, carcasses };})();
+    if(Ryouki.enabled(w)){
+      result.mainByCell=new Map();
+      for(const o of w.organisms)if(o.slot==="main"){
+        if(!result.mainByCell.has(o.cell))result.mainByCell.set(o.cell,[]);
+        result.mainByCell.get(o.cell).push(o);
+      }
+    }
     if(producer)result.producer=producer;
     return result;
+  }
+  function mainAt(m,cell){return m.mainByCell?.get(cell)??(m.main.has(cell)?[m.main.get(cell)]:[]);}
+  function mainRoom(w,o,cell,m=sharedMaps(w)){
+    const occupants=mainAt(m,cell).filter(a=>a.id!==o.id);
+    return occupants.length===0||(Ryouki.enabled(w)&&Ryouki.is(o)&&o.ryouki.mutated&&occupants.length<3&&occupants.every(a=>Ryouki.is(a)&&a.ryouki.mutated));
   }
   function validHabitat(w, s, p) {
     const t = w.tiles[p];
@@ -14616,12 +15514,12 @@ return {settings,attach,region,level,factor,begin,finish};
     if (!c.enabled.main) c.initial = 0;
     if (
       !Array.isArray(c.selected) ||
-      c.selected.some((id) => !D.main.some((s) => s.id === id))
+      c.selected.some((id) => !activeMain({config:c}).some((s) => s.id === id))
     )
       throw Error("SETTINGS_INVALID: 系統");
     c.selected = [...new Set(c.selected)];
-    for (const weight of Object.values(c.weights))
-      if (!Number.isInteger(weight) || weight < 1 || weight > 4)
+    for (const [id,weight] of Object.entries(c.weights))
+      if (!Number.isInteger(weight) || weight < (c.ryoukiModel==="ryouki/1"&&id==="ryouki"?0:1) || weight > 4)
         throw Error("SETTINGS_INVALID: 配分重みは1〜4");
     if (c.landscape !== undefined && !["watershed", "templates"].includes(c.landscape))
       throw Error("SETTINGS_INVALID: 地形方式");
@@ -14634,6 +15532,11 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
+    if(c.ryoukiModel==="ryouki/1"){
+      c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
+      c.ageModel="life/1";
+    }else if(c.ryoukiSettings!==undefined)throw Error("SETTINGS_INVALID: 量機モデルの指定が必要です");
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
@@ -14697,6 +15600,10 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(Ryouki.is(o)){
+      o.birthLife=Math.floor(D.ryouki.life*(.95+.1*o.dna.skin));
+      o.HP=H.round(Math.min(o.HP,Ryouki.phenotype(w,o).maxHP));return o;
+    }
     if(LargePlant.is(o)){
       o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
     }
@@ -14775,6 +15682,7 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    Ryouki.attach(w,o,options);
     LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
@@ -14783,6 +15691,7 @@ return {settings,attach,region,level,factor,begin,finish};
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
+    if(Ryouki.is(o))return Ryouki.phenotype(w,o,phase,branch);
     if(LargePlant.is(o))return LargePlant.phenotype(w,o,phase,branch);
     const s = spec(o),
       main = s.group === "main",
@@ -15045,10 +15954,11 @@ return {settings,attach,region,level,factor,begin,finish};
     let mains =
       config.lineages === "manual"
         ? config.selected.map((id) => D.byId[id])
-        : D.main.slice(0, 20);
+        : Ryouki.enabled(w) ? [...D.main.slice(0,20),D.ryouki] : D.main.slice(0, 20);
     if(colonyPlants)config.enabled.plant=true;
     Colony.initialize(w);
     if (!config.enabled.main) mains = [];
+    if(Ryouki.enabled(w)&&config.distribution==="weighted"&&config.weights.ryouki===0)mains=mains.filter(s=>s.id!=="ryouki");
     if (config.lineages === "few")
       mains = mains
         .map((s) => ({ s, h: hash(w, "init/group", 0, s.id) }))
@@ -15183,7 +16093,7 @@ return {settings,attach,region,level,factor,begin,finish};
                 : null,
             colony: s.id === "swarm" ? group : null,
             founder: s.id === "swarm" ? group : null,
-            B: s.id === "swarm" && j % 4 === 3 ? 8 : 16,
+            B: s.id === "ryouki" ? 8 : s.id === "swarm" && j % 4 === 3 ? 8 : 16,
           }),
         );
       }
@@ -15449,7 +16359,9 @@ return {settings,attach,region,level,factor,begin,finish};
     ProducerSupport,
     Colony,
     LargePlant,
+    Ryouki,
     activeSpecies,
+    activeMain,
     initialRank,
     DIRS,
     DNA,
@@ -15469,6 +16381,8 @@ return {settings,attach,region,level,factor,begin,finish};
     oneStep,
     sight,
     maps: sharedMaps,
+    mainAt,
+    mainRoom,
     withMapScope,
     validHabitat,
     validate,
@@ -15606,7 +16520,7 @@ function(require,module){
       if (!entry || source.HP <= 0 || ctx.movedInfections.has(p.id) || entry.counter < required[entry.stage] || (p.contactReady || 0) > w.turn) continue;
       const matureTerminal = entry.stage === "terminal", radius = matureTerminal ? 2 : 1;
       for (const cell of S.nearby(w, source.cell, radius, true)) {
-        for (const target of [m.main.get(cell), m.food.get(cell), m.prey.get(cell)]) {
+        for (const target of (S.Ryouki?.enabled(w)?[...S.mainAt(m,cell),m.food.get(cell),m.prey?.get(cell)]:[m.main.get(cell), m.food.get(cell), m.prey.get(cell)])) {
           if (!target || target.HP <= 0 || target.infection || !S.sight(w, source.cell, target.cell)) continue;
           const stage = contactStage(p, target, matureTerminal, w.config.ecologyRevision === "observation/4.1");
           if (!stage) continue;
@@ -16027,7 +16941,7 @@ function(require,module){
       if(q.E<=0 || q.expires<=w.turn){S.dissipate(w,q.E);ctx.deaths.push({species:"hyperparasite",reason:"age"});continue;}
       const target=infected.filter(o=>!occupied.has(o.id)&&S.distance(w,q.cell,o.cell)<=3&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.compare(a.id,b.id))[0];
       if(target && q.E>=.02){q.E=S.round(q.E-.02);S.dissipate(w,.02);q.hostId=target.infection.id;delete q.cell;delete q.expires;target.infection.q=q;occupied.add(target.id);S.record(ctx,target,"infection",{parasite:q.id,species:"hyperparasite",stage:"window",target:target.infection.id});continue;}
-      const map=searchMap,cue=S.nearby(w,q.cell,3,true).map(c=>map.main.get(c)).filter(o=>o?.infection?.stage==="terminal"&&o.infection.counter>=5&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
+      const map=searchMap,cue=(S.Ryouki?.enabled(w)?S.nearby(w,q.cell,3,true).flatMap(c=>S.mainAt(map,c)):S.nearby(w,q.cell,3,true).map(c=>map.main.get(c))).filter(o=>o?.infection?.stage==="terminal"&&o.infection.counter>=5&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
       const moves=S.nearby(w,q.cell).filter(c=>S.oneStep(w,q.cell,c));
       if(moves.length && q.E>.0001){const c=moves.sort((a,b)=>(cue?S.distance(w,a,cue.cell)-S.distance(w,b,cue.cell):0)||S.hash(w,"hyper/search",w.turn,q.id,a)-S.hash(w,"hyper/search",w.turn,q.id,b))[0];q.cell=c;q.E=S.round(q.E-.0001);S.dissipate(w,.0001);}
       next.push(q);
@@ -16325,7 +17239,105 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
   })();
-  const activeSpecies = (w) => w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const activeSpecies = (w) => w?.config?.ryoukiModel === "ryouki/1" ? [...D.species,...(w?.config?.largePlantModel === "independent/1"?D.independentPlants:[]),D.ryouki] : w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const activeMain = (w) => w?.config?.ryoukiModel === "ryouki/1" ? [...D.main,D.ryouki] : D.main;
+  const Ryouki = (() => {
+    const VERSION="ryouki-state/1",LIMIT=1e12;
+    const enabled=w=>w?.config?.ryoukiModel==="ryouki/1";
+    const is=o=>o?.species==="ryouki"&&o.ryouki?.version===VERSION;
+    function settings(input={}){
+      const defaults={version:"ryouki-parameters/1",densityHigh:6,highTurns:3,densityLow:2,lowTurns:6,biteB:2,mutatedBiteB:2.4,preparationWeight:1.5};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 量機の比較値");
+      const out={...defaults,...input};
+      if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 量機の定義版");
+      for(const key of ["densityHigh","densityLow","highTurns","lowTurns"])if(!Number.isSafeInteger(out[key])||out[key]<(key.endsWith("Turns")?1:0)||out[key]>1000)throw Error("SETTINGS_INVALID: 量機の密度/継続T");
+      if(out.densityLow>=out.densityHigh)throw Error("SETTINGS_INVALID: 量機の密度境界");
+      for(const key of ["biteB","mutatedBiteB","preparationWeight"])if(typeof out[key]!=="number"||!Number.isFinite(out[key])||out[key]<=0||out[key]>20)throw Error("SETTINGS_INVALID: 量機の採食/評価値");
+      if(out.mutatedBiteB<out.biteB)throw Error("SETTINGS_INVALID: 量機の相変異採食量");
+      return out;
+    }
+    function attach(w,o,options={}){
+      if(o.species!=="ryouki")return o;
+      if(!enabled(w))throw Error("SETTINGS_INVALID: 量機モデルの指定が必要です");
+      if(is(o))return o;
+      o.ryouki={version:VERSION,mutated:false,highRun:0,lowRun:0,window:[],recentCells:[{turn:w.turn,cell:o.cell}],finalizedAt:-1,
+        last:{turn:w.turn,density:0,experience:0,steps:0,transition:null}};
+      const initial=D.ryouki.initial;
+      for(const [i,key]of ["E","B","M","HP"].entries())if(!Object.hasOwn(options,key))o[key]=initial[i];
+      return o;
+    }
+    function begin(w){
+      if(!enabled(w))return;
+      const m=maps(w),p=w.config.ryoukiSettings;
+      for(const o of w.organisms)if(is(o)){
+        const a=o.ryouki,density=nearby(w,o.cell,1,true).reduce((n,cell)=>n+mainAt(m,cell).filter(t=>t.id!==o.id&&t.species==="ryouki"&&t.HP>0).length,0);
+        a.last={turn:w.turn,density,experience:0,steps:0,transition:null};
+        a.highRun=density>=p.densityHigh?Math.min(p.highTurns,a.highRun+1):0;
+        a.lowRun=density<=p.densityLow?Math.min(p.lowTurns,a.lowRun+1):0;
+        if(!a.mutated&&a.highRun>=p.highTurns){a.mutated=true;a.lowRun=0;a.last.transition="entered";}
+        else if(a.mutated&&a.lowRun>=p.lowTurns&&mainAt(m,o.cell).filter(t=>t.HP>0).every(t=>t.id===o.id)){a.mutated=false;a.highRun=0;a.last.transition="released";}
+      }
+    }
+    function phenotype(w,o,phase=o.phase,branch=o.branch4){
+      const s=D.ryouki,a=ageInfo(o),f=a.factors,skin=o.dna.skin,body=o.dna.body;
+      const life=Math.floor(s.life*(.95+.1*skin)*[0,1,1.1,1.25,1.4][phase]),maintenance=s.maintenance*(.95+.1*body)*[0,1,.98,.95,.9][phase];
+      const cooldown=Math.max(4,Math.ceil(s.birthCooldown*(.95+.1*body)*(phase===4?.85:1)));
+      return {phase,u:phase/4,capE:100,capB:32,capM:30,maxHP:H.round(80*f.hp),baseMaxHP:80,life,
+        maintenance:maintenance*f.maintenance,baseMaintenance:maintenance,cooldown:cooldown*f.birth,baseCooldown:cooldown,
+        sense:phase,speed:o.ryouki.mutated?3:phase,range:1,M3:s.M3*(.95+.1*skin),M4:s.M4*(.95+.1*skin),branch,
+        ageEnabled:a.enabled,ageStage:a.stage,ageFactors:f};
+    }
+    function difficult(w,cell){const t=w.tiles[cell];return ["shallow","deep","rock","mud"].includes(t.terrain)||t.env===1;}
+    function choose(w,o,scores,purpose){
+      const largest=Math.max(...scores),dna=[o.dna.aptitude,o.dna.sensitivity,o.dna.appendage];
+      return scores.map((n,i)=>({n,i})).filter(a=>Math.abs(a.n-largest)<1e-8)
+        .sort((a,b)=>(purpose==="III"?dna[b.i]-dna[a.i]:0)||hash(w,"ryouki/branch",0,o.id,[purpose,a.i])-hash(w,"ryouki/branch",0,o.id,[purpose,b.i]))[0].i;
+    }
+    function finalize(w,ctx){
+      if(!enabled(w))return;
+      for(const o of w.organisms)if(is(o)&&ctx.traits.has(o.id)&&o.ryouki.finalizedAt!==w.turn){
+        const a=o.ryouki,rec=ctx.records.get(o.id),before=ctx.old.get(o.id);a.finalizedAt=w.turn;
+        a.window=a.window.filter(r=>r.turn>w.turn-32);a.recentCells=a.recentCells.filter(r=>r.turn>w.turn-16);
+        const steps=rec.ryoukiSteps||[],known=new Set(a.recentCells.map(r=>r.cell));let fresh=0;
+        for(const cell of steps){if(!known.has(cell)){fresh++;known.add(cell);}a.recentCells.push({turn:w.turn,cell});}
+        a.recentCells=a.recentCells.slice(-64);
+        const previous=a.window.filter(r=>r.steps>0).at(-1),dir=o.facing,previousVector=previous?DIRS[previous.direction]:null,vector=DIRS[dir];
+        const aligned=previousVector&&(previousVector[0]*vector[0]+previousVector[1]*vector[1])/Math.hypot(...previousVector)/Math.hypot(...vector)>=Math.SQRT1_2-1e-8;
+        const row={turn:w.turn,cell:o.cell,fromCell:before.cell,steps:steps.length,fresh,difficult:steps.filter(c=>difficult(w,c)).length,
+          water:steps.filter(c=>["shallow","deep"].includes(w.tiles[c].terrain)).length,hot:steps.filter(c=>w.tiles[c].env===1).length,
+          adapted:steps.filter(c=>["shallow","deep"].includes(w.tiles[c].terrain)||w.tiles[c].env===1).length,
+          fed:rec.organic>0?1:0,direction:dir,straight:steps.length&&aligned?1:0,compared:steps.length&&previous?1:0};
+        a.window.push(row);
+        const healthy=rec.ryoukiMaintained===true&&o.HP>=.7*phenotype(w,o).maxHP;
+        const gained=H.round(Math.min(2,(healthy?.5:0)+Math.max(0,rec.organic)/2+Math.min(.4,steps.length*.1)));
+        o.G=H.round(Math.min(LIMIT,o.G+gained));a.last.experience=gained;a.last.steps=steps.length;
+        a.last.goal=rec.ryoukiGoal??ctx.intents.get(o.id)?.ryoukiGoal??"探索";a.last.moveCost=rec.ryoukiMoveCost||0;a.last.moveBudgetLimited=!!rec.ryoukiMoveBudgetLimited;
+        const old=o.phase,origin=a.window[0]?.fromCell??a.window[0]?.cell??before.cell,sum=k=>a.window.reduce((n,r)=>n+r[k],0);
+        if(old===1&&o.G>=D.ryouki.experience.II)o.phase=2;
+        else if(old===2&&o.G>=D.ryouki.experience.III&&o.M>=phenotype(w,o).M3){
+          const hard=sum("difficult"),scores=[Math.min(1,sum("fresh")/16),Math.min(1,a.window.filter(r=>r.fed&&distance(w,origin,r.cell)<=2).length/8),hard>=3?Math.min(1,hard/8):-1];
+          o.branch3=choose(w,o,scores,"III");o.phase=3;
+        }else if(old===3&&o.G>=D.ryouki.experience.IV&&o.M>=phenotype(w,o).M4){
+          if(o.branch3===0&&a.window.filter(r=>r.steps>0).length>=8){o.branch4=sum("straight")/Math.max(1,sum("compared"))>=.65?0:1;o.phase=4;}
+          if(o.branch3===1&&sum("fed")>=8){o.branch4=a.window.filter(r=>r.fed).reduce((n,r)=>n+distance(w,origin,r.cell),0)/sum("fed")<=1.5?0:1;o.phase=4;}
+          if(o.branch3===2&&a.window.reduce((n,r)=>n+(r.adapted??r.water+r.hot),0)>=8){o.branch4=choose(w,o,[sum("water"),sum("hot")],"IV/terrain");o.phase=4;}
+        }
+        if(o.phase!==old)record(ctx,o,"growth",{fromPhase:old,phase:o.phase});
+      }
+    }
+    function summary(w){
+      if(!enabled(w))return;
+      const groups=new Map(),out={definition:"ryouki-observed/1",turn:w.turn,count:0,normal:0,mutated:0,mutatedEarly:0,mutatedIV:0,occupiedCells:0,cohabitingIndividuals:0,maxOccupancy:0};
+      for(const o of w.organisms)if(is(o)){
+        out.count++;if(o.ryouki.mutated){out.mutated++;out[o.phase===4?"mutatedIV":"mutatedEarly"]++;}else out.normal++;
+        groups.set(o.cell,(groups.get(o.cell)||0)+1);
+      }
+      out.occupiedCells=groups.size;
+      for(const size of groups.values()){out.maxOccupancy=Math.max(out.maxOccupancy,size);if(size>1)out.cohabitingIndividuals+=size;}
+      w.ryoukiSummary=out;return out;
+    }
+    return {enabled,is,settings,attach,begin,phenotype,finalize,difficult,summary};
+  })();
   const LargePlant = (() => {
     const VERSION="independent-plant-state/1", factors=[0,1,1.15,1.35,1.6], edible=[0,16,20,24,32], LIMIT=1e12;
     const enabled=w=>w.config.largePlantModel==="independent/1";
@@ -16637,8 +17649,20 @@ return {settings,attach,region,level,factor,begin,finish};
       carcasses.get(a.cell).push(a);
     }
     const result=(()=>{return { main, food, prey, byId, resources, carcasses };})();
+    if(Ryouki.enabled(w)){
+      result.mainByCell=new Map();
+      for(const o of w.organisms)if(o.slot==="main"){
+        if(!result.mainByCell.has(o.cell))result.mainByCell.set(o.cell,[]);
+        result.mainByCell.get(o.cell).push(o);
+      }
+    }
     if(producer)result.producer=producer;
     return result;
+  }
+  function mainAt(m,cell){return m.mainByCell?.get(cell)??(m.main.has(cell)?[m.main.get(cell)]:[]);}
+  function mainRoom(w,o,cell,m=sharedMaps(w)){
+    const occupants=mainAt(m,cell).filter(a=>a.id!==o.id);
+    return occupants.length===0||(Ryouki.enabled(w)&&Ryouki.is(o)&&o.ryouki.mutated&&occupants.length<3&&occupants.every(a=>Ryouki.is(a)&&a.ryouki.mutated));
   }
   function validHabitat(w, s, p) {
     const t = w.tiles[p];
@@ -16746,12 +17770,12 @@ return {settings,attach,region,level,factor,begin,finish};
     if (!c.enabled.main) c.initial = 0;
     if (
       !Array.isArray(c.selected) ||
-      c.selected.some((id) => !D.main.some((s) => s.id === id))
+      c.selected.some((id) => !activeMain({config:c}).some((s) => s.id === id))
     )
       throw Error("SETTINGS_INVALID: 系統");
     c.selected = [...new Set(c.selected)];
-    for (const weight of Object.values(c.weights))
-      if (!Number.isInteger(weight) || weight < 1 || weight > 4)
+    for (const [id,weight] of Object.entries(c.weights))
+      if (!Number.isInteger(weight) || weight < (c.ryoukiModel==="ryouki/1"&&id==="ryouki"?0:1) || weight > 4)
         throw Error("SETTINGS_INVALID: 配分重みは1〜4");
     if (c.landscape !== undefined && !["watershed", "templates"].includes(c.landscape))
       throw Error("SETTINGS_INVALID: 地形方式");
@@ -16764,6 +17788,11 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
+    if(c.ryoukiModel==="ryouki/1"){
+      c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
+      c.ageModel="life/1";
+    }else if(c.ryoukiSettings!==undefined)throw Error("SETTINGS_INVALID: 量機モデルの指定が必要です");
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
@@ -16827,6 +17856,10 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(Ryouki.is(o)){
+      o.birthLife=Math.floor(D.ryouki.life*(.95+.1*o.dna.skin));
+      o.HP=H.round(Math.min(o.HP,Ryouki.phenotype(w,o).maxHP));return o;
+    }
     if(LargePlant.is(o)){
       o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
     }
@@ -16905,6 +17938,7 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    Ryouki.attach(w,o,options);
     LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
@@ -16913,6 +17947,7 @@ return {settings,attach,region,level,factor,begin,finish};
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
+    if(Ryouki.is(o))return Ryouki.phenotype(w,o,phase,branch);
     if(LargePlant.is(o))return LargePlant.phenotype(w,o,phase,branch);
     const s = spec(o),
       main = s.group === "main",
@@ -17176,10 +18211,11 @@ return {settings,attach,region,level,factor,begin,finish};
     let mains =
       config.lineages === "manual"
         ? config.selected.map((id) => D.byId[id])
-        : D.main.slice(0, 20);
+        : Ryouki.enabled(w) ? [...D.main.slice(0,20),D.ryouki] : D.main.slice(0, 20);
     if(colonyPlants)config.enabled.plant=true;
     Colony.initialize(w);
     if (!config.enabled.main) mains = [];
+    if(Ryouki.enabled(w)&&config.distribution==="weighted"&&config.weights.ryouki===0)mains=mains.filter(s=>s.id!=="ryouki");
     if (config.lineages === "few")
       mains = mains
         .map((s) => ({ s, h: hash(w, "init/group", 0, s.id) }))
@@ -17314,7 +18350,7 @@ return {settings,attach,region,level,factor,begin,finish};
                 : null,
             colony: s.id === "swarm" ? group : null,
             founder: s.id === "swarm" ? group : null,
-            B: s.id === "swarm" && j % 4 === 3 ? 8 : 16,
+            B: s.id === "ryouki" ? 8 : s.id === "swarm" && j % 4 === 3 ? 8 : 16,
           }),
         );
       }
@@ -17580,7 +18616,9 @@ return {settings,attach,region,level,factor,begin,finish};
     ProducerSupport,
     Colony,
     LargePlant,
+    Ryouki,
     activeSpecies,
+    activeMain,
     initialRank,
     DIRS,
     DNA,
@@ -17600,6 +18638,8 @@ return {settings,attach,region,level,factor,begin,finish};
     oneStep,
     sight,
     maps: sharedMaps,
+    mainAt,
+    mainRoom,
     withMapScope,
     validHabitat,
     validate,
@@ -18488,10 +19528,22 @@ function(require,module){
   ].map(s=>({...s,group:"plant",kind:"independent",recordUnit:"individual",slot:"producer",tag:"plant",
     phases:["第一相","第二相","第三相","第四相"],branches:["生産","繁殖拡散","耐食"],
     initial:[s.capacity[0]*.5,13.2,1,s.capacity[3]],traits:{},senseAt:1,rangeAt:1,speedAt:1}));
+  // I04 comparison definition stays outside all legacy species/main lists.
+  data.ryouki = {id:"ryouki",name:"量機",group:"main",slot:"main",tag:"animal",recordUnit:"individual",
+    definition:"ryouki/3",parameters:"implementation-start/2",phases:["第一相","第二相","第三相","第四相"],
+    branches:["広域探索","周辺探索","障害踏破"],
+    fourthBranches:[["広域探索・直進","広域探索・ランダム"],["周辺探索・近め","周辺探索・広め"],["障害踏破・水域","障害踏破・火山"]],
+    life:180,maturity:18,maintenance:.48,birthCooldown:8,birthEnergy:30,M3:2,M4:4,
+    initial:[40,8,1,80],capacity:[100,32,30,80],combat:{attack:.45,defense:.60,hp:.80},
+    birth:{motherE:30,fatherE:12,motherM:.75,fatherM:.25,costsE:[18,6],costsM:[.75,.25],childE:16,childB:6,childM:1,dissipatedE:2},
+    experience:{II:20,III:60,IV:140},weights:[35,65,75,65,55,55,75,60,40],
+    good:[],bad:-1,type:"move",diet:"general",traits:{},traitText:["低戦闘・高移動・高繁殖","密度による可逆相変異"],
+    senseAt:1,rangeAt:99,speedAt:1,aquatic:false,color:"#438e80"};
   data.species.push({id:'phytoplankton',name:'浮遊微藻',group:'plant',slot:'food',tag:'plant',phases:['微小体','分裂体'],life:80,maturity:2,maintenance:.1,birthCooldown:2,initial:[6,8,.5,6],capacity:[20,16,2,6],color:'#73d2bf'});
   for(const s of data.species){if(s.group==='plant'){Object.assign(s,{life:2400,maintenance:.02,birthCooldown:1,initial:[12,s.id==='phytoplankton'?16:20,1,12],capacity:[32,48,4,12]});}if(s.id==='waterbug')Object.assign(s,{life:600,maturity:2,maintenance:.03,birthCooldown:1,initial:[12,4,0,40],capacity:[24,8,2,40]});}
   data.byId = Object.fromEntries(data.species.map((s) => [s.id, s]));
   Object.assign(data.byId,Object.fromEntries(data.independentPlants.map(s=>[s.id,s])));
+  data.byId.ryouki=data.ryouki;
   data.main = data.species.filter((s) => s.group === "main");
   return data;
 });
@@ -18768,7 +19820,105 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
   })();
-  const activeSpecies = (w) => w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const activeSpecies = (w) => w?.config?.ryoukiModel === "ryouki/1" ? [...D.species,...(w?.config?.largePlantModel === "independent/1"?D.independentPlants:[]),D.ryouki] : w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const activeMain = (w) => w?.config?.ryoukiModel === "ryouki/1" ? [...D.main,D.ryouki] : D.main;
+  const Ryouki = (() => {
+    const VERSION="ryouki-state/1",LIMIT=1e12;
+    const enabled=w=>w?.config?.ryoukiModel==="ryouki/1";
+    const is=o=>o?.species==="ryouki"&&o.ryouki?.version===VERSION;
+    function settings(input={}){
+      const defaults={version:"ryouki-parameters/1",densityHigh:6,highTurns:3,densityLow:2,lowTurns:6,biteB:2,mutatedBiteB:2.4,preparationWeight:1.5};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: 量機の比較値");
+      const out={...defaults,...input};
+      if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 量機の定義版");
+      for(const key of ["densityHigh","densityLow","highTurns","lowTurns"])if(!Number.isSafeInteger(out[key])||out[key]<(key.endsWith("Turns")?1:0)||out[key]>1000)throw Error("SETTINGS_INVALID: 量機の密度/継続T");
+      if(out.densityLow>=out.densityHigh)throw Error("SETTINGS_INVALID: 量機の密度境界");
+      for(const key of ["biteB","mutatedBiteB","preparationWeight"])if(typeof out[key]!=="number"||!Number.isFinite(out[key])||out[key]<=0||out[key]>20)throw Error("SETTINGS_INVALID: 量機の採食/評価値");
+      if(out.mutatedBiteB<out.biteB)throw Error("SETTINGS_INVALID: 量機の相変異採食量");
+      return out;
+    }
+    function attach(w,o,options={}){
+      if(o.species!=="ryouki")return o;
+      if(!enabled(w))throw Error("SETTINGS_INVALID: 量機モデルの指定が必要です");
+      if(is(o))return o;
+      o.ryouki={version:VERSION,mutated:false,highRun:0,lowRun:0,window:[],recentCells:[{turn:w.turn,cell:o.cell}],finalizedAt:-1,
+        last:{turn:w.turn,density:0,experience:0,steps:0,transition:null}};
+      const initial=D.ryouki.initial;
+      for(const [i,key]of ["E","B","M","HP"].entries())if(!Object.hasOwn(options,key))o[key]=initial[i];
+      return o;
+    }
+    function begin(w){
+      if(!enabled(w))return;
+      const m=maps(w),p=w.config.ryoukiSettings;
+      for(const o of w.organisms)if(is(o)){
+        const a=o.ryouki,density=nearby(w,o.cell,1,true).reduce((n,cell)=>n+mainAt(m,cell).filter(t=>t.id!==o.id&&t.species==="ryouki"&&t.HP>0).length,0);
+        a.last={turn:w.turn,density,experience:0,steps:0,transition:null};
+        a.highRun=density>=p.densityHigh?Math.min(p.highTurns,a.highRun+1):0;
+        a.lowRun=density<=p.densityLow?Math.min(p.lowTurns,a.lowRun+1):0;
+        if(!a.mutated&&a.highRun>=p.highTurns){a.mutated=true;a.lowRun=0;a.last.transition="entered";}
+        else if(a.mutated&&a.lowRun>=p.lowTurns&&mainAt(m,o.cell).filter(t=>t.HP>0).every(t=>t.id===o.id)){a.mutated=false;a.highRun=0;a.last.transition="released";}
+      }
+    }
+    function phenotype(w,o,phase=o.phase,branch=o.branch4){
+      const s=D.ryouki,a=ageInfo(o),f=a.factors,skin=o.dna.skin,body=o.dna.body;
+      const life=Math.floor(s.life*(.95+.1*skin)*[0,1,1.1,1.25,1.4][phase]),maintenance=s.maintenance*(.95+.1*body)*[0,1,.98,.95,.9][phase];
+      const cooldown=Math.max(4,Math.ceil(s.birthCooldown*(.95+.1*body)*(phase===4?.85:1)));
+      return {phase,u:phase/4,capE:100,capB:32,capM:30,maxHP:H.round(80*f.hp),baseMaxHP:80,life,
+        maintenance:maintenance*f.maintenance,baseMaintenance:maintenance,cooldown:cooldown*f.birth,baseCooldown:cooldown,
+        sense:phase,speed:o.ryouki.mutated?3:phase,range:1,M3:s.M3*(.95+.1*skin),M4:s.M4*(.95+.1*skin),branch,
+        ageEnabled:a.enabled,ageStage:a.stage,ageFactors:f};
+    }
+    function difficult(w,cell){const t=w.tiles[cell];return ["shallow","deep","rock","mud"].includes(t.terrain)||t.env===1;}
+    function choose(w,o,scores,purpose){
+      const largest=Math.max(...scores),dna=[o.dna.aptitude,o.dna.sensitivity,o.dna.appendage];
+      return scores.map((n,i)=>({n,i})).filter(a=>Math.abs(a.n-largest)<1e-8)
+        .sort((a,b)=>(purpose==="III"?dna[b.i]-dna[a.i]:0)||hash(w,"ryouki/branch",0,o.id,[purpose,a.i])-hash(w,"ryouki/branch",0,o.id,[purpose,b.i]))[0].i;
+    }
+    function finalize(w,ctx){
+      if(!enabled(w))return;
+      for(const o of w.organisms)if(is(o)&&ctx.traits.has(o.id)&&o.ryouki.finalizedAt!==w.turn){
+        const a=o.ryouki,rec=ctx.records.get(o.id),before=ctx.old.get(o.id);a.finalizedAt=w.turn;
+        a.window=a.window.filter(r=>r.turn>w.turn-32);a.recentCells=a.recentCells.filter(r=>r.turn>w.turn-16);
+        const steps=rec.ryoukiSteps||[],known=new Set(a.recentCells.map(r=>r.cell));let fresh=0;
+        for(const cell of steps){if(!known.has(cell)){fresh++;known.add(cell);}a.recentCells.push({turn:w.turn,cell});}
+        a.recentCells=a.recentCells.slice(-64);
+        const previous=a.window.filter(r=>r.steps>0).at(-1),dir=o.facing,previousVector=previous?DIRS[previous.direction]:null,vector=DIRS[dir];
+        const aligned=previousVector&&(previousVector[0]*vector[0]+previousVector[1]*vector[1])/Math.hypot(...previousVector)/Math.hypot(...vector)>=Math.SQRT1_2-1e-8;
+        const row={turn:w.turn,cell:o.cell,fromCell:before.cell,steps:steps.length,fresh,difficult:steps.filter(c=>difficult(w,c)).length,
+          water:steps.filter(c=>["shallow","deep"].includes(w.tiles[c].terrain)).length,hot:steps.filter(c=>w.tiles[c].env===1).length,
+          adapted:steps.filter(c=>["shallow","deep"].includes(w.tiles[c].terrain)||w.tiles[c].env===1).length,
+          fed:rec.organic>0?1:0,direction:dir,straight:steps.length&&aligned?1:0,compared:steps.length&&previous?1:0};
+        a.window.push(row);
+        const healthy=rec.ryoukiMaintained===true&&o.HP>=.7*phenotype(w,o).maxHP;
+        const gained=H.round(Math.min(2,(healthy?.5:0)+Math.max(0,rec.organic)/2+Math.min(.4,steps.length*.1)));
+        o.G=H.round(Math.min(LIMIT,o.G+gained));a.last.experience=gained;a.last.steps=steps.length;
+        a.last.goal=rec.ryoukiGoal??ctx.intents.get(o.id)?.ryoukiGoal??"探索";a.last.moveCost=rec.ryoukiMoveCost||0;a.last.moveBudgetLimited=!!rec.ryoukiMoveBudgetLimited;
+        const old=o.phase,origin=a.window[0]?.fromCell??a.window[0]?.cell??before.cell,sum=k=>a.window.reduce((n,r)=>n+r[k],0);
+        if(old===1&&o.G>=D.ryouki.experience.II)o.phase=2;
+        else if(old===2&&o.G>=D.ryouki.experience.III&&o.M>=phenotype(w,o).M3){
+          const hard=sum("difficult"),scores=[Math.min(1,sum("fresh")/16),Math.min(1,a.window.filter(r=>r.fed&&distance(w,origin,r.cell)<=2).length/8),hard>=3?Math.min(1,hard/8):-1];
+          o.branch3=choose(w,o,scores,"III");o.phase=3;
+        }else if(old===3&&o.G>=D.ryouki.experience.IV&&o.M>=phenotype(w,o).M4){
+          if(o.branch3===0&&a.window.filter(r=>r.steps>0).length>=8){o.branch4=sum("straight")/Math.max(1,sum("compared"))>=.65?0:1;o.phase=4;}
+          if(o.branch3===1&&sum("fed")>=8){o.branch4=a.window.filter(r=>r.fed).reduce((n,r)=>n+distance(w,origin,r.cell),0)/sum("fed")<=1.5?0:1;o.phase=4;}
+          if(o.branch3===2&&a.window.reduce((n,r)=>n+(r.adapted??r.water+r.hot),0)>=8){o.branch4=choose(w,o,[sum("water"),sum("hot")],"IV/terrain");o.phase=4;}
+        }
+        if(o.phase!==old)record(ctx,o,"growth",{fromPhase:old,phase:o.phase});
+      }
+    }
+    function summary(w){
+      if(!enabled(w))return;
+      const groups=new Map(),out={definition:"ryouki-observed/1",turn:w.turn,count:0,normal:0,mutated:0,mutatedEarly:0,mutatedIV:0,occupiedCells:0,cohabitingIndividuals:0,maxOccupancy:0};
+      for(const o of w.organisms)if(is(o)){
+        out.count++;if(o.ryouki.mutated){out.mutated++;out[o.phase===4?"mutatedIV":"mutatedEarly"]++;}else out.normal++;
+        groups.set(o.cell,(groups.get(o.cell)||0)+1);
+      }
+      out.occupiedCells=groups.size;
+      for(const size of groups.values()){out.maxOccupancy=Math.max(out.maxOccupancy,size);if(size>1)out.cohabitingIndividuals+=size;}
+      w.ryoukiSummary=out;return out;
+    }
+    return {enabled,is,settings,attach,begin,phenotype,finalize,difficult,summary};
+  })();
   const LargePlant = (() => {
     const VERSION="independent-plant-state/1", factors=[0,1,1.15,1.35,1.6], edible=[0,16,20,24,32], LIMIT=1e12;
     const enabled=w=>w.config.largePlantModel==="independent/1";
@@ -19080,8 +20230,20 @@ return {settings,attach,region,level,factor,begin,finish};
       carcasses.get(a.cell).push(a);
     }
     const result=(()=>{return { main, food, prey, byId, resources, carcasses };})();
+    if(Ryouki.enabled(w)){
+      result.mainByCell=new Map();
+      for(const o of w.organisms)if(o.slot==="main"){
+        if(!result.mainByCell.has(o.cell))result.mainByCell.set(o.cell,[]);
+        result.mainByCell.get(o.cell).push(o);
+      }
+    }
     if(producer)result.producer=producer;
     return result;
+  }
+  function mainAt(m,cell){return m.mainByCell?.get(cell)??(m.main.has(cell)?[m.main.get(cell)]:[]);}
+  function mainRoom(w,o,cell,m=sharedMaps(w)){
+    const occupants=mainAt(m,cell).filter(a=>a.id!==o.id);
+    return occupants.length===0||(Ryouki.enabled(w)&&Ryouki.is(o)&&o.ryouki.mutated&&occupants.length<3&&occupants.every(a=>Ryouki.is(a)&&a.ryouki.mutated));
   }
   function validHabitat(w, s, p) {
     const t = w.tiles[p];
@@ -19189,12 +20351,12 @@ return {settings,attach,region,level,factor,begin,finish};
     if (!c.enabled.main) c.initial = 0;
     if (
       !Array.isArray(c.selected) ||
-      c.selected.some((id) => !D.main.some((s) => s.id === id))
+      c.selected.some((id) => !activeMain({config:c}).some((s) => s.id === id))
     )
       throw Error("SETTINGS_INVALID: 系統");
     c.selected = [...new Set(c.selected)];
-    for (const weight of Object.values(c.weights))
-      if (!Number.isInteger(weight) || weight < 1 || weight > 4)
+    for (const [id,weight] of Object.entries(c.weights))
+      if (!Number.isInteger(weight) || weight < (c.ryoukiModel==="ryouki/1"&&id==="ryouki"?0:1) || weight > 4)
         throw Error("SETTINGS_INVALID: 配分重みは1〜4");
     if (c.landscape !== undefined && !["watershed", "templates"].includes(c.landscape))
       throw Error("SETTINGS_INVALID: 地形方式");
@@ -19207,6 +20369,11 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if (c.ageModel !== undefined && c.ageModel !== "life/1")
       throw Error("SETTINGS_INVALID: 年齢モデル");
+    if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
+    if(c.ryoukiModel==="ryouki/1"){
+      c.ryoukiSettings=Ryouki.settings(c.ryoukiSettings);
+      c.ageModel="life/1";
+    }else if(c.ryoukiSettings!==undefined)throw Error("SETTINGS_INVALID: 量機モデルの指定が必要です");
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
@@ -19270,6 +20437,10 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(Ryouki.is(o)){
+      o.birthLife=Math.floor(D.ryouki.life*(.95+.1*o.dna.skin));
+      o.HP=H.round(Math.min(o.HP,Ryouki.phenotype(w,o).maxHP));return o;
+    }
     if(LargePlant.is(o)){
       o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
     }
@@ -19348,6 +20519,7 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    Ryouki.attach(w,o,options);
     LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
@@ -19356,6 +20528,7 @@ return {settings,attach,region,level,factor,begin,finish};
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
+    if(Ryouki.is(o))return Ryouki.phenotype(w,o,phase,branch);
     if(LargePlant.is(o))return LargePlant.phenotype(w,o,phase,branch);
     const s = spec(o),
       main = s.group === "main",
@@ -19620,10 +20793,11 @@ return {settings,attach,region,level,factor,begin,finish};
     let mains =
       config.lineages === "manual"
         ? config.selected.map((id) => D.byId[id])
-        : D.main.slice(0, 20);
+        : Ryouki.enabled(w) ? [...D.main.slice(0,20),D.ryouki] : D.main.slice(0, 20);
     if(colonyPlants)config.enabled.plant=true;
     Colony.initialize(w);
     if (!config.enabled.main) mains = [];
+    if(Ryouki.enabled(w)&&config.distribution==="weighted"&&config.weights.ryouki===0)mains=mains.filter(s=>s.id!=="ryouki");
     if (config.lineages === "few")
       mains = mains
         .map((s) => ({ s, h: hash(w, "init/group", 0, s.id) }))
@@ -19758,7 +20932,7 @@ return {settings,attach,region,level,factor,begin,finish};
                 : null,
             colony: s.id === "swarm" ? group : null,
             founder: s.id === "swarm" ? group : null,
-            B: s.id === "swarm" && j % 4 === 3 ? 8 : 16,
+            B: s.id === "ryouki" ? 8 : s.id === "swarm" && j % 4 === 3 ? 8 : 16,
           }),
         );
       }
@@ -20024,7 +21198,9 @@ return {settings,attach,region,level,factor,begin,finish};
     ProducerSupport,
     Colony,
     LargePlant,
+    Ryouki,
     activeSpecies,
+    activeMain,
     initialRank,
     DIRS,
     DNA,
@@ -20044,6 +21220,8 @@ return {settings,attach,region,level,factor,begin,finish};
     oneStep,
     sight,
     maps: sharedMaps,
+    mainAt,
+    mainRoom,
     withMapScope,
     validHabitat,
     validate,

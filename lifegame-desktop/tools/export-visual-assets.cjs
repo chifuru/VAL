@@ -40,6 +40,12 @@ for (const [id,p] of Object.entries(m.producers||{})) {
   frames(p.sheet,p.regions);
   for(const reference of p.references)frames(reference.sheet,[reference.region]);
 }
+if(m.ryouki){
+  assert.equal(m.ryouki.regions.length,13,'ryouki normal11 and mutated2');
+  assert.equal(m.ryouki.references.length,13,'ryouki adopted reference13');
+  frames(m.ryouki.sheet,m.ryouki.regions);
+  for(const reference of m.ryouki.references)frames(reference.sheet,[reference.region]);
+}
 for (const [name, v] of Object.entries(m.terrain || {}))
   assert.ok(
     m.sheets[v.sheet] && m.sheets[v.sheet].width >= 1024,
@@ -60,7 +66,7 @@ console.log(
     sheets: Object.keys(m.sheets).length,
     organismFamilies:
       Object.keys(m.creatures.regions).length +
-      Object.keys(m.food.regions).length + Object.keys(m.producers||{}).length,
+      Object.keys(m.food.regions).length + Object.keys(m.producers||{}).length + (m.ryouki?1:0),
     phaseFrames: Object.values(m.creatures.regions).reduce(
       (n, a) => n + a.length,
       0,
@@ -70,5 +76,6 @@ console.log(
     paintedTerrainMaterials: Object.keys(m.terrain || {}).length,
     independentProducerFamilies: Object.keys(m.producers||{}).length,
     independentProducerFrames: Object.values(m.producers||{}).reduce((n,p)=>n+p.regions.length,0),
+    ryoukiFrames:m.ryouki?.regions.length||0,
   }),
 );

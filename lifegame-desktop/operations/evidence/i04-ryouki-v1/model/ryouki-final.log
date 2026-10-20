@@ -1,0 +1,36 @@
+✔ ryouki registration is explicit and preserves legacy and I03 catalogue counts (137.636115ms)
+✔ initial selection controls quantity without adding a permanent species lock (46.457814ms)
+✔ age maturity and effective maintenance are independent of evolution and reversible density state (7.340218ms)
+✔ six local peers must persist for three turns and density transitions do not alter identity or experience (4.504037ms)
+✔ low density requires six continuous turns and a sole normal slot, preserving waiting roommates (1.592614ms)
+✔ intermediate local density resets continuous low and high counters without toggling mutation (1.295045ms)
+✔ normal phase speeds are one through four while every mutated phase is three, with paid legal steps (17.750348ms)
+✔ movement cannot jump occupied or blocked intermediate cells and commits only an affordable prefix (4.410887ms)
+✔ mutated occupancy reserves at most three real individuals and rejects normal or foreign roommates (3.713674ms)
+✔ adopted combat and HP ratios apply once at equal phase, age and DNA without generic branch bonuses (35.446876ms)
+✔ normal and mutated diets consume finite two and two-point-four B bites without duplicating roommates' food (7.47436ms)
+✔ raw absorption does not duplicate ryouki experience or apply generic efficiency branch boosts (6.703437ms)
+✔ small-prey carcasses share finite partial portions under the same per-bite biomass cap (3.028812ms)
+✔ mature first-phase parents pay asymmetric E and M costs for a normal first-phase newborn (3.957213ms)
+✔ juvenile parents, sex-specific shortages and occupied normal birth slots remain blocked (11.685387ms)
+✔ pair approach uses each parent's own HP limit and sex-specific reserves, with mutation weighting only legal preparation (27.052226ms)
+✔ third and fourth branches multiply positive candidate gains by the selected comparison factors (22.610858ms)
+✔ branch preferences preserve unfavorable danger and real movement cost instead of creating a positive candidate (3.180721ms)
+✔ successful movement histories are bounded to thirty-two turns and sixteen turns with at most sixty-four cells (7.564948ms)
+✔ direction continuation uses physical forty-five-degree turns rather than DIRS array adjacency (1.53685ms)
+✔ fourth-phase gates require actual movement, feeding or terrain evidence despite sufficient experience (4.006437ms)
+✔ third-phase branches select real fresh-cell, nearby-feeding and difficult-step outcomes (6.304054ms)
+✔ all six fourth-phase branches require and follow their actual eight-turn or eight-step evidence (18.945835ms)
+✔ mutation changes neither birth eligibility nor reproductive cooldown at a fixed phase and age (2.989042ms)
+✔ an attack and parasite contact address the chosen roommate ID rather than the entire cell (3.41883ms)
+✔ co-located deaths retain separate carcass IDs, parasite payloads and finite materials (5.338668ms)
+✔ short ryouki worlds repeat exactly and conserve finite budgets (735.839763ms)
+✔ generated static and dynamic ryouki models agree (423.509345ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1568.655098

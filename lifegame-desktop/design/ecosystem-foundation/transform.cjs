@@ -12,7 +12,7 @@ module.exports=function(name,s,flags={}){
  if(name==='catalogue')replace('  data.byId =',`  for(const s of data.species){if(s.group==='main'){s.life*=1.5;if(s.id!=='kelp')s.maintenance*=.65;s.birthEnergy=45;}if(s.group==='fungus')s.maintenance=.07;if(['waterbug','grassbug'].includes(s.id)){s.life*=1.5;s.birthCooldown*=1.5;}}
   data.byId =`);
  if(name==='behavior'){
-  replace('            occupied.has(cell) ||','            occupied.has(cell) || (s.group === "prey" && !S.validHabitat(w,s,cell)) ||');
+  replace('            !S.oneStep(w, prev, cell)','            (s.group === "prey" && !S.validHabitat(w,s,cell)) ||\n            !S.oneStep(w, prev, cell)');
   replace('(w.config.ecologyRevision === \"observation/4.1\" || (o.phase >= 3 && a.phase >= 3)) &&','o.phase >= 1 &&\n        a.phase >= 1 &&');
   replace('mateBonus = 0.8;', 'mateBonus = o.phase>=3 && a.phase>=3 ? .8 : .5;');
   replace('      0.8 * terrain *','      0.48 * terrain *');

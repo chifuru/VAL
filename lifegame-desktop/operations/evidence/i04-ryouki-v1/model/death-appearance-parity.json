@@ -1,0 +1,15 @@
+{
+  "dateUTC": "2026-10-20T13:42:19.840579+00:00",
+  "beforeSignature": "04e71d87af22b6acf858c2d26af4d971203602aeb2a01b68fe19fa2ab45f6925",
+  "afterSignature": "952b362eb16d6822343c6e739f37e6057fed6eef9067cb7c684bc3e224169efb",
+  "cases": [
+    "river-low",
+    "river-mixed",
+    "lake-mixed",
+    "river-dense"
+  ],
+  "states": 568,
+  "trajectoryCountsLedgerEventsBirthsDeathsAndConfigUnchanged": true,
+  "except": "final world fingerprint includes the new death-display snapshot",
+  "scope": "new Ryouki carcass appearance adds only drawing state; all diagnostic trajectories are exact before/after"
+}

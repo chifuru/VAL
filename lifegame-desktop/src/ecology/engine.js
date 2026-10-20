@@ -185,10 +185,10 @@
         (1 + S.trait(o, "maintenance", p.phase));
       ctx.costs.set(o.id, {
         action: 0,
-        base: base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" ? .65 : 1),
+        base: base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" && !S.Ryouki.is(o) ? .65 : 1),
         density,
         neighborCount,
-        budget: Math.max(0, o.E - base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" ? .65 : 1) - density - (o.infection ? 0.2 : 0)),
+        budget: Math.max(0, o.E - base*(w.config.ecologyRevision === "observation/4.1" && S.spec(o).group === "main" && !S.Ryouki.is(o) ? .65 : 1) - density - (o.infection ? 0.2 : 0)),
       });
     }
   }
@@ -268,7 +268,7 @@
     const contactAdd=(out,key)=>out[key]=(out[key]||0)+1;
     for(const a of w.organisms)for(const cell of S.nearby(w,a.cell,1,true)){
       if(!S.oneStep(w,a.cell,cell))continue;
-      for(const b of [map.main.get(cell),map.food.get(cell)]){
+      for(const b of (S.Ryouki.enabled(w)?[...S.mainAt(map,cell),map.food.get(cell),map.prey?.get(cell)]:[map.main.get(cell),map.food.get(cell)])){
         if(!b || S.compare(a.id,b.id)>=0)continue;
         const pair=a.id+"|"+b.id,pairSpecies=[a.species,b.species].sort().join("|")+"|contact";
         pairs.push(pair);contactAdd(contactTurns,pairSpecies);
@@ -322,6 +322,7 @@
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.length,transfers:ctx.transfers};
   }
   function finish(w, ctx) {
+    S.Ryouki.summary(w);
     S.Colony.summary(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.summary(w);
     S.ProducerSupport.finish(w,ctx,S);
@@ -395,6 +396,7 @@
   }
   function create(input = {}) {
     const w = S.create(input);
+    S.Ryouki.summary(w);
     w.stats = summarize(w);
     if(w.config.ecologyRevision === "observation/4.1") w.observation=observation(w,context(w));
     w.last = {
@@ -422,10 +424,12 @@
       w.checkpoints = [...(initial ? [initial] : []), checkpoint(w)];
     }
     w.turn++;
+    S.Ryouki.begin(w);
     S.Colony.begin(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.begin(w);
     S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
+    if(S.Ryouki.enabled(w))for(const o of w.organisms)if(S.Ryouki.is(o)&&o.ryouki.last.transition)S.record(ctx,o,"phase-variation",{state:o.ryouki.mutated?"mutated":"normal",transition:o.ryouki.last.transition});
     const labels = ["資源更新", "移動・採食・戦闘", "成長・繁殖"];
     function ensure() {
       if (cancelled || failed) throw Error("TURN_DISCARDED: 未確定の計算は破棄されました");
@@ -525,11 +529,19 @@
         if(producer.has(o.cell))errors.push("SLOT_DUPLICATE:"+o.id);
         producer.add(o.cell);
       }else{
-        if (occupied.has(o.cell)) errors.push("SLOT_DUPLICATE:" + o.id);
+        if (occupied.has(o.cell)&&!(o.slot==="main"&&S.Ryouki.enabled(w))) errors.push("SLOT_DUPLICATE:" + o.id);
         occupied.add(o.cell);
       }
       if (ids.has(o.id)) errors.push("ID_DUPLICATE:" + o.id);
       ids.add(o.id);
+      if(o.species==="ryouki"||o.ryouki){
+        const a=o.ryouki;
+        if(!S.Ryouki.enabled(w)||!S.Ryouki.is(o)||o.slot!=="main"||!Number.isInteger(o.phase)||o.phase<1||o.phase>4||
+          (o.phase>=3&&![0,1,2].includes(o.branch3))||(o.phase===4&&![0,1].includes(o.branch4))||
+          !Number.isFinite(o.birthLife)||o.birthLife<=0||typeof a?.mutated!=="boolean"||
+          ![a?.highRun,a?.lowRun].every(n=>Number.isSafeInteger(n)&&n>=0)||
+          !Array.isArray(a?.window)||a.window.length>32||!Array.isArray(a?.recentCells)||a.recentCells.length>64)errors.push("RYOUKI_STATE:"+o.id);
+      }
       if (w.tiles[o.cell]?.blocked) errors.push("BLOCKED:" + o.id);
       if (
         [o.E, o.B, o.M, o.HP, o.G].some(
@@ -570,6 +582,8 @@
         }
       }
     }
+    if(S.Ryouki.enabled(w))for(const list of S.maps(w).mainByCell.values())if(list.length>1&&
+      (list.length>3||list.some(o=>!S.Ryouki.is(o)||!o.ryouki.mutated)))errors.push("SLOT_DUPLICATE:"+list.map(o=>o.id).join(","));
     for(const q of w.searchQ||[]){
       if(ids.has(q.id))errors.push("ID_DUPLICATE:"+q.id);ids.add(q.id);
       if(!Number.isFinite(q.E)||q.E<0||!Number.isInteger(q.cell)||!w.tiles[q.cell]||w.tiles[q.cell].blocked)errors.push("SEARCH_Q:"+q.id);

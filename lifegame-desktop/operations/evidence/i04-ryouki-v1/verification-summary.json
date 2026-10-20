@@ -1,0 +1,89 @@
+{
+  "version": "4.2.36",
+  "baseline": "04b7bf6 / 4.2.35",
+  "dateUTC": "2026-10-20T13:45:35.911079+00:00",
+  "biologicalSignature": "952b362eb16d6822343c6e739f37e6057fed6eef9067cb7c684bc3e224169efb",
+  "unitFullRun": {
+    "files": 63,
+    "pass": 63,
+    "fail": 0,
+    "sourceSignatureBeforeDeathAppearanceOnlyFix": "04e71d87af22b6acf858c2d26af4d971203602aeb2a01b68fe19fa2ab45f6925",
+    "log": "model/unit.log"
+  },
+  "finalTargetedRechecks": {
+    "ryoukiCases": 28,
+    "relatedFiles": 3,
+    "relatedScope": "observation/Worker/archive/display-plane",
+    "logs": [
+      "model/ryouki-final.log",
+      "model/final-related.log",
+      "model/manifest-final.log"
+    ],
+    "scope": "after the minimal mutated-death appearance snapshot change; biological trajectories unchanged over568states",
+    "manifestFiles": 1
+  },
+  "legacyComparison": {
+    "cases": 24,
+    "states": 168,
+    "worldCSVFingerprintEqual": true
+  },
+  "newProfileComparison": {
+    "cases": 8,
+    "states": 40,
+    "dynamicStaticWorldCSVFingerprintEqual": true
+  },
+  "circulation": {
+    "cases": 4,
+    "states": 568,
+    "diagnosticTurns": [
+      180,
+      180,
+      180,
+      24
+    ],
+    "allInvariantsPassed": true,
+    "countsAt180": {
+      "river-low": 169,
+      "river-mixed": 51,
+      "lake-mixed": 53
+    },
+    "each180ReachedIVAndNextGeneration": true,
+    "denseNaturalMutationAndThreeCohabitants": true,
+    "deathAppearanceOnlyChangeTrajectoriesExact": true
+  },
+  "ui": [
+    {
+      "report": "ui/ryouki/ui-report.json",
+      "checks": 54,
+      "errors": [],
+      "scope": "Linux Chromium; main allocation and zero weight, normal/mutated details and13 art references, three-cohabitant display fixture with real clicks, all-turn save/replay and old-world non-adoption; no survival or natural mutation claim"
+    },
+    {
+      "report": "ui/independent-plants/ui-report.json",
+      "checks": 50,
+      "errors": [],
+      "scope": "Linux Chromium; new initial controls, three individual details, independent tree, existing graph/save/replay, same-cell display fixture, legacy and I02 non-adoption; no population-survival claim"
+    },
+    {
+      "report": "graphics/graphics-report.json",
+      "checks": 15,
+      "errors": [],
+      "scope": "Linux Chromium;13 adopted forms and exact portraits; three mutated Ryouki plus producer/food/prey and attached P/Q display fixture; final all-age/direction matte work remains I10"
+    },
+    {
+      "report": "overview/report.json",
+      "checks": 15,
+      "errors": [],
+      "scope": "28 explicitly placed species, one main/food overlap, eight resource kinds, carcass and P/Q; display-only, not naturally evolved; natural screenshots are separate"
+    }
+  ],
+  "limits": [
+    "I04 limited integration; not final500T/R1-R6 or all-condition performance certification",
+    "No new Windows native build/ZIP; distributed4.2.32 unchanged",
+    "I10 transparent matte/all-age/all-direction/dense appearance finish remains",
+    "P/Q new lifecycle and information are later implementation units"
+  ],
+  "next": "I05 primary parasites P",
+  "uiChecks": 134,
+  "structureCheck": "final-structure-check.json"
+}

@@ -1,0 +1,408 @@
+{
+  "version": "ryouki-runtime-art/1",
+  "kind": "provisional-static-extraction-not-final-age-or-direction-art",
+  "sources": [
+    {
+      "file": "design/ryouki-v1/01-normal-i-ii.png",
+      "sha256": "b26e4909f0a666422bf3cd972747b4c280b77bb9b9d67b470d1203d49e4f1773",
+      "runtimeCopy": "src/assets/ryouki-normal-reference-v1.png",
+      "copySha256": "b26e4909f0a666422bf3cd972747b4c280b77bb9b9d67b470d1203d49e4f1773"
+    },
+    {
+      "file": "design/ryouki-branches-v2/01-third-phase-proposal.png",
+      "sha256": "0ba617ff7f555f2344444a8e02153a0752a04a4881e7868b207e612b9d6c6cbf",
+      "runtimeCopy": "src/assets/ryouki-third-reference-v1.png",
+      "copySha256": "0ba617ff7f555f2344444a8e02153a0752a04a4881e7868b207e612b9d6c6cbf"
+    },
+    {
+      "file": "design/ryouki-branches-v2/02-fourth-phase-proposal.png",
+      "sha256": "685343015e54fc9d468e5313a71cc983b4c470fdcb389a0d8c08d7a60b18c250",
+      "runtimeCopy": "src/assets/ryouki-fourth-reference-v1.png",
+      "copySha256": "685343015e54fc9d468e5313a71cc983b4c470fdcb389a0d8c08d7a60b18c250"
+    },
+    {
+      "file": "design/ryouki-v1/02-density-i-iii.png",
+      "sha256": "ec4ef9f44918b4a53ab86df7e71ae0b9e096ec09c9297710db92b2fb609bbb10",
+      "runtimeCopy": "src/assets/ryouki-mutated-early-reference-v1.png",
+      "copySha256": "ec4ef9f44918b4a53ab86df7e71ae0b9e096ec09c9297710db92b2fb609bbb10"
+    },
+    {
+      "file": "design/ryouki-v1/03-density-iv.png",
+      "sha256": "2107e77f7f35dd1d1ee2cacf837f802dc2caf862a34af3eded9064dcfdc67544",
+      "runtimeCopy": "src/assets/ryouki-mutated-iv-reference-v1.png",
+      "copySha256": "2107e77f7f35dd1d1ee2cacf837f802dc2caf862a34af3eded9064dcfdc67544"
+    }
+  ],
+  "edits": [
+    {
+      "file": "design/ryouki-runtime-v1/edits/normal-eleven.png",
+      "sha256": "c9a8d3708eb7ae1fb47aa80b83d08e12208c72e3ed766b39192aef64a1a32a06",
+      "expectedBodies": 11
+    },
+    {
+      "file": "design/ryouki-runtime-v1/edits/mutated-two.png",
+      "sha256": "b4a828a0d8a023cb87661f09f1cca0154d99c72f0e220cb61361753c7efa0108",
+      "expectedBodies": 2
+    }
+  ],
+  "derived": [
+    {
+      "file": "src/assets/ryouki-atlas-v1.png",
+      "sha256": "8f9892de8f1321a620e5c59bbb4f08a3c13ef6401a3c8cf9258d9d93585fc495",
+      "shapeCount": 13,
+      "extraction": [
+        {
+          "panel": "I",
+          "sourceComponent": 3,
+          "sourceAlphaBoundsLTRB": [
+            9,
+            98,
+            445,
+            293
+          ],
+          "edit": "design/ryouki-runtime-v1/edits/normal-eleven.png",
+          "editSha256": "c9a8d3708eb7ae1fb47aa80b83d08e12208c72e3ed766b39192aef64a1a32a06",
+          "originalReference": {
+            "sheet": "ryouki-normal-reference-v1",
+            "region": [
+              20,
+              220,
+              720,
+              360
+            ]
+          },
+          "atlasRegion": [
+            0,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "II",
+          "sourceComponent": 1,
+          "sourceAlphaBoundsLTRB": [
+            388,
+            86,
+            827,
+            300
+          ],
+          "edit": "design/ryouki-runtime-v1/edits/normal-eleven.png",
+          "editSha256": "c9a8d3708eb7ae1fb47aa80b83d08e12208c72e3ed766b39192aef64a1a32a06",
+          "originalReference": {
+            "sheet": "ryouki-normal-reference-v1",
+            "region": [
+              790,
+              217,
+              738,
+              371
+            ]
+          },
+          "atlasRegion": [
+            384,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "III-1",
+          "sourceComponent": 4,
+          "sourceAlphaBoundsLTRB": [
+            777,
+            99,
+            1204,
+            302
+          ],
+          "edit": "design/ryouki-runtime-v1/edits/normal-eleven.png",
+          "editSha256": "c9a8d3708eb7ae1fb47aa80b83d08e12208c72e3ed766b39192aef64a1a32a06",
+          "originalReference": {
+            "sheet": "ryouki-third-reference-v1",
+            "region": [
+              18,
+              192,
+              620,
+              320
+            ]
+          },
+          "atlasRegion": [
+            768,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "III-2",
+          "sourceComponent": 2,
+          "sourceAlphaBoundsLTRB": [
+            1170,
+            90,
+            1530,
+            311
+          ],
+          "edit": "design/ryouki-runtime-v1/edits/normal-eleven.png",
+          "editSha256": "c9a8d3708eb7ae1fb47aa80b83d08e12208c72e3ed766b39192aef64a1a32a06",
+          "originalReference": {
+            "sheet": "ryouki-third-reference-v1",
+            "region": [
+              674,
+              190,
+              549,
+              325
+            ]
+          },
+          "atlasRegion": [
+            1152,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "III-3",
+          "sourceComponent": 10,
+          "sourceAlphaBoundsLTRB": [
+            14,
+            393,
+            446,
+            633
+          ],
+          "edit": "design/ryouki-runtime-v1/edits/normal-eleven.png",
+          "editSha256": "c9a8d3708eb7ae1fb47aa80b83d08e12208c72e3ed766b39192aef64a1a32a06",
+          "originalReference": {
+            "sheet": "ryouki-third-reference-v1",
+            "region": [
+              1260,
+              187,
+              594,
+              325
+            ]
+          },
+          "atlasRegion": [
+            0,
+            384,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "IV-1",
+          "sourceComponent": 13,
+          "sourceAlphaBoundsLTRB": [
+            410,
+            433,
+            835,
+            630
+          ],
+          "edit": "design/ryouki-runtime-v1/edits/normal-eleven.png",
+          "editSha256": "c9a8d3708eb7ae1fb47aa80b83d08e12208c72e3ed766b39192aef64a1a32a06",
+          "originalReference": {
+            "sheet": "ryouki-fourth-reference-v1",
+            "region": [
+              10,
+              208,
+              497,
+              224
+            ]
+          },
+          "atlasRegion": [
+            384,
+            384,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "IV-2",
+          "sourceComponent": 12,
+          "sourceAlphaBoundsLTRB": [
+            800,
+            417,
+            1173,
+            644
+          ],
+          "edit": "design/ryouki-runtime-v1/edits/normal-eleven.png",
+          "editSha256": "c9a8d3708eb7ae1fb47aa80b83d08e12208c72e3ed766b39192aef64a1a32a06",
+          "originalReference": {
+            "sheet": "ryouki-fourth-reference-v1",
+            "region": [
+              20,
+              590,
+              476,
+              230
+            ]
+          },
+          "atlasRegion": [
+            768,
+            384,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "IV-3",
+          "sourceComponent": 11,
+          "sourceAlphaBoundsLTRB": [
+            1175,
+            405,
+            1529,
+            642
+          ],
+          "edit": "design/ryouki-runtime-v1/edits/normal-eleven.png",
+          "editSha256": "c9a8d3708eb7ae1fb47aa80b83d08e12208c72e3ed766b39192aef64a1a32a06",
+          "originalReference": {
+            "sheet": "ryouki-fourth-reference-v1",
+            "region": [
+              535,
+              207,
+              450,
+              224
+            ]
+          },
+          "atlasRegion": [
+            1152,
+            384,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "IV-4",
+          "sourceComponent": 16,
+          "sourceAlphaBoundsLTRB": [
+            6,
+            712,
+            421,
+            948
+          ],
+          "edit": "design/ryouki-runtime-v1/edits/normal-eleven.png",
+          "editSha256": "c9a8d3708eb7ae1fb47aa80b83d08e12208c72e3ed766b39192aef64a1a32a06",
+          "originalReference": {
+            "sheet": "ryouki-fourth-reference-v1",
+            "region": [
+              535,
+              588,
+              455,
+              232
+            ]
+          },
+          "atlasRegion": [
+            0,
+            768,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "IV-5",
+          "sourceComponent": 18,
+          "sourceAlphaBoundsLTRB": [
+            382,
+            742,
+            834,
+            944
+          ],
+          "edit": "design/ryouki-runtime-v1/edits/normal-eleven.png",
+          "editSha256": "c9a8d3708eb7ae1fb47aa80b83d08e12208c72e3ed766b39192aef64a1a32a06",
+          "originalReference": {
+            "sheet": "ryouki-fourth-reference-v1",
+            "region": [
+              1030,
+              208,
+              498,
+              224
+            ]
+          },
+          "atlasRegion": [
+            384,
+            768,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "IV-6",
+          "sourceComponent": 17,
+          "sourceAlphaBoundsLTRB": [
+            795,
+            734,
+            1242,
+            960
+          ],
+          "edit": "design/ryouki-runtime-v1/edits/normal-eleven.png",
+          "editSha256": "c9a8d3708eb7ae1fb47aa80b83d08e12208c72e3ed766b39192aef64a1a32a06",
+          "originalReference": {
+            "sheet": "ryouki-fourth-reference-v1",
+            "region": [
+              1030,
+              587,
+              498,
+              235
+            ]
+          },
+          "atlasRegion": [
+            768,
+            768,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "mutated-I-III",
+          "sourceComponent": 1,
+          "sourceAlphaBoundsLTRB": [
+            25,
+            201,
+            1089,
+            534
+          ],
+          "edit": "design/ryouki-runtime-v1/edits/mutated-two.png",
+          "editSha256": "b4a828a0d8a023cb87661f09f1cca0154d99c72f0e220cb61361753c7efa0108",
+          "originalReference": {
+            "sheet": "ryouki-mutated-early-reference-v1",
+            "region": [
+              25,
+              224,
+              1043,
+              323
+            ]
+          },
+          "atlasRegion": [
+            1152,
+            768,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "mutated-IV",
+          "sourceComponent": 2,
+          "sourceAlphaBoundsLTRB": [
+            1092,
+            202,
+            2162,
+            534
+          ],
+          "edit": "design/ryouki-runtime-v1/edits/mutated-two.png",
+          "editSha256": "b4a828a0d8a023cb87661f09f1cca0154d99c72f0e220cb61361753c7efa0108",
+          "originalReference": {
+            "sheet": "ryouki-mutated-iv-reference-v1",
+            "region": [
+              25,
+              224,
+              1043,
+              323
+            ]
+          },
+          "atlasRegion": [
+            0,
+            1152,
+            384,
+            384
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -18,7 +18,7 @@
   ];
   // ID order is stable; highlight colors never depend on selection order.
   function highlightColor(id) {
-    const index=[...S.D.species,...(S.D.independentPlants||[])].findIndex(s=>s.id===id);
+    const index=[...S.D.species,...(S.D.independentPlants||[]),...(S.D.ryouki?[S.D.ryouki]:[])].findIndex(s=>s.id===id);
     return `hsl(${Math.round((index*137.508+32)%360)} 78% 68%)`;
   }
   // Cartographic symbols, shared by board and legend. Shape is independent of biology.
@@ -58,6 +58,7 @@
         "M-.5 -.15 Q-.7 -.95 0 -.95 Q.7 -.95 .5 -.15 M-.5 -.15 Q-1 .8 -.5 .8 Q0 .8 -.15 .1 M.15 .1 Q0 .8 .5 .8 Q1 .8 .5 -.15",
       precocial:
         "M-.95 .4 L-.7 -.4 L0 -.75 L.7 -.4 L.95 .4 Z M-.7 -.4 L-.25 .4 M.7 -.4 L.25 .4 M-.95 .7 H.95",
+      ryouki: "M-1 0 L0 -.5 L1 0 L0 .5 Z M-.9 -.05 L-1.15 -.3 M-.9 .05 L-1.15 .3 M-.55 .3 L-.7 .65 M-.15 .45 L-.2 .75 M.25 .4 L.35 .7 M.6 .2 L.8 .5",
       phytoplankton: "M-.4 -.55 A.48 .48 0 1 0 -.39 .41 A.48 .48 0 1 0 -.4 -.55 M.48 -.15 A.4 .4 0 1 0 .49 .65 A.4 .4 0 1 0 .48 -.15",
       tideparasite: "M-.8 -.5 Q-.1 -1 .5 -.4 Q1 .1 .3 .6 Q-.3 1 -.7 .3 M-.55 -.25 Q0 -.55 .4 0 M-.3 .35 L-.55 .75",
       leafparasite: "M0 -.85 L.65 0 L0 .85 L-.65 0 Z M-.9 -.45 L-.4 -.1 M.9 -.45 L.4 -.1 M-.9 .45 L-.4 .1 M.9 .45 L.4 .1",
@@ -448,6 +449,7 @@
         carcassParasites: 0,
         deathSnapshots: 0,
         departedMotionActors: 0,
+        cohabitingMain:0,
         motionKinds: {},
         statusBadges: 0,
         statusBadgesByGroup: {main:0,producer:0,basal:0,prey:0},
@@ -654,12 +656,12 @@
         fixed=[];const moving=[];
         for(const obj of frameCandidates.objects){const p=P.point(obj.x,obj.y);if(visible(p,2))fixed.push({depth:P.depth(obj.x,obj.y)-.05,obj,p});}
         if(detail)for(const a of w.carcasses){const dx=a.slot==='food'?.22:a.slot==='prey'?.52:a.slot==='producer'?.72:.86,p=position(a.cell,dx,.86),[x,y]=S.xy(w,a.cell);if(visible(p))fixed.push({carcass:a,p,depth:P.depth(x+dx,y+.86)});}
-        for(const o of frameCandidates.organisms){const list=activeEvents.get(o.id)||[],ev=list.find(e=>e.type==='move');if(ev){moving.push(o);continue;}const a=coordinates.anchor(o);if(visible(a.point,1.6)||visible(a.ground,1.6))fixed.push({depth:a.depth,o,p:a.point,list,ground:a.ground,elevated:a.elevated,remnant:false});}
+        for(const o of frameCandidates.organisms){const list=activeEvents.get(o.id)||[],ev=list.find(e=>e.type==='move');if(ev){moving.push(o);continue;}const a=coordinates.anchor(o);if(visible(a.point,1.6)||visible(a.ground,1.6))fixed.push({depth:a.depth,o,p:a.point,list,ground:a.ground,elevated:a.elevated,cohabit:a.cohabit,rank:a.rank,scale:a.scale,remnant:false});}
         fixed.sort((a,b)=>a.depth-b.depth);frameCandidates.fixed=fixed;frameCandidates.moving=moving;frameCandidates.actorKey=actorKey;
       }
       for(const o of [...frameCandidates.moving,...departed.values()]){const list=activeEvents.get(o.id)||[],ev=list.find(e=>e.type==='move'),a=coordinates.anchor(o,age,ev),remnant=departed.has(o.id);
         if(remnant&&!list.some(e=>['move','attack','defend','feed','care','clear'].includes(e.type)))continue;
-        if(visible(a.point,1.6)||visible(a.ground,1.6))dynamic.push({depth:a.depth,o,p:a.point,list,ground:a.ground,elevated:a.elevated,remnant});}
+        if(visible(a.point,1.6)||visible(a.ground,1.6))dynamic.push({depth:a.depth,o,p:a.point,list,ground:a.ground,elevated:a.elevated,cohabit:a.cohabit,rank:a.rank,scale:a.scale,remnant});}
       dynamic.sort((a,b)=>a.depth-b.depth);const actors=[];let fixedAt=0,movingAt=0;
       while(fixedAt<fixed.length||movingAt<dynamic.length){if(movingAt===dynamic.length||(fixedAt<fixed.length&&fixed[fixedAt].depth<=dynamic[movingAt].depth))actors.push(fixed[fixedAt++]);else actors.push(dynamic[movingAt++]);}
       const bodies = actors.filter((a) => a.o);
@@ -795,11 +797,12 @@
           r = isMain
             ? (0.23 + 0.035 * o.phase) *
               (overlap ? 0.85 : 1) *
-              (0.9 + 0.2 * (o.dna?.body??.5))
+              (0.9 + 0.2 * (o.dna?.body??.5))*(actor.scale||1)
             : isProducer?(0.20+0.025*Math.max(1,o.phase||1))*(main.has(o.cell)?.78:1):0.13 + 0.07 * Math.min(1, S.edibleB(o) / 15),
           cx = p[0],
           cy = p[1] - (detail ? bodyOffset(o) : 0),
-          geometry=isProducer&&detail?Art.producerGeometry(o,r):null;
+          geometry=detail?(isProducer?Art.producerGeometry(o,r):o.species==='ryouki'?Art.ryoukiGeometry(o,r):null):null;
+        if(actor.cohabit>1)diagnostics.cohabitingMain++;
         if(actor.remnant){
           // A confirmed past action, never a resurrected selectable organism.
           diagnostics.departedMotionActors++;
@@ -810,11 +813,11 @@
         }
         if(!actor.elevated&&!isProducer){
         if(detail){g.drawImage(groundShadow(),p[0]-r*.9,p[1]+.04-r*.23,r*1.8,r*.46);}
-        else ellipseStamp(g,p[0],p[1]+.04,isMain?.38:.22,isMain?.3:.17,'#061922cc');
+        else ellipseStamp(g,p[0],p[1]+.04,isMain?.38*(actor.scale||1):.22,isMain?.3*(actor.scale||1):.17,'#061922cc');
         }
-        hitRegions.push({id:o.id,cell:o.cell,main:isMain,x:cx,y:cy,rx:geometry?Math.max(.10,geometry.rx):detail?r*1.65:isMain?.35:isProducer?.25:.22,ry:geometry?Math.max(.10,geometry.ry):detail?r*1.55:isMain?.32:isProducer?.25:.21});
+        hitRegions.push({id:o.id,cell:o.cell,main:isMain,x:cx,y:cy,rx:geometry?Math.max(.07,geometry.rx):detail?r*1.65:isMain?.35*(actor.scale||1):isProducer?.25:.22,ry:geometry?Math.max(.07,geometry.ry):detail?r*1.55:isMain?.32*(actor.scale||1):isProducer?.25:.21});
         if (view.emphasis && (!detail || (!isMain&&!isProducer))) {
-          if(!detail)ellipseStamp(g,cx,cy,isMain?.38:.235,isMain?.29:.185,'#02131cf0',isMain?'#f5e6a8b8':'#c5e9be99',Math.max(.018,(isMain?.85:.55)/z));
+          if(!detail)ellipseStamp(g,cx,cy,isMain?.38*(actor.scale||1):.235,isMain?.29*(actor.scale||1):.185,'#02131cf0',isMain?'#f5e6a8b8':'#c5e9be99',Math.max(.018,(isMain?.85:.55)/z));
           else ellipseStamp(g,cx,p[1],r*1.06,r*.33,'#02131c99',isMain?'#f5e6a8b8':'#c5e9be99',Math.max(.018,(isMain?.85:.55)/z));
         }
         const displayed = detail&&view.emphasis ? { ...o, renderEmphasis: true } : o;
@@ -836,9 +839,10 @@
             o.species,
             cx,
             cy,
-            isMain ? (overlap ? 0.25 : 0.3) : isProducer?.21:0.17,
+            isMain ? (overlap ? 0.25 : 0.3)*(actor.scale||1) : isProducer?.21:0.17,
             symbolColor(S.spec(o)),
           );
+        if(!detail&&actor.cohabit>1&&actor.rank===0){g.save();g.font=`bold ${Math.max(.10,9/z)}px sans-serif`;g.textAlign='center';g.lineWidth=3/z;g.strokeStyle='#071a22';g.fillStyle='#ffedb4';g.strokeText('×'+actor.cohabit,cx,cy-.23);g.fillText('×'+actor.cohabit,cx,cy-.23);g.restore();}
         const ages=frameCandidates.ages ||= new Map();if(!ages.has(o.id))ages.set(o.id,S.ageInfo(o));
         const a = ages.get(o.id),
           showStatus = view.statusMarks && near &&
@@ -866,12 +870,12 @@
             if(qName)diagnostics.nameLabels.Q++;
             annotations.push(()=>{g.save();g.font=".055px sans-serif";g.textAlign="left";if(pName){g.fillStyle="#ffd1a3";g.fillText(S.D.byId[o.infection.species].name+" P · "+o.infection.stage,cx+.1,cy-.43);}if(qName){g.fillStyle="#d9b9ff";g.fillText(S.D.byId.hyperparasite.name+" Q · "+o.infection.q.phase,cx+.1,cy-.51);}g.restore();});
           }
-          const [bx, by] = globalThis.EcoDisplayPlane.parasitePoint([cx,cy],"P",detail);
+          const [bx, by] = globalThis.EcoDisplayPlane.parasitePoint([cx,cy],"P",detail,actor.rank,actor.cohabit);
           if (detail && Art.parasite(g, o.infection, bx, by, .105)) {
             diagnostics.parasiteArt++;
             hitRegions.push({id:o.infection.id,cell:o.cell,main:isMain,x:bx,y:by,rx:.10,ry:.10});
             if (o.infection.q) {
-              const [qx,qy]=globalThis.EcoDisplayPlane.parasitePoint([cx,cy],"Q",true);
+              const [qx,qy]=globalThis.EcoDisplayPlane.parasitePoint([cx,cy],"Q",true,actor.rank,actor.cohabit);
               // A quiet link denotes Q's attachment to P, not another free organism.
               g.strokeStyle="#bb9fdd88";g.lineWidth=.008;
               g.beginPath();g.moveTo(bx+.06,by-.03);g.lineTo(qx-.06,qy+.03);g.stroke();
@@ -900,13 +904,16 @@
         }
         actionEffects(o,list,r,cx,cy);
         const nameGroup=isMain?"main":isProducer?"producer":S.spec(o).group==="prey"?"prey":"basal";
+        const labelOffset=actor.cohabit>1?[[-.16,-.38],[.16,-.38],[0,.12]][actor.rank]:[0,r*.95],
+          labelX=cx+labelOffset[0],nameY=cy+labelOffset[1],nameBaseline=actor.cohabit>1?nameY+.065:cy+r*1.23;
         if (near && (isMain || nameEnabled(nameGroup,o.id))) {
           diagnostics.nameLabels[nameGroup]++;
           annotations.push(() => {
-          g.font = ".065px sans-serif";
+          g.font = actor.cohabit>1?".045px sans-serif":".065px sans-serif";
           g.textAlign = "center";
           g.fillStyle = isMain ? "#071c25df" : "#123d2aef";
-          g.fillRect(cx - 0.4, cy + r * 0.95, 0.8, 0.13);
+          const nameWidth=actor.cohabit>1?.52:.8;
+          g.fillRect(labelX-nameWidth/2,nameY,nameWidth,actor.cohabit>1?.085:.13);
           g.fillStyle = "#fff1c9";
           const action = (worldEvents.get(o.id)||[]).find(
             (e) =>
@@ -927,9 +934,10 @@
             S.spec(o).name +
               " · " +
               ["I", "II", "III", "IV"][o.phase - 1] +
-              (action ? " / " + name[action.type] : ""),
-            cx,
-            cy + r * 1.23,
+              (action ? " / " + name[action.type] : "")+(actor.cohabit>1?' · #'+(actor.rank+1)+' '+String(o.id).replace(/:ryouki$/,'').slice(-5):''),
+            labelX,
+            nameBaseline,
+            nameWidth-.02,
           );
           });
         }
@@ -940,19 +948,20 @@
             branch = o.phase >= 3 && Number.isInteger(o.branch3)
               ? "-" + ["A", "B", "C"][o.branch3] + (o.phase === 4 && Number.isInteger(o.branch4) ? o.branch4 + 1 : "") : "",
             phase = ["I", "II", "III", "IV"][o.phase - 1] + branch,
-            y = cy + r * 1.23 + 0.11;
+            y = actor.cohabit>1?nameY+.14:cy+r*1.23+.11;
           const badges = [
             { x: -0.34, w: 0.14, text: sex, color: o.sex === "male" ? "#a9e5ff" : o.sex === "female" ? "#ffcfdf" : "#d7d9d3" },
             { x: -0.18, w: 0.22, text: stage, color: a.stage === "juvenile" ? "#ffec9c" : a.stage === "elderly" ? "#ded5ef" : "#bde9cf" },
             { x: 0.06, w: 0.30, text: phase, color: "#fff0c9" },
           ];
           g.save();
+          if(actor.cohabit>1){g.translate(labelX,y);g.scale(.7,.7);g.translate(-labelX,-y);}
           g.font = `${Math.max(0.055, 10 / z)}px sans-serif`;
           g.textAlign = "center"; g.textBaseline = "middle";
           for (const b of badges) {
-            g.fillStyle = "#061a25f0"; g.fillRect(cx + b.x, y - 0.055, b.w, 0.11);
-            g.strokeStyle = b.color; g.lineWidth = 0.7 / z; g.strokeRect(cx + b.x, y - 0.055, b.w, 0.11);
-            g.fillStyle = b.color; g.fillText(b.text, cx + b.x + b.w / 2, y, b.w - 0.01);
+            g.fillStyle = "#061a25f0"; g.fillRect(labelX+b.x,y-.055,b.w,.11);
+            g.strokeStyle = b.color; g.lineWidth = 0.7 / z; g.strokeRect(labelX+b.x,y-.055,b.w,.11);
+            g.fillStyle = b.color; g.fillText(b.text,labelX+b.x+b.w/2,y,b.w-.01);
           }
           if (o.HP <= .25*S.phenotype(w,o).maxHP || o.E < .15*S.phenotype(w,o).capE) {
             g.fillStyle = o.HP <= .25*S.phenotype(w,o).maxHP ? "#e2756f" : "#e6b66c";

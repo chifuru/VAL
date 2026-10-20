@@ -861,8 +861,20 @@
   ].map(s=>({...s,group:"plant",kind:"independent",recordUnit:"individual",slot:"producer",tag:"plant",
     phases:["第一相","第二相","第三相","第四相"],branches:["生産","繁殖拡散","耐食"],
     initial:[s.capacity[0]*.5,13.2,1,s.capacity[3]],traits:{},senseAt:1,rangeAt:1,speedAt:1}));
+  // I04 comparison definition stays outside all legacy species/main lists.
+  data.ryouki = {id:"ryouki",name:"量機",group:"main",slot:"main",tag:"animal",recordUnit:"individual",
+    definition:"ryouki/3",parameters:"implementation-start/2",phases:["第一相","第二相","第三相","第四相"],
+    branches:["広域探索","周辺探索","障害踏破"],
+    fourthBranches:[["広域探索・直進","広域探索・ランダム"],["周辺探索・近め","周辺探索・広め"],["障害踏破・水域","障害踏破・火山"]],
+    life:180,maturity:18,maintenance:.48,birthCooldown:8,birthEnergy:30,M3:2,M4:4,
+    initial:[40,8,1,80],capacity:[100,32,30,80],combat:{attack:.45,defense:.60,hp:.80},
+    birth:{motherE:30,fatherE:12,motherM:.75,fatherM:.25,costsE:[18,6],costsM:[.75,.25],childE:16,childB:6,childM:1,dissipatedE:2},
+    experience:{II:20,III:60,IV:140},weights:[35,65,75,65,55,55,75,60,40],
+    good:[],bad:-1,type:"move",diet:"general",traits:{},traitText:["低戦闘・高移動・高繁殖","密度による可逆相変異"],
+    senseAt:1,rangeAt:99,speedAt:1,aquatic:false,color:"#438e80"};
   data.byId = Object.fromEntries(data.species.map((s) => [s.id, s]));
   Object.assign(data.byId,Object.fromEntries(data.independentPlants.map(s=>[s.id,s])));
+  data.byId.ryouki=data.ryouki;
   data.main = data.species.filter((s) => s.group === "main");
   return data;
 });

@@ -27,3 +27,25 @@ test('independent producer keeps a fourth distinct anchor and follows its own mo
  assert.notDeepEqual(layout.anchor(tree,0,move).point,layout.anchor(tree).point);
  assert.equal(JSON.stringify(w),before);
 });
+test('mutated ryouki cohabitants keep stable ID anchors with lower layers and attached P/Q',()=>{
+ const w=world();w.organisms=w.organisms.filter(o=>o.slot!=='main');
+ for(const id of ['r-c','r-a','r-b'])w.organisms.push({id,species:'ryouki',slot:'main',cell:27,ryouki:{mutated:true},infection:id==='r-c'?{id:'p',q:{id:'q'}}:null});
+ w.organisms.push({id:'tree',slot:'producer',cell:27});const before=JSON.stringify(w),p=P.build(w),layout=D.create(w,p,false,true),all=w.organisms.map(o=>layout.anchor(o));
+ assert.equal(new Set(all.map(a=>JSON.stringify(a.point))).size,6);
+ const reverse=D.create({...w,organisms:[...w.organisms].reverse()},p,false,true);
+ for(const o of w.organisms)assert.deepEqual(layout.anchor(o),reverse.anchor(o));
+ const host=w.organisms.find(o=>o.id==='r-c'),a=layout.anchor(host);
+ assert.equal(a.cohabit,3);assert.equal(a.rank,2);assert.equal(a.scale,.62);
+ assert.deepEqual(layout.entity('p').point,D.parasitePoint(a.point,'P',true,2,3));
+ assert.deepEqual(layout.entity('q').point,D.parasitePoint(a.point,'Q',true,2,3));
+ assert.equal(JSON.stringify(w),before);
+});
+test('ryouki movement follows each successful path segment and spatial candidates include detours',()=>{
+ const w=world();w.organisms=[{id:'walker',species:'ryouki',slot:'main',cell:27,ryouki:{mutated:false}}];
+ const p=P.build(w),layout=D.create(w,p,false),o=w.organisms[0],move={type:'move',id:o.id,from:18,to:27,path:[19,20,28,27]};w.events=[move];
+ for(const [progress,cell]of [[0,18],[.25,19],[.5,20],[.75,28],[1,27]]){
+  const expected=p.point(cell%8+.5,Math.floor(cell/8)+.55);assert.deepEqual(layout.anchor(o,progress,move).point,expected);
+ }
+ assert.deepEqual(layout.anchor(o,1,move),layout.anchor(o));
+ const middle=layout.anchor(o,.5,move).point;assert(layout.candidates([middle[0]-.01,middle[1]-.01,middle[0]+.01,middle[1]+.01]).some(a=>a.id===o.id));
+});

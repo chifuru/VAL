@@ -259,6 +259,42 @@
       "width": 1536,
       "height": 1152,
       "sha256": "1ce1efcb697c5a3f89595c01fa6d945b887e2f15785752bbd3341779c82d8516"
+    },
+    "ryouki-normal-reference-v1": {
+      "file": "ryouki-normal-reference-v1.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "b26e4909f0a666422bf3cd972747b4c280b77bb9b9d67b470d1203d49e4f1773"
+    },
+    "ryouki-third-reference-v1": {
+      "file": "ryouki-third-reference-v1.png",
+      "width": 1862,
+      "height": 845,
+      "sha256": "0ba617ff7f555f2344444a8e02153a0752a04a4881e7868b207e612b9d6c6cbf"
+    },
+    "ryouki-fourth-reference-v1": {
+      "file": "ryouki-fourth-reference-v1.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "685343015e54fc9d468e5313a71cc983b4c470fdcb389a0d8c08d7a60b18c250"
+    },
+    "ryouki-mutated-early-reference-v1": {
+      "file": "ryouki-mutated-early-reference-v1.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "ec4ef9f44918b4a53ab86df7e71ae0b9e096ec09c9297710db92b2fb609bbb10"
+    },
+    "ryouki-mutated-iv-reference-v1": {
+      "file": "ryouki-mutated-iv-reference-v1.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "2107e77f7f35dd1d1ee2cacf837f802dc2caf862a34af3eded9064dcfdc67544"
+    },
+    "ryouki-atlas-v1": {
+      "file": "ryouki-atlas-v1.png",
+      "width": 1536,
+      "height": 1536,
+      "sha256": "8f9892de8f1321a620e5c59bbb4f08a3c13ef6401a3c8cf9258d9d93585fc495"
     }
   },
   "creatures": {
@@ -3140,5 +3176,305 @@
       "source": "adopted-appearance-background-removal/1",
       "provisional": true
     }
+  },
+  "ryouki": {
+    "sheet": "ryouki-atlas-v1",
+    "regions": [
+      [
+        0,
+        0,
+        384,
+        384
+      ],
+      [
+        384,
+        0,
+        384,
+        384
+      ],
+      [
+        768,
+        0,
+        384,
+        384
+      ],
+      [
+        1152,
+        0,
+        384,
+        384
+      ],
+      [
+        0,
+        384,
+        384,
+        384
+      ],
+      [
+        384,
+        384,
+        384,
+        384
+      ],
+      [
+        768,
+        384,
+        384,
+        384
+      ],
+      [
+        1152,
+        384,
+        384,
+        384
+      ],
+      [
+        0,
+        768,
+        384,
+        384
+      ],
+      [
+        384,
+        768,
+        384,
+        384
+      ],
+      [
+        768,
+        768,
+        384,
+        384
+      ],
+      [
+        1152,
+        768,
+        384,
+        384
+      ],
+      [
+        0,
+        1152,
+        384,
+        384
+      ]
+    ],
+    "bodyBounds": [
+      [
+        16,
+        113,
+        352,
+        157
+      ],
+      [
+        16,
+        106,
+        352,
+        172
+      ],
+      [
+        16,
+        108,
+        352,
+        167
+      ],
+      [
+        16,
+        84,
+        352,
+        216
+      ],
+      [
+        16,
+        94,
+        352,
+        196
+      ],
+      [
+        16,
+        110,
+        352,
+        163
+      ],
+      [
+        16,
+        85,
+        352,
+        214
+      ],
+      [
+        16,
+        74,
+        352,
+        236
+      ],
+      [
+        16,
+        92,
+        352,
+        200
+      ],
+      [
+        16,
+        113,
+        352,
+        157
+      ],
+      [
+        16,
+        103,
+        352,
+        178
+      ],
+      [
+        16,
+        137,
+        352,
+        110
+      ],
+      [
+        16,
+        137,
+        352,
+        109
+      ]
+    ],
+    "panels": [
+      "I",
+      "II",
+      "III-1",
+      "III-2",
+      "III-3",
+      "IV-1",
+      "IV-2",
+      "IV-3",
+      "IV-4",
+      "IV-5",
+      "IV-6",
+      "mutated-I-III",
+      "mutated-IV"
+    ],
+    "references": [
+      {
+        "sheet": "ryouki-normal-reference-v1",
+        "region": [
+          20,
+          220,
+          720,
+          360
+        ]
+      },
+      {
+        "sheet": "ryouki-normal-reference-v1",
+        "region": [
+          790,
+          217,
+          738,
+          371
+        ]
+      },
+      {
+        "sheet": "ryouki-third-reference-v1",
+        "region": [
+          18,
+          192,
+          620,
+          320
+        ]
+      },
+      {
+        "sheet": "ryouki-third-reference-v1",
+        "region": [
+          674,
+          190,
+          549,
+          325
+        ]
+      },
+      {
+        "sheet": "ryouki-third-reference-v1",
+        "region": [
+          1260,
+          187,
+          594,
+          325
+        ]
+      },
+      {
+        "sheet": "ryouki-fourth-reference-v1",
+        "region": [
+          10,
+          208,
+          497,
+          224
+        ]
+      },
+      {
+        "sheet": "ryouki-fourth-reference-v1",
+        "region": [
+          20,
+          590,
+          476,
+          230
+        ]
+      },
+      {
+        "sheet": "ryouki-fourth-reference-v1",
+        "region": [
+          535,
+          207,
+          450,
+          224
+        ]
+      },
+      {
+        "sheet": "ryouki-fourth-reference-v1",
+        "region": [
+          535,
+          588,
+          455,
+          232
+        ]
+      },
+      {
+        "sheet": "ryouki-fourth-reference-v1",
+        "region": [
+          1030,
+          208,
+          498,
+          224
+        ]
+      },
+      {
+        "sheet": "ryouki-fourth-reference-v1",
+        "region": [
+          1030,
+          587,
+          498,
+          235
+        ]
+      },
+      {
+        "sheet": "ryouki-mutated-early-reference-v1",
+        "region": [
+          25,
+          224,
+          1043,
+          323
+        ]
+      },
+      {
+        "sheet": "ryouki-mutated-iv-reference-v1",
+        "region": [
+          25,
+          224,
+          1043,
+          323
+        ]
+      }
+    ],
+    "fit": "contain",
+    "provisional": true,
+    "source": "adopted-ryouki-background-removal/1"
   }
 }

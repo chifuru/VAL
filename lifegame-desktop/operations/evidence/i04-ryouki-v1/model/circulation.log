@@ -1,0 +1,4 @@
+{"id":"river-low","passed":true,"maxPhase":4,"maxGeneration":5,"maxMutated":12,"maxOccupancy":3,"steps":10759,"ryouki":169}
+{"id":"river-mixed","passed":true,"maxPhase":4,"maxGeneration":3,"maxMutated":1,"maxOccupancy":1,"steps":3828,"ryouki":51}
+{"id":"lake-mixed","passed":true,"maxPhase":4,"maxGeneration":3,"maxMutated":0,"maxOccupancy":1,"steps":4058,"ryouki":53}
+{"id":"river-dense","passed":true,"maxPhase":2,"maxGeneration":1,"maxMutated":706,"maxOccupancy":3,"steps":9253,"ryouki":780}

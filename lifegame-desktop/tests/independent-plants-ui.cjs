@@ -28,7 +28,7 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
   check(plants.every(o=>o.slot==='producer'&&o.phase===3&&o.age===Math.floor(o.birthLife*.25)&&o.G===0),'initial high phase does not invent age or earned experience');
   check(await page.evaluate(()=>{const w=__LIFE_TEST__.snapshot().world;return w.organisms.filter(o=>EcoState.LargePlant.is(o)).every(o=>Math.abs(o.E-EcoState.phenotype(w,o).capE*.7)<1e-5);}), 'initial E fraction is applied to each current phase capacity');
   check(Number((await page.locator('#food-count').innerText()).replaceAll(',',''))===snap.world.stats.food+plants.length,'lower-body total includes each independent producer once');
-  check(await page.locator('#species-key [data-species]').count()===34&&await page.locator('#graph-species option[value="forestcrown"]').count()===1,'active legend and graph catalogue include the three new species');
+  check(await page.locator('#species-key [data-species]').count()===35&&await page.locator('#graph-species option[value="forestcrown"]').count()===1,'current default legend and graph catalogue include independent plants and Ryouki');
   const initialFingerprint=await page.evaluate(()=>__LIFE_TEST__.fingerprint());
   for(const plant of ids.map(id=>plants.find(o=>o.species===id))){
    await page.evaluate(o=>__LIFE_TEST__.select(o.cell,o.id),plant);

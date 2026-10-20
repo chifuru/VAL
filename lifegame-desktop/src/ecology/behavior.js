@@ -12,6 +12,12 @@
 })(globalThis, function (S, Nutrition) {
   "use strict";
   const phaseA = [0, 1, 1.15, 1.35, 1.6];
+  const grouped = w => S.Ryouki?.enabled(w) === true;
+  const isRyouki = (w,o) => grouped(w) && S.Ryouki.is(o);
+  function mainMembers(w,m,cell) {
+    if (grouped(w)) return S.mainAt(m,cell);
+    const o=m.main.get(cell);return o?[o]:[];
+  }
   function environmental(w, o, kind, cell = o.cell) {
     const s = S.spec(o),
       env = w.tiles[cell].env;
@@ -48,6 +54,16 @@
       terrain * (["log", "bush"].includes(t.cover) ? 1.2 : 1),
     );
     if (S.LargePlant?.is(o)) return .3 * ageMove * terrain;
+    if (isRyouki(w,o)) {
+      let extra=1;
+      if (phase>=3 && o.branch3===2) {
+        extra=.8;
+        if (phase===4 && ((o.branch4===0 && ["shallow","deep"].includes(t.terrain)) ||
+            (o.branch4===1 && t.env===1))) extra=.65;
+      }
+      terrain=1+(terrain-1)*extra;
+      return .39*ageMove*terrain*environmental(w,o,"move",to)*S.adjustment(w,o,"move",t.env,phase);
+    }
     if (o.branch3 === 1 && o.branch4 === 1) terrain = 1 + 0.75 * (terrain - 1);
     let branch =
       o.branch3 === 1 && o.branch4 === 0
@@ -83,23 +99,23 @@
         : value;
     }
     const m = ctx.current || S.maps(w),
-      friends = S.nearby(w, o.cell).filter(
-        (c) => m.main.get(c)?.species === o.species,
-      ).length;
+      friends = S.nearby(w, o.cell).reduce((n,c) => n+mainMembers(w,m,c).filter(a=>a.species===o.species).length,0);
     const common =
       s.id === "precocial" ? [0, 1.2, 1.35, 1.6][phase] : phaseA[phase];
     let value =
       kind === "attack"
         ? 6 + (6 * (2 * o.dna.body + o.dna.appendage)) / 3
         : 4 + 4 * o.dna.skin;
-    const baseValue = value * common;
+    const combatScale=isRyouki(w,o)?(kind==="attack"?.45:.60):1,
+      baseValue = value * common * combatScale;
     value *=
+      combatScale *
       p.ageFactors[kind] *
       common *
       S.adjustment(w, o, kind, w.tiles[o.cell].env, phase);
     if (kind === "attack") {
       value *= 1 + Math.min(3, friends) * S.trait(o, "packAttack", phase);
-      if (o.branch3 === 2 && o.branch4 === 0) value *= 1.1;
+      if (!isRyouki(w,o) && o.branch3 === 2 && o.branch4 === 0) value *= 1.1;
       value *= environmental(w, o, "attack");
     } else {
       let env = environmental(w, o, "defense");
@@ -110,7 +126,7 @@
       value *= Math.min(1.6, env);
       if (guarded) value *= 1 + S.trait(o, "guard", phase);
       if (cover) value *= 1 + S.trait(o, "coverDefense", phase);
-      if (o.branch3 === 2 && o.branch4 === 1) value *= 1.1;
+      if (!isRyouki(w,o) && o.branch3 === 2 && o.branch4 === 1) value *= 1.1;
       if (s.id === "precocial" && phase === 3 && o.branch3 === 2) value *= 1.05;
     }
     return breakdown
@@ -153,7 +169,7 @@
   }
   function chooseFloating(w, o, ctx, m, stage) {
     const sensed = S.nearby(w,o.cell,1,true).filter(cell => S.sight(w,o.cell,cell)),
-      consumers = sensed.flatMap(cell => [m.main.get(cell),m.prey?.get(cell)])
+      consumers = sensed.flatMap(cell => [...mainMembers(w,m,cell),m.prey?.get(cell)])
         .filter(a => a && a.HP > 0 &&
           (S.spec(a).group === "prey" || (S.spec(a).group === "main" && a.species !== "kelp")));
     const score = cell => {
@@ -186,9 +202,7 @@
       out = [{ type: "stop", cell: o.cell, cost: 0, path: [] }];
     if (S.LargePlant?.is(o)) return floatingCandidates(w,o,ctx,m);
     if (s.group === "plant" || s.group === "fungus") return out;
-    const friend = S.nearby(w, o.cell).some(
-      (c) => m.main.get(c)?.species === o.species,
-    );
+    const friend = S.nearby(w, o.cell).some(c => mainMembers(w,m,c).some(a=>a.species===o.species));
     if (s.group === "main")
       out.push({ type: "defend", cell: o.cell, cost: 0, path: [] });
     if (s.group !== "prey" || s.id !== "waterbug" || w.turn % 2 === 0) {
@@ -206,8 +220,8 @@
             break;
           const cell = S.index(w, tx, ty);
           if (
-            occupied.has(cell) ||
-            !visible(w, o, cell, ctx) ||
+            (grouped(w) && o.slot==="main" ? !S.mainRoom(w,o,cell,m) : occupied.has(cell)) ||
+            !(isRyouki(w,o)?S.sight(w,prev,cell):visible(w, o, cell, ctx)) ||
             !S.oneStep(w, prev, cell)
           )
             break;
@@ -221,6 +235,7 @@
               path: path.slice(),
               direction: d,
             });
+          else if(isRyouki(w,o)) ctx.records.get(o.id).ryoukiMoveBudgetLimited=true;
           prev = cell;
         }
       }
@@ -230,11 +245,12 @@
       const main = m.main.get(cell),
         food = m.food.get(cell);
       if (s.group === "main" && o.attackReady <= w.turn)
-        for (const target of [main, food])
+        for (const target of (grouped(w)?[...S.mainAt(m,cell),(m.prey||m.food).get(cell)]:[main, food]))
           if (
             target &&
             target.id !== o.id &&
             target.species !== o.species &&
+            (!isRyouki(w,o) || S.spec(target).group === "prey") &&
             !(w.config.ecologyRevision === "observation/4.1" && ["solar","kelp"].includes(o.species) && ["solar","kelp"].includes(target.species)) &&
             ["main", "prey"].includes(S.spec(target).group) &&
             !(s.id === "kelp" && S.spec(target).group !== "prey") &&
@@ -257,6 +273,7 @@
         food &&
         s.id !== "kelp" &&
         ["plant", "fungus"].includes(S.spec(food).group) &&
+        (!isRyouki(w,o) || S.spec(food).group === "plant") &&
         S.edibleB(food) > 0 &&
         (s.group === "main" || S.spec(food).group === "plant") &&
         S.distance(w, o.cell, cell) <= 1 &&
@@ -273,31 +290,31 @@
       if (producer && s.id !== "kelp" && S.edibleB(producer)>0 && producer.HP>0 &&
           (s.group === "main" || s.group === "prey") && S.distance(w,o.cell,cell)<=1 && S.oneStep(w,o.cell,cell))
         out.push({type:"harvest",cell:o.cell,target:producer.id,cost:0,path:[]});
-      if (
+      for (const ward of (grouped(w)?S.mainAt(m,cell):[main])) if (
         s.id === "swarm" &&
         o.role === "worker" &&
         o.E >= 25 &&
         budget >= 2 &&
-        main &&
-        main.id !== o.id &&
-        main.colony === o.colony &&
-        ((ctx.traits.get(main.id).ageEnabled
-          ? ctx.traits.get(main.id).ageStage === "juvenile"
-          : main.phase <= 2) || (main.role === "queen" && main.E < 65)) &&
+        ward &&
+        ward.id !== o.id &&
+        ward.colony === o.colony &&
+        ((ctx.traits.get(ward.id).ageEnabled
+          ? ctx.traits.get(ward.id).ageStage === "juvenile"
+          : ward.phase <= 2) || (ward.role === "queen" && ward.E < 65)) &&
         S.distance(w, o.cell, cell) === 1 &&
         S.oneStep(w, o.cell, cell)
       )
         out.push({
           type: "care",
           cell: o.cell,
-          target: main.id,
+          target: ward.id,
           cost: 2,
           path: [],
         });
     }
     if (w.config.ecologyRevision === "observation/4.1" && s.group === "main" && budget >= 0.3) {
       for (const cell of S.nearby(w,o.cell,1,true)) {
-        const target=m.main.get(cell);
+        for (const target of mainMembers(w,m,cell))
         if(target?.infection?.location === "external" && target.species===o.species && S.oneStep(w,o.cell,cell))
           out.push({type:"groom",cell:o.cell,target:target.id,cost:0.3,path:[]});
       }
@@ -312,7 +329,7 @@
       ),
       enemies = [];
     for (const p of visibleCells)
-      for (const t of [m.main.get(p), m.food.get(p)])
+      for (const t of (grouped(w)?[...S.mainAt(m,p),(m.prey||m.food).get(p)]:[m.main.get(p), m.food.get(p)]))
         if (
           t &&
           t.id !== o.id &&
@@ -343,6 +360,18 @@
   }
   function quality(w, o, cell, v) {
     if (v.qualityCache?.has(cell)) return v.qualityCache.get(cell);
+    if (isRyouki(w,o)) {
+      if (!v.visibleCells.has(cell)) return 0;
+      let leaves=0,insects=0;
+      for(const target of [v.m.food.get(cell),v.m.producer?.get(cell)])
+        if(target&&target.HP>0&&S.spec(target).group==="plant")leaves=Math.max(leaves,Math.min(1,S.edibleB(target)/4));
+      const prey=(v.m.prey||v.m.food).get(cell);
+      if(prey&&prey.HP>0&&S.spec(prey).group==="prey")insects=Math.min(1,S.edibleB(prey)/4);
+      for(const a of v.m.carcasses.get(cell)||[])
+        if(S.D.byId[a.species]?.group==="prey"&&a.q>0)insects=Math.max(insects,Math.min(1,a.q/4));
+      const q=Math.min(1,(.65*leaves+.35*insects)*(.9+.2*o.dna.senses));
+      v.qualityCache?.set(cell,q);return q;
+    }
     const s = S.spec(o);
     const stage = (amount) =>
       amount <= 0 ? 0 : amount <= 1 / 3 ? 1 / 3 : amount <= 2 / 3 ? 2 / 3 : 1;
@@ -427,13 +456,12 @@
       empty = 0;
     for (const p of S.nearby(w, cell)) {
       if (!v.visibleCells.has(p)) continue;
-      const main = v.m.main.get(p);
-      if (main && main.id !== o.id) {
+      for(const main of mainMembers(w,v.m,p))if (main.id !== o.id) {
         crowd++;
         if (main.species === o.species) friends++;
       }
       const occupant = (o.slot === "main" ? v.m.main : v.m.food).get(p);
-      if ((!occupant || occupant.id === o.id) && S.oneStep(w, cell, p)) empty++;
+      if ((grouped(w)&&o.slot==="main"?S.mainRoom(w,o,p,v.m):(!occupant || occupant.id === o.id)) && S.oneStep(w, cell, p)) empty++;
     }
     const result = { C: friends / 8, D: crowd / 8, O: empty / 8 };
     v.neighborhoodCache?.set(cell, result);
@@ -494,14 +522,23 @@
     const move = c.type === "move",
       attack = c.type === "attack",
       guard = c.type === "defend";
-    const pairReady = (a) => a.species !== "swarm" && (w.config.ecologyRevision === "observation/4.1" || a.phase >= 3) &&
+    const pairReady = (a) => {
+      if(isRyouki(w,a)){
+        const p=ctx.traits.get(a.id),b=S.spec(a).birth,male=a.sex==="male";
+        return p.ageStage!=="juvenile"&&a.HP>=.7*p.maxHP&&a.E>=(male?b.fatherE:b.motherE)&&
+          a.M>=(male?b.fatherM:b.motherM)&&a.birthReady<=w.turn;
+      }
+      return a.species !== "swarm" && (w.config.ecologyRevision === "observation/4.1" || a.phase >= 3) &&
       ctx.traits.get(a.id)?.ageStage !== "juvenile" && a.role !== "worker" &&
       a.HP >= 70 && a.E >= S.spec(a).birthEnergy*(w.config.ecologyRevision === "observation/4.1"?.65:1) && a.M >= (w.config.ecologyRevision === "observation/4.1"?2:4) && a.birthReady <= w.turn;
+    };
     let mateBonus = 0,
       pairApproach = 0,
       shelterBonus = 0;
     for (const p of v.visibleCells) {
       const a = v.m.main.get(p);
+      const actors=grouped(w)?S.mainAt(v.m,p):[a];
+      for(const a of actors){
       if (!a || a.id === o.id || a.species !== o.species) continue;
       if (
         (o.phase < 3 || a.phase < 3) &&
@@ -535,6 +572,7 @@
       }
       if (o.phase <= 2 && a.phase >= 3 && S.distance(w, to, p) <= 1)
         shelterBonus = Math.max(shelterBonus, 0.1);
+      }
     }
     const direction = move
       ? (() => {
@@ -570,8 +608,7 @@
     if (
       attack &&
       S.nearby(w, here).some((p) => {
-        const a = v.m.main.get(p);
-        return a?.species === o.species && a.phase <= 2;
+        return mainMembers(w,v.m,p).some(a=>a.species===o.species&&a.phase<=2);
       })
     )
       features[0] += 0.1;
@@ -641,6 +678,32 @@
     )
       score += 0.1 * hunger;
     if(c.type === "groom") score += 0.3 + 0.4*(o.weights[4]/100);
+    if(isRyouki(w,o)){
+      const known=cell=>o.ryouki.recentCells.some(a=>a.cell===cell),foodCell=target?.cell??to,
+        foodDistance=S.distance(w,here,foodCell);
+      let branchWeight=1;
+      if(o.phase>=3&&move){
+        if(o.branch3===0&&c.path.some(cell=>!known(cell)))branchWeight*=1.2;
+        else if(o.branch3===1&&Q>0&&known(foodCell))branchWeight*=1.2;
+      }else if(o.phase>=3&&o.branch3===1&&Q>0&&known(foodCell))branchWeight*=1.2;
+      if(o.phase===4){
+        if(o.branch3===0&&move){
+          if(o.branch4===0&&direction>=Math.SQRT1_2-1e-8)branchWeight*=1.3;
+          else if(o.branch4===1&&direction<Math.SQRT1_2-1e-8)branchWeight*=1.2;
+        }else if(o.branch3===1&&Q>0&&
+          ((o.branch4===0&&foodDistance<=1)||(o.branch4===1&&foodDistance>=2&&foodDistance<=3)))branchWeight*=1.25;
+      }
+      // A branch strengthens a useful candidate, without reversing a negative
+      // danger/cost balance or changing the finite cost paid for that action.
+      score+=Math.max(0,score)*(branchWeight-1);c.ryoukiBranchMultiplier=branchWeight;
+      c.ryoukiGoal=(move&&oldT>T)?"回避":(c.type==="harvest"||attack||Q>0)?"採食":"探索";
+      if(o.ryouki.mutated&&o.phase===4&&ctx.traits.get(o.id).ageStage!=="juvenile"){
+        const b=S.spec(o).birth,neededE=o.sex==="male"?b.fatherE:b.motherE;
+        const preparation=pairApproach*Math.max(0,1-oldT)+
+          (o.E<neededE&&(c.type==="harvest"||move)&&Q>0?.25*Q:0);
+        if(preparation>0){score+=(w.config.ryoukiSettings.preparationWeight-1)*preparation;c.ryoukiGoal="繁殖準備";}
+      }
+    }
     const noRandom = score;
     score += (weights[8] / 100) * xi;
     return { score, noRandom, features, xi };
@@ -684,6 +747,10 @@
       }
       if(o.id===ctx.observeId)list.sort((a,b)=>b.score-a.score||a.h-b.h);
       ctx.intents.set(o.id, chosen);
+      if(isRyouki(w,o)){
+        const rec=ctx.records.get(o.id);
+        if(stage!=="effect"||chosen.type!=="stop"||!rec.ryoukiGoal)rec.ryoukiGoal=chosen.ryoukiGoal||"探索";
+      }
       if (chosen.type === "defend") S.record(ctx, o, "defend");
       ctx.records.get(o.id).randomChanged = chosen !== without;
       if (o.id === ctx.observeId)
@@ -705,19 +772,70 @@
         ctx.traits.get(o.id).ageStage !== "juvenile"
       )
         o.maleAbsent = [...v.visibleCells].some((p) => {
-          const t = m.main.get(p);
-          return (
-            t?.species === o.species &&
+          return mainMembers(w,m,p).some(t => (
+            t.species === o.species &&
             t.sex === "male" &&
             (w.config.ecologyRevision === "observation/4.1" || t.phase >= 3) &&
             ctx.traits.get(t.id).ageStage !== "juvenile"
-          );
+          ));
         })
           ? 0
           : Math.min(8, o.maleAbsent + 1);
     }
   }
+  function moveGrouped(w,ctx){
+    const initial=S.maps(w),positions=new Map(),entries=[];
+    for(const o of w.organisms){
+      if(!positions.has(o.slot))positions.set(o.slot,new Map());
+      const cells=positions.get(o.slot);if(!cells.has(o.cell))cells.set(o.cell,[]);cells.get(o.cell).push(o);
+      const c=ctx.intents.get(o.id);
+      if(c.type==="move"&&o.HP>0)entries.push({o,c,from:o.cell,steps:[],cost:0,active:true,limit:ctx.traits.get(o.id).speed,
+        friend:S.nearby(w,o.cell).some(cell=>mainMembers(w,initial,cell).some(a=>a.species===o.species)),
+        h:S.hash(w,"movement/arbitration",w.turn,o.id,c.path)});
+    }
+    const order=entries.slice().sort((a,b)=>a.h-b.h||S.compare(a.o.id,b.o.id));
+    const maximum=Math.max(0,...entries.map(e=>Math.min(e.limit,e.c.path.length)));
+    for(let step=0;step<maximum;step++){
+      const reserved=new Map([...positions].map(([slot,cells])=>[slot,new Map([...cells].map(([cell,list])=>[cell,list.slice()]))])),accepted=[];
+      const mains=reserved.get("main")||new Map(),index={mainByCell:mains,main:new Map([...mains].map(([cell,list])=>[cell,list.at(-1)]))};
+      for(const e of order){
+        if(!e.active||step>=e.c.path.length||step>=e.limit)continue;
+        const cell=e.c.path[step],p=ctx.traits.get(e.o.id),rec=ctx.records.get(e.o.id),budget=ctx.costs.get(e.o.id);
+        if(cell===e.o.cell||!w.tiles[cell]||!S.oneStep(w,e.o.cell,cell)||!S.validHabitat(w,S.spec(e.o),cell)||!S.sight(w,e.o.cell,cell)){
+          e.active=false;rec.failure="RESERVATION_LOST";continue;
+        }
+        const cost=moveCost(w,e.o,cell,p.phase,e.friend,p.ageFactors.move);
+        if(cost>budget.budget-budget.action+1e-8){
+          e.active=false;rec.failure="RESERVATION_LOST";if(isRyouki(w,e.o))rec.ryoukiMoveBudgetLimited=true;continue;
+        }
+        if(!reserved.has(e.o.slot))reserved.set(e.o.slot,new Map());
+        const cells=reserved.get(e.o.slot),occupants=cells.get(cell)||[];
+        if(e.o.slot==="main"?!S.mainRoom(w,e.o,cell,index):occupants.some(a=>a.id!==e.o.id)){
+          e.active=false;rec.failure="RESERVATION_LOST";continue;
+        }
+        cells.set(cell,[...occupants,e.o]);if(e.o.slot==="main")index.main.set(cell,e.o);
+        accepted.push({e,cell,cost});
+      }
+      for(const {e,cell,cost}of accepted){
+        const cells=positions.get(e.o.slot),old=cells.get(e.o.cell).filter(a=>a.id!==e.o.id);
+        if(old.length)cells.set(e.o.cell,old);else cells.delete(e.o.cell);
+        cells.set(cell,[...(cells.get(cell)||[]),e.o]);e.o.cell=cell;e.steps.push(cell);e.cost+=cost;
+        ctx.costs.get(e.o.id).action+=cost;
+      }
+    }
+    for(const e of entries){
+      const {o,c,steps}=e,rec=ctx.records.get(o.id);
+      if(isRyouki(w,o)){rec.ryoukiSteps=steps.slice();rec.ryoukiMoveCost=e.cost;}
+      if(!steps.length)continue;
+      rec.moved=true;rec.newPlace=!o.history.includes(o.cell);o.facing=c.direction;
+      if(rec.newPlace)o.pendingMove={turn:w.turn,expires:w.turn+3,cell:o.cell};
+      o.history.push(o.cell);o.history=o.history.slice(-4);
+      S.record(ctx,o,"move",{from:e.from,to:o.cell,path:steps.slice()});
+    }
+    ctx.current=S.maps(w);
+  }
   function move(w, ctx) {
+    if(grouped(w))return moveGrouped(w,ctx);
     const votes = new Map(),
       list = [];
     for (const o of w.organisms) {
@@ -871,7 +989,7 @@
       if (rec.cared) delta[3] += 2;
       if (
         rec.mitigated >= 2 &&
-        S.nearby(w, o.cell).some((p) => m.main.get(p)?.species === o.species)
+        S.nearby(w, o.cell).some(p => mainMembers(w,m,p).some(a=>a.species===o.species))
       )
         delta[3]++;
       const previous = o.survival;
@@ -899,7 +1017,7 @@
         o.survival = { enemy: rec.hitBy, turn: w.turn, escaped: false };
       rec.delta = delta.map((v) => S.clamp(v, -2, 2));
       own.set(o.id, rec.delta);
-      rec.category =
+      rec.category = isRyouki(w,o)?null:
         rec.dealt >= 2 || rec.mitigated >= 2
           ? 2
           : rec.escaped || (rec.moved && rec.organic > 0)
@@ -916,7 +1034,7 @@
         const contacts = [];
         for (const p of S.nearby(w, o.cell))
           if (S.oneStep(w, o.cell, p)) {
-            const a = m.main.get(p);
+            for(const a of mainMembers(w,m,p))
             if (a?.species === o.species && own.has(a.id))
               own.get(a.id).forEach((v, i) => {
                 if (v)

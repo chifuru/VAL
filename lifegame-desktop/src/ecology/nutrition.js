@@ -8,6 +8,7 @@
   else root.EcoNutrition = api;
 })(globalThis, function (S) {
   "use strict";
+  const isRyouki=(w,o)=>S.Ryouki?.enabled(w)===true&&S.Ryouki.is(o);
   function efficiency(o, tag, phase = o.phase) {
     const s = S.spec(o);
     if (s.group === "prey") return tag === "plant" ? 0.65 : 0;
@@ -29,7 +30,7 @@
             factor *
             (0.9 + 0.2 * o.dna.aptitude) *
             (tag === "plant" ? 1 + S.trait(o, "plant", phase) : 1) *
-            (o.branch3 === 0 && o.branch4 === 0 ? 1.1 : 1) *
+            (!S.Ryouki?.is(o) && o.branch3 === 0 && o.branch4 === 0 ? 1.1 : 1) *
             (s.id === "precocial" && o.phase === 3 && o.branch3 === 0
               ? 1.05
               : 1),
@@ -69,7 +70,7 @@
           (options.healing || 1) *
           p.ageFactors.healing *
           (1 + S.trait(o, "healing", phase)) *
-          (o.branch3 === 0 && o.branch4 === 1 ? 1.2 : 1),
+          (!isRyouki(w,o) && o.branch3 === 0 && o.branch4 === 1 ? 1.2 : 1),
       );
       healed = Math.min(p.maxHP - o.HP, remaining * rate);
       const used = S.round(healed / rate);
@@ -100,11 +101,11 @@
       let g = options.carcass
         ? amount.G * eta
         : e * (tag === "animal" ? 1 + S.trait(o, "animalG", phase) : 1);
-      if (o.factor && o.factor.expires > w.turn && e > 0) {
+      if (!isRyouki(w,o) && o.factor && o.factor.expires > w.turn && e > 0) {
         g += o.factor.level;
         o.factor = null;
       }
-      const addG = Math.min(300 - o.G, g);
+      const addG = isRyouki(w,o)?0:Math.min(300 - o.G, g);
       o.G = S.round(o.G + addG);
       if (rec) {
         rec.relieved = rec.relieved || (beforeE < 35 && o.E >= 35);
@@ -200,6 +201,7 @@
     if(plant && S.ProducerSupport.factor(w,o,S)===0)return list;
     function organicAllowed(tag) {
       if (plant) return false;
+      if (isRyouki(w,o)) return ["plant","animal"].includes(tag);
       if (spec.id === "kelp") return tag === "animal";
       return main || fungus || (spec.group === "prey" && tag === "plant");
     }
@@ -211,6 +213,7 @@
     for (const p of cells) {
       for (const a of m.resources.get(p) || []) {
         const f = S.FOOD[a.kind];
+        if(isRyouki(w,o)&&f.tag!=="mineral")continue;
         if (a.q <= 0 || (a.E <= 0 && a.M <= 0 && a.kind !== "factor")) continue;
         if (plant && f.tag !== "mineral") continue;
         if (["plant", "fungal", "animal"].includes(f.tag) && !organicAllowed(f.tag)) continue;
@@ -262,6 +265,7 @@
         });
       }
       for (const a of m.carcasses.get(p) || []) {
+        if(isRyouki(w,o)&&(S.D.byId[a.species]?.group!=="prey"||!(a.G>0)))continue;
         if (
           !organicAllowed(a.tag) ||
           (a.species === o.species && !fungus) ||
@@ -327,6 +331,7 @@
       const target = m.byId.get(intent.target);
       if (
         target &&
+        (!isRyouki(w,o)||["plant","prey"].includes(S.spec(target).group)) &&
         organicAllowed(S.spec(target).tag) &&
         target.HP > 0 &&
         S.edibleB(target) > 0 &&
@@ -352,6 +357,12 @@
         if(!target||target.HP<=0||S.edibleB(target)<=0||!organicAllowed("plant")||!S.oneStep(w,o.cell,cell)||list.some(a=>a.id===target.id))continue;
         list.push({type:"plant",id:target.id,obj:target,cell,tag:"plant",amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB-S.PLANT_BASE),healing:1});
       }
+    }
+    if(isRyouki(w,o))for(const cell of S.nearby(w,o.cell,1,true)){
+      const target=(m.prey||m.food).get(cell);
+      if(!target||target.HP<=0||S.spec(target).group!=="prey"||S.edibleB(target)<=0||
+          !S.oneStep(w,o.cell,cell)||list.some(a=>a.id===target.id))continue;
+      list.push({type:"plant",id:target.id,obj:target,cell,tag:"animal",amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB),healing:1});
     }
     return list;
   }
@@ -389,7 +400,8 @@
           visible *
           efficiency(o, a.tag, p.phase) *
           (a.type === "carcass" ? S.D.diets[s.diet]?.carcass || 1 : 1) *
-          (o.HP < 50 ? a.healing : 1),
+          (o.HP < 50 ? a.healing : 1) *
+          (isRyouki(w,o)?a.tag==="plant"?.65:a.tag==="animal"?.35:1:1),
         h: S.hash(w, "feeding/choice", w.turn, o.id, a.id),
       };
     }
@@ -451,7 +463,7 @@
               o.E +
               (2 * (p.maxHP - o.HP)) / (a.healing * p.ageFactors.healing);
           const B = Math.min(
-              S.LargePlant.is(obj)?2*S.phenotype(w,obj).biteFactor:2,
+              isRyouki(w,o)?(o.ryouki.mutated?w.config.ryoukiSettings.mutatedBiteB:w.config.ryoukiSettings.biteB)*(S.LargePlant.is(obj)?S.phenotype(w,obj).biteFactor:1):S.LargePlant.is(obj)?2*S.phenotype(w,obj).biteFactor:2,
               S.edibleB(obj),
               S.spec(o).group === "prey"
                 ? Math.max(0, S.round(need / efficiency(o, a.tag, p.phase)))
@@ -472,10 +484,15 @@
             M: S.round((obj.M || 0) / obj.q),
             G: S.round((obj.G || 0) / obj.q),
           };
+          // Existing carcass G is the finite transferred body B. Reserve E and M
+          // follow the same partial ration; neither a roommate nor a second bite copies it.
+          const fraction=isRyouki(w,o)&&a.type==="carcass"?
+            Math.min(1,(o.ryouki.mutated?w.config.ryoukiSettings.mutatedBiteB:w.config.ryoukiSettings.biteB)/amount.G):1;
+          if(fraction<1)for(const k of ["E","M","G"])amount[k]=S.round(amount[k]*fraction);
           obj.E = S.round(Math.max(0, (obj.E || 0) - amount.E));
           obj.M = S.round(Math.max(0, (obj.M || 0) - amount.M));
           obj.G = S.round(Math.max(0, (obj.G || 0) - amount.G));
-          obj.q--;
+          if(fraction<1)obj.q=S.round(obj.q-fraction);else obj.q--;
           if (!obj.q) ctx.exhausted.add(obj.cell + ":" + obj.kind);
         }
         let assimilated=0;
@@ -511,6 +528,7 @@
           amount: amount.E,
           material: amount.M,
           tag: a.tag,
+          ...(isRyouki(w,o)?{consumedB:a.type==="plant"?harvest.consumedB:a.type==="carcass"?amount.G:0}:{}),
         });
         ctx.records.get(o.id).bites++;
       }
@@ -534,10 +552,19 @@
     S.dissipate(w, paid);
     return paid;
   }
+  function deathAppearance(w, o) {
+    return {
+      species:o.species,phase:o.phase,branch3:o.branch3,branch4:o.branch4,
+      sex:o.sex,role:o.role,age:o.age,birthLife:o.birthLife,facing:o.facing,
+      dna:{...o.dna},
+      ...(isRyouki(w,o)?{ryouki:{version:o.ryouki.version,mutated:o.ryouki.mutated}}:{})
+    };
+  }
   function carcass(w, o, ctx) {
     if(S.Colony.is(o)&&o.colony.edibleExposure){S.dissipate(w,o.colony.edibleExposure.E);o.colony.edibleExposure=null;}
     const same = w.carcasses.find(
-      (a) => a.cell === o.cell && a.slot === o.slot,
+      (a) => a.cell === o.cell && a.slot === o.slot &&
+        (!(S.Ryouki?.enabled(w)&&o.slot==="main")||a.id==="c:"+o.id+":"+w.turn),
     );
     if (same) {
       removeResource(w, same);
@@ -566,6 +593,7 @@
       infection: null,
       payloadExpires: null,
     };
+    if(isRyouki(w,o))a.appearance=deathAppearance(w,o);
     S.dissipate(w, o.E + o.B - a.E);
     S.addSoil(w, o.cell, o.M - a.M);
     const p = o.infection;
@@ -591,6 +619,7 @@
       if (["stop", "defend"].includes(intent.type))
         base *= 1 + S.trait(o, "rest", p.phase);
       const paidBase=spend(w, o, base);
+      if(isRyouki(w,o))ctx.records.get(o.id).ryoukiMaintained=paidBase>=S.round(base)&&o.HP>0;
       if(S.Colony.is(o)){
         const maintained=paidBase>=S.round(base)&&o.HP>0;
         o.colony.activity=S.round(S.clamp(o.colony.activity+(maintained?.02:-.05),0,1));
@@ -613,11 +642,7 @@
       if(!reason&&S.LargePlant.is(o)&&o.plant.activity<=0)reason="starvation";
       if (!reason && !S.Colony.is(o) && o.age >= p.life) reason = "age";
       if (reason) {
-        S.record(ctx, o, "death", { reason, appearance: {
-          species:o.species,phase:o.phase,branch3:o.branch3,branch4:o.branch4,
-          sex:o.sex,role:o.role,age:o.age,birthLife:o.birthLife,facing:o.facing,
-          dna:{...o.dna}
-        } });
+        S.record(ctx, o, "death", { reason, appearance: deathAppearance(w,o) });
         ctx.deaths.push({ species: o.species, reason, ...(o.producerReserve===0?{environmentCause:"basal-nutrition-exhausted"}:{}), ...(w.config.ecologyRevision === "observation/4.1" ? {id:o.id,generation:o.generation,ageStage:ctx.traits.get(o.id).ageStage} : {}) });
         carcass(w, o, ctx);
       } else survivors.push(o);

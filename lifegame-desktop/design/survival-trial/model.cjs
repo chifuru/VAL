@@ -32,7 +32,7 @@ function model(flags={}){
       if(flags.budget){if(!source.includes('? 0.1\n              : neighborCount'))source=replace(source,'? 0.5\n              : neighborCount','? 0.1\n              : neighborCount');source=replace(source,'? 1.5 * w.tiles[o.cell].light','? 0.8 * w.tiles[o.cell].light');}
       if(flags.routes)source=replace(source,'    P.mature(w, ctx);','    P.contacts(w,ctx);\n    P.mature(w, ctx);');
     }
-    if(name==="behavior"&&flags.budget)source=replace(source,'      terrain *\n      environmental','      0.8 * terrain *\n      environmental');
+    if(name==="behavior"&&flags.budget)source=replace(source,'      (terrain *\n        environmental','      (0.8 * terrain *\n        environmental');
     if(name==="nutrition"){
       if(flags.budget)source=replace(source,'          0.5 *\n            factor *\n            (0.9 + 0.2 * o.dna.aptitude)','          0.6 *\n            factor *\n            (0.9 + 0.2 * o.dna.aptitude)');
       if(flags.routes){source=replace(source,'if (p && (w.config.ecologyRevision === "observation/4.1" ? p.counter >= ({first:4,middle:6,extra:6,terminal:8}[p.stage]) : ["middle", "extra"].includes(p.stage) && p.counter >= 6))','if (p)');source=replace(source,'a.payloadExpires = w.turn + 4;','a.payloadExpires = w.turn + 16;');source=replace(source,'expires: w.turn + 12,','expires: w.turn + 20,');}

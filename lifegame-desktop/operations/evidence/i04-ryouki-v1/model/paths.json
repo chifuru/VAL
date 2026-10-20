@@ -1,0 +1,226 @@
+{
+  "baseline": "04b7bf6 / 4.2.35",
+  "legacyStates": 168,
+  "ryoukiStates": 40,
+  "scope": "legacy/I02/I03 exact world/CSV parity; all8 Ryouki static/dynamic profiles",
+  "legacy": [
+    {
+      "bits": 0,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "2c69c8101a4df01e2a6faf6755e7ff2389b79bffbc091e51a7541240426205ef"
+    },
+    {
+      "bits": 0,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "ba324342611dec6b55ab2716ae5bfd1204eefdb254a7e13caa9a91fdfa9aeedc"
+    },
+    {
+      "bits": 0,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "00fa58dfb1b14deed58e13465f19dfc2ad9d1ba67d0a5a01d71d071173cacf2f"
+    },
+    {
+      "bits": 1,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "588a06c0e3ac0b5d01b5c59836da38e7c44230e7d366e8ce2b135ea549fc4901"
+    },
+    {
+      "bits": 1,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "104714c8164df724b89945d7b3fb8317cc3dfa5552bf5db10bcaee1c24576270"
+    },
+    {
+      "bits": 1,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "7f8d900434d49fadca14a6f57b7b88f1513c33fe707b6ac7916e8a9acfca4dd2"
+    },
+    {
+      "bits": 2,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "0ce51a688a9a3b2dc2691ec6c590cf20a53ebd94eb591ac282a99c4dde3b9807"
+    },
+    {
+      "bits": 2,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "985eb8338878d3c46fc64b63d84f9787c34766d824552d209a75ce09ba69b6f0"
+    },
+    {
+      "bits": 2,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "9f374396bb36cc1f6a29f06b7a4b8a279cf17e91a0e0004ab16b1003b9601a3b"
+    },
+    {
+      "bits": 3,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "8dc8769e73ca7491086f25b93dbe65942f64bfe05814852e7b94b6b27fae40c4"
+    },
+    {
+      "bits": 3,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "a35572ef78c4eb35e1d60486aa568e2fb04b996a06855ecf475d41a9375baf12"
+    },
+    {
+      "bits": 3,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "602dce0cea4d479580fba721f9190a699f5e1a81d783120bbf914dab05ad8ef7"
+    },
+    {
+      "bits": 4,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "340f23045f07ea904f64b7db05e23e6a24d4ab0bba1651ddd4532af07fea1e76"
+    },
+    {
+      "bits": 4,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "31b6776e86818f035227e21b337dd03346d7e745c4a03af794007c6524f7cf5b"
+    },
+    {
+      "bits": 4,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "ea5c0c6f0a0094ec670f4c26e1f6220f80d0c601e919492c30a087a2dc88b1db"
+    },
+    {
+      "bits": 5,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "9247d933fd019958fe8b33df6bf8826422df629427319c0620ca8fbd588a0bd1"
+    },
+    {
+      "bits": 5,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "46e4c759cad1e11805a604ed5dcc40d3a404b8c72d59740df5f76e1c648427d7"
+    },
+    {
+      "bits": 5,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "3c588c2cb384baf886e27d8728e5dab3168a518bb4f442a98cf744be81ae85bf"
+    },
+    {
+      "bits": 6,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "e6fc767b7c2811ff67a0f429034d8e029ea7e02500f678f20a12b1b88b40d331"
+    },
+    {
+      "bits": 6,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "6508c8262df189a0887c1c2b8a03585ac142f782f834729161f470714bab447c"
+    },
+    {
+      "bits": 6,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "2d690c34580bf8cad83945c03452e5c6ff98b16bf95208233ce61394797be9b0"
+    },
+    {
+      "bits": 7,
+      "mode": 0,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "e31836519cd58d83223105376a439b39c90299fbace2d5692609e8a15c3061d1"
+    },
+    {
+      "bits": 7,
+      "mode": 1,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "fd583c567adcaf7ffd0954923b5926b6f9f183d71a8fe8c999039f52e0eac74c"
+    },
+    {
+      "bits": 7,
+      "mode": 2,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "d55a7a96493c8aff6dced2bf79027ebe2bc8953c2121b7f8e7f78fedba92b0bf"
+    }
+  ],
+  "ryouki": [
+    {
+      "bits": 0,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "ad735295427375d19a86387ea7bab88e03e5494fde02439474224b4ffdff0e46"
+    },
+    {
+      "bits": 1,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "5e3f20584111540a6d5ce6da1867bd7d08440b6d51b9da7f6970ea2c4236af4a"
+    },
+    {
+      "bits": 2,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "fb3e5ab1ee6b406b45d52b0c1c241f8ab80cc6cd8a5c4e15add2845f428809dc"
+    },
+    {
+      "bits": 3,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "28d67924685ca4a7ef028b2527be1e4e7394a951fe839feeb3cb6b4b60da3c77"
+    },
+    {
+      "bits": 4,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "a7f03626bef93cf867f9a30f7d1af29d305959135385e446dfde92c32f14901c"
+    },
+    {
+      "bits": 5,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "9f593da3be7e7a157bc1cccb7d7acb3aa3c84b8bb9ec9c42e59f08743b08d936"
+    },
+    {
+      "bits": 6,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "9691c4929b0c04017fc26dbd6097b6c1f82080dab03af9ab2fc8c8cf58a94301"
+    },
+    {
+      "bits": 7,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "86688cfdc429510dcd513406b2f9833a1e5f251b8d4a434dd5f0bf134f57d0df"
+    }
+  ]
+}

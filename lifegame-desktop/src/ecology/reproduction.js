@@ -17,6 +17,7 @@
       : null;
   }
   function growth(w, ctx) {
+    S.Ryouki.finalize(w,ctx);
     for (const o of w.organisms) {
       if (!ctx.traits.has(o.id)) continue;
       const s = S.spec(o),
@@ -24,6 +25,7 @@
         rec = ctx.records.get(o.id),
         old = p.phase;
       if(S.LargePlant.is(o))continue;
+      if(S.Ryouki.is(o))continue;
       if (s.group !== "main") {
         if(S.Colony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
@@ -134,6 +136,11 @@
     const s = S.spec(o),
       rec = ctx.records.get(o.id),
       p = ctx.traits.get(o.id);
+    if(S.Ryouki.is(o)){
+      const b=s.birth,mother=o.sex==="female";
+      return !asexual&&!!rec&&o.HP>0&&p.ageStage!=="juvenile"&&o.HP>=.7*p.maxHP&&o.birthReady<=w.turn&&
+        o.E>=(mother?b.motherE:b.fatherE)&&o.M>=(mother?b.motherM:b.fatherM)&&birthPressure(w,o,ctx).allowed;
+    }
     if(p?.ageStage === "juvenile" || (s.group === "plant" && S.ProducerSupport.factor(w,o,S)===0))return false;
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
@@ -180,13 +187,19 @@
           }
       }
       if (!m.main.has(cell) && w.config.enabled.main) {
+        if(S.Ryouki.enabled(w)&&S.validHabitat(w,S.D.ryouki,cell)){
+          const peers=near.flatMap(p=>S.mainAt(m,p)).filter(o=>S.Ryouki.is(o));
+          for(const mother of peers)if(mother.sex==="female"&&eligible(w,mother,ctx)&&S.oneStep(w,mother.cell,cell))
+            for(const father of peers)if(father.sex==="male"&&eligible(w,father,ctx)&&S.oneStep(w,father.cell,cell)&&S.oneStep(w,mother.cell,father.cell))
+              local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
+        }
         if([2,3].includes(mains.length))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
             local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
         if ([2, 3].includes(mains.length))
           for (const mother of mains)
             if (
-              mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
+              !S.Ryouki.is(mother) && mother.sex === "female" && !(mother.species === "swarm" && mother.sperm?.uses>0) &&
               eligible(w, mother, ctx) &&
               S.oneStep(w, mother.cell, cell)
             )
@@ -278,6 +291,7 @@
     return a.kind - b.kind || a.h - b.h || S.compare(a.key, b.key);
   }
   function child(w, c, ctx) {
+    if(c.species==="ryouki")return ryoukiChild(w,c,ctx);
     const s = S.D.byId[c.species],
       mother = c.parents[0],
       father = c.parents[1] || c.fatherReference || mother,
@@ -375,8 +389,37 @@
     if(c.kind===3){mother.sperm.uses--;w.colonyMating.storedBirths++;}
     return o;
   }
+  function ryoukiChild(w,c,ctx){
+    const s=S.D.ryouki,b=s.birth,mother=c.parents[0],father=c.parents[1],
+      id="b:"+w.turn+":"+c.slot+":"+Math.floor(c.cell/w.config.width)+":"+(c.cell%w.config.width),dna={};
+    for(const [i,axis]of S.DNA.entries()){
+      const big=S.r(w,"birth/mutation-kind",w.turn,id,null,i)<.01,range=big?.05:.02;
+      dna[axis]=S.round(S.clamp((mother.dna[axis]+father.dna[axis])/2+(2*S.r(w,"birth/dna",w.turn,id,null,i)-1)*range));
+    }
+    const birthWeights=s.weights.map((v,i)=>S.round(S.clamp(.75*v+.25*(mother.birthWeights[i]+father.birthWeights[i])/2+(4*S.r(w,"birth/weights",w.turn,id,null,i)-2),0,100)));
+    const o=S.organism(w,s,c.cell,id,{phase:1,age:0,G:0,dna,birthWeights,weights:birthWeights.slice(),
+      sex:S.r(w,"birth/sex",w.turn,id)<.5?"female":"male",E:b.childE,B:b.childB,M:b.childM,HP:s.capacity[3],
+      generation:Math.max(mother.generation,father.generation)+1,parents:[mother.id,father.id]});
+    c.parents.forEach((parent,i)=>{
+      parent.E=S.round(parent.E-b.costsE[i]);parent.M=S.round(parent.M-b.costsM[i]);ctx.parents.add(parent.id);
+      parent.birthReady=w.turn+Math.ceil(ctx.traits.get(parent.id).cooldown)+1;parent.firstBirthAt??=w.turn;
+    });
+    S.dissipate(w,b.dissipatedE);S.record(ctx,o,"birth",{parents:o.parents});return o;
+  }
   function blockers(w,o,ctx,m=S.maps(w)) {
     const s=S.spec(o),p=ctx.traits.get(o.id)||S.phenotype(w,o),reasons=[];
+    if(S.Ryouki.is(o)){
+      const b=s.birth,mother=o.sex==="female",near=S.nearby(w,o.cell,1,true).flatMap(cell=>S.mainAt(m,cell));
+      if(p.ageStage==="juvenile")reasons.push("未成熟");
+      if(o.HP<.7*p.maxHP)reasons.push("健康不足");
+      if(o.E<(mother?b.motherE:b.fatherE))reasons.push("栄養不足");
+      if(o.M<(mother?b.motherM:b.fatherM))reasons.push("鉱物不足");
+      if(o.birthReady>w.turn)reasons.push("待機中");
+      if(!near.some(a=>a.id!==o.id&&S.Ryouki.is(a)&&a.sex!==o.sex&&eligible(w,a,ctx)&&S.oneStep(w,o.cell,a.cell)))reasons.push("局所配偶相手なし");
+      if(!S.nearby(w,o.cell).some(cell=>!m.main.has(cell)&&S.validHabitat(w,s,cell)&&S.oneStep(w,o.cell,cell)))reasons.push("出生場所不足");
+      if(!birthPressure(w,o,ctx).allowed)reasons.push("混雑・栄養収支による出生調整");
+      return reasons;
+    }
     if(p.ageStage==="juvenile")reasons.push("未成熟");
     if(o.HP<70)reasons.push("健康不足");if(o.E<s.birthEnergy*(w.config.ecologyRevision === "observation/4.1"?.65:1))reasons.push("栄養不足");if(o.M<(o.sperm?.uses>0?4:2))reasons.push("鉱物不足");
     if(o.birthReady>w.turn)reasons.push("待機中");if(o.role==="worker")reasons.push("非繁殖階級");if(ctx.records.get(o.id)?.damage>0)reasons.push("当日被害");

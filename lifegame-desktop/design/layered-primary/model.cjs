@@ -18,9 +18,9 @@ function model(options={}){
    source=change(source,'return { main, food, byId, resources, carcasses };','return { main, food, prey, byId, resources, carcasses };');
   }
   if(name==='behavior'){
-   source=change(source,'occupied.has(cell) ||','occupied.has(cell) || !S.validHabitat(w, s, cell) ||');
+   source=change(source,'            !S.oneStep(w, prev, cell)','            !S.validHabitat(w, s, cell) ||\n            !S.oneStep(w, prev, cell)');
    source=change(source,'o.slot === "main" ? m.main : m.food','o.slot === "main" ? m.main : m.prey');
-   source=change(source,'for (const target of [main, food])','for (const target of [main, m.prey.get(cell)])');
+   source=change(source,'[main, food]','[main, m.prey.get(cell)]');
    source=change(source,'[m.main.get(p), m.food.get(p)]','[m.main.get(p), m.prey.get(p)]');
    source=change(source,'o.slot === "main" ? v.m.main : v.m.food','o.slot === "main" ? v.m.main : v.m.prey');
    source=change(source,'const prey = v.m.food.get(cell);','const prey = v.m.prey.get(cell);');

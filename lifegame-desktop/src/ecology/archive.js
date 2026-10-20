@@ -11,7 +11,10 @@
  const colonyBuildSignature="29d8a966b7f9dcf86b26c5f40bd11967633dc9d8c52971720e584e8f0f7e23d5";
  // I03 preserves both old paths only when the recorded world has no new plant options.
  const independentBuildSignature="8b9c50044add0f60ae755bad650ae037500ede82cec32503b850a6d7ae8d798c";
+ // Only flagless records may use the pre-Ryouki biological path.
+ const ryoukiBuildSignature="952b362eb16d6822343c6e739f37e6057fed6eef9067cb7c684bc3e224169efb";
  function canonicalSignature(s,config){
+  if(s===ryoukiBuildSignature&&config.ryoukiModel===undefined&&config.ryoukiSettings===undefined)s=independentBuildSignature;
   if(s===independentBuildSignature&&config.largePlantModel===undefined&&config.largePlantSettings===undefined)s=colonyBuildSignature;
   return s===colonyBuildSignature&&config.producerModel===undefined&&config.producerSettings===undefined
    ? "8d7f6fbd94128cebf77ab6032098e09a432bc13d8cb2552222b0546971e84745" : equivalentReplaySignatures[s]||s;
@@ -26,6 +29,9 @@
   function capture(world,reason,observation,originRecordId=null){
     const fingerprint=engine.fingerprint(world),record={schema:1,id:fingerprint,signature,config:structuredClone(world.config),turn:world.turn,reason,created:new Date().toISOString(),final:{counts:{...world.stats.counts},main:world.stats.main,food:world.stats.food,P:world.stats.P,Q:world.stats.Q}};
     if(observation){
+      const ryoukiDefinition=observation.definitions?.ryouki,ryoukiModel=world.config.ryoukiModel==='ryouki/1';
+      if((ryoukiDefinition!==undefined&&ryoukiDefinition!=="ryouki-observed/1")||ryoukiModel!==(ryoukiDefinition!==undefined)||
+        (ryoukiModel&&(!Array.isArray(observation.rows)||observation.rows.some(r=>r.ryouki?.definition!==ryoukiDefinition||r.ryouki.turn!==r.turn))))throw Error("量機の全期間観測・定義版が揃っていないため保存できません。");
       const plantDefinition=observation.definitions?.independentPlants,plantModel=world.config.largePlantModel==='independent/1';
       if((plantDefinition!==undefined&&plantDefinition!=="independent-plant-observed/1")||plantModel!==(plantDefinition!==undefined)||
         (plantModel&&(!Array.isArray(observation.rows)||observation.rows.some(r=>r.independentPlants?.definition!==plantDefinition||r.independentPlants.turn!==r.turn))))throw Error("独立植物の全期間観測・定義版が揃っていないため保存できません。");
@@ -35,6 +41,7 @@
       if(observation.schema!=="observation-snapshot/1"||observation.definitions?.current!=="ecosystem-current/1"||observation.definitions?.trophic!=="trophic-observed/1"||observation.definitions?.nutrition!=="nutrition-observed/1"||(observation.definitions.information!==undefined&&observation.definitions.information!=="information-observed/1")||(observation.definitions.combat!==undefined&&observation.definitions.combat!=="combat-observed/1")||observation.metadata?.version!==signature||JSON.stringify(observation.metadata?.config)!==JSON.stringify(world.config)||!Array.isArray(observation.rows)||observation.rows.length!==world.turn+1||observation.rows.some((r,i)=>r.turn!==i))throw Error("全期間観測が揃っていないため保存できません。");
       record.schema=2;record.id='record:'+globalThis.crypto.randomUUID();record.finalFingerprint=fingerprint;record.originRecordId=originRecordId;record.observation=structuredClone(observation);record.hasObservations=true;
       if(plantModel)record.final.independentPlants=structuredClone(observation.rows.at(-1).independentPlants);
+      if(ryoukiModel)record.final.ryouki=structuredClone(observation.rows.at(-1).ryouki);
       const current=observation.rows.at(-1).current;record.final.counts={...current.counts};record.final.P=current.groups.find(g=>g.id==='P')?.count||0;record.final.Q=current.groups.find(g=>g.id==='Q')?.count||0;
       Object.assign(record.final,{stats:structuredClone(world.stats),ledger:structuredClone(world.ledger),tallies:structuredClone(world.tallies),demography:structuredClone(world.demography),current:structuredClone(observation.rows.at(-1).current)});
     }

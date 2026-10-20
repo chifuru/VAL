@@ -110,7 +110,7 @@
       if (!entry || source.HP <= 0 || ctx.movedInfections.has(p.id) || entry.counter < required[entry.stage] || (p.contactReady || 0) > w.turn) continue;
       const matureTerminal = entry.stage === "terminal", radius = matureTerminal ? 2 : 1;
       for (const cell of S.nearby(w, source.cell, radius, true)) {
-        for (const target of [m.main.get(cell), m.food.get(cell)]) {
+        for (const target of (S.Ryouki?.enabled(w)?[...S.mainAt(m,cell),m.food.get(cell),m.prey?.get(cell)]:[m.main.get(cell), m.food.get(cell)])) {
           if (!target || target.HP <= 0 || target.infection || !S.sight(w, source.cell, target.cell)) continue;
           const stage = contactStage(p, target, matureTerminal, w.config.ecologyRevision === "observation/4.1");
           if (!stage) continue;
@@ -531,7 +531,7 @@
       if(q.E<=0 || q.expires<=w.turn){S.dissipate(w,q.E);ctx.deaths.push({species:"hyperparasite",reason:"age"});continue;}
       const target=infected.filter(o=>!occupied.has(o.id)&&S.distance(w,q.cell,o.cell)<=1&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.compare(a.id,b.id))[0];
       if(target && q.E>=.02){q.E=S.round(q.E-.02);S.dissipate(w,.02);q.hostId=target.infection.id;delete q.cell;delete q.expires;target.infection.q=q;occupied.add(target.id);S.record(ctx,target,"infection",{parasite:q.id,species:"hyperparasite",stage:"window",target:target.infection.id});continue;}
-      const map=searchMap,cue=S.nearby(w,q.cell,3,true).map(c=>map.main.get(c)).filter(o=>o?.infection?.stage==="terminal"&&o.infection.counter>=5&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
+      const map=searchMap,cue=(S.Ryouki?.enabled(w)?S.nearby(w,q.cell,3,true).flatMap(c=>S.mainAt(map,c)):S.nearby(w,q.cell,3,true).map(c=>map.main.get(c))).filter(o=>o?.infection?.stage==="terminal"&&o.infection.counter>=5&&S.sight(w,q.cell,o.cell)).sort((a,b)=>S.distance(w,q.cell,a.cell)-S.distance(w,q.cell,b.cell)||S.compare(a.id,b.id))[0];
       const moves=S.nearby(w,q.cell).filter(c=>S.oneStep(w,q.cell,c));
       if(moves.length && q.E>.001){const c=moves.sort((a,b)=>(cue?S.distance(w,a,cue.cell)-S.distance(w,b,cue.cell):0)||S.hash(w,"hyper/search",w.turn,q.id,a)-S.hash(w,"hyper/search",w.turn,q.id,b))[0];q.cell=c;q.E=S.round(q.E-.001);S.dissipate(w,.001);}
       next.push(q);
