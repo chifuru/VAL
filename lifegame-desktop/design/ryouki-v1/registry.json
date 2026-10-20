@@ -1,5 +1,5 @@
 {
-  "version": "ryouki-art/1",
+  "version": "ryouki-art/2",
   "specification": "../specification/ryouki-v1.md",
   "kind": "concept-reference-not-runtime-atlas",
   "artifacts": [
@@ -117,6 +117,35 @@
         "全体"
       ],
       "excluded_content": []
+    },
+    {
+      "file": "../ryouki-branches-v2/01-third-phase-proposal.png",
+      "source_filename": "exec-042f6347-f10f-4bc1-a135-9400ff8efa57.png",
+      "status": "proposal",
+      "title": "第三相3枝の輪郭・支持構造比較",
+      "bytes": 2415091,
+      "sha256": "0ba617ff7f555f2344444a8e02153a0752a04a4881e7868b207e612b9d6c6cbf",
+      "selected_content": [
+        "左III-1/中央III-2/右III-3の全景と俯瞰"
+      ],
+      "excluded_content": [
+        "能力値/実寸/占有セル数の確定値としては使わない"
+      ]
+    },
+    {
+      "file": "../ryouki-branches-v2/02-fourth-phase-proposal.png",
+      "source_filename": "exec-62c9e783-91bf-4d3d-801f-294e7791f22f.png",
+      "status": "proposal",
+      "title": "第四相6枝の輪郭・支持構造比較",
+      "bytes": 2521788,
+      "sha256": "685343015e54fc9d468e5313a71cc983b4c470fdcb389a0d8c08d7a60b18c250",
+      "selected_content": [
+        "左列IV-1/2・中央列IV-3/4・右列IV-5/6の全景と真上図"
+      ],
+      "excluded_content": [
+        "能力値/実寸/占有セル数の確定値としては使わない",
+        "IV-1見出しの「広域探・直進」は一字欠け。正式名は「広域探索・直進」"
+      ]
     }
   ]
 }
