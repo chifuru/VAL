@@ -34,6 +34,12 @@ for (const [id, f] of Object.entries(m.creatures.regions))
 for (const f of Object.values(m.food.regions)) frames("food-atlas", f);
 frames("habitat-props", m.props.regions);
 for (const b of Object.values(m.branches)) frames(b.sheet, b.regions);
+for (const [id,p] of Object.entries(m.producers||{})) {
+  assert.equal(p.regions.length,11,id+' independent form count');
+  assert.equal(p.references.length,11,id+' adopted reference count');
+  frames(p.sheet,p.regions);
+  for(const reference of p.references)frames(reference.sheet,[reference.region]);
+}
 for (const [name, v] of Object.entries(m.terrain || {}))
   assert.ok(
     m.sheets[v.sheet] && m.sheets[v.sheet].width >= 1024,
@@ -54,7 +60,7 @@ console.log(
     sheets: Object.keys(m.sheets).length,
     organismFamilies:
       Object.keys(m.creatures.regions).length +
-      Object.keys(m.food.regions).length,
+      Object.keys(m.food.regions).length + Object.keys(m.producers||{}).length,
     phaseFrames: Object.values(m.creatures.regions).reduce(
       (n, a) => n + a.length,
       0,
@@ -62,5 +68,7 @@ console.log(
     dedicatedBranchFamilies: Object.keys(m.branches).length,
     dedicatedBranchFrames: Object.values(m.branches).reduce((n,b)=>n+b.regions.length,0),
     paintedTerrainMaterials: Object.keys(m.terrain || {}).length,
+    independentProducerFamilies: Object.keys(m.producers||{}).length,
+    independentProducerFrames: Object.values(m.producers||{}).reduce((n,p)=>n+p.regions.length,0),
   }),
 );

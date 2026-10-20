@@ -1,0 +1,962 @@
+{
+  "version": "independent-plant-runtime-art/1",
+  "kind": "provisional-static-extraction-not-final-all-age-or-direction-art",
+  "panels": [
+    "I",
+    "II",
+    "III-1",
+    "III-2",
+    "III-3",
+    "IV-1a",
+    "IV-1b",
+    "IV-2a",
+    "IV-2b",
+    "IV-3a",
+    "IV-3b"
+  ],
+  "sources": [
+    {
+      "file": "design/creature-design-review-v3/03-land-plants.png",
+      "sha256": "b4738dc17f20fadf7ce2c608729f290fadda7612a1b89dd02879171fdcc0c866",
+      "runtimeCopy": "src/assets/plant-land-reference-v1.png",
+      "copySha256": "b4738dc17f20fadf7ce2c608729f290fadda7612a1b89dd02879171fdcc0c866"
+    },
+    {
+      "file": "design/appearance-baseline-v1/07-forestcrown-branches.png",
+      "sha256": "a485aaf6d9ea40c5cbe524604114b6e2ae5b1a242cb070c97371db3682067edb",
+      "runtimeCopy": "src/assets/plant-forest-reference-v1.png",
+      "copySha256": "a485aaf6d9ea40c5cbe524604114b6e2ae5b1a242cb070c97371db3682067edb"
+    },
+    {
+      "file": "design/appearance-baseline-v1/08-starcrown-branches.png",
+      "sha256": "5f83f1e260e9d6618dd30e51322fdc6de676b8b154d428dd36c9fd8bd15380d7",
+      "runtimeCopy": "src/assets/plant-star-reference-v1.png",
+      "copySha256": "5f83f1e260e9d6618dd30e51322fdc6de676b8b154d428dd36c9fd8bd15380d7"
+    },
+    {
+      "file": "design/appearance-baseline-v1/01-freshwater-phases.png",
+      "sha256": "dccae29ada2c06d2ed3e701d27faf48181180b66aa0cba17e9c8feacb33c5b6d",
+      "runtimeCopy": "src/assets/plant-freshwater-reference-v1.png",
+      "copySha256": "dccae29ada2c06d2ed3e701d27faf48181180b66aa0cba17e9c8feacb33c5b6d"
+    },
+    {
+      "file": "design/appearance-baseline-v1/02-freshwater-branches.png",
+      "sha256": "3b948cb85233b936fb08e8d48c289af81f437343b5207d8fae2aa64936f25dcb",
+      "runtimeCopy": "src/assets/plant-freshwater-branches-reference-v1.png",
+      "copySha256": "3b948cb85233b936fb08e8d48c289af81f437343b5207d8fae2aa64936f25dcb"
+    }
+  ],
+  "derived": [
+    {
+      "species": "forestcrown",
+      "file": "src/assets/forestcrown-atlas-v1.png",
+      "sha256": "1783985bcb4f75ddf85113ecdfd6144b30adbc725ec0fa431b55c7a0848706ae",
+      "shapeCount": 11,
+      "extraction": [
+        {
+          "panel": "I",
+          "edit": "design/appearance-runtime-v1/edits/forestcrown-edited.png",
+          "editSha256": "ba3d47a3bcb59c580e532abfcfb1d027bcbceac74123fb1a22bb7f305c671f85",
+          "cropLTRB": [
+            10,
+            12,
+            370,
+            343
+          ],
+          "alphaBoundsLTRB": [
+            10,
+            12,
+            347,
+            325
+          ]
+        },
+        {
+          "panel": "II",
+          "edit": "design/appearance-runtime-v1/edits/forestcrown-edited.png",
+          "editSha256": "ba3d47a3bcb59c580e532abfcfb1d027bcbceac74123fb1a22bb7f305c671f85",
+          "cropLTRB": [
+            382,
+            3,
+            767,
+            345
+          ],
+          "alphaBoundsLTRB": [
+            7,
+            7,
+            378,
+            334
+          ]
+        },
+        {
+          "panel": "III-1",
+          "edit": "design/appearance-runtime-v1/edits/forestcrown-edited.png",
+          "editSha256": "ba3d47a3bcb59c580e532abfcfb1d027bcbceac74123fb1a22bb7f305c671f85",
+          "cropLTRB": [
+            770,
+            34,
+            1148,
+            344
+          ],
+          "alphaBoundsLTRB": [
+            5,
+            11,
+            374,
+            302
+          ]
+        },
+        {
+          "panel": "III-2",
+          "edit": "design/appearance-runtime-v1/edits/forestcrown-edited.png",
+          "editSha256": "ba3d47a3bcb59c580e532abfcfb1d027bcbceac74123fb1a22bb7f305c671f85",
+          "cropLTRB": [
+            1144,
+            16,
+            1535,
+            344
+          ],
+          "alphaBoundsLTRB": [
+            5,
+            9,
+            381,
+            320
+          ]
+        },
+        {
+          "panel": "III-3",
+          "edit": "design/appearance-runtime-v1/edits/forestcrown-edited.png",
+          "editSha256": "ba3d47a3bcb59c580e532abfcfb1d027bcbceac74123fb1a22bb7f305c671f85",
+          "cropLTRB": [
+            4,
+            373,
+            378,
+            670
+          ],
+          "alphaBoundsLTRB": [
+            7,
+            11,
+            368,
+            288
+          ]
+        },
+        {
+          "panel": "IV-1a",
+          "edit": "design/appearance-runtime-v1/edits/forestcrown-edited.png",
+          "editSha256": "ba3d47a3bcb59c580e532abfcfb1d027bcbceac74123fb1a22bb7f305c671f85",
+          "cropLTRB": [
+            380,
+            367,
+            776,
+            673
+          ],
+          "alphaBoundsLTRB": [
+            5,
+            9,
+            391,
+            297
+          ]
+        },
+        {
+          "panel": "IV-1b",
+          "edit": "design/appearance-runtime-v1/edits/forestcrown-edited.png",
+          "editSha256": "ba3d47a3bcb59c580e532abfcfb1d027bcbceac74123fb1a22bb7f305c671f85",
+          "cropLTRB": [
+            774,
+            370,
+            1147,
+            670
+          ],
+          "alphaBoundsLTRB": [
+            3,
+            8,
+            368,
+            290
+          ]
+        },
+        {
+          "panel": "IV-2a",
+          "edit": "design/appearance-runtime-v1/edits/forestcrown-edited.png",
+          "editSha256": "ba3d47a3bcb59c580e532abfcfb1d027bcbceac74123fb1a22bb7f305c671f85",
+          "cropLTRB": [
+            1147,
+            367,
+            1536,
+            669
+          ],
+          "alphaBoundsLTRB": [
+            4,
+            11,
+            383,
+            293
+          ]
+        },
+        {
+          "panel": "IV-2b",
+          "edit": "design/appearance-runtime-v1/edits/forestcrown-edited.png",
+          "editSha256": "ba3d47a3bcb59c580e532abfcfb1d027bcbceac74123fb1a22bb7f305c671f85",
+          "cropLTRB": [
+            8,
+            677,
+            380,
+            981
+          ],
+          "alphaBoundsLTRB": [
+            9,
+            8,
+            365,
+            294
+          ]
+        },
+        {
+          "panel": "IV-3a",
+          "edit": "design/appearance-runtime-v1/edits/forestcrown-edited.png",
+          "editSha256": "ba3d47a3bcb59c580e532abfcfb1d027bcbceac74123fb1a22bb7f305c671f85",
+          "cropLTRB": [
+            379,
+            696,
+            788,
+            979
+          ],
+          "alphaBoundsLTRB": [
+            6,
+            7,
+            402,
+            275
+          ]
+        },
+        {
+          "panel": "IV-3b",
+          "edit": "design/appearance-runtime-v1/edits/forestcrown-edited.png",
+          "editSha256": "ba3d47a3bcb59c580e532abfcfb1d027bcbceac74123fb1a22bb7f305c671f85",
+          "cropLTRB": [
+            785,
+            675,
+            1148,
+            983
+          ],
+          "alphaBoundsLTRB": [
+            9,
+            8,
+            355,
+            297
+          ]
+        }
+      ],
+      "originalPanels": [
+        {
+          "panel": "I",
+          "sheet": "plant-land-reference-v1",
+          "region": [
+            19,
+            117,
+            304,
+            319
+          ]
+        },
+        {
+          "panel": "II",
+          "sheet": "plant-land-reference-v1",
+          "region": [
+            337,
+            117,
+            346,
+            319
+          ]
+        },
+        {
+          "panel": "III-1",
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            8,
+            8,
+            461,
+            326
+          ]
+        },
+        {
+          "panel": "III-2",
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            8,
+            346,
+            461,
+            324
+          ]
+        },
+        {
+          "panel": "III-3",
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            8,
+            682,
+            461,
+            326
+          ]
+        },
+        {
+          "panel": "IV-1a",
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            486,
+            8,
+            563,
+            326
+          ]
+        },
+        {
+          "panel": "IV-1b",
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            1068,
+            8,
+            459,
+            326
+          ]
+        },
+        {
+          "panel": "IV-2a",
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            486,
+            346,
+            563,
+            324
+          ]
+        },
+        {
+          "panel": "IV-2b",
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            1068,
+            346,
+            459,
+            324
+          ]
+        },
+        {
+          "panel": "IV-3a",
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            486,
+            682,
+            563,
+            326
+          ]
+        },
+        {
+          "panel": "IV-3b",
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            1068,
+            682,
+            459,
+            326
+          ]
+        }
+      ]
+    },
+    {
+      "species": "starcrown",
+      "file": "src/assets/starcrown-atlas-v1.png",
+      "sha256": "55aa39f1c4cb5eeaf3590e7e583dbec6b6ce002198d4e54e3899186874ed6894",
+      "shapeCount": 11,
+      "extraction": [
+        {
+          "panel": "I",
+          "edit": "design/appearance-runtime-v1/edits/starcrown-edited.png",
+          "editSha256": "65053e8a4eda0a95dadd8c5092595480a0b27f577556f716dca783fb73c1a9d0",
+          "cropLTRB": [
+            20,
+            17,
+            311,
+            335
+          ],
+          "alphaBoundsLTRB": [
+            7,
+            10,
+            282,
+            302
+          ]
+        },
+        {
+          "panel": "II",
+          "edit": "design/appearance-runtime-v1/edits/starcrown-edited.png",
+          "editSha256": "65053e8a4eda0a95dadd8c5092595480a0b27f577556f716dca783fb73c1a9d0",
+          "cropLTRB": [
+            357,
+            7,
+            713,
+            337
+          ],
+          "alphaBoundsLTRB": [
+            6,
+            8,
+            347,
+            323
+          ]
+        },
+        {
+          "panel": "III-1",
+          "edit": "design/appearance-runtime-v1/edits/starcrown-edited.png",
+          "editSha256": "65053e8a4eda0a95dadd8c5092595480a0b27f577556f716dca783fb73c1a9d0",
+          "cropLTRB": [
+            720,
+            38,
+            1157,
+            335
+          ],
+          "alphaBoundsLTRB": [
+            5,
+            8,
+            434,
+            290
+          ]
+        },
+        {
+          "panel": "III-2",
+          "edit": "design/appearance-runtime-v1/edits/starcrown-edited.png",
+          "editSha256": "65053e8a4eda0a95dadd8c5092595480a0b27f577556f716dca783fb73c1a9d0",
+          "cropLTRB": [
+            1157,
+            29,
+            1530,
+            336
+          ],
+          "alphaBoundsLTRB": [
+            6,
+            10,
+            365,
+            297
+          ]
+        },
+        {
+          "panel": "III-3",
+          "edit": "design/appearance-runtime-v1/edits/starcrown-edited.png",
+          "editSha256": "65053e8a4eda0a95dadd8c5092595480a0b27f577556f716dca783fb73c1a9d0",
+          "cropLTRB": [
+            0,
+            337,
+            393,
+            654
+          ],
+          "alphaBoundsLTRB": [
+            6,
+            5,
+            393,
+            310
+          ]
+        },
+        {
+          "panel": "IV-1a",
+          "edit": "design/appearance-runtime-v1/edits/starcrown-iv1a-edited.png",
+          "editSha256": "0f9d8aa894f629b1503f1a0e0075e3b28b8d35f1a5835443f84cf7e7ca2610cb",
+          "cropLTRB": null,
+          "alphaBoundsLTRB": [
+            37,
+            7,
+            1503,
+            1010
+          ]
+        },
+        {
+          "panel": "IV-1b",
+          "edit": "design/appearance-runtime-v1/edits/starcrown-edited.png",
+          "editSha256": "65053e8a4eda0a95dadd8c5092595480a0b27f577556f716dca783fb73c1a9d0",
+          "cropLTRB": [
+            814,
+            334,
+            1132,
+            657
+          ],
+          "alphaBoundsLTRB": [
+            0,
+            6,
+            309,
+            315
+          ]
+        },
+        {
+          "panel": "IV-2a",
+          "edit": "design/appearance-runtime-v1/edits/starcrown-edited.png",
+          "editSha256": "65053e8a4eda0a95dadd8c5092595480a0b27f577556f716dca783fb73c1a9d0",
+          "cropLTRB": [
+            1132,
+            352,
+            1536,
+            657
+          ],
+          "alphaBoundsLTRB": [
+            4,
+            9,
+            396,
+            296
+          ]
+        },
+        {
+          "panel": "IV-2b",
+          "edit": "design/appearance-runtime-v1/edits/starcrown-edited.png",
+          "editSha256": "65053e8a4eda0a95dadd8c5092595480a0b27f577556f716dca783fb73c1a9d0",
+          "cropLTRB": [
+            6,
+            655,
+            417,
+            982
+          ],
+          "alphaBoundsLTRB": [
+            7,
+            6,
+            409,
+            319
+          ]
+        },
+        {
+          "panel": "IV-3a",
+          "edit": "design/appearance-runtime-v1/edits/starcrown-edited.png",
+          "editSha256": "65053e8a4eda0a95dadd8c5092595480a0b27f577556f716dca783fb73c1a9d0",
+          "cropLTRB": [
+            416,
+            655,
+            771,
+            981
+          ],
+          "alphaBoundsLTRB": [
+            4,
+            5,
+            348,
+            316
+          ]
+        },
+        {
+          "panel": "IV-3b",
+          "edit": "design/appearance-runtime-v1/edits/starcrown-edited.png",
+          "editSha256": "65053e8a4eda0a95dadd8c5092595480a0b27f577556f716dca783fb73c1a9d0",
+          "cropLTRB": [
+            768,
+            661,
+            1201,
+            983
+          ],
+          "alphaBoundsLTRB": [
+            4,
+            7,
+            425,
+            312
+          ]
+        }
+      ],
+      "originalPanels": [
+        {
+          "panel": "I",
+          "sheet": "plant-land-reference-v1",
+          "region": [
+            19,
+            508,
+            304,
+            319
+          ]
+        },
+        {
+          "panel": "II",
+          "sheet": "plant-land-reference-v1",
+          "region": [
+            337,
+            508,
+            346,
+            319
+          ]
+        },
+        {
+          "panel": "III-1",
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            9,
+            10,
+            476,
+            314
+          ]
+        },
+        {
+          "panel": "III-2",
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            9,
+            341,
+            476,
+            318
+          ]
+        },
+        {
+          "panel": "III-3",
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            9,
+            677,
+            476,
+            330
+          ]
+        },
+        {
+          "panel": "IV-1a",
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            497,
+            10,
+            540,
+            314
+          ]
+        },
+        {
+          "panel": "IV-1b",
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            1049,
+            10,
+            477,
+            314
+          ]
+        },
+        {
+          "panel": "IV-2a",
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            497,
+            341,
+            540,
+            318
+          ]
+        },
+        {
+          "panel": "IV-2b",
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            1049,
+            341,
+            477,
+            318
+          ]
+        },
+        {
+          "panel": "IV-3a",
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            497,
+            677,
+            540,
+            330
+          ]
+        },
+        {
+          "panel": "IV-3b",
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            1049,
+            677,
+            477,
+            330
+          ]
+        }
+      ]
+    },
+    {
+      "species": "freshwaterlight",
+      "file": "src/assets/freshwaterlight-atlas-v1.png",
+      "sha256": "1ce1efcb697c5a3f89595c01fa6d945b887e2f15785752bbd3341779c82d8516",
+      "shapeCount": 11,
+      "extraction": [
+        {
+          "panel": "I",
+          "edit": "design/appearance-runtime-v1/edits/freshwaterlight-edited.png",
+          "editSha256": "bfb26c1192e9bc3c21ac15f7afce0b116167378b7cc90dca3bb720b114c78aee",
+          "cropLTRB": [
+            45,
+            3,
+            347,
+            380
+          ],
+          "alphaBoundsLTRB": [
+            13,
+            12,
+            291,
+            375
+          ]
+        },
+        {
+          "panel": "II",
+          "edit": "design/appearance-runtime-v1/edits/freshwaterlight-edited.png",
+          "editSha256": "bfb26c1192e9bc3c21ac15f7afce0b116167378b7cc90dca3bb720b114c78aee",
+          "cropLTRB": [
+            397,
+            18,
+            719,
+            366
+          ],
+          "alphaBoundsLTRB": [
+            7,
+            10,
+            314,
+            341
+          ]
+        },
+        {
+          "panel": "III-1",
+          "edit": "design/appearance-runtime-v1/edits/freshwaterlight-edited.png",
+          "editSha256": "bfb26c1192e9bc3c21ac15f7afce0b116167378b7cc90dca3bb720b114c78aee",
+          "cropLTRB": [
+            763,
+            66,
+            1165,
+            338
+          ],
+          "alphaBoundsLTRB": [
+            5,
+            10,
+            396,
+            263
+          ]
+        },
+        {
+          "panel": "III-2",
+          "edit": "design/appearance-runtime-v1/edits/freshwaterlight-edited.png",
+          "editSha256": "bfb26c1192e9bc3c21ac15f7afce0b116167378b7cc90dca3bb720b114c78aee",
+          "cropLTRB": [
+            1153,
+            379,
+            1499,
+            679
+          ],
+          "alphaBoundsLTRB": [
+            7,
+            8,
+            338,
+            292
+          ]
+        },
+        {
+          "panel": "III-3",
+          "edit": "design/appearance-runtime-v1/edits/freshwaterlight-edited.png",
+          "editSha256": "bfb26c1192e9bc3c21ac15f7afce0b116167378b7cc90dca3bb720b114c78aee",
+          "cropLTRB": [
+            15,
+            366,
+            357,
+            670
+          ],
+          "alphaBoundsLTRB": [
+            8,
+            7,
+            335,
+            295
+          ]
+        },
+        {
+          "panel": "IV-1a",
+          "edit": "design/appearance-runtime-v1/edits/freshwaterlight-edited.png",
+          "editSha256": "bfb26c1192e9bc3c21ac15f7afce0b116167378b7cc90dca3bb720b114c78aee",
+          "cropLTRB": [
+            360,
+            368,
+            785,
+            675
+          ],
+          "alphaBoundsLTRB": [
+            7,
+            7,
+            419,
+            299
+          ]
+        },
+        {
+          "panel": "IV-1b",
+          "edit": "design/appearance-runtime-v1/edits/freshwaterlight-edited.png",
+          "editSha256": "bfb26c1192e9bc3c21ac15f7afce0b116167378b7cc90dca3bb720b114c78aee",
+          "cropLTRB": [
+            761,
+            398,
+            1162,
+            655
+          ],
+          "alphaBoundsLTRB": [
+            6,
+            7,
+            395,
+            250
+          ]
+        },
+        {
+          "panel": "IV-2a",
+          "edit": "design/appearance-runtime-v1/edits/freshwaterlight-iv2a-edited.png",
+          "editSha256": "14840b6b282b27cb132f1683ac9748007a5498e367cadef24fdefb061fccd4dc",
+          "cropLTRB": null,
+          "alphaBoundsLTRB": [
+            74,
+            143,
+            1516,
+            914
+          ]
+        },
+        {
+          "panel": "IV-2b",
+          "edit": "design/appearance-runtime-v1/edits/freshwaterlight-edited.png",
+          "editSha256": "bfb26c1192e9bc3c21ac15f7afce0b116167378b7cc90dca3bb720b114c78aee",
+          "cropLTRB": [
+            15,
+            707,
+            418,
+            970
+          ],
+          "alphaBoundsLTRB": [
+            9,
+            7,
+            398,
+            254
+          ]
+        },
+        {
+          "panel": "IV-3a",
+          "edit": "design/appearance-runtime-v1/edits/freshwaterlight-edited.png",
+          "editSha256": "bfb26c1192e9bc3c21ac15f7afce0b116167378b7cc90dca3bb720b114c78aee",
+          "cropLTRB": [
+            396,
+            698,
+            805,
+            981
+          ],
+          "alphaBoundsLTRB": [
+            8,
+            9,
+            402,
+            275
+          ]
+        },
+        {
+          "panel": "IV-3b",
+          "edit": "design/appearance-runtime-v1/edits/freshwaterlight-edited.png",
+          "editSha256": "bfb26c1192e9bc3c21ac15f7afce0b116167378b7cc90dca3bb720b114c78aee",
+          "cropLTRB": [
+            781,
+            669,
+            1214,
+            1000
+          ],
+          "alphaBoundsLTRB": [
+            7,
+            6,
+            424,
+            324
+          ]
+        }
+      ],
+      "originalPanels": [
+        {
+          "panel": "I",
+          "sheet": "plant-freshwater-reference-v1",
+          "region": [
+            10,
+            295,
+            284,
+            368
+          ]
+        },
+        {
+          "panel": "II",
+          "sheet": "plant-freshwater-reference-v1",
+          "region": [
+            316,
+            256,
+            283,
+            365
+          ]
+        },
+        {
+          "panel": "III-1",
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            6,
+            5,
+            456,
+            318
+          ]
+        },
+        {
+          "panel": "III-2",
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            6,
+            337,
+            456,
+            315
+          ]
+        },
+        {
+          "panel": "III-3",
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            6,
+            666,
+            456,
+            350
+          ]
+        },
+        {
+          "panel": "IV-1a",
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            477,
+            5,
+            543,
+            318
+          ]
+        },
+        {
+          "panel": "IV-1b",
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            1036,
+            5,
+            494,
+            318
+          ]
+        },
+        {
+          "panel": "IV-2a",
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            477,
+            337,
+            543,
+            315
+          ]
+        },
+        {
+          "panel": "IV-2b",
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            1036,
+            337,
+            494,
+            315
+          ]
+        },
+        {
+          "panel": "IV-3a",
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            477,
+            666,
+            543,
+            350
+          ]
+        },
+        {
+          "panel": "IV-3b",
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            1036,
+            666,
+            494,
+            350
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -31,3 +31,5 @@
 4.2.3: 群体節足・多頭蛇・異化通信生命の27枝だけを専用修正3枚へ差し替え。現行宣言は34PNG。旧混在シートは他系統のため保持。原画以外の描画処理と他系統は変更しない。比較はoperations/evidence/three-lineage-retouch-v4.2.3/README.md。
 
 4.2.4: 群体節足Cは取り下げ、添付942.pngと同一のswarm-branches-v423を維持。多頭蛇だけserpent-approved-v424の11枠へ接続し、I/II相も縦横比保持を指定。現行宣言35PNG。詳細: operations/evidence/approved-body-art-v4.2.4/README.md。
+
+I03: 森冠・星冠・淡水光合成体を各11形態の静的RGBA atlas3枚へ接続。原画5枚の同一コピーは正確な肖像/系統樹用の参照として別登録した。計43PNG。`producers` の区画順はI/II/III3枝/IV6枝で、旧31種の素材・枝・記号は保持する。出典・採用区画・派生SHA・保持した透過編集と再現手順は `design/appearance-runtime-v1/README.md` と同registryへ記録。発光縁のマット、全方向/全年齢の専用素材はI10の残件。近景は準備済み画像の描画のみで、背景除去や被食穴のマスクを毎フレーム行わない。

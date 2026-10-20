@@ -466,6 +466,48 @@
     return true;
   }
   const foodStates = new Map();
+  // Independent plants use retained, statically prepared adopted paintings. No
+  // animal anatomy transform, biomass holes, runtime matte or motion is applied.
+  const producerFrames = new Map();
+  function producerIndex(o) {
+    const phase=Math.max(1,Math.min(4,Math.trunc(o.phase||1))),
+      b=Math.max(0,Math.min(2,Math.trunc(o.branch3||0))),
+      c=Math.max(0,Math.min(1,Math.trunc(o.branch4||0)));
+    return phase<3?phase-1:phase===3?2+b:5+b*2+c;
+  }
+  function producerGeometry(o,r) {
+    const entry=manifest.producers?.[o.species],index=producerIndex(o),
+      age=root.EcoState.ageInfo(o),stage=age.enabled?age.stage:'adult',
+      scale=stage==='juvenile'?.78:stage==='elderly'?.94:1,
+      body=entry?.bodyBounds[index]||[16,16,352,352],size=r*2.6*scale;
+    return {index,stage,size,rx:size*body[2]/768,ry:size*body[3]/768};
+  }
+  function producer(g,o,x,y,r,time=0) {
+    const entry=manifest.producers?.[o.species],im=images[entry?.sheet];
+    if(!entry||!im)return false;
+    const geometry=producerGeometry(o,r),f=entry.regions[geometry.index],
+      key=o.species+'/'+geometry.index+'/'+geometry.stage;
+    let frame=cachedFrame(producerFrames,key);
+    if(!frame){
+      frame=document.createElement('canvas');frame.width=f[2];frame.height=f[3];
+      const c=frame.getContext('2d');
+      c.filter=geometry.stage==='elderly'?'saturate(.65) brightness(.91)':'none';
+      c.drawImage(im,...f,0,0,f[2],f[3]);
+      storeFrame('producers',producerFrames,key,frame,32);
+    }
+    // The photosynthetic membranes do not flap, kick or produce a wake.
+    g.drawImage(frame,x-geometry.size/2,y-geometry.size/2,geometry.size,geometry.size);
+    return true;
+  }
+  function producerPortrait(g,o,x,y,r) {
+    const reference=manifest.producers?.[o.species]?.references[producerIndex(o)],
+      im=images[reference?.sheet];
+    if(!reference||!im)return false;
+    const f=reference.region,aspect=f[2]/f[3],size=r*2.6,
+      width=size*Math.min(1,aspect),height=size*Math.min(1,1/aspect);
+    g.drawImage(im,...f,x-width/2,y-height/2,width,height);
+    return true;
+  }
   const foodMetrics = { builds: 0, hits: 0, cached: 0 };
   function food(g, o, x, y, r, env) {
     const id=o.species, floating=id==="phytoplankton",
@@ -555,8 +597,9 @@
   const remainsFrames = new Map();
   function remains(g, a, x, y, r, water, turn) {
     const foodFrames = manifest.food.regions[a.species === "phytoplankton" ? "algae" : a.species],
-      f = foodFrames?.[0] || manifest.creatures.regions[a.species]?.[0],
-      im = images[foodFrames ? "food-atlas" : manifest.creatures.sheetBySpecies[a.species]];
+      plant=manifest.producers?.[a.species],
+      f = foodFrames?.[0] || plant?.regions[producerIndex(a.appearance||a)] || manifest.creatures.regions[a.species]?.[0],
+      im = images[foodFrames ? "food-atlas" : plant?.sheet||manifest.creatures.sheetBySpecies[a.species]];
     if (!f || !im) return false;
     // q is an absolute existing stock, not a guessed percentage of original biomass.
     const amount = Math.max(1, Math.min(4, Math.ceil(a.q || 1))),
@@ -567,7 +610,7 @@
     let frame = remainsFrames.get(key);
     if (!frame) {
       let original=cleanFrame(im,f,true);
-      if(a.appearance){const body=document.createElement("canvas");body.width=body.height=192;creature(body.getContext("2d"),a.appearance,96,96,58);original=body;}
+      if(a.appearance){const body=document.createElement("canvas");body.width=body.height=192;(plant?producer:creature)(body.getContext("2d"),a.appearance,96,96,58);original=body;}
       const c = document.createElement("canvas");
       c.width = 192; c.height = 192;
       const n = c.getContext("2d");
@@ -723,6 +766,7 @@
       for(let count=0;count<128&&warmCursor<warmCurrent.organisms.length;count++){
         const o=warmCurrent.organisms[warmCursor++],stage=root.EcoState.ageInfo(o).stage,env=warmCurrent.tiles[o.cell].env;let key,paint;
         if(o.slot==='main'){key=['m',o.species,o.phase,o.branch3,o.branch4,stage,o.sex,o.role].join('/');paint=()=>creature(g,{...o,renderLighting:true,renderEmphasis:false},0,0,1);}
+        else if(o.slot==='producer'){key=['producer',o.species,producerIndex(o),stage].join('/');paint=()=>producer(g,o,0,0,1);}
         else {const spec=root.EcoState.spec(o),density=Math.min(3,Math.floor(Math.max(0,Math.min(1,o.B/Math.max(1,spec.capacity[1])))*4));key=['f',o.species,o.phase,stage,density,[1,4,5,7].includes(env)?env:0].join('/');paint=()=>food(g,o,0,0,1,env);}
         if(!warmKeys.has(key)){warmKeys.add(key);paint();break;}
       }
@@ -743,6 +787,10 @@
     ready,
     tint,
     creature,
+    producer,
+    producerPortrait,
+    producerIndex,
+    producerGeometry,
     food,
     foodMetrics,
     resource,

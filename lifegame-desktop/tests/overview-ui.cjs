@@ -17,8 +17,8 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),
   await page.evaluate(()=>__LIFE_TEST__.prepare({seed:'overview-natural',width:40,height:28,initial:80,lineages:'few',mapId:'river'}));
   await page.waitForTimeout(100);
   check(await page.evaluate(()=>{const w=__LIFE_TEST__.snapshot().world;return [...document.querySelectorAll('#species-key [data-species]')].every(e=>Number(e.querySelector('b').textContent)===w.stats.counts[e.dataset.species]);}),'legend counts match real organisms');
-  check(await page.evaluate(()=>Object.keys(EcoRenderer.symbolPaths).length===EcoData.species.length+Object.keys(EcoState.FOOD).length),'every current biological and resource symbol is explicitly defined');
-  check(await page.evaluate(()=>{const c=document.createElement('canvas');c.width=c.height=48;const g=c.getContext('2d');return new Set(Object.keys(EcoRenderer.symbolPaths).map(id=>{g.clearRect(0,0,48,48);EcoRenderer.symbol(g,id,24,24,18);return c.toDataURL();})).size===EcoData.species.length+Object.keys(EcoState.FOOD).length;}),'all current symbol rasterizations are distinct');
+  check(await page.evaluate(()=>Object.keys(EcoRenderer.symbolPaths).length===EcoData.species.length+(EcoData.independentPlants||[]).length+Object.keys(EcoState.FOOD).length),'every current biological and resource symbol is explicitly defined');
+  check(await page.evaluate(()=>{const c=document.createElement('canvas');c.width=c.height=48;const g=c.getContext('2d');return new Set(Object.keys(EcoRenderer.symbolPaths).map(id=>{g.clearRect(0,0,48,48);EcoRenderer.symbol(g,id,24,24,18);return c.toDataURL();})).size===EcoData.species.length+(EcoData.independentPlants||[]).length+Object.keys(EcoState.FOOD).length;}),'all current symbol rasterizations are distinct');
   const before=await page.evaluate(()=>__LIFE_TEST__.fingerprint());
   await page.screenshot({path:path.join(out,'natural-overview.png'),fullPage:true});
   await page.locator('#board').screenshot({path:path.join(out,'natural-board.png')});

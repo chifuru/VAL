@@ -1,0 +1,91 @@
+{
+  "version": "4.2.35",
+  "baseline": "66bfd0d / 4.2.34",
+  "dateUTC": "2026-10-20T12:56:09.153811+00:00",
+  "biologicalSignature": "8b9c50044add0f60ae755bad650ae037500ede82cec32503b850a6d7ae8d798c",
+  "unitFullRun": {
+    "files": 60,
+    "pass": 60,
+    "fail": 0,
+    "log": "model/unit.log"
+  },
+  "legacyComparison": {
+    "cases": 16,
+    "states": 112,
+    "worldAndCSVEqual": true
+  },
+  "newProfileComparison": {
+    "cases": 8,
+    "states": 40,
+    "dynamicStaticEqual": true
+  },
+  "circulation": {
+    "cases": 3,
+    "turnsEach": 180,
+    "states": 543,
+    "allInvariantsPassed": true,
+    "allThreePlantsProducedRegrewReproducedAndReachedIV": true,
+    "countsAt180": {
+      "river-free": {
+        "forestcrown": 39,
+        "starcrown": 57,
+        "freshwaterlight": 16
+      },
+      "lake-free": {
+        "forestcrown": 88,
+        "starcrown": 122,
+        "freshwaterlight": 21
+      },
+      "river-supply": {
+        "forestcrown": 100,
+        "starcrown": 107,
+        "freshwaterlight": 4
+      }
+    }
+  },
+  "ui": [
+    {
+      "report": "ui/independent-plants/ui-report.json",
+      "checks": 50,
+      "errors": []
+    },
+    {
+      "report": "ui/producer-colony/ui-report.json",
+      "checks": 23,
+      "errors": []
+    },
+    {
+      "report": "ui/initial-supply/ui-report.json",
+      "checks": 24,
+      "errors": []
+    },
+    {
+      "report": "overview/report.json",
+      "checks": 15,
+      "errors": []
+    }
+  ],
+  "limits": [
+    "I03 limited integration; not final500T/R1-R6 or performance certification",
+    "No new Windows native build/ZIP; distributed4.2.32 unchanged",
+    "I10 transparent matte/all-age/all-direction/dense appearance finish remains",
+    "P/Q new lifecycle/information and Ryouki are later implementation units"
+  ],
+  "next": "I04 Ryouki",
+  "graphics": {
+    "report": "graphics/graphics-report.json",
+    "checks": 9,
+    "errors": [],
+    "independentForms": 33,
+    "exactOriginalPortraitCrops": 33
+  },
+  "uiChecksIncludingOverviewAndGraphics": 121,
+  "finalRelatedRecheck": {
+    "files": 2,
+    "pass": 2,
+    "fail": 0,
+    "log": "model/final-related.log"
+  },
+  "generatedModelCheck": "model/generated-check.log",
+  "assetCheck": "graphics/assets-check.log"
+}

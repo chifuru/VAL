@@ -18,7 +18,7 @@
   ];
   // ID order is stable; highlight colors never depend on selection order.
   function highlightColor(id) {
-    const index=S.D.species.findIndex(s=>s.id===id);
+    const index=[...S.D.species,...(S.D.independentPlants||[])].findIndex(s=>s.id===id);
     return `hsl(${Math.round((index*137.508+32)%360)} 78% 68%)`;
   }
   // Cartographic symbols, shared by board and legend. Shape is independent of biology.
@@ -67,6 +67,9 @@
       moss: "M-.85 .5 Q-.6 -.5 -.25 .2 Q0 -.8 .3 .1 Q.7 -.4 .85 .5 Z",
       grass:
         "M0 .9 V-.75 M0 .1 Q-.9 -.6 -.7 -.15 Q-.4 .3 0 .45 M0 -.2 Q.8 -.8 .7 -.25 Q.4 .1 0 .1",
+      forestcrown: "M0 .9 V-.25 M-.9 -.35 Q-.7 -.85 0 -.8 Q.7 -.85 .9 -.35 Z M-.75 .15 Q-.55 -.35 0 -.25 Q.55 -.35 .75 .15 Z M-.45 .9 L0 .55 L.45 .9",
+      starcrown: "M0 .9 V.05 M0 -.95 L.22 -.35 L.85 -.65 L.5 -.1 L1 .15 L.3 .25 L0 .65 L-.3 .25 L-1 .15 L-.5 -.1 L-.85 -.65 L-.22 -.35 Z",
+      freshwaterlight: "M.65 -.65 C-.8 -1 -1 .8 .15 .75 C.85 .65 .7 -.3 -.1 -.25 C-.6 -.2 -.45 .35 .05 .25 M.65 -.65 Q1 -.15 .65 .05",
       fungus: "M-.9 0 Q-.8 -1 0 -.9 Q.8 -1 .9 0 Z M-.2 0 V.8 H.2 V0",
       waterbug:
         "M0 -.8 L.6 0 L0 .8 L-.6 0 Z M-.5 -.2 L-1 -.5 M.5 -.2 L1 -.5 M-.5 .2 L-1 .5 M.5 .2 L1 .5",
@@ -144,6 +147,11 @@
     if (Art?.food(g, o, x, y, r, env)) return;
     symbol(g, o.species, x, y, r, symbolColor(S.spec(o)));
   }
+  function producer(g,o,x,y,r,time=0){
+    if(Art?.producer(g,o,x,y,r,time))return;
+    symbol(g,o.species,x,y,r,symbolColor(S.spec(o)));
+  }
+  const bodyOffset=o=>o.slot==='main'?.18:o.slot==='producer'?(o.species==='freshwaterlight'?.10:.25):.03;
   let contactShadow=null;
   const markSprites=new Map(),markLabels={attack:'攻撃',defend:'防御',graze:'植物食',predate:'捕食',scavenge:'屍肉食',fungal:'分解食',absorb:'吸収',care:'育児',infection:'寄生',clear:'除去',birth:'出生',growth:'進化',death:'死亡'};
   const markColors={attack:'#ff9978',defend:'#9edfff',graze:'#b1e59a',predate:'#ffcb88',scavenge:'#d9ad91',fungal:'#d7bbef',absorb:'#b6e8dc',care:'#bce7b1',infection:'#d3a2ff',clear:'#eff7ed',birth:'#ffe3a0',growth:'#a7eeef',death:'#c6b7ad'};
@@ -181,7 +189,7 @@
         duration: 260,
         selected: null,
         highlights: [],
-        names: { basal:false, prey:false, P:false, Q:false, resource:false },
+        names: { basal:false, producer:false, prey:false, P:false, Q:false, resource:false },
       };
     const diagnostics = {
       mode: "detail",
@@ -377,7 +385,7 @@
       const [x, y] = S.xy(world, cell),entity=displayLayout().entity(id),
         p = entity?.point.slice() || P.point(x + 0.5, y + 0.5),
         detail=view.scale>=24&&view.mode!=="overview"&&!view.simplified;
-      if(detail&&entity?.host&&!entity.carcass)p[1]-=entity.host.slot==="main"?.18:.03;
+      if(detail&&entity?.host&&!entity.carcass)p[1]-=bodyOffset(entity.host);
       return [view.x + p[0] * view.scale, view.y + p[1] * view.scale];
     }
     function path(points) {
@@ -442,8 +450,8 @@
         departedMotionActors: 0,
         motionKinds: {},
         statusBadges: 0,
-        statusBadgesByGroup: {main:0,basal:0,prey:0},
-        nameLabels: { main:0, basal:0, prey:0, P:0, Q:0, resource:0 },
+        statusBadgesByGroup: {main:0,producer:0,basal:0,prey:0},
+        nameLabels: { main:0, producer:0, basal:0, prey:0, P:0, Q:0, resource:0 },
         highlightedCells: [],
         criticalMarkers: 0,
         elevated: 0,
@@ -575,7 +583,7 @@
               corpse=coordinates.entity(targetId),oldCorpse=previousCorpses.get(targetId),resourceIndex=ev.sourceType==="resource"?resourceKinds.indexOf(String(ev.source).split(":").at(-1)):-1,
               sourcePoint=oldCorpse?position(ev.to??oldCorpse.cell,oldCorpse.slot==="food"?.22:oldCorpse.slot==="prey"?.52:.86,.86):resourceIndex>=0?position(ev.to??o.cell,.12+(resourceIndex%4)*.23,.12+Math.floor(resourceIndex/4)*.2):null,
               endpoint=target?coordinates.anchor(target,age,events.get(target.id)?.find(e=>e.type==='move')):null,
-              t=endpoint?[endpoint.point[0],endpoint.point[1]-(detail?(target.slot==='main'?.18:.03):0)]:corpse?.point||sourcePoint||position(ev.to??o.cell);
+              t=endpoint?[endpoint.point[0],endpoint.point[1]-(detail?bodyOffset(target):0)]:corpse?.point||sourcePoint||position(ev.to??o.cell);
             if(o.id===view.selectedEntity)diagnostics.selectedMotionEndpoints={id:o.id,target:targetId,from:[cx,cy],to:t};
             g.beginPath();g.moveTo(cx,cy);
             if(ev.type==="attack")g.lineTo(...t);else g.quadraticCurveTo((cx+t[0])/2,Math.min(cy,t[1])-.22,...t);g.stroke();
@@ -602,7 +610,7 @@
       }
       const worldEvents=frameCandidates.worldEvents ||= (()=>{const m=new Map();for(const e of w.events){if(!m.has(e.id))m.set(e.id,[]);m.get(e.id).push(e);}return m;})();
       const annotations = [];
-      const nameEnabled=(group,id)=>view.names[group]||id===view.selectedEntity;
+      const nameEnabled=(group,id)=>view.names[group]||(group==='producer'&&view.names.basal)||id===view.selectedEntity;
       if (view.resources)
         for (const record of (frameCandidates.resourcePoints ||= frameCandidates.resources.map(a=>{const kind=resourceKinds.indexOf(a.kind);return {a,p:position(a.cell,.12+(kind%4)*.23,.12+Math.floor(kind/4)*.2)};}))) {
           const {a,p}=record;
@@ -645,7 +653,7 @@
       if(!fixed||frameCandidates.actorKey!==actorKey){
         fixed=[];const moving=[];
         for(const obj of frameCandidates.objects){const p=P.point(obj.x,obj.y);if(visible(p,2))fixed.push({depth:P.depth(obj.x,obj.y)-.05,obj,p});}
-        if(detail)for(const a of w.carcasses){const dx=a.slot==='food'?.22:a.slot==='prey'?.52:.86,p=position(a.cell,dx,.86),[x,y]=S.xy(w,a.cell);if(visible(p))fixed.push({carcass:a,p,depth:P.depth(x+dx,y+.86)});}
+        if(detail)for(const a of w.carcasses){const dx=a.slot==='food'?.22:a.slot==='prey'?.52:a.slot==='producer'?.72:.86,p=position(a.cell,dx,.86),[x,y]=S.xy(w,a.cell);if(visible(p))fixed.push({carcass:a,p,depth:P.depth(x+dx,y+.86)});}
         for(const o of frameCandidates.organisms){const list=activeEvents.get(o.id)||[],ev=list.find(e=>e.type==='move');if(ev){moving.push(o);continue;}const a=coordinates.anchor(o);if(visible(a.point,1.6)||visible(a.ground,1.6))fixed.push({depth:a.depth,o,p:a.point,list,ground:a.ground,elevated:a.elevated,remnant:false});}
         fixed.sort((a,b)=>a.depth-b.depth);frameCandidates.fixed=fixed;frameCandidates.moving=moving;frameCandidates.actorKey=actorKey;
       }
@@ -671,7 +679,7 @@
       // Every basal individual keeps its glyph and hit region. Cache the stationary paint,
       // while current action effects and all moving actors remain separate.
       const useBasalLayer=!near&&view.emphasis&&!view.planeSeparation,
-        basalActors=useBasalLayer?(frameCandidates.basalActors ||= sequence.filter(a=>a.o&&!a.remnant&&['plant','fungus'].includes(S.spec(a.o).group))):[];
+        basalActors=useBasalLayer?(frameCandidates.basalActors ||= sequence.filter(a=>a.o&&!a.remnant&&a.o.slot!=='producer'&&['plant','fungus'].includes(S.spec(a.o).group))):[];
       let basalPainted=false;
       function paintBasalLayer(){
         if(basalPainted||!basalActors.length)return;basalPainted=true;
@@ -726,8 +734,8 @@
             );
             const holes = obscured.map((b) => ({
               x: b.p[0] - p[0],
-              y: b.p[1] - (b.o.slot === "main" ? 0.2 : 0.04) - p[1],
-              radius: b.o.slot === "main" ? 0.47 : 0.28,
+              y: b.p[1] - bodyOffset(b.o) - p[1],
+              radius: b.o.slot === "main" ? 0.47 : b.o.slot==='producer'?.36:0.28,
               selected: b.o.cell === view.selected,
             }));
             Art.prop(g, a.index, ...p, a.size, a.index === 9 ? 0.65 : 1, holes);
@@ -779,32 +787,33 @@
           continue;
         }
         const { o, list } = actor;
-        if(useBasalLayer){paintBasalLayer();if(!actor.remnant&&['plant','fungus'].includes(S.spec(o).group)){if(list.length)actionEffects(o,list,.13+.07*Math.min(1,S.edibleB(o)/15),p[0],p[1]);continue;}}
+        if(useBasalLayer){paintBasalLayer();if(!actor.remnant&&o.slot!=='producer'&&['plant','fungus'].includes(S.spec(o).group)){if(list.length)actionEffects(o,list,.13+.07*Math.min(1,S.edibleB(o)/15),p[0],p[1]);continue;}}
         if(!actor.remnant)diagnostics.drawn++;
         if(actor.elevated)diagnostics.elevated++;
-        const isMain = o.slot === "main",
-          overlap = main.has(o.cell) && foodCells.has(o.cell),
+        const isMain = o.slot === "main",isProducer=o.slot==='producer',
+          overlap = main.has(o.cell) && (foodCells.has(o.cell)||coordinates.producer.has(o.cell)),
           r = isMain
             ? (0.23 + 0.035 * o.phase) *
               (overlap ? 0.85 : 1) *
-              (0.9 + 0.2 * o.dna.body)
-            : 0.13 + 0.07 * Math.min(1, S.edibleB(o) / 15),
+              (0.9 + 0.2 * (o.dna?.body??.5))
+            : isProducer?(0.20+0.025*Math.max(1,o.phase||1))*(main.has(o.cell)?.78:1):0.13 + 0.07 * Math.min(1, S.edibleB(o) / 15),
           cx = p[0],
-          cy = p[1] - (detail ? (isMain ? 0.18 : 0.03) : 0);
+          cy = p[1] - (detail ? bodyOffset(o) : 0),
+          geometry=isProducer&&detail?Art.producerGeometry(o,r):null;
         if(actor.remnant){
           // A confirmed past action, never a resurrected selectable organism.
           diagnostics.departedMotionActors++;
           g.save();g.globalAlpha=.55*(1-age);
-          if(detail){if(isMain)creature(g,o,cx,cy,r,true);else food(g,o,cx,cy,r,w.tiles[o.cell].env);}
-          else symbol(g,o.species,cx,cy,isMain?.3:.17,symbolColor(S.spec(o)));
+          if(detail){if(isMain)creature(g,o,cx,cy,r,true);else if(isProducer)producer(g,o,cx,cy,r);else food(g,o,cx,cy,r,w.tiles[o.cell].env);}
+          else symbol(g,o.species,cx,cy,isMain?.3:isProducer?.21:.17,symbolColor(S.spec(o)));
           g.restore();actionEffects(o,list,r,cx,cy);continue;
         }
-        if(!actor.elevated){
+        if(!actor.elevated&&!isProducer){
         if(detail){g.drawImage(groundShadow(),p[0]-r*.9,p[1]+.04-r*.23,r*1.8,r*.46);}
         else ellipseStamp(g,p[0],p[1]+.04,isMain?.38:.22,isMain?.3:.17,'#061922cc');
         }
-        hitRegions.push({id:o.id,cell:o.cell,main:isMain,x:cx,y:cy,rx:detail?r*1.65:isMain?.35:.22,ry:detail?r*1.55:isMain?.32:.21});
-        if (view.emphasis && (!detail || !isMain)) {
+        hitRegions.push({id:o.id,cell:o.cell,main:isMain,x:cx,y:cy,rx:geometry?Math.max(.10,geometry.rx):detail?r*1.65:isMain?.35:isProducer?.25:.22,ry:geometry?Math.max(.10,geometry.ry):detail?r*1.55:isMain?.32:isProducer?.25:.21});
+        if (view.emphasis && (!detail || (!isMain&&!isProducer))) {
           if(!detail)ellipseStamp(g,cx,cy,isMain?.38:.235,isMain?.29:.185,'#02131cf0',isMain?'#f5e6a8b8':'#c5e9be99',Math.max(.018,(isMain?.85:.55)/z));
           else ellipseStamp(g,cx,p[1],r*1.06,r*.33,'#02131c99',isMain?'#f5e6a8b8':'#c5e9be99',Math.max(.018,(isMain?.85:.55)/z));
         }
@@ -819,6 +828,7 @@
               r,
               true,
             );
+          else if(isProducer)producer(g,displayed,cx,cy,r);
           else food(g, displayed, cx, cy, r, w.tiles[o.cell].env);
         } else
           symbol(
@@ -826,13 +836,13 @@
             o.species,
             cx,
             cy,
-            isMain ? (overlap ? 0.25 : 0.3) : 0.17,
+            isMain ? (overlap ? 0.25 : 0.3) : isProducer?.21:0.17,
             symbolColor(S.spec(o)),
           );
         const ages=frameCandidates.ages ||= new Map();if(!ages.has(o.id))ages.set(o.id,S.ageInfo(o));
         const a = ages.get(o.id),
           showStatus = view.statusMarks && near &&
-            (view.statusScope === "all" || isMain || o.id === view.selectedEntity) &&
+            (view.statusScope === "all" || isMain || isProducer || o.id === view.selectedEntity) &&
             (z >= 100 || o.cell === view.selected);
         if (!showStatus && a.enabled && a.stage !== "adult" && (view.ageEmphasis || !detail)) {
           g.strokeStyle = a.stage === "juvenile" ? "#fff0b2" : "#d7e2e0";
@@ -889,7 +899,7 @@
           }
         }
         actionEffects(o,list,r,cx,cy);
-        const nameGroup=isMain?"main":S.spec(o).group==="prey"?"prey":"basal";
+        const nameGroup=isMain?"main":isProducer?"producer":S.spec(o).group==="prey"?"prey":"basal";
         if (near && (isMain || nameEnabled(nameGroup,o.id))) {
           diagnostics.nameLabels[nameGroup]++;
           annotations.push(() => {
@@ -951,7 +961,7 @@
             diagnostics.criticalMarkers++;
           }
           diagnostics.statusBadges++;
-          diagnostics.statusBadgesByGroup[isMain?"main":S.spec(o).group==="prey"?"prey":"basal"]++;
+          diagnostics.statusBadgesByGroup[isMain?"main":isProducer?"producer":S.spec(o).group==="prey"?"prey":"basal"]++;
           g.restore();
           });
         }
@@ -1065,6 +1075,7 @@
   return {
     create,
     creature,
+    producer,
     food,
     symbol,
     symbolColor,

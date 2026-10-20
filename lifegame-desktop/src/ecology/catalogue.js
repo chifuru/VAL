@@ -853,7 +853,16 @@
   for (const id of ["memory", "antimeme"])
     data.species.find((s) => s.id === id).diet = "scavenger";
   for (const s of data.species) if (s.group === "main") s.maintenance *= .60;
+  // Registered separately: legacy and colony-only worlds keep their 31 entries.
+  data.independentPlants = [
+    {id:"forestcrown",name:"森冠",life:360,maturity:36,birthCooldown:12,maintenance:.25,lightInput:2.4,capacity:[40,18,4,40],color:"#6b9766",aquatic:false},
+    {id:"starcrown",name:"星冠",life:320,maturity:32,birthCooldown:10,maintenance:.25,lightInput:2.4,capacity:[40,18,4,36],color:"#b4c984",aquatic:false},
+    {id:"freshwaterlight",name:"淡水光合成体",life:240,maturity:24,birthCooldown:8,maintenance:.30,lightInput:2.2,capacity:[36,18,4,28],color:"#74bfb0",aquatic:true},
+  ].map(s=>({...s,group:"plant",kind:"independent",recordUnit:"individual",slot:"producer",tag:"plant",
+    phases:["第一相","第二相","第三相","第四相"],branches:["生産","繁殖拡散","耐食"],
+    initial:[s.capacity[0]*.5,13.2,1,s.capacity[3]],traits:{},senseAt:1,rangeAt:1,speedAt:1}));
   data.byId = Object.fromEntries(data.species.map((s) => [s.id, s]));
+  Object.assign(data.byId,Object.fromEntries(data.independentPlants.map(s=>[s.id,s])));
   data.main = data.species.filter((s) => s.group === "main");
   return data;
 });

@@ -1,0 +1,170 @@
+{
+  "baseline": "66bfd0d / 4.2.34",
+  "legacyStates": 112,
+  "independentStates": 40,
+  "scope": "legacy and I02 exact world/CSV parity; all8 new static/dynamic profiles",
+  "legacy": [
+    {
+      "bits": 0,
+      "colony": false,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "53794445ac33d50e76960dedd69d4e2f9437b1d81cf7473e23729e56c367cbec"
+    },
+    {
+      "bits": 0,
+      "colony": true,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "217cb8675625b700ae49ec464b6e9b627e976557b88fe7c7abb130df7803df9e"
+    },
+    {
+      "bits": 1,
+      "colony": false,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "1601d801ecca9e58e8398a169565e3989a85ce7f9b94a7ef1a0cef8f8ed90ea6"
+    },
+    {
+      "bits": 1,
+      "colony": true,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "a757c3ab8ccfb1e067f8317aeab64078337f6a479a28ea63fc03e373cfb42d6b"
+    },
+    {
+      "bits": 2,
+      "colony": false,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "170d57ca7abfcb6fd64739fdb6bdbde5d77a4d7f50b82981439534fb84627079"
+    },
+    {
+      "bits": 2,
+      "colony": true,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "e510e28604e53419e2769d42ea21fd068343a0cef08fb9b692bb5d707c18da37"
+    },
+    {
+      "bits": 3,
+      "colony": false,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "2b42df9b088567b291502d64fb510023a4950bf2975c735479a644407db79f42"
+    },
+    {
+      "bits": 3,
+      "colony": true,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "019cdb140621a7e4ceacd8e670bd56876082e657c8e2c3547d7ec6bda68bf262"
+    },
+    {
+      "bits": 4,
+      "colony": false,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "7ed85a6420e4cb8b8c8fbf4a6b194aadfad258c439bfa501dce1cfde820fd927"
+    },
+    {
+      "bits": 4,
+      "colony": true,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "c07f2dac455f72f29d2e6c74ae424db505a1b964d6913dbf53613126bf7ec94e"
+    },
+    {
+      "bits": 5,
+      "colony": false,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "fd0232ec6e205c15f03f8e77cc8cdd89dbd67b52c7a0cd5e7d715ce9008473e2"
+    },
+    {
+      "bits": 5,
+      "colony": true,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "ec0926110946a4e4ce3cc9bf69ba469b101e2c0182ca1cc96422704be481d561"
+    },
+    {
+      "bits": 6,
+      "colony": false,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "48bab734a15ba95c02abac00a390f9a19060010213f97e5086b04e6efba903c0"
+    },
+    {
+      "bits": 6,
+      "colony": true,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "9cf141831debbe8941d521e0833415c6c2c912f0473cd9bcc19ab8c9a8956a46"
+    },
+    {
+      "bits": 7,
+      "colony": false,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "8ed548abe8aaf6b6e66a48832736f4aa922182f816709229f3f2bc0b4f0a5d47"
+    },
+    {
+      "bits": 7,
+      "colony": true,
+      "states": 7,
+      "worldAndCSVEqual": true,
+      "fingerprint": "db9bc4a6830dd2c1872bf6adda335963fa421a0866584b23cae0eed7b2aaf957"
+    }
+  ],
+  "independent": [
+    {
+      "bits": 0,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "5c3c11f5430ef708c6a1df54b187820d1f78515223dfcc56cba39efd1e85e6f8"
+    },
+    {
+      "bits": 1,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "1740a0ab4364c33e3a524d81421d3ac00d5866e7e92426ea98810da08eaba249"
+    },
+    {
+      "bits": 2,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "b19f2841979f9cccca384ca9545778d679c4f30e865764bf81f30bb6b69ed493"
+    },
+    {
+      "bits": 3,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "b204ad02c65ef022ce9a87d633b7509c284f4346bb65af359b5d8add19392c76"
+    },
+    {
+      "bits": 4,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "4dd245a2a64d5b116db1fa8523265e739b41ae09d30ebc079f45e94c95863d86"
+    },
+    {
+      "bits": 5,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "156e87c88e963c5544427f1289127f7e6867ed1f508437ee9b0032080784c10c"
+    },
+    {
+      "bits": 6,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "8e77e0e08d7970f5288b2d160f5630a28e57638be1561ed21f8dd8f3681b3a7b"
+    },
+    {
+      "bits": 7,
+      "states": 5,
+      "worldAndCSVEqual": true,
+      "fingerprint": "a73dc4ed7db8c8ffebe25988d0599b564976680cd274b0738c21d56937385240"
+    }
+  ]
+}

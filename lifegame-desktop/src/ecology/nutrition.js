@@ -346,6 +346,13 @@
           healing: ["moss", "fungus"].includes(target.species) ? 1.2 : 1,
         });
     }
+    if(S.LargePlant.enabled(w)&&!plant&&!fungus){
+      const cells=w.config.ecologyRevision==="observation/4.1"?S.nearby(w,o.cell,1,true):[o.cell];
+      for(const cell of cells){const target=m.producer?.get(cell);
+        if(!target||target.HP<=0||S.edibleB(target)<=0||!organicAllowed("plant")||!S.oneStep(w,o.cell,cell)||list.some(a=>a.id===target.id))continue;
+        list.push({type:"plant",id:target.id,obj:target,cell,tag:"plant",amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB-S.PLANT_BASE),healing:1});
+      }
+    }
     return list;
   }
   function chooseSource(w, o, list, ctx) {
@@ -444,7 +451,7 @@
               o.E +
               (2 * (p.maxHP - o.HP)) / (a.healing * p.ageFactors.healing);
           const B = Math.min(
-              2,
+              S.LargePlant.is(obj)?2*S.phenotype(w,obj).biteFactor:2,
               S.edibleB(obj),
               S.spec(o).group === "prey"
                 ? Math.max(0, S.round(need / efficiency(o, a.tag, p.phase)))
@@ -457,6 +464,7 @@
           obj.M = S.round(obj.M - M);
           amount = { E: B, M, G: 0 };
           if(S.Colony.is(obj))S.Colony.consumed(w,obj,B);
+          if(S.LargePlant.is(obj))S.LargePlant.consumed(w,obj,B);
           if (obj.B <= 0) ctx.harvestDead.add(obj.id);
         } else {
           amount = {
@@ -588,6 +596,7 @@
         o.colony.activity=S.round(S.clamp(o.colony.activity+(maintained?.02:-.05),0,1));
         if(maintained)S.Colony.increment(o,"maintainedTurns",1);
       }
+      if(S.LargePlant.is(o))S.LargePlant.maintained(w,o,paidBase,base);
       const paidDensity = spend(w, o, c.density);
       ctx.records.get(o.id).crowding = c.neighborCount >= 5 && paidDensity > 0;
       parasiteFee(w, ctx, o);
@@ -601,6 +610,7 @@
         reason = ctx.records.get(o.id).damage > 0 ? "combat" : "starvation";
       if (ctx.harvestDead.has(o.id)) reason = "harvest";
       if(!reason&&S.Colony.is(o)&&o.colony.activity<=0)reason="starvation";
+      if(!reason&&S.LargePlant.is(o)&&o.plant.activity<=0)reason="starvation";
       if (!reason && !S.Colony.is(o) && o.age >= p.life) reason = "age";
       if (reason) {
         S.record(ctx, o, "death", { reason, appearance: {
@@ -620,7 +630,8 @@
     for (const o of w.organisms) {
       if (!ctx.traits.has(o.id)) continue;
       const s = S.spec(o);
-      if(S.Colony.is(o))S.Colony.regrow(w,o);
+      if(S.LargePlant.is(o))S.LargePlant.regrow(w,o,ctx);
+      else if(S.Colony.is(o))S.Colony.regrow(w,o);
       else if (["plant", "fungus"].includes(s.group)) {
         const hasBirth = S.nearby(w, o.cell).some(
             (p) =>

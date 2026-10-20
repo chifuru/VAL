@@ -12,15 +12,17 @@
   return [point[0]+offset[0],point[1]+offset[1]];
  }
  function create(w,P,enabled,detail=false){
-  const main=new Set(),food=new Set(),basal=new Set(),prey=new Set(),hosts=new Map(),extras=new Map(),anchors=new Map();
-  for(const o of w.organisms){(o.slot==='main'?main:food).add(o.cell);if(o.slot==='food')basal.add(o.cell);if(o.slot==='prey')prey.add(o.cell);hosts.set(o.id,o);if(o.infection){hosts.set(o.infection.id,o);if(o.infection.q)hosts.set(o.infection.q.id,o);}}
+  const main=new Set(),food=new Set(),producer=new Set(),basal=new Set(),prey=new Set(),hosts=new Map(),extras=new Map(),anchors=new Map();
+  for(const o of w.organisms){(o.slot==='main'?main:o.slot==='producer'?producer:food).add(o.cell);if(o.slot==='food')basal.add(o.cell);if(o.slot==='prey')prey.add(o.cell);hosts.set(o.id,o);if(o.infection){hosts.set(o.infection.id,o);if(o.infection.q)hosts.set(o.infection.q.id,o);}}
   for(const a of w.carcasses||[]){extras.set(a.id,a);if(a.payloadExpires>w.turn&&a.infection){extras.set(a.infection.id,a);if(a.infection.q)extras.set(a.infection.q.id,a);}}
   const searching=new Map((w.searchQ||[]).map(q=>[q.id,q]));
   function anchor(o,progress=1,move=null){
    if(!move&&anchors.has(o.id))return anchors.get(o.id);
    const overlap=main.has(o.cell)&&food.has(o.cell),layered=basal.has(o.cell)&&prey.has(o.cell),
-     ox=layered?(o.slot==='main'?.65:o.slot==='prey'?.18:.68):overlap?(o.slot==='main'?.67:.2):.5,
-     oy=layered?(o.slot==='main'?.4:o.slot==='prey'?.72:.88):overlap?(o.slot==='main'?.44:.81):.55;
+     independent=producer.has(o.cell)&&(main.has(o.cell)||food.has(o.cell)),
+     corner={main:[.19,.26],producer:[.79,.24],food:[.22,.84],prey:[.8,.84]}[o.slot]||[.5,.55],
+     ox=independent?corner[0]:layered?(o.slot==='main'?.65:o.slot==='prey'?.18:.68):overlap?(o.slot==='main'?.67:.2):.5,
+     oy=independent?corner[1]:layered?(o.slot==='main'?.4:o.slot==='prey'?.72:.88):overlap?(o.slot==='main'?.44:.81):.55;
    let x=o.cell%w.config.width,y=Math.floor(o.cell/w.config.width);
    if(move?.from!==undefined){const u=move.from%w.config.width,v=Math.floor(move.from/w.config.width);x=u+(x-u)*progress;y=v+(y-v)*progress;}
    const ground=P.point(x+ox,y+oy),point=[ground[0],ground[1]-(enabled&&o.slot==='main'?LIFT:0)];
@@ -29,7 +31,7 @@
   function entity(id){
    const host=hosts.get(id);if(host){const a={...anchor(host),point:[...anchor(host).point]};if(host.id!==id)a.point=parasitePoint(a.point,host.infection?.q?.id===id?'Q':'P',detail);return {...a,host,id,cell:host.cell};}
    const a=extras.get(id);if(a){
-    const ground=P.point(a.cell%w.config.width+(a.slot==='food'?.22:a.slot==='prey'?.52:.86),Math.floor(a.cell/w.config.width)+.86),point=[...ground];
+    const ground=P.point(a.cell%w.config.width+(a.slot==='food'?.22:a.slot==='prey'?.52:a.slot==='producer'?.72:.86),Math.floor(a.cell/w.config.width)+.86),point=[...ground];
     if(id!==a.id){point[0]+=a.infection?.q?.id===id?.23:.09;point[1]-=a.infection?.q?.id===id?.18:.12;}
     return {id,cell:a.cell,host:a,ground,point,elevated:false,carcass:true};
    }
@@ -42,7 +44,7 @@
    return organismIndex(rect);
   }
   function resources(rect){resourceIndex ||= spatial(w.resources,o=>{const p=P.point(o.cell%w.config.width+.5,Math.floor(o.cell/w.config.width)+.5);return [p[0]-.6,p[1]-.6,p[0]+.6,p[1]+.6];});return resourceIndex(rect);}
-  return {anchor,entity,main,food,candidates,resources,enabled:!!enabled};
+  return {anchor,entity,main,food,producer,candidates,resources,enabled:!!enabled};
  }
  return {create,LIFT,parasitePoint,spatial};
 });

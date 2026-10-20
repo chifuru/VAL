@@ -1,0 +1,11 @@
+✔ tests/independent-plant-observation.test.cjs (144.151471ms)
+✔ tests/independent-plants-flow.test.cjs (4820.284576ms)
+✔ tests/independent-plants.test.cjs (8857.236088ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13834.752253

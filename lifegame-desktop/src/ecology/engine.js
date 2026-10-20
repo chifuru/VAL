@@ -12,13 +12,14 @@
 })(globalThis, function (S, N, B, R, P) {
   "use strict";
   function summarize(w) {
-    const counts = Object.fromEntries(S.D.species.map((s) => [s.id, 0])),
+    const counts = Object.fromEntries((S.activeSpecies?.(w)||S.D.species).map((s) => [s.id, 0])),
       phases = [0, 0, 0, 0],
       roles = { queen: 0, worker: 0, male: 0 },
       infectionStages = { first: 0, middle: 0, extra: 0, terminal: 0 },
       colonies = {};
     let main = 0,
       food = 0,
+      producer = 0,
       Pcount = 0,
       Qcount = 0;
     for (const o of w.organisms) {
@@ -30,7 +31,8 @@
           roles[o.role]++;
           colonies[o.colony] = (colonies[o.colony] || 0) + 1;
         }
-      } else food++;
+      } else if(S.LargePlant?.is(o))producer++;
+      else food++;
       if (o.infection) {
         Pcount++;
         counts[o.infection.species]++;
@@ -46,6 +48,7 @@
       population: w.organisms.length,
       main,
       food,
+      ...(S.LargePlant?.enabled(w)?{producer}:{}),
       P: Pcount,
       Q: Qcount + (w.searchQ?.length || 0),
       ...(w.config.ecologyRevision === "observation/4.1" ? {Qsearch:w.searchQ?.length||0} : {}),
@@ -133,6 +136,8 @@
     return ctx;
   }
   function prepare(w, ctx) {
+    const sharedPlants=S.LargePlant?.enabled(w);
+    if(sharedPlants)S.LargePlant.prepareLight(w,ctx);
     for (const o of w.organisms) {
       const s = S.spec(o),
         p = ctx.traits.get(o.id),
@@ -142,7 +147,7 @@
             : s.id === "kelp"
               ? 1.5 * w.tiles[o.cell].light * [0, 1, 1.1, 1.2, 1.3][p.phase]
               : 0;
-      const ageLight=S.round(light*p.ageFactors.light*(w.config.solarScale || 1)*S.ProducerSupport.factor(w,o,S));
+      const ageLight=sharedPlants&&(s.group==="plant"||s.id==="kelp")?0:S.round(light*p.ageFactors.light*(w.config.solarScale || 1)*S.ProducerSupport.factor(w,o,S));
       if (ageLight) {
         const add = Math.min(p.capE - o.E, ageLight);
         o.E = S.round(o.E + add);
@@ -199,10 +204,11 @@
     defend: 6,
     light: 7,
   };
-  function emptyTallies() {
+  function emptyTallies(w) {
+    const species=w&&S.activeSpecies?S.activeSpecies(w):S.D.species;
     return {
-      births: Object.fromEntries(S.D.species.map((s) => [s.id, 0])),
-      deaths: Object.fromEntries(S.D.species.map((s) => [s.id, 0])),
+      births: Object.fromEntries(species.map((s) => [s.id, 0])),
+      deaths: Object.fromEntries(species.map((s) => [s.id, 0])),
       causes: { combat: 0, starvation: 0, harvest: 0, age: 0 },
       sources: {
         plant: 0,
@@ -317,8 +323,9 @@
   }
   function finish(w, ctx) {
     S.Colony.summary(w);
+    if(S.LargePlant?.enabled(w))S.LargePlant.summary(w);
     S.ProducerSupport.finish(w,ctx,S);
-    w.tallies = w.tallies || emptyTallies();
+    w.tallies = w.tallies || emptyTallies(w);
     for (const id of ctx.births) w.tallies.births[id]++;
     for (const death of ctx.deaths) {
       w.tallies.deaths[death.species]++;
@@ -398,7 +405,7 @@
       deathCauses: [],
     };
     w.stopReason = null;
-    w.tallies = emptyTallies();
+    w.tallies = emptyTallies(w);
     w.checkpoints = [checkpoint(w)];
     return w;
   }
@@ -416,6 +423,7 @@
     }
     w.turn++;
     S.Colony.begin(w);
+    if(S.LargePlant?.enabled(w))S.LargePlant.begin(w);
     S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
     const labels = ["資源更新", "移動・採食・戦闘", "成長・繁殖"];
@@ -461,6 +469,7 @@
             N.supply(w, ctx, [...drops, ...minerals, ...information]);
           });
           P.reproduce(w, ctx);
+          if(S.LargePlant?.enabled(w))S.LargePlant.finalize(w,ctx);
           S.settleAge(w,ctx);
           finish(w, ctx);
         }
@@ -507,12 +516,18 @@
     const errors = [],
       main = new Set(),
       food = new Set(),
+      producer = new Set(),
       ids = new Set(),
       resourceKinds = new Map();
     for (const o of w.organisms) {
       const occupied = o.slot === "main" ? main : food;
-      if (occupied.has(o.cell)) errors.push("SLOT_DUPLICATE:" + o.id);
-      occupied.add(o.cell);
+      if(o.slot === "producer"){
+        if(producer.has(o.cell))errors.push("SLOT_DUPLICATE:"+o.id);
+        producer.add(o.cell);
+      }else{
+        if (occupied.has(o.cell)) errors.push("SLOT_DUPLICATE:" + o.id);
+        occupied.add(o.cell);
+      }
       if (ids.has(o.id)) errors.push("ID_DUPLICATE:" + o.id);
       ids.add(o.id);
       if (w.tiles[o.cell]?.blocked) errors.push("BLOCKED:" + o.id);
@@ -531,6 +546,18 @@
         if(!S.Colony.enabled(w)||S.spec(o).group!=="plant"||![c.baseB,c.capacityB,c.activity,c.replacementDebtB,...Object.values(c.last),...Object.values(c.cumulative)].every(Number.isFinite)||c.baseB!==S.PLANT_BASE||c.activity<0||c.activity>1||o.B<c.baseB-1e-6||S.edibleB(o)>c.capacityB+1e-6||Object.values(c.cumulative).some(v=>v<0))errors.push("COLONY:"+o.id);
         if(e&&(!Number.isFinite(e.E)||e.E<0||!Number.isFinite(e.amount)||e.amount<0||e.amount>1+1e-6||!Number.isSafeInteger(e.expires)))errors.push("COLONY_EXPOSURE:"+o.id);
       }
+      if(S.LargePlant?.is(o)){
+        const plant=o.plant,p=S.phenotype(w,o),s=S.spec(o),
+          finiteLedger=value=>typeof value==="number"?Number.isFinite(value)&&value>=0:
+            !!value&&typeof value==="object"&&Object.values(value).every(finiteLedger),
+          values=[plant.baseB,plant.activity,plant.replacementDebtB,plant.last,plant.cumulative];
+        if(!S.LargePlant.enabled(w)||o.slot!=="producer"||s.kind!=="independent"||s.group!=="plant"||
+           !values.every(finiteLedger)||plant.baseB!==S.PLANT_BASE||plant.activity>1||
+           o.B<plant.baseB-1e-6||o.B>p.capB+1e-6||o.E>p.capE+1e-6||o.M>p.capM+1e-6||
+           !Number.isFinite(o.birthLife)||o.birthLife!==s.life||!Number.isSafeInteger(o.phase)||o.phase<1||o.phase>4||
+           (o.phase>=3&&![0,1,2].includes(o.branch3))||(o.phase===4&&![0,1].includes(o.branch4)))errors.push("INDEPENDENT_PLANT:"+o.id);
+        if(!Array.isArray(plant.window)||plant.window.length>32||!plant.window.every(finiteLedger))errors.push("INDEPENDENT_WINDOW:"+o.id);
+      }else if(o.slot==="producer")errors.push("INDEPENDENT_PLANT:"+o.id);
       if (o.infection) {
         const p = o.infection;
         if (p.hostId !== o.id) errors.push("HOST:" + o.id);

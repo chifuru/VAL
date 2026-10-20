@@ -211,6 +211,54 @@
       "width": 1536,
       "height": 1024,
       "sha256": "3601c2eaf733f1dea54556db93492a6f4c836f99fccda88b114f978714ee26ee"
+    },
+    "plant-land-reference-v1": {
+      "file": "plant-land-reference-v1.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "b4738dc17f20fadf7ce2c608729f290fadda7612a1b89dd02879171fdcc0c866"
+    },
+    "plant-forest-reference-v1": {
+      "file": "plant-forest-reference-v1.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "a485aaf6d9ea40c5cbe524604114b6e2ae5b1a242cb070c97371db3682067edb"
+    },
+    "plant-star-reference-v1": {
+      "file": "plant-star-reference-v1.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "5f83f1e260e9d6618dd30e51322fdc6de676b8b154d428dd36c9fd8bd15380d7"
+    },
+    "plant-freshwater-reference-v1": {
+      "file": "plant-freshwater-reference-v1.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "dccae29ada2c06d2ed3e701d27faf48181180b66aa0cba17e9c8feacb33c5b6d"
+    },
+    "plant-freshwater-branches-reference-v1": {
+      "file": "plant-freshwater-branches-reference-v1.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "3b948cb85233b936fb08e8d48c289af81f437343b5207d8fae2aa64936f25dcb"
+    },
+    "forestcrown-atlas-v1": {
+      "file": "forestcrown-atlas-v1.png",
+      "width": 1536,
+      "height": 1152,
+      "sha256": "1783985bcb4f75ddf85113ecdfd6144b30adbc725ec0fa431b55c7a0848706ae"
+    },
+    "starcrown-atlas-v1": {
+      "file": "starcrown-atlas-v1.png",
+      "width": 1536,
+      "height": 1152,
+      "sha256": "55aa39f1c4cb5eeaf3590e7e583dbec6b6ce002198d4e54e3899186874ed6894"
+    },
+    "freshwaterlight-atlas-v1": {
+      "file": "freshwaterlight-atlas-v1.png",
+      "width": 1536,
+      "height": 1152,
+      "sha256": "1ce1efcb697c5a3f89595c01fa6d945b887e2f15785752bbd3341779c82d8516"
     }
   },
   "creatures": {
@@ -2321,6 +2369,776 @@
     "corrosion": {
       "sheet": "habitat-corrosion",
       "source": "exec-e5a7a965-6c56-45ad-881f-59971b7dd579.png"
+    }
+  },
+  "producers": {
+    "forestcrown": {
+      "sheet": "forestcrown-atlas-v1",
+      "regions": [
+        [
+          0,
+          0,
+          384,
+          384
+        ],
+        [
+          384,
+          0,
+          384,
+          384
+        ],
+        [
+          768,
+          0,
+          384,
+          384
+        ],
+        [
+          1152,
+          0,
+          384,
+          384
+        ],
+        [
+          0,
+          384,
+          384,
+          384
+        ],
+        [
+          384,
+          384,
+          384,
+          384
+        ],
+        [
+          768,
+          384,
+          384,
+          384
+        ],
+        [
+          1152,
+          384,
+          384,
+          384
+        ],
+        [
+          0,
+          768,
+          384,
+          384
+        ],
+        [
+          384,
+          768,
+          384,
+          384
+        ],
+        [
+          768,
+          768,
+          384,
+          384
+        ]
+      ],
+      "bodyBounds": [
+        [
+          23,
+          35,
+          337,
+          313
+        ],
+        [
+          16,
+          37,
+          352,
+          310
+        ],
+        [
+          16,
+          53,
+          352,
+          278
+        ],
+        [
+          16,
+          46,
+          352,
+          291
+        ],
+        [
+          16,
+          57,
+          352,
+          270
+        ],
+        [
+          16,
+          60,
+          352,
+          263
+        ],
+        [
+          16,
+          56,
+          352,
+          272
+        ],
+        [
+          16,
+          61,
+          352,
+          262
+        ],
+        [
+          16,
+          50,
+          352,
+          283
+        ],
+        [
+          16,
+          73,
+          352,
+          238
+        ],
+        [
+          19,
+          47,
+          346,
+          289
+        ]
+      ],
+      "panels": [
+        "I",
+        "II",
+        "III-1",
+        "III-2",
+        "III-3",
+        "IV-1a",
+        "IV-1b",
+        "IV-2a",
+        "IV-2b",
+        "IV-3a",
+        "IV-3b"
+      ],
+      "fit": "contain",
+      "references": [
+        {
+          "sheet": "plant-land-reference-v1",
+          "region": [
+            19,
+            117,
+            304,
+            319
+          ]
+        },
+        {
+          "sheet": "plant-land-reference-v1",
+          "region": [
+            337,
+            117,
+            346,
+            319
+          ]
+        },
+        {
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            8,
+            8,
+            461,
+            326
+          ]
+        },
+        {
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            8,
+            346,
+            461,
+            324
+          ]
+        },
+        {
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            8,
+            682,
+            461,
+            326
+          ]
+        },
+        {
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            486,
+            8,
+            563,
+            326
+          ]
+        },
+        {
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            1068,
+            8,
+            459,
+            326
+          ]
+        },
+        {
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            486,
+            346,
+            563,
+            324
+          ]
+        },
+        {
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            1068,
+            346,
+            459,
+            324
+          ]
+        },
+        {
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            486,
+            682,
+            563,
+            326
+          ]
+        },
+        {
+          "sheet": "plant-forest-reference-v1",
+          "region": [
+            1068,
+            682,
+            459,
+            326
+          ]
+        }
+      ],
+      "source": "adopted-appearance-background-removal/1",
+      "provisional": true
+    },
+    "starcrown": {
+      "sheet": "starcrown-atlas-v1",
+      "regions": [
+        [
+          0,
+          0,
+          384,
+          384
+        ],
+        [
+          384,
+          0,
+          384,
+          384
+        ],
+        [
+          768,
+          0,
+          384,
+          384
+        ],
+        [
+          1152,
+          0,
+          384,
+          384
+        ],
+        [
+          0,
+          384,
+          384,
+          384
+        ],
+        [
+          384,
+          384,
+          384,
+          384
+        ],
+        [
+          768,
+          384,
+          384,
+          384
+        ],
+        [
+          1152,
+          384,
+          384,
+          384
+        ],
+        [
+          0,
+          768,
+          384,
+          384
+        ],
+        [
+          384,
+          768,
+          384,
+          384
+        ],
+        [
+          768,
+          768,
+          384,
+          384
+        ]
+      ],
+      "bodyBounds": [
+        [
+          54,
+          46,
+          275,
+          292
+        ],
+        [
+          21,
+          34,
+          341,
+          315
+        ],
+        [
+          16,
+          76,
+          352,
+          231
+        ],
+        [
+          16,
+          51,
+          352,
+          281
+        ],
+        [
+          16,
+          53,
+          352,
+          277
+        ],
+        [
+          16,
+          71,
+          352,
+          241
+        ],
+        [
+          37,
+          37,
+          309,
+          309
+        ],
+        [
+          16,
+          63,
+          352,
+          258
+        ],
+        [
+          16,
+          55,
+          352,
+          274
+        ],
+        [
+          20,
+          36,
+          344,
+          311
+        ],
+        [
+          16,
+          64,
+          352,
+          255
+        ]
+      ],
+      "panels": [
+        "I",
+        "II",
+        "III-1",
+        "III-2",
+        "III-3",
+        "IV-1a",
+        "IV-1b",
+        "IV-2a",
+        "IV-2b",
+        "IV-3a",
+        "IV-3b"
+      ],
+      "fit": "contain",
+      "references": [
+        {
+          "sheet": "plant-land-reference-v1",
+          "region": [
+            19,
+            508,
+            304,
+            319
+          ]
+        },
+        {
+          "sheet": "plant-land-reference-v1",
+          "region": [
+            337,
+            508,
+            346,
+            319
+          ]
+        },
+        {
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            9,
+            10,
+            476,
+            314
+          ]
+        },
+        {
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            9,
+            341,
+            476,
+            318
+          ]
+        },
+        {
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            9,
+            677,
+            476,
+            330
+          ]
+        },
+        {
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            497,
+            10,
+            540,
+            314
+          ]
+        },
+        {
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            1049,
+            10,
+            477,
+            314
+          ]
+        },
+        {
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            497,
+            341,
+            540,
+            318
+          ]
+        },
+        {
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            1049,
+            341,
+            477,
+            318
+          ]
+        },
+        {
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            497,
+            677,
+            540,
+            330
+          ]
+        },
+        {
+          "sheet": "plant-star-reference-v1",
+          "region": [
+            1049,
+            677,
+            477,
+            330
+          ]
+        }
+      ],
+      "source": "adopted-appearance-background-removal/1",
+      "provisional": true
+    },
+    "freshwaterlight": {
+      "sheet": "freshwaterlight-atlas-v1",
+      "regions": [
+        [
+          0,
+          0,
+          384,
+          384
+        ],
+        [
+          384,
+          0,
+          384,
+          384
+        ],
+        [
+          768,
+          0,
+          384,
+          384
+        ],
+        [
+          1152,
+          0,
+          384,
+          384
+        ],
+        [
+          0,
+          384,
+          384,
+          384
+        ],
+        [
+          384,
+          384,
+          384,
+          384
+        ],
+        [
+          768,
+          384,
+          384,
+          384
+        ],
+        [
+          1152,
+          384,
+          384,
+          384
+        ],
+        [
+          0,
+          768,
+          384,
+          384
+        ],
+        [
+          384,
+          768,
+          384,
+          384
+        ],
+        [
+          768,
+          768,
+          384,
+          384
+        ]
+      ],
+      "bodyBounds": [
+        [
+          57,
+          16,
+          270,
+          352
+        ],
+        [
+          38,
+          26,
+          307,
+          331
+        ],
+        [
+          16,
+          78,
+          352,
+          228
+        ],
+        [
+          26,
+          50,
+          331,
+          284
+        ],
+        [
+          28,
+          48,
+          327,
+          288
+        ],
+        [
+          16,
+          67,
+          352,
+          249
+        ],
+        [
+          16,
+          82,
+          352,
+          220
+        ],
+        [
+          16,
+          98,
+          352,
+          188
+        ],
+        [
+          16,
+          80,
+          352,
+          224
+        ],
+        [
+          16,
+          73,
+          352,
+          238
+        ],
+        [
+          16,
+          58,
+          352,
+          268
+        ]
+      ],
+      "panels": [
+        "I",
+        "II",
+        "III-1",
+        "III-2",
+        "III-3",
+        "IV-1a",
+        "IV-1b",
+        "IV-2a",
+        "IV-2b",
+        "IV-3a",
+        "IV-3b"
+      ],
+      "fit": "contain",
+      "references": [
+        {
+          "sheet": "plant-freshwater-reference-v1",
+          "region": [
+            10,
+            295,
+            284,
+            368
+          ]
+        },
+        {
+          "sheet": "plant-freshwater-reference-v1",
+          "region": [
+            316,
+            256,
+            283,
+            365
+          ]
+        },
+        {
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            6,
+            5,
+            456,
+            318
+          ]
+        },
+        {
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            6,
+            337,
+            456,
+            315
+          ]
+        },
+        {
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            6,
+            666,
+            456,
+            350
+          ]
+        },
+        {
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            477,
+            5,
+            543,
+            318
+          ]
+        },
+        {
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            1036,
+            5,
+            494,
+            318
+          ]
+        },
+        {
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            477,
+            337,
+            543,
+            315
+          ]
+        },
+        {
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            1036,
+            337,
+            494,
+            315
+          ]
+        },
+        {
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            477,
+            666,
+            543,
+            350
+          ]
+        },
+        {
+          "sheet": "plant-freshwater-branches-reference-v1",
+          "region": [
+            1036,
+            666,
+            494,
+            350
+          ]
+        }
+      ],
+      "source": "adopted-appearance-background-removal/1",
+      "provisional": true
     }
   }
 }

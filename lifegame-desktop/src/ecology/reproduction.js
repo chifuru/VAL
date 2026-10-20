@@ -23,6 +23,7 @@
         p = ctx.traits.get(o.id),
         rec = ctx.records.get(o.id),
         old = p.phase;
+      if(S.LargePlant.is(o))continue;
       if (s.group !== "main") {
         if(S.Colony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
@@ -137,6 +138,10 @@
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
     if(!birthPressure(w,o,ctx).allowed)return false;
+    if(S.LargePlant.is(o)){
+      const cost=o.phase===4&&o.branch3===1?(o.branch4===0?14:8):10;
+      return p.ageStage!=="juvenile"&&o.plant.activity>0&&o.HP>=.7*p.maxHP&&o.E>=cost+4*p.maintenance&&o.M>=.2;
+    }
     if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
     if (s.group !== "main")
       return (
@@ -167,6 +172,13 @@
         mains = near.map((p) => m.main.get(p)).filter(Boolean),
         food = near.map((p) => m.food.get(p)).filter(Boolean),
         local = [];
+      if(S.LargePlant.enabled(w)&&w.config.enabled.plant&&!m.producer.has(cell)){
+        for(const parent of near.map(p=>m.producer.get(p)).filter(Boolean))
+          if(S.validHabitat(w,S.spec(parent),cell)&&S.oneStep(w,parent.cell,cell)&&eligible(w,parent,ctx)){
+            const cost=parent.phase===4&&parent.branch3===1?(parent.branch4===0?14:8):10;
+            local.push({cell,slot:"producer",kind:2,parents:[parent],costs:[cost],species:parent.species});
+          }
+      }
       if (!m.main.has(cell) && w.config.enabled.main) {
         if([2,3].includes(mains.length))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
@@ -258,6 +270,7 @@
         const winner = local.filter((c) => c.slot === slot).sort(compare)[0];
         if (winner) out.push(winner);
       }
+      if(S.LargePlant.enabled(w)){const winner=local.filter(c=>c.slot==="producer").sort(compare)[0];if(winner)out.push(winner);}
     }
     return out;
   }
@@ -279,7 +292,7 @@
         (c.cell % w.config.width),
       T = c.costs.reduce((a, b) => a + b, 0);
     const main = s.group === "main",
-      early = s.id === "precocial";
+      early = s.id === "precocial", independent=S.LargePlant.is(mother);
     let sex = main
         ? c.kind === 1
           ? "female"
@@ -306,8 +319,9 @@
       role,
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
+      ...(independent?{phase:1,age:0,plantOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
-      E: main ? S.round(T * share) : 6,
+      E: independent ? T-4 : main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
       HP: main ? 100 : s.capacity[3],
@@ -337,6 +351,10 @@
         ),
       );
       o.weights = o.birthWeights.slice();
+    }
+    if(independent){
+      for(const axis of S.DNA){const mutation=S.r(w,"independent/inherited-mutation",w.turn,id,axis)<.1?(S.r(w,"independent/inherited-step",w.turn,id,axis)<.5?-.05:.05):0;o.dna[axis]=S.round(S.clamp(mother.dna[axis]+mutation,0,1));}
+      S.dissipate(w,2);S.LargePlant.allocation(w,mother,1,T,mother.phase===4&&mother.branch3===1?mother.branch4:null);
     }
     S.initializeAge(w,o);
     c.parents.forEach((parent, i) => {

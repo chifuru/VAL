@@ -1,0 +1,29 @@
+{
+  "checks": [
+    "land and water occupancy have independent default values",
+    "initial edible capacity is20B in each region",
+    "preset food increase does not inflate occupied area",
+    "preset food increase stays in edible stock capacity",
+    "new UI selects colony model without legacy plant density",
+    "all effective regional settings are retained",
+    "initial report uses regional colony actual and target counts: 自由設定 · 初期条件を自由に設定。餌の初期量は従来どおり。動物の救済補充はありません。 主生物80体。初期餌100%。 生活維持・繁殖を支える観察条件: 主の維持消費65%・移動消費60%、有性繁殖の栄養基準65%/鉱物2。追加優遇の有効/無効は以下に表示します。動物・寄生虫の救済補充なし。 優遇: 生産者ON / 水游虫ON / 高次寄生ON。 生産者供給あり（陸: 栄養1・地点35%・再生1 / 水: 栄養1・地点35%・再生1）。外部入力は収支へ記録。 生産者は個体と区別した群落。陸20%／水15%の適地を目標に配置。 独立生産者 森冠 9個体 / 星冠 10個体 / 淡水光合成体 3個体。基底群落とは別枠です。 下層・供給：調整あり。 初期配置: 生産者群落 陸188/188・水26/26・分解者33/33・一次消費者67/67（実数/目標）。資源: 鉱物45・水分43・情報14地点。 出生：局所混雑・栄養収支で調整。",
+    "generated world contains selectable colony IDs",
+    "side details expose colony state and stock separately",
+    "side details do not invent internal plant age sex or lifetime",
+    "existing chart remains visible graph-stacked",
+    "existing chart remains visible composition-phases",
+    "existing chart remains visible composition-sex",
+    "existing chart remains visible composition-ages",
+    "return to settings retains colony conditions",
+    "cancel preserves the exact colony world",
+    "committed turns retain their colony observations",
+    "old configuration remains an individual-plant world",
+    "old plant details are not relabeled as a colony",
+    "zero initial edible fraction retains the living colony base",
+    "zero edible stock remains distinguishable from a missing colony",
+    "additional settings fit narrow screen",
+    "no browser exceptions"
+  ],
+  "errors": [],
+  "scope": "new colony settings/details, exact committed observations, legacy individual-plant display; no population survival claim"
+}

@@ -22,7 +22,7 @@
         <div>
           <p class="eyebrow">LIFE LAB · ECOSYSTEM OBSERVATORY</p>
           <h1>ひとマスから、系譜が育つ。</h1>
-          <p>育ち、競い、つながる。31の系統と、見えない関係を観測する。</p>
+          <p>育ち、競い、つながる。多様な系統と、見えない関係を観測する。</p>
         </div>
         <button id="focus-view" class="secondary" aria-pressed="false">
           観察画面を広く表示 ↗
@@ -117,6 +117,12 @@ ECOSYSTEM-2026</textarea
               <label>水の初期可食量（容量比%）<input id="colony-water-initial" type="number" required min="0" max="100" step="any" value="70"></label>
               <label>陸の最大再生（容量比%／T）<input id="colony-land-regrowth" type="number" required min="0" max="10" step="any" value="10"></label>
               <label>水の最大再生（容量比%／T）<input id="colony-water-regrowth" type="number" required min="0" max="10" step="any" value="10"></label>
+              <label>独立植物・陸の自動密度（適地%）<input id="large-plant-land-density" type="number" required min="0" max="100" step="any" value="2"></label>
+              <label>独立植物・水の自動密度（適地%）<input id="large-plant-water-density" type="number" required min="0" max="100" step="any" value="2"></label>
+              <label>独立植物の初期相<select id="large-plant-phase"><option value="1">I</option><option value="2">II</option><option value="3">III</option><option value="4">IV</option></select></label>
+              <label>独立植物の初期年齢（寿命比%）<input id="large-plant-age" type="number" required min="0" max="99" step="any" value="0"></label>
+              <label>独立植物の初期E（容量比%）<input id="large-plant-energy" type="number" required min="0" max="100" step="any" value="50"></label>
+              <p class="note">森冠・星冠・淡水光合成体は本体1個体です。陸の自動密度は森冠と星冠の合計で、基底群落とは別の生産者枠を使います。初期数は下欄で種別指定できます。</p>
               <label>分解者の初期密度（%）<input id="density-fungus" type="number" required min="0" max="90" step="0.1" value="3"></label>
               <label>一次消費者の初期密度（%）<input id="density-prey" type="number" required min="0" max="90" step="0.1" value="6"></label><p class="note">主生物・一次消費者の出生は、周囲の混雑と栄養状態に応じて調整します。</p>
               <label>下層の分布<select id="lower-distribution"><option value="habitat">適地内に散在</option><option value="cluster">適地内に集落</option></select></label>
@@ -367,7 +373,7 @@ ECOSYSTEM-2026</textarea
       </details>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.34 · 外部通信なし</span>
+        ><span>v4.2.35 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">

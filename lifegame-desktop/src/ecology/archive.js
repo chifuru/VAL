@@ -9,8 +9,13 @@
  // New colony rules retain the previous engine only when the recorded world
  // has neither of the colony options. A legacy signature cannot claim new rules.
  const colonyBuildSignature="29d8a966b7f9dcf86b26c5f40bd11967633dc9d8c52971720e584e8f0f7e23d5";
- const canonicalSignature=(s,config)=>s===colonyBuildSignature&&config.producerModel===undefined&&config.producerSettings===undefined
+ // I03 preserves both old paths only when the recorded world has no new plant options.
+ const independentBuildSignature="8b9c50044add0f60ae755bad650ae037500ede82cec32503b850a6d7ae8d798c";
+ function canonicalSignature(s,config){
+  if(s===independentBuildSignature&&config.largePlantModel===undefined&&config.largePlantSettings===undefined)s=colonyBuildSignature;
+  return s===colonyBuildSignature&&config.producerModel===undefined&&config.producerSettings===undefined
    ? "8d7f6fbd94128cebf77ab6032098e09a432bc13d8cb2552222b0546971e84745" : equivalentReplaySignatures[s]||s;
+ }
  function create(storage,engine,signature){
   function list(){
    const raw=storage.getItem(KEY);if(!raw)return [];
@@ -21,11 +26,15 @@
   function capture(world,reason,observation,originRecordId=null){
     const fingerprint=engine.fingerprint(world),record={schema:1,id:fingerprint,signature,config:structuredClone(world.config),turn:world.turn,reason,created:new Date().toISOString(),final:{counts:{...world.stats.counts},main:world.stats.main,food:world.stats.food,P:world.stats.P,Q:world.stats.Q}};
     if(observation){
+      const plantDefinition=observation.definitions?.independentPlants,plantModel=world.config.largePlantModel==='independent/1';
+      if((plantDefinition!==undefined&&plantDefinition!=="independent-plant-observed/1")||plantModel!==(plantDefinition!==undefined)||
+        (plantModel&&(!Array.isArray(observation.rows)||observation.rows.some(r=>r.independentPlants?.definition!==plantDefinition||r.independentPlants.turn!==r.turn))))throw Error("独立植物の全期間観測・定義版が揃っていないため保存できません。");
       const colonyDefinition=observation.definitions?.producerColony,colonyModel=world.config.producerModel==='colony/1';
       if((colonyDefinition!==undefined&&colonyDefinition!=="producer-colony-observed/1")||colonyModel!==(colonyDefinition!==undefined)||
         (colonyModel&&(!Array.isArray(observation.rows)||observation.rows.some(r=>r.producerColony?.definition!==colonyDefinition||r.producerColony.turn!==r.turn))))throw Error("群落の全期間観測・定義版が揃っていないため保存できません。");
       if(observation.schema!=="observation-snapshot/1"||observation.definitions?.current!=="ecosystem-current/1"||observation.definitions?.trophic!=="trophic-observed/1"||observation.definitions?.nutrition!=="nutrition-observed/1"||(observation.definitions.information!==undefined&&observation.definitions.information!=="information-observed/1")||(observation.definitions.combat!==undefined&&observation.definitions.combat!=="combat-observed/1")||observation.metadata?.version!==signature||JSON.stringify(observation.metadata?.config)!==JSON.stringify(world.config)||!Array.isArray(observation.rows)||observation.rows.length!==world.turn+1||observation.rows.some((r,i)=>r.turn!==i))throw Error("全期間観測が揃っていないため保存できません。");
       record.schema=2;record.id='record:'+globalThis.crypto.randomUUID();record.finalFingerprint=fingerprint;record.originRecordId=originRecordId;record.observation=structuredClone(observation);record.hasObservations=true;
+      if(plantModel)record.final.independentPlants=structuredClone(observation.rows.at(-1).independentPlants);
       const current=observation.rows.at(-1).current;record.final.counts={...current.counts};record.final.P=current.groups.find(g=>g.id==='P')?.count||0;record.final.Q=current.groups.find(g=>g.id==='Q')?.count||0;
       Object.assign(record.final,{stats:structuredClone(world.stats),ledger:structuredClone(world.ledger),tallies:structuredClone(world.tallies),demography:structuredClone(world.demography),current:structuredClone(observation.rows.at(-1).current)});
     }

@@ -858,8 +858,17 @@ function(require,module){
   for (const id of ["memory", "antimeme"])
     data.species.find((s) => s.id === id).diet = "scavenger";
   for (const s of data.species) if (s.group === "main") s.maintenance *= .60;
+  // Registered separately: legacy and colony-only worlds keep their 31 entries.
+  data.independentPlants = [
+    {id:"forestcrown",name:"森冠",life:360,maturity:36,birthCooldown:12,maintenance:.25,lightInput:2.4,capacity:[40,18,4,40],color:"#6b9766",aquatic:false},
+    {id:"starcrown",name:"星冠",life:320,maturity:32,birthCooldown:10,maintenance:.25,lightInput:2.4,capacity:[40,18,4,36],color:"#b4c984",aquatic:false},
+    {id:"freshwaterlight",name:"淡水光合成体",life:240,maturity:24,birthCooldown:8,maintenance:.30,lightInput:2.2,capacity:[36,18,4,28],color:"#74bfb0",aquatic:true},
+  ].map(s=>({...s,group:"plant",kind:"independent",recordUnit:"individual",slot:"producer",tag:"plant",
+    phases:["第一相","第二相","第三相","第四相"],branches:["生産","繁殖拡散","耐食"],
+    initial:[s.capacity[0]*.5,13.2,1,s.capacity[3]],traits:{},senseAt:1,rangeAt:1,speedAt:1}));
   data.species.push({id:'phytoplankton',name:'浮遊微藻',group:'plant',slot:'food',tag:'plant',phases:['微小体','分裂体'],life:80,maturity:2,maintenance:.1,birthCooldown:2,initial:[6,8,.5,6],capacity:[20,16,2,6],color:'#73d2bf'});
   data.byId = Object.fromEntries(data.species.map((s) => [s.id, s]));
+  Object.assign(data.byId,Object.fromEntries(data.independentPlants.map(s=>[s.id,s])));
   data.main = data.species.filter((s) => s.group === "main");
   return data;
 });
@@ -932,7 +941,7 @@ function begin(w,S){
   input(o,'M',Math.max(0,Math.min(c.targetM,p.capM)-o.M)*fraction);
   if(!colonyCounts){const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);}
  }
- for(const o of w.organisms)if(S.spec(o).group==='plant'){
+ for(const o of w.organisms)if(S.spec(o).group==='plant'&&!S.LargePlant?.is(o)){
   const n=level(w,o.cell)*(w.tiles[o.cell].light>0?1:0);o.producerReserve=S.round(S.clamp((o.producerReserve??1)+(Math.min(1,n)-.5)*2/c.grace,0,1));
   if(o.producerReserve===0){o.HP=S.round(Math.max(0,o.HP-1));last.stressed++;}
  }
@@ -1013,7 +1022,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     const parameters = (w, cell) => w.config.producerSettings[region(w, cell)];
     function attach(w, o, origin = {kind:"initial"}) {
-      if (!enabled(w) || spec(o).group !== "plant" || is(o)) return o;
+      if (!enabled(w) || spec(o).group !== "plant" || spec(o).kind === "independent" || is(o)) return o;
       o.colony = {version:VERSION, origin:structuredClone(origin), establishedAt:w.turn,
         baseB:PLANT_BASE, capacityB:parameters(w,o.cell).capacityB, activity:1,
         replacementDebtB:0, edibleExposure:null,
@@ -1135,6 +1144,148 @@ return {settings,attach,region,level,factor,begin,finish};
       w.colonySummary=out;
     }
     return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
+  })();
+  const activeSpecies = (w) => w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const LargePlant = (() => {
+    const VERSION="independent-plant-state/1", factors=[0,1,1.15,1.35,1.6], edible=[0,16,20,24,32], LIMIT=1e12;
+    const enabled=w=>w.config.largePlantModel==="independent/1";
+    const is=o=>o?.plant?.version===VERSION;
+    const definition=s=>s?.kind==="independent";
+    const region=(w,cell)=>["shallow","deep"].includes(w.tiles[cell].terrain)?"water":"land";
+    function settings(input={}){
+      const object=(o,keys)=>{if(!o||typeof o!=="object"||Array.isArray(o)||Object.keys(o).some(k=>!keys.includes(k)))throw Error("SETTINGS_INVALID: 独立植物の比較値");};
+      object(input,["version","autoDensity","initial"]);
+      if(input.version!==undefined&&input.version!=="independent-plant-parameters/1")throw Error("SETTINGS_INVALID: 独立植物の定義版");
+      const density=input.autoDensity??{},initial=input.initial??{};object(density,["land","water"]);object(initial,["phase","ageFraction","energyFraction"]);
+      const out={version:"independent-plant-parameters/1",autoDensity:{land:.02,water:.02,...density},initial:{phase:1,ageFraction:0,energyFraction:.5,...initial}};
+      for(const value of Object.values(out.autoDensity))if(typeof value!=="number"||!Number.isFinite(value)||value<0||value>1)throw Error("SETTINGS_INVALID: 独立植物の初期密度");
+      for(const [key,maximum]of [["ageFraction",.99],["energyFraction",1]])if(typeof out.initial[key]!=="number"||!Number.isFinite(out.initial[key])||out.initial[key]<0||out.initial[key]>maximum)throw Error("SETTINGS_INVALID: 独立植物の初期在庫/齢");
+      if(!Number.isInteger(out.initial.phase)||out.initial.phase<1||out.initial.phase>4)throw Error("SETTINGS_INVALID: 独立植物の初期相");
+      return out;
+    }
+    function last(turn){return {turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,maintenanceE:0,preparationE:0,experience:0};}
+    function attach(w,o,options={}){
+      if(!enabled(w)||!definition(spec(o))||is(o))return o;
+      const initial=w.config.largePlantSettings.initial;
+      if(!Object.hasOwn(options,"phase"))o.phase=initial.phase;
+      if(!Object.hasOwn(options,"age"))o.age=Math.floor(spec(o).life*initial.ageFraction);
+      o.birthLife=spec(o).life;
+      o.plant={version:VERSION,origin:structuredClone(options.plantOrigin??{kind:"initial"}),establishedAt:w.turn,
+        baseB:2,capacityB:edible[o.phase],activity:1,replacementDebtB:0,last:last(w.turn),
+        cumulative:{productionB:0,regrowthB:0,consumedB:0,maintainedTurns:0,settlements:0,preparationE:0},
+        window:[],settlementRecorded:false,finalizedAt:-1,maintainedRemainder:0};
+      if(!Object.hasOwn(options,"B"))o.B=H.round(2+edible[o.phase]*.7);
+      if(!Object.hasOwn(options,"E"))o.E=H.round(spec(o).capacity[0]*factors[o.phase]*initial.energyFraction);
+      if(!Object.hasOwn(options,"M"))o.M=1;
+      if(o.phase>=3&&o.branch3===null)o.branch3=choose(w,o,[o.dna.aptitude,o.dna.body,o.dna.skin],"initial/III");
+      if(o.phase>=4&&o.branch4===null)o.branch4=choose(w,o,[o.dna.body,o.dna.skin],"initial/IV");
+      return o;
+    }
+    function phenotype(w,o,phase=o.phase,branch=o.branch4){
+      const s=spec(o),f=factors[phase],age=ageInfo(o),a=age.factors;
+      const high=phase===4&&o.branch3===0&&branch===0,efficient=phase===4&&o.branch3===0&&branch===1;
+      const maintenance=s.maintenance*f*(high?1.1:efficient?.8:1),cooldown=s.birthCooldown*(phase===4&&o.branch3===1?(branch===0?1.5:.75):1);
+      return {phase,u:phase/4,capE:H.round(s.capacity[0]*f),capB:2+edible[phase],capM:4,maxHP:H.round(s.capacity[3]*a.hp),
+        life:o.birthLife,maintenance:H.round(maintenance*a.maintenance),baseMaintenance:maintenance,baseMaxHP:s.capacity[3],
+        cooldown:cooldown*a.birth,baseCooldown:cooldown,sense:1,speed:s.id==="freshwaterlight"?1:0,range:1,M3:0,M4:0,branch,
+        ageEnabled:true,ageStage:age.stage,ageFactors:a,lightInput:s.lightInput*f*(high?1.2:1),surface:f,
+        regenerationFactor:phase===4&&o.branch3===2&&branch===1?1.2:1,
+        biteFactor:phase===4&&o.branch3===2&&branch===0?.8:1};
+    }
+    function increment(o,key,value){o.plant.cumulative[key]=H.round(Math.min(LIMIT,o.plant.cumulative[key]+value));}
+    function row(w,o){
+      const p=o.plant;let r=p.window.find(r=>r.turn===w.turn);
+      if(!r){r={turn:w.turn,allocation:[0,0,0],sides:[[0,0],[0,0],[0,0]]};p.window.push(r);}
+      p.window=p.window.filter(r=>r.turn>w.turn-32);return r;
+    }
+    function allocation(w,o,category,amount,side=null){if(amount<=0)return;const r=row(w,o);r.allocation[category]=H.round(r.allocation[category]+amount);if(side!==null)r.sides[category][side]=H.round(r.sides[category][side]+amount);}
+    function flows(w){return w.largePlantFlows??={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};}
+    function flow(w,o,key,amount){if(flows(w).turn!==w.turn)w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};const r=flows(w)[region(w,o.cell)];r[key]=H.round(r[key]+amount);}
+    function begin(w){if(!enabled(w))return;w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};for(const o of w.organisms)if(is(o)){o.plant.last=last(w.turn);o.plant.window=o.plant.window.filter(r=>r.turn>w.turn-32);}}
+    function initialize(w){
+      if(!enabled(w)||!w.config.enabled.plant)return;
+      const species=D.independentPlants,occupied=new Set(),counts={land:0,water:0};
+      function place(s,cell){const o=organism(w,s,cell,"i:producer:"+cell+":"+s.id);w.organisms.push(o);occupied.add(cell);counts[region(w,cell)]++;}
+      const candidates=s=>w.tiles.map((_,i)=>i).filter(cell=>!occupied.has(cell)&&validHabitat(w,s,cell)).sort((a,b)=>initialRank(w,s,a)-initialRank(w,s,b)||a-b);
+      for(const s of species){const count=w.config.founderCounts?.species[s.id];if(count===undefined)continue;const cells=candidates(s);if(count>cells.length)throw Error("PLACEMENT_SHORTAGE: "+s.name+" 指定"+count+"体の適地/空き枠が不足しています");for(const cell of cells.slice(0,count))place(s,cell);}
+      w.largePlantRegions={};
+      for(const name of ["land","water"]){
+        const eligible=w.tiles.map((_,i)=>i).filter(cell=>region(w,cell)===name&&species.some(s=>validHabitat(w,s,cell)));
+        const target=Math.round(eligible.length*w.config.largePlantSettings.autoDensity[name]);
+        const sites=eligible.filter(cell=>!occupied.has(cell)).map(cell=>({cell,species:species.filter(s=>w.config.founderCounts?.species[s.id]===undefined&&validHabitat(w,s,cell))})).filter(a=>a.species.length)
+          .sort((a,b)=>Math.min(...a.species.map(s=>initialRank(w,s,a.cell)))-Math.min(...b.species.map(s=>initialRank(w,s,b.cell)))||a.cell-b.cell);
+        for(const site of sites){if(counts[name]>=target)break;site.species.sort((a,b)=>hash(w,"independent/initial-species",0,a.id,site.cell)-hash(w,"independent/initial-species",0,b.id,site.cell));place(site.species[0],site.cell);}
+        w.largePlantRegions[name]={eligibleCells:eligible.length,target,initial:counts[name]};
+      }
+    }
+    function prepareLight(w,ctx){
+      if(!enabled(w))return;
+      const groups=new Map();
+      for(const o of w.organisms){
+        const s=spec(o),p=ctx.traits.get(o.id);if(o.HP<=0||(s.group!=="plant"&&s.id!=="kelp"))continue;
+        let input=is(o)?p.lightInput:s.group==="plant"?(s.id==="phytoplankton"?(w.config.advantageSettings?.producer?16:8):(w.config.advantageSettings?.producer?8:4))*leafFactor(o):1.5*[0,1,1.1,1.2,1.3][p.phase];
+        input=H.round(input*w.tiles[o.cell].light*p.ageFactors.light*(w.config.solarScale||1)*ProducerSupport.factor(w,o,{spec}));
+        if(!groups.has(o.cell))groups.set(o.cell,[]);
+        groups.get(o.cell).push({o,p,input,room:Math.max(0,Math.min(input,p.capE-o.E)),area:is(o)?p.surface:1,add:0,h:hash(w,"independent/light-share",w.turn,o.id)});
+      }
+      for(const list of groups.values()){
+        const budget=H.round(Math.max(...list.map(a=>a.input)));let remaining=budget,live=list.filter(a=>a.room>0).sort((a,b)=>a.h-b.h||H.compare(a.o.id,b.o.id));
+        while(remaining>0&&live.length){const area=live.reduce((n,a)=>n+a.area,0),capped=live.filter(a=>a.room<=remaining*a.area/area);
+          if(capped.length){for(const a of capped){const add=H.round(Math.min(remaining,a.room));a.add=H.round(a.add+add);remaining=H.round(remaining-add);a.room=0;}live=live.filter(a=>a.room>0);}
+          else{const available=remaining;for(let i=0;i<live.length;i++){const a=live[i],add=H.round(Math.min(a.room,remaining,i===live.length-1?remaining:available*a.area/area));a.add=H.round(a.add+add);remaining=H.round(remaining-add);}break;}}
+        w.ledger.solar=H.round(w.ledger.solar+budget);dissipate(w,remaining);
+        for(const a of list){a.o.E=H.round(a.o.E+a.add);ctx.records.get(a.o.id).light=a.add;if(Colony.is(a.o))Colony.solar(w,a.o,a.add);if(is(a.o)){ctx.records.get(a.o.id).solarOpportunityE=H.round(Math.min(a.input,budget*a.area/list.reduce((n,p)=>n+p.area,0)));a.o.plant.last.solarInputE=a.add;flow(w,a.o,"solarInputE",a.add);}if(a.o.species==="phytoplankton")a.o.photoGrowth=H.round((a.o.photoGrowth||0)+a.add);if(a.add)record(ctx,a.o,"light",{amount:a.add});}
+      }
+    }
+    function consumed(w,o,amount){const p=o.plant;p.last.consumedB=H.round(p.last.consumedB+amount);p.replacementDebtB=H.round(Math.min(edible[o.phase],p.replacementDebtB+amount));increment(o,"consumedB",amount);flow(w,o,"consumedB",amount);}
+    function maintained(w,o,paid,required){const p=o.plant;p.last.maintenanceE=H.round(p.last.maintenanceE+paid);const healthy=paid>=H.round(required)&&o.HP>0;p.activity=H.round(H.clamp(p.activity+(healthy?.02:-.05),0,1));if(healthy){increment(o,"maintainedTurns",1);p.maintainedRemainder++;}allocation(w,o,0,paid);}
+    function regrow(w,o,ctx){
+      if(!is(o)||o.HP<=0||w.tiles[o.cell].light<=0||ProducerSupport.factor(w,o,{spec})<=0)return;
+      const p=o.plant,phen=phenotype(w,o),tile=w.tiles[o.cell],multiplier=w.config.producerSupport?.enabled?w.config.producerSupport[region(w,o.cell)].regrowth:1;
+      const maximum=p.capacityB*.1*phen.regenerationFactor*Math.min(1,multiplier)*p.activity*Math.min(1,tile.light);
+      const amount=H.round(Math.max(0,Math.min(maximum-p.last.productionB,p.capacityB-edibleB(o),Math.max(0,o.E-2)/1.2,tile.soilM/.02,Math.max(0,phen.capM-o.M)/.02)));
+      if(!amount)return;
+      const expense=H.round(amount*1.2),material=H.round(amount*.02),replacement=H.round(Math.min(p.replacementDebtB,amount));
+      o.E=H.round(o.E-expense);o.B=H.round(o.B+amount);tile.soilM=H.round(tile.soilM-material);o.M=H.round(o.M+material);dissipate(w,H.round(expense-amount));
+      p.last.productionB=H.round(p.last.productionB+amount);p.last.regrowthB=H.round(p.last.regrowthB+replacement);p.replacementDebtB=H.round(p.replacementDebtB-replacement);
+      increment(o,"productionB",amount);increment(o,"regrowthB",replacement);flow(w,o,"productionB",amount);flow(w,o,"regrowthB",replacement);
+      allocation(w,o,0,H.round((amount-replacement)*1.2),0);allocation(w,o,2,H.round(replacement*1.2),1);
+    }
+    function choose(w,o,scores,purpose){const largest=Math.max(...scores),tied=scores.map((n,i)=>({n,i})).filter(a=>Math.abs(a.n-largest)<1e-6),dna=purpose.includes("III")?[o.dna.aptitude,o.dna.body,o.dna.skin]:[o.dna.body,o.dna.skin];tied.sort((a,b)=>(dna[b.i]??0)-(dna[a.i]??0)||hash(w,"independent/branch",0,o.id,[purpose,a.i])-hash(w,"independent/branch",0,o.id,[purpose,b.i]));return tied[0].i;}
+    function prepare(w,o,ctx,indexed){
+      if(o.phase<2||o.phase>=4)return;
+      const phen=phenotype(w,o);if(o.E<.1+4*phen.maintenance)return;
+      const local=nearby(w,o.cell).some(cell=>validHabitat(w,spec(o),cell)&&!indexed.producer?.has(cell));
+      const category=o.phase===3?o.branch3:o.plant.replacementDebtB>0?2:ageInfo(o).stage!=="juvenile"&&local&&o.E>=10+4*phen.maintenance?1:0;
+      const opportunity=ctx.records.get(o.id)?.solarOpportunityE??o.plant.last.solarInputE;
+      const side=category===0?(opportunity>=2*phen.maintenance?0:1):category===1?(o.E>=14+4*phen.maintenance?0:1):(o.plant.replacementDebtB>0?1:0);
+      o.E=H.round(o.E-.1);dissipate(w,.1);o.plant.last.preparationE=.1;increment(o,"preparationE",.1);allocation(w,o,category,.1,side);
+    }
+    function finalize(w,ctx){
+      if(!enabled(w))return;
+      const indexed=maps(w);
+      for(const child of w.organisms)if(is(child)&&!child.plant.settlementRecorded&&child.parents.length&&child.age>=4){child.plant.settlementRecorded=true;const parent=indexed.byId.get(child.parents[0]);if(is(parent)){increment(parent,"settlements",1);parent.plant.last.settlementCredit=(parent.plant.last.settlementCredit||0)+1;}}
+      for(const o of w.organisms)if(is(o)&&ctx.traits.has(o.id)&&o.plant.finalizedAt!==w.turn){
+        const p=o.plant;p.finalizedAt=w.turn;
+        const maintainedPoints=Math.floor(p.maintainedRemainder/2);p.maintainedRemainder%=2;
+        const points=Math.min(1,maintainedPoints+(p.last.productionB-p.last.regrowthB)/4+p.last.regrowthB/4+(p.last.settlementCredit||0));o.G=H.round(Math.min(LIMIT,o.G+points));p.last.experience=points;
+        prepare(w,o,ctx,indexed);
+        const next=o.phase+1,threshold=[0,0,12,36,80][next],cost=[0,0,2,4,6][next];
+        if(next<=4&&o.G>=threshold&&o.E>=cost){let branch=null;
+          if(next===3){const scores=[0,0,0];for(const r of p.window)for(let i=0;i<3;i++)scores[i]+=r.allocation[i];branch=choose(w,o,scores,"III");o.branch3=branch;}
+          if(next===4){const scores=[0,0];for(const r of p.window)for(let i=0;i<2;i++)scores[i]+=r.sides[o.branch3][i];branch=choose(w,o,scores,"IV/"+o.branch3);o.branch4=branch;}
+          o.E=H.round(o.E-cost);dissipate(w,cost);const previous=o.phase;o.phase=next;p.capacityB=edible[next];record(ctx,o,"growth",{fromPhase:previous,phase:next});
+        }
+      }
+    }
+    function summary(w){
+      if(!enabled(w))return;const out={definition:"independent-plant-observed/1",turn:w.turn};
+      for(const name of ["land","water"])out[name]={count:0,B:0,baseB:0,edibleB:0,capacityB:0,occupiedCells:0,eligibleCells:w.largePlantRegions?.[name]?.eligibleCells??w.tiles.filter((_,i)=>region(w,i)===name&&D.independentPlants.some(s=>validHabitat(w,s,i))).length,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,reserveE:0,reserveM:0,activitySum:0};
+      for(const o of w.organisms)if(is(o)){const r=out[region(w,o.cell)];r.count++;r.occupiedCells++;r.B+=o.B;r.baseB+=2;r.edibleB+=edibleB(o);r.capacityB+=o.plant.capacityB;r.reserveE+=o.E;r.reserveM+=o.M;r.activitySum+=o.plant.activity;}
+      if(w.largePlantFlows?.turn===w.turn)for(const name of ["land","water"])for(const key of ["productionB","regrowthB","consumedB","solarInputE"])out[name][key]=w.largePlantFlows[name][key];
+      for(const name of ["land","water"])for(const key of Object.keys(out[name]))out[name][key]=H.round(out[name][key]);w.largePlantSummary=out;
+    }
+    return {enabled,is,definition,region,settings,attach,phenotype,increment,allocation,begin,initialize,prepareLight,consumed,maintained,regrow,finalize,summary};
   })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
@@ -1291,8 +1442,10 @@ return {settings,attach,region,level,factor,begin,finish};
       byId = new Map(),
       resources = new Map(),
       carcasses = new Map();
+    const producer=LargePlant.enabled(w)?new Map():null;
     for (const o of w.organisms) {
       byId.set(o.id, o);
+      if(producer&&o.slot==="producer"){producer.set(o.cell,o);continue;}
       (o.slot === "main" ? main : o.slot === "prey" ? prey : food).set(o.cell, o);
     }
     for (const a of w.resources) {
@@ -1303,11 +1456,14 @@ return {settings,attach,region,level,factor,begin,finish};
       if (!carcasses.has(a.cell)) carcasses.set(a.cell, []);
       carcasses.get(a.cell).push(a);
     }
-    return { main, food, prey, byId, resources, carcasses };
+    const result=(()=>{return { main, food, prey, byId, resources, carcasses };})();
+    if(producer)result.producer=producer;
+    return result;
   }
   function validHabitat(w, s, p) {
     const t = w.tiles[p];
     if (t.blocked) return false;
+    if(LargePlant.definition(s))return t.light>0&&(s.id==="freshwaterlight"?["shallow","deep"].includes(t.terrain):["plain","rock","mud"].includes(t.terrain));
     if (s.id === "phytoplankton") return ["shallow","deep"].includes(t.terrain) && t.light > 0;
     if (s.id === "algae" || s.id === "waterbug")
       return [0, 5].includes(t.env) && t.terrain === "shallow";
@@ -1431,6 +1587,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
+    if(c.largePlantModel!==undefined&&c.largePlantModel!=="independent/1")throw Error("SETTINGS_INVALID: 独立植物モデル");
+    if(c.largePlantModel==="independent/1"){
+      if(c.producerModel!=="colony/1")throw Error("SETTINGS_INVALID: 独立植物には群落モデルが必要です");
+      c.largePlantSettings=LargePlant.settings(c.largePlantSettings);
+    }else if(c.largePlantSettings!==undefined)throw Error("SETTINGS_INVALID: 独立植物モデルの指定が必要です");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
     if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
@@ -1459,7 +1620,7 @@ return {settings,attach,region,level,factor,begin,finish};
       for(const key of ["species","parasites"]){
         const obj=a[key];if(!obj||typeof obj!=="object"||Array.isArray(obj))throw Error("SETTINGS_INVALID: 種別の初期数 "+key);
         for(const [id,count]of Object.entries(obj)){
-          const species=D.species.find(s=>s.id===id),allowed=key==="species"?["plant","fungus","prey"]:["P","Q"];
+          const species=activeSpecies({config:c}).find(s=>s.id===id),allowed=key==="species"?["plant","fungus","prey"]:["P","Q"];
           if(!species||!allowed.includes(species.group)||!Number.isSafeInteger(count)||count<0||count>(species.group==="Q"?1024:17920))throw Error("SETTINGS_INVALID: 初期数 "+id);
           if(count>0&&!c.enabled[species.group])throw Error("SETTINGS_INVALID: "+species.name+"の生物群を有効にしてください");
         }
@@ -1486,6 +1647,9 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(LargePlant.is(o)){
+      o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
+    }
     if(Colony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
@@ -1510,7 +1674,7 @@ return {settings,attach,region,level,factor,begin,finish};
       u = {};
     DNA.forEach(
       (axis, i) =>
-        (u[axis] = main ? 0.25 + 0.5 * r(w, "init/dna", 0, id, null, i) : 0.5),
+        (u[axis] = main || (LargePlant.enabled(w)&&LargePlant.definition(s)) ? 0.25 + 0.5 * r(w, "init/dna", 0, id, null, i) : 0.5),
     );
     const [E, B, M, HP] = main ? [60, 16, 0, 100] : s.initial;
     const birth = main
@@ -1561,12 +1725,15 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
+    delete o.plantOrigin;
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
+    if(LargePlant.is(o))return LargePlant.phenotype(w,o,phase,branch);
     const s = spec(o),
       main = s.group === "main",
       u = main ? phase / 4 : 0,
@@ -1971,6 +2138,7 @@ return {settings,attach,region,level,factor,begin,finish};
         );
       }
     }
+    LargePlant.initialize(w);
     for (const kind of ["mineral", "droplet", "info"]) {
       const target = usable.filter(
         (p) =>
@@ -2120,6 +2288,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
     if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
+    if(LargePlant.enabled(w))for(const o of w.organisms)if(LargePlant.is(o)){o.age=Math.floor(o.birthLife*config.largePlantSettings.initial.ageFraction);o.phase=config.largePlantSettings.initial.phase;}
     if (config.enabled.P)
       for (const o of w.organisms)
         if (
@@ -2170,13 +2339,14 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.founderCounts){
       const requested=config.founderCounts;
-      config.founderReport={version:1,species:Object.fromEntries(D.species.filter(s=>["plant","fungus","prey"].includes(s.group)).map(s=>[s.id,{requested:requested.species[s.id]??null,actual:w.organisms.filter(o=>o.species===s.id).length}])),parasites:Object.fromEntries(["tideparasite","leafparasite","hyperparasite"].map(id=>[id,{requested:requested.parasites[id]??null,actual:id==="hyperparasite"?(w.searchQ?.length||0)+w.organisms.filter(o=>o.infection?.q).length:w.organisms.filter(o=>o.infection?.species===id).length}]))};
+      config.founderReport={version:1,species:Object.fromEntries(activeSpecies(w).filter(s=>["plant","fungus","prey"].includes(s.group)).map(s=>[s.id,{requested:requested.species[s.id]??null,actual:w.organisms.filter(o=>o.species===s.id).length}])),parasites:Object.fromEntries(["tideparasite","leafparasite","hyperparasite"].map(id=>[id,{requested:requested.parasites[id]??null,actual:id==="hyperparasite"?(w.searchQ?.length||0)+w.organisms.filter(o=>o.infection?.q).length:w.organisms.filter(o=>o.infection?.species===id).length}]))};
       if(config.initialReport)for(const g of ["plant","fungus","prey"]){
         const species=D.species.filter(s=>s.group===g),target=config.enabled[g]?Math.round(usable.length*config.initialConditions.density[g]):0;
         config.initialReport.groups[g].requested=species.reduce((sum,s,i)=>sum+(config.enabled[g]?(requested.species[s.id]??(Math.floor(target/species.length)+(i<target%species.length?1:0))):0),0);
       }
     }
     Colony.summary(w);
+    LargePlant.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -2228,6 +2398,8 @@ return {settings,attach,region,level,factor,begin,finish};
     D,
     ProducerSupport,
     Colony,
+    LargePlant,
+    activeSpecies,
     initialRank,
     DIRS,
     DNA,
@@ -2620,6 +2792,13 @@ function(require,module){
           healing: ["moss", "fungus"].includes(target.species) ? 1.2 : 1,
         });
     }
+    if(S.LargePlant.enabled(w)&&!plant&&!fungus){
+      const cells=w.config.ecologyRevision==="observation/4.1"?S.nearby(w,o.cell,1,true):[o.cell];
+      for(const cell of cells){const target=m.producer?.get(cell);
+        if(!target||target.HP<=0||S.edibleB(target)<=0||!organicAllowed("plant")||!S.oneStep(w,o.cell,cell)||list.some(a=>a.id===target.id))continue;
+        list.push({type:"plant",id:target.id,obj:target,cell,tag:"plant",amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB-S.PLANT_BASE),healing:1});
+      }
+    }
     return list;
   }
   function chooseSource(w, o, list, ctx) {
@@ -2718,7 +2897,7 @@ function(require,module){
               o.E +
               (2 * (p.maxHP - o.HP)) / (a.healing * p.ageFactors.healing);
           const B = Math.min(
-              2,
+              S.LargePlant.is(obj)?2*S.phenotype(w,obj).biteFactor:2,
               S.edibleB(obj),
               S.spec(o).group === "prey"
                 ? Math.max(0, S.round(need / efficiency(o, a.tag, p.phase)))
@@ -2731,6 +2910,7 @@ function(require,module){
           obj.M = S.round(obj.M - M);
           amount = { E: B, M, G: 0 };
           if(S.Colony.is(obj))S.Colony.consumed(w,obj,B);
+          if(S.LargePlant.is(obj))S.LargePlant.consumed(w,obj,B);
           if (obj.B <= 0) ctx.harvestDead.add(obj.id);
         } else {
           amount = {
@@ -2862,6 +3042,7 @@ function(require,module){
         o.colony.activity=S.round(S.clamp(o.colony.activity+(maintained?.02:-.05),0,1));
         if(maintained)S.Colony.increment(o,"maintainedTurns",1);
       }
+      if(S.LargePlant.is(o))S.LargePlant.maintained(w,o,paidBase,base);
       const paidDensity = spend(w, o, c.density);
       ctx.records.get(o.id).crowding = c.neighborCount >= 5 && paidDensity > 0;
       parasiteFee(w, ctx, o);
@@ -2875,6 +3056,7 @@ function(require,module){
         reason = ctx.records.get(o.id).damage > 0 ? "combat" : "starvation";
       if (ctx.harvestDead.has(o.id)) reason = "harvest";
       if(!reason&&S.Colony.is(o)&&o.colony.activity<=0)reason="starvation";
+      if(!reason&&S.LargePlant.is(o)&&o.plant.activity<=0)reason="starvation";
       if (!reason && !S.Colony.is(o) && o.age >= p.life) reason = "age";
       if (reason) {
         S.record(ctx, o, "death", { reason, appearance: {
@@ -2894,7 +3076,8 @@ function(require,module){
     for (const o of w.organisms) {
       if (!ctx.traits.has(o.id)) continue;
       const s = S.spec(o);
-      if(S.Colony.is(o))S.Colony.regrow(w,o);
+      if(S.LargePlant.is(o))S.LargePlant.regrow(w,o,ctx);
+      else if(S.Colony.is(o))S.Colony.regrow(w,o);
       else if (["plant", "fungus"].includes(s.group)) {
         const hasBirth = S.nearby(w, o.cell).some(
             (p) =>
@@ -3195,6 +3378,7 @@ function(require,module){
       1.8,
       terrain * (["log", "bush"].includes(t.cover) ? 1.2 : 1),
     );
+    if (S.LargePlant?.is(o)) return .3 * ageMove * terrain;
     if (o.branch3 === 1 && o.branch4 === 1) terrain = 1 + 0.75 * (terrain - 1);
     let branch =
       o.branch3 === 1 && o.branch4 === 0
@@ -3282,11 +3466,56 @@ function(require,module){
       S.xy(c.world, c.cell),
     ];
   }
+  function floatingCandidates(w, o, ctx, m) {
+    const out = [{type:"stop",cell:o.cell,cost:0,path:[]}];
+    if (o.species !== "freshwaterlight") return out;
+    const p = ctx.traits.get(o.id), costs = ctx.costs.get(o.id),
+      budget = Math.max(0,costs.budget-costs.action);
+    for (const cell of S.nearby(w,o.cell)) {
+      if (m.producer?.has(cell) || !S.validHabitat(w,S.spec(o),cell) ||
+          !S.oneStep(w,o.cell,cell) || !visible(w,o,cell,ctx)) continue;
+      const cost = moveCost(w,o,cell,p.phase,false,p.ageFactors.move);
+      if (cost > budget + 1e-8) continue;
+      const [x,y] = S.xy(w,o.cell), [tx,ty] = S.xy(w,cell),
+        direction = S.DIRS.findIndex(([dx,dy]) => dx === tx-x && dy === ty-y);
+      out.push({type:"move",cell,cost,path:[cell],direction});
+    }
+    return out;
+  }
+  function chooseFloating(w, o, ctx, m, stage) {
+    const sensed = S.nearby(w,o.cell,1,true).filter(cell => S.sight(w,o.cell,cell)),
+      consumers = sensed.flatMap(cell => [m.main.get(cell),m.prey?.get(cell)])
+        .filter(a => a && a.HP > 0 &&
+          (S.spec(a).group === "prey" || (S.spec(a).group === "main" && a.species !== "kelp")));
+    const score = cell => {
+      const tile = w.tiles[cell],
+        light = Math.min(1,Math.max(0,tile.light))*S.ProducerSupport.factor(w,{...o,cell},S),
+        mineral = Math.min(1,Math.max(0,tile.soilM)/.2),
+        pressure = Math.min(2,consumers.reduce((n,a) =>
+          n + (S.distance(w,cell,a.cell) <= 1 ? 1/(1+S.distance(w,cell,a.cell)) : 0),0));
+      return light + .5*mineral - .45*pressure;
+    };
+    const list = stage === "effect" ? [{type:"stop",cell:o.cell,cost:0,path:[]}]
+      : floatingCandidates(w,o,ctx,m);
+    for (const c of list) {
+      c.score = c.noRandom = score(c.cell)-c.cost;
+      c.features=[];c.xi=0;
+      c.h=S.hash(w,"behavior/tie",w.turn,o.id,[c.type,null,c.path,c.cell]);
+    }
+    let chosen=list[0];
+    for (const c of list.slice(1))
+      if (c.score > chosen.score+1e-8 ||
+          (chosen.type === "move" && Math.abs(c.score-chosen.score)<=1e-8 && c.h < chosen.h)) chosen=c;
+    ctx.intents.set(o.id,chosen);ctx.records.get(o.id).randomChanged=false;
+    if (o.id === ctx.observeId) ctx.diagnostics={id:o.id,candidates:list.slice().sort((a,b)=>b.score-a.score||a.h-b.h).slice(0,3)
+      .map(c=>({type:c.type,target:undefined,cell:c.cell,score:c.score,cost:c.cost,features:[]}))};
+  }
   function candidates(w, o, ctx, m) {
     const s = S.spec(o),
       p = ctx.traits.get(o.id),
       budget = Math.max(0, ctx.costs.get(o.id).budget - ctx.costs.get(o.id).action),
       out = [{ type: "stop", cell: o.cell, cost: 0, path: [] }];
+    if (S.LargePlant?.is(o)) return floatingCandidates(w,o,ctx,m);
     if (s.group === "plant" || s.group === "fungus") return out;
     const friend = S.nearby(w, o.cell).some(
       (c) => m.main.get(c)?.species === o.species,
@@ -3371,6 +3600,10 @@ function(require,module){
           cost: 0,
           path: [],
         });
+      const producer=m.producer?.get(cell);
+      if (producer && s.id !== "kelp" && S.edibleB(producer)>0 && producer.HP>0 &&
+          (s.group === "main" || s.group === "prey") && S.distance(w,o.cell,cell)<=1 && S.oneStep(w,o.cell,cell))
+        out.push({type:"harvest",cell:o.cell,target:producer.id,cost:0,path:[]});
       if (
         s.id === "swarm" &&
         o.role === "worker" &&
@@ -3464,6 +3697,10 @@ function(require,module){
             (S.spec(plant).group === "plant" ? S.PLANT_BASE : 0)),
         S.spec(plant).tag,
       ) * (s.group === "main" && o.E < 35 ? Math.min(1, S.edibleB(plant) / 4) : 1);
+    const producer=v.m.producer?.get(cell);
+    if (producer && producer.HP>0 && s.id !== "kelp" && (s.group === "main" || s.group === "prey"))
+      q=Math.max(q,value(S.edibleB(producer)/Math.max(1,(v.traits?.get(producer.id)||S.phenotype(w,producer)).capB-S.PLANT_BASE),"plant") *
+        (s.group === "main" && o.E<35 ? Math.min(1,S.edibleB(producer)/4) : 1));
     for (const a of v.m.resources.get(cell) || []) {
       const tag = S.FOOD[a.kind].tag;
       let utility = 1;
@@ -3745,6 +3982,10 @@ function(require,module){
       // Stationary basal life has exactly one possible action. Process that
       // shared rule directly instead of constructing visibility and scores.
       const group = S.spec(o).group;
+      if (S.LargePlant?.is(o) && o.species === "freshwaterlight") {
+        chooseFloating(w,o,ctx,m,stage);
+        continue;
+      }
       if (group === "plant" || group === "fungus") {
         const type = "stop", cell = o.cell, path = [];
         const chosen = {type, cell, cost:0, path, score:0, noRandom:0, features:[],
@@ -4114,6 +4355,7 @@ function(require,module){
         p = ctx.traits.get(o.id),
         rec = ctx.records.get(o.id),
         old = p.phase;
+      if(S.LargePlant.is(o))continue;
       if (s.group !== "main") {
         if(S.Colony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
@@ -4228,6 +4470,10 @@ function(require,module){
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
     if(!birthPressure(w,o,ctx).allowed)return false;
+    if(S.LargePlant.is(o)){
+      const cost=o.phase===4&&o.branch3===1?(o.branch4===0?14:8):10;
+      return p.ageStage!=="juvenile"&&o.plant.activity>0&&o.HP>=.7*p.maxHP&&o.E>=cost+4*p.maintenance&&o.M>=.2;
+    }
     if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
     if (s.group !== "main")
       return (
@@ -4258,6 +4504,13 @@ function(require,module){
         mains = near.map((p) => m.main.get(p)).filter(Boolean),
         food = near.flatMap((p) => [m.food.get(p), m.prey.get(p)]).filter(Boolean),
         local = [];
+      if(S.LargePlant.enabled(w)&&w.config.enabled.plant&&!m.producer.has(cell)){
+        for(const parent of near.map(p=>m.producer.get(p)).filter(Boolean))
+          if(S.validHabitat(w,S.spec(parent),cell)&&S.oneStep(w,parent.cell,cell)&&eligible(w,parent,ctx)){
+            const cost=parent.phase===4&&parent.branch3===1?(parent.branch4===0?14:8):10;
+            local.push({cell,slot:"producer",kind:2,parents:[parent],costs:[cost],species:parent.species});
+          }
+      }
       if (!m.main.has(cell) && w.config.enabled.main) {
         if([2,3].includes(mains.length))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
@@ -4348,6 +4601,7 @@ function(require,module){
         const winner = local.filter((c) => c.slot === slot).sort(compare)[0];
         if (winner) out.push(winner);
       }
+      if(S.LargePlant.enabled(w)){const winner=local.filter(c=>c.slot==="producer").sort(compare)[0];if(winner)out.push(winner);}
     }
     return out;
   }
@@ -4369,7 +4623,7 @@ function(require,module){
         (c.cell % w.config.width),
       T = c.costs.reduce((a, b) => a + b, 0);
     const main = s.group === "main",
-      early = s.id === "precocial";
+      early = s.id === "precocial", independent=S.LargePlant.is(mother);
     let sex = main
         ? c.kind === 1
           ? "female"
@@ -4396,8 +4650,9 @@ function(require,module){
       role,
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
+      ...(independent?{phase:1,age:0,plantOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
-      E: main ? S.round(T * share) : 6,
+      E: independent ? T-4 : main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
       HP: main ? 100 : s.capacity[3],
@@ -4427,6 +4682,10 @@ function(require,module){
         ),
       );
       o.weights = o.birthWeights.slice();
+    }
+    if(independent){
+      for(const axis of S.DNA){const mutation=S.r(w,"independent/inherited-mutation",w.turn,id,axis)<.1?(S.r(w,"independent/inherited-step",w.turn,id,axis)<.5?-.05:.05):0;o.dna[axis]=S.round(S.clamp(mother.dna[axis]+mutation,0,1));}
+      S.dissipate(w,2);S.LargePlant.allocation(w,mother,1,T,mother.phase===4&&mother.branch3===1?mother.branch4:null);
     }
     S.initializeAge(w,o);
     c.parents.forEach((parent, i) => {
@@ -4545,6 +4804,7 @@ function(require,module){
     if(exposure.E<=0)colony.edibleExposure=null;
   }
   function transfer(w, ctx, source, target, type, harvest = null) {
+    if(S.LargePlant.definition(S.D.byId[source.species])||S.LargePlant.is(target))return;
     if(type==="plant"&&S.Colony.is(source)){colonyExposure(w,ctx,source,target,harvest);return;}
     const p = source.infection;
     if (!p) return;
@@ -5074,13 +5334,14 @@ function(require,module){
 })(globalThis, function (S, N, B, R, P) {
   "use strict";
   function summarize(w) {
-    const counts = Object.fromEntries(S.D.species.map((s) => [s.id, 0])),
+    const counts = Object.fromEntries((S.activeSpecies?.(w)||S.D.species).map((s) => [s.id, 0])),
       phases = [0, 0, 0, 0],
       roles = { queen: 0, worker: 0, male: 0 },
       infectionStages = { first: 0, middle: 0, extra: 0, terminal: 0 },
       colonies = {};
     let main = 0,
       food = 0,
+      producer = 0,
       Pcount = 0,
       Qcount = 0;
     for (const o of w.organisms) {
@@ -5092,7 +5353,8 @@ function(require,module){
           roles[o.role]++;
           colonies[o.colony] = (colonies[o.colony] || 0) + 1;
         }
-      } else food++;
+      } else if(S.LargePlant?.is(o))producer++;
+      else food++;
       if (o.infection) {
         Pcount++;
         counts[o.infection.species]++;
@@ -5108,6 +5370,7 @@ function(require,module){
       population: w.organisms.length,
       main,
       food,
+      ...(S.LargePlant?.enabled(w)?{producer}:{}),
       P: Pcount,
       Q: Qcount + (w.searchQ?.length || 0),
       ...(w.config.ecologyRevision === "observation/4.1" ? {Qsearch:w.searchQ?.length||0} : {}),
@@ -5195,6 +5458,8 @@ function(require,module){
     return ctx;
   }
   function prepare(w, ctx) {
+    const sharedPlants=S.LargePlant?.enabled(w);
+    if(sharedPlants)S.LargePlant.prepareLight(w,ctx);
     for (const o of w.organisms) {
       const s = S.spec(o),
         p = ctx.traits.get(o.id),
@@ -5204,7 +5469,7 @@ function(require,module){
             : s.id === "kelp"
               ? 1.5 * w.tiles[o.cell].light * [0, 1, 1.1, 1.2, 1.3][p.phase]
               : 0;
-      const ageLight=S.round(light*p.ageFactors.light*(w.config.solarScale || 1)*S.ProducerSupport.factor(w,o,S));
+      const ageLight=sharedPlants&&(s.group==="plant"||s.id==="kelp")?0:S.round(light*p.ageFactors.light*(w.config.solarScale || 1)*S.ProducerSupport.factor(w,o,S));
       if (ageLight) {
         const add = Math.min(p.capE - o.E, ageLight);
         o.E = S.round(o.E + add);
@@ -5262,10 +5527,11 @@ function(require,module){
     defend: 6,
     light: 7,
   };
-  function emptyTallies() {
+  function emptyTallies(w) {
+    const species=w&&S.activeSpecies?S.activeSpecies(w):S.D.species;
     return {
-      births: Object.fromEntries(S.D.species.map((s) => [s.id, 0])),
-      deaths: Object.fromEntries(S.D.species.map((s) => [s.id, 0])),
+      births: Object.fromEntries(species.map((s) => [s.id, 0])),
+      deaths: Object.fromEntries(species.map((s) => [s.id, 0])),
       causes: { combat: 0, starvation: 0, harvest: 0, age: 0 },
       sources: {
         plant: 0,
@@ -5380,8 +5646,9 @@ function(require,module){
   }
   function finish(w, ctx) {
     S.Colony.summary(w);
+    if(S.LargePlant?.enabled(w))S.LargePlant.summary(w);
     S.ProducerSupport.finish(w,ctx,S);
-    w.tallies = w.tallies || emptyTallies();
+    w.tallies = w.tallies || emptyTallies(w);
     for (const id of ctx.births) w.tallies.births[id]++;
     for (const death of ctx.deaths) {
       w.tallies.deaths[death.species]++;
@@ -5461,7 +5728,7 @@ function(require,module){
       deathCauses: [],
     };
     w.stopReason = null;
-    w.tallies = emptyTallies();
+    w.tallies = emptyTallies(w);
     w.checkpoints = [checkpoint(w)];
     return w;
   }
@@ -5479,6 +5746,7 @@ function(require,module){
     }
     w.turn++;
     S.Colony.begin(w);
+    if(S.LargePlant?.enabled(w))S.LargePlant.begin(w);
     S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
     const labels = ["資源更新", "移動・採食・戦闘", "成長・繁殖"];
@@ -5524,6 +5792,7 @@ function(require,module){
             N.supply(w, ctx, [...drops, ...minerals, ...information]);
           });
           P.reproduce(w, ctx);
+          if(S.LargePlant?.enabled(w))S.LargePlant.finalize(w,ctx);
           S.settleAge(w,ctx);
           finish(w, ctx);
         }
@@ -5570,12 +5839,18 @@ function(require,module){
     const errors = [],
       main = new Set(),
       food = new Set(), prey = new Set(),
+      producer = new Set(),
       ids = new Set(),
       resourceKinds = new Map();
     for (const o of w.organisms) {
       const occupied = o.slot === "main" ? main : o.slot === "prey" ? prey : food;
-      if (occupied.has(o.cell)) errors.push("SLOT_DUPLICATE:" + o.id);
-      occupied.add(o.cell);
+      if(o.slot === "producer"){
+        if(producer.has(o.cell))errors.push("SLOT_DUPLICATE:"+o.id);
+        producer.add(o.cell);
+      }else{
+        if (occupied.has(o.cell)) errors.push("SLOT_DUPLICATE:" + o.id);
+        occupied.add(o.cell);
+      }
       if (ids.has(o.id)) errors.push("ID_DUPLICATE:" + o.id);
       ids.add(o.id);
       if (w.tiles[o.cell]?.blocked) errors.push("BLOCKED:" + o.id);
@@ -5594,6 +5869,18 @@ function(require,module){
         if(!S.Colony.enabled(w)||S.spec(o).group!=="plant"||![c.baseB,c.capacityB,c.activity,c.replacementDebtB,...Object.values(c.last),...Object.values(c.cumulative)].every(Number.isFinite)||c.baseB!==S.PLANT_BASE||c.activity<0||c.activity>1||o.B<c.baseB-1e-6||S.edibleB(o)>c.capacityB+1e-6||Object.values(c.cumulative).some(v=>v<0))errors.push("COLONY:"+o.id);
         if(e&&(!Number.isFinite(e.E)||e.E<0||!Number.isFinite(e.amount)||e.amount<0||e.amount>1+1e-6||!Number.isSafeInteger(e.expires)))errors.push("COLONY_EXPOSURE:"+o.id);
       }
+      if(S.LargePlant?.is(o)){
+        const plant=o.plant,p=S.phenotype(w,o),s=S.spec(o),
+          finiteLedger=value=>typeof value==="number"?Number.isFinite(value)&&value>=0:
+            !!value&&typeof value==="object"&&Object.values(value).every(finiteLedger),
+          values=[plant.baseB,plant.activity,plant.replacementDebtB,plant.last,plant.cumulative];
+        if(!S.LargePlant.enabled(w)||o.slot!=="producer"||s.kind!=="independent"||s.group!=="plant"||
+           !values.every(finiteLedger)||plant.baseB!==S.PLANT_BASE||plant.activity>1||
+           o.B<plant.baseB-1e-6||o.B>p.capB+1e-6||o.E>p.capE+1e-6||o.M>p.capM+1e-6||
+           !Number.isFinite(o.birthLife)||o.birthLife!==s.life||!Number.isSafeInteger(o.phase)||o.phase<1||o.phase>4||
+           (o.phase>=3&&![0,1,2].includes(o.branch3))||(o.phase===4&&![0,1].includes(o.branch4)))errors.push("INDEPENDENT_PLANT:"+o.id);
+        if(!Array.isArray(plant.window)||plant.window.length>32||!plant.window.every(finiteLedger))errors.push("INDEPENDENT_WINDOW:"+o.id);
+      }else if(o.slot==="producer")errors.push("INDEPENDENT_PLANT:"+o.id);
       if (o.infection) {
         const p = o.infection;
         if (p.hostId !== o.id) errors.push("HOST:" + o.id);
@@ -6509,9 +6796,18 @@ function(require,module){
   for (const id of ["memory", "antimeme"])
     data.species.find((s) => s.id === id).diet = "scavenger";
   for (const s of data.species) if (s.group === "main") s.maintenance *= .60;
+  // Registered separately: legacy and colony-only worlds keep their 31 entries.
+  data.independentPlants = [
+    {id:"forestcrown",name:"森冠",life:360,maturity:36,birthCooldown:12,maintenance:.25,lightInput:2.4,capacity:[40,18,4,40],color:"#6b9766",aquatic:false},
+    {id:"starcrown",name:"星冠",life:320,maturity:32,birthCooldown:10,maintenance:.25,lightInput:2.4,capacity:[40,18,4,36],color:"#b4c984",aquatic:false},
+    {id:"freshwaterlight",name:"淡水光合成体",life:240,maturity:24,birthCooldown:8,maintenance:.30,lightInput:2.2,capacity:[36,18,4,28],color:"#74bfb0",aquatic:true},
+  ].map(s=>({...s,group:"plant",kind:"independent",recordUnit:"individual",slot:"producer",tag:"plant",
+    phases:["第一相","第二相","第三相","第四相"],branches:["生産","繁殖拡散","耐食"],
+    initial:[s.capacity[0]*.5,13.2,1,s.capacity[3]],traits:{},senseAt:1,rangeAt:1,speedAt:1}));
   data.species.push({id:'phytoplankton',name:'浮遊微藻',group:'plant',slot:'food',tag:'plant',phases:['微小体','分裂体'],life:80,maturity:2,maintenance:.1,birthCooldown:2,initial:[6,8,.5,6],capacity:[20,16,2,6],color:'#73d2bf'});
   for(const s of data.species)if(s.group==='plant')Object.assign(s,{life:2400,maintenance:.02,birthCooldown:1,initial:[12,s.id==='phytoplankton'?16:20,1,12],capacity:[32,48,4,12]});
   data.byId = Object.fromEntries(data.species.map((s) => [s.id, s]));
+  Object.assign(data.byId,Object.fromEntries(data.independentPlants.map(s=>[s.id,s])));
   data.main = data.species.filter((s) => s.group === "main");
   return data;
 });
@@ -6584,7 +6880,7 @@ function begin(w,S){
   input(o,'M',Math.max(0,Math.min(c.targetM,p.capM)-o.M)*fraction);
   if(!colonyCounts){const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);}
  }
- for(const o of w.organisms)if(S.spec(o).group==='plant'){
+ for(const o of w.organisms)if(S.spec(o).group==='plant'&&!S.LargePlant?.is(o)){
   const n=level(w,o.cell)*(w.tiles[o.cell].light>0?1:0);o.producerReserve=S.round(S.clamp((o.producerReserve??1)+(Math.min(1,n)-.5)*2/c.grace,0,1));
   if(o.producerReserve===0){o.HP=S.round(Math.max(0,o.HP-1));last.stressed++;}
  }
@@ -6665,7 +6961,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     const parameters = (w, cell) => w.config.producerSettings[region(w, cell)];
     function attach(w, o, origin = {kind:"initial"}) {
-      if (!enabled(w) || spec(o).group !== "plant" || is(o)) return o;
+      if (!enabled(w) || spec(o).group !== "plant" || spec(o).kind === "independent" || is(o)) return o;
       o.colony = {version:VERSION, origin:structuredClone(origin), establishedAt:w.turn,
         baseB:PLANT_BASE, capacityB:parameters(w,o.cell).capacityB, activity:1,
         replacementDebtB:0, edibleExposure:null,
@@ -6787,6 +7083,148 @@ return {settings,attach,region,level,factor,begin,finish};
       w.colonySummary=out;
     }
     return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
+  })();
+  const activeSpecies = (w) => w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const LargePlant = (() => {
+    const VERSION="independent-plant-state/1", factors=[0,1,1.15,1.35,1.6], edible=[0,16,20,24,32], LIMIT=1e12;
+    const enabled=w=>w.config.largePlantModel==="independent/1";
+    const is=o=>o?.plant?.version===VERSION;
+    const definition=s=>s?.kind==="independent";
+    const region=(w,cell)=>["shallow","deep"].includes(w.tiles[cell].terrain)?"water":"land";
+    function settings(input={}){
+      const object=(o,keys)=>{if(!o||typeof o!=="object"||Array.isArray(o)||Object.keys(o).some(k=>!keys.includes(k)))throw Error("SETTINGS_INVALID: 独立植物の比較値");};
+      object(input,["version","autoDensity","initial"]);
+      if(input.version!==undefined&&input.version!=="independent-plant-parameters/1")throw Error("SETTINGS_INVALID: 独立植物の定義版");
+      const density=input.autoDensity??{},initial=input.initial??{};object(density,["land","water"]);object(initial,["phase","ageFraction","energyFraction"]);
+      const out={version:"independent-plant-parameters/1",autoDensity:{land:.02,water:.02,...density},initial:{phase:1,ageFraction:0,energyFraction:.5,...initial}};
+      for(const value of Object.values(out.autoDensity))if(typeof value!=="number"||!Number.isFinite(value)||value<0||value>1)throw Error("SETTINGS_INVALID: 独立植物の初期密度");
+      for(const [key,maximum]of [["ageFraction",.99],["energyFraction",1]])if(typeof out.initial[key]!=="number"||!Number.isFinite(out.initial[key])||out.initial[key]<0||out.initial[key]>maximum)throw Error("SETTINGS_INVALID: 独立植物の初期在庫/齢");
+      if(!Number.isInteger(out.initial.phase)||out.initial.phase<1||out.initial.phase>4)throw Error("SETTINGS_INVALID: 独立植物の初期相");
+      return out;
+    }
+    function last(turn){return {turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,maintenanceE:0,preparationE:0,experience:0};}
+    function attach(w,o,options={}){
+      if(!enabled(w)||!definition(spec(o))||is(o))return o;
+      const initial=w.config.largePlantSettings.initial;
+      if(!Object.hasOwn(options,"phase"))o.phase=initial.phase;
+      if(!Object.hasOwn(options,"age"))o.age=Math.floor(spec(o).life*initial.ageFraction);
+      o.birthLife=spec(o).life;
+      o.plant={version:VERSION,origin:structuredClone(options.plantOrigin??{kind:"initial"}),establishedAt:w.turn,
+        baseB:2,capacityB:edible[o.phase],activity:1,replacementDebtB:0,last:last(w.turn),
+        cumulative:{productionB:0,regrowthB:0,consumedB:0,maintainedTurns:0,settlements:0,preparationE:0},
+        window:[],settlementRecorded:false,finalizedAt:-1,maintainedRemainder:0};
+      if(!Object.hasOwn(options,"B"))o.B=H.round(2+edible[o.phase]*.7);
+      if(!Object.hasOwn(options,"E"))o.E=H.round(spec(o).capacity[0]*factors[o.phase]*initial.energyFraction);
+      if(!Object.hasOwn(options,"M"))o.M=1;
+      if(o.phase>=3&&o.branch3===null)o.branch3=choose(w,o,[o.dna.aptitude,o.dna.body,o.dna.skin],"initial/III");
+      if(o.phase>=4&&o.branch4===null)o.branch4=choose(w,o,[o.dna.body,o.dna.skin],"initial/IV");
+      return o;
+    }
+    function phenotype(w,o,phase=o.phase,branch=o.branch4){
+      const s=spec(o),f=factors[phase],age=ageInfo(o),a=age.factors;
+      const high=phase===4&&o.branch3===0&&branch===0,efficient=phase===4&&o.branch3===0&&branch===1;
+      const maintenance=s.maintenance*f*(high?1.1:efficient?.8:1),cooldown=s.birthCooldown*(phase===4&&o.branch3===1?(branch===0?1.5:.75):1);
+      return {phase,u:phase/4,capE:H.round(s.capacity[0]*f),capB:2+edible[phase],capM:4,maxHP:H.round(s.capacity[3]*a.hp),
+        life:o.birthLife,maintenance:H.round(maintenance*a.maintenance),baseMaintenance:maintenance,baseMaxHP:s.capacity[3],
+        cooldown:cooldown*a.birth,baseCooldown:cooldown,sense:1,speed:s.id==="freshwaterlight"?1:0,range:1,M3:0,M4:0,branch,
+        ageEnabled:true,ageStage:age.stage,ageFactors:a,lightInput:s.lightInput*f*(high?1.2:1),surface:f,
+        regenerationFactor:phase===4&&o.branch3===2&&branch===1?1.2:1,
+        biteFactor:phase===4&&o.branch3===2&&branch===0?.8:1};
+    }
+    function increment(o,key,value){o.plant.cumulative[key]=H.round(Math.min(LIMIT,o.plant.cumulative[key]+value));}
+    function row(w,o){
+      const p=o.plant;let r=p.window.find(r=>r.turn===w.turn);
+      if(!r){r={turn:w.turn,allocation:[0,0,0],sides:[[0,0],[0,0],[0,0]]};p.window.push(r);}
+      p.window=p.window.filter(r=>r.turn>w.turn-32);return r;
+    }
+    function allocation(w,o,category,amount,side=null){if(amount<=0)return;const r=row(w,o);r.allocation[category]=H.round(r.allocation[category]+amount);if(side!==null)r.sides[category][side]=H.round(r.sides[category][side]+amount);}
+    function flows(w){return w.largePlantFlows??={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};}
+    function flow(w,o,key,amount){if(flows(w).turn!==w.turn)w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};const r=flows(w)[region(w,o.cell)];r[key]=H.round(r[key]+amount);}
+    function begin(w){if(!enabled(w))return;w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};for(const o of w.organisms)if(is(o)){o.plant.last=last(w.turn);o.plant.window=o.plant.window.filter(r=>r.turn>w.turn-32);}}
+    function initialize(w){
+      if(!enabled(w)||!w.config.enabled.plant)return;
+      const species=D.independentPlants,occupied=new Set(),counts={land:0,water:0};
+      function place(s,cell){const o=organism(w,s,cell,"i:producer:"+cell+":"+s.id);w.organisms.push(o);occupied.add(cell);counts[region(w,cell)]++;}
+      const candidates=s=>w.tiles.map((_,i)=>i).filter(cell=>!occupied.has(cell)&&validHabitat(w,s,cell)).sort((a,b)=>initialRank(w,s,a)-initialRank(w,s,b)||a-b);
+      for(const s of species){const count=w.config.founderCounts?.species[s.id];if(count===undefined)continue;const cells=candidates(s);if(count>cells.length)throw Error("PLACEMENT_SHORTAGE: "+s.name+" 指定"+count+"体の適地/空き枠が不足しています");for(const cell of cells.slice(0,count))place(s,cell);}
+      w.largePlantRegions={};
+      for(const name of ["land","water"]){
+        const eligible=w.tiles.map((_,i)=>i).filter(cell=>region(w,cell)===name&&species.some(s=>validHabitat(w,s,cell)));
+        const target=Math.round(eligible.length*w.config.largePlantSettings.autoDensity[name]);
+        const sites=eligible.filter(cell=>!occupied.has(cell)).map(cell=>({cell,species:species.filter(s=>w.config.founderCounts?.species[s.id]===undefined&&validHabitat(w,s,cell))})).filter(a=>a.species.length)
+          .sort((a,b)=>Math.min(...a.species.map(s=>initialRank(w,s,a.cell)))-Math.min(...b.species.map(s=>initialRank(w,s,b.cell)))||a.cell-b.cell);
+        for(const site of sites){if(counts[name]>=target)break;site.species.sort((a,b)=>hash(w,"independent/initial-species",0,a.id,site.cell)-hash(w,"independent/initial-species",0,b.id,site.cell));place(site.species[0],site.cell);}
+        w.largePlantRegions[name]={eligibleCells:eligible.length,target,initial:counts[name]};
+      }
+    }
+    function prepareLight(w,ctx){
+      if(!enabled(w))return;
+      const groups=new Map();
+      for(const o of w.organisms){
+        const s=spec(o),p=ctx.traits.get(o.id);if(o.HP<=0||(s.group!=="plant"&&s.id!=="kelp"))continue;
+        let input=is(o)?p.lightInput:s.group==="plant"?(s.id==="phytoplankton"?(w.config.advantageSettings?.producer?16:8):(w.config.advantageSettings?.producer?8:4))*leafFactor(o):1.5*[0,1,1.1,1.2,1.3][p.phase];
+        input=H.round(input*w.tiles[o.cell].light*p.ageFactors.light*(w.config.solarScale||1)*ProducerSupport.factor(w,o,{spec}));
+        if(!groups.has(o.cell))groups.set(o.cell,[]);
+        groups.get(o.cell).push({o,p,input,room:Math.max(0,Math.min(input,p.capE-o.E)),area:is(o)?p.surface:1,add:0,h:hash(w,"independent/light-share",w.turn,o.id)});
+      }
+      for(const list of groups.values()){
+        const budget=H.round(Math.max(...list.map(a=>a.input)));let remaining=budget,live=list.filter(a=>a.room>0).sort((a,b)=>a.h-b.h||H.compare(a.o.id,b.o.id));
+        while(remaining>0&&live.length){const area=live.reduce((n,a)=>n+a.area,0),capped=live.filter(a=>a.room<=remaining*a.area/area);
+          if(capped.length){for(const a of capped){const add=H.round(Math.min(remaining,a.room));a.add=H.round(a.add+add);remaining=H.round(remaining-add);a.room=0;}live=live.filter(a=>a.room>0);}
+          else{const available=remaining;for(let i=0;i<live.length;i++){const a=live[i],add=H.round(Math.min(a.room,remaining,i===live.length-1?remaining:available*a.area/area));a.add=H.round(a.add+add);remaining=H.round(remaining-add);}break;}}
+        w.ledger.solar=H.round(w.ledger.solar+budget);dissipate(w,remaining);
+        for(const a of list){a.o.E=H.round(a.o.E+a.add);ctx.records.get(a.o.id).light=a.add;if(Colony.is(a.o))Colony.solar(w,a.o,a.add);if(is(a.o)){ctx.records.get(a.o.id).solarOpportunityE=H.round(Math.min(a.input,budget*a.area/list.reduce((n,p)=>n+p.area,0)));a.o.plant.last.solarInputE=a.add;flow(w,a.o,"solarInputE",a.add);}if(a.o.species==="phytoplankton")a.o.photoGrowth=H.round((a.o.photoGrowth||0)+a.add);if(a.add)record(ctx,a.o,"light",{amount:a.add});}
+      }
+    }
+    function consumed(w,o,amount){const p=o.plant;p.last.consumedB=H.round(p.last.consumedB+amount);p.replacementDebtB=H.round(Math.min(edible[o.phase],p.replacementDebtB+amount));increment(o,"consumedB",amount);flow(w,o,"consumedB",amount);}
+    function maintained(w,o,paid,required){const p=o.plant;p.last.maintenanceE=H.round(p.last.maintenanceE+paid);const healthy=paid>=H.round(required)&&o.HP>0;p.activity=H.round(H.clamp(p.activity+(healthy?.02:-.05),0,1));if(healthy){increment(o,"maintainedTurns",1);p.maintainedRemainder++;}allocation(w,o,0,paid);}
+    function regrow(w,o,ctx){
+      if(!is(o)||o.HP<=0||w.tiles[o.cell].light<=0||ProducerSupport.factor(w,o,{spec})<=0)return;
+      const p=o.plant,phen=phenotype(w,o),tile=w.tiles[o.cell],multiplier=w.config.producerSupport?.enabled?w.config.producerSupport[region(w,o.cell)].regrowth:1;
+      const maximum=p.capacityB*.1*phen.regenerationFactor*Math.min(1,multiplier)*p.activity*Math.min(1,tile.light);
+      const amount=H.round(Math.max(0,Math.min(maximum-p.last.productionB,p.capacityB-edibleB(o),Math.max(0,o.E-2)/1.2,tile.soilM/.02,Math.max(0,phen.capM-o.M)/.02)));
+      if(!amount)return;
+      const expense=H.round(amount*1.2),material=H.round(amount*.02),replacement=H.round(Math.min(p.replacementDebtB,amount));
+      o.E=H.round(o.E-expense);o.B=H.round(o.B+amount);tile.soilM=H.round(tile.soilM-material);o.M=H.round(o.M+material);dissipate(w,H.round(expense-amount));
+      p.last.productionB=H.round(p.last.productionB+amount);p.last.regrowthB=H.round(p.last.regrowthB+replacement);p.replacementDebtB=H.round(p.replacementDebtB-replacement);
+      increment(o,"productionB",amount);increment(o,"regrowthB",replacement);flow(w,o,"productionB",amount);flow(w,o,"regrowthB",replacement);
+      allocation(w,o,0,H.round((amount-replacement)*1.2),0);allocation(w,o,2,H.round(replacement*1.2),1);
+    }
+    function choose(w,o,scores,purpose){const largest=Math.max(...scores),tied=scores.map((n,i)=>({n,i})).filter(a=>Math.abs(a.n-largest)<1e-6),dna=purpose.includes("III")?[o.dna.aptitude,o.dna.body,o.dna.skin]:[o.dna.body,o.dna.skin];tied.sort((a,b)=>(dna[b.i]??0)-(dna[a.i]??0)||hash(w,"independent/branch",0,o.id,[purpose,a.i])-hash(w,"independent/branch",0,o.id,[purpose,b.i]));return tied[0].i;}
+    function prepare(w,o,ctx,indexed){
+      if(o.phase<2||o.phase>=4)return;
+      const phen=phenotype(w,o);if(o.E<.1+4*phen.maintenance)return;
+      const local=nearby(w,o.cell).some(cell=>validHabitat(w,spec(o),cell)&&!indexed.producer?.has(cell));
+      const category=o.phase===3?o.branch3:o.plant.replacementDebtB>0?2:ageInfo(o).stage!=="juvenile"&&local&&o.E>=10+4*phen.maintenance?1:0;
+      const opportunity=ctx.records.get(o.id)?.solarOpportunityE??o.plant.last.solarInputE;
+      const side=category===0?(opportunity>=2*phen.maintenance?0:1):category===1?(o.E>=14+4*phen.maintenance?0:1):(o.plant.replacementDebtB>0?1:0);
+      o.E=H.round(o.E-.1);dissipate(w,.1);o.plant.last.preparationE=.1;increment(o,"preparationE",.1);allocation(w,o,category,.1,side);
+    }
+    function finalize(w,ctx){
+      if(!enabled(w))return;
+      const indexed=maps(w);
+      for(const child of w.organisms)if(is(child)&&!child.plant.settlementRecorded&&child.parents.length&&child.age>=4){child.plant.settlementRecorded=true;const parent=indexed.byId.get(child.parents[0]);if(is(parent)){increment(parent,"settlements",1);parent.plant.last.settlementCredit=(parent.plant.last.settlementCredit||0)+1;}}
+      for(const o of w.organisms)if(is(o)&&ctx.traits.has(o.id)&&o.plant.finalizedAt!==w.turn){
+        const p=o.plant;p.finalizedAt=w.turn;
+        const maintainedPoints=Math.floor(p.maintainedRemainder/2);p.maintainedRemainder%=2;
+        const points=Math.min(1,maintainedPoints+(p.last.productionB-p.last.regrowthB)/4+p.last.regrowthB/4+(p.last.settlementCredit||0));o.G=H.round(Math.min(LIMIT,o.G+points));p.last.experience=points;
+        prepare(w,o,ctx,indexed);
+        const next=o.phase+1,threshold=[0,0,12,36,80][next],cost=[0,0,2,4,6][next];
+        if(next<=4&&o.G>=threshold&&o.E>=cost){let branch=null;
+          if(next===3){const scores=[0,0,0];for(const r of p.window)for(let i=0;i<3;i++)scores[i]+=r.allocation[i];branch=choose(w,o,scores,"III");o.branch3=branch;}
+          if(next===4){const scores=[0,0];for(const r of p.window)for(let i=0;i<2;i++)scores[i]+=r.sides[o.branch3][i];branch=choose(w,o,scores,"IV/"+o.branch3);o.branch4=branch;}
+          o.E=H.round(o.E-cost);dissipate(w,cost);const previous=o.phase;o.phase=next;p.capacityB=edible[next];record(ctx,o,"growth",{fromPhase:previous,phase:next});
+        }
+      }
+    }
+    function summary(w){
+      if(!enabled(w))return;const out={definition:"independent-plant-observed/1",turn:w.turn};
+      for(const name of ["land","water"])out[name]={count:0,B:0,baseB:0,edibleB:0,capacityB:0,occupiedCells:0,eligibleCells:w.largePlantRegions?.[name]?.eligibleCells??w.tiles.filter((_,i)=>region(w,i)===name&&D.independentPlants.some(s=>validHabitat(w,s,i))).length,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,reserveE:0,reserveM:0,activitySum:0};
+      for(const o of w.organisms)if(is(o)){const r=out[region(w,o.cell)];r.count++;r.occupiedCells++;r.B+=o.B;r.baseB+=2;r.edibleB+=edibleB(o);r.capacityB+=o.plant.capacityB;r.reserveE+=o.E;r.reserveM+=o.M;r.activitySum+=o.plant.activity;}
+      if(w.largePlantFlows?.turn===w.turn)for(const name of ["land","water"])for(const key of ["productionB","regrowthB","consumedB","solarInputE"])out[name][key]=w.largePlantFlows[name][key];
+      for(const name of ["land","water"])for(const key of Object.keys(out[name]))out[name][key]=H.round(out[name][key]);w.largePlantSummary=out;
+    }
+    return {enabled,is,definition,region,settings,attach,phenotype,increment,allocation,begin,initialize,prepareLight,consumed,maintained,regrow,finalize,summary};
   })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
@@ -6943,8 +7381,10 @@ return {settings,attach,region,level,factor,begin,finish};
       byId = new Map(),
       resources = new Map(),
       carcasses = new Map();
+    const producer=LargePlant.enabled(w)?new Map():null;
     for (const o of w.organisms) {
       byId.set(o.id, o);
+      if(producer&&o.slot==="producer"){producer.set(o.cell,o);continue;}
       (o.slot === "main" ? main : o.slot === "prey" ? prey : food).set(o.cell, o);
     }
     for (const a of w.resources) {
@@ -6955,11 +7395,14 @@ return {settings,attach,region,level,factor,begin,finish};
       if (!carcasses.has(a.cell)) carcasses.set(a.cell, []);
       carcasses.get(a.cell).push(a);
     }
-    return { main, food, prey, byId, resources, carcasses };
+    const result=(()=>{return { main, food, prey, byId, resources, carcasses };})();
+    if(producer)result.producer=producer;
+    return result;
   }
   function validHabitat(w, s, p) {
     const t = w.tiles[p];
     if (t.blocked) return false;
+    if(LargePlant.definition(s))return t.light>0&&(s.id==="freshwaterlight"?["shallow","deep"].includes(t.terrain):["plain","rock","mud"].includes(t.terrain));
     if (s.id === "phytoplankton") return ["shallow","deep"].includes(t.terrain) && t.light > 0;
     if (s.id === "algae" || s.id === "waterbug")
       return [0, 5].includes(t.env) && t.terrain === "shallow";
@@ -7083,6 +7526,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
+    if(c.largePlantModel!==undefined&&c.largePlantModel!=="independent/1")throw Error("SETTINGS_INVALID: 独立植物モデル");
+    if(c.largePlantModel==="independent/1"){
+      if(c.producerModel!=="colony/1")throw Error("SETTINGS_INVALID: 独立植物には群落モデルが必要です");
+      c.largePlantSettings=LargePlant.settings(c.largePlantSettings);
+    }else if(c.largePlantSettings!==undefined)throw Error("SETTINGS_INVALID: 独立植物モデルの指定が必要です");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
     if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
@@ -7111,7 +7559,7 @@ return {settings,attach,region,level,factor,begin,finish};
       for(const key of ["species","parasites"]){
         const obj=a[key];if(!obj||typeof obj!=="object"||Array.isArray(obj))throw Error("SETTINGS_INVALID: 種別の初期数 "+key);
         for(const [id,count]of Object.entries(obj)){
-          const species=D.species.find(s=>s.id===id),allowed=key==="species"?["plant","fungus","prey"]:["P","Q"];
+          const species=activeSpecies({config:c}).find(s=>s.id===id),allowed=key==="species"?["plant","fungus","prey"]:["P","Q"];
           if(!species||!allowed.includes(species.group)||!Number.isSafeInteger(count)||count<0||count>(species.group==="Q"?1024:17920))throw Error("SETTINGS_INVALID: 初期数 "+id);
           if(count>0&&!c.enabled[species.group])throw Error("SETTINGS_INVALID: "+species.name+"の生物群を有効にしてください");
         }
@@ -7138,6 +7586,9 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(LargePlant.is(o)){
+      o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
+    }
     if(Colony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
@@ -7162,7 +7613,7 @@ return {settings,attach,region,level,factor,begin,finish};
       u = {};
     DNA.forEach(
       (axis, i) =>
-        (u[axis] = main ? 0.25 + 0.5 * r(w, "init/dna", 0, id, null, i) : 0.5),
+        (u[axis] = main || (LargePlant.enabled(w)&&LargePlant.definition(s)) ? 0.25 + 0.5 * r(w, "init/dna", 0, id, null, i) : 0.5),
     );
     const [E, B, M, HP] = main ? [60, 16, 0, 100] : s.initial;
     const birth = main
@@ -7213,12 +7664,15 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
+    delete o.plantOrigin;
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
+    if(LargePlant.is(o))return LargePlant.phenotype(w,o,phase,branch);
     const s = spec(o),
       main = s.group === "main",
       u = main ? phase / 4 : 0,
@@ -7624,6 +8078,7 @@ return {settings,attach,region,level,factor,begin,finish};
         );
       }
     }
+    LargePlant.initialize(w);
     for (const kind of ["mineral", "droplet", "info"]) {
       const target = usable.filter(
         (p) =>
@@ -7773,6 +8228,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
     if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
+    if(LargePlant.enabled(w))for(const o of w.organisms)if(LargePlant.is(o)){o.age=Math.floor(o.birthLife*config.largePlantSettings.initial.ageFraction);o.phase=config.largePlantSettings.initial.phase;}
     if (config.enabled.P)
       for (const o of w.organisms)
         if (
@@ -7823,13 +8279,14 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.founderCounts){
       const requested=config.founderCounts;
-      config.founderReport={version:1,species:Object.fromEntries(D.species.filter(s=>["plant","fungus","prey"].includes(s.group)).map(s=>[s.id,{requested:requested.species[s.id]??null,actual:w.organisms.filter(o=>o.species===s.id).length}])),parasites:Object.fromEntries(["tideparasite","leafparasite","hyperparasite"].map(id=>[id,{requested:requested.parasites[id]??null,actual:id==="hyperparasite"?(w.searchQ?.length||0)+w.organisms.filter(o=>o.infection?.q).length:w.organisms.filter(o=>o.infection?.species===id).length}]))};
+      config.founderReport={version:1,species:Object.fromEntries(activeSpecies(w).filter(s=>["plant","fungus","prey"].includes(s.group)).map(s=>[s.id,{requested:requested.species[s.id]??null,actual:w.organisms.filter(o=>o.species===s.id).length}])),parasites:Object.fromEntries(["tideparasite","leafparasite","hyperparasite"].map(id=>[id,{requested:requested.parasites[id]??null,actual:id==="hyperparasite"?(w.searchQ?.length||0)+w.organisms.filter(o=>o.infection?.q).length:w.organisms.filter(o=>o.infection?.species===id).length}]))};
       if(config.initialReport)for(const g of ["plant","fungus","prey"]){
         const species=D.species.filter(s=>s.group===g),target=config.enabled[g]?Math.round(usable.length*config.initialConditions.density[g]):0;
         config.initialReport.groups[g].requested=species.reduce((sum,s,i)=>sum+(config.enabled[g]?(requested.species[s.id]??(Math.floor(target/species.length)+(i<target%species.length?1:0))):0),0);
       }
     }
     Colony.summary(w);
+    LargePlant.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -7881,6 +8338,8 @@ return {settings,attach,region,level,factor,begin,finish};
     D,
     ProducerSupport,
     Colony,
+    LargePlant,
+    activeSpecies,
     initialRank,
     DIRS,
     DNA,
@@ -8273,6 +8732,13 @@ function(require,module){
           healing: ["moss", "fungus"].includes(target.species) ? 1.2 : 1,
         });
     }
+    if(S.LargePlant.enabled(w)&&!plant&&!fungus){
+      const cells=w.config.ecologyRevision==="observation/4.1"?S.nearby(w,o.cell,1,true):[o.cell];
+      for(const cell of cells){const target=m.producer?.get(cell);
+        if(!target||target.HP<=0||S.edibleB(target)<=0||!organicAllowed("plant")||!S.oneStep(w,o.cell,cell)||list.some(a=>a.id===target.id))continue;
+        list.push({type:"plant",id:target.id,obj:target,cell,tag:"plant",amount:S.edibleB(target)/Math.max(1,S.phenotype(w,target).capB-S.PLANT_BASE),healing:1});
+      }
+    }
     return list;
   }
   function chooseSource(w, o, list, ctx) {
@@ -8371,7 +8837,7 @@ function(require,module){
               o.E +
               (2 * (p.maxHP - o.HP)) / (a.healing * p.ageFactors.healing);
           const B = Math.min(
-              2,
+              S.LargePlant.is(obj)?2*S.phenotype(w,obj).biteFactor:2,
               S.edibleB(obj),
               S.spec(o).group === "prey"
                 ? Math.max(0, S.round(need / efficiency(o, a.tag, p.phase)))
@@ -8384,6 +8850,7 @@ function(require,module){
           obj.M = S.round(obj.M - M);
           amount = { E: B, M, G: 0 };
           if(S.Colony.is(obj))S.Colony.consumed(w,obj,B);
+          if(S.LargePlant.is(obj))S.LargePlant.consumed(w,obj,B);
           if (obj.B <= 0) ctx.harvestDead.add(obj.id);
         } else {
           amount = {
@@ -8515,6 +8982,7 @@ function(require,module){
         o.colony.activity=S.round(S.clamp(o.colony.activity+(maintained?.02:-.05),0,1));
         if(maintained)S.Colony.increment(o,"maintainedTurns",1);
       }
+      if(S.LargePlant.is(o))S.LargePlant.maintained(w,o,paidBase,base);
       const paidDensity = spend(w, o, c.density);
       ctx.records.get(o.id).crowding = c.neighborCount >= 5 && paidDensity > 0;
       parasiteFee(w, ctx, o);
@@ -8528,6 +8996,7 @@ function(require,module){
         reason = ctx.records.get(o.id).damage > 0 ? "combat" : "starvation";
       if (ctx.harvestDead.has(o.id)) reason = "harvest";
       if(!reason&&S.Colony.is(o)&&o.colony.activity<=0)reason="starvation";
+      if(!reason&&S.LargePlant.is(o)&&o.plant.activity<=0)reason="starvation";
       if (!reason && !S.Colony.is(o) && o.age >= p.life) reason = "age";
       if (reason) {
         S.record(ctx, o, "death", { reason, appearance: {
@@ -8547,7 +9016,8 @@ function(require,module){
     for (const o of w.organisms) {
       if (!ctx.traits.has(o.id)) continue;
       const s = S.spec(o);
-      if(S.Colony.is(o))S.Colony.regrow(w,o);
+      if(S.LargePlant.is(o))S.LargePlant.regrow(w,o,ctx);
+      else if(S.Colony.is(o))S.Colony.regrow(w,o);
       else if (["plant", "fungus"].includes(s.group)) {
         const hasBirth = S.nearby(w, o.cell).some(
             (p) =>
@@ -8824,6 +9294,7 @@ function(require,module){
         p = ctx.traits.get(o.id),
         rec = ctx.records.get(o.id),
         old = p.phase;
+      if(S.LargePlant.is(o))continue;
       if (s.group !== "main") {
         if(S.Colony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
@@ -8938,6 +9409,10 @@ function(require,module){
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
     if(!birthPressure(w,o,ctx).allowed)return false;
+    if(S.LargePlant.is(o)){
+      const cost=o.phase===4&&o.branch3===1?(o.branch4===0?14:8):10;
+      return p.ageStage!=="juvenile"&&o.plant.activity>0&&o.HP>=.7*p.maxHP&&o.E>=cost+4*p.maintenance&&o.M>=.2;
+    }
     if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
     if (s.group !== "main")
       return (
@@ -8968,6 +9443,13 @@ function(require,module){
         mains = near.map((p) => m.main.get(p)).filter(Boolean),
         food = near.flatMap((p) => [m.food.get(p), m.prey.get(p)]).filter(Boolean),
         local = [];
+      if(S.LargePlant.enabled(w)&&w.config.enabled.plant&&!m.producer.has(cell)){
+        for(const parent of near.map(p=>m.producer.get(p)).filter(Boolean))
+          if(S.validHabitat(w,S.spec(parent),cell)&&S.oneStep(w,parent.cell,cell)&&eligible(w,parent,ctx)){
+            const cost=parent.phase===4&&parent.branch3===1?(parent.branch4===0?14:8):10;
+            local.push({cell,slot:"producer",kind:2,parents:[parent],costs:[cost],species:parent.species});
+          }
+      }
       if (!m.main.has(cell) && w.config.enabled.main) {
         if([2,3].includes(mains.length))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
@@ -9058,6 +9540,7 @@ function(require,module){
         const winner = local.filter((c) => c.slot === slot).sort(compare)[0];
         if (winner) out.push(winner);
       }
+      if(S.LargePlant.enabled(w)){const winner=local.filter(c=>c.slot==="producer").sort(compare)[0];if(winner)out.push(winner);}
     }
     return out;
   }
@@ -9079,7 +9562,7 @@ function(require,module){
         (c.cell % w.config.width),
       T = c.costs.reduce((a, b) => a + b, 0);
     const main = s.group === "main",
-      early = s.id === "precocial";
+      early = s.id === "precocial", independent=S.LargePlant.is(mother);
     let sex = main
         ? c.kind === 1
           ? "female"
@@ -9106,8 +9589,9 @@ function(require,module){
       role,
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
+      ...(independent?{phase:1,age:0,plantOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
-      E: main ? S.round(T * share) : 6,
+      E: independent ? T-4 : main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
       HP: main ? 100 : s.capacity[3],
@@ -9137,6 +9621,10 @@ function(require,module){
         ),
       );
       o.weights = o.birthWeights.slice();
+    }
+    if(independent){
+      for(const axis of S.DNA){const mutation=S.r(w,"independent/inherited-mutation",w.turn,id,axis)<.1?(S.r(w,"independent/inherited-step",w.turn,id,axis)<.5?-.05:.05):0;o.dna[axis]=S.round(S.clamp(mother.dna[axis]+mutation,0,1));}
+      S.dissipate(w,2);S.LargePlant.allocation(w,mother,1,T,mother.phase===4&&mother.branch3===1?mother.branch4:null);
     }
     S.initializeAge(w,o);
     c.parents.forEach((parent, i) => {
@@ -9224,13 +9712,14 @@ function(require,module){
 })(globalThis, function (S, N, B, R, P) {
   "use strict";
   function summarize(w) {
-    const counts = Object.fromEntries(S.D.species.map((s) => [s.id, 0])),
+    const counts = Object.fromEntries((S.activeSpecies?.(w)||S.D.species).map((s) => [s.id, 0])),
       phases = [0, 0, 0, 0],
       roles = { queen: 0, worker: 0, male: 0 },
       infectionStages = { first: 0, middle: 0, extra: 0, terminal: 0 },
       colonies = {};
     let main = 0,
       food = 0,
+      producer = 0,
       Pcount = 0,
       Qcount = 0;
     for (const o of w.organisms) {
@@ -9242,7 +9731,8 @@ function(require,module){
           roles[o.role]++;
           colonies[o.colony] = (colonies[o.colony] || 0) + 1;
         }
-      } else food++;
+      } else if(S.LargePlant?.is(o))producer++;
+      else food++;
       if (o.infection) {
         Pcount++;
         counts[o.infection.species]++;
@@ -9258,6 +9748,7 @@ function(require,module){
       population: w.organisms.length,
       main,
       food,
+      ...(S.LargePlant?.enabled(w)?{producer}:{}),
       P: Pcount,
       Q: Qcount + (w.searchQ?.length || 0),
       ...(w.config.ecologyRevision === "observation/4.1" ? {Qsearch:w.searchQ?.length||0} : {}),
@@ -9345,6 +9836,8 @@ function(require,module){
     return ctx;
   }
   function prepare(w, ctx) {
+    const sharedPlants=S.LargePlant?.enabled(w);
+    if(sharedPlants)S.LargePlant.prepareLight(w,ctx);
     for (const o of w.organisms) {
       const s = S.spec(o),
         p = ctx.traits.get(o.id),
@@ -9354,7 +9847,7 @@ function(require,module){
             : s.id === "kelp"
               ? 1.5 * w.tiles[o.cell].light * [0, 1, 1.1, 1.2, 1.3][p.phase]
               : 0;
-      const ageLight=S.round(light*p.ageFactors.light*(w.config.solarScale || 1)*S.ProducerSupport.factor(w,o,S));
+      const ageLight=sharedPlants&&(s.group==="plant"||s.id==="kelp")?0:S.round(light*p.ageFactors.light*(w.config.solarScale || 1)*S.ProducerSupport.factor(w,o,S));
       if (ageLight) {
         const add = Math.min(p.capE - o.E, ageLight);
         o.E = S.round(o.E + add);
@@ -9412,10 +9905,11 @@ function(require,module){
     defend: 6,
     light: 7,
   };
-  function emptyTallies() {
+  function emptyTallies(w) {
+    const species=w&&S.activeSpecies?S.activeSpecies(w):S.D.species;
     return {
-      births: Object.fromEntries(S.D.species.map((s) => [s.id, 0])),
-      deaths: Object.fromEntries(S.D.species.map((s) => [s.id, 0])),
+      births: Object.fromEntries(species.map((s) => [s.id, 0])),
+      deaths: Object.fromEntries(species.map((s) => [s.id, 0])),
       causes: { combat: 0, starvation: 0, harvest: 0, age: 0 },
       sources: {
         plant: 0,
@@ -9530,8 +10024,9 @@ function(require,module){
   }
   function finish(w, ctx) {
     S.Colony.summary(w);
+    if(S.LargePlant?.enabled(w))S.LargePlant.summary(w);
     S.ProducerSupport.finish(w,ctx,S);
-    w.tallies = w.tallies || emptyTallies();
+    w.tallies = w.tallies || emptyTallies(w);
     for (const id of ctx.births) w.tallies.births[id]++;
     for (const death of ctx.deaths) {
       w.tallies.deaths[death.species]++;
@@ -9611,7 +10106,7 @@ function(require,module){
       deathCauses: [],
     };
     w.stopReason = null;
-    w.tallies = emptyTallies();
+    w.tallies = emptyTallies(w);
     w.checkpoints = [checkpoint(w)];
     return w;
   }
@@ -9629,6 +10124,7 @@ function(require,module){
     }
     w.turn++;
     S.Colony.begin(w);
+    if(S.LargePlant?.enabled(w))S.LargePlant.begin(w);
     S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
     const labels = ["資源更新", "移動・採食・戦闘", "成長・繁殖"];
@@ -9674,6 +10170,7 @@ function(require,module){
             N.supply(w, ctx, [...drops, ...minerals, ...information]);
           });
           P.reproduce(w, ctx);
+          if(S.LargePlant?.enabled(w))S.LargePlant.finalize(w,ctx);
           S.settleAge(w,ctx);
           finish(w, ctx);
         }
@@ -9720,12 +10217,18 @@ function(require,module){
     const errors = [],
       main = new Set(),
       food = new Set(), prey = new Set(),
+      producer = new Set(),
       ids = new Set(),
       resourceKinds = new Map();
     for (const o of w.organisms) {
       const occupied = o.slot === "main" ? main : o.slot === "prey" ? prey : food;
-      if (occupied.has(o.cell)) errors.push("SLOT_DUPLICATE:" + o.id);
-      occupied.add(o.cell);
+      if(o.slot === "producer"){
+        if(producer.has(o.cell))errors.push("SLOT_DUPLICATE:"+o.id);
+        producer.add(o.cell);
+      }else{
+        if (occupied.has(o.cell)) errors.push("SLOT_DUPLICATE:" + o.id);
+        occupied.add(o.cell);
+      }
       if (ids.has(o.id)) errors.push("ID_DUPLICATE:" + o.id);
       ids.add(o.id);
       if (w.tiles[o.cell]?.blocked) errors.push("BLOCKED:" + o.id);
@@ -9744,6 +10247,18 @@ function(require,module){
         if(!S.Colony.enabled(w)||S.spec(o).group!=="plant"||![c.baseB,c.capacityB,c.activity,c.replacementDebtB,...Object.values(c.last),...Object.values(c.cumulative)].every(Number.isFinite)||c.baseB!==S.PLANT_BASE||c.activity<0||c.activity>1||o.B<c.baseB-1e-6||S.edibleB(o)>c.capacityB+1e-6||Object.values(c.cumulative).some(v=>v<0))errors.push("COLONY:"+o.id);
         if(e&&(!Number.isFinite(e.E)||e.E<0||!Number.isFinite(e.amount)||e.amount<0||e.amount>1+1e-6||!Number.isSafeInteger(e.expires)))errors.push("COLONY_EXPOSURE:"+o.id);
       }
+      if(S.LargePlant?.is(o)){
+        const plant=o.plant,p=S.phenotype(w,o),s=S.spec(o),
+          finiteLedger=value=>typeof value==="number"?Number.isFinite(value)&&value>=0:
+            !!value&&typeof value==="object"&&Object.values(value).every(finiteLedger),
+          values=[plant.baseB,plant.activity,plant.replacementDebtB,plant.last,plant.cumulative];
+        if(!S.LargePlant.enabled(w)||o.slot!=="producer"||s.kind!=="independent"||s.group!=="plant"||
+           !values.every(finiteLedger)||plant.baseB!==S.PLANT_BASE||plant.activity>1||
+           o.B<plant.baseB-1e-6||o.B>p.capB+1e-6||o.E>p.capE+1e-6||o.M>p.capM+1e-6||
+           !Number.isFinite(o.birthLife)||o.birthLife!==s.life||!Number.isSafeInteger(o.phase)||o.phase<1||o.phase>4||
+           (o.phase>=3&&![0,1,2].includes(o.branch3))||(o.phase===4&&![0,1].includes(o.branch4)))errors.push("INDEPENDENT_PLANT:"+o.id);
+        if(!Array.isArray(plant.window)||plant.window.length>32||!plant.window.every(finiteLedger))errors.push("INDEPENDENT_WINDOW:"+o.id);
+      }else if(o.slot==="producer")errors.push("INDEPENDENT_PLANT:"+o.id);
       if (o.infection) {
         const p = o.infection;
         if (p.hostId !== o.id) errors.push("HOST:" + o.id);
@@ -10659,9 +11174,18 @@ function(require,module){
   for (const id of ["memory", "antimeme"])
     data.species.find((s) => s.id === id).diet = "scavenger";
   for (const s of data.species) if (s.group === "main") s.maintenance *= .60;
+  // Registered separately: legacy and colony-only worlds keep their 31 entries.
+  data.independentPlants = [
+    {id:"forestcrown",name:"森冠",life:360,maturity:36,birthCooldown:12,maintenance:.25,lightInput:2.4,capacity:[40,18,4,40],color:"#6b9766",aquatic:false},
+    {id:"starcrown",name:"星冠",life:320,maturity:32,birthCooldown:10,maintenance:.25,lightInput:2.4,capacity:[40,18,4,36],color:"#b4c984",aquatic:false},
+    {id:"freshwaterlight",name:"淡水光合成体",life:240,maturity:24,birthCooldown:8,maintenance:.30,lightInput:2.2,capacity:[36,18,4,28],color:"#74bfb0",aquatic:true},
+  ].map(s=>({...s,group:"plant",kind:"independent",recordUnit:"individual",slot:"producer",tag:"plant",
+    phases:["第一相","第二相","第三相","第四相"],branches:["生産","繁殖拡散","耐食"],
+    initial:[s.capacity[0]*.5,13.2,1,s.capacity[3]],traits:{},senseAt:1,rangeAt:1,speedAt:1}));
   data.species.push({id:'phytoplankton',name:'浮遊微藻',group:'plant',slot:'food',tag:'plant',phases:['微小体','分裂体'],life:80,maturity:2,maintenance:.1,birthCooldown:2,initial:[6,8,.5,6],capacity:[20,16,2,6],color:'#73d2bf'});
   Object.assign(data.species.find(s=>s.id==='waterbug'),{life:600,maturity:2,maintenance:.03,birthCooldown:1,initial:[12,4,0,40],capacity:[24,8,2,40]});
   data.byId = Object.fromEntries(data.species.map((s) => [s.id, s]));
+  Object.assign(data.byId,Object.fromEntries(data.independentPlants.map(s=>[s.id,s])));
   data.main = data.species.filter((s) => s.group === "main");
   return data;
 });
@@ -10717,6 +11241,7 @@ function(require,module){
       1.8,
       terrain * (["log", "bush"].includes(t.cover) ? 1.2 : 1),
     );
+    if (S.LargePlant?.is(o)) return .3 * ageMove * terrain;
     if (o.branch3 === 1 && o.branch4 === 1) terrain = 1 + 0.75 * (terrain - 1);
     let branch =
       o.branch3 === 1 && o.branch4 === 0
@@ -10804,11 +11329,56 @@ function(require,module){
       S.xy(c.world, c.cell),
     ];
   }
+  function floatingCandidates(w, o, ctx, m) {
+    const out = [{type:"stop",cell:o.cell,cost:0,path:[]}];
+    if (o.species !== "freshwaterlight") return out;
+    const p = ctx.traits.get(o.id), costs = ctx.costs.get(o.id),
+      budget = Math.max(0,costs.budget-costs.action);
+    for (const cell of S.nearby(w,o.cell)) {
+      if (m.producer?.has(cell) || !S.validHabitat(w,S.spec(o),cell) ||
+          !S.oneStep(w,o.cell,cell) || !visible(w,o,cell,ctx)) continue;
+      const cost = moveCost(w,o,cell,p.phase,false,p.ageFactors.move);
+      if (cost > budget + 1e-8) continue;
+      const [x,y] = S.xy(w,o.cell), [tx,ty] = S.xy(w,cell),
+        direction = S.DIRS.findIndex(([dx,dy]) => dx === tx-x && dy === ty-y);
+      out.push({type:"move",cell,cost,path:[cell],direction});
+    }
+    return out;
+  }
+  function chooseFloating(w, o, ctx, m, stage) {
+    const sensed = S.nearby(w,o.cell,1,true).filter(cell => S.sight(w,o.cell,cell)),
+      consumers = sensed.flatMap(cell => [m.main.get(cell),m.prey?.get(cell)])
+        .filter(a => a && a.HP > 0 &&
+          (S.spec(a).group === "prey" || (S.spec(a).group === "main" && a.species !== "kelp")));
+    const score = cell => {
+      const tile = w.tiles[cell],
+        light = Math.min(1,Math.max(0,tile.light))*S.ProducerSupport.factor(w,{...o,cell},S),
+        mineral = Math.min(1,Math.max(0,tile.soilM)/.2),
+        pressure = Math.min(2,consumers.reduce((n,a) =>
+          n + (S.distance(w,cell,a.cell) <= 1 ? 1/(1+S.distance(w,cell,a.cell)) : 0),0));
+      return light + .5*mineral - .45*pressure;
+    };
+    const list = stage === "effect" ? [{type:"stop",cell:o.cell,cost:0,path:[]}]
+      : floatingCandidates(w,o,ctx,m);
+    for (const c of list) {
+      c.score = c.noRandom = score(c.cell)-c.cost;
+      c.features=[];c.xi=0;
+      c.h=S.hash(w,"behavior/tie",w.turn,o.id,[c.type,null,c.path,c.cell]);
+    }
+    let chosen=list[0];
+    for (const c of list.slice(1))
+      if (c.score > chosen.score+1e-8 ||
+          (chosen.type === "move" && Math.abs(c.score-chosen.score)<=1e-8 && c.h < chosen.h)) chosen=c;
+    ctx.intents.set(o.id,chosen);ctx.records.get(o.id).randomChanged=false;
+    if (o.id === ctx.observeId) ctx.diagnostics={id:o.id,candidates:list.slice().sort((a,b)=>b.score-a.score||a.h-b.h).slice(0,3)
+      .map(c=>({type:c.type,target:undefined,cell:c.cell,score:c.score,cost:c.cost,features:[]}))};
+  }
   function candidates(w, o, ctx, m) {
     const s = S.spec(o),
       p = ctx.traits.get(o.id),
       budget = Math.max(0, ctx.costs.get(o.id).budget - ctx.costs.get(o.id).action),
       out = [{ type: "stop", cell: o.cell, cost: 0, path: [] }];
+    if (S.LargePlant?.is(o)) return floatingCandidates(w,o,ctx,m);
     if (s.group === "plant" || s.group === "fungus") return out;
     const friend = S.nearby(w, o.cell).some(
       (c) => m.main.get(c)?.species === o.species,
@@ -10893,6 +11463,10 @@ function(require,module){
           cost: 0,
           path: [],
         });
+      const producer=m.producer?.get(cell);
+      if (producer && s.id !== "kelp" && S.edibleB(producer)>0 && producer.HP>0 &&
+          (s.group === "main" || s.group === "prey") && S.distance(w,o.cell,cell)<=1 && S.oneStep(w,o.cell,cell))
+        out.push({type:"harvest",cell:o.cell,target:producer.id,cost:0,path:[]});
       if (
         s.id === "swarm" &&
         o.role === "worker" &&
@@ -10986,6 +11560,10 @@ function(require,module){
             (S.spec(plant).group === "plant" ? S.PLANT_BASE : 0)),
         S.spec(plant).tag,
       ) * (s.group === "main" && o.E < 35 ? Math.min(1, S.edibleB(plant) / 4) : 1);
+    const producer=v.m.producer?.get(cell);
+    if (producer && producer.HP>0 && s.id !== "kelp" && (s.group === "main" || s.group === "prey"))
+      q=Math.max(q,value(S.edibleB(producer)/Math.max(1,(v.traits?.get(producer.id)||S.phenotype(w,producer)).capB-S.PLANT_BASE),"plant") *
+        (s.group === "main" && o.E<35 ? Math.min(1,S.edibleB(producer)/4) : 1));
     for (const a of v.m.resources.get(cell) || []) {
       const tag = S.FOOD[a.kind].tag;
       let utility = 1;
@@ -11267,6 +11845,10 @@ function(require,module){
       // Stationary basal life has exactly one possible action. Process that
       // shared rule directly instead of constructing visibility and scores.
       const group = S.spec(o).group;
+      if (S.LargePlant?.is(o) && o.species === "freshwaterlight") {
+        chooseFloating(w,o,ctx,m,stage);
+        continue;
+      }
       if (group === "plant" || group === "fungus") {
         const type = "stop", cell = o.cell, path = [];
         const chosen = {type, cell, cost:0, path, score:0, noRandom:0, features:[],
@@ -11636,6 +12218,7 @@ function(require,module){
         p = ctx.traits.get(o.id),
         rec = ctx.records.get(o.id),
         old = p.phase;
+      if(S.LargePlant.is(o))continue;
       if (s.group !== "main") {
         if(S.Colony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
@@ -11750,6 +12333,10 @@ function(require,module){
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
     if(!birthPressure(w,o,ctx).allowed)return false;
+    if(S.LargePlant.is(o)){
+      const cost=o.phase===4&&o.branch3===1?(o.branch4===0?14:8):10;
+      return p.ageStage!=="juvenile"&&o.plant.activity>0&&o.HP>=.7*p.maxHP&&o.E>=cost+4*p.maintenance&&o.M>=.2;
+    }
     if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
     if (s.group !== "main")
       return (
@@ -11780,6 +12367,13 @@ function(require,module){
         mains = near.map((p) => m.main.get(p)).filter(Boolean),
         food = near.flatMap((p) => [m.food.get(p), m.prey.get(p)]).filter(Boolean),
         local = [];
+      if(S.LargePlant.enabled(w)&&w.config.enabled.plant&&!m.producer.has(cell)){
+        for(const parent of near.map(p=>m.producer.get(p)).filter(Boolean))
+          if(S.validHabitat(w,S.spec(parent),cell)&&S.oneStep(w,parent.cell,cell)&&eligible(w,parent,ctx)){
+            const cost=parent.phase===4&&parent.branch3===1?(parent.branch4===0?14:8):10;
+            local.push({cell,slot:"producer",kind:2,parents:[parent],costs:[cost],species:parent.species});
+          }
+      }
       if (!m.main.has(cell) && w.config.enabled.main) {
         if([2,3].includes(mains.length))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
@@ -11870,6 +12464,7 @@ function(require,module){
         const winner = local.filter((c) => c.slot === slot).sort(compare)[0];
         if (winner) out.push(winner);
       }
+      if(S.LargePlant.enabled(w)){const winner=local.filter(c=>c.slot==="producer").sort(compare)[0];if(winner)out.push(winner);}
     }
     return out;
   }
@@ -11891,7 +12486,7 @@ function(require,module){
         (c.cell % w.config.width),
       T = c.costs.reduce((a, b) => a + b, 0);
     const main = s.group === "main",
-      early = s.id === "precocial";
+      early = s.id === "precocial", independent=S.LargePlant.is(mother);
     let sex = main
         ? c.kind === 1
           ? "female"
@@ -11918,8 +12513,9 @@ function(require,module){
       role,
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
+      ...(independent?{phase:1,age:0,plantOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
-      E: main ? S.round(T * share) : 6,
+      E: independent ? T-4 : main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
       HP: main ? 100 : s.capacity[3],
@@ -11949,6 +12545,10 @@ function(require,module){
         ),
       );
       o.weights = o.birthWeights.slice();
+    }
+    if(independent){
+      for(const axis of S.DNA){const mutation=S.r(w,"independent/inherited-mutation",w.turn,id,axis)<.1?(S.r(w,"independent/inherited-step",w.turn,id,axis)<.5?-.05:.05):0;o.dna[axis]=S.round(S.clamp(mother.dna[axis]+mutation,0,1));}
+      S.dissipate(w,2);S.LargePlant.allocation(w,mother,1,T,mother.phase===4&&mother.branch3===1?mother.branch4:null);
     }
     S.initializeAge(w,o);
     c.parents.forEach((parent, i) => {
@@ -12877,10 +13477,19 @@ function(require,module){
   for (const id of ["memory", "antimeme"])
     data.species.find((s) => s.id === id).diet = "scavenger";
   for (const s of data.species) if (s.group === "main") s.maintenance *= .60;
+  // Registered separately: legacy and colony-only worlds keep their 31 entries.
+  data.independentPlants = [
+    {id:"forestcrown",name:"森冠",life:360,maturity:36,birthCooldown:12,maintenance:.25,lightInput:2.4,capacity:[40,18,4,40],color:"#6b9766",aquatic:false},
+    {id:"starcrown",name:"星冠",life:320,maturity:32,birthCooldown:10,maintenance:.25,lightInput:2.4,capacity:[40,18,4,36],color:"#b4c984",aquatic:false},
+    {id:"freshwaterlight",name:"淡水光合成体",life:240,maturity:24,birthCooldown:8,maintenance:.30,lightInput:2.2,capacity:[36,18,4,28],color:"#74bfb0",aquatic:true},
+  ].map(s=>({...s,group:"plant",kind:"independent",recordUnit:"individual",slot:"producer",tag:"plant",
+    phases:["第一相","第二相","第三相","第四相"],branches:["生産","繁殖拡散","耐食"],
+    initial:[s.capacity[0]*.5,13.2,1,s.capacity[3]],traits:{},senseAt:1,rangeAt:1,speedAt:1}));
   data.species.push({id:'phytoplankton',name:'浮遊微藻',group:'plant',slot:'food',tag:'plant',phases:['微小体','分裂体'],life:80,maturity:2,maintenance:.1,birthCooldown:2,initial:[6,8,.5,6],capacity:[20,16,2,6],color:'#73d2bf'});
   for(const s of data.species)if(s.group==='plant')Object.assign(s,{life:2400,maintenance:.02,birthCooldown:1,initial:[12,s.id==='phytoplankton'?16:20,1,12],capacity:[32,48,4,12]});
   Object.assign(data.species.find(s=>s.id==='waterbug'),{life:600,maturity:2,maintenance:.03,birthCooldown:1,initial:[12,4,0,40],capacity:[24,8,2,40]});
   data.byId = Object.fromEntries(data.species.map((s) => [s.id, s]));
+  Object.assign(data.byId,Object.fromEntries(data.independentPlants.map(s=>[s.id,s])));
   data.main = data.species.filter((s) => s.group === "main");
   return data;
 });
@@ -12912,6 +13521,7 @@ function(require,module){
         p = ctx.traits.get(o.id),
         rec = ctx.records.get(o.id),
         old = p.phase;
+      if(S.LargePlant.is(o))continue;
       if (s.group !== "main") {
         if(S.Colony.is(o)){
           if(old===1&&o.colony.activity>0&&o.E>=6&&S.edibleB(o)>=2)o.phase=2;
@@ -13026,6 +13636,10 @@ function(require,module){
     if (!rec || rec.damage > 0 || o.HP <= 0 || o.birthReady > w.turn)
       return false;
     if(!birthPressure(w,o,ctx).allowed)return false;
+    if(S.LargePlant.is(o)){
+      const cost=o.phase===4&&o.branch3===1?(o.branch4===0?14:8):10;
+      return p.ageStage!=="juvenile"&&o.plant.activity>0&&o.HP>=.7*p.maxHP&&o.E>=cost+4*p.maintenance&&o.M>=.2;
+    }
     if(S.Colony.is(o))return p.phase>=2&&o.colony.activity>0&&o.E>=8&&o.M>=.2&&o.B>=3;
     if (s.group !== "main")
       return (
@@ -13056,6 +13670,13 @@ function(require,module){
         mains = near.map((p) => m.main.get(p)).filter(Boolean),
         food = near.flatMap((p) => [m.food.get(p), m.prey.get(p)]).filter(Boolean),
         local = [];
+      if(S.LargePlant.enabled(w)&&w.config.enabled.plant&&!m.producer.has(cell)){
+        for(const parent of near.map(p=>m.producer.get(p)).filter(Boolean))
+          if(S.validHabitat(w,S.spec(parent),cell)&&S.oneStep(w,parent.cell,cell)&&eligible(w,parent,ctx)){
+            const cost=parent.phase===4&&parent.branch3===1?(parent.branch4===0?14:8):10;
+            local.push({cell,slot:"producer",kind:2,parents:[parent],costs:[cost],species:parent.species});
+          }
+      }
       if (!m.main.has(cell) && w.config.enabled.main) {
         if([2,3].includes(mains.length))for(const mother of mains)
           if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
@@ -13146,6 +13767,7 @@ function(require,module){
         const winner = local.filter((c) => c.slot === slot).sort(compare)[0];
         if (winner) out.push(winner);
       }
+      if(S.LargePlant.enabled(w)){const winner=local.filter(c=>c.slot==="producer").sort(compare)[0];if(winner)out.push(winner);}
     }
     return out;
   }
@@ -13167,7 +13789,7 @@ function(require,module){
         (c.cell % w.config.width),
       T = c.costs.reduce((a, b) => a + b, 0);
     const main = s.group === "main",
-      early = s.id === "precocial";
+      early = s.id === "precocial", independent=S.LargePlant.is(mother);
     let sex = main
         ? c.kind === 1
           ? "female"
@@ -13194,8 +13816,9 @@ function(require,module){
       role,
       colony: s.id === "swarm" ? mother.colony : null,
       founder: null,
+      ...(independent?{phase:1,age:0,plantOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
       ...(S.Colony.is(mother)?{colonyOrigin:{kind:"parent",parentId:mother.id,turn:w.turn}}:{}),
-      E: main ? S.round(T * share) : 6,
+      E: independent ? T-4 : main ? S.round(T * share) : 6,
       B: main ? S.round(T * (1 - share)) : 2,
       M: main ? 1 : s.group === "prey" ? 0 : 0.2,
       HP: main ? 100 : s.capacity[3],
@@ -13225,6 +13848,10 @@ function(require,module){
         ),
       );
       o.weights = o.birthWeights.slice();
+    }
+    if(independent){
+      for(const axis of S.DNA){const mutation=S.r(w,"independent/inherited-mutation",w.turn,id,axis)<.1?(S.r(w,"independent/inherited-step",w.turn,id,axis)<.5?-.05:.05):0;o.dna[axis]=S.round(S.clamp(mother.dna[axis]+mutation,0,1));}
+      S.dissipate(w,2);S.LargePlant.allocation(w,mother,1,T,mother.phase===4&&mother.branch3===1?mother.branch4:null);
     }
     S.initializeAge(w,o);
     c.parents.forEach((parent, i) => {
@@ -13364,7 +13991,7 @@ function begin(w,S){
   input(o,'M',Math.max(0,Math.min(c.targetM,p.capM)-o.M)*fraction);
   if(!colonyCounts){const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);}
  }
- for(const o of w.organisms)if(S.spec(o).group==='plant'){
+ for(const o of w.organisms)if(S.spec(o).group==='plant'&&!S.LargePlant?.is(o)){
   const n=level(w,o.cell)*(w.tiles[o.cell].light>0?1:0);o.producerReserve=S.round(S.clamp((o.producerReserve??1)+(Math.min(1,n)-.5)*2/c.grace,0,1));
   if(o.producerReserve===0){o.HP=S.round(Math.max(0,o.HP-1));last.stressed++;}
  }
@@ -13445,7 +14072,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     const parameters = (w, cell) => w.config.producerSettings[region(w, cell)];
     function attach(w, o, origin = {kind:"initial"}) {
-      if (!enabled(w) || spec(o).group !== "plant" || is(o)) return o;
+      if (!enabled(w) || spec(o).group !== "plant" || spec(o).kind === "independent" || is(o)) return o;
       o.colony = {version:VERSION, origin:structuredClone(origin), establishedAt:w.turn,
         baseB:PLANT_BASE, capacityB:parameters(w,o.cell).capacityB, activity:1,
         replacementDebtB:0, edibleExposure:null,
@@ -13567,6 +14194,148 @@ return {settings,attach,region,level,factor,begin,finish};
       w.colonySummary=out;
     }
     return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
+  })();
+  const activeSpecies = (w) => w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const LargePlant = (() => {
+    const VERSION="independent-plant-state/1", factors=[0,1,1.15,1.35,1.6], edible=[0,16,20,24,32], LIMIT=1e12;
+    const enabled=w=>w.config.largePlantModel==="independent/1";
+    const is=o=>o?.plant?.version===VERSION;
+    const definition=s=>s?.kind==="independent";
+    const region=(w,cell)=>["shallow","deep"].includes(w.tiles[cell].terrain)?"water":"land";
+    function settings(input={}){
+      const object=(o,keys)=>{if(!o||typeof o!=="object"||Array.isArray(o)||Object.keys(o).some(k=>!keys.includes(k)))throw Error("SETTINGS_INVALID: 独立植物の比較値");};
+      object(input,["version","autoDensity","initial"]);
+      if(input.version!==undefined&&input.version!=="independent-plant-parameters/1")throw Error("SETTINGS_INVALID: 独立植物の定義版");
+      const density=input.autoDensity??{},initial=input.initial??{};object(density,["land","water"]);object(initial,["phase","ageFraction","energyFraction"]);
+      const out={version:"independent-plant-parameters/1",autoDensity:{land:.02,water:.02,...density},initial:{phase:1,ageFraction:0,energyFraction:.5,...initial}};
+      for(const value of Object.values(out.autoDensity))if(typeof value!=="number"||!Number.isFinite(value)||value<0||value>1)throw Error("SETTINGS_INVALID: 独立植物の初期密度");
+      for(const [key,maximum]of [["ageFraction",.99],["energyFraction",1]])if(typeof out.initial[key]!=="number"||!Number.isFinite(out.initial[key])||out.initial[key]<0||out.initial[key]>maximum)throw Error("SETTINGS_INVALID: 独立植物の初期在庫/齢");
+      if(!Number.isInteger(out.initial.phase)||out.initial.phase<1||out.initial.phase>4)throw Error("SETTINGS_INVALID: 独立植物の初期相");
+      return out;
+    }
+    function last(turn){return {turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,maintenanceE:0,preparationE:0,experience:0};}
+    function attach(w,o,options={}){
+      if(!enabled(w)||!definition(spec(o))||is(o))return o;
+      const initial=w.config.largePlantSettings.initial;
+      if(!Object.hasOwn(options,"phase"))o.phase=initial.phase;
+      if(!Object.hasOwn(options,"age"))o.age=Math.floor(spec(o).life*initial.ageFraction);
+      o.birthLife=spec(o).life;
+      o.plant={version:VERSION,origin:structuredClone(options.plantOrigin??{kind:"initial"}),establishedAt:w.turn,
+        baseB:2,capacityB:edible[o.phase],activity:1,replacementDebtB:0,last:last(w.turn),
+        cumulative:{productionB:0,regrowthB:0,consumedB:0,maintainedTurns:0,settlements:0,preparationE:0},
+        window:[],settlementRecorded:false,finalizedAt:-1,maintainedRemainder:0};
+      if(!Object.hasOwn(options,"B"))o.B=H.round(2+edible[o.phase]*.7);
+      if(!Object.hasOwn(options,"E"))o.E=H.round(spec(o).capacity[0]*factors[o.phase]*initial.energyFraction);
+      if(!Object.hasOwn(options,"M"))o.M=1;
+      if(o.phase>=3&&o.branch3===null)o.branch3=choose(w,o,[o.dna.aptitude,o.dna.body,o.dna.skin],"initial/III");
+      if(o.phase>=4&&o.branch4===null)o.branch4=choose(w,o,[o.dna.body,o.dna.skin],"initial/IV");
+      return o;
+    }
+    function phenotype(w,o,phase=o.phase,branch=o.branch4){
+      const s=spec(o),f=factors[phase],age=ageInfo(o),a=age.factors;
+      const high=phase===4&&o.branch3===0&&branch===0,efficient=phase===4&&o.branch3===0&&branch===1;
+      const maintenance=s.maintenance*f*(high?1.1:efficient?.8:1),cooldown=s.birthCooldown*(phase===4&&o.branch3===1?(branch===0?1.5:.75):1);
+      return {phase,u:phase/4,capE:H.round(s.capacity[0]*f),capB:2+edible[phase],capM:4,maxHP:H.round(s.capacity[3]*a.hp),
+        life:o.birthLife,maintenance:H.round(maintenance*a.maintenance),baseMaintenance:maintenance,baseMaxHP:s.capacity[3],
+        cooldown:cooldown*a.birth,baseCooldown:cooldown,sense:1,speed:s.id==="freshwaterlight"?1:0,range:1,M3:0,M4:0,branch,
+        ageEnabled:true,ageStage:age.stage,ageFactors:a,lightInput:s.lightInput*f*(high?1.2:1),surface:f,
+        regenerationFactor:phase===4&&o.branch3===2&&branch===1?1.2:1,
+        biteFactor:phase===4&&o.branch3===2&&branch===0?.8:1};
+    }
+    function increment(o,key,value){o.plant.cumulative[key]=H.round(Math.min(LIMIT,o.plant.cumulative[key]+value));}
+    function row(w,o){
+      const p=o.plant;let r=p.window.find(r=>r.turn===w.turn);
+      if(!r){r={turn:w.turn,allocation:[0,0,0],sides:[[0,0],[0,0],[0,0]]};p.window.push(r);}
+      p.window=p.window.filter(r=>r.turn>w.turn-32);return r;
+    }
+    function allocation(w,o,category,amount,side=null){if(amount<=0)return;const r=row(w,o);r.allocation[category]=H.round(r.allocation[category]+amount);if(side!==null)r.sides[category][side]=H.round(r.sides[category][side]+amount);}
+    function flows(w){return w.largePlantFlows??={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};}
+    function flow(w,o,key,amount){if(flows(w).turn!==w.turn)w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};const r=flows(w)[region(w,o.cell)];r[key]=H.round(r[key]+amount);}
+    function begin(w){if(!enabled(w))return;w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};for(const o of w.organisms)if(is(o)){o.plant.last=last(w.turn);o.plant.window=o.plant.window.filter(r=>r.turn>w.turn-32);}}
+    function initialize(w){
+      if(!enabled(w)||!w.config.enabled.plant)return;
+      const species=D.independentPlants,occupied=new Set(),counts={land:0,water:0};
+      function place(s,cell){const o=organism(w,s,cell,"i:producer:"+cell+":"+s.id);w.organisms.push(o);occupied.add(cell);counts[region(w,cell)]++;}
+      const candidates=s=>w.tiles.map((_,i)=>i).filter(cell=>!occupied.has(cell)&&validHabitat(w,s,cell)).sort((a,b)=>initialRank(w,s,a)-initialRank(w,s,b)||a-b);
+      for(const s of species){const count=w.config.founderCounts?.species[s.id];if(count===undefined)continue;const cells=candidates(s);if(count>cells.length)throw Error("PLACEMENT_SHORTAGE: "+s.name+" 指定"+count+"体の適地/空き枠が不足しています");for(const cell of cells.slice(0,count))place(s,cell);}
+      w.largePlantRegions={};
+      for(const name of ["land","water"]){
+        const eligible=w.tiles.map((_,i)=>i).filter(cell=>region(w,cell)===name&&species.some(s=>validHabitat(w,s,cell)));
+        const target=Math.round(eligible.length*w.config.largePlantSettings.autoDensity[name]);
+        const sites=eligible.filter(cell=>!occupied.has(cell)).map(cell=>({cell,species:species.filter(s=>w.config.founderCounts?.species[s.id]===undefined&&validHabitat(w,s,cell))})).filter(a=>a.species.length)
+          .sort((a,b)=>Math.min(...a.species.map(s=>initialRank(w,s,a.cell)))-Math.min(...b.species.map(s=>initialRank(w,s,b.cell)))||a.cell-b.cell);
+        for(const site of sites){if(counts[name]>=target)break;site.species.sort((a,b)=>hash(w,"independent/initial-species",0,a.id,site.cell)-hash(w,"independent/initial-species",0,b.id,site.cell));place(site.species[0],site.cell);}
+        w.largePlantRegions[name]={eligibleCells:eligible.length,target,initial:counts[name]};
+      }
+    }
+    function prepareLight(w,ctx){
+      if(!enabled(w))return;
+      const groups=new Map();
+      for(const o of w.organisms){
+        const s=spec(o),p=ctx.traits.get(o.id);if(o.HP<=0||(s.group!=="plant"&&s.id!=="kelp"))continue;
+        let input=is(o)?p.lightInput:s.group==="plant"?(s.id==="phytoplankton"?(w.config.advantageSettings?.producer?16:8):(w.config.advantageSettings?.producer?8:4))*leafFactor(o):1.5*[0,1,1.1,1.2,1.3][p.phase];
+        input=H.round(input*w.tiles[o.cell].light*p.ageFactors.light*(w.config.solarScale||1)*ProducerSupport.factor(w,o,{spec}));
+        if(!groups.has(o.cell))groups.set(o.cell,[]);
+        groups.get(o.cell).push({o,p,input,room:Math.max(0,Math.min(input,p.capE-o.E)),area:is(o)?p.surface:1,add:0,h:hash(w,"independent/light-share",w.turn,o.id)});
+      }
+      for(const list of groups.values()){
+        const budget=H.round(Math.max(...list.map(a=>a.input)));let remaining=budget,live=list.filter(a=>a.room>0).sort((a,b)=>a.h-b.h||H.compare(a.o.id,b.o.id));
+        while(remaining>0&&live.length){const area=live.reduce((n,a)=>n+a.area,0),capped=live.filter(a=>a.room<=remaining*a.area/area);
+          if(capped.length){for(const a of capped){const add=H.round(Math.min(remaining,a.room));a.add=H.round(a.add+add);remaining=H.round(remaining-add);a.room=0;}live=live.filter(a=>a.room>0);}
+          else{const available=remaining;for(let i=0;i<live.length;i++){const a=live[i],add=H.round(Math.min(a.room,remaining,i===live.length-1?remaining:available*a.area/area));a.add=H.round(a.add+add);remaining=H.round(remaining-add);}break;}}
+        w.ledger.solar=H.round(w.ledger.solar+budget);dissipate(w,remaining);
+        for(const a of list){a.o.E=H.round(a.o.E+a.add);ctx.records.get(a.o.id).light=a.add;if(Colony.is(a.o))Colony.solar(w,a.o,a.add);if(is(a.o)){ctx.records.get(a.o.id).solarOpportunityE=H.round(Math.min(a.input,budget*a.area/list.reduce((n,p)=>n+p.area,0)));a.o.plant.last.solarInputE=a.add;flow(w,a.o,"solarInputE",a.add);}if(a.o.species==="phytoplankton")a.o.photoGrowth=H.round((a.o.photoGrowth||0)+a.add);if(a.add)record(ctx,a.o,"light",{amount:a.add});}
+      }
+    }
+    function consumed(w,o,amount){const p=o.plant;p.last.consumedB=H.round(p.last.consumedB+amount);p.replacementDebtB=H.round(Math.min(edible[o.phase],p.replacementDebtB+amount));increment(o,"consumedB",amount);flow(w,o,"consumedB",amount);}
+    function maintained(w,o,paid,required){const p=o.plant;p.last.maintenanceE=H.round(p.last.maintenanceE+paid);const healthy=paid>=H.round(required)&&o.HP>0;p.activity=H.round(H.clamp(p.activity+(healthy?.02:-.05),0,1));if(healthy){increment(o,"maintainedTurns",1);p.maintainedRemainder++;}allocation(w,o,0,paid);}
+    function regrow(w,o,ctx){
+      if(!is(o)||o.HP<=0||w.tiles[o.cell].light<=0||ProducerSupport.factor(w,o,{spec})<=0)return;
+      const p=o.plant,phen=phenotype(w,o),tile=w.tiles[o.cell],multiplier=w.config.producerSupport?.enabled?w.config.producerSupport[region(w,o.cell)].regrowth:1;
+      const maximum=p.capacityB*.1*phen.regenerationFactor*Math.min(1,multiplier)*p.activity*Math.min(1,tile.light);
+      const amount=H.round(Math.max(0,Math.min(maximum-p.last.productionB,p.capacityB-edibleB(o),Math.max(0,o.E-2)/1.2,tile.soilM/.02,Math.max(0,phen.capM-o.M)/.02)));
+      if(!amount)return;
+      const expense=H.round(amount*1.2),material=H.round(amount*.02),replacement=H.round(Math.min(p.replacementDebtB,amount));
+      o.E=H.round(o.E-expense);o.B=H.round(o.B+amount);tile.soilM=H.round(tile.soilM-material);o.M=H.round(o.M+material);dissipate(w,H.round(expense-amount));
+      p.last.productionB=H.round(p.last.productionB+amount);p.last.regrowthB=H.round(p.last.regrowthB+replacement);p.replacementDebtB=H.round(p.replacementDebtB-replacement);
+      increment(o,"productionB",amount);increment(o,"regrowthB",replacement);flow(w,o,"productionB",amount);flow(w,o,"regrowthB",replacement);
+      allocation(w,o,0,H.round((amount-replacement)*1.2),0);allocation(w,o,2,H.round(replacement*1.2),1);
+    }
+    function choose(w,o,scores,purpose){const largest=Math.max(...scores),tied=scores.map((n,i)=>({n,i})).filter(a=>Math.abs(a.n-largest)<1e-6),dna=purpose.includes("III")?[o.dna.aptitude,o.dna.body,o.dna.skin]:[o.dna.body,o.dna.skin];tied.sort((a,b)=>(dna[b.i]??0)-(dna[a.i]??0)||hash(w,"independent/branch",0,o.id,[purpose,a.i])-hash(w,"independent/branch",0,o.id,[purpose,b.i]));return tied[0].i;}
+    function prepare(w,o,ctx,indexed){
+      if(o.phase<2||o.phase>=4)return;
+      const phen=phenotype(w,o);if(o.E<.1+4*phen.maintenance)return;
+      const local=nearby(w,o.cell).some(cell=>validHabitat(w,spec(o),cell)&&!indexed.producer?.has(cell));
+      const category=o.phase===3?o.branch3:o.plant.replacementDebtB>0?2:ageInfo(o).stage!=="juvenile"&&local&&o.E>=10+4*phen.maintenance?1:0;
+      const opportunity=ctx.records.get(o.id)?.solarOpportunityE??o.plant.last.solarInputE;
+      const side=category===0?(opportunity>=2*phen.maintenance?0:1):category===1?(o.E>=14+4*phen.maintenance?0:1):(o.plant.replacementDebtB>0?1:0);
+      o.E=H.round(o.E-.1);dissipate(w,.1);o.plant.last.preparationE=.1;increment(o,"preparationE",.1);allocation(w,o,category,.1,side);
+    }
+    function finalize(w,ctx){
+      if(!enabled(w))return;
+      const indexed=maps(w);
+      for(const child of w.organisms)if(is(child)&&!child.plant.settlementRecorded&&child.parents.length&&child.age>=4){child.plant.settlementRecorded=true;const parent=indexed.byId.get(child.parents[0]);if(is(parent)){increment(parent,"settlements",1);parent.plant.last.settlementCredit=(parent.plant.last.settlementCredit||0)+1;}}
+      for(const o of w.organisms)if(is(o)&&ctx.traits.has(o.id)&&o.plant.finalizedAt!==w.turn){
+        const p=o.plant;p.finalizedAt=w.turn;
+        const maintainedPoints=Math.floor(p.maintainedRemainder/2);p.maintainedRemainder%=2;
+        const points=Math.min(1,maintainedPoints+(p.last.productionB-p.last.regrowthB)/4+p.last.regrowthB/4+(p.last.settlementCredit||0));o.G=H.round(Math.min(LIMIT,o.G+points));p.last.experience=points;
+        prepare(w,o,ctx,indexed);
+        const next=o.phase+1,threshold=[0,0,12,36,80][next],cost=[0,0,2,4,6][next];
+        if(next<=4&&o.G>=threshold&&o.E>=cost){let branch=null;
+          if(next===3){const scores=[0,0,0];for(const r of p.window)for(let i=0;i<3;i++)scores[i]+=r.allocation[i];branch=choose(w,o,scores,"III");o.branch3=branch;}
+          if(next===4){const scores=[0,0];for(const r of p.window)for(let i=0;i<2;i++)scores[i]+=r.sides[o.branch3][i];branch=choose(w,o,scores,"IV/"+o.branch3);o.branch4=branch;}
+          o.E=H.round(o.E-cost);dissipate(w,cost);const previous=o.phase;o.phase=next;p.capacityB=edible[next];record(ctx,o,"growth",{fromPhase:previous,phase:next});
+        }
+      }
+    }
+    function summary(w){
+      if(!enabled(w))return;const out={definition:"independent-plant-observed/1",turn:w.turn};
+      for(const name of ["land","water"])out[name]={count:0,B:0,baseB:0,edibleB:0,capacityB:0,occupiedCells:0,eligibleCells:w.largePlantRegions?.[name]?.eligibleCells??w.tiles.filter((_,i)=>region(w,i)===name&&D.independentPlants.some(s=>validHabitat(w,s,i))).length,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,reserveE:0,reserveM:0,activitySum:0};
+      for(const o of w.organisms)if(is(o)){const r=out[region(w,o.cell)];r.count++;r.occupiedCells++;r.B+=o.B;r.baseB+=2;r.edibleB+=edibleB(o);r.capacityB+=o.plant.capacityB;r.reserveE+=o.E;r.reserveM+=o.M;r.activitySum+=o.plant.activity;}
+      if(w.largePlantFlows?.turn===w.turn)for(const name of ["land","water"])for(const key of ["productionB","regrowthB","consumedB","solarInputE"])out[name][key]=w.largePlantFlows[name][key];
+      for(const name of ["land","water"])for(const key of Object.keys(out[name]))out[name][key]=H.round(out[name][key]);w.largePlantSummary=out;
+    }
+    return {enabled,is,definition,region,settings,attach,phenotype,increment,allocation,begin,initialize,prepareLight,consumed,maintained,regrow,finalize,summary};
   })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
@@ -13723,8 +14492,10 @@ return {settings,attach,region,level,factor,begin,finish};
       byId = new Map(),
       resources = new Map(),
       carcasses = new Map();
+    const producer=LargePlant.enabled(w)?new Map():null;
     for (const o of w.organisms) {
       byId.set(o.id, o);
+      if(producer&&o.slot==="producer"){producer.set(o.cell,o);continue;}
       (o.slot === "main" ? main : o.slot === "prey" ? prey : food).set(o.cell, o);
     }
     for (const a of w.resources) {
@@ -13735,11 +14506,14 @@ return {settings,attach,region,level,factor,begin,finish};
       if (!carcasses.has(a.cell)) carcasses.set(a.cell, []);
       carcasses.get(a.cell).push(a);
     }
-    return { main, food, prey, byId, resources, carcasses };
+    const result=(()=>{return { main, food, prey, byId, resources, carcasses };})();
+    if(producer)result.producer=producer;
+    return result;
   }
   function validHabitat(w, s, p) {
     const t = w.tiles[p];
     if (t.blocked) return false;
+    if(LargePlant.definition(s))return t.light>0&&(s.id==="freshwaterlight"?["shallow","deep"].includes(t.terrain):["plain","rock","mud"].includes(t.terrain));
     if (s.id === "phytoplankton") return ["shallow","deep"].includes(t.terrain) && t.light > 0;
     if (s.id === "algae" || s.id === "waterbug")
       return [0, 5].includes(t.env) && t.terrain === "shallow";
@@ -13863,6 +14637,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
+    if(c.largePlantModel!==undefined&&c.largePlantModel!=="independent/1")throw Error("SETTINGS_INVALID: 独立植物モデル");
+    if(c.largePlantModel==="independent/1"){
+      if(c.producerModel!=="colony/1")throw Error("SETTINGS_INVALID: 独立植物には群落モデルが必要です");
+      c.largePlantSettings=LargePlant.settings(c.largePlantSettings);
+    }else if(c.largePlantSettings!==undefined)throw Error("SETTINGS_INVALID: 独立植物モデルの指定が必要です");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
     if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
@@ -13891,7 +14670,7 @@ return {settings,attach,region,level,factor,begin,finish};
       for(const key of ["species","parasites"]){
         const obj=a[key];if(!obj||typeof obj!=="object"||Array.isArray(obj))throw Error("SETTINGS_INVALID: 種別の初期数 "+key);
         for(const [id,count]of Object.entries(obj)){
-          const species=D.species.find(s=>s.id===id),allowed=key==="species"?["plant","fungus","prey"]:["P","Q"];
+          const species=activeSpecies({config:c}).find(s=>s.id===id),allowed=key==="species"?["plant","fungus","prey"]:["P","Q"];
           if(!species||!allowed.includes(species.group)||!Number.isSafeInteger(count)||count<0||count>(species.group==="Q"?1024:17920))throw Error("SETTINGS_INVALID: 初期数 "+id);
           if(count>0&&!c.enabled[species.group])throw Error("SETTINGS_INVALID: "+species.name+"の生物群を有効にしてください");
         }
@@ -13918,6 +14697,9 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(LargePlant.is(o)){
+      o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
+    }
     if(Colony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
@@ -13942,7 +14724,7 @@ return {settings,attach,region,level,factor,begin,finish};
       u = {};
     DNA.forEach(
       (axis, i) =>
-        (u[axis] = main ? 0.25 + 0.5 * r(w, "init/dna", 0, id, null, i) : 0.5),
+        (u[axis] = main || (LargePlant.enabled(w)&&LargePlant.definition(s)) ? 0.25 + 0.5 * r(w, "init/dna", 0, id, null, i) : 0.5),
     );
     const [E, B, M, HP] = main ? [60, 16, 0, 100] : s.initial;
     const birth = main
@@ -13993,12 +14775,15 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
+    delete o.plantOrigin;
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
+    if(LargePlant.is(o))return LargePlant.phenotype(w,o,phase,branch);
     const s = spec(o),
       main = s.group === "main",
       u = main ? phase / 4 : 0,
@@ -14403,6 +15188,7 @@ return {settings,attach,region,level,factor,begin,finish};
         );
       }
     }
+    LargePlant.initialize(w);
     for (const kind of ["mineral", "droplet", "info"]) {
       const target = usable.filter(
         (p) =>
@@ -14552,6 +15338,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
     if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
+    if(LargePlant.enabled(w))for(const o of w.organisms)if(LargePlant.is(o)){o.age=Math.floor(o.birthLife*config.largePlantSettings.initial.ageFraction);o.phase=config.largePlantSettings.initial.phase;}
     if (config.enabled.P)
       for (const o of w.organisms)
         if (
@@ -14602,13 +15389,14 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.founderCounts){
       const requested=config.founderCounts;
-      config.founderReport={version:1,species:Object.fromEntries(D.species.filter(s=>["plant","fungus","prey"].includes(s.group)).map(s=>[s.id,{requested:requested.species[s.id]??null,actual:w.organisms.filter(o=>o.species===s.id).length}])),parasites:Object.fromEntries(["tideparasite","leafparasite","hyperparasite"].map(id=>[id,{requested:requested.parasites[id]??null,actual:id==="hyperparasite"?(w.searchQ?.length||0)+w.organisms.filter(o=>o.infection?.q).length:w.organisms.filter(o=>o.infection?.species===id).length}]))};
+      config.founderReport={version:1,species:Object.fromEntries(activeSpecies(w).filter(s=>["plant","fungus","prey"].includes(s.group)).map(s=>[s.id,{requested:requested.species[s.id]??null,actual:w.organisms.filter(o=>o.species===s.id).length}])),parasites:Object.fromEntries(["tideparasite","leafparasite","hyperparasite"].map(id=>[id,{requested:requested.parasites[id]??null,actual:id==="hyperparasite"?(w.searchQ?.length||0)+w.organisms.filter(o=>o.infection?.q).length:w.organisms.filter(o=>o.infection?.species===id).length}]))};
       if(config.initialReport)for(const g of ["plant","fungus","prey"]){
         const species=D.species.filter(s=>s.group===g),target=config.enabled[g]?Math.round(usable.length*config.initialConditions.density[g]):0;
         config.initialReport.groups[g].requested=species.reduce((sum,s,i)=>sum+(config.enabled[g]?(requested.species[s.id]??(Math.floor(target/species.length)+(i<target%species.length?1:0))):0),0);
       }
     }
     Colony.summary(w);
+    LargePlant.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -14660,6 +15448,8 @@ return {settings,attach,region,level,factor,begin,finish};
     D,
     ProducerSupport,
     Colony,
+    LargePlant,
+    activeSpecies,
     initialRank,
     DIRS,
     DNA,
@@ -14749,6 +15539,7 @@ function(require,module){
     if(exposure.E<=0)colony.edibleExposure=null;
   }
   function transfer(w, ctx, source, target, type, harvest = null) {
+    if(S.LargePlant.definition(S.D.byId[source.species])||S.LargePlant.is(target))return;
     if(type==="plant"&&S.Colony.is(source)){colonyExposure(w,ctx,source,target,harvest);return;}
     const p = source.infection;
     if (!p) return;
@@ -15330,7 +16121,7 @@ function begin(w,S){
   input(o,'M',Math.max(0,Math.min(c.targetM,p.capM)-o.M)*fraction);
   if(!colonyCounts){const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);}
  }
- for(const o of w.organisms)if(S.spec(o).group==='plant'){
+ for(const o of w.organisms)if(S.spec(o).group==='plant'&&!S.LargePlant?.is(o)){
   const n=level(w,o.cell)*(w.tiles[o.cell].light>0?1:0);o.producerReserve=S.round(S.clamp((o.producerReserve??1)+(Math.min(1,n)-.5)*2/c.grace,0,1));
   if(o.producerReserve===0){o.HP=S.round(Math.max(0,o.HP-1));last.stressed++;}
  }
@@ -15411,7 +16202,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     const parameters = (w, cell) => w.config.producerSettings[region(w, cell)];
     function attach(w, o, origin = {kind:"initial"}) {
-      if (!enabled(w) || spec(o).group !== "plant" || is(o)) return o;
+      if (!enabled(w) || spec(o).group !== "plant" || spec(o).kind === "independent" || is(o)) return o;
       o.colony = {version:VERSION, origin:structuredClone(origin), establishedAt:w.turn,
         baseB:PLANT_BASE, capacityB:parameters(w,o.cell).capacityB, activity:1,
         replacementDebtB:0, edibleExposure:null,
@@ -15533,6 +16324,148 @@ return {settings,attach,region,level,factor,begin,finish};
       w.colonySummary=out;
     }
     return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
+  })();
+  const activeSpecies = (w) => w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const LargePlant = (() => {
+    const VERSION="independent-plant-state/1", factors=[0,1,1.15,1.35,1.6], edible=[0,16,20,24,32], LIMIT=1e12;
+    const enabled=w=>w.config.largePlantModel==="independent/1";
+    const is=o=>o?.plant?.version===VERSION;
+    const definition=s=>s?.kind==="independent";
+    const region=(w,cell)=>["shallow","deep"].includes(w.tiles[cell].terrain)?"water":"land";
+    function settings(input={}){
+      const object=(o,keys)=>{if(!o||typeof o!=="object"||Array.isArray(o)||Object.keys(o).some(k=>!keys.includes(k)))throw Error("SETTINGS_INVALID: 独立植物の比較値");};
+      object(input,["version","autoDensity","initial"]);
+      if(input.version!==undefined&&input.version!=="independent-plant-parameters/1")throw Error("SETTINGS_INVALID: 独立植物の定義版");
+      const density=input.autoDensity??{},initial=input.initial??{};object(density,["land","water"]);object(initial,["phase","ageFraction","energyFraction"]);
+      const out={version:"independent-plant-parameters/1",autoDensity:{land:.02,water:.02,...density},initial:{phase:1,ageFraction:0,energyFraction:.5,...initial}};
+      for(const value of Object.values(out.autoDensity))if(typeof value!=="number"||!Number.isFinite(value)||value<0||value>1)throw Error("SETTINGS_INVALID: 独立植物の初期密度");
+      for(const [key,maximum]of [["ageFraction",.99],["energyFraction",1]])if(typeof out.initial[key]!=="number"||!Number.isFinite(out.initial[key])||out.initial[key]<0||out.initial[key]>maximum)throw Error("SETTINGS_INVALID: 独立植物の初期在庫/齢");
+      if(!Number.isInteger(out.initial.phase)||out.initial.phase<1||out.initial.phase>4)throw Error("SETTINGS_INVALID: 独立植物の初期相");
+      return out;
+    }
+    function last(turn){return {turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,maintenanceE:0,preparationE:0,experience:0};}
+    function attach(w,o,options={}){
+      if(!enabled(w)||!definition(spec(o))||is(o))return o;
+      const initial=w.config.largePlantSettings.initial;
+      if(!Object.hasOwn(options,"phase"))o.phase=initial.phase;
+      if(!Object.hasOwn(options,"age"))o.age=Math.floor(spec(o).life*initial.ageFraction);
+      o.birthLife=spec(o).life;
+      o.plant={version:VERSION,origin:structuredClone(options.plantOrigin??{kind:"initial"}),establishedAt:w.turn,
+        baseB:2,capacityB:edible[o.phase],activity:1,replacementDebtB:0,last:last(w.turn),
+        cumulative:{productionB:0,regrowthB:0,consumedB:0,maintainedTurns:0,settlements:0,preparationE:0},
+        window:[],settlementRecorded:false,finalizedAt:-1,maintainedRemainder:0};
+      if(!Object.hasOwn(options,"B"))o.B=H.round(2+edible[o.phase]*.7);
+      if(!Object.hasOwn(options,"E"))o.E=H.round(spec(o).capacity[0]*factors[o.phase]*initial.energyFraction);
+      if(!Object.hasOwn(options,"M"))o.M=1;
+      if(o.phase>=3&&o.branch3===null)o.branch3=choose(w,o,[o.dna.aptitude,o.dna.body,o.dna.skin],"initial/III");
+      if(o.phase>=4&&o.branch4===null)o.branch4=choose(w,o,[o.dna.body,o.dna.skin],"initial/IV");
+      return o;
+    }
+    function phenotype(w,o,phase=o.phase,branch=o.branch4){
+      const s=spec(o),f=factors[phase],age=ageInfo(o),a=age.factors;
+      const high=phase===4&&o.branch3===0&&branch===0,efficient=phase===4&&o.branch3===0&&branch===1;
+      const maintenance=s.maintenance*f*(high?1.1:efficient?.8:1),cooldown=s.birthCooldown*(phase===4&&o.branch3===1?(branch===0?1.5:.75):1);
+      return {phase,u:phase/4,capE:H.round(s.capacity[0]*f),capB:2+edible[phase],capM:4,maxHP:H.round(s.capacity[3]*a.hp),
+        life:o.birthLife,maintenance:H.round(maintenance*a.maintenance),baseMaintenance:maintenance,baseMaxHP:s.capacity[3],
+        cooldown:cooldown*a.birth,baseCooldown:cooldown,sense:1,speed:s.id==="freshwaterlight"?1:0,range:1,M3:0,M4:0,branch,
+        ageEnabled:true,ageStage:age.stage,ageFactors:a,lightInput:s.lightInput*f*(high?1.2:1),surface:f,
+        regenerationFactor:phase===4&&o.branch3===2&&branch===1?1.2:1,
+        biteFactor:phase===4&&o.branch3===2&&branch===0?.8:1};
+    }
+    function increment(o,key,value){o.plant.cumulative[key]=H.round(Math.min(LIMIT,o.plant.cumulative[key]+value));}
+    function row(w,o){
+      const p=o.plant;let r=p.window.find(r=>r.turn===w.turn);
+      if(!r){r={turn:w.turn,allocation:[0,0,0],sides:[[0,0],[0,0],[0,0]]};p.window.push(r);}
+      p.window=p.window.filter(r=>r.turn>w.turn-32);return r;
+    }
+    function allocation(w,o,category,amount,side=null){if(amount<=0)return;const r=row(w,o);r.allocation[category]=H.round(r.allocation[category]+amount);if(side!==null)r.sides[category][side]=H.round(r.sides[category][side]+amount);}
+    function flows(w){return w.largePlantFlows??={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};}
+    function flow(w,o,key,amount){if(flows(w).turn!==w.turn)w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};const r=flows(w)[region(w,o.cell)];r[key]=H.round(r[key]+amount);}
+    function begin(w){if(!enabled(w))return;w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};for(const o of w.organisms)if(is(o)){o.plant.last=last(w.turn);o.plant.window=o.plant.window.filter(r=>r.turn>w.turn-32);}}
+    function initialize(w){
+      if(!enabled(w)||!w.config.enabled.plant)return;
+      const species=D.independentPlants,occupied=new Set(),counts={land:0,water:0};
+      function place(s,cell){const o=organism(w,s,cell,"i:producer:"+cell+":"+s.id);w.organisms.push(o);occupied.add(cell);counts[region(w,cell)]++;}
+      const candidates=s=>w.tiles.map((_,i)=>i).filter(cell=>!occupied.has(cell)&&validHabitat(w,s,cell)).sort((a,b)=>initialRank(w,s,a)-initialRank(w,s,b)||a-b);
+      for(const s of species){const count=w.config.founderCounts?.species[s.id];if(count===undefined)continue;const cells=candidates(s);if(count>cells.length)throw Error("PLACEMENT_SHORTAGE: "+s.name+" 指定"+count+"体の適地/空き枠が不足しています");for(const cell of cells.slice(0,count))place(s,cell);}
+      w.largePlantRegions={};
+      for(const name of ["land","water"]){
+        const eligible=w.tiles.map((_,i)=>i).filter(cell=>region(w,cell)===name&&species.some(s=>validHabitat(w,s,cell)));
+        const target=Math.round(eligible.length*w.config.largePlantSettings.autoDensity[name]);
+        const sites=eligible.filter(cell=>!occupied.has(cell)).map(cell=>({cell,species:species.filter(s=>w.config.founderCounts?.species[s.id]===undefined&&validHabitat(w,s,cell))})).filter(a=>a.species.length)
+          .sort((a,b)=>Math.min(...a.species.map(s=>initialRank(w,s,a.cell)))-Math.min(...b.species.map(s=>initialRank(w,s,b.cell)))||a.cell-b.cell);
+        for(const site of sites){if(counts[name]>=target)break;site.species.sort((a,b)=>hash(w,"independent/initial-species",0,a.id,site.cell)-hash(w,"independent/initial-species",0,b.id,site.cell));place(site.species[0],site.cell);}
+        w.largePlantRegions[name]={eligibleCells:eligible.length,target,initial:counts[name]};
+      }
+    }
+    function prepareLight(w,ctx){
+      if(!enabled(w))return;
+      const groups=new Map();
+      for(const o of w.organisms){
+        const s=spec(o),p=ctx.traits.get(o.id);if(o.HP<=0||(s.group!=="plant"&&s.id!=="kelp"))continue;
+        let input=is(o)?p.lightInput:s.group==="plant"?(s.id==="phytoplankton"?(w.config.advantageSettings?.producer?16:8):(w.config.advantageSettings?.producer?8:4))*leafFactor(o):1.5*[0,1,1.1,1.2,1.3][p.phase];
+        input=H.round(input*w.tiles[o.cell].light*p.ageFactors.light*(w.config.solarScale||1)*ProducerSupport.factor(w,o,{spec}));
+        if(!groups.has(o.cell))groups.set(o.cell,[]);
+        groups.get(o.cell).push({o,p,input,room:Math.max(0,Math.min(input,p.capE-o.E)),area:is(o)?p.surface:1,add:0,h:hash(w,"independent/light-share",w.turn,o.id)});
+      }
+      for(const list of groups.values()){
+        const budget=H.round(Math.max(...list.map(a=>a.input)));let remaining=budget,live=list.filter(a=>a.room>0).sort((a,b)=>a.h-b.h||H.compare(a.o.id,b.o.id));
+        while(remaining>0&&live.length){const area=live.reduce((n,a)=>n+a.area,0),capped=live.filter(a=>a.room<=remaining*a.area/area);
+          if(capped.length){for(const a of capped){const add=H.round(Math.min(remaining,a.room));a.add=H.round(a.add+add);remaining=H.round(remaining-add);a.room=0;}live=live.filter(a=>a.room>0);}
+          else{const available=remaining;for(let i=0;i<live.length;i++){const a=live[i],add=H.round(Math.min(a.room,remaining,i===live.length-1?remaining:available*a.area/area));a.add=H.round(a.add+add);remaining=H.round(remaining-add);}break;}}
+        w.ledger.solar=H.round(w.ledger.solar+budget);dissipate(w,remaining);
+        for(const a of list){a.o.E=H.round(a.o.E+a.add);ctx.records.get(a.o.id).light=a.add;if(Colony.is(a.o))Colony.solar(w,a.o,a.add);if(is(a.o)){ctx.records.get(a.o.id).solarOpportunityE=H.round(Math.min(a.input,budget*a.area/list.reduce((n,p)=>n+p.area,0)));a.o.plant.last.solarInputE=a.add;flow(w,a.o,"solarInputE",a.add);}if(a.o.species==="phytoplankton")a.o.photoGrowth=H.round((a.o.photoGrowth||0)+a.add);if(a.add)record(ctx,a.o,"light",{amount:a.add});}
+      }
+    }
+    function consumed(w,o,amount){const p=o.plant;p.last.consumedB=H.round(p.last.consumedB+amount);p.replacementDebtB=H.round(Math.min(edible[o.phase],p.replacementDebtB+amount));increment(o,"consumedB",amount);flow(w,o,"consumedB",amount);}
+    function maintained(w,o,paid,required){const p=o.plant;p.last.maintenanceE=H.round(p.last.maintenanceE+paid);const healthy=paid>=H.round(required)&&o.HP>0;p.activity=H.round(H.clamp(p.activity+(healthy?.02:-.05),0,1));if(healthy){increment(o,"maintainedTurns",1);p.maintainedRemainder++;}allocation(w,o,0,paid);}
+    function regrow(w,o,ctx){
+      if(!is(o)||o.HP<=0||w.tiles[o.cell].light<=0||ProducerSupport.factor(w,o,{spec})<=0)return;
+      const p=o.plant,phen=phenotype(w,o),tile=w.tiles[o.cell],multiplier=w.config.producerSupport?.enabled?w.config.producerSupport[region(w,o.cell)].regrowth:1;
+      const maximum=p.capacityB*.1*phen.regenerationFactor*Math.min(1,multiplier)*p.activity*Math.min(1,tile.light);
+      const amount=H.round(Math.max(0,Math.min(maximum-p.last.productionB,p.capacityB-edibleB(o),Math.max(0,o.E-2)/1.2,tile.soilM/.02,Math.max(0,phen.capM-o.M)/.02)));
+      if(!amount)return;
+      const expense=H.round(amount*1.2),material=H.round(amount*.02),replacement=H.round(Math.min(p.replacementDebtB,amount));
+      o.E=H.round(o.E-expense);o.B=H.round(o.B+amount);tile.soilM=H.round(tile.soilM-material);o.M=H.round(o.M+material);dissipate(w,H.round(expense-amount));
+      p.last.productionB=H.round(p.last.productionB+amount);p.last.regrowthB=H.round(p.last.regrowthB+replacement);p.replacementDebtB=H.round(p.replacementDebtB-replacement);
+      increment(o,"productionB",amount);increment(o,"regrowthB",replacement);flow(w,o,"productionB",amount);flow(w,o,"regrowthB",replacement);
+      allocation(w,o,0,H.round((amount-replacement)*1.2),0);allocation(w,o,2,H.round(replacement*1.2),1);
+    }
+    function choose(w,o,scores,purpose){const largest=Math.max(...scores),tied=scores.map((n,i)=>({n,i})).filter(a=>Math.abs(a.n-largest)<1e-6),dna=purpose.includes("III")?[o.dna.aptitude,o.dna.body,o.dna.skin]:[o.dna.body,o.dna.skin];tied.sort((a,b)=>(dna[b.i]??0)-(dna[a.i]??0)||hash(w,"independent/branch",0,o.id,[purpose,a.i])-hash(w,"independent/branch",0,o.id,[purpose,b.i]));return tied[0].i;}
+    function prepare(w,o,ctx,indexed){
+      if(o.phase<2||o.phase>=4)return;
+      const phen=phenotype(w,o);if(o.E<.1+4*phen.maintenance)return;
+      const local=nearby(w,o.cell).some(cell=>validHabitat(w,spec(o),cell)&&!indexed.producer?.has(cell));
+      const category=o.phase===3?o.branch3:o.plant.replacementDebtB>0?2:ageInfo(o).stage!=="juvenile"&&local&&o.E>=10+4*phen.maintenance?1:0;
+      const opportunity=ctx.records.get(o.id)?.solarOpportunityE??o.plant.last.solarInputE;
+      const side=category===0?(opportunity>=2*phen.maintenance?0:1):category===1?(o.E>=14+4*phen.maintenance?0:1):(o.plant.replacementDebtB>0?1:0);
+      o.E=H.round(o.E-.1);dissipate(w,.1);o.plant.last.preparationE=.1;increment(o,"preparationE",.1);allocation(w,o,category,.1,side);
+    }
+    function finalize(w,ctx){
+      if(!enabled(w))return;
+      const indexed=maps(w);
+      for(const child of w.organisms)if(is(child)&&!child.plant.settlementRecorded&&child.parents.length&&child.age>=4){child.plant.settlementRecorded=true;const parent=indexed.byId.get(child.parents[0]);if(is(parent)){increment(parent,"settlements",1);parent.plant.last.settlementCredit=(parent.plant.last.settlementCredit||0)+1;}}
+      for(const o of w.organisms)if(is(o)&&ctx.traits.has(o.id)&&o.plant.finalizedAt!==w.turn){
+        const p=o.plant;p.finalizedAt=w.turn;
+        const maintainedPoints=Math.floor(p.maintainedRemainder/2);p.maintainedRemainder%=2;
+        const points=Math.min(1,maintainedPoints+(p.last.productionB-p.last.regrowthB)/4+p.last.regrowthB/4+(p.last.settlementCredit||0));o.G=H.round(Math.min(LIMIT,o.G+points));p.last.experience=points;
+        prepare(w,o,ctx,indexed);
+        const next=o.phase+1,threshold=[0,0,12,36,80][next],cost=[0,0,2,4,6][next];
+        if(next<=4&&o.G>=threshold&&o.E>=cost){let branch=null;
+          if(next===3){const scores=[0,0,0];for(const r of p.window)for(let i=0;i<3;i++)scores[i]+=r.allocation[i];branch=choose(w,o,scores,"III");o.branch3=branch;}
+          if(next===4){const scores=[0,0];for(const r of p.window)for(let i=0;i<2;i++)scores[i]+=r.sides[o.branch3][i];branch=choose(w,o,scores,"IV/"+o.branch3);o.branch4=branch;}
+          o.E=H.round(o.E-cost);dissipate(w,cost);const previous=o.phase;o.phase=next;p.capacityB=edible[next];record(ctx,o,"growth",{fromPhase:previous,phase:next});
+        }
+      }
+    }
+    function summary(w){
+      if(!enabled(w))return;const out={definition:"independent-plant-observed/1",turn:w.turn};
+      for(const name of ["land","water"])out[name]={count:0,B:0,baseB:0,edibleB:0,capacityB:0,occupiedCells:0,eligibleCells:w.largePlantRegions?.[name]?.eligibleCells??w.tiles.filter((_,i)=>region(w,i)===name&&D.independentPlants.some(s=>validHabitat(w,s,i))).length,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,reserveE:0,reserveM:0,activitySum:0};
+      for(const o of w.organisms)if(is(o)){const r=out[region(w,o.cell)];r.count++;r.occupiedCells++;r.B+=o.B;r.baseB+=2;r.edibleB+=edibleB(o);r.capacityB+=o.plant.capacityB;r.reserveE+=o.E;r.reserveM+=o.M;r.activitySum+=o.plant.activity;}
+      if(w.largePlantFlows?.turn===w.turn)for(const name of ["land","water"])for(const key of ["productionB","regrowthB","consumedB","solarInputE"])out[name][key]=w.largePlantFlows[name][key];
+      for(const name of ["land","water"])for(const key of Object.keys(out[name]))out[name][key]=H.round(out[name][key]);w.largePlantSummary=out;
+    }
+    return {enabled,is,definition,region,settings,attach,phenotype,increment,allocation,begin,initialize,prepareLight,consumed,maintained,regrow,finalize,summary};
   })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
@@ -15689,8 +16622,10 @@ return {settings,attach,region,level,factor,begin,finish};
       byId = new Map(),
       resources = new Map(),
       carcasses = new Map();
+    const producer=LargePlant.enabled(w)?new Map():null;
     for (const o of w.organisms) {
       byId.set(o.id, o);
+      if(producer&&o.slot==="producer"){producer.set(o.cell,o);continue;}
       (o.slot === "main" ? main : o.slot === "prey" ? prey : food).set(o.cell, o);
     }
     for (const a of w.resources) {
@@ -15701,11 +16636,14 @@ return {settings,attach,region,level,factor,begin,finish};
       if (!carcasses.has(a.cell)) carcasses.set(a.cell, []);
       carcasses.get(a.cell).push(a);
     }
-    return { main, food, prey, byId, resources, carcasses };
+    const result=(()=>{return { main, food, prey, byId, resources, carcasses };})();
+    if(producer)result.producer=producer;
+    return result;
   }
   function validHabitat(w, s, p) {
     const t = w.tiles[p];
     if (t.blocked) return false;
+    if(LargePlant.definition(s))return t.light>0&&(s.id==="freshwaterlight"?["shallow","deep"].includes(t.terrain):["plain","rock","mud"].includes(t.terrain));
     if (s.id === "phytoplankton") return ["shallow","deep"].includes(t.terrain) && t.light > 0;
     if (s.id === "algae" || s.id === "waterbug")
       return [0, 5].includes(t.env) && t.terrain === "shallow";
@@ -15829,6 +16767,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
+    if(c.largePlantModel!==undefined&&c.largePlantModel!=="independent/1")throw Error("SETTINGS_INVALID: 独立植物モデル");
+    if(c.largePlantModel==="independent/1"){
+      if(c.producerModel!=="colony/1")throw Error("SETTINGS_INVALID: 独立植物には群落モデルが必要です");
+      c.largePlantSettings=LargePlant.settings(c.largePlantSettings);
+    }else if(c.largePlantSettings!==undefined)throw Error("SETTINGS_INVALID: 独立植物モデルの指定が必要です");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
     if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
@@ -15857,7 +16800,7 @@ return {settings,attach,region,level,factor,begin,finish};
       for(const key of ["species","parasites"]){
         const obj=a[key];if(!obj||typeof obj!=="object"||Array.isArray(obj))throw Error("SETTINGS_INVALID: 種別の初期数 "+key);
         for(const [id,count]of Object.entries(obj)){
-          const species=D.species.find(s=>s.id===id),allowed=key==="species"?["plant","fungus","prey"]:["P","Q"];
+          const species=activeSpecies({config:c}).find(s=>s.id===id),allowed=key==="species"?["plant","fungus","prey"]:["P","Q"];
           if(!species||!allowed.includes(species.group)||!Number.isSafeInteger(count)||count<0||count>(species.group==="Q"?1024:17920))throw Error("SETTINGS_INVALID: 初期数 "+id);
           if(count>0&&!c.enabled[species.group])throw Error("SETTINGS_INVALID: "+species.name+"の生物群を有効にしてください");
         }
@@ -15884,6 +16827,9 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(LargePlant.is(o)){
+      o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
+    }
     if(Colony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
@@ -15908,7 +16854,7 @@ return {settings,attach,region,level,factor,begin,finish};
       u = {};
     DNA.forEach(
       (axis, i) =>
-        (u[axis] = main ? 0.25 + 0.5 * r(w, "init/dna", 0, id, null, i) : 0.5),
+        (u[axis] = main || (LargePlant.enabled(w)&&LargePlant.definition(s)) ? 0.25 + 0.5 * r(w, "init/dna", 0, id, null, i) : 0.5),
     );
     const [E, B, M, HP] = main ? [60, 16, 0, 100] : s.initial;
     const birth = main
@@ -15959,12 +16905,15 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
+    delete o.plantOrigin;
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
+    if(LargePlant.is(o))return LargePlant.phenotype(w,o,phase,branch);
     const s = spec(o),
       main = s.group === "main",
       u = main ? phase / 4 : 0,
@@ -16370,6 +17319,7 @@ return {settings,attach,region,level,factor,begin,finish};
         );
       }
     }
+    LargePlant.initialize(w);
     for (const kind of ["mineral", "droplet", "info"]) {
       const target = usable.filter(
         (p) =>
@@ -16519,6 +17469,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
     if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
+    if(LargePlant.enabled(w))for(const o of w.organisms)if(LargePlant.is(o)){o.age=Math.floor(o.birthLife*config.largePlantSettings.initial.ageFraction);o.phase=config.largePlantSettings.initial.phase;}
     if (config.enabled.P)
       for (const o of w.organisms)
         if (
@@ -16569,13 +17520,14 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.founderCounts){
       const requested=config.founderCounts;
-      config.founderReport={version:1,species:Object.fromEntries(D.species.filter(s=>["plant","fungus","prey"].includes(s.group)).map(s=>[s.id,{requested:requested.species[s.id]??null,actual:w.organisms.filter(o=>o.species===s.id).length}])),parasites:Object.fromEntries(["tideparasite","leafparasite","hyperparasite"].map(id=>[id,{requested:requested.parasites[id]??null,actual:id==="hyperparasite"?(w.searchQ?.length||0)+w.organisms.filter(o=>o.infection?.q).length:w.organisms.filter(o=>o.infection?.species===id).length}]))};
+      config.founderReport={version:1,species:Object.fromEntries(activeSpecies(w).filter(s=>["plant","fungus","prey"].includes(s.group)).map(s=>[s.id,{requested:requested.species[s.id]??null,actual:w.organisms.filter(o=>o.species===s.id).length}])),parasites:Object.fromEntries(["tideparasite","leafparasite","hyperparasite"].map(id=>[id,{requested:requested.parasites[id]??null,actual:id==="hyperparasite"?(w.searchQ?.length||0)+w.organisms.filter(o=>o.infection?.q).length:w.organisms.filter(o=>o.infection?.species===id).length}]))};
       if(config.initialReport)for(const g of ["plant","fungus","prey"]){
         const species=D.species.filter(s=>s.group===g),target=config.enabled[g]?Math.round(usable.length*config.initialConditions.density[g]):0;
         config.initialReport.groups[g].requested=species.reduce((sum,s,i)=>sum+(config.enabled[g]?(requested.species[s.id]??(Math.floor(target/species.length)+(i<target%species.length?1:0))):0),0);
       }
     }
     Colony.summary(w);
+    LargePlant.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -16627,6 +17579,8 @@ return {settings,attach,region,level,factor,begin,finish};
     D,
     ProducerSupport,
     Colony,
+    LargePlant,
+    activeSpecies,
     initialRank,
     DIRS,
     DNA,
@@ -17526,9 +18480,18 @@ function(require,module){
   for (const id of ["memory", "antimeme"])
     data.species.find((s) => s.id === id).diet = "scavenger";
   for (const s of data.species) if (s.group === "main") s.maintenance *= .60;
+  // Registered separately: legacy and colony-only worlds keep their 31 entries.
+  data.independentPlants = [
+    {id:"forestcrown",name:"森冠",life:360,maturity:36,birthCooldown:12,maintenance:.25,lightInput:2.4,capacity:[40,18,4,40],color:"#6b9766",aquatic:false},
+    {id:"starcrown",name:"星冠",life:320,maturity:32,birthCooldown:10,maintenance:.25,lightInput:2.4,capacity:[40,18,4,36],color:"#b4c984",aquatic:false},
+    {id:"freshwaterlight",name:"淡水光合成体",life:240,maturity:24,birthCooldown:8,maintenance:.30,lightInput:2.2,capacity:[36,18,4,28],color:"#74bfb0",aquatic:true},
+  ].map(s=>({...s,group:"plant",kind:"independent",recordUnit:"individual",slot:"producer",tag:"plant",
+    phases:["第一相","第二相","第三相","第四相"],branches:["生産","繁殖拡散","耐食"],
+    initial:[s.capacity[0]*.5,13.2,1,s.capacity[3]],traits:{},senseAt:1,rangeAt:1,speedAt:1}));
   data.species.push({id:'phytoplankton',name:'浮遊微藻',group:'plant',slot:'food',tag:'plant',phases:['微小体','分裂体'],life:80,maturity:2,maintenance:.1,birthCooldown:2,initial:[6,8,.5,6],capacity:[20,16,2,6],color:'#73d2bf'});
   for(const s of data.species){if(s.group==='plant'){Object.assign(s,{life:2400,maintenance:.02,birthCooldown:1,initial:[12,s.id==='phytoplankton'?16:20,1,12],capacity:[32,48,4,12]});}if(s.id==='waterbug')Object.assign(s,{life:600,maturity:2,maintenance:.03,birthCooldown:1,initial:[12,4,0,40],capacity:[24,8,2,40]});}
   data.byId = Object.fromEntries(data.species.map((s) => [s.id, s]));
+  Object.assign(data.byId,Object.fromEntries(data.independentPlants.map(s=>[s.id,s])));
   data.main = data.species.filter((s) => s.group === "main");
   return data;
 });
@@ -17601,7 +18564,7 @@ function begin(w,S){
   input(o,'M',Math.max(0,Math.min(c.targetM,p.capM)-o.M)*fraction);
   if(!colonyCounts){const b=S.round(Math.max(0,Math.min(c[region(w,o.cell)].regrowth*n*energy,p.capB-o.B)));input(o,'B',b);last.regrownB=S.round(last.regrownB+b);}
  }
- for(const o of w.organisms)if(S.spec(o).group==='plant'){
+ for(const o of w.organisms)if(S.spec(o).group==='plant'&&!S.LargePlant?.is(o)){
   const n=level(w,o.cell)*(w.tiles[o.cell].light>0?1:0);o.producerReserve=S.round(S.clamp((o.producerReserve??1)+(Math.min(1,n)-.5)*2/c.grace,0,1));
   if(o.producerReserve===0){o.HP=S.round(Math.max(0,o.HP-1));last.stressed++;}
  }
@@ -17682,7 +18645,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     const parameters = (w, cell) => w.config.producerSettings[region(w, cell)];
     function attach(w, o, origin = {kind:"initial"}) {
-      if (!enabled(w) || spec(o).group !== "plant" || is(o)) return o;
+      if (!enabled(w) || spec(o).group !== "plant" || spec(o).kind === "independent" || is(o)) return o;
       o.colony = {version:VERSION, origin:structuredClone(origin), establishedAt:w.turn,
         baseB:PLANT_BASE, capacityB:parameters(w,o.cell).capacityB, activity:1,
         replacementDebtB:0, edibleExposure:null,
@@ -17804,6 +18767,148 @@ return {settings,attach,region,level,factor,begin,finish};
       w.colonySummary=out;
     }
     return {enabled,is,region,settings,parameters,attach,increment,begin,regional,occupancy,room,allowed,initialize,consumed,regrow,solar,summary};
+  })();
+  const activeSpecies = (w) => w?.config?.largePlantModel === "independent/1" ? [...D.species,...D.independentPlants] : D.species;
+  const LargePlant = (() => {
+    const VERSION="independent-plant-state/1", factors=[0,1,1.15,1.35,1.6], edible=[0,16,20,24,32], LIMIT=1e12;
+    const enabled=w=>w.config.largePlantModel==="independent/1";
+    const is=o=>o?.plant?.version===VERSION;
+    const definition=s=>s?.kind==="independent";
+    const region=(w,cell)=>["shallow","deep"].includes(w.tiles[cell].terrain)?"water":"land";
+    function settings(input={}){
+      const object=(o,keys)=>{if(!o||typeof o!=="object"||Array.isArray(o)||Object.keys(o).some(k=>!keys.includes(k)))throw Error("SETTINGS_INVALID: 独立植物の比較値");};
+      object(input,["version","autoDensity","initial"]);
+      if(input.version!==undefined&&input.version!=="independent-plant-parameters/1")throw Error("SETTINGS_INVALID: 独立植物の定義版");
+      const density=input.autoDensity??{},initial=input.initial??{};object(density,["land","water"]);object(initial,["phase","ageFraction","energyFraction"]);
+      const out={version:"independent-plant-parameters/1",autoDensity:{land:.02,water:.02,...density},initial:{phase:1,ageFraction:0,energyFraction:.5,...initial}};
+      for(const value of Object.values(out.autoDensity))if(typeof value!=="number"||!Number.isFinite(value)||value<0||value>1)throw Error("SETTINGS_INVALID: 独立植物の初期密度");
+      for(const [key,maximum]of [["ageFraction",.99],["energyFraction",1]])if(typeof out.initial[key]!=="number"||!Number.isFinite(out.initial[key])||out.initial[key]<0||out.initial[key]>maximum)throw Error("SETTINGS_INVALID: 独立植物の初期在庫/齢");
+      if(!Number.isInteger(out.initial.phase)||out.initial.phase<1||out.initial.phase>4)throw Error("SETTINGS_INVALID: 独立植物の初期相");
+      return out;
+    }
+    function last(turn){return {turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,maintenanceE:0,preparationE:0,experience:0};}
+    function attach(w,o,options={}){
+      if(!enabled(w)||!definition(spec(o))||is(o))return o;
+      const initial=w.config.largePlantSettings.initial;
+      if(!Object.hasOwn(options,"phase"))o.phase=initial.phase;
+      if(!Object.hasOwn(options,"age"))o.age=Math.floor(spec(o).life*initial.ageFraction);
+      o.birthLife=spec(o).life;
+      o.plant={version:VERSION,origin:structuredClone(options.plantOrigin??{kind:"initial"}),establishedAt:w.turn,
+        baseB:2,capacityB:edible[o.phase],activity:1,replacementDebtB:0,last:last(w.turn),
+        cumulative:{productionB:0,regrowthB:0,consumedB:0,maintainedTurns:0,settlements:0,preparationE:0},
+        window:[],settlementRecorded:false,finalizedAt:-1,maintainedRemainder:0};
+      if(!Object.hasOwn(options,"B"))o.B=H.round(2+edible[o.phase]*.7);
+      if(!Object.hasOwn(options,"E"))o.E=H.round(spec(o).capacity[0]*factors[o.phase]*initial.energyFraction);
+      if(!Object.hasOwn(options,"M"))o.M=1;
+      if(o.phase>=3&&o.branch3===null)o.branch3=choose(w,o,[o.dna.aptitude,o.dna.body,o.dna.skin],"initial/III");
+      if(o.phase>=4&&o.branch4===null)o.branch4=choose(w,o,[o.dna.body,o.dna.skin],"initial/IV");
+      return o;
+    }
+    function phenotype(w,o,phase=o.phase,branch=o.branch4){
+      const s=spec(o),f=factors[phase],age=ageInfo(o),a=age.factors;
+      const high=phase===4&&o.branch3===0&&branch===0,efficient=phase===4&&o.branch3===0&&branch===1;
+      const maintenance=s.maintenance*f*(high?1.1:efficient?.8:1),cooldown=s.birthCooldown*(phase===4&&o.branch3===1?(branch===0?1.5:.75):1);
+      return {phase,u:phase/4,capE:H.round(s.capacity[0]*f),capB:2+edible[phase],capM:4,maxHP:H.round(s.capacity[3]*a.hp),
+        life:o.birthLife,maintenance:H.round(maintenance*a.maintenance),baseMaintenance:maintenance,baseMaxHP:s.capacity[3],
+        cooldown:cooldown*a.birth,baseCooldown:cooldown,sense:1,speed:s.id==="freshwaterlight"?1:0,range:1,M3:0,M4:0,branch,
+        ageEnabled:true,ageStage:age.stage,ageFactors:a,lightInput:s.lightInput*f*(high?1.2:1),surface:f,
+        regenerationFactor:phase===4&&o.branch3===2&&branch===1?1.2:1,
+        biteFactor:phase===4&&o.branch3===2&&branch===0?.8:1};
+    }
+    function increment(o,key,value){o.plant.cumulative[key]=H.round(Math.min(LIMIT,o.plant.cumulative[key]+value));}
+    function row(w,o){
+      const p=o.plant;let r=p.window.find(r=>r.turn===w.turn);
+      if(!r){r={turn:w.turn,allocation:[0,0,0],sides:[[0,0],[0,0],[0,0]]};p.window.push(r);}
+      p.window=p.window.filter(r=>r.turn>w.turn-32);return r;
+    }
+    function allocation(w,o,category,amount,side=null){if(amount<=0)return;const r=row(w,o);r.allocation[category]=H.round(r.allocation[category]+amount);if(side!==null)r.sides[category][side]=H.round(r.sides[category][side]+amount);}
+    function flows(w){return w.largePlantFlows??={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};}
+    function flow(w,o,key,amount){if(flows(w).turn!==w.turn)w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};const r=flows(w)[region(w,o.cell)];r[key]=H.round(r[key]+amount);}
+    function begin(w){if(!enabled(w))return;w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};for(const o of w.organisms)if(is(o)){o.plant.last=last(w.turn);o.plant.window=o.plant.window.filter(r=>r.turn>w.turn-32);}}
+    function initialize(w){
+      if(!enabled(w)||!w.config.enabled.plant)return;
+      const species=D.independentPlants,occupied=new Set(),counts={land:0,water:0};
+      function place(s,cell){const o=organism(w,s,cell,"i:producer:"+cell+":"+s.id);w.organisms.push(o);occupied.add(cell);counts[region(w,cell)]++;}
+      const candidates=s=>w.tiles.map((_,i)=>i).filter(cell=>!occupied.has(cell)&&validHabitat(w,s,cell)).sort((a,b)=>initialRank(w,s,a)-initialRank(w,s,b)||a-b);
+      for(const s of species){const count=w.config.founderCounts?.species[s.id];if(count===undefined)continue;const cells=candidates(s);if(count>cells.length)throw Error("PLACEMENT_SHORTAGE: "+s.name+" 指定"+count+"体の適地/空き枠が不足しています");for(const cell of cells.slice(0,count))place(s,cell);}
+      w.largePlantRegions={};
+      for(const name of ["land","water"]){
+        const eligible=w.tiles.map((_,i)=>i).filter(cell=>region(w,cell)===name&&species.some(s=>validHabitat(w,s,cell)));
+        const target=Math.round(eligible.length*w.config.largePlantSettings.autoDensity[name]);
+        const sites=eligible.filter(cell=>!occupied.has(cell)).map(cell=>({cell,species:species.filter(s=>w.config.founderCounts?.species[s.id]===undefined&&validHabitat(w,s,cell))})).filter(a=>a.species.length)
+          .sort((a,b)=>Math.min(...a.species.map(s=>initialRank(w,s,a.cell)))-Math.min(...b.species.map(s=>initialRank(w,s,b.cell)))||a.cell-b.cell);
+        for(const site of sites){if(counts[name]>=target)break;site.species.sort((a,b)=>hash(w,"independent/initial-species",0,a.id,site.cell)-hash(w,"independent/initial-species",0,b.id,site.cell));place(site.species[0],site.cell);}
+        w.largePlantRegions[name]={eligibleCells:eligible.length,target,initial:counts[name]};
+      }
+    }
+    function prepareLight(w,ctx){
+      if(!enabled(w))return;
+      const groups=new Map();
+      for(const o of w.organisms){
+        const s=spec(o),p=ctx.traits.get(o.id);if(o.HP<=0||(s.group!=="plant"&&s.id!=="kelp"))continue;
+        let input=is(o)?p.lightInput:s.group==="plant"?(s.id==="phytoplankton"?(w.config.advantageSettings?.producer?16:8):(w.config.advantageSettings?.producer?8:4))*leafFactor(o):1.5*[0,1,1.1,1.2,1.3][p.phase];
+        input=H.round(input*w.tiles[o.cell].light*p.ageFactors.light*(w.config.solarScale||1)*ProducerSupport.factor(w,o,{spec}));
+        if(!groups.has(o.cell))groups.set(o.cell,[]);
+        groups.get(o.cell).push({o,p,input,room:Math.max(0,Math.min(input,p.capE-o.E)),area:is(o)?p.surface:1,add:0,h:hash(w,"independent/light-share",w.turn,o.id)});
+      }
+      for(const list of groups.values()){
+        const budget=H.round(Math.max(...list.map(a=>a.input)));let remaining=budget,live=list.filter(a=>a.room>0).sort((a,b)=>a.h-b.h||H.compare(a.o.id,b.o.id));
+        while(remaining>0&&live.length){const area=live.reduce((n,a)=>n+a.area,0),capped=live.filter(a=>a.room<=remaining*a.area/area);
+          if(capped.length){for(const a of capped){const add=H.round(Math.min(remaining,a.room));a.add=H.round(a.add+add);remaining=H.round(remaining-add);a.room=0;}live=live.filter(a=>a.room>0);}
+          else{const available=remaining;for(let i=0;i<live.length;i++){const a=live[i],add=H.round(Math.min(a.room,remaining,i===live.length-1?remaining:available*a.area/area));a.add=H.round(a.add+add);remaining=H.round(remaining-add);}break;}}
+        w.ledger.solar=H.round(w.ledger.solar+budget);dissipate(w,remaining);
+        for(const a of list){a.o.E=H.round(a.o.E+a.add);ctx.records.get(a.o.id).light=a.add;if(Colony.is(a.o))Colony.solar(w,a.o,a.add);if(is(a.o)){ctx.records.get(a.o.id).solarOpportunityE=H.round(Math.min(a.input,budget*a.area/list.reduce((n,p)=>n+p.area,0)));a.o.plant.last.solarInputE=a.add;flow(w,a.o,"solarInputE",a.add);}if(a.o.species==="phytoplankton")a.o.photoGrowth=H.round((a.o.photoGrowth||0)+a.add);if(a.add)record(ctx,a.o,"light",{amount:a.add});}
+      }
+    }
+    function consumed(w,o,amount){const p=o.plant;p.last.consumedB=H.round(p.last.consumedB+amount);p.replacementDebtB=H.round(Math.min(edible[o.phase],p.replacementDebtB+amount));increment(o,"consumedB",amount);flow(w,o,"consumedB",amount);}
+    function maintained(w,o,paid,required){const p=o.plant;p.last.maintenanceE=H.round(p.last.maintenanceE+paid);const healthy=paid>=H.round(required)&&o.HP>0;p.activity=H.round(H.clamp(p.activity+(healthy?.02:-.05),0,1));if(healthy){increment(o,"maintainedTurns",1);p.maintainedRemainder++;}allocation(w,o,0,paid);}
+    function regrow(w,o,ctx){
+      if(!is(o)||o.HP<=0||w.tiles[o.cell].light<=0||ProducerSupport.factor(w,o,{spec})<=0)return;
+      const p=o.plant,phen=phenotype(w,o),tile=w.tiles[o.cell],multiplier=w.config.producerSupport?.enabled?w.config.producerSupport[region(w,o.cell)].regrowth:1;
+      const maximum=p.capacityB*.1*phen.regenerationFactor*Math.min(1,multiplier)*p.activity*Math.min(1,tile.light);
+      const amount=H.round(Math.max(0,Math.min(maximum-p.last.productionB,p.capacityB-edibleB(o),Math.max(0,o.E-2)/1.2,tile.soilM/.02,Math.max(0,phen.capM-o.M)/.02)));
+      if(!amount)return;
+      const expense=H.round(amount*1.2),material=H.round(amount*.02),replacement=H.round(Math.min(p.replacementDebtB,amount));
+      o.E=H.round(o.E-expense);o.B=H.round(o.B+amount);tile.soilM=H.round(tile.soilM-material);o.M=H.round(o.M+material);dissipate(w,H.round(expense-amount));
+      p.last.productionB=H.round(p.last.productionB+amount);p.last.regrowthB=H.round(p.last.regrowthB+replacement);p.replacementDebtB=H.round(p.replacementDebtB-replacement);
+      increment(o,"productionB",amount);increment(o,"regrowthB",replacement);flow(w,o,"productionB",amount);flow(w,o,"regrowthB",replacement);
+      allocation(w,o,0,H.round((amount-replacement)*1.2),0);allocation(w,o,2,H.round(replacement*1.2),1);
+    }
+    function choose(w,o,scores,purpose){const largest=Math.max(...scores),tied=scores.map((n,i)=>({n,i})).filter(a=>Math.abs(a.n-largest)<1e-6),dna=purpose.includes("III")?[o.dna.aptitude,o.dna.body,o.dna.skin]:[o.dna.body,o.dna.skin];tied.sort((a,b)=>(dna[b.i]??0)-(dna[a.i]??0)||hash(w,"independent/branch",0,o.id,[purpose,a.i])-hash(w,"independent/branch",0,o.id,[purpose,b.i]));return tied[0].i;}
+    function prepare(w,o,ctx,indexed){
+      if(o.phase<2||o.phase>=4)return;
+      const phen=phenotype(w,o);if(o.E<.1+4*phen.maintenance)return;
+      const local=nearby(w,o.cell).some(cell=>validHabitat(w,spec(o),cell)&&!indexed.producer?.has(cell));
+      const category=o.phase===3?o.branch3:o.plant.replacementDebtB>0?2:ageInfo(o).stage!=="juvenile"&&local&&o.E>=10+4*phen.maintenance?1:0;
+      const opportunity=ctx.records.get(o.id)?.solarOpportunityE??o.plant.last.solarInputE;
+      const side=category===0?(opportunity>=2*phen.maintenance?0:1):category===1?(o.E>=14+4*phen.maintenance?0:1):(o.plant.replacementDebtB>0?1:0);
+      o.E=H.round(o.E-.1);dissipate(w,.1);o.plant.last.preparationE=.1;increment(o,"preparationE",.1);allocation(w,o,category,.1,side);
+    }
+    function finalize(w,ctx){
+      if(!enabled(w))return;
+      const indexed=maps(w);
+      for(const child of w.organisms)if(is(child)&&!child.plant.settlementRecorded&&child.parents.length&&child.age>=4){child.plant.settlementRecorded=true;const parent=indexed.byId.get(child.parents[0]);if(is(parent)){increment(parent,"settlements",1);parent.plant.last.settlementCredit=(parent.plant.last.settlementCredit||0)+1;}}
+      for(const o of w.organisms)if(is(o)&&ctx.traits.has(o.id)&&o.plant.finalizedAt!==w.turn){
+        const p=o.plant;p.finalizedAt=w.turn;
+        const maintainedPoints=Math.floor(p.maintainedRemainder/2);p.maintainedRemainder%=2;
+        const points=Math.min(1,maintainedPoints+(p.last.productionB-p.last.regrowthB)/4+p.last.regrowthB/4+(p.last.settlementCredit||0));o.G=H.round(Math.min(LIMIT,o.G+points));p.last.experience=points;
+        prepare(w,o,ctx,indexed);
+        const next=o.phase+1,threshold=[0,0,12,36,80][next],cost=[0,0,2,4,6][next];
+        if(next<=4&&o.G>=threshold&&o.E>=cost){let branch=null;
+          if(next===3){const scores=[0,0,0];for(const r of p.window)for(let i=0;i<3;i++)scores[i]+=r.allocation[i];branch=choose(w,o,scores,"III");o.branch3=branch;}
+          if(next===4){const scores=[0,0];for(const r of p.window)for(let i=0;i<2;i++)scores[i]+=r.sides[o.branch3][i];branch=choose(w,o,scores,"IV/"+o.branch3);o.branch4=branch;}
+          o.E=H.round(o.E-cost);dissipate(w,cost);const previous=o.phase;o.phase=next;p.capacityB=edible[next];record(ctx,o,"growth",{fromPhase:previous,phase:next});
+        }
+      }
+    }
+    function summary(w){
+      if(!enabled(w))return;const out={definition:"independent-plant-observed/1",turn:w.turn};
+      for(const name of ["land","water"])out[name]={count:0,B:0,baseB:0,edibleB:0,capacityB:0,occupiedCells:0,eligibleCells:w.largePlantRegions?.[name]?.eligibleCells??w.tiles.filter((_,i)=>region(w,i)===name&&D.independentPlants.some(s=>validHabitat(w,s,i))).length,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,reserveE:0,reserveM:0,activitySum:0};
+      for(const o of w.organisms)if(is(o)){const r=out[region(w,o.cell)];r.count++;r.occupiedCells++;r.B+=o.B;r.baseB+=2;r.edibleB+=edibleB(o);r.capacityB+=o.plant.capacityB;r.reserveE+=o.E;r.reserveM+=o.M;r.activitySum+=o.plant.activity;}
+      if(w.largePlantFlows?.turn===w.turn)for(const name of ["land","water"])for(const key of ["productionB","regrowthB","consumedB","solarInputE"])out[name][key]=w.largePlantFlows[name][key];
+      for(const name of ["land","water"])for(const key of Object.keys(out[name]))out[name][key]=H.round(out[name][key]);w.largePlantSummary=out;
+    }
+    return {enabled,is,definition,region,settings,attach,phenotype,increment,allocation,begin,initialize,prepareLight,consumed,maintained,regrow,finalize,summary};
   })();
   const index = (w, x, y) => y * w.config.width + x;
   const xy = (w, p) => [p % w.config.width, Math.floor(p / w.config.width)];
@@ -17960,8 +19065,10 @@ return {settings,attach,region,level,factor,begin,finish};
       byId = new Map(),
       resources = new Map(),
       carcasses = new Map();
+    const producer=LargePlant.enabled(w)?new Map():null;
     for (const o of w.organisms) {
       byId.set(o.id, o);
+      if(producer&&o.slot==="producer"){producer.set(o.cell,o);continue;}
       (o.slot === "main" ? main : o.slot === "prey" ? prey : food).set(o.cell, o);
     }
     for (const a of w.resources) {
@@ -17972,11 +19079,14 @@ return {settings,attach,region,level,factor,begin,finish};
       if (!carcasses.has(a.cell)) carcasses.set(a.cell, []);
       carcasses.get(a.cell).push(a);
     }
-    return { main, food, prey, byId, resources, carcasses };
+    const result=(()=>{return { main, food, prey, byId, resources, carcasses };})();
+    if(producer)result.producer=producer;
+    return result;
   }
   function validHabitat(w, s, p) {
     const t = w.tiles[p];
     if (t.blocked) return false;
+    if(LargePlant.definition(s))return t.light>0&&(s.id==="freshwaterlight"?["shallow","deep"].includes(t.terrain):["plain","rock","mud"].includes(t.terrain));
     if (s.id === "phytoplankton") return ["shallow","deep"].includes(t.terrain) && t.light > 0;
     if (s.id === "algae" || s.id === "waterbug")
       return [0, 5].includes(t.env) && t.terrain === "shallow";
@@ -18100,6 +19210,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(c.producerModel !== undefined && c.producerModel !== "colony/1")throw Error("SETTINGS_INVALID: 群落モデル");
     if(c.producerModel === "colony/1")c.producerSettings=Colony.settings(c.producerSettings);
     else if(c.producerSettings !== undefined)throw Error("SETTINGS_INVALID: 群落モデルの指定が必要です");
+    if(c.largePlantModel!==undefined&&c.largePlantModel!=="independent/1")throw Error("SETTINGS_INVALID: 独立植物モデル");
+    if(c.largePlantModel==="independent/1"){
+      if(c.producerModel!=="colony/1")throw Error("SETTINGS_INVALID: 独立植物には群落モデルが必要です");
+      c.largePlantSettings=LargePlant.settings(c.largePlantSettings);
+    }else if(c.largePlantSettings!==undefined)throw Error("SETTINGS_INVALID: 独立植物モデルの指定が必要です");
     if(c.blockTurns!==undefined && ![500,1000].includes(c.blockTurns))
       throw Error("SETTINGS_INVALID: 観測区間");
     if(c.randomModel!==undefined && c.randomModel!=='table/1')throw Error("SETTINGS_INVALID: 乱数方式");
@@ -18128,7 +19243,7 @@ return {settings,attach,region,level,factor,begin,finish};
       for(const key of ["species","parasites"]){
         const obj=a[key];if(!obj||typeof obj!=="object"||Array.isArray(obj))throw Error("SETTINGS_INVALID: 種別の初期数 "+key);
         for(const [id,count]of Object.entries(obj)){
-          const species=D.species.find(s=>s.id===id),allowed=key==="species"?["plant","fungus","prey"]:["P","Q"];
+          const species=activeSpecies({config:c}).find(s=>s.id===id),allowed=key==="species"?["plant","fungus","prey"]:["P","Q"];
           if(!species||!allowed.includes(species.group)||!Number.isSafeInteger(count)||count<0||count>(species.group==="Q"?1024:17920))throw Error("SETTINGS_INVALID: 初期数 "+id);
           if(count>0&&!c.enabled[species.group])throw Error("SETTINGS_INVALID: "+species.name+"の生物群を有効にしてください");
         }
@@ -18155,6 +19270,9 @@ return {settings,attach,region,level,factor,begin,finish};
       factors:ageFactors[stage==="juvenile"&&s.id==="precocial"?"precocial":stage]};
   }
   function initializeAge(w,o) {
+    if(LargePlant.is(o)){
+      o.birthLife=spec(o).life;const a=ageInfo(o);o.HP=H.round(Math.min(o.HP,spec(o).capacity[3]*a.factors.hp));return o;
+    }
     if(Colony.is(o)){delete o.birthLife;return o;}
     if(w.config.ageModel!=="life/1")return o;
     const s=spec(o);
@@ -18179,7 +19297,7 @@ return {settings,attach,region,level,factor,begin,finish};
       u = {};
     DNA.forEach(
       (axis, i) =>
-        (u[axis] = main ? 0.25 + 0.5 * r(w, "init/dna", 0, id, null, i) : 0.5),
+        (u[axis] = main || (LargePlant.enabled(w)&&LargePlant.definition(s)) ? 0.25 + 0.5 * r(w, "init/dna", 0, id, null, i) : 0.5),
     );
     const [E, B, M, HP] = main ? [60, 16, 0, 100] : s.initial;
     const birth = main
@@ -18230,12 +19348,15 @@ return {settings,attach,region,level,factor,begin,finish};
       infection: null,
       ...options,
     };
+    LargePlant.attach(w,o,options);
     Colony.attach(w,o,options.colonyOrigin || {kind:"initial"});
     if(Colony.is(o)&&!Object.hasOwn(options,"B"))o.B=H.round(PLANT_BASE+o.colony.capacityB*Colony.parameters(w,cell).initialFraction);
     delete o.colonyOrigin;
+    delete o.plantOrigin;
     return initializeAge(w,o);
   }
   function phenotype(w, o, phase = o.phase, branch = o.branch4) {
+    if(LargePlant.is(o))return LargePlant.phenotype(w,o,phase,branch);
     const s = spec(o),
       main = s.group === "main",
       u = main ? phase / 4 : 0,
@@ -18642,6 +19763,7 @@ return {settings,attach,region,level,factor,begin,finish};
         );
       }
     }
+    LargePlant.initialize(w);
     for (const kind of ["mineral", "droplet", "info"]) {
       const target = usable.filter(
         (p) =>
@@ -18791,6 +19913,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.ecologyRevision === "observation/4.1")for(const o of w.organisms)if(o.slot !== "main"){o.age=Math.floor(r(w,"init/food-age",0,o.id)*spec(o).life*.5);if(o.age>=spec(o).maturity)o.phase=2;}
     if(Colony.enabled(w))for(const o of w.organisms)if(Colony.is(o)){o.age=0;o.phase=1;}
+    if(LargePlant.enabled(w))for(const o of w.organisms)if(LargePlant.is(o)){o.age=Math.floor(o.birthLife*config.largePlantSettings.initial.ageFraction);o.phase=config.largePlantSettings.initial.phase;}
     if (config.enabled.P)
       for (const o of w.organisms)
         if (
@@ -18841,13 +19964,14 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     if(config.founderCounts){
       const requested=config.founderCounts;
-      config.founderReport={version:1,species:Object.fromEntries(D.species.filter(s=>["plant","fungus","prey"].includes(s.group)).map(s=>[s.id,{requested:requested.species[s.id]??null,actual:w.organisms.filter(o=>o.species===s.id).length}])),parasites:Object.fromEntries(["tideparasite","leafparasite","hyperparasite"].map(id=>[id,{requested:requested.parasites[id]??null,actual:id==="hyperparasite"?(w.searchQ?.length||0)+w.organisms.filter(o=>o.infection?.q).length:w.organisms.filter(o=>o.infection?.species===id).length}]))};
+      config.founderReport={version:1,species:Object.fromEntries(activeSpecies(w).filter(s=>["plant","fungus","prey"].includes(s.group)).map(s=>[s.id,{requested:requested.species[s.id]??null,actual:w.organisms.filter(o=>o.species===s.id).length}])),parasites:Object.fromEntries(["tideparasite","leafparasite","hyperparasite"].map(id=>[id,{requested:requested.parasites[id]??null,actual:id==="hyperparasite"?(w.searchQ?.length||0)+w.organisms.filter(o=>o.infection?.q).length:w.organisms.filter(o=>o.infection?.species===id).length}]))};
       if(config.initialReport)for(const g of ["plant","fungus","prey"]){
         const species=D.species.filter(s=>s.group===g),target=config.enabled[g]?Math.round(usable.length*config.initialConditions.density[g]):0;
         config.initialReport.groups[g].requested=species.reduce((sum,s,i)=>sum+(config.enabled[g]?(requested.species[s.id]??(Math.floor(target/species.length)+(i<target%species.length?1:0))):0),0);
       }
     }
     Colony.summary(w);
+    LargePlant.summary(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -18899,6 +20023,8 @@ return {settings,attach,region,level,factor,begin,finish};
     D,
     ProducerSupport,
     Colony,
+    LargePlant,
+    activeSpecies,
     initialRank,
     DIRS,
     DNA,

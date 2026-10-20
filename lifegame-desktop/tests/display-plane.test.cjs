@@ -17,3 +17,13 @@ test('movement interpolates on the same elevated plane and converges to the sett
  for(const t of [0,.25,.5,.75,1]){const a=off.anchor(o,t,move),b=on.anchor(o,t,move);assert.deepEqual(a.ground,b.ground);assert(Math.abs(a.point[1]-b.point[1]-D.LIFT)<1e-9);}
  assert.deepEqual(on.anchor(o,1,move),on.anchor(o));
 });
+test('independent producer keeps a fourth distinct anchor and follows its own movement',()=>{
+ const w=world();w.organisms.push({id:'tree',slot:'producer',cell:27});
+ const before=JSON.stringify(w),p=P.build(w),layout=D.create(w,p,false),points=w.organisms.map(o=>layout.anchor(o).point);
+ assert.equal(new Set(points.map(p=>JSON.stringify(p))).size,4);
+ assert(layout.producer.has(27));assert(layout.food.has(27));assert.equal(layout.entity('tree').host.id,'tree');
+ const tree=w.organisms.at(-1),move={from:26};
+ assert.deepEqual(layout.anchor(tree,1,move),layout.anchor(tree));
+ assert.notDeepEqual(layout.anchor(tree,0,move).point,layout.anchor(tree).point);
+ assert.equal(JSON.stringify(w),before);
+});

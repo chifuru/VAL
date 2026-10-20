@@ -47,6 +47,7 @@
       1.8,
       terrain * (["log", "bush"].includes(t.cover) ? 1.2 : 1),
     );
+    if (S.LargePlant?.is(o)) return .3 * ageMove * terrain;
     if (o.branch3 === 1 && o.branch4 === 1) terrain = 1 + 0.75 * (terrain - 1);
     let branch =
       o.branch3 === 1 && o.branch4 === 0
@@ -134,11 +135,56 @@
       S.xy(c.world, c.cell),
     ];
   }
+  function floatingCandidates(w, o, ctx, m) {
+    const out = [{type:"stop",cell:o.cell,cost:0,path:[]}];
+    if (o.species !== "freshwaterlight") return out;
+    const p = ctx.traits.get(o.id), costs = ctx.costs.get(o.id),
+      budget = Math.max(0,costs.budget-costs.action);
+    for (const cell of S.nearby(w,o.cell)) {
+      if (m.producer?.has(cell) || !S.validHabitat(w,S.spec(o),cell) ||
+          !S.oneStep(w,o.cell,cell) || !visible(w,o,cell,ctx)) continue;
+      const cost = moveCost(w,o,cell,p.phase,false,p.ageFactors.move);
+      if (cost > budget + 1e-8) continue;
+      const [x,y] = S.xy(w,o.cell), [tx,ty] = S.xy(w,cell),
+        direction = S.DIRS.findIndex(([dx,dy]) => dx === tx-x && dy === ty-y);
+      out.push({type:"move",cell,cost,path:[cell],direction});
+    }
+    return out;
+  }
+  function chooseFloating(w, o, ctx, m, stage) {
+    const sensed = S.nearby(w,o.cell,1,true).filter(cell => S.sight(w,o.cell,cell)),
+      consumers = sensed.flatMap(cell => [m.main.get(cell),m.prey?.get(cell)])
+        .filter(a => a && a.HP > 0 &&
+          (S.spec(a).group === "prey" || (S.spec(a).group === "main" && a.species !== "kelp")));
+    const score = cell => {
+      const tile = w.tiles[cell],
+        light = Math.min(1,Math.max(0,tile.light))*S.ProducerSupport.factor(w,{...o,cell},S),
+        mineral = Math.min(1,Math.max(0,tile.soilM)/.2),
+        pressure = Math.min(2,consumers.reduce((n,a) =>
+          n + (S.distance(w,cell,a.cell) <= 1 ? 1/(1+S.distance(w,cell,a.cell)) : 0),0));
+      return light + .5*mineral - .45*pressure;
+    };
+    const list = stage === "effect" ? [{type:"stop",cell:o.cell,cost:0,path:[]}]
+      : floatingCandidates(w,o,ctx,m);
+    for (const c of list) {
+      c.score = c.noRandom = score(c.cell)-c.cost;
+      c.features=[];c.xi=0;
+      c.h=S.hash(w,"behavior/tie",w.turn,o.id,[c.type,null,c.path,c.cell]);
+    }
+    let chosen=list[0];
+    for (const c of list.slice(1))
+      if (c.score > chosen.score+1e-8 ||
+          (chosen.type === "move" && Math.abs(c.score-chosen.score)<=1e-8 && c.h < chosen.h)) chosen=c;
+    ctx.intents.set(o.id,chosen);ctx.records.get(o.id).randomChanged=false;
+    if (o.id === ctx.observeId) ctx.diagnostics={id:o.id,candidates:list.slice().sort((a,b)=>b.score-a.score||a.h-b.h).slice(0,3)
+      .map(c=>({type:c.type,target:undefined,cell:c.cell,score:c.score,cost:c.cost,features:[]}))};
+  }
   function candidates(w, o, ctx, m) {
     const s = S.spec(o),
       p = ctx.traits.get(o.id),
       budget = Math.max(0, ctx.costs.get(o.id).budget - ctx.costs.get(o.id).action),
       out = [{ type: "stop", cell: o.cell, cost: 0, path: [] }];
+    if (S.LargePlant?.is(o)) return floatingCandidates(w,o,ctx,m);
     if (s.group === "plant" || s.group === "fungus") return out;
     const friend = S.nearby(w, o.cell).some(
       (c) => m.main.get(c)?.species === o.species,
@@ -223,6 +269,10 @@
           cost: 0,
           path: [],
         });
+      const producer=m.producer?.get(cell);
+      if (producer && s.id !== "kelp" && S.edibleB(producer)>0 && producer.HP>0 &&
+          (s.group === "main" || s.group === "prey") && S.distance(w,o.cell,cell)<=1 && S.oneStep(w,o.cell,cell))
+        out.push({type:"harvest",cell:o.cell,target:producer.id,cost:0,path:[]});
       if (
         s.id === "swarm" &&
         o.role === "worker" &&
@@ -316,6 +366,10 @@
             (S.spec(plant).group === "plant" ? S.PLANT_BASE : 0)),
         S.spec(plant).tag,
       ) * (s.group === "main" && o.E < 35 ? Math.min(1, S.edibleB(plant) / 4) : 1);
+    const producer=v.m.producer?.get(cell);
+    if (producer && producer.HP>0 && s.id !== "kelp" && (s.group === "main" || s.group === "prey"))
+      q=Math.max(q,value(S.edibleB(producer)/Math.max(1,(v.traits?.get(producer.id)||S.phenotype(w,producer)).capB-S.PLANT_BASE),"plant") *
+        (s.group === "main" && o.E<35 ? Math.min(1,S.edibleB(producer)/4) : 1));
     for (const a of v.m.resources.get(cell) || []) {
       const tag = S.FOOD[a.kind].tag;
       let utility = 1;
@@ -597,6 +651,10 @@
       // Stationary basal life has exactly one possible action. Process that
       // shared rule directly instead of constructing visibility and scores.
       const group = S.spec(o).group;
+      if (S.LargePlant?.is(o) && o.species === "freshwaterlight") {
+        chooseFloating(w,o,ctx,m,stage);
+        continue;
+      }
       if (group === "plant" || group === "fungus") {
         const type = "stop", cell = o.cell, path = [];
         const chosen = {type, cell, cost:0, path, score:0, noRandom:0, features:[],

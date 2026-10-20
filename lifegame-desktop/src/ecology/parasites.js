@@ -43,6 +43,7 @@
     if(exposure.E<=0)colony.edibleExposure=null;
   }
   function transfer(w, ctx, source, target, type, harvest = null) {
+    if(S.LargePlant.definition(S.D.byId[source.species])||S.LargePlant.is(target))return;
     if(type==="plant"&&S.Colony.is(source)){colonyExposure(w,ctx,source,target,harvest);return;}
     const p = source.infection;
     if (!p) return;

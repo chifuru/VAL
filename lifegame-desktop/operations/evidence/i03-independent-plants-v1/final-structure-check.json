@@ -1,0 +1,36 @@
+{
+  "dateUTC": "2026-10-20T12:59:02.293806+00:00",
+  "nodes": 61,
+  "updatedNodes": [
+    "valis/nodes/C/C7.1.md",
+    "valis/nodes/C/C7.2.md",
+    "valis/nodes/C/C7.3.md",
+    "valis/nodes/C/C7.4.md",
+    "valis/nodes/C/C7.5.md",
+    "valis/nodes/C/C7.md",
+    "valis/nodes/C/C8.1.md",
+    "valis/nodes/C/C8.2.md",
+    "valis/nodes/C/C8.md",
+    "valis/nodes/D/D7.md",
+    "valis/nodes/D/D8.1.md",
+    "valis/nodes/D/D8.md",
+    "valis/nodes/D/D9.md",
+    "valis/nodes/E/E5.md",
+    "valis/nodes/E/E6.md"
+  ],
+  "formalFieldsUnchanged": true,
+  "ABAndCoreAndAdoptedOriginalPNGsUnchanged": true,
+  "newNodeRegistrationRequired": false,
+  "scope": "I03 limited implementation; nextI04; I10 art finish, new lifecycle/info and500T/native release remain",
+  "markdownLinkFiles": [
+    "README.md",
+    "operations/evidence/i03-independent-plants-v1/README.md",
+    "operations/plans/i03-independent-plants-v1.md",
+    "operations/plans/implementation-sequence-v1.md",
+    "operations/plans/completion-roadmap-v1.md",
+    "design/appearance-runtime-v1/README.md"
+  ],
+  "sourceHashEntries": 160,
+  "sourceHashesMatch": true,
+  "artSourceAndDerivativeHashesMatch": true
+}

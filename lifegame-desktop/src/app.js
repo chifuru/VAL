@@ -165,8 +165,12 @@
   $("map-id").innerHTML += window.EcoMapTemplates.list()
     .map((m) => `<option value="${escape(m.id)}">${escape(m.name)}</option>`)
     .join("");
-  const founderSpecies=D.species.filter(s=>["plant","fungus","prey","P","Q"].includes(s.group));
-  $("founder-inputs").innerHTML=founderSpecies.map(s=>`<label>${escape(s.name)} · ${s.group==="P"?"一次寄生":s.group==="Q"?"高次寄生":s.group==="plant"?"生産者":s.group==="fungus"?"分解者":"一次消費者"}（${["P","Q"].includes(s.group)?"群体":s.group==='plant'?'群落':"体"}）<input id="founder-${escape(s.id)}" type="number" min="0" max="${s.group==="Q"?1024:17920}" step="1" placeholder="自動"></label>`).join("");
+  const independent=s=>s?.kind==='independent'&&s.slot==='producer';
+  const activeCatalogue=()=>world?S.activeSpecies(world):D.species;
+  const independentCount=(counts,catalogue=activeCatalogue())=>catalogue.filter(independent).reduce((n,s)=>n+(counts[s.id]||0),0);
+  const displayUnit=(s,config=world?.config)=>['P','Q'].includes(s.group)?'群体':config?.producerModel==='colony/1'&&s.group==='plant'&&!independent(s)?'群落':'個体';
+  const founderSpecies=[...D.species,...(D.independentPlants||[])].filter(s=>["plant","fungus","prey","P","Q"].includes(s.group));
+  $("founder-inputs").innerHTML=founderSpecies.map(s=>`<label>${escape(s.name)} · ${s.group==="P"?"一次寄生":s.group==="Q"?"高次寄生":independent(s)?'独立生産者':s.group==="plant"?"生産者":s.group==="fungus"?"分解者":"一次消費者"}（${["P","Q"].includes(s.group)?"群体":s.group==='plant'&&!independent(s)?'群落':"体"}）<input id="founder-${escape(s.id)}" type="number" min="0" max="${s.group==="Q"?1024:17920}" step="1" placeholder="自動"></label>`).join("");
   function readFounders(){
     const result={version:1,species:{},parasites:{}};
     for(const s of founderSpecies){const input=$("founder-"+s.id);if(input.value!=="")result[["P","Q"].includes(s.group)?"parasites":"species"][s.id]=Number(input.value);}
@@ -187,9 +191,19 @@
       $('colony-'+region+'-regrowth').value=values.regrowthB/values.capacityB*100;
     }
   }
+  function readLargePlantSettings(){
+    return {version:'independent-plant-parameters/1',autoDensity:Object.fromEntries(['land','water'].map(r=>[r,Number($('large-plant-'+r+'-density').value)/100])),initial:{phase:Number($('large-plant-phase').value),ageFraction:Number($('large-plant-age').value)/100,energyFraction:Number($('large-plant-energy').value)/100}};
+  }
+  function showLargePlantSettings(settings){
+    for(const r of ['land','water'])$('large-plant-'+r+'-density').value=(settings?.autoDensity?.[r]??.02)*100;
+    $('large-plant-phase').value=settings?.initial?.phase??1;
+    $('large-plant-age').value=(settings?.initial?.ageFraction??0)*100;
+    $('large-plant-energy').value=(settings?.initial?.energyFraction??.5)*100;
+  }
   function resetLowerSettings(){
     const [w,h]=$("size").value.split(",").map(Number),mode=S.observationPreset($("observation-mode").value,w,h);
     showProducerSettings(null,mode.initialFoodScale);
+    showLargePlantSettings();
     for(const [k,v]of Object.entries({fungus:3,prey:6}))$("density-"+k).value=+(v*mode.initialFoodScale).toFixed(1);
     for(const k of ["mineral","droplet","info"])$("resource-"+k).value=100;
     $("lower-distribution").value="habitat";
@@ -236,6 +250,8 @@
       randomModel: "table/1",
       producerModel:'colony/1',
       producerSettings:readProducerSettings(),
+      largePlantModel:'independent/1',
+      largePlantSettings:readLargePlantSettings(),
       ...readFounders(),
       observationMode: $("observation-mode").value,
       producerSupport: $("producer-supply").checked ? {enabled:true,...Object.fromEntries(["land","water"].map(r=>[r,Object.fromEntries(["nutrition","capacity","regrowth"].map(k=>[k,Number($("supply-"+r+"-"+k).value)/(k==="capacity"?100:1)]))]))} : {enabled:false},
@@ -355,7 +371,8 @@
     world = next;
     graphicsPrepared=false;observationPreparationAt=null;
     populationHistory = [];
-    observations=window.EcoObservations.create(next.config,window.EcoReplayVersion,{species:D.species});observations.append(next);graphFollow=true;followId=null;lastTracked=null;legendKey=null;
+    observations=window.EcoObservations.create(next.config,window.EcoReplayVersion,{species:activeCatalogue()});observations.append(next);graphFollow=true;followId=null;lastTracked=null;legendKey=null;
+    if(!activeCatalogue().some(s=>s.id===activeLineage))activeLineage='abyss';
     document.body.classList.remove("setup-screen");
     checkpointKey = null;
     $("load").textContent = "この設定で新しい世界を作る ↗";
@@ -377,15 +394,17 @@
     const lower=next.config.initialConditions;
     const colonies=next.config.producerModel==='colony/1',foodScale=next.config.initialFoodScale||1;
     showProducerSettings(colonies?next.config.producerSettings:null,foodScale);
+    showLargePlantSettings(next.config.largePlantModel==='independent/1'?next.config.largePlantSettings:undefined);
     if(lower){for(const k of ["fungus","prey"])$("density-"+k).value=+(lower.density[k]*100).toFixed(1);for(const k of ["mineral","droplet","info"])$("resource-"+k).value=lower.resources[k]*100;$("lower-distribution").value=lower.distribution;}
     else {for(const [k,v]of Object.entries({fungus:3,prey:6}))$("density-"+k).value=+(v*foodScale).toFixed(1);for(const k of ["mineral","droplet","info"])$("resource-"+k).value=100;$("lower-distribution").value="habitat";}
     if(colonies)$("active-mode").textContent+=' 生産者は個体と区別した群落。陸'+next.config.producerSettings.land.occupancy*100+'%／水'+next.config.producerSettings.water.occupancy*100+'%の適地を目標に配置。';
+    if(next.config.largePlantModel==='independent/1')$("active-mode").textContent+=' 独立生産者 '+activeCatalogue().filter(independent).map(s=>s.name+' '+(next.stats.counts[s.id]||0)+'個体').join(' / ')+'。基底群落とは別枠です。';
     if(lower){const baseline=colonies?{plant:0,fungus:.03,prey:.06}:{plant:.35,fungus:.03,prey:.06},colonyChanged=colonies&&['land','water'].some(r=>{const c=next.config.producerSettings[r];return c.occupancy!==(r==='land'?.20:.15)||c.capacityB!==20*foodScale||c.initialFraction!==.7||Math.abs(c.regrowthB-c.capacityB*.1)>1e-8;}),changed=colonyChanged||Object.entries(baseline).some(([k,v])=>Math.abs(lower.density[k]-v*foodScale)>1e-8)||Object.values(lower.resources).some(v=>v!==1)||lower.distribution!=="habitat"||!support?.enabled||["land","water"].some(r=>Object.entries({nutrition:1,capacity:.35,regrowth:1}).some(([k,v])=>support[r][k]!==v));$("active-mode").textContent+=changed?" 下層・供給：調整あり。":" 下層・供給：基準設定。";}
     for(const s of founderSpecies)$("founder-"+s.id).value=next.config.founderCounts?.[["P","Q"].includes(s.group)?"parasites":"species"]?.[s.id]??"";
     const founders=next.config.founderReport;$("founder-report").hidden=!founders;
     if(founders){
       $("active-mode").textContent+=" 種別・寄生初期数：調整あり。";
-      $("founder-report-content").innerHTML=founderSpecies.map(s=>{const row=founders[["P","Q"].includes(s.group)?"parasites":"species"][s.id],unit=["P","Q"].includes(s.group)?"群体":colonies&&s.group==='plant'?'群落':"体";return `<p>${escape(s.name)}：${row.actual}${unit}（${row.requested===null?"自動":"指定 "+row.requested+unit}）</p>`;}).join("");
+      $("founder-report-content").innerHTML=founderSpecies.filter(s=>!independent(s)||next.config.largePlantModel==='independent/1').map(s=>{const row=founders[["P","Q"].includes(s.group)?"parasites":"species"][s.id],unit=displayUnit(s,next.config)==='個体'?'体':displayUnit(s,next.config);return `<p>${escape(s.name)}：${row.actual}${unit}（${row.requested===null?"自動":"指定 "+row.requested+unit}）</p>`;}).join("");
     }else $("founder-report-content").textContent="";
     const report=next.config.initialReport;if(report){
       const placement=colonies?['land','water'].map(r=>{const c=next.colonyRegions?.[r];return (r==='land'?'陸':'水')+(Number.isSafeInteger(c?.initial)?c.initial:'未記録')+'/'+(Number.isSafeInteger(c?.target)?c.target:'未記録');}).join('・'):report.groups.plant.actual+'/'+report.groups.plant.requested;
@@ -580,7 +599,7 @@
       $("setup").removeAttribute("aria-busy");
     }
   });
-  function returnSetup(){stop();closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;if(world)showProducerSettings(world.config.producerModel==='colony/1'?world.config.producerSettings:null,world.config.initialFoodScale||1);syncSetupFields();message("初期設定に戻りました。現在の結果や全ターンCSVを残す場合は、新しい世界を作る前に保存してください。");}
+  function returnSetup(){stop();closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;if(world){showProducerSettings(world.config.producerModel==='colony/1'?world.config.producerSettings:null,world.config.initialFoodScale||1);showLargePlantSettings(world.config.largePlantModel==='independent/1'?world.config.largePlantSettings:undefined);}syncSetupFields();message("初期設定に戻りました。現在の結果や全ターンCSVを残す場合は、新しい世界を作る前に保存してください。");}
   $("change-world").onclick=returnSetup;
   $("start").addEventListener("click", () => {
     if (running) {
@@ -676,7 +695,7 @@
   };
   function closeAnalysis(){
     if(analysisState){summaryHome.after($("current-summary"));$("inspector-graphs").append($("graphs-panel"));$("graph-species").value=analysisState.target;$("graph-turn").value=analysisState.turn;graphFollow=analysisState.follow;}
-    analysisData=null;analysisRecord=null;analysisState=null;$("results-analysis").hidden=true;$("results-list").hidden=false;if(observations?.rows.length){renderCurrentSummary(observations.rows.at(-1),D.species);renderGraphs();}
+    analysisData=null;analysisRecord=null;analysisState=null;$("results-analysis").hidden=true;$("results-list").hidden=false;if(observations?.rows.length){renderCurrentSummary(observations.rows.at(-1),activeCatalogue());renderGraphs();}
   }
   async function analyzeResult(id){
     try{const record=await archive.get(id);let data=null;if(record.schema===2)data=window.EcoObservations.restore(record.observation,{species:D.species});
@@ -854,12 +873,12 @@
   }
   function renderSpeciesDescription(id){
     const s=D.byId[id];
-    const group=groups[s.group],diet=D.diets[s.diet],unit=['P','Q'].includes(s.group)?'群体':world.config.producerModel==='colony/1'&&s.group==='plant'?'群落':'個体';
+    const group=groups[s.group],diet=D.diets[s.diet],unit=displayUnit(s);
     $('species-description').innerHTML=`<p class="eyebrow">${escape(group)}</p><h2>${escape(s.name)}</h2><canvas id="species-symbol" width="120" height="120"></canvas><p>現在 ${world.stats.counts[id]||0} ${unit}</p><p>${s.dietName ? escape(s.dietName) + ' · ' : ''}${escape(s.dietDescription || diet?.description || (s.group==='plant'?'光合成を行い、他生物を支える生産者。':s.group==='fungus'?'有限の有機物を利用する分解者。':s.group==='prey'?'主生物の食物網を支える小型の一次消費者。':s.group==='P'?'宿主を移り生活環を進める一次寄生群体。維持費と排除により失われます。':'一次寄生虫の成熟移行期だけ感染。行動や局所情報へ作用する高次寄生群体。'))}</p><p>${s.good?'得意環境: '+s.good.map(i=>D.environments[i].name).join(' / '):'適合する宿主・生息条件で活動'}${Number.isInteger(s.bad)?' / 苦手: '+D.environments[s.bad].name:''}</p><p>${s.phases?'成長: '+s.phases.join(' → '):'進化相と寄生生活環は別の状態です。'} / ${world.stats.counts[id]?'盤面のチェックで全所在を強調できます。':world.config.enabled[s.group]?'現在の生体は0です。':'この観察では未参加です。'}</p>`;
     R.symbol($('species-symbol').getContext('2d'),id,60,60,42,R.symbolColor(s));
   }
   function parasiteDetails(id){const a=locate(id);if(!a)return '<p>対象は消失しました。別個体へ切り替えません。</p>';const q=a.entity,s=D.byId[q.species];return `<article class="specimen parasite"><h3>${escape(s.name)}</h3><p>${escape(q.id)}<br>宿主: ${escape(q.hostId || 'なし・探索中')}${a.carcass?"（感染性死骸・地表） / 残り"+Math.max(0,a.host.payloadExpires-world.turn)+"T":""}<br>${q.stage?stages[q.stage]+' / 成熟 '+q.counter+'/'+E.P.required[q.stage]+' / 負荷 '+fmt(q.load??.5):'Q '+phase(q.phase)+' / '+(q.cell!==undefined?'探索':'定着')}<br>E ${fmt(q.E)}${q.matureAt!==undefined?'<br>成熟移行 '+q.matureAt+'T / 感染窓 '+(q.matureAt+1)+'〜'+(q.matureAt+3)+'T':''}</p></article>`;}
-  const chartCatalogue=()=>analysisData?.metadata.species?.length?analysisData.metadata.species:D.species;
+  const chartCatalogue=()=>analysisData?.metadata.species?.length?analysisData.metadata.species:activeCatalogue();
   function chartColor(s){if(!s)return '#839097';const ids=chartCatalogue().filter(a=>a.group===s.group),i=ids.findIndex(a=>a.id===s.id),h={plant:125,fungus:35,prey:185,main:220,P:18,Q:280}[s.group]??200;return `hsl(${h+i*2} 65% ${40+(i%5)*9}%)`;}
   let graphInspect=null;
   const baseGraphOptions=$('graph-species').innerHTML;
@@ -923,7 +942,7 @@
     $('graph-turn').max=last;$('graph-turn').disabled=running&&!analysisData;if(graphFollow||running&&!analysisData)$('graph-turn').value=last;
     const t=Math.max(0,Math.min(last,Number($('graph-turn').value)||0)),r=rows[t],target=$('graph-species').value;graphInspect=t;
     $('graph-range').textContent=`0–${last}T`;
-    $('graph-readout').textContent=`参照 ${t}T / 主 ${r.main}・下層 ${r.food}${graphObservation().metadata.config.producerModel==='colony/1'?'記録（個体・群落）':'個体'} / P ${r.P}・Q ${r.Q}群体。全${rows.length}時点を保持。`;
+    $('graph-readout').textContent=`参照 ${t}T / 主 ${r.main}・下層 ${r.food+independentCount(r.counts,catalogue)}${graphObservation().metadata.config.producerModel==='colony/1'?'記録（個体・群落）':'個体'} / P ${r.P}・Q ${r.Q}群体。全${rows.length}時点を保持。`;
     const population=graphObservation().series(target);paintStack($('graph-stacked'),population,id=>chartColor(graphById[id]));
     $('population-legend').innerHTML=Object.entries(population.at(-1).values).filter(([,n])=>n>0).map(([id,n])=>`<span><i style="background:${chartColor(graphById[id])}"></i>${escape(graphById[id]?.name||id)} ${n}</span>`).join('')||'現在の対象は0です';
     const series=Object.fromEntries(['phases','sex','ages'].map(k=>[k,graphObservation().series(target,k)])),max=Math.max(1,...series.phases.map(r=>r.total)),palettes={phases:['#80c9c0','#7ba9db','#a698d9','#e0bc76'],sex:['#e4acc5','#87c7e6','#c4d3b1'],ages:['#d8c779','#8dc5ae','#b9a6ca']};
@@ -953,6 +972,7 @@
   function drawPortrait(canvas, o) {
     const g = canvas.getContext("2d");
     g.clearRect(0, 0, canvas.width, canvas.height);
+    if(independent(S.spec(o))&&(R.assets.producerPortrait||R.assets.producer)?.(g,{...o,facing:0},canvas.width/2,canvas.height/2,canvas.width*.28,0))return;
     if (S.spec(o).group === "main")
       R.creature(
         g,
@@ -984,7 +1004,15 @@
       origin={initial:'初期配置',parent:'周辺群落から成立',environment:'環境から成立'}[c.origin?.kind]||'未記録';
     return `<article class="specimen producer-colony" data-colony-id="${escape(o.id)}"><h3>${escape(s.name)} · 1群落</h3><canvas class="portrait" width="116" height="116" data-portrait="${escape(o.id)}"></canvas><p class="micro">${escape(o.id)}<br>成立後経過 ${elapsed===null?'未記録':elapsed+'T'} / ${origin}<br>代表成長段階 ${phase(o.phase)}（内部株の年齢ではありません）</p><p class="stats-line">総B ${value(o.B)}<br>基部 ${value(c.baseB)} B / 可食量 ${value(edible)} B<br>可食容量 ${value(c.capacityB)} B<br>蓄え E ${value(o.E)} / M ${value(o.M)}<br>活性 ${Number.isFinite(c.activity)?value(c.activity*100)+'%':'未記録'}${edible===0?' / 基部が残存':c.activity===0?' / 衰退':''}<br>直近再生 ${value(c.last?.regrowthB)} B${Number.isSafeInteger(c.last?.turn)?'（'+c.last.turn+'T）':''}</p><p class="note">可食部の回復は同じIDの群落です。完全消失後の再成立は別IDとして記録します。内部株の寿命・年齢・性別は記録していません。</p>${infectionHTML(o)}</article>`;
   }
+  const plantBranches=['生産','繁殖拡散','耐食'],plantFinals=[['高生産','省資源維持'],['少数大型の繁殖体','多数小型の繁殖体'],['組織保護','再生']];
+  function independentPlantHTML(o){
+    const s=S.spec(o),p=S.phenotype(world,o),a=S.ageInfo(o),plant=o.plant,last=plant.last,
+      branch=Number.isInteger(o.branch3)?plantBranches[o.branch3]:'未分岐',final=Number.isInteger(o.branch4)?plantFinals[o.branch3]?.[o.branch4]:'',
+      stage={juvenile:'幼体',adult:'成体',elderly:'老齢'}[a.stage],value=n=>Number.isFinite(n)?fmt(n):'未記録';
+    return `<article class="specimen specimen-hero independent-plant" data-plant-id="${escape(o.id)}"><h3>${escape(s.name)} · 1個体</h3><div class="phase-name">${phase(o.phase)}相 / ${escape(branch)}${final?' · '+escape(final):''} / 無性繁殖</div><canvas class="portrait" width="384" height="300" data-portrait="${escape(o.id)}"></canvas><p class="micro">${escape(o.id)} · 世代 ${o.generation}<br>年齢 ${value(o.age)}T / ${stage||'未記録'} · 成熟 ${value(a.matureAt)}T / 老齢 ${value(a.elderlyAt)}T<br>出生時寿命基準 ${value(a.birthLife)}T（相や再生で若返りません）</p><div class="vital-bars"><span>E</span><progress max="${p.capE}" value="${o.E}"></progress><span>${value(o.E)} / ${value(p.capE)}</span><span>HP</span><progress max="${p.maxHP}" value="${o.HP}"></progress><span>${value(o.HP)} / ${value(p.maxHP)}</span></div><p class="stats-line">本体 ${value(plant.baseB)} B / 可食量 ${value(S.edibleB(o))} B<br>可食容量 ${value(plant.capacityB)} B / 総B ${value(o.B)}<br>蓄え E ${value(o.E)} / M ${value(o.M)}<br>活性 ${value(plant.activity*100)}% / 維持 ${value(p.maintenance)} E/T<br>累積実績 ${value(o.G)}（II 12 / III 36 / IV 80）<br>直近生産 ${value(last?.productionB)} B / 被食後再生 ${value(last?.regrowthB)} B / 消費 ${value(last?.consumedB)} B<br>光入力 ${value(last?.solarInputE)} E${Number.isSafeInteger(last?.turn)?'（'+last.turn+'T）':''}<br>出生待機 ${Number.isFinite(o.birthReady)?value(Math.max(0,o.birthReady-world.turn))+'T':'未記録'}<br>${s.id==='freshwaterlight'?'完全浮遊。I相から局所移動できます。':'定着した生産者です。'}可食部0でも生存本体を維持し、回復は同じIDです。</p><p class="micro">相ごとの形態見本</p><div class="phase-strip">${s.phases.map((name,i)=>`<div class="${i+1===o.phase?'active':''}"><canvas width="128" height="112" data-phase="${i+1}" data-owner="${escape(o.id)}"></canvas>${phase(i+1)}</div>`).join('')}</div><button class="small" data-tree="${s.id}">この系統の進化条件 ↗</button>${infectionHTML(o)}</article>`;
+  }
   function organismHTML(o) {
+    if(world.config.largePlantModel==='independent/1'&&o.plant?.version==='independent-plant-state/1')return independentPlantHTML(o);
     if(world.config.producerModel==='colony/1'&&o.colony?.version==='colony-state/1')return producerColonyHTML(o);
     const s = S.spec(o),
       p = S.phenotype(world, o),
@@ -1079,7 +1107,7 @@
       corpses = world.carcasses.filter((a) => a.cell === selectedCell);
     const inspectorScroll=document.querySelector(".inspector").scrollTop, savedScroll=$("selection").scrollTop, savedOpen=[...$("selection").querySelectorAll("details")].map(d=>d.open);
     $("selection").innerHTML =
-      `<p class="note">${selectedId&&!located?"選択したIDは消失しました。同じマスの別個体へは追跡を切り替えていません。":""}</p><p class="cell-context">マス (${x}, ${y}) · ${D.environments[t.env].name}<br>${terrain[t.terrain]} / 遮蔽 ${cover[t.cover]}${t.blocked ? " / 通行不可" : ""}<br>光 ${fmt(t.light)} / 土壌M ${fmt(t.soilM)}</p>${occupants.map((o) => `<button class="small" data-observe="${escape(o.id)}">${o.slot === "main" ? "主" : "餌"}: ${escape(S.spec(o).name)}</button>`).join(" ")}${occupants.map(o=>`<span class="parasite-choices">${o.infection?`<button class="small" data-observe="${escape(o.infection.id)}">P ${escape(D.byId[o.infection.species].name)}</button>`:""}${o.infection?.q?`<button class="small" data-observe="${escape(o.infection.q.id)}">Q ${escape(D.byId.hyperparasite.name)}</button>`:""}</span>`).join("")}${(world.searchQ||[]).filter(q=>q.cell===selectedCell).map(q=>`<button class="small" data-observe="${escape(q.id)}">Q 探索群体 ${escape(q.id)}</button>`).join("")}${selectedId?.startsWith("q:")||selectedId?.startsWith("p:")?parasiteDetails(selectedId):""}${occupants.map(organismHTML).join("")}${corpses.map(a=>`<p class="parasite-choices"><button class="small" data-observe="${escape(a.id)}">死骸: ${escape(D.byId[a.species].name)} / ${escape(a.slot)}</button>${a.infection&&(world.turn<a.payloadExpires)?`<button class="small" data-observe="${escape(a.infection.id)}">死骸上P</button>${a.infection.q?`<button class="small" data-observe="${escape(a.infection.q.id)}">死骸上Q</button>`:""}`:""}</p>`).join("")}${resources.map((a) => `<article class="specimen"><h3>${S.FOOD[a.kind].name} · 量 ${fmt(a.q)}</h3><p class="stats-line">E ${fmt(a.E)} / M ${fmt(a.M)} / G ${fmt(a.G)}<br>残存 ${a.expires === null ? "期限なし" : a.expires - world.turn + "ターン"}</p>${a.event ? `<p class="stats-line">情報源 ${escape(a.event.sourceId)}<br>文脈 ${D.environments[a.event.env].name} / 鮮度年齢 ${world.turn - a.event.time}<br>成分 ${a.event.values.map((v) => D.weightNames[v.axis] + " " + fmt(v.value)).join(" / ")}<br>${a.event.noise ? "撹乱情報" : "経験情報"} / ${a.event.mediator ? "Q媒介 " + escape(a.event.mediator.special) : "直接"}</p>` : ""}</article>`).join("")}${corpses.map((a) => {const appearance=renderer.deathAppearance(a.id);return `<p class="stats-line">死骸 ${D.byId[a.species].name} / q ${fmt(a.q)}<br>${appearance?"死亡時: "+phase(appearance.phase)+"相 / "+escape(appearance.sex||"無性別")+" / 年齢"+appearance.age+"T / 枝"+(appearance.branch3??"—")+"-"+(appearance.branch4??"—"):"死亡時の姿は未取得（基本画）"}<br>E ${fmt(a.E)} / M ${fmt(a.M)} / G ${fmt(a.G)}<br>${a.infection ? "感染残存 " + escape(a.infection.species) + " / 期限 " + a.payloadExpires : "感染なし"}</p>`;}).join("")}${!occupants.length ? '<p class="note">生体なし。局所不在は系統全滅とは異なります。</p>' : ""}`;
+      `<p class="note">${selectedId&&!located?"選択したIDは消失しました。同じマスの別個体へは追跡を切り替えていません。":""}</p><p class="cell-context">マス (${x}, ${y}) · ${D.environments[t.env].name}<br>${terrain[t.terrain]} / 遮蔽 ${cover[t.cover]}${t.blocked ? " / 通行不可" : ""}<br>光 ${fmt(t.light)} / 土壌M ${fmt(t.soilM)}</p>${occupants.map((o) => `<button class="small" data-observe="${escape(o.id)}">${o.slot === "main" ? "主" : o.slot === "producer" ? "生産者" : "餌"}: ${escape(S.spec(o).name)}</button>`).join(" ")}${occupants.map(o=>`<span class="parasite-choices">${o.infection?`<button class="small" data-observe="${escape(o.infection.id)}">P ${escape(D.byId[o.infection.species].name)}</button>`:""}${o.infection?.q?`<button class="small" data-observe="${escape(o.infection.q.id)}">Q ${escape(D.byId.hyperparasite.name)}</button>`:""}</span>`).join("")}${(world.searchQ||[]).filter(q=>q.cell===selectedCell).map(q=>`<button class="small" data-observe="${escape(q.id)}">Q 探索群体 ${escape(q.id)}</button>`).join("")}${selectedId?.startsWith("q:")||selectedId?.startsWith("p:")?parasiteDetails(selectedId):""}${occupants.map(organismHTML).join("")}${corpses.map(a=>`<p class="parasite-choices"><button class="small" data-observe="${escape(a.id)}">死骸: ${escape(D.byId[a.species].name)} / ${escape(a.slot)}</button>${a.infection&&(world.turn<a.payloadExpires)?`<button class="small" data-observe="${escape(a.infection.id)}">死骸上P</button>${a.infection.q?`<button class="small" data-observe="${escape(a.infection.q.id)}">死骸上Q</button>`:""}`:""}</p>`).join("")}${resources.map((a) => `<article class="specimen"><h3>${S.FOOD[a.kind].name} · 量 ${fmt(a.q)}</h3><p class="stats-line">E ${fmt(a.E)} / M ${fmt(a.M)} / G ${fmt(a.G)}<br>残存 ${a.expires === null ? "期限なし" : a.expires - world.turn + "ターン"}</p>${a.event ? `<p class="stats-line">情報源 ${escape(a.event.sourceId)}<br>文脈 ${D.environments[a.event.env].name} / 鮮度年齢 ${world.turn - a.event.time}<br>成分 ${a.event.values.map((v) => D.weightNames[v.axis] + " " + fmt(v.value)).join(" / ")}<br>${a.event.noise ? "撹乱情報" : "経験情報"} / ${a.event.mediator ? "Q媒介 " + escape(a.event.mediator.special) : "直接"}</p>` : ""}</article>`).join("")}${corpses.map((a) => {const appearance=renderer.deathAppearance(a.id);return `<p class="stats-line">死骸 ${D.byId[a.species].name} / q ${fmt(a.q)}<br>${appearance?"死亡時: "+phase(appearance.phase)+"相 / "+escape(appearance.sex||"無性別")+" / 年齢"+appearance.age+"T / 枝"+(appearance.branch3??"—")+"-"+(appearance.branch4??"—"):"死亡時の姿は未取得（基本画）"}<br>E ${fmt(a.E)} / M ${fmt(a.M)} / G ${fmt(a.G)}<br>${a.infection ? "感染残存 " + escape(a.infection.species) + " / 期限 " + a.payloadExpires : "感染なし"}</p>`;}).join("")}${!occupants.length ? '<p class="note">生体なし。局所不在は系統全滅とは異なります。</p>' : ""}`;
     [...$("selection").querySelectorAll("details")].forEach((d,i)=>{if(savedOpen[i]!==undefined)d.open=savedOpen[i];});$("selection").scrollTop=savedScroll;document.querySelector(".inspector").scrollTop=inspectorScroll;
     $("follow-individual").disabled=!locate(selectedId);
     for (const c of $("selection").querySelectorAll("[data-portrait]"))
@@ -1109,14 +1137,15 @@
       };
   }
   function renderMapKey() {
-    const counts=observations?.rows.at(-1)?.current.counts||world.stats.counts;
-    if(!$("species-key").childElementCount){
-      $("species-key").innerHTML=['plant','prey','main','fungus','P','Q'].map(group=>`<section class="species-group" data-group="${group}" aria-label="${groups[group]}"><h4>${groups[group]}</h4><div class="species-key-items">${D.species.filter(s=>s.group===group).map(s=>`<span class="map-key-item" data-species="${s.id}"><input type="checkbox" aria-label="${escape(s.name)}の所在を強調" data-highlight="${s.id}"><button class="species-button" data-describe="${s.id}"><canvas width="40" height="40" aria-hidden="true"></canvas><span>${escape(s.name)}</span><b data-count="${s.id}">0</b></button></span>`).join('')}</div></section>`).join('');
+    const counts=observations?.rows.at(-1)?.current.counts||world.stats.counts,catalogue=activeCatalogue(),key=catalogue.map(s=>s.id).join('|');
+    if($("species-key").dataset.catalogue!==key){
+      $("species-key").dataset.catalogue=key;
+      $("species-key").innerHTML=['plant','prey','main','fungus','P','Q'].map(group=>`<section class="species-group" data-group="${group}" aria-label="${groups[group]}"><h4>${groups[group]}</h4><div class="species-key-items">${catalogue.filter(s=>s.group===group).map(s=>`<span class="map-key-item" data-species="${s.id}"><input type="checkbox" aria-label="${escape(s.name)}の所在を強調" data-highlight="${s.id}"><button class="species-button" data-describe="${s.id}"><canvas width="40" height="40" aria-hidden="true"></canvas><span>${escape(s.name)}</span><b data-count="${s.id}">0</b></button></span>`).join('')}</div></section>`).join('');
       for(const item of $("species-key").querySelectorAll(".map-key-item")){const sp=D.byId[item.dataset.species];item.style.setProperty("--presence-color",R.highlightColor(sp.id));R.symbol(item.querySelector("canvas").getContext("2d"),sp.id,20,20,14,R.symbolColor(sp));}
       for(const input of $("species-key").querySelectorAll("[data-highlight]"))input.onchange=()=>{renderer.view.highlights=[...$("species-key").querySelectorAll("[data-highlight]:checked")].map(i=>i.dataset.highlight);};
       for(const button of $("species-key").querySelectorAll("[data-describe]"))button.onclick=()=>describeSpecies(button.dataset.describe);
     }
-    for(const s of D.species){
+    for(const s of catalogue){
       const count=counts[s.id]||0,node=document.querySelector(`[data-count="${s.id}"]`),item=node.closest(".map-key-item");
       node.textContent=count;
       if(!count&&item.contains(document.activeElement)){$("clear-highlights").focus({preventScroll:true});$("presence-note").textContent=s.name+"の現在個体数は0になりました。過去の記録と所在強調の選択は保持します。";}
@@ -1148,9 +1177,10 @@
     $("turn-limit").textContent = "/ " + world.blockEnd;
     $("status").textContent = running ? "観測中" : "一時停止";
     $("main-count").textContent = s.main.toLocaleString();
-    $("food-count").textContent = s.food.toLocaleString();
+    $("food-count").textContent = (s.food+(s.producer||0)).toLocaleString();
     const lower={plant:0,prey:0,fungus:0};for(const group of observations?.rows.at(-1)?.current.groups||[])if(group.id in lower)lower[group.id]=group.count;
-    $("food-breakdown").textContent=`生産者 ${lower.plant}${world.config.producerModel==='colony/1'?'群落':''} / 一次消費者 ${lower.prey} / 分解者 ${lower.fungus}`;
+    const plantIndividuals=independentCount(observations?.rows.at(-1)?.counts||s.counts);
+    $("food-breakdown").textContent=`生産者 ${world.config.producerModel==='colony/1'?lower.plant-plantIndividuals+'群落'+(world.config.largePlantModel==='independent/1'?'＋'+plantIndividuals+'個体':''):lower.plant} / 一次消費者 ${lower.prey} / 分解者 ${lower.fungus}`;
     $("parasite-count").textContent = s.P + " / " + s.Q;
     $("timing").textContent = lastMs ? Math.round(lastMs) + " ms" : "—";
     renderPopulation();
@@ -1163,7 +1193,7 @@
       world.checkpoints
         .map(
           (a) =>
-            `<tr><td>${a.turn}</td><td>${a.main}</td><td>${a.food}</td><td>${a.P}</td><td>${a.Q}</td></tr>`,
+            `<tr><td>${a.turn}</td><td>${a.main}</td><td>${a.food+independentCount(a.counts)}</td><td>${a.P}</td><td>${a.Q}</td></tr>`,
         )
         .join("") +
       "</table></div>";
@@ -1178,7 +1208,7 @@
     if (!world) return;
     const s = world.stats;
     $("ranking").innerHTML =
-      D.species
+      activeCatalogue()
         .map(
           (a) =>
             `<div class="rank"><i class="dot" style="background:${a.color}"></i><span>${escape(a.name)}${!world.config.enabled[a.group] ? " · 未参加" : s.counts[a.id] === 0 ? " · 生体0" : ""}</span><strong>${s.counts[a.id]}</strong></div>`,
@@ -1236,7 +1266,7 @@
         )
         .join(" / ") +
       '</p><div class="table-scroll"><table><tr><th>系統</th><th>出生</th><th>死亡</th></tr>' +
-      D.species
+      activeCatalogue()
         .map(
           (a) =>
             "<tr><td>" +
@@ -1275,7 +1305,7 @@
       // Exact turn records are retained by observations; no rolling deletion.
     }
     const current=observations.rows.at(-1)?.current;if(!current)return;
-    if (!analysisData) renderCurrentSummary(observations.rows.at(-1), D.species);
+    if (!analysisData) renderCurrentSummary(observations.rows.at(-1), activeCatalogue());
     setText("parasite-count",(current.counts.tideparasite||0)+(current.counts.leafparasite||0)+" / "+(current.counts.hyperparasite||0));
 
   }
@@ -1390,12 +1420,25 @@
     info: () =>
       `<h2>情報は、外に残った行動の作用。</h2><div class="flow">実際の経験 → 有償の情報分泌 → 局所B3/S23 → 鮮度・環境文脈・Q媒介 → 別個体の行動へ</div><div class="sheet-grid">${card("延長された表現型", "<p>情報は滞留・浮遊するエネルギー体として表現します。生物の実成果が環境に残り、別の個体の行動へ作用するモデルです。遺伝子の水平伝播ではなく、系統・DNA・繁殖条件・進化枝を直接書き換えません。</p>")}${card("系統を越えた局所伝達", "<p>本人の経験変化から絶対値の大きい2成分を候補にし、発信元のEを支払って近くへ生成。受け手の系統は問いません。世界全体へ一瞬で共有せず、元の発信時刻・環境文脈・発信者IDを保ちます。</p>")}${card("文脈と鮮度", "<p>同環境は文脈1、異環境は0.5。鮮度は経過0〜4/5〜9/10〜14/15〜19で1/0.75/0.5/0.25、20で失効。感度DNAと掛け、行動重みへの変化は成分±3以内。摂取待機5、既読ID4件で同じ情報の無限取得を防ぎます。</p>")}${card("撹乱も生態の一部", "<p>90%は実経験、10%は同じ成分の符号を反転し大きさ3へ変える撹乱情報。Qの変調も別に作用し得ます。情報が常に正しいとは限らず、同じ生態からどの動きが残るかを観測します。</p>")}${card("少ない栄養、行動への作用", "<p>情報餌は独立項目。Eは1単位0.05相当、Gはありません。有機餌や鉱物の代わりにして全生活を支えることはできません。光輪の濃さと選択表示で鮮度・発信源・媒介を区別します。</p>")}${card("固定長で計算する", "<p>情報イベントは期限付き、記憶は少数ID、Qの経験は3カウンタ。系統全体や家系の全履歴を常時検索せず、近傍と有限の状態から創発的な影響を作ります。</p>")}</div>`,
   };
+  function drawIndependentTree(s,o){
+    const conditions=[['好条件の高生産と省資源維持','光入力と維持の配分'],['一回の親費用と子の蓄え','近傍の適地・空き枠への定着'],['被食されにくい組織と被食後の更新','形成・再生へ実際に支払った量']],
+      progress=o?`選択個体 ${escape(o.id)} / ${phase(o.phase)}相 / 年齢 ${fmt(o.age)}T / 累積実績 ${fmt(o.G)}。${o.phase<4?'次の相まで '+fmt(Math.max(0,[12,36,80][o.phase-1]-o.G)):'第四相へ到達'}。初期配置の高位相は実績獲得とは別です。`:'全分岐の参照図です。実際の到達状態とは別に表示しています。';
+    $("guide-content").innerHTML=`<section data-independent-tree="${s.id}"><div class="tree-head"><canvas id="tree-portrait" width="180" height="180"></canvas><label>系統を選ぶ<select id="tree-select">${activeCatalogue().map(a=>`<option value="${a.id}" ${a.id===s.id?'selected':''}>${escape(a.name)} / ${groups[a.group]}</option>`).join('')}</select></label></div><h2>${escape(s.name)} · 独立した生産者</h2><div class="tree-root"><div class="phase-box" data-plant-phase="1"><small>I</small><br>${escape(s.phases[0])}</div><span>実績12 →</span><div class="phase-box" data-plant-phase="2"><small>II</small><br>${escape(s.phases[1])}</div></div><p class="note">IIIは累積実績36、IVは80。維持・純生産・被食後再生・子の定着という実成果で進みます。移動しただけでは加点しません。</p><div class="tree-branches">${plantBranches.map((name,i)=>`<div><div class="phase-box" data-plant-phase="3" data-plant-third="${i}"><small>III</small><h4>${name}</h4><p>${conditions[i][1]}</p></div><div class="tree-finals">${plantFinals[i].map((name,j)=>`<div data-plant-phase="4" data-plant-third="${i}" data-plant-fourth="${j}">IV · ${name}<p>${conditions[i][0]}</p></div>`).join('')}</div></div>`).join('')}</div><div class="flow">${progress}</div><p class="note">本体1個体と有限の可食量を分けます。年齢成熟後はI/II相でも有限費用・待機・適地・近傍8セルの空き条件を通して繁殖でき、子はI相・年齢0です。相/枝と年齢は独立しています。${s.id==='freshwaterlight'?'根を持たず完全浮遊し、I相から移動できます。':'本体は定着し移動しません。'}</p></section>`;
+    $('tree-select').onchange=e=>{activeLineage=e.target.value;drawTree();};
+    const portrait=o||{species:s.id,slot:'producer',phase:4,age:s.maturity,birthLife:s.life,sex:null,facing:0,dna:{body:.5,appendage:.5},branch3:0,branch4:0,cell:0,B:24,plant:{version:'independent-plant-state/1',baseB:2,capacityB:32,activity:1}};
+    drawPortrait($('tree-portrait'),portrait);
+    for(const box of $('guide-content').querySelectorAll('[data-plant-phase]')){
+      const c=document.createElement('canvas');c.width=144;c.height=112;c.className='tree-node-art';box.prepend(c);
+      drawPortrait(c,{...portrait,phase:Number(box.dataset.plantPhase),branch3:box.dataset.plantThird===undefined?null:Number(box.dataset.plantThird),branch4:box.dataset.plantFourth===undefined?null:Number(box.dataset.plantFourth)});
+    }
+  }
   function drawTree() {
     const s = D.byId[activeLineage],
       o = world?.organisms.find(
         (a) => a.id === selectedId && a.species === s.id,
       ),
       group = s.group;
+    if(independent(s)){drawIndependentTree(s,o);return;}
     const progress = o
       ? `選択個体: ${escape(o.id)} / ${phase(o.phase)}相 / G ${fmt(o.G)} / M ${fmt(o.M)}<br>第三相経験 ${o.counters.join(" / ")} · 第四相経験 ${o.ivCounters.join(" / ")}<br>${o.phase < 2 ? "IIまで不足G " + fmt(Math.max(0, (s.id === "precocial" ? 45 : 30) - o.G)) : o.phase < 3 ? "IIIまで不足G " + fmt(Math.max(0, (s.id === "precocial" ? 120 : 90) - o.G)) + " / 不足M " + fmt(Math.max(0, S.phenotype(world, o).M3 - o.M)) : o.phase < 4 && s.id !== "precocial" ? "IVまで不足G " + fmt(Math.max(0, 210 - o.G)) + " / 不足M " + fmt(Math.max(0, S.phenotype(world, o).M4 - o.M)) : "この相からの全経路を参照できます。"}`
       : "図鑑の全経路です。個体の到達経路とは別に表示しています。";
@@ -1421,7 +1464,7 @@
     } else
       tree = `<div class="flow">I · 幼生 → 年齢${s.maturity} / 条件を満たす → II · 成熟</div><p>段階は2つ。食物網の生物として採食/光合成・維持・繁殖・死亡を行います。</p>`;
     $("guide-content").innerHTML =
-      `<div class="tree-head"><canvas id="tree-portrait" width="180" height="180"></canvas><div><label>系統を選ぶ<select id="tree-select">${D.species.map((a) => `<option value="${a.id}" ${a.id === s.id ? "selected" : ""}>${escape(a.name)} / ${groups[a.group]}</option>`).join("")}</select></label><p class="note">${s.traitText?.join(" / ") || "食物網の独立した生物系統"}</p></div></div>${tree}<div class="flow">${progress}</div>${group === "main" ? `<p class="note">得意環境: ${s.good.map((i) => D.environments[i].name).join(" / ")} · 苦手: ${D.environments[s.bad].name}<br>食性: ${s.dietName || D.diets[s.diet]?.name || "専用栄養"} / ${s.dietDescription || D.diets[s.diet]?.description || ""}<br>基準寿命 ${s.life} / 維持E ${s.maintenance} / 出生E条件 ${s.birthEnergy} / 出生待機 ${s.birthCooldown}<br>繁殖開始は進化相ではなく年齢成熟で決まります。第三相へ到達すると翌4ターンは繁殖待機です。成長・枝決定は一回、DNAは出生時固定です。</p>` : ""}`;
+      `<div class="tree-head"><canvas id="tree-portrait" width="180" height="180"></canvas><div><label>系統を選ぶ<select id="tree-select">${activeCatalogue().map((a) => `<option value="${a.id}" ${a.id === s.id ? "selected" : ""}>${escape(a.name)} / ${groups[a.group]}</option>`).join("")}</select></label><p class="note">${s.traitText?.join(" / ") || "食物網の独立した生物系統"}</p></div></div>${tree}<div class="flow">${progress}</div>${group === "main" ? `<p class="note">得意環境: ${s.good.map((i) => D.environments[i].name).join(" / ")} · 苦手: ${D.environments[s.bad].name}<br>食性: ${s.dietName || D.diets[s.diet]?.name || "専用栄養"} / ${s.dietDescription || D.diets[s.diet]?.description || ""}<br>基準寿命 ${s.life} / 維持E ${s.maintenance} / 出生E条件 ${s.birthEnergy} / 出生待機 ${s.birthCooldown}<br>繁殖開始は進化相ではなく年齢成熟で決まります。第三相へ到達すると翌4ターンは繁殖待機です。成長・枝決定は一回、DNAは出生時固定です。</p>` : ""}`;
     $("tree-select").onchange = (e) => {
       activeLineage = e.target.value;
       drawTree();

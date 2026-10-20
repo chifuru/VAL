@@ -1,0 +1,7 @@
+{
+  "scope": "Replacing per-plant map scans/parent linear search with one finalization index, before the separate branch-attribution correction",
+  "cases": 3,
+  "states": 543,
+  "allReportValuesAndFingerprintsEqual": true,
+  "biologicalSignature": "202e9343070b08ff8a399edc04cba789fa725a4f3f038dfd66a11c3e0fd96dca"
+}
