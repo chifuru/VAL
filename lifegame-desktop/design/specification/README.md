@@ -1,8 +1,8 @@
 # 生態シミュレーション：現在のA・B仕様
 
-管理版 `specification-index/1`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
+管理版 `specification-index/2`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
 
-現在は改善2項目（入口/優先順位と採用状況）の整理を適用し、具体化C01〜C13を一つずつ確認する段階。最初はC01「各生物への情報作用」。この索引更新では具体ルール・係数・造形を追加採用せず、新モデルの実装を開始しない。[今回の契約](../../operations/plans/specification-index-ab-v1.md)。製品は4.2.32のまま。
+現在はC01「各生物への情報作用」の基本構造と作用先を[持続する情報/1](persistent-information-v1.md)へ反映済み。情報は環境/生物間で蓄積した関係性と意味で、2影響/2保持形態/非排他的5成分、親養育者から幼体への強い伝達、集中/反復による強化を持つ。閾値や具体係数は未確定。次はC02の実績評価/情報保持閾値を一つずつ確認する。[今回の契約](../../operations/plans/persistent-information-ab-v1.md)。製品は4.2.32のまま。
 
 ## 読む順序と優先順位
 
@@ -19,7 +19,7 @@
 | 対象 | 読む正本 | 優先する内容・境界 |
 | --- | --- | --- |
 | 採用範囲/未確定事項 | [採用状況](decision-register-v1.md) | 採用済み・保留・撤回・提案のみと具体化C01〜C13。ゲームの具体規則は各正本 |
-| 情報 | [死亡情報/3](death-information-v1.md) | 全生物に非栄養、死亡地点/実績、同層・全層、ピラミッド役割＋分解者/P/Q。旧栄養取得/生存者分泌必須を置換 |
+| 情報の定義/作用 | [持続する情報/1](persistent-information-v1.md)、[死亡情報/4](death-information-v1.md) | 関係性と意味、経験蓄積、通常/親養育者、学習/場所作用、集中/反復。全生物に非栄養、死亡地点/実績と同層/全層は維持。旧一回消費/重み補正だけの作用を置換 |
 | 寄生/遺伝/メタ操作 | [寄生メタ/2](parasite-meta-v1.md) | P段階別感染・経路遺伝、Qの限定窓/寄生成長/羽化/通常採食の自立成体、Pメタ/Qメタメタ。Qは主に死亡情報の出現率上昇/歪曲 |
 | 生産者の群落/生存目標 | [群落・R1〜R6](balance-restoration-v1.md) | 生産者のみ群落、面積と可食量分離。500T/150〜250T窓、低競争8/10・混合最低1/10/目標3/10等。R0だけの完成を置換 |
 | 多様な初期条件 | [多様生成/2](diverse-world-generation-v1.md) | おまかせの関連条件、手動ロック/明示0、有限候補、全実効値保存、再抽選なし再生 |
@@ -46,4 +46,4 @@
 
 - [一枚の全体説明画像と索引](atlas-v1.3/README.md)、[採用画像と本文の対応](ab-visual-reference-v1.md)。旧画像内の仮表記や旧ルールを現在の仕様にしない。
 - [現在の構造](../../valis/summary/lifegame-desktop.summary.md)、[既存製品の実測範囲](../../operations/evidence/optimization-v4.2.32/README.md)。製品4.2.32と追加A/Bの成立範囲は別に確認する。
-- [既存の全工程計画](../../operations/plans/remaining-completion-v4.2.md)は作業計画でありゲーム仕様の正本ではない。現在は[具体化待ちC01〜C13](decision-register-v1.md)の個別確認を先に行う。今回の整理からC/D/E・src/tests・画像制作を自動開始しない。
+- [既存の全工程計画](../../operations/plans/remaining-completion-v4.2.md)は作業計画でありゲーム仕様の正本ではない。C01の基本方針を採用し、現在は[残るC02〜C13](decision-register-v1.md)の個別確認を先に行う。今回の整理からC/D/E・src/tests・画像制作を自動開始しない。
