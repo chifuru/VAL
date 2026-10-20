@@ -1,8 +1,8 @@
 # 生態シミュレーション：現在のA・B仕様
 
-管理版 `specification-index/7`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
+管理版 `specification-index/8`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
 
-[第1組・情報循環/1](information-cycle-v1.md)を既存A/B19Nodeへ暫定反映済み。評価→死亡生成→局所更新/近傍集中→受容→学習/場所作用→消失とQ痕跡を一連の規則にした。近いセルも集中に含め、係数/優先度の細部は実際の動きで調整する。次は第2組C07/C08/C12＋Q生活環/相別負担/遺伝係数。[今回の契約](../../operations/plans/information-cycle-ab-v1.md)。製品は4.2.32のまま。
+第1組の情報循環を維持し、[第2組・寄生生活環/1](parasite-lifecycle-v1.md)を既存A/B20Nodeへ反映済み。宿主選択/遺伝適応/再寄生抵抗、Pの生活環、QのPを殺す羽化と第四相、初期整合を採用した。細かな係数は実際の動きで調整する。次は第3組C09/独立四相植物、その後に第4組C13/表示説明保存。[今回の契約](../../operations/plans/parasite-lifecycle-ab-v1.md)。製品は4.2.32のまま。
 
 ## 読む順序と優先順位
 
@@ -19,13 +19,13 @@
 | 対象 | 読む正本 | 優先する内容・境界 |
 | --- | --- | --- |
 | 採用範囲/未確定事項 | [採用状況](decision-register-v1.md) | 採用済み・保留・撤回・提案のみと具体化C01〜C13。ゲームの具体規則は各正本 |
-| 情報の定義/作用 | [持続する情報/6](persistent-information-v1.md)、[死亡情報/9](death-information-v1.md) | 関係性と意味、経験蓄積、通常/親養育者、学習/場所作用、集中/反復。全生物に非栄養、死亡地点/実績と同層/全層は維持。旧一回消費/重み補正だけの作用を置換 |
+| 情報の定義/作用 | [持続する情報/7](persistent-information-v1.md)、[死亡情報/10](death-information-v1.md) | 関係性と意味、経験蓄積、通常/親養育者、学習/場所作用、集中/反復。全生物に非栄養、死亡地点/実績と同層/全層は維持。旧一回消費/重み補正だけの作用を置換 |
 | 情報の経験条件/実績評価 | [情報評価/5](information-evaluation-v1.md) | C02の暫定値と重複抑制、保持資格と死亡生成の分離、役割別評価。実測済み値や調整不要の確定値とはしない |
 | 情報の鮮度/残存 | [情報鮮度/4](information-freshness-v1.md) | 内容別半減期25/50/100Tと痕跡の基本100/最大200T。元経験時刻/生成時刻/既存学習を分け、再読取やQで若返らせない。暫定値 |
 | 情報の通常/根拠不足候補 | [情報生成/3](information-generation-v1.md) | C04の3件/2ターン、残余最大5%/半重み、一死亡最大1件/一回抽選。元経験を保持し、根拠の薄さと虚偽を区別。被害下限は維持 |
 | 第1組：情報の一連の処理 | [情報循環/1](information-cycle-v1.md) | 評価写像/鮮度/順次Q痕跡/受容と費用/近傍集中。暫定採用済み、細部は実装比較・観察で調整 |
-| Qの情報歪曲/遺伝/選択 | [Q情報歪曲/2](q-information-bias-v1.md) | C05の遺伝傾向→情報の偏り→実際の子の定着等。相/栄養/費用で制限、具体係数は未選定。順次痕跡C06は第1組へ採用済み。生活環連鎖C07/C08へ接続 |
-| 寄生/遺伝/メタ操作 | [寄生メタ/4](parasite-meta-v1.md) | P段階別感染・経路遺伝、Qの限定窓/寄生成長/羽化/通常採食の自立成体、Pメタ/Qメタメタ。Qは主に死亡情報の出現率上昇/歪曲 |
+| Qの情報歪曲/遺伝/選択 | [Q情報歪曲/3](q-information-bias-v1.md) | C05の遺伝傾向→情報の偏り→実際の子の定着等。相/栄養/費用で制限、具体係数は未選定。順次痕跡C06は第1組へ採用済み。生活環連鎖C07/C08は第2組へ採用済み |
+| 寄生/遺伝/抵抗/メタ操作 | [第2組・寄生生活環/1](parasite-lifecycle-v1.md)、[寄生メタ/5](parasite-meta-v1.md) | 宿主選択と実適合、遺伝的な費用/成功率、獲得抵抗、P生活環、QのPだけを殺す羽化/第四相/初期整合。係数は観察調整 |
 | 生産者の群落/生存目標 | [群落・R1〜R6](balance-restoration-v1.md) | 生産者のみ群落、面積と可食量分離。500T/150〜250T窓、低競争8/10・混合最低1/10/目標3/10等。R0だけの完成を置換 |
 | 多様な初期条件 | [多様生成/2](diverse-world-generation-v1.md) | おまかせの関連条件、手動ロック/明示0、有限候補、全実効値保存、再抽選なし再生 |
 | 陸水の食物網/供給 | [生産基盤v2.7](producer-pyramid-v2.7.md)、[陸水v2.6](trophic-foundation-v2.6.md)、[食性訂正v2.5](ab-visual-ecology-v2.5.md) | 基底生産者→一次消費者→上位、通常植物非捕食/植物共生体食虫型、分解/還元。生産者の記録単位は群落仕様を優先 |
@@ -51,4 +51,4 @@
 
 - [一枚の全体説明画像と索引](atlas-v1.3/README.md)、[採用画像と本文の対応](ab-visual-reference-v1.md)。旧画像内の仮表記や旧ルールを現在の仕様にしない。
 - [現在の構造](../../valis/summary/lifegame-desktop.summary.md)、[既存製品の実測範囲](../../operations/evidence/optimization-v4.2.32/README.md)。製品4.2.32と追加A/Bの成立範囲は別に確認する。
-- [既存の全工程計画](../../operations/plans/remaining-completion-v4.2.md)は作業計画でありゲーム仕様の正本ではない。第1組の採用範囲を正本に反映し、現在は[残る第2〜第4組](decision-register-v1.md)を関連項目ごとにまとめて具体化する。今回の整理からC/D/E・src/tests・画像制作を自動開始しない。
+- [既存の全工程計画](../../operations/plans/remaining-completion-v4.2.md)は作業計画でありゲーム仕様の正本ではない。第1・第2組を反映し、現在は[残る第3・第4組](decision-register-v1.md)を関連項目ごとにまとめて具体化する。今回の整理からC/D/E・src/tests・画像制作を自動開始しない。
