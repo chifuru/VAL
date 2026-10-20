@@ -317,7 +317,7 @@
     $("lineage-options").hidden = $("lineages").value !== "manual";
     $("weight-options").hidden = $("distribution").value !== "weighted";
     syncSetupFields();
-    $("mode-help").textContent = mode.description.replace("途中の生体補充はありません。","動物の救済補充はありません。") + (fixed ? ` 主生物${mode.initial}体、${mode.selected.length}系統（${mode.selected.map(id=>D.byId[id].name).join(" / ")}）。自然配置・均等配分。固定項目を編集する場合は自由設定へ戻してください。` : "") + " 条件は開始時に固定され、観測中も同じ倍率で計算します。動物・寄生虫の救済補充はありません。生産者の環境供給は別欄で選択できます。";
+    $("mode-help").textContent = mode.description.replace("途中の生体補充はありません。","動物の救済補充はありません。") + (fixed ? ` 主生物${mode.initial}体、${mode.selected.length}系統（${mode.selected.map(id=>D.byId[id].name).join(" / ")}）。自然配置・均等配分。固定項目を編集する場合は自由設定へ戻してください。` : "") + " 条件は開始時に固定され、観測中も同じ倍率で計算します。草棲虫の生存条件は水游虫と同等です。動物・寄生虫の救済補充はありません。生産者の環境供給は別欄で選択できます。";
     updateCohortHint();syncGenerationFields();
   }
   $("observation-mode").addEventListener("change",applyObservationMode);
@@ -335,6 +335,7 @@
     const [width, height] = $("size").value.split(",").map(Number);
     const config = {
       generationModel:'diverse/1',generationSettings:generationSettings(),relationshipModel:'network/1',balanceModel:'survival/4',consumerModel:'group/1',
+      consumerGroupSettings:{version:'consumer-group-parameters/2'},
       blockTurns: 500,
       randomModel: "table/1",
       producerModel:'colony/1',

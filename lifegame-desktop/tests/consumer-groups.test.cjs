@@ -9,6 +9,28 @@ function group(w,id,cell=18,n=4,options={}){const o=S.organism(w,S.D.byId.grassb
 function ready(w){const t=S.totals(w);w.ledger={initialE:t.E,initialM:t.M,solar:0,sinks:0,Mloss:0};const c=E.context(w);E.prepare(w,c);for(const o of w.organisms)c.intents.set(o.id,{type:'stop',cell:o.cell,cost:0,path:[]});return c;}
 const check=w=>assert.deepEqual(E.invariants(w),[]);
 
+test('favored grassbug group uses the effective waterbug survival profile; version 1 stays unchanged',()=>{
+ for(const flags of [{producer:false,waterbug:false,hyperparasite:false},{producer:true,waterbug:true,hyperparasite:true}]){
+  const model=M.model(flags),s=model.S,old=model.create({...config,consumerGroupSettings:{version:'consumer-group-parameters/1'},initial:12,enabled:{...config.enabled,prey:true}}),
+    favored=model.create({...config,consumerGroupSettings:{version:'consumer-group-parameters/2'},initial:12,enabled:{...config.enabled,prey:true}}),
+    grass=favored.organisms.find(o=>o.species==='grassbug');
+  assert(grass);assert.equal(s.spec(grass).name,s.D.byId.grassbug.name);
+  for(const key of ['life','maturity','maintenance','birthCooldown'])assert.equal(s.spec(grass)[key],s.D.byId.waterbug[key]);
+  assert.deepEqual(s.spec(grass).capacity,s.D.byId.waterbug.capacity);
+  assert(old.organisms.filter(o=>o.species==='grassbug').every(o=>s.spec(o)===s.D.byId.grassbug));
+  assert.deepEqual(model.invariants(favored),[]);
+ }
+});
+
+test('new favored-group recording replays with its own settings version',()=>{
+ const model=M.model(),w0=model.create({...config,consumerGroupSettings:{version:'consumer-group-parameters/2'},initial:12,enabled:{...config.enabled,prey:true}}),
+  history=O.create(w0.config,globalThis.EcoReplayVersion,{species:model.S.activeSpecies(w0)});
+ history.append(w0);const w=model.step(w0);history.append(w);
+ const record=A.create({getItem:()=>null,setItem:()=>{}},model,globalThis.EcoReplayVersion).capture(w,'user',history.snapshot());
+ assert.equal(record.config.consumerGroupSettings.version,'consumer-group-parameters/2');
+ A.create({getItem:()=>null,setItem:()=>{}},model,globalThis.EcoReplayVersion).replayRecord(record);
+});
+
 test('initial local packing preserves individuals, all E/B/M and P/Q; explicit zero remains zero',()=>{
  const F=require('../operations/evidence/i11d-lower-renewal-v1/check-cases.json').cases[0].config,prod=M.model(),old=prod.create({...F,balanceModel:'survival/4'}),w=prod.create({...F,balanceModel:'survival/4',consumerModel:'group/1'});
  assert.deepEqual(w.stats.counts,old.stats.counts);assert.deepEqual(prod.S.totals(w),prod.S.totals(old));
@@ -59,6 +81,11 @@ test('all-turn counts/composition, archive replay and old individual recordings 
  assert.deepEqual(O.restore(h.snapshot()).snapshot(),h.snapshot());assert(h.csv().includes('consumer_group_groups'));
  const last=h.rows.at(-1);for(const id of G.species){assert.equal(last.consumerGroups.species[id].individuals,last.counts[id]);assert.equal(last.composition[id].phases.reduce((a,n)=>a+n,0),last.counts[id]);assert(!Object.values(last.funnel).some(c=>c.species===id));}
  const store={getItem:()=>null,setItem:()=>{}},archive=A.create(store,prod,globalThis.EcoReplayVersion),record=archive.capture(w,'user',h.snapshot());archive.replayRecord(record);
+ const oldGroupSig='6db4142a9987079b6e0a4f6f1f06623fe9b1dd5096763ce2682993aefbb3316c';
+ const previous=structuredClone(record);previous.signature=oldGroupSig;
+ // Historical group recordings retain their old biology and replay signature.
+ previous.observation=h.snapshot();previous.observation.metadata.version=oldGroupSig;
+ archive.replayRecord(previous);
  let again=prod.create(record.config);for(let t=0;t<record.turn;t++)again=prod.step(again);assert.equal(prod.fingerprint(again),record.finalFingerprint);
  for(const mutate of [a=>delete a.rows[1].consumerGroups,a=>a.rows[1].consumerGroups.species.grassbug.individuals++,a=>a.metadata.config.consumerModel=undefined]){const broken=h.snapshot();mutate(broken);assert.throws(()=>O.restore(broken),/集団/);}
  const oldSig='90daa5c38dfbc78aa12c79176ff54d5e70f6e90590ff4d2dbcaf2ef5647b56e4',old=prod.create({...base,balanceModel:'survival/4'}),oldHistory=O.create(old.config,oldSig,{species:prod.S.activeSpecies(old)});oldHistory.append(old);const oldRecord=A.create(store,prod,oldSig).capture(old,'user',oldHistory.snapshot());archive.replayRecord(oldRecord);

@@ -112,7 +112,12 @@ return {settings,attach,region,level,factor,begin,finish};
   const hash = (w, p, t = null, id = null, key = null, axis = null) =>
     (w.config.randomModel==='table/1'?H.tableHash:H.hash)(w.config.seed,p,t,id,key,axis);
   const r = (w, p, t = null, id = null, key = null, axis = null) => hash(w,p,t,id,key,axis)/4294967296;
-  const spec = (o) => D.byId[o.species];
+  // The favored grassbug keeps its own habitat and diet; only its survival
+  // envelope follows the effective waterbug profile of this observation mode.
+  const grassGroupSpec = {...D.byId.grassbug,...Object.fromEntries(
+    ['life','maturity','maintenance','birthCooldown','initial','capacity'].map(k=>[k,D.byId.waterbug[k]]) )};
+  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
+    ? grassGroupSpec : D.byId[o.species];
   const PLANT_BASE = 2;
   const edibleB = (o) =>
     Math.max(0, o.B - (FungalColony.is(o) ? o.colony.baseB : spec(o).group === "plant" ? PLANT_BASE : 0));
@@ -168,7 +173,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const d={version:'consumer-group-parameters/1',capacity:8,initialSize:4,maxBirths:2,dispersalAt:4};
       if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(d,k)))throw Error('SETTINGS_INVALID: 一次消費者集団');
       const z={...d,...input};
-      if(z.version!==d.version||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
+      if(!['consumer-group-parameters/1','consumer-group-parameters/2'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
         !['initialSize','maxBirths','dispersalAt'].every(k=>Number.isSafeInteger(z[k])&&z[k]>=1&&z[k]<=z.capacity))throw Error('SETTINGS_INVALID: 一次消費者集団の値');
       return z;
     }
@@ -176,6 +181,7 @@ return {settings,attach,region,level,factor,begin,finish};
     function attach(w,o){
       if(!enabled(w)||!species.includes(o.species)||is(o))return;
       o.consumerGroup={version:VERSION,establishedAt:w.turn,origin:null,cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:empty(w.turn)};
+      if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/2')o.consumerGroup.grassAdvantage='waterbug/1';
       delete o.birthLife;
     }
     function compact(o){const by=new Map();for(const c of o.consumerGroup.cohorts)if(c.n>0){const key=c.age+':'+c.phase,old=by.get(key);if(old)old.n+=c.n;else by.set(key,{...c});}
@@ -194,6 +200,12 @@ return {settings,attach,region,level,factor,begin,finish};
       const removed=new Set(),at=new Map();
       for(const o of w.organisms)if(species.includes(o.species)){
         attach(w,o);o.consumerGroup.cohorts=[{age:o.age,phase:o.phase,n:1}];o.consumerGroup.wounds=H.round(Math.max(0,maxHP(o)-o.HP));
+        if(o.consumerGroup.grassAdvantage==='waterbug/1'){
+          const source=D.byId.grassbug.initial,target=D.byId.waterbug.initial;
+          o.E=H.round(o.E+target[0]-source[0]);o.B=H.round(o.B+target[1]-source[1]);
+          o.HP=H.round(o.HP*target[3]/source[3]);
+          o.consumerGroup.wounds=H.round(Math.max(0,maxHP(o)-o.HP));
+        }
         at.set(o.cell,o);
       }
       for(const o of w.organisms)if(is(o)&&!removed.has(o.id)){
@@ -281,6 +293,7 @@ return {settings,attach,region,level,factor,begin,finish};
         }else{
           const child=structuredClone(piece.part);delete child.groupRemains;child.id='g:'+w.turn+':'+choice.cell+':'+o.species;child.cell=choice.cell;child.age=0;child.history=[choice.cell];child.seen=[];child.birthReady=o.birthReady;
           child.consumerGroup={version:VERSION,establishedAt:w.turn,origin:o.id,cohorts:piece.cohorts,wounds:H.round(g.wounds*moving/n),infectedAge:piece.infectedAge,serial:0,last:{...empty(w.turn),joined:moving}};
+          if(g.grassAdvantage)child.consumerGroup.grassAdvantage=g.grassAdvantage;
           if(child.infection){child.infection.hostId=child.id;child.consumerGroup.infectedId=child.infection.id;}
           // New local group has no fabricated personal learning/history.
           PersistentInformation.attach(w,child);refresh(w,child);newGroups.push(child);at.set(choice.cell,child);arrived.add(child.id);

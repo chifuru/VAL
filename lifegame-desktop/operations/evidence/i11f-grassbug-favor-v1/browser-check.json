@@ -1,0 +1,1 @@
+{"definition":"grassbug-favor-browser-check/1","runner":"operations/evidence/i11e-consumer-groups-v1/browser/runner.cjs","passed":true,"checks":16,"errors":[],"scope":"new app default and existing consumer group panel in Linux Chromium","limits":"not a Windows or high-density rendering test"}
