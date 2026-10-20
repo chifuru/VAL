@@ -1,3 +1,5 @@
+[寄生メタ/2](parasite-meta-v1.md) / [死亡情報/2](death-information-v1.md)へ確認回答を反映。情報に餌要素はなく、Q成体は通常の生物として採食。Q主作用は寄生先由来の死亡情報の出現率上昇と内容歪曲。全生物に同層/全層の情報を用意し、層区分のみ最終確認待ち。[補完契約](../../operations/plans/information-scope-ab-v1.md)。既存A/B19Nodeへ反映、製品4.2.32・C/D/E・src/tests・画像は未変更。以下の旧確認3点は回答済みで、本段の条件を優先する。
+
 [寄生のメタ/メタメタ操作](parasite-meta-v1.md)、[死亡地点の実績由来情報](death-information-v1.md)、[おまかせ多様生成](diverse-world-generation-v1.md)を現在の追加正本とする。Pの感染/遺伝、Q羽化/自立、相別負担、情報影響度・死亡抽選・全実効条件の再現をA/B17Nodeへ反映。Q成体の餌/離脱後加工/死亡情報対象は確認待ち。[契約と後続](../../operations/plans/parasite-information-ab-v1.md)。製品4.2.32・C/D/E・src/tests・画像は未変更。以下の群落/R1〜R6/観測UIは未変更部分を維持する。
 
 [生産者の群落化・系統別生存目標の復帰](balance-restoration-v1.md)を現在の調整方針とする。生産者の面積と栄養量を分離し、R1〜R6を完成判断へ復帰。500T/150〜250T、最低1/10・目標3/10等を維持する。合意済みの一覧撤去・格子/年齢マーク・無確認再生成・操作中画質は[観測UI仕様](observation-ui-v1.md)、任意の背景簡略化は[処理軽減欄](display-load-reduction-v1.md)。A/B反映段階・製品4.2.32未変更。[今回の契約と後続順序](../../operations/plans/balance-restoration-ab-v1.md)。以下の旧「R0だけで一旦完成」「R1〜R6は完成後」「生産者も集団化しない」は該当範囲で置き換える。
