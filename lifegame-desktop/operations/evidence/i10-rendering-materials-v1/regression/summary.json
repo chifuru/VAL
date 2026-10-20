@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "baseline": "a196f8b139390f46692a546a45788ed119cc8f77",
+  "executedAtUTC": "2026-10-20T17:57:52.809439+00:00",
+  "ryouki": {
+    "checks": 15,
+    "forms": 13,
+    "ages": 3,
+    "exactPortraits": true,
+    "transparent": true,
+    "exactIdCohabitation": true
+  },
+  "plants": {
+    "checks": 9,
+    "forms": 33,
+    "ages": 3,
+    "exactPortraits": true,
+    "transparent": true,
+    "exactIdCohabitation": true
+  },
+  "existingMainAnatomy": {
+    "lineages": 21,
+    "states": 498,
+    "branchRenders": 183,
+    "allBaselinePixelsPreserved": true,
+    "assertions": 5215,
+    "browserErrors": 0
+  },
+  "displayControls": {
+    "nodeTests": 1,
+    "fail": 0,
+    "detailedBackgroundDuringNormalInteraction": true
+  },
+  "preservedPriorImages": 70,
+  "preservedBiologyAndHabitatModules": 28,
+  "replaySignature": "a7cac02a9d7382b478919b40c44823ce0d6bb0325b3e551adb1236908c92774d",
+  "scope": "fixed display fixtures and immediate a196f8b art comparison, no long ecology/Windows/all-device-performance certification",
+  "historicalTestLimitation": "Original all-lineage-anatomy-ui.cjs uses4.2.8 before-art. Its resource/info equality is invalid after I07; retain failed run.log, use separately retained immediate-baseline adapter without editing product or original tests.",
+  "nearScreenshots": "Prepared adapters wait until renderer.prepared before final near capture; initial fixed200/220ms cold captures were not used as final visual evidence."
+}

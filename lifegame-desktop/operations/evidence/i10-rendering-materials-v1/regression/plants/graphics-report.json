@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "checks": [
+    "three independent static atlases and original references decode",
+    "all33 I II III3 IV6 forms select distinct intended atlas cells",
+    "all33 portraits are pixel-identical to direct adopted-reference crops",
+    "transparent atlases leave scene corners transparent",
+    "juvenile adult and elderly appearances stay distinct within the same phase",
+    "four colocated main producer food prey bodies each retain far hit access",
+    "four colocated bodies each retain near hit access at their visible center",
+    "near far portraits and hit testing leave the settled biological world unchanged",
+    "no browser drawing exceptions"
+  ],
+  "errors": [],
+  "scope": "Linux Chromium,33 adopted plant forms; exact original portraits; provisional static alpha atlas; four-layer display fixture only"
+}

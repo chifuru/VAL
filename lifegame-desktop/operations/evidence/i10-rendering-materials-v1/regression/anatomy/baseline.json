@@ -1,0 +1,7 @@
+{
+  "baseline": "a196f8b139390f46692a546a45788ed119cc8f77",
+  "source": "lifegame-desktop/src/ecology/art.js",
+  "sha256": "07ad4b2fb25560a310d18ee6d6d8e61e79aa4f426bf4ba46fc62e6345b42d9e9",
+  "adapter": "i10-anatomy-adapter.cjs",
+  "adaptation": "Use I09 immediate art baseline and require every existing main lineage to preserve pixels; omit empty historical new16-comparison canvases. Product and original test remain unchanged."
+}

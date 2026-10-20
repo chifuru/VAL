@@ -539,6 +539,7 @@
     $("presence-note").textContent="";
     renderer.view.selected = null;
     renderer.view.selectedEntity = null;
+    renderer.beginWorld(worldGeneration);
     renderer.setWorld(world);
     renderer.fit();
     $("empty").hidden = true;

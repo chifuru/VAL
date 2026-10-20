@@ -1,0 +1,10 @@
+{"checks":38,"maximumReceiptKeys":1536,"errors":[]}
+✔ confirmed action receipts survive refresh, phase commit and pause rollback with bounded memory (13721.044321ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13806.084806

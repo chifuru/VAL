@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "files": [
+    {
+      "file": "src/assets/visual-manifest.json",
+      "sha256": "bb21cfad3f6a4ee2dd5e04f96b7eddbc01192be84ccfc9b7ef139cb2f3e6370c"
+    },
+    {
+      "file": "src/assets/visual-manifest.js",
+      "sha256": "59b6f07f36bb3866104d367237819c5f70c7f6adedf7162f392e481ba6bc2655"
+    },
+    {
+      "file": "design/parasite-runtime-v1/registry.json",
+      "sha256": "7fdb24ead21b1262f8f04cac3becc33f45ea320b0eec06116f8a84017691c9ed"
+    },
+    {
+      "file": "src/assets/tideparasite-atlas-v1.png",
+      "sha256": "15c757d1cd2439cb9c57ffe132b00c380d96a5a41cb5696d3686e5904801cc4d"
+    },
+    {
+      "file": "src/assets/leafparasite-atlas-v1.png",
+      "sha256": "321a8d3d68fabfa5dad11048e7f00dffc9f4a3e6ac657ef62ffc5bb9442346a2"
+    },
+    {
+      "file": "src/assets/hyperparasite-atlas-v1.png",
+      "sha256": "df072723b206e97f1da336b5a9ff87a060b86366fcddc2e7283b4d8a3bd3a691"
+    }
+  ],
+  "scope": "Static pack rerun from retained image_gen edits, no image generation"
+}

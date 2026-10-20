@@ -218,8 +218,26 @@
       carcasses: 0,
       infectedHosts: 0,
       highParasites: 0,
+      actionWorldResets: 0,
+      actionReceivedTotal: 0,
     };
-    const deathAppearances=new Map(),actionMarks=new Map();
+    const deathAppearances=new Map(),actionMarks=new Map(),actionReceipts=new Map();
+    // Display lifetime is not event lifetime. Keep only a bounded receipt window
+    // so refresh/phase commit/pause rollback cannot replay a settled action.
+    const RECEIPT_TURNS=3,RECEIPT_LIMIT=512;
+    let generationToken=null,markWorldIdentity=null,markTurn=-1,markHighWater=-1;
+    function resetActionTimeline(){
+      actionMarks.clear();actionReceipts.clear();deathAppearances.clear();
+      previousActors.clear();previousCorpses.clear();markTurn=-1;markHighWater=-1;
+      diagnostics.actionWorldResets=(diagnostics.actionWorldResets||0)+1;
+      diagnostics.actionReceivedTotal=0;lastFrameKey=null;
+    }
+    function beginWorld(token){
+      if(Object.is(generationToken,token))return;
+      generationToken=token;markWorldIdentity=null;resetActionTimeline();
+      // Geometry/decoded art can be reused, but past actors must not cross worlds.
+      world=null;lastTurn=-1;
+    }
     Art.ready.then(()=>{groundShadow();for(const kind of Object.keys(markLabels))markSprite(kind);});
     let livingById=new Map(),freeQById=new Map(),informationCells=new Map(),informationIndex=null,informationHitRegions=[],eventPlan=null,frameCandidates=null,objectIndex=null;
     let world = null,
@@ -339,13 +357,33 @@
         const cell=informationCells.get(record.cell);cell.amount+=record.amount;cell.origins.add(record.originId);cell.records++;
       }
       const time=performance.now();
-      if(world&&(w.turn<world.turn||w.config.seed!==world.config.seed))actionMarks.clear();
+      const identity=JSON.stringify([w.config.seed,w.config.width,w.config.height,w.config.mapFingerprint,w.config.mapResolved]);
+      if(markWorldIdentity!==null&&identity!==markWorldIdentity)resetActionTimeline();
+      markWorldIdentity=identity;
+      const rewound=w.turn<markTurn;
+      if(rewound||w.turn>markTurn+1)actionMarks.clear();
+      markTurn=w.turn;markHighWater=Math.max(markHighWater,w.turn);
+      const receiptFloor=markHighWater-RECEIPT_TURNS+1;
+      for(const turn of actionReceipts.keys())if(turn<receiptFloor)actionReceipts.delete(turn);
       for(const [key,m]of actionMarks)if(time-m.at>850)actionMarks.delete(key);
-      for(const ev of w.events||[]){const kind=actionKind(ev,w);if(!markLabels[kind])continue;
-        const key=[w.turn,ev.id,kind,ev.target||ev.source||''].join('|');
-        if(!actionMarks.has(key)){if(actionMarks.size>=256)actionMarks.delete(actionMarks.keys().next().value);actionMarks.set(key,{id:ev.id,cell:ev.cell??livingById.get(ev.id)?.cell,kind,at:time});}
+      let receipt=actionReceipts.get(w.turn);
+      if(w.turn>=receiptFloor&&!receipt){receipt={keys:new Set(),saturated:false};actionReceipts.set(w.turn,receipt);}
+      for(const ev of w.events||[]){
+        if(!receipt||receipt.saturated)break;
+        const kind=actionKind(ev,w);if(!markLabels[kind])continue;
+        const key=JSON.stringify([w.turn,ev.id,ev.type,kind,ev.target??null,ev.source??null,ev.sourceType??null,ev.tag??null,ev.cell??null]);
+        if(receipt.keys.has(key))continue;
+        // Saturation closes this turn; evicting receipt keys would replay them.
+        if(receipt.keys.size>=RECEIPT_LIMIT){receipt.saturated=true;break;}
+        receipt.keys.add(key);diagnostics.actionReceivedTotal++;
+        if(actionMarks.size>=256)actionMarks.delete(actionMarks.keys().next().value);
+        actionMarks.set(key,{id:ev.id,cell:ev.cell??livingById.get(ev.id)?.cell,kind,at:time});
       }
-      if(world && (w.turn<world.turn || w.config.seed!==world.config.seed))deathAppearances.clear();
+      diagnostics.actionReceiptTurns=actionReceipts.size;
+      diagnostics.actionReceiptKeys=[...actionReceipts.values()].reduce((sum,r)=>sum+r.keys.size,0);
+      diagnostics.actionReceiptSaturated=receipt?.saturated||false;
+      diagnostics.actionReceiptFloor=receiptFloor;
+      if(rewound)deathAppearances.clear();
       const deadIds=new Set(w.carcasses.map(a=>a.id));
       for(const id of deathAppearances.keys())if(!deadIds.has(id))deathAppearances.delete(id);
       for(const ev of w.events||[])if(ev.type==="death"&&ev.appearance){const id="c:"+ev.id+":"+w.turn;if(deadIds.has(id))deathAppearances.set(id,structuredClone(ev.appearance));}
@@ -1130,6 +1168,7 @@
       diagnostics,
       get prepared(){return Art.loaded&&!!cache&&(view.scale<24||view.mode==='overview'||view.simplified||!!nearCache);},
       setWorld,
+      beginWorld,
       draw,
       drawIfChanged,
       interact,

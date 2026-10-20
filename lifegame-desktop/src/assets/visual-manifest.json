@@ -307,6 +307,36 @@
       "width": 1536,
       "height": 1024,
       "sha256": "71ba0d25891b64e790cac4538d82b2b479a4581e4592156e8a0e8c22c17b05f3"
+    },
+    "tideparasite-reference-v1": {
+      "file": "tideparasite-reference-v1.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "861f26815edb8477968cdce8d49b5a683d11b049cdbadc5699b3c223283c45c6"
+    },
+    "leafparasite-reference-v1": {
+      "file": "leafparasite-reference-v1.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "39ed308b748c6214e2e502a1dcdb817f04fd02460a2c22f44411be8c8a99d0c6"
+    },
+    "tideparasite-atlas-v1": {
+      "file": "tideparasite-atlas-v1.png",
+      "width": 1152,
+      "height": 1152,
+      "sha256": "15c757d1cd2439cb9c57ffe132b00c380d96a5a41cb5696d3686e5904801cc4d"
+    },
+    "leafparasite-atlas-v1": {
+      "file": "leafparasite-atlas-v1.png",
+      "width": 1152,
+      "height": 1152,
+      "sha256": "321a8d3d68fabfa5dad11048e7f00dffc9f4a3e6ac657ef62ffc5bb9442346a2"
+    },
+    "hyperparasite-atlas-v1": {
+      "file": "hyperparasite-atlas-v1.png",
+      "width": 1536,
+      "height": 384,
+      "sha256": "df072723b206e97f1da336b5a9ff87a060b86366fcddc2e7283b4d8a3bd3a691"
     }
   },
   "creatures": {
@@ -3535,8 +3565,536 @@
       "IV"
     ],
     "source": "adopted-hyper-reference/1",
-    "provisionalBody": "existing-life-f-third-phase-for-IV",
     "excluded": "internal-reference panel IV",
-    "finalTransparentArt": "I10"
+    "finalTransparentArt": "parasites.hyperparasite: adopted-parasite-background-removal/1",
+    "runtimeBody": "Own I/II/III/IV body from retained transparent edit; no old IV or orange host tissue."
+  },
+  "parasites": {
+    "tideparasite": {
+      "sheet": "tideparasite-atlas-v1",
+      "regions": [
+        [
+          0,
+          0,
+          384,
+          384
+        ],
+        [
+          384,
+          0,
+          384,
+          384
+        ],
+        [
+          768,
+          0,
+          384,
+          384
+        ],
+        [
+          0,
+          384,
+          384,
+          384
+        ],
+        [
+          384,
+          384,
+          384,
+          384
+        ],
+        [
+          768,
+          384,
+          384,
+          384
+        ],
+        [
+          0,
+          768,
+          384,
+          384
+        ],
+        [
+          384,
+          768,
+          384,
+          384
+        ],
+        [
+          768,
+          768,
+          384,
+          384
+        ]
+      ],
+      "bodyBounds": [
+        [
+          16,
+          81,
+          352,
+          221
+        ],
+        [
+          16,
+          82,
+          352,
+          220
+        ],
+        [
+          16,
+          71,
+          352,
+          242
+        ],
+        [
+          16,
+          109,
+          352,
+          166
+        ],
+        [
+          16,
+          116,
+          352,
+          152
+        ],
+        [
+          16,
+          80,
+          352,
+          223
+        ],
+        [
+          60,
+          62,
+          263,
+          259
+        ],
+        [
+          16,
+          85,
+          352,
+          213
+        ],
+        [
+          16,
+          80,
+          352,
+          223
+        ]
+      ],
+      "panels": [
+        "A-I",
+        "A-II",
+        "A-III",
+        "B-I",
+        "B-II",
+        "B-III",
+        "C-I",
+        "C-II",
+        "C-III"
+      ],
+      "references": [
+        {
+          "sheet": "tideparasite-reference-v1",
+          "region": [
+            8,
+            8,
+            496,
+            322
+          ]
+        },
+        {
+          "sheet": "tideparasite-reference-v1",
+          "region": [
+            520,
+            8,
+            496,
+            322
+          ]
+        },
+        {
+          "sheet": "tideparasite-reference-v1",
+          "region": [
+            1032,
+            8,
+            496,
+            322
+          ]
+        },
+        {
+          "sheet": "tideparasite-reference-v1",
+          "region": [
+            8,
+            346,
+            496,
+            316
+          ]
+        },
+        {
+          "sheet": "tideparasite-reference-v1",
+          "region": [
+            520,
+            346,
+            496,
+            316
+          ]
+        },
+        {
+          "sheet": "tideparasite-reference-v1",
+          "region": [
+            1032,
+            346,
+            496,
+            316
+          ]
+        },
+        {
+          "sheet": "tideparasite-reference-v1",
+          "region": [
+            8,
+            678,
+            496,
+            338
+          ]
+        },
+        {
+          "sheet": "tideparasite-reference-v1",
+          "region": [
+            520,
+            678,
+            496,
+            338
+          ]
+        },
+        {
+          "sheet": "tideparasite-reference-v1",
+          "region": [
+            1032,
+            678,
+            496,
+            338
+          ]
+        }
+      ],
+      "fit": "contain",
+      "source": "adopted-parasite-background-removal/1",
+      "stateVersion": "primary-form/1"
+    },
+    "leafparasite": {
+      "sheet": "leafparasite-atlas-v1",
+      "regions": [
+        [
+          0,
+          0,
+          384,
+          384
+        ],
+        [
+          384,
+          0,
+          384,
+          384
+        ],
+        [
+          768,
+          0,
+          384,
+          384
+        ],
+        [
+          0,
+          384,
+          384,
+          384
+        ],
+        [
+          384,
+          384,
+          384,
+          384
+        ],
+        [
+          768,
+          384,
+          384,
+          384
+        ],
+        [
+          0,
+          768,
+          384,
+          384
+        ],
+        [
+          384,
+          768,
+          384,
+          384
+        ],
+        [
+          768,
+          768,
+          384,
+          384
+        ]
+      ],
+      "bodyBounds": [
+        [
+          58,
+          83,
+          267,
+          217
+        ],
+        [
+          16,
+          75,
+          352,
+          233
+        ],
+        [
+          16,
+          86,
+          352,
+          211
+        ],
+        [
+          16,
+          94,
+          352,
+          196
+        ],
+        [
+          16,
+          74,
+          352,
+          235
+        ],
+        [
+          16,
+          79,
+          352,
+          225
+        ],
+        [
+          73,
+          79,
+          237,
+          226
+        ],
+        [
+          16,
+          67,
+          352,
+          250
+        ],
+        [
+          16,
+          63,
+          352,
+          257
+        ]
+      ],
+      "panels": [
+        "A-I",
+        "A-II",
+        "A-III",
+        "B-I",
+        "B-II",
+        "B-III",
+        "C-I",
+        "C-II",
+        "C-III"
+      ],
+      "references": [
+        {
+          "sheet": "leafparasite-reference-v1",
+          "region": [
+            8,
+            8,
+            496,
+            322
+          ]
+        },
+        {
+          "sheet": "leafparasite-reference-v1",
+          "region": [
+            520,
+            8,
+            496,
+            322
+          ]
+        },
+        {
+          "sheet": "leafparasite-reference-v1",
+          "region": [
+            1032,
+            8,
+            496,
+            322
+          ]
+        },
+        {
+          "sheet": "leafparasite-reference-v1",
+          "region": [
+            8,
+            346,
+            496,
+            316
+          ]
+        },
+        {
+          "sheet": "leafparasite-reference-v1",
+          "region": [
+            520,
+            346,
+            496,
+            316
+          ]
+        },
+        {
+          "sheet": "leafparasite-reference-v1",
+          "region": [
+            1032,
+            346,
+            496,
+            316
+          ]
+        },
+        {
+          "sheet": "leafparasite-reference-v1",
+          "region": [
+            8,
+            678,
+            496,
+            338
+          ]
+        },
+        {
+          "sheet": "leafparasite-reference-v1",
+          "region": [
+            520,
+            678,
+            496,
+            338
+          ]
+        },
+        {
+          "sheet": "leafparasite-reference-v1",
+          "region": [
+            1032,
+            678,
+            496,
+            338
+          ]
+        }
+      ],
+      "fit": "contain",
+      "source": "adopted-parasite-background-removal/1",
+      "stateVersion": "primary-form/1"
+    },
+    "hyperparasite": {
+      "sheet": "hyperparasite-atlas-v1",
+      "regions": [
+        [
+          0,
+          0,
+          384,
+          384
+        ],
+        [
+          384,
+          0,
+          384,
+          384
+        ],
+        [
+          768,
+          0,
+          384,
+          384
+        ],
+        [
+          1152,
+          0,
+          384,
+          384
+        ]
+      ],
+      "bodyBounds": [
+        [
+          52,
+          16,
+          280,
+          352
+        ],
+        [
+          88,
+          16,
+          207,
+          352
+        ],
+        [
+          30,
+          16,
+          324,
+          352
+        ],
+        [
+          16,
+          81,
+          352,
+          222
+        ]
+      ],
+      "panels": [
+        "I",
+        "II",
+        "III",
+        "IV"
+      ],
+      "references": [
+        {
+          "sheet": "hyperparasite-internal-reference-v1",
+          "region": [
+            10,
+            80,
+            344,
+            926
+          ]
+        },
+        {
+          "sheet": "hyperparasite-internal-reference-v1",
+          "region": [
+            370,
+            80,
+            331,
+            926
+          ]
+        },
+        {
+          "sheet": "hyperparasite-internal-reference-v1",
+          "region": [
+            716,
+            80,
+            374,
+            926
+          ]
+        },
+        {
+          "sheet": "hyperparasite-adult-reference-v1",
+          "region": [
+            0,
+            0,
+            1536,
+            1024
+          ]
+        }
+      ],
+      "fit": "contain",
+      "source": "adopted-parasite-background-removal/1",
+      "stateVersion": "hyper-state/1"
+    }
   }
 }

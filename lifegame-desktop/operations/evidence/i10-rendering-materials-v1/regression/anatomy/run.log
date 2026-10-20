@@ -1,0 +1,7 @@
+page.evaluate: Error: nonmain art unchanged resource/info
+    at check (eval at evaluate (:290:30), <anonymous>:3:33)
+    at extra (eval at evaluate (:290:30), <anonymous>:9:288)
+    at eval (eval at evaluate (:290:30), <anonymous>:11:215)
+    at UtilityScript.evaluate (<anonymous>:292:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at /workspace/VAL/lifegame-desktop/tests/all-lineage-anatomy-ui.cjs:9:25

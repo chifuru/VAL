@@ -1,0 +1,686 @@
+{
+  "version": "parasite-runtime-art/1",
+  "kind": "retained-transparent-edit-static-pack-not-new-anatomy-or-age-direction-concept",
+  "sources": [
+    {
+      "file": "design/appearance-baseline-v1/03-tideparasite-phases.png",
+      "sha256": "861f26815edb8477968cdce8d49b5a683d11b049cdbadc5699b3c223283c45c6",
+      "runtimeCopy": "src/assets/tideparasite-reference-v1.png",
+      "copySha256": "861f26815edb8477968cdce8d49b5a683d11b049cdbadc5699b3c223283c45c6"
+    },
+    {
+      "file": "design/appearance-baseline-v1/04-leafparasite-phases.png",
+      "sha256": "39ed308b748c6214e2e502a1dcdb817f04fd02460a2c22f44411be8c8a99d0c6",
+      "runtimeCopy": "src/assets/leafparasite-reference-v1.png",
+      "copySha256": "39ed308b748c6214e2e502a1dcdb817f04fd02460a2c22f44411be8c8a99d0c6"
+    },
+    {
+      "file": "design/appearance-baseline-v1/05-hyperparasite-source-i-iii-only.png",
+      "sha256": "62d507d946462dab173f28ebdfbfba3d55182540a891d8fad9d64ebb2986306c",
+      "runtimeCopy": "src/assets/hyperparasite-internal-reference-v1.png",
+      "copySha256": "62d507d946462dab173f28ebdfbfba3d55182540a891d8fad9d64ebb2986306c"
+    },
+    {
+      "file": "design/appearance-baseline-v1/06-hyperparasite-adult.png",
+      "sha256": "71ba0d25891b64e790cac4538d82b2b479a4581e4592156e8a0e8c22c17b05f3",
+      "runtimeCopy": "src/assets/hyperparasite-adult-reference-v1.png",
+      "copySha256": "71ba0d25891b64e790cac4538d82b2b479a4581e4592156e8a0e8c22c17b05f3"
+    }
+  ],
+  "edits": [
+    {
+      "file": "design/parasite-runtime-v1/edits/tideparasite-nine.png",
+      "sha256": "ac10d767bd2ea18facdc0571d14919058505086506df0b061b75dcaf69e9b277",
+      "generatedFilename": "exec-f58e4416-c379-4a7b-abc6-552789c9138b.png",
+      "shapeCount": 9,
+      "purpose": "background/host/text/frame removal only; approved anatomy retained"
+    },
+    {
+      "file": "design/parasite-runtime-v1/edits/leafparasite-nine.png",
+      "sha256": "7f1ede617b2a1d26ad6dd75a588435eed05c8c305b66b742218bf6639ee86176",
+      "generatedFilename": "exec-10c3b55b-f350-40ee-8502-02395eb0d1e7.png",
+      "shapeCount": 9,
+      "purpose": "background/host/text/frame removal only; approved anatomy retained"
+    },
+    {
+      "file": "design/parasite-runtime-v1/edits/hyperparasite-four.png",
+      "sha256": "cca5a3986a646c767ddcb735853c86292dc2e0b94b4d81284708b58914e3b380",
+      "generatedFilename": "exec-3e5b807b-b563-43af-be23-a98c66f8f8e8.png",
+      "shapeCount": 4,
+      "purpose": "background/host/text/frame removal only; approved anatomy retained"
+    },
+    {
+      "file": "design/parasite-runtime-v1/edits/hyperparasite-adult.png",
+      "sha256": "4f08b6f5e0e672385f7650b797882ac7a21a27037dfb478cb942d0fadc431e6c",
+      "generatedFilename": "exec-ec017d68-a1e8-48b9-89c5-f1400a6cb0c5.png",
+      "shapeCount": 1,
+      "purpose": "06-only background removal retaining long side slabs, two short contact organs; replaces unfaithful four-sheet IV"
+    }
+  ],
+  "derived": [
+    {
+      "species": "tideparasite",
+      "file": "src/assets/tideparasite-atlas-v1.png",
+      "sha256": "15c757d1cd2439cb9c57ffe132b00c380d96a5a41cb5696d3686e5904801cc4d",
+      "shapeCount": 9,
+      "extraction": [
+        {
+          "panel": "A-I",
+          "sourceComponent": 3,
+          "sourceAlphaBoundsLTRB": [
+            62,
+            77,
+            415,
+            299
+          ],
+          "edit": "design/parasite-runtime-v1/edits/tideparasite-nine.png",
+          "editSha256": "ac10d767bd2ea18facdc0571d14919058505086506df0b061b75dcaf69e9b277",
+          "originalReference": {
+            "sheet": "tideparasite-reference-v1",
+            "region": [
+              8,
+              8,
+              496,
+              322
+            ]
+          },
+          "atlasRegion": [
+            0,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "A-II",
+          "sourceComponent": 2,
+          "sourceAlphaBoundsLTRB": [
+            468,
+            32,
+            989,
+            358
+          ],
+          "edit": "design/parasite-runtime-v1/edits/tideparasite-nine.png",
+          "editSha256": "ac10d767bd2ea18facdc0571d14919058505086506df0b061b75dcaf69e9b277",
+          "originalReference": {
+            "sheet": "tideparasite-reference-v1",
+            "region": [
+              520,
+              8,
+              496,
+              322
+            ]
+          },
+          "atlasRegion": [
+            384,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "A-III",
+          "sourceComponent": 1,
+          "sourceAlphaBoundsLTRB": [
+            1008,
+            14,
+            1536,
+            377
+          ],
+          "edit": "design/parasite-runtime-v1/edits/tideparasite-nine.png",
+          "editSha256": "ac10d767bd2ea18facdc0571d14919058505086506df0b061b75dcaf69e9b277",
+          "originalReference": {
+            "sheet": "tideparasite-reference-v1",
+            "region": [
+              1032,
+              8,
+              496,
+              322
+            ]
+          },
+          "atlasRegion": [
+            768,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "B-I",
+          "sourceComponent": 6,
+          "sourceAlphaBoundsLTRB": [
+            16,
+            448,
+            477,
+            665
+          ],
+          "edit": "design/parasite-runtime-v1/edits/tideparasite-nine.png",
+          "editSha256": "ac10d767bd2ea18facdc0571d14919058505086506df0b061b75dcaf69e9b277",
+          "originalReference": {
+            "sheet": "tideparasite-reference-v1",
+            "region": [
+              8,
+              346,
+              496,
+              316
+            ]
+          },
+          "atlasRegion": [
+            0,
+            384,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "B-II",
+          "sourceComponent": 5,
+          "sourceAlphaBoundsLTRB": [
+            464,
+            440,
+            1023,
+            682
+          ],
+          "edit": "design/parasite-runtime-v1/edits/tideparasite-nine.png",
+          "editSha256": "ac10d767bd2ea18facdc0571d14919058505086506df0b061b75dcaf69e9b277",
+          "originalReference": {
+            "sheet": "tideparasite-reference-v1",
+            "region": [
+              520,
+              346,
+              496,
+              316
+            ]
+          },
+          "atlasRegion": [
+            384,
+            384,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "B-III",
+          "sourceComponent": 4,
+          "sourceAlphaBoundsLTRB": [
+            1057,
+            376,
+            1521,
+            670
+          ],
+          "edit": "design/parasite-runtime-v1/edits/tideparasite-nine.png",
+          "editSha256": "ac10d767bd2ea18facdc0571d14919058505086506df0b061b75dcaf69e9b277",
+          "originalReference": {
+            "sheet": "tideparasite-reference-v1",
+            "region": [
+              1032,
+              346,
+              496,
+              316
+            ]
+          },
+          "atlasRegion": [
+            768,
+            384,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "C-I",
+          "sourceComponent": 14,
+          "sourceAlphaBoundsLTRB": [
+            79,
+            732,
+            342,
+            991
+          ],
+          "edit": "design/parasite-runtime-v1/edits/tideparasite-nine.png",
+          "editSha256": "ac10d767bd2ea18facdc0571d14919058505086506df0b061b75dcaf69e9b277",
+          "originalReference": {
+            "sheet": "tideparasite-reference-v1",
+            "region": [
+              8,
+              678,
+              496,
+              338
+            ]
+          },
+          "atlasRegion": [
+            0,
+            768,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "C-II",
+          "sourceComponent": 12,
+          "sourceAlphaBoundsLTRB": [
+            458,
+            677,
+            994,
+            1002
+          ],
+          "edit": "design/parasite-runtime-v1/edits/tideparasite-nine.png",
+          "editSha256": "ac10d767bd2ea18facdc0571d14919058505086506df0b061b75dcaf69e9b277",
+          "originalReference": {
+            "sheet": "tideparasite-reference-v1",
+            "region": [
+              520,
+              678,
+              496,
+              338
+            ]
+          },
+          "atlasRegion": [
+            384,
+            768,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "C-III",
+          "sourceComponent": 13,
+          "sourceAlphaBoundsLTRB": [
+            997,
+            681,
+            1525,
+            1015
+          ],
+          "edit": "design/parasite-runtime-v1/edits/tideparasite-nine.png",
+          "editSha256": "ac10d767bd2ea18facdc0571d14919058505086506df0b061b75dcaf69e9b277",
+          "originalReference": {
+            "sheet": "tideparasite-reference-v1",
+            "region": [
+              1032,
+              678,
+              496,
+              338
+            ]
+          },
+          "atlasRegion": [
+            768,
+            768,
+            384,
+            384
+          ]
+        }
+      ]
+    },
+    {
+      "species": "leafparasite",
+      "file": "src/assets/leafparasite-atlas-v1.png",
+      "sha256": "321a8d3d68fabfa5dad11048e7f00dffc9f4a3e6ac657ef62ffc5bb9442346a2",
+      "shapeCount": 9,
+      "extraction": [
+        {
+          "panel": "A-I",
+          "sourceComponent": 3,
+          "sourceAlphaBoundsLTRB": [
+            86,
+            67,
+            353,
+            284
+          ],
+          "edit": "design/parasite-runtime-v1/edits/leafparasite-nine.png",
+          "editSha256": "7f1ede617b2a1d26ad6dd75a588435eed05c8c305b66b742218bf6639ee86176",
+          "originalReference": {
+            "sheet": "leafparasite-reference-v1",
+            "region": [
+              8,
+              8,
+              496,
+              322
+            ]
+          },
+          "atlasRegion": [
+            0,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "A-II",
+          "sourceComponent": 2,
+          "sourceAlphaBoundsLTRB": [
+            522,
+            48,
+            911,
+            306
+          ],
+          "edit": "design/parasite-runtime-v1/edits/leafparasite-nine.png",
+          "editSha256": "7f1ede617b2a1d26ad6dd75a588435eed05c8c305b66b742218bf6639ee86176",
+          "originalReference": {
+            "sheet": "leafparasite-reference-v1",
+            "region": [
+              520,
+              8,
+              496,
+              322
+            ]
+          },
+          "atlasRegion": [
+            384,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "A-III",
+          "sourceComponent": 1,
+          "sourceAlphaBoundsLTRB": [
+            1021,
+            25,
+            1514,
+            321
+          ],
+          "edit": "design/parasite-runtime-v1/edits/leafparasite-nine.png",
+          "editSha256": "7f1ede617b2a1d26ad6dd75a588435eed05c8c305b66b742218bf6639ee86176",
+          "originalReference": {
+            "sheet": "leafparasite-reference-v1",
+            "region": [
+              1032,
+              8,
+              496,
+              322
+            ]
+          },
+          "atlasRegion": [
+            768,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "B-I",
+          "sourceComponent": 13,
+          "sourceAlphaBoundsLTRB": [
+            17,
+            363,
+            533,
+            651
+          ],
+          "edit": "design/parasite-runtime-v1/edits/leafparasite-nine.png",
+          "editSha256": "7f1ede617b2a1d26ad6dd75a588435eed05c8c305b66b742218bf6639ee86176",
+          "originalReference": {
+            "sheet": "leafparasite-reference-v1",
+            "region": [
+              8,
+              346,
+              496,
+              316
+            ]
+          },
+          "atlasRegion": [
+            0,
+            384,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "B-II",
+          "sourceComponent": 4,
+          "sourceAlphaBoundsLTRB": [
+            492,
+            321,
+            996,
+            658
+          ],
+          "edit": "design/parasite-runtime-v1/edits/leafparasite-nine.png",
+          "editSha256": "7f1ede617b2a1d26ad6dd75a588435eed05c8c305b66b742218bf6639ee86176",
+          "originalReference": {
+            "sheet": "leafparasite-reference-v1",
+            "region": [
+              520,
+              346,
+              496,
+              316
+            ]
+          },
+          "atlasRegion": [
+            384,
+            384,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "B-III",
+          "sourceComponent": 5,
+          "sourceAlphaBoundsLTRB": [
+            1001,
+            324,
+            1518,
+            655
+          ],
+          "edit": "design/parasite-runtime-v1/edits/leafparasite-nine.png",
+          "editSha256": "7f1ede617b2a1d26ad6dd75a588435eed05c8c305b66b742218bf6639ee86176",
+          "originalReference": {
+            "sheet": "leafparasite-reference-v1",
+            "region": [
+              1032,
+              346,
+              496,
+              316
+            ]
+          },
+          "atlasRegion": [
+            768,
+            384,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "C-I",
+          "sourceComponent": 51,
+          "sourceAlphaBoundsLTRB": [
+            91,
+            719,
+            328,
+            945
+          ],
+          "edit": "design/parasite-runtime-v1/edits/leafparasite-nine.png",
+          "editSha256": "7f1ede617b2a1d26ad6dd75a588435eed05c8c305b66b742218bf6639ee86176",
+          "originalReference": {
+            "sheet": "leafparasite-reference-v1",
+            "region": [
+              8,
+              678,
+              496,
+              338
+            ]
+          },
+          "atlasRegion": [
+            0,
+            768,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "C-II",
+          "sourceComponent": 50,
+          "sourceAlphaBoundsLTRB": [
+            524,
+            678,
+            950,
+            981
+          ],
+          "edit": "design/parasite-runtime-v1/edits/leafparasite-nine.png",
+          "editSha256": "7f1ede617b2a1d26ad6dd75a588435eed05c8c305b66b742218bf6639ee86176",
+          "originalReference": {
+            "sheet": "leafparasite-reference-v1",
+            "region": [
+              520,
+              678,
+              496,
+              338
+            ]
+          },
+          "atlasRegion": [
+            384,
+            768,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "C-III",
+          "sourceComponent": 49,
+          "sourceAlphaBoundsLTRB": [
+            1024,
+            665,
+            1497,
+            1011
+          ],
+          "edit": "design/parasite-runtime-v1/edits/leafparasite-nine.png",
+          "editSha256": "7f1ede617b2a1d26ad6dd75a588435eed05c8c305b66b742218bf6639ee86176",
+          "originalReference": {
+            "sheet": "leafparasite-reference-v1",
+            "region": [
+              1032,
+              678,
+              496,
+              338
+            ]
+          },
+          "atlasRegion": [
+            768,
+            768,
+            384,
+            384
+          ]
+        }
+      ]
+    },
+    {
+      "species": "hyperparasite",
+      "file": "src/assets/hyperparasite-atlas-v1.png",
+      "sha256": "df072723b206e97f1da336b5a9ff87a060b86366fcddc2e7283b4d8a3bd3a691",
+      "shapeCount": 4,
+      "extraction": [
+        {
+          "panel": "I",
+          "sourceComponent": 4,
+          "sourceAlphaBoundsLTRB": [
+            66,
+            173,
+            434,
+            636
+          ],
+          "edit": "design/parasite-runtime-v1/edits/hyperparasite-four.png",
+          "editSha256": "cca5a3986a646c767ddcb735853c86292dc2e0b94b4d81284708b58914e3b380",
+          "originalReference": {
+            "sheet": "hyperparasite-internal-reference-v1",
+            "region": [
+              10,
+              80,
+              344,
+              926
+            ]
+          },
+          "atlasRegion": [
+            0,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "II",
+          "sourceComponent": 1,
+          "sourceAlphaBoundsLTRB": [
+            402,
+            17,
+            806,
+            703
+          ],
+          "edit": "design/parasite-runtime-v1/edits/hyperparasite-four.png",
+          "editSha256": "cca5a3986a646c767ddcb735853c86292dc2e0b94b4d81284708b58914e3b380",
+          "originalReference": {
+            "sheet": "hyperparasite-internal-reference-v1",
+            "region": [
+              370,
+              80,
+              331,
+              926
+            ]
+          },
+          "atlasRegion": [
+            384,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "III",
+          "sourceComponent": 2,
+          "sourceAlphaBoundsLTRB": [
+            798,
+            18,
+            1422,
+            695
+          ],
+          "edit": "design/parasite-runtime-v1/edits/hyperparasite-four.png",
+          "editSha256": "cca5a3986a646c767ddcb735853c86292dc2e0b94b4d81284708b58914e3b380",
+          "originalReference": {
+            "sheet": "hyperparasite-internal-reference-v1",
+            "region": [
+              716,
+              80,
+              374,
+              926
+            ]
+          },
+          "atlasRegion": [
+            768,
+            0,
+            384,
+            384
+          ]
+        },
+        {
+          "panel": "IV",
+          "sourceComponent": 1,
+          "sourceAlphaBoundsLTRB": [
+            35,
+            34,
+            1530,
+            976
+          ],
+          "edit": "design/parasite-runtime-v1/edits/hyperparasite-adult.png",
+          "editSha256": "4f08b6f5e0e672385f7650b797882ac7a21a27037dfb478cb942d0fadc431e6c",
+          "originalReference": {
+            "sheet": "hyperparasite-adult-reference-v1",
+            "region": [
+              0,
+              0,
+              1536,
+              1024
+            ]
+          },
+          "atlasRegion": [
+            1152,
+            0,
+            384,
+            384
+          ]
+        }
+      ]
+    }
+  ],
+  "excluded": [
+    "05-hyperparasite-source-i-iii-only.png panel IV",
+    "hyperparasite-four.png panel IV: compact claws/short shell differs from adopted 06; replaced by single-reference edit",
+    "orange P host in Q internal reference",
+    "host skin, scene, labels, frames"
+  ]
+}

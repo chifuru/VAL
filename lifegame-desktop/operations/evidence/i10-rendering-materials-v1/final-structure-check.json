@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "baseline": "a196f8b",
+  "dateUTC": "2026-10-20T18:01:38.132837+00:00",
+  "nodes": 61,
+  "updatedNodes": [
+    "valis/nodes/C/C8.1.md",
+    "valis/nodes/C/C8.md",
+    "valis/nodes/D/D9.md",
+    "valis/nodes/E/E6.md"
+  ],
+  "formalFieldsUnchanged": [
+    "id",
+    "title",
+    "layer",
+    "status",
+    "parent_id",
+    "implements",
+    "derived_from",
+    "verifies",
+    "related_to",
+    "evidence_for"
+  ],
+  "nodeReferencesChecked": 3872,
+  "coreAndABUnchanged": true,
+  "manifestCurrentOnly": true,
+  "adoptedOriginalsAndPriorImagesUnchanged": true,
+  "retainedRuntimeImages": 51,
+  "biologicalSourcesUnchanged": [
+    "map-data",
+    "map-templates",
+    "landscape",
+    "hash",
+    "catalogue",
+    "state",
+    "nutrition",
+    "behavior",
+    "reproduction",
+    "parasites",
+    "engine",
+    "observation-modules",
+    "observation-model",
+    "observations",
+    "archive",
+    "replay-version"
+  ],
+  "sourceHashesChecked": 32,
+  "markdownLinksChecked": 68,
+  "next": "I11 survival/emergence/performance",
+  "noNewWindowsPackage": true
+}

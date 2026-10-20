@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "flow": [
+    "FLOW-05",
+    "FLOW-08"
+  ],
+  "contract": "operations/plans/i10-rendering-materials-v1.md",
+  "coreReadOrder": [
+    "VALIS Operation Definition.md",
+    "VALIS Summary Manifest.md",
+    "VALIS Flow Definition.md"
+  ],
+  "coreReadScope": "project-local startup/control and relevant execution/structure/manifest/evidence/output sections; existing complete boot retained",
+  "coreSHA256": {
+    "VALIS Operation Definition.md": "30174a1cf1a4c2d46911db0be7a975651390d6f0bc51d64eb7391560f6ca3b50",
+    "VALIS Summary Manifest.md": "8d786bfe106c1a479ae03d7da4c44e1df593d41794bc9315e91a181889f6271f",
+    "VALIS Flow Definition.md": "911ae9f4a09ebfc6a886970eb73a1f72789047f04a28f2e83e2ea1cc584637da"
+  },
+  "zeroPremise": true,
+  "identityKernel": true,
+  "premiseFeedback": "connectable: adopted A/B and existing C8/C8.1/D9/E6; no missing input or new split",
+  "structureGate": "existing4 Nodes, unchanged61 total and formal references/statuses; checked by final-structure-check.json",
+  "initialRegistration": false,
+  "manifestReflection": true,
+  "resultReconciliation": "source hashes, final reports, existing Node references, retained originals/biology and manifest current summary reconciled",
+  "outputGate": "passed for I10 limited rendering scope; no full product or Windows completion claim",
+  "input": "none",
+  "next": "I11"
+}

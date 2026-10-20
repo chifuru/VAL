@@ -46,6 +46,14 @@ if(m.ryouki){
   frames(m.ryouki.sheet,m.ryouki.regions);
   for(const reference of m.ryouki.references)frames(reference.sheet,[reference.region]);
 }
+for(const [id,p]of Object.entries(m.parasites||{})){
+  const count=id==='hyperparasite'?4:9;
+  assert.equal(p.regions.length,count,id+' adopted parasite form count');
+  assert.equal(p.references.length,count,id+' original reference count');
+  assert.equal(p.panels.length,count,id+' saved form/phase order');
+  frames(p.sheet,p.regions);
+  for(const reference of p.references)frames(reference.sheet,[reference.region]);
+}
 for (const [name, v] of Object.entries(m.terrain || {}))
   assert.ok(
     m.sheets[v.sheet] && m.sheets[v.sheet].width >= 1024,
@@ -77,5 +85,6 @@ console.log(
     independentProducerFamilies: Object.keys(m.producers||{}).length,
     independentProducerFrames: Object.values(m.producers||{}).reduce((n,p)=>n+p.regions.length,0),
     ryoukiFrames:m.ryouki?.regions.length||0,
+    adoptedParasiteFrames:Object.values(m.parasites||{}).reduce((n,p)=>n+p.regions.length,0),
   }),
 );

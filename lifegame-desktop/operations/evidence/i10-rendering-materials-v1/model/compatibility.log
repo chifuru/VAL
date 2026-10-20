@@ -1,0 +1,19 @@
+✔ final record contains initial config and final summary; repeated replay never records (1049.624549ms)
+✔ incompatible, corrupt, full or failing storage cannot silently lose records (376.678679ms)
+✔ checked-in replay signature matches all biological sources including landscape (4.001558ms)
+✔ template records require resolved map identity before replay (291.428884ms)
+✔ I01 source-only optimization replays 4.2.32 manual conditions without broadening legacy aliases (836.969946ms)
+✔ only main display rises; colocated lower layers and biological world stay unchanged (3.202644ms)
+✔ attached P and Q rise with the host; search Q stays on its real base cell (1.014097ms)
+✔ movement interpolates on the same elevated plane and converges to the settled anchor (0.374694ms)
+✔ independent producer keeps a fourth distinct anchor and follows its own movement (0.940937ms)
+✔ mutated ryouki cohabitants keep stable ID anchors with lower layers and attached P/Q (1.224304ms)
+✔ ryouki movement follows each successful path segment and spatial candidates include detours (1.061809ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2671.217823

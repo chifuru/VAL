@@ -1,0 +1,6 @@
+page.evaluate: Error: anatomy cache reused
+    at check (eval at evaluate (:290:30), <anonymous>:3:33)
+    at eval (eval at evaluate (:290:30), <anonymous>:10:263)
+    at UtilityScript.evaluate (<anonymous>:292:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at /workspace/VAL/lifegame-desktop/operations/evidence/i10-rendering-materials-v1/regression/anatomy/i10-anatomy-adapter.cjs:9:25

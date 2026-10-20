@@ -617,10 +617,42 @@
     if (p.primary?.version === "primary-state/1") return p.phase;
     return p.stage === "first" ? 1 : p.stage === "terminal" && p.counter >= 8 ? 3 : 2;
   }
+  // Material selection reads only the saved state. A visual form never changes
+  // infection route, own phase, age, or the host's phenotype.
+  function parasiteIndex(p) {
+    if(p.species==='hyperparasite'&&p.hyper?.version==='hyper-state/1')return parasitePhase(p)-1;
+    if(p.primary?.version==='primary-state/1'&&p.primary.formVersion==='primary-form/1'){
+      const form=['A','B','C'].indexOf(p.primary.form),phase=parasitePhase(p);
+      return form>=0&&Number.isInteger(phase)&&phase>=1&&phase<=3?form*3+phase-1:null;
+    }
+    return null;
+  }
+  function parasiteMaterial(p) {
+    const index=parasiteIndex(p),entry=manifest.parasites?.[p.species];
+    return index!==null&&entry?.regions[index]?{entry,index,region:entry.regions[index],panel:entry.panels[index]}:null;
+  }
+  const parasiteFrames=new Map(),parasiteMetrics={builds:0,hits:0};
+  function materialParasite(g,p,x,y,r,material){
+    const {entry,index,region}=material,im=images[entry.sheet];if(!im)return false;
+    const age=p.hyper?.version==='hyper-state/1'?root.EcoState.HyperParasite.ageInfo(p):root.EcoState.PrimaryParasite.ageInfo(p),
+      stage=age?.enabled===false?'adult':age?.stage||'adult',key=p.species+'/'+index+'/'+stage;
+    let frame=cachedFrame(parasiteFrames,key);
+    if(!frame){
+      frame=document.createElement('canvas');frame.width=region[2];frame.height=region[3];
+      const c=frame.getContext('2d');c.filter=stage==='elderly'?'saturate(.65) brightness(.91)':'none';
+      // These cells already contain only the complete transparent colony. A
+      // largest-component cleanup would erase its fine attached/soft tissue.
+      c.drawImage(im,...region,0,0,region[2],region[3]);
+      storeFrame('parasites',parasiteFrames,key,frame,32);parasiteMetrics.builds++;
+    }else parasiteMetrics.hits++;
+    const size=r*2.2*(stage==='juvenile'?.78:stage==='elderly'?.94:1);
+    g.save();g.translate(x,y);if(Number.isInteger(p.facing)&&p.facing%2)g.scale(-1,1);
+    outlined(g,frame,-size/2,-size/2,size,size,true);g.restore();return true;
+  }
   function parasite(g, p, x, y, r) {
+    const material=parasiteMaterial(p);if(material)return materialParasite(g,p,x,y,r,material);
     const phase = parasitePhase(p),
-      // I06 preserves the existing transparent body. Faithful IV silhouette,
-      // all directions and all ages are I10; the portrait uses adopted IV now.
+      // Flagless historical worlds retain their exact original body path.
       f = manifest.creatures.regions[p.species]?.[Math.min(3,phase) - 1],
       im = images[manifest.creatures.sheetBySpecies[p.species]];
     if (!f || !im) return false;
@@ -635,8 +667,10 @@
     return true;
   }
   function parasitePortrait(g,p,x,y,r){
-    if(p.species!=='hyperparasite'||p.hyper?.version!=='hyper-state/1')return parasite(g,p,x,y,r);
-    const reference=manifest.hyperparasite?.references[parasitePhase(p)-1],im=images[reference?.sheet];
+    const material=parasiteMaterial(p),reference=material?.entry.references[material.index]||
+      (p.species==='hyperparasite'&&p.hyper?.version==='hyper-state/1'?manifest.hyperparasite?.references[parasitePhase(p)-1]:null);
+    if(!reference)return parasite(g,p,x,y,r);
+    const im=images[reference?.sheet];
     if(!reference||!im)return false;
     const f=reference.region,aspect=f[2]/f[3],size=r*2.6,width=size*Math.min(1,aspect),height=size*Math.min(1,1/aspect);
     // Exact adopted crop in the inspector/tree only. Its painted background is
@@ -809,9 +843,14 @@
     const c=document.createElement('canvas');c.width=c.height=1;const g=c.getContext('2d'),schedule=fn=>typeof requestIdleCallback==='function'?requestIdleCallback(fn,{timeout:500}):setTimeout(fn,0);
     const next=()=>{
       if(!warmCurrent||warmSeed!==warmLatest.config.seed||warmCursor>=warmCurrent.organisms.length){if(warmCurrent===warmLatest){warmScheduled=false;return;}warmCurrent=warmLatest;warmCursor=0;if(warmSeed!==warmCurrent.config.seed){warmSeed=warmCurrent.config.seed;warmKeys.clear();}
-        warmExtras=[];for(const species of [...(warmCurrent.config.enabled.P?['tideparasite','leafparasite']:[]),...(warmCurrent.config.enabled.Q?['hyperparasite']:[])])for(let i=0;i<3;i++)warmExtras.push({species,phase:i+1,stage:['first','middle','terminal'][i],counter:i===2?8:0});
+        warmExtras=[];
+        for(const species of warmCurrent.config.enabled.P?['tideparasite','leafparasite']:[])for(let i=0;i<3;i++){
+          const sample={species,phase:i+1,stage:['first','middle','terminal'][i],counter:i===2?8:0,age:40,birthLife:120};
+          if(warmCurrent.config.primaryParasiteModel==='primary/1')for(const form of ['A','B','C'])warmExtras.push({...sample,primary:{version:'primary-state/1',formVersion:'primary-form/1',form}});else warmExtras.push(sample);
+        }
+        if(warmCurrent.config.enabled.Q)for(let i=0;i<(warmCurrent.config.hyperParasiteModel==='hyper/1'?4:3);i++)warmExtras.push({species:'hyperparasite',phase:i+1,age:20,birthLife:80,maturity:12,...(warmCurrent.config.hyperParasiteModel==='hyper/1'?{hyper:{version:'hyper-state/1',state:i===3?'adult':'larva'}}:{})});
       }
-      while(warmExtras.length){const p=warmExtras.shift(),key='parasite/'+p.species+'/'+parasitePhase(p);if(!warmKeys.has(key)){warmKeys.add(key);parasite(g,p,0,0,1);schedule(next);return;}}
+      while(warmExtras.length){const p=warmExtras.shift(),key='parasite/'+p.species+'/'+(parasiteMaterial(p)?.panel||parasitePhase(p));if(!warmKeys.has(key)){warmKeys.add(key);parasite(g,p,0,0,1);schedule(next);return;}}
       for(let count=0;count<128&&warmCursor<warmCurrent.organisms.length;count++){
         const o=warmCurrent.organisms[warmCursor++],stage=root.EcoState.ageInfo(o).stage,env=warmCurrent.tiles[o.cell].env;let key,paint;
         if(o.slot==='main'){key=['m',o.species,o.phase,o.branch3,o.branch4,stage,o.sex,o.role,!!o.ryouki?.mutated].join('/');paint=()=>creature(g,{...o,renderLighting:true,renderEmphasis:false},0,0,1);}
@@ -848,6 +887,9 @@
     foodMetrics,
     resource,
     parasitePhase,
+    parasiteIndex,
+    parasiteMaterial,
+    parasiteMetrics,
     parasite,
     parasitePortrait,
     remains,

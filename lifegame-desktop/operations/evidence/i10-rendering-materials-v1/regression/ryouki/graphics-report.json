@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "checks": [
+    "normal11 mutated2 atlas and five exact original sheets decode",
+    "all13 intended normal and mutated source cells render distinctly",
+    "all eleven phase and branch combinations retain phase while selecting the two mutation appearances",
+    "all13 portraits are pixel-identical to the adopted original crops",
+    "all13 complete atlas borders and rendered corners are fully transparent",
+    "age display differs without changing phase branch mutation or source input",
+    "three mutated roommates and producer food prey each retain far hit access",
+    "six near bodies and attached P Q have separate exact-ID hit access",
+    "all three roommates retain name and status marks",
+    "real pointer selects roommate i:main:9:37:ryouki",
+    "real pointer selects roommate i:main:8:37:ryouki",
+    "real pointer selects roommate i:main:8:36:ryouki",
+    "far near portrait pointer and mark display leave the settled world unchanged",
+    "actual early and IV death records keep mutated indices in event carcass and remains artwork",
+    "no browser drawing exceptions"
+  ],
+  "coverage": {
+    "frames": 13,
+    "distinct": 13,
+    "indices": true,
+    "portraits": true,
+    "transparent": true,
+    "mutationClasses": true,
+    "ages": 3,
+    "inputUnchanged": true
+  },
+  "errors": [],
+  "scope": "Linux Chromium;13 adopted forms and exact portraits; three mutated Ryouki plus producer/food/prey and attached P/Q display fixture; final all-age/direction matte work remains I10"
+}
