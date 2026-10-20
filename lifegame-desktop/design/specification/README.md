@@ -1,8 +1,8 @@
 # 生態シミュレーション：現在のA・B仕様
 
-管理版 `specification-index/14`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
+管理版 `specification-index/15`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
 
-第1〜第4組、[境界規則・比較開始値/1](initial-comparison-v1.md)、[植物・P・Qの造形対応/1](appearance-correspondence-v1.md)を維持し、[量機/2](ryouki-v1.md)へ[通常型の第三相3枝・第四相6枝の2画像](../ryouki-branches-v2/README.md)の採用を反映する。通常I/II・相変異2区分と合わせて採用5画像、旧9区画提案1、原案5点を区別する。既定の移動/可逆相変異/繁殖/同居は維持し、閾値/倍率は設計側の比較案で未実測。造形確認待ちは解消し、次は専用データとC/D接続の整理。[今回の契約](../../operations/plans/ryouki-branches-adoption-v1.md)。製品は4.2.32のまま。
+第1〜第4組、[境界規則・比較開始値/1](initial-comparison-v1.md)、[植物・P・Qの造形対応/1](appearance-correspondence-v1.md)を維持し、[量機/3](ryouki-v1.md)へ[通常型の第三相3枝・第四相6枝の2画像](../ryouki-branches-v2/README.md)の採用を反映する。通常I/II・相変異2区分と合わせて採用5画像、旧9区画提案1、原案5点を区別する。既定の移動/可逆相変異/繁殖/同居は維持し、戦闘の攻撃45%/防御60%/HP80%は採用済み・未実測、密度閾値/摂食等の倍率は設計側の比較案。造形確認待ちは解消し、次は専用データとC/D接続の整理。[現在の契約](../../operations/plans/completion-roadmap-v1.md#今回の整理範囲)。製品は4.2.32のまま。
 
 ## 読む順序と優先順位
 
@@ -18,7 +18,7 @@
 
 | 対象 | 読む正本 | 優先する内容・境界 |
 | --- | --- | --- |
-| 量機の系統/分岐/相変異 | [量機/2](ryouki-v1.md)、[原案・採用資料](../ryouki-v1/README.md)、[採用分岐対応](../ryouki-branches-v2/README.md) | 草と虫、通常I1/II2/III3/IV4、III3→IV6。相変異は可逆で全相3マス/2〜3独立個体同居、1〜3は背面黒/4は黒と深緑・繁殖目的。継続低密度で解除。通常分岐2画像は採用済み、旧9区画図は採用外。数値は比較案、実装未完 |
+| 量機の系統/分岐/相変異 | [量機/3](ryouki-v1.md)、[原案・採用資料](../ryouki-v1/README.md)、[採用分岐対応](../ryouki-branches-v2/README.md) | 草と虫、通常I1/II2/III3/IV4、III3→IV6。相変異は可逆で全相3マス/2〜3独立個体同居、1〜3は背面黒/4は黒と深緑・繁殖目的。継続低密度で解除。通常分岐2画像は採用済み、旧9区画図は採用外。戦闘3倍率は採用済み、その他の未選定数値は比較案。実装未完 |
 | 植物/P/Qの造形と系統/相/形態 | [造形対応/1](appearance-correspondence-v1.md)、[採用画像と区画](../appearance-baseline-v1/README.md) | 森冠/星冠は別系統の定着生産者、淡水は浮遊/移動生産者。三植物の本体一個体/有限可食量/III3→IV6、既存P二系統A/B/C×I〜III、Q I〜IIIと翅なし最終IV。海生02/泳法/旧Q IVを除外。実装/素材化は未完 |
 | 境界規則/比較開始値 | [比較開始値/1](initial-comparison-v1.md) | 同P/Q移行・死亡/羽化順・適応/抵抗・羽化費と初期Q・群落量/感染量・植物経験・評価基準を採用。明示範囲だけ既存の未選定記述を置換。実装/実測は未完 |
 | 採用範囲/未確定事項 | [採用状況](decision-register-v1.md) | 採用済み・保留・撤回・提案のみと具体化C01〜C14。ゲームの具体規則は各正本 |
@@ -53,7 +53,7 @@
 
 ## 資料・実装状況・後続
 
-- [実装開始値と判定条件の具体案](../implementation-start-v1/README.md)は未選定値を埋める**採用前・未実測の提案**。量機/独立植物/PQ/情報/自動初期条件を同じ尺度で具体化している。対象別の採用正本を自動で置換せず、実装前は設計の具体化、C/D整理・素材化・検査・調整は実装内として扱う。
+- [実装開始値と判定条件の具体案](../implementation-start-v1/README.md)は未選定値を埋める**量機の戦闘3倍率だけ採用済み、その他は採用前・全体は未実測の提案**。量機/独立植物/PQ/情報/自動初期条件を同じ尺度で具体化している。対象別の採用正本を自動で置換せず、実装前は設計の具体化、C/D整理・素材化・検査・調整は実装内として扱う。
 - [一枚の全体説明画像と索引](atlas-v1.3/README.md)、[採用画像と本文の対応](ab-visual-reference-v1.md)。旧画像内の仮表記や旧ルールを現在の仕様にしない。
 - [現在の構造](../../valis/summary/lifegame-desktop.summary.md)、[既存製品の実測範囲](../../operations/evidence/optimization-v4.2.32/README.md)。製品4.2.32と追加A/Bの成立範囲は別に確認する。
 - [現在の残作業と実行順](../../operations/plans/completion-roadmap-v1.md)は作業計画でありゲーム仕様の正本ではない。[既存工程の参照](../../operations/plans/remaining-completion-v4.2.md)にある旧条件より、対象別正本と現在ロードマップを優先する。[採用表](decision-register-v1.md)と[実装引継ぎ](observation-state-contract-v1.md#10-実装への引継ぎ順序)に従い、量機を含む初期表/差分・データ対応からC/Dへ接続する。今回の残件整理からゲーム実装や画像制作を自動開始しない。

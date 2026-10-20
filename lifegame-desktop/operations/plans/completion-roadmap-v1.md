@@ -4,7 +4,9 @@
 
 ## 今回の整理範囲
 
-利用者の残作業整理と「実装前に残るのは設計の具体化」という訂正に従う。3coreの計画分離/実行契約/参照保持範囲、仕様索引/採用表、既存C/D、量機仕様、現行srcの関連箇所と4.2.32/E7に照合し、採用済み/接続済み/追加差分/未実測を分ける。未選定の数値/判定条件は[実装開始案](../../design/implementation-start-v1/README.md)へ具体化して提示する。C/D整理・素材化・コード・検査・調整・配布を別の実装前工程にしない。A/B/C/D/E Node、Manifest、core、src/tests、画像、製品/配布物と正式状態は変更しない。今回ゲームテスト/新計測/配布は実行しない。
+FLOW-04。利用者が採用した量機の攻撃45%/防御60%/最大HP80%を入力とする。3coreの実行契約/分割/Manifest保持範囲と、既存量機仕様・開始案・A/B・現行Manifestを読む。A1/A1.1/B4/B4.1/B5.2の詳細へ戦闘開始値を反映し、関連15Nodeの現在参照版をryouki/3へ揃える。採用正本/開始案/索引/採用表の整合とManifestの短い現在要約を更新する。
+
+責務・変更単位は既存の個体能力/同期処理/局所判断/説明の内部で吸収でき、新分割/新Node/Manifest初期登録は不要。Node正式状態・階層・層間参照、その他の数値案の採否、core/C/D/E/src/tests/画像/製品4.2.32/配布は変更しない。数字と相対参照、Nodeメタデータ・変更範囲、Manifestとの非矛盾を照合してmainへ保存する。ゲーム実測は行わず、小型一次消費者の捕食・逃走/世代更新の確認は実装後へ残す。
 
 ## 現在地
 
@@ -15,7 +17,7 @@
 | 製品4.2.32 | 生態/遠近描画/一体サマリ/右3グラフ/独立詳細/全期間保存・再生/最適化の土台あり。全体を未実装として作り直さない |
 | 現行Windows配布 | [E7](../../valis/nodes/E/E7.md)の製品2309185・CI39340183030でexe/Worker/画像/同梱照合まで成功。文書追加だけではこの結果を無効化しない |
 | 最新A/Bの追加分 | 情報循環、P遺伝/抵抗、Q致死羽化/IV、群落更新、独立植物、量機、多様生成、UI差分は接続/比較/新しい実測が残る。仕様採用とゲーム完成を分ける |
-| 設計の具体化 | 未選定の寿命/費用/判定条件を実装開始案へ具体化済み。新数値案は未実測で、既採用A/Bを自動上書きしない。係数の比較・調整は実装工程で行う |
+| 設計の具体化 | 未選定の寿命/費用/判定条件を実装開始案へ具体化済み。量機の戦闘3倍率だけ採用反映済み。その他の新数値案は採用前・未実測で、既採用A/Bを自動上書きしない。係数の比較・調整は実装工程で行う |
 
 ## 残作業の一覧
 
@@ -56,7 +58,7 @@
 
 ## 根拠と未確認の境界
 
-- 状態/占有と行動：[state.js](../../src/ecology/state.js)、[behavior.js](../../src/ecology/behavior.js)、[量機/2](../../design/specification/ryouki-v1.md)。量機の製品登録/実装は未完で、現行の一セル一対象索引は同居へ改修が必要。
+- 状態/占有と行動：[state.js](../../src/ecology/state.js)、[behavior.js](../../src/ecology/behavior.js)、[量機/3](../../design/specification/ryouki-v1.md)。量機の製品登録/実装は未完で、現行の一セル一対象索引は同居へ改修が必要。
 - 群落/独立植物：[群落更新](../../design/specification/producer-renewal-v1.md)、[造形対応](../../design/specification/appearance-correspondence-v1.md)。既存の生産者再生/環境定着を土台に、群落と新しい独立個体の状態へ接続する。
 - P/Qと情報：[parasites.js](../../src/ecology/parasites.js)、[寄生生活環](../../design/specification/parasite-lifecycle-v1.md)、[情報循環](../../design/specification/information-cycle-v1.md)。旧Q探索放出・III相上限・情報栄養を新しい生活環の完成とみなさない。
 - UI/保存：[app.js](../../src/app.js)、[Index.html](../../src/Index.html)、[styles.css](../../src/styles.css)、[観測UI](../../design/specification/observation-ui-v1.md)、[関係面](../../design/specification/relationship-network-v1.md)、[保存](../../design/specification/archive-history-v1.md)。ソース上の差分と実際の画面確認は分ける。
