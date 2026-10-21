@@ -1,6 +1,6 @@
 # 生態シミュレーション：現在のA・B仕様
 
-管理版 `specification-index/17`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
+管理版 `specification-index/18`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。寄生生活環の現在正本は[有限群体と宿主通過](parasite-cohorts-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
 
 第1〜第4組、量機/3と採用分岐、植物/P/Qの造形対応は採用済み。[菌膜群落/1](fungal-colonies-v1.md)を維持し、新たに[一次消費者の小集団/1](consumer-groups-v1.md)をA1.2/A1.7・B4.4/B5.2/B5.5/B5.6へ反映。開発版4.2.47の `consumerModel: group/1` へ接続する。実測と草棲虫の未達は[I11e証跡](../../operations/evidence/i11e-consumer-groups-v1/README.md)。追加バランス調整は実測を共有して利用者と相談する。
 

@@ -21,11 +21,13 @@
  const balanceBuildSignature='95b7405d3e4513acabf2194ed0ed1b9eb79c9ffd566bcc9e0b5f1edc3ca1b889';
  const foodwebBuildSignature='ada68bb8fff06b5e6125b11e952e2c7be43e31967cee7c364ea8449739018a97';
  const consumerGroupBuildSignature='e664191a35beadfb8ee18df8ec8a009028beb3ba246d4ba02f430b48ec39c4a4';
+ const parasiteCohortBuildSignature='2af7c823b84f49e5353eb567c1703b33072f6fca18f86f530a64d6ef451c3625';
  const matchedConsumerGroupBuildSignature='9d1336a947b3e7357e4902957cedafbd7b7281c5c2dd85843e40d64cb0035dcd';
  const previousConsumerGroupBuildSignature='6db4142a9987079b6e0a4f6f1f06623fe9b1dd5096763ce2682993aefbb3316c';
  const fungalColonyBuildSignature='90daa5c38dfbc78aa12c79176ff54d5e70f6e90590ff4d2dbcaf2ef5647b56e4';
  const localSurvivalBuildSignature='c78400a515eba25515dd699c1f3f5ba6cc2004c5dc4b992fbf3e4c2d1c6082d9';
  function canonicalSignature(s,config){
+  if(s===parasiteCohortBuildSignature&&config.parasiteCohortModel===undefined)s=consumerGroupBuildSignature;
   if(s===consumerGroupBuildSignature&&config.consumerModel==='group/1'&&config.consumerGroupSettings?.version!=='consumer-group-parameters/3')s=matchedConsumerGroupBuildSignature;
   if(s===consumerGroupBuildSignature&&config.consumerModel===undefined&&config.consumerGroupSettings===undefined)s=matchedConsumerGroupBuildSignature;
   if(s===matchedConsumerGroupBuildSignature&&config.consumerModel==='group/1'&&config.consumerGroupSettings?.version==='consumer-group-parameters/1')s=previousConsumerGroupBuildSignature;
@@ -46,7 +48,7 @@
    ? "8d7f6fbd94128cebf77ab6032098e09a432bc13d8cb2552222b0546971e84745" : equivalentReplaySignatures[s]||s;
  }
  const terminalDefinition='ecosystem-terminal-state/1',sampleLimit=4;
- const modelKeys=['consumerModel','balanceModel','relationshipModel','generationModel','producerModel','largePlantModel','ryoukiModel','primaryParasiteModel','hyperParasiteModel','informationModel'];
+ const modelKeys=['consumerModel','balanceModel','relationshipModel','generationModel','producerModel','largePlantModel','ryoukiModel','primaryParasiteModel','hyperParasiteModel','parasiteCohortModel','informationModel'];
  const sampleKeys=['organisms','colonies','independentPlants','ryouki','primaryParasites','hyperParasites','informationField','informationSubjects'];
  const pick=(o,keys)=>Object.fromEntries(keys.filter(k=>o?.[k]!==undefined).map(k=>[k,structuredClone(o[k])]));
  function same(a,b){if(Object.is(a,b))return true;if(!a||!b||typeof a!=='object'||typeof b!=='object'||Array.isArray(a)!==Array.isArray(b))return false;const keys=Object.keys(a);return keys.length===Object.keys(b).length&&keys.every(k=>Object.hasOwn(b,k)&&same(a[k],b[k]));}
@@ -97,6 +99,10 @@
   for(const o of s.examples.ryouki.items)if(typeof o.state.mutated!=='boolean'||!integer(o.state.highRun)||!integer(o.state.lowRun)||!Array.isArray(o.state.window)||o.state.window.length>32||!Array.isArray(o.state.recentCells)||o.state.recentCells.length>64)error();
   for(const o of s.examples.primaryParasites.items)if(!o.state.adaptation?.hosts||!o.state.adaptation.routes||!o.state.adaptation.stages||!o.state.hostPreference||!['A','B','C'].includes(o.state.form)||o.state.formVersion!=='primary-form/1')error();
   for(const o of s.examples.hyperParasites.items)if(!['egg','larva','preparation','adult'].includes(o.state.state)||!o.state.genes?.hosts||!o.state.genes.routes||!o.state.genes.stages||!o.state.genes.investment||!o.state.preference||!nonnegative(o.state.development)||!nonnegative(o.state.experience))error();
+ if(record.config.parasiteCohortModel==='cohort/1'){
+  for(const o of s.examples.primaryParasites.items)if(o.state.cohort?.version!=='parasite-cohort/1'||!integer(o.state.cohort.members)||o.state.cohort.members<1||o.state.cohort.members>3||!integer(o.state.cohort.passages))error();
+  for(const o of s.examples.hyperParasites.items)if(o.state.cohort?.version!=='parasite-cohort/1'||!integer(o.state.cohort.members)||o.state.cohort.members<1||o.state.cohort.members>3)error();
+ }
   for(const o of s.examples.primaryParasites.items)if(o.hostResistance!==null&&o.hostResistance?.version!=='primary-resistance/1'||o.hyperResistance!==undefined&&o.hyperResistance.version!=='hyper-resistance/1')error();
   for(const o of s.examples.hyperParasites.items)if(o.pResistance!==null&&o.pResistance?.version!=='hyper-resistance/1')error();
   const vector=values=>Array.isArray(values)&&values.length<=9&&values.every(v=>Number.isInteger(v.axis)&&v.axis>=0&&v.axis<9&&Number.isFinite(v.value));

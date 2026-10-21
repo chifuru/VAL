@@ -23,6 +23,7 @@
     const a=row?.all;return row?.definition===persistentFlowDefinition&&row.turn===turn&&a&&persistentFlowFields.every(k=>Number.isFinite(a[k])&&a[k]>=0&&(persistentFlowUnit(k)!=='event'||Number.isSafeInteger(a[k])))&&a.candidateDeaths<=a.deathDecisions&&a.normalGenerated+a.lowGenerated+a.noGeneration===a.deathDecisions&&a.learned<=a.originsRead&&a.qDistorted<=a.normalGenerated&&a.environmentRead+a.ordinaryRead+a.caregiverRead===a.originsRead;
   }
   function validPrimary(row,turn,counts){
+    if(row?.members!==undefined&&(!Number.isSafeInteger(row.members)||row.members<row.count||row.members>3*row.count))return false;
     if(row?.definition!==primaryDefinition||row.turn!==turn||primaryStockFields.some(([key,,integer])=>{const n=pathValue(row,key);return !Number.isFinite(n)||n<0||(integer&&!Number.isSafeInteger(n));})||!Array.isArray(row.phases)||row.phases.length!==3)return false;
     return row.count===row.hosted+row.external&&row.count===primarySpecies.reduce((n,id)=>n+row.bySpecies[id],0)&&row.count===row.phases.reduce((a,n)=>a+n,0)&&row.count===Object.values(row.stages).reduce((a,n)=>a+n,0)&&row.migrating<=row.external&&row.mature<=row.count&&row.resistance.hosts<=row.resistance.entries&&row.resistance.effective<=row.resistance.stored+1e-6&&Math.abs(row.inocula.amount-Object.values(row.inocula.byKind).reduce((a,n)=>a+n,0))<1e-6&&(!counts||primarySpecies.every(id=>row.bySpecies[id]===counts[id]));
   }
@@ -30,6 +31,7 @@
     return row?.definition===primaryFlowDefinition&&row.turn===turn&&primarySpecies.every(id=>primaryRoutes.every(route=>{const r=row.bySpecies?.[id]?.[route];return r&&primaryFlowFields.every(k=>Number.isFinite(r[k])&&r[k]>=0&&(k.endsWith('E')||Number.isSafeInteger(r[k])))&&r.invaded<=r.invasionAttempts;}));
   }
   function validHyper(row,turn,count){
+    if(row?.members!==undefined&&(!Number.isSafeInteger(row.members)||row.members<row.count||row.members>3*row.count))return false;
     if(row?.definition!==hyperDefinition||row.turn!==turn||hyperStockFields.some(([key,,integer])=>{const n=pathValue(row,key);return !Number.isFinite(n)||n<0||(integer&&!Number.isSafeInteger(n));})||!Array.isArray(row.phases)||row.phases.length!==4)return false;
     return row.count===count&&row.count===row.attached+row.free&&row.count===row.phases.reduce((a,n)=>a+n,0)&&row.count===hyperStates.reduce((a,k)=>a+row.states[k],0)&&row.free===row.phases[3]&&row.free===row.states.adult&&row.migrating<=row.attached&&row.free<=row.mature&&row.mature<=row.count&&row.resistance.effective<=row.resistance.stored+1e-6;
   }
@@ -170,14 +172,14 @@
       if(config.primaryParasiteModel==='primary/1'){
         const api=primaryAPI();if(!api?.entries||!api.ageInfo)throw Error('一次寄生の状態APIを読み取れません。');
         primary=api.entries(w);primaryParasite=structuredClone(w.primaryParasiteSummary);primaryParasiteFlow=structuredClone(o.primaryParasite);
-        if(!validPrimary(primaryParasite,w.turn,w.stats.counts)||!validPrimaryFlow(primaryParasiteFlow,w.turn))throw Error('一次寄生観測に欠測・破損または未知の定義版があります。');
+        if(!validPrimary(primaryParasite,w.turn,w.stats.counts)||(config.parasiteCohortModel==='cohort/1'&&primaryParasite.members===undefined)||!validPrimaryFlow(primaryParasiteFlow,w.turn))throw Error('一次寄生観測に欠測・破損または未知の定義版があります。');
         for(const id of primarySpecies)composition[id]={phases:[0,0,0,0],ages:{nonapplicable:0,elderly:0},sex:{none:0},roles:{}};
         for(const {p}of primary){const c=composition[p.species];c.phases[p.phase-1]++;c.ages[api.ageInfo(p).stage]++;c.sex.none++;}
       }
       if(config.hyperParasiteModel==='hyper/1'){
         const api=hyperAPI();if(!api?.entries||!api.ageInfo)throw Error('高次寄生の状態APIを読み取れません。');
         hyper=api.entries(w);hyperParasite=structuredClone(w.hyperParasiteSummary);hyperParasiteFlow=structuredClone(o.hyperParasite);
-        if(!validHyper(hyperParasite,w.turn,w.stats.counts.hyperparasite)||!validHyperFlow(hyperParasiteFlow,w.turn)||hyper.length!==hyperParasite.count)throw Error('高次寄生観測に欠測・破損または未知の定義版があります。');
+        if(!validHyper(hyperParasite,w.turn,w.stats.counts.hyperparasite)||(config.parasiteCohortModel==='cohort/1'&&hyperParasite.members===undefined)||!validHyperFlow(hyperParasiteFlow,w.turn)||hyper.length!==hyperParasite.count)throw Error('高次寄生観測に欠測・破損または未知の定義版があります。');
         const c=composition.hyperparasite={phases:[0,0,0,0],ages:{juvenile:0,adult:0,elderly:0},sex:{none:0},roles:{}};
         for(const {q}of hyper){c.phases[q.phase-1]++;c.ages[api.ageInfo(q).stage]++;c.sex.none++;}
       }
@@ -382,10 +384,10 @@
     for(const row of snapshot.rows)if((ryouki&&!validRyouki(row.ryouki,row.turn,row.counts?.ryouki))||(!ryouki&&row.ryouki!==undefined))throw Error('保存された量機観測に欠測・破損があります。');
     const primary=snapshot.metadata.config?.primaryParasiteModel==='primary/1';
     if((snapshot.metadata.config?.primaryParasiteModel!==undefined&&!primary)||(primary&&(snapshot.definitions.primaryParasite!==primaryDefinition||snapshot.definitions.primaryParasiteFlow!==primaryFlowDefinition||snapshot.metadata.primaryParasiteDefinition!==primaryDefinition||snapshot.metadata.primaryParasiteFlowDefinition!==primaryFlowDefinition))||(!primary&&(snapshot.definitions.primaryParasite!==undefined||snapshot.definitions.primaryParasiteFlow!==undefined||snapshot.metadata.primaryParasiteDefinition!==undefined||snapshot.metadata.primaryParasiteFlowDefinition!==undefined)))throw Error('保存された一次寄生観測の指標版を読み取れません。');
-    for(const row of snapshot.rows)if((primary&&(!validPrimary(row.primaryParasite,row.turn,row.counts)||!validPrimaryFlow(row.primaryParasiteFlow,row.turn)))||(!primary&&(row.primaryParasite!==undefined||row.primaryParasiteFlow!==undefined)))throw Error('保存された一次寄生観測に欠測・破損があります。');
+    for(const row of snapshot.rows)if((primary&&(!validPrimary(row.primaryParasite,row.turn,row.counts)||(snapshot.metadata.config.parasiteCohortModel==='cohort/1'&&row.primaryParasite.members===undefined)||!validPrimaryFlow(row.primaryParasiteFlow,row.turn)))||(!primary&&(row.primaryParasite!==undefined||row.primaryParasiteFlow!==undefined)))throw Error('保存された一次寄生観測に欠測・破損があります。');
     const hyper=snapshot.metadata.config?.hyperParasiteModel==='hyper/1';
     if((snapshot.metadata.config?.hyperParasiteModel!==undefined&&!hyper)||(hyper&&(!primary||snapshot.definitions.hyperParasite!==hyperDefinition||snapshot.definitions.hyperParasiteFlow!==hyperFlowDefinition||snapshot.metadata.hyperParasiteDefinition!==hyperDefinition||snapshot.metadata.hyperParasiteFlowDefinition!==hyperFlowDefinition))||(!hyper&&(snapshot.definitions.hyperParasite!==undefined||snapshot.definitions.hyperParasiteFlow!==undefined||snapshot.metadata.hyperParasiteDefinition!==undefined||snapshot.metadata.hyperParasiteFlowDefinition!==undefined)))throw Error('保存された高次寄生観測の指標版を読み取れません。');
-    for(const row of snapshot.rows)if((hyper&&(!validHyper(row.hyperParasite,row.turn,row.counts?.hyperparasite)||!validHyperFlow(row.hyperParasiteFlow,row.turn)))||(!hyper&&(row.hyperParasite!==undefined||row.hyperParasiteFlow!==undefined)))throw Error('保存された高次寄生観測に欠測・破損があります。');
+    for(const row of snapshot.rows)if((hyper&&(!validHyper(row.hyperParasite,row.turn,row.counts?.hyperparasite)||(snapshot.metadata.config.parasiteCohortModel==='cohort/1'&&row.hyperParasite.members===undefined)||!validHyperFlow(row.hyperParasiteFlow,row.turn)))||(!hyper&&(row.hyperParasite!==undefined||row.hyperParasiteFlow!==undefined)))throw Error('保存された高次寄生観測に欠測・破損があります。');
     const persistent=snapshot.metadata.config?.informationModel==='persistent/1';
     if((snapshot.metadata.config?.informationModel!==undefined&&!persistent)||(persistent&&(snapshot.metadata.config.informationSettings?.version!=='persistent-information-parameters/1'||snapshot.metadata.config.informationSettings?.roleDefinition!=='persistent-information-roles/1'||!Number.isFinite(snapshot.metadata.config.informationSettings.influence)||snapshot.metadata.config.informationSettings.influence<0||snapshot.metadata.config.informationSettings.influence>4||snapshot.definitions.persistentInformation!==persistentDefinition||snapshot.definitions.persistentInformationFlow!==persistentFlowDefinition||snapshot.metadata.persistentInformationDefinition!==persistentDefinition||snapshot.metadata.persistentInformationFlowDefinition!==persistentFlowDefinition))||(!persistent&&(snapshot.definitions.persistentInformation!==undefined||snapshot.definitions.persistentInformationFlow!==undefined||snapshot.metadata.persistentInformationDefinition!==undefined||snapshot.metadata.persistentInformationFlowDefinition!==undefined)))throw Error('保存された持続情報観測の指標版を読み取れません。');
     for(const row of snapshot.rows)if((persistent&&(!validPersistent(row.persistentInformation,row.turn)||!validPersistentFlow(row.persistentInformationFlow,row.turn)||row.information!==undefined))||(!persistent&&(row.persistentInformation!==undefined||row.persistentInformationFlow!==undefined)))throw Error('保存された持続情報観測に欠測・破損があります。');
