@@ -468,10 +468,11 @@ canvas#board {
   border-radius: 5px;
 }
 .specimen-hero > .portrait {
-  width: 100%;
-  height: 238px;
+  width: min(100%, 307px);
+  height: auto;
   float: none;
   display: block;
+  margin: 0 auto;
   border-radius: 0;
   background: radial-gradient(ellipse at 50% 45%, #26576244, #00151c00);
   filter: none;
@@ -1260,7 +1261,7 @@ dialog::backdrop {
   scrollbar-color: #87774f #081d24;
 }
 .observatory .specimen-hero > .portrait {
-  height: 240px;
+  height: auto;
   background: radial-gradient(ellipse, #244c55 0, #09212b 60%, #061b24 100%);
 }
 .observatory .age-legend {
@@ -1867,11 +1868,20 @@ body.setup-screen #individual-list { display:none; }
 .observatory .workspace > .inspector > #inspector-key { flex:1;overflow:auto;scrollbar-width:thin; }
 .workspace > .inspector #map-key,.observatory .workspace > .inspector #map-key { max-height:none;overflow:visible;margin:0;padding:0;border:0;background:none;box-shadow:none; }
 .workspace > .inspector #map-key > #clear-highlights,.observatory .workspace > .inspector #map-key > #clear-highlights { position:static;margin:0 0 8px; }
-.workspace > .inspector #species-key,.observatory .workspace > .inspector #map-key > #species-key { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;max-height:none;overflow:visible;white-space:normal;margin:0; }
+.workspace > .inspector #species-key,.observatory .workspace > .inspector #map-key > #species-key { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:6px 8px;max-height:none;overflow:visible;white-space:normal;margin:0; }
+.workspace > .inspector .species-group { min-width:0;margin:0;padding-top:4px; }
+.workspace > .inspector .species-group[data-group="main"] { grid-column:1/-1; }
+.workspace > .inspector .species-key-items { display:grid;grid-template-columns:minmax(0,1fr);gap:3px 6px; }
+.workspace > .inspector .species-group[data-group="main"] .species-key-items { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.workspace > .inspector .species-key-items .map-key-item { min-width:0;padding:2px 4px;gap:3px;font-size:10px; }
+.workspace > .inspector .species-key-items canvas { width:20px;height:20px; }
+.workspace > .inspector .species-key-items .species-button { flex:1;gap:3px;padding:1px; }
+.workspace > .inspector .species-key-items .species-button span { min-width:0;white-space:nowrap; }
+.workspace > .inspector .species-key-items .species-button b { margin-left:auto;min-width:2ch; }
 .workspace > .inspector .map-key-extra:not([open]) > summary,.observatory .workspace > .inspector .map-key-extra:not([open]) > summary { position:static;padding:8px 0; }
 .species-group h4 label { display:flex;align-items:center;gap:6px;cursor:pointer; }
 .species-group h4 input { accent-color:#d7bb75;margin:0; }
-@media (max-width:700px) { .workspace > .inspector #species-key,.observatory .workspace > .inspector #map-key > #species-key { grid-template-columns:1fr; } }
+@media (max-width:420px) { .workspace > .inspector #species-key { grid-template-columns:1fr; } .workspace > .inspector .species-group[data-group="main"] { grid-column:auto; } .workspace > .inspector .species-group[data-group="main"] .species-key-items { grid-template-columns:1fr; } }
 /* The current summary is compact; the three histories read as relations, composition, population. */
 #current-summary { grid-template-columns:minmax(220px,1.1fr) minmax(200px,.9fr) minmax(220px,.9fr); }
 @media (min-width:1101px) and (min-height:700px) {
