@@ -45,8 +45,10 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
     await page.selectOption('#graph-species','main');
     const selected=await page.evaluate(()=>{const w=__LIFE_TEST__.snapshot().world,o=w.organisms.find(a=>a.slot==='main');__LIFE_TEST__.select(o.cell,o.id);return {id:o.id,cell:o.cell};});
     check(await page.locator('#inspector-details').isVisible()&&!await page.locator('#graphs-panel').isVisible(),'selecting an individual switches the sidebar to details');
+    await page.click('#inspector-tab-key');check(await page.locator('#inspector-key #species-key').isVisible()&&!await page.locator('#inspector-details').isVisible(),'symbol and current population catalogue shares the right sidebar');
+    await page.click('#inspector-tab-details');check(await page.locator('#inspector-details').isVisible(),'manual tab switch restores the selected individual');
     const baseline=await page.evaluate(()=>({world:JSON.stringify(__LIFE_TEST__.snapshot().world),raw:JSON.stringify(__LIFE_TEST__.observations().snapshot())}));
-    await page.locator('#display-load').evaluate(e=>e.open=true);await page.locator('.map-key-extra').evaluate(e=>e.open=true);await page.check('#names-prey');check(await page.evaluate(()=>__LIFE_TEST__.snapshot().view.names.prey),'existing class name control updates the same renderer state');
+    await page.locator('#display-load').evaluate(e=>e.open=true);await page.click('#inspector-tab-key');await page.locator('.map-key-extra').evaluate(e=>e.open=true);await page.check('#names-prey');check(await page.evaluate(()=>__LIFE_TEST__.snapshot().view.names.prey),'existing class name control updates the same renderer state');await page.click('#inspector-tab-details');
     await page.click('#display-maximum');let state=await page.evaluate(()=>__LIFE_TEST__.snapshot());
     check(!state.view.motion&&!state.view.effects&&state.view.actionMarks&&!state.view.statusMarks&&state.view.interactionSimplify&&Object.values(state.view.names).every(v=>!v),'maximum mode omits optional effects labels and status while retaining action marks');
     await page.click('#detail-view');await page.evaluate(()=>__LIFE_TEST__.draw());state=await page.evaluate(()=>__LIFE_TEST__.snapshot());

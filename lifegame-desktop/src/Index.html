@@ -285,33 +285,6 @@ ECOSYSTEM-2026</textarea
               <label class="check"><input id="display-simple-background" type="checkbox">操作中の背景を簡略化</label>
             </div><p class="note">モーション・状態マーク・分類別名札は、それぞれの表示チェックと同期します。</p>
           </details>
-          <details id="map-key" class="map-key" open>
-            <summary>盤面の記号と現在の個体数</summary>
-            <button id="clear-highlights" class="small">所在強調をすべて解除</button><p id="presence-note" class="note" role="status" aria-live="polite"></p>
-            <div id="species-key" class="species-key"></div>
-
-            <details class="map-key-extra"><summary>名札・資源・記号の説明</summary>
-          <fieldset class="name-settings"><legend>名札（近景）</legend>
-            <label class="check"><input type="checkbox" id="names-basal" />植物・菌</label>
-            <label class="check"><input type="checkbox" id="names-prey" />一次消費者</label>
-            <label class="check"><input type="checkbox" id="names-P" />一次寄生</label>
-            <label class="check"><input type="checkbox" id="names-Q" />高次寄生</label>
-            <label class="check"><input type="checkbox" id="names-resource" />資源</label>
-            <small>主生物と選択対象の名前は常に確認できます</small>
-          </fieldset>
-          <p class="age-legend">
-            クリックで生物、Shift＋クリックで地表を選択。<br />
-            年齢印：幼体＝小点付きの輪 ／ 成体＝通常形 ／
-            老齢＝切欠きの輪。近景の状態札：♂/♀/—、幼体/成体/老齢、I〜IV相＋分岐。! は低体力・低栄養。年齢と進化相は別です。
-          </p>
-            <p class="map-key-note">
-              主生物は中央、一次消費者は下側、資源は上側。橙の点＝宿主内の寄生、紫の輪＝高次寄生、×＝死骸。記号は全個体を対象とし、微細な違いはマスを選択して近景で確認できます。
-            </p>
-            <div id="resource-key" class="species-key"></div>
-
-            </details>
-          </details>
-
           <section id="graphs-panel" class="panel graphs-panel">
             <h2 class="graphs-heading">生態観測 <small>0Tから現在まで</small></h2>
             <label class="graph-target">対象<select id="graph-species"><option value="main">主生物</option><option value="all">全生物</option><option value="plant">生産者</option><option value="prey">一次消費者</option><option value="fungus">分解者</option><option value="P">一次寄生</option><option value="Q">高次寄生</option></select></label>
@@ -348,8 +321,34 @@ ECOSYSTEM-2026</textarea
             </p>
           </section>
         </section>
-        <aside class="panel inspector"><div id="inspector-graphs"></div><div id="inspector-details">
-          <div class="inspector-title"><h2 class="inspector-heading">◈ 選択中の個体</h2><button id="close-species" class="small" hidden>グラフに戻る</button></div><section id="species-info" hidden><div id="species-description"></div></section>
+        <aside class="panel inspector">
+          <nav id="inspector-tabs" class="inspector-tabs" aria-label="右側の表示" role="tablist">
+            <button id="inspector-tab-graphs" type="button" role="tab" aria-controls="inspector-graphs" aria-selected="true">生態観測</button>
+            <button id="inspector-tab-details" type="button" role="tab" aria-controls="inspector-details" aria-selected="false">選択中の個体</button>
+            <button id="inspector-tab-key" type="button" role="tab" aria-controls="inspector-key" aria-selected="false">記号と個体数</button>
+          </nav>
+          <div id="inspector-graphs" role="tabpanel" aria-labelledby="inspector-tab-graphs"></div>
+          <div id="inspector-key" role="tabpanel" aria-labelledby="inspector-tab-key" hidden>
+            <section id="map-key" class="map-key" aria-label="盤面の記号と現在の個体数">
+              <button id="clear-highlights" class="small">所在強調をすべて解除</button><p id="presence-note" class="note" role="status" aria-live="polite"></p>
+              <div id="species-key" class="species-key"></div>
+              <details class="map-key-extra"><summary>名札・資源・記号の説明</summary>
+                <fieldset class="name-settings"><legend>名札（近景）</legend>
+                  <label class="check"><input type="checkbox" id="names-basal" />植物・菌</label>
+                  <label class="check"><input type="checkbox" id="names-prey" />一次消費者</label>
+                  <label class="check"><input type="checkbox" id="names-P" />一次寄生</label>
+                  <label class="check"><input type="checkbox" id="names-Q" />高次寄生</label>
+                  <label class="check"><input type="checkbox" id="names-resource" />資源</label>
+                  <small>主生物と選択対象の名前は常に確認できます</small>
+                </fieldset>
+                <p class="age-legend">クリックで生物、Shift＋クリックで地表を選択。<br>年齢印：幼体＝小点付きの輪 ／ 成体＝通常形 ／ 老齢＝切欠きの輪。近景の状態札：♂/♀/—、幼体/成体/老齢、I〜IV相＋分岐。! は低体力・低栄養。年齢と進化相は別です。</p>
+                <p class="map-key-note">主生物は中央、一次消費者は下側、資源は上側。橙の点＝宿主内の寄生、紫の輪＝高次寄生、×＝死骸。記号は全個体を対象とし、微細な違いはマスを選択して近景で確認できます。</p>
+                <div id="resource-key" class="species-key"></div>
+              </details>
+            </section>
+          </div>
+          <div id="inspector-details" role="tabpanel" aria-labelledby="inspector-tab-details" hidden>
+          <div class="inspector-title"><h2 class="inspector-heading">◈ 選択中の個体</h2><button id="close-species" class="small" hidden>選択を解除</button></div><section id="species-info" hidden><div id="species-description"></div></section>
           <p id="occupancy-note" class="note">
             主生物と一次消費者の小集団は同じマスに共存できます。寄生虫は宿主に付随します。
           </p>

@@ -1856,6 +1856,20 @@ body.setup-screen #individual-list { display:none; }
   .observatory #current-summary .pyramid-level > b { grid-column:3;grid-row:1;margin:0; }
 }
 .observatory #current-summary .current-biomass .note {font-size:9px;line-height:1.3;margin:4px 0;}
+/* The right sidebar has three explicit views. Keep the map and tab strip fixed. */
+.workspace > .inspector,.workspace > .inspector.has-detail { grid-template-rows:auto minmax(0,1fr);gap:8px; }
+.observatory .workspace > .inspector.has-detail { grid-template-rows:auto minmax(0,1fr); }
+.workspace > .inspector > .inspector-tabs { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;flex-shrink:0; }
+.inspector-tabs button { min-width:0;padding:7px 4px;font-size:11px;line-height:1.25;color:#b7d4d1;background:#0b2931;border:1px solid #42616a;border-radius:5px;cursor:pointer; }
+.inspector-tabs button[aria-selected="true"] { color:#f3e2aa;background:#173c43;border-color:#c4a765;box-shadow:inset 0 -2px #d5b873; }
+.workspace > .inspector > #inspector-key { min-width:0;min-height:0;border:1px solid #42616a;border-radius:5px;padding:8px;background:#0a242b; }
+#inspector-graphs[hidden],#inspector-details[hidden],#inspector-key[hidden] { display:none!important; }
+.observatory .workspace > .inspector > #inspector-key { flex:1;overflow:auto;scrollbar-width:thin; }
+.workspace > .inspector #map-key,.observatory .workspace > .inspector #map-key { max-height:none;overflow:visible;margin:0;padding:0;border:0;background:none;box-shadow:none; }
+.workspace > .inspector #map-key > #clear-highlights,.observatory .workspace > .inspector #map-key > #clear-highlights { position:static;margin:0 0 8px; }
+.workspace > .inspector #species-key,.observatory .workspace > .inspector #map-key > #species-key { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;max-height:none;overflow:visible;white-space:normal;margin:0; }
+.workspace > .inspector .map-key-extra:not([open]) > summary,.observatory .workspace > .inspector .map-key-extra:not([open]) > summary { position:static;padding:8px 0; }
+@media (max-width:700px) { .workspace > .inspector #species-key,.observatory .workspace > .inspector #map-key > #species-key { grid-template-columns:1fr; } }
 /* Expanding name settings stays in its own region instead of covering controls. */
 .observatory .map-key-extra[open] { position:static;left:auto;right:auto;bottom:auto;z-index:auto;max-width:none;max-height:none;box-shadow:none; }
 @media (min-width:1101px) and (min-height:700px) {

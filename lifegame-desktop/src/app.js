@@ -538,6 +538,7 @@
     selectedId = null;
     selectedCell = null;
     describedSpecies = null;
+    setInspectorTab('graphs');
     renderer.view.highlights=[];
     for(const input of $("species-key").querySelectorAll("input"))input.checked=false;
     $("presence-note").textContent="";
@@ -960,6 +961,7 @@
       null;
     renderer.view.selected = cell;
     renderer.view.selectedEntity = selectedId;
+    setInspectorTab('details');
     renderSelection();
   }
   function locate(id){
@@ -989,12 +991,12 @@
   }
   $('follow-individual').onclick=()=>{followId=followId?null:selectedId;updateTracking();};
   $('clear-highlights').onclick=()=>{renderer.view.highlights=[];for(const i of $('species-key').querySelectorAll('input'))i.checked=false;};
-  function closeDetails(){describedSpecies=null;selectedId=null;selectedCell=null;followId=null;lastTracked=null;renderer.view.selected=null;renderer.view.selectedEntity=null;$("follow-note").textContent="";renderSelection();}
+  function closeDetails(){describedSpecies=null;selectedId=null;selectedCell=null;followId=null;lastTracked=null;renderer.view.selected=null;renderer.view.selectedEntity=null;$("follow-note").textContent="";setInspectorTab('graphs');renderSelection();}
   $('close-species').onclick=closeDetails;
   for(const group of ["basal","prey","P","Q","resource"])$("names-"+group).onchange=()=>{renderer.view.names[group]=$("names-"+group).checked;renderer.draw();};
   function describeSpecies(id){
     if(describedSpecies===id){closeDetails();return;}
-    describedSpecies=id;renderSelection();
+    describedSpecies=id;setInspectorTab('details');renderSelection();
   }
   function renderSpeciesDescription(id){
     const s=D.byId[id];
@@ -1345,10 +1347,28 @@
     const z=S.PersistentInformation.settings(world);
     return `<section data-persistent-guide><h2>実経験から残る、非栄養の情報</h2><div class="flow">本人の実経験 → 死亡時に一度の生成判定 → 次Tから局所の受容・学習／場所作用</div><div class="sheet-grid">${card('量・鮮度・期限は別',`<p>情報量は痕跡の量で、栄養E/B/Mや生体数ではありません。元経験から半減期25/50/100Tで鮮度が下がり、生成後100〜200Tの期限を保持します。読取・拡散・Q加工では若返りません。</p>`)}${card('経験と受取',`<p>通常候補は3件/2T、保持・伝達資格は6件/3T。確認済み被害は別の通常候補、根拠不足は残余最大5%・初期判断半重みです。「正しさ50%」ではありません。本人経験と受取内容を分け、同じ由来の再読取を新経験にしません。</p>`)}${card('学習と場所作用',`<p>環境1・通常個体0.25・実養育者から幼体1。新規受容は最大2由来/T、1由来に維持費1%相当を支払います。学習蓄積と、その場所での一時的な誘引・警戒は別です。k=${primaryNumber(z.influence)}。0でも生成・受容・費用を維持し、両作用を0にします。</p>`)}${card('Qの促進と歪曲',`<p>有償痕跡は発信元1体に最大2つ。直接P・発信元・加工Qを分け、元の実績・経験・役割・期限を書き換えません。離脱後は半減期50T・100Tで失活し、生成時に固定された歪曲へ離脱減衰を重ねません。Q自立IVは既存情報を遠隔加工しません。</p>`)}${card('観測と保存',`<p>全確定ターンのstock/flowをCSVと結果へ保存します。量、取得数、学習・場所作用、Q加工を分け、情報の存在だけで成立関係や生存への利益を認定しません。旧世界は旧定義のままです。</p>`)}</div></section>`;
   }
+  let inspectorTab='graphs';
+  function setInspectorTab(tab){
+    inspectorTab=tab;
+    for(const name of ['graphs','details','key']){
+      const active=name===tab;
+      $('inspector-'+name).hidden=!active;
+      $('inspector-tab-'+name).setAttribute('aria-selected',String(active));
+      $('inspector-tab-'+name).tabIndex=active?0:-1;
+    }
+    document.querySelector('.workspace > .inspector').classList.toggle('has-detail',tab==='details');
+  }
+  for(const name of ['graphs','details','key'])$('inspector-tab-'+name).onclick=()=>setInspectorTab(name);
+  $('inspector-tabs').onkeydown=e=>{
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;
+    e.preventDefault();
+    const names=['graphs','details','key'],index=names.indexOf(inspectorTab);
+    const next=e.key==='Home'?0:e.key==='End'?2:(index+(e.key==='ArrowRight'?1:2))%3;
+    setInspectorTab(names[next]);$('inspector-tab-'+names[next]).focus();
+  };
   function renderSelection() {
-    const speciesMode=!!describedSpecies,detailMode=speciesMode||selectedCell!==null;
-    $('inspector-graphs').hidden=detailMode;$('inspector-details').hidden=!detailMode;
-    $('inspector-details').closest('.inspector').classList.toggle('has-detail',detailMode);
+    const speciesMode=!!describedSpecies;
+    setInspectorTab(inspectorTab);
     const chartSelection=[describedSpecies,selectedCell,selectedId].join('|');
     const forceCharts=renderSelection.chartSelection!==chartSelection;renderSelection.chartSelection=chartSelection;
     if(world)scheduleGraphs(forceCharts);
@@ -1407,6 +1427,7 @@
       b.onclick = () => {
         describedSpecies = null;
         selectedId = b.dataset.observe;
+        setInspectorTab('details');
         renderSelection();
       };
     for (const b of $("selection").querySelectorAll("[data-tree]"))
