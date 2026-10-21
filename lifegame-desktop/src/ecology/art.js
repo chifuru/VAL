@@ -671,8 +671,19 @@
       (p.species==='hyperparasite'&&p.hyper?.version==='hyper-state/1'?manifest.hyperparasite?.references[parasitePhase(p)-1]:null);
     if(!reference)return parasite(g,p,x,y,r);
     const im=images[reference?.sheet];
-    if(!reference||!im)return false;
     const f=reference.region,aspect=f[2]/f[3],size=r*2.6,width=size*Math.min(1,aspect),height=size*Math.min(1,1/aspect);
+    // The internal Q references are tall strips. Their square atlas cells have
+    // transparent backgrounds, so crop to the recorded body bounds in portraits.
+    if((!im||aspect<.6)&&material){
+      const atlas=images[material.entry.sheet],bounds=material.entry.bodyBounds?.[material.index];
+      if(atlas&&bounds){
+        const cell=material.region,bodyAspect=bounds[2]/bounds[3],fit=r*2.25;
+        const w=fit*Math.min(1,bodyAspect),h=fit*Math.min(1,1/bodyAspect);
+        g.drawImage(atlas,cell[0]+bounds[0],cell[1]+bounds[1],bounds[2],bounds[3],x-w/2,y-h/2,w,h);
+        return true;
+      }
+    }
+    if(!im)return parasite(g,p,x,y,r);
     // Exact adopted crop in the inspector/tree only. Its painted background is
     // never composited as a rectangular card on the biological board.
     g.drawImage(im,...f,x-width/2,y-height/2,width,height);return true;

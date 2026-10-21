@@ -1271,7 +1271,7 @@
     const g = canvas.getContext("2d");
     g.clearRect(0, 0, canvas.width, canvas.height);
     if(S.HyperParasite?.is(o)&&(R.assets.parasitePortrait||R.assets.parasite)(g,o,canvas.width/2,canvas.height/2,canvas.width*.38))return;
-    if(S.PrimaryParasite.is(o)&&R.assets.parasite(g,o,canvas.width/2,canvas.height/2,canvas.width*.38))return;
+    if(S.PrimaryParasite.is(o)&&(R.assets.parasitePortrait||R.assets.parasite)(g,o,canvas.width/2,canvas.height/2,canvas.width*.38))return;
     if(S.Ryouki.is(o)&&(R.assets.ryoukiPortrait||R.assets.ryouki)?.(g,{...o,facing:0},canvas.width/2,canvas.height/2,canvas.width*.28,0))return;
     if(independent(S.spec(o))&&(R.assets.producerPortrait||R.assets.producer)?.(g,{...o,facing:0},canvas.width/2,canvas.height/2,canvas.width*.28,0))return;
     if (S.spec(o).group === "main")

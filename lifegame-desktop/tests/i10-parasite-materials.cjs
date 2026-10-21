@@ -37,7 +37,10 @@ const fs=require('node:fs/promises'),path=require('node:path'),http=require('nod
     const m=A.parasiteMaterial(p),c=document.createElement('canvas');c.width=c.height=384;const x=c.getContext('2d');x.drawImage(A.images[m.entry.sheet],...m.region,0,0,384,384);const alpha=x.getImageData(0,0,384,384).data;
     let clear=true,occupied=0;for(let y=0;y<384;y++)for(let xx=0;xx<384;xx++){const a=alpha[(y*384+xx)*4+3];if(a>30)occupied++;if((y<8||y>=376||xx<8||xx>=376)&&a)clear=false;}
     check(clear&&occupied>1000,'complete isolated transparent atlas padding '+p.species+'/'+m.panel);
-    const reference=m.entry.references[m.index],f=reference.region,expected=document.createElement('canvas');expected.width=expected.height=220;const ex=expected.getContext('2d'),aspect=f[2]/f[3],size=78*2.6,W=size*Math.min(1,aspect),H=size*Math.min(1,1/aspect);ex.drawImage(A.images[reference.sheet],...f,110-W/2,105-H/2,W,H);check(draw(p,A,true)===expected.toDataURL(),'portrait is exact adopted source crop '+p.species+'/'+m.panel);
+    const reference=m.entry.references[m.index],f=reference.region,expected=document.createElement('canvas');expected.width=expected.height=220;const ex=expected.getContext('2d'),aspect=f[2]/f[3],size=78*2.6,W=size*Math.min(1,aspect),H=size*Math.min(1,1/aspect);
+    if(aspect<.6){const b=m.entry.bodyBounds[m.index],cell=m.region,fit=78*2.25,bodyAspect=b[2]/b[3],w=fit*Math.min(1,bodyAspect),h=fit*Math.min(1,1/bodyAspect);ex.drawImage(A.images[m.entry.sheet],cell[0]+b[0],cell[1]+b[1],b[2],b[3],110-w/2,105-h/2,w,h);}
+    else ex.drawImage(A.images[reference.sheet],...f,110-W/2,105-H/2,W,H);
+    check(draw(p,A,true)===expected.toDataURL(),'portrait fits adopted material visibly '+p.species+'/'+m.panel);
    }
    for(const species of ['tideparasite','leafparasite','hyperparasite'])for(let phase=1;phase<=4;phase++){
     const p={species,phase,stage:phase===1?'first':phase===3?'terminal':'middle',counter:9};check(A.parasiteMaterial(p)===null&&draw(p)===draw(p,EcoArtBefore),'flagless historical body pixels remain exact '+species+'/'+phase);
