@@ -336,7 +336,7 @@
     const config = {
       generationModel:'diverse/1',generationSettings:generationSettings(),relationshipModel:'network/1',balanceModel:'survival/4',consumerModel:'group/1',
       socialRenewalModel:'successor/1',
-      consumerGroupSettings:{version:'consumer-group-parameters/3'},
+      consumerGroupSettings:{version:'consumer-group-parameters/4'},
       blockTurns: 500,
       randomModel: "table/1",
       producerModel:'colony/1',
@@ -1198,7 +1198,8 @@
     renderer.view.interactionSimplify=$('display-simple-background').checked;slowGraphs=$('display-slow-graphs').checked;
     for(const id of displayNames)renderer.view.names[id.slice(6)]=$(id).checked;
     $('display-load-state').textContent=mode==='normal'?'通常':mode==='maximum'?'最大軽減':'個別設定';
-    renderer.draw();scheduleGraphs(true);
+    // The animation loop applies the changed view on its next frame. Forcing a
+    // full map and graph redraw on every toggle can stall a populated world.
   }
   $('display-normal').onclick=()=>applyDisplaySettings('normal');
   $('display-maximum').onclick=()=>applyDisplaySettings('maximum');

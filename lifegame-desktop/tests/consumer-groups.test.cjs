@@ -24,17 +24,27 @@ test('favored grassbug group uses the effective waterbug survival profile; versi
   assert.equal(s.spec(balancedGrass).birthCooldown,2);assert.equal(s.spec(balancedGrass).capacity[3],30);
   assert.equal(s.spec(balancedGrass).maturity,s.D.byId.waterbug.maturity);
   assert.deepEqual(model.invariants(balanced),[]);
+  const moderate=model.create({...config,consumerGroupSettings:{version:'consumer-group-parameters/4'},initial:12,enabled:{...config.enabled,prey:true}}),moderateGrass=moderate.organisms.find(o=>o.species==='grassbug');
+  assert.equal(s.spec(moderateGrass).life,80);assert.equal(s.spec(moderateGrass).maintenance,.12);
+  assert.equal(s.spec(moderateGrass).birthCooldown,3);assert.equal(s.spec(moderateGrass).capacity[3],14);
+  assert.equal(s.spec(moderateGrass).maturity,s.D.byId.waterbug.maturity);
+  assert.deepEqual(model.invariants(moderate),[]);
  }
 });
 
 test('matched and balanced group recordings replay with their own settings version',()=>{
- for(const version of ['consumer-group-parameters/2','consumer-group-parameters/3']){
+ for(const version of ['consumer-group-parameters/2','consumer-group-parameters/3','consumer-group-parameters/4']){
  const model=M.model(),w0=model.create({...config,consumerGroupSettings:{version},initial:12,enabled:{...config.enabled,prey:true}}),
   history=O.create(w0.config,globalThis.EcoReplayVersion,{species:model.S.activeSpecies(w0)});
  history.append(w0);const w=model.step(w0);history.append(w);
  const record=A.create({getItem:()=>null,setItem:()=>{}},model,globalThis.EcoReplayVersion).capture(w,'user',history.snapshot());
  assert.equal(record.config.consumerGroupSettings.version,version);
  A.create({getItem:()=>null,setItem:()=>{}},model,globalThis.EcoReplayVersion).replayRecord(record);
+ if(version==='consumer-group-parameters/3'){
+  const previous=structuredClone(record);previous.signature='cc56e6db8b6c3f3cd327b73a687a2fc053db036825d5b14d95d714d2112c5984';
+  previous.observation.metadata.version=previous.signature;
+  A.create({getItem:()=>null,setItem:()=>{}},model,globalThis.EcoReplayVersion).replayRecord(previous);
+ }
  if(version==='consumer-group-parameters/2'){
   const previous=structuredClone(record);previous.signature='9d1336a947b3e7357e4902957cedafbd7b7281c5c2dd85843e40d64cb0035dcd';
   previous.observation.metadata.version=previous.signature;

@@ -28,7 +28,10 @@
  const fungalColonyBuildSignature='90daa5c38dfbc78aa12c79176ff54d5e70f6e90590ff4d2dbcaf2ef5647b56e4';
  const localSurvivalBuildSignature='c78400a515eba25515dd699c1f3f5ba6cc2004c5dc4b992fbf3e4c2d1c6082d9';
  const socialRenewalBuildSignature='cc56e6db8b6c3f3cd327b73a687a2fc053db036825d5b14d95d714d2112c5984';
+ const moderateGrassBuildSignature='765d6ec931e82c8aee9099a66ba4a7b9a9c3f24bb3bd122bdf612624fc2ebab5';
  function canonicalSignature(s,config){
+  // The new grassbug profile applies only to new version-4 worlds.
+  if(s===moderateGrassBuildSignature&&config.consumerGroupSettings?.version!=='consumer-group-parameters/4')s=socialRenewalBuildSignature;
   if(s===socialRenewalBuildSignature&&config.socialRenewalModel===undefined)s=parasiteFanoutBuildSignature;
   if(s===parasiteFanoutBuildSignature&&config.parasiteDispersalModel===undefined)s=parasiteCohortBuildSignature;
   if(s===parasiteCohortBuildSignature&&config.parasiteCohortModel===undefined)s=consumerGroupBuildSignature;

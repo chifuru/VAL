@@ -1007,7 +1007,10 @@ return {settings,attach,region,level,factor,begin,finish};
     ['life','maturity','maintenance','birthCooldown','initial','capacity'].map(k=>[k,D.byId.waterbug[k]]) )};
   const grassBalancedSpec={...grassGroupSpec,life:240,maintenance:.06,birthCooldown:2,
     initial:[...grassGroupSpec.initial.slice(0,3),30],capacity:[...grassGroupSpec.capacity.slice(0,3),30]};
-  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
+  const grassModerateSpec={...grassGroupSpec,life:80,maintenance:.12,birthCooldown:3,
+    initial:[...grassGroupSpec.initial.slice(0,3),14],capacity:[...grassGroupSpec.capacity.slice(0,3),14]};
+  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='moderate/1'
+    ? grassModerateSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
     ? grassBalancedSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
       ? grassGroupSpec : D.byId[o.species];
   const PLANT_BASE = 2;
@@ -1065,7 +1068,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const d={version:'consumer-group-parameters/1',capacity:8,initialSize:4,maxBirths:2,dispersalAt:4};
       if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(d,k)))throw Error('SETTINGS_INVALID: 一次消費者集団');
       const z={...d,...input};
-      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
+      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3','consumer-group-parameters/4'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
         !['initialSize','maxBirths','dispersalAt'].every(k=>Number.isSafeInteger(z[k])&&z[k]>=1&&z[k]<=z.capacity))throw Error('SETTINGS_INVALID: 一次消費者集団の値');
       return z;
     }
@@ -1075,6 +1078,7 @@ return {settings,attach,region,level,factor,begin,finish};
       o.consumerGroup={version:VERSION,establishedAt:w.turn,origin:null,cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:empty(w.turn)};
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/2')o.consumerGroup.grassAdvantage='waterbug/1';
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/3')o.consumerGroup.grassAdvantage='balanced/1';
+      if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/4')o.consumerGroup.grassAdvantage='moderate/1';
       delete o.birthLife;
     }
     function compact(o){const by=new Map();for(const c of o.consumerGroup.cohorts)if(c.n>0){const key=c.age+':'+c.phase,old=by.get(key);if(old)old.n+=c.n;else by.set(key,{...c});}
@@ -9597,7 +9601,10 @@ return {settings,attach,region,level,factor,begin,finish};
     ['life','maturity','maintenance','birthCooldown','initial','capacity'].map(k=>[k,D.byId.waterbug[k]]) )};
   const grassBalancedSpec={...grassGroupSpec,life:240,maintenance:.06,birthCooldown:2,
     initial:[...grassGroupSpec.initial.slice(0,3),30],capacity:[...grassGroupSpec.capacity.slice(0,3),30]};
-  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
+  const grassModerateSpec={...grassGroupSpec,life:80,maintenance:.12,birthCooldown:3,
+    initial:[...grassGroupSpec.initial.slice(0,3),14],capacity:[...grassGroupSpec.capacity.slice(0,3),14]};
+  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='moderate/1'
+    ? grassModerateSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
     ? grassBalancedSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
       ? grassGroupSpec : D.byId[o.species];
   const PLANT_BASE = 2;
@@ -9655,7 +9662,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const d={version:'consumer-group-parameters/1',capacity:8,initialSize:4,maxBirths:2,dispersalAt:4};
       if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(d,k)))throw Error('SETTINGS_INVALID: 一次消費者集団');
       const z={...d,...input};
-      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
+      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3','consumer-group-parameters/4'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
         !['initialSize','maxBirths','dispersalAt'].every(k=>Number.isSafeInteger(z[k])&&z[k]>=1&&z[k]<=z.capacity))throw Error('SETTINGS_INVALID: 一次消費者集団の値');
       return z;
     }
@@ -9665,6 +9672,7 @@ return {settings,attach,region,level,factor,begin,finish};
       o.consumerGroup={version:VERSION,establishedAt:w.turn,origin:null,cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:empty(w.turn)};
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/2')o.consumerGroup.grassAdvantage='waterbug/1';
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/3')o.consumerGroup.grassAdvantage='balanced/1';
+      if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/4')o.consumerGroup.grassAdvantage='moderate/1';
       delete o.birthLife;
     }
     function compact(o){const by=new Map();for(const c of o.consumerGroup.cohorts)if(c.n>0){const key=c.age+':'+c.phase,old=by.get(key);if(old)old.n+=c.n;else by.set(key,{...c});}
@@ -18443,7 +18451,10 @@ return {settings,attach,region,level,factor,begin,finish};
     ['life','maturity','maintenance','birthCooldown','initial','capacity'].map(k=>[k,D.byId.waterbug[k]]) )};
   const grassBalancedSpec={...grassGroupSpec,life:240,maintenance:.06,birthCooldown:2,
     initial:[...grassGroupSpec.initial.slice(0,3),30],capacity:[...grassGroupSpec.capacity.slice(0,3),30]};
-  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
+  const grassModerateSpec={...grassGroupSpec,life:80,maintenance:.12,birthCooldown:3,
+    initial:[...grassGroupSpec.initial.slice(0,3),14],capacity:[...grassGroupSpec.capacity.slice(0,3),14]};
+  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='moderate/1'
+    ? grassModerateSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
     ? grassBalancedSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
       ? grassGroupSpec : D.byId[o.species];
   const PLANT_BASE = 2;
@@ -18501,7 +18512,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const d={version:'consumer-group-parameters/1',capacity:8,initialSize:4,maxBirths:2,dispersalAt:4};
       if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(d,k)))throw Error('SETTINGS_INVALID: 一次消費者集団');
       const z={...d,...input};
-      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
+      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3','consumer-group-parameters/4'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
         !['initialSize','maxBirths','dispersalAt'].every(k=>Number.isSafeInteger(z[k])&&z[k]>=1&&z[k]<=z.capacity))throw Error('SETTINGS_INVALID: 一次消費者集団の値');
       return z;
     }
@@ -18511,6 +18522,7 @@ return {settings,attach,region,level,factor,begin,finish};
       o.consumerGroup={version:VERSION,establishedAt:w.turn,origin:null,cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:empty(w.turn)};
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/2')o.consumerGroup.grassAdvantage='waterbug/1';
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/3')o.consumerGroup.grassAdvantage='balanced/1';
+      if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/4')o.consumerGroup.grassAdvantage='moderate/1';
       delete o.birthLife;
     }
     function compact(o){const by=new Map();for(const c of o.consumerGroup.cohorts)if(c.n>0){const key=c.age+':'+c.phase,old=by.get(key);if(old)old.n+=c.n;else by.set(key,{...c});}
@@ -22730,7 +22742,10 @@ return {settings,attach,region,level,factor,begin,finish};
     ['life','maturity','maintenance','birthCooldown','initial','capacity'].map(k=>[k,D.byId.waterbug[k]]) )};
   const grassBalancedSpec={...grassGroupSpec,life:240,maintenance:.06,birthCooldown:2,
     initial:[...grassGroupSpec.initial.slice(0,3),30],capacity:[...grassGroupSpec.capacity.slice(0,3),30]};
-  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
+  const grassModerateSpec={...grassGroupSpec,life:80,maintenance:.12,birthCooldown:3,
+    initial:[...grassGroupSpec.initial.slice(0,3),14],capacity:[...grassGroupSpec.capacity.slice(0,3),14]};
+  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='moderate/1'
+    ? grassModerateSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
     ? grassBalancedSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
       ? grassGroupSpec : D.byId[o.species];
   const PLANT_BASE = 2;
@@ -22788,7 +22803,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const d={version:'consumer-group-parameters/1',capacity:8,initialSize:4,maxBirths:2,dispersalAt:4};
       if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(d,k)))throw Error('SETTINGS_INVALID: 一次消費者集団');
       const z={...d,...input};
-      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
+      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3','consumer-group-parameters/4'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
         !['initialSize','maxBirths','dispersalAt'].every(k=>Number.isSafeInteger(z[k])&&z[k]>=1&&z[k]<=z.capacity))throw Error('SETTINGS_INVALID: 一次消費者集団の値');
       return z;
     }
@@ -22798,6 +22813,7 @@ return {settings,attach,region,level,factor,begin,finish};
       o.consumerGroup={version:VERSION,establishedAt:w.turn,origin:null,cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:empty(w.turn)};
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/2')o.consumerGroup.grassAdvantage='waterbug/1';
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/3')o.consumerGroup.grassAdvantage='balanced/1';
+      if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/4')o.consumerGroup.grassAdvantage='moderate/1';
       delete o.birthLife;
     }
     function compact(o){const by=new Map();for(const c of o.consumerGroup.cohorts)if(c.n>0){const key=c.age+':'+c.phase,old=by.get(key);if(old)old.n+=c.n;else by.set(key,{...c});}
@@ -26280,7 +26296,10 @@ return {settings,attach,region,level,factor,begin,finish};
     ['life','maturity','maintenance','birthCooldown','initial','capacity'].map(k=>[k,D.byId.waterbug[k]]) )};
   const grassBalancedSpec={...grassGroupSpec,life:240,maintenance:.06,birthCooldown:2,
     initial:[...grassGroupSpec.initial.slice(0,3),30],capacity:[...grassGroupSpec.capacity.slice(0,3),30]};
-  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
+  const grassModerateSpec={...grassGroupSpec,life:80,maintenance:.12,birthCooldown:3,
+    initial:[...grassGroupSpec.initial.slice(0,3),14],capacity:[...grassGroupSpec.capacity.slice(0,3),14]};
+  const spec = (o) => o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='moderate/1'
+    ? grassModerateSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='balanced/1'
     ? grassBalancedSpec : o.species==='grassbug'&&o.consumerGroup?.grassAdvantage==='waterbug/1'
       ? grassGroupSpec : D.byId[o.species];
   const PLANT_BASE = 2;
@@ -26338,7 +26357,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const d={version:'consumer-group-parameters/1',capacity:8,initialSize:4,maxBirths:2,dispersalAt:4};
       if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(d,k)))throw Error('SETTINGS_INVALID: 一次消費者集団');
       const z={...d,...input};
-      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
+      if(!['consumer-group-parameters/1','consumer-group-parameters/2','consumer-group-parameters/3','consumer-group-parameters/4'].includes(z.version)||!Number.isSafeInteger(z.capacity)||z.capacity<2||z.capacity>32||
         !['initialSize','maxBirths','dispersalAt'].every(k=>Number.isSafeInteger(z[k])&&z[k]>=1&&z[k]<=z.capacity))throw Error('SETTINGS_INVALID: 一次消費者集団の値');
       return z;
     }
@@ -26348,6 +26367,7 @@ return {settings,attach,region,level,factor,begin,finish};
       o.consumerGroup={version:VERSION,establishedAt:w.turn,origin:null,cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:empty(w.turn)};
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/2')o.consumerGroup.grassAdvantage='waterbug/1';
       if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/3')o.consumerGroup.grassAdvantage='balanced/1';
+      if(o.species==='grassbug'&&w.config.consumerGroupSettings.version==='consumer-group-parameters/4')o.consumerGroup.grassAdvantage='moderate/1';
       delete o.birthLife;
     }
     function compact(o){const by=new Map();for(const c of o.consumerGroup.cohorts)if(c.n>0){const key=c.age+':'+c.phase,old=by.get(key);if(old)old.n+=c.n;else by.set(key,{...c});}
