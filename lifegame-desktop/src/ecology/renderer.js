@@ -21,6 +21,8 @@
     const index=[...S.D.species,...(S.D.independentPlants||[]),...(S.D.ryouki?[S.D.ryouki]:[])].findIndex(s=>s.id===id);
     return `hsl(${Math.round((index*137.508+32)%360)} 78% 68%)`;
   }
+  const groupHighlightColors={plant:'#8bdcaf',prey:'#83d5e6',main:'#e4ce91',fungus:'#c2aae8',P:'#f2b48c',Q:'#d9b0f0'};
+  function groupHighlightColor(group){return groupHighlightColors[group]||'#b9d3d0';}
   // Cartographic symbols, shared by board and legend. Shape is independent of biology.
   const symbolPaths = {
       abyss:
@@ -207,6 +209,7 @@
         duration: 260,
         selected: null,
         highlights: [],
+        highlightGroups: [],
         names: { basal:false, producer:false, prey:false, P:false, Q:false, resource:false },
       };
     const diagnostics = {
@@ -1096,13 +1099,25 @@
         if(newQ)actionEffects(q,list,.11,...p);
         if(near && nameEnabled("Q",q.id)){diagnostics.nameLabels.Q++;g.save();g.fillStyle="#d9c6ff";g.font=".06px sans-serif";g.textAlign="center";g.fillText(S.D.byId.hyperparasite.name+(newQ?' Q · '+q.phase+'相 · 年齢'+(Number.isFinite(q.age)?q.age+'T':'未記録')+' · 自立':" · 探索"),newQ?p[0]-.24:base[0],newQ?p[1]-.13:base[1]-.38);g.restore();}
       }
-      const marks=new Set(view.highlights||[]),markedCells=new Map();
-      const mark=(cell,id)=>{if(!marks.has(id))return;if(!markedCells.has(cell))markedCells.set(cell,new Set());markedCells.get(cell).add(id);};
+      const marks=new Set(view.highlights||[]),groups=new Set(view.highlightGroups||[]),markedCells=new Map(),groupedCells=new Map();
+      const mark=(cell,id)=>{
+        if(marks.has(id)){if(!markedCells.has(cell))markedCells.set(cell,new Set());markedCells.get(cell).add(id);}
+        const group=groups.size?S.D.byId[id]?.group:null;
+        if(groups.has(group)){if(!groupedCells.has(cell))groupedCells.set(cell,new Set());groupedCells.get(cell).add(group);}
+      };
       for(const o of w.organisms){mark(o.cell,o.species);if(o.infection){mark(o.cell,o.infection.species);if(o.infection.q)mark(o.cell,o.infection.q.species||"hyperparasite");}}
       for(const q of w.searchQ||[])mark(q.cell,"hyperparasite");
-      for(const [cell,ids]of markedCells){
-        const face=P.face(cell).slice(0,4),cx=face.reduce((n,p)=>n+p[0],0)/4,cy=face.reduce((n,p)=>n+p[1],0)/4,
-          ordered=[...S.D.species,...(S.D.independentPlants||[]),...(S.D.ryouki?[S.D.ryouki]:[])].filter(s=>ids.has(s.id)).map(s=>s.id);
+      for(const cell of new Set([...groupedCells.keys(),...markedCells.keys()])){
+        const ids=markedCells.get(cell)||new Set(),cellGroups=groupedCells.get(cell)||new Set(),orderedGroups=['plant','prey','main','fungus','P','Q'].filter(group=>cellGroups.has(group)),
+          face=P.face(cell).slice(0,4),cx=face.reduce((n,p)=>n+p[0],0)/4,cy=face.reduce((n,p)=>n+p[1],0)/4,
+          edgePoint=t=>{const k=Math.min(3,Math.floor(t)),u=t-k;return [face[k][0]+(face[(k+1)%4][0]-face[k][0])*u,face[k][1]+(face[(k+1)%4][1]-face[k][1])*u];};
+        g.save();orderedGroups.forEach((group,i)=>{
+          g.fillStyle=groupHighlightColor(group);g.strokeStyle=groupHighlightColor(group);g.lineWidth=1/z;
+          if(orderedGroups.length===1){path(face);g.globalAlpha=.17;g.fill();g.globalAlpha=.4;g.stroke();}
+          else{const start=i*4/orderedGroups.length,end=(i+1)*4/orderedGroups.length;
+            g.beginPath();g.moveTo(cx,cy);g.lineTo(...edgePoint(start));for(let k=Math.floor(start)+1;k<end;k++)g.lineTo(...edgePoint(k));g.lineTo(...edgePoint(end));g.closePath();g.globalAlpha=.25;g.fill();g.globalAlpha=.45;g.stroke();}
+        });g.restore();
+        const ordered=[...S.D.species,...(S.D.independentPlants||[]),...(S.D.ryouki?[S.D.ryouki]:[])].filter(s=>ids.has(s.id)).map(s=>s.id);
         g.save();ordered.forEach((id,i)=>{
           const color=highlightColor(id),inset=Math.min(.32,i*3/z),f=face.map(p=>[p[0]+(cx-p[0])*inset,p[1]+(cy-p[1])*inset]);
           g.strokeStyle=color;g.lineWidth=2/z;
@@ -1112,7 +1127,7 @@
               edgePoint=t=>{const k=Math.min(3,Math.floor(t)),u=t-k;return [face[k][0]+(face[(k+1)%4][0]-face[k][0])*u,face[k][1]+(face[(k+1)%4][1]-face[k][1])*u];};
             g.beginPath();g.moveTo(...edgePoint(start));for(let k=Math.floor(start)+1;k<end;k++)g.lineTo(...edgePoint(k));g.lineTo(...edgePoint(end));g.stroke();
           }else{path(f);g.globalAlpha=.10;g.fillStyle=color;g.fill();g.globalAlpha=1;g.stroke();}
-        });g.restore();diagnostics.highlightedCells.push({cell,ids:ordered,colors:ordered.map(highlightColor),mode:z<24&&ordered.length>1?"split-perimeter":"nested"});
+        });g.restore();diagnostics.highlightedCells.push({cell,ids:ordered,colors:ordered.map(highlightColor),groups:orderedGroups,groupColors:orderedGroups.map(groupHighlightColor),mode:z<24&&ordered.length>1?"split-perimeter":"nested"});
       }
       for (const annotate of annotations) annotate();
       diagnostics.actionMarks=[];
@@ -1212,6 +1227,7 @@
     symbol,
     symbolColor,
     highlightColor,
+    groupHighlightColor,
     symbolPaths,
     spriteMetrics,
     colors,

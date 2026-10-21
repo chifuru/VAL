@@ -583,6 +583,7 @@
     describedSpecies = null;
     setInspectorTab('key');
     renderer.view.highlights=[];
+    renderer.view.highlightGroups=[];
     for(const input of $("species-key").querySelectorAll("input"))input.checked=false;
     $("presence-note").textContent="";
     renderer.view.selected = null;
@@ -1046,13 +1047,14 @@
   function syncHighlights(){
     const key=$('species-key');
     renderer.view.highlights=[...key.querySelectorAll('[data-highlight]:checked')].map(i=>i.dataset.highlight);
+    renderer.view.highlightGroups=[...key.querySelectorAll('[data-highlight-group-color]:checked')].map(i=>i.dataset.highlightGroupColor);
     for(const group of key.querySelectorAll('.species-group')){
       const members=[...group.querySelectorAll('.map-key-item:not([hidden]) [data-highlight]')],chosen=members.filter(i=>i.checked).length,all=group.querySelector('[data-highlight-group]');
       all.checked=members.length>0&&chosen===members.length;
       all.indeterminate=chosen>0&&chosen<members.length;
     }
   }
-  $('clear-highlights').onclick=()=>{for(const i of $('species-key').querySelectorAll('[data-highlight]'))i.checked=false;syncHighlights();};
+  $('clear-highlights').onclick=()=>{for(const i of $('species-key').querySelectorAll('[data-highlight],[data-highlight-group-color]'))i.checked=false;syncHighlights();};
   function closeDetails(){describedSpecies=null;selectedId=null;selectedCell=null;followId=null;lastTracked=null;renderer.view.selected=null;renderer.view.selectedEntity=null;$("follow-note").textContent="";setInspectorTab('key');renderSelection();}
   $('close-species').onclick=closeDetails;
   for(const group of ["basal","prey","P","Q","resource"])$("names-"+group).onchange=()=>{renderer.view.names[group]=$("names-"+group).checked;renderer.draw();};
@@ -1508,12 +1510,15 @@
     const counts=observations?.rows.at(-1)?.current.counts||world.stats.counts,catalogue=activeCatalogue(),key=catalogue.map(s=>s.id).join('|');
     if($("species-key").dataset.catalogue!==key){
       const checked=new Set([...$("species-key").querySelectorAll('[data-highlight]:checked')].map(i=>i.dataset.highlight));
+      const checkedGroups=new Set([...$("species-key").querySelectorAll('[data-highlight-group-color]:checked')].map(i=>i.dataset.highlightGroupColor));
       $("species-key").dataset.catalogue=key;
-      $("species-key").innerHTML=['plant','prey','main','fungus','P','Q'].map(group=>`<section class="species-group" data-group="${group}" aria-label="${groups[group]}"><h4><label><input type="checkbox" data-highlight-group="${group}" aria-label="${groups[group]}の所在をまとめて強調">${groups[group]}</label></h4><div class="species-key-items">${catalogue.filter(s=>s.group===group).map(s=>`<span class="map-key-item" data-species="${s.id}"><input type="checkbox" aria-label="${escape(s.name)}の所在を強調" data-highlight="${s.id}"><button class="species-button" data-describe="${s.id}"><canvas width="40" height="40" aria-hidden="true"></canvas><i class="species-color" aria-hidden="true"></i><span>${escape(s.name)}</span><b data-count="${s.id}">0</b></button></span>`).join('')}</div></section>`).join('');
+      $("species-key").innerHTML=['plant','prey','main','fungus','P','Q'].map(group=>`<section class="species-group" data-group="${group}" aria-label="${groups[group]}"><h4><label><input type="checkbox" data-highlight-group="${group}" aria-label="${groups[group]}の個別色をまとめて強調">${groups[group]}</label><label class="group-tint" style="--group-tint:${R.groupHighlightColor(group)}"><input type="checkbox" data-highlight-group-color="${group}" aria-label="${groups[group]}を同じ薄い色で強調">分類色</label></h4><div class="species-key-items">${catalogue.filter(s=>s.group===group).map(s=>`<span class="map-key-item" data-species="${s.id}"><input type="checkbox" aria-label="${escape(s.name)}の所在を強調" data-highlight="${s.id}"><button class="species-button" data-describe="${s.id}"><canvas width="40" height="40" aria-hidden="true"></canvas><i class="species-color" aria-hidden="true"></i><span>${escape(s.name)}</span><b data-count="${s.id}">0</b></button></span>`).join('')}</div></section>`).join('');
       for(const input of $("species-key").querySelectorAll('[data-highlight]'))input.checked=checked.has(input.dataset.highlight);
+      for(const input of $("species-key").querySelectorAll('[data-highlight-group-color]'))input.checked=checkedGroups.has(input.dataset.highlightGroupColor);
       for(const item of $("species-key").querySelectorAll(".map-key-item")){const sp=D.byId[item.dataset.species];item.style.setProperty("--presence-color",R.highlightColor(sp.id));R.symbol(item.querySelector("canvas").getContext("2d"),sp.id,20,20,14,R.symbolColor(sp));}
       for(const input of $("species-key").querySelectorAll("[data-highlight]"))input.onchange=syncHighlights;
       for(const input of $("species-key").querySelectorAll('[data-highlight-group]'))input.onchange=()=>{for(const item of input.closest('.species-group').querySelectorAll('.map-key-item:not([hidden]) [data-highlight]'))item.checked=input.checked;syncHighlights();};
+      for(const input of $("species-key").querySelectorAll('[data-highlight-group-color]'))input.onchange=syncHighlights;
       for(const button of $("species-key").querySelectorAll("[data-describe]"))button.onclick=()=>describeSpecies(button.dataset.describe);
     }
     for(const s of catalogue){

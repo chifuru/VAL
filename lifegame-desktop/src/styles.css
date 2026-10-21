@@ -1887,8 +1887,11 @@ body.setup-screen #individual-list { display:none; }
 .workspace > .inspector .species-key-items .species-color { display:block; width:9px; height:9px; flex:none; border-radius:50%; background:var(--presence-color); box-shadow:0 0 0 1px #b2d4ce88; }
 .workspace > .inspector .species-key-items .species-button b { margin-left:auto;min-width:2ch; }
 .workspace > .inspector .map-key-extra:not([open]) > summary,.observatory .workspace > .inspector .map-key-extra:not([open]) > summary { position:static;padding:8px 0; }
+.species-group h4 { display:flex;align-items:center;justify-content:space-between;gap:4px;flex-wrap:wrap; }
 .species-group h4 label { display:flex;align-items:center;gap:6px;cursor:pointer; }
 .species-group h4 input { accent-color:#d7bb75;margin:0; }
+.species-group h4 .group-tint { color:var(--group-tint);font-size:10px;letter-spacing:0;white-space:nowrap; }
+.species-group h4 .group-tint input { accent-color:var(--group-tint); }
 @media (max-width:420px) { .workspace > .inspector #species-key { grid-template-columns:1fr; } .workspace > .inspector .species-group[data-group="main"] { grid-column:auto; } .workspace > .inspector .species-group[data-group="main"] .species-key-items { grid-template-columns:1fr; } }
 /* The current summary is compact; the three histories read as relations, composition, population. */
 #current-summary { grid-template-columns:minmax(220px,1.1fr) minmax(200px,.9fr) minmax(220px,.9fr); }
