@@ -1744,7 +1744,11 @@ body.setup-screen #individual-list { display:none; }
 #current-summary .current-composition { display:flex; flex-direction:column; align-items:center; }
 #current-summary .current-composition canvas { width:100%; max-width:280px; height:auto; }
 #current-indicators { font-size:10px; line-height:1.5; color:#88aaa7; margin:5px 0 0; }
-#current-legend { display:flex; flex-wrap:wrap; justify-content:center; gap:3px 8px; }
+#current-legend { position:relative; display:flex; flex-wrap:wrap; justify-content:center; gap:3px 8px; width:100%; font-size:11px; }
+#current-legend summary { cursor:pointer; color:#bce5da; text-decoration:underline; text-underline-offset:2px; }
+#current-legend .current-legend-list { position:absolute; z-index:12; top:100%; right:0; width:min(250px,80vw); max-height:280px; overflow:auto; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px 8px; padding:9px; background:#0b2932; border:1px solid #638787; border-radius:6px; box-shadow:0 10px 24px #04161dcc; text-align:left; }
+#current-legend .current-legend-list span { display:flex; align-items:center; gap:5px; min-width:0; white-space:nowrap; }
+#current-legend .current-legend-list i { width:10px; height:10px; margin:0; flex:none; border-radius:50%; box-shadow:0 0 0 1px #b2d4ce88; }
 #relationship-network svg { display:block; width:100%; height:auto; overflow:visible; }
 #relationship-network .relationship-history { display:none; }
 #relationship-network .relationship-legend { color:#9bbab7; font-size:10px; line-height:1.5; }
@@ -1879,6 +1883,7 @@ body.setup-screen #individual-list { display:none; }
 .workspace > .inspector .species-key-items canvas { width:20px;height:20px; }
 .workspace > .inspector .species-key-items .species-button { flex:1;gap:3px;padding:1px; }
 .workspace > .inspector .species-key-items .species-button span { min-width:0;white-space:nowrap; }
+.workspace > .inspector .species-key-items .species-color { display:block; width:9px; height:9px; flex:none; border-radius:50%; background:var(--presence-color); box-shadow:0 0 0 1px #b2d4ce88; }
 .workspace > .inspector .species-key-items .species-button b { margin-left:auto;min-width:2ch; }
 .workspace > .inspector .map-key-extra:not([open]) > summary,.observatory .workspace > .inspector .map-key-extra:not([open]) > summary { position:static;padding:8px 0; }
 .species-group h4 label { display:flex;align-items:center;gap:6px;cursor:pointer; }
@@ -1914,7 +1919,7 @@ body:not(.setup-screen) .workspace > .inspector { grid-column:2;grid-row:2; }
 .observation-overview #current-summary > #inspector-graphs { grid-column:1/4;grid-row:1;min-width:0; }
 .observation-overview #current-summary > .current-biomass { grid-column:4;grid-row:1; }
 .observation-overview #current-summary > .current-composition { grid-column:5;grid-row:1; }
-.observation-overview #current-summary > .current-composition { align-self:start; }
+.observation-overview #current-summary > .current-composition { align-self:stretch; }
 .observation-overview #graphs-panel { display:block;flex:none;margin:0;padding:0;border:0;background:none;box-shadow:none; }
 .observation-overview #graphs-panel .graph-grid { display:grid;flex:none;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:210px;gap:5px; }
 .observation-overview #graphs-panel .graph-grid article { display:block;min-width:0;min-height:0;margin:0;padding:5px;overflow:hidden; }

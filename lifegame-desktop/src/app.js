@@ -1157,7 +1157,13 @@
     if(!current.total){g.strokeStyle='#38545b';g.lineWidth=72;g.beginPath();g.arc(cx,cy,185,0,Math.PI*2);g.stroke();}
     g.textAlign="center";g.fillStyle="#d6e5df";g.font="34px sans-serif";g.fillText(current.total?"系統別":"生体なし",cx,cy+10);
     g.font='27px sans-serif';g.fillStyle='#a2bfbb';g.fillText('個体・群落・群体数の割合',cx,575);
-    $("current-legend").innerHTML=current.groups.map(group=>`<span title="${escape(group.name)} ${group.count}記録・${current.total?(group.count/current.total*100).toFixed(1):'0.0'}%">${escape(group.name)}</span>`).join("");
+    const legend=$("current-legend"),legendWasOpen=!!legend.querySelector('details')?.open;
+    const living=catalogue.filter(member=>current.counts[member.id]>0);
+    const livingKey=living.map(member=>member.id).join('|');
+    if(legend.dataset.species!==livingKey){
+      legend.dataset.species=livingKey;
+      legend.innerHTML=`<details${legendWasOpen?' open':''}><summary>色と系統名を確認</summary><div class="current-legend-list">${living.length?living.map(member=>`<span data-species="${member.id}"><i style="background:${R.highlightColor(member.id)}"></i>${escape(member.name)}</span>`).join(''):'<span>生存中の系統はありません</span>'}</div></details>`;
+    }
     c.setAttribute("aria-label",'系統別の個体・群落・群体数の割合。'+catalogue.filter(member=>current.counts[member.id]>0).map(member=>member.name+" "+(current.counts[member.id]/current.total*100).toFixed(1)+"%").join(" / "));
     renderCurrentStructure(row, catalogue);
   }
@@ -1501,7 +1507,7 @@
     if($("species-key").dataset.catalogue!==key){
       const checked=new Set([...$("species-key").querySelectorAll('[data-highlight]:checked')].map(i=>i.dataset.highlight));
       $("species-key").dataset.catalogue=key;
-      $("species-key").innerHTML=['plant','prey','main','fungus','P','Q'].map(group=>`<section class="species-group" data-group="${group}" aria-label="${groups[group]}"><h4><label><input type="checkbox" data-highlight-group="${group}" aria-label="${groups[group]}の所在をまとめて強調">${groups[group]}</label></h4><div class="species-key-items">${catalogue.filter(s=>s.group===group).map(s=>`<span class="map-key-item" data-species="${s.id}"><input type="checkbox" aria-label="${escape(s.name)}の所在を強調" data-highlight="${s.id}"><button class="species-button" data-describe="${s.id}"><canvas width="40" height="40" aria-hidden="true"></canvas><span>${escape(s.name)}</span><b data-count="${s.id}">0</b></button></span>`).join('')}</div></section>`).join('');
+      $("species-key").innerHTML=['plant','prey','main','fungus','P','Q'].map(group=>`<section class="species-group" data-group="${group}" aria-label="${groups[group]}"><h4><label><input type="checkbox" data-highlight-group="${group}" aria-label="${groups[group]}の所在をまとめて強調">${groups[group]}</label></h4><div class="species-key-items">${catalogue.filter(s=>s.group===group).map(s=>`<span class="map-key-item" data-species="${s.id}"><input type="checkbox" aria-label="${escape(s.name)}の所在を強調" data-highlight="${s.id}"><button class="species-button" data-describe="${s.id}"><canvas width="40" height="40" aria-hidden="true"></canvas><i class="species-color" aria-hidden="true"></i><span>${escape(s.name)}</span><b data-count="${s.id}">0</b></button></span>`).join('')}</div></section>`).join('');
       for(const input of $("species-key").querySelectorAll('[data-highlight]'))input.checked=checked.has(input.dataset.highlight);
       for(const item of $("species-key").querySelectorAll(".map-key-item")){const sp=D.byId[item.dataset.species];item.style.setProperty("--presence-color",R.highlightColor(sp.id));R.symbol(item.querySelector("canvas").getContext("2d"),sp.id,20,20,14,R.symbolColor(sp));}
       for(const input of $("species-key").querySelectorAll("[data-highlight]"))input.onchange=syncHighlights;
