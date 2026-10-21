@@ -46,6 +46,10 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
     const selected=await page.evaluate(()=>{const w=__LIFE_TEST__.snapshot().world,o=w.organisms.find(a=>a.slot==='main');__LIFE_TEST__.select(o.cell,o.id);return {id:o.id,cell:o.cell};});
     check(await page.locator('#inspector-details').isVisible()&&!await page.locator('#graphs-panel').isVisible(),'selecting an individual switches the sidebar to details');
     await page.click('#inspector-tab-key');check(await page.locator('#inspector-key #species-key').isVisible()&&!await page.locator('#inspector-details').isVisible(),'symbol and current population catalogue shares the right sidebar');
+    check(await page.locator('#species-key .species-group').count()===6,'population key keeps the existing six classifications');
+    await page.locator('#species-key [data-group="main"] [data-highlight-group]').check();check(await page.evaluate(()=>[...document.querySelectorAll('#species-key [data-group="main"] .map-key-item:not([hidden]) [data-highlight]')].every(i=>i.checked)),'group check highlights every living main lineage');
+    await page.locator('#species-key [data-group="main"] .map-key-item:not([hidden]) [data-highlight]').first().uncheck();check(await page.locator('#species-key [data-group="main"] [data-highlight-group]').evaluate(i=>i.indeterminate),'group check shows partial selection');
+    await page.click('#clear-highlights');check(await page.evaluate(()=>__LIFE_TEST__.snapshot().view.highlights.length)===0,'clear button removes individual and group highlights together');
     await page.click('#inspector-tab-details');check(await page.locator('#inspector-details').isVisible(),'manual tab switch restores the selected individual');
     const baseline=await page.evaluate(()=>({world:JSON.stringify(__LIFE_TEST__.snapshot().world),raw:JSON.stringify(__LIFE_TEST__.observations().snapshot())}));
     await page.locator('#display-load').evaluate(e=>e.open=true);await page.click('#inspector-tab-key');await page.locator('.map-key-extra').evaluate(e=>e.open=true);await page.check('#names-prey');check(await page.evaluate(()=>__LIFE_TEST__.snapshot().view.names.prey),'existing class name control updates the same renderer state');await page.click('#inspector-tab-details');
@@ -79,7 +83,7 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
     await page.click('#display-normal');await page.locator('#display-load').evaluate(e=>e.open=false);
     await page.evaluate(c=>{__LIFE_TEST__.prepare(c);for(let i=0;i<4;i++)__LIFE_TEST__.step();__LIFE_TEST__.stop();},config);
     const boundaries=await page.evaluate(()=>{const history=__LIFE_TEST__.observations(),last=history.rows.at(-1),fixture={metadata:history.metadata,rows:Array.from({length:502},(_,turn)=>{const r=structuredClone(last);r.turn=turn;r.relationship.turn=turn;return r;})};return [0,100,101,400,500,501].map(turn=>{const m=EcoRelationshipNetwork.build(fixture,turn),html=EcoRelationshipNetwork.render(m,{symbols:EcoRenderer.symbolPaths,colors:Object.fromEntries(history.metadata.species.map(s=>[s.id,EcoRenderer.highlightColor(s.id)])),species:history.metadata.species}),doc=new DOMParser().parseFromString(html,'text/html');return {turn,first:m.current.first,last:m.current.last,cards:doc.querySelectorAll('.relationship-card').length,past:doc.querySelectorAll('.relationship-past').length};});});
-    measurements.syntheticBoundaryFixture=boundaries;check(boundaries.every(r=>r.cards===3&&r.past===0),'live display has three focused relation cards without period thumbnails');
+    measurements.syntheticBoundaryFixture=boundaries;check(boundaries.every(r=>r.cards===3&&r.past===0),'saved relationship model retains focused relation cards without period thumbnails');
     check(boundaries.find(r=>r.turn===100).first===1&&boundaries.find(r=>r.turn===101).first===101&&boundaries.find(r=>r.turn===501).first===501,'archived raw intervals retain their original boundaries');
     await page.setViewportSize({width:780,height:1000});await page.evaluate(()=>__LIFE_TEST__.refresh());measurements.narrow=await layout();
     check(measurements.narrow.documentWidth<=781,'narrow layout avoids horizontal document overflow');for(const id of ['graph-stacked','composition-phases','composition-sex','composition-ages','graph-relations'])check(await page.locator('#'+id).isVisible(),'narrow vertical layout retains graph '+id);
@@ -88,7 +92,7 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
     const full=await page.evaluate(id=>__LIFE_TEST__.archive().get(id),record.id);check(full.observation.rows.length===5&&full.observation.definitions.relationship==='relationship-network-observed/1'&&full.observation.relationshipIntervals,'saved result retains full turns and versioned relationship intervals');
     await page.click('#open-results');await page.locator('[data-analyze="'+record.id+'"]').click();await page.waitForSelector('#results-analysis:not([hidden])');
     check(await page.locator('#results-analysis #graphs-panel').isVisible()&&await page.locator('#saved-analysis-values').isVisible(),'saved result exposes graphs and numerical analysis in the result dialog');
-    check(await page.locator('#results-analysis #current-summary').count()===1&&await page.locator('#results-analysis #relationship-network').count()===1,'saved result uses one integrated summary with the recorded relationship model');
+    check(await page.locator('#results-analysis #current-summary').count()===1&&await page.locator('#results-analysis #relationship-network').count()===0,'saved result uses a compact summary without three relation cards');
     await page.screenshot({path:path.join(out,'interface-saved-result.png')});await page.click('#close-results');
     check(await page.locator('#inspector-graphs #graphs-panel').count()===1&&await page.locator('.observation-overview #current-summary').count()===1,'closing saved analysis restores live graph and summary locations');
     await page.click('#change-world');check(!await page.locator('#graphs-panel').isVisible(),'returning to setup hides live graphs without losing history');
@@ -101,7 +105,7 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
       return {id:record.id,signature:record.signature,final:record.finalFingerprint};
     });
     await page.click('#open-results');await page.locator('[data-analyze="'+legacy.id+'"]').click();await page.waitForSelector('#results-analysis:not([hidden])');
-    check((await page.locator('#relationship-network').innerText()).includes('原値がありません')&&await page.locator('#relationship-network [data-network-edge]').count()===0,'old saved results show missing relation measurements rather than invented present-day paths');
+    check((await page.locator('#saved-network-data').textContent()).includes('原値がありません'),'old saved results show missing relation measurements rather than invented present-day paths');
     await page.click('#close-results');await page.evaluate(id=>__LIFE_TEST__.replay(id),legacy.id);
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.config.relationshipModel===undefined&&__LIFE_TEST__.observations().rows[0].relationship===undefined),'old replay preserves the absence of the new relationship model');
     await page.evaluate(()=>{__LIFE_TEST__.step();__LIFE_TEST__.step();__LIFE_TEST__.stop();});check(await page.evaluate(()=>__LIFE_TEST__.fingerprint())===legacy.final,'old recorded endpoint remains exactly reproducible');

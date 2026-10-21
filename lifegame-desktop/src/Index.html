@@ -206,7 +206,6 @@ ECOSYSTEM-2026</textarea
           <section id="current-summary" class="current-summary panel" aria-label="生態系の現在像">
             <div class="current-relationships">
               <h2 id="current-overall">生態系の特徴を観測中</h2>
-              <div id="relationship-network" aria-label="現在の生態関係"></div>
               <p id="current-indicators" class="support-values"><span id="current-breadth-values"></span> · <span id="current-diversity-values"></span> · <span id="current-persistence-values"></span></p>
             </div>
             <section class="current-biomass"><h3>生物量ピラミッド <small>B・個体数ではありません</small></h3><div id="biomass-pyramid"></div><p id="pyramid-support" class="note"></p></section>
@@ -289,15 +288,13 @@ ECOSYSTEM-2026</textarea
             <h2 class="graphs-heading">生態観測 <small>0Tから現在まで</small></h2>
             <label class="graph-target">対象<select id="graph-species"><option value="main">主生物</option><option value="all">全生物</option><option value="plant">生産者</option><option value="prey">一次消費者</option><option value="fungus">分解者</option><option value="P">一次寄生</option><option value="Q">高次寄生</option></select></label>
             <div class="graph-grid">
-              <article><h3>個体数の推移 <small id="graph-range"></small></h3><canvas id="graph-stacked" width="960" height="260" aria-label="全期間の系統別積み上げ個体数"></canvas><div id="population-legend" class="population-legend"></div></article>
+              <article><h3>生態関係 <small>全期間・各点は直近50T</small></h3><svg id="graph-relations" viewBox="0 0 720 180" role="img" aria-label="全期間の広がり・多様さ・持続性"></svg></article>
               <article><h3>集団構成 <small>実数・共通の縦軸</small></h3><div id="graph-composition">
                 <p class="note">相：Ⅰ 青緑・Ⅱ 青・Ⅲ 紫・Ⅳ 金<br>雌雄：雌 桃・雄 水色・無性別 淡緑<br>年齢：幼体 黄・成体 緑・老齢 紫 ／ 非該当 灰</p><div class="composition-time"><span>相</span><canvas id="composition-phases" width="960" height="145"></canvas></div>
                 <div class="composition-time"><span>雌雄</span><canvas id="composition-sex" width="960" height="145"></canvas></div>
                 <div class="composition-time"><span>年齢</span><canvas id="composition-ages" width="960" height="145"></canvas></div>
               </div></article>
-              <article><h3>生態関係 <small>全期間・各点は直近50T</small></h3><svg id="graph-relations" viewBox="0 0 720 180" role="img" aria-label="全期間の広がり・多様さ・持続性"></svg>
-
-              </article>
+              <article><h3>個体数の推移 <small id="graph-range"></small></h3><canvas id="graph-stacked" width="960" height="260" aria-label="全期間の系統別積み上げ個体数"></canvas><div id="population-legend" class="population-legend"></div></article>
             </div>
 
           </section>

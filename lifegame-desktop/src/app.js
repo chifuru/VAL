@@ -990,7 +990,16 @@
     else if(followId){const death=world.last.deathCauses.find(d=>d.id===followId||d.id===lastTracked?.hostId),cause=death?({combat:"戦闘",starvation:"栄養不足",harvest:"採食による喪失",age:"寿命"}[death.reason]||death.reason):"消失（確定理由の記録なし）";$('follow-note').textContent=`追跡終了: ${followId} · 最終確認 ${lastTracked?.turn ?? world.turn}T / マス${lastTracked?.cell ?? selectedCell} / ${cause}。`;followId=null;}
   }
   $('follow-individual').onclick=()=>{followId=followId?null:selectedId;updateTracking();};
-  $('clear-highlights').onclick=()=>{renderer.view.highlights=[];for(const i of $('species-key').querySelectorAll('input'))i.checked=false;};
+  function syncHighlights(){
+    const key=$('species-key');
+    renderer.view.highlights=[...key.querySelectorAll('[data-highlight]:checked')].map(i=>i.dataset.highlight);
+    for(const group of key.querySelectorAll('.species-group')){
+      const members=[...group.querySelectorAll('.map-key-item:not([hidden]) [data-highlight]')],chosen=members.filter(i=>i.checked).length,all=group.querySelector('[data-highlight-group]');
+      all.checked=members.length>0&&chosen===members.length;
+      all.indeterminate=chosen>0&&chosen<members.length;
+    }
+  }
+  $('clear-highlights').onclick=()=>{for(const i of $('species-key').querySelectorAll('[data-highlight]'))i.checked=false;syncHighlights();};
   function closeDetails(){describedSpecies=null;selectedId=null;selectedCell=null;followId=null;lastTracked=null;renderer.view.selected=null;renderer.view.selectedEntity=null;$("follow-note").textContent="";setInspectorTab('graphs');renderSelection();}
   $('close-species').onclick=closeDetails;
   for(const group of ["basal","prey","P","Q","resource"])$("names-"+group).onchange=()=>{renderer.view.names[group]=$("names-"+group).checked;renderer.draw();};
@@ -1111,7 +1120,7 @@
     }).reverse().join('')+`<p class="note">※極少量は最小幅で表示。実数Bを参照。<br>未分類 ${fmt(p.roleUnknown||0)} B / 分解者 ${fmt(p.side.decomposer)} B / P・Q別枠</p>`:'<p class="note">この記録には食性別の生物量がありません。旧4層の値から推定しません。</p>';
     $('pyramid-support').textContent='生産 '+(p.production===null?'未記録':fmt(p.production)+' E')+' / 同化 '+(p.uptake===null?'未記録':fmt(p.uptake)+' E')+'（直近'+p.window+'T）';
     const history=graphObservation();
-    if(window.EcoRelationshipNetwork&&history){
+    if(analysisData&&window.EcoRelationshipNetwork&&history){
       if(analysisData&&$('saved-network-controls').dataset.record!==analysisRecord?.id){
         $('saved-network-controls').dataset.record=analysisRecord?.id||'';
         const last=history.rows.at(-1).turn,blocks=Math.max(1,Math.ceil(last/500));
@@ -1120,8 +1129,6 @@
       }
       const selected=analysisData&&$('saved-network-window')?Number($('saved-network-window').value):row.turn;
       const model=EcoRelationshipNetwork.build(history,Math.min(row.turn,selected));
-      const network=$('relationship-network'),options={symbols:R.symbolPaths,colors:Object.fromEntries(catalogue.map(v=>[v.id,R.symbolColor(D.byId[v.id]||{...v,color:'#91c4bf'})])),species:catalogue};
-      network.innerHTML=EcoRelationshipNetwork.render(model,options);
       if(analysisData){
         const byId=Object.fromEntries(catalogue.map(v=>[v.id,v.name])),label=id=>byId[id]||id.replace('@light','光').replace('@carcass:','死骸：').replace('@resource:','資源：');
         const blocks=[...(model.past||[]).filter(Boolean),model.current].filter(Boolean);
@@ -1439,10 +1446,13 @@
   function renderMapKey() {
     const counts=observations?.rows.at(-1)?.current.counts||world.stats.counts,catalogue=activeCatalogue(),key=catalogue.map(s=>s.id).join('|');
     if($("species-key").dataset.catalogue!==key){
+      const checked=new Set([...$("species-key").querySelectorAll('[data-highlight]:checked')].map(i=>i.dataset.highlight));
       $("species-key").dataset.catalogue=key;
-      $("species-key").innerHTML=['plant','prey','main','fungus','P','Q'].map(group=>`<section class="species-group" data-group="${group}" aria-label="${groups[group]}"><h4>${groups[group]}</h4><div class="species-key-items">${catalogue.filter(s=>s.group===group).map(s=>`<span class="map-key-item" data-species="${s.id}"><input type="checkbox" aria-label="${escape(s.name)}の所在を強調" data-highlight="${s.id}"><button class="species-button" data-describe="${s.id}"><canvas width="40" height="40" aria-hidden="true"></canvas><span>${escape(s.name)}</span><b data-count="${s.id}">0</b></button></span>`).join('')}</div></section>`).join('');
+      $("species-key").innerHTML=['plant','prey','main','fungus','P','Q'].map(group=>`<section class="species-group" data-group="${group}" aria-label="${groups[group]}"><h4><label><input type="checkbox" data-highlight-group="${group}" aria-label="${groups[group]}の所在をまとめて強調">${groups[group]}</label></h4><div class="species-key-items">${catalogue.filter(s=>s.group===group).map(s=>`<span class="map-key-item" data-species="${s.id}"><input type="checkbox" aria-label="${escape(s.name)}の所在を強調" data-highlight="${s.id}"><button class="species-button" data-describe="${s.id}"><canvas width="40" height="40" aria-hidden="true"></canvas><span>${escape(s.name)}</span><b data-count="${s.id}">0</b></button></span>`).join('')}</div></section>`).join('');
+      for(const input of $("species-key").querySelectorAll('[data-highlight]'))input.checked=checked.has(input.dataset.highlight);
       for(const item of $("species-key").querySelectorAll(".map-key-item")){const sp=D.byId[item.dataset.species];item.style.setProperty("--presence-color",R.highlightColor(sp.id));R.symbol(item.querySelector("canvas").getContext("2d"),sp.id,20,20,14,R.symbolColor(sp));}
-      for(const input of $("species-key").querySelectorAll("[data-highlight]"))input.onchange=()=>{renderer.view.highlights=[...$("species-key").querySelectorAll("[data-highlight]:checked")].map(i=>i.dataset.highlight);};
+      for(const input of $("species-key").querySelectorAll("[data-highlight]"))input.onchange=syncHighlights;
+      for(const input of $("species-key").querySelectorAll('[data-highlight-group]'))input.onchange=()=>{for(const item of input.closest('.species-group').querySelectorAll('.map-key-item:not([hidden]) [data-highlight]'))item.checked=input.checked;syncHighlights();};
       for(const button of $("species-key").querySelectorAll("[data-describe]"))button.onclick=()=>describeSpecies(button.dataset.describe);
     }
     for(const s of catalogue){
@@ -1452,6 +1462,7 @@
       item.hidden=count===0;
     }
     for(const group of $("species-key").querySelectorAll('.species-group'))group.hidden=![...group.querySelectorAll('.map-key-item')].some(item=>!item.hidden);
+    syncHighlights();
     if ($("resource-key").childElementCount) return;
     $("resource-key").innerHTML = Object.entries(S.FOOD)
       .map(
