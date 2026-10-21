@@ -347,7 +347,7 @@
       primaryParasiteModel:'primary/1',
       primaryParasiteSettings:S.PrimaryParasite.parameters({carrierTurns:32,maintenance:[0,.005,.007,.010],developmentCost:.003,emissionCost:.08,metaCosts:[0,.003,.006,.012]}),
       hyperParasiteModel:'hyper/1',
-      hyperParasiteSettings:S.HyperParasite.parameters({initialFraction:.4,initialAttachedFraction:.5,initialEnergy:.18,life:320,adultFoodCap:.15,adultAssimilation:.65,maintenance:[0,.001,.0015,.0025,.008],developmentCost:[0,.001,.0015,.0025,0],emergenceMultiplier:4,eggCost:.08,eggReserve:.08,adultMoveCost:.001,metaCosts:[0,.0008,.0015,.003,0],informationCosts:[0,.0015,.003,.006,0]}),
+      hyperParasiteSettings:S.HyperParasite.parameters({initialFraction:.4,initialAttachedFraction:.5,initialEnergy:.24,life:480,adultFoodCap:.20,adultAssimilation:.85,maintenance:[0,.0005,.0007,.001,.004],developmentCost:[0,.0005,.0007,.001,0],emergenceMultiplier:4,eggCost:.06,eggReserve:.05,adultMoveCost:.001,metaCosts:[0,.0008,.0015,.003,0],informationCosts:[0,.0015,.003,.006,0]}),
       parasiteCohortModel:'cohort/1',
       parasiteDispersalModel:'fanout/1',
       informationModel:'persistent/1',
