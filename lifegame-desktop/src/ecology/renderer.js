@@ -330,7 +330,10 @@
     }
     function displayLayout(){
       const detail=view.scale>=24&&view.mode!=="overview"&&!view.simplified;
-      if(layoutWorld!==world||layoutEnabled!==view.planeSeparation||layoutDetail!==detail){
+      const sameContents=layoutWorld&&world&&layoutWorld.config===world.config&&layoutWorld.turn===world.turn&&
+        layoutWorld.organisms===world.organisms&&layoutWorld.carcasses===world.carcasses&&
+        layoutWorld.searchQ===world.searchQ&&layoutWorld.resources===world.resources&&layoutWorld.events===world.events;
+      if(!sameContents||layoutEnabled!==view.planeSeparation||layoutDetail!==detail){
         layout=globalThis.EcoDisplayPlane.create(world,P,view.planeSeparation,detail);
         layoutWorld=world;layoutEnabled=view.planeSeparation;layoutDetail=detail;
       }
@@ -349,13 +352,17 @@
       return b;
     }
     function setWorld(w, restartMotion = false) {
-      revision++;livingById=new Map(w.organisms.map(o=>[o.id,o]));eventPlan=null;frameCandidates=null;
-      freeQById=new Map(w.config.hyperParasiteModel==='hyper/1'?(w.searchQ||[]).filter(q=>S.HyperParasite?.is(q)).map(q=>[q.id,q]):[]);
-      informationCells=new Map();informationIndex=null;
-      if(S.PersistentInformation?.enabled(w))for(const record of w.informationField||[]){
-        if(!(record.expires>w.turn&&record.amount>=S.PersistentInformation.settings(w).minimumAmount))continue;
-        if(!informationCells.has(record.cell))informationCells.set(record.cell,{cell:record.cell,amount:0,origins:new Set(),records:0});
-        const cell=informationCells.get(record.cell);cell.amount+=record.amount;cell.origins.add(record.originId);cell.records++;
+      const prior=world,shared=w!==prior&&w.config===prior?.config;
+      revision++;eventPlan=null;frameCandidates=null;
+      if(!shared||w.organisms!==prior.organisms)livingById=new Map(w.organisms.map(o=>[o.id,o]));
+      if(!shared||w.searchQ!==prior.searchQ)freeQById=new Map(w.config.hyperParasiteModel==='hyper/1'?(w.searchQ||[]).filter(q=>S.HyperParasite?.is(q)).map(q=>[q.id,q]):[]);
+      if(!shared||w.turn!==prior.turn||w.informationField!==prior.informationField){
+        informationCells=new Map();informationIndex=null;
+        if(S.PersistentInformation?.enabled(w))for(const record of w.informationField||[]){
+          if(!(record.expires>w.turn&&record.amount>=S.PersistentInformation.settings(w).minimumAmount))continue;
+          if(!informationCells.has(record.cell))informationCells.set(record.cell,{cell:record.cell,amount:0,origins:new Set(),records:0});
+          const cell=informationCells.get(record.cell);cell.amount+=record.amount;cell.origins.add(record.originId);cell.records++;
+        }
       }
       const time=performance.now();
       const identity=JSON.stringify([w.config.seed,w.config.width,w.config.height,w.config.mapFingerprint,w.config.mapResolved]);
@@ -393,12 +400,12 @@
         w.config.width === world.config.width && w.config.height === world.config.height &&
         w.config.mapFingerprint === world.config.mapFingerprint &&
         w.turn >= world.turn && w.turn <= world.turn + 1;
-      previousActors = new Map(sameSequence ? [...previousActors, ...(world.organisms || []).map(o=>[o.id,o])] : []);
+      if(!sameSequence)previousActors.clear();
+      else for(const o of world.organisms)previousActors.set(o.id,o);
       // Keep only just-deceased actors carrying a confirmed action in this frame.
-      const present = new Set(w.organisms.map(o=>o.id));
       const deaths = new Map((w.events || []).filter(e=>e.type === "death").map(e=>[e.id,e]));
       for (const [id,o] of previousActors) {
-        if (present.has(id)) continue;
+        if (livingById.has(id)) continue;
         const death = deaths.get(id);
         if (!death) previousActors.delete(id);
         else previousActors.set(id,{...o,...death.appearance,cell:death.cell});
