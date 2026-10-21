@@ -32,6 +32,49 @@ test("first-host release spends one migrant rather than reporting a birth; termi
  assert(i&&!i.transfer);assert.equal(i.passages,0);assert.equal(p.primary.cohort.members,2);
 });
 
+test("fanout spends two complete terminal propagules and reaches a first host two cells away",()=>{
+ const build=fanout=>{
+  const w=E.create({...config,...(fanout?{parasiteDispersalModel:"fanout/1"}:{})}),host=w.organisms.find(o=>o.slot==="main"),target=w.organisms.find(o=>o.species==="grass");
+  assert(host&&target);
+  const cell=S.nearby(w,host.cell,2,true).find(cell=>S.distance(w,host.cell,cell)===2&&!w.tiles[cell].blocked&&S.sight(w,host.cell,cell));
+  assert.notEqual(cell,undefined);target.cell=cell;w.organisms=[host,target];host.infection=S.PrimaryParasite.infection(w,"leafparasite",host.id,0,"terminal-test");
+  const p=host.infection;Object.assign(p,{stage:"terminal",counter:8,E:1,ready:0});p.primary.settledAt=-1;p.primary.pauseUntil=-1;
+  w.turn=2;const first=E.P.produce(w,E.context(w),host),emissions=w.primaryInocula.length;
+  assert(first&&!first.transfer);assert.equal(new Set(w.primaryInocula.map(i=>i.id)).size,emissions);
+  w.turn=3;const ctx=E.context(w);E.P.contacts(w,ctx);
+  return {emissions,exposures:ctx.primaryFlow.bySpecies.leafparasite.contact.exposures,energy:p.E};
+ };
+ const old=build(false),favored=build(true);
+ assert.equal(old.emissions,1);assert.equal(old.exposures,0);
+ assert.equal(favored.emissions,2);assert(favored.exposures>=1);
+ assert(favored.energy<old.energy);
+});
+
+test("free Q cohort separates into two finite foragers without a birth",()=>{
+ const w=E.create({...config,parasiteDispersalModel:"fanout/1"}),q=S.HyperParasite.create(w,null,0,"split-test");
+ q.hostId=null;q.phase=4;q.hyper.state="adult";q.hyper.detachedAt=-1;q.cell=w.organisms.find(o=>o.slot==="main").cell;
+ q.age=20;q.bornAt=-18;q.E=.2;q.B=.06;w.searchQ=[q];w.turn=2;
+ const ctx=E.context(w);E.P.hyperSearch(w,ctx);
+ assert.equal(w.searchQ.length,2);assert.equal(new Set(w.searchQ.map(a=>a.id)).size,2);
+ assert.equal(w.searchQ.reduce((n,a)=>n+a.hyper.cohort.members,0),2);
+ assert(Math.abs(w.searchQ.reduce((n,a)=>n+a.B,0)-.06)<1e-8);
+ assert.deepEqual(ctx.births,[]);
+});
+
+test("fatal Q emergence assimilates a bounded amount of its P host",()=>{
+ const w=E.create({...config,parasiteDispersalModel:"fanout/1"}),host=w.organisms.find(o=>o.slot==="main");assert(host);
+ const p=S.PrimaryParasite.infection(w,"leafparasite",host.id,0,"hatch-host");host.infection=p;
+ Object.assign(p,{stage:"terminal",counter:8,matureAt:0,E:.5,B:.04});p.primary.settledAt=-1;p.primary.pauseUntil=-1;
+ const q=S.HyperParasite.create(w,p.id,0,"hatch-q");p.q=q;
+ Object.assign(q,{phase:3,age:12,bornAt:-11,B:.02,E:.4});Object.assign(q.hyper,{state:"preparation",experience:12,development:12,settledAt:-1,pauseUntil:-1});
+ w.config.hyperParasiteSettings.emergenceRate=1;w.config.hyperParasiteSettings.exclusionRate=0;w.turn=1;
+ const total=S.totals(w).E;w.ledger={initialE:total,initialM:S.totals(w).M,solar:0,sinks:0,Mloss:0};
+ const ctx=E.context(w);E.P.hyperBegin(w,ctx);E.P.hyperMature(w,ctx);
+ assert.equal(q.phase,4);assert.equal(host.infection,null);assert(ctx.hyperFlow.bySpecies.hyperparasite.fedE>0);
+ assert(q.E<=w.config.hyperParasiteSettings.capE);
+ assert.deepEqual(E.invariants(w),[]);
+});
+
 test("Q can seed a half-developed terminal P before maturation only in a cohort world",()=>{
  const attempt=cohort=>{
   const w=E.create({...config,parasiteCohortModel:cohort?"cohort/1":undefined}),host=w.organisms.find(o=>o.slot==="main");assert(host);
@@ -47,8 +90,8 @@ test("Q can seed a half-developed terminal P before maturation only in a cohort 
 });
 
 test("cohort worlds remain deterministic and conserve stocks through early turns",()=>{
- const run=()=>{let w=E.create(config);for(let i=0;i<20;i++){w=E.step(w);assert.deepEqual(E.invariants(w),[],`turn ${w.turn}`);}return E.fingerprint(w);};
- assert.equal(run(),run());
+ const run=fanout=>{let w=E.create({...config,...(fanout?{parasiteDispersalModel:"fanout/1"}:{})});for(let i=0;i<20;i++){w=E.step(w);assert.deepEqual(E.invariants(w),[],`turn ${w.turn}`);}return E.fingerprint(w);};
+ assert.equal(run(false),run(false));assert.equal(run(true),run(true));
  const old=E.create({...config,parasiteCohortModel:undefined});assert(!S.PrimaryParasite.entries(old).some(e=>e.p.primary.cohort));
 });
 

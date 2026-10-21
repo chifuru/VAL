@@ -1594,6 +1594,8 @@ return {settings,attach,region,level,factor,begin,finish};
     }else if(c.hyperParasiteSettings!==undefined)throw Error("SETTINGS_INVALID: 高次寄生モデルの指定が必要です");
     if(c.parasiteCohortModel!==undefined&&c.parasiteCohortModel!=="cohort/1")throw Error("SETTINGS_INVALID: 寄生群体モデル");
     if(c.parasiteCohortModel&&c.primaryParasiteModel!=="primary/1")throw Error("SETTINGS_INVALID: 寄生群体には一次寄生モデルが必要です");
+    if(c.parasiteDispersalModel!==undefined&&c.parasiteDispersalModel!=="fanout/1")throw Error("SETTINGS_INVALID: 寄生分散モデル");
+    if(c.parasiteDispersalModel&&c.parasiteCohortModel!=="cohort/1")throw Error("SETTINGS_INVALID: 寄生分散には寄生群体モデルが必要です");
     if(c.informationModel!==undefined&&c.informationModel!=="persistent/1")throw Error("SETTINGS_INVALID: 持続情報モデル");
     if(c.informationModel==="persistent/1")c.informationSettings=PersistentInformation.parameters(c.informationSettings);
     else if(c.informationSettings!==undefined)throw Error("SETTINGS_INVALID: 持続情報モデルの指定が必要です");

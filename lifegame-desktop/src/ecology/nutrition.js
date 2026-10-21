@@ -490,7 +490,8 @@
         } else if (a.type === "hyper") {
           if(S.ParasiteCohort.enabled(w)&&
             (ctx.hyperEscaped?.has(obj.id)||obj.E>=.004&&
-              S.r(w,"hyper/cohort-evade",w.turn,obj.id,o.id)<(.45+.15*(S.ParasiteCohort.members(obj)-1)))){
+              S.r(w,"hyper/cohort-evade",w.turn,obj.id,o.id)<
+                (w.config.parasiteDispersalModel==="fanout/1"?.80+.05*(S.ParasiteCohort.members(obj)-1):.45+.15*(S.ParasiteCohort.members(obj)-1)))){
             if(!ctx.hyperEscaped?.has(obj.id)){
               obj.E=S.round(obj.E-.004);S.dissipate(w,.004);
               (ctx.hyperEscaped??=new Set()).add(obj.id);
