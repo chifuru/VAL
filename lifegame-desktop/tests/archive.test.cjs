@@ -21,6 +21,15 @@ test('checked-in replay signature matches all biological sources including lands
  assert(fs.readFileSync(require.resolve('../src/ecology/replay-version.js'),'utf8').includes(hash.digest('hex')));
 });
 
+test('successor model preserves replay of prior flagless worlds',()=>{
+ require('../src/ecology/replay-version.js');
+ const old='6e441483b2bd025ca772931640e3f3edfdfb3ed6a44609d7dadb61f567dcf941',s=storage();
+ const w=specimen(),previous=A.create(s,E,old),record=previous.capture(w,'user-ended');previous.save(record);
+ assert.equal(A.create(s,E,globalThis.EcoReplayVersion).replay(record.id).signature,old);
+ const rows=JSON.parse(s.getItem());rows[0].config.socialRenewalModel='successor/1';s.setItem('',JSON.stringify(rows));
+ assert.throws(()=>A.create(s,E,globalThis.EcoReplayVersion).replay(record.id));
+});
+
 test('template records require resolved map identity before replay',()=>{
  const s=storage(),a=A.create(s,E,'maps');
  const w=E.create({seed:'map-record',terrainSeed:'fixed',landscape:'templates',mapId:'river',width:40,height:28,initial:20,lineages:'few'});

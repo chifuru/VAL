@@ -31,6 +31,17 @@ test("a sparse isolated queen uses previously paid stored paternity and cannot c
   for(const enabled of [false,true]){const w=world(enabled),q=add(w,"swarm","queen",2,2,{sex:"female",role:"queen"});q.sperm={uses:2,father:{id:"absent-father",dna:dna(),birthWeights:q.birthWeights.slice(),generation:0}};const c=ready(w),found=at(w,c,3);assert.equal(found.length,enabled?1:0);if(enabled){const before=S.totals(w),child=E.R.child(w,found[0],c);w.organisms.push(child);assert.equal(q.sperm.uses,1);assert.deepEqual(child.parents,["queen","absent-father"]);assert.equal(q.E,50);assert.equal(q.M,8);assert.deepEqual(S.totals(w),before);assert.deepEqual(E.invariants(w),[]);}}
   for(const extra of [{},{E:39},{M:3}]){const w=world(),q=add(w,"swarm","queen",2,2,{sex:"female",role:"queen",...extra});if(Object.keys(extra).length)q.sperm={uses:2,father:{id:"absent-father",dna:dna(),birthWeights:q.birthWeights.slice(),generation:0}};assert.equal(at(w,ready(w),3).length,0);}
 });
+test("successor model lowers a queen's finite brood cost after real stored mating",()=>{
+  const w=world();w.config.socialRenewalModel="successor/1";
+  const q=add(w,"swarm","queen",2,2,{sex:"female",role:"queen",E:40});
+  q.sperm={uses:2,father:{id:"real-father",dna:dna(),birthWeights:q.birthWeights.slice(),generation:0}};
+  const c=ready(w),candidate=at(w,c,3)[0],before=S.totals(w);
+  assert.equal(candidate.costs[0],30);
+  const child=E.R.child(w,candidate,c);w.organisms.push(child);
+  assert.equal(q.E,10);assert.equal(child.E+child.B,30);
+  assert.equal(q.sperm.uses,1);assert.deepEqual(S.totals(w),before);
+  assert.deepEqual(E.invariants(w),[]);
+});
 test("one mature terrestrial primary consumer can pay eight energy from ten without free replenishment",()=>{
   for(const enabled of [false,true]){const w=world(enabled),o=add(w,"grassbug","parent",2,2,{phase:2,age:6,E:10,M:0,HP:6}),c=ready(w),before=S.totals(w),children=E.R.reproduce(w,c);assert.equal(children.length,enabled?1:0);if(enabled){assert.equal(o.E,2);assert.deepEqual(children[0].parents,["parent"]);assert.equal(children[0].E,6);assert.equal(children[0].B,2);assert.equal(children[0].phase,1);assert.deepEqual(S.totals(w),before);assert.deepEqual(E.invariants(w),[]);}}
   for(const extra of [{E:9.999},{age:0,phase:1},{birthReady:20}]){const w=world();add(w,"grassbug","parent",2,2,{phase:2,age:6,E:10,M:0,HP:6,...extra});assert.equal(E.R.reproduce(w,ready(w)).length,0);}

@@ -335,6 +335,7 @@
     const [width, height] = $("size").value.split(",").map(Number);
     const config = {
       generationModel:'diverse/1',generationSettings:generationSettings(),relationshipModel:'network/1',balanceModel:'survival/4',consumerModel:'group/1',
+      socialRenewalModel:'successor/1',
       consumerGroupSettings:{version:'consumer-group-parameters/3'},
       blockTurns: 500,
       randomModel: "table/1",

@@ -26,6 +26,15 @@ test("production worker can feed its hungry queen with a finite paid transfer", 
   worker.E = 24;
   assert(!E.B.candidates(w, worker, c, S.maps(w)).some(a => a.type === "care"));
 });
+test("successor model keeps a worker's fungal nursery transfer finite",()=>{
+  const w=world();w.config.socialRenewalModel="successor/1";
+  const worker=add(w,"swarm","worker",3,3,{phase:3,role:"worker",colony:"home",E:60});
+  const queen=add(w,"swarm","queen",4,3,{phase:3,role:"queen",colony:"home",E:30});
+  const c=ready(w),before=S.totals(w);c.intents.set(worker.id,{type:"care",target:queen.id,cost:2});
+  E.B.care(w,c);
+  assert.equal(worker.E,58);assert.equal(queen.E,31.5);
+  assert.equal(S.totals(w).E,S.round(before.E-.5));assert.deepEqual(E.invariants(w),[]);
+});
 
 test("queen care respects barriers and recipient capacity under competing workers", () => {
   const w = world();
@@ -74,6 +83,25 @@ test("production successor caste uses local living queens, retaining paid phase-
   }
   assert.equal(birth(false), "queen");
   assert.equal(birth(true), "worker");
+});
+
+test("new successor model gives a paid daughter a viable queen caste without changing older worlds", () => {
+  const w=world(),[mother,father]=parents(w,"swarm");
+  mother.colony=father.colony="home";mother.E=father.E=70;
+  w.organisms=w.organisms.filter(o=>o.id!=="neighbor");
+  add(w,"swarm","existing-queen",2,2,{phase:3,role:"queen",colony:"home",E:70});
+  for(let turn=1;turn<10000;turn++){
+    const id=`b:${turn}:main:2:1`,draw=S.r(w,"birth/role",turn,mother.id,17);
+    if(draw>.08&&draw<.45&&S.r(w,"birth/sex",turn,id)<.5){w.turn=turn;break;}
+  }
+  const candidate={species:"swarm",cell:17,slot:"main",kind:0,parents:[mother,father],costs:[16,16]};
+  const original=E.R.child(w,candidate,ready(w));
+  assert.equal(original.role,"worker");
+  mother.E=father.E=70;w.config.socialRenewalModel="successor/1";
+  const before=S.totals(w),daughter=E.R.child(w,candidate,ready(w));w.organisms.push(daughter);
+  assert.equal(daughter.role,"queen");assert.equal(daughter.phase,1);assert.equal(daughter.age,0);
+  assert.equal(daughter.generation,1);assert.deepEqual(S.totals(w),before);
+  assert.deepEqual(E.invariants(w),[]);
 });
 
 test("production queen stores only real local paternity and funds later births herself", () => {

@@ -1576,6 +1576,7 @@ return {settings,attach,region,level,factor,begin,finish};
     else if(c.consumerGroupSettings!==undefined)throw Error('SETTINGS_INVALID: 一次消費者モデルが必要です');
     if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3","survival/4"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
+    if(c.socialRenewalModel!==undefined&&c.socialRenewalModel!=="successor/1")throw Error("SETTINGS_INVALID: 群体節足の後継繁殖モデル");
     if(FungalColony.enabled({config:c}))c.fungalColonySettings=FungalColony.settings(c.fungalColonySettings);
     else if(c.fungalColonySettings!==undefined)throw Error("SETTINGS_INVALID: 菌膜群落にはsurvival/4が必要です");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
@@ -1969,6 +1970,7 @@ return {settings,attach,region,level,factor,begin,finish};
       branch,
     };
     if(ConsumerGroup.is(o)){const n=ConsumerGroup.count(o);for(const k of ["capE","capB","capM","maxHP","maintenance"])base[k]*=n;base.members=n;}
+    if(s.id==="swarm"&&w.config.socialRenewalModel==="successor/1")base.maintenance*=.45;
     const a=ageInfo(o),f=a.factors;
     return {...base,life:s.id==="swarm"&&o.role==="queen"?(a.enabled?o.birthLife:base.life*3):base.life,ageEnabled:a.enabled,ageStage:a.stage,ageFactors:f,
       baseMaxHP:base.maxHP,baseMaintenance:base.maintenance,baseCooldown:base.cooldown,

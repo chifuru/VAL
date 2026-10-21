@@ -2466,6 +2466,7 @@ return {settings,attach,region,level,factor,begin,finish};
     else if(c.consumerGroupSettings!==undefined)throw Error('SETTINGS_INVALID: 一次消費者モデルが必要です');
     if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3","survival/4"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
+    if(c.socialRenewalModel!==undefined&&c.socialRenewalModel!=="successor/1")throw Error("SETTINGS_INVALID: 群体節足の後継繁殖モデル");
     if(FungalColony.enabled({config:c}))c.fungalColonySettings=FungalColony.settings(c.fungalColonySettings);
     else if(c.fungalColonySettings!==undefined)throw Error("SETTINGS_INVALID: 菌膜群落にはsurvival/4が必要です");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
@@ -2859,6 +2860,7 @@ return {settings,attach,region,level,factor,begin,finish};
       branch,
     };
     if(ConsumerGroup.is(o)){const n=ConsumerGroup.count(o);for(const k of ["capE","capB","capM","maxHP","maintenance"])base[k]*=n;base.members=n;}
+    if(s.id==="swarm"&&w.config.socialRenewalModel==="successor/1")base.maintenance*=.45;
     const a=ageInfo(o),f=a.factors;
     return {...base,life:s.id==="swarm"&&o.role==="queen"?(a.enabled?o.birthLife:base.life*3):base.life,ageEnabled:a.enabled,ageStage:a.stage,ageFactors:f,
       baseMaxHP:base.maxHP,baseMaintenance:base.maintenance,baseCooldown:base.cooldown,
@@ -5165,6 +5167,9 @@ function(require,module){
         (S.distance(w, to, p) <= 1 ||
           S.distance(w, to, p) < S.distance(w, here, p))
       ) shelterBonus = Math.max(shelterBonus, 0.6);
+      if(s.id==="swarm"&&w.config.socialRenewalModel==="successor/1"&&move&&o.E>=20&&
+         a.colony===o.colony&&S.distance(w,to,p)<=2&&S.distance(w,to,p)<S.distance(w,here,p))
+        shelterBonus=Math.max(shelterBonus,0.85);
       if (
         (w.config.ecologyRevision === "observation/4.1" || (o.phase >= 3 && a.phase >= 3)) &&
         ctx.traits.get(o.id).ageStage !== "juvenile" &&
@@ -5570,7 +5575,8 @@ function(require,module){
       o.E = S.round(o.E - 2);
       const material = Math.min(0.2, Math.max(0, o.M - 2), Math.max(0, 8 - target.M));
       o.M = S.round(o.M - material);
-      const careGain = Nutrition.absorb(w, target, { E: 2, M: material, G: 0 }, "animal", ctx);
+      const careGain = Nutrition.absorb(w, target, { E: 2, M: material, G: 0 },
+        w.config.socialRenewalModel==="successor/1"&&o.species==="swarm"?"fungal":"animal", ctx);
       ctx.records.get(o.id).cared = true;
       S.record(ctx, o, "care", {
         target: target.id,
@@ -5947,8 +5953,8 @@ function(require,module){
               local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
         }
         if(mainNeighborAllowed(w,ctx,mains.length,true))for(const mother of mains)
-          if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
-            local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
+          if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=(w.config.socialRenewalModel==="successor/1"?30:40)&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
+            local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[w.config.socialRenewalModel==="successor/1"?30:40],species:mother.species});
         if (mainNeighborAllowed(w,ctx,mains.length))
           for (const mother of mains)
             if (
@@ -6081,7 +6087,7 @@ function(require,module){
                 a.id !== mother.id && a.species === "swarm" &&
                 a.role === "queen" && a.colony === mother.colony &&
                 a.HP > 0 && S.distance(w, a.cell, mother.cell) <= 2)
-                ? 0.08 : 0.6)
+                ? (w.config.socialRenewalModel === "successor/1" ? 0.55 : 0.08) : 0.6)
             ? "queen"
             : "worker";
     const share = early ? 0.6 : role === "queen" ? 0.5 : 0.8;
@@ -6191,7 +6197,7 @@ function(require,module){
     S.ConsumerGroup.reproduce(w,ctx,birthPressure);
     const matingMap=S.maps(w),usedMales=new Set();
     for(const queen of w.organisms){
-      if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||(w.config.ecologyRevision!=="observation/4.1"&&ctx.traits.get(queen.id)?.phase<3)||queen.HP<70||queen.E<47||ctx.traits.get(queen.id)?.ageStage==="juvenile"||ctx.records.get(queen.id)?.damage>0)continue;
+      if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||(w.config.ecologyRevision!=="observation/4.1"&&ctx.traits.get(queen.id)?.phase<3)||queen.HP<70||queen.E<(w.config.socialRenewalModel==="successor/1"?37:47)||ctx.traits.get(queen.id)?.ageStage==="juvenile"||ctx.records.get(queen.id)?.damage>0)continue;
       const male=S.nearby(w,queen.cell).map(p=>matingMap.main.get(p)).filter(a=>a?.species==="swarm"&&a.role==="male"&&(w.config.ecologyRevision==="observation/4.1"||ctx.traits.get(a.id)?.phase>=3)&&a.HP>=70&&a.E>=2&&ctx.traits.get(a.id)?.ageStage!=="juvenile"&&ctx.records.get(a.id)?.damage===0&&!usedMales.has(a.id)&&S.oneStep(w,queen.cell,a.cell)).sort((a,b)=>S.hash(w,"colony/mate",w.turn,queen.id,a.id)-S.hash(w,"colony/mate",w.turn,queen.id,b.id))[0];
       if(!male)continue;queen.E=S.round(queen.E-2);male.E=S.round(male.E-2);S.dissipate(w,4);usedMales.add(male.id);
       queen.sperm={uses:12,father:{id:male.id,dna:{...male.dna},birthWeights:male.birthWeights.slice(),generation:male.generation}};
@@ -11050,6 +11056,7 @@ return {settings,attach,region,level,factor,begin,finish};
     else if(c.consumerGroupSettings!==undefined)throw Error('SETTINGS_INVALID: 一次消費者モデルが必要です');
     if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3","survival/4"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
+    if(c.socialRenewalModel!==undefined&&c.socialRenewalModel!=="successor/1")throw Error("SETTINGS_INVALID: 群体節足の後継繁殖モデル");
     if(FungalColony.enabled({config:c}))c.fungalColonySettings=FungalColony.settings(c.fungalColonySettings);
     else if(c.fungalColonySettings!==undefined)throw Error("SETTINGS_INVALID: 菌膜群落にはsurvival/4が必要です");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
@@ -11443,6 +11450,7 @@ return {settings,attach,region,level,factor,begin,finish};
       branch,
     };
     if(ConsumerGroup.is(o)){const n=ConsumerGroup.count(o);for(const k of ["capE","capB","capM","maxHP","maintenance"])base[k]*=n;base.members=n;}
+    if(s.id==="swarm"&&w.config.socialRenewalModel==="successor/1")base.maintenance*=.45;
     const a=ageInfo(o),f=a.factors;
     return {...base,life:s.id==="swarm"&&o.role==="queen"?(a.enabled?o.birthLife:base.life*3):base.life,ageEnabled:a.enabled,ageStage:a.stage,ageFactors:f,
       baseMaxHP:base.maxHP,baseMaintenance:base.maintenance,baseCooldown:base.cooldown,
@@ -13347,8 +13355,8 @@ function(require,module){
               local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
         }
         if(mainNeighborAllowed(w,ctx,mains.length,true))for(const mother of mains)
-          if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
-            local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
+          if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=(w.config.socialRenewalModel==="successor/1"?30:40)&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
+            local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[w.config.socialRenewalModel==="successor/1"?30:40],species:mother.species});
         if (mainNeighborAllowed(w,ctx,mains.length))
           for (const mother of mains)
             if (
@@ -13481,7 +13489,7 @@ function(require,module){
                 a.id !== mother.id && a.species === "swarm" &&
                 a.role === "queen" && a.colony === mother.colony &&
                 a.HP > 0 && S.distance(w, a.cell, mother.cell) <= 2)
-                ? 0.08 : 0.6)
+                ? (w.config.socialRenewalModel === "successor/1" ? 0.55 : 0.08) : 0.6)
             ? "queen"
             : "worker";
     const share = early ? 0.6 : role === "queen" ? 0.5 : 0.8;
@@ -13591,7 +13599,7 @@ function(require,module){
     S.ConsumerGroup.reproduce(w,ctx,birthPressure);
     const matingMap=S.maps(w),usedMales=new Set();
     for(const queen of w.organisms){
-      if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||(w.config.ecologyRevision!=="observation/4.1"&&ctx.traits.get(queen.id)?.phase<3)||queen.HP<70||queen.E<47||ctx.traits.get(queen.id)?.ageStage==="juvenile"||ctx.records.get(queen.id)?.damage>0)continue;
+      if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||(w.config.ecologyRevision!=="observation/4.1"&&ctx.traits.get(queen.id)?.phase<3)||queen.HP<70||queen.E<(w.config.socialRenewalModel==="successor/1"?37:47)||ctx.traits.get(queen.id)?.ageStage==="juvenile"||ctx.records.get(queen.id)?.damage>0)continue;
       const male=S.nearby(w,queen.cell).map(p=>matingMap.main.get(p)).filter(a=>a?.species==="swarm"&&a.role==="male"&&(w.config.ecologyRevision==="observation/4.1"||ctx.traits.get(a.id)?.phase>=3)&&a.HP>=70&&a.E>=2&&ctx.traits.get(a.id)?.ageStage!=="juvenile"&&ctx.records.get(a.id)?.damage===0&&!usedMales.has(a.id)&&S.oneStep(w,queen.cell,a.cell)).sort((a,b)=>S.hash(w,"colony/mate",w.turn,queen.id,a.id)-S.hash(w,"colony/mate",w.turn,queen.id,b.id))[0];
       if(!male)continue;queen.E=S.round(queen.E-2);male.E=S.round(male.E-2);S.dissipate(w,4);usedMales.add(male.id);
       queen.sperm={uses:12,father:{id:male.id,dna:{...male.dna},birthWeights:male.birthWeights.slice(),generation:male.generation}};
@@ -15864,6 +15872,9 @@ function(require,module){
         (S.distance(w, to, p) <= 1 ||
           S.distance(w, to, p) < S.distance(w, here, p))
       ) shelterBonus = Math.max(shelterBonus, 0.6);
+      if(s.id==="swarm"&&w.config.socialRenewalModel==="successor/1"&&move&&o.E>=20&&
+         a.colony===o.colony&&S.distance(w,to,p)<=2&&S.distance(w,to,p)<S.distance(w,here,p))
+        shelterBonus=Math.max(shelterBonus,0.85);
       if (
         (w.config.ecologyRevision === "observation/4.1" || (o.phase >= 3 && a.phase >= 3)) &&
         ctx.traits.get(o.id).ageStage !== "juvenile" &&
@@ -16269,7 +16280,8 @@ function(require,module){
       o.E = S.round(o.E - 2);
       const material = Math.min(0.2, Math.max(0, o.M - 2), Math.max(0, 8 - target.M));
       o.M = S.round(o.M - material);
-      const careGain = Nutrition.absorb(w, target, { E: 2, M: material, G: 0 }, "animal", ctx);
+      const careGain = Nutrition.absorb(w, target, { E: 2, M: material, G: 0 },
+        w.config.socialRenewalModel==="successor/1"&&o.species==="swarm"?"fungal":"animal", ctx);
       ctx.records.get(o.id).cared = true;
       S.record(ctx, o, "care", {
         target: target.id,
@@ -16646,8 +16658,8 @@ function(require,module){
               local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
         }
         if(mainNeighborAllowed(w,ctx,mains.length,true))for(const mother of mains)
-          if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
-            local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
+          if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=(w.config.socialRenewalModel==="successor/1"?30:40)&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
+            local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[w.config.socialRenewalModel==="successor/1"?30:40],species:mother.species});
         if (mainNeighborAllowed(w,ctx,mains.length))
           for (const mother of mains)
             if (
@@ -16780,7 +16792,7 @@ function(require,module){
                 a.id !== mother.id && a.species === "swarm" &&
                 a.role === "queen" && a.colony === mother.colony &&
                 a.HP > 0 && S.distance(w, a.cell, mother.cell) <= 2)
-                ? 0.08 : 0.6)
+                ? (w.config.socialRenewalModel === "successor/1" ? 0.55 : 0.08) : 0.6)
             ? "queen"
             : "worker";
     const share = early ? 0.6 : role === "queen" ? 0.5 : 0.8;
@@ -16890,7 +16902,7 @@ function(require,module){
     S.ConsumerGroup.reproduce(w,ctx,birthPressure);
     const matingMap=S.maps(w),usedMales=new Set();
     for(const queen of w.organisms){
-      if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||(w.config.ecologyRevision!=="observation/4.1"&&ctx.traits.get(queen.id)?.phase<3)||queen.HP<70||queen.E<47||ctx.traits.get(queen.id)?.ageStage==="juvenile"||ctx.records.get(queen.id)?.damage>0)continue;
+      if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||(w.config.ecologyRevision!=="observation/4.1"&&ctx.traits.get(queen.id)?.phase<3)||queen.HP<70||queen.E<(w.config.socialRenewalModel==="successor/1"?37:47)||ctx.traits.get(queen.id)?.ageStage==="juvenile"||ctx.records.get(queen.id)?.damage>0)continue;
       const male=S.nearby(w,queen.cell).map(p=>matingMap.main.get(p)).filter(a=>a?.species==="swarm"&&a.role==="male"&&(w.config.ecologyRevision==="observation/4.1"||ctx.traits.get(a.id)?.phase>=3)&&a.HP>=70&&a.E>=2&&ctx.traits.get(a.id)?.ageStage!=="juvenile"&&ctx.records.get(a.id)?.damage===0&&!usedMales.has(a.id)&&S.oneStep(w,queen.cell,a.cell)).sort((a,b)=>S.hash(w,"colony/mate",w.turn,queen.id,a.id)-S.hash(w,"colony/mate",w.turn,queen.id,b.id))[0];
       if(!male)continue;queen.E=S.round(queen.E-2);male.E=S.round(male.E-2);S.dissipate(w,4);usedMales.add(male.id);
       queen.sperm={uses:12,father:{id:male.id,dna:{...male.dna},birthWeights:male.birthWeights.slice(),generation:male.generation}};
@@ -18028,8 +18040,8 @@ function(require,module){
               local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
         }
         if(mainNeighborAllowed(w,ctx,mains.length,true))for(const mother of mains)
-          if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
-            local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
+          if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=(w.config.socialRenewalModel==="successor/1"?30:40)&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
+            local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[w.config.socialRenewalModel==="successor/1"?30:40],species:mother.species});
         if (mainNeighborAllowed(w,ctx,mains.length))
           for (const mother of mains)
             if (
@@ -18162,7 +18174,7 @@ function(require,module){
                 a.id !== mother.id && a.species === "swarm" &&
                 a.role === "queen" && a.colony === mother.colony &&
                 a.HP > 0 && S.distance(w, a.cell, mother.cell) <= 2)
-                ? 0.08 : 0.6)
+                ? (w.config.socialRenewalModel === "successor/1" ? 0.55 : 0.08) : 0.6)
             ? "queen"
             : "worker";
     const share = early ? 0.6 : role === "queen" ? 0.5 : 0.8;
@@ -18272,7 +18284,7 @@ function(require,module){
     S.ConsumerGroup.reproduce(w,ctx,birthPressure);
     const matingMap=S.maps(w),usedMales=new Set();
     for(const queen of w.organisms){
-      if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||(w.config.ecologyRevision!=="observation/4.1"&&ctx.traits.get(queen.id)?.phase<3)||queen.HP<70||queen.E<47||ctx.traits.get(queen.id)?.ageStage==="juvenile"||ctx.records.get(queen.id)?.damage>0)continue;
+      if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||(w.config.ecologyRevision!=="observation/4.1"&&ctx.traits.get(queen.id)?.phase<3)||queen.HP<70||queen.E<(w.config.socialRenewalModel==="successor/1"?37:47)||ctx.traits.get(queen.id)?.ageStage==="juvenile"||ctx.records.get(queen.id)?.damage>0)continue;
       const male=S.nearby(w,queen.cell).map(p=>matingMap.main.get(p)).filter(a=>a?.species==="swarm"&&a.role==="male"&&(w.config.ecologyRevision==="observation/4.1"||ctx.traits.get(a.id)?.phase>=3)&&a.HP>=70&&a.E>=2&&ctx.traits.get(a.id)?.ageStage!=="juvenile"&&ctx.records.get(a.id)?.damage===0&&!usedMales.has(a.id)&&S.oneStep(w,queen.cell,a.cell)).sort((a,b)=>S.hash(w,"colony/mate",w.turn,queen.id,a.id)-S.hash(w,"colony/mate",w.turn,queen.id,b.id))[0];
       if(!male)continue;queen.E=S.round(queen.E-2);male.E=S.round(male.E-2);S.dissipate(w,4);usedMales.add(male.id);
       queen.sperm={uses:12,father:{id:male.id,dna:{...male.dna},birthWeights:male.birthWeights.slice(),generation:male.generation}};
@@ -19890,6 +19902,7 @@ return {settings,attach,region,level,factor,begin,finish};
     else if(c.consumerGroupSettings!==undefined)throw Error('SETTINGS_INVALID: 一次消費者モデルが必要です');
     if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3","survival/4"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
+    if(c.socialRenewalModel!==undefined&&c.socialRenewalModel!=="successor/1")throw Error("SETTINGS_INVALID: 群体節足の後継繁殖モデル");
     if(FungalColony.enabled({config:c}))c.fungalColonySettings=FungalColony.settings(c.fungalColonySettings);
     else if(c.fungalColonySettings!==undefined)throw Error("SETTINGS_INVALID: 菌膜群落にはsurvival/4が必要です");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
@@ -20283,6 +20296,7 @@ return {settings,attach,region,level,factor,begin,finish};
       branch,
     };
     if(ConsumerGroup.is(o)){const n=ConsumerGroup.count(o);for(const k of ["capE","capB","capM","maxHP","maintenance"])base[k]*=n;base.members=n;}
+    if(s.id==="swarm"&&w.config.socialRenewalModel==="successor/1")base.maintenance*=.45;
     const a=ageInfo(o),f=a.factors;
     return {...base,life:s.id==="swarm"&&o.role==="queen"?(a.enabled?o.birthLife:base.life*3):base.life,ageEnabled:a.enabled,ageStage:a.stage,ageFactors:f,
       baseMaxHP:base.maxHP,baseMaintenance:base.maintenance,baseCooldown:base.cooldown,
@@ -24175,6 +24189,7 @@ return {settings,attach,region,level,factor,begin,finish};
     else if(c.consumerGroupSettings!==undefined)throw Error('SETTINGS_INVALID: 一次消費者モデルが必要です');
     if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3","survival/4"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
+    if(c.socialRenewalModel!==undefined&&c.socialRenewalModel!=="successor/1")throw Error("SETTINGS_INVALID: 群体節足の後継繁殖モデル");
     if(FungalColony.enabled({config:c}))c.fungalColonySettings=FungalColony.settings(c.fungalColonySettings);
     else if(c.fungalColonySettings!==undefined)throw Error("SETTINGS_INVALID: 菌膜群落にはsurvival/4が必要です");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
@@ -24568,6 +24583,7 @@ return {settings,attach,region,level,factor,begin,finish};
       branch,
     };
     if(ConsumerGroup.is(o)){const n=ConsumerGroup.count(o);for(const k of ["capE","capB","capM","maxHP","maintenance"])base[k]*=n;base.members=n;}
+    if(s.id==="swarm"&&w.config.socialRenewalModel==="successor/1")base.maintenance*=.45;
     const a=ageInfo(o),f=a.factors;
     return {...base,life:s.id==="swarm"&&o.role==="queen"?(a.enabled?o.birthLife:base.life*3):base.life,ageEnabled:a.enabled,ageStage:a.stage,ageFactors:f,
       baseMaxHP:base.maxHP,baseMaintenance:base.maintenance,baseCooldown:base.cooldown,
@@ -27723,6 +27739,7 @@ return {settings,attach,region,level,factor,begin,finish};
     else if(c.consumerGroupSettings!==undefined)throw Error('SETTINGS_INVALID: 一次消費者モデルが必要です');
     if(c.balanceModel!==undefined&&!["survival/1","survival/2","survival/3","survival/4"].includes(c.balanceModel))
       throw Error("SETTINGS_INVALID: 生存調整モデル");
+    if(c.socialRenewalModel!==undefined&&c.socialRenewalModel!=="successor/1")throw Error("SETTINGS_INVALID: 群体節足の後継繁殖モデル");
     if(FungalColony.enabled({config:c}))c.fungalColonySettings=FungalColony.settings(c.fungalColonySettings);
     else if(c.fungalColonySettings!==undefined)throw Error("SETTINGS_INVALID: 菌膜群落にはsurvival/4が必要です");
     if(c.ryoukiModel!==undefined&&c.ryoukiModel!=="ryouki/1")throw Error("SETTINGS_INVALID: 量機モデル");
@@ -28116,6 +28133,7 @@ return {settings,attach,region,level,factor,begin,finish};
       branch,
     };
     if(ConsumerGroup.is(o)){const n=ConsumerGroup.count(o);for(const k of ["capE","capB","capM","maxHP","maintenance"])base[k]*=n;base.members=n;}
+    if(s.id==="swarm"&&w.config.socialRenewalModel==="successor/1")base.maintenance*=.45;
     const a=ageInfo(o),f=a.factors;
     return {...base,life:s.id==="swarm"&&o.role==="queen"?(a.enabled?o.birthLife:base.life*3):base.life,ageEnabled:a.enabled,ageStage:a.stage,ageFactors:f,
       baseMaxHP:base.maxHP,baseMaintenance:base.maintenance,baseCooldown:base.cooldown,

@@ -211,8 +211,8 @@
               local.push({cell,slot:"main",kind:0,parents:[mother,father],costs:S.D.ryouki.birth.costsE.slice(),species:"ryouki"});
         }
         if(mainNeighborAllowed(w,ctx,mains.length,true))for(const mother of mains)
-          if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=40&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
-            local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[40],species:mother.species});
+          if(mother.species==="swarm"&&mother.role==="queen"&&mother.sperm?.uses>0&&eligible(w,mother,ctx)&&mother.E>=(w.config.socialRenewalModel==="successor/1"?30:40)&&mother.M>=4&&S.oneStep(w,mother.cell,cell))
+            local.push({cell,slot:"main",kind:3,parents:[mother],fatherReference:mother.sperm.father,costs:[w.config.socialRenewalModel==="successor/1"?30:40],species:mother.species});
         if (mainNeighborAllowed(w,ctx,mains.length))
           for (const mother of mains)
             if (
@@ -346,7 +346,7 @@
                 a.id !== mother.id && a.species === "swarm" &&
                 a.role === "queen" && a.colony === mother.colony &&
                 a.HP > 0 && S.distance(w, a.cell, mother.cell) <= 2)
-                ? 0.08 : 0.6)
+                ? (w.config.socialRenewalModel === "successor/1" ? 0.55 : 0.08) : 0.6)
             ? "queen"
             : "worker";
     const share = early ? 0.6 : role === "queen" ? 0.5 : 0.8;
@@ -456,7 +456,7 @@
     S.ConsumerGroup.reproduce(w,ctx,birthPressure);
     const matingMap=S.maps(w),usedMales=new Set();
     for(const queen of w.organisms){
-      if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||(w.config.ecologyRevision!=="observation/4.1"&&ctx.traits.get(queen.id)?.phase<3)||queen.HP<70||queen.E<47||ctx.traits.get(queen.id)?.ageStage==="juvenile"||ctx.records.get(queen.id)?.damage>0)continue;
+      if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||(w.config.ecologyRevision!=="observation/4.1"&&ctx.traits.get(queen.id)?.phase<3)||queen.HP<70||queen.E<(w.config.socialRenewalModel==="successor/1"?37:47)||ctx.traits.get(queen.id)?.ageStage==="juvenile"||ctx.records.get(queen.id)?.damage>0)continue;
       const male=S.nearby(w,queen.cell).map(p=>matingMap.main.get(p)).filter(a=>a?.species==="swarm"&&a.role==="male"&&(w.config.ecologyRevision==="observation/4.1"||ctx.traits.get(a.id)?.phase>=3)&&a.HP>=70&&a.E>=2&&ctx.traits.get(a.id)?.ageStage!=="juvenile"&&ctx.records.get(a.id)?.damage===0&&!usedMales.has(a.id)&&S.oneStep(w,queen.cell,a.cell)).sort((a,b)=>S.hash(w,"colony/mate",w.turn,queen.id,a.id)-S.hash(w,"colony/mate",w.turn,queen.id,b.id))[0];
       if(!male)continue;queen.E=S.round(queen.E-2);male.E=S.round(male.E-2);S.dissipate(w,4);usedMales.add(male.id);
       queen.sperm={uses:12,father:{id:male.id,dna:{...male.dna},birthWeights:male.birthWeights.slice(),generation:male.generation}};

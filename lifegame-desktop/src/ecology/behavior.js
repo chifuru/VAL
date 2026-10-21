@@ -613,6 +613,9 @@
         (S.distance(w, to, p) <= 1 ||
           S.distance(w, to, p) < S.distance(w, here, p))
       ) shelterBonus = Math.max(shelterBonus, 0.6);
+      if(s.id==="swarm"&&w.config.socialRenewalModel==="successor/1"&&move&&o.E>=20&&
+         a.colony===o.colony&&S.distance(w,to,p)<=2&&S.distance(w,to,p)<S.distance(w,here,p))
+        shelterBonus=Math.max(shelterBonus,0.85);
       if (
         (w.config.ecologyRevision === "observation/4.1" || (o.phase >= 3 && a.phase >= 3)) &&
         ctx.traits.get(o.id).ageStage !== "juvenile" &&
@@ -1018,7 +1021,8 @@
       o.E = S.round(o.E - 2);
       const material = Math.min(0.2, Math.max(0, o.M - 2), Math.max(0, 8 - target.M));
       o.M = S.round(o.M - material);
-      const careGain = Nutrition.absorb(w, target, { E: 2, M: material, G: 0 }, "animal", ctx);
+      const careGain = Nutrition.absorb(w, target, { E: 2, M: material, G: 0 },
+        w.config.socialRenewalModel==="successor/1"&&o.species==="swarm"?"fungal":"animal", ctx);
       ctx.records.get(o.id).cared = true;
       S.record(ctx, o, "care", {
         target: target.id,
