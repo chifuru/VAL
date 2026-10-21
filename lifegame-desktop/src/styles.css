@@ -1728,6 +1728,8 @@ body:not(.setup-screen) .workspace > .inspector { grid-row: 2; }
 .generation-field>label:first-child{display:flex;flex-direction:column;gap:6px;min-width:0;}
 .generation-lock-control{align-self:flex-end;font-size:11px;color:var(--muted,#9abdc0);gap:4px;}
 .generation-lock-control[hidden]{display:none;}
+.setup-world-fields{align-items:start;}
+.setup-world-fields .generation-field>label:first-child{gap:0;}
 /* Setup never displays live observation panels; saved analysis stays in its dialog. */
 body.setup-screen .workspace > .inspector,
 body.setup-screen #individual-list { display:none; }
