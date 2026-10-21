@@ -1190,7 +1190,7 @@
     return {
       view,
       diagnostics,
-      get prepared(){return Art.loaded&&!!cache&&(view.scale<24||view.mode==='overview'||view.simplified||!!nearCache);},
+      get prepared(){return Art.loaded&&!!cache;},
       setWorld,
       beginWorld,
       draw,

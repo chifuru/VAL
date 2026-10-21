@@ -130,6 +130,7 @@
     $("start").disabled=!world||ended;
     $("start").textContent=ended?"観測終了":"表示と計算を再試行 ▶";
     message(kind+"を継続できませんでした："+text+" 確定ターンと全期間記録は保持しています。"+(ended?"新しい世界を作成できます。":"右上から再試行できます。"));
+    $("message").classList.add("observation-error");
   }
   function startRunning() {
     if(!world||ended||holds.size)return;
@@ -142,6 +143,7 @@
       bufferFingerprint=null;
     }catch(error){failObservation("表示更新",error);return;}
     clearTimeout(timer);timer=null;
+    $("message").classList.remove("observation-error");
     observationPreparationAt=performance.now();preparationHeldAt=null;
     playbackError=null;faultKind=null;renderFaulted=false;computeWaitAt=null;running=true;$("start").textContent="一時停止 Ⅱ";$("step").disabled=true;
     updateHold();timer=setTimeout(runLoop,0);
@@ -497,6 +499,7 @@
     replayEntry = playback;
     ended = false;
     playbackError=null;faultKind=null;renderFaulted=false;
+    $("message").classList.remove("observation-error");
     pendingResult = null;
     $("export-result").hidden=true;
     $("finish-run").disabled = false;
@@ -661,7 +664,9 @@
     if (!running || holds.size || pendingTurn) return;
     if(prewarming&&observationPreparationAt!==null&&performance.now()-observationPreparationAt>60000){failObservation('準備','観測の準備が60秒以内に完了しませんでした。');return;}
     if(!graphicsPrepared){
-      if(!renderer.prepared||R.assets.warming){
+      // The retained detailed terrain and optional sprite prewarming can finish
+      // while turns run. Only the base surface is required to start observation.
+      if(!renderer.prepared){
         $("status").textContent="観測の準備中";
         message(`背景・外観を準備中 · ${((performance.now()-observationPreparationAt)/1000).toFixed(1)}秒 / 全体の上限60秒。マップは操作できます。`);
         timer=setTimeout(runLoop,100);return;
@@ -1143,21 +1148,17 @@
     setText('current-breadth-values',`直近${Math.min(50,row.turn)}T：関与 ${relations.species}系統・${Object.keys(relations.edges).length}関係`);
     setText('current-diversity-values',`作用 ${relations.types.length}種類`);
     setText('current-persistence-values',row.turn<20?'継続：判定待ち':`継続 ${relations.continuous}関係`);
-    const palette={plant:"#68ce8c",prey:"#53d2df",main:"#62a7ef",fungus:"#efb375",P:"#b88ae5",Q:"#d5b3f2"},c=$("current-donut"),g=c.getContext("2d"),cx=360,cy=270;
+    const c=$("current-donut"),g=c.getContext("2d"),cx=360,cy=270;
     g.clearRect(0,0,c.width,c.height);
     let angle=-Math.PI/2;
-    for(const group of current.groups){if(!group.count)continue;const end=angle+group.count/Math.max(1,current.total)*Math.PI*2;
-      g.beginPath();g.arc(cx,cy,151,angle,end);g.lineWidth=57;g.strokeStyle=palette[group.id];g.stroke();
-      let at=angle;
-      for(const member of catalogue.filter(v=>v.group===group.id)){const n=current.counts[member.id]||0;if(!n)continue;const to=at+n/current.total*Math.PI*2;g.beginPath();g.arc(cx,cy,207,at,to);g.lineWidth=31;g.strokeStyle=R.highlightColor(member.id);g.stroke();at=to;}
-      angle=end;
+    for(const group of current.groups){
+      for(const member of catalogue.filter(v=>v.group===group.id)){const n=current.counts[member.id]||0;if(!n)continue;const end=angle+n/Math.max(1,current.total)*Math.PI*2;g.beginPath();g.arc(cx,cy,185,angle,end);g.lineWidth=72;g.strokeStyle=R.highlightColor(member.id);g.stroke();angle=end;}
     }
-    if(!current.total){g.strokeStyle='#38545b';g.lineWidth=57;g.beginPath();g.arc(cx,cy,151,0,Math.PI*2);g.stroke();}
-    g.textAlign="center";g.fillStyle="#d6e5df";g.font="34px sans-serif";g.fillText(current.total?"現在の構成":"生体なし",cx,cy+10);
-    g.lineWidth=2;g.strokeStyle='#a2bfbb';g.beginPath();g.moveTo(cx-100,cy+114);g.lineTo(95,490);g.lineTo(95,514);g.moveTo(cx+170,cy+118);g.lineTo(590,490);g.lineTo(590,514);g.stroke();
-    g.font='30px sans-serif';g.fillText('内側',130,552);g.fillText('外側',585,552);g.font='28px sans-serif';g.fillText('生物グループ',160,592);g.fillText('系統',585,592);
-    $("current-legend").innerHTML=current.groups.map(group=>`<span title="${escape(group.name)} ${group.count}記録"><i style="background:${palette[group.id]}"></i>${escape(group.name)}</span>`).join("");
-    c.setAttribute("aria-label",'内側は生物グループ、外側は系統。同じ全生物が分母。'+current.groups.map(group=>group.name+" "+(current.total?(group.count/current.total*100).toFixed(1)+"%":"0%")).join(" / "));
+    if(!current.total){g.strokeStyle='#38545b';g.lineWidth=72;g.beginPath();g.arc(cx,cy,185,0,Math.PI*2);g.stroke();}
+    g.textAlign="center";g.fillStyle="#d6e5df";g.font="34px sans-serif";g.fillText(current.total?"系統別":"生体なし",cx,cy+10);
+    g.font='27px sans-serif';g.fillStyle='#a2bfbb';g.fillText('個体・群落・群体数の割合',cx,575);
+    $("current-legend").innerHTML=current.groups.map(group=>`<span title="${escape(group.name)} ${group.count}記録・${current.total?(group.count/current.total*100).toFixed(1):'0.0'}%">${escape(group.name)}</span>`).join("");
+    c.setAttribute("aria-label",'系統別の個体・群落・群体数の割合。'+catalogue.filter(member=>current.counts[member.id]>0).map(member=>member.name+" "+(current.counts[member.id]/current.total*100).toFixed(1)+"%").join(" / "));
     renderCurrentStructure(row, catalogue);
   }
   function renderCurrentStructure(row, catalogue) {

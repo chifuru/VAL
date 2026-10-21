@@ -386,6 +386,7 @@ canvas#board {
   margin: 6px 0;
   min-height: 18px;
 }
+.observatory #message.observation-error { color:#ffd8bd;border:1px solid #ad7058;background:#35261f;padding:6px 8px;border-radius:5px; }
 #setup-message { padding: 10px 12px; border: 1px solid var(--muted); border-radius: 6px; }
 #setup-message.error { color: #ffcfb2; border-color: #b47555; }
 #world-confirm { max-width: 480px; height: fit-content; }
