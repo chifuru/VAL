@@ -539,6 +539,7 @@
         ageMarkers: 0,
         gridCells: 0,
         backgroundSimplified: simplifiedBackground,
+        terrainSurface: 'overview',
       });
       const visible = (p, margin = 1) =>
         p[0] * z + view.x >= -z * margin &&
@@ -582,8 +583,18 @@
           diagnostics.terrainPending=!terrainFailed;pumpTerrain();
           if(terrainFailed){diagnostics.terrainPending=true;fallbackSurface(terrainRequest);terrainRequest=null;}
         }
+        // Never expose a strip of overview terrain beside detailed terrain.
+        // While panning or zooming, keep the entire visible surface at overview
+        // resolution until one detailed bitmap covers the complete viewport.
+        const detailLeft=nearRect&&view.x-nearRect.x*z/nearRect.scale,
+          detailTop=nearRect&&view.y-nearRect.y*z/nearRect.scale;
+        const completeDetail=nearCache&&nearRect&&nearRect.scale===z&&
+          detailLeft<=0&&detailTop<=0&&
+          detailLeft+nearRect.width*z/nearRect.scale>=b.width&&
+          detailTop+nearRect.height*z/nearRect.scale>=b.height;
         if(cache&&overviewBounds)g.drawImage(cache,overviewBounds.minX,overviewBounds.minY,cache.width/24,cache.height/24);
-        if(nearCache)g.drawImage(nearCache,-nearRect.x/nearRect.scale,-nearRect.y/nearRect.scale,nearRect.width/nearRect.scale,nearRect.height/nearRect.scale);
+        if(completeDetail)g.drawImage(nearCache,-nearRect.x/nearRect.scale,-nearRect.y/nearRect.scale,nearRect.width/nearRect.scale,nearRect.height/nearRect.scale);
+        diagnostics.terrainSurface=completeDetail?'detail':'overview';
       } else if(cache&&overviewBounds){g.drawImage(cache,overviewBounds.minX,overviewBounds.minY,cache.width/24,cache.height/24);}
       diagnostics.materialPixelsPerCell = near
         ? (terrainMetrics?.unit || scene.metrics.unit)

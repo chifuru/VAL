@@ -1904,3 +1904,14 @@ body.setup-screen #individual-list { display:none; }
 @media (min-width:1101px) and (min-height:700px) {
   .observatory #map-key { max-height:190px;overflow:auto;scrollbar-width:thin; }
 }
+/* Keep the observation tabs at the top of the right column. The overview and
+   map stack independently on the left, so the charts do not start below the
+   full-width current summary. */
+@media (min-width:901px) {
+  body:not(.setup-screen) .workspace > .observation-overview { grid-column:1;grid-row:1; }
+  body:not(.setup-screen) .workspace > .world-column { grid-column:1;grid-row:2; }
+  body:not(.setup-screen) .workspace > .inspector { grid-column:2;grid-row:1 / span 2;align-self:stretch; }
+}
+@media (min-width:1101px) and (min-height:700px) {
+  body.observatory:not(.setup-screen) .workspace > .inspector { grid-row:1 / span 2;height:100%; }
+}
