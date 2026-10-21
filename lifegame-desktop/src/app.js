@@ -134,10 +134,14 @@
   function startRunning() {
     if(!world||ended||holds.size)return;
     try {
-      if(playbackError){renderer.setWorld(world);render();renderer.draw();}
+      // A failed display update may be the reason for the retry. The committed
+      // world was already restored by stop(); do not repeat the same full
+      // synchronous render before the simulation gets a chance to resume.
+      if(playbackError)renderer.setWorld(world);
       if(compute.initialized&&(bufferWorld!==world||(bufferFingerprint!==null&&bufferFingerprint!==E.fingerprint(world)))){compute.close();prewarming=true;bufferWorld=null;}
       bufferFingerprint=null;
     }catch(error){failObservation("表示更新",error);return;}
+    clearTimeout(timer);timer=null;
     observationPreparationAt=performance.now();preparationHeldAt=null;
     playbackError=null;faultKind=null;renderFaulted=false;computeWaitAt=null;running=true;$("start").textContent="一時停止 Ⅱ";$("step").disabled=true;
     updateHold();timer=setTimeout(runLoop,0);
@@ -1202,7 +1206,10 @@
     const labels={phases:'I / II / III / IV / 非該当',sex:'雌 / 雄 / 無性別 / 非該当',ages:'幼体 / 成体 / 老齢 / 非該当'};
     for(const axis of ['phases','sex','ages'])$('composition-'+axis).title=labels[axis];
     const lanes=[['species','広がり · 関与系統','#7edbdf'],['types','多様さ · 作用種類','#e7c780'],['continuous','持続性 · 継続関係','#bc9eea']],relationSeries=relationShape(rows);
-    $('graph-relations').innerHTML=lanes.map(([key,label,color],i)=>{const values=relationSeries.values[i],m=relationSeries.max[i],top=i*51+18;return `<text x="0" y="${top}" fill="${color}" font-size="16">${label} ${key==='continuous'&&t<20?'判定待ち':values[t]}</text><path fill="none" stroke="${color}" stroke-width="2" d="${values.map((value,j)=>(j?'L':'M')+(250+rows[j].turn/Math.max(1,last)*450)+','+(top+23-value/m*36)).join(' ')}"/>`;}).join('')+`<text x="250" y="178" fill="#9bbab7" font-size="14">0T</text><text x="700" y="178" text-anchor="end" fill="#9bbab7" font-size="14">${last}T</text>`;
+    const relationSvg=$('graph-relations'),compact=!analysisData&&relationSvg.getBoundingClientRect().width<340;
+    const viewWidth=compact?280:720,plotX=compact?125:250,plotWidth=compact?150:450;
+    relationSvg.setAttribute('viewBox',`0 0 ${viewWidth} 180`);
+    relationSvg.innerHTML=lanes.map(([key,label,color],i)=>{const values=relationSeries.values[i],m=relationSeries.max[i],top=i*51+18,name=compact?label.split(' · ')[0]:label;return `<text x="0" y="${top}" fill="${color}" font-size="${compact?13:16}">${name} ${key==='continuous'&&t<20?'判定待ち':values[t]}</text><path fill="none" stroke="${color}" stroke-width="2" d="${values.map((value,j)=>(j?'L':'M')+(plotX+rows[j].turn/Math.max(1,last)*plotWidth)+','+(top+23-value/m*36)).join(' ')}"/>`;}).join('')+`<text x="${plotX}" y="178" fill="#9bbab7" font-size="${compact?12:14}">0T</text><text x="${plotX+plotWidth}" y="178" text-anchor="end" fill="#9bbab7" font-size="${compact?12:14}">${last}T</text>`;
     if (analysisData) renderCurrentSummary(rows.at(-1), catalogue);
     const info=r.information;
     $('information-readout').textContent=info?`情報（${r.turn}T）：生成${info.generated} / 取得${info.received} / 重み適用${info.applied} / Q媒介取得${info.mediatedReceived}・適用${info.mediatedApplied} / 由来不明${info.unattributed}。`:'情報の内訳：未記録（旧記録の情報関係は取得基準）。';
