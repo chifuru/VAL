@@ -1125,10 +1125,14 @@
     shape.length=rows.length;return shape;
   }
   function paintStack(canvas,data,colors,maximum){
-    const shape=stackShape(data),g=canvas.getContext('2d'),W=canvas.width,H=canvas.height,last=graphObservation().rows.length-1,keys=[...shape.keys],max=maximum||shape.max,left=76,bottom=29,top=25,x=t=>left+(W-left-25)*t/Math.max(1,last),y=n=>H-bottom-n/max*(H-top-bottom),base=data.map(()=>0);
-    g.clearRect(0,0,W,H);g.strokeStyle='#47646b';g.lineWidth=1.5;g.beginPath();g.moveTo(left,top);g.lineTo(left,H-bottom);g.lineTo(W-25,H-bottom);g.stroke();
+    const bounds=canvas.getBoundingClientRect(),W=Math.max(1,Math.round(bounds.width||320)),H=Math.max(1,Math.round(bounds.height||120)),scale=Math.min(2,window.devicePixelRatio||1);
+    const bitmapWidth=Math.round(W*scale),bitmapHeight=Math.round(H*scale);
+    if(canvas.width!==bitmapWidth||canvas.height!==bitmapHeight){canvas.width=bitmapWidth;canvas.height=bitmapHeight;}
+    const shape=stackShape(data),g=canvas.getContext('2d'),last=graphObservation().rows.length-1,keys=[...shape.keys],max=maximum||shape.max,compact=H<60,left=compact?28:34,bottom=compact?10:18,top=compact?8:16,right=8,x=t=>left+(W-left-right)*t/Math.max(1,last),y=n=>H-bottom-n/max*(H-top-bottom),base=data.map(()=>0);
+    g.setTransform(scale,0,0,scale,0,0);
+    g.clearRect(0,0,W,H);g.strokeStyle='#47646b';g.lineWidth=1.5;g.beginPath();g.moveTo(left,top);g.lineTo(left,H-bottom);g.lineTo(W-right,H-bottom);g.stroke();
     for(const [key,index]of keys.map((key,i)=>[key,i])){g.fillStyle=colors(key,index);g.beginPath();data.forEach((row,i)=>{const px=x(row.turn),py=y(base[i]+(row.values[key]||0));i?g.lineTo(px,py):g.moveTo(px,py);});for(let i=data.length-1;i>=0;i--)g.lineTo(x(data[i].turn),y(base[i]));g.closePath();g.fill();if(data.length===1)g.fillRect(left,y((data[0].values[key]||0)+base[0]),5,(data[0].values[key]||0)/max*(H-top-bottom));data.forEach((row,i)=>base[i]+=row.values[key]||0);}
-    g.fillStyle='#bcd3d2';g.font='23px sans-serif';g.textAlign='right';g.fillText(Math.round(max),left-9,top);g.fillText('0',left-9,H-bottom);g.textAlign='left';g.fillText('0T',left,H-2);g.textAlign='right';g.fillText(last+'T',W-25,H-2);
+    g.fillStyle='#bcd3d2';g.font=(compact?8:10)+'px sans-serif';g.textAlign='right';g.fillText(Math.round(max),left-4,top+(compact?7:0));g.fillText('0',left-4,H-bottom);g.textAlign='left';g.fillText('0T',left,H-2);g.textAlign='right';g.fillText(last+'T',W-right,H-2);
     canvas.setAttribute('aria-label','0–'+last+'T / 最大'+max+'管理単位 / 現在'+(data.at(-1)?.total||0));
   }
   function renderCurrentSummary(row, catalogue) {
