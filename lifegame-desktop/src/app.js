@@ -1050,8 +1050,27 @@
   const summaryHome = document.createComment('Current ecosystem summary');
   $('current-summary').before(summaryHome);
   const graphObservation=()=>analysisData||observations;
+  const stackPaintCache=new WeakMap(),relationPaintCache=new WeakMap();
+  function stackShape(data){
+    let shape=stackPaintCache.get(data);
+    if(!shape||shape.length>data.length){shape={length:0,keys:new Set(),max:1};stackPaintCache.set(data,shape);}
+    for(let i=shape.length;i<data.length;i++){
+      for(const key of Object.keys(data[i].values))shape.keys.add(key);
+      shape.max=Math.max(shape.max,data[i].total);
+    }
+    shape.length=data.length;return shape;
+  }
+  function relationShape(rows){
+    let shape=relationPaintCache.get(rows);
+    if(!shape||shape.length>rows.length){shape={length:0,values:[[],[],[]],max:[1,1,1]};relationPaintCache.set(rows,shape);}
+    for(let i=shape.length;i<rows.length;i++){
+      const relation=rows[i].current.relations,values=[relation.species,relation.types.length,relation.continuous];
+      values.forEach((value,j)=>{shape.values[j].push(value);shape.max[j]=Math.max(shape.max[j],value);});
+    }
+    shape.length=rows.length;return shape;
+  }
   function paintStack(canvas,data,colors,maximum){
-    const g=canvas.getContext('2d'),W=canvas.width,H=canvas.height,last=graphObservation().rows.length-1,keys=[...new Set(data.flatMap(r=>Object.keys(r.values)))],max=maximum||Math.max(1,...data.map(r=>r.total)),left=76,bottom=29,top=25,x=t=>left+(W-left-25)*t/Math.max(1,last),y=n=>H-bottom-n/max*(H-top-bottom),base=data.map(()=>0);
+    const shape=stackShape(data),g=canvas.getContext('2d'),W=canvas.width,H=canvas.height,last=graphObservation().rows.length-1,keys=[...shape.keys],max=maximum||shape.max,left=76,bottom=29,top=25,x=t=>left+(W-left-25)*t/Math.max(1,last),y=n=>H-bottom-n/max*(H-top-bottom),base=data.map(()=>0);
     g.clearRect(0,0,W,H);g.strokeStyle='#47646b';g.lineWidth=1.5;g.beginPath();g.moveTo(left,top);g.lineTo(left,H-bottom);g.lineTo(W-25,H-bottom);g.stroke();
     for(const [key,index]of keys.map((key,i)=>[key,i])){g.fillStyle=colors(key,index);g.beginPath();data.forEach((row,i)=>{const px=x(row.turn),py=y(base[i]+(row.values[key]||0));i?g.lineTo(px,py):g.moveTo(px,py);});for(let i=data.length-1;i>=0;i--)g.lineTo(x(data[i].turn),y(base[i]));g.closePath();g.fill();if(data.length===1)g.fillRect(left,y((data[0].values[key]||0)+base[0]),5,(data[0].values[key]||0)/max*(H-top-bottom));data.forEach((row,i)=>base[i]+=row.values[key]||0);}
     g.fillStyle='#bcd3d2';g.font='23px sans-serif';g.textAlign='right';g.fillText(Math.round(max),left-9,top);g.fillText('0',left-9,H-bottom);g.textAlign='left';g.fillText('0T',left,H-2);g.textAlign='right';g.fillText(last+'T',W-25,H-2);
@@ -1096,7 +1115,20 @@
       }
       const selected=analysisData&&$('saved-network-window')?Number($('saved-network-window').value):row.turn;
       const model=EcoRelationshipNetwork.build(history,Math.min(row.turn,selected));
-      $('relationship-network').innerHTML=EcoRelationshipNetwork.render(model,{symbols:R.symbolPaths,colors:Object.fromEntries(catalogue.map(v=>[v.id,R.symbolColor(D.byId[v.id]||{...v,color:'#91c4bf'})])),species:catalogue});
+      const network=$('relationship-network'),options={symbols:R.symbolPaths,colors:Object.fromEntries(catalogue.map(v=>[v.id,R.symbolColor(D.byId[v.id]||{...v,color:'#91c4bf'})])),species:catalogue};
+      const next=EcoRelationshipNetwork.renderSections(model,options,false);
+      let root=network.firstElementChild;
+      if(!root||renderCurrentStructure.history!==history){
+        root=document.createElement('div');root.className='relationship-network';root.dataset.relationshipNetwork=EcoRelationshipNetwork.viewDefinition;
+        root.innerHTML='<div class="relationship-history"></div><p class="relationship-legend">線幅：同作用の量/T｜値：区間合計 E・HP・件／寄生平均群｜台座：区間末B｜点線：系統対応</p>';
+        network.replaceChildren(root);renderCurrentStructure.pastKey=null;renderCurrentStructure.history=history;
+      }
+      root.querySelector('.relationship-main')?.remove();
+      root.insertAdjacentHTML('afterbegin',next.current);
+      if(renderCurrentStructure.pastKey!==next.pastKey){
+        root.querySelector('.relationship-history').innerHTML=EcoRelationshipNetwork.renderSections(model,options,true).past;
+        renderCurrentStructure.pastKey=next.pastKey;
+      }
       if(analysisData){
         const byId=Object.fromEntries(catalogue.map(v=>[v.id,v.name])),label=id=>byId[id]||id.replace('@light','光').replace('@carcass:','死骸：').replace('@resource:','資源：');
         const blocks=[...(model.past||[]).filter(Boolean),model.current].filter(Boolean);
@@ -1129,8 +1161,8 @@
     for(const axis of ['phases','sex','ages'])paintStack($('composition-'+axis),series[axis],(k,i)=>k==='nonapplicable'?'#526773':palettes[axis][axis==='phases'?Number(k):({female:0,male:1,none:2,juvenile:0,adult:1,elderly:2}[k]??i)%palettes[axis].length],max);
     const labels={phases:'I / II / III / IV / 非該当',sex:'雌 / 雄 / 無性別 / 非該当',ages:'幼体 / 成体 / 老齢 / 非該当'};
     for(const axis of ['phases','sex','ages'])$('composition-'+axis).title=labels[axis];
-    const lanes=[['species','広がり · 関与系統','#7edbdf'],['types','多様さ · 作用種類','#e7c780'],['continuous','持続性 · 継続関係','#bc9eea']];
-    $('graph-relations').innerHTML=lanes.map(([key,label,color],i)=>{const value=r=>key==='types'?r.current.relations.types.length:r.current.relations[key],m=Math.max(1,...rows.map(value)),top=i*51+18;return `<text x="0" y="${top}" fill="${color}" font-size="16">${label} ${key==='continuous'&&t<20?'判定待ち':value(r)}</text><path fill="none" stroke="${color}" stroke-width="2" d="${rows.map((r,j)=>(j?'L':'M')+(250+r.turn/Math.max(1,last)*450)+','+(top+23-value(r)/m*36)).join(' ')}"/>`;}).join('')+`<text x="250" y="178" fill="#9bbab7" font-size="14">0T</text><text x="700" y="178" text-anchor="end" fill="#9bbab7" font-size="14">${last}T</text>`;
+    const lanes=[['species','広がり · 関与系統','#7edbdf'],['types','多様さ · 作用種類','#e7c780'],['continuous','持続性 · 継続関係','#bc9eea']],relationSeries=relationShape(rows);
+    $('graph-relations').innerHTML=lanes.map(([key,label,color],i)=>{const values=relationSeries.values[i],m=relationSeries.max[i],top=i*51+18;return `<text x="0" y="${top}" fill="${color}" font-size="16">${label} ${key==='continuous'&&t<20?'判定待ち':values[t]}</text><path fill="none" stroke="${color}" stroke-width="2" d="${values.map((value,j)=>(j?'L':'M')+(250+rows[j].turn/Math.max(1,last)*450)+','+(top+23-value/m*36)).join(' ')}"/>`;}).join('')+`<text x="250" y="178" fill="#9bbab7" font-size="14">0T</text><text x="700" y="178" text-anchor="end" fill="#9bbab7" font-size="14">${last}T</text>`;
     if (analysisData) renderCurrentSummary(rows.at(-1), catalogue);
     const info=r.information;
     $('information-readout').textContent=info?`情報（${r.turn}T）：生成${info.generated} / 取得${info.received} / 重み適用${info.applied} / Q媒介取得${info.mediatedReceived}・適用${info.mediatedApplied} / 由来不明${info.unattributed}。`:'情報の内訳：未記録（旧記録の情報関係は取得基準）。';

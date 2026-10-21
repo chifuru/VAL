@@ -126,7 +126,7 @@
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const fmt=value=>value===null?'未記録':value===0?'0':value<.01?'<0.01':Number(value.toFixed(value<10?2:1)).toLocaleString('ja-JP');
   const resourceName=id=>id==='@light'?'光':id.startsWith('@carcass:')?'死骸':({'mineral':'鉱物','droplet':'水分','organic':'有機物','soil':'土壌','seed':'種子','spore':'胞子','egg':'卵'})[id.split(':').at(-1)]||'資源';
-  function render(model,{symbols={},colors={},species=model.catalogue||[]}={}){
+  function renderSections(model,{symbols={},colors={},species=model.catalogue||[]}={},includePast=true){
     const catalogue=Object.fromEntries(species.map(s=>[s.id,s])),name=id=>catalogue[id]?.name||resourceName(id),color=id=>colors[id]||'#c7d9d7';
     // One compact canonical layout belongs to the whole displayed500T window.
     // Absent catalogue members reserve no space; extinct participants stay in model.species.
@@ -170,7 +170,16 @@
       const roleText=!mini?Object.entries(block.leaders||{}).filter(([,items])=>items.length).map(([key,items])=>`<span title="${esc(items.map(a=>name(a.id)+' '+fmt(a.value)).join(' / '))}">${roleLabels[key]}：${esc(items.slice(0,2).map(a=>name(a.id)).join('・'))}${items.length>2?' 他'+(items.length-2)+'系統':''}${items.length>1?'（同率）':''}</span>`).join(''):'';
       return `<section class="${mini?'relationship-past':'relationship-main'}" data-network-first="${block.first}" data-network-last="${block.last}"><h5>${esc(title)}${unrecorded?' · 未記録を含む':''}</h5><svg class="relationship-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(title+' '+planes.join('、'))}"><defs>${defs}</defs>${correspondence.join('')}${paths.join('')}${nodes.join('')}${labels.join('')}</svg>${roleText?`<p class="relationship-role-leaders" data-network-leaders>${roleText}</p>`:''}${block.observed===0?'<p class="relationship-empty">初期構成のみ。成立作用は未観測</p>':!block.recorded?'<p class="relationship-empty">この記録には関係面の原値がありません</p>':!currentEdges.length?'<p class="relationship-empty">計測した区間に成立作用なし</p>':''}</section>`;
     }
-    return `<div class="relationship-network" data-relationship-network="${viewDefinition}">${diagram(model.current,false,'current')}<div class="relationship-history">${model.past.map((b,i)=>diagram(b,true,'past'+i)).join('')}</div><p class="relationship-legend">線幅：同作用の量/T｜値：区間合計 E・HP・件／寄生平均群｜台座：区間末B｜点線：系統対応</p></div>`;
+    return {
+      current:diagram(model.current,false,'current'),
+      past:includePast?model.past.map((b,i)=>diagram(b,true,'past'+i)).join(''):null,
+      // Completed intervals remain stable until the layout or shared visual scale changes.
+      pastKey:JSON.stringify([allIds,resources,model.maximum,model.maxB,model.past.map(b=>b&&[b.first,b.last])]),
+    };
   }
-  return {definition,viewDefinition,types,enabled,createRow,validRow,validateSnapshot,intervals,build,render};
+  function render(model,options){
+    const parts=renderSections(model,options);
+    return `<div class="relationship-network" data-relationship-network="${viewDefinition}">${parts.current}<div class="relationship-history">${parts.past}</div><p class="relationship-legend">線幅：同作用の量/T｜値：区間合計 E・HP・件／寄生平均群｜台座：区間末B｜点線：系統対応</p></div>`;
+  }
+  return {definition,viewDefinition,types,enabled,createRow,validRow,validateSnapshot,intervals,build,render,renderSections};
 });
