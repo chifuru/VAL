@@ -821,7 +821,7 @@
       $("result-analysis-title").textContent=`保存した最終結果 · ${record.turn}T`;
       $("result-analysis-summary").textContent=`主生物 ${record.final.main} / 下層 ${record.final.food} / P ${record.final.P} / Q ${record.final.Q}。`+(record.schema===3?" 最終状態の個別例は分類ごとの一部で、全個体の履歴ではありません。":"")+(data?'記録時の指標と全確定ターンを参照しています。':'旧記録には全期間グラフが保存されていません。値を再計算して補いません。');
       $("result-final-values").textContent=JSON.stringify({final:record.final,conditions:record.config,originRecordId:record.originRecordId||null,replayMatch:record.replayMatch??null,definitions:record.observation?.definitions||null},null,2);
-      $("results-graph-host").hidden=!data;if(data){$("results-graph-host").append($("current-summary"),$("graphs-panel"));graphFollow=true;$("graph-turn").value=record.turn;renderGraphs();}
+      $("results-graph-host").hidden=!data;if(data){$("results-graph-host").append($("graphs-panel"),$("current-summary"));graphFollow=true;$("graph-turn").value=record.turn;renderGraphs();}
     }catch(e){$("results-error").textContent=e.message;}
   }
   $("back-results").onclick=closeAnalysis;$("export-record").onclick=()=>downloadJSON(analysisRecord);
@@ -1102,9 +1102,12 @@
     renderCurrentStructure(row, catalogue);
   }
   function renderCurrentStructure(row, catalogue) {
-    const p=row.current.pyramid,peak=Math.max(1,...p.layers),names=['生産者','一次消費者','二次消費者','高次（第4段以上）'];
-    $('biomass-pyramid').innerHTML=p.layers.map((v,i)=>`<div class="pyramid-level" data-level="${i}" data-value="${v}"><span>${names[i]}</span><div><i style="width:${v/peak*100}%;background:${['#72c48e','#62cbd3','#6ba6dc','#9196d4'][i]}"></i></div><b>${fmt(v)}</b></div>`).reverse().join('')+`<p class="note">未観測 ${fmt(p.side.unknown)} B / 分解者 ${fmt(p.side.decomposer)} B<br>死骸 ${fmt(p.side.remains)}（別単位） / P-Q別枠</p>`;
-    $('pyramid-support').textContent='生産 '+(p.production===null?'未記録':fmt(p.production)+' E')+' / 同化 '+(p.uptake===null?'未記録':fmt(p.uptake)+' E')+'（直近'+p.window+'T）。逆転だけでは異常と判定しません。';
+    const p=row.current.pyramid,roles=p.roleLayers,names=['生産者','植物食','小型捕食','肉食','上位捕食'];
+    const peak=Math.max(1,...roles||[]),colors=['#72c48e','#62cbd3','#6ba6dc','#9196d4','#bd9de2'];
+    $('biomass-pyramid').innerHTML=roles?.length===5?roles.map((v,i)=>{const percentage=v/peak*100,floor=v>0&&percentage<4;
+      return `<div class="pyramid-level" data-level="${i}" data-value="${v}"${floor?' data-visual-floor="true"':''}><span>${names[i]}</span><div><i style="width:${v>0?`max(8px,${percentage}%)`:'0'};background:${colors[i]}"></i></div><b>${floor?'※':''}${fmt(v)}</b></div>`;
+    }).reverse().join('')+`<p class="note">※極少量は最小幅で表示。実数Bを参照。<br>未分類 ${fmt(p.roleUnknown||0)} B / 分解者 ${fmt(p.side.decomposer)} B / P・Q別枠</p>`:'<p class="note">この記録には食性別の生物量がありません。旧4層の値から推定しません。</p>';
+    $('pyramid-support').textContent='生産 '+(p.production===null?'未記録':fmt(p.production)+' E')+' / 同化 '+(p.uptake===null?'未記録':fmt(p.uptake)+' E')+'（直近'+p.window+'T）';
     const history=graphObservation();
     if(window.EcoRelationshipNetwork&&history){
       if(analysisData&&$('saved-network-controls').dataset.record!==analysisRecord?.id){
@@ -1116,19 +1119,7 @@
       const selected=analysisData&&$('saved-network-window')?Number($('saved-network-window').value):row.turn;
       const model=EcoRelationshipNetwork.build(history,Math.min(row.turn,selected));
       const network=$('relationship-network'),options={symbols:R.symbolPaths,colors:Object.fromEntries(catalogue.map(v=>[v.id,R.symbolColor(D.byId[v.id]||{...v,color:'#91c4bf'})])),species:catalogue};
-      const next=EcoRelationshipNetwork.renderSections(model,options,false);
-      let root=network.firstElementChild;
-      if(!root||renderCurrentStructure.history!==history){
-        root=document.createElement('div');root.className='relationship-network';root.dataset.relationshipNetwork=EcoRelationshipNetwork.viewDefinition;
-        root.innerHTML='<div class="relationship-history"></div><p class="relationship-legend">線幅：同作用の量/T｜値：区間合計 E・HP・件／寄生平均群｜台座：区間末B｜点線：系統対応</p>';
-        network.replaceChildren(root);renderCurrentStructure.pastKey=null;renderCurrentStructure.history=history;
-      }
-      root.querySelector('.relationship-main')?.remove();
-      root.insertAdjacentHTML('afterbegin',next.current);
-      if(renderCurrentStructure.pastKey!==next.pastKey){
-        root.querySelector('.relationship-history').innerHTML=EcoRelationshipNetwork.renderSections(model,options,true).past;
-        renderCurrentStructure.pastKey=next.pastKey;
-      }
+      network.innerHTML=EcoRelationshipNetwork.render(model,options);
       if(analysisData){
         const byId=Object.fromEntries(catalogue.map(v=>[v.id,v.name])),label=id=>byId[id]||id.replace('@light','光').replace('@carcass:','死骸：').replace('@resource:','資源：');
         const blocks=[...(model.past||[]).filter(Boolean),model.current].filter(Boolean);
@@ -1356,7 +1347,7 @@
   }
   function renderSelection() {
     const speciesMode=!!describedSpecies,detailMode=speciesMode||selectedCell!==null;
-    $('inspector-graphs').hidden=false;$('inspector-details').hidden=!detailMode;
+    $('inspector-graphs').hidden=detailMode;$('inspector-details').hidden=!detailMode;
     $('inspector-details').closest('.inspector').classList.toggle('has-detail',detailMode);
     const chartSelection=[describedSpecies,selectedCell,selectedId].join('|');
     const forceCharts=renderSelection.chartSelection!==chartSelection;renderSelection.chartSelection=chartSelection;

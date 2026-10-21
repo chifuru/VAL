@@ -13,7 +13,7 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
   const fields=await page.evaluate(()=>{const w=__LIFE_TEST__.snapshot().world;return {main:w.organisms.find(o=>o.slot==='main').species,prey:w.organisms.find(o=>EcoData.byId[o.species].group==='prey').species};});
   await page.locator(`[data-highlight="${fields.main}"]`).check();await page.locator(`[data-highlight="${fields.prey}"]`).check();
   check(await page.evaluate(()=>__LIFE_TEST__.snapshot().view.highlights.length===2),'grouped controls retain independent multiple highlights');
-  await page.locator(`[data-describe="${fields.main}"]`).click();check(await page.locator('#inspector-details').isVisible()&&await page.locator('#inspector-graphs').isVisible(),'description and timelines remain in separate panes');await page.click('#close-species');
+  await page.locator(`[data-describe="${fields.main}"]`).click();check(await page.locator('#inspector-details').isVisible()&&!await page.locator('#inspector-graphs').isVisible(),'description replaces timelines in the fixed sidebar');await page.click('#close-species');
   await page.click('#detail-view');await page.waitForTimeout(250);await page.waitForFunction(()=>!__LIFE_TEST__.snapshot().render.terrainPending,{},{timeout:30000});
   const requested=await page.evaluate(()=>__LIFE_TEST__.snapshot().render.terrainRequests);await page.evaluate(()=>{__R__.view.x+=(Math.floor(__R__.view.x)%128===127?-1:1);__R__.draw();});await page.waitForTimeout(100);
   check(await page.evaluate(()=>__LIFE_TEST__.snapshot().render.terrainRequests)===requested,'small integer camera pan reuses the oversized high-resolution background');

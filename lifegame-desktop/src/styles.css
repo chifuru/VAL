@@ -1674,7 +1674,7 @@ body:not(.setup-screen) .workspace > .inspector { grid-row: 2; }
 .workspace > .inspector { display:grid; grid-template-rows:minmax(0,1fr); gap:8px; }
 .workspace > .inspector > #inspector-graphs,
 .workspace > .inspector > #inspector-details { min-width:0; min-height:0; border:1px solid #42616a; border-radius:5px; padding:8px; background:#0a242b; }
-.workspace > .inspector.has-detail { grid-template-rows:minmax(0,1fr) minmax(0,.85fr); }
+.workspace > .inspector.has-detail { grid-template-rows:minmax(0,1fr); }
 @media (min-width:1101px) and (min-height:700px) {
   .observatory .workspace > .inspector { overflow:hidden; }
   .observatory .workspace > .inspector > #inspector-graphs,
@@ -1686,15 +1686,13 @@ body:not(.setup-screen) .workspace > .inspector { grid-row: 2; }
   .workspace > .inspector > #inspector-details { flex-shrink:0; }
 }
 
-/* Give the current composition and timelines readable space. Selecting an
-   organism adds its own column, preserving the timeline column's full height. */
+/* Graphs and specimen details share one fixed sidebar; the map never shrinks on selection. */
 .current-summary .current-composition canvas { width:180px; }
 @media (min-width:1101px) and (min-height:700px) {
   .observatory .observation-overview .current-summary { grid-template-columns:minmax(270px,1.25fr) minmax(220px,.9fr) minmax(210px,.85fr) 190px; }
   .observatory .current-composition canvas { width:180px; }
   body.observatory:not(.setup-screen) .workspace { grid-template-columns:minmax(0,1fr) 480px; }
-  body.observatory:not(.setup-screen) .workspace:has(> .inspector.has-detail) { grid-template-columns:minmax(0,1fr) 812px; }
-  .observatory .workspace > .inspector.has-detail { grid-template-columns:464px minmax(0,1fr); grid-template-rows:minmax(0,1fr); }
+  .observatory .workspace > .inspector.has-detail { grid-template-columns:minmax(0,1fr); grid-template-rows:minmax(0,1fr); }
 }
 @media (min-width:1101px) and (min-height:700px) {
   .observatory .workspace > .inspector > #inspector-graphs { padding:4px; }
@@ -1746,8 +1744,14 @@ body.setup-screen #individual-list { display:none; }
 #current-indicators { font-size:10px; line-height:1.5; color:#88aaa7; margin:5px 0 0; }
 #current-legend { display:flex; flex-wrap:wrap; justify-content:center; gap:3px 8px; }
 #relationship-network svg { display:block; width:100%; height:auto; overflow:visible; }
-#relationship-network .relationship-history { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; }
+#relationship-network .relationship-history { display:none; }
 #relationship-network .relationship-legend { color:#9bbab7; font-size:10px; line-height:1.5; }
+#relationship-network .relationship-cards { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px; }
+#relationship-network .relationship-card { min-width:0;padding:6px 5px 3px;background:linear-gradient(155deg,#10313a,#08232c);border:1px solid #406870;border-radius:9px;box-shadow:inset 0 1px #73939a22; }
+#relationship-network .relationship-card header { display:flex;justify-content:space-between;align-items:center;gap:3px;padding:0 3px 4px;border-bottom:1px solid #43656a;font-size:11px;color:#dbebe4; }
+#relationship-network .relationship-more { flex-shrink:0;font-size:9px;font-weight:400;color:#9fbdba; }
+#relationship-network .relationship-card svg { margin-top:3px; }
+@media(max-width:700px) { #relationship-network .relationship-cards { grid-template-columns:1fr; } }
 .graphs-heading { font-size:14px; margin:0 0 6px; }
 .graphs-heading small { color:#92b8b2; font-size:10px; font-weight:400; }
 .display-load { padding:4px 7px; font-size:11px; border-top:1px solid #385b60; }
@@ -1799,6 +1803,30 @@ body.setup-screen #individual-list { display:none; }
 .relationship-role-leaders { display:flex;flex-wrap:wrap;gap:2px 9px;font-size:10px;line-height:1.5;margin:3px 0;color:#b1d0ca; }
 .relationship-empty { font-size:10px;color:#8faeab;margin:4px 0; }
 .relationship-past { min-width:0; }
+/* Saved results have their own viewing area; do not inherit the narrow live inspector layout. */
+#results { width:min(1180px,96vw); max-width:1180px; }
+#results-analysis #results-graph-host { display:block; }
+#results-analysis #graphs-panel { display:block; margin:12px 0; padding:12px; }
+#results-analysis #graphs-panel .graph-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-rows:auto auto; gap:12px; margin:8px 0 0; }
+#results-analysis #graphs-panel .graph-grid article { min-width:0; margin:0; padding:12px; display:block; }
+#results-analysis #graphs-panel .graph-grid article:first-child { grid-column:1; grid-row:1; }
+#results-analysis #graphs-panel .graph-grid article:nth-child(2) { grid-column:2; grid-row:1 / 3; }
+#results-analysis #graphs-panel .graph-grid article:last-child { grid-column:1; grid-row:2; }
+#results-analysis #graphs-panel #graph-stacked { display:block; width:100%; height:190px; max-height:none; }
+#results-analysis #graphs-panel .composition-time { display:flex; margin:7px 0; }
+#results-analysis #graphs-panel .composition-time canvas { width:100%; height:106px; max-height:none; }
+#results-analysis #graphs-panel #graph-relations { display:block; width:100%; height:145px; min-height:0; max-height:none; }
+#results-analysis #graphs-panel .population-legend { max-height:38px; }
+@media (max-width:760px) {
+  #results { width:96vw; padding:14px; }
+  #results-analysis #graphs-panel .graph-grid { grid-template-columns:minmax(0,1fr); }
+  #results-analysis #graphs-panel .graph-grid article:first-child,
+  #results-analysis #graphs-panel .graph-grid article:nth-child(2),
+  #results-analysis #graphs-panel .graph-grid article:last-child { grid-column:1; grid-row:auto; }
+  #results-analysis #graphs-panel #graph-stacked { height:auto; }
+  #results-analysis #graphs-panel .composition-time canvas { height:auto; }
+  #results-analysis #graphs-panel #graph-relations { height:auto; }
+}
 @media (min-width:1101px) and (min-height:700px) {
   .observatory .workspace > .inspector > #inspector-graphs { display:flex;flex-direction:column;overflow:hidden; }
   .observatory #graphs-panel { flex:1;min-height:0;display:flex;flex-direction:column; }
@@ -1822,11 +1850,12 @@ body.setup-screen #individual-list { display:none; }
 }
 
 @media (min-width:1101px) and (min-height:700px) {
-  .observatory #current-summary .pyramid-level { display:grid;grid-template-columns:minmax(75px,.9fr) minmax(40px,1fr) 45px;gap:4px;margin:7px 0; }
+  .observatory #current-summary .pyramid-level { display:grid;grid-template-columns:minmax(65px,.9fr) minmax(40px,1fr) 45px;grid-template-rows:16px;align-items:center;gap:4px;margin:3px 0;min-height:16px; }
   .observatory #current-summary .pyramid-level > span { grid-column:1;grid-row:1; }
   .observatory #current-summary .pyramid-level > div { grid-column:2;grid-row:1; }
   .observatory #current-summary .pyramid-level > b { grid-column:3;grid-row:1;margin:0; }
 }
+.observatory #current-summary .current-biomass .note {font-size:9px;line-height:1.3;margin:4px 0;}
 /* Expanding name settings stays in its own region instead of covering controls. */
 .observatory .map-key-extra[open] { position:static;left:auto;right:auto;bottom:auto;z-index:auto;max-width:none;max-height:none;box-shadow:none; }
 @media (min-width:1101px) and (min-height:700px) {

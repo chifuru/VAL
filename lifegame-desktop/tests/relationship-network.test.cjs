@@ -22,6 +22,12 @@ test('food arrows follow actual energy, distinguish carcasses and never use info
   assert(edges.some(e=>e.from==='grass'&&e.to==='solar'&&e.type==='feeding'&&e.value===3));assert(edges.some(e=>e.from==='@carcass:grassbug'&&e.to==='abyss'&&e.type==='scavenging'&&e.value===2));assert(edges.some(e=>e.from==='@light'&&e.to==='grass'&&e.value===4));assert(!edges.some(e=>e.from.includes('info')));
   const csv=h.csv();assert(csv.includes('"network_feeding","grass|solar","3","model_E"'));assert(csv.includes('"network_biomass","solar","10","model_B"'));assert.equal(O.restore(h.snapshot()).csv(),csv);
 });
+test('role pyramid follows observed producer, herbivore and predator feeding without duplicating biomass',()=>{
+  const w=world(),h=history(w);w.organisms.push({id:'bug',species:'grassbug',B:5});w.stats.counts.grassbug=1;h.append(w);
+  const flow=advance(w,1);flow.inputs=[{id:'receiver',species:'solar',type:'animal',sourceSpecies:'grassbug',source:'bug',energy:2,tag:'animal'},{id:'other',species:'abyss',type:'animal',sourceSpecies:'solar',source:'receiver',energy:3,tag:'animal'}];h.append(w);
+  const p=h.rows[1].current.pyramid;assert.deepEqual(p.roleLayers,[4,5,10,20,0]);assert.equal(p.roleUnknown,0);
+  assert.equal(p.roleLayers.reduce((a,b)=>a+b,0),39);
+});
 test('information attributes only nonzero known origins once, separating confirmed Q mediation',()=>{
   const w=world(),h=history(w);h.append(w);const flow=advance(w,1);w.informationField=[{originId:'origin'}];flow.information.effects=[{recipient:'receiver',species:'solar',event:{id:'origin',sourceSpecies:'grass'},deltaAbs:.1},{recipient:'receiver',species:'solar',event:{id:'origin:feeding',sourceSpecies:'grass'},deltaAbs:.2,place:true},{recipient:'receiver',species:'solar',event:{id:'q-origin',sourceSpecies:'grass',mediated:true},deltaAbs:.3},{recipient:'receiver',species:'solar',event:{id:'zero',sourceSpecies:'grass'},deltaAbs:0},{recipient:'receiver',species:'solar',event:{id:'unknown',sourceSpecies:'none'},deltaAbs:1}];
   h.append(w);assert.deepEqual(h.rows[1].relationship.edges.map(e=>[e.from,e.to,e.type,e.value]),[['grass','solar','information',1],['hyperparasite','solar','mediated',1]]);
@@ -44,19 +50,18 @@ test('legacy snapshots and CSV are unmodified and absent old relation data is no
 });
 test('initial, extinct and missing states remain distinct in models and shared-symbol markup',()=>{
   const w=world(),h=history(w);h.append(w);let m=N.build(h);assert.equal(m.initial,true);assert.equal(m.current.observed,0);assert.match(N.render(m,{symbols,species}),/初期構成のみ/);
-  const flow=advance(w,1);flow.relationship.damage={'solar|abyss':3};w.organisms=w.organisms.filter(o=>o.species!=='solar');w.stats.counts.solar=0;w.stats.main=1;h.append(w);m=N.build(h);const html=N.render(m,{symbols,species});assert.match(html,/data-network-edge="combat"/);assert.match(html,/data-network-node="solar"/);assert.match(html,/区間末に消失/);assert.equal(m.current.biomass.solar,0);assert.equal((html.match(/data-network-unobserved/g)||[]).length,4);assert(!html.includes('undefined'));
+  const flow=advance(w,1);flow.relationship.damage={'solar|abyss':3};w.organisms=w.organisms.filter(o=>o.species!=='solar');w.stats.counts.solar=0;w.stats.main=1;h.append(w);m=N.build(h);const html=N.render(m,{symbols,species});assert.match(html,/data-network-edge="combat"/);assert.match(html,/data-network-node="solar"/);assert.match(html,/現在は消失/);assert.equal(m.current.biomass.solar,0);assert.equal((html.match(/data-relationship-plane=/g)||[]).length,3);assert(!html.includes('relationship-history'));assert(!html.includes('undefined'));
 });
 test('missing amount measurements stay unrecorded instead of becoming apparent measured zero',()=>{
   const w=world(),h=history(w);h.append(w);advance(w,1);delete w.observation.flowTelemetry.relationship;delete w.observation.flowTelemetry.inputs;h.append(w);const row=h.rows[1].relationship;assert.equal(row.availability.combat,'unrecorded');assert.equal(row.availability.nutrition,'unrecorded');const m=N.build(h);assert.equal(m.current.coverage.combat,0);assert.match(N.render(m,{symbols,species}),/未記録を含む/);
   assert(h.csv().includes('"network_measurement","combat","unrecorded","measurement_state","","unrecorded"'));
 });
-test('all displayed intervals share one compact canonical species and resource layout',()=>{
+test('the current relationship display has three focused cards without period thumbnails',()=>{
   const w=world(),h=history(w);h.append(w);
   for(let t=1;t<=101;t++){const flow=advance(w,t);flow.inputs=t===1?[{id:'plant',species:'grass',type:'light',energy:2,tag:'light'}]:t===101?[{id:'other',species:'abyss',type:'carcass',sourceSpecies:'grassbug',source:'c:dead:0',energy:3,tag:'animal'}]:[];if(t===101){w.organisms=w.organisms.filter(o=>o.species!=='solar');w.stats.counts.solar=0;}h.append(w);}
   const model=N.build(h),html=N.render(model,{symbols,species});
   assert.deepEqual(model.species,['abyss','solar','grass']);assert(model.past[0].counts.solar>0);assert.equal(model.current.counts.solar,0);
-  const svg=[...html.matchAll(/<svg class="relationship-svg" viewBox="0 0 (\d+) (\d+)"/g)];assert.equal(svg.length,2);assert.deepEqual(svg.map(m=>m[2]),['120','120']);
-  const location=id=>[...html.matchAll(new RegExp('data-network-node="'+id+'" data-plane="0"[\\s\\S]*?transform="translate\\(([^)]+)\\)','g'))].map(m=>m[1]);
-  for(const id of [...model.species,'@light','@carcass:grassbug']){const points=location(id);assert.equal(points.length,2);assert.equal(points[0],points[1]);}
-  assert(!html.includes('data-network-node="myth"'));
+  const svg=[...html.matchAll(/<svg class="relationship-svg" viewBox="0 0 (\d+) (\d+)"/g)];assert.equal(svg.length,3);
+  assert.match(html,/data-network-edge="scavenging"/);assert.match(html,/data-network-node="@carcass:grassbug"/);
+  assert(!html.includes('data-network-node="@light"'));assert(!html.includes('relationship-past'));assert(!html.includes('100–199T'));
 });

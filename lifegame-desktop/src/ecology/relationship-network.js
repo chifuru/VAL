@@ -120,7 +120,11 @@
     const maximum={},maxB=Math.max(0,...blocks.flatMap(b=>Object.values(b.biomass).filter(number)));
     for(const b of blocks)for(const e of b.edges)maximum[e.type]=Math.max(maximum[e.type]||0,e.rate||0);
     const current=blocks.at(-1),past=blocks.slice(0,-1);while(past.length<4)past.push(null);
-    const model={definition:viewDefinition,turn,first:first500,last:first500+499,current,past,species,maximum,maxB,catalogue,missing:!current.recorded&&turn>0,initial:turn===0};
+    const recent=newBlock(Math.max(1,turn-49));
+    for(let i=Math.max(0,turn-49);i<=turn;i++)addRow(recent,rows[i]);
+    const overview={...recent,edges:[...recent.edges.values()].map(e=>({...e,rate:recent.coverage[category(e.type)]?e.value/recent.coverage[category(e.type)]:null})),present:[...recent.present]};
+    overview.leaders=leaders(overview);
+    const model={definition:viewDefinition,turn,first:first500,last:first500+499,current,past,overview,species,maximum,maxB,catalogue,missing:!current.recorded&&turn>0,initial:turn===0};
     cache.model=model;return model;
   }
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -135,7 +139,7 @@
     [...allIds,...resources].forEach((id,slot)=>positions.set(id,{x:30+(slot%cols)*48,y:52+Math.floor(slot/cols)*34}));
     function diagram(block,mini,index){
       if(!block)return '<div class="relationship-past relationship-unobserved" data-network-unobserved><span>未観測</span></div>';
-      const title=block.last===0?'0T · 初期構成':`${block.first}–${block.first+99}T${block.complete?'':' · 途中'+block.last+'T'} / 観測${block.observed}T`;
+      const title=mini?(block.last===0?'初期構成':`${block.first}–${block.first+99}T`):'現在の関係';
       const paths=[],nodes=[],correspondence=[],labels=[],labelBoxes=[];
       const currentEdges=block.edges.filter(e=>e.rate>0),labelled=new Set();
       for(const type of Object.keys(types))for(const e of currentEdges.filter(e=>e.type===type).sort((a,b)=>b.rate-a.rate||[a.from,a.to].join('|').localeCompare([b.from,b.to].join('|'))).slice(0,mini?0:2))labelled.add(e);
@@ -146,7 +150,7 @@
           const style=types[e.type],strength=model.maximum[e.type]>0?e.rate/model.maximum[e.type]:0,line=1+4*Math.sqrt(strength),x1=ox+a.x,y1=a.y-3,x2=ox+b.x,y2=b.y-3;
           let d,lx,ly;if(e.from===e.to){d=`M${x1-8},${y1-4} C${x1-27},${y1-37} ${x1+27},${y1-37} ${x1+8},${y1-4}`;lx=x1;ly=y1-29;}
           else{const dx=x2-x1,dy=y2-y1,norm=Math.hypot(dx,dy),sx=x1+dx/norm*12,sy=y1+dy/norm*12,tx=x2-dx/norm*14,ty=y2-dy/norm*14,bend=Math.min(26,norm*.18)*(e.from<e.to?1:-1),cx=(sx+tx)/2-dy/norm*bend,cy=(sy+ty)/2+dx/norm*bend;d=`M${sx},${sy} Q${cx},${cy} ${tx},${ty}`;lx=(sx+2*cx+tx)/4;ly=(sy+2*cy+ty)/4-3;}
-          const value=e.type==='parasitism'?'平均'+fmt(e.rate)+'群':fmt(e.value)+' '+style.unit,description=`${name(e.from)} → ${name(e.to)} / ${style.name} ${value} / ${block.coverage[category(e.type)]}T計測`;
+          const value=e.type==='parasitism'?'平均'+fmt(e.rate)+'群':fmt(e.value)+' '+style.unit,description=`${name(e.from)} → ${name(e.to)} / ${style.name} ${value}`;
           paths.push(`<path data-network-edge="${esc(e.type)}" data-from="${esc(e.from)}" data-to="${esc(e.to)}" data-value="${e.value}" d="${d}" fill="none" stroke="${style.color}" stroke-width="${line.toFixed(2)}" opacity=".78"${style.dash?` stroke-dasharray="${style.dash}"`:''} marker-end="url(#relationship-arrow-${index}-${e.type})"><title>${esc(description)}</title></path>`);
           if(labelled.has(e)){
             const labelWidth=Math.max(30,value.length*5.5),candidates=[0,-10,10,-20,20].map(dy=>({x:lx,y:ly+dy,w:labelWidth,h:13}));
@@ -168,7 +172,7 @@
       const unrecorded=categories.some(k=>block.coverage[k]<block.observed);
       const roleLabels={production:'生産の中心',assimilation:'採食量',damage:'実損害',scavenging:'死骸利用',hosts:'有効寄生先',kills:'討ち取り'};
       const roleText=!mini?Object.entries(block.leaders||{}).filter(([,items])=>items.length).map(([key,items])=>`<span title="${esc(items.map(a=>name(a.id)+' '+fmt(a.value)).join(' / '))}">${roleLabels[key]}：${esc(items.slice(0,2).map(a=>name(a.id)).join('・'))}${items.length>2?' 他'+(items.length-2)+'系統':''}${items.length>1?'（同率）':''}</span>`).join(''):'';
-      return `<section class="${mini?'relationship-past':'relationship-main'}" data-network-first="${block.first}" data-network-last="${block.last}"><h5>${esc(title)}${unrecorded?' · 未記録を含む':''}</h5><svg class="relationship-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(title+' '+planes.join('、'))}"><defs>${defs}</defs>${correspondence.join('')}${paths.join('')}${nodes.join('')}${labels.join('')}</svg>${roleText?`<p class="relationship-role-leaders" data-network-leaders>${roleText}</p>`:''}${block.observed===0?'<p class="relationship-empty">初期構成のみ。成立作用は未観測</p>':!block.recorded?'<p class="relationship-empty">この記録には関係面の原値がありません</p>':!currentEdges.length?'<p class="relationship-empty">計測した区間に成立作用なし</p>':''}</section>`;
+      return `<section class="${mini?'relationship-past':'relationship-main'}" data-network-first="${block.first}" data-network-last="${block.last}"><h5>${esc(title)}${unrecorded?' · 未記録を含む':''}</h5><svg class="relationship-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(title+' '+planes.join('、'))}"><defs>${defs}</defs>${correspondence.join('')}${paths.join('')}${nodes.join('')}${labels.join('')}</svg>${roleText?`<p class="relationship-role-leaders" data-network-leaders>${roleText}</p>`:''}${block.observed===0?'<p class="relationship-empty">初期構成のみ。成立作用は未観測</p>':!block.recorded?'<p class="relationship-empty">この記録には関係面の原値がありません</p>':!currentEdges.length?'<p class="relationship-empty">現在、成立した関係なし</p>':''}</section>`;
     }
     return {
       current:diagram(model.current,false,'current'),
@@ -177,9 +181,30 @@
       pastKey:JSON.stringify([allIds,resources,model.maximum,model.maxB,model.past.map(b=>b&&[b.first,b.last])]),
     };
   }
-  function render(model,options){
-    const parts=renderSections(model,options);
-    return `<div class="relationship-network" data-relationship-network="${viewDefinition}">${parts.current}<div class="relationship-history">${parts.past}</div><p class="relationship-legend">線幅：同作用の量/T｜値：区間合計 E・HP・件／寄生平均群｜台座：区間末B｜点線：系統対応</p></div>`;
+  function render(model,{symbols={},colors={},species=model.catalogue||[]}={}){
+    const block=model.overview||model.current,catalogue=Object.fromEntries(species.map(s=>[s.id,s]));
+    const name=id=>catalogue[id]?.name||resourceName(id),fill=id=>colors[id]||'#bed4d0';
+    const cards=planes.map((plane,planeIndex)=>{
+      const edges=block.edges.filter(e=>types[e.type].plane===planeIndex&&e.rate>0).sort((a,b)=>b.rate-a.rate||a.from.localeCompare(b.from));
+      const featured=[],taken=new Set();
+      for(const type of Object.keys(types).filter(type=>types[type].plane===planeIndex)){
+        const e=edges.find(edge=>edge.type===type);if(e&&featured.length<5){featured.push(e);taken.add(e);}
+      }
+      for(const e of edges)if(featured.length<5&&!taken.has(e)){featured.push(e);taken.add(e);}
+      const sources=[...new Set(featured.map(e=>e.from))],targets=[...new Set(featured.map(e=>e.to))],height=featured.length?Math.max(92,48+Math.max(sources.length,targets.length)*28):24,position=(ids,id)=>45+ids.indexOf(id)*28;
+      const maxByType=Object.fromEntries(Object.keys(types).map(type=>[type,Math.max(0,...featured.filter(e=>e.type===type).map(e=>e.rate||0))]));
+      const marker=Object.entries(types).filter(([,v])=>v.plane===planeIndex).map(([type,v])=>`<marker id="relation-${planeIndex}-${type}" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 1 L7 4 L0 7" fill="none" stroke="${v.color}" stroke-width="1.5"/></marker>`).join('');
+      const lines=featured.map((e,i)=>{const style=types[e.type],a=position(sources,e.from),b=position(targets,e.to),bend=(i%3-1)*8,thickness=(1.4+2.8*Math.sqrt((e.rate||0)/(maxByType[e.type]||1))).toFixed(2);
+        return `<path data-network-edge="${esc(e.type)}" data-from="${esc(e.from)}" data-to="${esc(e.to)}" d="M91 ${a} Q155 ${(a+b)/2+bend} 219 ${b}" fill="none" stroke="${style.color}" stroke-width="${thickness}" opacity=".85"${style.dash?` stroke-dasharray="${style.dash}"`:''} marker-end="url(#relation-${planeIndex}-${e.type})"><title>${esc(name(e.from)+' → '+name(e.to)+' / '+style.name+' '+fmt(e.value)+' '+style.unit+'（直近の合計）')}</title></path>`;
+      }).join('');
+      const nodes=(ids,x,side)=>ids.map(id=>{const y=position(ids,id),resource=id.startsWith('@'),symbol=resource?symbols[id==='@light'?'solar':id.startsWith('@carcass:')?'organic':id.split(':').at(-1)]||symbols.mineral:symbols[id],leader=Object.values(block.leaders||{}).some(items=>items.some(a=>a.id===id));
+        return `<g data-network-node="${esc(id)}" data-network-side="${side}"><title>${esc(name(id)+(resource?'':` / 現在 ${block.counts[id]||0} / B ${fmt(block.biomass[id]??null)}${block.counts[id]===0?' / 現在は消失':''}`))}</title>${leader?`<circle cx="${x}" cy="${y}" r="12" fill="none" stroke="#f1d486" stroke-width="1.3"/>`:''}<circle cx="${x}" cy="${y}" r="9" fill="#08252d" stroke="${fill(id)}" stroke-width="1.2"/><path d="${esc(symbol||symbols.mineral||'M-1 0 H1')}" transform="translate(${x},${y}) scale(6)" fill="none" stroke="${fill(id)}" stroke-width=".18"/><text x="${x}" y="${y+19}" text-anchor="middle" fill="${fill(id)}" font-size="9">${esc(name(id).slice(0,6))}</text></g>`;
+      }).join('');
+      const note=edges.length>featured.length?`<span class="relationship-more">ほか ${edges.length-featured.length} 関係</span>`:!edges.length?'<span class="relationship-more">成立関係なし</span>':'';
+      return `<section class="relationship-card" data-relationship-plane="${planeIndex}"><header><b>${planes[planeIndex]}</b>${note}</header><svg class="relationship-svg" viewBox="0 0 310 ${height}" role="img" aria-label="${planes[planeIndex]}の現在の関係"><defs>${marker}</defs>${featured.length?`<text x="47" y="20" text-anchor="middle" fill="#7eaaa7" font-size="10">作用元</text><text x="263" y="20" text-anchor="middle" fill="#7eaaa7" font-size="10">受け手</text>`:''}${lines}${nodes(sources,47,'source')}${nodes(targets,263,'target')}</svg></section>`;
+    }).join('');
+    const status=block.observed===0?'初期構成のみ。成立作用は未観測':!block.recorded?'この記録には関係の原値がありません':categories.some(k=>block.coverage[k]<block.observed)?'未記録を含む。欠測は成立なしとして数えません':'';
+    return `<div class="relationship-network" data-relationship-network="${viewDefinition}"><div class="relationship-cards">${cards}</div>${status?`<p class="relationship-empty">${status}</p>`:''}<p class="relationship-legend">直近50Tの関係。→ 作用の向き　線色＝作用の種類　太さ＝同作用内の強さ　金の輪＝目立つ系統。記号・線に触れると詳細を表示。</p></div>`;
   }
   return {definition,viewDefinition,types,enabled,createRow,validRow,validateSnapshot,intervals,build,render,renderSections};
 });

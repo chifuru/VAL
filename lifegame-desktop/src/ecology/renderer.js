@@ -1093,7 +1093,7 @@
       for(const q of w.searchQ||[])mark(q.cell,"hyperparasite");
       for(const [cell,ids]of markedCells){
         const face=P.face(cell).slice(0,4),cx=face.reduce((n,p)=>n+p[0],0)/4,cy=face.reduce((n,p)=>n+p[1],0)/4,
-          ordered=S.D.species.filter(s=>ids.has(s.id)).map(s=>s.id);
+          ordered=[...S.D.species,...(S.D.independentPlants||[]),...(S.D.ryouki?[S.D.ryouki]:[])].filter(s=>ids.has(s.id)).map(s=>s.id);
         g.save();ordered.forEach((id,i)=>{
           const color=highlightColor(id),inset=Math.min(.32,i*3/z),f=face.map(p=>[p[0]+(cx-p[0])*inset,p[1]+(cy-p[1])*inset]);
           g.strokeStyle=color;g.lineWidth=2/z;

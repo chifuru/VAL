@@ -99,7 +99,7 @@
       nutritionSummaries.set(frame,summary);return summary;
     }
     function trophic(w,frames,primary=[],hyper=[]){
-      const inputById=new Map(),production={},predators={},combatKills={},scavengers={},edges={},next=new Map(),side={decomposer:0,remains:0,unknown:0},layers=[0,0,0,0],fresh=w.observation?.flowTelemetry;
+      const inputById=new Map(),production={},predators={},combatKills={},scavengers={},edges={},next=new Map(),side={decomposer:0,remains:0,unknown:0},layers=[0,0,0,0],roleLayers=[0,0,0,0,0],fresh=w.observation?.flowTelemetry;let roleUnknown=0;
       stagedNutritionNeeded=new Map(nutritionNeeded);
       if(dietFrames.length===50)for(const id of nutritionSummary(dietFrames[0]).needed){const n=stagedNutritionNeeded.get(id)-1;if(n)stagedNutritionNeeded.set(id,n);else stagedNutritionNeeded.delete(id);}
       for(const id of nutritionSummary(frames.at(-1)).needed)stagedNutritionNeeded.set(id,(stagedNutritionNeeded.get(id)||0)+1);
@@ -113,6 +113,20 @@
         add(predators,summary.predators);add(scavengers,summary.scavengers);add(edges,summary.edges);
       }
       for(const o of [...w.organisms||[],...primary.map(e=>e.p),...hyper.map(e=>e.q)]){needed.add(o.id);const group=byId[o.species]?.group,B=Math.max(0,o.B||0);let parts=[0,0,0,0,0];
+        if(group==='plant')roleLayers[0]+=B;
+        else if(group==='prey')roleLayers[1]+=B;
+        else if(group==='main'){
+          const roles=[0,0,0,0,0];
+          for(const e of inputById.get(o.id)||[]){if(!(e.energy>0))continue;
+            const source=byId[e.sourceSpecies],sourceGroup=source?.group;
+            if(sourceGroup==='plant'||e.type==='plant')roles[1]+=e.energy;
+            else if(sourceGroup==='prey')roles[2]+=e.energy;
+            else if(sourceGroup==='main')roles[source?.diet==='animal'?4:3]+=e.energy;
+          }
+          const total=roles.reduce((n,v)=>n+v,0);
+          if(total>0)for(let i=1;i<5;i++)roleLayers[i]+=B*roles[i]/total;
+          else roleUnknown+=B; // No observed source: avoid inventing a feeding role.
+        }
         if(group==='plant')parts[0]=1;
         else if(group==='fungus'){side.decomposer+=B;continue;}
         else {let total=0;for(const e of inputById.get(o.id)||[]){total+=e.energy;
@@ -128,7 +142,7 @@
       for(const [id,v]of allocations)if(needed.has(id)&&!next.has(id))next.set(id,v);
       side.remains=(w.carcasses||[]).reduce((n,a)=>n+Math.max(0,a.q||0),0);
       const ranking=values=>Object.entries(values).filter(([,n])=>n>0).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).map(([id,value])=>({id,name:byId[id]?.name||id,value}));
-      return {allocation:next,data:{definition:'trophic-observed/1',layers,side,biomassTotal:layers.reduce((a,n)=>a+n,0)+side.unknown+side.decomposer,
+      return {allocation:next,data:{definition:'trophic-observed/1',layers,...(config.relationshipModel==='network/1'?{roleLayers,roleUnknown}:{}),side,biomassTotal:layers.reduce((a,n)=>a+n,0)+side.unknown+side.decomposer,
         production:fresh&&w.turn>0?Object.values(production).reduce((a,n)=>a+n,0):null,
         uptake:fresh&&w.turn>0?frames.reduce((n,f)=>n+nutritionSummary(f).uptake,0):null,
         edges,leaders:{production:ranking(production),predation:ranking(predators),scavenging:ranking(scavengers),...(w.turn>0&&frames.every(f=>f.combat?.definition==="combat-observed/1")?{combat:ranking(combatKills)}:{})},window:Math.min(50,w.turn),source:'直近50Tの同化と光合成。供給元は前ターンの配分、第4段以上は集約。'}};

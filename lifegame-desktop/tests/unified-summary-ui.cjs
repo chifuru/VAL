@@ -49,10 +49,10 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
   await page.locator('.map-key-extra>summary').click();
   await page.locator('.observation-conditions>summary').click();check(await page.locator('#active-mode').isVisible(),'effective observation conditions available');await page.locator('.observation-conditions>summary').click();
   await page.evaluate(()=>{const w=__LIFE_TEST__.snapshot().world,o=w.organisms.find(o=>o.slot==='main');__LIFE_TEST__.select(o.cell,o.id);});check(await page.locator('#inspector-details').isVisible(),'individual detail has its own pane');
-  check(await page.locator('#inspector-graphs').isVisible(),'selecting an individual retains all timelines');
+  check(!await page.locator('#inspector-graphs').isVisible(),'selecting an individual temporarily switches away from timelines');
   check(await page.evaluate(()=>document.getElementById('current-donut').getBoundingClientRect().width>=175),'current-composition donut is enlarged');
-  const split=await page.evaluate(()=>{const g=document.getElementById('inspector-graphs').getBoundingClientRect(),d=document.getElementById('inspector-details').getBoundingClientRect(),b=document.getElementById('board').getBoundingClientRect();return {separate:g.right<=d.left,right:b.right<=g.left,graphHeight:g.height,detailHeight:d.height};});
-  check(split.separate&&split.right&&split.graphHeight>300&&split.detailHeight>300,'graph and creature have separate full-height right-side columns');
+  const split=await page.evaluate(()=>{const d=document.getElementById('inspector-details').getBoundingClientRect(),b=document.getElementById('board').getBoundingClientRect();return {right:b.right<=d.left,detailHeight:d.height,mapWidth:b.width};});
+  check(split.right&&split.detailHeight>300&&split.mapWidth>400,'detail uses the fixed sidebar without shrinking the map');
   await page.waitForFunction(()=>!__LIFE_TEST__.snapshot().render.terrainPending,{},{timeout:20000,polling:150});
   const terrain=await page.evaluate(()=>__PLANE_R__.__terrainAudit());
   await fs.writeFile(path.join(out,'terrain-comparison.json'),JSON.stringify(terrain,null,2));
