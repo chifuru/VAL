@@ -24,7 +24,7 @@ jobs:
           cache: npm
           cache-dependency-path: lifegame-desktop/package-lock.json
       - id: version
-        run: echo "value=$(node -p 'require(\"./package.json\").version')" >> "$GITHUB_OUTPUT"
+        run: echo "value=$(node -p 'require("./package.json").version')" >> "$GITHUB_OUTPUT"
       - run: npm ci
       - run: npm run package:windows
       - uses: actions/upload-artifact@v4
