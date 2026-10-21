@@ -1062,9 +1062,7 @@
           annotations.push(() => {
           const sex = o.sex === "male" ? "♂" : o.sex === "female" ? "♀" : "—",
             stage = ['colony-state/1','fungal-colony-state/1'].includes(o.colony?.version) ? "群落" : a.enabled ? ({ juvenile: "幼体", adult: "成体", elderly: "老齢" }[a.stage]) : "未判定",
-            branch = o.phase >= 3 && Number.isInteger(o.branch3)
-              ? "-" + ["A", "B", "C"][o.branch3] + (o.phase === 4 && Number.isInteger(o.branch4) ? o.branch4 + 1 : "") : "",
-            phase = ["I", "II", "III", "IV"][o.phase - 1] + branch,
+            phase = ["I", "II", "III", "IV"][o.phase - 1],
             y = actor.cohabit>1?nameY+.14:cy+r*1.23+.11;
           const badges = [
             { x: -0.34, w: 0.14, text: sex, color: o.sex === "male" ? "#a9e5ff" : o.sex === "female" ? "#ffcfdf" : "#d7d9d3" },

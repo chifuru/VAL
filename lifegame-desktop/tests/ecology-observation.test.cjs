@@ -6,6 +6,8 @@ test('all turn values survive more than two 500-turn blocks and CSV preserves ol
  const w=F.world();w.config.seed='exact-history';const h=O.create(w.config,'test-version');
  for(let t=0;t<=1200;t++){w.turn=t;w.stats.counts.abyss=t===12?999:t%7;h.append(w);}
  assert.equal(h.rows.length,1201);assert.equal(h.rows[12].counts.abyss,999);assert.equal(h.rows[0].turn,0);assert.equal(h.rows.at(-1).turn,1200);
+ assert.deepEqual(h.rows[0].funnel,{});assert.deepEqual(h.rows[0].contactPairs,{});assert.deepEqual(h.rows[0].relations,{});
+ assert.equal(typeof h.rows[12].current.relations.species,'number');assert.deepEqual(O.restore(h.snapshot()).rows,h.rows);
  assert(h.bins(40).some(b=>b.max.abyss===999));assert.equal(h.append(w),false);
  assert(h.csv().includes('"12","population","abyss","999"'));assert(h.csv().includes('exact-history'));
  w.turn=1202;assert.throws(()=>h.append(w),/欠測/);assert.equal(h.rows.length,1201);
@@ -58,8 +60,9 @@ test('new production worlds retain invariants, deterministic replay and observat
 
 test('finite observation capacity refuses a new row without silently deleting any recorded turn',()=>{
  const w=F.world(),h=O.create(w.config,'capacity',{maxBytes:20000});w.turn=0;h.append(w);const original=JSON.stringify(h.rows);w.turn=1;
- let failed=false;for(let t=1;t<50;t++){w.turn=t;try{h.append(w);}catch(e){assert.match(e.message,/容量上限/);failed=true;break;}}
- assert(failed);assert.equal(h.rows[0].turn,0);assert(h.rows.length>=1);assert(h.csv().includes('"0","population"'));assert(original.length>0);
+ let failure;for(let t=1;t<50;t++){w.turn=t;try{h.append(w);}catch(e){assert.match(e.message,/容量上限/);failure=e;break;}}
+ assert(failure);assert.equal(failure.code,'OBSERVATION_CAPACITY');assert.equal(h.rows[0].turn,0);assert.equal(h.rows.length,w.turn);assert(h.csv().includes('"0","population"'));assert(original.length>0);
+ assert(h.canExpandCapacity(failure.requiredBytes));assert(h.expandCapacity(failure.requiredBytes));assert.equal(h.append(w),true);assert.equal(h.rows.length,w.turn+1);assert.equal(h.rows[0].turn,0);
 });
 test('relationship continuity measures repeated completed time blocks, not a single burst',()=>{
  function record(repeated){const w=F.world(),h=O.create(w.config,'continuity');for(let t=0;t<=20;t++){w.turn=t;w.observation={relations:(repeated?(t===1||t===11):t===1)?{'abyss|myth|combat':repeated?1:2}:{}};h.append(w);}return h.rows.at(-1);}

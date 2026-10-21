@@ -1453,6 +1453,7 @@ body:not(.setup-screen) .setup { display:none; }
 .setup-screen .world-column,.setup-screen .inspector { display:none; }
 .setup-screen .workspace { display:block; max-width:900px; margin:0 auto; }
 .setup-screen .intro #focus-view { display:none; }
+body.observatory .intro #focus-view { display:none; }
 .setup-screen .setup { display:block; }
 body:not(.setup-screen) .workspace { grid-template-columns:minmax(0,1fr) 340px; }
 .graphs-panel { margin-top:12px; padding:16px; }
