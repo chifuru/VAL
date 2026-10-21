@@ -1057,7 +1057,6 @@
   function chartColor(s){if(!s)return '#839097';const ids=chartCatalogue().filter(a=>a.group===s.group),i=ids.findIndex(a=>a.id===s.id),h={plant:125,fungus:35,prey:185,main:220,P:18,Q:280}[s.group]??200;return `hsl(${h+i*2} 65% ${40+(i%5)*9}%)`;}
   let graphInspect=null;
   const baseGraphOptions=$('graph-species').innerHTML;
-  $('inspector-graphs').append($('graphs-panel'));
   const summaryHome = document.createComment('Current ecosystem summary');
   $('current-summary').before(summaryHome);
   const graphObservation=()=>analysisData||observations;
