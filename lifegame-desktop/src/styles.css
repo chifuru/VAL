@@ -1860,7 +1860,7 @@ body.setup-screen #individual-list { display:none; }
 /* The right sidebar has three explicit views. Keep the map and tab strip fixed. */
 .workspace > .inspector,.workspace > .inspector.has-detail { grid-template-rows:auto minmax(0,1fr);gap:8px; }
 .observatory .workspace > .inspector.has-detail { grid-template-rows:auto minmax(0,1fr); }
-.workspace > .inspector > .inspector-tabs { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;flex-shrink:0; }
+.workspace > .inspector > .inspector-tabs { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;flex-shrink:0; }
 .inspector-tabs button { min-width:0;padding:7px 4px;font-size:11px;line-height:1.25;color:#b7d4d1;background:#0b2931;border:1px solid #42616a;border-radius:5px;cursor:pointer; }
 .inspector-tabs button[aria-selected="true"] { color:#f3e2aa;background:#173c43;border-color:#c4a765;box-shadow:inset 0 -2px #d5b873; }
 .workspace > .inspector > #inspector-key { min-width:0;min-height:0;border:1px solid #42616a;border-radius:5px;padding:8px;background:#0a242b; }
@@ -1904,14 +1904,38 @@ body.setup-screen #individual-list { display:none; }
 @media (min-width:1101px) and (min-height:700px) {
   .observatory #map-key { max-height:190px;overflow:auto;scrollbar-width:thin; }
 }
-/* Keep the observation tabs at the top of the right column. The overview and
-   map stack independently on the left, so the charts do not start below the
-   full-width current summary. */
-@media (min-width:901px) {
-  body:not(.setup-screen) .workspace > .observation-overview { grid-column:1;grid-row:1; }
-  body:not(.setup-screen) .workspace > .world-column { grid-column:1;grid-row:2; }
-  body:not(.setup-screen) .workspace > .inspector { grid-column:2;grid-row:1 / span 2;align-self:stretch; }
+/* All three observation histories belong immediately left of the biomass
+   pyramid. Details and population keys remain in the right-side switcher. */
+body:not(.setup-screen) .workspace > .observation-overview { grid-column:1/-1;grid-row:1; }
+body:not(.setup-screen) .workspace > .world-column { grid-column:1;grid-row:2; }
+body:not(.setup-screen) .workspace > .inspector { grid-column:2;grid-row:2; }
+.observatory .observation-overview #current-summary { display:grid;grid-template-columns:minmax(0,2.8fr) minmax(190px,.8fr) minmax(220px,1fr);grid-template-rows:auto auto;gap:8px 12px;align-items:start; }
+.observation-overview #current-summary > .current-relationships { grid-column:1/-1;grid-row:1; }
+.observation-overview #current-summary > #inspector-graphs { grid-column:1;grid-row:2;min-width:0; }
+.observation-overview #current-summary > .current-biomass { grid-column:2;grid-row:2; }
+.observation-overview #current-summary > .current-composition { grid-column:3;grid-row:2; }
+.observation-overview #current-summary > .current-composition { align-self:start; }
+.observation-overview #graphs-panel { display:block;flex:none;margin:0;padding:0;border:0;background:none;box-shadow:none; }
+.observation-overview #graphs-panel .graph-grid { display:grid;flex:none;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:250px 145px;gap:5px; }
+.observation-overview #graphs-panel .graph-grid article { display:block;min-width:0;min-height:0;margin:0;padding:5px;overflow:hidden; }
+.observation-overview #graphs-panel .graph-grid article:first-child { grid-column:1;grid-row:1; }
+.observation-overview #graphs-panel .graph-grid article:nth-child(2) { grid-column:2;grid-row:1; }
+.observation-overview #graphs-panel .graph-grid article:last-child { grid-column:1/-1;grid-row:2; }
+.observation-overview #graphs-panel #graph-relations { flex:none;min-height:0;height:140px; }
+.observation-overview #graphs-panel #graph-composition { display:block;flex:none; }
+.observation-overview #graphs-panel .composition-time { flex:none;margin:1px 0; }
+.observation-overview #graphs-panel .composition-time canvas { height:45px; }
+.observation-overview #graphs-panel #graph-stacked { display:block;flex:none;height:80px; }
+#results-analysis #current-summary #inspector-graphs { display:none; }
+@media (max-width:1100px) {
+  .observatory .observation-overview #current-summary { grid-template-columns:minmax(0,1fr) minmax(160px,.65fr); }
+  .observation-overview #current-summary > .current-relationships { grid-column:1/-1;grid-row:1; }
+  .observation-overview #current-summary > #inspector-graphs { grid-column:1/-1;grid-row:2; }
+  .observation-overview #current-summary > .current-biomass { grid-column:1;grid-row:3; }
+  .observation-overview #current-summary > .current-composition { grid-column:2;grid-row:3; }
 }
-@media (min-width:1101px) and (min-height:700px) {
-  body.observatory:not(.setup-screen) .workspace > .inspector { grid-row:1 / span 2;height:100%; }
+@media (max-width:600px) {
+  .observatory .observation-overview #current-summary { grid-template-columns:minmax(0,1fr); }
+  .observation-overview #current-summary > .current-biomass { grid-column:1;grid-row:3; }
+  .observation-overview #current-summary > .current-composition { grid-column:1;grid-row:4; }
 }

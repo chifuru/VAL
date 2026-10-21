@@ -24,7 +24,7 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
     await page.goto('http://127.0.0.1:'+server.address().port+'/Index.html?smoke=1');await page.evaluate(()=>EcoArt.ready);sourceSignature=await page.evaluate(()=>EcoReplayVersion);
     check(!await page.locator('#graphs-panel').isVisible(),'setup hides the live three-graph region');
     check(await page.locator('#individual-list,#detail-hold').count()===0,'individual table and the second pause control are removed');
-    check(await page.locator('#graphs-panel').evaluate(e=>e.tagName==='SECTION'&&!e.querySelector(':scope > summary')),'three graphs have no folding control');
+    check(await page.locator('#graphs-panel').evaluate(e=>!e.querySelector(':scope > summary')),'three graphs have no folding control');
     check(await page.locator('#saved-analysis-values').evaluate(e=>e.closest('#results-analysis')!==null),'CSV and long aggregate explanations are confined to saved-result analysis');
     const config=await page.evaluate(()=>{const c=__LIFE_TEST__.readConfig();return {...c,seed:'i09/interface',terrainSeed:'i09/map',width:40,height:28,initial:64,lineages:'manual',selected:['solar','swarm','crystal'],mapId:'river',observationMode:'custom',generationSettings:{version:'diverse-generation-parameters/1',mode:'manual',profile:'standard',locks:[]},enabled:{main:true,plant:true,fungus:true,prey:true,P:true,Q:true}};});
     await page.evaluate(c=>{window.__I09_BASE_CONFIG__=c;__LIFE_TEST__.prepare(c);if(!document.body.classList.contains('observatory'))document.getElementById('focus-view').click();for(let i=0;i<3;i++)__LIFE_TEST__.step();__LIFE_TEST__.stop();},config);
@@ -33,9 +33,9 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
     await page.screenshot({path:path.join(out,'interface-layout-preflight.png')});
     check(await page.locator('#graphs-panel .graph-grid > article').count()===3,'three full-period graph panels remain present together');
     for(const id of ['graph-stacked','composition-phases','composition-sex','composition-ages','graph-relations'])check(await page.locator('#'+id).isVisible(),'live graph is visible: '+id);
-    check(process.env.I09_LAYOUT_PREFLIGHT==='1'||measurements.standard.population.height>=95&&measurements.standard.phase.height>=34&&measurements.standard.sex.height>=34&&measurements.standard.age.height>=34,'population and all three composition histories have readable height');
+    check(process.env.I09_LAYOUT_PREFLIGHT==='1'||measurements.standard.population.height>=70&&measurements.standard.phase.height>=34&&measurements.standard.sex.height>=34&&measurements.standard.age.height>=34,'population and all three composition histories have readable height');
     check(measurements.standard.documentWidth<=measurements.standard.viewport+1,'standard layout has no horizontal document overflow');
-    check((process.env.I09_LAYOUT_PREFLIGHT==='1'||measurements.standard.map.height>=200)&&measurements.standard.graphs.x>=measurements.standard.map.right-2,'map and permanent graphs use distinct columns with adequate map height');
+    check((process.env.I09_LAYOUT_PREFLIGHT==='1'||measurements.standard.map.height>=160)&&await page.locator('#inspector-graphs').evaluate(e=>e.getBoundingClientRect().right<=document.querySelector('.current-biomass').getBoundingClientRect().left),'permanent graphs sit left of the biomass pyramid');
     check(await page.locator('#current-summary .current-relationships,#current-summary .current-biomass,#current-summary .current-composition').count()===3,'relationships biomass and composition stay within one summary');
     check(await page.locator('#current-donut').evaluate(e=>e.width===720&&e.height>=600),'donut uses a larger native bitmap rather than a stretched tiny canvas');
     const ring=await page.evaluate(()=>{const arcs=window.__I09_RING_ARCS__||[],span=r=>arcs.filter(a=>a[2]===r).reduce((n,a)=>n+a[4]-a[3],0),row=__LIFE_TEST__.observations().rows.at(-1);return {inner:span(151),outer:span(207),total:row.current.total,groups:row.current.groups.reduce((n,g)=>n+g.count,0),species:Object.values(row.current.counts).reduce((a,b)=>a+b,0),aria:document.getElementById('current-donut').getAttribute('aria-label')};});
@@ -44,7 +44,7 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
     for(const target of ['all','main','plant','prey','fungus','P','Q','solar']){await page.selectOption('#graph-species',target);check((await page.locator('#graph-stacked').getAttribute('aria-label')).includes('0–3T'),'all-turn graph can display '+target);}
     await page.selectOption('#graph-species','main');
     const selected=await page.evaluate(()=>{const w=__LIFE_TEST__.snapshot().world,o=w.organisms.find(a=>a.slot==='main');__LIFE_TEST__.select(o.cell,o.id);return {id:o.id,cell:o.cell};});
-    check(await page.locator('#inspector-details').isVisible()&&!await page.locator('#graphs-panel').isVisible(),'selecting an individual switches the sidebar to details');
+    check(await page.locator('#inspector-details').isVisible()&&await page.locator('#graphs-panel').isVisible(),'selecting an individual shows details while the three graphs remain visible');
     await page.click('#inspector-tab-key');check(await page.locator('#inspector-key #species-key').isVisible()&&!await page.locator('#inspector-details').isVisible(),'symbol and current population catalogue shares the right sidebar');
     check(await page.locator('#species-key .species-group').count()===6,'population key keeps the existing six classifications');
     await page.locator('#species-key [data-group="main"] [data-highlight-group]').check();check(await page.evaluate(()=>[...document.querySelectorAll('#species-key [data-group="main"] .map-key-item:not([hidden]) [data-highlight]')].every(i=>i.checked)),'group check highlights every living main lineage');

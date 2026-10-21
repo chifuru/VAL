@@ -208,6 +208,21 @@ ECOSYSTEM-2026</textarea
               <h2 id="current-overall">生態系の特徴を観測中</h2>
               <p id="current-indicators" class="support-values"><span id="current-breadth-values"></span> · <span id="current-diversity-values"></span> · <span id="current-persistence-values"></span></p>
             </div>
+            <section id="inspector-graphs" aria-label="生態観測">
+              <div id="graphs-panel" class="panel graphs-panel">
+                <h2 class="graphs-heading">生態観測 <small>0Tから現在まで</small></h2>
+                <label class="graph-target">対象<select id="graph-species"><option value="main">主生物</option><option value="all">全生物</option><option value="plant">生産者</option><option value="prey">一次消費者</option><option value="fungus">分解者</option><option value="P">一次寄生</option><option value="Q">高次寄生</option></select></label>
+                <div class="graph-grid">
+                  <article><h3>生態関係 <small>全期間・各点は直近50T</small></h3><svg id="graph-relations" viewBox="0 0 720 180" role="img" aria-label="全期間の広がり・多様さ・持続性"></svg></article>
+                  <article><h3>集団構成 <small>実数・共通の縦軸</small></h3><div id="graph-composition">
+                    <p class="note">相：Ⅰ 青緑・Ⅱ 青・Ⅲ 紫・Ⅳ 金<br>雌雄：雌 桃・雄 水色・無性別 淡緑<br>年齢：幼体 黄・成体 緑・老齢 紫 ／ 非該当 灰</p><div class="composition-time"><span>相</span><canvas id="composition-phases" width="960" height="145"></canvas></div>
+                    <div class="composition-time"><span>雌雄</span><canvas id="composition-sex" width="960" height="145"></canvas></div>
+                    <div class="composition-time"><span>年齢</span><canvas id="composition-ages" width="960" height="145"></canvas></div>
+                  </div></article>
+                  <article><h3>個体数の推移 <small id="graph-range"></small></h3><canvas id="graph-stacked" width="960" height="260" aria-label="全期間の系統別積み上げ個体数"></canvas><div id="population-legend" class="population-legend"></div></article>
+                </div>
+              </div>
+            </section>
             <section class="current-biomass"><h3>生物量ピラミッド <small>B・個体数ではありません</small></h3><div id="biomass-pyramid"></div><p id="pyramid-support" class="note"></p></section>
             <div class="current-composition"><h3>現在の構成</h3><canvas id="current-donut" width="720" height="610" role="img" aria-label="内側は生物グループ、外側は系統。個体・群落・群体数の割合"></canvas><div id="current-legend"></div><p class="note">個体・群落・群体数の割合。内外は同じ分母。</p></div>
           </section>
@@ -305,25 +320,9 @@ ECOSYSTEM-2026</textarea
         </section>
         <aside class="panel inspector">
           <nav id="inspector-tabs" class="inspector-tabs" aria-label="右側の表示" role="tablist">
-            <button id="inspector-tab-graphs" type="button" role="tab" aria-controls="inspector-graphs" aria-selected="true">生態観測</button>
             <button id="inspector-tab-details" type="button" role="tab" aria-controls="inspector-details" aria-selected="false">選択中の個体</button>
-            <button id="inspector-tab-key" type="button" role="tab" aria-controls="inspector-key" aria-selected="false">記号と個体数</button>
+            <button id="inspector-tab-key" type="button" role="tab" aria-controls="inspector-key" aria-selected="true">記号と個体数</button>
           </nav>
-          <div id="inspector-graphs" role="tabpanel" aria-labelledby="inspector-tab-graphs">
-            <section id="graphs-panel" class="panel graphs-panel">
-              <h2 class="graphs-heading">生態観測 <small>0Tから現在まで</small></h2>
-              <label class="graph-target">対象<select id="graph-species"><option value="main">主生物</option><option value="all">全生物</option><option value="plant">生産者</option><option value="prey">一次消費者</option><option value="fungus">分解者</option><option value="P">一次寄生</option><option value="Q">高次寄生</option></select></label>
-              <div class="graph-grid">
-                <article><h3>生態関係 <small>全期間・各点は直近50T</small></h3><svg id="graph-relations" viewBox="0 0 720 180" role="img" aria-label="全期間の広がり・多様さ・持続性"></svg></article>
-                <article><h3>集団構成 <small>実数・共通の縦軸</small></h3><div id="graph-composition">
-                  <p class="note">相：Ⅰ 青緑・Ⅱ 青・Ⅲ 紫・Ⅳ 金<br>雌雄：雌 桃・雄 水色・無性別 淡緑<br>年齢：幼体 黄・成体 緑・老齢 紫 ／ 非該当 灰</p><div class="composition-time"><span>相</span><canvas id="composition-phases" width="960" height="145"></canvas></div>
-                  <div class="composition-time"><span>雌雄</span><canvas id="composition-sex" width="960" height="145"></canvas></div>
-                  <div class="composition-time"><span>年齢</span><canvas id="composition-ages" width="960" height="145"></canvas></div>
-                </div></article>
-                <article><h3>個体数の推移 <small id="graph-range"></small></h3><canvas id="graph-stacked" width="960" height="260" aria-label="全期間の系統別積み上げ個体数"></canvas><div id="population-legend" class="population-legend"></div></article>
-              </div>
-            </section>
-          </div>
           <div id="inspector-key" role="tabpanel" aria-labelledby="inspector-tab-key" hidden>
             <section id="map-key" class="map-key" aria-label="盤面の記号と現在の個体数">
               <button id="clear-highlights" class="small">所在強調をすべて解除</button><p id="presence-note" class="note" role="status" aria-live="polite"></p>
@@ -359,7 +358,7 @@ ECOSYSTEM-2026</textarea
       </div>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.63 · 外部通信なし</span>
+        ><span>v4.2.64 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">
