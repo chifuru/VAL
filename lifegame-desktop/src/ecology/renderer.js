@@ -304,7 +304,7 @@
       terrainEpoch++;fallbackNearToken++;fallbackOverviewEpoch=null;terrainWorker?.terminate();terrainWorker=null;
       nearCache?.close?.();nearCache=null;cache?.close?.();cache=null;overviewBounds=null;terrainReady=false;terrainBusy=false;
       terrainRequest=null;terrainMetrics=null;terrainFailed=false;
-      diagnostics.terrainFallback=false;diagnostics.overviewBuildMs=0;diagnostics.terrainBuildMs=0;
+      diagnostics.terrainFallback=false;diagnostics.overviewBuildMs=0;diagnostics.terrainBuildMs=0;diagnostics.terrainReusedPixels=0;
       if(typeof OffscreenCanvas==="undefined"||typeof createImageBitmap==="undefined"||typeof Worker==="undefined"){failTerrain();return;}
       const epoch=terrainEpoch;
       try{
@@ -315,7 +315,7 @@
           terrainBusy=false;
           if(d.type==='overview'){cache?.close?.();cache=d.bitmap;overviewBounds=d.bounds;diagnostics.overviewBuildMs=d.ms;revision++;return;}
           if(d.type==="error"){failTerrain();return;}
-          if(d.key===cacheKey){nearCache?.close?.();nearCache=d.bitmap;nearRect=d.rect;terrainMetrics=d.metrics;diagnostics.terrainBuildMs=d.ms;diagnostics.terrainPending=false;revision++;}
+          if(d.key===cacheKey){nearCache?.close?.();nearCache=d.bitmap;nearRect=d.rect;terrainMetrics=d.metrics;diagnostics.terrainBuildMs=d.ms;diagnostics.terrainReusedPixels=d.reusedPixels||0;diagnostics.terrainPending=false;revision++;}
           else d.bitmap?.close?.();
           pumpTerrain();
         };
@@ -555,7 +555,9 @@
       g.translate(view.x, view.y);
       g.scale(z, z);
       if (near && !simplifiedBackground) {
-        const sx=Math.floor(view.x/128)*128+128+(view.x-Math.floor(view.x)),sy=Math.floor(view.y/128)*128+128+(view.y-Math.floor(view.y));
+        // Keep the detailed surface anchored to a stable 128px grid while panning.
+        // Subpixel pointer movement only shifts the cached bitmap; it need not rebuild terrain.
+        const sx=Math.floor(view.x/128)*128+128,sy=Math.floor(view.y/128)*128+128;
         const key = [
           geometryKey,
           sx,
