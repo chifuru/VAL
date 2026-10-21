@@ -1,7 +1,7 @@
 {
   "name": "valis-lifegame-desktop",
   "productName": "LifeGame",
-  "version": "4.2.64",
+  "version": "4.2.65",
   "private": true,
   "description": "Seeded ecosystem survival simulation for Windows",
   "main": "src/desktop/main.cjs",

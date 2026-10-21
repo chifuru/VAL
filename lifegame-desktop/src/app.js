@@ -219,9 +219,36 @@
   };
   const generationLocks=new Set();
   let generationBase={};
+  const terrainProfileCache=new Map();
+  function availableTerrainProfiles(){
+    const mapId=$('map-id').value;
+    if(mapId==='auto')return {water:true,land:true};
+    const key=mapId+':'+$('size').value;
+    if(terrainProfileCache.has(key))return terrainProfileCache.get(key);
+    const def=window.EcoMapData?.maps.find(m=>m.id===mapId)?.sizes[$('size').value.replace(',','x')];
+    if(!def)return {water:false,land:false};
+    const variable=new Set(def.candidates.flatMap(group=>group.cells));
+    let waterFixed=0,landFixed=0,waterVariable=0,landVariable=0,cell=0;
+    for(const [count,,terrain,cover] of def.runs)for(let i=0;i<count;i++,cell++){
+      const water=terrain==='shallow'||terrain==='deep';
+      if(variable.has(cell)){if(water)waterVariable++;else landVariable++;}
+      else if(cover!=='boulder'){if(water)waterFixed++;else landFixed++;}
+    }
+    // Candidate obstacles can remove cells. Use the least favourable ratio so
+    // every terrain variant allowed by this map satisfies the chosen profile.
+    const allowed={
+      water:waterFixed/(waterFixed+landFixed+landVariable)>=.35,
+      land:landFixed/(landFixed+waterFixed+waterVariable)>=.70,
+    };
+    terrainProfileCache.set(key,allowed);return allowed;
+  }
   function syncGenerationFields(){
     const automatic=$('generation-mode').value==='auto',preset=$('observation-mode').value!=='custom';
     $('generation-profile').disabled=!automatic;
+    const terrain=availableTerrainProfiles();
+    $('generation-profile').querySelector('[value="water-focused"]').disabled=!terrain.water;
+    $('generation-profile').querySelector('[value="land-focused"]').disabled=!terrain.land;
+    if($('generation-profile').selectedOptions[0]?.disabled)$('generation-profile').value='auto';
     for(const [path,id]of Object.entries(generationFields)){
       const check=document.querySelector('[data-generation-lock="'+path+'"]'),input=$(id);
       if(!check)continue;
@@ -299,20 +326,21 @@
     for (const id of ["map-id","initial","lineages","distribution","placement","guarantee"])
       $(id).disabled = fixed;
     for(const input of document.querySelectorAll("#lineage-options input,#weight-options input"))input.disabled=fixed;
-    for(const input of document.querySelectorAll("#groups input"))input.disabled=false;
+    for(const input of document.querySelectorAll("#groups input"))input.disabled=fixed;
     if (fixed) {
+      generationLocks.delete('mapId');generationLocks.delete('initial');
       if(resetLower){
         const kept=Object.entries(generationFields).filter(([path])=>generationLocks.has(path)&&!["mapId","initial"].includes(path)).map(([path,id])=>[path,id,$(id).value,path.endsWith("regrowthB")?Number($(id.replace("regrowth","capacity")).value)*Number($(id).value)/100:null]);
         const founders=founderSpecies.map(s=>[s.id,$("founder-"+s.id).value]);
         resetLowerSettings();for(const [path,id,value,absolute]of kept)$(id).value=absolute===null?value:100*absolute/Number($(id.replace("regrowth","capacity")).value);for(const [id,value]of founders)$("founder-"+id).value=value;
       }
-      if(!generationLocks.has("mapId"))$("map-id").value=mode.mapId;
-      if(!generationLocks.has("initial"))$("initial").value=mode.initial;
+      $("map-id").value=mode.mapId;
+      $("initial").value=mode.initial;
+      for(const group of Object.keys(groups))$("group-"+group).checked=mode.enabled[group];
       $("lineages").value = "manual"; $("distribution").value = mode.distribution;
       $("placement").value = mode.placement; $("guarantee").checked = false;
       for (const input of $("lineage-options").querySelectorAll("input")) input.checked = mode.selected.includes(input.value);
-      // Explicitly disabled groups survive preset selection; conflicting mode
-      // promises are explained by the generation validator rather than enabled silently.
+      // A fixed observation mode owns its map, founder count and group set.
     }
     $("lineage-options").hidden = $("lineages").value !== "manual";
     $("weight-options").hidden = $("distribution").value !== "weighted";
@@ -389,6 +417,11 @@
       if(generationLocks.has(path)||config.observationMode!=='custom'&&['mapId','initial'].includes(path))continue;
       const parts=path.split('.'),key=parts.pop();let at=config;
       for(const part of parts)at=at[part]??={};at[key]=structuredClone(value);
+    }
+    if(config.observationMode!=='custom'){
+      const preset=S.observationPreset(config.observationMode,width,height);
+      config.mapId=preset.mapId;config.initial=preset.initial;
+      config.enabled={...preset.enabled};
     }
     return config;
   }
@@ -713,7 +746,7 @@
       $("setup").removeAttribute("aria-busy");
     }
   });
-  function returnSetup(){resultReadEpoch++;hold("settings");closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;if(world){showProducerSettings(world.config.producerModel==='colony/1'?world.config.producerSettings:null,world.config.initialFoodScale||1);showLargePlantSettings(world.config.largePlantModel==='independent/1'?world.config.largePlantSettings:undefined);}showGenerationSettings(world?.config||{});$("resource-info").value=0;$("information-influence").value=world?.config.informationModel==='persistent/1'?world.config.informationSettings.influence:1;syncSetupFields();message("初期設定に戻りました。条件を選んで新しい世界を作れます。取消すと現在の観測へ戻ります。");}
+  function returnSetup(){resultReadEpoch++;hold("settings");closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;if(world){showProducerSettings(world.config.producerModel==='colony/1'?world.config.producerSettings:null,world.config.initialFoodScale||1);showLargePlantSettings(world.config.largePlantModel==='independent/1'?world.config.largePlantSettings:undefined);}showGenerationSettings(world?.config||{});$("resource-info").value=0;$("information-influence").value=world?.config.informationModel==='persistent/1'?world.config.informationSettings.influence:1;applyObservationMode({resetLower:false});message("初期設定に戻りました。条件を選んで新しい世界を作れます。取消すと現在の観測へ戻ります。");}
   $("change-world").onclick=returnSetup;
   $("start").addEventListener("click", () => {
     if (running) {
