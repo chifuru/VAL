@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と必要な説明を示す。仕様入口
 
 現在の採用仕様: `design/specification/cell-reorganization-v1.md`（cell-reorganization/1）。マス・0〜5次・土壌/配分・植物/低次動物/分解者・量機の定住3×3・次T境界を既存A/Bへ反映。数値は比較開始値。実装接続/影響探索/検証計画更新/再検証要否あり。新規Node・分割・初期登録・正式状態/階層/層間参照変更なし。全61Nodeは草案。
 
-実行製品は4.2.77のまま。新規水系P自動8群体・既定3/3/2等の実装範囲は `design/specification/water-founders-v1.md` と `operations/evidence/water-founders-v1/README.md` を参照。マス再編は未実装・未実測で、旧証跡を新モデルの合格根拠にしない。C/D/E・src/tests・画像・配布は今回未変更。詳細な反映範囲は正本14節、反映契約は `operations/plans/cell-reorganization-ab-v1.md`。次は指示に応じてC/D接続を整理する。
+実行製品は4.2.77のまま。新規水系P自動8群体・既定3/3/2等の実装範囲は `design/specification/water-founders-v1.md` と `operations/evidence/water-founders-v1/README.md` を参照。マス再編は未実装・未実測で、旧証跡を新モデルの合格根拠にしない。C/Dは `design/implementation/cell-reorganization-v1.md` の実装契約・検証計画まで接続。E・src/tests・画像・生成物・配布は未変更。実装順序は `operations/plans/cell-reorganization-implementation-v1.md` のCR01〜CR07。次はCR01の版・共通状態・占有基盤。
 
 ## A：仕様
 
@@ -293,75 +293,75 @@ C6:（B5 / モックの造形投影・観測画面・配布）［草案］
 
 C7:（B4 / 同期ターン接合と世界確定）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C7.md。正本: design/specification/consumer-groups-v1.md。契約: operations/plans/i11e-consumer-groups-v1.md。証跡: operations/evidence/i11e-consumer-groups-v1/README.md。
+		valis/nodes/C/C7.md。契約: design/implementation/cell-reorganization-v1.md。版付きの新モデルを既存の段階ターンへ接続し、確定前の変更を旧世界へ漏らさない。
 	ロジック:
-		consumerModel group/1を同期処理へ接合。無指定の旧経路を維持。
+		移動→戦闘→最終所在資源配分→維持/衰退→成長/出生/分群/背景分解/末尾確定を接合。次T利用待ちと直接捕食、予約/支払を分け、取消・Worker・生成実行経路を同じ意味に揃える。
 	実態:
-		4.2.47 / consumer-group/1を接続。限定確認はI11e証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+		cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
 
 	C7.1:（B4, B4.4 / 初期値・固定世界・31種の共通状態）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.1.md。正本: design/specification/grassbug-balance-v1.md。契約: operations/plans/i11g-grassbug-balance-v1.md。証跡: operations/evidence/i11g-grassbug-balance-v1/README.md。
+			valis/nodes/C/C7.1.md。契約: design/implementation/cell-reorganization-v1.md。cellModelの版、固定環境と有限動的在庫、0〜5次の実ID索引と固定最大枠を担当する。
 		ロジック:
-			有限年齢区分/人数状態、局所初期束ね、初期総人数を保存し、新版の草棲虫蓄え差分を有限初期台帳へ加える。 菌膜の既存群落処理も保持。
+			単一の在庫書込口と派生索引を区別し、定住3/総5枠、量機の相変異定住枠内3体、下層別上限、内部人数/基部/可食部を表現。淡水の4次占有と生産者役割を分け、旧設定は旧経路へ。初期明示0と総物質を保存する。
 		実態:
-			4.2.49 / consumer-group-parameters/3を接続。限定確認はI11g証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
 
 	C7.2:（B4.3, B4.4 / 有限栄養・資源CA・生産と死骸）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.2.md。正本: design/specification/consumer-groups-v1.md。契約: operations/plans/i11e-consumer-groups-v1.md。証跡: operations/evidence/i11e-consumer-groups-v1/README.md。
+			valis/nodes/C/C7.2.md。契約: design/implementation/cell-reorganization-v1.md。光・水・M・食物を同マスの実在量から必要量/能力/届きやすさで配分する。
 		ロジック:
-			人数に応じた有限採食/維持、部分死亡の有限死骸。 菌膜の既存群落処理も保持。
+			上限付き配分と余剰再配分、費用/留保/予約、組織形成・維持・部分損失・死骸・分解/同化・次T還元を担当。保持上限のMを消去せず有機物へ残す。菌の保護基部と背景分解・軽い腐敗負荷を上位どおりに接続する。
 		実態:
-			4.2.47 / consumer-group/1を接続。限定確認はI11e証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
 
 	C7.3:（B4.1 / 局所行動・同時移動戦闘・学習）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.3.md。正本: design/specification/consumer-groups-v1.md。契約: operations/plans/i11e-consumer-groups-v1.md。証跡: operations/evidence/i11e-consumer-groups-v1/README.md。
+			valis/nodes/C/C7.3.md。契約: design/implementation/cell-reorganization-v1.md。各歩の合法性・実費・枠の調停を共通占有APIへ接続する。
 		ロジック:
-			既存行動と費用の人数換算、局所分散/競合/合流。
+			定住者優先と空き抽選、量機の圧縮枠/混在/解除待ち、移動中1体1枠、交戦地点で停止、戦闘後の歩数再使用なし、最終所在だけの取得を実装対象とする。自動反撃・密集罰・集団倍率を追加しない。
 		実態:
-			4.2.47 / consumer-group/1を接続。限定確認はI11e証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
 
 	C7.4:（B4, B4.4 / 成長・遺伝・出生と繁殖例外）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.4.md。正本: design/specification/consumer-groups-v1.md。契約: operations/plans/i11e-consumer-groups-v1.md。証跡: operations/evidence/i11e-consumer-groups-v1/README.md。
+			valis/nodes/C/C7.4.md。契約: design/implementation/cell-reorganization-v1.md。相/年齢・身体・蓄え・基部/可食部・内部世代を、実費で更新する。
 		ロジック:
-			有償内部出生、年齢区分ごとの成熟/寿命、分散を出生にしない。
+			留保を支出にせず成長/再生/出生の二重予約を防ぐ。各上位比較値、I/年齢0の子、定住/層別出生枠、8体上限、7〜8から3体分群・自動合流なしを接続。新生/新葉/新資格は次Tからで、実物質と感染保持者を複製しない。
 		実態:
-			4.2.47 / consumer-group/1を接続。限定確認はI11e証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。 4.2.54 / socialRenewalModel: successor/1 を新規世界へ接続。旧世界は無指定。
+			cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
 
 	C7.5:（B4.2 / 寄生生活環と外部情報）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.5.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。初期集団正本: design/specification/water-founders-v1.md。証跡: operations/evidence/water-founders-v1/README.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
+			valis/nodes/C/C7.5.md。契約: design/implementation/cell-reorganization-v1.md。既存P/Q生活環と情報の役割分類を維持して、多重占有・部分死亡・分群へ接続する。
 		ロジック:
-			state/parasites/生成モデルへ版付き卵の設定・状態・処理を接続。卵と生存Pを別集計し、観測/CSV/保存/Workerへ渡す。既存の寄生・情報責務も維持。
+			量機を実個体IDで対象化し、小集団の感染保持者/P/Qを一度だけ移す。途中接触に既存資格/回数制限を適用。栄養残存と感染期限を分け、新枠数を根拠に卵数/感染窓/情報栄養を変更しない。
 		実態:
-			app4.2.77：新規一次寄生設定/2の水系自動8群体・既定3/3/2分散。明示数/0/無効/合法枠/旧設定を保持。専用4＋保存6/画面13項目。代表250Tで河川2/湖1/湿地4残存、同ID再放出5/5/2。湖は旧19より減少、全条件/500T安定は未認定。再編前の暫定採用、草案。
+			cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。初期集団正本: design/specification/water-founders-v1.md。証跡: operations/evidence/water-founders-v1/README.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。卵の表示/観測: design/specification/primary-eggs-v1.md / operations/evidence/primary-eggs-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/C/C8.md。契約: design/implementation/cell-reorganization-v1.md。新しい実効環境と占有・物質単位を、既存の観測操作へ渡す。
 	ロジック:
-		既存select/入力/ロックとカード・由来札・条件まとめを同期。readConfigと生成規則・保存契約・旧世界保持を維持。既存の詳細/グラフ/速度責務も保持。
+		土壌の質と在庫、空間層と栄養役割、量機の枠/人数、小集団の人数/群数、菌の基部等を説明・集計へ接続。実装単位ごとの最小投影を先送りせず、画面構成・表示方式・記録対象選別は維持する。
 	実態:
-		app4.2.77：新規一次寄生設定/2の水系自動8群体・既定3/3/2分散。明示数/0/無効/合法枠/旧設定を保持。専用4＋保存6/画面13項目。代表250Tで河川2/湖1/湿地4残存、同ID再放出5/5/2。湖は旧19より減少、全条件/500T安定は未認定。再編前の暫定採用、草案。
+		cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.1.md。正本: design/specification/remaining-cutouts-v1.md。契約: operations/plans/remaining-cutouts-v1.md。証跡: operations/evidence/remaining-cutouts-v1/README.md。
+			valis/nodes/C/C8.1.md。契約: design/implementation/cell-reorganization-v1.md。層別ID列から可視候補を取り、既存の記号・絵柄・素材・選択を維持する。
 		ロジック:
-			主生物の詳細半径だけ短辺基準へ変更する。盤面描画/透明素材を変更せず、残る素材経路も確認する。
+			代表1体Mapだけで同居者を消さず、量機各個体・群落の残存・小集団の人数を別に投影する。固定背景と可変在庫を混同せず、層分離や新しい囲み方式・画像を勝手に追加しない。観測・描画は生態乱数を進めない。
 		実態:
-			切り抜き漏れ確認/1: app4.2.74で303素材領域と96描画を確認し、主生物詳細6状態の端欠けを短辺基準で修正。Linux11項目は operations/evidence/remaining-cutouts-v1/README.md。採用素材/盤面/生態は不変。全直積/Windows/配布は未認定。草案。
+			cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.2.md。正本: design/specification/long-record-restore-v1.md。契約: operations/plans/long-record-restore-v1.md。証跡: operations/evidence/long-record-restore-v1/README.md。
+			valis/nodes/C/C8.2.md。契約: design/implementation/cell-reorganization-v1.md。新旧モデルと全実効設定を区別し、新方式に必要な有限状態・利用待ちを転送/保存へ接続する。
 		ロジック:
-			既存の全行structuredClone後、各行を順番に追加し、可変長引数へ全行展開しない。
+			固定地形と動的水分/M等の差分を分け、既存soilM転送を生かす。初期条件＋最終結果/集計を維持し全世界の毎T保存を追加しない。署名別名だけで旧互換とせず、生成元・実行モデル・保存の意味を一致させる。
 		実態:
-			追加3試験と容量6試験が成功。全行/値/参照/CSV互換を維持。
+			cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
 
 ```
 
@@ -418,43 +418,43 @@ D6:（A1.1, A1.2, A1.3, B5, C6 / モックの画面・描画・実行検証計�
 
 D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D7.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
+		valis/nodes/D/D7.md。契約: design/implementation/cell-reorganization-v1.md。C7系の固定枠と実人数、有限資源、同時要求、利用時点、新旧版と生成/Worker経路を検証対象とする。
 	ロジック:
-		最終差分でも逐次計算と一致し、容量6T・境界・不正応答・旧世代破棄を限定確認する。
+		通常3＋2/量機9＋2/混在/超過/解除待ち、要求2/1/1と在庫2、順序入替/再配分、隣接取得0、保持上限のM保存、当T/次T境界・取消・旧短期一致を少数fixtureで確認する計画。未実行であり合格証跡ではない。
 	実態:
-		観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
+		cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
 
 D8:（C7 / 生態循環と結合進行）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D8.md。正本: design/specification/consumer-groups-v1.md。契約: operations/plans/i11e-consumer-groups-v1.md。証跡: operations/evidence/i11e-consumer-groups-v1/README.md。
+		valis/nodes/D/D8.md。契約: design/implementation/cell-reorganization-v1.md。植物→低次動物/主生物→死骸→分解→0次→植物の実物質循環を検証対象とする。
 	ロジック:
-		固定陸水の限定比較と死因/出生/分散を観測。全系統生存認定はしない。
+		供給途絶/回復、群落競争、被食後基部、衰退・消失、背景分解・次T還元を短期で照合する計画。結合後だけ代表1条件の500T等を探索し、旧R1〜R6や全条件の達成を捏造しない。
 	実態:
-		4.2.47 / consumer-group/1を接続。限定確認はI11e証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+		cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
 
 	D8.1:（C7.4 / 相・出生・遺伝と繁殖例外）［草案］
 		構成（要素・関係）:
-			valis/nodes/D/D8.1.md。正本: design/specification/grassbug-balance-v1.md。契約: operations/plans/i11g-grassbug-balance-v1.md。証跡: operations/evidence/i11g-grassbug-balance-v1/README.md。
+			valis/nodes/D/D8.1.md。契約: design/implementation/cell-reorganization-v1.md。各層の子の費用/初期量と年齢・相、群落/小集団の生活を検証対象とする。
 		ロジック:
-			内部出生の費用・I/年齢0、分散保存と一斉寿命の回避。
+			I/年齢0、留保3T・二重支出なし、低次8体・7〜8から3体分群、人数/E/M/内部年齢保存、再分群/同T出生禁止、菌基部1の被食保護と不足消失、相進行で無料充填なしを確認する計画。未実行。
 		実態:
-			4.2.49 / consumer-group-parameters/3を接続。限定確認はI11g証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。 4.2.54の後継娘・有償出生・給餌・旧世界境界を対象とし、最終長期実測は未取得。
+			cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
 
 	D8.2:（C7.5 / 寄生・高次寄生と情報）［草案］
 		構成（要素・関係）:
-			valis/nodes/D/D8.2.md。マップ調査: operations/evidence/water-map-audit-v1/README.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。初期集団正本: design/specification/water-founders-v1.md。証跡: operations/evidence/water-founders-v1/README.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
+			valis/nodes/D/D8.2.md。契約: design/implementation/cell-reorganization-v1.md。同居・部分死・分群・死骸の状態変更を、実宿主IDと情報役割に接続して検証する。
 		ロジック:
-			卵の量保存・時計・占有・失敗・旧指紋・保存/Workerと既存P/Qを限定照合。代表100Tの戻りを追い、500T/全条件の安定判定とは分ける。
+			圧縮量機の宿主選択、感染保持者の実移送、P/Qの非複製、同T感染連鎖なし、栄養残存/感染期限分離、空間層と情報役割を混同しないことを少数例で確認する計画。感染窓等の新規調整や未実行の合格認定はしない。
 		実態:
-			app4.2.77：新規一次寄生設定/2の水系自動8群体・既定3/3/2分散。明示数/0/無効/合法枠/旧設定を保持。専用4＋保存6/画面13項目。代表250Tで河川2/湖1/湿地4残存、同ID再放出5/5/2。湖は旧19より減少、全条件/500T安定は未認定。再編前の暫定採用、草案。
+			cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。初期集団正本: design/specification/water-founders-v1.md。証跡: operations/evidence/water-founders-v1/README.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。卵の表示/観測: design/specification/primary-eggs-v1.md / operations/evidence/primary-eggs-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/D/D9.md。契約: design/implementation/cell-reorganization-v1.md。C8系の複数実ID、単位、実効設定、Worker/保存再生と既存操作を検証対象とする。
 	ロジック:
-		6構成の旧main設定一致、由来/不使用/変更リンク/390pxと既存生成/取消/復帰を限定照合。全生態・長期・Windows・配布は対象外。
+		群落/個体/内部人数/枠/B、量機各ID、基部残存、次T待ちを代表画面で照合する計画。旧絵柄/記号を維持し、停止再開・速度/10T描画でも生態結果が一致、旧記録を破壊しないことを確認する。今回は画面試験未実行。
 	実態:
-		app4.2.77：新規一次寄生設定/2の水系自動8群体・既定3/3/2分散。明示数/0/無効/合法枠/旧設定を保持。専用4＋保存6/画面13項目。代表250Tで河川2/湖1/湿地4残存、同ID再放出5/5/2。湖は旧19より減少、全条件/500T安定は未認定。再編前の暫定採用、草案。
+		cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
 
 ```
 

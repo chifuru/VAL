@@ -1,5 +1,8 @@
 # 実装の12作業単位と進行条件
 
+> マス再編の次の実装順序は [CR01〜CR07](cell-reorganization-implementation-v1.md) を参照する。C/D契約は `design/implementation/cell-reorganization-v1.md`。本書のI01〜I12は既存製品への接続単位であり、新しいマス再編を実装済みとするものでも、完了済みの旧工程を最初から繰り返す指示でもない。
+
+
 計画版 `implementation-sequence/1`。基準main `58509f1`、製品4.2.32。利用者の実装着手指示に基づき、今回はまず作業の切り分け・順序・範囲・確認条件を確定する。仕様は[現在のA/B](../../design/specification/README.md)、最適化候補は[41件の調査](optimization-before-implementation-v1.md)、全体の対象範囲は[現在ロードマップ](completion-roadmap-v1.md)を参照する。
 
 ## 計画と実行契約の区分
