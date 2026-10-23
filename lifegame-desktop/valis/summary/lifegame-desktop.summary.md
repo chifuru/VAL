@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.72。対象は結果を変えない詳細参照索引/1（operations/evidence/selection-index-v1/README.md）。通常IDとセル内容を現在確定状態の索引から参照し、新世界/確定更新で破棄。Linux16項目で通常3選択のP/Q locate各3→0、セル全件filter各3→0、旧新版の画素/詳細と行順/更新/追跡を限定確認。生態/原値/保存/素材/正式状態は維持。長期restoreの全行引数展開を次の限定修正候補に保持。全候補完了/全体速度/長期/Windowsは未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
+現在の確定ソースは4.2.72。対象は追加発見の長期記録復元/1（operations/evidence/long-record-restore-v1/README.md）。全行clone/検査は維持し、push引数展開だけ行順追加へ変更。Node追加3試験と容量回帰6試験で有効互換30万行の旧RangeError/修正後全値、参照/CSV/系列互換を限定確認。実30万T/実1GiB/最大メモリ/画面/Windowsは未認定。生態/全期間原値/保存形式/正式状態は維持。次は中断中の3速度/10T描画・強制軽減/復帰のレビュー。これらの未確定変更は本反映に含めない。
 
 ## A：仕様
 
@@ -200,11 +200,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.4:（A1, A2, A1.2 / 最終結果図鑑と再生・新規保存）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.4.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
+			valis/nodes/B/B5.4.md。正本: design/specification/long-record-restore-v1.md。契約: operations/plans/long-record-restore-v1.md。証跡: operations/evidence/long-record-restore-v1/README.md。
 		ロジック:
-			初期/実効条件・定義版・最終集計/状態要約・全ターン原値/100T要約を保存する。採用形と機械ID/状態/版を保存へ対応させ、旧光樹/海生/旧Q記録を黙って変換しない。 個体ごとの相/枝/相変異/年齢/密度カウンタ/同居参照と定義版を保存再生へ対応させる。
+			有効な保存済み全ターンを欠落なく復元し、入力からの分離と読取専用の記録を維持する。
 		実態:
-			既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。
+			長期記録復元/1を限定適用。保存形式/再生条件を変更しない。
 
 	B5.5:（A1, A1.1, A1.3, A1.5, A1.7 / 個体数・集団構成・生態関係のグラフ）［草案］
 		構成（要素・関係）:
@@ -357,11 +357,11 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.2.md。正本: design/specification/record-budget-v1.md。契約: operations/plans/record-budget-v1.md。証跡: operations/evidence/record-budget-v1/README.md。
+			valis/nodes/C/C8.2.md。正本: design/specification/long-record-restore-v1.md。契約: operations/plans/long-record-restore-v1.md。証跡: operations/evidence/long-record-restore-v1/README.md。
 		ロジック:
-			解放予定を先に計上し、追加失敗時は確定行を変更しない。保存結果は行単位のサイズ/有限値検査で読む。
+			既存の全行structuredClone後、各行を順番に追加し、可変長引数へ全行展開しない。
 		実態:
-			読込予算を記録拡張上限へ整合。図鑑保存/復元と容量再試行を限定確認。保存形式/生態は変更なし。
+			追加3試験と容量6試験が成功。全行/値/参照/CSV互換を維持。
 
 ```
 
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/selection-index-v1.md。契約: operations/plans/selection-index-v1.md。証跡: operations/evidence/selection-index-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/long-record-restore-v1.md。契約: operations/plans/long-record-restore-v1.md。証跡: operations/evidence/long-record-restore-v1/README.md。
 	ロジック:
-		旧新版の詳細/肖像、セル同居/消失/配列更新/順序、新世界、P/Q解決と追跡/進行を確認する。
+		有効互換30万行の旧例外/修正後全値と順序、分離/内部参照/読取専用/保存互換を確認する。
 	実態:
-		Linux16項目成功。長期/総合速度/Windowsは未認定。
+		Node追加3試験＋容量6試験成功。実長期/実1GiB/最大メモリ/画面/Windowsは未認定。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/selection-index-v1.md。契約: operations/plans/selection-index-v1.md。証跡: operations/evidence/selection-index-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/long-record-restore-v1.md。契約: operations/plans/long-record-restore-v1.md。証跡: operations/evidence/long-record-restore-v1/README.md。
 	ロジック:
-		16項目と操作数、対象SHA、O01〜O12の限定再確認と残件を保持する。
+		旧RangeErrorの反例と修正後3試験、既存容量6試験、比較版/対象SHAを保持する。
 	実態:
-		長期restoreの引数展開は追加発見/未修正。正式状態は草案。
+		合成の観測記録と実長期シミュレーションを区別。正式状態は草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

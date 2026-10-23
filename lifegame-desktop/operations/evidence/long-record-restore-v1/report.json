@@ -1,0 +1,56 @@
+{
+  "ok": true,
+  "baseline_commit": "ee5bd53",
+  "date_utc": "2026-10-23",
+  "app_version": "4.2.72",
+  "runtime": "Node v24.19.0 / Linux",
+  "full_suite": false,
+  "browser_tested": false,
+  "windows_tested": false,
+  "test_results": [
+    {
+      "file": "tests/long-record-restore.test.cjs",
+      "passed": 3,
+      "failed": 0,
+      "checks": [
+        "300000-row valid compatibility fixture: former real restore throws RangeError; changed restore keeps every turn/count in order and remains read-only",
+        "source isolation and internal alias semantics match the prior restore",
+        "small complete series/snapshot/CSV match the prior restore"
+      ]
+    },
+    {
+      "file": "tests/record-budget.test.cjs",
+      "passed": 6,
+      "failed": 0,
+      "checks": [
+        "expired detail capacity accounting",
+        "atomic refusal and retry",
+        "exact row-wise UTF16 budget boundary",
+        "no whole-history stringify during validation",
+        "nonfinite data and input immutability",
+        "finite capacity ceiling"
+      ]
+    }
+  ],
+  "fixture": {
+    "kind": "synthetic minimally valid compatibility observation record",
+    "rows": 300000,
+    "first_turn": 0,
+    "last_turn": 299999,
+    "value": "probe count = turn % 7",
+    "not_a_live_simulation": true
+  },
+  "comparison_source_sha256": "b2dd2850e2d3d2f18a527bbd08dfc6ae4079200e1f3a4428547555e81dd60556",
+  "comparison_reconstruction_equals_baseline": true,
+  "source_sha256": {
+    "src/ecology/observations.js": "e4263121a62cc22e480c14541786efa7ff95c7bfd87332d107947d4dc4dc8d1f",
+    "src/ecology/observation-modules.js": "d61784e0c505f1d236a8a62022f4cd4acc9e3e24c4a95e72516c6d9cd2b8e2bc"
+  },
+  "test_sha256": "870397e7ef17232a2d48675377fa5eda810ea297290437a287edac77cdb9c57e",
+  "limits": [
+    "fixes unbounded argument expansion only; whole-array structuredClone remains for prior identity/isolation semantics",
+    "does not certify 1GiB real files, actual 300000-turn simulation, all old record variants or browser UI",
+    "no whole-app speedup, memory ceiling, Windows or package certification",
+    "interrupted 3-speed/10-turn work excluded"
+  ]
+}
