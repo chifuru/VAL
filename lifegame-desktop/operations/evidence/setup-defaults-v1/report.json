@@ -1,0 +1,31 @@
+{
+  "ok": true,
+  "checks": [
+    "reset is separate from world generation",
+    "all creation conditions return to their startup defaults",
+    "checkboxes and disabled controls return to startup state",
+    "automatic-generation locks are cleared",
+    "restored defaults are valid and ready to create",
+    "invalid input is detected before reset",
+    "reset clears obsolete input errors",
+    "reset preserves the current world, all observation rows and archive",
+    "previously resolved generation values are cleared",
+    "display preferences remain unchanged",
+    "cancel resumes the original world, not a default replacement",
+    "default settings create a new standard-size world",
+    "no unhandled browser errors"
+  ],
+  "errors": [],
+  "scope": "Linux Chromium; startup condition comparison, live world preservation and one standard-size generation",
+  "baseline_commit": "ced3a7b",
+  "date": "2026-10-23",
+  "app_version": "4.2.72",
+  "source_sha256": {
+    "src/app.js": "14df9cf6cda3865e0d67284df4d01445ab513b53d685e74525b3a6d760c44af3",
+    "src/Index.html": "88a6d52e713d09d53d6da2c002d971229e6cb9ab3c6e063db8194d6c769d69d4",
+    "src/styles.css": "c0bdb18470b35ce42c9b0d0563f8350748a7378ab54e2ef583f525831209f6e6"
+  },
+  "test_sha256": "d9bcdc61537d111fdb4fdd8d893f5a54929c75391f20887703187ac1568c4cc6",
+  "full_suite": false,
+  "windows_tested": false
+}

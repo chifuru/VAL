@@ -335,6 +335,14 @@
     for(const s of founderSpecies)$("founder-"+s.id).value="";
   }
   $("reset-lower-settings").onclick=resetLowerSettings;
+  $('reset-setup').onclick=()=>{
+    if(preparingWorld)return;
+    $('setup').reset();
+    generationLocks.clear();generationBase={};
+    $('producer-supply').onchange();
+    applyObservationMode({resetLower:false});
+    setupMessage('作成条件をデフォルトに戻しました。現在の世界は変更せず、次に世界を作るときに使います。');
+  };
   $("producer-supply").onchange=()=>{for(const e of $("supply-inputs").querySelectorAll("input"))e.disabled=!$("producer-supply").checked;};
   function applyObservationMode({resetLower=true}={}) {
     const id = $("observation-mode").value,

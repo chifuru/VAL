@@ -1401,6 +1401,7 @@ input, select, textarea { accent-color: var(--mint); }
 #trend-line { fill: none; stroke: #a6e8cc; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 #trend-fill { fill: #81cbb21c; stroke: none; }
 .cohort-hint { margin: 10px 0 4px; font-size: 11px; color: #b7d0c3; }
+.setup-reset { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:8px 0 14px; }
 .habitat { overflow: hidden; border-color: #829c8277; box-shadow: 0 12px 35px #0004; }
 .habitat .panel-heading { background: linear-gradient(100deg, #15373b, #06232c); }
 .view-controls { background: #071f27; gap: 9px; align-items: center; }

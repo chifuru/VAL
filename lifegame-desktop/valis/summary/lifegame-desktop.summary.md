@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.72。対象は生成事前整合/1（operations/evidence/generation-preflight-v1/README.md）。標準/手動/重み0の系統数・最低人数・無効群の種別指定を整合し、Linux小世界14項目と観測復帰11項目を限定確認。生態規則・初期配置・系統数・正式状態は変更しない。全配置条件/長期性能/Windows配布物は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
+現在の確定ソースは4.2.72。対象は作成条件全体復帰/1（operations/evidence/setup-defaults-v1/README.md）。起動時の作成条件/固定/非活性状態へ一括復帰し、現在世界・観測行・図鑑・表示設定を保持する。Linux13項目を限定確認。既存の生成事前整合/観測復帰を維持し、各検証の対象版は個別証跡を参照する。生態規則・正式状態は変更なし。全条件/長期/Windows配布物は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
 
 ## A：仕様
 
@@ -168,11 +168,11 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 
 B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案］
 	構成（要素・関係）:
-		valis/nodes/B/B5.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
+		valis/nodes/B/B5.md。正本: design/specification/setup-defaults-v1.md。契約: operations/plans/setup-defaults-v1.md。証跡: operations/evidence/setup-defaults-v1/README.md。
 	ロジック:
-		上部一体サマリ・右常設3パネル・独立横詳細を維持し、選択/追跡/表示/グラフ対象で停止しない。採用形/相/年齢/生活状態を同じ確定IDから盤面/詳細/グラフ/保存へ渡す。 通常/相変異1〜3/4と同居個体を同じ確定IDから描画/選択/集計/保存へ渡す。
+		起動時の作成条件へ一括復帰し、固定チェックと非活性状態を同期する。現在世界/記録/表示設定には適用しない。
 	実態:
-		既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。
+		全体復帰と既存の下層だけの復帰を区別する。Linux13項目の範囲で限定確認。
 
 	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
 		構成（要素・関係）:
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/generation-preflight-v1.md。契約: operations/plans/generation-preflight-v1.md。
+		valis/nodes/C/C8.md。正本: design/specification/setup-defaults-v1.md。契約: operations/plans/setup-defaults-v1.md。証跡: operations/evidence/setup-defaults-v1/README.md。
 	ロジック:
-		有効な系統数を説明/最低人数/作成判定へ共有し、無効群の初期数と初期餌保証の矛盾を防ぐ。既存の異常時復帰と生態契約を維持する。
+		フォームのデフォルト復帰と生成ロック/基準値の解除を接続し、供給入力/観察モード/人数制約を再同期する。既存生態と観測復帰を維持する。
 	実態:
-		生成事前整合/1を接続。Linux小世界14項目と観測復帰11項目の範囲はoperations/evidence/generation-preflight-v1/README.md。全条件/長期/Windows/最速は未認定。
+		全体復帰操作を接続。世界/記録/表示を保持し、取消または新世界作成へ接続する。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。tests/generation-preflight-ui.cjs、tests/observation-recovery-ui.cjs。契約: operations/plans/generation-preflight-v1.md。
+		valis/nodes/D/D9.md。正本: design/specification/setup-defaults-v1.md。契約: operations/plans/setup-defaults-v1.md。証跡: operations/evidence/setup-defaults-v1/README.md。
 	ロジック:
-		系統/人数/非活性入力/固定モードと、失敗時の世界保持・再試行・観測画面遷移を確認する。共有設定処理変更後の停止/再開も確認する。
+		起動時条件/チェック値/非活性状態との比較、固定/不正入力からの復帰、実生成世界と記録の保持、取消後の再開と新世界作成を確認する。
 	実態:
-		Linux小世界14項目＋観測復帰11項目を限定確認。全条件/長期/Windows/最速は未認定。既存検証の対象版と範囲を維持する。
+		tests/setup-defaults-ui.cjsのLinux13項目が成功。全条件/長期/Windows/最速は未認定。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。operations/evidence/generation-preflight-v1/README.md、report.json、before-fix.json、recovery-regression/report.json。
+		valis/nodes/E/E6.md。正本: design/specification/setup-defaults-v1.md。契約: operations/plans/setup-defaults-v1.md。証跡: operations/evidence/setup-defaults-v1/README.md。
 	ロジック:
-		修正前の標準84体拒否と、修正後14項目・観測復帰11項目の限定結果を保持する。
+		作成条件全体復帰の13項目を、起動時の比較と既存世界保持・実生成に分けて保持する。
 	実態:
-		Linux Chromium、40×28で成功。生態規則/初期配置/正式状態は変更なし。全条件/長期/Windows/最速は未認定。
+		Linux Chromium、保持世界40×28/主24、新世界80×56で限定確認。生態規則/正式状態は変更なし。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
