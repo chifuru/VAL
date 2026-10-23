@@ -971,13 +971,13 @@
     const liveTarget=analysisState?.target;
     resultReadEpoch++;
     if(!analysisState&&!analysisData)return;
-    if(analysisState){summaryHome.after($("current-summary"));$("inspector-graphs").append($("graphs-panel"));$("graph-turn").value=analysisState.turn;graphFollow=analysisState.follow;}
+    if(analysisState){summaryHome.after($("current-summary"));$("inspector-graphs").append($("graphs-panel"));$("graph-turn").value=analysisState.turn;graphFollow=analysisState.follow;$("donut-view").value=analysisState.donutView||'all';}
     analysisData=null;analysisRecord=null;analysisState=null;$("results-analysis").hidden=true;$("results-list").hidden=false;if(observations?.rows.length){renderCurrentSummary(observations.rows.at(-1),activeCatalogue());renderGraphs({target:liveTarget});}
   }
   async function analyzeResult(id){
     const epoch=++resultReadEpoch, previous=world;
     try{const record=await archive.get(id);if(epoch!==resultReadEpoch||world!==previous)return;let data=null;if([2,3].includes(record.schema))data=window.EcoObservations.restore(record.observation,{species:D.species});
-      if(!analysisState)analysisState={target:$("graph-species").value,turn:$("graph-turn").value,follow:graphFollow};
+      if(!analysisState)analysisState={target:$("graph-species").value,turn:$("graph-turn").value,follow:graphFollow,donutView:$("donut-view").value};
       analysisRecord=record;analysisData=data;$("results-list").hidden=true;$("results-analysis").hidden=false;
       $("result-analysis-title").textContent=`保存した最終結果 · ${record.turn}T`;
       $("result-analysis-summary").textContent=`主生物 ${record.final.main} / 下層 ${record.final.food} / P ${record.final.P} / Q ${record.final.Q}。`+(record.schema===3?" 最終状態の個別例は分類ごとの一部で、全個体の履歴ではありません。":"")+(data?'記録時の指標と全確定ターンを参照しています。':'旧記録には全期間グラフが保存されていません。値を再計算して補いません。');
@@ -1296,25 +1296,36 @@
     setText('current-breadth-values',`直近${Math.min(50,row.turn)}T：関与 ${relations.species}系統・${Object.keys(relations.edges).length}関係`);
     setText('current-diversity-values',`作用 ${relations.types.length}種類`);
     setText('current-persistence-values',row.turn<20?'継続：判定待ち':`継続 ${relations.continuous}関係`);
-    const c=$("current-donut"),g=c.getContext("2d"),cx=360,cy=270;
-    g.clearRect(0,0,c.width,c.height);
-    let angle=-Math.PI/2;
-    for(const group of current.groups){
-      for(const member of catalogue.filter(v=>v.group===group.id)){const n=current.counts[member.id]||0;if(!n)continue;const end=angle+n/Math.max(1,current.total)*Math.PI*2;g.beginPath();g.arc(cx,cy,185,angle,end);g.lineWidth=72;g.strokeStyle=R.highlightColor(member.id);g.stroke();angle=end;}
-    }
-    if(!current.total){g.strokeStyle='#38545b';g.lineWidth=72;g.beginPath();g.arc(cx,cy,185,0,Math.PI*2);g.stroke();}
-    g.textAlign="center";g.fillStyle="#d6e5df";g.font="34px sans-serif";g.fillText(current.total?"系統別":"生体なし",cx,cy+10);
-    g.font='27px sans-serif';g.fillStyle='#a2bfbb';g.fillText('個体・群落・群体数の割合',cx,575);
-    const legend=$("current-legend"),legendWasOpen=!!legend.querySelector('details')?.open;
-    const living=catalogue.filter(member=>current.counts[member.id]>0);
-    const livingKey=living.map(member=>member.id).join('|');
-    if(legend.dataset.species!==livingKey){
-      legend.dataset.species=livingKey;
-      legend.innerHTML=`<details${legendWasOpen?' open':''}><summary>色と系統名を確認</summary><div class="current-legend-list">${living.length?living.map(member=>`<span data-species="${member.id}"><i style="background:${R.highlightColor(member.id)}"></i>${escape(member.name)}</span>`).join(''):'<span>生存中の系統はありません</span>'}</div></details>`;
-    }
-    c.setAttribute("aria-label",'系統別の個体・群落・群体数の割合。'+catalogue.filter(member=>current.counts[member.id]>0).map(member=>member.name+" "+(current.counts[member.id]/current.total*100).toFixed(1)+"%").join(" / "));
+    renderCurrentDonut(row,catalogue);
     renderCurrentStructure(row, catalogue);
   }
+  let donutPresentation=null;
+  function renderCurrentDonut(row,catalogue){
+    const current=row?.current;if(!current)return;
+    donutPresentation={row,catalogue};
+    const mode=$('donut-view').value||'all',byGroup=mode==='groups',all=byGroup||mode==='all';
+    const members=catalogue.filter(s=>all||s.group===mode),entries=byGroup
+      ?current.groups.map(group=>({id:group.id,name:groups[group.id]||group.name||group.id,count:group.count,color:R.groupHighlightColor(group.id)}))
+      :current.groups.flatMap(group=>members.filter(s=>s.group===group.id).map(s=>({id:s.id,name:s.name,count:current.counts[s.id]||0,color:R.highlightColor(s.id)})));
+    const living=entries.filter(e=>e.count>0),total=living.reduce((sum,e)=>sum+e.count,0),title=byGroup?'分類別':mode==='all'?'系統別':groups[mode];
+    const c=$('current-donut'),g=c.getContext('2d'),cx=360,cy=270;
+    g.clearRect(0,0,c.width,c.height);let angle=-Math.PI/2;
+    for(const member of living){const end=angle+member.count/total*Math.PI*2;g.beginPath();g.arc(cx,cy,185,angle,end);g.lineWidth=72;g.strokeStyle=member.color;g.stroke();angle=end;}
+    if(!total){g.strokeStyle='#38545b';g.lineWidth=72;g.beginPath();g.arc(cx,cy,185,0,Math.PI*2);g.stroke();}
+    g.textAlign='center';g.fillStyle='#d6e5df';g.font='34px sans-serif';g.fillText(total?title:'対象なし',cx,cy+10);
+    g.font='27px sans-serif';g.fillStyle='#a2bfbb';g.fillText('個体・群落・群体数の割合',cx,575);
+    const legend=$('current-legend'),wasOpen=!!legend.querySelector('details')?.open,key=mode+'|'+living.map(e=>e.id).join('|');
+    if(legend.dataset.species!==key){
+      legend.dataset.species=key;
+      legend.innerHTML=`<details${wasOpen?' open':''}><summary>色と${byGroup?'分類':'系統'}名を確認</summary><div class="current-legend-list">${living.length?living.map(e=>`<span data-donut-entry="${escape(e.id)}"${byGroup?'':' data-species="'+escape(e.id)+'"'}><i style="background:${e.color}"></i>${escape(e.name)}</span>`).join(''):'<span>この対象の生体はありません</span>'}</div></details>`;
+    }
+    c.dataset.view=mode;c.dataset.total=String(total);
+    c.setAttribute('aria-label',`${$('donut-view').selectedOptions[0].textContent}。対象内の個体・群落・群体数の割合。`+(total?living.map(e=>e.name+' '+(e.count/total*100).toFixed(1)+'%').join(' / '):'この対象の生体はありません'));
+  }
+  $('donut-view').onchange=()=>{
+    if(!analysisData)flushObservationDisplay();
+    if(donutPresentation)renderCurrentDonut(donutPresentation.row,donutPresentation.catalogue);
+  };
   function renderCurrentStructure(row, catalogue) {
     const p=row.current.pyramid,roles=p.roleLayers,names=['生産者','植物食','小型捕食','肉食','上位捕食'];
     const peak=Math.max(1,...roles||[]),colors=['#72c48e','#62cbd3','#6ba6dc','#9196d4','#bd9de2'];

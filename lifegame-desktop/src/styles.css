@@ -1967,3 +1967,7 @@ body:not(.setup-screen) .workspace > .inspector { grid-column:2;grid-row:2; }
 #graphs-panel .graph-targets .graph-target { display:flex; flex:1 1 160px; gap:6px; min-width:0; margin:2px 0; }
 #graphs-panel .graph-targets select { width:0; flex:1; min-width:0; }
 #graphs-panel .graph-target-scope { color:#92b8b2; font-size:10px; line-height:1.4; margin:3px 0 6px; }
+
+/* Current composition uses one chart; its scope does not change the history graphs. */
+#current-summary .donut-view-control{display:flex;align-items:center;gap:6px;width:100%;max-width:240px;min-width:0;font-size:11px;color:#b7cdca}
+#current-summary .donut-view-control select{flex:1;min-width:0;max-width:100%;padding:4px;font-size:11px}

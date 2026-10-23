@@ -1,0 +1,209 @@
+{
+  "ok": true,
+  "app": "4.2.74",
+  "checks": [
+    "default retains one all-species chart",
+    "eight existing category/breakdown views are available",
+    "all: denominator, legend, arc proportions and board colors match the recorded population",
+    "groups: denominator, legend, arc proportions and board colors match the recorded population",
+    "main: denominator, legend, arc proportions and board colors match the recorded population",
+    "plant: denominator, legend, arc proportions and board colors match the recorded population",
+    "prey: denominator, legend, arc proportions and board colors match the recorded population",
+    "fungus: denominator, legend, arc proportions and board colors match the recorded population",
+    "P: denominator, legend, arc proportions and board colors match the recorded population",
+    "Q: denominator, legend, arc proportions and board colors match the recorded population",
+    "species legends preserve their existing IDs for board correspondence",
+    "chart switching preserves the manually frozen specimen",
+    "switching while paused changes no biology, observations or pause intent",
+    "donut scope is independent of the three timelines and biomass pyramid",
+    "changing the live donut does not pause observation",
+    "new committed turns update the selected composition",
+    "explicit fastest-mode chart switch flushes the partial presentation without starting observation",
+    "saved final observations support the same parasite composition view",
+    "leaving saved analysis restores the live donut choice and world",
+    "the selector fits a 180px chart-panel fixture",
+    "an absent category displays zero rather than silently falling back to all life",
+    "no browser runtime errors",
+    "no external requests"
+  ],
+  "errors": [],
+  "external": [],
+  "modes": [
+    {
+      "mode": "all",
+      "total": 417,
+      "displayed": 417,
+      "entries": [
+        "algae",
+        "grass",
+        "phytoplankton",
+        "forestcrown",
+        "starcrown",
+        "freshwaterlight",
+        "waterbug",
+        "grassbug",
+        "sail",
+        "abyssshell",
+        "serpent",
+        "whale",
+        "plasma",
+        "fungus",
+        "tideparasite",
+        "leafparasite",
+        "hyperparasite"
+      ],
+      "expected": [
+        "algae",
+        "grass",
+        "phytoplankton",
+        "forestcrown",
+        "starcrown",
+        "freshwaterlight",
+        "waterbug",
+        "grassbug",
+        "sail",
+        "abyssshell",
+        "serpent",
+        "whale",
+        "plasma",
+        "fungus",
+        "tideparasite",
+        "leafparasite",
+        "hyperparasite"
+      ],
+      "arcsMatch": true,
+      "aria": "全生物 · 系統別。対象内の個体・群落・群体数の割合。微藻 1.0% / 草本 45.6% / 浮遊微藻 4.6% / 森冠 1.4% / 星冠 3.1% / 淡水光合成体 0.7% / 水游虫 8.2% / 草棲虫 7.9% / 光帆 1.9% / 深殻 1.0% / 多頭蛇 1.0% / 星海鯨 1.0% / プラズマ生命 1.0% / 菌膜 7.9% / 潮環 0.2% / 葉環 9.8% / 抑環 3.8%"
+    },
+    {
+      "mode": "groups",
+      "total": 417,
+      "displayed": 417,
+      "entries": [
+        "plant",
+        "prey",
+        "main",
+        "fungus",
+        "P",
+        "Q"
+      ],
+      "expected": [
+        "plant",
+        "prey",
+        "main",
+        "fungus",
+        "P",
+        "Q"
+      ],
+      "arcsMatch": true,
+      "aria": "全生物 · 分類別。対象内の個体・群落・群体数の割合。生産者 56.4% / 一次消費者 16.1% / 主生物 5.8% / 分解者 7.9% / 一次寄生 10.1% / 高次寄生 3.8%"
+    },
+    {
+      "mode": "main",
+      "total": 24,
+      "displayed": 24,
+      "entries": [
+        "sail",
+        "abyssshell",
+        "serpent",
+        "whale",
+        "plasma"
+      ],
+      "expected": [
+        "sail",
+        "abyssshell",
+        "serpent",
+        "whale",
+        "plasma"
+      ],
+      "arcsMatch": true,
+      "aria": "主生物。対象内の個体・群落・群体数の割合。光帆 33.3% / 深殻 16.7% / 多頭蛇 16.7% / 星海鯨 16.7% / プラズマ生命 16.7%"
+    },
+    {
+      "mode": "plant",
+      "total": 235,
+      "displayed": 235,
+      "entries": [
+        "algae",
+        "grass",
+        "phytoplankton",
+        "forestcrown",
+        "starcrown",
+        "freshwaterlight"
+      ],
+      "expected": [
+        "algae",
+        "grass",
+        "phytoplankton",
+        "forestcrown",
+        "starcrown",
+        "freshwaterlight"
+      ],
+      "arcsMatch": true,
+      "aria": "生産者。対象内の個体・群落・群体数の割合。微藻 1.7% / 草本 80.9% / 浮遊微藻 8.1% / 森冠 2.6% / 星冠 5.5% / 淡水光合成体 1.3%"
+    },
+    {
+      "mode": "prey",
+      "total": 67,
+      "displayed": 67,
+      "entries": [
+        "waterbug",
+        "grassbug"
+      ],
+      "expected": [
+        "waterbug",
+        "grassbug"
+      ],
+      "arcsMatch": true,
+      "aria": "一次消費者。対象内の個体・群落・群体数の割合。水游虫 50.7% / 草棲虫 49.3%"
+    },
+    {
+      "mode": "fungus",
+      "total": 33,
+      "displayed": 33,
+      "entries": [
+        "fungus"
+      ],
+      "expected": [
+        "fungus"
+      ],
+      "arcsMatch": true,
+      "aria": "分解者。対象内の個体・群落・群体数の割合。菌膜 100.0%"
+    },
+    {
+      "mode": "P",
+      "total": 42,
+      "displayed": 42,
+      "entries": [
+        "tideparasite",
+        "leafparasite"
+      ],
+      "expected": [
+        "tideparasite",
+        "leafparasite"
+      ],
+      "arcsMatch": true,
+      "aria": "一次寄生P。対象内の個体・群落・群体数の割合。潮環 2.4% / 葉環 97.6%"
+    },
+    {
+      "mode": "Q",
+      "total": 16,
+      "displayed": 16,
+      "entries": [
+        "hyperparasite"
+      ],
+      "expected": [
+        "hyperparasite"
+      ],
+      "arcsMatch": true,
+      "aria": "高次寄生Q。対象内の個体・群落・群体数の割合。抑環 100.0%"
+    }
+  ],
+  "partial": {
+    "lagged": true,
+    "synced": true,
+    "turn": 3,
+    "paused": true
+  },
+  "browser": "154.0.8037.57",
+  "scope": "small world, real Worker, eight views, partial fastest presentation, saved-result round trip; no performance or Windows certification"
+}

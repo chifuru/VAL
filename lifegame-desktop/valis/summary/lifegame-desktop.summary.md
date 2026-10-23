@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.73。現在対象は観測速度/1（operations/evidence/observation-speed-v1/README.md）。基準約1秒・2倍約0.5秒・最速を接続し、最速は内部全T計算/記録と最大6T先行を維持して10T単位で表示。端数停止/明示観察時の反映、強制軽減と復元、古い予約の破棄を実装。Node45試験、Linux画面18+26項目で限定確認。生態本体/原値/記録形式/採用絵柄/正式状態は維持。500T性能/Windows/配布は未認定。現在の対象作業は終了し、必要な実使用上の確認または次指示へ接続する。
+現在の確定ソースは4.2.74。現在対象は構成円切替/1（operations/evidence/current-donut-switch-v1/README.md）。単一ドーナツ8表示と対象内分母・0・図鑑復帰をLinux23項目で限定確認。再提示13項目の現在の完了/一部/未対応は operations/plans/improvement-status-v1.md。生態本体/全T原値/保存形式/採用絵柄/正式草案状態は維持。次は画像の切り抜き漏れの確認。今回の順序は operations/plans/improvement-status-v1.md の7単位に限定し、設定UI整理・長期グラフ・詳細追跡・非表示処理・高速観測の仕上げへ続く。ピラミッド切替/関係指標再設計/資源地形強調/要因色分けは今回対象外。Windows/配布は未作成。
 
 ## A：仕様
 
@@ -208,11 +208,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.5:（A1, A1.1, A1.3, A1.5, A1.7 / 個体数・集団構成・生態関係のグラフ）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.5.md。正本: design/specification/graph-idle-updates-v1.md。契約: operations/plans/graph-idle-updates-v1.md。証跡: operations/evidence/graph-idle-updates-v1/README.md。
+			valis/nodes/B/B5.5.md。正本: design/specification/current-donut-switch-v1.md。契約: operations/plans/current-donut-switch-v1.md。証跡: operations/evidence/current-donut-switch-v1/README.md。
 		ロジック:
-			個体選択とグラフ対象を独立させ、内容不変の操作では全期間グラフを作り直さない。
+			単一円を全生物の系統別/分類別と既存6分類へ切り替え、現在の対象内割合を示す。3グラフ対象と独立する。
 		実態:
-			対象/確定T/寸法/解析復帰では更新。原値/画素/全点描画を維持。
+			現在構成の切替/1: app4.2.74で単一ドーナツ8表示を接続。Linux23項目は operations/evidence/current-donut-switch-v1/README.md。対象内分母/0/盤面色/進行意図/図鑑復帰を限定確認。生態/記録形式/正式状態を維持。残件13項目の現在表は operations/plans/improvement-status-v1.md。草案。
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
+		valis/nodes/C/C8.md。正本: design/specification/current-donut-switch-v1.md。契約: operations/plans/current-donut-switch-v1.md。証跡: operations/evidence/current-donut-switch-v1/README.md。
 	ロジック:
-		速度変更を最後の確定状態から再接続し、旧タイマー/予約を無効化。設定保存/強制/復元と10T表示を扱う。
+		現在表示中の観測行だけを参照して構成円を切り替える。最速端数は同期し、図鑑復帰でライブ選好を復元する。
 	実態:
-		観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
+		現在構成の切替/1: app4.2.74で単一ドーナツ8表示を接続。Linux23項目は operations/evidence/current-donut-switch-v1/README.md。対象内分母/0/盤面色/進行意図/図鑑復帰を限定確認。生態/記録形式/正式状態を維持。残件13項目の現在表は operations/plans/improvement-status-v1.md。草案。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/current-donut-switch-v1.md。契約: operations/plans/current-donut-switch-v1.md。証跡: operations/evidence/current-donut-switch-v1/README.md。
 	ロジック:
-		速度切替/10Tと端数表示/盤面とグラフ/表示復元、通常段階・保存再生・世界リセットを限定確認する。
+		8表示の分母/実円弧/凡例色/0、固定詳細、進行と停止意図、最速端数と図鑑往復を限定確認する。
 	実態:
-		観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
+		現在構成の切替/1: app4.2.74で単一ドーナツ8表示を接続。Linux23項目は operations/evidence/current-donut-switch-v1/README.md。対象内分母/0/盤面色/進行意図/図鑑復帰を限定確認。生態/記録形式/正式状態を維持。残件13項目の現在表は operations/plans/improvement-status-v1.md。草案。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/current-donut-switch-v1.md。契約: operations/plans/current-donut-switch-v1.md。証跡: operations/evidence/current-donut-switch-v1/README.md。
 	ロジック:
-		Linux実画面18項目と通常回帰26項目、実画面画像を保持する。500T/Windows/配布は未認定。
+		Linux23項目と実画面、実装SHA/既存生態不変・構造照合を保持する。長期/Windows/配布認定へ転用しない。
 	実態:
-		観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
+		現在構成の切替/1: app4.2.74で単一ドーナツ8表示を接続。Linux23項目は operations/evidence/current-donut-switch-v1/README.md。対象内分母/0/盤面色/進行意図/図鑑復帰を限定確認。生態/記録形式/正式状態を維持。残件13項目の現在表は operations/plans/improvement-status-v1.md。草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

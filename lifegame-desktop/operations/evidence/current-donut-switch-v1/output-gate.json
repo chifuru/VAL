@@ -1,0 +1,72 @@
+{
+  "ok": true,
+  "baseline": "f2f4bfe",
+  "version": "4.2.74",
+  "formal_nodes": 61,
+  "all_status": "草案",
+  "formal_structure_unchanged": true,
+  "new_references_exist": true,
+  "core_unchanged": true,
+  "biological_and_rendering_sources_unchanged": [
+    "src/ecology/engine.js",
+    "src/ecology/state.js",
+    "src/ecology/behavior.js",
+    "src/ecology/reproduction.js",
+    "src/ecology/nutrition.js",
+    "src/ecology/parasites.js",
+    "src/ecology/observations.js",
+    "src/ecology/observation-modules.js",
+    "src/ecology/observation-model.js",
+    "src/ecology/renderer.js",
+    "src/ecology/art.js",
+    "src/ecology/compute-worker.js",
+    "src/ecology/compute-client.js"
+  ],
+  "tests_run": [
+    {
+      "file": "tests/current-donut-switch-ui.cjs",
+      "passed": 23,
+      "failed": 0
+    }
+  ],
+  "unchanged_sha256": {
+    "src/ecology/engine.js": "f4e34637c49a80d20df1bb08f8afd2f52a89bfe030e59a5a6c45edb6af178384",
+    "src/ecology/state.js": "ac0e1420dee7d071dc65609e19fa5d4e9d4d699e71def561759a6605a31b4af6",
+    "src/ecology/behavior.js": "67734a24524b3dd6c2f821ac78e2ee59944667500bc3b6ddcf81592c4dff30e2",
+    "src/ecology/reproduction.js": "6ff9d58d55afbe1618638f4edd026ac59b5bcb820083d60e4b521995e3217286",
+    "src/ecology/nutrition.js": "e522badebc68c6244ad9b52c54093a27adbb770dd1e59e5ff8d0eb5296767832",
+    "src/ecology/parasites.js": "cbc16cc3b5bd77d2a7c09237b74305acba580df7f729cb73ffaae9d9f0cb2617",
+    "src/ecology/observations.js": "e4263121a62cc22e480c14541786efa7ff95c7bfd87332d107947d4dc4dc8d1f",
+    "src/ecology/observation-modules.js": "d61784e0c505f1d236a8a62022f4cd4acc9e3e24c4a95e72516c6d9cd2b8e2bc",
+    "src/ecology/observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+    "src/ecology/renderer.js": "bb0c80218ce4af383bd2c3c1fe2b3e1be886801ff78d927faa381247cd63aa0e",
+    "src/ecology/art.js": "af07f87dcc0f4a8936ba0a7123c0b07dfccd4b9bb6adbddf1a7bb29b717ba456",
+    "src/ecology/compute-worker.js": "85fe7629bb6db49e28fc2572ec60c653a00ee84cf0ee9e6d70d05e45ad83af5b",
+    "src/ecology/compute-client.js": "a9d124692680ae2c92acc3ddfd290a0725770fa74c7e641f7016307440f1bf7f"
+  },
+  "source_sha256": {
+    "src/app.js": "e7290f09d92284a3fc9def102e2a5366d6610c40615272a3984c6727340f5db6",
+    "src/Index.html": "f5135fb15790650b655b56f6307944a4cc9724e4e7c300599752e5b429e7bf6e",
+    "src/styles.css": "2ca109ddcba9f64ad230a166330f59270a8b32e84d27a0f39ffc3a6d9a8a7fce",
+    "tests/current-donut-switch-ui.cjs": "e73e14af2dc292a15ed65ee604af3efcee7c94f3c1bb05bf1a015971a1385dcc",
+    "design/specification/current-donut-switch-v1.md": "ee056a1cf8f04fdd460c34764e67420b7f41668f2dfeefa016792c8df3c3c907",
+    "operations/plans/current-donut-switch-v1.md": "1b00ee2888416116cbdef0d4bc29932ea982095b217a65c7af78c153a8cc3d4d",
+    "operations/plans/improvement-status-v1.md": "22494d955f21c74c1edbac0452decc6ad4bfdf82195a1433978d4735fab82c00"
+  },
+  "full_suite": false,
+  "windows_tested": false,
+  "distribution_built": false,
+  "limits": [
+    "small world / bounded turns, not a long-term balance or speed benchmark",
+    "180px chart-panel fixture, not all-screen responsive certification",
+    "other list items reflect existing evidence and source inspection, not newly rerun whole-app tests"
+  ],
+  "integration_review": {
+    "date_utc": "2026-10-23",
+    "tested_code_and_test_hashes_match": true,
+    "browser_tests_rerun": false,
+    "reason": "実装とテストに変更がなく、既存23項目の証跡を利用。今回変更は承認範囲/後続順の文書照合のみ。",
+    "next": "画像の切り抜き漏れ",
+    "distribution_built": false
+  }
+}
