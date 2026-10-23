@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.74。現在対象は非表示一覧更新省略/1（operations/evidence/hidden-inspector-updates-v1/README.md）。非表示の記号一覧/生存系統を更新せず、復帰時に最新化する。Linux18項目で復帰HTML/5T全行/fingerprint一致、固定詳細/所在色/最速端数/進行意図を限定確認。隠れた一覧3Tの書込105→0、ランキング1→0。生態/記録/現UI/採用素材/正式61Nodeの草案を維持。次は承認済み7単位の7、長期高速観測の仕上げ。現在表と後続順は operations/plans/improvement-status-v1.md。生態近似/ピラミッド拡張/関係指標再設計/資源地形強調/要因色分けは今回対象外。総合性能/Windows/配布は未認定。
+現在の確定ソースは4.2.74。現在対象は長期高速観測仕上げ/1（operations/evidence/long-observation-finish-v1/README.md）。未使用の旧個体数履歴7行だけを削除し、Linux速度18項目＋旧main比較10項目で速度切替/設定復元/端数/再開、4Canvas/全行/fingerprint一致を限定確認。生態/記録/現UI/採用素材/正式61Nodeの草案を維持。今回合意した7単位の採用範囲は対応済み。現在表は operations/plans/improvement-status-v1.md。次は利用者の実画面確認で得た問題への対応、配布は別指示時のみ。生態近似/ピラミッド拡張/関係指標再設計/資源地形強調/要因色分けは今回対象外。総合性能/実長期/Windows/配布は未認定。
 
 ## A：仕様
 
@@ -168,11 +168,11 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 
 B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案］
 	構成（要素・関係）:
-		valis/nodes/B/B5.md。正本: design/specification/setup-flow-v1.md。契約: operations/plans/setup-flow-v1.md。証跡: operations/evidence/setup-flow-v1/README.md。
+		valis/nodes/B/B5.md。正本: design/specification/long-observation-finish-v1.md。契約: operations/plans/long-observation-finish-v1.md。証跡: operations/evidence/long-observation-finish-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
-		上位の観察条件から世界/参加者/詳細へ順に設定し、無効な条件の理由と入力修正先を同じ画面で確認する。
+		既存の3速度と全確定Tの観測を維持し、最速は10T表示/明示操作は端数反映とする。未使用の旧履歴は保持せず、必要な記録は観測正本へ集約する。
 	実態:
-		設定導線/1: app4.2.74で5区画と末尾作成、非活性理由/欄エラー/修正先を接続。Linux27項目＋既存14/13項目は operations/evidence/setup-flow-v1/README.md。readConfig/入力初期値/生態は維持。全容量/Windows/配布は未認定。草案。
+		長期高速観測仕上げ/1: app4.2.74で未使用の旧個体数履歴7行だけを削除。Linux速度18項目＋旧main比較10項目で速度切替/設定復元/端数/再開、4Canvas/全行/fingerprint一致を限定確認。T13で14行保持・T10表示→停止時T13。証跡 operations/evidence/long-observation-finish-v1/README.md。今回7単位の採用範囲は対応済み、総合性能/実長期/Windows/配布は未認定。正式草案。
 
 	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
 		構成（要素・関係）:
@@ -208,11 +208,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.5:（A1, A1.1, A1.3, A1.5, A1.7 / 個体数・集団構成・生態関係のグラフ）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.5.md。正本: design/specification/current-donut-switch-v1.md。契約: operations/plans/current-donut-switch-v1.md。証跡: operations/evidence/current-donut-switch-v1/README.md。 正本: design/specification/graph-stack-work-v1.md。契約: operations/plans/graph-stack-work-v1.md。証跡: operations/evidence/graph-stack-work-v1/README.md。
+			valis/nodes/B/B5.5.md。正本: design/specification/long-observation-finish-v1.md。契約: operations/plans/long-observation-finish-v1.md。証跡: operations/evidence/long-observation-finish-v1/README.md。その他の現行責務/入口は各Node参照。
 		ロジック:
-			単一円の既存8表示と全期間グラフを保持。積み上げ全点の横座標を共有し、下辺走査で基準値を更新する。原値/全点/軸/色を維持する。
+			現在の全期間3グラフとサマリを既存観測正本から描く。旧個体数図の未使用履歴を廃止し、全行/全点/対象/軸/色の契約を維持する。
 		実態:
-			長期グラフ重複走査/1: app4.2.74で横座標共有と下辺/基準値更新を統合。Linux53項目＋実小世界10項目で命令/画素/全行/fingerprint一致。合成20,001時点×20系列の座標参照800,040→20,001、単独Canvas中央値1288.8→1259.3ms（約2%差）。大幅高速化/全体性能は未認定。証跡 operations/evidence/graph-stack-work-v1/README.md。全点/生態/正式草案を維持。
+			長期高速観測仕上げ/1: app4.2.74で未使用の旧個体数履歴7行だけを削除。Linux速度18項目＋旧main比較10項目で速度切替/設定復元/端数/再開、4Canvas/全行/fingerprint一致を限定確認。T13で14行保持・T10表示→停止時T13。証跡 operations/evidence/long-observation-finish-v1/README.md。今回7単位の採用範囲は対応済み、総合性能/実長期/Windows/配布は未認定。正式草案。
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/hidden-inspector-updates-v1.md。契約: operations/plans/hidden-inspector-updates-v1.md。証跡: operations/evidence/hidden-inspector-updates-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/C/C8.md。正本: design/specification/long-observation-finish-v1.md。契約: operations/plans/long-observation-finish-v1.md。証跡: operations/evidence/long-observation-finish-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
-		既存設定/グラフ/詳細を維持。自動更新を表示タブへ限定し、明示タブ/選択解除の復帰では既存flushで盤面との確定時点を揃える。
+		旧履歴の宣言/初期化/追加だけを削除し、既存の速度切替/途中取消/強制軽減復元と端数同期を維持する。設定導線/詳細/グラフの現行責務も保持。
 	実態:
-		非表示一覧更新省略/1: app4.2.74で非表示の記号一覧/生存系統の更新を省き、タブ復帰時に最新化。Linux18項目で旧mainの復帰HTML/5T全行/fingerprint一致、固定詳細/所在色/最速端数/継続意図を限定確認。一覧の隠れた3T書込105→0、隠れたランキング1→0。証跡 operations/evidence/hidden-inspector-updates-v1/README.md。総合性能は未認定、正式状態は草案。
+		長期高速観測仕上げ/1: app4.2.74で未使用の旧個体数履歴7行だけを削除。Linux速度18項目＋旧main比較10項目で速度切替/設定復元/端数/再開、4Canvas/全行/fingerprint一致を限定確認。T13で14行保持・T10表示→停止時T13。証跡 operations/evidence/long-observation-finish-v1/README.md。今回7単位の採用範囲は対応済み、総合性能/実長期/Windows/配布は未認定。正式草案。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/hidden-inspector-updates-v1.md。契約: operations/plans/hidden-inspector-updates-v1.md。証跡: operations/evidence/hidden-inspector-updates-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/D/D9.md。正本: design/specification/long-observation-finish-v1.md。契約: operations/plans/long-observation-finish-v1.md。証跡: operations/evidence/long-observation-finish-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
-		旧新版の非表示書込回数、復帰HTMLと5T原値/生態を比較。固定詳細/所在色/別世界/キーボード/最速端数/継続意図を限定確認する。
+		既存実Worker速度試験18項目と現main比較10項目を限定実行し、記録/逐次生態/表示一致と元設定・停止再開を照合する。長期の既存証跡と今回の再実測を区別。
 	実態:
-		非表示一覧更新省略/1: app4.2.74で非表示の記号一覧/生存系統の更新を省き、タブ復帰時に最新化。Linux18項目で旧mainの復帰HTML/5T全行/fingerprint一致、固定詳細/所在色/最速端数/継続意図を限定確認。一覧の隠れた3T書込105→0、隠れたランキング1→0。証跡 operations/evidence/hidden-inspector-updates-v1/README.md。総合性能は未認定、正式状態は草案。
+		長期高速観測仕上げ/1: app4.2.74で未使用の旧個体数履歴7行だけを削除。Linux速度18項目＋旧main比較10項目で速度切替/設定復元/端数/再開、4Canvas/全行/fingerprint一致を限定確認。T13で14行保持・T10表示→停止時T13。証跡 operations/evidence/long-observation-finish-v1/README.md。今回7単位の採用範囲は対応済み、総合性能/実長期/Windows/配布は未認定。正式草案。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/hidden-inspector-updates-v1.md。契約: operations/plans/hidden-inspector-updates-v1.md。証跡: operations/evidence/hidden-inspector-updates-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/E/E6.md。正本: design/specification/long-observation-finish-v1.md。契約: operations/plans/long-observation-finish-v1.md。証跡: operations/evidence/long-observation-finish-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
-		最終18項目、隠れた一覧書込105→0/ランキング1→0、表示中更新/復帰/原値の一致と時点整合を保持。総合速度へ拡大解釈しない。
+		速度18項目/現main表示・全行一致10項目と旧履歴削除の全参照照合を保持。今回7単位は採用範囲で区切り、総合性能/全拡張完了へ転用しない。
 	実態:
-		非表示一覧更新省略/1: app4.2.74で非表示の記号一覧/生存系統の更新を省き、タブ復帰時に最新化。Linux18項目で旧mainの復帰HTML/5T全行/fingerprint一致、固定詳細/所在色/最速端数/継続意図を限定確認。一覧の隠れた3T書込105→0、隠れたランキング1→0。証跡 operations/evidence/hidden-inspector-updates-v1/README.md。総合性能は未認定、正式状態は草案。
+		長期高速観測仕上げ/1: app4.2.74で未使用の旧個体数履歴7行だけを削除。Linux速度18項目＋旧main比較10項目で速度切替/設定復元/端数/再開、4Canvas/全行/fingerprint一致を限定確認。T13で14行保持・T10表示→停止時T13。証跡 operations/evidence/long-observation-finish-v1/README.md。今回7単位の採用範囲は対応済み、総合性能/実長期/Windows/配布は未認定。正式草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

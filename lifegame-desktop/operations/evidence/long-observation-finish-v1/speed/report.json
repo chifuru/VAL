@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "app": "4.2.74",
+  "checks": [
+    "2x cadence is 500ms and selected",
+    "switching mid-preview keeps running from the committed state",
+    "fastest disables optional animation, marks, age and names and forces slow graphs",
+    "fastest does not force symbol rendering",
+    "queued image prewarming is cancelled in fastest mode",
+    "fastest presents each tenth committed turn",
+    "map and graph retain the same presented turn between batches",
+    "pause flushes the partial display batch",
+    "every committed turn is recorded",
+    "fastest UI result equals sequential biology",
+    "explicit individual selection flushes a partial batch and synchronizes graphs",
+    "explicit graph target changes flush the current partial batch",
+    "navigation flushes the current batch and preserves paused intent",
+    "leaving fastest restores every prior display choice and stays paused",
+    "leaving fastest resumes image prewarming for the current world",
+    "normal staged speed resumes after fastest pause",
+    "no browser runtime errors",
+    "no external requests"
+  ],
+  "errors": [],
+  "external": [],
+  "during": {
+    "turn": 13,
+    "presented": 10,
+    "rows": 14,
+    "graphTurn": 10,
+    "mapTurn": 10
+  },
+  "pausedAt": 13,
+  "inspection": {
+    "lag": true,
+    "turn": 14,
+    "presented": 14,
+    "graph": 14,
+    "selected": true
+  },
+  "browser": "154.0.8037.57",
+  "scope": "small world, real Worker, bounded turns; no 500T performance or Windows claim"
+}

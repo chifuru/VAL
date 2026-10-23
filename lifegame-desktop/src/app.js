@@ -74,7 +74,6 @@
     activeSheet = "tree",
     activeLineage = "abyss",
     paintAt = 0,
-    populationHistory = [],
     observations = null, graphFollow = true, followId = null, lastTracked = null,
     legendKey = null,
     checkpointKey = null,
@@ -651,7 +650,6 @@
       : "終了して図鑑へ保存";
     world = next;selectionIndex=null;
     graphicsPrepared=false;observationPreparationAt=null;
-    populationHistory = [];
     observations=nextObservations;graphFollow=true;followId=null;lastTracked=null;legendKey=null;
     if(!activeCatalogue().some(s=>s.id===activeLineage))activeLineage='abyss';
     document.body.classList.remove("setup-screen");
@@ -1963,11 +1961,6 @@
     const births = D.main.reduce((n, a) => n + world.tallies.births[a.id], 0),
       deaths = D.main.reduce((n, a) => n + world.tallies.deaths[a.id], 0);
     setText("main-balance", `出生 ${births} / 死亡 ${deaths}（累計）`);
-    const sample = {turn: world.turn, count: world.stats.main};
-    if (populationHistory.at(-1)?.turn !== sample.turn) {
-      populationHistory.push(sample);
-      // Exact turn records are retained by observations; no rolling deletion.
-    }
     const current=observations.rows.at(-1)?.current;if(!current)return;
     if (!analysisData) scheduleGraphs();
     setText("parasite-count",(current.counts.tideparasite||0)+(current.counts.leafparasite||0)+" / "+(current.counts.hyperparasite||0));

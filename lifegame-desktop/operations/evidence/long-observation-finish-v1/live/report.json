@@ -1,0 +1,37 @@
+{
+  "ok": true,
+  "checks": [
+    "four graph bitmaps, labels and scales match the prior app: main",
+    "relationship SVG and full-period range remain unchanged: main",
+    "all recorded values and biological fingerprint match: main",
+    "four graph bitmaps, labels and scales match the prior app: all",
+    "relationship SVG and full-period range remain unchanged: all",
+    "all recorded values and biological fingerprint match: all",
+    "four graph bitmaps, labels and scales match the prior app: plant",
+    "relationship SVG and full-period range remain unchanged: plant",
+    "all recorded values and biological fingerprint match: plant",
+    "no uncaught browser exceptions"
+  ],
+  "errors": [],
+  "compared": [
+    {
+      "group": "main",
+      "canvas_sha256": "57b99dbd0f99a41077d8273cd01f0c33d753a384c21caa5fbd1126e931804114",
+      "rows_sha256": "f44efdec68de89d2e72411e773d594245754714864e53a0ffa4d9274817cdd52",
+      "range": "0–3T"
+    },
+    {
+      "group": "all",
+      "canvas_sha256": "5c5f7445d3805c5fcf1017108df244dc50637f615191d1fbdee62274029af6d8",
+      "rows_sha256": "f44efdec68de89d2e72411e773d594245754714864e53a0ffa4d9274817cdd52",
+      "range": "0–3T"
+    },
+    {
+      "group": "plant",
+      "canvas_sha256": "de793e4bfe28913fce45ede8fb01aaed259b0ace6fe074962efcf31b81c2918a",
+      "rows_sha256": "f44efdec68de89d2e72411e773d594245754714864e53a0ffa4d9274817cdd52",
+      "range": "0–3T"
+    }
+  ],
+  "scope": "Linux Chromium actual prior/new app; same small deterministic world through T3 and three graph target groups; not a 300000-turn live simulation"
+}

@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "baseline": "ea0becc",
+  "old_populationHistory_references": [
+    {
+      "line": 77,
+      "text": "populationHistory = [],"
+    },
+    {
+      "line": 654,
+      "text": "populationHistory = [];"
+    },
+    {
+      "line": 1967,
+      "text": "if (populationHistory.at(-1)?.turn !== sample.turn) {"
+    },
+    {
+      "line": 1968,
+      "text": "populationHistory.push(sample);"
+    }
+  ],
+  "only_declaration_reset_append_removed": true,
+  "remaining_source_references": [],
+  "source_sha256": "1b314483988b907a3ba61ac97e873a3539bf0ecd653aeb83e544d81c158a7420",
+  "canonical_observations_and_graphs_unchanged": true,
+  "no_whole_app_memory_or_speed_estimate": true
+}

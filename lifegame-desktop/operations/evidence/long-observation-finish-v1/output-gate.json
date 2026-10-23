@@ -1,0 +1,51 @@
+{
+  "ok": true,
+  "baseline": "ea0becc",
+  "app": "4.2.74",
+  "flows": [
+    "FLOW-04",
+    "FLOW-05",
+    "FLOW-08"
+  ],
+  "scope": "remove unused legacy population history; finish agreed seven scoped units",
+  "source_sha256": {
+    "src/app.js": "1b314483988b907a3ba61ac97e873a3539bf0ecd653aeb83e544d81c158a7420"
+  },
+  "only_unused_history_declaration_reset_append_removed": true,
+  "targeted_checks": {
+    "real_worker_speed": 18,
+    "actual_prior_current_graphs_and_records": 10,
+    "manifest": 1
+  },
+  "recorded_turns": {
+    "turn": 13,
+    "presented": 10,
+    "rows": 14,
+    "graphTurn": 10,
+    "mapTurn": 10
+  },
+  "old_long_run_evidence_rerun": false,
+  "formal_nodes": 61,
+  "all_status": "草案",
+  "formal_structure_unchanged": true,
+  "core_unchanged": true,
+  "all_node_references_exist": true,
+  "manifest_current_state_reflected": true,
+  "agreed_seven_units_scoped_work_done": true,
+  "unchanged": [
+    "biological rules",
+    "random sequence",
+    "observations",
+    "archive/replay formats",
+    "all-point graphs",
+    "assets",
+    "layout",
+    "speed/Worker algorithms"
+  ],
+  "whole_app_speed_measured": false,
+  "full_suite": false,
+  "long_ecology_run": false,
+  "windows_tested": false,
+  "distribution_built": false,
+  "next": "利用者の実画面確認で得た問題への対応。配布は別指示時のみ。"
+}
