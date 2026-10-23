@@ -1,77 +1,77 @@
 # Project Summary Manifest
 
-lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Node、仕様と資料の入口は `design/specification/README.md`。
+lifegame-desktop。現在のNode構造と必要な説明を示す。仕様入口は `design/specification/README.md`。
 
-現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
+現在の採用仕様: `design/specification/cell-reorganization-v1.md`（cell-reorganization/1）。マス・0〜5次・土壌/配分・植物/低次動物/分解者・量機の定住3×3・次T境界を既存A/Bへ反映。数値は比較開始値。実装接続/影響探索/検証計画更新/再検証要否あり。新規Node・分割・初期登録・正式状態/階層/層間参照変更なし。全61Nodeは草案。
 
-現在の確定ソースは4.2.77。新規一次寄生設定/2の水系自動初期数を8群体とし、既定で第一3/中間3/終2へ分散する。種別明示数/0・P無効・合法宿主枠・旧設定/1を優先。卵設定/2の連結2マス移送は維持。正本design/specification/water-founders-v1.md、限定証跡operations/evidence/water-founders-v1/README.md。専用4＋保存6/画面13項目。代表250Tの水系Pは河川2/湖1/湿地4、卵由来同ID再放出5/5/2。湖の旧19より減少するため全条件改善・500T安定は未認定。マス再編前の暫定値として採用し、追加追込みを止める。全61Node草案・構造を維持。マス再編後の配置密度/接触、全条件/Windows/配布は後続。
+実行製品は4.2.77のまま。新規水系P自動8群体・既定3/3/2等の実装範囲は `design/specification/water-founders-v1.md` と `operations/evidence/water-founders-v1/README.md` を参照。マス再編は未実装・未実測で、旧証跡を新モデルの合格根拠にしない。C/D/E・src/tests・画像・配布は今回未変更。詳細な反映範囲は正本14節、反映契約は `operations/plans/cell-reorganization-ab-v1.md`。次は指示に応じてC/D接続を整理する。
 
 ## A：仕様
 
 ```text
 A1:（起点 / 生態系の成長と生存観測）［草案］
 	構成（要素・関係）:
-		valis/nodes/A/A1.md。設定UI: design/specification/setup-intent-v2.md。再生成基準: operations/evidence/setup-basis-v1/README.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
+		valis/nodes/A/A1.md。正本: design/specification/cell-reorganization-v1.md。マスを資源帰属・収支確定の基本単位とし、0〜5次の空間占有と栄養段階を分離する。安定戦略の利益と有限資源の負担を両立させる。
 	ロジック:
-		第1〜第4組の構造を採用し、状態/計数/表示/説明/保存を同じID/単位/確定時点に揃える。植物の生産者役割/個体単位、P/Qの形態/相と採用画像を既存観測・保存へ対応させる。 量機を独立した主生物として追加採用し、通常型/相変異型/同居/個体単位と現行観測を接続する。
+		占有6/3/5群/主定住3枠＋移動含む5枠/分解6群、量機相変異の定住3体×3枠を採用する。構造・未検証比較値・後続候補を分け、既存生存目標と造形を維持する。
 	実態:
-		既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。 世界作成UIの優先3点も採用・接続。限定結果はoperations/evidence/setup-intent-v2/README.md。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。
+		cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 	A1.1:（A1 / 個体・系統・段階進化）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.1.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
+			valis/nodes/A/A1.1.md。正本: design/specification/cell-reorganization-v1.md。相と年齢成熟を分離し、身体上限の拡大を無料の組織・栄養・回復にしない。
 		ロジック:
-			通常の相/枝/年齢とQ第四相の成熟羽化例外を、盤面/横詳細/構成集計で一貫させる。三植物のIII3→IV6、P形態×三相、Q四相を年齢/宿主段階と区別する。 通常型I〜IVの移動1/2/3/4とIII3→IV6、相変異の共通3マス・1〜3/4の外見を区別する。通常型の第三相3枝/第四相6枝は採用した2画像へ対応させる。
+			定着高次植物のI〜IV比較値、低次動物の内部年齢/相、群落経過と内部個体年齢の違いを保持する。進化・成熟の新資格は次Tから。量機の相変異は個体を複製・統合しない。
 		実態:
-			既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。
+			cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 	A1.2:（A1 / 各マスの環境・餌資源）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.2.md。正本: design/specification/grassbug-balance-v1.md。契約: operations/plans/i11g-grassbug-balance-v1.md。証跡: operations/evidence/i11g-grassbug-balance-v1/README.md。
+			valis/nodes/A/A1.2.md。正本: design/specification/cell-reorganization-v1.md。固定の雨/光/気温/共通土壌/pHと、変動する水分・無機養分・有機物を分ける。
 		ロジック:
-			下層の生産者/菌膜は群落、草棲虫/水游虫は小集団。草棲虫の新版生存枠は過密を抑えた暫定値。人数・体量・栄養の有限性を維持。 菌膜の既存群落処理も保持。
+			土壌の質は全植物/分解者に同方向で作用し、保持上限・取得/処理能力へ接続する。同マスの必要量/取得能力/届きやすさで共有在庫を配分し、隣接から直接取得しない。光は一つの予算。低次植物・動物・菌の容量と全比較値、背景分解・軽い腐敗負荷を正本へ接続する。
 		実態:
-			4.2.49 / consumer-group-parameters/3を接続。限定確認はI11g証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 	A1.3:（A1 / 性別・繁殖・遺伝）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.3.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
+			valis/nodes/A/A1.3.md。正本: design/specification/cell-reorganization-v1.md。維持と実行済み行動費を支払い、維持3T分を留保して、成立する出生だけに費用を確定する。
 		ロジック:
-			性別/無性別/階級、年齢成熟/繁殖待機と相を別に表示する。 高い繁殖力を維持し、相変異4の繁殖目的と実際の出生資格/費用/待機を分ける。子はI/年齢0。
+			低次/高次植物、低次動物、分解者の子の身体・初期蓄え・総費用を区別する。主生物出生は定住枠、植物/菌は各層枠、内部出生は8体上限。子はI/年齢0、相変異は自動継承しない。年齢成熟と次T資格、植物の有性/無性・受粉/散布の後続候補を分離する。
 		実態:
-			既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。 4.2.54で新規世界の群体節足後継繁殖型・有限出生30Eを接続。最終500T未確認。
+			cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 	A1.4:（A1 / 局所経験と系統戦略）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.4.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
+			valis/nodes/A/A1.4.md。正本: design/specification/cell-reorganization-v1.md。滞在/移動/交戦/回避/繁殖は局所的な有利不利で選び、全行動を毎T必須にしない。
 		ロジック:
-			観察者の情報/適応/抵抗解析と、生物が局所的に知る情報を分離する。 相変異は低密度が一定ターン続いてから解除する可逆状態。密度/継続Tの数値は比較案として分離し、4の繁殖準備への優先補正を既存の局所判断へ接続する。
+			必要量・取得能力・資源への接触しやすさ、低次植物の定着優位を使う。同じ理由の補正は二重加算しない。抽選は未表現の細かな位置・確保機会を包括し、移動費優先や幸運能力にしない。密集の直接罰・集団戦闘倍率を置換し、詳細戦略は後続に残す。
 		実態:
-			既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。 4.2.54で同群2マス以内への局所接近を接続。強制集合・無償移動なし。
+			cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 	A1.5:（A1 / 寄生と宿主の生活環）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.5.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。初期集団正本: design/specification/water-founders-v1.md。証跡: operations/evidence/water-founders-v1/README.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
+			valis/nodes/A/A1.5.md。正本: design/specification/cell-reorganization-v1.md。P/Qは0〜5次の定住枠と別管理し、宿主の実在ID・段階・感染窓・有限量を維持する。
 		ロジック:
-			新規世界の終宿主による放出を有限卵塊へ置換し、第一宿主へ戻る循環を作る。宿主適合・Q・群体/通過・旧世界は維持。
+			多重占有や分群の感染対象を実個体/保持者へ結ぶ。まとまった全量機への一括感染、小集団分散でのP/Q複製、死骸の栄養残存と感染期限の同一視をしない。途中接触も既存経路/回数制限を通し、P/Q生活環の再調整は再編後に分離する。
 		実態:
-			app4.2.77：新規一次寄生設定/2の水系自動8群体・既定3/3/2分散。明示数/0/無効/合法枠/旧設定を保持。専用4＋保存6/画面13項目。代表250Tで河川2/湖1/湿地4残存、同ID再放出5/5/2。湖は旧19より減少、全条件/500T安定は未認定。再編前の暫定採用、草案。
+			cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 	A1.6:（A1 / 光合成と共生の栄養）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.6.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+			valis/nodes/A/A1.6.md。正本: design/specification/cell-reorganization-v1.md。低次植物6群と定着高次植物3体は同マスの有限0次資源と光予算で競争する。
 		ロジック:
-			記録数/生物量B/可食量/基部/蓄え/生産/再生/感染量/情報量を別尺度で表示保存する。森冠/星冠/淡水系統を生産者とし、本体一個体・有限可食量・有償再生を分ける。
+			共通土壌・pH・気温・水分、葉位置/遮光と光利用を区別する。低次植物の定着/基部/再生、高次植物の全相比較値・年齢・緩やかな競争、動く淡水系統の4次占有を定義する。分解者は有機物Eに依存し、菌食は基部1を残す。無機還元・背景分解・後続植物投資を接続する。
 		実態:
-			植物/P/Qの造形対応をA/B反映済み。独立植物はI03、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。後続修正/検証要否・草案/階層/参照は維持。
+			cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 	A1.7:（A1 / 共通生物モデルと栄養関係）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.7.md。正本: design/specification/grassbug-balance-v1.md。契約: operations/plans/i11g-grassbug-balance-v1.md。証跡: operations/evidence/i11g-grassbug-balance-v1/README.md。
+			valis/nodes/A/A1.7.md。正本: design/specification/cell-reorganization-v1.md。固定の最大収容、実個体/群落/小集団人数、身体/可食量/蓄え、空間層/栄養役割を分離する。
 		ロジック:
-			内部人数/相/年齢を持つ一次消費者の小集団を採用し、新版のみ草棲虫へ寿命・維持・待機・HPの暫定値を適用。主生物/独立大型植物は個体を維持。 菌膜の既存群落処理も保持。
+			量機9定住＋2移動の例外も実個体で扱う。低次動物は5群×最大8体、分群7〜8体から3体で自動合流なし。分解者6群・基部1＋可食3、有限栄養の移転・散逸・還元と次T物質を保持する。未占有マスの遠隔取得・未実在補充を認めない。
 		実態:
-			4.2.49 / consumer-group-parameters/3を接続。限定確認はI11g証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 A2:（起点 / 独立した Windows ローカル実行）［草案］
 	構成（要素・関係）:
@@ -128,51 +128,51 @@ B3:（A1, A2 / 操作と生存観測）［草案］
 
 B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［草案］
 	構成（要素・関係）:
-		valis/nodes/B/B4.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
+		valis/nodes/B/B4.md。正本: design/specification/cell-reorganization-v1.md。環境入力/既存情報→各歩移動→戦闘→最終所在の資源配分→実維持/衰退→成長/繁殖/分群/終端確定を接合する。
 	ロジック:
-		生態確定/観測/描画/保存の時点とIDを一致させ、UI操作/補間でターンや抽選を進めない。 相変異判定/移動/採食/出生/同セル容量の予約を同じ確定状態で調停する。低密度が一定ターン続き通常占有へ収まる場合に同IDで解除し、出生と形態切替を分離する。
+		同時要求と重み付き配分、上限到達後の再配分、費用予約/不成立解放、留保と支出の区別を行う。死骸/落葉/還元/新生/新葉/新資格/新情報は定めた次T境界を守る。直接捕食の移転と食べ残しは別。死亡主体の追加行動と同T循環を防ぐ。
 	実態:
-		既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。
+		cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 	B4.1:（A1.4, A1.2, A1.1 / 局所パラメータによる動作判断）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B4.1.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
+			valis/nodes/B/B4.1.md。正本: design/specification/cell-reorganization-v1.md。全主生物共通の定住3枠/総5枠と量機相変異の定住枠内3体例外を使う。移動中は量機も1体1枠。
 		ロジック:
-			宿主選好/実適合/遺伝適応/抵抗の条件付き値を観察者詳細へ渡し、生物自身の透視知識にはしない。淡水植物は全相で合法な局所移動を行い、位置変化だけで栄養/経験を生成しない。 進化枝と個体状態から行動を選び、相変異4は繁殖適地/栄養確保を優先する。全域命令や常時出生にしない。
+			先住を優先し、合法な空き希望を再現可能に調停する。歩ごとに通行/容量/費用を確認し、交戦地点で止まり、戦闘後に歩数を再使用しない。採食は最終所在だけ。解除待ち、移動不能時の友好個体との非強制戦闘、低次植物の稀な全群移動、任意の行動選択を接続する。
 		実態:
-			既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。 4.2.54で群体節足の同群接近を局所候補へ追加。
+			cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 	B4.2:（A1.5, A1.2, A1.4 / 寄生の遷移）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B4.2.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。初期集団正本: design/specification/water-founders-v1.md。証跡: operations/evidence/water-founders-v1/README.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
+			valis/nodes/B/B4.2.md。正本: design/specification/cell-reorganization-v1.md。多重占有でも実ID/保持者を感染経路の対象とし、栄養取得とは別に既存の成立条件を通す。
 		ロジック:
-			卵の滞留/非希釈移送、付着2T後孵化、一回侵入/翌T定着と期限を分ける。親死亡後の残存と付着先消失を区別。
+			途中接触・捕食・死骸を既存P/Q経路へ接続するが、同T再感染連鎖・Q複製・全同居者感染を起こさない。死骸の栄養残存と感染体期限を分離する。現行の卵循環/水系初期群体を再編後に調整する対象として残す。
 		実態:
-			app4.2.77：新規一次寄生設定/2の水系自動8群体・既定3/3/2分散。明示数/0/無効/合法枠/旧設定を保持。専用4＋保存6/画面13項目。代表250Tで河川2/湖1/湿地4残存、同ID再放出5/5/2。湖は旧19より減少、全条件/500T安定は未認定。再編前の暫定採用、草案。
+			cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 	B4.3:（A1.6, A1.2 / 非採食の栄養収支）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B4.3.md。正本: design/specification/fungal-colonies-v1.md。契約: operations/plans/i11d-fungal-colonies-v1.md。証跡: operations/evidence/i11d-lower-renewal-v1/README.md。
+			valis/nodes/B/B4.3.md。正本: design/specification/cell-reorganization-v1.md。同マスの光予算、0次水分/養分、有機物を別資源として要求・能力・到達性で調停する。
 		ロジック:
-			菌膜は実有機物を分解・同化し、Eを支払って可食部を再生する。維持不足の連続で基部も消滅する。
+			土壌の質/固定環境を事前計算し、実在量と動的組織で制限する。組織と蓄えのE/M、維持更新、有機物の分解/同化/熱散逸/無機還元を二重計上しない。背景分解は生物利用後の残量へ、保持上限超過は有機物へ残す。植物と菌の基部再生を実費で行う。
 		実態:
-			採用仕様をA/Bへ反映し4.2.46へ接続。草案。限定実測/検査の範囲は現行証跡参照。全系統の生存・P/Q自然循環・R1〜R6・新Windowsは未認定。
+			cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 	B4.4:（A1.7, A1.2, A1.6 / 生産者・餌生物の共通生活処理）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B4.4.md。正本: design/specification/grassbug-balance-v1.md。契約: operations/plans/i11g-grassbug-balance-v1.md。証跡: operations/evidence/i11g-grassbug-balance-v1/README.md。
+			valis/nodes/B/B4.4.md。正本: design/specification/cell-reorganization-v1.md。低次植物6群、高次植物3体、低次動物5群、分解者6群を、それぞれの単位と費用で処理する。
 		ロジック:
-			部分損失・内部有償出生・局所分散/合流。無償再生/二重出生/集団時計による一斉寿命なし。 菌膜の既存群落処理も保持。
+			低次動物の内部8体・出生1/4T・成熟8T・部分死亡・7〜8体から3体分群を接続し、自動合流を置換する。植物/菌の基部・可食部・衰退・再生を区別し、群落を一斉寿命死させない。子・移送人数・身体・蓄え・保持寄生を複製せず、新生の同T行動を禁止する。
 		実態:
-			4.2.49 / consumer-group-parameters/3を接続。限定確認はI11g証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案］
 	構成（要素・関係）:
-		valis/nodes/B/B5.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/B/B5.md。正本: design/specification/cell-reorganization-v1.md。土壌の質と初期養分/保持量/供給、固定環境と変動資源を区別した実効条件を保存・説明する。
 	ロジック:
-		観察セット/決め方/傾向を分け、値の由来と不使用を区別。有効条件まとめと同一画面の変更導線を提供し、既存の観測・速度・記録の責務を維持。
+		初期在庫等を世界設計として調整可能にし、隠れた生存救済入力にしない。土壌・水域プロファイルと未選定値、旧記録の版を区別する。今回は設定UI・画面構成・配布は変更せず、既存設定責務への後続接続要否を残す。
 	実態:
-		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。
+		cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
 		構成（要素・関係）:
@@ -184,11 +184,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.2:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 進化・繁殖・生態関係の説明シート）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.2.md。正本: design/specification/consumer-groups-v1.md。契約: operations/plans/i11e-consumer-groups-v1.md。証跡: operations/evidence/i11e-consumer-groups-v1/README.md。
+			valis/nodes/B/B5.2.md。正本: design/specification/cell-reorganization-v1.md。固定枠が最大規模を収容する意味、物理容量と栄養による維持量、空間層と栄養段階を説明する。
 		ロジック:
-			人数/集団数/体量、内部年齢と相、感染代表1体の説明。
+			抽選は細かな位置関係の包括表現、先住は接続組織の優位と説明する。量機の定住3×3/移動は個体別、分群と出生、菌の基部保護と不足消失、土壌の質と在庫、背景分解と軽い腐敗負荷、後続の気候/植物戦略/巨大植物を区別する。説明画像・ゲーム内文面の制作は今回しない。
 		実態:
-			4.2.47 / consumer-group/1を接続。限定確認はI11e証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 	B5.3:（A1.1, A1.2, A1.3, A1.5, A1.6 / 確定した行動のモーション表示）［草案］
 		構成（要素・関係）:
@@ -208,19 +208,19 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.5:（A1, A1.1, A1.3, A1.5, A1.7 / 個体数・集団構成・生態関係のグラフ）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.5.md。正本: design/specification/long-observation-finish-v1.md。契約: operations/plans/long-observation-finish-v1.md。証跡: operations/evidence/long-observation-finish-v1/README.md。その他の現行責務/入口は各Node参照。
+			valis/nodes/B/B5.5.md。正本: design/specification/cell-reorganization-v1.md。新しい空間層番号を栄養段階・情報役割へ流用せず、既存グラフの意味を維持する。
 		ロジック:
-			現在の全期間3グラフとサマリを既存観測正本から描く。旧個体数図の未使用履歴を廃止し、全行/全点/対象/軸/色の契約を維持する。
+			量機は1枠3体でも3個体、小集団は内部人数と群数、植物/菌は群落/個体とBを分ける。実可食量/生産/消費/分解/還元を別尺度で扱い、次T用物質も末尾状態に保持する。グラフ位置・構成や旧記録の対象選別は今回変更しない。
 		実態:
-			長期高速観測仕上げ/1: app4.2.74で未使用の旧個体数履歴7行だけを削除。Linux速度18項目＋旧main比較10項目で速度切替/設定復元/端数/再開、4Canvas/全行/fingerprint一致を限定確認。T13で14行保持・T10表示→停止時T13。証跡 operations/evidence/long-observation-finish-v1/README.md。今回7単位の採用範囲は対応済み、総合性能/実長期/Windows/配布は未認定。正式草案。
+			cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.6.md。正本: design/specification/hidden-inspector-updates-v1.md。契約: operations/plans/hidden-inspector-updates-v1.md。証跡: operations/evidence/hidden-inspector-updates-v1/README.md。その他の現行責務/入口は各Node参照。
+			valis/nodes/B/B5.6.md。正本: design/specification/cell-reorganization-v1.md。同マスの複数層・複数個体/群落/小集団を実IDで区別し、所在強調・詳細・追跡へ接続する。
 		ロジック:
-			既存タブ/所在色選択/固定詳細を維持。非表示の記号一覧と親ごと隠れたopen生存系統は自動更新せず、表示先へ戻る時に最新化する。
+			量機のまとまりを単一個体へ潰さず、群れの内部個体を独立した盤面個体と捏造しない。基部残存/可食部0/群落消失、分群後の別ID、移動/定住/解除待ちを区別する。今回UIや画像は変更せず、既存の選択責務内に後続要件を残す。
 		実態:
-			非表示一覧更新省略/1: app4.2.74で非表示の記号一覧/生存系統の更新を省き、タブ復帰時に最新化。Linux18項目で旧mainの復帰HTML/5T全行/fingerprint一致、固定詳細/所在色/最速端数/継続意図を限定確認。一覧の隠れた3T書込105→0、隠れたランキング1→0。証跡 operations/evidence/hidden-inspector-updates-v1/README.md。総合性能は未認定、正式状態は草案。
+			cell-reorganization/1をA/B反映。未実装・未実測、実行製品4.2.77と旧証跡の対象版を維持。草案・階層・層間参照を維持。後続はC/D接続・検証計画更新・再検証。
 
 ```
 
