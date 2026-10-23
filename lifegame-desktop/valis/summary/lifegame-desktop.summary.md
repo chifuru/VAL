@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.74。世界作成UIの優先3点（design/specification/setup-intent-v2.md）を採用・接続。観察セット/決め方/傾向、値の由来と不使用、今回使う条件まとめと変更先を表示する。再生成の基準表示と下層リセットの内部復帰も接続。今回Linux17＋設定UI回帰35項目を限定確認。現在の追加証跡は operations/evidence/setup-basis-v1/README.md、優先3点の証跡は operations/evidence/setup-intent-v2/README.md。既存7単位の採用範囲は対応済みで、現在表は operations/plans/improvement-status-v1.md。次は利用者の実画面確認で得た問題への対応。生態近似/ピラミッド拡張/関係指標再設計/資源地形強調/要因色分けは今回対象外。総合性能/実長期/Windows/配布は未認定。全61Nodeの草案・構造を維持。
+現在の確定ソースは4.2.75。新規世界のprimaryEggModel: egg/1で、一次寄生の終宿主放出を有限卵塊へ接続。陸20T/水30T・非希釈移送・付着2T後孵化/翌T定着、別集計/CSV/保存/Worker/セル詳細と説明を保持する。正本はdesign/specification/primary-eggs-v1.md、限定証跡はoperations/evidence/primary-eggs-v1/README.md。モデル8/回帰19/画面9/設定35項目と旧指紋一致を確認。100Tの代表条件で水系の戻りから再放出1例を確認したが、P全体回復/500T安定/全条件/Windows/配布は未認定。設定UIの優先3点と再生成基準修正は維持。宿主範囲・Q・旧世界の規則は維持し、旧記録へ卵を後付けしない。全61Nodeの草案・構造を維持。
 
 ## A：仕様
 
@@ -51,11 +51,11 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 
 	A1.5:（A1 / 寄生と宿主の生活環）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.5.md。 現在正本: design/specification/parasite-cohorts-v1.md。造形対応: design/specification/appearance-correspondence-v1.md。
+			valis/nodes/A/A1.5.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
 		ロジック:
-			H→P→Qの付随とP→H/Q→Pの関係線、Qの発育/羽化失敗/成功/IV自立を区別する。既存P二系統の形態とQの翅なしIVを対応させ、感染経路/成熟羽化/群体単位を維持する。
+			新規世界の終宿主による放出を有限卵塊へ置換し、第一宿主へ戻る循環を作る。宿主適合・Q・群体/通過・旧世界は維持。
 		実態:
-			4.2.53でP/Q有限群体、宿主通過と有限分散、寄生中の維持・発育費と自立Qの有限分割・有償回避・P残余同化を接続し、新規Q設定値を追加優遇。群体数と構成員数を分ける。全系統長期生存は未認定。草案/階層/参照を維持。
+			app4.2.75 / egg/1を接続。新規世界だけの卵による戻りを限定確認。水系の第一宿主定着1→2、戻った群体の再放出0→1（各100T代表条件）。全体のP個体数回復/500T安定は未認定。正式草案。
 
 	A1.6:（A1 / 光合成と共生の栄養）［草案］
 		構成（要素・関係）:
@@ -144,11 +144,11 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 
 	B4.2:（A1.5, A1.2, A1.4 / 寄生の遷移）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B4.2.md。現在正本: design/specification/parasite-cohorts-v1.md。契約: operations/plans/i11h-parasite-cohorts-v1.md。
+			valis/nodes/B/B4.2.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
 		ロジック:
-			寄生の各段階/Q発育/羽化準備/失敗/成功/IV自立とP死亡の確定記録を表示保存へ渡す。P形態/本人相/宿主段階とQ羽化状態を別に扱い、絵から感染経路/飛翔を追加しない。
+			卵の滞留/非希釈移送、付着2T後孵化、一回侵入/翌T定着と期限を分ける。親死亡後の残存と付着先消失を区別。
 		実態:
-			P第一宿主の非出生移出、終宿主出生、Q相IV繁殖、群体負担と減衰を接続。4.2.53で寄生中の大幅な低費用・有限分散・自立Qの分割と有償回避を新規世界へ適用。草案/階層/参照を維持。
+			app4.2.75 / egg/1を接続。新規世界だけの卵による戻りを限定確認。水系の第一宿主定着1→2、戻った群体の再放出0→1（各100T代表条件）。全体のP個体数回復/500T安定は未認定。正式草案。
 
 	B4.3:（A1.6, A1.2 / 非採食の栄養収支）［草案］
 		構成（要素・関係）:
@@ -333,19 +333,19 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 	C7.5:（B4.2 / 寄生生活環と外部情報）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.5.md。現在正本: design/specification/parasite-cohorts-v1.md。契約: operations/plans/i11h-parasite-cohorts-v1.md。証跡: operations/evidence/i11h-parasite-cohorts-v1/README.md。
+			valis/nodes/C/C7.5.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
 		ロジック:
-			感染代表1体の移動/死亡へP/Qを一度接続し複製しない。
+			state/parasites/生成モデルへ版付き卵の設定・状態・処理を接続。卵と生存Pを別集計し、観測/CSV/保存/Workerへ渡す。既存の寄生・情報責務も維持。
 		実態:
-			4.2.53 / parasiteCohortModel: cohort/1・parasiteDispersalModel: fanout/1と低費用設定を新規世界へ接続。旧世界は保存済み設定を維持。全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			app4.2.75 / egg/1を接続。新規世界だけの卵による戻りを限定確認。水系の第一宿主定着1→2、戻った群体の再放出0→1（各100T代表条件）。全体のP個体数回復/500T安定は未認定。正式草案。
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/C/C8.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。卵の表示/観測: design/specification/primary-eggs-v1.md / operations/evidence/primary-eggs-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
 		既存select/入力/ロックとカード・由来札・条件まとめを同期。readConfigと生成規則・保存契約・旧世界保持を維持。既存の詳細/グラフ/速度責務も保持。
 	実態:
-		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。
+		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。 卵の状態/孵化予定・説明と設定追加を接続し、今回画面9/設定35項目を限定確認。app4.2.75。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -442,19 +442,19 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 	D8.2:（C7.5 / 寄生・高次寄生と情報）［草案］
 		構成（要素・関係）:
-			valis/nodes/D/D8.2.md。現在正本: design/specification/parasite-cohorts-v1.md。契約: operations/plans/i11h-parasite-cohorts-v1.md。証跡: operations/evidence/i11h-parasite-cohorts-v1/README.md。
+			valis/nodes/D/D8.2.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
 		ロジック:
-			感染者の部分移動/死亡によるP/Q単一所有と宿主参照。
+			卵の量保存・時計・占有・失敗・旧指紋・保存/Workerと既存P/Qを限定照合。代表100Tの戻りを追い、500T/全条件の安定判定とは分ける。
 		実態:
-			4.2.53の群体・通過・出生境界と低費用・分散設定、旧P/Q契約、収支・決定性を対象とする。長期自然循環/性能/新Windowsは未認定。草案を維持。
+			app4.2.75 / egg/1を接続。新規世界だけの卵による戻りを限定確認。水系の第一宿主定着1→2、戻った群体の再放出0→1（各100T代表条件）。全体のP個体数回復/500T安定は未認定。正式草案。
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/D/D9.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。卵の表示/観測: design/specification/primary-eggs-v1.md / operations/evidence/primary-eggs-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
 		6構成の旧main設定一致、由来/不使用/変更リンク/390pxと既存生成/取消/復帰を限定照合。全生態・長期・Windows・配布は対象外。
 	実態:
-		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。
+		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。 卵の状態/孵化予定・説明と設定追加を接続し、今回画面9/設定35項目を限定確認。app4.2.75。
 
 ```
 
@@ -495,19 +495,19 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 
 E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E5.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
+		valis/nodes/E/E5.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
 	ロジック:
-		Worker10試験とclient35試験のログ、生態本体不変のSHAを保持する。全T一致の限定証跡を生存/性能認定へ転用しない。
+		モデル8/回帰19と旧4T指紋一致を保持。100T水系の戻りから再放出1例を記録し、P全体回復/長期安定/Windows/配布は認定しない。
 	実態:
-		観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
+		app4.2.75 / egg/1を接続。新規世界だけの卵による戻りを限定確認。水系の第一宿主定着1→2、戻った群体の再放出0→1（各100T代表条件）。全体のP個体数回復/500T安定は未認定。正式草案。
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/E/E6.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。卵の表示/観測: design/specification/primary-eggs-v1.md / operations/evidence/primary-eggs-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
 		35項目＋既存27/13項目とソース比較の証跡を保持。画面の限定確認と生態/性能/配布の認定を区別。
 	実態:
-		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。
+		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。 卵の状態/孵化予定・説明と設定追加を接続し、今回画面9/設定35項目を限定確認。app4.2.75。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

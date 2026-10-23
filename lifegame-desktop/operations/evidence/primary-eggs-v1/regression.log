@@ -1,0 +1,27 @@
+✔ final record contains initial config and final summary; repeated replay never records (497.640015ms)
+✔ incompatible, corrupt, full or failing storage cannot silently lose records (100.346827ms)
+✔ checked-in replay signature matches all biological sources including landscape (3.38671ms)
+✔ successor model preserves replay of prior flagless worlds (115.607023ms)
+✔ template records require resolved map identity before replay (77.356927ms)
+✔ I01 source-only optimization replays 4.2.32 manual conditions without broadening legacy aliases (308.49115ms)
+✔ parasite groups have finite members and host-passage infection decays within a generation (63.514069ms)
+✔ first-host release spends one migrant rather than reporting a birth; terminal release retains the reproducing group (32.40074ms)
+✔ fanout spends two complete terminal propagules and reaches a first host two cells away (59.67116ms)
+✔ free Q cohort separates into two finite foragers without a birth (33.237323ms)
+✔ fatal Q emergence assimilates a bounded amount of its P host (28.768591ms)
+✔ Q can seed a half-developed terminal P before maturation only in a cohort world (53.72656ms)
+✔ cohort worlds remain deterministic and conserve stocks through early turns (1663.147441ms)
+✔ all-turn cohort observations survive archive validation and replay (164.140349ms)
+✔ Primary parasite effective conditions, biological counts and flow survive all-turn archive replay (1901.691131ms)
+✔ only established, transferred and actually cleared P enter the ecosystem relation counts (89.625222ms)
+✔ pre-primary biological signatures cannot claim the new P infection model (78.74035ms)
+✔ I04 worlds retain the exact35-species replay without the new primary fields (578.550718ms)
+✔ Worker transports primary body, inocula and committed phases before restart (1828.648258ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8014.615606

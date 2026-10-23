@@ -13,6 +13,7 @@
   const hyperEnabled=w=>S.HyperParasite?.enabled(w)===true;
   const cohorts=w=>S.ParasiteCohort.enabled(w);
   const fanout=w=>cohorts(w)&&w.config.parasiteDispersalModel==="fanout/1";
+  const eggsEnabled=w=>S.PrimaryParasite.eggsEnabled(w);
   function primaryRule(w,species,host,route,sourceStage){
     const rule=S.PrimaryParasite.hostRule(species,host,route,sourceStage);
     if(rule.allowed||!cohorts(w)||route!=="contact")return rule;
@@ -633,7 +634,7 @@
   }
   const primaryStage=stage=>stage==="extra"?"terminal":stage;
   function emptyPrimaryFlow(w) {
-    return {definition:"primary-parasite-flow/1",turn:w.turn,bySpecies:Object.fromEntries(["leafparasite","tideparasite"].map(species=>[species,
+    return {definition:"primary-parasite-flow/1",turn:w.turn,...(eggsEnabled(w)?{eggs:{definition:'primary-egg-flow/1',laid:0,moved:0,attached:0,hatched:0,expired:0,lostHost:0,failed:0}}:{}),bySpecies:Object.fromEntries(["leafparasite","tideparasite"].map(species=>[species,
       Object.fromEntries(["contact","feeding","carcass","water"].map(route=>[route,{exposureE:0,exposures:0,invasionAttempts:0,invaded:0,established:0,cleared:0,transferred:0,releasedE:0}]))]))};
   }
   function primaryHolders(w) {
@@ -706,7 +707,7 @@
     const state=primaryContext(w,ctx);if(state.diffusedAt===w.turn)return;state.diffusedAt=w.turn;
     const additions=[],standard=S.PrimaryParasite.settings(w).standardReserve;
     for(const i of (w.primaryInocula||[]).slice().sort((a,b)=>S.compare(a.id,b.id))){
-      if(i.kind!=="water"||i.createdAt>=w.turn||i.expires<=w.turn||i.E<=0||!["shallow","deep"].includes(w.tiles[i.cell].terrain))continue;
+      if(i.egg||i.kind!=="water"||i.createdAt>=w.turn||i.expires<=w.turn||i.E<=0||!["shallow","deep"].includes(w.tiles[i.cell].terrain))continue;
       const cells=S.nearby(w,i.cell).filter(cell=>["shallow","deep"].includes(w.tiles[cell].terrain)&&S.oneStep(w,i.cell,cell)).sort((a,b)=>a-b);
       if(!cells.length)continue;
       const budget=S.round(i.E*.2);let moved=0;
@@ -721,14 +722,14 @@
     const merged=new Map();
     for(const i of [...(w.primaryInocula||[]),...additions]){
       if(i.E<=0)continue;
-      const key=i.kind==="water"?JSON.stringify([i.cell,i.species,i.sourceId,i.parentId,i.createdAt,i.expires,i.stage,i.sourceStage,i.adaptation,i.hostPreference,i.passages,i.transfer]):i.id;
+      const key=i.kind==="water"&&!i.egg?JSON.stringify([i.cell,i.species,i.sourceId,i.parentId,i.createdAt,i.expires,i.stage,i.sourceStage,i.adaptation,i.hostPreference,i.passages,i.transfer]):i.id;
       const old=merged.get(key);
       if(old){old.E=S.round(old.E+i.E);old.amount=S.round(old.E/standard);}else merged.set(key,i);
     }
     w.primaryInocula=[...merged.values()];
   }
   function expose(w,ctx,i,target,route=i.route,fraction=1) {
-    if(!primaryEnabled(w)||!i||i.E<=0||fraction<=0||i.createdAt>=w.turn||i.expires<=w.turn)return {exposed:0,compatible:false,invaded:false,reason:"zero"};
+    if(!primaryEnabled(w)||!i||i.egg&&i.egg.state!=="hatched"||i.E<=0||fraction<=0||i.createdAt>=w.turn||i.expires<=w.turn)return {exposed:0,compatible:false,invaded:false,reason:"zero"};
     // A released migrant represents one member, never two infections created
     // by splitting a partially consumed dose across different hosts.
     if(cohorts(w)&&i.transfer&&i.claimedTarget&&i.claimedTarget!==target.id)return {exposed:0,compatible:false,invaded:false,reason:"claimed"};
@@ -748,6 +749,7 @@
     const entering=previous||{...i,adaptation:structuredClone(i.adaptation),hostPreference:structuredClone(i.hostPreference),id:i.id+":invading:"+target.id+":"+w.turn,kind:"invading",sourceKind:i.kind,origin,cell:target.cell,hostId:target.id,
       sourceStage,stage:rule.stage,route,E:0,amount:0,status:"exposed",receivedAt:w.turn,establishAt:null};
     entering.E=S.round(entering.E+amount);entering.amount=S.round(entering.E/settings.standardReserve);
+    if(entering.egg)delete entering.egg;
     if(!previous)w.primaryInocula.push(entering);
     if(entering.status==="invaded")return {exposed:amount,compatible:true,invaded:true,reason:null,id:entering.id};
     if(entering.E<settings.minimumReserve){primaryEvent(ctx,target,"exposure",{species:i.species,route,amount,reason:"accumulating"});return {exposed:amount,compatible:true,invaded:false,reason:"accumulating",id:entering.id};}
@@ -805,6 +807,46 @@
     w.primaryInocula=w.primaryInocula.filter(i=>i.E>0);
     w.pending=w.pending.filter(i=>i.kind!=="primary-migration"||i.infection);
   }
+  function eggFlow(w,ctx,key){
+    primaryContext(w,ctx);ctx.primaryFlow.eggs[key]++;
+  }
+  function eggBegin(w,ctx){
+    if(!eggsEnabled(w))return;
+    const z=w.config.primaryEggSettings,byId=S.maps(w).byId;
+    for(const i of w.primaryInocula.slice().sort((a,b)=>S.compare(a.id,b.id))){
+      if(!i.egg||i.E<=0||i.createdAt>=w.turn)continue;
+      if(i.egg.state==='attached'){
+        const host=byId.get(i.hostId);
+        if(!host||host.HP<=0){S.dissipate(w,i.E);i.E=0;i.amount=0;eggFlow(w,ctx,'lostHost');continue;}
+        i.cell=host.cell;
+        if(w.turn<i.egg.hatchAt)continue;
+        i.egg.state='hatched';eggFlow(w,ctx,'hatched');
+        const outcome=expose(w,ctx,i,host,i.route);
+        if(!outcome.invaded)eggFlow(w,ctx,'failed');
+        primaryEvent(ctx,host,'egg-hatched',{species:i.species,egg:i.id,invaded:outcome.invaded});
+      }else if(i.species==='tideparasite'&&['shallow','deep'].includes(w.tiles[i.cell].terrain)&&S.r(w,'primary/egg-move',w.turn,i.id)<z.waterMoveChance){
+        const cells=S.nearby(w,i.cell).filter(cell=>['shallow','deep'].includes(w.tiles[cell].terrain)&&S.oneStep(w,i.cell,cell));
+        if(cells.length){i.cell=cells[Math.floor(S.r(w,'primary/egg-cell',w.turn,i.id)*cells.length)];eggFlow(w,ctx,'moved');}
+      }
+    }
+    w.primaryInocula=w.primaryInocula.filter(i=>i.E>0);
+  }
+  function eggContacts(w,ctx,m){
+    if(!eggsEnabled(w))return;
+    const occupied=new Set(w.primaryInocula.filter(i=>i.E>0&&(i.egg?.state==='attached'||i.kind==='invading')).map(i=>i.hostId));
+    for(const i of w.primaryInocula.slice().sort((a,b)=>S.compare(a.id,b.id))){
+      if(i.egg?.state!=='free'||i.E<=0||i.createdAt>=w.turn||i.expires<=w.turn)continue;
+      const targets=new Map();
+      for(const cell of S.nearby(w,i.cell,1,true)){
+        if(!S.sight(w,i.cell,cell))continue;
+        for(const host of [m.food.get(cell),m.producer?.get(cell)])if(host&&host.HP>0&&!host.infection&&!occupied.has(host.id)&&S.PrimaryParasite.hostRule(i.species,host,i.route,'terminal').role==='first')targets.set(host.id,host);
+      }
+      const host=[...targets.values()].sort((a,b)=>S.hash(w,'primary/egg-attachment',w.turn,i.id,a.id)-S.hash(w,'primary/egg-attachment',w.turn,i.id,b.id)||S.compare(a.id,b.id))[0];
+      if(!host)continue;
+      i.hostId=host.id;i.cell=host.cell;i.egg.state='attached';i.egg.attachedAt=w.turn;i.egg.hatchAt=w.turn+w.config.primaryEggSettings.hatchTurns;
+      occupied.add(host.id);eggFlow(w,ctx,'attached');primaryEvent(ctx,host,'egg-attached',{species:i.species,egg:i.id,hatchAt:i.egg.hatchAt});
+    }
+  }
   function begin(w,ctx) {
     if(!primaryEnabled(w))return;
     const state=primaryContext(w,ctx);if(state.begun)return;state.begun=true;
@@ -813,7 +855,8 @@
     // An invasion completed before external expiry gets its one next-turn
     // establishment check; an exposed dose keeps the original external clock.
     primaryEstablish(w,ctx);
-    w.primaryInocula=(w.primaryInocula||[]).filter(i=>{if(i.expires>w.turn&&i.E>0)return true;S.dissipate(w,i.E);return false;});
+    w.primaryInocula=(w.primaryInocula||[]).filter(i=>{if(i.expires>w.turn&&i.E>0)return true;if(i.egg&&i.E>0)eggFlow(w,ctx,'expired');S.dissipate(w,i.E);return false;});
+    eggBegin(w,ctx);
     diffuse(w,ctx);
     for(const host of primaryHolders(w)){
       const p=host.infection,entry=primaryEntry(ctx,host,p),alive=w.organisms.includes(host);
@@ -867,10 +910,12 @@
       cost=S.round(Math.max(reserve,settings.emissionCost*primaryCost(w,p,host,route)*allocation));
     if(p.E+1e-8<cost||(cohorts(w)&&p.stage==="first"&&p.primary.cohort.members<=1))return null;
     p.E=S.round(p.E-cost);S.dissipate(w,cost-reserve);p.ready=w.turn+settings.emissionCooldown;
+    const egg=eggsEnabled(w)&&p.stage==='terminal'&&['contact','water'].includes(kind);
     const create=(index,energy)=>{
-      const item=S.PrimaryParasite.inoculum(w,p,{id:"inoculum:"+p.id+":"+w.turn+(fanout(w)?":"+index:""),kind,cell:host.cell,hostId:kind==="edible"?host.id:null,E:energy,createdAt:w.turn,expires:w.turn+settings.inoculumLifetime[kind],route,stage:p.stage,
+      const item=S.PrimaryParasite.inoculum(w,p,{id:"inoculum:"+p.id+":"+w.turn+(fanout(w)?":"+index:""),kind,cell:host.cell,hostId:kind==="edible"?host.id:null,E:energy,createdAt:w.turn,expires:w.turn+(egg?(p.species==='tideparasite'?w.config.primaryEggSettings.waterLifetime:w.config.primaryEggSettings.landLifetime):settings.inoculumLifetime[kind]),route,stage:p.stage,
+        ...(egg?{egg:{version:'primary-egg/1',state:'free',attachedAt:null,hatchAt:null}}:{}),
         ...(cohorts(w)?{transfer:p.stage==="first",passages:p.stage==="first"?S.ParasiteCohort.passage(p)+1:0}:{})});
-      w.primaryInocula.push(item);primaryFlow(w,ctx,p.species,route,"releasedE",item.E);
+      w.primaryInocula.push(item);primaryFlow(w,ctx,p.species,route,"releasedE",item.E);if(egg)eggFlow(w,ctx,'laid');
       primaryResult(w,p,route,"release");
       primaryEvent(ctx,host,"release",{parasite:p.id,species:p.species,route,amount:item.E,inoculum:item.id});return item;
     };
@@ -883,8 +928,9 @@
   }
   function primaryContacts(w,ctx) {
     const m=S.maps(w);
+    eggContacts(w,ctx,m);
     for(const i of (w.primaryInocula||[]).slice().sort((a,b)=>S.compare(a.id,b.id))){
-      if(!["contact","water"].includes(i.kind)||i.createdAt>=w.turn||i.expires<=w.turn||i.E<=0)continue;
+      if(i.egg||!["contact","water"].includes(i.kind)||i.createdAt>=w.turn||i.expires<=w.turn||i.E<=0)continue;
       const cells=i.kind==="water"?(fanout(w)?S.nearby(w,i.cell,1,true).filter(cell=>["shallow","deep"].includes(w.tiles[cell].terrain)): [i.cell]):
         S.nearby(w,i.cell,fanout(w)&&i.stage==="terminal"?2:1,true),seen=new Set(),targets=[];
       for(const cell of cells)for(const target of [...S.mainAt(m,cell),m.food.get(cell),m.prey?.get(cell),m.producer?.get(cell)]){

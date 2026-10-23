@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "app": "4.2.75",
+  "modelChecks": 8,
+  "regressionChecks": 19,
+  "uiChecks": 9,
+  "setupChecks": 35,
+  "scope": "primary egg return path only; no all-condition or 500T survival certification",
+  "formalNodes": 61,
+  "structureAndDraftStatusUnchanged": true,
+  "manifestReferencesPassed": true,
+  "generatedModulesMatch": true,
+  "replaySignature": "349210f099401ba560b23589c31eb7070dfd30f2eb3bda765146f3492b3b27fe",
+  "replayGateMatches": true,
+  "syntaxAndWhitespacePassed": true,
+  "coreHashes": {
+    "VALIS Flow Definition.md": "911ae9f4a09ebfc6a886970eb73a1f72789047f04a28f2e83e2ea1cc584637da",
+    "VALIS Operation Definition.md": "30174a1cf1a4c2d46911db0be7a975651390d6f0bc51d64eb7391560f6ca3b50",
+    "VALIS Summary Manifest.md": "8d786bfe106c1a479ae03d7da4c44e1df593d41794bc9315e91a181889f6271f"
+  },
+  "sourceHashes": {
+    "src/ecology/state.js": "79517a842485e3e6a8915820f505ee84fa803b2beb69c575dcc69c02f80a4de2",
+    "src/ecology/parasites.js": "5df1233b8fd1c48127c2f9b93ff87e720dde64d55f85ef5cc6f9fb311d7e11ec",
+    "src/ecology/observations.js": "d7cdde4f00b185e3d047ffb29495a9f75271bb3e95e041a7b0bf47316477421a",
+    "src/ecology/archive.js": "cf24c3a392d36254e0fcf8a30e68d1a8f8ee8361cd4ee36e280ddb29e915752c",
+    "src/ecology/observation-modules.js": "235278f2bcf823c3b6fda3abf85dce8db4bdb0ee7ae60e84bd7ab16c8532a2da",
+    "src/ecology/replay-version.js": "df4d989e61759b592c59e3a74f8d460f855227c7ed32ec0a966561667e462259",
+    "src/app.js": "4d601ccc3b034b85d022b09b20997fdc78d16a990968f757619dde083ccbe2cf",
+    "tests/primary-eggs.test.cjs": "f7bf3369b9ccb61bfc5755b71b8908a98485bfaea398ecb8db3f4cac96923478",
+    "tests/primary-eggs-ui.cjs": "2e103efc61da118ba7d3f5d38ddf7ddfc9a3abc20cd43fd5deaae4d9e75df111"
+  }
+}

@@ -1,0 +1,16 @@
+✔ egg model is explicit, saved, validated, and preserves the previous 4T biological fingerprint (225.055451ms)
+✔ terminal release pays for two separate finite egg batches; first-host release remains a transfer (583.283587ms)
+✔ laid eggs outlive their parent, attach, wait two turns, hatch once and settle next turn (173.63174ms)
+✔ water eggs move without dilution or duplication and can attach two cells from the terminal host (175.406813ms)
+✔ occupied first hosts cause waiting; expiry is absolute and hatch failure consumes its batch once (532.966117ms)
+✔ attached egg batches are lost with their target instead of silently finding another host (156.317497ms)
+✔ egg counts and events remain separate from living P through CSV, archive replay and validation (2246.642423ms)
+✔ Worker transports egg batches and their attachment clocks without changing the committed turn (737.083542ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5001.243084

@@ -769,6 +769,15 @@ return {settings,attach,region,level,factor,begin,finish};
       return out;
     }
     const settings=w=>w.config.primaryParasiteSettings;
+    const eggsEnabled=w=>enabled(w)&&w.config.primaryEggModel==='egg/1';
+    function eggParameters(input={}){
+      const out={version:'primary-egg-parameters/1',landLifetime:20,waterLifetime:30,hatchTurns:2,waterMoveChance:.25,...input};
+      if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(out,k))||
+        Object.keys(out).some(k=>!['version','landLifetime','waterLifetime','hatchTurns','waterMoveChance'].includes(k))||out.version!=='primary-egg-parameters/1'||
+        ['landLifetime','waterLifetime','hatchTurns'].some(k=>!Number.isSafeInteger(out[k])||out[k]<1||out[k]>10000)||
+        out.hatchTurns>=Math.min(out.landLifetime,out.waterLifetime)||!Number.isFinite(out.waterMoveChance)||out.waterMoveChance<0||out.waterMoveChance>1)throw Error('SETTINGS_INVALID: 一次寄生卵の設定');
+      return out;
+    }
     function hostRule(species,host,route=null,sourceStage=null){
       const table=hostTable[species],id=typeof host==="string"?host:host?.species;
       const role=table&&STAGES.find(stage=>table[stage].includes(id));
@@ -905,7 +914,10 @@ return {settings,attach,region,level,factor,begin,finish};
         inocula:{records:0,amount:0,reserveE:0,byKind:{contact:0,water:0,edible:0,carcass:0}},exposed:{records:0,amount:0,reserveE:0},invading:{records:0,amount:0,reserveE:0},resistance:{hosts:0,entries:0,stored:0,effective:0,paidE:0}};
       if(ParasiteCohort.enabled(w))out.members=0;
       for(const e of entries(w)){const p=e.p;out.count++;if(ParasiteCohort.enabled(w))out.members+=ParasiteCohort.members(p);out[e.kind==="host"?"hosted":"external"]++;if(e.carrier.kind==="primary-migration")out.migrating++;out.bySpecies[p.species]++;out.phases[p.phase-1]++;out.stages[p.stage]++;if(p.matureAt!==undefined)out.mature++;out.biomassB+=p.B;out.reserveE+=p.E;}
-      for(const i of w.primaryInocula||[]){const target=i.kind==="invading"?(i.status==="exposed"?out.exposed:out.invading):out.inocula;target.records++;target.amount+=i.amount;target.reserveE+=i.E;if(target.byKind)target.byKind[i.kind]+=i.amount;}
+      if(eggsEnabled(w))out.eggs={definition:'primary-egg-observed/1',records:0,free:0,attached:0,amount:0,reserveE:0};
+      for(const i of w.primaryInocula||[]){
+        if(out.eggs&&i.egg&&i.kind!=='invading'){out.eggs.records++;out.eggs[i.egg.state]++;out.eggs.amount+=i.amount;out.eggs.reserveE+=i.E;}
+        const target=i.kind==="invading"?(i.status==="exposed"?out.exposed:out.invading):out.inocula;target.records++;target.amount+=i.amount;target.reserveE+=i.E;if(target.byKind)target.byKind[i.kind]+=i.amount;}
       for(const host of w.organisms)if(host.primaryResistance?.entries.length){const a=host.primaryResistance;out.resistance.hosts++;out.resistance.entries+=a.entries.length;for(const e of a.entries){out.resistance.stored+=e.value;out.resistance.effective+=a.paidAt===w.turn?e.effective:0;}if(a.paidAt===w.turn)out.resistance.paidE+=a.lastPaidE;}
       const round=value=>{for(const key of Object.keys(value))if(typeof value[key]==="number")value[key]=H.round(value[key]);else if(value[key]&&typeof value[key]==="object")round(value[key]);};round(out);w.primaryParasiteSummary=out;return out;
     }
@@ -931,9 +943,14 @@ return {settings,attach,region,level,factor,begin,finish};
         !["contact","water","edible","carcass","invading"].includes(i.kind)||!Number.isSafeInteger(i.expires)||!hostTable[i.species]||
         (ParasiteCohort.enabled(w)&&(!Number.isSafeInteger(i.passages)||i.passages<0||typeof i.transfer!=="boolean"))||
         !correctKeys(i.hostPreference,hostTable[i.species]?defaultAdaptation(i.species).hosts:{})||Object.values(i.hostPreference??{}).some(n=>!Number.isFinite(n)||n<0||n>1))errors.push("PRIMARY_INOCULUM:"+i.id);
+      for(const i of w.primaryInocula||[])if(eggsEnabled(w)&&i.stage==='terminal'&&['contact','water'].includes(i.kind)&&!i.egg)errors.push('PRIMARY_EGG_MISSING:'+i.id);
+      for(const i of w.primaryInocula||[])if(i.egg&&(!eggsEnabled(w)||i.egg.version!=='primary-egg/1'||!['free','attached'].includes(i.egg.state)||
+        !['contact','water'].includes(i.kind)||i.transfer||i.stage!=='terminal'||!Number.isSafeInteger(i.createdAt)||i.expires-i.createdAt!==(i.species==='tideparasite'?w.config.primaryEggSettings.waterLifetime:w.config.primaryEggSettings.landLifetime)||
+        (i.egg.state==='free'?(i.hostId!==null||i.egg.attachedAt!==null||i.egg.hatchAt!==null):
+          (typeof i.hostId!=='string'||!Number.isSafeInteger(i.egg.attachedAt)||i.egg.attachedAt<=i.createdAt||i.egg.hatchAt!==i.egg.attachedAt+w.config.primaryEggSettings.hatchTurns))))errors.push('PRIMARY_EGG:'+i.id);
       return errors;
     }
-    return {enabled,is,parameters,settings,hostTable,hostRule,adaptation,childAdaptation,infection,inoculum,takeInoculum,resistance,acquireResistance,beginResistance,entries,locate,ageInfo:parasiteAge,initial,summary,validate};
+    return {enabled,is,parameters,settings,eggsEnabled,eggParameters,hostTable,hostRule,adaptation,childAdaptation,infection,inoculum,takeInoculum,resistance,acquireResistance,beginResistance,entries,locate,ageInfo:parasiteAge,initial,summary,validate};
   })();
   const HyperParasite = (() => {
     const VERSION="hyper-state/1",P_SPECIES=["leafparasite","tideparasite"];
@@ -1601,6 +1618,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(c.parasiteCohortModel&&c.primaryParasiteModel!=="primary/1")throw Error("SETTINGS_INVALID: 寄生群体には一次寄生モデルが必要です");
     if(c.parasiteDispersalModel!==undefined&&c.parasiteDispersalModel!=="fanout/1")throw Error("SETTINGS_INVALID: 寄生分散モデル");
     if(c.parasiteDispersalModel&&c.parasiteCohortModel!=="cohort/1")throw Error("SETTINGS_INVALID: 寄生分散には寄生群体モデルが必要です");
+    if(c.primaryEggModel!==undefined&&c.primaryEggModel!=='egg/1')throw Error('SETTINGS_INVALID: 一次寄生卵モデル');
+    if(c.primaryEggModel==='egg/1'){
+      if(c.primaryParasiteModel!=='primary/1'||c.parasiteDispersalModel!=='fanout/1')throw Error('SETTINGS_INVALID: 一次寄生卵には一次寄生/分散モデルが必要です');
+      c.primaryEggSettings=PrimaryParasite.eggParameters(c.primaryEggSettings);
+    }else if(c.primaryEggSettings!==undefined)throw Error('SETTINGS_INVALID: 一次寄生卵モデルの指定が必要です');
     if(c.informationModel!==undefined&&c.informationModel!=="persistent/1")throw Error("SETTINGS_INVALID: 持続情報モデル");
     if(c.informationModel==="persistent/1")c.informationSettings=PersistentInformation.parameters(c.informationSettings);
     else if(c.informationSettings!==undefined)throw Error("SETTINGS_INVALID: 持続情報モデルの指定が必要です");
