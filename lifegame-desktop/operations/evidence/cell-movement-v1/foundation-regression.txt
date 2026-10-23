@@ -1,0 +1,16 @@
+✔ version is explicit; resolved fixed profiles and stock ownership survive serialization (24.912566ms)
+✔ independent layers coexist at full capacity; size and diet do not create extra slots (8.179651ms)
+✔ mutated ryouki alone pack nine settlers plus two independent movers (8.697542ms)
+✔ ordinary settlers cannot pack; vacant settlement space can be used by movers (15.393398ms)
+✔ dynamic water, soil and next-turn material round-trip without resending fixed profiles (7.150042ms)
+✔ malformed occupancy, internal counts and waiting materials are rejected (3.805999ms)
+✔ unfinished biology cannot enter normal stepping or result capture (7.204533ms)
+✔ legacy 4T result and replay remain exact; old signature cannot claim the new cell model (869.131249ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 952.123793

@@ -69,6 +69,16 @@
         o.cellOccupancy={version:VERSION,state,...(n>=0?{slot:n}:{})};}
       return o;
     }
+    function release(w,o,cells=index(w)){
+      if(!enabled(w)||!packed(o))return false;
+      const probe={...o,ryouki:{...o.ryouki,mutated:false}},state=o.cellOccupancy?.state;
+      const slot=slotFor(probe,cells.get(o.cell)?.[4]||[],state);
+      if(slot===null)return false;
+      o.ryouki.mutated=false;
+      o.cellOccupancy={version:VERSION,state,...(slot>=0?{slot}:{}),
+        ...(state==="moving"&&o.cellOccupancy.movedAt!==undefined?{movedAt:o.cellOccupancy.movedAt}:{})};
+      return true;
+    }
     function initialize(w){
       if(!enabled(w))return w;
       if(w.turn!==0||w.cellState!==undefined||w.cellProfiles!==undefined)throw Error("CELL_STATE_EXISTS: マス状態は初期化済みか初期時点ではありません");
@@ -123,6 +133,7 @@
         if(!Number.isSafeInteger(o.cell)||!w.tiles[o.cell])errors.push("CELL_LOCATION:"+o.id);
         if(layer(o)===4&&living(o)){const c=o.cellOccupancy;
           if(c?.version!==VERSION||!["moving","settled"].includes(c.state)||
+            (c.movedAt!==undefined&&(!Number.isSafeInteger(c.movedAt)||c.movedAt<0||c.movedAt>w.turn))||
             (c.state==="settled"?(!Number.isInteger(c.slot)||c.slot<0||c.slot>2):Object.hasOwn(c,"slot")))errors.push("CELL_OCCUPANCY:"+o.id);}
         if(layer(o)===3&&o.consumerGroup){const count=o.consumerGroup.cohorts?.reduce((n,c)=>n+c.n,0);
           if(!Number.isSafeInteger(count)||count<1||count>8)errors.push("CELL_MEMBERS:"+o.id);}
@@ -142,7 +153,7 @@
       }
       return errors;
     }
-    return {VERSION,limits,enabled,settings,layer,index,room,assign,initialize,stock,summary,validate};
+    return {VERSION,limits,enabled,settings,layer,index,room,assign,release,initialize,stock,summary,validate};
   })();
   const ProducerSupport=(()=>{
 
@@ -636,14 +647,22 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     function begin(w){
       if(!enabled(w))return;
-      const m=maps(w),p=w.config.ryoukiSettings;
-      for(const o of w.organisms)if(is(o)){
+      const m=maps(w),p=w.config.ryoukiSettings,newCells=m.cellSpace||null;
+      const organisms=newCells?w.organisms.filter(is).map(o=>({o,h:hash(w,"cell/release",w.turn,o.id)}))
+        .sort((a,b)=>a.h-b.h||compare(a.o.id,b.o.id)).map(a=>a.o):w.organisms;
+      for(const o of organisms)if(is(o)){
         const a=o.ryouki,density=nearby(w,o.cell,1,true).reduce((n,cell)=>n+mainAt(m,cell).filter(t=>t.id!==o.id&&t.species==="ryouki"&&t.HP>0).length,0);
         a.last={turn:w.turn,density,experience:0,steps:0,transition:null};
         a.highRun=density>=p.densityHigh?Math.min(p.highTurns,a.highRun+1):0;
         a.lowRun=density<=p.densityLow?Math.min(p.lowTurns,a.lowRun+1):0;
         if(!a.mutated&&a.highRun>=p.highTurns){a.mutated=true;a.lowRun=0;a.last.transition="entered";}
-        else if(a.mutated&&a.lowRun>=p.lowTurns&&mainAt(m,o.cell).filter(t=>t.HP>0).every(t=>t.id===o.id)){a.mutated=false;a.highRun=0;a.last.transition="released";}
+        else if(a.mutated&&a.lowRun>=p.lowTurns){
+          if(newCells){
+            a.releaseWaiting=!CellSpace.release(w,o,newCells);
+            if(!a.releaseWaiting){a.highRun=0;a.last.transition="released";}
+          }else if(mainAt(m,o.cell).filter(t=>t.HP>0).every(t=>t.id===o.id)){a.mutated=false;a.highRun=0;a.last.transition="released";}
+        }
+        if(newCells&&(!a.mutated||a.lowRun<p.lowTurns))a.releaseWaiting=false;
       }
     }
     function phenotype(w,o,phase=o.phase,branch=o.branch4){
@@ -1567,7 +1586,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if (!scope) return maps(w);
     return scope.maps || (scope.maps = maps(w));
   }
-  function maps(w) {
+  function maps(w, cellSpace = null) {
     const main = new Map(),
       food = new Map(),
       byId = new Map(),
@@ -1588,7 +1607,10 @@ return {settings,attach,region,level,factor,begin,finish};
       carcasses.get(a.cell).push(a);
     }
     const result=(()=>{return { main, food, byId, resources, carcasses };})();
-    if(Ryouki.enabled(w)){
+    if(CellSpace.enabled(w)){
+      result.cellSpace=cellSpace||CellSpace.index(w);
+      result.mainByCell=new Map([...result.cellSpace].filter(([,rows])=>rows[4].length).map(([cell,rows])=>[cell,rows[4]]));
+    }else if(Ryouki.enabled(w)){
       result.mainByCell=new Map();
       for(const o of w.organisms)if(o.slot==="main"){
         if(!result.mainByCell.has(o.cell))result.mainByCell.set(o.cell,[]);

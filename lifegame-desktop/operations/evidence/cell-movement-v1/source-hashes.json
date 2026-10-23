@@ -1,0 +1,14 @@
+{
+  "src/ecology/state.js": "7f6b60cdbe6ea53bf0aec57d2db606c962c0483f19a435b78b17d8f4482b4e28",
+  "src/ecology/behavior.js": "73cf229d00f352f0b4896e79d43f4eccf58d61695cbfa99c472aef900160fa0a",
+  "src/ecology/archive.js": "ee96b241ea1713d557fe059dccd8a8c1f80061716d28a4a3128269de43ceb3bb",
+  "src/ecology/engine.js": "05fc5ca86062e4d08f6b095bae0351b8d790f685291c3f7e02d186e7f31c9784",
+  "src/ecology/transport.js": "dec3f1fc20a92f5af450ed9705c251e1af08b69c89b193f28221fd9b944effd0",
+  "src/ecology/observation-modules.js": "b992ea251df53a64dcfb967a8cc764deff23c95315346142942a5cd28465e840",
+  "src/ecology/replay-version.js": "fb1085872ebf000892c14b32dcbb266e0904dc717a3a0381b786fb2abc238273",
+  "tests/cell-space.test.cjs": "c2bcf298843529fc254f8f8e7da468429dbb4642231fcd6ed5ccceae974130fa",
+  "tests/cell-movement.test.cjs": "56017704601008ef9c8f61e25ab7318a10114ae6fc8c042c1078bc7ad0ad5ed0",
+  "design/specification/cell-reorganization-v1.md": "503d67f219b934b9a7af2742aa8f1579141c45eaa6ac0425a36b1b23bdd683bf",
+  "design/implementation/cell-reorganization-v1.md": "a771cf204ed850c9be7d936c84b365299df8d4ea79f46aaf3945ef6a9789356a",
+  "operations/plans/cell-movement-v1.md": "1044b6022060e7bfda5181a0594d6f01892673cf4d023b39b6e9092e3906258a"
+}

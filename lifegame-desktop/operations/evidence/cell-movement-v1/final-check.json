@@ -1,0 +1,41 @@
+{
+  "scope": "CR02 internal movement only",
+  "nodes": 61,
+  "updatedNodes": [
+    "C7.1",
+    "C7.3",
+    "C7",
+    "C8.2",
+    "D7",
+    "E5"
+  ],
+  "coreUnchanged": true,
+  "ABUnchanged": true,
+  "formalStateAndGraphUnchanged": true,
+  "manifestHasExactlyOneEntryPerNode": true,
+  "packageUnchanged": true,
+  "tests": {
+    "cell-movement": {
+      "passed": 13,
+      "failed": 0
+    },
+    "cell-space": {
+      "passed": 8,
+      "failed": 0
+    }
+  },
+  "generated": {
+    "profiles": 8,
+    "uniqueModules": 22,
+    "bytes": 1736284,
+    "check": "pass"
+  },
+  "notVerified": [
+    "CR03 resource allocation/budgets",
+    "CR04/05 life and decomposition",
+    "CR06 parasite/observation/archive integration",
+    "new full turn/500T",
+    "UI/Windows"
+  ],
+  "next": "CR03"
+}

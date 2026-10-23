@@ -36,7 +36,7 @@
     return score+delta;
   }
   const phaseA = [0, 1, 1.15, 1.35, 1.6];
-  const grouped = w => S.Ryouki?.enabled(w) === true;
+  const grouped = w => S.Ryouki?.enabled(w) === true || S.CellSpace?.enabled(w) === true;
   const isRyouki = (w,o) => grouped(w) && S.Ryouki.is(o);
   function mainMembers(w,m,cell) {
     if (grouped(w)) return S.mainAt(m,cell);
@@ -139,7 +139,7 @@
       common *
       S.adjustment(w, o, kind, w.tiles[o.cell].env, phase);
     if (kind === "attack") {
-      value *= 1 + Math.min(3, friends) * S.trait(o, "packAttack", phase);
+      if(!S.CellSpace.enabled(w))value *= 1 + Math.min(3, friends) * S.trait(o, "packAttack", phase);
       if (!isRyouki(w,o) && o.branch3 === 2 && o.branch4 === 0) value *= 1.1;
       value *= environmental(w, o, "attack");
     } else {
@@ -177,6 +177,7 @@
     ];
   }
   function floatingCandidates(w, o, ctx, m) {
+    if(S.CellSpace.enabled(w))return cellFloatingCandidates(w,o,ctx,m);
     const out = [{type:"stop",cell:o.cell,cost:0,path:[]}];
     if (o.species !== "freshwaterlight") return out;
     const p = ctx.traits.get(o.id), costs = ctx.costs.get(o.id),
@@ -236,17 +237,17 @@
     }
     c.informationPlace=place;c.score+=delta;c.noRandom+=delta;
   }
-  function candidates(w, o, ctx, m) {
+  function candidates(w, o, ctx, m, stage = null) {
     const s = S.spec(o),
       p = ctx.traits.get(o.id),
       budget = Math.max(0, ctx.costs.get(o.id).budget - ctx.costs.get(o.id).action),
       out = [{ type: "stop", cell: o.cell, cost: 0, path: [] }];
-    if (S.LargePlant?.is(o)) return floatingCandidates(w,o,ctx,m);
+    if (S.LargePlant?.is(o)) return S.CellSpace.enabled(w)?cellFloatingCandidates(w,o,ctx,m):floatingCandidates(w,o,ctx,m);
     if (s.group === "plant" || s.group === "fungus") return out;
     const friend = S.nearby(w, o.cell).some(c => mainMembers(w,m,c).some(a=>a.species===o.species));
     if (s.group === "main")
       out.push({ type: "defend", cell: o.cell, cost: 0, path: [] });
-    if (s.group !== "prey" || s.id !== "waterbug" || w.turn % 2 === 0) {
+    if (stage!=="effect" && (s.group !== "prey" || s.id !== "waterbug" || w.turn % 2 === 0)) {
       const [x, y] = S.xy(w, o.cell),
         occupied = o.slot === "main" ? m.main : m.food;
       for (let d = 0; d < 8; d++) {
@@ -261,7 +262,8 @@
             break;
           const cell = S.index(w, tx, ty);
           if (
-            (grouped(w) && o.slot==="main" ? !S.mainRoom(w,o,cell,m) : occupied.has(cell)) ||
+            (S.CellSpace.enabled(w)?(!S.validHabitat(w,s,cell)||!S.CellSpace.room(w,o,cell,{state:"moving"},m.cellSpace)):
+              grouped(w) && o.slot==="main" ? !S.mainRoom(w,o,cell,m) : occupied.has(cell)) ||
             !(isRyouki(w,o)?S.sight(w,prev,cell):visible(w, o, cell, ctx)) ||
             !S.oneStep(w, prev, cell)
           )
@@ -286,7 +288,7 @@
       const main = m.main.get(cell),
         food = m.food.get(cell);
       if (s.group === "main" && o.attackReady <= w.turn)
-        for (const target of (grouped(w)?[...S.mainAt(m,cell),(m.prey||m.food).get(cell)]:[main, food]))
+        for (const target of (S.CellSpace.enabled(w)?[...(m.cellSpace.get(cell)?.[4]||[]),...(m.cellSpace.get(cell)?.[3]||[])]:grouped(w)?[...S.mainAt(m,cell),(m.prey||m.food).get(cell)]:[main, food]))
           if (
             target &&
             target.id !== o.id &&
@@ -311,7 +313,7 @@
               });
           }
       if (
-        food &&
+        (!S.CellSpace.enabled(w)||cell===o.cell) && food &&
         s.id !== "kelp" &&
         ["plant", "fungus"].includes(S.spec(food).group) &&
         (!isRyouki(w,o) || S.spec(food).group === "plant") &&
@@ -328,7 +330,7 @@
           path: [],
         });
       const producer=m.producer?.get(cell);
-      if (producer && s.id !== "kelp" && S.edibleB(producer)>0 && producer.HP>0 &&
+      if ((!S.CellSpace.enabled(w)||cell===o.cell) && producer && s.id !== "kelp" && S.edibleB(producer)>0 && producer.HP>0 &&
           (s.group === "main" || s.group === "prey") && S.distance(w,o.cell,cell)<=1 && S.oneStep(w,o.cell,cell))
         out.push({type:"harvest",cell:o.cell,target:producer.id,cost:0,path:[]});
       for (const ward of (grouped(w)?S.mainAt(m,cell):[main])) if (
@@ -776,6 +778,9 @@
   function choose(w, ctx, stage = null) {
     const m = S.maps(w);
     for (const o of w.organisms) {
+      if(S.CellSpace.enabled(w)&&stage==="effect"&&ctx.cellMotion?.engaged.has(o.id)){
+        ctx.intents.set(o.id,ctx.cellMotion.engaged.get(o.id));continue;
+      }
       // Stationary basal life has exactly one possible action. Process that
       // shared rule directly instead of constructing visibility and scores.
       const group = S.spec(o).group;
@@ -793,8 +798,12 @@
         if(o.id===ctx.observeId)ctx.diagnostics={id:o.id,candidates:[{type,target:undefined,cell,score:0,cost:0,features:[]}]};
         continue;
       }
-      const list = candidates(w, o, ctx, m).filter(c => !stage || (stage === "move" ? ["stop","move"].includes(c.type) : c.type !== "move")),
-        v = view(w, o, ctx, m);
+      let list = candidates(w, o, ctx, m).filter(c => !stage || (stage === "move" ? ["stop","move"].includes(c.type) : c.type !== "move"));
+      // A transient occupant with no settlement space must try to leave if it can.
+      // When all routes fail, stop/defend remains legal; friendship never forces combat.
+      if(S.CellSpace.enabled(w)&&stage==="move"&&S.CellSpace.layer(o)===4&&o.cellOccupancy?.state==="moving"&&
+        !S.CellSpace.room(w,o,o.cell,{},m.cellSpace)&&list.some(c=>c.type==="move"))list=list.filter(c=>c.type==="move");
+      const v = view(w, o, ctx, m);
       for (const c of list) {
         Object.assign(c, evaluate(w, o, c, ctx, v));
         informationChoice(w,o,c,ctx);
@@ -850,6 +859,117 @@
           : Math.min(8, o.maleAbsent + 1);
     }
   }
+  function cellFloatingCandidates(w,o,ctx,m){
+    const out=[{type:"stop",cell:o.cell,cost:0,path:[]}],p=ctx.traits.get(o.id),budget=ctx.costs.get(o.id),cells=m?.cellSpace||S.CellSpace.index(w);
+    for(const cell of S.nearby(w,o.cell)){
+      const cost=moveCost(w,o,cell,p.phase,false,p.ageFactors.move);
+      if(S.oneStep(w,o.cell,cell)&&S.validHabitat(w,S.spec(o),cell)&&S.sight(w,o.cell,cell)&&
+        S.CellSpace.room(w,o,cell,{state:"moving"},cells)&&cost<=budget.budget-budget.action+1e-8)
+        out.push({type:"move",cell,cost,path:[cell]});
+    }
+    return out;
+  }
+  function cellAttack(w,o,target,ctx,m){
+    const s=S.spec(o),t=target&&S.spec(target),p=ctx.traits.get(o.id),budget=ctx.costs.get(o.id);
+    if(o.HP<=0||!target||target.HP<=0||s.group!=="main"||!["main","prey"].includes(t.group)||
+      o.id===target.id||o.species===target.species||o.attackReady>w.turn||
+      (isRyouki(w,o)&&t.group!=="prey")||(s.id==="kelp"&&t.group!=="prey")||
+      (w.config.ecologyRevision==="observation/4.1"&&["solar","kelp"].includes(s.id)&&["solar","kelp"].includes(t.id)))return null;
+    const range=S.distance(w,o.cell,target.cell),cost=(range===2?4:3)*S.adjustment(w,o,"attackCost",w.tiles[o.cell].env,p.phase);
+    if(range>p.range||cost>budget.budget-budget.action+1e-8||
+      !S.sight(w,o.cell,target.cell,range===2?new Set(w.organisms.filter(a=>a.HP>0&&["main","prey"].includes(S.spec(a).group)).map(a=>a.cell)):null))return null;
+    return {type:"attack",cell:o.cell,target:target.id,cost,path:[]};
+  }
+  function cellEncounter(w,e,ctx,m){
+    if(S.spec(e.o).group!=="main")return null;
+    const list=candidates(w,e.o,ctx,m,"effect").filter(c=>["attack","stop","defend"].includes(c.type)&&
+      (c.type!=="attack"||cellAttack(w,e.o,m.byId.get(c.target),ctx,m)));
+    if(!list.some(c=>c.type==="attack"))return null;
+    const next=e.c.path[e.steps.length];
+    if(e.steps.length<e.limit&&next!==undefined){
+      const p=ctx.traits.get(e.o.id),cost=moveCost(w,e.o,next,p.phase,e.friend,p.ageFactors.move);
+      if(S.oneStep(w,e.o.cell,next)&&S.validHabitat(w,S.spec(e.o),next)&&S.sight(w,e.o.cell,next)&&
+        S.CellSpace.room(w,e.o,next,{state:"moving"},m.cellSpace)&&cost<=ctx.costs.get(e.o.id).budget-ctx.costs.get(e.o.id).action+1e-8)
+        list.push({type:"move",cell:next,path:[next],cost,direction:e.c.direction});
+    }
+    const v=view(w,e.o,ctx,m);
+    for(const c of list){Object.assign(c,evaluate(w,e.o,c,ctx,v));informationChoice(w,e.o,c,ctx);
+      c.h=S.hash(w,"cell/encounter",w.turn,e.o.id,[e.steps.length,c.type,c.target??null,c.cell]);}
+    list.sort((a,b)=>b.score-a.score||a.h-b.h||S.compare(a.target||"",b.target||""));
+    return list[0];
+  }
+  function moveCell(w,ctx){
+    if(ctx.cellMotion)throw Error("CELL_MOVE_ALREADY_RESOLVED");
+    const C=S.CellSpace,initial=S.maps(w),cells=initial.cellSpace,entries=[];
+    const motion=ctx.cellMotion={contacts:[],engaged:new Map(),settled:[],blocked:[],completed:false},pairs=new Set();
+    const replace=(map,cell,n,list)=>{
+      const rows=map.get(cell)?.slice()||Array.from({length:6},()=>[]);rows[n]=list;map.set(cell,rows);
+    };
+    for(const o of w.organisms){
+      const c=ctx.intents.get(o.id),n=C.layer(o);
+      if(o.HP<=0||n===null||c?.type!=="move")continue;
+      // Sessile plants and decomposers are not made mobile by sharing this resolver.
+      if(![3,4].includes(n))continue;
+      entries.push({o,c,n,from:o.cell,steps:[],cost:0,active:true,limit:ctx.traits.get(o.id).speed,
+        friend:S.nearby(w,o.cell).some(cell=>mainMembers(w,initial,cell).some(a=>a.species===o.species))});
+    }
+    const maximum=entries.reduce((n,e)=>Math.max(n,Math.min(e.limit,e.c.path.length)),0);
+    for(let step=0;step<maximum;step++){
+      const reserved=new Map(cells),accepted=[];
+      const order=entries.filter(e=>e.active&&step<e.limit&&step<e.c.path.length).map(e=>({e,h:S.hash(w,"cell/move",w.turn,e.o.id,step)}))
+        .sort((a,b)=>a.h-b.h||S.compare(a.e.o.id,b.e.o.id));
+      for(const {e}of order){
+        const to=e.c.path[step],p=ctx.traits.get(e.o.id),budget=ctx.costs.get(e.o.id);let reason=null;
+        if(to===e.o.cell||!Number.isSafeInteger(to)||!w.tiles[to]||!S.oneStep(w,e.o.cell,to)||!S.validHabitat(w,S.spec(e.o),to)||!S.sight(w,e.o.cell,to))reason="TERRAIN";
+        const cost=reason?0:moveCost(w,e.o,to,p.phase,e.friend,p.ageFactors.move);
+        if(!reason&&cost>budget.budget-budget.action+1e-8)reason="BUDGET";
+        if(!reason&&!C.room(w,e.o,to,{state:"moving"},reserved))reason="CAPACITY";
+        if(reason){e.active=false;ctx.records.get(e.o.id).failure="CELL_MOVE_"+reason;motion.blocked.push({id:e.o.id,cell:to,step,reason});
+          if(reason==="BUDGET"&&isRyouki(w,e.o))ctx.records.get(e.o.id).ryoukiMoveBudgetLimited=true;continue;}
+        const probe={...e.o,cell:to,cellOccupancy:{version:C.VERSION,state:"moving",movedAt:w.turn}};
+        replace(reserved,to,e.n,[...(reserved.get(to)?.[e.n]||[]),probe]);accepted.push({e,to,cost});
+      }
+      for(const {e,to,cost}of accepted){
+        replace(cells,e.o.cell,e.n,(cells.get(e.o.cell)?.[e.n]||[]).filter(a=>a.id!==e.o.id));
+        e.o.cell=to;if(e.n===4)e.o.cellOccupancy={version:C.VERSION,state:"moving",movedAt:w.turn};
+        replace(cells,to,e.n,[...(cells.get(to)?.[e.n]||[]),e.o]);
+        e.steps.push(to);e.cost+=cost;ctx.costs.get(e.o.id).action+=cost;
+      }
+      const m=S.maps(w,cells);
+      for(const {e,to}of accepted){
+        for(const other of (cells.get(to)||[]).flat()){
+          if(other.id===e.o.id||other.HP<=0)continue;
+          const ids=[e.o.id,other.id].sort(S.compare),key=JSON.stringify(ids);
+          if(!pairs.has(key)){pairs.add(key);motion.contacts.push({cell:to,step:step+1,ids});}
+        }
+        const chosen=cellEncounter(w,e,ctx,m);
+        if(chosen&&chosen.type!=="move"){
+          e.active=false;
+          if(chosen.type==="attack"){motion.engaged.set(e.o.id,chosen);ctx.intents.set(e.o.id,chosen);}
+        }
+      }
+    }
+    const movers=new Set();
+    for(const e of entries){
+      const rec=ctx.records.get(e.o.id);if(isRyouki(w,e.o)){rec.ryoukiSteps=e.steps.slice();rec.ryoukiMoveCost=e.cost;}
+      if(!e.steps.length)continue;
+      movers.add(e.o.id);rec.moved=true;rec.newPlace=!e.o.history.includes(e.o.cell);e.o.facing=e.c.direction??e.o.facing;
+      if(rec.newPlace)e.o.pendingMove={turn:w.turn,expires:w.turn+3,cell:e.o.cell};
+      e.o.history.push(e.o.cell);e.o.history=e.o.history.slice(-4);
+      S.record(ctx,e.o,"move",{from:e.from,to:e.o.cell,path:e.steps.slice()});
+    }
+    const settle=w.organisms.filter(o=>o.HP>0&&C.layer(o)===4&&o.cellOccupancy?.state==="moving"&&
+      !movers.has(o.id)&&o.cellOccupancy.movedAt!==w.turn).map(o=>({o,h:S.hash(w,"cell/settle",w.turn,o.id,o.cell)}))
+      .sort((a,b)=>a.h-b.h||S.compare(a.o.id,b.o.id));
+    for(const {o}of settle)if(C.room(w,o,o.cell,{},cells)){C.assign(w,o,{},cells);motion.settled.push(o.id);}
+    const release=w.organisms.filter(o=>S.Ryouki.is(o)&&o.ryouki.mutated&&o.ryouki.lowRun>=w.config.ryoukiSettings.lowTurns)
+      .map(o=>({o,h:S.hash(w,"cell/release",w.turn,o.id)})).sort((a,b)=>a.h-b.h||S.compare(a.o.id,b.o.id));
+    for(const {o}of release){
+        o.ryouki.releaseWaiting=!C.release(w,o,cells);
+        if(!o.ryouki.releaseWaiting){o.ryouki.highRun=0;o.ryouki.last.transition="released";}
+      }
+    motion.completed=true;ctx.current=S.maps(w,cells);
+  }
   function moveGrouped(w,ctx){
     const initial=S.maps(w),positions=new Map(),entries=[];
     for(const o of w.organisms){
@@ -902,6 +1022,7 @@
     ctx.current=S.maps(w);
   }
   function move(w, ctx) {
+    if(S.CellSpace.enabled(w))return moveCell(w,ctx);
     if(grouped(w))return moveGrouped(w,ctx);
     const votes = new Map(),
       list = [];
@@ -938,6 +1059,10 @@
     ctx.current = S.maps(w);
   }
   function combat(w, ctx) {
+    if(S.CellSpace.enabled(w)){
+      if(ctx.cellCombatResolved)throw Error("CELL_COMBAT_ALREADY_RESOLVED");
+      ctx.cellCombatResolved=true;
+    }
     const m = ctx.current || S.maps(w),
       blockers = new Set(
         w.organisms
@@ -952,6 +1077,7 @@
         p = ctx.traits.get(o.id);
       if (
         !target ||
+        (S.CellSpace.enabled(w)&&!cellAttack(w,o,target,ctx,m)) ||
         (S.spec(o).id === "kelp" && S.spec(target).group !== "prey") ||
         target.HP <= 0 ||
         S.distance(w, o.cell, target.cell) > p.range ||
@@ -972,7 +1098,7 @@
         mitigated = Math.max(0, Math.max(1, Math.floor(A + 0.5)) - damage);
       if (!byTarget.has(target.id)) byTarget.set(target.id, []);
       byTarget.get(target.id).push({ o, target, damage, mitigated });
-      ctx.costs.get(o.id).action += c.cost;
+      ctx.costs.get(o.id).action += S.CellSpace.enabled(w)?cellAttack(w,o,target,ctx,m).cost:c.cost;
       if (range === 2) o.attackReady = w.turn + 2;
       S.record(ctx, o, "attack", { target: target.id, to: target.cell });
     }
