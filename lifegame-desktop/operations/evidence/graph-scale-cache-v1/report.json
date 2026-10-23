@@ -1,0 +1,71 @@
+{
+  "ok": true,
+  "checks": [
+    "four graph bitmaps, labels and scales match the prior app: main",
+    "relationship SVG and full-period range remain unchanged: main",
+    "all recorded values and biological fingerprint match: main",
+    "four graph bitmaps, labels and scales match the prior app: all",
+    "relationship SVG and full-period range remain unchanged: all",
+    "all recorded values and biological fingerprint match: all",
+    "four graph bitmaps, labels and scales match the prior app: plant",
+    "relationship SVG and full-period range remain unchanged: plant",
+    "all recorded values and biological fingerprint match: plant",
+    "no uncaught browser exceptions"
+  ],
+  "errors": [],
+  "compared": [
+    {
+      "group": "main",
+      "canvas_sha256": "57b99dbd0f99a41077d8273cd01f0c33d753a384c21caa5fbd1126e931804114",
+      "rows_sha256": "f44efdec68de89d2e72411e773d594245754714864e53a0ffa4d9274817cdd52",
+      "range": "0–3T"
+    },
+    {
+      "group": "all",
+      "canvas_sha256": "5c5f7445d3805c5fcf1017108df244dc50637f615191d1fbdee62274029af6d8",
+      "rows_sha256": "f44efdec68de89d2e72411e773d594245754714864e53a0ffa4d9274817cdd52",
+      "range": "0–3T"
+    },
+    {
+      "group": "plant",
+      "canvas_sha256": "de793e4bfe28913fce45ede8fb01aaed259b0ace6fe074962efcf31b81c2918a",
+      "rows_sha256": "f44efdec68de89d2e72411e773d594245754714864e53a0ffa4d9274817cdd52",
+      "range": "0–3T"
+    }
+  ],
+  "scope": "Linux Chromium actual prior/new app; same small deterministic world through T3 and three graph target groups; not a 300000-turn live simulation",
+  "baseline_commit": "7626d4f",
+  "date_utc": "2026-10-23",
+  "app_version": "4.2.72",
+  "full_suite": false,
+  "windows_tested": false,
+  "unit_tests": {
+    "file": "tests/graph-scale-cache.test.cjs",
+    "passed": 3,
+    "failed": 0,
+    "long_series_rows": 300000,
+    "old_path_exception": "RangeError in Node v24.19.0",
+    "cache_reads": {
+      "rows": 20000,
+      "initial_total_reads": 20000,
+      "unchanged_extra_reads": 0,
+      "one_append_extra_reads": 1
+    }
+  },
+  "source_sha256": {
+    "src/app.js": "d1591351882c2810a63e72df2dd14d8ae520d6267905cbaba0f3593162393e91",
+    "src/ecology/observations.js": "b2dd2850e2d3d2f18a527bbd08dfc6ae4079200e1f3a4428547555e81dd60556",
+    "src/ecology/observation-modules.js": "d61784e0c505f1d236a8a62022f4cd4acc9e3e24c4a95e72516c6d9cd2b8e2bc"
+  },
+  "test_sha256": {
+    "tests/graph-scale-cache.test.cjs": "7e5d88f4774a4ee4d24625693deb76c6009149e88bd15eaf699a225ef60240d3",
+    "tests/graph-scale-cache-ui.cjs": "84f851b07d29313978a7b25242a9e8782311b92863b0d6c069a4f3f2dc315ac7"
+  },
+  "limits": [
+    "long-history test exercises the real scale helper, not a 300000-turn live simulation",
+    "browser image comparison is a small world through T3 and three target groups",
+    "no sampling or observations removed; full graph drawing remains proportional to history",
+    "no whole-app speedup, memory ceiling, survival or Windows certification",
+    "interrupted 3-speed/10-turn work excluded"
+  ]
+}

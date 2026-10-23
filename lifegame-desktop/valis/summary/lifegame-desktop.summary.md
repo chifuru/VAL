@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.72。対象は追加発見の寄生初期整合/1（operations/evidence/parasite-founder-preflight-v1/README.md）。既知の第一宿主数との不整合を作成前に制約し、自動宿主の地形生成後不足は対象欄へ案内。Linux16項目と既存生成回帰14項目を限定確認。指定数の自動変更/生態/画像/保存形式/正式状態の変更なし。全地形の事前成立/全条件/長期/Windows/性能は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
+現在の確定ソースは4.2.72。対象は結果を変えないグラフ縦軸軽減/1（operations/evidence/graph-scale-cache-v1/README.md）。集団構成の全履歴map/引数展開を既存増分最大値へ置換。Node3試験と旧新版のLinux画像/原値一致10項目を限定確認。全ターン原値/全点描画/集計/色/配置/生態/保存形式/正式状態は維持。全体速度/長期/Windows/性能上限は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
 
 ## A：仕様
 
@@ -208,11 +208,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.5:（A1, A1.1, A1.3, A1.5, A1.7 / 個体数・集団構成・生態関係のグラフ）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.5.md。正本: design/specification/graph-readability-v1.md。契約: operations/plans/graph-readability-v1.md。証跡: operations/evidence/graph-readability-v1/README.md。
+			valis/nodes/B/B5.5.md。正本: design/specification/graph-scale-cache-v1.md。契約: operations/plans/graph-scale-cache-v1.md。証跡: operations/evidence/graph-scale-cache-v1/README.md。
 		ロジック:
-			3グラフの配置/原値を保持し、寸法変更時にも文字と図を正しい縦横比で描く。微量の正のBを0と区別する。
+			全ターン原値と相/雌雄/年齢の共通縦軸を維持し、既存の増分最大値を再利用する。
 		実態:
-			グラフ判読性/1を適用。分類選択/容量契約を維持。Linux13項目の限定範囲。
+			全点描画は保持。対象切替を含む旧新版の画像/値一致を限定確認。
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/parasite-founder-preflight-v1.md。契約: operations/plans/parasite-founder-preflight-v1.md。証跡: operations/evidence/parasite-founder-preflight-v1/README.md。
+		valis/nodes/C/C8.md。正本: design/specification/graph-scale-cache-v1.md。契約: operations/plans/graph-scale-cache-v1.md。証跡: operations/evidence/graph-scale-cache-v1/README.md。
 	ロジック:
-		既存宿主表と入力の有効/指定状態から必要条件を導き、生成後不足は対象欄へ案内する。
+		集団構成の最大値をstackShapeから取得し、毎回の全履歴map/可変長引数展開を除く。
 	実態:
-		実UI16項目＋既存生成14項目を限定確認。生態/初期配置/乱数は維持。
+		実装差分は最大値参照1箇所。新キャッシュ/系列/間引き/生態変更なし。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/parasite-founder-preflight-v1.md。契約: operations/plans/parasite-founder-preflight-v1.md。証跡: operations/evidence/parasite-founder-preflight-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/graph-scale-cache-v1.md。契約: operations/plans/graph-scale-cache-v1.md。証跡: operations/evidence/graph-scale-cache-v1/README.md。
 	ロジック:
-		既知不足の拒否/解除、群無効化、指定数実配置、自動宿主の実不足と修正再試行を確認する。
+		長系列の引数上限と走査数、別/短縮系列、小世界での旧新版4canvas/原値一致を確認する。
 	実態:
-		Linux16項目と生成回帰14項目が成功。全地形事前保証/長期/Windows/性能は未認定。
+		Node3試験、Linux10項目成功。全30万T実観測やアプリ全体性能は未認定。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/parasite-founder-preflight-v1.md。契約: operations/plans/parasite-founder-preflight-v1.md。証跡: operations/evidence/parasite-founder-preflight-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/graph-scale-cache-v1.md。契約: operations/plans/graph-scale-cache-v1.md。証跡: operations/evidence/graph-scale-cache-v1/README.md。
 	ロジック:
-		2/1の確定反例、16項目と生成14項目、ソースSHAと判定限界を保持する。
+		長配列の反例、3試験の走査数と10項目の旧新版一致、対象ソースSHAを保持する。
 	実態:
-		実生成不足と既存試験内のT0注入故障を区別。正式状態は草案。
+		最大値操作数と総合性能を分離。正式状態は草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
