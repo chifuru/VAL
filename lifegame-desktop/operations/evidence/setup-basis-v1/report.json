@@ -1,0 +1,47 @@
+{
+  "ok": true,
+  "baseline": "4a1ce12",
+  "checks": [
+    "baseline reproduces misleading basis and ineffective lower reset",
+    "previous effective value and next base stay distinct",
+    "capacity note shows the real next basis",
+    "regrowth basis has absolute units rather than the previous effective percentage",
+    "fractional occupancy and age basis use percentage units",
+    "information influence shows its retained basis",
+    "explicit lower override is tracked",
+    "lower reset updates the actual next basis, including an overridden field",
+    "reset also clears retained regrowth, information and age bases",
+    "reset retains manual/automatic ownership",
+    "main, terrain, supply and advantages are retained",
+    "editing still adopts a new specified value",
+    "unlock after reset uses the current input as the new base",
+    "manual mode keeps direct-value semantics",
+    "editing and lower reset leave the current world and records unchanged",
+    "cancel and reopen restore the current world basis",
+    "no browser runtime errors"
+  ],
+  "oldBefore": {
+    "display": 60,
+    "next": 40,
+    "note": "作成時に決定 · 表示中の値は基準値です。"
+  },
+  "oldReset": {
+    "display": 20,
+    "next": 40
+  },
+  "beforeBase": {
+    "occupancy": 0.2,
+    "capacityB": 40,
+    "initialFraction": 0.7,
+    "regrowthB": 4
+  },
+  "resetBase": {
+    "occupancy": 0.2,
+    "capacityB": 20,
+    "initialFraction": 0.7,
+    "regrowthB": 2
+  },
+  "errors": [],
+  "browser": "154.0.8037.57",
+  "scope": "small initial fixtures, retained bases and UI resets only; no future biology or Windows/performance/distribution certification"
+}

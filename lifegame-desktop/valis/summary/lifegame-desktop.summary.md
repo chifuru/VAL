@@ -4,18 +4,18 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.74。世界作成UIの優先3点（design/specification/setup-intent-v2.md）を採用・接続。観察セット/決め方/傾向、値の由来と不使用、今回使う条件まとめと変更先を表示する。Linux35＋既存27/13項目と6構成の旧main設定一致を限定確認。証跡は operations/evidence/setup-intent-v2/README.md。既存7単位の採用範囲は対応済みで、現在表は operations/plans/improvement-status-v1.md。次は利用者の実画面確認で得た問題への対応。生態近似/ピラミッド拡張/関係指標再設計/資源地形強調/要因色分けは今回対象外。総合性能/実長期/Windows/配布は未認定。全61Nodeの草案・構造を維持。
+現在の確定ソースは4.2.74。世界作成UIの優先3点（design/specification/setup-intent-v2.md）を採用・接続。観察セット/決め方/傾向、値の由来と不使用、今回使う条件まとめと変更先を表示する。再生成の基準表示と下層リセットの内部復帰も接続。今回Linux17＋設定UI回帰35項目を限定確認。現在の追加証跡は operations/evidence/setup-basis-v1/README.md、優先3点の証跡は operations/evidence/setup-intent-v2/README.md。既存7単位の採用範囲は対応済みで、現在表は operations/plans/improvement-status-v1.md。次は利用者の実画面確認で得た問題への対応。生態近似/ピラミッド拡張/関係指標再設計/資源地形強調/要因色分けは今回対象外。総合性能/実長期/Windows/配布は未認定。全61Nodeの草案・構造を維持。
 
 ## A：仕様
 
 ```text
 A1:（起点 / 生態系の成長と生存観測）［草案］
 	構成（要素・関係）:
-		valis/nodes/A/A1.md。設定UI: design/specification/setup-intent-v2.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
+		valis/nodes/A/A1.md。設定UI: design/specification/setup-intent-v2.md。再生成基準: operations/evidence/setup-basis-v1/README.md。 造形対応: design/specification/appearance-correspondence-v1.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。 量機: design/specification/ryouki-v1.md。 採用分岐: design/ryouki-branches-v2/README.md。
 	ロジック:
 		第1〜第4組の構造を採用し、状態/計数/表示/説明/保存を同じID/単位/確定時点に揃える。植物の生産者役割/個体単位、P/Qの形態/相と採用画像を既存観測・保存へ対応させる。 量機を独立した主生物として追加採用し、通常型/相変異型/同居/個体単位と現行観測を接続する。
 	実態:
-		既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。 世界作成UIの優先3点も採用・接続。限定結果はoperations/evidence/setup-intent-v2/README.md。
+		既存採用範囲と量機の分岐2画像をA/Bへ反映。量機の戦闘3倍率は採用済み、他の係数はI04の比較値。旧9区画図は未採用。独立植物はI03接続/限定検査済み。量機はI04、一次寄生PはI05接続。QはI06、情報はI07、生成/保存はI08接続。観測UIはI09接続・限定検査済み。採用素材はI10接続、全体実測はI11以降。草案/構造/既存証跡の対象版を維持。 世界作成UIの優先3点も採用・接続。限定結果はoperations/evidence/setup-intent-v2/README.md。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。
 
 	A1.1:（A1 / 個体・系統・段階進化）［草案］
 		構成（要素・関係）:
@@ -168,11 +168,11 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 
 B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案］
 	構成（要素・関係）:
-		valis/nodes/B/B5.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/B/B5.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
 		観察セット/決め方/傾向を分け、値の由来と不使用を区別。有効条件まとめと同一画面の変更導線を提供し、既存の観測・速度・記録の責務を維持。
 	実態:
-		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。
+		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。
 
 	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
 		構成（要素・関係）:
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/C/C8.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
 		既存select/入力/ロックとカード・由来札・条件まとめを同期。readConfigと生成規則・保存契約・旧世界保持を維持。既存の詳細/グラフ/速度責務も保持。
 	実態:
-		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。
+		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/D/D9.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
 		6構成の旧main設定一致、由来/不使用/変更リンク/390pxと既存生成/取消/復帰を限定照合。全生態・長期・Windows・配布は対象外。
 	実態:
-		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。
+		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/E/E6.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
 		35項目＋既存27/13項目とソース比較の証跡を保持。画面の限定確認と生態/性能/配布の認定を区別。
 	実態:
-		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。
+		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

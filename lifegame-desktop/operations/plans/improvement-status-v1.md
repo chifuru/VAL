@@ -32,6 +32,6 @@
 | R10 | 選択中パラメータ固定・手動更新 | ok | 選択/手動更新した時点の詳細を固定。17項目の既存証跡あり。追跡と独立する。 | operations/evidence/selection-snapshot-v1/README.md |
 | R11 | 鉱物・情報・地形の色付き所在強調 | 未対応 | 生物・分類の強調はあるが、資源/情報/地形の凡例を同じ選択式の所在強調へつなぐ機能はない。 | src/app.js / renderMapKey; src/ecology/renderer.js / mark |
 | R12 | 経験・情報・遺伝による変化の色分け | 未対応 | 本人経験/受取学習/遺伝適応は説明・詳細に存在するが、要求された要因別の色分けは未接続。現在の総能力差をすべて要因へ逆算して補完しない。 | src/app.js / persistentSubjectHTML, primaryParasiteHTML |
-| R13 | 作成画面全体を分かりやすく再構成 | ok | 5区画に加え、観察セット/決め方/傾向、値の由来/不使用、有効条件まとめを接続。元の生成設定を保持し、390pxと標準幅の代表を確認。 | operations/evidence/setup-intent-v2/README.md |
+| R13 | 作成画面全体を分かりやすく再構成 | ok | 5区画に加え、観察セット/決め方/傾向、値の由来/不使用、有効条件まとめを接続。元の生成規則を保持し、390pxと標準幅の代表を確認。再生成時の基準表示/下層リセットの内部復帰も修正。 | operations/evidence/setup-intent-v2/README.md; operations/evidence/setup-basis-v1/README.md |
 
 今回合意した7単位は、それぞれ記載した採用範囲で対応済み。次は利用者の実画面確認で得た問題への対応。未完の拡張項目は上の全体表に残し、自動着手しない。配布は別指示時のみ。

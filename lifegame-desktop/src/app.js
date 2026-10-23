@@ -306,6 +306,14 @@
     };
     terrainProfileCache.set(key,allowed);return allowed;
   }
+  function generationBasisLabel(path,input){
+    const value=generationBase[path];
+    if(input.tagName==='SELECT')return [...input.options].find(option=>option.value===String(value))?.textContent.trim()||String(value);
+    if(path.endsWith('.regrowthB'))return value+' B／群落／T';
+    if(path.endsWith('.capacityB'))return value+' B／群落';
+    if(path.endsWith('.occupancy')||path.endsWith('Fraction')||path.includes('.autoDensity.')||path.includes('.density.')||path.includes('.resources.'))return Number((value*100).toFixed(6))+'%';
+    return value+(path==='initial'?'体':'');
+  }
   function syncGenerationFields(){
     const automatic=$('generation-mode').value==='auto',preset=$('observation-mode').value!=='custom';
     $('generation-profile').disabled=!automatic;
@@ -330,7 +338,7 @@
       const unused=group&&!$('group-'+group).checked;
       row.dataset.source=source;row.dataset.unused=String(!!unused);
       row.querySelector('.generation-source').textContent=unused?'今回は不使用':{preset:'セット固定',auto:'自動',specified:'指定値'}[source];
-      row.querySelector('.generation-value-note').textContent=unused?groups[group]+'がOFFのため適用しません。':imposed?'自由設定にすると編集できます。':source==='auto'?'作成時に決定 · 表示中の値は基準値です。':path==='mapId'&&input.value==='auto'?'候補から作成時に決定します。':'表示中の値を使います。';
+      row.querySelector('.generation-value-note').textContent=unused?groups[group]+'がOFFのため適用しません。':imposed?'自由設定にすると編集できます。':source==='auto'?(Object.hasOwn(generationBase,path)?'作成時に決定 · 次回の基準：'+generationBasisLabel(path,input)+'。編集すると指定値になります。':'作成時に決定 · 表示中の値は基準値です。'):path==='mapId'&&input.value==='auto'?'候補から作成時に決定します。':'表示中の値を使います。';
       row.querySelector('.generation-auto-return').hidden=source!=='specified'||!automatic||!!unused;
       check.disabled=check.disabled||!!unused;
     }
@@ -446,6 +454,9 @@
     $("resource-info").value=0;$("information-influence").value=1;
     $("lower-distribution").value="habitat";
     for(const s of founderSpecies)$("founder-"+s.id).value="";
+    // The reset inputs are the next bases; do not restore saved pre-generation
+    // lower values over them in readConfig. Keep main/terrain bases and locks.
+    for(const path of Object.keys(generationFields))if(!['mapId','initial'].includes(path))delete generationBase[path];
   }
   $("reset-lower-settings").onclick=()=>{resetLowerSettings();updateCohortHint();};
   $('reset-setup').onclick=()=>{

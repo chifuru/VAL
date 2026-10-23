@@ -1,0 +1,83 @@
+{
+  "ok": true,
+  "app": "4.2.74",
+  "baseline": "e32bcac",
+  "checks": [
+    "terrain provenance: custom/auto",
+    "effective summary: custom/auto",
+    "profile applicability: custom/auto",
+    "terrain provenance: custom/manual",
+    "effective summary: custom/manual",
+    "profile applicability: custom/manual",
+    "terrain provenance: river-settlement/auto",
+    "effective summary: river-settlement/auto",
+    "profile applicability: river-settlement/auto",
+    "terrain provenance: river-settlement/manual",
+    "effective summary: river-settlement/manual",
+    "profile applicability: river-settlement/manual",
+    "terrain provenance: lake-foodweb/auto",
+    "effective summary: lake-foodweb/auto",
+    "profile applicability: lake-foodweb/auto",
+    "terrain provenance: lake-foodweb/manual",
+    "effective summary: lake-foodweb/manual",
+    "profile applicability: lake-foodweb/manual",
+    "all six variants preserve the baseline config, excluding generated UUIDs",
+    "set cards synchronize the canonical select",
+    "editing a base value makes it a specified value in the summary",
+    "return to automatic removes the override without inventing a resolved result",
+    "manual terrain auto is still unresolved",
+    "group OFF and supply OFF are unused, not preset fixed",
+    "disabled saved founder values are excluded from effective conditions",
+    "explicit zero founder count is distinct from automatic",
+    "lower reset refreshes the effective summary",
+    "change link opens the relevant details and focuses its control",
+    "preset count follows world size and supply stays editable",
+    "change link for a preset-fixed value leads to its controlling set",
+    "existing unavailable-profile reset is announced locally",
+    "reset clears the old profile notice",
+    "390px setup has no horizontal overflow",
+    "no browser runtime errors",
+    "no external requests"
+  ],
+  "variants": [
+    {
+      "set": "custom",
+      "mode": "auto",
+      "summary": "観察条件自由設定 ／ おまかせで調整 ／ 傾向：おまかせ変更地形・規模標準 · 80 × 56 ／ 地形：候補から作成時に決定変更参加生物主生物・生産者・分解者・一次消費者・一次寄生・高次寄生変更主生物21系統 · 標準の主生物系統 ／ 初期数：作成時に決定 ／ 偏りなし · 4体単位で均等・自然配置 · 同系統の小組を適応域へ変更栄養・初期量下層・資源・情報の条件：19項目は作成時に決定、0項目は指定値。 種別初期数は空欄＝自動。変更開始後の供給陸：栄養×1 ／ 支援地点35% ／ 再生×1 · 水：栄養×1 ／ 支援地点35% ／ 再生×1変更生存優遇生産者・水游虫・高次寄生変更"
+    },
+    {
+      "set": "custom",
+      "mode": "manual",
+      "summary": "観察条件自由設定 ／ 値を自分で指定変更地形・規模標準 · 80 × 56 ／ 地形：候補から作成時に決定変更参加生物主生物・生産者・分解者・一次消費者・一次寄生・高次寄生変更主生物21系統 · 標準の主生物系統 ／ 初期数：320体（設定上の初期数） ／ 偏りなし · 4体単位で均等・自然配置 · 同系統の小組を適応域へ変更栄養・初期量下層・資源・情報の条件：0項目は作成時に決定、19項目は指定値。 種別初期数は空欄＝自動。変更開始後の供給陸：栄養×1 ／ 支援地点35% ／ 再生×1 · 水：栄養×1 ／ 支援地点35% ／ 再生×1変更生存優遇生産者・水游虫・高次寄生変更"
+    },
+    {
+      "set": "river-settlement",
+      "mode": "auto",
+      "summary": "観察条件河畔・定着観察（高生産・初期集団多め） ／ おまかせで調整 ／ 傾向：おまかせ変更地形・規模標準 · 80 × 56 ／ 地形：蛇行河川変更参加生物主生物・生産者・分解者・一次消費者・一次寄生・高次寄生変更主生物7系統 · 自分で選択（早成甲殻・量機を含む） ／ 初期数：640体（設定上の初期数） ／ 偏りなし · 4体単位で均等・自然配置 · 同系統の小組を適応域へ変更栄養・初期量セット：光入力2倍・下層初期量25%増。下層・資源・情報の条件：19項目は作成時に決定、0項目は指定値。 種別初期数は空欄＝自動。変更開始後の供給陸：栄養×1 ／ 支援地点35% ／ 再生×1 · 水：栄養×1 ／ 支援地点35% ／ 再生×1変更生存優遇生産者・水游虫・高次寄生変更"
+    },
+    {
+      "set": "river-settlement",
+      "mode": "manual",
+      "summary": "観察条件河畔・定着観察（高生産・初期集団多め） ／ 値を自分で指定変更地形・規模標準 · 80 × 56 ／ 地形：蛇行河川変更参加生物主生物・生産者・分解者・一次消費者・一次寄生・高次寄生変更主生物7系統 · 自分で選択（早成甲殻・量機を含む） ／ 初期数：640体（設定上の初期数） ／ 偏りなし · 4体単位で均等・自然配置 · 同系統の小組を適応域へ変更栄養・初期量セット：光入力2倍・下層初期量25%増。下層・資源・情報の条件：0項目は作成時に決定、19項目は指定値。 種別初期数は空欄＝自動。変更開始後の供給陸：栄養×1 ／ 支援地点35% ／ 再生×1 · 水：栄養×1 ／ 支援地点35% ／ 再生×1変更生存優遇生産者・水游虫・高次寄生変更"
+    },
+    {
+      "set": "lake-foodweb",
+      "mode": "auto",
+      "summary": "観察条件湖沼・食物網観察（高生産・初期集団多め） ／ おまかせで調整 ／ 傾向：おまかせ変更地形・規模標準 · 80 × 56 ／ 地形：湖沼変更参加生物主生物・生産者・分解者・一次消費者・一次寄生・高次寄生変更主生物5系統 · 自分で選択（早成甲殻・量機を含む） ／ 初期数：640体（設定上の初期数） ／ 偏りなし · 4体単位で均等・自然配置 · 同系統の小組を適応域へ変更栄養・初期量セット：光入力2倍・下層初期量50%増。下層・資源・情報の条件：19項目は作成時に決定、0項目は指定値。 種別初期数は空欄＝自動。変更開始後の供給陸：栄養×1 ／ 支援地点35% ／ 再生×1 · 水：栄養×1 ／ 支援地点35% ／ 再生×1変更生存優遇生産者・水游虫・高次寄生変更"
+    },
+    {
+      "set": "lake-foodweb",
+      "mode": "manual",
+      "summary": "観察条件湖沼・食物網観察（高生産・初期集団多め） ／ 値を自分で指定変更地形・規模標準 · 80 × 56 ／ 地形：湖沼変更参加生物主生物・生産者・分解者・一次消費者・一次寄生・高次寄生変更主生物5系統 · 自分で選択（早成甲殻・量機を含む） ／ 初期数：640体（設定上の初期数） ／ 偏りなし · 4体単位で均等・自然配置 · 同系統の小組を適応域へ変更栄養・初期量セット：光入力2倍・下層初期量50%増。下層・資源・情報の条件：0項目は作成時に決定、19項目は指定値。 種別初期数は空欄＝自動。変更開始後の供給陸：栄養×1 ／ 支援地点35% ／ 再生×1 · 水：栄養×1 ／ 支援地点35% ／ 再生×1変更生存優遇生産者・水游虫・高次寄生変更"
+    }
+  ],
+  "profile": {
+    "value": "auto",
+    "note": "水辺中心はこの地形で使用できないため、傾向を「おまかせ」に戻しました。",
+    "visible": true
+  },
+  "errors": [],
+  "external": [],
+  "browser": "154.0.8037.57",
+  "scope": "six configuration equivalence comparisons and representative setup UI states; no biology, Windows, distribution or general performance certification"
+}
