@@ -1,0 +1,40 @@
+{
+  "ok": true,
+  "baseline": "e8f36ad",
+  "benchmarkOnly": true,
+  "source_sha256": "ce55d6cde3631a7aa2dd4d9f55d46da48868e69f380b9dc80e3b66daec00bdc3",
+  "checks": [
+    "frozen input is not changed",
+    "long history: horizontal coordinate reads reduced from 2×series×turns to turns",
+    "no uncaught browser exceptions"
+  ],
+  "comparisons": [],
+  "long": {
+    "rows": 20001,
+    "series": 20,
+    "beforeTurnReads": 800040,
+    "afterTurnReads": 20001
+  },
+  "timing": {
+    "milliseconds": {
+      "before": [
+        1295.9000000022352,
+        1288.7999999970198,
+        1310.199999999255,
+        1226.8999999985099,
+        1241.4000000022352
+      ],
+      "after": [
+        1259.2999999970198,
+        1272.6000000014901,
+        1319,
+        1232.9000000022352,
+        1254.0999999977648
+      ]
+    },
+    "medianBefore": 1288.7999999970198,
+    "medianAfter": 1259.2999999970198,
+    "scope": "Synthetic full-point Canvas paint only, five alternating samples after warmup; includes readback. Not biological turn speed."
+  },
+  "errors": []
+}

@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.74。現在対象は設定導線/1（operations/evidence/setup-flow-v1/README.md）。5区画・末尾作成、非活性理由・欄エラー/修正先を接続。新規Linux27項目と既存生成14/復帰13項目を限定確認。readConfig/初期入力/生態/記録形式/採用素材/正式61Nodeの草案は維持。次は承認済み7単位の4、長期グラフの描画負荷。現在表と後続順は operations/plans/improvement-status-v1.md。生態近似/ピラミッド拡張/関係指標再設計/資源地形強調/要因色分けは今回対象外。全地形容量/Windows/配布は未認定。
+現在の確定ソースは4.2.74。現在対象は長期グラフ重複走査/1（operations/evidence/graph-stack-work-v1/README.md）。横座標共有/更新走査統合を接続し、Linux53項目＋実小世界10項目で命令/画素/全行/fingerprint一致。合成Canvasの単独時間差は約2%に限定し、全体高速化としない。全点/原値/生態/現UI/採用素材/正式61Nodeの草案を維持。次は承認済み7単位の5、詳細・追跡表示の重複計算。現在表と後続順は operations/plans/improvement-status-v1.md。生態近似/ピラミッド拡張/関係指標再設計/資源地形強調/要因色分けは今回対象外。Windows/配布は未認定。
 
 ## A：仕様
 
@@ -208,11 +208,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.5:（A1, A1.1, A1.3, A1.5, A1.7 / 個体数・集団構成・生態関係のグラフ）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.5.md。正本: design/specification/current-donut-switch-v1.md。契約: operations/plans/current-donut-switch-v1.md。証跡: operations/evidence/current-donut-switch-v1/README.md。
+			valis/nodes/B/B5.5.md。正本: design/specification/current-donut-switch-v1.md。契約: operations/plans/current-donut-switch-v1.md。証跡: operations/evidence/current-donut-switch-v1/README.md。 正本: design/specification/graph-stack-work-v1.md。契約: operations/plans/graph-stack-work-v1.md。証跡: operations/evidence/graph-stack-work-v1/README.md。
 		ロジック:
-			単一円を全生物の系統別/分類別と既存6分類へ切り替え、現在の対象内割合を示す。3グラフ対象と独立する。
+			単一円の既存8表示と全期間グラフを保持。積み上げ全点の横座標を共有し、下辺走査で基準値を更新する。原値/全点/軸/色を維持する。
 		実態:
-			現在構成の切替/1: app4.2.74で単一ドーナツ8表示を接続。Linux23項目は operations/evidence/current-donut-switch-v1/README.md。対象内分母/0/盤面色/進行意図/図鑑復帰を限定確認。生態/記録形式/正式状態を維持。残件13項目の現在表は operations/plans/improvement-status-v1.md。草案。
+			長期グラフ重複走査/1: app4.2.74で横座標共有と下辺/基準値更新を統合。Linux53項目＋実小世界10項目で命令/画素/全行/fingerprint一致。合成20,001時点×20系列の座標参照800,040→20,001、単独Canvas中央値1288.8→1259.3ms（約2%差）。大幅高速化/全体性能は未認定。証跡 operations/evidence/graph-stack-work-v1/README.md。全点/生態/正式草案を維持。
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/setup-flow-v1.md。契約: operations/plans/setup-flow-v1.md。証跡: operations/evidence/setup-flow-v1/README.md。
+		valis/nodes/C/C8.md。正本: design/specification/setup-flow-v1.md。契約: operations/plans/setup-flow-v1.md。証跡: operations/evidence/setup-flow-v1/README.md。 正本: design/specification/graph-stack-work-v1.md。契約: operations/plans/graph-stack-work-v1.md。証跡: operations/evidence/graph-stack-work-v1/README.md。
 	ロジック:
-		既存入力を5区画へ移動し、現在の制約に応じた非活性表示・欄内エラー・修正移動を扱う。生成契約を維持する。
+		5区画の設定導線と既存制約を維持。paintStack呼出内の座標共有/下辺更新で重複走査を省き、生態/記録/関係指標を変えない。
 	実態:
-		設定導線/1: app4.2.74で5区画と末尾作成、非活性理由/欄エラー/修正先を接続。Linux27項目＋既存14/13項目は operations/evidence/setup-flow-v1/README.md。readConfig/入力初期値/生態は維持。全容量/Windows/配布は未認定。草案。
+		長期グラフ重複走査/1: app4.2.74で横座標共有と下辺/基準値更新を統合。Linux53項目＋実小世界10項目で命令/画素/全行/fingerprint一致。合成20,001時点×20系列の座標参照800,040→20,001、単独Canvas中央値1288.8→1259.3ms（約2%差）。大幅高速化/全体性能は未認定。証跡 operations/evidence/graph-stack-work-v1/README.md。全点/生態/正式草案を維持。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/setup-flow-v1.md。契約: operations/plans/setup-flow-v1.md。証跡: operations/evidence/setup-flow-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/setup-flow-v1.md。契約: operations/plans/setup-flow-v1.md。証跡: operations/evidence/setup-flow-v1/README.md。 正本: design/specification/graph-stack-work-v1.md。契約: operations/plans/graph-stack-work-v1.md。証跡: operations/evidence/graph-stack-work-v1/README.md。
 	ロジック:
-		5区画/末尾作成、固定/自由/供給/系統/保証/宿主の制約、修正先と復帰、実生成/取消/デフォルトを限定確認する。
+		旧実関数との命令/画素/軸一致、空/1点/追記/短縮等と実T3・3対象を照合。合成長期の参照数と単独時間を別に測る。
 	実態:
-		設定導線/1: app4.2.74で5区画と末尾作成、非活性理由/欄エラー/修正先を接続。Linux27項目＋既存14/13項目は operations/evidence/setup-flow-v1/README.md。readConfig/入力初期値/生態は維持。全容量/Windows/配布は未認定。草案。
+		長期グラフ重複走査/1: app4.2.74で横座標共有と下辺/基準値更新を統合。Linux53項目＋実小世界10項目で命令/画素/全行/fingerprint一致。合成20,001時点×20系列の座標参照800,040→20,001、単独Canvas中央値1288.8→1259.3ms（約2%差）。大幅高速化/全体性能は未認定。証跡 operations/evidence/graph-stack-work-v1/README.md。全点/生態/正式草案を維持。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/setup-flow-v1.md。契約: operations/plans/setup-flow-v1.md。証跡: operations/evidence/setup-flow-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/setup-flow-v1.md。契約: operations/plans/setup-flow-v1.md。証跡: operations/evidence/setup-flow-v1/README.md。 正本: design/specification/graph-stack-work-v1.md。契約: operations/plans/graph-stack-work-v1.md。証跡: operations/evidence/graph-stack-work-v1/README.md。
 	ロジック:
-		Linux27項目と既存14/13項目、実画面と入力/モデル不変の照合・実行時点の境界を保持する。
+		53項目と実小世界10項目、座標参照800,040→20,001、単独合成Canvas約2%差/限界を保持。全体性能や実長期生態の認定へ転用しない。
 	実態:
-		設定導線/1: app4.2.74で5区画と末尾作成、非活性理由/欄エラー/修正先を接続。Linux27項目＋既存14/13項目は operations/evidence/setup-flow-v1/README.md。readConfig/入力初期値/生態は維持。全容量/Windows/配布は未認定。草案。
+		長期グラフ重複走査/1: app4.2.74で横座標共有と下辺/基準値更新を統合。Linux53項目＋実小世界10項目で命令/画素/全行/fingerprint一致。合成20,001時点×20系列の座標参照800,040→20,001、単独Canvas中央値1288.8→1259.3ms（約2%差）。大幅高速化/全体性能は未認定。証跡 operations/evidence/graph-stack-work-v1/README.md。全点/生態/正式草案を維持。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

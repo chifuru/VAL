@@ -1325,10 +1325,24 @@
     const bounds=canvas.getBoundingClientRect(),W=Math.max(1,Math.round(bounds.width||320)),H=Math.max(1,Math.round(bounds.height||120)),scale=Math.min(2,window.devicePixelRatio||1);
     const bitmapWidth=Math.round(W*scale),bitmapHeight=Math.round(H*scale);
     if(canvas.width!==bitmapWidth||canvas.height!==bitmapHeight){canvas.width=bitmapWidth;canvas.height=bitmapHeight;}
-    const shape=stackShape(data),g=canvas.getContext('2d'),last=graphObservation().rows.length-1,keys=[...shape.keys],max=maximum||shape.max,compact=H<60,left=compact?28:34,bottom=compact?10:18,top=compact?8:16,right=8,x=t=>left+(W-left-right)*t/Math.max(1,last),y=n=>H-bottom-n/max*(H-top-bottom),base=data.map(()=>0);
+    const shape=stackShape(data),g=canvas.getContext('2d'),last=graphObservation().rows.length-1,keys=[...shape.keys],max=maximum||shape.max,compact=H<60,left=compact?28:34,bottom=compact?10:18,top=compact?8:16,right=8,y=n=>H-bottom-n/max*(H-top-bottom),base=new Float64Array(data.length),xs=new Float64Array(data.length);
+    // Every series uses the same full-period x coordinates. Keep all vertices,
+    // but calculate each coordinate once rather than twice per series.
+    for(let i=0;i<data.length;i++)xs[i]=left+(W-left-right)*data[i].turn/Math.max(1,last);
     g.setTransform(scale,0,0,scale,0,0);
     g.clearRect(0,0,W,H);g.strokeStyle='#47646b';g.lineWidth=1.5;g.beginPath();g.moveTo(left,top);g.lineTo(left,H-bottom);g.lineTo(W-right,H-bottom);g.stroke();
-    for(const [key,index]of keys.map((key,i)=>[key,i])){g.fillStyle=colors(key,index);g.beginPath();data.forEach((row,i)=>{const px=x(row.turn),py=y(base[i]+(row.values[key]||0));i?g.lineTo(px,py):g.moveTo(px,py);});for(let i=data.length-1;i>=0;i--)g.lineTo(x(data[i].turn),y(base[i]));g.closePath();g.fill();if(data.length===1)g.fillRect(left,y((data[0].values[key]||0)+base[0]),5,(data[0].values[key]||0)/max*(H-top-bottom));data.forEach((row,i)=>base[i]+=row.values[key]||0);}
+    for(let index=0;index<keys.length;index++){
+      const key=keys[index];g.fillStyle=colors(key,index);g.beginPath();
+      for(let i=0;i<data.length;i++){
+        const py=y(base[i]+(data[i].values[key]||0));
+        i?g.lineTo(xs[i],py):g.moveTo(xs[i],py);
+      }
+      // Read the old baseline before advancing it for the next series. This
+      // preserves addition/vertex order without a separate third history pass.
+      for(let i=data.length-1;i>=0;i--){g.lineTo(xs[i],y(base[i]));base[i]+=data[i].values[key]||0;}
+      g.closePath();g.fill();
+      if(data.length===1)g.fillRect(left,y(base[0]),5,(data[0].values[key]||0)/max*(H-top-bottom));
+    }
     g.fillStyle='#bcd3d2';g.font=(compact?8:10)+'px sans-serif';g.textAlign='right';g.fillText(Math.round(max),left-4,top+(compact?7:0));g.fillText('0',left-4,H-bottom);g.textAlign='left';g.fillText('0T',left,H-2);g.textAlign='right';g.fillText(last+'T',W-right,H-2);
     canvas.setAttribute('aria-label','0–'+last+'T / 最大'+max+'管理単位 / 現在'+(data.at(-1)?.total||0));
   }

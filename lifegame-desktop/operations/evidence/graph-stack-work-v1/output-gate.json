@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "baseline": "e8f36ad",
+  "app": "4.2.74",
+  "flows": [
+    "FLOW-04",
+    "FLOW-05",
+    "FLOW-08"
+  ],
+  "scope": "paintStack full-point duplicate work only",
+  "only_paintStack_changed_in_app": true,
+  "source_sha256": {
+    "src/app.js": "ce55d6cde3631a7aa2dd4d9f55d46da48868e69f380b9dc80e3b66daec00bdc3"
+  },
+  "targeted_checks": {
+    "synthetic_canvas_commands_pixels_labels": 53,
+    "actual_app_T3_three_targets": 10,
+    "manifest": 1
+  },
+  "isolated_timing": "timing.json; about 2% difference, not a general speed claim",
+  "formal_nodes": 61,
+  "all_status": "草案",
+  "formal_structure_unchanged": true,
+  "core_unchanged": true,
+  "ecology_assets_layout_package_unchanged": true,
+  "node_references_exist": true,
+  "manifest_current_state_reflected": true,
+  "full_suite": false,
+  "windows_tested": false,
+  "distribution_built": false,
+  "next_unit": "5 詳細・追跡表示の重複計算"
+}

@@ -1,0 +1,111 @@
+{
+  "ok": true,
+  "baseline": "e8f36ad",
+  "source_sha256": "ce55d6cde3631a7aa2dd4d9f55d46da48868e69f380b9dc80e3b66daec00bdc3",
+  "checks": [
+    "empty: identical Canvas commands first",
+    "empty: identical pixels and scale label first",
+    "empty: identical Canvas commands repeat",
+    "empty: identical pixels and scale label repeat",
+    "empty: identical Canvas commands append",
+    "empty: identical pixels and scale label append",
+    "empty: identical Canvas commands shorten",
+    "empty: identical pixels and scale label shorten",
+    "empty: identical Canvas commands switch",
+    "empty: identical pixels and scale label switch",
+    "single and explicit maximum: identical Canvas commands first",
+    "single and explicit maximum: identical pixels and scale label first",
+    "single and explicit maximum: identical Canvas commands repeat",
+    "single and explicit maximum: identical pixels and scale label repeat",
+    "single and explicit maximum: identical Canvas commands append",
+    "single and explicit maximum: identical pixels and scale label append",
+    "single and explicit maximum: identical Canvas commands shorten",
+    "single and explicit maximum: identical pixels and scale label shorten",
+    "single and explicit maximum: identical Canvas commands switch",
+    "single and explicit maximum: identical pixels and scale label switch",
+    "zeros and absent values: identical Canvas commands first",
+    "zeros and absent values: identical pixels and scale label first",
+    "zeros and absent values: identical Canvas commands repeat",
+    "zeros and absent values: identical pixels and scale label repeat",
+    "zeros and absent values: identical Canvas commands append",
+    "zeros and absent values: identical pixels and scale label append",
+    "zeros and absent values: identical Canvas commands shorten",
+    "zeros and absent values: identical pixels and scale label shorten",
+    "zeros and absent values: identical Canvas commands switch",
+    "zeros and absent values: identical pixels and scale label switch",
+    "fractions and large totals: identical Canvas commands first",
+    "fractions and large totals: identical pixels and scale label first",
+    "fractions and large totals: identical Canvas commands repeat",
+    "fractions and large totals: identical pixels and scale label repeat",
+    "fractions and large totals: identical Canvas commands append",
+    "fractions and large totals: identical pixels and scale label append",
+    "fractions and large totals: identical Canvas commands shorten",
+    "fractions and large totals: identical pixels and scale label shorten",
+    "fractions and large totals: identical Canvas commands switch",
+    "fractions and large totals: identical pixels and scale label switch",
+    "full history with new keys: identical Canvas commands first",
+    "full history with new keys: identical pixels and scale label first",
+    "full history with new keys: identical Canvas commands repeat",
+    "full history with new keys: identical pixels and scale label repeat",
+    "full history with new keys: identical Canvas commands append",
+    "full history with new keys: identical pixels and scale label append",
+    "full history with new keys: identical Canvas commands shorten",
+    "full history with new keys: identical pixels and scale label shorten",
+    "full history with new keys: identical Canvas commands switch",
+    "full history with new keys: identical pixels and scale label switch",
+    "frozen input is not changed",
+    "long history: horizontal coordinate reads reduced from 2×series×turns to turns",
+    "no uncaught browser exceptions"
+  ],
+  "comparisons": [
+    {
+      "fixture": "empty",
+      "phases": 5
+    },
+    {
+      "fixture": "single and explicit maximum",
+      "phases": 5
+    },
+    {
+      "fixture": "zeros and absent values",
+      "phases": 5
+    },
+    {
+      "fixture": "fractions and large totals",
+      "phases": 5
+    },
+    {
+      "fixture": "full history with new keys",
+      "phases": 5
+    }
+  ],
+  "long": {
+    "rows": 20001,
+    "series": 20,
+    "beforeTurnReads": 800040,
+    "afterTurnReads": 20001
+  },
+  "timing": {
+    "milliseconds": {
+      "before": [
+        1539.699999999255,
+        2309.300000000745,
+        2128.099999997765,
+        1416.5,
+        1356.3999999985099
+      ],
+      "after": [
+        2554.900000002235,
+        1730.300000000745,
+        1787.300000000745,
+        1328.300000000745,
+        1280.800000000745
+      ]
+    },
+    "medianBefore": 1539.699999999255,
+    "medianAfter": 1730.300000000745,
+    "scope": "Synthetic full-point Canvas paint only, five alternating samples after warmup; includes readback. Not biological turn speed."
+  },
+  "errors": [],
+  "timing_notes": "Initial exploratory timing used turn getters and overlapped the separate live-UI comparison. Do not use it to estimate speed. Isolated ordinary-record timing is timing.json."
+}
