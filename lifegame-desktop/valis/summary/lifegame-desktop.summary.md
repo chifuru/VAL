@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.72。対象は追加発見の長期記録復元/1（operations/evidence/long-record-restore-v1/README.md）。全行clone/検査は維持し、push引数展開だけ行順追加へ変更。Node追加3試験と容量回帰6試験で有効互換30万行の旧RangeError/修正後全値、参照/CSV/系列互換を限定確認。実30万T/実1GiB/最大メモリ/画面/Windowsは未認定。生態/全期間原値/保存形式/正式状態は維持。次は中断中の3速度/10T描画・強制軽減/復帰のレビュー。これらの未確定変更は本反映に含めない。
+現在の確定ソースは4.2.73。現在対象は観測速度/1（operations/evidence/observation-speed-v1/README.md）。基準約1秒・2倍約0.5秒・最速を接続し、最速は内部全T計算/記録と最大6T先行を維持して10T単位で表示。端数停止/明示観察時の反映、強制軽減と復元、古い予約の破棄を実装。Node45試験、Linux画面18+26項目で限定確認。生態本体/原値/記録形式/採用絵柄/正式状態は維持。500T性能/Windows/配布は未認定。現在の対象作業は終了し、必要な実使用上の確認または次指示へ接続する。
 
 ## A：仕様
 
@@ -75,11 +75,11 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 
 A2:（起点 / 独立した Windows ローカル実行）［草案］
 	構成（要素・関係）:
-		valis/nodes/A/A2.md。状態対応正本: design/specification/observation-state-contract-v1.md。 比較開始値: design/specification/initial-comparison-v1.md。
+		valis/nodes/A/A2.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
 	ロジック:
-		上部一体サマリ/右常設3パネル/独立横詳細と、作成画面非表示・同画面操作での進行維持を統一する。
+		3速度を設け、最速のみ10T表示と強制軽減を使う。生態計算/全T観測/画質を維持し、解除後は表示選好を復元する。
 	実態:
-		第1〜第4組と比較開始値をA/B反映済み。比較値は未実測。追加仕様の実装/データ接続は未完。後続修正/検証要否・草案/階層/参照は維持。
+		観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
 
 ```
 
@@ -168,11 +168,11 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 
 B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案］
 	構成（要素・関係）:
-		valis/nodes/B/B5.md。正本: design/specification/parasite-founder-preflight-v1.md。契約: operations/plans/parasite-founder-preflight-v1.md。証跡: operations/evidence/parasite-founder-preflight-v1/README.md。
+		valis/nodes/B/B5.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
 	ロジック:
-		一次寄生の直接指定数と第一宿主数を整合させ、設定上の不足は入力時に案内する。
+		最速の10T単位表示と端数観察を両立し、同画面操作で観測を止めず、盤面/集計の表示時点を揃える。
 	実態:
-		宿主が自動なら地形生成後の実数を普遍的上限にせず、群体数は黙って変更しない。
+		観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
 
 	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
 		構成（要素・関係）:
@@ -341,19 +341,19 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/selection-index-v1.md。契約: operations/plans/selection-index-v1.md。証跡: operations/evidence/selection-index-v1/README.md。
+		valis/nodes/C/C8.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
 	ロジック:
-		現在状態だけのID/マス索引を持ち、通常IDは寄生列挙より先に解決する。表示順はコピーして変更する。
+		速度変更を最後の確定状態から再接続し、旧タイマー/予約を無効化。設定保存/強制/復元と10T表示を扱う。
 	実態:
-		通常3選択でP/Q locate各3→0、セル全件filter各3→0。既存能力表示等の走査は残る。
+		観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.1.md。正本: design/specification/visibility-controls-v1.md。契約: operations/plans/visibility-controls-v1.md。証跡: operations/evidence/visibility-controls-v1/README.md。
+			valis/nodes/C/C8.1.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
 		ロジック:
-			詳細主生物の年齢印だけ名札横へ注記し、遠景/近景記号の配置と採用描画を保つ。
+			最速時の中間差分転送・画像予熱を止め、全T最終差分だけ受領する。記号/絵柄/生態を変えず端数表示へ対応する。
 		実態:
-			画像/背景/格子/生態は維持。同相三年齢とON/OFF復帰を実画像で限定確認。
+			観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -418,11 +418,11 @@ D6:（A1.1, A1.2, A1.3, B5, C6 / モックの画面・描画・実行検証計�
 
 D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D7.md。正本: design/specification/consumer-groups-v1.md。契約: operations/plans/i11e-consumer-groups-v1.md。証跡: operations/evidence/i11e-consumer-groups-v1/README.md。
+		valis/nodes/D/D7.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
 	ロジック:
-		人数/E/B/Mの保存、有限容量、明示0、順序/旧再生/生成一致。
+		最終差分でも逐次計算と一致し、容量6T・境界・不正応答・旧世代破棄を限定確認する。
 	実態:
-		4.2.47 / consumer-group/1を接続。限定確認はI11e証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+		観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
 
 D8:（C7 / 生態循環と結合進行）［草案］
 	構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/long-record-restore-v1.md。契約: operations/plans/long-record-restore-v1.md。証跡: operations/evidence/long-record-restore-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
 	ロジック:
-		有効互換30万行の旧例外/修正後全値と順序、分離/内部参照/読取専用/保存互換を確認する。
+		速度切替/10Tと端数表示/盤面とグラフ/表示復元、通常段階・保存再生・世界リセットを限定確認する。
 	実態:
-		Node追加3試験＋容量6試験成功。実長期/実1GiB/最大メモリ/画面/Windowsは未認定。
+		観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
 
 ```
 
@@ -495,19 +495,19 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 
 E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E5.md。現在正本: design/specification/parasite-cohorts-v1.md。契約: operations/plans/i11h-parasite-cohorts-v1.md。証跡: operations/evidence/i11h-parasite-cohorts-v1/README.md。
+		valis/nodes/E/E5.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
 	ロジック:
-		草棲虫の固定河川・湖50T/500T、旧版再生、有限収支、画面検査を記録。性能未認定を明記。
+		Worker10試験とclient35試験のログ、生態本体不変のSHAを保持する。全T一致の限定証跡を生存/性能認定へ転用しない。
 	実態:
-			4.2.53 / parasiteCohortModel: cohort/1・parasiteDispersalModel: fanout/1の費用・分散とQ専用優遇を限定記録。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。 4.2.54の最終係数は長期未測定。調整中の限定結果と中断理由はI11i証跡参照。
+		観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/long-record-restore-v1.md。契約: operations/plans/long-record-restore-v1.md。証跡: operations/evidence/long-record-restore-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
 	ロジック:
-		旧RangeErrorの反例と修正後3試験、既存容量6試験、比較版/対象SHAを保持する。
+		Linux実画面18項目と通常回帰26項目、実画面画像を保持する。500T/Windows/配布は未認定。
 	実態:
-		合成の観測記録と実長期シミュレーションを区別。正式状態は草案。
+		観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

@@ -150,3 +150,17 @@ test('close ignores late notifications, clears reservations and reinitializes fr
  const checkpoint=session({turn:500,stopReason:'checkpoint'},1000);stream(checkpoint.send,501);stream(checkpoint.send,502);stream(checkpoint.send,503);checkpoint.send({type:'idle'});
  assert.deepEqual(checkpoint.errors,[]);assert.equal(checkpoint.client.take().turn,501);checkpoint.client.acknowledge();checkpoint.client.close();
 });
+
+test('final-only sessions accept one complete patch per turn and reinit safely into streamed mode',()=>{
+ const f=fixture();f.client.init({turn:0},'a',500,{finalOnly:true});const w=f.workers[0],init=w.sent[0],send=d=>w.onmessage({data:{epoch:init.epoch,...d}});
+ assert.equal(init.finalOnly,true);assert.equal(init.stream,false);send({type:'ready'});
+ for(let t=1;t<=3;t++)send({type:'turn',turn:t,patches:[patch(t)]});send({type:'idle'});assert.equal(f.client.length,3);assert.deepEqual(f.errors,[]);
+ const oldHandler=w.onmessage;f.client.close();f.client.init({turn:3},'a',500);const next=w.sent.at(-1);assert.equal(next.finalOnly,false);assert.equal(next.stream,true);
+ oldHandler({data:{epoch:init.epoch,type:'turn',turn:4,patches:[patch(4)]}});assert.equal(f.client.length,0);f.client.close();
+});
+test('final-only and staged response validation rejects sparse or mismatched patches without throwing',()=>{
+ for(const [finalOnly,data]of [[true,{type:'turn',turn:1,patches:new Array(1)}],[false,{type:'turn',turn:1,patches:new Array(3)}],[true,{type:'turn',turn:1,patches:[patch(1),patch(1),patch(1)]}],[true,{type:'phase',turn:1,phase:0,patch:patch(1)}],[true,{type:'turn',turn:1,patches:[patch(2)]}]]){
+  const f=fixture();f.client.init({turn:0},'a',500,{finalOnly});const w=f.workers[0],epoch=w.sent[0].epoch;w.onmessage({data:{type:'ready',epoch}});
+  assert.doesNotThrow(()=>w.onmessage({data:{epoch,...data}}));assert.equal(f.errors.length,1);assert.equal(f.client.initialized,false);assert.equal(w.dead,true);f.advance(60001);assert.equal(f.errors.length,1);
+ }
+});

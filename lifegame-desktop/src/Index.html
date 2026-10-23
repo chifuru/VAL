@@ -190,9 +190,7 @@ ECOSYSTEM-2026</textarea
               終了して図鑑へ保存</button
             ><button id="export-result" class="secondary" hidden>結果JSONを書き出す</button><button id="open-results" class="secondary">結果図鑑</button
             ><button id="reset" class="secondary" hidden disabled>初期設定へ戻る</button
-            ><button id="restart-world" class="secondary" disabled>同じ世界をやり直す</button><select id="speed" aria-label="観測速度">
-              <option value="1">基準 · 約1秒 × 500ターン</option>
-            </select>
+            ><button id="restart-world" class="secondary" disabled>同じ世界をやり直す</button><div id="speed" role="group" aria-label="観測速度"><button type="button" data-speed="1" aria-pressed="true">基準 · 約1秒</button><button type="button" data-speed="2" aria-pressed="false">2倍</button><button type="button" data-speed="max" aria-pressed="false">最速</button></div>
           </div>
 
           <div class="metrics">

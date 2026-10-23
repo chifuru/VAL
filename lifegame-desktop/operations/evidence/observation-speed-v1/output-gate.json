@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "formal_nodes": 61,
+  "all_status": "草案",
+  "structure_and_cross_layer_references_unchanged": true,
+  "new_evidence_references_exist": true,
+  "version": "4.2.73",
+  "source_hashes_match": true,
+  "biological_sources_unchanged": true,
+  "manifest": "valis/summary/lifegame-desktop.summary.md",
+  "core_files_modified": false,
+  "distribution_built": false,
+  "verification_scope": "45 Node tests and 18+26 Linux UI checks; no 500T or Windows certification"
+}

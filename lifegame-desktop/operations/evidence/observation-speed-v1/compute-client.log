@@ -1,0 +1,45 @@
+✔ preparation has one total sixty-second deadline, terminates failures and supports retry (2.706814ms)
+✔ bounded buffering, stale generation rejection and a persistent map-cache Worker (1.599423ms)
+✔ runtime timeout identifies the next-turn calculation rather than startup (0.850112ms)
+✔ legacy packets and streamed phases reserve exactly one continuous future turn (2.138436ms)
+▶ current-epoch malformed turns, mixed packets and missing or repeated phases fail closed
+  ✔ skipped turn (0.680907ms)
+  ✔ fractional turn (0.799847ms)
+  ✔ duplicate turn (0.789652ms)
+  ✔ unrequested turn (1.70983ms)
+  ✔ missing legacy patches (0.819116ms)
+  ✔ short legacy packet (0.647587ms)
+  ✔ oversized legacy packet (0.628848ms)
+  ✔ legacy patch from another turn (0.559915ms)
+  ✔ missing stream phases (0.710582ms)
+  ✔ incomplete stream phases (0.654217ms)
+  ✔ duplicate phase (0.624472ms)
+  ✔ reverse phase order (0.547666ms)
+  ✔ skipped phase (0.56994ms)
+  ✔ out of range phase (0.560706ms)
+  ✔ fractional phase (0.670802ms)
+  ✔ phase from another turn (0.568167ms)
+  ✔ phase metadata from another turn (0.627016ms)
+  ✔ missing phase patch (0.564542ms)
+  ✔ mixed stream and legacy packet (0.693166ms)
+  ✔ unrecognized stop reason (0.550971ms)
+  ✔ turn after a stopped batch before idle (0.661848ms)
+  ✔ repeated ready (0.528588ms)
+✔ current-epoch malformed turns, mixed packets and missing or repeated phases fail closed (16.7959ms)
+▶ idle only completes a whole requested batch or a recognized world stop
+  ✔ empty batch (0.709681ms)
+  ✔ missing requested turns (0.521977ms)
+  ✔ unfinished phase (0.62316ms)
+✔ idle only completes a whole requested batch or a recognized world stop (5.218513ms)
+✔ requested end, invalid fill counts and reservations keep the six-turn boundary (2.302735ms)
+✔ close ignores late notifications, clears reservations and reinitializes from the committed world (1.351569ms)
+✔ final-only sessions accept one complete patch per turn and reinit safely into streamed mode (0.66949ms)
+✔ final-only and staged response validation rejects sparse or mismatched patches without throwing (2.649027ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 42.533973

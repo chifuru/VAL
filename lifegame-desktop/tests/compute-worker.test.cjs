@@ -127,3 +127,17 @@ test('reinit after a partial preview starts from the supplied committed world an
   assert.equal((await worker.next()).type,'idle');assert.equal(E.fingerprint(committed),fingerprint);
  }finally{await worker.close();}
 });
+
+test('final-only Worker transport preserves every turn exactly without intermediate patches',async()=>{
+ const worker=thread();try{
+  let world=E.create({...config,initial:24});
+  worker.post({type:'init',epoch:40,world,finalOnly:true});assert.equal((await worker.next()).type,'ready');
+  worker.post({type:'compute',epoch:40,count:4,limit:500});
+  for(let n=0;n<4;n++){
+   const packet=await worker.next();assert.equal(packet.type,'turn');assert.equal(packet.patches.length,1);
+   const actual=T.apply(world,packet.patches[0]),expected=E.step(world);
+   assert.deepEqual(actual,expected);world=actual;
+  }
+  assert.equal((await worker.next()).type,'idle');
+ }finally{await worker.close();}
+});

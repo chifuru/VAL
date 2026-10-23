@@ -81,6 +81,17 @@
     pendingTurn = null,
     runGeneration = 0;
   const TURN_MS = 1000;
+  let observationSpeed='1',lastPresentedTurn=null,savedDisplaySettings=null;
+  const turnDuration=()=>observationSpeed==='max'?0:TURN_MS/Number(observationSpeed);
+  function presentWorld(){
+    if(!world)return;
+    renderer.setWorld(world);lastPresentedTurn=world.turn;
+    if(observationSpeed!=='max')R.assets.warmWorld?.(world);
+    updateTracking();render();
+  }
+  function flushObservationDisplay(){
+    if(observationSpeed==='max'&&world&&lastPresentedTurn!==world.turn)presentWorld();
+  }
   const holds = new Set();
   let interactionTimer = null, prewarming = true, lastPreparationMs = 0, computeWaitAt = null, playbackError = null;
   let graphicsPrepared=false,observationPreparationAt=null,preparationHeldAt=null;
@@ -101,7 +112,7 @@
       // Cleanup must also run if returning a packet fails. No speculative
       // stage or animated position may survive a pause or an error.
       renderer.view.animate=false;showTurnStage();
-      if(world){renderer.setWorld(world);renderSelection();}
+      if(world){presentWorld();}
     }
   }
   function hold(reason) {
@@ -416,7 +427,7 @@
       item.classList.toggle("active",i+1===phase);
       item.classList.toggle("passed",i+1<phase);
     }
-    $("turn-progress").textContent = phase ? `TURN ${world.turn+1} · ${phase}/3 ${label}（途中）` : "基準：1ターン約1秒 · 負荷が高い場合は自動減速";
+    $("turn-progress").textContent = phase ? `TURN ${world.turn+1} · ${phase}/3 ${label}（途中）` : observationSpeed==='max'?"最速：10ターンごとに表示 · 全ターンを計算・記録":`${observationSpeed==='2'?'2倍：1ターン約0.5秒':'基準：1ターン約1秒'} · 負荷が高い場合は自動減速`;
     $("preview-note").hidden = !phase;
     $("selection").inert = false;
   }
@@ -487,7 +498,7 @@
     return config;
   }
   function message(text) {
-    $("message").textContent = text;
+    setText("message",text);
     if (document.body.classList.contains("setup-screen")) setupMessage(text);
   }
   function setupMessage(text, error = false) {
@@ -696,8 +707,8 @@
     if(['survival/2','survival/3','survival/4'].includes(next.config.balanceModel))$("active-mode").textContent+=" 初期主生物：寿命前半の年齢が混在。出生個体は年齢0。";
     if(next.config.consumerModel==='group/1')$('active-mode').textContent+=' 一次消費者は小集団。初期指定・グラフは内部の個体数。';
     if(next.config.populationRegulation)$("active-mode").textContent+=["survival/1","survival/2","survival/3","survival/4"].includes(next.config.balanceModel)?" 出生：低密度では繁殖しやすく、局所混雑・栄養収支で調整。":" 出生：局所混雑・栄養収支で調整。";
-    R.assets.warmWorld?.(world);
-    render();
+    if(observationSpeed!=='max')R.assets.warmWorld?.(world);
+    lastPresentedTurn=world.turn;render();
     message(
       world.warnings.join(" / ") ||
         "世界を作りました。「観測を開始」で動きます。別の地形は「マップ・初期条件を変更」から選べます。",
@@ -716,7 +727,7 @@
     try{observations.append(next);}catch(e){failObservation("観測記録",e);return world;}
     world = next;selectionIndex=null;bufferWorld=world;bufferFingerprint=null;
     lastMs = milliseconds;
-    try{renderer.setWorld(world);R.assets.warmWorld?.(world);updateTracking();render();}
+    try{if(observationSpeed!=='max'||world.turn%10===0||world.stopReason||replayEntry&&world.turn>=replayEntry.turn)presentWorld();}
     catch(error){failObservation("表示更新",error);return world;}
     if (replayEntry && world.turn >= replayEntry.turn) {
       stop({discard:true});
@@ -737,7 +748,7 @@
           ? "主生物が全滅しました。他の生物群は残る場合があります。続行して観測できます。"
           : `${world.turn}ターンの観測区間で一時停止しました。続行できます。`,
       );
-    } else if (lastMs > TURN_MS)
+    } else if (observationSpeed!=='max'&&lastMs > turnDuration())
       message(
         "計算負荷に合わせて進行を減速しています。個体・出生・ターンは間引きません。",
       );
@@ -761,7 +772,7 @@
     }
     if(!compute.initialized) {
       const limit=replayEntry?.turn || (world.blockEnd + (world.stopReason==="checkpoint"?(world.config.blockTurns||1000):0));
-      prewarming=true;bufferWorld=world;bufferFingerprint=null;compute.init(world,selectedId,limit);
+      prewarming=true;bufferWorld=world;bufferFingerprint=null;compute.init(world,selectedId,limit,{finalOnly:observationSpeed==='max'});
       if(!running)return;
     }
     if(prewarming && (!compute.length || !compute.ready)) {
@@ -773,6 +784,14 @@
     const packet=compute.take();
     if(!packet){computeWaitAt??=performance.now();compute.fill(2);message(`次のターンを計算中 · ${((performance.now()-computeWaitAt)/1000).toFixed(1)}秒。自動で再開します。個体・ターンは省略しません。`);timer=setTimeout(runLoop,100);return;}
     computeWaitAt=null;
+    if(observationSpeed==='max'){
+      const next=window.EcoTransport.apply(world,packet.patches[0]);
+      compute.acknowledge();compute.fill(6);
+      commitTurn(next,packet.computeMs);
+      if(running&&!holds.size)timer=setTimeout(runLoop,0);
+      return;
+    }
+    const cadence=turnDuration();
     const token=runGeneration,start=performance.now();
     const state=pendingTurn={phase:0,computeMs:packet.computeMs,preview:world,packet};
     compute.fill(2);
@@ -785,7 +804,7 @@
         const visibleEvents=i===0?["light"]:i===1?["move","attack","feed","care","defend","clear","death"]:["growth","birth","infection"];
         const events=preview.events.filter(e=>visibleEvents.includes(e.type));
         state.previewTypes=[...new Set(events.map(e=>e.type))];
-        renderer.view.animate=true;renderer.view.duration=TURN_MS/3;
+        renderer.view.animate=true;renderer.view.duration=cadence/3;
         renderer.setWorld({...preview,events},true);
         showTurnStage(state.phase,["資源更新","移動・採食・戦闘","成長・繁殖"][i]);
         $("status").textContent="観測中";
@@ -796,8 +815,8 @@
             commitTurn(preview,packet.computeMs);
             if(running&&!holds.size)timer=setTimeout(runLoop,0);
           }catch(error){failObservation("表示更新",error);}
-        },Math.max(100,TURN_MS-(performance.now()-start)));
-        else timer=setTimeout(advance,Math.max(100,state.phase*TURN_MS/3-(performance.now()-start)));
+        },Math.max(100,cadence-(performance.now()-start)));
+        else timer=setTimeout(advance,Math.max(100,state.phase*cadence/3-(performance.now()-start)));
       }catch(e){failObservation("表示更新",e);}
     }
     advance();
@@ -1105,6 +1124,7 @@
   }
   function select(cell, id = null, {groundOnly=false,information=false} = {}) {
     // Selection reads committed state and does not invalidate prepared work.
+    flushObservationDisplay();
     describedSpecies = null;
     selectedCell = cell;
     const occupants=currentSelectionIndex().organisms.get(cell)||[];
@@ -1150,7 +1170,7 @@
     if(found){selectedId=followId;selectedCell=found.cell;lastTracked={id:followId,cell:found.cell,turn:world.turn,hostId:found.host?.id};const [x,y]=renderer.screen(found.cell,followId),b=$('board').getBoundingClientRect();renderer.view.x+=b.width/2-x;renderer.view.y+=b.height/2-y-(renderer.view.planeSeparation&&!found.carcass&&found.host?.slot==='main'?window.EcoDisplayPlane.LIFT*renderer.view.scale/2:0);$('follow-note').textContent='追跡中: '+followId;}
     else if(followId){const death=world.last.deathCauses.find(d=>d.id===followId||d.id===lastTracked?.hostId),cause=death?({combat:"戦闘",starvation:"栄養不足",harvest:"採食による喪失",age:"寿命"}[death.reason]||death.reason):"消失（確定理由の記録なし）";$('follow-note').textContent=`追跡終了: ${followId} · 最終確認 ${lastTracked?.turn ?? world.turn}T / マス${lastTracked?.cell ?? selectedCell} / ${cause}。`;followId=null;}
   }
-  $('follow-individual').onclick=()=>{followId=followId?null:selectedId;updateTracking();renderSelection();};
+  $('follow-individual').onclick=()=>{flushObservationDisplay();followId=followId?null:selectedId;updateTracking();renderSelection();};
   function syncHighlights(){
     const key=$('species-key');
     renderer.view.highlights=[...key.querySelectorAll('[data-highlight]:checked')].map(i=>i.dataset.highlight);
@@ -1166,6 +1186,7 @@
   $('close-species').onclick=closeDetails;
   for(const group of ["basal","prey","P","Q","resource"])$("names-"+group).onchange=()=>{renderer.view.names[group]=$("names-"+group).checked;renderer.draw();};
   function describeSpecies(id){
+    flushObservationDisplay();
     if(describedSpecies===id){closeDetails();return;}
     describedSpecies=id;setInspectorTab('details');renderSelection();
   }
@@ -1321,11 +1342,14 @@
   let lastChartPaint=-Infinity,chartTimer=null,slowGraphs=false,lastChartData=null,lastChartTurn=-1,lastChartTarget=null;
   function scheduleGraphs(force=false){
     if(!graphObservation()?.rows.length)return;
+    if(!analysisData&&observationSpeed==='max'&&world.turn!==lastPresentedTurn){
+      if(force)flushObservationDisplay();return;
+    }
     const graph=graphObservation(),last=graph.rows.at(-1).turn,target=$('graph-species').value;
     if(!force&&lastChartData===graph&&lastChartTurn===last&&lastChartTarget===target)return;
     const paint=()=>{clearTimeout(chartTimer);chartTimer=null;lastChartPaint=performance.now();lastChartData=graphObservation();lastChartTurn=lastChartData.rows.at(-1).turn;lastChartTarget=$('graph-species').value;if(!analysisData)renderCurrentSummary(observations.rows.at(-1),activeCatalogue());renderGraphs();};
     const delay=1000-(performance.now()-lastChartPaint);
-    if(force||!slowGraphs||!running||analysisData||delay<=0)paint();
+    if(force||observationSpeed==='max'||!slowGraphs||!running||analysisData||delay<=0)paint();
     else if(!chartTimer)chartTimer=setTimeout(paint,delay);
   }
   function renderGraphs({target:requestedTarget}={}){
@@ -1393,21 +1417,48 @@
 
   const displayNames=['names-basal','names-prey','names-P','names-Q','names-resource'];
   function applyDisplaySettings(mode='custom'){
+    if(observationSpeed==='max')mode='maximum';
     if(mode!=='custom'){
       const light=mode==='maximum';
       $('motion').checked=!light;$('display-effects').checked=!light;$('display-action-marks').checked=true;
       $('status-marks').checked=!light;$('display-slow-graphs').checked=light;$('display-simple-background').checked=light;
       for(const id of displayNames)$(id).checked=false;
     }
+    if(observationSpeed==='max'){
+      $('display-action-marks').checked=false;$('age-emphasis').checked=false;
+      $('display-simple-background').checked=false;
+    }
     renderer.view.motion=$('motion').checked;
     renderer.view.effects=$('display-effects').checked;renderer.view.actionMarks=$('display-action-marks').checked;
-    renderer.view.statusMarks=$('status-marks').checked;$('status-scope').disabled=!renderer.view.statusMarks;
+    renderer.view.ageEmphasis=$('age-emphasis').checked;renderer.view.statusMarks=$('status-marks').checked;$('status-scope').disabled=!renderer.view.statusMarks;
     renderer.view.interactionSimplify=$('display-simple-background').checked;slowGraphs=$('display-slow-graphs').checked;
     for(const id of displayNames)renderer.view.names[id.slice(6)]=$(id).checked;
-    $('display-load-state').textContent=mode==='normal'?'通常':mode==='maximum'?'最大軽減':'個別設定';
+    $('display-load-state').textContent=observationSpeed==='max'?'最速・強制軽減':mode==='normal'?'通常':mode==='maximum'?'最大軽減':'個別設定';
     // The animation loop applies the changed view on its next frame. Forcing a
     // full map and graph redraw on every toggle can stall a populated world.
   }
+  const forcedDisplayIds=['age-emphasis','motion','status-marks','display-effects','display-action-marks','display-slow-graphs','display-simple-background',...displayNames];
+  function changeObservationSpeed(value){
+    if(!['1','2','max'].includes(value)||value===observationSpeed)return;
+    restoreCommitted();compute.close();clearTimeout(chartTimer);chartTimer=null;bufferWorld=null;bufferFingerprint=null;computeWaitAt=null;
+    const leaving=observationSpeed==='max';
+    observationSpeed=value;
+    if(value==='max'){
+      savedDisplaySettings={checks:Object.fromEntries(forcedDisplayIds.map(id=>[id,$(id).checked])),label:$('display-load-state').textContent};
+      applyDisplaySettings('maximum');
+    }else if(leaving&&savedDisplaySettings){
+      for(const [id,checked] of Object.entries(savedDisplaySettings.checks))$(id).checked=checked;
+      applyDisplaySettings();$('display-load-state').textContent=savedDisplaySettings.label;savedDisplaySettings=null;
+    }
+    for(const id of [...forcedDisplayIds,'display-normal','display-maximum'])$(id).disabled=value==='max';
+    $('status-scope').disabled=!renderer.view.statusMarks;
+    R.assets.setWarmEnabled?.(value!=='max');
+    if(value!=='max'&&world)R.assets.warmWorld?.(world);
+    for(const button of $('speed').querySelectorAll('[data-speed]'))button.setAttribute('aria-pressed',String(button.dataset.speed===value));
+    showTurnStage();prewarming=true;observationPreparationAt=performance.now();
+    if(running&&!holds.size)timer=setTimeout(runLoop,0);
+  }
+  for(const button of $('speed').querySelectorAll('[data-speed]'))button.onclick=()=>{try{changeObservationSpeed(button.dataset.speed);}catch(error){failObservation('速度変更',error);}};
   $('display-normal').onclick=()=>applyDisplaySettings('normal');
   $('display-maximum').onclick=()=>applyDisplaySettings('maximum');
   for(const id of ['motion','status-marks','display-effects','display-action-marks','display-slow-graphs','display-simple-background',...displayNames])$(id).addEventListener('change',()=>applyDisplaySettings());
@@ -1587,7 +1638,7 @@
     $('selection-stamp').textContent=`表示 ${selectionSnapshot.turn}Tで固定 · 現在 ${world.turn}T`;
   }
   $('refresh-selection').onclick=()=>{
-    try{renderSelection({refresh:true});}catch(error){failObservation('詳細表示',error);}
+    try{flushObservationDisplay();renderSelection({refresh:true});}catch(error){failObservation('詳細表示',error);}
   };
   function renderSelection({refresh=false}={}) {
     const speciesMode=!!describedSpecies;
@@ -2134,7 +2185,7 @@
   }).observe($("board"));
   function frame(now) {
     try {
-    if (now - paintAt >= 1000 / 30) {
+    if (now - paintAt >= 1000 / (observationSpeed==='max'?10:30)) {
       paintAt = now;
       if(!renderFaulted)renderer.drawIfChanged(now);
       $("scale-warning").hidden = renderer.view.scale >= 8;
@@ -2191,7 +2242,7 @@
         running,
         faultKind,playbackError,worldGeneration,scheduled:!!timer,
         pending: pendingTurn && {phase:pendingTurn.phase,nextTurn:world.turn+1,events:[...(pendingTurn.previewTypes || [])]},
-        cadenceMs:TURN_MS,
+        cadenceMs:turnDuration(),observationSpeed,lastPresentedTurn,
         holds:[...holds],
         compute:{initialized:compute.initialized,ready:compute.ready,busy:compute.busy,buffered:compute.length,preparationMs:lastPreparationMs,metadata:compute.metadata},
         replay: !!replayEntry,

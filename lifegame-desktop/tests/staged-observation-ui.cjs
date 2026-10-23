@@ -60,7 +60,7 @@ const { chromium } = require("playwright"),
   try {
     page.on("dialog",d=>d.accept());
     await page.goto(origin+'/Index.html?smoke=1');await page.evaluate(()=>EcoArt.ready);
-    check(await page.locator('#speed option').count()===1&&await page.locator('#speed').inputValue()==='1','one reference cadence is one second per turn');
+    check(await page.locator('#speed [data-speed]').count()===3&&await page.locator('#speed [data-speed="1"]').getAttribute('aria-pressed')==='true','three cadence buttons default to one second per turn');
     await page.selectOption('#size','40,28');await page.selectOption('#observation-mode','river-settlement');
     check(await page.locator('#initial').inputValue()==='160','settlement mode exposes its larger initial cohort');
     check(await page.locator('#map-id').isDisabled()&&await page.locator('#lineages').isDisabled(),'fixed preset parameters are explicit and protected');
@@ -113,10 +113,10 @@ const { chromium } = require("playwright"),
     await page.click('#change-world');await page.selectOption('#observation-mode','lake-foodweb');
     check((await page.locator('#mode-help').textContent()).includes('50%'),'lake mode explains its separate food adjustment');
     await page.click('#load');
-    if(await page.locator('#world-confirm').evaluate(e=>e.open))await page.locator('#world-confirm button[value="proceed"]').click();
+    if(await page.locator('#world-confirm').count()&&await page.locator('#world-confirm').evaluate(e=>e.open))await page.locator('#world-confirm button[value="proceed"]').click();
     await page.waitForFunction(()=>!document.querySelector('#load').disabled);await page.click('#start');
     await page.waitForFunction(()=>__LIFE_TEST__.snapshot().pending?.phase===1);await page.click('#restart-world');
-    if(await page.locator('#world-confirm').evaluate(e=>e.open))await page.locator('#world-confirm button[value="proceed"]').click();
+    if(await page.locator('#world-confirm').count()&&await page.locator('#world-confirm').evaluate(e=>e.open))await page.locator('#world-confirm button[value="proceed"]').click();
     await page.waitForFunction(()=>__LIFE_TEST__.snapshot().world.turn===0);
     await page.waitForTimeout(2200);
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.turn===0&&!__LIFE_TEST__.snapshot().running&&!__LIFE_TEST__.snapshot().pending),'reset invalidates all pending callbacks');

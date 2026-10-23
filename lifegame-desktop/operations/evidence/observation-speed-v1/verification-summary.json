@@ -1,0 +1,84 @@
+{
+  "ok": true,
+  "baseline_commit": "594e45a",
+  "app_version": "4.2.73",
+  "date_utc": "2026-10-23",
+  "node_runtime": "v24.19.0",
+  "browser": "154.0.8037.57",
+  "scope": "3 speeds / final-only Worker transport / optional display reduction and restoration",
+  "results": [
+    {
+      "test": "tests/compute-client.test.cjs",
+      "passed": 35,
+      "failed": 0
+    },
+    {
+      "test": "tests/compute-worker.test.cjs",
+      "passed": 10,
+      "failed": 0
+    },
+    {
+      "test": "tests/observation-speed-ui.cjs",
+      "checks": 18,
+      "report": "operations/evidence/observation-speed-v1/report.json"
+    },
+    {
+      "test": "tests/staged-observation-ui.cjs",
+      "checks": 26,
+      "report": "operations/evidence/observation-speed-v1/staged/report.json"
+    }
+  ],
+  "during_fastest": {
+    "turn": 13,
+    "presented": 10,
+    "rows": 14,
+    "graphTurn": 10,
+    "mapTurn": 10
+  },
+  "pause_flushed_turn": 13,
+  "normal_cadence_first_turn_ms": 1145,
+  "additional_findings_fixed": [
+    "queued prewarming callbacks discarded by generation when switching fastest",
+    "sparse and malformed Worker patch arrays are rejected through recovery path",
+    "map and graphs show the same committed turn; explicit observation changes flush the pending presentation batch"
+  ],
+  "test_fixture_repairs": [
+    "final-only test minimum founders updated from 12 to 24",
+    "staged regression no longer waits for a removed optional world-confirm dialog"
+  ],
+  "source_sha256": {
+    "package.json": "15ecc544e6feba39615070cc4c982c66412b5aa75946d6b636c5ac807fae61a3",
+    "package-lock.json": "d912bd3ec89ababef65c605b59a30eb98c93319da7055a42800298c4d6495f74",
+    "src/Index.html": "44996353ee4fbda87d85eb330c56c85a4dfa6e4750e565c7e1623d2b795caaee",
+    "src/app.js": "ce209d8f10b519033c5901e9d8c17be3febd5f3e8d40c456d19a2cf2d4087627",
+    "src/ecology/art.js": "af07f87dcc0f4a8936ba0a7123c0b07dfccd4b9bb6adbddf1a7bb29b717ba456",
+    "src/ecology/compute-client.js": "a9d124692680ae2c92acc3ddfd290a0725770fa74c7e641f7016307440f1bf7f",
+    "src/ecology/compute-worker.js": "85fe7629bb6db49e28fc2572ec60c653a00ee84cf0ee9e6d70d05e45ad83af5b",
+    "src/styles.css": "d595f1c167e957ae0334a2c793f4fe3d0f2b7247647425fe01713de67a00bb5f",
+    "tests/compute-client.test.cjs": "a12e8c755fa2d3f7fd93a29200e90d75191b43d8a6e5a314a774e07949377d3c",
+    "tests/compute-worker.test.cjs": "98de3ad547f62ac7ad7937db548d0145b695226af3ed1759daf853c1550f10d5",
+    "tests/observation-speed-ui.cjs": "1e901d6efb9907c8fe91a2b4222dc152904dc7aeac275e5cf27a000aff3a19f9",
+    "tests/staged-observation-ui.cjs": "28c58484d3c43d037b70c01e11a8c3f0a0a8641561db8651d1624143e9454ede"
+  },
+  "unchanged_since_baseline_sha256": {
+    "src/ecology/engine.js": "f4e34637c49a80d20df1bb08f8afd2f52a89bfe030e59a5a6c45edb6af178384",
+    "src/ecology/state.js": "ac0e1420dee7d071dc65609e19fa5d4e9d4d699e71def561759a6605a31b4af6",
+    "src/ecology/nutrition.js": "e522badebc68c6244ad9b52c54093a27adbb770dd1e59e5ff8d0eb5296767832",
+    "src/ecology/behavior.js": "67734a24524b3dd6c2f821ac78e2ee59944667500bc3b6ddcf81592c4dff30e2",
+    "src/ecology/reproduction.js": "6ff9d58d55afbe1618638f4edd026ac59b5bcb820083d60e4b521995e3217286",
+    "src/ecology/parasites.js": "cbc16cc3b5bd77d2a7c09237b74305acba580df7f729cb73ffaae9d9f0cb2617",
+    "src/ecology/observations.js": "e4263121a62cc22e480c14541786efa7ff95c7bfd87332d107947d4dc4dc8d1f",
+    "src/ecology/observation-modules.js": "d61784e0c505f1d236a8a62022f4cd4acc9e3e24c4a95e72516c6d9cd2b8e2bc",
+    "src/ecology/observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+    "src/ecology/transport.js": "9af950c3804684365644cd79397466051d824fbca06149e84d62bbe1b1c64afd"
+  },
+  "full_suite": false,
+  "windows_tested": false,
+  "distribution_built": false,
+  "limits": [
+    "bounded small-world verification, not a 500T survival run",
+    "no performance multiplier, full-memory or all-hardware claim",
+    "staged browser screenshots verify the existing style, not all lineages/states",
+    "rendering remains throttled by actual computation; no biological turn or observation row skipped"
+  ]
+}

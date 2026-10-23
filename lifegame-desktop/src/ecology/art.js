@@ -848,12 +848,15 @@
     g.drawImage(shadowFrames.get(index),-width/2,-height*.9,width,height);
     g.restore();
   }
-  let warmSeed=null,warmScheduled=false,warmLatest=null,warmCurrent=null,warmCursor=0,warmExtras=[];
+  let warmEpoch=0,warmEnabled=true,warmSeed=null,warmScheduled=false,warmLatest=null,warmCurrent=null,warmCursor=0,warmExtras=[];
   const warmKeys=new Set();
   function warmWorld(w){
+    if(!warmEnabled)return;
     warmLatest=w;if(warmScheduled)return;warmScheduled=true;
-    const c=document.createElement('canvas');c.width=c.height=1;const g=c.getContext('2d'),schedule=fn=>typeof requestIdleCallback==='function'?requestIdleCallback(fn,{timeout:500}):setTimeout(fn,0);
+    const token=warmEpoch,c=document.createElement('canvas');c.width=c.height=1;const g=c.getContext('2d'),schedule=fn=>typeof requestIdleCallback==='function'?requestIdleCallback(fn,{timeout:500}):setTimeout(fn,0);
     const next=()=>{
+      if(token!==warmEpoch)return;
+      if(!warmEnabled){warmScheduled=false;warmLatest=warmCurrent=null;return;}
       if(!warmCurrent||warmSeed!==warmLatest.config.seed||warmCursor>=warmCurrent.organisms.length){if(warmCurrent===warmLatest){warmScheduled=false;return;}warmCurrent=warmLatest;warmCursor=0;if(warmSeed!==warmCurrent.config.seed){warmSeed=warmCurrent.config.seed;warmKeys.clear();}
         warmExtras=[];
         for(const species of warmCurrent.config.enabled.P?['tideparasite','leafparasite']:[])for(let i=0;i<3;i++){
@@ -872,11 +875,15 @@
       }
       if(warmKeys.size>4096)warmKeys.clear();schedule(next);
     };
-    ready.then(()=>{if(loaded)schedule(next);else warmScheduled=false;});
+    ready.then(()=>{if(token!==warmEpoch)return;if(loaded)schedule(next);else warmScheduled=false;});
   }
   root.EcoArt = {
     manifest,
     warmWorld,
+    setWarmEnabled(value){
+      value=!!value;if(value===warmEnabled)return;
+      warmEnabled=value;warmEpoch++;warmScheduled=false;warmLatest=warmCurrent=null;warmExtras=[];
+    },
     get warming(){return warmScheduled;},
     cacheMetrics,
     outlineMetrics,
