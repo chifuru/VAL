@@ -1,0 +1,51 @@
+{
+  "ok": true,
+  "baseline": "88d9d88",
+  "app": "4.2.74",
+  "tests": [
+    {
+      "file": "tests/remaining-cutouts-ui.cjs",
+      "passed": 11,
+      "failed": 0
+    }
+  ],
+  "raw_regions": 303,
+  "runtime_samples": 96,
+  "clipping_before": [
+    "jelly/1/male",
+    "jelly/4/male",
+    "crystal/1/male",
+    "abyss/1/male",
+    "gravity/1/male",
+    "precocial/1/male"
+  ],
+  "clipping_after": [],
+  "opaque_backgrounds_after": [],
+  "node_count": 61,
+  "all_formal_status": "草案",
+  "formal_structure_unchanged": true,
+  "core_changed": false,
+  "source_diff_reconstruction_equals_baseline": true,
+  "source_sha256": {
+    "src/app.js": "d9b79f7ff155c005ee1a3272a43c99e80ba139d11ab995b399fdb9c61d85cb59",
+    "tests/remaining-cutouts-ui.cjs": "bea34ef4ca76b4bb22a373273e26f57bac2be83c059bef7bfd2a3fbe3741d13a",
+    "design/specification/remaining-cutouts-v1.md": "9a1d3167b7f9a9a70f5d18a97e500177d61d3b36aab91806458e08bb5f2f4ef8",
+    "operations/plans/remaining-cutouts-v1.md": "9d1b63711c1229c001ddd984b31702cce40ae3b39caa8536dd7d37a009744d55"
+  },
+  "unchanged_sha256": {
+    "src/ecology/art.js": "af07f87dcc0f4a8936ba0a7123c0b07dfccd4b9bb6adbddf1a7bb29b717ba456",
+    "src/ecology/renderer.js": "bb0c80218ce4af383bd2c3c1fe2b3e1be886801ff78d927faa381247cd63aa0e",
+    "src/ecology/engine.js": "f4e34637c49a80d20df1bb08f8afd2f52a89bfe030e59a5a6c45edb6af178384",
+    "src/ecology/state.js": "ac0e1420dee7d071dc65609e19fa5d4e9d4d699e71def561759a6605a31b4af6",
+    "src/ecology/observations.js": "e4263121a62cc22e480c14541786efa7ff95c7bfd87332d107947d4dc4dc8d1f",
+    "src/ecology/observation-modules.js": "d61784e0c505f1d236a8a62022f4cd4acc9e3e24c4a95e72516c6d9cd2b8e2bc",
+    "src/ecology/observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+    "src/assets/visual-manifest.json": "bb21cfad3f6a4ee2dd5e04f96b7eddbc01192be84ccfc9b7ef139cb2f3e6370c",
+    "src/assets/visual-manifest.js": "59b6f07f36bb3866104d367237819c5f70c7f6adedf7162f392e481ba6bc2655"
+  },
+  "all_manifest_sheet_files_unchanged": 56,
+  "full_suite": false,
+  "all_state_combinations": false,
+  "windows_tested": false,
+  "distribution_built": false
+}

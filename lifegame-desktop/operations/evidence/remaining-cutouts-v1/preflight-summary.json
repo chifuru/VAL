@@ -1,0 +1,20 @@
+{
+  "ok": false,
+  "app": "4.2.74",
+  "checks": [],
+  "errors": [],
+  "external": [],
+  "rawRegions": 303,
+  "runtimeSamples": 96,
+  "rectangles": [],
+  "edgeClips": [
+    "jelly/1/male",
+    "jelly/4/male",
+    "crystal/1/male",
+    "abyss/1/male",
+    "gravity/1/male",
+    "precocial/1/male"
+  ],
+  "browser": "154.0.8037.57",
+  "scope": "303 raw regions; 96 runtime appearance fixtures and actual main/lower inspectors; no all-branch-sex-age Cartesian run, animation or Windows certification"
+}

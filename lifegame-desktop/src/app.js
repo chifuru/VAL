@@ -1487,7 +1487,7 @@
         { ...o, facing: 0 },
         canvas.width / 2,
         canvas.height / 2,
-        canvas.width * 0.28,
+        Math.min(canvas.width, canvas.height) * 0.28,
         true,
       );
     else
@@ -2240,6 +2240,7 @@
       refresh: () => { selectionIndex=null;selectionSnapshot=null;if(world)renderer.setWorld(world);render(); },
       draw: renderer.draw,
       drawIfChanged: renderer.drawIfChanged,
+      drawPortrait,
       finish: finishRun,
       replay: replayResult,
       records: () => archive.list(),

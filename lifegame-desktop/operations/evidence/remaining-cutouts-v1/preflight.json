@@ -1,0 +1,6089 @@
+{
+  "raw": [
+    {
+      "kind": "base",
+      "id": "abyss",
+      "index": 0,
+      "occupied": 30391,
+      "transparent": 53400,
+      "rectangleFill": 0.6114397231611138,
+      "border": 24,
+      "bounds": [
+        48,
+        96,
+        275,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "abyss",
+      "index": 1,
+      "occupied": 46991,
+      "transparent": 32648,
+      "rectangleFill": 0.6343791343791344,
+      "border": 58,
+      "bounds": [
+        7,
+        55,
+        292,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "abyss",
+      "index": 2,
+      "occupied": 55021,
+      "transparent": 21093,
+      "rectangleFill": 0.6489090694657389,
+      "border": 119,
+      "bounds": [
+        8,
+        36,
+        312,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "abyss",
+      "index": 3,
+      "occupied": 63345,
+      "transparent": 15178,
+      "rectangleFill": 0.6899725514116417,
+      "border": 158,
+      "bounds": [
+        0,
+        10,
+        301,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "myth",
+      "index": 0,
+      "occupied": 25843,
+      "transparent": 50046,
+      "rectangleFill": 0.34026333113890717,
+      "border": 20,
+      "bounds": [
+        47,
+        0,
+        291,
+        309
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "myth",
+      "index": 1,
+      "occupied": 41572,
+      "transparent": 30806,
+      "rectangleFill": 0.4427263045793397,
+      "border": 95,
+      "bounds": [
+        13,
+        0,
+        312,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "myth",
+      "index": 2,
+      "occupied": 54944,
+      "transparent": 16513,
+      "rectangleFill": 0.6032300209698847,
+      "border": 201,
+      "bounds": [
+        0,
+        0,
+        290,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "myth",
+      "index": 3,
+      "occupied": 61630,
+      "transparent": 10376,
+      "rectangleFill": 0.6519899286968664,
+      "border": 269,
+      "bounds": [
+        0,
+        0,
+        301,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "recursive",
+      "index": 0,
+      "occupied": 29043,
+      "transparent": 47142,
+      "rectangleFill": 0.5873561591198657,
+      "border": 0,
+      "bounds": [
+        45,
+        99,
+        295,
+        295
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "recursive",
+      "index": 1,
+      "occupied": 45628,
+      "transparent": 21690,
+      "rectangleFill": 0.5224959061916704,
+      "border": 71,
+      "bounds": [
+        13,
+        0,
+        291,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "recursive",
+      "index": 2,
+      "occupied": 54094,
+      "transparent": 17706,
+      "rectangleFill": 0.6150330290041272,
+      "border": 180,
+      "bounds": [
+        10,
+        0,
+        290,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "recursive",
+      "index": 3,
+      "occupied": 64856,
+      "transparent": 10510,
+      "rectangleFill": 0.6883975672147156,
+      "border": 234,
+      "bounds": [
+        1,
+        0,
+        301,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "sail",
+      "index": 0,
+      "occupied": 15142,
+      "transparent": 64372,
+      "rectangleFill": 0.33473339817844194,
+      "border": 0,
+      "bounds": [
+        44,
+        73,
+        306,
+        244
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "sail",
+      "index": 1,
+      "occupied": 28948,
+      "transparent": 40580,
+      "rectangleFill": 0.37205835100571943,
+      "border": 22,
+      "bounds": [
+        9,
+        0,
+        293,
+        272
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "sail",
+      "index": 2,
+      "occupied": 33847,
+      "transparent": 41048,
+      "rectangleFill": 0.37902151151722824,
+      "border": 94,
+      "bounds": [
+        4,
+        0,
+        312,
+        288
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "sail",
+      "index": 3,
+      "occupied": 47489,
+      "transparent": 20132,
+      "rectangleFill": 0.5241785048070025,
+      "border": 115,
+      "bounds": [
+        0,
+        0,
+        302,
+        298
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "gravity",
+      "index": 0,
+      "occupied": 22312,
+      "transparent": 54973,
+      "rectangleFill": 0.35756410256410254,
+      "border": 30,
+      "bounds": [
+        14,
+        106,
+        313,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "gravity",
+      "index": 1,
+      "occupied": 32231,
+      "transparent": 34259,
+      "rectangleFill": 0.4237631312533691,
+      "border": 88,
+      "bounds": [
+        0,
+        71,
+        312,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "gravity",
+      "index": 2,
+      "occupied": 43815,
+      "transparent": 28361,
+      "rectangleFill": 0.5425737424771528,
+      "border": 167,
+      "bounds": [
+        0,
+        56,
+        312,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "gravity",
+      "index": 3,
+      "occupied": 54629,
+      "transparent": 11739,
+      "rectangleFill": 0.5758725741332237,
+      "border": 87,
+      "bounds": [
+        0,
+        7,
+        308,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "crystal",
+      "index": 0,
+      "occupied": 27822,
+      "transparent": 53952,
+      "rectangleFill": 0.3118883470657474,
+      "border": 155,
+      "bounds": [
+        29,
+        0,
+        313,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "crystal",
+      "index": 1,
+      "occupied": 47604,
+      "transparent": 29178,
+      "rectangleFill": 0.48590880788820956,
+      "border": 332,
+      "bounds": [
+        0,
+        0,
+        312,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "crystal",
+      "index": 2,
+      "occupied": 61279,
+      "transparent": 16216,
+      "rectangleFill": 0.625493778644265,
+      "border": 444,
+      "bounds": [
+        0,
+        0,
+        312,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "crystal",
+      "index": 3,
+      "occupied": 63195,
+      "transparent": 10878,
+      "rectangleFill": 0.661970355627717,
+      "border": 301,
+      "bounds": [
+        0,
+        0,
+        304,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "manyeyes",
+      "index": 0,
+      "occupied": 22184,
+      "transparent": 59719,
+      "rectangleFill": 0.2567978978318497,
+      "border": 106,
+      "bounds": [
+        27,
+        0,
+        313,
+        300
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "manyeyes",
+      "index": 1,
+      "occupied": 43637,
+      "transparent": 32018,
+      "rectangleFill": 0.451182315415077,
+      "border": 237,
+      "bounds": [
+        0,
+        0,
+        312,
+        308
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "manyeyes",
+      "index": 2,
+      "occupied": 60135,
+      "transparent": 12982,
+      "rectangleFill": 0.6138166154599924,
+      "border": 302,
+      "bounds": [
+        0,
+        0,
+        312,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "manyeyes",
+      "index": 3,
+      "occupied": 67978,
+      "transparent": 6226,
+      "rectangleFill": 0.7097454530267912,
+      "border": 198,
+      "bounds": [
+        0,
+        0,
+        305,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "abyssshell",
+      "index": 0,
+      "occupied": 30807,
+      "transparent": 55388,
+      "rectangleFill": 0.5459813912272928,
+      "border": 40,
+      "bounds": [
+        9,
+        88,
+        313,
+        272
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "abyssshell",
+      "index": 1,
+      "occupied": 43815,
+      "transparent": 40824,
+      "rectangleFill": 0.6362910252686611,
+      "border": 123,
+      "bounds": [
+        0,
+        63,
+        312,
+        282
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "abyssshell",
+      "index": 2,
+      "occupied": 55744,
+      "transparent": 26494,
+      "rectangleFill": 0.6293139457433478,
+      "border": 249,
+      "bounds": [
+        0,
+        0,
+        312,
+        282
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "abyssshell",
+      "index": 3,
+      "occupied": 70821,
+      "transparent": 10666,
+      "rectangleFill": 0.7638322655794991,
+      "border": 186,
+      "bounds": [
+        0,
+        0,
+        305,
+        302
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "parallel",
+      "index": 0,
+      "occupied": 22756,
+      "transparent": 54862,
+      "rectangleFill": 0.3970616461063321,
+      "border": 0,
+      "bounds": [
+        35,
+        84,
+        291,
+        306
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "parallel",
+      "index": 1,
+      "occupied": 33054,
+      "transparent": 37212,
+      "rectangleFill": 0.456818276047929,
+      "border": 0,
+      "bounds": [
+        26,
+        43,
+        296,
+        309
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "parallel",
+      "index": 2,
+      "occupied": 45820,
+      "transparent": 25301,
+      "rectangleFill": 0.5584740081662503,
+      "border": 50,
+      "bounds": [
+        8,
+        38,
+        312,
+        306
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "parallel",
+      "index": 3,
+      "occupied": 52395,
+      "transparent": 23187,
+      "rectangleFill": 0.5861262752819044,
+      "border": 75,
+      "bounds": [
+        0,
+        18,
+        301,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "memory",
+      "index": 0,
+      "occupied": 22563,
+      "transparent": 67475,
+      "rectangleFill": 0.5767195767195767,
+      "border": 0,
+      "bounds": [
+        34,
+        95,
+        240,
+        283
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "memory",
+      "index": 1,
+      "occupied": 42806,
+      "transparent": 40909,
+      "rectangleFill": 0.6645243417784401,
+      "border": 0,
+      "bounds": [
+        22,
+        50,
+        285,
+        293
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "memory",
+      "index": 2,
+      "occupied": 54865,
+      "transparent": 26673,
+      "rectangleFill": 0.6107579788714363,
+      "border": 55,
+      "bounds": [
+        0,
+        26,
+        312,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "memory",
+      "index": 3,
+      "occupied": 58998,
+      "transparent": 19067,
+      "rectangleFill": 0.6346532416819957,
+      "border": 52,
+      "bounds": [
+        0,
+        0,
+        296,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "serpent",
+      "index": 0,
+      "occupied": 52647,
+      "transparent": 37696,
+      "rectangleFill": 0.5263910413437984,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        417,
+        243
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "serpent",
+      "index": 1,
+      "occupied": 69979,
+      "transparent": 42179,
+      "rectangleFill": 0.5627854982950524,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        473,
+        266
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "serpent",
+      "index": 2,
+      "occupied": 76652,
+      "transparent": 34581,
+      "rectangleFill": 0.5984510165204084,
+      "border": 111,
+      "bounds": [
+        3,
+        3,
+        453,
+        286
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "serpent",
+      "index": 3,
+      "occupied": 81583,
+      "transparent": 22541,
+      "rectangleFill": 0.6621889255044561,
+      "border": 122,
+      "bounds": [
+        3,
+        0,
+        460,
+        268
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "solar",
+      "index": 0,
+      "occupied": 30754,
+      "transparent": 52572,
+      "rectangleFill": 0.517413102728894,
+      "border": 0,
+      "bounds": [
+        41,
+        46,
+        303,
+        271
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "solar",
+      "index": 1,
+      "occupied": 43960,
+      "transparent": 33212,
+      "rectangleFill": 0.5488962141644191,
+      "border": 0,
+      "bounds": [
+        23,
+        8,
+        306,
+        289
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "solar",
+      "index": 2,
+      "occupied": 55396,
+      "transparent": 23352,
+      "rectangleFill": 0.6301731394899097,
+      "border": 2,
+      "bounds": [
+        11,
+        0,
+        304,
+        298
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "solar",
+      "index": 3,
+      "occupied": 66910,
+      "transparent": 14124,
+      "rectangleFill": 0.7434527050300559,
+      "border": 13,
+      "bounds": [
+        6,
+        0,
+        306,
+        298
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "antimeme",
+      "index": 0,
+      "occupied": 24453,
+      "transparent": 57550,
+      "rectangleFill": 0.47672242367528367,
+      "border": 0,
+      "bounds": [
+        33,
+        85,
+        281,
+        290
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "antimeme",
+      "index": 1,
+      "occupied": 35981,
+      "transparent": 39900,
+      "rectangleFill": 0.46271862139917697,
+      "border": 0,
+      "bounds": [
+        18,
+        41,
+        305,
+        310
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "antimeme",
+      "index": 2,
+      "occupied": 47687,
+      "transparent": 27968,
+      "rectangleFill": 0.5198739752311181,
+      "border": 62,
+      "bounds": [
+        1,
+        20,
+        312,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "antimeme",
+      "index": 3,
+      "occupied": 51558,
+      "transparent": 20511,
+      "rectangleFill": 0.5747826086956521,
+      "border": 37,
+      "bounds": [
+        0,
+        13,
+        299,
+        311
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "valis",
+      "index": 0,
+      "occupied": 29596,
+      "transparent": 39137,
+      "rectangleFill": 0.45045812912848926,
+      "border": 0,
+      "bounds": [
+        33,
+        45,
+        279,
+        310
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "valis",
+      "index": 1,
+      "occupied": 45227,
+      "transparent": 17670,
+      "rectangleFill": 0.49654710538739394,
+      "border": 40,
+      "bounds": [
+        0,
+        15,
+        312,
+        305
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "valis",
+      "index": 2,
+      "occupied": 53882,
+      "transparent": 7670,
+      "rectangleFill": 0.5571099186285762,
+      "border": 81,
+      "bounds": [
+        0,
+        0,
+        312,
+        308
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "valis",
+      "index": 3,
+      "occupied": 62486,
+      "transparent": 7767,
+      "rectangleFill": 0.6809721011333915,
+      "border": 46,
+      "bounds": [
+        0,
+        3,
+        295,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "jelly",
+      "index": 0,
+      "occupied": 25696,
+      "transparent": 54681,
+      "rectangleFill": 0.5864256698160574,
+      "border": 0,
+      "bounds": [
+        63,
+        64,
+        263,
+        281
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "jelly",
+      "index": 1,
+      "occupied": 39002,
+      "transparent": 28518,
+      "rectangleFill": 0.4995389108048568,
+      "border": 96,
+      "bounds": [
+        15,
+        32,
+        312,
+        293
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "jelly",
+      "index": 2,
+      "occupied": 55660,
+      "transparent": 15224,
+      "rectangleFill": 0.5947407225362497,
+      "border": 279,
+      "bounds": [
+        0,
+        14,
+        312,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "jelly",
+      "index": 3,
+      "occupied": 68254,
+      "transparent": 12425,
+      "rectangleFill": 0.734221877991846,
+      "border": 196,
+      "bounds": [
+        0,
+        0,
+        296,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "kelp",
+      "index": 0,
+      "occupied": 32105,
+      "transparent": 58711,
+      "rectangleFill": 0.6467045362984449,
+      "border": 0,
+      "bounds": [
+        32,
+        65,
+        283,
+        261
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "kelp",
+      "index": 1,
+      "occupied": 53121,
+      "transparent": 31843,
+      "rectangleFill": 0.6773046028305495,
+      "border": 114,
+      "bounds": [
+        3,
+        19,
+        312,
+        271
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "kelp",
+      "index": 2,
+      "occupied": 62605,
+      "transparent": 21782,
+      "rectangleFill": 0.7169031341967548,
+      "border": 216,
+      "bounds": [
+        0,
+        0,
+        312,
+        278
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "kelp",
+      "index": 3,
+      "occupied": 68916,
+      "transparent": 17188,
+      "rectangleFill": 0.7659460961378161,
+      "border": 102,
+      "bounds": [
+        0,
+        0,
+        304,
+        294
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "whale",
+      "index": 0,
+      "occupied": 25702,
+      "transparent": 54572,
+      "rectangleFill": 0.5070428092325903,
+      "border": 0,
+      "bounds": [
+        34,
+        120,
+        307,
+        304
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "whale",
+      "index": 1,
+      "occupied": 38303,
+      "transparent": 34600,
+      "rectangleFill": 0.5200255240577821,
+      "border": 6,
+      "bounds": [
+        5,
+        66,
+        301,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "whale",
+      "index": 2,
+      "occupied": 48355,
+      "transparent": 32957,
+      "rectangleFill": 0.6775825346112886,
+      "border": 77,
+      "bounds": [
+        0,
+        86,
+        312,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "whale",
+      "index": 3,
+      "occupied": 59960,
+      "transparent": 13238,
+      "rectangleFill": 0.6552719006819374,
+      "border": 103,
+      "bounds": [
+        0,
+        10,
+        300,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "swarm",
+      "index": 0,
+      "occupied": 33809,
+      "transparent": 49568,
+      "rectangleFill": 0.6264174016156525,
+      "border": 0,
+      "bounds": [
+        13,
+        95,
+        274,
+        300
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "swarm",
+      "index": 1,
+      "occupied": 42884,
+      "transparent": 35575,
+      "rectangleFill": 0.4419572924396076,
+      "border": 86,
+      "bounds": [
+        1,
+        0,
+        312,
+        310
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "swarm",
+      "index": 2,
+      "occupied": 49302,
+      "transparent": 26771,
+      "rectangleFill": 0.5064770964527495,
+      "border": 225,
+      "bounds": [
+        0,
+        0,
+        312,
+        310
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "swarm",
+      "index": 3,
+      "occupied": 61706,
+      "transparent": 11764,
+      "rectangleFill": 0.6400771752209452,
+      "border": 202,
+      "bounds": [
+        0,
+        0,
+        307,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "plasma",
+      "index": 0,
+      "occupied": 30381,
+      "transparent": 45347,
+      "rectangleFill": 0.4800208560458833,
+      "border": 36,
+      "bounds": [
+        25,
+        69,
+        313,
+        287
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "plasma",
+      "index": 1,
+      "occupied": 44694,
+      "transparent": 25816,
+      "rectangleFill": 0.5269089751600391,
+      "border": 104,
+      "bounds": [
+        0,
+        34,
+        312,
+        304
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "plasma",
+      "index": 2,
+      "occupied": 56260,
+      "transparent": 18867,
+      "rectangleFill": 0.635139254225042,
+      "border": 105,
+      "bounds": [
+        0,
+        24,
+        312,
+        306
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "plasma",
+      "index": 3,
+      "occupied": 69727,
+      "transparent": 5473,
+      "rectangleFill": 0.7209384079324214,
+      "border": 107,
+      "bounds": [
+        0,
+        0,
+        308,
+        312
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "cephalopod",
+      "index": 0,
+      "occupied": 33386,
+      "transparent": 52658,
+      "rectangleFill": 0.557827903091061,
+      "border": 0,
+      "bounds": [
+        28,
+        42,
+        293,
+        266
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "cephalopod",
+      "index": 1,
+      "occupied": 44005,
+      "transparent": 38403,
+      "rectangleFill": 0.5762683009874021,
+      "border": 0,
+      "bounds": [
+        5,
+        15,
+        290,
+        281
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "cephalopod",
+      "index": 2,
+      "occupied": 51682,
+      "transparent": 28324,
+      "rectangleFill": 0.5669683506115957,
+      "border": 88,
+      "bounds": [
+        4,
+        1,
+        312,
+        295
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "cephalopod",
+      "index": 3,
+      "occupied": 64627,
+      "transparent": 17764,
+      "rectangleFill": 0.7206400535236396,
+      "border": 142,
+      "bounds": [
+        0,
+        0,
+        303,
+        294
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "precocial",
+      "index": 0,
+      "occupied": 37754,
+      "transparent": 50242,
+      "rectangleFill": 0.6927593673162318,
+      "border": 227,
+      "bounds": [
+        17,
+        128,
+        309,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "precocial",
+      "index": 1,
+      "occupied": 48619,
+      "transparent": 38262,
+      "rectangleFill": 0.7022822475805287,
+      "border": 176,
+      "bounds": [
+        7,
+        84,
+        307,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "precocial",
+      "index": 2,
+      "occupied": 62501,
+      "transparent": 27180,
+      "rectangleFill": 0.7675238235583063,
+      "border": 381,
+      "bounds": [
+        1,
+        53,
+        312,
+        313
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "tideparasite",
+      "index": 0,
+      "occupied": 52678,
+      "transparent": 21100,
+      "rectangleFill": 0.6397930431403032,
+      "border": 0,
+      "bounds": [
+        8,
+        9,
+        339,
+        256
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "tideparasite",
+      "index": 1,
+      "occupied": 47776,
+      "transparent": 12815,
+      "rectangleFill": 0.5826909942433408,
+      "border": 22,
+      "bounds": [
+        5,
+        8,
+        281,
+        303
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "tideparasite",
+      "index": 2,
+      "occupied": 64832,
+      "transparent": 16120,
+      "rectangleFill": 0.6225764632448264,
+      "border": 14,
+      "bounds": [
+        0,
+        8,
+        352,
+        302
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "leafparasite",
+      "index": 0,
+      "occupied": 45629,
+      "transparent": 20057,
+      "rectangleFill": 0.5471103117505995,
+      "border": 6,
+      "bounds": [
+        9,
+        0,
+        308,
+        277
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "leafparasite",
+      "index": 1,
+      "occupied": 37824,
+      "transparent": 15834,
+      "rectangleFill": 0.4449463579898362,
+      "border": 89,
+      "bounds": [
+        8,
+        0,
+        315,
+        275
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "leafparasite",
+      "index": 2,
+      "occupied": 62728,
+      "transparent": 13401,
+      "rectangleFill": 0.6696486714421445,
+      "border": 19,
+      "bounds": [
+        0,
+        8,
+        330,
+        290
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "hyperparasite",
+      "index": 0,
+      "occupied": 31045,
+      "transparent": 36415,
+      "rectangleFill": 0.37263539466103324,
+      "border": 34,
+      "bounds": [
+        8,
+        0,
+        335,
+        253
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "hyperparasite",
+      "index": 1,
+      "occupied": 21935,
+      "transparent": 53759,
+      "rectangleFill": 0.24635272184099102,
+      "border": 76,
+      "bounds": [
+        0,
+        9,
+        330,
+        277
+      ]
+    },
+    {
+      "kind": "base",
+      "id": "hyperparasite",
+      "index": 2,
+      "occupied": 42433,
+      "transparent": 24620,
+      "rectangleFill": 0.4682313735875706,
+      "border": 37,
+      "bounds": [
+        0,
+        8,
+        353,
+        263
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "solar",
+      "index": 0,
+      "occupied": 116982,
+      "transparent": 34323,
+      "rectangleFill": 0.718995464100011,
+      "border": 46,
+      "bounds": [
+        4,
+        23,
+        417,
+        415
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "solar",
+      "index": 1,
+      "occupied": 78487,
+      "transparent": 60727,
+      "rectangleFill": 0.4980582031398728,
+      "border": 265,
+      "bounds": [
+        0,
+        41,
+        417,
+        417
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "solar",
+      "index": 2,
+      "occupied": 112774,
+      "transparent": 24906,
+      "rectangleFill": 0.6676494269205266,
+      "border": 307,
+      "bounds": [
+        0,
+        10,
+        413,
+        417
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "solar",
+      "index": 3,
+      "occupied": 96417,
+      "transparent": 39325,
+      "rectangleFill": 0.6059389140271493,
+      "border": 146,
+      "bounds": [
+        10,
+        24,
+        417,
+        413
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "solar",
+      "index": 4,
+      "occupied": 97973,
+      "transparent": 52047,
+      "rectangleFill": 0.6040854831549352,
+      "border": 256,
+      "bounds": [
+        0,
+        0,
+        417,
+        387
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "solar",
+      "index": 5,
+      "occupied": 88881,
+      "transparent": 46713,
+      "rectangleFill": 0.5111364146093197,
+      "border": 197,
+      "bounds": [
+        0,
+        0,
+        416,
+        416
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "solar",
+      "index": 6,
+      "occupied": 97717,
+      "transparent": 38509,
+      "rectangleFill": 0.624282072741444,
+      "border": 140,
+      "bounds": [
+        5,
+        7,
+        417,
+        385
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "solar",
+      "index": 7,
+      "occupied": 84790,
+      "transparent": 50819,
+      "rectangleFill": 0.5409250398724083,
+      "border": 325,
+      "bounds": [
+        0,
+        9,
+        417,
+        383
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "solar",
+      "index": 8,
+      "occupied": 121635,
+      "transparent": 27654,
+      "rectangleFill": 0.7572277005826984,
+      "border": 186,
+      "bounds": [
+        0,
+        6,
+        413,
+        393
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "jelly",
+      "index": 0,
+      "occupied": 90092,
+      "transparent": 56372,
+      "rectangleFill": 0.6458485669634536,
+      "border": 133,
+      "bounds": [
+        16,
+        71,
+        417,
+        417
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "jelly",
+      "index": 1,
+      "occupied": 80455,
+      "transparent": 65880,
+      "rectangleFill": 0.5595234783576277,
+      "border": 281,
+      "bounds": [
+        0,
+        74,
+        417,
+        417
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "jelly",
+      "index": 2,
+      "occupied": 81036,
+      "transparent": 58165,
+      "rectangleFill": 0.5840600810113444,
+      "border": 157,
+      "bounds": [
+        0,
+        72,
+        400,
+        417
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "jelly",
+      "index": 3,
+      "occupied": 79704,
+      "transparent": 50259,
+      "rectangleFill": 0.48006938672256155,
+      "border": 112,
+      "bounds": [
+        16,
+        0,
+        417,
+        412
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "jelly",
+      "index": 4,
+      "occupied": 108066,
+      "transparent": 33479,
+      "rectangleFill": 0.618495455690117,
+      "border": 275,
+      "bounds": [
+        0,
+        0,
+        417,
+        417
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "jelly",
+      "index": 5,
+      "occupied": 58891,
+      "transparent": 78388,
+      "rectangleFill": 0.3419600966228457,
+      "border": 165,
+      "bounds": [
+        0,
+        0,
+        411,
+        417
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "jelly",
+      "index": 6,
+      "occupied": 90394,
+      "transparent": 55333,
+      "rectangleFill": 0.6377946644652823,
+      "border": 32,
+      "bounds": [
+        21,
+        11,
+        417,
+        367
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "jelly",
+      "index": 7,
+      "occupied": 80904,
+      "transparent": 47485,
+      "rectangleFill": 0.5119113152749568,
+      "border": 116,
+      "bounds": [
+        0,
+        0,
+        416,
+        378
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "jelly",
+      "index": 8,
+      "occupied": 99335,
+      "transparent": 59648,
+      "rectangleFill": 0.7375631125631126,
+      "border": 93,
+      "bounds": [
+        37,
+        0,
+        406,
+        363
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "crystal",
+      "index": 0,
+      "occupied": 40467,
+      "transparent": 17113,
+      "rectangleFill": 0.5835604585766818,
+      "border": 2,
+      "bounds": [
+        3,
+        3,
+        347,
+        203
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "crystal",
+      "index": 1,
+      "occupied": 32203,
+      "transparent": 26315,
+      "rectangleFill": 0.3891836364735029,
+      "border": 4,
+      "bounds": [
+        0,
+        3,
+        334,
+        249
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "crystal",
+      "index": 2,
+      "occupied": 37932,
+      "transparent": 13320,
+      "rectangleFill": 0.6407432432432433,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        322,
+        187
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "crystal",
+      "index": 3,
+      "occupied": 49393,
+      "transparent": 20958,
+      "rectangleFill": 0.5651437659469788,
+      "border": 20,
+      "bounds": [
+        3,
+        3,
+        353,
+        251
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "crystal",
+      "index": 4,
+      "occupied": 49905,
+      "transparent": 15503,
+      "rectangleFill": 0.6235007496251874,
+      "border": 42,
+      "bounds": [
+        0,
+        3,
+        344,
+        234
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "crystal",
+      "index": 5,
+      "occupied": 30464,
+      "transparent": 28044,
+      "rectangleFill": 0.3602308201683852,
+      "border": 36,
+      "bounds": [
+        0,
+        3,
+        340,
+        250
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "crystal",
+      "index": 6,
+      "occupied": 38062,
+      "transparent": 15856,
+      "rectangleFill": 0.5882662050632129,
+      "border": 25,
+      "bounds": [
+        3,
+        3,
+        348,
+        189
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "crystal",
+      "index": 7,
+      "occupied": 44044,
+      "transparent": 16980,
+      "rectangleFill": 0.568772034040575,
+      "border": 53,
+      "bounds": [
+        0,
+        3,
+        366,
+        213
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "crystal",
+      "index": 8,
+      "occupied": 43023,
+      "transparent": 15330,
+      "rectangleFill": 0.6230161028730306,
+      "border": 4,
+      "bounds": [
+        0,
+        3,
+        331,
+        210
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyss",
+      "index": 0,
+      "occupied": 68841,
+      "transparent": 13021,
+      "rectangleFill": 0.753546565086037,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        333,
+        278
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyss",
+      "index": 1,
+      "occupied": 54696,
+      "transparent": 15911,
+      "rectangleFill": 0.5971309417236185,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        340,
+        273
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyss",
+      "index": 2,
+      "occupied": 71113,
+      "transparent": 9369,
+      "rectangleFill": 0.767312630829323,
+      "border": 45,
+      "bounds": [
+        3,
+        3,
+        313,
+        300
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyss",
+      "index": 3,
+      "occupied": 64683,
+      "transparent": 8892,
+      "rectangleFill": 0.7436195162328704,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        334,
+        264
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyss",
+      "index": 4,
+      "occupied": 60483,
+      "transparent": 9842,
+      "rectangleFill": 0.7160632680605213,
+      "border": 27,
+      "bounds": [
+        3,
+        3,
+        316,
+        271
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyss",
+      "index": 5,
+      "occupied": 57710,
+      "transparent": 8524,
+      "rectangleFill": 0.6378064145354877,
+      "border": 271,
+      "bounds": [
+        3,
+        0,
+        324,
+        280
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyss",
+      "index": 6,
+      "occupied": 55208,
+      "transparent": 7666,
+      "rectangleFill": 0.7642303433001107,
+      "border": 14,
+      "bounds": [
+        3,
+        3,
+        303,
+        242
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyss",
+      "index": 7,
+      "occupied": 49351,
+      "transparent": 20150,
+      "rectangleFill": 0.5140729166666667,
+      "border": 118,
+      "bounds": [
+        0,
+        0,
+        399,
+        239
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyss",
+      "index": 8,
+      "occupied": 58691,
+      "transparent": 5486,
+      "rectangleFill": 0.7873019705689028,
+      "border": 55,
+      "bounds": [
+        3,
+        0,
+        299,
+        250
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "myth",
+      "index": 0,
+      "occupied": 53197,
+      "transparent": 14322,
+      "rectangleFill": 0.6351880597014925,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        337,
+        252
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "myth",
+      "index": 1,
+      "occupied": 48735,
+      "transparent": 20183,
+      "rectangleFill": 0.5573089985934337,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        311,
+        285
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "myth",
+      "index": 2,
+      "occupied": 53688,
+      "transparent": 13709,
+      "rectangleFill": 0.6247730763859796,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        310,
+        281
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "myth",
+      "index": 3,
+      "occupied": 37372,
+      "transparent": 11760,
+      "rectangleFill": 0.5733308787432498,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        338,
+        196
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "myth",
+      "index": 4,
+      "occupied": 39253,
+      "transparent": 5170,
+      "rectangleFill": 0.7034587813620071,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        250,
+        227
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "myth",
+      "index": 5,
+      "occupied": 45653,
+      "transparent": 11700,
+      "rectangleFill": 0.5856552750410509,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        350,
+        226
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "myth",
+      "index": 6,
+      "occupied": 43370,
+      "transparent": 10728,
+      "rectangleFill": 0.6334160946399883,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        336,
+        207
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "myth",
+      "index": 7,
+      "occupied": 44787,
+      "transparent": 9736,
+      "rectangleFill": 0.6169518141995206,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        335,
+        220
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "myth",
+      "index": 8,
+      "occupied": 49945,
+      "transparent": 4959,
+      "rectangleFill": 0.7871552403467297,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        284,
+        227
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "recursive",
+      "index": 0,
+      "occupied": 46118,
+      "transparent": 18054,
+      "rectangleFill": 0.5322208373724784,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        334,
+        263
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "recursive",
+      "index": 1,
+      "occupied": 44748,
+      "transparent": 15831,
+      "rectangleFill": 0.5440420177262283,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        335,
+        249
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "recursive",
+      "index": 2,
+      "occupied": 45493,
+      "transparent": 10154,
+      "rectangleFill": 0.6266253443526171,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        302,
+        244
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "recursive",
+      "index": 3,
+      "occupied": 39799,
+      "transparent": 12347,
+      "rectangleFill": 0.5733156628588715,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        331,
+        213
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "recursive",
+      "index": 4,
+      "occupied": 43780,
+      "transparent": 3996,
+      "rectangleFill": 0.7517686654303181,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        278,
+        213
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "recursive",
+      "index": 5,
+      "occupied": 40951,
+      "transparent": 16723,
+      "rectangleFill": 0.511631684157921,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        350,
+        232
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "recursive",
+      "index": 6,
+      "occupied": 41140,
+      "transparent": 20193,
+      "rectangleFill": 0.49867875584862664,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        336,
+        249
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "recursive",
+      "index": 7,
+      "occupied": 42829,
+      "transparent": 17722,
+      "rectangleFill": 0.5236075113697491,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        340,
+        244
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "recursive",
+      "index": 8,
+      "occupied": 46372,
+      "transparent": 9592,
+      "rectangleFill": 0.7212829167379571,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        271,
+        241
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "sail",
+      "index": 0,
+      "occupied": 46375,
+      "transparent": 24485,
+      "rectangleFill": 0.5741469816272966,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        320,
+        256
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "sail",
+      "index": 1,
+      "occupied": 31032,
+      "transparent": 20334,
+      "rectangleFill": 0.4416423539457767,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        301,
+        237
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "sail",
+      "index": 2,
+      "occupied": 50624,
+      "transparent": 19837,
+      "rectangleFill": 0.6516321697044588,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        314,
+        251
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "sail",
+      "index": 3,
+      "occupied": 45997,
+      "transparent": 17075,
+      "rectangleFill": 0.590181813516045,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        315,
+        251
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "sail",
+      "index": 4,
+      "occupied": 48729,
+      "transparent": 17371,
+      "rectangleFill": 0.6725879917184265,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        317,
+        232
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "sail",
+      "index": 5,
+      "occupied": 33204,
+      "transparent": 23682,
+      "rectangleFill": 0.44855116514690985,
+      "border": 80,
+      "bounds": [
+        3,
+        3,
+        317,
+        237
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "sail",
+      "index": 6,
+      "occupied": 40970,
+      "transparent": 19712,
+      "rectangleFill": 0.5932866079703429,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        334,
+        210
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "sail",
+      "index": 7,
+      "occupied": 34771,
+      "transparent": 21899,
+      "rectangleFill": 0.4918730814389385,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        319,
+        225
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "sail",
+      "index": 8,
+      "occupied": 51693,
+      "transparent": 14420,
+      "rectangleFill": 0.7060342001748252,
+      "border": 27,
+      "bounds": [
+        3,
+        0,
+        288,
+        255
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "gravity",
+      "index": 0,
+      "occupied": 55636,
+      "transparent": 12653,
+      "rectangleFill": 0.7079272172032065,
+      "border": 53,
+      "bounds": [
+        3,
+        3,
+        292,
+        273
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "gravity",
+      "index": 1,
+      "occupied": 49623,
+      "transparent": 16326,
+      "rectangleFill": 0.6066900590515081,
+      "border": 66,
+      "bounds": [
+        3,
+        3,
+        313,
+        265
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "gravity",
+      "index": 2,
+      "occupied": 56170,
+      "transparent": 7873,
+      "rectangleFill": 0.7890263945272443,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        279,
+        259
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "gravity",
+      "index": 3,
+      "occupied": 47934,
+      "transparent": 10635,
+      "rectangleFill": 0.6934895833333333,
+      "border": 32,
+      "bounds": [
+        3,
+        0,
+        290,
+        239
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "gravity",
+      "index": 4,
+      "occupied": 51212,
+      "transparent": 11450,
+      "rectangleFill": 0.7160514541387024,
+      "border": 38,
+      "bounds": [
+        3,
+        0,
+        300,
+        239
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "gravity",
+      "index": 5,
+      "occupied": 31411,
+      "transparent": 18774,
+      "rectangleFill": 0.481011301338397,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        319,
+        208
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "gravity",
+      "index": 6,
+      "occupied": 41004,
+      "transparent": 17590,
+      "rectangleFill": 0.6120730833532362,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        318,
+        214
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "gravity",
+      "index": 7,
+      "occupied": 34489,
+      "transparent": 25978,
+      "rectangleFill": 0.4694169207317073,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        330,
+        226
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "gravity",
+      "index": 8,
+      "occupied": 48485,
+      "transparent": 7462,
+      "rectangleFill": 0.8015241936817047,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        253,
+        243
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "manyeyes",
+      "index": 0,
+      "occupied": 48770,
+      "transparent": 7456,
+      "rectangleFill": 0.6826325513689043,
+      "border": 25,
+      "bounds": [
+        3,
+        3,
+        339,
+        214
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "manyeyes",
+      "index": 1,
+      "occupied": 41034,
+      "transparent": 11546,
+      "rectangleFill": 0.5643592952729374,
+      "border": 31,
+      "bounds": [
+        0,
+        3,
+        328,
+        223
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "manyeyes",
+      "index": 2,
+      "occupied": 50669,
+      "transparent": 7556,
+      "rectangleFill": 0.7391862517688593,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        315,
+        221
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "manyeyes",
+      "index": 3,
+      "occupied": 49832,
+      "transparent": 3185,
+      "rectangleFill": 0.7549731080978713,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        309,
+        217
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "manyeyes",
+      "index": 4,
+      "occupied": 49427,
+      "transparent": 6260,
+      "rectangleFill": 0.6217232704402516,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        377,
+        214
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "manyeyes",
+      "index": 5,
+      "occupied": 47999,
+      "transparent": 4801,
+      "rectangleFill": 0.7167988292041874,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        305,
+        223
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "manyeyes",
+      "index": 6,
+      "occupied": 48151,
+      "transparent": 7344,
+      "rectangleFill": 0.6943687360299949,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        347,
+        203
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "manyeyes",
+      "index": 7,
+      "occupied": 58034,
+      "transparent": 5711,
+      "rectangleFill": 0.6860540719461882,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        353,
+        243
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "manyeyes",
+      "index": 8,
+      "occupied": 47381,
+      "transparent": 4582,
+      "rectangleFill": 0.7750732034483323,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        289,
+        215
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyssshell",
+      "index": 0,
+      "occupied": 48742,
+      "transparent": 12001,
+      "rectangleFill": 0.6798995675826475,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        337,
+        216
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyssshell",
+      "index": 1,
+      "occupied": 51696,
+      "transparent": 12832,
+      "rectangleFill": 0.6343378816138215,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        336,
+        246
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyssshell",
+      "index": 2,
+      "occupied": 51490,
+      "transparent": 13114,
+      "rectangleFill": 0.65541426407505,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        303,
+        263
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyssshell",
+      "index": 3,
+      "occupied": 50902,
+      "transparent": 9764,
+      "rectangleFill": 0.6850506029285099,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        346,
+        218
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyssshell",
+      "index": 4,
+      "occupied": 53866,
+      "transparent": 8173,
+      "rectangleFill": 0.7299905136197317,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        316,
+        237
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyssshell",
+      "index": 5,
+      "occupied": 43850,
+      "transparent": 10586,
+      "rectangleFill": 0.5899526423420515,
+      "border": 30,
+      "bounds": [
+        3,
+        3,
+        328,
+        230
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyssshell",
+      "index": 6,
+      "occupied": 46867,
+      "transparent": 13547,
+      "rectangleFill": 0.6583368450625088,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        341,
+        212
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyssshell",
+      "index": 7,
+      "occupied": 53570,
+      "transparent": 16759,
+      "rectangleFill": 0.6428811443932412,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        338,
+        250
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "abyssshell",
+      "index": 8,
+      "occupied": 60496,
+      "transparent": 10122,
+      "rectangleFill": 0.7743983614951356,
+      "border": 4,
+      "bounds": [
+        3,
+        0,
+        312,
+        251
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "parallel",
+      "index": 0,
+      "occupied": 35344,
+      "transparent": 14789,
+      "rectangleFill": 0.5690090960315544,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        305,
+        207
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "parallel",
+      "index": 1,
+      "occupied": 50414,
+      "transparent": 15340,
+      "rectangleFill": 0.5786531685088897,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        341,
+        259
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "parallel",
+      "index": 2,
+      "occupied": 53108,
+      "transparent": 20480,
+      "rectangleFill": 0.5914426353653919,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        325,
+        280
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "parallel",
+      "index": 3,
+      "occupied": 48436,
+      "transparent": 19117,
+      "rectangleFill": 0.5990847247990105,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        332,
+        247
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "parallel",
+      "index": 4,
+      "occupied": 50106,
+      "transparent": 8410,
+      "rectangleFill": 0.7130902570233114,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        296,
+        241
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "parallel",
+      "index": 5,
+      "occupied": 46419,
+      "transparent": 12579,
+      "rectangleFill": 0.548746320530553,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        353,
+        243
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "parallel",
+      "index": 6,
+      "occupied": 41372,
+      "transparent": 11436,
+      "rectangleFill": 0.6309111704155547,
+      "border": 38,
+      "bounds": [
+        3,
+        3,
+        307,
+        217
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "parallel",
+      "index": 7,
+      "occupied": 58894,
+      "transparent": 17947,
+      "rectangleFill": 0.620773252382157,
+      "border": 10,
+      "bounds": [
+        0,
+        3,
+        401,
+        238
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "parallel",
+      "index": 8,
+      "occupied": 52212,
+      "transparent": 6496,
+      "rectangleFill": 0.8073604453378692,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        292,
+        225
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "memory",
+      "index": 0,
+      "occupied": 47560,
+      "transparent": 13171,
+      "rectangleFill": 0.6831370295891985,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        297,
+        238
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "memory",
+      "index": 1,
+      "occupied": 56939,
+      "transparent": 17613,
+      "rectangleFill": 0.6411038800189159,
+      "border": 84,
+      "bounds": [
+        3,
+        3,
+        369,
+        244
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "memory",
+      "index": 2,
+      "occupied": 49821,
+      "transparent": 12762,
+      "rectangleFill": 0.7249010592480503,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        286,
+        244
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "memory",
+      "index": 3,
+      "occupied": 45226,
+      "transparent": 10856,
+      "rectangleFill": 0.6881304870441094,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        289,
+        231
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "memory",
+      "index": 4,
+      "occupied": 56542,
+      "transparent": 14676,
+      "rectangleFill": 0.7104426602334553,
+      "border": 21,
+      "bounds": [
+        3,
+        0,
+        335,
+        238
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "memory",
+      "index": 5,
+      "occupied": 45019,
+      "transparent": 15076,
+      "rectangleFill": 0.5883452259599049,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        353,
+        220
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "memory",
+      "index": 6,
+      "occupied": 45199,
+      "transparent": 17847,
+      "rectangleFill": 0.6463001358404232,
+      "border": 16,
+      "bounds": [
+        3,
+        3,
+        357,
+        199
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "memory",
+      "index": 7,
+      "occupied": 54779,
+      "transparent": 14218,
+      "rectangleFill": 0.668183259739943,
+      "border": 22,
+      "bounds": [
+        0,
+        3,
+        357,
+        231
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "memory",
+      "index": 8,
+      "occupied": 47117,
+      "transparent": 10182,
+      "rectangleFill": 0.7747849966290102,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        263,
+        235
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "serpent",
+      "index": 0,
+      "occupied": 76652,
+      "transparent": 34581,
+      "rectangleFill": 0.5984510165204084,
+      "border": 111,
+      "bounds": [
+        3,
+        3,
+        453,
+        286
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "serpent",
+      "index": 1,
+      "occupied": 58043,
+      "transparent": 36675,
+      "rectangleFill": 0.5239720153464229,
+      "border": 44,
+      "bounds": [
+        3,
+        3,
+        527,
+        213
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "serpent",
+      "index": 2,
+      "occupied": 60750,
+      "transparent": 16235,
+      "rectangleFill": 0.7200256009102546,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        358,
+        239
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "serpent",
+      "index": 3,
+      "occupied": 81583,
+      "transparent": 22541,
+      "rectangleFill": 0.6621889255044561,
+      "border": 122,
+      "bounds": [
+        3,
+        0,
+        460,
+        268
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "serpent",
+      "index": 4,
+      "occupied": 64454,
+      "transparent": 17566,
+      "rectangleFill": 0.7135866436384571,
+      "border": 4,
+      "bounds": [
+        3,
+        0,
+        388,
+        233
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "serpent",
+      "index": 5,
+      "occupied": 67903,
+      "transparent": 43093,
+      "rectangleFill": 0.538434090332403,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        565,
+        226
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "serpent",
+      "index": 6,
+      "occupied": 68363,
+      "transparent": 25379,
+      "rectangleFill": 0.6320835837455504,
+      "border": 8,
+      "bounds": [
+        3,
+        0,
+        487,
+        222
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "serpent",
+      "index": 7,
+      "occupied": 85920,
+      "transparent": 36874,
+      "rectangleFill": 0.6208675670402567,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        491,
+        285
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "serpent",
+      "index": 8,
+      "occupied": 80735,
+      "transparent": 19298,
+      "rectangleFill": 0.7532655346146669,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        468,
+        232
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "antimeme",
+      "index": 0,
+      "occupied": 49486,
+      "transparent": 9092,
+      "rectangleFill": 0.627899304674415,
+      "border": 28,
+      "bounds": [
+        3,
+        3,
+        325,
+        246
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "antimeme",
+      "index": 1,
+      "occupied": 48435,
+      "transparent": 13024,
+      "rectangleFill": 0.520991319500468,
+      "border": 154,
+      "bounds": [
+        0,
+        3,
+        398,
+        235
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "antimeme",
+      "index": 2,
+      "occupied": 50075,
+      "transparent": 7003,
+      "rectangleFill": 0.6895863170651096,
+      "border": 46,
+      "bounds": [
+        0,
+        3,
+        312,
+        234
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "antimeme",
+      "index": 3,
+      "occupied": 46407,
+      "transparent": 7820,
+      "rectangleFill": 0.6227455716586151,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        326,
+        232
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "antimeme",
+      "index": 4,
+      "occupied": 48521,
+      "transparent": 6525,
+      "rectangleFill": 0.6074996869913609,
+      "border": 101,
+      "bounds": [
+        3,
+        0,
+        328,
+        244
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "antimeme",
+      "index": 5,
+      "occupied": 46361,
+      "transparent": 8010,
+      "rectangleFill": 0.6178995068639211,
+      "border": 149,
+      "bounds": [
+        0,
+        3,
+        365,
+        207
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "antimeme",
+      "index": 6,
+      "occupied": 45744,
+      "transparent": 9547,
+      "rectangleFill": 0.62805832440893,
+      "border": 79,
+      "bounds": [
+        3,
+        0,
+        368,
+        198
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "antimeme",
+      "index": 7,
+      "occupied": 53335,
+      "transparent": 8238,
+      "rectangleFill": 0.5961082796852647,
+      "border": 81,
+      "bounds": [
+        0,
+        3,
+        383,
+        235
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "antimeme",
+      "index": 8,
+      "occupied": 53007,
+      "transparent": 6828,
+      "rectangleFill": 0.7283282265488671,
+      "border": 23,
+      "bounds": [
+        3,
+        0,
+        283,
+        258
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "valis",
+      "index": 0,
+      "occupied": 78303,
+      "transparent": 27928,
+      "rectangleFill": 0.6063936063936064,
+      "border": 21,
+      "bounds": [
+        3,
+        3,
+        475,
+        275
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "valis",
+      "index": 1,
+      "occupied": 48769,
+      "transparent": 50088,
+      "rectangleFill": 0.3810078125,
+      "border": 33,
+      "bounds": [
+        0,
+        3,
+        399,
+        322
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "valis",
+      "index": 2,
+      "occupied": 52198,
+      "transparent": 19199,
+      "rectangleFill": 0.6796614583333334,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        258,
+        302
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "valis",
+      "index": 3,
+      "occupied": 93401,
+      "transparent": 38761,
+      "rectangleFill": 0.6053168806423808,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        471,
+        331
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "valis",
+      "index": 4,
+      "occupied": 75448,
+      "transparent": 24827,
+      "rectangleFill": 0.6565377051462782,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        360,
+        323
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "valis",
+      "index": 5,
+      "occupied": 42698,
+      "transparent": 60298,
+      "rectangleFill": 0.3388299898425597,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        354,
+        360
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "valis",
+      "index": 6,
+      "occupied": 74080,
+      "transparent": 37167,
+      "rectangleFill": 0.6172407472212501,
+      "border": 19,
+      "bounds": [
+        3,
+        3,
+        500,
+        243
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "valis",
+      "index": 7,
+      "occupied": 52379,
+      "transparent": 42855,
+      "rectangleFill": 0.4856292532774574,
+      "border": 40,
+      "bounds": [
+        0,
+        3,
+        397,
+        273
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "valis",
+      "index": 8,
+      "occupied": 53891,
+      "transparent": 17403,
+      "rectangleFill": 0.7025839591155612,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        274,
+        284
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "kelp",
+      "index": 0,
+      "occupied": 47677,
+      "transparent": 14871,
+      "rectangleFill": 0.6455924170616114,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        352,
+        213
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "kelp",
+      "index": 1,
+      "occupied": 47788,
+      "transparent": 15262,
+      "rectangleFill": 0.5825105438942929,
+      "border": 87,
+      "bounds": [
+        3,
+        0,
+        365,
+        225
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "kelp",
+      "index": 2,
+      "occupied": 49020,
+      "transparent": 8604,
+      "rectangleFill": 0.7345140699451587,
+      "border": 28,
+      "bounds": [
+        0,
+        3,
+        293,
+        229
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "kelp",
+      "index": 3,
+      "occupied": 47585,
+      "transparent": 17314,
+      "rectangleFill": 0.5980118634695621,
+      "border": 34,
+      "bounds": [
+        3,
+        3,
+        351,
+        230
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "kelp",
+      "index": 4,
+      "occupied": 50512,
+      "transparent": 11608,
+      "rectangleFill": 0.6804887577631384,
+      "border": 65,
+      "bounds": [
+        3,
+        0,
+        329,
+        226
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "kelp",
+      "index": 5,
+      "occupied": 44296,
+      "transparent": 10051,
+      "rectangleFill": 0.669589140490371,
+      "border": 179,
+      "bounds": [
+        0,
+        3,
+        340,
+        196
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "kelp",
+      "index": 6,
+      "occupied": 47565,
+      "transparent": 20977,
+      "rectangleFill": 0.6251807260587261,
+      "border": 35,
+      "bounds": [
+        3,
+        0,
+        351,
+        217
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "kelp",
+      "index": 7,
+      "occupied": 39906,
+      "transparent": 24564,
+      "rectangleFill": 0.5171046493546883,
+      "border": 28,
+      "bounds": [
+        0,
+        3,
+        353,
+        220
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "kelp",
+      "index": 8,
+      "occupied": 55671,
+      "transparent": 11454,
+      "rectangleFill": 0.7682149362477231,
+      "border": 46,
+      "bounds": [
+        3,
+        0,
+        299,
+        243
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "whale",
+      "index": 0,
+      "occupied": 52887,
+      "transparent": 15804,
+      "rectangleFill": 0.6554506246281975,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        330,
+        248
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "whale",
+      "index": 1,
+      "occupied": 39620,
+      "transparent": 17797,
+      "rectangleFill": 0.5213226489822235,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        331,
+        233
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "whale",
+      "index": 2,
+      "occupied": 64296,
+      "transparent": 17112,
+      "rectangleFill": 0.6698965398680962,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        323,
+        301
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "whale",
+      "index": 3,
+      "occupied": 64896,
+      "transparent": 10899,
+      "rectangleFill": 0.7173048014855425,
+      "border": 7,
+      "bounds": [
+        3,
+        3,
+        346,
+        265
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "whale",
+      "index": 4,
+      "occupied": 50566,
+      "transparent": 5352,
+      "rectangleFill": 0.6901135495141391,
+      "border": 43,
+      "bounds": [
+        0,
+        3,
+        343,
+        215
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "whale",
+      "index": 5,
+      "occupied": 30030,
+      "transparent": 13288,
+      "rectangleFill": 0.3937224669603524,
+      "border": 233,
+      "bounds": [
+        0,
+        3,
+        335,
+        229
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "whale",
+      "index": 6,
+      "occupied": 42461,
+      "transparent": 7668,
+      "rectangleFill": 0.6797240186975732,
+      "border": 32,
+      "bounds": [
+        3,
+        3,
+        390,
+        163
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "whale",
+      "index": 7,
+      "occupied": 44147,
+      "transparent": 8850,
+      "rectangleFill": 0.5820303230059327,
+      "border": 40,
+      "bounds": [
+        0,
+        3,
+        369,
+        207
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "whale",
+      "index": 8,
+      "occupied": 45679,
+      "transparent": 5903,
+      "rectangleFill": 0.7172646620083222,
+      "border": 42,
+      "bounds": [
+        3,
+        0,
+        273,
+        234
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "swarm",
+      "index": 0,
+      "occupied": 56340,
+      "transparent": 25939,
+      "rectangleFill": 0.6074393530997304,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        373,
+        252
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "swarm",
+      "index": 1,
+      "occupied": 54137,
+      "transparent": 57270,
+      "rectangleFill": 0.4298804939055862,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        447,
+        285
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "swarm",
+      "index": 2,
+      "occupied": 56677,
+      "transparent": 22240,
+      "rectangleFill": 0.6764172335600908,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        317,
+        268
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "swarm",
+      "index": 3,
+      "occupied": 62897,
+      "transparent": 24654,
+      "rectangleFill": 0.631698939418287,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        394,
+        256
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "swarm",
+      "index": 4,
+      "occupied": 73842,
+      "transparent": 24518,
+      "rectangleFill": 0.6976625536176565,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        376,
+        285
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "swarm",
+      "index": 5,
+      "occupied": 39759,
+      "transparent": 55133,
+      "rectangleFill": 0.3776859504132231,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        365,
+        292
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "swarm",
+      "index": 6,
+      "occupied": 52695,
+      "transparent": 19423,
+      "rectangleFill": 0.6541899441340782,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        452,
+        181
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "swarm",
+      "index": 7,
+      "occupied": 66604,
+      "transparent": 35176,
+      "rectangleFill": 0.6144904003173753,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        385,
+        285
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "swarm",
+      "index": 8,
+      "occupied": 61345,
+      "transparent": 21359,
+      "rectangleFill": 0.710751940678948,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        317,
+        276
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "plasma",
+      "index": 0,
+      "occupied": 37915,
+      "transparent": 7397,
+      "rectangleFill": 0.6543612578095337,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        335,
+        176
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "plasma",
+      "index": 1,
+      "occupied": 41654,
+      "transparent": 10895,
+      "rectangleFill": 0.6185992633955091,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        445,
+        154
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "plasma",
+      "index": 2,
+      "occupied": 53336,
+      "transparent": 10515,
+      "rectangleFill": 0.645667384935719,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        403,
+        208
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "plasma",
+      "index": 3,
+      "occupied": 43107,
+      "transparent": 6147,
+      "rectangleFill": 0.6375454787470051,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        384,
+        179
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "plasma",
+      "index": 4,
+      "occupied": 33518,
+      "transparent": 9725,
+      "rectangleFill": 0.5920234562667797,
+      "border": 13,
+      "bounds": [
+        3,
+        3,
+        339,
+        170
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "plasma",
+      "index": 5,
+      "occupied": 27763,
+      "transparent": 9737,
+      "rectangleFill": 0.5007756132756133,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        506,
+        112
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "plasma",
+      "index": 6,
+      "occupied": 45661,
+      "transparent": 7584,
+      "rectangleFill": 0.655145202020202,
+      "border": 68,
+      "bounds": [
+        3,
+        3,
+        486,
+        146
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "plasma",
+      "index": 7,
+      "occupied": 34182,
+      "transparent": 18943,
+      "rectangleFill": 0.46226874391431355,
+      "border": 47,
+      "bounds": [
+        3,
+        0,
+        470,
+        157
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "plasma",
+      "index": 8,
+      "occupied": 33184,
+      "transparent": 5526,
+      "rectangleFill": 0.7405985671881625,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        261,
+        175
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "cephalopod",
+      "index": 0,
+      "occupied": 35327,
+      "transparent": 6501,
+      "rectangleFill": 0.5623527539000318,
+      "border": 218,
+      "bounds": [
+        3,
+        0,
+        351,
+        179
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "cephalopod",
+      "index": 1,
+      "occupied": 32841,
+      "transparent": 18401,
+      "rectangleFill": 0.5054483331794256,
+      "border": 25,
+      "bounds": [
+        3,
+        3,
+        444,
+        149
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "cephalopod",
+      "index": 2,
+      "occupied": 36672,
+      "transparent": 10746,
+      "rectangleFill": 0.6429736126939598,
+      "border": 39,
+      "bounds": [
+        3,
+        3,
+        307,
+        189
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "cephalopod",
+      "index": 3,
+      "occupied": 39127,
+      "transparent": 11068,
+      "rectangleFill": 0.5609605734767025,
+      "border": 143,
+      "bounds": [
+        3,
+        0,
+        377,
+        185
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "cephalopod",
+      "index": 4,
+      "occupied": 35851,
+      "transparent": 7001,
+      "rectangleFill": 0.702643905689591,
+      "border": 103,
+      "bounds": [
+        3,
+        0,
+        261,
+        196
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "cephalopod",
+      "index": 5,
+      "occupied": 45744,
+      "transparent": 16668,
+      "rectangleFill": 0.5385258349716869,
+      "border": 298,
+      "bounds": [
+        3,
+        0,
+        493,
+        172
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "cephalopod",
+      "index": 6,
+      "occupied": 42137,
+      "transparent": 19160,
+      "rectangleFill": 0.5573603523762913,
+      "border": 74,
+      "bounds": [
+        3,
+        0,
+        439,
+        172
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "cephalopod",
+      "index": 7,
+      "occupied": 41102,
+      "transparent": 23672,
+      "rectangleFill": 0.515890149613415,
+      "border": 232,
+      "bounds": [
+        3,
+        0,
+        435,
+        183
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "cephalopod",
+      "index": 8,
+      "occupied": 35795,
+      "transparent": 7034,
+      "rectangleFill": 0.7602531699339464,
+      "border": 4,
+      "bounds": [
+        0,
+        0,
+        238,
+        196
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "precocial",
+      "index": 0,
+      "occupied": 217958,
+      "transparent": 71172,
+      "rectangleFill": 0.7063715322789733,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        667,
+        466
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "precocial",
+      "index": 1,
+      "occupied": 191162,
+      "transparent": 83314,
+      "rectangleFill": 0.6259950945237464,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        745,
+        413
+      ]
+    },
+    {
+      "kind": "branch",
+      "id": "precocial",
+      "index": 2,
+      "occupied": 221592,
+      "transparent": 63982,
+      "rectangleFill": 0.7275807722616233,
+      "border": 0,
+      "bounds": [
+        3,
+        3,
+        650,
+        472
+      ]
+    },
+    {
+      "kind": "food",
+      "id": "algae",
+      "index": 0,
+      "occupied": 27732,
+      "transparent": 21548,
+      "rectangleFill": 0.4790630182421227,
+      "border": 0,
+      "bounds": [
+        17,
+        12,
+        284,
+        227
+      ]
+    },
+    {
+      "kind": "food",
+      "id": "algae",
+      "index": 1,
+      "occupied": 81163,
+      "transparent": 23372,
+      "rectangleFill": 0.6968755098010595,
+      "border": 25,
+      "bounds": [
+        0,
+        9,
+        402,
+        297
+      ]
+    },
+    {
+      "kind": "food",
+      "id": "moss",
+      "index": 0,
+      "occupied": 44867,
+      "transparent": 27246,
+      "rectangleFill": 0.5409573185435255,
+      "border": 0,
+      "bounds": [
+        8,
+        7,
+        293,
+        296
+      ]
+    },
+    {
+      "kind": "food",
+      "id": "moss",
+      "index": 1,
+      "occupied": 92474,
+      "transparent": 38194,
+      "rectangleFill": 0.6668541594554056,
+      "border": 0,
+      "bounds": [
+        8,
+        8,
+        439,
+        328
+      ]
+    },
+    {
+      "kind": "food",
+      "id": "grass",
+      "index": 0,
+      "occupied": 18408,
+      "transparent": 35849,
+      "rectangleFill": 0.31693123515030475,
+      "border": 0,
+      "bounds": [
+        6,
+        8,
+        262,
+        233
+      ]
+    },
+    {
+      "kind": "food",
+      "id": "grass",
+      "index": 1,
+      "occupied": 75824,
+      "transparent": 50677,
+      "rectangleFill": 0.4556511706167973,
+      "border": 2,
+      "bounds": [
+        8,
+        8,
+        495,
+        348
+      ]
+    },
+    {
+      "kind": "food",
+      "id": "fungus",
+      "index": 0,
+      "occupied": 17366,
+      "transparent": 19029,
+      "rectangleFill": 0.294593631783406,
+      "border": 0,
+      "bounds": [
+        2,
+        9,
+        254,
+        241
+      ]
+    },
+    {
+      "kind": "food",
+      "id": "fungus",
+      "index": 1,
+      "occupied": 70698,
+      "transparent": 45336,
+      "rectangleFill": 0.45977953370402885,
+      "border": 14,
+      "bounds": [
+        4,
+        9,
+        462,
+        343
+      ]
+    },
+    {
+      "kind": "food",
+      "id": "waterbug",
+      "index": 0,
+      "occupied": 21250,
+      "transparent": 8793,
+      "rectangleFill": 0.6359419422415084,
+      "border": 0,
+      "bounds": [
+        9,
+        9,
+        213,
+        171
+      ]
+    },
+    {
+      "kind": "food",
+      "id": "waterbug",
+      "index": 1,
+      "occupied": 87128,
+      "transparent": 44143,
+      "rectangleFill": 0.5004566419869383,
+      "border": 54,
+      "bounds": [
+        8,
+        0,
+        546,
+        322
+      ]
+    },
+    {
+      "kind": "food",
+      "id": "grassbug",
+      "index": 0,
+      "occupied": 17025,
+      "transparent": 28195,
+      "rectangleFill": 0.30013750793314997,
+      "border": 31,
+      "bounds": [
+        0,
+        9,
+        325,
+        182
+      ]
+    },
+    {
+      "kind": "food",
+      "id": "grassbug",
+      "index": 1,
+      "occupied": 41019,
+      "transparent": 60332,
+      "rectangleFill": 0.320060861423221,
+      "border": 62,
+      "bounds": [
+        0,
+        0,
+        444,
+        287
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 0,
+      "occupied": 85529,
+      "transparent": 25201,
+      "rectangleFill": 0.6861202027981004,
+      "border": 209,
+      "bounds": [
+        13,
+        0,
+        383,
+        335
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 1,
+      "occupied": 65936,
+      "transparent": 45408,
+      "rectangleFill": 0.5140968063872255,
+      "border": 326,
+      "bounds": [
+        0,
+        2,
+        383,
+        335
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 2,
+      "occupied": 67536,
+      "transparent": 42353,
+      "rectangleFill": 0.65625,
+      "border": 238,
+      "bounds": [
+        0,
+        68,
+        383,
+        335
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 3,
+      "occupied": 64370,
+      "transparent": 48253,
+      "rectangleFill": 0.6258629071463296,
+      "border": 114,
+      "bounds": [
+        0,
+        61,
+        373,
+        335
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 4,
+      "occupied": 58773,
+      "transparent": 28568,
+      "rectangleFill": 0.6049966030510777,
+      "border": 206,
+      "bounds": [
+        6,
+        0,
+        383,
+        256
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 5,
+      "occupied": 58437,
+      "transparent": 27972,
+      "rectangleFill": 0.6167493403693931,
+      "border": 200,
+      "bounds": [
+        0,
+        0,
+        378,
+        249
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 6,
+      "occupied": 75521,
+      "transparent": 8188,
+      "rectangleFill": 0.7878177778241412,
+      "border": 273,
+      "bounds": [
+        11,
+        0,
+        383,
+        256
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 7,
+      "occupied": 63927,
+      "transparent": 19339,
+      "rectangleFill": 0.6545873438459963,
+      "border": 208,
+      "bounds": [
+        0,
+        0,
+        379,
+        256
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 8,
+      "occupied": 58459,
+      "transparent": 7793,
+      "rectangleFill": 0.7338379654038312,
+      "border": 136,
+      "bounds": [
+        10,
+        0,
+        383,
+        212
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 9,
+      "occupied": 38171,
+      "transparent": 26180,
+      "rectangleFill": 0.4756155303030303,
+      "border": 169,
+      "bounds": [
+        0,
+        4,
+        383,
+        212
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 10,
+      "occupied": 48505,
+      "transparent": 17450,
+      "rectangleFill": 0.5992710649864097,
+      "border": 224,
+      "bounds": [
+        0,
+        0,
+        379,
+        212
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 11,
+      "occupied": 34706,
+      "transparent": 24870,
+      "rectangleFill": 0.47504072051355756,
+      "border": 219,
+      "bounds": [
+        5,
+        0,
+        347,
+        212
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 12,
+      "occupied": 56615,
+      "transparent": 15653,
+      "rectangleFill": 0.7200727513227513,
+      "border": 75,
+      "bounds": [
+        6,
+        0,
+        383,
+        207
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 13,
+      "occupied": 53796,
+      "transparent": 24389,
+      "rectangleFill": 0.686734068627451,
+      "border": 177,
+      "bounds": [
+        0,
+        0,
+        383,
+        203
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 14,
+      "occupied": 50753,
+      "transparent": 23504,
+      "rectangleFill": 0.6263946484992101,
+      "border": 137,
+      "bounds": [
+        0,
+        0,
+        383,
+        210
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop",
+      "index": 15,
+      "occupied": 59552,
+      "transparent": 14388,
+      "rectangleFill": 0.7775427601514558,
+      "border": 147,
+      "bounds": [
+        0,
+        0,
+        369,
+        206
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "kind": "main",
+      "id": "solar/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 34901,
+      "transparent": 65809,
+      "rectangleFill": 0.516409209280303,
+      "border": 0,
+      "bounds": [
+        86,
+        4,
+        349,
+        259
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "solar/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 28644,
+      "transparent": 74464,
+      "rectangleFill": 0.4486842105263158,
+      "border": 0,
+      "bounds": [
+        44,
+        56,
+        328,
+        279
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "solar/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 65915,
+      "transparent": 39322,
+      "rectangleFill": 0.7586814148087614,
+      "border": 0,
+      "bounds": [
+        46,
+        6,
+        352,
+        288
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "jelly/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 31922,
+      "transparent": 69913,
+      "rectangleFill": 0.6510973321367381,
+      "border": 11,
+      "bounds": [
+        96,
+        62,
+        301,
+        299
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "jelly/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 32936,
+      "transparent": 70148,
+      "rectangleFill": 0.5161411646712217,
+      "border": 0,
+      "bounds": [
+        44,
+        66,
+        344,
+        277
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "jelly/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 57176,
+      "transparent": 51507,
+      "rectangleFill": 0.7647940074906368,
+      "border": 32,
+      "bounds": [
+        65,
+        20,
+        331,
+        299
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "crystal/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 25591,
+      "transparent": 77073,
+      "rectangleFill": 0.5270843631570276,
+      "border": 83,
+      "bounds": [
+        72,
+        96,
+        309,
+        299
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "crystal/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 18279,
+      "transparent": 80746,
+      "rectangleFill": 0.3626785714285714,
+      "border": 0,
+      "bounds": [
+        48,
+        66,
+        335,
+        240
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "crystal/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 36334,
+      "transparent": 70468,
+      "rectangleFill": 0.6536773172135867,
+      "border": 0,
+      "bounds": [
+        48,
+        52,
+        335,
+        244
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "abyss/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 35930,
+      "transparent": 66998,
+      "rectangleFill": 0.6414696850674856,
+      "border": 25,
+      "bounds": [
+        63,
+        91,
+        330,
+        299
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "abyss/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 35804,
+      "transparent": 64165,
+      "rectangleFill": 0.6024566717146222,
+      "border": 0,
+      "bounds": [
+        47,
+        45,
+        329,
+        254
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "abyss/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 63193,
+      "transparent": 41099,
+      "rectangleFill": 0.7880409028557177,
+      "border": 0,
+      "bounds": [
+        26,
+        31,
+        355,
+        273
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "myth/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 28465,
+      "transparent": 67665,
+      "rectangleFill": 0.5353381478973896,
+      "border": 0,
+      "bounds": [
+        88,
+        87,
+        339,
+        297
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "myth/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 30265,
+      "transparent": 68777,
+      "rectangleFill": 0.5000413052457662,
+      "border": 0,
+      "bounds": [
+        46,
+        44,
+        314,
+        268
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "myth/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 55655,
+      "transparent": 48935,
+      "rectangleFill": 0.771432531706979,
+      "border": 0,
+      "bounds": [
+        46,
+        30,
+        352,
+        264
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "recursive/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 29368,
+      "transparent": 67301,
+      "rectangleFill": 0.5953495915181739,
+      "border": 0,
+      "bounds": [
+        84,
+        95,
+        344,
+        283
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "recursive/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 28359,
+      "transparent": 71619,
+      "rectangleFill": 0.5229104051039035,
+      "border": 0,
+      "bounds": [
+        50,
+        53,
+        330,
+        245
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "recursive/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 57110,
+      "transparent": 47362,
+      "rectangleFill": 0.7352808641577938,
+      "border": 0,
+      "bounds": [
+        45,
+        25,
+        351,
+        277
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "sail/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15814,
+      "transparent": 82558,
+      "rectangleFill": 0.3743844696969697,
+      "border": 0,
+      "bounds": [
+        85,
+        69,
+        340,
+        233
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "sail/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 23462,
+      "transparent": 74561,
+      "rectangleFill": 0.39522269388855197,
+      "border": 0,
+      "bounds": [
+        46,
+        48,
+        336,
+        251
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "sail/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 56776,
+      "transparent": 50679,
+      "rectangleFill": 0.7319513201320133,
+      "border": 0,
+      "bounds": [
+        47,
+        23,
+        349,
+        278
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "gravity/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 24977,
+      "transparent": 71313,
+      "rectangleFill": 0.43666083916083914,
+      "border": 21,
+      "bounds": [
+        45,
+        100,
+        330,
+        299
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "gravity/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 32635,
+      "transparent": 68439,
+      "rectangleFill": 0.5771509417278274,
+      "border": 0,
+      "bounds": [
+        61,
+        43,
+        323,
+        257
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "gravity/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 69712,
+      "transparent": 37362,
+      "rectangleFill": 0.77915749237183,
+      "border": 0,
+      "bounds": [
+        30,
+        19,
+        352,
+        295
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "manyeyes/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 24171,
+      "transparent": 77574,
+      "rectangleFill": 0.6083509513742071,
+      "border": 0,
+      "bounds": [
+        62,
+        135,
+        319,
+        288
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "manyeyes/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 27745,
+      "transparent": 72129,
+      "rectangleFill": 0.5711668313570487,
+      "border": 0,
+      "bounds": [
+        55,
+        62,
+        330,
+        237
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "manyeyes/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 54065,
+      "transparent": 50227,
+      "rectangleFill": 0.7822809352934368,
+      "border": 0,
+      "bounds": [
+        38,
+        45,
+        363,
+        256
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "abyssshell/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 32500,
+      "transparent": 72591,
+      "rectangleFill": 0.6955144667009073,
+      "border": 0,
+      "bounds": [
+        39,
+        83,
+        302,
+        259
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "abyssshell/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 32038,
+      "transparent": 68504,
+      "rectangleFill": 0.604673108863053,
+      "border": 0,
+      "bounds": [
+        48,
+        61,
+        343,
+        239
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "abyssshell/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 57479,
+      "transparent": 50416,
+      "rectangleFill": 0.7940843280282935,
+      "border": 0,
+      "bounds": [
+        31,
+        40,
+        342,
+        271
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "parallel/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 25699,
+      "transparent": 68354,
+      "rectangleFill": 0.43244653103808034,
+      "border": 0,
+      "bounds": [
+        56,
+        80,
+        334,
+        292
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "parallel/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 29437,
+      "transparent": 70233,
+      "rectangleFill": 0.5445850445850445,
+      "border": 0,
+      "bounds": [
+        57,
+        51,
+        329,
+        248
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "parallel/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 58983,
+      "transparent": 48253,
+      "rectangleFill": 0.8233019737025767,
+      "border": 0,
+      "bounds": [
+        33,
+        42,
+        349,
+        267
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "memory/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 25885,
+      "transparent": 82209,
+      "rectangleFill": 0.6026494691748929,
+      "border": 0,
+      "bounds": [
+        55,
+        90,
+        290,
+        271
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "memory/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 30645,
+      "transparent": 76285,
+      "rectangleFill": 0.6507751114886388,
+      "border": 0,
+      "bounds": [
+        57,
+        65,
+        333,
+        234
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "memory/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 61483,
+      "transparent": 47172,
+      "rectangleFill": 0.761890009665667,
+      "border": 0,
+      "bounds": [
+        36,
+        23,
+        349,
+        279
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "serpent/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 31281,
+      "transparent": 77741,
+      "rectangleFill": 0.5526483163139112,
+      "border": 0,
+      "bounds": [
+        39,
+        55,
+        349,
+        236
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "serpent/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14865,
+      "transparent": 96170,
+      "rectangleFill": 0.48740901042691326,
+      "border": 0,
+      "bounds": [
+        36,
+        100,
+        334,
+        201
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "serpent/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 35269,
+      "transparent": 76577,
+      "rectangleFill": 0.7568617352303697,
+      "border": 0,
+      "bounds": [
+        39,
+        76,
+        355,
+        222
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "antimeme/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 24885,
+      "transparent": 75709,
+      "rectangleFill": 0.4928698752228164,
+      "border": 0,
+      "bounds": [
+        76,
+        80,
+        330,
+        277
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "antimeme/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 20640,
+      "transparent": 81252,
+      "rectangleFill": 0.4666304937601736,
+      "border": 0,
+      "bounds": [
+        44,
+        74,
+        334,
+        225
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "antimeme/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 60296,
+      "transparent": 41645,
+      "rectangleFill": 0.7367366388895678,
+      "border": 0,
+      "bounds": [
+        48,
+        19,
+        349,
+        289
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "valis/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 32499,
+      "transparent": 57633,
+      "rectangleFill": 0.49464247663693645,
+      "border": 0,
+      "bounds": [
+        76,
+        32,
+        322,
+        297
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "valis/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 21860,
+      "transparent": 81271,
+      "rectangleFill": 0.37467434526258053,
+      "border": 0,
+      "bounds": [
+        45,
+        52,
+        330,
+        255
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "valis/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 60950,
+      "transparent": 46998,
+      "rectangleFill": 0.727240186135306,
+      "border": 0,
+      "bounds": [
+        53,
+        6,
+        342,
+        294
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "kelp/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 32090,
+      "transparent": 76808,
+      "rectangleFill": 0.6874022663496347,
+      "border": 0,
+      "bounds": [
+        70,
+        61,
+        316,
+        249
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "kelp/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 27716,
+      "transparent": 79023,
+      "rectangleFill": 0.5892006802721088,
+      "border": 0,
+      "bounds": [
+        44,
+        70,
+        337,
+        229
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "kelp/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 54860,
+      "transparent": 54203,
+      "rectangleFill": 0.7913451135953841,
+      "border": 0,
+      "bounds": [
+        47,
+        36,
+        341,
+        270
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "whale/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 29697,
+      "transparent": 69687,
+      "rectangleFill": 0.5586763488599593,
+      "border": 0,
+      "bounds": [
+        76,
+        98,
+        349,
+        291
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "whale/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 26026,
+      "transparent": 76005,
+      "rectangleFill": 0.532294351045118,
+      "border": 0,
+      "bounds": [
+        47,
+        67,
+        327,
+        240
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "whale/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 56119,
+      "transparent": 45345,
+      "rectangleFill": 0.7220292316401626,
+      "border": 0,
+      "bounds": [
+        48,
+        21,
+        353,
+        274
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "swarm/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 39665,
+      "transparent": 62929,
+      "rectangleFill": 0.6005935526853716,
+      "border": 0,
+      "bounds": [
+        29,
+        78,
+        341,
+        288
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "swarm/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 17477,
+      "transparent": 92640,
+      "rectangleFill": 0.38597614840989397,
+      "border": 0,
+      "bounds": [
+        54,
+        73,
+        336,
+        232
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "swarm/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 60733,
+      "transparent": 50204,
+      "rectangleFill": 0.7223755263220496,
+      "border": 0,
+      "bounds": [
+        26,
+        23,
+        356,
+        276
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "plasma/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 31605,
+      "transparent": 66736,
+      "rectangleFill": 0.525567473185333,
+      "border": 0,
+      "bounds": [
+        67,
+        66,
+        351,
+        276
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "plasma/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15472,
+      "transparent": 93557,
+      "rectangleFill": 0.6161688570290721,
+      "border": 0,
+      "bounds": [
+        40,
+        105,
+        318,
+        194
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "plasma/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 45937,
+      "transparent": 60334,
+      "rectangleFill": 0.7412301933068707,
+      "border": 0,
+      "bounds": [
+        47,
+        55,
+        359,
+        252
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "cephalopod/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 35269,
+      "transparent": 68488,
+      "rectangleFill": 0.5810761829445104,
+      "border": 0,
+      "bounds": [
+        64,
+        39,
+        344,
+        254
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "cephalopod/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 12242,
+      "transparent": 97642,
+      "rectangleFill": 0.514802354920101,
+      "border": 0,
+      "bounds": [
+        37,
+        107,
+        326,
+        188
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "cephalopod/4/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 62458,
+      "transparent": 46387,
+      "rectangleFill": 0.7969834626378114,
+      "border": 0,
+      "bounds": [
+        44,
+        33,
+        359,
+        280
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "precocial/1/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 38275,
+      "transparent": 67119,
+      "rectangleFill": 0.7220335785700811,
+      "border": 216,
+      "bounds": [
+        55,
+        114,
+        339,
+        299
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "precocial/3/female",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 30719,
+      "transparent": 79386,
+      "rectangleFill": 0.6107399896616168,
+      "border": 0,
+      "bounds": [
+        40,
+        67,
+        342,
+        232
+      ]
+    },
+    {
+      "kind": "main",
+      "id": "precocial/3/male",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 50080,
+      "transparent": 61220,
+      "rectangleFill": 0.7548990051251131,
+      "border": 0,
+      "bounds": [
+        33,
+        45,
+        342,
+        258
+      ]
+    },
+    {
+      "kind": "lower",
+      "id": "algae/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 12046,
+      "transparent": 96485,
+      "rectangleFill": 0.3359549308344489,
+      "border": 0,
+      "bounds": [
+        77,
+        73,
+        292,
+        238
+      ]
+    },
+    {
+      "kind": "lower",
+      "id": "algae/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 17229,
+      "transparent": 94742,
+      "rectangleFill": 0.5529204107830552,
+      "border": 0,
+      "bounds": [
+        82,
+        77,
+        286,
+        228
+      ]
+    },
+    {
+      "kind": "lower",
+      "id": "moss/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 18323,
+      "transparent": 90118,
+      "rectangleFill": 0.3909323661190527,
+      "border": 0,
+      "bounds": [
+        85,
+        41,
+        299,
+        258
+      ]
+    },
+    {
+      "kind": "lower",
+      "id": "moss/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 17951,
+      "transparent": 94807,
+      "rectangleFill": 0.5072050180831826,
+      "border": 0,
+      "bounds": [
+        81,
+        75,
+        304,
+        232
+      ]
+    },
+    {
+      "kind": "lower",
+      "id": "grass/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 9343,
+      "transparent": 102595,
+      "rectangleFill": 0.31598349567099565,
+      "border": 0,
+      "bounds": [
+        112,
+        54,
+        265,
+        245
+      ]
+    },
+    {
+      "kind": "lower",
+      "id": "grass/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 9232,
+      "transparent": 102519,
+      "rectangleFill": 0.305776364599894,
+      "border": 0,
+      "bounds": [
+        81,
+        84,
+        302,
+        219
+      ]
+    },
+    {
+      "kind": "lower",
+      "id": "fungus/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 11411,
+      "transparent": 91410,
+      "rectangleFill": 0.24840001741477644,
+      "border": 0,
+      "bounds": [
+        81,
+        48,
+        303,
+        253
+      ]
+    },
+    {
+      "kind": "lower",
+      "id": "fungus/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 12930,
+      "transparent": 96391,
+      "rectangleFill": 0.36963979416809606,
+      "border": 0,
+      "bounds": [
+        82,
+        71,
+        301,
+        229
+      ]
+    },
+    {
+      "kind": "lower",
+      "id": "waterbug/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 18792,
+      "transparent": 89215,
+      "rectangleFill": 0.6393576483396842,
+      "border": 0,
+      "bounds": [
+        104,
+        67,
+        279,
+        233
+      ]
+    },
+    {
+      "kind": "lower",
+      "id": "waterbug/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13076,
+      "transparent": 96505,
+      "rectangleFill": 0.5366494295329558,
+      "border": 0,
+      "bounds": [
+        99,
+        85,
+        284,
+        215
+      ]
+    },
+    {
+      "kind": "lower",
+      "id": "grassbug/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 6274,
+      "transparent": 104145,
+      "rectangleFill": 0.3234520802185905,
+      "border": 0,
+      "bounds": [
+        110,
+        91,
+        272,
+        209
+      ]
+    },
+    {
+      "kind": "lower",
+      "id": "grassbug/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 7924,
+      "transparent": 103119,
+      "rectangleFill": 0.34843021721924194,
+      "border": 0,
+      "bounds": [
+        109,
+        82,
+        274,
+        218
+      ]
+    },
+    {
+      "kind": "lower",
+      "id": "phytoplankton/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 2821,
+      "transparent": 111711,
+      "rectangleFill": 0.18801652892561985,
+      "border": 0,
+      "bounds": [
+        138,
+        87,
+        261,
+        207
+      ]
+    },
+    {
+      "kind": "lower",
+      "id": "phytoplankton/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 4984,
+      "transparent": 108986,
+      "rectangleFill": 0.23970757983839938,
+      "border": 0,
+      "bounds": [
+        97,
+        91,
+        280,
+        203
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 33484,
+      "transparent": 75158,
+      "rectangleFill": 0.690562613430127,
+      "border": 0,
+      "bounds": [
+        80,
+        62,
+        311,
+        270
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 25033,
+      "transparent": 83823,
+      "rectangleFill": 0.5676932148040639,
+      "border": 0,
+      "bounds": [
+        83,
+        63,
+        294,
+        270
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 26593,
+      "transparent": 81793,
+      "rectangleFill": 0.6595486111111111,
+      "border": 0,
+      "bounds": [
+        72,
+        103,
+        311,
+        270
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 25112,
+      "transparent": 84334,
+      "rectangleFill": 0.6636363636363637,
+      "border": 0,
+      "bounds": [
+        86,
+        99,
+        305,
+        270
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/4",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 22842,
+      "transparent": 88338,
+      "rectangleFill": 0.6362142439350472,
+      "border": 0,
+      "bounds": [
+        76,
+        105,
+        298,
+        265
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/5",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 22307,
+      "transparent": 88556,
+      "rectangleFill": 0.6771393012172541,
+      "border": 0,
+      "bounds": [
+        72,
+        123,
+        308,
+        261
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/6",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 28997,
+      "transparent": 80647,
+      "rectangleFill": 0.8134029005021178,
+      "border": 0,
+      "bounds": [
+        79,
+        113,
+        311,
+        265
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/7",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 25014,
+      "transparent": 84674,
+      "rectangleFill": 0.7006722689075631,
+      "border": 0,
+      "bounds": [
+        72,
+        116,
+        309,
+        265
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/8",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 22966,
+      "transparent": 86550,
+      "rectangleFill": 0.7379345800398432,
+      "border": 0,
+      "bounds": [
+        78,
+        130,
+        311,
+        262
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/9",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13982,
+      "transparent": 94775,
+      "rectangleFill": 0.5108512970405553,
+      "border": 0,
+      "bounds": [
+        82,
+        133,
+        311,
+        251
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/10",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 18459,
+      "transparent": 91047,
+      "rectangleFill": 0.6280066682543463,
+      "border": 0,
+      "bounds": [
+        89,
+        130,
+        309,
+        262
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/11",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13007,
+      "transparent": 94046,
+      "rectangleFill": 0.558192429834349,
+      "border": 0,
+      "bounds": [
+        98,
+        136,
+        288,
+        257
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/12",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 22219,
+      "transparent": 88901,
+      "rectangleFill": 0.7186893517919524,
+      "border": 0,
+      "bounds": [
+        76,
+        127,
+        311,
+        257
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/13",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 21065,
+      "transparent": 92306,
+      "rectangleFill": 0.7093547952586207,
+      "border": 0,
+      "bounds": [
+        80,
+        127,
+        311,
+        254
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/14",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 19680,
+      "transparent": 92163,
+      "rectangleFill": 0.6695471710951587,
+      "border": 0,
+      "bounds": [
+        82,
+        127,
+        302,
+        259
+      ]
+    },
+    {
+      "kind": "prop",
+      "id": "prop/15",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 23389,
+      "transparent": 88351,
+      "rectangleFill": 0.7788544788544789,
+      "border": 0,
+      "bounds": [
+        72,
+        127,
+        302,
+        256
+      ]
+    },
+    {
+      "kind": "legacy-parasite",
+      "id": "tideparasite",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 16707,
+      "transparent": 94556,
+      "rectangleFill": 0.7566576086956521,
+      "border": 0,
+      "bounds": [
+        112,
+        81,
+        271,
+        218
+      ]
+    },
+    {
+      "kind": "legacy-parasite",
+      "id": "leafparasite",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 17182,
+      "transparent": 93645,
+      "rectangleFill": 0.7670535714285714,
+      "border": 0,
+      "bounds": [
+        111,
+        80,
+        270,
+        219
+      ]
+    },
+    {
+      "kind": "legacy-parasite",
+      "id": "hyperparasite",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 12030,
+      "transparent": 99290,
+      "rectangleFill": 0.6332245499526266,
+      "border": 0,
+      "bounds": [
+        110,
+        91,
+        270,
+        208
+      ]
+    }
+  ],
+  "worldUnchanged": true,
+  "assetErrors": []
+}

@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.74。現在対象は構成円切替/1（operations/evidence/current-donut-switch-v1/README.md）。単一ドーナツ8表示と対象内分母・0・図鑑復帰をLinux23項目で限定確認。再提示13項目の現在の完了/一部/未対応は operations/plans/improvement-status-v1.md。生態本体/全T原値/保存形式/採用絵柄/正式草案状態は維持。次は画像の切り抜き漏れの確認。今回の順序は operations/plans/improvement-status-v1.md の7単位に限定し、設定UI整理・長期グラフ・詳細追跡・非表示処理・高速観測の仕上げへ続く。ピラミッド切替/関係指標再設計/資源地形強調/要因色分けは今回対象外。Windows/配布は未作成。
+現在の確定ソースは4.2.74。現在対象は切り抜き漏れ確認/1（operations/evidence/remaining-cutouts-v1/README.md）。303素材領域と96描画で背景矩形の残りを確認し、主生物詳細6状態の端欠けを短辺基準へ修正。Linux11項目で限定照合。既存68状態と構成円切替は各証跡の範囲を維持。採用素材/盤面/生態本体/全T原値/保存形式/正式草案状態は不変。次は承認済み7単位の3、設定UI整理・選択制約・案内。現在表と後続順は operations/plans/improvement-status-v1.md。ピラミッド拡張/関係指標再設計/資源地形強調/要因色分けは今回対象外。全状態直積/Windows/配布は未認定。
 
 ## A：仕様
 
@@ -216,11 +216,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.6.md。正本: design/specification/selection-index-v1.md。契約: operations/plans/selection-index-v1.md。証跡: operations/evidence/selection-index-v1/README.md。
+			valis/nodes/B/B5.6.md。正本: design/specification/remaining-cutouts-v1.md。契約: operations/plans/remaining-cutouts-v1.md。証跡: operations/evidence/remaining-cutouts-v1/README.md。
 		ロジック:
-			確定状態内の通常個体IDと同居/資源/死骸を参照索引から解決し、凍結詳細と追跡を分離する。
+			選択詳細と系統樹で全身を枠へ収め、既存透明画像を参照する。本人相/年齢/雌雄と採用造形を維持する。
 		実態:
-			Linux16項目。P/Q経路・行順・明示更新を維持。索引は新世界/確定更新で破棄。
+			切り抜き漏れ確認/1: app4.2.74で303素材領域と96描画を確認し、主生物詳細6状態の端欠けを短辺基準で修正。Linux11項目は operations/evidence/remaining-cutouts-v1/README.md。採用素材/盤面/生態は不変。全直積/Windows/配布は未認定。草案。
 
 ```
 
@@ -349,11 +349,11 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.1.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
+			valis/nodes/C/C8.1.md。正本: design/specification/remaining-cutouts-v1.md。契約: operations/plans/remaining-cutouts-v1.md。証跡: operations/evidence/remaining-cutouts-v1/README.md。
 		ロジック:
-			最速時の中間差分転送・画像予熱を止め、全T最終差分だけ受領する。記号/絵柄/生態を変えず端数表示へ対応する。
+			主生物の詳細半径だけ短辺基準へ変更する。盤面描画/透明素材を変更せず、残る素材経路も確認する。
 		実態:
-			観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
+			切り抜き漏れ確認/1: app4.2.74で303素材領域と96描画を確認し、主生物詳細6状態の端欠けを短辺基準で修正。Linux11項目は operations/evidence/remaining-cutouts-v1/README.md。採用素材/盤面/生態は不変。全直積/Windows/配布は未認定。草案。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/current-donut-switch-v1.md。契約: operations/plans/current-donut-switch-v1.md。証跡: operations/evidence/current-donut-switch-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/remaining-cutouts-v1.md。契約: operations/plans/remaining-cutouts-v1.md。証跡: operations/evidence/remaining-cutouts-v1/README.md。
 	ロジック:
-		8表示の分母/実円弧/凡例色/0、固定詳細、進行と停止意図、最速端数と図鑑往復を限定確認する。
+		303素材領域/96描画、実主生物/下層詳細・系統樹を確認し、下端欠けの修正前6→修正後0と入力不変を照合する。
 	実態:
-		現在構成の切替/1: app4.2.74で単一ドーナツ8表示を接続。Linux23項目は operations/evidence/current-donut-switch-v1/README.md。対象内分母/0/盤面色/進行意図/図鑑復帰を限定確認。生態/記録形式/正式状態を維持。残件13項目の現在表は operations/plans/improvement-status-v1.md。草案。
+		切り抜き漏れ確認/1: app4.2.74で303素材領域と96描画を確認し、主生物詳細6状態の端欠けを短辺基準で修正。Linux11項目は operations/evidence/remaining-cutouts-v1/README.md。採用素材/盤面/生態は不変。全直積/Windows/配布は未認定。草案。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/current-donut-switch-v1.md。契約: operations/plans/current-donut-switch-v1.md。証跡: operations/evidence/current-donut-switch-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/remaining-cutouts-v1.md。契約: operations/plans/remaining-cutouts-v1.md。証跡: operations/evidence/remaining-cutouts-v1/README.md。
 	ロジック:
-		Linux23項目と実画面、実装SHA/既存生態不変・構造照合を保持する。長期/Windows/配布認定へ転用しない。
+		Linux11項目、303領域/96描画の実測値と修正前6状態、実装/素材不変の照合と限界を保持する。
 	実態:
-		現在構成の切替/1: app4.2.74で単一ドーナツ8表示を接続。Linux23項目は operations/evidence/current-donut-switch-v1/README.md。対象内分母/0/盤面色/進行意図/図鑑復帰を限定確認。生態/記録形式/正式状態を維持。残件13項目の現在表は operations/plans/improvement-status-v1.md。草案。
+		切り抜き漏れ確認/1: app4.2.74で303素材領域と96描画を確認し、主生物詳細6状態の端欠けを短辺基準で修正。Linux11項目は operations/evidence/remaining-cutouts-v1/README.md。採用素材/盤面/生態は不変。全直積/Windows/配布は未認定。草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

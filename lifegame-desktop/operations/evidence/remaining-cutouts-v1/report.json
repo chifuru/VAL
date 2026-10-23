@@ -1,0 +1,25 @@
+{
+  "ok": true,
+  "app": "4.2.74",
+  "checks": [
+    "all 303 base, branch, lower and prop regions contain nonrectangular transparent artwork",
+    "all 96 sampled runtime appearances render visible bodies",
+    "runtime transforms preserve transparent silhouettes and complete portrait margins",
+    "appearance checks do not mutate specimen input or the live world",
+    "all current artwork sheets load",
+    "actual main inspector uses a transparent nonempty body",
+    "actual lower inspector uses a transparent nonempty body",
+    "the actual lineage guide still renders image previews",
+    "inspection preserves pause intent without simulation errors",
+    "no unhandled browser exceptions",
+    "no external requests"
+  ],
+  "errors": [],
+  "external": [],
+  "rawRegions": 303,
+  "runtimeSamples": 96,
+  "rectangles": [],
+  "edgeClips": [],
+  "browser": "154.0.8037.57",
+  "scope": "303 raw regions; 96 runtime appearance fixtures and actual main/lower inspectors; no all-branch-sex-age Cartesian run, animation or Windows certification"
+}
