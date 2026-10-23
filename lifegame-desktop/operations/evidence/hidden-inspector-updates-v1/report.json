@@ -1,0 +1,83 @@
+{
+  "ok": true,
+  "baseline": "e7186a1",
+  "app": "4.2.74",
+  "source_sha256": "c25d972eebbc2a276b27148c95f43b5456a73f5e9c2d4daf0f6858b420e489d8",
+  "checks": [
+    "hidden species/count list receives no count writes across three committed turns",
+    "visible open ranking still updates on every committed turn",
+    "frozen detail HTML remains identical to prior app",
+    "three-turn hidden-panel optimization leaves observation rows and biology unchanged",
+    "returning to key tab immediately restores latest counts, extinction visibility and HTML",
+    "individual and group-color highlights survive hidden-tab turns",
+    "open ranking under hidden parent receives no regeneration",
+    "visible key list still updates normally",
+    "keyboard tab return refreshes open ranking to the latest values",
+    "ranking refresh does not refresh frozen individual details",
+    "closed ranking stays idle",
+    "all five committed turns and original biology remain identical",
+    "new world resets selection/highlights and starts with current key content",
+    "fastest explicit tab change aligns map and list with committed remainder",
+    "tab refresh does not simulate extra turns, lose rows or change paused intent",
+    "clearing selection also aligns the latest committed map/list without recalculation",
+    "explicit tab switching keeps a real Worker observation running",
+    "no uncaught browser errors"
+  ],
+  "metrics": {
+    "hiddenKey": {
+      "before": {
+        "keyCountWrites": 105,
+        "rankingWrites": 3
+      },
+      "after": {
+        "keyCountWrites": 0,
+        "rankingWrites": 3
+      }
+    },
+    "hiddenRanking": {
+      "before": {
+        "keyCountWrites": 35,
+        "rankingWrites": 1
+      },
+      "after": {
+        "keyCountWrites": 35,
+        "rankingWrites": 0
+      }
+    }
+  },
+  "comparisons": [
+    {
+      "key_sha256": "708b76be19d93a4dde00385fe9c66f0b980e31f13e9f7da4a558003b07fd523d",
+      "ranking_sha256": "a8176df9ce3dd16406a86da854f8cd4ad991a05bb821ade5e7609da544559cb0",
+      "rows_sha256": "2c27143cb3407e5da59c2fb2c8515440db61c47b9a41155a03a033da760664d5"
+    }
+  ],
+  "fast": {
+    "beforeTurn": 13,
+    "beforePresented": 10,
+    "afterTurn": 13,
+    "afterPresented": 13,
+    "rows": 14,
+    "unchanged": true,
+    "mapTurn": 13,
+    "countsCorrect": true,
+    "running": false,
+    "holds": [],
+    "fault": null
+  },
+  "closedSelection": {
+    "turn": 14,
+    "beforePresented": 13,
+    "afterPresented": 14,
+    "keyVisible": true,
+    "selected": null,
+    "unchanged": true
+  },
+  "live": {
+    "running": true,
+    "holds": [],
+    "fault": null
+  },
+  "errors": [],
+  "scope": "Linux small deterministic world, five-turn old/new comparison and T13/T14 fastest remainder plus a real Worker continuation; no whole-app speed claim"
+}

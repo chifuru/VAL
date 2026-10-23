@@ -1240,7 +1240,7 @@
   }
   $('clear-highlights').onclick=()=>{for(const i of $('species-key').querySelectorAll('[data-highlight],[data-highlight-group-color]'))i.checked=false;syncHighlights();};
   function closeDetails(){describedSpecies=null;selectedId=null;selectedCell=null;followId=null;lastTracked=null;renderer.view.selected=null;renderer.view.selectedEntity=null;$("follow-note").textContent="";setInspectorTab('key');renderSelection();}
-  $('close-species').onclick=closeDetails;
+  $('close-species').onclick=()=>{flushObservationDisplay();closeDetails();};
   for(const group of ["basal","prey","P","Q","resource"])$("names-"+group).onchange=()=>{renderer.view.names[group]=$("names-"+group).checked;renderer.draw();};
   function describeSpecies(id){
     flushObservationDisplay();
@@ -1695,6 +1695,7 @@
   }
   let inspectorTab='key';
   function setInspectorTab(tab){
+    const changed=inspectorTab!==tab;
     inspectorTab=tab;
     for(const name of ['details','key']){
       const active=name===tab;
@@ -1703,14 +1704,20 @@
       $('inspector-tab-'+name).tabIndex=active?0:-1;
     }
     document.querySelector('.workspace > .inspector').classList.toggle('has-detail',tab==='details');
+    // These panels may have missed committed turns while their parent tab was
+    // hidden. Refresh only the newly visible panel; keep frozen details intact.
+    if(changed&&world){
+      if(tab==='key')renderMapKey();
+      else if($('rank-panel').open)renderRanking();
+    }
   }
-  for(const name of ['details','key'])$('inspector-tab-'+name).onclick=()=>setInspectorTab(name);
+  for(const name of ['details','key'])$('inspector-tab-'+name).onclick=()=>{flushObservationDisplay();setInspectorTab(name);};
   $('inspector-tabs').onkeydown=e=>{
     if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;
     e.preventDefault();
     const names=['details','key'],index=names.indexOf(inspectorTab);
     const next=e.key==='Home'?0:e.key==='End'?1:(index+1)%2;
-    setInspectorTab(names[next]);$('inspector-tab-'+names[next]).focus();
+    flushObservationDisplay();setInspectorTab(names[next]);$('inspector-tab-'+names[next]).focus();
   };
   let selectionSnapshot=null;
   function stampSelection(){
@@ -1846,7 +1853,7 @@
     if (!world) return;
     const s = world.stats;
     $("occupancy-note").textContent=S.ConsumerGroup.enabled(world)?"主生物と一次消費者の小集団は同じマスに共存できます。寄生虫は内部の感染個体に付随します。":"1マスに主生物1体と一次消費者1体が共存。寄生虫は宿主に付随します。";
-    renderMapKey();
+    if(inspectorTab==='key')renderMapKey();
     $("turn").textContent = world.turn;
     $("turn-limit").textContent = "/ " + world.blockEnd;
     $("status").textContent = running ? "観測中" : "一時停止";
@@ -1858,7 +1865,7 @@
     $("parasite-count").textContent = s.P + " / " + s.Q;
     $("timing").textContent = lastMs ? Math.round(lastMs) + " ms" : "—";
     renderPopulation();
-    if ($("rank-panel").open) renderRanking();
+    if (inspectorTab==='details'&&$("rank-panel").open) renderRanking();
     const key = world.checkpoints.map(a => a.turn).join(",");
     if (checkpointKey !== key) {
       checkpointKey = key;
@@ -1967,7 +1974,7 @@
 
   }
   for (const [id, fn] of [["rank-panel", renderRanking], ["budget-panel", renderBudget]])
-    $(id).addEventListener("toggle", () => { if ($(id).open) fn(); });
+    $(id).addEventListener("toggle", () => { if ($(id).open&&(id!=="rank-panel"||inspectorTab==='details')) fn(); });
   function updateCohortHint() {
     syncSetupFields();
     if (!$("group-main").checked) {

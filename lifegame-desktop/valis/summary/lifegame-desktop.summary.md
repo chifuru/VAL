@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.74。現在対象は詳細配置索引共有/1（operations/evidence/selection-combat-index-v1/README.md）。能力表示/量機同居へ主配置を共用し、Linux17項目で旧mainのHTML/画素/全行/fingerprint一致と更新/凍結詳細/追跡を限定確認。通常3選択の全Map由来資源走査6→0、量機3同居27→0（既存索引の初回1走査は残る）。生態/記録/現UI/採用素材/正式61Nodeの草案を維持。次は承認済み7単位の6、非表示部分の不要処理。現在表と後続順は operations/plans/improvement-status-v1.md。生態近似/ピラミッド拡張/関係指標再設計/資源地形強調/要因色分けは今回対象外。総合性能/Windows/配布は未認定。
+現在の確定ソースは4.2.74。現在対象は非表示一覧更新省略/1（operations/evidence/hidden-inspector-updates-v1/README.md）。非表示の記号一覧/生存系統を更新せず、復帰時に最新化する。Linux18項目で復帰HTML/5T全行/fingerprint一致、固定詳細/所在色/最速端数/進行意図を限定確認。隠れた一覧3Tの書込105→0、ランキング1→0。生態/記録/現UI/採用素材/正式61Nodeの草案を維持。次は承認済み7単位の7、長期高速観測の仕上げ。現在表と後続順は operations/plans/improvement-status-v1.md。生態近似/ピラミッド拡張/関係指標再設計/資源地形強調/要因色分けは今回対象外。総合性能/Windows/配布は未認定。
 
 ## A：仕様
 
@@ -216,11 +216,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.6.md。正本: design/specification/selection-combat-index-v1.md。契約: operations/plans/selection-combat-index-v1.md。証跡: operations/evidence/selection-combat-index-v1/README.md。その他の現行責務/入口は各Node参照。
+			valis/nodes/B/B5.6.md。正本: design/specification/hidden-inspector-updates-v1.md。契約: operations/plans/hidden-inspector-updates-v1.md。証跡: operations/evidence/hidden-inspector-updates-v1/README.md。その他の現行責務/入口は各Node参照。
 		ロジック:
-			既存のID/所在/凍結詳細と現在追跡を維持。能力表示と量機同居は現在索引の主配置を共用し、明示更新で確定状態を読み直す。
+			既存タブ/所在色選択/固定詳細を維持。非表示の記号一覧と親ごと隠れたopen生存系統は自動更新せず、表示先へ戻る時に最新化する。
 		実態:
-			詳細配置索引共有/1: app4.2.74で攻撃/防御と量機同居の主配置Mapを遅延共用。Linux17項目で旧mainのHTML/画素/全行/fingerprint一致、更新/凍結詳細/追跡を限定確認。通常3選択の全Map由来資源走査6→0、量機3同居は27→0（既存索引初回1走査は残る）。証跡 operations/evidence/selection-combat-index-v1/README.md。生態/正式草案を維持。総合速度は未認定。
+			非表示一覧更新省略/1: app4.2.74で非表示の記号一覧/生存系統の更新を省き、タブ復帰時に最新化。Linux18項目で旧mainの復帰HTML/5T全行/fingerprint一致、固定詳細/所在色/最速端数/継続意図を限定確認。一覧の隠れた3T書込105→0、隠れたランキング1→0。証跡 operations/evidence/hidden-inspector-updates-v1/README.md。総合性能は未認定、正式状態は草案。
 
 ```
 
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/selection-combat-index-v1.md。契約: operations/plans/selection-combat-index-v1.md。証跡: operations/evidence/selection-combat-index-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/C/C8.md。正本: design/specification/hidden-inspector-updates-v1.md。契約: operations/plans/hidden-inspector-updates-v1.md。証跡: operations/evidence/hidden-inspector-updates-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
-		既存設定導線/グラフを維持。表示用のmain/mainByCellを現在索引へ遅延保持し、攻撃/防御のpowerContext.currentと量機同居へ渡す。
+		既存設定/グラフ/詳細を維持。自動更新を表示タブへ限定し、明示タブ/選択解除の復帰では既存flushで盤面との確定時点を揃える。
 	実態:
-		詳細配置索引共有/1: app4.2.74で攻撃/防御と量機同居の主配置Mapを遅延共用。Linux17項目で旧mainのHTML/画素/全行/fingerprint一致、更新/凍結詳細/追跡を限定確認。通常3選択の全Map由来資源走査6→0、量機3同居は27→0（既存索引初回1走査は残る）。証跡 operations/evidence/selection-combat-index-v1/README.md。生態/正式草案を維持。総合速度は未認定。
+		非表示一覧更新省略/1: app4.2.74で非表示の記号一覧/生存系統の更新を省き、タブ復帰時に最新化。Linux18項目で旧mainの復帰HTML/5T全行/fingerprint一致、固定詳細/所在色/最速端数/継続意図を限定確認。一覧の隠れた3T書込105→0、隠れたランキング1→0。証跡 operations/evidence/hidden-inspector-updates-v1/README.md。総合性能は未認定、正式状態は草案。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/selection-combat-index-v1.md。契約: operations/plans/selection-combat-index-v1.md。証跡: operations/evidence/selection-combat-index-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/D/D9.md。正本: design/specification/hidden-inspector-updates-v1.md。契約: operations/plans/hidden-inspector-updates-v1.md。証跡: operations/evidence/hidden-inspector-updates-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
-		現行mainと通常/量機同居のHTML/画素/原値/走査を比較し、主配置Mapの規則と再利用、失効/別世界・凍結詳細/追跡を限定確認する。
+		旧新版の非表示書込回数、復帰HTMLと5T原値/生態を比較。固定詳細/所在色/別世界/キーボード/最速端数/継続意図を限定確認する。
 	実態:
-		詳細配置索引共有/1: app4.2.74で攻撃/防御と量機同居の主配置Mapを遅延共用。Linux17項目で旧mainのHTML/画素/全行/fingerprint一致、更新/凍結詳細/追跡を限定確認。通常3選択の全Map由来資源走査6→0、量機3同居は27→0（既存索引初回1走査は残る）。証跡 operations/evidence/selection-combat-index-v1/README.md。生態/正式草案を維持。総合速度は未認定。
+		非表示一覧更新省略/1: app4.2.74で非表示の記号一覧/生存系統の更新を省き、タブ復帰時に最新化。Linux18項目で旧mainの復帰HTML/5T全行/fingerprint一致、固定詳細/所在色/最速端数/継続意図を限定確認。一覧の隠れた3T書込105→0、隠れたランキング1→0。証跡 operations/evidence/hidden-inspector-updates-v1/README.md。総合性能は未認定、正式状態は草案。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/selection-combat-index-v1.md。契約: operations/plans/selection-combat-index-v1.md。証跡: operations/evidence/selection-combat-index-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/E/E6.md。正本: design/specification/hidden-inspector-updates-v1.md。契約: operations/plans/hidden-inspector-updates-v1.md。証跡: operations/evidence/hidden-inspector-updates-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
-		Linux17項目、全Map由来資源走査6→0/27→0と残る索引初回1走査、表示/原値一致と更新条件を保持。総合性能へ拡大解釈しない。
+		最終18項目、隠れた一覧書込105→0/ランキング1→0、表示中更新/復帰/原値の一致と時点整合を保持。総合速度へ拡大解釈しない。
 	実態:
-		詳細配置索引共有/1: app4.2.74で攻撃/防御と量機同居の主配置Mapを遅延共用。Linux17項目で旧mainのHTML/画素/全行/fingerprint一致、更新/凍結詳細/追跡を限定確認。通常3選択の全Map由来資源走査6→0、量機3同居は27→0（既存索引初回1走査は残る）。証跡 operations/evidence/selection-combat-index-v1/README.md。生態/正式草案を維持。総合速度は未認定。
+		非表示一覧更新省略/1: app4.2.74で非表示の記号一覧/生存系統の更新を省き、タブ復帰時に最新化。Linux18項目で旧mainの復帰HTML/5T全行/fingerprint一致、固定詳細/所在色/最速端数/継続意図を限定確認。一覧の隠れた3T書込105→0、隠れたランキング1→0。証跡 operations/evidence/hidden-inspector-updates-v1/README.md。総合性能は未認定、正式状態は草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

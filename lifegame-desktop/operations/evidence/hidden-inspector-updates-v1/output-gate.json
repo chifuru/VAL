@@ -1,0 +1,63 @@
+{
+  "ok": true,
+  "baseline": "e7186a1",
+  "app": "4.2.74",
+  "flows": [
+    "FLOW-04",
+    "FLOW-05",
+    "FLOW-08"
+  ],
+  "scope": "inactive inspector key/ranking display updates and explicit return-time synchronization",
+  "only_intended_inspector_controls_changed": true,
+  "source_sha256": {
+    "src/app.js": "c25d972eebbc2a276b27148c95f43b5456a73f5e9c2d4daf0f6858b420e489d8"
+  },
+  "targeted_checks": {
+    "actual_browser_final_source": 18,
+    "manifest": 1
+  },
+  "metrics": {
+    "hiddenKey": {
+      "before": {
+        "keyCountWrites": 105,
+        "rankingWrites": 3
+      },
+      "after": {
+        "keyCountWrites": 0,
+        "rankingWrites": 3
+      }
+    },
+    "hiddenRanking": {
+      "before": {
+        "keyCountWrites": 35,
+        "rankingWrites": 1
+      },
+      "after": {
+        "keyCountWrites": 35,
+        "rankingWrites": 0
+      }
+    }
+  },
+  "full_turn_records_and_fingerprint_match": true,
+  "fastest_remainder_without_recalculation": true,
+  "real_worker_running_intent_retained": true,
+  "formal_nodes": 61,
+  "all_status": "草案",
+  "formal_structure_unchanged": true,
+  "core_unchanged": true,
+  "all_node_references_exist": true,
+  "manifest_current_state_reflected": true,
+  "unchanged": [
+    "ecology",
+    "random",
+    "record/archive formats",
+    "assets",
+    "CSS/layout",
+    "graphs"
+  ],
+  "whole_app_speed_measured": false,
+  "full_suite": false,
+  "windows_tested": false,
+  "distribution_built": false,
+  "next_unit": "7 長期高速観測の仕上げ"
+}
