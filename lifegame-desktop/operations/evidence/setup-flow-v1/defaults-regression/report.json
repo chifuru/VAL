@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "checks": [
+    "reset is separate from world generation",
+    "all creation conditions return to their startup defaults",
+    "checkboxes and disabled controls return to startup state",
+    "automatic-generation locks are cleared",
+    "restored defaults are valid and ready to create",
+    "invalid input is detected before reset",
+    "reset clears obsolete input errors",
+    "reset preserves the current world, all observation rows and archive",
+    "previously resolved generation values are cleared",
+    "display preferences remain unchanged",
+    "cancel resumes the original world, not a default replacement",
+    "default settings create a new standard-size world",
+    "no unhandled browser errors"
+  ],
+  "errors": [],
+  "scope": "Linux Chromium; startup condition comparison, live world preservation and one standard-size generation"
+}

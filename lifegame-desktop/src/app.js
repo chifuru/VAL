@@ -211,10 +211,11 @@
     generationBase.initial=Number($("initial").value);
   });
   $("lineages").addEventListener("change", () => {
-    $("lineage-options").hidden = $("lineages").value !== "manual";
+    $("lineage-options").hidden = false;
     if ($("lineages").value === "manual") $("advanced-settings").open = true;
   });
   $("distribution").addEventListener("change", () => {
+    if($("distribution").value==='weighted')$("advanced-settings").open=true;
     syncSetupFields();
   });
   $("map-id").innerHTML += window.EcoMapTemplates.list()
@@ -229,7 +230,7 @@
   $("founder-inputs").innerHTML=founderSpecies.map(s=>`<label>${escape(s.name)} · ${s.group==="P"?"一次寄生":s.group==="Q"?"高次寄生":independent(s)?'独立生産者':s.group==="plant"?"生産者":s.group==="fungus"?"分解者":"一次消費者"}（${["P","Q"].includes(s.group)?"群体":s.group==='fungus'||s.group==='plant'&&!independent(s)?'群落':"体"}）<input id="founder-${escape(s.id)}" type="number" min="0" max="${s.group==="Q"?1024:17920}" step="1" placeholder="自動"></label>`).join("");
   for(const species of founderSpecies.filter(s=>s.group==='P')){
     const input=$('founder-'+species.id),hint=document.createElement('small');
-    hint.id=input.id+'-hint';hint.className='hint';input.setAttribute('aria-describedby',hint.id);input.after(hint);
+    hint.id=input.id+'-hint';hint.className='hint';input.setAttribute('aria-describedby',hint.id);input.before(hint);
   }
   function syncParasiteFounders(){
     for(const [id,table]of Object.entries(S.PrimaryParasite.hostTable)){
@@ -319,10 +320,12 @@
       const imposed=preset&&['mapId','initial'].includes(path);
       check.checked=!automatic||imposed||generationLocks.has(path);
       check.disabled=!automatic||imposed||(path==='mapId'&&input.value==='auto');
-      check.closest('.generation-lock-control').hidden=!automatic;
+      check.closest('.generation-lock-control').hidden=false;
     }
     const profileNotes={'standard':'基準の条件。','high-production':'容量1.5倍・再生上限1.25倍・初期主生物数1.2倍。','resource-localized':'占有率0.6倍・容量1.5倍・集落分布。','water-focused':'水域35%以上の地形・水の容量1.25倍。','land-focused':'陸域70%以上の地形・陸の容量1.25倍。','information-strong':'情報影響度1.25倍。出現条件と期限は変えません。'};
     $('generation-profile').title=profileNotes[$('generation-profile').value]||'6つの傾向から、固定した条件に適合するものを選びます。';
+    const unavailable=[['water-focused','水域中心（水域35%以上）'],['land-focused','陸域中心（陸域70%以上）']].filter(([id])=>$('generation-profile').querySelector('[value="'+id+'"]').disabled).map(([,name])=>name);
+    setText('profile-rule-note',!automatic?'「条件を指定」では、観察条件の傾向は使用しません。表示した値を直接指定します。':unavailable.length?'選択中の地形では '+unavailable.join('・')+' は利用できません。対応する地形へ変えると選択できます。':'おまかせ生成では、固定していない項目へ観察条件の傾向を適用します。');
     $('generation-help').textContent=automatic?($('generation-profile').value==='auto'?'6つの傾向から関連する条件を組で選びます。':profileNotes[$('generation-profile').value]+' 自動項目だけへ適用します。')+' 値の変更は固定になり、0・供給OFF・指定系統を保持します。固定を外すと次の生成で自動になります。':'表示中の値をそのまま使います。地形のおまかせは代表地形から選び、生成後の条件を保存します。';
   }
   function generationSettings(){
@@ -414,8 +417,8 @@
       for (const input of $("lineage-options").querySelectorAll("input")) input.checked = mode.selected.includes(input.value);
       // A fixed observation mode owns its map, founder count and group set.
     }
-    $("lineage-options").hidden = $("lineages").value !== "manual";
-    $("weight-options").hidden = $("distribution").value !== "weighted";
+    $("lineage-options").hidden = false;
+    $("weight-options").hidden = false;
     syncSetupFields();
     $("mode-help").textContent = mode.description.replace("途中の生体補充はありません。","動物の救済補充はありません。") + (fixed ? ` 主生物${mode.initial}体、${mode.selected.length}系統（${mode.selected.map(id=>D.byId[id].name).join(" / ")}）。自然配置・均等配分。固定項目を編集する場合は自由設定へ戻してください。` : "") + " 条件は開始時に固定され、観測中も同じ倍率で計算します。草棲虫には小集団向けの生存調整を適用します。動物・寄生虫の救済補充はありません。生産者の環境供給は別欄で選択できます。";
     updateCohortHint();syncGenerationFields();
@@ -516,13 +519,57 @@
     if($('distribution').value==='weighted'&&Number($('weight-options').querySelector('[data-weight="ryouki"]')?.value)===0)ids=ids.filter(id=>id!=='ryouki');
     return $('lineages').value==='few'?Math.min(5,ids.length):ids.length;
   }
+  let setupInvalidField=null;
+  const setupFieldErrors=new WeakMap();
+  function setupValidationMessage(field){
+    const v=field.validity;
+    if(v.customError)return field.validationMessage;
+    if(v.badInput)return '数値を入力してください。';
+    if(v.valueMissing)return field.tagName==='SELECT'?'項目を選択してください。':'値を入力してください。';
+    if(v.rangeUnderflow)return field.min+'以上にしてください。';
+    if(v.rangeOverflow)return field.max+'以下にしてください。';
+    if(v.stepMismatch)return '最小値'+(field.min||'0')+'から'+field.step+'刻みで指定してください。';
+    return '入力内容を確認してください。';
+  }
+  function showSetupFieldError(field){
+    if(setupInvalidField&&setupInvalidField!==field){
+      const old=setupInvalidField,error=setupFieldErrors.get(old);
+      if(error){error.hidden=true;const descriptions=(old.getAttribute('aria-describedby')||'').split(/\s+/).filter(id=>id&&id!==error.id);if(descriptions.length)old.setAttribute('aria-describedby',descriptions.join(' '));else old.removeAttribute('aria-describedby');}
+      old.removeAttribute('aria-invalid');old.closest('label')?.classList.remove('setup-invalid');
+    }
+    setupInvalidField=field;
+    if(!field)return;
+    let error=setupFieldErrors.get(field);
+    if(!error){error=document.createElement('small');error.className='setup-field-error';error.id='setup-error-'+(field.id||field.dataset.weight);field.before(error);setupFieldErrors.set(field,error);}
+    const descriptions=(field.getAttribute('aria-describedby')||'').split(/\s+/).filter(Boolean);if(!descriptions.includes(error.id))descriptions.push(error.id);field.setAttribute('aria-describedby',descriptions.join(' '));
+    error.hidden=false;error.textContent=setupValidationMessage(field);field.setAttribute('aria-invalid','true');field.closest('label')?.classList.add('setup-invalid');
+  }
+  function focusSetupIssue(){
+    if(!setupInvalidField)return;
+    for(let parent=setupInvalidField.parentElement;parent;parent=parent.parentElement)if(parent.tagName==='DETAILS')parent.open=true;
+    setupInvalidField.focus();setupInvalidField.scrollIntoView({block:'center'});
+  }
+  $('show-setup-issue').onclick=focusSetupIssue;
+  function syncSetupNotes(){
+    const fixed=$('observation-mode').value!=='custom',main=$('group-main').checked,manual=$('lineages').value==='manual';
+    setText('world-rule-note',fixed?'固定観察モードでは地形が固定です。変更する場合は上の観察モードを「自由設定」に戻してください。':'地形と盤面の大きさを選びます。');
+    setText('main-rule-note',fixed?'固定観察モードでは参加生物・系統・初期数・配置が固定です。編集する場合は「自由設定」に戻してください。':!main?'主生物をOFFにしているため、下の主生物の条件は使用しません。参加する生物群でONにすると編集できます。':'参加生物を先に選び、主生物の系統・数・配置を設定します。');
+    setText('lineage-choice-note',fixed?'固定観察モードで指定された系統を表示しています。':!main?'主生物がOFFのため手動の系統選択は使用しません。':manual?'参加させる主生物を選びます。1系統につき最低4体が必要です。':'下のチェックは保存済みの手動選択で、現在の構成には使用しません。「自分で選択」にすると編集できます。');
+    setText('weight-choice-note',fixed?'固定観察モードでは配分も固定です。':!main?'主生物がOFFのため重みは使用しません。':$('distribution').value!=='weighted'?'均等配分では重みを使用しません。「重み付き」にすると編集できます。':'各系統の配分の重みを設定します。量機の0は初期配置なしです。');
+    setText('supply-rule-note',$('producer-supply').checked?'環境からの供給を使います。下で陸・水の供給量を調整できます。':'供給がOFFのため、下の供給量は使用しません。値は保持し、ONに戻すと編集できます。');
+    const off=Object.keys(groups).filter(id=>!$('group-'+id).checked&&id!=='main').map(id=>groups[id]);
+    setText('founder-rule-note',off.length?off.join('・')+' はOFFのため、その種別初期数は編集・適用しません。参加する生物群でONにすると戻せます。':'空欄は自動、0は初期配置なし。寄生虫の必要な宿主数は入力欄の上で確認できます。');
+    setText('guarantee-rule-note',$('guarantee').title|| (fixed?'固定観察モードでは初期餌保証を使用しません。':!main?'主生物がOFFのため、初期集団への餌保証は使用しません。':'種別の初期数を指定している間は、初期餌保証を併用できません。'));
+  }
   function syncSetupValidity(){
     const invalid=$('setup').querySelector('input:invalid,select:invalid,textarea:invalid');
-    $('load').disabled=preparingWorld||!!invalid;
+    $('load').disabled=preparingWorld||!!invalid;showSetupFieldError(invalid);
+    $('show-setup-issue').hidden=!invalid||preparingWorld;
+    setText('setup-ready-note',invalid?'修正が必要な項目があります。下のボタンから該当欄へ移動できます。':'上の条件で新しい世界を作れます。現在の世界は作成に成功するまで保持します。');
     const note=$('setup-message');
     if(invalid&&!preparingWorld){
       const label=[...(invalid.closest('label')?.childNodes||[])].filter(n=>n.nodeType===3).map(n=>n.textContent).join('').trim()||'入力値';
-      setupMessage(label+'：'+invalid.validationMessage);
+      setupMessage(label+'：'+setupValidationMessage(invalid));note.classList.add('error');
       note.dataset.preflight='true';
     }else if(note.dataset.preflight==='true'){
       delete note.dataset.preflight;setupMessage('');
@@ -536,7 +583,7 @@
     for (const input of $("lineage-options").querySelectorAll("input"))
       input.disabled = fixed || !main || $("lineages").value !== "manual";
     const weighted = $("distribution").value === "weighted";
-    $("weight-options").hidden = !main || !weighted;
+    $("weight-options").hidden = false;
     for (const input of $("weight-options").querySelectorAll("input"))
       input.disabled = fixed || !main || !weighted;
     for(const species of founderSpecies)$('founder-'+species.id).disabled=!$('group-'+species.group).checked;
@@ -548,7 +595,7 @@
     initial.required=main;initial.min=String(Math.max(4,count*4));initial.max=String(width*height);
     initial.setCustomValidity(main&&!count?'参加させる系統を選んでください。':'');
     syncParasiteFounders();
-    syncSetupValidity();
+    syncSetupNotes();syncSetupValidity();
   }
   function closeWorldDetails() {
     closeDetails();
@@ -832,10 +879,7 @@
     if($("setup-message").classList.contains("error"))setupMessage("");
   });
   $("setup").addEventListener("invalid", event => {
-    const field = event.target;
-    const details = field.closest("details");
-    if (details) details.open = true;
-    setupMessage("入力内容を確認してください：" + field.validationMessage, true);
+    event.preventDefault();showSetupFieldError(event.target);focusSetupIssue();
   }, true);
   $("setup").addEventListener("submit", async (event) => {
     event.preventDefault();

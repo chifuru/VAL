@@ -1,0 +1,58 @@
+{
+  "ok": true,
+  "baseline": "a1f0e2e",
+  "app": "4.2.74",
+  "test_results": [
+    {
+      "file": "tests/setup-flow-ui.cjs",
+      "passed": 27,
+      "final_ui_source": true
+    },
+    {
+      "file": "tests/generation-preflight-ui.cjs",
+      "passed": 14,
+      "before_final_aria_and_footer_only_adjustments": true
+    },
+    {
+      "file": "tests/setup-defaults-ui.cjs",
+      "passed": 13,
+      "before_final_aria_and_footer_only_adjustments": true
+    }
+  ],
+  "input_attributes_options_and_textarea_defaults_unchanged": true,
+  "readConfig_byte_identical": true,
+  "footer_matches_package": true,
+  "formal_nodes": 61,
+  "all_status": "草案",
+  "formal_structure_unchanged": true,
+  "core_modified": false,
+  "source_sha256": {
+    "src/Index.html": "0b49e3e4a2a3ca3587ae636a7b7afcd5179c023994fe4c045636b7ed2a537f49",
+    "src/app.js": "79a36f75507a2498998f1117e03d97b940de62e5d2f20ab6597a2acab61211c4",
+    "src/styles.css": "1b80fec2e46a50f61fe9a9fdf1861d4b1f11190b8ff047e2abdeed154a3e245a",
+    "tests/setup-flow-ui.cjs": "9844d660807754a14207045703382f8ed2731b87e5d3e5a44ab6d959f0095770",
+    "design/specification/setup-flow-v1.md": "47e6ed754a499906f51a926f648a403376080cbb79a08d4f2f8721385d516f98",
+    "operations/plans/setup-flow-v1.md": "95041d261fbc58131e2cbd5ff5147b8ba5ff7a6590cbf2667cdc85f065358646"
+  },
+  "unchanged_sha256": {
+    "src/ecology/state.js": "ac0e1420dee7d071dc65609e19fa5d4e9d4d699e71def561759a6605a31b4af6",
+    "src/ecology/engine.js": "f4e34637c49a80d20df1bb08f8afd2f52a89bfe030e59a5a6c45edb6af178384",
+    "src/ecology/observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+    "src/ecology/observation-modules.js": "d61784e0c505f1d236a8a62022f4cd4acc9e3e24c4a95e72516c6d9cd2b8e2bc",
+    "src/ecology/observations.js": "e4263121a62cc22e480c14541786efa7ff95c7bfd87332d107947d4dc4dc8d1f",
+    "src/ecology/map-data.js": "91924602f41631394dbc69d78787df6bd6567174be93154415894b6043e60a41",
+    "src/ecology/map-templates.js": "82ad874d4a523bea1b0d66f1b0e2d65967b3ac2f1822757ba4f4abc51ee7bc8e",
+    "src/ecology/renderer.js": "bb0c80218ce4af383bd2c3c1fe2b3e1be886801ff78d927faa381247cd63aa0e",
+    "src/ecology/art.js": "af07f87dcc0f4a8936ba0a7123c0b07dfccd4b9bb6adbddf1a7bb29b717ba456",
+    "tests/generation-preflight-ui.cjs": "c1b4e57938bb7501d10fc30316e2bb128852fe17ca1f5097459029d4b46e2fec",
+    "tests/setup-defaults-ui.cjs": "d9bcdc61537d111fdb4fdd8d893f5a54929c75391f20887703187ac1568c4cc6"
+  },
+  "full_suite": false,
+  "windows_tested": false,
+  "distribution_built": false,
+  "limits": [
+    "representative UI and creation conditions, not all terrain capacities",
+    "same ecological rules and configuration shape",
+    "new 27 checks run after final accessibility/footer adjustments; old regression reports retain their execution scope"
+  ]
+}

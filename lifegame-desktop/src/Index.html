@@ -33,34 +33,17 @@
         <aside class="panel setup">
           <h2>◈ マップと初期条件</h2>
           <p class="setup-steps">
-            <b>① 地形を選ぶ</b> → <b>② 世界を作る</b> → <b>③ 観測を開始</b>
+            <b>① 観察条件</b> → <b>② 地形</b> → <b>③ 生物・配置</b> → <b>④ 栄養・詳細</b> → <b>⑤ 作成</b>
           </p>
           <p id="setup-help" class="note">
             地形・生物・配置を選んで世界を作ります。同じ設定でも、新しい世界では配置が変わります。
           </p>
           <button id="open-results-setup" type="button" class="secondary">保存した結果を見る</button>
           <form id="setup">
-            <p id="setup-message" class="note" role="status" aria-live="polite" tabindex="-1" hidden></p>
-            <div class="setup-reset"><button id="reset-setup" type="button" class="secondary">作成条件をすべてデフォルトに戻す</button><span class="hint">現在の世界・図鑑・表示設定は変更しません。</span></div>
-            <div class="setup-main" id="generation-settings">
+<p id="setup-message" class="note" role="status" aria-live="polite" tabindex="-1" hidden></p><div class="setup-reset"><button id="reset-setup" type="button" class="secondary">作成条件をすべてデフォルトに戻す</button><span class="hint">現在の世界・図鑑・表示設定は変更しません。</span></div><section class="setup-step" id="setup-step-1" aria-labelledby="setup-step-title-1"><h3 id="setup-step-title-1"><span>01</span>観察条件を決める</h3><label class="observation-mode-label">観察モード<select id="observation-mode"><option value="custom">自由設定</option><option value="river-settlement">河畔・定着観察（高生産・初期集団多め）</option><option value="lake-foodweb">湖沼・食物網観察（高生産・初期集団多め）</option></select></label><p id="mode-help" class="note" aria-live="polite"></p><p id="generation-help" class="note">関連する条件を組で選びます。値を変更すると固定になり、0・供給OFF・指定系統は保持します。</p><p id="profile-rule-note" class="note setup-rule" aria-live="polite">観察条件の傾向は、おまかせ生成で使用します。</p><div class="setup-main" id="generation-settings">
               <label>条件の作り方<select id="generation-mode"><option value="auto">おまかせ・多様生成</option><option value="manual">条件を指定</option></select></label>
               <label>観察条件の傾向<select id="generation-profile"><option value="auto">おまかせ</option></select></label>
-            </div>
-            <p id="generation-help" class="note">関連する条件を組で選びます。値を変更すると固定になり、0・供給OFF・指定系統は保持します。</p>
-            <label class="observation-mode-label">観察モード<select id="observation-mode"><option value="custom">自由設定</option><option value="river-settlement">河畔・定着観察（高生産・初期集団多め）</option><option value="lake-foodweb">湖沼・食物網観察（高生産・初期集団多め）</option></select></label>
-          <fieldset id="advantage-settings"><legend>追加の生存優遇</legend>
-            <label class="check"><input type="checkbox" id="advantage-producer" checked>生産者を強くする</label>
-            <label class="check"><input type="checkbox" id="advantage-waterbug" checked>水游虫を強くする</label>
-            <label class="check"><input type="checkbox" id="advantage-hyperparasite" checked>高次寄生を広がりやすくする</label>
-            <p class="hint">自由設定でも個別に選べます。初期養分・寿命・繁殖などを調整し、途中の救済補充はしません。条件は世界と一緒に保存されます。</p>
-          </fieldset>
-            <p id="mode-help" class="note" aria-live="polite"></p>
-            <div class="setup-main setup-world-fields">
-              <label
-                 hidden>生態用初期値<textarea id="seed" rows="2" maxlength="2048">
-ECOSYSTEM-2026</textarea
-                ></label
-              ><label
+            </div></section><section class="setup-step" id="setup-step-2" aria-labelledby="setup-step-title-2"><h3 id="setup-step-title-2"><span>02</span>地形・大きさを決める</h3><p id="world-rule-note" class="note setup-rule" aria-live="polite">地形と盤面の大きさを選びます。</p><div class="setup-main setup-world-fields"><label
                 >世界の大きさ<select id="size">
                   <option value="40,28">小 · 40 × 28</option>
                   <option selected value="80,56">
@@ -69,6 +52,29 @@ ECOSYSTEM-2026</textarea
                   <option value="160,112">大 · 160 × 112</option>
                 </select></label
               ><label
+                >地形<select id="map-id">
+                  <option value="auto">おまかせ · 代表6地形</option>
+                </select></label
+              ></div><label
+                 hidden>生態用初期値<textarea id="seed" rows="2" maxlength="2048">
+ECOSYSTEM-2026</textarea
+                ></label
+              ><label
+                 hidden>地形用初期値<input
+                  id="terrain-seed"
+                  type="text"
+                  maxlength="2048"
+                  placeholder="空欄なら生態用初期値と同じ"
+              /></label></section><section class="setup-step" id="setup-step-3" aria-labelledby="setup-step-title-3"><h3 id="setup-step-title-3"><span>03</span>参加する生物・初期配置を決める</h3><fieldset>
+                  <legend>初期に有効にする生物群</legend>
+                  <div id="groups"></div>
+                </fieldset><p id="main-rule-note" class="note setup-rule" aria-live="polite">参加する生物群を選び、主生物の系統と数を設定します。</p><p id="cohort-hint" class="cohort-hint" aria-live="polite"></p><div class="setup-main"><label
+                  >系統の構成<select id="lineages">
+                    <option value="all">標準の主生物系統</option>
+                    <option value="few">初期値から5系統</option>
+                    <option value="manual">自分で選択（早成甲殻・量機を含む）</option>
+                  </select></label
+                ><label
                 >主生物の初期数<input
                   id="initial"
                   type="number"
@@ -76,33 +82,25 @@ ECOSYSTEM-2026</textarea
                   max="17920"
                   step="4"
                   value="320"
-              /></label>
-              <label
-                >地形<select id="map-id">
-                  <option value="auto">おまかせ · 代表6地形</option>
-                </select></label
-              >
-              <label
-                 hidden>地形用初期値<input
-                  id="terrain-seed"
-                  type="text"
-                  maxlength="2048"
-                  placeholder="空欄なら生態用初期値と同じ"
-              /></label>
-                <label
-                  >系統の構成<select id="lineages">
-                    <option value="all">標準の主生物系統</option>
-                    <option value="few">初期値から5系統</option>
-                    <option value="manual">自分で選択（早成甲殻・量機を含む）</option>
+              /></label><label
+                  >系統ごとの配分<select id="distribution">
+                    <option value="balanced">偏りなし · 4体単位で均等</option>
+                    <option value="weighted">重み付き · 系統ごと1〜4</option>
                   </select></label
-                >
-              <button id="load" type="submit" class="primary">
-                この設定で世界を作る ↗
-              </button>
-            </div>
-            <button id="cancel-settings" type="button" class="secondary" hidden>変更を適用せず観測へ戻る</button>
-            <p id="cohort-hint" class="cohort-hint" aria-live="polite"></p>
-            <fieldset id="producer-supply-settings"><legend>生産者の供給モデル</legend>
+                ><label
+                  >初期配置<select id="placement">
+                    <option value="natural">
+                      自然配置 · 同系統の小組を適応域へ
+                    </option>
+                    <option value="scatter">分散配置 · 距離を確保</option>
+                    <option value="cluster">集落配置 · 系統ごとに集まる</option>
+                  </select></label
+                ></div><details id="advanced-settings"><summary>系統を選ぶ・配分の重みを確認</summary><p id="lineage-choice-note" class="note setup-rule" aria-live="polite">手動選択を使う場合だけ編集できます。</p><div id="lineage-options"></div><p id="weight-choice-note" class="note setup-rule" aria-live="polite">重み付き配分の場合だけ編集できます。</p><div id="weight-options"></div></details></section><section class="setup-step" id="setup-step-4" aria-labelledby="setup-step-title-4"><h3 id="setup-step-title-4"><span>04</span>栄養・初期量を調整する</h3><fieldset id="advantage-settings"><legend>追加の生存優遇</legend>
+            <label class="check"><input type="checkbox" id="advantage-producer" checked>生産者を強くする</label>
+            <label class="check"><input type="checkbox" id="advantage-waterbug" checked>水游虫を強くする</label>
+            <label class="check"><input type="checkbox" id="advantage-hyperparasite" checked>高次寄生を広がりやすくする</label>
+            <p class="hint">自由設定でも個別に選べます。初期養分・寿命・繁殖などを調整し、途中の救済補充はしません。条件は世界と一緒に保存されます。</p>
+          </fieldset><fieldset id="producer-supply-settings"><legend>生産者の供給モデル</legend><p id="supply-rule-note" class="note setup-rule" aria-live="polite">供給をOFFにすると、下の供給量は使用しません。</p>
               <label class="check"><input id="producer-supply" type="checkbox" checked>環境から生産者を支える</label>
               <p class="hint">地形・生存優遇と独立した設定です。陸と水の生産者へ栄養を供給し、適地では環境由来の新個体が生じます。動物・寄生虫の救済補充はしません。</p>
               <details><summary>陸・水の供給量を調整</summary><div class="setup-more" id="supply-inputs">
@@ -113,8 +111,7 @@ ECOSYSTEM-2026</textarea
                 <label>水の支援地点率（%）<input id="supply-water-capacity" type="number" required min="0" max="100" step="1" value="35"></label>
                 <label>水の可食部再生（倍率）<input id="supply-water-regrowth" type="number" required min="0" max="4" step="0.1" value="1"></label>
               </div></details>
-            </fieldset>
-            <details id="lower-initial-settings"><summary>下層生物・資源の初期量と分布</summary><p class="hint">群落の占有率は陸・水それぞれの適地が分母です。可食部がなくなっても基部が残る間は同じ1群落です。分解者・一次消費者の密度は通行可能マスに対する配置目標で、供給中の量とは別です。適地と空き枠が不足すれば設定の修正を案内します。</p><div class="setup-more">
+            </fieldset><details id="lower-initial-settings"><summary>下層生物・資源の初期量と分布</summary><p class="hint">群落の占有率は陸・水それぞれの適地が分母です。可食部がなくなっても基部が残る間は同じ1群落です。分解者・一次消費者の密度は通行可能マスに対する配置目標で、供給中の量とは別です。適地と空き枠が不足すれば設定の修正を案内します。</p><div class="setup-more">
               <label>陸の群落占有率（%）<input id="density-plant" type="number" required min="0" max="100" step="0.1" value="20"></label>
               <label>水の群落占有率（%）<input id="density-plant-water" type="number" required min="0" max="100" step="0.1" value="15"></label>
               <label>陸の可食容量（B／群落）<input id="colony-land-capacity" type="number" required min="0.02" max="200" step="any" value="20"></label>
@@ -136,42 +133,17 @@ ECOSYSTEM-2026</textarea
               <label>水分の初期量（基準比%）<input id="resource-droplet" type="number" required min="0" max="400" step="10" value="100"></label>
               <label>情報の初期量（新方式は非該当）<input id="resource-info" type="number" min="0" max="400" step="10" value="0" disabled></label>
               <label>情報の行動への影響度 k<input id="information-influence" type="number" required min="0" max="4" step="any" value="1"></label><p class="note">情報は非栄養の痕跡です。由来のない初期情報は置きません。k=0でも生成・受容・費用を記録し、学習と場所への作用を0にします。</p>
-              </div><details id="founder-settings"><summary>種別の初期個体数・寄生群体数</summary><p class="hint">空欄は自動、0は初期配置なし。指定種は群密度からの割当を置き換え、未指定種は自動のままです。初期数だけの指定なので、開始後の出生・供給・感染は通常どおりです。種別数を指定する場合は初期餌保証をOFFにしてください。寄生虫は宿主が必要で、新しい高次寄生モデルは適合する一次寄生虫に応じた少数を、寄生中と第四相の自立群体へ分けて配置します。</p><div id="founder-inputs" class="setup-more"></div></details><div class="setup-more">
+              </div><details id="founder-settings"><summary>種別の初期個体数・寄生群体数</summary><p class="hint">空欄は自動、0は初期配置なし。指定種は群密度からの割当を置き換え、未指定種は自動のままです。初期数だけの指定なので、開始後の出生・供給・感染は通常どおりです。種別数を指定する場合は初期餌保証をOFFにしてください。寄生虫は宿主が必要で、新しい高次寄生モデルは適合する一次寄生虫に応じた少数を、寄生中と第四相の自立群体へ分けて配置します。</p><p id="founder-rule-note" class="note setup-rule" aria-live="polite">参加する生物群に合わせて種別の初期数を設定します。</p><div id="founder-inputs" class="setup-more"></div></details><div class="setup-more">
               <button id="reset-lower-settings" type="button" class="secondary">下層の初期量を基準に戻す</button>
-            </div></details>
-            <details id="advanced-settings">
-              <summary>系統の詳細・初期配置・参加する生物群</summary>
-              <div class="setup-more">
-                <div id="lineage-options" hidden></div>
-                <label
-                  >系統ごとの配分<select id="distribution">
-                    <option value="balanced">偏りなし · 4体単位で均等</option>
-                    <option value="weighted">重み付き · 系統ごと1〜4</option>
-                  </select></label
-                >
-                <div id="weight-options" hidden></div>
-                <label
-                  >初期配置<select id="placement">
-                    <option value="natural">
-                      自然配置 · 同系統の小組を適応域へ
-                    </option>
-                    <option value="scatter">分散配置 · 距離を確保</option>
-                    <option value="cluster">集落配置 · 系統ごとに集まる</option>
-                  </select></label
-                >
-                <fieldset>
-                  <legend>初期に有効にする生物群</legend>
-                  <div id="groups"></div>
-                </fieldset>
-                <label class="check"
+            </div></details><p id="guarantee-rule-note" class="note setup-rule" aria-live="polite">種別の初期数を指定する場合は、初期餌保証を併用できません。</p><label class="check"
                   ><input
                     id="guarantee"
                     type="checkbox"
                   />初期集団の近くに有機餌・鉱物を保証</label
-                >
-              </div>
-            </details>
-          </form>
+                ></section><section class="setup-step" id="setup-step-5" aria-labelledby="setup-step-title-5"><h3 id="setup-step-title-5"><span>05</span>条件を確認して世界を作る</h3><p id="setup-ready-note" class="note setup-rule" aria-live="polite">上の条件を使って新しい世界を作ります。</p><button id="show-setup-issue" type="button" class="secondary" hidden>修正が必要な項目へ</button><div class="setup-actions"><button id="load" type="submit" class="primary">
+                この設定で世界を作る ↗
+              </button><button id="cancel-settings" type="button" class="secondary" hidden>変更を適用せず観測へ戻る</button></div></section>
+</form>
           <p id="map-summary" class="note" aria-live="polite">
             地形・生態の再現条件は内部で保持します。
           </p>
@@ -362,7 +334,7 @@ ECOSYSTEM-2026</textarea
       </div>
       <footer>
         VALIS / LIFE LAB <span>同じ初期値と設定から、同じ世界へ。</span
-        ><span>v4.2.72 · 外部通信なし</span>
+        ><span>v4.2.74 · 外部通信なし</span>
       </footer>
     </main>
     <dialog id="guide">

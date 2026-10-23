@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.74。現在対象は切り抜き漏れ確認/1（operations/evidence/remaining-cutouts-v1/README.md）。303素材領域と96描画で背景矩形の残りを確認し、主生物詳細6状態の端欠けを短辺基準へ修正。Linux11項目で限定照合。既存68状態と構成円切替は各証跡の範囲を維持。採用素材/盤面/生態本体/全T原値/保存形式/正式草案状態は不変。次は承認済み7単位の3、設定UI整理・選択制約・案内。現在表と後続順は operations/plans/improvement-status-v1.md。ピラミッド拡張/関係指標再設計/資源地形強調/要因色分けは今回対象外。全状態直積/Windows/配布は未認定。
+現在の確定ソースは4.2.74。現在対象は設定導線/1（operations/evidence/setup-flow-v1/README.md）。5区画・末尾作成、非活性理由・欄エラー/修正先を接続。新規Linux27項目と既存生成14/復帰13項目を限定確認。readConfig/初期入力/生態/記録形式/採用素材/正式61Nodeの草案は維持。次は承認済み7単位の4、長期グラフの描画負荷。現在表と後続順は operations/plans/improvement-status-v1.md。生態近似/ピラミッド拡張/関係指標再設計/資源地形強調/要因色分けは今回対象外。全地形容量/Windows/配布は未認定。
 
 ## A：仕様
 
@@ -168,11 +168,11 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 
 B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案］
 	構成（要素・関係）:
-		valis/nodes/B/B5.md。正本: design/specification/observation-speed-v1.md。契約: operations/plans/observation-speed-v1.md。証跡: operations/evidence/observation-speed-v1/README.md。
+		valis/nodes/B/B5.md。正本: design/specification/setup-flow-v1.md。契約: operations/plans/setup-flow-v1.md。証跡: operations/evidence/setup-flow-v1/README.md。
 	ロジック:
-		最速の10T単位表示と端数観察を両立し、同画面操作で観測を止めず、盤面/集計の表示時点を揃える。
+		上位の観察条件から世界/参加者/詳細へ順に設定し、無効な条件の理由と入力修正先を同じ画面で確認する。
 	実態:
-		観測速度/1: app4.2.73の基準/2倍/最速・10T表示と強制軽減/復元を接続。Node35+10試験、Linux実画面18+26項目は operations/evidence/observation-speed-v1/README.md。全T計算/記録と生態本体を維持。全件/500T性能/Windows/配布は未認定。草案。
+		設定導線/1: app4.2.74で5区画と末尾作成、非活性理由/欄エラー/修正先を接続。Linux27項目＋既存14/13項目は operations/evidence/setup-flow-v1/README.md。readConfig/入力初期値/生態は維持。全容量/Windows/配布は未認定。草案。
 
 	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
 		構成（要素・関係）:
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/current-donut-switch-v1.md。契約: operations/plans/current-donut-switch-v1.md。証跡: operations/evidence/current-donut-switch-v1/README.md。
+		valis/nodes/C/C8.md。正本: design/specification/setup-flow-v1.md。契約: operations/plans/setup-flow-v1.md。証跡: operations/evidence/setup-flow-v1/README.md。
 	ロジック:
-		現在表示中の観測行だけを参照して構成円を切り替える。最速端数は同期し、図鑑復帰でライブ選好を復元する。
+		既存入力を5区画へ移動し、現在の制約に応じた非活性表示・欄内エラー・修正移動を扱う。生成契約を維持する。
 	実態:
-		現在構成の切替/1: app4.2.74で単一ドーナツ8表示を接続。Linux23項目は operations/evidence/current-donut-switch-v1/README.md。対象内分母/0/盤面色/進行意図/図鑑復帰を限定確認。生態/記録形式/正式状態を維持。残件13項目の現在表は operations/plans/improvement-status-v1.md。草案。
+		設定導線/1: app4.2.74で5区画と末尾作成、非活性理由/欄エラー/修正先を接続。Linux27項目＋既存14/13項目は operations/evidence/setup-flow-v1/README.md。readConfig/入力初期値/生態は維持。全容量/Windows/配布は未認定。草案。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/remaining-cutouts-v1.md。契約: operations/plans/remaining-cutouts-v1.md。証跡: operations/evidence/remaining-cutouts-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/setup-flow-v1.md。契約: operations/plans/setup-flow-v1.md。証跡: operations/evidence/setup-flow-v1/README.md。
 	ロジック:
-		303素材領域/96描画、実主生物/下層詳細・系統樹を確認し、下端欠けの修正前6→修正後0と入力不変を照合する。
+		5区画/末尾作成、固定/自由/供給/系統/保証/宿主の制約、修正先と復帰、実生成/取消/デフォルトを限定確認する。
 	実態:
-		切り抜き漏れ確認/1: app4.2.74で303素材領域と96描画を確認し、主生物詳細6状態の端欠けを短辺基準で修正。Linux11項目は operations/evidence/remaining-cutouts-v1/README.md。採用素材/盤面/生態は不変。全直積/Windows/配布は未認定。草案。
+		設定導線/1: app4.2.74で5区画と末尾作成、非活性理由/欄エラー/修正先を接続。Linux27項目＋既存14/13項目は operations/evidence/setup-flow-v1/README.md。readConfig/入力初期値/生態は維持。全容量/Windows/配布は未認定。草案。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/remaining-cutouts-v1.md。契約: operations/plans/remaining-cutouts-v1.md。証跡: operations/evidence/remaining-cutouts-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/setup-flow-v1.md。契約: operations/plans/setup-flow-v1.md。証跡: operations/evidence/setup-flow-v1/README.md。
 	ロジック:
-		Linux11項目、303領域/96描画の実測値と修正前6状態、実装/素材不変の照合と限界を保持する。
+		Linux27項目と既存14/13項目、実画面と入力/モデル不変の照合・実行時点の境界を保持する。
 	実態:
-		切り抜き漏れ確認/1: app4.2.74で303素材領域と96描画を確認し、主生物詳細6状態の端欠けを短辺基準で修正。Linux11項目は operations/evidence/remaining-cutouts-v1/README.md。採用素材/盤面/生態は不変。全直積/Windows/配布は未認定。草案。
+		設定導線/1: app4.2.74で5区画と末尾作成、非活性理由/欄エラー/修正先を接続。Linux27項目＋既存14/13項目は operations/evidence/setup-flow-v1/README.md。readConfig/入力初期値/生態は維持。全容量/Windows/配布は未認定。草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

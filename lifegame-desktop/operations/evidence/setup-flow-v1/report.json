@@ -1,0 +1,60 @@
+{
+  "ok": true,
+  "app": "4.2.74",
+  "checks": [
+    "five setup sections follow the same DOM and visual order",
+    "group choices precede dependent initial counts and creation comes last",
+    "moving controls introduces no duplicated IDs",
+    "fixed mode still locks its map, population and groups",
+    "fixed lineage choices stay visible with an explanation above",
+    "manual generation explains why automatic profiles are inactive",
+    "inactive generation locks remain visible instead of disappearing",
+    "unused manual choices are visible and clearly distinguished from actual automatic composition",
+    "choosing manual lineages enables their controls",
+    "balanced allocation retains visible inactive weights with its correction",
+    "weighted allocation makes the retained weights editable",
+    "disabling main life deactivates its dependent settings with an explanation",
+    "supply OFF shows its preserved numeric settings as inactive",
+    "explicit founders explain why food guarantee cannot be selected",
+    "disabled producer founders retain their values and show the controlling group",
+    "known host shortage remains blocked and is explained at the field",
+    "population errors appear above the input and provide a repair link",
+    "the repair button takes focus to the invalid control",
+    "correcting the field clears the error and re-enables creation",
+    "corrected controls no longer announce a stale field error",
+    "unavailable terrain profiles are disabled and their prerequisite is explained",
+    "reset synchronizes all step notices and validity",
+    "the ordered setup fits a 390px viewport without horizontal scrolling",
+    "the final action creates the requested world and enters observation",
+    "cancelling edited settings preserves the current world, rows and paused intent",
+    "no browser runtime errors",
+    "no external requests"
+  ],
+  "errors": [],
+  "external": [],
+  "order": {
+    "steps": [
+      "setup-step-1",
+      "setup-step-2",
+      "setup-step-3",
+      "setup-step-4",
+      "setup-step-5"
+    ],
+    "top": [
+      360.265625,
+      669.40625,
+      858.234375,
+      1252.859375,
+      1704.96875
+    ],
+    "last": "setup-step-5",
+    "groupsFirst": true,
+    "duplicateIds": []
+  },
+  "availability": {
+    "blocked": true,
+    "note": "選択中の地形では 水域中心（水域35%以上） は利用できません。対応する地形へ変えると選択できます。"
+  },
+  "browser": "154.0.8037.57",
+  "scope": "representative setup states, one small-world creation and cancellation; no all-capacity, Windows or performance certification"
+}
