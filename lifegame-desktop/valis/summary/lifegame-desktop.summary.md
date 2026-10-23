@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.72。対象は所在強調・名札の確認/1（operations/evidence/presence-controls-v1/README.md）。現行生存列挙から死骸内/移行待ちのP/Qの所在を補い、候補を世界単位で再利用。Linux14項目で個別色/分類色/一括選択/名札/進行継続を限定確認。画像/生態規則/レイアウト/保存形式/正式状態は維持。初期寄生数と適合宿主枠の事前制約は残件。全条件/長期/Windows配布物は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
+現在の確定ソースは4.2.72。対象は格子・年齢印の確認/1（operations/evidence/visibility-controls-v1/README.md）。詳細主生物の年齢印を顔から名札横へ移し、既存格子/遠景記号/採用画像/生態規則を維持。Linux実UI13項目と既存描画1試験を限定確認。全系統判読性/全条件/長期/Windows配布物/性能は未認定。初期寄生数と適合宿主枠の事前制約は残件。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
 
 ## A：仕様
 
@@ -216,11 +216,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.6.md。正本: design/specification/presence-controls-v1.md。契約: operations/plans/presence-controls-v1.md。証跡: operations/evidence/presence-controls-v1/README.md。
+			valis/nodes/B/B5.6.md。正本: design/specification/visibility-controls-v1.md。契約: operations/plans/visibility-controls-v1.md。証跡: operations/evidence/visibility-controls-v1/README.md。
 		ロジック:
-			現在の生存P/Qは生体宿主内だけでなく、期限内の死骸内/移行待ちのマスも個別色/分類色で強調する。
+			幼体・老齢の印を詳細主生物の名札横へ置き、年齢/相/身体模様を混同させない。
 		実態:
-			14項目を限定確認。既存の名札切替/一括・部分選択/全解除を維持。
+			既存の個別色/分類色/名札と操作の独立を維持。
 
 ```
 
@@ -341,19 +341,19 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/presence-controls-v1.md。契約: operations/plans/presence-controls-v1.md。証跡: operations/evidence/presence-controls-v1/README.md。
+		valis/nodes/C/C8.md。正本: design/specification/visibility-controls-v1.md。契約: operations/plans/visibility-controls-v1.md。証跡: operations/evidence/visibility-controls-v1/README.md。
 	ロジック:
-		分類色/個別色と名札の操作を観測の進行から独立させる。正しい相/役割の説明は不要型と混同しない。
+		格子と年齢印の既存チェック欄を遠近/記号表示から独立させ、観測操作で停止させない。
 	実態:
-		既存UI/名札/選択動作を限定確認。初期寄生数と適合宿主枠の事前制約は残件。
+		実UI13項目で限定確認。初期寄生数と適合宿主枠の事前制約は残件。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.1.md。正本: design/specification/presence-controls-v1.md。契約: operations/plans/presence-controls-v1.md。証跡: operations/evidence/presence-controls-v1/README.md。
+			valis/nodes/C/C8.1.md。正本: design/specification/visibility-controls-v1.md。契約: operations/plans/visibility-controls-v1.md。証跡: operations/evidence/visibility-controls-v1/README.md。
 		ロジック:
-			生存列挙を現在描画世界の候補へキャッシュし、P/Qの選択がある時だけ宿主外の所在を補完する。
+			詳細主生物の年齢印だけ名札横へ注記し、遠景/近景記号の配置と採用描画を保つ。
 		実態:
-			生存期限と所属は現行モデルを使用。画像/生態/配色は維持。同一世界の再描画3回で再列挙0。
+			画像/背景/格子/生態は維持。同相三年齢とON/OFF復帰を実画像で限定確認。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/presence-controls-v1.md。契約: operations/plans/presence-controls-v1.md。証跡: operations/evidence/presence-controls-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/visibility-controls-v1.md。契約: operations/plans/visibility-controls-v1.md。証跡: operations/evidence/visibility-controls-v1/README.md。
 	ロジック:
-		死骸内/移行待ち/期限切れの表示fixture、複数色/分類色、名札と進行の独立を限定確認する。
+		実チェック欄の画素差/復帰、同相三年齢、遠近/記号と生態不変、Worker進行を確認する。
 	実態:
-		Linux14項目が成功。0体項目はソース確認のみ。全条件/旧世界/Windowsは未認定。
+		Linux13項目と既存描画1試験が成功。全系統判読性/長期/Windows/性能は未認定。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/presence-controls-v1.md。契約: operations/plans/presence-controls-v1.md。証跡: operations/evidence/presence-controls-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/visibility-controls-v1.md。契約: operations/plans/visibility-controls-v1.md。証跡: operations/evidence/visibility-controls-v1/README.md。
 	ロジック:
-		宿主外の所在が漏れる反例と修正後14項目、ソース/テストSHA、初期配置事前制約の残件を保持する。
+		年齢印が顔に重なる反例と修正後実画像、13項目と既存描画1試験、ソースSHAを保持する。
 	実態:
-		表示fixtureと自然な感染過程を区別し、実Worker進行は新世界で限定確認。
+		表示fixtureと自然生態の実測を分離。正式状態は草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

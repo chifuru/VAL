@@ -128,9 +128,9 @@
     if(!image){image=document.createElement('canvas');image.width=Math.max(2,Math.ceil((rx*2+line)*z)+4);image.height=Math.max(2,Math.ceil((ry*2+line)*z)+4);const c=image.getContext('2d');c.translate(image.width/2,image.height/2);c.scale(z,z);c.beginPath();c.ellipse(0,0,rx,ry,0,0,Math.PI*2);c.fillStyle=fill;c.fill();if(stroke){c.strokeStyle=stroke;c.lineWidth=line;c.stroke();}keepSprite('ellipses',ellipseImages,key,image,8*1024*1024,256);}
     g.drawImage(image,x-image.width/z/2,y-image.height/z/2,image.width/z,image.height/z);
   }
-  function ageMarker(g,x,y,z,age){
+  function ageMarker(g,x,y,z,age,dx=Math.max(.23,3/z),dy=.12){
     if(!age.enabled||age.stage==='adult')return false;
-    const young=age.stage==='juvenile',radius=Math.max(.045,1.9/z),cx=x+Math.max(.23,3/z),cy=y+.12;
+    const young=age.stage==='juvenile',radius=Math.max(.045,1.9/z),cx=x+dx,cy=y+dy;
     g.save();g.strokeStyle='#061923';g.lineWidth=3/z;g.beginPath();g.arc(cx,cy,radius,0,young?Math.PI*2:Math.PI*1.55);g.stroke();
     g.strokeStyle=young?'#ffe69a':'#d2c6f6';g.lineWidth=1.3/z;g.stroke();
     if(young){g.fillStyle='#ffe69a';g.beginPath();g.arc(cx,cy,radius*.27,0,Math.PI*2);g.fill();}
@@ -980,7 +980,7 @@
           showStatus = view.statusMarks && near &&
             (view.statusScope === "all" || isMain || isProducer || o.id === view.selectedEntity) &&
             (z >= 100 || o.cell === view.selected);
-        if(view.ageEmphasis&&ageMarker(g,cx,cy,z,a))diagnostics.ageMarkers++;
+        if(view.ageEmphasis&&!(detail&&isMain)&&ageMarker(g,cx,cy,z,a))diagnostics.ageMarkers++;
         if (o.infection) {
           diagnostics.infectedHosts++;
           if (o.infection.q) diagnostics.highParasites++;
@@ -1026,6 +1026,11 @@
         const nameGroup=isMain?"main":isProducer?"producer":S.spec(o).group==="prey"?"prey":"basal";
         const labelOffset=actor.cohabit>1?[[-.16,-.38],[.16,-.38],[0,.12]][actor.rank]:[0,r*.95],
           labelX=cx+labelOffset[0],nameY=cy+labelOffset[1],nameBaseline=actor.cohabit>1?nameY+.065:cy+r*1.23;
+        // Keep the optional age glyph next to the name, clear of painted anatomy.
+        // Symbol views retain their compact original marker placement.
+        if(view.ageEmphasis&&detail&&isMain&&a.enabled&&a.stage!=='adult')annotations.push(()=>{
+          if(ageMarker(g,labelX,nameY,z,a,actor.cohabit>1?.33:.47,actor.cohabit>1?.0425:.065))diagnostics.ageMarkers++;
+        });
         if (near && (isMain || nameEnabled(nameGroup,o.id))) {
           diagnostics.nameLabels[nameGroup]++;
           annotations.push(() => {
