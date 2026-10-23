@@ -1,0 +1,65 @@
+{
+  "ok": true,
+  "checks": [
+    "prior ordinary selection calls both full parasite locators",
+    "ordinary IDs bypass parasite enumeration",
+    "cell detail reuses indexed occupants, resources and carcasses instead of global filters",
+    "one shared resource-index pass replaces repeated cell filters across three selections",
+    "three ordinary detail HTML and portrait pixels exactly match prior app",
+    "same-cell default selects main and includes resource and carcass after explicit refresh",
+    "ground-only selection retains lower-occupant priority",
+    "sorting displayed occupants never reorders biological rows",
+    "replaced resource array is read at the same committed turn",
+    "removed ID is never silently replaced by its neighbour",
+    "primary parasite still resolves through its lifecycle locator",
+    "hyper parasite still resolves its own host or autonomous state",
+    "new world replaces the prior-world index",
+    "tracking across real committed turns leaves frozen detail and running intent intact",
+    "manual detail refresh sees the new committed turn",
+    "no uncaught browser errors"
+  ],
+  "errors": [],
+  "metrics": {
+    "before": {
+      "primaryLocates": 3,
+      "hyperLocates": 3,
+      "organismFilters": 3,
+      "resourceFilters": 3,
+      "carcassFilters": 3,
+      "resourceIterations": 6
+    },
+    "after": {
+      "primaryLocates": 0,
+      "hyperLocates": 0,
+      "organismFilters": 0,
+      "resourceFilters": 0,
+      "carcassFilters": 0,
+      "resourceIterations": 7
+    }
+  },
+  "comparisons": [
+    {
+      "ordinary_details_sha256": "b72e2f0dfe1790409029221b3f38401409bcbf071ae4aa21543ca7ecfc8da23a"
+    }
+  ],
+  "scope": "Linux Chromium same-seed ordinary details and explicit cell/array fixtures; fresh unmodified world for Worker tracking",
+  "baseline_commit": "c633805",
+  "date_utc": "2026-10-23",
+  "app_version": "4.2.72",
+  "full_suite": false,
+  "windows_tested": false,
+  "source_sha256": {
+    "src/app.js": "7cb4582f983780933360430aa9f761b33c13f7cde6e59ec5c78a15f0d8c6aff9",
+    "src/ecology/observations.js": "b2dd2850e2d3d2f18a527bbd08dfc6ae4079200e1f3a4428547555e81dd60556",
+    "src/ecology/observation-modules.js": "d61784e0c505f1d236a8a62022f4cd4acc9e3e24c4a95e72516c6d9cd2b8e2bc"
+  },
+  "test_sha256": "cfa08d405ca1c2bc69b4db49794a655fe4787572379985f39950ea11beaf2073",
+  "limits": [
+    "metrics count synchronous ordinary-detail selection calls, not all app passes",
+    "other ability/parasite-detail scans remain; resource iterations 6 to 7 include one new shared index pass, while global resource filters go from 3 to 0",
+    "same-turn in-place fixture topology changes require the explicit smoke refresh; normal committed updates/new-world commits discard the index",
+    "no long-run survival, complete candidate adoption, whole-app speedup or Windows certification",
+    "long-record restore argument expansion identified but not modified here",
+    "interrupted speed changes excluded"
+  ]
+}

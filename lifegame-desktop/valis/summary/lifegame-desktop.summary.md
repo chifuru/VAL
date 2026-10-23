@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.72。対象は結果を変えないグラフ重複更新軽減/1（operations/evidence/graph-idle-updates-v1/README.md）。選択の不要forceと非解析/二重終了での再描画を省略し、読込世代無効化と実更新/復帰を維持。Linux14項目で代表canvasの再描画は選択3→0、解析なし終了2→0。画素/全ターン原値/生態/保存形式/正式状態は維持。全体速度/長期/Windows/性能上限は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
+現在の確定ソースは4.2.72。対象は結果を変えない詳細参照索引/1（operations/evidence/selection-index-v1/README.md）。通常IDとセル内容を現在確定状態の索引から参照し、新世界/確定更新で破棄。Linux16項目で通常3選択のP/Q locate各3→0、セル全件filter各3→0、旧新版の画素/詳細と行順/更新/追跡を限定確認。生態/原値/保存/素材/正式状態は維持。長期restoreの全行引数展開を次の限定修正候補に保持。全候補完了/全体速度/長期/Windowsは未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
 
 ## A：仕様
 
@@ -216,11 +216,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.6.md。正本: design/specification/visibility-controls-v1.md。契約: operations/plans/visibility-controls-v1.md。証跡: operations/evidence/visibility-controls-v1/README.md。
+			valis/nodes/B/B5.6.md。正本: design/specification/selection-index-v1.md。契約: operations/plans/selection-index-v1.md。証跡: operations/evidence/selection-index-v1/README.md。
 		ロジック:
-			幼体・老齢の印を詳細主生物の名札横へ置き、年齢/相/身体模様を混同させない。
+			確定状態内の通常個体IDと同居/資源/死骸を参照索引から解決し、凍結詳細と追跡を分離する。
 		実態:
-			既存の個別色/分類色/名札と操作の独立を維持。
+			Linux16項目。P/Q経路・行順・明示更新を維持。索引は新世界/確定更新で破棄。
 
 ```
 
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/graph-idle-updates-v1.md。契約: operations/plans/graph-idle-updates-v1.md。証跡: operations/evidence/graph-idle-updates-v1/README.md。
+		valis/nodes/C/C8.md。正本: design/specification/selection-index-v1.md。契約: operations/plans/selection-index-v1.md。証跡: operations/evidence/selection-index-v1/README.md。
 	ロジック:
-		選択時の不要forceを外し、解析終了は読込世代無効化後に未開始/終了済みを返す。
+		現在状態だけのID/マス索引を持ち、通常IDは寄生列挙より先に解決する。表示順はコピーして変更する。
 	実態:
-		Linux14項目、代表canvasは選択3→0、非解析終了2→0。生態/保存/画質は維持。
+		通常3選択でP/Q locate各3→0、セル全件filter各3→0。既存能力表示等の走査は残る。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/graph-idle-updates-v1.md。契約: operations/plans/graph-idle-updates-v1.md。証跡: operations/evidence/graph-idle-updates-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/selection-index-v1.md。契約: operations/plans/selection-index-v1.md。証跡: operations/evidence/selection-index-v1/README.md。
 	ロジック:
-		実UIの修正前後の描画数と画素/原値不変、必要更新・解析復帰・観測継続を確認する。
+		旧新版の詳細/肖像、セル同居/消失/配列更新/順序、新世界、P/Q解決と追跡/進行を確認する。
 	実態:
-		Linux14項目成功。遅延読込の世代順はソース確認のみ。総合性能/長期/Windowsは未認定。
+		Linux16項目成功。長期/総合速度/Windowsは未認定。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/graph-idle-updates-v1.md。契約: operations/plans/graph-idle-updates-v1.md。証跡: operations/evidence/graph-idle-updates-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/selection-index-v1.md。契約: operations/plans/selection-index-v1.md。証跡: operations/evidence/selection-index-v1/README.md。
 	ロジック:
-		再描画3→0と2→0の反例/差分、14項目と対象ソースSHAを保持する。
+		16項目と操作数、対象SHA、O01〜O12の限定再確認と残件を保持する。
 	実態:
-		代表canvasの操作数と全体性能を区別。正式状態は草案。
+		長期restoreの引数展開は追加発見/未修正。正式状態は草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

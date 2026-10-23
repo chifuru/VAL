@@ -591,7 +591,7 @@
     $("finish-run").textContent = playback
       ? "再生結果を新規保存"
       : "終了して図鑑へ保存";
-    world = next;
+    world = next;selectionIndex=null;
     graphicsPrepared=false;observationPreparationAt=null;
     populationHistory = [];
     observations=nextObservations;graphFollow=true;followId=null;lastTracked=null;legendKey=null;
@@ -714,7 +714,7 @@
   }
   function commitTurn(next, milliseconds) {
     try{observations.append(next);}catch(e){failObservation("観測記録",e);return world;}
-    world = next;bufferWorld=world;bufferFingerprint=null;
+    world = next;selectionIndex=null;bufferWorld=world;bufferFingerprint=null;
     lastMs = milliseconds;
     try{renderer.setWorld(world);R.assets.warmWorld?.(world);updateTracking();render();}
     catch(error){failObservation("表示更新",error);return world;}
@@ -1091,14 +1091,27 @@
     if (e.key === "+" || e.key === "=") renderer.zoom(1.4);
     if (e.key === "-") renderer.zoom(1 / 1.4);
   });
+  let selectionIndex=null;
+  function currentSelectionIndex(){
+    const arrays=[world.organisms,world.resources,world.carcasses];
+    if(selectionIndex?.world===world&&selectionIndex.turn===world.turn&&
+      arrays.every((a,i)=>selectionIndex.arrays[i]===a&&selectionIndex.lengths[i]===a.length))return selectionIndex;
+    const byId=new Map(),byCell=arrays.map(()=>new Map());
+    for(let i=0;i<arrays.length;i++)for(const row of arrays[i]){
+      if(i===0)byId.set(row.id,row);
+      if(!byCell[i].has(row.cell))byCell[i].set(row.cell,[]);byCell[i].get(row.cell).push(row);
+    }
+    return selectionIndex={world,turn:world.turn,arrays,lengths:arrays.map(a=>a.length),byId,organisms:byCell[0],resources:byCell[1],carcasses:byCell[2]};
+  }
   function select(cell, id = null, {groundOnly=false,information=false} = {}) {
     // Selection reads committed state and does not invalidate prepared work.
     describedSpecies = null;
     selectedCell = cell;
+    const occupants=currentSelectionIndex().organisms.get(cell)||[];
     selectedId = information ? null :
       id ||
-      (!groundOnly?world.organisms.find((o) => o.cell === cell && o.slot === "main")?.id:null) ||
-      world.organisms.find((o) => o.cell === cell && (!groundOnly||o.slot!=="main"))?.id ||
+      (!groundOnly?occupants.find((o) => o.slot === "main")?.id:null) ||
+      occupants.find((o) => !groundOnly||o.slot!=="main")?.id ||
       null;
     alignTrackingSelection(selectedId);
     renderer.view.selected = cell;
@@ -1108,6 +1121,8 @@
   }
   function locate(id){
     if(!id||!world)return null;
+    const ordinary=currentSelectionIndex().byId.get(id);
+    if(ordinary)return {host:ordinary,entity:ordinary,cell:ordinary.cell};
     if(S.HyperParasite?.enabled(world)){
       const e=S.HyperParasite.locate(world,id);
       if(e?.q.id===id)return {host:e.host||e.carrier,entity:e.q,cell:e.cell,carcass:e.location==='carcass',hyper:e};
@@ -1608,11 +1623,11 @@
     }
     const [x, y] = S.xy(world, selectedCell),
       t = world.tiles[selectedCell],
-      occupants = world.organisms
-        .filter((o) => o.cell === selectedCell)
+      index = currentSelectionIndex(),
+      occupants = [...(index.organisms.get(selectedCell)||[])]
         .sort((a, b) => (a.slot === "main" ? -1 : b.slot === "main" ? 1 : 0)),
-      resources = world.resources.filter((a) => a.cell === selectedCell),
-      corpses = world.carcasses.filter((a) => a.cell === selectedCell);
+      resources = index.resources.get(selectedCell)||[],
+      corpses = index.carcasses.get(selectedCell)||[];
     const inspectorScroll=document.querySelector(".inspector").scrollTop, detailsScroll=$("inspector-details").scrollTop, savedScroll=$("selection").scrollTop, savedOpen=[...$("selection").querySelectorAll("details")].map(d=>d.open);
     $("selection").innerHTML =
       `<p class="note">${selectedId&&!located?"選択したIDは消失しました。同じマスの別個体へは追跡を切り替えていません。":""}</p><p class="cell-context">マス (${x}, ${y}) · ${D.environments[t.env].name}<br>${terrain[t.terrain]} / 遮蔽 ${cover[t.cover]}${t.blocked ? " / 通行不可" : ""}<br>光 ${fmt(t.light)} / 土壌M ${fmt(t.soilM)}</p>${S.HyperParasite?.is(located?.entity)?hyperDetails(located.entity,located.hyper):S.PrimaryParasite.is(located?.entity)?primaryDetails(located.entity,located.primary):selectedId?.startsWith("q:")||selectedId?.startsWith("p:")?parasiteDetails(selectedId):""}${occupants.map(organismHTML).join("")}${corpses.map(a=>`<p class="parasite-choices"><button class="small" data-observe="${escape(a.id)}">死骸: ${escape(D.byId[a.species].name)} / ${escape(a.slot)}</button>${a.infection&&(world.turn<a.payloadExpires)?`<button class="small" data-observe="${escape(a.infection.id)}">死骸上P</button>${a.infection.q?`<button class="small" data-observe="${escape(a.infection.q.id)}">死骸上Q</button>`:""}`:""}</p>`).join("")}${resources.map((a) => `<article class="specimen"><h3>${S.FOOD[a.kind].name} · 量 ${fmt(a.q)}</h3><p class="stats-line">E ${fmt(a.E)} / M ${fmt(a.M)} / G ${fmt(a.G)}<br>残存 ${a.expires === null ? "期限なし" : a.expires - world.turn + "ターン"}</p>${a.event ? `<p class="stats-line">情報源 ${escape(a.event.sourceId)}<br>文脈 ${D.environments[a.event.env].name} / 鮮度年齢 ${world.turn - a.event.time}<br>成分 ${a.event.values.map((v) => D.weightNames[v.axis] + " " + fmt(v.value)).join(" / ")}<br>${a.event.noise ? "撹乱情報" : "経験情報"} / ${a.event.mediator ? "Q媒介 " + escape(a.event.mediator.special) : "直接"}</p>` : ""}</article>`).join("")}${corpses.map((a) => {const appearance=renderer.deathAppearance(a.id);return `<p class="stats-line">死骸 ${D.byId[a.species].name} / q ${fmt(a.q)}<br>${appearance?"死亡時: "+phase(appearance.phase)+"相 / "+escape(appearance.sex||"無性別")+" / 年齢"+appearance.age+"T / 枝"+(appearance.branch3??"—")+"-"+(appearance.branch4??"—"):"死亡時の姿は未取得（基本画）"}<br>E ${fmt(a.E)} / M ${fmt(a.M)} / G ${fmt(a.G)}<br>${a.infection ? "感染残存 " + escape(a.infection.species) + " / 期限 " + a.payloadExpires : "感染なし"}</p>`;}).join("")}${!occupants.length&&!(S.HyperParasite?.enabled(world)&&S.HyperParasite.entries(world).some(e=>e.cell===selectedCell)) ? '<p class="note">生体なし。局所不在は系統全滅とは異なります。</p>' : ""}`;
@@ -2160,7 +2175,7 @@
       screenForCell: (cell, id = null) => renderer.screen(cell,id),
       hitAt: renderer.hitAt,
       prepare,
-      refresh: () => { selectionSnapshot=null;if(world)renderer.setWorld(world);render(); },
+      refresh: () => { selectionIndex=null;selectionSnapshot=null;if(world)renderer.setWorld(world);render(); },
       draw: renderer.draw,
       drawIfChanged: renderer.drawIfChanged,
       finish: finishRun,

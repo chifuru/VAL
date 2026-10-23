@@ -1,0 +1,99 @@
+{
+  "baseline": "c633805",
+  "scope": "source review of existing candidates, not a new whole-app benchmark",
+  "items": [
+    {
+      "id": "O01",
+      "item": "固定地形・近傍",
+      "state": "既存の地形/engine同期Mapスコープを維持",
+      "evidence": "src/ecology/state.js",
+      "next": "今回のUI索引とengine索引を分離。全面再実装しない。"
+    },
+    {
+      "id": "O02",
+      "item": "乱数表",
+      "state": "既存table/1を維持",
+      "evidence": "src/ecology/hash.js",
+      "next": "短い列の単純反復へ変更しない。"
+    },
+    {
+      "id": "O03",
+      "item": "描画索引と可視範囲",
+      "state": "既存表示Layout/空間索引を維持",
+      "evidence": "src/ecology/display-plane.js",
+      "next": "UI詳細向けのO04だけ追加。"
+    },
+    {
+      "id": "O04",
+      "item": "詳細/追跡の探索",
+      "state": "今回限定実装/実測",
+      "evidence": "src/app.js",
+      "next": "通常IDとマス内容の索引。P/Qの個別生活環列挙は維持。"
+    },
+    {
+      "id": "O05",
+      "item": "Worker差分転送",
+      "state": "既存最大6T/差分転送を維持",
+      "evidence": "src/ecology/compute-client.js",
+      "next": "最速バッチ最終差分は中断案の別レビュー。"
+    },
+    {
+      "id": "O06",
+      "item": "背景部品/Worker/区画",
+      "state": "既存キャッシュを維持",
+      "evidence": "src/ecology/renderer.js",
+      "next": "新しい背景素材や無条件再生成を追加しない。"
+    },
+    {
+      "id": "O07",
+      "item": "記号/外観/陰影",
+      "state": "既存の上限付きキャッシュを維持",
+      "evidence": "src/ecology/renderer.js",
+      "next": "後付け全画面暗色マスクを追加しない。"
+    },
+    {
+      "id": "O08",
+      "item": "静止時重複描画",
+      "state": "c633805で限定改善",
+      "evidence": "operations/evidence/graph-idle-updates-v1/README.md",
+      "next": "全ての非表示描画を停止したものではない。"
+    },
+    {
+      "id": "O09",
+      "item": "増分グラフ/関係窓",
+      "state": "既存増分処理を維持",
+      "evidence": "src/ecology/observations.js",
+      "next": "同じものを再実装しない。"
+    },
+    {
+      "id": "O10",
+      "item": "長期グラフ",
+      "state": "9ca2144で最大値走査を限定改善",
+      "evidence": "operations/evidence/graph-scale-cache-v1/README.md",
+      "next": "全点描画のO(T)は残る。勝手な間引きは追加しない。"
+    },
+    {
+      "id": "O11",
+      "item": "不要記録/分割出力/復元",
+      "state": "容量修正/8行出力あり。長い復元の引数展開を追加発見",
+      "evidence": "src/ecology/observations.js",
+      "next": "restoreの全行push展開を次に調査/修正。一般条件での破綻Tは未測定。"
+    },
+    {
+      "id": "O12",
+      "item": "配列/複製/ソート/能力",
+      "state": "今回のUIセルfilterのみ限定改善",
+      "evidence": "src/app.js",
+      "next": "詳細の能力表示由来の走査等は残る。大改造/加算順変更はしない。"
+    }
+  ],
+  "next_order": [
+    "長期保存結果のrestore引数展開を限定調査/修正",
+    "中断中の3速度/10T描画・強制軽減と復帰をレビューして任意表示軽減へ接続"
+  ],
+  "not_certified": [
+    "all candidate implementations complete",
+    "whole-app performance",
+    "survival or long-run Windows behavior"
+  ]
+}
