@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.72。対象は選択詳細の切り抜き表示/1（operations/evidence/inspector-cutouts-v1/README.md）。P/Q・三植物・量機の詳細/系統樹を既存透明素材/全身境界へ揃え、本人相と宿主段階の独立を維持。Linux12項目/68状態と盤面関数/7アトラスの不変性を限定確認。旧素材検査3本は期待値更新と構文検査のみ。生態規則・画像素材・グラフ配置・保存形式・正式状態は変更なし。全素材/全条件/長期/Windows配布物は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
+現在の確定ソースは4.2.72。対象は所在強調・名札の確認/1（operations/evidence/presence-controls-v1/README.md）。現行生存列挙から死骸内/移行待ちのP/Qの所在を補い、候補を世界単位で再利用。Linux14項目で個別色/分類色/一括選択/名札/進行継続を限定確認。画像/生態規則/レイアウト/保存形式/正式状態は維持。初期寄生数と適合宿主枠の事前制約は残件。全条件/長期/Windows配布物は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
 
 ## A：仕様
 
@@ -216,11 +216,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.6.md。正本: design/specification/inspector-cutouts-v1.md。契約: operations/plans/inspector-cutouts-v1.md。証跡: operations/evidence/inspector-cutouts-v1/README.md。
+			valis/nodes/B/B5.6.md。正本: design/specification/presence-controls-v1.md。契約: operations/plans/presence-controls-v1.md。証跡: operations/evidence/presence-controls-v1/README.md。
 		ロジック:
-			詳細/系統樹は採用した透明な全身を表示し、本人相と宿主段階を区別する。既存の詳細固定/手動更新を維持する。
+			現在の生存P/Qは生体宿主内だけでなく、期限内の死骸内/移行待ちのマスも個別色/分類色で強調する。
 		実態:
-			P/Q・三植物・量機の68状態と実P/Qの表示を限定確認。新しい型や相、系統の追加なし。
+			14項目を限定確認。既存の名札切替/一括・部分選択/全解除を維持。
 
 ```
 
@@ -341,19 +341,19 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/inspector-cutouts-v1.md。契約: operations/plans/inspector-cutouts-v1.md。証跡: operations/evidence/inspector-cutouts-v1/README.md。
+		valis/nodes/C/C8.md。正本: design/specification/presence-controls-v1.md。契約: operations/plans/presence-controls-v1.md。証跡: operations/evidence/presence-controls-v1/README.md。
 	ロジック:
-		個体詳細と系統樹は同じ本人状態から既存の透明な相/枝素材を参照する。宿主段階だけで相画像を変えない。
+		分類色/個別色と名札の操作を観測の進行から独立させる。正しい相/役割の説明は不要型と混同しない。
 	実態:
-		詳細切り抜き/1を接続。既存UI/詳細固定/グラフ配置/保存形式は維持。
+		既存UI/名札/選択動作を限定確認。初期寄生数と適合宿主枠の事前制約は残件。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.1.md。正本: design/specification/inspector-cutouts-v1.md。契約: operations/plans/inspector-cutouts-v1.md。証跡: operations/evidence/inspector-cutouts-v1/README.md。
+			valis/nodes/C/C8.1.md。正本: design/specification/presence-controls-v1.md。契約: operations/plans/presence-controls-v1.md。証跡: operations/evidence/presence-controls-v1/README.md。
 		ロジック:
-			登録済みbodyBoundsから透明アトラスを直接描く。実行時の背景除去/マスク/画素走査を追加しない。
+			生存列挙を現在描画世界の候補へキャッシュし、P/Qの選択がある時だけ宿主外の所在を補完する。
 		実態:
-			68状態の透明輪郭/余白/区別/入力不変を限定確認。盤面関数と7アトラスは変更なし。
+			生存期限と所属は現行モデルを使用。画像/生態/配色は維持。同一世界の再描画3回で再列挙0。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/inspector-cutouts-v1.md。契約: operations/plans/inspector-cutouts-v1.md。証跡: operations/evidence/inspector-cutouts-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/presence-controls-v1.md。契約: operations/plans/presence-controls-v1.md。証跡: operations/evidence/presence-controls-v1/README.md。
 	ロジック:
-		68の採用状態と実P/Q詳細、本人相と宿主段階の独立、系統樹の相数を限定確認する。
+		死骸内/移行待ち/期限切れの表示fixture、複数色/分類色、名札と進行の独立を限定確認する。
 	実態:
-		新規12項目が成功。既存素材3検査は期待値更新/構文のみ。全素材/全条件/Windowsは未認定。
+		Linux14項目が成功。0体項目はソース確認のみ。全条件/旧世界/Windowsは未認定。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/inspector-cutouts-v1.md。契約: operations/plans/inspector-cutouts-v1.md。証跡: operations/evidence/inspector-cutouts-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/presence-controls-v1.md。契約: operations/plans/presence-controls-v1.md。証跡: operations/evidence/presence-controls-v1/README.md。
 	ロジック:
-		背景付き詳細の反例と修正後12項目/68状態、代表画像、ソース/アトラスSHAを保持する。
+		宿主外の所在が漏れる反例と修正後14項目、ソース/テストSHA、初期配置事前制約の残件を保持する。
 	実態:
-		実個体選択と表示fixtureを区別。生態進化/感染の長期検証ではなく、描画と表示の限定証跡。
+		表示fixtureと自然な感染過程を区別し、実Worker進行は新世界で限定確認。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

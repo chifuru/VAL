@@ -1,0 +1,21 @@
+{
+  "ok": false,
+  "checks": [],
+  "errors": [],
+  "fixture": {
+    "center": 580,
+    "main": "i:main:13:31:memory",
+    "carcass": 581,
+    "pending": 582,
+    "expired": 583,
+    "species": "leafparasite"
+  },
+  "located": {
+    "carcass": null,
+    "pending": null,
+    "expired": null
+  },
+  "scope": "Linux Chromium actual controls, explicit carcass/migration display fixtures and a fresh real-Worker run",
+  "baseline_commit": "3a58660",
+  "source_sha256": "0011c5fec7e56ccaf4137ffed5d5bd4af196913543a3be1a62afc32842a96eca"
+}

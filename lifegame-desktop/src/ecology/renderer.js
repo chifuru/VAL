@@ -1107,6 +1107,13 @@
       };
       for(const o of w.organisms){mark(o.cell,o.species);if(o.infection){mark(o.cell,o.infection.species);if(o.infection.q)mark(o.cell,o.infection.q.species||"hyperparasite");}}
       for(const q of w.searchQ||[])mark(q.cell,"hyperparasite");
+      // Living versioned P/Q can also be carried by a carcass or a pending
+      // transfer. Reuse the model's lifetime rules and cache per rendered world.
+      const parasiteMarked=groups.has('P')||groups.has('Q')||[...marks].some(id=>['P','Q'].includes(S.D.byId[id]?.group));
+      if(parasiteMarked&&S.PrimaryParasite?.enabled(w)){
+        const entries=frameCandidates.primaryPresence ||= S.PrimaryParasite.entries(w);
+        for(const {p,cell}of entries){mark(cell,p.species);if(p.q)mark(cell,p.q.species||'hyperparasite');}
+      }
       for(const cell of new Set([...groupedCells.keys(),...markedCells.keys()])){
         const ids=markedCells.get(cell)||new Set(),cellGroups=groupedCells.get(cell)||new Set(),orderedGroups=['plant','prey','main','fungus','P','Q'].filter(group=>cellGroups.has(group)),
           face=P.face(cell).slice(0,4),cx=face.reduce((n,p)=>n+p[0],0)/4,cy=face.reduce((n,p)=>n+p[1],0)/4,

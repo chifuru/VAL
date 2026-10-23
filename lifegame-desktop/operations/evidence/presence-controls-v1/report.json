@@ -1,0 +1,70 @@
+{
+  "ok": true,
+  "checks": [
+    "living P and its Q are located on both carcass and migration carrier cells",
+    "overlapping P/Q keep two distinct individual lineage colors",
+    "an expired payload never creates a living-parasite highlight",
+    "pale class tints coexist with per-lineage colors at external carriers",
+    "settled redraws reuse the current-world parasite presence index",
+    "clear removes both class and individual highlights",
+    "class selection selects every currently listed main lineage",
+    "partial lineage selection is shown as an intermediate class checkbox",
+    "near view keeps main names and hides unselected non-main names by default",
+    "existing name controls enable producer, consumer and hosted P/Q labels",
+    "switching those names off restores the uncluttered near view",
+    "changing label and class-tint controls keeps actual Worker observation running",
+    "production setup hides retired step and observation-layout controls without the smoke override",
+    "no uncaught browser errors"
+  ],
+  "errors": [],
+  "fixture": {
+    "center": 580,
+    "main": "i:main:13:31:memory",
+    "carcass": 581,
+    "pending": 582,
+    "expired": 583,
+    "species": "leafparasite"
+  },
+  "located": {
+    "carcass": {
+      "cell": 581,
+      "ids": [
+        "leafparasite",
+        "hyperparasite"
+      ],
+      "colors": [
+        "hsl(282 78% 68%)",
+        "hsl(60 78% 68%)"
+      ],
+      "groups": [],
+      "groupColors": [],
+      "mode": "split-perimeter"
+    },
+    "pending": {
+      "cell": 582,
+      "ids": [
+        "leafparasite",
+        "hyperparasite"
+      ],
+      "colors": [
+        "hsl(282 78% 68%)",
+        "hsl(60 78% 68%)"
+      ],
+      "groups": [],
+      "groupColors": [],
+      "mode": "split-perimeter"
+    },
+    "expired": null
+  },
+  "scope": "Linux Chromium actual controls, explicit carcass/migration display fixtures and a fresh real-Worker run",
+  "date": "2026-10-23",
+  "baseline_commit": "3a58660",
+  "app_version": "4.2.72",
+  "source_sha256": {
+    "src/ecology/renderer.js": "cf2ec0a71dbbec401da83a5adaef3e45a2977eb9098be06484a9f890e4cdfe30"
+  },
+  "test_sha256": "8837975c7452198df4f919fb44470b5ef057e158abcb812335ba89dda480df5c",
+  "full_suite": false,
+  "windows_tested": false,
+  "unresolved": "直接指定する寄生初期数と適合宿主枠の不足が生成時判定になるケースの事前制約確認"
+}
