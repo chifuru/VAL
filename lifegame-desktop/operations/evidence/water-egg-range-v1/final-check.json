@@ -1,0 +1,24 @@
+{
+  "app": "4.2.76",
+  "unitChecks": 10,
+  "archiveRegressionChecks": 6,
+  "uiChecks": 11,
+  "formalNodes": 61,
+  "structureAndDraftStatusUnchanged": true,
+  "coreUnchanged": true,
+  "manifestPassed": true,
+  "frozenSetupContractMatchesExceptExplicitEggSettings": true,
+  "generatedModelMatches": true,
+  "replaySignature": "37ea035eae30eeb8b191c11b5498b721b5e37bf7aca8e9f8607402d8afc5cdb1",
+  "sourceHashes": {
+    "src/app.js": "51cdfd8e4cc32c75a2a93ad23d6327799398e490c00888086d8a592cd7cc647e",
+    "src/ecology/state.js": "4bd78d80e35b3b26b9e867bae219f6b5a8e4aec981411fc25ac3e9ab02eb7002",
+    "src/ecology/parasites.js": "330fba83ecdc13418f933a5c043dfc3ae24f211a0592d15a65aac7b6690bc7dd",
+    "src/ecology/archive.js": "8ea0ba814fa508fb562c3253023c257039ce7200556c5c273d4e2ea4b3f0b75e",
+    "src/ecology/observation-modules.js": "b1314c837dfad0349a7697865761b798d89865c4ded017b5f50546cc6eedc231",
+    "src/ecology/replay-version.js": "de0f92e878f3c081470fe8e7cfa66f2a22ad83fe185431d7a0326c8ee879c957",
+    "tests/primary-eggs.test.cjs": "a30d51453434e5063870d8f50aee5064ff61d0f8db16ba7f6e2d6c26f3e42fa2",
+    "tests/primary-eggs-ui.cjs": "e5863c54aad7a560478ba6960995837188d77d19e8ce7ea2a6551629f09f11b1"
+  },
+  "scope": "Water egg range only. One existing baseline plus two candidate 250T observations; water survival improvement not certified. No full suite, Windows or distribution."
+}

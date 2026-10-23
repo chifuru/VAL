@@ -1,0 +1,14 @@
+✔ final record contains initial config and final summary; repeated replay never records (492.88716ms)
+✔ incompatible, corrupt, full or failing storage cannot silently lose records (89.283656ms)
+✔ checked-in replay signature matches all biological sources including landscape (3.567785ms)
+✔ successor model preserves replay of prior flagless worlds (86.016114ms)
+✔ template records require resolved map identity before replay (83.290992ms)
+✔ I01 source-only optimization replays 4.2.32 manual conditions without broadening legacy aliases (269.723303ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1114.20645

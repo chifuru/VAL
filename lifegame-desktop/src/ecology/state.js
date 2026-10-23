@@ -771,9 +771,10 @@ return {settings,attach,region,level,factor,begin,finish};
     const settings=w=>w.config.primaryParasiteSettings;
     const eggsEnabled=w=>enabled(w)&&w.config.primaryEggModel==='egg/1';
     function eggParameters(input={}){
-      const out={version:'primary-egg-parameters/1',landLifetime:20,waterLifetime:30,hatchTurns:2,waterMoveChance:.25,...input};
+      const out={version:'primary-egg-parameters/1',landLifetime:20,waterLifetime:30,hatchTurns:2,waterMoveChance:.25,...(input?.version==='primary-egg-parameters/2'?{waterStepRange:2}:{}),...input};
       if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(out,k))||
-        Object.keys(out).some(k=>!['version','landLifetime','waterLifetime','hatchTurns','waterMoveChance'].includes(k))||out.version!=='primary-egg-parameters/1'||
+        Object.keys(out).some(k=>!['version','landLifetime','waterLifetime','hatchTurns','waterMoveChance',...(out.version==='primary-egg-parameters/2'?['waterStepRange']:[])].includes(k))||!['primary-egg-parameters/1','primary-egg-parameters/2'].includes(out.version)||
+        (out.version==='primary-egg-parameters/2'&&(!Number.isSafeInteger(out.waterStepRange)||out.waterStepRange<1||out.waterStepRange>2))||
         ['landLifetime','waterLifetime','hatchTurns'].some(k=>!Number.isSafeInteger(out[k])||out[k]<1||out[k]>10000)||
         out.hatchTurns>=Math.min(out.landLifetime,out.waterLifetime)||!Number.isFinite(out.waterMoveChance)||out.waterMoveChance<0||out.waterMoveChance>1)throw Error('SETTINGS_INVALID: 一次寄生卵の設定');
       return out;

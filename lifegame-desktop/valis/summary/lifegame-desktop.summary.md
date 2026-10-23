@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.75。新規世界のprimaryEggModel: egg/1で、一次寄生の終宿主放出を有限卵塊へ接続。陸20T/水30T・非希釈移送・付着2T後孵化/翌T定着、別集計/CSV/保存/Worker/セル詳細と説明を保持する。正本はdesign/specification/primary-eggs-v1.md、限定証跡はoperations/evidence/primary-eggs-v1/README.md。モデル8/回帰19/画面9/設定35項目と旧指紋一致を確認。同じ代表条件250Tで陸P10/水P1/Q9、卵由来群体の再放出を陸17/水2で直接追跡。後半減少・水系終宿主0のためP全体回復/500T安定/全条件/Windows/配布は未認定。生態追加変更なし。設定UIの優先3点と再生成基準修正は維持。宿主範囲・Q・旧世界の規則は維持し、旧記録へ卵を後付けしない。全61Nodeの草案・構造を維持。
+現在の確定ソースは4.2.76。新規世界の一次寄生卵設定/2は、25%/Tの移送頻度で連結水域の2マス以内へ移送する。量・寿命・付着・宿主表・Qと旧設定/1は維持。正本design/specification/primary-eggs-v1.md、限定証跡operations/evidence/water-egg-range-v1/README.md。卵モデル10/画面11項目。代表250Tで水系の卵由来定着6→8/終宿主到達2→3、終端は水系0。分散の拡大と長期生存改善を区別し、第一宿主以降の移行・終宿主更新を残件とする。設定UIの既存改善は保持。500T安定/全条件/Windows/配布は未認定。全61Nodeの草案・構造を維持。
 
 ## A：仕様
 
@@ -51,11 +51,11 @@ A1:（起点 / 生態系の成長と生存観測）［草案］
 
 	A1.5:（A1 / 寄生と宿主の生活環）［草案］
 		構成（要素・関係）:
-			valis/nodes/A/A1.5.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
+			valis/nodes/A/A1.5.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
 		ロジック:
 			新規世界の終宿主による放出を有限卵塊へ置換し、第一宿主へ戻る循環を作る。宿主適合・Q・群体/通過・旧世界は維持。
 		実態:
-			app4.2.75 / egg/1を接続。新規世界だけの卵による戻りを限定確認。水系の第一宿主定着1→2、戻った群体の再放出0→1（各100T代表条件）。全体のP個体数回復/500T安定は未認定。正式草案。
+			app4.2.76：新規世界の卵設定/2で連結水域の2マス以内へ非複製移送、頻度25%・寿命・付着・宿主表・Q維持。専用10/画面11項目。代表250Tで水系定着6→8/終宿主到達2→3、終端水系0。長期存続改善は未認定。旧設定/1維持、正式草案。
 
 	A1.6:（A1 / 光合成と共生の栄養）［草案］
 		構成（要素・関係）:
@@ -144,11 +144,11 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 
 	B4.2:（A1.5, A1.2, A1.4 / 寄生の遷移）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B4.2.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
+			valis/nodes/B/B4.2.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
 		ロジック:
 			卵の滞留/非希釈移送、付着2T後孵化、一回侵入/翌T定着と期限を分ける。親死亡後の残存と付着先消失を区別。
 		実態:
-			app4.2.75 / egg/1を接続。新規世界だけの卵による戻りを限定確認。水系の第一宿主定着1→2、戻った群体の再放出0→1（各100T代表条件）。全体のP個体数回復/500T安定は未認定。正式草案。
+			app4.2.76：新規世界の卵設定/2で連結水域の2マス以内へ非複製移送、頻度25%・寿命・付着・宿主表・Q維持。専用10/画面11項目。代表250Tで水系定着6→8/終宿主到達2→3、終端水系0。長期存続改善は未認定。旧設定/1維持、正式草案。
 
 	B4.3:（A1.6, A1.2 / 非採食の栄養収支）［草案］
 		構成（要素・関係）:
@@ -333,19 +333,19 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 	C7.5:（B4.2 / 寄生生活環と外部情報）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.5.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
+			valis/nodes/C/C7.5.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
 		ロジック:
 			state/parasites/生成モデルへ版付き卵の設定・状態・処理を接続。卵と生存Pを別集計し、観測/CSV/保存/Workerへ渡す。既存の寄生・情報責務も維持。
 		実態:
-			app4.2.75 / egg/1を接続。新規世界だけの卵による戻りを限定確認。水系の第一宿主定着1→2、戻った群体の再放出0→1（各100T代表条件）。全体のP個体数回復/500T安定は未認定。正式草案。
+			app4.2.76：新規世界の卵設定/2で連結水域の2マス以内へ非複製移送、頻度25%・寿命・付着・宿主表・Q維持。専用10/画面11項目。代表250Tで水系定着6→8/終宿主到達2→3、終端水系0。長期存続改善は未認定。旧設定/1維持、正式草案。
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。卵の表示/観測: design/specification/primary-eggs-v1.md / operations/evidence/primary-eggs-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/C/C8.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。卵の表示/観測: design/specification/primary-eggs-v1.md / operations/evidence/primary-eggs-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
 		既存select/入力/ロックとカード・由来札・条件まとめを同期。readConfigと生成規則・保存契約・旧世界保持を維持。既存の詳細/グラフ/速度責務も保持。
 	実態:
-		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。 卵の状態/孵化予定・説明と設定追加を接続し、今回画面9/設定35項目を限定確認。app4.2.75。
+		app4.2.76：新規世界の卵設定/2で連結水域の2マス以内へ非複製移送、頻度25%・寿命・付着・宿主表・Q維持。専用10/画面11項目。代表250Tで水系定着6→8/終宿主到達2→3、終端水系0。長期存続改善は未認定。旧設定/1維持、正式草案。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -442,19 +442,19 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 	D8.2:（C7.5 / 寄生・高次寄生と情報）［草案］
 		構成（要素・関係）:
-			valis/nodes/D/D8.2.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
+			valis/nodes/D/D8.2.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
 		ロジック:
 			卵の量保存・時計・占有・失敗・旧指紋・保存/Workerと既存P/Qを限定照合。代表100Tの戻りを追い、500T/全条件の安定判定とは分ける。
 		実態:
-			app4.2.75 / egg/1。代表条件250Tで陸P10/水P1/Q9、戻った群体の再放出は陸17/水2。各T不変条件違反0。後半減少と水系終宿主0を記録。追加の生態調整なし、500T安定は未認定。正式草案。
+			app4.2.76：新規世界の卵設定/2で連結水域の2マス以内へ非複製移送、頻度25%・寿命・付着・宿主表・Q維持。専用10/画面11項目。代表250Tで水系定着6→8/終宿主到達2→3、終端水系0。長期存続改善は未認定。旧設定/1維持、正式草案。
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。卵の表示/観測: design/specification/primary-eggs-v1.md / operations/evidence/primary-eggs-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/D/D9.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。卵の表示/観測: design/specification/primary-eggs-v1.md / operations/evidence/primary-eggs-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
 		6構成の旧main設定一致、由来/不使用/変更リンク/390pxと既存生成/取消/復帰を限定照合。全生態・長期・Windows・配布は対象外。
 	実態:
-		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。 卵の状態/孵化予定・説明と設定追加を接続し、今回画面9/設定35項目を限定確認。app4.2.75。
+		app4.2.76：新規世界の卵設定/2で連結水域の2マス以内へ非複製移送、頻度25%・寿命・付着・宿主表・Q維持。専用10/画面11項目。代表250Tで水系定着6→8/終宿主到達2→3、終端水系0。長期存続改善は未認定。旧設定/1維持、正式草案。
 
 ```
 
@@ -495,19 +495,19 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 
 E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E5.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
+		valis/nodes/E/E5.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
 	ロジック:
 		モデル8/回帰19と旧4T指紋一致を保持。250Tで陸P10/水P1/Q9・再放出陸17/水2を記録し、P全体回復/長期安定/Windows/配布は認定しない。
 	実態:
-		app4.2.75 / egg/1。代表条件250Tで陸P10/水P1/Q9、戻った群体の再放出は陸17/水2。各T不変条件違反0。後半減少と水系終宿主0を記録。追加の生態調整なし、500T安定は未認定。正式草案。
+		app4.2.76：新規世界の卵設定/2で連結水域の2マス以内へ非複製移送、頻度25%・寿命・付着・宿主表・Q維持。専用10/画面11項目。代表250Tで水系定着6→8/終宿主到達2→3、終端水系0。長期存続改善は未認定。旧設定/1維持、正式草案。
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。卵の表示/観測: design/specification/primary-eggs-v1.md / operations/evidence/primary-eggs-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/E/E6.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。卵の表示/観測: design/specification/primary-eggs-v1.md / operations/evidence/primary-eggs-v1/README.md。その他の現行責務/入口は各Node参照。
 	ロジック:
 		35項目＋既存27/13項目とソース比較の証跡を保持。画面の限定確認と生態/性能/配布の認定を区別。
 	実態:
-		設定UI優先3点を接続。Linux35＋既存27/13項目、旧main e32bcacと6構成のconfig一致を確認（生成UUIDを除く）。正式草案。全件/500T/総合性能/Windows/配布は未認定。 再生成の基準表示/下層内部復帰は17＋設定UI回帰35項目を限定確認。 卵の状態/孵化予定・説明と設定追加を接続し、今回画面9/設定35項目を限定確認。app4.2.75。
+		app4.2.76：新規世界の卵設定/2で連結水域の2マス以内へ非複製移送、頻度25%・寿命・付着・宿主表・Q維持。専用10/画面11項目。代表250Tで水系定着6→8/終宿主到達2→3、終端水系0。長期存続改善は未認定。旧設定/1維持、正式草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

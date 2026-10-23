@@ -83,3 +83,36 @@ test('Worker transports egg batches and their attachment clocks without changing
   assert.deepEqual(transported,E.step(w));assert.deepEqual(E.invariants(transported),[]);assert(transported.primaryInocula.some(a=>a.id===i.id&&a.egg));assert.equal((await next()).type,'idle');
  }finally{await worker.terminate();}
 });
+
+
+test('water spread v2 reaches two connected steps without crossing land, blocks, or changing v1',()=>{
+ const v2={version:'primary-egg-parameters/2',waterStepRange:2,waterMoveChance:1};
+ assert.equal(E.create({...config,primaryEggSettings:v2}).config.primaryEggSettings.waterStepRange,2);
+ for(const x of [{version:'primary-egg-parameters/1',waterStepRange:2},{...v2,waterStepRange:3},{...v2,waterStepRange:1.5}])assert.throws(()=>E.create({...config,primaryEggSettings:x}),/一次寄生卵/);
+ for(const [settings,barrier,expectFar]of [[v2,null,true],[{waterMoveChance:1},null,false],[v2,'plain',false],[v2,'blocked',false]]){
+  const {w,host,target,eggs}=fixture(true,{primaryEggSettings:settings});const center=host.cell;target.cell=center+10;
+  for(const t of w.tiles){t.terrain='plain';t.blocked=false;}
+  for(const cell of [center,center+1,center+2])w.tiles[cell].terrain='shallow';
+  if(barrier==='plain')w.tiles[center+1].terrain='plain';if(barrier==='blocked')w.tiles[center+1].blocked=true;
+  let far=false;const initial=eggs.map(i=>({id:i.id,E:i.E,expires:i.expires}));
+  for(let turn=3;turn<=12;turn++){
+   for(const i of eggs)i.cell=center;
+   tick(w,turn);far ||= eggs.some(i=>i.cell===center+2);
+   assert.equal(w.primaryInocula.length,2);
+   for(const i of eggs){const before=initial.find(a=>a.id===i.id);assert.equal(i.E,before.E);assert.equal(i.expires,before.expires);assert([center,center+1,center+2].includes(i.cell));if(barrier)assert.equal(i.cell,center);}
+  }
+  assert.equal(far,expectFar);assert.deepEqual(E.invariants(w),[]);
+ }
+ const land=fixture(false,{primaryEggSettings:v2});tick(land.w,3);assert(land.eggs.every(i=>i.cell===land.host.cell||i.egg.state==='attached'));
+});
+
+test('water spread replay keeps v1 records readable and rejects v2 under the previous signature',()=>{
+ const prior='349210f099401ba560b23589c31eb7070dfd30f2eb3bda765146f3492b3b27fe';
+ for(const wide of [false,true]){
+  const w=E.create({...config,...(wide?{primaryEggSettings:{version:'primary-egg-parameters/2',waterStepRange:2}}:{})});
+  let raw;const storage={getItem:()=>raw,setItem:(_,v)=>raw=v};
+  const oldArchive=A.create(storage,E,prior),record=oldArchive.capture(w,'user');oldArchive.save(record);
+  const current=A.create(storage,E,globalThis.EcoReplayVersion);
+  if(wide)assert.throws(()=>current.replay(record.id),/計算版/);else assert.equal(current.replay(record.id).config.primaryEggSettings.version,'primary-egg-parameters/1');
+ }
+});

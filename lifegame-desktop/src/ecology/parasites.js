@@ -826,6 +826,13 @@
         primaryEvent(ctx,host,'egg-hatched',{species:i.species,egg:i.id,invaded:outcome.invaded});
       }else if(i.species==='tideparasite'&&['shallow','deep'].includes(w.tiles[i.cell].terrain)&&S.r(w,'primary/egg-move',w.turn,i.id)<z.waterMoveChance){
         const cells=S.nearby(w,i.cell).filter(cell=>['shallow','deep'].includes(w.tiles[cell].terrain)&&S.oneStep(w,i.cell,cell));
+        if(z.waterStepRange===2){
+          const visited=new Set([i.cell,...cells]),first=cells.slice();
+          for(const from of first)for(const cell of S.nearby(w,from)){
+            if(visited.has(cell)||!['shallow','deep'].includes(w.tiles[cell].terrain)||!S.oneStep(w,from,cell))continue;
+            visited.add(cell);cells.push(cell);
+          }
+        }
         if(cells.length){i.cell=cells[Math.floor(S.r(w,'primary/egg-cell',w.turn,i.id)*cells.length)];eggFlow(w,ctx,'moved');}
       }
     }

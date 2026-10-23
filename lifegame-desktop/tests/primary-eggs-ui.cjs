@@ -62,6 +62,7 @@ const { chromium } = require("playwright"),
   try {
     await page.goto(origin+'/Index.html?smoke=1');await page.evaluate(()=>EcoArt.ready);
     check(await page.evaluate(()=>__LIFE_TEST__.readConfig().primaryEggModel==='egg/1'),'new-world settings enable egg/1');
+    check(await page.evaluate(()=>{const s=__LIFE_TEST__.readConfig().primaryEggSettings;return s.version==='primary-egg-parameters/2'&&s.waterStepRange===2&&s.waterMoveChance===.25;}),'new-world water eggs use two connected steps at the original 25% frequency');
     const fixture=await page.evaluate(()=>{
       const c={...__LIFE_TEST__.readConfig(),seed:'egg-ui',width:40,height:28,initial:24,lineages:'few',mapId:'river',generationSettings:{version:'diverse-generation-parameters/1',mode:'manual',profile:'auto',locks:[]}};
       const w=__LIFE_TEST__.prepare(c);__LIFE_TEST__.stop();const S=EcoEngine.S,host=w.organisms.find(o=>o.infection?.species==='leafparasite'&&S.PrimaryParasite.hostRule('leafparasite',o).role==='first'),p=host.infection;
@@ -76,7 +77,7 @@ const { chromium } = require("playwright"),
     check((await attached.textContent()).includes('第一宿主に付着')&&(await attached.textContent()).includes('孵化予定 4T'),'attached egg shows its hatch clock');
     check((await free.textContent()).includes('期限 21T')&&(await attached.textContent()).includes('生存するP群体数へは加算しません'),'expiry and non-living-stock meaning remain visible');
     await page.locator('[data-primary-category="external"]').screenshot({path:path.join(out,'egg-batches.png')});
-    await page.evaluate(()=>__LIFE_TEST__.openGuide('parasite'));check((await page.locator('#guide-content').textContent()).includes('卵による次世代感染'),'game guide explains the adopted egg lifecycle');await page.locator('#guide').evaluate(e=>e.close());
+    await page.evaluate(()=>__LIFE_TEST__.openGuide('parasite'));check((await page.locator('#guide-content').textContent()).includes('卵による次世代感染'),'game guide explains the adopted egg lifecycle');check((await page.locator('#guide-content').textContent()).includes('最大2マス先'),'guide explains the saved water movement distance');await page.locator('#guide').evaluate(e=>e.close());
     await page.evaluate(c=>{delete c.primaryEggModel;delete c.primaryEggSettings;const w=__LIFE_TEST__.prepare(c);__LIFE_TEST__.stop();return w;},fixture.config);
     check(await page.evaluate(()=>__LIFE_TEST__.snapshot().world.config.primaryEggModel===undefined&&!__LIFE_TEST__.snapshot().world.primaryParasiteSummary.eggs),'older world remains on its previous parasite path');
     check(errors.length===0,'no browser runtime errors');check(external.length===0,'no external requests');

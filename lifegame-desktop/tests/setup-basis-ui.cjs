@@ -11,7 +11,7 @@ const { chromium } = require("playwright"),
   await fs.mkdir(out, { recursive: true });
   const baselineSource=require('node:child_process').execFileSync('git',['show','4a1ce12:lifegame-desktop/src/app.js'],{encoding:'utf8'});
   const currentSource=await fs.readFile('src/app.js','utf8');
-  assert.equal(currentSource.slice(currentSource.indexOf('  function readConfig()'),currentSource.indexOf('  function message(text)')).replace("      primaryEggModel:'egg/1',\n",''),baselineSource.slice(baselineSource.indexOf('  function readConfig()'),baselineSource.indexOf('  function message(text)')),'readConfig retains the previous contract apart from the explicit new egg model');
+  assert.equal(currentSource.slice(currentSource.indexOf('  function readConfig()'),currentSource.indexOf('  function message(text)')).replace("      primaryEggSettings:S.PrimaryParasite.eggParameters({version:'primary-egg-parameters/2',waterStepRange:2}),\n",'').replace("      primaryEggModel:'egg/1',\n",''),baselineSource.slice(baselineSource.indexOf('  function readConfig()'),baselineSource.indexOf('  function message(text)')),'readConfig retains the previous contract apart from the explicit new egg model and saved movement settings');
   const server = http.createServer(async (req, res) => {
     try {
       const file = path.resolve(

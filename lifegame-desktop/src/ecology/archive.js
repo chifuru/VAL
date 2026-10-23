@@ -30,7 +30,9 @@
  const socialRenewalBuildSignature='cc56e6db8b6c3f3cd327b73a687a2fc053db036825d5b14d95d714d2112c5984';
  const moderateGrassBuildSignature='765d6ec931e82c8aee9099a66ba4a7b9a9c3f24bb3bd122bdf612624fc2ebab5';
  const primaryEggBuildSignature='349210f099401ba560b23589c31eb7070dfd30f2eb3bda765146f3492b3b27fe';
+ const waterEggSpreadBuildSignature='37ea035eae30eeb8b191c11b5498b721b5e37bf7aca8e9f8607402d8afc5cdb1';
  function canonicalSignature(s,config){
+  if(s===waterEggSpreadBuildSignature&&config.primaryEggSettings?.version!=='primary-egg-parameters/2')s=primaryEggBuildSignature;
   if(s===primaryEggBuildSignature&&config.primaryEggModel===undefined&&config.primaryEggSettings===undefined)s=moderateGrassBuildSignature;
   // The new grassbug profile applies only to new version-4 worlds.
   if(s===moderateGrassBuildSignature&&config.consumerGroupSettings?.version!=='consumer-group-parameters/4')s=socialRenewalBuildSignature;
