@@ -1,0 +1,584 @@
+{
+  "ok": true,
+  "checks": [
+    "paused resize keeps canvas bitmap and display proportions aligned",
+    "settled paused layout does not continuously repaint the graphs",
+    "desktop summary layouts have no horizontal page overflow",
+    "layout changes preserve all observations, biology and pause intent",
+    "three readable graph cards stay in one row before the pyramid: initial",
+    "three readable graph cards stay in one row before the pyramid: resized",
+    "tiny positive biomass has a visible floor while zero remains zero",
+    "five trophic roles keep the top-to-base order",
+    "tiny positive biomass is never labelled zero and retains its exact value in the tooltip",
+    "saved-result canvases also match their new display dimensions",
+    "returning from the archive restores undistorted live graphs",
+    "layout repaint keeps actual Worker observation running",
+    "no uncaught browser or ResizeObserver errors"
+  ],
+  "errors": [],
+  "measurements": {
+    "initial": {
+      "viewport": {
+        "width": 1460,
+        "height": 1030
+      },
+      "documentWidth": 1460,
+      "cards": [
+        {
+          "box": {
+            "x": 25,
+            "y": 231,
+            "width": 277.59375,
+            "height": 210,
+            "right": 302.59375,
+            "bottom": 441
+          },
+          "scrollHeight": 208,
+          "clientHeight": 208
+        },
+        {
+          "box": {
+            "x": 307.59375,
+            "y": 231,
+            "width": 277.59375,
+            "height": 210,
+            "right": 585.1875,
+            "bottom": 441
+          },
+          "scrollHeight": 208,
+          "clientHeight": 208
+        },
+        {
+          "box": {
+            "x": 590.1875,
+            "y": 231,
+            "width": 277.609375,
+            "height": 210,
+            "right": 867.796875,
+            "bottom": 441
+          },
+          "scrollHeight": 208,
+          "clientHeight": 208
+        }
+      ],
+      "canvases": [
+        {
+          "id": "graph-stacked",
+          "x": 596.1875,
+          "y": 275,
+          "width": 265.609375,
+          "height": 120,
+          "right": 861.796875,
+          "bottom": 395,
+          "bitmap": [
+            266,
+            120
+          ],
+          "ratioError": 0.0032552083333334814
+        },
+        {
+          "id": "composition-phases",
+          "x": 342.59375,
+          "y": 275,
+          "width": 236.59375,
+          "height": 44,
+          "right": 579.1875,
+          "bottom": 319,
+          "bitmap": [
+            237,
+            44
+          ],
+          "ratioError": 0.00923295454545503
+        },
+        {
+          "id": "composition-sex",
+          "x": 342.59375,
+          "y": 320,
+          "width": 236.59375,
+          "height": 44,
+          "right": 579.1875,
+          "bottom": 364,
+          "bitmap": [
+            237,
+            44
+          ],
+          "ratioError": 0.00923295454545503
+        },
+        {
+          "id": "composition-ages",
+          "x": 342.59375,
+          "y": 365,
+          "width": 236.59375,
+          "height": 44,
+          "right": 579.1875,
+          "bottom": 409,
+          "bitmap": [
+            237,
+            44
+          ],
+          "ratioError": 0.00923295454545503
+        }
+      ],
+      "pyramid": {
+        "x": 875.796875,
+        "y": 142,
+        "width": 275.59375,
+        "height": 179.0625,
+        "right": 1151.390625,
+        "bottom": 321.0625
+      },
+      "graph": {
+        "x": 25,
+        "y": 142,
+        "width": 842.796875,
+        "height": 299,
+        "right": 867.796875,
+        "bottom": 441
+      },
+      "donut": {
+        "x": 1159.390625,
+        "y": 142,
+        "width": 275.609375,
+        "height": 299,
+        "right": 1435,
+        "bottom": 441
+      }
+    },
+    "resized": {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "documentWidth": 1280,
+      "cards": [
+        {
+          "box": {
+            "x": 25,
+            "y": 231,
+            "width": 241.59375,
+            "height": 210,
+            "right": 266.59375,
+            "bottom": 441
+          },
+          "scrollHeight": 208,
+          "clientHeight": 208
+        },
+        {
+          "box": {
+            "x": 271.59375,
+            "y": 231,
+            "width": 241.59375,
+            "height": 210,
+            "right": 513.1875,
+            "bottom": 441
+          },
+          "scrollHeight": 208,
+          "clientHeight": 208
+        },
+        {
+          "box": {
+            "x": 518.1875,
+            "y": 231,
+            "width": 241.59375,
+            "height": 210,
+            "right": 759.78125,
+            "bottom": 441
+          },
+          "scrollHeight": 208,
+          "clientHeight": 208
+        }
+      ],
+      "canvases": [
+        {
+          "id": "graph-stacked",
+          "x": 524.1875,
+          "y": 275,
+          "width": 229.59375,
+          "height": 120,
+          "right": 753.78125,
+          "bottom": 395,
+          "bitmap": [
+            230,
+            120
+          ],
+          "ratioError": 0.0033854166666666963
+        },
+        {
+          "id": "composition-phases",
+          "x": 306.59375,
+          "y": 275,
+          "width": 200.59375,
+          "height": 44,
+          "right": 507.1875,
+          "bottom": 319,
+          "bitmap": [
+            201,
+            44
+          ],
+          "ratioError": 0.00923295454545503
+        },
+        {
+          "id": "composition-sex",
+          "x": 306.59375,
+          "y": 320,
+          "width": 200.59375,
+          "height": 44,
+          "right": 507.1875,
+          "bottom": 364,
+          "bitmap": [
+            201,
+            44
+          ],
+          "ratioError": 0.00923295454545503
+        },
+        {
+          "id": "composition-ages",
+          "x": 306.59375,
+          "y": 365,
+          "width": 200.59375,
+          "height": 44,
+          "right": 507.1875,
+          "bottom": 409,
+          "bitmap": [
+            201,
+            44
+          ],
+          "ratioError": 0.00923295454545503
+        }
+      ],
+      "pyramid": {
+        "x": 767.796875,
+        "y": 142,
+        "width": 239.59375,
+        "height": 179.0625,
+        "right": 1007.390625,
+        "bottom": 321.0625
+      },
+      "graph": {
+        "x": 25,
+        "y": 142,
+        "width": 734.796875,
+        "height": 299,
+        "right": 759.796875,
+        "bottom": 441
+      },
+      "donut": {
+        "x": 1015.390625,
+        "y": 142,
+        "width": 239.609375,
+        "height": 299,
+        "right": 1255,
+        "bottom": 441
+      }
+    },
+    "pyramid": [
+      {
+        "level": "4",
+        "value": 0,
+        "width": 0,
+        "text": "0",
+        "title": "上位捕食: 0 B",
+        "floor": false
+      },
+      {
+        "level": "3",
+        "value": 0.001,
+        "width": 8,
+        "text": "※<0.01",
+        "title": "肉食: 0.001 B",
+        "floor": true
+      },
+      {
+        "level": "2",
+        "value": 10,
+        "width": 8,
+        "text": "※10",
+        "title": "小型捕食: 10 B",
+        "floor": true
+      },
+      {
+        "level": "1",
+        "value": 10000,
+        "width": 8,
+        "text": "※10,000",
+        "title": "植物食: 10000 B",
+        "floor": true
+      },
+      {
+        "level": "0",
+        "value": 100000000,
+        "width": 91.375,
+        "text": "100,000,000",
+        "title": "生産者: 100000000 B",
+        "floor": false
+      }
+    ],
+    "archive": {
+      "viewport": {
+        "width": 1460,
+        "height": 1030
+      },
+      "documentWidth": 1460,
+      "cards": [
+        {
+          "box": {
+            "x": 178,
+            "y": 440.4375,
+            "width": 1104,
+            "height": 194,
+            "right": 1282,
+            "bottom": 634.4375
+          },
+          "scrollHeight": 192,
+          "clientHeight": 192
+        },
+        {
+          "box": {
+            "x": 178,
+            "y": 646.4375,
+            "width": 546,
+            "height": 454,
+            "right": 724,
+            "bottom": 1100.4375
+          },
+          "scrollHeight": 452,
+          "clientHeight": 452
+        },
+        {
+          "box": {
+            "x": 736,
+            "y": 646.4375,
+            "width": 546,
+            "height": 454,
+            "right": 1282,
+            "bottom": 1100.4375
+          },
+          "scrollHeight": 452,
+          "clientHeight": 452
+        }
+      ],
+      "canvases": [
+        {
+          "id": "graph-stacked",
+          "x": 749,
+          "y": 682.4375,
+          "width": 520,
+          "height": 190,
+          "right": 1269,
+          "bottom": 872.4375,
+          "bitmap": [
+            520,
+            190
+          ],
+          "ratioError": 0
+        },
+        {
+          "id": "composition-phases",
+          "x": 220,
+          "y": 734.4375,
+          "width": 491,
+          "height": 106,
+          "right": 711,
+          "bottom": 840.4375,
+          "bitmap": [
+            491,
+            106
+          ],
+          "ratioError": 0
+        },
+        {
+          "id": "composition-sex",
+          "x": 220,
+          "y": 854.4375,
+          "width": 491,
+          "height": 106,
+          "right": 711,
+          "bottom": 960.4375,
+          "bitmap": [
+            491,
+            106
+          ],
+          "ratioError": 0
+        },
+        {
+          "id": "composition-ages",
+          "x": 220,
+          "y": 974.4375,
+          "width": 491,
+          "height": 106,
+          "right": 711,
+          "bottom": 1080.4375,
+          "bitmap": [
+            491,
+            106
+          ],
+          "ratioError": 0
+        }
+      ],
+      "pyramid": {
+        "x": 176,
+        "y": 1131.4375,
+        "width": 732,
+        "height": 179.0625,
+        "right": 908,
+        "bottom": 1310.5
+      },
+      "graph": {
+        "x": 166,
+        "y": 340.4375,
+        "width": 1128,
+        "height": 772,
+        "right": 1294,
+        "bottom": 1112.4375
+      },
+      "donut": {
+        "x": 918,
+        "y": 1131.4375,
+        "width": 366,
+        "height": 252.796875,
+        "right": 1284,
+        "bottom": 1384.234375
+      }
+    },
+    "returned": {
+      "viewport": {
+        "width": 1460,
+        "height": 1030
+      },
+      "documentWidth": 1460,
+      "cards": [
+        {
+          "box": {
+            "x": 25,
+            "y": 231,
+            "width": 277.59375,
+            "height": 210,
+            "right": 302.59375,
+            "bottom": 441
+          },
+          "scrollHeight": 208,
+          "clientHeight": 208
+        },
+        {
+          "box": {
+            "x": 307.59375,
+            "y": 231,
+            "width": 277.59375,
+            "height": 210,
+            "right": 585.1875,
+            "bottom": 441
+          },
+          "scrollHeight": 208,
+          "clientHeight": 208
+        },
+        {
+          "box": {
+            "x": 590.1875,
+            "y": 231,
+            "width": 277.609375,
+            "height": 210,
+            "right": 867.796875,
+            "bottom": 441
+          },
+          "scrollHeight": 208,
+          "clientHeight": 208
+        }
+      ],
+      "canvases": [
+        {
+          "id": "graph-stacked",
+          "x": 596.1875,
+          "y": 275,
+          "width": 265.609375,
+          "height": 120,
+          "right": 861.796875,
+          "bottom": 395,
+          "bitmap": [
+            266,
+            120
+          ],
+          "ratioError": 0.0032552083333334814
+        },
+        {
+          "id": "composition-phases",
+          "x": 342.59375,
+          "y": 275,
+          "width": 236.59375,
+          "height": 44,
+          "right": 579.1875,
+          "bottom": 319,
+          "bitmap": [
+            237,
+            44
+          ],
+          "ratioError": 0.00923295454545503
+        },
+        {
+          "id": "composition-sex",
+          "x": 342.59375,
+          "y": 320,
+          "width": 236.59375,
+          "height": 44,
+          "right": 579.1875,
+          "bottom": 364,
+          "bitmap": [
+            237,
+            44
+          ],
+          "ratioError": 0.00923295454545503
+        },
+        {
+          "id": "composition-ages",
+          "x": 342.59375,
+          "y": 365,
+          "width": 236.59375,
+          "height": 44,
+          "right": 579.1875,
+          "bottom": 409,
+          "bitmap": [
+            237,
+            44
+          ],
+          "ratioError": 0.00923295454545503
+        }
+      ],
+      "pyramid": {
+        "x": 875.796875,
+        "y": 142,
+        "width": 275.59375,
+        "height": 179.0625,
+        "right": 1151.390625,
+        "bottom": 321.0625
+      },
+      "graph": {
+        "x": 25,
+        "y": 142,
+        "width": 842.796875,
+        "height": 299,
+        "right": 867.796875,
+        "bottom": 441
+      },
+      "donut": {
+        "x": 1159.390625,
+        "y": 142,
+        "width": 275.609375,
+        "height": 299,
+        "right": 1435,
+        "bottom": 441
+      }
+    }
+  },
+  "scope": "Linux Chromium; desktop dimensions and a biomass display fixture",
+  "date": "2026-10-23",
+  "baseline_commit": "5f3dd88",
+  "app_version": "4.2.72",
+  "source_sha256": {
+    "src/app.js": "60732e04ee0339701516b66ff97f4c3d8e946eba00f6dac4ab2d5bcac4f94de9"
+  },
+  "test_sha256": "f20bde3aa6900c250406bbfc50eb4e447b7e926c0d83fa3c69c151a6a25965b0",
+  "full_suite": false,
+  "windows_tested": false,
+  "dpi_tested": [
+    1
+  ]
+}

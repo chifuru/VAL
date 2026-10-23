@@ -1244,7 +1244,7 @@
     const p=row.current.pyramid,roles=p.roleLayers,names=['生産者','植物食','小型捕食','肉食','上位捕食'];
     const peak=Math.max(1,...roles||[]),colors=['#72c48e','#62cbd3','#6ba6dc','#9196d4','#bd9de2'];
     $('biomass-pyramid').innerHTML=roles?.length===5?roles.map((v,i)=>{const percentage=v/peak*100,floor=v>0&&percentage<4;
-      return `<div class="pyramid-level" data-level="${i}" data-value="${v}"${floor?' data-visual-floor="true"':''}><span>${names[i]}</span><div><i style="width:${v>0?`max(8px,${percentage}%)`:'0'};background:${colors[i]}"></i></div><b>${floor?'※':''}${fmt(v)}</b></div>`;
+      return `<div class="pyramid-level" data-level="${i}" data-value="${v}" title="${names[i]}: ${v} B"${floor?' data-visual-floor="true"':''}><span>${names[i]}</span><div><i style="width:${v>0?`max(8px,${percentage}%)`:'0'};background:${colors[i]}"></i></div><b>${floor?'※':''}${v>0&&v<.01?'&lt;0.01':fmt(v)}</b></div>`;
     }).reverse().join('')+`<p class="note">※極少量は最小幅で表示。実数Bを参照。<br>未分類 ${fmt(p.roleUnknown||0)} B / 分解者 ${fmt(p.side.decomposer)} B / P・Q別枠</p>`:'<p class="note">この記録には食性別の生物量がありません。旧4層の値から推定しません。</p>';
     $('pyramid-support').textContent='生産 '+(p.production===null?'未記録':fmt(p.production)+' E')+' / 同化 '+(p.uptake===null?'未記録':fmt(p.uptake)+' E')+'（直近'+p.window+'T）';
     const history=graphObservation();
@@ -1310,6 +1310,26 @@
   $('graph-latest').onclick=()=>{graphFollow=true;renderGraphs();};
   $('graph-group').onchange=()=>{syncGraphTargets($('graph-group').value);scheduleGraphs(true);};
   $('graph-species').onchange=()=>scheduleGraphs(true);
+
+  // Repaint only when layout changes. Paused graphs must not keep an old
+  // bitmap after resize or moving between the live view and saved analysis.
+  const graphCanvases=['graph-stacked','composition-phases','composition-sex','composition-ages'].map($),graphSizes=new WeakMap();
+  let graphLayoutFrame=null;
+  function refreshGraphLayout(){
+    let changed=false;
+    for(const canvas of graphCanvases){
+      const {width,height}=canvas.getBoundingClientRect();if(!width||!height)continue;
+      const key=[Math.round(width),Math.round(height),Math.min(2,devicePixelRatio||1)].join('|');
+      if(graphSizes.get(canvas)!==key){graphSizes.set(canvas,key);changed=true;}
+    }
+    if(!changed||graphLayoutFrame!==null)return;
+    graphLayoutFrame=requestAnimationFrame(()=>{graphLayoutFrame=null;
+      if(graphObservation()?.rows.length&&$('graph-stacked').getBoundingClientRect().width>0)scheduleGraphs(true);
+    });
+  }
+  const graphLayoutObserver=new ResizeObserver(refreshGraphLayout);
+  for(const canvas of graphCanvases)graphLayoutObserver.observe(canvas);
+  window.addEventListener('resize',refreshGraphLayout);
 
   $('export-observation').onclick=async()=>{
     const graph=graphObservation();if(!graph)return;

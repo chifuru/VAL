@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.72。対象は観測記録容量/1（operations/evidence/record-budget-v1/README.md）。既存詳細の解放予定を容量判定へ含め、拒否時の確定行不変と全ターン集計を保持。保存結果の読込を1GiB予算/行単位検査へ整合。Node23件とLinux実Worker6項目を限定確認。生態規則・画像・グラフ配置・保存形式・正式状態は変更なし。実1GiB/全条件/長期/Windows配布物は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
+現在の確定ソースは4.2.72。対象はグラフ判読性/1（operations/evidence/graph-readability-v1/README.md）。停止中リサイズと図鑑往復でも描画寸法を更新し、正の微量Bを0と表記しない。Linux DPR1の13項目で3カード横並び/原値と停止意図の不変/図鑑復帰/進行継続を限定確認。生態規則・画像・グラフ配置・保存形式・正式状態は変更なし。高DPI/狭幅画面全体/全条件/長期/Windows配布物は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
 
 ## A：仕様
 
@@ -208,11 +208,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.5:（A1, A1.1, A1.3, A1.5, A1.7 / 個体数・集団構成・生態関係のグラフ）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.5.md。正本: design/specification/record-budget-v1.md。契約: operations/plans/record-budget-v1.md。証跡: operations/evidence/record-budget-v1/README.md。
+			valis/nodes/B/B5.5.md。正本: design/specification/graph-readability-v1.md。契約: operations/plans/graph-readability-v1.md。証跡: operations/evidence/graph-readability-v1/README.md。
 		ロジック:
-			全確定ターンの系列/図鑑用原値を保持し、既存の直近詳細/50T保持を容量判定と整合させる。
+			3グラフの配置/原値を保持し、寸法変更時にも文字と図を正しい縦横比で描く。微量の正のBを0と区別する。
 		実態:
-			記録容量/1を適用。既存分類→全体/個別系統も維持。Node23件/実Worker6項目の限定範囲。
+			グラフ判読性/1を適用。分類選択/容量契約を維持。Linux13項目の限定範囲。
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/graph-targets-v1.md。契約: operations/plans/graph-targets-v1.md。証跡: operations/evidence/graph-targets-v1/README.md。
+		valis/nodes/C/C8.md。正本: design/specification/graph-readability-v1.md。契約: operations/plans/graph-readability-v1.md。証跡: operations/evidence/graph-readability-v1/README.md。
 	ロジック:
-		カタログの所属から選択肢を生成し、図鑑復帰時はライブの分類/個別系統を復元する。選択で観測/固定詳細を変えない。
+		canvas実寸を監視し、寸法変更時だけ1フレームへ再描画をまとめる。停止中/図鑑往復と進行から独立させる。
 	実態:
-		対象選択/1を接続。生態/画像/配置/保存形式を維持。長期/全条件/Windows/最速は未認定。
+		正の0.01未満は小数丸めの0を避け、titleに実数Bを示す。配置/生態/保存形式は維持。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/record-budget-v1.md。契約: operations/plans/record-budget-v1.md。証跡: operations/evidence/record-budget-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/graph-readability-v1.md。契約: operations/plans/graph-readability-v1.md。証跡: operations/evidence/graph-readability-v1/README.md。
 	ロジック:
-		容量誤判定の反例、失敗時不変性、拡張後の出力一致、行単位読込と実Workerの停止/再開を確認する。
+		停止中リサイズ、実寸比、3カード配置、図鑑往復、進行継続、微量B/0、静止時の非連続再描画を限定確認する。
 	実態:
-		新規6件＋観測12件＋保存5件、実Worker6項目が成功。実1GiB/長期/全条件/Windowsは未認定。
+		Linux DPR1の13項目が成功。1460×1030/1280×800と微量表示fixture。高DPI/狭幅全体/長期/Windowsは未認定。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/record-budget-v1.md。契約: operations/plans/record-budget-v1.md。証跡: operations/evidence/record-budget-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/graph-readability-v1.md。契約: operations/plans/graph-readability-v1.md。証跡: operations/evidence/graph-readability-v1/README.md。
 	ロジック:
-		旧容量誤判定の反例、Node23件と実Worker6項目の対象ソース/範囲を保持する。
+		修正前の停止中リサイズ反例と修正後の13項目、実画面画像、ソース/テストSHAを保持する。
 	実態:
-		実際の小予算で停止/拡張/再開/図鑑保存・復元を確認。合成履歴と実生態長期の検証を区別する。
+		原値と停止意図の不変、図鑑往復、実Worker進行を限定確認。微量層は生態結果ではなく表示fixture。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
