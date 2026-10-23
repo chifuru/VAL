@@ -1,0 +1,2325 @@
+{
+  "source": "f7e1613",
+  "engine": "src/ecology/observation-model.js (generated product)",
+  "condition": {
+    "seed": "cohort-b",
+    "width": 40,
+    "height": 28,
+    "initial": 48,
+    "lineages": "manual",
+    "selected": [
+      "ryouki",
+      "solar",
+      "jelly",
+      "recursive"
+    ],
+    "weights": {},
+    "placement": "natural",
+    "distribution": "balanced",
+    "guarantee": false,
+    "enabled": {
+      "main": true,
+      "plant": true,
+      "fungus": true,
+      "prey": true,
+      "P": true,
+      "Q": true
+    },
+    "primaryEggModel": "egg/1",
+    "terrainSeed": "terminal-return-audit",
+    "ecologyRevision": "observation/4.1",
+    "landscape": "templates",
+    "mapId": "wetland",
+    "ageModel": "life/1",
+    "randomModel": "table/1",
+    "balanceModel": "survival/4",
+    "consumerModel": "group/1",
+    "consumerGroupSettings": {
+      "version": "consumer-group-parameters/4",
+      "capacity": 8,
+      "initialSize": 4,
+      "maxBirths": 2,
+      "dispersalAt": 4
+    },
+    "socialRenewalModel": "successor/1",
+    "producerModel": "colony/1",
+    "largePlantModel": "independent/1",
+    "ryoukiModel": "ryouki/1",
+    "primaryParasiteModel": "primary/1",
+    "hyperParasiteModel": "hyper/1",
+    "parasiteCohortModel": "cohort/1",
+    "parasiteDispersalModel": "fanout/1",
+    "informationModel": "persistent/1",
+    "relationshipModel": "network/1",
+    "producerSupport": {
+      "enabled": false,
+      "land": {
+        "nutrition": 1,
+        "capacity": 0.35,
+        "regrowth": 1
+      },
+      "water": {
+        "nutrition": 1,
+        "capacity": 0.35,
+        "regrowth": 1
+      },
+      "grace": 20,
+      "establishment": 0.1,
+      "targetE": 8,
+      "targetM": 0.5,
+      "schedule": []
+    },
+    "primaryParasiteSettings": {
+      "version": "primary-parameters/1",
+      "life": 120,
+      "capE": 2,
+      "maintenance": [
+        0,
+        0.005,
+        0.007,
+        0.01
+      ],
+      "hostTax": [
+        0,
+        0.06,
+        0.08,
+        0.1
+      ],
+      "biomass": [
+        0,
+        0.02,
+        0.03,
+        0.04
+      ],
+      "developmentCost": 0.003,
+      "development": {
+        "first": 4,
+        "middle": 6,
+        "terminal": 8
+      },
+      "phaseThresholds": [
+        0,
+        0,
+        8,
+        20
+      ],
+      "starvationTurns": 8,
+      "carrierTurns": 32,
+      "entryRates": {
+        "contact": 0.6,
+        "feeding": 0.8,
+        "carcass": 0.6,
+        "water": 0.4
+      },
+      "establishmentRate": 0.7,
+      "standardReserve": 0.06,
+      "minimumReserve": 0.03,
+      "emissionCost": 0.08,
+      "emissionReserve": 0.06,
+      "emissionCooldown": 6,
+      "inoculumLifetime": {
+        "contact": 4,
+        "water": 4,
+        "edible": 4,
+        "carcass": 12
+      },
+      "mutationRate": 0.1,
+      "mutationStep": 0.05,
+      "resistanceGain": 0.4,
+      "resistanceCap": 0.8,
+      "resistanceHalfLife": 40,
+      "resistanceMaintenance": 0.005,
+      "exclusionCost": 0.04,
+      "exclusionRate": 0.006,
+      "metaCaps": [
+        0,
+        0.1,
+        0.2,
+        0.3
+      ],
+      "metaCosts": [
+        0,
+        0.003,
+        0.006,
+        0.012
+      ],
+      "initialFraction": 0.2,
+      "initialDistribution": [
+        0.4,
+        0.4,
+        0.2
+      ],
+      "initialEnergy": 0.2
+    },
+    "hyperParasiteSettings": {
+      "version": "hyper-parameters/1",
+      "maintenance": [
+        0,
+        0.0005,
+        0.0007,
+        0.001,
+        0.004
+      ],
+      "hostTax": [
+        0,
+        0.02,
+        0.03,
+        0.04,
+        0
+      ],
+      "developmentCost": [
+        0,
+        0.0005,
+        0.0007,
+        0.001,
+        0
+      ],
+      "biomass": [
+        0,
+        0.01,
+        0.015,
+        0.02,
+        0.03
+      ],
+      "phaseThresholds": [
+        0,
+        0,
+        4,
+        12
+      ],
+      "maturity": 12,
+      "life": 480,
+      "development": 12,
+      "starvationTurns": 8,
+      "entryRate": 0.6,
+      "entryDefense": 0.2,
+      "establishmentRate": 0.7,
+      "exclusionCost": 0.01,
+      "exclusionRate": 0.006,
+      "emergenceMultiplier": 4,
+      "emergenceRate": 0.6,
+      "prepareTurns": 4,
+      "eggCost": 0.06,
+      "eggReserve": 0.05,
+      "eggCooldown": 12,
+      "eggLifetime": 4,
+      "adultMoveCost": 0.001,
+      "adultFoodCap": 0.2,
+      "adultAssimilation": 0.85,
+      "capE": 1,
+      "metaCosts": [
+        0,
+        0.0008,
+        0.0015,
+        0.003,
+        0
+      ],
+      "metaCaps": [
+        0,
+        0.03,
+        0.05,
+        0.08,
+        0
+      ],
+      "informationCosts": [
+        0,
+        0.0015,
+        0.003,
+        0.006,
+        0
+      ],
+      "promotionCaps": [
+        0,
+        0.02,
+        0.05,
+        0.1,
+        0
+      ],
+      "distortionCaps": [
+        0,
+        0.05,
+        0.1,
+        0.2,
+        0
+      ],
+      "mutationRate": 0.1,
+      "mutationStep": 0.05,
+      "resistanceGain": 0.4,
+      "resistanceCap": 0.8,
+      "resistanceHalfLife": 40,
+      "resistanceMaintenance": 0.005,
+      "initialFraction": 0.4,
+      "initialAttachedFraction": 0.5,
+      "initialEnergy": 0.24
+    },
+    "fungalColonySettings": {
+      "version": "fungal-colony-parameters/1",
+      "baseB": 1,
+      "capacityB": 12,
+      "maintenance": 0.0375,
+      "dormantMaintenance": 0.01,
+      "regrowthB": 1,
+      "regrowthCost": 1.2,
+      "reserveE": 2,
+      "starvationTurns": 12
+    },
+    "ryoukiSettings": {
+      "version": "ryouki-parameters/1",
+      "densityHigh": 6,
+      "highTurns": 3,
+      "densityLow": 2,
+      "lowTurns": 6,
+      "biteB": 2,
+      "mutatedBiteB": 2.4,
+      "preparationWeight": 1.5
+    },
+    "primaryEggSettings": {
+      "version": "primary-egg-parameters/2",
+      "landLifetime": 20,
+      "waterLifetime": 30,
+      "hatchTurns": 2,
+      "waterMoveChance": 0.25,
+      "waterStepRange": 2
+    },
+    "informationSettings": {
+      "version": "persistent-information-parameters/1",
+      "roleDefinition": "persistent-information-roles/1",
+      "influence": 1,
+      "qEffects": true,
+      "experienceCapacity": 16,
+      "learnedCapacity": 64,
+      "turnDedupeCapacity": 64,
+      "holdingCount": 6,
+      "holdingTurns": 3,
+      "normalCount": 3,
+      "normalTurns": 2,
+      "receiveLimit": 2,
+      "receiveCostFraction": 0.01,
+      "transmission": {
+        "environment": 1,
+        "ordinary": 0.25,
+        "caregiver": 1
+      },
+      "evaluationWeights": [
+        0.4,
+        0.4,
+        0.2
+      ],
+      "baseProbability": 0.1,
+      "scoreProbability": 0.6,
+      "harmMinimum": 0.4,
+      "lowProbability": 0.05,
+      "lowWeight": 0.5,
+      "halfLives": {
+        "fast": 25,
+        "relation": 50,
+        "place": 100
+      },
+      "minimumLifetime": 100,
+      "scoreLifetime": 100,
+      "initialAmount": 1,
+      "minimumAmount": 0.01,
+      "diffusionFraction": 0.2,
+      "cellOrigins": 4,
+      "originContents": 2,
+      "concentrationRadius": 2,
+      "distanceWeights": [
+        1,
+        0.5,
+        0.25
+      ],
+      "traceCapacity": 2,
+      "traceHalfLife": 50,
+      "traceLifetime": 100,
+      "directionMutationRate": 0.1,
+      "directionMutationStep": 0.05
+    },
+    "producerSettings": {
+      "version": "colony-parameters/1",
+      "standardBiteB": 2,
+      "land": {
+        "occupancy": 0.2,
+        "capacityB": 20,
+        "initialFraction": 0.7,
+        "regrowthB": 2
+      },
+      "water": {
+        "occupancy": 0.15,
+        "capacityB": 20,
+        "initialFraction": 0.7,
+        "regrowthB": 2
+      }
+    },
+    "largePlantSettings": {
+      "version": "independent-plant-parameters/1",
+      "autoDensity": {
+        "land": 0.02,
+        "water": 0.02
+      },
+      "initial": {
+        "phase": 1,
+        "ageFraction": 0,
+        "energyFraction": 0.5
+      }
+    },
+    "freeAdvantage": {
+      "version": "favored-free/3",
+      "externalSupply": false,
+      "producerLife": 2400,
+      "producerLight": 2,
+      "soilM": 3,
+      "waterbugLife": 600,
+      "waterbugBirth": "B123/E8/cost8",
+      "QsearchLife": 480,
+      "QsearchRange": 3,
+      "Qgrowth": [
+        1,
+        2
+      ],
+      "Qinitial": "half-primary/1"
+    },
+    "primaryParasiteInitial": {
+      "version": "primary-initial/1",
+      "definition": "primary/1",
+      "bySpecies": {
+        "leafparasite": {
+          "requested": null,
+          "firstHosts": 69,
+          "planned": 13,
+          "actual": 13,
+          "shortage": 0,
+          "stages": {
+            "first": {
+              "planned": 5,
+              "actual": 5,
+              "shortage": 0
+            },
+            "middle": {
+              "planned": 5,
+              "actual": 5,
+              "shortage": 0
+            },
+            "terminal": {
+              "planned": 3,
+              "actual": 3,
+              "shortage": 0
+            }
+          },
+          "reasons": []
+        },
+        "tideparasite": {
+          "requested": null,
+          "firstHosts": 58,
+          "planned": 11,
+          "actual": 11,
+          "shortage": 0,
+          "stages": {
+            "first": {
+              "planned": 5,
+              "actual": 5,
+              "shortage": 0
+            },
+            "middle": {
+              "planned": 4,
+              "actual": 4,
+              "shortage": 0
+            },
+            "terminal": {
+              "planned": 2,
+              "actual": 2,
+              "shortage": 0
+            }
+          },
+          "reasons": []
+        }
+      },
+      "planned": 24,
+      "actual": 24,
+      "shortage": 0
+    },
+    "ecologyParameters": {
+      "version": 1,
+      "mainMaintenance": 0.65,
+      "mainMovement": 0.6,
+      "sexualThreshold": 0.65,
+      "sexualMineral": 2,
+      "producerBirth": "B23",
+      "fungusBirth": "B123",
+      "initialFoodAgeFraction": 0.5
+    },
+    "hyperParasiteInitial": {
+      "version": "hyper-initial/1",
+      "compatibleP": 24,
+      "requested": null,
+      "planned": 9,
+      "actual": 9,
+      "shortage": 0,
+      "attached": {
+        "planned": 3,
+        "actual": 3,
+        "shortage": 0
+      },
+      "free": {
+        "planned": 6,
+        "actual": 6,
+        "shortage": 0
+      },
+      "reasons": [],
+      "reassignedToFree": 2
+    },
+    "informationBenchmarks": {
+      "abyss": {
+        "species": "abyss",
+        "role": null,
+        "roles": [
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 240,
+        "maintenance": 0.39,
+        "lightLimit": null,
+        "maintainedTurns": 120,
+        "roleAmounts": {
+          "secondary-consumer": 3.9,
+          "higher-consumer": 3.9
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "myth": {
+        "species": "myth",
+        "role": null,
+        "roles": [
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 200,
+        "maintenance": 0.46799999999999997,
+        "lightLimit": null,
+        "maintainedTurns": 100,
+        "roleAmounts": {
+          "secondary-consumer": 4.68,
+          "higher-consumer": 4.68
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "recursive": {
+        "species": "recursive",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 280,
+        "maintenance": 0.35100000000000003,
+        "lightLimit": null,
+        "maintainedTurns": 140,
+        "roleAmounts": {
+          "primary-consumer": 3.51,
+          "secondary-consumer": 3.51,
+          "higher-consumer": 3.51
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "sail": {
+        "species": "sail",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 220,
+        "maintenance": 0.35100000000000003,
+        "lightLimit": null,
+        "maintainedTurns": 110,
+        "roleAmounts": {
+          "primary-consumer": 3.51,
+          "secondary-consumer": 3.51,
+          "higher-consumer": 3.51
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "gravity": {
+        "species": "gravity",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 300,
+        "maintenance": 0.39,
+        "lightLimit": null,
+        "maintainedTurns": 150,
+        "roleAmounts": {
+          "primary-consumer": 3.9,
+          "secondary-consumer": 3.9,
+          "higher-consumer": 3.9
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "crystal": {
+        "species": "crystal",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 320,
+        "maintenance": 0.35100000000000003,
+        "lightLimit": null,
+        "maintainedTurns": 160,
+        "roleAmounts": {
+          "primary-consumer": 3.51,
+          "secondary-consumer": 3.51,
+          "higher-consumer": 3.51
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "manyeyes": {
+        "species": "manyeyes",
+        "role": null,
+        "roles": [
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 240,
+        "maintenance": 0.42900000000000005,
+        "lightLimit": null,
+        "maintainedTurns": 120,
+        "roleAmounts": {
+          "secondary-consumer": 4.29,
+          "higher-consumer": 4.29
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "abyssshell": {
+        "species": "abyssshell",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 340,
+        "maintenance": 0.35100000000000003,
+        "lightLimit": null,
+        "maintainedTurns": 170,
+        "roleAmounts": {
+          "primary-consumer": 3.51,
+          "secondary-consumer": 3.51,
+          "higher-consumer": 3.51
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "parallel": {
+        "species": "parallel",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 220,
+        "maintenance": 0.42900000000000005,
+        "lightLimit": null,
+        "maintainedTurns": 110,
+        "roleAmounts": {
+          "primary-consumer": 4.29,
+          "secondary-consumer": 4.29,
+          "higher-consumer": 4.29
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "memory": {
+        "species": "memory",
+        "role": null,
+        "roles": [
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 360,
+        "maintenance": 0.312,
+        "lightLimit": null,
+        "maintainedTurns": 180,
+        "roleAmounts": {
+          "secondary-consumer": 3.12,
+          "higher-consumer": 3.12
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "serpent": {
+        "species": "serpent",
+        "role": null,
+        "roles": [
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 200,
+        "maintenance": 0.507,
+        "lightLimit": null,
+        "maintainedTurns": 100,
+        "roleAmounts": {
+          "secondary-consumer": 5.07,
+          "higher-consumer": 5.07
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "solar": {
+        "species": "solar",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 240,
+        "maintenance": 0.42900000000000005,
+        "lightLimit": null,
+        "maintainedTurns": 120,
+        "roleAmounts": {
+          "primary-consumer": 4.29,
+          "secondary-consumer": 4.29,
+          "higher-consumer": 4.29
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "antimeme": {
+        "species": "antimeme",
+        "role": null,
+        "roles": [
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 280,
+        "maintenance": 0.312,
+        "lightLimit": null,
+        "maintainedTurns": 140,
+        "roleAmounts": {
+          "secondary-consumer": 3.12,
+          "higher-consumer": 3.12
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "valis": {
+        "species": "valis",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 260,
+        "maintenance": 0.35100000000000003,
+        "lightLimit": null,
+        "maintainedTurns": 130,
+        "roleAmounts": {
+          "primary-consumer": 3.51,
+          "secondary-consumer": 3.51,
+          "higher-consumer": 3.51
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "jelly": {
+        "species": "jelly",
+        "role": null,
+        "roles": [
+          "primary-consumer"
+        ],
+        "life": 200,
+        "maintenance": 0.312,
+        "lightLimit": null,
+        "maintainedTurns": 100,
+        "roleAmounts": {
+          "primary-consumer": 3.12
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "kelp": {
+        "species": "kelp",
+        "role": null,
+        "roles": [
+          "producer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 300,
+        "maintenance": 0.312,
+        "lightLimit": 1.5,
+        "maintainedTurns": 150,
+        "roleAmounts": {
+          "producer": 9.9,
+          "secondary-consumer": 3.12,
+          "higher-consumer": 3.12
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "whale": {
+        "species": "whale",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 360,
+        "maintenance": 0.46799999999999997,
+        "lightLimit": null,
+        "maintainedTurns": 180,
+        "roleAmounts": {
+          "primary-consumer": 4.68,
+          "secondary-consumer": 4.68,
+          "higher-consumer": 4.68
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "swarm": {
+        "species": "swarm",
+        "role": null,
+        "roles": [
+          "primary-consumer"
+        ],
+        "life": 180,
+        "maintenance": 0.39,
+        "lightLimit": null,
+        "maintainedTurns": 90,
+        "roleAmounts": {
+          "primary-consumer": 3.9
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "swarm:queen": {
+        "species": "swarm",
+        "role": "queen",
+        "roles": [
+          "primary-consumer"
+        ],
+        "life": 540,
+        "maintenance": 0.39,
+        "lightLimit": null,
+        "maintainedTurns": 270,
+        "roleAmounts": {
+          "primary-consumer": 3.9
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "plasma": {
+        "species": "plasma",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 180,
+        "maintenance": 0.546,
+        "lightLimit": null,
+        "maintainedTurns": 90,
+        "roleAmounts": {
+          "primary-consumer": 5.46,
+          "secondary-consumer": 5.46,
+          "higher-consumer": 5.46
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "cephalopod": {
+        "species": "cephalopod",
+        "role": null,
+        "roles": [
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 260,
+        "maintenance": 0.42900000000000005,
+        "lightLimit": null,
+        "maintainedTurns": 130,
+        "roleAmounts": {
+          "secondary-consumer": 4.29,
+          "higher-consumer": 4.29
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "precocial": {
+        "species": "precocial",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 240,
+        "maintenance": 0.39,
+        "lightLimit": null,
+        "maintainedTurns": 120,
+        "roleAmounts": {
+          "primary-consumer": 3.9,
+          "secondary-consumer": 3.9,
+          "higher-consumer": 3.9
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "algae": {
+        "species": "algae",
+        "role": null,
+        "roles": [
+          "producer"
+        ],
+        "life": null,
+        "maintenance": 0.02,
+        "lightLimit": 4,
+        "maintainedTurns": 100,
+        "roleAmounts": {
+          "producer": 33.166667
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "moss": {
+        "species": "moss",
+        "role": null,
+        "roles": [
+          "producer"
+        ],
+        "life": null,
+        "maintenance": 0.02,
+        "lightLimit": 4,
+        "maintainedTurns": 100,
+        "roleAmounts": {
+          "producer": 33.166667
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "grass": {
+        "species": "grass",
+        "role": null,
+        "roles": [
+          "producer"
+        ],
+        "life": null,
+        "maintenance": 0.02,
+        "lightLimit": 4,
+        "maintainedTurns": 100,
+        "roleAmounts": {
+          "producer": 33.166667
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "fungus": {
+        "species": "fungus",
+        "role": null,
+        "roles": [
+          "decomposer"
+        ],
+        "life": 80,
+        "maintenance": 0.15,
+        "lightLimit": null,
+        "maintainedTurns": 40,
+        "roleAmounts": {
+          "decomposer": 20
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "waterbug": {
+        "species": "waterbug",
+        "role": null,
+        "roles": [
+          "primary-consumer"
+        ],
+        "life": 600,
+        "maintenance": 0.03,
+        "lightLimit": null,
+        "maintainedTurns": 300,
+        "roleAmounts": {
+          "primary-consumer": 0.3
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "grassbug": {
+        "species": "grassbug",
+        "role": null,
+        "roles": [
+          "primary-consumer"
+        ],
+        "life": 32,
+        "maintenance": 0.2,
+        "lightLimit": null,
+        "maintainedTurns": 16,
+        "roleAmounts": {
+          "primary-consumer": 2
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "tideparasite": {
+        "species": "tideparasite",
+        "role": null,
+        "roles": [
+          "P"
+        ],
+        "life": 120,
+        "maintenance": 0.005,
+        "lightLimit": null,
+        "maintainedTurns": 60,
+        "roleAmounts": {
+          "P": 10
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "leafparasite": {
+        "species": "leafparasite",
+        "role": null,
+        "roles": [
+          "P"
+        ],
+        "life": 120,
+        "maintenance": 0.005,
+        "lightLimit": null,
+        "maintainedTurns": 60,
+        "roleAmounts": {
+          "P": 10
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "hyperparasite": {
+        "species": "hyperparasite",
+        "role": null,
+        "roles": [
+          "Q"
+        ],
+        "life": 480,
+        "maintenance": 0.0005,
+        "lightLimit": null,
+        "maintainedTurns": 240,
+        "roleAmounts": {
+          "Q": 10
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "phytoplankton": {
+        "species": "phytoplankton",
+        "role": null,
+        "roles": [
+          "producer"
+        ],
+        "life": null,
+        "maintenance": 0.02,
+        "lightLimit": 8,
+        "maintainedTurns": 100,
+        "roleAmounts": {
+          "producer": 66.5
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "forestcrown": {
+        "species": "forestcrown",
+        "role": null,
+        "roles": [
+          "producer"
+        ],
+        "life": 360,
+        "maintenance": 0.25,
+        "lightLimit": 2.4,
+        "maintainedTurns": 180,
+        "roleAmounts": {
+          "producer": 17.916667
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "starcrown": {
+        "species": "starcrown",
+        "role": null,
+        "roles": [
+          "producer"
+        ],
+        "life": 320,
+        "maintenance": 0.25,
+        "lightLimit": 2.4,
+        "maintainedTurns": 160,
+        "roleAmounts": {
+          "producer": 17.916667
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "freshwaterlight": {
+        "species": "freshwaterlight",
+        "role": null,
+        "roles": [
+          "producer"
+        ],
+        "life": 240,
+        "maintenance": 0.3,
+        "lightLimit": 2.2,
+        "maintainedTurns": 120,
+        "roleAmounts": {
+          "producer": 15.833333
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "ryouki": {
+        "species": "ryouki",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 180,
+        "maintenance": 0.48,
+        "lightLimit": null,
+        "maintainedTurns": 90,
+        "roleAmounts": {
+          "primary-consumer": 4.8,
+          "secondary-consumer": 4.8,
+          "higher-consumer": 4.8
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      }
+    },
+    "advantageSettings": {
+      "version": "advantage-switches/1",
+      "producer": true,
+      "waterbug": true,
+      "hyperparasite": true
+    },
+    "mapResolved": {
+      "setVersion": "terrain-set/1",
+      "id": "wetland",
+      "version": 1,
+      "width": 40,
+      "height": 28,
+      "dataHash": "2a5d038533a4c2107874729b6ad4e65926fe2606b34761fe7dc9d5073ea4dbf2",
+      "pattern": [
+        2
+      ],
+      "fallback": false,
+      "terrainHash": "7dc81cf82e5d2a834ab2c9755706809b48726719aeaf65d5ae78bd1374e6fd22"
+    }
+  },
+  "turns": 250,
+  "initial": {
+    "habitat": {
+      "waterCells": 1002,
+      "components": [
+        1002
+      ]
+    },
+    "hosts": {
+      "first": {
+        "records": 58,
+        "infected": 5
+      },
+      "middle": {
+        "records": 48,
+        "members": 56,
+        "infected": 4
+      },
+      "terminal": {
+        "records": 12,
+        "infected": 2
+      }
+    },
+    "P": [
+      {
+        "stage": "middle",
+        "host": "waterbug"
+      },
+      {
+        "stage": "middle",
+        "host": "waterbug"
+      },
+      {
+        "stage": "middle",
+        "host": "waterbug"
+      },
+      {
+        "stage": "middle",
+        "host": "waterbug"
+      },
+      {
+        "stage": "first",
+        "host": "algae"
+      },
+      {
+        "stage": "first",
+        "host": "algae"
+      },
+      {
+        "stage": "first",
+        "host": "algae"
+      },
+      {
+        "stage": "first",
+        "host": "algae"
+      },
+      {
+        "stage": "terminal",
+        "host": "jelly"
+      },
+      {
+        "stage": "terminal",
+        "host": "jelly"
+      },
+      {
+        "stage": "first",
+        "host": "freshwaterlight"
+      }
+    ],
+    "Q": 9
+  },
+  "checkpoints": [
+    {
+      "turn": 25,
+      "P": 34,
+      "Q": 14,
+      "bySpecies": {
+        "leafparasite": {
+          "count": 19,
+          "stages": {
+            "first": 8,
+            "middle": 8,
+            "terminal": 3,
+            "extra": 0
+          }
+        },
+        "tideparasite": {
+          "count": 15,
+          "stages": {
+            "first": 7,
+            "middle": 7,
+            "terminal": 1,
+            "extra": 0
+          }
+        }
+      },
+      "eggStock": {
+        "definition": "primary-egg-observed/1",
+        "records": 10,
+        "free": 7,
+        "attached": 3,
+        "amount": 10,
+        "reserveE": 0.6
+      },
+      "eggFlow": {
+        "definition": "primary-egg-flow/1",
+        "laid": 0,
+        "moved": 1,
+        "attached": 1,
+        "hatched": 0,
+        "expired": 2,
+        "lostHost": 0,
+        "failed": 0
+      },
+      "hosts": {
+        "first": {
+          "records": 65,
+          "infected": 6
+        },
+        "middle": {
+          "records": 143,
+          "members": 340,
+          "infected": 6
+        },
+        "terminal": {
+          "records": 16,
+          "infected": 1
+        }
+      }
+    },
+    {
+      "turn": 50,
+      "P": 33,
+      "Q": 18,
+      "bySpecies": {
+        "leafparasite": {
+          "count": 22,
+          "stages": {
+            "first": 9,
+            "middle": 9,
+            "terminal": 4,
+            "extra": 0
+          }
+        },
+        "tideparasite": {
+          "count": 11,
+          "stages": {
+            "first": 6,
+            "middle": 4,
+            "terminal": 1,
+            "extra": 0
+          }
+        }
+      },
+      "eggStock": {
+        "definition": "primary-egg-observed/1",
+        "records": 9,
+        "free": 9,
+        "attached": 0,
+        "amount": 9,
+        "reserveE": 0.54
+      },
+      "eggFlow": {
+        "definition": "primary-egg-flow/1",
+        "laid": 0,
+        "moved": 0,
+        "attached": 0,
+        "hatched": 0,
+        "expired": 0,
+        "lostHost": 0,
+        "failed": 0
+      },
+      "hosts": {
+        "first": {
+          "records": 75,
+          "infected": 5
+        },
+        "middle": {
+          "records": 205,
+          "members": 440,
+          "infected": 3
+        },
+        "terminal": {
+          "records": 19,
+          "infected": 1
+        }
+      }
+    },
+    {
+      "turn": 75,
+      "P": 26,
+      "Q": 17,
+      "bySpecies": {
+        "leafparasite": {
+          "count": 16,
+          "stages": {
+            "first": 7,
+            "middle": 5,
+            "terminal": 4,
+            "extra": 0
+          }
+        },
+        "tideparasite": {
+          "count": 10,
+          "stages": {
+            "first": 7,
+            "middle": 3,
+            "terminal": 0,
+            "extra": 0
+          }
+        }
+      },
+      "eggStock": {
+        "definition": "primary-egg-observed/1",
+        "records": 5,
+        "free": 5,
+        "attached": 0,
+        "amount": 5,
+        "reserveE": 0.3
+      },
+      "eggFlow": {
+        "definition": "primary-egg-flow/1",
+        "laid": 0,
+        "moved": 0,
+        "attached": 0,
+        "hatched": 0,
+        "expired": 0,
+        "lostHost": 0,
+        "failed": 0
+      },
+      "hosts": {
+        "first": {
+          "records": 88,
+          "infected": 6
+        },
+        "middle": {
+          "records": 262,
+          "members": 605,
+          "infected": 3
+        },
+        "terminal": {
+          "records": 23,
+          "infected": 0
+        }
+      }
+    },
+    {
+      "turn": 100,
+      "P": 23,
+      "Q": 16,
+      "bySpecies": {
+        "leafparasite": {
+          "count": 14,
+          "stages": {
+            "first": 6,
+            "middle": 2,
+            "terminal": 6,
+            "extra": 0
+          }
+        },
+        "tideparasite": {
+          "count": 9,
+          "stages": {
+            "first": 5,
+            "middle": 4,
+            "terminal": 0,
+            "extra": 0
+          }
+        }
+      },
+      "eggStock": {
+        "definition": "primary-egg-observed/1",
+        "records": 11,
+        "free": 10,
+        "attached": 1,
+        "amount": 11,
+        "reserveE": 0.66
+      },
+      "eggFlow": {
+        "definition": "primary-egg-flow/1",
+        "laid": 4,
+        "moved": 0,
+        "attached": 1,
+        "hatched": 3,
+        "expired": 0,
+        "lostHost": 0,
+        "failed": 2
+      },
+      "hosts": {
+        "first": {
+          "records": 98,
+          "infected": 5
+        },
+        "middle": {
+          "records": 320,
+          "members": 737,
+          "infected": 4
+        },
+        "terminal": {
+          "records": 28,
+          "infected": 0
+        }
+      }
+    },
+    {
+      "turn": 125,
+      "P": 17,
+      "Q": 16,
+      "bySpecies": {
+        "leafparasite": {
+          "count": 13,
+          "stages": {
+            "first": 3,
+            "middle": 1,
+            "terminal": 9,
+            "extra": 0
+          }
+        },
+        "tideparasite": {
+          "count": 4,
+          "stages": {
+            "first": 2,
+            "middle": 2,
+            "terminal": 0,
+            "extra": 0
+          }
+        }
+      },
+      "eggStock": {
+        "definition": "primary-egg-observed/1",
+        "records": 25,
+        "free": 20,
+        "attached": 5,
+        "amount": 25,
+        "reserveE": 1.5
+      },
+      "eggFlow": {
+        "definition": "primary-egg-flow/1",
+        "laid": 0,
+        "moved": 0,
+        "attached": 1,
+        "hatched": 0,
+        "expired": 0,
+        "lostHost": 0,
+        "failed": 0
+      },
+      "hosts": {
+        "first": {
+          "records": 108,
+          "infected": 2
+        },
+        "middle": {
+          "records": 403,
+          "members": 956,
+          "infected": 2
+        },
+        "terminal": {
+          "records": 29,
+          "infected": 0
+        }
+      }
+    },
+    {
+      "turn": 150,
+      "P": 19,
+      "Q": 16,
+      "bySpecies": {
+        "leafparasite": {
+          "count": 18,
+          "stages": {
+            "first": 8,
+            "middle": 1,
+            "terminal": 9,
+            "extra": 0
+          }
+        },
+        "tideparasite": {
+          "count": 1,
+          "stages": {
+            "first": 0,
+            "middle": 1,
+            "terminal": 0,
+            "extra": 0
+          }
+        }
+      },
+      "eggStock": {
+        "definition": "primary-egg-observed/1",
+        "records": 21,
+        "free": 18,
+        "attached": 3,
+        "amount": 21,
+        "reserveE": 1.26
+      },
+      "eggFlow": {
+        "definition": "primary-egg-flow/1",
+        "laid": 0,
+        "moved": 0,
+        "attached": 2,
+        "hatched": 2,
+        "expired": 0,
+        "lostHost": 0,
+        "failed": 2
+      },
+      "hosts": {
+        "first": {
+          "records": 111,
+          "infected": 0
+        },
+        "middle": {
+          "records": 446,
+          "members": 1063,
+          "infected": 1
+        },
+        "terminal": {
+          "records": 25,
+          "infected": 0
+        }
+      }
+    },
+    {
+      "turn": 175,
+      "P": 18,
+      "Q": 13,
+      "bySpecies": {
+        "leafparasite": {
+          "count": 17,
+          "stages": {
+            "first": 8,
+            "middle": 0,
+            "terminal": 9,
+            "extra": 0
+          }
+        },
+        "tideparasite": {
+          "count": 1,
+          "stages": {
+            "first": 1,
+            "middle": 0,
+            "terminal": 0,
+            "extra": 0
+          }
+        }
+      },
+      "eggStock": {
+        "definition": "primary-egg-observed/1",
+        "records": 32,
+        "free": 31,
+        "attached": 1,
+        "amount": 32,
+        "reserveE": 1.92
+      },
+      "eggFlow": {
+        "definition": "primary-egg-flow/1",
+        "laid": 2,
+        "moved": 0,
+        "attached": 0,
+        "hatched": 1,
+        "expired": 0,
+        "lostHost": 0,
+        "failed": 0
+      },
+      "hosts": {
+        "first": {
+          "records": 114,
+          "infected": 1
+        },
+        "middle": {
+          "records": 483,
+          "members": 1211,
+          "infected": 0
+        },
+        "terminal": {
+          "records": 24,
+          "infected": 0
+        }
+      }
+    },
+    {
+      "turn": 200,
+      "P": 27,
+      "Q": 12,
+      "bySpecies": {
+        "leafparasite": {
+          "count": 27,
+          "stages": {
+            "first": 16,
+            "middle": 0,
+            "terminal": 11,
+            "extra": 0
+          }
+        },
+        "tideparasite": {
+          "count": 0,
+          "stages": {
+            "first": 0,
+            "middle": 0,
+            "terminal": 0,
+            "extra": 0
+          }
+        }
+      },
+      "eggStock": {
+        "definition": "primary-egg-observed/1",
+        "records": 42,
+        "free": 39,
+        "attached": 3,
+        "amount": 42,
+        "reserveE": 2.52
+      },
+      "eggFlow": {
+        "definition": "primary-egg-flow/1",
+        "laid": 4,
+        "moved": 0,
+        "attached": 0,
+        "hatched": 0,
+        "expired": 0,
+        "lostHost": 0,
+        "failed": 0
+      },
+      "hosts": {
+        "first": {
+          "records": 121,
+          "infected": 0
+        },
+        "middle": {
+          "records": 538,
+          "members": 1393,
+          "infected": 0
+        },
+        "terminal": {
+          "records": 22,
+          "infected": 0
+        }
+      }
+    },
+    {
+      "turn": 225,
+      "P": 26,
+      "Q": 9,
+      "bySpecies": {
+        "leafparasite": {
+          "count": 26,
+          "stages": {
+            "first": 17,
+            "middle": 0,
+            "terminal": 9,
+            "extra": 0
+          }
+        },
+        "tideparasite": {
+          "count": 0,
+          "stages": {
+            "first": 0,
+            "middle": 0,
+            "terminal": 0,
+            "extra": 0
+          }
+        }
+      },
+      "eggStock": {
+        "definition": "primary-egg-observed/1",
+        "records": 22,
+        "free": 20,
+        "attached": 2,
+        "amount": 22,
+        "reserveE": 1.32
+      },
+      "eggFlow": {
+        "definition": "primary-egg-flow/1",
+        "laid": 2,
+        "moved": 0,
+        "attached": 0,
+        "hatched": 0,
+        "expired": 0,
+        "lostHost": 0,
+        "failed": 0
+      },
+      "hosts": {
+        "first": {
+          "records": 121,
+          "infected": 0
+        },
+        "middle": {
+          "records": 605,
+          "members": 1607,
+          "infected": 0
+        },
+        "terminal": {
+          "records": 19,
+          "infected": 0
+        }
+      }
+    },
+    {
+      "turn": 250,
+      "P": 23,
+      "Q": 6,
+      "bySpecies": {
+        "leafparasite": {
+          "count": 23,
+          "stages": {
+            "first": 16,
+            "middle": 0,
+            "terminal": 7,
+            "extra": 0
+          }
+        },
+        "tideparasite": {
+          "count": 0,
+          "stages": {
+            "first": 0,
+            "middle": 0,
+            "terminal": 0,
+            "extra": 0
+          }
+        }
+      },
+      "eggStock": {
+        "definition": "primary-egg-observed/1",
+        "records": 19,
+        "free": 18,
+        "attached": 1,
+        "amount": 19,
+        "reserveE": 1.14
+      },
+      "eggFlow": {
+        "definition": "primary-egg-flow/1",
+        "laid": 2,
+        "moved": 0,
+        "attached": 1,
+        "hatched": 3,
+        "expired": 0,
+        "lostHost": 0,
+        "failed": 2
+      },
+      "hosts": {
+        "first": {
+          "records": 101,
+          "infected": 0
+        },
+        "middle": {
+          "records": 650,
+          "members": 1787,
+          "infected": 0
+        },
+        "terminal": {
+          "records": 16,
+          "infected": 0
+        }
+      }
+    }
+  ],
+  "trace": {
+    "leafparasite": {
+      "released": 379,
+      "establishedFromEggParent": 58,
+      "directChildrenReachedTerminal": 31,
+      "directChildrenReproduced": 28,
+      "releaseTurns": [
+        1,
+        1,
+        5,
+        5,
+        6,
+        6,
+        7,
+        7,
+        11,
+        11,
+        11,
+        11,
+        17,
+        17,
+        17,
+        17,
+        23,
+        23,
+        23,
+        23,
+        29,
+        29,
+        29,
+        29,
+        34,
+        34,
+        35,
+        35,
+        41,
+        41,
+        42,
+        42,
+        45,
+        45,
+        47,
+        47,
+        48,
+        48,
+        52,
+        52,
+        53,
+        53,
+        54,
+        54,
+        59,
+        59,
+        65,
+        65,
+        67,
+        67,
+        71,
+        71,
+        77,
+        77,
+        82,
+        82,
+        83,
+        83,
+        84,
+        84,
+        85,
+        85,
+        85,
+        89,
+        89,
+        90,
+        90,
+        91,
+        91,
+        91,
+        95,
+        95,
+        97,
+        97,
+        97,
+        97,
+        100,
+        100,
+        100,
+        100,
+        101,
+        101,
+        103,
+        103,
+        103,
+        103,
+        104,
+        104,
+        106,
+        106,
+        107,
+        107,
+        109,
+        109,
+        109,
+        109,
+        110,
+        110,
+        115,
+        115,
+        115,
+        115,
+        116,
+        116,
+        116,
+        116,
+        116,
+        116,
+        117,
+        117,
+        117,
+        117,
+        118,
+        118,
+        121,
+        121,
+        121,
+        121,
+        122,
+        122,
+        122,
+        122,
+        122,
+        122,
+        123,
+        123,
+        124,
+        124,
+        127,
+        127,
+        127,
+        127,
+        127,
+        127,
+        127,
+        127,
+        128,
+        128,
+        128,
+        128,
+        130,
+        130,
+        131,
+        131,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        134,
+        134,
+        136,
+        136,
+        139,
+        139,
+        139,
+        139,
+        140,
+        142,
+        142,
+        145,
+        145,
+        145,
+        145,
+        146,
+        146,
+        146,
+        146,
+        146,
+        146,
+        148,
+        148,
+        148,
+        148,
+        151,
+        151,
+        152,
+        152,
+        154,
+        154,
+        154,
+        154,
+        154,
+        154,
+        157,
+        157,
+        157,
+        157,
+        158,
+        158,
+        160,
+        160,
+        160,
+        160,
+        160,
+        160,
+        160,
+        160,
+        163,
+        163,
+        164,
+        164,
+        166,
+        166,
+        166,
+        166,
+        166,
+        166,
+        166,
+        166,
+        167,
+        167,
+        169,
+        169,
+        170,
+        170,
+        172,
+        172,
+        172,
+        172,
+        172,
+        172,
+        172,
+        172,
+        173,
+        173,
+        175,
+        175,
+        176,
+        176,
+        178,
+        178,
+        178,
+        178,
+        178,
+        178,
+        178,
+        178,
+        180,
+        181,
+        181,
+        182,
+        182,
+        182,
+        182,
+        184,
+        184,
+        184,
+        184,
+        184,
+        184,
+        184,
+        184,
+        186,
+        186,
+        186,
+        186,
+        187,
+        187,
+        188,
+        188,
+        188,
+        188,
+        189,
+        189,
+        190,
+        190,
+        190,
+        190,
+        190,
+        190,
+        192,
+        192,
+        192,
+        192,
+        194,
+        194,
+        194,
+        194,
+        194,
+        194,
+        195,
+        195,
+        196,
+        196,
+        196,
+        196,
+        196,
+        196,
+        198,
+        198,
+        198,
+        198,
+        200,
+        200,
+        200,
+        200,
+        201,
+        201,
+        202,
+        202,
+        202,
+        202,
+        202,
+        202,
+        203,
+        203,
+        206,
+        206,
+        208,
+        208,
+        208,
+        208,
+        209,
+        209,
+        209,
+        209,
+        212,
+        212,
+        214,
+        214,
+        215,
+        215,
+        215,
+        215,
+        216,
+        216,
+        217,
+        217,
+        218,
+        218,
+        221,
+        221,
+        223,
+        223,
+        224,
+        224,
+        225,
+        225,
+        227,
+        227,
+        228,
+        228,
+        229,
+        229,
+        231,
+        231,
+        232,
+        232,
+        233,
+        233,
+        234,
+        234,
+        234,
+        234,
+        235,
+        235,
+        237,
+        237,
+        239,
+        239,
+        240,
+        240,
+        241,
+        241,
+        243,
+        243,
+        247,
+        247,
+        247,
+        247,
+        247,
+        247,
+        249,
+        249,
+        250,
+        250
+      ],
+      "establishmentTurns": [
+        12,
+        27,
+        27,
+        38,
+        38,
+        45,
+        49,
+        57,
+        69,
+        71,
+        71,
+        86,
+        88,
+        95,
+        95,
+        104,
+        112,
+        119,
+        121,
+        127,
+        129,
+        131,
+        134,
+        135,
+        144,
+        146,
+        149,
+        152,
+        155,
+        162,
+        162,
+        163,
+        164,
+        171,
+        174,
+        177,
+        180,
+        180,
+        185,
+        189,
+        190,
+        192,
+        195,
+        198,
+        198,
+        210,
+        210,
+        213,
+        213,
+        218,
+        218,
+        219,
+        221,
+        231,
+        233,
+        236,
+        241,
+        244
+      ],
+      "reproductionTurns": [
+        54,
+        67,
+        85,
+        100,
+        104,
+        117,
+        118,
+        127,
+        131,
+        148,
+        157,
+        160,
+        166,
+        167,
+        182,
+        182,
+        186,
+        194,
+        203,
+        209,
+        214,
+        216,
+        217,
+        229,
+        231,
+        234,
+        247,
+        250
+      ]
+    },
+    "tideparasite": {
+      "released": 14,
+      "establishedFromEggParent": 1,
+      "directChildrenReachedTerminal": 0,
+      "directChildrenReproduced": 0,
+      "releaseTurns": [
+        3,
+        3,
+        8,
+        8,
+        9,
+        9,
+        14,
+        14,
+        22,
+        22,
+        53,
+        53,
+        59,
+        59
+      ],
+      "establishmentTurns": [
+        63
+      ],
+      "reproductionTurns": []
+    }
+  },
+  "events": {
+    "primary-migration-failed//": 194,
+    "primary-invasion/middle/": 15,
+    "primary-established/middle/": 12,
+    "primary-release//": 14,
+    "primary-egg-attached//": 14,
+    "primary-transferring/first/": 44,
+    "primary-establishment-failed//establishment": 26,
+    "primary-exposure//invasion": 12,
+    "primary-egg-hatched//": 14,
+    "primary-transferring/middle/": 42,
+    "primary-transferred/middle/": 33,
+    "primary-clear//immunity": 8,
+    "primary-transferred/first/": 32,
+    "primary-transferring/terminal/": 4,
+    "primary-transferred/terminal/": 3,
+    "primary-clear//carrier-expired": 4,
+    "primary-invasion//": 2,
+    "primary-established/first/": 1,
+    "primary-clear//age": 8
+  },
+  "eggFlowTotals": {
+    "laid": 393,
+    "moved": 12,
+    "attached": 229,
+    "hatched": 218,
+    "expired": 156,
+    "lostHost": 0,
+    "failed": 123
+  },
+  "invariantFailures": 0,
+  "elapsedMs": 110709,
+  "limits": "One seed per map. Geography changes natural host/P/Q allocation and positions. Direct reproduction tracking excludes split descendants and releases occurring inside host-death callbacks. No survival-rate/500T certification."
+}

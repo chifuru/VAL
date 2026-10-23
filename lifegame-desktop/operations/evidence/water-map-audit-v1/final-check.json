@@ -1,0 +1,16 @@
+{
+  "source": "f7e1613",
+  "app": "4.2.76",
+  "additionalObservations": [
+    "lake 250T",
+    "wetland 250T"
+  ],
+  "reusedObservation": "river 250T from water-egg-range-v1",
+  "productSourcesUnchanged": true,
+  "priorSourceHashesMatch": true,
+  "manifestPassed": true,
+  "observerSyntaxPassed": true,
+  "nodeStructureAndDraftStatusUnchanged": true,
+  "initialPopulationAdjustmentApplied": false,
+  "limits": "Natural initial host/P/Q allocations differ between maps. No controlled founder-count comparison, survival-rate or 500T certification. No distribution."
+}

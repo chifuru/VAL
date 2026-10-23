@@ -6,6 +6,8 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在の確定ソースは4.2.76。新規世界の一次寄生卵設定/2は、25%/Tの移送頻度で連結水域の2マス以内へ移送する。量・寿命・付着・宿主表・Qと旧設定/1は維持。正本design/specification/primary-eggs-v1.md、限定証跡operations/evidence/water-egg-range-v1/README.md。卵モデル10/画面11項目。代表250Tで水系の卵由来定着6→8/終宿主到達2→3、終端は水系0。分散の拡大と長期生存改善を区別し、第一宿主以降の移行・終宿主更新を残件とする。設定UIの既存改善は保持。500T安定/全条件/Windows/配布は未認定。全61Nodeの草案・構造を維持。
 
+現在の水系調査: 河川1→0/湖沼2→19/湿地11→0（初期→250T）。湖沼の循環を確認したため水系全体の循環不成立とは判断しない。マップにより初期宿主/P/Q数・配置も変わる。初期6〜8群体を段階分散して揃える案は未試行・未採用。製品変更なし。証跡operations/evidence/water-map-audit-v1/README.md。
+
 ## A：仕様
 
 ```text
@@ -442,11 +444,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 	D8.2:（C7.5 / 寄生・高次寄生と情報）［草案］
 		構成（要素・関係）:
-			valis/nodes/D/D8.2.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
+			valis/nodes/D/D8.2.md。マップ調査: operations/evidence/water-map-audit-v1/README.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
 		ロジック:
 			卵の量保存・時計・占有・失敗・旧指紋・保存/Workerと既存P/Qを限定照合。代表100Tの戻りを追い、500T/全条件の安定判定とは分ける。
 		実態:
-			app4.2.76：新規世界の卵設定/2で連結水域の2マス以内へ非複製移送、頻度25%・寿命・付着・宿主表・Q維持。専用10/画面11項目。代表250Tで水系定着6→8/終宿主到達2→3、終端水系0。長期存続改善は未認定。旧設定/1維持、正式草案。
+			app4.2.76 / 水系マップ調査：河川1→0、湖沼2→19、湿地11→0（初期→250T）。湖沼で卵由来同IDの再放出6例、追加2条件の全T不変条件違反0。初期数と宿主/P/Q実配置も異なるため地形単独効果・500T安定は未認定。初期6〜8案は未試行。製品変更なし、正式草案。
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
@@ -495,11 +497,11 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 
 E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E5.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
+		valis/nodes/E/E5.md。マップ調査: operations/evidence/water-map-audit-v1/README.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。正本: design/specification/primary-eggs-v1.md。契約: operations/plans/primary-eggs-v1.md。証跡: operations/evidence/primary-eggs-v1/README.md。その他の現行責務は各Node参照。
 	ロジック:
 		モデル8/回帰19と旧4T指紋一致を保持。250Tで陸P10/水P1/Q9・再放出陸17/水2を記録し、P全体回復/長期安定/Windows/配布は認定しない。
 	実態:
-		app4.2.76：新規世界の卵設定/2で連結水域の2マス以内へ非複製移送、頻度25%・寿命・付着・宿主表・Q維持。専用10/画面11項目。代表250Tで水系定着6→8/終宿主到達2→3、終端水系0。長期存続改善は未認定。旧設定/1維持、正式草案。
+		app4.2.76 / 水系マップ調査：河川1→0、湖沼2→19、湿地11→0（初期→250T）。湖沼で卵由来同IDの再放出6例、追加2条件の全T不変条件違反0。初期数と宿主/P/Q実配置も異なるため地形単独効果・500T安定は未認定。初期6〜8案は未試行。製品変更なし、正式草案。
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:

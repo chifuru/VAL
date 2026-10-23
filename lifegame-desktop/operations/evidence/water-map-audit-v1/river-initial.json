@@ -1,0 +1,30 @@
+{
+  "habitat": {
+    "waterCells": 174,
+    "components": [
+      174
+    ]
+  },
+  "hosts": {
+    "first": {
+      "records": 8,
+      "infected": 1
+    },
+    "middle": {
+      "records": 30,
+      "members": 56,
+      "infected": 0
+    },
+    "terminal": {
+      "records": 12,
+      "infected": 0
+    }
+  },
+  "P": [
+    {
+      "stage": "first",
+      "host": "algae"
+    }
+  ],
+  "Q": 17
+}
