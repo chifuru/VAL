@@ -83,7 +83,7 @@ test('internal birth uses maturity 8T, pays child body/reserves and enforces 4T 
 test('partial age death uses exact cohort body and transfers its reserves once',()=>{
  const w=fixture(),o=group(w,'mixed',2,{age:10,E:2,M:.08,B:2.5});o.consumerGroup.cohorts=[{age:S.spec(o).life-1,phase:1,n:1,B:.5},{age:10,phase:1,n:1,B:2}];o.birthReady=100;
  ledger(w);const ctx=life(w);assert.equal(S.ConsumerGroup.count(o),1);near(o.B,2);assert.equal(o.consumerGroup.cohorts[0].age,11);assert.equal(ctx.deaths[0].count,1);
- const remains=w.cellState.nextMaterial.filter(r=>r.kind==='organic');near(remains.reduce((n,r)=>n+r.B,0),.5);conserved(w);
+ const remains=w.carcasses;near(remains.reduce((n,r)=>n+r.G,0),.5);conserved(w);
 });
 
 test('split moves exactly three real members into a legal new group; no merge, duplicated material or same-T chain',()=>{

@@ -33,12 +33,11 @@
       ctx.deaths.push({id:o.id,species:o.species,reason});
       // P/Q release/death hooks are connected in CR06, never cloned here.
     }
-    function retire(w,o,ctx){
+    function retire(w,o,ctx,N){
       const cohorts=o.consumerGroup.cohorts.slice();
       for(const c of cohorts)if(c.age+1>=S.spec(o).life&&c.n>0){
         const piece=S.CellLife.extract(w,o,c.n,"age",ctx,c.age);
-        S.CellSpace.deferMaterial(w,o.cell,{E:Q(piece.part.E+piece.part.B),M:Q(piece.part.M+piece.part.cellMatter.bodyM),B:piece.part.B});
-        preserveInfection(w,piece.part);
+        preserveInfection(w,piece.part);N.remains(w,piece.part,ctx);
         ctx.deaths.push({id:o.id,species:o.species,reason:"age",count:piece.n,partial:true});
       }
     }
@@ -69,9 +68,9 @@
     function addIndex(cells,o){if(!cells.has(o.cell))cells.set(o.cell,Array.from({length:6},()=>[]));cells.get(o.cell)[S.CellSpace.layer(o)].push(o);}
     function removeIndex(cells,o){const rows=cells.get(o.cell),n=S.CellSpace.layer(o);if(rows&&n!==null)rows[n]=rows[n].filter(a=>a.id!==o.id);}
     function child(w,ctx,N,o,cell,cells){
-      const low=o.cellLife.kind==="colony",body=low?2:4,base=low?1:2,E=low?.5:1,M=low?.025:.05;
+      const low=o.cellLife.kind==="colony",fungus=o.cellLife.kind==="fungus",body=fungus?1:low?2:4,base=fungus?1:low?1:2,E=fungus?.25:low?.5:1,M=fungus?.01:low?.025:.05;
       const born=S.organism(w,S.spec(o),cell,"cl:"+w.turn+":"+o.id,{phase:1,age:0,E:0,M:0,B:0,G:0,parents:[o.id],generation:o.generation+1,
-        dna:structuredClone(o.dna),birthReady:w.turn+(low?1:40),bornAt:w.turn});
+        dna:structuredClone(o.dna),birthReady:w.turn+(fungus?10:low?1:40),bornAt:w.turn});
       if(!N.commit(w,ctx,o,"birth/"+o.id,{bodyB:body,recipient:born,reserveE:E,reserveM:M}))return null;
       born.cellLife.baseB=base;born.cellMatter.newEdibleB=body-base;born.cellLife.bornAt=w.turn;born.cellLife.processedAt=w.turn;
       S.CellSpace.assign(w,born,{},cells);addIndex(cells,born);w.organisms.push(born);ctx.children.push(born);ctx.births.push(born.species);ctx.parents.add(o.id);
@@ -112,6 +111,9 @@
         for(const c of o.consumerGroup.cohorts)if(c.bornAt!==w.turn&&c.age>=8&&o.E>=.3*S.CellLife.bounds(o).capE)c.phase=2;
         o.phase=o.consumerGroup.cohorts.some(c=>c.phase===2)?2:1;return;
       }
+      if(o.cellLife.kind==="fungus"){
+        const eligible=o.B-(o.cellMatter.tissueAt===w.turn?o.cellMatter.newB||0:0);if(o.phase===1&&eligible>=2&&o.E>=.6)o.phase=2;return;
+      }
       if(o.cellLife.kind==="colony"){
         if(o.phase===1&&o.cellLife.maintained>=3&&o.E>=.3*S.CellLife.bounds(o).capE&&S.edibleB(o)>=2)o.phase=2;return;
       }
@@ -143,7 +145,7 @@
         const a=o.cellLife,b=ctx.cellResources.budgets.get(o.id),kind=a.kind;if(a.processedAt===w.turn)throw Error("CELL_LIFE_ALREADY_APPLIED");
         const established=a.maintained>=3;
         a.processedAt=w.turn;a.last={turn:w.turn,production:0,loss:0,born:0,split:0};
-        if(kind==="group")retire(w,o,ctx);
+        if(kind==="group")retire(w,o,ctx,N);
         else if(kind==="plant"&&o.age+1>=o.birthLife){death(w,o,ctx,"age");removeIndex(cells,o);continue;}
         if(o.HP<=0){removeIndex(cells,o);continue;}
         if(b.deficit>EPS){
@@ -151,24 +153,24 @@
             const g=o.consumerGroup;g.wounds=Q(g.wounds+2*b.maintenance.E*b.deficit);
             const unit=S.spec(o).capacity[3],loss=Math.min(S.ConsumerGroup.count(o),Math.floor((g.wounds+EPS)/unit));
             if(loss){const piece=S.CellLife.extract(w,o,loss,"starvation",ctx);preserveInfection(w,piece.part);
-              S.CellSpace.deferMaterial(w,o.cell,{E:Q(piece.part.E+piece.part.B),M:Q(piece.part.M+piece.part.cellMatter.bodyM),B:piece.part.B});
+              N.remains(w,piece.part,ctx);
               ctx.deaths.push({id:o.id,species:o.species,reason:"starvation",count:piece.n,partial:true});g.wounds=Q(Math.max(0,g.wounds-loss*unit));}
             o.HP=Q(Math.max(0,unit*S.ConsumerGroup.count(o)-g.wounds));
           }else{
-            const leaves=remaining(w,o),loss=Q((leaves>EPS?Math.min(leaves,1):Math.min(a.baseB,kind==="colony"?.1:.05))*b.deficit);
+            const leaves=remaining(w,o),loss=Q((leaves>EPS?Math.min(leaves,kind==="fungus"?.4:1):Math.min(a.baseB,kind==="fungus"?.4:kind==="colony"?.1:.05))*b.deficit);
             discard(w,o,loss);if(leaves<=EPS)a.baseB=Q(Math.max(0,a.baseB-loss));
             if(a.baseB<=EPS)death(w,o,ctx,"starvation");
           }
         }else{
           if(kind==="colony")a.maintained=Math.min(1e12,a.maintained+1);
-          const mature=kind==="group"?o.consumerGroup.cohorts.some(c=>c.age>=8&&c.bornAt!==w.turn):kind==="colony"?established:S.CellLife.age(o).mature;
+          const mature=kind==="group"?o.consumerGroup.cohorts.some(c=>c.age>=8&&c.bornAt!==w.turn):kind==="colony"?established:kind==="fungus"?o.B-(o.cellMatter.tissueAt===w.turn?o.cellMatter.newB||0:0)>=2:S.CellLife.age(o).mature;
           const ready=mature&&o.birthReady<=w.turn&&!ctx.records.get(o.id)?.moved,
             candidate=kind==="group"?S.ConsumerGroup.count(o)<8:sites(w,o,cells)[0]!==undefined,
-            cost=kind==="group"?{E:.85,M:.02}:kind==="colony"?{E:2.9,M:.065}:{E:5.8,M:.13};
+            cost=kind==="group"?{E:.85,M:.02}:kind==="fungus"?{E:1.45,M:.03}:kind==="colony"?{E:2.9,M:.065}:{E:5.8,M:.13};
           if(ready&&candidate)N.reserve(w,ctx,o,"birth/"+o.id,cost);
           const bounds=S.CellLife.bounds(o),missing=kind==="group"?o.consumerGroup.cohorts.reduce((n,c)=>n+(c.bornAt===w.turn?0:Math.min(.25*c.n,2*c.n-c.B)),0):Math.max(0,bounds.base+bounds.edible-o.B);
           const needBase=kind==="group"?0:Math.max(0,bounds.base-a.baseB);
-          form(w,ctx,N,o,Math.min(missing,bounds.growth*S.CellLife.age(o).production),needBase);
+          form(w,ctx,N,o,Math.min(missing,bounds.growth*S.CellLife.age(o).production*(kind==="colony"||kind==="plant"?1-.05*S.clamp(w.cellState.decayLoad[o.cell]||0,0,1):1)),needBase);
           if(b.tickets.get("birth/"+o.id)?.state==="reserved"){
             if(kind==="group")internalBirth(w,ctx,N,o);
             else{const cell=sites(w,o,cells)[0];if(cell!==undefined)child(w,ctx,N,o,cell,cells);else N.cancel(w,ctx,o,"birth/"+o.id);}

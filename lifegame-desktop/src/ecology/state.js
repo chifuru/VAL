@@ -104,6 +104,8 @@
         return {region:water?"water":"land",temperature:s.temperature,pH,
           plantTemperature:curve(s.temperature,[[-5,0],[5,.5],[15,1],[25,1],[35,.5],[45,0]]),
           plantPH:curve(pH,[[3.5,0],[4.5,.5],[5.5,1],[7.5,1],[8.5,.5],[9.5,0]]),
+          fungalTemperature:curve(s.temperature,[[-10,0],[5,.2],[20,1],[30,1],[45,0]]),
+          fungalPH:curve(pH,[[2,0],[4,.6],[6.5,1],[8,.7],[11,0]]),
           soilQuality:s.soilQuality,lightBudget:H.round(15.6*t.light*s.lightScale),
           mineralInitial:water?null:levels[s.mineralLevel][0],mineralCapacity:water?null:H.round(levels[s.mineralLevel][1]*s.soilQuality),
           mineralInput:water?null:s.mineralInput,
@@ -112,7 +114,7 @@
       });
       w.cellProfiles={version:VERSION,profiles};
       w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?null:15),
-        decayLoad:profiles.map(()=>0),nextMaterial:[],organic:[],resourceTurn:0};
+        decayLoad:profiles.map(()=>0),nextMaterial:[],organic:[],resourceTurn:0,backgroundTurn:0};
       for(let cell=0;cell<w.tiles.length;cell++)if(profiles[cell].region==="land")w.tiles[cell].soilM=profiles[cell].mineralInitial;
       for(const o of w.organisms)CellLife.attach(w,o);
       const cells=new Map();
@@ -301,10 +303,10 @@ return {settings,attach,region,level,factor,begin,finish};
   const CellLife=(()=>{
     const VERSION="cell-life/1",Q=H.round,EPS=1e-8;
     const is=o=>o?.cellLife?.version===VERSION;
-    const kind=o=>spec(o).group==="prey"?"group":CellSpace.layer(o)===1?"colony":CellSpace.layer(o)===2?"plant":null;
+    const kind=o=>spec(o).group==="fungus"?"fungus":spec(o).group==="prey"?"group":CellSpace.layer(o)===1?"colony":CellSpace.layer(o)===2?"plant":null;
     function attach(w,o,options={}){
       const k=kind(o);if(!CellSpace.enabled(w)||!k||is(o))return o;
-      o.cellLife={version:VERSION,kind:k,baseB:k==="colony"?Math.min(2,o.B):k==="plant"?Math.min(2*o.phase,o.B):0,
+      o.cellLife={version:VERSION,kind:k,baseB:k==="fungus"?Math.min(1,o.B):k==="colony"?Math.min(2,o.B):k==="plant"?Math.min(2*o.phase,o.B):0,
         maintained:0,leafDebt:0,bornAt:w.turn,processedAt:-1,last:{turn:w.turn,production:0,loss:0,born:0,split:0}};
       if(k==="group"){
         if(!ConsumerGroup.is(o))o.consumerGroup={version:"consumer-group-state/1",establishedAt:w.turn,origin:null,
@@ -314,6 +316,7 @@ return {settings,attach,region,level,factor,begin,finish};
         delete o.birthLife;
       }else if(k==="plant")o.birthLife=Math.round(600*(.9+.2*r(w,"cell/plant-life",0,o.id)));
       else delete o.birthLife;
+      if(k==="fungus"&&!Object.hasOwn(options,"birthReady"))o.birthReady=w.turn+10;
       const p=phenotype(w,o);
       // Explicit fixture/birth stocks are caller-owned; initial default stocks
       // use the new caps before the world's initial ledger is established.
@@ -323,7 +326,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     function bounds(o,phase=o.phase){
       const k=o.cellLife.kind,n=k==="group"?ConsumerGroup.count(o):1;
-      return k==="group"?{base:0,edible:2*n,growth:.25*n,capE:2*n,capM:.05*n,E:.05*n,M:.001*n,cooldown:4}:
+      return k==="fungus"?{base:1,edible:3,growth:.25,capE:2,capM:.1,E:.1,M:.005,cooldown:10}:k==="group"?{base:0,edible:2*n,growth:.25*n,capE:2*n,capM:.05*n,E:.05*n,M:.001*n,cooldown:4}:
         k==="colony"?{base:2,edible:20,growth:2,capE:4,capM:.2,E:.2,M:.01,cooldown:1}:
         {base:2*phase,edible:10*phase,growth:phase,capE:6+1.5*phase,capM:.3+.075*phase,E:.2+.05*phase,M:.01+.0025*phase,cooldown:[0,40,32,24,20][phase]};
     }
@@ -334,7 +337,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     function upkeep(o){
       const p=bounds(o),k=o.cellLife.kind,a=age(o),base=o.cellLife.baseB;
-      const ratio=k==="group"?1:.25*Math.min(1,base/p.base)+.75*Math.min(1,Math.max(0,o.B-base)/p.edible);
+      const ratio=k==="group"?1:k==="fungus"?Math.min(1,o.B/4):.25*Math.min(1,base/p.base)+.75*Math.min(1,Math.max(0,o.B-base)/p.edible);
       const branch=o.phase===4&&o.branch3===0?(o.branch4===0?1.1:.8):1;
       return {E:Q(p.E*ratio*a.maintenance*(k==="plant"?branch:1)),M:Q(p.M*ratio*a.maintenance)};
     }
@@ -344,7 +347,7 @@ return {settings,attach,region,level,factor,begin,finish};
         baseMaxHP:s.capacity[3]*n,maintenance:maintenance.E,baseMaintenance:maintenance.E,maintenanceM:maintenance.M,
         life:k==="plant"?o.birthLife:s.life,sense:1,speed:k==="group"?1:0,range:1,cooldown:p.cooldown*(k==="plant"&&phase===4&&o.branch3===1?(branch===0?1.5:.75):1),baseCooldown:p.cooldown,M3:0,M4:0,
         members:n,ageEnabled:k==="plant",ageStage:a.stage,ageFactors:{...ageFactors.adult,light:a.production,maintenance:a.maintenance},
-        lightInput:k==="group"?0:(s.lightInput??4)*(k==="plant"&&phase===4&&o.branch3===0&&branch===0?1.2:1),surface:Math.max(0,o.B-o.cellLife.baseB),
+        lightInput:["group","fungus"].includes(k)?0:(s.lightInput??4)*(k==="plant"&&phase===4&&o.branch3===0&&branch===0?1.2:1),surface:Math.max(0,o.B-o.cellLife.baseB),
         regenerationFactor:a.production*(k==="plant"&&phase===4&&o.branch3===2&&branch===1?1.2:1),biteFactor:k==="plant"&&phase===4&&o.branch3===2&&branch===0?.8:1};
     }
     // Extract exact selected cohort body, proportional free stores and bound M.
@@ -375,7 +378,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     function validate(o){
       const a=o.cellLife,finite=n=>Number.isFinite(n)&&n>=0;if(!is(o))return true;
-      if(!["colony","plant","group"].includes(a.kind)||![a.baseB,a.maintained].every(finite)||a.baseB>o.B+EPS||!o.cellMatter)return false;
+      if(!["colony","plant","group","fungus"].includes(a.kind)||![a.baseB,a.maintained].every(finite)||a.baseB>o.B+EPS||!o.cellMatter)return false;
       if(a.kind==="group")return ConsumerGroup.count(o)<=8&&o.consumerGroup.cohorts.every(c=>Number.isInteger(c.age)&&c.age>=0&&[1,2].includes(c.phase)&&Number.isInteger(c.n)&&c.n>0&&finite(c.B)&&c.B<=2*c.n+EPS)&&Math.abs(o.B-o.consumerGroup.cohorts.reduce((n,c)=>n+c.B,0))<1e-5;
       return a.baseB<=bounds(o).base+EPS&&o.B-a.baseB<=bounds(o).edible+EPS;
     }

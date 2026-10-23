@@ -381,12 +381,13 @@
   }
   function cellLife(w,ctx,otherMaintenance=new Map()){
     N.payActions(w,ctx);
+    N.CellResources.resolveDeaths(w,ctx);
     const demand=N.CellResources.lifeDemands(w,ctx);
     const maintenance=new Map([...otherMaintenance,...demand.maintenance]);
     for(const o of w.organisms)if(o.HP>0&&!maintenance.has(o.id))throw Error("CELL_LIFE_MAINTENANCE_UNCONNECTED:"+o.id);
     N.CellResources.acquire(w,ctx,demand.requests,demand.canopies);
     N.CellResources.settleBudgets(w,ctx,maintenance);
-    R.CellLife.advance(w,ctx,N.CellResources,B.moveCost);return demand;
+    R.CellLife.advance(w,ctx,N.CellResources,B.moveCost);N.CellResources.background(w,ctx);return demand;
   }
   function finish(w, ctx) {
     if(S.PersistentInformation?.enabled(w))w.persistentInformationSummary=S.PersistentInformation.summary(w);
@@ -643,12 +644,12 @@
         )
       )
         errors.push("BUDGET:" + o.id);
-      if(w.config.ageModel==="life/1"&&!S.Colony.is(o)&&!S.FungalColony.is(o)&&!S.ConsumerGroup.is(o)){
+      if(w.config.ageModel==="life/1"&&(!S.CellLife.is(o)||o.cellLife.kind==="plant")&&!S.Colony.is(o)&&!S.FungalColony.is(o)&&!S.ConsumerGroup.is(o)){
         if(!Number.isFinite(o.birthLife)||o.birthLife<=0)errors.push("AGE_BASIS:"+o.id);
         else if(o.HP>S.phenotype(w,o).maxHP+.000001)errors.push("AGE_HP:"+o.id);
       }
       if(S.ConsumerGroup.is(o)&&!S.ConsumerGroup.validate(w,o))errors.push("CONSUMER_GROUP:"+o.id);
-      if(S.FungalColony.is(o)){const c=o.colony;
+      if(S.FungalColony.is(o)&&!S.CellLife.is(o)){const c=o.colony;
         if(!S.FungalColony.enabled(w)||o.B<c.baseB-1e-6||S.edibleB(o)>c.capacityB+1e-6||c.baseB!==1||c.activity<0||c.activity>1||!Number.isSafeInteger(c.starvationRun)||c.starvationRun<0||![c.capacityB,c.activity,...Object.values(c.last),...Object.values(c.cumulative)].every(n=>Number.isFinite(n)&&n>=0))errors.push("FUNGAL_COLONY:"+o.id);
       }
       if(S.Colony.is(o)&&!S.CellLife.is(o)){

@@ -1,0 +1,26 @@
+{
+  "baseline": "1752920",
+  "signature": "61f501ffbc3f0556fe3ffbb5b187060bdc884dc2e6fd311edd1809d303d39147",
+  "files": {
+    "src/ecology/state.js": "3003c02796e19a91710fef091d1ebbc7d251923e618bb5ace489af051b6060c4",
+    "src/ecology/nutrition.js": "613af19515769211d0fd5feaead4392d8c0aee680c37110bdbf8a951ab9a51ad",
+    "src/ecology/behavior.js": "5de563f34d24f6ca1f34433ecdbb41c1696f17b7250fef3f3f229207987f35c3",
+    "src/ecology/reproduction.js": "4dc85cafacdc121bd99794019f56df6ac7ff6b54fb8a10a9fb9affb36722369d",
+    "src/ecology/engine.js": "0eb9ba6560f215bbd9bf38efa1154f8f4335dc47df922e4dd80ef842d1c6f13c",
+    "src/ecology/archive.js": "1c304129bbad43929c5649396204b819637e9bb2b82caf3bf2558f741c3b20f1",
+    "src/ecology/observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+    "src/ecology/observation-modules.js": "fa036c9cee664f5244c3d9bc2972ea4c2408f90bd27c278cc90bf3eeae71609a",
+    "src/ecology/replay-version.js": "b68fa242514929feb302c88963fe1e4963157c7a22fbd74be8f045e835f96516",
+    "src/ecology/transport.js": "dec3f1fc20a92f5af450ed9705c251e1af08b69c89b193f28221fd9b944effd0",
+    "tests/cell-circulation.test.cjs": "c55808bc7f991720ed90995976b12bd291f71e5bc7aaef75b8099508cdc180a9",
+    "tests/cell-life-cycle.test.cjs": "0b520afb3fd47c60558cc8aa67bed18d9ff1c568fce514dbd95205f96ca794eb",
+    "tests/cell-space.test.cjs": "c2bcf298843529fc254f8f8e7da468429dbb4642231fcd6ed5ccceae974130fa",
+    "tests/cell-movement.test.cjs": "1681895e04c71bbb094928e787b63742eebbd8d4e6d4aa108eaf82706712144a",
+    "tests/cell-resources.test.cjs": "02aa8bf488d8353f733bacedec0cab423fef17a19f9dad7ce4d857ff5ad6c1ec",
+    "design/advantage-switches/model.cjs": "67e5c8851891be3b4a5a0c0003853263e3706d4c1cd16f89c00c24d4f2c1fb28",
+    "tools/build-observation-model.cjs": "86973960daebd2b6db60ae8edad28770fde76542ce308ec6aa2ef7f6129c28ab",
+    "tools/update-replay-version.cjs": "245ff73678b1fb5ce1068220a9653c4e9d2bc99ab31417950c7f2b236aae593a",
+    "operations/plans/cell-circulation-v1.md": "89ca850eb557151b03ac28b3b91f0cb491aca8cb745fba9a972b3eeac2f4a6f2",
+    "design/implementation/cell-reorganization-v1.md": "c3e46107e68bef5ee615e990e37b377bd72f2645b512224f10e79a872ce22c01"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "scope": "CR05 internal decomposers, finite remains and next-turn nutrient circulation",
+  "baseline": "1752920",
+  "nodes": 61,
+  "updatedNodes": [
+    "C7.1",
+    "C7.2",
+    "C7.4",
+    "C7",
+    "C8.2",
+    "D7",
+    "D8.1",
+    "D8",
+    "E5"
+  ],
+  "coreUnchanged": true,
+  "ABUnchanged": true,
+  "formalStateAndGraphUnchanged": true,
+  "manifestHasExactlyOneEntryPerNode": true,
+  "packageUnchanged": true,
+  "tests": {
+    "cell-circulation": {
+      "passed": 21,
+      "failed": 0
+    },
+    "cell-life-cycle": {
+      "passed": 18,
+      "failed": 0
+    },
+    "cell-resources": {
+      "passed": 20,
+      "failed": 0
+    },
+    "cell-movement": {
+      "passed": 13,
+      "failed": 0
+    },
+    "cell-space": {
+      "passed": 8,
+      "failed": 0
+    }
+  },
+  "totalPassed": 80,
+  "shortCirculationIntegrationTurns": 12,
+  "generated": {
+    "profiles": 8,
+    "uniqueModules": 22,
+    "bytes": 1904297,
+    "check": "pass"
+  },
+  "notVerified": [
+    "aquatic supply/bed profiles and freshwaterlight life",
+    "mobile low-plant species selection and rare colony migration",
+    "regeneration branch dedicated modifier",
+    "CR06 complete combat/parasites/information/UI/archive integration",
+    "full new turn/500T/R1-R6",
+    "UI/Windows/performance"
+  ],
+  "next": "CR06 and documented CR04 remainders"
+}
