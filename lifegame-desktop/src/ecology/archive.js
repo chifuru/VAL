@@ -32,7 +32,11 @@
  const primaryEggBuildSignature='349210f099401ba560b23589c31eb7070dfd30f2eb3bda765146f3492b3b27fe';
  const waterEggSpreadBuildSignature='37ea035eae30eeb8b191c11b5498b721b5e37bf7aca8e9f8607402d8afc5cdb1';
  const waterFounderBuildSignature='b09086493b04bf56a7b587e433713c2f8d4c0f06522e59207207185eebb9cfb2';
+ const cellFoundationBuildSignature='aac01593711800f3988c78e524093a147eae6761c7d823332a022680673aa855';
  function canonicalSignature(s,config){
+  // New cell worlds must never acquire a legacy replay alias.
+  if(config.cellModel!==undefined)return s;
+  if(s===cellFoundationBuildSignature)s=waterFounderBuildSignature;
   if(s===waterFounderBuildSignature&&config.primaryParasiteSettings?.version!=='primary-parameters/2')s=waterEggSpreadBuildSignature;
   if(s===waterEggSpreadBuildSignature&&config.primaryEggSettings?.version!=='primary-egg-parameters/2')s=primaryEggBuildSignature;
   if(s===primaryEggBuildSignature&&config.primaryEggModel===undefined&&config.primaryEggSettings===undefined)s=moderateGrassBuildSignature;
@@ -61,7 +65,7 @@
    ? "8d7f6fbd94128cebf77ab6032098e09a432bc13d8cb2552222b0546971e84745" : equivalentReplaySignatures[s]||s;
  }
  const terminalDefinition='ecosystem-terminal-state/1',sampleLimit=4;
- const modelKeys=['consumerModel','balanceModel','relationshipModel','generationModel','producerModel','largePlantModel','ryoukiModel','primaryParasiteModel','hyperParasiteModel','parasiteCohortModel','parasiteDispersalModel','primaryEggModel','informationModel','socialRenewalModel'];
+ const modelKeys=['consumerModel','balanceModel','relationshipModel','generationModel','producerModel','largePlantModel','ryoukiModel','primaryParasiteModel','hyperParasiteModel','parasiteCohortModel','parasiteDispersalModel','primaryEggModel','informationModel','socialRenewalModel','cellModel'];
  const sampleKeys=['organisms','colonies','independentPlants','ryouki','primaryParasites','hyperParasites','informationField','informationSubjects'];
  const pick=(o,keys)=>Object.fromEntries(keys.filter(k=>o?.[k]!==undefined).map(k=>[k,structuredClone(o[k])]));
  function same(a,b){if(Object.is(a,b))return true;if(!a||!b||typeof a!=='object'||typeof b!=='object'||Array.isArray(a)!==Array.isArray(b))return false;const keys=Object.keys(a);return keys.length===Object.keys(b).length&&keys.every(k=>Object.hasOwn(b,k)&&same(a[k],b[k]));}
@@ -165,6 +169,7 @@
     return record;
   }
   function capture(world,reason,observation,originRecordId=null){
+    if(world.config.cellModel!==undefined)throw Error('CELL_MODEL_INCOMPLETE: マス再編は基盤段階のため図鑑への結果保存はまだできません。');
     if(world.config.balanceModel!==undefined&&!['survival/1','survival/2','survival/3','survival/4'].includes(world.config.balanceModel))throw Error('生存調整の観測方式を読み取れません。');
     const relationModel=world.config.relationshipModel;
     if(relationModel!==undefined&&relationModel!=='network/1')throw Error('関係図の観測方式を読み取れません。');

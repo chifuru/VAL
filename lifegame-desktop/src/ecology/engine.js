@@ -477,6 +477,7 @@
     return w;
   }
   function beginTurn(previous, options = {}) {
+    if(S.CellSpace.enabled(previous))throw Error("CELL_MODEL_INCOMPLETE: マス再編は占有基盤までです。通常観察にはまだ接続していません。");
     let w = structuredClone({...previous,tiles:undefined,observation:undefined,diagnostics:undefined}), stage = 0, cancelled = false, failed = false;
     // Prior telemetry is read-only until finish replaces it; do not clone it every turn.
     if(Object.hasOwn(previous,"observation"))w.observation=previous.observation;else delete w.observation;
@@ -600,12 +601,15 @@
       producer = new Set(),
       ids = new Set(),
       resourceKinds = new Map();
+    if(S.CellSpace.enabled(w))errors.push(...S.CellSpace.validate(w));
     if(S.PrimaryParasite?.enabled(w))errors.push(...S.PrimaryParasite.validate(w));
     if(S.HyperParasite?.enabled(w))errors.push(...S.HyperParasite.validate(w));
     if(S.PersistentInformation?.enabled(w))errors.push(...S.PersistentInformation.validate(w));
     for (const o of w.organisms) {
       const occupied = o.slot === "main" ? main : food;
-      if(o.slot === "producer"){
+      if(S.CellSpace.enabled(w)){
+        // New layers are checked together by CellSpace, not the legacy food slot.
+      }else if(o.slot === "producer"){
         if(producer.has(o.cell))errors.push("SLOT_DUPLICATE:"+o.id);
         producer.add(o.cell);
       }else{
@@ -666,7 +670,7 @@
         }
       }
     }
-    if(S.Ryouki.enabled(w))for(const list of S.maps(w).mainByCell.values())if(list.length>1&&
+    if(S.Ryouki.enabled(w)&&!S.CellSpace.enabled(w))for(const list of S.maps(w).mainByCell.values())if(list.length>1&&
       (list.length>3||list.some(o=>!S.Ryouki.is(o)||!o.ryouki.mutated)))errors.push("SLOT_DUPLICATE:"+list.map(o=>o.id).join(","));
     if(S.PrimaryParasite?.enabled(w)){
       for(const carrier of [...w.organisms,...w.carcasses,...w.pending]){

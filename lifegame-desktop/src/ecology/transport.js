@@ -9,6 +9,7 @@
     const primaryLists=initial.config?.primaryParasiteModel==='primary/1'?[...baseLists,'primaryInocula']:baseLists;
     const hyperLists=initial.config?.hyperParasiteModel==='hyper/1'?[...primaryLists,'searchQ','hyperInocula']:primaryLists;
     const lists=initial.config?.informationModel==='persistent/1'?[...hyperLists,'informationField']:hyperLists;
+    const fixed=new Set(['config','tiles','events',...(initial.config?.cellModel==='cell-reorganization/1'?['cellProfiles']:[])]);
     const signatures=new Map(lists.map(name=>[name,new Map(initial[name].map(row=>[key(name,row),{values:copy(row),stamp:0}]))]));
     const soil=Float64Array.from(initial.tiles,t=>t.soilM),orders=new Map(lists.map(name=>[name,initial[name].map(row=>key(name,row))]));let stamp=0;
     return function encode(w,final=false){
@@ -25,7 +26,7 @@
         patch.lists[name]={changed,updates,order:ordered?null:order};if(!ordered)orders.set(name,order);
       }
       for(let i=0;i<w.tiles.length;i++)if(w.tiles[i].soilM!==soil[i]){soil[i]=w.tiles[i].soilM;patch.soil.push([i,soil[i]]);}
-      if(final){patch.meta={};for(const k of Object.keys(w))if(!lists.includes(k)&&!['config','tiles','events'].includes(k))patch.meta[k]=w[k];}
+      if(final){patch.meta={};for(const k of Object.keys(w))if(!lists.includes(k)&&!fixed.has(k))patch.meta[k]=w[k];}
       else patch.meta={turn:w.turn,diagnostics:null};return patch;
     };
   }

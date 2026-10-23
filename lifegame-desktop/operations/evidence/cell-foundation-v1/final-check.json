@@ -1,0 +1,38 @@
+{
+  "scope": "CR01 foundation only",
+  "nodes": 61,
+  "updatedNodes": [
+    "C7.1",
+    "C7.2",
+    "C7",
+    "C8.2",
+    "D7",
+    "E5"
+  ],
+  "coreUnchanged": true,
+  "ABUnchanged": true,
+  "formalStateAndGraphUnchanged": true,
+  "manifestHasExactlyOneEntryPerNode": true,
+  "packageUnchanged": true,
+  "tests": {
+    "cell-space": {
+      "passed": 8,
+      "failed": 0
+    }
+  },
+  "generated": {
+    "profiles": 8,
+    "uniqueModules": 22,
+    "bytes": 1711862,
+    "check": "pass"
+  },
+  "notVerified": [
+    "new biology",
+    "CR02 movement and arbitration",
+    "CR03 allocation and budgets",
+    "new archive/UI integration",
+    "500T",
+    "Windows"
+  ],
+  "next": "CR02"
+}

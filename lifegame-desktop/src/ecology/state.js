@@ -12,6 +12,138 @@
   else root.EcoState = api;
 })(globalThis, function (H, D, Landscape) {
   "use strict";
+  // CR01: shared state/space contract. Biological progression is connected later.
+  const CellSpace=(()=>{
+    const VERSION="cell-reorganization/1",limits=Object.freeze({1:6,2:3,3:5,4:5,5:6});
+    const enabled=w=>w?.config?.cellModel===VERSION;
+    function settings(input={}){
+      const defaults={soilQuality:1,temperature:20,landPH:6.5,waterPH:7};
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: マス環境設定");
+      const s={...defaults,...input};
+      if(![.75,1,1.25].includes(s.soilQuality)||!Number.isFinite(s.temperature)||
+        ![s.landPH,s.waterPH].every(n=>Number.isFinite(n)&&n>=0&&n<=14))throw Error("SETTINGS_INVALID: マス環境設定");
+      return s;
+    }
+    function layer(o){
+      const s=spec(o);if(!s)return null;
+      if(s.group==="main"||s.id==="freshwaterlight")return 4;
+      if(s.group==="plant")return LargePlant.definition(s)?2:1;
+      return s.group==="prey"?3:s.group==="fungus"?5:null;
+    }
+    const packed=o=>o.species==="ryouki"&&Ryouki.is(o)&&o.ryouki.mutated;
+    const living=o=>o.HP>0;
+    function index(w){
+      const cells=new Map();
+      for(const o of w.organisms){const n=layer(o);if(n===null||!living(o))continue;
+        if(!cells.has(o.cell))cells.set(o.cell,Array.from({length:6},()=>[]));cells.get(o.cell)[n].push(o);}
+      return cells;
+    }
+    function slotFor(o,list,state,requested){
+      const residents=new Map();let moving=0;
+      for(const other of list){if(other.id===o.id)continue;
+        const a=other.cellOccupancy;
+        if(a?.state==="moving"){moving++;continue;}
+        if(!a||a.state!=="settled"||!Number.isInteger(a.slot)||a.slot<0||a.slot>2)return null;
+        if(!residents.has(a.slot))residents.set(a.slot,[]);residents.get(a.slot).push(other);
+      }
+      if(state==="moving")return residents.size+moving<5?-1:null;
+      if(state!=="settled")return null;
+      const candidates=requested===undefined?[0,1,2]:[requested];
+      for(const n of candidates){
+        if(!Number.isInteger(n)||n<0||n>2)continue;
+        const group=residents.get(n)||[];
+        if(!group.length){if(residents.size+moving<5)return n;}
+        else if(packed(o)&&group.length<3&&group.every(packed))return n;
+      }
+      return null;
+    }
+    function room(w,o,cell,{state="settled",slot}={},cells=index(w)){
+      if(!enabled(w)||!Number.isSafeInteger(cell)||!w.tiles[cell]||w.tiles[cell].blocked)return false;
+      const n=layer(o);if(n===null||!living(o))return false;
+      const list=cells.get(cell)?.[n]||[];
+      return n===4?slotFor(o,list,state,slot)!==null:list.filter(a=>a.id!==o.id).length<limits[n];
+    }
+    function assign(w,o,{state="settled",slot}={},cells=index(w)){
+      if(!room(w,o,o.cell,{state,slot},cells))throw Error("CELL_SPACE_FULL: "+o.id);
+      if(layer(o)===4){const n=slotFor(o,cells.get(o.cell)?.[4]||[],state,slot);
+        o.cellOccupancy={version:VERSION,state,...(n>=0?{slot:n}:{})};}
+      return o;
+    }
+    function initialize(w){
+      if(!enabled(w))return w;
+      if(w.turn!==0||w.cellState!==undefined||w.cellProfiles!==undefined)throw Error("CELL_STATE_EXISTS: マス状態は初期化済みか初期時点ではありません");
+      const s=w.config.cellSettings,profiles=w.tiles.map(t=>{
+        const water=["shallow","deep"].includes(t.terrain);
+        return {region:water?"water":"land",temperature:s.temperature,pH:water?s.waterPH:s.landPH,
+          soilQuality:s.soilQuality,lightBudget:H.round(15.6*t.light),mineralCapacity:H.round(20*s.soilQuality),
+          // Aquatic supply coefficients are deliberately not copied from land.
+          waterCapacity:water?null:H.round(30*s.soilQuality),rain:water?null:6.5,evaporation:water?null:.5};
+      });
+      w.cellProfiles={version:VERSION,profiles};
+      w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?null:15),
+        decayLoad:profiles.map(()=>0),nextMaterial:[]};
+      const cells=new Map();
+      for(const o of w.organisms){const n=layer(o);if(n===null||!living(o))continue;
+        assign(w,o,{},cells);if(!cells.has(o.cell))cells.set(o.cell,Array.from({length:6},()=>[]));cells.get(o.cell)[n].push(o);}
+      return w;
+    }
+    function stock(w,cell){
+      if(!enabled(w)||w.cellState?.version!==VERSION||!w.tiles[cell])throw Error("CELL_STATE_MISSING");
+      // soilM remains the only mineral owner; this is a read-only value view.
+      return {water:w.cellState.water[cell],mineral:w.tiles[cell].soilM};
+    }
+    function summary(w){
+      if(!enabled(w))return null;
+      const out={version:VERSION,layers:{1:0,2:0,3:0,4:0,5:0},settledIndividuals:0,settledSlots:0,movingIndividuals:0,consumerMembers:0};
+      for(const rows of index(w).values()){
+        for(let n=1;n<=5;n++)out.layers[n]+=rows[n].length;
+        out.settledSlots+=new Set(rows[4].filter(o=>o.cellOccupancy?.state==="settled").map(o=>o.cellOccupancy.slot)).size;
+        out.settledIndividuals+=rows[4].filter(o=>o.cellOccupancy?.state==="settled").length;
+        out.movingIndividuals+=rows[4].filter(o=>o.cellOccupancy?.state==="moving").length;
+        out.consumerMembers+=rows[3].reduce((n,o)=>n+(o.consumerGroup?.cohorts?.reduce((m,c)=>m+c.n,0)??1),0);
+      }
+      return out;
+    }
+    function validate(w){
+      if(!enabled(w))return [];
+      const errors=[],a=w.cellState,p=w.cellProfiles,n=w.tiles.length,finite=x=>Number.isFinite(x)&&x>=0;
+      if(a?.version!==VERSION||a.stage!=="foundation"||p?.version!==VERSION||!Array.isArray(p.profiles)||p.profiles.length!==n||
+        !Array.isArray(a.water)||a.water.length!==n||!Array.isArray(a.decayLoad)||a.decayLoad.length!==n||!Array.isArray(a.nextMaterial))return ["CELL_STATE"];
+      for(let cell=0;cell<n;cell++){
+        const f=p.profiles[cell];
+        if(!f||!Number.isFinite(f.temperature)||!finite(f.pH)||f.pH>14||![.75,1,1.25].includes(f.soilQuality)||
+          !finite(f.lightBudget)||!finite(f.mineralCapacity)||!["land","water"].includes(f.region)||
+          (f.region==="water"?(a.water[cell]!==null||f.waterCapacity!==null||f.rain!==null||f.evaporation!==null):
+            (!finite(f.waterCapacity)||!finite(f.rain)||!finite(f.evaporation)||!finite(a.water[cell])||a.water[cell]>f.waterCapacity))||
+          !finite(a.decayLoad[cell])||!finite(w.tiles[cell].soilM))errors.push("CELL_STOCK:"+cell);
+      }
+      const seen=new Set();
+      for(const o of w.organisms){
+        if(typeof o.id!=="string"||!o.id||seen.has(o.id))errors.push("CELL_ID:"+o.id);seen.add(o.id);
+        if(!Number.isSafeInteger(o.cell)||!w.tiles[o.cell])errors.push("CELL_LOCATION:"+o.id);
+        if(layer(o)===4&&living(o)){const c=o.cellOccupancy;
+          if(c?.version!==VERSION||!["moving","settled"].includes(c.state)||
+            (c.state==="settled"?(!Number.isInteger(c.slot)||c.slot<0||c.slot>2):Object.hasOwn(c,"slot")))errors.push("CELL_OCCUPANCY:"+o.id);}
+        if(layer(o)===3&&o.consumerGroup){const count=o.consumerGroup.cohorts?.reduce((n,c)=>n+c.n,0);
+          if(!Number.isSafeInteger(count)||count<1||count>8)errors.push("CELL_MEMBERS:"+o.id);}
+      }
+      for(const [cell,rows]of index(w)){
+        for(const layer of [1,2,3,5])if(rows[layer].length>limits[layer])errors.push("CELL_LIMIT:"+cell+":"+layer);
+        const groups=new Map();let moving=0;
+        for(const o of rows[4]){const c=o.cellOccupancy;if(c?.state==="moving"){moving++;continue;}
+          if(!groups.has(c?.slot))groups.set(c?.slot,[]);groups.get(c?.slot).push(o);}
+        if(groups.size>3||groups.size+moving>5)errors.push("CELL_MAIN_LIMIT:"+cell);
+        for(const list of groups.values())if(list.length>3||(list.length>1&&!list.every(packed)))errors.push("CELL_PACK:"+cell);
+      }
+      const ids=new Set();for(const r of a.nextMaterial){
+        if(!r||typeof r.id!=="string"||!r.id||ids.has(r.id)||!Number.isSafeInteger(r.cell)||!w.tiles[r.cell]||
+          r.availableAt!==w.turn+1||!["organic","mineral"].includes(r.kind)||![r.E,r.M].every(finite))errors.push("CELL_MATERIAL");
+        ids.add(r?.id);
+      }
+      return errors;
+    }
+    return {VERSION,limits,enabled,settings,layer,index,room,assign,initialize,stock,summary,validate};
+  })();
   const ProducerSupport=(()=>{
 
 const DEFAULTS={enabled:true,land:{nutrition:1,capacity:.35,regrowth:1},water:{nutrition:1,capacity:.35,regrowth:1},grace:20,establishment:.1,targetE:8,targetM:.5,schedule:[]};
@@ -1552,6 +1684,9 @@ return {settings,attach,region,level,factor,begin,finish};
       Q: true,
       ...input.enabled,
     };
+    if(c.cellModel!==undefined&&c.cellModel!==CellSpace.VERSION)throw Error("SETTINGS_INVALID: マスモデル");
+    if(CellSpace.enabled({config:c}))c.cellSettings=CellSpace.settings(c.cellSettings);
+    else if(c.cellSettings!==undefined)throw Error("SETTINGS_INVALID: マスモデルの指定が必要です");
     if (typeof c.seed !== "string" || !c.seed.isWellFormed())
       throw Error(
         "SETTINGS_INVALID: 初期値は正しいUnicode文字列で指定してください",
@@ -2048,6 +2183,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if(PrimaryParasite.enabled(w))for(const i of w.primaryInocula||[])E+=i.E;
     if(HyperParasite.enabled(w))for(const i of w.hyperInocula||[])E+=i.E;
     for (const t of w.tiles) M += t.soilM;
+    if(CellSpace.enabled(w))for(const material of w.cellState.nextMaterial){E+=material.E;M+=material.M;}
     return { E: H.round(E), M: H.round(M) };
   }
   function addSoil(w, cell, m) {
@@ -2586,6 +2722,7 @@ return {settings,attach,region,level,factor,begin,finish};
     PrimaryParasite.summary(w);
     HyperParasite.summary(w);
     PersistentInformation.initialize(w);
+    CellSpace.initialize(w);
     const t = totals(w);
     w.ledger.initialE = t.E;
     w.ledger.initialM = t.M;
@@ -2647,6 +2784,7 @@ return {settings,attach,region,level,factor,begin,finish};
     HyperParasite,
     PersistentInformation,
     WorldGeneration,
+    CellSpace,
     activeSpecies,
     activeMain,
     initialRank,
