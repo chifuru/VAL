@@ -312,7 +312,12 @@
     const terrain=availableTerrainProfiles();
     $('generation-profile').querySelector('[value="water-focused"]').disabled=!terrain.water;
     $('generation-profile').querySelector('[value="land-focused"]').disabled=!terrain.land;
-    if($('generation-profile').selectedOptions[0]?.disabled)$('generation-profile').value='auto';
+    if($('generation-profile').selectedOptions[0]?.disabled){
+      const previous=$('generation-profile').selectedOptions[0].textContent;
+      $('generation-profile').value='auto';
+      setText('profile-change-note',previous+'はこの地形で使用できないため、傾向を「おまかせ」に戻しました。');
+      $('profile-change-note').hidden=false;
+    }
     for(const [path,id]of Object.entries(generationFields)){
       const check=document.querySelector('[data-generation-lock="'+path+'"]'),input=$(id);
       if(!check)continue;
@@ -320,13 +325,56 @@
       check.checked=!automatic||imposed||generationLocks.has(path);
       check.disabled=!automatic||imposed||(path==='mapId'&&input.value==='auto');
       check.closest('.generation-lock-control').hidden=false;
+      const row=input.closest('.generation-field'),source=imposed?'preset':automatic&&!generationLocks.has(path)?'auto':'specified';
+      const group=id==='initial'?'main':id.startsWith('colony-')||id.startsWith('density-plant')||id.startsWith('large-plant-')?'plant':id==='density-fungus'?'fungus':id==='density-prey'?'prey':null;
+      const unused=group&&!$('group-'+group).checked;
+      row.dataset.source=source;row.dataset.unused=String(!!unused);
+      row.querySelector('.generation-source').textContent=unused?'今回は不使用':{preset:'セット固定',auto:'自動',specified:'指定値'}[source];
+      row.querySelector('.generation-value-note').textContent=unused?groups[group]+'がOFFのため適用しません。':imposed?'自由設定にすると編集できます。':source==='auto'?'作成時に決定 · 表示中の値は基準値です。':path==='mapId'&&input.value==='auto'?'候補から作成時に決定します。':'表示中の値を使います。';
+      row.querySelector('.generation-auto-return').hidden=source!=='specified'||!automatic||!!unused;
+      check.disabled=check.disabled||!!unused;
     }
     const profileNotes={'standard':'基準の条件。','high-production':'容量1.5倍・再生上限1.25倍・初期主生物数1.2倍。','resource-localized':'占有率0.6倍・容量1.5倍・集落分布。','water-focused':'水域35%以上の地形・水の容量1.25倍。','land-focused':'陸域70%以上の地形・陸の容量1.25倍。','information-strong':'情報影響度1.25倍。出現条件と期限は変えません。'};
     $('generation-profile').title=profileNotes[$('generation-profile').value]||'6つの傾向から、固定した条件に適合するものを選びます。';
     const unavailable=[['water-focused','水域中心（水域35%以上）'],['land-focused','陸域中心（陸域70%以上）']].filter(([id])=>$('generation-profile').querySelector('[value="'+id+'"]').disabled).map(([,name])=>name);
-    setText('profile-rule-note',!automatic?'「条件を指定」では、観察条件の傾向は使用しません。表示した値を直接指定します。':unavailable.length?'選択中の地形では '+unavailable.join('・')+' は利用できません。対応する地形へ変えると選択できます。':'おまかせ生成では、固定していない項目へ観察条件の傾向を適用します。');
-    $('generation-help').textContent=automatic?($('generation-profile').value==='auto'?'6つの傾向から関連する条件を組で選びます。':profileNotes[$('generation-profile').value]+' 自動項目だけへ適用します。')+' 値の変更は固定になり、0・供給OFF・指定系統を保持します。固定を外すと次の生成で自動になります。':'表示中の値をそのまま使います。地形のおまかせは代表地形から選び、生成後の条件を保存します。';
+    setText('profile-rule-note',!automatic?'今回は不使用：「値を自分で指定」では、おまかせの傾向は使用しません。':unavailable.length?'選択中の地形では '+unavailable.join('・')+' は利用できません。対応する地形へ変えると選択できます。':'おまかせ生成では、固定していない項目へ観察条件の傾向を適用します。');
+    $('generation-help').textContent=automatic?($('generation-profile').value==='auto'?'6つの傾向から関連する条件を組で選びます。':profileNotes[$('generation-profile').value]+' 自動項目だけへ適用します。')+' 自動の欄は作成時に決定します。基準値を編集すると指定値になり、0・供給OFF・指定系統を保持します。':'表示中の値をそのまま使います。地形のおまかせは代表地形から選び、生成後の条件を保存します。';
+    syncSetupIntent();
   }
+  function syncSetupIntent(){
+    const automatic=$('generation-mode').value==='auto',fixed=$('observation-mode').value!=='custom';
+    for(const card of $('observation-set-cards').querySelectorAll('button'))card.setAttribute('aria-pressed',String(card.dataset.observationSet===$('observation-mode').value));
+    for(const badge of document.querySelectorAll('[data-setup-preset-source]'))badge.hidden=!fixed;
+    const option=id=>$(id).selectedOptions[0]?.textContent.trim()||'',
+      auto=path=>automatic&&!generationLocks.has(path)&&!(fixed&&['mapId','initial'].includes(path)),
+      active=Object.keys(groups).filter(id=>$('group-'+id).checked),
+      main=$('group-main').checked,
+      terrain=auto('mapId')||$('map-id').value==='auto'?'候補から作成時に決定':option('map-id'),
+      mainNumber=auto('initial')?'作成時に決定':$('initial').value+'体（設定上の初期数）',
+      composition=$('lineages').value==='few'?'作成時に5系統を選択':setupMainCount()+'系統 · '+option('lineages'),
+      advantages=['producer','waterbug','hyperparasite'].filter(id=>$('advantage-'+id).checked).map(id=>({producer:'生産者',waterbug:'水游虫',hyperparasite:'高次寄生'}[id])),
+      founders=founderSpecies.filter(s=>!$('founder-'+s.id).disabled&&$('founder-'+s.id).value!=='').map(s=>s.name+' '+($('founder-'+s.id).value==='0'?'初期配置なし':$('founder-'+s.id).value)),
+      lowerSources=Object.entries(generationFields).filter(([path,id])=>!['mapId','initial'].includes(path)&&$(id).closest('.generation-field')?.dataset.unused!=='true');
+    const lowerAutomatic=lowerSources.filter(([path])=>auto(path)).length;
+    const rows=[
+      ['観察条件',option('observation-mode')+' ／ '+option('generation-mode')+(automatic?' ／ 傾向：'+option('generation-profile'):''),'observation-mode'],
+      ['地形・規模',option('size')+' ／ 地形：'+terrain,'map-id'],
+      ['参加生物',active.length?active.map(id=>groups[id]).join('・'):'参加群なし','group-main'],
+      ['主生物',main?composition+' ／ 初期数：'+mainNumber+' ／ '+option('distribution')+'・'+option('placement'):'今回は不使用（主生物OFF）','lineages'],
+      ['栄養・初期量',(fixed?($('observation-mode').value==='river-settlement'?'セット：光入力2倍・下層初期量25%増。':'セット：光入力2倍・下層初期量50%増。'):'')+'下層・資源・情報の条件：'+lowerAutomatic+'項目は作成時に決定、'+(lowerSources.length-lowerAutomatic)+'項目は指定値。'+(founders.length?' 種別指定：'+founders.join(' / '):' 種別初期数は空欄＝自動。')+($('guarantee').checked&&!$('guarantee').disabled?' 初期餌保証あり。':''),'lower-distribution'],
+      ['開始後の供給',$('producer-supply').checked?['land','water'].map(r=>(r==='land'?'陸':'水')+'：栄養×'+$('supply-'+r+'-nutrition').value+' ／ 支援地点'+$('supply-'+r+'-capacity').value+'% ／ 再生×'+$('supply-'+r+'-regrowth').value).join(' · '):'OFF（保存中の供給倍率は使いません）','producer-supply'],
+      ['生存優遇',advantages.length?advantages.join('・'):'なし','advantage-producer']
+    ];
+    const html=rows.map(([label,text,target])=>'<div class="setup-condition"><b>'+escape(label)+'</b><span>'+escape(text)+'</span><button type="button" data-setup-target="'+target+'" aria-label="'+escape(label)+'を変更">変更</button></div>').join('');
+    if($('setup-effective-summary').innerHTML!==html)$('setup-effective-summary').innerHTML=html;
+  }
+  $('setup-effective-summary').addEventListener('click',event=>{
+    const button=event.target.closest('[data-setup-target]');if(!button)return;
+    let target=$(button.dataset.setupTarget);
+    if(target.disabled)target=$('observation-mode').value!=='custom'?$('observation-mode'):$('group-main');
+    for(let parent=target.parentElement;parent;parent=parent.parentElement)if(parent.tagName==='DETAILS')parent.open=true;
+    target.scrollIntoView({block:'center'});target.focus({preventScroll:true});
+  });
   function generationSettings(){
     const mode=$('generation-mode').value;
     return {version:'diverse-generation-parameters/1',mode,profile:mode==='auto'?$('generation-profile').value:'auto',
@@ -343,12 +391,28 @@
   for(const [path,id]of Object.entries(generationFields)){
     const input=$(id),label=input.closest('label'),row=document.createElement('div'),control=document.createElement('label');
     row.className='generation-field';label.replaceWith(row);row.append(label);
-    control.className='check generation-lock-control';control.innerHTML='<input type="checkbox" data-generation-lock="'+path+'" aria-label="'+escape(label.textContent.trim())+'を固定">固定';row.append(control);
+    const source=document.createElement('span');source.className='generation-source';row.prepend(source);
+    control.className='check generation-lock-control';control.innerHTML='<input type="checkbox" data-generation-lock="'+path+'" aria-label="'+escape(label.textContent.trim())+'を指定値として使う">この値を使う';row.append(control);
+    const note=document.createElement('small'),autoReturn=document.createElement('button');
+    note.className='generation-value-note';note.id='generation-note-'+id;row.append(note);
+    input.setAttribute('aria-describedby',[input.getAttribute('aria-describedby'),note.id].filter(Boolean).join(' '));
+    autoReturn.type='button';autoReturn.className='generation-auto-return';autoReturn.textContent='自動に戻す';autoReturn.hidden=true;
+    autoReturn.addEventListener('click',()=>{generationLocks.delete(path);syncGenerationFields();});row.append(autoReturn);
     control.firstChild.addEventListener('change',()=>{if(control.firstChild.checked)generationLocks.add(path);else generationLocks.delete(path);syncGenerationFields();});
     input.addEventListener('input',()=>{if(path==='mapId'&&input.value==='auto')generationLocks.delete(path);else generationLocks.add(path);syncGenerationFields();});
     input.addEventListener('change',()=>{if(path==='mapId'&&input.value==='auto')generationLocks.delete(path);else generationLocks.add(path);syncGenerationFields();});
   }
+  for(const id of ['lineages','distribution','placement','guarantee','groups']){
+    const label=id==='groups'?$('groups').previousElementSibling:$(id).closest('label');
+    const badge=document.createElement('small');badge.dataset.setupPresetSource=id;badge.className='setup-preset-source';badge.textContent='セット固定';badge.hidden=true;label.append(badge);
+  }
   $('generation-mode').addEventListener('change',syncGenerationFields);$('generation-profile').addEventListener('change',syncGenerationFields);
+  for(const card of $('observation-set-cards').querySelectorAll('button'))card.addEventListener('click',()=>{
+    $('observation-mode').value=card.dataset.observationSet;
+    $('observation-mode').dispatchEvent(new Event('change',{bubbles:true}));
+  });
+  $('generation-profile').addEventListener('change',()=>{$('profile-change-note').hidden=true;});
+
   function readProducerSettings(){
     return {version:'colony-parameters/1',standardBiteB:2,...Object.fromEntries(['land','water'].map(region=>{
       const capacityB=Number($('colony-'+region+'-capacity').value);
@@ -383,11 +447,12 @@
     $("lower-distribution").value="habitat";
     for(const s of founderSpecies)$("founder-"+s.id).value="";
   }
-  $("reset-lower-settings").onclick=resetLowerSettings;
+  $("reset-lower-settings").onclick=()=>{resetLowerSettings();updateCohortHint();};
   $('reset-setup').onclick=()=>{
     if(preparingWorld)return;
     $('setup').reset();
     generationLocks.clear();generationBase={};
+    $('profile-change-note').hidden=true;
     $('producer-supply').onchange();
     applyObservationMode({resetLower:false});
     setupMessage('作成条件をデフォルトに戻しました。現在の世界は変更せず、次に世界を作るときに使います。');
@@ -551,14 +616,14 @@
   $('show-setup-issue').onclick=focusSetupIssue;
   function syncSetupNotes(){
     const fixed=$('observation-mode').value!=='custom',main=$('group-main').checked,manual=$('lineages').value==='manual';
-    setText('world-rule-note',fixed?'固定観察モードでは地形が固定です。変更する場合は上の観察モードを「自由設定」に戻してください。':'地形と盤面の大きさを選びます。');
-    setText('main-rule-note',fixed?'固定観察モードでは参加生物・系統・初期数・配置が固定です。編集する場合は「自由設定」に戻してください。':!main?'主生物をOFFにしているため、下の主生物の条件は使用しません。参加する生物群でONにすると編集できます。':'参加生物を先に選び、主生物の系統・数・配置を設定します。');
-    setText('lineage-choice-note',fixed?'固定観察モードで指定された系統を表示しています。':!main?'主生物がOFFのため手動の系統選択は使用しません。':manual?'参加させる主生物を選びます。1系統につき最低4体が必要です。':'下のチェックは保存済みの手動選択で、現在の構成には使用しません。「自分で選択」にすると編集できます。');
-    setText('weight-choice-note',fixed?'固定観察モードでは配分も固定です。':!main?'主生物がOFFのため重みは使用しません。':$('distribution').value!=='weighted'?'均等配分では重みを使用しません。「重み付き」にすると編集できます。':'各系統の配分の重みを設定します。量機の0は初期配置なしです。');
+    setText('world-rule-note',fixed?'選択中の観察セットでは地形が固定です。変更する場合は上の観察セットを「自由設定」に戻してください。':'地形と盤面の大きさを選びます。');
+    setText('main-rule-note',fixed?'選択中の観察セットでは参加生物・系統・初期数・配置が固定です。編集する場合は「自由設定」に戻してください。':!main?'主生物をOFFにしているため、下の主生物の条件は使用しません。参加する生物群でONにすると編集できます。':'参加生物を先に選び、主生物の系統・数・配置を設定します。');
+    setText('lineage-choice-note',fixed?'選択中の観察セットで指定された系統を表示しています。':!main?'主生物がOFFのため手動の系統選択は使用しません。':manual?'参加させる主生物を選びます。1系統につき最低4体が必要です。':'下のチェックは保存済みの手動選択で、現在の構成には使用しません。「自分で選択」にすると編集できます。');
+    setText('weight-choice-note',fixed?'選択中の観察セットでは配分も固定です。':!main?'主生物がOFFのため重みは使用しません。':$('distribution').value!=='weighted'?'均等配分では重みを使用しません。「重み付き」にすると編集できます。':'各系統の配分の重みを設定します。量機の0は初期配置なしです。');
     setText('supply-rule-note',$('producer-supply').checked?'環境からの供給を使います。下で陸・水の供給量を調整できます。':'供給がOFFのため、下の供給量は使用しません。値は保持し、ONに戻すと編集できます。');
     const off=Object.keys(groups).filter(id=>!$('group-'+id).checked&&id!=='main').map(id=>groups[id]);
     setText('founder-rule-note',off.length?off.join('・')+' はOFFのため、その種別初期数は編集・適用しません。参加する生物群でONにすると戻せます。':'空欄は自動、0は初期配置なし。寄生虫の必要な宿主数は入力欄の上で確認できます。');
-    setText('guarantee-rule-note',$('guarantee').title|| (fixed?'固定観察モードでは初期餌保証を使用しません。':!main?'主生物がOFFのため、初期集団への餌保証は使用しません。':'種別の初期数を指定している間は、初期餌保証を併用できません。'));
+    setText('guarantee-rule-note',$('guarantee').title|| (fixed?'選択中の観察セットでは初期餌保証を使用しません。':!main?'主生物がOFFのため、初期集団への餌保証は使用しません。':'種別の初期数を指定している間は、初期餌保証を併用できません。'));
   }
   function syncSetupValidity(){
     const invalid=$('setup').querySelector('input:invalid,select:invalid,textarea:invalid');
@@ -594,7 +659,7 @@
     initial.required=main;initial.min=String(Math.max(4,count*4));initial.max=String(width*height);
     initial.setCustomValidity(main&&!count?'参加させる系統を選んでください。':'');
     syncParasiteFounders();
-    syncSetupNotes();syncSetupValidity();
+    syncSetupNotes();syncSetupValidity();syncGenerationFields();
   }
   function closeWorldDetails() {
     closeDetails();

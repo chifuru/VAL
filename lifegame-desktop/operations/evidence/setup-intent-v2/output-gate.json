@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "app": "4.2.74",
+  "baseline": "e32bcac",
+  "checks": [
+    {
+      "file": "report.json",
+      "passed": 35
+    },
+    {
+      "file": "flow/report.json",
+      "passed": 27
+    },
+    {
+      "file": "defaults/report.json",
+      "passed": 13
+    }
+  ],
+  "formalNodes": 61,
+  "nodeStructureAndStatusUnchanged": true,
+  "ecologySourceUnchanged": true,
+  "coreHashes": {
+    "VALIS Flow Definition.md": "911ae9f4a09ebfc6a886970eb73a1f72789047f04a28f2e83e2ea1cc584637da",
+    "VALIS Operation Definition.md": "30174a1cf1a4c2d46911db0be7a975651390d6f0bc51d64eb7391560f6ca3b50",
+    "VALIS Summary Manifest.md": "8d786bfe106c1a479ae03d7da4c44e1df593d41794bc9315e91a181889f6271f"
+  },
+  "limits": "Linux setup UI only; no all-condition, 500T, Windows, performance or distribution certification",
+  "manifestCheck": {
+    "passed": 1,
+    "formalNodes": 61,
+    "coreHashesMatch": true,
+    "allReferencesExist": true
+  },
+  "syntaxCheck": true,
+  "diffWhitespaceCheck": true,
+  "manifestReflected": true,
+  "scopeReconciled": true
+}

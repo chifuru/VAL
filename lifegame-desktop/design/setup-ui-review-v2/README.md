@@ -1,6 +1,6 @@
 # 世界作成UI：優先3点の画面構成案 / 2
 
-状態：提案・未採用。基点main `035f796`、製品4.2.74。今回の対象は設計と説明モック。正式A/B、Node、Project Summary Manifest、src、tests、生成規則、保存形式は変更していない。
+状態：優先3点を採用。設計モックの基点はmain `035f796`、製品4.2.74。製品接続の正本は[設定の意図/2](../specification/setup-intent-v2.md)、実画面・結果は[限定証跡](../../operations/evidence/setup-intent-v2/README.md)。以下の画像とpreview-check/review-gateは採用前の説明モックの記録であり、製品実画面ではない。
 
 - [全体画面](overview.png)：自由設定＋おまかせの代表例。既存配色、単一画面の縦スクロール、5区画を維持する。
 - [3種類の値と不使用の区別](states.png)：自動／指定値／セット固定、別軸としての「今回は不使用」を示す。
@@ -60,7 +60,7 @@
 
 今回のモックは上記3点。地形サムネイル、全生物群ごとの詳細欄の再編、詳細係数の全面説明は後続案であり、このモックを全設定の完全画面としない。④は詳細の入口を圧縮して示し、隠れた入力を廃止しない。モックはゲームを動かさず、操作例は仮データ。
 
-適用する場合は既存B5・C8と関連D9/E6で判断する。今回は新しいNode/分割やA/B採用を行っていない。採用前に、既存入力ID/値/制約/実効条件/取消保護を維持する対応表として扱う。
+A1/B5・C8と関連D9/E6の既存責務へ接続する。新しいNode/分割は行わず、既存入力ID/値/制約/実効条件/取消保護を維持する。
 
 ## 参考と読解範囲
 
@@ -69,4 +69,4 @@
 - [Thrive：基本・詳細の分離](https://github.com/Revolutionary-Games/Thrive/blob/c9b1375ac6740e368595a772dc18b692a9998fe9/src/general/NewGameSettings.cs#L615)。基本の選択から必要な詳細へ進める点を参照。
 - [OpenTTD：世界生成の条件付き設定](https://github.com/OpenTTD/OpenTTD/blob/master/src/genworld_gui.cpp)。地形等の条件に応じた利用可否を参照。
 - [Freeciv：シナリオ選択と説明の併置](https://github.com/freeciv/freeciv/blob/main/client/gui-qt/pages.cpp#L584)。選択と説明を近くに置く点を参照。
-- 現行正本：../specification/setup-flow-v1.md。実装：../../src/app.jsのapplyObservationMode、syncGenerationFields、readConfig、syncSetupNotes。現行画面：../../src/Index.html。今回の提案をこれらへ反映済みとしない。
+- 現行正本：../specification/setup-flow-v1.md。実装：../../src/app.jsのapplyObservationMode、syncGenerationFields、readConfig、syncSetupNotes。現行画面：../../src/Index.html。採用する範囲は設定の意図/2を参照する。
