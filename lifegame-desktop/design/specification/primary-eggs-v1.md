@@ -19,3 +19,5 @@
 水系の分散拡大は到達機会の調整であり、長期存続の保証ではない。/2の限定比較は../../operations/evidence/water-egg-range-v1/README.md。
 
 契約: ../../operations/plans/primary-eggs-v1.md。実測: ../../operations/evidence/primary-eggs-v1/README.md。
+
+新規世界の水系P初期数だけは[自動初期集団/1](water-founders-v1.md)を優先する。卵の放出・移送・孵化規則は本書を維持。

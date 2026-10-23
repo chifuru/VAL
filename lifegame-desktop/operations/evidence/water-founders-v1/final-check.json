@@ -1,0 +1,38 @@
+{
+  "app": "4.2.77",
+  "scope": "Temporary automatic water founder count and stage allocation only",
+  "modelChecks": 4,
+  "archiveRegressionChecks": 6,
+  "uiChecks": 13,
+  "formalNodes": 61,
+  "structureAndDraftStatusUnchanged": true,
+  "coreHashesMatch": true,
+  "manifestPassed": true,
+  "frozenSetupContractMatchesExceptExplicitEggAndWaterFounderSettings": true,
+  "generatedModulesMatch": true,
+  "replaySignature": "b09086493b04bf56a7b587e433713c2f8d4c0f06522e59207207185eebb9cfb2",
+  "sourceHashes": {
+    "src/app.js": "8b0197ef4bdc95363af0894cdabfbf76ba6121df5e11512b3fa9226b7a621aed",
+    "src/ecology/state.js": "29b2473f6e17fca50eacdae5abe4df3b731ceb36fb3c2052bb2fae35b91d8a95",
+    "src/ecology/archive.js": "866b992e90e7721d544b94b34fe951637e46639c7768208d8f826e7127f58142",
+    "src/ecology/observation-modules.js": "8ccff31c23c8bed997bc25caaa5b1945a28397b7dfd914825299db7b532919b6",
+    "src/ecology/replay-version.js": "d5dd5c6c862107c234212a7dd39d1a9ab491f36f46b5c326b1f0295e210b2d8f",
+    "tests/water-founders.test.cjs": "ce7286810b7857b4ebfa7e3c90bff1ffc0dda216501272d2d4628119baf309c2",
+    "tests/primary-eggs-ui.cjs": "e920359256159b9c091961bcfb9e3ae3110657b4c6aea79186753840645088b5"
+  },
+  "limitedObservations": {
+    "river": {
+      "turns": 250,
+      "finalWaterP": 2
+    },
+    "lake": {
+      "turns": 250,
+      "finalWaterP": 1
+    },
+    "wetland": {
+      "turns": 250,
+      "finalWaterP": 4
+    }
+  },
+  "limits": "Lake decreased from 19 to 1. No all-condition improvement, 500T certification, full-suite, Windows or distribution."
+}

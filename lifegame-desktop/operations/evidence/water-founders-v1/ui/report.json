@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "checks": [
+    "new-world settings enable egg/1",
+    "new-world water eggs use two connected steps at the original 25% frequency",
+    "new-world water founder allocation is explicitly saved as eight groups",
+    "two egg batches are separate from living P counts",
+    "free egg is identified as a resting egg batch",
+    "attached egg shows its hatch clock",
+    "expiry and non-living-stock meaning remain visible",
+    "game guide explains the adopted egg lifecycle",
+    "guide explains the saved water movement distance",
+    "guide distinguishes automatic stage-distributed founders from direct counts",
+    "older world remains on its previous parasite path",
+    "no browser runtime errors",
+    "no external requests"
+  ],
+  "errors": [],
+  "scope": "Linux display fixtures and explicit new-world settings only; no claim of natural egg emergence from these screenshots"
+}

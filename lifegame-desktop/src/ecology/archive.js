@@ -31,7 +31,9 @@
  const moderateGrassBuildSignature='765d6ec931e82c8aee9099a66ba4a7b9a9c3f24bb3bd122bdf612624fc2ebab5';
  const primaryEggBuildSignature='349210f099401ba560b23589c31eb7070dfd30f2eb3bda765146f3492b3b27fe';
  const waterEggSpreadBuildSignature='37ea035eae30eeb8b191c11b5498b721b5e37bf7aca8e9f8607402d8afc5cdb1';
+ const waterFounderBuildSignature='b09086493b04bf56a7b587e433713c2f8d4c0f06522e59207207185eebb9cfb2';
  function canonicalSignature(s,config){
+  if(s===waterFounderBuildSignature&&config.primaryParasiteSettings?.version!=='primary-parameters/2')s=waterEggSpreadBuildSignature;
   if(s===waterEggSpreadBuildSignature&&config.primaryEggSettings?.version!=='primary-egg-parameters/2')s=primaryEggBuildSignature;
   if(s===primaryEggBuildSignature&&config.primaryEggModel===undefined&&config.primaryEggSettings===undefined)s=moderateGrassBuildSignature;
   // The new grassbug profile applies only to new version-4 worlds.

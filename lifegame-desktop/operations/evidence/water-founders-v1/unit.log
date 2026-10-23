@@ -1,0 +1,18 @@
+✔ final record contains initial config and final summary; repeated replay never records (2112.325559ms)
+✔ incompatible, corrupt, full or failing storage cannot silently lose records (402.493071ms)
+✔ checked-in replay signature matches all biological sources including landscape (12.244362ms)
+✔ successor model preserves replay of prior flagless worlds (321.655063ms)
+✔ template records require resolved map identity before replay (204.451363ms)
+✔ I01 source-only optimization replays 4.2.32 manual conditions without broadening legacy aliases (759.405861ms)
+✔ previous water egg worlds retain their exact 4T result (1714.658342ms)
+✔ automatic water founders are saved and distributed 3/3/2 on three maps; explicit counts and disable win (1648.224889ms)
+✔ automatic founders respect legal host capacity and do not appear without the first host layer (147.665573ms)
+✔ replay keeps prior founder rules and prevents the prior signature from claiming new allocation (1443.934357ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9336.09073

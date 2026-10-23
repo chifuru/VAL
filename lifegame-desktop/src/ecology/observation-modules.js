@@ -1622,7 +1622,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const enabled=w=>w?.config?.primaryParasiteModel==="primary/1";
     const is=p=>!!hostTable[p?.species]&&p?.primary?.version===VERSION;
     function parameters(input={}){
-      const defaults={version:"primary-parameters/1",life:120,capE:2,maintenance:[0,.03,.04,.06],hostTax:[0,.06,.08,.10],biomass:[0,.02,.03,.04],
+      const defaults={version:input?.version==="primary-parameters/2"?"primary-parameters/2":"primary-parameters/1",...(input?.version==="primary-parameters/2"?{automaticCounts:{}}:{}),life:120,capE:2,maintenance:[0,.03,.04,.06],hostTax:[0,.06,.08,.10],biomass:[0,.02,.03,.04],
         developmentCost:.01,development:{first:4,middle:6,terminal:8},phaseThresholds:[0,0,8,20],starvationTurns:8,carrierTurns:12,
         entryRates:{contact:.60,feeding:.80,carcass:.60,water:.40},establishmentRate:.70,standardReserve:.06,minimumReserve:.03,
         emissionCost:.12,emissionReserve:.06,emissionCooldown:6,inoculumLifetime:{contact:4,water:4,edible:4,carcass:12},
@@ -1632,7 +1632,8 @@ return {settings,attach,region,level,factor,begin,finish};
       const object=(value,keys)=>{if(!value||typeof value!=="object"||Array.isArray(value)||Object.keys(value).some(k=>!keys.includes(k)))throw Error("SETTINGS_INVALID: 一次寄生の比較値");};
       object(input,Object.keys(defaults));const out=structuredClone(defaults);
       for(const [key,value]of Object.entries(input)){
-        if(["development","entryRates","inoculumLifetime"].includes(key)){object(value,Object.keys(defaults[key]));Object.assign(out[key],value);}
+        if(key==="automaticCounts"){object(value,Object.keys(hostTable));if(Object.values(value).some(n=>!Number.isSafeInteger(n)||n<0||n>10000))throw Error("SETTINGS_INVALID: 一次寄生の自動初期数");out[key]=structuredClone(value);}
+        else if(["development","entryRates","inoculumLifetime"].includes(key)){object(value,Object.keys(defaults[key]));Object.assign(out[key],value);}
         else out[key]=structuredClone(value);
       }
       if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 一次寄生の定義版");
@@ -1768,7 +1769,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const available=new Set();
       for(const species of Object.keys(hostTable)){
         const direct=w.config.founderCounts?.parasites?.[species],first=w.organisms.filter(o=>hostTable[species].first.includes(o.species));
-        const requested=w.config.enabled.P?(direct??Math.floor(first.length*p.initialFraction)):0;
+        const requested=w.config.enabled.P?(direct??(first.length&&p.automaticCounts?.[species]!==undefined?p.automaticCounts[species]:Math.floor(first.length*p.initialFraction))):0;
         const raw=(direct===undefined?p.initialDistribution:[1,0,0]).map(n=>n*requested),counts=raw.map(Math.floor);
         for(const i of raw.map((n,i)=>({n:n-counts[i],i})).sort((a,b)=>b.n-a.n||a.i-b.i).slice(0,requested-counts.reduce((a,b)=>a+b,0)))counts[i.i]++;
         const item=report.bySpecies[species]={requested:direct??null,firstHosts:first.length,planned:requested,actual:0,shortage:0,stages:{},reasons:[]};
@@ -10292,7 +10293,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const enabled=w=>w?.config?.primaryParasiteModel==="primary/1";
     const is=p=>!!hostTable[p?.species]&&p?.primary?.version===VERSION;
     function parameters(input={}){
-      const defaults={version:"primary-parameters/1",life:120,capE:2,maintenance:[0,.03,.04,.06],hostTax:[0,.06,.08,.10],biomass:[0,.02,.03,.04],
+      const defaults={version:input?.version==="primary-parameters/2"?"primary-parameters/2":"primary-parameters/1",...(input?.version==="primary-parameters/2"?{automaticCounts:{}}:{}),life:120,capE:2,maintenance:[0,.03,.04,.06],hostTax:[0,.06,.08,.10],biomass:[0,.02,.03,.04],
         developmentCost:.01,development:{first:4,middle:6,terminal:8},phaseThresholds:[0,0,8,20],starvationTurns:8,carrierTurns:12,
         entryRates:{contact:.60,feeding:.80,carcass:.60,water:.40},establishmentRate:.70,standardReserve:.06,minimumReserve:.03,
         emissionCost:.12,emissionReserve:.06,emissionCooldown:6,inoculumLifetime:{contact:4,water:4,edible:4,carcass:12},
@@ -10302,7 +10303,8 @@ return {settings,attach,region,level,factor,begin,finish};
       const object=(value,keys)=>{if(!value||typeof value!=="object"||Array.isArray(value)||Object.keys(value).some(k=>!keys.includes(k)))throw Error("SETTINGS_INVALID: 一次寄生の比較値");};
       object(input,Object.keys(defaults));const out=structuredClone(defaults);
       for(const [key,value]of Object.entries(input)){
-        if(["development","entryRates","inoculumLifetime"].includes(key)){object(value,Object.keys(defaults[key]));Object.assign(out[key],value);}
+        if(key==="automaticCounts"){object(value,Object.keys(hostTable));if(Object.values(value).some(n=>!Number.isSafeInteger(n)||n<0||n>10000))throw Error("SETTINGS_INVALID: 一次寄生の自動初期数");out[key]=structuredClone(value);}
+        else if(["development","entryRates","inoculumLifetime"].includes(key)){object(value,Object.keys(defaults[key]));Object.assign(out[key],value);}
         else out[key]=structuredClone(value);
       }
       if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 一次寄生の定義版");
@@ -10438,7 +10440,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const available=new Set();
       for(const species of Object.keys(hostTable)){
         const direct=w.config.founderCounts?.parasites?.[species],first=w.organisms.filter(o=>hostTable[species].first.includes(o.species));
-        const requested=w.config.enabled.P?(direct??Math.floor(first.length*p.initialFraction)):0;
+        const requested=w.config.enabled.P?(direct??(first.length&&p.automaticCounts?.[species]!==undefined?p.automaticCounts[species]:Math.floor(first.length*p.initialFraction))):0;
         const raw=(direct===undefined?p.initialDistribution:[1,0,0]).map(n=>n*requested),counts=raw.map(Math.floor);
         for(const i of raw.map((n,i)=>({n:n-counts[i],i})).sort((a,b)=>b.n-a.n||a.i-b.i).slice(0,requested-counts.reduce((a,b)=>a+b,0)))counts[i.i]++;
         const item=report.bySpecies[species]={requested:direct??null,firstHosts:first.length,planned:requested,actual:0,shortage:0,stages:{},reasons:[]};
@@ -19165,7 +19167,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const enabled=w=>w?.config?.primaryParasiteModel==="primary/1";
     const is=p=>!!hostTable[p?.species]&&p?.primary?.version===VERSION;
     function parameters(input={}){
-      const defaults={version:"primary-parameters/1",life:120,capE:2,maintenance:[0,.03,.04,.06],hostTax:[0,.06,.08,.10],biomass:[0,.02,.03,.04],
+      const defaults={version:input?.version==="primary-parameters/2"?"primary-parameters/2":"primary-parameters/1",...(input?.version==="primary-parameters/2"?{automaticCounts:{}}:{}),life:120,capE:2,maintenance:[0,.03,.04,.06],hostTax:[0,.06,.08,.10],biomass:[0,.02,.03,.04],
         developmentCost:.01,development:{first:4,middle:6,terminal:8},phaseThresholds:[0,0,8,20],starvationTurns:8,carrierTurns:12,
         entryRates:{contact:.60,feeding:.80,carcass:.60,water:.40},establishmentRate:.70,standardReserve:.06,minimumReserve:.03,
         emissionCost:.12,emissionReserve:.06,emissionCooldown:6,inoculumLifetime:{contact:4,water:4,edible:4,carcass:12},
@@ -19175,7 +19177,8 @@ return {settings,attach,region,level,factor,begin,finish};
       const object=(value,keys)=>{if(!value||typeof value!=="object"||Array.isArray(value)||Object.keys(value).some(k=>!keys.includes(k)))throw Error("SETTINGS_INVALID: 一次寄生の比較値");};
       object(input,Object.keys(defaults));const out=structuredClone(defaults);
       for(const [key,value]of Object.entries(input)){
-        if(["development","entryRates","inoculumLifetime"].includes(key)){object(value,Object.keys(defaults[key]));Object.assign(out[key],value);}
+        if(key==="automaticCounts"){object(value,Object.keys(hostTable));if(Object.values(value).some(n=>!Number.isSafeInteger(n)||n<0||n>10000))throw Error("SETTINGS_INVALID: 一次寄生の自動初期数");out[key]=structuredClone(value);}
+        else if(["development","entryRates","inoculumLifetime"].includes(key)){object(value,Object.keys(defaults[key]));Object.assign(out[key],value);}
         else out[key]=structuredClone(value);
       }
       if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 一次寄生の定義版");
@@ -19311,7 +19314,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const available=new Set();
       for(const species of Object.keys(hostTable)){
         const direct=w.config.founderCounts?.parasites?.[species],first=w.organisms.filter(o=>hostTable[species].first.includes(o.species));
-        const requested=w.config.enabled.P?(direct??Math.floor(first.length*p.initialFraction)):0;
+        const requested=w.config.enabled.P?(direct??(first.length&&p.automaticCounts?.[species]!==undefined?p.automaticCounts[species]:Math.floor(first.length*p.initialFraction))):0;
         const raw=(direct===undefined?p.initialDistribution:[1,0,0]).map(n=>n*requested),counts=raw.map(Math.floor);
         for(const i of raw.map((n,i)=>({n:n-counts[i],i})).sort((a,b)=>b.n-a.n||a.i-b.i).slice(0,requested-counts.reduce((a,b)=>a+b,0)))counts[i.i]++;
         const item=report.bySpecies[species]={requested:direct??null,firstHosts:first.length,planned:requested,actual:0,shortage:0,stages:{},reasons:[]};
@@ -23532,7 +23535,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const enabled=w=>w?.config?.primaryParasiteModel==="primary/1";
     const is=p=>!!hostTable[p?.species]&&p?.primary?.version===VERSION;
     function parameters(input={}){
-      const defaults={version:"primary-parameters/1",life:120,capE:2,maintenance:[0,.03,.04,.06],hostTax:[0,.06,.08,.10],biomass:[0,.02,.03,.04],
+      const defaults={version:input?.version==="primary-parameters/2"?"primary-parameters/2":"primary-parameters/1",...(input?.version==="primary-parameters/2"?{automaticCounts:{}}:{}),life:120,capE:2,maintenance:[0,.03,.04,.06],hostTax:[0,.06,.08,.10],biomass:[0,.02,.03,.04],
         developmentCost:.01,development:{first:4,middle:6,terminal:8},phaseThresholds:[0,0,8,20],starvationTurns:8,carrierTurns:12,
         entryRates:{contact:.60,feeding:.80,carcass:.60,water:.40},establishmentRate:.70,standardReserve:.06,minimumReserve:.03,
         emissionCost:.12,emissionReserve:.06,emissionCooldown:6,inoculumLifetime:{contact:4,water:4,edible:4,carcass:12},
@@ -23542,7 +23545,8 @@ return {settings,attach,region,level,factor,begin,finish};
       const object=(value,keys)=>{if(!value||typeof value!=="object"||Array.isArray(value)||Object.keys(value).some(k=>!keys.includes(k)))throw Error("SETTINGS_INVALID: 一次寄生の比較値");};
       object(input,Object.keys(defaults));const out=structuredClone(defaults);
       for(const [key,value]of Object.entries(input)){
-        if(["development","entryRates","inoculumLifetime"].includes(key)){object(value,Object.keys(defaults[key]));Object.assign(out[key],value);}
+        if(key==="automaticCounts"){object(value,Object.keys(hostTable));if(Object.values(value).some(n=>!Number.isSafeInteger(n)||n<0||n>10000))throw Error("SETTINGS_INVALID: 一次寄生の自動初期数");out[key]=structuredClone(value);}
+        else if(["development","entryRates","inoculumLifetime"].includes(key)){object(value,Object.keys(defaults[key]));Object.assign(out[key],value);}
         else out[key]=structuredClone(value);
       }
       if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 一次寄生の定義版");
@@ -23678,7 +23682,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const available=new Set();
       for(const species of Object.keys(hostTable)){
         const direct=w.config.founderCounts?.parasites?.[species],first=w.organisms.filter(o=>hostTable[species].first.includes(o.species));
-        const requested=w.config.enabled.P?(direct??Math.floor(first.length*p.initialFraction)):0;
+        const requested=w.config.enabled.P?(direct??(first.length&&p.automaticCounts?.[species]!==undefined?p.automaticCounts[species]:Math.floor(first.length*p.initialFraction))):0;
         const raw=(direct===undefined?p.initialDistribution:[1,0,0]).map(n=>n*requested),counts=raw.map(Math.floor);
         for(const i of raw.map((n,i)=>({n:n-counts[i],i})).sort((a,b)=>b.n-a.n||a.i-b.i).slice(0,requested-counts.reduce((a,b)=>a+b,0)))counts[i.i]++;
         const item=report.bySpecies[species]={requested:direct??null,firstHosts:first.length,planned:requested,actual:0,shortage:0,stages:{},reasons:[]};
@@ -27109,7 +27113,7 @@ return {settings,attach,region,level,factor,begin,finish};
     const enabled=w=>w?.config?.primaryParasiteModel==="primary/1";
     const is=p=>!!hostTable[p?.species]&&p?.primary?.version===VERSION;
     function parameters(input={}){
-      const defaults={version:"primary-parameters/1",life:120,capE:2,maintenance:[0,.03,.04,.06],hostTax:[0,.06,.08,.10],biomass:[0,.02,.03,.04],
+      const defaults={version:input?.version==="primary-parameters/2"?"primary-parameters/2":"primary-parameters/1",...(input?.version==="primary-parameters/2"?{automaticCounts:{}}:{}),life:120,capE:2,maintenance:[0,.03,.04,.06],hostTax:[0,.06,.08,.10],biomass:[0,.02,.03,.04],
         developmentCost:.01,development:{first:4,middle:6,terminal:8},phaseThresholds:[0,0,8,20],starvationTurns:8,carrierTurns:12,
         entryRates:{contact:.60,feeding:.80,carcass:.60,water:.40},establishmentRate:.70,standardReserve:.06,minimumReserve:.03,
         emissionCost:.12,emissionReserve:.06,emissionCooldown:6,inoculumLifetime:{contact:4,water:4,edible:4,carcass:12},
@@ -27119,7 +27123,8 @@ return {settings,attach,region,level,factor,begin,finish};
       const object=(value,keys)=>{if(!value||typeof value!=="object"||Array.isArray(value)||Object.keys(value).some(k=>!keys.includes(k)))throw Error("SETTINGS_INVALID: 一次寄生の比較値");};
       object(input,Object.keys(defaults));const out=structuredClone(defaults);
       for(const [key,value]of Object.entries(input)){
-        if(["development","entryRates","inoculumLifetime"].includes(key)){object(value,Object.keys(defaults[key]));Object.assign(out[key],value);}
+        if(key==="automaticCounts"){object(value,Object.keys(hostTable));if(Object.values(value).some(n=>!Number.isSafeInteger(n)||n<0||n>10000))throw Error("SETTINGS_INVALID: 一次寄生の自動初期数");out[key]=structuredClone(value);}
+        else if(["development","entryRates","inoculumLifetime"].includes(key)){object(value,Object.keys(defaults[key]));Object.assign(out[key],value);}
         else out[key]=structuredClone(value);
       }
       if(out.version!==defaults.version)throw Error("SETTINGS_INVALID: 一次寄生の定義版");
@@ -27255,7 +27260,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const available=new Set();
       for(const species of Object.keys(hostTable)){
         const direct=w.config.founderCounts?.parasites?.[species],first=w.organisms.filter(o=>hostTable[species].first.includes(o.species));
-        const requested=w.config.enabled.P?(direct??Math.floor(first.length*p.initialFraction)):0;
+        const requested=w.config.enabled.P?(direct??(first.length&&p.automaticCounts?.[species]!==undefined?p.automaticCounts[species]:Math.floor(first.length*p.initialFraction))):0;
         const raw=(direct===undefined?p.initialDistribution:[1,0,0]).map(n=>n*requested),counts=raw.map(Math.floor);
         for(const i of raw.map((n,i)=>({n:n-counts[i],i})).sort((a,b)=>b.n-a.n||a.i-b.i).slice(0,requested-counts.reduce((a,b)=>a+b,0)))counts[i.i]++;
         const item=report.bySpecies[species]={requested:direct??null,firstHosts:first.length,planned:requested,actual:0,shortage:0,stages:{},reasons:[]};

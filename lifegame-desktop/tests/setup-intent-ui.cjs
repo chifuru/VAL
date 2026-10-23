@@ -11,7 +11,7 @@ const { chromium } = require("playwright"),
   await fs.mkdir(out, { recursive: true });
   const baselineSource=require('node:child_process').execFileSync('git',['show','e32bcac:lifegame-desktop/src/app.js'],{encoding:'utf8'});
   const currentSource=await fs.readFile('src/app.js','utf8');
-  assert.equal(currentSource.slice(currentSource.indexOf('  function readConfig()'),currentSource.indexOf('  function message(text)')).replace("      primaryEggSettings:S.PrimaryParasite.eggParameters({version:'primary-egg-parameters/2',waterStepRange:2}),\n",'').replace("      primaryEggModel:'egg/1',\n",''),baselineSource.slice(baselineSource.indexOf('  function readConfig()'),baselineSource.indexOf('  function message(text)')),'readConfig retains the previous contract apart from the explicit new egg model and saved movement settings');
+  assert.equal(currentSource.slice(currentSource.indexOf('  function readConfig()'),currentSource.indexOf('  function message(text)')).replace("parameters({version:'primary-parameters/2',automaticCounts:{tideparasite:8},carrierTurns",'parameters({carrierTurns').replace("      primaryEggSettings:S.PrimaryParasite.eggParameters({version:'primary-egg-parameters/2',waterStepRange:2}),\n",'').replace("      primaryEggModel:'egg/1',\n",''),baselineSource.slice(baselineSource.indexOf('  function readConfig()'),baselineSource.indexOf('  function message(text)')),'readConfig retains the previous contract apart from the explicit egg settings and automatic water founder allocation');
   const server = http.createServer(async (req, res) => {
     try {
       const file = path.resolve(
@@ -64,7 +64,7 @@ const { chromium } = require("playwright"),
   const submit=async()=>{await page.evaluate(()=>document.getElementById('setup').requestSubmit());await page.waitForFunction(()=>!document.getElementById('setup').hasAttribute('aria-busy'));};
   const source=id=>page.locator('#'+id).locator('xpath=ancestor::*[contains(@class,"generation-field")]').getAttribute('data-source');
   const summary=()=>page.locator('#setup-effective-summary').textContent();
-  const cfg=async p=>p.evaluate(()=>{const c=__LIFE_TEST__.readConfig();delete c.seed;delete c.terrainSeed;delete c.primaryEggModel;delete c.primaryEggSettings;return c;});
+  const cfg=async p=>p.evaluate(()=>{const c=__LIFE_TEST__.readConfig();delete c.seed;delete c.terrainSeed;delete c.primaryEggModel;delete c.primaryEggSettings;if(c.primaryParasiteSettings.version==='primary-parameters/2'){c.primaryParasiteSettings.version='primary-parameters/1';delete c.primaryParasiteSettings.automaticCounts;}return c;});
   try {
     const baseline=await browser.newPage();
     await baseline.route('**/app.js',r=>r.continue({url:r.request().url()+'?baseline=1'}));
