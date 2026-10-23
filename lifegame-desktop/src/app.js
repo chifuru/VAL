@@ -1060,10 +1060,11 @@
       (!groundOnly?world.organisms.find((o) => o.cell === cell && o.slot === "main")?.id:null) ||
       world.organisms.find((o) => o.cell === cell && (!groundOnly||o.slot!=="main"))?.id ||
       null;
+    alignTrackingSelection(selectedId);
     renderer.view.selected = cell;
     renderer.view.selectedEntity = selectedId;
     setInspectorTab('details');
-    renderSelection();
+    renderSelection({refresh:true});
   }
   function locate(id){
     if(!id||!world)return null;
@@ -1085,12 +1086,16 @@
     }
     const q=(world.searchQ||[]).find(q=>q.id===id);return q?{host:null,entity:q,cell:q.cell}:null;
   }
+  function alignTrackingSelection(id){
+    if(id&&followId===id)return;
+    followId=null;lastTracked=null;$('follow-note').textContent='';
+  }
   function updateTracking(){
     const found=locate(followId);
     if(found){selectedId=followId;selectedCell=found.cell;lastTracked={id:followId,cell:found.cell,turn:world.turn,hostId:found.host?.id};const [x,y]=renderer.screen(found.cell,followId),b=$('board').getBoundingClientRect();renderer.view.x+=b.width/2-x;renderer.view.y+=b.height/2-y-(renderer.view.planeSeparation&&!found.carcass&&found.host?.slot==='main'?window.EcoDisplayPlane.LIFT*renderer.view.scale/2:0);$('follow-note').textContent='追跡中: '+followId;}
     else if(followId){const death=world.last.deathCauses.find(d=>d.id===followId||d.id===lastTracked?.hostId),cause=death?({combat:"戦闘",starvation:"栄養不足",harvest:"採食による喪失",age:"寿命"}[death.reason]||death.reason):"消失（確定理由の記録なし）";$('follow-note').textContent=`追跡終了: ${followId} · 最終確認 ${lastTracked?.turn ?? world.turn}T / マス${lastTracked?.cell ?? selectedCell} / ${cause}。`;followId=null;}
   }
-  $('follow-individual').onclick=()=>{followId=followId?null:selectedId;updateTracking();};
+  $('follow-individual').onclick=()=>{followId=followId?null:selectedId;updateTracking();renderSelection();};
   function syncHighlights(){
     const key=$('species-key');
     renderer.view.highlights=[...key.querySelectorAll('[data-highlight]:checked')].map(i=>i.dataset.highlight);
@@ -1112,7 +1117,7 @@
   function renderSpeciesDescription(id){
     const s=D.byId[id];
     const group=groups[s.group],diet=speciesDiet(s),unit=displayUnit(s);
-    $('species-description').innerHTML=`<p class="eyebrow">${escape(group)}</p><h2>${escape(s.name)}</h2><canvas id="species-symbol" width="120" height="120"></canvas><p>現在 ${world.stats.counts[id]||0} ${unit}</p><p>${s.dietName ? escape(s.dietName) + ' · ' : ''}${escape(s.dietDescription || diet?.description || (s.id==='hyperparasite'&&S.HyperParasite?.enabled(world)?'P内で成長し、有償羽化に成功した同じQが自立IVになります。自立後は有限の有機物を採食し産卵します。':s.group==='plant'?'光合成を行い、他生物を支える生産者。':s.group==='fungus'?'有限の有機物を利用する分解者。':s.group==='prey'?'主生物の食物網を支える小型の一次消費者。':s.group==='P'?'宿主を移り生活環を進める一次寄生群体。維持費と排除により失われます。':'一次寄生虫の成熟移行期だけ感染。行動や局所情報へ作用する高次寄生群体。'))}</p><p>${s.good?.length?'得意環境: '+s.good.map(i=>D.environments[i].name).join(' / '):'適合する宿主・生息条件で活動'}${D.environments[s.bad]?' / 苦手: '+D.environments[s.bad].name:''}</p><p>${s.phases?'成長: '+s.phases.join(' → '):'進化相と寄生生活環は別の状態です。'} / ${world.stats.counts[id]?'盤面のチェックで全所在を強調できます。':world.config.enabled[s.group]?'現在の生体は0です。':'この観察では未参加です。'}</p>`;
+    $('species-description').innerHTML=`<p class="eyebrow">${escape(group)}</p><h2>${escape(s.name)}</h2><canvas id="species-symbol" width="120" height="120"></canvas><p>表示時点 ${world.stats.counts[id]||0} ${unit}</p><p>${s.dietName ? escape(s.dietName) + ' · ' : ''}${escape(s.dietDescription || diet?.description || (s.id==='hyperparasite'&&S.HyperParasite?.enabled(world)?'P内で成長し、有償羽化に成功した同じQが自立IVになります。自立後は有限の有機物を採食し産卵します。':s.group==='plant'?'光合成を行い、他生物を支える生産者。':s.group==='fungus'?'有限の有機物を利用する分解者。':s.group==='prey'?'主生物の食物網を支える小型の一次消費者。':s.group==='P'?'宿主を移り生活環を進める一次寄生群体。維持費と排除により失われます。':'一次寄生虫の成熟移行期だけ感染。行動や局所情報へ作用する高次寄生群体。'))}</p><p>${s.good?.length?'得意環境: '+s.good.map(i=>D.environments[i].name).join(' / '):'適合する宿主・生息条件で活動'}${D.environments[s.bad]?' / 苦手: '+D.environments[s.bad].name:''}</p><p>${s.phases?'成長: '+s.phases.join(' → '):'進化相と寄生生活環は別の状態です。'} / ${world.stats.counts[id]?'盤面のチェックで全所在を強調できます。':world.config.enabled[s.group]?'現在の生体は0です。':'この観察では未参加です。'}</p>`;
     if(world.config.consumerModel==='group/1'&&s.group==='prey')$('species-description').insertAdjacentHTML('beforeend',`<p>小集団 ${world.consumerGroupSummary.species[id].groups}群。個体数は群れの内部人数です。近隣への分散・部分的な死亡・内部繁殖で増減します。</p>`);
     R.symbol($('species-symbol').getContext('2d'),id,60,60,42,R.symbolColor(s));
   }
@@ -1483,7 +1488,17 @@
     const next=e.key==='Home'?0:e.key==='End'?1:(index+1)%2;
     setInspectorTab(names[next]);$('inspector-tab-'+names[next]).focus();
   };
-  function renderSelection() {
+  let selectionSnapshot=null;
+  function stampSelection(){
+    const controls=$('selection-controls');
+    if(!selectionSnapshot){delete controls.dataset.turn;$('selection-stamp').textContent='';return;}
+    controls.dataset.turn=String(selectionSnapshot.turn);
+    $('selection-stamp').textContent=`表示 ${selectionSnapshot.turn}Tで固定 · 現在 ${world.turn}T`;
+  }
+  $('refresh-selection').onclick=()=>{
+    try{renderSelection({refresh:true});}catch(error){failObservation('詳細表示',error);}
+  };
+  function renderSelection({refresh=false}={}) {
     const speciesMode=!!describedSpecies;
     setInspectorTab(inspectorTab);
     const chartSelection=[describedSpecies,selectedCell,selectedId].join('|');
@@ -1493,7 +1508,17 @@
     $("follow-individual").hidden=speciesMode;$("follow-note").hidden=speciesMode;
     $("close-species").hidden=!speciesMode&&selectedCell===null;
     document.querySelector(".inspector-heading").textContent=speciesMode?"◈ 系統の説明":S.PersistentInformation?.enabled(world)&&!selectedId?"◈ 選択中のマス":"◈ 選択中の個体";
-    if(speciesMode&&world){const panel=document.querySelector(".inspector"),scroll=panel.scrollTop;renderSpeciesDescription(describedSpecies);panel.scrollTop=scroll;return;}
+    const key=speciesMode?'species:'+describedSpecies:selectedId?'id:'+selectedId:selectedCell!==null?'cell:'+selectedCell:null;
+    $('selection-controls').hidden=!world||key===null;
+    $('refresh-selection').disabled=!world||key===null;
+    $('follow-individual').textContent=followId?'追跡を解除':'選択個体を追跡';
+    if(!refresh&&world&&selectionSnapshot?.key===key&&selectionSnapshot.generation===worldGeneration){stampSelection();return;}
+    selectionSnapshot=null;stampSelection();
+    if(speciesMode&&world){
+      const panel=document.querySelector('.inspector'),scroll=panel.scrollTop;
+      renderSpeciesDescription(describedSpecies);panel.scrollTop=scroll;
+      selectionSnapshot={key,generation:worldGeneration,turn:world.turn};stampSelection();return;
+    }
     if (!world || selectedCell === null) {
       $("follow-individual").disabled=true;
       $("selection").textContent = "盤面のマスを選択してください。";
@@ -1523,7 +1548,7 @@
     if(S.PrimaryParasite.enabled(world))$("selection").insertAdjacentHTML('beforeend',primaryAmountsHTML(selectedCell));
     if(S.HyperParasite?.enabled(world))$("selection").insertAdjacentHTML('beforeend',hyperCellHTML(selectedCell));
     [...$("selection").querySelectorAll("details")].forEach((d,i)=>{if(savedOpen[i]!==undefined)d.open=savedOpen[i];});$("selection").scrollTop=savedScroll;$("inspector-details").scrollTop=detailsScroll;document.querySelector(".inspector").scrollTop=inspectorScroll;
-    $("follow-individual").disabled=!locate(selectedId);
+    $("follow-individual").disabled=!located;
     for(const c of $("selection").querySelectorAll('[data-hyper-portrait]'))drawPortrait(c,S.HyperParasite.locate(world,c.dataset.hyperPortrait).q);
     for(const c of $("selection").querySelectorAll('[data-primary-portrait]'))drawPortrait(c,S.PrimaryParasite.locate(world,c.dataset.primaryPortrait).p);
     for (const c of $("selection").querySelectorAll("[data-portrait]"))
@@ -1544,14 +1569,16 @@
       b.onclick = () => {
         describedSpecies = null;
         selectedId = b.dataset.observe;
+        alignTrackingSelection(selectedId);
         setInspectorTab('details');
-        renderSelection();
+        renderSelection({refresh:true});
       };
     for (const b of $("selection").querySelectorAll("[data-tree]"))
       b.onclick = () => {
         activeLineage = b.dataset.tree;
         openGuide("tree");
       };
+    selectionSnapshot={key,generation:worldGeneration,turn:world.turn};stampSelection();
   }
   function renderMapKey() {
     const counts=observations?.rows.at(-1)?.current.counts||world.stats.counts,catalogue=activeCatalogue(),key=catalogue.map(s=>s.id).join('|');
@@ -2059,7 +2086,7 @@
       screenForCell: (cell, id = null) => renderer.screen(cell,id),
       hitAt: renderer.hitAt,
       prepare,
-      refresh: () => { if(world)renderer.setWorld(world);render(); },
+      refresh: () => { selectionSnapshot=null;if(world)renderer.setWorld(world);render(); },
       draw: renderer.draw,
       drawIfChanged: renderer.drawIfChanged,
       finish: finishRun,

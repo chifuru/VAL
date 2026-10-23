@@ -348,8 +348,9 @@ ECOSYSTEM-2026</textarea
           <p id="occupancy-note" class="note">
             主生物と一次消費者の小集団は同じマスに共存できます。寄生虫は宿主に付随します。
           </p>
-          <p id="preview-note" class="note" hidden>途中のプレビューです。個体の詳細・集計はターン確定後に更新します。一時停止すると最後の確定状態に戻ります。</p>
+          <p id="preview-note" class="note" hidden>途中のプレビューです。集計はターン確定後に更新します。詳細は選択・更新した時点で固定され、盤面は一時停止で最後の確定状態に戻ります。</p>
           <button id="follow-individual" class="secondary" disabled>選択個体を追跡</button><p id="follow-note" class="note"></p>
+          <div id="selection-controls" class="selection-snapshot" hidden><span id="selection-stamp"></span><button id="refresh-selection" type="button" class="small" disabled>最新の状態に更新</button><small>数値・画像は、選択または更新したターンの状態です。</small></div>
           <div id="selection">盤面のマスを選択してください。</div>
           <details id="rank-panel" class="rank-panel">
             <summary>生存系統を確認</summary>

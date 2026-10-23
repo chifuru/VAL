@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "selection records the committed turn",
+    "running and camera tracking preserve detail values and DOM",
+    "displayed turn remains distinct from the live turn",
+    "manual refresh captures the latest commit without pausing",
+    "refreshed detail stays fixed on following turns",
+    "refresh while paused preserves biology and pause intent",
+    "explicit re-selection captures the current state"
+  ],
+  "errors": [],
+  "error": "AssertionError [ERR_ASSERTION]: cell information remains fixed across a turn"
+}

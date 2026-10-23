@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "checks": [
+    "selection records the committed turn",
+    "running and camera tracking preserve detail values and DOM",
+    "displayed turn remains distinct from the live turn",
+    "manual refresh captures the latest commit without pausing",
+    "refreshed detail stays fixed on following turns",
+    "refresh while paused preserves biology and pause intent",
+    "explicit re-selection captures the current state",
+    "selecting another target releases the previous tracking target",
+    "cell information remains fixed across a turn",
+    "cell refresh updates to the current turn",
+    "missing-ID display never switches to another organism",
+    "species detail also remains fixed",
+    "species detail has the same explicit refresh control",
+    "clearing selection hides snapshot controls",
+    "new worlds clear the previous snapshot",
+    "observation rows remain consistent",
+    "no unhandled browser errors"
+  ],
+  "errors": [],
+  "scope": "Linux Chromium, actual Worker, 40x28, primary snapshot and cell/species controls; explicit missing-ID display fixture",
+  "baseline_commit": "9f72b23",
+  "date": "2026-10-23",
+  "app_version": "4.2.72",
+  "source_sha256": {
+    "src/app.js": "7caa9c8894cded7bf8c10402c72a8788da3c2f83e7c6b8dc16a2791779c5095e",
+    "src/Index.html": "a12c3ad229544f448909b6817c6d38caafd608272503672b3f02e4a9cbf26ec6",
+    "src/styles.css": "11e94e121d55c398b2fc1f39de75b766fb1dcc7d51877d8e8c691490f3b17209"
+  },
+  "test_sha256": "41bcddc3aed589b8edc97f77dba81862f9720a5df21fa0ffa9ed44f97feb7378",
+  "full_suite": false,
+  "windows_tested": false
+}

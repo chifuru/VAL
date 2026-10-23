@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.72。対象は作成条件全体復帰/1（operations/evidence/setup-defaults-v1/README.md）。起動時の作成条件/固定/非活性状態へ一括復帰し、現在世界・観測行・図鑑・表示設定を保持する。Linux13項目を限定確認。既存の生成事前整合/観測復帰を維持し、各検証の対象版は個別証跡を参照する。生態規則・正式状態は変更なし。全条件/長期/Windows配布物は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
+現在の確定ソースは4.2.72。対象は選択詳細固定/1（operations/evidence/selection-snapshot-v1/README.md）。個体/マス/系統の数値と画像を選択・更新時点で固定し、ターン進行中は再生成しない。明示更新/再選択と、別対象選択での旧追跡解除を接続。Linux17項目＋観測復帰11項目を限定確認。生態規則・画像・保存形式・正式状態は変更なし。全条件/長期/性能倍率/Windows配布物は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
 
 ## A：仕様
 
@@ -216,11 +216,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.6.md。正本: design/specification/consumer-groups-v1.md。契約: operations/plans/i11e-consumer-groups-v1.md。証跡: operations/evidence/i11e-consumer-groups-v1/README.md。
+			valis/nodes/B/B5.6.md。正本: design/specification/selection-snapshot-v1.md。契約: operations/plans/selection-snapshot-v1.md。証跡: operations/evidence/selection-snapshot-v1/README.md。
 		ロジック:
-			集団IDと所在を追跡し、消滅/合流後に別IDへ黙って移らない。
+			選択した確定時点の詳細を固定し、明示更新/再選択で更新する。追跡と現在グラフを独立させ、別対象選択で旧追跡を解除する。
 		実態:
-			4.2.47 / consumer-group/1を接続。限定確認はI11e証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			個体/マス/系統の固定と不在IDの非代替を接続。Linux17項目＋復帰11項目の限定範囲。
 
 ```
 
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/setup-defaults-v1.md。契約: operations/plans/setup-defaults-v1.md。証跡: operations/evidence/setup-defaults-v1/README.md。
+		valis/nodes/C/C8.md。正本: design/specification/selection-snapshot-v1.md。契約: operations/plans/selection-snapshot-v1.md。証跡: operations/evidence/selection-snapshot-v1/README.md。
 	ロジック:
-		フォームのデフォルト復帰と生成ロック/基準値の解除を接続し、供給入力/観察モード/人数制約を再同期する。既存生態と観測復帰を維持する。
+		詳細の再生成を選択/更新時に限定し、表示ターンと現在ターンを区別する。別対象へ切り替えた後に旧followIdへ戻さない。
 	実態:
-		全体復帰操作を接続。世界/記録/表示を保持し、取消または新世界作成へ接続する。
+		選択詳細固定/1を接続。生態/観測/保存形式を維持。長期/全条件/Windows/最速は未認定。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/setup-defaults-v1.md。契約: operations/plans/setup-defaults-v1.md。証跡: operations/evidence/setup-defaults-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/selection-snapshot-v1.md。契約: operations/plans/selection-snapshot-v1.md。証跡: operations/evidence/selection-snapshot-v1/README.md。
 	ロジック:
-		起動時条件/チェック値/非活性状態との比較、固定/不正入力からの復帰、実生成世界と記録の保持、取消後の再開と新世界作成を確認する。
+		DOM保持と数値固定、明示更新、追跡/停止からの独立、不在ID、マス/系統、新世界での解除を確認する。
 	実態:
-		tests/setup-defaults-ui.cjsのLinux13項目が成功。全条件/長期/Windows/最速は未認定。
+		tests/selection-snapshot-ui.cjsの17項目＋観測復帰11項目が成功。性能倍率/全条件/Windows/最速は未認定。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/setup-defaults-v1.md。契約: operations/plans/setup-defaults-v1.md。証跡: operations/evidence/setup-defaults-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/selection-snapshot-v1.md。契約: operations/plans/selection-snapshot-v1.md。証跡: operations/evidence/selection-snapshot-v1/README.md。
 	ロジック:
-		作成条件全体復帰の13項目を、起動時の比較と既存世界保持・実生成に分けて保持する。
+		選択詳細固定17項目と、対象切替後に旧追跡先へ戻る反例/修正、観測復帰11項目の限定結果を保持する。
 	実態:
-		Linux Chromium、保持世界40×28/主24、新世界80×56で限定確認。生態規則/正式状態は変更なし。
+		Linux Chromium、40×28/主24の実Workerで限定確認。不在IDは表示fixture。長期/全条件/Windows/最速は未認定。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
