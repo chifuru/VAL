@@ -379,6 +379,15 @@
     for(const a of w.resources)if(a.kind==="info"&&a.event&&refs.has(a.event.sourceId))flowTelemetry.information.origins.push({id:a.event.id,species:refs.get(a.event.sourceId),time:a.event.time});
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),...(S.HyperParasite?.enabled(w)?{hyperParasite:structuredClone(ctx.hyperFlow)}:{}),...(S.PersistentInformation?.enabled(w)?{persistentInformation:structuredClone(ctx.persistentInformationFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.reduce((n,d)=>n+(d.count??1),0),transfers:ctx.transfers};
   }
+  function cellLife(w,ctx,otherMaintenance=new Map()){
+    N.payActions(w,ctx);
+    const demand=N.CellResources.lifeDemands(w,ctx);
+    const maintenance=new Map([...otherMaintenance,...demand.maintenance]);
+    for(const o of w.organisms)if(o.HP>0&&!maintenance.has(o.id))throw Error("CELL_LIFE_MAINTENANCE_UNCONNECTED:"+o.id);
+    N.CellResources.acquire(w,ctx,demand.requests,demand.canopies);
+    N.CellResources.settleBudgets(w,ctx,maintenance);
+    R.CellLife.advance(w,ctx,N.CellResources,B.moveCost);return demand;
+  }
   function finish(w, ctx) {
     if(S.PersistentInformation?.enabled(w))w.persistentInformationSummary=S.PersistentInformation.summary(w);
     if(S.HyperParasite?.enabled(w))S.HyperParasite.summary(w);
@@ -642,12 +651,12 @@
       if(S.FungalColony.is(o)){const c=o.colony;
         if(!S.FungalColony.enabled(w)||o.B<c.baseB-1e-6||S.edibleB(o)>c.capacityB+1e-6||c.baseB!==1||c.activity<0||c.activity>1||!Number.isSafeInteger(c.starvationRun)||c.starvationRun<0||![c.capacityB,c.activity,...Object.values(c.last),...Object.values(c.cumulative)].every(n=>Number.isFinite(n)&&n>=0))errors.push("FUNGAL_COLONY:"+o.id);
       }
-      if(S.Colony.is(o)){
+      if(S.Colony.is(o)&&!S.CellLife.is(o)){
         const c=o.colony,e=c.edibleExposure;
         if(!S.Colony.enabled(w)||S.spec(o).group!=="plant"||![c.baseB,c.capacityB,c.activity,c.replacementDebtB,...Object.values(c.last),...Object.values(c.cumulative)].every(Number.isFinite)||c.baseB!==S.PLANT_BASE||c.activity<0||c.activity>1||o.B<c.baseB-1e-6||S.edibleB(o)>c.capacityB+1e-6||Object.values(c.cumulative).some(v=>v<0))errors.push("COLONY:"+o.id);
         if(e&&(!Number.isFinite(e.E)||e.E<0||!Number.isFinite(e.amount)||e.amount<0||e.amount>1+1e-6||!Number.isSafeInteger(e.expires)))errors.push("COLONY_EXPOSURE:"+o.id);
       }
-      if(S.LargePlant?.is(o)){
+      if(S.LargePlant?.is(o)&&!S.CellLife.is(o)){
         const plant=o.plant,p=S.phenotype(w,o),s=S.spec(o),
           finiteLedger=value=>typeof value==="number"?Number.isFinite(value)&&value>=0:
             !!value&&typeof value==="object"&&Object.values(value).every(finiteLedger),
@@ -658,7 +667,7 @@
            !Number.isFinite(o.birthLife)||o.birthLife!==s.life||!Number.isSafeInteger(o.phase)||o.phase<1||o.phase>4||
            (o.phase>=3&&![0,1,2].includes(o.branch3))||(o.phase===4&&![0,1].includes(o.branch4)))errors.push("INDEPENDENT_PLANT:"+o.id);
         if(!Array.isArray(plant.window)||plant.window.length>32||!plant.window.every(finiteLedger))errors.push("INDEPENDENT_WINDOW:"+o.id);
-      }else if(o.slot==="producer")errors.push("INDEPENDENT_PLANT:"+o.id);
+      }else if(o.slot==="producer"&&!S.CellLife.is(o))errors.push("INDEPENDENT_PLANT:"+o.id);
       if (o.infection) {
         const p = o.infection;
         if (p.hostId !== o.id) errors.push("HOST:" + o.id);
@@ -725,6 +734,7 @@
     context,
     prepare,
     finish,
+    cellLife,
     S,
     N,
     B,

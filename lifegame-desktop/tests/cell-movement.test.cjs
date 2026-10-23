@@ -84,7 +84,7 @@ test('movement distance stays phase-dependent for normal ryouki and three for al
 });
 
 test('local encounter elects combat, locks movement and preserves actual contact IDs',()=>{
- const w=fixture(),o=add(w,'hunter',{cell:17}),prey=add(w,'insect',{cell:18,species:'grassbug'});
+ const w=fixture(),o=add(w,'hunter',{cell:17}),prey=add(w,'insect',{cell:18,species:'grassbug',phase:1});
  o.weights=o.weights.map(()=>0);o.weights[0]=100;o.E=8;prey.HP=1;
  const ctx=context(w);path(ctx,o,[18,19,20]);E.B.move(w,ctx);
  assert.equal(o.cell,18);assert.equal(ctx.cellMotion.engaged.get(o.id)?.target,prey.id);
@@ -98,7 +98,7 @@ test('local encounter elects combat, locks movement and preserves actual contact
 
 test('combat rechecks target survival, range, readiness, friendship and remaining budget without charging failures',()=>{
  for(const change of ['death','range','cooldown','friend','budget']){
-  const w=fixture(),o=add(w,'hunter',{cell:17}),prey=add(w,'insect',{cell:18,species:'grassbug'});const ctx=context(w);
+  const w=fixture(),o=add(w,'hunter',{cell:17}),prey=add(w,'insect',{cell:18,species:'grassbug',phase:1});const ctx=context(w);
   ctx.intents.set(o.id,{type:'attack',cell:o.cell,target:prey.id,path:[],cost:999});
   if(change==='death')prey.HP=0;if(change==='range')prey.cell=50;if(change==='cooldown')o.attackReady=w.turn+1;
   if(change==='friend')prey.species='ryouki';if(change==='budget')ctx.costs.get(o.id).budget=0;

@@ -1,0 +1,24 @@
+{
+  "signature": "1811e7439d528f52e8ba5c4b5867f56fb052fe6574117c25bcd551574caabc4a",
+  "files": {
+    "src/ecology/state.js": "1b77f61e71a4be40368351f293706ecef6eac31c6c72c89feaf10905ed0b0138",
+    "src/ecology/nutrition.js": "41639d2879d2dfb879c4f368d934f66206a7d418073aa99c675d9b74ff59f53c",
+    "src/ecology/behavior.js": "5de563f34d24f6ca1f34433ecdbb41c1696f17b7250fef3f3f229207987f35c3",
+    "src/ecology/reproduction.js": "3f8aad9f8494aacd9a54a6170265c54664731b90c56bf1b0270a760c3f06a74b",
+    "src/ecology/engine.js": "b2eb46a235e8542ab2756e93bc9558993c2763579a0601e34607abcc6cb4998d",
+    "src/ecology/archive.js": "7cfa06d9e3a1670a3440e302d95c264b0687edec190c6f120699ff60a17a610e",
+    "src/ecology/observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+    "src/ecology/observation-modules.js": "1b5450cfc0a1a14a1ff688c25cf15c453417c6de6a840f85488111144e0ce41a",
+    "src/ecology/replay-version.js": "2ad629047eb6c0fc310547fec61dff155b1fda97e16477015730617f7e2e99de",
+    "src/ecology/transport.js": "dec3f1fc20a92f5af450ed9705c251e1af08b69c89b193f28221fd9b944effd0",
+    "tests/cell-life-cycle.test.cjs": "d2a41954f130c307a4183e75a714c8d10cf58cf0311f9427ff3a0ee96071cb9d",
+    "tests/cell-space.test.cjs": "c2bcf298843529fc254f8f8e7da468429dbb4642231fcd6ed5ccceae974130fa",
+    "tests/cell-movement.test.cjs": "1681895e04c71bbb094928e787b63742eebbd8d4e6d4aa108eaf82706712144a",
+    "tests/cell-resources.test.cjs": "02aa8bf488d8353f733bacedec0cab423fef17a19f9dad7ce4d857ff5ad6c1ec",
+    "design/advantage-switches/model.cjs": "67e5c8851891be3b4a5a0c0003853263e3706d4c1cd16f89c00c24d4f2c1fb28",
+    "tools/build-observation-model.cjs": "86973960daebd2b6db60ae8edad28770fde76542ce308ec6aa2ef7f6129c28ab",
+    "tools/update-replay-version.cjs": "245ff73678b1fb5ce1068220a9653c4e9d2bc99ab31417950c7f2b236aae593a",
+    "operations/plans/cell-life-v1.md": "8707a0cb142c843a80efd8efbae6f575e559f48ad6bb45c9d055d9a8ce6cb7c2",
+    "design/implementation/cell-reorganization-v1.md": "111c7f5ca81354bb0a73902c91280494fdea8ee3c0a3267883a1f9140fa76a7c"
+  }
+}

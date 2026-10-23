@@ -68,7 +68,8 @@
     }
     function prepare(w,ctx){
       const state=begin(w,ctx);
-      for(const o of w.organisms){const p=ctx.traits.get(o.id),base=p.maintenance*S.adjustment(w,o,"maintenance",w.tiles[o.cell].env,p.phase)/(1+S.trait(o,"maintenance",p.phase));
+      for(const o of w.organisms)if(o.cellMatter&&o.cellMatter.tissueAt<w.turn){o.cellMatter.newB=0;o.cellMatter.newEdibleB=0;}
+      for(const o of w.organisms){const p=ctx.traits.get(o.id),base=S.CellLife.is(o)?p.maintenance:p.maintenance*S.adjustment(w,o,"maintenance",w.tiles[o.cell].env,p.phase)/(1+S.trait(o,"maintenance",p.phase));
         ctx.costs.set(o.id,{action:0,base,density:0,neighborCount:0,budget:Q(Math.max(0,o.E-base))});}
       return state;
     }
@@ -99,8 +100,8 @@
       if(!row)return null;
       if(key==="organism"){
         const group=S.spec(row).group;if(row.HP<=0||!["plant","fungus"].includes(group))return null;
-        const hidden=row.cellMatter?.tissueAt===w.turn?row.cellMatter.newB||0:0;
-        return {row,key,cell:row.cell,units:Math.max(0,S.edibleB(row)-hidden),E:1,M:(row.cellMatter?.bodyM||0)/Math.max(EPS,row.B),tag:group==="plant"?"plant":"fungal"};
+        const hidden=row.cellMatter?.tissueAt===w.turn?(row.cellMatter.newEdibleB??row.cellMatter.newB)||0:0;
+        return {row,key,cell:row.cell,units:Math.max(0,S.edibleB(row)-hidden)*(S.CellLife.is(row)?S.phenotype(w,row).biteFactor:1),E:1,M:(row.cellMatter?.bodyM||0)/Math.max(EPS,row.B),tag:group==="plant"?"plant":"fungal"};
       }
       if(row.availableAt>w.turn||row.created>=w.turn)return null;
       const units=key==="carcass"?(row.q||0):row.E||row.M;
@@ -132,7 +133,7 @@
         }else{
           s=source(w,m,r);
           if(!s||s.cell!==o.cell||s.row.id===o.id||S.spec(o).group==="plant"||(S.spec(o).group==="fungus"&&s.key==="organism"))throw Error("CELL_FOOD_SOURCE_INVALID");
-          eta=efficiency(o,s.tag,p.phase);etaM=efficiency(o,"mineral",p.phase);if(!(eta>0))throw Error("CELL_FOOD_DIET_INVALID");
+          eta=efficiency(o,s.tag,p.phase);etaM=S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase);if(!(eta>0))throw Error("CELL_FOOD_DIET_INVALID");
           rates[pool("source/"+s.key+"/"+s.row.id,s.units)]=1;
           rates[eCap]=s.E*eta;rates[mCap]=s.M*etaM;
           const bite=ctx.cellFoodLimits?.get(o.id)??(S.spec(o).group==="prey"?.25*S.ConsumerGroup.count(o):isRyouki(w,o)?(o.ryouki.mutated?w.config.ryoukiSettings.mutatedBiteB:w.config.ryoukiSettings.biteB):2);
@@ -164,8 +165,9 @@
           rawE=down(quantity*s.E);rawM=down(Math.min(s.key==="organism"?(s.row.cellMatter?.bodyM||0):s.row.M||0,quantity*s.M));
           if(s.key==="organism"){
             s.row.B=Q(s.row.B-quantity);if(s.row.cellMatter)s.row.cellMatter.bodyM=Q(s.row.cellMatter.bodyM-rawM);
-            if(S.Colony.is(s.row))S.Colony.consumed(w,s.row,quantity);
-            if(S.LargePlant.is(s.row))S.LargePlant.consumed(w,s.row,quantity);
+            if(S.CellLife.is(s.row))s.row.cellLife.leafDebt=Q((s.row.cellLife.leafDebt||0)+quantity);
+            if(!S.CellLife.is(s.row)&&S.Colony.is(s.row))S.Colony.consumed(w,s.row,quantity);
+            if(!S.CellLife.is(s.row)&&S.LargePlant.is(s.row))S.LargePlant.consumed(w,s.row,quantity);
             if(S.FungalColony.is(s.row))S.FungalColony.increment(s.row,"consumedB",quantity);
           }else{
             const fraction=quantity/s.units;s.row.E=Q(s.row.E-rawE);s.row.M=Q(s.row.M-rawM);
@@ -183,6 +185,32 @@
         const record=ctx.records.get(o.id);if(r.kind==="photo")record.light=Q(record.light+E);if(r.kind==="food")record.organic=Q(record.organic+E);
       }
       return state.receipts;
+    }
+    function lifeDemands(w,ctx){
+      ready(w,ctx);if(!ctx.cellMotion?.completed)throw Error("CELL_RESOURCES_BEFORE_MOVEMENT");
+      const requests=[],canopies=[],maintenance=new Map(),m=ctx.current||S.maps(w),cells=m.cellSpace||S.CellSpace.index(w);
+      for(const o of w.organisms)if(o.HP>0&&ctx.old.has(o.id)){
+        if(!S.CellLife.is(o))continue;
+        const a=o.cellLife,p=ctx.traits.get(o.id),b=S.CellLife.bounds(o),u=S.CellLife.upkeep(o);
+        maintenance.set(o.id,u);
+        if(a.kind!=="group"){
+          const leaves=S.edibleB(o),area=leaves/b.edible,age=S.CellLife.age(o),capture=Q(4*area*(a.kind==="plant"?o.phase:1)*age.production*(a.kind==="plant"?p.lightInput/S.spec(o).lightInput:1));
+          canopies.push({actor:o.id,height:a.kind==="plant"?o.cellLife.baseB:0,area:Math.max(0,leaves),capture});
+          requests.push({id:"photo/"+o.id,actor:o.id,kind:"photo",need:Math.max(0,p.capE-o.E)});
+          // A single establishment factor, never also applied to root reach.
+          const established=a.kind==="colony"&&a.maintained>=3?1.1:1,
+            variation=.9+.2*S.r(w,"cell/root-reach",w.turn,o.id,o.cell),
+            demand=Math.max(0,p.capM-o.M);
+          requests.push({id:"mineral/"+o.id,actor:o.id,kind:"mineral",need:demand,ability:established,reach:variation});
+        }else{
+          const bite=.25*S.ConsumerGroup.count(o),energyNeed=Math.max(0,p.capE-o.E)/.65,mineralNeed=Math.max(0,p.capM-o.M)/.65;
+          for(const source of [...(cells.get(o.cell)?.[1]||[]),...(cells.get(o.cell)?.[2]||[])]){
+            const amount=Math.min(S.edibleB(source),bite,Math.max(energyNeed,mineralNeed/.02));if(amount<=0)continue;
+            requests.push({id:"food/"+o.id+"/"+source.id,actor:o.id,kind:"food",need:amount,source:{kind:"organism",id:source.id}});
+          }
+        }
+      }
+      return {requests,canopies,maintenance};
     }
     function settleBudgets(w,ctx,maintenance){
       const state=ready(w,ctx);if(!state.acquired)throw Error("CELL_RESOURCES_NOT_ACQUIRED");if(state.budgetSettled)throw Error("CELL_BUDGET_ALREADY_SETTLED");
@@ -203,20 +231,25 @@
       const ticket={id,E:Q(cost.E),M:Q(cost.M),state:"reserved"};b.tickets.set(id,ticket);return {...ticket};
     }
     function cancel(w,ctx,o,id){const t=budget(w,ctx,o).tickets.get(id);if(!t||t.state!=="reserved")return false;t.state="cancelled";return true;}
-    function commit(w,ctx,o,id,{bodyB=0}={}){
-      const b=budget(w,ctx,o),t=b.tickets.get(id),p=ctx.traits.get(o.id);
+    function commit(w,ctx,o,id,{bodyB=0,recipient=o,reserveE=0,reserveM=0,newMember=false}={}){
+      const b=budget(w,ctx,o),t=b.tickets.get(id);
       if(!t||t.state!=="reserved")return false;
-      if(!finite(bodyB)||bodyB*1.2>t.E+EPS||bodyB*.02>t.M+EPS)throw Error("CELL_FORMATION_COST");
+      const extraMember=newMember&&recipient===o&&S.CellLife.is(o)&&o.cellLife.kind==="group"&&S.ConsumerGroup.count(o)<8;
+      if(newMember&&!extraMember)throw Error("CELL_BIRTH_MEMBER");
+      const p=recipient===o?ctx.traits.get(o.id):S.phenotype(w,recipient),capB=p.capB+(extraMember?2:0);
+      if(![bodyB,reserveE,reserveM].every(finite)||bodyB*1.2+reserveE>t.E+EPS||bodyB*.02+reserveM>t.M+EPS||
+        recipient!==o&&(w.organisms.some(a=>a.id===recipient.id)||recipient.B!==0||recipient.E!==0||recipient.M!==0))throw Error("CELL_FORMATION_COST");
       const others=[...b.tickets.values()].filter(a=>a!==t&&a.state==="reserved");
       const needE=t.E+3*b.maintenance.E+others.reduce((n,a)=>n+a.E,0),needM=t.M+3*b.maintenance.M+others.reduce((n,a)=>n+a.M,0);
-      if(o.HP<=0||o.E+EPS<needE||o.M+EPS<needM||o.B+bodyB>p.capB+EPS){t.state="cancelled";return false;}
-      o.E=Q(o.E-t.E);o.M=Q(o.M-t.M);o.B=Q(o.B+bodyB);
-      const bodyM=Q(.02*bodyB);o.cellMatter??={version:"cell-matter/1",bodyM:0,newB:0,tissueAt:w.turn};
-      o.cellMatter.bodyM=Q(o.cellMatter.bodyM+bodyM);
-      o.cellMatter.newB=Q((o.cellMatter.tissueAt===w.turn?o.cellMatter.newB||0:0)+bodyB);o.cellMatter.tissueAt=w.turn;
-      S.dissipate(w,Q(t.E-bodyB));S.CellSpace.deferMaterial(w,o.cell,{M:Q(t.M-bodyM),kind:"mineral"});t.state="paid";return true;
+      if(o.HP<=0||recipient.HP<=0||o.E+EPS<needE||o.M+EPS<needM||recipient.B+bodyB>capB+EPS||
+        recipient!==o&&(reserveE>p.capE+EPS||reserveM>p.capM+EPS)){t.state="cancelled";return false;}
+      o.E=Q(o.E-t.E);o.M=Q(o.M-t.M);recipient.B=Q(recipient.B+bodyB);recipient.E=Q(recipient.E+reserveE);recipient.M=Q(recipient.M+reserveM);
+      const bodyM=Q(.02*bodyB);recipient.cellMatter??={version:"cell-matter/1",bodyM:0,newB:0,tissueAt:w.turn};
+      recipient.cellMatter.bodyM=Q(recipient.cellMatter.bodyM+bodyM);
+      recipient.cellMatter.newB=Q((recipient.cellMatter.tissueAt===w.turn?recipient.cellMatter.newB||0:0)+bodyB);recipient.cellMatter.tissueAt=w.turn;
+      S.dissipate(w,Q(t.E-bodyB-reserveE));S.CellSpace.deferMaterial(w,o.cell,{M:Q(t.M-bodyM-reserveM),kind:"mineral"});t.state="paid";return true;
     }
-    return {VERSION,allocate,begin,prepare,captureLight,acquire,settleBudgets,reserve,cancel,commit};
+    return {VERSION,allocate,begin,prepare,captureLight,acquire,settleBudgets,reserve,cancel,commit,lifeDemands};
   })();
   const isRyouki=(w,o)=>S.Ryouki?.enabled(w)===true&&S.Ryouki.is(o);
   function efficiency(o, tag, phase = o.phase) {

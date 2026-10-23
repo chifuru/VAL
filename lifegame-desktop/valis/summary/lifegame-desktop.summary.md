@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と必要な説明を示す。仕様入口
 
 現在の採用仕様: `design/specification/cell-reorganization-v1.md`（cell-reorganization/1）。マス・0〜5次・土壌/配分・植物/低次動物/分解者・量機の定住3×3・次T境界を既存A/Bへ反映。数値は比較開始値。実装接続/影響探索/検証計画更新/再検証要否あり。新規Node・分割・初期登録・正式状態/階層/層間参照変更なし。全61Nodeは草案。
 
-実行製品の公開設定・製品版は4.2.77のまま。マス再編はCR01〜CR03の内部基盤・移動・資源取引まで実装。資源20＋移動13＋基盤8項目を確認。通常観察・新方式の図鑑保存は未接続として禁止。現在の実測は `operations/evidence/cell-resources-v1/README.md`（D7/E5）、実装契約は `design/implementation/cell-reorganization-v1.md`。CR04〜CR07は未実施。次は植物・低次動物の生活を接続するCR04。画像・UI・製品版・配布は未変更。旧証跡は旧対象版に限定する。
+実行製品は4.2.77のまま。CR04の陸上植物/小集団の内部生活を接続。生活18＋基盤8/移動13/資源20を確認。全生態・通常観察は未接続。 現在の実測: operations/evidence/cell-life-v1/README.md（D7/D8/D8.1 → E5）。契約: design/implementation/cell-reorganization-v1.md。水系専用値/淡水生活、移動可能な低次種の具体指定/群落移動、再生枝の専用補正は残件。CR05分解・循環、CR06寄生/情報/観測・保存、CR07長期は後続。 画像/UI/製品版/配布は未変更。
 
 ## A：仕様
 
@@ -293,43 +293,43 @@ C6:（B5 / モックの造形投影・観測画面・配布）［草案］
 
 C7:（B4 / 同期ターン接合と世界確定）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C7.md。契約: design/implementation/cell-reorganization-v1.md。版付きの新モデルを既存の段階ターンへ接続し、確定前の変更を旧世界へ漏らさない。
+		valis/nodes/C/C7.md。内部生活入口・通常ターンガード。正本: design/implementation/cell-reorganization-v1.md。
 	ロジック:
-		移動→戦闘→最終所在資源配分→維持/衰退→成長/出生/分群/背景分解/末尾確定を接合。次T利用待ちと直接捕食、予約/支払を分け、取消・Worker・生成実行経路を同じ意味に揃える。
+		実在庫/実ID/実費・維持3T留保・次T資格。計画: operations/plans/cell-life-v1.md。証跡: operations/evidence/cell-life-v1/README.md（D7/D8/D8.1 → E5）。
 	実態:
-		CR03: 新方式prepare・費用/収支入口と通常進行ガード。資源20＋基盤8/移動13の限定証跡はE5。草案・正式参照を維持。次はCR04。
+		生活18＋基盤8/移動13/資源20。正式草案/階層/参照を維持。水系/群落移動の種指定/再生専用補正・全循環/通常観察は後続。次はCR05。
 
 	C7.1:（B4, B4.4 / 初期値・固定世界・31種の共通状態）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.1.md。契約: design/implementation/cell-reorganization-v1.md。cellModelの版、固定環境と有限動的在庫、0〜5次の実ID索引と固定最大枠を担当する。
+			valis/nodes/C/C7.1.md。基部/葉・身体M・内部世代の実身体。正本: design/implementation/cell-reorganization-v1.md。
 		ロジック:
-			単一の在庫書込口と派生索引を区別し、定住3/総5枠、量機の相変異定住枠内3体、下層別上限、内部人数/基部/可食部を表現。淡水の4次占有と生産者役割を分け、旧設定は旧経路へ。初期明示0と総物質を保存する。
+			実在庫/実ID/実費・維持3T留保・次T資格。計画: operations/plans/cell-life-v1.md。証跡: operations/evidence/cell-life-v1/README.md（D7/D8/D8.1 → E5）。
 		実態:
-			CR03: 固定環境/在庫設定、身体M、有機物/還元待ちの所有。資源20＋基盤8/移動13の限定証跡はE5。草案・正式参照を維持。次はCR04。
+			生活18＋基盤8/移動13/資源20。正式草案/階層/参照を維持。水系/群落移動の種指定/再生専用補正・全循環/通常観察は後続。次はCR05。
 
 	C7.2:（B4.3, B4.4 / 有限栄養・資源CA・生産と死骸）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.2.md。契約: design/implementation/cell-reorganization-v1.md。光・水・M・食物を同マスの実在量から必要量/能力/届きやすさで配分する。
+			valis/nodes/C/C7.2.md。自動資源要求・維持予算・子への実移転。正本: design/implementation/cell-reorganization-v1.md。
 		ロジック:
-			上限付き配分と余剰再配分、費用/留保/予約、組織形成・維持・部分損失・死骸・分解/同化・次T還元を担当。保持上限のMを消去せず有機物へ残す。菌の保護基部と背景分解・軽い腐敗負荷を上位どおりに接続する。
+			実在庫/実ID/実費・維持3T留保・次T資格。計画: operations/plans/cell-life-v1.md。証跡: operations/evidence/cell-life-v1/README.md（D7/D8/D8.1 → E5）。
 		実態:
-			CR03: 同マス配分・共有光/水/食物・維持/留保/予約・次T還元。資源20＋基盤8/移動13の限定証跡はE5。草案・正式参照を維持。次はCR04。
+			生活18＋基盤8/移動13/資源20。正式草案/階層/参照を維持。水系/群落移動の種指定/再生専用補正・全循環/通常観察は後続。次はCR05。
 
 	C7.3:（B4.1 / 局所行動・同時移動戦闘・学習）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.3.md。契約: design/implementation/cell-reorganization-v1.md。各歩の合法性・実費・枠の調停を共通占有APIへ接続する。
+			valis/nodes/C/C7.3.md。人数別移動費と現在HPを保つ損傷。正本: design/implementation/cell-reorganization-v1.md。
 		ロジック:
-			定住者優先と空き抽選、量機の圧縮枠/混在/解除待ち、移動中1体1枠、交戦地点で停止、戦闘後の歩数再使用なし、最終所在だけの取得を実装対象とする。自動反撃・密集罰・集団倍率を追加しない。
+			実在庫/実ID/実費・維持3T留保・次T資格。計画: operations/plans/cell-life-v1.md。証跡: operations/evidence/cell-life-v1/README.md（D7/D8/D8.1 → E5）。
 		実態:
-			CR03: 移動完了から資源取得への境界を回帰確認。資源20＋基盤8/移動13の限定証跡はE5。草案・正式参照を維持。次はCR04。
+			生活18＋基盤8/移動13/資源20。正式草案/階層/参照を維持。水系/群落移動の種指定/再生専用補正・全循環/通常観察は後続。次はCR05。
 
 	C7.4:（B4, B4.4 / 成長・遺伝・出生と繁殖例外）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.4.md。契約: design/implementation/cell-reorganization-v1.md。相/年齢・身体・蓄え・基部/可食部・内部世代を、実費で更新する。
+			valis/nodes/C/C7.4.md。成長/出生・部分死・有限分群・年齢/相。正本: design/implementation/cell-reorganization-v1.md。
 		ロジック:
-			留保を支出にせず成長/再生/出生の二重予約を防ぐ。各上位比較値、I/年齢0の子、定住/層別出生枠、8体上限、7〜8から3体分群・自動合流なしを接続。新生/新葉/新資格は次Tからで、実物質と感染保持者を複製しない。
+			実在庫/実ID/実費・維持3T留保・次T資格。計画: operations/plans/cell-life-v1.md。証跡: operations/evidence/cell-life-v1/README.md（D7/D8/D8.1 → E5）。
 		実態:
-			cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
+			生活18＋基盤8/移動13/資源20。正式草案/階層/参照を維持。水系/群落移動の種指定/再生専用補正・全循環/通常観察は後続。次はCR05。
 
 	C7.5:（B4.2 / 寄生生活環と外部情報）［草案］
 		構成（要素・関係）:
@@ -357,17 +357,12 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.2.md。契約: design/implementation/cell-reorganization-v1.md。新旧モデルと全実効設定を区別し、新方式に必要な有限状態・利用待ちを転送/保存へ接続する。
+			valis/nodes/C/C8.2.md。生活状態の受渡しと旧署名保護。正本: design/implementation/cell-reorganization-v1.md。
 		ロジック:
-			固定地形と動的水分/M等の差分を分け、既存soilM転送を生かす。初期条件＋最終結果/集計を維持し全世界の毎T保存を追加しない。署名別名だけで旧互換とせず、生成元・実行モデル・保存の意味を一致させる。
+			実在庫/実ID/実費・維持3T留保・次T資格。計画: operations/plans/cell-life-v1.md。証跡: operations/evidence/cell-life-v1/README.md（D7/D8/D8.1 → E5）。
 		実態:
-			CR03: 環境/動的在庫/身体Mの受渡しと旧署名保護。資源20＋基盤8/移動13の限定証跡はE5。草案・正式参照を維持。次はCR04。
+			生活18＋基盤8/移動13/資源20。正式草案/階層/参照を維持。水系/群落移動の種指定/再生専用補正・全循環/通常観察は後続。次はCR05。
 
-```
-
-## D：検証計画
-
-```text
 D1:（A1, B1, C1, C2 / 初期値・入力境界・再現性）［草案］
 	構成（要素・関係）:
 		valis/nodes/D/D1.md。登録済みの参照先。
@@ -418,27 +413,27 @@ D6:（A1.1, A1.2, A1.3, B5, C6 / モックの画面・描画・実行検証計�
 
 D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D7.md。契約: design/implementation/cell-reorganization-v1.md。C7系の固定枠と実人数、有限資源、同時要求、利用時点、新旧版と生成/Worker経路を検証対象とする。
+		valis/nodes/D/D7.md。基盤/移動/資源41回帰・生成/Worker/旧短期一致。正本: design/implementation/cell-reorganization-v1.md。
 	ロジック:
-		通常3＋2/量機9＋2/混在/超過/解除待ち、要求2/1/1と在庫2、順序入替/再配分、隣接取得0、保持上限のM保存、当T/次T境界・取消・旧短期一致を少数fixtureで確認する計画。資源20＋移動13＋基盤8項目を実行。自律生活・通常ターン結合は未実行。
+		実在庫/実ID/実費・維持3T留保・次T資格。計画: operations/plans/cell-life-v1.md。証跡: operations/evidence/cell-life-v1/README.md（D7/D8/D8.1 → E5）。
 	実態:
-		CR03: CR03の20境界と基盤8/移動13の回帰。資源20＋基盤8/移動13の限定証跡はE5。草案・正式参照を維持。次はCR04。
+		生活18＋基盤8/移動13/資源20。正式草案/階層/参照を維持。水系/群落移動の種指定/再生専用補正・全循環/通常観察は後続。次はCR05。
 
 D8:（C7 / 生態循環と結合進行）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D8.md。契約: design/implementation/cell-reorganization-v1.md。植物→低次動物/主生物→死骸→分解→0次→植物の実物質循環を検証対象とする。
+		valis/nodes/D/D8.md。植物/小集団12Tの内部生活結合。正本: design/implementation/cell-reorganization-v1.md。
 	ロジック:
-		供給途絶/回復、群落競争、被食後基部、衰退・消失、背景分解・次T還元を短期で照合する計画。結合後だけ代表1条件の500T等を探索し、旧R1〜R6や全条件の達成を捏造しない。
+		実在庫/実ID/実費・維持3T留保・次T資格。計画: operations/plans/cell-life-v1.md。証跡: operations/evidence/cell-life-v1/README.md（D7/D8/D8.1 → E5）。
 	実態:
-		cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
+		生活18＋基盤8/移動13/資源20。正式草案/階層/参照を維持。水系/群落移動の種指定/再生専用補正・全循環/通常観察は後続。次はCR05。
 
 	D8.1:（C7.4 / 相・出生・遺伝と繁殖例外）［草案］
 		構成（要素・関係）:
-			valis/nodes/D/D8.1.md。契約: design/implementation/cell-reorganization-v1.md。各層の子の費用/初期量と年齢・相、群落/小集団の生活を検証対象とする。
+			valis/nodes/D/D8.1.md。出生/欠乏/部分死/分群/相・年齢の18境界。正本: design/implementation/cell-reorganization-v1.md。
 		ロジック:
-			I/年齢0、留保3T・二重支出なし、低次8体・7〜8から3体分群、人数/E/M/内部年齢保存、再分群/同T出生禁止、菌基部1の被食保護と不足消失、相進行で無料充填なしを確認する計画。未実行。
+			実在庫/実ID/実費・維持3T留保・次T資格。計画: operations/plans/cell-life-v1.md。証跡: operations/evidence/cell-life-v1/README.md（D7/D8/D8.1 → E5）。
 		実態:
-			cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
+			生活18＋基盤8/移動13/資源20。正式草案/階層/参照を維持。水系/群落移動の種指定/再生専用補正・全循環/通常観察は後続。次はCR05。
 
 	D8.2:（C7.5 / 寄生・高次寄生と情報）［草案］
 		構成（要素・関係）:
@@ -495,11 +490,11 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 
 E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E5.md。D7。証跡: operations/evidence/cell-resources-v1/README.md。
+		valis/nodes/E/E5.md。CR04生活18＋既存41回帰の限定証跡。正本: design/implementation/cell-reorganization-v1.md。
 	ロジック:
-		資源20＋基盤8/移動13項目、生成・Worker一致、旧4T結果/再生互換を記録。
+		実在庫/実ID/実費・維持3T留保・次T資格。計画: operations/plans/cell-life-v1.md。証跡: operations/evidence/cell-life-v1/README.md（D7/D8/D8.1 → E5）。
 	実態:
-		草案。自律生活・通常観察・500T・画面/Windowsは未認定。次はCR04。
+		生活18＋基盤8/移動13/資源20。正式草案/階層/参照を維持。水系/群落移動の種指定/再生専用補正・全循環/通常観察は後続。次はCR05。
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:

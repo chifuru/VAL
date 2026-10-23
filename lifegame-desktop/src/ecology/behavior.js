@@ -77,6 +77,7 @@
       1.8,
       terrain * (["log", "bush"].includes(t.cover) ? 1.2 : 1),
     );
+    if(S.CellSpace.enabled(w)&&S.CellLife.is(o)&&o.cellLife.kind==="group")return .025*S.ConsumerGroup.count(o)*terrain;
     if (S.LargePlant?.is(o)) return .3 * ageMove * terrain;
     if (isRyouki(w,o)) {
       let extra=1;
