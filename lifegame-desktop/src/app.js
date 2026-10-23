@@ -911,9 +911,10 @@
     showResults();
   };
   function closeAnalysis(){
+    const liveTarget=analysisState?.target;
     resultReadEpoch++;
-    if(analysisState){summaryHome.after($("current-summary"));$("inspector-graphs").append($("graphs-panel"));$("graph-species").value=analysisState.target;$("graph-turn").value=analysisState.turn;graphFollow=analysisState.follow;}
-    analysisData=null;analysisRecord=null;analysisState=null;$("results-analysis").hidden=true;$("results-list").hidden=false;if(observations?.rows.length){renderCurrentSummary(observations.rows.at(-1),activeCatalogue());renderGraphs();}
+    if(analysisState){summaryHome.after($("current-summary"));$("inspector-graphs").append($("graphs-panel"));$("graph-turn").value=analysisState.turn;graphFollow=analysisState.follow;}
+    analysisData=null;analysisRecord=null;analysisState=null;$("results-analysis").hidden=true;$("results-list").hidden=false;if(observations?.rows.length){renderCurrentSummary(observations.rows.at(-1),activeCatalogue());renderGraphs({target:liveTarget});}
   }
   async function analyzeResult(id){
     const epoch=++resultReadEpoch, previous=world;
@@ -1163,7 +1164,22 @@
   const chartCatalogue=()=>analysisData?.metadata.species?.length?analysisData.metadata.species:activeCatalogue();
   function chartColor(s){if(!s)return '#839097';const ids=chartCatalogue().filter(a=>a.group===s.group),i=ids.findIndex(a=>a.id===s.id),h={plant:125,fungus:35,prey:185,main:220,P:18,Q:280}[s.group]??200;return `hsl(${h+i*2} 65% ${40+(i%5)*9}%)`;}
   let graphInspect=null;
-  const baseGraphOptions=$('graph-species').innerHTML;
+  const graphGroups=[...$('graph-group').options].map(o=>({id:o.value,name:o.textContent}));
+  function syncGraphTargets(target=$('graph-species').value){
+    const catalogue=chartCatalogue(),groups=new Map(graphGroups.map(g=>[g.id,g.name]));
+    let group=groups.has(target)?target:catalogue.find(s=>s.id===target)?.group;
+    if(!groups.has(group)){group='main';target='main';}
+    const members=group==='all'?[]:catalogue.filter(s=>s.group===group);
+    const key=JSON.stringify([group,members.map(s=>[s.id,s.name])]);
+    $('graph-group').value=group;
+    if($('graph-species').dataset.options!==key){
+      $('graph-species').innerHTML=`<option value="${escape(group)}">${escape(groups.get(group))}${group==='all'?'':'すべて'}</option>`+members.map(s=>`<option value="${escape(s.id)}">${escape(s.name)}</option>`).join('');
+      $('graph-species').dataset.options=key;
+    }
+    $('graph-species').value=target;
+    if(!$('graph-species').value)$('graph-species').value=group;
+    $('graph-species').disabled=members.length===0;
+  }
   const summaryHome = document.createComment('Current ecosystem summary');
   $('current-summary').before(summaryHome);
   const graphObservation=()=>analysisData||observations;
@@ -1258,11 +1274,11 @@
     if(force||!slowGraphs||!running||analysisData||delay<=0)paint();
     else if(!chartTimer)chartTimer=setTimeout(paint,delay);
   }
-  function renderGraphs(){
+  function renderGraphs({target:requestedTarget}={}){
     if(!graphObservation()?.rows.length)return;
     const rows=graphObservation().rows,last=rows.length-1;
     const catalogue=chartCatalogue(),graphById=Object.fromEntries(catalogue.map(s=>[s.id,s])),catalogueKey=JSON.stringify(catalogue);
-    if($('graph-species').dataset.catalogue!==catalogueKey){const value=$('graph-species').value;$('graph-species').innerHTML=baseGraphOptions+catalogue.map(s=>`<option value="${escape(s.id)}">${escape(s.name)}</option>`).join('');$('graph-species').value=[...$('graph-species').options].some(o=>o.value===value)?value:'main';$('graph-species').dataset.catalogue=catalogueKey;}
+    syncGraphTargets(requestedTarget??$('graph-species').value);
     $('graph-turn').max=last;$('graph-turn').disabled=running&&!analysisData;if(graphFollow||running&&!analysisData)$('graph-turn').value=last;
     const t=Math.max(0,Math.min(last,Number($('graph-turn').value)||0)),r=rows[t],target=$('graph-species').value;graphInspect=t;
     $('graph-range').textContent=`0–${last}T`;
@@ -1292,6 +1308,7 @@
   }
   $('graph-turn').oninput=()=>{graphFollow=false;renderGraphs();};
   $('graph-latest').onclick=()=>{graphFollow=true;renderGraphs();};
+  $('graph-group').onchange=()=>{syncGraphTargets($('graph-group').value);scheduleGraphs(true);};
   $('graph-species').onchange=()=>scheduleGraphs(true);
 
   $('export-observation').onclick=async()=>{

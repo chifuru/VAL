@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "checks": [
+    "default remains all main organisms",
+    "category options match existing catalogue: main",
+    "category options match existing catalogue: plant",
+    "category options match existing catalogue: prey",
+    "category options match existing catalogue: fungus",
+    "category options match existing catalogue: P",
+    "category options match existing catalogue: Q",
+    "category options match existing catalogue: all",
+    "individual target retains original aggregation and legend",
+    "target changes keep Worker observation progressing",
+    "graph targeting preserves the frozen individual detail",
+    "all-organism targeting preserves paused world and total",
+    "archive target changes restore live category and individual on return: {\"group\":\"prey\",\"target\":\"waterbug\",\"expected\":\"waterbug\"}",
+    "target controls fit a 320px panel fixture with usable select widths",
+    "no unhandled browser exceptions"
+  ],
+  "errors": [],
+  "scope": "Linux Chromium, actual Worker, 40x28, seven target groups, archive round trip and a 320px panel fixture",
+  "baseline_commit": "951fa00",
+  "date": "2026-10-23",
+  "app_version": "4.2.72",
+  "source_sha256": {
+    "src/app.js": "1993064a77e9fa455886552339ce73173d148ae324affab26a4776a0adffc6d9",
+    "src/Index.html": "c1e33c26c83b1230854fd76b2f1b88ffab94d6ef92da84a801a1344b24730aa2",
+    "src/styles.css": "1af9eff95fe53eb7eb7606bea038ec5d72ee1bc0fefbe21f8490a55f0471ca60"
+  },
+  "test_sha256": "c681a533e485db276ea1e56f9e1d981efe02cec792d4dff7cdc2fce66f75f74d",
+  "full_suite": false,
+  "windows_tested": false
+}

@@ -212,7 +212,11 @@ ECOSYSTEM-2026</textarea
             <section id="inspector-graphs" aria-label="生態観測">
               <div id="graphs-panel" class="panel graphs-panel">
                 <h2 class="graphs-heading">生態観測 <small>0Tから現在まで</small></h2>
-                <label class="graph-target">対象<select id="graph-species"><option value="main">主生物</option><option value="all">全生物</option><option value="plant">生産者</option><option value="prey">一次消費者</option><option value="fungus">分解者</option><option value="P">一次寄生</option><option value="Q">高次寄生</option></select></label>
+                <div class="graph-targets">
+                  <label class="graph-target">分類<select id="graph-group"><option value="main">主生物</option><option value="all">全生物</option><option value="plant">生産者</option><option value="prey">一次消費者</option><option value="fungus">分解者</option><option value="P">一次寄生</option><option value="Q">高次寄生</option></select></label>
+                  <label class="graph-target">対象<select id="graph-species"><option value="main">主生物すべて</option></select></label>
+                </div>
+                <p class="graph-target-scope">対象：個体数・集団構成 ／ 生態関係は全生物</p>
                 <div class="graph-grid">
                   <article><h3>生態関係 <small>全期間・各点は直近50T</small></h3><svg id="graph-relations" viewBox="0 0 720 180" role="img" aria-label="全期間の広がり・多様さ・持続性"></svg></article>
                   <article><h3>集団構成 <small>実数・共通の縦軸</small></h3><div id="graph-composition">

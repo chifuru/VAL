@@ -1955,3 +1955,9 @@ body:not(.setup-screen) .workspace > .inspector { grid-column:2;grid-row:2; }
   .observation-overview #current-summary > .current-biomass { grid-column:1;grid-row:2; }
   .observation-overview #current-summary > .current-composition { grid-column:1;grid-row:3; }
 }
+
+/* Two-stage graph targets stay beside their own labels, including narrow panels. */
+#graphs-panel .graph-targets { display:flex; flex-wrap:wrap; gap:4px 10px; }
+#graphs-panel .graph-targets .graph-target { display:flex; flex:1 1 160px; gap:6px; min-width:0; margin:2px 0; }
+#graphs-panel .graph-targets select { width:0; flex:1; min-width:0; }
+#graphs-panel .graph-target-scope { color:#92b8b2; font-size:10px; line-height:1.4; margin:3px 0 6px; }
