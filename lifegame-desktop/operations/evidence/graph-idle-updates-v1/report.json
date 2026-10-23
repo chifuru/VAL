@@ -1,0 +1,49 @@
+{
+  "ok": true,
+  "checks": [
+    "prior app repaints unchanged graphs for individual selection and twice for an analysis-free dialog close",
+    "selecting three individuals does not repaint unchanged period graphs",
+    "closing a results list without analysis does not redraw hidden or unchanged graphs",
+    "selection and list-close optimization preserve all graph pixels, recorded rows and biology",
+    "settled paused view does not repeatedly paint the graphs",
+    "explicit target change still redraws the selected aggregate",
+    "a newly committed turn still updates the complete period",
+    "paused layout resize still repaints an undistorted graph",
+    "saved-result analysis still receives and draws its graphs",
+    "actual analysis close restores live target, layout, graph pixels and values",
+    "a repeated close callback is harmless and does not redraw restored graphs",
+    "a new world refreshes graphs even with the same target",
+    "actual Worker observation continues while selecting individuals",
+    "no uncaught browser or layout errors"
+  ],
+  "errors": [],
+  "measurements": {
+    "before": {
+      "selectionPaints": 3,
+      "listClosePaints": 2
+    },
+    "after": {
+      "selectionPaints": 0,
+      "listClosePaints": 0
+    }
+  },
+  "scope": "Linux Chromium small deterministic world, actual selection/list/analysis/resize controls and fresh real-Worker run",
+  "baseline_commit": "9ca2144",
+  "date_utc": "2026-10-23",
+  "app_version": "4.2.72",
+  "full_suite": false,
+  "windows_tested": false,
+  "source_sha256": {
+    "src/app.js": "5c2e8854559805c6ad863dacef03fbd4df5a5e00bf422373e92ecd7428b878c7",
+    "src/ecology/observations.js": "b2dd2850e2d3d2f18a527bbd08dfc6ae4079200e1f3a4428547555e81dd60556",
+    "src/ecology/observation-modules.js": "d61784e0c505f1d236a8a62022f4cd4acc9e3e24c4a95e72516c6d9cd2b8e2bc"
+  },
+  "test_sha256": "567a2f28e7a60e56133e37ffb69d47fd0759c9b63767ab52975b6f1b0ae0d78c",
+  "limits": [
+    "counts measure graph-stacked clearRect calls for the tested actions, not all Canvas operations",
+    "no global pause of hidden drawing was added; existing board change detection is retained",
+    "delayed async analysis cancellation is source-inspected: resultReadEpoch advances before early return; not separately fault-injected",
+    "no whole-app speedup, long-run survival or Windows certification",
+    "interrupted 3-speed/10-turn work excluded"
+  ]
+}

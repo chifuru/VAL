@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.72。対象は結果を変えないグラフ縦軸軽減/1（operations/evidence/graph-scale-cache-v1/README.md）。集団構成の全履歴map/引数展開を既存増分最大値へ置換。Node3試験と旧新版のLinux画像/原値一致10項目を限定確認。全ターン原値/全点描画/集計/色/配置/生態/保存形式/正式状態は維持。全体速度/長期/Windows/性能上限は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
+現在の確定ソースは4.2.72。対象は結果を変えないグラフ重複更新軽減/1（operations/evidence/graph-idle-updates-v1/README.md）。選択の不要forceと非解析/二重終了での再描画を省略し、読込世代無効化と実更新/復帰を維持。Linux14項目で代表canvasの再描画は選択3→0、解析なし終了2→0。画素/全ターン原値/生態/保存形式/正式状態は維持。全体速度/長期/Windows/性能上限は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
 
 ## A：仕様
 
@@ -208,11 +208,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.5:（A1, A1.1, A1.3, A1.5, A1.7 / 個体数・集団構成・生態関係のグラフ）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.5.md。正本: design/specification/graph-scale-cache-v1.md。契約: operations/plans/graph-scale-cache-v1.md。証跡: operations/evidence/graph-scale-cache-v1/README.md。
+			valis/nodes/B/B5.5.md。正本: design/specification/graph-idle-updates-v1.md。契約: operations/plans/graph-idle-updates-v1.md。証跡: operations/evidence/graph-idle-updates-v1/README.md。
 		ロジック:
-			全ターン原値と相/雌雄/年齢の共通縦軸を維持し、既存の増分最大値を再利用する。
+			個体選択とグラフ対象を独立させ、内容不変の操作では全期間グラフを作り直さない。
 		実態:
-			全点描画は保持。対象切替を含む旧新版の画像/値一致を限定確認。
+			対象/確定T/寸法/解析復帰では更新。原値/画素/全点描画を維持。
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/graph-scale-cache-v1.md。契約: operations/plans/graph-scale-cache-v1.md。証跡: operations/evidence/graph-scale-cache-v1/README.md。
+		valis/nodes/C/C8.md。正本: design/specification/graph-idle-updates-v1.md。契約: operations/plans/graph-idle-updates-v1.md。証跡: operations/evidence/graph-idle-updates-v1/README.md。
 	ロジック:
-		集団構成の最大値をstackShapeから取得し、毎回の全履歴map/可変長引数展開を除く。
+		選択時の不要forceを外し、解析終了は読込世代無効化後に未開始/終了済みを返す。
 	実態:
-		実装差分は最大値参照1箇所。新キャッシュ/系列/間引き/生態変更なし。
+		Linux14項目、代表canvasは選択3→0、非解析終了2→0。生態/保存/画質は維持。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/graph-scale-cache-v1.md。契約: operations/plans/graph-scale-cache-v1.md。証跡: operations/evidence/graph-scale-cache-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/graph-idle-updates-v1.md。契約: operations/plans/graph-idle-updates-v1.md。証跡: operations/evidence/graph-idle-updates-v1/README.md。
 	ロジック:
-		長系列の引数上限と走査数、別/短縮系列、小世界での旧新版4canvas/原値一致を確認する。
+		実UIの修正前後の描画数と画素/原値不変、必要更新・解析復帰・観測継続を確認する。
 	実態:
-		Node3試験、Linux10項目成功。全30万T実観測やアプリ全体性能は未認定。
+		Linux14項目成功。遅延読込の世代順はソース確認のみ。総合性能/長期/Windowsは未認定。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/graph-scale-cache-v1.md。契約: operations/plans/graph-scale-cache-v1.md。証跡: operations/evidence/graph-scale-cache-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/graph-idle-updates-v1.md。契約: operations/plans/graph-idle-updates-v1.md。証跡: operations/evidence/graph-idle-updates-v1/README.md。
 	ロジック:
-		長配列の反例、3試験の走査数と10項目の旧新版一致、対象ソースSHAを保持する。
+		再描画3→0と2→0の反例/差分、14項目と対象ソースSHAを保持する。
 	実態:
-		最大値操作数と総合性能を分離。正式状態は草案。
+		代表canvasの操作数と全体性能を区別。正式状態は草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

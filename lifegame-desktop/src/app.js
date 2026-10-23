@@ -951,6 +951,7 @@
   function closeAnalysis(){
     const liveTarget=analysisState?.target;
     resultReadEpoch++;
+    if(!analysisState&&!analysisData)return;
     if(analysisState){summaryHome.after($("current-summary"));$("inspector-graphs").append($("graphs-panel"));$("graph-turn").value=analysisState.turn;graphFollow=analysisState.follow;}
     analysisData=null;analysisRecord=null;analysisState=null;$("results-analysis").hidden=true;$("results-list").hidden=false;if(observations?.rows.length){renderCurrentSummary(observations.rows.at(-1),activeCatalogue());renderGraphs({target:liveTarget});}
   }
@@ -1576,9 +1577,7 @@
   function renderSelection({refresh=false}={}) {
     const speciesMode=!!describedSpecies;
     setInspectorTab(inspectorTab);
-    const chartSelection=[describedSpecies,selectedCell,selectedId].join('|');
-    const forceCharts=renderSelection.chartSelection!==chartSelection;renderSelection.chartSelection=chartSelection;
-    if(world)scheduleGraphs(forceCharts);
+    if(world)scheduleGraphs();
     $("species-info").hidden=!speciesMode;$("selection").hidden=speciesMode;
     $("follow-individual").hidden=speciesMode;$("follow-note").hidden=speciesMode;
     $("close-species").hidden=!speciesMode&&selectedCell===null;
