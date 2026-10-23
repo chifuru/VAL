@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.72。対象は生態観測の対象選択/1（operations/evidence/graph-targets-v1/README.md）。既存分類から分類全体/個別系統へ選択する。初期対象/集計IDと図鑑往復時の復元を維持。Linux15項目で選択候補/集計/進行継続/詳細固定/320px対象欄fixtureを限定確認。生態規則・画像・グラフ配置・保存形式・正式状態は変更なし。全条件/長期/Windows配布物は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
+現在の確定ソースは4.2.72。対象は観測記録容量/1（operations/evidence/record-budget-v1/README.md）。既存詳細の解放予定を容量判定へ含め、拒否時の確定行不変と全ターン集計を保持。保存結果の読込を1GiB予算/行単位検査へ整合。Node23件とLinux実Worker6項目を限定確認。生態規則・画像・グラフ配置・保存形式・正式状態は変更なし。実1GiB/全条件/長期/Windows配布物は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
 
 ## A：仕様
 
@@ -208,11 +208,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.5:（A1, A1.1, A1.3, A1.5, A1.7 / 個体数・集団構成・生態関係のグラフ）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.5.md。正本: design/specification/graph-targets-v1.md。契約: operations/plans/graph-targets-v1.md。証跡: operations/evidence/graph-targets-v1/README.md。
+			valis/nodes/B/B5.5.md。正本: design/specification/record-budget-v1.md。契約: operations/plans/record-budget-v1.md。証跡: operations/evidence/record-budget-v1/README.md。
 		ロジック:
-			既存分類→分類全体/個別系統で対象を選ぶ。個体数/集団構成は選択対象、生態関係は全生物と区別する。
+			全確定ターンの系列/図鑑用原値を保持し、既存の直近詳細/50T保持を容量判定と整合させる。
 		実態:
-			同じ集計IDと初期主生物を維持。Linux15項目の限定範囲。関係図再設計は対象外。
+			記録容量/1を適用。既存分類→全体/個別系統も維持。Node23件/実Worker6項目の限定範囲。
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
@@ -357,11 +357,11 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.2.md。正本: design/specification/consumer-groups-v1.md。契約: operations/plans/i11e-consumer-groups-v1.md。証跡: operations/evidence/i11e-consumer-groups-v1/README.md。
+			valis/nodes/C/C8.2.md。正本: design/specification/record-budget-v1.md。契約: operations/plans/record-budget-v1.md。証跡: operations/evidence/record-budget-v1/README.md。
 		ロジック:
-			全T集団原値/実効設定/署名/終端/旧再生を接続。
+			解放予定を先に計上し、追加失敗時は確定行を変更しない。保存結果は行単位のサイズ/有限値検査で読む。
 		実態:
-			4.2.47 / consumer-group/1を接続。限定確認はI11e証跡参照。正式状態は草案、全系統生存/R1〜R6・自然P/Q循環・性能・新Windowsは未認定。
+			読込予算を記録拡張上限へ整合。図鑑保存/復元と容量再試行を限定確認。保存形式/生態は変更なし。
 
 ```
 
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/graph-targets-v1.md。契約: operations/plans/graph-targets-v1.md。証跡: operations/evidence/graph-targets-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/record-budget-v1.md。契約: operations/plans/record-budget-v1.md。証跡: operations/evidence/record-budget-v1/README.md。
 	ロジック:
-		分類と系統候補、既存集計、Worker継続/停止意図、詳細固定、図鑑往復、320px対象欄fixtureを限定確認する。
+		容量誤判定の反例、失敗時不変性、拡張後の出力一致、行単位読込と実Workerの停止/再開を確認する。
 	実態:
-		tests/graph-targets-ui.cjsの15項目が成功。画面全体の狭幅配置/全条件/長期/Windowsは未認定。
+		新規6件＋観測12件＋保存5件、実Worker6項目が成功。実1GiB/長期/全条件/Windowsは未認定。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/graph-targets-v1.md。契約: operations/plans/graph-targets-v1.md。証跡: operations/evidence/graph-targets-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/record-budget-v1.md。契約: operations/plans/record-budget-v1.md。証跡: operations/evidence/record-budget-v1/README.md。
 	ロジック:
-		対象選択のLinux15項目と対象欄画像を保持し、既存証跡は各対象版の範囲を維持する。
+		旧容量誤判定の反例、Node23件と実Worker6項目の対象ソース/範囲を保持する。
 	実態:
-		Linux Chromium、40×28/主24の実Worker。図鑑往復を含む限定結果。長期/全条件/Windows/最速は未認定。
+		実際の小予算で停止/拡張/再開/図鑑保存・復元を確認。合成履歴と実生態長期の検証を区別する。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

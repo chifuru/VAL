@@ -1,0 +1,14 @@
+✔ expired detail is budgeted before admission, retaining every turn and the current detail (208.248644ms)
+✔ a real refusal is atomic and expansion retries the same turn without changing the 50T series (307.07339ms)
+✔ row-wise restore counts the exact serialized UTF16 size at its boundary (6.208739ms)
+✔ restore never stringifies the entire row array or snapshot as a single value (3.254131ms)
+✔ both header and row nonfinite values remain rejected without mutating the source (8.267197ms)
+✔ the finite recording ceiling still blocks unbounded retry requests (2.389356ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 559.303607

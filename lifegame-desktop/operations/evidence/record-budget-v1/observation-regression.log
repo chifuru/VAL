@@ -1,0 +1,20 @@
+✔ all turn values survive more than two 500-turn blocks and CSV preserves old peaks and config (915.477674ms)
+✔ age-mature phase I and II can reproduce, juveniles cannot; every child begins phase I age zero (45.797222ms)
+✔ movement and a subsequent effect use the remaining budget; feeding does not finance prior actions (7.957198ms)
+✔ Q window opens only after first terminal maturation and never directly suppresses P maturation (3.042491ms)
+✔ search Q attaches only inside the limited window and conserves finite energy (5.132816ms)
+✔ finite P maintenance causes loss without food and grooming cannot remove an internal parasite (4.791ms)
+✔ contact episodes, continued contact and a wall-blocked neighbor are distinct (4.236874ms)
+✔ new production worlds retain invariants, deterministic replay and observation independence (10265.536675ms)
+✔ finite observation capacity refuses a new row without silently deleting any recorded turn (2.602425ms)
+✔ relationship continuity measures repeated completed time blocks, not a single burst (6.381428ms)
+✔ turn zero reports initial conditions without fabricated interaction events (62.538829ms)
+✔ Q search initialization uses eligible hosts and pays its declared founder energy (45.895584ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11388.362991

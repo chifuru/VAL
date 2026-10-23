@@ -1,0 +1,37 @@
+{
+  "ok": true,
+  "date": "2026-10-23",
+  "baseline_commit": "648bdd0",
+  "app_version": "4.2.72",
+  "source_sha256": {
+    "src/ecology/observations.js": "b2dd2850e2d3d2f18a527bbd08dfc6ae4079200e1f3a4428547555e81dd60556"
+  },
+  "test_sha256": {
+    "tests/record-budget.test.cjs": "f9b42d77131f21a7fc679df6ef84c45279ed0f0a2777cd17fda7da951f8b714f",
+    "tests/record-budget-ui.cjs": "14c69e0d16dd316e675cc853aa3b031df798ea366b75fa7f39d43c5c7efa1fea"
+  },
+  "node_results": [
+    {
+      "log": "operations/evidence/record-budget-v1/record-budget.log",
+      "pass": 6,
+      "fail": 0
+    },
+    {
+      "log": "operations/evidence/record-budget-v1/observation-regression.log",
+      "pass": 12,
+      "fail": 0
+    },
+    {
+      "log": "operations/evidence/record-budget-v1/archive-regression.log",
+      "pass": 5,
+      "fail": 0
+    }
+  ],
+  "browser_checks": 6,
+  "full_suite": false,
+  "windows_tested": false,
+  "large_1GiB_allocation_tested": false,
+  "recording_default_estimate_bytes": 268435456,
+  "recording_expansion_ceiling_bytes": 1073741824,
+  "restore_utf16_budget_bytes": 1073741824
+}

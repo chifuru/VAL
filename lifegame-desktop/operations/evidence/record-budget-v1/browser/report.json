@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "checks": [
+    "real recorder capacity failure keeps committed rows and clears the preview",
+    "rejected first turn preserves the initial world fingerprint",
+    "finite capacity failure offers an actionable retry",
+    "capacity expansion resumes the same observation without gaps or duplicates",
+    "expanded observation saves to the real archive and restores every committed aggregate",
+    "no unhandled browser exceptions"
+  ],
+  "errors": [],
+  "scope": "Linux Chromium, actual Worker, 40x28, actual small recorder budget with initial-row bootstrap; not a 1GiB allocation"
+}

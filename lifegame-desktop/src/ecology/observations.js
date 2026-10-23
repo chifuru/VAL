@@ -67,8 +67,9 @@
     const sharedCells=row.occupiedCells-(row.count-row.cohabitingIndividuals);
     return row.occupiedCells>0&&row.maxOccupancy>0&&row.count<=row.occupiedCells*row.maxOccupancy&&(row.maxOccupancy===1?row.cohabitingIndividuals===0&&sharedCells===0:sharedCells>0&&row.cohabitingIndividuals>=2*sharedCells&&row.cohabitingIndividuals<=3*sharedCells&&(row.maxOccupancy===2?row.cohabitingIndividuals===2*sharedCells:row.cohabitingIndividuals>2*sharedCells));
   }
+  const capacityLimit=1024*1024*1024;
   function create(config,version,{maxBytes=256*1024*1024,species=[]}={}){
-    const capacityCeiling=Math.max(maxBytes,1024*1024*1024);
+    const capacityCeiling=Math.max(maxBytes,capacityLimit);
     const canExpandCapacity=(requiredBytes=maxBytes+1)=>requiredBytes<=capacityCeiling&&maxBytes<capacityCeiling;
     const expandCapacity=(requiredBytes=maxBytes+1)=>{if(!canExpandCapacity(requiredBytes))return false;while(maxBytes<requiredBytes)maxBytes=Math.min(capacityCeiling,maxBytes*2);return true;};
     if(config.relationshipModel!==undefined&&config.relationshipModel!=='network/1')throw Error('未知の関係図観測モデルです。');
@@ -76,10 +77,10 @@
     if(config.relationshipModel==='network/1')metadata.relationshipDefinition=relationshipAPI().definition;
     const byId=Object.fromEntries(species.map(s=>[s.id,s])),groupOrder=['plant','prey','main','fungus','P','Q'],groupNames={plant:'生産者',prey:'一次消費者',main:'主生物',fungus:'分解者',P:'P',Q:'Q'};
     let exportedThrough=-1,estimatedBytes=0,dietFrames=[],dietFrameBytes=[],allocations=new Map(),informationOrigins=new Map(),rolling={queue:[],edges:new Map(),units:{},events:{}};
-    function discardPastDetail(row,fields){
-      if(!row)return;
-      for(const [owner,key] of fields){const target=owner==='current'?row.current?.relations:row;if(!target||!target[key])continue;
-        estimatedBytes-=(JSON.stringify(target[key]).length-2)*4;target[key]={};}
+    function planPastDetail(row,fields){
+      if(!row)return [];
+      return fields.flatMap(([owner,key])=>{const target=owner==='current'?row.current?.relations:row;
+        return target?.[key]?[{target,key,bytes:(JSON.stringify(target[key]).length-2)*4}]:[];});
     }
     let stagedRolling=null,stagedNutritionNeeded=null,nutritionNeeded=new Map();
     const nutritionSummaries=new WeakMap();
@@ -278,8 +279,14 @@
       if(config.relationshipModel==='network/1')row.relationship=relationshipAPI().createRow(w,row.current,row.relations,{species});
 
       const bytes=JSON.stringify(row).length*4,nextFrameBytes=[...dietFrameBytes,JSON.stringify(frame).length*4].slice(-50),retainedBytes=nextFrameBytes.reduce((a,n)=>a+n,0)+Math.max(0,nextFrameBytes.length-1)*4+8;
-      if(estimatedBytes+bytes+retainedBytes>maxBytes){const error=Error("観測記録の容量上限に達しました。");error.code='OBSERVATION_CAPACITY';error.requiredBytes=estimatedBytes+bytes+retainedBytes;throw error;}
-      estimatedBytes+=bytes;dietFrames=nextFrames;dietFrameBytes=nextFrameBytes;allocations=pyramid.allocation;informationOrigins=nextOrigins;rolling=stagedRolling;nutritionNeeded=stagedNutritionNeeded;rows.push(row);
+      // Plan the existing expiry before checking capacity, but mutate only
+      // after admission. A rejected append must leave committed rows intact.
+      const release=[...planPastDetail(rows.at(-1),[['row','funnel'],['row','rates'],['row','contactPairs'],['row','links'],['current','edges']]),
+        ...planPastDetail(rows.at(-50),[['row','relations'],['row','contactEpisodes']])];
+      const nextBytes=estimatedBytes+bytes-release.reduce((n,a)=>n+a.bytes,0);
+      if(nextBytes+retainedBytes>maxBytes){const error=Error("観測記録の容量上限に達しました。");error.code='OBSERVATION_CAPACITY';error.requiredBytes=nextBytes+retainedBytes;throw error;}
+      for(const {target,key}of release)target[key]={};
+      estimatedBytes=nextBytes;dietFrames=nextFrames;dietFrameBytes=nextFrameBytes;allocations=pyramid.allocation;informationOrigins=nextOrigins;rolling=stagedRolling;nutritionNeeded=stagedNutritionNeeded;rows.push(row);
       // Dyadic summaries are built once per append, never by rescanning full history on each frame.
       const base={first:row.turn,last:row.turn,counts:row.counts,min:{...row.counts},max:{...row.counts}};
       (levels[0]??=[]).push(base);
@@ -288,10 +295,6 @@
         for(const id of Object.keys(row.counts)){min[id]=Math.min(a.min[id],b.min[id]);max[id]=Math.max(a.max[id],b.max[id]);}
         (levels[l]??=[]).push({first:a.first,last:b.last,counts:b.counts,min,max});
       }
-      // The timelines and saved relationship network retain every turn. These
-      // auxiliary details are only needed for the current readout or its 50T window.
-      discardPastDetail(rows.at(-2),[['row','funnel'],['row','rates'],['row','contactPairs'],['row','links'],['current','edges']]);
-      discardPastDetail(rows.at(-51),[['row','relations'],['row','contactEpisodes']]);
       return true;
     }
     function bins(limit=700){
@@ -388,7 +391,7 @@
     function csv(){return [...csvChunks()].join('');}
     return {rows,metadata,append,bins,csv,csvChunks,series,canExpandCapacity,expandCapacity,snapshot({copy=true}={}){return {schema:"observation-snapshot/1",...(config.relationshipModel==='network/1'?{relationshipIntervals:relationshipAPI().intervals(rows)}:{}),definitions:{...(config.consumerModel==='group/1'?{consumerGroups:consumerDefinition}:{}),...(config.balanceModel==='survival/4'?{fungalColony:fungalDefinition}:{}),current:"ecosystem-current/1",trophic:"trophic-observed/1",nutrition:"nutrition-observed/1",...(config.relationshipModel==='network/1'?{relationship:relationshipAPI().definition}:{}),...(metadata.config.producerModel==='colony/1'?{producerColony:colonyDefinition}:{}),...(metadata.config.largePlantModel==='independent/1'?{independentPlants:independentDefinition}:{}),...(metadata.config.ryoukiModel==='ryouki/1'?{ryouki:ryoukiDefinition}:{}),...(metadata.config.primaryParasiteModel==='primary/1'?{primaryParasite:primaryDefinition,primaryParasiteFlow:primaryFlowDefinition}:{}),...(metadata.config.hyperParasiteModel==='hyper/1'?{hyperParasite:hyperDefinition,hyperParasiteFlow:hyperFlowDefinition}:{}),...(metadata.config.informationModel==='persistent/1'?{persistentInformation:persistentDefinition,persistentInformationFlow:persistentFlowDefinition}:{}),...(rows.some(r=>r.combatKills!==undefined)?{combat:"combat-observed/1"}:{}),...(rows.some(r=>r.information!==undefined)?{information:"information-observed/1"}:{})},metadata:structuredClone(metadata),rows:copy?structuredClone(rows):rows};},markExported(turn=rows.at(-1)?.turn??-1){exportedThrough=Math.max(exportedThrough,Math.min(turn,rows.at(-1)?.turn??-1));},get unexported(){return exportedThrough<(rows.at(-1)?.turn??-1);}};
   }
-  function restore(snapshot,{species=[],validateOnly=false}={}){
+  function restore(snapshot,{species=[],validateOnly=false,maxBytes=capacityLimit}={}){
     if(!snapshot||snapshot.schema!=="observation-snapshot/1"||snapshot.metadata?.schema!=="ecology-observation/1"||snapshot.definitions?.current!=="ecosystem-current/1"||snapshot.definitions?.trophic!=="trophic-observed/1"||snapshot.definitions?.nutrition!=="nutrition-observed/1"||(snapshot.definitions.information!==undefined&&snapshot.definitions.information!=="information-observed/1")||(snapshot.definitions.combat!==undefined&&snapshot.definitions.combat!=="combat-observed/1")||!Array.isArray(snapshot.rows)||!snapshot.rows.length)throw Error("保存された観測の形式・指標版を読み取れません。");
     const consumers=snapshot.metadata.config?.consumerModel==='group/1';
     if(consumers?(snapshot.definitions.consumerGroups!==consumerDefinition||snapshot.metadata.consumerGroupDefinition!==consumerDefinition||!Number.isSafeInteger(snapshot.metadata.config.consumerGroupSettings?.capacity)||snapshot.rows.some(r=>!validConsumers(r.consumerGroups,r.turn,r.counts,r.composition,snapshot.metadata.config.consumerGroupSettings.capacity))):(snapshot.definitions.consumerGroups!==undefined||snapshot.metadata.consumerGroupDefinition!==undefined||snapshot.rows.some(r=>r.consumerGroups!==undefined)))throw Error('保存された一次消費者集団観測に欠測・破損があります。');
@@ -396,7 +399,16 @@
     if(fungi?(snapshot.definitions.fungalColony!==fungalDefinition||snapshot.metadata.fungalColonyDefinition!==fungalDefinition||snapshot.rows.some(r=>!validFungal(r.fungalColony,r.turn,r.counts?.fungus))):(snapshot.definitions.fungalColony!==undefined||snapshot.metadata.fungalColonyDefinition!==undefined||snapshot.rows.some(r=>r.fungalColony!==undefined)))throw Error('保存された菌膜群落観測に欠測・破損があります。');
     const colonies=snapshot.metadata.config?.producerModel==='colony/1';
     if((snapshot.definitions.producerColony!==undefined&&(snapshot.definitions.producerColony!==colonyDefinition||!colonies))||(colonies&&snapshot.definitions.producerColony!==colonyDefinition)||(snapshot.metadata.producerColonyDefinition!==undefined&&snapshot.metadata.producerColonyDefinition!==colonyDefinition))throw Error('保存された群落観測の指標版を読み取れません。');
-    const text=JSON.stringify(snapshot,(_key,value)=>{if(typeof value==="number"&&!Number.isFinite(value))throw Error("保存された観測に非有限値があります。");return value;});if(text.length*2>256*1024*1024)throw Error("観測の読込上限を超えています。");
+    // Check the same serialized payload in bounded pieces. Avoid a second
+    // full-history string just to validate size and finite numeric values.
+    if(!Number.isSafeInteger(maxBytes)||maxBytes<=0)throw Error("観測の読込上限が不正です。");
+    let readBytes=0;
+    const checkPart=value=>{const text=JSON.stringify(value,(_key,n)=>{if(typeof n==="number"&&!Number.isFinite(n))throw Error("保存された観測に非有限値があります。");return n;});
+      readBytes+=text.length*2;if(readBytes>maxBytes)throw Error("観測の読込上限を超えています。");};
+    checkPart({...snapshot,rows:[]});
+    // Header already includes the array brackets; add only rows and commas.
+    readBytes+=Math.max(0,snapshot.rows.length-1)*2;
+    for(const row of snapshot.rows)checkPart(row);
     for(const row of snapshot.rows)if((colonies&&!validColony(row.producerColony,row.turn))||(!colonies&&row.producerColony!==undefined))throw Error('保存された群落観測に欠測・破損があります。');
     const plants=snapshot.metadata.config?.largePlantModel==='independent/1';
     if((plants&&(!colonies||snapshot.definitions.independentPlants!==independentDefinition||snapshot.metadata.independentPlantDefinition!==independentDefinition))||(!plants&&(snapshot.definitions.independentPlants!==undefined||snapshot.metadata.independentPlantDefinition!==undefined)))throw Error('保存された独立植物観測の指標版を読み取れません。');

@@ -1,0 +1,11 @@
+{
+  "baseline": "648bdd0",
+  "budget": 340000,
+  "detailPairs": 4000,
+  "rows": 1,
+  "failure": {
+    "turn": 1,
+    "code": "OBSERVATION_CAPACITY",
+    "requiredBytes": 523924
+  }
+}
