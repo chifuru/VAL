@@ -1,0 +1,6 @@
+{
+  "checks": [
+    "baseline permits a known impossible count and fails only after generation"
+  ],
+  "message": "世界を作成できませんでした：GENERATION_FAILED: 最大8候補以内で初期条件が成立しません（PLACEMENT_SHORTAGE: 潮環 指定2 / 配置可能1（first:適合宿主枠不足 1）） 設定を修正して再試行してください。"
+}

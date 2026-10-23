@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.72。対象は格子・年齢印の確認/1（operations/evidence/visibility-controls-v1/README.md）。詳細主生物の年齢印を顔から名札横へ移し、既存格子/遠景記号/採用画像/生態規則を維持。Linux実UI13項目と既存描画1試験を限定確認。全系統判読性/全条件/長期/Windows配布物/性能は未認定。初期寄生数と適合宿主枠の事前制約は残件。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
+現在の確定ソースは4.2.72。対象は追加発見の寄生初期整合/1（operations/evidence/parasite-founder-preflight-v1/README.md）。既知の第一宿主数との不整合を作成前に制約し、自動宿主の地形生成後不足は対象欄へ案内。Linux16項目と既存生成回帰14項目を限定確認。指定数の自動変更/生態/画像/保存形式/正式状態の変更なし。全地形の事前成立/全条件/長期/Windows/性能は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
 
 ## A：仕様
 
@@ -168,11 +168,11 @@ B4:（A1.1, A1.2, A1.3, A1.4, A1.5, A1.6, A1.7 / 生態系の同期進行）［�
 
 B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案］
 	構成（要素・関係）:
-		valis/nodes/B/B5.md。正本: design/specification/setup-defaults-v1.md。契約: operations/plans/setup-defaults-v1.md。証跡: operations/evidence/setup-defaults-v1/README.md。
+		valis/nodes/B/B5.md。正本: design/specification/parasite-founder-preflight-v1.md。契約: operations/plans/parasite-founder-preflight-v1.md。証跡: operations/evidence/parasite-founder-preflight-v1/README.md。
 	ロジック:
-		起動時の作成条件へ一括復帰し、固定チェックと非活性状態を同期する。現在世界/記録/表示設定には適用しない。
+		一次寄生の直接指定数と第一宿主数を整合させ、設定上の不足は入力時に案内する。
 	実態:
-		全体復帰と既存の下層だけの復帰を区別する。Linux13項目の範囲で限定確認。
+		宿主が自動なら地形生成後の実数を普遍的上限にせず、群体数は黙って変更しない。
 
 	B5.1:（A1.1, A1.2 / 系統樹と進化条件の参照機能）［草案］
 		構成（要素・関係）:
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/visibility-controls-v1.md。契約: operations/plans/visibility-controls-v1.md。証跡: operations/evidence/visibility-controls-v1/README.md。
+		valis/nodes/C/C8.md。正本: design/specification/parasite-founder-preflight-v1.md。契約: operations/plans/parasite-founder-preflight-v1.md。証跡: operations/evidence/parasite-founder-preflight-v1/README.md。
 	ロジック:
-		格子と年齢印の既存チェック欄を遠近/記号表示から独立させ、観測操作で停止させない。
+		既存宿主表と入力の有効/指定状態から必要条件を導き、生成後不足は対象欄へ案内する。
 	実態:
-		実UI13項目で限定確認。初期寄生数と適合宿主枠の事前制約は残件。
+		実UI16項目＋既存生成14項目を限定確認。生態/初期配置/乱数は維持。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/visibility-controls-v1.md。契約: operations/plans/visibility-controls-v1.md。証跡: operations/evidence/visibility-controls-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/parasite-founder-preflight-v1.md。契約: operations/plans/parasite-founder-preflight-v1.md。証跡: operations/evidence/parasite-founder-preflight-v1/README.md。
 	ロジック:
-		実チェック欄の画素差/復帰、同相三年齢、遠近/記号と生態不変、Worker進行を確認する。
+		既知不足の拒否/解除、群無効化、指定数実配置、自動宿主の実不足と修正再試行を確認する。
 	実態:
-		Linux13項目と既存描画1試験が成功。全系統判読性/長期/Windows/性能は未認定。
+		Linux16項目と生成回帰14項目が成功。全地形事前保証/長期/Windows/性能は未認定。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/visibility-controls-v1.md。契約: operations/plans/visibility-controls-v1.md。証跡: operations/evidence/visibility-controls-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/parasite-founder-preflight-v1.md。契約: operations/plans/parasite-founder-preflight-v1.md。証跡: operations/evidence/parasite-founder-preflight-v1/README.md。
 	ロジック:
-		年齢印が顔に重なる反例と修正後実画像、13項目と既存描画1試験、ソースSHAを保持する。
+		2/1の確定反例、16項目と生成14項目、ソースSHAと判定限界を保持する。
 	実態:
-		表示fixtureと自然生態の実測を分離。正式状態は草案。
+		実生成不足と既存試験内のT0注入故障を区別。正式状態は草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

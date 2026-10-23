@@ -216,6 +216,42 @@
   const speciesDiet=s=>s.id==='ryouki'?{name:'雑食',description:'草の可食部と小型の一次消費者を利用'}:D.diets[s.diet];
   const founderSpecies=[...D.species,...(D.independentPlants||[])].filter(s=>["plant","fungus","prey","P","Q"].includes(s.group));
   $("founder-inputs").innerHTML=founderSpecies.map(s=>`<label>${escape(s.name)} · ${s.group==="P"?"一次寄生":s.group==="Q"?"高次寄生":independent(s)?'独立生産者':s.group==="plant"?"生産者":s.group==="fungus"?"分解者":"一次消費者"}（${["P","Q"].includes(s.group)?"群体":s.group==='fungus'||s.group==='plant'&&!independent(s)?'群落':"体"}）<input id="founder-${escape(s.id)}" type="number" min="0" max="${s.group==="Q"?1024:17920}" step="1" placeholder="自動"></label>`).join("");
+  for(const species of founderSpecies.filter(s=>s.group==='P')){
+    const input=$('founder-'+species.id),hint=document.createElement('small');
+    hint.id=input.id+'-hint';hint.className='hint';input.setAttribute('aria-describedby',hint.id);input.after(hint);
+  }
+  function syncParasiteFounders(){
+    for(const [id,table]of Object.entries(S.PrimaryParasite.hostTable)){
+      const input=$('founder-'+id),hint=$(input.id+'-hint');
+      input.setCustomValidity('');
+      const counts=table.first.map(host=>{
+        const field=$('founder-'+host);
+        if(field.disabled)return 0;
+        const n=Number(field.value);return field.value!==''&&Number.isInteger(n)&&n>=0?n:null;
+      }),capacity=counts.every(n=>n!==null)?counts.reduce((a,b)=>a+b,0):null;
+      input.max=String(capacity===null?17920:Math.min(17920,capacity));
+      hint.textContent='直接指定は第一宿主（'+table.first.map(id=>D.byId[id].name).join('・')+'）へ1群体ずつ配置。'+
+        (capacity===null?'自動の宿主数は地形と配置条件で変わります。':'指定済みの第一宿主は合計'+capacity+'枠。適地不足の場合はさらに少なくなります。');
+      if(!input.disabled&&input.value!==''&&capacity!==null&&Number(input.value)>capacity)
+        input.setCustomValidity('第一宿主は設定上最大'+capacity+'枠です。寄生群体数を減らすか自動へ戻す、または第一宿主の設定を見直してください。');
+    }
+  }
+  function parasitePlacementFailure(error){
+    const reasons=error.generationCandidates?.flatMap(c=>c.reasons)||[error.message];
+    for(const [id,table]of Object.entries(S.PrimaryParasite.hostTable)){
+      const name=D.byId[id].name,prefix='PLACEMENT_SHORTAGE: '+name+' 指定';
+      const match=reasons.find(reason=>reason.startsWith(prefix));
+      if(!match)continue;
+      const count=match.slice(prefix.length).match(/^(\d+) \/ 配置可能(\d+)（first:適合宿主枠不足 /);
+      if(!count)continue;
+      const field=$('founder-'+id);$('founder-settings').open=true;
+      for(let parent=field.parentElement;parent;parent=parent.parentElement)if(parent.tagName==='DETAILS')parent.open=true;
+      setupMessage(name+'の初期'+count[1]+'群体を配置する第一宿主が不足しました（直前の候補では'+count[2]+'枠）。'+
+        '群体数を減らすか空欄で自動に戻してください。第一宿主（'+table.first.map(id=>D.byId[id].name).join('・')+'）の数や配置条件も見直せます。',true);
+      field.focus();return true;
+    }
+    return false;
+  }
   function readFounders(){
     const result={version:1,species:{},parasites:{}};
     for(const s of founderSpecies){const input=$("founder-"+s.id);if(!input.disabled&&input.value!=="")result[["P","Q"].includes(s.group)?"parasites":"species"][s.id]=Number(input.value);}
@@ -500,6 +536,7 @@
     const initial=$('initial'),count=setupMainCount(),[width,height]=$('size').value.split(',').map(Number);
     initial.required=main;initial.min=String(Math.max(4,count*4));initial.max=String(width*height);
     initial.setCustomValidity(main&&!count?'参加させる系統を選んでください。':'');
+    syncParasiteFounders();
     syncSetupValidity();
   }
   function closeWorldDetails() {
@@ -799,7 +836,8 @@
       if (!document.body.classList.contains("observatory"))
         $("focus-view").click();
     } catch (error) {
-      setupMessage("世界を作成できませんでした：" + error.message + " 設定を修正して再試行してください。", true);
+      if(!parasitePlacementFailure(error))
+        setupMessage("世界を作成できませんでした：" + error.message + " 設定を修正して再試行してください。", true);
     } finally {
       preparingWorld = false;
       syncSetupFields();

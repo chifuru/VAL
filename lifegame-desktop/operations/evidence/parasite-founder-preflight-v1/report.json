@@ -1,0 +1,46 @@
+{
+  "ok": true,
+  "checks": [
+    "fully specified first-host counts cap direct P before generation",
+    "known shortage identifies the first-host setting and correction",
+    "reducing only parasite count clears the restriction",
+    "increasing first-host count also clears the restriction",
+    "an automatic host is not mistaken for zero or capped by stale prior capacity",
+    "disabled producer group blocks positive direct P without changing the value",
+    "disabled parasite group retains but does not submit a blocked count",
+    "zero P does not falsely forbid a free adult Q",
+    "automatic parasite count remains valid when first hosts are absent",
+    "a legal exact count creates the requested P without truncation",
+    "unknown actual automatic capacity is left to the existing generation rules",
+    "real automatic-capacity failure shows a targeted correction instead of internal candidate errors",
+    "capacity failure opens the relevant settings and focuses its input",
+    "capacity failure preserves the old world and recorded rows",
+    "clearing the direct count retries successfully using normal automatic rules",
+    "no uncaught browser exceptions"
+  ],
+  "errors": [],
+  "failure": "潮環の初期2群体を配置する第一宿主が不足しました（直前の候補では1枠）。群体数を減らすか空欄で自動に戻してください。第一宿主（微藻・淡水光合成体）の数や配置条件も見直せます。",
+  "scope": "Linux Chromium actual UI, known host restrictions and real terrain-generation shortage; no modified ecological rules",
+  "baseline_commit": "7e06197",
+  "app_version": "4.2.72",
+  "date_utc": "2026-10-23",
+  "full_suite": false,
+  "windows_tested": false,
+  "source_sha256": {
+    "src/app.js": "48d819f6f300942c0dd018c0b3da032858aa6cc369e83e6075e923dcd1390b00",
+    "src/ecology/observation-modules.js": "d61784e0c505f1d236a8a62022f4cd4acc9e3e24c4a95e72516c6d9cd2b8e2bc",
+    "src/ecology/observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2"
+  },
+  "test_sha256": "e956b5629120d48b76f70edc92ebdce7de7d8bb57638c5dfbc1ae2dcc94b4bd0",
+  "regression": {
+    "file": "tests/generation-preflight-ui.cjs",
+    "passed_checks": 14,
+    "report": "operations/evidence/parasite-founder-preflight-v1/generation-regression/report.json"
+  },
+  "limits": [
+    "known all-explicit first-host totals are upper bounds, not terrain placement guarantees",
+    "automatic host capacity remains determined by actual generation; no universal cap is inferred",
+    "no per-keystroke world generation, parasite count truncation or biological rule changes",
+    "interrupted speed changes excluded; no long-run/performance/Windows certification"
+  ]
+}
