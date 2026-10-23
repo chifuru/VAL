@@ -1,0 +1,26 @@
+{
+  "ok": true,
+  "baseline": "035f796",
+  "scope": "unadopted UI proposal and explanatory mock only",
+  "product_code_changed": false,
+  "formal_AB_nodes_changed": false,
+  "project_manifest_changed": false,
+  "core_changed": false,
+  "preview_only": true,
+  "product_tests_run": false,
+  "new_node_or_split": false,
+  "adoption_or_approval_transition": false,
+  "mock_variants": 6,
+  "mobile_width": {
+    "width": 390,
+    "scroll": 390
+  },
+  "artifacts_sha256": {
+    "README.md": "871a6ccb533fef5391f1aaceb60a2215c6a63284c677f58b6534477ceabf0c22",
+    "mock.html": "b9cb6f4ae7ec7984522a011b501e14cb92af8581e4dcc74852bb1727c309b89d",
+    "overview.png": "f6bbdee2bc7a23cbaf1745d198df5849b91b3209a171ba586235abf677e9cfbe",
+    "states.png": "c7f605539cc430170e2d213a2ed1b20ab8f2f01b9daa28c6591711f8296ecd97",
+    "preview-check.json": "c3ac783681e094fdeaed39a617a174d113d60170fd8dbf61ab9924fc79439698"
+  },
+  "next": "Review the three priority UI proposals; adoption into A/B and implementation have not started."
+}

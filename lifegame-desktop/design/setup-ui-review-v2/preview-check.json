@@ -1,0 +1,72 @@
+{
+  "ok": true,
+  "scope": "standalone explanatory mock only; no product or ecological tests",
+  "errors": [],
+  "externalRequests": [],
+  "overview": {
+    "width": 1440,
+    "height": 2161.53125
+  },
+  "states": {
+    "width": 1440,
+    "height": 836.03125
+  },
+  "variants": [
+    {
+      "set": "custom",
+      "mode": "auto",
+      "initial": "作成時に決定",
+      "source": "◌ 自動",
+      "summary": "おまかせ5系統 / 初期数は自動",
+      "profile": "水域中心"
+    },
+    {
+      "set": "custom",
+      "mode": "manual",
+      "initial": "320 体",
+      "source": "● 指定値",
+      "summary": "おまかせ5系統 / 320体を指定",
+      "profile": "選択済みの傾向（今回は不使用）"
+    },
+    {
+      "set": "river",
+      "mode": "auto",
+      "initial": "640 体",
+      "source": "▣ セット固定",
+      "summary": "7系統 / 640体（セット値）",
+      "profile": "おまかせ（セットに適合）"
+    },
+    {
+      "set": "river",
+      "mode": "manual",
+      "initial": "640 体",
+      "source": "▣ セット固定",
+      "summary": "7系統 / 640体（セット値）",
+      "profile": "選択済みの傾向（今回は不使用）"
+    },
+    {
+      "set": "lake",
+      "mode": "auto",
+      "initial": "640 体",
+      "source": "▣ セット固定",
+      "summary": "5系統 / 640体（セット値）",
+      "profile": "おまかせ（セットに適合）"
+    },
+    {
+      "set": "lake",
+      "mode": "manual",
+      "initial": "640 体",
+      "source": "▣ セット固定",
+      "summary": "5系統 / 640体（セット値）",
+      "profile": "選択済みの傾向（今回は不使用）"
+    }
+  ],
+  "individualOverride": {
+    "specified": "● 指定値",
+    "automatic": "◌ 自動"
+  },
+  "mobile": {
+    "width": 390,
+    "scroll": 390
+  }
+}
