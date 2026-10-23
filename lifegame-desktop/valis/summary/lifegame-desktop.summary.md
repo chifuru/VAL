@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.72。対象は観測復帰/1（operations/evidence/observation-recovery-v1/README.md）。Worker異常時の途中表示解除を局所修正し、Linux小世界の11項目を限定確認。一般の再開不能、長期性能、Windows配布物の更新は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。生態規則・正式状態は変更しない。
+現在の確定ソースは4.2.72。対象は生成事前整合/1（operations/evidence/generation-preflight-v1/README.md）。標準/手動/重み0の系統数・最低人数・無効群の種別指定を整合し、Linux小世界14項目と観測復帰11項目を限定確認。生態規則・初期配置・系統数・正式状態は変更しない。全配置条件/長期性能/Windows配布物は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
 
 ## A：仕様
 
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/observation-recovery-v1.md。契約: operations/plans/observation-recovery-v1.md。
+		valis/nodes/C/C8.md。正本: design/specification/generation-preflight-v1.md。契約: operations/plans/generation-preflight-v1.md。
 	ロジック:
-		異常終了済みWorkerへ予約を返さず、返却失敗時も途中表示を解除して確定状態へ戻す。既存の生態/観測UI契約を維持する。
+		有効な系統数を説明/最低人数/作成判定へ共有し、無効群の初期数と初期餌保証の矛盾を防ぐ。既存の異常時復帰と生態契約を維持する。
 	実態:
-		観測復帰/1を接続。Linux小世界11項目の範囲はoperations/evidence/observation-recovery-v1/README.md。一般の再開不能/Windows/長期/最速は未認定。
+		生成事前整合/1を接続。Linux小世界14項目と観測復帰11項目の範囲はoperations/evidence/generation-preflight-v1/README.md。全条件/長期/Windows/最速は未認定。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。tests/observation-recovery-ui.cjs。契約: operations/plans/observation-recovery-v1.md。
+		valis/nodes/D/D9.md。tests/generation-preflight-ui.cjs、tests/observation-recovery-ui.cjs。契約: operations/plans/generation-preflight-v1.md。
 	ロジック:
-		選択/軽減切替、停止意図、確定行維持、Worker/表示の単発故障後の途中表示解除と再開を確認する。
+		系統/人数/非活性入力/固定モードと、失敗時の世界保持・再試行・観測画面遷移を確認する。共有設定処理変更後の停止/再開も確認する。
 	実態:
-		Linux小世界11項目を限定確認。一般の再開不能/Windows/長期/最速は未認定。既存検証の対象版と範囲を維持する。
+		Linux小世界14項目＋観測復帰11項目を限定確認。全条件/長期/Windows/最速は未認定。既存検証の対象版と範囲を維持する。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。operations/evidence/observation-recovery-v1/README.md、report.json、before-fix.json。
+		valis/nodes/E/E6.md。operations/evidence/generation-preflight-v1/README.md、report.json、before-fix.json、recovery-regression/report.json。
 	ロジック:
-		修正前の途中表示解除失敗と、局所修正後11項目の限定結果を保持する。
+		修正前の標準84体拒否と、修正後14項目・観測復帰11項目の限定結果を保持する。
 	実態:
-		Linux Chromium、40×28、主24、実Workerで成功。生態規則/正式状態は変更なし。一般の再開不能/Windows/長期/最速は未認定。
+		Linux Chromium、40×28で成功。生態規則/初期配置/正式状態は変更なし。全条件/長期/Windows/最速は未認定。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

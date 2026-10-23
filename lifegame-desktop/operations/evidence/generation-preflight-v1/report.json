@@ -1,0 +1,28 @@
+{
+  "ok": true,
+  "checks": [
+    "standard 21 lineages create with 84 founders",
+    "successful creation enters observation screen",
+    "zero-weight ryouki is excluded from both minimum count and actual placement",
+    "empty manual selection disables creation with guidance",
+    "five lineages require 20 founders before submission with visible field guidance",
+    "explicit species counts disable incompatible food guarantee",
+    "disabled groups retain their inputs without sending positive founder counts",
+    "reenabling a group restores editable founder values",
+    "generation failure retains the existing world and observation rows",
+    "failed creation remains retryable in settings",
+    "retry creates a new world and enters observation",
+    "fixed mode replaces and locks an incompatible custom map",
+    "fixed mode generation succeeds after custom edits",
+    "no unhandled browser errors"
+  ],
+  "errors": [],
+  "scope": "Linux Chromium, 40x28, representative setup cases, one injected T0 recording failure",
+  "baseline_commit": "81648e5",
+  "date": "2026-10-23",
+  "source_sha256": "fb333e075be16e37eddc628edc51fd351a331066a3ccd63b609ea67abf5e0006",
+  "test_sha256": "c1b4e57938bb7501d10fc30316e2bb128852fe17ca1f5097459029d4b46e2fec",
+  "app_version": "4.2.72",
+  "full_suite": false,
+  "windows_tested": false
+}

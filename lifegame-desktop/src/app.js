@@ -218,7 +218,7 @@
   $("founder-inputs").innerHTML=founderSpecies.map(s=>`<label>${escape(s.name)} · ${s.group==="P"?"一次寄生":s.group==="Q"?"高次寄生":independent(s)?'独立生産者':s.group==="plant"?"生産者":s.group==="fungus"?"分解者":"一次消費者"}（${["P","Q"].includes(s.group)?"群体":s.group==='fungus'||s.group==='plant'&&!independent(s)?'群落':"体"}）<input id="founder-${escape(s.id)}" type="number" min="0" max="${s.group==="Q"?1024:17920}" step="1" placeholder="自動"></label>`).join("");
   function readFounders(){
     const result={version:1,species:{},parasites:{}};
-    for(const s of founderSpecies){const input=$("founder-"+s.id);if(input.value!=="")result[["P","Q"].includes(s.group)?"parasites":"species"][s.id]=Number(input.value);}
+    for(const s of founderSpecies){const input=$("founder-"+s.id);if(!input.disabled&&input.value!=="")result[["P","Q"].includes(s.group)?"parasites":"species"][s.id]=Number(input.value);}
     return Object.keys(result.species).length||Object.keys(result.parasites).length?{founderCounts:result}:{};
   }
   const generationFields={
@@ -453,6 +453,26 @@
     el.classList.toggle("error", error);
     if (error) el.focus();
   }
+  function setupMainCount(){
+    if(!$('group-main').checked)return 0;
+    let ids=$('lineages').value==='manual'
+      ? [...$('lineage-options').querySelectorAll('input:checked')].map(i=>i.value)
+      : [...D.main.slice(0,20),...(D.ryouki?[D.ryouki]:[])].map(s=>s.id);
+    if($('distribution').value==='weighted'&&Number($('weight-options').querySelector('[data-weight="ryouki"]')?.value)===0)ids=ids.filter(id=>id!=='ryouki');
+    return $('lineages').value==='few'?Math.min(5,ids.length):ids.length;
+  }
+  function syncSetupValidity(){
+    const invalid=$('setup').querySelector('input:invalid,select:invalid,textarea:invalid');
+    $('load').disabled=preparingWorld||!!invalid;
+    const note=$('setup-message');
+    if(invalid&&!preparingWorld){
+      const label=[...(invalid.closest('label')?.childNodes||[])].filter(n=>n.nodeType===3).map(n=>n.textContent).join('').trim()||'入力値';
+      setupMessage(label+'：'+invalid.validationMessage);
+      note.dataset.preflight='true';
+    }else if(note.dataset.preflight==='true'){
+      delete note.dataset.preflight;setupMessage('');
+    }
+  }
   function syncSetupFields() {
     const fixed = $("observation-mode").value !== "custom";
     const main = $("group-main").checked;
@@ -464,6 +484,15 @@
     $("weight-options").hidden = !main || !weighted;
     for (const input of $("weight-options").querySelectorAll("input"))
       input.disabled = fixed || !main || !weighted;
+    for(const species of founderSpecies)$('founder-'+species.id).disabled=!$('group-'+species.group).checked;
+    const explicitSpecies=founderSpecies.some(s=>!['P','Q'].includes(s.group)&&!$('founder-'+s.id).disabled&&$('founder-'+s.id).value!=='');
+    $('guarantee').disabled=fixed||!main||explicitSpecies;
+    if(explicitSpecies)$('guarantee').checked=false;
+    $('guarantee').title=explicitSpecies?'種別の初期数を指定している間は初期餌保証を併用できません。':'';
+    const initial=$('initial'),count=setupMainCount(),[width,height]=$('size').value.split(',').map(Number);
+    initial.required=main;initial.min=String(Math.max(4,count*4));initial.max=String(width*height);
+    initial.setCustomValidity(main&&!count?'参加させる系統を選んでください。':'');
+    syncSetupValidity();
   }
   function closeWorldDetails() {
     closeDetails();
@@ -747,12 +776,14 @@
   $("setup").addEventListener("submit", async (event) => {
     event.preventDefault();
     if (preparingWorld) return;
+    syncSetupFields();
+    if(!$('setup').checkValidity())return;
     preparingWorld = true;
     $("load").disabled = true;
     $("setup").setAttribute("aria-busy", "true");
     try {
       const config = readConfig();
-      const count = config.lineages === "all" ? setupMain.length : config.lineages === "few" ? 5 : config.selected.length;
+      const count = setupMainCount();
       if (config.enabled.main && (!count || config.initial < count * 4))
         throw Error("参加系統を選び、系統ごとに最低4体の主生物を設定してください。");
       setupMessage("世界を生成しています…");
@@ -763,7 +794,7 @@
       setupMessage("世界を作成できませんでした：" + error.message + " 設定を修正して再試行してください。", true);
     } finally {
       preparingWorld = false;
-      $("load").disabled = false;
+      syncSetupFields();
       $("setup").removeAttribute("aria-busy");
     }
   });
@@ -1686,10 +1717,9 @@
       $("cohort-hint").textContent = "主生物なしで、選択した生物群を観察します。";
       return;
     }
-    const mode = $("lineages").value,total = Number($("initial").value),
-      excludedRyouki=!!D.ryouki&&mode!=='few'&&$("distribution").value==='weighted'&&Number($("weight-options").querySelector('[data-weight="ryouki"]').value)===0&&(mode==='all'||$("lineage-options").querySelector('[value="ryouki"]').checked),
-      count = (mode === "all" ? 20+(D.ryouki?1:0) : mode === "few" ? 5 : $("lineage-options").querySelectorAll("input:checked").length)-Number(excludedRyouki);
-    $("cohort-hint").textContent = count ? `${count}系統 / 主生物${total}体 · 均等なら1系統あたり約${Math.floor(total/count)}体。少数の集団は配偶相手を失いやすくなります。生存は保証しません。` : "参加させる系統を選んでください。";
+    const total=Number($('initial').value),count=setupMainCount(),minimum=count*4;
+    const restriction=$('guarantee').disabled&&$('guarantee').title?' '+$('guarantee').title:'';
+    $("cohort-hint").textContent = count ? `${count}系統 / 主生物${total}体 · 最低${minimum}体。${total<minimum?'人数を増やすか、参加系統を減らしてください。':`均等なら1系統あたり約${Math.floor(total/count)}体。生存は保証しません。`}${restriction}` : "参加させる系統を選んでください。";
   }
   $("setup").addEventListener("input", updateCohortHint);
   $("setup").addEventListener("change", updateCohortHint);

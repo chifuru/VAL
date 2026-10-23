@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "checks": [
+    "selection and light settings keep observation running",
+    "manual pause stays paused",
+    "returning from settings preserves a manual pause",
+    "settings hold is explicit",
+    "worker failure stops safely and clears pending preview",
+    "worker failure retains only committed observation rows",
+    "worker failure clears the intermediate display",
+    "retry resumes after worker failure",
+    "presentation failure stops safely",
+    "retry resumes after transient presentation failure",
+    "no unhandled browser errors"
+  ],
+  "errors": [],
+  "scope": "24 main individuals, 40x28, Linux Chromium, actual Worker, two injected transient failures"
+}
