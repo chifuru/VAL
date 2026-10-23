@@ -1,0 +1,28 @@
+{
+  "baseline": "f6d999a",
+  "signature": "629092e3e77cecfd834077933180d83dc3d28cafd70810d4075bbfc349da7c73",
+  "files": {
+    "src/ecology/state.js": "3003c02796e19a91710fef091d1ebbc7d251923e618bb5ace489af051b6060c4",
+    "src/ecology/nutrition.js": "f6bb83aa62d968f3be3cce8f6976ecc8bdf8ae6f4fa2da212131616bd665051f",
+    "src/ecology/behavior.js": "5de563f34d24f6ca1f34433ecdbb41c1696f17b7250fef3f3f229207987f35c3",
+    "src/ecology/reproduction.js": "2c97b0df14b7ecdd1073e639ebf580c5405adfb8d09a3bda1e13115bd3bbed8b",
+    "src/ecology/parasites.js": "5afd72e9c000545339cac2748c186dc4eb6d04cfad0677720162793a63f5adee",
+    "src/ecology/engine.js": "577e6fc66c08f250f7a3ba5da3eb7b11d3649b8e48dfeaad788b8f1d093e5d26",
+    "src/ecology/archive.js": "d01472d85dd1b01b21acf268cbd9741485e85e5a66b2671af76c97720f28a85c",
+    "src/ecology/observation-model.js": "c3b613c850ed9044b2f99fe5a5bfb7f8c83d97f912c8bb396344fe304cbc07f2",
+    "src/ecology/observation-modules.js": "b10bc80ef5e44f159449a5fd80c262f4c56d5bb1b1c64361f1eefbb81510e5d5",
+    "src/ecology/replay-version.js": "268930f81c6eb829e3142730533f75a05a701402dd630c1d59a4ccd4c60ba255",
+    "src/ecology/transport.js": "dec3f1fc20a92f5af450ed9705c251e1af08b69c89b193f28221fd9b944effd0",
+    "tests/cell-interactions.test.cjs": "f14e935cde2a1cd58bf7bc24b27064a7cf89c6c7e6f5dddfc817dca101a9792b",
+    "tests/cell-life-cycle.test.cjs": "eaa7f82b0335ff42d6ef568cd26606bdc29bfe7ec457f11ee3acbdc65a58e6b3",
+    "tests/cell-circulation.test.cjs": "c55808bc7f991720ed90995976b12bd291f71e5bc7aaef75b8099508cdc180a9",
+    "tests/cell-space.test.cjs": "c2bcf298843529fc254f8f8e7da468429dbb4642231fcd6ed5ccceae974130fa",
+    "tests/primary-parasite.test.cjs": "b295ba561a1fdb3bda8ef44db62c0cb6186390a7ed127af6ac293f972a6dd92a",
+    "tests/persistent-information.test.cjs": "f210a5cd63b4c2cad9919e398d9f4bc5d00a84d300c7f9a91ff48c6ae10e044f",
+    "operations/plans/cell-interactions-v1.md": "d252eacde3805de39abdd835087627b982137ee0f14f6e51722e90a6acbca564",
+    "design/implementation/cell-reorganization-v1.md": "bb8697b01bef8acf6fe669975c86c93aaf8cd6db226bbb47e95224f643aa46f4",
+    "design/advantage-switches/model.cjs": "67e5c8851891be3b4a5a0c0003853263e3706d4c1cd16f89c00c24d4f2c1fb28",
+    "tools/build-observation-model.cjs": "86973960daebd2b6db60ae8edad28770fde76542ce308ec6aa2ef7f6129c28ab",
+    "tools/update-replay-version.cjs": "245ff73678b1fb5ce1068220a9653c4e9d2bc99ab31417950c7f2b236aae593a"
+  }
+}

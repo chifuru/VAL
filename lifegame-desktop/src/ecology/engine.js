@@ -153,7 +153,14 @@
     return ctx;
   }
   function prepare(w, ctx) {
-    if(S.CellSpace.enabled(w))return N.CellResources.prepare(w,ctx);
+    if(S.CellSpace.enabled(w)){
+      if(S.PersistentInformation?.enabled(w))P.informationTrack(w,ctx);
+      N.CellResources.payloads(w,ctx);
+      if(S.PrimaryParasite?.enabled(w))P.begin(w,ctx);
+      const state=N.CellResources.prepare(w,ctx);
+      if(S.PersistentInformation?.enabled(w))P.informationBegin(w,ctx);
+      return state;
+    }
     const sharedPlants=S.LargePlant?.enabled(w);
     if(sharedPlants)S.LargePlant.prepareLight(w,ctx);
     for (const o of w.organisms) {
@@ -387,7 +394,11 @@
     for(const o of w.organisms)if(o.HP>0&&!maintenance.has(o.id))throw Error("CELL_LIFE_MAINTENANCE_UNCONNECTED:"+o.id);
     N.CellResources.acquire(w,ctx,demand.requests,demand.canopies);
     N.CellResources.settleBudgets(w,ctx,maintenance);
-    R.CellLife.advance(w,ctx,N.CellResources,B.moveCost);N.CellResources.background(w,ctx);return demand;
+    R.CellLife.advance(w,ctx,N.CellResources,B.moveCost);N.CellResources.background(w,ctx);
+    if(S.PrimaryParasite?.enabled(w)){P.contacts(w,ctx);P.mature(w,ctx);P.reproduce(w,ctx);}
+    if(S.PersistentInformation?.enabled(w))P.informationFinalize(w,ctx);
+    // Q autonomous search/feeding and public stepping remain a later CR06 boundary.
+    return demand;
   }
   function finish(w, ctx) {
     if(S.PersistentInformation?.enabled(w))w.persistentInformationSummary=S.PersistentInformation.summary(w);

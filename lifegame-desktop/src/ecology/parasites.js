@@ -14,6 +14,26 @@
   const cohorts=w=>S.ParasiteCohort.enabled(w);
   const fanout=w=>cohorts(w)&&w.config.parasiteDispersalModel==="fanout/1";
   const eggsEnabled=w=>S.PrimaryParasite.eggsEnabled(w);
+  const cellMode=w=>S.CellSpace.enabled(w);
+  const cellLivingHost=(w,ctx,host)=>!cellMode(w)||host?.HP>0&&ctx.old.has(host.id);
+  const cellCarrierReady=(w,host)=>host.created<w.turn&&!(host.availableAt>w.turn);
+  function primaryOccupants(w,m,cell){
+    return cellMode(w)?(m.cellSpace.get(cell)||[]).flat():[...S.mainAt(m,cell),m.food.get(cell),m.prey?.get(cell),m.producer?.get(cell)];
+  }
+  function cellContactDonor(w,ctx,host,m){
+    if(!cellMode(w))return true;
+    if(m.byId.get(host.id)===host)return cellLivingHost(w,ctx,host);
+    return w.carcasses.includes(host)&&cellCarrierReady(w,host)&&host.payloadExpires>w.turn;
+  }
+  function cellMotionContacts(w,ctx,m){
+    const contacts=new Map();if(!cellMode(w)||!ctx.cellMotion?.completed)return contacts;
+    for(const contact of ctx.cellMotion.contacts){
+      const [a,b]=contact.ids,first=m.byId.get(a),second=m.byId.get(b);
+      if(!first||!second||a===b||!cellLivingHost(w,ctx,first)||!cellLivingHost(w,ctx,second))continue;
+      for(const [source,target]of [[a,b],[b,a]]){if(!contacts.has(source))contacts.set(source,new Set());contacts.get(source).add(target);}
+    }
+    return contacts;
+  }
   function primaryRule(w,species,host,route,sourceStage){
     const rule=S.PrimaryParasite.hostRule(species,host,route,sourceStage);
     if(rule.allowed||!cohorts(w)||route!=="contact")return rule;
@@ -38,7 +58,10 @@
   function informationTrack(w,ctx){
     if(!informationEnabled(w))return;
     const subjects=ctx.informationSubjects??=new Map();
-    for(const entry of S.PersistentInformation.entries(w)){S.PersistentInformation.attach(w,entry.subject);if(!subjects.has(entry.subject.id))subjects.set(entry.subject.id,entry);}
+    for(const entry of S.PersistentInformation.entries(w)){
+      S.PersistentInformation.attach(w,entry.subject);
+      if(!subjects.has(entry.subject.id)||cellMode(w)&&!ctx.informationDeaths?.has(entry.subject.id))subjects.set(entry.subject.id,entry);
+    }
   }
   function informationDeath(w,ctx,subject,details={}){
     if(!informationEnabled(w)||!subject)return;
@@ -156,7 +179,8 @@
       let known=a.learned.find(known=>known.originId===group.originId);const knownIds=known?.contentIds??(known?.contentId?[known.contentId]:[]),contents=group.contents.filter(c=>!knownIds.includes(c.content.contentId));
       if(!contents.length){informationFlow(w,ctx,"deduplicated");continue;}
       if(read>=z.receiveLimit||!known&&a.learned.length>=z.learnedCapacity)break;
-      const maintenance=S.PersistentInformation.maintenance(w,o),fee=known?0:Number.isFinite(maintenance)?S.round(maintenance*z.receiveCostFraction):null,budget=ctx.costs?.get(o.id);
+      const budget=ctx.costs?.get(o.id),maintenance=cellMode(w)&&budget?budget.base:S.PersistentInformation.maintenance(w,o),
+        fee=known?0:Number.isFinite(maintenance)?S.round(maintenance*z.receiveCostFraction):null;
       if(fee===null||o.E+1e-8<fee||budget&&budget.budget+1e-8<fee){informationFlow(w,ctx,"rejectedBudget");continue;}
       o.E=S.round(o.E-fee);S.dissipate(w,fee);if(budget)budget.budget=S.round(Math.max(0,budget.budget-fee));
       const sensitivity=.8+.4*(o.dna?.sensitivity??.5);let deltaAbs=0;
@@ -286,7 +310,8 @@
       if(rec?.crowding)note("competition",1,[{axis:4,value:2}]);
       for(const e of events)if(e.type==="care"&&e.amount>0){note("support",e.amount,[{axis:3,value:2}],{peerId:e.target,peerSpecies:peerSpecies(e.target)});relation=true;
         const target=alive.get(e.target)?.subject;if(target){const a=S.PersistentInformation.state(target);a.caregivers=[...(a.caregivers||[]).filter(a=>a.id!==id&&a.expires>w.turn),{id,expires:w.turn+10}].slice(-2);}}
-      const production=o.colony?.last?.productionB??o.plant?.last?.productionB??rec?.informationProducedB??0;
+      const production=cellMode(w)&&S.CellLife.is(o)?(["colony","plant"].includes(o.cellLife.kind)&&o.cellLife.last.turn===w.turn?o.cellLife.last.production:0):
+        o.colony?.last?.productionB??o.plant?.last?.productionB??rec?.informationProducedB??0;
       if(production>0){note("production",production,[{axis:2,value:1},{axis:5,value:1}],{kind:"place"});roleAmounts.producer=production;}
       if(entry.kind==="P"){
         const current=o.primary?.last?.turn===w.turn;maintained=current&&o.primary.last.maintained===true;const progress=current?o.primary.last.appliedProgress||0:0;
@@ -302,6 +327,7 @@
     }
     for(const entry of alive.values()){
       const child=entry.subject,a=S.PersistentInformation.state(child);
+      if(cellMode(w)&&S.CellLife.is(child)&&child.cellLife.kind==="group"&&child.consumerGroup.origin)continue;
       if(a.offspringCredited||!S.PersistentInformation.parents(child).length)continue;
       const age=entry.kind==="Q"?S.HyperParasite.ageInfo(child):entry.kind==="P"?null:S.ageInfo(child),established=entry.kind==="Q"?child.phase===4:age?.stage!=="juvenile"&&(child.age??0)>=4;
       if(!established)continue;
@@ -846,7 +872,7 @@
       const targets=new Map();
       for(const cell of S.nearby(w,i.cell,1,true)){
         if(!S.sight(w,i.cell,cell))continue;
-        for(const host of [m.food.get(cell),m.producer?.get(cell)])if(host&&host.HP>0&&!host.infection&&!occupied.has(host.id)&&S.PrimaryParasite.hostRule(i.species,host,i.route,'terminal').role==='first')targets.set(host.id,host);
+        for(const host of (cellMode(w)?primaryOccupants(w,m,cell):[m.food.get(cell),m.producer?.get(cell)]))if(host&&host.HP>0&&cellLivingHost(w,ctx,host)&&!host.infection&&!occupied.has(host.id)&&S.PrimaryParasite.hostRule(i.species,host,i.route,'terminal').role==='first')targets.set(host.id,host);
       }
       const host=[...targets.values()].sort((a,b)=>S.hash(w,'primary/egg-attachment',w.turn,i.id,a.id)-S.hash(w,'primary/egg-attachment',w.turn,i.id,b.id)||S.compare(a.id,b.id))[0];
       if(!host)continue;
@@ -934,14 +960,15 @@
     return first;
   }
   function primaryContacts(w,ctx) {
+    if(cellMode(w)){if(ctx.cellPrimaryContactsAt===w.turn)return;ctx.cellPrimaryContactsAt=w.turn;}
     const m=S.maps(w);
     eggContacts(w,ctx,m);
     for(const i of (w.primaryInocula||[]).slice().sort((a,b)=>S.compare(a.id,b.id))){
       if(i.egg||!["contact","water"].includes(i.kind)||i.createdAt>=w.turn||i.expires<=w.turn||i.E<=0)continue;
       const cells=i.kind==="water"?(fanout(w)?S.nearby(w,i.cell,1,true).filter(cell=>["shallow","deep"].includes(w.tiles[cell].terrain)): [i.cell]):
         S.nearby(w,i.cell,fanout(w)&&i.stage==="terminal"?2:1,true),seen=new Set(),targets=[];
-      for(const cell of cells)for(const target of [...S.mainAt(m,cell),m.food.get(cell),m.prey?.get(cell),m.producer?.get(cell)]){
-        if(!target||seen.has(target.id)||target.HP<=0||target.infection||!S.sight(w,i.cell,target.cell))continue;seen.add(target.id);
+      for(const cell of cells)for(const target of primaryOccupants(w,m,cell)){
+        if(!target||seen.has(target.id)||target.HP<=0||!cellLivingHost(w,ctx,target)||target.infection||!S.sight(w,i.cell,target.cell))continue;seen.add(target.id);
         if(primaryRule(w,i.species,target,i.kind,i.sourceStage||i.stage).allowed)targets.push(target);
       }
       targets.sort((a,b)=>S.hash(w,"primary/exposure-vote",w.turn,i.id,a.id)-S.hash(w,"primary/exposure-vote",w.turn,i.id,b.id)||S.compare(a.id,b.id));
@@ -951,21 +978,24 @@
     // Sparse paid contact migration allows a completed preterminal parasite
     // to reach the next living host without waiting for a predator to eat it.
     if(cohorts(w)){
-      const settings=S.PrimaryParasite.settings(w),m=S.maps(w);
+      const settings=S.PrimaryParasite.settings(w),m=S.maps(w),motionContacts=cellMotionContacts(w,ctx,m);
       for(const host of primaryHolders(w).slice().sort((a,b)=>S.compare(a.id,b.id))){
         const p=host.infection,entry=ctx.byParasite.get(p?.id);
-        if(!S.PrimaryParasite.is(p)||!entry||!["first","middle"].includes(p.stage)||entry.counter<settings.development[entry.stage]||
+        if(!cellContactDonor(w,ctx,host,m)||!S.PrimaryParasite.is(p)||!entry||!["first","middle"].includes(p.stage)||entry.counter<settings.development[entry.stage]||
           p.counter<settings.development[p.stage]||p.ready>w.turn||w.turn<=p.primary.pauseUntil||ctx.movedInfections.has(p.id)||p.E<(fanout(w)?.015:.04))continue;
-        const targets=[];
+        const targets=[],seen=new Set(),addTarget=target=>{
+          if(!target||target.id===host.id||target.HP<=0||!cellLivingHost(w,ctx,target)||target.infection||cellMode(w)&&seen.has(target.id)||
+            w.pending.some(a=>a.kind==="primary-migration"&&a.hostId===target.id&&a.infection)||
+            !primaryRule(w,p.species,target,"contact",p.stage).allowed)return;
+          seen.add(target.id);targets.push(target);
+        };
         for(const cell of S.nearby(w,host.cell,5,true)){
           if(cell!==host.cell&&(!S.sight(w,host.cell,cell)||(S.distance(w,host.cell,cell)<=1&&!S.oneStep(w,host.cell,cell))))continue;
-          for(const target of [...S.mainAt(m,cell),m.food.get(cell),m.prey?.get(cell),m.producer?.get(cell)]){
-            if(!target||target.id===host.id||target.HP<=0||target.infection||
-              w.pending.some(a=>a.kind==="primary-migration"&&a.hostId===target.id&&a.infection)||
-              !primaryRule(w,p.species,target,"contact",p.stage).allowed)continue;
-            targets.push(target);
-          }
+          for(const target of primaryOccupants(w,m,cell))addTarget(target);
         }
+        // Movement already established co-location and sight at this step.
+        // Only the recorded pair supplements the ordinary five-cell search.
+        for(const id of motionContacts.get(host.id)||[])addTarget(m.byId.get(id));
         if(!targets.length)continue;
         // Preserve the middle host when it is locally available; the costly
         // terminal shortcut prevents a sparse prey layer from ending P alone.
@@ -1004,6 +1034,7 @@
     }
   }
   function primaryTransfer(w,ctx,source,target,type,harvest) {
+    if(cellMode(w)&&(type==="carcass"&&!cellCarrierReady(w,source)||!cellLivingHost(w,ctx,target)))return;
     const route=type==="carcass"?"carcass":"feeding",fraction=S.clamp(harvest?.fraction??((harvest?.consumedB||0)/(harvest?.beforeEdibleB||Infinity)),0,1);
     if(fraction<=0)return;
     for(const i of (w.primaryInocula||[]).slice().sort((a,b)=>S.compare(a.id,b.id)))if(i.hostId===source.id&&["edible","carcass"].includes(i.kind)&&i.createdAt<w.turn&&i.expires>w.turn&&i.E>0)expose(w,ctx,i,target,route,fraction);
@@ -1454,7 +1485,7 @@
   }
   function reproduce(w, ctx) {
     if(primaryEnabled(w)){
-      for(const host of w.organisms)if(host.HP>0)produce(w,ctx,host);
+      for(const host of w.organisms)if(host.HP>0&&cellLivingHost(w,ctx,host))produce(w,ctx,host);
       for(const host of w.organisms){
         const p=host.infection,q=p?.q,rec=ctx.records.get(host.id);
         if(!q||hyperEnabled(w)||!rec||ctx.movedInfections.has(p.id))continue;

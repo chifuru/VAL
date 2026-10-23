@@ -19,25 +19,16 @@
       o.B=Q(o.B-body);o.cellMatter.bodyM=Q(o.cellMatter.bodyM-M);o.cellMatter.newB=Math.min(o.B,o.cellMatter.newB||0);
       S.CellSpace.deferMaterial(w,o.cell,{E:body,M,B:body});o.cellLife.last.loss=Q(o.cellLife.last.loss+body);
     }
-    function preserveInfection(w,part){
-      if(!part.infection)return;
-      const id="cell-host-remains/"+part.id+"/"+w.turn;
-      w.pending.push({id,kind:"cell-host-remains",cell:part.cell,created:w.turn,availableAt:w.turn+1,infection:part.infection});
-      part.infection.hostId=id;part.infection=null;
-    }
-    function death(w,o,ctx,reason){
-      preserveInfection(w,o);
-      S.CellSpace.deferMaterial(w,o.cell,{E:Q(o.E+o.B),M:Q(o.M+o.cellMatter.bodyM),B:o.B});
-      o.E=0;o.M=0;o.B=0;o.cellMatter.bodyM=0;o.cellMatter.newB=0;o.cellLife.baseB=0;o.HP=0;
+    function death(w,o,ctx,N,reason){
+      N.remains(w,o,ctx);o.cellLife.baseB=0;
       if(o.cellLife.kind==="group")o.consumerGroup.cohorts=[];
       ctx.deaths.push({id:o.id,species:o.species,reason});
-      // P/Q release/death hooks are connected in CR06, never cloned here.
     }
     function retire(w,o,ctx,N){
       const cohorts=o.consumerGroup.cohorts.slice();
       for(const c of cohorts)if(c.age+1>=S.spec(o).life&&c.n>0){
         const piece=S.CellLife.extract(w,o,c.n,"age",ctx,c.age);
-        preserveInfection(w,piece.part);N.remains(w,piece.part,ctx);
+        N.remains(w,piece.part,ctx);
         ctx.deaths.push({id:o.id,species:o.species,reason:"age",count:piece.n,partial:true});
       }
     }
@@ -96,6 +87,7 @@
       // Both resulting groups retain three T of real maintenance; no promised food.
       if((o.E-cost)*fraction<.45||o.M*fraction<.009||!N.reserve(w,ctx,o,"split/"+o.id,{E:cost,M:0})||!N.commit(w,ctx,o,"split/"+o.id))return false;
       const piece=S.CellLife.extract(w,o,3,"dispersal",ctx),next=structuredClone(piece.part);delete next.groupRemains;
+      next.infection=piece.part.infection;
       next.id="cs:"+w.turn+":"+o.id;next.cell=cell;next.age=0;next.bornAt=w.turn;next.history=[cell];next.seen=[];
       next.cellLife={...structuredClone(o.cellLife),bornAt:w.turn,processedAt:w.turn,last:{turn:w.turn,production:0,loss:0,born:0,split:0}};
       next.consumerGroup={...structuredClone(o.consumerGroup),origin:o.id,establishedAt:w.turn,cohorts:piece.cohorts,
@@ -146,20 +138,20 @@
         const established=a.maintained>=3;
         a.processedAt=w.turn;a.last={turn:w.turn,production:0,loss:0,born:0,split:0};
         if(kind==="group")retire(w,o,ctx,N);
-        else if(kind==="plant"&&o.age+1>=o.birthLife){death(w,o,ctx,"age");removeIndex(cells,o);continue;}
-        if(o.HP<=0){removeIndex(cells,o);continue;}
+        else if(kind==="plant"&&o.age+1>=o.birthLife){death(w,o,ctx,N,"age");removeIndex(cells,o);continue;}
+        if(o.HP<=0){ctx.informationHooks?.informationDeath(w,ctx,o,{cell:o.cell});removeIndex(cells,o);continue;}
         if(b.deficit>EPS){
           if(kind==="group"){
             const g=o.consumerGroup;g.wounds=Q(g.wounds+2*b.maintenance.E*b.deficit);
             const unit=S.spec(o).capacity[3],loss=Math.min(S.ConsumerGroup.count(o),Math.floor((g.wounds+EPS)/unit));
-            if(loss){const piece=S.CellLife.extract(w,o,loss,"starvation",ctx);preserveInfection(w,piece.part);
+            if(loss){const piece=S.CellLife.extract(w,o,loss,"starvation",ctx);
               N.remains(w,piece.part,ctx);
               ctx.deaths.push({id:o.id,species:o.species,reason:"starvation",count:piece.n,partial:true});g.wounds=Q(Math.max(0,g.wounds-loss*unit));}
             o.HP=Q(Math.max(0,unit*S.ConsumerGroup.count(o)-g.wounds));
           }else{
             const leaves=remaining(w,o),loss=Q((leaves>EPS?Math.min(leaves,kind==="fungus"?.4:1):Math.min(a.baseB,kind==="fungus"?.4:kind==="colony"?.1:.05))*b.deficit);
             discard(w,o,loss);if(leaves<=EPS)a.baseB=Q(Math.max(0,a.baseB-loss));
-            if(a.baseB<=EPS)death(w,o,ctx,"starvation");
+            if(a.baseB<=EPS)death(w,o,ctx,N,"starvation");
           }
         }else{
           if(kind==="colony")a.maintained=Math.min(1e12,a.maintained+1);
@@ -178,7 +170,7 @@
           if(kind==="group")split(w,ctx,N,o,moveCost,cells);
           evolve(w,ctx,N,o);
         }
-        if(o.HP<=0)removeIndex(cells,o);
+        if(o.HP<=0){ctx.informationHooks?.informationDeath(w,ctx,o,{cell:o.cell});removeIndex(cells,o);}
         if(o.HP>0){o.age++;if(kind==="group"){for(const c of o.consumerGroup.cohorts)if(c.bornAt!==w.turn)c.age++;if(o.consumerGroup.infectedAge!==null)o.consumerGroup.infectedAge++;}}
       }
       w.organisms=w.organisms.filter(o=>!is(o)||o.HP>0);ctx.current=S.maps(w);return original.length;

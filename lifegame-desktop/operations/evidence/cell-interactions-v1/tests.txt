@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: prepare settles finite parasite tax before reception and uses actual cell maintenance for each co-resident
+ok 1 - prepare settles finite parasite tax before reception and uses actual cell maintenance for each co-resident
+  ---
+  duration_ms: 114.17501
+  type: 'test'
+  ...
+# Subtest: information reception cannot borrow nutrition from later feeding
+ok 2 - information reception cannot borrow nutrition from later feeding
+  ---
+  duration_ms: 24.593997
+  type: 'test'
+  ...
+# Subtest: contact exposure visits all plant layers and every compressed main host ID
+ok 3 - contact exposure visits all plant layers and every compressed main host ID
+  ---
+  duration_ms: 158.951983
+  type: 'test'
+  ...
+# Subtest: eggs find a vacant co-resident plant hidden by an occupied representative
+ok 4 - eggs find a vacant co-resident plant hidden by an occupied representative
+  ---
+  duration_ms: 16.648214
+  type: 'test'
+  ...
+# Subtest: recorded intermediate contact permits one paid attempt even after the participants separate
+ok 5 - recorded intermediate contact permits one paid attempt even after the participants separate
+  ---
+  duration_ms: 18.321063
+  type: 'test'
+  ...
+# Subtest: fresh dead hosts and new split holders cannot donate or receive contact migration this T
+ok 6 - fresh dead hosts and new split holders cannot donate or receive contact migration this T
+  ---
+  duration_ms: 69.236741
+  type: 'test'
+  ...
+# Subtest: simultaneous food grants expose only the actual remaining inoculum fraction
+ok 7 - simultaneous food grants expose only the actual remaining inoculum fraction
+  ---
+  duration_ms: 21.474982
+  type: 'test'
+  ...
+# Subtest: new carcass transfer is rejected while the same physical source becomes eligible on its next T
+ok 8 - new carcass transfer is rejected while the same physical source becomes eligible on its next T
+  ---
+  duration_ms: 52.009888
+  type: 'test'
+  ...
+# Subtest: partial age death moves a mature P/Q tree into one finite carcass without killing the surviving group information
+ok 9 - partial age death moves a mature P/Q tree into one finite carcass without killing the surviving group information
+  ---
+  duration_ms: 19.872956
+  type: 'test'
+  ...
+# Subtest: immature parasite on a dead individual is excluded instead of surviving in an unbounded pending holder
+ok 10 - immature parasite on a dead individual is excluded instead of surviving in an unbounded pending holder
+  ---
+  duration_ms: 22.839841
+  type: 'test'
+  ...
+# Subtest: split preserves the actual parasite objects and current information owner; dispersal never earns offspring credit
+ok 11 - split preserves the actual parasite objects and current information owner; dispersal never earns offspring credit
+  ---
+  duration_ms: 63.759624
+  type: 'test'
+  ...
+# Subtest: actual feeding, decomposition and plant formation feed different role experience without invented production
+ok 12 - actual feeding, decomposition and plant formation feed different role experience without invented production
+  ---
+  duration_ms: 26.884212
+  type: 'test'
+  ...
+# Subtest: death-created information has one decision and does not enter the frozen reception index this T
+ok 13 - death-created information has one decision and does not enter the frozen reception index this T
+  ---
+  duration_ms: 65.503195
+  type: 'test'
+  ...
+# Subtest: source/generated and Worker/JSON preserve committed interaction state; public turn and capture stay guarded
+ok 14 - source/generated and Worker/JSON preserve committed interaction state; public turn and capture stay guarded
+  ---
+  duration_ms: 597.822202
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1364.285607

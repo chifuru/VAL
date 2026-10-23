@@ -126,7 +126,7 @@ test('phase growth that adds protected base does not hide pre-existing edible le
 });
 
 test('high plant lifespan ends in a finite local return, and infection ownership survives partial transfers',()=>{
- const w=fixture(),o=add(w,'tree','forestcrown',{B:12,E:1,M:.1});o.age=o.birthLife-1;ledger(w);life(w);assert(!w.organisms.includes(o));assert(w.cellState.nextMaterial.some(r=>r.kind==='organic'&&r.B===12));conserved(w);
+ const w=fixture(),o=add(w,'tree','forestcrown',{B:12,E:1,M:.1});o.age=o.birthLife-1;ledger(w);life(w);assert(!w.organisms.includes(o));assert(w.carcasses.some(r=>r.G===12&&r.availableAt===w.turn+1));conserved(w);
  const v=fixture(),g=group(v,'host',8);g.birthReady=100;g.infection={id:'P',species:'leafparasite',hostId:g.id,E:2,q:{id:'Q',species:'hyperparasite',hostId:'P',E:1,counts:[0,0,0]}};
  add(v,'plant','grass',{cell:19,B:22,E:0,M:0});ledger(v);life(v);
  const carriers=v.organisms.filter(o=>o.infection);assert.equal(carriers.length,1);assert.equal(carriers[0].infection.id,'P');assert.equal(carriers[0].infection.q.id,'Q');assert.equal(carriers[0].infection.hostId,carriers[0].id);conserved(v);

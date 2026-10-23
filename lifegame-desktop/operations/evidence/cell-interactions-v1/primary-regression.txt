@@ -1,0 +1,190 @@
+TAP version 13
+# Subtest: primary parasites are explicitly versioned without altering legacy catalogue or world shape
+ok 1 - primary parasites are explicitly versioned without altering legacy catalogue or world shape
+  ---
+  duration_ms: 112.513008
+  type: 'test'
+  ...
+# Subtest: the explicit host table distinguishes first, middle, terminal, carrier and non-host routes
+ok 2 - the explicit host table distinguishes first, middle, terminal, carrier and non-host routes
+  ---
+  duration_ms: 4.817013
+  type: 'test'
+  ...
+# Subtest: adaptation is bounded, specialized and inherited only through balanced small mutations
+ok 3 - adaptation is bounded, specialized and inherited only through balanced small mutations
+  ---
+  duration_ms: 6.220693
+  type: 'test'
+  ...
+# Subtest: resistance is route-specific, decays over forty turns and is effective only in proportion to its finite upkeep
+ok 4 - resistance is route-specific, decays over forty turns and is effective only in proportion to its finite upkeep
+  ---
+  duration_ms: 3.230938
+  type: 'test'
+  ...
+# Subtest: zero exposure, non-hosts, incompatible routes and occupied individuals never become extra living colonies
+ok 5 - zero exposure, non-hosts, incompatible routes and occupied individuals never become extra living colonies
+  ---
+  duration_ms: 12.359962
+  type: 'test'
+  ...
+# Subtest: production spends a real parent's reserve, has one shared six-turn cooldown and cannot chain on its creation turn
+ok 6 - production spends a real parent's reserve, has one shared six-turn cooldown and cannot chain on its creation turn
+  ---
+  duration_ms: 5.440854
+  type: 'test'
+  ...
+# Subtest: entry and establishment occupy separate turns and preserve finite half and full doses with their original excess expiry
+ok 7 - entry and establishment occupy separate turns and preserve finite half and full doses with their original excess expiry
+  ---
+  duration_ms: 37.395121
+  type: 'test'
+  ...
+# Subtest: subminimum and failed establishment doses dissipate once without creating a parasite or acquired resistance
+ok 8 - subminimum and failed establishment doses dissipate once without creating a parasite or acquired resistance
+  ---
+  duration_ms: 7.135042
+  type: 'test'
+  ...
+# Subtest: only same-origin finite microdoses accumulate before an invasion draw and their original deadline never restarts
+ok 9 - only same-origin finite microdoses accumulate before an invasion draw and their original deadline never restarts
+  ---
+  duration_ms: 7.303588
+  type: 'test'
+  ...
+# Subtest: an invasion on the last valid external turn gets exactly one next-turn establishment without refreshing expiry
+ok 10 - an invasion on the last valid external turn gets exactly one next-turn establishment without refreshing expiry
+  ---
+  duration_ms: 12.593905
+  type: 'test'
+  ...
+# Subtest: only a real exclusion acquires resistance, while a lost parasite and its Q cannot be recreated for free
+ok 11 - only a real exclusion acquires resistance, while a lost parasite and its Q cannot be recreated for free
+  ---
+  duration_ms: 3.692696
+  type: 'test'
+  ...
+# Subtest: water diffusion uses a synchronous twenty-percent budget and retains origin and the exact original expiry
+ok 12 - water diffusion uses a synchronous twenty-percent budget and retains origin and the exact original expiry
+  ---
+  duration_ms: 3.90811
+  type: 'test'
+  ...
+# Subtest: lethal feeding transfers the same P and Q IDs, reserves and clocks, then pauses development for the following turn
+ok 13 - lethal feeding transfers the same P and Q IDs, reserves and clocks, then pauses development for the following turn
+  ---
+  duration_ms: 18.173398
+  type: 'test'
+  ...
+# Subtest: a daughter from a finite inoculum gets a new ID without copying its parent's resident Q or acquired state
+ok 14 - a daughter from a finite inoculum gets a new ID without copying its parent's resident Q or acquired state
+  ---
+  duration_ms: 11.134902
+  type: 'test'
+  ...
+# Subtest: three co-located hosts reserve invasion and establishment by actual host ID without copying finite infection mass
+ok 15 - three co-located hosts reserve invasion and establishment by actual host ID without copying finite infection mass
+  ---
+  duration_ms: 2.389628
+  type: 'test'
+  ...
+# Subtest: partial leaf feeding apportions only the finite edible stock and never splits the resident P or its Q
+ok 16 - partial leaf feeding apportions only the finite edible stock and never splits the resident P or its Q
+  ---
+  duration_ms: 2.391691
+  type: 'test'
+  ...
+# Subtest: immature terminal hosts carry without development or release until maturity or the fixed twelve-turn deadline
+ok 17 - immature terminal hosts carry without development or release until maturity or the fixed twelve-turn deadline
+  ---
+  duration_ms: 5.576981
+  type: 'test'
+  ...
+# Subtest: host-stage progress, the parasite's three phases and age use independent finite clocks and paid biomass growth
+ok 18 - host-stage progress, the parasite's three phases and age use independent finite clocks and paid biomass growth
+  ---
+  duration_ms: 7.529167
+  type: 'test'
+  ...
+# Subtest: the initial terminal maturity stamp opens exactly T+1 through T+3 and never restarts on phase growth
+ok 19 - the initial terminal maturity stamp opens exactly T+1 through T+3 and never restarts on phase growth
+  ---
+  duration_ms: 1.915192
+  type: 'test'
+  ...
+# Subtest: eight consecutive unpaid maintenance turns or the fixed lifetime end remove P and its un-emerged Q once
+ok 20 - eight consecutive unpaid maintenance turns or the fixed lifetime end remove P and its un-emerged Q once
+  ---
+  duration_ms: 2.528257
+  type: 'test'
+  ...
+# Subtest: induction is funded only after full maintenance and development and scales to the actually paid phase budget
+ok 21 - induction is funded only after full maintenance and development and scales to the actually paid phase budget
+  ---
+  duration_ms: 18.775638
+  type: 'test'
+  ...
+# Subtest: host and route adaptation keeps real maintenance and development costs within the selected finite tradeoff bounds
+ok 22 - host and route adaptation keeps real maintenance and development costs within the selected finite tradeoff bounds
+  ---
+  duration_ms: 3.957836
+  type: 'test'
+  ...
+# Subtest: genetic success affects establishment once, while full adaptation cannot open a non-host route
+ok 23 - genetic success affects establishment once, while full adaptation cannot open a non-host route
+  ---
+  duration_ms: 23.162632
+  type: 'test'
+  ...
+# Subtest: exclusion attempts pay real action energy on both outcomes and acquire resistance only on actual removal
+ok 24 - exclusion attempts pay real action energy on both outcomes and acquire resistance only on actual removal
+  ---
+  duration_ms: 6.757943
+  type: 'test'
+  ...
+# Subtest: death retains a mature same-ID P/Q only in its finite carcass carrier and expiry cannot rescue either colony
+ok 25 - death retains a mature same-ID P/Q only in its finite carcass carrier and expiry cannot rescue either colony
+  ---
+  duration_ms: 4.567886
+  type: 'test'
+  ...
+# Subtest: automatic founders use existing first hosts while direct zero, exact first-host counts and shortage never add rescue hosts
+ok 26 - automatic founders use existing first hosts while direct zero, exact first-host counts and shortage never add rescue hosts
+  ---
+  duration_ms: 110.374828
+  type: 'test'
+  ...
+# Subtest: automatic terminal founders require already mature hosts and retain shortages without promoting juveniles or reallocating quotas
+ok 27 - automatic terminal founders require already mature hosts and retain shortages without promoting juveniles or reallocating quotas
+  ---
+  duration_ms: 29.487201
+  type: 'test'
+  ...
+# Subtest: short primary worlds repeat their committed state and conserve finite parasite, inoculum and host budgets
+ok 28 - short primary worlds repeat their committed state and conserve finite parasite, inoculum and host budgets
+  ---
+  duration_ms: 500.096543
+  type: 'test'
+  ...
+# Subtest: paid edible production reaches a real grazing consumer through regrowing colony stock before its fixed deadline
+ok 29 - paid edible production reaches a real grazing consumer through regrowing colony stock before its fixed deadline
+  ---
+  duration_ms: 4.965797
+  type: 'test'
+  ...
+# Subtest: paid induction changes only a visible legal candidate's bounded score and cannot invent a distant host cue
+ok 30 - paid induction changes only a visible legal candidate's bounded score and cannot invent a distant host cue
+  ---
+  duration_ms: 2.829843
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 988.716321

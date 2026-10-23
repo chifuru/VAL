@@ -35,7 +35,8 @@ test("primary parasites are explicitly versioned without altering legacy catalog
  const old=E.create({...base,primaryParasiteModel:undefined}),w=E.create(base);
  assert(!old.config.primaryParasiteSettings);assert(!Object.hasOwn(old,"primaryInocula"));assert.equal(w.config.primaryParasiteSettings.version,"primary-parameters/1");
  assert.equal(S.activeSpecies(w).length,S.activeSpecies(old).length);assert.equal(S.D.species.filter(s=>s.group==="P").length,2);
- for(const patch of [{primaryParasiteModel:"primary/2"},{primaryParasiteSettings:{version:"primary-parameters/2"}},{primaryParasiteSettings:{unknown:1}}])assert.throws(()=>E.create({...base,...patch}),/SETTINGS_INVALID/);
+ assert.equal(E.create({...base,primaryParasiteSettings:{version:"primary-parameters/2"}}).config.primaryParasiteSettings.version,"primary-parameters/2");
+ for(const patch of [{primaryParasiteModel:"primary/2"},{primaryParasiteSettings:{version:"primary-parameters/3"}},{primaryParasiteSettings:{unknown:1}}])assert.throws(()=>E.create({...base,...patch}),/SETTINGS_INVALID/);
  const host=add(w,"fresh-host"),p=infect(w,host);assert(S.PrimaryParasite.is(p));assert.equal(p.primary.version,"primary-state/1");assert.equal(p.phase,1);assert.equal(p.age,0);assert.equal(p.bornAt,w.turn);assert.equal(p.birthLife,120);assert.equal(p.B,.02);assert.equal(p.q,null);
 });
 

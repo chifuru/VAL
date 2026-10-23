@@ -1,0 +1,69 @@
+{
+  "scope": "CR06 first internal boundary: actual hosts, finite carriers, existing parasite hooks and persistent information",
+  "baseline": "f6d999a",
+  "nodes": 61,
+  "updatedNodes": [
+    "C7.2",
+    "C7.4",
+    "C7.5",
+    "C7",
+    "C8.2",
+    "D7",
+    "D8.1",
+    "D8.2",
+    "D8",
+    "E5"
+  ],
+  "coreUnchanged": true,
+  "ABAndAdoptedSpecificationsUnchanged": true,
+  "formalStateAndGraphUnchanged": true,
+  "manifestHasExactlyOneEntryPerNode": true,
+  "packageAndUIUnchanged": true,
+  "tests": {
+    "cell-interactions": {
+      "passed": 14,
+      "failed": 0
+    },
+    "cell-life-cycle": {
+      "passed": 18,
+      "failed": 0
+    },
+    "cell-circulation": {
+      "passed": 21,
+      "failed": 0
+    },
+    "cell-space": {
+      "passed": 8,
+      "failed": 0
+    },
+    "primary-parasite": {
+      "passed": 30,
+      "failed": 0
+    },
+    "persistent-information": {
+      "passed": 26,
+      "failed": 0
+    }
+  },
+  "totalPassed": 117,
+  "shortInteractionTurns": 3,
+  "generated": {
+    "profiles": 8,
+    "uniqueModules": 22,
+    "bytes": 1910101,
+    "check": "pass"
+  },
+  "guards": {
+    "normalNewCellStep": "retained",
+    "newCellResultCapture": "retained",
+    "legacySignatureAlias": "only without cellModel"
+  },
+  "notVerified": [
+    "full main-organism life and autonomous Q acquisition/search integration",
+    "E-deficit with full M food capacity coupling",
+    "aquatic/freshwater and documented CR04 remainders",
+    "observation/UI/configuration/archive release and normal/max speed equivalence",
+    "natural P/Q multi-generation/500T/R1-R6/performance/Windows"
+  ],
+  "next": "CR06 remaining internal acquisition/life and observation/archive integration"
+}
