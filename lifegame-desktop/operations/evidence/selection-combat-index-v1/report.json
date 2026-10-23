@@ -1,0 +1,88 @@
+{
+  "ok": true,
+  "baseline": "9d33590",
+  "app": "4.2.74",
+  "source_sha256": "1f921b3de136eb099dbf5800487b767e4ca8910c51bbbf606ea57b770daee894",
+  "checks": [
+    "three ordinary main organisms: no whole-world Map rebuilds for power/cohabitation",
+    "three ordinary main organisms: at most one existing selection-index resource pass",
+    "three ordinary main organisms: identical detail HTML and all portrait pixels",
+    "three ordinary main organisms: same biology, observation rows and original organism order",
+    "three cohabiting Ryouki: no whole-world Map rebuilds for power/cohabitation",
+    "three cohabiting Ryouki: at most one existing selection-index resource pass",
+    "three cohabiting Ryouki: identical detail HTML and all portrait pixels",
+    "three cohabiting Ryouki: same biology, observation rows and original organism order",
+    "actual helper reuses topology and matches old Map member/order semantics with Ryouki enabled or disabled",
+    "only the demanded main-position maps are retained",
+    "explicit same-turn refresh discards old cohabitation membership",
+    "same-turn organism-array replacement invalidates cached membership",
+    "missing selected ID is not replaced by a cohabitant",
+    "new world uses its own current topology and portrait",
+    "real Worker turn keeps current tracked ID/position and frozen detail independent",
+    "manual refresh reads the newly committed turn",
+    "no uncaught browser errors"
+  ],
+  "errors": [],
+  "metrics": {
+    "three ordinary main organisms": {
+      "before": {
+        "fullMapResourcePasses": 6,
+        "resourceIterations": 7
+      },
+      "after": {
+        "fullMapResourcePasses": 0,
+        "resourceIterations": 1
+      }
+    },
+    "three cohabiting Ryouki": {
+      "before": {
+        "fullMapResourcePasses": 27,
+        "resourceIterations": 28
+      },
+      "after": {
+        "fullMapResourcePasses": 0,
+        "resourceIterations": 1
+      }
+    }
+  },
+  "comparisons": [
+    {
+      "scenario": "three ordinary main organisms",
+      "details_sha256": "9008f93bde5db6d6db2154e8011504aa7675bec3b655e0f53f6824ae3dafd3b4",
+      "rows_sha256": "6f2aa640fa0be38201e640108ed2031cdad33b5b738dd32216adcf51d82a5f9c"
+    },
+    {
+      "scenario": "three cohabiting Ryouki",
+      "details_sha256": "91857b589dc4a8ddc3242e0d57cd75a3e12b2ae46068a19751cc4a5bb2a39342",
+      "rows_sha256": "6f2aa640fa0be38201e640108ed2031cdad33b5b738dd32216adcf51d82a5f9c"
+    }
+  ],
+  "topology": [
+    {
+      "grouped": true,
+      "reused": true,
+      "main": true,
+      "members": true,
+      "keys": [
+        "main",
+        "mainByCell"
+      ]
+    },
+    {
+      "grouped": false,
+      "reused": true,
+      "main": true,
+      "members": true,
+      "keys": [
+        "main"
+      ]
+    }
+  ],
+  "tracking": {
+    "running": true,
+    "frozen": true,
+    "position": true,
+    "sameId": true
+  },
+  "scope": "Linux actual prior/current app, two small-world scenarios, explicit cohabitation/invalidations and fresh-world Worker tracking; no long-run speed claim"
+}

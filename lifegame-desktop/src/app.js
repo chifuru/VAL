@@ -1166,6 +1166,19 @@
     }
     return selectionIndex={world,turn:world.turn,arrays,lengths:arrays.map(a=>a.length),byId,organisms:byCell[0],resources:byCell[1],carcasses:byCell[2]};
   }
+  function currentSelectionCombatMaps(){
+    const index=currentSelectionIndex();
+    if(index.combat)return index.combat;
+    // Power breakdowns need main positions only. Share their topology with the
+    // cohabitation display without rebuilding resource/food/carcass Maps.
+    const main=new Map(),mainByCell=S.Ryouki.enabled(world)?new Map():null;
+    for(const [cell,rows] of index.organisms)for(const o of rows)if(o.slot==='main'){
+      main.set(cell,o);
+      if(mainByCell){if(!mainByCell.has(cell))mainByCell.set(cell,[]);mainByCell.get(cell).push(o);}
+    }
+    index.combat={main};if(mainByCell)index.combat.mainByCell=mainByCell;
+    return index.combat;
+  }
   function select(cell, id = null, {groundOnly=false,information=false} = {}) {
     // Selection reads committed state and does not invalidate prepared work.
     flushObservationDisplay();
@@ -1588,7 +1601,7 @@
   const ryoukiMorph=o=>o.ryouki.mutated?(o.phase===4?'相変異4':'相変異1〜3'):'通常型';
   function ryoukiHTML(o,p){
     if(!S.Ryouki.is(o))return '';
-    const a=o.ryouki,last=a.last,settings=world.config.ryoukiSettings,cohabit=S.mainAt(S.maps(world),o.cell).filter(t=>t.id!==o.id),
+    const a=o.ryouki,last=a.last,settings=world.config.ryoukiSettings,cohabit=S.mainAt(currentSelectionCombatMaps(),o.cell).filter(t=>t.id!==o.id),
       value=n=>Number.isFinite(n)?fmt(n):'未記録',purpose=world.turn===0?'初期状態・未実行':last?.goal||'未記録',
       limited=typeof last?.moveBudgetLimited==='boolean'?(last.moveBudgetLimited?'あり（合法な移動候補を予算で除外）':'なし'):'未記録';
     return `<section class="ryouki-state" data-ryouki-state="${escape(o.id)}"><p class="stats-line">移動上限 ${p.speed}マス / 感知 ${p.sense}<br>同居実ID: ${cohabit.map(t=>escape(t.id)).join(' / ')||'なし'}<br>近傍の他量機 ${world.turn===0?'初期・未判定':value(last?.density)}<br>高密度継続 ${a.highRun}/${settings.highTurns}T（${settings.densityHigh}体以上）<br>低密度継続 ${a.lowRun}/${settings.lowTurns}T（${settings.densityLow}体以下）${a.mutated&&a.lowRun>=settings.lowTurns&&cohabit.length?'<br>通常枠を確保できず解除待ち':''}<br>確定した目的: ${escape(purpose)}<br>直近移動 ${value(last?.steps)}歩 / 移動費 ${value(last?.moveCost)} E<br>移動費不足: ${limited}<br>繁殖費用・条件の不足: ${o.birthBlockers?.length?o.birthBlockers.map(escape).join(' / '):'不足の記録なし（出生成立を保証しません）'}</p><p class="micro">相変異は可逆な状態です。本人の相・枝・ID・年齢を保ち、同居しても各個体の栄養と生死を別に記録します。</p></section>`;
@@ -1607,7 +1620,7 @@
       ageLabel = { juvenile: "幼体", adult: "成体", elderly: "老齢" }[
         age.stage
       ];
-    const powerContext = { traits: new Map([[o.id, p]]), intents: new Map() },
+    const powerContext = { traits: new Map([[o.id, p]]), intents: new Map(), current: main&&age.enabled?currentSelectionCombatMaps():null },
       powerDetails = age.enabled
         ? ["attack", "defense"]
             .map((kind) => {

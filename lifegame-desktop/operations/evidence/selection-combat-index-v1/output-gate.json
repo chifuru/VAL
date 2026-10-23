@@ -1,0 +1,62 @@
+{
+  "ok": true,
+  "baseline": "9d33590",
+  "app": "4.2.74",
+  "flows": [
+    "FLOW-04",
+    "FLOW-05",
+    "FLOW-08"
+  ],
+  "scope": "display-only main-position maps shared by power breakdowns and Ryouki cohabitation",
+  "only_app_helper_and_two_call_sites_changed": true,
+  "source_sha256": {
+    "src/app.js": "1f921b3de136eb099dbf5800487b767e4ca8910c51bbbf606ea57b770daee894"
+  },
+  "targeted_checks": {
+    "actual_browser": 17,
+    "manifest": 1
+  },
+  "metrics": {
+    "three ordinary main organisms": {
+      "before": {
+        "fullMapResourcePasses": 6,
+        "resourceIterations": 7
+      },
+      "after": {
+        "fullMapResourcePasses": 0,
+        "resourceIterations": 1
+      }
+    },
+    "three cohabiting Ryouki": {
+      "before": {
+        "fullMapResourcePasses": 27,
+        "resourceIterations": 28
+      },
+      "after": {
+        "fullMapResourcePasses": 0,
+        "resourceIterations": 1
+      }
+    }
+  },
+  "unchanged": [
+    "biological rules",
+    "random sequences",
+    "observation/archive formats",
+    "assets",
+    "layout",
+    "graph rendering",
+    "primary/hyper parasite lifecycle locators"
+  ],
+  "formal_nodes": 61,
+  "all_status": "草案",
+  "formal_structure_unchanged": true,
+  "core_unchanged": true,
+  "all_node_references_exist": true,
+  "manifest_current_state_reflected": true,
+  "whole_app_speed_measured": false,
+  "full_suite": false,
+  "old_16_check_suite_rerun": false,
+  "windows_tested": false,
+  "distribution_built": false,
+  "next_unit": "6 非表示部分の不要処理"
+}
