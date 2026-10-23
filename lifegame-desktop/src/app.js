@@ -91,10 +91,18 @@
   });
   function restoreCommitted() {
     runGeneration++;clearTimeout(timer);timer=null;
-    if(pendingTurn?.packet)compute.restore(pendingTurn.packet);
+    const packet=pendingTurn?.packet;
     pendingTurn=null;
-    renderer.view.animate=false;showTurnStage();
-    if(world){renderer.setWorld(world);renderSelection();}
+    try {
+      // A failed Worker already discarded its queue and reservation. Only a
+      // live session can accept a preview packet back into its buffer.
+      if(packet&&compute.initialized)compute.restore(packet);
+    } finally {
+      // Cleanup must also run if returning a packet fails. No speculative
+      // stage or animated position may survive a pause or an error.
+      renderer.view.animate=false;showTurnStage();
+      if(world){renderer.setWorld(world);renderSelection();}
+    }
   }
   function hold(reason) {
     if(!["guide","results","settings"].includes(reason)||holds.has(reason))return;

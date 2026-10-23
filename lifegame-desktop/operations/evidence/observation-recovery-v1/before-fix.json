@@ -1,0 +1,36 @@
+{
+  "checks": [
+    "selection and light settings keep observation running",
+    "manual pause stays paused",
+    "settings hold is explicit",
+    "worker failure stops safely and clears pending preview",
+    "worker failure retains only committed observation rows"
+  ],
+  "errors": [],
+  "state": {
+    "turn": 4,
+    "running": false,
+    "pending": null,
+    "fault": "生態計算を起動できませんでした。再度「観測を開始」を押してください。",
+    "holds": [],
+    "rows": 5,
+    "scheduled": false,
+    "compute": {
+      "initialized": false,
+      "ready": false,
+      "busy": false,
+      "buffered": 0,
+      "preparationMs": 2096.0999999996275,
+      "metadata": {
+        "type": "ready",
+        "epoch": 2,
+        "cache": {
+          "key": "19f13876c159c10c0dfb55663b004e1c980db0455194a4ed9971761896bef034",
+          "reused": false
+        },
+        "prepareMs": 28.299999999813735
+      }
+    }
+  },
+  "error": "AssertionError [ERR_ASSERTION]: worker failure clears the intermediate display"
+}
