@@ -1,0 +1,28 @@
+✔ bounded demand-weighted allocation is order independent and redistributes capped shares (2.526975ms)
+✔ coupled requests do not consume unusable water and leave/reallocate real stock (0.318341ms)
+✔ fixed soil, mineral levels, plant temperature/pH and shared light are resolved at creation (41.710435ms)
+✔ rain, drainage and actual evaporation conserve water, cannot go negative or run twice (9.98935ms)
+✔ same-cell mineral competition follows demand, ability/reach and capacity without layer priority (12.822632ms)
+✔ plant activity zero leaves mineral in place and soil quality raises actual uptake limit once (13.270483ms)
+✔ one light budget is captured from above; unused capture still shades lower foliage (10.732401ms)
+✔ water limits actual photosynthesis while unused light is neither stored nor free energy (4.645783ms)
+✔ remote food, information food and requests from dead/new actors are rejected before transfer (7.084144ms)
+✔ consumers share finite plant tissue; body mineral, assimilation and waste are each owned once (6.493212ms)
+✔ carcass sharing removes one finite fraction of body, energy and mineral per recipient (4.577751ms)
+✔ returns become available next turn only; capacity overflow remains organic and is not Mloss (6.615898ms)
+✔ explicit mineral input is recorded separately and conserved even at capacity (4.850653ms)
+✔ actions and maintenance are paid once; reserve is a goal and failed reservations release capacity (6.017669ms)
+✔ formation stores body E/M and dissipates only the actual formation overhead (6.73042ms)
+✔ maintenance deficit prevents investments without artificial immediate death or reserve-based starvation (8.349184ms)
+✔ unselected aquatic supply is explicit; land coefficients are not silently copied (4.699704ms)
+✔ failed formation cancels its reservation without creating tissue or charging a second payment (8.449415ms)
+✔ generated execution and Worker/JSON preserve finite resources, receipts and all material owners (77.138487ms)
+✔ microscopic food residues and water costs do not produce negative or free stocks (7.932735ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 259.163608

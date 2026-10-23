@@ -34,9 +34,11 @@
  const waterFounderBuildSignature='b09086493b04bf56a7b587e433713c2f8d4c0f06522e59207207185eebb9cfb2';
  const cellFoundationBuildSignature='aac01593711800f3988c78e524093a147eae6761c7d823332a022680673aa855';
  const cellMovementBuildSignature='8455652928b1f8880df6bf2ab8d9aa3b877d0d8ae51180375b18aca843141051';
+ const cellResourceBuildSignature='8f8f7b0226be2bff8b602278767081fcf50ea164ba5f132f5dd4b256bd043748';
  function canonicalSignature(s,config){
   // New cell worlds must never acquire a legacy replay alias.
   if(config.cellModel!==undefined)return s;
+  if(s===cellResourceBuildSignature)s=cellMovementBuildSignature;
   if(s===cellMovementBuildSignature)s=cellFoundationBuildSignature;
   if(s===cellFoundationBuildSignature)s=waterFounderBuildSignature;
   if(s===waterFounderBuildSignature&&config.primaryParasiteSettings?.version!=='primary-parameters/2')s=waterEggSpreadBuildSignature;

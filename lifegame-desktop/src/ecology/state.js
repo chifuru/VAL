@@ -17,10 +17,11 @@
     const VERSION="cell-reorganization/1",limits=Object.freeze({1:6,2:3,3:5,4:5,5:6});
     const enabled=w=>w?.config?.cellModel===VERSION;
     function settings(input={}){
-      const defaults={soilQuality:1,temperature:20,landPH:6.5,waterPH:7};
+      const defaults={soilQuality:1,temperature:20,landPH:6.5,waterPH:7,mineralLevel:"standard",mineralInput:0,rainScale:1,lightScale:1};
       if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: マス環境設定");
       const s={...defaults,...input};
-      if(![.75,1,1.25].includes(s.soilQuality)||!Number.isFinite(s.temperature)||
+      if(!["poor","standard","rich"].includes(s.mineralLevel)||![s.mineralInput,s.rainScale,s.lightScale].every(n=>Number.isFinite(n)&&n>=0&&n<=100)||
+        ![.75,1,1.25].includes(s.soilQuality)||!Number.isFinite(s.temperature)||
         ![s.landPH,s.waterPH].every(n=>Number.isFinite(n)&&n>=0&&n<=14))throw Error("SETTINGS_INVALID: マス環境設定");
       return s;
     }
@@ -79,19 +80,39 @@
         ...(state==="moving"&&o.cellOccupancy.movedAt!==undefined?{movedAt:o.cellOccupancy.movedAt}:{})};
       return true;
     }
+    function curve(value,points){
+      if(value<=points[0][0])return points[0][1];
+      for(let i=1;i<points.length;i++)if(value<=points[i][0]){
+        const [x,y]=points[i-1],[u,v]=points[i];return H.round(y+(v-y)*(value-x)/(u-x));}
+      return points.at(-1)[1];
+    }
+    function deferMaterial(w,cell,{E=0,M=0,B=0,kind="organic"}){
+      if(!enabled(w)||!w.tiles[cell]||![E,M,B].every(n=>Number.isFinite(n)&&n>=0)||B>E||
+        !["organic","mineral"].includes(kind)||(kind==="mineral"&&(E!==0||B!==0)))throw Error("CELL_MATERIAL_INVALID");
+      if(!(E||M||B))return null;
+      const id="cell-return/"+w.turn+"/"+cell+"/"+kind,rows=w.cellState.nextMaterial;
+      let row=rows.find(a=>a.id===id);
+      if(!row){row={id,cell,kind,availableAt:w.turn+1,E:0,M:0,B:0};rows.push(row);}
+      row.E=H.round(row.E+E);row.M=H.round(row.M+M);row.B=H.round((row.B||0)+B);return row;
+    }
     function initialize(w){
       if(!enabled(w))return w;
       if(w.turn!==0||w.cellState!==undefined||w.cellProfiles!==undefined)throw Error("CELL_STATE_EXISTS: マス状態は初期化済みか初期時点ではありません");
       const s=w.config.cellSettings,profiles=w.tiles.map(t=>{
-        const water=["shallow","deep"].includes(t.terrain);
-        return {region:water?"water":"land",temperature:s.temperature,pH:water?s.waterPH:s.landPH,
-          soilQuality:s.soilQuality,lightBudget:H.round(15.6*t.light),mineralCapacity:H.round(20*s.soilQuality),
+        const water=["shallow","deep"].includes(t.terrain),levels={poor:[2,8],standard:[5,20],rich:[10,40]},pH=water?s.waterPH:s.landPH;
+        return {region:water?"water":"land",temperature:s.temperature,pH,
+          plantTemperature:curve(s.temperature,[[-5,0],[5,.5],[15,1],[25,1],[35,.5],[45,0]]),
+          plantPH:curve(pH,[[3.5,0],[4.5,.5],[5.5,1],[7.5,1],[8.5,.5],[9.5,0]]),
+          soilQuality:s.soilQuality,lightBudget:H.round(15.6*t.light*s.lightScale),
+          mineralInitial:water?null:levels[s.mineralLevel][0],mineralCapacity:water?null:H.round(levels[s.mineralLevel][1]*s.soilQuality),
+          mineralInput:water?null:s.mineralInput,
           // Aquatic supply coefficients are deliberately not copied from land.
-          waterCapacity:water?null:H.round(30*s.soilQuality),rain:water?null:6.5,evaporation:water?null:.5};
+          waterCapacity:water?null:H.round(30*s.soilQuality),rain:water?null:H.round(6.5*s.rainScale),evaporation:water?null:H.round(.5*2**H.clamp((s.temperature-20)/10,-4,4))};
       });
       w.cellProfiles={version:VERSION,profiles};
       w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?null:15),
-        decayLoad:profiles.map(()=>0),nextMaterial:[]};
+        decayLoad:profiles.map(()=>0),nextMaterial:[],organic:[],resourceTurn:0};
+      for(let cell=0;cell<w.tiles.length;cell++)if(profiles[cell].region==="land")w.tiles[cell].soilM=profiles[cell].mineralInitial;
       const cells=new Map();
       for(const o of w.organisms){const n=layer(o);if(n===null||!living(o))continue;
         assign(w,o,{},cells);if(!cells.has(o.cell))cells.set(o.cell,Array.from({length:6},()=>[]));cells.get(o.cell)[n].push(o);}
@@ -118,11 +139,11 @@
       if(!enabled(w))return [];
       const errors=[],a=w.cellState,p=w.cellProfiles,n=w.tiles.length,finite=x=>Number.isFinite(x)&&x>=0;
       if(a?.version!==VERSION||a.stage!=="foundation"||p?.version!==VERSION||!Array.isArray(p.profiles)||p.profiles.length!==n||
-        !Array.isArray(a.water)||a.water.length!==n||!Array.isArray(a.decayLoad)||a.decayLoad.length!==n||!Array.isArray(a.nextMaterial))return ["CELL_STATE"];
+        !Array.isArray(a.water)||a.water.length!==n||!Array.isArray(a.decayLoad)||a.decayLoad.length!==n||!Array.isArray(a.nextMaterial)||!Array.isArray(a.organic)||!Number.isSafeInteger(a.resourceTurn)||a.resourceTurn<0||a.resourceTurn>w.turn)return ["CELL_STATE"];
       for(let cell=0;cell<n;cell++){
         const f=p.profiles[cell];
         if(!f||!Number.isFinite(f.temperature)||!finite(f.pH)||f.pH>14||![.75,1,1.25].includes(f.soilQuality)||
-          !finite(f.lightBudget)||!finite(f.mineralCapacity)||!["land","water"].includes(f.region)||
+          !finite(f.lightBudget)||!(f.region==="water"?f.mineralCapacity===null:finite(f.mineralCapacity))||!["land","water"].includes(f.region)||
           (f.region==="water"?(a.water[cell]!==null||f.waterCapacity!==null||f.rain!==null||f.evaporation!==null):
             (!finite(f.waterCapacity)||!finite(f.rain)||!finite(f.evaporation)||!finite(a.water[cell])||a.water[cell]>f.waterCapacity))||
           !finite(a.decayLoad[cell])||!finite(w.tiles[cell].soilM))errors.push("CELL_STOCK:"+cell);
@@ -135,6 +156,8 @@
           if(c?.version!==VERSION||!["moving","settled"].includes(c.state)||
             (c.movedAt!==undefined&&(!Number.isSafeInteger(c.movedAt)||c.movedAt<0||c.movedAt>w.turn))||
             (c.state==="settled"?(!Number.isInteger(c.slot)||c.slot<0||c.slot>2):Object.hasOwn(c,"slot")))errors.push("CELL_OCCUPANCY:"+o.id);}
+        if(o.cellMatter&&(o.cellMatter.version!=="cell-matter/1"||!finite(o.cellMatter.bodyM)||
+          !finite(o.cellMatter.newB??0)||(o.cellMatter.newB??0)>o.B||!Number.isSafeInteger(o.cellMatter.tissueAt)||o.cellMatter.tissueAt>w.turn))errors.push("CELL_BODY_M:"+o.id);
         if(layer(o)===3&&o.consumerGroup){const count=o.consumerGroup.cohorts?.reduce((n,c)=>n+c.n,0);
           if(!Number.isSafeInteger(count)||count<1||count>8)errors.push("CELL_MEMBERS:"+o.id);}
       }
@@ -148,12 +171,15 @@
       }
       const ids=new Set();for(const r of a.nextMaterial){
         if(!r||typeof r.id!=="string"||!r.id||ids.has(r.id)||!Number.isSafeInteger(r.cell)||!w.tiles[r.cell]||
-          r.availableAt!==w.turn+1||!["organic","mineral"].includes(r.kind)||![r.E,r.M].every(finite))errors.push("CELL_MATERIAL");
+          r.availableAt!==w.turn+1||!["organic","mineral"].includes(r.kind)||![r.E,r.M,r.B??0].every(finite)||(r.B??0)>r.E||(r.kind==="mineral"&&(r.E!==0||(r.B??0)!==0)))errors.push("CELL_MATERIAL");
         ids.add(r?.id);
       }
+      const organicIds=new Set();for(const r of a.organic){
+        if(!r||typeof r.id!=="string"||organicIds.has(r.id)||!Number.isSafeInteger(r.cell)||!w.tiles[r.cell]||![r.E,r.M,r.B].every(finite)||r.B>r.E)errors.push("CELL_ORGANIC");
+        organicIds.add(r?.id);}
       return errors;
     }
-    return {VERSION,limits,enabled,settings,layer,index,room,assign,release,initialize,stock,summary,validate};
+    return {VERSION,limits,enabled,settings,layer,index,room,assign,release,initialize,stock,summary,validate,deferMaterial};
   })();
   const ProducerSupport=(()=>{
 
@@ -2189,6 +2215,7 @@ return {settings,attach,region,level,factor,begin,finish};
       E += o.E + o.B;
       if(Colony.is(o))E += o.colony.edibleExposure?.E || 0;
       M += o.M;
+      if(CellSpace.enabled(w))M+=o.cellMatter?.bodyM||0;
       infection(o.infection);
     }
     for (const a of w.resources) {
@@ -2205,10 +2232,11 @@ return {settings,attach,region,level,factor,begin,finish};
     if(PrimaryParasite.enabled(w))for(const i of w.primaryInocula||[])E+=i.E;
     if(HyperParasite.enabled(w))for(const i of w.hyperInocula||[])E+=i.E;
     for (const t of w.tiles) M += t.soilM;
-    if(CellSpace.enabled(w))for(const material of w.cellState.nextMaterial){E+=material.E;M+=material.M;}
+    if(CellSpace.enabled(w))for(const material of [...w.cellState.nextMaterial,...w.cellState.organic]){E+=material.E;M+=material.M;}
     return { E: H.round(E), M: H.round(M) };
   }
   function addSoil(w, cell, m) {
+    if(CellSpace.enabled(w))return CellSpace.deferMaterial(w,cell,{M:m,kind:"mineral"});
     const tile = w.tiles[cell],
       added = Math.min(m, 20 - tile.soilM);
     tile.soilM = H.round(tile.soilM + added);

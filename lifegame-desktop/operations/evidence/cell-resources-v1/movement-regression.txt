@@ -1,0 +1,21 @@
+✔ three settlers admit two movers; arrivals cannot settle until a later turn (21.229535ms)
+✔ settlement arbitration is reproducible, array-order independent and does not rank paid cost (7.8396ms)
+✔ packed nine keep independent IDs and only two individual passage slots (7.081436ms)
+✔ actual prefix alone is charged; a wall, insufficient budget or full tile stops further steps (15.442543ms)
+✔ blocked and species-incompatible terrain cannot be entered; aquatic producer uses the shared main capacity (12.437619ms)
+✔ movement distance stays phase-dependent for normal ryouki and three for all mutated phases (28.381677ms)
+✔ local encounter elects combat, locks movement and preserves actual contact IDs (7.257512ms)
+✔ combat rechecks target survival, range, readiness, friendship and remaining budget without charging failures (17.174987ms)
+✔ full settlement does not force friendly combat, eviction or grant a fourth settlement (5.894514ms)
+✔ sustained low density waits for ordinary capacity, then releases without identity or resource changes (4.032686ms)
+✔ voluntary departure can resolve release waiting; state and movement timestamp survive Worker/JSON (7.431525ms)
+✔ transient occupant with full settlement tries an available route and waits if all routes are blocked (8.127073ms)
+✔ generated runtime and source model resolve the same movement, occupancy and events (72.817411ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 229.130726

@@ -1,0 +1,47 @@
+{
+  "scope": "CR03 internal finite-resource transactions only",
+  "nodes": 61,
+  "updatedNodes": [
+    "C7.1",
+    "C7.2",
+    "C7.3",
+    "C7",
+    "C8.2",
+    "D7",
+    "E5"
+  ],
+  "coreUnchanged": true,
+  "ABUnchanged": true,
+  "formalStateAndGraphUnchanged": true,
+  "manifestHasExactlyOneEntryPerNode": true,
+  "packageUnchanged": true,
+  "tests": {
+    "cell-resources": {
+      "passed": 20,
+      "failed": 0
+    },
+    "cell-space": {
+      "passed": 8,
+      "failed": 0
+    },
+    "cell-movement": {
+      "passed": 13,
+      "failed": 0
+    }
+  },
+  "generated": {
+    "profiles": 8,
+    "uniqueModules": 22,
+    "bytes": 1780976,
+    "check": "pass"
+  },
+  "notVerified": [
+    "CR04 automatic demand and initial tissue/life/birth/dispersion",
+    "aquatic supply/bed profiles unselected",
+    "CR05 decomposition/decay/circulation",
+    "CR06 parasites/observation/archive integration",
+    "new full turn/500T",
+    "UI/Windows/performance"
+  ],
+  "next": "CR04"
+}

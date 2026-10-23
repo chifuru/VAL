@@ -55,8 +55,8 @@
 
 ## 最初の着手範囲
 
-CR01の基盤とCR02の内部移動まで実施済み。次はCR03。CR01の実行契約は `operations/plans/cell-foundation-v1.md`、実測は `operations/evidence/cell-foundation-v1/README.md` を参照。CR01の範囲は、版・状態・層別索引・上限判定・転送/保存の基盤までに絞り、移動戦闘・栄養配分・生存バランスを同時に全面変更しない。後続の物理資源と生活が未接続の間は、新モデルを通常の完成ゲームとして公開しない。
+CR01〜CR03の内部基盤・移動・資源取引まで実施済み。次はCR04。CR01の実行契約は `operations/plans/cell-foundation-v1.md`、実測は `operations/evidence/cell-foundation-v1/README.md` を参照。CR01の範囲は、版・状態・層別索引・上限判定・転送/保存の基盤までに絞り、移動戦闘・栄養配分・生存バランスを同時に全面変更しない。後続の物理資源と生活が未接続の間は、新モデルを通常の完成ゲームとして公開しない。
 
 ## 現在の進捗
 
-CR01: 基盤8項目と旧方式4T一致を確認。新方式の通常進行・図鑑保存は未接続としてガード済み。CR02は内部移動13項目と基盤8項目を確認（operations/evidence/cell-movement-v1/README.md）。CR03〜CR07は未実施。正式Node状態・A/B数値・製品版・配布は変更しない。次はCR03の有限在庫・共有要求・費用/留保/次T還元。下層の生活全体はCR04以降。
+CR01: 基盤8項目と旧方式4T一致を確認。新方式の通常進行・図鑑保存は未接続としてガード済み。CR02は内部移動13項目と基盤8項目を確認（operations/evidence/cell-movement-v1/README.md）。CR03は内部資源20項目と基盤8/移動13の回帰を確認（operations/evidence/cell-resources-v1/README.md）。CR04〜CR07は未実施。正式Node状態・A/B数値・製品版・配布は変更しない。次はCR04の初期状態・自動要求・維持/成長/出生/分群。実分解と通常観察接合は後続。

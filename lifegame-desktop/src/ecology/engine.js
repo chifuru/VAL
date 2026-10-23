@@ -153,6 +153,7 @@
     return ctx;
   }
   function prepare(w, ctx) {
+    if(S.CellSpace.enabled(w))return N.CellResources.prepare(w,ctx);
     const sharedPlants=S.LargePlant?.enabled(w);
     if(sharedPlants)S.LargePlant.prepareLight(w,ctx);
     for (const o of w.organisms) {
@@ -709,7 +710,7 @@
       Eerror = S.round(
         totals.E + w.ledger.sinks - w.ledger.initialE - w.ledger.solar - (w.ledger.producerE||0),
       ),
-      Merror = S.round(totals.M + w.ledger.Mloss - w.ledger.initialM - (w.ledger.producerM||0));
+      Merror = S.round(totals.M + w.ledger.Mloss - w.ledger.initialM - (w.ledger.producerM||0) - (S.CellSpace.enabled(w)?w.ledger.cellInputM||0:0));
     if (Math.abs(Eerror) > 0.002) errors.push("ENERGY:" + Eerror);
     if (Math.abs(Merror) > 0.002) errors.push("MATERIAL:" + Merror);
     return errors;

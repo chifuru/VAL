@@ -2,11 +2,11 @@
 
 管理版 `specification-index/20`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。寄生生活環の現在正本は[有限群体と宿主通過](parasite-cohorts-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
 
-現在のマス・占有・資源配分の正本は[マス再編/1](cell-reorganization-v1.md)。0〜5次、共通土壌、量機の定住3×3、低次動物の分群、分解者と次T利用境界をA/Bへ採用。**CR01基盤とCR02内部移動まで実装・限定確認済み。資源/生活と通常観察は未接続**。旧仕様の置換範囲と後続候補は同書11〜14節を参照する。
+現在のマス・占有・資源配分の正本は[マス再編/1](cell-reorganization-v1.md)。0〜5次、共通土壌、量機の定住3×3、低次動物の分群、分解者と次T利用境界をA/Bへ採用。**CR01〜CR03の内部基盤・移動・資源取引まで実装・限定確認済み。自動要求/生活と通常観察は未接続**。旧仕様の置換範囲と後続候補は同書11〜14節を参照する。
 
 既存の第1〜第4組、量機/3と採用分岐、植物/P/Qの造形対応は採用済み。[菌膜群落/1](fungal-colonies-v1.md)を維持し、新たに[一次消費者の小集団/1](consumer-groups-v1.md)をA1.2/A1.7・B4.4/B5.2/B5.5/B5.6へ反映。開発版4.2.47の `consumerModel: group/1` へ接続する。実測と草棲虫の未達は[I11e証跡](../../operations/evidence/i11e-consumer-groups-v1/README.md)。追加バランス調整は実測を共有して利用者と相談する。
 
-実装への接続は [C/D契約](../implementation/cell-reorganization-v1.md)、実装順序は [CR01〜CR07](../../operations/plans/cell-reorganization-implementation-v1.md)。既存C7系/C8系・D7〜D9へ接続済みだが、CR01基盤とCR02内部移動（移動13＋基盤8項目）まで実施済み、製品版・配布は未変更。現在の証跡は [CR02](../../operations/evidence/cell-movement-v1/README.md)。これらは実装/検証の文書であり、A/Bの意味・比較開始値を上書きしない。
+実装への接続は [C/D契約](../implementation/cell-reorganization-v1.md)、実装順序は [CR01〜CR07](../../operations/plans/cell-reorganization-implementation-v1.md)。既存C7系/C8系・D7〜D9へ接続済みだが、CR01〜CR03内部取引（資源20＋移動13＋基盤8項目）まで実施済み、製品版・配布は未変更。現在の証跡は [CR03](../../operations/evidence/cell-resources-v1/README.md)。これらは実装/検証の文書であり、A/Bの意味・比較開始値を上書きしない。
 
 ## 読む順序と優先順位
 
@@ -22,7 +22,7 @@
 
 | 対象 | 読む正本 | 優先する内容・境界 |
 | --- | --- | --- |
-| マス・占有層・有限資源の再編 | [マス再編/1](cell-reorganization-v1.md) | 同マス取得、固定最大収容、1次6群/2次3体/3次5群/4次定住3枠・総5枠/5次6群。相変異量機は定住枠内3体。全比較値・土壌・配分・次T境界・後続課題。CR01/02内部基盤まで、通常観察は未接続 |
+| マス・占有層・有限資源の再編 | [マス再編/1](cell-reorganization-v1.md) | 同マス取得、固定最大収容、1次6群/2次3体/3次5群/4次定住3枠・総5枠/5次6群。相変異量機は定住枠内3体。全比較値・土壌・配分・次T境界・後続課題。CR01〜03内部取引まで、通常観察は未接続 |
 | 水系Pの自動初期集団 | [初期集団/1](water-founders-v1.md) | 新規設定/2の自動水系Pを8群体、既定配分3/3/2。合法宿主枠・明示数/0・無効・旧設定を優先。マス再編前の暫定値 |
 | 一次寄生の終宿主からの循環 | [卵による循環/1](primary-eggs-v1.md) | 新規世界の終宿主放出を有限卵塊へ置換。陸20T/水30T・付着2T後孵化。新規水系は連結2マス移送、旧設定/1を維持。既存宿主/Qを維持 |
 | 世界作成の段階整理 | [設定の意図/2](setup-intent-v2.md)、[設定導線/1](setup-flow-v1.md) | 5区画・制約を維持し、観察セット/決め方/傾向と値の由来・不使用・有効条件まとめを優先採用 |
