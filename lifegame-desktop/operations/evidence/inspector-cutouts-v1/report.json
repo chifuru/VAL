@@ -1,0 +1,595 @@
+{
+  "ok": true,
+  "checks": [
+    "all 68 adopted P/Q/plant/ryouki states produce visible portraits",
+    "all current portraits have shaped transparent silhouettes with safe outer padding",
+    "portrait rendering never changes the organism state",
+    "all adopted phase, branch and mutation portraits remain visually distinct",
+    "selected P describes its own third phase independently of its host stage",
+    "refreshing a portrait preserves biology",
+    "changing the host lifecycle alone cannot select a different P phase image",
+    "the primary lineage guide retains three explicit own-phase previews",
+    "a real selected Q displays its own phase and a nonempty portrait",
+    "the Q lineage guide retains four own-phase previews",
+    "inspection stays paused without simulation errors",
+    "no unhandled browser errors"
+  ],
+  "errors": [],
+  "matrix": [
+    {
+      "name": "tideparasite/A/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 7866,
+      "rectangleFill": 0.7378986866791745,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/A/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 6819,
+      "rectangleFill": 0.6396810506566604,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/A/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 7895,
+      "rectangleFill": 0.6800172265288544,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/B/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 2491,
+      "rectangleFill": 0.30905707196029775,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/B/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 2497,
+      "rectangleFill": 0.3429945054945055,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/B/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 6036,
+      "rectangleFill": 0.5662288930581614,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/C/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 9290,
+      "rectangleFill": 0.5582932692307693,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/C/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 5415,
+      "rectangleFill": 0.5340236686390533,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/C/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 6607,
+      "rectangleFill": 0.6197936210131332,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/A/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 7234,
+      "rectangleFill": 0.52996336996337,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/A/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 5818,
+      "rectangleFill": 0.5203935599284436,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/A/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 4989,
+      "rectangleFill": 0.4920118343195266,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/B/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 1531,
+      "rectangleFill": 0.16715798667976853,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/B/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 2962,
+      "rectangleFill": 0.2618921308576481,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/B/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 5574,
+      "rectangleFill": 0.5228893058161351,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/C/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 8793,
+      "rectangleFill": 0.5454714640198511,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/C/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 6053,
+      "rectangleFill": 0.5061036789297659,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/C/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 6436,
+      "rectangleFill": 0.5157051282051283,
+      "border": 0
+    },
+    {
+      "name": "Q/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 5593,
+      "rectangleFill": 0.4136834319526627,
+      "border": 0
+    },
+    {
+      "name": "Q/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 2798,
+      "rectangleFill": 0.28319838056680163,
+      "border": 0
+    },
+    {
+      "name": "Q/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 5746,
+      "rectangleFill": 0.36833333333333335,
+      "border": 0
+    },
+    {
+      "name": "Q/4",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 7086,
+      "rectangleFill": 0.6647279549718574,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/1/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13259,
+      "rectangleFill": 0.6313809523809524,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/2/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13295,
+      "rectangleFill": 0.6714646464646464,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/3/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 12837,
+      "rectangleFill": 0.7131666666666666,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/3/1/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 12934,
+      "rectangleFill": 0.6953763440860216,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/3/2/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13463,
+      "rectangleFill": 0.7737356321839081,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/4/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14112,
+      "rectangleFill": 0.84,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/4/0/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13705,
+      "rectangleFill": 0.7876436781609195,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/4/1/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13330,
+      "rectangleFill": 0.7934523809523809,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/4/1/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 12066,
+      "rectangleFill": 0.6593442622950819,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/4/2/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 12319,
+      "rectangleFill": 0.8051633986928105,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/4/2/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14005,
+      "rectangleFill": 0.741005291005291,
+      "border": 0
+    },
+    {
+      "name": "starcrown/1/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 9438,
+      "rectangleFill": 0.44309859154929576,
+      "border": 0
+    },
+    {
+      "name": "starcrown/2/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 11553,
+      "rectangleFill": 0.5501428571428572,
+      "border": 0
+    },
+    {
+      "name": "starcrown/3/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 6715,
+      "rectangleFill": 0.4568027210884354,
+      "border": 0
+    },
+    {
+      "name": "starcrown/3/1/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 9209,
+      "rectangleFill": 0.5116111111111111,
+      "border": 0
+    },
+    {
+      "name": "starcrown/3/2/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 9971,
+      "rectangleFill": 0.5633333333333334,
+      "border": 0
+    },
+    {
+      "name": "starcrown/4/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 7855,
+      "rectangleFill": 0.503525641025641,
+      "border": 0
+    },
+    {
+      "name": "starcrown/4/0/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 12808,
+      "rectangleFill": 0.5692444444444444,
+      "border": 0
+    },
+    {
+      "name": "starcrown/4/1/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 9716,
+      "rectangleFill": 0.5888484848484848,
+      "border": 0
+    },
+    {
+      "name": "starcrown/4/1/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 8712,
+      "rectangleFill": 0.4922033898305085,
+      "border": 0
+    },
+    {
+      "name": "starcrown/4/2/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 10334,
+      "rectangleFill": 0.5065686274509804,
+      "border": 0
+    },
+    {
+      "name": "starcrown/4/2/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 9691,
+      "rectangleFill": 0.5873333333333334,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/1/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 9759,
+      "rectangleFill": 0.5608620689655173,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/2/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15352,
+      "rectangleFill": 0.7310476190476191,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/3/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 10348,
+      "rectangleFill": 0.7039455782312926,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/3/1/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13191,
+      "rectangleFill": 0.6764615384615384,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/3/2/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14560,
+      "rectangleFill": 0.7353535353535353,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/4/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 10850,
+      "rectangleFill": 0.6823899371069182,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/4/0/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 8033,
+      "rectangleFill": 0.5697163120567376,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/4/1/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 7819,
+      "rectangleFill": 0.6515833333333333,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/4/1/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 8159,
+      "rectangleFill": 0.5665972222222222,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/4/2/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 10578,
+      "rectangleFill": 0.6913725490196079,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/4/2/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 9948,
+      "rectangleFill": 0.5817543859649122,
+      "border": 0
+    },
+    {
+      "name": "ryouki/1/0/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 6612,
+      "rectangleFill": 0.5668724279835391,
+      "border": 0
+    },
+    {
+      "name": "ryouki/2/0/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 7150,
+      "rectangleFill": 0.5586810439131115,
+      "border": 0
+    },
+    {
+      "name": "ryouki/3/0/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 5040,
+      "rectangleFill": 0.39886039886039887,
+      "border": 0
+    },
+    {
+      "name": "ryouki/3/1/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 8242,
+      "rectangleFill": 0.519148400100781,
+      "border": 0
+    },
+    {
+      "name": "ryouki/3/2/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 8121,
+      "rectangleFill": 0.5569958847736626,
+      "border": 0
+    },
+    {
+      "name": "ryouki/4/0/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 5016,
+      "rectangleFill": 0.4184184184184184,
+      "border": 0
+    },
+    {
+      "name": "ryouki/4/0/1/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 8995,
+      "rectangleFill": 0.5665784832451499,
+      "border": 0
+    },
+    {
+      "name": "ryouki/4/1/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 8830,
+      "rectangleFill": 0.5046867855509831,
+      "border": 0
+    },
+    {
+      "name": "ryouki/4/1/1/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 8395,
+      "rectangleFill": 0.5632716049382716,
+      "border": 0
+    },
+    {
+      "name": "ryouki/4/2/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 6708,
+      "rectangleFill": 0.5751028806584362,
+      "border": 0
+    },
+    {
+      "name": "ryouki/4/2/1/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 8016,
+      "rectangleFill": 0.6034327009936766,
+      "border": 0
+    },
+    {
+      "name": "ryouki/2/0/0/true",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 4816,
+      "rectangleFill": 0.5945679012345679,
+      "border": 0
+    },
+    {
+      "name": "ryouki/4/0/0/true",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 4775,
+      "rectangleFill": 0.5895061728395061,
+      "border": 0
+    }
+  ],
+  "scope": "Linux Chromium, 68 adopted static appearance states and actual selected P/Q; host-stage changes are explicit display fixtures",
+  "date": "2026-10-23",
+  "baseline_commit": "222bcfd",
+  "app_version": "4.2.72",
+  "source_sha256": {
+    "src/ecology/art.js": "16d2f04af1128546cca32f40f26ed76185d6a17b1a27a182dd764855b16f6244"
+  },
+  "test_sha256": "979d3b4cb5e8ced375692a4f1aca3464e8e02b072e105d8ce2719235fad79ef1",
+  "unchanged_board_functions_sha256": {
+    "producer": "3c18df4a9c968fb4f31ab5c9b22618bfc318a25b888896706bdd728773984437",
+    "ryouki": "e8a1f8079c32f459b814f2d90519bb998c6b00c2d0ea2149a229114bbe2e7b3b",
+    "parasite": "b3ba505f6e6e20b203c4e2da2844588bceffb4ebaea7165a63a9623e17798a0c",
+    "parasitePhase": "13505f886251a56d6ab1fb08daaed8993438daf4a1f07e31b223c5977e1afaec",
+    "parasiteIndex": "4d4565910340b810779345c057db36766dadca9733409c13d1cec3bace18e458"
+  },
+  "unchanged_atlas_sha256": {
+    "src/assets/forestcrown-atlas-v1.png": "1783985bcb4f75ddf85113ecdfd6144b30adbc725ec0fa431b55c7a0848706ae",
+    "src/assets/starcrown-atlas-v1.png": "55aa39f1c4cb5eeaf3590e7e583dbec6b6ce002198d4e54e3899186874ed6894",
+    "src/assets/freshwaterlight-atlas-v1.png": "1ce1efcb697c5a3f89595c01fa6d945b887e2f15785752bbd3341779c82d8516",
+    "src/assets/ryouki-atlas-v1.png": "8f9892de8f1321a620e5c59bbb4f08a3c13ef6401a3c8cf9258d9d93585fc495",
+    "src/assets/tideparasite-atlas-v1.png": "15c757d1cd2439cb9c57ffe132b00c380d96a5a41cb5696d3686e5904801cc4d",
+    "src/assets/leafparasite-atlas-v1.png": "321a8d3d68fabfa5dad11048e7f00dffc9f4a3e6ac657ef62ffc5bb9442346a2",
+    "src/assets/hyperparasite-atlas-v1.png": "df072723b206e97f1da336b5a9ff87a060b86366fcddc2e7283b4d8a3bd3a691"
+  },
+  "syntax_only_tests": {
+    "tests/independent-plants-graphics.cjs": "3b3a247be570109d2f59a9b12a24a0f75b8737343b244593a024b5a1c0a2fd26",
+    "tests/ryouki-graphics.cjs": "c9166df0ab9d7c886e396b27de72655e022ff6a52f80e60ac5554e55ee7f35ae",
+    "tests/i10-parasite-materials.cjs": "134a7cc930bbc5a3aa7511fcbb2069ee13f6889cf39364d5aba720aeb3703e69"
+  },
+  "full_suite": false,
+  "windows_tested": false
+}

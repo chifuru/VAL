@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と適用範囲を示す。詳細は各Nod
 
 現在入口: `design/specification/README.md`。量機仕様/採用分岐は `design/specification/ryouki-v1.md` と `design/ryouki-branches-v2/README.md`。実装順序は `operations/plans/implementation-sequence-v1.md`。全61Nodeは草案で、正式状態/階層/層間参照を維持する。新規登録・状態遷移なし。
 
-現在の確定ソースは4.2.72。対象はグラフ判読性/1（operations/evidence/graph-readability-v1/README.md）。停止中リサイズと図鑑往復でも描画寸法を更新し、正の微量Bを0と表記しない。Linux DPR1の13項目で3カード横並び/原値と停止意図の不変/図鑑復帰/進行継続を限定確認。生態規則・画像・グラフ配置・保存形式・正式状態は変更なし。高DPI/狭幅画面全体/全条件/長期/Windows配布物は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
+現在の確定ソースは4.2.72。対象は選択詳細の切り抜き表示/1（operations/evidence/inspector-cutouts-v1/README.md）。P/Q・三植物・量機の詳細/系統樹を既存透明素材/全身境界へ揃え、本人相と宿主段階の独立を維持。Linux12項目/68状態と盤面関数/7アトラスの不変性を限定確認。旧素材検査3本は期待値更新と構文検査のみ。生態規則・画像素材・グラフ配置・保存形式・正式状態は変更なし。全素材/全条件/長期/Windows配布物は未認定。3速度/10T描画は中断中の未確定変更であり、本反映には含めない。
 
 ## A：仕様
 
@@ -216,11 +216,11 @@ B5:（A1.1, A1.2, A1.3, A2, A1.4 / 生態系の観測・比較操作）［草案
 
 	B5.6:（A1.1, A1.2, A1.5, A1.7, A2 / 生物の選択・所在強調・個体追跡）［草案］
 		構成（要素・関係）:
-			valis/nodes/B/B5.6.md。正本: design/specification/selection-snapshot-v1.md。契約: operations/plans/selection-snapshot-v1.md。証跡: operations/evidence/selection-snapshot-v1/README.md。
+			valis/nodes/B/B5.6.md。正本: design/specification/inspector-cutouts-v1.md。契約: operations/plans/inspector-cutouts-v1.md。証跡: operations/evidence/inspector-cutouts-v1/README.md。
 		ロジック:
-			選択した確定時点の詳細を固定し、明示更新/再選択で更新する。追跡と現在グラフを独立させ、別対象選択で旧追跡を解除する。
+			詳細/系統樹は採用した透明な全身を表示し、本人相と宿主段階を区別する。既存の詳細固定/手動更新を維持する。
 		実態:
-			個体/マス/系統の固定と不在IDの非代替を接続。Linux17項目＋復帰11項目の限定範囲。
+			P/Q・三植物・量機の68状態と実P/Qの表示を限定確認。新しい型や相、系統の追加なし。
 
 ```
 
@@ -341,19 +341,19 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。正本: design/specification/graph-readability-v1.md。契約: operations/plans/graph-readability-v1.md。証跡: operations/evidence/graph-readability-v1/README.md。
+		valis/nodes/C/C8.md。正本: design/specification/inspector-cutouts-v1.md。契約: operations/plans/inspector-cutouts-v1.md。証跡: operations/evidence/inspector-cutouts-v1/README.md。
 	ロジック:
-		canvas実寸を監視し、寸法変更時だけ1フレームへ再描画をまとめる。停止中/図鑑往復と進行から独立させる。
+		個体詳細と系統樹は同じ本人状態から既存の透明な相/枝素材を参照する。宿主段階だけで相画像を変えない。
 	実態:
-		正の0.01未満は小数丸めの0を避け、titleに実数Bを示す。配置/生態/保存形式は維持。
+		詳細切り抜き/1を接続。既存UI/詳細固定/グラフ配置/保存形式は維持。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.1.md。契約: operations/plans/i11b-foodweb-routes-v1.md。証跡: operations/evidence/i11b-foodweb-routes-v1/README.md。
+			valis/nodes/C/C8.1.md。正本: design/specification/inspector-cutouts-v1.md。契約: operations/plans/inspector-cutouts-v1.md。証跡: operations/evidence/inspector-cutouts-v1/README.md。
 		ロジック:
-			背景の厳密な全0マスク処理と未使用bitmap転送を省略し、旧overviewを解放。12背景比較のRGBA差0、採用画像/遠近表現を維持。
+			登録済みbodyBoundsから透明アトラスを直接描く。実行時の背景除去/マスク/画素走査を追加しない。
 		実態:
-			4.2.44 I11b限定調整。草案。I11継続: 下層の自然更新、P/Qの限定窓と次世代、未評価系統/R1〜R6、初回準備/保持メモリ。新WindowsはI12。
+			68状態の透明輪郭/余白/区別/入力不変を限定確認。盤面関数と7アトラスは変更なし。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -450,11 +450,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。正本: design/specification/graph-readability-v1.md。契約: operations/plans/graph-readability-v1.md。証跡: operations/evidence/graph-readability-v1/README.md。
+		valis/nodes/D/D9.md。正本: design/specification/inspector-cutouts-v1.md。契約: operations/plans/inspector-cutouts-v1.md。証跡: operations/evidence/inspector-cutouts-v1/README.md。
 	ロジック:
-		停止中リサイズ、実寸比、3カード配置、図鑑往復、進行継続、微量B/0、静止時の非連続再描画を限定確認する。
+		68の採用状態と実P/Q詳細、本人相と宿主段階の独立、系統樹の相数を限定確認する。
 	実態:
-		Linux DPR1の13項目が成功。1460×1030/1280×800と微量表示fixture。高DPI/狭幅全体/長期/Windowsは未認定。
+		新規12項目が成功。既存素材3検査は期待値更新/構文のみ。全素材/全条件/Windowsは未認定。
 
 ```
 
@@ -503,11 +503,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。正本: design/specification/graph-readability-v1.md。契約: operations/plans/graph-readability-v1.md。証跡: operations/evidence/graph-readability-v1/README.md。
+		valis/nodes/E/E6.md。正本: design/specification/inspector-cutouts-v1.md。契約: operations/plans/inspector-cutouts-v1.md。証跡: operations/evidence/inspector-cutouts-v1/README.md。
 	ロジック:
-		修正前の停止中リサイズ反例と修正後の13項目、実画面画像、ソース/テストSHAを保持する。
+		背景付き詳細の反例と修正後12項目/68状態、代表画像、ソース/アトラスSHAを保持する。
 	実態:
-		原値と停止意図の不変、図鑑往復、実Worker進行を限定確認。微量層は生態結果ではなく表示fixture。
+		実個体選択と表示fixtureを区別。生態進化/感染の長期検証ではなく、描画と表示の限定証跡。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

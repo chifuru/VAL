@@ -16,7 +16,7 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
    for(const [index,[phase,branch3,branch4,mutated]]of all.entries()){
     const o={...source,phase,branch3,branch4,age:Math.floor(source.birthLife*.35),facing:0,ryouki:{...source.ryouki,mutated}};
     g.clearRect(0,0,180,180);EcoArt.ryouki(g,o,90,90,58,0);hashes.add(c.toDataURL());ng.drawImage(c,index*180,0);indices&&=EcoArt.ryoukiIndex(o)===index;const pixels=g.getImageData(0,0,180,180).data;transparent&&=pixels[3]===0&&pixels.at(-1)===0;
-    const entry=EcoVisualManifest.ryouki,ref=entry.references[index],f=ref.region,manual=document.createElement('canvas');manual.width=manual.height=180;const m=manual.getContext('2d'),aspect=f[2]/f[3],size=58*2.8,W=size*Math.min(1,aspect),H=size*Math.min(1,1/aspect);m.drawImage(EcoArt.images[ref.sheet],...f,90-W/2,90-H/2,W,H);g.clearRect(0,0,180,180);EcoArt.ryoukiPortrait(g,o,90,90,58);portraits&&=manual.toDataURL()===c.toDataURL();
+    const entry=EcoVisualManifest.ryouki,cell=entry.regions[index],f=entry.bodyBounds[index],manual=document.createElement('canvas');manual.width=manual.height=180;const m=manual.getContext('2d'),aspect=f[2]/f[3],size=58*2.8,W=size*Math.min(1,aspect),H=size*Math.min(1,1/aspect);m.drawImage(EcoArt.images[entry.sheet],cell[0]+f[0],cell[1]+f[1],f[2],f[3],90-W/2,90-H/2,W,H);g.clearRect(0,0,180,180);EcoArt.ryoukiPortrait(g,o,90,90,58);portraits&&=manual.toDataURL()===c.toDataURL();
     const [x,y,w,h]=entry.regions[index],a=document.createElement('canvas');a.width=w;a.height=h;const n=a.getContext('2d');n.drawImage(EcoArt.images[entry.sheet],x,y,w,h,0,0,w,h);const data=n.getImageData(0,0,w,h).data;
     for(let p=0;p<w;p++)transparent&&=data[p*4+3]===0&&data[((h-1)*w+p)*4+3]===0;for(let p=0;p<h;p++)transparent&&=data[p*w*4+3]===0&&data[(p*w+w-1)*4+3]===0;
    }
@@ -26,7 +26,7 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
   });
   check(coverage.frames===13&&coverage.distinct===13&&coverage.indices,'all13 intended normal and mutated source cells render distinctly');
   check(coverage.mutationClasses,'all eleven phase and branch combinations retain phase while selecting the two mutation appearances');
-  check(coverage.portraits,'all13 portraits are pixel-identical to the adopted original crops');
+  check(coverage.portraits,'all13 portraits are pixel-identical to the adopted isolated-body crops');
   check(coverage.transparent,'all13 complete atlas borders and rendered corners are fully transparent');
   check(coverage.ages===3&&coverage.inputUnchanged,'age display differs without changing phase branch mutation or source input');
   const grid=await page.evaluate(()=>__ryoukiArtGrid);await fs.writeFile(path.join(out,'ryouki-art-13.png'),Buffer.from(grid.split(',')[1],'base64'));
@@ -58,5 +58,5 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
    });
   }),'actual early and IV death records keep mutated indices in event carcass and remains artwork');
   check(errors.length===0,'no browser drawing exceptions');passed=true;console.log(JSON.stringify({checks:checks.length,coverage,errors}));
- }finally{await fs.writeFile(path.join(out,'graphics-report.json'),JSON.stringify({passed,checks,coverage,errors,scope:'Linux Chromium;13 adopted forms and exact portraits; three mutated Ryouki plus producer/food/prey and attached P/Q display fixture; final all-age/direction matte work remains I10'},null,2)+'\n');if(browser)await browser.close();await new Promise(r=>server.close(r));}
+ }finally{await fs.writeFile(path.join(out,'graphics-report.json'),JSON.stringify({passed,checks,coverage,errors,scope:'Linux Chromium;13 adopted forms and isolated portraits; three mutated Ryouki plus producer/food/prey and attached P/Q display fixture; final all-age/direction matte work remains I10'},null,2)+'\n');if(browser)await browser.close();await new Promise(r=>server.close(r));}
 })().catch(e=>{console.error(e);process.exitCode=1;});

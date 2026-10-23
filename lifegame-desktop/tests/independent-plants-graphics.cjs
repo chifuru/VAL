@@ -22,8 +22,8 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
      const o={...source,phase,branch3,branch4,age:Math.floor(source.birthLife*.35)};
      g.clearRect(0,0,180,180);EcoArt.producer(g,o,90,90,58,0);const pixels=g.getImageData(0,0,180,180).data;
      transparent&&=pixels[3]===0&&pixels.at(-1)===0;hashes.add(c.toDataURL());frames++;indices&&=EcoArt.producerIndex(o)===index;ng.drawImage(c,index*180,row*180);
-     const reference=EcoVisualManifest.producers[spec.id].references[index],f=reference.region,im=EcoArt.images[reference.sheet],manual=document.createElement('canvas');manual.width=manual.height=180;const m=manual.getContext('2d'),aspect=f[2]/f[3],size=58*2.6,W=size*Math.min(1,aspect),H=size*Math.min(1,1/aspect);
-     m.drawImage(im,...f,90-W/2,90-H/2,W,H);g.clearRect(0,0,180,180);EcoArt.producerPortrait(g,o,90,90,58);portraits&&=c.toDataURL()===manual.toDataURL();
+     const entry=EcoVisualManifest.producers[spec.id],cell=entry.regions[index],f=entry.bodyBounds[index],im=EcoArt.images[entry.sheet],manual=document.createElement('canvas');manual.width=manual.height=180;const m=manual.getContext('2d'),aspect=f[2]/f[3],size=58*2.6,W=size*Math.min(1,aspect),H=size*Math.min(1,1/aspect);
+     m.drawImage(im,cell[0]+f[0],cell[1]+f[1],f[2],f[3],90-W/2,90-H/2,W,H);g.clearRect(0,0,180,180);EcoArt.producerPortrait(g,o,90,90,58);portraits&&=c.toDataURL()===manual.toDataURL();
     }
     const ageFrames=[];for(const fraction of [0,.35,.95]){g.clearRect(0,0,180,180);EcoArt.producer(g,{...source,phase:3,branch3:0,age:Math.floor(source.birthLife*fraction)},90,90,58);ageFrames.push(c.toDataURL());}ages&&=new Set(ageFrames).size===3;
     if(JSON.stringify(source)!==before)throw Error('presentation mutated plant input');
@@ -31,7 +31,7 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
    globalThis.__plantArtGrid=grid.toDataURL();return {frames,distinct:hashes.size,portraits,transparent,indices,ages};
   });
   check(coverage.frames===33&&coverage.distinct===33&&coverage.indices,'all33 I II III3 IV6 forms select distinct intended atlas cells');
-  check(coverage.portraits,'all33 portraits are pixel-identical to direct adopted-reference crops');
+  check(coverage.portraits,'all33 portraits are pixel-identical to adopted isolated-body crops');
   check(coverage.transparent,'transparent atlases leave scene corners transparent');
   check(coverage.ages,'juvenile adult and elderly appearances stay distinct within the same phase');
   const grid=await page.evaluate(()=>__plantArtGrid);await fs.writeFile(path.join(out,'plant-art-33.png'),Buffer.from(grid.split(',')[1],'base64'));
@@ -47,5 +47,5 @@ const {chromium}=require('playwright'),fs=require('node:fs/promises'),path=requi
   check(await page.evaluate(()=>__LIFE_TEST__.fingerprint())===fixture.fingerprint,'near far portraits and hit testing leave the settled biological world unchanged');
   check(errors.length===0,'no browser drawing exceptions');passed=true;
   console.log(JSON.stringify({checks:checks.length,coverage,errors}));
- }finally{await fs.writeFile(path.join(out,'graphics-report.json'),JSON.stringify({passed,checks,errors,scope:'Linux Chromium,33 adopted plant forms; exact original portraits; provisional static alpha atlas; four-layer display fixture only'},null,2)+'\n');if(browser)await browser.close();await new Promise(resolve=>server.close(resolve));}
+ }finally{await fs.writeFile(path.join(out,'graphics-report.json'),JSON.stringify({passed,checks,errors,scope:'Linux Chromium,33 adopted plant forms; isolated adopted portraits; provisional static alpha atlas; four-layer display fixture only'},null,2)+'\n');if(browser)await browser.close();await new Promise(resolve=>server.close(resolve));}
 })().catch(e=>{console.error(e);process.exitCode=1;});

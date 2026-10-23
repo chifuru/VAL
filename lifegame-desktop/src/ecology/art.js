@@ -500,7 +500,18 @@
     g.drawImage(frame,x-geometry.size/2,y-geometry.size/2,geometry.size,geometry.size);
     return true;
   }
+  // Current portraits use the existing isolated artwork and recorded complete
+  // body bounds. Never scan/mask painted references during selection or redraw.
+  function atlasPortrait(g,entry,index,x,y,size){
+    const im=images[entry?.sheet],cell=entry?.regions?.[index],bounds=entry?.bodyBounds?.[index];
+    if(!im||!cell||!bounds)return false;
+    const aspect=bounds[2]/bounds[3],width=size*Math.min(1,aspect),height=size*Math.min(1,1/aspect);
+    g.drawImage(im,cell[0]+bounds[0],cell[1]+bounds[1],bounds[2],bounds[3],x-width/2,y-height/2,width,height);
+    return true;
+  }
   function producerPortrait(g,o,x,y,r) {
+    const entry=manifest.producers?.[o.species];
+    if(entry?.bodyBounds)return atlasPortrait(g,entry,producerIndex(o),x,y,r*2.6);
     const reference=manifest.producers?.[o.species]?.references[producerIndex(o)],
       im=images[reference?.sheet];
     if(!reference||!im)return false;
@@ -536,6 +547,8 @@
     g.drawImage(frame,-geometry.size/2,-geometry.size/2,geometry.size,geometry.size);g.restore();return true;
   }
   function ryoukiPortrait(g,o,x,y,r){
+    const entry=manifest.ryouki;
+    if(entry?.bodyBounds)return atlasPortrait(g,entry,ryoukiIndex(o),x,y,r*2.8);
     const reference=manifest.ryouki?.references[ryoukiIndex(o)],im=images[reference?.sheet];if(!reference||!im)return false;
     const f=reference.region,aspect=f[2]/f[3],size=r*2.8,width=size*Math.min(1,aspect),height=size*Math.min(1,1/aspect);
     g.drawImage(im,...f,x-width/2,y-height/2,width,height);return true;
@@ -667,25 +680,13 @@
     return true;
   }
   function parasitePortrait(g,p,x,y,r){
-    const material=parasiteMaterial(p),reference=material?.entry.references[material.index]||
-      (p.species==='hyperparasite'&&p.hyper?.version==='hyper-state/1'?manifest.hyperparasite?.references[parasitePhase(p)-1]:null);
+    const material=parasiteMaterial(p);
+    if(material)return atlasPortrait(g,material.entry,material.index,x,y,r*2.25)||parasite(g,p,x,y,r);
+    // Flagless historical material retains its original reference/fallback path.
+    const reference=p.species==='hyperparasite'&&p.hyper?.version==='hyper-state/1'?manifest.hyperparasite?.references[parasitePhase(p)-1]:null;
     if(!reference)return parasite(g,p,x,y,r);
-    const im=images[reference?.sheet];
+    const im=images[reference.sheet];if(!im)return parasite(g,p,x,y,r);
     const f=reference.region,aspect=f[2]/f[3],size=r*2.6,width=size*Math.min(1,aspect),height=size*Math.min(1,1/aspect);
-    // The internal Q references are tall strips. Their square atlas cells have
-    // transparent backgrounds, so crop to the recorded body bounds in portraits.
-    if((!im||aspect<.6)&&material){
-      const atlas=images[material.entry.sheet],bounds=material.entry.bodyBounds?.[material.index];
-      if(atlas&&bounds){
-        const cell=material.region,bodyAspect=bounds[2]/bounds[3],fit=r*2.25;
-        const w=fit*Math.min(1,bodyAspect),h=fit*Math.min(1,1/bodyAspect);
-        g.drawImage(atlas,cell[0]+bounds[0],cell[1]+bounds[1],bounds[2],bounds[3],x-w/2,y-h/2,w,h);
-        return true;
-      }
-    }
-    if(!im)return parasite(g,p,x,y,r);
-    // Exact adopted crop in the inspector/tree only. Its painted background is
-    // never composited as a rectangular card on the biological board.
     g.drawImage(im,...f,x-width/2,y-height/2,width,height);return true;
   }
   const remainsFrames = new Map();

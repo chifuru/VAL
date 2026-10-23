@@ -1,0 +1,554 @@
+{
+  "ok": false,
+  "checks": [],
+  "errors": [],
+  "matrix": [
+    {
+      "name": "tideparasite/A/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14700,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/A/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14700,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/A/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14700,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/B/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14400,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/B/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14400,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/B/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14400,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/C/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15300,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/C/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15300,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "tideparasite/C/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15300,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/A/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14700,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/A/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14700,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/A/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14700,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/B/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14400,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/B/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14400,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/B/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14400,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/C/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15300,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/C/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15300,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "leafparasite/C/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15300,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "Q/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 5593,
+      "rectangleFill": 0.4136834319526627,
+      "border": 0
+    },
+    {
+      "name": "Q/2",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 2798,
+      "rectangleFill": 0.28319838056680163,
+      "border": 0
+    },
+    {
+      "name": "Q/3",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 5746,
+      "rectangleFill": 0.36833333333333335,
+      "border": 0
+    },
+    {
+      "name": "Q/4",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15000,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/1/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 21600,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/2/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 21000,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/3/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15900,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/3/1/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15900,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/3/2/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15900,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/4/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13200,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/4/0/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 16200,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/4/1/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 12900,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/4/1/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15900,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/4/2/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13200,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "forestcrown/4/2/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 16200,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "starcrown/1/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 21600,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "starcrown/2/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 21000,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "starcrown/3/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15000,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "starcrown/3/1/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15000,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "starcrown/3/2/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15600,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "starcrown/4/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13200,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "starcrown/4/0/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15000,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "starcrown/4/1/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13200,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "starcrown/4/1/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15000,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "starcrown/4/2/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13800,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "starcrown/4/2/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15600,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/1/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 17400,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/2/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 17400,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/3/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15900,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/3/1/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15600,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/3/2/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 17400,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/4/0/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13200,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/4/0/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14700,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/4/1/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13200,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/4/1/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14400,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/4/2/0",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14700,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "freshwaterlight/4/2/1",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15900,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "ryouki/1/0/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13284,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "ryouki/2/0/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13284,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "ryouki/3/0/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13608,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "ryouki/3/1/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 15552,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "ryouki/3/2/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 14256,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "ryouki/4/0/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 11988,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "ryouki/4/0/1/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 12636,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "ryouki/4/1/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 12960,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "ryouki/4/1/1/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 13284,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "ryouki/4/2/0/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 11988,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "ryouki/4/2/1/false",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 12312,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "ryouki/2/0/0/true",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 8100,
+      "rectangleFill": 1,
+      "border": 0
+    },
+    {
+      "name": "ryouki/4/0/0/true",
+      "ok": true,
+      "inputUnchanged": true,
+      "occupied": 8100,
+      "rectangleFill": 1,
+      "border": 0
+    }
+  ],
+  "scope": "Linux Chromium, 68 adopted static appearance states and actual selected P/Q; host-stage changes are explicit display fixtures",
+  "baseline_commit": "222bcfd",
+  "source_sha256": "14bfb34bb8a49112d656efcc527c4b8698ae90066eae4f0c1aa8832d421b0e7a"
+}
