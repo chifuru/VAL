@@ -1,0 +1,14 @@
+{
+  "source": "6ebfa13",
+  "app": "4.2.75",
+  "scope": "one 250T continuation; no ecology or UI edits",
+  "invariantFailures": 0,
+  "formalNodes": 61,
+  "structureAndDraftStatusUnchanged": true,
+  "priorSourceAndCoreHashesUnchanged": true,
+  "manifestCheckPassed": true,
+  "generatedModulesMatch": true,
+  "observerSyntaxPassed": true,
+  "fullRegressionRerun": false,
+  "reason": "Product source unchanged; limited observation and documentation only"
+}
