@@ -95,7 +95,18 @@ ECOSYSTEM-2026</textarea
                     <option value="scatter">分散配置 · 距離を確保</option>
                     <option value="cluster">集落配置 · 系統ごとに集まる</option>
                   </select></label
-                ></div><details id="advanced-settings"><summary>系統を選ぶ・配分の重みを確認</summary><p id="lineage-choice-note" class="note setup-rule" aria-live="polite">手動選択を使う場合だけ編集できます。</p><div id="lineage-options"></div><p id="weight-choice-note" class="note setup-rule" aria-live="polite">重み付き配分の場合だけ編集できます。</p><div id="weight-options"></div></details></section><section class="setup-step" id="setup-step-4" aria-labelledby="setup-step-title-4"><h3 id="setup-step-title-4"><span>04</span>栄養・初期量を調整する</h3><fieldset id="advantage-settings"><legend>追加の生存優遇</legend>
+                ></div><details id="advanced-settings"><summary>系統を選ぶ・配分の重みを確認</summary><p id="lineage-choice-note" class="note setup-rule" aria-live="polite">手動選択を使う場合だけ編集できます。</p><div id="lineage-options"></div><p id="weight-choice-note" class="note setup-rule" aria-live="polite">重み付き配分の場合だけ編集できます。</p><div id="weight-options"></div></details></section><section class="setup-step" id="setup-step-4" aria-labelledby="setup-step-title-4"><h3 id="setup-step-title-4"><span>04</span>栄養・初期量を調整する</h3><fieldset id="cell-environment-settings" hidden disabled><legend>マス環境の固定条件</legend>
+<p class="note setup-rule" id="cell-setting-rule">水・養分は有限在庫を共有します。収容数と組織の上限は固定です。</p><div class="setup-more">
+<label>土壌の質<select id="cell-soilQuality" required><option value="0.75">低め · 0.75</option><option value="1" selected>標準 · 1</option><option value="1.25">高め · 1.25</option></select></label>
+<label>気温（℃）<input id="cell-temperature" type="number" required step="any" value="20"></label>
+<label>陸のpH<input id="cell-landPH" type="number" required min="0" max="14" step="any" value="6.5"></label>
+<label>水域のpH<input id="cell-waterPH" type="number" required min="0" max="14" step="any" value="7"></label>
+<label>初期養分と保持量<select id="cell-mineralLevel" required><option value="poor">乏しい</option><option value="standard" selected>標準</option><option value="rich">豊か</option></select></label>
+<label>無機養分の明示入力（M／マス／T）<input id="cell-mineralInput" type="number" required min="0" max="100" step="any" value="0"></label>
+<label>雨の基準倍率<input id="cell-rainScale" type="number" required min="0" max="100" step="any" value="1"></label>
+<label>光の基準倍率<input id="cell-lightScale" type="number" required min="0" max="100" step="any" value="1"></label>
+</div><p class="hint" id="cell-water-condition"></p><p class="note setup-rule">この方式では自由設定の指定値を使います。旧方式のおまかせ調整・観察セット・生産者の支援補充は使用しません。初期占有率・初期可食率と、固定の収容上限は別です。</p>
+</fieldset><fieldset id="advantage-settings"><legend>追加の生存優遇</legend>
             <label class="check"><input type="checkbox" id="advantage-producer" checked>生産者を強くする</label>
             <label class="check"><input type="checkbox" id="advantage-waterbug" checked>水游虫を強くする</label>
             <label class="check"><input type="checkbox" id="advantage-hyperparasite" checked>高次寄生を広がりやすくする</label>
@@ -395,6 +406,7 @@ ECOSYSTEM-2026</textarea
     <script src="ecology/compute-client.js"></script>
     <script src="ecology/relationship-network.js"></script>
     <script src="ecology/observations.js"></script>
+    <script src="ecology/cell-interface.js"></script>
     <script src="ecology/export-client.js"></script>
     <script src="app.js"></script>
   </body>

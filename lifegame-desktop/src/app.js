@@ -50,6 +50,46 @@
       extra: "追加中間宿主",
       terminal: "終宿主",
     };
+  const CellUI=window.EcoCellInterface,cellDisabledStates=new Map(),cellLegacyValues=new Map();
+  let cellSetupContext=null;
+  function restoreCellControls(){for(const [node,disabled]of cellDisabledStates)node.disabled=disabled;cellDisabledStates.clear();}
+  function showCellSetup(config){
+    restoreCellControls();const environment=CellUI.settings(config);
+    const forced=['observation-mode','generation-mode','generation-profile','producer-supply','advantage-producer',...['land','water'].flatMap(r=>['capacity','regrowth'].map(k=>'colony-'+r+'-'+k))];
+    if(environment&&!cellSetupContext)for(const id of forced){const node=$(id);cellLegacyValues.set(node,node.type==='checkbox'?node.checked:node.value);}
+    if(!environment&&cellSetupContext){for(const [node,value]of cellLegacyValues)if(node.type==='checkbox')node.checked=value;else node.value=value;cellLegacyValues.clear();}
+    cellSetupContext=environment?{cellModel:CellUI.model,cellSettings:environment}:null;
+    $('cell-environment-settings').hidden=!cellSetupContext;$('cell-environment-settings').disabled=!cellSetupContext;
+    if(environment)for(const key of CellUI.fields)$('cell-'+key).value=environment[key];
+    enforceCellValues();
+  }
+  function readCellSetup(){
+    if(!cellSetupContext)return null;
+    const environment={...cellSetupContext.cellSettings};
+    for(const key of CellUI.fields){const value=$('cell-'+key).value;if(value==='')throw Error('マス環境の値を入力してください。');environment[key]=key==='mineralLevel'?value:Number(value);}
+    return {cellModel:CellUI.model,cellSettings:environment};
+  }
+  function enforceCellValues(){
+    if(!cellSetupContext)return;
+    $('observation-mode').value='custom';$('generation-mode').value='manual';$('generation-profile').value='auto';
+    $('producer-supply').checked=false;$('advantage-producer').checked=false;
+    for(const region of ['land','water']){$('colony-'+region+'-capacity').value=20;$('colony-'+region+'-regrowth').value=10;}
+  }
+  function syncCellControls(){
+    if(!cellSetupContext)return;
+    const disable=node=>{if(!cellDisabledStates.has(node))cellDisabledStates.set(node,node.disabled);node.disabled=true;};
+    for(const id of ['observation-mode','generation-mode','generation-profile','producer-supply-settings','advantage-producer'])disable($(id));
+    for(const button of $('observation-set-cards').querySelectorAll('button'))disable(button);
+    for(const region of ['land','water'])for(const kind of ['capacity','regrowth']){
+      const input=$('colony-'+region+'-'+kind),row=input.closest('.generation-field');disable(input);
+      if(row){row.querySelector('.generation-source').textContent='固定上限';row.querySelector('.generation-value-note').textContent='実際の形成・再生は、そのマスの資源と個体の支払いで決まります。';row.querySelector('.generation-auto-return').hidden=true;const lock=row.querySelector('[data-generation-lock]');if(lock)disable(lock);}
+    }
+    setText('mode-help','マスの有限資源を共有する自由設定です。旧方式の観察セットとおまかせ調整は使用しません。');
+    setText('generation-help','指定した初期値と環境条件を使います。固定上限は変更せず、資源量と競争から生存数が変わります。');
+    setText('profile-rule-note','この方式では旧方式のおまかせ傾向を使用しません。');
+    setText('supply-rule-note','この方式では支援補充を使用しません。上の雨・光・無機養分の明示入力を使います。');
+    setText('cell-water-condition',cellSetupContext.cellSettings.aquaticProfile?'水域専用の固定供給条件を引き継ぎます。水量は土壌の保水量と分けて扱います。':'水域専用の供給条件は未選定です。陸の値で自動補完しません。');
+  }
   const renderer = R.create($("board"));
   const archive = window.EcoArchive.persistent(
     {
@@ -315,6 +355,7 @@
     return value+(path==='initial'?'体':'');
   }
   function syncGenerationFields(){
+    enforceCellValues();
     const automatic=$('generation-mode').value==='auto',preset=$('observation-mode').value!=='custom';
     $('generation-profile').disabled=!automatic;
     const terrain=availableTerrainProfiles();
@@ -347,7 +388,7 @@
     const unavailable=[['water-focused','水域中心（水域35%以上）'],['land-focused','陸域中心（陸域70%以上）']].filter(([id])=>$('generation-profile').querySelector('[value="'+id+'"]').disabled).map(([,name])=>name);
     setText('profile-rule-note',!automatic?'今回は不使用：「値を自分で指定」では、おまかせの傾向は使用しません。':unavailable.length?'選択中の地形では '+unavailable.join('・')+' は利用できません。対応する地形へ変えると選択できます。':'おまかせ生成では、固定していない項目へ観察条件の傾向を適用します。');
     $('generation-help').textContent=automatic?($('generation-profile').value==='auto'?'6つの傾向から関連する条件を組で選びます。':profileNotes[$('generation-profile').value]+' 自動項目だけへ適用します。')+' 自動の欄は作成時に決定します。基準値を編集すると指定値になり、0・供給OFF・指定系統を保持します。':'表示中の値をそのまま使います。地形のおまかせは代表地形から選び、生成後の条件を保存します。';
-    syncSetupIntent();
+    syncCellControls();syncSetupIntent();
   }
   function syncSetupIntent(){
     const automatic=$('generation-mode').value==='auto',fixed=$('observation-mode').value!=='custom';
@@ -373,6 +414,7 @@
       ['開始後の供給',$('producer-supply').checked?['land','water'].map(r=>(r==='land'?'陸':'水')+'：栄養×'+$('supply-'+r+'-nutrition').value+' ／ 支援地点'+$('supply-'+r+'-capacity').value+'% ／ 再生×'+$('supply-'+r+'-regrowth').value).join(' · '):'OFF（保存中の供給倍率は使いません）','producer-supply'],
       ['生存優遇',advantages.length?advantages.join('・'):'なし','advantage-producer']
     ];
+    if(cellSetupContext)rows.push(['マス環境','気温 '+$('cell-temperature').value+'℃ ／ pH 陸 '+$('cell-landPH').value+'・水 '+$('cell-waterPH').value+' ／ 土壌 '+option('cell-soilQuality')+' ／ 養分 '+option('cell-mineralLevel')+' ／ 明示M入力 '+$('cell-mineralInput').value+' ／ 雨×'+$('cell-rainScale').value+'・光×'+$('cell-lightScale').value,'cell-temperature']);
     const html=rows.map(([label,text,target])=>'<div class="setup-condition"><b>'+escape(label)+'</b><span>'+escape(text)+'</span><button type="button" data-setup-target="'+target+'" aria-label="'+escape(label)+'を変更">変更</button></div>').join('');
     if($('setup-effective-summary').innerHTML!==html)$('setup-effective-summary').innerHTML=html;
   }
@@ -462,11 +504,12 @@
   $('reset-setup').onclick=()=>{
     if(preparingWorld)return;
     $('setup').reset();
+    if(cellSetupContext){for(const node of cellLegacyValues.keys())cellLegacyValues.set(node,node.type==='checkbox'?node.checked:node.value);const defaults=CellUI.defaults(cellSetupContext);for(const key of CellUI.fields)$('cell-'+key).value=defaults[key];}
     generationLocks.clear();generationBase={};
     $('profile-change-note').hidden=true;
     $('producer-supply').onchange();
     applyObservationMode({resetLower:false});
-    setupMessage('作成条件をデフォルトに戻しました。現在の世界は変更せず、次に世界を作るときに使います。');
+    setupMessage(cellSetupContext?'候補条件を基準に戻しました。現在の世界は変更していません。世界再作成は準備中です。':'作成条件をデフォルトに戻しました。現在の世界は変更せず、次に世界を作るときに使います。');
   };
   $("producer-supply").onchange=()=>{for(const e of $("supply-inputs").querySelectorAll("input"))e.disabled=!$("producer-supply").checked;};
   function applyObservationMode({resetLower=true}={}) {
@@ -512,7 +555,7 @@
   function readConfig() {
     const [width, height] = $("size").value.split(",").map(Number);
     const config = {
-      generationModel:'diverse/1',generationSettings:generationSettings(),relationshipModel:'network/1',balanceModel:'survival/4',consumerModel:'group/1',
+      generationModel:'diverse/1',generationSettings:cellSetupContext?{...generationSettings(),mode:'manual',profile:'auto',locks:[]}:generationSettings(),relationshipModel:'network/1',balanceModel:'survival/4',consumerModel:'group/1',
       socialRenewalModel:'successor/1',
       consumerGroupSettings:{version:'consumer-group-parameters/4'},
       blockTurns: 500,
@@ -535,7 +578,7 @@
       informationSettings:S.PersistentInformation.parameters({influence:Number($("information-influence").value)}),
       ageModel:'life/1',
       ...readFounders(),
-      observationMode: $("observation-mode").value,
+      observationMode: cellSetupContext?"custom":$("observation-mode").value,
       producerSupport: $("producer-supply").checked ? {enabled:true,...Object.fromEntries(["land","water"].map(r=>[r,Object.fromEntries(["nutrition","capacity","regrowth"].map(k=>[k,Number($("supply-"+r+"-"+k).value)/(k==="capacity"?100:1)]))]))} : {enabled:false},
       initialConditions:{version:1,density:{plant:0,...Object.fromEntries(["fungus","prey"].map(k=>[k,Number($("density-"+k).value)/100]))},resources:{...Object.fromEntries(["mineral","droplet"].map(k=>[k,Number($("resource-"+k).value)/100])),info:0},distribution:$("lower-distribution").value},
       advantageSettings: window.EcoObservationModel.settings(Object.fromEntries(
@@ -575,7 +618,7 @@
       config.mapId=preset.mapId;config.initial=preset.initial;
       config.enabled={...preset.enabled};
     }
-    return config;
+    return CellUI.connect(config,readCellSetup());
   }
   function message(text) {
     setText("message",text);
@@ -640,9 +683,9 @@
   }
   function syncSetupValidity(){
     const invalid=$('setup').querySelector('input:invalid,select:invalid,textarea:invalid');
-    $('load').disabled=preparingWorld||!!invalid;showSetupFieldError(invalid);
+    $('load').disabled=preparingWorld||!!invalid||!!cellSetupContext;showSetupFieldError(invalid);
     $('show-setup-issue').hidden=!invalid||preparingWorld;
-    setText('setup-ready-note',invalid?'修正が必要な項目があります。下のボタンから該当欄へ移動できます。':'上の条件で新しい世界を作れます。現在の世界は作成に成功するまで保持します。');
+    setText('setup-ready-note',invalid?'修正が必要な項目があります。下のボタンから該当欄へ移動できます。':cellSetupContext?'この方式の世界再作成は準備中です。条件の確認・調整と、現在の観察への取消ができます。':'上の条件で新しい世界を作れます。現在の世界は作成に成功するまで保持します。');
     const note=$('setup-message');
     if(invalid&&!preparingWorld){
       const label=[...(invalid.closest('label')?.childNodes||[])].filter(n=>n.nodeType===3).map(n=>n.textContent).join('').trim()||'入力値';
@@ -653,6 +696,7 @@
     }
   }
   function syncSetupFields() {
+    restoreCellControls();enforceCellValues();
     const fixed = $("observation-mode").value !== "custom";
     const main = $("group-main").checked;
     for (const id of ["initial", "lineages", "distribution", "placement", "guarantee"])
@@ -726,7 +770,7 @@
     $("finish-run").textContent = playback
       ? "再生結果を新規保存"
       : "終了して図鑑へ保存";
-    world = next;selectionIndex=null;
+    world = next;showCellSetup(next.config);selectionIndex=null;
     graphicsPrepared=false;observationPreparationAt=null;
     observations=nextObservations;graphFollow=true;followId=null;lastTracked=null;legendKey=null;
     if(!activeCatalogue().some(s=>s.id===activeLineage))activeLineage='abyss';
@@ -959,7 +1003,7 @@
   }, true);
   $("setup").addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (preparingWorld) return;
+    if (preparingWorld||cellSetupContext) return;
     syncSetupFields();
     if(!$('setup').checkValidity())return;
     preparingWorld = true;
@@ -983,7 +1027,7 @@
       $("setup").removeAttribute("aria-busy");
     }
   });
-  function returnSetup(){resultReadEpoch++;hold("settings");closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;if(world){showProducerSettings(world.config.producerModel==='colony/1'?world.config.producerSettings:null,world.config.initialFoodScale||1);showLargePlantSettings(world.config.largePlantModel==='independent/1'?world.config.largePlantSettings:undefined);}showGenerationSettings(world?.config||{});$("resource-info").value=0;$("information-influence").value=world?.config.informationModel==='persistent/1'?world.config.informationSettings.influence:1;applyObservationMode({resetLower:false});message("初期設定に戻りました。条件を選んで新しい世界を作れます。取消すと現在の観測へ戻ります。");}
+  function returnSetup(){resultReadEpoch++;showCellSetup(world?.config);hold("settings");closeWorldDetails();document.body.classList.add("setup-screen");document.body.classList.remove("observatory");$("cancel-settings").hidden=!world;if(world){showProducerSettings(world.config.producerModel==='colony/1'?world.config.producerSettings:null,world.config.initialFoodScale||1);showLargePlantSettings(world.config.largePlantModel==='independent/1'?world.config.largePlantSettings:undefined);}showGenerationSettings(world?.config||{});$("resource-info").value=0;$("information-influence").value=world?.config.informationModel==='persistent/1'?world.config.informationSettings.influence:1;applyObservationMode({resetLower:false});message(cellSetupContext?"初期設定を確認できます。この方式の世界再作成は準備中です。取消すと現在の観察へ戻ります。":"初期設定に戻りました。条件を選んで新しい世界を作れます。取消すと現在の観測へ戻ります。");}
   $("change-world").onclick=returnSetup;
   $("start").addEventListener("click", () => {
     if (running) {
@@ -2190,6 +2234,7 @@
     const conditions=[['好条件の高生産と省資源維持','光入力と維持の配分'],['一回の親費用と子の蓄え','近傍の適地・空き枠への定着'],['被食されにくい組織と被食後の更新','形成・再生へ実際に支払った量']],
       progress=o?`選択個体 ${escape(o.id)} / ${phase(o.phase)}相 / 年齢 ${fmt(o.age)}T / 累積実績 ${fmt(o.G)}。${o.phase<4?'次の相まで '+fmt(Math.max(0,[12,36,80][o.phase-1]-o.G)):'第四相へ到達'}。初期配置の高位相は実績獲得とは別です。`:'全分岐の参照図です。実際の到達状態とは別に表示しています。';
     $("guide-content").innerHTML=`<section data-independent-tree="${s.id}"><div class="tree-head"><canvas id="tree-portrait" width="180" height="180"></canvas><label>系統を選ぶ<select id="tree-select">${activeCatalogue().map(a=>`<option value="${a.id}" ${a.id===s.id?'selected':''}>${escape(a.name)} / ${groups[a.group]}</option>`).join('')}</select></label></div><h2>${escape(s.name)} · 独立した生産者</h2><div class="tree-root"><div class="phase-box" data-plant-phase="1"><small>I</small><br>${escape(s.phases[0])}</div><span>実績12 →</span><div class="phase-box" data-plant-phase="2"><small>II</small><br>${escape(s.phases[1])}</div></div><p class="note">IIIは累積実績36、IVは80。維持・純生産・被食後再生・子の定着という実成果で進みます。移動しただけでは加点しません。</p><div class="tree-branches">${plantBranches.map((name,i)=>`<div><div class="phase-box" data-plant-phase="3" data-plant-third="${i}"><small>III</small><h4>${name}</h4><p>${conditions[i][1]}</p></div><div class="tree-finals">${plantFinals[i].map((name,j)=>`<div data-plant-phase="4" data-plant-third="${i}" data-plant-fourth="${j}">IV · ${name}<p>${conditions[i][0]}</p></div>`).join('')}</div></div>`).join('')}</div><div class="flow">${progress}</div><p class="note">本体1個体と有限の可食量を分けます。年齢成熟後はI/II相でも有限費用・待機・適地・近傍8セルの空き条件を通して繁殖でき、子はI相・年齢0です。相/枝と年齢は独立しています。${s.id==='freshwaterlight'?'根を持たず完全浮遊し、I相から移動できます。':'本体は定着し移動しません。'}</p></section>`;
+    if(CellUI.enabled(world?.config))$('guide-content').insertAdjacentHTML('beforeend','<p class="note" data-cell-tree-note>'+CellUI.treeNote(s.id)+'</p>');
     $('tree-select').onchange=e=>{activeLineage=e.target.value;drawTree();};
     const portrait=o||{species:s.id,slot:'producer',phase:4,age:s.maturity,birthLife:s.life,sex:null,facing:0,dna:{body:.5,appendage:.5},branch3:0,branch4:0,cell:0,B:24,plant:{version:'independent-plant-state/1',baseB:2,capacityB:32,activity:1}};
     drawPortrait($('tree-portrait'),portrait);
@@ -2204,6 +2249,7 @@
       finals=[['移動した8T以上、方向維持率65%以上','移動した8T以上、方向を変える実績'],['採食8T以上、平均利用距離1.5以内','採食8T以上、平均利用距離1.5超'],['水域/高温の通過8歩以上から水域の実績','水域/高温の通過8歩以上から高温の実績']],
       progress=o?`選択個体 ${escape(o.id)} / ${ryoukiMorph(o)} / ${phase(o.phase)}相 / 年齢 ${o.age}T / G ${fmt(o.G)} / M ${fmt(o.M)}`:'通常型の全経路と可逆な相変異の参照図です。実際の到達状態とは別に表示します。';
     $('guide-content').innerHTML=`<section data-ryouki-tree><div class="tree-head"><canvas id="tree-portrait" width="180" height="180"></canvas><label>系統を選ぶ<select id="tree-select">${activeCatalogue().map(a=>`<option value="${a.id}" ${a.id===s.id?'selected':''}>${escape(a.name)} / ${groups[a.group]}</option>`).join('')}</select></label></div><h2>量機 · 通常型と可逆な相変異</h2><div class="tree-root"><div class="phase-box" data-ryouki-phase="1">I · 通常型</div><span>G${g.II} →</span><div class="phase-box" data-ryouki-phase="2">II · 通常型</div></div><p class="note">IIIはG${g.III}・M${s.M3}、IVはG${g.IV}・M${s.M4}をDNA補正。本人の維持・実採食・成功した移動から経験を得て、直近32Tの実績で分岐します。通常型の移動上限はI/II/III/IVで1/2/3/4マス。相と年齢は独立し、成熟すればI/IIでも繁殖できます。</p><div class="tree-branches">${s.branches.map((name,i)=>`<div><div class="phase-box" data-ryouki-phase="3" data-ryouki-third="${i}"><small>III</small><h4>${escape(name)}</h4><p>${thirds[i]}</p></div><div class="tree-finals">${s.fourthBranches[i].map((name,j)=>`<div data-ryouki-phase="4" data-ryouki-third="${i}" data-ryouki-fourth="${j}">IV · ${escape(name)}<p>${finals[i][j]}</p></div>`).join('')}</div></div>`).join('')}</div><h3>密度による相変異 · 系統や進化枝を増やしません</h3><div class="tree-root"><div class="phase-box" data-ryouki-mutated="early">相変異1〜3 · 背中だけ黒</div><div class="phase-box" data-ryouki-mutated="IV">相変異4 · 黒と深緑<br>成立した局所候補に繁殖準備の評価</div></div><p class="note">同セルと周囲8セルの他量機が${settings.densityHigh}体以上で${settings.highTurns}T連続すると相変異。${settings.densityLow}体以下が${settings.lowTurns}T連続し、通常の1個体枠を確保できると解除します。同居中は無償に押し出さず解除待ちです。相変異中は全相3マス、量機の相変異個体だけ同セル最大3個体。ID・齢・相・枝を保ち、追加の繁殖率倍率はありません。</p><div class="flow">${progress}</div></section>`;
+    if(CellUI.enabled(world?.config)){const note=[...$('guide-content').querySelectorAll('p.note')].at(-1);note.textContent=note.textContent.replace('量機の相変異個体だけ同セル最大3個体','相変異型だけ1定住枠3個体（3枠で9個体）');$('guide-content').insertAdjacentHTML('beforeend','<p class="note" data-cell-tree-note>'+CellUI.treeNote('ryouki')+'</p>');}
     $('tree-select').onchange=e=>{activeLineage=e.target.value;drawTree();};
     const portrait=o||{species:'ryouki',slot:'main',phase:4,age:s.maturity,birthLife:s.life,sex:'female',facing:0,dna:Object.fromEntries(S.DNA.map(k=>[k,.5])),branch3:0,branch4:0,ryouki:{version:'ryouki-state/1',mutated:false}};
     drawPortrait($('tree-portrait'),portrait);
@@ -2317,7 +2363,10 @@
       b.classList.toggle("active", b.dataset.sheet === name);
     if (name === "tree") drawTree();
     else {
-      $("guide-content").innerHTML = sheets[name]();
+      const cellSheet=CellUI.guide(name,world);
+      $("guide-content").innerHTML = cellSheet||sheets[name]();
+      if(cellSheet){$("guide-content").scrollTop=0;return;}
+      if(CellUI.enabled(world?.config))$("guide-content").insertAdjacentHTML("afterbegin",'<p class="note" data-cell-host-note>同居する生物は実IDごとに扱います。Pは実際の宿主、QはそのPに付随し、小集団の感染代表を全員感染と数えません。情報の役割分類は空間占有層と別で、新情報は次ターンから使います。</p>');
       if (name === "food")
         $("guide-content").insertAdjacentHTML(
           "beforeend",

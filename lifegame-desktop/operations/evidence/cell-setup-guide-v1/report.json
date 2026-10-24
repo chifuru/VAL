@@ -1,0 +1,48 @@
+{
+  "passed": 26,
+  "checks": [
+    "legacy settings hide and disable the new environment controls",
+    "legacy default configuration equals main 70205d1",
+    "legacy manual-zero configuration equals main 70205d1",
+    "legacy river configuration equals main 70205d1",
+    "new-world return exposes fixed environment candidates",
+    "unsupported preset and automatic adjustments are visible but unavailable",
+    "legacy support and variable capacity/regrowth are unavailable",
+    "world creation remains closed until the remaining integration is ready",
+    "candidate read preserves model/version and edited environment",
+    "zeroes and fixed finite-model conditions reach the candidate config",
+    "effective-condition summary reflects edited environment",
+    "invalid pH is identified beside its input",
+    "lower initial-quantity reset retains the independently chosen climate",
+    "default reset preserves model/water version and resets only candidate climate",
+    "submit cannot bypass the internal-world creation guard",
+    "cancel returns to the current observation",
+    "new system sheet replaces conflicting legacy explanations",
+    "new food sheet replaces conflicting legacy explanations",
+    "new action sheet replaces conflicting legacy explanations",
+    "new birth sheet replaces conflicting legacy explanations",
+    "ryouki tree explains nine settled individuals without the old per-cell limit",
+    "plant tree preserves six branches and explains current phase capacities",
+    "mobile producer remains a fourth-layer organism with dedicated physiology",
+    "setup edits/reset/cancel/guide leave the actual world, random state and committed record unchanged",
+    "returning to a legacy world restores its normal editable controls and values: {\"environmentHidden\":true,\"modeEnabled\":true,\"capacityEnabled\":true,\"supplyChecked\":true}",
+    "no uncaught browser errors or native popups"
+  ],
+  "errors": [],
+  "baseline": "70205d1",
+  "legacyConfigurations": [
+    {
+      "scenario": "default",
+      "equal": true
+    },
+    {
+      "scenario": "manual-zero",
+      "equal": true
+    },
+    {
+      "scenario": "river",
+      "equal": true
+    }
+  ],
+  "scope": "candidate setup and read-only new-model guides; no public generation or game save claim"
+}

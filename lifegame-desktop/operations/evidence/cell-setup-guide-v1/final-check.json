@@ -1,0 +1,29 @@
+{
+  "baseline": "70205d1",
+  "status": "passed",
+  "scope": "CR06 candidate settings and new-model guides; C8 D9 -> E6",
+  "checks": {
+    "nodes": 61,
+    "all_draft": true,
+    "formal_graph_unchanged": true,
+    "manifest_unique_three_field_entries": true,
+    "unit_boundaries_passed": 6,
+    "linux_browser_passed": 26,
+    "browser_errors": 0,
+    "native_popups": 0,
+    "legacy_configuration_outputs_equal": 3,
+    "candidate_zeroes_and_water_version_preserved": true,
+    "world_fingerprint_observation_unchanged": true,
+    "unsupported_controls_and_submit_guard": true,
+    "core_ab_biology_generated_signature_assets_style_package_unchanged": true,
+    "public_step_game_archive_guards_unchanged": true
+  },
+  "not_claimed": [
+    "initial life/multiple-slot generation and initial body accounting",
+    "old world summary reconciliation",
+    "game archive save/replay",
+    "public cell-model stepping or regeneration",
+    "all guides/continuous/all-speed/500T/performance/Windows/release completion",
+    "previous fixed hash failures resolved"
+  ]
+}
