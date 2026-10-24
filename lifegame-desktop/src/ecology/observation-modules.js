@@ -95,51 +95,56 @@ function(require,module){
         put(a.cell,1-fraction);for(const cell of cells)put(cell,fraction/cells.length);flow(w,ctx,'movedAmount',a.amount*fraction);
       }w.informationField=compact(w,ctx,next);
     }
-    function applicable(w,o,c){
+    function applicable(w,o,c,sourceSpecies=c.sourceSpecies,roles=null){
       if(c.scope==='kin')return false; // Kin is checked only against an actual current sender.
-      if(c.scope==='species')return c.sourceSpecies===o.species;
+      if(c.scope==='species')return sourceSpecies===o.species;
       if(c.scope==='all')return true;
-      return (c.roles??[]).some(r=>I.roles(w,o).includes(r));
+      return (c.roles??[]).some(r=>(roles??I.roles(w,o)).includes(r));
     }
     function axes(o){const group=S.spec(o)?.group;return group==='main'?[0,1,2,3,4,5,6,7,8]:group==='prey'||group==='Q'&&o.phase===4||o.species==='freshwaterlight'?[1,2,3,4,5,6,7,8]:[1,2,3,4,5];}
-    function caregiver(w,o,sender){
+    function caregivers(w,o){
       const age=S.HyperParasite.is(o)?S.HyperParasite.ageInfo(o):S.PrimaryParasite.is(o)?S.PrimaryParasite.ageInfo(o):S.ageInfo(o);
-      return age.stage==='juvenile'&&(I.parents(o).includes(sender.id)||(o.informationState.caregivers??[]).some(c=>c.id===sender.id&&c.expires>w.turn));
+      return age.stage==='juvenile'?new Set([...I.parents(o),...(o.informationState.caregivers??[]).filter(c=>c.expires>w.turn).map(c=>c.id)]):new Set();
     }
     function buildIndex(w,ctx){
       const cells=new Map(),add=(cell,c)=>{if(!cells.has(cell))cells.set(cell,[]);cells.get(cell).push(c);};
       for(const a of w.informationField)add(a.cell,{key:fieldKey(a),field:a});
       for(const entry of I.entries(w)){
         const o=entry.subject,cell=cellOf(entry);expire(w,o);
-        for(const c of components(o))if(qualified(c)&&c.context.cell===cell)add(cell,{key:o.id+'|'+S.stable([c.meaning,c.scope,c.peerSpecies]),sender:o,component:structuredClone(c)});
+        for(const c of components(o))if(qualified(c)&&c.context.cell===cell)add(cell,{key:o.id+'|'+S.stable([c.meaning,c.scope,c.peerSpecies]),sender:o,component:structuredClone(c),denom:Math.max(c.amount,1e-12),fresh:decay(w.turn-c.lastExperienceAt,15)});
       }
-      ctx.currentInformationIndex={cells,placeCache:new Map()};return cells;
+      ctx.currentInformationIndex={cells,visibleSources:new Map(),placeCache:new Map()};return cells;
+    }
+    function visibleSources(w,ctx,at){
+      const index=ctx.currentInformationIndex;if(index.visibleSources.has(at))return index.visibleSources.get(at);
+      const rows=[];for(const cell of S.nearby(w,at,1,true)){
+        if(!S.oneStep(w,at,cell)||!S.sight(w,at,cell))continue;
+        for(const source of index.cells.get(cell)??[])rows.push({cell,source});
+      }
+      index.visibleSources.set(at,rows);return rows;
     }
     function receive(w,ctx,entry){
-      const o=entry.subject,a=o.informationState,inc=a.incoming,z=I.settings(w),positive=zero(),negative=zero(),at=cellOf(entry),allowed=axes(o),sources=new Map();
-      if(z.influence===0)return;
-      for(const cell of S.nearby(w,at,1,true)){
-        if(!S.oneStep(w,at,cell)||!S.sight(w,at,cell))continue;
-        for(const source of ctx.currentInformationIndex.cells.get(cell)??[]){
-          if(source.sender?.id===o.id)continue;
-          const c=source.field??source.component,kin=source.sender&&caregiver(w,o,source.sender);
-          if(c.scope==='kin'?!kin:!applicable(w,o,{...c,sourceSpecies:source.sender?.species??c.sourceSpecies}))continue;
-          const path=source.field?1:kin?1:.25,context=(source.field?w.tiles[cell]?.env:c.context.env)===w.tiles[at]?.env?1:.5,
-            scale=path*context*(c.evidence==='low'?.5:1),previous=sources.get(source.key);
-          if(!previous||scale>previous.scale)sources.set(source.key,{...source,scale,kin});
-        }
+      const o=entry.subject,a=o.informationState,inc=a.incoming,z=I.settings(w),positive=zero(),negative=zero(),at=cellOf(entry),allowed=axes(o),sources=new Map(),roles=entry.roles??I.roles(w,o);
+      if(z.influence===0)return;let family=null;
+      for(const {cell,source}of visibleSources(w,ctx,at)){
+        if(source.sender?.id===o.id)continue;
+        const c=source.field??source.component,kin=source.sender&&(family??=caregivers(w,o)).has(source.sender.id);
+        if(c.scope==='kin'?!kin:!applicable(w,o,c,source.sender?.species??c.sourceSpecies,roles))continue;
+        const path=source.field?1:kin?1:.25,context=(source.field?w.tiles[cell]?.env:c.context.env)===w.tiles[at]?.env?1:.5,
+          scale=path*context*(c.evidence==='low'?.5:1),previous=sources.get(source.key);
+        if(!previous||scale>previous.scale)sources.set(source.key,{...source,scale,kin});
       }
       const hostSignals=new Map(),group=S.spec(o)?.group,hostTypes=group==='Q'?['leafparasite','tideparasite']:group==='P'?Object.values(S.PrimaryParasite.hostTable[o.species]??{}).flat():[];
       for(const source of sources.values()){
         const c=source.field??source.component;
         for(const axis of allowed){
           if(source.field){const value=c.strength[axis]*source.scale;if(value>=0)positive[axis]+=value;else negative[axis]-=value;}
-          else {const denom=Math.max(c.amount,1e-12),fresh=decay(w.turn-c.lastExperienceAt,15);positive[axis]+=c.positive[axis]/denom*source.scale*fresh;negative[axis]+=c.negative[axis]/denom*source.scale*fresh;}
+          else {const {denom,fresh}=source;positive[axis]+=c.positive[axis]/denom*source.scale*fresh;negative[axis]+=c.negative[axis]/denom*source.scale*fresh;}
         }
         if(hostTypes.includes(c.peerSpecies)){
           const signal=hostSignals.get(c.peerSpecies)??{positive:0,negative:0};
           if(source.field){const v=c.strength[2]*source.scale;if(v>0)signal.positive+=v;else signal.negative-=v;}
-          else {const scale=source.scale*decay(w.turn-c.lastExperienceAt,15)/Math.max(c.amount,1e-12);signal.positive+=c.positive[2]*scale;signal.negative+=c.negative[2]*scale;}
+          else {const scale=source.scale*source.fresh/source.denom;signal.positive+=c.positive[2]*scale;signal.negative+=c.negative[2]*scale;}
           hostSignals.set(c.peerSpecies,signal);
         }
       }

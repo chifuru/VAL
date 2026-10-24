@@ -1,0 +1,61 @@
+{
+  "baseline": "fb859a012c9e13c801f6a4e1f7b8e8610222c947",
+  "baselineModulesSha256": "3c059e762948832d84c65c6b79565df5096bb69b19d201ec7711d38ed3729fb1",
+  "signature": "9631330dc4a186eef4c24c527730ccad9358101dcb6bfe9648057e7e39d4efde",
+  "results": [
+    {
+      "turn": 0,
+      "nextTurn": 1,
+      "fixtureSha256": "2a061492fb94217ac20795b588559cb5bc93d11d863097a0895f46bfa5cc6a8d",
+      "organisms": 419,
+      "before": {
+        "kernelMs": 270.410032,
+        "informationBeginMs": 16.30122399999999,
+        "calls": {
+          "nearby": 4266,
+          "parents": 500
+        }
+      },
+      "after": {
+        "kernelMs": 227.83008100000006,
+        "informationBeginMs": 8.959381000000008,
+        "calls": {
+          "nearby": 4097,
+          "parents": 500
+        }
+      },
+      "worldAndObservationEqual": true,
+      "inputUnchanged": true,
+      "fingerprint": "dd64f427cfa1feb9530ceb3aad096d7a6da272adb24a82bf777ea2f4498476c7"
+    },
+    {
+      "turn": 133,
+      "nextTurn": 134,
+      "fixtureSha256": "f6867fafd961cf6364dd419f85e8ebe07b784613173192bf0962469bd59fa13a",
+      "organisms": 6314,
+      "before": {
+        "kernelMs": 2468.504307,
+        "informationBeginMs": 453.0291259999999,
+        "calls": {
+          "nearby": 17276,
+          "parents": 1729
+        }
+      },
+      "after": {
+        "kernelMs": 1986.2798090000001,
+        "informationBeginMs": 307.246451,
+        "calls": {
+          "nearby": 11940,
+          "parents": 694
+        }
+      },
+      "worldAndObservationEqual": true,
+      "inputUnchanged": true,
+      "fingerprint": "2d4c70e4009a31b6f58dcbf74909e372c5e3adc5f8dc4b43475f1224852e2151"
+    }
+  ],
+  "priorNativeReplayEqual": true,
+  "priorRecordUnchanged": true,
+  "legacyCellBoundaryEqual": true,
+  "scope": "Two retained actual boundaries, one old/new turn each with method/call instrumentation. Single timing samples are not a stable throughput claim. No natural long-run replay."
+}

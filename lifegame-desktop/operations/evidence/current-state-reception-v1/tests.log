@@ -1,0 +1,190 @@
+TAP version 13
+# Subtest: same-cell visibility is shared while kin decisions and learning remain recipient-specific
+ok 1 - same-cell visibility is shared while kin decisions and learning remain recipient-specific
+  ---
+  duration_ms: 26.447994
+  type: 'test'
+  ...
+# Subtest: a shared visible publication never shares the first receiver species or role eligibility
+ok 2 - a shared visible publication never shares the first receiver species or role eligibility
+  ---
+  duration_ms: 14.690471
+  type: 'test'
+  ...
+# Subtest: next-turn source removal does not reuse the previous visible candidates or reception fee
+ok 3 - next-turn source removal does not reuse the previous visible candidates or reception fee
+  ---
+  duration_ms: 14.950633
+  type: 'test'
+  ...
+# Subtest: b+a keeps only effective changes; expiry preserves learning and child uses its own base
+ok 4 - b+a keeps only effective changes; expiry preserves learning and child uses its own base
+  ---
+  duration_ms: 15.013258
+  type: 'test'
+  ...
+# Subtest: own publication uses fixed meaning slots, real outcomes, local context and a 30T clock
+ok 5 - own publication uses fixed meaning slots, real outcomes, local context and a 30T clock
+  ---
+  duration_ms: 17.104324
+  type: 'test'
+  ...
+# Subtest: combined receipt pays once; repeated direction habituates without sender history or self-experience
+ok 6 - combined receipt pays once; repeated direction habituates without sender history or self-experience
+  ---
+  duration_ms: 21.042212
+  type: 'test'
+  ...
+# Subtest: opposite stimuli retain both signs; reverse learning uses separate habituation
+ok 7 - opposite stimuli retain both signs; reverse learning uses separate habituation
+  ---
+  duration_ms: 17.648975
+  type: 'test'
+  ...
+# Subtest: scope and true parent/caregiver use stronger direct transmission; unrelated kin is excluded
+ok 8 - scope and true parent/caregiver use stronger direct transmission; unrelated kin is excluded
+  ---
+  duration_ms: 33.164271
+  type: 'test'
+  ...
+# Subtest: zero influence or insufficient budget produces no learning and no reception fee
+ok 9 - zero influence or insufficient budget produces no learning and no reception fee
+  ---
+  duration_ms: 30.38163
+  type: 'test'
+  ...
+# Subtest: parasite host affinity is an acquired current preference, separate from inherited host genes
+ok 10 - parasite host affinity is an acquired current preference, separate from inherited host genes
+  ---
+  duration_ms: 16.532621
+  type: 'test'
+  ...
+# Subtest: death publications coalesce by current class and expiry, without source identity or clock refresh
+ok 11 - death publications coalesce by current class and expiry, without source identity or clock refresh
+  ---
+  duration_ms: 16.789088
+  type: 'test'
+  ...
+# Subtest: synchronous diffusion conserves amount/evidence, decays strength once and expires the original bucket
+ok 12 - synchronous diffusion conserves amount/evidence, decays strength once and expires the original bucket
+  ---
+  duration_ms: 19.096896
+  type: 'test'
+  ...
+# Subtest: place stimulus is temporary and does not charge or add to acquired a
+ok 13 - place stimulus is temporary and does not charge or add to acquired a
+  ---
+  duration_ms: 25.210769
+  type: 'test'
+  ...
+# Subtest: Q retains the live link and finite aggregated residues; later Q does not renew older expiry
+ok 14 - Q retains the live link and finite aggregated residues; later Q does not renew older expiry
+  ---
+  duration_ms: 22.368228
+  type: 'test'
+  ...
+# Subtest: source and generated models commit the same short current-state run and preserve the input
+ok 15 - source and generated models commit the same short current-state run and preserve the input
+  ---
+  duration_ms: 2257.412724
+  type: 'test'
+  ...
+# Subtest: unknown/old state is rejected rather than silently reinterpreted
+ok 16 - unknown/old state is rejected rather than silently reinterpreted
+  ---
+  duration_ms: 14.503114
+  type: 'test'
+  ...
+# Subtest: actual child construction inherits b without acquired a; frozen snapshots expose derived values
+ok 17 - actual child construction inherits b without acquired a; frozen snapshots expose derived values
+  ---
+  duration_ms: 17.798838
+  type: 'test'
+  ...
+# Subtest: internal current-state records are explicitly blocked until the new archive schema is connected
+ok 18 - internal current-state records are explicitly blocked until the new archive schema is connected
+  ---
+  duration_ms: 18.153785
+  type: 'test'
+  ...
+# Subtest: same-cell current information uses distinct semantic keys and survives updates, deletion and reorder
+ok 19 - same-cell current information uses distinct semantic keys and survives updates, deletion and reorder
+  ---
+  duration_ms: 1068.516044
+  type: 'test'
+  ...
+# Subtest: large current vectors cross only changed indices and immutable map/config are not sent again
+ok 20 - large current vectors cross only changed indices and immutable map/config are not sent again
+  ---
+  duration_ms: 134.544164
+  type: 'test'
+  ...
+# Subtest: current nested state changes and removed keys reconstruct without changing the base or earlier packets
+ok 21 - current nested state changes and removed keys reconstruct without changing the base or earlier packets
+  ---
+  duration_ms: 167.257877
+  type: 'test'
+  ...
+# Subtest: foreign current object names, duplicate vector indices and wrong vector lengths are rejected
+ok 22 - foreign current object names, duplicate vector indices and wrong vector lengths are rejected
+  ---
+  duration_ms: 102.357516
+  type: 'test'
+  ...
+# Subtest: actual Worker batch, streamed phases and final-only current frames reconstruct two committed turns
+ok 23 - actual Worker batch, streamed phases and final-only current frames reconstruct two committed turns
+  ---
+  duration_ms: 5131.545518
+  type: 'test'
+  ...
+# Subtest: discarding partial computation keeps current clocks and allows exact resume from the committed world
+ok 24 - discarding partial computation keeps current clocks and allows exact resume from the committed world
+  ---
+  duration_ms: 788.12667
+  type: 'test'
+  ...
+# Subtest: schema4 saves native full-turn facts and final current state, without historical world snapshots
+ok 25 - schema4 saves native full-turn facts and final current state, without historical world snapshots
+  ---
+  duration_ms: 442.048595
+  type: 'test'
+  ...
+# Subtest: reading and replay request never write, and resolved initial conditions replay the saved fingerprint
+ok 26 - reading and replay request never write, and resolved initial conditions replay the saved fingerprint
+  ---
+  duration_ms: 1322.67048
+  type: 'test'
+  ...
+# Subtest: saving a replay creates a separate record only with explicit replay-new intent
+ok 27 - saving a replay creates a separate record only with explicit replay-new intent
+  ---
+  duration_ms: 636.658774
+  type: 'test'
+  ...
+# Subtest: native records remain readable with a foreign signature while recalculation is refused
+ok 28 - native records remain readable with a foreign signature while recalculation is refused
+  ---
+  duration_ms: 422.762362
+  type: 'test'
+  ...
+# Subtest: record integrity, missing turns, invalid current clocks and genotype references are rejected
+ok 29 - record integrity, missing turns, invalid current clocks and genotype references are rejected
+  ---
+  duration_ms: 857.545787
+  type: 'test'
+  ...
+# Subtest: new native records do not pass old cell-archive guards and old snapshots are not silently converted
+ok 30 - new native records do not pass old cell-archive guards and old snapshots are not silently converted
+  ---
+  duration_ms: 335.431191
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 14360.256363

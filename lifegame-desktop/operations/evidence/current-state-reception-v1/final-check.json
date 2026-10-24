@@ -1,0 +1,25 @@
+{
+  "definition": "current-state-reception-output-gate/1",
+  "success": true,
+  "baseline": "fb859a012c9e13c801f6a4e1f7b8e8610222c947",
+  "signature": "9631330dc4a186eef4c24c527730ccad9358101dcb6bfe9648057e7e39d4efde",
+  "formalNodes": 61,
+  "formalMetadataGraphAndStatusUnchanged": true,
+  "changedNodeReferences": [
+    "C7.5",
+    "C8.2",
+    "D7",
+    "D8.2",
+    "E5"
+  ],
+  "newReferencesResolved": 40,
+  "manifest61OrderAndFormatPreserved": true,
+  "coreABDefaultUIAssetsProductPreserved": true,
+  "sharedAllocationAndTransferUnchanged": true,
+  "newTests": 3,
+  "relatedTests": 27,
+  "boundaryWorldsAndObservationsEqual": 2,
+  "priorRecordReplayPreserved": true,
+  "natural500Complete": false,
+  "fullApplicationPerformanceGuaranteed": false
+}
