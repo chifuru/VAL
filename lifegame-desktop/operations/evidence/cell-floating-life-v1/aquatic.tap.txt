@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: explicit freshwater profile resolves finite water and bottom M without copying the land profile
+ok 1 - explicit freshwater profile resolves finite water and bottom M without copying the land profile
+  ---
+  duration_ms: 28.214418
+  type: 'test'
+  ...
+# Subtest: poor/standard/rich bottom stores and soil quality are separate from water volume
+ok 2 - poor/standard/rich bottom stores and soil quality are separate from water volume
+  ---
+  duration_ms: 17.263597
+  type: 'test'
+  ...
+# Subtest: omitted and unknown profiles cannot silently acquire finite aquatic rules
+ok 3 - omitted and unknown profiles cannot silently acquire finite aquatic rules
+  ---
+  duration_ms: 15.113596
+  type: 'test'
+  ...
+# Subtest: boundary inflow, rain, drainage and evaporation are booked exactly once and conserve water
+ok 4 - boundary inflow, rain, drainage and evaporation are booked exactly once and conserve water
+  ---
+  duration_ms: 7.028633
+  type: 'test'
+  ...
+# Subtest: zero input and empty water do not evaporate or synthesize nonexistent water
+ok 5 - zero input and empty water do not evaporate or synthesize nonexistent water
+  ---
+  duration_ms: 7.807355
+  type: 'test'
+  ...
+# Subtest: six aquatic colonies share one light/water budget and plants remain non-predatory
+ok 6 - six aquatic colonies share one light/water budget and plants remain non-predatory
+  ---
+  duration_ms: 6.37699
+  type: 'test'
+  ...
+# Subtest: bottom M is shared locally and dark photosynthesis supplies no energy
+ok 7 - bottom M is shared locally and dark photosynthesis supplies no energy
+  ---
+  duration_ms: 4.094291
+  type: 'test'
+  ...
+# Subtest: waterbug feeds only after actual arrival and never takes adjacent cell tissue
+ok 8 - waterbug feeds only after actual arrival and never takes adjacent cell tissue
+  ---
+  duration_ms: 42.706206
+  type: 'test'
+  ...
+# Subtest: water decomposition leaves mineral returns for next T and capacity overflow remains owned
+ok 9 - water decomposition leaves mineral returns for next T and capacity overflow remains owned
+  ---
+  duration_ms: 6.3164
+  type: 'test'
+  ...
+# Subtest: explicit mineral inputs are accounted for without hidden biological replenishment
+ok 10 - explicit mineral inputs are accounted for without hidden biological replenishment
+  ---
+  duration_ms: 5.024333
+  type: 'test'
+  ...
+# Subtest: three-T aquatic food-web boundaries preserve bodies, stocks and source/generated/Worker state
+ok 11 - three-T aquatic food-web boundaries preserve bodies, stocks and source/generated/Worker state
+  ---
+  duration_ms: 149.858336
+  type: 'test'
+  ...
+# Subtest: freshwater organism retains producer identity while public/new-result gates stay closed
+ok 12 - freshwater organism retains producer identity while public/new-result gates stay closed
+  ---
+  duration_ms: 44.730288
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 388.505434

@@ -1,0 +1,100 @@
+TAP version 13
+# Subtest: all phases/ages retain mobile producer physiology and one real initial body M
+ok 1 - all phases/ages retain mobile producer physiology and one real initial body M
+  ---
+  duration_ms: 83.636265
+  type: 'test'
+  ...
+# Subtest: movement and photosynthesis use the actual arrival cell and pay the path once
+ok 2 - movement and photosynthesis use the actual arrival cell and pay the path once
+  ---
+  duration_ms: 15.130715
+  type: 'test'
+  ...
+# Subtest: bare membranes produce no light, while stored E/M can fund a bounded recovery
+ok 3 - bare membranes produce no light, while stored E/M can fund a bounded recovery
+  ---
+  duration_ms: 10.775703
+  type: 'test'
+  ...
+# Subtest: old membranes may shade but actual water limits synthesis and full reserves add no free energy
+ok 4 - old membranes may shade but actual water limits synthesis and full reserves add no free energy
+  ---
+  duration_ms: 10.039741
+  type: 'test'
+  ...
+# Subtest: newly formed membrane cannot be eaten until the next turn
+ok 5 - newly formed membrane cannot be eaten until the next turn
+  ---
+  duration_ms: 7.829297
+  type: 'test'
+  ...
+# Subtest: mature phase-I birth occupies a nearby fourth-layer slot and charges matter once
+ok 6 - mature phase-I birth occupies a nearby fourth-layer slot and charges matter once
+  ---
+  duration_ms: 5.448253
+  type: 'test'
+  ...
+# Subtest: full shared settlement slots and failed M reservation cause no failed-birth charge
+ok 7 - full shared settlement slots and failed M reservation cause no failed-birth charge
+  ---
+  duration_ms: 12.325691
+  type: 'test'
+  ...
+# Subtest: juvenile phase-IV does not reproduce; birth retains DNA origin without cloning P/Q
+ok 8 - juvenile phase-IV does not reproduce; birth retains DNA origin without cloning P/Q
+  ---
+  duration_ms: 12.750949
+  type: 'test'
+  ...
+# Subtest: existing experience gates and all six branches spend real costs without refills or rejuvenation
+ok 9 - existing experience gates and all six branches spend real costs without refills or rejuvenation
+  ---
+  duration_ms: 40.871242
+  type: 'test'
+  ...
+# Subtest: age and starvation each create one finite next-T corpse including bound M
+ok 10 - age and starvation each create one finite next-T corpse including bound M
+  ---
+  duration_ms: 9.634501
+  type: 'test'
+  ...
+# Subtest: plant food includes all fourth-layer plants, excludes ordinary main bodies and preserves protection
+ok 11 - plant food includes all fourth-layer plants, excludes ordinary main bodies and preserves protection
+  ---
+  duration_ms: 4.889508
+  type: 'test'
+  ...
+# Subtest: three-T source/generated and Worker/JSON preserve floating birth/growth, and public guards remain
+ok 12 - three-T source/generated and Worker/JSON preserve floating birth/growth, and public guards remain
+  ---
+  duration_ms: 103.615947
+  type: 'test'
+  ...
+# Subtest: floating life requires a settled budget and cannot spend twice
+ok 13 - floating life requires a settled budget and cannot spend twice
+  ---
+  duration_ms: 6.722476
+  type: 'test'
+  ...
+# Subtest: reversing the actor array preserves competing births, physical slots and phase results
+ok 14 - reversing the actor array preserves competing births, physical slots and phase results
+  ---
+  duration_ms: 9.99226
+  type: 'test'
+  ...
+# Subtest: a full energy store still observes captured light when selecting the production branch
+ok 15 - a full energy store still observes captured light when selecting the production branch
+  ---
+  duration_ms: 5.182751
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 349.698783

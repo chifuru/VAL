@@ -69,7 +69,7 @@ test('three-T aquatic food-web boundaries preserve bodies, stocks and source/gen
  assert.deepEqual(T.apply(before,JSON.parse(JSON.stringify(encode(w,true)))),w);assert(w.organisms.some(o=>o.species==='waterbug'));
 });
 
-test('dedicated freshwater organism life and public/new-result gates are still closed',()=>{
- const w=fixture(),o=add(w,'floating','freshwaterlight');assert.equal(C.layer(o),4);assert.equal(S.spec(o).group,'plant');assert.equal(o.cellLife,undefined);ledger(w);const c=ready(w);assert.throws(()=>E.cellLife(w,c),/CELL_LIFE_MAINTENANCE_UNCONNECTED/);
+test('freshwater organism retains producer identity while public/new-result gates stay closed',()=>{
+ const w=fixture(),o=add(w,'floating','freshwaterlight');assert.equal(C.layer(o),4);assert.equal(S.spec(o).group,'plant');assert.equal(o.cellLife,undefined);ledger(w);const c=ready(w);E.cellLife(w,c);assert(c.cellResources.budgets.has(o.id));assert(c.cellResources.receipts.some(r=>r.actor===o.id&&r.kind==='photo'));conserved(w);
  const A=require('../src/ecology/archive.js');assert.throws(()=>E.beginTurn(w),/CELL_MODEL_INCOMPLETE/);assert.throws(()=>A.create({getItem:()=>null,setItem(){}},E,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
 });

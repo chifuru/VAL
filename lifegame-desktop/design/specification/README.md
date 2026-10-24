@@ -2,11 +2,11 @@
 
 管理版 `specification-index/20`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。寄生生活環の現在正本は[有限群体と宿主通過](parasite-cohorts-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
 
-現在のマス・占有・資源配分の正本は[マス再編/1](cell-reorganization-v1.md)。0〜5次、共通土壌、量機の定住3×3、低次動物の分群、分解者と次T利用境界をA/Bへ採用。**共有光接続に続き、明示版の水域資源と下層生活を内部接合。新境界12＋必要回帰49の計61項目を限定確認。水域値はC/D比較開始値。淡水専用生活/群落移動の種指定/再生専用補正・通常観察/保存は後続、CR06全体は未完**。旧仕様の置換範囲と後続候補は同書11〜14節を参照する。
+現在のマス・占有・資源配分の正本は[マス再編/1](cell-reorganization-v1.md)。0〜5次、共通土壌、量機の定住3×3、低次動物の分群、分解者と次T利用境界をA/Bへ採用。**水域資源に続き、淡水光合成体の有限生活を内部接合。新境界15＋必要回帰56の計71項目を限定確認。水域値はC/D比較開始値。群落移動の種指定/再生専用補正・通常観察/保存は後続、CR06全体は未完**。旧仕様の置換範囲と後続候補は同書11〜14節を参照する。
 
 既存の第1〜第4組、量機/3と採用分岐、植物/P/Qの造形対応は採用済み。[菌膜群落/1](fungal-colonies-v1.md)を維持し、新たに[一次消費者の小集団/1](consumer-groups-v1.md)をA1.2/A1.7・B4.4/B5.2/B5.5/B5.6へ反映。開発版4.2.47の `consumerModel: group/1` へ接続する。実測と草棲虫の未達は[I11e証跡](../../operations/evidence/i11e-consumer-groups-v1/README.md)。追加バランス調整は実測を共有して利用者と相談する。
 
-実装への接続は [C/D契約](../implementation/cell-reorganization-v1.md)、実装順序は [CR01〜CR07](../../operations/plans/cell-reorganization-implementation-v1.md)。既存C7系/C8系・D7〜D9へ接続済みだが、CR06の水域資源と下層生活の内部境界まで限定実施、製品版・配布は未変更。現在の証跡は [CR06水域資源接続](../../operations/evidence/cell-aquatic-resources-v1/README.md)。これらは実装/検証の文書であり、A/Bの意味・比較開始値を上書きしない。
+実装への接続は [C/D契約](../implementation/cell-reorganization-v1.md)、実装順序は [CR01〜CR07](../../operations/plans/cell-reorganization-implementation-v1.md)。既存C7系/C8系・D7〜D9へ接続済みだが、CR06の淡水光合成体の専用生活まで内部接合、製品版・配布は未変更。現在の証跡は [CR06淡水生活接続](../../operations/evidence/cell-floating-life-v1/README.md)。これらは実装/検証の文書であり、A/Bの意味・比較開始値を上書きしない。
 
 ## 読む順序と優先順位
 

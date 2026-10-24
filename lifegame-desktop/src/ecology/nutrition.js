@@ -131,7 +131,7 @@
         const choices=[],rows=m.cellSpace.get(o.cell);
         // Compare real local food with live prey using the existing food
         // preference. This local view never reads a remote tile's stock.
-        for(const a of [...(rows?.[1]||[]),...(rows?.[2]||[]),...(rows?.[5]||[])]){
+        for(const a of [...(rows?.[1]||[]),...(rows?.[2]||[]),...(rows?.[5]||[]),...(rows?.[4]||[]).filter(a=>S.spec(a).group==="plant")]){
           const group=S.spec(a).group;if(a.HP<=0||!ctx.old.has(a.id)||!(S.edibleB(a)>0)||S.spec(o).id==="kelp"||isRyouki(w,o)&&group!=="plant")continue;
           const hidden=a.cellMatter?.tissueAt===w.turn?a.cellMatter.newEdibleB??a.cellMatter.newB??0:0;
           if(S.edibleB(a)>hidden)choices.push({type:"plant",id:a.id,obj:a,cell:a.cell,tag:S.spec(a).tag,healing:1,amount:(S.edibleB(a)-hidden)/Math.max(EPS,ctx.traits.get(a.id).capB-(a.cellLife?.baseB||0))});
@@ -228,7 +228,9 @@
     function prepare(w,ctx){
       const state=begin(w,ctx);
       for(const o of w.organisms)if(o.cellMatter&&o.cellMatter.tissueAt<w.turn){o.cellMatter.newB=0;o.cellMatter.newEdibleB=0;}
-      for(const o of w.organisms){const p=ctx.traits.get(o.id),base=S.CellLife.is(o)?maintenanceCost(w,o).E:p.maintenance*(S.spec(o).group==="main"?1+.05*S.clamp(w.cellState.decayLoad[o.cell]||0,0,1):1)*S.adjustment(w,o,"maintenance",w.tiles[o.cell].env,p.phase)/(1+S.trait(o,"maintenance",p.phase));
+      ctx.cellFloatingPresent=false;
+      for(const o of w.organisms){if(o.species==="freshwaterlight"&&S.LargePlant.is(o)){S.LargePlant.reset(w,o);ctx.cellFloatingPresent=true;}
+        const p=ctx.traits.get(o.id),base=S.CellLife.is(o)?maintenanceCost(w,o).E:p.maintenance*(S.spec(o).group==="main"?1+.05*S.clamp(w.cellState.decayLoad[o.cell]||0,0,1):1)*S.adjustment(w,o,"maintenance",w.tiles[o.cell].env,p.phase)/(1+S.trait(o,"maintenance",p.phase));
         ctx.costs.set(o.id,{action:0,base,density:0,neighborCount:0,budget:Q(Math.max(0,o.E-base))});}
       return state;
     }
@@ -271,7 +273,7 @@
       if(key==="organism"){
         const group=S.spec(row).group;if(row.HP<=0||!["plant","fungus"].includes(group))return null;
         const hidden=row.cellMatter?.tissueAt===w.turn?(row.cellMatter.newEdibleB??row.cellMatter.newB)||0:0;
-        return {row,key,id,cell:row.cell,units:Math.max(0,S.edibleB(row)-hidden)*(S.CellLife.is(row)?S.phenotype(w,row).biteFactor:1),E:1,M:(row.cellMatter?.bodyM||0)/Math.max(EPS,row.B),tag:group==="plant"?"plant":"fungal"};
+        return {row,key,id,cell:row.cell,units:Math.max(0,S.edibleB(row)-hidden)*(S.CellLife.is(row)||S.LargePlant.is(row)?S.phenotype(w,row).biteFactor:1),E:1,M:(row.cellMatter?.bodyM||0)/Math.max(EPS,row.B),tag:group==="plant"?"plant":"fungal"};
       }
       if(key!=="capture"&&(row.availableAt>w.turn||row.created>=w.turn))return null;
       if(key==="resource"){
@@ -338,7 +340,10 @@
         }
         for(const [id,grant]of allocate(local,rows,localDemands).grants)allocations.grants.set(id,grant);
       }
-      state.acquired=true;state.light=[...captured].map(([actor,captured])=>({actor,captured,used:0}));
+      state.acquired=true;state.light=[...captured].map(([actor,captured])=>{
+        if(m.byId.get(actor)?.species==="freshwaterlight")ctx.records.get(actor).solarOpportunityE=captured;
+        return {actor,captured,used:0};
+      });
       const waterUse=new Map();for(const r of compiled)if(r.kind==="photo"||r.kind==="decompose")waterUse.set(r.o.cell,(waterUse.get(r.o.cell)||0)+allocations.grants.get(r.id)*(r.kind==="photo"?1/2.6:equivalent(r.s)/r.s.units*.05));
       state.flow.waterUse=0;for(const [cell,amount]of waterUse){
         const debit=Math.min(w.cellState.water[cell],Math.ceil(Math.max(0,amount-1e-12)*1e6)/1e6);
@@ -381,7 +386,7 @@
         if(r.kind==="decompose"){S.dissipate(w,Q(rawE-E));S.CellSpace.deferMaterial(w,o.cell,{M:Q(rawM-M),kind:"mineral"});}
         else if(rawE>E||rawM>M)S.CellSpace.deferMaterial(w,o.cell,{E:Q(rawE-E),M:Q(rawM-M)});
         state.receipts.push({id:r.id,actor:o.id,cell:o.cell,kind:r.kind,quantity,E,M,source:s?.id??null});
-        const record=ctx.records.get(o.id);if(r.kind==="photo"){record.light=Q(record.light+E);if(E>0)S.record(ctx,o,"light",{amount:E});}if(r.kind==="food"||r.kind==="decompose")record.organic=Q(record.organic+E);
+        const record=ctx.records.get(o.id);if(r.kind==="photo"){record.light=Q(record.light+E);if(o.species==="freshwaterlight"&&S.LargePlant.is(o)){o.plant.last.solarInputE=Q(o.plant.last.solarInputE+E);S.LargePlant.flow(w,o,"solarInputE",E);}if(E>0)S.record(ctx,o,"light",{amount:E});}if(r.kind==="food"||r.kind==="decompose")record.organic=Q(record.organic+E);
         if(ctx.cellQActors?.has(o.id)){o.hyper.last.feedingE=Q((o.hyper.last.feedingE||0)+E);ctx.hyperFlow.bySpecies.hyperparasite.fedE=Q(ctx.hyperFlow.bySpecies.hyperparasite.fedE+E);}
         else if(r.kind==="food"&&S.spec(o).group==="main"&&["plant","fungal","animal"].includes(s.tag)){
           const gain=isRyouki(w,o)?0:Math.min(300-o.G,E*(s.tag==="animal"?1+S.trait(o,"animalG",p.phase):1));o.G=Q(o.G+gain);record.G=Q(record.G+gain);record.reserve=Q(record.reserve+E);
@@ -412,8 +417,16 @@
           if(need>0)requests.push({id:"food/"+o.id+"/"+s.key+"/"+s.id,actor:o.id,kind:"food",need,source:ref});
         }
       }
+      const plants=cell=>{const rows=cells.get(cell);return [...(rows?.[1]||[]),...(rows?.[2]||[]),...(rows?.[4]||[]).filter(a=>S.spec(a).group==="plant")];};
       for(const o of w.organisms)if(o.HP>0&&ctx.old.has(o.id)){
         if(!S.CellLife.is(o)){
+          if(o.species==="freshwaterlight"&&S.LargePlant.is(o)){
+            const p=ctx.traits.get(o.id),leaves=Math.max(0,S.edibleB(o)),fraction=Math.min(1,leaves/o.plant.capacityB);
+            maintenance.set(o.id,{E:ctx.costs.get(o.id).base,M:0});
+            canopies.push({actor:o.id,height:0,area:p.surface*fraction,capture:Q(p.lightInput*p.ageFactors.light*fraction*w.tiles[o.cell].light)});
+            requests.push({id:"photo/"+o.id,actor:o.id,kind:"photo",need:Math.max(0,p.capE-o.E)},
+              {id:"mineral/"+o.id,actor:o.id,kind:"mineral",need:Math.max(0,p.capM-o.M)});continue;
+          }
           if(S.spec(o).group!=="main")continue;
           maintenance.set(o.id,{E:ctx.costs.get(o.id).base,M:0});
           if(o.species==="kelp"){
@@ -422,7 +435,7 @@
             canopies.push({actor:o.id,height:0,area:o.B>0?1:0,capture});
             requests.push({id:"photo/"+o.id,actor:o.id,kind:"photo",need:Math.max(0,p.capE-o.E)});
           }
-          const rows=cells.get(o.cell),refs=[...(rows?.[1]||[]),...(rows?.[2]||[]),...(rows?.[5]||[])].map(a=>({kind:"organism",id:a.id}));
+          const rows=cells.get(o.cell),refs=[...plants(o.cell),...(rows?.[5]||[])].map(a=>({kind:"organism",id:a.id}));
           for(const {row,kind}of materials.get(o.cell)||[])refs.push({kind,id:row.id});
           for(const id of ctx.cellCaptureByActor?.get(o.id)||[])refs.push({kind:"capture",id});
           refs.push(...(m.cellSources.resourcesByCell.get(o.cell)||[]));
@@ -450,11 +463,11 @@
             const need=Math.min(units,processed*units/body);if(need>0)requests.push({id:"decompose/"+o.id+"/"+row.id,actor:o.id,kind:"decompose",need,source:{kind,id:row.id}});
           }
         }else{
-          food(o,[...(cells.get(o.cell)?.[1]||[]),...(cells.get(o.cell)?.[2]||[])].map(a=>({kind:"organism",id:a.id})));
+          food(o,plants(o.cell).map(a=>({kind:"organism",id:a.id})));
         }
       }
       for(const o of ctx.cellQActors?.values()||[]){
-        const rows=cells.get(o.cell),refs=[...(rows?.[1]||[]),...(rows?.[2]||[])].map(a=>({kind:"organism",id:a.id}));
+        const refs=plants(o.cell).map(a=>({kind:"organism",id:a.id}));
         for(const {row,kind}of materials.get(o.cell)||[])refs.push({kind,id:row.id});
         refs.push(...(m.cellSources.resourcesByCell.get(o.cell)||[]));
         food(o,refs);

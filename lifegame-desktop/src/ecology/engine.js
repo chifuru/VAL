@@ -398,13 +398,14 @@
     N.CellResources.acquire(w,ctx,demand.requests,demand.canopies);
     N.CellResources.settleBudgets(w,ctx,maintenance);
     R.CellMain.maintain(w,ctx,N.CellResources);
+    R.CellFloating.advance(w,ctx,N.CellResources);
     R.CellLife.advance(w,ctx,N.CellResources,B.moveCost);
     B.learn(w,ctx);R.growth(w,ctx);R.CellMain.reproduce(w,ctx,N.CellResources);R.CellMain.age(w,ctx);
     N.CellResources.background(w,ctx);
     if(S.PrimaryParasite?.enabled(w)){P.contacts(w,ctx);P.mature(w,ctx);P.reproduce(w,ctx);}
     if(S.PersistentInformation?.enabled(w))P.informationFinalize(w,ctx);
-    // Special photosynthesis, remaining aquatic life and public stepping are
-    // still guarded CR06 boundaries; this is an internal consumer-life entry.
+    // Observation, public stepping and remaining CR04 species-specific
+    // choices are still guarded; this is the internal cell-life entry.
     return demand;
   }
   function finish(w, ctx) {

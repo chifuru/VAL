@@ -312,7 +312,7 @@ return {settings,attach,region,level,factor,begin,finish};
     function attach(w,o,options={}){
       const k=kind(o);if(!CellSpace.enabled(w))return o;
       if(!k){
-        if(spec(o).group==="main")o.cellMatter??={version:"cell-matter/1",bodyM:Q(.02*o.B),newB:0,newEdibleB:0,tissueAt:w.turn};
+        if(spec(o).group==="main"||o.species==="freshwaterlight")o.cellMatter??={version:"cell-matter/1",bodyM:Q(.02*o.B),newB:0,newEdibleB:0,tissueAt:w.turn};
         return o;
       }
       if(is(o))return o;
@@ -909,7 +909,8 @@ return {settings,attach,region,level,factor,begin,finish};
     function allocation(w,o,category,amount,side=null){if(amount<=0)return;const r=row(w,o);r.allocation[category]=H.round(r.allocation[category]+amount);if(side!==null)r.sides[category][side]=H.round(r.sides[category][side]+amount);}
     function flows(w){return w.largePlantFlows??={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};}
     function flow(w,o,key,amount){if(flows(w).turn!==w.turn)w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};const r=flows(w)[region(w,o.cell)];r[key]=H.round(r[key]+amount);}
-    function begin(w){if(!enabled(w))return;w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};for(const o of w.organisms)if(is(o)){o.plant.last=last(w.turn);o.plant.window=o.plant.window.filter(r=>r.turn>w.turn-32);}}
+    function reset(w,o){o.plant.last=last(w.turn);o.plant.window=o.plant.window.filter(r=>r.turn>w.turn-32);}
+    function begin(w){if(!enabled(w))return;w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};for(const o of w.organisms)if(is(o))reset(w,o);}
     function initialize(w){
       if(!enabled(w)||!w.config.enabled.plant)return;
       const species=D.independentPlants,occupied=new Set(),counts={land:0,water:0};
@@ -960,29 +961,32 @@ return {settings,attach,region,level,factor,begin,finish};
       allocation(w,o,0,H.round((amount-replacement)*1.2),0);allocation(w,o,2,H.round(replacement*1.2),1);
     }
     function choose(w,o,scores,purpose){const largest=Math.max(...scores),tied=scores.map((n,i)=>({n,i})).filter(a=>Math.abs(a.n-largest)<1e-6),dna=purpose.includes("III")?[o.dna.aptitude,o.dna.body,o.dna.skin]:[o.dna.body,o.dna.skin];tied.sort((a,b)=>(dna[b.i]??0)-(dna[a.i]??0)||hash(w,"independent/branch",0,o.id,[purpose,a.i])-hash(w,"independent/branch",0,o.id,[purpose,b.i]));return tied[0].i;}
-    function prepare(w,o,ctx,indexed){
+    function prepare(w,o,ctx,indexed,N=null){
       if(o.phase<2||o.phase>=4)return;
       const phen=phenotype(w,o);if(o.E<.1+4*phen.maintenance)return;
-      const local=nearby(w,o.cell).some(cell=>validHabitat(w,spec(o),cell)&&!indexed.producer?.has(cell));
+      const local=nearby(w,o.cell).some(cell=>validHabitat(w,spec(o),cell)&&(N?oneStep(w,o.cell,cell)&&CellSpace.room(w,{...o,id:"new/"+o.id},cell,{},indexed.cellSpace):!indexed.producer?.has(cell)));
       const category=o.phase===3?o.branch3:o.plant.replacementDebtB>0?2:ageInfo(o).stage!=="juvenile"&&local&&o.E>=10+4*phen.maintenance?1:0;
       const opportunity=ctx.records.get(o.id)?.solarOpportunityE??o.plant.last.solarInputE;
       const side=category===0?(opportunity>=2*phen.maintenance?0:1):category===1?(o.E>=14+4*phen.maintenance?0:1):(o.plant.replacementDebtB>0?1:0);
-      o.E=H.round(o.E-.1);dissipate(w,.1);o.plant.last.preparationE=.1;increment(o,"preparationE",.1);allocation(w,o,category,.1,side);
+      if(N){if(!N.reserve(w,ctx,o,"preparation/"+o.id,{E:.1,M:0})||!N.commit(w,ctx,o,"preparation/"+o.id))return;}
+      else{o.E=H.round(o.E-.1);dissipate(w,.1);}
+      o.plant.last.preparationE=.1;increment(o,"preparationE",.1);allocation(w,o,category,.1,side);
     }
-    function finalize(w,ctx){
+    function finalize(w,ctx,N=null){
       if(!enabled(w))return;
       const indexed=maps(w);
-      for(const child of w.organisms)if(is(child)&&!child.plant.settlementRecorded&&child.parents.length&&child.age>=4){child.plant.settlementRecorded=true;const parent=indexed.byId.get(child.parents[0]);if(is(parent)){increment(parent,"settlements",1);parent.plant.last.settlementCredit=(parent.plant.last.settlementCredit||0)+1;}}
-      for(const o of w.organisms)if(is(o)&&ctx.traits.has(o.id)&&o.plant.finalizedAt!==w.turn){
+      for(const child of w.organisms)if(is(child)&&(!N||child.species==="freshwaterlight")&&!child.plant.settlementRecorded&&child.parents.length&&child.age>=4){child.plant.settlementRecorded=true;const parent=indexed.byId.get(child.parents[0]);if(is(parent)){increment(parent,"settlements",1);parent.plant.last.settlementCredit=(parent.plant.last.settlementCredit||0)+1;}}
+      for(const o of w.organisms)if(is(o)&&(!N||o.species==="freshwaterlight"&&ctx.old.has(o.id))&&ctx.traits.has(o.id)&&o.plant.finalizedAt!==w.turn){
         const p=o.plant;p.finalizedAt=w.turn;
         const maintainedPoints=Math.floor(p.maintainedRemainder/2);p.maintainedRemainder%=2;
         const points=Math.min(1,maintainedPoints+(p.last.productionB-p.last.regrowthB)/4+p.last.regrowthB/4+(p.last.settlementCredit||0));o.G=H.round(Math.min(LIMIT,o.G+points));p.last.experience=points;
-        prepare(w,o,ctx,indexed);
+        prepare(w,o,ctx,indexed,N);
         const next=o.phase+1,threshold=[0,0,12,36,80][next],cost=[0,0,2,4,6][next];
         if(next<=4&&o.G>=threshold&&o.E>=cost){let branch=null;
+          if(N&&(!N.reserve(w,ctx,o,"phase/"+o.id,{E:cost,M:0})||!N.commit(w,ctx,o,"phase/"+o.id)))continue;
           if(next===3){const scores=[0,0,0];for(const r of p.window)for(let i=0;i<3;i++)scores[i]+=r.allocation[i];branch=choose(w,o,scores,"III");o.branch3=branch;}
           if(next===4){const scores=[0,0];for(const r of p.window)for(let i=0;i<2;i++)scores[i]+=r.sides[o.branch3][i];branch=choose(w,o,scores,"IV/"+o.branch3);o.branch4=branch;}
-          o.E=H.round(o.E-cost);dissipate(w,cost);const previous=o.phase;o.phase=next;p.capacityB=edible[next];record(ctx,o,"growth",{fromPhase:previous,phase:next});
+          if(!N){o.E=H.round(o.E-cost);dissipate(w,cost);}const previous=o.phase;o.phase=next;p.capacityB=edible[next];record(ctx,o,"growth",{fromPhase:previous,phase:next});
         }
       }
     }
@@ -993,7 +997,7 @@ return {settings,attach,region,level,factor,begin,finish};
       if(w.largePlantFlows?.turn===w.turn)for(const name of ["land","water"])for(const key of ["productionB","regrowthB","consumedB","solarInputE"])out[name][key]=w.largePlantFlows[name][key];
       for(const name of ["land","water"])for(const key of Object.keys(out[name]))out[name][key]=H.round(out[name][key]);w.largePlantSummary=out;
     }
-    return {enabled,is,definition,region,settings,attach,phenotype,increment,allocation,begin,initialize,prepareLight,consumed,maintained,regrow,finalize,summary};
+    return {enabled,is,definition,region,settings,attach,phenotype,increment,allocation,flow,reset,begin,initialize,prepareLight,consumed,maintained,regrow,finalize,summary};
   })();
   // A cohort is one simulated parasite holder, with a bounded number of
   // members. Older recorded worlds keep the single-holder rules.

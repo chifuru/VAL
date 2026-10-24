@@ -77,7 +77,7 @@
     function split(w,ctx,N,o,moveCost,cells){
       const n=S.ConsumerGroup.count(o);if(n<7||n>8||o.cellLife.last.born||ctx.records.get(o.id)?.moved)return false;
       const quality=cell=>{
-        const rows=cells.get(cell);return (rows?.[1]||[]).concat(rows?.[2]||[]).reduce((v,a)=>v+remaining(w,a),0)/Math.max(1,rows?.[3].length||0)-
+        const rows=cells.get(cell);return (rows?.[1]||[]).concat(rows?.[2]||[],(rows?.[4]||[]).filter(a=>S.spec(a).group==="plant")).reduce((v,a)=>v+remaining(w,a),0)/Math.max(1,rows?.[3].length||0)-
           (rows?.[4]||[]).filter(a=>S.spec(a).group==="main"&&S.D.diets[S.spec(a).diet]?.hunt>0).length;
       };
       const choices=sites(w,o,cells).filter(cell=>cell!==o.cell&&quality(cell)>Math.max(0,quality(o.cell)))
@@ -559,7 +559,7 @@
     }
     if(independent){
       for(const axis of S.DNA){const mutation=S.r(w,"independent/inherited-mutation",w.turn,id,axis)<.1?(S.r(w,"independent/inherited-step",w.turn,id,axis)<.5?-.05:.05):0;o.dna[axis]=S.round(S.clamp(mother.dna[axis]+mutation,0,1));}
-      S.dissipate(w,2);S.LargePlant.allocation(w,mother,1,T,mother.phase===4&&mother.branch3===1?mother.branch4:null);
+      if(!c.cellBudget){S.dissipate(w,2);S.LargePlant.allocation(w,mother,1,T,mother.phase===4&&mother.branch3===1?mother.branch4:null);}
     }
     S.initializeAge(w,o);
     if(c.cellBudget)return o;
@@ -737,5 +737,51 @@
     }
     return {maintain,reproduce,age};
   })();
-  return { CellLife, CellMain, lead, growth, eligible, birthPressure, birthCost, candidates, child, reproduce };
+  const CellFloating=(()=>{
+    const Q=S.round,is=o=>o.species==="freshwaterlight"&&S.LargePlant.is(o),up=n=>Math.ceil(Math.max(0,n-1e-12)*1e6)/1e6;
+    function advance(w,ctx,N){
+      if(!S.CellSpace.enabled(w)||!ctx.cellResources?.budgetSettled)throw Error("CELL_FLOATING_BEFORE_BUDGET");
+      if(ctx.cellFloatingDone)throw Error("CELL_FLOATING_ALREADY_APPLIED");ctx.cellFloatingDone=true;
+      if(!ctx.cellFloatingPresent)return;
+      const original=w.organisms.filter(o=>is(o)&&o.HP>0&&ctx.old.has(o.id)).sort((a,b)=>S.hash(w,"cell/floating-life",w.turn,a.id)-S.hash(w,"cell/floating-life",w.turn,b.id)||S.compare(a.id,b.id));
+      if(!original.length)return;
+      for(const o of original){
+        const p=ctx.traits.get(o.id),b=ctx.cellResources.budgets.get(o.id);S.LargePlant.maintained(w,o,b.paid.E,b.maintenance.E);
+        o.HP=Q(Math.max(0,o.HP-2*Math.max(0,b.maintenance.E-b.paid.E)));
+        const reason=o.HP<=0||o.plant.activity<=0?"starvation":o.age+1>=p.life?"age":null;
+        if(reason){N.remains(w,o,ctx);ctx.deaths.push({id:o.id,species:o.species,reason});}
+      }
+      w.organisms=w.organisms.filter(o=>o.HP>0);ctx.current=S.maps(w);const cells=ctx.current.cellSpace;
+      for(const o of original)if(o.HP>0){
+        const p=ctx.traits.get(o.id),plant=o.plant,b=ctx.cellResources.budgets.get(o.id);
+        if(w.config.enabled.plant&&eligible(w,o,ctx)){
+          const sites=S.nearby(w,o.cell).filter(cell=>S.oneStep(w,o.cell,cell)&&S.sight(w,o.cell,cell)&&S.validHabitat(w,S.spec(o),cell)&&S.CellSpace.room(w,{...o,id:"new/"+o.id},cell,{},cells))
+            .sort((a,b)=>S.hash(w,"cell/floating-birth",w.turn,o.id,a)-S.hash(w,"cell/floating-birth",w.turn,o.id,b)||a-b),cell=sites[0];
+          if(cell!==undefined){
+            const cost=p.phase===4&&o.branch3===1?(o.branch4===0?14:8):10,c={species:o.species,slot:"producer",cell,parents:[o],kind:2,costs:[cost],cellBudget:true},born=child(w,c,ctx);
+            if(N.formChild(w,ctx,born,[o],[cost],[.2])){
+              born.bornAt=w.turn;born.plant.last.turn=w.turn;born.cellMatter.newEdibleB=0;
+              S.CellSpace.assign(w,born,{},cells);if(!cells.has(cell))cells.set(cell,Array.from({length:6},()=>[]));cells.get(cell)[4].push(born);
+              w.organisms.push(born);ctx.children.push(born);ctx.births.push(o.species);ctx.parents.add(o.id);o.birthReady=w.turn+Math.ceil(p.cooldown)+1;o.firstBirthAt??=w.turn;
+              S.LargePlant.allocation(w,o,1,cost,p.phase===4&&o.branch3===1?o.branch4:null);S.record(ctx,o,"birth",{child:born.id,cell,parents:[o.id]});
+            }
+          }
+        }
+        if(b.deficit<=1e-8&&w.tiles[o.cell].light>0){
+          const room=Math.max(0,plant.capacityB-S.edibleB(o)),available=Math.max(0,o.E-Math.max(2,3*b.maintenance.E)),
+            maximum=plant.capacityB*.1*p.regenerationFactor*plant.activity*Math.min(1,w.tiles[o.cell].light),
+            amount=Math.floor(Math.min(room,maximum,available/1.2,o.M/.02)*1e6)/1e6;
+          if(amount>0&&N.reserve(w,ctx,o,"tissue/"+o.id,{E:up(1.2*amount),M:up(.02*amount)})&&N.commit(w,ctx,o,"tissue/"+o.id,{bodyB:amount})){
+            const repaired=Q(Math.min(plant.replacementDebtB,amount));plant.replacementDebtB=Q(plant.replacementDebtB-repaired);o.cellMatter.newEdibleB=amount;
+            plant.last.productionB=amount;plant.last.regrowthB=repaired;S.LargePlant.increment(o,"productionB",amount);S.LargePlant.increment(o,"regrowthB",repaired);
+            S.LargePlant.flow(w,o,"productionB",amount);S.LargePlant.flow(w,o,"regrowthB",repaired);S.LargePlant.allocation(w,o,0,Q(1.2*(amount-repaired)));S.LargePlant.allocation(w,o,2,Q(1.2*repaired),1);
+          }
+        }
+      }
+      ctx.current=S.maps(w);S.LargePlant.finalize(w,ctx,N);
+      for(const o of original)if(o.HP>0){o.age++;o.HP=Q(Math.min(o.HP,S.phenotype(w,o).maxHP));}
+    }
+    return {advance};
+  })();
+  return { CellLife, CellMain, CellFloating, lead, growth, eligible, birthPressure, birthCost, candidates, child, reproduce };
 });

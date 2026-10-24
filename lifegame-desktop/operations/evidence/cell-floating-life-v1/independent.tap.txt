@@ -1,0 +1,142 @@
+TAP version 13
+# Subtest: independent plants require an explicit compatible model and keep the old catalogue intact
+ok 1 - independent plants require an explicit compatible model and keep the old catalogue intact
+  ---
+  duration_ms: 316.865324
+  type: 'test'
+  ...
+# Subtest: initial populations honor direct zero and exact counts without using basal food slots
+ok 2 - initial populations honor direct zero and exact counts without using basal food slots
+  ---
+  duration_ms: 122.179969
+  type: 'test'
+  ...
+# Subtest: automatic independent populations use sparse regional unions and avoid basal advantage overrides
+ok 3 - automatic independent populations use sparse regional unions and avoid basal advantage overrides
+  ---
+  duration_ms: 216.268006
+  type: 'test'
+  ...
+# Subtest: initial age, phase and energy are recorded conditions rather than invented experience
+ok 4 - initial age, phase and energy are recorded conditions rather than invented experience
+  ---
+  duration_ms: 67.982154
+  type: 'test'
+  ...
+# Subtest: producer occupancy is independent of basal, prey and main occupancy
+ok 5 - producer occupancy is independent of basal, prey and main occupancy
+  ---
+  duration_ms: 2.657702
+  type: 'test'
+  ...
+# Subtest: individual ages are frozen across phases and remain distinct from basal colony elapsed time
+ok 6 - individual ages are frozen across phases and remain distinct from basal colony elapsed time
+  ---
+  duration_ms: 7.504417
+  type: 'test'
+  ...
+# Subtest: co-located photosynthesis shares one finite cell budget and respects individual limits
+ok 7 - co-located photosynthesis shares one finite cell budget and respects individual limits
+  ---
+  duration_ms: 6.858402
+  type: 'test'
+  ...
+# Subtest: regeneration pays for each new B and finite soil material once while retaining the living body
+ok 8 - regeneration pays for each new B and finite soil material once while retaining the living body
+  ---
+  duration_ms: 11.61991
+  type: 'test'
+  ...
+# Subtest: grazing takes only actual edible stock and cannot convert normal leaf loss into plant death
+ok 9 - grazing takes only actual edible stock and cannot convert normal leaf loss into plant death
+  ---
+  duration_ms: 3.69034
+  type: 'test'
+  ...
+# Subtest: independent plants stay non-predatory and their appearance does not open a new P-host route
+ok 10 - independent plants stay non-predatory and their appearance does not open a new P-host route
+  ---
+  duration_ms: 4.369335
+  type: 'test'
+  ...
+# Subtest: mature phase I plants reproduce locally with paid stock and new first-phase children
+ok 11 - mature phase I plants reproduce locally with paid stock and new first-phase children
+  ---
+  duration_ms: 32.399184
+  type: 'test'
+  ...
+# Subtest: fourth-phase reproductive branches change real parent costs and offspring reserves
+ok 12 - fourth-phase reproductive branches change real parent costs and offspring reserves
+  ---
+  duration_ms: 7.179066
+  type: 'test'
+  ...
+# Subtest: a real child's fourth surviving turn credits its living parent once
+ok 13 - a real child's fourth surviving turn credits its living parent once
+  ---
+  duration_ms: 15.471613
+  type: 'test'
+  ...
+# Subtest: individual experience uses paid outcomes, stays bounded per turn and cannot be duplicated by repeated finalization
+ok 14 - individual experience uses paid outcomes, stays bounded per turn and cannot be duplicated by repeated finalization
+  ---
+  duration_ms: 3.449156
+  type: 'test'
+  ...
+# Subtest: growth thresholds pay their transition expense and keep branches within the adopted tree
+ok 15 - growth thresholds pay their transition expense and keep branches within the adopted tree
+  ---
+  duration_ms: 5.436436
+  type: 'test'
+  ...
+# Subtest: paid allocation selects all three third-phase branches and all six fourth-phase outcomes only when reached
+ok 16 - paid allocation selects all three third-phase branches and all six fourth-phase outcomes only when reached
+  ---
+  duration_ms: 14.562291
+  type: 'test'
+  ...
+# Subtest: branch preparation is paid, bounded to thirty-two turns and cannot grant future abilities or experience
+ok 17 - branch preparation is paid, bounded to thirty-two turns and cannot grant future abilities or experience
+  ---
+  duration_ms: 2.284088
+  type: 'test'
+  ...
+# Subtest: common maintenance does not bias the efficient branch and a full reserve does not turn bright light into low input
+ok 18 - common maintenance does not bias the efficient branch and a full reserve does not turn bright light into low input
+  ---
+  duration_ms: 2.84852
+  type: 'test'
+  ...
+# Subtest: freshwater movement is local, paid in every phase and never grants movement experience
+ok 19 - freshwater movement is local, paid in every phase and never grants movement experience
+  ---
+  duration_ms: 9.550987
+  type: 'test'
+  ...
+# Subtest: ordinary leaf exhaustion preserves identity, while chronological and starvation deaths conserve the remaining stock
+ok 20 - ordinary leaf exhaustion preserves identity, while chronological and starvation deaths conserve the remaining stock
+  ---
+  duration_ms: 5.628406
+  type: 'test'
+  ...
+# Subtest: land and freshwater worlds preserve finite budgets and deterministic short histories
+ok 21 - land and freshwater worlds preserve finite budgets and deterministic short histories
+  ---
+  duration_ms: 4369.844776
+  type: 'test'
+  ...
+# Subtest: generated static and dynamic independent-plant worlds agree
+ok 22 - generated static and dynamic independent-plant worlds agree
+  ---
+  duration_ms: 353.181351
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5624.937572
