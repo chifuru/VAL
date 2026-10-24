@@ -1,0 +1,64 @@
+{
+  "baseline": "5915d2c",
+  "biologicalSignature": "219b2a50d6ecf08eb552770f8e26535dbfde144b57751195ebe18757f2a035cf",
+  "formalNodes": 61,
+  "updatedExistingNodes": [
+    "C8.1",
+    "C8",
+    "D9",
+    "E6"
+  ],
+  "formalMetadataGraphAndDraftStatusUnchanged": true,
+  "coreABAndAdoptedSpecificationUnchanged": true,
+  "manifestUniqueEntries": 61,
+  "manifestRequiredFields": true,
+  "manifestLayerHeadings": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+  ],
+  "onlyProductChange": "Return-to-settings message, removing obsolete cell-world recreation preparation text.",
+  "biologyGeneratedModelsRenderingAssetsLayoutAndProductVersionUnchanged": true,
+  "browser": {
+    "passed": 22,
+    "errors": 0,
+    "viewport": {
+      "width": 1500,
+      "height": 1050
+    },
+    "ordinaryGeneratedWorld": true,
+    "committedTurn": 6,
+    "graphRows": 7,
+    "autoSavedRecords": 0,
+    "visualReview": [
+      "far",
+      "near"
+    ],
+    "pictures": [
+      {
+        "file": "far.png",
+        "width": 1500,
+        "height": 1097,
+        "bytes": 650934
+      },
+      {
+        "file": "near.png",
+        "width": 1500,
+        "height": 1097,
+        "bytes": 1473230
+      }
+    ]
+  },
+  "newNatural500TRepeated": false,
+  "newDistributionCreated": false,
+  "notVerified": [
+    "whole-run and all-map performance",
+    "all species/states/screen dimensions visual recognition",
+    "Windows startup/package/distribution after these changes",
+    "natural P/Q multigeneration and all-lineage R1-R6",
+    "unselected coefficient and model default decisions"
+  ],
+  "remaining": "operations/evidence/cell-finish-ui-v1/remaining.md"
+}

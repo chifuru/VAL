@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と必要な説明を示す。仕様入口
 
 現在の採用仕様: `design/specification/cell-reorganization-v1.md`（cell-reorganization/1）。マス・0〜5次・土壌/配分・植物/低次動物/分解者・量機の定住3×3・次T境界を既存A/Bへ反映。数値は比較開始値。実装接続/影響探索/検証計画更新/再検証要否あり。新規Node・分割・初期登録・正式状態/階層/層間参照変更なし。全61Nodeは草案。
 
-実行製品は4.2.77。情報受信の重複計算を同値のまま軽減。情報26・接合14・通常7・保存6と旧記録再生/旧2条件が成功。同じ500T終端から旧/最終各2回の501Tで全世界JSON/観測/指紋が一致し、情報開始平均9.9%・全体5.1%短縮（1終端/この環境限定）。証跡: operations/evidence/cell-information-optimization-v1/README.md（D7/D8.2/D9 → E5/E6）。取得軽減/native複製を維持。従来が既定、新方式/水域は明示比較。残る負荷・代表画面、自然P/Q循環・全系統/未選定係数/既定化、Windows/配布は後続。
+実行製品は4.2.77。設定戻りの旧案内を修正。実フォームで作った多層比較1条件の通常観察をLinux画面22項目で確認し、遠景/近景を保存・目視（C8/C8.1・D9 → E6）。最終T6/7行・障害/自動保存なし。証跡: operations/evidence/cell-finish-ui-v1/README.md。生態/署名・描画/素材/配置は維持。従来が既定、新方式/水域は明示比較。残る負荷・未選定係数/既定化、自然P/Q循環/全系統、実稼働の配置調整とWindows/配布は後続。
 
 ## A：仕様
 
@@ -341,19 +341,19 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。src/app.js / src/Index.htmlの比較用モデル/明示水域条件選択、既存作成・Worker進行・停止再開・速度・再生の入口。
+		valis/nodes/C/C8.md。src/app.jsの設定戻り案内と既存作成/通常進行・選択/表示・停止/再開/設定取消の接続。
 	ロジック:
-		従来を既定とし、新方式と水域固定条件は明示選択する。未選定は作成を非活性化し、旧セット/自動調整/支援補充を使わない。設定戻り/切替/リセット/取消で観察中の状態を守る。 証跡: operations/evidence/cell-turn-v1/README.md。
+		作成できる多層世界を準備中と案内せず、実画面の操作は進行を保ち、設定の保持/取消で確定状態を守る。 証跡: operations/evidence/cell-finish-ui-v1/README.md。
 	実態:
-		Linux画面23項目成功。実フォームの代表1条件で通常/2倍/最速の各12T、全13行/最終指紋が一致。個体選択/表示変更で進行維持、停止再開と最速端数の反映、再生無保存を確認。D9 → E6。 正式草案/階層/参照を維持。CR07代表長期は後続。
+		Linux画面22項目成功。実フォームの1条件・通常Workerで最終T6/7行、自動保存なし。C8 → D9/E6。 正式草案/階層/参照を維持。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.1.md。display-plane.js/renderer.jsの全実ID配置・縮尺/ヒット/PQ/下層キャッシュ。D9 → E6。
+			valis/nodes/C/C8.1.md。既存renderer/display-plane/素材と、operations/evidence/cell-finish-ui-v1/far.png・near.png。今回の描画コード変更はない。
 		ロジック:
-			表示だけをID順に配置し、身体/影/選択を整合。密集時の札を小さくし、既存絵柄/記号/背景を維持。
+			通常生成世界の遠景記号と詳細近景を保存・目視し、主生物の実クリックとマップ/グラフ/詳細の表示領域を確認する。 証跡: operations/evidence/cell-finish-ui-v1/README.md。
 		実態:
-			新投影6/旧投影6・Linux22項目、31ID逆引き/代表6実クリック。遠景肉眼識別や公開進行全体の認定ではない。草案。
+			1500×1050の代表画面、近景はdetail描画。既存絵柄/配置を維持。全系統/状態/画面寸法の視認性を認定しない。 正式草案/階層/参照を維持。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -451,11 +451,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。tests/cell-information-replay.cjs、cell-archive.test.cjs。既存C8.2の署名/記録境界。
+		valis/nodes/D/D9.md。tests/cell-finish-ui.cjs。実フォームからの1条件と通常Workerの操作/表示・停止/再開・設定編集/取消。
 	ロジック:
-		起点T0〜T3の全世界/観測と旧記録再計算、原記録不変/無保存・raw署名保持、生態変更版の拒否を確認する。 証跡: operations/evidence/cell-information-optimization-v1/README.md。
+		再生を使わず盤面/チェックを実操作。停止中と設定中の確定T/グラフ/指紋、取消復帰と候補不適用、未捕捉エラーを照合する。 証跡: operations/evidence/cell-finish-ui-v1/README.md。
 	実態:
-		保存6とCLI再生比較が成功。UI/IndexedDB/Windowsを今回再実行したとは扱わない。D9 → E6。 正式草案/階層/参照を維持。
+		22項目成功、T6/7行・障害/自動保存なし。遠景/近景を保存・目視。全速度/500T/保存再生の反復はしていない。 正式草案/階層/参照を維持。
 
 
 ```
@@ -505,11 +505,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。operations/evidence/cell-information-optimization-v1/のreplay.json/archive.logと対象ハッシュ。D9のCLI保存/再生照合。
+		valis/nodes/E/E6.md。operations/evidence/cell-finish-ui-v1/のreport.json、遠景/近景、remaining.mdと対象ハッシュ。D9 → E6。
 	ロジック:
-		起点短期の全状態一致、旧記録再生・無保存/原記録不変・raw署名保持と不適合版拒否を記録する。 証跡: operations/evidence/cell-information-optimization-v1/README.md。
+		通常生成/進行と実操作の22判定、画面領域・地形読込/詳細描画と目視を記録。短期操作と過去の生態/性能証跡を区別する。 証跡: operations/evidence/cell-finish-ui-v1/README.md。
 	実態:
-		保存6と再生比較が成功。CLIの記録境界へ限定し、実画面/IndexedDB/Windows/配布は未実施。 正式草案/階層/参照を維持。
+		Linux Chromium22成功/エラー0。最終T6/7行、図鑑自動保存なし。UI配置/素材・生態署名は維持、Windows/配布は未実施。 正式草案/階層/参照を維持。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

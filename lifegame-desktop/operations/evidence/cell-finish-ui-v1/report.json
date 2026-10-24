@@ -1,0 +1,6203 @@
+{
+  "success": true,
+  "checks": [
+    "legacy remains the default",
+    "cell mode requires explicit aquatic conditions",
+    "real form creates the comparison world",
+    "explicit finite model and water profile reach the world",
+    "normal observation advances without a fault",
+    "ordinary generated world runs without replay",
+    "canvas click selects a visible biological ID",
+    "canvas selection and display toggles keep the same world running",
+    "normal observation advances without a fault",
+    "explicit pause preserves committed turn, graph rows and fingerprint",
+    "canvas click selects a visible biological ID",
+    "map, graphs, pyramid, donut and selected detail have visible bounds",
+    "near view uses the existing detailed rendering",
+    "normal observation advances without a fault",
+    "entering settings holds observation",
+    "settings return describes available recreation instead of an obsolete preparation warning",
+    "editing candidate settings preserves the committed world and graph history",
+    "cancel returns to the previously running observation",
+    "normal observation advances without a fault",
+    "final pause keeps every committed graph row without automatically saving",
+    "cancel does not apply the edited initial count",
+    "no uncaught browser errors or native dialogs"
+  ],
+  "errors": [],
+  "initialConfig": {
+    "seed": "98b5c51a-28c8-40bb-8e15-b5a6c1702f47",
+    "width": 40,
+    "height": 28,
+    "initial": 84,
+    "lineages": "few",
+    "selected": [
+      "abyss",
+      "myth",
+      "recursive",
+      "sail",
+      "gravity",
+      "crystal",
+      "manyeyes",
+      "abyssshell",
+      "parallel",
+      "memory",
+      "serpent",
+      "solar",
+      "antimeme",
+      "valis",
+      "jelly",
+      "kelp",
+      "whale",
+      "swarm",
+      "plasma",
+      "cephalopod",
+      "ryouki"
+    ],
+    "weights": {},
+    "placement": "natural",
+    "distribution": "balanced",
+    "guarantee": false,
+    "enabled": {
+      "main": true,
+      "plant": true,
+      "fungus": true,
+      "prey": true,
+      "P": true,
+      "Q": true
+    },
+    "landscape": "templates",
+    "ageModel": "life/1",
+    "ecologyRevision": "observation/4.1",
+    "blockTurns": 500,
+    "populationRegulation": {
+      "version": 1
+    },
+    "generationModel": "diverse/1",
+    "generationSettings": {
+      "version": "diverse-generation-parameters/1",
+      "mode": "manual",
+      "profile": "auto",
+      "locks": []
+    },
+    "relationshipModel": "network/1",
+    "balanceModel": "survival/4",
+    "consumerModel": "group/1",
+    "socialRenewalModel": "successor/1",
+    "consumerGroupSettings": {
+      "version": "consumer-group-parameters/4",
+      "capacity": 8,
+      "initialSize": 4,
+      "maxBirths": 2,
+      "dispersalAt": 4
+    },
+    "randomModel": "table/1",
+    "producerModel": "colony/1",
+    "producerSettings": {
+      "version": "colony-parameters/1",
+      "standardBiteB": 2,
+      "land": {
+        "occupancy": 0.2,
+        "capacityB": 20,
+        "initialFraction": 0.7,
+        "regrowthB": 2
+      },
+      "water": {
+        "occupancy": 0.15,
+        "capacityB": 20,
+        "initialFraction": 0.7,
+        "regrowthB": 2
+      }
+    },
+    "largePlantModel": "independent/1",
+    "largePlantSettings": {
+      "version": "independent-plant-parameters/1",
+      "autoDensity": {
+        "land": 0.02,
+        "water": 0.02
+      },
+      "initial": {
+        "phase": 1,
+        "ageFraction": 0,
+        "energyFraction": 0.5
+      }
+    },
+    "ryoukiModel": "ryouki/1",
+    "ryoukiSettings": {
+      "version": "ryouki-parameters/1",
+      "densityHigh": 6,
+      "highTurns": 3,
+      "densityLow": 2,
+      "lowTurns": 6,
+      "biteB": 2,
+      "mutatedBiteB": 2.4,
+      "preparationWeight": 1.5
+    },
+    "primaryParasiteModel": "primary/1",
+    "primaryParasiteSettings": {
+      "version": "primary-parameters/2",
+      "automaticCounts": {
+        "tideparasite": 8
+      },
+      "life": 120,
+      "capE": 2,
+      "maintenance": [
+        0,
+        0.005,
+        0.007,
+        0.01
+      ],
+      "hostTax": [
+        0,
+        0.06,
+        0.08,
+        0.1
+      ],
+      "biomass": [
+        0,
+        0.02,
+        0.03,
+        0.04
+      ],
+      "developmentCost": 0.003,
+      "development": {
+        "first": 4,
+        "middle": 6,
+        "terminal": 8
+      },
+      "phaseThresholds": [
+        0,
+        0,
+        8,
+        20
+      ],
+      "starvationTurns": 8,
+      "carrierTurns": 32,
+      "entryRates": {
+        "contact": 0.6,
+        "feeding": 0.8,
+        "carcass": 0.6,
+        "water": 0.4
+      },
+      "establishmentRate": 0.7,
+      "standardReserve": 0.06,
+      "minimumReserve": 0.03,
+      "emissionCost": 0.08,
+      "emissionReserve": 0.06,
+      "emissionCooldown": 6,
+      "inoculumLifetime": {
+        "contact": 4,
+        "water": 4,
+        "edible": 4,
+        "carcass": 12
+      },
+      "mutationRate": 0.1,
+      "mutationStep": 0.05,
+      "resistanceGain": 0.4,
+      "resistanceCap": 0.8,
+      "resistanceHalfLife": 40,
+      "resistanceMaintenance": 0.005,
+      "exclusionCost": 0.04,
+      "exclusionRate": 0.006,
+      "metaCaps": [
+        0,
+        0.1,
+        0.2,
+        0.3
+      ],
+      "metaCosts": [
+        0,
+        0.003,
+        0.006,
+        0.012
+      ],
+      "initialFraction": 0.2,
+      "initialDistribution": [
+        0.4,
+        0.4,
+        0.2
+      ],
+      "initialEnergy": 0.2
+    },
+    "hyperParasiteModel": "hyper/1",
+    "hyperParasiteSettings": {
+      "version": "hyper-parameters/1",
+      "maintenance": [
+        0,
+        0.0005,
+        0.0007,
+        0.001,
+        0.004
+      ],
+      "hostTax": [
+        0,
+        0.02,
+        0.03,
+        0.04,
+        0
+      ],
+      "developmentCost": [
+        0,
+        0.0005,
+        0.0007,
+        0.001,
+        0
+      ],
+      "biomass": [
+        0,
+        0.01,
+        0.015,
+        0.02,
+        0.03
+      ],
+      "phaseThresholds": [
+        0,
+        0,
+        4,
+        12
+      ],
+      "maturity": 12,
+      "life": 480,
+      "development": 12,
+      "starvationTurns": 8,
+      "entryRate": 0.6,
+      "entryDefense": 0.2,
+      "establishmentRate": 0.7,
+      "exclusionCost": 0.01,
+      "exclusionRate": 0.006,
+      "emergenceMultiplier": 4,
+      "emergenceRate": 0.6,
+      "prepareTurns": 4,
+      "eggCost": 0.06,
+      "eggReserve": 0.05,
+      "eggCooldown": 12,
+      "eggLifetime": 4,
+      "adultMoveCost": 0.001,
+      "adultFoodCap": 0.2,
+      "adultAssimilation": 0.85,
+      "capE": 1,
+      "metaCosts": [
+        0,
+        0.0008,
+        0.0015,
+        0.003,
+        0
+      ],
+      "metaCaps": [
+        0,
+        0.03,
+        0.05,
+        0.08,
+        0
+      ],
+      "informationCosts": [
+        0,
+        0.0015,
+        0.003,
+        0.006,
+        0
+      ],
+      "promotionCaps": [
+        0,
+        0.02,
+        0.05,
+        0.1,
+        0
+      ],
+      "distortionCaps": [
+        0,
+        0.05,
+        0.1,
+        0.2,
+        0
+      ],
+      "mutationRate": 0.1,
+      "mutationStep": 0.05,
+      "resistanceGain": 0.4,
+      "resistanceCap": 0.8,
+      "resistanceHalfLife": 40,
+      "resistanceMaintenance": 0.005,
+      "initialFraction": 0.4,
+      "initialAttachedFraction": 0.5,
+      "initialEnergy": 0.24
+    },
+    "parasiteCohortModel": "cohort/1",
+    "parasiteDispersalModel": "fanout/1",
+    "primaryEggModel": "egg/1",
+    "primaryEggSettings": {
+      "version": "primary-egg-parameters/2",
+      "landLifetime": 20,
+      "waterLifetime": 30,
+      "hatchTurns": 2,
+      "waterMoveChance": 0.25,
+      "waterStepRange": 2
+    },
+    "informationModel": "persistent/1",
+    "informationSettings": {
+      "version": "persistent-information-parameters/1",
+      "roleDefinition": "persistent-information-roles/1",
+      "influence": 1,
+      "qEffects": true,
+      "experienceCapacity": 16,
+      "learnedCapacity": 64,
+      "turnDedupeCapacity": 64,
+      "holdingCount": 6,
+      "holdingTurns": 3,
+      "normalCount": 3,
+      "normalTurns": 2,
+      "receiveLimit": 2,
+      "receiveCostFraction": 0.01,
+      "transmission": {
+        "environment": 1,
+        "ordinary": 0.25,
+        "caregiver": 1
+      },
+      "evaluationWeights": [
+        0.4,
+        0.4,
+        0.2
+      ],
+      "baseProbability": 0.1,
+      "scoreProbability": 0.6,
+      "harmMinimum": 0.4,
+      "lowProbability": 0.05,
+      "lowWeight": 0.5,
+      "halfLives": {
+        "fast": 25,
+        "relation": 50,
+        "place": 100
+      },
+      "minimumLifetime": 100,
+      "scoreLifetime": 100,
+      "initialAmount": 1,
+      "minimumAmount": 0.01,
+      "diffusionFraction": 0.2,
+      "cellOrigins": 4,
+      "originContents": 2,
+      "concentrationRadius": 2,
+      "distanceWeights": [
+        1,
+        0.5,
+        0.25
+      ],
+      "traceCapacity": 2,
+      "traceHalfLife": 50,
+      "traceLifetime": 100,
+      "directionMutationRate": 0.1,
+      "directionMutationStep": 0.05
+    },
+    "observationMode": "custom",
+    "producerSupport": {
+      "enabled": false,
+      "land": {
+        "nutrition": 1,
+        "capacity": 0.35,
+        "regrowth": 1
+      },
+      "water": {
+        "nutrition": 1,
+        "capacity": 0.35,
+        "regrowth": 1
+      },
+      "grace": 20,
+      "establishment": 0.1,
+      "targetE": 8,
+      "targetM": 0.5,
+      "schedule": []
+    },
+    "initialConditions": {
+      "version": 1,
+      "density": {
+        "plant": 0,
+        "fungus": 0.03,
+        "prey": 0.06
+      },
+      "resources": {
+        "mineral": 1,
+        "droplet": 1,
+        "info": 0
+      },
+      "distribution": "habitat"
+    },
+    "advantageSettings": {
+      "version": "advantage-switches/1",
+      "producer": false,
+      "waterbug": true,
+      "hyperparasite": true
+    },
+    "mapId": "river",
+    "terrainSeed": "fb378c1b-c12d-4abe-9e3c-39d0173d8b6e",
+    "cellModel": "cell-reorganization/1",
+    "cellSettings": {
+      "soilQuality": 1,
+      "temperature": 20,
+      "landPH": 6.5,
+      "waterPH": 7,
+      "mineralLevel": "standard",
+      "mineralInput": 0,
+      "rainScale": 1,
+      "lightScale": 1,
+      "aquaticProfile": "freshwater-comparison/1"
+    },
+    "initialFoodScale": 1,
+    "solarScale": 1,
+    "modeResolved": {
+      "id": "custom",
+      "version": 1,
+      "name": "自由設定",
+      "description": "初期条件を自由に設定。餌の初期量は従来どおり。途中の生体補充はありません。",
+      "initialFoodScale": 1,
+      "solarScale": 1
+    },
+    "fungalColonySettings": {
+      "version": "fungal-colony-parameters/1",
+      "baseB": 1,
+      "capacityB": 12,
+      "maintenance": 0.0375,
+      "dormantMaintenance": 0.01,
+      "regrowthB": 1,
+      "regrowthCost": 1.2,
+      "reserveE": 2,
+      "starvationTurns": 12
+    },
+    "mapResolved": {
+      "setVersion": "terrain-set/1",
+      "id": "river",
+      "version": 1,
+      "width": 40,
+      "height": 28,
+      "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+      "pattern": [
+        2,
+        3,
+        1,
+        2,
+        0,
+        2,
+        2,
+        0,
+        2,
+        3,
+        1,
+        3,
+        1,
+        2,
+        0,
+        2,
+        3,
+        0,
+        1,
+        2,
+        2,
+        1,
+        3,
+        3,
+        3,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3
+      ],
+      "fallback": false,
+      "terrainHash": "587a508e0034278a468e47ca09611e3c69f676d8c660ebc593403fe25c31c724"
+    },
+    "primaryParasiteInitial": {
+      "version": "primary-initial/1",
+      "definition": "primary/1",
+      "bySpecies": {
+        "leafparasite": {
+          "requested": null,
+          "firstHosts": 211,
+          "planned": 42,
+          "actual": 42,
+          "shortage": 0,
+          "stages": {
+            "first": {
+              "planned": 17,
+              "actual": 17,
+              "shortage": 0
+            },
+            "middle": {
+              "planned": 17,
+              "actual": 17,
+              "shortage": 0
+            },
+            "terminal": {
+              "planned": 8,
+              "actual": 8,
+              "shortage": 0
+            }
+          },
+          "reasons": []
+        },
+        "tideparasite": {
+          "requested": null,
+          "firstHosts": 8,
+          "planned": 8,
+          "actual": 8,
+          "shortage": 0,
+          "stages": {
+            "first": {
+              "planned": 3,
+              "actual": 3,
+              "shortage": 0
+            },
+            "middle": {
+              "planned": 3,
+              "actual": 3,
+              "shortage": 0
+            },
+            "terminal": {
+              "planned": 2,
+              "actual": 2,
+              "shortage": 0
+            }
+          },
+          "reasons": []
+        }
+      },
+      "planned": 50,
+      "actual": 50,
+      "shortage": 0
+    },
+    "ecologyParameters": {
+      "version": 1,
+      "mainMaintenance": 0.65,
+      "mainMovement": 0.6,
+      "sexualThreshold": 0.65,
+      "sexualMineral": 2,
+      "producerBirth": "B23",
+      "fungusBirth": "B123",
+      "initialFoodAgeFraction": 0.5
+    },
+    "hyperParasiteInitial": {
+      "version": "hyper-initial/1",
+      "compatibleP": 50,
+      "requested": null,
+      "planned": 20,
+      "actual": 20,
+      "shortage": 0,
+      "attached": {
+        "planned": 7,
+        "actual": 7,
+        "shortage": 0
+      },
+      "free": {
+        "planned": 13,
+        "actual": 13,
+        "shortage": 0
+      },
+      "reasons": [],
+      "reassignedToFree": 3
+    },
+    "initialReport": {
+      "version": 1,
+      "usable": 1109,
+      "groups": {
+        "plant": {
+          "requested": 0,
+          "actual": 235
+        },
+        "fungus": {
+          "requested": 33,
+          "actual": 33
+        },
+        "prey": {
+          "requested": 67,
+          "actual": 67
+        }
+      },
+      "bySpecies": {
+        "algae": 5,
+        "moss": 0,
+        "grass": 192,
+        "fungus": 33,
+        "waterbug": 34,
+        "grassbug": 33,
+        "phytoplankton": 16
+      },
+      "resources": {
+        "mineral": 37,
+        "droplet": 50,
+        "info": 0
+      }
+    },
+    "informationBenchmarks": {
+      "abyss": {
+        "species": "abyss",
+        "role": null,
+        "roles": [
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 240,
+        "maintenance": 0.39,
+        "lightLimit": null,
+        "maintainedTurns": 120,
+        "roleAmounts": {
+          "secondary-consumer": 3.9,
+          "higher-consumer": 3.9
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "myth": {
+        "species": "myth",
+        "role": null,
+        "roles": [
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 200,
+        "maintenance": 0.46799999999999997,
+        "lightLimit": null,
+        "maintainedTurns": 100,
+        "roleAmounts": {
+          "secondary-consumer": 4.68,
+          "higher-consumer": 4.68
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "recursive": {
+        "species": "recursive",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 280,
+        "maintenance": 0.35100000000000003,
+        "lightLimit": null,
+        "maintainedTurns": 140,
+        "roleAmounts": {
+          "primary-consumer": 3.51,
+          "secondary-consumer": 3.51,
+          "higher-consumer": 3.51
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "sail": {
+        "species": "sail",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 220,
+        "maintenance": 0.35100000000000003,
+        "lightLimit": null,
+        "maintainedTurns": 110,
+        "roleAmounts": {
+          "primary-consumer": 3.51,
+          "secondary-consumer": 3.51,
+          "higher-consumer": 3.51
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "gravity": {
+        "species": "gravity",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 300,
+        "maintenance": 0.39,
+        "lightLimit": null,
+        "maintainedTurns": 150,
+        "roleAmounts": {
+          "primary-consumer": 3.9,
+          "secondary-consumer": 3.9,
+          "higher-consumer": 3.9
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "crystal": {
+        "species": "crystal",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 320,
+        "maintenance": 0.35100000000000003,
+        "lightLimit": null,
+        "maintainedTurns": 160,
+        "roleAmounts": {
+          "primary-consumer": 3.51,
+          "secondary-consumer": 3.51,
+          "higher-consumer": 3.51
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "manyeyes": {
+        "species": "manyeyes",
+        "role": null,
+        "roles": [
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 240,
+        "maintenance": 0.42900000000000005,
+        "lightLimit": null,
+        "maintainedTurns": 120,
+        "roleAmounts": {
+          "secondary-consumer": 4.29,
+          "higher-consumer": 4.29
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "abyssshell": {
+        "species": "abyssshell",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 340,
+        "maintenance": 0.35100000000000003,
+        "lightLimit": null,
+        "maintainedTurns": 170,
+        "roleAmounts": {
+          "primary-consumer": 3.51,
+          "secondary-consumer": 3.51,
+          "higher-consumer": 3.51
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "parallel": {
+        "species": "parallel",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 220,
+        "maintenance": 0.42900000000000005,
+        "lightLimit": null,
+        "maintainedTurns": 110,
+        "roleAmounts": {
+          "primary-consumer": 4.29,
+          "secondary-consumer": 4.29,
+          "higher-consumer": 4.29
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "memory": {
+        "species": "memory",
+        "role": null,
+        "roles": [
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 360,
+        "maintenance": 0.312,
+        "lightLimit": null,
+        "maintainedTurns": 180,
+        "roleAmounts": {
+          "secondary-consumer": 3.12,
+          "higher-consumer": 3.12
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "serpent": {
+        "species": "serpent",
+        "role": null,
+        "roles": [
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 200,
+        "maintenance": 0.507,
+        "lightLimit": null,
+        "maintainedTurns": 100,
+        "roleAmounts": {
+          "secondary-consumer": 5.07,
+          "higher-consumer": 5.07
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "solar": {
+        "species": "solar",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 240,
+        "maintenance": 0.42900000000000005,
+        "lightLimit": null,
+        "maintainedTurns": 120,
+        "roleAmounts": {
+          "primary-consumer": 4.29,
+          "secondary-consumer": 4.29,
+          "higher-consumer": 4.29
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "antimeme": {
+        "species": "antimeme",
+        "role": null,
+        "roles": [
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 280,
+        "maintenance": 0.312,
+        "lightLimit": null,
+        "maintainedTurns": 140,
+        "roleAmounts": {
+          "secondary-consumer": 3.12,
+          "higher-consumer": 3.12
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "valis": {
+        "species": "valis",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 260,
+        "maintenance": 0.35100000000000003,
+        "lightLimit": null,
+        "maintainedTurns": 130,
+        "roleAmounts": {
+          "primary-consumer": 3.51,
+          "secondary-consumer": 3.51,
+          "higher-consumer": 3.51
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "jelly": {
+        "species": "jelly",
+        "role": null,
+        "roles": [
+          "primary-consumer"
+        ],
+        "life": 200,
+        "maintenance": 0.312,
+        "lightLimit": null,
+        "maintainedTurns": 100,
+        "roleAmounts": {
+          "primary-consumer": 3.12
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "kelp": {
+        "species": "kelp",
+        "role": null,
+        "roles": [
+          "producer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 300,
+        "maintenance": 0.312,
+        "lightLimit": 1.5,
+        "maintainedTurns": 150,
+        "roleAmounts": {
+          "producer": 9.9,
+          "secondary-consumer": 3.12,
+          "higher-consumer": 3.12
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "whale": {
+        "species": "whale",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 360,
+        "maintenance": 0.46799999999999997,
+        "lightLimit": null,
+        "maintainedTurns": 180,
+        "roleAmounts": {
+          "primary-consumer": 4.68,
+          "secondary-consumer": 4.68,
+          "higher-consumer": 4.68
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "swarm": {
+        "species": "swarm",
+        "role": null,
+        "roles": [
+          "primary-consumer"
+        ],
+        "life": 180,
+        "maintenance": 0.39,
+        "lightLimit": null,
+        "maintainedTurns": 90,
+        "roleAmounts": {
+          "primary-consumer": 3.9
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "swarm:queen": {
+        "species": "swarm",
+        "role": "queen",
+        "roles": [
+          "primary-consumer"
+        ],
+        "life": 540,
+        "maintenance": 0.39,
+        "lightLimit": null,
+        "maintainedTurns": 270,
+        "roleAmounts": {
+          "primary-consumer": 3.9
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "plasma": {
+        "species": "plasma",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 180,
+        "maintenance": 0.546,
+        "lightLimit": null,
+        "maintainedTurns": 90,
+        "roleAmounts": {
+          "primary-consumer": 5.46,
+          "secondary-consumer": 5.46,
+          "higher-consumer": 5.46
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "cephalopod": {
+        "species": "cephalopod",
+        "role": null,
+        "roles": [
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 260,
+        "maintenance": 0.42900000000000005,
+        "lightLimit": null,
+        "maintainedTurns": 130,
+        "roleAmounts": {
+          "secondary-consumer": 4.29,
+          "higher-consumer": 4.29
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "precocial": {
+        "species": "precocial",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 240,
+        "maintenance": 0.39,
+        "lightLimit": null,
+        "maintainedTurns": 120,
+        "roleAmounts": {
+          "primary-consumer": 3.9,
+          "secondary-consumer": 3.9,
+          "higher-consumer": 3.9
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "algae": {
+        "species": "algae",
+        "role": null,
+        "roles": [
+          "producer"
+        ],
+        "life": null,
+        "maintenance": 0.2,
+        "lightLimit": 4,
+        "maintainedTurns": 100,
+        "roleAmounts": {
+          "producer": 31.666667
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "moss": {
+        "species": "moss",
+        "role": null,
+        "roles": [
+          "producer"
+        ],
+        "life": null,
+        "maintenance": 0.2,
+        "lightLimit": 4,
+        "maintainedTurns": 100,
+        "roleAmounts": {
+          "producer": 31.666667
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "grass": {
+        "species": "grass",
+        "role": null,
+        "roles": [
+          "producer"
+        ],
+        "life": null,
+        "maintenance": 0.2,
+        "lightLimit": 4,
+        "maintainedTurns": 100,
+        "roleAmounts": {
+          "producer": 31.666667
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "fungus": {
+        "species": "fungus",
+        "role": null,
+        "roles": [
+          "decomposer"
+        ],
+        "life": 80,
+        "maintenance": 0.15,
+        "lightLimit": null,
+        "maintainedTurns": 40,
+        "roleAmounts": {
+          "decomposer": 20
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "waterbug": {
+        "species": "waterbug",
+        "role": null,
+        "roles": [
+          "primary-consumer"
+        ],
+        "life": 600,
+        "maintenance": 0.03,
+        "lightLimit": null,
+        "maintainedTurns": 300,
+        "roleAmounts": {
+          "primary-consumer": 0.3
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "grassbug": {
+        "species": "grassbug",
+        "role": null,
+        "roles": [
+          "primary-consumer"
+        ],
+        "life": 32,
+        "maintenance": 0.2,
+        "lightLimit": null,
+        "maintainedTurns": 16,
+        "roleAmounts": {
+          "primary-consumer": 2
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "tideparasite": {
+        "species": "tideparasite",
+        "role": null,
+        "roles": [
+          "P"
+        ],
+        "life": 120,
+        "maintenance": 0.005,
+        "lightLimit": null,
+        "maintainedTurns": 60,
+        "roleAmounts": {
+          "P": 10
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "leafparasite": {
+        "species": "leafparasite",
+        "role": null,
+        "roles": [
+          "P"
+        ],
+        "life": 120,
+        "maintenance": 0.005,
+        "lightLimit": null,
+        "maintainedTurns": 60,
+        "roleAmounts": {
+          "P": 10
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "hyperparasite": {
+        "species": "hyperparasite",
+        "role": null,
+        "roles": [
+          "Q"
+        ],
+        "life": 480,
+        "maintenance": 0.0005,
+        "lightLimit": null,
+        "maintainedTurns": 240,
+        "roleAmounts": {
+          "Q": 10
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "phytoplankton": {
+        "species": "phytoplankton",
+        "role": null,
+        "roles": [
+          "producer"
+        ],
+        "life": null,
+        "maintenance": 0.1,
+        "lightLimit": 8,
+        "maintainedTurns": 100,
+        "roleAmounts": {
+          "producer": 65.833333
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "forestcrown": {
+        "species": "forestcrown",
+        "role": null,
+        "roles": [
+          "producer"
+        ],
+        "life": 360,
+        "maintenance": 0.25,
+        "lightLimit": 2.4,
+        "maintainedTurns": 180,
+        "roleAmounts": {
+          "producer": 17.916667
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "starcrown": {
+        "species": "starcrown",
+        "role": null,
+        "roles": [
+          "producer"
+        ],
+        "life": 320,
+        "maintenance": 0.25,
+        "lightLimit": 2.4,
+        "maintainedTurns": 160,
+        "roleAmounts": {
+          "producer": 17.916667
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "freshwaterlight": {
+        "species": "freshwaterlight",
+        "role": null,
+        "roles": [
+          "producer"
+        ],
+        "life": 240,
+        "maintenance": 0.3,
+        "lightLimit": 2.2,
+        "maintainedTurns": 120,
+        "roleAmounts": {
+          "producer": 15.833333
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      },
+      "ryouki": {
+        "species": "ryouki",
+        "role": null,
+        "roles": [
+          "primary-consumer",
+          "secondary-consumer",
+          "higher-consumer"
+        ],
+        "life": 180,
+        "maintenance": 0.48,
+        "lightLimit": null,
+        "maintainedTurns": 90,
+        "roleAmounts": {
+          "primary-consumer": 4.8,
+          "secondary-consumer": 4.8,
+          "higher-consumer": 4.8
+        },
+        "relationTurns": 10,
+        "offspringSuccess": 1
+      }
+    },
+    "generationResolved": {
+      "version": "diverse-generation-resolved/1",
+      "coefficientsVersion": "implementation-start/2.6",
+      "settings": {
+        "version": "diverse-generation-parameters/1",
+        "mode": "manual",
+        "profile": "auto",
+        "locks": []
+      },
+      "profile": "standard",
+      "locks": [
+        "informationSettings.influence",
+        "initial",
+        "initialConditions.density.fungus",
+        "initialConditions.density.prey",
+        "initialConditions.distribution",
+        "initialConditions.resources.droplet",
+        "initialConditions.resources.mineral",
+        "largePlantSettings.autoDensity.land",
+        "largePlantSettings.autoDensity.water",
+        "largePlantSettings.initial.ageFraction",
+        "largePlantSettings.initial.energyFraction",
+        "largePlantSettings.initial.phase",
+        "mapId",
+        "producerSettings.land.capacityB",
+        "producerSettings.land.initialFraction",
+        "producerSettings.land.occupancy",
+        "producerSettings.land.regrowthB",
+        "producerSettings.water.capacityB",
+        "producerSettings.water.initialFraction",
+        "producerSettings.water.occupancy",
+        "producerSettings.water.regrowthB"
+      ],
+      "automatic": [],
+      "base": {
+        "mapId": "river",
+        "initial": 84,
+        "producerSettings.land.occupancy": 0.2,
+        "producerSettings.land.capacityB": 20,
+        "producerSettings.land.regrowthB": 2,
+        "producerSettings.land.initialFraction": 0.7,
+        "producerSettings.water.occupancy": 0.15,
+        "producerSettings.water.capacityB": 20,
+        "producerSettings.water.regrowthB": 2,
+        "producerSettings.water.initialFraction": 0.7,
+        "initialConditions.distribution": "habitat",
+        "initialConditions.density.fungus": 0.03,
+        "initialConditions.density.prey": 0.06,
+        "initialConditions.resources.mineral": 1,
+        "initialConditions.resources.droplet": 1,
+        "largePlantSettings.autoDensity.land": 0.02,
+        "largePlantSettings.autoDensity.water": 0.02,
+        "largePlantSettings.initial.phase": 1,
+        "largePlantSettings.initial.ageFraction": 0,
+        "largePlantSettings.initial.energyFraction": 0.5,
+        "informationSettings.influence": 1
+      },
+      "effective": {
+        "mapId": "river",
+        "initial": 84,
+        "producerSettings.land.occupancy": 0.2,
+        "producerSettings.land.capacityB": 20,
+        "producerSettings.land.regrowthB": 2,
+        "producerSettings.land.initialFraction": 0.7,
+        "producerSettings.water.occupancy": 0.15,
+        "producerSettings.water.capacityB": 20,
+        "producerSettings.water.regrowthB": 2,
+        "producerSettings.water.initialFraction": 0.7,
+        "initialConditions.distribution": "habitat",
+        "initialConditions.density.fungus": 0.03,
+        "initialConditions.density.prey": 0.06,
+        "initialConditions.resources.mineral": 1,
+        "initialConditions.resources.droplet": 1,
+        "largePlantSettings.autoDensity.land": 0.02,
+        "largePlantSettings.autoDensity.water": 0.02,
+        "largePlantSettings.initial.phase": 1,
+        "largePlantSettings.initial.ageFraction": 0,
+        "largePlantSettings.initial.energyFraction": 0.5,
+        "informationSettings.influence": 1
+      },
+      "protected": [
+        "enabled",
+        "selected",
+        "weights",
+        "lineages",
+        "placement",
+        "distribution",
+        "guarantee",
+        "producerSupport",
+        "advantageSettings",
+        "observationMode"
+      ],
+      "candidates": [
+        {
+          "attempt": 0,
+          "profile": "standard",
+          "mapId": "river",
+          "terrainSeed": "fb378c1b-c12d-4abe-9e3c-39d0173d8b6e",
+          "accepted": true,
+          "reasons": [],
+          "terrain": {
+            "usable": 1109,
+            "water": 174,
+            "land": 935,
+            "waterFraction": 0.156898,
+            "landFraction": 0.843102
+          },
+          "map": {
+            "setVersion": "terrain-set/1",
+            "id": "river",
+            "version": 1,
+            "width": 40,
+            "height": 28,
+            "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+            "pattern": [
+              2,
+              3,
+              1,
+              2,
+              0,
+              2,
+              2,
+              0,
+              2,
+              3,
+              1,
+              3,
+              1,
+              2,
+              0,
+              2,
+              3,
+              0,
+              1,
+              2,
+              2,
+              1,
+              3,
+              3,
+              3,
+              2,
+              2,
+              2,
+              2,
+              3,
+              3,
+              3,
+              3
+            ],
+            "fallback": false,
+            "terrainHash": "587a508e0034278a468e47ca09611e3c69f676d8c660ebc593403fe25c31c724"
+          },
+          "checks": {
+            "definition": "diverse-initial-static-checks/1",
+            "futureTurns": 0,
+            "status": "initial-placement-only",
+            "resourcePathMeaning": "同じ通行連結成分の初期在庫。将来の採食/到達/成熟/生存の保証ではありません。固定0と自動寄生不足を救済しません。",
+            "capacity": {
+              "mainRequested": 84,
+              "mainSlots": 1109,
+              "foodOccupied": 246
+            },
+            "habitats": {
+              "algae": {
+                "eligible": 93,
+                "requested": null,
+                "actual": 5
+              },
+              "moss": {
+                "eligible": 0,
+                "requested": null,
+                "actual": 0
+              },
+              "grass": {
+                "eligible": 1028,
+                "requested": null,
+                "actual": 192
+              },
+              "fungus": {
+                "eligible": 890,
+                "requested": null,
+                "actual": 33
+              },
+              "waterbug": {
+                "eligible": 93,
+                "requested": null,
+                "actual": 34
+              },
+              "grassbug": {
+                "eligible": 1028,
+                "requested": null,
+                "actual": 33
+              },
+              "phytoplankton": {
+                "eligible": 174,
+                "requested": null,
+                "actual": 16
+              },
+              "forestcrown": {
+                "eligible": 935,
+                "requested": null,
+                "actual": 10
+              },
+              "starcrown": {
+                "eligible": 935,
+                "requested": null,
+                "actual": 9
+              },
+              "freshwaterlight": {
+                "eligible": 174,
+                "requested": null,
+                "actual": 3
+              }
+            },
+            "components": [
+              {
+                "cells": 1109,
+                "organisms": 419,
+                "producers": 235,
+                "consumers": 184,
+                "organicStocks": 246,
+                "mineral": 37,
+                "droplet": 50
+              }
+            ],
+            "resourcePaths": {
+              "memory": {
+                "subjects": 16,
+                "organicReachable": 16,
+                "mineralReachable": 16,
+                "missingInitialOrganic": 0,
+                "missingInitialMineral": 0
+              },
+              "serpent": {
+                "subjects": 16,
+                "organicReachable": 16,
+                "mineralReachable": 16,
+                "missingInitialOrganic": 0,
+                "missingInitialMineral": 0
+              },
+              "antimeme": {
+                "subjects": 16,
+                "organicReachable": 16,
+                "mineralReachable": 16,
+                "missingInitialOrganic": 0,
+                "missingInitialMineral": 0
+              },
+              "cephalopod": {
+                "subjects": 20,
+                "organicReachable": 20,
+                "mineralReachable": 20,
+                "missingInitialOrganic": 0,
+                "missingInitialMineral": 0
+              },
+              "parallel": {
+                "subjects": 16,
+                "organicReachable": 16,
+                "mineralReachable": 16,
+                "missingInitialOrganic": 0,
+                "missingInitialMineral": 0
+              }
+            },
+            "hosts": {
+              "leafparasite": {
+                "first": 211,
+                "middle": 33,
+                "terminal": 16,
+                "actualP": 42,
+                "terminalP": 8,
+                "currentQWindows": 2,
+                "futureWindowCandidates": 8,
+                "reasons": []
+              },
+              "tideparasite": {
+                "first": 8,
+                "middle": 34,
+                "terminal": 20,
+                "actualP": 8,
+                "terminalP": 2,
+                "currentQWindows": 0,
+                "futureWindowCandidates": 2,
+                "reasons": []
+              }
+            },
+            "parasiteShortage": {
+              "P": 0,
+              "Q": 0
+            }
+          },
+          "warnings": []
+        }
+      ],
+      "selectedAttempt": 0,
+      "actual": {
+        "version": "diverse-initial-placement/1",
+        "bySpecies": {
+          "grass": 192,
+          "phytoplankton": 16,
+          "algae": 5,
+          "waterbug": 34,
+          "fungus": 33,
+          "grassbug": 33,
+          "antimeme": 16,
+          "parallel": 16,
+          "cephalopod": 20,
+          "serpent": 16,
+          "memory": 16,
+          "forestcrown": 10,
+          "starcrown": 9,
+          "freshwaterlight": 3,
+          "leafparasite": 42,
+          "tideparasite": 8,
+          "hyperparasite": 20
+        },
+        "placements": [
+          {
+            "id": "i:colony:1009:grass",
+            "species": "grass",
+            "cell": 1009,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1010:grass",
+            "species": "grass",
+            "cell": 1010,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1011:grass",
+            "species": "grass",
+            "cell": 1011,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1018:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 1018,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1019:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 1019,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1020:algae",
+            "species": "algae",
+            "cell": 1020,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1033:grass",
+            "species": "grass",
+            "cell": 1033,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1034:grass",
+            "species": "grass",
+            "cell": 1034,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1035:grass",
+            "species": "grass",
+            "cell": 1035,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1049:grass",
+            "species": "grass",
+            "cell": 1049,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1050:grass",
+            "species": "grass",
+            "cell": 1050,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1051:grass",
+            "species": "grass",
+            "cell": 1051,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1058:algae",
+            "species": "algae",
+            "cell": 1058,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1059:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 1059,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1060:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 1060,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1073:grass",
+            "species": "grass",
+            "cell": 1073,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1074:grass",
+            "species": "grass",
+            "cell": 1074,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1075:grass",
+            "species": "grass",
+            "cell": 1075,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1089:grass",
+            "species": "grass",
+            "cell": 1089,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1090:grass",
+            "species": "grass",
+            "cell": 1090,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1091:grass",
+            "species": "grass",
+            "cell": 1091,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1104:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 1104,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:1105:algae",
+            "species": "algae",
+            "cell": 1105,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:110:grass",
+            "species": "grass",
+            "cell": 110,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:111:grass",
+            "species": "grass",
+            "cell": 111,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:112:grass",
+            "species": "grass",
+            "cell": 112,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:120:grass",
+            "species": "grass",
+            "cell": 120,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:121:grass",
+            "species": "grass",
+            "cell": 121,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:122:grass",
+            "species": "grass",
+            "cell": 122,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:132:grass",
+            "species": "grass",
+            "cell": 132,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:133:grass",
+            "species": "grass",
+            "cell": 133,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:134:grass",
+            "species": "grass",
+            "cell": 134,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:138:grass",
+            "species": "grass",
+            "cell": 138,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:140:grass",
+            "species": "grass",
+            "cell": 140,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:147:grass",
+            "species": "grass",
+            "cell": 147,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:148:grass",
+            "species": "grass",
+            "cell": 148,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:149:grass",
+            "species": "grass",
+            "cell": 149,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:156:grass",
+            "species": "grass",
+            "cell": 156,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:157:grass",
+            "species": "grass",
+            "cell": 157,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:158:grass",
+            "species": "grass",
+            "cell": 158,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:160:grass",
+            "species": "grass",
+            "cell": 160,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:161:grass",
+            "species": "grass",
+            "cell": 161,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:162:grass",
+            "species": "grass",
+            "cell": 162,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:172:grass",
+            "species": "grass",
+            "cell": 172,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:173:grass",
+            "species": "grass",
+            "cell": 173,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:174:grass",
+            "species": "grass",
+            "cell": 174,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:179:grass",
+            "species": "grass",
+            "cell": 179,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:180:grass",
+            "species": "grass",
+            "cell": 180,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:187:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 187,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:188:grass",
+            "species": "grass",
+            "cell": 188,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:189:grass",
+            "species": "grass",
+            "cell": 189,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:196:grass",
+            "species": "grass",
+            "cell": 196,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:197:grass",
+            "species": "grass",
+            "cell": 197,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:198:grass",
+            "species": "grass",
+            "cell": 198,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:200:grass",
+            "species": "grass",
+            "cell": 200,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:201:grass",
+            "species": "grass",
+            "cell": 201,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:202:grass",
+            "species": "grass",
+            "cell": 202,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:212:grass",
+            "species": "grass",
+            "cell": 212,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:213:grass",
+            "species": "grass",
+            "cell": 213,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:214:grass",
+            "species": "grass",
+            "cell": 214,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:218:grass",
+            "species": "grass",
+            "cell": 218,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:219:grass",
+            "species": "grass",
+            "cell": 219,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:220:grass",
+            "species": "grass",
+            "cell": 220,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:227:grass",
+            "species": "grass",
+            "cell": 227,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:228:grass",
+            "species": "grass",
+            "cell": 228,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:229:grass",
+            "species": "grass",
+            "cell": 229,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:236:grass",
+            "species": "grass",
+            "cell": 236,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:237:grass",
+            "species": "grass",
+            "cell": 237,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:238:grass",
+            "species": "grass",
+            "cell": 238,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:246:grass",
+            "species": "grass",
+            "cell": 246,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:247:grass",
+            "species": "grass",
+            "cell": 247,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:248:grass",
+            "species": "grass",
+            "cell": 248,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:286:grass",
+            "species": "grass",
+            "cell": 286,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:287:grass",
+            "species": "grass",
+            "cell": 287,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:288:grass",
+            "species": "grass",
+            "cell": 288,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:30:grass",
+            "species": "grass",
+            "cell": 30,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:31:grass",
+            "species": "grass",
+            "cell": 31,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:326:grass",
+            "species": "grass",
+            "cell": 326,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:327:grass",
+            "species": "grass",
+            "cell": 327,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:328:grass",
+            "species": "grass",
+            "cell": 328,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:32:grass",
+            "species": "grass",
+            "cell": 32,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:363:grass",
+            "species": "grass",
+            "cell": 363,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:364:grass",
+            "species": "grass",
+            "cell": 364,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:365:grass",
+            "species": "grass",
+            "cell": 365,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:369:grass",
+            "species": "grass",
+            "cell": 369,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:370:grass",
+            "species": "grass",
+            "cell": 370,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:371:grass",
+            "species": "grass",
+            "cell": 371,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:387:grass",
+            "species": "grass",
+            "cell": 387,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:388:grass",
+            "species": "grass",
+            "cell": 388,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:389:grass",
+            "species": "grass",
+            "cell": 389,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:403:grass",
+            "species": "grass",
+            "cell": 403,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:404:grass",
+            "species": "grass",
+            "cell": 404,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:405:grass",
+            "species": "grass",
+            "cell": 405,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:409:grass",
+            "species": "grass",
+            "cell": 409,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:410:grass",
+            "species": "grass",
+            "cell": 410,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:411:grass",
+            "species": "grass",
+            "cell": 411,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:427:grass",
+            "species": "grass",
+            "cell": 427,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:428:grass",
+            "species": "grass",
+            "cell": 428,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:429:grass",
+            "species": "grass",
+            "cell": 429,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:443:grass",
+            "species": "grass",
+            "cell": 443,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:444:grass",
+            "species": "grass",
+            "cell": 444,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:445:grass",
+            "species": "grass",
+            "cell": 445,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:449:grass",
+            "species": "grass",
+            "cell": 449,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:450:grass",
+            "species": "grass",
+            "cell": 450,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:451:grass",
+            "species": "grass",
+            "cell": 451,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:467:grass",
+            "species": "grass",
+            "cell": 467,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:468:grass",
+            "species": "grass",
+            "cell": 468,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:469:grass",
+            "species": "grass",
+            "cell": 469,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:480:grass",
+            "species": "grass",
+            "cell": 480,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:481:grass",
+            "species": "grass",
+            "cell": 481,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:482:grass",
+            "species": "grass",
+            "cell": 482,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:483:grass",
+            "species": "grass",
+            "cell": 483,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:485:grass",
+            "species": "grass",
+            "cell": 485,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:489:grass",
+            "species": "grass",
+            "cell": 489,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:490:grass",
+            "species": "grass",
+            "cell": 490,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:491:grass",
+            "species": "grass",
+            "cell": 491,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:492:grass",
+            "species": "grass",
+            "cell": 492,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:493:grass",
+            "species": "grass",
+            "cell": 493,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:494:grass",
+            "species": "grass",
+            "cell": 494,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:498:algae",
+            "species": "algae",
+            "cell": 498,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:499:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 499,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:500:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 500,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:504:grass",
+            "species": "grass",
+            "cell": 504,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:505:grass",
+            "species": "grass",
+            "cell": 505,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:506:grass",
+            "species": "grass",
+            "cell": 506,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:520:grass",
+            "species": "grass",
+            "cell": 520,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:521:grass",
+            "species": "grass",
+            "cell": 521,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:522:grass",
+            "species": "grass",
+            "cell": 522,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:523:grass",
+            "species": "grass",
+            "cell": 523,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:524:grass",
+            "species": "grass",
+            "cell": 524,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:525:grass",
+            "species": "grass",
+            "cell": 525,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:529:grass",
+            "species": "grass",
+            "cell": 529,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:530:grass",
+            "species": "grass",
+            "cell": 530,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:531:grass",
+            "species": "grass",
+            "cell": 531,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:532:grass",
+            "species": "grass",
+            "cell": 532,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:533:grass",
+            "species": "grass",
+            "cell": 533,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:534:grass",
+            "species": "grass",
+            "cell": 534,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:538:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 538,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:539:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 539,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:540:grass",
+            "species": "grass",
+            "cell": 540,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:544:grass",
+            "species": "grass",
+            "cell": 544,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:545:grass",
+            "species": "grass",
+            "cell": 545,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:546:grass",
+            "species": "grass",
+            "cell": 546,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:560:grass",
+            "species": "grass",
+            "cell": 560,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:561:grass",
+            "species": "grass",
+            "cell": 561,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:562:grass",
+            "species": "grass",
+            "cell": 562,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:563:grass",
+            "species": "grass",
+            "cell": 563,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:564:grass",
+            "species": "grass",
+            "cell": 564,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:565:grass",
+            "species": "grass",
+            "cell": 565,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:569:grass",
+            "species": "grass",
+            "cell": 569,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:570:grass",
+            "species": "grass",
+            "cell": 570,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:571:grass",
+            "species": "grass",
+            "cell": 571,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:572:grass",
+            "species": "grass",
+            "cell": 572,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:573:algae",
+            "species": "algae",
+            "cell": 573,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:574:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 574,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:578:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 578,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:584:grass",
+            "species": "grass",
+            "cell": 584,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:585:grass",
+            "species": "grass",
+            "cell": 585,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:586:grass",
+            "species": "grass",
+            "cell": 586,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:615:grass",
+            "species": "grass",
+            "cell": 615,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:616:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 616,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:618:grass",
+            "species": "grass",
+            "cell": 618,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:619:grass",
+            "species": "grass",
+            "cell": 619,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:620:grass",
+            "species": "grass",
+            "cell": 620,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:639:grass",
+            "species": "grass",
+            "cell": 639,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:655:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 655,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:658:grass",
+            "species": "grass",
+            "cell": 658,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:659:grass",
+            "species": "grass",
+            "cell": 659,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:660:grass",
+            "species": "grass",
+            "cell": 660,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:679:grass",
+            "species": "grass",
+            "cell": 679,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:695:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 695,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:698:grass",
+            "species": "grass",
+            "cell": 698,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:699:grass",
+            "species": "grass",
+            "cell": 699,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:700:grass",
+            "species": "grass",
+            "cell": 700,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:70:grass",
+            "species": "grass",
+            "cell": 70,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:719:grass",
+            "species": "grass",
+            "cell": 719,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:71:grass",
+            "species": "grass",
+            "cell": 71,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:720:grass",
+            "species": "grass",
+            "cell": 720,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:721:grass",
+            "species": "grass",
+            "cell": 721,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:722:grass",
+            "species": "grass",
+            "cell": 722,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:72:grass",
+            "species": "grass",
+            "cell": 72,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:760:grass",
+            "species": "grass",
+            "cell": 760,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:761:grass",
+            "species": "grass",
+            "cell": 761,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:762:grass",
+            "species": "grass",
+            "cell": 762,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:800:grass",
+            "species": "grass",
+            "cell": 800,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:801:grass",
+            "species": "grass",
+            "cell": 801,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:802:grass",
+            "species": "grass",
+            "cell": 802,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:818:grass",
+            "species": "grass",
+            "cell": 818,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:861:grass",
+            "species": "grass",
+            "cell": 861,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:862:grass",
+            "species": "grass",
+            "cell": 862,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:863:grass",
+            "species": "grass",
+            "cell": 863,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:876:grass",
+            "species": "grass",
+            "cell": 876,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:877:grass",
+            "species": "grass",
+            "cell": 877,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:878:grass",
+            "species": "grass",
+            "cell": 878,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:901:grass",
+            "species": "grass",
+            "cell": 901,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:902:grass",
+            "species": "grass",
+            "cell": 902,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:903:grass",
+            "species": "grass",
+            "cell": 903,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:916:grass",
+            "species": "grass",
+            "cell": 916,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:917:grass",
+            "species": "grass",
+            "cell": 917,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:918:grass",
+            "species": "grass",
+            "cell": 918,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:941:grass",
+            "species": "grass",
+            "cell": 941,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:942:grass",
+            "species": "grass",
+            "cell": 942,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:943:grass",
+            "species": "grass",
+            "cell": 943,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:956:grass",
+            "species": "grass",
+            "cell": 956,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:957:grass",
+            "species": "grass",
+            "cell": 957,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:958:grass",
+            "species": "grass",
+            "cell": 958,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:970:grass",
+            "species": "grass",
+            "cell": 970,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:971:grass",
+            "species": "grass",
+            "cell": 971,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:978:phytoplankton",
+            "species": "phytoplankton",
+            "cell": 978,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:979:grass",
+            "species": "grass",
+            "cell": 979,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:980:grass",
+            "species": "grass",
+            "cell": 980,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:993:grass",
+            "species": "grass",
+            "cell": 993,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:colony:995:grass",
+            "species": "grass",
+            "cell": 995,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:0:16:waterbug",
+            "species": "waterbug",
+            "cell": 16,
+            "slot": "prey",
+            "phase": 2,
+            "age": 182,
+            "sex": null
+          },
+          {
+            "id": "i:food:0:21:waterbug",
+            "species": "waterbug",
+            "cell": 21,
+            "slot": "prey",
+            "phase": 2,
+            "age": 165,
+            "sex": null
+          },
+          {
+            "id": "i:food:10:20:waterbug",
+            "species": "waterbug",
+            "cell": 420,
+            "slot": "prey",
+            "phase": 2,
+            "age": 151,
+            "sex": null
+          },
+          {
+            "id": "i:food:10:27:fungus",
+            "species": "fungus",
+            "cell": 427,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:11:24:waterbug",
+            "species": "waterbug",
+            "cell": 464,
+            "slot": "prey",
+            "phase": 2,
+            "age": 262,
+            "sex": null
+          },
+          {
+            "id": "i:food:11:32:fungus",
+            "species": "fungus",
+            "cell": 472,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:11:36:fungus",
+            "species": "fungus",
+            "cell": 476,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:12:0:fungus",
+            "species": "fungus",
+            "cell": 480,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:13:13:fungus",
+            "species": "fungus",
+            "cell": 533,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:13:14:fungus",
+            "species": "fungus",
+            "cell": 534,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:14:13:waterbug",
+            "species": "waterbug",
+            "cell": 573,
+            "slot": "prey",
+            "phase": 2,
+            "age": 44,
+            "sex": null
+          },
+          {
+            "id": "i:food:14:17:waterbug",
+            "species": "waterbug",
+            "cell": 577,
+            "slot": "prey",
+            "phase": 2,
+            "age": 24,
+            "sex": null
+          },
+          {
+            "id": "i:food:14:23:fungus",
+            "species": "fungus",
+            "cell": 583,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:14:30:fungus",
+            "species": "fungus",
+            "cell": 590,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:15:0:fungus",
+            "species": "fungus",
+            "cell": 600,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:15:11:waterbug",
+            "species": "waterbug",
+            "cell": 611,
+            "slot": "prey",
+            "phase": 2,
+            "age": 42,
+            "sex": null
+          },
+          {
+            "id": "i:food:15:21:fungus",
+            "species": "fungus",
+            "cell": 621,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:15:28:fungus",
+            "species": "fungus",
+            "cell": 628,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:16:15:waterbug",
+            "species": "waterbug",
+            "cell": 655,
+            "slot": "prey",
+            "phase": 2,
+            "age": 128,
+            "sex": null
+          },
+          {
+            "id": "i:food:16:29:fungus",
+            "species": "fungus",
+            "cell": 669,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:17:27:fungus",
+            "species": "fungus",
+            "cell": 707,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:18:10:waterbug",
+            "species": "waterbug",
+            "cell": 730,
+            "slot": "prey",
+            "phase": 2,
+            "age": 201,
+            "sex": null
+          },
+          {
+            "id": "i:food:18:11:waterbug",
+            "species": "waterbug",
+            "cell": 731,
+            "slot": "prey",
+            "phase": 2,
+            "age": 285,
+            "sex": null
+          },
+          {
+            "id": "i:food:18:20:fungus",
+            "species": "fungus",
+            "cell": 740,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:19:12:waterbug",
+            "species": "waterbug",
+            "cell": 772,
+            "slot": "prey",
+            "phase": 2,
+            "age": 103,
+            "sex": null
+          },
+          {
+            "id": "i:food:19:16:waterbug",
+            "species": "waterbug",
+            "cell": 776,
+            "slot": "prey",
+            "phase": 2,
+            "age": 46,
+            "sex": null
+          },
+          {
+            "id": "i:food:19:17:waterbug",
+            "species": "waterbug",
+            "cell": 777,
+            "slot": "prey",
+            "phase": 2,
+            "age": 293,
+            "sex": null
+          },
+          {
+            "id": "i:food:19:34:fungus",
+            "species": "fungus",
+            "cell": 794,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:1:0:fungus",
+            "species": "fungus",
+            "cell": 40,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:1:12:fungus",
+            "species": "fungus",
+            "cell": 52,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:1:17:fungus",
+            "species": "fungus",
+            "cell": 57,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:1:19:waterbug",
+            "species": "waterbug",
+            "cell": 59,
+            "slot": "prey",
+            "phase": 2,
+            "age": 225,
+            "sex": null
+          },
+          {
+            "id": "i:food:1:29:fungus",
+            "species": "fungus",
+            "cell": 69,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:20:10:fungus",
+            "species": "fungus",
+            "cell": 810,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:21:14:waterbug",
+            "species": "waterbug",
+            "cell": 854,
+            "slot": "prey",
+            "phase": 2,
+            "age": 226,
+            "sex": null
+          },
+          {
+            "id": "i:food:23:13:waterbug",
+            "species": "waterbug",
+            "cell": 933,
+            "slot": "prey",
+            "phase": 2,
+            "age": 8,
+            "sex": null
+          },
+          {
+            "id": "i:food:23:18:waterbug",
+            "species": "waterbug",
+            "cell": 938,
+            "slot": "prey",
+            "phase": 2,
+            "age": 98,
+            "sex": null
+          },
+          {
+            "id": "i:food:23:19:waterbug",
+            "species": "waterbug",
+            "cell": 939,
+            "slot": "prey",
+            "phase": 2,
+            "age": 6,
+            "sex": null
+          },
+          {
+            "id": "i:food:24:14:waterbug",
+            "species": "waterbug",
+            "cell": 974,
+            "slot": "prey",
+            "phase": 2,
+            "age": 172,
+            "sex": null
+          },
+          {
+            "id": "i:food:24:15:waterbug",
+            "species": "waterbug",
+            "cell": 975,
+            "slot": "prey",
+            "phase": 2,
+            "age": 80,
+            "sex": null
+          },
+          {
+            "id": "i:food:25:10:fungus",
+            "species": "fungus",
+            "cell": 1010,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:25:16:waterbug",
+            "species": "waterbug",
+            "cell": 1016,
+            "slot": "prey",
+            "phase": 2,
+            "age": 81,
+            "sex": null
+          },
+          {
+            "id": "i:food:25:21:waterbug",
+            "species": "waterbug",
+            "cell": 1021,
+            "slot": "prey",
+            "phase": 2,
+            "age": 161,
+            "sex": null
+          },
+          {
+            "id": "i:food:25:37:fungus",
+            "species": "fungus",
+            "cell": 1037,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:27:25:waterbug",
+            "species": "waterbug",
+            "cell": 1105,
+            "slot": "prey",
+            "phase": 2,
+            "age": 241,
+            "sex": null
+          },
+          {
+            "id": "i:food:2:21:waterbug",
+            "species": "waterbug",
+            "cell": 101,
+            "slot": "prey",
+            "phase": 2,
+            "age": 263,
+            "sex": null
+          },
+          {
+            "id": "i:food:2:25:waterbug",
+            "species": "waterbug",
+            "cell": 105,
+            "slot": "prey",
+            "phase": 2,
+            "age": 195,
+            "sex": null
+          },
+          {
+            "id": "i:food:3:10:fungus",
+            "species": "fungus",
+            "cell": 130,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:4:30:grassbug",
+            "species": "grassbug",
+            "cell": 190,
+            "slot": "prey",
+            "phase": 2,
+            "age": 32,
+            "sex": null
+          },
+          {
+            "id": "i:food:4:31:grassbug",
+            "species": "grassbug",
+            "cell": 191,
+            "slot": "prey",
+            "phase": 2,
+            "age": 31,
+            "sex": null
+          },
+          {
+            "id": "i:food:4:32:grassbug",
+            "species": "grassbug",
+            "cell": 192,
+            "slot": "prey",
+            "phase": 2,
+            "age": 3,
+            "sex": null
+          },
+          {
+            "id": "i:food:4:33:grassbug",
+            "species": "grassbug",
+            "cell": 193,
+            "slot": "prey",
+            "phase": 2,
+            "age": 38,
+            "sex": null
+          },
+          {
+            "id": "i:food:5:0:fungus",
+            "species": "fungus",
+            "cell": 200,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:5:15:fungus",
+            "species": "fungus",
+            "cell": 215,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:5:22:waterbug",
+            "species": "waterbug",
+            "cell": 222,
+            "slot": "prey",
+            "phase": 2,
+            "age": 32,
+            "sex": null
+          },
+          {
+            "id": "i:food:5:26:waterbug",
+            "species": "waterbug",
+            "cell": 226,
+            "slot": "prey",
+            "phase": 2,
+            "age": 107,
+            "sex": null
+          },
+          {
+            "id": "i:food:5:29:grassbug",
+            "species": "grassbug",
+            "cell": 229,
+            "slot": "prey",
+            "phase": 2,
+            "age": 23,
+            "sex": null
+          },
+          {
+            "id": "i:food:5:30:grassbug",
+            "species": "grassbug",
+            "cell": 230,
+            "slot": "prey",
+            "phase": 2,
+            "age": 20,
+            "sex": null
+          },
+          {
+            "id": "i:food:5:31:grassbug",
+            "species": "grassbug",
+            "cell": 231,
+            "slot": "prey",
+            "phase": 2,
+            "age": 24,
+            "sex": null
+          },
+          {
+            "id": "i:food:5:34:grassbug",
+            "species": "grassbug",
+            "cell": 234,
+            "slot": "prey",
+            "phase": 2,
+            "age": 31,
+            "sex": null
+          },
+          {
+            "id": "i:food:5:36:grassbug",
+            "species": "grassbug",
+            "cell": 236,
+            "slot": "prey",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:6:21:waterbug",
+            "species": "waterbug",
+            "cell": 261,
+            "slot": "prey",
+            "phase": 2,
+            "age": 160,
+            "sex": null
+          },
+          {
+            "id": "i:food:6:26:waterbug",
+            "species": "waterbug",
+            "cell": 266,
+            "slot": "prey",
+            "phase": 2,
+            "age": 2,
+            "sex": null
+          },
+          {
+            "id": "i:food:6:28:grassbug",
+            "species": "grassbug",
+            "cell": 268,
+            "slot": "prey",
+            "phase": 2,
+            "age": 20,
+            "sex": null
+          },
+          {
+            "id": "i:food:6:30:grassbug",
+            "species": "grassbug",
+            "cell": 270,
+            "slot": "prey",
+            "phase": 2,
+            "age": 20,
+            "sex": null
+          },
+          {
+            "id": "i:food:6:31:grassbug",
+            "species": "grassbug",
+            "cell": 271,
+            "slot": "prey",
+            "phase": 2,
+            "age": 5,
+            "sex": null
+          },
+          {
+            "id": "i:food:6:33:grassbug",
+            "species": "grassbug",
+            "cell": 273,
+            "slot": "prey",
+            "phase": 2,
+            "age": 9,
+            "sex": null
+          },
+          {
+            "id": "i:food:6:34:grassbug",
+            "species": "grassbug",
+            "cell": 274,
+            "slot": "prey",
+            "phase": 2,
+            "age": 22,
+            "sex": null
+          },
+          {
+            "id": "i:food:6:35:grassbug",
+            "species": "grassbug",
+            "cell": 275,
+            "slot": "prey",
+            "phase": 2,
+            "age": 19,
+            "sex": null
+          },
+          {
+            "id": "i:food:6:36:grassbug",
+            "species": "grassbug",
+            "cell": 276,
+            "slot": "prey",
+            "phase": 2,
+            "age": 14,
+            "sex": null
+          },
+          {
+            "id": "i:food:6:7:fungus",
+            "species": "fungus",
+            "cell": 247,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:7:25:waterbug",
+            "species": "waterbug",
+            "cell": 305,
+            "slot": "prey",
+            "phase": 2,
+            "age": 280,
+            "sex": null
+          },
+          {
+            "id": "i:food:7:29:grassbug",
+            "species": "grassbug",
+            "cell": 309,
+            "slot": "prey",
+            "phase": 2,
+            "age": 22,
+            "sex": null
+          },
+          {
+            "id": "i:food:7:30:grassbug",
+            "species": "grassbug",
+            "cell": 310,
+            "slot": "prey",
+            "phase": 2,
+            "age": 10,
+            "sex": null
+          },
+          {
+            "id": "i:food:7:31:grassbug",
+            "species": "grassbug",
+            "cell": 311,
+            "slot": "prey",
+            "phase": 2,
+            "age": 16,
+            "sex": null
+          },
+          {
+            "id": "i:food:7:34:grassbug",
+            "species": "grassbug",
+            "cell": 314,
+            "slot": "prey",
+            "phase": 2,
+            "age": 16,
+            "sex": null
+          },
+          {
+            "id": "i:food:7:35:grassbug",
+            "species": "grassbug",
+            "cell": 315,
+            "slot": "prey",
+            "phase": 2,
+            "age": 28,
+            "sex": null
+          },
+          {
+            "id": "i:food:7:36:grassbug",
+            "species": "grassbug",
+            "cell": 316,
+            "slot": "prey",
+            "phase": 2,
+            "age": 30,
+            "sex": null
+          },
+          {
+            "id": "i:food:7:3:fungus",
+            "species": "fungus",
+            "cell": 283,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:7:5:fungus",
+            "species": "fungus",
+            "cell": 285,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:8:14:fungus",
+            "species": "fungus",
+            "cell": 334,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:8:17:fungus",
+            "species": "fungus",
+            "cell": 337,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:8:20:waterbug",
+            "species": "waterbug",
+            "cell": 340,
+            "slot": "prey",
+            "phase": 2,
+            "age": 294,
+            "sex": null
+          },
+          {
+            "id": "i:food:8:21:waterbug",
+            "species": "waterbug",
+            "cell": 341,
+            "slot": "prey",
+            "phase": 2,
+            "age": 173,
+            "sex": null
+          },
+          {
+            "id": "i:food:8:30:grassbug",
+            "species": "grassbug",
+            "cell": 350,
+            "slot": "prey",
+            "phase": 2,
+            "age": 17,
+            "sex": null
+          },
+          {
+            "id": "i:food:8:31:grassbug",
+            "species": "grassbug",
+            "cell": 351,
+            "slot": "prey",
+            "phase": 2,
+            "age": 25,
+            "sex": null
+          },
+          {
+            "id": "i:food:8:32:grassbug",
+            "species": "grassbug",
+            "cell": 352,
+            "slot": "prey",
+            "phase": 2,
+            "age": 8,
+            "sex": null
+          },
+          {
+            "id": "i:food:8:33:grassbug",
+            "species": "grassbug",
+            "cell": 353,
+            "slot": "prey",
+            "phase": 2,
+            "age": 38,
+            "sex": null
+          },
+          {
+            "id": "i:food:8:35:grassbug",
+            "species": "grassbug",
+            "cell": 355,
+            "slot": "prey",
+            "phase": 2,
+            "age": 21,
+            "sex": null
+          },
+          {
+            "id": "i:food:8:36:grassbug",
+            "species": "grassbug",
+            "cell": 356,
+            "slot": "prey",
+            "phase": 2,
+            "age": 32,
+            "sex": null
+          },
+          {
+            "id": "i:food:9:11:fungus",
+            "species": "fungus",
+            "cell": 371,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:9:12:fungus",
+            "species": "fungus",
+            "cell": 372,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:food:9:20:waterbug",
+            "species": "waterbug",
+            "cell": 380,
+            "slot": "prey",
+            "phase": 2,
+            "age": 200,
+            "sex": null
+          },
+          {
+            "id": "i:food:9:25:waterbug",
+            "species": "waterbug",
+            "cell": 385,
+            "slot": "prey",
+            "phase": 2,
+            "age": 87,
+            "sex": null
+          },
+          {
+            "id": "i:food:9:30:grassbug",
+            "species": "grassbug",
+            "cell": 390,
+            "slot": "prey",
+            "phase": 2,
+            "age": 19,
+            "sex": null
+          },
+          {
+            "id": "i:food:9:31:grassbug",
+            "species": "grassbug",
+            "cell": 391,
+            "slot": "prey",
+            "phase": 2,
+            "age": 6,
+            "sex": null
+          },
+          {
+            "id": "i:food:9:32:grassbug",
+            "species": "grassbug",
+            "cell": 392,
+            "slot": "prey",
+            "phase": 2,
+            "age": 16,
+            "sex": null
+          },
+          {
+            "id": "i:food:9:33:grassbug",
+            "species": "grassbug",
+            "cell": 393,
+            "slot": "prey",
+            "phase": 2,
+            "age": 5,
+            "sex": null
+          },
+          {
+            "id": "i:food:9:35:grassbug",
+            "species": "grassbug",
+            "cell": 395,
+            "slot": "prey",
+            "phase": 2,
+            "age": 3,
+            "sex": null
+          },
+          {
+            "id": "i:food:9:4:fungus",
+            "species": "fungus",
+            "cell": 364,
+            "slot": "food",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:main:10:2:antimeme",
+            "species": "antimeme",
+            "cell": 402,
+            "slot": "main",
+            "phase": 1,
+            "age": 93,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:10:2:antimeme:1",
+            "species": "antimeme",
+            "cell": 402,
+            "slot": "main",
+            "phase": 1,
+            "age": 78,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:10:2:antimeme:2",
+            "species": "antimeme",
+            "cell": 402,
+            "slot": "main",
+            "phase": 1,
+            "age": 83,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:10:3:antimeme",
+            "species": "antimeme",
+            "cell": 403,
+            "slot": "main",
+            "phase": 1,
+            "age": 83,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:10:3:antimeme:1",
+            "species": "antimeme",
+            "cell": 403,
+            "slot": "main",
+            "phase": 1,
+            "age": 119,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:10:3:antimeme:2",
+            "species": "antimeme",
+            "cell": 403,
+            "slot": "main",
+            "phase": 1,
+            "age": 120,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:10:4:antimeme",
+            "species": "antimeme",
+            "cell": 404,
+            "slot": "main",
+            "phase": 1,
+            "age": 84,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:10:4:antimeme:1",
+            "species": "antimeme",
+            "cell": 404,
+            "slot": "main",
+            "phase": 1,
+            "age": 137,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:10:4:antimeme:2",
+            "species": "antimeme",
+            "cell": 404,
+            "slot": "main",
+            "phase": 1,
+            "age": 111,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:11:27:parallel",
+            "species": "parallel",
+            "cell": 467,
+            "slot": "main",
+            "phase": 1,
+            "age": 19,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:11:27:parallel:1",
+            "species": "parallel",
+            "cell": 467,
+            "slot": "main",
+            "phase": 1,
+            "age": 103,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:11:27:parallel:2",
+            "species": "parallel",
+            "cell": 467,
+            "slot": "main",
+            "phase": 1,
+            "age": 16,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:11:29:parallel",
+            "species": "parallel",
+            "cell": 469,
+            "slot": "main",
+            "phase": 1,
+            "age": 35,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:11:29:parallel:1",
+            "species": "parallel",
+            "cell": 469,
+            "slot": "main",
+            "phase": 1,
+            "age": 43,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:11:29:parallel:2",
+            "species": "parallel",
+            "cell": 469,
+            "slot": "main",
+            "phase": 1,
+            "age": 91,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:12:27:parallel",
+            "species": "parallel",
+            "cell": 507,
+            "slot": "main",
+            "phase": 1,
+            "age": 13,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:12:27:parallel:1",
+            "species": "parallel",
+            "cell": 507,
+            "slot": "main",
+            "phase": 1,
+            "age": 46,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:12:27:parallel:2",
+            "species": "parallel",
+            "cell": 507,
+            "slot": "main",
+            "phase": 1,
+            "age": 83,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:12:28:parallel",
+            "species": "parallel",
+            "cell": 508,
+            "slot": "main",
+            "phase": 1,
+            "age": 85,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:12:28:parallel:1",
+            "species": "parallel",
+            "cell": 508,
+            "slot": "main",
+            "phase": 1,
+            "age": 69,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:12:28:parallel:2",
+            "species": "parallel",
+            "cell": 508,
+            "slot": "main",
+            "phase": 1,
+            "age": 7,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:13:17:cephalopod",
+            "species": "cephalopod",
+            "cell": 537,
+            "slot": "main",
+            "phase": 1,
+            "age": 86,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:13:17:cephalopod:1",
+            "species": "cephalopod",
+            "cell": 537,
+            "slot": "main",
+            "phase": 1,
+            "age": 31,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:13:17:cephalopod:2",
+            "species": "cephalopod",
+            "cell": 537,
+            "slot": "main",
+            "phase": 1,
+            "age": 111,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:13:21:serpent",
+            "species": "serpent",
+            "cell": 541,
+            "slot": "main",
+            "phase": 1,
+            "age": 82,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:13:21:serpent:1",
+            "species": "serpent",
+            "cell": 541,
+            "slot": "main",
+            "phase": 1,
+            "age": 48,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:13:21:serpent:2",
+            "species": "serpent",
+            "cell": 541,
+            "slot": "main",
+            "phase": 1,
+            "age": 17,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:13:22:serpent",
+            "species": "serpent",
+            "cell": 542,
+            "slot": "main",
+            "phase": 1,
+            "age": 53,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:13:22:serpent:1",
+            "species": "serpent",
+            "cell": 542,
+            "slot": "main",
+            "phase": 1,
+            "age": 51,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:13:22:serpent:2",
+            "species": "serpent",
+            "cell": 542,
+            "slot": "main",
+            "phase": 1,
+            "age": 70,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:14:10:parallel",
+            "species": "parallel",
+            "cell": 570,
+            "slot": "main",
+            "phase": 1,
+            "age": 89,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:14:11:parallel",
+            "species": "parallel",
+            "cell": 571,
+            "slot": "main",
+            "phase": 1,
+            "age": 29,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:14:11:serpent",
+            "species": "serpent",
+            "cell": 571,
+            "slot": "main",
+            "phase": 1,
+            "age": 6,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:14:12:serpent",
+            "species": "serpent",
+            "cell": 572,
+            "slot": "main",
+            "phase": 1,
+            "age": 54,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:14:13:serpent",
+            "species": "serpent",
+            "cell": 573,
+            "slot": "main",
+            "phase": 1,
+            "age": 65,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:14:15:cephalopod",
+            "species": "cephalopod",
+            "cell": 575,
+            "slot": "main",
+            "phase": 1,
+            "age": 91,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:14:15:cephalopod:1",
+            "species": "cephalopod",
+            "cell": 575,
+            "slot": "main",
+            "phase": 1,
+            "age": 89,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:14:15:cephalopod:2",
+            "species": "cephalopod",
+            "cell": 575,
+            "slot": "main",
+            "phase": 1,
+            "age": 54,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:14:16:cephalopod",
+            "species": "cephalopod",
+            "cell": 576,
+            "slot": "main",
+            "phase": 1,
+            "age": 83,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:14:16:cephalopod:1",
+            "species": "cephalopod",
+            "cell": 576,
+            "slot": "main",
+            "phase": 1,
+            "age": 92,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:14:16:cephalopod:2",
+            "species": "cephalopod",
+            "cell": 576,
+            "slot": "main",
+            "phase": 1,
+            "age": 91,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:14:20:serpent",
+            "species": "serpent",
+            "cell": 580,
+            "slot": "main",
+            "phase": 1,
+            "age": 80,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:14:20:serpent:1",
+            "species": "serpent",
+            "cell": 580,
+            "slot": "main",
+            "phase": 1,
+            "age": 6,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:14:20:serpent:2",
+            "species": "serpent",
+            "cell": 580,
+            "slot": "main",
+            "phase": 1,
+            "age": 23,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:14:22:serpent",
+            "species": "serpent",
+            "cell": 582,
+            "slot": "main",
+            "phase": 1,
+            "age": 96,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:14:22:serpent:1",
+            "species": "serpent",
+            "cell": 582,
+            "slot": "main",
+            "phase": 1,
+            "age": 25,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:14:22:serpent:2",
+            "species": "serpent",
+            "cell": 582,
+            "slot": "main",
+            "phase": 1,
+            "age": 3,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:14:9:parallel",
+            "species": "parallel",
+            "cell": 569,
+            "slot": "main",
+            "phase": 1,
+            "age": 84,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:15:10:parallel",
+            "species": "parallel",
+            "cell": 610,
+            "slot": "main",
+            "phase": 1,
+            "age": 91,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:15:13:serpent",
+            "species": "serpent",
+            "cell": 613,
+            "slot": "main",
+            "phase": 1,
+            "age": 35,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:15:16:cephalopod",
+            "species": "cephalopod",
+            "cell": 616,
+            "slot": "main",
+            "phase": 1,
+            "age": 81,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:15:16:cephalopod:1",
+            "species": "cephalopod",
+            "cell": 616,
+            "slot": "main",
+            "phase": 1,
+            "age": 80,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:15:16:cephalopod:2",
+            "species": "cephalopod",
+            "cell": 616,
+            "slot": "main",
+            "phase": 1,
+            "age": 22,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:3:11:memory",
+            "species": "memory",
+            "cell": 131,
+            "slot": "main",
+            "phase": 1,
+            "age": 150,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:3:11:memory:1",
+            "species": "memory",
+            "cell": 131,
+            "slot": "main",
+            "phase": 1,
+            "age": 157,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:3:11:memory:2",
+            "species": "memory",
+            "cell": 131,
+            "slot": "main",
+            "phase": 1,
+            "age": 58,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:3:12:memory",
+            "species": "memory",
+            "cell": 132,
+            "slot": "main",
+            "phase": 1,
+            "age": 162,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:3:12:memory:1",
+            "species": "memory",
+            "cell": 132,
+            "slot": "main",
+            "phase": 1,
+            "age": 95,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:3:12:memory:2",
+            "species": "memory",
+            "cell": 132,
+            "slot": "main",
+            "phase": 1,
+            "age": 166,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:3:13:memory",
+            "species": "memory",
+            "cell": 133,
+            "slot": "main",
+            "phase": 1,
+            "age": 124,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:3:13:memory:1",
+            "species": "memory",
+            "cell": 133,
+            "slot": "main",
+            "phase": 1,
+            "age": 148,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:3:13:memory:2",
+            "species": "memory",
+            "cell": 133,
+            "slot": "main",
+            "phase": 1,
+            "age": 88,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:3:27:cephalopod",
+            "species": "cephalopod",
+            "cell": 147,
+            "slot": "main",
+            "phase": 1,
+            "age": 87,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:3:27:cephalopod:1",
+            "species": "cephalopod",
+            "cell": 147,
+            "slot": "main",
+            "phase": 1,
+            "age": 112,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:3:37:antimeme",
+            "species": "antimeme",
+            "cell": 157,
+            "slot": "main",
+            "phase": 1,
+            "age": 33,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:3:37:memory",
+            "species": "memory",
+            "cell": 157,
+            "slot": "main",
+            "phase": 1,
+            "age": 178,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:3:38:memory",
+            "species": "memory",
+            "cell": 158,
+            "slot": "main",
+            "phase": 1,
+            "age": 26,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:4:13:memory",
+            "species": "memory",
+            "cell": 173,
+            "slot": "main",
+            "phase": 1,
+            "age": 48,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:4:13:memory:1",
+            "species": "memory",
+            "cell": 173,
+            "slot": "main",
+            "phase": 1,
+            "age": 13,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:4:13:memory:2",
+            "species": "memory",
+            "cell": 173,
+            "slot": "main",
+            "phase": 1,
+            "age": 174,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:4:27:cephalopod",
+            "species": "cephalopod",
+            "cell": 187,
+            "slot": "main",
+            "phase": 1,
+            "age": 72,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:4:27:cephalopod:1",
+            "species": "cephalopod",
+            "cell": 187,
+            "slot": "main",
+            "phase": 1,
+            "age": 79,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:4:36:antimeme",
+            "species": "antimeme",
+            "cell": 196,
+            "slot": "main",
+            "phase": 1,
+            "age": 70,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:4:36:memory",
+            "species": "memory",
+            "cell": 196,
+            "slot": "main",
+            "phase": 1,
+            "age": 18,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:4:37:antimeme",
+            "species": "antimeme",
+            "cell": 197,
+            "slot": "main",
+            "phase": 1,
+            "age": 92,
+            "sex": "male"
+          },
+          {
+            "id": "i:main:4:37:memory",
+            "species": "memory",
+            "cell": 197,
+            "slot": "main",
+            "phase": 1,
+            "age": 138,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:4:38:antimeme",
+            "species": "antimeme",
+            "cell": 198,
+            "slot": "main",
+            "phase": 1,
+            "age": 40,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:5:26:cephalopod",
+            "species": "cephalopod",
+            "cell": 226,
+            "slot": "main",
+            "phase": 1,
+            "age": 4,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:5:26:cephalopod:1",
+            "species": "cephalopod",
+            "cell": 226,
+            "slot": "main",
+            "phase": 1,
+            "age": 96,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:5:27:cephalopod",
+            "species": "cephalopod",
+            "cell": 227,
+            "slot": "main",
+            "phase": 1,
+            "age": 17,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:5:27:cephalopod:1",
+            "species": "cephalopod",
+            "cell": 227,
+            "slot": "main",
+            "phase": 1,
+            "age": 94,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:9:4:antimeme",
+            "species": "antimeme",
+            "cell": 364,
+            "slot": "main",
+            "phase": 1,
+            "age": 58,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:9:4:antimeme:1",
+            "species": "antimeme",
+            "cell": 364,
+            "slot": "main",
+            "phase": 1,
+            "age": 108,
+            "sex": "female"
+          },
+          {
+            "id": "i:main:9:4:antimeme:2",
+            "species": "antimeme",
+            "cell": 364,
+            "slot": "main",
+            "phase": 1,
+            "age": 15,
+            "sex": "female"
+          },
+          {
+            "id": "i:producer:1008:forestcrown",
+            "species": "forestcrown",
+            "cell": 1008,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:1015:starcrown",
+            "species": "starcrown",
+            "cell": 1015,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:1025:starcrown",
+            "species": "starcrown",
+            "cell": 1025,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:1030:starcrown",
+            "species": "starcrown",
+            "cell": 1030,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:1059:freshwaterlight",
+            "species": "freshwaterlight",
+            "cell": 1059,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:1115:starcrown",
+            "species": "starcrown",
+            "cell": 1115,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:121:forestcrown",
+            "species": "forestcrown",
+            "cell": 121,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:127:forestcrown",
+            "species": "forestcrown",
+            "cell": 127,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:142:freshwaterlight",
+            "species": "freshwaterlight",
+            "cell": 142,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:166:forestcrown",
+            "species": "forestcrown",
+            "cell": 166,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:197:forestcrown",
+            "species": "forestcrown",
+            "cell": 197,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:19:freshwaterlight",
+            "species": "freshwaterlight",
+            "cell": 19,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:257:starcrown",
+            "species": "starcrown",
+            "cell": 257,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:25:starcrown",
+            "species": "starcrown",
+            "cell": 25,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:292:starcrown",
+            "species": "starcrown",
+            "cell": 292,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:368:forestcrown",
+            "species": "forestcrown",
+            "cell": 368,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:392:forestcrown",
+            "species": "forestcrown",
+            "cell": 392,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:447:forestcrown",
+            "species": "forestcrown",
+            "cell": 447,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:683:forestcrown",
+            "species": "forestcrown",
+            "cell": 683,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:91:forestcrown",
+            "species": "forestcrown",
+            "cell": 91,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:952:starcrown",
+            "species": "starcrown",
+            "cell": 952,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "i:producer:954:starcrown",
+            "species": "starcrown",
+            "cell": 954,
+            "slot": "producer",
+            "phase": 1,
+            "age": 0,
+            "sex": null
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:1010:grass:0",
+            "species": "leafparasite",
+            "cell": 1010,
+            "hostId": "i:colony:1010:grass",
+            "phase": 3,
+            "age": 26,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:148:grass:0",
+            "species": "leafparasite",
+            "cell": 148,
+            "hostId": "i:colony:148:grass",
+            "phase": 1,
+            "age": 6,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:158:grass:0",
+            "species": "leafparasite",
+            "cell": 158,
+            "hostId": "i:colony:158:grass",
+            "phase": 2,
+            "age": 11,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:172:grass:0",
+            "species": "leafparasite",
+            "cell": 172,
+            "hostId": "i:colony:172:grass",
+            "phase": 2,
+            "age": 14,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:174:grass:0",
+            "species": "leafparasite",
+            "cell": 174,
+            "hostId": "i:colony:174:grass",
+            "phase": 3,
+            "age": 29,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:212:grass:0",
+            "species": "leafparasite",
+            "cell": 212,
+            "hostId": "i:colony:212:grass",
+            "phase": 2,
+            "age": 18,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:227:grass:0",
+            "species": "leafparasite",
+            "cell": 227,
+            "hostId": "i:colony:227:grass",
+            "phase": 3,
+            "age": 26,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:469:grass:0",
+            "species": "leafparasite",
+            "cell": 469,
+            "hostId": "i:colony:469:grass",
+            "phase": 3,
+            "age": 28,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:505:grass:0",
+            "species": "leafparasite",
+            "cell": 505,
+            "hostId": "i:colony:505:grass",
+            "phase": 2,
+            "age": 11,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:523:grass:0",
+            "species": "leafparasite",
+            "cell": 523,
+            "hostId": "i:colony:523:grass",
+            "phase": 2,
+            "age": 18,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:534:grass:0",
+            "species": "leafparasite",
+            "cell": 534,
+            "hostId": "i:colony:534:grass",
+            "phase": 2,
+            "age": 15,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:569:grass:0",
+            "species": "leafparasite",
+            "cell": 569,
+            "hostId": "i:colony:569:grass",
+            "phase": 2,
+            "age": 16,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:586:grass:0",
+            "species": "leafparasite",
+            "cell": 586,
+            "hostId": "i:colony:586:grass",
+            "phase": 2,
+            "age": 12,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:878:grass:0",
+            "species": "leafparasite",
+            "cell": 878,
+            "hostId": "i:colony:878:grass",
+            "phase": 3,
+            "age": 27,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:colony:943:grass:0",
+            "species": "leafparasite",
+            "cell": 943,
+            "hostId": "i:colony:943:grass",
+            "phase": 3,
+            "age": 31,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:5:30:grassbug:0",
+            "species": "leafparasite",
+            "cell": 230,
+            "hostId": "i:food:5:30:grassbug",
+            "phase": 2,
+            "age": 10,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:5:34:grassbug:0",
+            "species": "leafparasite",
+            "cell": 234,
+            "hostId": "i:food:5:34:grassbug",
+            "phase": 1,
+            "age": 5,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:5:36:grassbug:0",
+            "species": "leafparasite",
+            "cell": 236,
+            "hostId": "i:food:5:36:grassbug",
+            "phase": 1,
+            "age": 7,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:6:28:grassbug:0",
+            "species": "leafparasite",
+            "cell": 268,
+            "hostId": "i:food:6:28:grassbug",
+            "phase": 1,
+            "age": 7,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:6:30:grassbug:0",
+            "species": "leafparasite",
+            "cell": 270,
+            "hostId": "i:food:6:30:grassbug",
+            "phase": 3,
+            "age": 26,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:6:31:grassbug:0",
+            "species": "leafparasite",
+            "cell": 271,
+            "hostId": "i:food:6:31:grassbug",
+            "phase": 2,
+            "age": 13,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:6:33:grassbug:0",
+            "species": "leafparasite",
+            "cell": 273,
+            "hostId": "i:food:6:33:grassbug",
+            "phase": 2,
+            "age": 15,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:6:34:grassbug:0",
+            "species": "leafparasite",
+            "cell": 274,
+            "hostId": "i:food:6:34:grassbug",
+            "phase": 2,
+            "age": 9,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:6:35:grassbug:0",
+            "species": "leafparasite",
+            "cell": 275,
+            "hostId": "i:food:6:35:grassbug",
+            "phase": 1,
+            "age": 4,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:7:29:grassbug:0",
+            "species": "leafparasite",
+            "cell": 309,
+            "hostId": "i:food:7:29:grassbug",
+            "phase": 2,
+            "age": 18,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:7:30:grassbug:0",
+            "species": "leafparasite",
+            "cell": 310,
+            "hostId": "i:food:7:30:grassbug",
+            "phase": 2,
+            "age": 19,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:7:36:grassbug:0",
+            "species": "leafparasite",
+            "cell": 316,
+            "hostId": "i:food:7:36:grassbug",
+            "phase": 1,
+            "age": 3,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:8:33:grassbug:0",
+            "species": "leafparasite",
+            "cell": 353,
+            "hostId": "i:food:8:33:grassbug",
+            "phase": 2,
+            "age": 18,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:8:35:grassbug:0",
+            "species": "leafparasite",
+            "cell": 355,
+            "hostId": "i:food:8:35:grassbug",
+            "phase": 1,
+            "age": 1,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:8:36:grassbug:0",
+            "species": "leafparasite",
+            "cell": 356,
+            "hostId": "i:food:8:36:grassbug",
+            "phase": 2,
+            "age": 15,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:9:30:grassbug:0",
+            "species": "leafparasite",
+            "cell": 390,
+            "hostId": "i:food:9:30:grassbug",
+            "phase": 3,
+            "age": 28,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:food:9:33:grassbug:0",
+            "species": "leafparasite",
+            "cell": 393,
+            "hostId": "i:food:9:33:grassbug",
+            "phase": 3,
+            "age": 27,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:leafparasite:i:main:11:27:parallel:1:0",
+            "species": "leafparasite",
+            "cell": 467,
+            "hostId": "i:main:11:27:parallel:1",
+            "phase": 2,
+            "age": 16,
+            "stage": "terminal"
+          },
+          {
+            "id": "p:initial:leafparasite:i:main:11:29:parallel:1:0",
+            "species": "leafparasite",
+            "cell": 469,
+            "hostId": "i:main:11:29:parallel:1",
+            "phase": 2,
+            "age": 10,
+            "stage": "terminal"
+          },
+          {
+            "id": "p:initial:leafparasite:i:main:12:27:parallel:1:0",
+            "species": "leafparasite",
+            "cell": 507,
+            "hostId": "i:main:12:27:parallel:1",
+            "phase": 2,
+            "age": 10,
+            "stage": "terminal"
+          },
+          {
+            "id": "p:initial:leafparasite:i:main:12:27:parallel:2:0",
+            "species": "leafparasite",
+            "cell": 507,
+            "hostId": "i:main:12:27:parallel:2",
+            "phase": 2,
+            "age": 18,
+            "stage": "terminal"
+          },
+          {
+            "id": "p:initial:leafparasite:i:main:12:28:parallel:1:0",
+            "species": "leafparasite",
+            "cell": 508,
+            "hostId": "i:main:12:28:parallel:1",
+            "phase": 1,
+            "age": 4,
+            "stage": "terminal"
+          },
+          {
+            "id": "p:initial:leafparasite:i:main:14:10:parallel:0",
+            "species": "leafparasite",
+            "cell": 570,
+            "hostId": "i:main:14:10:parallel",
+            "phase": 2,
+            "age": 11,
+            "stage": "terminal"
+          },
+          {
+            "id": "p:initial:leafparasite:i:main:14:9:parallel:0",
+            "species": "leafparasite",
+            "cell": 569,
+            "hostId": "i:main:14:9:parallel",
+            "phase": 3,
+            "age": 26,
+            "stage": "terminal"
+          },
+          {
+            "id": "p:initial:leafparasite:i:main:15:10:parallel:0",
+            "species": "leafparasite",
+            "cell": 610,
+            "hostId": "i:main:15:10:parallel",
+            "phase": 2,
+            "age": 18,
+            "stage": "terminal"
+          },
+          {
+            "id": "p:initial:leafparasite:i:producer:25:starcrown:0",
+            "species": "leafparasite",
+            "cell": 25,
+            "hostId": "i:producer:25:starcrown",
+            "phase": 2,
+            "age": 12,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:leafparasite:i:producer:683:forestcrown:0",
+            "species": "leafparasite",
+            "cell": 683,
+            "hostId": "i:producer:683:forestcrown",
+            "phase": 3,
+            "age": 29,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:tideparasite:i:colony:498:algae:0",
+            "species": "tideparasite",
+            "cell": 498,
+            "hostId": "i:colony:498:algae",
+            "phase": 1,
+            "age": 2,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:tideparasite:i:food:0:21:waterbug:0",
+            "species": "tideparasite",
+            "cell": 21,
+            "hostId": "i:food:0:21:waterbug",
+            "phase": 2,
+            "age": 11,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:tideparasite:i:food:10:20:waterbug:0",
+            "species": "tideparasite",
+            "cell": 420,
+            "hostId": "i:food:10:20:waterbug",
+            "phase": 1,
+            "age": 2,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:tideparasite:i:food:18:10:waterbug:0",
+            "species": "tideparasite",
+            "cell": 730,
+            "hostId": "i:food:18:10:waterbug",
+            "phase": 1,
+            "age": 6,
+            "stage": "middle"
+          },
+          {
+            "id": "p:initial:tideparasite:i:main:4:27:cephalopod:0",
+            "species": "tideparasite",
+            "cell": 187,
+            "hostId": "i:main:4:27:cephalopod",
+            "phase": 3,
+            "age": 21,
+            "stage": "terminal"
+          },
+          {
+            "id": "p:initial:tideparasite:i:main:5:27:cephalopod:1:0",
+            "species": "tideparasite",
+            "cell": 227,
+            "hostId": "i:main:5:27:cephalopod:1",
+            "phase": 3,
+            "age": 25,
+            "stage": "terminal"
+          },
+          {
+            "id": "p:initial:tideparasite:i:producer:1059:freshwaterlight:0",
+            "species": "tideparasite",
+            "cell": 1059,
+            "hostId": "i:producer:1059:freshwaterlight",
+            "phase": 3,
+            "age": 27,
+            "stage": "first"
+          },
+          {
+            "id": "p:initial:tideparasite:i:producer:19:freshwaterlight:0",
+            "species": "tideparasite",
+            "cell": 19,
+            "hostId": "i:producer:19:freshwaterlight",
+            "phase": 2,
+            "age": 8,
+            "stage": "first"
+          },
+          {
+            "id": "q:initial:free:187:0",
+            "species": "hyperparasite",
+            "cell": 187,
+            "hostId": null,
+            "phase": 4,
+            "age": 25,
+            "state": "adult"
+          },
+          {
+            "id": "q:initial:free:21:0",
+            "species": "hyperparasite",
+            "cell": 21,
+            "hostId": null,
+            "phase": 4,
+            "age": 30,
+            "state": "adult"
+          },
+          {
+            "id": "q:initial:free:230:0",
+            "species": "hyperparasite",
+            "cell": 230,
+            "hostId": null,
+            "phase": 4,
+            "age": 15,
+            "state": "adult"
+          },
+          {
+            "id": "q:initial:free:234:0",
+            "species": "hyperparasite",
+            "cell": 234,
+            "hostId": null,
+            "phase": 4,
+            "age": 18,
+            "state": "adult"
+          },
+          {
+            "id": "q:initial:free:236:0",
+            "species": "hyperparasite",
+            "cell": 236,
+            "hostId": null,
+            "phase": 4,
+            "age": 24,
+            "state": "adult"
+          },
+          {
+            "id": "q:initial:free:271:0",
+            "species": "hyperparasite",
+            "cell": 271,
+            "hostId": null,
+            "phase": 4,
+            "age": 26,
+            "state": "adult"
+          },
+          {
+            "id": "q:initial:free:353:0",
+            "species": "hyperparasite",
+            "cell": 353,
+            "hostId": null,
+            "phase": 4,
+            "age": 20,
+            "state": "adult"
+          },
+          {
+            "id": "q:initial:free:355:0",
+            "species": "hyperparasite",
+            "cell": 355,
+            "hostId": null,
+            "phase": 4,
+            "age": 26,
+            "state": "adult"
+          },
+          {
+            "id": "q:initial:free:390:0",
+            "species": "hyperparasite",
+            "cell": 390,
+            "hostId": null,
+            "phase": 4,
+            "age": 31,
+            "state": "adult"
+          },
+          {
+            "id": "q:initial:free:467:0",
+            "species": "hyperparasite",
+            "cell": 467,
+            "hostId": null,
+            "phase": 4,
+            "age": 25,
+            "state": "adult"
+          },
+          {
+            "id": "q:initial:free:507:0",
+            "species": "hyperparasite",
+            "cell": 507,
+            "hostId": null,
+            "phase": 4,
+            "age": 21,
+            "state": "adult"
+          },
+          {
+            "id": "q:initial:free:569:0",
+            "species": "hyperparasite",
+            "cell": 569,
+            "hostId": null,
+            "phase": 4,
+            "age": 14,
+            "state": "adult"
+          },
+          {
+            "id": "q:initial:free:570:0",
+            "species": "hyperparasite",
+            "cell": 570,
+            "hostId": null,
+            "phase": 4,
+            "age": 19,
+            "state": "adult"
+          },
+          {
+            "id": "q:initial:p:initial:leafparasite:i:main:11:27:parallel:1:0:0",
+            "species": "hyperparasite",
+            "cell": 467,
+            "hostId": "p:initial:leafparasite:i:main:11:27:parallel:1:0",
+            "phase": 1,
+            "age": 0,
+            "state": "egg"
+          },
+          {
+            "id": "q:initial:p:initial:leafparasite:i:main:11:29:parallel:1:0:0",
+            "species": "hyperparasite",
+            "cell": 469,
+            "hostId": "p:initial:leafparasite:i:main:11:29:parallel:1:0",
+            "phase": 1,
+            "age": 1,
+            "state": "egg"
+          },
+          {
+            "id": "q:initial:p:initial:leafparasite:i:main:12:27:parallel:2:0:0",
+            "species": "hyperparasite",
+            "cell": 507,
+            "hostId": "p:initial:leafparasite:i:main:12:27:parallel:2:0",
+            "phase": 1,
+            "age": 0,
+            "state": "egg"
+          },
+          {
+            "id": "q:initial:p:initial:leafparasite:i:main:12:28:parallel:1:0:0",
+            "species": "hyperparasite",
+            "cell": 508,
+            "hostId": "p:initial:leafparasite:i:main:12:28:parallel:1:0",
+            "phase": 1,
+            "age": 0,
+            "state": "egg"
+          },
+          {
+            "id": "q:initial:p:initial:leafparasite:i:main:14:9:parallel:0:0",
+            "species": "hyperparasite",
+            "cell": 569,
+            "hostId": "p:initial:leafparasite:i:main:14:9:parallel:0",
+            "phase": 1,
+            "age": 0,
+            "state": "egg"
+          },
+          {
+            "id": "q:initial:p:initial:leafparasite:i:main:15:10:parallel:0:0",
+            "species": "hyperparasite",
+            "cell": 610,
+            "hostId": "p:initial:leafparasite:i:main:15:10:parallel:0",
+            "phase": 1,
+            "age": 0,
+            "state": "egg"
+          },
+          {
+            "id": "q:initial:p:initial:tideparasite:i:main:4:27:cephalopod:0:0",
+            "species": "hyperparasite",
+            "cell": 187,
+            "hostId": "p:initial:tideparasite:i:main:4:27:cephalopod:0",
+            "phase": 1,
+            "age": 0,
+            "state": "egg"
+          }
+        ],
+        "terrain": {
+          "usable": 1109,
+          "water": 174,
+          "land": 935,
+          "waterFraction": 0.156898,
+          "landFraction": 0.843102,
+          "map": {
+            "setVersion": "terrain-set/1",
+            "id": "river",
+            "version": 1,
+            "width": 40,
+            "height": 28,
+            "dataHash": "b79243030f3cfa6bcd3b7a64575008c41699fe968286cfc46701c2856c4b65f1",
+            "pattern": [
+              2,
+              3,
+              1,
+              2,
+              0,
+              2,
+              2,
+              0,
+              2,
+              3,
+              1,
+              3,
+              1,
+              2,
+              0,
+              2,
+              3,
+              0,
+              1,
+              2,
+              2,
+              1,
+              3,
+              3,
+              3,
+              2,
+              2,
+              2,
+              2,
+              3,
+              3,
+              3,
+              3
+            ],
+            "fallback": false,
+            "terrainHash": "587a508e0034278a468e47ca09611e3c69f676d8c660ebc593403fe25c31c724"
+          }
+        },
+        "resources": {
+          "mineral": 37,
+          "droplet": 50,
+          "info": 0
+        },
+        "parasites": {
+          "P": {
+            "version": "primary-initial/1",
+            "definition": "primary/1",
+            "bySpecies": {
+              "leafparasite": {
+                "requested": null,
+                "firstHosts": 211,
+                "planned": 42,
+                "actual": 42,
+                "shortage": 0,
+                "stages": {
+                  "first": {
+                    "planned": 17,
+                    "actual": 17,
+                    "shortage": 0
+                  },
+                  "middle": {
+                    "planned": 17,
+                    "actual": 17,
+                    "shortage": 0
+                  },
+                  "terminal": {
+                    "planned": 8,
+                    "actual": 8,
+                    "shortage": 0
+                  }
+                },
+                "reasons": []
+              },
+              "tideparasite": {
+                "requested": null,
+                "firstHosts": 8,
+                "planned": 8,
+                "actual": 8,
+                "shortage": 0,
+                "stages": {
+                  "first": {
+                    "planned": 3,
+                    "actual": 3,
+                    "shortage": 0
+                  },
+                  "middle": {
+                    "planned": 3,
+                    "actual": 3,
+                    "shortage": 0
+                  },
+                  "terminal": {
+                    "planned": 2,
+                    "actual": 2,
+                    "shortage": 0
+                  }
+                },
+                "reasons": []
+              }
+            },
+            "planned": 50,
+            "actual": 50,
+            "shortage": 0
+          },
+          "Q": {
+            "version": "hyper-initial/1",
+            "compatibleP": 50,
+            "requested": null,
+            "planned": 20,
+            "actual": 20,
+            "shortage": 0,
+            "attached": {
+              "planned": 7,
+              "actual": 7,
+              "shortage": 0
+            },
+            "free": {
+              "planned": 13,
+              "actual": 13,
+              "shortage": 0
+            },
+            "reasons": [],
+            "reassignedToFree": 3
+          }
+        },
+        "warnings": [],
+        "reserves": {
+          "E": 11590.89,
+          "M": 6531.737
+        },
+        "hash": "05d6019b24b8d78eded73a2fc153e44f6812231b2ed6c874997a34c897b2986c"
+      },
+      "configHash": "ebfa6d480ec3850428b4acbf0d7b0b7ba387e3788edde5ed84975ee93eba7dac",
+      "resolutionHash": "c9d3b1a32a6ce12927ec3aed701306c34b1b034ca548e11dbe594f91b3b1ae15"
+    }
+  },
+  "final": {
+    "turn": 6,
+    "rows": 7,
+    "fingerprint": "2ed66b7261f043c7f2a84ca357e28518a41abbe188906248056b7f4f5a2955d3",
+    "running": false,
+    "holds": [],
+    "fault": null,
+    "replay": false,
+    "records": 0
+  },
+  "layout": {
+    "viewport": {
+      "width": 1500,
+      "height": 1050
+    },
+    "documentWidth": 1500,
+    "panels": [
+      {
+        "selector": "#board",
+        "visible": true,
+        "x": 15,
+        "y": 482,
+        "width": 978,
+        "height": 431
+      },
+      {
+        "selector": "#inspector-graphs",
+        "visible": true,
+        "x": 25,
+        "y": 105,
+        "width": 866.796875,
+        "height": 299
+      },
+      {
+        "selector": "#biomass-pyramid",
+        "visible": true,
+        "x": 912.796875,
+        "y": 145,
+        "width": 270.59375,
+        "height": 119.375
+      },
+      {
+        "selector": "#current-donut",
+        "visible": true,
+        "x": 1214.6875,
+        "y": 169.109375,
+        "width": 250,
+        "height": 211.796875
+      },
+      {
+        "selector": "#inspector-details",
+        "visible": true,
+        "x": 1014,
+        "y": 464.75,
+        "width": 464,
+        "height": 522.25
+      }
+    ]
+  },
+  "pictures": [
+    "far.png",
+    "near.png"
+  ],
+  "scope": "One real generated comparison world, ordinary Worker progression, short UI workflow. No 500-turn or Windows verification."
+}

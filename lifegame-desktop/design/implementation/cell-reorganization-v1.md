@@ -1,6 +1,6 @@
 # マス再編：実装の意味・責務・接合契約
 
-管理版 `cell-implementation/1`。上位正本は [cell-reorganization/1](../specification/cell-reorganization-v1.md)。現在は情報受信の重複計算を軽減。[証跡](../../operations/evidence/cell-information-optimization-v1/README.md)（C7.5/C8.2、D7/D8.2/D9 → E5/E6）。情報26・接合14・通常7・保存6と再生互換/旧2条件一致。旧500T終端から各2回の501T全状態一致と平均情報9.9%/全体5.1%短縮を限定確認。取得軽減とnative複製を維持する。自然500Tの主7体存続は前工程の対象版。残る負荷・代表画面、自然P/Q循環/未選定係数/既定化・Windows/配布は後続。
+管理版 `cell-implementation/1`。上位正本は [cell-reorganization/1](../specification/cell-reorganization-v1.md)。現在は設定戻りの旧案内を修正し、通常観察の[代表画面22項目](../../operations/evidence/cell-finish-ui-v1/README.md)を確認（C8/C8.1、D9 → E6）。最終T6/7行・障害/自動保存なし。遠景/近景を保存・目視し、生態/署名と既存描画/素材/配置は維持。取得/情報の採用済み軽減とnative複製を保つ。代表1条件500T/主7体存続は前工程の対象版。残る負荷・未選定係数/既定化、自然P/Q循環・実稼働の配置調整/Windows/配布は後続。
 
 ## 1. 版と適用境界
 
@@ -286,3 +286,9 @@ Q自律生活・主生物生活とE/M片満量時の採食は5.1節、直接捕�
 受信個体の役割/対応軸等は個体ごとに一度解決する。受信の1走査に限り、所在マスの合法な近傍・内容オブジェクトのキー/鮮度・由来/内容の期限検索を再利用する。期限検索の元キー、学習済み由来の先頭一致、拒否計上・候補同点/費用・乗算/丸め・乱数を維持し、別内容/個体差を共有キャッシュで消さない。受信中は位置/地形・内容・active索引が固定であることを有効条件とし、次T・別世界・新情報へ持ち越さない。世界/Worker/保存の正本へ派生キャッシュを追加しない。
 
 契約 `operations/plans/cell-information-optimization-v1.md`、証跡 `operations/evidence/cell-information-optimization-v1/README.md`。限定同値を確認した今回の署名だけ直前b76f5c4f…へ再生照合を接続し、raw署名/原記録と異なる生態版の拒否を維持する。
+
+## 18. 代表画面の仕上げ確認
+
+実フォームで明示多層/淡水条件を選び、再生ではない通常Worker進行・盤面実クリック/表示チェック・停止/再開・設定編集/取消をLinux Chromiumで確認した。22項目成功、最終T6/7行、自動保存なし。設定戻りの旧「準備中」案内だけを修正し、遷移/生態・描画/配置のロジックは変えない。1500×1050の遠景/近景を保存・目視した範囲へ限定する。
+
+契約 `operations/plans/cell-finish-ui-v1.md`、証跡 `operations/evidence/cell-finish-ui-v1/README.md`。残件/次の順序は同フォルダのremaining.md。今回の短期確認を自然500T・全系統/全状態の視認性・全条件性能・Windows/配布の認定にしない。
