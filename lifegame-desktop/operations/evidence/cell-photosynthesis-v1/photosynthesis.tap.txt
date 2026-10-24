@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: kelp joins the one local light budget after movement, not as free prepare energy or soil M
+ok 1 - kelp joins the one local light budget after movement, not as free prepare energy or soil M
+  ---
+  duration_ms: 30.997343
+  type: 'test'
+  ...
+# Subtest: phase and age alter only the existing photosynthetic input once
+ok 2 - phase and age alter only the existing photosynthetic input once
+  ---
+  duration_ms: 83.178722
+  type: 'test'
+  ...
+# Subtest: retained high foliage shades kelp even without utilizing its captured light
+ok 3 - retained high foliage shades kelp even without utilizing its captured light
+  ---
+  duration_ms: 7.828189
+  type: 'test'
+  ...
+# Subtest: water is charged for actual light use once, and dry cells confer no free light
+ok 4 - water is charged for actual light use once, and dry cells confer no free light
+  ---
+  duration_ms: 13.335517
+  type: 'test'
+  ...
+# Subtest: temperature and pH constrain actual photosynthesis without suppressing animal assimilation
+ok 5 - temperature and pH constrain actual photosynthesis without suppressing animal assimilation
+  ---
+  duration_ms: 31.641842
+  type: 'test'
+  ...
+# Subtest: only the final occupied cell supplies light and water, with no second movement charge
+ok 6 - only the final occupied cell supplies light and water, with no second movement charge
+  ---
+  duration_ms: 8.003794
+  type: 'test'
+  ...
+# Subtest: automatic and direct kelp requests reject plant and fungal food across physical source types
+ok 7 - automatic and direct kelp requests reject plant and fungal food across physical source types
+  ---
+  duration_ms: 10.717798
+  type: 'test'
+  ...
+# Subtest: light and food share the E target while M-driven feeding keeps allocated light usable
+ok 8 - light and food share the E target while M-driven feeding keeps allocated light usable
+  ---
+  duration_ms: 11.421389
+  type: 'test'
+  ...
+# Subtest: kelp hunts small local animals even when plant resources are plentiful
+ok 9 - kelp hunts small local animals even when plant resources are plentiful
+  ---
+  duration_ms: 14.0008
+  type: 'test'
+  ...
+# Subtest: light events, E-to-G growth and phase snapshot are connected once without capacity refills
+ok 10 - light events, E-to-G growth and phase snapshot are connected once without capacity refills
+  ---
+  duration_ms: 6.8216
+  type: 'test'
+  ...
+# Subtest: new bodies do not photosynthesize in their birth turn and repeated acquisition spends nothing
+ok 11 - new bodies do not photosynthesize in their birth turn and repeated acquisition spends nothing
+  ---
+  duration_ms: 12.353961
+  type: 'test'
+  ...
+# Subtest: order changes preserve allocation, while aquatic coefficients remain unresolved
+ok 12 - order changes preserve allocation, while aquatic coefficients remain unresolved
+  ---
+  duration_ms: 12.984758
+  type: 'test'
+  ...
+# Subtest: source/generated and Worker/JSON preserve coupled photo-food accounting; public guards remain
+ok 13 - source/generated and Worker/JSON preserve coupled photo-food accounting; public guards remain
+  ---
+  duration_ms: 98.682814
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 351.221506

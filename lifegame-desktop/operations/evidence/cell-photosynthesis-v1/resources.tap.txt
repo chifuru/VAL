@@ -1,0 +1,130 @@
+TAP version 13
+# Subtest: bounded demand-weighted allocation is order independent and redistributes capped shares
+ok 1 - bounded demand-weighted allocation is order independent and redistributes capped shares
+  ---
+  duration_ms: 8.985233
+  type: 'test'
+  ...
+# Subtest: coupled requests do not consume unusable water and leave/reallocate real stock
+ok 2 - coupled requests do not consume unusable water and leave/reallocate real stock
+  ---
+  duration_ms: 2.678599
+  type: 'test'
+  ...
+# Subtest: fixed soil, mineral levels, plant temperature/pH and shared light are resolved at creation
+ok 3 - fixed soil, mineral levels, plant temperature/pH and shared light are resolved at creation
+  ---
+  duration_ms: 167.097344
+  type: 'test'
+  ...
+# Subtest: rain, drainage and actual evaporation conserve water, cannot go negative or run twice
+ok 4 - rain, drainage and actual evaporation conserve water, cannot go negative or run twice
+  ---
+  duration_ms: 25.950676
+  type: 'test'
+  ...
+# Subtest: same-cell mineral competition follows demand, ability/reach and capacity without layer priority
+ok 5 - same-cell mineral competition follows demand, ability/reach and capacity without layer priority
+  ---
+  duration_ms: 36.018055
+  type: 'test'
+  ...
+# Subtest: plant activity zero leaves mineral in place and soil quality raises actual uptake limit once
+ok 6 - plant activity zero leaves mineral in place and soil quality raises actual uptake limit once
+  ---
+  duration_ms: 48.451881
+  type: 'test'
+  ...
+# Subtest: one light budget is captured from above; unused capture still shades lower foliage
+ok 7 - one light budget is captured from above; unused capture still shades lower foliage
+  ---
+  duration_ms: 21.594358
+  type: 'test'
+  ...
+# Subtest: water limits actual photosynthesis while unused light is neither stored nor free energy
+ok 8 - water limits actual photosynthesis while unused light is neither stored nor free energy
+  ---
+  duration_ms: 6.820423
+  type: 'test'
+  ...
+# Subtest: remote food, information food and requests from dead/new actors are rejected before transfer
+ok 9 - remote food, information food and requests from dead/new actors are rejected before transfer
+  ---
+  duration_ms: 16.113545
+  type: 'test'
+  ...
+# Subtest: consumers share finite plant tissue; body mineral, assimilation and waste are each owned once
+ok 10 - consumers share finite plant tissue; body mineral, assimilation and waste are each owned once
+  ---
+  duration_ms: 51.437313
+  type: 'test'
+  ...
+# Subtest: carcass sharing removes one finite fraction of body, energy and mineral per recipient
+ok 11 - carcass sharing removes one finite fraction of body, energy and mineral per recipient
+  ---
+  duration_ms: 9.921589
+  type: 'test'
+  ...
+# Subtest: returns become available next turn only; capacity overflow remains organic and is not Mloss
+ok 12 - returns become available next turn only; capacity overflow remains organic and is not Mloss
+  ---
+  duration_ms: 12.314937
+  type: 'test'
+  ...
+# Subtest: explicit mineral input is recorded separately and conserved even at capacity
+ok 13 - explicit mineral input is recorded separately and conserved even at capacity
+  ---
+  duration_ms: 19.034969
+  type: 'test'
+  ...
+# Subtest: actions and maintenance are paid once; reserve is a goal and failed reservations release capacity
+ok 14 - actions and maintenance are paid once; reserve is a goal and failed reservations release capacity
+  ---
+  duration_ms: 55.404403
+  type: 'test'
+  ...
+# Subtest: formation stores body E/M and dissipates only the actual formation overhead
+ok 15 - formation stores body E/M and dissipates only the actual formation overhead
+  ---
+  duration_ms: 22.954509
+  type: 'test'
+  ...
+# Subtest: maintenance deficit prevents investments without artificial immediate death or reserve-based starvation
+ok 16 - maintenance deficit prevents investments without artificial immediate death or reserve-based starvation
+  ---
+  duration_ms: 24.072584
+  type: 'test'
+  ...
+# Subtest: unselected aquatic supply is explicit; land coefficients are not silently copied
+ok 17 - unselected aquatic supply is explicit; land coefficients are not silently copied
+  ---
+  duration_ms: 5.45156
+  type: 'test'
+  ...
+# Subtest: failed formation cancels its reservation without creating tissue or charging a second payment
+ok 18 - failed formation cancels its reservation without creating tissue or charging a second payment
+  ---
+  duration_ms: 12.472335
+  type: 'test'
+  ...
+# Subtest: generated execution and Worker/JSON preserve finite resources, receipts and all material owners
+ok 19 - generated execution and Worker/JSON preserve finite resources, receipts and all material owners
+  ---
+  duration_ms: 192.602527
+  type: 'test'
+  ...
+# Subtest: microscopic food residues and water costs do not produce negative or free stocks
+ok 20 - microscopic food residues and water costs do not produce negative or free stocks
+  ---
+  duration_ms: 43.927478
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 819.02881

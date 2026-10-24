@@ -1,0 +1,69 @@
+{
+  "scope": "CR06 kelp shared light/water, finite photo-food targets and canonical diet",
+  "baseline": "76d5f0f",
+  "nodes": 61,
+  "updatedNodes": [
+    "C7.2",
+    "C7.4",
+    "C7",
+    "C8.2",
+    "D7",
+    "D8.1",
+    "D8",
+    "E5"
+  ],
+  "coreUnchanged": true,
+  "ABAndAdoptedSpecificationsUnchanged": true,
+  "formalStateAndGraphUnchanged": true,
+  "manifestHasExactlyOneEntryPerNodeAndPrescribedFields": true,
+  "packageAndUIUnchanged": true,
+  "tests": {
+    "cell-photosynthesis": {
+      "passed": 13,
+      "failed": 0
+    },
+    "cell-resources": {
+      "passed": 20,
+      "failed": 0
+    },
+    "cell-predation": {
+      "passed": 18,
+      "failed": 0
+    },
+    "cell-life-cycle": {
+      "passed": 18,
+      "failed": 0
+    },
+    "cell-space": {
+      "passed": 8,
+      "failed": 0
+    }
+  },
+  "totalPassed": 77,
+  "shortPhotoAndFoodTurns": 2,
+  "legacyExactTurns": 4,
+  "generated": {
+    "profiles": 8,
+    "uniqueModules": 22,
+    "bytes": 1971056,
+    "check": "pass"
+  },
+  "signature": "6dee690383d9f86e84973cd1f40d05e52e75ea8f187a78283d071bc190707e45",
+  "guards": {
+    "normalNewCellStep": "retained",
+    "newCellResultCapture": "retained",
+    "legacySignatureAlias": "only without cellModel"
+  },
+  "comparisonBoundary": {
+    "kelpCanopyArea": 1,
+    "kelpHeightAdvantage": false,
+    "soilMineralUptakeAdded": false
+  },
+  "notVerified": [
+    "aquatic/freshwater life and unresolved coefficients",
+    "dedicated kelp canopy and CR04 species/regeneration remainders",
+    "observation/UI/configuration/archive release and normal/max speed equivalence",
+    "natural P/Q multi-generation,500T,R1-R6,performance,Windows"
+  ],
+  "next": "resolve aquatic profiles/freshwater life, then observation/archive integration"
+}

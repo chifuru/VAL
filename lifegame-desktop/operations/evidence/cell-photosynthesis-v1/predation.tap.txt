@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: one actual herd member supplies a finite same-cell meal and survivors use their own remaining capacity
+ok 1 - one actual herd member supplies a finite same-cell meal and survivors use their own remaining capacity
+  ---
+  duration_ms: 40.395024
+  type: 'test'
+  ...
+# Subtest: the full same-cell prey index is used instead of the single representative
+ok 2 - the full same-cell prey index is used instead of the single representative
+  ---
+  duration_ms: 12.564343
+  type: 'test'
+  ...
+# Subtest: competing predators cannot extract the same member twice; arbitration is array-order independent
+ok 3 - competing predators cannot extract the same member twice; arbitration is array-order independent
+  ---
+  duration_ms: 51.201096
+  type: 'test'
+  ...
+# Subtest: actual co-located strikers share one killed body and its finite remainder waits for next T
+ok 4 - actual co-located strikers share one killed body and its finite remainder waits for next T
+  ---
+  duration_ms: 18.26558
+  type: 'test'
+  ...
+# Subtest: partial combat death preserves the surviving injury and refreshes actual reserve limits
+ok 5 - partial combat death preserves the surviving injury and refreshes actual reserve limits
+  ---
+  duration_ms: 17.442849
+  type: 'test'
+  ...
+# Subtest: new-model juvenile cohorts take only the actual injury, without a legacy HP-cap drop
+ok 6 - new-model juvenile cohorts take only the actual injury, without a legacy HP-cap drop
+  ---
+  duration_ms: 13.657282
+  type: 'test'
+  ...
+# Subtest: starvation removing a member retains the remaining wound instead of healing it for free
+ok 7 - starvation removing a member retains the remaining wound instead of healing it for free
+  ---
+  duration_ms: 45.010252
+  type: 'test'
+  ...
+# Subtest: an adjacent ranged kill grants no remote food; an actual arrival can eat the older remainder next T
+ok 8 - an adjacent ranged kill grants no remote food; an actual arrival can eat the older remainder next T
+  ---
+  duration_ms: 13.923603
+  type: 'test'
+  ...
+# Subtest: mutually killed attackers never eat, act again or receive kill rations
+ok 9 - mutually killed attackers never eat, act again or receive kill rations
+  ---
+  duration_ms: 11.463104
+  type: 'test'
+  ...
+# Subtest: same-species attack and animation events cannot create a biological capture
+ok 10 - same-species attack and animation events cannot create a biological capture
+  ---
+  duration_ms: 10.854475
+  type: 'test'
+  ...
+# Subtest: full reserves do not kill prey to obtain unused food, and capture cannot run after acquisition
+ok 11 - full reserves do not kill prey to obtain unused food, and capture cannot run after acquisition
+  ---
+  duration_ms: 7.204642
+  type: 'test'
+  ...
+# Subtest: M shortage alone never kills Q, which cannot supply minerals
+ok 12 - M shortage alone never kills Q, which cannot supply minerals
+  ---
+  duration_ms: 8.533096
+  type: 'test'
+  ...
+# Subtest: new ordinary carcasses are not authorized captures, even with a forged source request
+ok 13 - new ordinary carcasses are not authorized captures, even with a forged source request
+  ---
+  duration_ms: 5.567124
+  type: 'test'
+  ...
+# Subtest: the actual feeding route moves one P/Q tree; it is never a second corpse-route attempt
+ok 14 - the actual feeding route moves one P/Q tree; it is never a second corpse-route attempt
+  ---
+  duration_ms: 41.471217
+  type: 'test'
+  ...
+# Subtest: old autonomous Q is finite prey; its body and reserves are transferred once
+ok 15 - old autonomous Q is finite prey; its body and reserves are transferred once
+  ---
+  duration_ms: 12.240155
+  type: 'test'
+  ...
+# Subtest: one paid Q escape protects against multiple co-resident hunters without a second fee
+ok 16 - one paid Q escape protects against multiple co-resident hunters without a second fee
+  ---
+  duration_ms: 12.617253
+  type: 'test'
+  ...
+# Subtest: newly emerged Q and Q still attached to a living host are not free prey
+ok 17 - newly emerged Q and Q still attached to a living host are not free prey
+  ---
+  duration_ms: 6.657507
+  type: 'test'
+  ...
+# Subtest: source/generated and Worker/JSON preserve captured remainder and actual cohort loss; public guards remain
+ok 18 - source/generated and Worker/JSON preserve captured remainder and actual cohort loss; public guards remain
+  ---
+  duration_ms: 276.777471
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 645.814292
