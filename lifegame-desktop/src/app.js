@@ -748,6 +748,7 @@
         landscape:"templates",ageModel:"life/1",ecologyRevision:"observation/4.1",
         blockTurns:500,populationRegulation:{version:1},...config,
       });
+      if(playback?.config?.cellModel!==undefined)window.EcoCellArchive.matchInitial(playback,next);
       nextObservations=window.EcoObservations.create(next.config,window.EcoReplayVersion,{species:S.activeSpecies(next)});
       nextObservations.append(next);
       nextInitialConfig=structuredClone(next.config);

@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "checks": [
+    "IndexedDB persists a real cell result with all three aggregate rows",
+    "list header excludes full rows, stocks and generation body",
+    "saving a separate result does not mutate the active world",
+    "new saved result opens without a legacy colony-definition error",
+    "saved analysis displays graph-stacked",
+    "saved analysis displays composition-phases",
+    "saved analysis displays composition-sex",
+    "saved analysis displays composition-ages",
+    "saved analysis displays graph-relations",
+    "saved analysis displays biomass-pyramid",
+    "saved analysis displays current-donut",
+    "final details retain actual cell environment and cohort life",
+    "replay recreates initial conditions without automatic saving",
+    "mismatched initial environment cannot replace the live world",
+    "corrupt cell stock rejects body read",
+    "failed record read preserves active world",
+    "restoring the original body permits a read without replacing headers",
+    "explicit partial replay save creates a separate child and preserves parent",
+    "no uncaught browser errors or native popups"
+  ],
+  "errors": []
+}

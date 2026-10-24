@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: schema3 keeps effective resolved conditions exact turn rows and a clearly bounded terminal state without world history
+ok 1 - schema3 keeps effective resolved conditions exact turn rows and a clearly bounded terminal state without world history
+  ---
+  duration_ms: 572.4786
+  type: 'test'
+  ...
+# Subtest: resolved replay keeps the exact initial placement and endpoint and explicit replay saving creates a different child ID
+ok 2 - resolved replay keeps the exact initial placement and endpoint and explicit replay saving creates a different child ID
+  ---
+  duration_ms: 537.367352
+  type: 'test'
+  ...
+# Subtest: schema3 requires a real all-turn observation and rejects missing definitions values and mismatched final summaries
+ok 3 - schema3 requires a real all-turn observation and rejects missing definitions values and mismatched final summaries
+  ---
+  duration_ms: 398.153018
+  type: 'test'
+  ...
+# Subtest: bounded nonliving information examples retain original and generation clocks content and paid Q provenance
+ok 4 - bounded nonliving information examples retain original and generation clocks content and paid Q provenance
+  ---
+  duration_ms: 112.912124
+  type: 'test'
+  ...
+# Subtest: every new full-record entrance rejects unknown terminal versions missing state facts and inconsistent counters
+ok 5 - every new full-record entrance rejects unknown terminal versions missing state facts and inconsistent counters
+  ---
+  duration_ms: 324.152798
+  type: 'test'
+  ...
+# Subtest: nonfinite or unknown metrics in a stored schema3 body fail read and retain the original bytes
+ok 6 - nonfinite or unknown metrics in a stored schema3 body fail read and retain the original bytes
+  ---
+  duration_ms: 150.004532
+  type: 'test'
+  ...
+# Subtest: failed persistence retains the same pending ID and previous record bytes for retry
+ok 7 - failed persistence retains the same pending ID and previous record bytes for retry
+  ---
+  duration_ms: 173.343031
+  type: 'test'
+  ...
+# Subtest: old schema2 keeps its shape while full body read and replay reject corruption consistently with analysis
+ok 8 - old schema2 keeps its shape while full body read and replay reject corruption consistently with analysis
+  ---
+  duration_ms: 92.34871
+  type: 'test'
+  ...
+# Subtest: the new signature aliases I07 only with all three generation keys absent
+ok 9 - the new signature aliases I07 only with all three generation keys absent
+  ---
+  duration_ms: 73.581158
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2453.627248

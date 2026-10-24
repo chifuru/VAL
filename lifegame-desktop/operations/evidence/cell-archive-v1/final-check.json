@@ -1,0 +1,40 @@
+{
+  "baseline": "7062aa8",
+  "formalNodes": 61,
+  "formalGraphAndDraftStatusUnchanged": true,
+  "coreAndABUnchanged": true,
+  "manifestUniqueEntries": 61,
+  "manifestRequiredFields": true,
+  "biologyGeneratedSourcesAndSignatureUnchanged": true,
+  "artworkAndLayoutUnchanged": true,
+  "productVersionUnchanged": true,
+  "tests": {
+    "unit.log": {
+      "pass": 6,
+      "fail": 0
+    },
+    "legacy-generation.log": {
+      "pass": 9,
+      "fail": 0
+    }
+  },
+  "browser": {
+    "pass": 19,
+    "errors": 0
+  },
+  "generatedProfiles": 8,
+  "recordDefinition": "cell-ecosystem-terminal/1",
+  "stockDefinition": "cell-terminal-stock/1",
+  "schema": 3,
+  "scope": "2 internal turns, storage/readback, deterministic replay, and stopped UI only",
+  "publicTurnAndSetupGuards": "retained",
+  "qualifiedCellArchiveCapture": "connected",
+  "notVerified": [
+    "automatic public replay",
+    "all speeds and continuous operations",
+    "500T",
+    "performance",
+    "Windows",
+    "distribution"
+  ]
+}
