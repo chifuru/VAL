@@ -1,0 +1,46 @@
+{
+  "baseline": "760ab68",
+  "formalNodes": 61,
+  "formalGraphAndStatusUnchanged": true,
+  "unchanged": [
+    "valis/core",
+    "valis/nodes/A",
+    "valis/nodes/B",
+    "design/specification"
+  ],
+  "manifestUniqueEntries": 61,
+  "manifestRequiredFields": true,
+  "existingArtworkAndUIUnchanged": true,
+  "productVersionUnchanged": true,
+  "tests": {
+    "initialization.tap.txt": {
+      "pass": 6,
+      "fail": 0
+    },
+    "observation.tap.txt": {
+      "pass": 7,
+      "fail": 0
+    },
+    "foundation.tap.txt": {
+      "pass": 7,
+      "fail": 1
+    }
+  },
+  "legacyParity": {
+    "conditions": 2,
+    "statesPerCondition": 3,
+    "completeJSONAndObservationsAndCSV": true,
+    "baselineForgedRejectionConfirmed": true
+  },
+  "generatedProfiles": 8,
+  "biologicalSignatureMatches": true,
+  "newPublicAndArchiveGuards": "retained",
+  "scope": "initial generation and internal 2T only",
+  "notVerified": [
+    "full archive/replay",
+    "normal public turns",
+    "500T",
+    "performance",
+    "Windows"
+  ]
+}

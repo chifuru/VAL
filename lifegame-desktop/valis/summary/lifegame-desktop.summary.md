@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と必要な説明を示す。仕様入口
 
 現在の採用仕様: `design/specification/cell-reorganization-v1.md`（cell-reorganization/1）。マス・0〜5次・土壌/配分・植物/低次動物/分解者・量機の定住3×3・次T境界を既存A/Bへ反映。数値は比較開始値。実装接続/影響探索/検証計画更新/再検証要否あり。新規Node・分割・初期登録・正式状態/階層/層間参照変更なし。全61Nodeは草案。
 
-実行製品は4.2.77のまま。CR06の候補設定/説明を接続。純粋6境界/Linux26項目成功、旧3構成の設定出力が起点70205d1と一致。現在証跡: operations/evidence/cell-setup-guide-v1/README.md（C8、D9 → E6）。前工程の観測単位/描画/生態は各対象版/責務限定。初期生体/枠の実生成・旧要約/身体/資源とゲーム保存/再生/通常公開、未選定係数とCR07は残件。通常ターン/新保存ガード、素材/既存画面様式/製品版/配布を維持。
+実行製品は4.2.77のまま。CR06の実初期配置・身体/枠・世界内要約を接続。新6/観測7成功、基盤7成功/1既存文言不一致（起点でも同じ拒否順序）。河川2Tの収支/転送、手動生成/初期再生成、旧2条件×3状態の全JSON・観測/CSV一致。現在証跡: operations/evidence/cell-initialization-v1/README.md（C7/C7.1/C8.2、D7 → E5）。設定/説明・表示の前工程は各対象版限定。ゲーム図鑑保存/再生/通常公開、未選定係数とCR07は残件。通常ターン/新保存ガードと既存素材/画面様式/製品版/配布を維持。
 
 ## A：仕様
 
@@ -293,19 +293,19 @@ C6:（B5 / モックの造形投影・観測画面・配布）［草案］
 
 C7:（B4 / 同期ターン接合と世界確定）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C7.md。淡水光合成体の取得/予算/生活/次Tを既存の同期ターンへ内部接合。契約: design/implementation/cell-reorganization-v1.md。
+		valis/nodes/C/C7.md。初期世界から内部生活/観測へ同じ実身体・占有枠を渡す。旧方式の同期進行は保持する。契約: design/implementation/cell-reorganization-v1.md。
 	ロジック:
-		淡水光合成体の取得/予算/生活/次Tを既存の同期ターンへ内部接合。証跡: operations/evidence/cell-floating-life-v1/README.md、D7/D8/D8.1 → E5。
+		層別の合法な初期枠・実ID・明示数/0・身体/養分を保つ。旧結果と新方式を分け、旧生活履歴を流用しない。証跡: operations/evidence/cell-initialization-v1/README.md、D7 → E5。
 	実態:
-		新境界15＋必要回帰56の計71項目を限定確認。正式草案/階層/参照を維持。観測/表示/保存の公開と代表長期は残件。通常ターン/新保存ガードを保持。
+		新6/観測7成功、基盤7成功/1既存文言不一致。河川2Tの収支/転送・初期再生成と旧2条件の一致。正式草案/階層/参照、通常ターン/保存ガードを維持。ゲーム保存/再生・通常公開/CR07は後続。
 
 	C7.1:（B4, B4.4 / 初期値・固定世界・31種の共通状態）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.1.md。移動する4次生産者の本体/可食膜/身体M・既存の相/年齢/保持上限。契約: design/implementation/cell-reorganization-v1.md。
+			valis/nodes/C/C7.1.md。state.jsの初期配置専用層索引・同居実ID・固定可食量/身体M・cell-population-observed/1。生成元のdesign/renewal-screen-v2/allocation.txtも接続する。契約: design/implementation/cell-reorganization-v1.md。
 		ロジック:
-			移動する4次生産者の本体/可食膜/身体M・既存の相/年齢/保持上限。証跡: operations/evidence/cell-floating-life-v1/README.md、D7/D8/D8.1 → E5。
+			層別の合法な初期枠・実ID・明示数/0・身体/養分を保つ。旧結果と新方式を分け、旧生活履歴を流用しない。証跡: operations/evidence/cell-initialization-v1/README.md、D7 → E5。
 		実態:
-			新境界15＋必要回帰56の計71項目を限定確認。正式草案/階層/参照を維持。観測/表示/保存の公開と代表長期は残件。通常ターン/新保存ガードを保持。
+			新6/観測7成功、基盤7成功/1既存文言不一致。河川2Tの収支/転送・初期再生成と旧2条件の一致。正式草案/階層/参照、通常ターン/保存ガードを維持。ゲーム保存/再生・通常公開/CR07は後続。
 
 	C7.2:（B4.3, B4.4 / 有限栄養・資源CA・生産と死骸）［草案］
 		構成（要素・関係）:
@@ -357,11 +357,11 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.2.md。observations.jsのcell-occupancy-observed/1、観測JSON/CSV/読取専用復元。D9 → E6。
+			valis/nodes/C/C8.2.md。初期実効値からの実世界再生成と、cellModel未指定だけの旧再生署名互換。新ゲーム図鑑の公開ガードは保持する。契約: design/implementation/cell-reorganization-v1.md。
 		ロジック:
-			集計の定義/人口単位と状態を検査し、未知版/欠測/人口/構成/B不整合を拒否。毎T全ID/全マスを新規保存しない。
+			層別の合法な初期枠・実ID・明示数/0・身体/養分を保つ。旧結果と新方式を分け、旧生活履歴を流用しない。証跡: operations/evidence/cell-initialization-v1/README.md、D7 → E5。
 		実態:
-			新7/Linux18、旧3構成JSON/CSV/復元一致。ゲーム図鑑保存/再生と通常公開の完了ではない。旧要約/実効設定等は後続。正式草案・公開ガードを維持。
+			新6/観測7成功、基盤7成功/1既存文言不一致。河川2Tの収支/転送・初期再生成と旧2条件の一致。正式草案/階層/参照、通常ターン/保存ガードを維持。ゲーム保存/再生・通常公開/CR07は後続。
 
 D1:（A1, B1, C1, C2 / 初期値・入力境界・再現性）［草案］
 	構成（要素・関係）:
@@ -413,11 +413,11 @@ D6:（A1.1, A1.2, A1.3, B5, C6 / モックの画面・描画・実行検証計�
 
 D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D7.md。E/M保存・実到達/枠/順序独立・生成/転送・旧4T/再生・重複拒否。契約: design/implementation/cell-reorganization-v1.md。
+		valis/nodes/D/D7.md。層別実初期配置・指定数/0・身体/養分・生成元/生成物/Worker/JSON・解決済み初期条件の再生成・旧結果を照合する。契約: design/implementation/cell-reorganization-v1.md。
 	ロジック:
-		E/M保存・実到達/枠/順序独立・生成/転送・旧4T/再生・重複拒否。証跡: operations/evidence/cell-floating-life-v1/README.md、D7/D8/D8.1 → E5。
+		層別の合法な初期枠・実ID・明示数/0・身体/養分を保つ。旧結果と新方式を分け、旧生活履歴を流用しない。証跡: operations/evidence/cell-initialization-v1/README.md、D7 → E5。
 	実態:
-		新境界15＋必要回帰56の計71項目を限定確認。正式草案/階層/参照を維持。観測/表示/保存の公開と代表長期は残件。通常ターン/新保存ガードを保持。
+		新6/観測7成功、基盤7成功/1既存文言不一致。河川2Tの収支/転送・初期再生成と旧2条件の一致。正式草案/階層/参照、通常ターン/保存ガードを維持。ゲーム保存/再生・通常公開/CR07は後続。
 
 D8:（C7 / 生態循環と結合進行）［草案］
 	構成（要素・関係）:
@@ -490,11 +490,11 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 
 E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E5.md。CR06淡水生活15境界と必要回帰56の対象署名・ログ・有効条件/限界。契約: design/implementation/cell-reorganization-v1.md。
+		valis/nodes/E/E5.md。初期化6境界・観測7・基盤7成功/1既存文言不一致、河川2Tと旧2条件×3状態の対象署名・結果・限界を保持する。契約: design/implementation/cell-reorganization-v1.md。
 	ロジック:
-		CR06淡水生活15境界と必要回帰56の対象署名・ログ・有効条件/限界。証跡: operations/evidence/cell-floating-life-v1/README.md、D7/D8/D8.1 → E5。
+		層別の合法な初期枠・実ID・明示数/0・身体/養分を保つ。旧結果と新方式を分け、旧生活履歴を流用しない。証跡: operations/evidence/cell-initialization-v1/README.md、D7 → E5。
 	実態:
-		新境界15＋必要回帰56の計71項目を限定確認。正式草案/階層/参照を維持。観測/表示/保存の公開と代表長期は残件。通常ターン/新保存ガードを保持。
+		新6/観測7成功、基盤7成功/1既存文言不一致。河川2Tの収支/転送・初期再生成と旧2条件の一致。正式草案/階層/参照、通常ターン/保存ガードを維持。ゲーム保存/再生・通常公開/CR07は後続。
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:

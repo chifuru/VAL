@@ -1,0 +1,47 @@
+{
+  "baseline": "760ab68",
+  "cases": [
+    {
+      "seed": "cohort-b",
+      "states": [
+        {
+          "turn": 0,
+          "hash": "4302d51458335b7b44e85b7748897658bcbfbec4f0bbe3f2467fe93e63f0d5fd"
+        },
+        {
+          "turn": 1,
+          "hash": "28e927f3d5a5c9c4cf6424282d04c697920c313db3bd6d24535c53cade06682c"
+        },
+        {
+          "turn": 2,
+          "hash": "baa9cbd1b6dc68382d32b46d03549c41b68eda816847a2ab56de8eaa067fed31"
+        }
+      ],
+      "fullJSON": true,
+      "observations": true,
+      "CSV": true,
+      "baselineForgedRejection": "保存されたマス観測の単位・人口・構成・在庫が不正です。"
+    },
+    {
+      "seed": "legacy-initial-audit",
+      "states": [
+        {
+          "turn": 0,
+          "hash": "9e6f9e086d3ddaf20a6eb3b896a7c1810f3164f4a80a6f61d6f0f0b94344a418"
+        },
+        {
+          "turn": 1,
+          "hash": "bf6bfbba8a0f2d025975cf93f44d2bcb5b1bd0711820e866bbc80ff1e4f53262"
+        },
+        {
+          "turn": 2,
+          "hash": "fd3879efc12238c34b8498abf307e7e95be6f53496e76164f5202e9626c0379d"
+        }
+      ],
+      "fullJSON": true,
+      "observations": true,
+      "CSV": true
+    }
+  ],
+  "success": true
+}

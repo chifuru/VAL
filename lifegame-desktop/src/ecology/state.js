@@ -72,6 +72,38 @@
         o.cellOccupancy={version:VERSION,state,...(n>=0?{slot:n}:{})};}
       return o;
     }
+    // Initial placement owns one transient index. Capacity is permission, not a
+    // population multiplier; callers still choose their original target counts.
+    function founders(w){
+      const cells=new Map(),ids=new Set();
+      const remaining=(s,cell)=>Math.max(0,(layer({species:s.id})===4?3:limits[layer({species:s.id})])-(cells.get(cell)?.[layer({species:s.id})]?.length||0));
+      return {
+        remaining,
+        sites(s,ordered){
+          const out=[],capacity=layer({species:s.id})===4?3:limits[layer({species:s.id})];
+          for(let pass=0;pass<capacity;pass++)for(const cell of ordered)if(remaining(s,cell)>pass)out.push(cell);
+          return out;
+        },
+        add(s,cell,id,options={}){
+          const base=id;let serial=0;while(ids.has(id))id=base+":"+(++serial);
+          const o=organism(w,s,cell,id,options);assign(w,o,{},cells);
+          if(!cells.has(cell))cells.set(cell,Array.from({length:6},()=>[]));cells.get(cell)[layer(o)].push(o);
+          ids.add(id);w.organisms.push(o);return o;
+        },
+      };
+    }
+    // Read actual new-model quantities without attaching, advancing or copying
+    // legacy life-flow counters. A group contributes its real cohort population.
+    function population(w,organisms){
+      const out={count:0,individuals:0,occupiedCells:0,B:0,baseB:0,edibleB:0,capacityB:0,reserveE:0,reserveM:0,bodyM:0},cells=new Set();
+      for(const o of organisms)if(living(o)){
+        const p=phenotype(w,o);out.count++;out.individuals+=ConsumerGroup.count(o);cells.add(o.cell);
+        out.B+=o.B;out.baseB+=CellLife.is(o)?o.cellLife.baseB:LargePlant.is(o)?Math.min(2,o.B):0;
+        out.edibleB+=edibleB(o);out.capacityB+=CellLife.is(o)?CellLife.bounds(o).edible:LargePlant.is(o)?o.plant.capacityB:p.capB;
+        out.reserveE+=o.E;out.reserveM+=o.M;out.bodyM+=o.cellMatter?.bodyM||0;
+      }
+      out.occupiedCells=cells.size;for(const key of Object.keys(out))out[key]=H.round(out[key]);return out;
+    }
     function release(w,o,cells=index(w)){
       if(!enabled(w)||!packed(o))return false;
       const probe={...o,ryouki:{...o.ryouki,mutated:false}},state=o.cellOccupancy?.state;
@@ -189,7 +221,7 @@
         organicIds.add(r?.id);}
       return errors;
     }
-    return {VERSION,limits,enabled,settings,layer,index,room,assign,release,initialize,stock,summary,validate,deferMaterial};
+    return {VERSION,limits,enabled,settings,layer,index,room,assign,founders,population,release,initialize,stock,summary,validate,deferMaterial};
   })();
   const ProducerSupport=(()=>{
 
@@ -434,6 +466,7 @@ return {settings,attach,region,level,factor,begin,finish};
       increment(o,"regrowthB",amount);increment(o,"regrowthCostE",cost);
     }
     function summary(w){if(!enabled(w))return;
+      if(CellSpace.enabled(w)){w.fungalColonySummary={definition:"cell-population-observed/1",turn:w.turn,layer:5,...CellSpace.population(w,w.organisms.filter(is))};return;}
       const out={definition:"fungal-colony-observed/1",turn:w.turn,count:0,B:0,baseB:0,edibleB:0,capacityB:0,reserveE:0,reserveM:0,consumedB:0,regrowthB:0,regrowthCostE:0,assimilatedE:0,dormantCount:0};
       for(const o of w.organisms)if(is(o)){out.count++;out.B+=o.B;out.baseB+=o.colony.baseB;out.edibleB+=edibleB(o);out.capacityB+=o.colony.capacityB;out.reserveE+=o.E;out.reserveM+=o.M;if(edibleB(o)<=1e-8)out.dormantCount++;for(const k of ["consumedB","regrowthB","regrowthCostE","assimilatedE"])out[k]+=o.colony.last[k];}
       for(const k of Object.keys(out))if(typeof out[k]==="number")out[k]=H.round(out[k]);w.fungalColonySummary=out;
@@ -583,6 +616,7 @@ return {settings,attach,region,level,factor,begin,finish};
       w.organisms.push(...newGroups);
     }
     function summary(w,ctx){if(!enabled(w))return;
+      if(CellSpace.enabled(w)){w.consumerGroupSummary={definition:"cell-population-observed/1",turn:w.turn,layer:3,species:Object.fromEntries(species.map(id=>[id,CellSpace.population(w,w.organisms.filter(o=>o.species===id))]))};return;}
       const rows=Object.fromEntries(species.map(id=>[id,{groups:0,individuals:0,B:0,E:0,M:0,infectedIndividuals:0,born:0,combat:0,harvest:0,starvation:0,age:0,dispersed:0,joined:0,assimilatedE:0}]));
       for(const o of w.organisms)if(is(o)){const a=rows[o.species];a.groups++;a.individuals+=count(o);a.B+=o.B;a.E+=o.E;a.M+=o.M;if(o.infection)a.infectedIndividuals++;
         for(const k of ['born','combat','harvest','starvation','age','dispersed','joined','assimilatedE'])a[k]+=o.consumerGroup.last[k];}
@@ -626,7 +660,7 @@ return {settings,attach,region,level,factor,begin,finish};
     function attach(w, o, origin = {kind:"initial"}) {
       if (!enabled(w) || spec(o).group !== "plant" || spec(o).kind === "independent" || is(o)) return o;
       o.colony = {version:VERSION, origin:structuredClone(origin), establishedAt:w.turn,
-        baseB:PLANT_BASE, capacityB:parameters(w,o.cell).capacityB, activity:1,
+        baseB:PLANT_BASE, capacityB:CellSpace.enabled(w)?20:parameters(w,o.cell).capacityB, activity:1,
         replacementDebtB:0, edibleExposure:null,
         last:{turn:w.turn,productionB:0,regrowthB:0,consumedB:0,solarInputE:0},
         cumulative:{productionB:0,regrowthB:0,consumedB:0,maintainedTurns:0,settlements:0}};
@@ -666,19 +700,26 @@ return {settings,attach,region,level,factor,begin,finish};
       return counts[name] < (w.colonyRegions ??= regional(w))[name].target;
     }
     function allowed(w, s) { return !!w.config.enabled.plant && (w.turn > 0 || w.config.founderCounts?.species[s.id] !== 0); }
-    function initialize(w) {
+    function initialize(w,founders=null) {
       if (!enabled(w)) return;
       w.colonyRegions = regional(w);
       if (!w.config.enabled.plant) return;
-      const species = D.species.filter(s => s.group === "plant"), occupied = new Set(w.organisms.filter(o => o.slot === "food").map(o => o.cell));
+      const species = D.species.filter(s => s.group === "plant"), occupied = new Set(w.organisms.filter(o => founders?CellSpace.layer(o)===1:o.slot === "food").map(o => o.cell));
       const counts = {land:0,water:0};
       function place(s, cell) {
-        const o = organism(w,s,cell,"i:colony:"+cell+":"+s.id);
-        o.B = H.round(PLANT_BASE + parameters(w,cell).capacityB*parameters(w,cell).initialFraction);
-        w.organisms.push(o); occupied.add(cell); counts[region(w,cell)]++;
+        if(founders)founders.add(s,cell,"i:colony:"+cell+":"+s.id);
+        else{
+          const o = organism(w,s,cell,"i:colony:"+cell+":"+s.id);
+          o.B = H.round(PLANT_BASE + parameters(w,cell).capacityB*parameters(w,cell).initialFraction);
+          w.organisms.push(o);
+        }
+        occupied.add(cell); counts[region(w,cell)]++;
       }
-      const candidates = s => w.tiles.map((_,i) => i).filter(cell => !occupied.has(cell) && validHabitat(w,s,cell))
-        .sort((a,b) => initialRank(w,s,a)-initialRank(w,s,b) || a-b);
+      const candidates = s => {
+        const cells=w.tiles.map((_,i) => i).filter(cell => (founders?founders.remaining(s,cell)>0:!occupied.has(cell)) && validHabitat(w,s,cell))
+          .sort((a,b) => initialRank(w,s,a)-initialRank(w,s,b) || a-b);
+        return founders?founders.sites(s,cells):cells;
+      };
       for (const s of species) {
         const direct = w.config.founderCounts?.species[s.id];
         if (direct === undefined) continue;
@@ -734,6 +775,7 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     function summary(w) {
       if (!enabled(w)) return;
+      if(CellSpace.enabled(w)){w.colonySummary={definition:"cell-population-observed/1",turn:w.turn,layer:1,...Object.fromEntries(["land","water"].map(name=>[name,CellSpace.population(w,w.organisms.filter(o=>is(o)&&region(w,o.cell)===name))]))};return;}
       const out = {definition:"colony-observed/1",turn:w.turn};
       for (const name of ["land","water"]) out[name] = {count:0,B:0,edibleB:0,occupiedCells:0,
         eligibleCells:(w.colonyRegions ??= regional(w))[name].eligibleCells,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,reserveE:0,reserveM:0,baseB:0,activitySum:0};
@@ -911,17 +953,17 @@ return {settings,attach,region,level,factor,begin,finish};
     function flow(w,o,key,amount){if(flows(w).turn!==w.turn)w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};const r=flows(w)[region(w,o.cell)];r[key]=H.round(r[key]+amount);}
     function reset(w,o){o.plant.last=last(w.turn);o.plant.window=o.plant.window.filter(r=>r.turn>w.turn-32);}
     function begin(w){if(!enabled(w))return;w.largePlantFlows={turn:w.turn,land:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0},water:{productionB:0,regrowthB:0,consumedB:0,solarInputE:0}};for(const o of w.organisms)if(is(o))reset(w,o);}
-    function initialize(w){
+    function initialize(w,founders=null){
       if(!enabled(w)||!w.config.enabled.plant)return;
       const species=D.independentPlants,occupied=new Set(),counts={land:0,water:0};
-      function place(s,cell){const o=organism(w,s,cell,"i:producer:"+cell+":"+s.id);w.organisms.push(o);occupied.add(cell);counts[region(w,cell)]++;}
-      const candidates=s=>w.tiles.map((_,i)=>i).filter(cell=>!occupied.has(cell)&&validHabitat(w,s,cell)).sort((a,b)=>initialRank(w,s,a)-initialRank(w,s,b)||a-b);
+      function place(s,cell){if(founders)founders.add(s,cell,"i:producer:"+cell+":"+s.id);else{const o=organism(w,s,cell,"i:producer:"+cell+":"+s.id);w.organisms.push(o);}occupied.add(cell);counts[region(w,cell)]++;}
+      const candidates=s=>{const cells=w.tiles.map((_,i)=>i).filter(cell=>(founders?founders.remaining(s,cell)>0:!occupied.has(cell))&&validHabitat(w,s,cell)).sort((a,b)=>initialRank(w,s,a)-initialRank(w,s,b)||a-b);return founders?founders.sites(s,cells):cells;};
       for(const s of species){const count=w.config.founderCounts?.species[s.id];if(count===undefined)continue;const cells=candidates(s);if(count>cells.length)throw Error("PLACEMENT_SHORTAGE: "+s.name+" 指定"+count+"体の適地/空き枠が不足しています");for(const cell of cells.slice(0,count))place(s,cell);}
       w.largePlantRegions={};
       for(const name of ["land","water"]){
         const eligible=w.tiles.map((_,i)=>i).filter(cell=>region(w,cell)===name&&species.some(s=>validHabitat(w,s,cell)));
         const target=Math.round(eligible.length*w.config.largePlantSettings.autoDensity[name]);
-        const sites=eligible.filter(cell=>!occupied.has(cell)).map(cell=>({cell,species:species.filter(s=>w.config.founderCounts?.species[s.id]===undefined&&validHabitat(w,s,cell))})).filter(a=>a.species.length)
+        const sites=eligible.filter(cell=>!occupied.has(cell)).map(cell=>({cell,species:species.filter(s=>w.config.founderCounts?.species[s.id]===undefined&&validHabitat(w,s,cell)&&(!founders||founders.remaining(s,cell)>0))})).filter(a=>a.species.length)
           .sort((a,b)=>Math.min(...a.species.map(s=>initialRank(w,s,a.cell)))-Math.min(...b.species.map(s=>initialRank(w,s,b.cell)))||a.cell-b.cell);
         for(const site of sites){if(counts[name]>=target)break;site.species.sort((a,b)=>hash(w,"independent/initial-species",0,a.id,site.cell)-hash(w,"independent/initial-species",0,b.id,site.cell));place(site.species[0],site.cell);}
         w.largePlantRegions[name]={eligibleCells:eligible.length,target,initial:counts[name]};
@@ -991,6 +1033,7 @@ return {settings,attach,region,level,factor,begin,finish};
       }
     }
     function summary(w){
+      if(CellSpace.enabled(w)&&enabled(w)){w.largePlantSummary={definition:"cell-population-observed/1",turn:w.turn,layer:"2/4",...Object.fromEntries(["land","water"].map(name=>[name,CellSpace.population(w,w.organisms.filter(o=>is(o)&&region(w,o.cell)===name))]))};return;}
       if(!enabled(w))return;const out={definition:"independent-plant-observed/1",turn:w.turn};
       for(const name of ["land","water"])out[name]={count:0,B:0,baseB:0,edibleB:0,capacityB:0,occupiedCells:0,eligibleCells:w.largePlantRegions?.[name]?.eligibleCells??w.tiles.filter((_,i)=>region(w,i)===name&&D.independentPlants.some(s=>validHabitat(w,s,i))).length,productionB:0,regrowthB:0,consumedB:0,solarInputE:0,reserveE:0,reserveM:0,activitySum:0};
       for(const o of w.organisms)if(is(o)){const r=out[region(w,o.cell)];r.count++;r.occupiedCells++;r.B+=o.B;r.baseB+=2;r.edibleB+=edibleB(o);r.capacityB+=o.plant.capacityB;r.reserveE+=o.E;r.reserveM+=o.M;r.activitySum+=o.plant.activity;}
@@ -2463,6 +2506,7 @@ return {settings,attach,region,level,factor,begin,finish};
           w.tiles[q].walls.push(p);
         }
     }
+    const founders=CellSpace.enabled(w)?CellSpace.founders(w):null;
     const colonyPlants = Colony.enabled(w) && config.enabled.plant;
     if(colonyPlants)config.enabled.plant=false;
     const usable = w.tiles
@@ -2486,13 +2530,16 @@ return {settings,attach,region,level,factor,begin,finish};
           }));
         let deficit = 0;
         function place(s, count) {
-          const candidates = usable
-            .filter((p) => !occupied.has(p) && validHabitat(w, s, p))
+          const ranked = usable
+            .filter((p) => (founders?founders.remaining(s,p)>0:!occupied.has(p)) && validHabitat(w, s, p))
             .map((p) => ({ p, h: initialRank(w,s,p) }))
             .sort((a, b) => a.h - b.h || a.p - b.p);
+          const candidates=founders?founders.sites(s,ranked.map(a=>a.p)).map(p=>({p})):ranked;
           let placed = 0;
           for (const { p } of candidates.slice(0, count)) {
-            w.organisms.push(
+            const id="i:food:"+Math.floor(p/config.width)+":"+(p%config.width)+":"+s.id;
+            if(founders)founders.add(s,p,id);
+            else w.organisms.push(
               organism(
                 w,
                 s,
@@ -2520,7 +2567,7 @@ return {settings,attach,region,level,factor,begin,finish};
         ? config.selected.map((id) => D.byId[id])
         : Ryouki.enabled(w) ? [...D.main.slice(0,20),D.ryouki] : D.main.slice(0, 20);
     if(colonyPlants)config.enabled.plant=true;
-    Colony.initialize(w);
+    Colony.initialize(w,founders);
     if (!config.enabled.main) mains = [];
     if(Ryouki.enabled(w)&&config.distribution==="weighted"&&config.weights.ryouki===0)mains=mains.filter(s=>s.id!=="ryouki");
     if (config.lineages === "few")
@@ -2534,7 +2581,7 @@ return {settings,attach,region,level,factor,begin,finish};
       (!mains.length || config.initial < 4 * mains.length)
     )
       throw Error("SETTINGS_INVALID: 系統ごとに最低4体が必要です");
-    if (config.initial > usable.length) throw Error("PLACEMENT_SHORTAGE: 主枠");
+    if (config.initial > usable.length*(founders?3:1)) throw Error("PLACEMENT_SHORTAGE: 主枠");
     const mainTaken = new Set(),
       foodMap = new Map(w.organisms.map((o) => [o.cell, o])),
       batches = mains.map((s) => ({
@@ -2631,10 +2678,14 @@ return {settings,attach,region,level,factor,begin,finish};
               chosen = c;
           p = chosen.p;
         } else {
-          while (mainTaken.has(candidates[cursor].p)) cursor++;
+          if(founders&&cursor===candidates.length)cursor=0;
+          while (cursor<candidates.length&&mainTaken.has(candidates[cursor].p)) cursor++;
+          if(founders&&cursor===candidates.length){cursor=0;while(cursor<candidates.length&&mainTaken.has(candidates[cursor].p))cursor++;}
+          if(cursor===candidates.length)throw Error("PLACEMENT_SHORTAGE: 主枠");
           p = candidates[cursor++].p;
         }
-        mainTaken.add(p);
+        if(!Number.isInteger(p))throw Error("PLACEMENT_SHORTAGE: 主枠");
+        if(!founders||founders.remaining(s,p)<=1)mainTaken.add(p);
         if (config.placement === "scatter")
           for (const q of usable)
             nearestDistance[q] = Math.min(
@@ -2645,8 +2696,7 @@ return {settings,attach,region,level,factor,begin,finish};
           id = "i:main:" + y + ":" + x + ":" + s.id,
           sex = j % 4 < 2 ? "male" : "female",
           group = "founder:" + s.id + ":" + Math.floor(j / 4);
-        w.organisms.push(
-          organism(w, s, p, id, {
+        const options={
             sex,
             role:
               s.id === "swarm"
@@ -2659,11 +2709,11 @@ return {settings,attach,region,level,factor,begin,finish};
             colony: s.id === "swarm" ? group : null,
             founder: s.id === "swarm" ? group : null,
             B: s.id === "ryouki" ? 8 : s.id === "swarm" && j % 4 === 3 ? 8 : 16,
-          }),
-        );
+          };
+        if(founders)founders.add(s,p,id,options);else w.organisms.push(organism(w,s,p,id,options));
       }
     }
-    LargePlant.initialize(w);
+    LargePlant.initialize(w,founders);
     for (const kind of ["mineral", "droplet", "info"]) {
       if(kind==="info"&&PersistentInformation.enabled(w))continue;
       const target = usable.filter(

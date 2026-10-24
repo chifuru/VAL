@@ -1,0 +1,90 @@
+TAP version 13
+# Subtest: version is explicit; resolved fixed profiles and stock ownership survive serialization
+ok 1 - version is explicit; resolved fixed profiles and stock ownership survive serialization
+  ---
+  duration_ms: 26.781001
+  type: 'test'
+  ...
+# Subtest: independent layers coexist at full capacity; size and diet do not create extra slots
+ok 2 - independent layers coexist at full capacity; size and diet do not create extra slots
+  ---
+  duration_ms: 31.235366
+  type: 'test'
+  ...
+# Subtest: mutated ryouki alone pack nine settlers plus two independent movers
+ok 3 - mutated ryouki alone pack nine settlers plus two independent movers
+  ---
+  duration_ms: 9.823216
+  type: 'test'
+  ...
+# Subtest: ordinary settlers cannot pack; vacant settlement space can be used by movers
+ok 4 - ordinary settlers cannot pack; vacant settlement space can be used by movers
+  ---
+  duration_ms: 18.231919
+  type: 'test'
+  ...
+# Subtest: dynamic water, soil and next-turn material round-trip without resending fixed profiles
+ok 5 - dynamic water, soil and next-turn material round-trip without resending fixed profiles
+  ---
+  duration_ms: 6.276894
+  type: 'test'
+  ...
+# Subtest: malformed occupancy, internal counts and waiting materials are rejected
+ok 6 - malformed occupancy, internal counts and waiting materials are rejected
+  ---
+  duration_ms: 5.556197
+  type: 'test'
+  ...
+# Subtest: unfinished biology cannot enter normal stepping or result capture
+ok 7 - unfinished biology cannot enter normal stepping or result capture
+  ---
+  duration_ms: 7.592269
+  type: 'test'
+  ...
+# Subtest: legacy 4T result and replay remain exact; old signature cannot claim the new cell model
+not ok 8 - legacy 4T result and replay remain exact; old signature cannot claim the new cell model
+  ---
+  duration_ms: 1013.566169
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/cell-space.test.cjs:105:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /計算版が異なる/. Input:
+    
+    'Error: 保存されたマス観測の単位・人口・構成・在庫が不正です。'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: '保存されたマス観測の単位・人口・構成・在庫が不正です。'
+  stack: |-
+    Object.restore (/workspace/VAL/lifegame-desktop/src/ecology/observations.js:506:72)
+    validateLoadedRecord (/workspace/VAL/lifegame-desktop/src/ecology/archive.js:190:252)
+    Object.replayRecord (/workspace/VAL/lifegame-desktop/src/ecology/archive.js:253:63)
+    /workspace/VAL/lifegame-desktop/tests/cell-space.test.cjs:114:29
+    getActual (node:assert:611:5)
+    strict.throws (node:assert:759:24)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/cell-space.test.cjs:114:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/cell-space.test.cjs:114:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 7
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1128.594207

@@ -17,12 +17,14 @@
     for (const task of tasks) task.cells.sort((a,b) =>
       pressure[a]-pressure[b] ||
       initialRank(w,task.s,a)-initialRank(w,task.s,b) || a-b);
+    if(founders)for(const task of tasks)task.cells=founders.sites(task.s,task.cells);
     tasks.sort((a,b) => a.cells.length-b.cells.length || (a.s.id<b.s.id?-1:a.s.id>b.s.id?1:0));
     function placeFood(task) {
-      while(task.cursor<task.cells.length && occupied.has(task.cells[task.cursor]))task.cursor++;
+      while(task.cursor<task.cells.length && (founders?founders.remaining(task.s,task.cells[task.cursor])<=0:occupied.has(task.cells[task.cursor])))task.cursor++;
       if(task.cursor===task.cells.length)return false;
       const p=task.cells[task.cursor++];
-      w.organisms.push(organism(w,task.s,p,"i:food:"+Math.floor(p/config.width)+":"+(p%config.width)+":"+task.s.id));
+      const id="i:food:"+Math.floor(p/config.width)+":"+(p%config.width)+":"+task.s.id;
+      if(founders)founders.add(task.s,p,id);else w.organisms.push(organism(w,task.s,p,id));
       occupied.add(p);task.placed++;task.owner.placed++;return true;
     }
     let progress=true;

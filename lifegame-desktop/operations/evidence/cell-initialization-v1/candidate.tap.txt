@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: candidate settings enter manual generation and resolved initial conditions recreate the same real world
+ok 1 - candidate settings enter manual generation and resolved initial conditions recreate the same real world
+  ---
+  duration_ms: 647.737096
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 653.79317

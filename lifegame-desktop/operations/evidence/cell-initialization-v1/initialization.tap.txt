@@ -1,0 +1,47 @@
+{"representative":"river 40x28","T0":{"abyss":0,"myth":16,"recursive":0,"sail":0,"gravity":0,"crystal":0,"manyeyes":0,"abyssshell":0,"parallel":16,"memory":0,"serpent":0,"solar":0,"antimeme":0,"valis":0,"jelly":16,"kelp":0,"whale":0,"swarm":20,"plasma":0,"cephalopod":0,"precocial":0,"algae":6,"moss":0,"grass":194,"fungus":33,"waterbug":56,"grassbug":55,"tideparasite":1,"leafparasite":42,"hyperparasite":8,"phytoplankton":13,"forestcrown":8,"starcrown":11,"freshwaterlight":3,"ryouki":16},"T2":{"abyss":0,"myth":16,"recursive":0,"sail":0,"gravity":0,"crystal":0,"manyeyes":0,"abyssshell":0,"parallel":16,"memory":0,"serpent":0,"solar":0,"antimeme":0,"valis":0,"jelly":16,"kelp":0,"whale":0,"swarm":20,"plasma":0,"cephalopod":0,"precocial":0,"algae":6,"moss":0,"grass":194,"fungus":33,"waterbug":56,"grassbug":51,"tideparasite":1,"leafparasite":43,"hyperparasite":8,"phytoplankton":13,"forestcrown":8,"starcrown":11,"freshwaterlight":3,"ryouki":21},"turns":2,"energyAndMaterial":"conserved"}
+TAP version 13
+# Subtest: real generation respects explicit counts/zero and uses separate layers plus same-layer vacant slots
+ok 1 - real generation respects explicit counts/zero and uses separate layers plus same-layer vacant slots
+  ---
+  duration_ms: 48.049114
+  type: 'test'
+  ...
+# Subtest: fixed initial capacities reject overflow, preserve old placement and ignore old variable colony capacity
+ok 2 - fixed initial capacities reject overflow, preserve old placement and ignore old variable colony capacity
+  ---
+  duration_ms: 27.999851
+  type: 'test'
+  ...
+# Subtest: all three placement forms use up to three actual ordinary settlers without mutation or duplicate IDs
+ok 3 - all three placement forms use up to three actual ordinary settlers without mutation or duplicate IDs
+  ---
+  duration_ms: 85.438375
+  type: 'test'
+  ...
+# Subtest: independent plants share only their own layer, while the mobile producer shares main settlement slots
+ok 4 - independent plants share only their own layer, while the mobile producer shares main settlement slots
+  ---
+  duration_ms: 408.936876
+  type: 'test'
+  ...
+# Subtest: actual river founders and short life agree across generated modules, observation, JSON and worker without opening public gates
+ok 5 - actual river founders and short life agree across generated modules, observation, JSON and worker without opening public gates
+  ---
+  duration_ms: 1414.728971
+  type: 'test'
+  ...
+# Subtest: candidate settings enter manual generation and resolved initial conditions recreate the same real world
+ok 6 - candidate settings enter manual generation and resolved initial conditions recreate the same real world
+  ---
+  duration_ms: 576.653135
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2569.73748
