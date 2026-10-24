@@ -1,0 +1,73 @@
+{
+  "baseline": "0f7d320cc0bd4455d21b3171387b3392ba58222a",
+  "currentSignature": "f5bb8318b5ba9f8997c94ac56d219724c723cf17174ff788cf8efadc3c8399a0",
+  "success": true,
+  "cases": [
+    {
+      "seed": "cell-initial-audit",
+      "cell": "cell-reorganization/1",
+      "states": [
+        {
+          "turn": 0,
+          "hash": "257c340e0efed2cfcec1c8ceae6dd9ef6b1609e2204a3216d68721dc0529b74b"
+        },
+        {
+          "turn": 1,
+          "hash": "8b5774baa8b6e2f8b4ff5f48872cb296662a6362c84549396723b6b037125401"
+        },
+        {
+          "turn": 2,
+          "hash": "55ce3cf57b668017eec70c54060a3a39e764d6103a1682857929f892783d8c3a"
+        }
+      ],
+      "worldsAndRowsEqual": true,
+      "csvEqualExceptRawSignature": true,
+      "oldReplayEqual": true,
+      "originalBytesUnchanged": true
+    },
+    {
+      "seed": "cohort-b",
+      "cell": null,
+      "states": [
+        {
+          "turn": 0,
+          "hash": "4302d51458335b7b44e85b7748897658bcbfbec4f0bbe3f2467fe93e63f0d5fd"
+        },
+        {
+          "turn": 1,
+          "hash": "28e927f3d5a5c9c4cf6424282d04c697920c313db3bd6d24535c53cade06682c"
+        },
+        {
+          "turn": 2,
+          "hash": "baa9cbd1b6dc68382d32b46d03549c41b68eda816847a2ab56de8eaa067fed31"
+        }
+      ],
+      "worldsAndRowsEqual": true,
+      "csvEqualExceptRawSignature": true,
+      "oldReplayEqual": true,
+      "originalBytesUnchanged": true
+    },
+    {
+      "seed": "legacy-cell-turn",
+      "cell": null,
+      "states": [
+        {
+          "turn": 0,
+          "hash": "b3b99a8ef996503f5712b875e9ee1748d60b25a15a935c7258b6d062490ed489"
+        },
+        {
+          "turn": 1,
+          "hash": "2d34ec0c6a4bf18424c4eb43266ed47cb3a28530bcb1c8e37d74996246465fc2"
+        },
+        {
+          "turn": 2,
+          "hash": "9d829641e4a20a4b069ceb777935015b21a256add97e13454dfef862ded0605b"
+        }
+      ],
+      "worldsAndRowsEqual": true,
+      "csvEqualExceptRawSignature": true,
+      "oldReplayEqual": true,
+      "originalBytesUnchanged": true
+    }
+  ]
+}

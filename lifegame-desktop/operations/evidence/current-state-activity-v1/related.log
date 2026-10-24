@@ -1,0 +1,208 @@
+TAP version 13
+# Subtest: many deaths coalesce by cell/class/day, retain finite E/M/B, and discard dead identity
+ok 1 - many deaths coalesce by cell/class/day, retain finite E/M/B, and discard dead identity
+  ---
+  duration_ms: 67.395926
+  type: 'test'
+  ...
+# Subtest: different diet classes stay separate and waiting minerals are never edible stock
+ok 2 - different diet classes stay separate and waiting minerals are never edible stock
+  ---
+  duration_ms: 18.996677
+  type: 'test'
+  ...
+# Subtest: new death is unavailable to general feeding until next T; B is not added to E twice
+ok 3 - new death is unavailable to general feeding until next T; B is not added to E twice
+  ---
+  duration_ms: 20.294719
+  type: 'test'
+  ...
+# Subtest: fresh stock ages into one decomposed pool at 10T, without rebinding old carriers to a reused fresh slot
+ok 4 - fresh stock ages into one decomposed pool at 10T, without rebinding old carriers to a reused fresh slot
+  ---
+  duration_ms: 47.119634
+  type: 'test'
+  ...
+# Subtest: shared source requests are independent of death count and share one processing budget per fungus
+ok 5 - shared source requests are independent of death count and share one processing budget per fungus
+  ---
+  duration_ms: 49.327495
+  type: 'test'
+  ...
+# Subtest: fungi and consumers compete for the same real pool; request order does not change grants
+ok 6 - fungi and consumers compete for the same real pool; request order does not change grants
+  ---
+  duration_ms: 74.637231
+  type: 'test'
+  ...
+# Subtest: decomposed food applies half assimilation and retains waste in the correct current class
+ok 7 - decomposed food applies half assimilation and retains waste in the correct current class
+  ---
+  duration_ms: 20.936103
+  type: 'test'
+  ...
+# Subtest: plants cannot eat residues; ryouki cannot acquire main-animal or Q tissue; remote pool is rejected
+ok 8 - plants cannot eat residues; ryouki cannot acquire main-animal or Q tissue; remote pool is rejected
+  ---
+  duration_ms: 9.967134
+  type: 'test'
+  ...
+# Subtest: background uses activity times .02, returns M next T, and never reuses new M in the same T
+ok 9 - background uses activity times .02, returns M next T, and never reuses new M in the same T
+  ---
+  duration_ms: 55.351283
+  type: 'test'
+  ...
+# Subtest: positive micro stocks reach heat/mineral waiting; a full soil does not retain individual remains
+ok 10 - positive micro stocks reach heat/mineral waiting; a full soil does not retain individual remains
+  ---
+  duration_ms: 10.893016
+  type: 'test'
+  ...
+# Subtest: dry stock persists without decomposition, while mineral-only stock becomes a finite waiting pool
+ok 11 - dry stock persists without decomposition, while mineral-only stock becomes a finite waiting pool
+  ---
+  duration_ms: 19.008846
+  type: 'test'
+  ...
+# Subtest: P/Q are held once in zero-nutrition carriers, without dead appearance/DNA or duplicate energy
+ok 12 - P/Q are held once in zero-nutrition carriers, without dead appearance/DNA or duplicate energy
+  ---
+  duration_ms: 14.953579
+  type: 'test'
+  ...
+# Subtest: actual feeding on the pool can transfer a mature P; pending transfer is neither cloned nor nutrition
+ok 13 - actual feeding on the pool can transfer a mature P; pending transfer is neither cloned nor nutrition
+  ---
+  duration_ms: 42.518099
+  type: 'test'
+  ...
+# Subtest: new remains after the background phase are also integrated before committing the turn
+ok 14 - new remains after the background phase are also integrated before committing the turn
+  ---
+  duration_ms: 14.566617
+  type: 'test'
+  ...
+# Subtest: same-turn captures remain restricted to real participants; the remainder becomes next-T soil
+ok 15 - same-turn captures remain restricted to real participants; the remainder becomes next-T soil
+  ---
+  duration_ms: 11.266747
+  type: 'test'
+  ...
+# Subtest: ordinary new remains cannot be forged into a capture or read as an available soil pool
+ok 16 - ordinary new remains cannot be forged into a capture or read as an available soil pool
+  ---
+  duration_ms: 8.783845
+  type: 'test'
+  ...
+# Subtest: source/generated agree through 4T; the generated run crosses the fresh-stock age boundary at 12T
+ok 17 - source/generated agree through 4T; the generated run crosses the fresh-stock age boundary at 12T
+  ---
+  duration_ms: 17925.770515
+  type: 'test'
+  ...
+# Subtest: 1000 identical environmental releases become one finite pool and one shared genotype
+ok 18 - 1000 identical environmental releases become one finite pool and one shared genotype
+  ---
+  duration_ms: 111.136035
+  type: 'test'
+  ...
+# Subtest: clocks, routes, stages, genetics and direct parents cannot be averaged by sharing a cell
+ok 19 - clocks, routes, stages, genetics and direct parents cannot be averaged by sharing a cell
+  ---
+  duration_ms: 39.479804
+  type: 'test'
+  ...
+# Subtest: host-bound and one-member transfers stay distinct while identical genotype definitions are shared and released
+ok 20 - host-bound and one-member transfers stay distinct while identical genotype definitions are shared and released
+  ---
+  duration_ms: 38.295535
+  type: 'test'
+  ...
+# Subtest: generation chains use short real IDs and retain only direct parent references
+ok 21 - generation chains use short real IDs and retain only direct parent references
+  ---
+  duration_ms: 51.457296
+  type: 'test'
+  ...
+# Subtest: water diffusion conserves finite amount without recursively growing IDs or retaining duplicate traits
+ok 22 - water diffusion conserves finite amount without recursively growing IDs or retaining duplicate traits
+  ---
+  duration_ms: 26.324716
+  type: 'test'
+  ...
+# Subtest: one free-egg pool attaches real doses to multiple hosts with an unspent remainder
+ok 23 - one free-egg pool attaches real doses to multiple hosts with an unspent remainder
+  ---
+  duration_ms: 26.826685
+  type: 'test'
+  ...
+# Subtest: a large environmental egg dose splits into finite standard-size attachments
+ok 24 - a large environmental egg dose splits into finite standard-size attachments
+  ---
+  duration_ms: 41.176772
+  type: 'test'
+  ...
+# Subtest: attached egg hatches and establishes only on the following turn, with finite E and inherited route
+ok 25 - attached egg hatches and establishes only on the following turn, with finite E and inherited route
+  ---
+  duration_ms: 31.964666
+  type: 'test'
+  ...
+# Subtest: egg loss and expiry dissipate only the real remaining dose and release unused definitions
+ok 26 - egg loss and expiry dissipate only the real remaining dose and release unused definitions
+  ---
+  duration_ms: 107.493029
+  type: 'test'
+  ...
+# Subtest: water-egg dispersal distributes current stock and avoids land/blocked cells without changing expiry
+ok 27 - water-egg dispersal distributes current stock and avoids land/blocked cells without changing expiry
+  ---
+  duration_ms: 86.432065
+  type: 'test'
+  ...
+# Subtest: incompatible exposure consumes a finite dose without fabricating a parasite or extending its clock
+ok 28 - incompatible exposure consumes a finite dose without fabricating a parasite or extending its clock
+  ---
+  duration_ms: 20.240675
+  type: 'test'
+  ...
+# Subtest: P acquired resistance does not stick forever at rounded millionths
+ok 29 - P acquired resistance does not stick forever at rounded millionths
+  ---
+  duration_ms: 18.928674
+  type: 'test'
+  ...
+# Subtest: Q acquired resistance also expires at the effective minimum without a free permanent residue
+ok 30 - Q acquired resistance also expires at the effective minimum without a free permanent residue
+  ---
+  duration_ms: 38.402551
+  type: 'test'
+  ...
+# Subtest: Q active information remains linked, detached residual lasts at most 30T and reads do not extend it
+ok 31 - Q active information remains linked, detached residual lasts at most 30T and reads do not extend it
+  ---
+  duration_ms: 21.663685
+  type: 'test'
+  ...
+# Subtest: host-specific Q invasions share definitions but retain their individual window proof
+ok 32 - host-specific Q invasions share definitions but retain their individual window proof
+  ---
+  duration_ms: 18.580959
+  type: 'test'
+  ...
+# Subtest: source/generated current-state runs agree through 4T and cancellation never changes the committed world
+ok 33 - source/generated current-state runs agree through 4T and cancellation never changes the committed world
+  ---
+  duration_ms: 3865.538341
+  type: 'test'
+  ...
+1..33
+# tests 33
+# suites 0
+# pass 33
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 24354.404109

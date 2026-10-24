@@ -419,6 +419,7 @@
   function finish(w, ctx) {
     if(S.CurrentInfections.enabled(w))S.CurrentInfections.compact(w);
     if(S.SoilMatter.enabled(w)){S.SoilMatter.flush(w);w.soilMatterSummary=S.SoilMatter.summary(w);}
+    if(S.CurrentActivity.enabled(w))w.activitySummary=S.CurrentActivity.summary(w);
     if(S.PersistentInformation?.enabled(w))w.persistentInformationSummary=S.PersistentInformation.summary(w);
     if(S.HyperParasite?.enabled(w))S.HyperParasite.summary(w);
     if(S.PrimaryParasite?.enabled(w))S.PrimaryParasite.summary(w);
@@ -498,6 +499,7 @@
   }
   function create(input = {}) {
     const w = S.create(input);
+    if(S.CurrentActivity.enabled(w))w.activitySummary=S.CurrentActivity.summary(w);
     if(S.CurrentInfections.enabled(w))S.CurrentInfections.compact(w);
     if(S.PersistentInformation?.enabled(w))w.persistentInformationSummary=S.PersistentInformation.summary(w);
     if(S.HyperParasite?.enabled(w))S.HyperParasite.summary(w);

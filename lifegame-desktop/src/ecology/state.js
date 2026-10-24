@@ -10,13 +10,14 @@
     typeof module === "object" && module.exports ? require("./soil-matter.js") : root.EcoSoilMatter,
     typeof module === "object" && module.exports ? require("./current-ecology.js") : root.EcoCurrentEcology,
     typeof module === "object" && module.exports ? require("./current-infections.js") : root.EcoCurrentInfections,
+    typeof module === "object" && module.exports ? require("./current-activity.js") : root.EcoCurrentActivity,
     typeof module === "object" && module.exports ? require("./landscape.js") : root.EcoLandscape,
   );
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.EcoState = api;
-})(globalThis, function (H, D, CurrentInformationFactory, SoilMatterFactory, CurrentEcologyFactory, CurrentInfectionsFactory, Landscape) {
+})(globalThis, function (H, D, CurrentInformationFactory, SoilMatterFactory, CurrentEcologyFactory, CurrentInfectionsFactory, CurrentActivityFactory, Landscape) {
   "use strict";
-  let currentInformation,soilMatter,currentEcology,currentInfections;
+  let currentInformation,soilMatter,currentEcology,currentInfections,currentActivity;
   const behaviorWeights=(w,o)=>currentInformation?.enabled(w)?currentInformation.weights(o):o.weights;
   // CR01: shared state/space contract. Biological progression is connected later.
   const CellSpace=(()=>{
@@ -166,6 +167,7 @@
       const cells=new Map();
       for(const o of w.organisms){const n=layer(o);if(n===null||!living(o))continue;
         assign(w,o,{},cells);if(!cells.has(o.cell))cells.set(o.cell,Array.from({length:6},()=>[]));cells.get(o.cell)[n].push(o);}
+      if(currentActivity?.enabled(w))currentActivity.initialize(w);
       return w;
     }
     function stock(w,cell){
@@ -232,6 +234,7 @@
       if(soilMatter?.enabled(w))errors.push(...soilMatter.validate(w));
       if(currentEcology?.enabled(w))errors.push(...currentEcology.validate(w));
       if(currentInfections?.enabled(w))errors.push(...currentInfections.validate(w));
+      if(currentActivity?.enabled(w))errors.push(...currentActivity.validate(w));
       return errors;
     }
     return {VERSION,limits,enabled,settings,layer,index,room,assign,founders,population,release,initialize,stock,summary,validate,deferMaterial};
@@ -3074,5 +3077,6 @@ return {settings,attach,region,level,factor,begin,finish};
   soilMatter=SoilMatterFactory.bind(api);api.SoilMatter=soilMatter;
   currentEcology=CurrentEcologyFactory.bind(api);api.CurrentEcology=currentEcology;
   currentInfections=CurrentInfectionsFactory.bind(api);api.CurrentInfections=currentInfections;
+  currentActivity=CurrentActivityFactory.bind(api);api.CurrentActivity=currentActivity;
   return api;
 });

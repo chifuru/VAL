@@ -24,11 +24,11 @@
       const id='soil-organic/'+cell+'/'+sourceClass;
       return add(w.cellState.organic,{id,cell,sourceClass,tag:tagOf(sourceClass),E,M,B,trophic:dose(E,trophic,sourceClass)});
     }
-    function wait(w,cell,M){if(M<=0)return;const rows=w.cellState.soil.waiting,map=rowIndex(rows);let r=map.get(cell);if(!r){r={cell,M:0};rows.push(r);map.set(cell,r);}r.M=Q(r.M+M);}
-    function release(w){let returned=0;
-      for(const r of w.cellState.soil.waiting){const cap=w.cellProfiles.profiles[r.cell].mineralCapacity,amount=cap===null?0:Q(Math.min(r.M,Math.max(0,cap-w.tiles[r.cell].soilM)));
-        w.tiles[r.cell].soilM=Q(w.tiles[r.cell].soilM+amount);r.M=Q(r.M-amount);returned=Q(returned+amount);}
-      w.cellState.soil.waiting=w.cellState.soil.waiting.filter(r=>r.M>0);return returned;
+    function wait(w,cell,M){if(M<=0)return;const rows=w.cellState.soil.waiting,map=rowIndex(rows);let r=map.get(cell);if(!r){r={cell,M:0};rows.push(r);map.set(cell,r);}r.M=Q(r.M+M);if(S.CurrentActivity?.enabled(w)&&w.cellProfiles.profiles[cell].mineralCapacity>w.tiles[cell].soilM)S.CurrentActivity.mineralChanged(w,cell);}
+    function release(w){let returned=0,emptied=false;const selected=S.CurrentActivity.enabled(w)?S.CurrentActivity.mineralReady(w).map(cell=>rowIndex(w.cellState.soil.waiting).get(cell)).filter(Boolean):w.cellState.soil.waiting;
+      for(const r of selected){if(S.CurrentActivity.enabled(w))S.CurrentActivity.stats(w).waitingTried++;const cap=w.cellProfiles.profiles[r.cell].mineralCapacity,amount=cap===null?0:Q(Math.min(r.M,Math.max(0,cap-w.tiles[r.cell].soilM)));
+        w.tiles[r.cell].soilM=Q(w.tiles[r.cell].soilM+amount);r.M=Q(r.M-amount);returned=Q(returned+amount);if(r.M<=0)emptied=true;}
+      if(emptied||!S.CurrentActivity.enabled(w))w.cellState.soil.waiting=w.cellState.soil.waiting.filter(r=>r.M>0);return returned;
     }
     function defer(w,cell,{E=0,M=0,B=0,kind='organic',sourceClass='detritus',trophic=null}){
       if(!w.tiles[cell]||![E,M,B].every(n=>Number.isFinite(n)&&n>=0)||B>E||!TYPES.includes(sourceClass)||!['organic','mineral'].includes(kind)||kind==='mineral'&&(E!==0||B!==0))throw Error('SOIL_MATERIAL_INVALID');
@@ -79,16 +79,15 @@
     function background(w,ctx,activity){
       if(!ctx.cellLifeDone)throw Error('CELL_BACKGROUND_BEFORE_LIFE');
       if(w.cellState.backgroundTurn>=w.turn||ctx.cellBackground)throw Error('CELL_BACKGROUND_ALREADY_APPLIED');
-      const stocks=rows(w).filter(r=>available(w,r)),factors=new Map();
-      for(const r of stocks)if((r.E>0||r.M>0)&&!factors.has(r.cell))factors.set(r.cell,activity(w,r.cell));
+      const stocks=rows(w).filter(r=>available(w,r)&&(r.E>0||r.M>0));
       const take=(n,f)=>n<=0?0:Math.min(n,Math.max(.000001,Math.floor(n*f*1e6)/1e6)),flow={E:0,M:0,B:0},loads=new Map();
-      for(const r of stocks){
-        const factor=factors.get(r.cell)??0,f=Math.min(1,.02*factor);
-        if(f>0){const E=take(r.E,f),B=Math.min(r.B,E,take(r.B,f)),M=take(r.M,f);r.E=Q(r.E-E);r.M=Q(r.M-M);r.B=Math.min(r.E,Q(r.B-B));
-          reweight(r);S.dissipate(w,E);defer(w,r.cell,{M,kind:'mineral'});flow.E=Q(flow.E+E);flow.M=Q(flow.M+M);flow.B=Q(flow.B+B);}
-        loads.set(r.cell,(loads.get(r.cell)||0)+r.E*factor);
-      }
-      w.cellState.decayLoad=w.cellState.decayLoad.map((_,cell)=>Q(S.clamp(((loads.get(cell)||0)-40)/160,0,1)));
+      S.CurrentActivity.background(w,stocks,activity,(cell,local,factor)=>{
+        const f=Math.min(1,.02*factor);let load=0;
+        for(const r of local){const E=take(r.E,f),B=Math.min(r.B,E,take(r.B,f)),M=take(r.M,f);r.E=Q(r.E-E);r.M=Q(r.M-M);r.B=Math.min(r.E,Q(r.B-B));
+          reweight(r);S.dissipate(w,E);defer(w,r.cell,{M,kind:'mineral'});flow.E=Q(flow.E+E);flow.M=Q(flow.M+M);flow.B=Q(flow.B+B);load+=r.E*factor;}
+        loads.set(cell,load);
+      });
+      S.CurrentActivity.decay(w,loads);
       cleanup(w);flush(w);w.cellState.backgroundTurn=w.turn;ctx.cellBackground=flow;ctx.cellResources.background=flow;return flow;
     }
     function index(w){const map=new Map();for(const r of rows(w))if(available(w,r)){if(!map.has(r.cell))map.set(r.cell,[]);map.get(r.cell).push(r);}return map;}

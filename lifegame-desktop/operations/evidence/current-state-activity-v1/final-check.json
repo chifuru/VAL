@@ -1,0 +1,30 @@
+{
+  "definition": "current-state-activity-output-gate/1",
+  "success": true,
+  "baseline": "0f7d320cc0bd4455d21b3171387b3392ba58222a",
+  "formalNodes": 61,
+  "formalMetadataAndGraphUnchanged": true,
+  "allStatuses": "草案",
+  "manifestNodeOrderUnchanged": true,
+  "manifestFences": 10,
+  "changedNodeMetadataReferences": [
+    "C7.1",
+    "C7.2",
+    "C7",
+    "C8.2",
+    "D7",
+    "D8",
+    "D9",
+    "E5",
+    "E6"
+  ],
+  "newNodeReferencesResolved": 41,
+  "coreAndABNodesUnchanged": true,
+  "uiArtDefaultProductDistributionUnchanged": true,
+  "testPasses": 55,
+  "legacyConditionsPassed": 3,
+  "sourceGeneratedAndSignatureChecksPassed": true,
+  "globalPerformanceMeasured": false,
+  "fullNewStateUIArchiveConnected": false,
+  "next": "CS07 Worker, observation, UI and archive integration"
+}

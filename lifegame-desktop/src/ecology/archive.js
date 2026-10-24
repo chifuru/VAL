@@ -49,6 +49,8 @@
  const cellAcquireBuildSignature="b76f5c4fd56870ed550f35eb16992be542f747f2adb27f5f49ba35680bf7a19d";
  const cellInformationBuildSignature="219b2a50d6ecf08eb552770f8e26535dbfde144b57751195ebe18757f2a035cf";
  function canonicalSignature(s,config){
+  // CS06 changes update targets only on the explicit current-state path.
+  if(config.currentStateModel===undefined&&s==='f5bb8318b5ba9f8997c94ac56d219724c723cf17174ff788cf8efadc3c8399a0')s='6b96341c7304a469ca5bc66232d7b479434890c02d1650ef688c458921705ca6';
   // CS05 changes only the explicit current-state infection pools and residuals.
   if(config.currentStateModel===undefined&&s==='6b96341c7304a469ca5bc66232d7b479434890c02d1650ef688c458921705ca6')s='8eeba9349d0b929e3278e08d23c2669e754c2e8c81bba9cf5f2de352e059b630';
   // CS04's new summaries/uptake apply only to the explicit current-state path.

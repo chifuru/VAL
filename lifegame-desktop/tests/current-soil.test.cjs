@@ -63,7 +63,7 @@ test('background uses activity times .02, returns M next T, and never reuses new
 test('positive micro stocks reach heat/mineral waiting; a full soil does not retain individual remains',()=>{
  const w=world();corpse(w,{E:.000001,M:.000001,B:.000001});T.flush(w);w.tiles[18].soilM=w.cellProfiles.profiles[18].mineralCapacity;ledger(w);const c=ready(w);background(w,c);assert.equal(T.rows(w).length,0);assert.equal(w.carcasses.length,0);close(w.ledger.sinks,.000001);conserved(w);
  w.turn++;N.begin(w,E.context(w));assert.equal(w.cellState.soil.waiting.length,1);assert.equal(w.cellState.soil.waiting[0].M,.000001);conserved(w);
- w.tiles[18].soilM-=.000001;w.ledger.initialM-=.000001;w.turn++;N.begin(w,E.context(w));assert.equal(w.cellState.soil.waiting.length,0);conserved(w);
+ w.tiles[18].soilM-=.000001;S.CurrentActivity.mineralChanged(w,18);w.ledger.initialM-=.000001;w.turn++;N.begin(w,E.context(w));assert.equal(w.cellState.soil.waiting.length,0);conserved(w);
 });
 test('dry stock persists without decomposition, while mineral-only stock becomes a finite waiting pool',()=>{
  const w=world();corpse(w);corpse(w,{id:'mineral',sourceClass:'fungal',E:0,B:0,M:3});T.flush(w);ledger(w);const c=ready(w);w.cellState.water[18]=0;const before=JSON.stringify(T.rows(w));background(w,c);assert.equal(JSON.stringify(T.rows(w)),before);assert.equal(c.cellBackground.E,0);conserved(w);

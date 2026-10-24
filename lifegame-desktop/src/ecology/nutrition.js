@@ -222,7 +222,8 @@
       }
       a.nextMaterial=a.nextMaterial.filter(r=>r.availableAt>w.turn);
       if(S.SoilMatter.enabled(w))flow.returnedM=Q(flow.returnedM+S.SoilMatter.release(w));
-      for(let cell=0;cell<w.tiles.length;cell++){
+      if(S.CurrentActivity.enabled(w))S.CurrentActivity.environment(w,flow);
+      else for(let cell=0;cell<w.tiles.length;cell++){
         const p=w.cellProfiles.profiles[cell];if(p.waterCapacity===null)continue;
         const waterInput=p.waterInput??p.rain,total=Q(a.water[cell]+waterInput),drain=Q(Math.max(0,total-p.waterCapacity)),held=Q(total-drain),evaporated=Q(Math.min(held,p.evaporation));
         a.water[cell]=Q(held-evaporated);flow.waterInput=Q(flow.waterInput+waterInput);flow.waterDrain=Q(flow.waterDrain+drain);flow.waterEvaporation=Q(flow.waterEvaporation+evaporated);
@@ -378,14 +379,14 @@
       const waterUse=new Map();for(const r of compiled)if(r.kind==="photo"||r.kind==="decompose")waterUse.set(r.o.cell,(waterUse.get(r.o.cell)||0)+allocations.grants.get(r.id)*(r.kind==="photo"?1/2.6:equivalent(r.s)/r.s.units*.05));
       state.flow.waterUse=0;for(const [cell,amount]of waterUse){
         const debit=Math.min(w.cellState.water[cell],Math.ceil(Math.max(0,amount-1e-12)*1e6)/1e6);
-        w.cellState.water[cell]=Q(w.cellState.water[cell]-debit);state.flow.waterUse=Q(state.flow.waterUse+debit);
+        w.cellState.water[cell]=Q(w.cellState.water[cell]-debit);if(debit>0&&S.CurrentActivity.enabled(w))S.CurrentActivity.waterChanged(w,cell);state.flow.waterUse=Q(state.flow.waterUse+debit);
       }
       // Commit the allocated pure-E input first. Mixed food may still be
       // required for M and shed surplus E; it must not displace paid-for light.
       for(const r of compiled.slice().sort((a,b)=>(b.kind==="photo")-(a.kind==="photo")||S.compare(a.id,b.id))){
         const quantity=allocations.grants.get(r.id);if(!quantity)continue;const {o,p,s}=r;let rawE=0,rawM=0,harvest=null;
         if(r.kind==="mineral"){
-          rawM=quantity;w.tiles[o.cell].soilM=Q(w.tiles[o.cell].soilM-rawM);
+          rawM=quantity;w.tiles[o.cell].soilM=Q(w.tiles[o.cell].soilM-rawM);if(S.CurrentActivity.enabled(w))S.CurrentActivity.mineralChanged(w,o.cell);
         }else if(r.kind==="photo"){
           rawE=quantity;
           state.flow.solar=Q(state.flow.solar+quantity);w.ledger.solar=Q(w.ledger.solar+quantity);
