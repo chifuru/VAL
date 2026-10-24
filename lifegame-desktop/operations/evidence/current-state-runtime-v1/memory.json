@@ -1,0 +1,8 @@
+{
+  "turn": 133,
+  "rows": 134,
+  "baselineHeap": 4369384,
+  "parsedHeap": 40471472,
+  "worldAndRestoredHistoryHeapAfterGC": 49051000,
+  "scope": "Isolated Node --expose-gc with final world and restored native full-turn history only. Excludes Worker, renderer, earlier worlds and natural-run transient allocations. Not an application peak-memory or leak guarantee."
+}

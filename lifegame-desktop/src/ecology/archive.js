@@ -49,6 +49,9 @@
  const cellAcquireBuildSignature="b76f5c4fd56870ed550f35eb16992be542f747f2adb27f5f49ba35680bf7a19d";
  const cellInformationBuildSignature="219b2a50d6ecf08eb552770f8e26535dbfde144b57751195ebe18757f2a035cf";
  function canonicalSignature(s,config){
+  // CS08 counts the same unordered contacts by cell/species multiplicities.
+  // Exact pair-enumeration and world-boundary parity preserve this current-state version.
+  if(s==='57332f90ee2f288108c8088893ad5eee1fed3fde790edeb8de693f45341cf20e')s='7808c4542ba8277512ec7302fe8f8d6d7063ea7171f3c878b3340ce4de52a2d6';
   // CS07's resumed catalogue fix affects only the explicit current-state path.
   if(config.currentStateModel===undefined&&s==='7808c4542ba8277512ec7302fe8f8d6d7063ea7171f3c878b3340ce4de52a2d6')s='f5bb8318b5ba9f8997c94ac56d219724c723cf17174ff788cf8efadc3c8399a0';
   // CS06 changes update targets only on the explicit current-state path.

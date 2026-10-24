@@ -2,7 +2,7 @@
 
 仕様版 `current-state/1`。利用者との負荷調査後の対話とCS01の指示に基づく、A/Bの現在正本。**本書は仕様反映であり、製品4.2.77への実装・動作/性能実測ではない。** 数値と集約式は比較開始値として採用し、観察で調整できる。正式Node状態は草案を維持する。
 
-実装状況：CS02〜06の現在状態集約/更新対象管理、CS07のWorker/形式4記録と、明示マス方式での新規作成・既存3グラフ/サマリ/手動詳細/CSV/図鑑を限定接続した。[前半契約](../implementation/current-state-integration-v1.md) / [後半契約](../implementation/current-state-interface-v1.md)。一般の既定モードと旧記録の再生条件を維持する。自然長期/総合性能はCS08。仕様採用と性能の認定を区別し、改善率はまだ認定しない。
+実装状況：CS02〜06の現在状態集約/更新対象管理、CS07のWorker/形式4記録と、明示マス方式での新規作成・既存3グラフ/サマリ/手動詳細/CSV/図鑑を限定接続した。[前半契約](../implementation/current-state-integration-v1.md) / [後半契約](../implementation/current-state-interface-v1.md)。一般の既定モードと旧記録の再生条件を維持する。[CS08一次](../../operations/evidence/current-state-runtime-v1/README.md)で自然133Tと接触集計の等価な軽減を確認。自然500T/包括性能は未認定。仕様採用と性能の認定を区別し、改善率はまだ認定しない。
 
 ## 1. 目的・置換範囲
 

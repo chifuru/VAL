@@ -1,0 +1,55 @@
+{
+  "baseline": "6349562",
+  "baselineModulesSha256": "97eaeeb8e70c0c37acc683c8ad06517081ab78e344fb4bb3ed643a90e0a22d0a",
+  "signature": "57332f90ee2f288108c8088893ad5eee1fed3fde790edeb8de693f45341cf20e",
+  "results": [
+    {
+      "turn": 0,
+      "nextTurn": 1,
+      "organisms": 419,
+      "oldMs": 302.79428800000005,
+      "newMs": 217.06763899999999,
+      "contactTimes": {
+        "before": [
+          10.969464000000016,
+          10.06459899999993,
+          8.883465999999999
+        ],
+        "after": [
+          0.7813400000000001,
+          1.0830349999999953,
+          0.7673389999999927
+        ]
+      },
+      "wholeWorldEqual": true,
+      "originalUnchanged": true,
+      "fingerprint": "dd64f427cfa1feb9530ceb3aad096d7a6da272adb24a82bf777ea2f4498476c7"
+    },
+    {
+      "turn": 133,
+      "nextTurn": 134,
+      "organisms": 6314,
+      "oldMs": 2955.9245149999997,
+      "newMs": 2157.8302110000004,
+      "contactTimes": {
+        "before": [
+          780.6179080000002,
+          739.5635500000008,
+          626.0503200000003
+        ],
+        "after": [
+          5.567064000000755,
+          4.558161000000837,
+          4.313921999999366
+        ]
+      },
+      "wholeWorldEqual": true,
+      "originalUnchanged": true,
+      "fingerprint": "2d4c70e4009a31b6f58dcbf74909e372c5e3adc5f8dc4b43475f1224852e2151"
+    }
+  ],
+  "oldNativeRecordReplayEqual": true,
+  "oldRecordUnchanged": true,
+  "legacyCellBoundaryEqual": true,
+  "scope": "Two retained boundaries; one old/new real turn each, not long-run replays. Exact worlds include observations. Three warm contact-only calls; whole-turn timings are single samples with fresh-process caches, not a throughput guarantee."
+}

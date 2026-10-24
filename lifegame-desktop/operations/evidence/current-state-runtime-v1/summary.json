@@ -1,0 +1,43 @@
+{
+  "definition": "current-state-runtime-evidence/1",
+  "baseline": "634956282d115770342baaabb78d60ec75a6180e",
+  "productVersion": "4.2.77",
+  "measuredNaturalSignature": "7808c4542ba8277512ec7302fe8f8d6d7063ea7171f3c878b3340ce4de52a2d6",
+  "currentSignature": "57332f90ee2f288108c8088893ad5eee1fed3fde790edeb8de693f45341cf20e",
+  "naturalTurn": 133,
+  "natural500Complete": false,
+  "stoppedBy": "measurement budget 240000ms",
+  "error": null,
+  "newTests": 5,
+  "relatedTests": 22,
+  "wholeWorldBoundaryComparisons": 2,
+  "lateKernelMedianMs": 2311.366798999996,
+  "lateAppendMedianMs": 12.052592499996535,
+  "contactMedianBeforeMs": 739.5635500000008,
+  "contactMedianAfterMs": 4.558161000000837,
+  "oldNativeRecordReplayPreserved": true,
+  "currentRulesUnchanged": true,
+  "windowsMeasured": false,
+  "globalPerformanceGuaranteed": false,
+  "fixtures": {
+    "initial": {
+      "sha256": "2a061492fb94217ac20795b588559cb5bc93d11d863097a0895f46bfa5cc6a8d",
+      "bytes": 1357550
+    },
+    "terminal": {
+      "sha256": "f6867fafd961cf6364dd419f85e8ebe07b784613173192bf0962469bd59fa13a",
+      "bytes": 17194137
+    },
+    "observations": {
+      "sha256": "6dbf0efbe874bae12268f53901246de5b142fd108eace3cf0c69831876ac910a",
+      "bytes": 4327405
+    }
+  },
+  "baselineModulesSha256": "97eaeeb8e70c0c37acc683c8ad06517081ab78e344fb4bb3ed643a90e0a22d0a",
+  "next": [
+    "local resource allocation",
+    "information reception",
+    "world copies and transient allocation",
+    "transfer; natural500 pending"
+  ]
+}

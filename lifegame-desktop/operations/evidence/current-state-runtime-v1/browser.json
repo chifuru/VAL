@@ -1,0 +1,196 @@
+{
+  "turn": 133,
+  "renders": [
+    {
+      "name": "initial",
+      "mode": "far",
+      "turn": 0,
+      "organisms": 419,
+      "carcasses": 0,
+      "setWorldMs": 198.2999999821186,
+      "firstDrawMs": 21.600000023841858,
+      "framesMs": [
+        2.5,
+        3.9000000059604645,
+        4.0999999940395355
+      ],
+      "medianDrawMs": 3.9000000059604645,
+      "drawn": 419,
+      "drawnCarcasses": 0,
+      "actualMode": "simple"
+    },
+    {
+      "name": "initial",
+      "mode": "near",
+      "turn": 0,
+      "organisms": 419,
+      "carcasses": 0,
+      "setWorldMs": 198.2999999821186,
+      "firstDrawMs": 137.2999999821186,
+      "framesMs": [
+        0.7999999821186066,
+        0.7000000178813934,
+        0.7999999821186066
+      ],
+      "medianDrawMs": 0.7999999821186066,
+      "drawn": 30,
+      "drawnCarcasses": 0,
+      "actualMode": "detail"
+    },
+    {
+      "name": "terminal",
+      "mode": "far",
+      "turn": 133,
+      "organisms": 6314,
+      "carcasses": 0,
+      "setWorldMs": 6.9000000059604645,
+      "firstDrawMs": 94.2000000178814,
+      "framesMs": [
+        15.099999994039536,
+        43.79999998211861,
+        6.5
+      ],
+      "medianDrawMs": 15.099999994039536,
+      "drawn": 6314,
+      "drawnCarcasses": 0,
+      "actualMode": "simple"
+    },
+    {
+      "name": "terminal",
+      "mode": "near",
+      "turn": 133,
+      "organisms": 6314,
+      "carcasses": 0,
+      "setWorldMs": 6.9000000059604645,
+      "firstDrawMs": 262.69999998807907,
+      "framesMs": [
+        6.4000000059604645,
+        5.699999988079071,
+        4.800000011920929
+      ],
+      "medianDrawMs": 5.699999988079071,
+      "drawn": 371,
+      "drawnCarcasses": 0,
+      "actualMode": "detail"
+    }
+  ],
+  "graphs": [
+    {
+      "target": "all",
+      "axis": "population",
+      "rows": 134,
+      "throughTurn": 133,
+      "seriesMs": 1.199999988079071,
+      "framesMs": [
+        1.7000000178813934,
+        1.0999999940395355,
+        1.199999988079071
+      ],
+      "medianDrawMs": 1.199999988079071
+    },
+    {
+      "target": "all",
+      "axis": "phases",
+      "rows": 134,
+      "throughTurn": 133,
+      "seriesMs": 2.5,
+      "framesMs": [
+        0.09999999403953552,
+        0.20000001788139343,
+        0.19999998807907104
+      ],
+      "medianDrawMs": 0.19999998807907104
+    },
+    {
+      "target": "all",
+      "axis": "sex",
+      "rows": 134,
+      "throughTurn": 133,
+      "seriesMs": 2.5,
+      "framesMs": [
+        0.09999999403953552,
+        0.09999999403953552,
+        0.20000001788139343
+      ],
+      "medianDrawMs": 0.09999999403953552
+    },
+    {
+      "target": "all",
+      "axis": "ages",
+      "rows": 134,
+      "throughTurn": 133,
+      "seriesMs": 1.5,
+      "framesMs": [
+        0.19999998807907104,
+        0.09999999403953552,
+        0.10000002384185791
+      ],
+      "medianDrawMs": 0.10000002384185791
+    },
+    {
+      "target": "main",
+      "axis": "population",
+      "rows": 134,
+      "throughTurn": 133,
+      "seriesMs": 0.8999999761581421,
+      "framesMs": [
+        0.5,
+        0.29999998211860657,
+        0.5999999940395355
+      ],
+      "medianDrawMs": 0.5
+    },
+    {
+      "target": "main",
+      "axis": "phases",
+      "rows": 134,
+      "throughTurn": 133,
+      "seriesMs": 1.4000000059604645,
+      "framesMs": [
+        0.09999999403953552,
+        0.19999998807907104,
+        0.09999999403953552
+      ],
+      "medianDrawMs": 0.09999999403953552
+    },
+    {
+      "target": "main",
+      "axis": "sex",
+      "rows": 134,
+      "throughTurn": 133,
+      "seriesMs": 1.2999999821186066,
+      "framesMs": [
+        0,
+        0.09999999403953552,
+        0.09999999403953552
+      ],
+      "medianDrawMs": 0.09999999403953552
+    },
+    {
+      "target": "main",
+      "axis": "ages",
+      "rows": 134,
+      "throughTurn": 133,
+      "seriesMs": 1,
+      "framesMs": [
+        0.10000002384185791,
+        0.09999999403953552,
+        0
+      ],
+      "medianDrawMs": 0.09999999403953552
+    }
+  ],
+  "restoreMs": 474.80000001192093,
+  "relationSeriesMs": 0.4000000059604645,
+  "relationPoints": [
+    134,
+    134,
+    134
+  ],
+  "worldsUnchanged": true,
+  "scope": "Actual retained natural current-state worlds and native full-turn rows. 978x431 renderer, three warm forced draws per view. 320x120 graph using unmodified app functions. Excludes full app DOM/layout, SVG path painting, Worker dispatch and biology. Fixture-only CSP bypass; product CSP unchanged.",
+  "success": true,
+  "errors": [],
+  "sourceCommit": "634956282d115770342baaabb78d60ec75a6180e",
+  "biologicalInputSignature": "7808c4542ba8277512ec7302fe8f8d6d7063ea7171f3c878b3340ce4de52a2d6"
+}

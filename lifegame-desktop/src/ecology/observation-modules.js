@@ -306,7 +306,24 @@ function(require,module){
    if(Object.hasOwn(w,'contactPairs')||Object.hasOwn(w,'demography'))errors.push('CURRENT_PAST_STATE');return errors;
   }
   function contacts(w){
-   const actors=[...w.organisms.filter(o=>o.HP>0),...(w.searchQ??[]).filter(q=>q.phase===4)],cells=new Map(),seen=new Set(),out={};
+   const actors=[...w.organisms.filter(o=>o.HP>0),...(w.searchQ??[]).filter(q=>q.phase===4)],ids=new Set(),cells=new Map(),out={},keys=new Map();
+   for(const o of actors){
+    // Valid worlds have unique real IDs. Preserve the prior result even for a repeated diagnostic row.
+    if(ids.has(o.id))return individualContacts(w,actors);ids.add(o.id);
+    let species=cells.get(o.cell);if(!species)cells.set(o.cell,species=new Map());species.set(o.species,(species.get(o.species)??0)+1);
+   }
+   const add=(a,b,n)=>{if(!n)return;let row=keys.get(a);if(!row)keys.set(a,row=new Map());let key=row.get(b);if(!key){key=S.stable([a,b].sort(S.compare));row.set(b,key);}out[key]=(out[key]??0)+n;};
+   for(const [cell,species]of cells){
+    if(S.oneStep(w,cell,cell)){const entries=[...species];for(let i=0;i<entries.length;i++){const [a,n]=entries[i];add(a,a,n*(n-1)/2);for(let j=i+1;j<entries.length;j++)add(a,entries[j][0],n*entries[j][1]);}}
+    for(const other of S.nearby(w,cell,1,true)){
+     if(other<=cell||!cells.has(other)||!S.oneStep(w,cell,other)&&!S.oneStep(w,other,cell))continue;
+     for(const [a,n]of species)for(const [b,m]of cells.get(other))add(a,b,n*m);
+    }
+   }
+   return Object.fromEntries(Object.entries(out).sort(([a],[b])=>S.compare(a,b)));
+  }
+  function individualContacts(w,actors){
+   const cells=new Map(),seen=new Set(),out={};
    for(const o of actors){if(!cells.has(o.cell))cells.set(o.cell,[]);cells.get(o.cell).push(o);}
    for(const a of actors)for(const cell of S.nearby(w,a.cell,1,true)){
     if(!S.oneStep(w,a.cell,cell))continue;

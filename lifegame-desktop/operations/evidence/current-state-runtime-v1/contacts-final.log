@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: same-cell species multiplicities count real unordered bodies, not internal cohort members
+ok 1 - same-cell species multiplicities count real unordered bodies, not internal cohort members
+  ---
+  duration_ms: 329.987613
+  type: 'test'
+  ...
+# Subtest: blocked, diagonal and directed wall edges match pair enumeration in both directions
+ok 2 - blocked, diagonal and directed wall edges match pair enumeration in both directions
+  ---
+  duration_ms: 274.607007
+  type: 'test'
+  ...
+# Subtest: autonomous Q eligibility and dead bodies retain the previous contact meaning
+ok 3 - autonomous Q eligibility and dead bodies retain the previous contact meaning
+  ---
+  duration_ms: 251.337268
+  type: 'test'
+  ...
+# Subtest: duplicate diagnostic IDs fall back without double counting or input mutation
+ok 4 - duplicate diagnostic IDs fall back without double counting or input mutation
+  ---
+  duration_ms: 274.10842
+  type: 'test'
+  ...
+# Subtest: dense mixed cells retain exact integer totals and order independent output
+ok 5 - dense mixed cells retain exact integer totals and order independent output
+  ---
+  duration_ms: 319.59217
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1464.652612

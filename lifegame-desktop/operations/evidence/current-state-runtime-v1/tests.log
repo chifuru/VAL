@@ -1,0 +1,172 @@
+TAP version 13
+# Subtest: same-cell species multiplicities count real unordered bodies, not internal cohort members
+ok 1 - same-cell species multiplicities count real unordered bodies, not internal cohort members
+  ---
+  duration_ms: 281.91732
+  type: 'test'
+  ...
+# Subtest: blocked, diagonal and directed wall edges match pair enumeration in both directions
+ok 2 - blocked, diagonal and directed wall edges match pair enumeration in both directions
+  ---
+  duration_ms: 257.758296
+  type: 'test'
+  ...
+# Subtest: autonomous Q eligibility and dead bodies retain the previous contact meaning
+ok 3 - autonomous Q eligibility and dead bodies retain the previous contact meaning
+  ---
+  duration_ms: 250.577906
+  type: 'test'
+  ...
+# Subtest: duplicate diagnostic IDs fall back without double counting or input mutation
+ok 4 - duplicate diagnostic IDs fall back without double counting or input mutation
+  ---
+  duration_ms: 235.032442
+  type: 'test'
+  ...
+# Subtest: dense mixed cells retain exact integer totals and order independent output
+ok 5 - dense mixed cells retain exact integer totals and order independent output
+  ---
+  duration_ms: 267.645288
+  type: 'test'
+  ...
+# Subtest: five current components use real assimilated E, a 20T half-life and readonly lookup
+ok 6 - five current components use real assimilated E, a 20T half-life and readonly lookup
+  ---
+  duration_ms: 17.934908
+  type: 'test'
+  ...
+# Subtest: unobserved and vanishing intake remains unknown; an empty source cannot invent a trophic level
+ok 7 - unobserved and vanishing intake remains unknown; an empty source cannot invent a trophic level
+  ---
+  duration_ms: 16.594774
+  type: 'test'
+  ...
+# Subtest: simultaneous acquisition freezes source evidence before photo commit and pays only actual intake
+ok 8 - simultaneous acquisition freezes source evidence before photo commit and pays only actual intake
+  ---
+  duration_ms: 42.910569
+  type: 'test'
+  ...
+# Subtest: death/soil retains the source current composition and the next consumer shifts it once
+ok 9 - death/soil retains the source current composition and the next consumer shifts it once
+  ---
+  duration_ms: 20.258557
+  type: 'test'
+  ...
+# Subtest: group extraction partitions current evidence rather than sharing or copying a whole intake record
+ok 10 - group extraction partitions current evidence rather than sharing or copying a whole intake record
+  ---
+  duration_ms: 22.557329
+  type: 'test'
+  ...
+# Subtest: host to P to Q taxes update the same five components without supplying extra E
+ok 11 - host to P to Q taxes update the same five components without supplying extra E
+  ---
+  duration_ms: 18.768727
+  type: 'test'
+  ...
+# Subtest: an actual parasitic effect remains observable even when its actor dies in the same turn
+ok 12 - an actual parasitic effect remains observable even when its actor dies in the same turn
+  ---
+  duration_ms: 17.375103
+  type: 'test'
+  ...
+# Subtest: contacts include every co-located layer, deduplicate endpoints and have no past pair registry
+ok 13 - contacts include every co-located layer, deduplicate endpoints and have no past pair registry
+  ---
+  duration_ms: 18.596437
+  type: 'test'
+  ...
+# Subtest: contact or animation alone never creates confirmed effects; real damage/defense/care do
+ok 14 - contact or animation alone never creates confirmed effects; real damage/defense/care do
+  ---
+  duration_ms: 21.495906
+  type: 'test'
+  ...
+# Subtest: anonymous soil and information stay classified unknown rather than inventing a source organism
+ok 15 - anonymous soil and information stay classified unknown rather than inventing a source organism
+  ---
+  duration_ms: 19.313459
+  type: 'test'
+  ...
+# Subtest: current generation facts remain on individuals while only this-turn deltas go to observers
+ok 16 - current generation facts remain on individuals while only this-turn deltas go to observers
+  ---
+  duration_ms: 24.461615
+  type: 'test'
+  ...
+# Subtest: a death event lacking age/generation obtains facts from the actual dead subject
+ok 17 - a death event lacking age/generation obtains facts from the actual dead subject
+  ---
+  duration_ms: 15.428071
+  type: 'test'
+  ...
+# Subtest: full-turn observations/CSV use 50T effects and completed 10T intervals while contacts stay separate
+ok 18 - full-turn observations/CSV use 50T effects and completed 10T intervals while contacts stay separate
+  ---
+  duration_ms: 312.981364
+  type: 'test'
+  ...
+# Subtest: observation snapshots are independent, read-only after restore and reject corruption/gaps/foreign worlds
+ok 19 - observation snapshots are independent, read-only after restore and reject corruption/gaps/foreign worlds
+  ---
+  duration_ms: 35.959551
+  type: 'test'
+  ...
+# Subtest: initial unknown biomass and later observed composition retain all B without converting role to trophic level
+ok 20 - initial unknown biomass and later observed composition retain all B without converting role to trophic level
+  ---
+  duration_ms: 15.135871
+  type: 'test'
+  ...
+# Subtest: source/generated, cancellation and observer reconstruction agree for one short natural condition
+ok 21 - source/generated, cancellation and observer reconstruction agree for one short natural condition
+  ---
+  duration_ms: 2802.071143
+  type: 'test'
+  ...
+# Subtest: native facts project to all three full-turn graphs, with exact population and biomass
+ok 22 - native facts project to all three full-turn graphs, with exact population and biomass
+  ---
+  duration_ms: 705.009975
+  type: 'test'
+  ...
+# Subtest: native snapshot restores the same presentation without worlds or mutable biological reads
+ok 23 - native snapshot restores the same presentation without worlds or mutable biological reads
+  ---
+  duration_ms: 14.499518
+  type: 'test'
+  ...
+# Subtest: native facts remain raw and old missing presentation is not guessed
+ok 24 - native facts remain raw and old missing presentation is not guessed
+  ---
+  duration_ms: 8.326245
+  type: 'test'
+  ...
+# Subtest: CSV batching is byte-identical and preserves unknown phase, soil, information and actual cell facts
+ok 25 - CSV batching is byte-identical and preserves unknown phase, soil, information and actual cell facts
+  ---
+  duration_ms: 4.551715
+  type: 'test'
+  ...
+# Subtest: projected records capture native schema4 and rebuild exact initial conditions
+ok 26 - projected records capture native schema4 and rebuild exact initial conditions
+  ---
+  duration_ms: 467.118762
+  type: 'test'
+  ...
+# Subtest: manual detail and field summaries are immutable, and cell opt-in does not change legacy config
+ok 27 - manual detail and field summaries are immutable, and cell opt-in does not change legacy config
+  ---
+  duration_ms: 274.194693
+  type: 'test'
+  ...
+1..27
+# tests 27
+# suites 0
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6576.440194

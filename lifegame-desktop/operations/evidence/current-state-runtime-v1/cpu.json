@@ -1,0 +1,600 @@
+{
+  "scope": "One diagnostic turn with V8 sampling and call counters; sampling adds overhead. Inclusive times overlap. Not comparable as an uninstrumented throughput result.",
+  "baseline": "6349562",
+  "mode": "retained-current",
+  "turn": 133,
+  "elapsedMs": 2925.150452,
+  "samplingMs": 2966.602,
+  "details": {
+    "requests": {
+      "total": 13611,
+      "byKind": {
+        "food": 1370,
+        "mineral": 6108,
+        "decompose": 37,
+        "photo": 6096
+      },
+      "canopies": 6096,
+      "uniqueActors": 6344,
+      "bySource": {
+        "organism": 1257,
+        "none": 12204,
+        "organic": 74,
+        "residue": 66,
+        "resource": 6,
+        "capture": 4
+      }
+    },
+    "mapCalls": 20,
+    "materialReturnCalls": 9611
+  },
+  "topSelf": [
+    {
+      "function": "contacts",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 308,
+      "ms": 376.845,
+      "percent": 12.70291734449043
+    },
+    {
+      "function": "(garbage collector)",
+      "url": "",
+      "line": 0,
+      "ms": 279.697,
+      "percent": 9.42819427749324
+    },
+    {
+      "function": "allocate",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 4616,
+      "ms": 226.215,
+      "percent": 7.625390935487807
+    },
+    {
+      "function": "structuredClone",
+      "url": "node:internal/worker/js_transferable",
+      "line": 113,
+      "ms": 205.263,
+      "percent": 6.919128349539305
+    },
+    {
+      "function": "acquire",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 4896,
+      "ms": 145.256,
+      "percent": 4.896376392923621
+    },
+    {
+      "function": "receive",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 118,
+      "ms": 130.245,
+      "percent": 4.390376599220253
+    },
+    {
+      "function": "stable",
+      "url": "file://src/ecology/hash.js",
+      "line": 123,
+      "ms": 93.472,
+      "percent": 3.150810253616764
+    },
+    {
+      "function": "observation",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 348,
+      "ms": 76.83,
+      "percent": 2.589831733410818
+    },
+    {
+      "function": "begin",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 170,
+      "ms": 66.156,
+      "percent": 2.2300261376483936
+    },
+    {
+      "function": "(anonymous)",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 20271,
+      "ms": 58.752,
+      "percent": 1.9804476636906467
+    },
+    {
+      "function": "owner.<computed>",
+      "url": "file://tests/current-runtime-cpu.cjs",
+      "line": 9,
+      "ms": 43.744,
+      "percent": 1.4745489957870992
+    },
+    {
+      "function": "post",
+      "url": "node:inspector",
+      "line": 115,
+      "ms": 41.725,
+      "percent": 1.4064913325076973
+    },
+    {
+      "function": "settleBudgets",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 5116,
+      "ms": 39.673,
+      "percent": 1.3373212854302667
+    },
+    {
+      "function": "stable",
+      "url": "file://src/ecology/hash.js",
+      "line": 123,
+      "ms": 38.668,
+      "percent": 1.303444142490297
+    },
+    {
+      "function": "advance",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 20346,
+      "ms": 21.315,
+      "percent": 0.7184988077268201
+    },
+    {
+      "function": "room",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 22751,
+      "ms": 20.964,
+      "percent": 0.7066670891477859
+    },
+    {
+      "function": "pool",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 4902,
+      "ms": 20.38,
+      "percent": 0.6869812667826691
+    },
+    {
+      "function": "cellGrowth",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 10474,
+      "ms": 19.759,
+      "percent": 0.6660482262197626
+    },
+    {
+      "function": "hash",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 23022,
+      "ms": 18.804,
+      "percent": 0.6338565132768063
+    },
+    {
+      "function": "factors",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 23207,
+      "ms": 18.416,
+      "percent": 0.6207775764999822
+    },
+    {
+      "function": "stable",
+      "url": "file://src/ecology/hash.js",
+      "line": 123,
+      "ms": 17.33,
+      "percent": 0.5841700369648507
+    },
+    {
+      "function": "informationFinalize",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 26069,
+      "ms": 16.991,
+      "percent": 0.5727428215850997
+    },
+    {
+      "function": "cellNutrition",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 10460,
+      "ms": 16.972,
+      "percent": 0.5721023581862346
+    },
+    {
+      "function": "hash",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 23022,
+      "ms": 16.406,
+      "percent": 0.5530232906200427
+    },
+    {
+      "function": "tableHash",
+      "url": "file://src/ecology/hash.js",
+      "line": 113,
+      "ms": 16.029,
+      "percent": 0.5403151484425616
+    },
+    {
+      "function": "hyperSearch",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 26336,
+      "ms": 15.69,
+      "percent": 0.5288879330628106
+    },
+    {
+      "function": "tableHash",
+      "url": "file://src/ecology/hash.js",
+      "line": 113,
+      "ms": 14.727,
+      "percent": 0.49642655132033214
+    },
+    {
+      "function": "choose",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 19669,
+      "ms": 14.687,
+      "percent": 0.4950782073227214
+    },
+    {
+      "function": "lifeDemands",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 5039,
+      "ms": 12.492,
+      "percent": 0.42108783045383236
+    },
+    {
+      "function": "index",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 22725,
+      "ms": 12.224,
+      "percent": 0.4120539256698404
+    },
+    {
+      "function": "action",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 353,
+      "ms": 11.489,
+      "percent": 0.3872781047137432
+    },
+    {
+      "function": "demand",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 4903,
+      "ms": 9.647,
+      "percent": 0.32518686362376886
+    },
+    {
+      "function": "context",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 10137,
+      "ms": 9.562,
+      "percent": 0.32232163262884606
+    },
+    {
+      "function": "expire",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 39,
+      "ms": 9.262,
+      "percent": 0.3122090526467656
+    },
+    {
+      "function": "ageInfo",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 24878,
+      "ms": 8.806,
+      "percent": 0.2968379310740032
+    },
+    {
+      "function": "validate",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 303,
+      "ms": 8.754,
+      "percent": 0.2950850838771092
+    },
+    {
+      "function": "stable",
+      "url": "file://src/ecology/hash.js",
+      "line": 123,
+      "ms": 8.228,
+      "percent": 0.27735436030852806
+    },
+    {
+      "function": "buildIndex",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 109,
+      "ms": 8.158,
+      "percent": 0.2749947583127093
+    },
+    {
+      "function": "stable",
+      "url": "file://src/ecology/hash.js",
+      "line": 123,
+      "ms": 7.95,
+      "percent": 0.26798336952513346
+    },
+    {
+      "function": "captureLight",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 4848,
+      "ms": 7.899,
+      "percent": 0.2662642309281798
+    }
+  ],
+  "topInclusive": [
+    {
+      "function": "(root)",
+      "url": "",
+      "line": 0,
+      "ms": 2966.602,
+      "percent": 100
+    },
+    {
+      "function": "(anonymous)",
+      "url": "file://tests/current-runtime-cpu.cjs",
+      "line": 13,
+      "ms": 2683.428,
+      "percent": 90.45460092051445
+    },
+    {
+      "function": "step",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 10705,
+      "ms": 2641.703,
+      "percent": 89.04810958800675
+    },
+    {
+      "function": "advance",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 10622,
+      "ms": 2360.495,
+      "percent": 79.56898161600377
+    },
+    {
+      "function": "cellNutrition",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 10460,
+      "ms": 717.828,
+      "percent": 24.196976877922957
+    },
+    {
+      "function": "finish",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 10486,
+      "ms": 710.734,
+      "percent": 23.957848069946692
+    },
+    {
+      "function": "observation",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 10352,
+      "ms": 669.84,
+      "percent": 22.57936858398936
+    },
+    {
+      "function": "observation",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 348,
+      "ms": 666.601,
+      "percent": 22.470186428782828
+    },
+    {
+      "function": "contacts",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 308,
+      "ms": 517.812,
+      "percent": 17.454717552270242
+    },
+    {
+      "function": "owner.<computed>",
+      "url": "file://tests/current-runtime-cpu.cjs",
+      "line": 9,
+      "ms": 511.41,
+      "percent": 17.238915095452644
+    },
+    {
+      "function": "acquire",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 4896,
+      "ms": 464.511,
+      "percent": 15.658015466853998
+    },
+    {
+      "function": "prepare",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 10222,
+      "ms": 432.127,
+      "percent": 14.566396166388346
+    },
+    {
+      "function": "informationBegin",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 25981,
+      "ms": 370.991,
+      "percent": 12.505587200440099
+    },
+    {
+      "function": "cellGrowth",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 10474,
+      "ms": 370.112,
+      "percent": 12.475957341092604
+    },
+    {
+      "function": "begin",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 170,
+      "ms": 362.062,
+      "percent": 12.204603111573444
+    },
+    {
+      "function": "beginTurn",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 10589,
+      "ms": 279.805,
+      "percent": 9.431834806286789
+    },
+    {
+      "function": "(garbage collector)",
+      "url": "",
+      "line": 0,
+      "ms": 279.697,
+      "percent": 9.42819427749324
+    },
+    {
+      "function": "allocate",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 4616,
+      "ms": 238.286,
+      "percent": 8.032287445366787
+    },
+    {
+      "function": "receive",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 118,
+      "ms": 226.629,
+      "percent": 7.639346295863078
+    },
+    {
+      "function": "structuredClone",
+      "url": "node:internal/worker/js_transferable",
+      "line": 113,
+      "ms": 206.369,
+      "percent": 6.956410061073242
+    },
+    {
+      "function": "advance",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 20346,
+      "ms": 198.654,
+      "percent": 6.696348212534072
+    },
+    {
+      "function": "stable",
+      "url": "file://src/ecology/hash.js",
+      "line": 123,
+      "ms": 132.14,
+      "percent": 4.454254396107061
+    },
+    {
+      "function": "sites",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 20270,
+      "ms": 100.815,
+      "percent": 3.3983325029781546
+    },
+    {
+      "function": "(anonymous)",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 20271,
+      "ms": 96.316,
+      "percent": 3.2466775118468876
+    },
+    {
+      "function": "stable",
+      "url": "file://src/ecology/hash.js",
+      "line": 123,
+      "ms": 93.472,
+      "percent": 3.150810253616764
+    },
+    {
+      "function": "hyperSearch",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 26336,
+      "ms": 81.601,
+      "percent": 2.7506554637258382
+    },
+    {
+      "function": "search",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 27478,
+      "ms": 81.601,
+      "percent": 2.7506554637258382
+    },
+    {
+      "function": "informationFinalize",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 26069,
+      "ms": 71.461,
+      "percent": 2.4088502603315174
+    },
+    {
+      "function": "choose",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 19669,
+      "ms": 60.8,
+      "percent": 2.0494828763683164
+    },
+    {
+      "function": "settleBudgets",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 5116,
+      "ms": 48.736,
+      "percent": 1.642822326688919
+    },
+    {
+      "function": "caregiver",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 105,
+      "ms": 46.127,
+      "percent": 1.5548765894447587
+    },
+    {
+      "function": "post",
+      "url": "node:inspector",
+      "line": 115,
+      "ms": 41.725,
+      "percent": 1.4064913325076973
+    },
+    {
+      "function": "(anonymous)",
+      "url": "file://tests/current-runtime-cpu.cjs",
+      "line": 12,
+      "ms": 41.725,
+      "percent": 1.4064913325076973
+    },
+    {
+      "function": "post",
+      "url": "file://tests/current-runtime-cpu.cjs",
+      "line": 12,
+      "ms": 41.725,
+      "percent": 1.4064913325076973
+    },
+    {
+      "function": "withMapScope",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 24460,
+      "ms": 38.298,
+      "percent": 1.2909719605123977
+    },
+    {
+      "function": "(anonymous)",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 26399,
+      "ms": 38.169,
+      "percent": 1.2866235511201032
+    },
+    {
+      "function": "ageInfo",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 24878,
+      "ms": 37.594,
+      "percent": 1.2672411061544488
+    },
+    {
+      "function": "buildIndex",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 109,
+      "ms": 36.971,
+      "percent": 1.2462406483916615
+    },
+    {
+      "function": "(anonymous)",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 10641,
+      "ms": 36.96,
+      "percent": 1.2458698537923185
+    },
+    {
+      "function": "(anonymous)",
+      "url": "file://src/ecology/observation-modules.js",
+      "line": 20350,
+      "ms": 36.384,
+      "percent": 1.2264537002267242
+    }
+  ],
+  "inputHash": "f6867fafd961cf6364dd419f85e8ebe07b784613173192bf0962469bd59fa13a",
+  "worldHash": "4c1b4e9bef01b0babf06569efbe6a653d4bf4764f95da056fe4630b29de93fc9",
+  "originalUnchanged": true,
+  "invariants": [],
+  "signature": "7808c4542ba8277512ec7302fe8f8d6d7063ea7171f3c878b3340ce4de52a2d6"
+}
