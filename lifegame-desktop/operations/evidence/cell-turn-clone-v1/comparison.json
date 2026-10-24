@@ -1,0 +1,54 @@
+{
+  "decision": "not-adopted",
+  "baselineCommit": "a6bfc53",
+  "baselineFiles": [
+    "before-1.json",
+    "before-2.json"
+  ],
+  "candidateFiles": [
+    "after-1.json",
+    "after-2.json"
+  ],
+  "reproductionExcludedFromMeans": "reproduction.json",
+  "comparedFields": [
+    "startingTurn",
+    "turn",
+    "startingWorldHash",
+    "worldHash",
+    "observationHash",
+    "fingerprint",
+    "invariants",
+    "organisms",
+    "corpses"
+  ],
+  "allEqual": true,
+  "sampleScope": "One retained turn-500 world, separate process for each one-turn run. Not a statistical or all-input equivalence claim.",
+  "timing": {
+    "prepareMs": {
+      "baselineMean": 1171.8312819999996,
+      "candidateMean": 1194.9194120000002,
+      "changePercent": 1.9702605959277086,
+      "baselineRange": [
+        1160.6228339999998,
+        1183.0397299999995
+      ],
+      "candidateRange": [
+        1131.8455860000004,
+        1257.993238
+      ]
+    },
+    "stepMs": {
+      "baselineMean": 4894.5440425,
+      "candidateMean": 5339.981378,
+      "changePercent": 9.10069112939238,
+      "baselineRange": [
+        4769.493173,
+        5019.594912
+      ],
+      "candidateRange": [
+        5000.917183,
+        5679.045573
+      ]
+    }
+  }
+}

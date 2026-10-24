@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と必要な説明を示す。仕様入口
 
 現在の採用仕様: `design/specification/cell-reorganization-v1.md`（cell-reorganization/1）。マス・0〜5次・土壌/配分・植物/低次動物/分解者・量機の定住3×3・次T境界を既存A/Bへ反映。数値は比較開始値。実装接続/影響探索/検証計画更新/再検証要否あり。新規Node・分割・初期登録・正式状態/階層/層間参照変更なし。全61Nodeは草案。
 
-実行製品は4.2.77。栄養取得/配分を同値のまま軽減。資源23・固定配分1・通常7・保存6と旧記録再生/旧2条件が成功。同じ500T終端から各2回の501T比較で全世界/観測/指紋が一致し、取得平均19.7%・全体10.2%短縮（1終端/この環境限定）。証跡: operations/evidence/cell-acquire-optimization-v1/README.md（D7/D9 → E5/E6）。自然500Tの主7体存続は前工程の対象版証跡。従来が既定、新方式/水域は明示比較。世界複製/情報受信・総合性能、自然P/Q循環・全系統/未選定係数/既定化、実画面/Windows/配布は後続。
+実行製品は4.2.77。取得/配分の採用済み軽減を維持。世界複製候補は旧/候補各2回の501Tで全世界JSON/観測/指紋が一致したが、全体短縮を確認できず未採用。実行コード/生成物/署名は起点a6bfc53と同一。証跡: operations/evidence/cell-turn-clone-v1/README.md（C7/D7 → E5）。従来が既定、新方式/水域は明示比較。次は情報受信。自然P/Q循環・全系統/未選定係数/既定化、総合性能・実画面/Windows/配布は後続。
 
 ## A：仕様
 
@@ -293,11 +293,11 @@ C6:（B5 / モックの造形投影・観測画面・配布）［草案］
 
 C7:（B4 / 同期ターン接合と世界確定）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C7.md。通常3段階の新方式を、同じ実効初期条件から自然500T観察。元世界保護・既存終了条件と生成モデルを維持する。
+		valis/nodes/C/C7.md。src/ecology/engine.jsのnative複製を維持。候補はtests/cell-turn-clone-candidate.cjsと明示benchmarkのみに保存する。
 	ロジック:
-		通常のE.stepで毎Tの収支・各層人口/出生死亡・取得/分解/次T還元を読み、行動固定/時計飛ばしを使わない。 証跡: operations/evidence/cell-long-observation-v1/README.md。
+		同一終端の501Tで元世界・全世界JSON・観測・指紋を照合し、速度効果が出ない置換を実行経路へ残さない。 証跡: operations/evidence/cell-turn-clone-v1/README.md。
 	実態:
-		代表1条件500T、主7体存続。最大E差0.000013/M差0.000000。全条件/R1〜R6・自然P/Q多世代/性能は未認定。 正式草案/階層/参照を維持。
+		複製候補は全状態一致、全体短縮なしで未採用。実行コード/署名を維持。次は情報受信。正式草案/階層/参照を維持。
 
 	C7.1:（B4, B4.4 / 初期値・固定世界・31種の共通状態）［草案］
 		構成（要素・関係）:
@@ -419,11 +419,11 @@ D6:（A1.1, A1.2, A1.3, B5, C6 / モックの画面・描画・実行検証計�
 
 D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D7.md。tests/cell-resources.test.cjs、cell-acquire-allocation.test.cjs、cell-acquire-benchmark.cjs、既存通常ターンの限定照合。
+		valis/nodes/D/D7.md。tests/cell-turn-clone-benchmark.cjs、cell-turn-clone-candidate.cjsと同じ500T終端を用いる。
 	ロジック:
-		固定12配分ベクトル/逆順と原入力/拒否、光記録/捕獲資格、同じ終端の全JSON・観測・指紋と有限収支を照合。測定揺れと範囲を示し、500Tを反復しない。 証跡: operations/evidence/cell-acquire-optimization-v1/README.md。
+		旧/候補各2回を別プロセスで比較。beginTurn準備と全体を分け、再現用1Tを平均へ混ぜず、500Tを反復しない。 証跡: operations/evidence/cell-turn-clone-v1/README.md。
 	実態:
-		資源23・固定配分1・通常7成功。最終版2回の501Tは旧版2回と全状態が一致、平均取得19.7%/全体10.2%短縮。D7 → E5。 正式草案/階層/参照を維持。
+		複製候補は全状態一致、全体短縮なしで未採用。実行コード/署名を維持。次は情報受信。正式草案/階層/参照を維持。
 
 D8:（C7 / 生態循環と結合進行）［草案］
 	構成（要素・関係）:
@@ -497,11 +497,11 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 
 E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E5.md。operations/evidence/cell-acquire-optimization-v1/のbefore/after・comparison.json、資源/配分/通常ターン・旧方式比較、対象ハッシュ。
+		valis/nodes/E/E5.md。operations/evidence/cell-turn-clone-v1/のbefore/after・comparison.json、再現記録、対象ハッシュ。
 	ロジック:
-		旧終端の全状態不変と501Tの全JSON/観測/指紋・有限収支の一致を保持。取得と全体の時間を別集計し、中間案/CPUサンプルを最終平均へ混ぜない。 証跡: operations/evidence/cell-acquire-optimization-v1/README.md。
+		同じ入力の全世界JSON/観測/指紋・元世界不変/収支を記録。測定揺れと未実行境界を示し、局所一致を汎用同値/性能保証へ広げない。 証跡: operations/evidence/cell-turn-clone-v1/README.md。
 	実態:
-		資源23・固定配分1・通常7、旧2条件の一致。最終版2回の平均取得19.7%/全体10.2%短縮。1終端/この環境だけに有効。全500T/全条件性能は未認定。 正式草案/階層/参照を維持。
+		複製候補は全状態一致、全体短縮なしで未採用。実行コード/署名を維持。次は情報受信。正式草案/階層/参照を維持。
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:

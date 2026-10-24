@@ -1,0 +1,53 @@
+{
+  "baseline": "a6bfc53",
+  "decision": "not-adopted",
+  "productionCodeGeneratedArtifactsAndSignatureUnchanged": true,
+  "biologicalSignature": "b76f5c4fd56870ed550f35eb16992be542f747f2adb27f5f49ba35680bf7a19d",
+  "formalNodes": 61,
+  "updatedExistingNodes": [
+    "C7",
+    "D7",
+    "E5"
+  ],
+  "formalMetadataGraphAndDraftStatusUnchanged": true,
+  "coreABAndAdoptedSpecificationUnchanged": true,
+  "manifestUniqueEntries": 61,
+  "manifestRequiredFields": true,
+  "manifestLayerHeadings": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+  ],
+  "generation": {
+    "profiles": 8,
+    "uniqueModules": 22,
+    "bytes": 2021381
+  },
+  "benchmark": {
+    "startingTurn": 500,
+    "completedTurn": 501,
+    "baselineRuns": 2,
+    "candidateRuns": 2,
+    "testOnlyReproductionRuns": 1,
+    "reproductionExcludedFromPerformanceMeans": true,
+    "fullWorldObservationFingerprintEqual": true,
+    "originalWorldUnchanged": true,
+    "invariantsPassed": true,
+    "scope": "One retained terminal world; not broad equivalence or statistical speed bounds."
+  },
+  "candidateReferencedByProduct": false,
+  "newReplayAliases": false,
+  "newNatural500TRepeated": false,
+  "uiArtworkLayoutAndProductVersionUnchanged": true,
+  "newDistributionCreated": false,
+  "notVerified": [
+    "candidate cancellation, failure, preview and general special-type boundaries",
+    "whole-run and all-map performance",
+    "new UI/IndexedDB/Windows/distribution",
+    "all lineages and natural P/Q multigeneration",
+    "unselected coefficient and model default decisions"
+  ],
+  "next": "information reception duplicate work"
+}

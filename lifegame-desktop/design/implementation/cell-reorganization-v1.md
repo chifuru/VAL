@@ -1,6 +1,6 @@
 # マス再編：実装の意味・責務・接合契約
 
-管理版 `cell-implementation/1`。上位正本は [cell-reorganization/1](../specification/cell-reorganization-v1.md)。現在は取得/配分の重複処理を軽減。[現在証跡](../../operations/evidence/cell-acquire-optimization-v1/README.md)（C7.2/C8.2、D7/D9 → E5/E6）。資源23・固定配分1・通常7・保存6と再生互換/旧2条件一致。旧500T終端から各2回の501T全状態一致と平均取得19.7%/全体10.2%短縮を限定確認。自然500Tの主7体存続は前工程の対象版。世界複製/情報受信・総合性能、自然P/Q循環/未選定係数・実画面/Windows/配布は後続。
+管理版 `cell-implementation/1`。上位正本は [cell-reorganization/1](../specification/cell-reorganization-v1.md)。取得/配分の[採用済み軽減](../../operations/evidence/cell-acquire-optimization-v1/README.md)を維持。世界複製の[比較候補](../../operations/evidence/cell-turn-clone-v1/README.md)（C7/D7 → E5）は同じ終端から各2回の501Tで全状態が一致したが、全体の短縮を確認できず未採用。実行コード/生成物/署名は起点a6bfc53と同一、native複製と取消/失敗の既存分離を維持する。次は情報受信。自然500Tの主7体存続は前工程の対象版。総合性能、自然P/Q循環/未選定係数・実画面/Windows/配布は後続。
 
 ## 1. 版と適用境界
 
