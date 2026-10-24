@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と必要な説明を示す。仕様入口
 
 現在の採用仕様: `design/specification/cell-reorganization-v1.md`（cell-reorganization/1）。マス・0〜5次・土壌/配分・植物/低次動物/分解者・量機の定住3×3・次T境界を既存A/Bへ反映。数値は比較開始値。実装接続/影響探索/検証計画更新/再検証要否あり。新規Node・分割・初期登録・正式状態/階層/層間参照変更なし。全61Nodeは草案。
 
-実行製品は4.2.77。取得/配分の採用済み軽減を維持。世界複製候補は旧/候補各2回の501Tで全世界JSON/観測/指紋が一致したが、全体短縮を確認できず未採用。実行コード/生成物/署名は起点a6bfc53と同一。証跡: operations/evidence/cell-turn-clone-v1/README.md（C7/D7 → E5）。従来が既定、新方式/水域は明示比較。次は情報受信。自然P/Q循環・全系統/未選定係数/既定化、総合性能・実画面/Windows/配布は後続。
+実行製品は4.2.77。情報受信の重複計算を同値のまま軽減。情報26・接合14・通常7・保存6と旧記録再生/旧2条件が成功。同じ500T終端から旧/最終各2回の501Tで全世界JSON/観測/指紋が一致し、情報開始平均9.9%・全体5.1%短縮（1終端/この環境限定）。証跡: operations/evidence/cell-information-optimization-v1/README.md（D7/D8.2/D9 → E5/E6）。取得軽減/native複製を維持。従来が既定、新方式/水域は明示比較。残る負荷・代表画面、自然P/Q循環・全系統/未選定係数/既定化、Windows/配布は後続。
 
 ## A：仕様
 
@@ -293,11 +293,11 @@ C6:（B5 / モックの造形投影・観測画面・配布）［草案］
 
 C7:（B4 / 同期ターン接合と世界確定）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C7.md。src/ecology/engine.jsのnative複製を維持。候補はtests/cell-turn-clone-candidate.cjsと明示benchmarkのみに保存する。
+		valis/nodes/C/C7.md。既存informationBeginへ同値の受信軽減を接続し、native複製・3段階/Workerの境界を維持する。
 	ロジック:
-		同一終端の501Tで元世界・全世界JSON・観測・指紋を照合し、速度効果が出ない置換を実行経路へ残さない。 証跡: operations/evidence/cell-turn-clone-v1/README.md。
+		各ターンの受信中だけ派生索引を共有し、元世界・処理順/乱数・次T利用を変えない。 証跡: operations/evidence/cell-information-optimization-v1/README.md。
 	実態:
-		複製候補は全状態一致、全体短縮なしで未採用。実行コード/署名を維持。次は情報受信。正式草案/階層/参照を維持。
+		情報26・接合14・通常7成功。旧/最終各2回の501Tで全状態一致、平均情報9.9%/全体5.1%短縮。 正式草案/階層/参照を維持。
 
 	C7.1:（B4, B4.4 / 初期値・固定世界・31種の共通状態）［草案］
 		構成（要素・関係）:
@@ -333,11 +333,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 	C7.5:（B4.2 / 寄生生活環と外部情報）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C7.5.md。直接摂食の実割合とP/Qの単一移行、自律Qの有償回避/被食・当T羽化除外。契約: design/implementation/cell-reorganization-v1.md。
+			valis/nodes/C/C7.5.md。src/ecology/parasites.jsの受信個体の役割/軸と、受信走査に閉じた近傍・内容キー/鮮度・期限検索の索引。
 		ロジック:
-			直接摂食の実割合とP/Qの単一移行、自律Qの有償回避/被食・当T羽化除外。証跡: operations/evidence/cell-predation-v1/README.md、D7/D8/D8.1/D8.2 → E5。
+			内容はオブジェクト同一性、期限検索は既存キーで照合。先頭の学習済み由来・拒否計上/同点調停・個別費用・演算/丸めを保ち、次T/別世界へ持ち越さない。 証跡: operations/evidence/cell-information-optimization-v1/README.md。
 		実態:
-			新境界18＋必要回帰67の計85項目を限定確認。正式草案/階層/参照を維持。当該責務の対象版限定。現在の通常進行/観測/保存はC7/C8/C8.2、代表長期はCR07を参照。
+			情報26・接合14成功。全状態一致と平均情報9.9%/全体5.1%短縮を1終端/この環境に限定確認。 正式草案/階層/参照を維持。
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
@@ -357,11 +357,11 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.2.md。archive.jsの最適化署名b76f5c4f…と直前e5a7bdca…の再生照合。
+			valis/nodes/C/C8.2.md。src/ecology/archive.jsの新署名219b2a50…と直前b76f5c4f…の再生照合。
 		ロジック:
-			結果が同じ今回の版だけ互換へ接続し、別の生態変更版は拒否。保存raw署名/metadataと原記録を保持し、再生で保存を増やさない。 証跡: operations/evidence/cell-acquire-optimization-v1/README.md。
+			限定同値を確認した最適化版だけ互換へ接続。原記録/観測metadata・raw署名を保存し、異なる生態変更版は拒否する。 証跡: operations/evidence/cell-information-optimization-v1/README.md。
 		実態:
-			保存6成功。起点とのT0〜T3と実終端501Tが一致。旧記録の再計算・無保存/原記録不変、新記録raw署名保持と不適合版拒否を確認。 正式草案/階層/参照を維持。
+			保存6と起点T0〜T3・旧記録再生が成功。原記録不変/無保存・新raw署名保持と不適合版拒否を確認。 正式草案/階層/参照を維持。
 
 
 ```
@@ -419,11 +419,11 @@ D6:（A1.1, A1.2, A1.3, B5, C6 / モックの画面・描画・実行検証計�
 
 D7:（C7, C7.1, C7.2, C7.3 / 再現性・有限収支・同時競合）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D7.md。tests/cell-turn-clone-benchmark.cjs、cell-turn-clone-candidate.cjsと同じ500T終端を用いる。
+		valis/nodes/D/D7.md。tests/cell-information-benchmark.cjsと既存cell-turn.test.cjs。全世界/観測/指紋と有限収支の境界。
 	ロジック:
-		旧/候補各2回を別プロセスで比較。beginTurn準備と全体を分け、再現用1Tを平均へ混ぜず、500Tを反復しない。 証跡: operations/evidence/cell-turn-clone-v1/README.md。
+		同じ終端から旧/最終各2回の501Tを比較。情報開始と全体を別集計し、中間案を混ぜず、500Tを反復しない。 証跡: operations/evidence/cell-information-optimization-v1/README.md。
 	実態:
-		複製候補は全状態一致、全体短縮なしで未採用。実行コード/署名を維持。次は情報受信。正式草案/階層/参照を維持。
+		通常7成功。旧/最終の全状態一致、平均情報9.9%/全体5.1%短縮。測定揺れを含む局所比較。 正式草案/階層/参照を維持。
 
 D8:（C7 / 生態循環と結合進行）［草案］
 	構成（要素・関係）:
@@ -443,19 +443,19 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 	D8.2:（C7.5 / 寄生・高次寄生と情報）［草案］
 		構成（要素・関係）:
-			valis/nodes/D/D8.2.md。捕食からP/Qの実移行・二重経路禁止、Qの有限被食/有償回避/新生除外。契約: design/implementation/cell-reorganization-v1.md。
+			valis/nodes/D/D8.2.md。tests/persistent-information.test.cjs、cell-interactions.test.cjs。既存C7.5の受信/寄生情報接合。
 		ロジック:
-			捕食からP/Qの実移行・二重経路禁止、Qの有限被食/有償回避/新生除外。証跡: operations/evidence/cell-predation-v1/README.md、D7/D8/D8.1/D8.2 → E5。
+			役割/軸・鮮度・親子/養育者・費用/枠・重複/期限・拡散/集中・Q痕跡と次T境界を検査する。 証跡: operations/evidence/cell-information-optimization-v1/README.md。
 		実態:
-			新境界18＋必要回帰67の計85項目を限定確認。正式草案/階層/参照を維持。当該責務の対象版限定。現在の通常進行/観測/保存はC7/C8/C8.2、代表長期はCR07を参照。
+			情報26・接合14成功。受信効果/費用と原情報の時計を維持。D8.2 → E5。 正式草案/階層/参照を維持。
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。tests/cell-acquire-replay.cjsとcell-archive.test.cjs。既存C8.2の再生署名照合を対象にする。
+		valis/nodes/D/D9.md。tests/cell-information-replay.cjs、cell-archive.test.cjs。既存C8.2の署名/記録境界。
 	ロジック:
-		最適化前後のT0〜T3一致と旧保存の初期条件再計算、原記録不変/無保存・raw署名保持、異なる生態版の拒否を確認する。 証跡: operations/evidence/cell-acquire-optimization-v1/README.md。
+		起点T0〜T3の全世界/観測と旧記録再計算、原記録不変/無保存・raw署名保持、生態変更版の拒否を確認する。 証跡: operations/evidence/cell-information-optimization-v1/README.md。
 	実態:
-		保存6成功とCLI再生比較成功。UI/IndexedDB/Windowsを今回再実行したとは扱わない。D9 → E6。 正式草案/階層/参照を維持。
+		保存6とCLI再生比較が成功。UI/IndexedDB/Windowsを今回再実行したとは扱わない。D9 → E6。 正式草案/階層/参照を維持。
 
 
 ```
@@ -497,19 +497,19 @@ E4:（D5, D6 / 1マス1個体モックの実測証跡）［草案］
 
 E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E5.md。operations/evidence/cell-turn-clone-v1/のbefore/after・comparison.json、再現記録、対象ハッシュ。
+		valis/nodes/E/E5.md。operations/evidence/cell-information-optimization-v1/のbefore/after・comparison.json、情報/接合/通常ターン・旧方式比較と対象ハッシュ。
 	ロジック:
-		同じ入力の全世界JSON/観測/指紋・元世界不変/収支を記録。測定揺れと未実行境界を示し、局所一致を汎用同値/性能保証へ広げない。 証跡: operations/evidence/cell-turn-clone-v1/README.md。
+		全世界JSON/観測/指紋と元世界不変・有限収支を保持し、情報開始/全体を別集計。中間案や過去の500Tを新版の実測へ混ぜない。 証跡: operations/evidence/cell-information-optimization-v1/README.md。
 	実態:
-		複製候補は全状態一致、全体短縮なしで未採用。実行コード/署名を維持。次は情報受信。正式草案/階層/参照を維持。
+		情報26・接合14・通常7、旧2条件が成功。最終2回の平均情報9.9%/全体5.1%短縮。1終端/この環境に限定有効。 正式草案/階層/参照を維持。
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。operations/evidence/cell-acquire-optimization-v1/のreplay.json/archive.logと対象ハッシュ。D9の再生署名CLI照合。
+		valis/nodes/E/E6.md。operations/evidence/cell-information-optimization-v1/のreplay.json/archive.logと対象ハッシュ。D9のCLI保存/再生照合。
 	ロジック:
-		最適化前後の短期同値と、旧記録の再計算/原記録不変・無保存/raw署名・不適合版拒否を記録する。 証跡: operations/evidence/cell-acquire-optimization-v1/README.md。
+		起点短期の全状態一致、旧記録再生・無保存/原記録不変・raw署名保持と不適合版拒否を記録する。 証跡: operations/evidence/cell-information-optimization-v1/README.md。
 	実態:
-		保存6項目と再生比較が成功。CLIの保存/再生互換に限定。画面/IndexedDB/Windows/配布は今回未実施。 正式草案/階層/参照を維持。
+		保存6と再生比較が成功。CLIの記録境界へ限定し、実画面/IndexedDB/Windows/配布は未実施。 正式草案/階層/参照を維持。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

@@ -1,0 +1,15 @@
+{
+  "model": "baseline",
+  "startingTurn": 500,
+  "turn": 501,
+  "stepMs": 5250.2348250000005,
+  "informationMs": 959.8514939999995,
+  "calls": 1,
+  "startingWorldHash": "4933119b52363f40ff859756378ef134e6c82fe514a07b9ed75808af4b6684ab",
+  "worldHash": "bba7ad403dbdb8ddc0b47453c237bc06709d4c5a79a9e87f1fc0c7a0efd67c38",
+  "observationHash": "9fa3af81619b80add9c695d6bef25f969496b1a60dcc58780d8f150c81e05da4",
+  "fingerprint": "cde4500bf5a19093b9d2587c29efbaa00884997cf9d48a411f2744fef70162b7",
+  "invariants": [],
+  "organisms": 6485,
+  "corpses": 27968
+}

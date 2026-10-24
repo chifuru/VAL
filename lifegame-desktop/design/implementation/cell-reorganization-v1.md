@@ -1,6 +1,6 @@
 # マス再編：実装の意味・責務・接合契約
 
-管理版 `cell-implementation/1`。上位正本は [cell-reorganization/1](../specification/cell-reorganization-v1.md)。取得/配分の[採用済み軽減](../../operations/evidence/cell-acquire-optimization-v1/README.md)を維持。世界複製の[比較候補](../../operations/evidence/cell-turn-clone-v1/README.md)（C7/D7 → E5）は同じ終端から各2回の501Tで全状態が一致したが、全体の短縮を確認できず未採用。実行コード/生成物/署名は起点a6bfc53と同一、native複製と取消/失敗の既存分離を維持する。次は情報受信。自然500Tの主7体存続は前工程の対象版。総合性能、自然P/Q循環/未選定係数・実画面/Windows/配布は後続。
+管理版 `cell-implementation/1`。上位正本は [cell-reorganization/1](../specification/cell-reorganization-v1.md)。現在は情報受信の重複計算を軽減。[証跡](../../operations/evidence/cell-information-optimization-v1/README.md)（C7.5/C8.2、D7/D8.2/D9 → E5/E6）。情報26・接合14・通常7・保存6と再生互換/旧2条件一致。旧500T終端から各2回の501T全状態一致と平均情報9.9%/全体5.1%短縮を限定確認。取得軽減とnative複製を維持する。自然500Tの主7体存続は前工程の対象版。残る負荷・代表画面、自然P/Q循環/未選定係数/既定化・Windows/配布は後続。
 
 ## 1. 版と適用境界
 
@@ -280,3 +280,9 @@ Q自律生活・主生物生活とE/M片満量時の採食は5.1節、直接捕�
 ## 16. 取得/配分の同値最適化
 
 列挙配列・作業行を軽量化し、主体/非捕獲在庫のcompile中の固定計算と光記録のID参照を共有する。加算順・丸め・乱数/在庫確定を変えず、空のfulfills・公開光配列/最終代入・捕獲の主体資格を保つ。取得呼出しを越えたキャッシュは作らない。証跡 `operations/evidence/cell-acquire-optimization-v1/README.md`、契約 `operations/plans/cell-acquire-optimization-v1.md`。今回の版だけ直前のe5a7bdca…と再生照合し、raw署名/原記録を維持する。異なる生態版まで互換を広げない。
+
+## 17. 情報受信の同値最適化
+
+受信個体の役割/対応軸等は個体ごとに一度解決する。受信の1走査に限り、所在マスの合法な近傍・内容オブジェクトのキー/鮮度・由来/内容の期限検索を再利用する。期限検索の元キー、学習済み由来の先頭一致、拒否計上・候補同点/費用・乗算/丸め・乱数を維持し、別内容/個体差を共有キャッシュで消さない。受信中は位置/地形・内容・active索引が固定であることを有効条件とし、次T・別世界・新情報へ持ち越さない。世界/Worker/保存の正本へ派生キャッシュを追加しない。
+
+契約 `operations/plans/cell-information-optimization-v1.md`、証跡 `operations/evidence/cell-information-optimization-v1/README.md`。限定同値を確認した今回の署名だけ直前b76f5c4f…へ再生照合を接続し、raw署名/原記録と異なる生態版の拒否を維持する。

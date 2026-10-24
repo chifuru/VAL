@@ -47,9 +47,11 @@
  const cellTurnBuildSignature="c7b6198bf4f96dabd400a3b131a50859210ca21b8618183228712407d16a6721";
  const cellLongBuildSignature="e5a7bdca023614ab509af21fa6b18569a876f3c1e9c4207877c97daeef3cbfb6";
  const cellAcquireBuildSignature="b76f5c4fd56870ed550f35eb16992be542f747f2adb27f5f49ba35680bf7a19d";
+ const cellInformationBuildSignature="219b2a50d6ecf08eb552770f8e26535dbfde144b57751195ebe18757f2a035cf";
  function canonicalSignature(s,config){
   // This lookup-only optimization preserves cell results and keeps the raw
   // saved signature. Earlier changes to biological rules remain distinct.
+  if(s===cellInformationBuildSignature)s=cellAcquireBuildSignature;
   if(s===cellAcquireBuildSignature)s=cellLongBuildSignature;
   // Cell worlds must never acquire a legacy replay alias.
   if(config.cellModel!==undefined)return s;

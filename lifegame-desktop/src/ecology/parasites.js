@@ -118,10 +118,10 @@
     if(group==="prey"||group==="Q"&&subject.phase===4||subject.species==="freshwaterlight")return [1,2,3,4,5,6,7,8];
     return [1,2,3,4,5];
   }
-  function informationApplicable(w,subject,content){
-    const roles=S.PersistentInformation.roles(w,subject);
+  function informationApplicable(w,subject,content,receiver=null){
+    const roles=receiver?.roles??S.PersistentInformation.roles(w,subject);
     if(content.scope!=="all"&&!(content.roles||[]).some(role=>roles.includes(role)))return "scope";
-    if(!content.values.some(v=>informationAxes(subject).includes(v.axis)))return "context";
+    if(!content.values.some(v=>(receiver?.axes??informationAxes(subject)).includes(v.axis)))return "context";
     return null;
   }
   function informationBundleIndex(w,ctx){
@@ -145,25 +145,34 @@
     if(age.stage!=="juvenile")return false;
     return S.PersistentInformation.parents(receiver).includes(sender.id)||(receiver.informationState?.caregivers||[]).some(a=>a.id===sender.id&&a.expires>w.turn);
   }
-  function informationReceive(w,ctx,entry){
+  function informationReceive(w,ctx,entry,cache){
     const z=S.PersistentInformation.settings(w),o=entry.subject,a=S.PersistentInformation.state(o),index=ctx.informationIndex,
-      cell=informationCell(entry),groups=new Map();
+      cell=informationCell(entry),groups=new Map(),receiver={roles:entry.roles,axes:informationAxes(o)},
+      groupKind=S.spec(o).group,environment=w.tiles[cell]?.env;
     // Extend duplicate protection while an origin is actually still available;
     // this never refreshes experience, traces, learned weights or reception.
     for(const known of a.learned){
       const ids=known.contentIds??(known.contentId?[known.contentId]:[]);
-      for(const id of ids){const expiry=index.active.get(known.originId+"|"+id);if(expiry)known.expires=Math.max(known.expires,expiry);}
+      let expiries=cache.expiries.get(known.originId);
+      if(!expiries){expiries=new Map();cache.expiries.set(known.originId,expiries);}
+      for(const id of ids){
+        if(!expiries.has(id))expiries.set(id,index.active.get(known.originId+"|"+id));
+        const expiry=expiries.get(id);if(expiry)known.expires=Math.max(known.expires,expiry);
+      }
     }
     a.learned=a.learned.filter(known=>known.expires>w.turn);
-    for(const at of S.nearby(w,cell,1,true)){
-      if(!S.oneStep(w,cell,at)||!S.sight(w,cell,at))continue;
+    let nearby=cache.cells.get(cell);
+    if(!nearby){nearby=S.nearby(w,cell,1,true).filter(at=>S.oneStep(w,cell,at)&&S.sight(w,cell,at));cache.cells.set(cell,nearby);}
+    for(const at of nearby){
       for(const source of index.cells.get(at)||[]){
         if(source.subject?.id===o.id)continue;
         const caregiver=source.subject&&informationCaregiver(w,o,source.subject),transmission=source.source==="environment"?z.transmission.environment:caregiver?z.transmission.caregiver:z.transmission.ordinary;
         for(const content of source.record.contents){
-          const invalid=informationApplicable(w,o,content);
+          const invalid=informationApplicable(w,o,content,receiver);
           if(invalid){informationFlow(w,ctx,invalid==="scope"?"rejectedScope":"rejectedContext");continue;}
-          const key=informationComponentKey(content),fresh=S.PersistentInformation.freshness(content,w.turn),context=content.context?.env===w.tiles[cell]?.env?1:.5,
+          let metadata=cache.contents.get(content);
+          if(!metadata){metadata={key:informationComponentKey(content),fresh:S.PersistentInformation.freshness(content,w.turn)};cache.contents.set(content,metadata);}
+          const {key,fresh}=metadata,context=content.context?.env===environment?1:.5,
             evidence=content.evidence==="low"?z.lowWeight:1,strength=Math.min(1,source.record.amount)*fresh*context*evidence*transmission;
           if(strength<=0)continue;
           if(!groups.has(content.originId))groups.set(content.originId,new Map());
@@ -174,9 +183,10 @@
     }
     const candidates=[...groups].map(([originId,contents])=>({originId,contents:[...contents.values()].sort((x,y)=>y.strength-x.strength||S.compare(x.key,y.key))}));
     candidates.sort((x,y)=>y.contents[0].strength-x.contents[0].strength||S.compare(x.originId,y.originId));
+    const knownOrigins=new Map();if(candidates.length)for(const known of a.learned)if(!knownOrigins.has(known.originId))knownOrigins.set(known.originId,known);
     let read=0;a.last={turn:w.turn,received:0,applied:0,costE:0,deltaAbs:0,origins:[]};
     for(const group of candidates){
-      let known=a.learned.find(known=>known.originId===group.originId);const knownIds=known?.contentIds??(known?.contentId?[known.contentId]:[]),contents=group.contents.filter(c=>!knownIds.includes(c.content.contentId));
+      let known=knownOrigins.get(group.originId);const knownIds=known?.contentIds??(known?.contentId?[known.contentId]:[]),contents=group.contents.filter(c=>!knownIds.includes(c.content.contentId));
       if(!contents.length){informationFlow(w,ctx,"deduplicated");continue;}
       if(read>=z.receiveLimit||!known&&a.learned.length>=z.learnedCapacity)break;
       const budget=ctx.costs?.get(o.id),maintenance=cellMode(w)&&budget?budget.base:S.PersistentInformation.maintenance(w,o),
@@ -185,18 +195,18 @@
       o.E=S.round(o.E-fee);S.dissipate(w,fee);if(budget)budget.budget=S.round(Math.max(0,budget.budget-fee));
       const sensitivity=.8+.4*(o.dna?.sensitivity??.5);let deltaAbs=0;
       for(const c of contents)for(const v of c.content.values){
-        if(!informationAxes(o).includes(v.axis))continue;
+        if(!receiver.axes.includes(v.axis))continue;
         const d=S.clamp(v.value*sensitivity*c.strength,-3,3)*z.influence,
-          values=S.spec(o).group==="main"?o.weights:a.learnedPreferences,before=values[v.axis];
-        values[v.axis]=S.round(S.clamp(before+d,S.spec(o).group==="main"?0:-100,100));deltaAbs=S.round(deltaAbs+Math.abs(values[v.axis]-before));
-        if(["P","Q"].includes(S.spec(o).group)&&v.axis===2&&c.content.peerSpecies){
-          const allowed=S.spec(o).group==="Q"?["leafparasite","tideparasite"]:Object.values(S.PrimaryParasite.hostTable[o.species]||{}).flat();
+          values=groupKind==="main"?o.weights:a.learnedPreferences,before=values[v.axis];
+        values[v.axis]=S.round(S.clamp(before+d,groupKind==="main"?0:-100,100));deltaAbs=S.round(deltaAbs+Math.abs(values[v.axis]-before));
+        if(["P","Q"].includes(groupKind)&&v.axis===2&&c.content.peerSpecies){
+          const allowed=groupKind==="Q"?["leafparasite","tideparasite"]:Object.values(S.PrimaryParasite.hostTable[o.species]||{}).flat();
           if(allowed.includes(c.content.peerSpecies)){a.hostPreferences??={};a.hostPreferences[c.content.peerSpecies]=S.round(S.clamp((a.hostPreferences[c.content.peerSpecies]||0)+d,-20,20));}
         }
       }
       const c=contents[0];
       if(!known){known={originId:group.originId,contentIds:[],sourceId:c.record.sourceId,sourceSpecies:c.record.sourceSpecies,
-        receivedAt:w.turn,expires:c.record.expires,source:c.source,caregiver:!!c.caregiver};a.learned.push(known);}
+        receivedAt:w.turn,expires:c.record.expires,source:c.source,caregiver:!!c.caregiver};a.learned.push(known);knownOrigins.set(group.originId,known);}
       known.contentIds=[...new Set([...knownIds,...contents.map(c=>c.content.contentId)])];known.expires=Math.max(known.expires,...contents.map(c=>c.record.expires));
       read++;a.last.received++;a.last.costE=S.round(a.last.costE+fee);a.last.deltaAbs=S.round(a.last.deltaAbs+deltaAbs);a.last.origins.push(group.originId);
       informationFlow(w,ctx,"originsRead");informationFlow(w,ctx,"contentsRead",contents.length);informationFlow(w,ctx,"receptionCostE",fee);
@@ -211,7 +221,9 @@
   function informationBegin(w,ctx){
     if(!informationEnabled(w)||ctx.informationBegun)return;ctx.informationBegun=true;
     ctx.persistentInformationFlow??=emptyInformationFlow(w);informationTrack(w,ctx);informationDiffuse(w,ctx);informationBundleIndex(w,ctx);
-    for(const entry of S.PersistentInformation.entries(w))informationReceive(w,ctx,entry);
+    // Valid only during this fixed-position receive pass, never the next turn.
+    const cache={cells:new Map(),contents:new WeakMap(),expiries:new Map()};
+    for(const entry of S.PersistentInformation.entries(w))informationReceive(w,ctx,entry,cache);
   }
   function informationPlace(w,ctx,subject,cell){
     const none={attraction:0,warning:0,value:0,origins:[]};

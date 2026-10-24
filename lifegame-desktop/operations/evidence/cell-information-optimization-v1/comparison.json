@@ -1,0 +1,58 @@
+{
+  "baseline": "6713775",
+  "decision": "adopted",
+  "baselineRuns": [
+    "before-1.json",
+    "before-2.json"
+  ],
+  "finalRuns": [
+    "after-2.json",
+    "after-3.json"
+  ],
+  "intermediateExcluded": [
+    "after-1.json"
+  ],
+  "intermediateSignature": "206c9b185a2ba06e6800fa179bb091c4cb3e6dfefd90cb7c82deb0c375e353db",
+  "finalSignature": "219b2a50d6ecf08eb552770f8e26535dbfde144b57751195ebe18757f2a035cf",
+  "comparedFields": [
+    "startingTurn",
+    "turn",
+    "startingWorldHash",
+    "worldHash",
+    "observationHash",
+    "fingerprint",
+    "invariants",
+    "organisms",
+    "corpses"
+  ],
+  "allEqual": true,
+  "scope": "One retained turn-500 world, each one-turn run in a fresh process; no 500-turn rerun or general speed guarantee.",
+  "timing": {
+    "informationMs": {
+      "baselineMean": 916.6652439999998,
+      "finalMean": 825.9536660000003,
+      "reductionPercent": 9.895823867409492,
+      "baselineRange": [
+        873.4789940000001,
+        959.8514939999995
+      ],
+      "finalRange": [
+        822.4762230000006,
+        829.4311090000001
+      ]
+    },
+    "stepMs": {
+      "baselineMean": 4974.51433,
+      "finalMean": 4719.977562499999,
+      "reductionPercent": 5.116816449094452,
+      "baselineRange": [
+        4698.793835,
+        5250.2348250000005
+      ],
+      "finalRange": [
+        4659.432564999999,
+        4780.522559999999
+      ]
+    }
+  }
+}
