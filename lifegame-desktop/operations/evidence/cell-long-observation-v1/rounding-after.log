@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: shared organic feeding leaves no submicro body without its energy
+ok 1 - shared organic feeding leaves no submicro body without its energy
+  ---
+  duration_ms: 33.111442
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 39.907397

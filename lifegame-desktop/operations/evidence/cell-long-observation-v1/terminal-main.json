@@ -1,0 +1,76 @@
+{
+  "turn": 500,
+  "source": "terminal world of tests/cell-long-observation.cjs",
+  "individuals": [
+    {
+      "id": "b:121:main:1:6:i:main:0:6:antimeme",
+      "species": "antimeme",
+      "age": 379,
+      "phase": 4,
+      "birthTurn": 121,
+      "B": 8,
+      "E": 1.050357,
+      "M": 11.640265
+    },
+    {
+      "id": "b:132:main:3:10:i:main:0:6:antimeme:2",
+      "species": "antimeme",
+      "age": 368,
+      "phase": 4,
+      "birthTurn": 132,
+      "B": 8,
+      "E": 99.523841,
+      "M": 17.385484
+    },
+    {
+      "id": "b:144:main:16:9:i:main:21:11:recursive:1",
+      "species": "recursive",
+      "age": 356,
+      "phase": 4,
+      "birthTurn": 144,
+      "B": 8,
+      "E": 0,
+      "M": 10.725358
+    },
+    {
+      "id": "b:191:main:2:11:i:main:0:6:antimeme:1",
+      "species": "antimeme",
+      "age": 309,
+      "phase": 3,
+      "birthTurn": 191,
+      "B": 8,
+      "E": 0,
+      "M": 8.878211
+    },
+    {
+      "id": "b:194:main:7:15:i:main:1:7:antimeme:1",
+      "species": "antimeme",
+      "age": 306,
+      "phase": 4,
+      "birthTurn": 194,
+      "B": 8,
+      "E": 82.80297,
+      "M": 13.097596
+    },
+    {
+      "id": "b:224:main:0:13:i:main:0:6:antimeme",
+      "species": "antimeme",
+      "age": 276,
+      "phase": 3,
+      "birthTurn": 224,
+      "B": 8,
+      "E": 0,
+      "M": 9.670962
+    },
+    {
+      "id": "b:376:main:18:30:i:main:24:33:antimeme",
+      "species": "antimeme",
+      "age": 124,
+      "phase": 2,
+      "birthTurn": 376,
+      "B": 8,
+      "E": 0,
+      "M": 3.615049
+    }
+  ]
+}

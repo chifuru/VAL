@@ -1,0 +1,70 @@
+{
+  "baseline": "3ffdee9",
+  "biologicalSignature": "e5a7bdca023614ab509af21fa6b18569a876f3c1e9c4207877c97daeef3cbfb6",
+  "formalNodes": 61,
+  "updatedExistingNodes": [
+    "C7",
+    "C7.2",
+    "D7",
+    "D8",
+    "E5"
+  ],
+  "formalMetadataGraphAndDraftStatusUnchanged": true,
+  "coreABAndAdoptedSpecUnchanged": true,
+  "manifestUniqueEntries": 61,
+  "manifestRequiredFields": true,
+  "manifestLayerHeadings": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+  ],
+  "tests": {
+    "rounding-before.log": {
+      "pass": 0,
+      "fail": 1
+    },
+    "rounding-after.log": {
+      "pass": 1,
+      "fail": 0
+    },
+    "turn-regression.log": {
+      "pass": 7,
+      "fail": 0
+    },
+    "archive-regression.log": {
+      "pass": 6,
+      "fail": 0
+    }
+  },
+  "legacyCases": 2,
+  "legacyStatesPerCase": 3,
+  "generation": {
+    "profiles": 8,
+    "uniqueModules": 22,
+    "bytes": 2018815
+  },
+  "naturalObservation": {
+    "conditions": 1,
+    "turns": 500,
+    "rows": 501,
+    "mainSurvives": true,
+    "terminalMain": 7,
+    "maxAbsError": {
+      "E": 1.3e-05,
+      "M": 0
+    },
+    "uninstrumentedT12Matches": true,
+    "cycleScope": "co-located time-ordered paths, not molecular or individual provenance"
+  },
+  "uiArtworkLayoutAndProductVersionUnchanged": true,
+  "newDistributionCreated": false,
+  "notVerified": [
+    "all conditions/lineages/R1-R6",
+    "natural multi-generation P/Q loop",
+    "whole-system UI/Windows performance",
+    "comparison coefficient formal adoption and default migration",
+    "unselected species-specific coefficients/migration"
+  ]
+}

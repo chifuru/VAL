@@ -1,0 +1,10 @@
+{"turn":25,"main":84,"P":97,"Q":34,"organisms":2892,"Eerror":0.000004,"Merror":0,"elapsedMs":15698}
+{"turn":50,"main":83,"P":84,"Q":35,"organisms":4124,"Eerror":0.000009,"Merror":0,"elapsedMs":50783}
+{"turn":100,"main":89,"P":47,"Q":35,"organisms":5817,"Eerror":0.000013,"Merror":0,"elapsedMs":171704}
+{"turn":200,"main":77,"P":0,"Q":35,"organisms":7514,"Eerror":0.000013,"Merror":0,"elapsedMs":517045}
+{"turn":300,"main":39,"P":0,"Q":35,"organisms":9564,"Eerror":0.000013,"Merror":0,"elapsedMs":1139385}
+Starting inspector on 127.0.0.1:9229 failed: operation not permitted
+{"turn":400,"main":15,"P":0,"Q":35,"organisms":6898,"Eerror":0.000013,"Merror":0,"elapsedMs":1958314}
+{"turn":500,"main":7,"P":0,"Q":0,"organisms":6503,"Eerror":0.000013,"Merror":0,"elapsedMs":2566699}
+{"report":"/workspace/VAL/lifegame-desktop/operations/evidence/cell-long-observation-v1/report.json","turn":500,"main":7,"error":null,"cycles":4,"elapsedMs":2570508}
+Starting inspector on 127.0.0.1:9229 failed: operation not permitted

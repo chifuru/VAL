@@ -375,7 +375,9 @@
             const fraction=quantity/s.units;s.row.E=Q(s.row.E-rawE);s.row.M=Q(s.row.M-rawM);
             if(["carcass","capture"].includes(s.key)){s.row.q=Q(s.row.q-quantity);s.row.G=Q(Math.max(0,(s.row.G||0)-s.body*fraction));}
             else if(s.key==="resource"){s.row.q=Q(s.row.q-quantity);s.row.G=Q(Math.max(0,(s.row.G||0)*(1-fraction)));}
-            else s.row.B=Q(Math.max(0,(s.row.B||0)-s.body*fraction));
+            // B is the tissue component already included in E. Separate
+            // rounded shares must not leave a body label after E is consumed.
+            else s.row.B=Math.min(s.row.E,Q(Math.max(0,(s.row.B||0)-s.body*fraction)));
             if(["carcass","capture","resource"].includes(s.key)&&s.row.q<=0&&(s.row.E>0||s.row.M>0)){
               S.CellSpace.deferMaterial(w,s.cell,{E:s.row.E,M:s.row.M,B:Math.min(s.row.E,s.row.G||0)});s.row.E=0;s.row.M=0;s.row.G=0;
             }

@@ -1,0 +1,759 @@
+{
+  "baseline": "3ffdee9",
+  "biologicalSignature": "e5a7bdca023614ab509af21fa6b18569a876f3c1e9c4207877c97daeef3cbfb6",
+  "configFile": "../cell-turn-v1/initial-config.json",
+  "turn": 500,
+  "completed500": true,
+  "mainSurvives": true,
+  "error": null,
+  "maxAbsError": {
+    "E": 0.000013,
+    "M": 0
+  },
+  "fingerprint12": "01935336a6856ab0736840e2649553461c4cf66217794c3fee4b975efbffcf08",
+  "fingerprint": "fe1606bae39eff0ad650a22e9f4bc6402d120022fe6231cd9928f12c85936f0a",
+  "totals": {
+    "receipts": {
+      "photo": {
+        "count": 2199654,
+        "E": 755153.4167660172,
+        "M": 0,
+        "quantity": 755153.4167660172
+      },
+      "food": {
+        "count": 1330130,
+        "E": 124209.35326799827,
+        "M": 2750.198280000004,
+        "quantity": 225320.5724190047
+      },
+      "mineral": {
+        "count": 2982247,
+        "E": 0,
+        "M": 27428.325981000195,
+        "quantity": 27498.560740000154
+      },
+      "decompose": {
+        "count": 7303843,
+        "E": 45768.8264049989,
+        "M": 1942.092782000009,
+        "quantity": 124441.35626999625
+      }
+    },
+    "background": {
+      "E": 17736.75067299999,
+      "M": 594.0128349999999,
+      "B": 8024.995546
+    },
+    "returnedM": 23847.746213999988,
+    "remains": 30836,
+    "productionB": 296076.9738248706
+  },
+  "tallies": {
+    "births": {
+      "abyss": 0,
+      "myth": 0,
+      "recursive": 3,
+      "sail": 0,
+      "gravity": 0,
+      "crystal": 0,
+      "manyeyes": 0,
+      "abyssshell": 0,
+      "parallel": 0,
+      "memory": 0,
+      "serpent": 1,
+      "solar": 0,
+      "antimeme": 10,
+      "valis": 0,
+      "jelly": 6,
+      "kelp": 0,
+      "whale": 0,
+      "swarm": 0,
+      "plasma": 0,
+      "cephalopod": 0,
+      "precocial": 0,
+      "algae": 20,
+      "moss": 0,
+      "grass": 10133,
+      "fungus": 2683,
+      "waterbug": 2119,
+      "grassbug": 18817,
+      "tideparasite": 0,
+      "leafparasite": 22,
+      "hyperparasite": 2,
+      "phytoplankton": 3647,
+      "forestcrown": 258,
+      "starcrown": 330,
+      "freshwaterlight": 9,
+      "ryouki": 0
+    },
+    "deaths": {
+      "abyss": 0,
+      "myth": 0,
+      "recursive": 18,
+      "sail": 0,
+      "gravity": 0,
+      "crystal": 0,
+      "manyeyes": 0,
+      "abyssshell": 0,
+      "parallel": 0,
+      "memory": 0,
+      "serpent": 17,
+      "solar": 0,
+      "antimeme": 20,
+      "valis": 0,
+      "jelly": 22,
+      "kelp": 20,
+      "whale": 0,
+      "swarm": 0,
+      "plasma": 0,
+      "cephalopod": 0,
+      "precocial": 0,
+      "algae": 10,
+      "moss": 0,
+      "grass": 7697,
+      "fungus": 198,
+      "waterbug": 779,
+      "grassbug": 18850,
+      "tideparasite": 17,
+      "leafparasite": 119,
+      "hyperparasite": 39,
+      "phytoplankton": 2849,
+      "forestcrown": 124,
+      "starcrown": 221,
+      "freshwaterlight": 12,
+      "ryouki": 0
+    },
+    "causes": {
+      "combat": 119,
+      "starvation": 14539,
+      "harvest": 641,
+      "age": 15573,
+      "predation": 3
+    },
+    "sources": {
+      "plant": 182642.899058,
+      "fungal": 526.627647,
+      "animal": 121924.060311,
+      "mineral": 0,
+      "factor": 0,
+      "info": 0
+    },
+    "transfers": 481,
+    "infectionFailures": 214,
+    "information": {
+      "emissionTurns": 0,
+      "received": 0,
+      "mediated": 0
+    }
+  },
+  "final": {
+    "turn": 500,
+    "main": 7,
+    "counts": {
+      "abyss": 0,
+      "myth": 0,
+      "recursive": 1,
+      "sail": 0,
+      "gravity": 0,
+      "crystal": 0,
+      "manyeyes": 0,
+      "abyssshell": 0,
+      "parallel": 0,
+      "memory": 0,
+      "serpent": 0,
+      "solar": 0,
+      "antimeme": 6,
+      "valis": 0,
+      "jelly": 0,
+      "kelp": 0,
+      "whale": 0,
+      "swarm": 0,
+      "plasma": 0,
+      "cephalopod": 0,
+      "precocial": 0,
+      "algae": 14,
+      "moss": 0,
+      "grass": 2628,
+      "fungus": 2518,
+      "waterbug": 1374,
+      "grassbug": 0,
+      "tideparasite": 0,
+      "leafparasite": 0,
+      "hyperparasite": 0,
+      "phytoplankton": 815,
+      "forestcrown": 141,
+      "starcrown": 121,
+      "freshwaterlight": 0,
+      "ryouki": 0
+    },
+    "occupancy": {
+      "version": "cell-reorganization/1",
+      "layers": {
+        "1": 3457,
+        "2": 262,
+        "3": 259,
+        "4": 7,
+        "5": 2518
+      },
+      "settledIndividuals": 6,
+      "settledSlots": 6,
+      "movingIndividuals": 1,
+      "consumerMembers": 1374
+    },
+    "P": 0,
+    "Q": 0,
+    "searchQ": 0,
+    "stopReason": "checkpoint",
+    "E": 131100.216271,
+    "M": 6539.737,
+    "Eerror": 0.000013,
+    "Merror": 0,
+    "solar": 755153.416766,
+    "sinks": 635644.160508,
+    "mineralInput": 0,
+    "soilM": 2471.185474,
+    "carcasses": 27941,
+    "organic": 1104,
+    "births": 21,
+    "deaths": 26,
+    "deathCauses": [
+      {
+        "id": "cs:200:cs:182:cs:165:cs:134:cs:117:i:food:7:21:waterbug",
+        "species": "waterbug",
+        "reason": "starvation",
+        "count": 1,
+        "partial": true
+      },
+      {
+        "id": "cs:243:cs:200:cs:165:i:food:23:18:waterbug",
+        "species": "waterbug",
+        "reason": "starvation",
+        "count": 1,
+        "partial": true
+      },
+      {
+        "id": "cl:304:cl:294:cl:271:cl:248:cl:237:cl:205:i:food:9:37:fungus",
+        "species": "fungus",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:481:i:colony:344:phytoplankton",
+        "species": "phytoplankton",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:481:cl:105:cl:70:cl:41:cl:11:i:colony:1100:phytoplankton",
+        "species": "phytoplankton",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:481:cl:161:cl:129:cl:99:cl:69:cl:37:cl:9:i:colony:344:phytoplankton",
+        "species": "phytoplankton",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:481:cl:103:cl:70:cl:41:cl:11:i:colony:1100:phytoplankton",
+        "species": "phytoplankton",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:309:cl:289:cl:247:cl:205:i:food:9:37:fungus",
+        "species": "fungus",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:481:cl:103:cl:69:cl:41:cl:11:i:colony:1100:phytoplankton",
+        "species": "phytoplankton",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:481:cl:45:cl:14:i:colony:344:phytoplankton",
+        "species": "phytoplankton",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:481:cl:92:cl:62:cl:32:cl:4:i:colony:252:grass",
+        "species": "grass",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:481:cl:98:cl:62:cl:34:cl:4:i:colony:366:grass",
+        "species": "grass",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:481:cl:106:cl:72:cl:41:cl:11:i:colony:1100:phytoplankton",
+        "species": "phytoplankton",
+        "reason": "starvation"
+      },
+      {
+        "id": "cs:196:cs:179:cs:160:i:food:22:18:waterbug",
+        "species": "waterbug",
+        "reason": "starvation",
+        "count": 1,
+        "partial": true
+      },
+      {
+        "id": "cl:481:cl:42:cl:7:i:colony:366:grass",
+        "species": "grass",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:309:cl:299:cl:289:cl:247:cl:205:i:food:9:37:fungus",
+        "species": "fungus",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:481:cl:51:cl:11:i:colony:1100:phytoplankton",
+        "species": "phytoplankton",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:481:cl:103:cl:61:cl:13:i:colony:730:phytoplankton",
+        "species": "phytoplankton",
+        "reason": "starvation"
+      },
+      {
+        "id": "cs:179:cs:160:i:food:22:18:waterbug",
+        "species": "waterbug",
+        "reason": "starvation",
+        "count": 1,
+        "partial": true
+      },
+      {
+        "id": "cl:481:cl:69:cl:36:cl:7:i:colony:1098:grass",
+        "species": "grass",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:311:cl:301:cl:291:cl:244:cl:215:i:food:9:37:fungus",
+        "species": "fungus",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:481:cl:38:cl:7:i:colony:366:grass",
+        "species": "grass",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:481:cl:104:cl:62:cl:34:cl:4:i:colony:366:grass",
+        "species": "grass",
+        "reason": "starvation"
+      },
+      {
+        "id": "cl:310:cl:299:cl:247:cl:205:i:food:9:37:fungus",
+        "species": "fungus",
+        "reason": "starvation"
+      },
+      {
+        "id": "cs:198:cs:159:i:food:26:22:waterbug",
+        "species": "waterbug",
+        "reason": "starvation",
+        "count": 1,
+        "partial": true
+      },
+      {
+        "id": "cl:311:cl:291:cl:244:cl:215:i:food:9:37:fungus",
+        "species": "fungus",
+        "reason": "starvation"
+      }
+    ],
+    "receipts": {
+      "photo": {
+        "count": 3190,
+        "E": 690.5390620000198,
+        "M": 0,
+        "quantity": 690.5390620000198
+      },
+      "decompose": {
+        "count": 4019,
+        "E": 32.73436099999975,
+        "M": 1.604226999999969,
+        "quantity": 82.4706840000003
+      },
+      "food": {
+        "count": 189,
+        "E": 20.302578000000015,
+        "M": 0.49978099999999936,
+        "quantity": 39.43771599999995
+      },
+      "mineral": {
+        "count": 6120,
+        "E": 0,
+        "M": 32.261271000001194,
+        "quantity": 32.44454500000112
+      }
+    },
+    "background": {
+      "E": 49.550743,
+      "M": 1.72702,
+      "B": 30.668921
+    },
+    "returnedM": 33.619882
+  },
+  "cycleExamples": [
+    {
+      "cell": 87,
+      "events": [
+        {
+          "turn": 1,
+          "kind": "production",
+          "species": "fungus",
+          "B": 0.25
+        },
+        {
+          "turn": 2,
+          "kind": "feeding",
+          "actor": "antimeme",
+          "source": "cell-organic/87",
+          "E": 0.12767
+        },
+        {
+          "turn": 32,
+          "kind": "remains",
+          "species": "grass",
+          "id": "c:cl:4:i:colony:48:grass:32",
+          "E": 0,
+          "M": 0.19995
+        },
+        {
+          "turn": 33,
+          "kind": "decomposition",
+          "actor": "fungus",
+          "source": "c:cl:4:i:colony:48:grass:32",
+          "E": 0,
+          "M": 0.000844
+        },
+        {
+          "turn": 34,
+          "kind": "returned",
+          "M": 0.011735
+        },
+        {
+          "turn": 34,
+          "kind": "regrowth",
+          "species": "fungus",
+          "B": 0.011861
+        }
+      ]
+    },
+    {
+      "cell": 959,
+      "events": [
+        {
+          "turn": 1,
+          "kind": "production",
+          "species": "fungus",
+          "B": 0.25
+        },
+        {
+          "turn": 58,
+          "kind": "feeding",
+          "actor": "serpent",
+          "source": "cell-organic/959",
+          "E": 0.001984
+        },
+        {
+          "turn": 255,
+          "kind": "remains",
+          "species": "grassbug",
+          "id": "c:part:cs:234:cs:208:cs:124:cs:97:i:food:8:36:grassbug:255:1:255",
+          "E": 2.642512,
+          "M": 0.071281
+        },
+        {
+          "turn": 256,
+          "kind": "decomposition",
+          "actor": "fungus",
+          "source": "c:part:cs:234:cs:208:cs:124:cs:97:i:food:8:36:grassbug:255:1:255",
+          "E": 0.330314,
+          "M": 0.005
+        },
+        {
+          "turn": 257,
+          "kind": "returned",
+          "M": 0.092864
+        },
+        {
+          "turn": 257,
+          "kind": "regrowth",
+          "species": "grass",
+          "B": 0.440317
+        }
+      ]
+    },
+    {
+      "cell": 756,
+      "events": [
+        {
+          "turn": 1,
+          "kind": "production",
+          "species": "grass",
+          "B": 2
+        },
+        {
+          "turn": 7,
+          "kind": "feeding",
+          "actor": "serpent",
+          "source": "cell-organic/756",
+          "E": 0.423405
+        },
+        {
+          "turn": 173,
+          "kind": "remains",
+          "species": "grassbug",
+          "id": "c:part:cs:103:cs:80:i:food:6:36:grassbug:173:4:173",
+          "E": 2.27673,
+          "M": 0.061799
+        },
+        {
+          "turn": 265,
+          "kind": "decomposition",
+          "actor": "fungus",
+          "source": "c:part:cs:103:cs:80:i:food:6:36:grassbug:173:4:173",
+          "E": 0.035573,
+          "M": 0.001932
+        },
+        {
+          "turn": 266,
+          "kind": "returned",
+          "M": 0.058004
+        },
+        {
+          "turn": 266,
+          "kind": "regrowth",
+          "species": "grass",
+          "B": 0.17835
+        }
+      ]
+    },
+    {
+      "cell": 838,
+      "events": [
+        {
+          "turn": 1,
+          "kind": "production",
+          "species": "grass",
+          "B": 2
+        },
+        {
+          "turn": 2,
+          "kind": "feeding",
+          "actor": "serpent",
+          "source": "cell-organic/838",
+          "E": 0.115268
+        },
+        {
+          "turn": 187,
+          "kind": "remains",
+          "species": "grassbug",
+          "id": "c:part:cs:172:cs:143:cs:97:i:food:8:36:grassbug:187:1:187",
+          "E": 2.734866,
+          "M": 0.073443
+        },
+        {
+          "turn": 304,
+          "kind": "decomposition",
+          "actor": "fungus",
+          "source": "c:part:cs:172:cs:143:cs:97:i:food:8:36:grassbug:187:1:187",
+          "E": 0.028488,
+          "M": 0.001531
+        },
+        {
+          "turn": 305,
+          "kind": "returned",
+          "M": 0.017278
+        },
+        {
+          "turn": 305,
+          "kind": "regrowth",
+          "species": "fungus",
+          "B": 0.25
+        }
+      ]
+    }
+  ],
+  "longestPartialExamples": [
+    {
+      "cell": 87,
+      "events": [
+        {
+          "turn": 1,
+          "kind": "production",
+          "species": "fungus",
+          "B": 0.25
+        },
+        {
+          "turn": 2,
+          "kind": "feeding",
+          "actor": "antimeme",
+          "source": "cell-organic/87",
+          "E": 0.12767
+        },
+        {
+          "turn": 32,
+          "kind": "remains",
+          "species": "grass",
+          "id": "c:cl:4:i:colony:48:grass:32",
+          "E": 0,
+          "M": 0.19995
+        },
+        {
+          "turn": 33,
+          "kind": "decomposition",
+          "actor": "fungus",
+          "source": "c:cl:4:i:colony:48:grass:32",
+          "E": 0,
+          "M": 0.000844
+        },
+        {
+          "turn": 34,
+          "kind": "returned",
+          "M": 0.011735
+        },
+        {
+          "turn": 34,
+          "kind": "regrowth",
+          "species": "fungus",
+          "B": 0.011861
+        }
+      ]
+    },
+    {
+      "cell": 959,
+      "events": [
+        {
+          "turn": 1,
+          "kind": "production",
+          "species": "fungus",
+          "B": 0.25
+        },
+        {
+          "turn": 58,
+          "kind": "feeding",
+          "actor": "serpent",
+          "source": "cell-organic/959",
+          "E": 0.001984
+        },
+        {
+          "turn": 255,
+          "kind": "remains",
+          "species": "grassbug",
+          "id": "c:part:cs:234:cs:208:cs:124:cs:97:i:food:8:36:grassbug:255:1:255",
+          "E": 2.642512,
+          "M": 0.071281
+        },
+        {
+          "turn": 256,
+          "kind": "decomposition",
+          "actor": "fungus",
+          "source": "c:part:cs:234:cs:208:cs:124:cs:97:i:food:8:36:grassbug:255:1:255",
+          "E": 0.330314,
+          "M": 0.005
+        },
+        {
+          "turn": 257,
+          "kind": "returned",
+          "M": 0.092864
+        },
+        {
+          "turn": 257,
+          "kind": "regrowth",
+          "species": "grass",
+          "B": 0.440317
+        }
+      ]
+    },
+    {
+      "cell": 756,
+      "events": [
+        {
+          "turn": 1,
+          "kind": "production",
+          "species": "grass",
+          "B": 2
+        },
+        {
+          "turn": 7,
+          "kind": "feeding",
+          "actor": "serpent",
+          "source": "cell-organic/756",
+          "E": 0.423405
+        },
+        {
+          "turn": 173,
+          "kind": "remains",
+          "species": "grassbug",
+          "id": "c:part:cs:103:cs:80:i:food:6:36:grassbug:173:4:173",
+          "E": 2.27673,
+          "M": 0.061799
+        },
+        {
+          "turn": 265,
+          "kind": "decomposition",
+          "actor": "fungus",
+          "source": "c:part:cs:103:cs:80:i:food:6:36:grassbug:173:4:173",
+          "E": 0.035573,
+          "M": 0.001932
+        },
+        {
+          "turn": 266,
+          "kind": "returned",
+          "M": 0.058004
+        },
+        {
+          "turn": 266,
+          "kind": "regrowth",
+          "species": "grass",
+          "B": 0.17835
+        }
+      ]
+    },
+    {
+      "cell": 838,
+      "events": [
+        {
+          "turn": 1,
+          "kind": "production",
+          "species": "grass",
+          "B": 2
+        },
+        {
+          "turn": 2,
+          "kind": "feeding",
+          "actor": "serpent",
+          "source": "cell-organic/838",
+          "E": 0.115268
+        },
+        {
+          "turn": 187,
+          "kind": "remains",
+          "species": "grassbug",
+          "id": "c:part:cs:172:cs:143:cs:97:i:food:8:36:grassbug:187:1:187",
+          "E": 2.734866,
+          "M": 0.073443
+        },
+        {
+          "turn": 304,
+          "kind": "decomposition",
+          "actor": "fungus",
+          "source": "c:part:cs:172:cs:143:cs:97:i:food:8:36:grassbug:187:1:187",
+          "E": 0.028488,
+          "M": 0.001531
+        },
+        {
+          "turn": 305,
+          "kind": "returned",
+          "M": 0.017278
+        },
+        {
+          "turn": 305,
+          "kind": "regrowth",
+          "species": "fungus",
+          "B": 0.25
+        }
+      ]
+    }
+  ],
+  "elapsedMs": 2570508
+}

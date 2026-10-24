@@ -163,3 +163,13 @@ test('microscopic food residues and water costs do not produce negative or free 
  const water=fixture(),plant=add(water,'p',{species:'grass',E:0}),d=ready(water);water.cellState.water[18]=.000001;
  R.acquire(water,d,[req('p',plant,'photo',.000001)],[{actor:plant.id,height:1,area:1,capture:.000001}]);assert.equal(water.cellState.water[18],0);assert(plant.E>0);conservation(water);
 });
+
+test('shared organic feeding leaves no submicro body without its energy',()=>{
+ for(const body of [.000001,.000003,.000005]){
+  const w=fixture(),a=add(w,'a',{species:'recursive',E:0,M:0}),b=add(w,'b',{species:'recursive',E:0,M:0});
+  const stock={id:'rounding',cell:18,E:.562102,M:.015131,B:body};w.cellState.organic.push(stock);
+  const ctx=ready(w);R.acquire(w,ctx,[req('a',a,'food',.562102,{source:{kind:'organic',id:stock.id}}),req('b',b,'food',.562102,{source:{kind:'organic',id:stock.id}})]);
+  near(ctx.cellResources.receipts.reduce((n,r)=>n+r.quantity,0),.562102);
+  assert.equal(stock.E,0);assert.equal(stock.B,0);conservation(w);
+ }
+});

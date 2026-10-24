@@ -1,0 +1,383 @@
+{
+  "baseline": "3ffdee9",
+  "biologicalSignature": "c7b6198bf4f96dabd400a3b131a50859210ca21b8618183228712407d16a6721",
+  "configFile": "../cell-turn-v1/initial-config.json",
+  "turn": 13,
+  "completed500": false,
+  "mainSurvives": true,
+  "error": {
+    "stage": "turn 13",
+    "message": "CELL_ORGANIC",
+    "stack": "Error: CELL_ORGANIC\n    at Object.<anonymous> (/workspace/VAL/lifegame-desktop/tests/cell-long-observation.cjs:56:28)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47"
+  },
+  "maxAbsError": {
+    "E": 0,
+    "M": 0
+  },
+  "fingerprint12": "01935336a6856ab0736840e2649553461c4cf66217794c3fee4b975efbffcf08",
+  "fingerprint": "9faaf31ceeea7fe92fdf8eee543538757357fa6a2a4ca4740a4ee7449c62e392",
+  "totals": {
+    "receipts": {
+      "photo": {
+        "count": 11254,
+        "E": 9236.711988999985,
+        "M": 0,
+        "quantity": 9236.711988999985
+      },
+      "food": {
+        "count": 4860,
+        "E": 787.4949530000015,
+        "M": 28.740138999999996,
+        "quantity": 1611.0345200000004
+      },
+      "mineral": {
+        "count": 11493,
+        "E": 0,
+        "M": 499.9380440000047,
+        "quantity": 500.02819100000465
+      },
+      "decompose": {
+        "count": 396,
+        "E": 4.632202,
+        "M": 1.485706,
+        "quantity": 10.460268
+      }
+    },
+    "background": {
+      "E": 2.671879,
+      "M": 0.152734,
+      "B": 0.028746999999999998
+    },
+    "returnedM": 0,
+    "remains": 16,
+    "productionB": 3339.75261000002
+  },
+  "tallies": {
+    "births": {
+      "abyss": 0,
+      "myth": 0,
+      "recursive": 0,
+      "sail": 0,
+      "gravity": 0,
+      "crystal": 0,
+      "manyeyes": 0,
+      "abyssshell": 0,
+      "parallel": 0,
+      "memory": 0,
+      "serpent": 0,
+      "solar": 0,
+      "antimeme": 0,
+      "valis": 0,
+      "jelly": 0,
+      "kelp": 0,
+      "whale": 0,
+      "swarm": 0,
+      "plasma": 0,
+      "cephalopod": 0,
+      "precocial": 0,
+      "algae": 15,
+      "moss": 0,
+      "grass": 1628,
+      "fungus": 0,
+      "waterbug": 5,
+      "grassbug": 24,
+      "tideparasite": 0,
+      "leafparasite": 6,
+      "hyperparasite": 0,
+      "phytoplankton": 121,
+      "forestcrown": 0,
+      "starcrown": 0,
+      "freshwaterlight": 0,
+      "ryouki": 0
+    },
+    "deaths": {
+      "abyss": 0,
+      "myth": 0,
+      "recursive": 0,
+      "sail": 0,
+      "gravity": 0,
+      "crystal": 0,
+      "manyeyes": 0,
+      "abyssshell": 0,
+      "parallel": 0,
+      "memory": 0,
+      "serpent": 0,
+      "solar": 0,
+      "antimeme": 0,
+      "valis": 0,
+      "jelly": 0,
+      "kelp": 0,
+      "whale": 0,
+      "swarm": 0,
+      "plasma": 0,
+      "cephalopod": 0,
+      "precocial": 0,
+      "algae": 0,
+      "moss": 0,
+      "grass": 0,
+      "fungus": 0,
+      "waterbug": 8,
+      "grassbug": 8,
+      "tideparasite": 1,
+      "leafparasite": 4,
+      "hyperparasite": 1,
+      "phytoplankton": 0,
+      "forestcrown": 0,
+      "starcrown": 0,
+      "freshwaterlight": 0,
+      "ryouki": 0
+    },
+    "causes": {
+      "combat": 6,
+      "starvation": 0,
+      "harvest": 10,
+      "age": 0
+    },
+    "sources": {
+      "plant": 1121.487973,
+      "fungal": 20.110381,
+      "animal": 458.541552,
+      "mineral": 0,
+      "factor": 0,
+      "info": 0
+    },
+    "transfers": 71,
+    "infectionFailures": 28,
+    "information": {
+      "emissionTurns": 0,
+      "received": 0,
+      "mediated": 0
+    }
+  },
+  "final": {
+    "turn": 13,
+    "main": 84,
+    "counts": {
+      "abyss": 0,
+      "myth": 0,
+      "recursive": 16,
+      "sail": 0,
+      "gravity": 0,
+      "crystal": 0,
+      "manyeyes": 0,
+      "abyssshell": 0,
+      "parallel": 0,
+      "memory": 0,
+      "serpent": 16,
+      "solar": 0,
+      "antimeme": 16,
+      "valis": 0,
+      "jelly": 16,
+      "kelp": 20,
+      "whale": 0,
+      "swarm": 0,
+      "plasma": 0,
+      "cephalopod": 0,
+      "precocial": 0,
+      "algae": 19,
+      "moss": 0,
+      "grass": 1820,
+      "fungus": 33,
+      "waterbug": 31,
+      "grassbug": 49,
+      "tideparasite": 12,
+      "leafparasite": 70,
+      "hyperparasite": 35,
+      "phytoplankton": 138,
+      "forestcrown": 7,
+      "starcrown": 12,
+      "freshwaterlight": 3,
+      "ryouki": 0
+    },
+    "occupancy": {
+      "version": "cell-reorganization/1",
+      "layers": {
+        "1": 1977,
+        "2": 19,
+        "3": 53,
+        "4": 87,
+        "5": 33
+      },
+      "settledIndividuals": 70,
+      "settledSlots": 70,
+      "movingIndividuals": 17,
+      "consumerMembers": 80
+    },
+    "P": 82,
+    "Q": 35,
+    "searchQ": 32,
+    "stopReason": null,
+    "E": 16918.613161,
+    "M": 6539.737,
+    "Eerror": 0,
+    "Merror": 0,
+    "solar": 9236.711989,
+    "sinks": 3909.058828,
+    "mineralInput": 0,
+    "soilM": 5663.853778,
+    "carcasses": 10,
+    "organic": 180,
+    "births": 153,
+    "deaths": 2,
+    "deathCauses": [
+      {
+        "id": "i:food:9:34:grassbug",
+        "species": "grassbug",
+        "reason": "combat",
+        "count": 1,
+        "partial": true,
+        "generation": 0,
+        "ageStage": "mixed"
+      },
+      {
+        "id": "i:food:8:35:grassbug",
+        "species": "grassbug",
+        "reason": "combat",
+        "count": 1,
+        "partial": true,
+        "generation": 0,
+        "ageStage": "mixed"
+      }
+    ],
+    "receipts": {
+      "photo": {
+        "count": 1835,
+        "E": 897.7910209999957,
+        "M": 0,
+        "quantity": 897.7910209999957
+      },
+      "decompose": {
+        "count": 33,
+        "E": 0.23571,
+        "M": 0.12738300000000005,
+        "quantity": 0.5798500000000001
+      },
+      "food": {
+        "count": 602,
+        "E": 56.59128600000018,
+        "M": 1.6816820000000028,
+        "quantity": 110.69598000000036
+      },
+      "mineral": {
+        "count": 1884,
+        "E": 0,
+        "M": 49.46397900000087,
+        "quantity": 49.47006700000087
+      }
+    },
+    "background": {
+      "E": 0.338666,
+      "M": 0.016459,
+      "B": 0.010962
+    },
+    "returnedM": 0
+  },
+  "cycleExamples": [],
+  "longestPartialExamples": [
+    {
+      "cell": 435,
+      "events": [
+        {
+          "turn": 1,
+          "kind": "production",
+          "species": "grass",
+          "B": 2
+        },
+        {
+          "turn": 1,
+          "kind": "feeding",
+          "actor": "grassbug",
+          "source": "i:colony:435:grass",
+          "E": 0.1625
+        },
+        {
+          "turn": 10,
+          "kind": "remains",
+          "species": "grassbug",
+          "id": "c:part:i:food:8:34:grassbug:11:0:11",
+          "E": 3.95,
+          "M": 0.062499
+        }
+      ]
+    },
+    {
+      "cell": 395,
+      "events": [
+        {
+          "turn": 1,
+          "kind": "production",
+          "species": "grass",
+          "B": 2
+        },
+        {
+          "turn": 1,
+          "kind": "feeding",
+          "actor": "grassbug",
+          "source": "i:colony:395:grass",
+          "E": 0.1625
+        },
+        {
+          "turn": 11,
+          "kind": "remains",
+          "species": "grassbug",
+          "id": "c:part:i:food:9:34:grassbug:12:0:12",
+          "E": 2.6415,
+          "M": 0.047375
+        }
+      ]
+    },
+    {
+      "cell": 473,
+      "events": [
+        {
+          "turn": 1,
+          "kind": "production",
+          "species": "grass",
+          "B": 2
+        },
+        {
+          "turn": 5,
+          "kind": "feeding",
+          "actor": "grassbug",
+          "source": "i:colony:473:grass",
+          "E": 0.1375
+        },
+        {
+          "turn": 12,
+          "kind": "remains",
+          "species": "grassbug",
+          "id": "c:part:i:food:8:35:grassbug:13:0:13",
+          "E": 2.65,
+          "M": 0.048499
+        }
+      ]
+    },
+    {
+      "cell": 731,
+      "events": [
+        {
+          "turn": 1,
+          "kind": "production",
+          "species": "algae",
+          "B": 2
+        },
+        {
+          "turn": 1,
+          "kind": "feeding",
+          "actor": "waterbug",
+          "source": "i:colony:731:algae",
+          "E": 0.05
+        },
+        {
+          "turn": 2,
+          "kind": "remains",
+          "species": "waterbug",
+          "id": "c:part:i:food:18:11:waterbug:3:0:3",
+          "E": 3.95,
+          "M": 0.0445
+        }
+      ]
+    }
+  ],
+  "elapsedMs": 5634
+}

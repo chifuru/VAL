@@ -1,6 +1,6 @@
 # マス再編：実装の意味・責務・接合契約
 
-管理版 `cell-implementation/1`。上位正本は [cell-reorganization/1](../specification/cell-reorganization-v1.md)。CR06の通常3段階・比較用作成・停止再開/速度/図鑑再生へ接続。通常ターン7・保存6・Linux23項目成功。[現在証跡](../../operations/evidence/cell-turn-v1/README.md)（C7/C7.1/C8/C8.2、D7/D9 → E5/E6）。代表1条件12Tで全速度の全13行/終端一致。従来を既定とし、未知版/身体不足/不正状態と未選定水域は拒否する。CR07代表長期、未選定係数・既定化/Windows/配布は後続。以下の前工程説明と実測は各対象版/責務に限定する。
+管理版 `cell-implementation/1`。上位正本は [cell-reorganization/1](../specification/cell-reorganization-v1.md)。CR07代表1条件を自然500T観察、主7体存続・各T不変条件成功。[現在証跡](../../operations/evidence/cell-long-observation-v1/README.md)（C7/C7.2、D7/D8 → E5）。共有有機物の丸め残りを最小修正し、端数1・通常7・保存6、旧2条件一致を照合。通常/設定/速度/再生は6.1節。全条件/R1〜R6・自然P/Q多世代・未選定係数/正式採用と計算負荷/実画面/Windows/配布は後続。以下の前工程は各対象版/責務に限定。
 
 ## 1. 版と適用境界
 
@@ -268,3 +268,10 @@ CR06前半の実行契約は `operations/plans/cell-interactions-v1.md`。担当
 `tests/cell-interactions.test.cjs` の14境界で、同居ID/途中接触・実採食曝露・部分死亡/分群・情報費/経験/新情報・生成元/Worker/JSONと通常進行/保存ガードを照合した。生活18/循環21/基盤8/一次寄生30/情報26も成功し計117項目。対象署名と限界は [CR06前半証跡](../../operations/evidence/cell-interactions-v1/README.md) を正とする。
 
 Q自律生活・主生物生活とE/M片満量時の採食は5.1節、直接捕食は5.2節へ接続済み。現在の残件は専用光合成/水系生活・群落移動の種指定/再生枝・観測/表示/保存開放とCR07代表長期。通常ターン/新方式保存ガードを維持し、自然P/Q循環・全条件500T・性能・画面/Windows/配布の完成認定にしない。
+
+
+## 15. CR07代表1条件の長期観察
+
+各層の管理数/内部人数と実取得を分ける。同マス時系列候補は物質の粒子追跡と区別し、P/Q存続を自然多世代の証明にしない。 同一条件500Tで主7体が存続。全501行・出生/死亡・取得/分解/還元を記録。局所時系列候補4例。各経路の成立へ限定し、単一物質の一周/全系統安定は認定しない。
+
+共有有機物のBはEに含まれるため、複数要求の丸め引落し後も残存Eを超えない。実在E/Mや既存許容誤差0.002を変更せず、旧方式の引落しへこの処理を適用しない。詳細・全T・実効条件と限界は `operations/evidence/cell-long-observation-v1/README.md`、契約は `operations/plans/cell-long-observation-v1.md`。
