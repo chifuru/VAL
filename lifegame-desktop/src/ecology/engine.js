@@ -389,15 +389,20 @@
   function cellLife(w,ctx,otherMaintenance=new Map()){
     N.payActions(w,ctx);
     N.CellResources.resolveDeaths(w,ctx);
+    if(S.HyperParasite?.enabled(w))P.search(w,ctx);
     const demand=N.CellResources.lifeDemands(w,ctx);
     const maintenance=new Map([...otherMaintenance,...demand.maintenance]);
     for(const o of w.organisms)if(o.HP>0&&!maintenance.has(o.id))throw Error("CELL_LIFE_MAINTENANCE_UNCONNECTED:"+o.id);
     N.CellResources.acquire(w,ctx,demand.requests,demand.canopies);
     N.CellResources.settleBudgets(w,ctx,maintenance);
-    R.CellLife.advance(w,ctx,N.CellResources,B.moveCost);N.CellResources.background(w,ctx);
+    R.CellMain.maintain(w,ctx,N.CellResources);
+    R.CellLife.advance(w,ctx,N.CellResources,B.moveCost);
+    B.learn(w,ctx);R.growth(w,ctx);R.CellMain.reproduce(w,ctx,N.CellResources);R.CellMain.age(w,ctx);
+    N.CellResources.background(w,ctx);
     if(S.PrimaryParasite?.enabled(w)){P.contacts(w,ctx);P.mature(w,ctx);P.reproduce(w,ctx);}
     if(S.PersistentInformation?.enabled(w))P.informationFinalize(w,ctx);
-    // Q autonomous search/feeding and public stepping remain a later CR06 boundary.
+    // Direct live predation, remaining aquatic life and public stepping are
+    // still guarded CR06 boundaries; this is an internal consumer-life entry.
     return demand;
   }
   function finish(w, ctx) {

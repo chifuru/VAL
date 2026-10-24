@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: full M permits useful energy feeding; full E permits M with finite next-T byproducts
+ok 1 - full M permits useful energy feeding; full E permits M with finite next-T byproducts
+  ---
+  duration_ms: 197.380582
+  type: 'test'
+  ...
+# Subtest: all co-resident main consumers share the same leaves, while adjacent food and new tissue stay unavailable
+ok 2 - all co-resident main consumers share the same leaves, while adjacent food and new tissue stay unavailable
+  ---
+  duration_ms: 26.5792
+  type: 'test'
+  ...
+# Subtest: id-less physical resources have distinct finite stocks and information supplies no food
+ok 3 - id-less physical resources have distinct finite stocks and information supplies no food
+  ---
+  duration_ms: 55.007868
+  type: 'test'
+  ...
+# Subtest: main body minerals are initial matter once; starvation and age preserve one next-T carcass
+ok 4 - main body minerals are initial matter once; starvation and age preserve one next-T carcass
+  ---
+  duration_ms: 43.602103
+  type: 'test'
+  ...
+# Subtest: main repair spends actual E and leaves three maintenance turns reserved; phase does not refill reserves or age
+ok 5 - main repair spends actual E and leaves three maintenance turns reserved; phase does not refill reserves or age
+  ---
+  duration_ms: 12.227786
+  type: 'test'
+  ...
+# Subtest: mature phase-I parents may birth into a third same-cell slot with exact formation matter
+ok 6 - mature phase-I parents may birth into a third same-cell slot with exact formation matter
+  ---
+  duration_ms: 48.022467
+  type: 'test'
+  ...
+# Subtest: full settlement slots reject birth without failed-candidate charges or density penalties
+ok 7 - full settlement slots reject birth without failed-candidate charges or density penalties
+  ---
+  duration_ms: 17.624089
+  type: 'test'
+  ...
+# Subtest: a failed second-parent reservation spends nothing on either parent
+ok 8 - a failed second-parent reservation spends nothing on either parent
+  ---
+  duration_ms: 10.39653
+  type: 'test'
+  ...
+# Subtest: compressed ryouki parents produce an ordinary I/0 child in its own slot
+ok 9 - compressed ryouki parents produce an ordinary I/0 child in its own slot
+  ---
+  duration_ms: 56.840843
+  type: 'test'
+  ...
+# Subtest: existing jelly parthenogenesis and swarm stored father retain canonical inheritance with new budgets
+ok 10 - existing jelly parthenogenesis and swarm stored father retain canonical inheritance with new budgets
+  ---
+  duration_ms: 38.646963
+  type: 'test'
+  ...
+# Subtest: live swarm mating finds a co-resident male and pays once before stored-father birth
+ok 11 - live swarm mating finds a co-resident male and pays once before stored-father birth
+  ---
+  duration_ms: 59.967226
+  type: 'test'
+  ...
+# Subtest: autonomous Q and a main organism share the same old leaves and Q never stores M
+ok 12 - autonomous Q and a main organism share the same old leaves and Q never stores M
+  ---
+  duration_ms: 14.287396
+  type: 'test'
+  ...
+# Subtest: autonomous Q cannot eat current-T corpses or tissue and newly emerged Q waits until next T
+ok 13 - autonomous Q cannot eat current-T corpses or tissue and newly emerged Q waits until next T
+  ---
+  duration_ms: 18.887271
+  type: 'test'
+  ...
+# Subtest: source/generated, Worker/JSON and repeated internal turns agree; public turn/capture remain gated
+ok 14 - source/generated, Worker/JSON and repeated internal turns agree; public turn/capture remain gated
+  ---
+  duration_ms: 428.229523
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1093.086232

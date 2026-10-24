@@ -546,7 +546,8 @@
   }
   function hyperSearch(w,ctx) {
     if(!hyperEnabled(w)||ctx.hyperSearched)return;ctx.hyperSearched=true;
-    const z=S.HyperParasite.settings(w),m=S.maps(w),resourceMap=m.resources,carcassMap=m.carcasses;
+    const z=S.HyperParasite.settings(w),m=S.maps(w),resourceMap=m.resources,carcassMap=m.carcasses,organicMap=new Map();
+    if(cellMode(w))for(const row of w.cellState.organic){if(!organicMap.has(row.cell))organicMap.set(row.cell,[]);organicMap.get(row.cell).push(row);}
     if(fanout(w)){
       const separate=[];
       for(const q of w.searchQ||[]){
@@ -567,6 +568,7 @@
       const need=z.maintenance[4]*(fanout(w)&&S.ParasiteCohort.members(q)===1?.5:cohorts(w)?S.ParasiteCohort.burden(q):1),paid=hyperSpend(w,q,need);last.maintenanceE=paid;last.maintained=paid+1e-8>=need;hyperFlow(w,ctx,"maintenanceE",paid);
       q.hyper.starvationRun=last.maintained?0:q.hyper.starvationRun+1;
       if(q.hyper.starvationRun>=z.starvationTurns){hyperAdultDeath(w,ctx,q,"maintenance");continue;}
+      if(!cellMode(w)){
       const food=[...(resourceMap.get(q.cell)||[]).filter(a=>["plant","fungal","animal"].includes(S.FOOD[a.kind]?.tag)),...(carcassMap.get(q.cell)||[])].filter(a=>a.E>0).sort((a,b)=>S.compare(a.id,b.id));
       let appetite=z.adultFoodCap;
       for(const a of food){
@@ -596,8 +598,9 @@
           }
         }
       }
+      }
       const cells=S.nearby(w,q.cell,3,true),candidates=[];
-      for(const cell of cells)for(const host of [...S.mainAt(m,cell),...(cohorts(w)?[m.prey?.get(cell),m.food.get(cell)]:[])])if(host?.HP>0&&S.sight(w,q.cell,host.cell))candidates.push(host);
+      for(const cell of cells)for(const host of (cellMode(w)?primaryOccupants(w,m,cell):[...S.mainAt(m,cell),...(cohorts(w)?[m.prey?.get(cell),m.food.get(cell)]:[])]))if(host?.HP>0&&cellLivingHost(w,ctx,host)&&S.sight(w,q.cell,host.cell))candidates.push(host);
       // A cohort adult can follow a weak parasite-bearing chemical cue, but
       // still cannot sense the hidden maturation clock or infection window.
       const preference=host=>host.infection&&(cohorts(w)||host.infection.location==="external")?
@@ -625,9 +628,13 @@
         for(const cell of cells){
           if(!S.sight(w,q.cell,cell))continue;
           let amount=0;
-          for(const a of resourceMap.get(cell)||[])if(["plant","fungal","animal"].includes(S.FOOD[a.kind]?.tag))amount+=Math.max(0,a.E);
-          for(const a of carcassMap.get(cell)||[])amount+=Math.max(0,a.E);
-          if(cohorts(w)){const plant=m.producer?.get(cell)||m.food.get(cell);if(plant&&S.spec(plant).group==="plant")amount+=Math.max(0,S.edibleB(plant));}
+          for(const a of resourceMap.get(cell)||[])if(["plant","fungal","animal"].includes(S.FOOD[a.kind]?.tag)&&(!cellMode(w)||cellCarrierReady(w,a)&&!(a.expires!==null&&a.expires<=w.turn)))amount+=Math.max(0,a.E);
+          for(const a of carcassMap.get(cell)||[])if(!cellMode(w)||cellCarrierReady(w,a))amount+=Math.max(0,a.E);
+          if(cohorts(w)){
+            const plants=cellMode(w)?primaryOccupants(w,m,cell):[m.producer?.get(cell)||m.food.get(cell)];
+            for(const plant of plants)if(plant&&S.spec(plant).group==="plant"&&(!cellMode(w)||cellLivingHost(w,ctx,plant)))amount+=Math.max(0,S.edibleB(plant)-(cellMode(w)&&plant.cellMatter?.tissueAt===w.turn?plant.cellMatter.newEdibleB??plant.cellMatter.newB??0:0));
+            if(cellMode(w))for(const a of organicMap.get(cell)||[])amount+=Math.max(0,a.E);
+          }
           if(amount>0)forage.push({cell,amount});
         }
         const hunger=S.clamp(1-q.E/Math.max(z.eggCost+4*z.maintenance[4],1e-6),0,1),
@@ -656,6 +663,15 @@
         });
       const destination=q.hyper.splitTurn===w.turn&&moves.length>1?moves[1]:moves[0];
       if(destination!==q.cell&&q.E>=z.adultMoveCost){const from=q.cell;q.cell=destination;last.movementE=hyperSpend(w,q,z.adultMoveCost);hyperFlow(w,ctx,"moved");hyperFlow(w,ctx,"movementE",last.movementE);S.record(ctx,q,"move",{from,to:q.cell,species:"hyperparasite"});if(places)informationUsed(w,ctx,q,q.cell,places.get(q.cell));}
+      if(cellMode(w)){
+        // The shared cell allocation runs after this paid search/move, before
+        // lower life creates any new tissue. This is not a second organism or
+        // an extra occupant of a plant/main settlement slot.
+        (ctx.cellQActors??=new Map()).set(q.id,q);
+        ctx.old.set(q.id,{phase:4,species:q.species,E:q.E,cell:q.cell});
+        ctx.traits.set(q.id,{phase:4,capE:z.capE,capM:0});
+        ctx.records.set(q.id,{organic:0,reserve:0,heal:0,G:0,bites:0,dealt:0,mitigated:0,damage:0,moved:last.movementE>0,newPlace:false,light:0,information:[],emitted:false,contacted:false,cared:false,relieved:false,category:null,delta:null});
+      }
     }
   }
   const primaryStage=stage=>stage==="extra"?"terminal":stage;

@@ -1,0 +1,148 @@
+TAP version 13
+# Subtest: the four-phase Q model is explicit and rejects unsupported or contradictory model settings
+ok 1 - the four-phase Q model is explicit and rejects unsupported or contradictory model settings
+  ---
+  duration_ms: 128.479538
+  type: 'test'
+  ...
+# Subtest: the first terminal maturity window gates actual contact at T+1 and T+3, with no route for dead or non-host bodies
+ok 2 - the first terminal maturity window gates actual contact at T+1 and T+3, with no route for dead or non-host bodies
+  ---
+  duration_ms: 31.276517
+  type: 'test'
+  ...
+# Subtest: paid eggs remain finite nonliving reserves until the separate next-turn establishment
+ok 3 - paid eggs remain finite nonliving reserves until the separate next-turn establishment
+  ---
+  duration_ms: 13.953239
+  type: 'test'
+  ...
+# Subtest: a legal last-window invasion may establish after the window closes, while changed maturity or a lost host invalidates its proof
+ok 4 - a legal last-window invasion may establish after the window closes, while changed maturity or a lost host invalidates its proof
+  ---
+  duration_ms: 55.649032
+  type: 'test'
+  ...
+# Subtest: one P reserves only one invading Q, and insufficient egg mass cannot create a living colony
+ok 5 - one P reserves only one invading Q, and insufficient egg mass cannot create a living colony
+  ---
+  duration_ms: 5.072176
+  type: 'test'
+  ...
+# Subtest: parent traits mutate once with a bounded allocation tradeoff and do not transmit experience or acquired resistance
+ok 6 - parent traits mutate once with a bounded allocation tradeoff and do not transmit experience or acquired resistance
+  ---
+  duration_ms: 8.068934
+  type: 'test'
+  ...
+# Subtest: Q exclusion grants only the direct host P a finite paid resistance that decays independently of H
+ok 7 - Q exclusion grants only the direct host P a finite paid resistance that decays independently of H
+  ---
+  duration_ms: 3.902871
+  type: 'test'
+  ...
+# Subtest: Q phase experience, age maturity and host development advance separately from actual paid outcomes
+ok 8 - Q phase experience, age maturity and host development advance separately from actual paid outcomes
+  ---
+  duration_ms: 8.969728
+  type: 'test'
+  ...
+# Subtest: each emergence gate remains independent after real upkeep and the exact post-upkeep reserve must fund both the attempt and extra body
+ok 9 - each emergence gate remains independent after real upkeep and the exact post-upkeep reserve must fund both the attempt and extra body
+  ---
+  duration_ms: 18.69643
+  type: 'test'
+  ...
+# Subtest: failed emergence spends the attempt once, waits four turns and still requires renewed finite reserves
+ok 10 - failed emergence spends the attempt once, waits four turns and still requires renewed finite reserves
+  ---
+  duration_ms: 4.176053
+  type: 'test'
+  ...
+# Subtest: successful emergence kills only P once and preserves the same Q ID and lifetime as a next-turn adult
+ok 11 - successful emergence kills only P once and preserves the same Q ID and lifetime as a next-turn adult
+  ---
+  duration_ms: 10.701643
+  type: 'test'
+  ...
+# Subtest: early H or P death cannot rescue a prepared Q into a free adult
+ok 12 - early H or P death cannot rescue a prepared Q into a free adult
+  ---
+  duration_ms: 9.007625
+  type: 'test'
+  ...
+# Subtest: adult feeding is capped at real local organic energy, absorbs half and never consumes information or mineral energy
+ok 13 - adult feeding is capped at real local organic energy, absorbs half and never consumes information or mineral energy
+  ---
+  duration_ms: 26.068816
+  type: 'test'
+  ...
+# Subtest: adult movement pays for one legal neighboring cell and cannot cross blocked terrain or spend an absent step budget
+ok 14 - adult movement pays for one legal neighboring cell and cannot cross blocked terrain or spend an absent step budget
+  ---
+  duration_ms: 8.870219
+  type: 'test'
+  ...
+# Subtest: adult carcass feeding removes the same fraction of growth credit and records the actual food cell before movement
+ok 15 - adult carcass feeding removes the same fraction of growth credit and records the actual food cell before movement
+  ---
+  duration_ms: 2.909602
+  type: 'test'
+  ...
+# Subtest: one controlled lineage connects paid emergence to adult oviposition and a new first-phase Q on another P
+ok 16 - one controlled lineage connects paid emergence to adult oviposition and a new first-phase Q on another P
+  ---
+  duration_ms: 17.324398
+  type: 'test'
+  ...
+# Subtest: living adult Q is finite prey consumed once without duplicating its body or settling an inoculum as food
+ok 17 - living adult Q is finite prey consumed once without duplicating its body or settling an inoculum as food
+  ---
+  duration_ms: 4.800306
+  type: 'test'
+  ...
+# Subtest: P pays finite exclusion attempts on either outcome and only a successful removal acquires anti-Q resistance
+ok 18 - P pays finite exclusion attempts on either outcome and only a successful removal acquires anti-Q resistance
+  ---
+  duration_ms: 8.220347
+  type: 'test'
+  ...
+# Subtest: the paid Q modulation and trace budgets are bounded by the actual remaining reserve and keep fixed genes unchanged
+ok 19 - the paid Q modulation and trace budgets are bounded by the actual remaining reserve and keep fixed genes unchanged
+  ---
+  duration_ms: 4.328613
+  type: 'test'
+  ...
+# Subtest: initial Q quotas use actual P colonies and past windows without inventing maturity, hosts or emergence successes
+ok 20 - initial Q quotas use actual P colonies and past windows without inventing maturity, hosts or emergence successes
+  ---
+  duration_ms: 17.028552
+  type: 'test'
+  ...
+# Subtest: short coupled Q worlds remain reproducible with finite hosted, free-adult and egg reserves
+ok 21 - short coupled Q worlds remain reproducible with finite hosted, free-adult and egg reserves
+  ---
+  duration_ms: 97.084819
+  type: 'test'
+  ...
+# Subtest: a same-P trophic migration carries the same Q and pauses its development through next-turn establishment
+ok 22 - a same-P trophic migration carries the same Q and pauses its development through next-turn establishment
+  ---
+  duration_ms: 42.819179
+  type: 'test'
+  ...
+# Subtest: attached and adult Q expire at the original eighty-turn lifetime without resetting after detachment
+ok 23 - attached and adult Q expire at the original eighty-turn lifetime without resetting after detachment
+  ---
+  duration_ms: 5.333679
+  type: 'test'
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 564.81238

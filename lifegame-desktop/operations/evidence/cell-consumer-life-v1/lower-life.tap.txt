@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: new life initial caps, protected base and body minerals enter the initial ledger without multiplying founders
+ok 1 - new life initial caps, protected base and body minerals enter the initial ledger without multiplying founders
+  ---
+  duration_ms: 25.017439
+  type: 'test'
+  ...
+# Subtest: automatic demand uses all same-cell colonies and protected high leaves, with one combined bite cap
+ok 2 - automatic demand uses all same-cell colonies and protected high leaves, with one combined bite cap
+  ---
+  duration_ms: 42.800658
+  type: 'test'
+  ...
+# Subtest: zero leaves do not generate light; all demand and formation use actual finite inputs
+ok 3 - zero leaves do not generate light; all demand and formation use actual finite inputs
+  ---
+  duration_ms: 7.741302
+  type: 'test'
+  ...
+# Subtest: establishment counts cumulative maintained turns and starts the advantage on the next T
+ok 4 - establishment counts cumulative maintained turns and starts the advantage on the next T
+  ---
+  duration_ms: 21.069506
+  type: 'test'
+  ...
+# Subtest: shortage removes leaves before base, preserves matter for next T, and may recover using paid growth
+ok 5 - shortage removes leaves before base, preserves matter for next T, and may recover using paid growth
+  ---
+  duration_ms: 13.27401
+  type: 'test'
+  ...
+# Subtest: colony birth pays exact body and reserves, starts I/0, occupies a real slot and cannot act again this T
+ok 6 - colony birth pays exact body and reserves, starts I/0, occupies a real slot and cannot act again this T
+  ---
+  duration_ms: 6.593125
+  type: 'test'
+  ...
+# Subtest: full slots block plant births with no failed-birth charge
+ok 7 - full slots block plant births with no failed-birth charge
+  ---
+  duration_ms: 12.783063
+  type: 'test'
+  ...
+# Subtest: high plant can reproduce at mature age in phase I; phase and age stay independent
+ok 8 - high plant can reproduce at mature age in phase I; phase and age stay independent
+  ---
+  duration_ms: 5.121279
+  type: 'test'
+  ...
+# Subtest: phase raises limits only; old traits apply through the turn, with no refill or rejuvenation
+ok 9 - phase raises limits only; old traits apply through the turn, with no refill or rejuvenation
+  ---
+  duration_ms: 51.342865
+  type: 'test'
+  ...
+# Subtest: internal birth uses maturity 8T, pays child body/reserves and enforces 4T cooldown and 8 members
+ok 10 - internal birth uses maturity 8T, pays child body/reserves and enforces 4T cooldown and 8 members
+  ---
+  duration_ms: 26.495874
+  type: 'test'
+  ...
+# Subtest: partial age death uses exact cohort body and transfers its reserves once
+ok 11 - partial age death uses exact cohort body and transfers its reserves once
+  ---
+  duration_ms: 7.999281
+  type: 'test'
+  ...
+# Subtest: split moves exactly three real members into a legal new group; no merge, duplicated material or same-T chain
+ok 12 - split moves exactly three real members into a legal new group; no merge, duplicated material or same-T chain
+  ---
+  duration_ms: 48.347557
+  type: 'test'
+  ...
+# Subtest: ordinary same-species groups coexist without automatic merging; lifespan does not kill an entire colony
+ok 13 - ordinary same-species groups coexist without automatic merging; lifespan does not kill an entire colony
+  ---
+  duration_ms: 19.199941
+  type: 'test'
+  ...
+# Subtest: generated engine, source engine and Worker delta agree on the life boundary; normal entry remains guarded
+ok 14 - generated engine, source engine and Worker delta agree on the life boundary; normal entry remains guarded
+  ---
+  duration_ms: 398.806584
+  type: 'test'
+  ...
+# Subtest: water supply stays unresolved and moving freshwater producer retains layer 4 and its own phenotype
+ok 15 - water supply stays unresolved and moving freshwater producer retains layer 4 and its own phenotype
+  ---
+  duration_ms: 87.085678
+  type: 'test'
+  ...
+# Subtest: short combined life run conserves stocks across births, deficits and changing cohort ages
+ok 16 - short combined life run conserves stocks across births, deficits and changing cohort ages
+  ---
+  duration_ms: 151.270779
+  type: 'test'
+  ...
+# Subtest: phase growth that adds protected base does not hide pre-existing edible leaves
+ok 17 - phase growth that adds protected base does not hide pre-existing edible leaves
+  ---
+  duration_ms: 48.144503
+  type: 'test'
+  ...
+# Subtest: high plant lifespan ends in a finite local return, and infection ownership survives partial transfers
+ok 18 - high plant lifespan ends in a finite local return, and infection ownership survives partial transfers
+  ---
+  duration_ms: 26.145085
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1012.758358

@@ -1194,7 +1194,12 @@ return {settings,attach,region,level,factor,begin,finish};
     const is=o=>o?.cellLife?.version===VERSION;
     const kind=o=>spec(o).group==="fungus"?"fungus":spec(o).group==="prey"?"group":CellSpace.layer(o)===1?"colony":CellSpace.layer(o)===2?"plant":null;
     function attach(w,o,options={}){
-      const k=kind(o);if(!CellSpace.enabled(w)||!k||is(o))return o;
+      const k=kind(o);if(!CellSpace.enabled(w))return o;
+      if(!k){
+        if(spec(o).group==="main")o.cellMatter??={version:"cell-matter/1",bodyM:Q(.02*o.B),newB:0,newEdibleB:0,tissueAt:w.turn};
+        return o;
+      }
+      if(is(o))return o;
       o.cellLife={version:VERSION,kind:k,baseB:k==="fungus"?Math.min(1,o.B):k==="colony"?Math.min(2,o.B):k==="plant"?Math.min(2*o.phase,o.B):0,
         maintained:0,leafDebt:0,bornAt:w.turn,processedAt:-1,last:{turn:w.turn,production:0,loss:0,born:0,split:0}};
       if(k==="group"){
@@ -4055,34 +4060,46 @@ function(require,module){
       }
       return result;
     }
+    const resourceId=(row,i)=>row.id??("resource/"+i+"/"+row.cell+"/"+row.kind);
+    function indexSources(w,m){
+      m.cellSources={carcass:new Map(w.carcasses.map(a=>[a.id,a])),organic:new Map(w.cellState.organic.map(a=>[a.id,a])),resource:new Map(),resourcesByCell:new Map()};
+      for(const [i,row]of w.resources.entries()){
+        const id=resourceId(row,i);m.cellSources.resource.set(id,row);
+        if(!m.cellSources.resourcesByCell.has(row.cell))m.cellSources.resourcesByCell.set(row.cell,[]);m.cellSources.resourcesByCell.get(row.cell).push({kind:"resource",id});
+      }
+    }
     function source(w,m,request){
       const key=request.source?.kind,id=request.source?.id;
-      let row=key==="organism"?m.byId.get(id):key==="carcass"?(m.cellSources?.carcass?.get(id)??w.carcasses.find(a=>a.id===id)):key==="organic"?(m.cellSources?.organic?.get(id)??w.cellState.organic.find(a=>a.id===id)):null;
+      let row=key==="organism"?m.byId.get(id):key==="carcass"?(m.cellSources?.carcass?.get(id)??w.carcasses.find(a=>a.id===id)):key==="organic"?(m.cellSources?.organic?.get(id)??w.cellState.organic.find(a=>a.id===id)):key==="resource"?m.cellSources?.resource?.get(id):null;
       if(!row)return null;
       if(key==="organism"){
         const group=S.spec(row).group;if(row.HP<=0||!["plant","fungus"].includes(group))return null;
         const hidden=row.cellMatter?.tissueAt===w.turn?(row.cellMatter.newEdibleB??row.cellMatter.newB)||0:0;
-        return {row,key,cell:row.cell,units:Math.max(0,S.edibleB(row)-hidden)*(S.CellLife.is(row)?S.phenotype(w,row).biteFactor:1),E:1,M:(row.cellMatter?.bodyM||0)/Math.max(EPS,row.B),tag:group==="plant"?"plant":"fungal"};
+        return {row,key,id,cell:row.cell,units:Math.max(0,S.edibleB(row)-hidden)*(S.CellLife.is(row)?S.phenotype(w,row).biteFactor:1),E:1,M:(row.cellMatter?.bodyM||0)/Math.max(EPS,row.B),tag:group==="plant"?"plant":"fungal"};
       }
       if(row.availableAt>w.turn||row.created>=w.turn)return null;
+      if(key==="resource"){
+        const tag=S.FOOD[row.kind]?.tag;if(!["plant","fungal","animal","mineral"].includes(tag)||row.expires!==null&&row.expires!==undefined&&row.expires<=w.turn||!(row.q>0))return null;
+        return {row,key,id,cell:row.cell,units:row.q,body:0,E:row.E/row.q,M:row.M/row.q,tag};
+      }
       const units=key==="carcass"?(row.q||0):row.E||row.M;
       if(units<=0)return null;
-      return {row,key,cell:row.cell,units,body:row.G??row.B??0,E:(row.E||0)/units,M:(row.M||0)/units,tag:row.tag||S.D.byId[row.species]?.tag||"animal"};
+      return {row,key,id,cell:row.cell,units,body:row.G??row.B??0,E:(row.E||0)/units,M:(row.M||0)/units,tag:row.tag||S.D.byId[row.species]?.tag||"animal"};
     }
     function acquire(w,ctx,requests,canopies=[]){
       const state=ready(w,ctx);if(state.acquired||state.budgetSettled)throw Error("CELL_RESOURCES_ALREADY_ACQUIRED");
       if(!ctx.cellMotion?.completed)throw Error("CELL_RESOURCES_BEFORE_MOVEMENT");
       if([...ctx.costs.values()].some(c=>c.action>0))throw Error("CELL_ACTIONS_UNPAID");
-      const m=ctx.current||S.maps(w);m.cellSources={carcass:new Map(w.carcasses.map(a=>[a.id,a])),organic:new Map(w.cellState.organic.map(a=>[a.id,a]))};
+      const m=ctx.current||S.maps(w);indexSources(w,m);
       const captured=captureLight(w,ctx,canopies,m),stocks={},demands={},compiled=[],seen=new Set();
       const pool=(key,amount)=>{if(!Object.hasOwn(stocks,key))stocks[key]=amount;return key;};
       const demand=(key,amount)=>{if(!Object.hasOwn(demands,key))demands[key]=amount;return key;};
       for(const r of requests){
-        const o=m.byId.get(r.actor),p=o&&ctx.traits.get(o.id),profile=o&&w.cellProfiles.profiles[o.cell];
+        const o=m.byId.get(r.actor)||ctx.cellQActors?.get(r.actor),p=o&&ctx.traits.get(o.id),profile=o&&w.cellProfiles.profiles[o.cell],adult=ctx.cellQActors?.has(r.actor);
         if(!o||o.HP<=0||!ctx.old.has(o.id)||typeof r.id!=="string"||seen.has(r.id)||!finite(r.need)||
           ![r.ability??1,r.reach??1,r.limit??r.need].every(finite)||!["photo","mineral","food","decompose"].includes(r.kind))throw Error("CELL_REQUEST_INVALID");
         seen.add(r.id);let need=Math.min(r.need,r.limit??r.need),rates={},fulfills,s=null,eta=1,etaM=1;
-        const eCap=pool("capE/"+o.id,Q(Math.max(0,p.capE-o.E))),mCap=pool("capM/"+o.id,Q(Math.max(0,p.capM-o.M)));
+        const eCap=pool("capE/"+o.id,Q(Math.max(0,p.capE-o.E))),mCap=pool("capM/"+o.id,Q(Math.max(0,p.capM-(o.M||0))));
         if(r.kind==="mineral"){
           if(profile.mineralCapacity===null)throw Error("CELL_AQUATIC_PROFILE_UNRESOLVED");
           const plant=S.spec(o).group==="plant",factor=plant?Math.min(profile.plantTemperature,profile.plantPH):S.CellLife.is(o)&&o.cellLife.kind==="fungus"?activity(w,o.cell)/profile.soilQuality:1;
@@ -4100,18 +4117,18 @@ function(require,module){
           const body=equivalent(s),rate=body/Math.max(EPS,s.units),eligible=Math.max(0,o.B-(o.cellMatter?.tissueAt===w.turn?o.cellMatter.newB||0:0)),
             process=eligible/4*activity(w,o.cell);
           if(!(rate>0))throw Error("CELL_DECOMPOSITION_UNITS");
-          rates[pool("source/"+s.key+"/"+s.row.id,s.units)]=1;
+          rates[pool("source/"+s.key+"/"+s.id,s.units)]=1;
           rates[pool("process/"+o.id,process)]=rate;
           fulfills={[demand("E/"+o.id,Math.max(0,p.capE-o.E))]:s.E*.5,[demand("M/"+o.id,Math.max(0,p.capM-o.M))]:s.M};
           rates[pool("water/"+o.cell,w.cellState.water[o.cell])]=rate*.05;eta=.5;etaM=1;
         }else{
           s=source(w,m,r);
           if(!s||s.cell!==o.cell||s.row.id===o.id||S.spec(o).group==="plant"||(S.spec(o).group==="fungus"&&s.key==="organism"))throw Error("CELL_FOOD_SOURCE_INVALID");
-          eta=efficiency(o,s.tag,p.phase);etaM=S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase);if(!(eta>0))throw Error("CELL_FOOD_DIET_INVALID");
-          rates[pool("source/"+s.key+"/"+s.row.id,s.units)]=1;
-          rates[eCap]=s.E*eta;rates[mCap]=s.M*etaM;
+          eta=adult?S.HyperParasite.settings(w).adultAssimilation:efficiency(o,s.tag,p.phase);etaM=adult?0:S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase);if(!(eta>0)||adult&&!["plant","fungal","animal"].includes(s.tag))throw Error("CELL_FOOD_DIET_INVALID");
+          rates[pool("source/"+s.key+"/"+s.id,s.units)]=1;
+          fulfills={[demand("E/"+o.id,Math.max(0,p.capE-o.E))]:s.E*eta,[demand("M/"+o.id,Math.max(0,p.capM-(o.M||0)))]:s.M*etaM};
           const bite=ctx.cellFoodLimits?.get(o.id)??(S.spec(o).group==="prey"?.25*S.ConsumerGroup.count(o):isRyouki(w,o)?(o.ryouki.mutated?w.config.ryoukiSettings.mutatedBiteB:w.config.ryoukiSettings.biteB):2);
-          rates[pool("bite/"+o.id,bite)]=s.key==="organism"?1:(s.row.G??s.row.B??s.units)/Math.max(EPS,s.units);
+          rates[pool("bite/"+o.id,adult?S.HyperParasite.settings(w).adultFoodCap:bite)]=adult?s.E:["organism","resource"].includes(s.key)?1:equivalent(s)/Math.max(EPS,s.units);
         }
         compiled.push({...r,o,p,s,eta,etaM,need,rates,fulfills});
       }
@@ -4140,7 +4157,7 @@ function(require,module){
           state.light.find(a=>a.actor===o.id).used=quantity;
         }else{
           if(r.kind==="food"){
-            const before=s.key==="organism"?Math.max(0,S.edibleB(s.row)-(s.row.cellMatter?.tissueAt===w.turn?s.row.cellMatter.newEdibleB??s.row.cellMatter.newB??0:0)):s.key==="carcass"?s.row.q:s.row.E||s.row.M;
+            const before=s.key==="organism"?Math.max(0,S.edibleB(s.row)-(s.row.cellMatter?.tissueAt===w.turn?s.row.cellMatter.newEdibleB??s.row.cellMatter.newB??0:0)):["carcass","resource"].includes(s.key)?s.row.q:s.row.E||s.row.M;
             harvest={fraction:Math.min(1,quantity/Math.max(EPS,before)),beforeEdibleB:before,consumedB:s.key==="organism"?quantity:s.body*quantity/s.units,beforeQ:before};
           }
           rawE=down(quantity*s.E);rawM=down(Math.min(s.key==="organism"?(s.row.cellMatter?.bodyM||0):s.row.M||0,quantity*s.M));
@@ -4153,34 +4170,58 @@ function(require,module){
           }else{
             const fraction=quantity/s.units;s.row.E=Q(s.row.E-rawE);s.row.M=Q(s.row.M-rawM);
             if(s.key==="carcass"){s.row.q=Q(s.row.q-quantity);s.row.G=Q(Math.max(0,(s.row.G||0)-s.body*fraction));}
+            else if(s.key==="resource"){s.row.q=Q(s.row.q-quantity);s.row.G=Q(Math.max(0,(s.row.G||0)*(1-fraction)));}
             else s.row.B=Q(Math.max(0,(s.row.B||0)-s.body*fraction));
-            if(s.key==="carcass"&&s.row.q<=0&&(s.row.E>0||s.row.M>0)){
+            if(["carcass","resource"].includes(s.key)&&s.row.q<=0&&(s.row.E>0||s.row.M>0)){
               S.CellSpace.deferMaterial(w,s.cell,{E:s.row.E,M:s.row.M,B:Math.min(s.row.E,s.row.G||0)});s.row.E=0;s.row.M=0;s.row.G=0;
             }
           }
         }
-        const E=Q(Math.min(Math.max(0,p.capE-o.E),rawE*r.eta)),M=Q(Math.min(Math.max(0,p.capM-o.M),rawM*r.etaM));
-        o.E=Q(o.E+E);o.M=Q(o.M+M);
+        const E=Q(Math.min(Math.max(0,p.capE-o.E),rawE*r.eta)),M=Q(Math.min(Math.max(0,p.capM-(o.M||0)),rawM*r.etaM));
+        o.E=Q(o.E+E);if(!ctx.cellQActors?.has(o.id))o.M=Q(o.M+M);
         if(r.kind==="decompose"){S.dissipate(w,Q(rawE-E));S.CellSpace.deferMaterial(w,o.cell,{M:Q(rawM-M),kind:"mineral"});}
         else if(rawE>E||rawM>M)S.CellSpace.deferMaterial(w,o.cell,{E:Q(rawE-E),M:Q(rawM-M)});
-        state.receipts.push({id:r.id,actor:o.id,cell:o.cell,kind:r.kind,quantity,E,M,source:s?.row.id??null});
+        state.receipts.push({id:r.id,actor:o.id,cell:o.cell,kind:r.kind,quantity,E,M,source:s?.id??null});
         const record=ctx.records.get(o.id);if(r.kind==="photo")record.light=Q(record.light+E);if(r.kind==="food"||r.kind==="decompose")record.organic=Q(record.organic+E);
+        if(ctx.cellQActors?.has(o.id)){o.hyper.last.feedingE=Q((o.hyper.last.feedingE||0)+E);ctx.hyperFlow.bySpecies.hyperparasite.fedE=Q(ctx.hyperFlow.bySpecies.hyperparasite.fedE+E);}
+        else if(r.kind==="food"&&S.spec(o).group==="main"&&["plant","fungal","animal"].includes(s.tag)){
+          const gain=isRyouki(w,o)?0:Math.min(300-o.G,E*(s.tag==="animal"?1+S.trait(o,"animalG",p.phase):1));o.G=Q(o.G+gain);record.G=Q(record.G+gain);record.reserve=Q(record.reserve+E);
+        }
         if(r.kind==="food"||r.kind==="decompose"){
-          S.record(ctx,o,"feed",{source:s.row.id,sourceSpecies:s.row.species??null,tag:r.kind==="decompose"?"animal":s.tag,assimilated:E,assimilatedM:M,to:o.cell,consumedB:s.key==="organism"?quantity:s.body*quantity/s.units});
-          if(harvest&&s.key!=="organic")ctx.primaryHooks?.transfer(w,ctx,s.row,o,s.key==="carcass"?"carcass":"plant",harvest);
+          S.record(ctx,o,"feed",{source:s.id,sourceType:s.key,sourceSpecies:s.row.species??null,tag:r.kind==="decompose"?"animal":s.tag,amount:rawE,material:rawM,assimilated:E,assimilatedM:M,to:o.cell,consumedB:s.key==="organism"?quantity:s.body*quantity/s.units});
+          if(harvest&&["organism","carcass"].includes(s.key)&&!ctx.cellQActors?.has(o.id))ctx.primaryHooks?.transfer(w,ctx,s.row,o,s.key==="carcass"?"carcass":"plant",harvest);
         }
       }
+      w.resources=w.resources.filter(row=>row.q>0);
       return state.receipts;
     }
     function lifeDemands(w,ctx){
       ready(w,ctx);if(!ctx.cellMotion?.completed)throw Error("CELL_RESOURCES_BEFORE_MOVEMENT");
       const requests=[],canopies=[],maintenance=new Map(),m=ctx.current||S.maps(w),cells=m.cellSpace||S.CellSpace.index(w),materials=new Map();
+      indexSources(w,m);
       for(const [kind,rows]of [["organic",w.cellState.organic],["carcass",w.carcasses]])for(const row of rows){
         if(row.created>=w.turn||row.availableAt>w.turn)continue;
         if(!materials.has(row.cell))materials.set(row.cell,[]);materials.get(row.cell).push({row,kind});
       }
+      function food(o,refs){
+        const p=ctx.traits.get(o.id),adult=ctx.cellQActors?.has(o.id),e=Math.max(0,p.capE-o.E),mineral=Math.max(0,p.capM-(o.M||0));
+        for(const ref of refs){
+          const s=source(w,m,{source:ref});if(!s||s.units<=0)continue;
+          const eta=adult?S.HyperParasite.settings(w).adultAssimilation:efficiency(o,s.tag,p.phase),etaM=adult?0:S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase);
+          if(!(eta>0)||adult&&!["plant","fungal","animal"].includes(s.tag))continue;
+          const need=Math.min(s.units,Math.max(s.E*eta>0?e/(s.E*eta):0,s.M*etaM>0?mineral/(s.M*etaM):0));
+          if(need>0)requests.push({id:"food/"+o.id+"/"+s.key+"/"+s.id,actor:o.id,kind:"food",need,source:ref});
+        }
+      }
       for(const o of w.organisms)if(o.HP>0&&ctx.old.has(o.id)){
-        if(!S.CellLife.is(o))continue;
+        if(!S.CellLife.is(o)){
+          if(S.spec(o).group!=="main")continue;
+          maintenance.set(o.id,{E:ctx.costs.get(o.id).base,M:0});
+          const rows=cells.get(o.cell),refs=[...(rows?.[1]||[]),...(rows?.[2]||[]),...(rows?.[5]||[])].map(a=>({kind:"organism",id:a.id}));
+          for(const {row,kind}of materials.get(o.cell)||[])refs.push({kind,id:row.id});
+          refs.push(...(m.cellSources.resourcesByCell.get(o.cell)||[]));
+          food(o,refs);continue;
+        }
         const a=o.cellLife,p=ctx.traits.get(o.id),b=S.CellLife.bounds(o),u=maintenanceCost(w,o);
         maintenance.set(o.id,u);
         if(a.kind!=="group"&&a.kind!=="fungus"){
@@ -4203,12 +4244,14 @@ function(require,module){
             const need=Math.min(units,processed*units/body);if(need>0)requests.push({id:"decompose/"+o.id+"/"+row.id,actor:o.id,kind:"decompose",need,source:{kind,id:row.id}});
           }
         }else{
-          const bite=.25*S.ConsumerGroup.count(o),energyNeed=Math.max(0,p.capE-o.E)/.65,mineralNeed=Math.max(0,p.capM-o.M)/.65;
-          for(const source of [...(cells.get(o.cell)?.[1]||[]),...(cells.get(o.cell)?.[2]||[])]){
-            const amount=Math.min(S.edibleB(source),bite,Math.max(energyNeed,mineralNeed/.02));if(amount<=0)continue;
-            requests.push({id:"food/"+o.id+"/"+source.id,actor:o.id,kind:"food",need:amount,source:{kind:"organism",id:source.id}});
-          }
+          food(o,[...(cells.get(o.cell)?.[1]||[]),...(cells.get(o.cell)?.[2]||[])].map(a=>({kind:"organism",id:a.id})));
         }
+      }
+      for(const o of ctx.cellQActors?.values()||[]){
+        const rows=cells.get(o.cell),refs=[...(rows?.[1]||[]),...(rows?.[2]||[])].map(a=>({kind:"organism",id:a.id}));
+        for(const {row,kind}of materials.get(o.cell)||[])refs.push({kind,id:row.id});
+        refs.push(...(m.cellSources.resourcesByCell.get(o.cell)||[]));
+        food(o,refs);
       }
       return {requests,canopies,maintenance};
     }
@@ -4217,7 +4260,7 @@ function(require,module){
       for(const o of w.organisms)if(o.HP>0){const c=maintenance.get(o.id);if(!c||![c.E,c.M].every(finite))throw Error("CELL_MAINTENANCE_MISSING");}
       payActions(w,ctx);state.budgetSettled=true;
       for(const o of w.organisms)if(o.HP>0){
-        const c=maintenance.get(o.id),paidE=Q(Math.min(o.E,c.E)),paidM=Q(Math.min(o.M,c.M));
+        const raw=maintenance.get(o.id),c={E:Q(raw.E),M:Q(raw.M)},paidE=Q(Math.min(o.E,c.E)),paidM=Q(Math.min(o.M,c.M));
         o.E=Q(o.E-paidE);o.M=Q(o.M-paidM);S.dissipate(w,paidE);S.CellSpace.deferMaterial(w,o.cell,{M:paidM,kind:S.CellLife.is(o)&&o.cellLife.kind==="fungus"?"organic":"mineral"});
         state.budgets.set(o.id,{maintenance:{...c},paid:{E:paidE,M:paidM},deficit:Math.max(c.E?1-paidE/c.E:0,c.M?1-paidM/c.M:0),tickets:new Map()});
         if(ctx.informationHooks)ctx.records.get(o.id).informationMaintained=paidE+EPS>=c.E&&paidM+EPS>=c.M&&o.HP>0;
@@ -4250,7 +4293,34 @@ function(require,module){
       recipient.cellMatter.newB=Q((recipient.cellMatter.tissueAt===w.turn?recipient.cellMatter.newB||0:0)+bodyB);recipient.cellMatter.tissueAt=w.turn;
       S.dissipate(w,Q(t.E-bodyB-reserveE));S.CellSpace.deferMaterial(w,o.cell,{M:Q(t.M-bodyM-reserveM),kind:"mineral"});t.state="paid";return true;
     }
-    return {VERSION,allocate,begin,prepare,captureLight,acquire,settleBudgets,reserve,cancel,commit,lifeDemands,activity,background,remains,payloads,resolveDeaths};
+    // A sexual birth has several payers but one new body. Preflight every
+    // reservation before debiting anyone; partial parent payments cannot birth
+    // a second copy or leave a failed candidate charged.
+    function formChild(w,ctx,child,parents,costsE,costsM){
+      const B=child.B,E=child.E,M=child.M,p=S.phenotype(w,child),id="child/"+child.id;
+      const byId=(ctx.current||S.maps(w)).byId;
+      if(parents.length!==new Set(parents.map(o=>o.id)).size||parents.length!==costsE.length||parents.length!==costsM.length||
+        ![B,E,M,...costsE,...costsM].every(finite)||!(costsE.reduce((n,v)=>n+v,0)>0)||byId.has(child.id))throw Error("CELL_FORMATION_COST");
+      if(B>p.capB+EPS||E>p.capE+EPS||M>p.capM+EPS)return false;
+      if(parents.some(o=>o.HP<=0||!ctx.old.has(o.id)||byId.get(o.id)!==o))return false;
+      const up=n=>Math.ceil(Math.max(0,n-1e-12)*1e6)/1e6,sumE=Q(costsE.reduce((n,v)=>n+v,0)),sumM=Q(costsM.reduce((n,v)=>n+v,0)),
+        extraE=Math.max(0,up(1.2*B+E)-sumE),extraM=Math.max(0,up(.02*B+M)-sumM),tickets=[];
+      for(let i=0;i<parents.length;i++){
+        const share=costsE[i]/sumE,t=reserve(w,ctx,parents[i],id,{E:up(costsE[i]+extraE*share),M:up(costsM[i]+extraM*share)});
+        if(!t){for(const a of tickets)cancel(w,ctx,a.o,id);return false;}tickets.push({o:parents[i],t});
+      }
+      // All checks are complete and no consumer action runs between these
+      // debits. Keep the canonical child reserves, funding bound M separately.
+      const totalM=Q(tickets.reduce((n,a)=>n+a.t.M,0)),waste=Q(totalM-M-.02*B);let wasteLeft=waste;
+      for(const [i,{o,t}]of tickets.entries()){
+        o.E=Q(o.E-t.E);o.M=Q(o.M-t.M);budget(w,ctx,o).tickets.get(id).state="paid";
+        const returned=i===tickets.length-1?wasteLeft:down(waste*t.M/Math.max(EPS,totalM));wasteLeft=Q(wasteLeft-returned);
+        S.CellSpace.deferMaterial(w,o.cell,{M:returned,kind:"mineral"});
+      }
+      S.dissipate(w,Q(tickets.reduce((n,a)=>n+a.t.E,0)-E-B));
+      child.cellMatter={version:"cell-matter/1",bodyM:Q(.02*B),newB:B,newEdibleB:0,tissueAt:w.turn};return true;
+    }
+    return {VERSION,allocate,begin,prepare,captureLight,acquire,settleBudgets,reserve,cancel,commit,formChild,lifeDemands,activity,background,remains,payloads,resolveDeaths};
   })();
   const isRyouki=(w,o)=>S.Ryouki?.enabled(w)===true&&S.Ryouki.is(o);
   function efficiency(o, tag, phase = o.phase) {
@@ -6763,7 +6833,7 @@ function(require,module){
   function growth(w, ctx) {
     S.Ryouki.finalize(w,ctx);
     for (const o of w.organisms) {
-      if (!ctx.traits.has(o.id)) continue;
+      if (!ctx.traits.has(o.id)||S.CellSpace.enabled(w)&&S.CellLife.is(o)) continue;
       const s = S.spec(o),
         p = ctx.traits.get(o.id),
         rec = ctx.records.get(o.id),
@@ -6860,6 +6930,7 @@ function(require,module){
   }
   function birthPressure(w,o,ctx){
     const group=S.spec(o).group;
+    if(S.CellSpace.enabled(w))return {allowed:true,chance:1,density:0,foodFactor:1};
     if(!w.config.populationRegulation||!["main","prey"].includes(group))return {allowed:true,chance:1,density:0,foodFactor:1};
     const cache=ctx.birthPressure??=new Map();if(cache.has(o.id))return cache.get(o.id);
     let counts=ctx.birthPressureCounts;
@@ -7054,7 +7125,7 @@ function(require,module){
         ":" +
         Math.floor(c.cell / w.config.width) +
         ":" +
-        (c.cell % w.config.width),
+        (c.cell % w.config.width)+(c.cellBudget?":"+c.parents[0].id:""),
       T = c.costs.reduce((a, b) => a + b, 0);
     const main = s.group === "main",
       early = s.id === "precocial", independent=S.LargePlant.is(mother);
@@ -7122,6 +7193,7 @@ function(require,module){
       S.dissipate(w,2);S.LargePlant.allocation(w,mother,1,T,mother.phase===4&&mother.branch3===1?mother.branch4:null);
     }
     S.initializeAge(w,o);
+    if(c.cellBudget)return o;
     c.parents.forEach((parent, i) => {
       parent.E = S.round(parent.E - c.costs[i]);
       parent.M = S.round(
@@ -7142,7 +7214,7 @@ function(require,module){
   }
   function ryoukiChild(w,c,ctx){
     const s=S.D.ryouki,b=s.birth,mother=c.parents[0],father=c.parents[1],
-      id="b:"+w.turn+":"+c.slot+":"+Math.floor(c.cell/w.config.width)+":"+(c.cell%w.config.width),dna={};
+      id="b:"+w.turn+":"+c.slot+":"+Math.floor(c.cell/w.config.width)+":"+(c.cell%w.config.width)+(c.cellBudget?":"+mother.id:""),dna={};
     for(const [i,axis]of S.DNA.entries()){
       const big=S.r(w,"birth/mutation-kind",w.turn,id,null,i)<.01,range=big?.05:.02;
       dna[axis]=S.round(S.clamp((mother.dna[axis]+father.dna[axis])/2+(2*S.r(w,"birth/dna",w.turn,id,null,i)-1)*range));
@@ -7151,6 +7223,7 @@ function(require,module){
     const o=S.organism(w,s,c.cell,id,{phase:1,age:0,G:0,dna,birthWeights,weights:birthWeights.slice(),
       sex:S.r(w,"birth/sex",w.turn,id)<.5?"female":"male",E:b.childE,B:b.childB,M:b.childM,HP:s.capacity[3],
       generation:Math.max(mother.generation,father.generation)+1,parents:[mother.id,father.id]});
+    if(c.cellBudget){S.initializeAge(w,o);return o;}
     c.parents.forEach((parent,i)=>{
       parent.E=S.round(parent.E-b.costsE[i]);parent.M=S.round(parent.M-b.costsM[i]);ctx.parents.add(parent.id);
       parent.birthReady=w.turn+Math.ceil(ctx.traits.get(parent.id).cooldown)+1;parent.firstBirthAt??=w.turn;
@@ -7219,7 +7292,83 @@ function(require,module){
     ctx.children = children;
     return children;
   }
-  return { CellLife, lead, growth, eligible, birthPressure, birthCost, candidates, child, reproduce };
+  const CellMain=(()=>{
+    const Q=S.round,EPS=1e-8,is=o=>S.spec(o).group==="main"&&!S.CellLife.is(o);
+    function maintain(w,ctx,N){
+      if(!S.CellSpace.enabled(w)||!ctx.cellResources?.budgetSettled)throw Error("CELL_MAIN_BEFORE_BUDGET");
+      if(ctx.cellMainMaintained)throw Error("CELL_MAIN_ALREADY_APPLIED");ctx.cellMainMaintained=true;
+      for(const o of w.organisms)if(is(o)&&o.HP>0&&ctx.old.has(o.id)){
+        const p=ctx.traits.get(o.id),b=ctx.cellResources.budgets.get(o.id),rec=ctx.records.get(o.id);
+        o.HP=Q(Math.max(0,o.HP-2*Math.max(0,b.maintenance.E-b.paid.E)));
+        const reason=o.HP<=0?"starvation":o.age+1>=p.life?"age":null;
+        if(reason){N.remains(w,o,ctx);ctx.deaths.push({id:o.id,species:o.species,reason});continue;}
+        const rate=Math.min(.75,.5*p.ageFactors.healing*(1+S.trait(o,"healing",p.phase))*(!S.Ryouki.is(o)&&o.branch3===0&&o.branch4===1?1.2:1)),
+          cost=Math.floor(Math.min(Math.max(0,p.maxHP-o.HP)/rate,Math.max(0,o.E-3*b.maintenance.E))*1e6)/1e6,heal=Q(cost*rate);
+        if(heal>0&&N.reserve(w,ctx,o,"healing/"+o.id,{E:cost,M:0})&&N.commit(w,ctx,o,"healing/"+o.id)){
+          o.HP=Q(o.HP+heal);rec.heal=Q(rec.heal+heal);
+        }
+      }
+      w.organisms=w.organisms.filter(o=>o.HP>0);ctx.current=S.maps(w);
+    }
+    function reproduce(w,ctx,N){
+      if(!ctx.cellMainMaintained)throw Error("CELL_MAIN_BEFORE_MAINTENANCE");
+      if(ctx.cellMainReproduced)throw Error("CELL_MAIN_ALREADY_APPLIED");ctx.cellMainReproduced=true;
+      if(!w.config.enabled.main)return [];
+      const cells=S.CellSpace.index(w),old=w.organisms.filter(o=>is(o)&&o.HP>0&&ctx.old.has(o.id)),
+        peers=o=>S.nearby(w,o.cell,1,true).filter(cell=>S.oneStep(w,o.cell,cell)).flatMap(cell=>cells.get(cell)?.[4]||[]).filter(a=>ctx.old.has(a.id)&&is(a)),usedMales=new Set();
+      // Preserve stored mating; use all co-resident IDs and the same finite
+      // budget as birth/repair. No extra social or density bonus is introduced.
+      for(const queen of old.slice().sort((a,b)=>S.hash(w,"cell/mating",w.turn,a.id)-S.hash(w,"cell/mating",w.turn,b.id))){
+        if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||queen.HP<70||queen.E<(w.config.socialRenewalModel==="successor/1"?37:47)||ctx.traits.get(queen.id).ageStage==="juvenile"||ctx.records.get(queen.id).damage>0)continue;
+        const male=peers(queen).filter(a=>a.species==="swarm"&&a.role==="male"&&a.HP>=70&&a.E>=2&&ctx.traits.get(a.id).ageStage!=="juvenile"&&ctx.records.get(a.id).damage===0&&!usedMales.has(a.id))
+          .sort((a,b)=>S.hash(w,"colony/mate",w.turn,queen.id,a.id)-S.hash(w,"colony/mate",w.turn,queen.id,b.id))[0];
+        if(!male)continue;
+        const id="mating/"+queen.id,a=N.reserve(w,ctx,queen,id,{E:2,M:0}),b=a&&N.reserve(w,ctx,male,id,{E:2,M:0});
+        if(!b){if(a)N.cancel(w,ctx,queen,id);continue;}
+        N.commit(w,ctx,queen,id);N.commit(w,ctx,male,id);usedMales.add(male.id);
+        queen.sperm={uses:12,father:{id:male.id,dna:{...male.dna},birthWeights:male.birthWeights.slice(),generation:male.generation}};
+        w.colonyMating??={matings:0,storedBirths:0};w.colonyMating.matings++;
+      }
+      const proposals=[];
+      for(const mother of old)if(mother.sex==="female"&&eligible(w,mother,ctx)){
+        const near=peers(mother),stored=mother.species==="swarm"&&mother.sperm?.uses>0,
+          fathers=stored?[]:near.filter(a=>a.species===mother.species&&a.sex==="male"&&eligible(w,a,ctx));
+        const kinds=stored?[3]:fathers.length?[0]:mother.species==="jelly"&&mother.maleAbsent>=8&&eligible(w,mother,ctx,true)?[1]:[];
+        for(const kind of kinds)for(const cell of S.nearby(w,mother.cell,1,true)){
+          const probe={...mother,id:"new/"+mother.id,...(S.Ryouki.is(mother)?{ryouki:{...mother.ryouki,mutated:false}}:{})};
+          if(!S.oneStep(w,mother.cell,cell)||!S.sight(w,mother.cell,cell)||!S.validHabitat(w,S.spec(mother),cell)||!S.CellSpace.room(w,probe,cell,{},cells))continue;
+          const father=kind===0?fathers.filter(a=>S.oneStep(w,a.cell,cell)&&S.sight(w,a.cell,cell)).sort((a,b)=>S.hash(w,"cell/father",w.turn,mother.id,[cell,a.id])-S.hash(w,"cell/father",w.turn,mother.id,[cell,b.id]))[0]:null;
+          if(kind===0&&!father)continue;
+          const parents=father?[mother,father]:[mother],costs=kind===0?(S.Ryouki.is(mother)?S.D.ryouki.birth.costsE.slice():parents.map(o=>birthCost(w,o,ctx))):[kind===1?40:w.config.socialRenewalModel==="successor/1"?30:40];
+          if(kind===3&&(mother.M<4||mother.E<costs[0]))continue;
+          const c={cell,slot:"main",kind,parents,costs,species:mother.species,cellBudget:true,...(stored?{fatherReference:mother.sperm.father}:{})};
+          if(ctx.informationHooks){c.informationChoices=parents.map(parent=>({parent,place:ctx.informationHooks.informationPlace(w,ctx,parent,cell)}));c.informationScore=c.informationChoices.reduce((n,a)=>n+a.place.value,0)/parents.length;}
+          c.h=S.hash(w,"birth/arbitration",w.turn,c.species,[cell,kind,parents.map(o=>o.id)]);c.key=JSON.stringify([c.species,cell,kind,parents.map(o=>o.id)]);proposals.push(c);
+        }
+      }
+      const children=[];
+      for(const c of proposals.sort(compare)){
+        if(c.parents.some(o=>ctx.parents.has(o.id)))continue;
+        const born=child(w,c,ctx);
+        if(!S.CellSpace.room(w,born,c.cell,{},cells))continue;
+        const costsM=c.species==="ryouki"?S.D.ryouki.birth.costsM:c.parents.map(()=>[1,3].includes(c.kind)?4:2);
+        if(!N.formChild(w,ctx,born,c.parents,c.costs,costsM))continue;
+        S.CellSpace.assign(w,born,{},cells);if(!cells.has(born.cell))cells.set(born.cell,Array.from({length:6},()=>[]));cells.get(born.cell)[4].push(born);
+        w.organisms.push(born);ctx.children.push(born);ctx.births.push(born.species);children.push(born);
+        for(const o of c.parents){ctx.parents.add(o.id);o.birthReady=w.turn+Math.ceil(ctx.traits.get(o.id).cooldown*(c.kind===1?1.5:1))+1;o.firstBirthAt??=w.turn;}
+        if(c.kind===3){c.parents[0].sperm.uses--;w.colonyMating.storedBirths++;}
+        for(const {parent,place}of c.informationChoices||[])ctx.informationHooks.informationUsed(w,ctx,parent,c.cell,place);
+        S.record(ctx,born,"birth",{parents:born.parents});
+      }
+      ctx.current=S.maps(w);return children;
+    }
+    function age(w,ctx){
+      if(ctx.cellMainAged)throw Error("CELL_MAIN_ALREADY_APPLIED");ctx.cellMainAged=true;
+      for(const o of w.organisms)if(is(o)&&o.HP>0&&ctx.old.has(o.id)){o.age++;o.HP=Q(Math.min(o.HP,S.phenotype(w,o).maxHP));}
+    }
+    return {maintain,reproduce,age};
+  })();
+  return { CellLife, CellMain, lead, growth, eligible, birthPressure, birthCost, candidates, child, reproduce };
 });
 
 },
@@ -7772,7 +7921,8 @@ function(require,module){
   }
   function hyperSearch(w,ctx) {
     if(!hyperEnabled(w)||ctx.hyperSearched)return;ctx.hyperSearched=true;
-    const z=S.HyperParasite.settings(w),m=S.maps(w),resourceMap=m.resources,carcassMap=m.carcasses;
+    const z=S.HyperParasite.settings(w),m=S.maps(w),resourceMap=m.resources,carcassMap=m.carcasses,organicMap=new Map();
+    if(cellMode(w))for(const row of w.cellState.organic){if(!organicMap.has(row.cell))organicMap.set(row.cell,[]);organicMap.get(row.cell).push(row);}
     if(fanout(w)){
       const separate=[];
       for(const q of w.searchQ||[]){
@@ -7793,6 +7943,7 @@ function(require,module){
       const need=z.maintenance[4]*(fanout(w)&&S.ParasiteCohort.members(q)===1?.5:cohorts(w)?S.ParasiteCohort.burden(q):1),paid=hyperSpend(w,q,need);last.maintenanceE=paid;last.maintained=paid+1e-8>=need;hyperFlow(w,ctx,"maintenanceE",paid);
       q.hyper.starvationRun=last.maintained?0:q.hyper.starvationRun+1;
       if(q.hyper.starvationRun>=z.starvationTurns){hyperAdultDeath(w,ctx,q,"maintenance");continue;}
+      if(!cellMode(w)){
       const food=[...(resourceMap.get(q.cell)||[]).filter(a=>["plant","fungal","animal"].includes(S.FOOD[a.kind]?.tag)),...(carcassMap.get(q.cell)||[])].filter(a=>a.E>0).sort((a,b)=>S.compare(a.id,b.id));
       let appetite=z.adultFoodCap;
       for(const a of food){
@@ -7822,8 +7973,9 @@ function(require,module){
           }
         }
       }
+      }
       const cells=S.nearby(w,q.cell,3,true),candidates=[];
-      for(const cell of cells)for(const host of [...S.mainAt(m,cell),...(cohorts(w)?[m.prey?.get(cell),m.food.get(cell)]:[])])if(host?.HP>0&&S.sight(w,q.cell,host.cell))candidates.push(host);
+      for(const cell of cells)for(const host of (cellMode(w)?primaryOccupants(w,m,cell):[...S.mainAt(m,cell),...(cohorts(w)?[m.prey?.get(cell),m.food.get(cell)]:[])]))if(host?.HP>0&&cellLivingHost(w,ctx,host)&&S.sight(w,q.cell,host.cell))candidates.push(host);
       // A cohort adult can follow a weak parasite-bearing chemical cue, but
       // still cannot sense the hidden maturation clock or infection window.
       const preference=host=>host.infection&&(cohorts(w)||host.infection.location==="external")?
@@ -7851,9 +8003,13 @@ function(require,module){
         for(const cell of cells){
           if(!S.sight(w,q.cell,cell))continue;
           let amount=0;
-          for(const a of resourceMap.get(cell)||[])if(["plant","fungal","animal"].includes(S.FOOD[a.kind]?.tag))amount+=Math.max(0,a.E);
-          for(const a of carcassMap.get(cell)||[])amount+=Math.max(0,a.E);
-          if(cohorts(w)){const plant=m.producer?.get(cell)||m.food.get(cell);if(plant&&S.spec(plant).group==="plant")amount+=Math.max(0,S.edibleB(plant));}
+          for(const a of resourceMap.get(cell)||[])if(["plant","fungal","animal"].includes(S.FOOD[a.kind]?.tag)&&(!cellMode(w)||cellCarrierReady(w,a)&&!(a.expires!==null&&a.expires<=w.turn)))amount+=Math.max(0,a.E);
+          for(const a of carcassMap.get(cell)||[])if(!cellMode(w)||cellCarrierReady(w,a))amount+=Math.max(0,a.E);
+          if(cohorts(w)){
+            const plants=cellMode(w)?primaryOccupants(w,m,cell):[m.producer?.get(cell)||m.food.get(cell)];
+            for(const plant of plants)if(plant&&S.spec(plant).group==="plant"&&(!cellMode(w)||cellLivingHost(w,ctx,plant)))amount+=Math.max(0,S.edibleB(plant)-(cellMode(w)&&plant.cellMatter?.tissueAt===w.turn?plant.cellMatter.newEdibleB??plant.cellMatter.newB??0:0));
+            if(cellMode(w))for(const a of organicMap.get(cell)||[])amount+=Math.max(0,a.E);
+          }
           if(amount>0)forage.push({cell,amount});
         }
         const hunger=S.clamp(1-q.E/Math.max(z.eggCost+4*z.maintenance[4],1e-6),0,1),
@@ -7882,6 +8038,15 @@ function(require,module){
         });
       const destination=q.hyper.splitTurn===w.turn&&moves.length>1?moves[1]:moves[0];
       if(destination!==q.cell&&q.E>=z.adultMoveCost){const from=q.cell;q.cell=destination;last.movementE=hyperSpend(w,q,z.adultMoveCost);hyperFlow(w,ctx,"moved");hyperFlow(w,ctx,"movementE",last.movementE);S.record(ctx,q,"move",{from,to:q.cell,species:"hyperparasite"});if(places)informationUsed(w,ctx,q,q.cell,places.get(q.cell));}
+      if(cellMode(w)){
+        // The shared cell allocation runs after this paid search/move, before
+        // lower life creates any new tissue. This is not a second organism or
+        // an extra occupant of a plant/main settlement slot.
+        (ctx.cellQActors??=new Map()).set(q.id,q);
+        ctx.old.set(q.id,{phase:4,species:q.species,E:q.E,cell:q.cell});
+        ctx.traits.set(q.id,{phase:4,capE:z.capE,capM:0});
+        ctx.records.set(q.id,{organic:0,reserve:0,heal:0,G:0,bites:0,dealt:0,mitigated:0,damage:0,moved:last.movementE>0,newPlace:false,light:0,information:[],emitted:false,contacted:false,cared:false,relieved:false,category:null,delta:null});
+      }
     }
   }
   const primaryStage=stage=>stage==="extra"?"terminal":stage;
@@ -9323,15 +9488,20 @@ function(require,module){
   function cellLife(w,ctx,otherMaintenance=new Map()){
     N.payActions(w,ctx);
     N.CellResources.resolveDeaths(w,ctx);
+    if(S.HyperParasite?.enabled(w))P.search(w,ctx);
     const demand=N.CellResources.lifeDemands(w,ctx);
     const maintenance=new Map([...otherMaintenance,...demand.maintenance]);
     for(const o of w.organisms)if(o.HP>0&&!maintenance.has(o.id))throw Error("CELL_LIFE_MAINTENANCE_UNCONNECTED:"+o.id);
     N.CellResources.acquire(w,ctx,demand.requests,demand.canopies);
     N.CellResources.settleBudgets(w,ctx,maintenance);
-    R.CellLife.advance(w,ctx,N.CellResources,B.moveCost);N.CellResources.background(w,ctx);
+    R.CellMain.maintain(w,ctx,N.CellResources);
+    R.CellLife.advance(w,ctx,N.CellResources,B.moveCost);
+    B.learn(w,ctx);R.growth(w,ctx);R.CellMain.reproduce(w,ctx,N.CellResources);R.CellMain.age(w,ctx);
+    N.CellResources.background(w,ctx);
     if(S.PrimaryParasite?.enabled(w)){P.contacts(w,ctx);P.mature(w,ctx);P.reproduce(w,ctx);}
     if(S.PersistentInformation?.enabled(w))P.informationFinalize(w,ctx);
-    // Q autonomous search/feeding and public stepping remain a later CR06 boundary.
+    // Direct live predation, remaining aquatic life and public stepping are
+    // still guarded CR06 boundaries; this is an internal consumer-life entry.
     return demand;
   }
   function finish(w, ctx) {
@@ -10883,7 +11053,12 @@ return {settings,attach,region,level,factor,begin,finish};
     const is=o=>o?.cellLife?.version===VERSION;
     const kind=o=>spec(o).group==="fungus"?"fungus":spec(o).group==="prey"?"group":CellSpace.layer(o)===1?"colony":CellSpace.layer(o)===2?"plant":null;
     function attach(w,o,options={}){
-      const k=kind(o);if(!CellSpace.enabled(w)||!k||is(o))return o;
+      const k=kind(o);if(!CellSpace.enabled(w))return o;
+      if(!k){
+        if(spec(o).group==="main")o.cellMatter??={version:"cell-matter/1",bodyM:Q(.02*o.B),newB:0,newEdibleB:0,tissueAt:w.turn};
+        return o;
+      }
+      if(is(o))return o;
       o.cellLife={version:VERSION,kind:k,baseB:k==="fungus"?Math.min(1,o.B):k==="colony"?Math.min(2,o.B):k==="plant"?Math.min(2*o.phase,o.B):0,
         maintained:0,leafDebt:0,bornAt:w.turn,processedAt:-1,last:{turn:w.turn,production:0,loss:0,born:0,split:0}};
       if(k==="group"){
@@ -13745,34 +13920,46 @@ function(require,module){
       }
       return result;
     }
+    const resourceId=(row,i)=>row.id??("resource/"+i+"/"+row.cell+"/"+row.kind);
+    function indexSources(w,m){
+      m.cellSources={carcass:new Map(w.carcasses.map(a=>[a.id,a])),organic:new Map(w.cellState.organic.map(a=>[a.id,a])),resource:new Map(),resourcesByCell:new Map()};
+      for(const [i,row]of w.resources.entries()){
+        const id=resourceId(row,i);m.cellSources.resource.set(id,row);
+        if(!m.cellSources.resourcesByCell.has(row.cell))m.cellSources.resourcesByCell.set(row.cell,[]);m.cellSources.resourcesByCell.get(row.cell).push({kind:"resource",id});
+      }
+    }
     function source(w,m,request){
       const key=request.source?.kind,id=request.source?.id;
-      let row=key==="organism"?m.byId.get(id):key==="carcass"?(m.cellSources?.carcass?.get(id)??w.carcasses.find(a=>a.id===id)):key==="organic"?(m.cellSources?.organic?.get(id)??w.cellState.organic.find(a=>a.id===id)):null;
+      let row=key==="organism"?m.byId.get(id):key==="carcass"?(m.cellSources?.carcass?.get(id)??w.carcasses.find(a=>a.id===id)):key==="organic"?(m.cellSources?.organic?.get(id)??w.cellState.organic.find(a=>a.id===id)):key==="resource"?m.cellSources?.resource?.get(id):null;
       if(!row)return null;
       if(key==="organism"){
         const group=S.spec(row).group;if(row.HP<=0||!["plant","fungus"].includes(group))return null;
         const hidden=row.cellMatter?.tissueAt===w.turn?(row.cellMatter.newEdibleB??row.cellMatter.newB)||0:0;
-        return {row,key,cell:row.cell,units:Math.max(0,S.edibleB(row)-hidden)*(S.CellLife.is(row)?S.phenotype(w,row).biteFactor:1),E:1,M:(row.cellMatter?.bodyM||0)/Math.max(EPS,row.B),tag:group==="plant"?"plant":"fungal"};
+        return {row,key,id,cell:row.cell,units:Math.max(0,S.edibleB(row)-hidden)*(S.CellLife.is(row)?S.phenotype(w,row).biteFactor:1),E:1,M:(row.cellMatter?.bodyM||0)/Math.max(EPS,row.B),tag:group==="plant"?"plant":"fungal"};
       }
       if(row.availableAt>w.turn||row.created>=w.turn)return null;
+      if(key==="resource"){
+        const tag=S.FOOD[row.kind]?.tag;if(!["plant","fungal","animal","mineral"].includes(tag)||row.expires!==null&&row.expires!==undefined&&row.expires<=w.turn||!(row.q>0))return null;
+        return {row,key,id,cell:row.cell,units:row.q,body:0,E:row.E/row.q,M:row.M/row.q,tag};
+      }
       const units=key==="carcass"?(row.q||0):row.E||row.M;
       if(units<=0)return null;
-      return {row,key,cell:row.cell,units,body:row.G??row.B??0,E:(row.E||0)/units,M:(row.M||0)/units,tag:row.tag||S.D.byId[row.species]?.tag||"animal"};
+      return {row,key,id,cell:row.cell,units,body:row.G??row.B??0,E:(row.E||0)/units,M:(row.M||0)/units,tag:row.tag||S.D.byId[row.species]?.tag||"animal"};
     }
     function acquire(w,ctx,requests,canopies=[]){
       const state=ready(w,ctx);if(state.acquired||state.budgetSettled)throw Error("CELL_RESOURCES_ALREADY_ACQUIRED");
       if(!ctx.cellMotion?.completed)throw Error("CELL_RESOURCES_BEFORE_MOVEMENT");
       if([...ctx.costs.values()].some(c=>c.action>0))throw Error("CELL_ACTIONS_UNPAID");
-      const m=ctx.current||S.maps(w);m.cellSources={carcass:new Map(w.carcasses.map(a=>[a.id,a])),organic:new Map(w.cellState.organic.map(a=>[a.id,a]))};
+      const m=ctx.current||S.maps(w);indexSources(w,m);
       const captured=captureLight(w,ctx,canopies,m),stocks={},demands={},compiled=[],seen=new Set();
       const pool=(key,amount)=>{if(!Object.hasOwn(stocks,key))stocks[key]=amount;return key;};
       const demand=(key,amount)=>{if(!Object.hasOwn(demands,key))demands[key]=amount;return key;};
       for(const r of requests){
-        const o=m.byId.get(r.actor),p=o&&ctx.traits.get(o.id),profile=o&&w.cellProfiles.profiles[o.cell];
+        const o=m.byId.get(r.actor)||ctx.cellQActors?.get(r.actor),p=o&&ctx.traits.get(o.id),profile=o&&w.cellProfiles.profiles[o.cell],adult=ctx.cellQActors?.has(r.actor);
         if(!o||o.HP<=0||!ctx.old.has(o.id)||typeof r.id!=="string"||seen.has(r.id)||!finite(r.need)||
           ![r.ability??1,r.reach??1,r.limit??r.need].every(finite)||!["photo","mineral","food","decompose"].includes(r.kind))throw Error("CELL_REQUEST_INVALID");
         seen.add(r.id);let need=Math.min(r.need,r.limit??r.need),rates={},fulfills,s=null,eta=1,etaM=1;
-        const eCap=pool("capE/"+o.id,Q(Math.max(0,p.capE-o.E))),mCap=pool("capM/"+o.id,Q(Math.max(0,p.capM-o.M)));
+        const eCap=pool("capE/"+o.id,Q(Math.max(0,p.capE-o.E))),mCap=pool("capM/"+o.id,Q(Math.max(0,p.capM-(o.M||0))));
         if(r.kind==="mineral"){
           if(profile.mineralCapacity===null)throw Error("CELL_AQUATIC_PROFILE_UNRESOLVED");
           const plant=S.spec(o).group==="plant",factor=plant?Math.min(profile.plantTemperature,profile.plantPH):S.CellLife.is(o)&&o.cellLife.kind==="fungus"?activity(w,o.cell)/profile.soilQuality:1;
@@ -13790,18 +13977,18 @@ function(require,module){
           const body=equivalent(s),rate=body/Math.max(EPS,s.units),eligible=Math.max(0,o.B-(o.cellMatter?.tissueAt===w.turn?o.cellMatter.newB||0:0)),
             process=eligible/4*activity(w,o.cell);
           if(!(rate>0))throw Error("CELL_DECOMPOSITION_UNITS");
-          rates[pool("source/"+s.key+"/"+s.row.id,s.units)]=1;
+          rates[pool("source/"+s.key+"/"+s.id,s.units)]=1;
           rates[pool("process/"+o.id,process)]=rate;
           fulfills={[demand("E/"+o.id,Math.max(0,p.capE-o.E))]:s.E*.5,[demand("M/"+o.id,Math.max(0,p.capM-o.M))]:s.M};
           rates[pool("water/"+o.cell,w.cellState.water[o.cell])]=rate*.05;eta=.5;etaM=1;
         }else{
           s=source(w,m,r);
           if(!s||s.cell!==o.cell||s.row.id===o.id||S.spec(o).group==="plant"||(S.spec(o).group==="fungus"&&s.key==="organism"))throw Error("CELL_FOOD_SOURCE_INVALID");
-          eta=efficiency(o,s.tag,p.phase);etaM=S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase);if(!(eta>0))throw Error("CELL_FOOD_DIET_INVALID");
-          rates[pool("source/"+s.key+"/"+s.row.id,s.units)]=1;
-          rates[eCap]=s.E*eta;rates[mCap]=s.M*etaM;
+          eta=adult?S.HyperParasite.settings(w).adultAssimilation:efficiency(o,s.tag,p.phase);etaM=adult?0:S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase);if(!(eta>0)||adult&&!["plant","fungal","animal"].includes(s.tag))throw Error("CELL_FOOD_DIET_INVALID");
+          rates[pool("source/"+s.key+"/"+s.id,s.units)]=1;
+          fulfills={[demand("E/"+o.id,Math.max(0,p.capE-o.E))]:s.E*eta,[demand("M/"+o.id,Math.max(0,p.capM-(o.M||0)))]:s.M*etaM};
           const bite=ctx.cellFoodLimits?.get(o.id)??(S.spec(o).group==="prey"?.25*S.ConsumerGroup.count(o):isRyouki(w,o)?(o.ryouki.mutated?w.config.ryoukiSettings.mutatedBiteB:w.config.ryoukiSettings.biteB):2);
-          rates[pool("bite/"+o.id,bite)]=s.key==="organism"?1:(s.row.G??s.row.B??s.units)/Math.max(EPS,s.units);
+          rates[pool("bite/"+o.id,adult?S.HyperParasite.settings(w).adultFoodCap:bite)]=adult?s.E:["organism","resource"].includes(s.key)?1:equivalent(s)/Math.max(EPS,s.units);
         }
         compiled.push({...r,o,p,s,eta,etaM,need,rates,fulfills});
       }
@@ -13830,7 +14017,7 @@ function(require,module){
           state.light.find(a=>a.actor===o.id).used=quantity;
         }else{
           if(r.kind==="food"){
-            const before=s.key==="organism"?Math.max(0,S.edibleB(s.row)-(s.row.cellMatter?.tissueAt===w.turn?s.row.cellMatter.newEdibleB??s.row.cellMatter.newB??0:0)):s.key==="carcass"?s.row.q:s.row.E||s.row.M;
+            const before=s.key==="organism"?Math.max(0,S.edibleB(s.row)-(s.row.cellMatter?.tissueAt===w.turn?s.row.cellMatter.newEdibleB??s.row.cellMatter.newB??0:0)):["carcass","resource"].includes(s.key)?s.row.q:s.row.E||s.row.M;
             harvest={fraction:Math.min(1,quantity/Math.max(EPS,before)),beforeEdibleB:before,consumedB:s.key==="organism"?quantity:s.body*quantity/s.units,beforeQ:before};
           }
           rawE=down(quantity*s.E);rawM=down(Math.min(s.key==="organism"?(s.row.cellMatter?.bodyM||0):s.row.M||0,quantity*s.M));
@@ -13843,34 +14030,58 @@ function(require,module){
           }else{
             const fraction=quantity/s.units;s.row.E=Q(s.row.E-rawE);s.row.M=Q(s.row.M-rawM);
             if(s.key==="carcass"){s.row.q=Q(s.row.q-quantity);s.row.G=Q(Math.max(0,(s.row.G||0)-s.body*fraction));}
+            else if(s.key==="resource"){s.row.q=Q(s.row.q-quantity);s.row.G=Q(Math.max(0,(s.row.G||0)*(1-fraction)));}
             else s.row.B=Q(Math.max(0,(s.row.B||0)-s.body*fraction));
-            if(s.key==="carcass"&&s.row.q<=0&&(s.row.E>0||s.row.M>0)){
+            if(["carcass","resource"].includes(s.key)&&s.row.q<=0&&(s.row.E>0||s.row.M>0)){
               S.CellSpace.deferMaterial(w,s.cell,{E:s.row.E,M:s.row.M,B:Math.min(s.row.E,s.row.G||0)});s.row.E=0;s.row.M=0;s.row.G=0;
             }
           }
         }
-        const E=Q(Math.min(Math.max(0,p.capE-o.E),rawE*r.eta)),M=Q(Math.min(Math.max(0,p.capM-o.M),rawM*r.etaM));
-        o.E=Q(o.E+E);o.M=Q(o.M+M);
+        const E=Q(Math.min(Math.max(0,p.capE-o.E),rawE*r.eta)),M=Q(Math.min(Math.max(0,p.capM-(o.M||0)),rawM*r.etaM));
+        o.E=Q(o.E+E);if(!ctx.cellQActors?.has(o.id))o.M=Q(o.M+M);
         if(r.kind==="decompose"){S.dissipate(w,Q(rawE-E));S.CellSpace.deferMaterial(w,o.cell,{M:Q(rawM-M),kind:"mineral"});}
         else if(rawE>E||rawM>M)S.CellSpace.deferMaterial(w,o.cell,{E:Q(rawE-E),M:Q(rawM-M)});
-        state.receipts.push({id:r.id,actor:o.id,cell:o.cell,kind:r.kind,quantity,E,M,source:s?.row.id??null});
+        state.receipts.push({id:r.id,actor:o.id,cell:o.cell,kind:r.kind,quantity,E,M,source:s?.id??null});
         const record=ctx.records.get(o.id);if(r.kind==="photo")record.light=Q(record.light+E);if(r.kind==="food"||r.kind==="decompose")record.organic=Q(record.organic+E);
+        if(ctx.cellQActors?.has(o.id)){o.hyper.last.feedingE=Q((o.hyper.last.feedingE||0)+E);ctx.hyperFlow.bySpecies.hyperparasite.fedE=Q(ctx.hyperFlow.bySpecies.hyperparasite.fedE+E);}
+        else if(r.kind==="food"&&S.spec(o).group==="main"&&["plant","fungal","animal"].includes(s.tag)){
+          const gain=isRyouki(w,o)?0:Math.min(300-o.G,E*(s.tag==="animal"?1+S.trait(o,"animalG",p.phase):1));o.G=Q(o.G+gain);record.G=Q(record.G+gain);record.reserve=Q(record.reserve+E);
+        }
         if(r.kind==="food"||r.kind==="decompose"){
-          S.record(ctx,o,"feed",{source:s.row.id,sourceSpecies:s.row.species??null,tag:r.kind==="decompose"?"animal":s.tag,assimilated:E,assimilatedM:M,to:o.cell,consumedB:s.key==="organism"?quantity:s.body*quantity/s.units});
-          if(harvest&&s.key!=="organic")ctx.primaryHooks?.transfer(w,ctx,s.row,o,s.key==="carcass"?"carcass":"plant",harvest);
+          S.record(ctx,o,"feed",{source:s.id,sourceType:s.key,sourceSpecies:s.row.species??null,tag:r.kind==="decompose"?"animal":s.tag,amount:rawE,material:rawM,assimilated:E,assimilatedM:M,to:o.cell,consumedB:s.key==="organism"?quantity:s.body*quantity/s.units});
+          if(harvest&&["organism","carcass"].includes(s.key)&&!ctx.cellQActors?.has(o.id))ctx.primaryHooks?.transfer(w,ctx,s.row,o,s.key==="carcass"?"carcass":"plant",harvest);
         }
       }
+      w.resources=w.resources.filter(row=>row.q>0);
       return state.receipts;
     }
     function lifeDemands(w,ctx){
       ready(w,ctx);if(!ctx.cellMotion?.completed)throw Error("CELL_RESOURCES_BEFORE_MOVEMENT");
       const requests=[],canopies=[],maintenance=new Map(),m=ctx.current||S.maps(w),cells=m.cellSpace||S.CellSpace.index(w),materials=new Map();
+      indexSources(w,m);
       for(const [kind,rows]of [["organic",w.cellState.organic],["carcass",w.carcasses]])for(const row of rows){
         if(row.created>=w.turn||row.availableAt>w.turn)continue;
         if(!materials.has(row.cell))materials.set(row.cell,[]);materials.get(row.cell).push({row,kind});
       }
+      function food(o,refs){
+        const p=ctx.traits.get(o.id),adult=ctx.cellQActors?.has(o.id),e=Math.max(0,p.capE-o.E),mineral=Math.max(0,p.capM-(o.M||0));
+        for(const ref of refs){
+          const s=source(w,m,{source:ref});if(!s||s.units<=0)continue;
+          const eta=adult?S.HyperParasite.settings(w).adultAssimilation:efficiency(o,s.tag,p.phase),etaM=adult?0:S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase);
+          if(!(eta>0)||adult&&!["plant","fungal","animal"].includes(s.tag))continue;
+          const need=Math.min(s.units,Math.max(s.E*eta>0?e/(s.E*eta):0,s.M*etaM>0?mineral/(s.M*etaM):0));
+          if(need>0)requests.push({id:"food/"+o.id+"/"+s.key+"/"+s.id,actor:o.id,kind:"food",need,source:ref});
+        }
+      }
       for(const o of w.organisms)if(o.HP>0&&ctx.old.has(o.id)){
-        if(!S.CellLife.is(o))continue;
+        if(!S.CellLife.is(o)){
+          if(S.spec(o).group!=="main")continue;
+          maintenance.set(o.id,{E:ctx.costs.get(o.id).base,M:0});
+          const rows=cells.get(o.cell),refs=[...(rows?.[1]||[]),...(rows?.[2]||[]),...(rows?.[5]||[])].map(a=>({kind:"organism",id:a.id}));
+          for(const {row,kind}of materials.get(o.cell)||[])refs.push({kind,id:row.id});
+          refs.push(...(m.cellSources.resourcesByCell.get(o.cell)||[]));
+          food(o,refs);continue;
+        }
         const a=o.cellLife,p=ctx.traits.get(o.id),b=S.CellLife.bounds(o),u=maintenanceCost(w,o);
         maintenance.set(o.id,u);
         if(a.kind!=="group"&&a.kind!=="fungus"){
@@ -13893,12 +14104,14 @@ function(require,module){
             const need=Math.min(units,processed*units/body);if(need>0)requests.push({id:"decompose/"+o.id+"/"+row.id,actor:o.id,kind:"decompose",need,source:{kind,id:row.id}});
           }
         }else{
-          const bite=.25*S.ConsumerGroup.count(o),energyNeed=Math.max(0,p.capE-o.E)/.65,mineralNeed=Math.max(0,p.capM-o.M)/.65;
-          for(const source of [...(cells.get(o.cell)?.[1]||[]),...(cells.get(o.cell)?.[2]||[])]){
-            const amount=Math.min(S.edibleB(source),bite,Math.max(energyNeed,mineralNeed/.02));if(amount<=0)continue;
-            requests.push({id:"food/"+o.id+"/"+source.id,actor:o.id,kind:"food",need:amount,source:{kind:"organism",id:source.id}});
-          }
+          food(o,[...(cells.get(o.cell)?.[1]||[]),...(cells.get(o.cell)?.[2]||[])].map(a=>({kind:"organism",id:a.id})));
         }
+      }
+      for(const o of ctx.cellQActors?.values()||[]){
+        const rows=cells.get(o.cell),refs=[...(rows?.[1]||[]),...(rows?.[2]||[])].map(a=>({kind:"organism",id:a.id}));
+        for(const {row,kind}of materials.get(o.cell)||[])refs.push({kind,id:row.id});
+        refs.push(...(m.cellSources.resourcesByCell.get(o.cell)||[]));
+        food(o,refs);
       }
       return {requests,canopies,maintenance};
     }
@@ -13907,7 +14120,7 @@ function(require,module){
       for(const o of w.organisms)if(o.HP>0){const c=maintenance.get(o.id);if(!c||![c.E,c.M].every(finite))throw Error("CELL_MAINTENANCE_MISSING");}
       payActions(w,ctx);state.budgetSettled=true;
       for(const o of w.organisms)if(o.HP>0){
-        const c=maintenance.get(o.id),paidE=Q(Math.min(o.E,c.E)),paidM=Q(Math.min(o.M,c.M));
+        const raw=maintenance.get(o.id),c={E:Q(raw.E),M:Q(raw.M)},paidE=Q(Math.min(o.E,c.E)),paidM=Q(Math.min(o.M,c.M));
         o.E=Q(o.E-paidE);o.M=Q(o.M-paidM);S.dissipate(w,paidE);S.CellSpace.deferMaterial(w,o.cell,{M:paidM,kind:S.CellLife.is(o)&&o.cellLife.kind==="fungus"?"organic":"mineral"});
         state.budgets.set(o.id,{maintenance:{...c},paid:{E:paidE,M:paidM},deficit:Math.max(c.E?1-paidE/c.E:0,c.M?1-paidM/c.M:0),tickets:new Map()});
         if(ctx.informationHooks)ctx.records.get(o.id).informationMaintained=paidE+EPS>=c.E&&paidM+EPS>=c.M&&o.HP>0;
@@ -13940,7 +14153,34 @@ function(require,module){
       recipient.cellMatter.newB=Q((recipient.cellMatter.tissueAt===w.turn?recipient.cellMatter.newB||0:0)+bodyB);recipient.cellMatter.tissueAt=w.turn;
       S.dissipate(w,Q(t.E-bodyB-reserveE));S.CellSpace.deferMaterial(w,o.cell,{M:Q(t.M-bodyM-reserveM),kind:"mineral"});t.state="paid";return true;
     }
-    return {VERSION,allocate,begin,prepare,captureLight,acquire,settleBudgets,reserve,cancel,commit,lifeDemands,activity,background,remains,payloads,resolveDeaths};
+    // A sexual birth has several payers but one new body. Preflight every
+    // reservation before debiting anyone; partial parent payments cannot birth
+    // a second copy or leave a failed candidate charged.
+    function formChild(w,ctx,child,parents,costsE,costsM){
+      const B=child.B,E=child.E,M=child.M,p=S.phenotype(w,child),id="child/"+child.id;
+      const byId=(ctx.current||S.maps(w)).byId;
+      if(parents.length!==new Set(parents.map(o=>o.id)).size||parents.length!==costsE.length||parents.length!==costsM.length||
+        ![B,E,M,...costsE,...costsM].every(finite)||!(costsE.reduce((n,v)=>n+v,0)>0)||byId.has(child.id))throw Error("CELL_FORMATION_COST");
+      if(B>p.capB+EPS||E>p.capE+EPS||M>p.capM+EPS)return false;
+      if(parents.some(o=>o.HP<=0||!ctx.old.has(o.id)||byId.get(o.id)!==o))return false;
+      const up=n=>Math.ceil(Math.max(0,n-1e-12)*1e6)/1e6,sumE=Q(costsE.reduce((n,v)=>n+v,0)),sumM=Q(costsM.reduce((n,v)=>n+v,0)),
+        extraE=Math.max(0,up(1.2*B+E)-sumE),extraM=Math.max(0,up(.02*B+M)-sumM),tickets=[];
+      for(let i=0;i<parents.length;i++){
+        const share=costsE[i]/sumE,t=reserve(w,ctx,parents[i],id,{E:up(costsE[i]+extraE*share),M:up(costsM[i]+extraM*share)});
+        if(!t){for(const a of tickets)cancel(w,ctx,a.o,id);return false;}tickets.push({o:parents[i],t});
+      }
+      // All checks are complete and no consumer action runs between these
+      // debits. Keep the canonical child reserves, funding bound M separately.
+      const totalM=Q(tickets.reduce((n,a)=>n+a.t.M,0)),waste=Q(totalM-M-.02*B);let wasteLeft=waste;
+      for(const [i,{o,t}]of tickets.entries()){
+        o.E=Q(o.E-t.E);o.M=Q(o.M-t.M);budget(w,ctx,o).tickets.get(id).state="paid";
+        const returned=i===tickets.length-1?wasteLeft:down(waste*t.M/Math.max(EPS,totalM));wasteLeft=Q(wasteLeft-returned);
+        S.CellSpace.deferMaterial(w,o.cell,{M:returned,kind:"mineral"});
+      }
+      S.dissipate(w,Q(tickets.reduce((n,a)=>n+a.t.E,0)-E-B));
+      child.cellMatter={version:"cell-matter/1",bodyM:Q(.02*B),newB:B,newEdibleB:0,tissueAt:w.turn};return true;
+    }
+    return {VERSION,allocate,begin,prepare,captureLight,acquire,settleBudgets,reserve,cancel,commit,formChild,lifeDemands,activity,background,remains,payloads,resolveDeaths};
   })();
   const isRyouki=(w,o)=>S.Ryouki?.enabled(w)===true&&S.Ryouki.is(o);
   function efficiency(o, tag, phase = o.phase) {
@@ -15137,7 +15377,7 @@ function(require,module){
   function growth(w, ctx) {
     S.Ryouki.finalize(w,ctx);
     for (const o of w.organisms) {
-      if (!ctx.traits.has(o.id)) continue;
+      if (!ctx.traits.has(o.id)||S.CellSpace.enabled(w)&&S.CellLife.is(o)) continue;
       const s = S.spec(o),
         p = ctx.traits.get(o.id),
         rec = ctx.records.get(o.id),
@@ -15234,6 +15474,7 @@ function(require,module){
   }
   function birthPressure(w,o,ctx){
     const group=S.spec(o).group;
+    if(S.CellSpace.enabled(w))return {allowed:true,chance:1,density:0,foodFactor:1};
     if(!w.config.populationRegulation||!["main","prey"].includes(group))return {allowed:true,chance:1,density:0,foodFactor:1};
     const cache=ctx.birthPressure??=new Map();if(cache.has(o.id))return cache.get(o.id);
     let counts=ctx.birthPressureCounts;
@@ -15428,7 +15669,7 @@ function(require,module){
         ":" +
         Math.floor(c.cell / w.config.width) +
         ":" +
-        (c.cell % w.config.width),
+        (c.cell % w.config.width)+(c.cellBudget?":"+c.parents[0].id:""),
       T = c.costs.reduce((a, b) => a + b, 0);
     const main = s.group === "main",
       early = s.id === "precocial", independent=S.LargePlant.is(mother);
@@ -15496,6 +15737,7 @@ function(require,module){
       S.dissipate(w,2);S.LargePlant.allocation(w,mother,1,T,mother.phase===4&&mother.branch3===1?mother.branch4:null);
     }
     S.initializeAge(w,o);
+    if(c.cellBudget)return o;
     c.parents.forEach((parent, i) => {
       parent.E = S.round(parent.E - c.costs[i]);
       parent.M = S.round(
@@ -15516,7 +15758,7 @@ function(require,module){
   }
   function ryoukiChild(w,c,ctx){
     const s=S.D.ryouki,b=s.birth,mother=c.parents[0],father=c.parents[1],
-      id="b:"+w.turn+":"+c.slot+":"+Math.floor(c.cell/w.config.width)+":"+(c.cell%w.config.width),dna={};
+      id="b:"+w.turn+":"+c.slot+":"+Math.floor(c.cell/w.config.width)+":"+(c.cell%w.config.width)+(c.cellBudget?":"+mother.id:""),dna={};
     for(const [i,axis]of S.DNA.entries()){
       const big=S.r(w,"birth/mutation-kind",w.turn,id,null,i)<.01,range=big?.05:.02;
       dna[axis]=S.round(S.clamp((mother.dna[axis]+father.dna[axis])/2+(2*S.r(w,"birth/dna",w.turn,id,null,i)-1)*range));
@@ -15525,6 +15767,7 @@ function(require,module){
     const o=S.organism(w,s,c.cell,id,{phase:1,age:0,G:0,dna,birthWeights,weights:birthWeights.slice(),
       sex:S.r(w,"birth/sex",w.turn,id)<.5?"female":"male",E:b.childE,B:b.childB,M:b.childM,HP:s.capacity[3],
       generation:Math.max(mother.generation,father.generation)+1,parents:[mother.id,father.id]});
+    if(c.cellBudget){S.initializeAge(w,o);return o;}
     c.parents.forEach((parent,i)=>{
       parent.E=S.round(parent.E-b.costsE[i]);parent.M=S.round(parent.M-b.costsM[i]);ctx.parents.add(parent.id);
       parent.birthReady=w.turn+Math.ceil(ctx.traits.get(parent.id).cooldown)+1;parent.firstBirthAt??=w.turn;
@@ -15593,7 +15836,83 @@ function(require,module){
     ctx.children = children;
     return children;
   }
-  return { CellLife, lead, growth, eligible, birthPressure, birthCost, candidates, child, reproduce };
+  const CellMain=(()=>{
+    const Q=S.round,EPS=1e-8,is=o=>S.spec(o).group==="main"&&!S.CellLife.is(o);
+    function maintain(w,ctx,N){
+      if(!S.CellSpace.enabled(w)||!ctx.cellResources?.budgetSettled)throw Error("CELL_MAIN_BEFORE_BUDGET");
+      if(ctx.cellMainMaintained)throw Error("CELL_MAIN_ALREADY_APPLIED");ctx.cellMainMaintained=true;
+      for(const o of w.organisms)if(is(o)&&o.HP>0&&ctx.old.has(o.id)){
+        const p=ctx.traits.get(o.id),b=ctx.cellResources.budgets.get(o.id),rec=ctx.records.get(o.id);
+        o.HP=Q(Math.max(0,o.HP-2*Math.max(0,b.maintenance.E-b.paid.E)));
+        const reason=o.HP<=0?"starvation":o.age+1>=p.life?"age":null;
+        if(reason){N.remains(w,o,ctx);ctx.deaths.push({id:o.id,species:o.species,reason});continue;}
+        const rate=Math.min(.75,.5*p.ageFactors.healing*(1+S.trait(o,"healing",p.phase))*(!S.Ryouki.is(o)&&o.branch3===0&&o.branch4===1?1.2:1)),
+          cost=Math.floor(Math.min(Math.max(0,p.maxHP-o.HP)/rate,Math.max(0,o.E-3*b.maintenance.E))*1e6)/1e6,heal=Q(cost*rate);
+        if(heal>0&&N.reserve(w,ctx,o,"healing/"+o.id,{E:cost,M:0})&&N.commit(w,ctx,o,"healing/"+o.id)){
+          o.HP=Q(o.HP+heal);rec.heal=Q(rec.heal+heal);
+        }
+      }
+      w.organisms=w.organisms.filter(o=>o.HP>0);ctx.current=S.maps(w);
+    }
+    function reproduce(w,ctx,N){
+      if(!ctx.cellMainMaintained)throw Error("CELL_MAIN_BEFORE_MAINTENANCE");
+      if(ctx.cellMainReproduced)throw Error("CELL_MAIN_ALREADY_APPLIED");ctx.cellMainReproduced=true;
+      if(!w.config.enabled.main)return [];
+      const cells=S.CellSpace.index(w),old=w.organisms.filter(o=>is(o)&&o.HP>0&&ctx.old.has(o.id)),
+        peers=o=>S.nearby(w,o.cell,1,true).filter(cell=>S.oneStep(w,o.cell,cell)).flatMap(cell=>cells.get(cell)?.[4]||[]).filter(a=>ctx.old.has(a.id)&&is(a)),usedMales=new Set();
+      // Preserve stored mating; use all co-resident IDs and the same finite
+      // budget as birth/repair. No extra social or density bonus is introduced.
+      for(const queen of old.slice().sort((a,b)=>S.hash(w,"cell/mating",w.turn,a.id)-S.hash(w,"cell/mating",w.turn,b.id))){
+        if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||queen.HP<70||queen.E<(w.config.socialRenewalModel==="successor/1"?37:47)||ctx.traits.get(queen.id).ageStage==="juvenile"||ctx.records.get(queen.id).damage>0)continue;
+        const male=peers(queen).filter(a=>a.species==="swarm"&&a.role==="male"&&a.HP>=70&&a.E>=2&&ctx.traits.get(a.id).ageStage!=="juvenile"&&ctx.records.get(a.id).damage===0&&!usedMales.has(a.id))
+          .sort((a,b)=>S.hash(w,"colony/mate",w.turn,queen.id,a.id)-S.hash(w,"colony/mate",w.turn,queen.id,b.id))[0];
+        if(!male)continue;
+        const id="mating/"+queen.id,a=N.reserve(w,ctx,queen,id,{E:2,M:0}),b=a&&N.reserve(w,ctx,male,id,{E:2,M:0});
+        if(!b){if(a)N.cancel(w,ctx,queen,id);continue;}
+        N.commit(w,ctx,queen,id);N.commit(w,ctx,male,id);usedMales.add(male.id);
+        queen.sperm={uses:12,father:{id:male.id,dna:{...male.dna},birthWeights:male.birthWeights.slice(),generation:male.generation}};
+        w.colonyMating??={matings:0,storedBirths:0};w.colonyMating.matings++;
+      }
+      const proposals=[];
+      for(const mother of old)if(mother.sex==="female"&&eligible(w,mother,ctx)){
+        const near=peers(mother),stored=mother.species==="swarm"&&mother.sperm?.uses>0,
+          fathers=stored?[]:near.filter(a=>a.species===mother.species&&a.sex==="male"&&eligible(w,a,ctx));
+        const kinds=stored?[3]:fathers.length?[0]:mother.species==="jelly"&&mother.maleAbsent>=8&&eligible(w,mother,ctx,true)?[1]:[];
+        for(const kind of kinds)for(const cell of S.nearby(w,mother.cell,1,true)){
+          const probe={...mother,id:"new/"+mother.id,...(S.Ryouki.is(mother)?{ryouki:{...mother.ryouki,mutated:false}}:{})};
+          if(!S.oneStep(w,mother.cell,cell)||!S.sight(w,mother.cell,cell)||!S.validHabitat(w,S.spec(mother),cell)||!S.CellSpace.room(w,probe,cell,{},cells))continue;
+          const father=kind===0?fathers.filter(a=>S.oneStep(w,a.cell,cell)&&S.sight(w,a.cell,cell)).sort((a,b)=>S.hash(w,"cell/father",w.turn,mother.id,[cell,a.id])-S.hash(w,"cell/father",w.turn,mother.id,[cell,b.id]))[0]:null;
+          if(kind===0&&!father)continue;
+          const parents=father?[mother,father]:[mother],costs=kind===0?(S.Ryouki.is(mother)?S.D.ryouki.birth.costsE.slice():parents.map(o=>birthCost(w,o,ctx))):[kind===1?40:w.config.socialRenewalModel==="successor/1"?30:40];
+          if(kind===3&&(mother.M<4||mother.E<costs[0]))continue;
+          const c={cell,slot:"main",kind,parents,costs,species:mother.species,cellBudget:true,...(stored?{fatherReference:mother.sperm.father}:{})};
+          if(ctx.informationHooks){c.informationChoices=parents.map(parent=>({parent,place:ctx.informationHooks.informationPlace(w,ctx,parent,cell)}));c.informationScore=c.informationChoices.reduce((n,a)=>n+a.place.value,0)/parents.length;}
+          c.h=S.hash(w,"birth/arbitration",w.turn,c.species,[cell,kind,parents.map(o=>o.id)]);c.key=JSON.stringify([c.species,cell,kind,parents.map(o=>o.id)]);proposals.push(c);
+        }
+      }
+      const children=[];
+      for(const c of proposals.sort(compare)){
+        if(c.parents.some(o=>ctx.parents.has(o.id)))continue;
+        const born=child(w,c,ctx);
+        if(!S.CellSpace.room(w,born,c.cell,{},cells))continue;
+        const costsM=c.species==="ryouki"?S.D.ryouki.birth.costsM:c.parents.map(()=>[1,3].includes(c.kind)?4:2);
+        if(!N.formChild(w,ctx,born,c.parents,c.costs,costsM))continue;
+        S.CellSpace.assign(w,born,{},cells);if(!cells.has(born.cell))cells.set(born.cell,Array.from({length:6},()=>[]));cells.get(born.cell)[4].push(born);
+        w.organisms.push(born);ctx.children.push(born);ctx.births.push(born.species);children.push(born);
+        for(const o of c.parents){ctx.parents.add(o.id);o.birthReady=w.turn+Math.ceil(ctx.traits.get(o.id).cooldown*(c.kind===1?1.5:1))+1;o.firstBirthAt??=w.turn;}
+        if(c.kind===3){c.parents[0].sperm.uses--;w.colonyMating.storedBirths++;}
+        for(const {parent,place}of c.informationChoices||[])ctx.informationHooks.informationUsed(w,ctx,parent,c.cell,place);
+        S.record(ctx,born,"birth",{parents:born.parents});
+      }
+      ctx.current=S.maps(w);return children;
+    }
+    function age(w,ctx){
+      if(ctx.cellMainAged)throw Error("CELL_MAIN_ALREADY_APPLIED");ctx.cellMainAged=true;
+      for(const o of w.organisms)if(is(o)&&o.HP>0&&ctx.old.has(o.id)){o.age++;o.HP=Q(Math.min(o.HP,S.phenotype(w,o).maxHP));}
+    }
+    return {maintain,reproduce,age};
+  })();
+  return { CellLife, CellMain, lead, growth, eligible, birthPressure, birthCost, candidates, child, reproduce };
 });
 
 },
@@ -15990,15 +16309,20 @@ function(require,module){
   function cellLife(w,ctx,otherMaintenance=new Map()){
     N.payActions(w,ctx);
     N.CellResources.resolveDeaths(w,ctx);
+    if(S.HyperParasite?.enabled(w))P.search(w,ctx);
     const demand=N.CellResources.lifeDemands(w,ctx);
     const maintenance=new Map([...otherMaintenance,...demand.maintenance]);
     for(const o of w.organisms)if(o.HP>0&&!maintenance.has(o.id))throw Error("CELL_LIFE_MAINTENANCE_UNCONNECTED:"+o.id);
     N.CellResources.acquire(w,ctx,demand.requests,demand.canopies);
     N.CellResources.settleBudgets(w,ctx,maintenance);
-    R.CellLife.advance(w,ctx,N.CellResources,B.moveCost);N.CellResources.background(w,ctx);
+    R.CellMain.maintain(w,ctx,N.CellResources);
+    R.CellLife.advance(w,ctx,N.CellResources,B.moveCost);
+    B.learn(w,ctx);R.growth(w,ctx);R.CellMain.reproduce(w,ctx,N.CellResources);R.CellMain.age(w,ctx);
+    N.CellResources.background(w,ctx);
     if(S.PrimaryParasite?.enabled(w)){P.contacts(w,ctx);P.mature(w,ctx);P.reproduce(w,ctx);}
     if(S.PersistentInformation?.enabled(w))P.informationFinalize(w,ctx);
-    // Q autonomous search/feeding and public stepping remain a later CR06 boundary.
+    // Direct live predation, remaining aquatic life and public stepping are
+    // still guarded CR06 boundaries; this is an internal consumer-life entry.
     return demand;
   }
   function finish(w, ctx) {
@@ -18762,7 +19086,7 @@ function(require,module){
   function growth(w, ctx) {
     S.Ryouki.finalize(w,ctx);
     for (const o of w.organisms) {
-      if (!ctx.traits.has(o.id)) continue;
+      if (!ctx.traits.has(o.id)||S.CellSpace.enabled(w)&&S.CellLife.is(o)) continue;
       const s = S.spec(o),
         p = ctx.traits.get(o.id),
         rec = ctx.records.get(o.id),
@@ -18859,6 +19183,7 @@ function(require,module){
   }
   function birthPressure(w,o,ctx){
     const group=S.spec(o).group;
+    if(S.CellSpace.enabled(w))return {allowed:true,chance:1,density:0,foodFactor:1};
     if(!w.config.populationRegulation||!["main","prey"].includes(group))return {allowed:true,chance:1,density:0,foodFactor:1};
     const cache=ctx.birthPressure??=new Map();if(cache.has(o.id))return cache.get(o.id);
     let counts=ctx.birthPressureCounts;
@@ -19053,7 +19378,7 @@ function(require,module){
         ":" +
         Math.floor(c.cell / w.config.width) +
         ":" +
-        (c.cell % w.config.width),
+        (c.cell % w.config.width)+(c.cellBudget?":"+c.parents[0].id:""),
       T = c.costs.reduce((a, b) => a + b, 0);
     const main = s.group === "main",
       early = s.id === "precocial", independent=S.LargePlant.is(mother);
@@ -19121,6 +19446,7 @@ function(require,module){
       S.dissipate(w,2);S.LargePlant.allocation(w,mother,1,T,mother.phase===4&&mother.branch3===1?mother.branch4:null);
     }
     S.initializeAge(w,o);
+    if(c.cellBudget)return o;
     c.parents.forEach((parent, i) => {
       parent.E = S.round(parent.E - c.costs[i]);
       parent.M = S.round(
@@ -19141,7 +19467,7 @@ function(require,module){
   }
   function ryoukiChild(w,c,ctx){
     const s=S.D.ryouki,b=s.birth,mother=c.parents[0],father=c.parents[1],
-      id="b:"+w.turn+":"+c.slot+":"+Math.floor(c.cell/w.config.width)+":"+(c.cell%w.config.width),dna={};
+      id="b:"+w.turn+":"+c.slot+":"+Math.floor(c.cell/w.config.width)+":"+(c.cell%w.config.width)+(c.cellBudget?":"+mother.id:""),dna={};
     for(const [i,axis]of S.DNA.entries()){
       const big=S.r(w,"birth/mutation-kind",w.turn,id,null,i)<.01,range=big?.05:.02;
       dna[axis]=S.round(S.clamp((mother.dna[axis]+father.dna[axis])/2+(2*S.r(w,"birth/dna",w.turn,id,null,i)-1)*range));
@@ -19150,6 +19476,7 @@ function(require,module){
     const o=S.organism(w,s,c.cell,id,{phase:1,age:0,G:0,dna,birthWeights,weights:birthWeights.slice(),
       sex:S.r(w,"birth/sex",w.turn,id)<.5?"female":"male",E:b.childE,B:b.childB,M:b.childM,HP:s.capacity[3],
       generation:Math.max(mother.generation,father.generation)+1,parents:[mother.id,father.id]});
+    if(c.cellBudget){S.initializeAge(w,o);return o;}
     c.parents.forEach((parent,i)=>{
       parent.E=S.round(parent.E-b.costsE[i]);parent.M=S.round(parent.M-b.costsM[i]);ctx.parents.add(parent.id);
       parent.birthReady=w.turn+Math.ceil(ctx.traits.get(parent.id).cooldown)+1;parent.firstBirthAt??=w.turn;
@@ -19218,7 +19545,83 @@ function(require,module){
     ctx.children = children;
     return children;
   }
-  return { CellLife, lead, growth, eligible, birthPressure, birthCost, candidates, child, reproduce };
+  const CellMain=(()=>{
+    const Q=S.round,EPS=1e-8,is=o=>S.spec(o).group==="main"&&!S.CellLife.is(o);
+    function maintain(w,ctx,N){
+      if(!S.CellSpace.enabled(w)||!ctx.cellResources?.budgetSettled)throw Error("CELL_MAIN_BEFORE_BUDGET");
+      if(ctx.cellMainMaintained)throw Error("CELL_MAIN_ALREADY_APPLIED");ctx.cellMainMaintained=true;
+      for(const o of w.organisms)if(is(o)&&o.HP>0&&ctx.old.has(o.id)){
+        const p=ctx.traits.get(o.id),b=ctx.cellResources.budgets.get(o.id),rec=ctx.records.get(o.id);
+        o.HP=Q(Math.max(0,o.HP-2*Math.max(0,b.maintenance.E-b.paid.E)));
+        const reason=o.HP<=0?"starvation":o.age+1>=p.life?"age":null;
+        if(reason){N.remains(w,o,ctx);ctx.deaths.push({id:o.id,species:o.species,reason});continue;}
+        const rate=Math.min(.75,.5*p.ageFactors.healing*(1+S.trait(o,"healing",p.phase))*(!S.Ryouki.is(o)&&o.branch3===0&&o.branch4===1?1.2:1)),
+          cost=Math.floor(Math.min(Math.max(0,p.maxHP-o.HP)/rate,Math.max(0,o.E-3*b.maintenance.E))*1e6)/1e6,heal=Q(cost*rate);
+        if(heal>0&&N.reserve(w,ctx,o,"healing/"+o.id,{E:cost,M:0})&&N.commit(w,ctx,o,"healing/"+o.id)){
+          o.HP=Q(o.HP+heal);rec.heal=Q(rec.heal+heal);
+        }
+      }
+      w.organisms=w.organisms.filter(o=>o.HP>0);ctx.current=S.maps(w);
+    }
+    function reproduce(w,ctx,N){
+      if(!ctx.cellMainMaintained)throw Error("CELL_MAIN_BEFORE_MAINTENANCE");
+      if(ctx.cellMainReproduced)throw Error("CELL_MAIN_ALREADY_APPLIED");ctx.cellMainReproduced=true;
+      if(!w.config.enabled.main)return [];
+      const cells=S.CellSpace.index(w),old=w.organisms.filter(o=>is(o)&&o.HP>0&&ctx.old.has(o.id)),
+        peers=o=>S.nearby(w,o.cell,1,true).filter(cell=>S.oneStep(w,o.cell,cell)).flatMap(cell=>cells.get(cell)?.[4]||[]).filter(a=>ctx.old.has(a.id)&&is(a)),usedMales=new Set();
+      // Preserve stored mating; use all co-resident IDs and the same finite
+      // budget as birth/repair. No extra social or density bonus is introduced.
+      for(const queen of old.slice().sort((a,b)=>S.hash(w,"cell/mating",w.turn,a.id)-S.hash(w,"cell/mating",w.turn,b.id))){
+        if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||queen.HP<70||queen.E<(w.config.socialRenewalModel==="successor/1"?37:47)||ctx.traits.get(queen.id).ageStage==="juvenile"||ctx.records.get(queen.id).damage>0)continue;
+        const male=peers(queen).filter(a=>a.species==="swarm"&&a.role==="male"&&a.HP>=70&&a.E>=2&&ctx.traits.get(a.id).ageStage!=="juvenile"&&ctx.records.get(a.id).damage===0&&!usedMales.has(a.id))
+          .sort((a,b)=>S.hash(w,"colony/mate",w.turn,queen.id,a.id)-S.hash(w,"colony/mate",w.turn,queen.id,b.id))[0];
+        if(!male)continue;
+        const id="mating/"+queen.id,a=N.reserve(w,ctx,queen,id,{E:2,M:0}),b=a&&N.reserve(w,ctx,male,id,{E:2,M:0});
+        if(!b){if(a)N.cancel(w,ctx,queen,id);continue;}
+        N.commit(w,ctx,queen,id);N.commit(w,ctx,male,id);usedMales.add(male.id);
+        queen.sperm={uses:12,father:{id:male.id,dna:{...male.dna},birthWeights:male.birthWeights.slice(),generation:male.generation}};
+        w.colonyMating??={matings:0,storedBirths:0};w.colonyMating.matings++;
+      }
+      const proposals=[];
+      for(const mother of old)if(mother.sex==="female"&&eligible(w,mother,ctx)){
+        const near=peers(mother),stored=mother.species==="swarm"&&mother.sperm?.uses>0,
+          fathers=stored?[]:near.filter(a=>a.species===mother.species&&a.sex==="male"&&eligible(w,a,ctx));
+        const kinds=stored?[3]:fathers.length?[0]:mother.species==="jelly"&&mother.maleAbsent>=8&&eligible(w,mother,ctx,true)?[1]:[];
+        for(const kind of kinds)for(const cell of S.nearby(w,mother.cell,1,true)){
+          const probe={...mother,id:"new/"+mother.id,...(S.Ryouki.is(mother)?{ryouki:{...mother.ryouki,mutated:false}}:{})};
+          if(!S.oneStep(w,mother.cell,cell)||!S.sight(w,mother.cell,cell)||!S.validHabitat(w,S.spec(mother),cell)||!S.CellSpace.room(w,probe,cell,{},cells))continue;
+          const father=kind===0?fathers.filter(a=>S.oneStep(w,a.cell,cell)&&S.sight(w,a.cell,cell)).sort((a,b)=>S.hash(w,"cell/father",w.turn,mother.id,[cell,a.id])-S.hash(w,"cell/father",w.turn,mother.id,[cell,b.id]))[0]:null;
+          if(kind===0&&!father)continue;
+          const parents=father?[mother,father]:[mother],costs=kind===0?(S.Ryouki.is(mother)?S.D.ryouki.birth.costsE.slice():parents.map(o=>birthCost(w,o,ctx))):[kind===1?40:w.config.socialRenewalModel==="successor/1"?30:40];
+          if(kind===3&&(mother.M<4||mother.E<costs[0]))continue;
+          const c={cell,slot:"main",kind,parents,costs,species:mother.species,cellBudget:true,...(stored?{fatherReference:mother.sperm.father}:{})};
+          if(ctx.informationHooks){c.informationChoices=parents.map(parent=>({parent,place:ctx.informationHooks.informationPlace(w,ctx,parent,cell)}));c.informationScore=c.informationChoices.reduce((n,a)=>n+a.place.value,0)/parents.length;}
+          c.h=S.hash(w,"birth/arbitration",w.turn,c.species,[cell,kind,parents.map(o=>o.id)]);c.key=JSON.stringify([c.species,cell,kind,parents.map(o=>o.id)]);proposals.push(c);
+        }
+      }
+      const children=[];
+      for(const c of proposals.sort(compare)){
+        if(c.parents.some(o=>ctx.parents.has(o.id)))continue;
+        const born=child(w,c,ctx);
+        if(!S.CellSpace.room(w,born,c.cell,{},cells))continue;
+        const costsM=c.species==="ryouki"?S.D.ryouki.birth.costsM:c.parents.map(()=>[1,3].includes(c.kind)?4:2);
+        if(!N.formChild(w,ctx,born,c.parents,c.costs,costsM))continue;
+        S.CellSpace.assign(w,born,{},cells);if(!cells.has(born.cell))cells.set(born.cell,Array.from({length:6},()=>[]));cells.get(born.cell)[4].push(born);
+        w.organisms.push(born);ctx.children.push(born);ctx.births.push(born.species);children.push(born);
+        for(const o of c.parents){ctx.parents.add(o.id);o.birthReady=w.turn+Math.ceil(ctx.traits.get(o.id).cooldown*(c.kind===1?1.5:1))+1;o.firstBirthAt??=w.turn;}
+        if(c.kind===3){c.parents[0].sperm.uses--;w.colonyMating.storedBirths++;}
+        for(const {parent,place}of c.informationChoices||[])ctx.informationHooks.informationUsed(w,ctx,parent,c.cell,place);
+        S.record(ctx,born,"birth",{parents:born.parents});
+      }
+      ctx.current=S.maps(w);return children;
+    }
+    function age(w,ctx){
+      if(ctx.cellMainAged)throw Error("CELL_MAIN_ALREADY_APPLIED");ctx.cellMainAged=true;
+      for(const o of w.organisms)if(is(o)&&o.HP>0&&ctx.old.has(o.id)){o.age++;o.HP=Q(Math.min(o.HP,S.phenotype(w,o).maxHP));}
+    }
+    return {maintain,reproduce,age};
+  })();
+  return { CellLife, CellMain, lead, growth, eligible, birthPressure, birthCost, candidates, child, reproduce };
 });
 
 },
@@ -20312,7 +20715,7 @@ function(require,module){
   function growth(w, ctx) {
     S.Ryouki.finalize(w,ctx);
     for (const o of w.organisms) {
-      if (!ctx.traits.has(o.id)) continue;
+      if (!ctx.traits.has(o.id)||S.CellSpace.enabled(w)&&S.CellLife.is(o)) continue;
       const s = S.spec(o),
         p = ctx.traits.get(o.id),
         rec = ctx.records.get(o.id),
@@ -20409,6 +20812,7 @@ function(require,module){
   }
   function birthPressure(w,o,ctx){
     const group=S.spec(o).group;
+    if(S.CellSpace.enabled(w))return {allowed:true,chance:1,density:0,foodFactor:1};
     if(!w.config.populationRegulation||!["main","prey"].includes(group))return {allowed:true,chance:1,density:0,foodFactor:1};
     const cache=ctx.birthPressure??=new Map();if(cache.has(o.id))return cache.get(o.id);
     let counts=ctx.birthPressureCounts;
@@ -20603,7 +21007,7 @@ function(require,module){
         ":" +
         Math.floor(c.cell / w.config.width) +
         ":" +
-        (c.cell % w.config.width),
+        (c.cell % w.config.width)+(c.cellBudget?":"+c.parents[0].id:""),
       T = c.costs.reduce((a, b) => a + b, 0);
     const main = s.group === "main",
       early = s.id === "precocial", independent=S.LargePlant.is(mother);
@@ -20671,6 +21075,7 @@ function(require,module){
       S.dissipate(w,2);S.LargePlant.allocation(w,mother,1,T,mother.phase===4&&mother.branch3===1?mother.branch4:null);
     }
     S.initializeAge(w,o);
+    if(c.cellBudget)return o;
     c.parents.forEach((parent, i) => {
       parent.E = S.round(parent.E - c.costs[i]);
       parent.M = S.round(
@@ -20691,7 +21096,7 @@ function(require,module){
   }
   function ryoukiChild(w,c,ctx){
     const s=S.D.ryouki,b=s.birth,mother=c.parents[0],father=c.parents[1],
-      id="b:"+w.turn+":"+c.slot+":"+Math.floor(c.cell/w.config.width)+":"+(c.cell%w.config.width),dna={};
+      id="b:"+w.turn+":"+c.slot+":"+Math.floor(c.cell/w.config.width)+":"+(c.cell%w.config.width)+(c.cellBudget?":"+mother.id:""),dna={};
     for(const [i,axis]of S.DNA.entries()){
       const big=S.r(w,"birth/mutation-kind",w.turn,id,null,i)<.01,range=big?.05:.02;
       dna[axis]=S.round(S.clamp((mother.dna[axis]+father.dna[axis])/2+(2*S.r(w,"birth/dna",w.turn,id,null,i)-1)*range));
@@ -20700,6 +21105,7 @@ function(require,module){
     const o=S.organism(w,s,c.cell,id,{phase:1,age:0,G:0,dna,birthWeights,weights:birthWeights.slice(),
       sex:S.r(w,"birth/sex",w.turn,id)<.5?"female":"male",E:b.childE,B:b.childB,M:b.childM,HP:s.capacity[3],
       generation:Math.max(mother.generation,father.generation)+1,parents:[mother.id,father.id]});
+    if(c.cellBudget){S.initializeAge(w,o);return o;}
     c.parents.forEach((parent,i)=>{
       parent.E=S.round(parent.E-b.costsE[i]);parent.M=S.round(parent.M-b.costsM[i]);ctx.parents.add(parent.id);
       parent.birthReady=w.turn+Math.ceil(ctx.traits.get(parent.id).cooldown)+1;parent.firstBirthAt??=w.turn;
@@ -20768,7 +21174,83 @@ function(require,module){
     ctx.children = children;
     return children;
   }
-  return { CellLife, lead, growth, eligible, birthPressure, birthCost, candidates, child, reproduce };
+  const CellMain=(()=>{
+    const Q=S.round,EPS=1e-8,is=o=>S.spec(o).group==="main"&&!S.CellLife.is(o);
+    function maintain(w,ctx,N){
+      if(!S.CellSpace.enabled(w)||!ctx.cellResources?.budgetSettled)throw Error("CELL_MAIN_BEFORE_BUDGET");
+      if(ctx.cellMainMaintained)throw Error("CELL_MAIN_ALREADY_APPLIED");ctx.cellMainMaintained=true;
+      for(const o of w.organisms)if(is(o)&&o.HP>0&&ctx.old.has(o.id)){
+        const p=ctx.traits.get(o.id),b=ctx.cellResources.budgets.get(o.id),rec=ctx.records.get(o.id);
+        o.HP=Q(Math.max(0,o.HP-2*Math.max(0,b.maintenance.E-b.paid.E)));
+        const reason=o.HP<=0?"starvation":o.age+1>=p.life?"age":null;
+        if(reason){N.remains(w,o,ctx);ctx.deaths.push({id:o.id,species:o.species,reason});continue;}
+        const rate=Math.min(.75,.5*p.ageFactors.healing*(1+S.trait(o,"healing",p.phase))*(!S.Ryouki.is(o)&&o.branch3===0&&o.branch4===1?1.2:1)),
+          cost=Math.floor(Math.min(Math.max(0,p.maxHP-o.HP)/rate,Math.max(0,o.E-3*b.maintenance.E))*1e6)/1e6,heal=Q(cost*rate);
+        if(heal>0&&N.reserve(w,ctx,o,"healing/"+o.id,{E:cost,M:0})&&N.commit(w,ctx,o,"healing/"+o.id)){
+          o.HP=Q(o.HP+heal);rec.heal=Q(rec.heal+heal);
+        }
+      }
+      w.organisms=w.organisms.filter(o=>o.HP>0);ctx.current=S.maps(w);
+    }
+    function reproduce(w,ctx,N){
+      if(!ctx.cellMainMaintained)throw Error("CELL_MAIN_BEFORE_MAINTENANCE");
+      if(ctx.cellMainReproduced)throw Error("CELL_MAIN_ALREADY_APPLIED");ctx.cellMainReproduced=true;
+      if(!w.config.enabled.main)return [];
+      const cells=S.CellSpace.index(w),old=w.organisms.filter(o=>is(o)&&o.HP>0&&ctx.old.has(o.id)),
+        peers=o=>S.nearby(w,o.cell,1,true).filter(cell=>S.oneStep(w,o.cell,cell)).flatMap(cell=>cells.get(cell)?.[4]||[]).filter(a=>ctx.old.has(a.id)&&is(a)),usedMales=new Set();
+      // Preserve stored mating; use all co-resident IDs and the same finite
+      // budget as birth/repair. No extra social or density bonus is introduced.
+      for(const queen of old.slice().sort((a,b)=>S.hash(w,"cell/mating",w.turn,a.id)-S.hash(w,"cell/mating",w.turn,b.id))){
+        if(queen.species!=="swarm"||queen.role!=="queen"||queen.sperm?.uses>0||queen.HP<70||queen.E<(w.config.socialRenewalModel==="successor/1"?37:47)||ctx.traits.get(queen.id).ageStage==="juvenile"||ctx.records.get(queen.id).damage>0)continue;
+        const male=peers(queen).filter(a=>a.species==="swarm"&&a.role==="male"&&a.HP>=70&&a.E>=2&&ctx.traits.get(a.id).ageStage!=="juvenile"&&ctx.records.get(a.id).damage===0&&!usedMales.has(a.id))
+          .sort((a,b)=>S.hash(w,"colony/mate",w.turn,queen.id,a.id)-S.hash(w,"colony/mate",w.turn,queen.id,b.id))[0];
+        if(!male)continue;
+        const id="mating/"+queen.id,a=N.reserve(w,ctx,queen,id,{E:2,M:0}),b=a&&N.reserve(w,ctx,male,id,{E:2,M:0});
+        if(!b){if(a)N.cancel(w,ctx,queen,id);continue;}
+        N.commit(w,ctx,queen,id);N.commit(w,ctx,male,id);usedMales.add(male.id);
+        queen.sperm={uses:12,father:{id:male.id,dna:{...male.dna},birthWeights:male.birthWeights.slice(),generation:male.generation}};
+        w.colonyMating??={matings:0,storedBirths:0};w.colonyMating.matings++;
+      }
+      const proposals=[];
+      for(const mother of old)if(mother.sex==="female"&&eligible(w,mother,ctx)){
+        const near=peers(mother),stored=mother.species==="swarm"&&mother.sperm?.uses>0,
+          fathers=stored?[]:near.filter(a=>a.species===mother.species&&a.sex==="male"&&eligible(w,a,ctx));
+        const kinds=stored?[3]:fathers.length?[0]:mother.species==="jelly"&&mother.maleAbsent>=8&&eligible(w,mother,ctx,true)?[1]:[];
+        for(const kind of kinds)for(const cell of S.nearby(w,mother.cell,1,true)){
+          const probe={...mother,id:"new/"+mother.id,...(S.Ryouki.is(mother)?{ryouki:{...mother.ryouki,mutated:false}}:{})};
+          if(!S.oneStep(w,mother.cell,cell)||!S.sight(w,mother.cell,cell)||!S.validHabitat(w,S.spec(mother),cell)||!S.CellSpace.room(w,probe,cell,{},cells))continue;
+          const father=kind===0?fathers.filter(a=>S.oneStep(w,a.cell,cell)&&S.sight(w,a.cell,cell)).sort((a,b)=>S.hash(w,"cell/father",w.turn,mother.id,[cell,a.id])-S.hash(w,"cell/father",w.turn,mother.id,[cell,b.id]))[0]:null;
+          if(kind===0&&!father)continue;
+          const parents=father?[mother,father]:[mother],costs=kind===0?(S.Ryouki.is(mother)?S.D.ryouki.birth.costsE.slice():parents.map(o=>birthCost(w,o,ctx))):[kind===1?40:w.config.socialRenewalModel==="successor/1"?30:40];
+          if(kind===3&&(mother.M<4||mother.E<costs[0]))continue;
+          const c={cell,slot:"main",kind,parents,costs,species:mother.species,cellBudget:true,...(stored?{fatherReference:mother.sperm.father}:{})};
+          if(ctx.informationHooks){c.informationChoices=parents.map(parent=>({parent,place:ctx.informationHooks.informationPlace(w,ctx,parent,cell)}));c.informationScore=c.informationChoices.reduce((n,a)=>n+a.place.value,0)/parents.length;}
+          c.h=S.hash(w,"birth/arbitration",w.turn,c.species,[cell,kind,parents.map(o=>o.id)]);c.key=JSON.stringify([c.species,cell,kind,parents.map(o=>o.id)]);proposals.push(c);
+        }
+      }
+      const children=[];
+      for(const c of proposals.sort(compare)){
+        if(c.parents.some(o=>ctx.parents.has(o.id)))continue;
+        const born=child(w,c,ctx);
+        if(!S.CellSpace.room(w,born,c.cell,{},cells))continue;
+        const costsM=c.species==="ryouki"?S.D.ryouki.birth.costsM:c.parents.map(()=>[1,3].includes(c.kind)?4:2);
+        if(!N.formChild(w,ctx,born,c.parents,c.costs,costsM))continue;
+        S.CellSpace.assign(w,born,{},cells);if(!cells.has(born.cell))cells.set(born.cell,Array.from({length:6},()=>[]));cells.get(born.cell)[4].push(born);
+        w.organisms.push(born);ctx.children.push(born);ctx.births.push(born.species);children.push(born);
+        for(const o of c.parents){ctx.parents.add(o.id);o.birthReady=w.turn+Math.ceil(ctx.traits.get(o.id).cooldown*(c.kind===1?1.5:1))+1;o.firstBirthAt??=w.turn;}
+        if(c.kind===3){c.parents[0].sperm.uses--;w.colonyMating.storedBirths++;}
+        for(const {parent,place}of c.informationChoices||[])ctx.informationHooks.informationUsed(w,ctx,parent,c.cell,place);
+        S.record(ctx,born,"birth",{parents:born.parents});
+      }
+      ctx.current=S.maps(w);return children;
+    }
+    function age(w,ctx){
+      if(ctx.cellMainAged)throw Error("CELL_MAIN_ALREADY_APPLIED");ctx.cellMainAged=true;
+      for(const o of w.organisms)if(is(o)&&o.HP>0&&ctx.old.has(o.id)){o.age++;o.HP=Q(Math.min(o.HP,S.phenotype(w,o).maxHP));}
+    }
+    return {maintain,reproduce,age};
+  })();
+  return { CellLife, CellMain, lead, growth, eligible, birthPressure, birthCost, candidates, child, reproduce };
 });
 
 },
@@ -21080,7 +21562,12 @@ return {settings,attach,region,level,factor,begin,finish};
     const is=o=>o?.cellLife?.version===VERSION;
     const kind=o=>spec(o).group==="fungus"?"fungus":spec(o).group==="prey"?"group":CellSpace.layer(o)===1?"colony":CellSpace.layer(o)===2?"plant":null;
     function attach(w,o,options={}){
-      const k=kind(o);if(!CellSpace.enabled(w)||!k||is(o))return o;
+      const k=kind(o);if(!CellSpace.enabled(w))return o;
+      if(!k){
+        if(spec(o).group==="main")o.cellMatter??={version:"cell-matter/1",bodyM:Q(.02*o.B),newB:0,newEdibleB:0,tissueAt:w.turn};
+        return o;
+      }
+      if(is(o))return o;
       o.cellLife={version:VERSION,kind:k,baseB:k==="fungus"?Math.min(1,o.B):k==="colony"?Math.min(2,o.B):k==="plant"?Math.min(2*o.phase,o.B):0,
         maintained:0,leafDebt:0,bornAt:w.turn,processedAt:-1,last:{turn:w.turn,production:0,loss:0,born:0,split:0}};
       if(k==="group"){
@@ -24298,7 +24785,8 @@ function(require,module){
   }
   function hyperSearch(w,ctx) {
     if(!hyperEnabled(w)||ctx.hyperSearched)return;ctx.hyperSearched=true;
-    const z=S.HyperParasite.settings(w),m=S.maps(w),resourceMap=m.resources,carcassMap=m.carcasses;
+    const z=S.HyperParasite.settings(w),m=S.maps(w),resourceMap=m.resources,carcassMap=m.carcasses,organicMap=new Map();
+    if(cellMode(w))for(const row of w.cellState.organic){if(!organicMap.has(row.cell))organicMap.set(row.cell,[]);organicMap.get(row.cell).push(row);}
     if(fanout(w)){
       const separate=[];
       for(const q of w.searchQ||[]){
@@ -24319,6 +24807,7 @@ function(require,module){
       const need=z.maintenance[4]*(fanout(w)&&S.ParasiteCohort.members(q)===1?.5:cohorts(w)?S.ParasiteCohort.burden(q):1),paid=hyperSpend(w,q,need);last.maintenanceE=paid;last.maintained=paid+1e-8>=need;hyperFlow(w,ctx,"maintenanceE",paid);
       q.hyper.starvationRun=last.maintained?0:q.hyper.starvationRun+1;
       if(q.hyper.starvationRun>=z.starvationTurns){hyperAdultDeath(w,ctx,q,"maintenance");continue;}
+      if(!cellMode(w)){
       const food=[...(resourceMap.get(q.cell)||[]).filter(a=>["plant","fungal","animal"].includes(S.FOOD[a.kind]?.tag)),...(carcassMap.get(q.cell)||[])].filter(a=>a.E>0).sort((a,b)=>S.compare(a.id,b.id));
       let appetite=z.adultFoodCap;
       for(const a of food){
@@ -24348,8 +24837,9 @@ function(require,module){
           }
         }
       }
+      }
       const cells=S.nearby(w,q.cell,3,true),candidates=[];
-      for(const cell of cells)for(const host of [...S.mainAt(m,cell),...(cohorts(w)?[m.prey?.get(cell),m.food.get(cell)]:[])])if(host?.HP>0&&S.sight(w,q.cell,host.cell))candidates.push(host);
+      for(const cell of cells)for(const host of (cellMode(w)?primaryOccupants(w,m,cell):[...S.mainAt(m,cell),...(cohorts(w)?[m.prey?.get(cell),m.food.get(cell)]:[])]))if(host?.HP>0&&cellLivingHost(w,ctx,host)&&S.sight(w,q.cell,host.cell))candidates.push(host);
       // A cohort adult can follow a weak parasite-bearing chemical cue, but
       // still cannot sense the hidden maturation clock or infection window.
       const preference=host=>host.infection&&(cohorts(w)||host.infection.location==="external")?
@@ -24377,9 +24867,13 @@ function(require,module){
         for(const cell of cells){
           if(!S.sight(w,q.cell,cell))continue;
           let amount=0;
-          for(const a of resourceMap.get(cell)||[])if(["plant","fungal","animal"].includes(S.FOOD[a.kind]?.tag))amount+=Math.max(0,a.E);
-          for(const a of carcassMap.get(cell)||[])amount+=Math.max(0,a.E);
-          if(cohorts(w)){const plant=m.producer?.get(cell)||m.food.get(cell);if(plant&&S.spec(plant).group==="plant")amount+=Math.max(0,S.edibleB(plant));}
+          for(const a of resourceMap.get(cell)||[])if(["plant","fungal","animal"].includes(S.FOOD[a.kind]?.tag)&&(!cellMode(w)||cellCarrierReady(w,a)&&!(a.expires!==null&&a.expires<=w.turn)))amount+=Math.max(0,a.E);
+          for(const a of carcassMap.get(cell)||[])if(!cellMode(w)||cellCarrierReady(w,a))amount+=Math.max(0,a.E);
+          if(cohorts(w)){
+            const plants=cellMode(w)?primaryOccupants(w,m,cell):[m.producer?.get(cell)||m.food.get(cell)];
+            for(const plant of plants)if(plant&&S.spec(plant).group==="plant"&&(!cellMode(w)||cellLivingHost(w,ctx,plant)))amount+=Math.max(0,S.edibleB(plant)-(cellMode(w)&&plant.cellMatter?.tissueAt===w.turn?plant.cellMatter.newEdibleB??plant.cellMatter.newB??0:0));
+            if(cellMode(w))for(const a of organicMap.get(cell)||[])amount+=Math.max(0,a.E);
+          }
           if(amount>0)forage.push({cell,amount});
         }
         const hunger=S.clamp(1-q.E/Math.max(z.eggCost+4*z.maintenance[4],1e-6),0,1),
@@ -24408,6 +24902,15 @@ function(require,module){
         });
       const destination=q.hyper.splitTurn===w.turn&&moves.length>1?moves[1]:moves[0];
       if(destination!==q.cell&&q.E>=z.adultMoveCost){const from=q.cell;q.cell=destination;last.movementE=hyperSpend(w,q,z.adultMoveCost);hyperFlow(w,ctx,"moved");hyperFlow(w,ctx,"movementE",last.movementE);S.record(ctx,q,"move",{from,to:q.cell,species:"hyperparasite"});if(places)informationUsed(w,ctx,q,q.cell,places.get(q.cell));}
+      if(cellMode(w)){
+        // The shared cell allocation runs after this paid search/move, before
+        // lower life creates any new tissue. This is not a second organism or
+        // an extra occupant of a plant/main settlement slot.
+        (ctx.cellQActors??=new Map()).set(q.id,q);
+        ctx.old.set(q.id,{phase:4,species:q.species,E:q.E,cell:q.cell});
+        ctx.traits.set(q.id,{phase:4,capE:z.capE,capM:0});
+        ctx.records.set(q.id,{organic:0,reserve:0,heal:0,G:0,bites:0,dealt:0,mitigated:0,damage:0,moved:last.movementE>0,newPlace:false,light:0,information:[],emitted:false,contacted:false,cared:false,relieved:false,category:null,delta:null});
+      }
     }
   }
   const primaryStage=stage=>stage==="extra"?"terminal":stage;
@@ -25764,7 +26267,12 @@ return {settings,attach,region,level,factor,begin,finish};
     const is=o=>o?.cellLife?.version===VERSION;
     const kind=o=>spec(o).group==="fungus"?"fungus":spec(o).group==="prey"?"group":CellSpace.layer(o)===1?"colony":CellSpace.layer(o)===2?"plant":null;
     function attach(w,o,options={}){
-      const k=kind(o);if(!CellSpace.enabled(w)||!k||is(o))return o;
+      const k=kind(o);if(!CellSpace.enabled(w))return o;
+      if(!k){
+        if(spec(o).group==="main")o.cellMatter??={version:"cell-matter/1",bodyM:Q(.02*o.B),newB:0,newEdibleB:0,tissueAt:w.turn};
+        return o;
+      }
+      if(is(o))return o;
       o.cellLife={version:VERSION,kind:k,baseB:k==="fungus"?Math.min(1,o.B):k==="colony"?Math.min(2,o.B):k==="plant"?Math.min(2*o.phase,o.B):0,
         maintained:0,leafDebt:0,bornAt:w.turn,processedAt:-1,last:{turn:w.turn,production:0,loss:0,born:0,split:0}};
       if(k==="group"){
@@ -29627,7 +30135,12 @@ return {settings,attach,region,level,factor,begin,finish};
     const is=o=>o?.cellLife?.version===VERSION;
     const kind=o=>spec(o).group==="fungus"?"fungus":spec(o).group==="prey"?"group":CellSpace.layer(o)===1?"colony":CellSpace.layer(o)===2?"plant":null;
     function attach(w,o,options={}){
-      const k=kind(o);if(!CellSpace.enabled(w)||!k||is(o))return o;
+      const k=kind(o);if(!CellSpace.enabled(w))return o;
+      if(!k){
+        if(spec(o).group==="main")o.cellMatter??={version:"cell-matter/1",bodyM:Q(.02*o.B),newB:0,newEdibleB:0,tissueAt:w.turn};
+        return o;
+      }
+      if(is(o))return o;
       o.cellLife={version:VERSION,kind:k,baseB:k==="fungus"?Math.min(1,o.B):k==="colony"?Math.min(2,o.B):k==="plant"?Math.min(2*o.phase,o.B):0,
         maintained:0,leafDebt:0,bornAt:w.turn,processedAt:-1,last:{turn:w.turn,production:0,loss:0,born:0,split:0}};
       if(k==="group"){

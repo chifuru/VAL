@@ -55,8 +55,10 @@
 
 ## 最初の着手範囲
 
-CR01〜05の陸上境界に加え、CR06前半の実宿主/寄生/情報を内部接合。次はCR06後半と水系等の残件の接続。CR01の実行契約は `operations/plans/cell-foundation-v1.md`、実測は `operations/evidence/cell-foundation-v1/README.md` を参照。CR01の範囲は、版・状態・層別索引・上限判定・転送/保存の基盤までに絞り、移動戦闘・栄養配分・生存バランスを同時に全面変更しない。後続の物理資源と生活が未接続の間は、新モデルを通常の完成ゲームとして公開しない。
+CR01〜05の陸上境界に加え、CR06の実宿主/寄生/情報と有限採食・主生物生活・自律Qを内部接合。次は直接捕食/専用光合成/水系・観測等の残件の接続。CR01の実行契約は `operations/plans/cell-foundation-v1.md`、実測は `operations/evidence/cell-foundation-v1/README.md` を参照。CR01の範囲は、版・状態・層別索引・上限判定・転送/保存の基盤までに絞り、移動戦闘・栄養配分・生存バランスを同時に全面変更しない。後続の物理資源と生活が未接続の間は、新モデルを通常の完成ゲームとして公開しない。
 
 ## 現在の進捗
 
-CR01: 基盤8項目と旧方式4T一致を確認。新方式の通常進行・図鑑保存は未接続としてガード済み。CR02は内部移動13項目と基盤8項目を確認（operations/evidence/cell-movement-v1/README.md）。CR03は内部資源20項目と基盤8/移動13の回帰を確認（operations/evidence/cell-resources-v1/README.md）。CR04陸上生活18ケース・12T結合と既存41回帰を確認（operations/evidence/cell-life-v1/README.md）。水系専用値/淡水生活、移動可能な低次種の具体指定/群落移動、再生枝の専用補正は残件。CR05は循環21＋既存59回帰の計80項目を確認（operations/evidence/cell-circulation-v1/README.md）。12Tの有機物→菌→次T養分→植物再成長を照合。CR06前半は実宿主/同居ID/途中接触・実採食曝露・部分死亡/分群P/Q単一所有・情報費/経験を内部接合し14境界と生活18/循環21/基盤8/P30/情報26の計117項目を確認（operations/evidence/cell-interactions-v1/README.md）。Q自律探索/採食・主生物全生活・画面/観測/保存開放とCR07長期は後続。既存foodのE不足/M満量時の採食0はCR06後半の有限採食残件。通常ターン/新方式保存ガードを維持。正式Node状態・A/B数値・製品版・配布は不変。次はCR06後半と上記残件。
+CR01〜05の版・移動・有限資源・下層生活・分解循環、CR06前半の実宿主/寄生/情報を内部接合済み。現在はCR06の有限採食・主生物の維持/回復/進化/出生・自律Q探索後の共有採食まで。新境界14＋資源20/生活18/循環21/相互作用14/基盤8/Q23の計118項目が成功。内部3T・生成元/生成物・Worker/JSON・旧4T/再生を限定照合。契約と証跡: `operations/plans/cell-consumer-life-v1.md`、`operations/evidence/cell-consumer-life-v1/README.md`。
+
+次は直接捕食/Q被食と専用光合成・水系生活、その後に複数IDの観測/設定/表示/保存と通常ターン公開条件へ接続する。低次群落の移動対象種/再生枝専用補正は未選定。CR07代表長期・性能・Windows/配布は後続。通常ターン/新方式保存ガード、Core/A/B・61Nodeの正式状態/Graph、製品版・UIは維持する。全生態完成や500T存続と報告しない。

@@ -1,0 +1,76 @@
+{
+  "scope": "CR06 internal finite feeding, main-organism maintenance/growth/birth and autonomous Q acquisition",
+  "baseline": "7c406a3",
+  "nodes": 61,
+  "updatedNodes": [
+    "C7.1",
+    "C7.2",
+    "C7.4",
+    "C7.5",
+    "C7",
+    "C8.2",
+    "D7",
+    "D8.1",
+    "D8.2",
+    "D8",
+    "E5"
+  ],
+  "coreUnchanged": true,
+  "ABAndAdoptedSpecificationsUnchanged": true,
+  "formalStateAndGraphUnchanged": true,
+  "manifestHasExactlyOneEntryPerNodeAndPrescribedFields": true,
+  "packageAndUIUnchanged": true,
+  "tests": {
+    "cell-consumer-life": {
+      "passed": 14,
+      "failed": 0
+    },
+    "cell-resources": {
+      "passed": 20,
+      "failed": 0
+    },
+    "cell-life-cycle": {
+      "passed": 18,
+      "failed": 0
+    },
+    "cell-circulation": {
+      "passed": 21,
+      "failed": 0
+    },
+    "cell-interactions": {
+      "passed": 14,
+      "failed": 0
+    },
+    "cell-space": {
+      "passed": 8,
+      "failed": 0
+    },
+    "hyper-parasite": {
+      "passed": 23,
+      "failed": 0
+    }
+  },
+  "totalPassed": 118,
+  "shortConsumerIntegrationTurns": 3,
+  "legacyExactTurns": 4,
+  "generated": {
+    "profiles": 8,
+    "uniqueModules": 22,
+    "bytes": 1952682,
+    "check": "pass"
+  },
+  "signature": "6b1792ca6e3f04157b2e28ea76102e8e00ce57ec94cc68c10f3b4dc8c605d6b0",
+  "guards": {
+    "normalNewCellStep": "retained",
+    "newCellResultCapture": "retained",
+    "legacySignatureAlias": "only without cellModel"
+  },
+  "notVerified": [
+    "direct live animal predation and Q predation",
+    "main photosynthetic coupling to shared light",
+    "aquatic/freshwater life and CR04 species/regeneration remainders",
+    "observation/UI/configuration/archive release and normal/max speed equivalence",
+    "natural P/Q multi-generation,500T,R1-R6,performance,Windows"
+  ],
+  "next": "CR06 direct predation, special photosynthesis/aquatic life and observation/archive integration"
+}

@@ -305,7 +305,12 @@ return {settings,attach,region,level,factor,begin,finish};
     const is=o=>o?.cellLife?.version===VERSION;
     const kind=o=>spec(o).group==="fungus"?"fungus":spec(o).group==="prey"?"group":CellSpace.layer(o)===1?"colony":CellSpace.layer(o)===2?"plant":null;
     function attach(w,o,options={}){
-      const k=kind(o);if(!CellSpace.enabled(w)||!k||is(o))return o;
+      const k=kind(o);if(!CellSpace.enabled(w))return o;
+      if(!k){
+        if(spec(o).group==="main")o.cellMatter??={version:"cell-matter/1",bodyM:Q(.02*o.B),newB:0,newEdibleB:0,tissueAt:w.turn};
+        return o;
+      }
+      if(is(o))return o;
       o.cellLife={version:VERSION,kind:k,baseB:k==="fungus"?Math.min(1,o.B):k==="colony"?Math.min(2,o.B):k==="plant"?Math.min(2*o.phase,o.B):0,
         maintained:0,leafDebt:0,bornAt:w.turn,processedAt:-1,last:{turn:w.turn,production:0,loss:0,born:0,split:0}};
       if(k==="group"){
