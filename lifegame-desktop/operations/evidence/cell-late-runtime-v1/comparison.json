@@ -1,0 +1,81 @@
+{
+  "baseline": "bb5d687ca984fc6f31324b80ba7889f5578f5273",
+  "investigationOnly": true,
+  "productionOptimizationsAdopted": false,
+  "kernel": {
+    "initialStepMs": 233.04493900000034,
+    "terminalMeanStepMs": 5227.610629999999,
+    "ratio": 22.431770680932882,
+    "beginMs": {
+      "initial": 13.010886000000028,
+      "terminalMean": 1236.0125895
+    },
+    "metrics": {
+      "worldClone": {
+        "initialMs": 7.102907999999843,
+        "terminalMeanMs": 1121.3824605
+      },
+      "parasites/begin": {
+        "initialMs": 4.367244000000028,
+        "terminalMeanMs": 43.77851400000009
+      },
+      "prepare": {
+        "initialMs": 1.6923530000003666,
+        "terminalMeanMs": 17.752540500000123
+      },
+      "parasites/informationBegin": {
+        "initialMs": 7.665468999999575,
+        "terminalMeanMs": 952.5810860000001
+      },
+      "resolveDeaths": {
+        "initialMs": 0.741373000000749,
+        "terminalMeanMs": 13.653978999999708
+      },
+      "predation": {
+        "initialMs": 5.180827000000136,
+        "terminalMeanMs": 2.3528105000000323
+      },
+      "lifeDemands": {
+        "initialMs": 3.5466220000007525,
+        "terminalMeanMs": 81.43395649999957
+      },
+      "deferMaterial": {
+        "initialMs": 1.9439530000136074,
+        "terminalMeanMs": 246.57825699995374
+      },
+      "acquire": {
+        "initialMs": 24.89777800000047,
+        "terminalMeanMs": 1644.230211
+      },
+      "settleBudgets": {
+        "initialMs": 3.205684999999903,
+        "terminalMeanMs": 104.3708985000003
+      },
+      "lowerLife": {
+        "initialMs": 15.150566000000254,
+        "terminalMeanMs": 283.2224779999997
+      },
+      "background": {
+        "initialMs": 0.6513459999996485,
+        "terminalMeanMs": 258.51203650000025
+      },
+      "parasites/informationFinalize": {
+        "initialMs": 10.698233000000073,
+        "terminalMeanMs": 106.59945449999941
+      }
+    },
+    "nestedTimingsOverlap": true
+  },
+  "state": {
+    "serializedWorldGrowthRatio": 106.15872791508693,
+    "learnedSerializedShare": 0.6937357942841615,
+    "organismRecordGrowthRatio": 15.520286396181385
+  },
+  "wire": {
+    "encodeMs": 1974.1101079999999,
+    "cloneMs": 2633.7917689999995,
+    "applyMs": 444.25906000000305,
+    "serializedBytes": 236745325
+  },
+  "caveat": "Kernel, wire, renderer and graph fixtures are separate measurements and must not be added into a purported end-to-end turn time."
+}

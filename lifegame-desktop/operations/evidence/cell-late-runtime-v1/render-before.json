@@ -1,0 +1,84 @@
+{
+  "scope": "Direct renderer, real T0/T500 states, same 978x431 viewport. Three warm forced draws per view; no graph history, transfer, simulation, motion or action effects are timed.",
+  "results": [
+    {
+      "name": "initial",
+      "mode": "far",
+      "turn": 0,
+      "organisms": 419,
+      "corpses": 0,
+      "setWorldMs": 196.40000000596046,
+      "firstDrawMs": 20.100000008940697,
+      "framesMs": [
+        2,
+        2.2000000029802322,
+        2.5
+      ],
+      "meanDrawMs": 2.233333334326744,
+      "drawn": 419,
+      "drawnCarcasses": 0,
+      "actualMode": "simple",
+      "terrainPending": false
+    },
+    {
+      "name": "initial",
+      "mode": "near",
+      "turn": 0,
+      "organisms": 419,
+      "corpses": 0,
+      "setWorldMs": 196.40000000596046,
+      "firstDrawMs": 163.5,
+      "framesMs": [
+        0.5999999940395355,
+        0.7999999970197678,
+        1
+      ],
+      "meanDrawMs": 0.7999999970197678,
+      "drawn": 30,
+      "drawnCarcasses": 0,
+      "actualMode": "detail",
+      "terrainPending": false
+    },
+    {
+      "name": "terminal",
+      "mode": "far",
+      "turn": 500,
+      "organisms": 6503,
+      "corpses": 27941,
+      "setWorldMs": 16.200000002980232,
+      "firstDrawMs": 260.20000000298023,
+      "framesMs": [
+        181.5,
+        181.40000000596046,
+        264.3999999910593
+      ],
+      "meanDrawMs": 209.0999999990066,
+      "drawn": 6503,
+      "drawnCarcasses": 27941,
+      "actualMode": "simple",
+      "terrainPending": false
+    },
+    {
+      "name": "terminal",
+      "mode": "near",
+      "turn": 500,
+      "organisms": 6503,
+      "corpses": 27941,
+      "setWorldMs": 16.200000002980232,
+      "firstDrawMs": 214.59999999403954,
+      "framesMs": [
+        2.699999988079071,
+        3,
+        2.6000000089406967
+      ],
+      "meanDrawMs": 2.766666665673256,
+      "drawn": 177,
+      "drawnCarcasses": 45,
+      "actualMode": "detail",
+      "terrainPending": false
+    }
+  ],
+  "worldsUnchanged": true,
+  "errors": [],
+  "success": true
+}

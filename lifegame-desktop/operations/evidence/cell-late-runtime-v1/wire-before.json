@@ -1,0 +1,34 @@
+{
+  "scope": "One retained T500->501, baseline bb5d687, three real phases. Separate encoding, structuredClone and reconstruction; browser dispatch and UI excluded. Extracted from the completed comparison before the task changed to investigation only.",
+  "initialHash": "4933119b52363f40ff859756378ef134e6c82fe514a07b9ed75808af4b6684ab",
+  "finalHash": "bba7ad403dbdb8ddc0b47453c237bc06709d4c5a79a9e87f1fc0c7a0efd67c38",
+  "encoderSetupMs": 702.6722880000002,
+  "phases": [
+    {
+      "phase": 1,
+      "final": false,
+      "encodeMs": 680.4118520000002,
+      "cloneMs": 1068.9073659999995,
+      "applyMs": 363.8405130000001,
+      "serializedBytes": 113228055
+    },
+    {
+      "phase": 2,
+      "final": false,
+      "encodeMs": 456.12686699999904,
+      "cloneMs": 25.345518999998603,
+      "applyMs": 12.238294000000678,
+      "serializedBytes": 2271194
+    },
+    {
+      "phase": 3,
+      "final": true,
+      "encodeMs": 837.5713890000006,
+      "cloneMs": 1539.5388840000014,
+      "applyMs": 68.18025300000227,
+      "serializedBytes": 121246076
+    }
+  ],
+  "completeWorldEqual": true,
+  "originalUnchanged": true
+}

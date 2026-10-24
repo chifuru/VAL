@@ -1,0 +1,26 @@
+{
+  "baseline": "bb5d687ca984fc6f31324b80ba7889f5578f5273",
+  "scope": "Investigation only; optimization prototype outside repository, not adopted.",
+  "productVersion": "4.2.77",
+  "biologicalSignature": "219b2a50d6ecf08eb552770f8e26535dbfde144b57751195ebe18757f2a035cf",
+  "all100ProductSourceFilesUnchanged": true,
+  "coreABAdoptedSpecificationUnchanged": true,
+  "all61FormalNodesAndManifestUnchanged": true,
+  "optimizationImplementationAdopted": false,
+  "rawBaselineReportsParsed": 10,
+  "terminalWorldHashEqual": true,
+  "inputWorldsUnchanged": true,
+  "invariants": [],
+  "newNatural500TRepeated": false,
+  "fullTestSuiteRepeated": false,
+  "newDistributionCreated": false,
+  "windowsExecuted": false,
+  "prototypeReportsOrOptimizedScreenshotsPublished": false,
+  "notMeasured": [
+    "full retained 501-row composition/relationships/append path",
+    "complete application heap and dispatch/GC peak",
+    "large P/Q populations",
+    "all maps/large maps/T1000+",
+    "Windows runtime"
+  ]
+}

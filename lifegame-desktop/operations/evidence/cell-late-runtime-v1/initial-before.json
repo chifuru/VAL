@@ -1,0 +1,121 @@
+{
+  "model": "baseline",
+  "mode": "initial",
+  "before": {
+    "turn": 0,
+    "organisms": 419,
+    "corpses": 0,
+    "organic": 0,
+    "pendingMaterial": 0,
+    "learnedOrigins": 0,
+    "corpseState": {
+      "energyPositive": 0,
+      "mineralOnly": 0,
+      "withInfection": 0,
+      "empty": 0,
+      "microEnergy": 0,
+      "totals": {
+        "E": 0,
+        "M": 0,
+        "B": 0
+      }
+    }
+  },
+  "after": {
+    "turn": 1,
+    "organisms": 415,
+    "corpses": 1,
+    "organic": 0,
+    "pendingMaterial": 320,
+    "learnedOrigins": 0,
+    "corpseState": {
+      "energyPositive": 1,
+      "mineralOnly": 0,
+      "withInfection": 0,
+      "empty": 0,
+      "microEnergy": 0,
+      "totals": {
+        "E": 1,
+        "M": 0.01,
+        "B": 0.5
+      }
+    }
+  },
+  "stepMs": 233.04493900000034,
+  "beginMs": 13.010886000000028,
+  "phases": [
+    {
+      "phase": 1,
+      "ms": 14.903491000000031
+    },
+    {
+      "phase": 2,
+      "ms": 148.0026399999997
+    },
+    {
+      "phase": 3,
+      "ms": 57.11518199999955
+    }
+  ],
+  "timings": {
+    "worldClone": {
+      "ms": 7.102907999999843,
+      "calls": 1
+    },
+    "parasites/begin": {
+      "ms": 4.367244000000028,
+      "calls": 1
+    },
+    "prepare": {
+      "ms": 1.6923530000003666,
+      "calls": 1
+    },
+    "parasites/informationBegin": {
+      "ms": 7.665468999999575,
+      "calls": 1
+    },
+    "resolveDeaths": {
+      "ms": 0.741373000000749,
+      "calls": 1
+    },
+    "predation": {
+      "ms": 5.180827000000136,
+      "calls": 1
+    },
+    "lifeDemands": {
+      "ms": 3.5466220000007525,
+      "calls": 1
+    },
+    "deferMaterial": {
+      "ms": 1.9439530000136074,
+      "calls": 754
+    },
+    "acquire": {
+      "ms": 24.89777800000047,
+      "calls": 1
+    },
+    "settleBudgets": {
+      "ms": 3.205684999999903,
+      "calls": 1
+    },
+    "lowerLife": {
+      "ms": 15.150566000000254,
+      "calls": 1
+    },
+    "background": {
+      "ms": 0.6513459999996485,
+      "calls": 1
+    },
+    "parasites/informationFinalize": {
+      "ms": 10.698233000000073,
+      "calls": 1
+    }
+  },
+  "startingWorldHash": "6bb99d0de28beb3f17c518681b7f219d13284dc181fd82c430a1ab518e81664d",
+  "worldHash": "243bdead3f54e276c01489a437fac334ecdb91afbee6a97b16312ad115c7da40",
+  "observationHash": "397595522d889a888b5f7782a8a6ce17b03553aebb111080ba6534ce1fb707e1",
+  "fingerprint": "8d144dfeef8a24da404eb375fd1f45030b09d94e9a59432d694aab09dd7bb94d",
+  "originalUnchanged": true,
+  "invariants": [],
+  "timingScope": "Instrumented kernel only; nested method timings overlap and must not be summed. No renderer or history append is included."
+}

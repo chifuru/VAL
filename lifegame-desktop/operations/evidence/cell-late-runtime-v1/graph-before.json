@@ -1,0 +1,78 @@
+{
+  "scope": "Actual saved T0..500 population counts; unmodified app paintStack/stackShape extracted into an isolated browser fixture, 320x120 CSS px, three warm draws per case. Excludes composition, SVG relationships, append, layout of the full application and cross-thread transfer.",
+  "appSha256": "1beaed95da22ee2aec9e79ef97618da6a0b2cdb75cb87f9470ec432e1230a3c1",
+  "results": [
+    {
+      "target": "all",
+      "throughTurn": 0,
+      "points": 1,
+      "series": 35,
+      "framesMs": [
+        0.29999999701976776,
+        0.10000000894069672,
+        0.20000000298023224
+      ],
+      "meanMs": 0.20000000298023224
+    },
+    {
+      "target": "all",
+      "throughTurn": 100,
+      "points": 101,
+      "series": 35,
+      "framesMs": [
+        1.699999988079071,
+        1.800000011920929,
+        1.5999999940395355
+      ],
+      "meanMs": 1.6999999980131786
+    },
+    {
+      "target": "all",
+      "throughTurn": 500,
+      "points": 501,
+      "series": 35,
+      "framesMs": [
+        3.5999999940395355,
+        3.1000000089406967,
+        2.699999988079071
+      ],
+      "meanMs": 3.1333333303531012
+    },
+    {
+      "target": "main",
+      "throughTurn": 0,
+      "points": 1,
+      "series": 22,
+      "framesMs": [
+        0.09999999403953552,
+        0,
+        0
+      ],
+      "meanMs": 0.03333333134651184
+    },
+    {
+      "target": "main",
+      "throughTurn": 100,
+      "points": 101,
+      "series": 22,
+      "framesMs": [
+        0.3999999910593033,
+        0.20000000298023224,
+        0.30000001192092896
+      ],
+      "meanMs": 0.3000000019868215
+    },
+    {
+      "target": "main",
+      "throughTurn": 500,
+      "points": 501,
+      "series": 22,
+      "framesMs": [
+        1.4000000059604645,
+        1.2000000029802322,
+        1.2999999970197678
+      ],
+      "meanMs": 1.3000000019868214
+    }
+  ]
+}
