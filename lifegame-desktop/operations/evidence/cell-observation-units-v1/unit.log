@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: population, management units and settlement slots remain separate across every spatial layer
+ok 1 - population, management units and settlement slots remain separate across every spatial layer
+  ---
+  duration_ms: 45.531852
+  type: 'test'
+  ...
+# Subtest: phase/age/sex series use real cohort members and colony age is nonapplicable
+ok 2 - phase/age/sex series use real cohort members and colony age is nonapplicable
+  ---
+  duration_ms: 13.95817
+  type: 'test'
+  ...
+# Subtest: biomass reads bodies once; canopy bases and carcass B do not use legacy capacities or q
+ok 3 - biomass reads bodies once; canopy bases and carcass B do not use legacy capacities or q
+  ---
+  duration_ms: 11.245879
+  type: 'test'
+  ...
+# Subtest: new observation definition and units survive all-turn JSON, read-only restore and exact CSV
+ok 4 - new observation definition and units survive all-turn JSON, read-only restore and exact CSV
+  ---
+  duration_ms: 38.053474
+  type: 'test'
+  ...
+# Subtest: missing/contradictory runtime observations reject only the next append
+ok 5 - missing/contradictory runtime observations reject only the next append
+  ---
+  duration_ms: 55.887195
+  type: 'test'
+  ...
+# Subtest: restore rejects missing definitions, guessed units and mismatched counts, slots, composition or biomass
+ok 6 - restore rejects missing definitions, guessed units and mismatched counts, slots, composition or biomass
+  ---
+  duration_ms: 10.802035
+  type: 'test'
+  ...
+# Subtest: two real internal life turns append exact series without changing public/archive guards
+ok 7 - two real internal life turns append exact series without changing public/archive guards
+  ---
+  duration_ms: 77.192966
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 271.760483

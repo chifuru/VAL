@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と必要な説明を示す。仕様入口
 
 現在の採用仕様: `design/specification/cell-reorganization-v1.md`（cell-reorganization/1）。マス・0〜5次・土壌/配分・植物/低次動物/分解者・量機の定住3×3・次T境界を既存A/Bへ反映。数値は比較開始値。実装接続/影響探索/検証計画更新/再検証要否あり。新規Node・分割・初期登録・正式状態/階層/層間参照変更なし。全61Nodeは草案。
 
-実行製品は4.2.77のまま。CR06の複数ID描画/選択/詳細を内部接合。新投影6/旧投影6・Linux画面22項目を限定確認、D9 → E6。現在証跡: operations/evidence/cell-observation-v1/README.md。生態の前工程71項目はcell-floating-life-v1の対象版に限定して維持。契約: design/implementation/cell-reorganization-v1.md。グラフ/記録単位・設定/保存公開、群落移動の種指定/再生枝とCR07は残件。CR06全体・通常観察は未完。通常ターン/新保存ガード、素材・画面構成/製品版/配布を維持。
+実行製品は4.2.77のまま。CR06のグラフ/観測単位・読取専用記録復元を内部接合。新7境界/Linux18項目成功、旧機能25成功・固定ハッシュ2件は起点にも不一致。旧3構成の全JSON/CSV/復元は起点と一致。現在証跡: operations/evidence/cell-observation-units-v1/README.md（D9 → E6）。前工程の描画/選択・生態71項目は各対象版に限定。設定/説明・ゲーム保存/再生/通常公開、未選定係数とCR07は残件。CR06全体は未完。通常ターン/新保存ガード、素材・画面構成/製品版/配布を維持。
 
 ## A：仕様
 
@@ -341,11 +341,11 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。新cellLife/占有/物質の詳細と肖像からの実ID選択。D9 → E6、operations/evidence/cell-observation-v1/README.md。
+		valis/nodes/C/C8.md。observations.js/app.js、新方式の人口・管理数・枠・B/物質と既存グラフ/構成/CSV。D9 → E6。
 	ロジック:
-		群数/内部人数/枠/実B・水/M/次T待ちを区別し、固定詳細/明示更新と消失IDを保持。既存索引を共有。
+		新定義と種別単位、実コホート/群落非適用、実B/死骸Bと現在/次Tを分離。空間層を分類へ流用しない。
 	実態:
-		Linux画面22項目で限定確認。グラフ/記録単位・設定/保存/公開は残件。草案/階層/参照、通常ターン/新保存ガードを維持。
+		新7/Linux18成功。旧25成功・固定ハッシュ2件は起点にも不一致。旧3構成JSON/CSV/復元一致。設定/説明/ゲーム保存/公開とCR07は残件。草案。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
@@ -357,11 +357,11 @@ C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.2.md。淡水の出生/形成/相/年齢状態のWorker/JSON・旧再生互換と公開ガード。契約: design/implementation/cell-reorganization-v1.md。
+			valis/nodes/C/C8.2.md。observations.jsのcell-occupancy-observed/1、観測JSON/CSV/読取専用復元。D9 → E6。
 		ロジック:
-			淡水の出生/形成/相/年齢状態のWorker/JSON・旧再生互換と公開ガード。証跡: operations/evidence/cell-floating-life-v1/README.md、D7/D8/D8.1 → E5。
+			集計の定義/人口単位と状態を検査し、未知版/欠測/人口/構成/B不整合を拒否。毎T全ID/全マスを新規保存しない。
 		実態:
-			新境界15＋必要回帰56の計71項目を限定確認。正式草案/階層/参照を維持。観測/表示/保存の公開と代表長期は残件。通常ターン/新保存ガードを保持。
+			新7/Linux18、旧3構成JSON/CSV/復元一致。ゲーム図鑑保存/再生と通常公開の完了ではない。旧要約/実効設定等は後続。正式草案・公開ガードを維持。
 
 D1:（A1, B1, C1, C2 / 初期値・入力境界・再現性）［草案］
 	構成（要素・関係）:
@@ -445,11 +445,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。新投影/既存投影とtests/cell-observation-ui.cjs。C8/C8.1を限定確認しE6へ接続。
+		valis/nodes/D/D9.md。tests/cell-observation-units.test.cjs / fixture / UI、既存観測の限定回帰。C8/C8.2 → E6。
 	ロジック:
-		全実ID・単位・在庫/次T・肖像/固定詳細/消失追跡と表示操作の世界/乱数/観測行不変を照合。
+		人口/管理数/枠・実構成/B/在庫の分離、全期間/分類/系統・定義/CSV/復元と状態不変を照合。
 	実態:
-		6＋6＋Linux22項目成功、未捕捉エラー0。グラフ/設定/保存・連続進行/全速度/長期/Windowsは残件。正式草案・既存参照を維持。
+		新7/Linux18成功、旧25成功/固定ハッシュ2件は起点でも失敗。旧3構成の出力/復元一致。設定/ゲーム保存/公開・長期性能/Windowsは残件。草案。
 
 ```
 
@@ -498,11 +498,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。operations/evidence/cell-observation-v1/README.md、report.json、unit/legacy.log、source-hashes.json、final-check.json、near/far.png。D9 → C8/C8.1。
+		valis/nodes/E/E6.md。operations/evidence/cell-observation-units-v1/README.md、ログ/起点比較/画面/対象署名/出力前照合。D9 → C8/C8.2。
 	ロジック:
-		署名一致の内部静止fixtureで新投影6/旧投影6・Linux22項目を再確認できる証跡。旧証跡は各旧対象版限定。
+		新7/Linux18・内部2Tの限定証跡。旧機能25成功、固定ハッシュ2件の起点反例と旧3構成の全JSON/CSV/復元一致を保持。
 	実態:
-		今回対象に限定有効。31ID選択と状態不変を確認。グラフ/設定/保存/通常公開/500T/性能/Windowsは未認定。正式草案。
+		現対象で限定有効、正式草案。ゲーム保存/通常公開・500T/性能/Windowsは未認定。前工程の証跡は各対象版/責務限定。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

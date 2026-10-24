@@ -1,0 +1,62 @@
+TAP version 13
+# Subtest: three cohabitants stay three individuals in main population phase age sex and biomass
+ok 1 - three cohabitants stay three individuals in main population phase age sex and biomass
+  ---
+  duration_ms: 17.081302
+  type: 'test'
+  ...
+# Subtest: all-turn normal and mutated observations survive snapshot restore and exact CSV
+ok 2 - all-turn normal and mutated observations survive snapshot restore and exact CSV
+  ---
+  duration_ms: 6.060744
+  type: 'test'
+  ...
+# Subtest: measured zero is retained while missing or impossible runtime telemetry refuses only the new row
+ok 3 - measured zero is retained while missing or impossible runtime telemetry refuses only the new row
+  ---
+  duration_ms: 34.202313
+  type: 'test'
+  ...
+# Subtest: restore rejects missing rows unknown versions wrong classification and inconsistent counters
+ok 4 - restore rejects missing rows unknown versions wrong classification and inconsistent counters
+  ---
+  duration_ms: 3.153629
+  type: 'test'
+  ...
+# Subtest: old I03 snapshot and CSV bytes remain exactly the pre-I04 baseline
+not ok 5 - old I03 snapshot and CSV bytes remain exactly the pre-I04 baseline
+  ---
+  duration_ms: 3.796127
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/ryouki-observation.test.cjs:32:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + 'bbdca00bc5595c5e77135ab49707e93718378836825d4f13bbc41c24c32340f3'
+    - 'ce1b8f35fd876fec50aa7c8124c0d60cb6aa6c4963d33234f63034dc62bbde1b'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'ce1b8f35fd876fec50aa7c8124c0d60cb6aa6c4963d33234f63034dc62bbde1b'
+  actual: 'bbdca00bc5595c5e77135ab49707e93718378836825d4f13bbc41c24c32340f3'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/ryouki-observation.test.cjs:36:75)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 4
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 73.044997

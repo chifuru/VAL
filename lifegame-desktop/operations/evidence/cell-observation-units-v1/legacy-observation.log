@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: all turn values survive more than two 500-turn blocks and CSV preserves old peaks and config
+ok 1 - all turn values survive more than two 500-turn blocks and CSV preserves old peaks and config
+  ---
+  duration_ms: 387.253129
+  type: 'test'
+  ...
+# Subtest: age-mature phase I and II can reproduce, juveniles cannot; every child begins phase I age zero
+ok 2 - age-mature phase I and II can reproduce, juveniles cannot; every child begins phase I age zero
+  ---
+  duration_ms: 15.020673
+  type: 'test'
+  ...
+# Subtest: movement and a subsequent effect use the remaining budget; feeding does not finance prior actions
+ok 3 - movement and a subsequent effect use the remaining budget; feeding does not finance prior actions
+  ---
+  duration_ms: 5.401219
+  type: 'test'
+  ...
+# Subtest: Q window opens only after first terminal maturation and never directly suppresses P maturation
+ok 4 - Q window opens only after first terminal maturation and never directly suppresses P maturation
+  ---
+  duration_ms: 1.999076
+  type: 'test'
+  ...
+# Subtest: search Q attaches only inside the limited window and conserves finite energy
+ok 5 - search Q attaches only inside the limited window and conserves finite energy
+  ---
+  duration_ms: 3.275652
+  type: 'test'
+  ...
+# Subtest: finite P maintenance causes loss without food and grooming cannot remove an internal parasite
+ok 6 - finite P maintenance causes loss without food and grooming cannot remove an internal parasite
+  ---
+  duration_ms: 2.880185
+  type: 'test'
+  ...
+# Subtest: contact episodes, continued contact and a wall-blocked neighbor are distinct
+ok 7 - contact episodes, continued contact and a wall-blocked neighbor are distinct
+  ---
+  duration_ms: 2.920056
+  type: 'test'
+  ...
+# Subtest: new production worlds retain invariants, deterministic replay and observation independence
+ok 8 - new production worlds retain invariants, deterministic replay and observation independence
+  ---
+  duration_ms: 7634.152312
+  type: 'test'
+  ...
+# Subtest: finite observation capacity refuses a new row without silently deleting any recorded turn
+ok 9 - finite observation capacity refuses a new row without silently deleting any recorded turn
+  ---
+  duration_ms: 2.85692
+  type: 'test'
+  ...
+# Subtest: relationship continuity measures repeated completed time blocks, not a single burst
+ok 10 - relationship continuity measures repeated completed time blocks, not a single burst
+  ---
+  duration_ms: 5.948384
+  type: 'test'
+  ...
+# Subtest: turn zero reports initial conditions without fabricated interaction events
+ok 11 - turn zero reports initial conditions without fabricated interaction events
+  ---
+  duration_ms: 61.9269
+  type: 'test'
+  ...
+# Subtest: Q search initialization uses eligible hosts and pays its declared founder energy
+ok 12 - Q search initialization uses eligible hosts and pays its declared founder energy
+  ---
+  duration_ms: 41.814737
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8191.617675

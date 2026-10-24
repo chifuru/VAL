@@ -1,0 +1,62 @@
+TAP version 13
+# Subtest: basal colonies and independent plant bodies are counted once with their own units
+ok 1 - basal colonies and independent plant bodies are counted once with their own units
+  ---
+  duration_ms: 39.419587
+  type: 'test'
+  ...
+# Subtest: new metadata keeps kinds and slots through all-turn snapshot and read-only analysis
+ok 2 - new metadata keeps kinds and slots through all-turn snapshot and read-only analysis
+  ---
+  duration_ms: 7.703714
+  type: 'test'
+  ...
+# Subtest: a missing or malformed new summary cannot silently become zero or erase earlier records
+ok 3 - a missing or malformed new summary cannot silently become zero or erase earlier records
+  ---
+  duration_ms: 16.101726
+  type: 'test'
+  ...
+# Subtest: restore rejects missing definitions, classification, rows and inconsistent new values
+ok 4 - restore rejects missing definitions, classification, rows and inconsistent new values
+  ---
+  duration_ms: 6.650115
+  type: 'test'
+  ...
+# Subtest: legacy and I02 snapshot and CSV bytes remain exactly the pre-I03 baseline
+not ok 5 - legacy and I02 snapshot and CSV bytes remain exactly the pre-I03 baseline
+  ---
+  duration_ms: 4.461172
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/independent-plant-observation.test.cjs:51:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + '4762e1eac3a4c2949e2386ca42b964f542c20bcf198216e63679dcf4f9dc4adc'
+    - '6dd041fa5b826412980ceebe77321ccd1dc466de55939e3ec9b85a5380d5bd35'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '6dd041fa5b826412980ceebe77321ccd1dc466de55939e3ec9b85a5380d5bd35'
+  actual: '4762e1eac3a4c2949e2386ca42b964f542c20bcf198216e63679dcf4f9dc4adc'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/independent-plant-observation.test.cjs:56:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 4
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 82.763861

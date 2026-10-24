@@ -1,0 +1,46 @@
+{
+  "baseline": "5ea17f3",
+  "status": "passed_with_preexisting_failures",
+  "scope": "CR06 observation units/graphs/CSV/read-only observation restore; C8/C8.2 D9 -> E6",
+  "checks": {
+    "nodes": 61,
+    "all_draft": true,
+    "formal_graph_unchanged": true,
+    "manifest_unique_three_field_entries": true,
+    "new_boundaries_passed": 7,
+    "linux_browser_passed": 18,
+    "browser_errors": 0,
+    "world_fingerprint_observation_rows_unchanged": true,
+    "legacy_functional_passed": 25,
+    "legacy_preexisting_fixed_hash_failures": 2,
+    "baseline_reproduces_same_failures": true,
+    "baseline_three_configurations_json_csv_restore_exact": true,
+    "core_ab_biology_generated_signature_assets_layout_package_unchanged": true,
+    "public_step_game_archive_guards_unchanged": true
+  },
+  "legacy": {
+    "ryouki": {
+      "passed": 4,
+      "failed": 1
+    },
+    "plant": {
+      "passed": 4,
+      "failed": 1
+    },
+    "colony": {
+      "passed": 5,
+      "failed": 0
+    },
+    "observation": {
+      "passed": 12,
+      "failed": 0
+    }
+  },
+  "not_claimed": [
+    "old fixed hash expectations corrected",
+    "full setup/guide integration",
+    "game archive save/replay",
+    "public cell-model stepping",
+    "continuous/all-speed/500T/performance/Windows/release completion"
+  ]
+}

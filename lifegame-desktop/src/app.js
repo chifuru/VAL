@@ -1970,7 +1970,8 @@
     $("food-count").textContent = (s.food+(s.producer||0)).toLocaleString();
     const lower={plant:0,prey:0,fungus:0};for(const group of observations?.rows.at(-1)?.current.groups||[])if(group.id in lower)lower[group.id]=group.count;
     const plantIndividuals=independentCount(observations?.rows.at(-1)?.counts||s.counts);
-    $("food-breakdown").textContent=`生産者 ${world.config.producerModel==='colony/1'?lower.plant-plantIndividuals+'群落'+(world.config.largePlantModel==='independent/1'?'＋'+plantIndividuals+'個体':''):lower.plant} / 一次消費者 ${lower.prey}${world.consumerGroupSummary?'体・'+Object.values(world.consumerGroupSummary.species).reduce((n,a)=>n+a.groups,0)+'集団':''} / 分解者 ${lower.fungus}${world.config.balanceModel==='survival/4'?'群落':''}`;
+    const cellUnits=observations?.rows.at(-1)?.cell,consumerGroups=cellUnits?cellUnits.layers[3].units:world.consumerGroupSummary?Object.values(world.consumerGroupSummary.species).reduce((n,a)=>n+a.groups,0):null;
+    $("food-breakdown").textContent=`生産者 ${world.config.producerModel==='colony/1'||cellUnits?lower.plant-plantIndividuals+'群落'+(world.config.largePlantModel==='independent/1'?'＋'+plantIndividuals+'個体':''):lower.plant} / 一次消費者 ${lower.prey}${consumerGroups!==null?'体・'+consumerGroups+'集団':''} / 分解者 ${lower.fungus}${world.config.balanceModel==='survival/4'||cellUnits?'群落':''}`;
     $("parasite-count").textContent = s.P + " / " + s.Q;
     $("timing").textContent = lastMs ? Math.round(lastMs) + " ms" : "—";
     renderPopulation();

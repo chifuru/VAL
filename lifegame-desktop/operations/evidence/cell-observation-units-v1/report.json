@@ -1,0 +1,25 @@
+{
+  "passed": 18,
+  "checks": [
+    "actual internal T0–T2 observations expose 32 management units and population 47 at T0",
+    "the existing population/composition views keep the whole period",
+    "all-organism population uses the same population denominator",
+    "all-organism phases uses the same population denominator",
+    "all-organism ages uses the same population denominator",
+    "all-organism sex uses the same population denominator",
+    "existing prey graph selection exposes all three turns",
+    "existing plant graph selection exposes all three turns",
+    "existing P graph selection exposes all three turns",
+    "existing Q graph selection exposes all three turns",
+    "species population legend shows internal consumer members, not five group IDs",
+    "current counters distinguish consumer members/groups and decomposer colonies: 生産者 6群落＋4個体 / 一次消費者 18体・6集団 / 分解者 6群落",
+    "all existing population/composition canvases render",
+    "current composition uses the same current population units",
+    "the existing five-role biomass pyramid is rendered without spatial-layer substitution",
+    "browser observation JSON restore and CSV remain exact",
+    "changing graph targets/donut and rendering leaves the world, random state and committed observations unchanged",
+    "no uncaught browser errors"
+  ],
+  "errors": [],
+  "scope": "internal T0–T2 fixture; existing graph layout/filters, units and read-only snapshot only"
+}

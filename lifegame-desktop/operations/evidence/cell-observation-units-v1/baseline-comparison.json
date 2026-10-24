@@ -1,0 +1,32 @@
+{
+  "baseline": "5ea17f3",
+  "results": [
+    {
+      "mode": "legacy",
+      "turns": 3,
+      "snapshotEqual": true,
+      "csvEqual": true,
+      "restoreEqual": true,
+      "snapshotHash": "54ff56772b0b2ded8be990b2763a148a4f1e00b06169deee303a8d263f20536f",
+      "csvHash": "3aa36d353eb73f0508fe2208f8f008ed7d190c7f2b89cf28cae052dcc0523fc9"
+    },
+    {
+      "mode": "colony",
+      "turns": 3,
+      "snapshotEqual": true,
+      "csvEqual": true,
+      "restoreEqual": true,
+      "snapshotHash": "050351758465437251bff93792b4f4a6e3d9a5a957c58fdcd45fe6d5042e35f4",
+      "csvHash": "2ed59b01aa71ce3d7f1b06424fe6a063f635db177f939bda406bb2201669fd6a"
+    },
+    {
+      "mode": "independent",
+      "turns": 3,
+      "snapshotEqual": true,
+      "csvEqual": true,
+      "restoreEqual": true,
+      "snapshotHash": "17b87171218c23761ac4eeeec4dccfc77a93c7f3c1c698145711ca8dff6e5700",
+      "csvHash": "7101b18f582af0eca3051e42486524d6ce8307dddb6660b53f4b715a4cf7a96b"
+    }
+  ]
+}

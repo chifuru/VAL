@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: all-turn colony metrics keep count, biomass, light input and edible production in distinct units
+ok 1 - all-turn colony metrics keep count, biomass, light input and edible production in distinct units
+  ---
+  duration_ms: 19.994477
+  type: 'test'
+  ...
+# Subtest: missing colony telemetry is rejected while measured zeros remain zeros
+ok 2 - missing colony telemetry is rejected while measured zeros remain zeros
+  ---
+  duration_ms: 3.501332
+  type: 'test'
+  ...
+# Subtest: legacy observations keep their prior definition, units and rows even if a colony-shaped summary is present
+ok 3 - legacy observations keep their prior definition, units and rows even if a colony-shaped summary is present
+  ---
+  duration_ms: 3.836819
+  type: 'test'
+  ...
+# Subtest: malformed runtime colony data refuses the new row without discarding committed observations
+ok 4 - malformed runtime colony data refuses the new row without discarding committed observations
+  ---
+  duration_ms: 19.713402
+  type: 'test'
+  ...
+# Subtest: restore rejects unknown definitions, inconsistent units, missing fields and nonfinite colony values
+ok 5 - restore rejects unknown definitions, inconsistent units, missing fields and nonfinite colony values
+  ---
+  duration_ms: 3.06887
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 58.788778
