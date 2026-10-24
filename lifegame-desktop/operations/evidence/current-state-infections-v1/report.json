@@ -1,0 +1,48 @@
+{
+  "definition": "current-state-infections-evidence/1",
+  "baseline": "c373ceba51ec055c299905813f30059bc8ce05db",
+  "signature": "6b96341c7304a469ca5bc66232d7b479434890c02d1650ef688c458921705ca6",
+  "productVersion": "4.2.77",
+  "path": "explicit currentStateModel=current-state/1; internal comparison only",
+  "checks": {
+    "infections.log": 16,
+    "related.log": 43,
+    "turns.log": 7
+  },
+  "totalTests": 66,
+  "sourceGeneratedEqualTurns": 4,
+  "structuralFixtures": {
+    "environmentalRecords": 1000,
+    "poolsAfterAggregation": 1,
+    "sharedGenotypes": 1,
+    "shortIdGenerationChain": 100
+  },
+  "legacyParityConditions": 3,
+  "legacyParityTurns": 2,
+  "newStateArchive": "blocked pending CS07",
+  "newBiologicalRulesAliasedToOld": false,
+  "defaultModeChanged": false,
+  "fullUIObservationArchiveConnected": false,
+  "natural500TMeasured": false,
+  "globalPerformanceMeasured": false,
+  "windowsMeasured": false,
+  "sha256": {
+    "src/ecology/archive.js": "031bbd1dae420eb5ff3baa00a68e33b8036d6eb8304ba1472fe7432034656ba3",
+    "src/ecology/compute-worker.js": "1e472d1638e5f7f974a5ccd0e853a4ef92e6d8dfbd0210bd43f31407a6a8020a",
+    "src/ecology/engine.js": "3224e8d8f5256e92030ef8b62d4f6774f67ae4e3f7b47fc3f464289a55726a0a",
+    "src/ecology/observation-modules.js": "101e0f85b4591a6e22c6c4fa2edb003eaa6b6eb418e9025ffaf18333868c7275",
+    "src/ecology/parasites.js": "c7a34ceb034b8c5eacd9715f3440a3df7093965d0d367b02bf7e951c2a3c202a",
+    "src/ecology/replay-version.js": "887439fc0750b3dd04bb197967eea058bd7889d6731b73909a1898a94a64b7dc",
+    "src/ecology/state.js": "20f027e5293f1430cd0b044d2a7691404ddc2ef7d26cf4265d755104f54ab310",
+    "tools/build-observation-model.cjs": "d1913ae4b514dad80af64f0c2377d20572ecc7a75758f6888b5043586b0cb7b7",
+    "tools/update-replay-version.cjs": "2bfdf4adbb9dcf6b187bfc5df1ce621079a3a4d3ac4d5038945911251ab8af1c",
+    "operations/evidence/current-state-infections-v1/README.md": "b8f799a78b1132a42ad81a246e7d78c93d406964e4914e5512ed801e38a0fc71",
+    "operations/evidence/current-state-infections-v1/infections.log": "d0c727e439bdd60459559438a09ba5c5c967eca2e56166f3321f23634e5a4c79",
+    "operations/evidence/current-state-infections-v1/legacy-parity.json": "132630125a6a304cfa8d5a11a8848ce1c3160d1f8fe65899b8300a511d00287f",
+    "operations/evidence/current-state-infections-v1/related.log": "85333edf148157ffc7ca1f7f935a4e59921b94e21f2d1516ccacb0e30c33a331",
+    "operations/evidence/current-state-infections-v1/turns.log": "78e2a4a7db6586b014b7b01c6866bfe3a691c995e0a60825e51c60eb3928b287",
+    "src/ecology/current-infections.js": "bfc60b07a9a6d0ba8159886c50ae1c688d7487b998a17c2b35d485be7ebb3f37",
+    "tests/current-infections-legacy-parity.cjs": "8405c8cb500e286b151285d3f091db9faedbca2e13976ca313bea7aacd398641",
+    "tests/current-infections.test.cjs": "d15902ed932f7e585acdc4067b06fe016ad04bb2ceef9c1179fe37e357141687"
+  }
+}

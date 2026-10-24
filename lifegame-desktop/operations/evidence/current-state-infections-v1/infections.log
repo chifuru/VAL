@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: 1000 identical environmental releases become one finite pool and one shared genotype
+ok 1 - 1000 identical environmental releases become one finite pool and one shared genotype
+  ---
+  duration_ms: 65.682216
+  type: 'test'
+  ...
+# Subtest: clocks, routes, stages, genetics and direct parents cannot be averaged by sharing a cell
+ok 2 - clocks, routes, stages, genetics and direct parents cannot be averaged by sharing a cell
+  ---
+  duration_ms: 16.584055
+  type: 'test'
+  ...
+# Subtest: host-bound and one-member transfers stay distinct while identical genotype definitions are shared and released
+ok 3 - host-bound and one-member transfers stay distinct while identical genotype definitions are shared and released
+  ---
+  duration_ms: 19.804912
+  type: 'test'
+  ...
+# Subtest: generation chains use short real IDs and retain only direct parent references
+ok 4 - generation chains use short real IDs and retain only direct parent references
+  ---
+  duration_ms: 22.26346
+  type: 'test'
+  ...
+# Subtest: water diffusion conserves finite amount without recursively growing IDs or retaining duplicate traits
+ok 5 - water diffusion conserves finite amount without recursively growing IDs or retaining duplicate traits
+  ---
+  duration_ms: 16.967758
+  type: 'test'
+  ...
+# Subtest: one free-egg pool attaches real doses to multiple hosts with an unspent remainder
+ok 6 - one free-egg pool attaches real doses to multiple hosts with an unspent remainder
+  ---
+  duration_ms: 20.214292
+  type: 'test'
+  ...
+# Subtest: a large environmental egg dose splits into finite standard-size attachments
+ok 7 - a large environmental egg dose splits into finite standard-size attachments
+  ---
+  duration_ms: 16.764956
+  type: 'test'
+  ...
+# Subtest: attached egg hatches and establishes only on the following turn, with finite E and inherited route
+ok 8 - attached egg hatches and establishes only on the following turn, with finite E and inherited route
+  ---
+  duration_ms: 21.66691
+  type: 'test'
+  ...
+# Subtest: egg loss and expiry dissipate only the real remaining dose and release unused definitions
+ok 9 - egg loss and expiry dissipate only the real remaining dose and release unused definitions
+  ---
+  duration_ms: 37.682838
+  type: 'test'
+  ...
+# Subtest: water-egg dispersal distributes current stock and avoids land/blocked cells without changing expiry
+ok 10 - water-egg dispersal distributes current stock and avoids land/blocked cells without changing expiry
+  ---
+  duration_ms: 26.748733
+  type: 'test'
+  ...
+# Subtest: incompatible exposure consumes a finite dose without fabricating a parasite or extending its clock
+ok 11 - incompatible exposure consumes a finite dose without fabricating a parasite or extending its clock
+  ---
+  duration_ms: 22.418361
+  type: 'test'
+  ...
+# Subtest: P acquired resistance does not stick forever at rounded millionths
+ok 12 - P acquired resistance does not stick forever at rounded millionths
+  ---
+  duration_ms: 17.143621
+  type: 'test'
+  ...
+# Subtest: Q acquired resistance also expires at the effective minimum without a free permanent residue
+ok 13 - Q acquired resistance also expires at the effective minimum without a free permanent residue
+  ---
+  duration_ms: 15.854767
+  type: 'test'
+  ...
+# Subtest: Q active information remains linked, detached residual lasts at most 30T and reads do not extend it
+ok 14 - Q active information remains linked, detached residual lasts at most 30T and reads do not extend it
+  ---
+  duration_ms: 17.367829
+  type: 'test'
+  ...
+# Subtest: host-specific Q invasions share definitions but retain their individual window proof
+ok 15 - host-specific Q invasions share definitions but retain their individual window proof
+  ---
+  duration_ms: 17.445857
+  type: 'test'
+  ...
+# Subtest: source/generated current-state runs agree through 4T and cancellation never changes the committed world
+ok 16 - source/generated current-state runs agree through 4T and cancellation never changes the committed world
+  ---
+  duration_ms: 3173.99391
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3539.29735

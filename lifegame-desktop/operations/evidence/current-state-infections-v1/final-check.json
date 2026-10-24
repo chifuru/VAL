@@ -1,0 +1,30 @@
+{
+  "definition": "current-state-infections-output-gate/1",
+  "success": true,
+  "baseline": "c373ceba51ec055c299905813f30059bc8ce05db",
+  "formalNodes": 61,
+  "formalMetadataAndGraphUnchanged": true,
+  "allStatuses": "草案",
+  "manifestNodeOrderUnchanged": true,
+  "manifestFences": 10,
+  "changedNodeMetadataReferences": [
+    "C7.1",
+    "C7.5",
+    "C7",
+    "C8.2",
+    "D7",
+    "D8.2",
+    "D9",
+    "E5",
+    "E6"
+  ],
+  "newNodeReferencesResolved": 41,
+  "coreAndABNodesUnchanged": true,
+  "uiArtDefaultProductDistributionUnchanged": true,
+  "testPasses": 66,
+  "legacyConditionsPassed": 3,
+  "sourceGeneratedAndSignatureChecksPassed": true,
+  "globalPerformanceMeasured": false,
+  "fullNewStateUIArchiveConnected": false,
+  "next": "CS06 active updates and time"
+}

@@ -9,13 +9,14 @@
     typeof module === "object" && module.exports ? require("./current-information.js") : root.EcoCurrentInformation,
     typeof module === "object" && module.exports ? require("./soil-matter.js") : root.EcoSoilMatter,
     typeof module === "object" && module.exports ? require("./current-ecology.js") : root.EcoCurrentEcology,
+    typeof module === "object" && module.exports ? require("./current-infections.js") : root.EcoCurrentInfections,
     typeof module === "object" && module.exports ? require("./landscape.js") : root.EcoLandscape,
   );
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.EcoState = api;
-})(globalThis, function (H, D, CurrentInformationFactory, SoilMatterFactory, CurrentEcologyFactory, Landscape) {
+})(globalThis, function (H, D, CurrentInformationFactory, SoilMatterFactory, CurrentEcologyFactory, CurrentInfectionsFactory, Landscape) {
   "use strict";
-  let currentInformation,soilMatter,currentEcology;
+  let currentInformation,soilMatter,currentEcology,currentInfections;
   const behaviorWeights=(w,o)=>currentInformation?.enabled(w)?currentInformation.weights(o):o.weights;
   // CR01: shared state/space contract. Biological progression is connected later.
   const CellSpace=(()=>{
@@ -159,6 +160,7 @@
       w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?(p.aquaticProfile===AQUATIC?32:null):15),
         decayLoad:profiles.map(()=>0),nextMaterial:[],organic:[],resourceTurn:0,backgroundTurn:0};
       if(soilMatter?.enabled(w))soilMatter.initialize(w);
+      if(currentInfections?.enabled(w))currentInfections.state(w);
       for(let cell=0;cell<w.tiles.length;cell++)if(profiles[cell].mineralInitial!==null)w.tiles[cell].soilM=profiles[cell].mineralInitial;
       for(const o of w.organisms)CellLife.attach(w,o);
       const cells=new Map();
@@ -229,6 +231,7 @@
         organicIds.add(r?.id);}
       if(soilMatter?.enabled(w))errors.push(...soilMatter.validate(w));
       if(currentEcology?.enabled(w))errors.push(...currentEcology.validate(w));
+      if(currentInfections?.enabled(w))errors.push(...currentInfections.validate(w));
       return errors;
     }
     return {VERSION,limits,enabled,settings,layer,index,room,assign,founders,population,release,initialize,stock,summary,validate,deferMaterial};
@@ -1165,7 +1168,7 @@ return {settings,attach,region,level,factor,begin,finish};
     function infection(w,species,hostId,turn=w.turn,origin=hostId,parent=null){
       if(!enabled(w)||!hostTable[species])throw Error("SETTINGS_INVALID: 一次寄生モデル/系統");
       const inherited=parent?childAdaptation(w,parent,origin):{adaptation:defaultAdaptation(species),mutation:{occurred:false,changes:[]}},p=settings(w);
-      const o={id:"p:"+origin+":"+turn,species,hostId,location:species==="leafparasite"?"external":"internal",load:ParasiteCohort.enabled(w)?.75:.5,
+      const o={id:currentInfections?.enabled(w)?currentInfections.id(w,"p"):"p:"+origin+":"+turn,species,hostId,location:species==="leafparasite"?"external":"internal",load:ParasiteCohort.enabled(w)?.75:.5,
         stage:"first",counter:0,phase:1,age:0,bornAt:turn,birthLife:p.life,B:p.biomass[1],E:0,ready:0,q:null,
         primary:{version:VERSION,form:["A","B","C"][form(w,inherited.adaptation,origin)],formVersion:"primary-form/1",carrier:false,successT:0,pauseUntil:turn,carrierUntil:null,starvationRun:0,settledAt:turn,
           adaptation:inherited.adaptation,hostPreference:hostPreference(w,species,origin,parent),parents:parent?[parent.parentId??parent.id]:[],generation:parent?(parent.primary?.generation??parent.generation??0)+1:0,
@@ -1178,7 +1181,7 @@ return {settings,attach,region,level,factor,begin,finish};
         sourceId:parent.id,parentId:parent.id,generation:parent.primary?.generation??0,adaptation:structuredClone(genes(parent)??defaultAdaptation(parent.species)),hostPreference:hostPreference(w,parent.species,parent.id,parent),
         ...(ParasiteCohort.enabled(w)?{form:parent.primary?.form,parents:structuredClone(parent.primary?.parents??[])}:{}),
         createdAt,expires:options.expires??createdAt+(p.inoculumLifetime[kind]??4),route:options.route??(kind==="water"?"water":"contact"),stage:parent.stage,
-        ...options,E,amount:H.round(E/p.standardReserve),...(ParasiteCohort.enabled(w)?{passages:options.passages??(parent.primary?.cohort?.passages??0),transfer:options.transfer??false}:{} )};
+        ...options,...(currentInfections?.enabled(w)?{id:currentInfections.id(w,"i")}:{}),E,amount:H.round(E/p.standardReserve),...(ParasiteCohort.enabled(w)?{passages:options.passages??(parent.primary?.cohort?.passages??0),transfer:options.transfer??false}:{} )};
     }
     function takeInoculum(w,i,requested){const E=H.round(Math.max(0,Math.min(i.E,requested)));i.E=H.round(i.E-E);i.amount=H.round(i.E/settings(w).standardReserve);return E;}
     function acquireResistance(w,host,species,route){
@@ -1193,12 +1196,12 @@ return {settings,attach,region,level,factor,begin,finish};
       const a=host.primaryResistance;if(!enabled(w)||!a||a.paidAt===w.turn)return {paid:0,required:0};
       const p=settings(w);a.paidAt=w.turn;a.lastPaidE=0;let required=0;
       for(const entry of a.entries){
-        entry.value=H.round(entry.value*Math.pow(.5,Math.max(0,w.turn-entry.updatedAt)/p.resistanceHalfLife));entry.updatedAt=w.turn;
+        const decayed=entry.value*Math.pow(.5,Math.max(0,w.turn-entry.updatedAt)/p.resistanceHalfLife);entry.value=currentInfections?.enabled(w)?(decayed<=.000001?0:decayed):H.round(decayed);entry.updatedAt=w.turn;
         const expense=H.round(p.resistanceMaintenance*entry.value),paid=H.round(Math.min(host.E,expense));
         host.E=H.round(host.E-paid);dissipate(w,paid);entry.effective=expense>0?H.round(entry.value*paid/expense):entry.value;
         a.lastPaidE=H.round(a.lastPaidE+paid);required=H.round(required+expense);
       }
-      a.entries=a.entries.filter(entry=>entry.value>0);return {paid:a.lastPaidE,required};
+      a.entries=a.entries.filter(entry=>entry.value>0);if(currentInfections?.enabled(w)&&!a.entries.length)delete host.primaryResistance;return {paid:a.lastPaidE,required};
     }
     function resistance(w,host,species,route){
       const a=host.primaryResistance;if(!a||a.paidAt!==w.turn)return 0;
@@ -1284,10 +1287,10 @@ return {settings,attach,region,level,factor,begin,finish};
           !Number.isFinite(p.bornAt)||!Number.isFinite(p.birthLife)||p.birthLife<=0||
           (host&&p.hostId!==host.id)||(p.q&&p.q.hostId!==p.id))errors.push("PRIMARY_STATE:"+p.id);
       }
-      for(const i of w.primaryInocula||[])if(!Number.isFinite(i.E)||i.E<0||!Number.isFinite(i.amount)||i.amount<0||Math.abs(i.amount-i.E/settings(w).standardReserve)>1e-5||
+      for(const stored of w.primaryInocula||[]){const i=currentInfections?.enabled(w)?currentInfections.view(w,stored):stored;if(!Number.isFinite(i.E)||i.E<0||!Number.isFinite(i.amount)||i.amount<0||Math.abs(i.amount-i.E/settings(w).standardReserve)>1e-5||
         !["contact","water","edible","carcass","invading"].includes(i.kind)||!Number.isSafeInteger(i.expires)||!hostTable[i.species]||
         (ParasiteCohort.enabled(w)&&(!Number.isSafeInteger(i.passages)||i.passages<0||typeof i.transfer!=="boolean"))||
-        !correctKeys(i.hostPreference,hostTable[i.species]?defaultAdaptation(i.species).hosts:{})||Object.values(i.hostPreference??{}).some(n=>!Number.isFinite(n)||n<0||n>1))errors.push("PRIMARY_INOCULUM:"+i.id);
+        !correctKeys(i.hostPreference,hostTable[i.species]?defaultAdaptation(i.species).hosts:{})||Object.values(i.hostPreference??{}).some(n=>!Number.isFinite(n)||n<0||n>1))errors.push("PRIMARY_INOCULUM:"+i.id);}
       for(const i of w.primaryInocula||[])if(eggsEnabled(w)&&i.stage==='terminal'&&['contact','water'].includes(i.kind)&&!i.egg)errors.push('PRIMARY_EGG_MISSING:'+i.id);
       for(const i of w.primaryInocula||[])if(i.egg&&(!eggsEnabled(w)||i.egg.version!=='primary-egg/1'||!['free','attached'].includes(i.egg.state)||
         !['contact','water'].includes(i.kind)||i.transfer||i.stage!=='terminal'||!Number.isSafeInteger(i.createdAt)||i.expires-i.createdAt!==(i.species==='tideparasite'?w.config.primaryEggSettings.waterLifetime:w.config.primaryEggSettings.landLifetime)||
@@ -1365,7 +1368,7 @@ return {settings,attach,region,level,factor,begin,finish};
       if(!enabled(w))throw Error("SETTINGS_INVALID: 高次寄生モデルの指定が必要です");
       const t=traits?.traits??traits??initialTraits(w,origin),p=settings(w),bias=structuredClone(t.bias??initialTraits(w,origin).bias);
       if(w.config.informationModel==="persistent/1")bias.vector9=directionVector(bias);
-      const q={id:"q:"+origin+":"+turn,species:"hyperparasite",hostId:pId,phase:1,age:0,bornAt:turn,birthLife:p.life,maturity:p.maturity,E:0,B:p.biomass[1],
+      const q={id:currentInfections?.enabled(w)?currentInfections.id(w,"q"):"q:"+origin+":"+turn,species:"hyperparasite",hostId:pId,phase:1,age:0,bornAt:turn,birthLife:p.life,maturity:p.maturity,E:0,B:p.biomass[1],
         ready:0,counter:0,special:null,modulation:null,counts:[0,0,0],seen:[],
         hyper:{version:VERSION,state:"egg",development:0,experience:0,settledAt:turn,pauseUntil:turn,starvationRun:0,prepareUntil:0,...(ParasiteCohort.enabled(w)?{cohort:{version:"parasite-cohort/1",members:2}}:{}),
           genes:structuredClone(t.genes??defaultGenes()),preference:structuredClone(t.preference??initialTraits(w,origin).preference),bias,
@@ -1381,7 +1384,8 @@ return {settings,attach,region,level,factor,begin,finish};
     }
     function beginResistance(w,p){
       const a=p.hyperResistance;if(!enabled(w)||!a||a.paidAt===w.turn)return {paid:0,required:0};
-      const s=settings(w);a.value=H.round(a.value*Math.pow(.5,Math.max(0,w.turn-a.updatedAt)/s.resistanceHalfLife));a.updatedAt=w.turn;a.paidAt=w.turn;
+      const s=settings(w);const decayed=a.value*Math.pow(.5,Math.max(0,w.turn-a.updatedAt)/s.resistanceHalfLife);a.value=currentInfections?.enabled(w)?(decayed<=.000001?0:decayed):H.round(decayed);a.updatedAt=w.turn;a.paidAt=w.turn;
+      if(currentInfections?.enabled(w)&&!a.value){delete p.hyperResistance;return {paid:0,required:0};}
       const required=H.round(s.resistanceMaintenance*a.value),paid=H.round(Math.min(p.E,required));p.E=H.round(p.E-paid);dissipate(w,paid);a.lastPaidE=paid;a.effective=required>0?H.round(a.value*paid/required):a.value;return {paid,required};
     }
     const resistance=(w,p)=>p.hyperResistance?.paidAt===w.turn?p.hyperResistance.effective:0;
@@ -1455,7 +1459,7 @@ return {settings,attach,region,level,factor,begin,finish};
         q.E>settings(w).capE+1e-6||(ParasiteCohort.enabled(w)&&(!Number.isSafeInteger(q.hyper.cohort?.members)||q.hyper.cohort.members<1||q.hyper.cohort.members>3))||!Number.isInteger(q.phase)||q.phase<1||q.phase>4||!Number.isFinite(q.bornAt)||q.birthLife<=0||!validTraits(q.hyper)||
         !["egg","larva","preparation","adult"].includes(q.hyper.state)||(kind==="free"&&(q.phase!==4||q.hyper.state!=="adult"||!Number.isInteger(q.cell)||!w.tiles[q.cell]||q.hostId!==null))||
         (p&&(q.hostId!==p.id||q.phase===4||q.hyper.state==="adult")))errors.push("HYPER_STATE:"+q.id);
-      for(const i of w.hyperInocula||[])if(!Number.isFinite(i.E)||i.E<0||!Number.isSafeInteger(i.expires)||!validTraits(i.traits??i)||i.kind!=="invading")errors.push("HYPER_INOCULUM:"+i.id);
+      for(const i of w.hyperInocula||[])if(!Number.isFinite(i.E)||i.E<0||!Number.isSafeInteger(i.expires)||!validTraits(currentInfections?.enabled(w)?currentInfections.view(w,i,"Q"):i.traits??i)||i.kind!=="invading")errors.push("HYPER_INOCULUM:"+i.id);
       return errors;
     }
     return {enabled,is,parameters,settings,create,childTraits,adaptation,entries,locate,ageInfo:qAge,summary,initial,validate,resistance,acquireResistance,beginResistance};
@@ -3069,5 +3073,6 @@ return {settings,attach,region,level,factor,begin,finish};
   currentInformation=CurrentInformationFactory.bind(api);api.CurrentInformation=currentInformation;
   soilMatter=SoilMatterFactory.bind(api);api.SoilMatter=soilMatter;
   currentEcology=CurrentEcologyFactory.bind(api);api.CurrentEcology=currentEcology;
+  currentInfections=CurrentInfectionsFactory.bind(api);api.CurrentInfections=currentInfections;
   return api;
 });

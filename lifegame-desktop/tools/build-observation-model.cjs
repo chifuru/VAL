@@ -1,7 +1,7 @@
 /* Build-time only: export the exact evaluated comparison modules as static functions. */
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),Module=require('node:module');
-const root=path.resolve(__dirname,'..'),factory=require('../design/advantage-switches/model.cjs'),names=['current-information','current-ecology','soil-matter','catalogue','state','nutrition','behavior','reproduction','parasites','engine'];
+const root=path.resolve(__dirname,'..'),factory=require('../design/advantage-switches/model.cjs'),names=['current-information','current-ecology','current-infections','soil-matter','catalogue','state','nutrition','behavior','reproduction','parasites','engine'];
 const bodies=[],ids=new Map(),profiles={};
 for(let mask=0;mask<8;mask++){
  const flags={producer:!!(mask&1),waterbug:!!(mask&2),hyperparasite:!!(mask&4)},sources={},compile=Module.prototype._compile;

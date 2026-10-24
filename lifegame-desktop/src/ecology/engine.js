@@ -154,6 +154,7 @@
     return ctx;
   }
   function prepare(w, ctx) {
+    if(S.CurrentInfections.enabled(w))S.CurrentInfections.hydrate(w);
     if(S.CurrentEcology.enabled(w))S.CurrentEcology.begin(w,ctx);
     if(S.CellSpace.enabled(w)){
       if(S.PersistentInformation?.enabled(w))P.informationTrack(w,ctx);
@@ -416,6 +417,7 @@
     return demand;
   }
   function finish(w, ctx) {
+    if(S.CurrentInfections.enabled(w))S.CurrentInfections.compact(w);
     if(S.SoilMatter.enabled(w)){S.SoilMatter.flush(w);w.soilMatterSummary=S.SoilMatter.summary(w);}
     if(S.PersistentInformation?.enabled(w))w.persistentInformationSummary=S.PersistentInformation.summary(w);
     if(S.HyperParasite?.enabled(w))S.HyperParasite.summary(w);
@@ -496,6 +498,7 @@
   }
   function create(input = {}) {
     const w = S.create(input);
+    if(S.CurrentInfections.enabled(w))S.CurrentInfections.compact(w);
     if(S.PersistentInformation?.enabled(w))w.persistentInformationSummary=S.PersistentInformation.summary(w);
     if(S.HyperParasite?.enabled(w))S.HyperParasite.summary(w);
     if(S.PrimaryParasite?.enabled(w))S.PrimaryParasite.summary(w);

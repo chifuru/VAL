@@ -1,0 +1,268 @@
+TAP version 13
+# Subtest: egg model is explicit, saved, validated, and preserves the previous 4T biological fingerprint
+ok 1 - egg model is explicit, saved, validated, and preserves the previous 4T biological fingerprint
+  ---
+  duration_ms: 184.042071
+  type: 'test'
+  ...
+# Subtest: terminal release pays for two separate finite egg batches; first-host release remains a transfer
+ok 2 - terminal release pays for two separate finite egg batches; first-host release remains a transfer
+  ---
+  duration_ms: 521.603906
+  type: 'test'
+  ...
+# Subtest: laid eggs outlive their parent, attach, wait two turns, hatch once and settle next turn
+ok 3 - laid eggs outlive their parent, attach, wait two turns, hatch once and settle next turn
+  ---
+  duration_ms: 163.378825
+  type: 'test'
+  ...
+# Subtest: water eggs move without dilution or duplication and can attach two cells from the terminal host
+ok 4 - water eggs move without dilution or duplication and can attach two cells from the terminal host
+  ---
+  duration_ms: 175.637246
+  type: 'test'
+  ...
+# Subtest: occupied first hosts cause waiting; expiry is absolute and hatch failure consumes its batch once
+ok 5 - occupied first hosts cause waiting; expiry is absolute and hatch failure consumes its batch once
+  ---
+  duration_ms: 642.228526
+  type: 'test'
+  ...
+# Subtest: attached egg batches are lost with their target instead of silently finding another host
+ok 6 - attached egg batches are lost with their target instead of silently finding another host
+  ---
+  duration_ms: 222.529482
+  type: 'test'
+  ...
+# Subtest: egg counts and events remain separate from living P through CSV, archive replay and validation
+ok 7 - egg counts and events remain separate from living P through CSV, archive replay and validation
+  ---
+  duration_ms: 5189.863183
+  type: 'test'
+  ...
+# Subtest: Worker transports egg batches and their attachment clocks without changing the committed turn
+ok 8 - Worker transports egg batches and their attachment clocks without changing the committed turn
+  ---
+  duration_ms: 1281.291345
+  type: 'test'
+  ...
+# Subtest: water spread v2 reaches two connected steps without crossing land, blocks, or changing v1
+ok 9 - water spread v2 reaches two connected steps without crossing land, blocks, or changing v1
+  ---
+  duration_ms: 1998.488852
+  type: 'test'
+  ...
+# Subtest: water spread replay keeps v1 records readable and rejects v2 under the previous signature
+ok 10 - water spread replay keeps v1 records readable and rejects v2 under the previous signature
+  ---
+  duration_ms: 214.960945
+  type: 'test'
+  ...
+# Subtest: five current components use real assimilated E, a 20T half-life and readonly lookup
+ok 11 - five current components use real assimilated E, a 20T half-life and readonly lookup
+  ---
+  duration_ms: 77.365522
+  type: 'test'
+  ...
+# Subtest: unobserved and vanishing intake remains unknown; an empty source cannot invent a trophic level
+ok 12 - unobserved and vanishing intake remains unknown; an empty source cannot invent a trophic level
+  ---
+  duration_ms: 45.408751
+  type: 'test'
+  ...
+# Subtest: simultaneous acquisition freezes source evidence before photo commit and pays only actual intake
+ok 13 - simultaneous acquisition freezes source evidence before photo commit and pays only actual intake
+  ---
+  duration_ms: 175.038654
+  type: 'test'
+  ...
+# Subtest: death/soil retains the source current composition and the next consumer shifts it once
+ok 14 - death/soil retains the source current composition and the next consumer shifts it once
+  ---
+  duration_ms: 73.779668
+  type: 'test'
+  ...
+# Subtest: group extraction partitions current evidence rather than sharing or copying a whole intake record
+ok 15 - group extraction partitions current evidence rather than sharing or copying a whole intake record
+  ---
+  duration_ms: 104.557496
+  type: 'test'
+  ...
+# Subtest: host to P to Q taxes update the same five components without supplying extra E
+ok 16 - host to P to Q taxes update the same five components without supplying extra E
+  ---
+  duration_ms: 96.010717
+  type: 'test'
+  ...
+# Subtest: an actual parasitic effect remains observable even when its actor dies in the same turn
+ok 17 - an actual parasitic effect remains observable even when its actor dies in the same turn
+  ---
+  duration_ms: 54.17433
+  type: 'test'
+  ...
+# Subtest: contacts include every co-located layer, deduplicate endpoints and have no past pair registry
+ok 18 - contacts include every co-located layer, deduplicate endpoints and have no past pair registry
+  ---
+  duration_ms: 93.371815
+  type: 'test'
+  ...
+# Subtest: contact or animation alone never creates confirmed effects; real damage/defense/care do
+ok 19 - contact or animation alone never creates confirmed effects; real damage/defense/care do
+  ---
+  duration_ms: 67.282344
+  type: 'test'
+  ...
+# Subtest: anonymous soil and information stay classified unknown rather than inventing a source organism
+ok 20 - anonymous soil and information stay classified unknown rather than inventing a source organism
+  ---
+  duration_ms: 25.838686
+  type: 'test'
+  ...
+# Subtest: current generation facts remain on individuals while only this-turn deltas go to observers
+ok 21 - current generation facts remain on individuals while only this-turn deltas go to observers
+  ---
+  duration_ms: 62.869955
+  type: 'test'
+  ...
+# Subtest: a death event lacking age/generation obtains facts from the actual dead subject
+ok 22 - a death event lacking age/generation obtains facts from the actual dead subject
+  ---
+  duration_ms: 18.98538
+  type: 'test'
+  ...
+# Subtest: full-turn observations/CSV use 50T effects and completed 10T intervals while contacts stay separate
+ok 23 - full-turn observations/CSV use 50T effects and completed 10T intervals while contacts stay separate
+  ---
+  duration_ms: 619.064034
+  type: 'test'
+  ...
+# Subtest: observation snapshots are independent, read-only after restore and reject corruption/gaps/foreign worlds
+ok 24 - observation snapshots are independent, read-only after restore and reject corruption/gaps/foreign worlds
+  ---
+  duration_ms: 85.418437
+  type: 'test'
+  ...
+# Subtest: initial unknown biomass and later observed composition retain all B without converting role to trophic level
+ok 25 - initial unknown biomass and later observed composition retain all B without converting role to trophic level
+  ---
+  duration_ms: 23.375293
+  type: 'test'
+  ...
+# Subtest: source/generated, cancellation and observer reconstruction agree for one short natural condition
+ok 26 - source/generated, cancellation and observer reconstruction agree for one short natural condition
+  ---
+  duration_ms: 5876.704515
+  type: 'test'
+  ...
+# Subtest: many deaths coalesce by cell/class/day, retain finite E/M/B, and discard dead identity
+ok 27 - many deaths coalesce by cell/class/day, retain finite E/M/B, and discard dead identity
+  ---
+  duration_ms: 11.946993
+  type: 'test'
+  ...
+# Subtest: different diet classes stay separate and waiting minerals are never edible stock
+ok 28 - different diet classes stay separate and waiting minerals are never edible stock
+  ---
+  duration_ms: 5.592962
+  type: 'test'
+  ...
+# Subtest: new death is unavailable to general feeding until next T; B is not added to E twice
+ok 29 - new death is unavailable to general feeding until next T; B is not added to E twice
+  ---
+  duration_ms: 6.542346
+  type: 'test'
+  ...
+# Subtest: fresh stock ages into one decomposed pool at 10T, without rebinding old carriers to a reused fresh slot
+ok 30 - fresh stock ages into one decomposed pool at 10T, without rebinding old carriers to a reused fresh slot
+  ---
+  duration_ms: 6.120109
+  type: 'test'
+  ...
+# Subtest: shared source requests are independent of death count and share one processing budget per fungus
+ok 31 - shared source requests are independent of death count and share one processing budget per fungus
+  ---
+  duration_ms: 42.877748
+  type: 'test'
+  ...
+# Subtest: fungi and consumers compete for the same real pool; request order does not change grants
+ok 32 - fungi and consumers compete for the same real pool; request order does not change grants
+  ---
+  duration_ms: 12.484816
+  type: 'test'
+  ...
+# Subtest: decomposed food applies half assimilation and retains waste in the correct current class
+ok 33 - decomposed food applies half assimilation and retains waste in the correct current class
+  ---
+  duration_ms: 10.798908
+  type: 'test'
+  ...
+# Subtest: plants cannot eat residues; ryouki cannot acquire main-animal or Q tissue; remote pool is rejected
+ok 34 - plants cannot eat residues; ryouki cannot acquire main-animal or Q tissue; remote pool is rejected
+  ---
+  duration_ms: 5.374361
+  type: 'test'
+  ...
+# Subtest: background uses activity times .02, returns M next T, and never reuses new M in the same T
+ok 35 - background uses activity times .02, returns M next T, and never reuses new M in the same T
+  ---
+  duration_ms: 4.441913
+  type: 'test'
+  ...
+# Subtest: positive micro stocks reach heat/mineral waiting; a full soil does not retain individual remains
+ok 36 - positive micro stocks reach heat/mineral waiting; a full soil does not retain individual remains
+  ---
+  duration_ms: 4.1689
+  type: 'test'
+  ...
+# Subtest: dry stock persists without decomposition, while mineral-only stock becomes a finite waiting pool
+ok 37 - dry stock persists without decomposition, while mineral-only stock becomes a finite waiting pool
+  ---
+  duration_ms: 4.087006
+  type: 'test'
+  ...
+# Subtest: P/Q are held once in zero-nutrition carriers, without dead appearance/DNA or duplicate energy
+ok 38 - P/Q are held once in zero-nutrition carriers, without dead appearance/DNA or duplicate energy
+  ---
+  duration_ms: 5.140167
+  type: 'test'
+  ...
+# Subtest: actual feeding on the pool can transfer a mature P; pending transfer is neither cloned nor nutrition
+ok 39 - actual feeding on the pool can transfer a mature P; pending transfer is neither cloned nor nutrition
+  ---
+  duration_ms: 5.282792
+  type: 'test'
+  ...
+# Subtest: new remains after the background phase are also integrated before committing the turn
+ok 40 - new remains after the background phase are also integrated before committing the turn
+  ---
+  duration_ms: 4.711539
+  type: 'test'
+  ...
+# Subtest: same-turn captures remain restricted to real participants; the remainder becomes next-T soil
+ok 41 - same-turn captures remain restricted to real participants; the remainder becomes next-T soil
+  ---
+  duration_ms: 4.911813
+  type: 'test'
+  ...
+# Subtest: ordinary new remains cannot be forged into a capture or read as an available soil pool
+ok 42 - ordinary new remains cannot be forged into a capture or read as an available soil pool
+  ---
+  duration_ms: 4.422363
+  type: 'test'
+  ...
+# Subtest: source/generated agree through 4T; the generated run crosses the fresh-stock age boundary at 12T
+ok 43 - source/generated agree through 4T; the generated run crosses the fresh-stock age boundary at 12T
+  ---
+  duration_ms: 9771.099763
+  type: 'test'
+  ...
+1..43
+# tests 43
+# suites 0
+# pass 43
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 28323.836638

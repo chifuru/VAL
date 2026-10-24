@@ -786,10 +786,11 @@
       for(let n=0;n<cells.length;n++){
         const amount=Math.min(S.round(budget-moved),n===cells.length-1?S.round(budget-moved):S.round(budget/cells.length));
         if(amount<=0)continue;moved=S.round(moved+amount);
-        additions.push({...i,id:i.id+":water:"+w.turn+":"+cells[n],cell:cells[n],E:amount,amount:S.round(amount/standard)});
+        additions.push({...i,id:S.CurrentInfections.enabled(w)?S.CurrentInfections.id(w,"i"):i.id+":water:"+w.turn+":"+cells[n],cell:cells[n],E:amount,amount:S.round(amount/standard)});
       }
       S.PrimaryParasite.takeInoculum(w,i,moved);
     }
+    if(S.CurrentInfections.enabled(w)){w.primaryInocula=[...(w.primaryInocula||[]),...additions];S.CurrentInfections.compact(w);S.CurrentInfections.hydrate(w);return;}
     // Merge only identical origins, traits and clocks; expiry is never refreshed.
     const merged=new Map();
     for(const i of [...(w.primaryInocula||[]),...additions]){
@@ -806,8 +807,9 @@
     // by splitting a partially consumed dose across different hosts.
     if(cohorts(w)&&i.transfer&&i.claimedTarget&&i.claimedTarget!==target.id)return {exposed:0,compatible:false,invaded:false,reason:"claimed"};
     if(cohorts(w)&&i.transfer)i.claimedTarget=target.id;
+    if(S.CurrentInfections.enabled(w))S.CurrentInfections.materialize(w,i);
     const settings=S.PrimaryParasite.settings(w),sourceStage=i.sourceStage||i.stage,
-      origin=JSON.stringify([i.species,i.parentId,i.sourceId,i.createdAt,i.expires,i.adaptation,i.hostPreference,route,sourceStage]),
+      origin=JSON.stringify(S.CurrentInfections.enabled(w)?[i.species,i.parentId,i.sourceId,i.createdAt,i.expires,S.CurrentInfections.typeOf(w,i).id,route,sourceStage]:[i.species,i.parentId,i.sourceId,i.createdAt,i.expires,i.adaptation,i.hostPreference,route,sourceStage]),
       previous=(w.primaryInocula||[]).find(a=>a.kind==="invading"&&a.hostId===target.id&&a.origin===origin&&a.E>0),
       amount=S.PrimaryParasite.takeInoculum(w,i,Math.min(settings.standardReserve-(previous?.E||0),i.E*S.clamp(fraction,0,1))),
       rule=primaryRule(w,i.species,target,route,sourceStage);
@@ -818,7 +820,7 @@
     const fail=reason=>{S.dissipate(w,amount);primaryEvent(ctx,target,"exposure",{species:i.species,route,amount,reason});return {exposed:amount,compatible:rule.allowed,invaded:false,reason};};
     if(!rule.allowed)return fail(rule.reason||"incompatible");
     if(target.HP<=0||occupied)return fail(occupied?"occupied":"dead");
-    const entering=previous||{...i,adaptation:structuredClone(i.adaptation),hostPreference:structuredClone(i.hostPreference),id:i.id+":invading:"+target.id+":"+w.turn,kind:"invading",sourceKind:i.kind,origin,cell:target.cell,hostId:target.id,
+    const entering=previous||{...i,adaptation:structuredClone(i.adaptation),hostPreference:structuredClone(i.hostPreference),id:S.CurrentInfections.enabled(w)?S.CurrentInfections.id(w,"i"):i.id+":invading:"+target.id+":"+w.turn,kind:"invading",sourceKind:i.kind,origin,cell:target.cell,hostId:target.id,
       sourceStage,stage:rule.stage,route,E:0,amount:0,status:"exposed",receivedAt:w.turn,establishAt:null};
     entering.E=S.round(entering.E+amount);entering.amount=S.round(entering.E/settings.standardReserve);
     if(entering.egg)delete entering.egg;
@@ -896,7 +898,7 @@
         const outcome=expose(w,ctx,i,host,i.route);
         if(!outcome.invaded)eggFlow(w,ctx,'failed');
         primaryEvent(ctx,host,'egg-hatched',{species:i.species,egg:i.id,invaded:outcome.invaded});
-      }else if(i.species==='tideparasite'&&['shallow','deep'].includes(w.tiles[i.cell].terrain)&&S.r(w,'primary/egg-move',w.turn,i.id)<z.waterMoveChance){
+      }else if(i.species==='tideparasite'&&['shallow','deep'].includes(w.tiles[i.cell].terrain)&&(S.CurrentInfections.enabled(w)?z.waterMoveChance>0:S.r(w,'primary/egg-move',w.turn,i.id)<z.waterMoveChance)){
         const cells=S.nearby(w,i.cell).filter(cell=>['shallow','deep'].includes(w.tiles[cell].terrain)&&S.oneStep(w,i.cell,cell));
         if(z.waterStepRange===2){
           const visited=new Set([i.cell,...cells]),first=cells.slice();
@@ -905,7 +907,7 @@
             visited.add(cell);cells.push(cell);
           }
         }
-        if(cells.length){i.cell=cells[Math.floor(S.r(w,'primary/egg-cell',w.turn,i.id)*cells.length)];eggFlow(w,ctx,'moved');}
+        if(cells.length){if(S.CurrentInfections.enabled(w)){if(S.CurrentInfections.moveEgg(w,i,cells)>0)eggFlow(w,ctx,'moved');}else{i.cell=cells[Math.floor(S.r(w,'primary/egg-cell',w.turn,i.id)*cells.length)];eggFlow(w,ctx,'moved');}}
       }
     }
     w.primaryInocula=w.primaryInocula.filter(i=>i.E>0);
@@ -920,7 +922,9 @@
         if(!S.sight(w,i.cell,cell))continue;
         for(const host of (cellMode(w)?primaryOccupants(w,m,cell):[m.food.get(cell),m.producer?.get(cell)]))if(host&&host.HP>0&&cellLivingHost(w,ctx,host)&&!host.infection&&!occupied.has(host.id)&&S.PrimaryParasite.hostRule(i.species,host,i.route,'terminal').role==='first')targets.set(host.id,host);
       }
-      const host=[...targets.values()].sort((a,b)=>S.hash(w,'primary/egg-attachment',w.turn,i.id,a.id)-S.hash(w,'primary/egg-attachment',w.turn,i.id,b.id)||S.compare(a.id,b.id))[0];
+      const ordered=[...targets.values()].sort((a,b)=>S.hash(w,'primary/egg-attachment',w.turn,i.id,a.id)-S.hash(w,'primary/egg-attachment',w.turn,i.id,b.id)||S.compare(a.id,b.id));
+      if(S.CurrentInfections.enabled(w)){for(const host of ordered){if(i.E<=0)break;const attached=S.CurrentInfections.attachEgg(w,i,host);if(!attached)break;occupied.add(host.id);eggFlow(w,ctx,'attached');primaryEvent(ctx,host,'egg-attached',{species:i.species,egg:attached.id,hatchAt:attached.egg.hatchAt});}continue;}
+      const host=ordered[0];
       if(!host)continue;
       i.hostId=host.id;i.cell=host.cell;i.egg.state='attached';i.egg.attachedAt=w.turn;i.egg.hatchAt=w.turn+w.config.primaryEggSettings.hatchTurns;
       occupied.add(host.id);eggFlow(w,ctx,'attached');primaryEvent(ctx,host,'egg-attached',{species:i.species,egg:i.id,hatchAt:i.egg.hatchAt});
@@ -930,6 +934,7 @@
     if(!primaryEnabled(w))return;
     const state=primaryContext(w,ctx);if(state.begun)return;state.begun=true;
     const settings=S.PrimaryParasite.settings(w);
+    if(S.CurrentInfections.enabled(w))S.CurrentInfections.hydrate(w);
     for(const host of w.organisms)S.PrimaryParasite.beginResistance(w,host);
     // An invasion completed before external expiry gets its one next-turn
     // establishment check; an exposed dose keeps the original external clock.
