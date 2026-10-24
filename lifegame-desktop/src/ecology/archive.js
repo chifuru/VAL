@@ -49,6 +49,9 @@
  const cellAcquireBuildSignature="b76f5c4fd56870ed550f35eb16992be542f747f2adb27f5f49ba35680bf7a19d";
  const cellInformationBuildSignature="219b2a50d6ecf08eb552770f8e26535dbfde144b57751195ebe18757f2a035cf";
  function canonicalSignature(s,config){
+  // CS02 is opt-in. Only the unchanged pre-current-state path may reuse
+  // the previous replay chain; the new biological rules are never aliased.
+  if(config.currentStateModel===undefined&&s==='3b46b3e56ae5d6a05819898eaf2e74179bffa584a7d581ed6803802c91dd7291')s=cellInformationBuildSignature;
   // This lookup-only optimization preserves cell results and keeps the raw
   // saved signature. Earlier changes to biological rules remain distinct.
   if(s===cellInformationBuildSignature)s=cellAcquireBuildSignature;

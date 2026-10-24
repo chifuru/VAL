@@ -1,0 +1,17 @@
+{
+  "baseline": "320a3c453dc0d99555413b95609d7acbf1e2030d",
+  "nodes": 61,
+  "manifestUniqueIds": 61,
+  "manifestFences": 10,
+  "metadataChanges": "references appended only; other metadata preserved",
+  "allFormalStates": "草案",
+  "coreAndABNodesUnchanged": true,
+  "evidenceSourceHashesMatch": true,
+  "uiArtProductVersionUnchanged": true,
+  "generatedModelCheck": {
+    "profiles": 8,
+    "uniqueModules": 23,
+    "bytes": 2057999
+  },
+  "result": "pass"
+}

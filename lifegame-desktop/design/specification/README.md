@@ -1,10 +1,10 @@
 # 生態シミュレーション：現在のA・B仕様
 
-管理版 `specification-index/21`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。寄生生活環の現在正本は[有限群体と宿主通過](parasite-cohorts-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
+管理版 `specification-index/22`。A/Bを読む入口は本書と[採用状況・具体化待ち](decision-register-v1.md)。寄生生活環の現在正本は[有限群体と宿主通過](parasite-cohorts-v1.md)。Node構造は[Project Summary Manifest](../../valis/summary/lifegame-desktop.summary.md)、詳細責務は各Nodeを参照する。採用済みは実装済み・検証済み・Node承認済みを意味しない。
 
-現在状態・情報・土壌・更新対象の正本は [current-state/1](current-state-aggregation-v1.md)。初期値＋a、発信/受信の要約、場所情報の短期集約、死骸由来物と共有要求、観測分離を既存A/B19Nodeへ反映した。比較値/式は採用済みだが未実装・未実測。製品4.2.77、src/tests・画像・UI配置・既定モード・配布は変更していない。
+現在状態・情報・土壌・更新対象の正本は [current-state/1](current-state-aggregation-v1.md)。初期値＋a、発信/受信の要約、場所情報の短期集約、死骸由来物と共有要求、観測分離を既存A/B19Nodeへ反映した。比較値/式は採用済み。CS02の情報集約は内部比較経路へ接続し限定確認した。土壌/要求等の集約と通常画面/保存の全接合・総合性能は後続。製品4.2.77・画像・UI配置・既定モード・配布を維持する。
 
-マス・占有等の未変更部分は [マス再編/1](cell-reorganization-v1.md)、寄生の群体/通過/費用等は [寄生群体](parasite-cohorts-v1.md) を維持する。current-state/1の明示した置換だけを優先し、以前の実装/性能証跡を新仕様の合格へ流用しない。既存C/D接合は [旧対象版契約](../implementation/cell-reorganization-v1.md)、新仕様の接合順は [CS01〜08](../../operations/plans/current-state-optimization-v1.md)。次はC/D接続と情報集約の実装である。
+マス・占有等の未変更部分は [マス再編/1](cell-reorganization-v1.md)、寄生の群体/通過/費用等は [寄生群体](parasite-cohorts-v1.md) を維持する。current-state/1の明示した置換だけを優先し、以前の実装/性能証跡を新仕様の合格へ流用しない。既存C/D接合は [旧対象版契約](../implementation/cell-reorganization-v1.md)、新仕様の接合順は [CS01〜08](../../operations/plans/current-state-optimization-v1.md)。現在の接合は [CS02情報契約](../implementation/current-state-information-v1.md)、限定確認は [証跡](../../operations/evidence/current-state-information-v1/README.md)。次はCS03の土壌/共有要求である。
 
 ## 読む順序と優先順位
 

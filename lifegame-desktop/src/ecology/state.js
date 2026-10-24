@@ -6,12 +6,15 @@
     typeof module === "object" && module.exports
       ? require("./catalogue.js")
       : root.EcoData,
+    typeof module === "object" && module.exports ? require("./current-information.js") : root.EcoCurrentInformation,
     typeof module === "object" && module.exports ? require("./landscape.js") : root.EcoLandscape,
   );
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.EcoState = api;
-})(globalThis, function (H, D, Landscape) {
+})(globalThis, function (H, D, CurrentInformationFactory, Landscape) {
   "use strict";
+  let currentInformation;
+  const behaviorWeights=(w,o)=>currentInformation?.enabled(w)?currentInformation.weights(o):o.weights;
   // CR01: shared state/space contract. Biological progression is connected later.
   const CellSpace=(()=>{
     const VERSION="cell-reorganization/1",AQUATIC="freshwater-comparison/1",limits=Object.freeze({1:6,2:3,3:5,4:5,5:6});
@@ -1482,7 +1485,7 @@ return {settings,attach,region,level,factor,begin,finish};
         learnedPreferences:Array(9).fill(0),eventDedupe:{turn:-1,keys:[]},progressTurn:{turn:-1,maintained:false,relation:false},last:null};
       return o.informationState;
     }
-    function attach(w,o){if(enabled(w))state(o);return o;}
+    function attach(w,o){if(currentInformation?.enabled(w))return currentInformation.attach(w,o);if(enabled(w))state(o);return o;}
     function entries(w){
       if(!enabled(w))return [];
       const out=[],seen=new Set(),push=(subject,kind,host,carrier,cell)=>{if(subject&&!seen.has(subject.id)){seen.add(subject.id);out.push({subject,kind,host,carrier,cell,roles:roles(w,subject)});}};
@@ -1514,7 +1517,7 @@ return {settings,attach,region,level,factor,begin,finish};
         (w.config.ecologyRevision==="observation/4.1"&&spec(o).group==="main"&&!Ryouki.is(o)?.65:1));
     }
     function traits(w,o){return {roles:roles(w,o),sensitivity:H.round(.8+.4*(o.dna?.sensitivity??.5)),maintenance:maintenance(w,o),parents:parents(o)};}
-    function preference(w,o,axis){return enabled(w)&&Number.isInteger(axis)&&axis>=0&&axis<9?H.clamp(o.informationState?.learnedPreferences?.[axis]??0,-20,20):0;}
+    function preference(w,o,axis){if(currentInformation?.enabled(w))return H.clamp(currentInformation.value(o,axis),-20,20);return enabled(w)&&Number.isInteger(axis)&&axis>=0&&axis<9?H.clamp(o.informationState?.learnedPreferences?.[axis]??0,-20,20):0;}
     function benchmark(w,s,role=null){
       const colony=Colony.enabled(w)&&s.group==="plant"&&s.kind!=="independent",queen=s.id==="swarm"&&role==="queen";
       const life=colony?null:s.group==="P"?(PrimaryParasite.enabled(w)?PrimaryParasite.settings(w).life:null):s.group==="Q"?(HyperParasite.enabled(w)?HyperParasite.settings(w).life:null):s.life*(queen?3:1);
@@ -1537,7 +1540,7 @@ return {settings,attach,region,level,factor,begin,finish};
         B=values.length?H.clamp(Math.max(...values),0,1):null,
         C=H.clamp(Math.max(p.relationTurns/b.relationTurns,p.offspringSuccess/b.offspringSuccess),0,1),resolved=[A,B,C].every(Number.isFinite),
         S=resolved?H.round(.4*A+.4*B+.2*C):null;
-      return {resolved,A:A===null?null:H.round(A),B:B===null?null:H.round(B),C:H.round(C),S,pBase:resolved?H.round(.1+.6*S):null,lifetime:resolved?Math.round(100+100*S):null,benchmarks:b};
+      return {resolved,A:A===null?null:H.round(A),B:B===null?null:H.round(B),C:H.round(C),S,pBase:resolved?H.round(.1+.6*S):null,lifetime:resolved?Math.round((currentInformation?.enabled(w)?30:100)*(1+S)):null,benchmarks:b};
     }
     function freshness(component,turn){const t=component.experienceAt??component.lastExperienceAt,h=component.halfLife;return Number.isFinite(t)&&Number.isFinite(h)&&h>0?Math.pow(2,-Math.max(0,turn-t)/h):0;}
     function recordProgress(w,o,event={}){
@@ -1550,6 +1553,7 @@ return {settings,attach,region,level,factor,begin,finish};
       return p;
     }
     function addExperience(w,o,event){
+      if(currentInformation?.enabled(w))return currentInformation.experience(w,o,event);
       if(!enabled(w)||!event||event.received||event.actual===false)return null;
       const a=state(o),z=settings(w),turn=event.turn??w.turn;
       if(!Number.isSafeInteger(turn)||turn<0||turn>w.turn||!Number.isFinite(event.amount)||event.amount<=0||typeof event.result!=="string")return null;
@@ -1572,14 +1576,17 @@ return {settings,attach,region,level,factor,begin,finish};
     function snapshot(w,entry,extra={}){
       const o=entry.subject??entry,cell=entry.cell??o.cell;
       return {id:o.id,species:o.species,cell,roles:roles(w,o),roleDefinition:settings(w).roleDefinition,parents:parents(o),informationState:structuredClone(o.informationState??null),
+        ...(currentInformation?.enabled(w)?{initialWeights:currentInformation.base(o).slice(),currentWeights:currentInformation.weights(o),qInformation:structuredClone(o.qInformation??null)}:{}),
         evaluation:structuredClone(evaluate(w,o)),hyperTraces:structuredClone(o.hyperTraces??[]),...structuredClone(extra)};
     }
     function initialize(w){
+      if(currentInformation?.enabled(w))return currentInformation.initialize(w);
       if(!enabled(w))return;
       w.config.informationBenchmarks=benchmarks(w);w.informationField=[];w.informationLedger={initialAmount:0,generatedAmount:0,inactivatedAmount:0};
       for(const {subject}of entries(w))attach(w,subject);w.persistentInformationSummary=summary(w);
     }
     function summary(w){
+      if(currentInformation?.enabled(w))return currentInformation.summary(w);
       if(!enabled(w))return;
       const actors=entries(w),out={definition:"persistent-information-observed/1",turn:w.turn,subjects:actors.length,experiencedSubjects:0,holdingSubjects:0,ownSummaries:0,learnedOrigins:0,
         field:{records:0,cells:0,origins:0,contents:0,amount:0},ledger:{...w.informationLedger,remainingAmount:0}};
@@ -1588,6 +1595,7 @@ return {settings,attach,region,level,factor,begin,finish};
       out.field.cells=cells.size;out.field.origins=origins.size;out.field.amount=H.round(out.field.amount);out.ledger.remainingAmount=out.field.amount;return out;
     }
     function validate(w){
+      if(currentInformation?.enabled(w))return currentInformation.validate(w);
       if(!enabled(w))return [];
       const errors=[],z=settings(w),nonnegative=n=>typeof n==="number"&&Number.isFinite(n)&&n>=0,vector=v=>Array.isArray(v)&&v.length<=9&&new Set(v.map(a=>a.axis)).size===v.length&&v.every(a=>Number.isInteger(a.axis)&&a.axis>=0&&a.axis<9&&Number.isFinite(a.value)),cells=new Map(),ids=new Set();
       if(!Array.isArray(w.informationField)||!w.informationLedger)errors.push("INFORMATION_WORLD");
@@ -1960,6 +1968,7 @@ return {settings,attach,region,level,factor,begin,finish};
       if(c.primaryParasiteModel!=='primary/1'||c.parasiteDispersalModel!=='fanout/1')throw Error('SETTINGS_INVALID: 一次寄生卵には一次寄生/分散モデルが必要です');
       c.primaryEggSettings=PrimaryParasite.eggParameters(c.primaryEggSettings);
     }else if(c.primaryEggSettings!==undefined)throw Error('SETTINGS_INVALID: 一次寄生卵モデルの指定が必要です');
+    if(c.currentStateModel!==undefined&&(c.currentStateModel!=="current-state/1"||c.informationModel!=="persistent/1"||c.cellModel!=="cell-reorganization/1"))throw Error("SETTINGS_INVALID: 現在状態比較モデル");
     if(c.informationModel!==undefined&&c.informationModel!=="persistent/1")throw Error("SETTINGS_INVALID: 持続情報モデル");
     if(c.informationModel==="persistent/1")c.informationSettings=PersistentInformation.parameters(c.informationSettings);
     else if(c.informationSettings!==undefined)throw Error("SETTINGS_INVALID: 持続情報モデルの指定が必要です");
@@ -2983,8 +2992,9 @@ return {settings,attach,region,level,factor,begin,finish};
     if (!ctx.events.has(o.id)) ctx.events.set(o.id, []);
     ctx.events.get(o.id).push({ id: o.id, type, cell: o.cell, ...extra });
   }
-  return {
+  const api = {
     ...H,
+    behaviorWeights,
     D,
     ProducerSupport,
     Colony,
@@ -3043,4 +3053,6 @@ return {settings,attach,region,level,factor,begin,finish};
     ParasiteCohort,
     record,
   };
+  currentInformation=CurrentInformationFactory.bind(api);api.CurrentInformation=currentInformation;
+  return api;
 });

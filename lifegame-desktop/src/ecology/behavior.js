@@ -682,7 +682,7 @@
       })
     )
       features[0] += 0.1;
-    const weights = o.weights.slice();
+    const weights = S.behaviorWeights(w,o).slice();
     if (middle) {
       if (p.species === "tideparasite") {
         weights[6] += 3 * scale;
@@ -747,7 +747,7 @@
       S.distance(w, here, target.cell) <= 1
     )
       score += 0.1 * hunger;
-    if(c.type === "groom") score += 0.3 + 0.4*(o.weights[4]/100);
+    if(c.type === "groom") score += 0.3 + 0.4*(S.behaviorWeights(w,o)[4]/100);
     if(isRyouki(w,o)){
       const known=cell=>o.ryouki.recentCells.some(a=>a.cell===cell),foodCell=target?.cell??to,
         foodDistance=S.distance(w,here,foodCell);
@@ -1256,7 +1256,8 @@
           rec.contacted = true;
         }
       }
-      o.weights = o.weights.map((v, i) =>
+      if(S.CurrentInformation.enabled(w))S.CurrentInformation.adjust(o,delta.map(n=>S.clamp(n,-2,2)));
+      else o.weights = o.weights.map((v, i) =>
         S.clamp(v + S.clamp(delta[i], -2, 2), 0, 100),
       );
       for (const event of S.PersistentInformation?.enabled(w)?[]:rec.information) {
@@ -1292,6 +1293,9 @@
         }
         (ctx.infoEffects??=[]).push({recipient:o.id,species:o.species,event:{id:event.id,sourceId:event.sourceId,time:event.time,mediated:!!event.mediator,noise:!!event.noise},deltaAbs});
       }
+      if(S.CurrentInformation.enabled(w)){
+        if(w.turn%10===0)S.CurrentInformation.adjust(o,S.behaviorWeights(w,o).map((v,i)=>Math.sign(o.birthWeights[i]-v)*Math.min(1,Math.abs(o.birthWeights[i]-v))));
+      }else{
       if (w.turn % 10 === 0)
         o.weights = o.weights.map(
           (v, i) =>
@@ -1300,6 +1304,7 @@
               Math.min(1, Math.abs(o.birthWeights[i] - v)),
         );
       o.weights = o.weights.map(S.round);
+      }
       if (o.pendingMove && o.pendingMove.expires <= w.turn)
         o.pendingMove = null;
     }

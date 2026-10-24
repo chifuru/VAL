@@ -1,0 +1,41 @@
+{
+  "definition": "current-state-information-evidence/1",
+  "baseline": "320a3c453dc0d99555413b95609d7acbf1e2030d",
+  "productVersion": "4.2.77",
+  "signature": "3b46b3e56ae5d6a05819898eaf2e74179bffa584a7d581ed6803802c91dd7291",
+  "path": "explicit currentStateModel=current-state/1; internal comparison only",
+  "checks": {
+    "current.log": 15,
+    "legacy-information.log": 26,
+    "flow.log": 4,
+    "turns.log": 7
+  },
+  "totalTests": 52,
+  "currentStateRunTurns": 3,
+  "legacyParityConditions": 3,
+  "legacyParityTurns": 2,
+  "sourceGeneratedParity": true,
+  "defaultModeChanged": false,
+  "newStateArchive": "explicitly blocked pending CS07",
+  "newStateAliasesOldRules": false,
+  "fullCurrentStateWorkerUIArchiveConnected": false,
+  "natural500TMeasured": false,
+  "performanceMeasured": false,
+  "windowsMeasured": false,
+  "sha256": {
+    "src/ecology/current-information.js": "68a07452b132989ad443628a1b3570a6e84c63de8b505d620e75fbf4873a3a5e",
+    "src/ecology/state.js": "61e2370620b96e8a38a6e091101c459507d014f1ac20ac02ffd96d7fea7b98c9",
+    "src/ecology/behavior.js": "d5d19d38b2f08f59bc61f016ebdd03b2488f60ff5fb6901ffc5d0b54ab7dd98e",
+    "src/ecology/reproduction.js": "4dd4d29bdac8526884a943c8672217469fccec5cf495dfe1ea47e4b99e3e33f9",
+    "src/ecology/parasites.js": "74bacc25f18cd8d183c63f7b9082ade5d194c5e82e12e38dd2db883aa835e208",
+    "src/ecology/observation-modules.js": "c04798d4c2b4c547d675274b1dc409d63a5cc618c34be93f8f86214d7caa5aa8",
+    "src/ecology/replay-version.js": "8c99a069ea1da3a8c0bc1483e90347dcc2f636d6f5d59aad60e715098efdcdee",
+    "src/ecology/compute-worker.js": "b007e678e6c91c6d04974bd354dbbd8b12a04708f3b0f2edd2b4f0dd96bfa871",
+    "src/ecology/archive.js": "d0f20c39063e4aa44d9f1c9923ed4e9493e543cb2def2d89608fb3df671bb48b",
+    "src/ecology/cell-archive.js": "66e78e6f9903578e4ec7e19bd8e0b2a436130a9dce16dde2feec5d215294906b",
+    "tools/build-observation-model.cjs": "48174b08d0abda87124ca2cf78684f22553ef2ae8f8d799e296f4dcf084bc80f",
+    "tools/update-replay-version.cjs": "af763dd984809e10e35a716f8ef165dd57c0637336c7efda49a03a4dd22aa4fb",
+    "tests/current-information.test.cjs": "93ee0c3706e5199bd44b7a6573725b79cc33b6889441abe3939c0be101396c05",
+    "tests/current-information-legacy-parity.cjs": "be9ed156d9909a629a089891a6281382f25f7b376c921877fe55610e9812623f"
+  }
+}

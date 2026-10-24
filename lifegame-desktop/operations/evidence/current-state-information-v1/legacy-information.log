@@ -1,0 +1,166 @@
+TAP version 13
+# Subtest: persistent information is explicit, initially empty and non-nutritional without converting legacy information
+ok 1 - persistent information is explicit, initially empty and non-nutritional without converting legacy information
+  ---
+  duration_ms: 205.312259
+  type: 'test'
+  ...
+# Subtest: holding eligibility counts actual content-specific outcomes on distinct turns without same-peer or received duplication
+ok 2 - holding eligibility counts actual content-specific outcomes on distinct turns without same-peer or received duplication
+  ---
+  duration_ms: 3.618268
+  type: 'test'
+  ...
+# Subtest: each content and context keeps its own same-peer outcome rather than borrowing another summary's evidence
+ok 3 - each content and context keeps its own same-peer outcome rather than borrowing another summary's evidence
+  ---
+  duration_ms: 2.545153
+  type: 'test'
+  ...
+# Subtest: role-specific evaluation uses fixed bounded benchmarks rather than age, population rank or summed omnivore roles
+ok 4 - role-specific evaluation uses fixed bounded benchmarks rather than age, population rank or summed omnivore roles
+  ---
+  duration_ms: 2.590921
+  type: 'test'
+  ...
+# Subtest: experience and learned-state capacities are finite and do not turn accepted information into owned outcomes
+ok 5 - experience and learned-state capacities are finite and do not turn accepted information into owned outcomes
+  ---
+  duration_ms: 2.656018
+  type: 'test'
+  ...
+# Subtest: content freshness uses the original experience clock with smooth independent half-lives
+ok 6 - content freshness uses the original experience clock with smooth independent half-lives
+  ---
+  duration_ms: 0.181409
+  type: 'test'
+  ...
+# Subtest: roles are fixed ecological sets for mixed diets and P or Q never inherit their physical host's role
+ok 7 - roles are fixed ecological sets for mixed diets and P or Q never inherit their physical host's role
+  ---
+  duration_ms: 3.480063
+  type: 'test'
+  ...
+# Subtest: maintained time and real relation time count once per turn while elapsed age alone supplies no role outcome
+ok 8 - maintained time and real relation time count once per turn while elapsed age alone supplies no role outcome
+  ---
+  duration_ms: 15.434322
+  type: 'test'
+  ...
+# Subtest: environment reading is nonconsuming, pays finite upkeep once and cannot become owned experience or repeat learning
+ok 9 - environment reading is nonconsuming, pays finite upkeep once and cannot become owned experience or repeat learning
+  ---
+  duration_ms: 6.544908
+  type: 'test'
+  ...
+# Subtest: one origin with two contents pays once and leaves room for one more origin across the shared reception limit
+ok 10 - one origin with two contents pays once and leaves room for one more origin across the shared reception limit
+  ---
+  duration_ms: 3.077334
+  type: 'test'
+  ...
+# Subtest: ordinary live transmission is quarter-strength while only a local actual parent or caregiver reaches a juvenile at full strength
+ok 11 - ordinary live transmission is quarter-strength while only a local actual parent or caregiver reaches a juvenile at full strength
+  ---
+  duration_ms: 10.833824
+  type: 'test'
+  ...
+# Subtest: k zero preserves real reads and fees while preventing both learning and place stimulation
+ok 12 - k zero preserves real reads and fees while preventing both learning and place stimulation
+  ---
+  duration_ms: 4.170178
+  type: 'test'
+  ...
+# Subtest: low evidence halves a content's initial learning effect once without consuming or shortening its information
+ok 13 - low evidence halves a content's initial learning effect once without consuming or shortening its information
+  ---
+  duration_ms: 3.947478
+  type: 'test'
+  ...
+# Subtest: content scopes are independent inside a bundle and overlapping receiver roles never multiply one content
+ok 14 - content scopes are independent inside a bundle and overlapping receiver roles never multiply one content
+  ---
+  duration_ms: 5.734614
+  type: 'test'
+  ...
+# Subtest: an unfunded receiver cannot borrow future nutrition and a full cache preserves all active dedup records
+ok 15 - an unfunded receiver cannot borrow future nutrition and a full cache preserves all active dedup records
+  ---
+  duration_ms: 6.189039
+  type: 'test'
+  ...
+# Subtest: information diffusion moves one synchronous neighboring twenty-percent budget without copying mass or clocks
+ok 16 - information diffusion moves one synchronous neighboring twenty-percent budget without copying mass or clocks
+  ---
+  duration_ms: 1.933735
+  type: 'test'
+  ...
+# Subtest: cell capacity and microscopic or expired amounts are lost explicitly while surviving origins retain separate metadata
+ok 17 - cell capacity and microscopic or expired amounts are lost explicitly while surviving origins retain separate metadata
+  ---
+  duration_ms: 3.749133
+  type: 'test'
+  ...
+# Subtest: nearby concentration counts fragmented origins once, stays bounded and keeps attraction separate from warning
+ok 18 - nearby concentration counts fragmented origins once, stays bounded and keeps attraction separate from warning
+  ---
+  duration_ms: 5.661545
+  type: 'test'
+  ...
+# Subtest: death uses its own three-outcome two-turn threshold and one draw for normal, low or no generation
+ok 19 - death uses its own three-outcome two-turn threshold and one draw for normal, low or no generation
+  ---
+  duration_ms: 14.204874
+  type: 'test'
+  ...
+# Subtest: only an actual harmful outcome supplies the forty-percent normal-generation floor, including at k zero
+ok 20 - only an actual harmful outcome supplies the forty-percent normal-generation floor, including at k zero
+  ---
+  duration_ms: 4.026976
+  type: 'test'
+  ...
+# Subtest: a living summary and its death bundle share dedup identity and the original experience clock
+ok 21 - a living summary and its death bundle share dedup identity and the original experience clock
+  ---
+  duration_ms: 2.384264
+  type: 'test'
+  ...
+# Subtest: newly generated information is unavailable during that turn and becomes readable only at the next resource phase
+ok 22 - newly generated information is unavailable during that turn and becomes readable only at the next resource phase
+  ---
+  duration_ms: 4.946002
+  type: 'test'
+  ...
+# Subtest: Q information traces require an actual finite payment and death processing does not charge that payment again
+ok 23 - Q information traces require an actual finite payment and death processing does not charge that payment again
+  ---
+  duration_ms: 23.3447
+  type: 'test'
+  ...
+# Subtest: Q traces combine as a bounded weighted mean, decay from detachment and leave fixed generated contents unchanged
+ok 24 - Q traces combine as a bounded weighted mean, decay from detachment and leave fixed generated contents unchanged
+  ---
+  duration_ms: 15.704272
+  type: 'test'
+  ...
+# Subtest: place information changes an actual legal movement choice and candidate inspection alone does not count as use
+ok 25 - place information changes an actual legal movement choice and candidate inspection alone does not count as use
+  ---
+  duration_ms: 12.89014
+  type: 'test'
+  ...
+# Subtest: whole-turn and three committed phases reproduce the same coupled information world with finite budgets
+ok 26 - whole-turn and three committed phases reproduce the same coupled information world with finite budgets
+  ---
+  duration_ms: 985.102969
+  type: 'test'
+  ...
+1..26
+# tests 26
+# suites 0
+# pass 26
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1361.161963

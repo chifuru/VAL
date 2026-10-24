@@ -21,6 +21,7 @@
  }
  function validate(record,engine,O){
   const c=record?.config,S=engine.S;
+  if(c?.currentStateModel!==undefined)throw Error('CURRENT_STATE_ARCHIVE_UNCONNECTED: 現在状態の内部比較は、観測・図鑑形式の接合前です。');
   if(record?.schema!==3||c?.cellModel!==model||c.generationModel!=='diverse/1'||typeof record.id!=='string'||!record.id.startsWith('record:')||
    typeof record.signature!=='string'||!record.signature||!integer(record.turn)||typeof record.reason!=='string'||typeof record.created!=='string'||!Number.isFinite(Date.parse(record.created))||
    !/^[a-f0-9]{64}$/.test(record.finalFingerprint)||record.hasObservations!==true||!(record.originRecordId===null||typeof record.originRecordId==='string'))fail();
@@ -71,6 +72,7 @@
   return record;
  }
  function capture(world,reason,observation,{engine,signature,originRecordId=null,terminalState,O}){
+  if(world.config.currentStateModel!==undefined)throw Error('CURRENT_STATE_ARCHIVE_UNCONNECTED: 現在状態の内部比較は、観測・図鑑形式の接合前です。');
   if(world.config.cellModel!==model||world.config.generationModel!=='diverse/1'||!world.config.generationResolved)throw Error('CELL_MODEL_INCOMPLETE: 保存に必要なマス方式の初期生成記録が揃っていません。');
   finite(world);if(engine.invariants(copy(world)).length)fail();
   const last=observation?.rows?.at(-1);if(!last||last.turn!==world.turn)fail();

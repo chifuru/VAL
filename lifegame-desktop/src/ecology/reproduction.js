@@ -556,6 +556,7 @@
         ),
       );
       o.weights = o.birthWeights.slice();
+      S.PersistentInformation.attach(w,o);
     }
     if(independent){
       for(const axis of S.DNA){const mutation=S.r(w,"independent/inherited-mutation",w.turn,id,axis)<.1?(S.r(w,"independent/inherited-step",w.turn,id,axis)<.5?-.05:.05):0;o.dna[axis]=S.round(S.clamp(mother.dna[axis]+mutation,0,1));}

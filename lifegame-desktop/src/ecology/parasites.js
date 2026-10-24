@@ -44,10 +44,11 @@
   const informationEnabled=w=>S.PersistentInformation?.enabled(w)===true;
   const survivalEnabled=w=>["survival/1","survival/2","survival/3","survival/4"].includes(w?.config?.balanceModel);
   const informationKeys=["ownExperiences","holdingQualified","deathDecisions","candidateDeaths","normalGenerated","lowGenerated","noGeneration","generatedAmount","expiredAmount","capacityLostAmount","microLostAmount","movedAmount","originsRead","contentsRead","rejectedScope","rejectedContext","rejectedBudget","deduplicated","learned","learningDeltaAbs","placeApplications","placeMagnitude","receptionCostE","qPromoted","qDistorted","environmentRead","ordinaryRead","caregiverRead"];
-  function emptyInformationFlow(w){return {definition:"persistent-information-flow/1",turn:w.turn,all:Object.fromEntries(informationKeys.map(key=>[key,0]))};}
+  function emptyInformationFlow(w){return {definition:S.CurrentInformation.enabled(w)?"current-information-flow/1":"persistent-information-flow/1",turn:w.turn,all:Object.fromEntries(informationKeys.map(key=>[key,0]))};}
   function informationFlow(w,ctx,key,n=1){ctx.persistentInformationFlow??=emptyInformationFlow(w);const a=ctx.persistentInformationFlow.all;a[key]=S.round(a[key]+n);}
   function informationHostFactor(w,subject,species){
     if(!informationEnabled(w)||S.PersistentInformation.settings(w).influence===0)return 1;
+    if(S.CurrentInformation.enabled(w))return 1+S.CurrentInformation.hostPreference(subject,species)/200;
     return 1+S.clamp(subject.informationState?.hostPreferences?.[species]||0,-20,20)/200;
   }
   function informationAllocation(w,subject,axis){
@@ -219,6 +220,7 @@
     }
   }
   function informationBegin(w,ctx){
+    if(S.CurrentInformation.enabled(w)){informationTrack(w,ctx);return S.CurrentInformation.begin(w,ctx);}
     if(!informationEnabled(w)||ctx.informationBegun)return;ctx.informationBegun=true;
     ctx.persistentInformationFlow??=emptyInformationFlow(w);informationTrack(w,ctx);informationDiffuse(w,ctx);informationBundleIndex(w,ctx);
     // Valid only during this fixed-position receive pass, never the next turn.
@@ -226,6 +228,7 @@
     for(const entry of S.PersistentInformation.entries(w))informationReceive(w,ctx,entry,cache);
   }
   function informationPlace(w,ctx,subject,cell){
+    if(S.CurrentInformation.enabled(w))return S.CurrentInformation.place(w,ctx,subject,cell);
     const none={attraction:0,warning:0,value:0,origins:[]};
     if(!informationEnabled(w)||!ctx.informationIndex||!w.tiles[cell])return none;
     const z=S.PersistentInformation.settings(w);if(z.influence===0)return none;
@@ -273,6 +276,7 @@
     const o=entry.subject,item=S.PersistentInformation.addExperience(w,o,event);if(item)informationFlow(w,ctx,"ownExperiences");return item;
   }
   function informationTraceEffects(w,subject){
+    if(S.CurrentInformation.enabled(w))return S.CurrentInformation.traceEffects(w,subject);
     const z=S.PersistentInformation.settings(w);if(z.qEffects===false)return {promotion:0,traces:[],vectors:Array(9).fill(0)};
     const traces=(subject.hyperTraces||[]).filter(t=>t.detachedAt===null||w.turn-t.detachedAt<z.traceLifetime),sum=traces.reduce((n,t)=>n+Math.max(0,t.strength),0),vectors=Array(9).fill(0);let promotion=0;
     for(const t of traces){const decay=t.detachedAt===null?1:Math.pow(.5,Math.max(0,w.turn-t.detachedAt)/z.traceHalfLife),weight=sum>0?t.strength/sum:0;
@@ -280,6 +284,7 @@
     return {promotion:S.round(Math.min(.10,promotion)),vectors:vectors.map(n=>S.round(S.clamp(n,-.20,.20))),traces:traces.map(t=>({qId:t.qId,pId:t.pId,sourceId:t.sourceId,updatedAt:t.updatedAt,detachedAt:t.detachedAt,paidE:t.paidE}))};
   }
   function informationGenerate(w,ctx,entry,details={}){
+    if(S.CurrentInformation.enabled(w))return S.CurrentInformation.generate(w,ctx,entry,details);
     const o=entry.subject,a=S.PersistentInformation.state(o),z=S.PersistentInformation.settings(w);if(a.deathDecision)return a.deathDecision;
     const evaluation=S.PersistentInformation.evaluate(w,o),all=a.experience||[],normal=all.filter(c=>c.confirmedHarm||c.count>=z.normalCount&&c.distinctTurns>=z.normalTurns),low=all.filter(c=>!normal.includes(c)&&c.count>0),
       harm=normal.some(c=>c.confirmedHarm),effects=informationTraceEffects(w,o),base=normal.length?(evaluation.resolved?evaluation.pBase:0):0,
@@ -334,7 +339,7 @@
         if(progress>0){note("parasitism",progress,[{axis:2,value:1}],{peerId:o.hostId,peerSpecies:peerSpecies(o.hostId)});roleAmounts.Q=progress;relation=true;}
       }
       S.PersistentInformation.recordProgress(w,o,{maintained,roleAmounts,relation});
-      const a=S.PersistentInformation.state(o),count=a.experience.filter(c=>S.PersistentInformation.qualified(w,c)).length;
+      const a=S.PersistentInformation.state(o),count=(S.CurrentInformation.enabled(w)?S.CurrentInformation.components(o).filter(S.CurrentInformation.qualified):a.experience.filter(c=>S.PersistentInformation.qualified(w,c))).length;
       if(count>(a.holdingCount||0)){informationFlow(w,ctx,"holdingQualified",count-(a.holdingCount||0));}a.holdingCount=count;
     }
     for(const entry of alive.values()){
@@ -356,7 +361,7 @@
     }
     const explicit=ctx.informationDeaths||new Map();
     for(const [id,entry]of subjects)if(!alive.has(id)||explicit.has(id))informationGenerate(w,ctx,entry,explicit.get(id));
-    w.informationField=informationCapacity(w,ctx,w.informationField);w.persistentInformationSummary=S.PersistentInformation.summary(w);
+    w.informationField=S.CurrentInformation.enabled(w)?S.CurrentInformation.compact(w,ctx,w.informationField):informationCapacity(w,ctx,w.informationField);w.persistentInformationSummary=S.PersistentInformation.summary(w);
   }
   const hyperFlowKeys=["exposures","invasionAttempts","invaded","established","cleared","emergenceAttempts","emergenceFailed","emerged","eggsLaid","offspringEstablished","fedE","moved","preyed","maintenanceE","developmentE","metaE","informationE","emergenceE","movementE","laidE"];
   function emptyHyperFlow(w) {
@@ -383,11 +388,13 @@
     const paid=S.round(Math.min(q.E,Math.max(0,cost)));q.E=S.round(q.E-paid);S.dissipate(w,paid);return paid;
   }
   function hyperDetachTraces(w,host,p,q,hostOnly=false) {
+    if(S.CurrentInformation.enabled(w))return S.CurrentInformation.detach(w,host,p,q,hostOnly);
     if(!hyperEnabled(w)||!S.HyperParasite.is(q))return;
     for(const holder of hostOnly?[host]:[host,p])for(const trace of holder?.hyperTraces||[])
       if(trace.qId===q.id&&trace.detachedAt===null)trace.detachedAt=w.turn;
   }
   function hyperTrace(w,host,p,q,paid) {
+    if(S.CurrentInformation.enabled(w))return S.CurrentInformation.trace(w,host,p,q,paid);
     if(paid<=0)return;
     const z=S.HyperParasite.settings(w),phase=q.phase,ratio=S.clamp(paid/z.informationCosts[phase],0,1),
       investment=q.hyper.genes.investment, promotion=z.promotionCaps[phase]*ratio*investment.promotion,
@@ -1145,6 +1152,7 @@
   function hostDeath(w,ctx,host,carcass) {
     if(!primaryEnabled(w))return false;
     const settings=S.PrimaryParasite.settings(w);
+    if(S.CurrentInformation.enabled(w)&&host.infection?.q)S.CurrentInformation.detach(w,host,host.infection,host.infection.q,true);
     if(hyperEnabled(w)&&host.hyperTraces?.length){
       // Death freezes the old source's paid trace; a surviving P in a carcass
       // is a different holder, not continued remote investment into dead H.
