@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: favorable waterbug founders assign their capped body to cohorts exactly once
+ok 1 - favorable waterbug founders assign their capped body to cohorts exactly once
+  ---
+  duration_ms: 1257.594814
+  type: 'test'
+  ...
+# Subtest: three stages preserve kernel order, original state and source/generated/atomic outcomes with actual decisions
+ok 2 - three stages preserve kernel order, original state and source/generated/atomic outcomes with actual decisions
+  ---
+  duration_ms: 7142.904831
+  type: 'test'
+  ...
+# Subtest: cancelling either partial phase discards material and mutation changes and permits an exact restart
+ok 3 - cancelling either partial phase discards material and mutation changes and permits an exact restart
+  ---
+  duration_ms: 2413.811575
+  type: 'test'
+  ...
+# Subtest: unresolved water and invalid cell stocks fail privately without guessed values or a mutated committed world
+ok 4 - unresolved water and invalid cell stocks fail privately without guessed values or a mutated committed world
+  ---
+  duration_ms: 695.306688
+  type: 'test'
+  ...
+# Subtest: Worker batch, streamed phases and final-only frames reconstruct the same three committed turns
+ok 5 - Worker batch, streamed phases and final-only frames reconstruct the same three committed turns
+  ---
+  duration_ms: 5620.545552
+  type: 'test'
+  ...
+# Subtest: normal decision turns preserve full observations through archive and replay from resolved conditions
+ok 6 - normal decision turns preserve full observations through archive and replay from resolved conditions
+  ---
+  duration_ms: 1020.491436
+  type: 'test'
+  ...
+# Subtest: the checkpoint boundary stops at 500 and continues by one turn without simulating 500 turns
+ok 7 - the checkpoint boundary stops at 500 and continues by one turn without simulating 500 turns
+  ---
+  duration_ms: 548.497913
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 18729.423513

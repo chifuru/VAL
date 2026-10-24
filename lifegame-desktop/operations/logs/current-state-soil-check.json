@@ -1,0 +1,13 @@
+{
+  "baseline": "383fd48e72dda4e57d055417c71830f65bb987da",
+  "nodes": 61,
+  "manifestFences": 10,
+  "formalStatesAndGraphUnchanged": true,
+  "metadataOnlyAppendsReferences": true,
+  "coreABNodesAndUIArtProductVersionUnchanged": true,
+  "evidenceSourceHashesMatch": true,
+  "generatedProfiles": 8,
+  "generatedUniqueModules": 24,
+  "generatedBytes": 2077784,
+  "result": "pass"
+}

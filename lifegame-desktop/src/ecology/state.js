@@ -7,13 +7,14 @@
       ? require("./catalogue.js")
       : root.EcoData,
     typeof module === "object" && module.exports ? require("./current-information.js") : root.EcoCurrentInformation,
+    typeof module === "object" && module.exports ? require("./soil-matter.js") : root.EcoSoilMatter,
     typeof module === "object" && module.exports ? require("./landscape.js") : root.EcoLandscape,
   );
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.EcoState = api;
-})(globalThis, function (H, D, CurrentInformationFactory, Landscape) {
+})(globalThis, function (H, D, CurrentInformationFactory, SoilMatterFactory, Landscape) {
   "use strict";
-  let currentInformation;
+  let currentInformation,soilMatter;
   const behaviorWeights=(w,o)=>currentInformation?.enabled(w)?currentInformation.weights(o):o.weights;
   // CR01: shared state/space contract. Biological progression is connected later.
   const CellSpace=(()=>{
@@ -123,7 +124,9 @@
         const [x,y]=points[i-1],[u,v]=points[i];return H.round(y+(v-y)*(value-x)/(u-x));}
       return points.at(-1)[1];
     }
-    function deferMaterial(w,cell,{E=0,M=0,B=0,kind="organic"}){
+    function deferMaterial(w,cell,material){
+      if(soilMatter?.enabled(w))return soilMatter.defer(w,cell,material);
+      const {E=0,M=0,B=0,kind="organic"}=material;
       if(!enabled(w)||!w.tiles[cell]||![E,M,B].every(n=>Number.isFinite(n)&&n>=0)||B>E||
         !["organic","mineral"].includes(kind)||(kind==="mineral"&&(E!==0||B!==0)))throw Error("CELL_MATERIAL_INVALID");
       if(!(E||M||B))return null;
@@ -154,6 +157,7 @@
       w.cellProfiles={version:VERSION,profiles};
       w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?(p.aquaticProfile===AQUATIC?32:null):15),
         decayLoad:profiles.map(()=>0),nextMaterial:[],organic:[],resourceTurn:0,backgroundTurn:0};
+      if(soilMatter?.enabled(w))soilMatter.initialize(w);
       for(let cell=0;cell<w.tiles.length;cell++)if(profiles[cell].mineralInitial!==null)w.tiles[cell].soilM=profiles[cell].mineralInitial;
       for(const o of w.organisms)CellLife.attach(w,o);
       const cells=new Map();
@@ -222,6 +226,7 @@
       const organicIds=new Set();for(const r of a.organic){
         if(!r||typeof r.id!=="string"||organicIds.has(r.id)||!Number.isSafeInteger(r.cell)||!w.tiles[r.cell]||![r.E,r.M,r.B].every(finite)||r.B>r.E)errors.push("CELL_ORGANIC");
         organicIds.add(r?.id);}
+      if(soilMatter?.enabled(w))errors.push(...soilMatter.validate(w));
       return errors;
     }
     return {VERSION,limits,enabled,settings,layer,index,room,assign,founders,population,release,initialize,stock,summary,validate,deferMaterial};
@@ -1793,6 +1798,7 @@ return {settings,attach,region,level,factor,begin,finish};
       carcasses.get(a.cell).push(a);
     }
     const result=(()=>{return { main, food, byId, resources, carcasses };})();
+    if(soilMatter?.enabled(w))result.soil=soilMatter.index(w);
     if(CellSpace.enabled(w)){
       result.cellSpace=cellSpace||CellSpace.index(w);
       result.mainByCell=new Map([...result.cellSpace].filter(([,rows])=>rows[4].length).map(([cell,rows])=>[cell,rows[4]]));
@@ -2397,6 +2403,7 @@ return {settings,attach,region,level,factor,begin,finish};
     if(HyperParasite.enabled(w))for(const i of w.hyperInocula||[])E+=i.E;
     for (const t of w.tiles) M += t.soilM;
     if(CellSpace.enabled(w))for(const material of [...w.cellState.nextMaterial,...w.cellState.organic]){E+=material.E;M+=material.M;}
+    if(soilMatter?.enabled(w)){for(const row of w.cellState.soil.fresh){E+=row.E;M+=row.M;}for(const row of w.cellState.soil.waiting)M+=row.M;}
     return { E: H.round(E), M: H.round(M) };
   }
   function addSoil(w, cell, m) {
@@ -3054,5 +3061,6 @@ return {settings,attach,region,level,factor,begin,finish};
     record,
   };
   currentInformation=CurrentInformationFactory.bind(api);api.CurrentInformation=currentInformation;
+  soilMatter=SoilMatterFactory.bind(api);api.SoilMatter=soilMatter;
   return api;
 });

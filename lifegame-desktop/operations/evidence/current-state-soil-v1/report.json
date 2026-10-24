@@ -1,0 +1,46 @@
+{
+  "definition": "current-state-soil-evidence/1",
+  "baseline": "383fd48e72dda4e57d055417c71830f65bb987da",
+  "signature": "f56d08f2c07ba4174f5b902d69c7781d47ad8dbf9f1d514598d36fb443a142fd",
+  "productVersion": "4.2.77",
+  "path": "explicit currentStateModel=current-state/1; internal comparison only",
+  "checks": {
+    "soil.log": 17,
+    "related.log": 56,
+    "turns.log": 7
+  },
+  "totalTests": 80,
+  "structuralFixtures": {
+    "deathRecords": 2000,
+    "freshPoolsAfterAggregation": 1,
+    "fungusRequestsFor1Death": 1,
+    "fungusRequestsFor1000Deaths": 1
+  },
+  "sourceGeneratedEqualTurns": 4,
+  "generatedNaturalRunTurns": 12,
+  "legacyParityConditions": 3,
+  "legacyParityTurns": 2,
+  "newStateArchive": "blocked pending CS07",
+  "newBiologicalRulesAliasedToOld": false,
+  "defaultModeChanged": false,
+  "fullUIObservationArchiveConnected": false,
+  "natural500TMeasured": false,
+  "globalPerformanceMeasured": false,
+  "windowsMeasured": false,
+  "sha256": {
+    "src/ecology/soil-matter.js": "df93a14cfb4d3e3fa12e25a7e33b26ebb62af2e2b09a6cb04689b6c17a5d5384",
+    "src/ecology/state.js": "66c114c54d9f5f42acbbf994e4fc0629c8358ee700c6c54b079778b3d7081b45",
+    "src/ecology/nutrition.js": "955263f712dcca272c66f6087ac70547614132c23477c18add7637f78febcb19",
+    "src/ecology/behavior.js": "9b21a05839dbd0903a75e8b20c04eec0df907b8fcd5cdddb07041db77346729a",
+    "src/ecology/parasites.js": "25183ba71e106a61bc73626e6df0dcf6b9a36484a00fa204181653ec3fe62790",
+    "src/ecology/engine.js": "b3afc20c2baa9096a0d1daab56e42923fbfc4ecef13ceff1d793e7aabd91396a",
+    "src/ecology/observation-modules.js": "3dc63226e091c7fa53102bc8579e9010357af60a2da4c8671e096d03dc622e60",
+    "src/ecology/replay-version.js": "69686d444be2de9cbd38ca618735d3cd1a0436b485f6517d9eed9fc1c53fa666",
+    "src/ecology/compute-worker.js": "87f3fb7b4341034ce3e97f19f1124a080ce3fe9c242cb07eaba639ceb08b162a",
+    "src/ecology/archive.js": "bd5d53e5f67848c9b6ada5c9ccd7ebd02834e48d3e117a42ae151f913da01e78",
+    "tools/build-observation-model.cjs": "e5b9e3cd01551521d71edb91b16fc956b7aa5f3c441f4d7330d43676e7fe069f",
+    "tools/update-replay-version.cjs": "d9cb886ca30552173ec6abc2d293fff34fb85d39abf7a9cbbbf417e4d7027b96",
+    "tests/current-soil.test.cjs": "bf60c93c2329b4cd66d4aa0174a15e17f17eb29dad1ab23e5aed54ef22617459",
+    "tests/current-soil-legacy-parity.cjs": "360827d905345310d88735df1f484b79c148db7e7283df7e4c93e564fc1b5d0f"
+  }
+}

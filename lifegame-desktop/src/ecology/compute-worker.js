@@ -8,7 +8,7 @@ onmessage=({data:d})=>{
       epoch=d.epoch;world=d.world;observeId=d.observeId;stream=d.stream===true;finalOnly=d.finalOnly===true;
       if(world.config.advantageSettings)engine=EcoObservationModel.model(world.config.advantageSettings);
       else {
-        if(!globalThis.EcoEngine)importScripts('catalogue.js','current-information.js','state.js','nutrition.js','behavior.js','reproduction.js','parasites.js','engine.js');
+        if(!globalThis.EcoEngine)importScripts('catalogue.js','current-information.js','soil-matter.js','state.js','nutrition.js','behavior.js','reproduction.js','parasites.js','engine.js');
         engine=globalThis.EcoEngine;
       }
       const start=performance.now(),cache=engine.S.prepareGeometry(world);

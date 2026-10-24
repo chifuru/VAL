@@ -417,6 +417,8 @@
       if(prey&&prey.HP>0&&S.spec(prey).group==="prey")insects=Math.min(1,S.edibleB(prey)/4);
       for(const a of v.m.carcasses.get(cell)||[])
         if(S.D.byId[a.species]?.group==="prey"&&a.q>0)insects=Math.max(insects,Math.min(1,a.q/4));
+      for(const a of v.m.soil?.get(cell)||[]){const amount=Math.min(1,a.E/4)*(a.depositedAt===undefined?.5:1);
+        if(a.tag==="plant")leaves=Math.max(leaves,amount);else if(a.sourceClass==="lower-animal")insects=Math.max(insects,amount);}
       const q=Math.min(1,(.65*leaves+.35*insects)*(.9+.2*o.dna.senses));
       v.qualityCache?.set(cell,q);return q;
     }
@@ -469,6 +471,7 @@
     }
     for (const a of v.m.carcasses.get(cell) || [])
       if (a.species !== o.species) q = Math.max(q, value(a.q / 4, a.tag));
+    for(const a of v.m.soil?.get(cell)||[])if(S.SoilMatter.edible(o,a))q=Math.max(q,value(a.E/4,a.tag)*(a.depositedAt===undefined?.5:1));
     const result = Math.min(1, q * (0.9 + 0.2 * o.dna.senses));
     v.qualityCache?.set(cell, result);
     return result;

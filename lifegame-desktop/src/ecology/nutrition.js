@@ -76,6 +76,7 @@
       if(!o.groupRemains)ctx.informationHooks?.informationDeath(w,ctx,o,{cell:o.cell});
       const E=Q(o.E+o.B),M=Q(o.M+(o.cellMatter?.bodyM||0)),body=o.B;
       const a={id,species:o.species,slot:o.slot,cell:o.cell,tag:S.spec(o).tag,q:Math.max(.000001,body,E,M/.02),
+        ...(S.SoilMatter.enabled(w)?{sourceClass:S.SoilMatter.typeOf(o)}:{}),
         E,M,G:body,created:w.turn,availableAt:w.turn+1,expires:null,infection:null,payloadExpires:null,appearance:deathAppearance(w,o)};
       if(ctx.primaryHooks){
         a.expires=Number.MAX_SAFE_INTEGER;
@@ -140,6 +141,8 @@
         }
         for(const a of m.carcasses.get(o.cell)||[])if(a.created<w.turn&&!(a.availableAt>w.turn)&&a.q>0&&(a.E>0||a.M>0)&&a.species!==o.species&&foodAllowed(o,a.tag)&&(!isRyouki(w,o)||S.D.byId[a.species]?.group==="prey"))
           choices.push({type:"carcass",id:a.id,obj:a,cell:a.cell,tag:a.tag,healing:1,amount:a.q/4});
+        if(S.SoilMatter.enabled(w))for(const a of m.soil.get(o.cell)||[])if(S.SoilMatter.edible(o,a))
+          choices.push({type:"carcass",id:a.id,obj:a,cell:a.cell,tag:a.tag,healing:1,amount:Math.min(1,a.E/4)*(a.depositedAt===undefined?.5:1)});
         for(const a of m.resources.get(o.cell)||[]){
           const f=S.FOOD[a.kind];if(!["plant","fungal","animal","mineral"].includes(f?.tag)||!foodAllowed(o,f.tag)||a.q<=0||!(a.E>0||a.M>0)||a.created>=w.turn||a.availableAt>w.turn||a.expires!==null&&a.expires!==undefined&&a.expires<=w.turn||isRyouki(w,o)&&f.tag!=="mineral")continue;
           choices.push({type:"resource",id:"r:"+a.cell+":"+a.kind,obj:a,cell:a.cell,tag:f.tag,healing:f.healing||1,amount:a.q/f.cap});
@@ -163,7 +166,7 @@
       if(changed){w.organisms=w.organisms.filter(o=>o.HP>0);ctx.current=S.maps(w);}
     }
     function background(w,ctx){
-      const state=ready(w,ctx);if(!ctx.cellLifeDone)throw Error("CELL_BACKGROUND_BEFORE_LIFE");
+      const state=ready(w,ctx);if(S.SoilMatter.enabled(w))return S.SoilMatter.background(w,ctx,activity);if(!ctx.cellLifeDone)throw Error("CELL_BACKGROUND_BEFORE_LIFE");
       if(w.cellState.backgroundTurn>=w.turn||ctx.cellBackground)throw Error("CELL_BACKGROUND_ALREADY_APPLIED");
       const rows=[...w.cellState.organic.map(row=>({row,bodyKey:"B"})),...w.carcasses.filter(row=>row.created<w.turn&&!(row.availableAt>w.turn)).map(row=>({row,bodyKey:"G"}))];
       const factors=new Map(),room=new Map(),pending=new Map();
@@ -197,7 +200,8 @@
       w.carcasses=w.carcasses.filter(r=>r.E>0||r.M>0||r.G>0||r.infection);
       w.cellState.backgroundTurn=w.turn;ctx.cellBackground=flow;state.background=flow;return flow;
     }
-    function organic(w,cell,E,M,B=0){
+    function organic(w,cell,E,M,B=0,sourceClass="detritus",trophic=null){
+      if(S.SoilMatter.enabled(w))return S.SoilMatter.organic(w,cell,E,M,B,sourceClass,trophic);
       const rows=w.cellState.organic,id="cell-organic/"+cell;let row=rows.find(a=>a.id===id);
       if(!row){row={id,cell,E:0,M:0,B:0};rows.push(row);}
       row.E=Q(row.E+E);row.M=Q(row.M+M);row.B=Q(row.B+B);
@@ -205,6 +209,7 @@
     function begin(w,ctx){
       requireWorld(w);const a=w.cellState;
       payloads(w,ctx);
+      if(S.SoilMatter.enabled(w))S.SoilMatter.advance(w);
       if(a.resourceTurn>=w.turn||ctx.cellResources)throw Error("CELL_RESOURCES_ALREADY_APPLIED");
       if(a.nextMaterial.some(r=>r.availableAt<w.turn))throw Error("CELL_MATERIAL_OVERDUE");
       const flow={waterInput:0,waterDrain:0,waterEvaporation:0,mineralInput:0,returnedM:0,solar:0};
@@ -212,16 +217,17 @@
         if(row.kind==="mineral"){
           const cap=w.cellProfiles.profiles[row.cell].mineralCapacity,t=w.tiles[row.cell],add=cap===null?0:Math.min(row.M,Math.max(0,cap-t.soilM));
           t.soilM=Q(t.soilM+add);flow.returnedM=Q(flow.returnedM+add);
-          if(row.M>add)organic(w,row.cell,0,Q(row.M-add));
-        }else organic(w,row.cell,row.E,row.M,row.B||0);
+          if(row.M>add){if(S.SoilMatter.enabled(w))S.SoilMatter.wait(w,row.cell,Q(row.M-add));else organic(w,row.cell,0,Q(row.M-add));}
+        }else organic(w,row.cell,row.E,row.M,row.B||0,row.sourceClass,row.trophic);
       }
       a.nextMaterial=a.nextMaterial.filter(r=>r.availableAt>w.turn);
+      if(S.SoilMatter.enabled(w))flow.returnedM=Q(flow.returnedM+S.SoilMatter.release(w));
       for(let cell=0;cell<w.tiles.length;cell++){
         const p=w.cellProfiles.profiles[cell];if(p.waterCapacity===null)continue;
         const waterInput=p.waterInput??p.rain,total=Q(a.water[cell]+waterInput),drain=Q(Math.max(0,total-p.waterCapacity)),held=Q(total-drain),evaporated=Q(Math.min(held,p.evaporation));
         a.water[cell]=Q(held-evaporated);flow.waterInput=Q(flow.waterInput+waterInput);flow.waterDrain=Q(flow.waterDrain+drain);flow.waterEvaporation=Q(flow.waterEvaporation+evaporated);
         const input=p.mineralInput,add=Q(Math.min(input,Math.max(0,p.mineralCapacity-w.tiles[cell].soilM)));
-        w.tiles[cell].soilM=Q(w.tiles[cell].soilM+add);if(input>add)organic(w,cell,0,Q(input-add));flow.mineralInput=Q(flow.mineralInput+input);
+        w.tiles[cell].soilM=Q(w.tiles[cell].soilM+add);if(input>add){if(S.SoilMatter.enabled(w))S.SoilMatter.wait(w,cell,Q(input-add));else organic(w,cell,0,Q(input-add));}flow.mineralInput=Q(flow.mineralInput+input);
       }
       w.ledger.cellInputM=Q((w.ledger.cellInputM||0)+flow.mineralInput);a.resourceTurn=w.turn;
       ctx.cellResources={version:VERSION,turn:w.turn,flow,acquired:false,receipts:[],light:[],budgets:new Map()};
@@ -260,6 +266,7 @@
     const resourceId=(row,i)=>row.id??("resource/"+i+"/"+row.cell+"/"+row.kind);
     function indexSources(w,m,ctx){
       m.cellSources={carcass:new Map(w.carcasses.map(a=>[a.id,a])),organic:new Map(w.cellState.organic.map(a=>[a.id,a])),capture:ctx.cellCaptures||new Map(),resource:new Map(),resourcesByCell:new Map()};
+      if(S.SoilMatter.enabled(w)){m.cellSources.residue=new Map(w.cellState.soil.fresh.map(r=>[r.id,r]));m.cellSources.soilByCell=S.SoilMatter.index(w);}
       for(const [i,row]of w.resources.entries()){
         const id=resourceId(row,i);m.cellSources.resource.set(id,row);
         if(!m.cellSources.resourcesByCell.has(row.cell))m.cellSources.resourcesByCell.set(row.cell,[]);m.cellSources.resourcesByCell.get(row.cell).push({kind:"resource",id});
@@ -267,7 +274,7 @@
     }
     function source(w,m,request){
       const key=request.source?.kind,id=request.source?.id;
-      let row=key==="organism"?m.byId.get(id):key==="carcass"?(m.cellSources?.carcass?.get(id)??w.carcasses.find(a=>a.id===id)):key==="organic"?(m.cellSources?.organic?.get(id)??w.cellState.organic.find(a=>a.id===id)):key==="resource"?m.cellSources?.resource?.get(id):null;
+      let row=key==="organism"?m.byId.get(id):key==="carcass"?(m.cellSources?.carcass?.get(id)??w.carcasses.find(a=>a.id===id)):key==="organic"?(m.cellSources?.organic?.get(id)??w.cellState.organic.find(a=>a.id===id)):key==="resource"?m.cellSources?.resource?.get(id):key==="residue"?m.cellSources?.residue?.get(id):null;
       if(key==="capture"){
         const entry=m.cellSources?.capture.get(id);if(!entry?.actors.has(request.actor)||entry.row.created!==w.turn)return null;row=entry.row;
       }
@@ -277,14 +284,14 @@
         const hidden=row.cellMatter?.tissueAt===w.turn?(row.cellMatter.newEdibleB??row.cellMatter.newB)||0:0;
         return {row,key,id,cell:row.cell,units:Math.max(0,S.edibleB(row)-hidden)*(S.CellLife.is(row)||S.LargePlant.is(row)?S.phenotype(w,row).biteFactor:1),E:1,M:(row.cellMatter?.bodyM||0)/Math.max(EPS,row.B),tag:group==="plant"?"plant":"fungal"};
       }
-      if(key!=="capture"&&(row.availableAt>w.turn||row.created>=w.turn))return null;
+      if(key!=="capture"&&(row.availableAt>w.turn||row.created>=w.turn||row.depositedAt>=w.turn))return null;
       if(key==="resource"){
         const tag=S.FOOD[row.kind]?.tag;if(!["plant","fungal","animal","mineral"].includes(tag)||row.expires!==null&&row.expires!==undefined&&row.expires<=w.turn||!(row.q>0))return null;
         return {row,key,id,cell:row.cell,units:row.q,body:0,E:row.E/row.q,M:row.M/row.q,tag};
       }
       const units=["carcass","capture"].includes(key)?(row.q||0):row.E||row.M;
       if(units<=0)return null;
-      return {row,key,id,cell:row.cell,units,body:row.G??row.B??0,E:(row.E||0)/units,M:(row.M||0)/units,tag:row.tag||S.D.byId[row.species]?.tag||"animal"};
+      return {row,key,id,cell:row.cell,units,body:row.G??row.B??0,E:(row.E||0)/units,M:(row.M||0)/units,tag:row.tag||S.D.byId[row.species]?.tag||"animal",...(S.SoilMatter.enabled(w)&&["residue","organic"].includes(key)?{assimilation:key==="organic"?.5:1,trophic:row.trophic?.slice()}:{} )};
     }
     function acquire(w,ctx,requests,canopies=[]){
       const state=ready(w,ctx);if(state.acquired||state.budgetSettled)throw Error("CELL_RESOURCES_ALREADY_ACQUIRED");
@@ -346,7 +353,7 @@
         }else{
           s=compiledSource(r);
           if(!s||s.cell!==o.cell||s.row.id===o.id||S.spec(o).group==="plant"||(S.spec(o).group==="fungus"&&s.key==="organism"))throw Error("CELL_FOOD_SOURCE_INVALID");
-          eta=adult?S.HyperParasite.settings(w).adultAssimilation:efficiency(o,s.tag,p.phase);etaM=adult?0:S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase);if(!(eta>0)||!foodAllowed(o,s.tag)||adult&&!["plant","fungal","animal"].includes(s.tag))throw Error("CELL_FOOD_DIET_INVALID");
+          eta=adult?S.HyperParasite.settings(w).adultAssimilation:efficiency(o,s.tag,p.phase);etaM=adult?0:S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase);if(S.SoilMatter.enabled(w)&&["residue","organic"].includes(s.key)){if(!S.SoilMatter.edible(o,s.row))throw Error("CELL_FOOD_DIET_INVALID");eta*=s.assimilation;etaM*=s.assimilation;}if(!(eta>0)||!foodAllowed(o,s.tag)||adult&&!["plant","fungal","animal"].includes(s.tag))throw Error("CELL_FOOD_DIET_INVALID");
           rates[pool(s.poolKey??("source/"+s.key+"/"+s.id),s.units)]=1;
           fulfills={[demand(actor.eDemand,Math.max(0,p.capE-o.E))]:s.E*eta,[demand(actor.mDemand,Math.max(0,p.capM-(o.M||0)))]:s.M*etaM};
           const bite=ctx.cellFoodLimits?.get(o.id)??(S.spec(o).group==="prey"?.25*S.ConsumerGroup.count(o):isRyouki(w,o)?(o.ryouki.mutated?w.config.ryoukiSettings.mutatedBiteB:w.config.ryoukiSettings.biteB):2);
@@ -402,6 +409,7 @@
             // B is the tissue component already included in E. Separate
             // rounded shares must not leave a body label after E is consumed.
             else s.row.B=Math.min(s.row.E,Q(Math.max(0,(s.row.B||0)-s.body*fraction)));
+            if(S.SoilMatter.enabled(w)&&["residue","organic"].includes(s.key))S.SoilMatter.reweight(s.row);
             if(["carcass","capture","resource"].includes(s.key)&&s.row.q<=0&&(s.row.E>0||s.row.M>0)){
               S.CellSpace.deferMaterial(w,s.cell,{E:s.row.E,M:s.row.M,B:Math.min(s.row.E,s.row.G||0)});s.row.E=0;s.row.M=0;s.row.G=0;
             }
@@ -410,7 +418,7 @@
         const E=Q(Math.min(Math.max(0,p.capE-o.E),rawE*r.eta)),M=Q(Math.min(Math.max(0,p.capM-(o.M||0)),rawM*r.etaM));
         o.E=Q(o.E+E);if(!ctx.cellQActors?.has(o.id))o.M=Q(o.M+M);
         if(r.kind==="decompose"){S.dissipate(w,Q(rawE-E));S.CellSpace.deferMaterial(w,o.cell,{M:Q(rawM-M),kind:"mineral"});}
-        else if(rawE>E||rawM>M)S.CellSpace.deferMaterial(w,o.cell,{E:Q(rawE-E),M:Q(rawM-M)});
+        else if(rawE>E||rawM>M)S.CellSpace.deferMaterial(w,o.cell,{E:Q(rawE-E),M:Q(rawM-M),...(S.SoilMatter.enabled(w)?{sourceClass:s?.row.sourceClass??"detritus",trophic:s?.trophic}:{} )});
         state.receipts.push({id:r.id,actor:o.id,cell:o.cell,kind:r.kind,quantity,E,M,source:s?.id??null});
         const record=ctx.records.get(o.id);if(r.kind==="photo"){record.light=Q(record.light+E);if(o.species==="freshwaterlight"&&S.LargePlant.is(o)){o.plant.last.solarInputE=Q(o.plant.last.solarInputE+E);S.LargePlant.flow(w,o,"solarInputE",E);}if(E>0)S.record(ctx,o,"light",{amount:E});}if(r.kind==="food"||r.kind==="decompose")record.organic=Q(record.organic+E);
         if(ctx.cellQActors?.has(o.id)){o.hyper.last.feedingE=Q((o.hyper.last.feedingE||0)+E);ctx.hyperFlow.bySpecies.hyperparasite.fedE=Q(ctx.hyperFlow.bySpecies.hyperparasite.fedE+E);}
@@ -418,7 +426,9 @@
           const gain=isRyouki(w,o)?0:Math.min(300-o.G,E*(s.tag==="animal"?1+S.trait(o,"animalG",p.phase):1));o.G=Q(o.G+gain);record.G=Q(record.G+gain);record.reserve=Q(record.reserve+E);
         }
         if(r.kind==="food"||r.kind==="decompose"){
-          S.record(ctx,o,"feed",{source:s.id,sourceType:s.key==="capture"?"predation":s.key,sourceSpecies:s.row.species??null,tag:r.kind==="decompose"?"animal":s.tag,amount:rawE,material:rawM,assimilated:E,assimilatedM:M,to:o.cell,consumedB:s.key==="organism"?quantity:s.body*quantity/s.units});
+          S.record(ctx,o,"feed",{source:s.id,sourceType:s.key==="capture"?"predation":s.key,sourceSpecies:s.row.species??null,tag:r.kind==="decompose"?"animal":s.tag,amount:rawE,material:rawM,assimilated:E,assimilatedM:M,to:o.cell,consumedB:s.key==="organism"?quantity:s.body*quantity/s.units,
+            ...(S.SoilMatter.enabled(w)&&s.row.sourceClass?{sourceClass:s.row.sourceClass,sourceTrophic:S.SoilMatter.dose(rawE,s.trophic,s.row.sourceClass),sourceAggregated:["residue","organic"].includes(s.key)}:{})});
+          if(harvest&&S.SoilMatter.enabled(w)&&["residue","organic"].includes(s.key)&&!ctx.cellQActors?.has(o.id))S.SoilMatter.harvest(w,ctx,s.row,o,harvest);
           if(harvest&&["organism","carcass","capture"].includes(s.key)&&!ctx.cellQActors?.has(o.id))ctx.primaryHooks?.transfer(w,ctx,s.row,o,s.key==="carcass"?"carcass":s.key==="capture"?"capture":"plant",harvest);
         }
       }
@@ -429,15 +439,17 @@
       ready(w,ctx);if(!ctx.cellMotion?.completed)throw Error("CELL_RESOURCES_BEFORE_MOVEMENT");
       const requests=[],canopies=[],maintenance=new Map(),m=ctx.current||S.maps(w),cells=m.cellSpace||S.CellSpace.index(w),materials=new Map();
       indexSources(w,m,ctx);
-      for(const [kind,rows]of [["organic",w.cellState.organic],["carcass",w.carcasses]])for(const row of rows){
-        if(row.created>=w.turn||row.availableAt>w.turn)continue;
+      for(const [kind,rows]of [["organic",w.cellState.organic],["carcass",w.carcasses],...(S.SoilMatter.enabled(w)?[["residue",w.cellState.soil.fresh]]:[])])for(const row of rows){
+        if(row.created>=w.turn||row.availableAt>w.turn||row.depositedAt>=w.turn||kind==="carcass"&&row.soilRef)continue;
         if(!materials.has(row.cell))materials.set(row.cell,[]);materials.get(row.cell).push({row,kind});
       }
       function food(o,refs){
         const p=ctx.traits.get(o.id),adult=ctx.cellQActors?.has(o.id),e=Math.max(0,p.capE-o.E),mineral=Math.max(0,p.capM-(o.M||0));
         for(const ref of refs){
           const s=source(w,m,{actor:o.id,source:ref});if(!s||s.units<=0||!foodAllowed(o,s.tag))continue;
-          const eta=adult?S.HyperParasite.settings(w).adultAssimilation:efficiency(o,s.tag,p.phase),etaM=adult?0:S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase);
+          const factor=S.SoilMatter.enabled(w)&&["residue","organic"].includes(s.key)?s.assimilation:1;
+          if(S.SoilMatter.enabled(w)&&["residue","organic"].includes(s.key)&&!S.SoilMatter.edible(o,s.row))continue;
+          const eta=(adult?S.HyperParasite.settings(w).adultAssimilation:efficiency(o,s.tag,p.phase))*factor,etaM=(adult?0:S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase))*factor;
           if(!(eta>0)||adult&&!["plant","fungal","animal"].includes(s.tag))continue;
           const need=Math.min(s.units,Math.max(s.E*eta>0?e/(s.E*eta):0,s.M*etaM>0?mineral/(s.M*etaM):0));
           if(need>0)requests.push({id:"food/"+o.id+"/"+s.key+"/"+s.id,actor:o.id,kind:"food",need,source:ref});
@@ -489,7 +501,7 @@
             const need=Math.min(units,processed*units/body);if(need>0)requests.push({id:"decompose/"+o.id+"/"+row.id,actor:o.id,kind:"decompose",need,source:{kind,id:row.id}});
           }
         }else{
-          food(o,plants(o.cell).map(a=>({kind:"organism",id:a.id})));
+          food(o,[...plants(o.cell).map(a=>({kind:"organism",id:a.id})),...(S.SoilMatter.enabled(w)?(materials.get(o.cell)||[]).map(({row,kind})=>({kind,id:row.id})):[])]);
         }
       }
       for(const o of ctx.cellQActors?.values()||[]){

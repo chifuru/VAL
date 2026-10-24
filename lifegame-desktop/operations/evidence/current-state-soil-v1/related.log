@@ -1,0 +1,346 @@
+TAP version 13
+# Subtest: bounded demand-weighted allocation is order independent and redistributes capped shares
+ok 1 - bounded demand-weighted allocation is order independent and redistributes capped shares
+  ---
+  duration_ms: 3.871141
+  type: 'test'
+  ...
+# Subtest: coupled requests do not consume unusable water and leave/reallocate real stock
+ok 2 - coupled requests do not consume unusable water and leave/reallocate real stock
+  ---
+  duration_ms: 0.419514
+  type: 'test'
+  ...
+# Subtest: fixed soil, mineral levels, plant temperature/pH and shared light are resolved at creation
+ok 3 - fixed soil, mineral levels, plant temperature/pH and shared light are resolved at creation
+  ---
+  duration_ms: 67.529872
+  type: 'test'
+  ...
+# Subtest: rain, drainage and actual evaporation conserve water, cannot go negative or run twice
+ok 4 - rain, drainage and actual evaporation conserve water, cannot go negative or run twice
+  ---
+  duration_ms: 10.719331
+  type: 'test'
+  ...
+# Subtest: same-cell mineral competition follows demand, ability/reach and capacity without layer priority
+ok 5 - same-cell mineral competition follows demand, ability/reach and capacity without layer priority
+  ---
+  duration_ms: 12.21426
+  type: 'test'
+  ...
+# Subtest: plant activity zero leaves mineral in place and soil quality raises actual uptake limit once
+ok 6 - plant activity zero leaves mineral in place and soil quality raises actual uptake limit once
+  ---
+  duration_ms: 19.777661
+  type: 'test'
+  ...
+# Subtest: one light budget is captured from above; unused capture still shades lower foliage
+ok 7 - one light budget is captured from above; unused capture still shades lower foliage
+  ---
+  duration_ms: 8.604584
+  type: 'test'
+  ...
+# Subtest: water limits actual photosynthesis while unused light is neither stored nor free energy
+ok 8 - water limits actual photosynthesis while unused light is neither stored nor free energy
+  ---
+  duration_ms: 4.723879
+  type: 'test'
+  ...
+# Subtest: remote food, information food and requests from dead/new actors are rejected before transfer
+ok 9 - remote food, information food and requests from dead/new actors are rejected before transfer
+  ---
+  duration_ms: 38.721128
+  type: 'test'
+  ...
+# Subtest: consumers share finite plant tissue; body mineral, assimilation and waste are each owned once
+ok 10 - consumers share finite plant tissue; body mineral, assimilation and waste are each owned once
+  ---
+  duration_ms: 6.171848
+  type: 'test'
+  ...
+# Subtest: carcass sharing removes one finite fraction of body, energy and mineral per recipient
+ok 11 - carcass sharing removes one finite fraction of body, energy and mineral per recipient
+  ---
+  duration_ms: 5.152928
+  type: 'test'
+  ...
+# Subtest: returns become available next turn only; capacity overflow remains organic and is not Mloss
+ok 12 - returns become available next turn only; capacity overflow remains organic and is not Mloss
+  ---
+  duration_ms: 10.572549
+  type: 'test'
+  ...
+# Subtest: explicit mineral input is recorded separately and conserved even at capacity
+ok 13 - explicit mineral input is recorded separately and conserved even at capacity
+  ---
+  duration_ms: 6.001661
+  type: 'test'
+  ...
+# Subtest: actions and maintenance are paid once; reserve is a goal and failed reservations release capacity
+ok 14 - actions and maintenance are paid once; reserve is a goal and failed reservations release capacity
+  ---
+  duration_ms: 5.21346
+  type: 'test'
+  ...
+# Subtest: formation stores body E/M and dissipates only the actual formation overhead
+ok 15 - formation stores body E/M and dissipates only the actual formation overhead
+  ---
+  duration_ms: 8.693149
+  type: 'test'
+  ...
+# Subtest: maintenance deficit prevents investments without artificial immediate death or reserve-based starvation
+ok 16 - maintenance deficit prevents investments without artificial immediate death or reserve-based starvation
+  ---
+  duration_ms: 12.107087
+  type: 'test'
+  ...
+# Subtest: unselected aquatic supply is explicit; land coefficients are not silently copied
+ok 17 - unselected aquatic supply is explicit; land coefficients are not silently copied
+  ---
+  duration_ms: 5.781729
+  type: 'test'
+  ...
+# Subtest: failed formation cancels its reservation without creating tissue or charging a second payment
+ok 18 - failed formation cancels its reservation without creating tissue or charging a second payment
+  ---
+  duration_ms: 53.71441
+  type: 'test'
+  ...
+# Subtest: generated execution and Worker/JSON preserve finite resources, receipts and all material owners
+ok 19 - generated execution and Worker/JSON preserve finite resources, receipts and all material owners
+  ---
+  duration_ms: 130.150093
+  type: 'test'
+  ...
+# Subtest: microscopic food residues and water costs do not produce negative or free stocks
+ok 20 - microscopic food residues and water costs do not produce negative or free stocks
+  ---
+  duration_ms: 9.089258
+  type: 'test'
+  ...
+# Subtest: shared organic feeding leaves no submicro body without its energy
+ok 21 - shared organic feeding leaves no submicro body without its energy
+  ---
+  duration_ms: 58.648198
+  type: 'test'
+  ...
+# Subtest: light record stays an ordered public array with the last photo assignment
+ok 22 - light record stays an ordered public array with the last photo assignment
+  ---
+  duration_ms: 4.295201
+  type: 'test'
+  ...
+# Subtest: a capture authorized for one actor cannot be reused by another actor
+ok 23 - a capture authorized for one actor cannot be reused by another actor
+  ---
+  duration_ms: 9.523924
+  type: 'test'
+  ...
+# Subtest: one actual herd member supplies a finite same-cell meal and survivors use their own remaining capacity
+ok 24 - one actual herd member supplies a finite same-cell meal and survivors use their own remaining capacity
+  ---
+  duration_ms: 26.468323
+  type: 'test'
+  ...
+# Subtest: the full same-cell prey index is used instead of the single representative
+ok 25 - the full same-cell prey index is used instead of the single representative
+  ---
+  duration_ms: 44.495838
+  type: 'test'
+  ...
+# Subtest: competing predators cannot extract the same member twice; arbitration is array-order independent
+ok 26 - competing predators cannot extract the same member twice; arbitration is array-order independent
+  ---
+  duration_ms: 11.121329
+  type: 'test'
+  ...
+# Subtest: actual co-located strikers share one killed body and its finite remainder waits for next T
+ok 27 - actual co-located strikers share one killed body and its finite remainder waits for next T
+  ---
+  duration_ms: 10.417254
+  type: 'test'
+  ...
+# Subtest: partial combat death preserves the surviving injury and refreshes actual reserve limits
+ok 28 - partial combat death preserves the surviving injury and refreshes actual reserve limits
+  ---
+  duration_ms: 8.819408
+  type: 'test'
+  ...
+# Subtest: new-model juvenile cohorts take only the actual injury, without a legacy HP-cap drop
+ok 29 - new-model juvenile cohorts take only the actual injury, without a legacy HP-cap drop
+  ---
+  duration_ms: 11.867247
+  type: 'test'
+  ...
+# Subtest: starvation removing a member retains the remaining wound instead of healing it for free
+ok 30 - starvation removing a member retains the remaining wound instead of healing it for free
+  ---
+  duration_ms: 8.225622
+  type: 'test'
+  ...
+# Subtest: an adjacent ranged kill grants no remote food; an actual arrival can eat the older remainder next T
+ok 31 - an adjacent ranged kill grants no remote food; an actual arrival can eat the older remainder next T
+  ---
+  duration_ms: 8.163829
+  type: 'test'
+  ...
+# Subtest: mutually killed attackers never eat, act again or receive kill rations
+ok 32 - mutually killed attackers never eat, act again or receive kill rations
+  ---
+  duration_ms: 41.531299
+  type: 'test'
+  ...
+# Subtest: same-species attack and animation events cannot create a biological capture
+ok 33 - same-species attack and animation events cannot create a biological capture
+  ---
+  duration_ms: 7.070295
+  type: 'test'
+  ...
+# Subtest: full reserves do not kill prey to obtain unused food, and capture cannot run after acquisition
+ok 34 - full reserves do not kill prey to obtain unused food, and capture cannot run after acquisition
+  ---
+  duration_ms: 6.644592
+  type: 'test'
+  ...
+# Subtest: M shortage alone never kills Q, which cannot supply minerals
+ok 35 - M shortage alone never kills Q, which cannot supply minerals
+  ---
+  duration_ms: 12.594254
+  type: 'test'
+  ...
+# Subtest: new ordinary carcasses are not authorized captures, even with a forged source request
+ok 36 - new ordinary carcasses are not authorized captures, even with a forged source request
+  ---
+  duration_ms: 6.531761
+  type: 'test'
+  ...
+# Subtest: the actual feeding route moves one P/Q tree; it is never a second corpse-route attempt
+ok 37 - the actual feeding route moves one P/Q tree; it is never a second corpse-route attempt
+  ---
+  duration_ms: 8.063767
+  type: 'test'
+  ...
+# Subtest: old autonomous Q is finite prey; its body and reserves are transferred once
+ok 38 - old autonomous Q is finite prey; its body and reserves are transferred once
+  ---
+  duration_ms: 7.679086
+  type: 'test'
+  ...
+# Subtest: one paid Q escape protects against multiple co-resident hunters without a second fee
+ok 39 - one paid Q escape protects against multiple co-resident hunters without a second fee
+  ---
+  duration_ms: 5.691282
+  type: 'test'
+  ...
+# Subtest: newly emerged Q and Q still attached to a living host are not free prey
+ok 40 - newly emerged Q and Q still attached to a living host are not free prey
+  ---
+  duration_ms: 7.464112
+  type: 'test'
+  ...
+# Subtest: source/generated and Worker/JSON preserve captured remainder and actual cohort loss; public guards remain
+ok 41 - source/generated and Worker/JSON preserve captured remainder and actual cohort loss; public guards remain
+  ---
+  duration_ms: 75.266694
+  type: 'test'
+  ...
+# Subtest: b+a keeps only effective changes; expiry preserves learning and child uses its own base
+ok 42 - b+a keeps only effective changes; expiry preserves learning and child uses its own base
+  ---
+  duration_ms: 16.14407
+  type: 'test'
+  ...
+# Subtest: own publication uses fixed meaning slots, real outcomes, local context and a 30T clock
+ok 43 - own publication uses fixed meaning slots, real outcomes, local context and a 30T clock
+  ---
+  duration_ms: 50.71967
+  type: 'test'
+  ...
+# Subtest: combined receipt pays once; repeated direction habituates without sender history or self-experience
+ok 44 - combined receipt pays once; repeated direction habituates without sender history or self-experience
+  ---
+  duration_ms: 21.249966
+  type: 'test'
+  ...
+# Subtest: opposite stimuli retain both signs; reverse learning uses separate habituation
+ok 45 - opposite stimuli retain both signs; reverse learning uses separate habituation
+  ---
+  duration_ms: 14.529849
+  type: 'test'
+  ...
+# Subtest: scope and true parent/caregiver use stronger direct transmission; unrelated kin is excluded
+ok 46 - scope and true parent/caregiver use stronger direct transmission; unrelated kin is excluded
+  ---
+  duration_ms: 68.428398
+  type: 'test'
+  ...
+# Subtest: zero influence or insufficient budget produces no learning and no reception fee
+ok 47 - zero influence or insufficient budget produces no learning and no reception fee
+  ---
+  duration_ms: 34.552802
+  type: 'test'
+  ...
+# Subtest: parasite host affinity is an acquired current preference, separate from inherited host genes
+ok 48 - parasite host affinity is an acquired current preference, separate from inherited host genes
+  ---
+  duration_ms: 15.658766
+  type: 'test'
+  ...
+# Subtest: death publications coalesce by current class and expiry, without source identity or clock refresh
+ok 49 - death publications coalesce by current class and expiry, without source identity or clock refresh
+  ---
+  duration_ms: 53.055886
+  type: 'test'
+  ...
+# Subtest: synchronous diffusion conserves amount/evidence, decays strength once and expires the original bucket
+ok 50 - synchronous diffusion conserves amount/evidence, decays strength once and expires the original bucket
+  ---
+  duration_ms: 19.506942
+  type: 'test'
+  ...
+# Subtest: place stimulus is temporary and does not charge or add to acquired a
+ok 51 - place stimulus is temporary and does not charge or add to acquired a
+  ---
+  duration_ms: 14.438392
+  type: 'test'
+  ...
+# Subtest: Q retains the live link and finite aggregated residues; later Q does not renew older expiry
+ok 52 - Q retains the live link and finite aggregated residues; later Q does not renew older expiry
+  ---
+  duration_ms: 13.20053
+  type: 'test'
+  ...
+# Subtest: source and generated models commit the same short current-state run and preserve the input
+ok 53 - source and generated models commit the same short current-state run and preserve the input
+  ---
+  duration_ms: 4859.1259
+  type: 'test'
+  ...
+# Subtest: unknown/old state is rejected rather than silently reinterpreted
+ok 54 - unknown/old state is rejected rather than silently reinterpreted
+  ---
+  duration_ms: 18.195108
+  type: 'test'
+  ...
+# Subtest: actual child construction inherits b without acquired a; frozen snapshots expose derived values
+ok 55 - actual child construction inherits b without acquired a; frozen snapshots expose derived values
+  ---
+  duration_ms: 22.171797
+  type: 'test'
+  ...
+# Subtest: internal current-state records are explicitly blocked until the new archive schema is connected
+ok 56 - internal current-state records are explicitly blocked until the new archive schema is connected
+  ---
+  duration_ms: 68.328039
+  type: 'test'
+  ...
+1..56
+# tests 56
+# suites 0
+# pass 56
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6743.291446

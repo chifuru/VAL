@@ -576,7 +576,7 @@
   function hyperSearch(w,ctx) {
     if(!hyperEnabled(w)||ctx.hyperSearched)return;ctx.hyperSearched=true;
     const z=S.HyperParasite.settings(w),m=S.maps(w),resourceMap=m.resources,carcassMap=m.carcasses,organicMap=new Map();
-    if(cellMode(w))for(const row of w.cellState.organic){if(!organicMap.has(row.cell))organicMap.set(row.cell,[]);organicMap.get(row.cell).push(row);}
+    if(cellMode(w))for(const row of S.SoilMatter.enabled(w)?S.SoilMatter.rows(w):w.cellState.organic){if(!organicMap.has(row.cell))organicMap.set(row.cell,[]);organicMap.get(row.cell).push(row);}
     if(fanout(w)){
       const separate=[];
       for(const q of w.searchQ||[]){
@@ -662,7 +662,7 @@
           if(cohorts(w)){
             const plants=cellMode(w)?primaryOccupants(w,m,cell):[m.producer?.get(cell)||m.food.get(cell)];
             for(const plant of plants)if(plant&&S.spec(plant).group==="plant"&&(!cellMode(w)||cellLivingHost(w,ctx,plant)))amount+=Math.max(0,S.edibleB(plant)-(cellMode(w)&&plant.cellMatter?.tissueAt===w.turn?plant.cellMatter.newEdibleB??plant.cellMatter.newB??0:0));
-            if(cellMode(w))for(const a of organicMap.get(cell)||[])amount+=Math.max(0,a.E);
+            if(cellMode(w))for(const a of organicMap.get(cell)||[])if(!S.SoilMatter.enabled(w)||S.SoilMatter.available(w,a)&&S.SoilMatter.edible(q,a))amount+=Math.max(0,a.E)*(a.depositedAt===undefined?.5:1);
           }
           if(amount>0)forage.push({cell,amount});
         }
@@ -1093,7 +1093,7 @@
     if(!rule.allowed)return;
     primaryFlow(w,ctx,p.species,route,"invasionAttempts");
     const resistance=S.PrimaryParasite.resistance(w,target,p.species,route),chance=S.clamp(settings.entryRates[route]*(1-.4*(target.dna?.skin??.5))*(1-.5*resistance)*(cohorts(w)?S.ParasiteCohort.chance(p):1),0,1);
-    if(S.r(w,"primary/migration",w.turn,p.id,target.id)>=chance){primaryEvent(ctx,target,"migration-failed",{parasite:p.id,species:p.species,route});return;}
+    if(S.r(w,"primary/migration",w.turn,p.id,target.id)>=chance*(S.SoilMatter.enabled(w)&&source.soilRef?fraction:1)){primaryEvent(ctx,target,"migration-failed",{parasite:p.id,species:p.species,route});return;}
     const pending={id:"primary-migration:"+p.id+":"+w.turn,kind:"primary-migration",infection:p,cell:target.cell,hostId:target.id,
       ...(cohorts(w)?{passages:S.ParasiteCohort.passage(p)+1}:{}),
       sourceId:source.id,sourceStage:p.stage,stage:rule.stage,route,createdAt:w.turn,establishAt:w.turn+1,expires:w.turn+2};

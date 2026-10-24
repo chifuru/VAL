@@ -413,6 +413,7 @@
     return demand;
   }
   function finish(w, ctx) {
+    if(S.SoilMatter.enabled(w)){S.SoilMatter.flush(w);w.soilMatterSummary=S.SoilMatter.summary(w);}
     if(S.PersistentInformation?.enabled(w))w.persistentInformationSummary=S.PersistentInformation.summary(w);
     if(S.HyperParasite?.enabled(w))S.HyperParasite.summary(w);
     if(S.PrimaryParasite?.enabled(w))S.PrimaryParasite.summary(w);
