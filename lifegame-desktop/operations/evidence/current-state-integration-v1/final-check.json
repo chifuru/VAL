@@ -1,0 +1,29 @@
+{
+  "definition": "current-state-integration-output-gate/1",
+  "success": true,
+  "baseline": "34b6f57b5a7c8bd42d6603567206bce181240b75",
+  "formalNodes": 61,
+  "formalMetadataAndGraphUnchanged": true,
+  "allStatuses": "草案",
+  "manifestNodeOrderUnchanged": true,
+  "manifestFences": 10,
+  "changedNodeMetadataReferences": [
+    "C7.1",
+    "C7",
+    "C8.2",
+    "C8",
+    "D7",
+    "D9",
+    "E5",
+    "E6"
+  ],
+  "newNodeReferencesResolved": 39,
+  "coreAndABNodesUnchanged": true,
+  "uiArtDefaultProductDistributionUnchanged": true,
+  "testPasses": 40,
+  "legacyConditionsPassed": 3,
+  "sourceGeneratedAndSignatureChecksPassed": true,
+  "globalPerformanceMeasured": false,
+  "fullNewStateUIArchiveConnected": false,
+  "next": "CS07 second half: graphs, summary, details, CSV, results UI"
+}

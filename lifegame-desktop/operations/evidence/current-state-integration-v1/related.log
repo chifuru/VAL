@@ -1,0 +1,178 @@
+TAP version 13
+# Subtest: favorable waterbug founders assign their capped body to cohorts exactly once
+ok 1 - favorable waterbug founders assign their capped body to cohorts exactly once
+  ---
+  duration_ms: 862.699465
+  type: 'test'
+  ...
+# Subtest: three stages preserve kernel order, original state and source/generated/atomic outcomes with actual decisions
+ok 2 - three stages preserve kernel order, original state and source/generated/atomic outcomes with actual decisions
+  ---
+  duration_ms: 8443.673328
+  type: 'test'
+  ...
+# Subtest: cancelling either partial phase discards material and mutation changes and permits an exact restart
+ok 3 - cancelling either partial phase discards material and mutation changes and permits an exact restart
+  ---
+  duration_ms: 1700.712134
+  type: 'test'
+  ...
+# Subtest: unresolved water and invalid cell stocks fail privately without guessed values or a mutated committed world
+ok 4 - unresolved water and invalid cell stocks fail privately without guessed values or a mutated committed world
+  ---
+  duration_ms: 760.002578
+  type: 'test'
+  ...
+# Subtest: Worker batch, streamed phases and final-only frames reconstruct the same three committed turns
+ok 5 - Worker batch, streamed phases and final-only frames reconstruct the same three committed turns
+  ---
+  duration_ms: 5829.18944
+  type: 'test'
+  ...
+# Subtest: normal decision turns preserve full observations through archive and replay from resolved conditions
+ok 6 - normal decision turns preserve full observations through archive and replay from resolved conditions
+  ---
+  duration_ms: 1046.022491
+  type: 'test'
+  ...
+# Subtest: the checkpoint boundary stops at 500 and continues by one turn without simulating 500 turns
+ok 7 - the checkpoint boundary stops at 500 and continues by one turn without simulating 500 turns
+  ---
+  duration_ms: 556.009531
+  type: 'test'
+  ...
+# Subtest: cell record stores one terminal environment, actual bodies/cohorts and bounded examples, with no per-turn world history
+ok 8 - cell record stores one terminal environment, actual bodies/cohorts and bounded examples, with no per-turn world history
+  ---
+  duration_ms: 688.716009
+  type: 'test'
+  ...
+# Subtest: resolved initial replay reproduces terminal fingerprint and all cell material, and explicit child save alone creates a new record
+ok 9 - resolved initial replay reproduces terminal fingerprint and all cell material, and explicit child save alone creates a new record
+  ---
+  duration_ms: 841.951301
+  type: 'test'
+  ...
+# Subtest: all full-record entrances reject missing or contradictory physical data without changing previous records
+ok 10 - all full-record entrances reject missing or contradictory physical data without changing previous records
+  ---
+  duration_ms: 834.273707
+  type: 'test'
+  ...
+# Subtest: unknown initial profiles and old signatures cannot be replayed as current cell records
+ok 11 - unknown initial profiles and old signatures cannot be replayed as current cell records
+  ---
+  duration_ms: 397.674226
+  type: 'test'
+  ...
+# Subtest: failed persistence retains pending ID and record bytes for retry; broken JSON body stays untouched
+ok 12 - failed persistence retains pending ID and record bytes for retry; broken JSON body stays untouched
+  ---
+  duration_ms: 281.027921
+  type: 'test'
+  ...
+# Subtest: unresolved water remains explicit null in a zero-founder record, and incomplete foundation fixtures are not silently converted
+ok 13 - unresolved water remains explicit null in a zero-founder record, and incomplete foundation fixtures are not silently converted
+  ---
+  duration_ms: 299.668834
+  type: 'test'
+  ...
+# Subtest: b+a keeps only effective changes; expiry preserves learning and child uses its own base
+ok 14 - b+a keeps only effective changes; expiry preserves learning and child uses its own base
+  ---
+  duration_ms: 14.957565
+  type: 'test'
+  ...
+# Subtest: own publication uses fixed meaning slots, real outcomes, local context and a 30T clock
+ok 15 - own publication uses fixed meaning slots, real outcomes, local context and a 30T clock
+  ---
+  duration_ms: 33.196246
+  type: 'test'
+  ...
+# Subtest: combined receipt pays once; repeated direction habituates without sender history or self-experience
+ok 16 - combined receipt pays once; repeated direction habituates without sender history or self-experience
+  ---
+  duration_ms: 16.551152
+  type: 'test'
+  ...
+# Subtest: opposite stimuli retain both signs; reverse learning uses separate habituation
+ok 17 - opposite stimuli retain both signs; reverse learning uses separate habituation
+  ---
+  duration_ms: 14.148043
+  type: 'test'
+  ...
+# Subtest: scope and true parent/caregiver use stronger direct transmission; unrelated kin is excluded
+ok 18 - scope and true parent/caregiver use stronger direct transmission; unrelated kin is excluded
+  ---
+  duration_ms: 29.330056
+  type: 'test'
+  ...
+# Subtest: zero influence or insufficient budget produces no learning and no reception fee
+ok 19 - zero influence or insufficient budget produces no learning and no reception fee
+  ---
+  duration_ms: 27.044303
+  type: 'test'
+  ...
+# Subtest: parasite host affinity is an acquired current preference, separate from inherited host genes
+ok 20 - parasite host affinity is an acquired current preference, separate from inherited host genes
+  ---
+  duration_ms: 13.982662
+  type: 'test'
+  ...
+# Subtest: death publications coalesce by current class and expiry, without source identity or clock refresh
+ok 21 - death publications coalesce by current class and expiry, without source identity or clock refresh
+  ---
+  duration_ms: 14.107781
+  type: 'test'
+  ...
+# Subtest: synchronous diffusion conserves amount/evidence, decays strength once and expires the original bucket
+ok 22 - synchronous diffusion conserves amount/evidence, decays strength once and expires the original bucket
+  ---
+  duration_ms: 13.30601
+  type: 'test'
+  ...
+# Subtest: place stimulus is temporary and does not charge or add to acquired a
+ok 23 - place stimulus is temporary and does not charge or add to acquired a
+  ---
+  duration_ms: 13.793396
+  type: 'test'
+  ...
+# Subtest: Q retains the live link and finite aggregated residues; later Q does not renew older expiry
+ok 24 - Q retains the live link and finite aggregated residues; later Q does not renew older expiry
+  ---
+  duration_ms: 15.624674
+  type: 'test'
+  ...
+# Subtest: source and generated models commit the same short current-state run and preserve the input
+ok 25 - source and generated models commit the same short current-state run and preserve the input
+  ---
+  duration_ms: 1943.674613
+  type: 'test'
+  ...
+# Subtest: unknown/old state is rejected rather than silently reinterpreted
+ok 26 - unknown/old state is rejected rather than silently reinterpreted
+  ---
+  duration_ms: 14.501115
+  type: 'test'
+  ...
+# Subtest: actual child construction inherits b without acquired a; frozen snapshots expose derived values
+ok 27 - actual child construction inherits b without acquired a; frozen snapshots expose derived values
+  ---
+  duration_ms: 15.352542
+  type: 'test'
+  ...
+# Subtest: internal current-state records are explicitly blocked until the new archive schema is connected
+ok 28 - internal current-state records are explicitly blocked until the new archive schema is connected
+  ---
+  duration_ms: 17.467316
+  type: 'test'
+  ...
+1..28
+# tests 28
+# suites 0
+# pass 28
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 25399.679744

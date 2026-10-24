@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "checks": [
+    "IndexedDB native record save",
+    "compact header excludes history and final state",
+    "reload reads and validates native body",
+    "replay from initial conditions never autosaves",
+    "header/body mismatch is rejected",
+    "failed read leaves body unchanged"
+  ],
+  "turns": 2,
+  "rows": 3,
+  "headerCharacters": 1860,
+  "bodyCharacters": 623134,
+  "pageErrors": []
+}

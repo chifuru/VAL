@@ -1,0 +1,8 @@
+{
+  "issue": "worker-resumed-current-catalogue",
+  "firstMismatch": "informationState.outgoing.components peer species became unknown",
+  "cause": "additional active species registered only when creating a world; Worker starts from an initialized world",
+  "fix": "register active catalogue by effective config before recording real experience, without resetting the world",
+  "verification": "all 3 actual Worker transport modes match atomic worlds over 2T",
+  "uiActivation": false
+}

@@ -7,7 +7,8 @@
     SCOPES=['all','species','layer','kin','parasite'],zero=()=>Array(9).fill(0),decay=(dt,h)=>Math.pow(2,-Math.max(0,dt)/h);
   function bind(S){
     const I=S.PersistentInformation,enabled=w=>w?.config?.currentStateModel===VERSION,
-      vector=v=>Array.isArray(v)&&v.length===9&&v.every(Number.isFinite),temporary=new WeakMap(),knownSpecies=new Set([...S.D.species.map(s=>s.id),'ryouki']);
+      vector=v=>Array.isArray(v)&&v.length===9&&v.every(Number.isFinite),temporary=new WeakMap(),catalogues=new WeakSet(),knownSpecies=new Set([...S.D.species.map(s=>s.id),'ryouki']);
+    function register(w){if(catalogues.has(w.config))return;for(const species of S.activeSpecies(w))knownSpecies.add(species.id);catalogues.add(w.config);}
     function attach(w,o){
       if(!enabled(w))return o;
       if(o.informationState&&o.informationState.version!==STATE)throw Error('CURRENT_INFORMATION_OLD_STATE');
@@ -39,6 +40,7 @@
       if(a.caregivers)a.caregivers=a.caregivers.filter(c=>c.expires>w.turn);
     }
     function experience(w,o,event){
+      register(w);
       if(!event||event.received||event.actual===false||!MEANINGS.includes(event.meaning)||!SCOPES.includes(event.scope??'layer')||
         !Number.isFinite(event.amount)||event.amount<=0||typeof event.result!=='string'||event.turn!==undefined&&event.turn!==w.turn)return null;
       const values=event.values??[];if(!values.some(v=>v.value!==0)||values.some(v=>!Number.isInteger(v.axis)||v.axis<0||v.axis>8||!Number.isFinite(v.value)))return null;
@@ -60,7 +62,7 @@
     const qualified=c=>c.count>=6&&c.distinctTurns>=3;
     function cellOf(entry){return entry.subject.cell??entry.carrier?.cell??entry.host?.cell??entry.cell;}
     function initialize(w){
-      for(const species of S.activeSpecies(w))knownSpecies.add(species.id);
+      register(w);
       w.config.informationBenchmarks=I.benchmarks(w);w.informationField=[];w.informationLedger={initialAmount:0,generatedAmount:0,inactivatedAmount:0};
       for(const {subject}of I.entries(w))attach(w,subject);w.persistentInformationSummary=summary(w);
     }

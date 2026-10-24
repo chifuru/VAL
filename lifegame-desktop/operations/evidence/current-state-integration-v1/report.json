@@ -1,0 +1,50 @@
+{
+  "definition": "current-state-integration-evidence/1",
+  "baseline": "34b6f57b5a7c8bd42d6603567206bce181240b75",
+  "signature": "7808c4542ba8277512ec7302fe8f8d6d7063ea7171f3c878b3340ce4de52a2d6",
+  "productVersion": "4.2.77",
+  "path": "explicit currentStateModel=current-state/1; internal comparison only",
+  "checks": {
+    "integration.log": 12,
+    "related.log": 28
+  },
+  "totalTests": 40,
+  "sourceGeneratedEqualTurns": 3,
+  "structuralFixtures": {
+    "workerModes": 3,
+    "workerTurns": 2,
+    "nativeReplayTurns": 3,
+    "browserNativeTurns": 2,
+    "browserChecks": 6,
+    "recordSchema": 4
+  },
+  "legacyParityConditions": 3,
+  "legacyParityTurns": 2,
+  "newStateArchive": "native schema4 API connected; ordinary UI pending CS07 second half",
+  "newBiologicalRulesAliasedToOld": false,
+  "defaultModeChanged": false,
+  "fullUIObservationArchiveConnected": false,
+  "natural500TMeasured": false,
+  "globalPerformanceMeasured": false,
+  "windowsMeasured": false,
+  "browserRecordApiMeasured": true,
+  "ordinaryGameUIMeasured": false,
+  "sha256": {
+    "src/Index.html": "26135975c2fa45aafba82bf02f562d134fbaaa7d8c1e75c992404df13602aca6",
+    "src/ecology/archive.js": "c2f39c0731d37969dd9c2a0c8d1aa0eab7335362a89d29f629a9afb1cc4d0ce3",
+    "src/ecology/current-information.js": "efe8c6b707ae7615d0560ce6e32942c2c150c9a17d458e6c50eeff8c8a88f5c9",
+    "src/ecology/observation-modules.js": "97eaeeb8e70c0c37acc683c8ad06517081ab78e344fb4bb3ed643a90e0a22d0a",
+    "src/ecology/replay-version.js": "ea4f5a4e5debc57456efb63445c079d64e607151fdee9bfa4252a9ac41c1aa78",
+    "src/ecology/transport.js": "631ab4392760493a1b14b0e18bf81afea177cc8dead19eeea2e28f8695b48783",
+    "operations/evidence/current-state-integration-v1/README.md": "e59309eafdcafa978aac8eefe44c644cf2eca77bc1b831acf03cabb3fd805415",
+    "operations/evidence/current-state-integration-v1/browser.json": "876b6863cca134ae9a0fe5c409c505383132da1d9006569621747d708874e949",
+    "operations/evidence/current-state-integration-v1/diagnosis.json": "b7e674e25bc44951df94ec80d7bc67eca3873c953a315bf756316348c31235a3",
+    "operations/evidence/current-state-integration-v1/integration.log": "dcdc155e7ae68117b730b274ca8ae122d59d377ec1596b6b996cf887e9b7b0fc",
+    "operations/evidence/current-state-integration-v1/legacy-parity.json": "a1515875244a921abe0d46f13a1ee016da8715941eb1ea09196b6e8068d39b30",
+    "operations/evidence/current-state-integration-v1/related.log": "288283d6e7c3d40cbb42395e2273a5acb7f631fae865756e3a963c0f05be205a",
+    "src/ecology/current-archive.js": "4db06ffca2f0ee2b232839d46f5b6b0b90b2dcbf00f2479572a978e4c0954941",
+    "tests/current-integration-browser.cjs": "a1443277c0b8908077e86e5d837e81b0785eb57b4c6766661f9c39d56a716157",
+    "tests/current-integration-legacy-parity.cjs": "58715b7e4ace129455f5a555eb83d121618725f385a0160a7541928e66def1e4",
+    "tests/current-integration.test.cjs": "602e42f2d05d840c9577cb087b8aae267ff45e24988124f861517473eba1a541"
+  }
+}

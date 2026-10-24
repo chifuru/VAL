@@ -2,7 +2,7 @@
 
 計画名 `current-state-optimization/1`。起点 `97baa6c`。本書は作業計画であり、VALIS本体・採用仕様・実装済み機能ではない。
 
-現在の進捗：CS01のA/B反映、CS02〜05の現在状態集約に加え、CS06の水分/養分/土壌の更新対象管理を内部比較へ接続。CS06は55項目と従来3条件の短期比較を限定確認。契約/証跡は [CS06](current-state-activity-v1.md) / [結果](../evidence/current-state-activity-v1/README.md)。通常画面/Worker/図鑑への全接合・長期性能は未完。次はCS07のWorker/観測/画面/保存への全接続。
+現在の進捗：CS01〜06に加え、CS07前半のWorker現在状態転送と形式4/ネイティブ観測の保存・再生APIを接続。新規12・関連28、ブラウザ記録API6確認と従来3条件の短期比較が成功。[CS07契約](current-state-integration-v1.md) / [証跡](../evidence/current-state-integration-v1/README.md)。CS07全完了ではない。次は後半の通常画面/3グラフ/サマリ/手動詳細/CSV/図鑑画面への全接続。自然長期/総合性能はCS08。
 
 ## 1. 今回の実行契約
 

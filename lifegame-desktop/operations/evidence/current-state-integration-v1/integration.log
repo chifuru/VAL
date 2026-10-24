@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: same-cell current information uses distinct semantic keys and survives updates, deletion and reorder
+ok 1 - same-cell current information uses distinct semantic keys and survives updates, deletion and reorder
+  ---
+  duration_ms: 1355.305494
+  type: 'test'
+  ...
+# Subtest: large current vectors cross only changed indices and immutable map/config are not sent again
+ok 2 - large current vectors cross only changed indices and immutable map/config are not sent again
+  ---
+  duration_ms: 155.117288
+  type: 'test'
+  ...
+# Subtest: current nested state changes and removed keys reconstruct without changing the base or earlier packets
+ok 3 - current nested state changes and removed keys reconstruct without changing the base or earlier packets
+  ---
+  duration_ms: 202.464528
+  type: 'test'
+  ...
+# Subtest: foreign current object names, duplicate vector indices and wrong vector lengths are rejected
+ok 4 - foreign current object names, duplicate vector indices and wrong vector lengths are rejected
+  ---
+  duration_ms: 108.193127
+  type: 'test'
+  ...
+# Subtest: actual Worker batch, streamed phases and final-only current frames reconstruct two committed turns
+ok 5 - actual Worker batch, streamed phases and final-only current frames reconstruct two committed turns
+  ---
+  duration_ms: 5128.589847
+  type: 'test'
+  ...
+# Subtest: discarding partial computation keeps current clocks and allows exact resume from the committed world
+ok 6 - discarding partial computation keeps current clocks and allows exact resume from the committed world
+  ---
+  duration_ms: 741.01261
+  type: 'test'
+  ...
+# Subtest: schema4 saves native full-turn facts and final current state, without historical world snapshots
+ok 7 - schema4 saves native full-turn facts and final current state, without historical world snapshots
+  ---
+  duration_ms: 450.326932
+  type: 'test'
+  ...
+# Subtest: reading and replay request never write, and resolved initial conditions replay the saved fingerprint
+ok 8 - reading and replay request never write, and resolved initial conditions replay the saved fingerprint
+  ---
+  duration_ms: 1312.46792
+  type: 'test'
+  ...
+# Subtest: saving a replay creates a separate record only with explicit replay-new intent
+ok 9 - saving a replay creates a separate record only with explicit replay-new intent
+  ---
+  duration_ms: 605.749918
+  type: 'test'
+  ...
+# Subtest: native records remain readable with a foreign signature while recalculation is refused
+ok 10 - native records remain readable with a foreign signature while recalculation is refused
+  ---
+  duration_ms: 422.238604
+  type: 'test'
+  ...
+# Subtest: record integrity, missing turns, invalid current clocks and genotype references are rejected
+ok 11 - record integrity, missing turns, invalid current clocks and genotype references are rejected
+  ---
+  duration_ms: 857.064061
+  type: 'test'
+  ...
+# Subtest: new native records do not pass old cell-archive guards and old snapshots are not silently converted
+ok 12 - new native records do not pass old cell-archive guards and old snapshots are not silently converted
+  ---
+  duration_ms: 379.963087
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 11729.624032

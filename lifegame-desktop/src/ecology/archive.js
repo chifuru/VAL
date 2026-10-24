@@ -1,5 +1,5 @@
 /* Final results and aggregate turn observations; no per-turn world snapshots. */
-(function(root,factory){const node=typeof module==='object'&&module.exports,api=factory(()=>node?require('./observations.js'):root.EcoObservations,node?require('./cell-archive.js'):root.EcoCellArchive);if(node)module.exports=api;else root.EcoArchive=api;})(globalThis,function(observationsAPI,CellArchive){
+(function(root,factory){const node=typeof module==='object'&&module.exports,api=factory(()=>node?require('./observations.js'):root.EcoObservations,node?require('./cell-archive.js'):root.EcoCellArchive,node?require('./current-archive.js'):root.EcoCurrentArchive);if(node)module.exports=api;else root.EcoArchive=api;})(globalThis,function(observationsAPI,CellArchive,CurrentArchive){
  'use strict';
  const KEY='lifegame.results.v1',LIMIT=100;
  // Legacy aliases are gated by the features absent from their source version.
@@ -49,6 +49,8 @@
  const cellAcquireBuildSignature="b76f5c4fd56870ed550f35eb16992be542f747f2adb27f5f49ba35680bf7a19d";
  const cellInformationBuildSignature="219b2a50d6ecf08eb552770f8e26535dbfde144b57751195ebe18757f2a035cf";
  function canonicalSignature(s,config){
+  // CS07's resumed catalogue fix affects only the explicit current-state path.
+  if(config.currentStateModel===undefined&&s==='7808c4542ba8277512ec7302fe8f8d6d7063ea7171f3c878b3340ce4de52a2d6')s='f5bb8318b5ba9f8997c94ac56d219724c723cf17174ff788cf8efadc3c8399a0';
   // CS06 changes update targets only on the explicit current-state path.
   if(config.currentStateModel===undefined&&s==='f5bb8318b5ba9f8997c94ac56d219724c723cf17174ff788cf8efadc3c8399a0')s='6b96341c7304a469ca5bc66232d7b479434890c02d1650ef688c458921705ca6';
   // CS05 changes only the explicit current-state infection pools and residuals.
@@ -171,6 +173,7 @@
   if(s.examples.organisms.total!==(record.config.consumerModel==='group/1'?record.final.stats.agents:record.final.stats.population)||s.examples.primaryParasites.total!==(last.primaryParasite?.count??0)||s.examples.hyperParasites.total!==(last.hyperParasite?.count??0)||s.examples.informationField.total!==(last.persistentInformation?.field.records??0)||s.examples.informationSubjects.total!==(last.persistentInformation?.subjects??0))error();
  }
  function validateFullRecord(record,engine){
+  if(record?.schema===4||record?.config?.currentStateModel!==undefined)return CurrentArchive.validate(record,engine);
   if(record?.config?.cellModel!==undefined)return CellArchive.validate(record,engine,observationsAPI());
   if(!record||![1,2,3].includes(record.schema)||typeof record.id!=='string'||typeof record.signature!=='string'||!integer(record.turn)||typeof record.config?.seed!=='string'||!record.final)throw Error('保存本文の形式が不正です。');
   if(record.config.consumerModel!==undefined&&record.config.consumerModel!=='group/1')throw Error('一次消費者集団の版が不正です。');
@@ -196,14 +199,14 @@
   validateTerminal(record);return record;
  }
  function headerFor(record){
-  if(record.schema!==3){const header=structuredClone({...record,observation:undefined});delete header.observation;return header;}
-  return {...pick(record,['schema','id','signature','turn','reason','created','finalFingerprint','originRecordId','replayMatch','hasObservations']),config:pick(record.config,['seed','modeResolved','mapResolved','generationSettings',...modelKeys]),generation:{profile:record.config.generationResolved.profile,selectedAttempt:record.config.generationResolved.selectedAttempt},final:pick(record.final,['counts','main','food','P','Q'])};
+  if(![3,4].includes(record.schema)){const header=structuredClone({...record,observation:undefined});delete header.observation;return header;}
+  return {...pick(record,['schema','id','signature','turn','reason','created','finalFingerprint','originRecordId','replayMatch','hasObservations',...(record.schema===4?['integrity']:[])]),config:pick(record.config,['seed','modeResolved','mapResolved','generationSettings',...(record.schema===4?['currentStateModel']:[]),...modelKeys]),generation:{profile:record.config.generationResolved.profile,selectedAttempt:record.config.generationResolved.selectedAttempt},final:pick(record.final,['counts','main','food','P','Q'])};
  }
  function create(storage,engine,signature){
   function list(){
    const raw=storage.getItem(KEY);if(!raw)return [];
    const rows=JSON.parse(raw);if(!Array.isArray(rows))throw Error('観測記録が破損しています。保存を中止しました。');
-   if(rows.some(r=>!r||![1,2,3].includes(r.schema)||typeof r.id!=='string'||typeof r.signature!=='string'||!Number.isSafeInteger(r.turn)||r.turn<0||!r.config||typeof r.config.seed!=='string'||!r.final))throw Error('読み取れない観測記録があります。上書きせず保存を中止しました。');
+   if(rows.some(r=>!r||![1,2,3,4].includes(r.schema)||typeof r.id!=='string'||typeof r.signature!=='string'||!Number.isSafeInteger(r.turn)||r.turn<0||!r.config||typeof r.config.seed!=='string'||!r.final))throw Error('読み取れない観測記録があります。上書きせず保存を中止しました。');
    return rows;
   }
   const validateRecord=record=>validateFullRecord(record,engine);
@@ -213,6 +216,7 @@
     return record;
   }
   function capture(world,reason,observation,originRecordId=null){
+    if(world.config.currentStateModel!==undefined)return CurrentArchive.capture(world,reason,observation,{engine,signature,originRecordId});
     if(world.config.cellModel!==undefined)return CellArchive.capture(world,reason,observation,{engine,signature,originRecordId,terminalState,O:observationsAPI()});
     if(world.config.balanceModel!==undefined&&!['survival/1','survival/2','survival/3','survival/4'].includes(world.config.balanceModel))throw Error('生存調整の観測方式を読み取れません。');
     const relationModel=world.config.relationshipModel;
@@ -264,7 +268,7 @@
   }
   function save(record,mode='normal'){
    if(!['normal','replay-new'].includes(mode)||record.originRecordId&&mode!=='replay-new')return false;
-   if(mode==='replay-new'&&(!record.originRecordId||![2,3].includes(record.schema)))throw Error('新規保存する再生元がありません。');
+   if(mode==='replay-new'&&(!record.originRecordId||![2,3,4].includes(record.schema)))throw Error('新規保存する再生元がありません。');
    validateRecord(record);
    const rows=list();if(rows.some(r=>r.id===record.id&&r.signature===record.signature))return false;
    if(rows.length>=LIMIT)throw Error('観測記録が100件に達しました。不要な記録を削除してから保存を再試行してください。');
@@ -291,19 +295,20 @@
    async function ready(){
      const db=await open(),next=await requestValue(db.transaction('headers').objectStore('headers').getAll());
      create({getItem:()=>JSON.stringify([...next,...legacy.list()])},engine,signature).list();
-     for(const header of next)if(header.schema===3){finiteData(header);if(header.config?.generationModel!=='diverse/1'||header.config.generationSettings?.version!=='diverse-generation-parameters/1'||header.config.generationResolved!==undefined||header.final?.state!==undefined||header.observation!==undefined||!Object.values(header.final?.counts||{}).every(integer)||typeof header.generation?.profile!=='string'||!integer(header.generation?.selectedAttempt))throw Error('保存された一覧の形式が不正です。');}
+     for(const header of next)if([3,4].includes(header.schema)){finiteData(header);if(header.config?.generationModel!=='diverse/1'||header.config.generationSettings?.version!=='diverse-generation-parameters/1'||header.config.generationResolved!==undefined||header.final?.state!==undefined||header.observation!==undefined||!Object.values(header.final?.counts||{}).every(integer)||typeof header.generation?.profile!=='string'||!integer(header.generation?.selectedAttempt))throw Error('保存された一覧の形式が不正です。');}
+     for(const header of next)if(header.schema===4&&(header.config.currentStateModel!=='current-state/1'||!(/^[a-f0-9]{64}$/).test(header.integrity)))throw Error('現在状態の保存一覧の版または識別情報が不正です。');
      headers=next;loaded=true;
    }
    let readyPromise=ready();readyPromise.catch(()=>{});
    const api={capture:legacy.capture,limit:LIMIT,get ready(){return readyPromise;},retry(){readyPromise=ready();readyPromise.catch(()=>{});return readyPromise;},
      list(){if(!loaded)throw Error('図鑑を読み込み中です。');return cached.list().sort((a,b)=>b.created.localeCompare(a.created)||a.id.localeCompare(b.id));},
-     replay:id=>cached.replay(id),replayRecord:legacy.replayRecord,validateFullRecord:legacy.validateFullRecord,
-     async get(id){await api.ready;let record=legacy.get(id);if(!record){const db=await open();record=await requestValue(db.transaction('records').objectStore('records').get(id));}if(!record)throw Error('観測記録が見つかりません。');if(record.id!==id)throw Error('保存本文のIDが一致しません。');legacy.validateFullRecord(record);if(record.schema===3){const header=headers.find(h=>h.id===id);if(header&&!same(header,headerFor(record)))throw Error('保存本文と一覧の条件・署名・最終結果が一致しません。');}if(record.schema===2&&(!record.observation||record.observation.rows?.length!==record.turn+1||record.observation.metadata?.version!==record.signature||JSON.stringify(record.observation.metadata.config)!==JSON.stringify(record.config)))throw Error('保存された全期間記録が破損しています。上書きしません。');return record;},
+     replay:id=>cached.list().find(r=>r.id===id)?.schema===4?api.get(id).then(record=>legacy.replayRecord(record)):cached.replay(id),replayRecord:legacy.replayRecord,validateFullRecord:legacy.validateFullRecord,
+     async get(id){await api.ready;let record=legacy.get(id);if(!record){const db=await open();record=await requestValue(db.transaction('records').objectStore('records').get(id));}if(!record)throw Error('観測記録が見つかりません。');if(record.id!==id)throw Error('保存本文のIDが一致しません。');legacy.validateFullRecord(record);if([3,4].includes(record.schema)){const header=headers.find(h=>h.id===id);if(header&&!same(header,headerFor(record)))throw Error('保存本文と一覧の条件・署名・最終結果が一致しません。');}if(record.schema===2&&(!record.observation||record.observation.rows?.length!==record.turn+1||record.observation.metadata?.version!==record.signature||JSON.stringify(record.observation.metadata.config)!==JSON.stringify(record.config)))throw Error('保存された全期間記録が破損しています。上書きしません。');return record;},
      async save(record,mode='normal'){
        await api.ready;
        if(!['normal','replay-new'].includes(mode)||record.originRecordId&&mode!=='replay-new')return false;
-       if(mode==='replay-new'&&(!record.originRecordId||![2,3].includes(record.schema)))throw Error('新規保存する再生元がありません。');
-       if(![2,3].includes(record.schema)||!record.observation||record.finalFingerprint?.length!==64)throw Error('保存する全期間記録を読み取れません。');
+       if(mode==='replay-new'&&(!record.originRecordId||![2,3,4].includes(record.schema)))throw Error('新規保存する再生元がありません。');
+       if(![2,3,4].includes(record.schema)||!record.observation||record.finalFingerprint?.length!==64)throw Error('保存する全期間記録を読み取れません。');
        legacy.validateFullRecord(record);
        const oldCount=legacy.list().length,db=await open(),header=headerFor(record);
        const saved=await new Promise((resolve,reject)=>{const tx=db.transaction(['headers','records'],'readwrite'),hs=tx.objectStore('headers');let duplicate=false,limit=false,failure=null;
