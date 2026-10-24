@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: three settlers admit two movers; arrivals cannot settle until a later turn
+ok 1 - three settlers admit two movers; arrivals cannot settle until a later turn
+  ---
+  duration_ms: 93.627325
+  type: 'test'
+  ...
+# Subtest: settlement arbitration is reproducible, array-order independent and does not rank paid cost
+ok 2 - settlement arbitration is reproducible, array-order independent and does not rank paid cost
+  ---
+  duration_ms: 28.220508
+  type: 'test'
+  ...
+# Subtest: packed nine keep independent IDs and only two individual passage slots
+ok 3 - packed nine keep independent IDs and only two individual passage slots
+  ---
+  duration_ms: 54.873792
+  type: 'test'
+  ...
+# Subtest: actual prefix alone is charged; a wall, insufficient budget or full tile stops further steps
+ok 4 - actual prefix alone is charged; a wall, insufficient budget or full tile stops further steps
+  ---
+  duration_ms: 40.384252
+  type: 'test'
+  ...
+# Subtest: blocked and species-incompatible terrain cannot be entered; aquatic producer uses the shared main capacity
+ok 5 - blocked and species-incompatible terrain cannot be entered; aquatic producer uses the shared main capacity
+  ---
+  duration_ms: 68.378879
+  type: 'test'
+  ...
+# Subtest: movement distance stays phase-dependent for normal ryouki and three for all mutated phases
+ok 6 - movement distance stays phase-dependent for normal ryouki and three for all mutated phases
+  ---
+  duration_ms: 104.532771
+  type: 'test'
+  ...
+# Subtest: local encounter elects combat, locks movement and preserves actual contact IDs
+ok 7 - local encounter elects combat, locks movement and preserves actual contact IDs
+  ---
+  duration_ms: 21.16625
+  type: 'test'
+  ...
+# Subtest: combat rechecks target survival, range, readiness, friendship and remaining budget without charging failures
+ok 8 - combat rechecks target survival, range, readiness, friendship and remaining budget without charging failures
+  ---
+  duration_ms: 77.164058
+  type: 'test'
+  ...
+# Subtest: full settlement does not force friendly combat, eviction or grant a fourth settlement
+ok 9 - full settlement does not force friendly combat, eviction or grant a fourth settlement
+  ---
+  duration_ms: 11.481705
+  type: 'test'
+  ...
+# Subtest: sustained low density waits for ordinary capacity, then releases without identity or resource changes
+ok 10 - sustained low density waits for ordinary capacity, then releases without identity or resource changes
+  ---
+  duration_ms: 11.696239
+  type: 'test'
+  ...
+# Subtest: voluntary departure can resolve release waiting; state and movement timestamp survive Worker/JSON
+ok 11 - voluntary departure can resolve release waiting; state and movement timestamp survive Worker/JSON
+  ---
+  duration_ms: 22.443165
+  type: 'test'
+  ...
+# Subtest: transient occupant with full settlement tries an available route and waits if all routes are blocked
+ok 12 - transient occupant with full settlement tries an available route and waits if all routes are blocked
+  ---
+  duration_ms: 61.422815
+  type: 'test'
+  ...
+# Subtest: generated runtime and source model resolve the same movement, occupancy and events
+ok 13 - generated runtime and source model resolve the same movement, occupancy and events
+  ---
+  duration_ms: 285.642597
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 925.403865

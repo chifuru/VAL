@@ -97,7 +97,7 @@
       ctx.primaryHooks=P;
       ctx.primaryFlow=P.emptyPrimaryFlow(w);
     }
-    if(S.HyperParasite?.enabled(w))ctx.hyperFlow=P.emptyHyperFlow(w);
+    if(S.HyperParasite?.enabled(w)){ctx.hyperFlow=P.emptyHyperFlow(w);ctx.hyperHooks=P;}
     if(S.PersistentInformation?.enabled(w)){
       ctx.informationHooks=P;
       ctx.persistentInformationFlow=P.emptyInformationFlow(w);
@@ -387,8 +387,10 @@
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),...(S.HyperParasite?.enabled(w)?{hyperParasite:structuredClone(ctx.hyperFlow)}:{}),...(S.PersistentInformation?.enabled(w)?{persistentInformation:structuredClone(ctx.persistentInformationFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.reduce((n,d)=>n+(d.count??1),0),transfers:ctx.transfers};
   }
   function cellLife(w,ctx,otherMaintenance=new Map()){
+    if(!ctx.cellCombatResolved&&[...ctx.intents.values()].some(c=>c.type==="attack"))B.combat(w,ctx);
     N.payActions(w,ctx);
     N.CellResources.resolveDeaths(w,ctx);
+    N.CellResources.predation(w,ctx);
     if(S.HyperParasite?.enabled(w))P.search(w,ctx);
     const demand=N.CellResources.lifeDemands(w,ctx);
     const maintenance=new Map([...otherMaintenance,...demand.maintenance]);
@@ -401,7 +403,7 @@
     N.CellResources.background(w,ctx);
     if(S.PrimaryParasite?.enabled(w)){P.contacts(w,ctx);P.mature(w,ctx);P.reproduce(w,ctx);}
     if(S.PersistentInformation?.enabled(w))P.informationFinalize(w,ctx);
-    // Direct live predation, remaining aquatic life and public stepping are
+    // Special photosynthesis, remaining aquatic life and public stepping are
     // still guarded CR06 boundaries; this is an internal consumer-life entry.
     return demand;
   }

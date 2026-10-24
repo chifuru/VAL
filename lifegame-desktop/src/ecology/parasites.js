@@ -412,6 +412,16 @@
     ctx.deaths.push({species:"hyperparasite",reason});if(reason==="predation")hyperFlow(w,ctx,"preyed");
     hyperOutcome(w,q,"dead",reason);hyperEvent(ctx,q,"death",{parasite:q.id,reason});return true;
   }
+  function hyperEvade(w,ctx,q,predator){
+    // Same finite escape rule as the existing free-Q ration path. A successful
+    // escape protects this individual for the T, without repeated charges.
+    if(!cohorts(w))return false;
+    if(ctx.hyperEscaped?.has(q.id))return true;
+    const chance=fanout(w)?.80+.05*(S.ParasiteCohort.members(q)-1):.45+.15*(S.ParasiteCohort.members(q)-1);
+    if(q.E<.004||S.r(w,"hyper/cohort-evade",w.turn,q.id,predator.id)>=chance)return false;
+    q.E=S.round(q.E-.004);S.dissipate(w,.004);(ctx.hyperEscaped??=new Set()).add(q.id);
+    S.record(ctx,q,"evade",{predator:predator.id,cell:q.cell,species:"hyperparasite"});return true;
+  }
   function hyperExpose(w,ctx,parent,host) {
     if(!hyperEnabled(w)||!S.HyperParasite.is(parent)||parent.phase!==4||parent.hyper.state!=="adult")return {invaded:false,reason:"parent"};
     const z=S.HyperParasite.settings(w),p=host?.infection,last=hyperLast(w,parent);
@@ -1703,7 +1713,7 @@
   }
   return {
     emptyInformationFlow,informationTrack,informationDeath,informationBegin,informationPlace,informationUsed,informationFinalize,informationHostFactor,
-    hyperBegin,hyperMature,hyperSearch,hyperExclude,hyperExpose,hyperEstablish,hyperAdultDeath,emptyHyperFlow,
+    hyperBegin,hyperMature,hyperSearch,hyperExclude,hyperExpose,hyperEstablish,hyperAdultDeath,hyperEvade,emptyHyperFlow,
     begin,hostDeath,expireCarrier,produce,expose,diffuse,exclude,emptyPrimaryFlow,
     clear,search,windowOpen,
     required,

@@ -334,6 +334,9 @@
       if ((!S.CellSpace.enabled(w)||cell===o.cell) && producer && s.id !== "kelp" && S.edibleB(producer)>0 && producer.HP>0 &&
           (s.group === "main" || s.group === "prey") && S.distance(w,o.cell,cell)<=1 && S.oneStep(w,o.cell,cell))
         out.push({type:"harvest",cell:o.cell,target:producer.id,cost:0,path:[]});
+      if(S.CellSpace.enabled(w)&&cell===o.cell&&s.group==="main"&&(S.D.diets[s.diet]?.hunt??-1)>=0)
+        for(const target of m.cellSpace.get(cell)?.[3]||[])if(target.HP>0&&S.ConsumerGroup.count(target)>0)
+          out.push({type:"harvest",cell:o.cell,target:target.id,cost:0,path:[]});
       for (const ward of (grouped(w)?S.mainAt(m,cell):[main])) if (
         s.id === "swarm" &&
         o.role === "worker" &&
@@ -1073,7 +1076,7 @@
       byTarget = new Map();
     for (const o of w.organisms) {
       const c = ctx.intents.get(o.id);
-      if (c.type !== "attack") continue;
+      if (c?.type !== "attack") continue;
       const target = m.byId.get(c.target),
         p = ctx.traits.get(o.id);
       if (
@@ -1121,6 +1124,11 @@
         .sort(
           (a, b) => b.damage - a.damage || S.compare(a.o.id, b.o.id),
         )[0].o.id;
+      if(S.CellSpace.enabled(w)){
+        // Biological strike participants, independent of capped animation
+        // events. Only these actual hits may qualify a same-cell kill ration.
+        (ctx.cellCombatSources??=new Map()).set(id,hits.map(h=>({id:h.o.id,damage:S.round(actual*h.damage/total)})));
+      }
       if(S.ConsumerGroup.is(target))S.ConsumerGroup.damage(w,target,actual);
       else target.HP = S.round(Math.max(0, target.HP - total));
     }

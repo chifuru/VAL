@@ -1411,7 +1411,7 @@ return {settings,attach,region,level,factor,begin,finish};
       compact(o);if(ctx)ctx.traits.set(part.id,{...phenotype(w,o),phase:part.phase});
       return {part,cohorts,n,before,infected,infectedAge};
     }
-    function damage(w,o,value){if(!is(o))return;const g=o.consumerGroup;if(CellLife.is(o))g.wounds=Math.max(g.wounds,maxHP(o)-o.HP);g.wounds=H.round(g.wounds+value);o.HP=H.round(Math.max(0,maxHP(o)-g.wounds));}
+    function damage(w,o,value){if(!is(o))return;const g=o.consumerGroup,maximum=CellLife.is(o)?CellLife.phenotype(w,o).maxHP:maxHP(o);if(CellLife.is(o))g.wounds=Math.max(g.wounds,maximum-o.HP);g.wounds=H.round(g.wounds+value);o.HP=H.round(Math.max(0,maximum-g.wounds));}
     function heal(o,amount){if(is(o))o.consumerGroup.wounds=H.round(Math.max(0,o.consumerGroup.wounds-amount));}
     function recordLoss(w,o,piece,reason,ctx){
       o.consumerGroup.last[reason]+=piece.n;
@@ -3959,13 +3959,76 @@ function(require,module){
       if(o.cellMatter){o.cellMatter.bodyM=0;o.cellMatter.newB=0;o.cellMatter.newEdibleB=0;}
       w.carcasses.push(a);return a;
     }
+    function recordCapture(w,ctx,source,row,actors){
+      if(row.created!==w.turn||row.cell!==source.cell)throw Error("CELL_CAPTURE_INVALID");
+      const m=ctx.current||S.maps(w),eligible=[];
+      for(const id of actors){
+        const o=m.byId.get(id);if(!o||o.HP<=0||!ctx.old.has(id)||o.cell!==source.cell||S.spec(o).group!=="main"||o.species===source.species)continue;
+        if(isRyouki(w,o)&&S.spec(source).group!=="prey"||S.spec(o).id==="kelp"&&S.spec(source).group==="main")continue;
+        eligible.push(o.id);
+      }
+      if(!eligible.length)return;
+      const captures=ctx.cellCaptures??=new Map();let entry=captures.get(row.id);
+      if(!entry){entry={row,sourceId:source.id,actors:new Set()};captures.set(row.id,entry);}
+      for(const id of eligible){entry.actors.add(id);const byActor=ctx.cellCaptureByActor??=new Map();if(!byActor.has(id))byActor.set(id,[]);if(!byActor.get(id).includes(row.id))byActor.get(id).push(row.id);}
+    }
+    function combatCapture(w,ctx,source,row){
+      recordCapture(w,ctx,source,row,(ctx.cellCombatSources?.get(source.id)||[]).filter(h=>h.damage>0).map(h=>h.id));
+    }
     function resolveDeaths(w,ctx){
       ready(w,ctx);if(ctx.cellDeathsResolved)return;ctx.cellDeathsResolved=true;
       groupDamage(w,ctx,"combat");
       for(const o of w.organisms)if(o.HP<=0&&(o.E>0||o.B>0||o.M>0||o.infection)){
-        remains(w,o,ctx);ctx.deaths.push({id:o.id,species:o.species,reason:"combat"});
+        const row=remains(w,o,ctx);combatCapture(w,ctx,o,row);ctx.deaths.push({id:o.id,species:o.species,reason:"combat"});
       }
       w.organisms=w.organisms.filter(o=>o.HP>0);ctx.current=S.maps(w);
+    }
+    function predation(w,ctx){
+      ready(w,ctx);if(!ctx.cellMotion?.completed||!ctx.cellDeathsResolved)throw Error("CELL_PREDATION_BEFORE_DEATHS");
+      if(ctx.cellResources.acquired||ctx.cellResources.budgetSettled||ctx.cellLifeDone)throw Error("CELL_PREDATION_AFTER_ACQUISITION");
+      if(ctx.cellPredationDone)throw Error("CELL_PREDATION_ALREADY_APPLIED");ctx.cellPredationDone=true;
+      const m=ctx.current||S.maps(w),qCells=new Map();
+      for(const q of w.searchQ||[])if(S.HyperParasite?.is(q)&&q.phase===4&&q.hyper.state==="adult"&&q.bornAt<w.turn&&q.hyper.detachedAt<w.turn){
+        if(!qCells.has(q.cell))qCells.set(q.cell,[]);qCells.get(q.cell).push(q);
+      }
+      const order=w.organisms.filter(o=>{
+        if(o.HP<=0||!ctx.old.has(o.id)||S.spec(o).group!=="main"||(S.D.diets[S.spec(o).diet]?.hunt??-1)<0||ctx.cellCaptureByActor?.get(o.id)?.length)return false;
+        const p=ctx.traits.get(o.id);return (o.E<p.capE-EPS||o.M<p.capM-EPS)&&
+          ((m.cellSpace.get(o.cell)?.[3]||[]).some(a=>a.HP>0&&ctx.old.has(a.id))||o.E<p.capE-EPS&&!isRyouki(w,o)&&(qCells.get(o.cell)||[]).some(q=>q.E+q.B>0));
+      }).map(o=>({o,h:S.hash(w,"cell/capture",w.turn,o.id)})).sort((a,b)=>a.h-b.h||S.compare(a.o.id,b.o.id));
+      let changed=false;
+      for(const {o}of order){
+        const choices=[],rows=m.cellSpace.get(o.cell);
+        // Compare real local food with live prey using the existing food
+        // preference. This local view never reads a remote tile's stock.
+        for(const a of [...(rows?.[1]||[]),...(rows?.[2]||[]),...(rows?.[5]||[])]){
+          const group=S.spec(a).group;if(a.HP<=0||!ctx.old.has(a.id)||!(S.edibleB(a)>0)||S.spec(o).id==="kelp"||isRyouki(w,o)&&group!=="plant")continue;
+          const hidden=a.cellMatter?.tissueAt===w.turn?a.cellMatter.newEdibleB??a.cellMatter.newB??0:0;
+          if(S.edibleB(a)>hidden)choices.push({type:"plant",id:a.id,obj:a,cell:a.cell,tag:S.spec(a).tag,healing:1,amount:(S.edibleB(a)-hidden)/Math.max(EPS,ctx.traits.get(a.id).capB-(a.cellLife?.baseB||0))});
+        }
+        for(const a of m.carcasses.get(o.cell)||[])if(a.created<w.turn&&!(a.availableAt>w.turn)&&a.q>0&&(a.E>0||a.M>0)&&a.species!==o.species&&(!isRyouki(w,o)||S.D.byId[a.species]?.group==="prey"))
+          choices.push({type:"carcass",id:a.id,obj:a,cell:a.cell,tag:a.tag,healing:1,amount:a.q/4});
+        for(const a of m.resources.get(o.cell)||[]){
+          const f=S.FOOD[a.kind];if(!["plant","fungal","animal","mineral"].includes(f?.tag)||a.q<=0||!(a.E>0||a.M>0)||a.created>=w.turn||a.availableAt>w.turn||a.expires!==null&&a.expires!==undefined&&a.expires<=w.turn||isRyouki(w,o)&&f.tag!=="mineral")continue;
+          choices.push({type:"resource",id:"r:"+a.cell+":"+a.kind,obj:a,cell:a.cell,tag:f.tag,healing:f.healing||1,amount:a.q/f.cap});
+        }
+        for(const a of rows?.[3]||[])if(a.HP>0&&ctx.old.has(a.id)&&S.ConsumerGroup.count(a)>0&&a.B>0)
+          choices.push({type:"live",id:a.id,obj:a,cell:a.cell,tag:"animal",healing:1,amount:a.B/Math.max(EPS,ctx.traits.get(a.id).capB)});
+        if(!isRyouki(w,o)&&o.E<ctx.traits.get(o.id).capE-EPS)for(const q of qCells.get(o.cell)||[])if(q.E+q.B>0)
+          choices.push({type:"hyper",id:q.id,obj:q,cell:q.cell,tag:"animal",healing:1,amount:Math.min(1,q.E+q.B)});
+        const intent=ctx.intents.get(o.id),chosen=(intent?.type==="harvest"?choices.find(a=>a.id===intent.target):null)||chooseSource(w,o,choices,ctx);
+        if(chosen?.type==="live"){
+          const target=chosen.obj;if(target.HP<=0||!S.ConsumerGroup.count(target))continue;
+          const row=groupLoss(w,target,1,"harvest",ctx);if(!row)continue;changed=true;recordCapture(w,ctx,target,row,[o.id]);
+          if(target.HP>0)ctx.traits.set(target.id,S.phenotype(w,target,ctx.traits.get(target.id).phase));
+        }else if(chosen?.type==="hyper"){
+          const q=chosen.obj;if(ctx.hyperHooks.hyperEvade(w,ctx,q,o))continue;
+          ctx.informationHooks?.informationDeath(w,ctx,q,{cell:q.cell});
+          const body={...q,slot:"free",M:0,HP:0,sex:null,role:null,branch3:null,branch4:null,facing:0,dna:{},infection:null,cellMatter:{bodyM:0},groupRemains:true},row=remains(w,body,ctx);
+          q.E=0;q.B=0;ctx.hyperHooks.hyperAdultDeath(w,ctx,q,"predation");changed=true;recordCapture(w,ctx,q,row,[o.id]);
+        }
+      }
+      if(changed){w.organisms=w.organisms.filter(o=>o.HP>0);ctx.current=S.maps(w);}
     }
     function background(w,ctx){
       const state=ready(w,ctx);if(!ctx.cellLifeDone)throw Error("CELL_BACKGROUND_BEFORE_LIFE");
@@ -4061,8 +4124,8 @@ function(require,module){
       return result;
     }
     const resourceId=(row,i)=>row.id??("resource/"+i+"/"+row.cell+"/"+row.kind);
-    function indexSources(w,m){
-      m.cellSources={carcass:new Map(w.carcasses.map(a=>[a.id,a])),organic:new Map(w.cellState.organic.map(a=>[a.id,a])),resource:new Map(),resourcesByCell:new Map()};
+    function indexSources(w,m,ctx){
+      m.cellSources={carcass:new Map(w.carcasses.map(a=>[a.id,a])),organic:new Map(w.cellState.organic.map(a=>[a.id,a])),capture:ctx.cellCaptures||new Map(),resource:new Map(),resourcesByCell:new Map()};
       for(const [i,row]of w.resources.entries()){
         const id=resourceId(row,i);m.cellSources.resource.set(id,row);
         if(!m.cellSources.resourcesByCell.has(row.cell))m.cellSources.resourcesByCell.set(row.cell,[]);m.cellSources.resourcesByCell.get(row.cell).push({kind:"resource",id});
@@ -4071,18 +4134,21 @@ function(require,module){
     function source(w,m,request){
       const key=request.source?.kind,id=request.source?.id;
       let row=key==="organism"?m.byId.get(id):key==="carcass"?(m.cellSources?.carcass?.get(id)??w.carcasses.find(a=>a.id===id)):key==="organic"?(m.cellSources?.organic?.get(id)??w.cellState.organic.find(a=>a.id===id)):key==="resource"?m.cellSources?.resource?.get(id):null;
+      if(key==="capture"){
+        const entry=m.cellSources?.capture.get(id);if(!entry?.actors.has(request.actor)||entry.row.created!==w.turn)return null;row=entry.row;
+      }
       if(!row)return null;
       if(key==="organism"){
         const group=S.spec(row).group;if(row.HP<=0||!["plant","fungus"].includes(group))return null;
         const hidden=row.cellMatter?.tissueAt===w.turn?(row.cellMatter.newEdibleB??row.cellMatter.newB)||0:0;
         return {row,key,id,cell:row.cell,units:Math.max(0,S.edibleB(row)-hidden)*(S.CellLife.is(row)?S.phenotype(w,row).biteFactor:1),E:1,M:(row.cellMatter?.bodyM||0)/Math.max(EPS,row.B),tag:group==="plant"?"plant":"fungal"};
       }
-      if(row.availableAt>w.turn||row.created>=w.turn)return null;
+      if(key!=="capture"&&(row.availableAt>w.turn||row.created>=w.turn))return null;
       if(key==="resource"){
         const tag=S.FOOD[row.kind]?.tag;if(!["plant","fungal","animal","mineral"].includes(tag)||row.expires!==null&&row.expires!==undefined&&row.expires<=w.turn||!(row.q>0))return null;
         return {row,key,id,cell:row.cell,units:row.q,body:0,E:row.E/row.q,M:row.M/row.q,tag};
       }
-      const units=key==="carcass"?(row.q||0):row.E||row.M;
+      const units=["carcass","capture"].includes(key)?(row.q||0):row.E||row.M;
       if(units<=0)return null;
       return {row,key,id,cell:row.cell,units,body:row.G??row.B??0,E:(row.E||0)/units,M:(row.M||0)/units,tag:row.tag||S.D.byId[row.species]?.tag||"animal"};
     }
@@ -4090,7 +4156,7 @@ function(require,module){
       const state=ready(w,ctx);if(state.acquired||state.budgetSettled)throw Error("CELL_RESOURCES_ALREADY_ACQUIRED");
       if(!ctx.cellMotion?.completed)throw Error("CELL_RESOURCES_BEFORE_MOVEMENT");
       if([...ctx.costs.values()].some(c=>c.action>0))throw Error("CELL_ACTIONS_UNPAID");
-      const m=ctx.current||S.maps(w);indexSources(w,m);
+      const m=ctx.current||S.maps(w);indexSources(w,m,ctx);
       const captured=captureLight(w,ctx,canopies,m),stocks={},demands={},compiled=[],seen=new Set();
       const pool=(key,amount)=>{if(!Object.hasOwn(stocks,key))stocks[key]=amount;return key;};
       const demand=(key,amount)=>{if(!Object.hasOwn(demands,key))demands[key]=amount;return key;};
@@ -4157,7 +4223,7 @@ function(require,module){
           state.light.find(a=>a.actor===o.id).used=quantity;
         }else{
           if(r.kind==="food"){
-            const before=s.key==="organism"?Math.max(0,S.edibleB(s.row)-(s.row.cellMatter?.tissueAt===w.turn?s.row.cellMatter.newEdibleB??s.row.cellMatter.newB??0:0)):["carcass","resource"].includes(s.key)?s.row.q:s.row.E||s.row.M;
+            const before=s.key==="organism"?Math.max(0,S.edibleB(s.row)-(s.row.cellMatter?.tissueAt===w.turn?s.row.cellMatter.newEdibleB??s.row.cellMatter.newB??0:0)):["carcass","capture","resource"].includes(s.key)?s.row.q:s.row.E||s.row.M;
             harvest={fraction:Math.min(1,quantity/Math.max(EPS,before)),beforeEdibleB:before,consumedB:s.key==="organism"?quantity:s.body*quantity/s.units,beforeQ:before};
           }
           rawE=down(quantity*s.E);rawM=down(Math.min(s.key==="organism"?(s.row.cellMatter?.bodyM||0):s.row.M||0,quantity*s.M));
@@ -4169,10 +4235,10 @@ function(require,module){
             if(S.FungalColony.is(s.row))S.FungalColony.increment(s.row,"consumedB",quantity);
           }else{
             const fraction=quantity/s.units;s.row.E=Q(s.row.E-rawE);s.row.M=Q(s.row.M-rawM);
-            if(s.key==="carcass"){s.row.q=Q(s.row.q-quantity);s.row.G=Q(Math.max(0,(s.row.G||0)-s.body*fraction));}
+            if(["carcass","capture"].includes(s.key)){s.row.q=Q(s.row.q-quantity);s.row.G=Q(Math.max(0,(s.row.G||0)-s.body*fraction));}
             else if(s.key==="resource"){s.row.q=Q(s.row.q-quantity);s.row.G=Q(Math.max(0,(s.row.G||0)*(1-fraction)));}
             else s.row.B=Q(Math.max(0,(s.row.B||0)-s.body*fraction));
-            if(["carcass","resource"].includes(s.key)&&s.row.q<=0&&(s.row.E>0||s.row.M>0)){
+            if(["carcass","capture","resource"].includes(s.key)&&s.row.q<=0&&(s.row.E>0||s.row.M>0)){
               S.CellSpace.deferMaterial(w,s.cell,{E:s.row.E,M:s.row.M,B:Math.min(s.row.E,s.row.G||0)});s.row.E=0;s.row.M=0;s.row.G=0;
             }
           }
@@ -4188,8 +4254,8 @@ function(require,module){
           const gain=isRyouki(w,o)?0:Math.min(300-o.G,E*(s.tag==="animal"?1+S.trait(o,"animalG",p.phase):1));o.G=Q(o.G+gain);record.G=Q(record.G+gain);record.reserve=Q(record.reserve+E);
         }
         if(r.kind==="food"||r.kind==="decompose"){
-          S.record(ctx,o,"feed",{source:s.id,sourceType:s.key,sourceSpecies:s.row.species??null,tag:r.kind==="decompose"?"animal":s.tag,amount:rawE,material:rawM,assimilated:E,assimilatedM:M,to:o.cell,consumedB:s.key==="organism"?quantity:s.body*quantity/s.units});
-          if(harvest&&["organism","carcass"].includes(s.key)&&!ctx.cellQActors?.has(o.id))ctx.primaryHooks?.transfer(w,ctx,s.row,o,s.key==="carcass"?"carcass":"plant",harvest);
+          S.record(ctx,o,"feed",{source:s.id,sourceType:s.key==="capture"?"predation":s.key,sourceSpecies:s.row.species??null,tag:r.kind==="decompose"?"animal":s.tag,amount:rawE,material:rawM,assimilated:E,assimilatedM:M,to:o.cell,consumedB:s.key==="organism"?quantity:s.body*quantity/s.units});
+          if(harvest&&["organism","carcass","capture"].includes(s.key)&&!ctx.cellQActors?.has(o.id))ctx.primaryHooks?.transfer(w,ctx,s.row,o,s.key==="carcass"?"carcass":s.key==="capture"?"capture":"plant",harvest);
         }
       }
       w.resources=w.resources.filter(row=>row.q>0);
@@ -4198,7 +4264,7 @@ function(require,module){
     function lifeDemands(w,ctx){
       ready(w,ctx);if(!ctx.cellMotion?.completed)throw Error("CELL_RESOURCES_BEFORE_MOVEMENT");
       const requests=[],canopies=[],maintenance=new Map(),m=ctx.current||S.maps(w),cells=m.cellSpace||S.CellSpace.index(w),materials=new Map();
-      indexSources(w,m);
+      indexSources(w,m,ctx);
       for(const [kind,rows]of [["organic",w.cellState.organic],["carcass",w.carcasses]])for(const row of rows){
         if(row.created>=w.turn||row.availableAt>w.turn)continue;
         if(!materials.has(row.cell))materials.set(row.cell,[]);materials.get(row.cell).push({row,kind});
@@ -4206,7 +4272,7 @@ function(require,module){
       function food(o,refs){
         const p=ctx.traits.get(o.id),adult=ctx.cellQActors?.has(o.id),e=Math.max(0,p.capE-o.E),mineral=Math.max(0,p.capM-(o.M||0));
         for(const ref of refs){
-          const s=source(w,m,{source:ref});if(!s||s.units<=0)continue;
+          const s=source(w,m,{actor:o.id,source:ref});if(!s||s.units<=0)continue;
           const eta=adult?S.HyperParasite.settings(w).adultAssimilation:efficiency(o,s.tag,p.phase),etaM=adult?0:S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase);
           if(!(eta>0)||adult&&!["plant","fungal","animal"].includes(s.tag))continue;
           const need=Math.min(s.units,Math.max(s.E*eta>0?e/(s.E*eta):0,s.M*etaM>0?mineral/(s.M*etaM):0));
@@ -4219,6 +4285,7 @@ function(require,module){
           maintenance.set(o.id,{E:ctx.costs.get(o.id).base,M:0});
           const rows=cells.get(o.cell),refs=[...(rows?.[1]||[]),...(rows?.[2]||[]),...(rows?.[5]||[])].map(a=>({kind:"organism",id:a.id}));
           for(const {row,kind}of materials.get(o.cell)||[])refs.push({kind,id:row.id});
+          for(const id of ctx.cellCaptureByActor?.get(o.id)||[])refs.push({kind:"capture",id});
           refs.push(...(m.cellSources.resourcesByCell.get(o.cell)||[]));
           food(o,refs);continue;
         }
@@ -4320,7 +4387,7 @@ function(require,module){
       S.dissipate(w,Q(tickets.reduce((n,a)=>n+a.t.E,0)-E-B));
       child.cellMatter={version:"cell-matter/1",bodyM:Q(.02*B),newB:B,newEdibleB:0,tissueAt:w.turn};return true;
     }
-    return {VERSION,allocate,begin,prepare,captureLight,acquire,settleBudgets,reserve,cancel,commit,formChild,lifeDemands,activity,background,remains,payloads,resolveDeaths};
+    return {VERSION,allocate,begin,prepare,captureLight,acquire,settleBudgets,reserve,cancel,commit,formChild,lifeDemands,activity,background,remains,payloads,resolveDeaths,predation,combatCapture};
   })();
   const isRyouki=(w,o)=>S.Ryouki?.enabled(w)===true&&S.Ryouki.is(o);
   function efficiency(o, tag, phase = o.phase) {
@@ -4982,6 +5049,7 @@ function(require,module){
     const piece=S.ConsumerGroup.extract(w,o,n,reason,ctx,ageOnly);if(!piece)return null;
     S.ConsumerGroup.recordLoss(w,o,piece,reason,ctx);
     const remains=carcass(w,piece.part,ctx);
+    if(S.CellSpace.enabled(w)&&reason==="combat")CellResources.combatCapture(w,ctx,o,remains);
     if(!S.ConsumerGroup.count(o)&&ctx.informationHooks)ctx.informationHooks.informationDeath(w,ctx,o,{reason,cell:o.cell});
     if(!S.CellLife.is(o))S.ConsumerGroup.refresh(w,o,ctx);return remains;
   }
@@ -4989,7 +5057,17 @@ function(require,module){
     for(const o of w.organisms)if(S.ConsumerGroup.is(o)&&S.ConsumerGroup.count(o)){
       const g=o.consumerGroup,unit=S.spec(o).capacity[3],n=S.ConsumerGroup.count(o),
         lost=o.HP<=0?n:Math.min(n,Math.floor((g.wounds+1e-8)/unit));
-      if(lost){g.wounds=S.round(Math.max(0,g.wounds-lost*unit));groupLoss(w,o,lost,reason,ctx);}
+      if(lost){
+        const residual=S.round(Math.max(0,g.wounds-lost*unit));
+        if(!S.CellLife.is(o))g.wounds=residual;
+        groupLoss(w,o,lost,reason,ctx);
+        if(S.CellLife.is(o)){
+          // Full HP units belong to the dead members. Keep the surviving
+          // injury once, rather than scaling it and then subtracting it again.
+          g.wounds=residual;o.HP=S.round(Math.max(0,unit*S.ConsumerGroup.count(o)-residual));
+          if(o.HP>0)ctx.traits.set(o.id,S.phenotype(w,o,ctx.traits.get(o.id).phase));
+        }
+      }
     }
   }
   function payActions(w,ctx) {
@@ -5651,6 +5729,9 @@ function(require,module){
       if ((!S.CellSpace.enabled(w)||cell===o.cell) && producer && s.id !== "kelp" && S.edibleB(producer)>0 && producer.HP>0 &&
           (s.group === "main" || s.group === "prey") && S.distance(w,o.cell,cell)<=1 && S.oneStep(w,o.cell,cell))
         out.push({type:"harvest",cell:o.cell,target:producer.id,cost:0,path:[]});
+      if(S.CellSpace.enabled(w)&&cell===o.cell&&s.group==="main"&&(S.D.diets[s.diet]?.hunt??-1)>=0)
+        for(const target of m.cellSpace.get(cell)?.[3]||[])if(target.HP>0&&S.ConsumerGroup.count(target)>0)
+          out.push({type:"harvest",cell:o.cell,target:target.id,cost:0,path:[]});
       for (const ward of (grouped(w)?S.mainAt(m,cell):[main])) if (
         s.id === "swarm" &&
         o.role === "worker" &&
@@ -6390,7 +6471,7 @@ function(require,module){
       byTarget = new Map();
     for (const o of w.organisms) {
       const c = ctx.intents.get(o.id);
-      if (c.type !== "attack") continue;
+      if (c?.type !== "attack") continue;
       const target = m.byId.get(c.target),
         p = ctx.traits.get(o.id);
       if (
@@ -6438,6 +6519,11 @@ function(require,module){
         .sort(
           (a, b) => b.damage - a.damage || S.compare(a.o.id, b.o.id),
         )[0].o.id;
+      if(S.CellSpace.enabled(w)){
+        // Biological strike participants, independent of capped animation
+        // events. Only these actual hits may qualify a same-cell kill ration.
+        (ctx.cellCombatSources??=new Map()).set(id,hits.map(h=>({id:h.o.id,damage:S.round(actual*h.damage/total)})));
+      }
       if(S.ConsumerGroup.is(target))S.ConsumerGroup.damage(w,target,actual);
       else target.HP = S.round(Math.max(0, target.HP - total));
     }
@@ -6776,9 +6862,9 @@ function(require,module){
           if(kind==="group"){
             const g=o.consumerGroup;g.wounds=Q(g.wounds+2*b.maintenance.E*b.deficit);
             const unit=S.spec(o).capacity[3],loss=Math.min(S.ConsumerGroup.count(o),Math.floor((g.wounds+EPS)/unit));
-            if(loss){const piece=S.CellLife.extract(w,o,loss,"starvation",ctx);
+            if(loss){const residual=Q(Math.max(0,g.wounds-loss*unit)),piece=S.CellLife.extract(w,o,loss,"starvation",ctx);
               N.remains(w,piece.part,ctx);
-              ctx.deaths.push({id:o.id,species:o.species,reason:"starvation",count:piece.n,partial:true});g.wounds=Q(Math.max(0,g.wounds-loss*unit));}
+              ctx.deaths.push({id:o.id,species:o.species,reason:"starvation",count:piece.n,partial:true});g.wounds=residual;}
             o.HP=Q(Math.max(0,unit*S.ConsumerGroup.count(o)-g.wounds));
           }else{
             const leaves=remaining(w,o),loss=Q((leaves>EPS?Math.min(leaves,kind==="fungus"?.4:1):Math.min(a.baseB,kind==="fungus"?.4:kind==="colony"?.1:.05))*b.deficit);
@@ -7786,6 +7872,16 @@ function(require,module){
     S.dissipate(w,q.E+q.B);q.E=0;q.B=0;w.searchQ=w.searchQ.filter(a=>a.id!==q.id);
     ctx.deaths.push({species:"hyperparasite",reason});if(reason==="predation")hyperFlow(w,ctx,"preyed");
     hyperOutcome(w,q,"dead",reason);hyperEvent(ctx,q,"death",{parasite:q.id,reason});return true;
+  }
+  function hyperEvade(w,ctx,q,predator){
+    // Same finite escape rule as the existing free-Q ration path. A successful
+    // escape protects this individual for the T, without repeated charges.
+    if(!cohorts(w))return false;
+    if(ctx.hyperEscaped?.has(q.id))return true;
+    const chance=fanout(w)?.80+.05*(S.ParasiteCohort.members(q)-1):.45+.15*(S.ParasiteCohort.members(q)-1);
+    if(q.E<.004||S.r(w,"hyper/cohort-evade",w.turn,q.id,predator.id)>=chance)return false;
+    q.E=S.round(q.E-.004);S.dissipate(w,.004);(ctx.hyperEscaped??=new Set()).add(q.id);
+    S.record(ctx,q,"evade",{predator:predator.id,cell:q.cell,species:"hyperparasite"});return true;
   }
   function hyperExpose(w,ctx,parent,host) {
     if(!hyperEnabled(w)||!S.HyperParasite.is(parent)||parent.phase!==4||parent.hyper.state!=="adult")return {invaded:false,reason:"parent"};
@@ -9078,7 +9174,7 @@ function(require,module){
   }
   return {
     emptyInformationFlow,informationTrack,informationDeath,informationBegin,informationPlace,informationUsed,informationFinalize,informationHostFactor,
-    hyperBegin,hyperMature,hyperSearch,hyperExclude,hyperExpose,hyperEstablish,hyperAdultDeath,emptyHyperFlow,
+    hyperBegin,hyperMature,hyperSearch,hyperExclude,hyperExpose,hyperEstablish,hyperAdultDeath,hyperEvade,emptyHyperFlow,
     begin,hostDeath,expireCarrier,produce,expose,diffuse,exclude,emptyPrimaryFlow,
     clear,search,windowOpen,
     required,
@@ -9195,7 +9291,7 @@ function(require,module){
       ctx.primaryHooks=P;
       ctx.primaryFlow=P.emptyPrimaryFlow(w);
     }
-    if(S.HyperParasite?.enabled(w))ctx.hyperFlow=P.emptyHyperFlow(w);
+    if(S.HyperParasite?.enabled(w)){ctx.hyperFlow=P.emptyHyperFlow(w);ctx.hyperHooks=P;}
     if(S.PersistentInformation?.enabled(w)){
       ctx.informationHooks=P;
       ctx.persistentInformationFlow=P.emptyInformationFlow(w);
@@ -9486,8 +9582,10 @@ function(require,module){
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),...(S.HyperParasite?.enabled(w)?{hyperParasite:structuredClone(ctx.hyperFlow)}:{}),...(S.PersistentInformation?.enabled(w)?{persistentInformation:structuredClone(ctx.persistentInformationFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.reduce((n,d)=>n+(d.count??1),0),transfers:ctx.transfers};
   }
   function cellLife(w,ctx,otherMaintenance=new Map()){
+    if(!ctx.cellCombatResolved&&[...ctx.intents.values()].some(c=>c.type==="attack"))B.combat(w,ctx);
     N.payActions(w,ctx);
     N.CellResources.resolveDeaths(w,ctx);
+    N.CellResources.predation(w,ctx);
     if(S.HyperParasite?.enabled(w))P.search(w,ctx);
     const demand=N.CellResources.lifeDemands(w,ctx);
     const maintenance=new Map([...otherMaintenance,...demand.maintenance]);
@@ -9500,7 +9598,7 @@ function(require,module){
     N.CellResources.background(w,ctx);
     if(S.PrimaryParasite?.enabled(w)){P.contacts(w,ctx);P.mature(w,ctx);P.reproduce(w,ctx);}
     if(S.PersistentInformation?.enabled(w))P.informationFinalize(w,ctx);
-    // Direct live predation, remaining aquatic life and public stepping are
+    // Special photosynthesis, remaining aquatic life and public stepping are
     // still guarded CR06 boundaries; this is an internal consumer-life entry.
     return demand;
   }
@@ -11270,7 +11368,7 @@ return {settings,attach,region,level,factor,begin,finish};
       compact(o);if(ctx)ctx.traits.set(part.id,{...phenotype(w,o),phase:part.phase});
       return {part,cohorts,n,before,infected,infectedAge};
     }
-    function damage(w,o,value){if(!is(o))return;const g=o.consumerGroup;if(CellLife.is(o))g.wounds=Math.max(g.wounds,maxHP(o)-o.HP);g.wounds=H.round(g.wounds+value);o.HP=H.round(Math.max(0,maxHP(o)-g.wounds));}
+    function damage(w,o,value){if(!is(o))return;const g=o.consumerGroup,maximum=CellLife.is(o)?CellLife.phenotype(w,o).maxHP:maxHP(o);if(CellLife.is(o))g.wounds=Math.max(g.wounds,maximum-o.HP);g.wounds=H.round(g.wounds+value);o.HP=H.round(Math.max(0,maximum-g.wounds));}
     function heal(o,amount){if(is(o))o.consumerGroup.wounds=H.round(Math.max(0,o.consumerGroup.wounds-amount));}
     function recordLoss(w,o,piece,reason,ctx){
       o.consumerGroup.last[reason]+=piece.n;
@@ -13819,13 +13917,76 @@ function(require,module){
       if(o.cellMatter){o.cellMatter.bodyM=0;o.cellMatter.newB=0;o.cellMatter.newEdibleB=0;}
       w.carcasses.push(a);return a;
     }
+    function recordCapture(w,ctx,source,row,actors){
+      if(row.created!==w.turn||row.cell!==source.cell)throw Error("CELL_CAPTURE_INVALID");
+      const m=ctx.current||S.maps(w),eligible=[];
+      for(const id of actors){
+        const o=m.byId.get(id);if(!o||o.HP<=0||!ctx.old.has(id)||o.cell!==source.cell||S.spec(o).group!=="main"||o.species===source.species)continue;
+        if(isRyouki(w,o)&&S.spec(source).group!=="prey"||S.spec(o).id==="kelp"&&S.spec(source).group==="main")continue;
+        eligible.push(o.id);
+      }
+      if(!eligible.length)return;
+      const captures=ctx.cellCaptures??=new Map();let entry=captures.get(row.id);
+      if(!entry){entry={row,sourceId:source.id,actors:new Set()};captures.set(row.id,entry);}
+      for(const id of eligible){entry.actors.add(id);const byActor=ctx.cellCaptureByActor??=new Map();if(!byActor.has(id))byActor.set(id,[]);if(!byActor.get(id).includes(row.id))byActor.get(id).push(row.id);}
+    }
+    function combatCapture(w,ctx,source,row){
+      recordCapture(w,ctx,source,row,(ctx.cellCombatSources?.get(source.id)||[]).filter(h=>h.damage>0).map(h=>h.id));
+    }
     function resolveDeaths(w,ctx){
       ready(w,ctx);if(ctx.cellDeathsResolved)return;ctx.cellDeathsResolved=true;
       groupDamage(w,ctx,"combat");
       for(const o of w.organisms)if(o.HP<=0&&(o.E>0||o.B>0||o.M>0||o.infection)){
-        remains(w,o,ctx);ctx.deaths.push({id:o.id,species:o.species,reason:"combat"});
+        const row=remains(w,o,ctx);combatCapture(w,ctx,o,row);ctx.deaths.push({id:o.id,species:o.species,reason:"combat"});
       }
       w.organisms=w.organisms.filter(o=>o.HP>0);ctx.current=S.maps(w);
+    }
+    function predation(w,ctx){
+      ready(w,ctx);if(!ctx.cellMotion?.completed||!ctx.cellDeathsResolved)throw Error("CELL_PREDATION_BEFORE_DEATHS");
+      if(ctx.cellResources.acquired||ctx.cellResources.budgetSettled||ctx.cellLifeDone)throw Error("CELL_PREDATION_AFTER_ACQUISITION");
+      if(ctx.cellPredationDone)throw Error("CELL_PREDATION_ALREADY_APPLIED");ctx.cellPredationDone=true;
+      const m=ctx.current||S.maps(w),qCells=new Map();
+      for(const q of w.searchQ||[])if(S.HyperParasite?.is(q)&&q.phase===4&&q.hyper.state==="adult"&&q.bornAt<w.turn&&q.hyper.detachedAt<w.turn){
+        if(!qCells.has(q.cell))qCells.set(q.cell,[]);qCells.get(q.cell).push(q);
+      }
+      const order=w.organisms.filter(o=>{
+        if(o.HP<=0||!ctx.old.has(o.id)||S.spec(o).group!=="main"||(S.D.diets[S.spec(o).diet]?.hunt??-1)<0||ctx.cellCaptureByActor?.get(o.id)?.length)return false;
+        const p=ctx.traits.get(o.id);return (o.E<p.capE-EPS||o.M<p.capM-EPS)&&
+          ((m.cellSpace.get(o.cell)?.[3]||[]).some(a=>a.HP>0&&ctx.old.has(a.id))||o.E<p.capE-EPS&&!isRyouki(w,o)&&(qCells.get(o.cell)||[]).some(q=>q.E+q.B>0));
+      }).map(o=>({o,h:S.hash(w,"cell/capture",w.turn,o.id)})).sort((a,b)=>a.h-b.h||S.compare(a.o.id,b.o.id));
+      let changed=false;
+      for(const {o}of order){
+        const choices=[],rows=m.cellSpace.get(o.cell);
+        // Compare real local food with live prey using the existing food
+        // preference. This local view never reads a remote tile's stock.
+        for(const a of [...(rows?.[1]||[]),...(rows?.[2]||[]),...(rows?.[5]||[])]){
+          const group=S.spec(a).group;if(a.HP<=0||!ctx.old.has(a.id)||!(S.edibleB(a)>0)||S.spec(o).id==="kelp"||isRyouki(w,o)&&group!=="plant")continue;
+          const hidden=a.cellMatter?.tissueAt===w.turn?a.cellMatter.newEdibleB??a.cellMatter.newB??0:0;
+          if(S.edibleB(a)>hidden)choices.push({type:"plant",id:a.id,obj:a,cell:a.cell,tag:S.spec(a).tag,healing:1,amount:(S.edibleB(a)-hidden)/Math.max(EPS,ctx.traits.get(a.id).capB-(a.cellLife?.baseB||0))});
+        }
+        for(const a of m.carcasses.get(o.cell)||[])if(a.created<w.turn&&!(a.availableAt>w.turn)&&a.q>0&&(a.E>0||a.M>0)&&a.species!==o.species&&(!isRyouki(w,o)||S.D.byId[a.species]?.group==="prey"))
+          choices.push({type:"carcass",id:a.id,obj:a,cell:a.cell,tag:a.tag,healing:1,amount:a.q/4});
+        for(const a of m.resources.get(o.cell)||[]){
+          const f=S.FOOD[a.kind];if(!["plant","fungal","animal","mineral"].includes(f?.tag)||a.q<=0||!(a.E>0||a.M>0)||a.created>=w.turn||a.availableAt>w.turn||a.expires!==null&&a.expires!==undefined&&a.expires<=w.turn||isRyouki(w,o)&&f.tag!=="mineral")continue;
+          choices.push({type:"resource",id:"r:"+a.cell+":"+a.kind,obj:a,cell:a.cell,tag:f.tag,healing:f.healing||1,amount:a.q/f.cap});
+        }
+        for(const a of rows?.[3]||[])if(a.HP>0&&ctx.old.has(a.id)&&S.ConsumerGroup.count(a)>0&&a.B>0)
+          choices.push({type:"live",id:a.id,obj:a,cell:a.cell,tag:"animal",healing:1,amount:a.B/Math.max(EPS,ctx.traits.get(a.id).capB)});
+        if(!isRyouki(w,o)&&o.E<ctx.traits.get(o.id).capE-EPS)for(const q of qCells.get(o.cell)||[])if(q.E+q.B>0)
+          choices.push({type:"hyper",id:q.id,obj:q,cell:q.cell,tag:"animal",healing:1,amount:Math.min(1,q.E+q.B)});
+        const intent=ctx.intents.get(o.id),chosen=(intent?.type==="harvest"?choices.find(a=>a.id===intent.target):null)||chooseSource(w,o,choices,ctx);
+        if(chosen?.type==="live"){
+          const target=chosen.obj;if(target.HP<=0||!S.ConsumerGroup.count(target))continue;
+          const row=groupLoss(w,target,1,"harvest",ctx);if(!row)continue;changed=true;recordCapture(w,ctx,target,row,[o.id]);
+          if(target.HP>0)ctx.traits.set(target.id,S.phenotype(w,target,ctx.traits.get(target.id).phase));
+        }else if(chosen?.type==="hyper"){
+          const q=chosen.obj;if(ctx.hyperHooks.hyperEvade(w,ctx,q,o))continue;
+          ctx.informationHooks?.informationDeath(w,ctx,q,{cell:q.cell});
+          const body={...q,slot:"free",M:0,HP:0,sex:null,role:null,branch3:null,branch4:null,facing:0,dna:{},infection:null,cellMatter:{bodyM:0},groupRemains:true},row=remains(w,body,ctx);
+          q.E=0;q.B=0;ctx.hyperHooks.hyperAdultDeath(w,ctx,q,"predation");changed=true;recordCapture(w,ctx,q,row,[o.id]);
+        }
+      }
+      if(changed){w.organisms=w.organisms.filter(o=>o.HP>0);ctx.current=S.maps(w);}
     }
     function background(w,ctx){
       const state=ready(w,ctx);if(!ctx.cellLifeDone)throw Error("CELL_BACKGROUND_BEFORE_LIFE");
@@ -13921,8 +14082,8 @@ function(require,module){
       return result;
     }
     const resourceId=(row,i)=>row.id??("resource/"+i+"/"+row.cell+"/"+row.kind);
-    function indexSources(w,m){
-      m.cellSources={carcass:new Map(w.carcasses.map(a=>[a.id,a])),organic:new Map(w.cellState.organic.map(a=>[a.id,a])),resource:new Map(),resourcesByCell:new Map()};
+    function indexSources(w,m,ctx){
+      m.cellSources={carcass:new Map(w.carcasses.map(a=>[a.id,a])),organic:new Map(w.cellState.organic.map(a=>[a.id,a])),capture:ctx.cellCaptures||new Map(),resource:new Map(),resourcesByCell:new Map()};
       for(const [i,row]of w.resources.entries()){
         const id=resourceId(row,i);m.cellSources.resource.set(id,row);
         if(!m.cellSources.resourcesByCell.has(row.cell))m.cellSources.resourcesByCell.set(row.cell,[]);m.cellSources.resourcesByCell.get(row.cell).push({kind:"resource",id});
@@ -13931,18 +14092,21 @@ function(require,module){
     function source(w,m,request){
       const key=request.source?.kind,id=request.source?.id;
       let row=key==="organism"?m.byId.get(id):key==="carcass"?(m.cellSources?.carcass?.get(id)??w.carcasses.find(a=>a.id===id)):key==="organic"?(m.cellSources?.organic?.get(id)??w.cellState.organic.find(a=>a.id===id)):key==="resource"?m.cellSources?.resource?.get(id):null;
+      if(key==="capture"){
+        const entry=m.cellSources?.capture.get(id);if(!entry?.actors.has(request.actor)||entry.row.created!==w.turn)return null;row=entry.row;
+      }
       if(!row)return null;
       if(key==="organism"){
         const group=S.spec(row).group;if(row.HP<=0||!["plant","fungus"].includes(group))return null;
         const hidden=row.cellMatter?.tissueAt===w.turn?(row.cellMatter.newEdibleB??row.cellMatter.newB)||0:0;
         return {row,key,id,cell:row.cell,units:Math.max(0,S.edibleB(row)-hidden)*(S.CellLife.is(row)?S.phenotype(w,row).biteFactor:1),E:1,M:(row.cellMatter?.bodyM||0)/Math.max(EPS,row.B),tag:group==="plant"?"plant":"fungal"};
       }
-      if(row.availableAt>w.turn||row.created>=w.turn)return null;
+      if(key!=="capture"&&(row.availableAt>w.turn||row.created>=w.turn))return null;
       if(key==="resource"){
         const tag=S.FOOD[row.kind]?.tag;if(!["plant","fungal","animal","mineral"].includes(tag)||row.expires!==null&&row.expires!==undefined&&row.expires<=w.turn||!(row.q>0))return null;
         return {row,key,id,cell:row.cell,units:row.q,body:0,E:row.E/row.q,M:row.M/row.q,tag};
       }
-      const units=key==="carcass"?(row.q||0):row.E||row.M;
+      const units=["carcass","capture"].includes(key)?(row.q||0):row.E||row.M;
       if(units<=0)return null;
       return {row,key,id,cell:row.cell,units,body:row.G??row.B??0,E:(row.E||0)/units,M:(row.M||0)/units,tag:row.tag||S.D.byId[row.species]?.tag||"animal"};
     }
@@ -13950,7 +14114,7 @@ function(require,module){
       const state=ready(w,ctx);if(state.acquired||state.budgetSettled)throw Error("CELL_RESOURCES_ALREADY_ACQUIRED");
       if(!ctx.cellMotion?.completed)throw Error("CELL_RESOURCES_BEFORE_MOVEMENT");
       if([...ctx.costs.values()].some(c=>c.action>0))throw Error("CELL_ACTIONS_UNPAID");
-      const m=ctx.current||S.maps(w);indexSources(w,m);
+      const m=ctx.current||S.maps(w);indexSources(w,m,ctx);
       const captured=captureLight(w,ctx,canopies,m),stocks={},demands={},compiled=[],seen=new Set();
       const pool=(key,amount)=>{if(!Object.hasOwn(stocks,key))stocks[key]=amount;return key;};
       const demand=(key,amount)=>{if(!Object.hasOwn(demands,key))demands[key]=amount;return key;};
@@ -14017,7 +14181,7 @@ function(require,module){
           state.light.find(a=>a.actor===o.id).used=quantity;
         }else{
           if(r.kind==="food"){
-            const before=s.key==="organism"?Math.max(0,S.edibleB(s.row)-(s.row.cellMatter?.tissueAt===w.turn?s.row.cellMatter.newEdibleB??s.row.cellMatter.newB??0:0)):["carcass","resource"].includes(s.key)?s.row.q:s.row.E||s.row.M;
+            const before=s.key==="organism"?Math.max(0,S.edibleB(s.row)-(s.row.cellMatter?.tissueAt===w.turn?s.row.cellMatter.newEdibleB??s.row.cellMatter.newB??0:0)):["carcass","capture","resource"].includes(s.key)?s.row.q:s.row.E||s.row.M;
             harvest={fraction:Math.min(1,quantity/Math.max(EPS,before)),beforeEdibleB:before,consumedB:s.key==="organism"?quantity:s.body*quantity/s.units,beforeQ:before};
           }
           rawE=down(quantity*s.E);rawM=down(Math.min(s.key==="organism"?(s.row.cellMatter?.bodyM||0):s.row.M||0,quantity*s.M));
@@ -14029,10 +14193,10 @@ function(require,module){
             if(S.FungalColony.is(s.row))S.FungalColony.increment(s.row,"consumedB",quantity);
           }else{
             const fraction=quantity/s.units;s.row.E=Q(s.row.E-rawE);s.row.M=Q(s.row.M-rawM);
-            if(s.key==="carcass"){s.row.q=Q(s.row.q-quantity);s.row.G=Q(Math.max(0,(s.row.G||0)-s.body*fraction));}
+            if(["carcass","capture"].includes(s.key)){s.row.q=Q(s.row.q-quantity);s.row.G=Q(Math.max(0,(s.row.G||0)-s.body*fraction));}
             else if(s.key==="resource"){s.row.q=Q(s.row.q-quantity);s.row.G=Q(Math.max(0,(s.row.G||0)*(1-fraction)));}
             else s.row.B=Q(Math.max(0,(s.row.B||0)-s.body*fraction));
-            if(["carcass","resource"].includes(s.key)&&s.row.q<=0&&(s.row.E>0||s.row.M>0)){
+            if(["carcass","capture","resource"].includes(s.key)&&s.row.q<=0&&(s.row.E>0||s.row.M>0)){
               S.CellSpace.deferMaterial(w,s.cell,{E:s.row.E,M:s.row.M,B:Math.min(s.row.E,s.row.G||0)});s.row.E=0;s.row.M=0;s.row.G=0;
             }
           }
@@ -14048,8 +14212,8 @@ function(require,module){
           const gain=isRyouki(w,o)?0:Math.min(300-o.G,E*(s.tag==="animal"?1+S.trait(o,"animalG",p.phase):1));o.G=Q(o.G+gain);record.G=Q(record.G+gain);record.reserve=Q(record.reserve+E);
         }
         if(r.kind==="food"||r.kind==="decompose"){
-          S.record(ctx,o,"feed",{source:s.id,sourceType:s.key,sourceSpecies:s.row.species??null,tag:r.kind==="decompose"?"animal":s.tag,amount:rawE,material:rawM,assimilated:E,assimilatedM:M,to:o.cell,consumedB:s.key==="organism"?quantity:s.body*quantity/s.units});
-          if(harvest&&["organism","carcass"].includes(s.key)&&!ctx.cellQActors?.has(o.id))ctx.primaryHooks?.transfer(w,ctx,s.row,o,s.key==="carcass"?"carcass":"plant",harvest);
+          S.record(ctx,o,"feed",{source:s.id,sourceType:s.key==="capture"?"predation":s.key,sourceSpecies:s.row.species??null,tag:r.kind==="decompose"?"animal":s.tag,amount:rawE,material:rawM,assimilated:E,assimilatedM:M,to:o.cell,consumedB:s.key==="organism"?quantity:s.body*quantity/s.units});
+          if(harvest&&["organism","carcass","capture"].includes(s.key)&&!ctx.cellQActors?.has(o.id))ctx.primaryHooks?.transfer(w,ctx,s.row,o,s.key==="carcass"?"carcass":s.key==="capture"?"capture":"plant",harvest);
         }
       }
       w.resources=w.resources.filter(row=>row.q>0);
@@ -14058,7 +14222,7 @@ function(require,module){
     function lifeDemands(w,ctx){
       ready(w,ctx);if(!ctx.cellMotion?.completed)throw Error("CELL_RESOURCES_BEFORE_MOVEMENT");
       const requests=[],canopies=[],maintenance=new Map(),m=ctx.current||S.maps(w),cells=m.cellSpace||S.CellSpace.index(w),materials=new Map();
-      indexSources(w,m);
+      indexSources(w,m,ctx);
       for(const [kind,rows]of [["organic",w.cellState.organic],["carcass",w.carcasses]])for(const row of rows){
         if(row.created>=w.turn||row.availableAt>w.turn)continue;
         if(!materials.has(row.cell))materials.set(row.cell,[]);materials.get(row.cell).push({row,kind});
@@ -14066,7 +14230,7 @@ function(require,module){
       function food(o,refs){
         const p=ctx.traits.get(o.id),adult=ctx.cellQActors?.has(o.id),e=Math.max(0,p.capE-o.E),mineral=Math.max(0,p.capM-(o.M||0));
         for(const ref of refs){
-          const s=source(w,m,{source:ref});if(!s||s.units<=0)continue;
+          const s=source(w,m,{actor:o.id,source:ref});if(!s||s.units<=0)continue;
           const eta=adult?S.HyperParasite.settings(w).adultAssimilation:efficiency(o,s.tag,p.phase),etaM=adult?0:S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase);
           if(!(eta>0)||adult&&!["plant","fungal","animal"].includes(s.tag))continue;
           const need=Math.min(s.units,Math.max(s.E*eta>0?e/(s.E*eta):0,s.M*etaM>0?mineral/(s.M*etaM):0));
@@ -14079,6 +14243,7 @@ function(require,module){
           maintenance.set(o.id,{E:ctx.costs.get(o.id).base,M:0});
           const rows=cells.get(o.cell),refs=[...(rows?.[1]||[]),...(rows?.[2]||[]),...(rows?.[5]||[])].map(a=>({kind:"organism",id:a.id}));
           for(const {row,kind}of materials.get(o.cell)||[])refs.push({kind,id:row.id});
+          for(const id of ctx.cellCaptureByActor?.get(o.id)||[])refs.push({kind:"capture",id});
           refs.push(...(m.cellSources.resourcesByCell.get(o.cell)||[]));
           food(o,refs);continue;
         }
@@ -14180,7 +14345,7 @@ function(require,module){
       S.dissipate(w,Q(tickets.reduce((n,a)=>n+a.t.E,0)-E-B));
       child.cellMatter={version:"cell-matter/1",bodyM:Q(.02*B),newB:B,newEdibleB:0,tissueAt:w.turn};return true;
     }
-    return {VERSION,allocate,begin,prepare,captureLight,acquire,settleBudgets,reserve,cancel,commit,formChild,lifeDemands,activity,background,remains,payloads,resolveDeaths};
+    return {VERSION,allocate,begin,prepare,captureLight,acquire,settleBudgets,reserve,cancel,commit,formChild,lifeDemands,activity,background,remains,payloads,resolveDeaths,predation,combatCapture};
   })();
   const isRyouki=(w,o)=>S.Ryouki?.enabled(w)===true&&S.Ryouki.is(o);
   function efficiency(o, tag, phase = o.phase) {
@@ -14842,6 +15007,7 @@ function(require,module){
     const piece=S.ConsumerGroup.extract(w,o,n,reason,ctx,ageOnly);if(!piece)return null;
     S.ConsumerGroup.recordLoss(w,o,piece,reason,ctx);
     const remains=carcass(w,piece.part,ctx);
+    if(S.CellSpace.enabled(w)&&reason==="combat")CellResources.combatCapture(w,ctx,o,remains);
     if(!S.ConsumerGroup.count(o)&&ctx.informationHooks)ctx.informationHooks.informationDeath(w,ctx,o,{reason,cell:o.cell});
     if(!S.CellLife.is(o))S.ConsumerGroup.refresh(w,o,ctx);return remains;
   }
@@ -14849,7 +15015,17 @@ function(require,module){
     for(const o of w.organisms)if(S.ConsumerGroup.is(o)&&S.ConsumerGroup.count(o)){
       const g=o.consumerGroup,unit=S.spec(o).capacity[3],n=S.ConsumerGroup.count(o),
         lost=o.HP<=0?n:Math.min(n,Math.floor((g.wounds+1e-8)/unit));
-      if(lost){g.wounds=S.round(Math.max(0,g.wounds-lost*unit));groupLoss(w,o,lost,reason,ctx);}
+      if(lost){
+        const residual=S.round(Math.max(0,g.wounds-lost*unit));
+        if(!S.CellLife.is(o))g.wounds=residual;
+        groupLoss(w,o,lost,reason,ctx);
+        if(S.CellLife.is(o)){
+          // Full HP units belong to the dead members. Keep the surviving
+          // injury once, rather than scaling it and then subtracting it again.
+          g.wounds=residual;o.HP=S.round(Math.max(0,unit*S.ConsumerGroup.count(o)-residual));
+          if(o.HP>0)ctx.traits.set(o.id,S.phenotype(w,o,ctx.traits.get(o.id).phase));
+        }
+      }
     }
   }
   function payActions(w,ctx) {
@@ -15320,9 +15496,9 @@ function(require,module){
           if(kind==="group"){
             const g=o.consumerGroup;g.wounds=Q(g.wounds+2*b.maintenance.E*b.deficit);
             const unit=S.spec(o).capacity[3],loss=Math.min(S.ConsumerGroup.count(o),Math.floor((g.wounds+EPS)/unit));
-            if(loss){const piece=S.CellLife.extract(w,o,loss,"starvation",ctx);
+            if(loss){const residual=Q(Math.max(0,g.wounds-loss*unit)),piece=S.CellLife.extract(w,o,loss,"starvation",ctx);
               N.remains(w,piece.part,ctx);
-              ctx.deaths.push({id:o.id,species:o.species,reason:"starvation",count:piece.n,partial:true});g.wounds=Q(Math.max(0,g.wounds-loss*unit));}
+              ctx.deaths.push({id:o.id,species:o.species,reason:"starvation",count:piece.n,partial:true});g.wounds=residual;}
             o.HP=Q(Math.max(0,unit*S.ConsumerGroup.count(o)-g.wounds));
           }else{
             const leaves=remaining(w,o),loss=Q((leaves>EPS?Math.min(leaves,kind==="fungus"?.4:1):Math.min(a.baseB,kind==="fungus"?.4:kind==="colony"?.1:.05))*b.deficit);
@@ -16016,7 +16192,7 @@ function(require,module){
       ctx.primaryHooks=P;
       ctx.primaryFlow=P.emptyPrimaryFlow(w);
     }
-    if(S.HyperParasite?.enabled(w))ctx.hyperFlow=P.emptyHyperFlow(w);
+    if(S.HyperParasite?.enabled(w)){ctx.hyperFlow=P.emptyHyperFlow(w);ctx.hyperHooks=P;}
     if(S.PersistentInformation?.enabled(w)){
       ctx.informationHooks=P;
       ctx.persistentInformationFlow=P.emptyInformationFlow(w);
@@ -16307,8 +16483,10 @@ function(require,module){
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),...(S.HyperParasite?.enabled(w)?{hyperParasite:structuredClone(ctx.hyperFlow)}:{}),...(S.PersistentInformation?.enabled(w)?{persistentInformation:structuredClone(ctx.persistentInformationFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.reduce((n,d)=>n+(d.count??1),0),transfers:ctx.transfers};
   }
   function cellLife(w,ctx,otherMaintenance=new Map()){
+    if(!ctx.cellCombatResolved&&[...ctx.intents.values()].some(c=>c.type==="attack"))B.combat(w,ctx);
     N.payActions(w,ctx);
     N.CellResources.resolveDeaths(w,ctx);
+    N.CellResources.predation(w,ctx);
     if(S.HyperParasite?.enabled(w))P.search(w,ctx);
     const demand=N.CellResources.lifeDemands(w,ctx);
     const maintenance=new Map([...otherMaintenance,...demand.maintenance]);
@@ -16321,7 +16499,7 @@ function(require,module){
     N.CellResources.background(w,ctx);
     if(S.PrimaryParasite?.enabled(w)){P.contacts(w,ctx);P.mature(w,ctx);P.reproduce(w,ctx);}
     if(S.PersistentInformation?.enabled(w))P.informationFinalize(w,ctx);
-    // Direct live predation, remaining aquatic life and public stepping are
+    // Special photosynthesis, remaining aquatic life and public stepping are
     // still guarded CR06 boundaries; this is an internal consumer-life entry.
     return demand;
   }
@@ -17904,6 +18082,9 @@ function(require,module){
       if ((!S.CellSpace.enabled(w)||cell===o.cell) && producer && s.id !== "kelp" && S.edibleB(producer)>0 && producer.HP>0 &&
           (s.group === "main" || s.group === "prey") && S.distance(w,o.cell,cell)<=1 && S.oneStep(w,o.cell,cell))
         out.push({type:"harvest",cell:o.cell,target:producer.id,cost:0,path:[]});
+      if(S.CellSpace.enabled(w)&&cell===o.cell&&s.group==="main"&&(S.D.diets[s.diet]?.hunt??-1)>=0)
+        for(const target of m.cellSpace.get(cell)?.[3]||[])if(target.HP>0&&S.ConsumerGroup.count(target)>0)
+          out.push({type:"harvest",cell:o.cell,target:target.id,cost:0,path:[]});
       for (const ward of (grouped(w)?S.mainAt(m,cell):[main])) if (
         s.id === "swarm" &&
         o.role === "worker" &&
@@ -18643,7 +18824,7 @@ function(require,module){
       byTarget = new Map();
     for (const o of w.organisms) {
       const c = ctx.intents.get(o.id);
-      if (c.type !== "attack") continue;
+      if (c?.type !== "attack") continue;
       const target = m.byId.get(c.target),
         p = ctx.traits.get(o.id);
       if (
@@ -18691,6 +18872,11 @@ function(require,module){
         .sort(
           (a, b) => b.damage - a.damage || S.compare(a.o.id, b.o.id),
         )[0].o.id;
+      if(S.CellSpace.enabled(w)){
+        // Biological strike participants, independent of capped animation
+        // events. Only these actual hits may qualify a same-cell kill ration.
+        (ctx.cellCombatSources??=new Map()).set(id,hits.map(h=>({id:h.o.id,damage:S.round(actual*h.damage/total)})));
+      }
       if(S.ConsumerGroup.is(target))S.ConsumerGroup.damage(w,target,actual);
       else target.HP = S.round(Math.max(0, target.HP - total));
     }
@@ -19029,9 +19215,9 @@ function(require,module){
           if(kind==="group"){
             const g=o.consumerGroup;g.wounds=Q(g.wounds+2*b.maintenance.E*b.deficit);
             const unit=S.spec(o).capacity[3],loss=Math.min(S.ConsumerGroup.count(o),Math.floor((g.wounds+EPS)/unit));
-            if(loss){const piece=S.CellLife.extract(w,o,loss,"starvation",ctx);
+            if(loss){const residual=Q(Math.max(0,g.wounds-loss*unit)),piece=S.CellLife.extract(w,o,loss,"starvation",ctx);
               N.remains(w,piece.part,ctx);
-              ctx.deaths.push({id:o.id,species:o.species,reason:"starvation",count:piece.n,partial:true});g.wounds=Q(Math.max(0,g.wounds-loss*unit));}
+              ctx.deaths.push({id:o.id,species:o.species,reason:"starvation",count:piece.n,partial:true});g.wounds=residual;}
             o.HP=Q(Math.max(0,unit*S.ConsumerGroup.count(o)-g.wounds));
           }else{
             const leaves=remaining(w,o),loss=Q((leaves>EPS?Math.min(leaves,kind==="fungus"?.4:1):Math.min(a.baseB,kind==="fungus"?.4:kind==="colony"?.1:.05))*b.deficit);
@@ -20658,9 +20844,9 @@ function(require,module){
           if(kind==="group"){
             const g=o.consumerGroup;g.wounds=Q(g.wounds+2*b.maintenance.E*b.deficit);
             const unit=S.spec(o).capacity[3],loss=Math.min(S.ConsumerGroup.count(o),Math.floor((g.wounds+EPS)/unit));
-            if(loss){const piece=S.CellLife.extract(w,o,loss,"starvation",ctx);
+            if(loss){const residual=Q(Math.max(0,g.wounds-loss*unit)),piece=S.CellLife.extract(w,o,loss,"starvation",ctx);
               N.remains(w,piece.part,ctx);
-              ctx.deaths.push({id:o.id,species:o.species,reason:"starvation",count:piece.n,partial:true});g.wounds=Q(Math.max(0,g.wounds-loss*unit));}
+              ctx.deaths.push({id:o.id,species:o.species,reason:"starvation",count:piece.n,partial:true});g.wounds=residual;}
             o.HP=Q(Math.max(0,unit*S.ConsumerGroup.count(o)-g.wounds));
           }else{
             const leaves=remaining(w,o),loss=Q((leaves>EPS?Math.min(leaves,kind==="fungus"?.4:1):Math.min(a.baseB,kind==="fungus"?.4:kind==="colony"?.1:.05))*b.deficit);
@@ -21779,7 +21965,7 @@ return {settings,attach,region,level,factor,begin,finish};
       compact(o);if(ctx)ctx.traits.set(part.id,{...phenotype(w,o),phase:part.phase});
       return {part,cohorts,n,before,infected,infectedAge};
     }
-    function damage(w,o,value){if(!is(o))return;const g=o.consumerGroup;if(CellLife.is(o))g.wounds=Math.max(g.wounds,maxHP(o)-o.HP);g.wounds=H.round(g.wounds+value);o.HP=H.round(Math.max(0,maxHP(o)-g.wounds));}
+    function damage(w,o,value){if(!is(o))return;const g=o.consumerGroup,maximum=CellLife.is(o)?CellLife.phenotype(w,o).maxHP:maxHP(o);if(CellLife.is(o))g.wounds=Math.max(g.wounds,maximum-o.HP);g.wounds=H.round(g.wounds+value);o.HP=H.round(Math.max(0,maximum-g.wounds));}
     function heal(o,amount){if(is(o))o.consumerGroup.wounds=H.round(Math.max(0,o.consumerGroup.wounds-amount));}
     function recordLoss(w,o,piece,reason,ctx){
       o.consumerGroup.last[reason]+=piece.n;
@@ -24651,6 +24837,16 @@ function(require,module){
     ctx.deaths.push({species:"hyperparasite",reason});if(reason==="predation")hyperFlow(w,ctx,"preyed");
     hyperOutcome(w,q,"dead",reason);hyperEvent(ctx,q,"death",{parasite:q.id,reason});return true;
   }
+  function hyperEvade(w,ctx,q,predator){
+    // Same finite escape rule as the existing free-Q ration path. A successful
+    // escape protects this individual for the T, without repeated charges.
+    if(!cohorts(w))return false;
+    if(ctx.hyperEscaped?.has(q.id))return true;
+    const chance=fanout(w)?.80+.05*(S.ParasiteCohort.members(q)-1):.45+.15*(S.ParasiteCohort.members(q)-1);
+    if(q.E<.004||S.r(w,"hyper/cohort-evade",w.turn,q.id,predator.id)>=chance)return false;
+    q.E=S.round(q.E-.004);S.dissipate(w,.004);(ctx.hyperEscaped??=new Set()).add(q.id);
+    S.record(ctx,q,"evade",{predator:predator.id,cell:q.cell,species:"hyperparasite"});return true;
+  }
   function hyperExpose(w,ctx,parent,host) {
     if(!hyperEnabled(w)||!S.HyperParasite.is(parent)||parent.phase!==4||parent.hyper.state!=="adult")return {invaded:false,reason:"parent"};
     const z=S.HyperParasite.settings(w),p=host?.infection,last=hyperLast(w,parent);
@@ -25942,7 +26138,7 @@ function(require,module){
   }
   return {
     emptyInformationFlow,informationTrack,informationDeath,informationBegin,informationPlace,informationUsed,informationFinalize,informationHostFactor,
-    hyperBegin,hyperMature,hyperSearch,hyperExclude,hyperExpose,hyperEstablish,hyperAdultDeath,emptyHyperFlow,
+    hyperBegin,hyperMature,hyperSearch,hyperExclude,hyperExpose,hyperEstablish,hyperAdultDeath,hyperEvade,emptyHyperFlow,
     begin,hostDeath,expireCarrier,produce,expose,diffuse,exclude,emptyPrimaryFlow,
     clear,search,windowOpen,
     required,
@@ -26484,7 +26680,7 @@ return {settings,attach,region,level,factor,begin,finish};
       compact(o);if(ctx)ctx.traits.set(part.id,{...phenotype(w,o),phase:part.phase});
       return {part,cohorts,n,before,infected,infectedAge};
     }
-    function damage(w,o,value){if(!is(o))return;const g=o.consumerGroup;if(CellLife.is(o))g.wounds=Math.max(g.wounds,maxHP(o)-o.HP);g.wounds=H.round(g.wounds+value);o.HP=H.round(Math.max(0,maxHP(o)-g.wounds));}
+    function damage(w,o,value){if(!is(o))return;const g=o.consumerGroup,maximum=CellLife.is(o)?CellLife.phenotype(w,o).maxHP:maxHP(o);if(CellLife.is(o))g.wounds=Math.max(g.wounds,maximum-o.HP);g.wounds=H.round(g.wounds+value);o.HP=H.round(Math.max(0,maximum-g.wounds));}
     function heal(o,amount){if(is(o))o.consumerGroup.wounds=H.round(Math.max(0,o.consumerGroup.wounds-amount));}
     function recordLoss(w,o,piece,reason,ctx){
       o.consumerGroup.last[reason]+=piece.n;
@@ -30352,7 +30548,7 @@ return {settings,attach,region,level,factor,begin,finish};
       compact(o);if(ctx)ctx.traits.set(part.id,{...phenotype(w,o),phase:part.phase});
       return {part,cohorts,n,before,infected,infectedAge};
     }
-    function damage(w,o,value){if(!is(o))return;const g=o.consumerGroup;if(CellLife.is(o))g.wounds=Math.max(g.wounds,maxHP(o)-o.HP);g.wounds=H.round(g.wounds+value);o.HP=H.round(Math.max(0,maxHP(o)-g.wounds));}
+    function damage(w,o,value){if(!is(o))return;const g=o.consumerGroup,maximum=CellLife.is(o)?CellLife.phenotype(w,o).maxHP:maxHP(o);if(CellLife.is(o))g.wounds=Math.max(g.wounds,maximum-o.HP);g.wounds=H.round(g.wounds+value);o.HP=H.round(Math.max(0,maximum-g.wounds));}
     function heal(o,amount){if(is(o))o.consumerGroup.wounds=H.round(Math.max(0,o.consumerGroup.wounds-amount));}
     function recordLoss(w,o,piece,reason,ctx){
       o.consumerGroup.last[reason]+=piece.n;

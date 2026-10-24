@@ -522,7 +522,7 @@ return {settings,attach,region,level,factor,begin,finish};
       compact(o);if(ctx)ctx.traits.set(part.id,{...phenotype(w,o),phase:part.phase});
       return {part,cohorts,n,before,infected,infectedAge};
     }
-    function damage(w,o,value){if(!is(o))return;const g=o.consumerGroup;if(CellLife.is(o))g.wounds=Math.max(g.wounds,maxHP(o)-o.HP);g.wounds=H.round(g.wounds+value);o.HP=H.round(Math.max(0,maxHP(o)-g.wounds));}
+    function damage(w,o,value){if(!is(o))return;const g=o.consumerGroup,maximum=CellLife.is(o)?CellLife.phenotype(w,o).maxHP:maxHP(o);if(CellLife.is(o))g.wounds=Math.max(g.wounds,maximum-o.HP);g.wounds=H.round(g.wounds+value);o.HP=H.round(Math.max(0,maximum-g.wounds));}
     function heal(o,amount){if(is(o))o.consumerGroup.wounds=H.round(Math.max(0,o.consumerGroup.wounds-amount));}
     function recordLoss(w,o,piece,reason,ctx){
       o.consumerGroup.last[reason]+=piece.n;

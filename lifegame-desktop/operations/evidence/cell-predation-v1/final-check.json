@@ -1,0 +1,72 @@
+{
+  "scope": "CR06 same-cell direct predation, finite captured remains and P/Q ownership",
+  "baseline": "9dc3a38",
+  "nodes": 61,
+  "updatedNodes": [
+    "C7.1",
+    "C7.2",
+    "C7.3",
+    "C7.4",
+    "C7.5",
+    "C7",
+    "C8.2",
+    "D7",
+    "D8.1",
+    "D8.2",
+    "D8",
+    "E5"
+  ],
+  "coreUnchanged": true,
+  "ABAndAdoptedSpecificationsUnchanged": true,
+  "formalStateAndGraphUnchanged": true,
+  "manifestHasExactlyOneEntryPerNodeAndPrescribedFields": true,
+  "packageAndUIUnchanged": true,
+  "tests": {
+    "cell-predation": {
+      "passed": 18,
+      "failed": 0
+    },
+    "cell-consumer-life": {
+      "passed": 14,
+      "failed": 0
+    },
+    "cell-movement": {
+      "passed": 13,
+      "failed": 0
+    },
+    "cell-interactions": {
+      "passed": 14,
+      "failed": 0
+    },
+    "cell-life-cycle": {
+      "passed": 18,
+      "failed": 0
+    },
+    "cell-space": {
+      "passed": 8,
+      "failed": 0
+    }
+  },
+  "totalPassed": 85,
+  "shortPredationAndArrivalTurns": 2,
+  "legacyExactTurns": 4,
+  "generated": {
+    "profiles": 8,
+    "uniqueModules": 22,
+    "bytes": 1969186,
+    "check": "pass"
+  },
+  "signature": "9109cc03b62c10ad15a5491cd3134d0e688596d2ff41de6cefd2a5b53b5f7083",
+  "guards": {
+    "normalNewCellStep": "retained",
+    "newCellResultCapture": "retained",
+    "legacySignatureAlias": "only without cellModel"
+  },
+  "notVerified": [
+    "main photosynthetic coupling to shared light",
+    "aquatic/freshwater life and CR04 species/regeneration remainders",
+    "observation/UI/configuration/archive release and normal/max speed equivalence",
+    "natural P/Q multi-generation,500T,R1-R6,performance,Windows"
+  ],
+  "next": "CR06 special photosynthesis/aquatic life and observation/archive integration"
+}

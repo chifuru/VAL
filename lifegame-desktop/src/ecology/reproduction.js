@@ -144,9 +144,9 @@
           if(kind==="group"){
             const g=o.consumerGroup;g.wounds=Q(g.wounds+2*b.maintenance.E*b.deficit);
             const unit=S.spec(o).capacity[3],loss=Math.min(S.ConsumerGroup.count(o),Math.floor((g.wounds+EPS)/unit));
-            if(loss){const piece=S.CellLife.extract(w,o,loss,"starvation",ctx);
+            if(loss){const residual=Q(Math.max(0,g.wounds-loss*unit)),piece=S.CellLife.extract(w,o,loss,"starvation",ctx);
               N.remains(w,piece.part,ctx);
-              ctx.deaths.push({id:o.id,species:o.species,reason:"starvation",count:piece.n,partial:true});g.wounds=Q(Math.max(0,g.wounds-loss*unit));}
+              ctx.deaths.push({id:o.id,species:o.species,reason:"starvation",count:piece.n,partial:true});g.wounds=residual;}
             o.HP=Q(Math.max(0,unit*S.ConsumerGroup.count(o)-g.wounds));
           }else{
             const leaves=remaining(w,o),loss=Q((leaves>EPS?Math.min(leaves,kind==="fungus"?.4:1):Math.min(a.baseB,kind==="fungus"?.4:kind==="colony"?.1:.05))*b.deficit);
