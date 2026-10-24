@@ -1,0 +1,25 @@
+{
+  "definition": "current-state-interface-output-gate/1",
+  "success": true,
+  "baseline": "5006c1b0a9cb4494d16ab84bd82b954ae8250b5f",
+  "formalNodes": 61,
+  "formalMetadataGraphAndStatusUnchanged": true,
+  "changedNodeReferences": [
+    "C8",
+    "C8.1",
+    "C8.2",
+    "D9",
+    "E6"
+  ],
+  "newReferencesResolved": 47,
+  "manifestCurrent61AndOrderAndFormat": true,
+  "coreABProductDefaultAndLayoutAssetsPreserved": true,
+  "nativeTests": 6,
+  "relatedTests": 30,
+  "browserChecks": 19,
+  "fullUIConnectedForExplicitNewCellWorlds": true,
+  "natural500TMeasured": false,
+  "globalPerformanceMeasured": false,
+  "windowsMeasured": false,
+  "next": "CS08: limited state-growth and performance measurement"
+}

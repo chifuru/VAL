@@ -11,9 +11,9 @@
   if(!row.composition||Object.entries(row.composition).some(([id,c])=>!Array.isArray(c.phases)||c.phases.length!==4||c.phases.some(n=>!Number.isSafeInteger(n)||n<0)||!Number.isSafeInteger(c.phaseUnknown)||c.phaseUnknown<0||c.phases.reduce((n,x)=>n+x,0)+c.phaseUnknown!==row.counts[id]||
     ['ages','sex','roles'].some(k=>!c[k]||Object.values(c[k]).some(n=>!Number.isSafeInteger(n)||n<0)))||!Array.isArray(row.nutrition)||row.nutrition.some(r=>!finite(r.energy)||!finite(r.withdrawn))||!row.budgets||Object.values(row.budgets).some(n=>!finite(n)))throw Error('CURRENT_OBSERVATION_INVALID');
  }
- function create(config,{species=[],signature='internal-current-state'}={}){
+ function create(config,{species=[],signature='internal-current-state',onAppend=null}={}){
   if(config?.currentStateModel!=='current-state/1'||typeof signature!=='string'||!signature)throw Error('CURRENT_OBSERVATION_VERSION');
-  const configBytes=JSON.stringify(config),metadata={definition:VERSION,signature,config:copy(config),species:species.map(({id,name,group})=>({id,name,group})),contactMeaning:'within-turn pair occurrences; no lifetime first-encounter registry',
+  const configBytes=JSON.stringify(config),metadata={definition:VERSION,signature,config:copy(config),species:species.map(s=>Object.fromEntries(['id','name','group','kind','slot','diet'].filter(k=>s[k]!==undefined).map(k=>[k,s[k]]))),contactMeaning:'within-turn pair occurrences; no lifetime first-encounter registry',
    generationMeaning:'model units with an explicit generation; mixed consumer cohorts use member flows'},rows=[],generations=new Map(),contactTotals=new Map();
   function relationSummary(next){
    const turn=next.turn,recent=[...rows.slice(-49),next],edges=new Set(),types=new Set(),known=new Set();
@@ -27,13 +27,23 @@
    validate(input,rows.length);const row=copy(input);row.relations=relationSummary(row);
    for(const r of row.demographyDelta){const key=JSON.stringify([r.species,r.generation]),total=generations.get(key)??{species:r.species,generation:r.generation,...Object.fromEntries(demographicKeys.map(k=>[k,0]))};for(const k of demographicKeys)total[k]+=r[k];generations.set(key,total);}
    for(const [key,n]of Object.entries(row.contacts))if(n>0){const r=contactTotals.get(key)??{pairs:0,turns:0};r.pairs+=n;r.turns++;contactTotals.set(key,r);}
-   rows.push(row);return copy(row);
+   rows.push(row);onAppend?.(row);return copy(row);
   }
   function append(world){if(JSON.stringify(world?.config)!==configBytes||world.turn!==rows.length)throw Error('CURRENT_OBSERVATION_TURN_GAP');return appendRow(world.observation);}
-  function snapshot(){return {schema:SCHEMA,metadata:copy(metadata),rows:copy(rows),generations:copy([...generations.values()]),contacts:copy(Object.fromEntries(contactTotals))};}
-  function csv(){
-   const quote=v=>'"'+String(v).replaceAll('"','""')+'"',out=['turn,metric,species_id,value,unit,context'],emit=(t,m,id,n,unit,context='')=>out.push([t,m,id,n,unit,context].map(quote).join(','));
-   for(const r of rows){
+  function snapshot({copy:clone=true}={}){const value={schema:SCHEMA,metadata,rows,generations:[...generations.values()],contacts:Object.fromEntries(contactTotals)};return clone?copy(value):value;}
+  const csvChunks=(_batch,options)=>csvRows(rows,options),csv=()=>[...csvRows(rows)].join('');
+  return {append,csv,csvChunks,snapshot,get rows(){return copy(rows);},get last(){return rows.length?copy(rows.at(-1)):null;},get turns(){return rows.length;},get generations(){return copy([...generations.values()]);},get contacts(){return copy(Object.fromEntries(contactTotals));}};
+ }
+ function restore(snapshot,{onAppend=null}={}){
+  if(snapshot?.schema!==SCHEMA||snapshot.metadata?.definition!==VERSION||!Array.isArray(snapshot.rows)||!snapshot.rows.length)throw Error('CURRENT_OBSERVATION_SNAPSHOT');
+  const h=create(snapshot.metadata.config,{species:snapshot.metadata.species,signature:snapshot.metadata.signature,onAppend});
+  for(let turn=0;turn<snapshot.rows.length;turn++){const row=snapshot.rows[turn];validate(row,turn);h.append({turn,config:snapshot.metadata.config,observation:row});}
+  const rebuilt=h.snapshot();if(JSON.stringify(rebuilt.generations)!==JSON.stringify(snapshot.generations)||JSON.stringify(rebuilt.contacts)!==JSON.stringify(snapshot.contacts)||JSON.stringify(rebuilt.rows)!==JSON.stringify(snapshot.rows))throw Error('CURRENT_OBSERVATION_SNAPSHOT');
+  h.append=()=>{throw Error('CURRENT_OBSERVATION_READ_ONLY');};return h;
+ }
+ function* csvRows(rows,{header=true}={}){
+   const quote=v=>'"'+String(v).replaceAll('"','""')+'"',out=header?['turn,metric,species_id,value,unit,context']:[],emit=(t,m,id,n,unit,context='')=>out.push([t,m,id,n,unit,context].map(quote).join(','));
+   let first=header;for(const r of rows){
     for(const [id,n]of Object.entries(r.counts))emit(r.turn,'population',id,n,'model_count');
     for(const [id,c]of Object.entries(r.composition)){c.phases.forEach((n,i)=>emit(r.turn,'phase_'+(i+1),id,n,'model_count'));emit(r.turn,'phase_unknown',id,c.phaseUnknown,'model_count');for(const group of ['ages','sex','roles'])for(const [key,n]of Object.entries(c[group]))emit(r.turn,group+'_'+key,id,n,'model_count');}
     for(const [key,n]of Object.entries(r.contacts))emit(r.turn,'contact_pairs',key,n,'pair_turn');
@@ -45,18 +55,16 @@
     for(const [key,n]of Object.entries(r.budgets))emit(r.turn,'budget_'+key,'all',n,key==='E'||['solar','sinks'].includes(key)?'E':'M');
     for(let i=0;i<4;i++)emit(r.turn,'trophic_B_'+(i+1),'all',r.pyramid.layers[i],'B');
     for(const [key,n]of Object.entries(r.pyramid.side))emit(r.turn,'side_B_'+key,'all',n,'B');
+    for(const [id,n]of Object.entries(r.presentation?.mass||{}))emit(r.turn,'biomass',id,n,'B');
+    if(r.presentation?.cell){const c=r.presentation.cell;for(const [id,a]of Object.entries(c.bySpecies))for(const [k,n]of Object.entries(a))emit(r.turn,'cell_species_'+k,id,n,['E','M','B','baseB','edibleB','bodyM'].includes(k)?k.endsWith('B')?'B':k.endsWith('M')?'M':'E':k==='occupiedCells'?'cell':k==='population'?'model_count':'management_unit');
+     for(const k of ['settledIndividuals','settledSlots','movingIndividuals'])emit(r.turn,'cell_'+k,'all',c[k],k==='settledSlots'?'settlement_slot':'individual');}
+    for(const [k,n]of Object.entries(r.soil))if(typeof n==='number')emit(r.turn,'soil_'+k,'all',n,['E','M','B','waitingM'].includes(k)?k.endsWith('M')?'M':k:'pool');
+    for(const [k,n]of Object.entries(r.information.field))emit(r.turn,'information_field_'+k,'all',n,k==='amount'?'information_amount':k==='cells'?'cell':'summary');
+    for(const [k,n]of Object.entries(r.informationFlow.all))emit(r.turn,'information_flow_'+k,'all',n,k.endsWith('E')?'E':'observed_value');
     emit(r.turn,'relation_edges','all',r.relations.confirmedEdges,'edge');emit(r.turn,'action_types','all',r.relations.actionTypes,'type');
     if(r.relations.continuousEdges!==null)emit(r.turn,'continuous_edges','all',r.relations.continuousEdges,'edge');
-   }return '\ufeff'+out.join('\r\n')+'\r\n';
+    yield (first?'\ufeff':'')+out.join('\r\n')+'\r\n';first=false;out.length=0;
+   }if(out.length)yield (first?'\ufeff':'')+out.join('\r\n')+'\r\n';
   }
-  return {append,csv,snapshot,get rows(){return copy(rows);},get last(){return rows.length?copy(rows.at(-1)):null;},get turns(){return rows.length;},get generations(){return copy([...generations.values()]);},get contacts(){return copy(Object.fromEntries(contactTotals));}};
- }
- function restore(snapshot){
-  if(snapshot?.schema!==SCHEMA||snapshot.metadata?.definition!==VERSION||!Array.isArray(snapshot.rows)||!snapshot.rows.length)throw Error('CURRENT_OBSERVATION_SNAPSHOT');
-  const h=create(snapshot.metadata.config,{species:snapshot.metadata.species,signature:snapshot.metadata.signature});
-  for(let turn=0;turn<snapshot.rows.length;turn++){const row=snapshot.rows[turn];validate(row,turn);h.append({turn,config:snapshot.metadata.config,observation:row});}
-  const rebuilt=h.snapshot();if(JSON.stringify(rebuilt.generations)!==JSON.stringify(snapshot.generations)||JSON.stringify(rebuilt.contacts)!==JSON.stringify(snapshot.contacts)||JSON.stringify(rebuilt.rows)!==JSON.stringify(snapshot.rows))throw Error('CURRENT_OBSERVATION_SNAPSHOT');
-  h.append=()=>{throw Error('CURRENT_OBSERVATION_READ_ONLY');};return h;
- }
- return {VERSION,SCHEMA,create,restore};
+ return {VERSION,SCHEMA,create,restore,csvRows};
 });

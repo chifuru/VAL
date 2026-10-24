@@ -2,7 +2,7 @@
 
 計画名 `current-state-optimization/1`。起点 `97baa6c`。本書は作業計画であり、VALIS本体・採用仕様・実装済み機能ではない。
 
-現在の進捗：CS01〜06に加え、CS07前半のWorker現在状態転送と形式4/ネイティブ観測の保存・再生APIを接続。新規12・関連28、ブラウザ記録API6確認と従来3条件の短期比較が成功。[CS07契約](current-state-integration-v1.md) / [証跡](../evidence/current-state-integration-v1/README.md)。CS07全完了ではない。次は後半の通常画面/3グラフ/サマリ/手動詳細/CSV/図鑑画面への全接続。自然長期/総合性能はCS08。
+現在の進捗：CS01〜07の実装接続を完了。CS07後半で明示マス方式の新規作成、3グラフ/サマリ、手動詳細、CSV、図鑑の形式4保存/読取/再生を接続し、新規6＋関連30と実ブラウザの代表条件を確認。[後半契約](current-state-interface-v1.md) / [証跡](../evidence/current-state-interface-v1/README.md)。次はCS08の限定した肥大化/動作/性能確認。自然500T・改善率・Windowsは未認定。一般の既定モード/素材/配置/製品4.2.77/配布は維持。
 
 ## 1. 今回の実行契約
 

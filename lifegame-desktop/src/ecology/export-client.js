@@ -2,7 +2,7 @@
 (function(root){'use strict';
   const yieldUI=()=>new Promise(resolve=>setTimeout(resolve,0));
   async function run(format,input,{workerFactory=()=>new Worker('ecology/export-worker.js')}={}){
-    const rows=format==='csv'?input.rows:input.observation?.rows||[],length=rows.length;
+    const rows=format==='csv'?(input.exportRows?.()||input.rows):input.observation?.rows||[],length=rows.length;
     const metadata=format==='csv'?input.metadata:null,header=format==='json'?{...input,...(input.observation?{observation:{...input.observation,rows:undefined}}:{})}:null;
     let worker;
     try{worker=workerFactory();}catch{
@@ -13,6 +13,9 @@
         else parts.push(JSON.stringify(header));
         for(let i=0;i<length;i++){parts.push((i?',':'')+JSON.stringify(rows[i]));if(i%8===7)await yieldUI();}
         if(header.observation)parts.push(']}}');
+      }else if(metadata.config.currentStateModel==='current-state/1'){
+        for(let i=0;i<length;i+=8){parts.push(...root.EcoCurrentObservations.csvRows(rows.slice(i,i+8),{header:i===0}));await yieldUI();}
+        if(!length)parts.push(...root.EcoCurrentObservations.csvRows([]));
       }else {
         const h=root.EcoObservations.create(metadata.config,metadata.version,{species:metadata.species});
         for(let i=0;i<length;i+=8){h.rows.push(...rows.slice(i,Math.min(length,i+8)));parts.push(...h.csvChunks(8,{header:i===0}));h.rows.length=0;await yieldUI();}

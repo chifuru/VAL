@@ -1,5 +1,7 @@
 # CS07：Worker・観測・画面・保存への全接続
 
+現在：前半と後半を限定接合済み。[後半契約](current-state-interface-v1.md) / [証跡](../evidence/current-state-interface-v1/README.md)。次はCS08。以下はこの接合の実行契約。
+
 起点34b6f57。標準配置Operation→Summary→Flow、current-state/1の9節、CS02〜06と現行Worker/観測/図鑑を読む。既存責務内のFLOW-05で段階接合する。新Node・分割・正式状態変更は不要。
 
 ## 今回の実行契約：CS07前半

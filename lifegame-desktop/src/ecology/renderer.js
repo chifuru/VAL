@@ -242,7 +242,7 @@
       world=null;lastTurn=-1;
     }
     Art.ready.then(()=>{groundShadow();for(const kind of Object.keys(markLabels))markSprite(kind);});
-    let livingById=new Map(),freeQById=new Map(),informationCells=new Map(),informationIndex=null,informationHitRegions=[],eventPlan=null,frameCandidates=null,objectIndex=null;
+    let livingById=new Map(),freeQById=new Map(),informationCells=new Map(),informationIndex=null,soilCells=[],soilIndex=null,informationHitRegions=[],eventPlan=null,frameCandidates=null,objectIndex=null;
     let world = null,
       P = null,
       scene = null,
@@ -364,9 +364,12 @@
         if(S.PersistentInformation?.enabled(w))for(const record of w.informationField||[]){
           if(!(record.expires>w.turn&&record.amount>=S.PersistentInformation.settings(w).minimumAmount))continue;
           if(!informationCells.has(record.cell))informationCells.set(record.cell,{cell:record.cell,amount:0,origins:new Set(),records:0});
-          const cell=informationCells.get(record.cell);cell.amount+=record.amount;cell.origins.add(record.originId);cell.records++;
+          const cell=informationCells.get(record.cell);cell.amount+=record.amount;cell.origins.add(record.originId??JSON.stringify([record.meaning,record.scope,record.sourceSpecies,record.peerSpecies,record.evidence,record.sign]));cell.records++;
         }
       }
+      if(w.config.currentStateModel==='current-state/1'&&(!shared||w.turn!==prior.turn||w.cellState!==prior.cellState)){
+        const cells=new Map();for(const row of [...w.cellState.soil.fresh,...w.cellState.organic])if(row.B>0){const old=cells.get(row.cell);if(old)old.B+=row.B;else cells.set(row.cell,{cell:row.cell,B:row.B});}soilCells=[...cells.values()];soilIndex=null;
+      }else if(w.config.currentStateModel!=='current-state/1'){soilCells=[];soilIndex=null;}
       const time=performance.now();
       const identity=JSON.stringify([w.config.seed,w.config.width,w.config.height,w.config.mapFingerprint,w.config.mapResolved]);
       if(markWorldIdentity!==null&&identity!==markWorldIdentity)resetActionTimeline();
@@ -756,9 +759,14 @@
         informationHitRegions.push({cell:field.cell,x:p[0],y:p[1],r:Math.max(r,3/z)});
         diagnostics.informationFields.push({cell:field.cell,amount:field.amount,origins:field.origins.size,records:field.records,x:p[0]*z+view.x,y:p[1]*z+view.y});
         if(near&&(view.names.resource||field.cell===view.selected)){
-          annotations.push(()=>{g.save();g.fillStyle='#fff1cd';g.font='.055px sans-serif';g.textAlign='center';g.fillText('情報量 '+Number(field.amount.toFixed(2))+' · '+field.origins.size+'由来',p[0],p[1]-.10);g.restore();});
+          annotations.push(()=>{g.save();g.fillStyle='#fff1cd';g.font='.055px sans-serif';g.textAlign='center';g.fillText('情報量 '+Number(field.amount.toFixed(2))+' · '+field.origins.size+(w.config.currentStateModel==='current-state/1'?'区分':'由来'),p[0],p[1]-.10);g.restore();});
           diagnostics.nameLabels.resource++;
         }
+      }
+      if(view.resources&&soilCells.length){
+        const point=r=>position(r.cell,.82,.82),visibleSoil=frameCandidates.soil||=near
+          ?(soilIndex||=globalThis.EcoDisplayPlane.spatial(soilCells,r=>{const p=point(r);return [p[0]-.2,p[1]-.2,p[0]+.2,p[1]+.2];}))([-view.x/z-1,-view.y/z-1,(b.width-view.x)/z+1,(b.height-view.y)/z+1]):soilCells;
+        for(const stock of visibleSoil){const p=point(stock);if(!visible(p))continue;const r=.045+.035*stock.B/(1+stock.B);g.save();g.fillStyle='#89735e';g.strokeStyle='#c4ac81';g.lineWidth=Math.max(.009,.6/z);g.beginPath();g.ellipse(p[0],p[1],r*1.5,r*.7,-.2,0,Math.PI*2);g.fill();g.stroke();if(detail){g.fillStyle='#d2ba91';g.beginPath();g.ellipse(p[0]-.02,p[1]-.015,r*.65,r*.3,.3,0,Math.PI*2);g.fill();}g.restore();}
       }
       function corpsePayload(a){
         if(!a.infection || !(a.payloadExpires>w.turn))return;

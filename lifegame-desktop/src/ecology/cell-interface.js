@@ -8,7 +8,7 @@
  function connect(base,reference){
   const environment=settings(reference);if(!environment)return base;
   if(!base?.producerSettings?.land||!base.producerSettings.water)throw Error('生産者の初期設定を読み取れません。');
-  const next=structuredClone(base);next.cellModel=model;next.cellSettings=environment;next.observationMode='custom';
+  const next=structuredClone(base);next.cellModel=model;next.cellSettings=environment;if(reference.currentStateModel!==undefined){if(reference.currentStateModel!=='current-state/1')throw Error('未知の現在状態モデルです。');next.currentStateModel=reference.currentStateModel;}next.observationMode='custom';
   next.generationSettings={...next.generationSettings,mode:'manual',profile:'auto',locks:[]};next.producerSupport={enabled:false};
   if(next.advantageSettings)next.advantageSettings.producer=false;
   for(const region of ['land','water'])next.producerSettings[region]={...next.producerSettings[region],capacityB:20,regrowthB:2};

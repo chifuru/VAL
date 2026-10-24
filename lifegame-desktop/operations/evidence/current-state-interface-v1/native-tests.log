@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: native facts project to all three full-turn graphs, with exact population and biomass
+ok 1 - native facts project to all three full-turn graphs, with exact population and biomass
+  ---
+  duration_ms: 910.414827
+  type: 'test'
+  ...
+# Subtest: native snapshot restores the same presentation without worlds or mutable biological reads
+ok 2 - native snapshot restores the same presentation without worlds or mutable biological reads
+  ---
+  duration_ms: 16.219636
+  type: 'test'
+  ...
+# Subtest: native facts remain raw and old missing presentation is not guessed
+ok 3 - native facts remain raw and old missing presentation is not guessed
+  ---
+  duration_ms: 8.695903
+  type: 'test'
+  ...
+# Subtest: CSV batching is byte-identical and preserves unknown phase, soil, information and actual cell facts
+ok 4 - CSV batching is byte-identical and preserves unknown phase, soil, information and actual cell facts
+  ---
+  duration_ms: 6.972279
+  type: 'test'
+  ...
+# Subtest: projected records capture native schema4 and rebuild exact initial conditions
+ok 5 - projected records capture native schema4 and rebuild exact initial conditions
+  ---
+  duration_ms: 511.830156
+  type: 'test'
+  ...
+# Subtest: manual detail and field summaries are immutable, and cell opt-in does not change legacy config
+ok 6 - manual detail and field summaries are immutable, and cell opt-in does not change legacy config
+  ---
+  duration_ms: 282.206074
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1761.744457

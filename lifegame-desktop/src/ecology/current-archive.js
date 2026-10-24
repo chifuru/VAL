@@ -11,7 +11,7 @@
  function sample(rows,map=o=>o){const ordered=rows.slice().sort((a,b)=>String(a.id??a.subject?.id).localeCompare(String(b.id??b.subject?.id)));return {total:rows.length,retained:Math.min(4,rows.length),truncated:rows.length>4,items:ordered.slice(0,4).map(o=>copy(map(o)))};}
  function capture(w,reason,observation,{engine,signature,originRecordId=null}){
   const S=engine.S;if(w.config.currentStateModel!=='current-state/1')fail();finite(w);if(engine.invariants(copy(w)).length)fail();
-  const h=O.restore(observation),last=h.last;if(h.turns!==w.turn+1||h.snapshot().metadata.signature!==signature||!same(S,observation.metadata.config,w.config)||!same(S,(({relations,...raw})=>raw)(last),w.observation))fail();
+  const h=O.restore(observation),last=h.last;if(h.turns!==w.turn+1||h.snapshot().metadata.signature!==signature||!same(S,observation.metadata.config,w.config)||!same(S,(({relations,presentation,...raw})=>raw)(last),w.observation))fail();
   const p=S.PrimaryParasite.entries(w),q=S.HyperParasite.entries(w),examples={organisms:sample(w.organisms,o=>pick(o,bodyKeys)),
    primary:sample(p.map(e=>({id:e.p.id,hostId:e.p.hostId,cell:e.cell,subject:e.p})),o=>({...pick(o,['id','hostId','cell']),subject:{...pick(o.subject,bodyKeys),stage:o.subject.stage,counter:o.subject.counter,primary:copy(o.subject.primary)}})),
    hyper:sample(q.map(e=>({id:e.q.id,hostId:e.q.hostId,cell:e.cell,subject:e.q})),o=>({...pick(o,['id','hostId','cell']),subject:{...pick(o.subject,bodyKeys),hyper:copy(o.subject.hyper)}}))};

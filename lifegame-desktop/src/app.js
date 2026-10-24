@@ -70,7 +70,7 @@
     const environment={...cellSetupContext.cellSettings};
     for(const key of CellUI.fields){const value=$('cell-'+key).value;if(value==='')throw Error('マス環境の値を入力してください。');environment[key]=key==='mineralLevel'?value:Number(value);}
     if($('cell-aquatic-profile').value)environment.aquaticProfile=$('cell-aquatic-profile').value;else delete environment.aquaticProfile;
-    return {cellModel:CellUI.model,cellSettings:environment};
+    return {cellModel:CellUI.model,cellSettings:environment,currentStateModel:'current-state/1'};
   }
   const cellSetupUnavailable=()=>cellSetupContext&&!$('cell-aquatic-profile').value;
   $('cell-model-mode').onchange=()=>{
@@ -758,7 +758,7 @@
         landscape:"templates",ageModel:"life/1",ecologyRevision:"observation/4.1",
         blockTurns:500,populationRegulation:{version:1},...config,
       });
-      if(playback?.config?.cellModel!==undefined)window.EcoCellArchive.matchInitial(playback,next);
+      if(playback?.config?.cellModel!==undefined)(playback.schema===4?window.EcoCurrentArchive:window.EcoCellArchive).matchInitial(playback,next);
       nextObservations=window.EcoObservations.create(next.config,window.EcoReplayVersion,{species:S.activeSpecies(next)});
       nextObservations.append(next);
       nextInitialConfig=structuredClone(next.config);
@@ -1151,11 +1151,11 @@
   }
   async function analyzeResult(id){
     const epoch=++resultReadEpoch, previous=world;
-    try{const record=await archive.get(id);if(epoch!==resultReadEpoch||world!==previous)return;let data=null;if([2,3].includes(record.schema))data=window.EcoObservations.restore(record.observation,{species:D.species});
+    try{const record=await archive.get(id);if(epoch!==resultReadEpoch||world!==previous)return;let data=null;if([2,3,4].includes(record.schema))data=window.EcoObservations.restore(record.observation,{species:D.species});
       if(!analysisState)analysisState={target:$("graph-species").value,turn:$("graph-turn").value,follow:graphFollow,donutView:$("donut-view").value};
       analysisRecord=record;analysisData=data;$("results-list").hidden=true;$("results-analysis").hidden=false;
       $("result-analysis-title").textContent=`保存した最終結果 · ${record.turn}T`;
-      $("result-analysis-summary").textContent=`主生物 ${record.final.main} / 下層 ${record.final.food} / P ${record.final.P} / Q ${record.final.Q}。`+(record.schema===3?" 最終状態の個別例は分類ごとの一部で、全個体の履歴ではありません。":"")+(data?'記録時の指標と全確定ターンを参照しています。':'旧記録には全期間グラフが保存されていません。値を再計算して補いません。');
+      $("result-analysis-summary").textContent=`主生物 ${record.final.main} / 下層 ${record.final.food} / P ${record.final.P} / Q ${record.final.Q}。`+([3,4].includes(record.schema)?" 最終状態の個別例は分類ごとの一部で、全個体の履歴ではありません。":"")+(data?'記録時の指標と全確定ターンを参照しています。':'旧記録には全期間グラフが保存されていません。値を再計算して補いません。');
       $("result-final-values").textContent=JSON.stringify({final:record.final,conditions:record.config,originRecordId:record.originRecordId||null,replayMatch:record.replayMatch??null,definitions:record.observation?.definitions||null},null,2);
       $("results-graph-host").hidden=!data;if(data){$("results-graph-host").append($("graphs-panel"),$("current-summary"));graphFollow=true;$("graph-turn").value=record.turn;renderGraphs();}
     }catch(e){$("results-error").textContent=e.message;}
@@ -1534,6 +1534,7 @@
     $('biomass-pyramid').innerHTML=roles?.length===5?roles.map((v,i)=>{const percentage=v/peak*100,floor=v>0&&percentage<4;
       return `<div class="pyramid-level" data-level="${i}" data-value="${v}" title="${names[i]}: ${v} B"${floor?' data-visual-floor="true"':''}><span>${names[i]}</span><div><i style="width:${v>0?`max(8px,${percentage}%)`:'0'};background:${colors[i]}"></i></div><b>${floor?'※':''}${v>0&&v<.01?'&lt;0.01':fmt(v)}</b></div>`;
     }).reverse().join('')+`<p class="note">※極少量は最小幅で表示。実数Bを参照。<br>未分類 ${fmt(p.roleUnknown||0)} B / 分解者 ${fmt(p.side.decomposer)} B / P・Q別枠</p>`:'<p class="note">この記録には食性別の生物量がありません。旧4層の値から推定しません。</p>';
+    $('biomass-pyramid').title=p.source||'';
     $('pyramid-support').textContent='生産 '+(p.production===null?'未記録':fmt(p.production)+' E')+' / 同化 '+(p.uptake===null?'未記録':fmt(p.uptake)+' E')+'（直近'+p.window+'T）';
     const history=graphObservation();
     if(analysisData&&window.EcoRelationshipNetwork&&history){
@@ -1590,7 +1591,7 @@
     $('information-readout').textContent=info?`情報（${r.turn}T）：生成${info.generated} / 取得${info.received} / 重み適用${info.applied} / Q媒介取得${info.mediatedReceived}・適用${info.mediatedApplied} / 由来不明${info.unattributed}。`:'情報の内訳：未記録（旧記録の情報関係は取得基準）。';
     $('information-readout').title='生成は成功した資源生成/増量の件数。適用は情報による非ゼロの直接重み変更。移動結果の変化やQの反実仮想的な寄与を意味しません。全ターン原値と変化量はCSV/保存結果で確認できます。';
     if(r.persistentInformation){const s=r.persistentInformation,f=r.persistentInformationFlow.all;
-      $('information-readout').textContent=`非栄養情報（${r.turn}T）：量 ${primaryNumber(s.field.amount)} / ${s.field.origins}由来 / 生成 ${f.normalGenerated+f.lowGenerated} / 受容 ${f.originsRead} / 学習 ${f.learned} / 場所作用 ${f.placeApplications} / 受容費 ${primaryNumber(f.receptionCostE)} E。`;
+      $('information-readout').textContent=`非栄養情報（${r.turn}T）：量 ${primaryNumber(s.field.amount)} / ${s.definition==='current-information-observed/1'?s.field.records+'集約区分':s.field.origins+'由来'} / 生成 ${f.normalGenerated+f.lowGenerated} / 受容 ${f.originsRead} / 学習 ${f.learned} / 場所作用 ${f.placeApplications} / 受容費 ${primaryNumber(f.receptionCostE)} E。`;
       $('information-readout').title='生成・受容・実際の学習・場所作用は別の原値です。情報量は生体数・B・栄養Eへ加算しません。Qの促進/歪曲件数はQの利益や生存への因果を意味しません。全確定ターンをCSV/保存結果で確認できます。';
     }
     $('relation-readout').textContent='3系列は別尺度・0Tからの全期間。各点は直近50T、上の関係面は100T区間です。';
@@ -1788,7 +1789,7 @@
             .join("<br>")
         : "";
     const weights = main
-      ? `<details class="strategy-data"><summary>行動パラメータを詳しく</summary><div class="observation-weights"><h4>この個体の行動パラメータ</h4>${o.weights.map((v, i) => `<div class="weight-row"><span>${D.weightNames[i]}</span><progress max="100" value="${v}"></progress><span>${fmt(v)}</span></div>`).join("")}</div></details>`
+      ? `<details class="strategy-data"><summary>行動パラメータを詳しく</summary><div class="observation-weights"><h4>この個体の行動パラメータ</h4>${(world.config.currentStateModel==='current-state/1'?S.CurrentInformation.weights(o):o.weights).map((v, i) => `<div class="weight-row"><span>${D.weightNames[i]}</span><progress max="100" value="${v}"></progress><span>${fmt(v)}</span></div>`).join("")}</div></details>`
       : "";
     const affinity = main
       ? `<div class="affinities">${[
@@ -1840,14 +1841,17 @@
     return `<details data-information-generation><summary>生成時に固定した実績・抽選</summary><p class="micro">候補 ${g.kind==='normal'?'通常':g.kind==='low'?'根拠不足':escape(g.kind||'未記録')} / pN ${primaryNumber(g.pN)} / pL ${primaryNumber(g.pL)} / 抽選u ${primaryNumber(g.u)}<br>評価 ${e?.resolved?'S '+primaryNumber(e.S)+' / 維持A '+primaryNumber(e.A)+' / 役割B '+primaryNumber(e.B)+' / 関係C '+primaryNumber(e.C):'未評価'}<br>評価基準 ${escape(b?.species||'未記録')} / 維持 ${primaryNumber(b?.maintainedTurns)}T / 関係 ${primaryNumber(b?.relationTurns)}T / 子の成立 ${primaryNumber(b?.offspringSuccess)}<br>役割別基準量 ${Object.entries(b?.roleAmounts||{}).map(([k,v])=>escape(informationRole[k]||k)+' '+primaryNumber(v)).join(' / ')||'未記録'}</p></details>`;
   }
   function persistentFieldHTML(cell){
+    if(world.config.currentStateModel==='current-state/1')return EcoCurrentPresentation.fieldHTML(world,cell,{weights:D.weightNames,meanings:informationMeaning});
     const records=S.PersistentInformation.fieldAt(world,cell);
     return `<section data-persistent-field><h3>非栄養の情報場 · ${records.length}記録</h3><p class="note">情報量は生体数・B・E・Mと別です。読取だけでは量を消費せず、由来・元経験の鮮度・生成後の期限を更新しません。</p>${records.map(r=>`<article class="specimen" data-information-origin="${escape(r.originId)}"><h4>情報量 ${primaryNumber(r.amount)} · ${r.lowEvidence?'根拠不足（初期判断半重み）':'実経験由来'}</h4><p class="micro">由来 ${escape(r.originId)}<br>発信者 ${escape(r.sourceId)} / ${escape(D.byId[r.sourceSpecies]?.name||r.sourceSpecies)}<br>発信時の役割 ${(r.sourceRoles||[]).map(k=>escape(informationRole[k]||k)).join(' / ')}<br>生成 ${r.generatedAt}T / 期限 ${r.expires}T（残り ${r.expires-world.turn}T） / 実績S ${primaryNumber(r.score)}</p>${persistentGenerationHTML(r.generation)}${r.contents.map(c=>`<details open data-information-content="${escape(c.contentId)}"><summary>${escape(informationMeaning[c.meaning]||c.meaning)} · ${escape({normal:'通常',low:'根拠不足', 'confirmed-harm':'確認済み被害'}[c.evidence]||c.evidence)}</summary><p class="micro">元経験 ${c.experienceAt}T / 古さ ${world.turn-c.experienceAt}T / 鮮度 ${primaryNumber(S.PersistentInformation.freshness(c,world.turn))}（半減期 ${c.halfLife}T）<br>範囲 ${c.scope==='all'?'全層向け（局所の適合対象）':'同層向け'} / 役割 ${(c.roles||[]).map(k=>escape(informationRole[k]||k)).join(' / ')}<br>元の場所 ${Number.isInteger(c.context?.cell)?c.context.cell:'未記録'} / 環境 ${escape(D.environments[c.context?.env]?.name||'未記録')}<br>元内容 ${informationValues(c.originalValues)}<br>伝達内容 ${informationValues(c.values)}</p></details>`).join('')}<details data-information-q><summary>Qの出現促進と内容歪曲</summary><p class="micro">出現促進 ${primaryNumber(r.qEffects?.promotion)} / 歪曲 ${informationValues((r.qEffects?.vectors||[]).map((value,axis)=>({axis,value})).filter(v=>v.value!==0))}<br>${(r.qEffects?.traces||[]).map(t=>'加工Q '+escape(t.qId)+' / 直接P '+escape(t.pId)+' / 発信元 '+escape(t.sourceId)+' / 更新 '+t.updatedAt+'T / 離脱 '+(t.detachedAt===null?'未離脱':t.detachedAt+'T')+' / 支払 '+primaryNumber(t.paidE)+' E').join('<br>')||'Q加工の記録なし'}<br>生成時の歪曲は固定値です。元経験・実績を書き換えず、生成後にQの離脱減衰を重ねません。</p></details></article>`).join('')||'<p class="micro">このセルに有効な情報記録はありません。</p>'}</section>`;
   }
   function persistentSubjectHTML(o){
+    if(world.config.currentStateModel==='current-state/1')return EcoCurrentPresentation.subjectHTML(world,o,{weights:D.weightNames,meanings:informationMeaning});
     const a=o.informationState,z=S.PersistentInformation.settings(world),evaluation=S.PersistentInformation.evaluate(world,o),last=a.last,place=last?.place;
     return `<details data-information-subject="${escape(o.id)}"><summary>本人経験・受取学習・場所作用</summary><p class="micro">本人 ${escape(o.id)} / 役割 ${S.PersistentInformation.roles(world,o).map(k=>escape(informationRole[k]||k)).join(' / ')}<br>実績評価 ${evaluation.resolved?'S '+primaryNumber(evaluation.S)+' / A '+primaryNumber(evaluation.A)+' / B '+primaryNumber(evaluation.B)+' / C '+primaryNumber(evaluation.C)+' / 基礎出現率 '+primaryNumber(evaluation.pBase):'未評価（役割基準の欠測を0補完しません）'}</p><h4>本人が確かめた実経験</h4>${a.experience.map(c=>`<p class="micro">${escape(informationMeaning[c.meaning]||c.meaning)} / ${c.count}件・${c.distinctTurns}T / 最終 ${c.lastExperienceAt}T<br>保持資格 ${c.count>=z.holdingCount&&c.distinctTurns>=z.holdingTurns?'到達':'未到達'}（${z.holdingCount}件/${z.holdingTurns}T） / 死亡時候補 ${c.confirmedHarm?'確認済み被害':c.count>=z.normalCount&&c.distinctTurns>=z.normalTurns?'通常':'根拠不足'}<br>${informationValues(c.values)}</p>`).join('')||'<p class="micro">本人実経験の記録なし。</p>'}<h4>他者から受け取った学習</h4>${a.learned.map(c=>`<p class="micro">由来 ${escape(c.originId)} / 発信者 ${escape(c.sourceId)}<br>受容 ${c.receivedAt}T / ${c.source==='environment'?'環境':c.caregiver?'実養育者':'通常個体'} / 内容 ${escape((c.contentIds||[c.contentId]).join(' / '))}</p>`).join('')||'<p class="micro">受取学習の記録なし。</p>'}<p class="micro">直近受容 ${last?last.turn+'T / '+last.received+'由来 / 実適用 '+last.applied+' / 変化量 '+primaryNumber(last.deltaAbs)+' / 費用 '+primaryNumber(last.costE)+' E':'未実行'}<br>${S.spec(o).group==='main'?'学習は現在の行動重みに反映します。': '受取学習の蓄積 '+informationValues(a.learnedPreferences.map((value,axis)=>({axis,value})).filter(v=>v.value!==0))}</p><h4>現在地で実際に使った場所作用</h4><p class="micro">${place?place.turn+'T / 誘引 '+primaryNumber(place.attraction)+' / 警戒 '+primaryNumber(place.warning)+' / 評価 '+primaryNumber(place.value)+'<br>由来 '+escape(place.origins.map(c=>c.originId).join(' / ')):'当Tの利用記録なし（候補照会や表示では加算しません）'}</p><p class="note">受取や場所の反復作用は本人の新経験ではありません。痕跡の期限切れだけで既存学習を消さず、DNAへ書き戻しません。k=${primaryNumber(z.influence)}。</p>${(o.hyperTraces||[]).length?`<h4>本人に残るQの有償痕跡</h4>${o.hyperTraces.map(t=>`<p class="micro">Q ${escape(t.qId)} / P ${escape(t.pId)} / 発信元 ${escape(t.sourceId)}<br>出現促進 ${primaryNumber(t.promotion)} / 歪曲強度 ${primaryNumber(t.distortion)} / 支払 ${primaryNumber(t.paidE)} E<br>離脱 ${t.detachedAt===null?'未離脱':t.detachedAt+'T / 失活 '+(t.detachedAt+z.traceLifetime)+'T'}。保持強度と死亡時の実効値は別です。</p>`).join('')}`:''}</details>`;
   }
   function persistentGuideHTML(){
+    if(world.config.currentStateModel==='current-state/1')return EcoCurrentPresentation.guideHTML();
     const z=S.PersistentInformation.settings(world);
     return `<section data-persistent-guide><h2>実経験から残る、非栄養の情報</h2><div class="flow">本人の実経験 → 死亡時に一度の生成判定 → 次Tから局所の受容・学習／場所作用</div><div class="sheet-grid">${card('量・鮮度・期限は別',`<p>情報量は痕跡の量で、栄養E/B/Mや生体数ではありません。元経験から半減期25/50/100Tで鮮度が下がり、生成後100〜200Tの期限を保持します。読取・拡散・Q加工では若返りません。</p>`)}${card('経験と受取',`<p>通常候補は3件/2T、保持・伝達資格は6件/3T。確認済み被害は別の通常候補、根拠不足は残余最大5%・初期判断半重みです。「正しさ50%」ではありません。本人経験と受取内容を分け、同じ由来の再読取を新経験にしません。</p>`)}${card('学習と場所作用',`<p>環境1・通常個体0.25・実養育者から幼体1。新規受容は最大2由来/T、1由来に維持費1%相当を支払います。学習蓄積と、その場所での一時的な誘引・警戒は別です。k=${primaryNumber(z.influence)}。0でも生成・受容・費用を維持し、両作用を0にします。</p>`)}${card('Qの促進と歪曲',`<p>有償痕跡は発信元1体に最大2つ。直接P・発信元・加工Qを分け、元の実績・経験・役割・期限を書き換えません。離脱後は半減期50T・100Tで失活し、生成時に固定された歪曲へ離脱減衰を重ねません。Q自立IVは既存情報を遠隔加工しません。</p>`)}${card('観測と保存',`<p>全確定ターンのstock/flowをCSVと結果へ保存します。量、取得数、学習・場所作用、Q加工を分け、情報の存在だけで成立関係や生存への利益を認定しません。旧世界は旧定義のままです。</p>`)}</div></section>`;
   }
@@ -2085,7 +2089,7 @@
       world.tallies.transfers +
       " / 失敗 " +
       world.tallies.infectionFailures +
-      (S.PersistentInformation?.enabled(world)?"<br>非栄養情報 量 "+primaryNumber(world.persistentInformationSummary.field.amount)+" / 累積生成量 "+primaryNumber(world.persistentInformationSummary.ledger.generatedAmount)+" / 累積失活量 "+primaryNumber(world.persistentInformationSummary.ledger.inactivatedAmount)+" / 当T受容 "+world.observation.persistentInformation.all.originsRead+" / 学習 "+world.observation.persistentInformation.all.learned+" / 場所作用 "+world.observation.persistentInformation.all.placeApplications+" / 受容費 "+primaryNumber(world.observation.persistentInformation.all.receptionCostE)+" E":"<br>情報 発信成功ターン " +
+      (S.PersistentInformation?.enabled(world)?"<br>非栄養情報 量 "+primaryNumber(world.persistentInformationSummary.field.amount)+" / 累積生成量 "+primaryNumber(world.persistentInformationSummary.ledger.generatedAmount)+" / 累積失活量 "+primaryNumber(world.persistentInformationSummary.ledger.inactivatedAmount)+" / 当T受容 "+(world.observation.persistentInformation||world.observation.informationFlow).all.originsRead+" / 学習 "+(world.observation.persistentInformation||world.observation.informationFlow).all.learned+" / 場所作用 "+(world.observation.persistentInformation||world.observation.informationFlow).all.placeApplications+" / 受容費 "+primaryNumber((world.observation.persistentInformation||world.observation.informationFlow).all.receptionCostE)+" E":"<br>情報 発信成功ターン " +
       world.tallies.information.emissionTurns +
       " / 新規受信 " +
       world.tallies.information.received +

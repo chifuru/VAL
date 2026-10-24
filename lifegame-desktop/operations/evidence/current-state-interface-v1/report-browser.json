@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "checks": [
+    "ordinary default remains legacy",
+    "explicit cell setup selects current-state for a new world",
+    "native current world opens through ordinary UI",
+    "actual Worker commits turns and pause works",
+    "selected organism uses current initial-plus-change details",
+    "selected details stay at manually chosen instant during observation",
+    "paused observation resumes and pauses again",
+    "CSV Worker and fallback preserve identical complete native facts",
+    "explicit finish saves schema4 with compact list header",
+    "saved result displays graph-stacked",
+    "saved result displays composition-phases",
+    "saved result displays composition-sex",
+    "saved result displays composition-ages",
+    "saved result displays graph-relations",
+    "saved result displays biomass-pyramid",
+    "saved result displays current-donut",
+    "saved analysis has no read error",
+    "replay uses original initial config and does not autosave",
+    "no uncaught browser error or native popup"
+  ],
+  "errors": []
+}

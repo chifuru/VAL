@@ -1,0 +1,226 @@
+TAP version 13
+# Subtest: native facts project to all three full-turn graphs, with exact population and biomass
+ok 1 - native facts project to all three full-turn graphs, with exact population and biomass
+  ---
+  duration_ms: 897.342393
+  type: 'test'
+  ...
+# Subtest: native snapshot restores the same presentation without worlds or mutable biological reads
+ok 2 - native snapshot restores the same presentation without worlds or mutable biological reads
+  ---
+  duration_ms: 19.264565
+  type: 'test'
+  ...
+# Subtest: native facts remain raw and old missing presentation is not guessed
+ok 3 - native facts remain raw and old missing presentation is not guessed
+  ---
+  duration_ms: 9.126861
+  type: 'test'
+  ...
+# Subtest: CSV batching is byte-identical and preserves unknown phase, soil, information and actual cell facts
+ok 4 - CSV batching is byte-identical and preserves unknown phase, soil, information and actual cell facts
+  ---
+  duration_ms: 8.681449
+  type: 'test'
+  ...
+# Subtest: projected records capture native schema4 and rebuild exact initial conditions
+ok 5 - projected records capture native schema4 and rebuild exact initial conditions
+  ---
+  duration_ms: 514.386036
+  type: 'test'
+  ...
+# Subtest: manual detail and field summaries are immutable, and cell opt-in does not change legacy config
+ok 6 - manual detail and field summaries are immutable, and cell opt-in does not change legacy config
+  ---
+  duration_ms: 309.427361
+  type: 'test'
+  ...
+# Subtest: same-cell current information uses distinct semantic keys and survives updates, deletion and reorder
+ok 7 - same-cell current information uses distinct semantic keys and survives updates, deletion and reorder
+  ---
+  duration_ms: 1165.263938
+  type: 'test'
+  ...
+# Subtest: large current vectors cross only changed indices and immutable map/config are not sent again
+ok 8 - large current vectors cross only changed indices and immutable map/config are not sent again
+  ---
+  duration_ms: 146.060375
+  type: 'test'
+  ...
+# Subtest: current nested state changes and removed keys reconstruct without changing the base or earlier packets
+ok 9 - current nested state changes and removed keys reconstruct without changing the base or earlier packets
+  ---
+  duration_ms: 177.674863
+  type: 'test'
+  ...
+# Subtest: foreign current object names, duplicate vector indices and wrong vector lengths are rejected
+ok 10 - foreign current object names, duplicate vector indices and wrong vector lengths are rejected
+  ---
+  duration_ms: 115.361869
+  type: 'test'
+  ...
+# Subtest: actual Worker batch, streamed phases and final-only current frames reconstruct two committed turns
+ok 11 - actual Worker batch, streamed phases and final-only current frames reconstruct two committed turns
+  ---
+  duration_ms: 4894.367542
+  type: 'test'
+  ...
+# Subtest: discarding partial computation keeps current clocks and allows exact resume from the committed world
+ok 12 - discarding partial computation keeps current clocks and allows exact resume from the committed world
+  ---
+  duration_ms: 709.326463
+  type: 'test'
+  ...
+# Subtest: schema4 saves native full-turn facts and final current state, without historical world snapshots
+ok 13 - schema4 saves native full-turn facts and final current state, without historical world snapshots
+  ---
+  duration_ms: 410.95079
+  type: 'test'
+  ...
+# Subtest: reading and replay request never write, and resolved initial conditions replay the saved fingerprint
+ok 14 - reading and replay request never write, and resolved initial conditions replay the saved fingerprint
+  ---
+  duration_ms: 1237.11395
+  type: 'test'
+  ...
+# Subtest: saving a replay creates a separate record only with explicit replay-new intent
+ok 15 - saving a replay creates a separate record only with explicit replay-new intent
+  ---
+  duration_ms: 611.12353
+  type: 'test'
+  ...
+# Subtest: native records remain readable with a foreign signature while recalculation is refused
+ok 16 - native records remain readable with a foreign signature while recalculation is refused
+  ---
+  duration_ms: 402.953961
+  type: 'test'
+  ...
+# Subtest: record integrity, missing turns, invalid current clocks and genotype references are rejected
+ok 17 - record integrity, missing turns, invalid current clocks and genotype references are rejected
+  ---
+  duration_ms: 844.470669
+  type: 'test'
+  ...
+# Subtest: new native records do not pass old cell-archive guards and old snapshots are not silently converted
+ok 18 - new native records do not pass old cell-archive guards and old snapshots are not silently converted
+  ---
+  duration_ms: 343.497224
+  type: 'test'
+  ...
+# Subtest: legacy configuration and guides retain their original path and values
+ok 19 - legacy configuration and guides retain their original path and values
+  ---
+  duration_ms: 0.401767
+  type: 'test'
+  ...
+# Subtest: new candidate settings preserve explicit zeroes and water profile without changing their inputs
+ok 20 - new candidate settings preserve explicit zeroes and water profile without changing their inputs
+  ---
+  duration_ms: 0.255165
+  type: 'test'
+  ...
+# Subtest: unsupported legacy adjustments become fixed finite-model candidates while initial density remains independent
+ok 21 - unsupported legacy adjustments become fixed finite-model candidates while initial density remains independent
+  ---
+  duration_ms: 0.286853
+  type: 'test'
+  ...
+# Subtest: defaults reset candidate environment but keep the explicitly selected water-profile version
+ok 22 - defaults reset candidate environment but keep the explicitly selected water-profile version
+  ---
+  duration_ms: 0.150307
+  type: 'test'
+  ...
+# Subtest: unknown versions and impossible environment values are rejected instead of guessed
+ok 23 - unknown versions and impossible environment values are rejected instead of guessed
+  ---
+  duration_ms: 0.289016
+  type: 'test'
+  ...
+# Subtest: new sheets separate finite stocks, layers and real members without altering a world
+ok 24 - new sheets separate finite stocks, layers and real members without altering a world
+  ---
+  duration_ms: 22.315407
+  type: 'test'
+  ...
+# Subtest: all turn values survive more than two 500-turn blocks and CSV preserves old peaks and config
+ok 25 - all turn values survive more than two 500-turn blocks and CSV preserves old peaks and config
+  ---
+  duration_ms: 307.679457
+  type: 'test'
+  ...
+# Subtest: age-mature phase I and II can reproduce, juveniles cannot; every child begins phase I age zero
+ok 26 - age-mature phase I and II can reproduce, juveniles cannot; every child begins phase I age zero
+  ---
+  duration_ms: 9.234051
+  type: 'test'
+  ...
+# Subtest: movement and a subsequent effect use the remaining budget; feeding does not finance prior actions
+ok 27 - movement and a subsequent effect use the remaining budget; feeding does not finance prior actions
+  ---
+  duration_ms: 4.528442
+  type: 'test'
+  ...
+# Subtest: Q window opens only after first terminal maturation and never directly suppresses P maturation
+ok 28 - Q window opens only after first terminal maturation and never directly suppresses P maturation
+  ---
+  duration_ms: 1.458711
+  type: 'test'
+  ...
+# Subtest: search Q attaches only inside the limited window and conserves finite energy
+ok 29 - search Q attaches only inside the limited window and conserves finite energy
+  ---
+  duration_ms: 2.806634
+  type: 'test'
+  ...
+# Subtest: finite P maintenance causes loss without food and grooming cannot remove an internal parasite
+ok 30 - finite P maintenance causes loss without food and grooming cannot remove an internal parasite
+  ---
+  duration_ms: 2.339158
+  type: 'test'
+  ...
+# Subtest: contact episodes, continued contact and a wall-blocked neighbor are distinct
+ok 31 - contact episodes, continued contact and a wall-blocked neighbor are distinct
+  ---
+  duration_ms: 1.632223
+  type: 'test'
+  ...
+# Subtest: new production worlds retain invariants, deterministic replay and observation independence
+ok 32 - new production worlds retain invariants, deterministic replay and observation independence
+  ---
+  duration_ms: 7956.591403
+  type: 'test'
+  ...
+# Subtest: finite observation capacity refuses a new row without silently deleting any recorded turn
+ok 33 - finite observation capacity refuses a new row without silently deleting any recorded turn
+  ---
+  duration_ms: 2.840104
+  type: 'test'
+  ...
+# Subtest: relationship continuity measures repeated completed time blocks, not a single burst
+ok 34 - relationship continuity measures repeated completed time blocks, not a single burst
+  ---
+  duration_ms: 6.021502
+  type: 'test'
+  ...
+# Subtest: turn zero reports initial conditions without fabricated interaction events
+ok 35 - turn zero reports initial conditions without fabricated interaction events
+  ---
+  duration_ms: 64.414975
+  type: 'test'
+  ...
+# Subtest: Q search initialization uses eligible hosts and pays its declared founder energy
+ok 36 - Q search initialization uses eligible hosts and pays its declared founder energy
+  ---
+  duration_ms: 42.276214
+  type: 'test'
+  ...
+1..36
+# tests 36
+# suites 0
+# pass 36
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 21267.148412
