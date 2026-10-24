@@ -94,5 +94,5 @@ test('order changes preserve allocation, while aquatic coefficients remain unres
 test('source/generated and Worker/JSON preserve coupled photo-food accounting; public guards remain',()=>{
  const G=require('../src/ecology/observation-model.js').model(flags),T=require('../src/ecology/transport.js'),A=require('../src/ecology/archive.js'),w=fixture();add(w,'kelp','kelp',{E:70,M:2});add(w,'grass','grass',{B:22});w.carcasses.push({id:'food',cell:18,species:'grassbug',tag:'animal',q:4,E:8,M:.16,G:4,created:0});ledger(w);const v=structuredClone(w),before=structuredClone(w),encode=T.encoder(w);
  for(let turn=1;turn<=2;turn++){for(const [world,engine]of [[w,E],[v,G]]){world.turn=turn;const c=ready(world,engine);engine.cellLife(world,c);assert(photo(c).length);assert(c.cellResources.receipts.some(r=>r.kind==='food'&&r.actor==='kelp'));}assert.deepEqual(v,w);conserved(w);}assert.deepEqual(T.apply(before,JSON.parse(JSON.stringify(encode(w,true)))),w);
- assert.throws(()=>G.beginTurn(w),/CELL_MODEL_INCOMPLETE/);assert.throws(()=>A.create({getItem:()=>null,setItem(){}},G,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
+ require('./cell-turn-assertion.cjs')(G,w);assert.throws(()=>A.create({getItem:()=>null,setItem(){}},G,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
 });

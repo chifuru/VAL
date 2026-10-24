@@ -97,7 +97,7 @@ test('malformed occupancy, internal counts and waiting materials are rejected',(
 
 test('unfinished biology cannot enter normal stepping or result capture',()=>{
   const w=fixture(),before=E.fingerprint(w);
-  assert.throws(()=>E.beginTurn(w),/CELL_MODEL_INCOMPLETE/);assert.equal(E.fingerprint(w),before);
+  require('./cell-turn-assertion.cjs')(E,w);assert.equal(E.fingerprint(w),before);
   const archive=A.create({getItem:()=>null,setItem(){}},E,globalThis.EcoReplayVersion);
   assert.throws(()=>archive.capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
 });

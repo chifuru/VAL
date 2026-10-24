@@ -353,8 +353,6 @@ return {settings,attach,region,level,factor,begin,finish};
       if(k==="group"){
         if(!ConsumerGroup.is(o))o.consumerGroup={version:"consumer-group-state/1",establishedAt:w.turn,origin:null,
           cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:ConsumerGroup.empty(w.turn)};
-        let left=o.B;const n=ConsumerGroup.count(o);
-        o.consumerGroup.cohorts.forEach((c,i,a)=>{c.B=i===a.length-1?left:Q(o.B*c.n/n);left=Q(left-c.B);});
         delete o.birthLife;
       }else if(k==="plant")o.birthLife=Math.round(600*(.9+.2*r(w,"cell/plant-life",0,o.id)));
       else delete o.birthLife;
@@ -363,6 +361,10 @@ return {settings,attach,region,level,factor,begin,finish};
       // Explicit fixture/birth stocks are caller-owned; initial default stocks
       // use the new caps before the world's initial ledger is established.
       for(const [key,cap]of [["E",p.capE],["M",p.capM],["B",p.capB]])if(!Object.hasOwn(options,key))o[key]=Q(Math.min(o[key],cap));
+      if(k==="group"){
+        let left=o.B;const n=ConsumerGroup.count(o);
+        o.consumerGroup.cohorts.forEach((c,i,a)=>{c.B=i===a.length-1?left:Q(o.B*c.n/n);left=Q(left-c.B);});
+      }
       o.cellMatter={version:"cell-matter/1",bodyM:Q(.02*o.B),newB:0,tissueAt:w.turn};
       return o;
     }

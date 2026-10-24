@@ -98,5 +98,5 @@ test('source/generated and Worker/JSON preserve committed interaction state; pub
  const G=require('../src/ecology/observation-model.js').model(flags),T=require('../src/ecology/transport.js'),A=require('../src/ecology/archive.js');
  const w=fixture(),plant=add(w,'plant'),host=group(w,'host',1);infect(w,plant,'first',0);infect(w,host,'middle',0,true);bundle(w);ledger(w);const other=structuredClone(w),before=structuredClone(w),encode=T.encoder(w);
  const run=(e,v)=>{const c=e.context(v);e.prepare(v,c);e.B.move(v,c);e.cellLife(v,c);};for(let t=0;t<3;t++){if(t){w.turn++;other.turn++;}run(E,w);run(G,other);assert.deepEqual(other,w);conserved(w);}
- assert.deepEqual(T.apply(before,JSON.parse(JSON.stringify(encode(w,true)))),w);assert.throws(()=>G.beginTurn(w),/CELL_MODEL_INCOMPLETE/);assert.throws(()=>A.create({getItem:()=>null,setItem(){}},G,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
+ assert.deepEqual(T.apply(before,JSON.parse(JSON.stringify(encode(w,true)))),w);require('./cell-turn-assertion.cjs')(G,w);assert.throws(()=>A.create({getItem:()=>null,setItem(){}},G,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
 });

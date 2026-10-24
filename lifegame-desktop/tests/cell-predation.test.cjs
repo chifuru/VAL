@@ -106,5 +106,5 @@ test('source/generated and Worker/JSON preserve captured remainder and actual co
  const G=require('../src/ecology/observation-model.js').model(flags),T=require('../src/ecology/transport.js'),A=require('../src/ecology/archive.js');
  const w=fixture(),a=add(w,'a','whale',{E:30}),victim=add(w,'victim','crystal',{E:40,M:3,HP:1});herd(w,'herd',3,{cell:19});ledger(w);const v=structuredClone(w),before=structuredClone(w),encode=T.encoder(w);
  step(w,{a:attack(victim)});step(v,{a:attack(v.organisms.find(o=>o.id===victim.id))},G);assert.deepEqual(v,w);conserved(w);assert.deepEqual(T.apply(before,JSON.parse(JSON.stringify(encode(w,true)))),w);
- assert.throws(()=>G.beginTurn(w),/CELL_MODEL_INCOMPLETE/);assert.throws(()=>A.create({getItem:()=>null,setItem(){}},G,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
+ require('./cell-turn-assertion.cjs')(G,w);assert.throws(()=>A.create({getItem:()=>null,setItem(){}},G,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
 });

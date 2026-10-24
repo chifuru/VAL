@@ -1242,8 +1242,6 @@ return {settings,attach,region,level,factor,begin,finish};
       if(k==="group"){
         if(!ConsumerGroup.is(o))o.consumerGroup={version:"consumer-group-state/1",establishedAt:w.turn,origin:null,
           cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:ConsumerGroup.empty(w.turn)};
-        let left=o.B;const n=ConsumerGroup.count(o);
-        o.consumerGroup.cohorts.forEach((c,i,a)=>{c.B=i===a.length-1?left:Q(o.B*c.n/n);left=Q(left-c.B);});
         delete o.birthLife;
       }else if(k==="plant")o.birthLife=Math.round(600*(.9+.2*r(w,"cell/plant-life",0,o.id)));
       else delete o.birthLife;
@@ -1252,6 +1250,10 @@ return {settings,attach,region,level,factor,begin,finish};
       // Explicit fixture/birth stocks are caller-owned; initial default stocks
       // use the new caps before the world's initial ledger is established.
       for(const [key,cap]of [["E",p.capE],["M",p.capM],["B",p.capB]])if(!Object.hasOwn(options,key))o[key]=Q(Math.min(o[key],cap));
+      if(k==="group"){
+        let left=o.B;const n=ConsumerGroup.count(o);
+        o.consumerGroup.cohorts.forEach((c,i,a)=>{c.B=i===a.length-1?left:Q(o.B*c.n/n);left=Q(left-c.B);});
+      }
       o.cellMatter={version:"cell-matter/1",bodyM:Q(.02*o.B),newB:0,tissueAt:w.turn};
       return o;
     }
@@ -9708,7 +9710,7 @@ function(require,module){
     for(const a of w.resources)if(a.kind==="info"&&a.event&&refs.has(a.event.sourceId))flowTelemetry.information.origins.push({id:a.event.id,species:refs.get(a.event.sourceId),time:a.event.time});
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),...(S.HyperParasite?.enabled(w)?{hyperParasite:structuredClone(ctx.hyperFlow)}:{}),...(S.PersistentInformation?.enabled(w)?{persistentInformation:structuredClone(ctx.persistentInformationFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.reduce((n,d)=>n+(d.count??1),0),transfers:ctx.transfers};
   }
-  function cellLife(w,ctx,otherMaintenance=new Map()){
+  function cellNutrition(w,ctx,otherMaintenance=new Map()){
     if(!ctx.cellCombatResolved&&[...ctx.intents.values()].some(c=>c.type==="attack"))B.combat(w,ctx);
     N.payActions(w,ctx);
     N.CellResources.resolveDeaths(w,ctx);
@@ -9720,14 +9722,18 @@ function(require,module){
     N.CellResources.acquire(w,ctx,demand.requests,demand.canopies);
     N.CellResources.settleBudgets(w,ctx,maintenance);
     R.CellMain.maintain(w,ctx,N.CellResources);
+    return demand;
+  }
+  function cellGrowth(w,ctx){
     R.CellFloating.advance(w,ctx,N.CellResources);
     R.CellLife.advance(w,ctx,N.CellResources,B.moveCost);
     B.learn(w,ctx);R.growth(w,ctx);R.CellMain.reproduce(w,ctx,N.CellResources);R.CellMain.age(w,ctx);
     N.CellResources.background(w,ctx);
     if(S.PrimaryParasite?.enabled(w)){P.contacts(w,ctx);P.mature(w,ctx);P.reproduce(w,ctx);}
     if(S.PersistentInformation?.enabled(w))P.informationFinalize(w,ctx);
-    // Observation, public stepping and remaining CR04 species-specific
-    // choices are still guarded; this is the internal cell-life entry.
+  }
+  function cellLife(w,ctx,otherMaintenance=new Map()){
+    const demand=cellNutrition(w,ctx,otherMaintenance);cellGrowth(w,ctx);
     return demand;
   }
   function finish(w, ctx) {
@@ -9829,13 +9835,19 @@ function(require,module){
     return w;
   }
   function beginTurn(previous, options = {}) {
-    if(S.CellSpace.enabled(previous))throw Error("CELL_MODEL_INCOMPLETE: マス再編は占有基盤までです。通常観察にはまだ接続していません。");
-    let w = structuredClone({...previous,tiles:undefined,observation:undefined,diagnostics:undefined}), stage = 0, cancelled = false, failed = false;
+    const cell=S.CellSpace.enabled(previous);
+    if(previous.config.cellModel!==undefined&&!cell)throw Error("CELL_MODEL_INVALID: 未対応のマス構造です。");
+    let w = structuredClone({...previous,...(cell?{cellProfiles:undefined}:{}),tiles:undefined,observation:undefined,diagnostics:undefined}), stage = 0, cancelled = false, failed = false;
+    if(cell)w.cellProfiles=previous.cellProfiles;
     // Prior telemetry is read-only until finish replaces it; do not clone it every turn.
     if(Object.hasOwn(previous,"observation"))w.observation=previous.observation;else delete w.observation;
     if(Object.hasOwn(previous,"diagnostics"))w.diagnostics=previous.diagnostics;else delete w.diagnostics;
     w.tiles=previous.tiles.map(t=>({...t}));
     S.inheritGeometry(previous,w);
+    if(cell){
+      if(w.organisms.some(o=>!o.cellMatter||[1,2,3,5].includes(S.CellSpace.layer(o))&&!S.CellLife.is(o)))throw Error("CELL_MODEL_INCOMPLETE: マス方式の身体・生活状態が不足しています。");
+      const errors=S.CellSpace.validate(w);if(errors.length)throw Error("CELL_STATE_INVALID: "+errors.slice(0,3).join(","));
+    }
     if (w.stopReason === "checkpoint") {
       w.blockEnd += w.config.blockTurns || 1000;
       const initial = w.checkpoints.find((a) => a.turn === 0);
@@ -9847,9 +9859,9 @@ function(require,module){
     S.FungalColony.begin(w);
     S.ConsumerGroup.begin(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.begin(w);
-    S.ProducerSupport.begin(w,S);
+    if(!cell)S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
-    if(S.PersistentInformation?.enabled(w))P.informationTrack(w,ctx);
+    if(!cell&&S.PersistentInformation?.enabled(w))P.informationTrack(w,ctx);
     if(S.Ryouki.enabled(w))for(const o of w.organisms)if(S.Ryouki.is(o)&&o.ryouki.last.transition)S.record(ctx,o,"phase-variation",{state:o.ryouki.mutated?"mutated":"normal",transition:o.ryouki.last.transition});
     const labels = ["資源更新", "移動・採食・戦闘", "成長・繁殖"];
     function ensure() {
@@ -9860,12 +9872,15 @@ function(require,module){
       if (stage === 3) return {phase:3,label:labels[2],done:true,world:w};
       try {
         if (stage === 0) {
+          if(cell)prepare(w,ctx);
+          else{
           N.expireAndCA(w, ctx);
           if(S.PrimaryParasite?.enabled(w))P.begin(w,ctx);
           prepare(w, ctx);
           if(S.PersistentInformation?.enabled(w)){
             P.informationTrack(w,ctx);
             P.informationBegin(w,ctx);
+          }
           }
         } else if (stage === 1) {
           B.choose(w, ctx, w.config.ecologyRevision === "observation/4.1" ? "move" : null);
@@ -9874,15 +9889,20 @@ function(require,module){
           S.withMapScope(w, () => {
             if(w.config.ecologyRevision === "observation/4.1") B.choose(w,ctx,"effect");
             B.combat(w, ctx);
-            N.groupDamage(w,ctx,"combat");
+            if(!cell)N.groupDamage(w,ctx,"combat");
             B.care(w, ctx);
             if(w.config.ecologyRevision === "observation/4.1") P.clear(w,ctx);
-            if(w.config.ecologyRevision === "observation/4.1") N.payActions(w,ctx);
+            if(!cell&&w.config.ecologyRevision === "observation/4.1") N.payActions(w,ctx);
           }, ctx.current);
+          if(cell)cellNutrition(w,ctx);
+          else{
           // Feeding removes resources between rounds; settlement adds carcasses/removes life.
           N.feed(w, ctx, P.transfer);
           N.settle(w, ctx, P.fee);
+          }
         } else {
+          if(cell)cellGrowth(w,ctx);
+          else{
           S.withMapScope(w, () => {
             B.learn(w, ctx);
             P.contacts(w, ctx);
@@ -9905,6 +9925,7 @@ function(require,module){
           if(S.LargePlant?.enabled(w))S.LargePlant.finalize(w,ctx);
           S.settleAge(w,ctx);
           if(S.PersistentInformation?.enabled(w))P.informationFinalize(w,ctx);
+          }
           finish(w, ctx);
         }
         stage++;
@@ -11327,8 +11348,6 @@ return {settings,attach,region,level,factor,begin,finish};
       if(k==="group"){
         if(!ConsumerGroup.is(o))o.consumerGroup={version:"consumer-group-state/1",establishedAt:w.turn,origin:null,
           cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:ConsumerGroup.empty(w.turn)};
-        let left=o.B;const n=ConsumerGroup.count(o);
-        o.consumerGroup.cohorts.forEach((c,i,a)=>{c.B=i===a.length-1?left:Q(o.B*c.n/n);left=Q(left-c.B);});
         delete o.birthLife;
       }else if(k==="plant")o.birthLife=Math.round(600*(.9+.2*r(w,"cell/plant-life",0,o.id)));
       else delete o.birthLife;
@@ -11337,6 +11356,10 @@ return {settings,attach,region,level,factor,begin,finish};
       // Explicit fixture/birth stocks are caller-owned; initial default stocks
       // use the new caps before the world's initial ledger is established.
       for(const [key,cap]of [["E",p.capE],["M",p.capM],["B",p.capB]])if(!Object.hasOwn(options,key))o[key]=Q(Math.min(o[key],cap));
+      if(k==="group"){
+        let left=o.B;const n=ConsumerGroup.count(o);
+        o.consumerGroup.cohorts.forEach((c,i,a)=>{c.B=i===a.length-1?left:Q(o.B*c.n/n);left=Q(left-c.B);});
+      }
       o.cellMatter={version:"cell-matter/1",bodyM:Q(.02*o.B),newB:0,tissueAt:w.turn};
       return o;
     }
@@ -16737,7 +16760,7 @@ function(require,module){
     for(const a of w.resources)if(a.kind==="info"&&a.event&&refs.has(a.event.sourceId))flowTelemetry.information.origins.push({id:a.event.id,species:refs.get(a.event.sourceId),time:a.event.time});
     return {...(w.producerSupport?{environmentEstablished:{...w.producerSupport.last.established},externalInput:{E:w.producerSupport.last.inputE,M:w.producerSupport.last.inputM,B:w.producerSupport.last.regrownB}}:{}),...(S.PrimaryParasite?.enabled(w)?{primaryParasite:structuredClone(ctx.primaryFlow)}:{}),...(S.HyperParasite?.enabled(w)?{hyperParasite:structuredClone(ctx.hyperFlow)}:{}),...(S.PersistentInformation?.enabled(w)?{persistentInformation:structuredClone(ctx.persistentInformationFlow)}:{}),turn:w.turn,flowTelemetry,relations:w.turn===0?{}:relations,links,composition,birthReasons,funnel:structuredClone(w.demography),contactEpisodes:w.turn===0?{}:contactEpisodes,contactTurns:w.turn===0?{}:contactTurns,births:ctx.births.length,deaths:ctx.deaths.reduce((n,d)=>n+(d.count??1),0),transfers:ctx.transfers};
   }
-  function cellLife(w,ctx,otherMaintenance=new Map()){
+  function cellNutrition(w,ctx,otherMaintenance=new Map()){
     if(!ctx.cellCombatResolved&&[...ctx.intents.values()].some(c=>c.type==="attack"))B.combat(w,ctx);
     N.payActions(w,ctx);
     N.CellResources.resolveDeaths(w,ctx);
@@ -16749,14 +16772,18 @@ function(require,module){
     N.CellResources.acquire(w,ctx,demand.requests,demand.canopies);
     N.CellResources.settleBudgets(w,ctx,maintenance);
     R.CellMain.maintain(w,ctx,N.CellResources);
+    return demand;
+  }
+  function cellGrowth(w,ctx){
     R.CellFloating.advance(w,ctx,N.CellResources);
     R.CellLife.advance(w,ctx,N.CellResources,B.moveCost);
     B.learn(w,ctx);R.growth(w,ctx);R.CellMain.reproduce(w,ctx,N.CellResources);R.CellMain.age(w,ctx);
     N.CellResources.background(w,ctx);
     if(S.PrimaryParasite?.enabled(w)){P.contacts(w,ctx);P.mature(w,ctx);P.reproduce(w,ctx);}
     if(S.PersistentInformation?.enabled(w))P.informationFinalize(w,ctx);
-    // Observation, public stepping and remaining CR04 species-specific
-    // choices are still guarded; this is the internal cell-life entry.
+  }
+  function cellLife(w,ctx,otherMaintenance=new Map()){
+    const demand=cellNutrition(w,ctx,otherMaintenance);cellGrowth(w,ctx);
     return demand;
   }
   function finish(w, ctx) {
@@ -16858,13 +16885,19 @@ function(require,module){
     return w;
   }
   function beginTurn(previous, options = {}) {
-    if(S.CellSpace.enabled(previous))throw Error("CELL_MODEL_INCOMPLETE: マス再編は占有基盤までです。通常観察にはまだ接続していません。");
-    let w = structuredClone({...previous,tiles:undefined,observation:undefined,diagnostics:undefined}), stage = 0, cancelled = false, failed = false;
+    const cell=S.CellSpace.enabled(previous);
+    if(previous.config.cellModel!==undefined&&!cell)throw Error("CELL_MODEL_INVALID: 未対応のマス構造です。");
+    let w = structuredClone({...previous,...(cell?{cellProfiles:undefined}:{}),tiles:undefined,observation:undefined,diagnostics:undefined}), stage = 0, cancelled = false, failed = false;
+    if(cell)w.cellProfiles=previous.cellProfiles;
     // Prior telemetry is read-only until finish replaces it; do not clone it every turn.
     if(Object.hasOwn(previous,"observation"))w.observation=previous.observation;else delete w.observation;
     if(Object.hasOwn(previous,"diagnostics"))w.diagnostics=previous.diagnostics;else delete w.diagnostics;
     w.tiles=previous.tiles.map(t=>({...t}));
     S.inheritGeometry(previous,w);
+    if(cell){
+      if(w.organisms.some(o=>!o.cellMatter||[1,2,3,5].includes(S.CellSpace.layer(o))&&!S.CellLife.is(o)))throw Error("CELL_MODEL_INCOMPLETE: マス方式の身体・生活状態が不足しています。");
+      const errors=S.CellSpace.validate(w);if(errors.length)throw Error("CELL_STATE_INVALID: "+errors.slice(0,3).join(","));
+    }
     if (w.stopReason === "checkpoint") {
       w.blockEnd += w.config.blockTurns || 1000;
       const initial = w.checkpoints.find((a) => a.turn === 0);
@@ -16876,9 +16909,9 @@ function(require,module){
     S.FungalColony.begin(w);
     S.ConsumerGroup.begin(w);
     if(S.LargePlant?.enabled(w))S.LargePlant.begin(w);
-    S.ProducerSupport.begin(w,S);
+    if(!cell)S.ProducerSupport.begin(w,S);
     const ctx = context(w, options.observeId);
-    if(S.PersistentInformation?.enabled(w))P.informationTrack(w,ctx);
+    if(!cell&&S.PersistentInformation?.enabled(w))P.informationTrack(w,ctx);
     if(S.Ryouki.enabled(w))for(const o of w.organisms)if(S.Ryouki.is(o)&&o.ryouki.last.transition)S.record(ctx,o,"phase-variation",{state:o.ryouki.mutated?"mutated":"normal",transition:o.ryouki.last.transition});
     const labels = ["資源更新", "移動・採食・戦闘", "成長・繁殖"];
     function ensure() {
@@ -16889,12 +16922,15 @@ function(require,module){
       if (stage === 3) return {phase:3,label:labels[2],done:true,world:w};
       try {
         if (stage === 0) {
+          if(cell)prepare(w,ctx);
+          else{
           N.expireAndCA(w, ctx);
           if(S.PrimaryParasite?.enabled(w))P.begin(w,ctx);
           prepare(w, ctx);
           if(S.PersistentInformation?.enabled(w)){
             P.informationTrack(w,ctx);
             P.informationBegin(w,ctx);
+          }
           }
         } else if (stage === 1) {
           B.choose(w, ctx, w.config.ecologyRevision === "observation/4.1" ? "move" : null);
@@ -16903,15 +16939,20 @@ function(require,module){
           S.withMapScope(w, () => {
             if(w.config.ecologyRevision === "observation/4.1") B.choose(w,ctx,"effect");
             B.combat(w, ctx);
-            N.groupDamage(w,ctx,"combat");
+            if(!cell)N.groupDamage(w,ctx,"combat");
             B.care(w, ctx);
             if(w.config.ecologyRevision === "observation/4.1") P.clear(w,ctx);
-            if(w.config.ecologyRevision === "observation/4.1") N.payActions(w,ctx);
+            if(!cell&&w.config.ecologyRevision === "observation/4.1") N.payActions(w,ctx);
           }, ctx.current);
+          if(cell)cellNutrition(w,ctx);
+          else{
           // Feeding removes resources between rounds; settlement adds carcasses/removes life.
           N.feed(w, ctx, P.transfer);
           N.settle(w, ctx, P.fee);
+          }
         } else {
+          if(cell)cellGrowth(w,ctx);
+          else{
           S.withMapScope(w, () => {
             B.learn(w, ctx);
             P.contacts(w, ctx);
@@ -16934,6 +16975,7 @@ function(require,module){
           if(S.LargePlant?.enabled(w))S.LargePlant.finalize(w,ctx);
           S.settleAge(w,ctx);
           if(S.PersistentInformation?.enabled(w))P.informationFinalize(w,ctx);
+          }
           finish(w, ctx);
         }
         stage++;
@@ -22144,8 +22186,6 @@ return {settings,attach,region,level,factor,begin,finish};
       if(k==="group"){
         if(!ConsumerGroup.is(o))o.consumerGroup={version:"consumer-group-state/1",establishedAt:w.turn,origin:null,
           cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:ConsumerGroup.empty(w.turn)};
-        let left=o.B;const n=ConsumerGroup.count(o);
-        o.consumerGroup.cohorts.forEach((c,i,a)=>{c.B=i===a.length-1?left:Q(o.B*c.n/n);left=Q(left-c.B);});
         delete o.birthLife;
       }else if(k==="plant")o.birthLife=Math.round(600*(.9+.2*r(w,"cell/plant-life",0,o.id)));
       else delete o.birthLife;
@@ -22154,6 +22194,10 @@ return {settings,attach,region,level,factor,begin,finish};
       // Explicit fixture/birth stocks are caller-owned; initial default stocks
       // use the new caps before the world's initial ledger is established.
       for(const [key,cap]of [["E",p.capE],["M",p.capM],["B",p.capB]])if(!Object.hasOwn(options,key))o[key]=Q(Math.min(o[key],cap));
+      if(k==="group"){
+        let left=o.B;const n=ConsumerGroup.count(o);
+        o.consumerGroup.cohorts.forEach((c,i,a)=>{c.B=i===a.length-1?left:Q(o.B*c.n/n);left=Q(left-c.B);});
+      }
       o.cellMatter={version:"cell-matter/1",bodyM:Q(.02*o.B),newB:0,tissueAt:w.turn};
       return o;
     }
@@ -26917,8 +26961,6 @@ return {settings,attach,region,level,factor,begin,finish};
       if(k==="group"){
         if(!ConsumerGroup.is(o))o.consumerGroup={version:"consumer-group-state/1",establishedAt:w.turn,origin:null,
           cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:ConsumerGroup.empty(w.turn)};
-        let left=o.B;const n=ConsumerGroup.count(o);
-        o.consumerGroup.cohorts.forEach((c,i,a)=>{c.B=i===a.length-1?left:Q(o.B*c.n/n);left=Q(left-c.B);});
         delete o.birthLife;
       }else if(k==="plant")o.birthLife=Math.round(600*(.9+.2*r(w,"cell/plant-life",0,o.id)));
       else delete o.birthLife;
@@ -26927,6 +26969,10 @@ return {settings,attach,region,level,factor,begin,finish};
       // Explicit fixture/birth stocks are caller-owned; initial default stocks
       // use the new caps before the world's initial ledger is established.
       for(const [key,cap]of [["E",p.capE],["M",p.capM],["B",p.capB]])if(!Object.hasOwn(options,key))o[key]=Q(Math.min(o[key],cap));
+      if(k==="group"){
+        let left=o.B;const n=ConsumerGroup.count(o);
+        o.consumerGroup.cohorts.forEach((c,i,a)=>{c.B=i===a.length-1?left:Q(o.B*c.n/n);left=Q(left-c.B);});
+      }
       o.cellMatter={version:"cell-matter/1",bodyM:Q(.02*o.B),newB:0,tissueAt:w.turn};
       return o;
     }
@@ -30843,8 +30889,6 @@ return {settings,attach,region,level,factor,begin,finish};
       if(k==="group"){
         if(!ConsumerGroup.is(o))o.consumerGroup={version:"consumer-group-state/1",establishedAt:w.turn,origin:null,
           cohorts:[{age:o.age,phase:o.phase,n:1}],wounds:0,infectedAge:null,serial:0,last:ConsumerGroup.empty(w.turn)};
-        let left=o.B;const n=ConsumerGroup.count(o);
-        o.consumerGroup.cohorts.forEach((c,i,a)=>{c.B=i===a.length-1?left:Q(o.B*c.n/n);left=Q(left-c.B);});
         delete o.birthLife;
       }else if(k==="plant")o.birthLife=Math.round(600*(.9+.2*r(w,"cell/plant-life",0,o.id)));
       else delete o.birthLife;
@@ -30853,6 +30897,10 @@ return {settings,attach,region,level,factor,begin,finish};
       // Explicit fixture/birth stocks are caller-owned; initial default stocks
       // use the new caps before the world's initial ledger is established.
       for(const [key,cap]of [["E",p.capE],["M",p.capM],["B",p.capB]])if(!Object.hasOwn(options,key))o[key]=Q(Math.min(o[key],cap));
+      if(k==="group"){
+        let left=o.B;const n=ConsumerGroup.count(o);
+        o.consumerGroup.cohorts.forEach((c,i,a)=>{c.B=i===a.length-1?left:Q(o.B*c.n/n);left=Q(left-c.B);});
+      }
       o.cellMatter={version:"cell-matter/1",bodyM:Q(.02*o.B),newB:0,tissueAt:w.turn};
       return o;
     }

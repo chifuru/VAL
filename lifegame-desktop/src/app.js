@@ -51,7 +51,7 @@
       terminal: "終宿主",
     };
   const CellUI=window.EcoCellInterface,cellDisabledStates=new Map(),cellLegacyValues=new Map();
-  let cellSetupContext=null;
+  let cellSetupContext=null,cellDraft=null;
   function restoreCellControls(){for(const [node,disabled]of cellDisabledStates)node.disabled=disabled;cellDisabledStates.clear();}
   function showCellSetup(config){
     restoreCellControls();const environment=CellUI.settings(config);
@@ -59,6 +59,8 @@
     if(environment&&!cellSetupContext)for(const id of forced){const node=$(id);cellLegacyValues.set(node,node.type==='checkbox'?node.checked:node.value);}
     if(!environment&&cellSetupContext){for(const [node,value]of cellLegacyValues)if(node.type==='checkbox')node.checked=value;else node.value=value;cellLegacyValues.clear();}
     cellSetupContext=environment?{cellModel:CellUI.model,cellSettings:environment}:null;
+    $('cell-model-mode').value=environment?'cell':'legacy';
+    $('cell-aquatic-profile').value=environment?.aquaticProfile||'';
     $('cell-environment-settings').hidden=!cellSetupContext;$('cell-environment-settings').disabled=!cellSetupContext;
     if(environment)for(const key of CellUI.fields)$('cell-'+key).value=environment[key];
     enforceCellValues();
@@ -67,8 +69,16 @@
     if(!cellSetupContext)return null;
     const environment={...cellSetupContext.cellSettings};
     for(const key of CellUI.fields){const value=$('cell-'+key).value;if(value==='')throw Error('マス環境の値を入力してください。');environment[key]=key==='mineralLevel'?value:Number(value);}
+    if($('cell-aquatic-profile').value)environment.aquaticProfile=$('cell-aquatic-profile').value;else delete environment.aquaticProfile;
     return {cellModel:CellUI.model,cellSettings:environment};
   }
+  const cellSetupUnavailable=()=>cellSetupContext&&!$('cell-aquatic-profile').value;
+  $('cell-model-mode').onchange=()=>{
+    if(cellSetupContext)try{const draft=readCellSetup();CellUI.settings(draft);cellDraft=draft;}catch{}
+    showCellSetup($('cell-model-mode').value==='cell'?(cellDraft||{cellModel:CellUI.model,cellSettings:{}}):null);
+    syncSetupFields();
+  };
+  $('cell-aquatic-profile').onchange=()=>{if(cellSetupContext){cellSetupContext=readCellSetup();cellDraft=structuredClone(cellSetupContext);}syncSetupFields();};
   function enforceCellValues(){
     if(!cellSetupContext)return;
     $('observation-mode').value='custom';$('generation-mode').value='manual';$('generation-profile').value='auto';
@@ -88,7 +98,7 @@
     setText('generation-help','指定した初期値と環境条件を使います。固定上限は変更せず、資源量と競争から生存数が変わります。');
     setText('profile-rule-note','この方式では旧方式のおまかせ傾向を使用しません。');
     setText('supply-rule-note','この方式では支援補充を使用しません。上の雨・光・無機養分の明示入力を使います。');
-    setText('cell-water-condition',cellSetupContext.cellSettings.aquaticProfile?'水域専用の固定供給条件を引き継ぎます。水量は土壌の保水量と分けて扱います。':'水域専用の供給条件は未選定です。陸の値で自動補完しません。');
+    setText('cell-water-condition',$('cell-aquatic-profile').value?'選択した淡水の固定条件を使います。水量は土壌の保水量と分けて扱います。雨倍率は水域への入力にも作用します。':'水域専用の供給条件を選ぶと作成できます。陸の値で自動補完しません。');
   }
   const renderer = R.create($("board"));
   const archive = window.EcoArchive.persistent(
@@ -504,12 +514,12 @@
   $('reset-setup').onclick=()=>{
     if(preparingWorld)return;
     $('setup').reset();
-    if(cellSetupContext){for(const node of cellLegacyValues.keys())cellLegacyValues.set(node,node.type==='checkbox'?node.checked:node.value);const defaults=CellUI.defaults(cellSetupContext);for(const key of CellUI.fields)$('cell-'+key).value=defaults[key];}
+    if(cellSetupContext){for(const node of cellLegacyValues.keys())cellLegacyValues.set(node,node.type==='checkbox'?node.checked:node.value);const defaults=CellUI.defaults(cellSetupContext);for(const key of CellUI.fields)$('cell-'+key).value=defaults[key];$('cell-model-mode').value='cell';$('cell-aquatic-profile').value=defaults.aquaticProfile||'';}
     generationLocks.clear();generationBase={};
     $('profile-change-note').hidden=true;
     $('producer-supply').onchange();
     applyObservationMode({resetLower:false});
-    setupMessage(cellSetupContext?'候補条件を基準に戻しました。現在の世界は変更していません。世界再作成は準備中です。':'作成条件をデフォルトに戻しました。現在の世界は変更せず、次に世界を作るときに使います。');
+    setupMessage(cellSetupContext?'マスの構造と選択した水域条件を保ち、候補を基準に戻しました。現在の世界は変更していません。':'作成条件をデフォルトに戻しました。現在の世界は変更せず、次に世界を作るときに使います。');
   };
   $("producer-supply").onchange=()=>{for(const e of $("supply-inputs").querySelectorAll("input"))e.disabled=!$("producer-supply").checked;};
   function applyObservationMode({resetLower=true}={}) {
@@ -683,9 +693,9 @@
   }
   function syncSetupValidity(){
     const invalid=$('setup').querySelector('input:invalid,select:invalid,textarea:invalid');
-    $('load').disabled=preparingWorld||!!invalid||!!cellSetupContext;showSetupFieldError(invalid);
+    $('load').disabled=preparingWorld||!!invalid||!!cellSetupUnavailable();showSetupFieldError(invalid);
     $('show-setup-issue').hidden=!invalid||preparingWorld;
-    setText('setup-ready-note',invalid?'修正が必要な項目があります。下のボタンから該当欄へ移動できます。':cellSetupContext?'この方式の世界再作成は準備中です。条件の確認・調整と、現在の観察への取消ができます。':'上の条件で新しい世界を作れます。現在の世界は作成に成功するまで保持します。');
+    setText('setup-ready-note',invalid?'修正が必要な項目があります。下のボタンから該当欄へ移動できます。':cellSetupUnavailable()?'04の水域の供給条件を選んでください。未選定の条件は自動補完しません。':'上の条件で新しい世界を作れます。現在の世界は作成に成功するまで保持します。');
     const note=$('setup-message');
     if(invalid&&!preparingWorld){
       const label=[...(invalid.closest('label')?.childNodes||[])].filter(n=>n.nodeType===3).map(n=>n.textContent).join('').trim()||'入力値';
@@ -1004,7 +1014,7 @@
   }, true);
   $("setup").addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (preparingWorld||cellSetupContext) return;
+    if (preparingWorld||cellSetupUnavailable()) return;
     syncSetupFields();
     if(!$('setup').checkValidity())return;
     preparingWorld = true;

@@ -45,5 +45,5 @@ test('two real internal life turns append exact series without changing public/a
   const before=JSON.stringify(w);h.append(w);assert.equal(JSON.stringify(w),before);const row=h.rows.at(-1);assert.equal(row.current.total,Object.values(row.counts).reduce((n,v)=>n+v,0));
  }
  assert.equal(h.rows.length,3);assert.equal(h.series('all','phases').length,3);assert.deepEqual(O.restore(JSON.parse(JSON.stringify(h.snapshot()))).snapshot(),JSON.parse(JSON.stringify(h.snapshot())));
- assert.throws(()=>E.beginTurn(w),/CELL_MODEL_INCOMPLETE/);assert.throws(()=>require('../src/ecology/archive.js').create({getItem:()=>null,setItem(){}},E,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
+ require('./cell-turn-assertion.cjs')(E,w);assert.throws(()=>require('../src/ecology/archive.js').create({getItem:()=>null,setItem(){}},E,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
 });

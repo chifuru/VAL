@@ -71,5 +71,5 @@ test('three-T aquatic food-web boundaries preserve bodies, stocks and source/gen
 
 test('freshwater organism retains producer identity while public/new-result gates stay closed',()=>{
  const w=fixture(),o=add(w,'floating','freshwaterlight');assert.equal(C.layer(o),4);assert.equal(S.spec(o).group,'plant');assert.equal(o.cellLife,undefined);ledger(w);const c=ready(w);E.cellLife(w,c);assert(c.cellResources.budgets.has(o.id));assert(c.cellResources.receipts.some(r=>r.actor===o.id&&r.kind==='photo'));conserved(w);
- const A=require('../src/ecology/archive.js');assert.throws(()=>E.beginTurn(w),/CELL_MODEL_INCOMPLETE/);assert.throws(()=>A.create({getItem:()=>null,setItem(){}},E,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
+ const A=require('../src/ecology/archive.js');require('./cell-turn-assertion.cjs')(E,w);assert.throws(()=>A.create({getItem:()=>null,setItem(){}},E,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
 });

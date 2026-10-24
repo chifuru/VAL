@@ -69,7 +69,7 @@ test('actual river founders and short life agree across generated modules, obser
   const patch=data(encoder(w,true)),received=T.apply(before,patch);equal(received,w,'worker persisted state');valid(received);valid(data(w));
   const world=JSON.stringify(w);h.append(w);assert.equal(JSON.stringify(w),world);
  }
- assert.equal(h.rows.length,3);assert.deepEqual(O.restore(h.snapshot()).snapshot(),h.snapshot());assert.throws(()=>E.beginTurn(w),/CELL_MODEL_INCOMPLETE/);
+ assert.equal(h.rows.length,3);assert.deepEqual(O.restore(h.snapshot()).snapshot(),h.snapshot());require('./cell-turn-assertion.cjs')(E,w);
  assert.throws(()=>require('../src/ecology/archive.js').create({getItem:()=>null,setItem(){}},E,'initialization/1').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
  console.log(JSON.stringify({representative:'river 40x28',T0:h.rows[0].counts,T2:h.rows[2].counts,turns:2,energyAndMaterial:'conserved'}));
 });

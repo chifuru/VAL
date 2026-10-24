@@ -93,5 +93,5 @@ test('source/generated, Worker/JSON and repeated internal turns agree; public tu
  const G=require('../src/ecology/observation-model.js').model(flags),T=require('../src/ecology/transport.js'),A=require('../src/ecology/archive.js');
  const w=fixture();onlyCell(w);add(w,'main',species,{E:20,M:10});add(w,'food','grass',{B:22,E:4,M:.2});adult(w);ledger(w);const v=structuredClone(w),before=structuredClone(w),encode=T.encoder(w);
  for(let t=0;t<3;t++){if(t){w.turn++;v.turn++;}step(w);step(v,G);assert.deepEqual(v,w);conserved(w);}
- assert.deepEqual(T.apply(before,JSON.parse(JSON.stringify(encode(w,true)))),w);assert.throws(()=>G.beginTurn(w),/CELL_MODEL_INCOMPLETE/);assert.throws(()=>A.create({getItem:()=>null,setItem(){}},G,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
+ assert.deepEqual(T.apply(before,JSON.parse(JSON.stringify(encode(w,true)))),w);require('./cell-turn-assertion.cjs')(G,w);assert.throws(()=>A.create({getItem:()=>null,setItem(){}},G,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
 });

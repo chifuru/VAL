@@ -55,10 +55,14 @@
 
 ## 最初の着手範囲
 
-CR01〜05の陸上境界に加え、CR06の実宿主/寄生/情報と有限採食・主生物生活・自律Qを内部接合。初期生体/枠の実生成・旧要約/初期収支はCR06初期生成接続へ反映。図鑑保存/読取・短期再計算はcell-archive-v1へ接続。次は通常ターン/設定送信と動く再生の公開条件。CR01の実行契約は `operations/plans/cell-foundation-v1.md`、実測は `operations/evidence/cell-foundation-v1/README.md` を参照。CR01の範囲は、版・状態・層別索引・上限判定・転送/保存の基盤までに絞り、移動戦闘・栄養配分・生存バランスを同時に全面変更しない。後続の物理資源と生活が未接続の間は、新モデルを通常の完成ゲームとして公開しない。
+CR01〜05の陸上境界に加え、CR06の実宿主/寄生/情報と有限採食・主生物生活・自律Qを内部接合。初期生体/枠の実生成・旧要約/初期収支はCR06初期生成接続へ反映。図鑑保存/読取・短期再計算はcell-archive-v1へ接続。通常進行/比較用作成/動く再生はcell-turn-v1へ接続。次はCR07代表長期観察。CR01の実行契約は `operations/plans/cell-foundation-v1.md`、実測は `operations/evidence/cell-foundation-v1/README.md` を参照。CR01の範囲は、版・状態・層別索引・上限判定・転送/保存の基盤までに絞り、移動戦闘・栄養配分・生存バランスを同時に全面変更しない。後続の物理資源と生活が未接続の間は、新モデルを通常の完成ゲームとして公開しない。
 
 ## 現在の進捗
 
-CR01〜05とCR06の寄生/情報・消費者/捕食・共有光/水域資源に続き、淡水光合成体の専用生活を内部接合。新境界15＋既存独立植物22/水域12/寄生接合14/基盤8の計71項目を限定確認。4次の移動する生産者、共有取得と有限な維持/再生/出生、既存の相比較表/三枝六経路/成熟/寿命、被食と次T資格を確認。淡水生活3T、生成元/生成物・Worker差分/JSON・旧4T/再生。契約と証跡: `operations/plans/cell-floating-life-v1.md`、`operations/evidence/cell-floating-life-v1/README.md`。
+CR01〜05の占有/移動・有限資源・生活・循環と、CR06の寄生/情報・消費者/捕食・共有光/水域・淡水生活に続き、観測/設定/初期生成・図鑑を通常3段階へ接続した。現在の契約は `operations/plans/cell-turn-v1.md`、証跡は `operations/evidence/cell-turn-v1/README.md`。通常ターン7・保存6・Linux23項目が成功。実フォームで作成した代表1条件を通常/2倍/最速で各12T再生し、全13行/最終指紋が一致した。旧方式2条件も起点254cfdaのT0〜T2で全JSON/観測/CSVが一致した。
 
-複数IDの描画/選択/詳細は `operations/plans/cell-observation-v1.md` / `operations/evidence/cell-observation-v1/README.md` で内部接合済み。新投影6/旧投影6・Linux画面22項目、D9 → E6。グラフ/観測記録単位は `operations/plans/cell-observation-units-v1.md` / `operations/evidence/cell-observation-units-v1/README.md` で接続。新7/Linux18、旧25成功・固定ハッシュ2件は起点でも不一致、旧3構成JSON/CSV/復元一致。候補設定/説明は `operations/plans/cell-setup-guide-v1.md` / `operations/evidence/cell-setup-guide-v1/README.md` へ接続。純粋6/Linux26、旧3構成設定の起点一致。実初期配置・身体/枠・世界内要約は `operations/plans/cell-initialization-v1.md` / `operations/evidence/cell-initialization-v1/README.md` へ接続。新6/観測7成功、基盤7成功/1既存文言不一致、河川内部2Tの収支/転送・初期再生成・旧2条件×3状態の一致を確認。図鑑は `operations/plans/cell-archive-v1.md` / `operations/evidence/cell-archive-v1/README.md` へ接続。新保存6・旧9・Linux19成功。内部2Tの保存/読取・短期再計算を確認。次は通常ターン/設定送信・動く再生と全速度/連続操作の接合。専用樹冠係数、低次群落の移動対象種/再生枝専用補正は残る。水域値は明示版だけのC/D比較開始値で、A/B正式採用・配布既定化ではない。CR07代表長期・性能・Windows/配布は後続。通常ターン/新方式保存ガード、Core/A/B・61Nodeの正式状態/Graph、製品版・既存画面構成/絵柄を維持し、全生態完成や500T存続と報告しない。
+新方式は既存設定から比較用として明示選択し、水域の比較条件を選んで作成する。従来が既定。水游虫の初期身体量を制限後に内部世代へ配分し、優遇条件での不整合を修正した。Core/A/B・正式61Nodeの草案/Graph・採用画像/背景/記号・CSS/基本配置・製品版/配布は維持する。古い通常拒否の検査期待だけを取消/不変へ更新し、全旧検査を今回再実行したとは扱わない。
+
+次のCR07は、代表1条件の長期観察で下層→主→死骸→分解→植物の存続/循環経路を確認する。まず実効設定と短期の兆候から観察条件を絞り、有望な1条件を優先する。各係数で500T/多数シードを反復せず、問題があれば原因を特定して必要最小限の修正と境界照合を行う。1条件の成立を全条件/全系統R1〜R6達成へ読み替えない。
+
+専用樹冠係数、低次群落の移動対象種/再生枝専用補正と比較値の正式採用/既定化は残る。水域値は明示版だけのC/D比較開始値。500停止境界の時計499から2Tの確認は自然500T観察ではない。自然P/Q多世代、総合性能・Windows/配布も後続。画面の改配置は別課題として保持する。

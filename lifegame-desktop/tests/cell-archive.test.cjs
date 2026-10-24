@@ -23,7 +23,7 @@ test('resolved initial replay reproduces terminal fingerprint and all cell mater
  assert(C.matchInitial(entry,again));const history=O.create(again.config,signature,{species:E.S.activeSpecies(again)});history.append(again);
  for(let t=0;t<entry.turn;t++){F.step(again,E);history.append(again);}assert.equal(E.fingerprint(again),parent.finalFingerprint);equal(again.cellState,parent.final.state.cell.state);equal(history.snapshot(),h,'all turn observations');assert.equal(archive.list().length,1);
  const child=archive.capture(again,'explicit-replay',history.snapshot(),parent.id);child.replayMatch=true;assert.notEqual(child.id,parent.id);assert.equal(archive.save(child),false);assert(archive.save(child,'replay-new'));assert.equal(archive.save(child,'replay-new'),false);assert.equal(archive.list().length,2);assert.equal(JSON.stringify(archive.get(parent.id)),bytes);
- assert.throws(()=>E.beginTurn(again),/CELL_MODEL_INCOMPLETE/);assert.deepEqual(E.invariants(again),[]);
+ require('./cell-turn-assertion.cjs')(E,again);assert.deepEqual(E.invariants(again),[]);
 });
 test('all full-record entrances reject missing or contradictory physical data without changing previous records',()=>{
  const {w,h,storage,archive}=fixture(),r=archive.capture(w,'user',h);archive.save(r);const bytes=storage.getItem();

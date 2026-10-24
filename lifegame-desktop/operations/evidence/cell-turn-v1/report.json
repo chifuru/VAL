@@ -1,0 +1,64 @@
+{
+  "success": true,
+  "checks": [
+    "legacy creation stays the default",
+    "comparison exposes finite environment and blocks unselected aquatic conditions",
+    "submit cannot invent an aquatic profile",
+    "explicit water enables creation while unsupported presets and free supply stay unavailable",
+    "the selected comparison world is created through the real form",
+    "real candidate config records comparison, aquatic conditions and finite supply",
+    "normal replay advances through the Worker",
+    "individual selection and a display toggle do not pause observation",
+    "pause keeps the last committed turn and its recorded rows",
+    "speed 1 preserves every turn and exact ecological endpoint",
+    "speed 1 replay does not automatically save",
+    "speed 2 preserves every turn and exact ecological endpoint",
+    "speed 2 replay does not automatically save",
+    "fastest forces optional reductions without forcing symbolic creatures",
+    "speed max preserves every turn and exact ecological endpoint",
+    "speed max replay does not automatically save",
+    "fastest flushes the last partial display block",
+    "returning to settings preserves the explicit cell and aquatic model",
+    "returning to legacy restores the original editable settings",
+    "the comparison candidate retains its water choice when toggled back",
+    "reset preserves the explicitly chosen model and water profile",
+    "candidate editing and cancel do not mutate the observed world",
+    "no uncaught browser errors or native dialogs"
+  ],
+  "errors": [],
+  "runs": [
+    {
+      "speed": "1",
+      "turn": 12,
+      "fingerprint": "01935336a6856ab0736840e2649553461c4cf66217794c3fee4b975efbffcf08",
+      "rows": 13,
+      "fault": null,
+      "records": 1,
+      "presented": 12,
+      "exactRows": true,
+      "wallMs": 20540
+    },
+    {
+      "speed": "2",
+      "turn": 12,
+      "fingerprint": "01935336a6856ab0736840e2649553461c4cf66217794c3fee4b975efbffcf08",
+      "rows": 13,
+      "fault": null,
+      "records": 1,
+      "presented": 12,
+      "exactRows": true,
+      "wallMs": 14377
+    },
+    {
+      "speed": "max",
+      "turn": 12,
+      "fingerprint": "01935336a6856ab0736840e2649553461c4cf66217794c3fee4b975efbffcf08",
+      "rows": 13,
+      "fault": null,
+      "records": 1,
+      "presented": 12,
+      "exactRows": true,
+      "wallMs": 7379
+    }
+  ]
+}

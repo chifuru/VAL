@@ -73,7 +73,7 @@ test('plant food includes all fourth-layer plants, excludes ordinary main bodies
 test('three-T source/generated and Worker/JSON preserve floating birth/growth, and public guards remain',()=>{
  const G=require('../src/ecology/observation-model.js').model(flags),T=require('../src/ecology/transport.js'),A=require('../src/ecology/archive.js'),w=fixture();add(w,'mother','freshwaterlight',{B:16,E:24,M:1,birthReady:0,G:11});island(w);ledger(w);const v=structuredClone(w),before=structuredClone(w),encode=T.encoder(w);
  for(let turn=1;turn<=3;turn++){for(const [world,e]of [[w,E],[v,G]]){world.turn=turn;step(world,e);conserved(world);}assert.deepEqual(v,w);}assert(w.organisms.length>1);assert.deepEqual(T.apply(before,JSON.parse(JSON.stringify(encode(w,true)))),w);
- assert.throws(()=>E.beginTurn(w),/CELL_MODEL_INCOMPLETE/);assert.throws(()=>A.create({getItem:()=>null,setItem(){}},E,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
+ require('./cell-turn-assertion.cjs')(E,w);assert.throws(()=>A.create({getItem:()=>null,setItem(){}},E,'internal').capture(w,'manual'),/CELL_MODEL_INCOMPLETE/);
 });
 
 test('floating life requires a settled budget and cannot spend twice',()=>{

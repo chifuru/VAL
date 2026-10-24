@@ -1,0 +1,78 @@
+{
+  "baseline": "254cfda",
+  "formalNodes": 61,
+  "updatedExistingNodes": [
+    "C7",
+    "C7.1",
+    "C8",
+    "C8.2",
+    "D7",
+    "D9",
+    "E5",
+    "E6"
+  ],
+  "formalMetadataGraphAndDraftStatusUnchanged": true,
+  "coreABAndAdoptedSpecificationUnchanged": true,
+  "manifestUniqueEntries": 61,
+  "manifestRequiredFields": true,
+  "manifestLayerHeadings": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+  ],
+  "biologicalSignature": "c7b6198bf4f96dabd400a3b131a50859210ca21b8618183228712407d16a6721",
+  "generatedProfiles": {
+    "profiles": 8,
+    "uniqueModules": 22,
+    "bytes": 2018475
+  },
+  "legacyParity": {
+    "cases": 2,
+    "statesPerCase": 3,
+    "allJSONObservationsAndCSV": true
+  },
+  "tests": {
+    "unit.log": {
+      "pass": 7,
+      "fail": 0
+    },
+    "archive.log": {
+      "pass": 6,
+      "fail": 0
+    }
+  },
+  "browser": {
+    "pass": 23,
+    "errors": 0,
+    "conditions": 1,
+    "turnsPerSpeed": 12,
+    "speeds": [
+      "1",
+      "2",
+      "max"
+    ],
+    "rowsPerSpeed": 13,
+    "identicalRowsAndFingerprint": true,
+    "replayDoesNotAutoSave": true
+  },
+  "checkpointBoundary": "clock 499 to 501, two real steps only",
+  "comparisonUI": "explicit model and aquatic choice; legacy default retained",
+  "stateGuards": "unknown model, missing bodies/life and invalid cell state rejected; unresolved aquatic blocks UI creation",
+  "productVersionUnchanged": true,
+  "adoptedArtworkBackgroundGlyphsAndCSSUnchanged": true,
+  "basicScreenLayoutUnchanged": true,
+  "uiScope": "comparison model/water selects and readiness text inside existing setup",
+  "manifestOperation": "reflection of 8 existing nodes; no new node/initial registration",
+  "notVerified": [
+    "natural 500-turn survival",
+    "all lineages and R1-R6",
+    "natural multi-generation P/Q circulation",
+    "unselected canopy/regeneration and migration species coefficients",
+    "formal A/B adoption of comparison water profile",
+    "default migration to new model",
+    "whole-system performance",
+    "Windows and distribution"
+  ]
+}

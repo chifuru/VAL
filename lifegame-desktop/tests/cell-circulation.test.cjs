@@ -106,7 +106,7 @@ test('generated/source lifecycle and Worker state agree through a short organic-
  const other=structuredClone(w),prior=structuredClone(w),encode=T.encoder(w);
  const run=(e,v)=>{const ctx=e.context(v);e.prepare(v,ctx);e.B.move(v,ctx);e.cellLife(v,ctx);};
  for(let t=0;t<12;t++){if(t){w.turn++;other.turn++;}run(E,w);run(G,other);conserved(w);assert.deepEqual(other,w);}
- assert(w.ledger.solar>0);assert(w.organisms.find(o=>o.id==='plant').B>3);assert.deepEqual(T.apply(prior,JSON.parse(JSON.stringify(encode(w,true)))),w);assert.throws(()=>G.beginTurn(w),/CELL_MODEL_INCOMPLETE/);
+ assert(w.ledger.solar>0);assert(w.organisms.find(o=>o.id==='plant').B>3);assert.deepEqual(T.apply(prior,JSON.parse(JSON.stringify(encode(w,true)))),w);require('./cell-turn-assertion.cjs')(G,w);
 });
 
 test('six fungi and a scavenger share one carcass without overdraw and request-order bias',()=>{

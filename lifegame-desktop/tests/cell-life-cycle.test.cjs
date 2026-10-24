@@ -104,7 +104,7 @@ test('generated engine, source engine and Worker delta agree on the life boundar
  const w=fixture();add(w,'p','grass',{B:22,E:4,M:.2});group(w,'g',4);ledger(w);const initial=structuredClone(w),other=structuredClone(w),encode=T.encoder(w);
  const run=(e,v)=>{const ctx=e.context(v);e.prepare(v,ctx);e.B.move(v,ctx);e.cellLife(v,ctx);};run(E,w);run(G,other);assert.deepEqual(other,w);
  assert.deepEqual(T.apply(initial,JSON.parse(JSON.stringify(encode(w,true)))),w);assert.deepEqual(JSON.parse(JSON.stringify(w)),w);conserved(w);
- assert.throws(()=>G.beginTurn(w),/CELL_MODEL_INCOMPLETE/);
+ require('./cell-turn-assertion.cjs')(G,w);
 });
 
 test('water supply stays unresolved and moving freshwater producer retains layer 4 and its own phenotype',()=>{
