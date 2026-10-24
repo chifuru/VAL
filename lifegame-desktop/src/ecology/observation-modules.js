@@ -4637,6 +4637,47 @@ function(require,module){
     const foodAllowed=(o,tag)=>o.species!=="kelp"||tag==="animal"||tag==="mineral";
     function allocate(stocks,requests,demands={}){
       if(!stocks||Object.values(stocks).some(n=>!finite(n))||Object.values(demands).some(n=>!finite(n)))throw Error("CELL_POOL_INVALID");
+      const stockKeys=Object.keys(stocks),demandKeys=Object.keys(demands);
+      // Game pool names are explicit prefixes. Retain the previous semantics for unusual diagnostic keys.
+      if(stockKeys.some(k=>Object.hasOwn(Object.prototype,k))||demandKeys.some(k=>Object.hasOwn(Object.prototype,k)))return allocateObjects(stocks,requests,demands);
+      const stockIndex=new Map(stockKeys.map((k,i)=>[k,i])),demandIndex=new Map(demandKeys.map((k,i)=>[k,i])),ids=new Set();
+      const rows=requests.map(r=>{
+        if(!r||typeof r.id!=="string"||ids.has(r.id)||![r.need,r.ability??1,r.reach??1].every(finite)||!r.rates)throw Error("CELL_REQUEST_INVALID");
+        const rateEntries=Object.entries(r.rates),fulfillEntries=Object.entries(r.fulfills||{});
+        if(!rateEntries.some(([,n])=>n>0)||rateEntries.some(([k,n])=>!Object.hasOwn(stocks,k)||!finite(n))||
+          fulfillEntries.some(([k,n])=>!Object.hasOwn(demands,k)||!finite(n)))throw Error("CELL_REQUEST_INVALID");
+        const weight=r.need*(r.ability??1)*(r.reach??1);if(!finite(weight))throw Error("CELL_REQUEST_INVALID");
+        for(const entry of rateEntries)entry[0]=stockIndex.get(entry[0]);
+        for(const entry of fulfillEntries)entry[0]=demandIndex.get(entry[0]);
+        ids.add(r.id);return {id:r.id,need:r.need,amount:0,weight,rateEntries,fulfillEntries,hasFulfills:!!r.fulfills};
+      }).sort((a,b)=>S.compare(a.id,b.id));
+      const left=Float64Array.from(stockKeys,k=>stocks[k]),unmet=Float64Array.from(demandKeys,k=>demands[k]),rates=new Float64Array(left.length),benefits=new Float64Array(unmet.length);
+      const active=rows.filter(r=>r.need>0&&r.weight>0);
+      while(active.length){
+        let count=0;
+        for(const r of active){
+          if(!(r.need-r.amount>EPS))continue;let eligible=true;
+          for(const [k,n]of r.rateEntries)if(n&&!(left[k]>EPS)){eligible=false;break;}
+          if(eligible&&r.hasFulfills){eligible=false;for(const [k,n]of r.fulfillEntries)if(n>0&&unmet[k]>EPS){eligible=true;break;}}
+          if(eligible)active[count++]=r;
+        }
+        active.length=count;if(!count)break;rates.fill(0);benefits.fill(0);
+        for(const r of active){for(const [k,n]of r.rateEntries)rates[k]+=n*r.weight;for(const [k,n]of r.fulfillEntries)benefits[k]+=n*r.weight;}
+        let step=Infinity;for(const r of active)step=Math.min(step,(r.need-r.amount)/r.weight);
+        for(let k=0;k<rates.length;k++)if(rates[k]>0)step=Math.min(step,left[k]/rates[k]);
+        for(let k=0;k<benefits.length;k++)if(benefits[k]>0&&unmet[k]>EPS)step=Math.min(step,unmet[k]/benefits[k]);
+        if(!(step>0)||!Number.isFinite(step))break;
+        for(const r of active)r.amount=Math.min(r.need,r.amount+step*r.weight);
+        for(let k=0;k<rates.length;k++)left[k]=Math.max(0,left[k]-step*rates[k]);
+        for(let k=0;k<benefits.length;k++)unmet[k]=Math.max(0,unmet[k]-step*benefits[k]);
+      }
+      const grants=new Map(rows.map(r=>[r.id,down(r.amount)])),remaining={...stocks};
+      for(const r of rows)for(const [k,n]of r.rateEntries)remaining[stockKeys[k]]-=n*grants.get(r.id);
+      for(const k of stockKeys)remaining[k]=Q(Math.max(0,remaining[k]));
+      return {grants,remaining};
+    }
+    function allocateObjects(stocks,requests,demands={}){
+      if(!stocks||Object.values(stocks).some(n=>!finite(n))||Object.values(demands).some(n=>!finite(n)))throw Error("CELL_POOL_INVALID");
       const ids=new Set(),rows=requests.map(r=>{
         if(!r||typeof r.id!=="string"||ids.has(r.id)||![r.need,r.ability??1,r.reach??1].every(finite)||!r.rates)throw Error("CELL_REQUEST_INVALID");
         const rateEntries=Object.entries(r.rates),fulfillEntries=Object.entries(r.fulfills||{});
@@ -14863,6 +14904,47 @@ function(require,module){
     function requireWorld(w){if(!S.CellSpace.enabled(w))throw Error("CELL_RESOURCES_VERSION");}
     const foodAllowed=(o,tag)=>o.species!=="kelp"||tag==="animal"||tag==="mineral";
     function allocate(stocks,requests,demands={}){
+      if(!stocks||Object.values(stocks).some(n=>!finite(n))||Object.values(demands).some(n=>!finite(n)))throw Error("CELL_POOL_INVALID");
+      const stockKeys=Object.keys(stocks),demandKeys=Object.keys(demands);
+      // Game pool names are explicit prefixes. Retain the previous semantics for unusual diagnostic keys.
+      if(stockKeys.some(k=>Object.hasOwn(Object.prototype,k))||demandKeys.some(k=>Object.hasOwn(Object.prototype,k)))return allocateObjects(stocks,requests,demands);
+      const stockIndex=new Map(stockKeys.map((k,i)=>[k,i])),demandIndex=new Map(demandKeys.map((k,i)=>[k,i])),ids=new Set();
+      const rows=requests.map(r=>{
+        if(!r||typeof r.id!=="string"||ids.has(r.id)||![r.need,r.ability??1,r.reach??1].every(finite)||!r.rates)throw Error("CELL_REQUEST_INVALID");
+        const rateEntries=Object.entries(r.rates),fulfillEntries=Object.entries(r.fulfills||{});
+        if(!rateEntries.some(([,n])=>n>0)||rateEntries.some(([k,n])=>!Object.hasOwn(stocks,k)||!finite(n))||
+          fulfillEntries.some(([k,n])=>!Object.hasOwn(demands,k)||!finite(n)))throw Error("CELL_REQUEST_INVALID");
+        const weight=r.need*(r.ability??1)*(r.reach??1);if(!finite(weight))throw Error("CELL_REQUEST_INVALID");
+        for(const entry of rateEntries)entry[0]=stockIndex.get(entry[0]);
+        for(const entry of fulfillEntries)entry[0]=demandIndex.get(entry[0]);
+        ids.add(r.id);return {id:r.id,need:r.need,amount:0,weight,rateEntries,fulfillEntries,hasFulfills:!!r.fulfills};
+      }).sort((a,b)=>S.compare(a.id,b.id));
+      const left=Float64Array.from(stockKeys,k=>stocks[k]),unmet=Float64Array.from(demandKeys,k=>demands[k]),rates=new Float64Array(left.length),benefits=new Float64Array(unmet.length);
+      const active=rows.filter(r=>r.need>0&&r.weight>0);
+      while(active.length){
+        let count=0;
+        for(const r of active){
+          if(!(r.need-r.amount>EPS))continue;let eligible=true;
+          for(const [k,n]of r.rateEntries)if(n&&!(left[k]>EPS)){eligible=false;break;}
+          if(eligible&&r.hasFulfills){eligible=false;for(const [k,n]of r.fulfillEntries)if(n>0&&unmet[k]>EPS){eligible=true;break;}}
+          if(eligible)active[count++]=r;
+        }
+        active.length=count;if(!count)break;rates.fill(0);benefits.fill(0);
+        for(const r of active){for(const [k,n]of r.rateEntries)rates[k]+=n*r.weight;for(const [k,n]of r.fulfillEntries)benefits[k]+=n*r.weight;}
+        let step=Infinity;for(const r of active)step=Math.min(step,(r.need-r.amount)/r.weight);
+        for(let k=0;k<rates.length;k++)if(rates[k]>0)step=Math.min(step,left[k]/rates[k]);
+        for(let k=0;k<benefits.length;k++)if(benefits[k]>0&&unmet[k]>EPS)step=Math.min(step,unmet[k]/benefits[k]);
+        if(!(step>0)||!Number.isFinite(step))break;
+        for(const r of active)r.amount=Math.min(r.need,r.amount+step*r.weight);
+        for(let k=0;k<rates.length;k++)left[k]=Math.max(0,left[k]-step*rates[k]);
+        for(let k=0;k<benefits.length;k++)unmet[k]=Math.max(0,unmet[k]-step*benefits[k]);
+      }
+      const grants=new Map(rows.map(r=>[r.id,down(r.amount)])),remaining={...stocks};
+      for(const r of rows)for(const [k,n]of r.rateEntries)remaining[stockKeys[k]]-=n*grants.get(r.id);
+      for(const k of stockKeys)remaining[k]=Q(Math.max(0,remaining[k]));
+      return {grants,remaining};
+    }
+    function allocateObjects(stocks,requests,demands={}){
       if(!stocks||Object.values(stocks).some(n=>!finite(n))||Object.values(demands).some(n=>!finite(n)))throw Error("CELL_POOL_INVALID");
       const ids=new Set(),rows=requests.map(r=>{
         if(!r||typeof r.id!=="string"||ids.has(r.id)||![r.need,r.ability??1,r.reach??1].every(finite)||!r.rates)throw Error("CELL_REQUEST_INVALID");

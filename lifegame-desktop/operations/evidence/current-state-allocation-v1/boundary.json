@@ -1,0 +1,61 @@
+{
+  "baseline": "90d1e22cad783759a474c208b6047e650c69d091",
+  "baselineModulesSha256": "87851bf46cd44a798750881184d30d688303ef3b095b53db77c1a0612842bab2",
+  "signature": "f51df1f16a5d05263fe965161bd5814e8c257fbe806c05158c5acc23827916ef",
+  "results": [
+    {
+      "turn": 0,
+      "nextTurn": 1,
+      "fixtureSha256": "2a061492fb94217ac20795b588559cb5bc93d11d863097a0895f46bfa5cc6a8d",
+      "organisms": 419,
+      "before": {
+        "kernelMs": 283.668539,
+        "acquireMs": 28.620420000000024
+      },
+      "after": {
+        "kernelMs": 232.11625200000003,
+        "acquireMs": 20.304993999999965
+      },
+      "worldAndObservationEqual": true,
+      "inputUnchanged": true,
+      "fingerprint": "dd64f427cfa1feb9530ceb3aad096d7a6da272adb24a82bf777ea2f4498476c7"
+    },
+    {
+      "turn": 133,
+      "nextTurn": 134,
+      "fixtureSha256": "f6867fafd961cf6364dd419f85e8ebe07b784613173192bf0962469bd59fa13a",
+      "organisms": 6314,
+      "before": {
+        "kernelMs": 2426.737859,
+        "acquireMs": 622.7881619999998
+      },
+      "after": {
+        "kernelMs": 2219.9272400000004,
+        "acquireMs": 447.4587929999998
+      },
+      "worldAndObservationEqual": true,
+      "inputUnchanged": true,
+      "fingerprint": "2d4c70e4009a31b6f58dcbf74909e372c5e3adc5f8dc4b43475f1224852e2151"
+    }
+  ],
+  "poolCasesEqual": 34,
+  "poolTiming": {
+    "callsPerBatch": 272,
+    "batches": {
+      "before": [
+        12.029509000000871,
+        11.2510570000004,
+        11.642269999999371
+      ],
+      "after": [
+        14.424111000000266,
+        7.188059000000067,
+        8.053823999999622
+      ]
+    }
+  },
+  "priorNativeReplayEqual": true,
+  "priorRecordUnchanged": true,
+  "legacyCellBoundaryEqual": true,
+  "scope": "Two retained actual boundaries with one old/new instrumented turn each. Local pools have three warm timing batches. Whole-turn samples are not a throughput guarantee. No natural long-run replay."
+}

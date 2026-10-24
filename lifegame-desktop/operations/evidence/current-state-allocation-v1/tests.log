@@ -1,0 +1,274 @@
+TAP version 13
+# Subtest: numeric stock names and independent E/M needs preserve redistribution
+ok 1 - numeric stock names and independent E/M needs preserve redistribution
+  ---
+  duration_ms: 2.313245
+  type: 'test'
+  ...
+# Subtest: empty fulfilled demand, zero ability and unused stocks cannot create a grant
+ok 2 - empty fulfilled demand, zero ability and unused stocks cannot create a grant
+  ---
+  duration_ms: 0.230096
+  type: 'test'
+  ...
+# Subtest: mixed zero coefficients retain exact micro-unit residue after grant truncation
+ok 3 - mixed zero coefficients retain exact micro-unit residue after grant truncation
+  ---
+  duration_ms: 0.297317
+  type: 'test'
+  ...
+# Subtest: finite overflow and invalid requests keep their bounded or rejected outcomes
+ok 4 - finite overflow and invalid requests keep their bounded or rejected outcomes
+  ---
+  duration_ms: 0.575394
+  type: 'test'
+  ...
+# Subtest: bounded demand-weighted allocation is order independent and redistributes capped shares
+ok 5 - bounded demand-weighted allocation is order independent and redistributes capped shares
+  ---
+  duration_ms: 1.474094
+  type: 'test'
+  ...
+# Subtest: coupled requests do not consume unusable water and leave/reallocate real stock
+ok 6 - coupled requests do not consume unusable water and leave/reallocate real stock
+  ---
+  duration_ms: 0.23295
+  type: 'test'
+  ...
+# Subtest: fixed soil, mineral levels, plant temperature/pH and shared light are resolved at creation
+ok 7 - fixed soil, mineral levels, plant temperature/pH and shared light are resolved at creation
+  ---
+  duration_ms: 37.811792
+  type: 'test'
+  ...
+# Subtest: rain, drainage and actual evaporation conserve water, cannot go negative or run twice
+ok 8 - rain, drainage and actual evaporation conserve water, cannot go negative or run twice
+  ---
+  duration_ms: 12.536873
+  type: 'test'
+  ...
+# Subtest: same-cell mineral competition follows demand, ability/reach and capacity without layer priority
+ok 9 - same-cell mineral competition follows demand, ability/reach and capacity without layer priority
+  ---
+  duration_ms: 14.087413
+  type: 'test'
+  ...
+# Subtest: plant activity zero leaves mineral in place and soil quality raises actual uptake limit once
+ok 10 - plant activity zero leaves mineral in place and soil quality raises actual uptake limit once
+  ---
+  duration_ms: 9.841284
+  type: 'test'
+  ...
+# Subtest: one light budget is captured from above; unused capture still shades lower foliage
+ok 11 - one light budget is captured from above; unused capture still shades lower foliage
+  ---
+  duration_ms: 8.235432
+  type: 'test'
+  ...
+# Subtest: water limits actual photosynthesis while unused light is neither stored nor free energy
+ok 12 - water limits actual photosynthesis while unused light is neither stored nor free energy
+  ---
+  duration_ms: 3.549422
+  type: 'test'
+  ...
+# Subtest: remote food, information food and requests from dead/new actors are rejected before transfer
+ok 13 - remote food, information food and requests from dead/new actors are rejected before transfer
+  ---
+  duration_ms: 6.534055
+  type: 'test'
+  ...
+# Subtest: consumers share finite plant tissue; body mineral, assimilation and waste are each owned once
+ok 14 - consumers share finite plant tissue; body mineral, assimilation and waste are each owned once
+  ---
+  duration_ms: 5.343777
+  type: 'test'
+  ...
+# Subtest: carcass sharing removes one finite fraction of body, energy and mineral per recipient
+ok 15 - carcass sharing removes one finite fraction of body, energy and mineral per recipient
+  ---
+  duration_ms: 4.360331
+  type: 'test'
+  ...
+# Subtest: returns become available next turn only; capacity overflow remains organic and is not Mloss
+ok 16 - returns become available next turn only; capacity overflow remains organic and is not Mloss
+  ---
+  duration_ms: 3.979238
+  type: 'test'
+  ...
+# Subtest: explicit mineral input is recorded separately and conserved even at capacity
+ok 17 - explicit mineral input is recorded separately and conserved even at capacity
+  ---
+  duration_ms: 6.633955
+  type: 'test'
+  ...
+# Subtest: actions and maintenance are paid once; reserve is a goal and failed reservations release capacity
+ok 18 - actions and maintenance are paid once; reserve is a goal and failed reservations release capacity
+  ---
+  duration_ms: 4.387361
+  type: 'test'
+  ...
+# Subtest: formation stores body E/M and dissipates only the actual formation overhead
+ok 19 - formation stores body E/M and dissipates only the actual formation overhead
+  ---
+  duration_ms: 6.521176
+  type: 'test'
+  ...
+# Subtest: maintenance deficit prevents investments without artificial immediate death or reserve-based starvation
+ok 20 - maintenance deficit prevents investments without artificial immediate death or reserve-based starvation
+  ---
+  duration_ms: 9.97241
+  type: 'test'
+  ...
+# Subtest: unselected aquatic supply is explicit; land coefficients are not silently copied
+ok 21 - unselected aquatic supply is explicit; land coefficients are not silently copied
+  ---
+  duration_ms: 4.104226
+  type: 'test'
+  ...
+# Subtest: failed formation cancels its reservation without creating tissue or charging a second payment
+ok 22 - failed formation cancels its reservation without creating tissue or charging a second payment
+  ---
+  duration_ms: 7.545615
+  type: 'test'
+  ...
+# Subtest: generated execution and Worker/JSON preserve finite resources, receipts and all material owners
+ok 23 - generated execution and Worker/JSON preserve finite resources, receipts and all material owners
+  ---
+  duration_ms: 11.544412
+  type: 'test'
+  ...
+# Subtest: microscopic food residues and water costs do not produce negative or free stocks
+ok 24 - microscopic food residues and water costs do not produce negative or free stocks
+  ---
+  duration_ms: 8.386268
+  type: 'test'
+  ...
+# Subtest: shared organic feeding leaves no submicro body without its energy
+ok 25 - shared organic feeding leaves no submicro body without its energy
+  ---
+  duration_ms: 13.69976
+  type: 'test'
+  ...
+# Subtest: light record stays an ordered public array with the last photo assignment
+ok 26 - light record stays an ordered public array with the last photo assignment
+  ---
+  duration_ms: 3.821251
+  type: 'test'
+  ...
+# Subtest: a capture authorized for one actor cannot be reused by another actor
+ok 27 - a capture authorized for one actor cannot be reused by another actor
+  ---
+  duration_ms: 3.911095
+  type: 'test'
+  ...
+# Subtest: many deaths coalesce by cell/class/day, retain finite E/M/B, and discard dead identity
+ok 28 - many deaths coalesce by cell/class/day, retain finite E/M/B, and discard dead identity
+  ---
+  duration_ms: 20.010576
+  type: 'test'
+  ...
+# Subtest: different diet classes stay separate and waiting minerals are never edible stock
+ok 29 - different diet classes stay separate and waiting minerals are never edible stock
+  ---
+  duration_ms: 8.923774
+  type: 'test'
+  ...
+# Subtest: new death is unavailable to general feeding until next T; B is not added to E twice
+ok 30 - new death is unavailable to general feeding until next T; B is not added to E twice
+  ---
+  duration_ms: 10.346163
+  type: 'test'
+  ...
+# Subtest: fresh stock ages into one decomposed pool at 10T, without rebinding old carriers to a reused fresh slot
+ok 31 - fresh stock ages into one decomposed pool at 10T, without rebinding old carriers to a reused fresh slot
+  ---
+  duration_ms: 4.887372
+  type: 'test'
+  ...
+# Subtest: shared source requests are independent of death count and share one processing budget per fungus
+ok 32 - shared source requests are independent of death count and share one processing budget per fungus
+  ---
+  duration_ms: 17.949665
+  type: 'test'
+  ...
+# Subtest: fungi and consumers compete for the same real pool; request order does not change grants
+ok 33 - fungi and consumers compete for the same real pool; request order does not change grants
+  ---
+  duration_ms: 12.429381
+  type: 'test'
+  ...
+# Subtest: decomposed food applies half assimilation and retains waste in the correct current class
+ok 34 - decomposed food applies half assimilation and retains waste in the correct current class
+  ---
+  duration_ms: 11.440116
+  type: 'test'
+  ...
+# Subtest: plants cannot eat residues; ryouki cannot acquire main-animal or Q tissue; remote pool is rejected
+ok 35 - plants cannot eat residues; ryouki cannot acquire main-animal or Q tissue; remote pool is rejected
+  ---
+  duration_ms: 5.701675
+  type: 'test'
+  ...
+# Subtest: background uses activity times .02, returns M next T, and never reuses new M in the same T
+ok 36 - background uses activity times .02, returns M next T, and never reuses new M in the same T
+  ---
+  duration_ms: 7.089741
+  type: 'test'
+  ...
+# Subtest: positive micro stocks reach heat/mineral waiting; a full soil does not retain individual remains
+ok 37 - positive micro stocks reach heat/mineral waiting; a full soil does not retain individual remains
+  ---
+  duration_ms: 4.755174
+  type: 'test'
+  ...
+# Subtest: dry stock persists without decomposition, while mineral-only stock becomes a finite waiting pool
+ok 38 - dry stock persists without decomposition, while mineral-only stock becomes a finite waiting pool
+  ---
+  duration_ms: 4.151547
+  type: 'test'
+  ...
+# Subtest: P/Q are held once in zero-nutrition carriers, without dead appearance/DNA or duplicate energy
+ok 39 - P/Q are held once in zero-nutrition carriers, without dead appearance/DNA or duplicate energy
+  ---
+  duration_ms: 8.829563
+  type: 'test'
+  ...
+# Subtest: actual feeding on the pool can transfer a mature P; pending transfer is neither cloned nor nutrition
+ok 40 - actual feeding on the pool can transfer a mature P; pending transfer is neither cloned nor nutrition
+  ---
+  duration_ms: 6.034586
+  type: 'test'
+  ...
+# Subtest: new remains after the background phase are also integrated before committing the turn
+ok 41 - new remains after the background phase are also integrated before committing the turn
+  ---
+  duration_ms: 6.897552
+  type: 'test'
+  ...
+# Subtest: same-turn captures remain restricted to real participants; the remainder becomes next-T soil
+ok 42 - same-turn captures remain restricted to real participants; the remainder becomes next-T soil
+  ---
+  duration_ms: 8.218776
+  type: 'test'
+  ...
+# Subtest: ordinary new remains cannot be forged into a capture or read as an available soil pool
+ok 43 - ordinary new remains cannot be forged into a capture or read as an available soil pool
+  ---
+  duration_ms: 4.777848
+  type: 'test'
+  ...
+# Subtest: source/generated agree through 4T; the generated run crosses the fresh-stock age boundary at 12T
+ok 44 - source/generated agree through 4T; the generated run crosses the fresh-stock age boundary at 12T
+  ---
+  duration_ms: 6427.181691
+  type: 'test'
+  ...
+1..44
+# tests 44
+# suites 0
+# pass 44
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6831.727756

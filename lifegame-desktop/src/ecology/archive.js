@@ -49,6 +49,8 @@
  const cellAcquireBuildSignature="b76f5c4fd56870ed550f35eb16992be542f747f2adb27f5f49ba35680bf7a19d";
  const cellInformationBuildSignature="219b2a50d6ecf08eb552770f8e26535dbfde144b57751195ebe18757f2a035cf";
  function canonicalSignature(s,config){
+  // Indexed allocation preserves request order, floating-point operations and finite stock results.
+  if(s==='f51df1f16a5d05263fe965161bd5814e8c257fbe806c05158c5acc23827916ef')s='9631330dc4a186eef4c24c527730ccad9358101dcb6bfe9648057e7e39d4efde';
   // CS08 reception reuses read-only turn-local queries; arithmetic and recipient decisions are unchanged.
   if(s==='9631330dc4a186eef4c24c527730ccad9358101dcb6bfe9648057e7e39d4efde')s='57332f90ee2f288108c8088893ad5eee1fed3fde790edeb8de693f45341cf20e';
   // CS08 counts the same unordered contacts by cell/species multiplicities.
