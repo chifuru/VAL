@@ -1,0 +1,64 @@
+{
+  "baseline": "2f877a2",
+  "productVersion": "4.2.77",
+  "biologicalSignature": "219b2a50d6ecf08eb552770f8e26535dbfde144b57751195ebe18757f2a035cf",
+  "formalNodes": 61,
+  "updatedExistingNodes": [
+    "C4",
+    "D4",
+    "E7"
+  ],
+  "formalMetadataGraphAndDraftStatusUnchanged": true,
+  "coreABAndAdoptedSpecificationUnchanged": true,
+  "allProductCodeDependenciesAndPackagingUnchanged": true,
+  "manifestUniqueEntries": 61,
+  "manifestRequiredFields": true,
+  "manifestLayerHeadings": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+  ],
+  "asar": {
+    "sourceFiles": 100,
+    "sourceBytes": 174164463,
+    "archiveFiles": 101,
+    "bytes": 174192091,
+    "sha256": "f0d49afff2fefb56c2928a84a630b895c59f66bc20120fa8e7eee6286eef2c93",
+    "allSourceBytesMatch": true,
+    "projectedMetadataMatch": true,
+    "desktopEntry": "src/desktop/main.cjs",
+    "htmlReferences": 25,
+    "temporaryRemoved": true,
+    "windowsRuntimeBundled": false
+  },
+  "previousLocalPackage": {
+    "version": "4.2.72",
+    "mismatchingFiles": 19,
+    "missingFiles": 2,
+    "notUsedAsLatest": true
+  },
+  "checksumTest": {
+    "pass": 1,
+    "fail": 0
+  },
+  "generation": {
+    "profiles": 8,
+    "uniqueModules": 22,
+    "bytes": 2023265
+  },
+  "newNatural500TRepeated": false,
+  "windowsExecuted": false,
+  "newDistributionCreated": false,
+  "nativeElectronAvailable": false,
+  "comparisonModeBlockedByUnselectedItems": false,
+  "dedicatedCoefficientsSpeciesAndBranchEffectsNotInvented": true,
+  "notVerified": [
+    "Windows executable and current ZIP",
+    "all native runtime behavior",
+    "whole-run and all-map performance",
+    "natural P/Q multigeneration and all-lineage R1-R6",
+    "formal A/B adoption and default mode decisions"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "success": true,
+  "sourceCommit": "2f877a299ea9d6a10a631cf10667c6ab245115fe",
+  "productVersion": "4.2.77",
+  "electronVersion": "44.7.2",
+  "biologicalSignature": "219b2a50d6ecf08eb552770f8e26535dbfde144b57751195ebe18757f2a035cf",
+  "payload": {
+    "sourceFiles": 100,
+    "sourceBytes": 174164463,
+    "archiveFiles": 101,
+    "bytes": 174192091,
+    "sha256": "f0d49afff2fefb56c2928a84a630b895c59f66bc20120fa8e7eee6286eef2c93",
+    "allSourceBytesMatch": true,
+    "projectedMetadataMatch": true,
+    "desktopEntry": "src/desktop/main.cjs",
+    "htmlReferences": 25,
+    "temporaryRemoved": true,
+    "windowsRuntimeBundled": false
+  },
+  "existingLocalArchive": {
+    "present": true,
+    "version": "4.2.72",
+    "matchesCurrentSource": false,
+    "mismatches": [
+      "src/Index.html",
+      "src/app.js",
+      "src/ecology/archive.js",
+      "src/ecology/art.js",
+      "src/ecology/behavior.js",
+      "src/ecology/compute-client.js",
+      "src/ecology/compute-worker.js",
+      "src/ecology/display-plane.js",
+      "src/ecology/engine.js",
+      "src/ecology/nutrition.js",
+      "src/ecology/observation-modules.js",
+      "src/ecology/observations.js",
+      "src/ecology/parasites.js",
+      "src/ecology/renderer.js",
+      "src/ecology/replay-version.js",
+      "src/ecology/reproduction.js",
+      "src/ecology/state.js",
+      "src/ecology/transport.js",
+      "src/styles.css"
+    ],
+    "missing": [
+      "src/ecology/cell-archive.js",
+      "src/ecology/cell-interface.js"
+    ]
+  },
+  "host": "linux",
+  "nativeElectronAvailable": false,
+  "windowsExecuted": false,
+  "newDistributionCreated": false,
+  "scope": "Temporary ASAR byte comparison only. Does not package or execute a Windows application."
+}

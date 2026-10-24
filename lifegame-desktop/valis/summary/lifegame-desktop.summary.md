@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と必要な説明を示す。仕様入口
 
 現在の採用仕様: `design/specification/cell-reorganization-v1.md`（cell-reorganization/1）。マス・0〜5次・土壌/配分・植物/低次動物/分解者・量機の定住3×3・次T境界を既存A/Bへ反映。数値は比較開始値。実装接続/影響探索/検証計画更新/再検証要否あり。新規Node・分割・初期登録・正式状態/階層/層間参照変更なし。全61Nodeは草案。
 
-実行製品は4.2.77。設定戻りの旧案内を修正。実フォームで作った多層比較1条件の通常観察をLinux画面22項目で確認し、遠景/近景を保存・目視（C8/C8.1・D9 → E6）。最終T6/7行・障害/自動保存なし。証跡: operations/evidence/cell-finish-ui-v1/README.md。生態/署名・描画/素材/配置は維持。従来が既定、新方式/水域は明示比較。残る負荷・未選定係数/既定化、自然P/Q循環/全系統、実稼働の配置調整とWindows/配布は後続。
+実行製品は4.2.77。配布前照合で現行src100ファイルと梱包metadataの一時ASAR・入口25参照が一致。チェックサム1成功、生成8版一致（C4/D4 → E7）。既存ローカル配布物4.2.72は現行と不一致のため流用しない。証跡: operations/evidence/cell-release-preflight-v1/README.md。現行の明示比較を止める独立した仕様確認はなく、専用係数/未接続の再生枝・既定化は照合表へ分離。全製品ソース/署名・描画/配置・既定モードは維持。Windows版作成/実起動・新配布は未実施。
 
 ## A：仕様
 
@@ -269,11 +269,11 @@ C3:（B1, B3 / 観測画面と制御）［草案］
 
 C4:（A2, B5 / Electron と Windows 配布）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C4.md。Electron起動とWindows配布。
+		valis/nodes/C/C4.md。tools/package-windows.cjsの同梱規則とtests/cell-package-preflight.cjs。既存distは上書きせず一時ASARで照合する。
 	ロジック:
-		ローカル配布物から起動する。実装と配布検査の詳細は本体へ委ねる。
+		現行srcと梱包metadataを全件抽出照合し、旧ローカル配布物を現行版として流用しない。任意/未選定と現行比較の利用可否は照合表へ分ける。 証跡: operations/evidence/cell-release-preflight-v1/README.md。
 	実態:
-		4.2.32: 4.2.32のWindows ZIPと同梱証跡を生成する接続。出力Workerを含み、同梱READMEを現行の図鑑保存へ修正。 範囲/未確認: operations/evidence/optimization-v4.2.32/README.md。草案。
+		現行100ファイル/metadataと入口25参照が一致。旧4.2.72は19不一致/2欠落。Windows ZIP/実起動・新配布は未実施。 正式草案/階層/参照を維持。
 
 C5:（B4 / モックの個体・資源・繁殖モデル）［草案］
 	構成（要素・関係）:
@@ -395,11 +395,11 @@ D3:（A1, A2, B3, C3 / 実画面の操作と表示）［草案］
 
 D4:（A2, C4 / 配布と実 Electron 起動）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D4.md。配布・展開照合・実Electron起動の計画。
+		valis/nodes/D/D4.md。tests/cell-package-preflight.cjs、tests/package.test.cjs、生成8版の整合検査。C4 → D4/E7。
 	ロジック:
-		C4と対象版を照合して配布物そのものを実行する。
+		一時ASARを実作成して全内容をSHA256で照合し、起動環境の有無とWindows実行の未実施を区別する。生成/チェックサム以外の全件や500Tを反復しない。 証跡: operations/evidence/cell-release-preflight-v1/README.md。
 	実態:
-		4.2.32: Windows ZIPの全src/原画一致・全展開SHA・実exe/Worker/画像を別々に確認する。4.2.32のCI結果はE7へ接続。 範囲/未確認: operations/evidence/optimization-v4.2.32/README.md。草案。
+		ASAR全100ファイル・package metadata/入口参照25が一致。チェックサム1成功、生成8版一致。Windows実起動の成功とは扱わない。 正式草案/階層/参照を維持。
 
 D5:（A1.1, A1.2, A1.3, B4, C5 / 個体・4入力・進化・繁殖の検証計画）［草案］
 	構成（要素・関係）:
@@ -513,10 +513,10 @@ E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E7.md。operations/evidence/optimization-v4.2.32/windows-native.json、Windows app4.2.32 / 2309185。
+		valis/nodes/E/E7.md。operations/evidence/cell-release-preflight-v1/のpackage-preflight.json/log、照合表・チェックサム/生成結果と対象ハッシュ。D4 → E7。
 	ロジック:
-		対象SHAと版が一致する配布物を展開し、実exe・Worker・画像読込・Node非公開の実測で判定する。
+		現在コードの一時ASAR内容一致と旧4.2.72の不一致を記録。検査後は一時物を削除し、実Windows exe/ZIP/公開の証跡へ読み替えない。 証跡: operations/evidence/cell-release-preflight-v1/README.md。
 	実態:
-		4.2.32: CI39340183030/job118359506331で全件・画面・ZIP展開SHA・実Windows exe/Worker/画像/Node非公開が成功。対象2309185/artifact12229435734。全PC性能保証ではない。 範囲/未確認: operations/evidence/optimization-v4.2.32/README.md。草案。
+		Linuxで100ファイル/metadata・25参照が一致。チェックサム1成功。Windows実起動/現行ZIPは未確認・未作成。過去Windows実測は各対象版に限定。 正式草案/階層/参照を維持。
 
 ```

@@ -1,6 +1,6 @@
 # マス再編：実装の意味・責務・接合契約
 
-管理版 `cell-implementation/1`。上位正本は [cell-reorganization/1](../specification/cell-reorganization-v1.md)。現在は設定戻りの旧案内を修正し、通常観察の[代表画面22項目](../../operations/evidence/cell-finish-ui-v1/README.md)を確認（C8/C8.1、D9 → E6）。最終T6/7行・障害/自動保存なし。遠景/近景を保存・目視し、生態/署名と既存描画/素材/配置は維持。取得/情報の採用済み軽減とnative複製を保つ。代表1条件500T/主7体存続は前工程の対象版。残る負荷・未選定係数/既定化、自然P/Q循環・実稼働の配置調整/Windows/配布は後続。
+管理版 `cell-implementation/1`。上位正本は [cell-reorganization/1](../specification/cell-reorganization-v1.md)。現在は未選定/未接続の[照合表と配布前検査](../../operations/evidence/cell-release-preflight-v1/README.md)（C4/D4 → E7）。現行src100ファイル/metadataと入口25参照が一時ASARで一致。チェックサム1成功・生成8版一致。既存ローカル4.2.72は現行と不一致、Windows実起動と新配布は未実施。現行比較を止める追加質問はなく、専用係数/任意移動・定着植物の再生枝効果/既定化は区別して後続へ残す。全製品コード/署名・既定モード/素材/配置/製品版を維持する。代表1条件500T/主7体存続、同値軽減と画面22項目は各前工程の対象版証跡。
 
 ## 1. 版と適用境界
 
@@ -292,3 +292,9 @@ Q自律生活・主生物生活とE/M片満量時の採食は5.1節、直接捕�
 実フォームで明示多層/淡水条件を選び、再生ではない通常Worker進行・盤面実クリック/表示チェック・停止/再開・設定編集/取消をLinux Chromiumで確認した。22項目成功、最終T6/7行、自動保存なし。設定戻りの旧「準備中」案内だけを修正し、遷移/生態・描画/配置のロジックは変えない。1500×1050の遠景/近景を保存・目視した範囲へ限定する。
 
 契約 `operations/plans/cell-finish-ui-v1.md`、証跡 `operations/evidence/cell-finish-ui-v1/README.md`。残件/次の順序は同フォルダのremaining.md。今回の短期確認を自然500T・全系統/全状態の視認性・全条件性能・Windows/配布の認定にしない。
+
+## 19. 未選定/未接続と配布前の照合
+
+専用樹冠係数と群落移動の対象種は後続。定着高次植物の再生枝は1.2係数を保持するが、新しい固定合計形成上限への専用効果が未接続であり、値そのものの未選定と混同しない。淡水光合成体の専用形成は既存の再生係数を使用している。明示したfreshwater-comparison/1は既にC/D比較値を持ち、その利用とA/B正式採用・既定変更は別である。今回の照合で値/対象種/枝を推測追加しない。詳細は `operations/evidence/cell-release-preflight-v1/decision-matrix.md`。
+
+同じ証跡フォルダのpackage-preflight.jsonで、現行src100ファイル/metadataを一時ASARへ同梱して全内容を照合し、旧ローカル4.2.72との不一致を確認した。検査用ASARは削除済み。全製品ソースは不変で、Windowsランタイム同梱・ZIP/実exe起動・新配布は未実施。契約 `operations/plans/cell-release-preflight-v1.md`、担当C4/D4 → E7。
