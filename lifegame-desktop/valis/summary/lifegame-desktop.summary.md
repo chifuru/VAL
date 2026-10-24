@@ -4,7 +4,7 @@ lifegame-desktop。現在のNode構造と必要な説明を示す。仕様入口
 
 現在の採用仕様: `design/specification/cell-reorganization-v1.md`（cell-reorganization/1）。マス・0〜5次・土壌/配分・植物/低次動物/分解者・量機の定住3×3・次T境界を既存A/Bへ反映。数値は比較開始値。実装接続/影響探索/検証計画更新/再検証要否あり。新規Node・分割・初期登録・正式状態/階層/層間参照変更なし。全61Nodeは草案。
 
-実行製品は4.2.77のまま。CR06の淡水光合成体の有限生活を内部接合。新境界15＋既存独立植物22/水域12/寄生接合14/基盤8の計71項目を限定確認。CR06全体・通常観察は未完。 現在の証跡: operations/evidence/cell-floating-life-v1/README.md（D7/D8/D8.1 → E5）。契約: design/implementation/cell-reorganization-v1.md。複数IDの観測/設定/表示/保存開放、群落移動の種指定/再生枝とCR07代表長期は残件。 通常ターン/新保存ガードを維持。画像/UI/製品版/配布は未変更。
+実行製品は4.2.77のまま。CR06の複数ID描画/選択/詳細を内部接合。新投影6/旧投影6・Linux画面22項目を限定確認、D9 → E6。現在証跡: operations/evidence/cell-observation-v1/README.md。生態の前工程71項目はcell-floating-life-v1の対象版に限定して維持。契約: design/implementation/cell-reorganization-v1.md。グラフ/記録単位・設定/保存公開、群落移動の種指定/再生枝とCR07は残件。CR06全体・通常観察は未完。通常ターン/新保存ガード、素材・画面構成/製品版/配布を維持。
 
 ## A：仕様
 
@@ -341,19 +341,19 @@ C7:（B4 / 同期ターン接合と世界確定）［草案］
 
 C8:（B5, B5.1, B5.2, B5.5, B5.6 / 観測操作・図鑑と説明シート）［草案］
 	構成（要素・関係）:
-		valis/nodes/C/C8.md。契約: design/implementation/cell-reorganization-v1.md。新しい実効環境と占有・物質単位を、既存の観測操作へ渡す。
+		valis/nodes/C/C8.md。新cellLife/占有/物質の詳細と肖像からの実ID選択。D9 → E6、operations/evidence/cell-observation-v1/README.md。
 	ロジック:
-		土壌の質と在庫、空間層と栄養役割、量機の枠/人数、小集団の人数/群数、菌の基部等を説明・集計へ接続。実装単位ごとの最小投影を先送りせず、画面構成・表示方式・記録対象選別は維持する。
+		群数/内部人数/枠/実B・水/M/次T待ちを区別し、固定詳細/明示更新と消失IDを保持。既存索引を共有。
 	実態:
-		cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
+		Linux画面22項目で限定確認。グラフ/記録単位・設定/保存/公開は残件。草案/階層/参照、通常ターン/新保存ガードを維持。
 
 	C8.1:（B5.3, B5.5, B5.6 / 盤面と個体の描画・確定モーション）［草案］
 		構成（要素・関係）:
-			valis/nodes/C/C8.1.md。契約: design/implementation/cell-reorganization-v1.md。層別ID列から可視候補を取り、既存の記号・絵柄・素材・選択を維持する。
+			valis/nodes/C/C8.1.md。display-plane.js/renderer.jsの全実ID配置・縮尺/ヒット/PQ/下層キャッシュ。D9 → E6。
 		ロジック:
-			代表1体Mapだけで同居者を消さず、量機各個体・群落の残存・小集団の人数を別に投影する。固定背景と可変在庫を混同せず、層分離や新しい囲み方式・画像を勝手に追加しない。観測・描画は生態乱数を進めない。
+			表示だけをID順に配置し、身体/影/選択を整合。密集時の札を小さくし、既存絵柄/記号/背景を維持。
 		実態:
-			cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
+			新投影6/旧投影6・Linux22項目、31ID逆引き/代表6実クリック。遠景肉眼識別や公開進行全体の認定ではない。草案。
 
 	C8.2:（B5.4 / 結果保存と初期条件からの再実行）［草案］
 		構成（要素・関係）:
@@ -445,11 +445,11 @@ D8:（C7 / 生態循環と結合進行）［草案］
 
 D9:（C8, C8.1, C8.2 / 観測画面・系統樹・説明と描画）［草案］
 	構成（要素・関係）:
-		valis/nodes/D/D9.md。契約: design/implementation/cell-reorganization-v1.md。C8系の複数実ID、単位、実効設定、Worker/保存再生と既存操作を検証対象とする。
+		valis/nodes/D/D9.md。新投影/既存投影とtests/cell-observation-ui.cjs。C8/C8.1を限定確認しE6へ接続。
 	ロジック:
-		群落/個体/内部人数/枠/B、量機各ID、基部残存、次T待ちを代表画面で照合する計画。旧絵柄/記号を維持し、停止再開・速度/10T描画でも生態結果が一致、旧記録を破壊しないことを確認する。今回は画面試験未実行。
+		全実ID・単位・在庫/次T・肖像/固定詳細/消失追跡と表示操作の世界/乱数/観測行不変を照合。
 	実態:
-		cell-implementation/1のC/D接続・計画のみ。コード未実装・検査未実行。草案・階層・参照を維持。旧証跡は対象版限定。後続: CR01からの実装・D実行・実測後E。
+		6＋6＋Linux22項目成功、未捕捉エラー0。グラフ/設定/保存・連続進行/全速度/長期/Windowsは残件。正式草案・既存参照を維持。
 
 ```
 
@@ -498,11 +498,11 @@ E5:（D7, D8, D8.1, D8.2 / 現行生態計算の実測証跡）［草案］
 
 E6:（D9 / 現行観測画面のLinux実測証跡）［草案］
 	構成（要素・関係）:
-		valis/nodes/E/E6.md。水系分散証跡: operations/evidence/water-egg-range-v1/README.md。初期集団正本: design/specification/water-founders-v1.md。証跡: operations/evidence/water-founders-v1/README.md。正本: design/specification/setup-intent-v2.md。契約: operations/plans/setup-intent-v2.md。証跡: operations/evidence/setup-intent-v2/README.md。再生成基準: operations/plans/setup-basis-v1.md / operations/evidence/setup-basis-v1/README.md。卵の表示/観測: design/specification/primary-eggs-v1.md / operations/evidence/primary-eggs-v1/README.md。その他の現行責務/入口は各Node参照。
+		valis/nodes/E/E6.md。operations/evidence/cell-observation-v1/README.md、report.json、unit/legacy.log、source-hashes.json、final-check.json、near/far.png。D9 → C8/C8.1。
 	ロジック:
-		35項目＋既存27/13項目とソース比較の証跡を保持。画面の限定確認と生態/性能/配布の認定を区別。
+		署名一致の内部静止fixtureで新投影6/旧投影6・Linux22項目を再確認できる証跡。旧証跡は各旧対象版限定。
 	実態:
-		app4.2.77：新規一次寄生設定/2の水系自動8群体・既定3/3/2分散。明示数/0/無効/合法枠/旧設定を保持。専用4＋保存6/画面13項目。代表250Tで河川2/湖1/湿地4残存、同ID再放出5/5/2。湖は旧19より減少、全条件/500T安定は未認定。再編前の暫定採用、草案。
+		今回対象に限定有効。31ID選択と状態不変を確認。グラフ/設定/保存/通常公開/500T/性能/Windowsは未認定。正式草案。
 
 E7:（D4, D7, D8, D8.1, D8.2, D9 / 現行Windows配布exeの実測証跡）［草案］
 	構成（要素・関係）:

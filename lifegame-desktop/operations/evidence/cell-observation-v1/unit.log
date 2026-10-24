@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: every maximum-layer biological ID has a separate finite anchor inside its own cell
+ok 1 - every maximum-layer biological ID has a separate finite anchor inside its own cell
+  ---
+  duration_ms: 5.823257
+  type: 'test'
+  ...
+# Subtest: physical settlement groups retain three packed IDs each and movers remain distinct
+ok 2 - physical settlement groups retain three packed IDs each and movers remain distinct
+  ---
+  duration_ms: 0.529082
+  type: 'test'
+  ...
+# Subtest: reversed biological arrays preserve ID positions, rank, scaling and spatial candidates
+ok 3 - reversed biological arrays preserve ID positions, rank, scaling and spatial candidates
+  ---
+  duration_ms: 0.52705
+  type: 'test'
+  ...
+# Subtest: host P/Q and scaled detailed picking use the same parent anchor
+ok 4 - host P/Q and scaled detailed picking use the same parent anchor
+  ---
+  duration_ms: 0.913126
+  type: 'test'
+  ...
+# Subtest: all layers interpolate to the current anchor without changing biological location
+ok 5 - all layers interpolate to the current anchor without changing biological location
+  ---
+  duration_ms: 0.808637
+  type: 'test'
+  ...
+# Subtest: freshwater layer-four display remains producer identity and singleton legacy position is preserved
+ok 6 - freshwater layer-four display remains producer identity and singleton legacy position is preserved
+  ---
+  duration_ms: 0.228917
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 15.754218

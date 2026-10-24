@@ -462,7 +462,7 @@
       const [x, y] = S.xy(world, cell),entity=displayLayout().entity(id),
         p = entity?.point.slice() || P.point(x + 0.5, y + 0.5),
         detail=view.scale>=24&&view.mode!=="overview"&&!view.simplified;
-      if(detail&&entity?.host&&!entity.carcass)p[1]-=bodyOffset(entity.host);
+      if(detail&&entity?.host&&!entity.carcass)p[1]-=bodyOffset(entity.host)*(S.CellSpace.enabled(world)?entity.scale||1:1);
       return [view.x + p[0] * view.scale, view.y + p[1] * view.scale];
     }
     function path(points) {
@@ -814,15 +814,15 @@
         if(basalPainted||!basalActors.length)return;basalPainted=true;
         const key=[geometryKey,view.x,view.y,z,b.width,b.height,devicePixelRatio||1,view.ageEmphasis].join('/');
         const ages=frameCandidates.ages ||= new Map();
-        const identities=frameCandidates.basalIdentities ||= basalActors.map(a=>{const o=a.o;if(!ages.has(o.id))ages.set(o.id,S.ageInfo(o));return [o.id,o.species,o.cell,ages.get(o.id).stage,o.infection?.id,o.infection?.q?.id];});
+        const identities=frameCandidates.basalIdentities ||= basalActors.map(a=>{const o=a.o;if(!ages.has(o.id))ages.set(o.id,S.ageInfo(o));return [o.id,o.species,o.cell,ages.get(o.id).stage,o.infection?.id,o.infection?.q?.id,...(S.CellSpace.enabled(w)?[...a.p,a.scale]:[])];});
         const valid=basalLayer?.key===key&&identities.length===basalLayer.identities.length&&identities.every((a,i)=>a.every((v,j)=>v===basalLayer.identities[i][j]));
         if(!valid){
           const image=document.createElement('canvas'),d=devicePixelRatio||1;image.width=Math.ceil(b.width*d);image.height=Math.ceil(b.height*d);const c=image.getContext('2d');c.setTransform(d*z,0,0,d*z,d*view.x,d*view.y);
           const hits=[];let infected=0,high=0;
-          for(const actor of basalActors){const o=actor.o,[cx,cy]=actor.p;
-            const age=ages.get(o.id);basalSprite(c,o,cx,cy,z,age,view.ageEmphasis);
-            hits.push({id:o.id,cell:o.cell,main:false,x:cx,y:cy,rx:.22,ry:.21});
-            if(o.infection){infected++;if(o.infection.q)high++;const [bx,by]=globalThis.EcoDisplayPlane.parasitePoint([cx,cy],'P',false);hits.push({id:o.infection.id,cell:o.cell,main:false,x:bx,y:by,rx:.065,ry:.065});if(o.infection.q)hits.push({id:o.infection.q.id,cell:o.cell,main:false,x:bx,y:by,rx:.115,ry:.115,min:.6});}
+          for(const actor of basalActors){const o=actor.o,[cx,cy]=actor.p,sizing=S.CellSpace.enabled(w)?actor.scale||1:1;
+            const age=ages.get(o.id);if(sizing!==1){c.save();c.translate(cx,cy);c.scale(sizing,sizing);basalSprite(c,o,0,0,z,age,view.ageEmphasis);c.restore();}else basalSprite(c,o,cx,cy,z,age,view.ageEmphasis);
+            hits.push({id:o.id,cell:o.cell,main:false,x:cx,y:cy,rx:.22*sizing,ry:.21*sizing});
+            if(o.infection){infected++;if(o.infection.q)high++;const [bx,by]=globalThis.EcoDisplayPlane.parasitePoint([cx,cy],'P',false,actor.rank,actor.cohabit,sizing);hits.push({id:o.infection.id,cell:o.cell,main:false,x:bx,y:by,rx:.065*sizing,ry:.065*sizing});if(o.infection.q)hits.push({id:o.infection.q.id,cell:o.cell,main:false,x:bx,y:by,rx:.115*sizing,ry:.115*sizing,min:.6});}
           }
           basalLayer={key,image,identities,hits,infected,high};diagnostics.basalLayerBuilds=(diagnostics.basalLayerBuilds||0)+1;
         }else diagnostics.basalLayerHits=(diagnostics.basalLayerHits||0)+1;
@@ -920,15 +920,15 @@
         if(useBasalLayer){paintBasalLayer();if(!actor.remnant&&o.slot!=='producer'&&['plant','fungus'].includes(S.spec(o).group)){if(list.length)actionEffects(o,list,.13+.07*Math.min(1,S.edibleB(o)/15),p[0],p[1]);continue;}}
         if(!actor.remnant)diagnostics.drawn++;
         if(actor.elevated)diagnostics.elevated++;
-        const isMain = o.slot === "main",isProducer=o.slot==='producer',
+        const isMain = o.slot === "main",isProducer=o.slot==='producer',cellSizing=S.CellSpace.enabled(w)?actor.scale||1:1,
           overlap = main.has(o.cell) && (foodCells.has(o.cell)||coordinates.producer.has(o.cell)),
           r = isMain
             ? (0.23 + 0.035 * o.phase) *
               (overlap ? 0.85 : 1) *
               (0.9 + 0.2 * (o.dna?.body??.5))*(actor.scale||1)
-            : isProducer?(0.20+0.025*Math.max(1,o.phase||1))*(main.has(o.cell)?.78:1):0.13 + 0.07 * Math.min(1, S.edibleB(o) / 15),
+            : (isProducer?(0.20+0.025*Math.max(1,o.phase||1))*(main.has(o.cell)?.78:1):0.13 + 0.07 * Math.min(1, S.edibleB(o) / 15))*cellSizing,
           cx = p[0],
-          cy = p[1] - (detail ? bodyOffset(o) : 0),
+          cy = p[1] - (detail ? bodyOffset(o)*cellSizing : 0),
           geometry=detail?(isProducer?Art.producerGeometry(o,r):o.species==='ryouki'?Art.ryoukiGeometry(o,r):null):null;
         if(actor.cohabit>1)diagnostics.cohabitingMain++;
         if(actor.remnant){
@@ -941,11 +941,11 @@
         }
         if(!actor.elevated&&!isProducer){
         if(detail){g.drawImage(groundShadow(),p[0]-r*.9,p[1]+.04-r*.23,r*1.8,r*.46);}
-        else ellipseStamp(g,p[0],p[1]+.04,isMain?.38*(actor.scale||1):.22,isMain?.3*(actor.scale||1):.17,'#061922cc');
+        else ellipseStamp(g,p[0],p[1]+.04,isMain?.38*(actor.scale||1):.22*cellSizing,isMain?.3*(actor.scale||1):.17*cellSizing,'#061922cc');
         }
-        hitRegions.push({id:o.id,cell:o.cell,main:isMain,x:cx,y:cy,rx:geometry?Math.max(.07,geometry.rx):detail?r*1.65:isMain?.35*(actor.scale||1):isProducer?.25:.22,ry:geometry?Math.max(.07,geometry.ry):detail?r*1.55:isMain?.32*(actor.scale||1):isProducer?.25:.21});
+        hitRegions.push({id:o.id,cell:o.cell,main:isMain,x:cx,y:cy,rx:geometry?Math.max(.07*cellSizing,geometry.rx):detail?r*1.65:isMain?.35*(actor.scale||1):(isProducer?.25:.22)*cellSizing,ry:geometry?Math.max(.07*cellSizing,geometry.ry):detail?r*1.55:isMain?.32*(actor.scale||1):(isProducer?.25:.21)*cellSizing});
         if (view.emphasis && (!detail || (!isMain&&!isProducer))) {
-          if(!detail)ellipseStamp(g,cx,cy,isMain?.38*(actor.scale||1):.235,isMain?.29*(actor.scale||1):.185,'#02131cf0',isMain?'#f5e6a8b8':'#c5e9be99',Math.max(.018,(isMain?.85:.55)/z));
+          if(!detail)ellipseStamp(g,cx,cy,isMain?.38*(actor.scale||1):.235*cellSizing,isMain?.29*(actor.scale||1):.185*cellSizing,'#02131cf0',isMain?'#f5e6a8b8':'#c5e9be99',Math.max(.018,(isMain?.85:.55)/z));
           else ellipseStamp(g,cx,p[1],r*1.06,r*.33,'#02131c99',isMain?'#f5e6a8b8':'#c5e9be99',Math.max(.018,(isMain?.85:.55)/z));
         }
         const displayed = detail&&view.emphasis ? { ...o, renderEmphasis: true } : o;
@@ -967,13 +967,14 @@
             o.species,
             cx,
             cy,
-            isMain ? (overlap ? 0.25 : 0.3)*(actor.scale||1) : isProducer?.21:0.17,
+            isMain ? (overlap ? 0.25 : 0.3)*(actor.scale||1) : (isProducer?.21:0.17)*cellSizing,
             symbolColor(S.spec(o)),
           );
         if(!detail&&actor.cohabit>1&&actor.rank===0){g.save();g.font=`bold ${Math.max(.10,9/z)}px sans-serif`;g.textAlign='center';g.lineWidth=3/z;g.strokeStyle='#071a22';g.fillStyle='#ffedb4';g.strokeText('×'+actor.cohabit,cx,cy-.23);g.fillText('×'+actor.cohabit,cx,cy-.23);g.restore();}
         if(near&&S.ConsumerGroup?.is(o)&&(z>=70||o.id===view.selectedEntity))annotations.push(()=>{
-          g.save();g.font=`bold ${Math.max(.07,9/z)}px sans-serif`;g.textAlign='center';g.lineWidth=3/z;g.strokeStyle='#071a22';g.fillStyle='#e4f3cd';
-          const text='×'+S.ConsumerGroup.count(o);g.strokeText(text,cx,cy-.19);g.fillText(text,cx,cy-.19);g.restore();
+          const compact=S.CellSpace.enabled(w)&&cellSizing<.65;
+          g.save();g.font=`bold ${compact?Math.max(.025,7/z):Math.max(.07,9/z)}px sans-serif`;g.textAlign='center';g.lineWidth=(compact?2:3)/z;g.strokeStyle='#071a22';g.fillStyle='#e4f3cd';
+          const text='×'+S.ConsumerGroup.count(o),y=cy-.19*(compact?cellSizing:1);g.strokeText(text,cx,y);g.fillText(text,cx,y);g.restore();
         });
         const ages=frameCandidates.ages ||= new Map();if(!ages.has(o.id))ages.set(o.id,S.ageInfo(o));
         const a = ages.get(o.id),
@@ -990,55 +991,56 @@
             if(qName)diagnostics.nameLabels.Q++;
             annotations.push(()=>{g.save();g.font=".055px sans-serif";g.textAlign="left";if(pName){const p=o.infection,state=w.config.primaryParasiteModel==='primary/1'&&p.primary?.version==='primary-state/1'?p.phase+'相 · 年齢'+(Number.isFinite(p.age)?p.age+'T':'未記録'):p.stage;g.fillStyle="#ffd1a3";g.fillText(S.D.byId[p.species].name+" P · "+state,cx+.1,cy-.43);}if(qName){const q=o.infection.q,state=w.config.hyperParasiteModel==='hyper/1'&&S.HyperParasite.is(q)?q.phase+'相 · 年齢'+(Number.isFinite(q.age)?q.age+'T':'未記録'):q.phase;g.fillStyle="#d9b9ff";g.fillText(S.D.byId.hyperparasite.name+" Q · "+state,cx+.1,cy-.51);}g.restore();});
           }
-          const [bx, by] = globalThis.EcoDisplayPlane.parasitePoint([cx,cy],"P",detail,actor.rank,actor.cohabit);
-          if (detail && Art.parasite(g, o.infection, bx, by, .105)) {
+          const [bx, by] = globalThis.EcoDisplayPlane.parasitePoint([cx,cy],"P",detail,actor.rank,actor.cohabit,cellSizing);
+          if (detail && Art.parasite(g, o.infection, bx, by, .105*cellSizing)) {
             diagnostics.parasiteArt++;
-            hitRegions.push({id:o.infection.id,cell:o.cell,main:isMain,x:bx,y:by,rx:.10,ry:.10});
+            hitRegions.push({id:o.infection.id,cell:o.cell,main:isMain,x:bx,y:by,rx:.10*cellSizing,ry:.10*cellSizing});
             if (o.infection.q) {
-              const [qx,qy]=globalThis.EcoDisplayPlane.parasitePoint([cx,cy],"Q",true,actor.rank,actor.cohabit);
+              const [qx,qy]=globalThis.EcoDisplayPlane.parasitePoint([cx,cy],"Q",true,actor.rank,actor.cohabit,cellSizing);
               // A quiet link denotes Q's attachment to P, not another free organism.
               g.strokeStyle="#bb9fdd88";g.lineWidth=.008;
               g.beginPath();g.moveTo(bx+.06,by-.03);g.lineTo(qx-.06,qy+.03);g.stroke();
-              if(Art.parasite(g,o.infection.q,qx,qy,.11))diagnostics.parasiteArt++;
-              hitRegions.push({id:o.infection.q.id,cell:o.cell,main:isMain,x:qx,y:qy,rx:.115,ry:.115});
+              if(Art.parasite(g,o.infection.q,qx,qy,.11*cellSizing))diagnostics.parasiteArt++;
+              hitRegions.push({id:o.infection.q.id,cell:o.cell,main:isMain,x:qx,y:qy,rx:.115*cellSizing,ry:.115*cellSizing});
             }
           } else {
           g.fillStyle = "#19172b";
           g.beginPath();
-          g.arc(bx, by, 0.1, 0, 7);
+          g.arc(bx, by, 0.1*cellSizing, 0, 7);
           g.fill();
           g.fillStyle = "#ffba82";
           g.beginPath();
-          g.arc(bx, by, 0.05, 0, 7);
+          g.arc(bx, by, 0.05*cellSizing, 0, 7);
           g.fill();
-          hitRegions.push({id:o.infection.id,cell:o.cell,main:isMain,x:bx,y:by,rx:.065,ry:.065});
+          hitRegions.push({id:o.infection.id,cell:o.cell,main:isMain,x:bx,y:by,rx:.065*cellSizing,ry:.065*cellSizing});
           if (o.infection.q) {
-            hitRegions.push({id:o.infection.q.id,cell:o.cell,main:isMain,x:bx,y:by,rx:.115,ry:.115,min:.6});
+            hitRegions.push({id:o.infection.q.id,cell:o.cell,main:isMain,x:bx,y:by,rx:.115*cellSizing,ry:.115*cellSizing,min:.6});
             g.strokeStyle = "#d8adff";
             g.lineWidth = Math.max(0.025, 0.7 / z);
             g.beginPath();
-            g.arc(bx, by, 0.1, 0, 7);
+            g.arc(bx, by, 0.1*cellSizing, 0, 7);
             g.stroke();
           }
           }
         }
         actionEffects(o,list,r,cx,cy);
         const nameGroup=isMain?"main":isProducer?"producer":S.spec(o).group==="prey"?"prey":"basal";
-        const labelOffset=actor.cohabit>1?[[-.16,-.38],[.16,-.38],[0,.12]][actor.rank]:[0,r*.95],
-          labelX=cx+labelOffset[0],nameY=cy+labelOffset[1],nameBaseline=actor.cohabit>1?nameY+.065:cy+r*1.23;
+        const compactLabel=S.CellSpace.enabled(w)&&cellSizing<.65,
+          labelOffset=!compactLabel&&actor.cohabit>1?[[-.16,-.38],[.16,-.38],[0,.12]][actor.rank]:[0,r*.95],
+          labelX=cx+labelOffset[0],nameY=cy+labelOffset[1],nameBaseline=compactLabel?nameY+.04:actor.cohabit>1?nameY+.065:cy+r*1.23;
         // Keep the optional age glyph next to the name, clear of painted anatomy.
         // Symbol views retain their compact original marker placement.
         if(view.ageEmphasis&&detail&&isMain&&a.enabled&&a.stage!=='adult')annotations.push(()=>{
-          if(ageMarker(g,labelX,nameY,z,a,actor.cohabit>1?.33:.47,actor.cohabit>1?.0425:.065))diagnostics.ageMarkers++;
+          if(ageMarker(g,labelX,nameY,z,a,compactLabel?Math.max(.09,cellSizing*.34):actor.cohabit>1?.33:.47,compactLabel?.025:actor.cohabit>1?.0425:.065))diagnostics.ageMarkers++;
         });
         if (near && (isMain || nameEnabled(nameGroup,o.id))) {
           diagnostics.nameLabels[nameGroup]++;
           annotations.push(() => {
-          g.font = actor.cohabit>1?".045px sans-serif":".065px sans-serif";
+          g.save();g.font = compactLabel?".04px sans-serif":actor.cohabit>1?".045px sans-serif":".065px sans-serif";
           g.textAlign = "center";
           g.fillStyle = isMain ? "#071c25df" : "#123d2aef";
-          const nameWidth=actor.cohabit>1?.52:.8;
-          g.fillRect(labelX-nameWidth/2,nameY,nameWidth,actor.cohabit>1?.085:.13);
+          const nameWidth=compactLabel?Math.max(.14,.62*cellSizing):actor.cohabit>1?.52:.8;
+          if(!compactLabel)g.fillRect(labelX-nameWidth/2,nameY,nameWidth,actor.cohabit>1?.085:.13);
           g.fillStyle = "#fff1c9";
           const action = (worldEvents.get(o.id)||[]).find(
             (e) =>
@@ -1055,41 +1057,40 @@
             move: "移動",
             birth: "繁殖",
           };
-          g.fillText(
-            S.spec(o).name +
+          const label=S.spec(o).name +
               " · " +
               (S.ConsumerGroup?.is(o)?S.ConsumerGroup.count(o)+"体の群れ":["I", "II", "III", "IV"][o.phase - 1]) +
-              (action ? " / " + name[action.type] : "")+(actor.cohabit>1?' · #'+(actor.rank+1)+' '+String(o.id).replace(/:ryouki$/,'').slice(-5):''),
-            labelX,
-            nameBaseline,
-            nameWidth-.02,
-          );
+              (action ? " / " + name[action.type] : "")+(!compactLabel&&actor.cohabit>1?' · #'+(actor.rank+1)+' '+String(o.id).replace(/:ryouki$/,'').slice(-5):'');
+          if(compactLabel){g.lineWidth=2/z;g.strokeStyle='#071a22';g.strokeText(label,labelX,nameBaseline,nameWidth-.02);}
+          g.fillText(label,labelX,nameBaseline,nameWidth-.02);g.restore();
           });
         }
         if (showStatus) {
           annotations.push(() => {
           const sex = o.sex === "male" ? "♂" : o.sex === "female" ? "♀" : "—",
-            stage = ['colony-state/1','fungal-colony-state/1'].includes(o.colony?.version) ? "群落" : a.enabled ? ({ juvenile: "幼体", adult: "成体", elderly: "老齢" }[a.stage]) : "未判定",
+            stage = S.CellSpace.enabled(w)&&['colony','fungus'].includes(o.cellLife?.kind)||['colony-state/1','fungal-colony-state/1'].includes(o.colony?.version) ? "群落" : S.CellSpace.enabled(w)&&o.cellLife?.kind==='group' ? "小集団" : a.enabled ? ({ juvenile: "幼体", adult: "成体", elderly: "老齢" }[a.stage]) : "未判定",
             phase = ["I", "II", "III", "IV"][o.phase - 1],
-            y = actor.cohabit>1?nameY+.14:cy+r*1.23+.11;
+            y = compactLabel?nameBaseline+.047:actor.cohabit>1?nameY+.14:cy+r*1.23+.11;
           const badges = [
             { x: -0.34, w: 0.14, text: sex, color: o.sex === "male" ? "#a9e5ff" : o.sex === "female" ? "#ffcfdf" : "#d7d9d3" },
             { x: -0.18, w: 0.22, text: stage, color: a.stage === "juvenile" ? "#ffec9c" : a.stage === "elderly" ? "#ded5ef" : "#bde9cf" },
             { x: 0.06, w: 0.30, text: phase, color: "#fff0c9" },
           ];
           g.save();
-          if(actor.cohabit>1){g.translate(labelX,y);g.scale(.7,.7);g.translate(-labelX,-y);}
-          g.font = `${Math.max(0.055, 10 / z)}px sans-serif`;
+          if(!compactLabel&&actor.cohabit>1){g.translate(labelX,y);g.scale(.7,.7);g.translate(-labelX,-y);}
+          g.font = `${compactLabel?Math.max(.026,6/z):Math.max(0.055, 10 / z)}px sans-serif`;
           g.textAlign = "center"; g.textBaseline = "middle";
-          for (const b of badges) {
+          for (const [i,b] of badges.entries()) {
+            if(compactLabel){const width=Math.max(.17,.58*cellSizing),x=labelX+(i-1)*width/3;g.strokeStyle='#071a22';g.lineWidth=2/z;g.strokeText(b.text,x,y,width/3);g.fillStyle=b.color;g.fillText(b.text,x,y,width/3);continue;}
             g.fillStyle = "#061a25f0"; g.fillRect(labelX+b.x,y-.055,b.w,.11);
             g.strokeStyle = b.color; g.lineWidth = 0.7 / z; g.strokeRect(labelX+b.x,y-.055,b.w,.11);
             g.fillStyle = b.color; g.fillText(b.text,labelX+b.x+b.w/2,y,b.w-.01);
           }
           if (o.HP <= .25*S.phenotype(w,o).maxHP || o.E < .15*S.phenotype(w,o).capE) {
             g.fillStyle = o.HP <= .25*S.phenotype(w,o).maxHP ? "#e2756f" : "#e6b66c";
-            g.beginPath(); g.arc(cx - 0.28, cy - 0.27, 0.06, 0, Math.PI * 2); g.fill();
-            g.fillStyle = "#07171f"; g.fillText("!", cx - 0.28, cy - 0.27);
+            const markerScale=compactLabel?cellSizing:1;
+            g.beginPath(); g.arc(cx - 0.28*markerScale, cy - 0.27*markerScale, 0.06*markerScale, 0, Math.PI * 2); g.fill();
+            g.fillStyle = "#07171f"; g.fillText("!", cx - 0.28*markerScale, cy - 0.27*markerScale);
             diagnostics.criticalMarkers++;
           }
           diagnostics.statusBadges++;
@@ -1179,7 +1180,7 @@
         for(let i=hitRegions.length-1;i>=0;i--){
           const a=hitRegions[i],d=((x-a.x)/a.rx)**2+((y-a.y)/a.ry)**2;
           if(d<=1&&d>=(a.min||0)**2){
-            if(!detail)return {cell:a.cell,id:a.id};
+            if(!detail&&!S.CellSpace.enabled(world))return {cell:a.cell,id:a.id};
             if(d<best){best=d;closest=a;}
           }
         }

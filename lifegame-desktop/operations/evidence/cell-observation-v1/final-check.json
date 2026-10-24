@@ -1,0 +1,29 @@
+{
+  "baseline": "6345a4f",
+  "status": "passed",
+  "scope": "CR06 internal multi-ID rendering, picking and frozen details; D9 -> E6",
+  "checks": {
+    "node_count": 61,
+    "all_draft": true,
+    "formal_graph_unchanged": true,
+    "manifest_one_three_field_entry_per_id": true,
+    "core_ab_biology_generated_replay_assets_package_unchanged": true,
+    "only_three_display_sources_changed": true,
+    "public_step_and_archive_guards_unchanged": true,
+    "near_and_far_inverse_ids": 31,
+    "detailed_real_mouse_clicks": 6,
+    "projection_cases": 6,
+    "legacy_projection_cases": 6,
+    "browser_cases": 22,
+    "browser_errors": 0,
+    "world_fingerprint_observation_rows_unchanged": true
+  },
+  "not_claimed": [
+    "all graphs/record-unit connection",
+    "initial setup and archive integration",
+    "public normal cell-model stepping",
+    "continuous live actions/all speeds",
+    "500T ecology or performance",
+    "Windows or release distribution"
+  ]
+}

@@ -1,0 +1,281 @@
+{
+  "checks": [
+    "all 31 biological IDs are independently pickable in detailed view",
+    "cell summary separates colonies, individuals, groups, internal members and occupied slots",
+    "available water/M and next-turn matter are shown separately",
+    "detailed pick selects r2-2",
+    "detailed pick selects moving1",
+    "detailed pick selects colony4",
+    "detailed pick selects tree2",
+    "detailed pick selects herd4",
+    "detailed pick selects fungus5",
+    "decomposer detail uses the new protected base and edible cap",
+    "colony detail uses new actual biomass bounds",
+    "herd detail shows real internal members and new capacity",
+    "existing portrait selects the corresponding individual/group without extra selector buttons",
+    "portrait ID selection supports keyboard activation",
+    "attached P remains individually selectable",
+    "attached Q remains individually selectable",
+    "rendering preserves frozen detail until explicit refresh",
+    "manual refresh reads the current committed values",
+    "all 31 IDs remain independently pickable in overview, including cached basal glyphs",
+    "selection/render/detail refresh do not alter biology, random state or recorded observations",
+    "a removed ID never silently becomes a neighbouring individual",
+    "no uncaught browser errors"
+  ],
+  "passed": 22,
+  "near": [
+    {
+      "id": "r0-0",
+      "hit": "r0-0"
+    },
+    {
+      "id": "r0-1",
+      "hit": "r0-1"
+    },
+    {
+      "id": "r0-2",
+      "hit": "r0-2"
+    },
+    {
+      "id": "r1-0",
+      "hit": "r1-0"
+    },
+    {
+      "id": "r1-1",
+      "hit": "r1-1"
+    },
+    {
+      "id": "r1-2",
+      "hit": "r1-2"
+    },
+    {
+      "id": "r2-0",
+      "hit": "r2-0"
+    },
+    {
+      "id": "r2-1",
+      "hit": "r2-1"
+    },
+    {
+      "id": "r2-2",
+      "hit": "r2-2"
+    },
+    {
+      "id": "moving0",
+      "hit": "moving0"
+    },
+    {
+      "id": "moving1",
+      "hit": "moving1"
+    },
+    {
+      "id": "colony0",
+      "hit": "colony0"
+    },
+    {
+      "id": "colony1",
+      "hit": "colony1"
+    },
+    {
+      "id": "colony2",
+      "hit": "colony2"
+    },
+    {
+      "id": "colony3",
+      "hit": "colony3"
+    },
+    {
+      "id": "colony4",
+      "hit": "colony4"
+    },
+    {
+      "id": "colony5",
+      "hit": "colony5"
+    },
+    {
+      "id": "tree0",
+      "hit": "tree0"
+    },
+    {
+      "id": "tree1",
+      "hit": "tree1"
+    },
+    {
+      "id": "tree2",
+      "hit": "tree2"
+    },
+    {
+      "id": "herd0",
+      "hit": "herd0"
+    },
+    {
+      "id": "herd1",
+      "hit": "herd1"
+    },
+    {
+      "id": "herd2",
+      "hit": "herd2"
+    },
+    {
+      "id": "herd3",
+      "hit": "herd3"
+    },
+    {
+      "id": "herd4",
+      "hit": "herd4"
+    },
+    {
+      "id": "fungus0",
+      "hit": "fungus0"
+    },
+    {
+      "id": "fungus1",
+      "hit": "fungus1"
+    },
+    {
+      "id": "fungus2",
+      "hit": "fungus2"
+    },
+    {
+      "id": "fungus3",
+      "hit": "fungus3"
+    },
+    {
+      "id": "fungus4",
+      "hit": "fungus4"
+    },
+    {
+      "id": "fungus5",
+      "hit": "fungus5"
+    }
+  ],
+  "far": [
+    {
+      "id": "r0-0",
+      "hit": "r0-0"
+    },
+    {
+      "id": "r0-1",
+      "hit": "r0-1"
+    },
+    {
+      "id": "r0-2",
+      "hit": "r0-2"
+    },
+    {
+      "id": "r1-0",
+      "hit": "r1-0"
+    },
+    {
+      "id": "r1-1",
+      "hit": "r1-1"
+    },
+    {
+      "id": "r1-2",
+      "hit": "r1-2"
+    },
+    {
+      "id": "r2-0",
+      "hit": "r2-0"
+    },
+    {
+      "id": "r2-1",
+      "hit": "r2-1"
+    },
+    {
+      "id": "r2-2",
+      "hit": "r2-2"
+    },
+    {
+      "id": "moving0",
+      "hit": "moving0"
+    },
+    {
+      "id": "moving1",
+      "hit": "moving1"
+    },
+    {
+      "id": "colony0",
+      "hit": "colony0"
+    },
+    {
+      "id": "colony1",
+      "hit": "colony1"
+    },
+    {
+      "id": "colony2",
+      "hit": "colony2"
+    },
+    {
+      "id": "colony3",
+      "hit": "colony3"
+    },
+    {
+      "id": "colony4",
+      "hit": "colony4"
+    },
+    {
+      "id": "colony5",
+      "hit": "colony5"
+    },
+    {
+      "id": "tree0",
+      "hit": "tree0"
+    },
+    {
+      "id": "tree1",
+      "hit": "tree1"
+    },
+    {
+      "id": "tree2",
+      "hit": "tree2"
+    },
+    {
+      "id": "herd0",
+      "hit": "herd0"
+    },
+    {
+      "id": "herd1",
+      "hit": "herd1"
+    },
+    {
+      "id": "herd2",
+      "hit": "herd2"
+    },
+    {
+      "id": "herd3",
+      "hit": "herd3"
+    },
+    {
+      "id": "herd4",
+      "hit": "herd4"
+    },
+    {
+      "id": "fungus0",
+      "hit": "fungus0"
+    },
+    {
+      "id": "fungus1",
+      "hit": "fungus1"
+    },
+    {
+      "id": "fungus2",
+      "hit": "fungus2"
+    },
+    {
+      "id": "fungus3",
+      "hit": "fungus3"
+    },
+    {
+      "id": "fungus4",
+      "hit": "fungus4"
+    },
+    {
+      "id": "fungus5",
+      "hit": "fungus5"
+    }
+  ],
+  "errors": [],
+  "scope": "internal read-only cell fixture; no public stepping/archive/long-run claim"
+}
