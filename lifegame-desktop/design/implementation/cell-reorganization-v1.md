@@ -1,6 +1,6 @@
 # マス再編：実装の意味・責務・接合契約
 
-管理版 `cell-implementation/1`。上位正本は [cell-reorganization/1](../specification/cell-reorganization-v1.md)。CR07代表1条件を自然500T観察、主7体存続・各T不変条件成功。[現在証跡](../../operations/evidence/cell-long-observation-v1/README.md)（C7/C7.2、D7/D8 → E5）。共有有機物の丸め残りを最小修正し、端数1・通常7・保存6、旧2条件一致を照合。通常/設定/速度/再生は6.1節。全条件/R1〜R6・自然P/Q多世代・未選定係数/正式採用と計算負荷/実画面/Windows/配布は後続。以下の前工程は各対象版/責務に限定。
+管理版 `cell-implementation/1`。上位正本は [cell-reorganization/1](../specification/cell-reorganization-v1.md)。現在は取得/配分の重複処理を軽減。[現在証跡](../../operations/evidence/cell-acquire-optimization-v1/README.md)（C7.2/C8.2、D7/D9 → E5/E6）。資源23・固定配分1・通常7・保存6と再生互換/旧2条件一致。旧500T終端から各2回の501T全状態一致と平均取得19.7%/全体10.2%短縮を限定確認。自然500Tの主7体存続は前工程の対象版。世界複製/情報受信・総合性能、自然P/Q循環/未選定係数・実画面/Windows/配布は後続。
 
 ## 1. 版と適用境界
 
@@ -275,3 +275,8 @@ Q自律生活・主生物生活とE/M片満量時の採食は5.1節、直接捕�
 各層の管理数/内部人数と実取得を分ける。同マス時系列候補は物質の粒子追跡と区別し、P/Q存続を自然多世代の証明にしない。 同一条件500Tで主7体が存続。全501行・出生/死亡・取得/分解/還元を記録。局所時系列候補4例。各経路の成立へ限定し、単一物質の一周/全系統安定は認定しない。
 
 共有有機物のBはEに含まれるため、複数要求の丸め引落し後も残存Eを超えない。実在E/Mや既存許容誤差0.002を変更せず、旧方式の引落しへこの処理を適用しない。詳細・全T・実効条件と限界は `operations/evidence/cell-long-observation-v1/README.md`、契約は `operations/plans/cell-long-observation-v1.md`。
+
+
+## 16. 取得/配分の同値最適化
+
+列挙配列・作業行を軽量化し、主体/非捕獲在庫のcompile中の固定計算と光記録のID参照を共有する。加算順・丸め・乱数/在庫確定を変えず、空のfulfills・公開光配列/最終代入・捕獲の主体資格を保つ。取得呼出しを越えたキャッシュは作らない。証跡 `operations/evidence/cell-acquire-optimization-v1/README.md`、契約 `operations/plans/cell-acquire-optimization-v1.md`。今回の版だけ直前のe5a7bdca…と再生照合し、raw署名/原記録を維持する。異なる生態版まで互換を広げない。

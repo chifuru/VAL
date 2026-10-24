@@ -1,0 +1,322 @@
+{
+  "sampleUs": 5683596,
+  "self": [
+    {
+      "function": "structuredClone",
+      "url": "node:internal/worker/js_transferable",
+      "line": 113,
+      "us": 1023265,
+      "percent": 18.003830673397616
+    },
+    {
+      "function": "acquire",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 4218,
+      "us": 709057,
+      "percent": 12.47549966605649
+    },
+    {
+      "function": "informationReceive",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 25027,
+      "us": 517276,
+      "percent": 9.101209867837193
+    },
+    {
+      "function": "(garbage collector)",
+      "url": "",
+      "line": 0,
+      "us": 480848,
+      "percent": 8.46027761297601
+    },
+    {
+      "function": "allocate",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 3948,
+      "us": 393804,
+      "percent": 6.928782411698509
+    },
+    {
+      "function": "post",
+      "url": "node:inspector",
+      "line": 115,
+      "us": 303738,
+      "percent": 5.344116647277533
+    },
+    {
+      "function": "pool",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 4224,
+      "us": 145390,
+      "percent": 2.5580635921342756
+    },
+    {
+      "function": "deferMaterial",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 21960,
+      "us": 130767,
+      "percent": 2.3007792953615986
+    },
+    {
+      "function": "informationApplicable",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 25000,
+      "us": 105352,
+      "percent": 1.8536152112148716
+    },
+    {
+      "function": "observation",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 9608,
+      "us": 92164,
+      "percent": 1.6215790144127062
+    },
+    {
+      "function": "maps",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 23604,
+      "us": 88701,
+      "percent": 1.560649279083172
+    },
+    {
+      "function": "cellNutrition",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 9715,
+      "us": 86349,
+      "percent": 1.519267027424187
+    },
+    {
+      "function": "background",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 4094,
+      "us": 81137,
+      "percent": 1.4275645207717087
+    },
+    {
+      "function": "(anonymous)",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 21965,
+      "us": 77079,
+      "percent": 1.3561660610641573
+    },
+    {
+      "function": "source",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 4197,
+      "us": 65942,
+      "percent": 1.1602161730003329
+    },
+    {
+      "function": "informationBegin",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 25090,
+      "us": 64520,
+      "percent": 1.1351968014616098
+    },
+    {
+      "function": "(anonymous)",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 3950,
+      "us": 46121,
+      "percent": 0.811475692501719
+    },
+    {
+      "function": "(anonymous)",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 19429,
+      "us": 42266,
+      "percent": 0.7436489152290205
+    },
+    {
+      "function": "lifeDemands",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 4335,
+      "us": 38666,
+      "percent": 0.6803087341183293
+    },
+    {
+      "function": "tableHash",
+      "url": "file:///workspace/VAL/lifegame-desktop/src/ecology/hash.js",
+      "line": 113,
+      "us": 36765,
+      "percent": 0.6468615995929338
+    }
+  ],
+  "inclusive": [
+    {
+      "function": "(root)",
+      "url": "",
+      "line": 0,
+      "us": 5683596,
+      "percent": 100.0
+    },
+    {
+      "function": "(anonymous)",
+      "url": "file:///tmp/cr07-performance-check/profile.cjs",
+      "line": 8,
+      "us": 5200569,
+      "percent": 91.50138398295726
+    },
+    {
+      "function": "step",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 9955,
+      "us": 4896831,
+      "percent": 86.15726733567973
+    },
+    {
+      "function": "advance",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 9872,
+      "us": 3800589,
+      "percent": 66.86944321869464
+    },
+    {
+      "function": "cellNutrition",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 9715,
+      "us": 1815528,
+      "percent": 31.94329786986971
+    },
+    {
+      "function": "acquire",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 4218,
+      "us": 1534901,
+      "percent": 27.00580759082806
+    },
+    {
+      "function": "beginTurn",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 9839,
+      "us": 1096242,
+      "percent": 19.287824116985092
+    },
+    {
+      "function": "prepare",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 9480,
+      "us": 1040492,
+      "percent": 18.306931034507027
+    },
+    {
+      "function": "structuredClone",
+      "url": "node:internal/worker/js_transferable",
+      "line": 113,
+      "us": 1029833,
+      "percent": 18.119391314935122
+    },
+    {
+      "function": "informationBegin",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 25090,
+      "us": 978082,
+      "percent": 17.208858616974183
+    },
+    {
+      "function": "informationReceive",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 25027,
+      "us": 816348,
+      "percent": 14.363230602597369
+    },
+    {
+      "function": "cellGrowth",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 9729,
+      "us": 609809,
+      "percent": 10.729281250813745
+    },
+    {
+      "function": "allocate",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 3948,
+      "us": 523132,
+      "percent": 9.204243229110585
+    },
+    {
+      "function": "(garbage collector)",
+      "url": "",
+      "line": 0,
+      "us": 480848,
+      "percent": 8.46027761297601
+    },
+    {
+      "function": "post",
+      "url": "node:inspector",
+      "line": 115,
+      "us": 303738,
+      "percent": 5.344116647277533
+    },
+    {
+      "function": "(anonymous)",
+      "url": "file:///tmp/cr07-performance-check/profile.cjs",
+      "line": 7,
+      "us": 303738,
+      "percent": 5.344116647277533
+    },
+    {
+      "function": "post",
+      "url": "file:///tmp/cr07-performance-check/profile.cjs",
+      "line": 7,
+      "us": 303738,
+      "percent": 5.344116647277533
+    },
+    {
+      "function": "advance",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 19504,
+      "us": 229645,
+      "percent": 4.040487747545744
+    },
+    {
+      "function": "background",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 4094,
+      "us": 223164,
+      "percent": 3.9264578270517467
+    },
+    {
+      "function": "deferMaterial",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 21960,
+      "us": 208929,
+      "percent": 3.676000194243222
+    },
+    {
+      "function": "finish",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 9741,
+      "us": 191930,
+      "percent": 3.376911377937489
+    },
+    {
+      "function": "pool",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 4224,
+      "us": 145390,
+      "percent": 2.5580635921342756
+    },
+    {
+      "function": "maps",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 23604,
+      "us": 130416,
+      "percent": 2.294603627703306
+    },
+    {
+      "function": "sharedMaps",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 23599,
+      "us": 129395,
+      "percent": 2.276639648560524
+    },
+    {
+      "function": "observation",
+      "url": "pace/VAL/lifegame-desktop/src/ecology/observation-modules.js",
+      "line": 9608,
+      "us": 113086,
+      "percent": 1.9896910336343399
+    }
+  ]
+}

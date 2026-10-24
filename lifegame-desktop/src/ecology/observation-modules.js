@@ -3948,34 +3948,36 @@ function(require,module){
     function allocate(stocks,requests,demands={}){
       if(!stocks||Object.values(stocks).some(n=>!finite(n))||Object.values(demands).some(n=>!finite(n)))throw Error("CELL_POOL_INVALID");
       const ids=new Set(),rows=requests.map(r=>{
-        if(!r||typeof r.id!=="string"||ids.has(r.id)||![r.need,r.ability??1,r.reach??1].every(finite)||
-          !r.rates||!Object.values(r.rates).some(n=>n>0)||Object.entries(r.rates).some(([k,n])=>!Object.hasOwn(stocks,k)||!finite(n))||
-          Object.entries(r.fulfills||{}).some(([k,n])=>!Object.hasOwn(demands,k)||!finite(n)))throw Error("CELL_REQUEST_INVALID");
+        if(!r||typeof r.id!=="string"||ids.has(r.id)||![r.need,r.ability??1,r.reach??1].every(finite)||!r.rates)throw Error("CELL_REQUEST_INVALID");
+        const rateEntries=Object.entries(r.rates),fulfillEntries=Object.entries(r.fulfills||{});
+        if(!rateEntries.some(([,n])=>n>0)||rateEntries.some(([k,n])=>!Object.hasOwn(stocks,k)||!finite(n))||
+          fulfillEntries.some(([k,n])=>!Object.hasOwn(demands,k)||!finite(n)))throw Error("CELL_REQUEST_INVALID");
         const weight=r.need*(r.ability??1)*(r.reach??1);if(!finite(weight))throw Error("CELL_REQUEST_INVALID");
-        ids.add(r.id);return {...r,amount:0,weight};
+        ids.add(r.id);return {id:r.id,need:r.need,amount:0,weight,rateEntries,fulfillEntries,hasFulfills:!!r.fulfills};
       }).sort((a,b)=>S.compare(a.id,b.id));
       const left={...stocks},unmet={...demands};let active=rows.filter(r=>r.need>0&&r.weight>0);
       while(active.length){
-        active=active.filter(r=>r.need-r.amount>EPS&&Object.entries(r.rates).every(([k,n])=>!n||left[k]>EPS)&&
-          (!r.fulfills||Object.entries(r.fulfills).some(([k,n])=>n>0&&unmet[k]>EPS)));
+        active=active.filter(r=>r.need-r.amount>EPS&&r.rateEntries.every(([k,n])=>!n||left[k]>EPS)&&
+          (!r.hasFulfills||r.fulfillEntries.some(([k,n])=>n>0&&unmet[k]>EPS)));
         if(!active.length)break;
         const rates={},benefits={};for(const r of active){
-          for(const [k,n]of Object.entries(r.rates))rates[k]=(rates[k]||0)+n*r.weight;
-          for(const [k,n]of Object.entries(r.fulfills||{}))benefits[k]=(benefits[k]||0)+n*r.weight;
+          for(const [k,n]of r.rateEntries)rates[k]=(rates[k]||0)+n*r.weight;
+          for(const [k,n]of r.fulfillEntries)benefits[k]=(benefits[k]||0)+n*r.weight;
         }
+        const rateEntries=Object.entries(rates),benefitEntries=Object.entries(benefits);
         let step=Infinity;for(const r of active)step=Math.min(step,(r.need-r.amount)/r.weight);
-        for(const [k,n]of Object.entries(rates))if(n>0)step=Math.min(step,left[k]/n);
+        for(const [k,n]of rateEntries)if(n>0)step=Math.min(step,left[k]/n);
         // Nutrient needs are independent stopping conditions. A mixed source
         // may continue for unmet M after E is full (or vice versa); surplus
         // byproducts are accounted for at transfer, never used as new capacity.
-        for(const [k,n]of Object.entries(benefits))if(n>0&&unmet[k]>EPS)step=Math.min(step,unmet[k]/n);
+        for(const [k,n]of benefitEntries)if(n>0&&unmet[k]>EPS)step=Math.min(step,unmet[k]/n);
         if(!(step>0)||!Number.isFinite(step))break;
         for(const r of active)r.amount=Math.min(r.need,r.amount+step*r.weight);
-        for(const [k,n]of Object.entries(rates))left[k]=Math.max(0,left[k]-step*n);
-        for(const [k,n]of Object.entries(benefits))unmet[k]=Math.max(0,unmet[k]-step*n);
+        for(const [k,n]of rateEntries)left[k]=Math.max(0,left[k]-step*n);
+        for(const [k,n]of benefitEntries)unmet[k]=Math.max(0,unmet[k]-step*n);
       }
       const grants=new Map(rows.map(r=>[r.id,down(r.amount)])),remaining={...stocks};
-      for(const r of rows)for(const [k,n]of Object.entries(r.rates))remaining[k]-=n*grants.get(r.id);
+      for(const r of rows)for(const [k,n]of r.rateEntries)remaining[k]-=n*grants.get(r.id);
       for(const k of Object.keys(remaining))remaining[k]=Q(Math.max(0,remaining[k]));
       return {grants,remaining};
     }
@@ -4220,45 +4222,66 @@ function(require,module){
       if(!ctx.cellMotion?.completed)throw Error("CELL_RESOURCES_BEFORE_MOVEMENT");
       if([...ctx.costs.values()].some(c=>c.action>0))throw Error("CELL_ACTIONS_UNPAID");
       const m=ctx.current||S.maps(w);indexSources(w,m,ctx);
-      const captured=captureLight(w,ctx,canopies,m),stocks={},demands={},compiled=[],seen=new Set();
+      const captured=captureLight(w,ctx,canopies,m),stocks={},demands={},compiled=[],seen=new Set(),actors=new Map(),sources=new Map();
       const pool=(key,amount)=>{if(!Object.hasOwn(stocks,key))stocks[key]=amount;return key;};
       const demand=(key,amount)=>{if(!Object.hasOwn(demands,key))demands[key]=amount;return key;};
+      // Compilation does not transfer stock. Reuse these snapshots only in
+      // this acquisition; captures retain their actor-specific authorization.
+      const compiledSource=request=>{
+        const kind=request.source?.kind,id=request.source?.id;
+        if(kind==="capture")return source(w,m,request);
+        let rows=sources.get(kind);if(!rows){rows=new Map();sources.set(kind,rows);}
+        if(rows.has(id))return rows.get(id);
+        const value=source(w,m,request);
+        if(value){value.poolKey="source/"+value.key+"/"+value.id;rows.set(id,value);}
+        return value;
+      };
       for(const r of requests){
         const o=m.byId.get(r.actor)||ctx.cellQActors?.get(r.actor),p=o&&ctx.traits.get(o.id),profile=o&&w.cellProfiles.profiles[o.cell],adult=ctx.cellQActors?.has(r.actor);
         if(!o||o.HP<=0||!ctx.old.has(o.id)||typeof r.id!=="string"||seen.has(r.id)||!finite(r.need)||
           ![r.ability??1,r.reach??1,r.limit??r.need].every(finite)||!["photo","mineral","food","decompose"].includes(r.kind))throw Error("CELL_REQUEST_INVALID");
         seen.add(r.id);let need=Math.min(r.need,r.limit??r.need),rates={},fulfills,s=null,eta=1,etaM=1;
-        const eCap=pool("capE/"+o.id,Q(Math.max(0,p.capE-o.E))),mCap=pool("capM/"+o.id,Q(Math.max(0,p.capM-(o.M||0))));
+        let actor=actors.get(o.id);
+        if(!actor){
+          actor={eCap:pool("capE/"+o.id,Q(Math.max(0,p.capE-o.E))),mCap:pool("capM/"+o.id,Q(Math.max(0,p.capM-(o.M||0)))),
+            eDemand:"E/"+o.id,mDemand:"M/"+o.id,processKey:"process/"+o.id,biteKey:"bite/"+o.id};
+          actors.set(o.id,actor);
+        }
+        const {eCap,mCap}=actor;
         if(r.kind==="mineral"){
           if(profile.mineralCapacity===null)throw Error("CELL_AQUATIC_PROFILE_UNRESOLVED");
           const plant=S.spec(o).group==="plant",factor=plant?Math.min(profile.plantTemperature,profile.plantPH):S.CellLife.is(o)&&o.cellLife.kind==="fungus"?activity(w,o.cell)/profile.soilQuality:1;
           need=Math.min(r.need,(r.limit??r.need)*profile.soilQuality*factor);
           rates[pool("mineral/"+o.cell,w.tiles[o.cell].soilM)]=1;rates[mCap]=1;
-          if(S.CellLife.is(o)&&o.cellLife.kind==="fungus")fulfills={[demand("M/"+o.id,Math.max(0,p.capM-o.M))]:1};
+          if(S.CellLife.is(o)&&o.cellLife.kind==="fungus")fulfills={[demand(actor.mDemand,Math.max(0,p.capM-o.M))]:1};
         }else if(r.kind==="photo"){
           if(!captured.has(o.id))throw Error("CELL_CANOPY_MISSING");
           if(profile.waterCapacity===null)throw Error("CELL_AQUATIC_PROFILE_UNRESOLVED");
           need=Math.min(need,captured.get(o.id)*Math.min(profile.plantTemperature,profile.plantPH));
           rates[pool("light/"+o.id,captured.get(o.id))]=1;rates[pool("water/"+o.cell,w.cellState.water[o.cell])]=1/2.6;rates[eCap]=1;
-          fulfills={[demand("E/"+o.id,Math.max(0,p.capE-o.E))]:1};
+          fulfills={[demand(actor.eDemand,Math.max(0,p.capE-o.E))]:1};
         }else if(r.kind==="decompose"){
-          s=source(w,m,r);
+          s=compiledSource(r);
           if(!S.CellLife.is(o)||o.cellLife.kind!=="fungus"||!s||s.key==="organism"||s.cell!==o.cell)throw Error("CELL_DECOMPOSITION_SOURCE_INVALID");
-          const body=equivalent(s),rate=body/Math.max(EPS,s.units),eligible=Math.max(0,o.B-(o.cellMatter?.tissueAt===w.turn?o.cellMatter.newB||0:0)),
-            process=eligible/4*activity(w,o.cell);
+          const body=equivalent(s),rate=body/Math.max(EPS,s.units);
+          let process=actor.process;
+          if(process===undefined){
+            const eligible=Math.max(0,o.B-(o.cellMatter?.tissueAt===w.turn?o.cellMatter.newB||0:0));
+            process=eligible/4*activity(w,o.cell);actor.process=process;
+          }
           if(!(rate>0))throw Error("CELL_DECOMPOSITION_UNITS");
-          rates[pool("source/"+s.key+"/"+s.id,s.units)]=1;
-          rates[pool("process/"+o.id,process)]=rate;
-          fulfills={[demand("E/"+o.id,Math.max(0,p.capE-o.E))]:s.E*.5,[demand("M/"+o.id,Math.max(0,p.capM-o.M))]:s.M};
+          rates[pool(s.poolKey??("source/"+s.key+"/"+s.id),s.units)]=1;
+          rates[pool(actor.processKey,process)]=rate;
+          fulfills={[demand(actor.eDemand,Math.max(0,p.capE-o.E))]:s.E*.5,[demand(actor.mDemand,Math.max(0,p.capM-o.M))]:s.M};
           rates[pool("water/"+o.cell,w.cellState.water[o.cell])]=rate*.05;eta=.5;etaM=1;
         }else{
-          s=source(w,m,r);
+          s=compiledSource(r);
           if(!s||s.cell!==o.cell||s.row.id===o.id||S.spec(o).group==="plant"||(S.spec(o).group==="fungus"&&s.key==="organism"))throw Error("CELL_FOOD_SOURCE_INVALID");
           eta=adult?S.HyperParasite.settings(w).adultAssimilation:efficiency(o,s.tag,p.phase);etaM=adult?0:S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase);if(!(eta>0)||!foodAllowed(o,s.tag)||adult&&!["plant","fungal","animal"].includes(s.tag))throw Error("CELL_FOOD_DIET_INVALID");
-          rates[pool("source/"+s.key+"/"+s.id,s.units)]=1;
-          fulfills={[demand("E/"+o.id,Math.max(0,p.capE-o.E))]:s.E*eta,[demand("M/"+o.id,Math.max(0,p.capM-(o.M||0)))]:s.M*etaM};
+          rates[pool(s.poolKey??("source/"+s.key+"/"+s.id),s.units)]=1;
+          fulfills={[demand(actor.eDemand,Math.max(0,p.capE-o.E))]:s.E*eta,[demand(actor.mDemand,Math.max(0,p.capM-(o.M||0)))]:s.M*etaM};
           const bite=ctx.cellFoodLimits?.get(o.id)??(S.spec(o).group==="prey"?.25*S.ConsumerGroup.count(o):isRyouki(w,o)?(o.ryouki.mutated?w.config.ryoukiSettings.mutatedBiteB:w.config.ryoukiSettings.biteB):2);
-          rates[pool("bite/"+o.id,adult?S.HyperParasite.settings(w).adultFoodCap:bite)]=adult?s.E:["organism","resource"].includes(s.key)?1:equivalent(s)/Math.max(EPS,s.units);
+          rates[pool(actor.biteKey,adult?S.HyperParasite.settings(w).adultFoodCap:bite)]=adult?s.E:["organism","resource"].includes(s.key)?1:equivalent(s)/Math.max(EPS,s.units);
         }
         compiled.push({...r,o,p,s,eta,etaM,need,rates,fulfills});
       }
@@ -4271,9 +4294,10 @@ function(require,module){
         }
         for(const [id,grant]of allocate(local,rows,localDemands).grants)allocations.grants.set(id,grant);
       }
+      const lightByActor=new Map();
       state.acquired=true;state.light=[...captured].map(([actor,captured])=>{
         if(m.byId.get(actor)?.species==="freshwaterlight")ctx.records.get(actor).solarOpportunityE=captured;
-        return {actor,captured,used:0};
+        const row={actor,captured,used:0};lightByActor.set(actor,row);return row;
       });
       const waterUse=new Map();for(const r of compiled)if(r.kind==="photo"||r.kind==="decompose")waterUse.set(r.o.cell,(waterUse.get(r.o.cell)||0)+allocations.grants.get(r.id)*(r.kind==="photo"?1/2.6:equivalent(r.s)/r.s.units*.05));
       state.flow.waterUse=0;for(const [cell,amount]of waterUse){
@@ -4289,7 +4313,7 @@ function(require,module){
         }else if(r.kind==="photo"){
           rawE=quantity;
           state.flow.solar=Q(state.flow.solar+quantity);w.ledger.solar=Q(w.ledger.solar+quantity);
-          state.light.find(a=>a.actor===o.id).used=quantity;
+          lightByActor.get(o.id).used=quantity;
         }else{
           if(r.kind==="food"){
             const before=s.key==="organism"?Math.max(0,S.edibleB(s.row)-(s.row.cellMatter?.tissueAt===w.turn?s.row.cellMatter.newEdibleB??s.row.cellMatter.newB??0:0)):["carcass","capture","resource"].includes(s.key)?s.row.q:s.row.E||s.row.M;
@@ -14057,34 +14081,36 @@ function(require,module){
     function allocate(stocks,requests,demands={}){
       if(!stocks||Object.values(stocks).some(n=>!finite(n))||Object.values(demands).some(n=>!finite(n)))throw Error("CELL_POOL_INVALID");
       const ids=new Set(),rows=requests.map(r=>{
-        if(!r||typeof r.id!=="string"||ids.has(r.id)||![r.need,r.ability??1,r.reach??1].every(finite)||
-          !r.rates||!Object.values(r.rates).some(n=>n>0)||Object.entries(r.rates).some(([k,n])=>!Object.hasOwn(stocks,k)||!finite(n))||
-          Object.entries(r.fulfills||{}).some(([k,n])=>!Object.hasOwn(demands,k)||!finite(n)))throw Error("CELL_REQUEST_INVALID");
+        if(!r||typeof r.id!=="string"||ids.has(r.id)||![r.need,r.ability??1,r.reach??1].every(finite)||!r.rates)throw Error("CELL_REQUEST_INVALID");
+        const rateEntries=Object.entries(r.rates),fulfillEntries=Object.entries(r.fulfills||{});
+        if(!rateEntries.some(([,n])=>n>0)||rateEntries.some(([k,n])=>!Object.hasOwn(stocks,k)||!finite(n))||
+          fulfillEntries.some(([k,n])=>!Object.hasOwn(demands,k)||!finite(n)))throw Error("CELL_REQUEST_INVALID");
         const weight=r.need*(r.ability??1)*(r.reach??1);if(!finite(weight))throw Error("CELL_REQUEST_INVALID");
-        ids.add(r.id);return {...r,amount:0,weight};
+        ids.add(r.id);return {id:r.id,need:r.need,amount:0,weight,rateEntries,fulfillEntries,hasFulfills:!!r.fulfills};
       }).sort((a,b)=>S.compare(a.id,b.id));
       const left={...stocks},unmet={...demands};let active=rows.filter(r=>r.need>0&&r.weight>0);
       while(active.length){
-        active=active.filter(r=>r.need-r.amount>EPS&&Object.entries(r.rates).every(([k,n])=>!n||left[k]>EPS)&&
-          (!r.fulfills||Object.entries(r.fulfills).some(([k,n])=>n>0&&unmet[k]>EPS)));
+        active=active.filter(r=>r.need-r.amount>EPS&&r.rateEntries.every(([k,n])=>!n||left[k]>EPS)&&
+          (!r.hasFulfills||r.fulfillEntries.some(([k,n])=>n>0&&unmet[k]>EPS)));
         if(!active.length)break;
         const rates={},benefits={};for(const r of active){
-          for(const [k,n]of Object.entries(r.rates))rates[k]=(rates[k]||0)+n*r.weight;
-          for(const [k,n]of Object.entries(r.fulfills||{}))benefits[k]=(benefits[k]||0)+n*r.weight;
+          for(const [k,n]of r.rateEntries)rates[k]=(rates[k]||0)+n*r.weight;
+          for(const [k,n]of r.fulfillEntries)benefits[k]=(benefits[k]||0)+n*r.weight;
         }
+        const rateEntries=Object.entries(rates),benefitEntries=Object.entries(benefits);
         let step=Infinity;for(const r of active)step=Math.min(step,(r.need-r.amount)/r.weight);
-        for(const [k,n]of Object.entries(rates))if(n>0)step=Math.min(step,left[k]/n);
+        for(const [k,n]of rateEntries)if(n>0)step=Math.min(step,left[k]/n);
         // Nutrient needs are independent stopping conditions. A mixed source
         // may continue for unmet M after E is full (or vice versa); surplus
         // byproducts are accounted for at transfer, never used as new capacity.
-        for(const [k,n]of Object.entries(benefits))if(n>0&&unmet[k]>EPS)step=Math.min(step,unmet[k]/n);
+        for(const [k,n]of benefitEntries)if(n>0&&unmet[k]>EPS)step=Math.min(step,unmet[k]/n);
         if(!(step>0)||!Number.isFinite(step))break;
         for(const r of active)r.amount=Math.min(r.need,r.amount+step*r.weight);
-        for(const [k,n]of Object.entries(rates))left[k]=Math.max(0,left[k]-step*n);
-        for(const [k,n]of Object.entries(benefits))unmet[k]=Math.max(0,unmet[k]-step*n);
+        for(const [k,n]of rateEntries)left[k]=Math.max(0,left[k]-step*n);
+        for(const [k,n]of benefitEntries)unmet[k]=Math.max(0,unmet[k]-step*n);
       }
       const grants=new Map(rows.map(r=>[r.id,down(r.amount)])),remaining={...stocks};
-      for(const r of rows)for(const [k,n]of Object.entries(r.rates))remaining[k]-=n*grants.get(r.id);
+      for(const r of rows)for(const [k,n]of r.rateEntries)remaining[k]-=n*grants.get(r.id);
       for(const k of Object.keys(remaining))remaining[k]=Q(Math.max(0,remaining[k]));
       return {grants,remaining};
     }
@@ -14329,45 +14355,66 @@ function(require,module){
       if(!ctx.cellMotion?.completed)throw Error("CELL_RESOURCES_BEFORE_MOVEMENT");
       if([...ctx.costs.values()].some(c=>c.action>0))throw Error("CELL_ACTIONS_UNPAID");
       const m=ctx.current||S.maps(w);indexSources(w,m,ctx);
-      const captured=captureLight(w,ctx,canopies,m),stocks={},demands={},compiled=[],seen=new Set();
+      const captured=captureLight(w,ctx,canopies,m),stocks={},demands={},compiled=[],seen=new Set(),actors=new Map(),sources=new Map();
       const pool=(key,amount)=>{if(!Object.hasOwn(stocks,key))stocks[key]=amount;return key;};
       const demand=(key,amount)=>{if(!Object.hasOwn(demands,key))demands[key]=amount;return key;};
+      // Compilation does not transfer stock. Reuse these snapshots only in
+      // this acquisition; captures retain their actor-specific authorization.
+      const compiledSource=request=>{
+        const kind=request.source?.kind,id=request.source?.id;
+        if(kind==="capture")return source(w,m,request);
+        let rows=sources.get(kind);if(!rows){rows=new Map();sources.set(kind,rows);}
+        if(rows.has(id))return rows.get(id);
+        const value=source(w,m,request);
+        if(value){value.poolKey="source/"+value.key+"/"+value.id;rows.set(id,value);}
+        return value;
+      };
       for(const r of requests){
         const o=m.byId.get(r.actor)||ctx.cellQActors?.get(r.actor),p=o&&ctx.traits.get(o.id),profile=o&&w.cellProfiles.profiles[o.cell],adult=ctx.cellQActors?.has(r.actor);
         if(!o||o.HP<=0||!ctx.old.has(o.id)||typeof r.id!=="string"||seen.has(r.id)||!finite(r.need)||
           ![r.ability??1,r.reach??1,r.limit??r.need].every(finite)||!["photo","mineral","food","decompose"].includes(r.kind))throw Error("CELL_REQUEST_INVALID");
         seen.add(r.id);let need=Math.min(r.need,r.limit??r.need),rates={},fulfills,s=null,eta=1,etaM=1;
-        const eCap=pool("capE/"+o.id,Q(Math.max(0,p.capE-o.E))),mCap=pool("capM/"+o.id,Q(Math.max(0,p.capM-(o.M||0))));
+        let actor=actors.get(o.id);
+        if(!actor){
+          actor={eCap:pool("capE/"+o.id,Q(Math.max(0,p.capE-o.E))),mCap:pool("capM/"+o.id,Q(Math.max(0,p.capM-(o.M||0)))),
+            eDemand:"E/"+o.id,mDemand:"M/"+o.id,processKey:"process/"+o.id,biteKey:"bite/"+o.id};
+          actors.set(o.id,actor);
+        }
+        const {eCap,mCap}=actor;
         if(r.kind==="mineral"){
           if(profile.mineralCapacity===null)throw Error("CELL_AQUATIC_PROFILE_UNRESOLVED");
           const plant=S.spec(o).group==="plant",factor=plant?Math.min(profile.plantTemperature,profile.plantPH):S.CellLife.is(o)&&o.cellLife.kind==="fungus"?activity(w,o.cell)/profile.soilQuality:1;
           need=Math.min(r.need,(r.limit??r.need)*profile.soilQuality*factor);
           rates[pool("mineral/"+o.cell,w.tiles[o.cell].soilM)]=1;rates[mCap]=1;
-          if(S.CellLife.is(o)&&o.cellLife.kind==="fungus")fulfills={[demand("M/"+o.id,Math.max(0,p.capM-o.M))]:1};
+          if(S.CellLife.is(o)&&o.cellLife.kind==="fungus")fulfills={[demand(actor.mDemand,Math.max(0,p.capM-o.M))]:1};
         }else if(r.kind==="photo"){
           if(!captured.has(o.id))throw Error("CELL_CANOPY_MISSING");
           if(profile.waterCapacity===null)throw Error("CELL_AQUATIC_PROFILE_UNRESOLVED");
           need=Math.min(need,captured.get(o.id)*Math.min(profile.plantTemperature,profile.plantPH));
           rates[pool("light/"+o.id,captured.get(o.id))]=1;rates[pool("water/"+o.cell,w.cellState.water[o.cell])]=1/2.6;rates[eCap]=1;
-          fulfills={[demand("E/"+o.id,Math.max(0,p.capE-o.E))]:1};
+          fulfills={[demand(actor.eDemand,Math.max(0,p.capE-o.E))]:1};
         }else if(r.kind==="decompose"){
-          s=source(w,m,r);
+          s=compiledSource(r);
           if(!S.CellLife.is(o)||o.cellLife.kind!=="fungus"||!s||s.key==="organism"||s.cell!==o.cell)throw Error("CELL_DECOMPOSITION_SOURCE_INVALID");
-          const body=equivalent(s),rate=body/Math.max(EPS,s.units),eligible=Math.max(0,o.B-(o.cellMatter?.tissueAt===w.turn?o.cellMatter.newB||0:0)),
-            process=eligible/4*activity(w,o.cell);
+          const body=equivalent(s),rate=body/Math.max(EPS,s.units);
+          let process=actor.process;
+          if(process===undefined){
+            const eligible=Math.max(0,o.B-(o.cellMatter?.tissueAt===w.turn?o.cellMatter.newB||0:0));
+            process=eligible/4*activity(w,o.cell);actor.process=process;
+          }
           if(!(rate>0))throw Error("CELL_DECOMPOSITION_UNITS");
-          rates[pool("source/"+s.key+"/"+s.id,s.units)]=1;
-          rates[pool("process/"+o.id,process)]=rate;
-          fulfills={[demand("E/"+o.id,Math.max(0,p.capE-o.E))]:s.E*.5,[demand("M/"+o.id,Math.max(0,p.capM-o.M))]:s.M};
+          rates[pool(s.poolKey??("source/"+s.key+"/"+s.id),s.units)]=1;
+          rates[pool(actor.processKey,process)]=rate;
+          fulfills={[demand(actor.eDemand,Math.max(0,p.capE-o.E))]:s.E*.5,[demand(actor.mDemand,Math.max(0,p.capM-o.M))]:s.M};
           rates[pool("water/"+o.cell,w.cellState.water[o.cell])]=rate*.05;eta=.5;etaM=1;
         }else{
-          s=source(w,m,r);
+          s=compiledSource(r);
           if(!s||s.cell!==o.cell||s.row.id===o.id||S.spec(o).group==="plant"||(S.spec(o).group==="fungus"&&s.key==="organism"))throw Error("CELL_FOOD_SOURCE_INVALID");
           eta=adult?S.HyperParasite.settings(w).adultAssimilation:efficiency(o,s.tag,p.phase);etaM=adult?0:S.CellLife.is(o)&&o.cellLife.kind==="group"?.65:efficiency(o,"mineral",p.phase);if(!(eta>0)||!foodAllowed(o,s.tag)||adult&&!["plant","fungal","animal"].includes(s.tag))throw Error("CELL_FOOD_DIET_INVALID");
-          rates[pool("source/"+s.key+"/"+s.id,s.units)]=1;
-          fulfills={[demand("E/"+o.id,Math.max(0,p.capE-o.E))]:s.E*eta,[demand("M/"+o.id,Math.max(0,p.capM-(o.M||0)))]:s.M*etaM};
+          rates[pool(s.poolKey??("source/"+s.key+"/"+s.id),s.units)]=1;
+          fulfills={[demand(actor.eDemand,Math.max(0,p.capE-o.E))]:s.E*eta,[demand(actor.mDemand,Math.max(0,p.capM-(o.M||0)))]:s.M*etaM};
           const bite=ctx.cellFoodLimits?.get(o.id)??(S.spec(o).group==="prey"?.25*S.ConsumerGroup.count(o):isRyouki(w,o)?(o.ryouki.mutated?w.config.ryoukiSettings.mutatedBiteB:w.config.ryoukiSettings.biteB):2);
-          rates[pool("bite/"+o.id,adult?S.HyperParasite.settings(w).adultFoodCap:bite)]=adult?s.E:["organism","resource"].includes(s.key)?1:equivalent(s)/Math.max(EPS,s.units);
+          rates[pool(actor.biteKey,adult?S.HyperParasite.settings(w).adultFoodCap:bite)]=adult?s.E:["organism","resource"].includes(s.key)?1:equivalent(s)/Math.max(EPS,s.units);
         }
         compiled.push({...r,o,p,s,eta,etaM,need,rates,fulfills});
       }
@@ -14380,9 +14427,10 @@ function(require,module){
         }
         for(const [id,grant]of allocate(local,rows,localDemands).grants)allocations.grants.set(id,grant);
       }
+      const lightByActor=new Map();
       state.acquired=true;state.light=[...captured].map(([actor,captured])=>{
         if(m.byId.get(actor)?.species==="freshwaterlight")ctx.records.get(actor).solarOpportunityE=captured;
-        return {actor,captured,used:0};
+        const row={actor,captured,used:0};lightByActor.set(actor,row);return row;
       });
       const waterUse=new Map();for(const r of compiled)if(r.kind==="photo"||r.kind==="decompose")waterUse.set(r.o.cell,(waterUse.get(r.o.cell)||0)+allocations.grants.get(r.id)*(r.kind==="photo"?1/2.6:equivalent(r.s)/r.s.units*.05));
       state.flow.waterUse=0;for(const [cell,amount]of waterUse){
@@ -14398,7 +14446,7 @@ function(require,module){
         }else if(r.kind==="photo"){
           rawE=quantity;
           state.flow.solar=Q(state.flow.solar+quantity);w.ledger.solar=Q(w.ledger.solar+quantity);
-          state.light.find(a=>a.actor===o.id).used=quantity;
+          lightByActor.get(o.id).used=quantity;
         }else{
           if(r.kind==="food"){
             const before=s.key==="organism"?Math.max(0,S.edibleB(s.row)-(s.row.cellMatter?.tissueAt===w.turn?s.row.cellMatter.newEdibleB??s.row.cellMatter.newB??0:0)):["carcass","capture","resource"].includes(s.key)?s.row.q:s.row.E||s.row.M;

@@ -1,0 +1,782 @@
+{
+  "baseline": "2ae71d0",
+  "cases": [
+    {
+      "scale": 1,
+      "mode": "no-demand",
+      "stocks": {
+        "water": 3,
+        "M": 2,
+        "food": 4
+      },
+      "demands": {},
+      "requests": [
+        {
+          "id": "a",
+          "need": 2,
+          "ability": 1,
+          "reach": 1.1,
+          "rates": {
+            "water": 1,
+            "M": 0.2
+          }
+        },
+        {
+          "id": "b",
+          "need": 3,
+          "ability": 1.2,
+          "reach": 0.7,
+          "rates": {
+            "water": 0.5,
+            "food": 1
+          }
+        },
+        {
+          "id": "c",
+          "need": 1,
+          "rates": {
+            "food": 0.25,
+            "M": 1
+          }
+        }
+      ],
+      "expected": {
+        "grants": [
+          [
+            "a",
+            1.907514
+          ],
+          [
+            "b",
+            2.184971
+          ],
+          [
+            "c",
+            1
+          ]
+        ],
+        "remaining": {
+          "water": 0.000001,
+          "M": 0.618497,
+          "food": 1.565029
+        }
+      }
+    },
+    {
+      "scale": 1,
+      "mode": "empty-demand",
+      "stocks": {
+        "water": 3,
+        "M": 2,
+        "food": 4
+      },
+      "demands": {},
+      "requests": [
+        {
+          "id": "a",
+          "need": 2,
+          "ability": 1,
+          "reach": 1.1,
+          "rates": {
+            "water": 1,
+            "M": 0.2
+          },
+          "fulfills": {}
+        },
+        {
+          "id": "b",
+          "need": 3,
+          "ability": 1.2,
+          "reach": 0.7,
+          "rates": {
+            "water": 0.5,
+            "food": 1
+          }
+        },
+        {
+          "id": "c",
+          "need": 1,
+          "rates": {
+            "food": 0.25,
+            "M": 1
+          }
+        }
+      ],
+      "expected": {
+        "grants": [
+          [
+            "a",
+            0
+          ],
+          [
+            "b",
+            3
+          ],
+          [
+            "c",
+            1
+          ]
+        ],
+        "remaining": {
+          "water": 1.5,
+          "M": 1,
+          "food": 0.75
+        }
+      }
+    },
+    {
+      "scale": 1,
+      "mode": "mixed",
+      "stocks": {
+        "water": 3,
+        "M": 2,
+        "food": 4
+      },
+      "demands": {
+        "E": 0,
+        "M": 2
+      },
+      "requests": [
+        {
+          "id": "a",
+          "need": 2,
+          "ability": 1,
+          "reach": 1.1,
+          "rates": {
+            "water": 1,
+            "M": 0.2
+          },
+          "fulfills": {
+            "E": 1,
+            "M": 0.5
+          }
+        },
+        {
+          "id": "b",
+          "need": 3,
+          "ability": 1.2,
+          "reach": 0.7,
+          "rates": {
+            "water": 0.5,
+            "food": 1
+          },
+          "fulfills": {
+            "E": 2,
+            "M": 0.2
+          }
+        },
+        {
+          "id": "c",
+          "need": 1,
+          "rates": {
+            "food": 0.25,
+            "M": 1
+          },
+          "fulfills": {
+            "M": 1
+          }
+        }
+      ],
+      "expected": {
+        "grants": [
+          [
+            "a",
+            1.689708
+          ],
+          [
+            "b",
+            1.935483
+          ],
+          [
+            "c",
+            0.768049
+          ]
+        ],
+        "remaining": {
+          "water": 0.342551,
+          "M": 0.894009,
+          "food": 1.872505
+        }
+      }
+    },
+    {
+      "scale": 1,
+      "mode": "zero-weight",
+      "stocks": {
+        "water": 3,
+        "M": 2,
+        "food": 4
+      },
+      "demands": {},
+      "requests": [
+        {
+          "id": "a",
+          "need": 2,
+          "ability": 0,
+          "reach": 1.1,
+          "rates": {
+            "water": 1,
+            "M": 0.2
+          }
+        },
+        {
+          "id": "b",
+          "need": 3,
+          "ability": 1.2,
+          "reach": 0.7,
+          "rates": {
+            "water": 0.5,
+            "food": 1
+          }
+        },
+        {
+          "id": "c",
+          "need": 1,
+          "rates": {
+            "food": 0.25,
+            "M": 1
+          }
+        }
+      ],
+      "expected": {
+        "grants": [
+          [
+            "a",
+            0
+          ],
+          [
+            "b",
+            3
+          ],
+          [
+            "c",
+            1
+          ]
+        ],
+        "remaining": {
+          "water": 1.5,
+          "M": 1,
+          "food": 0.75
+        }
+      }
+    },
+    {
+      "scale": 0.000001,
+      "mode": "no-demand",
+      "stocks": {
+        "water": 0.000003,
+        "M": 0.000002,
+        "food": 0.000004
+      },
+      "demands": {},
+      "requests": [
+        {
+          "id": "a",
+          "need": 0.000002,
+          "ability": 1,
+          "reach": 1.1,
+          "rates": {
+            "water": 1,
+            "M": 0.2
+          }
+        },
+        {
+          "id": "b",
+          "need": 0.000003,
+          "ability": 1.2,
+          "reach": 0.7,
+          "rates": {
+            "water": 0.5,
+            "food": 1
+          }
+        },
+        {
+          "id": "c",
+          "need": 0.000001,
+          "rates": {
+            "food": 0.25,
+            "M": 1
+          }
+        }
+      ],
+      "expected": {
+        "grants": [
+          [
+            "a",
+            0.000001
+          ],
+          [
+            "b",
+            0.000002
+          ],
+          [
+            "c",
+            0.000001
+          ]
+        ],
+        "remaining": {
+          "water": 0.000001,
+          "M": 0.000001,
+          "food": 0.000002
+        }
+      }
+    },
+    {
+      "scale": 0.000001,
+      "mode": "empty-demand",
+      "stocks": {
+        "water": 0.000003,
+        "M": 0.000002,
+        "food": 0.000004
+      },
+      "demands": {},
+      "requests": [
+        {
+          "id": "a",
+          "need": 0.000002,
+          "ability": 1,
+          "reach": 1.1,
+          "rates": {
+            "water": 1,
+            "M": 0.2
+          },
+          "fulfills": {}
+        },
+        {
+          "id": "b",
+          "need": 0.000003,
+          "ability": 1.2,
+          "reach": 0.7,
+          "rates": {
+            "water": 0.5,
+            "food": 1
+          }
+        },
+        {
+          "id": "c",
+          "need": 0.000001,
+          "rates": {
+            "food": 0.25,
+            "M": 1
+          }
+        }
+      ],
+      "expected": {
+        "grants": [
+          [
+            "a",
+            0
+          ],
+          [
+            "b",
+            0.000003
+          ],
+          [
+            "c",
+            0.000001
+          ]
+        ],
+        "remaining": {
+          "water": 0.000002,
+          "M": 0.000001,
+          "food": 0.000001
+        }
+      }
+    },
+    {
+      "scale": 0.000001,
+      "mode": "mixed",
+      "stocks": {
+        "water": 0.000003,
+        "M": 0.000002,
+        "food": 0.000004
+      },
+      "demands": {
+        "E": 0,
+        "M": 0.000002
+      },
+      "requests": [
+        {
+          "id": "a",
+          "need": 0.000002,
+          "ability": 1,
+          "reach": 1.1,
+          "rates": {
+            "water": 1,
+            "M": 0.2
+          },
+          "fulfills": {
+            "E": 1,
+            "M": 0.5
+          }
+        },
+        {
+          "id": "b",
+          "need": 0.000003,
+          "ability": 1.2,
+          "reach": 0.7,
+          "rates": {
+            "water": 0.5,
+            "food": 1
+          },
+          "fulfills": {
+            "E": 2,
+            "M": 0.2
+          }
+        },
+        {
+          "id": "c",
+          "need": 0.000001,
+          "rates": {
+            "food": 0.25,
+            "M": 1
+          },
+          "fulfills": {
+            "M": 1
+          }
+        }
+      ],
+      "expected": {
+        "grants": [
+          [
+            "a",
+            0.000001
+          ],
+          [
+            "b",
+            0.000001
+          ],
+          [
+            "c",
+            0
+          ]
+        ],
+        "remaining": {
+          "water": 0.000002,
+          "M": 0.000002,
+          "food": 0.000003
+        }
+      }
+    },
+    {
+      "scale": 0.000001,
+      "mode": "zero-weight",
+      "stocks": {
+        "water": 0.000003,
+        "M": 0.000002,
+        "food": 0.000004
+      },
+      "demands": {},
+      "requests": [
+        {
+          "id": "a",
+          "need": 0.000002,
+          "ability": 0,
+          "reach": 1.1,
+          "rates": {
+            "water": 1,
+            "M": 0.2
+          }
+        },
+        {
+          "id": "b",
+          "need": 0.000003,
+          "ability": 1.2,
+          "reach": 0.7,
+          "rates": {
+            "water": 0.5,
+            "food": 1
+          }
+        },
+        {
+          "id": "c",
+          "need": 0.000001,
+          "rates": {
+            "food": 0.25,
+            "M": 1
+          }
+        }
+      ],
+      "expected": {
+        "grants": [
+          [
+            "a",
+            0
+          ],
+          [
+            "b",
+            0.000003
+          ],
+          [
+            "c",
+            0.000001
+          ]
+        ],
+        "remaining": {
+          "water": 0.000002,
+          "M": 0.000001,
+          "food": 0.000001
+        }
+      }
+    },
+    {
+      "scale": 3.75,
+      "mode": "no-demand",
+      "stocks": {
+        "water": 11.25,
+        "M": 7.5,
+        "food": 15
+      },
+      "demands": {},
+      "requests": [
+        {
+          "id": "a",
+          "need": 7.5,
+          "ability": 1,
+          "reach": 1.1,
+          "rates": {
+            "water": 1,
+            "M": 0.2
+          }
+        },
+        {
+          "id": "b",
+          "need": 11.25,
+          "ability": 1.2,
+          "reach": 0.7,
+          "rates": {
+            "water": 0.5,
+            "food": 1
+          }
+        },
+        {
+          "id": "c",
+          "need": 3.75,
+          "rates": {
+            "food": 0.25,
+            "M": 1
+          }
+        }
+      ],
+      "expected": {
+        "grants": [
+          [
+            "a",
+            7.153179
+          ],
+          [
+            "b",
+            8.193641
+          ],
+          [
+            "c",
+            3.75
+          ]
+        ],
+        "remaining": {
+          "water": 0.000001,
+          "M": 2.319364,
+          "food": 5.868859
+        }
+      }
+    },
+    {
+      "scale": 3.75,
+      "mode": "empty-demand",
+      "stocks": {
+        "water": 11.25,
+        "M": 7.5,
+        "food": 15
+      },
+      "demands": {},
+      "requests": [
+        {
+          "id": "a",
+          "need": 7.5,
+          "ability": 1,
+          "reach": 1.1,
+          "rates": {
+            "water": 1,
+            "M": 0.2
+          },
+          "fulfills": {}
+        },
+        {
+          "id": "b",
+          "need": 11.25,
+          "ability": 1.2,
+          "reach": 0.7,
+          "rates": {
+            "water": 0.5,
+            "food": 1
+          }
+        },
+        {
+          "id": "c",
+          "need": 3.75,
+          "rates": {
+            "food": 0.25,
+            "M": 1
+          }
+        }
+      ],
+      "expected": {
+        "grants": [
+          [
+            "a",
+            0
+          ],
+          [
+            "b",
+            11.25
+          ],
+          [
+            "c",
+            3.75
+          ]
+        ],
+        "remaining": {
+          "water": 5.625,
+          "M": 3.75,
+          "food": 2.8125
+        }
+      }
+    },
+    {
+      "scale": 3.75,
+      "mode": "mixed",
+      "stocks": {
+        "water": 11.25,
+        "M": 7.5,
+        "food": 15
+      },
+      "demands": {
+        "E": 0,
+        "M": 7.5
+      },
+      "requests": [
+        {
+          "id": "a",
+          "need": 7.5,
+          "ability": 1,
+          "reach": 1.1,
+          "rates": {
+            "water": 1,
+            "M": 0.2
+          },
+          "fulfills": {
+            "E": 1,
+            "M": 0.5
+          }
+        },
+        {
+          "id": "b",
+          "need": 11.25,
+          "ability": 1.2,
+          "reach": 0.7,
+          "rates": {
+            "water": 0.5,
+            "food": 1
+          },
+          "fulfills": {
+            "E": 2,
+            "M": 0.2
+          }
+        },
+        {
+          "id": "c",
+          "need": 3.75,
+          "rates": {
+            "food": 0.25,
+            "M": 1
+          },
+          "fulfills": {
+            "M": 1
+          }
+        }
+      ],
+      "expected": {
+        "grants": [
+          [
+            "a",
+            6.336405
+          ],
+          [
+            "b",
+            7.258064
+          ],
+          [
+            "c",
+            2.880184
+          ]
+        ],
+        "remaining": {
+          "water": 1.284563,
+          "M": 3.352535,
+          "food": 7.02189
+        }
+      }
+    },
+    {
+      "scale": 3.75,
+      "mode": "zero-weight",
+      "stocks": {
+        "water": 11.25,
+        "M": 7.5,
+        "food": 15
+      },
+      "demands": {},
+      "requests": [
+        {
+          "id": "a",
+          "need": 7.5,
+          "ability": 0,
+          "reach": 1.1,
+          "rates": {
+            "water": 1,
+            "M": 0.2
+          }
+        },
+        {
+          "id": "b",
+          "need": 11.25,
+          "ability": 1.2,
+          "reach": 0.7,
+          "rates": {
+            "water": 0.5,
+            "food": 1
+          }
+        },
+        {
+          "id": "c",
+          "need": 3.75,
+          "rates": {
+            "food": 0.25,
+            "M": 1
+          }
+        }
+      ],
+      "expected": {
+        "grants": [
+          [
+            "a",
+            0
+          ],
+          [
+            "b",
+            11.25
+          ],
+          [
+            "c",
+            3.75
+          ]
+        ],
+        "remaining": {
+          "water": 5.625,
+          "M": 3.75,
+          "food": 2.8125
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "startingTurn": 500,
+  "turn": 501,
+  "stepMs": 5380.133368,
+  "startingFingerprint": "fe1606bae39eff0ad650a22e9f4bc6402d120022fe6231cd9928f12c85936f0a",
+  "fingerprint": "cde4500bf5a19093b9d2587c29efbaa00884997cf9d48a411f2744fef70162b7",
+  "invariants": [],
+  "organismsBefore": 6503,
+  "corpsesBefore": 27941,
+  "organismsAfter": 6485,
+  "corpsesAfter": 27968,
+  "sampleUs": 5684331,
+  "samples": 4908
+}

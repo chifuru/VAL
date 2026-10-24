@@ -1,0 +1,81 @@
+{
+  "baseline": "2ae71d0",
+  "biologicalSignature": "b76f5c4fd56870ed550f35eb16992be542f747f2adb27f5f49ba35680bf7a19d",
+  "formalNodes": 61,
+  "updatedExistingNodes": [
+    "C7.2",
+    "C8.2",
+    "D7",
+    "D9",
+    "E5",
+    "E6"
+  ],
+  "formalMetadataGraphAndDraftStatusUnchanged": true,
+  "coreABAndAdoptedSpecificationUnchanged": true,
+  "manifestUniqueEntries": 61,
+  "manifestRequiredFields": true,
+  "manifestLayerHeadings": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+  ],
+  "tests": {
+    "resources.log": {
+      "pass": 23,
+      "fail": 0
+    },
+    "allocation.log": {
+      "pass": 1,
+      "fail": 0
+    },
+    "turns.log": {
+      "pass": 7,
+      "fail": 0
+    },
+    "archive.log": {
+      "pass": 6,
+      "fail": 0
+    }
+  },
+  "replayCompatibility": {
+    "statesCompared": 4,
+    "rowsEqual": true,
+    "oldReplayIdentical": true,
+    "oldRecordUnchanged": true,
+    "noAutoSave": true,
+    "rawSignaturePreserved": true,
+    "differentBiologicalVersionRejected": true
+  },
+  "legacyCases": 2,
+  "legacyStatesPerCase": 3,
+  "generation": {
+    "profiles": 8,
+    "uniqueModules": 22,
+    "bytes": 2021381
+  },
+  "benchmark": {
+    "terminalState": 500,
+    "completedTurn": 501,
+    "baselineRuns": 2,
+    "finalRuns": 2,
+    "intermediateRuns": 1,
+    "fullWorldObservationFingerprintEqual": true,
+    "meanReductionPercent": {
+      "stepMs": 10.171828223545154,
+      "acquireMs": 19.724355893435273
+    },
+    "scope": "one retained terminal state, fresh process per turn, timings not a universal bound"
+  },
+  "uiArtworkLayoutAndProductVersionUnchanged": true,
+  "newDistributionCreated": false,
+  "newNatural500TRepeated": false,
+  "notVerified": [
+    "whole-run and all-map performance",
+    "world clone and information optimizations",
+    "new UI/IndexedDB/Windows/distribution",
+    "all lineages and natural P/Q multigeneration",
+    "unselected coefficient and model default decisions"
+  ]
+}

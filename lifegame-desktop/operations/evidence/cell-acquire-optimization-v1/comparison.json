@@ -1,0 +1,31 @@
+{
+  "baseline": "2ae71d0",
+  "biologicalSignature": "b76f5c4fd56870ed550f35eb16992be542f747f2adb27f5f49ba35680bf7a19d",
+  "startingTurn": 500,
+  "turn": 501,
+  "retainedInitialHash": "4933119b52363f40ff859756378ef134e6c82fe514a07b9ed75808af4b6684ab",
+  "fingerprint": "cde4500bf5a19093b9d2587c29efbaa00884997cf9d48a411f2744fef70162b7",
+  "worldHash": "bba7ad403dbdb8ddc0b47453c237bc06709d4c5a79a9e87f1fc0c7a0efd67c38",
+  "observationHash": "9fa3af81619b80add9c695d6bef25f969496b1a60dcc58780d8f150c81e05da4",
+  "samplesPerVersion": 2,
+  "mean": {
+    "before": {
+      "stepMs": 5396.950488500001,
+      "acquireMs": 1792.1781319999996
+    },
+    "after": {
+      "stepMs": 4847.9819554999995,
+      "acquireMs": 1438.6825389999995
+    }
+  },
+  "reductionPercent": {
+    "stepMs": 10.171828223545154,
+    "acquireMs": 19.724355893435273
+  },
+  "requests": 112661,
+  "decomposeRequests": 102316,
+  "distinctDecomposers": 2518,
+  "lightRows": 3719,
+  "allWorldObservationsFingerprintEqual": true,
+  "scope": "one retained terminal state, fresh process for each turn; intermediate after-1 excluded"
+}

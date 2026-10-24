@@ -173,3 +173,19 @@ test('shared organic feeding leaves no submicro body without its energy',()=>{
   assert.equal(stock.E,0);assert.equal(stock.B,0);conservation(w);
  }
 });
+
+test('light record stays an ordered public array with the last photo assignment',()=>{
+ const w=fixture(),plant=add(w,'plant',{species:'grass',E:0,M:0}),ctx=ready(w);
+ R.acquire(w,ctx,[req('a',plant,'photo',.1),req('z',plant,'photo',.2)],[{actor:plant.id,height:0,area:1,capture:1}]);
+ assert.deepEqual(ctx.cellResources.light,[{actor:plant.id,captured:1,used:.2}]);
+ near(ctx.records.get(plant.id).light,.3);conservation(w);
+});
+
+test('a capture authorized for one actor cannot be reused by another actor',()=>{
+ const w=fixture(),a=add(w,'a',{species:'recursive',E:0,M:0}),b=add(w,'b',{species:'recursive',E:0,M:0}),ctx=ready(w);
+ const row={id:'private-capture',cell:18,created:w.turn,q:1,E:1,M:.02,G:1,tag:'animal'};
+ ctx.cellCaptures=new Map([[row.id,{row,actors:new Set([a.id])}]]);
+ const before=JSON.stringify(w);
+ assert.throws(()=>R.acquire(w,ctx,[req('a',a,'food',1,{source:{kind:'capture',id:row.id}}),req('b',b,'food',1,{source:{kind:'capture',id:row.id}})]),/CELL_FOOD_SOURCE_INVALID/);
+ assert.equal(JSON.stringify(w),before);
+});

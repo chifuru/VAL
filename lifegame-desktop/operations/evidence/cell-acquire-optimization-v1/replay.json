@@ -1,0 +1,30 @@
+{
+  "baseline": "2ae71d0",
+  "success": true,
+  "oldSignature": "e5a7bdca023614ab509af21fa6b18569a876f3c1e9c4207877c97daeef3cbfb6",
+  "currentSignature": "b76f5c4fd56870ed550f35eb16992be542f747f2adb27f5f49ba35680bf7a19d",
+  "states": [
+    {
+      "turn": 0,
+      "hash": "257c340e0efed2cfcec1c8ceae6dd9ef6b1609e2204a3216d68721dc0529b74b"
+    },
+    {
+      "turn": 1,
+      "hash": "8b5774baa8b6e2f8b4ff5f48872cb296662a6362c84549396723b6b037125401"
+    },
+    {
+      "turn": 2,
+      "hash": "55ce3cf57b668017eec70c54060a3a39e764d6103a1682857929f892783d8c3a"
+    },
+    {
+      "turn": 3,
+      "hash": "663e1f5ff3246be212eeb04a42b31c1a8dc2f1d474922d0208e661cb17babaa0"
+    }
+  ],
+  "rowsEqual": true,
+  "oldReplayIdentical": true,
+  "oldRecordBytesUnchanged": true,
+  "noAutoSave": true,
+  "newRecordKeepsRawSignature": true,
+  "incompatibleBiologicalVersionRejected": true
+}
