@@ -903,15 +903,16 @@ function(require,module){
   "use strict";
   // CR01: shared state/space contract. Biological progression is connected later.
   const CellSpace=(()=>{
-    const VERSION="cell-reorganization/1",limits=Object.freeze({1:6,2:3,3:5,4:5,5:6});
+    const VERSION="cell-reorganization/1",AQUATIC="freshwater-comparison/1",limits=Object.freeze({1:6,2:3,3:5,4:5,5:6});
     const enabled=w=>w?.config?.cellModel===VERSION;
     function settings(input={}){
       const defaults={soilQuality:1,temperature:20,landPH:6.5,waterPH:7,mineralLevel:"standard",mineralInput:0,rainScale:1,lightScale:1};
-      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: マス環境設定");
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)&&k!=="aquaticProfile"))throw Error("SETTINGS_INVALID: マス環境設定");
       const s={...defaults,...input};
       if(!["poor","standard","rich"].includes(s.mineralLevel)||![s.mineralInput,s.rainScale,s.lightScale].every(n=>Number.isFinite(n)&&n>=0&&n<=100)||
         ![.75,1,1.25].includes(s.soilQuality)||!Number.isFinite(s.temperature)||
-        ![s.landPH,s.waterPH].every(n=>Number.isFinite(n)&&n>=0&&n<=14))throw Error("SETTINGS_INVALID: マス環境設定");
+        ![s.landPH,s.waterPH].every(n=>Number.isFinite(n)&&n>=0&&n<=14)||s.aquaticProfile!==undefined&&s.aquaticProfile!==AQUATIC)throw Error("SETTINGS_INVALID: マス環境設定");
+      if(s.aquaticProfile===undefined)delete s.aquaticProfile;
       return s;
     }
     function layer(o){
@@ -989,22 +990,25 @@ function(require,module){
       if(!enabled(w))return w;
       if(w.turn!==0||w.cellState!==undefined||w.cellProfiles!==undefined)throw Error("CELL_STATE_EXISTS: マス状態は初期化済みか初期時点ではありません");
       const s=w.config.cellSettings,profiles=w.tiles.map(t=>{
-        const water=["shallow","deep"].includes(t.terrain),levels={poor:[2,8],standard:[5,20],rich:[10,40]},pH=water?s.waterPH:s.landPH;
+        const water=["shallow","deep"].includes(t.terrain),aquatic=water&&s.aquaticProfile===AQUATIC,
+          levels=aquatic?{poor:[4,16],standard:[8,32],rich:[16,64]}:{poor:[2,8],standard:[5,20],rich:[10,40]},pH=water?s.waterPH:s.landPH;
         return {region:water?"water":"land",temperature:s.temperature,pH,
           plantTemperature:curve(s.temperature,[[-5,0],[5,.5],[15,1],[25,1],[35,.5],[45,0]]),
           plantPH:curve(pH,[[3.5,0],[4.5,.5],[5.5,1],[7.5,1],[8.5,.5],[9.5,0]]),
           fungalTemperature:curve(s.temperature,[[-10,0],[5,.2],[20,1],[30,1],[45,0]]),
           fungalPH:curve(pH,[[2,0],[4,.6],[6.5,1],[8,.7],[11,0]]),
           soilQuality:s.soilQuality,lightBudget:H.round(15.6*t.light*s.lightScale),
-          mineralInitial:water?null:levels[s.mineralLevel][0],mineralCapacity:water?null:H.round(levels[s.mineralLevel][1]*s.soilQuality),
-          mineralInput:water?null:s.mineralInput,
-          // Aquatic supply coefficients are deliberately not copied from land.
-          waterCapacity:water?null:H.round(30*s.soilQuality),rain:water?null:H.round(6.5*s.rainScale),evaporation:water?null:H.round(.5*2**H.clamp((s.temperature-20)/10,-4,4))};
+          mineralInitial:water&&!aquatic?null:levels[s.mineralLevel][0],mineralCapacity:water&&!aquatic?null:H.round(levels[s.mineralLevel][1]*s.soilQuality),
+          mineralInput:water&&!aquatic?null:s.mineralInput,
+          // Only an explicit comparison profile resolves the aquatic boundary.
+          ...(aquatic?{aquaticProfile:AQUATIC,waterInput:H.round(8*s.rainScale)}:{}),
+          waterCapacity:water?(aquatic?40:null):H.round(30*s.soilQuality),rain:water?(aquatic?0:null):H.round(6.5*s.rainScale),
+          evaporation:water&&!aquatic?null:H.round(.5*2**H.clamp((s.temperature-20)/10,-4,4))};
       });
       w.cellProfiles={version:VERSION,profiles};
-      w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?null:15),
+      w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?(p.aquaticProfile===AQUATIC?32:null):15),
         decayLoad:profiles.map(()=>0),nextMaterial:[],organic:[],resourceTurn:0,backgroundTurn:0};
-      for(let cell=0;cell<w.tiles.length;cell++)if(profiles[cell].region==="land")w.tiles[cell].soilM=profiles[cell].mineralInitial;
+      for(let cell=0;cell<w.tiles.length;cell++)if(profiles[cell].mineralInitial!==null)w.tiles[cell].soilM=profiles[cell].mineralInitial;
       for(const o of w.organisms)CellLife.attach(w,o);
       const cells=new Map();
       for(const o of w.organisms){const n=layer(o);if(n===null||!living(o))continue;
@@ -1034,10 +1038,11 @@ function(require,module){
       if(a?.version!==VERSION||a.stage!=="foundation"||p?.version!==VERSION||!Array.isArray(p.profiles)||p.profiles.length!==n||
         !Array.isArray(a.water)||a.water.length!==n||!Array.isArray(a.decayLoad)||a.decayLoad.length!==n||!Array.isArray(a.nextMaterial)||!Array.isArray(a.organic)||!Number.isSafeInteger(a.resourceTurn)||a.resourceTurn<0||a.resourceTurn>w.turn)return ["CELL_STATE"];
       for(let cell=0;cell<n;cell++){
-        const f=p.profiles[cell];
+        const f=p.profiles[cell],aquatic=f?.region==="water"&&w.config.cellSettings?.aquaticProfile===AQUATIC;
         if(!f||!Number.isFinite(f.temperature)||!finite(f.pH)||f.pH>14||![.75,1,1.25].includes(f.soilQuality)||
-          !finite(f.lightBudget)||!(f.region==="water"?f.mineralCapacity===null:finite(f.mineralCapacity))||!["land","water"].includes(f.region)||
-          (f.region==="water"?(a.water[cell]!==null||f.waterCapacity!==null||f.rain!==null||f.evaporation!==null):
+          !finite(f.lightBudget)||!(f.region==="water"&&!aquatic?f.mineralCapacity===null:finite(f.mineralCapacity))||!["land","water"].includes(f.region)||
+          (aquatic&&(f.aquaticProfile!==AQUATIC||!finite(f.waterInput)||f.rain!==0))||
+          (f.region==="water"&&!aquatic?(a.water[cell]!==null||f.waterCapacity!==null||f.rain!==null||f.evaporation!==null||f.aquaticProfile!==undefined||f.waterInput!==undefined):
             (!finite(f.waterCapacity)||!finite(f.rain)||!finite(f.evaporation)||!finite(a.water[cell])||a.water[cell]>f.waterCapacity))||
           !finite(a.decayLoad[cell])||!finite(w.tiles[cell].soilM))errors.push("CELL_STOCK:"+cell);
       }
@@ -4086,9 +4091,9 @@ function(require,module){
       }
       a.nextMaterial=a.nextMaterial.filter(r=>r.availableAt>w.turn);
       for(let cell=0;cell<w.tiles.length;cell++){
-        const p=w.cellProfiles.profiles[cell];if(p.region==="water")continue;
-        const total=Q(a.water[cell]+p.rain),drain=Q(Math.max(0,total-p.waterCapacity)),held=Q(total-drain),evaporated=Q(Math.min(held,p.evaporation));
-        a.water[cell]=Q(held-evaporated);flow.waterInput=Q(flow.waterInput+p.rain);flow.waterDrain=Q(flow.waterDrain+drain);flow.waterEvaporation=Q(flow.waterEvaporation+evaporated);
+        const p=w.cellProfiles.profiles[cell];if(p.waterCapacity===null)continue;
+        const waterInput=p.waterInput??p.rain,total=Q(a.water[cell]+waterInput),drain=Q(Math.max(0,total-p.waterCapacity)),held=Q(total-drain),evaporated=Q(Math.min(held,p.evaporation));
+        a.water[cell]=Q(held-evaporated);flow.waterInput=Q(flow.waterInput+waterInput);flow.waterDrain=Q(flow.waterDrain+drain);flow.waterEvaporation=Q(flow.waterEvaporation+evaporated);
         const input=p.mineralInput,add=Q(Math.min(input,Math.max(0,p.mineralCapacity-w.tiles[cell].soilM)));
         w.tiles[cell].soilM=Q(w.tiles[cell].soilM+add);if(input>add)organic(w,cell,0,Q(input-add));flow.mineralInput=Q(flow.mineralInput+input);
       }
@@ -10870,15 +10875,16 @@ function(require,module){
   "use strict";
   // CR01: shared state/space contract. Biological progression is connected later.
   const CellSpace=(()=>{
-    const VERSION="cell-reorganization/1",limits=Object.freeze({1:6,2:3,3:5,4:5,5:6});
+    const VERSION="cell-reorganization/1",AQUATIC="freshwater-comparison/1",limits=Object.freeze({1:6,2:3,3:5,4:5,5:6});
     const enabled=w=>w?.config?.cellModel===VERSION;
     function settings(input={}){
       const defaults={soilQuality:1,temperature:20,landPH:6.5,waterPH:7,mineralLevel:"standard",mineralInput:0,rainScale:1,lightScale:1};
-      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: マス環境設定");
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)&&k!=="aquaticProfile"))throw Error("SETTINGS_INVALID: マス環境設定");
       const s={...defaults,...input};
       if(!["poor","standard","rich"].includes(s.mineralLevel)||![s.mineralInput,s.rainScale,s.lightScale].every(n=>Number.isFinite(n)&&n>=0&&n<=100)||
         ![.75,1,1.25].includes(s.soilQuality)||!Number.isFinite(s.temperature)||
-        ![s.landPH,s.waterPH].every(n=>Number.isFinite(n)&&n>=0&&n<=14))throw Error("SETTINGS_INVALID: マス環境設定");
+        ![s.landPH,s.waterPH].every(n=>Number.isFinite(n)&&n>=0&&n<=14)||s.aquaticProfile!==undefined&&s.aquaticProfile!==AQUATIC)throw Error("SETTINGS_INVALID: マス環境設定");
+      if(s.aquaticProfile===undefined)delete s.aquaticProfile;
       return s;
     }
     function layer(o){
@@ -10956,22 +10962,25 @@ function(require,module){
       if(!enabled(w))return w;
       if(w.turn!==0||w.cellState!==undefined||w.cellProfiles!==undefined)throw Error("CELL_STATE_EXISTS: マス状態は初期化済みか初期時点ではありません");
       const s=w.config.cellSettings,profiles=w.tiles.map(t=>{
-        const water=["shallow","deep"].includes(t.terrain),levels={poor:[2,8],standard:[5,20],rich:[10,40]},pH=water?s.waterPH:s.landPH;
+        const water=["shallow","deep"].includes(t.terrain),aquatic=water&&s.aquaticProfile===AQUATIC,
+          levels=aquatic?{poor:[4,16],standard:[8,32],rich:[16,64]}:{poor:[2,8],standard:[5,20],rich:[10,40]},pH=water?s.waterPH:s.landPH;
         return {region:water?"water":"land",temperature:s.temperature,pH,
           plantTemperature:curve(s.temperature,[[-5,0],[5,.5],[15,1],[25,1],[35,.5],[45,0]]),
           plantPH:curve(pH,[[3.5,0],[4.5,.5],[5.5,1],[7.5,1],[8.5,.5],[9.5,0]]),
           fungalTemperature:curve(s.temperature,[[-10,0],[5,.2],[20,1],[30,1],[45,0]]),
           fungalPH:curve(pH,[[2,0],[4,.6],[6.5,1],[8,.7],[11,0]]),
           soilQuality:s.soilQuality,lightBudget:H.round(15.6*t.light*s.lightScale),
-          mineralInitial:water?null:levels[s.mineralLevel][0],mineralCapacity:water?null:H.round(levels[s.mineralLevel][1]*s.soilQuality),
-          mineralInput:water?null:s.mineralInput,
-          // Aquatic supply coefficients are deliberately not copied from land.
-          waterCapacity:water?null:H.round(30*s.soilQuality),rain:water?null:H.round(6.5*s.rainScale),evaporation:water?null:H.round(.5*2**H.clamp((s.temperature-20)/10,-4,4))};
+          mineralInitial:water&&!aquatic?null:levels[s.mineralLevel][0],mineralCapacity:water&&!aquatic?null:H.round(levels[s.mineralLevel][1]*s.soilQuality),
+          mineralInput:water&&!aquatic?null:s.mineralInput,
+          // Only an explicit comparison profile resolves the aquatic boundary.
+          ...(aquatic?{aquaticProfile:AQUATIC,waterInput:H.round(8*s.rainScale)}:{}),
+          waterCapacity:water?(aquatic?40:null):H.round(30*s.soilQuality),rain:water?(aquatic?0:null):H.round(6.5*s.rainScale),
+          evaporation:water&&!aquatic?null:H.round(.5*2**H.clamp((s.temperature-20)/10,-4,4))};
       });
       w.cellProfiles={version:VERSION,profiles};
-      w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?null:15),
+      w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?(p.aquaticProfile===AQUATIC?32:null):15),
         decayLoad:profiles.map(()=>0),nextMaterial:[],organic:[],resourceTurn:0,backgroundTurn:0};
-      for(let cell=0;cell<w.tiles.length;cell++)if(profiles[cell].region==="land")w.tiles[cell].soilM=profiles[cell].mineralInitial;
+      for(let cell=0;cell<w.tiles.length;cell++)if(profiles[cell].mineralInitial!==null)w.tiles[cell].soilM=profiles[cell].mineralInitial;
       for(const o of w.organisms)CellLife.attach(w,o);
       const cells=new Map();
       for(const o of w.organisms){const n=layer(o);if(n===null||!living(o))continue;
@@ -11001,10 +11010,11 @@ function(require,module){
       if(a?.version!==VERSION||a.stage!=="foundation"||p?.version!==VERSION||!Array.isArray(p.profiles)||p.profiles.length!==n||
         !Array.isArray(a.water)||a.water.length!==n||!Array.isArray(a.decayLoad)||a.decayLoad.length!==n||!Array.isArray(a.nextMaterial)||!Array.isArray(a.organic)||!Number.isSafeInteger(a.resourceTurn)||a.resourceTurn<0||a.resourceTurn>w.turn)return ["CELL_STATE"];
       for(let cell=0;cell<n;cell++){
-        const f=p.profiles[cell];
+        const f=p.profiles[cell],aquatic=f?.region==="water"&&w.config.cellSettings?.aquaticProfile===AQUATIC;
         if(!f||!Number.isFinite(f.temperature)||!finite(f.pH)||f.pH>14||![.75,1,1.25].includes(f.soilQuality)||
-          !finite(f.lightBudget)||!(f.region==="water"?f.mineralCapacity===null:finite(f.mineralCapacity))||!["land","water"].includes(f.region)||
-          (f.region==="water"?(a.water[cell]!==null||f.waterCapacity!==null||f.rain!==null||f.evaporation!==null):
+          !finite(f.lightBudget)||!(f.region==="water"&&!aquatic?f.mineralCapacity===null:finite(f.mineralCapacity))||!["land","water"].includes(f.region)||
+          (aquatic&&(f.aquaticProfile!==AQUATIC||!finite(f.waterInput)||f.rain!==0))||
+          (f.region==="water"&&!aquatic?(a.water[cell]!==null||f.waterCapacity!==null||f.rain!==null||f.evaporation!==null||f.aquaticProfile!==undefined||f.waterInput!==undefined):
             (!finite(f.waterCapacity)||!finite(f.rain)||!finite(f.evaporation)||!finite(a.water[cell])||a.water[cell]>f.waterCapacity))||
           !finite(a.decayLoad[cell])||!finite(w.tiles[cell].soilM))errors.push("CELL_STOCK:"+cell);
       }
@@ -14054,9 +14064,9 @@ function(require,module){
       }
       a.nextMaterial=a.nextMaterial.filter(r=>r.availableAt>w.turn);
       for(let cell=0;cell<w.tiles.length;cell++){
-        const p=w.cellProfiles.profiles[cell];if(p.region==="water")continue;
-        const total=Q(a.water[cell]+p.rain),drain=Q(Math.max(0,total-p.waterCapacity)),held=Q(total-drain),evaporated=Q(Math.min(held,p.evaporation));
-        a.water[cell]=Q(held-evaporated);flow.waterInput=Q(flow.waterInput+p.rain);flow.waterDrain=Q(flow.waterDrain+drain);flow.waterEvaporation=Q(flow.waterEvaporation+evaporated);
+        const p=w.cellProfiles.profiles[cell];if(p.waterCapacity===null)continue;
+        const waterInput=p.waterInput??p.rain,total=Q(a.water[cell]+waterInput),drain=Q(Math.max(0,total-p.waterCapacity)),held=Q(total-drain),evaporated=Q(Math.min(held,p.evaporation));
+        a.water[cell]=Q(held-evaporated);flow.waterInput=Q(flow.waterInput+waterInput);flow.waterDrain=Q(flow.waterDrain+drain);flow.waterEvaporation=Q(flow.waterEvaporation+evaporated);
         const input=p.mineralInput,add=Q(Math.min(input,Math.max(0,p.mineralCapacity-w.tiles[cell].soilM)));
         w.tiles[cell].soilM=Q(w.tiles[cell].soilM+add);if(input>add)organic(w,cell,0,Q(input-add));flow.mineralInput=Q(flow.mineralInput+input);
       }
@@ -21477,15 +21487,16 @@ function(require,module){
   "use strict";
   // CR01: shared state/space contract. Biological progression is connected later.
   const CellSpace=(()=>{
-    const VERSION="cell-reorganization/1",limits=Object.freeze({1:6,2:3,3:5,4:5,5:6});
+    const VERSION="cell-reorganization/1",AQUATIC="freshwater-comparison/1",limits=Object.freeze({1:6,2:3,3:5,4:5,5:6});
     const enabled=w=>w?.config?.cellModel===VERSION;
     function settings(input={}){
       const defaults={soilQuality:1,temperature:20,landPH:6.5,waterPH:7,mineralLevel:"standard",mineralInput:0,rainScale:1,lightScale:1};
-      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: マス環境設定");
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)&&k!=="aquaticProfile"))throw Error("SETTINGS_INVALID: マス環境設定");
       const s={...defaults,...input};
       if(!["poor","standard","rich"].includes(s.mineralLevel)||![s.mineralInput,s.rainScale,s.lightScale].every(n=>Number.isFinite(n)&&n>=0&&n<=100)||
         ![.75,1,1.25].includes(s.soilQuality)||!Number.isFinite(s.temperature)||
-        ![s.landPH,s.waterPH].every(n=>Number.isFinite(n)&&n>=0&&n<=14))throw Error("SETTINGS_INVALID: マス環境設定");
+        ![s.landPH,s.waterPH].every(n=>Number.isFinite(n)&&n>=0&&n<=14)||s.aquaticProfile!==undefined&&s.aquaticProfile!==AQUATIC)throw Error("SETTINGS_INVALID: マス環境設定");
+      if(s.aquaticProfile===undefined)delete s.aquaticProfile;
       return s;
     }
     function layer(o){
@@ -21563,22 +21574,25 @@ function(require,module){
       if(!enabled(w))return w;
       if(w.turn!==0||w.cellState!==undefined||w.cellProfiles!==undefined)throw Error("CELL_STATE_EXISTS: マス状態は初期化済みか初期時点ではありません");
       const s=w.config.cellSettings,profiles=w.tiles.map(t=>{
-        const water=["shallow","deep"].includes(t.terrain),levels={poor:[2,8],standard:[5,20],rich:[10,40]},pH=water?s.waterPH:s.landPH;
+        const water=["shallow","deep"].includes(t.terrain),aquatic=water&&s.aquaticProfile===AQUATIC,
+          levels=aquatic?{poor:[4,16],standard:[8,32],rich:[16,64]}:{poor:[2,8],standard:[5,20],rich:[10,40]},pH=water?s.waterPH:s.landPH;
         return {region:water?"water":"land",temperature:s.temperature,pH,
           plantTemperature:curve(s.temperature,[[-5,0],[5,.5],[15,1],[25,1],[35,.5],[45,0]]),
           plantPH:curve(pH,[[3.5,0],[4.5,.5],[5.5,1],[7.5,1],[8.5,.5],[9.5,0]]),
           fungalTemperature:curve(s.temperature,[[-10,0],[5,.2],[20,1],[30,1],[45,0]]),
           fungalPH:curve(pH,[[2,0],[4,.6],[6.5,1],[8,.7],[11,0]]),
           soilQuality:s.soilQuality,lightBudget:H.round(15.6*t.light*s.lightScale),
-          mineralInitial:water?null:levels[s.mineralLevel][0],mineralCapacity:water?null:H.round(levels[s.mineralLevel][1]*s.soilQuality),
-          mineralInput:water?null:s.mineralInput,
-          // Aquatic supply coefficients are deliberately not copied from land.
-          waterCapacity:water?null:H.round(30*s.soilQuality),rain:water?null:H.round(6.5*s.rainScale),evaporation:water?null:H.round(.5*2**H.clamp((s.temperature-20)/10,-4,4))};
+          mineralInitial:water&&!aquatic?null:levels[s.mineralLevel][0],mineralCapacity:water&&!aquatic?null:H.round(levels[s.mineralLevel][1]*s.soilQuality),
+          mineralInput:water&&!aquatic?null:s.mineralInput,
+          // Only an explicit comparison profile resolves the aquatic boundary.
+          ...(aquatic?{aquaticProfile:AQUATIC,waterInput:H.round(8*s.rainScale)}:{}),
+          waterCapacity:water?(aquatic?40:null):H.round(30*s.soilQuality),rain:water?(aquatic?0:null):H.round(6.5*s.rainScale),
+          evaporation:water&&!aquatic?null:H.round(.5*2**H.clamp((s.temperature-20)/10,-4,4))};
       });
       w.cellProfiles={version:VERSION,profiles};
-      w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?null:15),
+      w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?(p.aquaticProfile===AQUATIC?32:null):15),
         decayLoad:profiles.map(()=>0),nextMaterial:[],organic:[],resourceTurn:0,backgroundTurn:0};
-      for(let cell=0;cell<w.tiles.length;cell++)if(profiles[cell].region==="land")w.tiles[cell].soilM=profiles[cell].mineralInitial;
+      for(let cell=0;cell<w.tiles.length;cell++)if(profiles[cell].mineralInitial!==null)w.tiles[cell].soilM=profiles[cell].mineralInitial;
       for(const o of w.organisms)CellLife.attach(w,o);
       const cells=new Map();
       for(const o of w.organisms){const n=layer(o);if(n===null||!living(o))continue;
@@ -21608,10 +21622,11 @@ function(require,module){
       if(a?.version!==VERSION||a.stage!=="foundation"||p?.version!==VERSION||!Array.isArray(p.profiles)||p.profiles.length!==n||
         !Array.isArray(a.water)||a.water.length!==n||!Array.isArray(a.decayLoad)||a.decayLoad.length!==n||!Array.isArray(a.nextMaterial)||!Array.isArray(a.organic)||!Number.isSafeInteger(a.resourceTurn)||a.resourceTurn<0||a.resourceTurn>w.turn)return ["CELL_STATE"];
       for(let cell=0;cell<n;cell++){
-        const f=p.profiles[cell];
+        const f=p.profiles[cell],aquatic=f?.region==="water"&&w.config.cellSettings?.aquaticProfile===AQUATIC;
         if(!f||!Number.isFinite(f.temperature)||!finite(f.pH)||f.pH>14||![.75,1,1.25].includes(f.soilQuality)||
-          !finite(f.lightBudget)||!(f.region==="water"?f.mineralCapacity===null:finite(f.mineralCapacity))||!["land","water"].includes(f.region)||
-          (f.region==="water"?(a.water[cell]!==null||f.waterCapacity!==null||f.rain!==null||f.evaporation!==null):
+          !finite(f.lightBudget)||!(f.region==="water"&&!aquatic?f.mineralCapacity===null:finite(f.mineralCapacity))||!["land","water"].includes(f.region)||
+          (aquatic&&(f.aquaticProfile!==AQUATIC||!finite(f.waterInput)||f.rain!==0))||
+          (f.region==="water"&&!aquatic?(a.water[cell]!==null||f.waterCapacity!==null||f.rain!==null||f.evaporation!==null||f.aquaticProfile!==undefined||f.waterInput!==undefined):
             (!finite(f.waterCapacity)||!finite(f.rain)||!finite(f.evaporation)||!finite(a.water[cell])||a.water[cell]>f.waterCapacity))||
           !finite(a.decayLoad[cell])||!finite(w.tiles[cell].soilM))errors.push("CELL_STOCK:"+cell);
       }
@@ -26192,15 +26207,16 @@ function(require,module){
   "use strict";
   // CR01: shared state/space contract. Biological progression is connected later.
   const CellSpace=(()=>{
-    const VERSION="cell-reorganization/1",limits=Object.freeze({1:6,2:3,3:5,4:5,5:6});
+    const VERSION="cell-reorganization/1",AQUATIC="freshwater-comparison/1",limits=Object.freeze({1:6,2:3,3:5,4:5,5:6});
     const enabled=w=>w?.config?.cellModel===VERSION;
     function settings(input={}){
       const defaults={soilQuality:1,temperature:20,landPH:6.5,waterPH:7,mineralLevel:"standard",mineralInput:0,rainScale:1,lightScale:1};
-      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: マス環境設定");
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)&&k!=="aquaticProfile"))throw Error("SETTINGS_INVALID: マス環境設定");
       const s={...defaults,...input};
       if(!["poor","standard","rich"].includes(s.mineralLevel)||![s.mineralInput,s.rainScale,s.lightScale].every(n=>Number.isFinite(n)&&n>=0&&n<=100)||
         ![.75,1,1.25].includes(s.soilQuality)||!Number.isFinite(s.temperature)||
-        ![s.landPH,s.waterPH].every(n=>Number.isFinite(n)&&n>=0&&n<=14))throw Error("SETTINGS_INVALID: マス環境設定");
+        ![s.landPH,s.waterPH].every(n=>Number.isFinite(n)&&n>=0&&n<=14)||s.aquaticProfile!==undefined&&s.aquaticProfile!==AQUATIC)throw Error("SETTINGS_INVALID: マス環境設定");
+      if(s.aquaticProfile===undefined)delete s.aquaticProfile;
       return s;
     }
     function layer(o){
@@ -26278,22 +26294,25 @@ function(require,module){
       if(!enabled(w))return w;
       if(w.turn!==0||w.cellState!==undefined||w.cellProfiles!==undefined)throw Error("CELL_STATE_EXISTS: マス状態は初期化済みか初期時点ではありません");
       const s=w.config.cellSettings,profiles=w.tiles.map(t=>{
-        const water=["shallow","deep"].includes(t.terrain),levels={poor:[2,8],standard:[5,20],rich:[10,40]},pH=water?s.waterPH:s.landPH;
+        const water=["shallow","deep"].includes(t.terrain),aquatic=water&&s.aquaticProfile===AQUATIC,
+          levels=aquatic?{poor:[4,16],standard:[8,32],rich:[16,64]}:{poor:[2,8],standard:[5,20],rich:[10,40]},pH=water?s.waterPH:s.landPH;
         return {region:water?"water":"land",temperature:s.temperature,pH,
           plantTemperature:curve(s.temperature,[[-5,0],[5,.5],[15,1],[25,1],[35,.5],[45,0]]),
           plantPH:curve(pH,[[3.5,0],[4.5,.5],[5.5,1],[7.5,1],[8.5,.5],[9.5,0]]),
           fungalTemperature:curve(s.temperature,[[-10,0],[5,.2],[20,1],[30,1],[45,0]]),
           fungalPH:curve(pH,[[2,0],[4,.6],[6.5,1],[8,.7],[11,0]]),
           soilQuality:s.soilQuality,lightBudget:H.round(15.6*t.light*s.lightScale),
-          mineralInitial:water?null:levels[s.mineralLevel][0],mineralCapacity:water?null:H.round(levels[s.mineralLevel][1]*s.soilQuality),
-          mineralInput:water?null:s.mineralInput,
-          // Aquatic supply coefficients are deliberately not copied from land.
-          waterCapacity:water?null:H.round(30*s.soilQuality),rain:water?null:H.round(6.5*s.rainScale),evaporation:water?null:H.round(.5*2**H.clamp((s.temperature-20)/10,-4,4))};
+          mineralInitial:water&&!aquatic?null:levels[s.mineralLevel][0],mineralCapacity:water&&!aquatic?null:H.round(levels[s.mineralLevel][1]*s.soilQuality),
+          mineralInput:water&&!aquatic?null:s.mineralInput,
+          // Only an explicit comparison profile resolves the aquatic boundary.
+          ...(aquatic?{aquaticProfile:AQUATIC,waterInput:H.round(8*s.rainScale)}:{}),
+          waterCapacity:water?(aquatic?40:null):H.round(30*s.soilQuality),rain:water?(aquatic?0:null):H.round(6.5*s.rainScale),
+          evaporation:water&&!aquatic?null:H.round(.5*2**H.clamp((s.temperature-20)/10,-4,4))};
       });
       w.cellProfiles={version:VERSION,profiles};
-      w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?null:15),
+      w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?(p.aquaticProfile===AQUATIC?32:null):15),
         decayLoad:profiles.map(()=>0),nextMaterial:[],organic:[],resourceTurn:0,backgroundTurn:0};
-      for(let cell=0;cell<w.tiles.length;cell++)if(profiles[cell].region==="land")w.tiles[cell].soilM=profiles[cell].mineralInitial;
+      for(let cell=0;cell<w.tiles.length;cell++)if(profiles[cell].mineralInitial!==null)w.tiles[cell].soilM=profiles[cell].mineralInitial;
       for(const o of w.organisms)CellLife.attach(w,o);
       const cells=new Map();
       for(const o of w.organisms){const n=layer(o);if(n===null||!living(o))continue;
@@ -26323,10 +26342,11 @@ function(require,module){
       if(a?.version!==VERSION||a.stage!=="foundation"||p?.version!==VERSION||!Array.isArray(p.profiles)||p.profiles.length!==n||
         !Array.isArray(a.water)||a.water.length!==n||!Array.isArray(a.decayLoad)||a.decayLoad.length!==n||!Array.isArray(a.nextMaterial)||!Array.isArray(a.organic)||!Number.isSafeInteger(a.resourceTurn)||a.resourceTurn<0||a.resourceTurn>w.turn)return ["CELL_STATE"];
       for(let cell=0;cell<n;cell++){
-        const f=p.profiles[cell];
+        const f=p.profiles[cell],aquatic=f?.region==="water"&&w.config.cellSettings?.aquaticProfile===AQUATIC;
         if(!f||!Number.isFinite(f.temperature)||!finite(f.pH)||f.pH>14||![.75,1,1.25].includes(f.soilQuality)||
-          !finite(f.lightBudget)||!(f.region==="water"?f.mineralCapacity===null:finite(f.mineralCapacity))||!["land","water"].includes(f.region)||
-          (f.region==="water"?(a.water[cell]!==null||f.waterCapacity!==null||f.rain!==null||f.evaporation!==null):
+          !finite(f.lightBudget)||!(f.region==="water"&&!aquatic?f.mineralCapacity===null:finite(f.mineralCapacity))||!["land","water"].includes(f.region)||
+          (aquatic&&(f.aquaticProfile!==AQUATIC||!finite(f.waterInput)||f.rain!==0))||
+          (f.region==="water"&&!aquatic?(a.water[cell]!==null||f.waterCapacity!==null||f.rain!==null||f.evaporation!==null||f.aquaticProfile!==undefined||f.waterInput!==undefined):
             (!finite(f.waterCapacity)||!finite(f.rain)||!finite(f.evaporation)||!finite(a.water[cell])||a.water[cell]>f.waterCapacity))||
           !finite(a.decayLoad[cell])||!finite(w.tiles[cell].soilM))errors.push("CELL_STOCK:"+cell);
       }
@@ -30060,15 +30080,16 @@ function(require,module){
   "use strict";
   // CR01: shared state/space contract. Biological progression is connected later.
   const CellSpace=(()=>{
-    const VERSION="cell-reorganization/1",limits=Object.freeze({1:6,2:3,3:5,4:5,5:6});
+    const VERSION="cell-reorganization/1",AQUATIC="freshwater-comparison/1",limits=Object.freeze({1:6,2:3,3:5,4:5,5:6});
     const enabled=w=>w?.config?.cellModel===VERSION;
     function settings(input={}){
       const defaults={soilQuality:1,temperature:20,landPH:6.5,waterPH:7,mineralLevel:"standard",mineralInput:0,rainScale:1,lightScale:1};
-      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)))throw Error("SETTINGS_INVALID: マス環境設定");
+      if(!input||typeof input!=="object"||Array.isArray(input)||Object.keys(input).some(k=>!Object.hasOwn(defaults,k)&&k!=="aquaticProfile"))throw Error("SETTINGS_INVALID: マス環境設定");
       const s={...defaults,...input};
       if(!["poor","standard","rich"].includes(s.mineralLevel)||![s.mineralInput,s.rainScale,s.lightScale].every(n=>Number.isFinite(n)&&n>=0&&n<=100)||
         ![.75,1,1.25].includes(s.soilQuality)||!Number.isFinite(s.temperature)||
-        ![s.landPH,s.waterPH].every(n=>Number.isFinite(n)&&n>=0&&n<=14))throw Error("SETTINGS_INVALID: マス環境設定");
+        ![s.landPH,s.waterPH].every(n=>Number.isFinite(n)&&n>=0&&n<=14)||s.aquaticProfile!==undefined&&s.aquaticProfile!==AQUATIC)throw Error("SETTINGS_INVALID: マス環境設定");
+      if(s.aquaticProfile===undefined)delete s.aquaticProfile;
       return s;
     }
     function layer(o){
@@ -30146,22 +30167,25 @@ function(require,module){
       if(!enabled(w))return w;
       if(w.turn!==0||w.cellState!==undefined||w.cellProfiles!==undefined)throw Error("CELL_STATE_EXISTS: マス状態は初期化済みか初期時点ではありません");
       const s=w.config.cellSettings,profiles=w.tiles.map(t=>{
-        const water=["shallow","deep"].includes(t.terrain),levels={poor:[2,8],standard:[5,20],rich:[10,40]},pH=water?s.waterPH:s.landPH;
+        const water=["shallow","deep"].includes(t.terrain),aquatic=water&&s.aquaticProfile===AQUATIC,
+          levels=aquatic?{poor:[4,16],standard:[8,32],rich:[16,64]}:{poor:[2,8],standard:[5,20],rich:[10,40]},pH=water?s.waterPH:s.landPH;
         return {region:water?"water":"land",temperature:s.temperature,pH,
           plantTemperature:curve(s.temperature,[[-5,0],[5,.5],[15,1],[25,1],[35,.5],[45,0]]),
           plantPH:curve(pH,[[3.5,0],[4.5,.5],[5.5,1],[7.5,1],[8.5,.5],[9.5,0]]),
           fungalTemperature:curve(s.temperature,[[-10,0],[5,.2],[20,1],[30,1],[45,0]]),
           fungalPH:curve(pH,[[2,0],[4,.6],[6.5,1],[8,.7],[11,0]]),
           soilQuality:s.soilQuality,lightBudget:H.round(15.6*t.light*s.lightScale),
-          mineralInitial:water?null:levels[s.mineralLevel][0],mineralCapacity:water?null:H.round(levels[s.mineralLevel][1]*s.soilQuality),
-          mineralInput:water?null:s.mineralInput,
-          // Aquatic supply coefficients are deliberately not copied from land.
-          waterCapacity:water?null:H.round(30*s.soilQuality),rain:water?null:H.round(6.5*s.rainScale),evaporation:water?null:H.round(.5*2**H.clamp((s.temperature-20)/10,-4,4))};
+          mineralInitial:water&&!aquatic?null:levels[s.mineralLevel][0],mineralCapacity:water&&!aquatic?null:H.round(levels[s.mineralLevel][1]*s.soilQuality),
+          mineralInput:water&&!aquatic?null:s.mineralInput,
+          // Only an explicit comparison profile resolves the aquatic boundary.
+          ...(aquatic?{aquaticProfile:AQUATIC,waterInput:H.round(8*s.rainScale)}:{}),
+          waterCapacity:water?(aquatic?40:null):H.round(30*s.soilQuality),rain:water?(aquatic?0:null):H.round(6.5*s.rainScale),
+          evaporation:water&&!aquatic?null:H.round(.5*2**H.clamp((s.temperature-20)/10,-4,4))};
       });
       w.cellProfiles={version:VERSION,profiles};
-      w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?null:15),
+      w.cellState={version:VERSION,stage:"foundation",water:profiles.map(p=>p.region==="water"?(p.aquaticProfile===AQUATIC?32:null):15),
         decayLoad:profiles.map(()=>0),nextMaterial:[],organic:[],resourceTurn:0,backgroundTurn:0};
-      for(let cell=0;cell<w.tiles.length;cell++)if(profiles[cell].region==="land")w.tiles[cell].soilM=profiles[cell].mineralInitial;
+      for(let cell=0;cell<w.tiles.length;cell++)if(profiles[cell].mineralInitial!==null)w.tiles[cell].soilM=profiles[cell].mineralInitial;
       for(const o of w.organisms)CellLife.attach(w,o);
       const cells=new Map();
       for(const o of w.organisms){const n=layer(o);if(n===null||!living(o))continue;
@@ -30191,10 +30215,11 @@ function(require,module){
       if(a?.version!==VERSION||a.stage!=="foundation"||p?.version!==VERSION||!Array.isArray(p.profiles)||p.profiles.length!==n||
         !Array.isArray(a.water)||a.water.length!==n||!Array.isArray(a.decayLoad)||a.decayLoad.length!==n||!Array.isArray(a.nextMaterial)||!Array.isArray(a.organic)||!Number.isSafeInteger(a.resourceTurn)||a.resourceTurn<0||a.resourceTurn>w.turn)return ["CELL_STATE"];
       for(let cell=0;cell<n;cell++){
-        const f=p.profiles[cell];
+        const f=p.profiles[cell],aquatic=f?.region==="water"&&w.config.cellSettings?.aquaticProfile===AQUATIC;
         if(!f||!Number.isFinite(f.temperature)||!finite(f.pH)||f.pH>14||![.75,1,1.25].includes(f.soilQuality)||
-          !finite(f.lightBudget)||!(f.region==="water"?f.mineralCapacity===null:finite(f.mineralCapacity))||!["land","water"].includes(f.region)||
-          (f.region==="water"?(a.water[cell]!==null||f.waterCapacity!==null||f.rain!==null||f.evaporation!==null):
+          !finite(f.lightBudget)||!(f.region==="water"&&!aquatic?f.mineralCapacity===null:finite(f.mineralCapacity))||!["land","water"].includes(f.region)||
+          (aquatic&&(f.aquaticProfile!==AQUATIC||!finite(f.waterInput)||f.rain!==0))||
+          (f.region==="water"&&!aquatic?(a.water[cell]!==null||f.waterCapacity!==null||f.rain!==null||f.evaporation!==null||f.aquaticProfile!==undefined||f.waterInput!==undefined):
             (!finite(f.waterCapacity)||!finite(f.rain)||!finite(f.evaporation)||!finite(a.water[cell])||a.water[cell]>f.waterCapacity))||
           !finite(a.decayLoad[cell])||!finite(w.tiles[cell].soilM))errors.push("CELL_STOCK:"+cell);
       }

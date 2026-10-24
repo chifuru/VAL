@@ -215,9 +215,9 @@
       }
       a.nextMaterial=a.nextMaterial.filter(r=>r.availableAt>w.turn);
       for(let cell=0;cell<w.tiles.length;cell++){
-        const p=w.cellProfiles.profiles[cell];if(p.region==="water")continue;
-        const total=Q(a.water[cell]+p.rain),drain=Q(Math.max(0,total-p.waterCapacity)),held=Q(total-drain),evaporated=Q(Math.min(held,p.evaporation));
-        a.water[cell]=Q(held-evaporated);flow.waterInput=Q(flow.waterInput+p.rain);flow.waterDrain=Q(flow.waterDrain+drain);flow.waterEvaporation=Q(flow.waterEvaporation+evaporated);
+        const p=w.cellProfiles.profiles[cell];if(p.waterCapacity===null)continue;
+        const waterInput=p.waterInput??p.rain,total=Q(a.water[cell]+waterInput),drain=Q(Math.max(0,total-p.waterCapacity)),held=Q(total-drain),evaporated=Q(Math.min(held,p.evaporation));
+        a.water[cell]=Q(held-evaporated);flow.waterInput=Q(flow.waterInput+waterInput);flow.waterDrain=Q(flow.waterDrain+drain);flow.waterEvaporation=Q(flow.waterEvaporation+evaporated);
         const input=p.mineralInput,add=Q(Math.min(input,Math.max(0,p.mineralCapacity-w.tiles[cell].soilM)));
         w.tiles[cell].soilM=Q(w.tiles[cell].soilM+add);if(input>add)organic(w,cell,0,Q(input-add));flow.mineralInput=Q(flow.mineralInput+input);
       }

@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: fungus has independent six-colony capacity, protected base, proportional costs and no colony lifetime
+ok 1 - fungus has independent six-colony capacity, protected base, proportional costs and no colony lifetime
+  ---
+  duration_ms: 42.138624
+  type: 'test'
+  ...
+# Subtest: base-only fungus obtains actual organic nutrients and regrows paid tissue without photosynthesis
+ok 2 - base-only fungus obtains actual organic nutrients and regrows paid tissue without photosynthesis
+  ---
+  duration_ms: 9.665238
+  type: 'test'
+  ...
+# Subtest: decomposition shares finite sources and a single processing/water cap across all requests
+ok 3 - decomposition shares finite sources and a single processing/water cap across all requests
+  ---
+  duration_ms: 38.980556
+  type: 'test'
+  ...
+# Subtest: full M storage still permits energy processing and mineralizes only the unretained M next T
+ok 4 - full M storage still permits energy processing and mineralizes only the unretained M next T
+  ---
+  duration_ms: 7.283916
+  type: 'test'
+  ...
+# Subtest: full E storage still permits mineral processing; excess E becomes heat
+ok 5 - full E storage still permits mineral processing; excess E becomes heat
+  ---
+  duration_ms: 10.971102
+  type: 'test'
+  ...
+# Subtest: near-full reserves constrain aggregate demand across multiple sources
+ok 6 - near-full reserves constrain aggregate demand across multiple sources
+  ---
+  duration_ms: 6.628411
+  type: 'test'
+  ...
+# Subtest: pure-M and reserve-only organic matter have bounded nonzero processing cost
+ok 7 - pure-M and reserve-only organic matter have bounded nonzero processing cost
+  ---
+  duration_ms: 10.19847
+  type: 'test'
+  ...
+# Subtest: fungivory protects base1 and the remaining base can process food next T
+ok 8 - fungivory protects base1 and the remaining base can process food next T
+  ---
+  duration_ms: 5.854105
+  type: 'test'
+  ...
+# Subtest: fungal birth pays exact cost, requires B2, respects cooldown and preserves I/0 child
+ok 9 - fungal birth pays exact cost, requires B2, respects cooldown and preserves I/0 child
+  ---
+  duration_ms: 15.266233
+  type: 'test'
+  ...
+# Subtest: shortage uses one E/M deficit, removes edible before base at .4B/T, and may disappear
+ok 10 - shortage uses one E/M deficit, removes edible before base at .4B/T, and may disappear
+  ---
+  duration_ms: 4.905809
+  type: 'test'
+  ...
+# Subtest: physical corpses preserve exact remaining material, coexist and are unavailable on the death T
+ok 11 - physical corpses preserve exact remaining material, coexist and are unavailable on the death T
+  ---
+  duration_ms: 40.246878
+  type: 'test'
+  ...
+# Subtest: payload expiry changes infection only, never physical corpse energy or minerals
+ok 12 - payload expiry changes infection only, never physical corpse energy or minerals
+  ---
+  duration_ms: 4.401871
+  type: 'test'
+  ...
+# Subtest: background acts once on post-feeding available stock and returns M next T only
+ok 13 - background acts once on post-feeding available stock and returns M next T only
+  ---
+  duration_ms: 5.127473
+  type: 'test'
+  ...
+# Subtest: background excludes fresh/deferred matter and reserves capacity against existing mineral returns
+ok 14 - background excludes fresh/deferred matter and reserves capacity against existing mineral returns
+  ---
+  duration_ms: 14.620462
+  type: 'test'
+  ...
+# Subtest: decay load has bounded effects, no direct fungus penalty and recovers with reduced material
+ok 15 - decay load has bounded effects, no direct fungus penalty and recovers with reduced material
+  ---
+  duration_ms: 6.192565
+  type: 'test'
+  ...
+# Subtest: generated/source lifecycle and Worker state agree through a short organic-fungus-plant cycle
+ok 16 - generated/source lifecycle and Worker state agree through a short organic-fungus-plant cycle
+  ---
+  duration_ms: 269.803403
+  type: 'test'
+  ...
+# Subtest: six fungi and a scavenger share one carcass without overdraw and request-order bias
+ok 17 - six fungi and a scavenger share one carcass without overdraw and request-order bias
+  ---
+  duration_ms: 15.230699
+  type: 'test'
+  ...
+# Subtest: background return is independent of stock order and high concentration alone yields bounded load
+ok 18 - background return is independent of stock order and high concentration alone yields bounded load
+  ---
+  duration_ms: 24.143256
+  type: 'test'
+  ...
+# Subtest: actual source nutrient ratios bound demand for reserve-rich remains and shared mineral uptake
+ok 19 - actual source nutrient ratios bound demand for reserve-rich remains and shared mineral uptake
+  ---
+  duration_ms: 14.75904
+  type: 'test'
+  ...
+# Subtest: independent E and M needs do not suppress each other across soil and heterogeneous organic sources
+ok 20 - independent E and M needs do not suppress each other across soil and heterogeneous organic sources
+  ---
+  duration_ms: 53.956971
+  type: 'test'
+  ...
+# Subtest: existing parasite hooks retain a finite payload deadline and clean carrier state without expiring the corpse
+ok 21 - existing parasite hooks retain a finite payload deadline and clean carrier state without expiring the corpse
+  ---
+  duration_ms: 6.423782
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 624.891908

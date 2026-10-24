@@ -1,0 +1,68 @@
+{
+  "scope": "CR06 explicit finite aquatic profile and lower-layer life",
+  "baseline": "294d1b6",
+  "nodes": 61,
+  "updatedNodes": [
+    "C7.1",
+    "C7.2",
+    "C7",
+    "C8.2",
+    "D7",
+    "D8",
+    "E5"
+  ],
+  "coreUnchanged": true,
+  "ABAndAdoptedSpecificationsUnchanged": true,
+  "formalStateAndGraphUnchanged": true,
+  "manifestHasExactlyOneEntryPerNodeAndPrescribedFields": true,
+  "packageAndUIUnchanged": true,
+  "tests": {
+    "cell-aquatic-resources": {
+      "passed": 12,
+      "failed": 0
+    },
+    "cell-resources": {
+      "passed": 20,
+      "failed": 0
+    },
+    "cell-circulation": {
+      "passed": 21,
+      "failed": 0
+    },
+    "cell-space": {
+      "passed": 8,
+      "failed": 0
+    }
+  },
+  "totalPassed": 61,
+  "shortAquaticLowerLifeTurns": 3,
+  "legacyExactTurns": 4,
+  "generated": {
+    "profiles": 8,
+    "uniqueModules": 22,
+    "bytes": 1974749,
+    "check": "pass"
+  },
+  "signature": "77f2648db510a6329c7039ca366ebd9510c0265648888dc0350b47a0396c7290",
+  "guards": {
+    "normalNewCellStep": "retained",
+    "newCellResultCapture": "retained",
+    "legacySignatureAlias": "only without cellModel"
+  },
+  "comparisonBoundary": {
+    "aquaticProfile": "freshwater-comparison/1",
+    "activation": "explicit configuration only",
+    "waterCapacity": 40,
+    "waterInitial": 32,
+    "waterInputAtRain1": 8,
+    "mineralDefaultInput": 0,
+    "ABAdoptionOrPublicDefault": false
+  },
+  "notVerified": [
+    "dedicated freshwaterlight life",
+    "dedicated canopy and CR04 species/regeneration remainders",
+    "observation/UI/configuration/archive release and normal/max speed equivalence",
+    "natural P/Q multi-generation,500T,R1-R6,performance,Windows"
+  ],
+  "next": "connect dedicated freshwaterlight life, then observation/archive integration"
+}
