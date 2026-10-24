@@ -6,7 +6,7 @@ const base={seed:'current-soil',width:8,height:8,initial:0,enabled:{main:false,p
  largePlantSettings:{autoDensity:{land:0,water:0}},consumerModel:'group/1',ryoukiModel:'ryouki/1',primaryParasiteModel:'primary/1',hyperParasiteModel:'hyper/1',parasiteCohortModel:'cohort/1',informationModel:'persistent/1',ageModel:'life/1',ecologyRevision:'observation/4.1'};
 function world(){const w=E.create(base);for(const key of ['organisms','resources','carcasses','pending','primaryInocula','hyperInocula','searchQ','informationField'])w[key]=[];
  w.tiles=w.tiles.map(t=>({...t,terrain:'plain',env:3,light:1,soilM:5,blocked:false,cover:'none',walls:[]}));
- w.config.cellModel=C.VERSION;w.config.cellSettings=C.settings();w.config.currentStateModel='current-state/1';C.initialize(w);S.PersistentInformation.initialize(w);w.turn=1;return w;}
+ w.config.cellModel=C.VERSION;w.config.cellSettings=C.settings();w.config.currentStateModel='current-state/1';delete w.contactPairs;delete w.demography;delete w.observation;C.initialize(w);S.PersistentInformation.initialize(w);w.turn=1;return w;}
 function add(w,id,species='solar',options={}){const o=S.organism(w,S.D.byId[species],options.cell??18,id,{age:18,E:10,M:0,...options});C.assign(w,o);w.organisms.push(o);return o;}
 function corpse(w,{id='dead',cell=18,sourceClass='lower-animal',E:energy=10,M=.2,B=5,created=0}={}){
  const a={id,cell,sourceClass,species:sourceClass==='plant'?'grass':'grassbug',slot:'food',tag:T.tagOf(sourceClass),E:energy,M,G:B,q:Math.max(energy,B),created,availableAt:created+1,payloadExpires:null,infection:null};w.carcasses.push(a);return a;

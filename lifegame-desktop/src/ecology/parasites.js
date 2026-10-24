@@ -507,6 +507,7 @@
       }
       const phase=Math.min(3,q.phase),factor=hyperCost(q,p)*(cohorts(w)?S.ParasiteCohort.burden(q):1),tax=S.round(Math.min(p.E,z.hostTax[phase]*(cohorts(w)?S.ParasiteCohort.burden(q):1),z.capE-q.E));
       p.E=S.round(p.E-tax);q.E=S.round(q.E+tax);last.taxE=tax;
+      if(S.CurrentEcology.enabled(w)&&tax>0){S.CurrentEcology.receive(w,q,tax,S.CurrentEcology.parts(w,p));S.record(ctx,{id:q.id,cell:host.cell},"uptake",{kind:"parasitism",source:p.id,sourceSpecies:p.species,energy:tax});}
       const cost=S.round(z.maintenance[phase]*factor),paid=hyperSpend(w,q,cost);
       last.maintenanceE=paid;last.maintained=paid+1e-8>=cost;hyperFlow(w,ctx,"maintenanceE",paid);
       q.hyper.starvationRun=last.maintained?0:q.hyper.starvationRun+1;
@@ -946,7 +947,7 @@
         else if(w.turn>=p.primary.carrierUntil){exclude(w,ctx,host,"carrier-expired");continue;}
       }
       const phase=Math.min(3,p.phase),factor=primaryCost(w,p,host)*(cohorts(w)?S.ParasiteCohort.burden(p):1),last=p.primary.last;
-      if(alive){const paid=Math.min(host.E/S.ConsumerGroup.count(host),settings.hostTax[phase]*(cohorts(w)?S.ParasiteCohort.burden(p):1),settings.capE-p.E);host.E=S.round(host.E-paid);p.E=S.round(p.E+paid);last.taxE=paid;}
+      if(alive){const paid=Math.min(host.E/S.ConsumerGroup.count(host),settings.hostTax[phase]*(cohorts(w)?S.ParasiteCohort.burden(p):1),settings.capE-p.E);host.E=S.round(host.E-paid);p.E=S.round(p.E+paid);last.taxE=paid;if(S.CurrentEcology.enabled(w)&&paid>0){S.CurrentEcology.receive(w,p,paid,S.CurrentEcology.parts(w,host));S.record(ctx,{id:p.id,cell:host.cell},"uptake",{kind:"parasitism",source:host.id,sourceSpecies:host.species,energy:paid});}}
       const maintenance=S.round(settings.maintenance[phase]*factor),paid=primarySpend(w,p,maintenance);
       last.maintenanceE=paid;last.maintained=paid+1e-8>=maintenance;entry.full=last.maintained;
       if(!last.maintained)last.blockers.push("maintenance");

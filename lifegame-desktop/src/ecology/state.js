@@ -8,13 +8,14 @@
       : root.EcoData,
     typeof module === "object" && module.exports ? require("./current-information.js") : root.EcoCurrentInformation,
     typeof module === "object" && module.exports ? require("./soil-matter.js") : root.EcoSoilMatter,
+    typeof module === "object" && module.exports ? require("./current-ecology.js") : root.EcoCurrentEcology,
     typeof module === "object" && module.exports ? require("./landscape.js") : root.EcoLandscape,
   );
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.EcoState = api;
-})(globalThis, function (H, D, CurrentInformationFactory, SoilMatterFactory, Landscape) {
+})(globalThis, function (H, D, CurrentInformationFactory, SoilMatterFactory, CurrentEcologyFactory, Landscape) {
   "use strict";
-  let currentInformation,soilMatter;
+  let currentInformation,soilMatter,currentEcology;
   const behaviorWeights=(w,o)=>currentInformation?.enabled(w)?currentInformation.weights(o):o.weights;
   // CR01: shared state/space contract. Biological progression is connected later.
   const CellSpace=(()=>{
@@ -227,6 +228,7 @@
         if(!r||typeof r.id!=="string"||organicIds.has(r.id)||!Number.isSafeInteger(r.cell)||!w.tiles[r.cell]||![r.E,r.M,r.B].every(finite)||r.B>r.E)errors.push("CELL_ORGANIC");
         organicIds.add(r?.id);}
       if(soilMatter?.enabled(w))errors.push(...soilMatter.validate(w));
+      if(currentEcology?.enabled(w))errors.push(...currentEcology.validate(w));
       return errors;
     }
     return {VERSION,limits,enabled,settings,layer,index,room,assign,founders,population,release,initialize,stock,summary,validate,deferMaterial};
@@ -289,7 +291,9 @@ function begin(w,S){
  }
 }
 function finish(w,ctx,S){
- if(!w.producerSupport)return;w.demography??={};
+ if(!w.producerSupport)return;
+ if(S.CurrentEcology?.enabled(w)){for(const o of w.producerSupport.last.births)S.record(ctx,o,'establishment',{origin:'environment'});return;}
+ w.demography??={};
  for(const o of w.producerSupport.last.births){const k=o.species+'|0',a=w.demography[k]??={species:o.species,generation:0,initial:0,born:0,matured:0,reproduced:0,juvenileDeaths:0};a.environmentEstablished=(a.environmentEstablished||0)+1;S.record(ctx,o,'establishment',{origin:'environment'});}
 }
 return {settings,attach,region,level,factor,begin,finish};
@@ -417,6 +421,7 @@ return {settings,attach,region,level,factor,begin,finish};
       }
       const part={...o,id:"part:"+o.id+":"+w.turn+":"+g.serial++,parents:[o.id],infection:infected?o.infection:null,groupRemains:true,B};
       delete part.consumerGroup;delete part.cellLife;delete part.knowledge;delete part.information;delete part.informationState;delete part.hyperTraces;
+      if(currentEcology?.enabled(w))currentEcology.partition(w,o,part,n/before);
       for(const k of ["E","M"]){part[k]=n===before?o[k]:Q(o[k]*n/before);o[k]=Q(o[k]-part[k]);}
       part.cellMatter={...o.cellMatter,bodyM:n===before?o.cellMatter.bodyM:Q(o.cellMatter.bodyM*(o.B?B/o.B:n/before)),newB:Math.min(B,Q((o.cellMatter.newB||0)*(o.B?B/o.B:n/before))),newEdibleB:0};
       o.cellMatter.bodyM=Q(o.cellMatter.bodyM-part.cellMatter.bodyM);o.B=Q(o.B-B);
@@ -564,6 +569,7 @@ return {settings,attach,region,level,factor,begin,finish};
       const infectedAge=infected?g.infectedAge:null;
       const part={...o,id:'part:'+o.id+':'+w.turn+':'+g.serial++,parents:[o.id],infection:infected?o.infection:null,groupRemains:true};
       delete part.consumerGroup;delete part.knowledge;delete part.information;delete part.informationState;delete part.hyperTraces;
+      if(currentEcology?.enabled(w))currentEcology.partition(w,o,part,n/before);
       for(const k of ['E','B','M']){part[k]=n===before?o[k]:H.round(o[k]*n/before);o[k]=H.round(o[k]-part[k]);}
       part.HP=H.round(o.HP*n/before);part.age=cohorts[0].age;
       if(infected){o.infection=null;g.infectedAge=null;part.infection.hostId=part.id;}
@@ -1490,7 +1496,7 @@ return {settings,attach,region,level,factor,begin,finish};
         learnedPreferences:Array(9).fill(0),eventDedupe:{turn:-1,keys:[]},progressTurn:{turn:-1,maintained:false,relation:false},last:null};
       return o.informationState;
     }
-    function attach(w,o){if(currentInformation?.enabled(w))return currentInformation.attach(w,o);if(enabled(w))state(o);return o;}
+    function attach(w,o){if(currentEcology?.enabled(w))currentEcology.attach(w,o);if(currentInformation?.enabled(w))return currentInformation.attach(w,o);if(enabled(w))state(o);return o;}
     function entries(w){
       if(!enabled(w))return [];
       const out=[],seen=new Set(),push=(subject,kind,host,carrier,cell)=>{if(subject&&!seen.has(subject.id)){seen.add(subject.id);out.push({subject,kind,host,carrier,cell,roles:roles(w,subject)});}};
@@ -3062,5 +3068,6 @@ return {settings,attach,region,level,factor,begin,finish};
   };
   currentInformation=CurrentInformationFactory.bind(api);api.CurrentInformation=currentInformation;
   soilMatter=SoilMatterFactory.bind(api);api.SoilMatter=soilMatter;
+  currentEcology=CurrentEcologyFactory.bind(api);api.CurrentEcology=currentEcology;
   return api;
 });

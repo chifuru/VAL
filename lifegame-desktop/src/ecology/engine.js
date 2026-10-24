@@ -106,6 +106,7 @@
       ctx.traits.set(o.id, S.phenotype(w, o));
       ctx.old.set(o.id, {
         phase: o.phase,
+        ...(S.CurrentEcology.enabled(w)?{generation:o.generation??null,ageStage:ctx.traits.get(o.id).ageStage}:{}),
         ...(S.ConsumerGroup.is(o)?{members:S.ConsumerGroup.count(o)}:{}),
         species: o.species,
         HP: o.HP,
@@ -153,6 +154,7 @@
     return ctx;
   }
   function prepare(w, ctx) {
+    if(S.CurrentEcology.enabled(w))S.CurrentEcology.begin(w,ctx);
     if(S.CellSpace.enabled(w)){
       if(S.PersistentInformation?.enabled(w))P.informationTrack(w,ctx);
       N.CellResources.payloads(w,ctx);
@@ -280,6 +282,7 @@
     };
   }
   function observation(w,ctx) {
+    if(S.CurrentEcology.enabled(w))return S.CurrentEcology.observation(w,ctx);
     const refs = new Map(w.organisms.map(o=>[o.id,o.species]));
     for(const [id,old] of ctx.old) if(old.species) refs.set(id,old.species);
     const relations={};

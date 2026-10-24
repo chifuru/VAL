@@ -1,0 +1,690 @@
+TAP version 13
+# Subtest: many deaths coalesce by cell/class/day, retain finite E/M/B, and discard dead identity
+not ok 1 - many deaths coalesce by cell/class/day, retain finite E/M/B, and discard dead identity
+  ---
+  duration_ms: 36.706777
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:21:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:24:62)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.start (node:internal/test_runner/test:1242:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+  ...
+# Subtest: different diet classes stay separate and waiting minerals are never edible stock
+not ok 2 - different diet classes stay separate and waiting minerals are never edible stock
+  ---
+  duration_ms: 57.324292
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:26:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:29:83)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: new death is unavailable to general feeding until next T; B is not added to E twice
+not ok 3 - new death is unavailable to general feeding until next T; B is not added to E twice
+  ---
+  duration_ms: 21.426466
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:31:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:33:123)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: fresh stock ages into one decomposed pool at 10T, without rebinding old carriers to a reused fresh slot
+not ok 4 - fresh stock ages into one decomposed pool at 10T, without rebinding old carriers to a reused fresh slot
+  ---
+  duration_ms: 8.955475
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:36:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:39:200)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: shared source requests are independent of death count and share one processing budget per fungus
+not ok 5 - shared source requests are independent of death count and share one processing budget per fungus
+  ---
+  duration_ms: 12.491932
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:41:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:43:170)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: fungi and consumers compete for the same real pool; request order does not change grants
+not ok 6 - fungi and consumers compete for the same real pool; request order does not change grants
+  ---
+  duration_ms: 56.590169
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:46:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    run (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:47:300)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:48:19)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: decomposed food applies half assimilation and retains waste in the correct current class
+not ok 7 - decomposed food applies half assimilation and retains waste in the correct current class
+  ---
+  duration_ms: 15.045787
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:50:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    feed (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:51:218)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:52:14)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: plants cannot eat residues; ryouki cannot acquire main-animal or Q tissue; remote pool is rejected
+not ok 8 - plants cannot eat residues; ryouki cannot acquire main-animal or Q tissue; remote pool is rejected
+  ---
+  duration_ms: 14.250997
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:54:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:57:92)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: background uses activity times .02, returns M next T, and never reuses new M in the same T
+not ok 9 - background uses activity times .02, returns M next T, and never reuses new M in the same T
+  ---
+  duration_ms: 53.59886
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:59:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:60:224)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: positive micro stocks reach heat/mineral waiting; a full soil does not retain individual remains
+not ok 10 - positive micro stocks reach heat/mineral waiting; a full soil does not retain individual remains
+  ---
+  duration_ms: 8.322409
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:63:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:64:274)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: dry stock persists without decomposition, while mineral-only stock becomes a finite waiting pool
+not ok 11 - dry stock persists without decomposition, while mineral-only stock becomes a finite waiting pool
+  ---
+  duration_ms: 9.533326
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:68:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:69:285)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: P/Q are held once in zero-nutrition carriers, without dead appearance/DNA or duplicate energy
+not ok 12 - P/Q are held once in zero-nutrition carriers, without dead appearance/DNA or duplicate energy
+  ---
+  duration_ms: 25.714297
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:71:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:73:391)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: actual feeding on the pool can transfer a mature P; pending transfer is neither cloned nor nutrition
+not ok 13 - actual feeding on the pool can transfer a mature P; pending transfer is neither cloned nor nutrition
+  ---
+  duration_ms: 60.284484
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:76:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:80:200)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: new remains after the background phase are also integrated before committing the turn
+not ok 14 - new remains after the background phase are also integrated before committing the turn
+  ---
+  duration_ms: 17.869358
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:82:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:83:259)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: same-turn captures remain restricted to real participants; the remainder becomes next-T soil
+not ok 15 - same-turn captures remain restricted to real participants; the remainder becomes next-T soil
+  ---
+  duration_ms: 16.268131
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:85:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:91:91)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: ordinary new remains cannot be forged into a capture or read as an available soil pool
+not ok 16 - ordinary new remains cannot be forged into a capture or read as an available soil pool
+  ---
+  duration_ms: 16.469976
+  type: 'test'
+  location: '/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:93:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   'CURRENT_PAST_STATE'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'CURRENT_PAST_STATE'
+  operator: 'deepStrictEqual'
+  stack: |-
+    conserved (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:16:178)
+    TestContext.<anonymous> (/workspace/VAL/lifegame-desktop/tests/current-soil.test.cjs:96:126)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: source/generated agree through 4T; the generated run crosses the fresh-stock age boundary at 12T
+ok 17 - source/generated agree through 4T; the generated run crosses the fresh-stock age boundary at 12T
+  ---
+  duration_ms: 17695.031902
+  type: 'test'
+  ...
+# Subtest: b+a keeps only effective changes; expiry preserves learning and child uses its own base
+ok 18 - b+a keeps only effective changes; expiry preserves learning and child uses its own base
+  ---
+  duration_ms: 63.477907
+  type: 'test'
+  ...
+# Subtest: own publication uses fixed meaning slots, real outcomes, local context and a 30T clock
+ok 19 - own publication uses fixed meaning slots, real outcomes, local context and a 30T clock
+  ---
+  duration_ms: 40.908435
+  type: 'test'
+  ...
+# Subtest: combined receipt pays once; repeated direction habituates without sender history or self-experience
+ok 20 - combined receipt pays once; repeated direction habituates without sender history or self-experience
+  ---
+  duration_ms: 42.664825
+  type: 'test'
+  ...
+# Subtest: opposite stimuli retain both signs; reverse learning uses separate habituation
+ok 21 - opposite stimuli retain both signs; reverse learning uses separate habituation
+  ---
+  duration_ms: 29.188132
+  type: 'test'
+  ...
+# Subtest: scope and true parent/caregiver use stronger direct transmission; unrelated kin is excluded
+ok 22 - scope and true parent/caregiver use stronger direct transmission; unrelated kin is excluded
+  ---
+  duration_ms: 79.972867
+  type: 'test'
+  ...
+# Subtest: zero influence or insufficient budget produces no learning and no reception fee
+ok 23 - zero influence or insufficient budget produces no learning and no reception fee
+  ---
+  duration_ms: 74.393342
+  type: 'test'
+  ...
+# Subtest: parasite host affinity is an acquired current preference, separate from inherited host genes
+ok 24 - parasite host affinity is an acquired current preference, separate from inherited host genes
+  ---
+  duration_ms: 36.678811
+  type: 'test'
+  ...
+# Subtest: death publications coalesce by current class and expiry, without source identity or clock refresh
+ok 25 - death publications coalesce by current class and expiry, without source identity or clock refresh
+  ---
+  duration_ms: 41.523017
+  type: 'test'
+  ...
+# Subtest: synchronous diffusion conserves amount/evidence, decays strength once and expires the original bucket
+ok 26 - synchronous diffusion conserves amount/evidence, decays strength once and expires the original bucket
+  ---
+  duration_ms: 26.907319
+  type: 'test'
+  ...
+# Subtest: place stimulus is temporary and does not charge or add to acquired a
+ok 27 - place stimulus is temporary and does not charge or add to acquired a
+  ---
+  duration_ms: 32.976603
+  type: 'test'
+  ...
+# Subtest: Q retains the live link and finite aggregated residues; later Q does not renew older expiry
+ok 28 - Q retains the live link and finite aggregated residues; later Q does not renew older expiry
+  ---
+  duration_ms: 27.280943
+  type: 'test'
+  ...
+# Subtest: source and generated models commit the same short current-state run and preserve the input
+ok 29 - source and generated models commit the same short current-state run and preserve the input
+  ---
+  duration_ms: 3486.249807
+  type: 'test'
+  ...
+# Subtest: unknown/old state is rejected rather than silently reinterpreted
+ok 30 - unknown/old state is rejected rather than silently reinterpreted
+  ---
+  duration_ms: 14.850903
+  type: 'test'
+  ...
+# Subtest: actual child construction inherits b without acquired a; frozen snapshots expose derived values
+ok 31 - actual child construction inherits b without acquired a; frozen snapshots expose derived values
+  ---
+  duration_ms: 14.807007
+  type: 'test'
+  ...
+# Subtest: internal current-state records are explicitly blocked until the new archive schema is connected
+ok 32 - internal current-state records are explicitly blocked until the new archive schema is connected
+  ---
+  duration_ms: 20.391846
+  type: 'test'
+  ...
+# Subtest: all turn values survive more than two 500-turn blocks and CSV preserves old peaks and config
+ok 33 - all turn values survive more than two 500-turn blocks and CSV preserves old peaks and config
+  ---
+  duration_ms: 490.998151
+  type: 'test'
+  ...
+# Subtest: age-mature phase I and II can reproduce, juveniles cannot; every child begins phase I age zero
+ok 34 - age-mature phase I and II can reproduce, juveniles cannot; every child begins phase I age zero
+  ---
+  duration_ms: 11.733418
+  type: 'test'
+  ...
+# Subtest: movement and a subsequent effect use the remaining budget; feeding does not finance prior actions
+ok 35 - movement and a subsequent effect use the remaining budget; feeding does not finance prior actions
+  ---
+  duration_ms: 6.166196
+  type: 'test'
+  ...
+# Subtest: Q window opens only after first terminal maturation and never directly suppresses P maturation
+ok 36 - Q window opens only after first terminal maturation and never directly suppresses P maturation
+  ---
+  duration_ms: 2.437789
+  type: 'test'
+  ...
+# Subtest: search Q attaches only inside the limited window and conserves finite energy
+ok 37 - search Q attaches only inside the limited window and conserves finite energy
+  ---
+  duration_ms: 2.634296
+  type: 'test'
+  ...
+# Subtest: finite P maintenance causes loss without food and grooming cannot remove an internal parasite
+ok 38 - finite P maintenance causes loss without food and grooming cannot remove an internal parasite
+  ---
+  duration_ms: 2.855079
+  type: 'test'
+  ...
+# Subtest: contact episodes, continued contact and a wall-blocked neighbor are distinct
+ok 39 - contact episodes, continued contact and a wall-blocked neighbor are distinct
+  ---
+  duration_ms: 4.454903
+  type: 'test'
+  ...
+# Subtest: new production worlds retain invariants, deterministic replay and observation independence
+ok 40 - new production worlds retain invariants, deterministic replay and observation independence
+  ---
+  duration_ms: 9723.339888
+  type: 'test'
+  ...
+# Subtest: finite observation capacity refuses a new row without silently deleting any recorded turn
+ok 41 - finite observation capacity refuses a new row without silently deleting any recorded turn
+  ---
+  duration_ms: 3.457247
+  type: 'test'
+  ...
+# Subtest: relationship continuity measures repeated completed time blocks, not a single burst
+ok 42 - relationship continuity measures repeated completed time blocks, not a single burst
+  ---
+  duration_ms: 6.484406
+  type: 'test'
+  ...
+# Subtest: turn zero reports initial conditions without fabricated interaction events
+ok 43 - turn zero reports initial conditions without fabricated interaction events
+  ---
+  duration_ms: 82.534928
+  type: 'test'
+  ...
+# Subtest: Q search initialization uses eligible hosts and pays its declared founder energy
+ok 44 - Q search initialization uses eligible hosts and pays its declared founder energy
+  ---
+  duration_ms: 57.307931
+  type: 'test'
+  ...
+1..44
+# tests 44
+# suites 0
+# pass 28
+# fail 16
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 33513.305237

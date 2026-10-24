@@ -49,6 +49,8 @@
  const cellAcquireBuildSignature="b76f5c4fd56870ed550f35eb16992be542f747f2adb27f5f49ba35680bf7a19d";
  const cellInformationBuildSignature="219b2a50d6ecf08eb552770f8e26535dbfde144b57751195ebe18757f2a035cf";
  function canonicalSignature(s,config){
+  // CS04's new summaries/uptake apply only to the explicit current-state path.
+  if(config.currentStateModel===undefined&&s==='8eeba9349d0b929e3278e08d23c2669e754c2e8c81bba9cf5f2de352e059b630')s='f56d08f2c07ba4174f5b902d69c7781d47ad8dbf9f1d514598d36fb443a142fd';
   // CS03 changes only the explicit current-state comparison path.
   if(config.currentStateModel===undefined&&s==='f56d08f2c07ba4174f5b902d69c7781d47ad8dbf9f1d514598d36fb443a142fd')s='3b46b3e56ae5d6a05819898eaf2e74179bffa584a7d581ed6803802c91dd7291';
   // CS02 is opt-in. Only the unchanged pre-current-state path may reuse

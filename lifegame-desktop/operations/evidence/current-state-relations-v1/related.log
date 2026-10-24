@@ -1,0 +1,202 @@
+TAP version 13
+# Subtest: many deaths coalesce by cell/class/day, retain finite E/M/B, and discard dead identity
+ok 1 - many deaths coalesce by cell/class/day, retain finite E/M/B, and discard dead identity
+  ---
+  duration_ms: 18.957857
+  type: 'test'
+  ...
+# Subtest: different diet classes stay separate and waiting minerals are never edible stock
+ok 2 - different diet classes stay separate and waiting minerals are never edible stock
+  ---
+  duration_ms: 9.852423
+  type: 'test'
+  ...
+# Subtest: new death is unavailable to general feeding until next T; B is not added to E twice
+ok 3 - new death is unavailable to general feeding until next T; B is not added to E twice
+  ---
+  duration_ms: 12.745359
+  type: 'test'
+  ...
+# Subtest: fresh stock ages into one decomposed pool at 10T, without rebinding old carriers to a reused fresh slot
+ok 4 - fresh stock ages into one decomposed pool at 10T, without rebinding old carriers to a reused fresh slot
+  ---
+  duration_ms: 5.874688
+  type: 'test'
+  ...
+# Subtest: shared source requests are independent of death count and share one processing budget per fungus
+ok 5 - shared source requests are independent of death count and share one processing budget per fungus
+  ---
+  duration_ms: 22.829416
+  type: 'test'
+  ...
+# Subtest: fungi and consumers compete for the same real pool; request order does not change grants
+ok 6 - fungi and consumers compete for the same real pool; request order does not change grants
+  ---
+  duration_ms: 15.09095
+  type: 'test'
+  ...
+# Subtest: decomposed food applies half assimilation and retains waste in the correct current class
+ok 7 - decomposed food applies half assimilation and retains waste in the correct current class
+  ---
+  duration_ms: 17.847581
+  type: 'test'
+  ...
+# Subtest: plants cannot eat residues; ryouki cannot acquire main-animal or Q tissue; remote pool is rejected
+ok 8 - plants cannot eat residues; ryouki cannot acquire main-animal or Q tissue; remote pool is rejected
+  ---
+  duration_ms: 6.211836
+  type: 'test'
+  ...
+# Subtest: background uses activity times .02, returns M next T, and never reuses new M in the same T
+ok 9 - background uses activity times .02, returns M next T, and never reuses new M in the same T
+  ---
+  duration_ms: 5.517199
+  type: 'test'
+  ...
+# Subtest: positive micro stocks reach heat/mineral waiting; a full soil does not retain individual remains
+ok 10 - positive micro stocks reach heat/mineral waiting; a full soil does not retain individual remains
+  ---
+  duration_ms: 5.312699
+  type: 'test'
+  ...
+# Subtest: dry stock persists without decomposition, while mineral-only stock becomes a finite waiting pool
+ok 11 - dry stock persists without decomposition, while mineral-only stock becomes a finite waiting pool
+  ---
+  duration_ms: 4.24009
+  type: 'test'
+  ...
+# Subtest: P/Q are held once in zero-nutrition carriers, without dead appearance/DNA or duplicate energy
+ok 12 - P/Q are held once in zero-nutrition carriers, without dead appearance/DNA or duplicate energy
+  ---
+  duration_ms: 10.737839
+  type: 'test'
+  ...
+# Subtest: actual feeding on the pool can transfer a mature P; pending transfer is neither cloned nor nutrition
+ok 13 - actual feeding on the pool can transfer a mature P; pending transfer is neither cloned nor nutrition
+  ---
+  duration_ms: 7.932203
+  type: 'test'
+  ...
+# Subtest: new remains after the background phase are also integrated before committing the turn
+ok 14 - new remains after the background phase are also integrated before committing the turn
+  ---
+  duration_ms: 5.795187
+  type: 'test'
+  ...
+# Subtest: same-turn captures remain restricted to real participants; the remainder becomes next-T soil
+ok 15 - same-turn captures remain restricted to real participants; the remainder becomes next-T soil
+  ---
+  duration_ms: 8.172096
+  type: 'test'
+  ...
+# Subtest: ordinary new remains cannot be forged into a capture or read as an available soil pool
+ok 16 - ordinary new remains cannot be forged into a capture or read as an available soil pool
+  ---
+  duration_ms: 4.841047
+  type: 'test'
+  ...
+# Subtest: source/generated agree through 4T; the generated run crosses the fresh-stock age boundary at 12T
+ok 17 - source/generated agree through 4T; the generated run crosses the fresh-stock age boundary at 12T
+  ---
+  duration_ms: 8224.627943
+  type: 'test'
+  ...
+# Subtest: b+a keeps only effective changes; expiry preserves learning and child uses its own base
+ok 18 - b+a keeps only effective changes; expiry preserves learning and child uses its own base
+  ---
+  duration_ms: 25.870667
+  type: 'test'
+  ...
+# Subtest: own publication uses fixed meaning slots, real outcomes, local context and a 30T clock
+ok 19 - own publication uses fixed meaning slots, real outcomes, local context and a 30T clock
+  ---
+  duration_ms: 25.176348
+  type: 'test'
+  ...
+# Subtest: combined receipt pays once; repeated direction habituates without sender history or self-experience
+ok 20 - combined receipt pays once; repeated direction habituates without sender history or self-experience
+  ---
+  duration_ms: 24.168757
+  type: 'test'
+  ...
+# Subtest: opposite stimuli retain both signs; reverse learning uses separate habituation
+ok 21 - opposite stimuli retain both signs; reverse learning uses separate habituation
+  ---
+  duration_ms: 30.135577
+  type: 'test'
+  ...
+# Subtest: scope and true parent/caregiver use stronger direct transmission; unrelated kin is excluded
+ok 22 - scope and true parent/caregiver use stronger direct transmission; unrelated kin is excluded
+  ---
+  duration_ms: 57.416719
+  type: 'test'
+  ...
+# Subtest: zero influence or insufficient budget produces no learning and no reception fee
+ok 23 - zero influence or insufficient budget produces no learning and no reception fee
+  ---
+  duration_ms: 52.827054
+  type: 'test'
+  ...
+# Subtest: parasite host affinity is an acquired current preference, separate from inherited host genes
+ok 24 - parasite host affinity is an acquired current preference, separate from inherited host genes
+  ---
+  duration_ms: 33.631777
+  type: 'test'
+  ...
+# Subtest: death publications coalesce by current class and expiry, without source identity or clock refresh
+ok 25 - death publications coalesce by current class and expiry, without source identity or clock refresh
+  ---
+  duration_ms: 23.053393
+  type: 'test'
+  ...
+# Subtest: synchronous diffusion conserves amount/evidence, decays strength once and expires the original bucket
+ok 26 - synchronous diffusion conserves amount/evidence, decays strength once and expires the original bucket
+  ---
+  duration_ms: 24.104209
+  type: 'test'
+  ...
+# Subtest: place stimulus is temporary and does not charge or add to acquired a
+ok 27 - place stimulus is temporary and does not charge or add to acquired a
+  ---
+  duration_ms: 23.051009
+  type: 'test'
+  ...
+# Subtest: Q retains the live link and finite aggregated residues; later Q does not renew older expiry
+ok 28 - Q retains the live link and finite aggregated residues; later Q does not renew older expiry
+  ---
+  duration_ms: 33.169249
+  type: 'test'
+  ...
+# Subtest: source and generated models commit the same short current-state run and preserve the input
+ok 29 - source and generated models commit the same short current-state run and preserve the input
+  ---
+  duration_ms: 1984.572469
+  type: 'test'
+  ...
+# Subtest: unknown/old state is rejected rather than silently reinterpreted
+ok 30 - unknown/old state is rejected rather than silently reinterpreted
+  ---
+  duration_ms: 21.995234
+  type: 'test'
+  ...
+# Subtest: actual child construction inherits b without acquired a; frozen snapshots expose derived values
+ok 31 - actual child construction inherits b without acquired a; frozen snapshots expose derived values
+  ---
+  duration_ms: 22.437742
+  type: 'test'
+  ...
+# Subtest: internal current-state records are explicitly blocked until the new archive schema is connected
+ok 32 - internal current-state records are explicitly blocked until the new archive schema is connected
+  ---
+  duration_ms: 35.403508
+  type: 'test'
+  ...
+1..32
+# tests 32
+# suites 0
+# pass 32
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 11200.511125

@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: five current components use real assimilated E, a 20T half-life and readonly lookup
+ok 1 - five current components use real assimilated E, a 20T half-life and readonly lookup
+  ---
+  duration_ms: 19.007551
+  type: 'test'
+  ...
+# Subtest: unobserved and vanishing intake remains unknown; an empty source cannot invent a trophic level
+ok 2 - unobserved and vanishing intake remains unknown; an empty source cannot invent a trophic level
+  ---
+  duration_ms: 18.973709
+  type: 'test'
+  ...
+# Subtest: simultaneous acquisition freezes source evidence before photo commit and pays only actual intake
+ok 3 - simultaneous acquisition freezes source evidence before photo commit and pays only actual intake
+  ---
+  duration_ms: 47.992316
+  type: 'test'
+  ...
+# Subtest: death/soil retains the source current composition and the next consumer shifts it once
+ok 4 - death/soil retains the source current composition and the next consumer shifts it once
+  ---
+  duration_ms: 26.135597
+  type: 'test'
+  ...
+# Subtest: group extraction partitions current evidence rather than sharing or copying a whole intake record
+ok 5 - group extraction partitions current evidence rather than sharing or copying a whole intake record
+  ---
+  duration_ms: 16.940251
+  type: 'test'
+  ...
+# Subtest: host to P to Q taxes update the same five components without supplying extra E
+ok 6 - host to P to Q taxes update the same five components without supplying extra E
+  ---
+  duration_ms: 19.477199
+  type: 'test'
+  ...
+# Subtest: an actual parasitic effect remains observable even when its actor dies in the same turn
+ok 7 - an actual parasitic effect remains observable even when its actor dies in the same turn
+  ---
+  duration_ms: 19.811042
+  type: 'test'
+  ...
+# Subtest: contacts include every co-located layer, deduplicate endpoints and have no past pair registry
+ok 8 - contacts include every co-located layer, deduplicate endpoints and have no past pair registry
+  ---
+  duration_ms: 18.073791
+  type: 'test'
+  ...
+# Subtest: contact or animation alone never creates confirmed effects; real damage/defense/care do
+ok 9 - contact or animation alone never creates confirmed effects; real damage/defense/care do
+  ---
+  duration_ms: 17.623463
+  type: 'test'
+  ...
+# Subtest: anonymous soil and information stay classified unknown rather than inventing a source organism
+ok 10 - anonymous soil and information stay classified unknown rather than inventing a source organism
+  ---
+  duration_ms: 17.643662
+  type: 'test'
+  ...
+# Subtest: current generation facts remain on individuals while only this-turn deltas go to observers
+ok 11 - current generation facts remain on individuals while only this-turn deltas go to observers
+  ---
+  duration_ms: 19.893266
+  type: 'test'
+  ...
+# Subtest: a death event lacking age/generation obtains facts from the actual dead subject
+ok 12 - a death event lacking age/generation obtains facts from the actual dead subject
+  ---
+  duration_ms: 19.493584
+  type: 'test'
+  ...
+# Subtest: full-turn observations/CSV use 50T effects and completed 10T intervals while contacts stay separate
+ok 13 - full-turn observations/CSV use 50T effects and completed 10T intervals while contacts stay separate
+  ---
+  duration_ms: 302.350388
+  type: 'test'
+  ...
+# Subtest: observation snapshots are independent, read-only after restore and reject corruption/gaps/foreign worlds
+ok 14 - observation snapshots are independent, read-only after restore and reject corruption/gaps/foreign worlds
+  ---
+  duration_ms: 38.222063
+  type: 'test'
+  ...
+# Subtest: initial unknown biomass and later observed composition retain all B without converting role to trophic level
+ok 15 - initial unknown biomass and later observed composition retain all B without converting role to trophic level
+  ---
+  duration_ms: 17.156058
+  type: 'test'
+  ...
+# Subtest: source/generated, cancellation and observer reconstruction agree for one short natural condition
+ok 16 - source/generated, cancellation and observer reconstruction agree for one short natural condition
+  ---
+  duration_ms: 3083.749474
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3713.132242
