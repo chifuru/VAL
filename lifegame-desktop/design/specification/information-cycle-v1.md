@@ -1,5 +1,7 @@
 # 第1組：情報の生成から消失まで
 
+> 現在状態への集約は [current-state/1](current-state-aggregation-v1.md) を優先する。由来ごと一度/2由来枠・長い経験列/受信列・残存100〜200T・Qの旧残留保持を置換する。生成時の実績/非栄養/開始受容→末尾生成→次T作用の境界は維持する。 本文の旧条件はこの明示範囲を除いて適用する。新正本はA/B反映のみ・未実装/未実測。
+
 仕様版 `information-cycle/1`。利用者が一括案と近傍集中の修正を採用した暫定仕様。C01〜C05を維持し、C02/C03の計算方法、C06のQ痕跡、C10/C11の利用/局所更新をまとめる。既存の[持続情報](persistent-information-v1.md)・[評価](information-evaluation-v1.md)・[鮮度](information-freshness-v1.md)・[生成](information-generation-v1.md)・[Q歪曲](q-information-bias-v1.md)のうち、本書が明示的に具体化した部分を優先する。細かな値は実際の動きで調整する。今回は文書反映だけで、新モデルのゲーム実測はない。
 
 ## 1. 実績評価と死亡時の生成
